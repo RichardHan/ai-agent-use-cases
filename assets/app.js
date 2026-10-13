@@ -1,9 +1,9 @@
 /* No external scripts, analytics, API tokens, or build dependencies. */
 'use strict';
 const REPO = 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/';
-const KIND = {case:'主要案例', evidence:'驗證／模板補充', pending:'待查線索'};
+const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
-let entries = [], lastTrigger = null;
+let entries = [], lastTrigger = null, displayCopy = {};
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
@@ -19,7 +19,10 @@ function metadata(markdown, path, kind, suffix='') {
   const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*自報|official/.test(proofLine) ? '官方自報' : /author-demo|作者|自驗/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '';
-  return {id,title:heading,markdown,path,kind,category,summary,proof,tools,date,search:norm(markdown+' '+tools.join(' ')+' '+category+' '+KIND[kind])};
+  const copy=displayCopy[id]||{};
+  const displayTitle=clean(lead.match(/^-\s*網站標題\s*[：:]\s*(.+)$/m)?.[1]||copy.title||heading);
+  const what=clean(lead.match(/^-\s*一句話用途\s*[：:]\s*(.+)$/m)?.[1]||copy.what||summary);
+  return {id,title:displayTitle,originalTitle:heading,what,how:copy.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',caution:copy.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',markdown,path,kind,category,summary:what,proof,tools,date,search:norm(markdown+' '+displayTitle+' '+what+' '+tools.join(' ')+' '+category+' '+KIND[kind])};
 }
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>metadata(part,path,'pending',String(i)));
@@ -59,20 +62,21 @@ function renderMarkdown(markdown,path) {
 function showDetail(item, trigger, updateURL=true) {
   lastTrigger=trigger||lastTrigger;
   const body=$('detail-body');body.replaceChildren();
-  const title=el('h1','',item.id+' · '+item.title);title.id='detail-title';body.append(title);
+  const title=el('h1','',item.title);title.id='detail-title';body.append(title);
   const source=el('a','detail-source','查看 Markdown 原文 ↗');source.href=REPO+item.path;source.target='_blank';source.rel='noopener noreferrer';body.append(source);
   body.append(el('p','detail-warning',item.kind==='pending'?'待查線索：證據尚不足，不列成功或已完成案例。':'來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。'));
-  body.append(renderMarkdown(item.markdown,item.path));
+  const overview=el('div','plain-overview');[['可以幫你做什麼',item.what],['怎麼開始',item.how],['要注意什麼',item.caution]].forEach(([label,text])=>{const section=el('section');section.append(el('h2','',label),el('p','',text));overview.append(section);});body.append(overview);
+  const research=el('details','research-details'),toggle=el('summary','','查看原始研究、來源與完整提示詞');research.append(toggle,el('p','research-title',item.id+' · '+item.originalTitle),renderMarkdown(item.markdown,item.path));body.append(research);
   if(!$('detail').open)$('detail').showModal();$('detail').scrollTop=0;
   if(updateURL){const url=new URL(location.href);url.searchParams.set('case',item.id);history.pushState(null,'',url);}
 }
 function closeDetail(){ if($('detail').open)$('detail').close();const url=new URL(location.href);url.searchParams.delete('case');history.replaceState(null,'',url);lastTrigger?.focus(); }
 function card(item) {
   const node=el('article','card');node.dataset.kind=item.kind;
-  const top=el('div','card-top');top.append(el('span','',item.id),el('span','kind',KIND[item.kind]));node.append(top);
+  const top=el('div','card-top');top.append(el('span','',item.tools.slice(0,2).join(' / ')||'AI 用法'),el('span','kind',KIND[item.kind]));node.append(top);
   const h=el('h3'),title=el('button','',item.title);title.type='button';title.addEventListener('click',()=>showDetail(item,title));h.append(title);node.append(h,el('p','summary',item.summary));
-  const tags=el('div','tags');[item.category,...item.tools.slice(0,3)].forEach(t=>tags.append(el('span','tag',t)));node.append(tags);
-  const bottom=el('div','card-bottom'),read=el('button','','閱讀案例 ↗');read.type='button';read.setAttribute('aria-label','閱讀 '+item.id+' '+item.title);read.addEventListener('click',()=>showDetail(item,read));bottom.append(el('span','proof',item.proof),read);node.append(bottom);return node;
+  const tags=el('div','tags');tags.append(el('span','tag',item.kind==='pending'?'這個用法還不能直接照做':item.kind==='evidence'?'先看經驗與限制':'參考公開分享，本庫未親測'));node.append(tags);
+  const bottom=el('div','card-bottom'),read=el('button','',item.kind==='pending'?'查看這個想法 →':'看看怎麼用 →');read.type='button';read.setAttribute('aria-label','閱讀 '+item.id+' '+item.title);read.addEventListener('click',()=>showDetail(item,read));bottom.append(el('span','proof',item.kind==='pending'?'尚未核實':item.kind==='evidence'?'補充筆記':'用法靈感'),read);node.append(bottom);return node;
 }
 function filterEntries(items,terms,filters) {
   return items.filter(item=>terms.every(term=>item.search.includes(norm(term)))&&(!filters.kind||item.kind===filters.kind)&&(!filters.tool||item.tools.includes(filters.tool))&&(!filters.category||item.category===filters.category)&&(!filters.proof||item.proof===filters.proof));
@@ -91,6 +95,7 @@ async function load(){
     const response=await fetch('catalog.json',{cache:'no-cache'});if(!response.ok)throw Error('索引讀取失敗。');const catalog=await response.json();
     if(!Array.isArray(catalog.files)||!catalog.files.length)throw Error('索引沒有案例。');
     const paths=catalog.files.filter(p=>typeof p==='string'&&/^(cases|evidence)\/[a-zA-Z0-9_/-]+\.md$/.test(p)||p==='sources/pending.md');
+    const copyResponse=await fetch('assets/copy.json',{cache:'no-cache'});if(!copyResponse.ok)throw Error('顯示文案讀取失敗。');displayCopy=await copyResponse.json();
     const loaded=await Promise.all(paths.map(async path=>{const r=await fetch(path,{cache:'no-cache'});if(!r.ok)throw Error(`無法讀取 ${path}`);return parseFile(path,await r.text());}));
     entries=loaded.flat().sort((a,b)=>({case:0,evidence:1,pending:2}[a.kind]-{case:0,evidence:1,pending:2}[b.kind])||a.id.localeCompare(b.id));
     for(const kind of Object.keys(KIND))$(kind==='case'?'case-count':kind+'-count').textContent=entries.filter(e=>e.kind===kind).length;

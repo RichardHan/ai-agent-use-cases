@@ -54,3 +54,11 @@
 - 實讀葡文 [NeoTeo 一週比較轉述](https://www.neoteo.com/pt/meta-muse-e-openai-dots-o-que-aconteceu-no-teste-de-uma-semana)；找到 Mary Randolph／Scientific American 的 Yahoo 轉載線索，但全文開啟失敗。家具購買、演唱會追蹤及租車的原始敘述未完整核讀，不把多語轉載算多份獨立證據。
 - 開啟法文 Brief IA 文章，擷取內容主要是頁面框架及其他文章推薦，未據此產生案例。西文查詢未找到足夠具體的新來源；本次未讀新的中文原串、GitHub Issues 或影片。
 - 官方核對：Intuit 匯入常見問題；只核格式與帳號範本概念，不替來源作者背書實際入帳成果。
+
+## 2026-10-14（台灣時間）補查：日文社群、德文網站
+
+- 實讀日文 note 的 [imaichiyyy 實測](https://note.com/imaichiyyy/n/n89334df2424d)，空 Origin 倉庫尚無初始提交的失敗，併 UC-005；再讀 Cursor 官方建立倉庫文件核對前置流程。
+- 實讀 [ごま 的使用反思](https://note.com/gymnopedic/n/nf534ec923c47) 部分正文：多角色寫作仍不合作者期待，缺對照成果；不把主觀品質評價、交易獲利故事或舊方案資料寫成已核事實。
+- 開啟德文 [eesel 測評](https://www.eesel.ai/de/blog/openai-dots-testbericht)，本次只核到作者、日期與目錄，未完成具體任務正文核讀，不收為新案例。
+- Qiita 查詢多為同名模型部署或圖片生成，與 Muse 代理用途不同，未採用。另一 note 候選開啟失敗；沒有讀新的中文、Reddit、HN、GitHub Issues 或影片原串。
+- 新用途 0；只追加已有開發案例的啟動前核對線索，不宣稱完整多語或全球覆蓋。

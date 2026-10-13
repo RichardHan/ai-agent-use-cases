@@ -27,7 +27,7 @@
 | UC-022 | 廣告花費或轉換異常時，先找出問題在哪 | Grok Bot／廣告平台匯出／Sheets | [官方展示／署名作者自報；未獨立重現](cases/022-ad-spend-conversion-check.md) |
 | UC-023 | 產品改了，讓 dots 找出需要更新的上市文案與簡報 | ChatGPT dots | [官方發布情境／教學示例；未獨立實測](cases/023-launch-material-revision.md) |
 | UC-024 | 讓 dots 檢查已交付工作，找出可能漏開的帳單 | ChatGPT dots | [官方轉述早期使用者經驗；未獨立實測](cases/024-missing-invoice-check.md) |
-| UC-025 | 用 dots 追蹤團隊活動的期限、預算問題與待回覆事項 | ChatGPT dots | [官方教學示例；未獨立實測](cases/025-team-event-follow-through.md) |
+| UC-025 | 用 dots 追蹤團隊活動的期限、預算問題與待回覆事項 | ChatGPT dots | [官方示例＋作者虛構出席表測試；未重現](cases/025-team-event-follow-through.md) |
 | UC-026 | 讓 Muse 整理開學通知與截止日 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/026-school-deadline-list.md) |
 | UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/027-recipe-shopping-plan.md) |
 | UC-028 | 先做帳單降費比較，再決定怎麼談 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/028-bill-comparison-preparation.md) |
@@ -41,7 +41,6 @@
 | UC-036 | 每天的收銀資料，整理成可核對的入帳檔 | Grok Bot／POS／QuickBooks Online | [論壇作者自報；無實際入帳或核帳證據](cases/036-pos-accounting-csv.md) |
 | UC-037 | 跨商店比同款商品，先看清總價與賣家 | Meta Muse／公開商品頁 | [媒體作者單次測試；未獨立重現](cases/037-product-listing-comparison.md) |
 | UC-038 | 從找布料到做樣品，先整理供應商與打樣規格 | Grok Bot／公開供應商資料 | [HN 作者自報；樣品完成與品質未核](cases/038-fabric-sourcing-sample-handoff.md) |
-
 | UC-039 | 追蹤競品變化，整理值得回應的產品與行銷動作 | Grok Bot／公開競品網站 | [官方站作者模板＋社群觀察；未實測](cases/039-competitor-positioning-review.md) |
 
 ## 驗證與模板補充（3，不列新增成功案例）

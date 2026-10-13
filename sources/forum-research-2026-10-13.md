@@ -69,3 +69,10 @@
 - 外撥電話 beta 為作者自報，其他留言說未開通；未核官方具體提供範圍，不收成功案例。Marketplace 刊登／履歷整理與 UC-016／UC-035 重疊，不重複計數。
 - 另一篇「What do you use muse for」未取得搜尋摘要中的 Excel 正文，不據摘要收錄。
 - 日文／德文查詢未得新合適原串；無影片或 GitHub 新實讀，不宣稱全球完整覆蓋。
+
+## 2026-10-14（台灣時間）：布料打樣用途補查
+
+- 實讀英文 [HN 首發串](https://news.ycombinator.com/item?id=49261514)、[jjcm 原留言](https://news.ycombinator.com/item?id=49263241)與回覆異議；供應商研究及打樣交接收為UC-038，樣品結果未核。
+- 另讀 [My Agent Setup](https://news.ycombinator.com/item?id=49272484)，屬自架替代方案，不當作 Grok Bot 原生證據。
+- 韓文 [Sinabro Digital](https://blog.sinabro-ai.com/meta-muse-korea-availability/) 是產品／地區整理，明示非韓國帳號實測；Tistory 作者首頁取得百例列表入口，但內文開啟失敗，未計為100案例核讀。
+- 中文 V2EX 只搜尋到既有影片／環境比較，沒有新原串實讀；未看影片，不宣稱全面覆蓋。

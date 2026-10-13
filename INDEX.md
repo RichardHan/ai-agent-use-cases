@@ -2,7 +2,7 @@
 
 更新日期：2026-10-13。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（34）
+## 主要案例（35）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 |
 | --- | --- | --- | --- |
@@ -40,6 +40,7 @@
 | UC-035 | 找合適職缺，把履歷改成有根據的申請草稿 | ChatGPT dots／Work 產品歸屬待核 | [社群作者自報；投遞及面試結果未核](cases/035-job-search-application-drafts.md) |
 | UC-036 | 每天的收銀資料，整理成可核對的入帳檔 | Grok Bot／POS／QuickBooks Online | [論壇作者自報；無實際入帳或核帳證據](cases/036-pos-accounting-csv.md) |
 | UC-037 | 跨商店比同款商品，先看清總價與賣家 | Meta Muse／公開商品頁 | [媒體作者單次測試；未獨立重現](cases/037-product-listing-comparison.md) |
+| UC-038 | 從找布料到做樣品，先整理供應商與打樣規格 | Grok Bot／公開供應商資料 | [HN 作者自報；樣品完成與品質未核](cases/038-fabric-sourcing-sample-handoff.md) |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

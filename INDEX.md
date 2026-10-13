@@ -2,7 +2,7 @@
 
 更新日期：2026-10-13。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（12）
+## 主要案例（13）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 |
 | --- | --- | --- | --- |
@@ -18,6 +18,7 @@
 | UC-012 | 科研評估來源稽核、領域批判與圖稿整合 | Grok Bot／Jupyter／LaTeX | [作者回溯性科研案例，原始紀錄不完整](cases/012-research-evaluation-provenance.md) |
 | UC-014 | 客服收件匣巡檢與人核准退款 | Grok Bot／Intercom／Stripe；dots 影片待看 | [作者自述使用；影片僅讀描述](cases/014-support-inbox-approval-refund.md) |
 | UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine | [dots 作者單次結構化測試＋Grok Bot 官方文件；未重現](cases/015-public-page-change-watch.md) |
+| UC-016 | 二手刊登與買家對話代管 | Meta Muse／Facebook Marketplace；dots 多平台 | [Muse 地址外洩事件（媒體轉述）＋官方權限文件＋作者自述；未重現](cases/016-marketplace-selling-buyer-messages.md) |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

@@ -32,6 +32,8 @@
 - 官方說明（`official`，本庫未實測）：建議先做一次性任務→存成 skill→再建 routine；建 routine 時確認擁有 Bot、排程與時區、輸入、預期結果、核准邊界、來源缺失時的處理；官方範例要求「來源不可用時回報失敗，不用舊資料」。提供 Test run（會執行真實工作）、可查看近期成功／失敗紀錄；每個 Bot 最多 50 個 routine、保留每個 routine 最近 20 筆執行紀錄、排程間隔至少 5 分鐘；刪除 routine 立即生效且無法復原。
 - 注意：此文件是通用 routine 指引，不是「頁面變更監看」實測；不能把 S-015A 的 dots 觀察（例如 Completed 標籤）推定為 Grok Bot 行為，反之亦然。
 
+- 社群回報（`author-demo`，未核）：@di_null（X，2026-09-21，英文）：https://x.com/di_null/status/2102017736620568980 。他設定每小時整點執行的 Grok Bot routine，常晚 15–30 分鐘才開始，原因不明（他說也可能是自己設定的問題）。這和 FSR 觀察到 dots 晚 1–5 分鐘一樣，都提醒：排程時間不能當作準時保證，要記錄實際執行時間。
+
 ### Meta Muse
 
 - 未找到可讀的公開頁面監看實測。kuhung（中文部落格，https://kuhung.me/posts/muse-personal-agent-getting-started-guide-and-subjective-impressions/ ）提到 Muse 把定時資訊抓取以「目標」形式呈現，但無頁面監看輸入／輸出或驗收紀錄，僅列 `unverified` 線索，不寫成 Muse 已支援此流程。

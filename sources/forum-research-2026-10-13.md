@@ -29,3 +29,12 @@
 - Qiita 日文：僅取得搜尋摘錄；基礎研究到 Slack 的流程未取得充分原文驗證，不新增。
 
 本次仍為定向補查，不代表完整語言或平台覆蓋。
+
+## 2026-10-14（台灣時間）補查：日文工程社群與英文 Reddit
+
+依既有 UC-005 去重。本次新增用途 0；為 UC-005 增加具體交接驗收與故障線索，不增加案例數。
+
+- 實際讀到：Zenn／日文的 circle 檔案交接試運行、JJ yamitake CompanyBrain 全文，連結見 UC-005 新補充。
+- 實際讀到：Reddit／英文 [u/miningwells 原串](https://www.reddit.com/user/miningwells/comments/1wx43fv/i_gave_metas_muse_a_week_of_real_work_it_broke/)；自報 Muse 多個瀏覽器同時斷線及當晚恢復。沒有核讀連外完整故障日誌；相對發文時間與搜尋索引不一致，不寫成精確發文日期。未採用其模型排名、下載量或原因推論，也未把舊故障寫成現行事故。
+- 官方核對入口：OpenAI dots 的電腦與應用程式、控制文件；未因此背書第三方串接。
+- 未覆蓋：本次未讀新的中文論壇、HN、GitHub Issues、X 原串或 YouTube 影片。搜尋摘要不算實讀，沒有聲稱完整全球覆蓋。

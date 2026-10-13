@@ -38,3 +38,11 @@
 - 實際讀到：Reddit／英文 [u/miningwells 原串](https://www.reddit.com/user/miningwells/comments/1wx43fv/i_gave_metas_muse_a_week_of_real_work_it_broke/)；自報 Muse 多個瀏覽器同時斷線及當晚恢復。沒有核讀連外完整故障日誌；相對發文時間與搜尋索引不一致，不寫成精確發文日期。未採用其模型排名、下載量或原因推論，也未把舊故障寫成現行事故。
 - 官方核對入口：OpenAI dots 的電腦與應用程式、控制文件；未因此背書第三方串接。
 - 未覆蓋：本次未讀新的中文論壇、HN、GitHub Issues、X 原串或 YouTube 影片。搜尋摘要不算實讀，沒有聲稱完整全球覆蓋。
+
+## 2026-10-14（台灣時間）英文與 Tagalog 補查：英文與 Tagalog 社群
+
+- 實際讀到 Reddit r/buhaydigital：u/takshit2 的求職流程與方案更正留言（Tagalog／英文），收為作者自報且成效未核的新用途，見求職案例。
+- 實際讀到 Reddit r/OpenAI：u/LastLinux 目標安裝環境不相容的失敗自報，補 UC-005；沒有取用討論串其他人的泛化產品評價。
+- 實際讀到 [r/accelerate 建築估價討論](https://www.reddit.com/r/accelerate/comments/1wure2u/dots/)：u/TearsForSpheres 說登入估價軟體建立範圍、估算及排除條款，但沒有產品名稱、輸入、輸出或計算驗收，暫不擴寫為操作教學；其他人對 Claude 的經驗不算 dots 證據。
+- 中文 V2EX 1248490 只有搜尋摘要，主站及替代公開域名開啟均失敗，未宣稱已讀原文。搜尋另有註冊／代理繞道文章，不作新用途收錄。
+- HN 查詢未取得可用新原串。本次沒有讀新的 GitHub Issues 或 YouTube 影片；不聲稱完整全球覆蓋。

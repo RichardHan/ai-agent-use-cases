@@ -46,3 +46,11 @@
 - 實際讀到 [r/accelerate 建築估價討論](https://www.reddit.com/r/accelerate/comments/1wure2u/dots/)：u/TearsForSpheres 說登入估價軟體建立範圍、估算及排除條款，但沒有產品名稱、輸入、輸出或計算驗收，暫不擴寫為操作教學；其他人對 Claude 的經驗不算 dots 證據。
 - 中文 V2EX 1248490 只有搜尋摘要，主站及替代公開域名開啟均失敗，未宣稱已讀原文。搜尋另有註冊／代理繞道文章，不作新用途收錄。
 - HN 查詢未取得可用新原串。本次沒有讀新的 GitHub Issues 或 YouTube 影片；不聲稱完整全球覆蓋。
+
+## 2026-10-14（台灣時間）補查：英文論壇與葡／法文線索
+
+- 實讀 Reddit [Grok Bot 用途原串](https://www.reddit.com/r/GrokBot/comments/1wiuwmw/whats_the_most_useful_grokbot_automation_youve/) 及 POS 留言，新增入帳前 CSV 資料準備用途。串內食譜採買、航班比價與開發 PR 既有類似目的，不另計；校務平台提及過簡，不擴寫成成功實作。
+- 實讀 Reddit [New bot self created?](https://www.reddit.com/r/GrokBot/comments/1wvxmaa/new_bot_self_created/)；新主要 Bot 更新與意外產生 Bot 的說法互異，缺系統紀錄，不判定根因或收為案例。
+- 實讀葡文 [NeoTeo 一週比較轉述](https://www.neoteo.com/pt/meta-muse-e-openai-dots-o-que-aconteceu-no-teste-de-uma-semana)；找到 Mary Randolph／Scientific American 的 Yahoo 轉載線索，但全文開啟失敗。家具購買、演唱會追蹤及租車的原始敘述未完整核讀，不把多語轉載算多份獨立證據。
+- 開啟法文 Brief IA 文章，擷取內容主要是頁面框架及其他文章推薦，未據此產生案例。西文查詢未找到足夠具體的新來源；本次未讀新的中文原串、GitHub Issues 或影片。
+- 官方核對：Intuit 匯入常見問題；只核格式與帳號範本概念，不替來源作者背書實際入帳成果。

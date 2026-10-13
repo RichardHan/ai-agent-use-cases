@@ -62,3 +62,10 @@
 - 開啟德文 [eesel 測評](https://www.eesel.ai/de/blog/openai-dots-testbericht)，本次只核到作者、日期與目錄，未完成具體任務正文核讀，不收為新案例。
 - Qiita 查詢多為同名模型部署或圖片生成，與 Muse 代理用途不同，未採用。另一 note 候選開啟失敗；沒有讀新的中文、Reddit、HN、GitHub Issues 或影片原串。
 - 新用途 0；只追加已有開發案例的啟動前核對線索，不宣稱完整多語或全球覆蓋。
+
+## 2026-10-14（台灣時間）：購物用途補查
+
+- 實讀英文 Reddit [Top three use cases for Muse](https://www.reddit.com/r/MetaAI/comments/1wrwwx2/top_three_use_cases_for_muse/) 與 [Tom’s Guide 原測試](https://www.tomsguide.com/ai/i-tried-turning-metas-muse-ai-into-my-personal-shopper-only-3-of-7-prompts-actually-worked)，購物比較收為 UC-037。
+- 外撥電話 beta 為作者自報，其他留言說未開通；未核官方具體提供範圍，不收成功案例。Marketplace 刊登／履歷整理與 UC-016／UC-035 重疊，不重複計數。
+- 另一篇「What do you use muse for」未取得搜尋摘要中的 Excel 正文，不據摘要收錄。
+- 日文／德文查詢未得新合適原串；無影片或 GitHub 新實讀，不宣稱全球完整覆蓋。

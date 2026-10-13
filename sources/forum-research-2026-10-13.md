@@ -76,3 +76,11 @@
 - 另讀 [My Agent Setup](https://news.ycombinator.com/item?id=49272484)，屬自架替代方案，不當作 Grok Bot 原生證據。
 - 韓文 [Sinabro Digital](https://blog.sinabro-ai.com/meta-muse-korea-availability/) 是產品／地區整理，明示非韓國帳號實測；Tistory 作者首頁取得百例列表入口，但內文開啟失敗，未計為100案例核讀。
 - 中文 V2EX 只搜尋到既有影片／環境比較，沒有新原串實讀；未看影片，不宣稱全面覆蓋。
+
+
+## 2026-10-14（台灣時間）07:00 補查：公開專案與作者模板
+
+- 實讀 GitHub jandrusk 的 [Galaxy Day 1 觀察筆記](https://github.com/jandrusk/grok-bot-galaxy-notes/blob/main/day1.md)，再讀 [官方站 Stalk Bot 作者模板](https://x.ai/bot/marketplace/bots/stalk-bot)，新增 UC-039 競品定位比較。筆記不是本庫看過影片，模板存在不是成果驗證。
+- 實讀 grokbot.dev 流失回饋頁，其提示詞自稱重建，未核原作者貼文；未採為額外成功案例。GrokBotPulse Content 分類頁可讀但未逐一核讀條目，不聲稱已查完整目錄。
+- Reddit 開發協作及 OLED 搜尋結果與 UC-005／010 重疊，沒有據摘要新增。日文 Zenn 本機跳板設定僅搜尋摘錄，未作雲端案例。
+- Musk 轉引 Matt Palmer 更新的 X 與 archive 連結開啟失敗；未讀影片，不能把轉引所列功能當已核用法。本次沒有新的 YouTube、中文論壇或 HN 原串實讀。

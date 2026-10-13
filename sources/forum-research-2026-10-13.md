@@ -84,3 +84,10 @@
 - 實讀 grokbot.dev 流失回饋頁，其提示詞自稱重建，未核原作者貼文；未採為額外成功案例。GrokBotPulse Content 分類頁可讀但未逐一核讀條目，不聲稱已查完整目錄。
 - Reddit 開發協作及 OLED 搜尋結果與 UC-005／010 重疊，沒有據摘要新增。日文 Zenn 本機跳板設定僅搜尋摘錄，未作雲端案例。
 - Musk 轉引 Matt Palmer 更新的 X 與 archive 連結開啟失敗；未讀影片，不能把轉引所列功能當已核用法。本次沒有新的 YouTube、中文論壇或 HN 原串實讀。
+
+
+## 2026-10-14（台灣時間）08:00 補查：中文公開專案與日文實測
+
+- 實讀 [Rladmsrl/a2a-bridge 中文README](https://github.com/Rladmsrl/a2a-bridge/blob/main/docs/README.zh-CN.md)、SECURITY及 scripts/e2e_local.sh。它是外部A2A與webhook代理間的橋接；腳本啟動mock bot，不是真Grok Bot。需要接收端安全驗證、HTTPS與憑證，沒有建立或執行。留作技術候選，不列成功案例、不增加案例卡。
+- 實讀日文 [ヨハクロ的dots試用](https://note.com/avengerszzz/n/neb9487833f55)，去重出席表及多格式交付的成功／未驗收範圍併入UC-025。
+- note另一篇跨助手交接筆記與Muse記者體驗轉述均開啟失敗；只得搜尋摘要，不用它们补寫案例。西語搜尋未得合適具體實作，未讀新的Reddit/HN/X/YouTube原串，不宣稱全平台覆蓋。

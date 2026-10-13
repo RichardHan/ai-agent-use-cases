@@ -17,16 +17,17 @@
 | UC-011 | 商機與回饋交叉分析、批准後修訂材料 | ChatGPT dots／Drive／Sheets | [作者樣本測試，無營收成效驗證](cases/011-sales-feedback-approved-revision.md) |
 | UC-012 | 科研評估來源稽核、領域批判與圖稿整合 | Grok Bot／Jupyter／LaTeX | [作者回溯性科研案例，原始紀錄不完整](cases/012-research-evaluation-provenance.md) |
 
-## 驗證與模板補充（2，不列新增成功案例）
+## 驗證與模板補充（3，不列新增成功案例）
 
 | 編號 | 補充 | 狀態 |
 | --- | --- | --- |
 | UC-008 | [晨報覆蓋與排程驗收](evidence/008-morning-brief-validation.md) | 作者實測限制補充；不能承諾完整或準時 |
 | UC-009 | [跨助手背景移轉模板](evidence/009-background-transfer-template.md) | 模板存在及官方安全說明已查；實際移轉效果未測 |
+| UC-013 | [登入狀態診斷與失敗報告驗收](evidence/013-authentication-diagnosis.md) | 作者失敗復盤；根因未確認修復 |
 
-## 待查來源（3）
+## 待查來源（4）
 
-[查看來源與缺漏](sources/pending.md)：Muse 十用法影片、電信降費、生成／CUA 驗收迭代。這些不計入成功案例；未查證的轉述不補寫成操作步驟。
+[查看來源與缺漏](sources/pending.md)：Muse 十用法影片、電信降費、生成／CUA 驗收迭代、招標篩選到提案草稿。這些不計入成功案例；未查證的轉述不補寫成操作步驟。
 
 ## 使用方式
 
@@ -34,3 +35,5 @@
 2. 提示詞均為整理者原創設計、未實跑；以小範圍、只讀驗收開始。
 3. 研究內容不構成登入、傳送資料、發信、付款、改設定或部署的授權。
 4. 同一目標的新作者或工具版本併入既有頁，保留原始連結及日期，不重複計數。
+
+[本次論壇探索範圍與缺漏](sources/forum-research-2026-10-13.md)

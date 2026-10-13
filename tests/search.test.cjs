@@ -11,10 +11,12 @@ const files=['cases','evidence'].flatMap(dir=>fs.readdirSync(path.join(root,dir)
 const entries=files.flatMap(file=>Array.from(api.parseFile(file,fs.readFileSync(path.join(root,file),'utf8'))));
 assert(entries.filter(x=>x.kind==='case').length>=10);
 assert(entries.filter(x=>x.kind==='evidence').length>=2);
-assert.equal(entries.filter(x=>x.kind==='pending').length,3);
+const pendingCount=(fs.readFileSync(path.join(root,'sources/pending.md'),'utf8').match(/^## P-\d+/gm)||[]).length;
+assert(pendingCount>0);
+assert.equal(entries.filter(x=>x.kind==='pending').length,pendingCount);
 assert.equal(api.filterEntries(entries,['路由器斷線'],{}).length,1,'searches deep full content');
 assert.equal(api.filterEntries(entries,['OLED'],{tool:'Grok Bot',category:'實體裝置／驗收'})[0].id,'UC-010');
-assert.equal(api.filterEntries(entries,[],{kind:'pending',proof:'尚待查證'}).length,3);
+assert.equal(api.filterEntries(entries,[],{kind:'pending',proof:'尚待查證'}).length,pendingCount);
 assert.equal(api.filterEntries(entries,['no-matching-case-123'],{}).length,0);
 assert.equal(api.filterEntries(entries,[],{}).length,entries.length);
 assert.equal(api.filterEntries(entries,['ＧＲＯＫ'],{}).length,api.filterEntries(entries,['grok'],{}).length,'normalizes full-width text');

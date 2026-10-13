@@ -2,7 +2,7 @@
 
 更新日期：2026-10-13。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（13）
+## 主要案例（31）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 |
 | --- | --- | --- | --- |
@@ -19,6 +19,24 @@
 | UC-014 | 客服收件匣巡檢與人核准退款 | Grok Bot／Intercom／Stripe；dots 影片待看 | [作者自述使用；影片僅讀描述](cases/014-support-inbox-approval-refund.md) |
 | UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine | [dots 作者單次結構化測試＋Grok Bot 官方文件；未重現](cases/015-public-page-change-watch.md) |
 | UC-016 | 二手刊登與買家對話代管 | Meta Muse／Facebook Marketplace；dots 多平台 | [Muse 地址外洩事件（媒體轉述）＋官方權限文件＋作者自述；未重現](cases/016-marketplace-selling-buyer-messages.md) |
+| UC-017 | 先研究潛在客戶，再準備有根據的聯絡草稿 | Grok Bot／公開公司來源／草稿 | [官方展示／署名作者自報；未獨立重現](cases/017-prospect-research-drafts.md) |
+| UC-018 | 正式展示前，先檢查示範環境能不能跑 | Grok Bot／授權測試環境 | [官方展示／署名作者自報；未獨立重現](cases/018-demo-readiness.md) |
+| UC-019 | 把剛談到的客戶需求，變成下一版簡報 | Grok Bot／Granola／Figma | [官方展示／署名作者自報；未獨立重現](cases/019-call-to-customer-deck.md) |
+| UC-020 | 用一張設計範本，做出整批一致的卡片 | Grok Bot／Figma MCP | [官方展示／署名作者自報；未獨立重現](cases/020-figma-batch-cards.md) |
+| UC-021 | 法務問題散在聊天裡？整理成能接手的待辦 | Grok Bot／Slack／合約與追蹤系統 | [官方展示／署名作者自報；未獨立重現](cases/021-legal-request-handoff.md) |
+| UC-022 | 廣告花費或轉換異常時，先找出問題在哪 | Grok Bot／廣告平台匯出／Sheets | [官方展示／署名作者自報；未獨立重現](cases/022-ad-spend-conversion-check.md) |
+| UC-023 | 產品改了，讓 dots 找出需要更新的上市文案與簡報 | ChatGPT dots | [官方發布情境／教學示例；未獨立實測](cases/023-launch-material-revision.md) |
+| UC-024 | 讓 dots 檢查已交付工作，找出可能漏開的帳單 | ChatGPT dots | [官方轉述早期使用者經驗；未獨立實測](cases/024-missing-invoice-check.md) |
+| UC-025 | 用 dots 追蹤團隊活動的期限、預算問題與待回覆事項 | ChatGPT dots | [官方教學示例；未獨立實測](cases/025-team-event-follow-through.md) |
+| UC-026 | 讓 Muse 整理開學通知與截止日 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/026-school-deadline-list.md) |
+| UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/027-recipe-shopping-plan.md) |
+| UC-028 | 先做帳單降費比較，再決定怎麼談 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/028-bill-comparison-preparation.md) |
+| UC-029 | 行程改了，讓 Muse 重排運動時段 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/029-exercise-time-replan.md) |
+| UC-030 | 把筆記做成互動複習工具 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/030-interactive-study-guide.md) |
+| UC-031 | 用匿名消費明細建立支出看板 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/031-spending-dashboard.md) |
+| UC-032 | 把虛構睡眠紀錄整理成趨勢圖 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/032-sleep-record-chart.md) |
+| UC-033 | 從年度營運數據排出下一季實驗 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/033-business-experiment-plan.md) |
+| UC-034 | 把可疑費用整理成覆核清單 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/034-expense-anomaly-review.md) |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 
@@ -40,3 +58,5 @@
 4. 同一目標的新作者或工具版本併入既有頁，保留原始連結及日期，不重複計數。
 
 [本次論壇探索範圍與缺漏](sources/forum-research-2026-10-13.md)
+
+[官方發布與早期教學覆蓋盤點](sources/launch-coverage-2026-10-13.md)

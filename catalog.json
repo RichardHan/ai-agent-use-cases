@@ -1,0 +1,19 @@
+---
+layout: null
+---
+{
+  "builtAt": {{ site.time | date: '%Y-%m-%d' | jsonify }},
+  "files": [
+  {%- assign emitted = false -%}
+  {%- for file in site.static_files -%}
+    {%- assign folder = file.path | split: '/' -%}
+    {%- if file.extname == '.md' -%}
+      {%- if folder[1] == 'cases' or folder[1] == 'evidence' or file.path == '/sources/pending.md' -%}
+        {%- if emitted -%},{%- endif -%}
+        {{- file.path | remove_first: '/' | jsonify -}}
+        {%- assign emitted = true -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  ]
+}

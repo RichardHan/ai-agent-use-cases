@@ -1,0 +1,28 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..');
+const source=fs.readFileSync(path.join(root,'assets/app.js'),'utf8').split("$('filters').addEventListener")[0];
+// Minimal text-node DOM: tests safe rendering without an installed browser.
+class Node {constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.textContent='';} append(...children){this.children.push(...children);} }
+const context=vm.createContext({URL,document:{createElement:tag=>new Node(tag),createTextNode:text=>({textContent:text})}});
+vm.runInContext(source+'\nthis.api={metadata,parseFile,filterEntries,norm,safeLink,renderMarkdown};',context);
+const api=context.api;
+const files=['cases','evidence'].flatMap(dir=>fs.readdirSync(path.join(root,dir)).filter(x=>x.endsWith('.md')).map(x=>dir+'/'+x)).concat('sources/pending.md');
+const entries=files.flatMap(file=>Array.from(api.parseFile(file,fs.readFileSync(path.join(root,file),'utf8'))));
+assert(entries.filter(x=>x.kind==='case').length>=10);
+assert(entries.filter(x=>x.kind==='evidence').length>=2);
+assert.equal(entries.filter(x=>x.kind==='pending').length,3);
+assert.equal(api.filterEntries(entries,['路由器斷線'],{}).length,1,'searches deep full content');
+assert.equal(api.filterEntries(entries,['OLED'],{tool:'Grok Bot',category:'實體裝置／驗收'})[0].id,'UC-010');
+assert.equal(api.filterEntries(entries,[],{kind:'pending',proof:'尚待查證'}).length,3);
+assert.equal(api.filterEntries(entries,['no-matching-case-123'],{}).length,0);
+assert.equal(api.filterEntries(entries,[],{}).length,entries.length);
+assert.equal(api.filterEntries(entries,['ＧＲＯＫ'],{}).length,api.filterEntries(entries,['grok'],{}).length,'normalizes full-width text');
+assert.equal(entries.find(x=>x.id==='UC-007').proof,'官方自報');
+assert.equal(entries.find(x=>x.id==='UC-009').proof,'模板／文件核讀');
+assert.equal(api.safeLink('javascript:alert(1)','cases/test.md'),null);
+assert.equal(api.safeLink('../sources/README.md#s-001','cases/test.md'),'https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001');
+const rendered=api.renderMarkdown('# Example\n\n<script>alert(1)</script>\n\n[test](javascript:alert)\n\n## Section\n\n- safe','cases/test.md');
+const tags=[];function walk(node){if(node.tagName)tags.push(node.tagName);(node.children||[]).forEach(walk);}walk(rendered);assert(!tags.includes('SCRIPT'));assert(!tags.includes('A'));assert(tags.includes('H2'));assert(tags.includes('LI'));
+const future=api.parseFile('cases/999-new-case.md','# UC-999：新案例\n\n- 分類：新主題\n- 核心目標：可搜尋的新流程\n- 來源證據：author-demo');assert.equal(future[0].category,'新主題');assert.equal(api.filterEntries(future,['新流程'],{}).length,1);
+console.log(`PASS: ${entries.length} source entries; full-text, Unicode, combined filters, evidence, empty/reset matching, future entries, safe rendering and links.`);

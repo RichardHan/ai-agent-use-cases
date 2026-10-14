@@ -49,7 +49,6 @@
 | UC-044 | 家務、採買、行程散在各處？做一頁家人看得懂的今日看板 | Meta Muse | [媒體作者自報；存取與同步未独立驗證](cases/044-household-shared-dashboard.md) | 生活｜家庭、看板 |
 | UC-045 | 把公開網頁查證交給Grok Bot，再把證據交回Codex | Codex／Grok Bot／第三方任務橋 | [作者手動觸發自報；Routine未驗證](cases/045-cross-agent-research-handoff.md) | 開發｜跨代理、研究交接 |
 | UC-046 | 每天把關注帳號的貼文整理成去重精選 | Grok Bot／X；Notion、Obsidian、dots 版本待核 | [作者自述日常使用＋官方 X 讀取文件；未重現](cases/046-followed-accounts-daily-digest.md) | 工作｜X、排程、去重、簡報 |
-
 | UC-047 | 把作品與製作紀錄整理成可搜尋的作品集 | ChatGPT dots／網站 | [作者自報＋公開介面；作品資料未獨立驗收](cases/047-portfolio-provenance-catalog.md) | 創作｜作品集、來源查證、搜尋、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）

@@ -70,3 +70,15 @@
 - **UC-027 補充**：@gyutei_4koma，https://x.com/gyutei_4koma/status/2110252710402638192 ，日文，2026-10-14 14:13，Grok Bot 排菜單後網購超市下單被擋、改由本人完成。`author-demo`（失敗回報）＋官方電腦文件對照。
 
 本輪看過但未收錄：一句話自述（找屋頂維修師傅並約時間、火車票申請、整理記憶規則、首次放權收件匣）缺少流程細節；@huliwood 先改寫研究提示並預設驗收標準的「Depth」Bot、@LiuweijiaVip 用其他代理調整 Bot 文案、@abruptWave dots 換機後重連 Tailscale 工具，留待下輪查證；另略過方案與額度討論、模型跑分、推廣與教學懶人包貼文。
+
+
+## S-055～S-057：2026-10-14 20:45 X 掃描
+
+查證日期：2026-10-14（台灣時間）。本庫未重現；均為繁中改寫與連結。
+
+- **S-055A**：@Nazarick_eth，https://x.com/Nazarick_eth/status/2110305892185104665 ，簡體中文，2026-10-14 17:45，四個 Grok Bot 分工：推文連結→項目建檔查重→調研→監控推送，附 3 張截圖。對應 UC-055，`author-demo`＋官方 [Bots](https://docs.x.ai/grok-bot/bots) 文件。
+- **S-056A**：@AlexFinn，https://x.com/AlexFinn/status/2110082377552888312 （另見 2109817698620485804、2110181971280433613 影片未看），英文，2026-10-13～14，Grok Bot 建立並維護 agentusecases.ai、以贊助變現。對應 UC-056，`author-demo`；網站 Sponsor／About 頁已讀。
+- **S-056B**：@riabcevv，https://x.com/riabcevv/status/2110306012540334474 ，英文，2026-10-14 17:45，看完影片後指出收入未扣成本、流量主要來自作者宣傳。對應 UC-056，第三方評論。
+- **S-057A**：@galdalal，https://x.com/galdalal/status/2110282209810915663 ，英文，2026-10-14 16:11，對話式架設筆電上的 GitHub 自架 runner，只限私有 repo 執行；截圖顯示最後拿掉定時關閉機制。對應 UC-057，`author-demo`＋GitHub 官方安全文件。
+
+本輪看過但未收錄：@imrogb 用 Slack 自訂 :grok: 表情觸發 routine（只有一句描述與圖示，無流程細節，留待下輪）；@gippp69 夜間 routine 先輕量檢查再決定是否全跑（推廣式短文、數字未附證據，與 UC-015／UC-048「有變動才處理」相近，留待補證）；@unclebobmartin 的 Bot 自動判斷無禮回覆並封鎖（只有結果貼文、無設定說明）；@arito_si Autoloop 自動開發外掛（與 UC-005 相近、屬自家外掛推廣）；@7998l201 Muse 經營微信視頻號（教學為 X 長文、無法讀取，影片未看）；@another_dayu 用 dots 依 330 篇部落格產生個人興趣電子報（只有一句與截圖，留待下輪）；@Grok_Labo Bot 自行重試修正 Grok Imagine 提示（短文）；另略過方案與額度討論、邀請碼、模型比較、交易獲利宣稱與懶人包貼文。

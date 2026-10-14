@@ -99,3 +99,10 @@
 - 實讀Amanda Caswell的Tom’s Guide家庭網頁自報，收UC044；沒有完整程式與共享權限驗收，不以宣傳式成效標題背書。
 - Bogleheads論壇原文開啟回402，未讀、不繞過。日文跨助手交接只得搜尋摘錄，未補正文。HN定向查詢未得合適新線索，Musk Lego TwStalker連結本輪開啟失敗，未據其他監看摘要寫成核驗案例。
 - 此輪主要實讀為英文作者網站；未有新的中文、日文論壇、GitHub Issues或影片實讀，記錄缺口而不宣稱完整多語覆蓋。既有協作者新增040–042完整保留。
+
+
+## 2026-10-14（台灣時間）10:00 補查：中文論壇的跨代理實作
+
+- 實讀V2EX [pmer原帖](https://v2ex.com/t/1241782)，追到aipmer/codex-grok-task-bridge案例及README，收UC045。作者只核手動觸發的公開網頁研究，不把Routine或其他代理支援推為已完成。
+- 實讀英文Reddit [體驗下降討論](https://www.reddit.com/r/GrokBot/comments/1wsh8c4/grokbot_has_been_unbearably_bad_today_anyone_else/)及[替代品討論](https://www.reddit.com/r/GrokBot/comments/1wxvm51/grok_bot_paid_or_alternatives/)。零散漏通知／未執行自報缺重現材料，不把代理自述原因當平台根因，與已有排程驗收議題重疊，未另建案例。
+- 日文note候選開啟失敗，Zenn查詢未得新合適原文；中文其他V2EX條目只用來篩選，不列實讀成果。沒有新的影片核讀。只整理公開證據，沒有安裝或執行橋接。

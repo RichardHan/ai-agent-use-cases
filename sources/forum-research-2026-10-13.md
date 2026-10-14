@@ -91,3 +91,11 @@
 - 實讀 [Rladmsrl/a2a-bridge 中文README](https://github.com/Rladmsrl/a2a-bridge/blob/main/docs/README.zh-CN.md)、SECURITY及 scripts/e2e_local.sh。它是外部A2A與webhook代理間的橋接；腳本啟動mock bot，不是真Grok Bot。需要接收端安全驗證、HTTPS與憑證，沒有建立或執行。留作技術候選，不列成功案例、不增加案例卡。
 - 實讀日文 [ヨハクロ的dots試用](https://note.com/avengerszzz/n/neb9487833f55)，去重出席表及多格式交付的成功／未驗收範圍併入UC-025。
 - note另一篇跨助手交接筆記與Muse記者體驗轉述均開啟失敗；只得搜尋摘要，不用它们补寫案例。西語搜尋未得合適具體實作，未讀新的Reddit/HN/X/YouTube原串，不宣稱全平台覆蓋。
+
+
+## 2026-10-14（台灣時間）09:00 補查：Muse作者實作與論壇缺口
+
+- 實讀SemicolonExpected於2026-09-22的Substack公開可讀部分：活動許可資料按區域轉獨立日曆，收UC043。每月再查只有要求，沒有後續執行證據；未讀付費段落。其他社群管理用途與UC006相近，未另計。
+- 實讀Amanda Caswell的Tom’s Guide家庭網頁自報，收UC044；沒有完整程式與共享權限驗收，不以宣傳式成效標題背書。
+- Bogleheads論壇原文開啟回402，未讀、不繞過。日文跨助手交接只得搜尋摘錄，未補正文。HN定向查詢未得合適新線索，Musk Lego TwStalker連結本輪開啟失敗，未據其他監看摘要寫成核驗案例。
+- 此輪主要實讀為英文作者網站；未有新的中文、日文論壇、GitHub Issues或影片實讀，記錄缺口而不宣稱完整多語覆蓋。既有協作者新增040–042完整保留。

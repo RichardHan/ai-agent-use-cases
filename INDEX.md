@@ -2,7 +2,7 @@
 
 更新日期：2026-10-14。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（39）
+## 主要案例（41）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 |
 | --- | --- | --- | --- |
@@ -45,6 +45,8 @@
 | UC-040 | 行程方案後延遲複查天氣交通，並處理改條件 | ChatGPT dots | [作者文章示範；模擬未訂票](cases/040-trip-deferred-recheck.md) |
 | UC-041 | 多 Routine 健康檢查與晚間例外通報 | Grok Bot（＋作者另用 Claude 晨報） | [作者自述簡化指示；未重現](cases/041-routine-health-exception-ops.md) |
 | UC-042 | Dots 憑證／單 Agent 限制後改回多 Bot 內容流水線 | ChatGPT dots／Grok Bot | [作者一週遷移長文；未重現](cases/042-dots-credential-multibot-return.md) |
+| UC-043 | 從公開活動資料找出附近活動，整理成獨立日曆候選 | Meta Muse | [作者自報首次匯入；後續同步未核](cases/043-public-events-calendar.md) |
+| UC-044 | 家務、採買、行程散在各處？做一頁家人看得懂的今日看板 | Meta Muse | [媒體作者自報；存取與同步未独立驗證](cases/044-household-shared-dashboard.md) |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

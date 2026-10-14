@@ -106,3 +106,10 @@
 - 實讀V2EX [pmer原帖](https://v2ex.com/t/1241782)，追到aipmer/codex-grok-task-bridge案例及README，收UC045。作者只核手動觸發的公開網頁研究，不把Routine或其他代理支援推為已完成。
 - 實讀英文Reddit [體驗下降討論](https://www.reddit.com/r/GrokBot/comments/1wsh8c4/grokbot_has_been_unbearably_bad_today_anyone_else/)及[替代品討論](https://www.reddit.com/r/GrokBot/comments/1wxvm51/grok_bot_paid_or_alternatives/)。零散漏通知／未執行自報缺重現材料，不把代理自述原因當平台根因，與已有排程驗收議題重疊，未另建案例。
 - 日文note候選開啟失敗，Zenn查詢未得新合適原文；中文其他V2EX條目只用來篩選，不列實讀成果。沒有新的影片核讀。只整理公開證據，沒有安裝或執行橋接。
+
+
+## 2026-10-14（台灣時間）11:00 補查：商品資料整理的社群版本
+
+- 重讀英文Reddit用途串及GaryGrimtooth商品目錄留言，補UC003的批次差異驗收；作者180商品與補貨週報自述沒有系統紀錄，不計新案例。另讀留言中的腳本分流方案，但本機硬體、零成本及排程成功未核，不將其泛化成雲端可用保證。
+- 讀HN Grok Bot首發串，內容與既有UC038來源及多Bot成本議題重疊，未另計。中文V2EX影片線索經現有UC002核對已收錄，不重複；此次沒有重新觀看成片。
+- 日文note搜尋主要為發布消息與評論，未找到有新驗收產物的合適實例，沒有據摘錄新增。未讀新的GitHub Issues或YouTube影片。本輪來源增量為既有目的補充，不宣稱全面多語覆蓋。

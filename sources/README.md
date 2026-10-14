@@ -58,3 +58,15 @@
 - **UC-005 補充**：@0xKyosuke，https://x.com/0xKyosuke/status/2110213367495623023 ，日文，兩個 Bot 分流 GitHub issue、交自家迷你電腦開 PR、人合併。`author-demo`。
 
 本輪略過：訂閱方案整合討論、邀請碼、模型發布與跑分、帳號合併求助、範本推廣貼文與缺少流程細節的感想。
+
+
+## S-053、S-054 與 UC-027 補充：2026-10-14 17:45 X 掃描
+
+查證日期：2026-10-14（台灣時間）。本庫未重現；均為繁中改寫與連結。
+
+- **S-053A**：@TonyGainzzz，https://x.com/TonyGainzzz/status/2110288321788129343 ，英文，2026-10-14 16:35，Grok Bot 讀 Amazon 與 Sellerboard 半年資料，補貨前篩掉高退貨低利潤商品。對應 UC-053，`author-demo`。
+- **S-054A**：@Frank_AI_Lab，https://x.com/Frank_AI_Lab/status/2110285369186844888 ，英文，2026-10-14 16:23，一句莎士比亞台詞→2:45 動畫 MV。對應 UC-054，`author-demo`。
+- **S-054B**：@anabology，https://x.com/anabology/status/2110224953287070195 ，英文，2026-10-14 12:23，Claudia 社群模板；[模板頁](https://x.ai/bot/zvsgYtQHUcSKGRhAb_JzM)與 [GitHub 說明](https://github.com/anabologyco-maker/claudia-bot)已讀、未安裝。對應 UC-054，`author-demo`；模板分享功能另引[官方 FAQ](https://docs.x.ai/grok-bot/faq)，`official`。
+- **UC-027 補充**：@gyutei_4koma，https://x.com/gyutei_4koma/status/2110252710402638192 ，日文，2026-10-14 14:13，Grok Bot 排菜單後網購超市下單被擋、改由本人完成。`author-demo`（失敗回報）＋官方電腦文件對照。
+
+本輪看過但未收錄：一句話自述（找屋頂維修師傅並約時間、火車票申請、整理記憶規則、首次放權收件匣）缺少流程細節；@huliwood 先改寫研究提示並預設驗收標準的「Depth」Bot、@LiuweijiaVip 用其他代理調整 Bot 文案、@abruptWave dots 換機後重連 Tailscale 工具，留待下輪查證；另略過方案與額度討論、模型跑分、推廣與教學懶人包貼文。

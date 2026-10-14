@@ -47,3 +47,14 @@
 - **S-042**：@chebyte，https://x.com/chebyte/status/2110008800593768844 ，英文，Dots 一週限制與改回 Grok Bot 多 Bot 內容流水線。對應 UC-042。
 
 保存方式：繁中改寫與連結；不收錄全文逐字複製。未讀影片與未核實二手論壇故障不升格為獨立證據。
+
+
+## S-046 與兩項補充：2026-10-14 11:43 X 掃描
+
+查證日期：2026-10-14（台灣時間）。本庫未重現。
+
+- **S-046**：@HiTw93，https://x.com/HiTw93/status/2110154365667336695 ，簡體中文，Grok Bot 每晚整理關注帳號精選與跨天去重；另併 @howie_serious（Notion）、@CoderBit233（Obsidian）、@Seanislucky（dots，待核）版本。對應 UC-046，`author-demo`＋官方 X 讀取文件。
+- **S-016E**：@techtunes67，https://x.com/techtunes67/status/2110182375783080051 ，英文，Muse 照片辨識定價→eBay 草稿→本人說上架→代回買家。併入 UC-016，`author-demo`。
+- **UC-005 補充**：@0xKyosuke，https://x.com/0xKyosuke/status/2110213367495623023 ，日文，兩個 Bot 分流 GitHub issue、交自家迷你電腦開 PR、人合併。`author-demo`。
+
+本輪略過：訂閱方案整合討論、邀請碼、模型發布與跑分、帳號合併求助、範本推廣貼文與缺少流程細節的感想。

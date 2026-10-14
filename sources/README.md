@@ -36,3 +36,14 @@
 - UC-009：[第三方 Import Bot 模板](https://x.ai/bot/marketplace/bots/import-bot)、[Bot 文件](https://docs.x.ai/grok-bot/bots)、[共享條款](https://x.ai/legal/bot-sharing-terms)、[安全文件](https://docs.x.ai/grok-bot/approvals-security-and-privacy)。模板存在不代表移轉效果已證實。
 
 其他未核實線索統一列在[待查清單](pending.md)，不加入成功案例數。
+
+
+## S-040～S-042：2026-10-14 X 掃描
+
+查證日期：2026-10-14（台灣時間）。證據狀態皆為 `author-demo`；本庫未重現。
+
+- **S-040**：@jibeiguang，https://x.com/jibeiguang/status/2110168121852248425 ，中文，ChatGPT dots 深圳→香港模擬一日遊與延遲複查。對應 UC-040。
+- **S-041**：@SameerRijh，https://x.com/SameerRijh/status/2110113800506499329 ，英文，Grok Bot 多 routine 健康檢查與例外晚報。對應 UC-041。
+- **S-042**：@chebyte，https://x.com/chebyte/status/2110008800593768844 ，英文，Dots 一週限制與改回 Grok Bot 多 Bot 內容流水線。對應 UC-042。
+
+保存方式：繁中改寫與連結；不收錄全文逐字複製。未讀影片與未核實二手論壇故障不升格為獨立證據。

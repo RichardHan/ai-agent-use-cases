@@ -1,5 +1,7 @@
 # UC-005：需求整理、雲端實作與獨立PR審查分工
 
+- 情境：開發
+- 標籤：PR審查、多代理、雲端開發
 - 目標：把『幫我加功能』變成可驗收的開發交接，避免PR建立就被當作全部完成。
 - 工具：Grok Bot、loops 或 Lingxi's Engineer Bot、Cursor Cloud Agent、GitHub、PR Reviewer
 - 查證日期：2026-10-13

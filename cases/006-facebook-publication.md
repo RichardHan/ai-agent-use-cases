@@ -1,5 +1,7 @@
 # UC-006：Facebook成效資料→品牌貼文→排程／社團發布→站外驗收
 
+- 情境：創作
+- 標籤：社群、發文、排程
 - 目標：讓社群代理從帳號歷史與實際指標出發，完成帶有品牌素材的貼文，並確認真的發在正確地方。
 - 工具：Meta Muse、Facebook Page、Meta Business Manager／Business Suite、Muse瀏覽器、使用者管理的公開Facebook Group
 - 查證日期：2026-10-13

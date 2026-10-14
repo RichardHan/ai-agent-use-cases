@@ -26,7 +26,7 @@
 | UC-021 | 法務問題散在聊天裡？整理成能接手的待辦 | Grok Bot／Slack／合約與追蹤系統 | [官方展示／署名作者自報；未獨立重現](cases/021-legal-request-handoff.md) | 工作｜法務、待辦 |
 | UC-022 | 廣告花費或轉換異常時，先找出問題在哪 | Grok Bot／廣告平台匯出／Sheets | [官方展示／署名作者自報；未獨立重現](cases/022-ad-spend-conversion-check.md) | 工作｜廣告、數據異常 |
 | UC-023 | 產品改了，讓 dots 找出需要更新的上市文案與簡報 | ChatGPT dots | [官方發布情境／教學示例；未獨立實測](cases/023-launch-material-revision.md) | 工作｜行銷素材、改版 |
-| UC-024 | 讓 dots 檢查已交付工作，找出可能漏開的帳單 | ChatGPT dots | [官方轉述早期使用者經驗；未獨立實測](cases/024-missing-invoice-check.md) | 工作｜帳單、對帳 |
+| UC-024 | 檢查已交付工作，找出可能漏開的帳單 | ChatGPT dots／Grok Bot | [官方轉述＋貨運作者自報與錯誤；未獨立實測](cases/024-missing-invoice-check.md) | 工作｜帳單、對帳 |
 | UC-025 | 用 dots 追蹤團隊活動的期限、預算問題與待回覆事項 | ChatGPT dots | [官方示例＋作者虛構出席表測試；未重現](cases/025-team-event-follow-through.md) | 工作｜團隊活動、追蹤 |
 | UC-026 | 讓 Muse 整理開學通知與截止日 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/026-school-deadline-list.md) | 生活｜學校、期限 |
 | UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買 |
@@ -37,7 +37,7 @@
 | UC-032 | 把虛構睡眠紀錄整理成趨勢圖 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/032-sleep-record-chart.md) | 生活｜睡眠、健康 |
 | UC-033 | 從年度營運數據排出下一季實驗 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/033-business-experiment-plan.md) | 工作｜營運、實驗規劃 |
 | UC-034 | 把可疑費用整理成覆核清單 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/034-expense-anomaly-review.md) | 省錢｜費用、異常 |
-| UC-035 | 找合適職缺，把履歷改成有根據的申請草稿 | ChatGPT dots／Work 產品歸屬待核 | [社群作者自報；投遞及面試結果未核](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
+| UC-035 | 找合適職缺，把履歷改成有根據的申請草稿 | dots／Work歸屬待核；Grok Bot反例 | [作者自報＋未核准及重複投遞反例；未重現](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
 | UC-036 | 每天的收銀資料，整理成可核對的入帳檔 | Grok Bot／POS／QuickBooks Online | [論壇作者自報；無實際入帳或核帳證據](cases/036-pos-accounting-csv.md) | 工作｜每日、收銀、記帳 |
 | UC-037 | 跨商店比同款商品，先看清總價與賣家 | Meta Muse／公開商品頁 | [媒體作者單次測試；未獨立重現](cases/037-product-listing-comparison.md) | 省錢｜購物、比價 |
 | UC-038 | 從找布料到做樣品，先整理供應商與打樣規格 | Grok Bot／公開供應商資料 | [HN 作者自報；樣品完成與品質未核](cases/038-fabric-sourcing-sample-handoff.md) | 工作｜採購、打樣 |

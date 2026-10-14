@@ -2,7 +2,7 @@
 
 更新日期：2026-10-14。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（41）
+## 主要案例（42）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 |
 | --- | --- | --- | --- |
@@ -47,6 +47,7 @@
 | UC-042 | Dots 憑證／單 Agent 限制後改回多 Bot 內容流水線 | ChatGPT dots／Grok Bot | [作者一週遷移長文；未重現](cases/042-dots-credential-multibot-return.md) |
 | UC-043 | 從公開活動資料找出附近活動，整理成獨立日曆候選 | Meta Muse | [作者自報首次匯入；後續同步未核](cases/043-public-events-calendar.md) |
 | UC-044 | 家務、採買、行程散在各處？做一頁家人看得懂的今日看板 | Meta Muse | [媒體作者自報；存取與同步未独立驗證](cases/044-household-shared-dashboard.md) |
+| UC-045 | 把公開網頁查證交給Grok Bot，再把證據交回Codex | Codex／Grok Bot／第三方任務橋 | [作者手動觸發自報；Routine未驗證](cases/045-cross-agent-research-handoff.md) |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

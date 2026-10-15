@@ -82,3 +82,14 @@
 - **S-057A**：@galdalal，https://x.com/galdalal/status/2110282209810915663 ，英文，2026-10-14 16:11，對話式架設筆電上的 GitHub 自架 runner，只限私有 repo 執行；截圖顯示最後拿掉定時關閉機制。對應 UC-057，`author-demo`＋GitHub 官方安全文件。
 
 本輪看過但未收錄：@imrogb 用 Slack 自訂 :grok: 表情觸發 routine（只有一句描述與圖示，無流程細節，留待下輪）；@gippp69 夜間 routine 先輕量檢查再決定是否全跑（推廣式短文、數字未附證據，與 UC-015／UC-048「有變動才處理」相近，留待補證）；@unclebobmartin 的 Bot 自動判斷無禮回覆並封鎖（只有結果貼文、無設定說明）；@arito_si Autoloop 自動開發外掛（與 UC-005 相近、屬自家外掛推廣）；@7998l201 Muse 經營微信視頻號（教學為 X 長文、無法讀取，影片未看）；@another_dayu 用 dots 依 330 篇部落格產生個人興趣電子報（只有一句與截圖，留待下輪）；@Grok_Labo Bot 自行重試修正 Grok Imagine 提示（短文）；另略過方案與額度討論、邀請碼、模型比較、交易獲利宣稱與懶人包貼文。
+
+
+## S-060 與兩項補充：2026-10-15 08:45 X 掃描
+
+查證日期：2026-10-15（台灣時間）。本庫未重現；均為繁中改寫與連結。
+
+- **S-060A**：@idontknowmaxime，https://x.com/idontknowmaxime/status/2110495092825784541 ，英文（帳號回覆為法文），2026-10-15 06:16，Grok Bot 監看 X 提及、依 4,600 筆以上附出處的公開資料庫自動回答、範圍外婉拒、敏感題轉人、每日更新資料庫。對應 UC-060，`author-demo`；[@lisnardbot](https://x.com/lisnardbot) 公開回覆與 [GitHub 資料庫](https://github.com/Maximerg/lisnard-rag) README／統計已讀；官方 [computer-and-apps](https://docs.x.ai/grok-bot/computer-and-apps)、[skills-routines](https://docs.x.ai/grok-bot/skills-routines-and-automations) 文件 `official`；X 自動回覆規則官方頁被擋未讀，`unverified`。
+- **UC-035 補充**：@aaditya_roy_04，https://x.com/aaditya_roy_04/status/2110365316043923658 ，英文，2026-10-14 21:41，Grok Bot 長對話連續填求職表、轉交程式代理後，代理的內部筆記與薪資策略險些隨表單送出。`author-demo`（附 2 張截圖）。
+- **UC-030 補充**：@_simonsmith，https://x.com/_simonsmith/status/2110425007059017830 ，英文，2026-10-15 01:38，ChatGPT dots 以 Sites 上的 MCP server＋帶 extensions 的 plugin 重做 Kindle 生字字卡 App（原先用 Muse 做過），附優缺點回報。`author-demo`；Sites plugin 與 Plugin Extensions 官方文件 `official`。
+
+本輪看過但未收錄：@fabianschierz 每天凌晨用 Grok 自動化收集前一天 X 書籤、交給 Bot 補全後存進 Notion（與 UC-046／UC-055 相近，作者並稱 Bot 直接讀書籤要耗 API 額度，留待下輪與官方文件一起核）；@GrokBotRadar 轉述 @moritzkremb 每日 X 精選讀首頁時間線而耗用額度、改讀公開資料（二手轉述，原影片未看，可作 UC-046 費用補充候選）；@drevoudouriss 兩個 Bot 架寄信網域、找多倫多小店名單、寫個人化陌生開發信並經人核准後交 Instantly 寄送（尚未開始寄送、無結果，與 UC-017 相近，待有成效後補）；@techtactician 依 AlexFinn 貼文讓 Bot 自建 AI 用量價格比較站（與 UC-056 相近、無流量收入證據）；@inna_ayo 兩個 Bot 追供應商對話與 Jira 採購流程（只有短描述）；@grestjapan 轉述 E!DESIGN 用 dots 每日看虛構咖啡店營收表（二手、虛構資料，原文未讀）；@d_j_harman 以 Bot 信箱 plus 別名分派給不同 Bot（未核官方文件）；@WizZifnab Chromebook 上請 Bot 協助設定自動更新計時器；另略過方案整合與額度討論、模型跑分、贈獎、推廣與比較貼文。

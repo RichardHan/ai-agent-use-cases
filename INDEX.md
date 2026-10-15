@@ -2,7 +2,7 @@
 
 更新日期：2026-10-15。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（56）
+## 主要案例（57）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -32,12 +32,12 @@
 | UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse；Grok Bot 網購下單失敗回報 | [Muse 官方自述＋Grok Bot 作者失敗自述；原創流程未實測](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買、網購 |
 | UC-028 | 先做帳單降費比較，再決定怎麼談 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商 |
 | UC-029 | 行程改了，讓 Muse 重排運動時段 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/029-exercise-time-replan.md) | 生活｜運動、行程 |
-| UC-030 | 把筆記做成互動複習工具 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具 |
+| UC-030 | 把筆記做成互動複習工具 | Meta Muse；ChatGPT dots／Sites（Kindle 生字字卡） | [官方自述＋作者自建字卡 App 自述；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具、語言學習 |
 | UC-031 | 用匿名消費明細建立支出看板 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/031-spending-dashboard.md) | 省錢｜記帳、看板 |
 | UC-032 | 把虛構睡眠紀錄整理成趨勢圖 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/032-sleep-record-chart.md) | 生活｜睡眠、健康 |
 | UC-033 | 從年度營運數據排出下一季實驗 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/033-business-experiment-plan.md) | 工作｜營運、實驗規劃 |
 | UC-034 | 把可疑費用整理成覆核清單 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/034-expense-anomaly-review.md) | 省錢｜費用、異常 |
-| UC-035 | 找合適職缺，把履歷改成有根據的申請草稿 | dots／Work歸屬待核；Grok Bot反例 | [作者自報＋未核准及重複投遞反例；未重現](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
+| UC-035 | 找合適職缺，把履歷改成有根據的申請草稿 | dots／Work歸屬待核；Grok Bot反例兩則 | [作者自報＋未核准及重複投遞反例＋代理內部筆記險些送出反例；未重現](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
 | UC-036 | 每天的收銀資料，整理成可核對的入帳檔 | Grok Bot／POS／QuickBooks Online | [論壇作者自報；無實際入帳或核帳證據](cases/036-pos-accounting-csv.md) | 工作｜每日、收銀、記帳 |
 | UC-037 | 跨商店比同款商品，先看清總價與賣家 | Meta Muse／公開商品頁 | [媒體作者單次測試；未獨立重現](cases/037-product-listing-comparison.md) | 省錢｜購物、比價 |
 | UC-038 | 從找布料到做樣品，先整理供應商與打樣規格 | Grok Bot／公開供應商資料 | [HN 作者自報；樣品完成與品質未核](cases/038-fabric-sourcing-sample-handoff.md) | 工作｜採購、打樣 |
@@ -62,6 +62,7 @@
 | UC-057 | 在自己筆電架 GitHub 自架 runner，先講好安全邊界 | Grok Bot／GitHub Actions／Windows 筆電 | [作者自述＋截圖＋GitHub 官方安全文件；未重現](cases/057-self-hosted-ci-runner-on-laptop.md) | 開發｜CI、本機執行、權限、核准 | 
 | UC-058 | 把整場網球錄影剪成每一分，減少等待 | Meta Muse | [作者自述仍在改善；未看成片、未重現](cases/058-tennis-match-dead-time-editing.md) | 創作｜影片、運動、剪輯、驗收 |
 | UC-059 | 找居家清運商、核准詢價，再確認預約 | Meta Muse | [媒體作者使用報告；未確認完工、未重現](cases/059-home-service-quote-handoff.md) | 生活｜家務、詢價、預約、核准 |
+| UC-060 | 有人在 X 標記就依附出處的資料庫自動回答，敏感題留給人 | Grok Bot／X／公開 GitHub 資料庫 | [作者自述＋公開帳號與資料庫已讀＋官方 X 讀取文件；答案未逐筆核、未重現](cases/060-x-mention-sourced-answer-bot.md) | 工作｜每日、X、自動回覆、知識庫 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

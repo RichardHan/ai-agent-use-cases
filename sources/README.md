@@ -93,3 +93,14 @@
 - **UC-030 補充**：@_simonsmith，https://x.com/_simonsmith/status/2110425007059017830 ，英文，2026-10-15 01:38，ChatGPT dots 以 Sites 上的 MCP server＋帶 extensions 的 plugin 重做 Kindle 生字字卡 App（原先用 Muse 做過），附優缺點回報。`author-demo`；Sites plugin 與 Plugin Extensions 官方文件 `official`。
 
 本輪看過但未收錄：@fabianschierz 每天凌晨用 Grok 自動化收集前一天 X 書籤、交給 Bot 補全後存進 Notion（與 UC-046／UC-055 相近，作者並稱 Bot 直接讀書籤要耗 API 額度，留待下輪與官方文件一起核）；@GrokBotRadar 轉述 @moritzkremb 每日 X 精選讀首頁時間線而耗用額度、改讀公開資料（二手轉述，原影片未看，可作 UC-046 費用補充候選）；@drevoudouriss 兩個 Bot 架寄信網域、找多倫多小店名單、寫個人化陌生開發信並經人核准後交 Instantly 寄送（尚未開始寄送、無結果，與 UC-017 相近，待有成效後補）；@techtactician 依 AlexFinn 貼文讓 Bot 自建 AI 用量價格比較站（與 UC-056 相近、無流量收入證據）；@inna_ayo 兩個 Bot 追供應商對話與 Jira 採購流程（只有短描述）；@grestjapan 轉述 E!DESIGN 用 dots 每日看虛構咖啡店營收表（二手、虛構資料，原文未讀）；@d_j_harman 以 Bot 信箱 plus 別名分派給不同 Bot（未核官方文件）；@WizZifnab Chromebook 上請 Bot 協助設定自動更新計時器；另略過方案整合與額度討論、模型跑分、贈獎、推廣與比較貼文。
+
+
+## S-061 與兩項補充：2026-10-15 11:40 X 掃描
+
+查證日期：2026-10-15（台灣時間）。本庫未重現；均為繁中改寫與連結，未收錄提示詞全文。
+
+- **S-061A**：@miyatti，https://x.com/miyatti/status/2110558428372574530 （另見 2110549612889292892、2110559717076713804、2110565599231500666、2110577200126988757），日文，2026-10-15 09:53–11:43，Grok Bot「窗口」派工給專責 Bot、固定指令格式、A/B/C 核准、證據驗收與工作台帳；附執行截圖與用量心得。對應 UC-061，`author-demo`；[AI-PLC](https://github.com/miyatti777/ai-plc) README 已讀；官方 [bots](https://docs.x.ai/grok-bot/bots)、[skills-routines](https://docs.x.ai/grok-bot/skills-routines-and-automations) 文件 `official`。
+- **UC-006 補充**：@less_is_more_ai，https://x.com/less_is_more_ai/status/2110575628311498945 ，簡體中文，2026-10-15 11:36，Grok Bot 每天讀自己 X 昨日數據做 30 秒復盤短片、本人點頭才發（第 2 天）。`author-demo`；影片只看封面，數字未核。
+- **UC-001 補充**：Webb Wright（Gizmodo），英文，2026-10-12；日文譯稿經 @gizmodojapan https://x.com/gizmodojapan/status/2110569439926042776 （2026-10-15 11:12）發現。Muse 免費版訂機票冗長、無法直連 Expedia、United 擋 Bot 且手動接管登入失敗；同篇另有餐廳超預算與退款管道不符。`author-demo`（媒體作者單次使用）。
+
+本輪略過：邀請碼與推廣、模型排名與跑分、方案與用量討論、帳號合併故障、只有一句話的感想、重複回覆別人貼文的網站稽核廣告、仍在連載中缺少後半段的 X 內容流水線長帖（@Zerber_，可下輪再看）；@OceansRed22（Grok Bot 依化學講義照片做六段語音課）因本輪已達 3 項上限，留待下輪評估是否併入 UC-030。

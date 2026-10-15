@@ -1,8 +1,8 @@
 # 完整案例索引
 
-更新日期：2026-10-15。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
+更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（69）
+## 主要案例（70）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -75,6 +75,8 @@
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
 | UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian | ChatGPT dots／Obsidian | [作者教學串＋官方記憶 FAQ；未重現](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
 | UC-072 | 電話任務的身份揭露、核准與人工交接 | Grok Bot／DialBot／Bland AI；ClawCall 自述 | [作者測試自述＋官方模板與費用；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
+
+| UC-073 | 從顧客選購路徑找出網站過時資訊與錯誤導向 | ChatGPT dots／公開網站 | [作者使用與人工修正自述；完整報告未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

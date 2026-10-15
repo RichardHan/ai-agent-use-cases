@@ -75,7 +75,8 @@
 
 - [Benjamín Cordero 的 72 小時使用記錄](https://bencorde.com/blog/chatgpt-dots-opinion-72-horas/)，2026-10-05，西班牙文；屬作者自述，網站另有商業課程連結。
 - 作者說他要求 dots 從 X 的 AI 話題提出標題，再以 Higgsfield 做縮圖，並要求日後每天交付及當場試跑。首份結果不符合期待，於是要求參考其 Codex 資料夾中的既有縮圖。這支持「參考作品與明確回饋是另一個步驟」的觀察，不能宣稱已連續多天成功交付或成效提高。
-- 本庫已讀文章，未觀看[原影片](https://www.youtube.com/watch?v=painljSovos)，未取得可獨立檢查的圖片檔、完整執行紀錄或修訂後結果。文章標示的影片時間不等於本庫觀看證據，也不把章節名稱的「每日」視為排程驗收。
+- 本庫已讀文章並查看[作者提供的截圖](https://bencorde.com/blog/chatgpt-dots-opinion-72-horas/imagenes/miniatura-higgsfield.jpg)：畫面有一張縮圖、題目及每日交付的聊天聲明，但只見 GPT Images 2.5 字樣，未見 Higgsfield 生成介面；因此 Higgsfield 步驟仍只歸因作者陳述。這也不能證明連續日更真正執行。
+- [原影片](https://www.youtube.com/watch?v=painljSovos)的公開資訊確認作者與 2026-10-05 發布日；本庫未播放影片，也未取得完整執行紀錄或修訂後結果。文章標示的截圖時間不等於觀看證據。
 
 ### 小範圍試法（本庫設計，未測）
 

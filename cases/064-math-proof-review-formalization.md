@@ -28,6 +28,9 @@
 - 這支持「有該版本的公開登記」，不表示本庫重建過證明、審查過全部依賴或核實數學史上的優先權。不可將當下 main 的所有後續內容都視為同一登記版本。
 - [登記頁](https://palomar-registry.org/entry?id=PALOMAR-2026-10-04-000003&version=2)需 JavaScript，完整版本紀錄本次未讀全；保留此覆蓋限制，不把登記標籤擴大為同行評審或作者整套流程的正確性。
 
+- [公開 CI run](https://github.com/jamesyc/covering/actions/runs/38326155967)在 2026-10-13 對 e28962c… 顯示 success，含 Lean build 與 statement/solution comparator；這是讀取他人的執行結果，沒有在本庫重跑。
+- [Palomar 說明](https://palomar-registry.org/about)也區分自動檢查與人工同行評審；登記不是新穎性或重要性認證。
+
 ## 怎麼試（整理者設計，未實測）
 
 1. 選一個已有標準答案、規模小的公開數學練習；先由人用白話寫清楚集合、量詞、例外與目標。

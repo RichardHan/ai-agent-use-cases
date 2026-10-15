@@ -2,7 +2,7 @@
 
 更新日期：2026-10-15。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（58）
+## 主要案例（59）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -64,6 +64,8 @@
 | UC-059 | 找居家清運商、核准詢價，再確認預約 | Meta Muse | [媒體作者使用報告；未確認完工、未重現](cases/059-home-service-quote-handoff.md) | 生活｜家務、詢價、預約、核准 |
 | UC-060 | 有人在 X 標記就依附出處的資料庫自動回答，敏感題留給人 | Grok Bot／X／公開 GitHub 資料庫 | [作者自述＋公開帳號與資料庫已讀＋官方 X 讀取文件；答案未逐筆核、未重現](cases/060-x-mention-sourced-answer-bot.md) | 工作｜每日、X、自動回覆、知識庫 |
 | UC-061 | 窗口 Bot 派工給專責 Bot，固定指令格式、證據驗收與工作台帳 | Grok Bot／Cursor Cloud Agent／AI-PLC | [作者自述＋截圖＋公開提示詞＋官方多 Bot 文件；未重現](cases/061-dispatcher-bot-typed-commands-ledger.md) | 開發｜多代理、核准、驗收、派工 |
+
+| UC-062 | 逐頁對照 Figma 與 Android 程式，找出實作差異 | Grok Bot／Figma／Android／JSON | [作者留言自述；未取得報告與程式、未重現](cases/062-figma-android-implementation-audit.md) | 開發｜設計、Figma、驗收、程式 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

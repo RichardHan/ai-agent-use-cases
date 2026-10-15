@@ -2,7 +2,7 @@
 
 更新日期：2026-10-15。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（64）
+## 主要案例（65）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -50,8 +50,8 @@
 | UC-045 | 把公開網頁查證交給Grok Bot，再把證據交回Codex | Codex／Grok Bot／第三方任務橋 | [作者手動觸發自報；Routine未驗證](cases/045-cross-agent-research-handoff.md) | 開發｜跨代理、研究交接 |
 | UC-046 | 每天把關注帳號的貼文整理成去重精選 | Grok Bot／X；Notion、Obsidian、dots 版本待核 | [作者自述日常使用＋官方 X 讀取文件；未重現](cases/046-followed-accounts-daily-digest.md) | 工作｜每日、X、排程、去重、簡報 |
 | UC-047 | 把作品與製作紀錄整理成可搜尋的作品集 | ChatGPT dots／網站 | [作者自報＋公開介面；作品資料未獨立驗收](cases/047-portfolio-provenance-catalog.md) | 創作｜作品集、來源查證、搜尋、驗收 |
-| UC-048 | 每天查商品排名或價格，有變動才通知 | Grok Bot | [作者自述＋公開範本頁說明；未重現](cases/048-daily-price-rank-tracking.md) | 省錢｜每日、比價、電商、排程 |
-| UC-049 | 每日收件匣報告，從只讀逐步放權 | Grok Bot；dots／Muse 檢查頻率比較 | [影片二手轉述＋作者自述＋跨產品觀察；未重現](cases/049-daily-inbox-report-graduated-trust.md) | 工作｜每日、收件匣、核准、排程 |
+| UC-048 | 每天查商品排名或價格，有變動才通知 | Grok Bot（含限額代理卡下單、結帳失敗回報） | [作者自述＋公開範本頁說明＋Robinhood 代理卡說明已讀；下單無訂單證據、未重現](cases/048-daily-price-rank-tracking.md) | 省錢｜每日、比價、電商、排程 |
+| UC-049 | 每日收件匣報告，從只讀逐步放權 | Grok Bot（含＋別名觸發 routine）；dots／Muse 檢查頻率比較 | [影片二手轉述＋作者自述＋跨產品觀察＋官方人員別名公告；說明頁未同步、未重現](cases/049-daily-inbox-report-graduated-trust.md) | 工作｜每日、收件匣、核准、排程 |
 | UC-050 | 每天依筆記與天氣生成圖，推到墨水屏 | Meta Muse／樹莓派／BOOX | [作者自述＋Meta 員工 SDK 公告；未重現](cases/050-daily-eink-mood-illustration.md) | 創作｜每日、實體裝置、生成圖像、筆記 |
 | UC-051 | 把多年報稅資料交給 Bot，複核會計師的申報 | Grok Bot | [兩位作者自測自述；錯誤與金額未核實](cases/051-tax-return-cpa-double-check.md) | 省錢｜報稅、核對、文件整理、核准 |
 | UC-052 | 雲端用量暴衝多扣錢，申請退款並修根因 | Grok Bot／Railway／Vercel／Neon | [作者自測自述；退款與 PR 未核](cases/052-cloud-overcharge-refund-root-cause.md) | 省錢｜帳單、退款、雲端費用、多代理 |
@@ -70,6 +70,7 @@
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢 | Grok Bot | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
 | UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理 | Meta Muse | [作者自述＋公開稽核頁已讀；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
 | UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點 | Meta Muse／Git | [作者自述採用方法；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
+| UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

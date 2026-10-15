@@ -2,7 +2,7 @@
 
 更新日期：2026-10-15。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（68）
+## 主要案例（69）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -74,6 +74,7 @@
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
 | UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian | ChatGPT dots／Obsidian | [作者教學串＋官方記憶 FAQ；未重現](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
+| UC-072 | 電話任務的身份揭露、核准與人工交接 | Grok Bot／DialBot／Bland AI；ClawCall 自述 | [作者測試自述＋官方模板與費用；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

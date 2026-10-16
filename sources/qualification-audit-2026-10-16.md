@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 21:33 UTC／2026-10-17 05:33台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–235。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 21:43 UTC／2026-10-17 05:43台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–237。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–193及195–201及204–235合計137個不同工作流程，連同現有85個，目前 **222 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **278**。
-- 網站目前有228個主案例、3個補充及3條待查線索；231個編號或234個條目均不是合格工作流程計數。100、194及203尚未收錄；202已合併025不另設頁，編號間隙不計案例。
+- 新增095–099及101–193及195–201及204–237合計139個不同工作流程，連同現有85個，目前 **224 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **276**。
+- 網站目前有230個主案例、3個補充及3條待查線索；233個編號或236個條目均不是合格工作流程計數。100、194及203尚未收錄；202已合併025不另設頁，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 歷史批次更正（台灣2026-10-17，對應UTC2026-10-16；非目前總數）
@@ -573,7 +573,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-201](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/201-damage-comparison-coverage-correction.md)｜納入｜B。作者以dot推進遊戲比較並要求覆核，已公開撤回不均覆蓋的公式排名；dots寫碼份額未核，原數值未逐列驗證。終點為可比性與錯誤排名更正，不同196事件紀錄及119先發選擇，管理看板不另算。[歸因來源](https://builtwithbumblevai.com/en/dots-project-approval-testing-dashboard/)／[更正結果](https://builtwithbumblevai.com/en/aion2-dps-ranking-development/)
 
 
-### 新增UC-204–235
+### 新增UC-204–237
 
 - [UC-204](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/204-reviewed-prototype-cms-rebuild.md)｜納入｜B。媒體作者目睹dot在既有後台依審閱原型重建並回報更新完成；CMS未具名，未取得前後逐項驗收。不同PR協調、改道發布與歷史遷移，語音修稿不另計。[來源](https://www.theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent)
 - [UC-205](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/205-concept-origin-naming-chronology.md)｜納入｜B。Kurt Bell回報dot區分概念早期表達、首次命名、日期衝突與後來論述；無原對話及語料，不認證絕對最早。不同作品目錄、郵件初篩及家譜，一組概念來源鏈計一次。[來源](https://www.instagram.com/p/Dd6M_Q8gecS/)
@@ -647,3 +647,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-234](../cases/234-proposal-attachment-consistency-send-gate.md)｜納入｜B。Bruno回報逐附件對proposal已攔姓名／資訊差異並停問；無原件或寄送日誌，不涉及人事決策。不同146缺件、211程序交接及221簽後副本，僅計送前跨檔一致性關卡。[來源](https://pt.linkedin.com/posts/bruno-gomes-leal-86936782_estou-vivendo-um-jeito-de-trabalhar-que-eu-activity-7511449336791359488-dD3u)
 
 - [UC-235](../cases/235-backtest-freeze-evidence-boundary-review.md)｜納入｜V。Austin公開整理Bot跨窗候選與兩凍結規則，保留事後資訊、門檻改動及原策略無真期權部位的限制；原逐字稿未公開、未獨立重跑，不將後續Codex與平台實盤歸Bot。不同090事件背景，只計回測凍結證據鏈。[來源](https://github.com/austin-starks/Public-Portfolio-Challenge/blob/77a7cc063ff4548fab6539bebc2f3416f90ba9d3/episode-11/GROK_BOT_CAMPAIGN_LOG.md)
+
+- [UC-236](../cases/236-event-playback-state-restoration-prototype.md)｜納入｜A。Capstar公開Bot協作原型與事件重複／晚到／恢復修正，測試源不等於已通過；原Spotify同步用途有政策衝突風險，只分析合成事件。不同172歌單及196對局控制，只計外部狀態保留恢復。[來源](https://github.com/Capstar1/aoe4-spotify/blob/ee5b8e94f2c47b1049d56d72cf30665e84309775/README.md)
+
+- [UC-237](../cases/237-sketch-part-step-manufacturing-handoff.md)｜納入｜B。Jubbs自述草圖經Bot及Claude Code形成STEP並向製造平台下訂；無原檔、收據或實物，不認證可製造／承載安全。不同038採購及197裝配，只計新幾何到製造規格交接。[來源](https://x.com/JUBBAMAYNE/status/2108036870257144089)

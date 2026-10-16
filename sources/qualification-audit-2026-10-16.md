@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 19:10 UTC／2026-10-17 03:10台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–188。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 19:16 UTC／2026-10-17 03:16台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–191。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–188合計93個不同工作流程，連同現有85個，目前 **178 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **322**。
-- 網站目前有184個主案例、3個補充及3條待查線索；187個編號或190個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–191合計96個不同工作流程，連同現有85個，目前 **181 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **319**。
+- 網站目前有187個主案例、3個補充及3條待查線索；190個編號或193個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 歷史批次更正（台灣2026-10-17，對應UTC2026-10-16；非目前總數）
@@ -529,3 +529,10 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 ### 新增UC-188
 
 - [UC-188](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/188-dynamic-tariff-charging-window-review.md)｜納入｜B。作者每日充電時窗報告與家居串接自述；RCE與零售合約定義有重要差異，未核其公式／帳單／安全或節省。只計費率時窗核對，不按設備與檢查次數拆案。[來源](https://www.linkedin.com/posts/krzysztof-szablowski_artificialintelligence-electricvehicles-tesla-activity-7506806105843589120-IUMR)
+
+
+### 新增UC-189–191
+
+- [UC-189](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/189-article-narration-waveform-review.md)｜納入｜B。日文作者已做文章朗讀及波形返工；本篇7:43嵌入音訊與前篇12:43自述分開，未播放不驗同步。不同音樂MV或轉錄檢索，兩格式合計一次。[來源](https://note.com/azumimusuhi/n/nb80a8cb45c9a)
+- [UC-190](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/190-service-invoice-draft-reconciliation.md)｜納入｜B。單人服務商已開立並寄送帳單自述；軟體未具名、日期與收件金額未核，不宣稱稅務合規。不同漏開核對／報價草稿，價目更新不另計。[來源](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/pfdqadu/)
+- [UC-191](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/191-podcast-segment-edit-listen-review.md)｜納入｜B。作者既有播客音樂與廣告編排後親自聽審手改；無原音訊或此次上架證據。不同文章朗讀、體育空檔剪除與逐字稿檢索，多個剪輯步驟合計一次。[來源](https://aaronmakelky.com/blog/grok-bot-worth-it-300-dollar-review)

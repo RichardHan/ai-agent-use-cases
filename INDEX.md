@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**94 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**96 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（104）
+## 主要案例（105）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -88,7 +88,7 @@
 | UC-081 | Todoist 定時巡檢，先幫你想好下一步開場草稿 | ChatGPT dots／Todoist | [作者貼文＋任務截圖；未重現](cases/081-todoist-scheduled-headstart.md) | 工作｜待辦、排程、核准 |
 | UC-082 | 管家／教練／營養師多 Bot 群聊管飲食訓練與睡眠 | Grok Bot（多代理群聊＋技能／捷徑） | [作者自述＋群聊與技能截圖；第三方 Key 與端點未核、未重現](cases/082-multi-bot-fitness-coach-group.md) | 生活｜健康、多代理、運動 |
 | UC-083 | 依年級單元做出加注音可列印數學練習卷 PDF | Grok Bot | [作者貼文＋對話與卷面截圖；答案未逐題核、未重現](cases/083-printable-grade1-math-worksheet.md) | 學習｜出題、教學、驗收 |
-| UC-084 | 一個總管收件開 Notion 工單，領域 Bot 派臨時工（BotOps 三層編制） | Grok Bot／Notion | [作者部落格自述；未重現](cases/084-botops-tiered-fleet-notion-tickets.md) | 工作｜多代理、Notion、排程、工單 |
+| UC-084 | 依廚房、浴室條件篩選房源照片，交回候選工單 | Grok Bot／Notion | [作者部落格自述；未重現](cases/084-botops-tiered-fleet-notion-tickets.md) | 工作｜多代理、Notion、排程、工單 |
 | UC-085 | Slack bug 回報先分流，雙週彙整產品行銷預讀 | Grok Bot／Slack／GitHub | [作者電子報自述；未重現](cases/085-slack-bug-triage-product-preread.md) | 工作｜Slack、分流、產品行銷、彙整 |
 | UC-086 | 用 Muse 大量找演唱會完整影片，接便宜模型審核再核可 | Meta Muse | [作者部落格自述＋HN 討論待核；未重現](cases/086-muse-concert-video-scraping-pipeline.md) | 開發｜資料蒐集、網頁瀏覽、批次、驗收 |
 | UC-087 | 散步語音交辦轉 Codex 任務，早上十分鐘電話對進度 | ChatGPT dots／Codex | [作者評測自述（含失敗紀錄）；未重現](cases/087-voice-walk-intake-codex-morning-call.md) | 工作｜語音、待辦、核准、多代理 |
@@ -117,6 +117,8 @@
 
 | UC-107 | 找回散落各站的舊文章，做成每天聽一篇的私人回憶集 | Meta Muse | [產品員工實作自述，原主持人整理；未重現](cases/107-old-blog-private-audio-archive.md) | 生活｜舊文復原、數位保存、語音、每日 |
 | UC-108 | 打一場球後，把逐桿資料變成看得懂的賽後回顧 | Meta Muse | [產品員工實作自述，原主持人整理；未重現](cases/108-golf-round-practice-data-review.md) | 生活｜高爾夫、數據分析、練習回顧、驗收 |
+
+| UC-109 | 超市優惠券要逐張領？協助啟用後核對結果 | Meta Muse | [作者實作自述，較手動慢；未重現](cases/109-supermarket-coupon-activation.md) | 省錢｜優惠券、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

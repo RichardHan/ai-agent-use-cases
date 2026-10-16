@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–126。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–128。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，81個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–126合計31個不同工作流程，連同原81個，目前 **112 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **388**。
-- 網站目前有122個主案例、3個補充及3條待查線索；125個編號或128個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–128合計33個不同工作流程，連同原81個，目前 **114 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **386**。
+- 網站目前有124個主案例、3個補充及3條待查線索；127個編號或130個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -45,11 +45,11 @@
 
 其他相近案例依終點區分：001／040為首次選項比較與條件變更後重查；006／042／077為數據引導發布、內容互評與格式化草稿交付；008／049為多行事曆晨報與郵件分流。若內容被簡化成同一泛用流程，必須合併，不能只靠平台不同保留。
 
-P-001–003不在112內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
+P-001–003不在114內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
 
 ## 查閱範圍
 
-本次逐頁稽核庫內125個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
+本次逐頁稽核庫內127個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
 
 ## 逐案判定與來源
 
@@ -334,3 +334,8 @@ P-001–003不在112內。P-004已補讀原作者回報的實際RFP短名單，�
 
 - [UC-125](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/125-morse-decoder-hardware-loop-test.md)｜納入｜A。Lutz S.原論壇實跑敘述WAV、平板、ESP32串列回讀及加雜訊修正；附件清單可見但README403未讀，未獨立重跑或核準確率。與010顯示、122編舞不同。[來源](https://www.mikrocontroller.net/topic/587580)
 - [UC-126](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/126-roofing-prework-admin-handoff.md)｜納入｜B。Price Foulger自述屋頂許可、檢查預約與保險通報已辦；無城市、提交收據或最終政府核准，不推定CAPTCHA自主完成。九項清單不拆九案，官方人工驗證邊界另核。[來源](https://www.linkedin.com/posts/pricefoulger_i-am-a-roofing-contractor-and-this-activity-7496638096868904960-iC-P)
+
+### 新增UC-127–128
+
+- [UC-127](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/127-cross-channel-calendar-correction.md)｜納入｜A。다시개발原章記錄語音事件錯放日曆及多加Meet、核准後重建並親自讀回，Slack另一事件同樣核對。虛構工作坊真實帳號實驗，不能保證一般錯誤自行修正；兩通道合併。[來源](https://wikidocs.net/448649)
+- [UC-128](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/128-test-database-revenue-query-review.md)｜納入｜B。ple／Christian測試SQL月別稅類營收已有回答，但作者明說查詢待檢；未核數字、SQL或真正只讀權限。不同於036資料匯入與053利潤分析，不採同串其他工具功能為Grok Bot成果。[來源](https://forum.jtl-software.de/threads/welche-ki-loesungen-nutzt-ihr-mit-jtl-feedback-zu-meinem-mcp-projekt-kiuser-com-gesucht.249562/)

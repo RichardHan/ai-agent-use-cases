@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–150。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–152。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–150合計55個不同工作流程，連同現有82個，目前 **137 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **363**。
-- 網站目前有146個主案例、3個補充及3條待查線索；149個編號或152個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–152合計57個不同工作流程，連同現有82個，目前 **139 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **361**。
+- 網站目前有148個主案例、3個補充及3條待查線索；151個編號或154個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -394,3 +394,9 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-148](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/148-course-degree-planning-prototype.md)｜納入｜A。作者明述三Bot完成選課原型，公開HTML支持課表／學分約束；舊課位、未核規則與後續Claude貢獻保留，沒有正式註冊結果。[來源](https://github.com/Domross3/umich-course-planner)
 - [UC-149](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/149-directory-submission-live-link-verification.md)｜納入｜A。作者親核已投稿目錄條目與目的連結，公開資料亦可讀；編審、排名及收入未核，行動次數不當成果數。[來源](https://promptslove.com/blog/openai-dots-guide/)
 - [UC-150](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/150-spreadsheet-date-formula-repair.md)｜納入｜B。作者明述先備份後修復公式及文字日期；沒有工作簿、驗算或提醒啟動。與資料抽取和對帳不同。[來源](https://thekayphillips.substack.com/p/my-first-look-at-chatgpt-dots-how)
+
+
+### 新增UC-151–152
+
+- [UC-151](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/151-booked-stay-prerequisite-followup.md)｜納入｜B。作者旅途中實收已訂房付款／登記前置提醒，來源為Booking與Gmail；無逐項結案、代付或門禁取得證據。中英同站不算獨立來源。[來源](https://zhuyawei.com/blog/meta-muse-personal-workflow-cloud-deploy/)
+- [UC-152](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/152-interview-evidence-feedback-draft.md)｜納入｜V。廠商員工明確自報逐字稿到回饋草稿，後段人審／ATS為流程介紹未逐次核；不做自動評分錄用、不保證公平性。不同求職者申請。[來源](https://x.ai/bot/guides/grok-bot-for-recruiting)

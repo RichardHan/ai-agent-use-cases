@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–147。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–150。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
-- 舊94個編號中，81個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–147合計52個不同工作流程，連同原81個，目前 **133 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **367**。
-- 網站目前有143個主案例、3個補充及3條待查線索；146個編號或149個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
+- 新增095–099及101–150合計55個不同工作流程，連同現有82個，目前 **137 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **363**。
+- 網站目前有146個主案例、3個補充及3條待查線索；149個編號或152個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -30,7 +30,7 @@
 ## 排除與待確認
 
 - 009：只有背景移轉模板，沒有實際移轉報告。
-- 028、029、032、033、034：帳單議價、運動改期、睡眠趨勢、年度業務分析、費用審查僅有官方建議情境或設計範例。
+- 028、029、032、033：帳單議價、運動改期、睡眠趨勢、年度業務分析僅有官方建議情境或設計範例。034新增原作者具體費用疑點後才納入，Muse部分仍是官方建議。
 - 039：有競品模板與活動觀察，缺少可歸屬的作者執行結果。
 - 092：與061重複的協調者／專家分工、任務台帳與證據回條，不因換成 Basecamp 等工具再計一次。
 - 071：教學與設定內容不足以確認文中那個實際工作流程；原貼文未取得完整可讀證據。
@@ -124,7 +124,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-033](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/033-business-experiment-plan.md)｜排除：缺實作證據｜H。Official suggested use and editor-designed procedure only. [來源](https://about.fb.com/news/2026/09/introducing-muse-small-business/)
 
-- [UC-034](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/034-expense-anomaly-review.md)｜排除：缺實作證據｜H。Official suggested use and editor-designed procedure only. [來源](https://about.fb.com/news/2026/09/introducing-muse-small-business/)
+- [UC-034](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/034-expense-anomaly-review.md)｜納入｜B。新增Daria Littlefield具體收據月報與巴士票疑似重複扣款自述；原帳單、銀行確認與退款未核。Muse建議不轉為Muse實測。[來源](https://www.donotchurn.com/p/running-my-admin-on-grok-bot)
 
 - [UC-035](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/035-job-search-application-drafts.md)｜納入｜A。Actual use and failure reports exist, including Grok application screenshots; original dots/Work attribution is unresolved. Count preparation with disclosed unsafe-failure examples, not interviews gained. [來源](https://x.com/aaditya_roy_04/status/2110365316043923658)
 
@@ -385,3 +385,12 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-145](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/145-offline-standard-form-field-validation.md)｜納入｜A。作者以假資料實作固定帳票輸入／輸出，手動跨模型十多輪修正後同業試用；未正式認定或發布。不同PDF抽取、工程追溯。[來源](https://note.com/toshi_michi2026/n/n339aa7f536a5)
 - [UC-146](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/146-grant-supporting-document-gap-check.md)｜納入｜B。原作者數日使用後稱dots指出補助佐證來信不符要求；未核具體文件／缺項／核准，不猜地區計畫。不同許可行政與資金提案。[來源](https://zapier.com/blog/chatgpt-dots/)
 - [UC-147](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/147-group-meal-bot-negotiation-demo.md)｜納入｜A。公開原型與作者報告支持模擬多人偏好協商及跨帳戶通信；正式送餐、QR交換及過敏安全未證，不拆多Bot或建置步驟。[來源](https://note.com/goroman/n/n78142a1b006d)
+
+
+### 新增UC-148–150及034新證據
+
+034新增實際費用疑點證據，基準由81變82；148–150新增三流程，本批增加4個合格流程，而不是4個新頁。
+
+- [UC-148](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/148-course-degree-planning-prototype.md)｜納入｜A。作者明述三Bot完成選課原型，公開HTML支持課表／學分約束；舊課位、未核規則與後續Claude貢獻保留，沒有正式註冊結果。[來源](https://github.com/Domross3/umich-course-planner)
+- [UC-149](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/149-directory-submission-live-link-verification.md)｜納入｜A。作者親核已投稿目錄條目與目的連結，公開資料亦可讀；編審、排名及收入未核，行動次數不當成果數。[來源](https://promptslove.com/blog/openai-dots-guide/)
+- [UC-150](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/150-spreadsheet-date-formula-repair.md)｜納入｜B。作者明述先備份後修復公式及文字日期；沒有工作簿、驗算或提醒啟動。與資料抽取和對帳不同。[來源](https://thekayphillips.substack.com/p/my-first-look-at-chatgpt-dots-how)

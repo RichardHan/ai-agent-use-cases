@@ -2,7 +2,7 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（87）
+## 主要案例（91）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -93,6 +93,10 @@
 | UC-088 | 翻信箱找退貨未退款訂單，擬信請商家處理 | Grok Bot／Gmail | [作者單則自述；未重現](cases/088-unrefunded-returns-inbox-chase.md) | 省錢｜退款、收件匣、核准 |
 | UC-089 | 數位斷捨離：信件、雲端檔、訂閱各列十項等核准 | Grok Bot／Gmail／Drive | [作者公開提示詞＋另一則自述；影片未看、未重現](cases/089-digital-declutter-approval-plan.md) | 生活｜收件匣、訂閱、檔案整理、核准 |
 | UC-090 | 每天掃 24 小時內結算的高機率預測市場並查證判讀 | Grok Bot（排程） | [作者單則自述；未重現；不含下單](cases/090-daily-prediction-market-evidence-read.md) | 工作｜每日、研究、排程、資料查證 |
+| UC-091 | 家庭 13 個單一職責 Bot：晨報、配偶簡訊、成績、帳單、購物車 | Grok Bot／YNAB／Twilio | [作者公開說明頁自述；未重現](cases/091-household-13-lane-bots.md) | 生活｜每日、家庭、多代理、核准 |
+| UC-092 | 每個 Bot 一張能做／不能做職務頁，完成必留收據 | Grok Bot／Basecamp | [作者公開頁面自述；未重現](cases/092-desk-can-cannot-receipts.md) | 工作｜多代理、權限、驗收、維運 |
+| UC-093 | 在地電子報代理團隊：研究填 Notion、業務談贊助 | Grok Bot／Notion／make.com | [訪談轉載摘要；影片未看、未重現](cases/093-local-newsletter-agent-team.md) | 創作｜電子報、多代理、Notion、業務開發 |
+| UC-094 | 無法出席的會議讓 Bot 代入會，先揭露再記筆記 | Grok Bot | [作者單則貼文＋影片未看；未重現](cases/094-meeting-stand-in-disclosure.md) | 工作｜會議、筆記、揭露 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

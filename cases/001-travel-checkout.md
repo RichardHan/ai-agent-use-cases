@@ -60,3 +60,11 @@
 > 如果訂票網站不能直接連接、禁止自動化存取，或要求登入、CAPTCHA，就停下來，不要在你的瀏覽器裡代我登入。把目前的比較表（含查價時間與連結）交給我，標明哪一步要我自己在官方網站完成。任何預訂前，先逐項列出它和我給的預算、日期、人數有沒有衝突；有衝突就不要訂。
 
 - 去重：同屬「旅遊比較與付款前交接」，依 README 併入本頁，保留 Muse 版本、日期與作者；餐廳與退款兩項只作同篇脈絡，不計為新案例。
+
+## 2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班
+
+- S-001-DC：Debbie O'Brien（debbie.codes）「I Tested If Grok Bot Could Book My Flights」；英文；2026-08-13；https://debbie.codes/blog/i-tested-if-grok-bot-could-book-my-flights
+  - 作者自述（翻譯改寫）：測試 Grok Bot 能否當旅行社幫她訂機票，體驗接近但「就差最後那一步」；影片中示範過程與失敗處。作者另說影片剪輯（去掉電話號碼、改善音質）與上傳 YouTube 也是由她的其他 Bot 完成。
+  - 缺口：影片未看，無法確認卡在付款、登入或航空公司限制。`author-demo`。
+- S-001-BL：Ben Lang（@benln）整理的內部用例清單之一：「找／訂偏好有 Starlink 機上網路的航班」；英文；2026-08-13（UTC）；https://x.com/benln/status/2087929147406299313 。僅一行描述，`author-self-report`。
+- 與本頁關係：同為「找機票到付款前」流程；兩則都未證明完成付款，維持本頁「付款前停下由人確認」的建議。

@@ -2,7 +2,7 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（91）
+## 主要案例（93）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -97,6 +97,9 @@
 | UC-092 | 每個 Bot 一張能做／不能做職務頁，完成必留收據 | Grok Bot／Basecamp | [作者公開頁面自述；未重現](cases/092-desk-can-cannot-receipts.md) | 工作｜多代理、權限、驗收、維運 |
 | UC-093 | 在地電子報代理團隊：研究填 Notion、業務談贊助 | Grok Bot／Notion／make.com | [訪談轉載摘要；影片未看、未重現](cases/093-local-newsletter-agent-team.md) | 創作｜電子報、多代理、Notion、業務開發 |
 | UC-094 | 無法出席的會議讓 Bot 代入會，先揭露再記筆記 | Grok Bot | [作者單則貼文＋影片未看；未重現](cases/094-meeting-stand-in-disclosure.md) | 工作｜會議、筆記、揭露 |
+
+| UC-095 | 功能使用率與錯誤紀錄交叉分析 | Grok Bot／PostHog／Sentry／Linear | [葡文作者實際使用自述；未重現](cases/095-product-usage-error-correlation.md) | 工作｜產品分析、故障診斷 |
+| UC-096 | 正式服務日誌與部署時間線初判 | Grok Bot／Loki／Grafana／VPS | [葡文作者實際使用自述；未重現](cases/096-production-log-deploy-triage.md) | 開發｜日誌、部署、故障診斷 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

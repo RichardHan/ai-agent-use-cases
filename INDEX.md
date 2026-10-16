@@ -2,7 +2,7 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**159 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**160 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
 ## 主要案例（168）
 
@@ -32,7 +32,7 @@
 | UC-025 | 用 dots 追蹤團隊活動的期限、預算問題與待回覆事項 | ChatGPT dots | [官方示例＋作者虛構出席表測試；未重現](cases/025-team-event-follow-through.md) | 工作｜團隊活動、追蹤 |
 | UC-026 | 讓 Muse 整理開學通知與截止日 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/026-school-deadline-list.md) | 生活｜學校、期限 |
 | UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse；Grok Bot 網購下單失敗回報 | [Muse 官方自述＋Grok Bot 作者失敗自述；原創流程未實測](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買、網購 |
-| UC-028 | 先做帳單降費比較，再決定怎麼談 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商 |
+| UC-028 | 先做帳單降費比較，再決定怎麼談 | Meta Muse | [原作者帳單檢查與本人通話準備自述；節省未核](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商 |
 | UC-029 | 行程改了，讓 Muse 重排運動時段 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/029-exercise-time-replan.md) | 生活｜運動、行程 |
 | UC-030 | 把筆記做成互動複習工具 | Meta Muse；ChatGPT dots／Sites（Kindle 生字字卡） | [官方自述＋作者自建字卡 App 自述；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具、語言學習 |
 | UC-031 | 用匿名消費明細建立支出看板 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/031-spending-dashboard.md) | 省錢｜記帳、看板 |

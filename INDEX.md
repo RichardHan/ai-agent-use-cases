@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**177 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**178 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（183）
+## 主要案例（184）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -225,6 +225,8 @@
 | UC-185 | 活動資料到排行榜與人工核獎草稿 | Grok Bot／Canva | [作者使用自述；未核原始成績與獎狀](cases/185-event-results-leaderboard-awards.md) | 工作｜活動、排行榜、核准 |
 | UC-186 | 假註冊造成寄信健康事故的核對 | Grok Bot／HubSpot | [作者事件及修復自述；恢復投遞未核](cases/186-registration-pollution-mail-health.md) | 工作｜退信、資料污染、事故 |
 | UC-187 | 測繪批次XML生成與原軟體檢核 | Grok Bot／POSPac Complete | [業界作者實際支援案件自述；精度未核](cases/187-survey-batch-configuration-validation.md) | 工作｜測繪、設定、驗收 |
+
+| UC-188 | 動態費率估算與充電時窗核對 | Grok Bot／PSE／Home Assistant | [作者運行自述；RCE對零售費率仍待核](cases/188-dynamic-tariff-charging-window-review.md) | 省錢｜電價、費率、充電 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

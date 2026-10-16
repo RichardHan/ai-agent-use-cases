@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–136。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–141。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，81個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–136合計41個不同工作流程，連同原81個，目前 **122 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **378**。
-- 網站目前有132個主案例、3個補充及3條待查線索；135個編號或138個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–141合計46個不同工作流程，連同原81個，目前 **127 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **373**。
+- 網站目前有137個主案例、3個補充及3條待查線索；140個編號或143個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -45,15 +45,15 @@
 
 其他相近案例依終點區分：001／040為首次選項比較與條件變更後重查；006／042／077為數據引導發布、內容互評與格式化草稿交付；008／049為多行事曆晨報與郵件分流。若內容被簡化成同一泛用流程，必須合併，不能只靠平台不同保留。
 
-P-001–003不在114內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
+P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
 
 ## 查閱範圍
 
-本次逐頁稽核庫內127個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
+本次逐頁稽核基準及後續新增編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
 
 ## 逐案判定與來源
 
-下列逐案理由維持可核對的具體範圍；案例頁列有完整來源與限制。來源連結支持實作敘述，不保證成效。基準94案與七批新增20案分列。
+下列逐案理由維持可核對的具體範圍；案例頁列有完整來源與限制。來源連結支持實作敘述，不保證成效。基準94案與後續新增案例分列。
 
 
 ### 原 UC-001–094
@@ -362,3 +362,12 @@ P-001–003不在114內。P-004已補讀原作者回報的實際RFP短名單，�
 
 - [UC-135](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/135-campus-meal-window-planning.md)｜納入｜B。Ben Boonstra自述已按課表、步行及菜單建立用餐日曆；未核路線、到店或營養，不等於027食譜採買。只計一流程。[來源](https://www.linkedin.com/posts/bboonstra26_grokbotforstudents-activity-7501708168121454592-_Fqr)
 - [UC-136](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/136-community-park-feasibility-proposal.md)｜納入｜B。Jake Steinerman自述公園需求證據、成本資金途徑與提案文件已完成，首信無回覆；未核68來源或獲核准／募款，不計建成。文件組合只算一次。[來源](https://www.linkedin.com/posts/jasteinerman_my-ai-agent-is-helping-me-build-a-park-activity-7505250511059832833-VbzP)
+
+
+### 新增UC-137–141
+
+- [UC-137](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/137-visitor-print-queue-handoff.md)｜納入｜B。訪客PDF帳號／上傳及取印通知已有作者自述，官方確認現場放行仍必要；未核付款與紙本領取。不同於教材版面。[來源](https://x.com/benediktstroebl/status/2099701407171706932)
+- [UC-138](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/138-streetlight-fault-report-handoff.md)｜納入｜B。原作者自述路燈設備編號、報修與回信，兩日修復未獨立核及不可推定因果；不同於買方詢價。[來源](https://x.com/FoxxAndCo/status/2108948824337080592)
+- [UC-139](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/139-lost-property-match-search.md)｜納入｜B。原作者自述找到機場失物清單候選；不宣稱領回，不猜機場，與旅行規劃不同。[來源](https://x.com/fkysly/status/2108831626360930389)
+- [UC-140](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/140-monocular-depth-robot-offline-review.md)｜納入｜B。作者自述單眼估距後控制機器人，影片未看；模型相對／公尺版本未知，不保證導航安全，非顯示或摩斯流程。[來源](https://x.com/hrhraj/status/2100768078909096017)
+- [UC-141](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/141-vehicle-telemetry-gap-dashboard.md)｜納入｜B。作者自述已建行程／停車耗電看板並遇程序中止；日期、API與電池算法未核，雲端遷移未完成。不同於保養紀錄。[來源](https://www.threads.com/@firerock31/post/DdU25bOGTi1)

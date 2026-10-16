@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–166。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–167。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–166合計71個不同工作流程，連同現有82個，目前 **153 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **347**。
-- 網站目前有162個主案例、3個補充及3條待查線索；165個編號或168個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–167合計72個不同工作流程，連同現有82個，目前 **154 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **346**。
+- 網站目前有163個主案例、3個補充及3條待查線索；166個編號或169個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -438,3 +438,8 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-165](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/165-offline-network-control-evidence-review.md)｜納入｜B。作者合成設定與指定基準對照後有逐行輸出，仍有誤報；版次／profile和全報表未核，不連真設備，不收基準全文。雙Bot只算一次。[來源](https://www.linkedin.com/posts/adrian-mtz-luis_networkengineering-grokbot-aiagents-activity-7502088742267006976-Z5Ts)
 - [UC-166](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/166-bidirectional-document-reading-order.md)｜納入｜B。編輯團隊實開文件測混合方向，工作表RTL而儲存格錯序，追加方向後自述修正；原檔未公開、僅一未指名RTL語言。不同列印重排與日期型別。[來源](https://maitz.co.il/en/grok-bot-language-support/)
+
+
+### 新增UC-167
+
+- [UC-167](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/167-web-accessibility-evidence-pack.md)｜納入｜V。廠商員工實跑儀表板可及性檢查，報告HTML／截圖／筆記；原包未公開、未核輔助科技或修復合規。不把連線／核准／持久記憶拆計。[來源](https://blocks.ai/blog/give-your-agent-network-a-computer-grok-bot)

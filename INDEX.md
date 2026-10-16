@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**106 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**108 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（116）
+## 主要案例（118）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -135,6 +135,9 @@
 
 | UC-119 | 夢幻球隊先發建議與核准後調整 | Meta Muse | [作者實作自述；得分未獨立核](cases/119-fantasy-lineup-approval-review.md) | 生活｜運動、名單、核准 |
 | UC-120 | 自然結構照片到材料模擬與樣件 | Grok Bot／Bambu Studio | [研究者實作自述；實物性能未驗](cases/120-bioinspired-material-simulation-specimen.md) | 學習｜材料、模擬、製造 |
+
+| UC-121 | 跨領域創意參考圖與視覺分類表 | ChatGPT dots／Pinterest | [日文作者實作自述；表格未核](cases/121-visual-reference-classification-sheet.md) | 創作｜圖片、分類、溯源 |
+| UC-122 | 音訊到xLights燈光秀序列草稿 | Grok Bot／xLights | [作者實作自述；配置有限、影片未看](cases/122-audio-lightshow-sequence-draft.md) | 創作｜燈光、音樂、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

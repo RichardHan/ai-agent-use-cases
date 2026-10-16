@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 18:54 UTC／2026-10-17 02:54台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–182。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 18:58 UTC／2026-10-17 02:58台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–183。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–182合計87個不同工作流程，連同現有85個，目前 **172 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **328**。
-- 網站目前有178個主案例、3個補充及3條待查線索；181個編號或184個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–183合計88個不同工作流程，連同現有85個，目前 **173 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **327**。
+- 網站目前有179個主案例、3個補充及3條待查線索；182個編號或185個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 歷史批次更正（台灣2026-10-17，對應UTC2026-10-16；非目前總數）
@@ -507,3 +507,8 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-181](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/181-shipping-label-fulfillment-preparation.md)｜納入｜B。作者實際列印物流標籤及處理TikTok訂單自述；無購標、追蹤、承運或交付證據，精確日期未知。不把多Bot或訂單數拆計。[來源](https://www.reddit.com/r/AutomateShopify/comments/1x0nawu/spent_the_last_month_testing_ai_agents_to_handle/)
 - [UC-182](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/182-library-book-selection-holds.md)｜納入｜B。作者實際選書預約並收到館方可取通知自述；未給書名館名，發文時尚未領取。不同列印排隊或教材製作，書數不拆計。[來源](https://www.eleanorkonik.com/p/muse-was-my-gateway-drug-to-grok)
+
+
+### 新增UC-183
+
+- [UC-183](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/183-ad-campaign-configuration-review.md)｜納入｜B。Joel C.西文原留言自述Muse在瀏覽器配置Google Ads活動並留待發布；無帳戶設定或正式Draft型別證據，未投放。不同022成效監測及006有機貼文，網站數不拆計。[來源](https://es.linkedin.com/posts/braismoure_estoy-muy-contento-con-openclaw-por-lo-que-activity-7513293982857158656-irqE)

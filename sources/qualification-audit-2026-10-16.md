@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 20:43 UTC／2026-10-17 04:43台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–218。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 20:47 UTC／2026-10-17 04:47台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–219。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–193及195–201及204–218合計120個不同工作流程，連同現有85個，目前 **205 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **295**。
-- 網站目前有211個主案例、3個補充及3條待查線索；214個編號或217個條目均不是合格工作流程計數。100、194及203尚未收錄；202已合併025不另設頁，編號間隙不計案例。
+- 新增095–099及101–193及195–201及204–219合計121個不同工作流程，連同現有85個，目前 **206 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **294**。
+- 網站目前有212個主案例、3個補充及3條待查線索；215個編號或218個條目均不是合格工作流程計數。100、194及203尚未收錄；202已合併025不另設頁，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 歷史批次更正（台灣2026-10-17，對應UTC2026-10-16；非目前總數）
@@ -573,7 +573,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-201](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/201-damage-comparison-coverage-correction.md)｜納入｜B。作者以dot推進遊戲比較並要求覆核，已公開撤回不均覆蓋的公式排名；dots寫碼份額未核，原數值未逐列驗證。終點為可比性與錯誤排名更正，不同196事件紀錄及119先發選擇，管理看板不另算。[歸因來源](https://builtwithbumblevai.com/en/dots-project-approval-testing-dashboard/)／[更正結果](https://builtwithbumblevai.com/en/aion2-dps-ranking-development/)
 
 
-### 新增UC-204–218
+### 新增UC-204–219
 
 - [UC-204](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/204-reviewed-prototype-cms-rebuild.md)｜納入｜B。媒體作者目睹dot在既有後台依審閱原型重建並回報更新完成；CMS未具名，未取得前後逐項驗收。不同PR協調、改道發布與歷史遷移，語音修稿不另計。[來源](https://www.theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent)
 - [UC-205](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/205-concept-origin-naming-chronology.md)｜納入｜B。Kurt Bell回報dot區分概念早期表達、首次命名、日期衝突與後來論述；無原對話及語料，不認證絕對最早。不同作品目錄、郵件初篩及家譜，一組概念來源鏈計一次。[來源](https://www.instagram.com/p/Dd6M_Q8gecS/)
@@ -613,3 +613,5 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-217](../cases/217-hdl-build-functional-regression-gate.md)｜納入｜A。David公開Grok Bot建置回報與功能模擬失敗紀錄，第二補丁雖通過時序仍拒絕合入／燒錄；只計HDL功能回歸交接，不證硬體完成或把Grok chat編碼歸Bot。不同125硬體回讀及177PCB覆蓋。[來源](https://github.com/dave-1024/falconfpga/blob/602ddf02a2efbee9693804d8b41f7b20643c0332/BUILD_REPORT.md)
 
 - [UC-218](../cases/218-third-party-skill-install-trust-review.md)｜納入｜A。George展示dot已交付第三方技能審閱報告，包含來源目標、安裝版本與既有權限承接旗標；只證報告存在，未證漏洞、安裝或安全。不同005自家PR及208技能綁定，所有風險合計一次。[來源](https://www.threads.com/@george_sl_liu/post/DeQd0dxEz8N)
+
+- [UC-219](../cases/219-pdf-internal-navigation-bookmark-validation.md)｜納入｜A＋V。Jordan／captbaritone明指Muse完成PDF內嵌目錄並展示手機匯入書籤，後續PR合併及發布檔使用回報；作者任職Meta，未review代理PR及全冊頁碼未逐核。不同114排版及178重建，前置他人Claude CSV不歸Muse、不另計。[來源](https://github.com/veltzer/book-openbook/issues/121#issuecomment-5636016343)

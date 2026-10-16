@@ -2,7 +2,7 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**170 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**172 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
 ## 主要案例（178）
 
@@ -33,7 +33,7 @@
 | UC-026 | 讓 Muse 整理開學通知與截止日 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/026-school-deadline-list.md) | 生活｜學校、期限 |
 | UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse；Grok Bot 網購下單失敗回報 | [Muse 官方自述＋Grok Bot 作者失敗自述；原創流程未實測](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買、網購 |
 | UC-028 | 先做帳單降費比較，再決定怎麼談 | Meta Muse | [原作者帳單檢查與本人通話準備自述；節省未核](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商 |
-| UC-029 | 行程改了，讓 Muse 重排運動時段 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/029-exercise-time-replan.md) | 生活｜運動、行程 |
+| UC-029 | 刪掉12堂新排課，別動原本的2堂 | Meta Muse／Peloton | [作者實測報告；未獨立重現](cases/029-exercise-time-replan.md) | 生活｜運動、行程 |
 | UC-030 | 把筆記做成互動複習工具 | Meta Muse；ChatGPT dots／Sites（Kindle 生字字卡） | [官方自述＋作者自建字卡 App 自述；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具、語言學習 |
 | UC-031 | 用匿名消費明細建立支出看板 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/031-spending-dashboard.md) | 省錢｜記帳、看板 |
 | UC-032 | 把虛構睡眠紀錄整理成趨勢圖 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/032-sleep-record-chart.md) | 生活｜睡眠、健康 |
@@ -43,7 +43,7 @@
 | UC-036 | 每天的收銀資料，整理成可核對的入帳檔 | Grok Bot／POS／QuickBooks Online | [論壇作者自報；無實際入帳或核帳證據](cases/036-pos-accounting-csv.md) | 工作｜每日、收銀、記帳 |
 | UC-037 | 跨商店比同款商品，先看清總價與賣家 | Meta Muse；Grok Bot（Amazon 擋代理後改找他店）；dots 本機替代路徑 | [媒體作者單次測試＋Grok Bot／dots 失敗與本機路徑自述＋robots.txt 已讀；未獨立重現](cases/037-product-listing-comparison.md) | 省錢｜購物、比價、網購 |
 | UC-038 | 從找布料到做樣品，先整理供應商與打樣規格 | Grok Bot／公開供應商資料 | [HN 作者自報；樣品完成與品質未核](cases/038-fabric-sourcing-sample-handoff.md) | 工作｜採購、打樣 |
-| UC-039 | 追蹤競品變化，整理值得回應的產品與行銷動作 | Grok Bot／公開競品網站 | [官方站作者模板＋社群觀察；未實測](cases/039-competitor-positioning-review.md) | 工作｜競品 |
+| UC-039 | 關閉App後，競品研究簡報仍完成了 | Meta Muse／Grok Bot模板 | [作者完成自述；持續監測仍未測](cases/039-competitor-positioning-review.md) | 工作｜競品 |
 | UC-040 | 行程方案後延遲複查天氣交通，並處理改條件 | ChatGPT dots | [作者文章示範；模擬未訂票](cases/040-trip-deferred-recheck.md) | 生活｜旅遊、排程 |
 | UC-041 | 多 Routine 健康檢查與晚間例外通報 | Grok Bot（＋作者另用 Claude 晨報） | [作者自述簡化指示；未重現](cases/041-routine-health-exception-ops.md) | 開發｜每日、排程、巡檢、多代理 |
 | UC-042 | Dots 憑證／單 Agent 限制後改回多 Bot 內容流水線 | ChatGPT dots／Grok Bot | [作者一週遷移長文；未重現](cases/042-dots-credential-multibot-return.md) | 開發｜憑證、多代理、工具限制 |

@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**100 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**102 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（111）
+## 主要案例（112）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -93,7 +93,7 @@
 | UC-086 | 用 Muse 大量找演唱會完整影片，接便宜模型審核再核可 | Meta Muse | [作者部落格自述＋HN 討論待核；未重現](cases/086-muse-concert-video-scraping-pipeline.md) | 開發｜資料蒐集、網頁瀏覽、批次、驗收 |
 | UC-087 | 散步語音交辦轉 Codex 任務，早上十分鐘電話對進度 | ChatGPT dots／Codex | [作者評測自述（含失敗紀錄）；未重現](cases/087-voice-walk-intake-codex-morning-call.md) | 工作｜語音、待辦、核准、多代理 |
 | UC-088 | 翻信箱找退貨未退款訂單，擬信請商家處理 | Grok Bot／Gmail | [作者單則自述；未重現](cases/088-unrefunded-returns-inbox-chase.md) | 省錢｜退款、收件匣、核准 |
-| UC-089 | 數位斷捨離：信件、雲端檔、訂閱各列十項等核准 | Grok Bot／Gmail／Drive | [作者公開提示詞＋另一則自述；影片未看、未重現](cases/089-digital-declutter-approval-plan.md) | 生活｜收件匣、訂閱、檔案整理、核准 |
+| UC-089 | 雲端重複檔案證據盤點與人工核准 | Grok Bot／Drive | [法文作者實作自述；刪除結果未核](cases/089-digital-declutter-approval-plan.md) | 生活｜檔案整理、核准 |
 | UC-090 | 每天掃 24 小時內結算的高機率預測市場並查證判讀 | Grok Bot（排程） | [作者單則自述；未重現；不含下單](cases/090-daily-prediction-market-evidence-read.md) | 工作｜每日、研究、排程、資料查證 |
 | UC-091 | 家庭 13 個單一職責 Bot：晨報、配偶簡訊、成績、帳單、購物車 | Grok Bot／YNAB／Twilio | [作者公開說明頁自述；未重現](cases/091-household-13-lane-bots.md) | 生活｜每日、家庭、多代理、核准 |
 | UC-092 | 每個 Bot 一張能做／不能做職務頁，完成必留收據 | Grok Bot／Basecamp | [作者公開頁面自述；未重現](cases/092-desk-can-cannot-receipts.md) | 工作｜多代理、權限、驗收、維運 |
@@ -127,6 +127,8 @@
 | UC-113 | 建築模型的外牆與內裝方案比較 | Grok Bot／Sunburst | [作者實作自述；未重現](cases/113-architecture-material-visual-comparison.md) | 創作｜建築、材質、驗收 |
 | UC-114 | 既有教材保留內容的省紙重排 | Grok Bot／PDF | [作者實作自述；未重現](cases/114-existing-worksheet-print-layout.md) | 學習｜教材、排版、列印 |
 | UC-115 | 帶骨架與動畫的可重用角色資產 | Grok Bot／Three.js | [作者實作自述；未重現](cases/115-rigged-character-asset-export.md) | 創作｜3D角色、骨架、匯出 |
+
+| UC-116 | Slack需求轉品牌一致的報價草稿 | Grok Bot／Slack／Notion／PDF | [西文作者實作自述；價格與對外交付未核](cases/116-slack-branded-quote-draft.md) | 工作｜報價、草稿、審核 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

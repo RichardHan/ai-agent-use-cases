@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**211 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**213 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（217）
+## 主要案例（219）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -283,6 +283,9 @@
 | UC-223 | 光電發電與電費帳期用量對照 | Meta Muse／SolarEdge | [原圖產物；估算公式未核](cases/223-household-solar-billing-period-reconciliation.md) | 省錢｜光電、帳期、用電 |
 
 | UC-224 | 多剪影共同幾何反求與投影誤差驗收 | Grok Bot／WebGL2 | [公開數位原型；字樣部分失敗、未製造](cases/224-multi-shadow-shared-geometry-inverse-design.md) | 創作｜幾何、光影、驗收 |
+
+| UC-225 | 支出收據缺件與交易憑證配對 | Grok Bot／Codex／Money Forward | [作者使用自述；原始配對未核](cases/225-receipt-transaction-evidence-matching.md) | 工作｜收據、對帳、缺件 |
+| UC-226 | 展示照片與相框列印尺寸匹配 | Grok Bot | [作者完成自述；實體尺寸未核](cases/226-photo-wall-frame-print-fit.md) | 創作｜照片、尺寸、列印 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

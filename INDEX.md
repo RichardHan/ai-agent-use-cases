@@ -2,7 +2,7 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（71）
+## 主要案例（73）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -39,7 +39,7 @@
 | UC-034 | 把可疑費用整理成覆核清單 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/034-expense-anomaly-review.md) | 省錢｜費用、異常 |
 | UC-035 | 找合適職缺，把履歷改成有根據的申請草稿 | dots／Work歸屬待核；Grok Bot反例兩則 | [作者自報＋未核准及重複投遞反例＋代理內部筆記險些送出反例；未重現](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
 | UC-036 | 每天的收銀資料，整理成可核對的入帳檔 | Grok Bot／POS／QuickBooks Online | [論壇作者自報；無實際入帳或核帳證據](cases/036-pos-accounting-csv.md) | 工作｜每日、收銀、記帳 |
-| UC-037 | 跨商店比同款商品，先看清總價與賣家 | Meta Muse；Grok Bot（Amazon 擋代理後改找他店） | [媒體作者單次測試＋Grok Bot 使用者自述與 robots.txt 已讀；未獨立重現](cases/037-product-listing-comparison.md) | 省錢｜購物、比價、網購 |
+| UC-037 | 跨商店比同款商品，先看清總價與賣家 | Meta Muse；Grok Bot（Amazon 擋代理後改找他店）；dots 本機替代路徑 | [媒體作者單次測試＋Grok Bot／dots 失敗與本機路徑自述＋robots.txt 已讀；未獨立重現](cases/037-product-listing-comparison.md) | 省錢｜購物、比價、網購 |
 | UC-038 | 從找布料到做樣品，先整理供應商與打樣規格 | Grok Bot／公開供應商資料 | [HN 作者自報；樣品完成與品質未核](cases/038-fabric-sourcing-sample-handoff.md) | 工作｜採購、打樣 |
 | UC-039 | 追蹤競品變化，整理值得回應的產品與行銷動作 | Grok Bot／公開競品網站 | [官方站作者模板＋社群觀察；未實測](cases/039-competitor-positioning-review.md) | 工作｜競品 |
 | UC-040 | 行程方案後延遲複查天氣交通，並處理改條件 | ChatGPT dots | [作者文章示範；模擬未訂票](cases/040-trip-deferred-recheck.md) | 生活｜旅遊、排程 |
@@ -79,6 +79,10 @@
 | UC-073 | 從顧客選購路徑找出網站過時資訊與錯誤導向 | ChatGPT dots／公開網站 | [作者使用與人工修正自述；完整報告未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
 
 | UC-074 | 裝置事件喚醒後重新讀取資料並驗收 | ChatGPT dots／MCP Events／自建 MCP | [作者建置自述＋官方文件；未重現](cases/074-event-trigger-readback.md) | 開發｜實體裝置、事件觸發、驗收 |
+
+| UC-075 | 就醫前整理健康摘要，診後追蹤建議與後續問題 | Muse／Grok Bot／ChatGPT dots | [作者長文自述；未重現](cases/075-health-appointment-briefing-coach.md) | 生活｜健康、門診、保險、驗收 |
+
+| UC-076 | 從資料仲介站找出電話號碼並申請退出垃圾來電名單 | Grok Bot／Spam-Call Scrubber | [技能頁＋負責人轉貼＋使用者自述；未重現](cases/076-spam-call-data-broker-optout.md) | 生活｜隱私、電話、排程、核准 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

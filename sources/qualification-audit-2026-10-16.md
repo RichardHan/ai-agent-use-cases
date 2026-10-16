@@ -74,7 +74,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-008](https://github.com/RichardHan/ai-agent-use-cases/blob/main/evidence/008-morning-brief-validation.md)｜排除：驗證補充｜A。保留作者實際測試16個日曆的覆蓋與交付限制；本項仍屬驗證補充，不納入500個獨立實作工作流程。[來源](https://dev.to/uehara/i-connected-chatgpt-dots-to-gmail-calendar-slack-and-notion-to-see-what-it-can-and-cant-do-13md)
 
-- [UC-009](https://github.com/RichardHan/ai-agent-use-cases/blob/main/evidence/009-background-transfer-template.md)｜排除：缺實作證據｜T。Only a public template and safety documentation; no actual transfer report. [來源](https://x.ai/bot/marketplace/bots/import-bot)
+- [UC-009](https://github.com/RichardHan/ai-agent-use-cases/blob/main/evidence/009-background-transfer-template.md)｜暫不計入：補充分類及重複流程待核｜B／T。已補原作者聊天匯出索引與其他Bot讀取自述；原模板仍未執行。保守維持補充，不因取得新作者敘述自動增加500計數。來源與限制見該頁。
 
 - [UC-010](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/010-physical-oled-verification.md)｜納入｜A。Public project verification log describes gateway commands reaching an OLED, with physical checks and failures. [來源](https://github.com/adidshaft/grok-gadgets-esp32-sdk/blob/v0.2.0-alpha.9/docs/verification/oled-kit-wifi-2026-10-12.md)
 

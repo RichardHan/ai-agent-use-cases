@@ -67,3 +67,22 @@
 可用性共通說明：官方商業頁截至查核時列美國、加拿大、18 歲以上；其他地區與個別 Connector 要另查，繁體中文教學不代表臺灣已開放。[產品頁](https://muse.ai/business)
 
 權限共通說明：從設定中的 Connectors 選擇必要服務，先採最小／唯讀權限。需要寄信、分享、刊登、下單或付款時另看實際核准畫面；不要因為教學提到後續步驟，就開啟無限制長期授權。[官方連接器說明](https://www.meta.com/en-gb/help/artificial-intelligence/1687253048996149/)
+
+
+## 2026-10-16 補充：StudyStudio，把一道題做成解說短片與確認題
+
+- 來源／作者：[ChihiroNishioka／StudyStudio 公開專案](https://github.com/ChihiroNishioka/study-studio)，英文及日文；[專案發布 commit](https://github.com/ChihiroNishioka/study-studio/commit/18a7c49d282ff5e082320beb309337dbe523fd31) 時間為 2026-10-11 11:49:25 UTC。
+- 作者描述五個 Grok Bot 分工：題目照片與 Notion 學習紀錄→解題→分鏡→審查→字幕短片，再交確認題。README 自報示範得分與作答結果；這是作者及代理的評價，不是學習成效的獨立測量。
+- 公開庫有[都卜勒效應示範檔](https://github.com/ChihiroNishioka/study-studio/blob/main/assets/demo-doppler.mp4)及[公車轉彎氣球示範檔](https://github.com/ChihiroNishioka/study-studio/blob/main/assets/demo-2.mp4)。已確認檔案存在，未播放驗收內容、時長或正確性，亦未連入作者 Notion。
+- [評審提示詞](https://github.com/ChihiroNishioka/study-studio/blob/main/bots/reviewer.md)與 README 設計了分數門檻、錯誤退回及三次失敗轉人的規則。公開規格不能證明退回循環已實際跑過，也不能推論五個 Bot 的評分彼此獨立。
+- 併入教材轉自學工具的 UC-030，不增加案例數；此版本限作者的 Grok Bot 配置，不把它套用成 Muse 或 dots 已實現相同流程。
+
+### 怎麼小範圍試（整理者設計，未實跑）
+
+先選一題自有、可公開的練習題，提供經人工核對的解答，不用學生姓名或真實學習紀錄。先驗收文字解答，再考慮分鏡與影片；別讓流暢字幕掩蓋概念錯誤。驗收分開記「檔案存在、可播放、字幕正確、推導正確、確認題有效」，不能只用代理總分取代逐項檢查。
+
+可貼指令：請依［自有練習題］與［已核參考解答］先做一份解說稿，指出每個推導步驟、假設及易錯點，並另設一道改變條件的確認題。內容有疑問就停在待查清單，不要以其他代理投票當作證明。此階段不要建立 Bot、連接 Notion、寫入學習紀錄、呼叫影音服務或發布。等我核准文字內容後，再列30秒字幕分鏡、需要的素材權利、可能費用與逐項驗收方法；放不下的解釋保留文字版，不為湊秒數省略必要條件。
+
+### 權限、成本與不適用情況
+
+本版需多 Bot 與 Notion 存取，Drive 在作者說明中為選用；實際帳號能否使用及額度須另核，來源未列單次成本。不得直接上傳未成年人的個人資料、成績或完整受版權教材；先使用虛構或適當去識別資料並確認接收服務與授權。教材作者與人工審查者應核解答；不適合用來自動決定正式成績、分班或升學資格。影片、作答與 Notion 寫回必須分開驗收，不能由示範檔存在推成長期學習閉環有效。

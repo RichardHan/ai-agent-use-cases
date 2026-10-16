@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 23:44 UTC／2026-10-17 07:44台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–259。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 23:49 UTC／2026-10-17 07:49台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–261。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–193及195–201及204–253、255–259合計159個（250與156重複已扣除）不同工作流程，連同現有85個，目前 **244 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **256**。
-- 網站目前有251個主案例、3個補充及3條待查線索；254個編號或257個條目均不是合格工作流程計數。100、194、203及254尚未收錄；202已合併025不另設頁，編號間隙不計案例。
+- 新增095–099及101–193及195–201及204–253、255–261合計161個（250與156重複已扣除）不同工作流程，連同現有85個，目前 **246 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **254**。
+- 網站目前有253個主案例、3個補充及3條待查線索；256個編號或259個條目均不是合格工作流程計數。100、194、203及254尚未收錄；202已合併025不另設頁，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 歷史批次更正（台灣2026-10-17，對應UTC2026-10-16；非目前總數）
@@ -575,7 +575,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-201](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/201-damage-comparison-coverage-correction.md)｜納入｜B。作者以dot推進遊戲比較並要求覆核，已公開撤回不均覆蓋的公式排名；dots寫碼份額未核，原數值未逐列驗證。終點為可比性與錯誤排名更正，不同196事件紀錄及119先發選擇，管理看板不另算。[歸因來源](https://builtwithbumblevai.com/en/dots-project-approval-testing-dashboard/)／[更正結果](https://builtwithbumblevai.com/en/aion2-dps-ranking-development/)
 
 
-### 新增UC-204–253、255–259
+### 新增UC-204–253、255–261
 
 - [UC-204](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/204-reviewed-prototype-cms-rebuild.md)｜納入｜B。媒體作者目睹dot在既有後台依審閱原型重建並回報更新完成；CMS未具名，未取得前後逐項驗收。不同PR協調、改道發布與歷史遷移，語音修稿不另計。[來源](https://www.theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent)
 - [UC-205](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/205-concept-origin-naming-chronology.md)｜納入｜B。Kurt Bell回報dot區分概念早期表達、首次命名、日期衝突與後來論述；無原對話及語料，不認證絕對最早。不同作品目錄、郵件初篩及家譜，一組概念來源鏈計一次。[來源](https://www.instagram.com/p/Dd6M_Q8gecS/)
@@ -696,3 +696,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 
 - [UC-259](../cases/259-multistation-observation-control-robustness.md)｜納入｜A。Larsen Cundric公開Bot取得觀測、形成逐窗口特徵與多站背景／共同時段對照產物；物理及統計未獨立驗證，只有單腳本重跑自報。不同012科研評估交接，只計觀測訊號穩健性對照一次。[來源](https://github.com/LarsenCundric/ai-research-experiments/tree/ae85ea1a5ee2fab37fdccb07a53c0d80def91a35/papers/pulse26)
+
+- [UC-260](../cases/260-vendor-master-gap-quotation-grouping.md)｜納入｜V。TEKROI自有demo資料庫中Bot補供應商主檔並按廠商建12張詢價單，自述實跑但影片及原PDF未讀。不同行為終點的130補貨下訂，只計主檔缺件到詢價分組一次，不認定正式採購。[來源](https://tekroi.com/blog/grok-bot-runs-sap-business-one-autonomously/)
+
+- [UC-261](../cases/261-owned-model-image-anchor-display.md)｜納入｜B。Josephine Miller自述以Blender GLB交Muse建AR圖像追蹤App並能運作，原海報幀已讀；未核持續追蹤、框架及日期。不同115資產製作或162減面，只計既有模型圖像錨定展示一次。[來源](https://www.threads.com/@josephinemiller/post/Ddt-hdKk4Ps)

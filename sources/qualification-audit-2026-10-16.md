@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–160。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–162。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–160合計65個不同工作流程，連同現有82個，目前 **147 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **353**。
-- 網站目前有156個主案例、3個補充及3條待查線索；159個編號或162個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–162合計67個不同工作流程，連同現有82個，目前 **149 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **351**。
+- 網站目前有158個主案例、3個補充及3條待查線索；161個編號或164個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -420,3 +420,9 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-158](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/158-paid-orphan-order-recovery-review.md)｜納入｜A。公開事件、修復提交及錯誤履約事故可讀，部分回顧由代理撰寫；兩單恢復為專案自述，交易出貨與並發去重未核。不同買方補貨，人工核准前不補猜地址／商品。[來源](https://github.com/jonathanmoore/forbotsonly/issues/35)
 - [UC-159](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/159-reference-portrait-brush-fill-failure.md)｜納入｜B。原作者具體記錄參考肖像時筆刷／填色選錯及重畫循環；附影片未看，不推產品普遍缺陷。不同幾何圖面驗收。[來源](https://pt.linkedin.com/posts/wanderson-ricardo-346161231_o-grok-bot-j%C3%A1-sabe-usar-softwares-de-edi%C3%A7%C3%A3o-activity-7508887099132149760-JPof)
 - [UC-160](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/160-handheld-device-integrated-prototype.md)｜納入｜A。作者親印殼、組裝與試玩回饋，公開版本驗收仍有誤計步及未測項；未獨立重現，不把造型／韌體／遊戲拆多案。[來源](https://github.com/goldsziggy/z-ark-digivice)
+
+
+### 新增UC-161–162
+
+- [UC-161](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/161-cross-model-response-dataset-audit.md)｜納入｜A。原作者固定題庫跨產品採集、285唯一鍵及原檔可核；單次德文與版本不一致，補檔及主觀量表限制保留。只讀資料不重跑，不能以條款未核方式重製採集。[來源](https://github.com/jojowanuby/LLM-Alignment-Atlas)
+- [UC-162](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/162-mesh-simplification-camera-state-review.md)｜納入｜B。作者明述既有網格多級減面及相機／機器狀態驗收渲染；原資產和FPS未核，不將幾何減少當性能已提升，四版本只算一次。[來源](https://www.reddit.com/r/OpenAI/comments/1wyoaw7/my_dot_burns_16b_tokens_a_day_on_since_day_one_on/)

@@ -2,7 +2,7 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（93）
+## 主要案例（96）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -100,6 +100,10 @@
 
 | UC-095 | 功能使用率與錯誤紀錄交叉分析 | Grok Bot／PostHog／Sentry／Linear | [葡文作者實際使用自述；未重現](cases/095-product-usage-error-correlation.md) | 工作｜產品分析、故障診斷 |
 | UC-096 | 正式服務日誌與部署時間線初判 | Grok Bot／Loki／Grafana／VPS | [葡文作者實際使用自述；未重現](cases/096-production-log-deploy-triage.md) | 開發｜日誌、部署、故障診斷 |
+
+| UC-097 | 把分散的公開資料，疊成持續更新的地圖 | Grok Bot／Google 衛星底圖／公開資料 | [作者實際使用自述；未重現](cases/097-public-gis-layer-map.md) | 開發｜地圖、資料整合、排程 |
+| UC-098 | 把多份工程 PDF，整理進固定 Excel 欄位 | Grok Bot／PDF／Excel | [作者實際使用自述；未重現](cases/098-engineering-pdf-excel-extraction.md) | 工作｜文件擷取、試算表、驗收 |
+| UC-099 | 每天放入旅行照片，回來就有按天編好的紀念冊 | Grok Bot／照片資料夾 | [作者實際使用自述；未重現](cases/099-travel-photo-scrapbook.md) | 創作｜照片、旅遊、編輯、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

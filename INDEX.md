@@ -2,7 +2,7 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**237 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**236 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
 ## 主要案例（243）
 
@@ -322,7 +322,7 @@
 
 | UC-249 | 閱讀頁序到單張八頁小誌拼版 | Grok Bot／Cursor／Flutter | [公開原碼與PDF預覽；未實印折](cases/249-eight-panel-zine-imposition-output.md) | 創作｜小誌、拼版、驗收 |
 
-| UC-250 | 郵件資料搬遷與收信路由接管驗收 | Grok Bot／Microsoft／MXroute | [兩位作者完成自述；無對帳或收發日誌](cases/250-mail-migration-data-routing-cutover.md) | 工作｜郵件、搬遷、驗收 |
+| UC-250 | 郵件資料搬遷與收信路由接管驗收 | Grok Bot／Microsoft／MXroute | [已合併UC-156；來源補頁不另計500](cases/250-mail-migration-data-routing-cutover.md) | 工作｜郵件、搬遷、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–115。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–116。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
-- 舊94個編號中，80個可依受支持的實際任務計數，含已限縮為房源照片篩選的084。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–115合計20個不同工作流程，連同原80個，目前 **100 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **400**。
-- 網站目前有111個主案例、3個補充及3條待查線索；114個編號或117個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 舊94個編號中，81個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
+- 新增095–099及101–116合計21個不同工作流程，連同原81個，目前 **102 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **398**。
+- 網站目前有112個主案例、3個補充及3條待查線索；115個編號或118個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -34,7 +34,7 @@
 - 039：有競品模板與活動觀察，缺少可歸屬的作者執行結果。
 - 092：與061重複的協調者／專家分工、任務台帳與證據回條，不因換成 Basecamp 等工具再計一次。
 - 071：教學與設定內容不足以確認文中那個實際工作流程；原貼文未取得完整可讀證據。
-- 089：提示詞與未檢視影片，以及仍在進行中的信箱整理，不能證明主張的跨領域清理流程已產生結果。
+- 089原跨領域清理仍未核；新增法文原作者已產出Drive重複檔盤點與人工核准自述，只依此限縮流程計數，不認定刪除完成。
 - 093：保留的是第三方訪談摘要；原訪談的直接實作敘述尚待確認。
 
 ## 重複群與必要限縮
@@ -45,11 +45,11 @@
 
 其他相近案例依終點區分：001／040為首次選項比較與條件變更後重查；006／042／077為數據引導發布、內容互評與格式化草稿交付；008／049為多行事曆晨報與郵件分流。若內容被簡化成同一泛用流程，必須合併，不能只靠平台不同保留。
 
-P-001–003不在100內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
+P-001–003不在102內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
 
 ## 查閱範圍
 
-本次逐頁稽核庫內114個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
+本次逐頁稽核庫內115個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
 
 ## 逐案判定與來源
 
@@ -234,7 +234,7 @@ P-001–003不在100內。P-004已補讀原作者回報的實際RFP短名單，�
 
 - [UC-088](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/088-unrefunded-returns-inbox-chase.md)｜納入｜B。Author reports finding and contacting merchants about outstanding return refunds; amount and authorization history unverified. [來源](https://x.com/darian314/status/2089381004524093752)
 
-- [UC-089](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/089-digital-declutter-approval-plan.md)｜待確認｜U。Primary retained evidence is a prompt plus an unwatched demo video; second report says cleanup is in progress, with no result. Does not establish completed three-domain workflow. [來源](https://x.com/petergyang/status/2089724101070086482)
+- [UC-089](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/089-digital-declutter-approval-plan.md)｜納入｜B。Louis LAURENT明述Drive重複檔盤點、保留建議與核准5項；沒有刪除紀錄或雜湊，不證明完整清理成功。新原作者實作證據支持限縮後的單一流程。[來源](https://www.kryve.fr/blog/grok-bot-guide)
 
 - [UC-090](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/090-daily-prediction-market-evidence-read.md)｜納入｜B。Author reports daily research/filtering using an MCP source; no trades or prediction-performance claim. [來源](https://x.com/sidshekhar24/status/2089735218861326727)
 
@@ -303,3 +303,9 @@ P-001–003不在100內。P-004已補讀原作者回報的實際RFP短名單，�
 - [UC-114](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/114-existing-worksheet-print-layout.md)｜納入｜B。原留言稱已重排既有教材減少用紙；無前後頁數或檔案，不宣稱節省比例／內容完整，與083新題目生成不同。[來源](https://www.reddit.com/r/GrokBot/comments/1x2323i/grok_bot_in_personal_life/pezb9vl/)
 
 - [UC-115](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/115-rigged-character-asset-export.md)｜納入｜B。作者明述實際產出骨架動畫GLB並公開程式碼；App截圖為示意，模型與程式未執行，跨引擎相容未驗。不同於110完整遊戲試玩；短片展示不另計。[來源](https://www.shanebrumback.com/tutorials/rigged-capybara-threejs.html)
+
+### 2026-10-17新增證據與UC-116
+
+扣除008及013後的100基準，再增加089新原作者實作證據及116獨立報價流程，得到102。並非恢復兩項補充的計數。
+
+- [UC-116](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/116-slack-branded-quote-draft.md)｜納入｜B。Santiago Muñoz列為已運行流程，稱Slack需求到品牌報價文件已執行、調整並存skill。無完整報價或價格核對／客戶寄送紀錄，不宣稱成交或金額正確；與017潛客研究、019簡報及059買方詢價不同。[來源](https://www.horizontesia.com/blog/grok-bot)

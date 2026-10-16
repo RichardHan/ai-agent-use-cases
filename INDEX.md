@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**116 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**118 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（126）
+## 主要案例（128）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -149,6 +149,8 @@
 | UC-128 | 測試SQL月別稅類營收查詢覆核 | Grok Bot／SQL | [德文作者測試；查詢正確性未核](cases/128-test-database-revenue-query-review.md) | 工作｜資料庫、營收、核對 |
 | UC-129 | 門市庫存快照、缺貨與賣速分母驗收 | Grok Bot／CSV | [作者實作及計算錯誤報告；未重現](cases/129-store-stockout-velocity-audit.md) | 工作｜庫存、資料合併、缺貨、驗收 |
 | UC-130 | 備品門檻補貨、批准及訂單台帳對帳 | Grok Bot／Notion／Amazon | [作者受控實購測試；回寫延遲與權限限制](cases/130-supplies-reorder-ledger-reconciliation.md) | 工作｜備品、補貨、核准、對帳 |
+| UC-131 | 學生示範影片與程式作品教師預審 | ChatGPT dots／Whisper／GitHub | [原作者已用自述；回饋正確性未核](cases/131-student-demo-code-prereview.md) | 學習｜教學、作品、影片、覆核 |
+| UC-132 | 播客逐字稿分說話者與檢索前處理 | Grok Bot／Foundry | [原作者部分完成自述；RAG未完成](cases/132-podcast-transcript-retrieval-preparation.md) | 學習｜播客、逐字稿、資料整理、檢索 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

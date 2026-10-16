@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–118。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–120。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，81個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–118合計23個不同工作流程，連同原81個，目前 **104 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **396**。
-- 網站目前有114個主案例、3個補充及3條待查線索；117個編號或120個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–120合計25個不同工作流程，連同原81個，目前 **106 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **394**。
+- 網站目前有116個主案例、3個補充及3條待查線索；119個編號或122個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -45,11 +45,11 @@
 
 其他相近案例依終點區分：001／040為首次選項比較與條件變更後重查；006／042／077為數據引導發布、內容互評與格式化草稿交付；008／049為多行事曆晨報與郵件分流。若內容被簡化成同一泛用流程，必須合併，不能只靠平台不同保留。
 
-P-001–003不在104內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
+P-001–003不在106內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
 
 ## 查閱範圍
 
-本次逐頁稽核庫內117個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
+本次逐頁稽核庫內119個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
 
 ## 逐案判定與來源
 
@@ -314,3 +314,8 @@ P-001–003不在104內。P-004已補讀原作者回報的實際RFP短名單，�
 
 - [UC-117](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/117-warranty-replacement-tracking.md)｜納入｜B。App Store作者rmastrapa自述由產品故障客服詢問到換貨及配送追蹤，評論與日期已讀；品牌往來、訂單及保固資格未獨立核。與088退貨未退款不同；不採標題省錢額為換貨成效。[來源](https://apps.apple.com/us/app/grok-bot/id6794501026?platform=iphone&see-all=reviews)
 - [UC-118](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/118-agent-email-rerouting-consent-test.md)｜納入｜A。Dave Kiss虛構車行實測可見說明、主人核准後分流至新收件者；四版本差異有原作者報告，未獨立重現，也不是正式商家成效。兩工具合併一次，與014分類及049巡檢不同。[來源](https://davekiss.com/blog/i-opened-a-fake-auto-shop-for-ai-agents/)
+
+### 新增UC-119–120
+
+- [UC-119](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/119-fantasy-lineup-approval-review.md)｜納入｜B。Chris Snider自述Muse先發建議、本人同意修改與賽後得分回顧；名單／計分未核，不保證勝率、不含下注。四平台合併一次。[來源](https://newsletter.innovationprofs.com/p/meta-muse-is-the-ai-assistant-you-have-been-waiting-for)
+- [UC-120](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/120-bioinspired-material-simulation-specimen.md)｜納入｜B。Markus J. Buehler原帖明述照片到梁網模擬、報告、STL與兩件樣品完成；未核原始程式與實體力學性能。不同於012資料稽核及112造型列印，多代理／匯出格式不拆計。[來源](https://www.linkedin.com/posts/markus-j-buehler-2245682_grok-bot-is-incredible-the-bots-move-naturally-activity-7496875174911291392-LO9a)

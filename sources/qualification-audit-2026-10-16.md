@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–164。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–166。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–164合計69個不同工作流程，連同現有82個，目前 **151 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **349**。
-- 網站目前有160個主案例、3個補充及3條待查線索；163個編號或166個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–166合計71個不同工作流程，連同現有82個，目前 **153 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **347**。
+- 網站目前有162個主案例、3個補充及3條待查線索；165個編號或168個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -432,3 +432,9 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-163](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/163-legacy-cms-history-migration.md)｜納入｜B。作者自述歷史CMS文章保留日期／舊路徑並上線；未逐篇核全文附件和轉址，客服協助解除staging及SSL問題不能歸為Bot自主修復。[來源](https://jdb.net/grok-bot-redesigned-my-website/)
 - [UC-164](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/164-stale-ticket-retirement-scope-stop.md)｜納入｜B。原作者交辦舊工單清理後，既有補讀規則限流重試失控；帳停因果／數字未核，無完整關單或恢復證據。不同新bug分流，不把百餘單拆計。[來源](https://www.reddit.com/r/GrokBot/comments/1wpeg6a/grokbot_found_an_answer_to_a_problem_i_had_then/)
+
+
+### 新增UC-165–166
+
+- [UC-165](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/165-offline-network-control-evidence-review.md)｜納入｜B。作者合成設定與指定基準對照後有逐行輸出，仍有誤報；版次／profile和全報表未核，不連真設備，不收基準全文。雙Bot只算一次。[來源](https://www.linkedin.com/posts/adrian-mtz-luis_networkengineering-grokbot-aiagents-activity-7502088742267006976-Z5Ts)
+- [UC-166](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/166-bidirectional-document-reading-order.md)｜納入｜B。編輯團隊實開文件測混合方向，工作表RTL而儲存格錯序，追加方向後自述修正；原檔未公開、僅一未指名RTL語言。不同列印重排與日期型別。[來源](https://maitz.co.il/en/grok-bot-language-support/)

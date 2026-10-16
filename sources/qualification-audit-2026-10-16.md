@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 21:00 UTC／2026-10-17 05:00台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–224。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 21:09 UTC／2026-10-17 05:09台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–226。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–193及195–201及204–224合計126個不同工作流程，連同現有85個，目前 **211 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **289**。
-- 網站目前有217個主案例、3個補充及3條待查線索；220個編號或223個條目均不是合格工作流程計數。100、194及203尚未收錄；202已合併025不另設頁，編號間隙不計案例。
+- 新增095–099及101–193及195–201及204–226合計128個不同工作流程，連同現有85個，目前 **213 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **287**。
+- 網站目前有219個主案例、3個補充及3條待查線索；222個編號或225個條目均不是合格工作流程計數。100、194及203尚未收錄；202已合併025不另設頁，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 歷史批次更正（台灣2026-10-17，對應UTC2026-10-16；非目前總數）
@@ -573,7 +573,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-201](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/201-damage-comparison-coverage-correction.md)｜納入｜B。作者以dot推進遊戲比較並要求覆核，已公開撤回不均覆蓋的公式排名；dots寫碼份額未核，原數值未逐列驗證。終點為可比性與錯誤排名更正，不同196事件紀錄及119先發選擇，管理看板不另算。[歸因來源](https://builtwithbumblevai.com/en/dots-project-approval-testing-dashboard/)／[更正結果](https://builtwithbumblevai.com/en/aion2-dps-ranking-development/)
 
 
-### 新增UC-204–224
+### 新增UC-204–226
 
 - [UC-204](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/204-reviewed-prototype-cms-rebuild.md)｜納入｜B。媒體作者目睹dot在既有後台依審閱原型重建並回報更新完成；CMS未具名，未取得前後逐項驗收。不同PR協調、改道發布與歷史遷移，語音修稿不另計。[來源](https://www.theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent)
 - [UC-205](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/205-concept-origin-naming-chronology.md)｜納入｜B。Kurt Bell回報dot區分概念早期表達、首次命名、日期衝突與後來論述；無原對話及語料，不認證絕對最早。不同作品目錄、郵件初篩及家譜，一組概念來源鏈計一次。[來源](https://www.instagram.com/p/Dd6M_Q8gecS/)
@@ -625,3 +625,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-223](../cases/223-household-solar-billing-period-reconciliation.md)｜納入｜A。Kris展示Muse整合發電與電力帳期看板，已看圖但無原讀值、公式與費率，不證節費或分攤正確。不同141遙測及188時窗規劃，充電占比不另計。[來源](https://www.threads.com/@kris_no_code/post/DeQJz49GTUn)
 
 - [UC-224](../cases/224-multi-shadow-shared-geometry-inverse-design.md)｜納入｜A。公開Grok Bot協作原型由多剪影反求共同桿件，原碼、靜態圖及投影誤差報告可讀；字樣換序／旋轉及弱面失敗保留，無真GPU或實體驗證。不同113材質、162減面及213特效時序，字樣只計一案。[來源](https://github.com/TheDreamersTop/grok-bot-showroom/blob/6f53333239097a3fd0f0443242057b4676484a4c/20261008-shadow-foundry/FINAL_REPORT.md)
+
+- [UC-225](../cases/225-receipt-transaction-evidence-matching.md)｜納入｜B。Satoru/Toko實述先查既有憑證、補缺件、按日期金額商戶配對交易及人工核准；無原帳及準確率，週抓明細仍測試。不同024待開帳單、036POS匯入及206轉帳配對。[來源](https://note.com/tokothecat/n/nc4280d0c3657)
+
+- [UC-226](../cases/226-photo-wall-frame-print-fit.md)｜納入｜B。Mollie明述Grok Bot縮放照片、找框、備家印設定；實牆與尺寸未核，不認定下單吊掛。終點是展示尺寸匹配，不同099相簿、121參考分類及216挑片修圖。[來源](https://www.molliemueller.com/blog/ai-agents-are-finally-useful-for-home-and-family-life)

@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**181 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**182 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（187）
+## 主要案例（188）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -231,6 +231,8 @@
 | UC-189 | 文章朗讀與波形影片返工 | ChatGPT dots／ElevenLabs | [日文作者成品自述；音訊影片未播放](cases/189-article-narration-waveform-review.md) | 創作｜朗讀、波形、驗收 |
 | UC-190 | 服務帳單準備與寄送狀態核對 | Grok Bot／未具名管理軟體 | [作者已開票寄送自述；收件合規未核](cases/190-service-invoice-draft-reconciliation.md) | 工作｜工單、發票、核准 |
 | UC-191 | 播客音樂廣告編排與聽審 | Grok Bot／Descript | [作者聽審後手改自述；上架未核](cases/191-podcast-segment-edit-listen-review.md) | 創作｜播客、音軌、時間碼 |
+
+| UC-192 | 客戶討論收斂成開工需求 | ChatGPT dots／Slack | [作者實際協作自述；原決策文件未核](cases/192-client-requirements-decision-clarification.md) | 工作｜客戶、需求、決策 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

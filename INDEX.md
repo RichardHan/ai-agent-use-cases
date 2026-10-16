@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**219 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**220 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（225）
+## 主要案例（226）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -294,6 +294,7 @@
 | UC-230 | 按人員報酬規則準備待審薪酬批次 | Grok Bot／CRM／Deel | [作者使用自述；無原表或支付證據](cases/230-compensation-batch-human-review.md) | 工作｜薪酬、規則、核准 |
 | UC-231 | 多軌工程技術整備與粗混音交接 | Grok Bot／Ableton／Console 1 | [作者完成自述；無音訊驗證](cases/231-multitrack-session-rough-mix-handoff.md) | 創作｜音訊、混音、驗收 |
 | UC-232 | 已購教材下載盤點與到檔核對 | ChatGPT dots | [作者親數到檔自述；未核內容完整性](cases/232-purchased-resource-delivery-reconciliation.md) | 學習｜下載、檔案、驗收 |
+| UC-233 | 訂閱營收指標折扣口徑覆核 | ChatGPT dots | [作者已發現計算問題自述；無更正結果](cases/233-recurring-revenue-discount-definition-review.md) | 工作｜訂閱、營收、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

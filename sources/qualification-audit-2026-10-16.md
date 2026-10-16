@@ -4,9 +4,9 @@
 
 ## 結論
 
-- 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–172合計77個不同工作流程，連同現有82個，目前 **159 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **341**。
+- 舊94個編號中，83個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
+- 新增095–099及101–172合計77個不同工作流程，連同現有83個，目前 **160 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **340**。
 - 網站目前有168個主案例、3個補充及3條待查線索；171個編號或174個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
@@ -30,7 +30,7 @@
 ## 排除與待確認
 
 - 009：只有背景移轉模板，沒有實際移轉報告。
-- 028、029、032、033：帳單議價、運動改期、睡眠趨勢、年度業務分析僅有官方建議情境或設計範例。034新增原作者具體費用疑點後才納入，Muse部分仍是官方建議。
+- 029、032、033：運動改期、睡眠趨勢、年度業務分析僅有官方建議情境或設計範例。034新增原作者具體費用疑點後才納入，Muse部分仍是官方建議。
 - 039：有競品模板與活動觀察，缺少可歸屬的作者執行結果。
 - 092：與061重複的協調者／專家分工、任務台帳與證據回條，不因換成 Basecamp 等工具再計一次。
 - 071：教學與設定內容不足以確認文中那個實際工作流程；原貼文未取得完整可讀證據。
@@ -112,7 +112,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-027](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/027-recipe-shopping-plan.md)｜納入｜B。Grok author actually generated menus and attempted groceries; checkout failed and human ordered. Count meal planning/handoff, not autonomous purchasing. [來源](https://x.com/gyutei_4koma/status/2110252710402638192)
 
-- [UC-028](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/028-bill-comparison-preparation.md)｜排除：缺實作證據｜H。Only official capability/use-case claim and editor-designed sample; no actual-use report. [來源](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/)
+- [UC-028](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/028-bill-comparison-preparation.md)｜納入｜B。新增原作者已用Muse研究帳單並準備本人通話的自述；節省$326僅作者聲稱、幣別與新約未核，不認定代理電話議價。原官方情境仍H。[來源](https://x.com/ChristinaR0gers/status/2100667163749298179)
 
 - [UC-029](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/029-exercise-time-replan.md)｜排除：缺實作證據｜H。Only official use-case claim and editor-designed scenario; no actual-use report. [來源](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/)
 
@@ -460,3 +460,8 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-171](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/171-credit-report-dispute-evidence-preparation.md)｜納入｜B。作者自述信用報告錯誤核對、爭議信及部分移除；原報告／結果及日期未核，僅合成資料設計，不保證刪除或分數。與消費退款不同。[來源](https://www.reddit.com/r/MetaAI/comments/1wydk5b/what_do_you_use_muse_for/)
 - [UC-172](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/172-personal-playlist-era-genre-curation.md)｜納入｜B／V。個人舊歌單重分類與產品方新曲／去重自述合併一次；未逐曲核實，市場版本與年代定義需確認，不按歌單／曲目／代理數拆計。[來源](https://www.reddit.com/r/MuseAgent/comments/1wozmq4/how_ive_been_using_muse/)
+
+
+### UC-028補足原作者實作證據
+
+直接讀到ChristinaR0gers原貼的帳單研究、本人通話準備及結果自述，基準83由原82增加1；不是因重命名或設計指令升級。具體節省金額、期限、方案及通話內容未核，僅依實際使用流程納入。網站條目數維持174，合格流程160。

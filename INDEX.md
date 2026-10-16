@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**160 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**162 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（168）
+## 主要案例（170）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -199,6 +199,9 @@
 
 | UC-171 | 信用報告錯誤的證據與爭議草稿 | Meta Muse | [作者自述；未取得報告與受理結果](cases/171-credit-report-dispute-evidence-preparation.md) | 生活｜信用報告、證據、草稿 |
 | UC-172 | 個人歌單年代曲風分類與版本去重 | Meta Muse／Spotify | [兩位作者自述，含產品方；未逐曲核實](cases/172-personal-playlist-era-genre-curation.md) | 生活｜音樂、歌單、去重 |
+
+| UC-173 | 前端效能假設實驗與回退 | Grok Bot／Fable／Lighthouse | [公開PR產物及作者自述；未合併、未重跑](cases/173-frontend-performance-hypothesis-experiments.md) | 開發｜效能、實驗、回退 |
+| UC-174 | 有狀態批次表單中斷對帳 | Grok Bot | [作者實際操作與故障自述；無收據核付證據](cases/174-stateful-batch-form-reconciliation.md) | 工作｜表單、批次、對帳 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

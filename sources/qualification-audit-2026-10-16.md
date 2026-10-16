@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–111。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–115。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–111合計16個不同工作流程，連同原82個，目前 **98 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **402**。
-- 網站目前有107個主案例、3個補充及3條待查線索；110個編號或113個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–115合計20個不同工作流程，連同原82個，目前 **102 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **398**。
+- 網站目前有111個主案例、3個補充及3條待查線索；114個編號或117個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 判準與證據等級
@@ -41,15 +41,15 @@
 
 其他相近案例依終點區分：001／040為首次選項比較與條件變更後重查；006／042／077為數據引導發布、內容互評與格式化草稿交付；008／049為多行事曆晨報與郵件分流。若內容被簡化成同一泛用流程，必須合併，不能只靠平台不同保留。
 
-P-001–003不在98內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
+P-001–003不在102內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
 
 ## 查閱範圍
 
-本次逐頁稽核庫內110個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
+本次逐頁稽核庫內114個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
 
 ## 逐案判定與來源
 
-下列逐案理由維持可核對的具體範圍；案例頁列有完整來源與限制。來源連結支持實作敘述，不保證成效。基準94案與六批新增16案分列。
+下列逐案理由維持可核對的具體範圍；案例頁列有完整來源與限制。來源連結支持實作敘述，不保證成效。基準94案與七批新增20案分列。
 
 
 ### 原 UC-001–094
@@ -289,3 +289,13 @@ P-001–003不在98內。P-004已補讀原作者回報的實際RFP短名單，�
 - [UC-110](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/110-roblox-playtest-prototype.md)｜納入｜B。作者實際在Roblox Studio開啟dots所產遊戲，依可玩性與節奏回饋迭代。未看影片或執行檔，十階段版仍是規劃；不把程式可跑當遊戲品質認證。[來源](https://note.com/xshibuxshibux/n/nba39d428c8a8)
 
 - [UC-111](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/111-engineering-drawing-source-traceability.md)｜納入｜B。Creer自述產出工程資料／PDF／DXF對應的JSON、腳本及測試檔；不同於098抽字填表。測試與原始檔未公開，不能視為設計安全或照合正確。兩個開發專案不另拆計數。[來源](https://cre-er.co.jp/technical-notes/dots-two-local-development-projects/)
+
+### 新增 UC-112–115
+
+- [UC-112](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/112-image-to-printable-articulated-model.md)｜納入｜B。作者自述從角色圖取得可動分件並實印；模型平台此次不可讀，幾何、安全與實物品質未核。CNC僅提及，不另計。[來源](https://naffis.com/resources/2026/08/24/grok-bot/)
+
+- [UC-113](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/113-architecture-material-visual-comparison.md)｜納入｜B。作者實際用公開建築模型做可旋轉展示與外牆／內裝比較，記錄格式、單位及記憶體問題；Sunburst生圖另有生成物件失真，非施工或尺寸驗證。[來源](https://note.com/tokothecat/n/n6f62f2c62b10)
+
+- [UC-114](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/114-existing-worksheet-print-layout.md)｜納入｜B。原留言稱已重排既有教材減少用紙；無前後頁數或檔案，不宣稱節省比例／內容完整，與083新題目生成不同。[來源](https://www.reddit.com/r/GrokBot/comments/1x2323i/grok_bot_in_personal_life/pezb9vl/)
+
+- [UC-115](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/115-rigged-character-asset-export.md)｜納入｜B。作者明述實際產出骨架動畫GLB並公開程式碼；App截圖為示意，模型與程式未執行，跨引擎相容未驗。不同於110完整遊戲試玩；短片展示不另計。[來源](https://www.shanebrumback.com/tutorials/rigged-capybara-threejs.html)

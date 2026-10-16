@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**174 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**177 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（180）
+## 主要案例（183）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -221,6 +221,10 @@
 | UC-183 | 廣告活動設定到待發布，再交人檢查 | Meta Muse／Google Ads | [作者已配置自述；未核投放](cases/183-ad-campaign-configuration-review.md) | 工作｜廣告、設定、核准、驗收 |
 
 | UC-184 | 大量郵件先篩出相關候選，別把它當最終證據審查 | Grok Bot／mbox | [作者已初篩自述；雲端上傳更正、完整性未核](cases/184-mail-archive-relevance-prescreen.md) | 工作｜郵件封存、初篩、隱私、驗收 |
+
+| UC-185 | 活動資料到排行榜與人工核獎草稿 | Grok Bot／Canva | [作者使用自述；未核原始成績與獎狀](cases/185-event-results-leaderboard-awards.md) | 工作｜活動、排行榜、核准 |
+| UC-186 | 假註冊造成寄信健康事故的核對 | Grok Bot／HubSpot | [作者事件及修復自述；恢復投遞未核](cases/186-registration-pollution-mail-health.md) | 工作｜退信、資料污染、事故 |
+| UC-187 | 測繪批次XML生成與原軟體檢核 | Grok Bot／POSPac Complete | [業界作者實際支援案件自述；精度未核](cases/187-survey-batch-configuration-validation.md) | 工作｜測繪、設定、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

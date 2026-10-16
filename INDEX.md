@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**98 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**102 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（107）
+## 主要案例（111）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -122,6 +122,11 @@
 
 | UC-110 | 做遊戲雛形，再以人工試玩修正節奏 | ChatGPT dots／Roblox Studio | [作者實作自述；影片未看、未重現](cases/110-roblox-playtest-prototype.md) | 創作｜遊戲、試玩、驗收 |
 | UC-111 | 工程資料對上圖面，留下可追查紀錄 | ChatGPT dots／PDF／DXF | [公司實作自述；工程正確性未核](cases/111-engineering-drawing-source-traceability.md) | 工作｜工程、圖面、溯源 |
+
+| UC-112 | 把角色圖變成可轉眼的實體小模型 | Grok Bot／Bambu | [作者實作自述；未重現](cases/112-image-to-printable-articulated-model.md) | 創作｜3D列印、分件 |
+| UC-113 | 建築模型的外牆與內裝方案比較 | Grok Bot／Sunburst | [作者實作自述；未重現](cases/113-architecture-material-visual-comparison.md) | 創作｜建築、材質、驗收 |
+| UC-114 | 既有教材保留內容的省紙重排 | Grok Bot／PDF | [作者實作自述；未重現](cases/114-existing-worksheet-print-layout.md) | 學習｜教材、排版、列印 |
+| UC-115 | 帶骨架與動畫的可重用角色資產 | Grok Bot／Three.js | [作者實作自述；未重現](cases/115-rigged-character-asset-export.md) | 創作｜3D角色、骨架、匯出 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

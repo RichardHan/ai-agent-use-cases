@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**206 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**208 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（212）
+## 主要案例（214）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -275,6 +275,9 @@
 | UC-218 | 第三方技能安裝前來源版本與權限審閱 | ChatGPT dots | [公開審閱截圖；風險未獨立證實](cases/218-third-party-skill-install-trust-review.md) | 開發｜技能、版本、權限 |
 
 | UC-219 | PDF內嵌導航與閱讀器書籤範圍驗收 | Meta Muse／forScore | [公開實作與手機展示；全冊未逐核](cases/219-pdf-internal-navigation-bookmark-validation.md) | 創作｜PDF、導航、驗收 |
+
+| UC-220 | 二手商品官方召回候選排除 | Meta Muse／CPSC | [原貼截圖及公告；個別型號未核](cases/220-used-product-recall-candidate-screening.md) | 生活｜購物、召回、核對 |
+| UC-221 | 本人簽署前後文件與完成副本交接 | Meta Muse／No Errands | [廠商自簽測試；原件與他人簽署未核](cases/221-human-signature-completed-copy-handoff.md) | 工作｜文件、簽署、交接 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

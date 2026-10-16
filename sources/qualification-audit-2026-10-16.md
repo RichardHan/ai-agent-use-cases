@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 20:17 UTC／2026-10-17 04:17台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–211。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 20:22 UTC／2026-10-17 04:22台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–212。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–193及195–201及204–211合計113個不同工作流程，連同現有85個，目前 **198 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **302**。
-- 網站目前有204個主案例、3個補充及3條待查線索；207個編號或210個條目均不是合格工作流程計數。100、194及203尚未收錄；202已合併025不另設頁，編號間隙不計案例。
+- 新增095–099及101–193及195–201及204–212合計114個不同工作流程，連同現有85個，目前 **199 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **301**。
+- 網站目前有205個主案例、3個補充及3條待查線索；208個編號或211個條目均不是合格工作流程計數。100、194及203尚未收錄；202已合併025不另設頁，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 歷史批次更正（台灣2026-10-17，對應UTC2026-10-16；非目前總數）
@@ -573,7 +573,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-201](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/201-damage-comparison-coverage-correction.md)｜納入｜B。作者以dot推進遊戲比較並要求覆核，已公開撤回不均覆蓋的公式排名；dots寫碼份額未核，原數值未逐列驗證。終點為可比性與錯誤排名更正，不同196事件紀錄及119先發選擇，管理看板不另算。[歸因來源](https://builtwithbumblevai.com/en/dots-project-approval-testing-dashboard/)／[更正結果](https://builtwithbumblevai.com/en/aion2-dps-ranking-development/)
 
 
-### 新增UC-204–211
+### 新增UC-204–212
 
 - [UC-204](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/204-reviewed-prototype-cms-rebuild.md)｜納入｜B。媒體作者目睹dot在既有後台依審閱原型重建並回報更新完成；CMS未具名，未取得前後逐項驗收。不同PR協調、改道發布與歷史遷移，語音修稿不另計。[來源](https://www.theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent)
 - [UC-205](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/205-concept-origin-naming-chronology.md)｜納入｜B。Kurt Bell回報dot區分概念早期表達、首次命名、日期衝突與後來論述；無原對話及語料，不認證絕對最早。不同作品目錄、郵件初篩及家譜，一組概念來源鏈計一次。[來源](https://www.instagram.com/p/Dd6M_Q8gecS/)
@@ -599,3 +599,5 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-210](../cases/210-astronomy-conditions-target-planning.md)｜納入｜A。專案 F4 明記 Grok Bot 自然語句調引擎與缺值處理，後續 PR 自報推薦操作驗收；計天文條件與目標規劃，不證野外結果或暫停排程長期運行。[來源](https://github.com/gdombiak/AstroViewingConditions/pull/73)
 
 - [UC-211](../cases/211-versioned-procedure-role-handoff.md)｜納入｜V。廠商作者實跑程序改版及角色分配，代理完成自身步驟後保留人工決策依賴；限版本化流程實例交接，不認證安全隔離或長期可靠性。[來源](https://www.waywedo.com/blog/grok-bot-way-we-do/)
+
+- [UC-212](../cases/212-public-dataset-field-update-proposals.md)｜納入｜A。Roya 公開 Muse 兩份逐欄更新提案表；計缺漏／過時資料到來源化待覆核變更，無資料庫寫回證據，不把列數當補全率，與012科研評估不同。[來源](https://royapakzad.substack.com/p/multilingual-ai-agents)

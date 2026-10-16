@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**182 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**184 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（188）
+## 主要案例（190）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -233,6 +233,9 @@
 | UC-191 | 播客音樂廣告編排與聽審 | Grok Bot／Descript | [作者聽審後手改自述；上架未核](cases/191-podcast-segment-edit-listen-review.md) | 創作｜播客、音軌、時間碼 |
 
 | UC-192 | 客戶討論收斂成開工需求 | ChatGPT dots／Slack | [作者實際協作自述；原決策文件未核](cases/192-client-requirements-decision-clarification.md) | 工作｜客戶、需求、決策 |
+
+| UC-193 | 遺失對話的殘存資料復原與重開核對 | Grok Bot／Codex | [作者恢復自述；完整性未核](cases/193-deleted-conversation-readable-recovery.md) | 工作｜復原、對話、驗收 |
+| UC-195 | 註冊旅程與完成事件時點核對 | Grok Bot／GA4 | [韓文作者實測自述；後續修正待做](cases/195-conversion-event-journey-timing-audit.md) | 工作｜分析、事件、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

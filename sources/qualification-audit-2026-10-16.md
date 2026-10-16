@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–155。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–157。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–155合計60個不同工作流程，連同現有82個，目前 **142 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **358**。
-- 網站目前有151個主案例、3個補充及3條待查線索；154個編號或157個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–157合計62個不同工作流程，連同現有82個，目前 **144 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **356**。
+- 網站目前有153個主案例、3個補充及3條待查線索；156個編號或159個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -407,3 +407,9 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-153](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/153-tabletop-adventure-material-pack.md)｜納入｜B。原作者明述已組成桌上冒險地圖、講義和GM材料；日期、成品、實際跑團未核。不同可執行遊戲或題卷，三材料只算一次。[來源](https://www.reddit.com/r/DotsAI/comments/1x1nnr4/been_using_my_dot_for_quite_a_few_things/)
 - [UC-154](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/154-contract-review-wait-time-analysis.md)｜納入｜V。廠商員工稱目前實用合約系統資料到審查階段統計與備忘；無特定報表、公式或成效，不推根因或個人績效。不同021請求分流。[來源](https://x.ai/bot/guides/grok-bot-for-legal-ops#procurement-and-vendor-workflow-analytics)
 - [UC-155](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/155-field-service-job-change-coordination.md)｜納入｜B。作者明述早晨更新工單板並通知客戶、辦公室與技師；原圖未讀，通道回執和排班結果未核。多方同步合計一次。[來源](https://x.com/HouseHackerJon/status/2102036626478420315)
+
+
+### 新增UC-156–157
+
+- [UC-156](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/156-mail-system-migration-verification.md)｜納入｜B。作者自述公司郵件資料搬移及MX切換，完整性、收發與產品版本未核；官方365說明僅條件式背景，非作者配置。不同待辦搬家與別名修復。[來源](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peug3yn/)
+- [UC-157](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/157-editable-diagram-geometry-readback.md)｜納入｜B。論壇作者多輪局部幾何修改失敗與分層改善，原生最終檔未核；Bot預覽與清理聲稱不是驗收，不推CAD工程正確。[來源](https://forum.cursor.com/t/grok-bot-simple-image-track-geometry-edit-unreliable/172484)

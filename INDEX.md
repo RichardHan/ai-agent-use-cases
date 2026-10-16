@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**130 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**133 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（140）
+## 主要案例（143）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -163,6 +163,9 @@
 | UC-142 | 以前分享給某人的資料夾，現在還有哪些能被打開？ | Grok Bot／Google Drive | [作者自述；未重現](cases/142-historical-folder-access-revocation.md) | 工作｜共享權限、資料夾、核對、核准 |
 | UC-143 | 可能有遺忘的款項？先查官方條目，別把找到當領到 | Grok Bot／MissingMoney | [作者自述；未重現](cases/143-unclaimed-property-candidate-handoff.md) | 省錢｜公開查詢、候選核對、認領、交接 |
 | UC-144 | 把古籍變成可對照原文的譯作，疑義別藏起來 | Grok Bot／Via Patrum／多提供者AI | [作者自述＋公開譯作；未重現](cases/144-classical-translation-source-review.md) | 學習｜翻譯、古籍、來源查證、驗收 |
+| UC-145 | 同一份調查表一直重抄？用假資料先驗證每個欄位有沒有漏 | Grok Bot／ChatGPT／Claude | [作者實驗／使用報告；未重現](cases/145-offline-standard-form-field-validation.md) | 工作｜表單、離線工具、欄位核對、驗收 |
+| UC-146 | 補助文件看似齊了？先核每一項要求有沒有證據 | ChatGPT dots／Google帳號資料 | [作者實驗／使用報告；未重現](cases/146-grant-supporting-document-gap-check.md) | 生活｜補助、文件核對、缺漏、交接 |
+| UC-147 | 一桌人想吃的不一樣？先讓偏好代理提出、拒絕再修訂 | Grok Bot／webhook／mirai-menu | [作者實驗／使用報告；未重現](cases/147-group-meal-bot-negotiation-demo.md) | 開發｜多代理、協商、餐飲、原型 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

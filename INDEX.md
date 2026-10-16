@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**127 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**130 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（137）
+## 主要案例（140）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -160,6 +160,9 @@
 | UC-139 | 旅行丟了包？先查失物招領清單，找到候選再認領 | Grok Bot | [作者實作自述；未重現](cases/139-lost-property-match-search.md) | 生活｜旅遊、失物、搜尋、核對 |
 | UC-140 | 機器人只看到平面影像？先驗證估距，再談移動 | Meta Muse／Depth Anything V2 | [作者實作自述；未重現](cases/140-monocular-depth-robot-offline-review.md) | 開發｜視覺、機器人、估距、驗收 |
 | UC-141 | 停車時掉了多少電？把車輛讀值和資料中斷一起看 | Meta Muse／Rivian | [作者實作自述；未重現](cases/141-vehicle-telemetry-gap-dashboard.md) | 生活｜車輛、遙測、看板、資料缺口 |
+| UC-142 | 以前分享給某人的資料夾，現在還有哪些能被打開？ | Grok Bot／Google Drive | [作者自述；未重現](cases/142-historical-folder-access-revocation.md) | 工作｜共享權限、資料夾、核對、核准 |
+| UC-143 | 可能有遺忘的款項？先查官方條目，別把找到當領到 | Grok Bot／MissingMoney | [作者自述；未重現](cases/143-unclaimed-property-candidate-handoff.md) | 省錢｜公開查詢、候選核對、認領、交接 |
+| UC-144 | 把古籍變成可對照原文的譯作，疑義別藏起來 | Grok Bot／Via Patrum／多提供者AI | [作者自述＋公開譯作；未重現](cases/144-classical-translation-source-review.md) | 學習｜翻譯、古籍、來源查證、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

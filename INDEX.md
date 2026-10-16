@@ -233,7 +233,7 @@
 | 編號 | 補充 | 狀態 | 情境／標籤 |
 | --- | --- | --- | --- |
 | UC-008 | [晨報覆蓋與排程驗收](evidence/008-morning-brief-validation.md) | 作者實測限制補充；不能承諾完整或準時 | 工作｜每日、晨報、收件匣、排程 |
-| UC-009 | [跨助手背景移轉模板](evidence/009-background-transfer-template.md) | 模板存在及官方安全說明已查；實際移轉效果未測 | 開發｜跨助手移轉、模板 |
+| UC-009 | [背景移轉模板與作者實際索引](evidence/009-background-transfer-template.md) | 新增B級作者實作；尚待分類核對，未加500計數 | 開發｜跨助手移轉、模板 |
 | UC-013 | [登入狀態診斷與失敗報告驗收](evidence/013-authentication-diagnosis.md) | 作者失敗復盤；根因未確認修復 | 開發｜登入、故障診斷 |
 
 ## 待查來源（3）

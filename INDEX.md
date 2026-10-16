@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**133 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**137 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（143）
+## 主要案例（146）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -38,7 +38,7 @@
 | UC-031 | 用匿名消費明細建立支出看板 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/031-spending-dashboard.md) | 省錢｜記帳、看板 |
 | UC-032 | 把虛構睡眠紀錄整理成趨勢圖 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/032-sleep-record-chart.md) | 生活｜睡眠、健康 |
 | UC-033 | 從年度營運數據排出下一季實驗 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/033-business-experiment-plan.md) | 工作｜營運、實驗規劃 |
-| UC-034 | 把可疑費用整理成覆核清單 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/034-expense-anomaly-review.md) | 省錢｜費用、異常 |
+| UC-034 | 把可疑費用整理成覆核清單 | Meta Muse／Grok Bot | [Muse建議＋Grok Bot作者疑似重複扣款自述；未核退款](cases/034-expense-anomaly-review.md) | 省錢｜費用、異常 |
 | UC-035 | 找合適職缺，把履歷改成有根據的申請草稿 | dots／Work歸屬待核；Grok Bot反例兩則 | [作者自報＋未核准及重複投遞反例＋代理內部筆記險些送出反例；未重現](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
 | UC-036 | 每天的收銀資料，整理成可核對的入帳檔 | Grok Bot／POS／QuickBooks Online | [論壇作者自報；無實際入帳或核帳證據](cases/036-pos-accounting-csv.md) | 工作｜每日、收銀、記帳 |
 | UC-037 | 跨商店比同款商品，先看清總價與賣家 | Meta Muse；Grok Bot（Amazon 擋代理後改找他店）；dots 本機替代路徑 | [媒體作者單次測試＋Grok Bot／dots 失敗與本機路徑自述＋robots.txt 已讀；未獨立重現](cases/037-product-listing-comparison.md) | 省錢｜購物、比價、網購 |
@@ -166,6 +166,9 @@
 | UC-145 | 同一份調查表一直重抄？用假資料先驗證每個欄位有沒有漏 | Grok Bot／ChatGPT／Claude | [作者實驗／使用報告；未重現](cases/145-offline-standard-form-field-validation.md) | 工作｜表單、離線工具、欄位核對、驗收 |
 | UC-146 | 補助文件看似齊了？先核每一項要求有沒有證據 | ChatGPT dots／Google帳號資料 | [作者實驗／使用報告；未重現](cases/146-grant-supporting-document-gap-check.md) | 生活｜補助、文件核對、缺漏、交接 |
 | UC-147 | 一桌人想吃的不一樣？先讓偏好代理提出、拒絕再修訂 | Grok Bot／webhook／mirai-menu | [作者實驗／使用報告；未重現](cases/147-group-meal-bot-negotiation-demo.md) | 開發｜多代理、協商、餐飲、原型 |
+| UC-148 | 課程時間打架、學分又怕重算？先用規劃表找待核問題 | Grok Bot／課程資料／後續Claude Fable共同開發 | [作者實作／使用報告；未重現](cases/148-course-degree-planning-prototype.md) | 學習｜選課、衝突、學分、規劃 |
+| UC-149 | 投稿說送出了，頁面真的上線了嗎？ | ChatGPT dots／公開目錄 | [作者實作／使用報告；未重現](cases/149-directory-submission-live-link-verification.md) | 工作｜投稿、狀態核對、連結、驗收 |
+| UC-150 | 日期看起來沒錯，公式卻算不動？先找資料型別問題 | ChatGPT dots | [作者實作／使用報告；未重現](cases/150-spreadsheet-date-formula-repair.md) | 工作｜試算表、日期、公式、修復 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

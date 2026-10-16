@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**201 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**203 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（207）
+## 主要案例（209）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -266,6 +266,9 @@
 | UC-213 | 故事板動態特效時點比較與返工 | ChatGPT dots／Codex | [作者返工自述；平台連續動作待測](cases/213-storyboard-timed-effect-visual-review.md) | 創作｜特效、時序、驗收 |
 
 | UC-214 | 發布產物與實際運行版本讀回 | Meta Muse／Codex／Python | [作者發布自述；業務與回退待驗](cases/214-release-artifact-runtime-identity-check.md) | 開發｜發布、環境、驗收 |
+
+| UC-215 | 指定食譜信夾轉結構化收藏 | Grok Bot／Outlook／GitHub | [作者使用自述；原頁與排程未核](cases/215-recipe-inbox-structured-collection.md) | 生活｜食譜、收藏、驗收 |
+| UC-216 | 拍攝組挑片與預設修圖交接 | Grok Bot／Lightroom Web | [作者使用自述；照片與計時未核](cases/216-photo-shoot-selection-preset-handoff.md) | 創作｜攝影、挑片、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

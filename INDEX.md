@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**187 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**189 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（193）
+## 主要案例（195）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -241,6 +241,9 @@
 
 | UC-197 | 既有零件裝配的位置與介面驗收 | Grok Bot／CadQuery | [作者量測與圖片；原CAD未公開](cases/197-supplied-part-assembly-geometry-audit.md) | 開發｜CAD、裝配、驗收 |
 | UC-198 | 實驗前文件缺口與教師確認 | Grok Bot／LabReady | [作者測試自述；影片與原包未核](cases/198-prelab-document-gap-review.md) | 學習｜實驗課、文件、缺件 |
+
+| UC-199 | 比分直播排程與播放狀態核對 | Grok Bot／YouTube | [作者已用自述；頻道日誌未公開](cases/199-scheduled-score-stream-state-review.md) | 創作｜直播、排程、驗收 |
+| UC-200 | 舊統計分析重跑與結果對照 | ChatGPT dots／R | [作者進行中比對自述；原碼數據未核](cases/200-prior-statistical-analysis-rerun-comparison.md) | 學習｜統計、重跑、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

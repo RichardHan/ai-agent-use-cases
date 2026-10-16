@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**194 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**196 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（200）
+## 主要案例（202）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -253,6 +253,9 @@
 | UC-206 | 本人跨帳戶轉帳配對與漏記差額 | ChatGPT dots／YNAB | [作者使用自述；原帳本未核](cases/206-own-account-transfer-reconciliation.md) | 省錢｜記帳、轉帳、差額 |
 
 | UC-207 | 多條閘門未觸發的運行複盤 | Grok Bot／routines | [作者失敗自述；模擬構想未執行](cases/207-trigger-gate-nonexecution-retrospective.md) | 開發｜條件、失敗、驗收 |
+
+| UC-208 | 跨主機作業技能綁定與核准驗收 | Grok Bot／BlackOps MCP | [廠商實作自述；無原始日誌](cases/208-portable-skill-binding-approval-check.md) | 開發｜技能、移植、核准 |
+| UC-209 | 跨試算表環境公式語意驗收 | ChatGPT dots／Excel／Google Sheets | [作者失敗自述；未修復驗證](cases/209-spreadsheet-cross-app-formula-validation.md) | 工作｜試算表、相容性、失敗 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

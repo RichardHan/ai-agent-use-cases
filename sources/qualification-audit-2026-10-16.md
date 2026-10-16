@@ -1,12 +1,12 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 18:47 UTC／2026-10-17 02:47台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–182。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 18:54 UTC／2026-10-17 02:54台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–182。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
-- 舊94個編號中，83個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–182合計87個不同工作流程，連同現有83個，目前 **170 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **330**。
+- 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
+- 新增095–099及101–182合計87個不同工作流程，連同現有85個，目前 **172 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **328**。
 - 網站目前有178個主案例、3個補充及3條待查線索；181個編號或184個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
@@ -30,8 +30,8 @@
 ## 排除與待確認
 
 - 009：只有背景移轉模板，沒有實際移轉報告。
-- 029、032、033：運動改期、睡眠趨勢、年度業務分析僅有官方建議情境或設計範例。034新增原作者具體費用疑點後才納入，Muse部分仍是官方建議。
-- 039：有競品模板與活動觀察，缺少可歸屬的作者執行結果。
+- 032、033：睡眠趨勢、年度業務分析僅有官方建議情境或設計範例。029新增作者排課／批次撤回核對後才納入，不宣稱訓練有效。034新增原作者具體費用疑點後才納入，Muse部分仍是官方建議。
+- 039現依一次性競品brief完成自述納入；原Grok Bot持續追蹤及定位回應模板仍未測。
 - 092：與061重複的協調者／專家分工、任務台帳與證據回條，不因換成 Basecamp 等工具再計一次。
 - 071：教學與設定內容不足以確認文中那個實際工作流程；原貼文未取得完整可讀證據。
 - 089原跨領域清理仍未核；新增法文原作者已產出Drive重複檔盤點與人工核准自述，只依此限縮流程計數，不認定刪除完成。
@@ -114,7 +114,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-028](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/028-bill-comparison-preparation.md)｜納入｜B。新增原作者已用Muse研究帳單並準備本人通話的自述；節省$326僅作者聲稱、幣別與新約未核，不認定代理電話議價。原官方情境仍H。[來源](https://x.com/ChristinaR0gers/status/2100667163749298179)
 
-- [UC-029](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/029-exercise-time-replan.md)｜排除：缺實作證據｜H。Only official use-case claim and editor-designed scenario; no actual-use report. [來源](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/)
+- [UC-029](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/029-exercise-time-replan.md)｜納入｜A。Chris Lewis實測加入／移動課程及刪12留2，並核對App；同文CSV漏算反例保留。不宣稱訓練有效，不另拆監測計數。[來源](https://www.pelobuddy.com/muse-peloton-first-look/)
 
 - [UC-030](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/030-interactive-study-guide.md)｜納入｜A。Author reports Kindle vocabulary app with screenshots; public StudyStudio files and other self-reports are variants. No learning-outcome validation. [來源](https://x.com/_simonsmith/status/2110425007059017830)
 
@@ -134,7 +134,7 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-038](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/038-fabric-sourcing-sample-handoff.md)｜納入｜B。Business owner reports supplier outreach, comparison and design-file handoff; receipt/quality of samples not yet established. [來源](https://news.ycombinator.com/item?id=49263241)
 
-- [UC-039](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/039-competitor-positioning-review.md)｜排除：缺實作證據｜T。Template existence plus attendee observation notes; no identified first-person execution outcome. [來源](https://x.ai/bot/marketplace/bots/stalk-bot)
+- [UC-039](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/039-competitor-positioning-review.md)｜納入｜B。Diana自述委派競品研究後關App，重開見完成brief且少改可用；未公開全文及來源明細，僅計一次研究交付，不證持續監測或營收成效。[來源](https://www.aiagentslibrary.com/blog/meta-muse-review/)
 
 - [UC-040](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/040-trip-deferred-recheck.md)｜納入｜A。Author actually demonstrated itinerary replan plus a completed one-time weather/transport recheck. Distinct from initial booking-option comparison; simulated trip disclosed. [來源](https://x.com/jibeiguang/status/2110168121852248425)
 

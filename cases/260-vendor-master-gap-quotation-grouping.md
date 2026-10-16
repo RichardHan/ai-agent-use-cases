@@ -35,7 +35,7 @@ TEKAI安全頁稱預設唯讀，寫入需依部署啟用並由使用者確認，
 
 需個別確認SAP版本、角色、資料傳給哪些AI服務、保存期限及部署費。原文列的是8月方案價格，不能作現行報價。持續連線與憑證配置、主檔更新及對外傳送都不是閱讀案例的授權。
 
-SAP官方文件另有採購申請轉詢價／訂單及按廠商分組流程；本次官方頁正文未成功載入，只作待進一步閱讀的背景連結，不能拿來證明此代理示範。本庫沒有連接ERP或執行案例。
+SAP官方採購程序把需求、詢價、訂購及實際入庫分開；不能把詢價文件數當成交付成果。文件設定還可能讓新增線上詢價單時寄信給供應商，所以在正式系統建文件不保證只是內部草稿。官方說明只提供產品背景，不能證明此代理示範。本庫沒有連接ERP或執行案例。
 
 ## 去重與來源
 
@@ -43,4 +43,5 @@ SAP官方文件另有採購申請轉詢價／訂單及按廠商分組流程；�
 
 - [TEKROI原作者實作報告](https://tekroi.com/blog/grok-bot-runs-sap-business-one-autonomously/)
 - [供應商安全與部署限制](https://tekroi.com/tekai/security/)
-- [SAP採購申請報表文件，正文待讀](https://help.sap.com/docs/SAP_BUSINESS_ONE/68a2e87fb29941b5bf959a184d9c6727/3616ee0570214f75bc1c67101edb9f41.html)
+- [SAP採購程序](https://help.sap.com/docs/SAP_BUSINESS_ONE/68a2e87fb29941b5bf959a184d9c6727/450a572b37ca1f2ce10000000a1553f6.html)
+- [SAP詢價文件設定與寄信副作用](https://help.sap.com/docs/SAP_BUSINESS_ONE/68a2e87fb29941b5bf959a184d9c6727/45071a63f61941dee10000000a1553f6.html)

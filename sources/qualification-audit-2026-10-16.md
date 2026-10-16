@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–108。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–109。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
-- 舊 94 個編號中，81 個可依其受支持的實際任務計數；084、091 另有真實獨立任務，但需重新定義案例範圍後才能再加 2。
-- 新增 095–099 均有第一人稱實際使用自述，增加 5 個不同工作流程。此批合計86；後續101–103再增加3個有作者實作自述的不同流程，再補104–106三個不同作者流程後，再補107–108兩項產品員工實際使用流程，目前合計 **94**。084、091仍未計入，完成兩案重定義後才可達96。
-- 距 500 個不同實作工作流程尚差 **406**；084、091重定義後尚差404。
-- 網站目前有104個主案例、3個補充及3條待查線索；107個編號或110個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
+- 新增095–099及101–109合計14個不同工作流程，連同原82個，目前 **96 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **404**。
+- 網站目前有105個主案例、3個補充及3條待查線索；108個編號或111個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 判準與證據等級
@@ -35,21 +35,21 @@
 
 ## 重複群與必要限縮
 
-061、084、091、092 的一般多代理協作架構合計只算一次，保留061。084可改成「依廚房／浴室條件篩選房源照片並交短名單」；091可改成「依即將到期帳單與發薪日前餘額提出家庭現金流預警」。兩項改寫尚未計入94。
+061、084、091、092的一般多代理協作架構合計只算一次，保留061。084現已限縮為作者明確實際運行的房源照片條件篩選→Notion工單，另計一次。091雖有每日讀YNAB自述，但具體現金警示在公開頁標為示例，尚不計另一工作流程。
 
 已納入的023只支持「既有簡報素材替換與交付」，025只支持「報名資料核對與活動通知修訂」，031只支持「交易、郵件與行事曆對照的用餐日誌」；不可沿用較大的官方假設情境。013支持診斷報告的證據檢查，未證明登入修復。068支持設定寫入／讀回檢查，未證明長期離線問題已解決。035保留申請準備的實作／失敗證據，不保證原始產品歸屬或面試成效。
 
 其他相近案例依終點區分：001／040為首次選項比較與條件變更後重查；006／042／077為數據引導發布、內容互評與格式化草稿交付；008／049為多行事曆晨報與郵件分流。若內容被簡化成同一泛用流程，必須合併，不能只靠平台不同保留。
 
-P-001–003不在94內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
+P-001–003不在96內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
 
 ## 查閱範圍
 
-本次逐頁稽核庫內107個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
+本次逐頁稽核庫內108個編號的已保存正文、證據與來源，並針對待判定項目回查原始來源；並非本次重新打開全部外部連結。原文受登入、限流、失效或影片不可讀限制時，沿用案例頁記錄的查閱範圍，不把連結存在當作已核實。下列英文判定句保留具體證據邊界；中文結論與案例正文可對照閱讀。
 
 ## 逐案判定與來源
 
-下列逐案理由維持可核對的具體範圍；案例頁列有完整來源與限制。來源連結支持實作敘述，不保證成效。基準94案與四批新增13案分列。
+下列逐案理由維持可核對的具體範圍；案例頁列有完整來源與限制。來源連結支持實作敘述，不保證成效。基準94案與五批新增14案分列。
 
 
 ### 原 UC-001–094
@@ -220,7 +220,7 @@ P-001–003不在94內。P-004已補讀原作者回報的實際RFP短名單，�
 
 - [UC-083](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/083-printable-grade1-math-worksheet.md)｜納入｜A。Visible conversation/file and worksheet screenshot support PDF creation; answers and curriculum match not independently checked. [來源](https://x.com/zohanlin/status/2111075388877394082)
 
-- [UC-084](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/084-botops-tiered-fleet-notion-tickets.md)｜改寫後可納入，尚未計數｜B。Generic BotOps architecture duplicates UC-061, but its body/source contains a distinct actual home-listing photo-screening workflow. Count only after reframing to that task. [來源](https://granda.org/en/2026/09/06/how-i-run-grok-bot/)
+- [UC-084](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/084-botops-tiered-fleet-notion-tickets.md)｜納入｜B。原作者明確描述實際運行Home hunt，檢查房源照片中的廚房／浴室要求，交回值得看的Notion工單。已限縮計數；照片準確率、完整短名單與購屋結果未核。[來源](https://granda.org/en/2026/09/06/how-i-run-grok-bot/)
 
 - [UC-085](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/085-slack-bug-triage-product-preread.md)｜納入｜B。Author reports both internal bug triage and biweekly marketing pre-read; conservatively count this existing combined record once, not twice. [來源](https://jamespember.substack.com/p/grok-bot-is-really-good)
 
@@ -234,7 +234,7 @@ P-001–003不在94內。P-004已補讀原作者回報的實際RFP短名單，�
 
 - [UC-090](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/090-daily-prediction-market-evidence-read.md)｜納入｜B。Author reports daily research/filtering using an MCP source; no trades or prediction-performance claim. [來源](https://x.com/sidshekhar24/status/2089735218861326727)
 
-- [UC-091](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/091-household-13-lane-bots.md)｜改寫後可納入，尚未計數｜B。The 13-Bot household architecture overlaps UC-061 and existing household/mail workflows. Body has distinct prospective bills/cash-flow warning use; count only after reframing to that task. [來源](https://ylgibby.github.io/grokbot-household-swarm/)
+- [UC-091](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/091-household-13-lane-bots.md)｜待確認獨立實際產物｜U。13 Bot架構與061重複。每日讀YNAB為作者自述，但具體發薪前帳單警示出自明標去識別示例，不能視為已發生事件；更正先前改寫即可計入的判定。[原始示例聲明](https://github.com/ylgibby/grokbot-household-swarm/blob/main/index.html#L374)
 
 - [UC-092](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/092-desk-can-cannot-receipts.md)｜排除：重複｜B。Same core coordinator/specialist scope and evidence-receipt workflow as UC-061; different task ledger/vendor does not create another workflow. [來源](https://dennisyu.com/how-i-use-grok-bot/)
 
@@ -279,3 +279,7 @@ P-001–003不在94內。P-004已補讀原作者回報的實際RFP短名單，�
 - [UC-107](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/107-old-blog-private-audio-archive.md)｜納入｜V。原訪談主持人記錄產品員工找回舊文章、整併PDF並每日收取朗讀；完整文集與音訊未核，不保證復原完整。 只讀原主持人文章與同站流程頁，未觀看完整影片；與產品有職務關係。[來源](https://www.chatprd.ai/how-i-ai/alex-cornell-meta-muse-workflows)
 
 - [UC-108](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/108-golf-round-practice-data-review.md)｜納入｜V。原訪談主持人描述產品員工展示逐桿／練習數據圖表與賽後回顧；原始數據、因果與改善成績未驗。 只讀原主持人文章與同站流程頁，未觀看完整影片；與產品有職務關係。[來源](https://www.chatprd.ai/how-i-ai/alex-cornell-meta-muse-workflows)
+
+### 新增 UC-109
+
+- [UC-109](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/109-supermarket-coupon-activation.md)｜納入｜B。HN原作者回報Muse完成超市券啟用，但比手動反覆點擊慢；官方HN API核作者、時間及完整留言。商店、券數、實際節省與登入安全機制未核。不同於比價／價格監測／禮物卡盤點。[來源](https://news.ycombinator.com/item?id=49626889)

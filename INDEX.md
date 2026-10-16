@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**139 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**142 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（148）
+## 主要案例（151）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -171,6 +171,9 @@
 | UC-150 | 日期看起來沒錯，公式卻算不動？先找資料型別問題 | ChatGPT dots | [作者實作／使用報告；未重現](cases/150-spreadsheet-date-formula-repair.md) | 工作｜試算表、日期、公式、修復 |
 | UC-151 | 房訂好了還不能直接入住？把付款失敗和門禁前置事項找出來 | Meta Muse／Booking／Gmail | [作者實作自述；未重現](cases/151-booked-stay-prerequisite-followup.md) | 生活｜旅遊、住宿、前置事項、追蹤 |
 | UC-152 | 面試後記錄堆著？先把證據整理好，再由面試官判斷 | Grok Bot／Granola或錄影／ATS | [廠商員工實作自述；未重現](cases/152-interview-evidence-feedback-draft.md) | 工作｜面試、證據、草稿、人工覆核 |
+| UC-153 | 準備下一次跑團？先把冒險、地圖和主持資料組起來 | ChatGPT dots／作者另用一般ChatGPT審查 | [作者實作自述；未重現](cases/153-tabletop-adventure-material-pack.md) | 創作｜桌遊、冒險、地圖、主持材料 |
+| UC-154 | 採購合約卡在哪一段？把等待時間整理成待核統計 | Grok Bot／合約系統匯出／Sheets | [廠商員工實作自述；未重現](cases/154-contract-review-wait-time-analysis.md) | 工作｜採購、流程、等待時間、統計 |
+| UC-155 | 早上工單臨時變了，誰還沒收到通知？ | Meta Muse／工單板／簡訊／Slack | [作者實作自述；未重現](cases/155-field-service-job-change-coordination.md) | 工作｜工單、現場服務、通知、核對 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

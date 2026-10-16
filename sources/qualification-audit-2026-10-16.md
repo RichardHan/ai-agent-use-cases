@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–162。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–164。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–162合計67個不同工作流程，連同現有82個，目前 **149 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **351**。
-- 網站目前有158個主案例、3個補充及3條待查線索；161個編號或164個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–164合計69個不同工作流程，連同現有82個，目前 **151 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **349**。
+- 網站目前有160個主案例、3個補充及3條待查線索；163個編號或166個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -426,3 +426,9 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-161](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/161-cross-model-response-dataset-audit.md)｜納入｜A。原作者固定題庫跨產品採集、285唯一鍵及原檔可核；單次德文與版本不一致，補檔及主觀量表限制保留。只讀資料不重跑，不能以條款未核方式重製採集。[來源](https://github.com/jojowanuby/LLM-Alignment-Atlas)
 - [UC-162](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/162-mesh-simplification-camera-state-review.md)｜納入｜B。作者明述既有網格多級減面及相機／機器狀態驗收渲染；原資產和FPS未核，不將幾何減少當性能已提升，四版本只算一次。[來源](https://www.reddit.com/r/OpenAI/comments/1wyoaw7/my_dot_burns_16b_tokens_a_day_on_since_day_one_on/)
+
+
+### 新增UC-163–164
+
+- [UC-163](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/163-legacy-cms-history-migration.md)｜納入｜B。作者自述歷史CMS文章保留日期／舊路徑並上線；未逐篇核全文附件和轉址，客服協助解除staging及SSL問題不能歸為Bot自主修復。[來源](https://jdb.net/grok-bot-redesigned-my-website/)
+- [UC-164](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/164-stale-ticket-retirement-scope-stop.md)｜納入｜B。原作者交辦舊工單清理後，既有補讀規則限流重試失控；帳停因果／數字未核，無完整關單或恢復證據。不同新bug分流，不把百餘單拆計。[來源](https://www.reddit.com/r/GrokBot/comments/1wpeg6a/grokbot_found_an_answer_to_a_problem_i_had_then/)

@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**222 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**224 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（228）
+## 主要案例（230）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -297,6 +297,9 @@
 | UC-233 | 訂閱營收指標折扣口徑覆核 | ChatGPT dots | [作者已發現計算問題自述；無更正結果](cases/233-recurring-revenue-discount-definition-review.md) | 工作｜訂閱、營收、驗收 |
 | UC-234 | 待寄附件與核定提案一致性關卡 | Grok Bot／SharePoint／Planner | [作者運作及攔錯自述；無原件日誌](cases/234-proposal-attachment-consistency-send-gate.md) | 工作｜附件、核准、驗收 |
 | UC-235 | 歷史回測凍結紀錄與執行界線核對 | Grok Bot／NexusTrade | [平台作者公開整理紀錄；未獨立重跑](cases/235-backtest-freeze-evidence-boundary-review.md) | 學習｜研究、回測、失敗驗收 |
+
+| UC-236 | 事件播放暫停保留與原狀恢復分析 | Grok Bot／事件原型 | [公開原型及修正；平台用途有限制](cases/236-event-playback-state-restoration-prototype.md) | 開發｜事件、恢復、反例 |
+| UC-237 | 草圖零件STEP與製造規格交接 | Grok Bot／Claude Code／Xometry | [作者下訂自述；原檔實物未核](cases/237-sketch-part-step-manufacturing-handoff.md) | 開發｜CAD、零件、交接 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

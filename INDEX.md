@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**122 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**127 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（132）
+## 主要案例（137）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -155,6 +155,11 @@
 | UC-134 | 手寫廚房訂貨單到供應商購物車 | Grok Bot／TEACH | [原作者失敗後示範重跑；仍有錯誤](cases/134-handwritten-kitchen-order-cart.md) | 工作｜餐飲、訂貨單、示範、驗收 |
 | UC-135 | 課間空檔與步行時間的校園餐次安排 | Grok Bot／Calendar | [原作者已建日曆自述；路線營養未驗](cases/135-campus-meal-window-planning.md) | 生活｜校園、用餐、行程、步行 |
 | UC-136 | 社區公園需求、造價與資金途徑提案 | Meta Muse | [作者已備提案自述；無核准或募資結果](cases/136-community-park-feasibility-proposal.md) | 工作｜社區、公共空間、提案、證據 |
+| UC-137 | 到圖書館才發現還沒設定列印？先把PDF排進佇列 | Meta Muse／Stanford Cardinal Print | [作者實作自述；未重現](cases/137-visitor-print-queue-handoff.md) | 生活｜列印、文件、交接、驗收 |
+| UC-138 | 路燈壞了？先找對設備編號，再送修並追蹤回信 | Grok Bot | [作者實作自述；未重現](cases/138-streetlight-fault-report-handoff.md) | 生活｜公共設施、報修、交接 |
+| UC-139 | 旅行丟了包？先查失物招領清單，找到候選再認領 | Grok Bot | [作者實作自述；未重現](cases/139-lost-property-match-search.md) | 生活｜旅遊、失物、搜尋、核對 |
+| UC-140 | 機器人只看到平面影像？先驗證估距，再談移動 | Meta Muse／Depth Anything V2 | [作者實作自述；未重現](cases/140-monocular-depth-robot-offline-review.md) | 開發｜視覺、機器人、估距、驗收 |
+| UC-141 | 停車時掉了多少電？把車輛讀值和資料中斷一起看 | Meta Muse／Rivian | [作者實作自述；未重現](cases/141-vehicle-telemetry-gap-dashboard.md) | 生活｜車輛、遙測、看板、資料缺口 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

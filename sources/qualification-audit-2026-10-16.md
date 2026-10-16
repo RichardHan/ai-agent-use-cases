@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 19:48 UTC／2026-10-17 03:48台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–200。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 19:49 UTC／2026-10-17 03:49台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–193及195–200合計104個不同工作流程，連同現有85個，目前 **189 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **311**。
-- 網站目前有195個主案例、3個補充及3條待查線索；198個編號或201個條目均不是合格工作流程計數。100及194尚未收錄，編號間隙不計案例。
+- 新增095–099及101–193及195–201合計105個不同工作流程，連同現有85個，目前 **190 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **310**。
+- 網站目前有196個主案例、3個補充及3條待查線索；199個編號或202個條目均不是合格工作流程計數。100及194尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 歷史批次更正（台灣2026-10-17，對應UTC2026-10-16；非目前總數）
@@ -566,3 +566,8 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 
 - [UC-199](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/199-scheduled-score-stream-state-review.md)｜納入｜B。作者具體自述以Grok routine維持其比分直播；有求額度動機，未公開頻道及日誌，不能認證成本或穩定性。直播播放狀態不同影片生成或成效監測，不按排程拆案。[來源](https://www.reddit.com/r/GrokBot/comments/1x70m51/what_grokbot_project_are_you_currently_working_on/)
 - [UC-200](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/200-prior-statistical-analysis-rerun-comparison.md)｜納入｜B。作者回報dot正在以既有R碼分析且結果與前次一致；環境重建僅代理說法，無完整完成／正確性證據。舊分析跨環境對照不同新SQL查詢或求解器基準，不因語言另算。[來源](https://www.reddit.com/r/ChatGPT/comments/1wvfuja/i_just_asked_my_dot_to_check_some_r_code_r_is_a/)
+
+
+### 新增UC-201
+
+- [UC-201](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/201-damage-comparison-coverage-correction.md)｜納入｜B。作者以dot推進遊戲比較並要求覆核，已公開撤回不均覆蓋的公式排名；dots寫碼份額未核，原數值未逐列驗證。終點為可比性與錯誤排名更正，不同196事件紀錄及119先發選擇，管理看板不另算。[歸因來源](https://builtwithbumblevai.com/en/dots-project-approval-testing-dashboard/)／[更正結果](https://builtwithbumblevai.com/en/aion2-dps-ranking-development/)

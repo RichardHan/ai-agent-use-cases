@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**118 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**120 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（128）
+## 主要案例（130）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -151,6 +151,8 @@
 | UC-130 | 備品門檻補貨、批准及訂單台帳對帳 | Grok Bot／Notion／Amazon | [作者受控實購測試；回寫延遲與權限限制](cases/130-supplies-reorder-ledger-reconciliation.md) | 工作｜備品、補貨、核准、對帳 |
 | UC-131 | 學生示範影片與程式作品教師預審 | ChatGPT dots／Whisper／GitHub | [原作者已用自述；回饋正確性未核](cases/131-student-demo-code-prereview.md) | 學習｜教學、作品、影片、覆核 |
 | UC-132 | 播客逐字稿分說話者與檢索前處理 | Grok Bot／Foundry | [原作者部分完成自述；RAG未完成](cases/132-podcast-transcript-retrieval-preparation.md) | 學習｜播客、逐字稿、資料整理、檢索 |
+| UC-133 | 餐廳菜單轉螢幕閱讀器標題式網頁 | Meta Muse | [原作者實用自述；成品及現版未驗](cases/133-screen-reader-menu-reformat.md) | 生活｜無障礙、菜單、螢幕閱讀器、網頁 |
+| UC-134 | 手寫廚房訂貨單到供應商購物車 | Grok Bot／TEACH | [原作者失敗後示範重跑；仍有錯誤](cases/134-handwritten-kitchen-order-cart.md) | 工作｜餐飲、訂貨單、示範、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

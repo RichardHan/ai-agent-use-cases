@@ -51,3 +51,5 @@
 - [管線步驟原碼，只讀未執行](https://github.com/LarsenCundric/ai-research-experiments/blob/ae85ea1a5ee2fab37fdccb07a53c0d80def91a35/papers/pulse26/artifact/run_all.sh)
 - [共同時段與背景結果](https://github.com/LarsenCundric/ai-research-experiments/blob/ae85ea1a5ee2fab37fdccb07a53c0d80def91a35/papers/pulse26/artifact/source_vs_site.txt)
 - [環境重建與未解項目](https://github.com/LarsenCundric/ai-research-experiments/blob/ae85ea1a5ee2fab37fdccb07a53c0d80def91a35/papers/pulse26/artifact/paper/OPEN_ITEMS.md)
+
+- [UHSLC官方資料品質及基準說明](https://uhslc.soest.hawaii.edu/datainfo/)：需記品質層級、站點基準及時間精度；此說明不證本案已完成各項校驗。

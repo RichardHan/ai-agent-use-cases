@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**221 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**222 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（227）
+## 主要案例（228）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -296,6 +296,7 @@
 | UC-232 | 已購教材下載盤點與到檔核對 | ChatGPT dots | [作者親數到檔自述；未核內容完整性](cases/232-purchased-resource-delivery-reconciliation.md) | 學習｜下載、檔案、驗收 |
 | UC-233 | 訂閱營收指標折扣口徑覆核 | ChatGPT dots | [作者已發現計算問題自述；無更正結果](cases/233-recurring-revenue-discount-definition-review.md) | 工作｜訂閱、營收、驗收 |
 | UC-234 | 待寄附件與核定提案一致性關卡 | Grok Bot／SharePoint／Planner | [作者運作及攔錯自述；無原件日誌](cases/234-proposal-attachment-consistency-send-gate.md) | 工作｜附件、核准、驗收 |
+| UC-235 | 歷史回測凍結紀錄與執行界線核對 | Grok Bot／NexusTrade | [平台作者公開整理紀錄；未獨立重跑](cases/235-backtest-freeze-evidence-boundary-review.md) | 學習｜研究、回測、失敗驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

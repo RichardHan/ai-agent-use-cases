@@ -2,7 +2,7 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-## 主要案例（80）
+## 主要案例（87）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -86,6 +86,13 @@
 | UC-081 | Todoist 定時巡檢，先幫你想好下一步開場草稿 | ChatGPT dots／Todoist | [作者貼文＋任務截圖；未重現](cases/081-todoist-scheduled-headstart.md) | 工作｜待辦、排程、核准 |
 | UC-082 | 管家／教練／營養師多 Bot 群聊管飲食訓練與睡眠 | Grok Bot（多代理群聊＋技能／捷徑） | [作者自述＋群聊與技能截圖；第三方 Key 與端點未核、未重現](cases/082-multi-bot-fitness-coach-group.md) | 生活｜健康、多代理、運動 |
 | UC-083 | 依年級單元做出加注音可列印數學練習卷 PDF | Grok Bot | [作者貼文＋對話與卷面截圖；答案未逐題核、未重現](cases/083-printable-grade1-math-worksheet.md) | 學習｜出題、教學、驗收 |
+| UC-084 | 一個總管收件開 Notion 工單，領域 Bot 派臨時工（BotOps 三層編制） | Grok Bot／Notion | [作者部落格自述；未重現](cases/084-botops-tiered-fleet-notion-tickets.md) | 工作｜多代理、Notion、排程、工單 |
+| UC-085 | Slack bug 回報先分流，雙週彙整產品行銷預讀 | Grok Bot／Slack／GitHub | [作者電子報自述；未重現](cases/085-slack-bug-triage-product-preread.md) | 工作｜Slack、分流、產品行銷、彙整 |
+| UC-086 | 用 Muse 大量找演唱會完整影片，接便宜模型審核再核可 | Meta Muse | [作者部落格自述＋HN 討論待核；未重現](cases/086-muse-concert-video-scraping-pipeline.md) | 開發｜資料蒐集、網頁瀏覽、批次、驗收 |
+| UC-087 | 散步語音交辦轉 Codex 任務，早上十分鐘電話對進度 | ChatGPT dots／Codex | [作者評測自述（含失敗紀錄）；未重現](cases/087-voice-walk-intake-codex-morning-call.md) | 工作｜語音、待辦、核准、多代理 |
+| UC-088 | 翻信箱找退貨未退款訂單，擬信請商家處理 | Grok Bot／Gmail | [作者單則自述；未重現](cases/088-unrefunded-returns-inbox-chase.md) | 省錢｜退款、收件匣、核准 |
+| UC-089 | 數位斷捨離：信件、雲端檔、訂閱各列十項等核准 | Grok Bot／Gmail／Drive | [作者公開提示詞＋另一則自述；影片未看、未重現](cases/089-digital-declutter-approval-plan.md) | 生活｜收件匣、訂閱、檔案整理、核准 |
+| UC-090 | 每天掃 24 小時內結算的高機率預測市場並查證判讀 | Grok Bot（排程） | [作者單則自述；未重現；不含下單](cases/090-daily-prediction-market-evidence-read.md) | 工作｜每日、研究、排程、資料查證 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

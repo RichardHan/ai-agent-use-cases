@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 19:17 UTC／2026-10-17 03:17台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–192。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 19:24 UTC／2026-10-17 03:24台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–192合計97個不同工作流程，連同現有85個，目前 **182 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **318**。
-- 網站目前有188個主案例、3個補充及3條待查線索；191個編號或194個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–193及195合計99個不同工作流程，連同現有85個，目前 **184 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **316**。
+- 網站目前有190個主案例、3個補充及3條待查線索；193個編號或196個條目均不是合格工作流程計數。100及194尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 歷史批次更正（台灣2026-10-17，對應UTC2026-10-16；非目前總數）
@@ -541,3 +541,11 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 ### 新增UC-192
 
 - [UC-192](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/192-client-requirements-decision-clarification.md)｜納入｜B。作者已讓dot參與客戶頻道並協助收斂開工需求，人在場介入；無原對話／決策稿及專案交付證據。不同需求已定後PR或會議簡報，代理自述不當獨立佐證。[來源](https://matthewbradford.com/writing/one-week-with-chatgpt-dots)
+
+
+### 新增UC-193、195
+
+- [UC-193](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/193-deleted-conversation-readable-recovery.md)｜納入｜B。作者遺失對話後從殘存資料匯出可讀稿並自述可重開；無原始記錄／完整性證據，日期未核。不同事前備份及既存背景移轉，不附修補命令。[來源](https://www.reddit.com/r/GrokBot/comments/1wzcwmi/grok_bot_recovered_my_codex_chats_from_sqlite/)
+- [UC-195](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/195-conversion-event-journey-timing-audit.md)｜納入｜B。韓文產品設計者實測UTM註冊旅程並發現完成事件早於其業務完成定義；沒有原事件與修正結果。不同既有使用統計／廣告監看，不把參數與時點分拆。[來源](https://kr.linkedin.com/posts/%EC%A3%BC%EC%97%B0-%EB%B0%95-96b9032b4_%ED%94%84%EB%A1%9C%EB%8D%95%ED%8A%B8%EB%94%94%EC%9E%90%EC%9D%B8-ux-%EA%B7%B8%EB%A1%9C%EC%8A%A4-activity-7511395170685284352-dYtw)
+
+194測試網交易候選欠缺網路與測試資產核實，保留未發布；報銷新作者與174同流程，不增加計數。

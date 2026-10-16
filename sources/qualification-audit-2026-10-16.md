@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 19:08 UTC／2026-10-17 03:08台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–187。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-16 19:10 UTC／2026-10-17 03:10台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–188。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，85個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–187合計92個不同工作流程，連同現有85個，目前 **177 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **323**。
-- 網站目前有183個主案例、3個補充及3條待查線索；186個編號或189個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–188合計93個不同工作流程，連同現有85個，目前 **178 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **322**。
+- 網站目前有184個主案例、3個補充及3條待查線索；187個編號或190個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 歷史批次更正（台灣2026-10-17，對應UTC2026-10-16；非目前總數）
@@ -524,3 +524,8 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-185](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/185-event-results-leaderboard-awards.md)｜納入｜B。作者已將活動匯出接成排行榜與人核獎狀流程；手機匯出是外部工具、照片評選由人做，無原始結果或效率驗證。一個活動成果終點不拆張數。[來源](https://www.linkedin.com/posts/robertmak0_stepintospring-automation-workplacewellbeing-ugcPost-7514612818071928832-smLx)
 - [UC-186](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/186-registration-pollution-mail-health.md)｜納入｜B。作者真實假註冊及退信停送事故、Bot發現與處理自述；無變更或恢復投遞證據，不補猜申訴／刪除。不同重複觸發流程與郵件搬移。[來源](https://www.linkedin.com/posts/danielrobertkelly_we-got-smashed-with-100k-bogus-agent-signups-ugcPost-7511457673557602304-xaHk)
 - [UC-187](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/187-survey-batch-configuration-validation.md)｜納入｜B。業界作者明述實際支援案件的POSBat XML生成、原軟體驗證與修正；未核檔案及精度，不將批次設定接受當測繪成果合格。[來源](https://www.linkedin.com/posts/nick-smart-5b088750_grokbot-aisupportingsupport-ai-activity-7505624838577795072-pnpy)
+
+
+### 新增UC-188
+
+- [UC-188](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/188-dynamic-tariff-charging-window-review.md)｜納入｜B。作者每日充電時窗報告與家居串接自述；RCE與零售合約定義有重要差異，未核其公式／帳單／安全或節省。只計費率時窗核對，不按設備與檢查次數拆案。[來源](https://www.linkedin.com/posts/krzysztof-szablowski_artificialintelligence-electricvehicles-tesla-activity-7506806105843589120-IUMR)

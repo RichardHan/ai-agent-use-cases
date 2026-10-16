@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**228 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**229 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（234）
+## 主要案例（235）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -306,6 +306,8 @@
 | UC-239 | 穿戴端雙向會話交付與歷史狀態驗收 | ChatGPT dots／Dot Link／Even G2 | [作者實機紀錄；延遲與版本限制保留](cases/239-wearable-conversation-delivery-state-validation.md) | 開發｜穿戴、會話、驗收 |
 | UC-240 | 雙語受控詞彙與語意資料匯出 | Grok Bot／SKOS | [作者自述＋公開產物；未驗科學有效性](cases/240-bilingual-controlled-vocabulary-export.md) | 學習｜資料交換、驗收 |
 | UC-241 | 社群參與申請疑似垃圾初篩與人審 | Meta Muse／Facebook | [作者使用自述；無準確率與原隊列](cases/241-community-participation-spam-review.md) | 工作｜社群、核准、驗收 |
+
+| UC-242 | 航空公告與觀測簡報人工覆核 | Grok Bot | [作者使用自述；附件未讀、非飛行判定](cases/242-aviation-bulletin-observation-brief-review.md) | 工作｜公告、時效、覆核 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

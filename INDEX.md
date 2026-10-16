@@ -2,9 +2,9 @@
 
 更新日期：2026-10-16。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-16，**147 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-16，**149 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（156）
+## 主要案例（158）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -180,6 +180,9 @@
 | UC-158 | 收過款卻漏了出貨單？別用猜的地址和商品補回去 | Grok Bot多代理／Cursor／Stripe／Prodigi | [作者實作／失敗報告；未重現](cases/158-paid-orphan-order-recovery-review.md) | 工作｜訂單、對帳、履約、失敗 |
 | UC-159 | 畫得不像就重來？先檢查筆刷、填色與工具模式 | Grok Bot／Krita／Paint | [作者實作／失敗報告；未重現](cases/159-reference-portrait-brush-fill-failure.md) | 創作｜繪圖、筆刷、填色、失敗 |
 | UC-160 | 不只生成外殼：印出來、裝起來、玩過才知道哪裡不對 | ChatGPT dots／ESP32-S3／外殼CAD | [作者實作／失敗報告；未重現](cases/160-handheld-device-integrated-prototype.md) | 開發｜實體原型、韌體、外殼、驗收 |
+
+| UC-161 | 比較AI答案前，先檢查原文、拒答和測試條件有沒有漏 | Grok Bot／公開CSV／作者後續使用OpenAI模型與Codex | [作者實作報告；未重現](cases/161-cross-model-response-dataset-audit.md) | 學習｜模型評估、資料集、來源、驗收 |
+| UC-162 | 模型變輕了，重要零件還看得見嗎？ | ChatGPT dots／作者未指明的建模與渲染工具 | [作者實作報告；未重現](cases/162-mesh-simplification-camera-state-review.md) | 創作｜3D、減面、相機、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

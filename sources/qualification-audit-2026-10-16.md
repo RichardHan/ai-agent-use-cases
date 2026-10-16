@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–134。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–136。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，81個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–134合計39個不同工作流程，連同原81個，目前 **120 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **380**。
-- 網站目前有130個主案例、3個補充及3條待查線索；133個編號或136個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–136合計41個不同工作流程，連同原81個，目前 **122 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **378**。
+- 網站目前有132個主案例、3個補充及3條待查線索；135個編號或138個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -357,3 +357,8 @@ P-001–003不在114內。P-004已補讀原作者回報的實際RFP短名單，�
 
 - [UC-133](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/133-screen-reader-menu-reformat.md)｜納入｜B。Mika Pyyhkala原文自述實際將餐廳菜單變H2/H3分享頁便於螢幕閱讀器；成品、內容完整與現版可及性未核。只算非視覺菜單瀏覽，不混點餐及其他任務。[來源](https://www.applevis.com/apps/ios/productivity/muse-meta)
 - [UC-134](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/134-handwritten-kitchen-order-cart.md)｜納入｜B。Anthony Battaglia原文自述手寫廚房單首次建車混亂，親自示範後另一餐廳重跑仍有一兩錯；沒有付款到貨證據。與130門檻補貨對帳不同，兩餐廳只算一次。[來源](https://x.com/SayItStraightAB/status/2090594129784848387)
+
+### 新增UC-135–136
+
+- [UC-135](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/135-campus-meal-window-planning.md)｜納入｜B。Ben Boonstra自述已按課表、步行及菜單建立用餐日曆；未核路線、到店或營養，不等於027食譜採買。只計一流程。[來源](https://www.linkedin.com/posts/bboonstra26_grokbotforstudents-activity-7501708168121454592-_Fqr)
+- [UC-136](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/136-community-park-feasibility-proposal.md)｜納入｜B。Jake Steinerman自述公園需求證據、成本資金途徑與提案文件已完成，首信無回覆；未核68來源或獲核准／募款，不計建成。文件組合只算一次。[來源](https://www.linkedin.com/posts/jasteinerman_my-ai-agent-is-helping-me-build-a-park-activity-7505250511059832833-VbzP)

@@ -1,13 +1,13 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–144。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+稽核日期：2026-10-16。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–147。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
 ## 結論
 
 - 舊94個編號中，81個可依受支持的實際任務計數，含已限縮為房源照片篩選的084及取得法文實作證據的089。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–144合計49個不同工作流程，連同原81個，目前 **130 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **370**。
-- 網站目前有140個主案例、3個補充及3條待查線索；143個編號或146個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
+- 新增095–099及101–147合計52個不同工作流程，連同原81個，目前 **133 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **367**。
+- 網站目前有143個主案例、3個補充及3條待查線索；146個編號或149個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
 
 ## 2026-10-17（台灣時間）計數更正
@@ -378,3 +378,10 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-142](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/142-historical-folder-access-revocation.md)｜納入｜B。作者自述已撤歷史資料夾分享，沒有權限快照；官方群組／一般存取例外另核，不保證完全封閉。不同089刪重複檔。[來源](https://x.com/graceclarke/status/2109000147850117328)
 - [UC-143](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/143-unclaimed-property-candidate-handoff.md)｜納入｜B。作者自述找到無人認領財產條目，未核權利／認領／入帳；官方免費與本人認領限制已讀，與訂單退款不同。[來源](https://x.com/richardroop/status/2109069130020131061)
 - [UC-144](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/144-classical-translation-source-review.md)｜納入｜A。作者自述Bot參與古典語言英譯，公開逐節譯作與方法可讀；多AI貢獻及語文品質未核，不把全站作品各算一次。[來源](https://x.com/MrSaneApps/status/2108810882486501844)
+
+
+### 新增UC-145–147
+
+- [UC-145](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/145-offline-standard-form-field-validation.md)｜納入｜A。作者以假資料實作固定帳票輸入／輸出，手動跨模型十多輪修正後同業試用；未正式認定或發布。不同PDF抽取、工程追溯。[來源](https://note.com/toshi_michi2026/n/n339aa7f536a5)
+- [UC-146](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/146-grant-supporting-document-gap-check.md)｜納入｜B。原作者數日使用後稱dots指出補助佐證來信不符要求；未核具體文件／缺項／核准，不猜地區計畫。不同許可行政與資金提案。[來源](https://zapier.com/blog/chatgpt-dots/)
+- [UC-147](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/147-group-meal-bot-negotiation-demo.md)｜納入｜A。公開原型與作者報告支持模擬多人偏好協商及跨帳戶通信；正式送餐、QR交換及過敏安全未證，不拆多Bot或建置步驟。[來源](https://note.com/goroman/n/n78142a1b006d)

@@ -4,11 +4,15 @@
 
 ## 結論
 
-- 舊94個編號中，82個可依受支持的實際任務計數，含已限縮為房源照片篩選的084。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
-- 新增095–099及101–115合計20個不同工作流程，連同原82個，目前 **102 個有作者實作證據（含自述）**。091不因更改標題而轉正。
-- 距500個不同實作工作流程尚差 **398**。
+- 舊94個編號中，80個可依受支持的實際任務計數，含已限縮為房源照片篩選的084。091暫不計入，其具體帳單警示是去識別示例，未核某次實際交付。
+- 新增095–099及101–115合計20個不同工作流程，連同原80個，目前 **100 個有作者實作證據（含自述）**。091不因更改標題而轉正。
+- 距500個不同實作工作流程尚差 **400**。
 - 網站目前有111個主案例、3個補充及3條待查線索；114個編號或117個條目均不是合格工作流程計數。100尚未收錄，編號間隙不計案例。
 - **有作者實作證據，不等於作者成效已證實。** 本稽核沒有獨立重現案例，也不認證節時、獲利、準確率、安全性或可靠性。失敗、沙盒測試與部分完成的流程可計數，但必須保留這些限制。
+
+## 2026-10-17（台灣時間）計數更正
+
+先前102含UC-008與UC-013兩項驗證補充，現保守扣除，改為100／500；內容完整保留，不把更名或改分類本身當新增案例。只有將來取得足夠獨立實際工作流程證據並重新去重，才重新評估。其餘補充009及待查P-001–003未計入；原P-004已讀到實際產物回報後才提升至101，沒有重複計數。
 
 ## 判準與證據等級
 
@@ -41,7 +45,7 @@
 
 其他相近案例依終點區分：001／040為首次選項比較與條件變更後重查；006／042／077為數據引導發布、內容互評與格式化草稿交付；008／049為多行事曆晨報與郵件分流。若內容被簡化成同一泛用流程，必須合併，不能只靠平台不同保留。
 
-P-001–003不在102內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
+P-001–003不在100內。P-004已補讀原作者回報的實際RFP短名單，提升為UC-101，另將法規到安全表單草稿記為UC-102；已從待查計數移除，不重複計入。[原作者補充](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peuhvej/)
 
 ## 查閱範圍
 
@@ -68,7 +72,7 @@ P-001–003不在102內。P-004已補讀原作者回報的實際RFP短名單，�
 
 - [UC-007](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/007-saas-renewal-audit.md)｜納入｜V。Vendor reports its own supplier, seat and contract audit; savings remain unverified vendor claims. [來源](https://x.ai/news/grok-bot-procurement)
 
-- [UC-008](https://github.com/RichardHan/ai-agent-use-cases/blob/main/evidence/008-morning-brief-validation.md)｜納入｜A。Author actually tested coverage across 16 calendars and report delivery. This supplement qualifies as use evidence; lateness is a limitation. [來源](https://dev.to/uehara/i-connected-chatgpt-dots-to-gmail-calendar-slack-and-notion-to-see-what-it-can-and-cant-do-13md)
+- [UC-008](https://github.com/RichardHan/ai-agent-use-cases/blob/main/evidence/008-morning-brief-validation.md)｜排除：驗證補充｜A。保留作者實際測試16個日曆的覆蓋與交付限制；本項仍屬驗證補充，不納入500個獨立實作工作流程。[來源](https://dev.to/uehara/i-connected-chatgpt-dots-to-gmail-calendar-slack-and-notion-to-see-what-it-can-and-cant-do-13md)
 
 - [UC-009](https://github.com/RichardHan/ai-agent-use-cases/blob/main/evidence/009-background-transfer-template.md)｜排除：缺實作證據｜T。Only a public template and safety documentation; no actual transfer report. [來源](https://x.ai/bot/marketplace/bots/import-bot)
 
@@ -78,7 +82,7 @@ P-001–003不在102內。P-004已補讀原作者回報的實際RFP短名單，�
 
 - [UC-012](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/012-research-evaluation-provenance.md)｜納入｜B。Research authors retrospectively describe data/scaler review, critique and manuscript integration; incomplete logs and no independent science review. [來源](https://arxiv.org/abs/2610.05424v1)
 
-- [UC-013](https://github.com/RichardHan/ai-agent-use-cases/blob/main/evidence/013-authentication-diagnosis.md)｜納入｜B。Primary source rechecked: ChatGPT-mediated request received a Bot correction of unsupported login claims and record paths. Count report review, not repaired authentication. [來源](https://note.com/matsudakz/n/n7e2dad959cde)
+- [UC-013](https://github.com/RichardHan/ai-agent-use-cases/blob/main/evidence/013-authentication-diagnosis.md)｜排除：驗證補充｜B。保留作者對登入診斷主張的更正紀錄；本項仍是驗證補充，未確立獨立終端工作流程，不納入500計數。[來源](https://note.com/matsudakz/n/n7e2dad959cde)
 
 - [UC-014](https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/014-support-inbox-approval-refund.md)｜納入｜A。First-person support-playbook workflow plus a public screenshot of support triage. Unwatched painting-business video contributes no extra count. [來源](https://www.chatprd.ai/how-i-ai/grok-bot-agent-templates-and-workflows)
 

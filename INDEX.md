@@ -2,9 +2,9 @@
 
 更新日期：2026-10-17。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-17，**256 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-17，**260 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（263）
+## 主要案例（267）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -63,7 +63,7 @@
 | UC-056 | 讓 Bot 找題目、建站、維護、收贊助，經營小網站 | Grok Bot／Cursor 代理／Stripe 外掛 | [作者自述＋第三方影片拆解＋網站公開頁已讀；收入流量未核](cases/056-agent-built-microbusiness-site.md) | 工作｜網站、營運、電子報、多代理 |
 | UC-057 | 在自己筆電架 GitHub 自架 runner，先講好安全邊界 | Grok Bot／GitHub Actions／Windows 筆電 | [作者自述＋截圖＋GitHub 官方安全文件；未重現](cases/057-self-hosted-ci-runner-on-laptop.md) | 開發｜CI、本機執行、權限、核准 | 
 | UC-058 | 把整場網球錄影剪成每一分，減少等待 | Meta Muse | [作者自述仍在改善；未看成片、未重現](cases/058-tennis-match-dead-time-editing.md) | 創作｜影片、運動、剪輯、驗收 |
-| UC-059 | 找居家清運商、核准詢價，再確認預約 | Meta Muse | [媒體作者使用報告；未確認完工、未重現](cases/059-home-service-quote-handoff.md) | 生活｜家務、詢價、預約、核准 |
+| UC-059 | 找居家清運商、核准詢價，再確認預約；dots 多日聯絡搬家業者 | Meta Muse；ChatGPT dots／Gmail／Shiply | [媒體作者使用報告＋OpenAI 員工 dots 搬家長文自述；未確認完工、節省金額未核、未重現](cases/059-home-service-quote-handoff.md) | 生活｜家務、詢價、預約、核准 |
 | UC-060 | 有人在 X 標記就依附出處的資料庫自動回答，敏感題留給人 | Grok Bot／X／公開 GitHub 資料庫 | [作者自述＋公開帳號與資料庫已讀＋官方 X 讀取文件；答案未逐筆核、未重現](cases/060-x-mention-sourced-answer-bot.md) | 工作｜每日、X、自動回覆、知識庫 |
 | UC-061 | 窗口 Bot 派工給專責 Bot，固定指令格式、證據驗收與工作台帳 | Grok Bot／Cursor Cloud Agent／AI-PLC；Grok Bot 指揮本機 Codex 命令列；ChatGPT dots 經 Slack 受理 | [作者自述＋截圖＋公開提示詞＋官方多 Bot 文件＋本機 Codex 字幕 App 截圖自述＋dots 固定 commit 指示書與受理確認文章；未重現](cases/061-dispatcher-bot-typed-commands-ledger.md) | 開發｜多代理、核准、驗收、派工 |
 | UC-062 | 逐頁對照 Figma 與 Android 程式，找出實作差異 | Grok Bot／Figma／Android／JSON | [作者留言自述；未取得報告與程式、未重現](cases/062-figma-android-implementation-audit.md) | 開發｜設計、Figma、驗收、程式 |
@@ -75,7 +75,7 @@
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
-| UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian | ChatGPT dots／Obsidian | [作者教學串＋官方記憶 FAQ；未重現](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
+| UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian；多家代理共用同一 vault | ChatGPT dots／Obsidian；Grok Bot／Muse／Hermes 共用 vault | [作者教學串＋官方記憶 FAQ＋跨供應商共用 vault 自述與截圖；未重現](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
 | UC-072 | 電話任務的身份揭露、核准與人工交接 | Grok Bot／DialBot／Bland AI；ClawCall 自述；電話訂餐自述 | [作者測試自述＋官方模板與費用＋電話訂披薩後自行向店家確認＋Bland 官方 Bot 自行開戶指南；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
 | UC-073 | 網站顧客路徑、頁面盤點與表格讀回驗收 | ChatGPT dots／Grok Bot／公開網站／Sheets | [兩位來源使用與核對自報；完整產物未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
 | UC-074 | 裝置事件喚醒後重新讀取資料並驗收 | ChatGPT dots／MCP Events／自建 MCP | [作者建置自述＋官方文件；未重現](cases/074-event-trigger-readback.md) | 開發｜實體裝置、事件觸發、驗收 |
@@ -271,6 +271,10 @@
 | UC-269 | 單台 VPS 交給系統管理 Bot：白話指令、每小時內容檢查、每週更新 | Grok Bot／VPS | [HN 作者使用自述＋第三方反駁；無日誌](cases/269-single-vps-sysadmin-bot.md) | 開發｜伺服器維運、排程、驗收、權限 |
 | UC-270 | 每月掃發票找可自建替代的訂閱，盲測後才退訂 | Grok Bot／Gmail | [作者自述與月度提示詞；品質與成本數字未核](cases/270-subscription-replacement-blind-eval.md) | 省錢｜訂閱、自建替代、盲測、每日 |
 | UC-271 | 未來轉機依卡片權益排貴賓室並提醒 | Meta Muse／行事曆 | [作者單則自述；無畫面、權益對應未核](cases/271-layover-lounge-access-calendar.md) | 生活｜旅遊、行事曆、提醒、權益 |
+| UC-272 | 每天早晚查天氣，有雨才提醒帶傘 | 作者稱 Grok Bot／dots／Muse 皆可（截圖未標產品） | [作者每日使用自述＋實際訊息截圖；沒雨日靜默未見、未重現](cases/272-rain-only-umbrella-alert.md) | 生活｜每日、天氣、提醒、排程 |
+| UC-273 | 夜間讓個人代理接力指揮程式代理（清上下文、額度恢復續跑） | ChatGPT dots／Claude Code；Grok Bot／Codex | [兩位作者實作自述（Zenn 長文＋X 截圖）；無用量數字、未重現](cases/273-overnight-coding-agent-relay.md) | 開發｜跨代理、排程、額度、多代理 |
+| UC-274 | 每月匯出 LinkedIn 人脈，直接問在某公司認識誰 | Grok Bot（Rolodex 模板）／信箱 | [作者自述＋公開模板頁；無名單或問答畫面、未重現](cases/274-linkedin-connections-monthly-rolodex.md) | 工作｜人脈、收件匣、排程、CRM |
+| UC-275 | 個人電話交給 AI 總機，多層查核擋詐騙來電 | Grok Bot／Grok Voice／Telnyx | [作者自述＋架構圖；無通話或攔截紀錄、未重現](cases/275-personal-phone-ai-receptionist-anti-scam.md) | 生活｜電話、詐騙、隱私、核准 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

@@ -2,11 +2,11 @@
 
 更新日期：2026-10-17。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-17，**263 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-17，**268 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-本次研究（2026-10-17 14:10 台灣時間）：**261／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 263 是沿用已發布總數加本次 UC-278；本批新增 1 個不同實作流程。兩種口徑不可相加。
+本次研究（2026-10-17 14:43 台灣時間）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（270）
+## 主要案例（275）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -73,7 +73,7 @@
 | UC-064 | 核對數學命題、反例搜尋與 Lean 證明檢查 | ChatGPT dots／Lean | [作者自述＋公開程式、CI及登記；未獨立重跑](cases/064-math-proof-review-formalization.md) | 學習｜科研、多代理、形式驗證、驗收 |
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢 | Grok Bot | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
 | UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理 | Meta Muse | [作者自述＋公開稽核頁已讀；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
-| UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類備份到 GitHub | Meta Muse／Git；Grok Bot／GitHub | [Muse 作者自述採用方法＋Grok Bot 作者自述與截圖＋官方雲端電腦文件；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
+| UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub | Meta Muse／Git；Grok Bot／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼變體）＋官方文件；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
@@ -280,7 +280,11 @@
 | UC-276 | 分人員代理入口與輪詢耗額度失敗 | Grok Bot／Base44／Claude | [作者實作失敗自述；隔離及用量未核](cases/276-staff-agent-portal-routing-failure.md) | 開發｜權限、多人入口、輪詢 |
 | UC-277 | 連續會議決議變更與原音追溯 | Grok Bot／Kanary | [作者使用自述；原音與差異表未公開](cases/277-meeting-decision-change-audio-trace.md) | 工作｜會議、版本對照、原音 |
 | UC-278 | 加工中心軸與結構配置的3D概念比較 | Grok Bot／自建網頁 | [日文作者實作＋公開原碼；未執行、工程性能未驗](cases/278-machining-center-configuration-concept.md) | 開發｜機械、3D、參數、驗收 |
-
+| UC-279 | 電話以韓語向航空公司改票，因非本人被拒 | Grok Bot | [作者自述成功通話與拒絕原因；無錄音](cases/279-airline-phone-rebook-identity-refusal.md) | 生活｜旅遊、電話、核准、驗收 |
+| UC-280 | Notion 日報接 Slack，dots 落成任務並記工時 | ChatGPT dots／Notion／Slack／日曆 | [日文作者自述；無設定截圖](cases/280-notion-daily-slack-dots-hours.md) | 工作｜日誌、排程、工時、驗收 |
+| UC-281 | Grok Bot 出 mockup，Claude 工人實作，截圖 QA | Grok Bot／Claude Opus／GitHub | [作者長文自述＋附圖；專案未核](cases/281-grok-mockup-claude-worker-qa-pipeline.md) | 開發｜多代理、驗收、設計、程式 |
+| UC-282 | 語音交給 dots，代登病患入口傳訊給醫師 | ChatGPT dots | [Pro 社群訪談自述；無操作錄影](cases/282-patient-portal-voice-to-message.md) | 生活｜健康、收件匣、核准、語音 |
+| UC-283 | dots 接工作 App 實測 17 項與核准陷阱 | ChatGPT dots／多種外掛 | [作者對照畫面與 git log；未重跑](cases/283-dots-connected-apps-permission-pitfalls.md) | 工作｜驗收、權限、排程、故障診斷 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

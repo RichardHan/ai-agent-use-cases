@@ -4,7 +4,9 @@
 
 以 500 個不同實作工作流程為目標：截至 2026-10-17，**274 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-本次補核（2026-10-17 19:00 台灣時間）：**265／500 個保守核對案例，尚差235**。先前已核264加UC-289第三方貼文逐項證據處置一案；025活動規定衝突與005真機競用修復為既有流程補充，不另計。沿用發布口徑274，主要頁281；舊待定與不另計判斷保留。[本批來源、去重與限制](sources/research-2026-10-17-1900.md)。
+本次補核（2026-10-17 20:00 台灣時間）：**265／500 個保守核對案例，尚差235**，本批新增0案。073補缺欄位導致漏頁的盤點反例，001補付款重試未完成的作者報告；兩者均為既有流程補充。發布口徑274、主要頁281及舊待定判斷不變。[本批來源、去重與限制](sources/research-2026-10-17-2000.md)。
+
+上次補核（2026-10-17 19:00 台灣時間，已由上方取代）：**265／500 個保守核對案例，尚差235**。先前已核264加UC-289第三方貼文逐項證據處置一案；025活動規定衝突與005真機競用修復為既有流程補充，不另計。沿用發布口徑274，主要頁281；舊待定與不另計判斷保留。[本批來源、去重與限制](sources/research-2026-10-17-1900.md)。
 
 上次補核（2026-10-17 18:06 台灣時間，已由上方取代）：**264／500 個保守核對案例，尚差236**。以先前已核263為基準，補核既有UC-287一案；285的回信偏好更新閉環尚未完整取得，286與既有監看重疊、每日執行仍為意圖，288與既有手機今日看板重疊，均暫不另計。四頁及前次來源完整保留，發布口徑273不變。[本批原文與去重理由](sources/research-2026-10-17-1800.md)。
 
@@ -18,7 +20,7 @@
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
-| UC-001 | 旅行比較與付款前交接 | Grok Bot／Muse／dots | [作者測試＋Muse 媒體實測失敗點（擋 Bot、手動登入失敗）](cases/001-travel-checkout.md) | 生活｜旅遊、比價、付款前確認 |
+| UC-001 | 旅行比較與付款前交接 | Grok Bot／Muse／dots | [作者測試＋Muse結帳及重試失敗自述；未核交易](cases/001-travel-checkout.md) | 生活｜旅遊、比價、付款前確認 |
 | UC-002 | 影片研究與製作企劃 | Grok Bot／Muse／dots | [作者測試](cases/002-video-production.md) | 創作｜影片、選題研究 |
 | UC-003 | 模擬商店營運 | Grok Bot／Muse／dots | [作者測試，虛構商店](cases/003-store-operations.md) | 工作｜商店營運、客服、例外處理 |
 | UC-004 | 公開社群資料整理人脈 CRM | Grok Bot／X／Notion | [官方署名教學中的作者使用陳述](cases/004-social-crm.md) | 工作｜人脈、CRM、社群 |
@@ -87,7 +89,7 @@
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
 | UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian；多家代理共用同一 vault | ChatGPT dots／Obsidian；Grok Bot／Muse／Hermes 共用 vault | [作者教學串＋官方記憶 FAQ＋跨供應商共用 vault 自述與截圖；未重現](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
 | UC-072 | 電話任務的身份揭露、核准與人工交接 | Grok Bot／DialBot／Bland AI；ClawCall 自述；電話訂餐自述 | [作者測試自述＋官方模板與費用＋電話訂披薩後自行向店家確認＋Bland 官方 Bot 自行開戶指南；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
-| UC-073 | 網站顧客路徑、頁面盤點與表格讀回驗收 | ChatGPT dots／Grok Bot／公開網站／Sheets | [兩位來源使用與核對自報；完整產物未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
+| UC-073 | 網站顧客路徑、頁面盤點與表格讀回驗收 | ChatGPT dots／Grok Bot／公開網站／Sheets | [作者使用、核對及漏頁反例；完整產物未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
 | UC-074 | 裝置事件喚醒後重新讀取資料並驗收 | ChatGPT dots／MCP Events／自建 MCP | [作者建置自述＋官方文件；未重現](cases/074-event-trigger-readback.md) | 開發｜實體裝置、事件觸發、驗收 |
 | UC-075 | 就醫前整理健康摘要，診後追蹤建議與後續問題 | Muse／Grok Bot／ChatGPT dots | [作者長文自述；未重現](cases/075-health-appointment-briefing-coach.md) | 生活｜健康、門診、保險、驗收 |
 | UC-076 | 從資料仲介站找出電話號碼並申請退出垃圾來電名單 | Grok Bot／Spam-Call Scrubber（含 DNCR 確認信、西班牙 Lista Robinson＋Gmail 退訂自述） | [技能頁＋負責人轉貼＋使用者自述＋DNCR 確認信提示＋Lista Robinson 官方說明已讀；未重現](cases/076-spam-call-data-broker-optout.md) | 生活｜隱私、電話、排程、核准 |

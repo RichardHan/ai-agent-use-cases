@@ -298,7 +298,6 @@
 | UC-286 | 夜行列車個室全滿，改為每天早上查空位 | Grok Bot／JR西日本會員網站 | [日文作者單則自述；無截圖、未訂到](cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md) | 生活｜旅遊、每日、監看、比價 |
 | UC-287 | 主 Bot 審站，雜務 Bot 自行註冊統計工具，先接預覽再等核准 | Grok Bot 多 Bot／Umami | [作者自述＋群組回報與後台截圖；正式上線未見](cases/287-bot-site-review-analytics-signup-preview.md) | 開發｜多代理、分析、驗收、核准 |
 | UC-288 | 只用手機做出每天早上自動更新的主畫面個人看板 | Grok Bot／行事曆／X／Addness | [日文作者自述＋打碼看板截圖；連續更新未核](cases/288-phone-only-home-screen-daily-board.md) | 生活｜每日、看板、目標、日曆 |
-
 | UC-289 | 第三方貼文逐項證據處置與保留佇列 | Grok Bot／TypeSafe Jev | [作者端到端實測自述；準確率未驗](cases/289-social-claim-evidence-triage.md) | 學習｜查證、來源、保留、多代理 |
 
 ## 驗證與模板補充（3，不列新增成功案例）

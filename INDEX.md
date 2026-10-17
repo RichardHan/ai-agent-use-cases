@@ -4,6 +4,8 @@
 
 以 500 個不同實作工作流程為目標：截至 2026-10-17，**262 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
+本次原始來源補核（2026-10-17 13:10 台灣時間）：**260／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 262 是沿用已發布總數；本次解決先前 8 個待核中的 6 個，沒有新增案例編號。兩種口徑不可相加。
+
 ## 主要案例（269）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
@@ -267,14 +269,14 @@
 | UC-265 | 簡報灰階區辨與縮圖可讀性返工 | Grok Bot | [作者具體修訂及預覽；無完整量測](cases/265-slide-grayscale-distinguishability-review.md) | 創作｜簡報、色彩、驗收 |
 | UC-266 | 論壇主持控時與追問備案 | ChatGPT dots | [主持人實際採用自述；原稿未核](cases/266-panel-moderation-timing-contingencies.md) | 工作｜主持、活動、控時 |
 | UC-267 | NFC積分商店兌換與狀態核對 | Meta Muse／作者自行連接讀卡器 | [作者已建並使用自述；無原始台帳](cases/267-nfc-points-redemption-ledger.md) | 生活｜積分、兌換、驗收 |
-| UC-268 | 客戶簡報到網站、圖文、短影片，整包核准後交發布草稿 | Grok Bot 五 Bot 模板／Zernio | [作者現場示範＋公開簡報頁；虛構客戶、發布未核](cases/268-agency-campaign-bundle-approval.md) | 工作｜行銷、多代理、核准、驗收 |
+| UC-268 | 客戶簡報到網站、圖文、短影片，整包核准後交發布草稿 | Grok Bot 五 Bot 模板／Zernio | [作者公開產物＋草稿讀回／清理回條；混合執行、未核發布](cases/268-agency-campaign-bundle-approval.md) | 工作｜行銷、多代理、核准、驗收 |
 | UC-269 | 單台 VPS 交給系統管理 Bot：白話指令、每小時內容檢查、每週更新 | Grok Bot／VPS | [HN 作者使用自述＋第三方反駁；無日誌](cases/269-single-vps-sysadmin-bot.md) | 開發｜伺服器維運、排程、驗收、權限 |
-| UC-270 | 每月掃發票找可自建替代的訂閱，盲測後才退訂 | Grok Bot／Gmail | [作者自述與月度提示詞；品質與成本數字未核](cases/270-subscription-replacement-blind-eval.md) | 省錢｜訂閱、自建替代、盲測、每日 |
-| UC-271 | 未來轉機依卡片權益排貴賓室並提醒 | Meta Muse／行事曆 | [作者單則自述；無畫面、權益對應未核](cases/271-layover-lounge-access-calendar.md) | 生活｜旅遊、行事曆、提醒、權益 |
-| UC-272 | 每天早晚查天氣，有雨才提醒帶傘 | 作者稱 Grok Bot／dots／Muse 皆可（截圖未標產品） | [作者每日使用自述＋實際訊息截圖；沒雨日靜默未見、未重現](cases/272-rain-only-umbrella-alert.md) | 生活｜每日、天氣、提醒、排程 |
+| UC-270 | 從發票找自建替代，反覆修正後比較；盲測完成未核 | Grok Bot／Gmail | [作者自述＋完整內嵌長文；成本口徑矛盾、盲測未核](cases/270-subscription-replacement-blind-eval.md) | 省錢｜訂閱、自建替代、盲測、每日 |
+| UC-271 | 未來轉機依卡片權益排行事曆；實際提醒未核 | Meta Muse／行事曆 | [作者行事曆寫入自述；落地提醒為未來意圖](cases/271-layover-lounge-access-calendar.md) | 生活｜旅遊、行事曆、提醒、權益 |
+| UC-272 | 每天早晚查天氣，有雨才提醒帶傘 | 作者稱 Grok Bot／dots／Muse 皆可（截圖未標產品） | [作者自述＋訊息截圖；產品未明，保守計數暫待定](cases/272-rain-only-umbrella-alert.md) | 生活｜每日、天氣、提醒、排程 |
 | UC-273 | 夜間讓個人代理接力指揮程式代理（清上下文、額度恢復續跑） | ChatGPT dots／Claude Code；Grok Bot／Codex | [兩位作者實作自述（Zenn 長文＋X 截圖）；無用量數字、未重現](cases/273-overnight-coding-agent-relay.md) | 開發｜跨代理、排程、額度、多代理 |
 | UC-274 | 每月匯出 LinkedIn 人脈，直接問在某公司認識誰 | Grok Bot（Rolodex 模板）／信箱 | [作者自述＋公開模板頁；無名單或問答畫面、未重現](cases/274-linkedin-connections-monthly-rolodex.md) | 工作｜人脈、收件匣、排程、CRM |
-| UC-275 | 個人電話交給 AI 總機，多層查核擋詐騙來電 | Grok Bot／Grok Voice／Telnyx | [作者自述＋架構圖；無通話或攔截紀錄、未重現](cases/275-personal-phone-ai-receptionist-anti-scam.md) | 生活｜電話、詐騙、隱私、核准 |
+| UC-275 | 個人電話交給 AI 總機，多層查核擋詐騙來電 | Grok Bot／Grok Voice／Telnyx | [作者自述＋架構圖；防詐執行未核，保守計數暫待定](cases/275-personal-phone-ai-receptionist-anti-scam.md) | 生活｜電話、詐騙、隱私、核准 |
 | UC-276 | 分人員代理入口與輪詢耗額度失敗 | Grok Bot／Base44／Claude | [作者實作失敗自述；隔離及用量未核](cases/276-staff-agent-portal-routing-failure.md) | 開發｜權限、多人入口、輪詢 |
 | UC-277 | 連續會議決議變更與原音追溯 | Grok Bot／Kanary | [作者使用自述；原音與差異表未公開](cases/277-meeting-decision-change-audio-trace.md) | 工作｜會議、版本對照、原音 |
 

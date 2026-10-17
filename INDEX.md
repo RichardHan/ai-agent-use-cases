@@ -2,13 +2,15 @@
 
 更新日期：2026-10-17。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-17，**269 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-17，**273 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-本次補核（2026-10-17 14:58 台灣時間）：**263／500 個保守核對案例，尚差237**。以上次已核261為基準，本次讀原文補核UC-282（既有頁）1案，另新增UC-284行李延誤到費用申請1案。UC-272、275仍待定；UC-280原始長文未取得；UC-279、281、283保留為來源／驗證補頁，暫不另計不同流程。上方269為沿用發布268加UC-284的口徑，不等於本次保守結果。[逐案理由與候選](sources/research-2026-10-17-1458.md)。
+本批（2026-10-17 17:45 台灣時間）：新增 UC-285–288 共4個不同流程，並補充 UC-182（Grok Bot 想讀清單選書）與 UC-028（待查 P-002 三則原帖，Muse 代查帳戶／客服議價）2項既有頁，補充不另計數。發布口徑 269＋4＝273。保守口徑：285、287、288 有原帖附圖產物可核，計入後為 **266／500，尚差234**；286 僅單則文字自述，暫列待定。[逐案理由與掃描範圍](sources/research-2026-10-17-1745.md)。
+
+上次補核（2026-10-17 14:58 台灣時間，已由上方取代）：**263／500 個保守核對案例，尚差237**。以上次已核261為基準，本次讀原文補核UC-282（既有頁）1案，另新增UC-284行李延誤到費用申請1案。UC-272、275仍待定；UC-280原始長文未取得；UC-279、281、283保留為來源／驗證補頁，暫不另計不同流程。上方269為沿用發布268加UC-284的口徑，不等於本次保守結果。[逐案理由與候選](sources/research-2026-10-17-1458.md)。
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（276）
+## 主要案例（280）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -36,7 +38,7 @@
 | UC-025 | 用 dots 追蹤團隊活動的期限、預算問題與待回覆事項 | ChatGPT dots | [官方示例＋作者虛構出席表測試；未重現](cases/025-team-event-follow-through.md) | 工作｜團隊活動、追蹤 |
 | UC-026 | 讓 Muse 整理開學通知與截止日 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/026-school-deadline-list.md) | 生活｜學校、期限 |
 | UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse；Grok Bot 網購下單失敗回報 | [Muse 官方自述＋Grok Bot 作者失敗自述；原創流程未實測](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買、網購 |
-| UC-028 | 先做帳單降費比較，再決定怎麼談 | Meta Muse | [原作者帳單檢查與本人通話準備自述；節省未核](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商 |
+| UC-028 | 先做帳單降費比較，再決定怎麼談；Muse 代查帳戶與客服議價 | Meta Muse | [原作者帳單檢查與本人通話準備自述＋P-002 三則原帖（一則附業者確認簡訊）；節省未核](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商 |
 | UC-029 | 刪掉12堂新排課，別動原本的2堂 | Meta Muse／Peloton | [作者實測報告；未獨立重現](cases/029-exercise-time-replan.md) | 生活｜運動、行程 |
 | UC-030 | 把筆記做成互動複習工具 | Meta Muse；ChatGPT dots／Sites（Kindle 生字字卡） | [官方自述＋作者自建字卡 App 自述；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具、語言學習 |
 | UC-031 | 用匿名消費明細建立支出看板 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/031-spending-dashboard.md) | 省錢｜記帳、看板 |
@@ -189,7 +191,7 @@
 | UC-179 | 對客郵件重複觸發流程修復 | Meta Muse／未具名郵件平台 | [官方具名測試者自述；無流程與事件紀錄](cases/179-duplicate-customer-email-flow-repair.md) | 工作｜郵件、自動化、重複觸發 |
 | UC-180 | 相片庫標題與描述性中繼資料補齊 | Meta Muse／iCloud Photos | [作者部分處理自述；無寫回與恢復結果](cases/180-photo-library-descriptive-metadata.md) | 生活｜相片、描述、無障礙 |
 | UC-181 | 出貨標籤與訂單履約準備 | Grok Bot／TikTok Shop | [作者實際使用自述；無寄件與交付紀錄](cases/181-shipping-label-fulfillment-preparation.md) | 工作｜電商、物流、標籤 |
-| UC-182 | 依閱讀需求選書與圖書館預約 | Meta Muse／未具名圖書館 | [作者預約及可取通知自述；未領取驗證](cases/182-library-book-selection-holds.md) | 生活｜閱讀、圖書館、預約 |
+| UC-182 | 依閱讀需求選書與圖書館預約；Grok Bot 從想讀清單挑可借書 | Meta Muse／未具名圖書館；Grok Bot／ブクログ | [作者預約及可取通知自述＋Grok Bot 選書截圖；預約與期限管理未見畫面](cases/182-library-book-selection-holds.md) | 生活｜閱讀、圖書館、預約 |
 | UC-183 | 廣告活動設定到待發布，再交人檢查 | Meta Muse／Google Ads | [作者已配置自述；未核投放](cases/183-ad-campaign-configuration-review.md) | 工作｜廣告、設定、核准、驗收 |
 | UC-184 | 大量郵件先篩出相關候選，別把它當最終證據審查 | Grok Bot／mbox | [作者已初篩自述；雲端上傳更正、完整性未核](cases/184-mail-archive-relevance-prescreen.md) | 工作｜郵件封存、初篩、隱私、驗收 |
 | UC-185 | 活動資料到排行榜與人工核獎草稿 | Grok Bot／Canva | [作者使用自述；未核原始成績與獎狀](cases/185-event-results-leaderboard-awards.md) | 工作｜活動、排行榜、核准 |
@@ -288,6 +290,10 @@
 | UC-282 | 語音交給 dots，代登病患入口傳訊給醫師 | ChatGPT dots | [Pro 社群訪談自述；無操作錄影](cases/282-patient-portal-voice-to-message.md) | 生活｜健康、收件匣、核准、語音 |
 | UC-283 | dots 接工作 App 實測 17 項與核准陷阱 | ChatGPT dots／多種外掛 | [作者對照畫面與 git log；未重跑](cases/283-dots-connected-apps-permission-pitfalls.md) | 工作｜驗收、權限、排程、故障診斷 |
 | UC-284 | 延誤行李到達後的補購用品費用申請 | Meta Muse | [作者實際使用自述；無受理回條與付款證明](cases/284-delayed-baggage-status-expense-claim.md) | 生活｜旅遊、行李、報銷、核准 |
+| UC-285 | 每天早上把 X 上的配音試鏡徵件寄成可回信調整的摘要 | Grok Bot／X／Bot 自有信箱 | [作者自述＋摘要信截圖；應徵結果未核](cases/285-x-voice-acting-audition-email-digest.md) | 工作｜每日、X、收件匣、求職 |
+| UC-286 | 夜行列車個室全滿，改為每天早上查空位 | Grok Bot／JR西日本會員網站 | [日文作者單則自述；無截圖、未訂到](cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md) | 生活｜旅遊、每日、監看、比價 |
+| UC-287 | 主 Bot 審站，雜務 Bot 自行註冊統計工具，先接預覽再等核准 | Grok Bot 多 Bot／Umami | [作者自述＋群組回報與後台截圖；正式上線未見](cases/287-bot-site-review-analytics-signup-preview.md) | 開發｜多代理、分析、驗收、核准 |
+| UC-288 | 只用手機做出每天早上自動更新的主畫面個人看板 | Grok Bot／行事曆／X／Addness | [日文作者自述＋打碼看板截圖；連續更新未核](cases/288-phone-only-home-screen-daily-board.md) | 生活｜每日、看板、目標、日曆 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 
@@ -297,9 +303,9 @@
 | UC-009 | [背景移轉模板與作者實際索引](evidence/009-background-transfer-template.md) | 新增B級作者實作；尚待分類核對，未加500計數 | 開發｜跨助手移轉、模板 |
 | UC-013 | [登入狀態診斷與失敗報告驗收](evidence/013-authentication-diagnosis.md) | 作者失敗復盤；根因未確認修復 | 開發｜登入、故障診斷 |
 
-## 待查來源（3）
+## 待查來源（2，另 P-002 已處理）
 
-[查看來源與缺漏](sources/pending.md)：Muse 十用法影片、電信降費、生成／CUA 驗收迭代。這些不計入成功案例；未查證的轉述不補寫成操作步驟。
+[查看來源與缺漏](sources/pending.md)：Muse 十用法影片、生成／CUA 驗收迭代；電信降費（P-002）原帖已讀並併入 UC-028。這些不計入成功案例；未查證的轉述不補寫成操作步驟。
 
 ## 使用方式
 

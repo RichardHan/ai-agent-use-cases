@@ -1,25 +1,24 @@
 # 待查來源
 
-查證日期：2026-10-16。共 3 項；均標記 `unverified`，不列已完成或成功案例。
+查證日期：2026-10-16；2026-10-17 17:45（台灣時間）補查P-001作者資訊、P-002原帖。共 3 個條目：P-002 已處理併入 UC-028（條目保留供追溯），其餘 2 項仍標記 `unverified`，不列已完成或成功案例。
 
 ## P-001：Meta Muse 十種用法影片
 
 - 已知標題：Meta Muse實測三週：10個讓我省下大把時間的用法
 - 來源：https://youtube.com/watch?v=ARMaDt5JBUg
-- 作者、發布日、原文語言：待查。
-- 缺漏：尚無可讀完整影片或逐字稿，不能推定十種用法、成效或時間碼。
+- 作者、發布日、原文語言：2026-10-17以YouTube公開oEmbed與頁面中繼資料補得：頻道 Wei Chang Yu (Wendell)（@wcyu）；發布 2026-10-08T18:14:18-07:00（台灣時間2026-10-09 09:14）；長度約29分；標題為繁體中文。
+- 缺漏：仍無可讀完整影片或逐字稿，不能推定十種用法、成效或時間碼。
 - 合併方式：待可讀後逐例比對現有索引，保留影片時間碼及作者版本。
 
-## P-002：Muse 電信帳單審核與降費
+## P-002：Muse 電信帳單審核與降費（原帖已讀，已併入 UC-028）
 
-- 二手來源：https://musetaskhub.com/tasks/lower-phone-bill/
-- 出版方：Muse Task Hub，非官方彙整站；語言：英文。
-- 日期：頁面標示 2026-10-09 查核，非原始貼文發布日期。
-- 原始線索：
-  - https://x.com/SteveFebbraro1/status/2101333135879242062
-  - https://x.com/StockTraderHub/status/2101482577970303407
-  - https://x.com/billysticker/status/2104003676612567182
-- 缺漏：原帖尚未取得；未確認方案前後條件、業者確認及節省算法。不轉述未核實節省金額。
+- 狀態：2026-10-17 已處理。三則原帖以X API直接讀到，作者自述與一則業者確認簡訊截圖已併入 [UC-028](../cases/028-bill-comparison-preparation.md)，不另立案、不另計數。
+- 二手來源：https://musetaskhub.com/tasks/lower-phone-bill/ （Muse Task Hub，非官方彙整站；英文）
+- 原始來源：
+  - https://x.com/SteveFebbraro1/status/2101333135879242062 （2026-09-19 UTC，T-Mobile，自述每月省$30，無截圖）
+  - https://x.com/StockTraderHub/status/2101482577970303407 （2026-09-20 UTC，Verizon，Muse回報＋業者簡訊截圖：六個月每月減$40）
+  - https://x.com/billysticker/status/2104003676612567182 （2026-09-27 UTC，Verizon，自述每年省$1,410，無截圖）
+- 仍未核：前後帳單、優惠到期後價格、是否新綁約或服務降級；節省金額只保留作者歸因。
 - 停止邊界：僅研究，不聯絡業者、不改方案、不新增合約。
 
 ## P-003：生成代理與 CUA 驗收迭代

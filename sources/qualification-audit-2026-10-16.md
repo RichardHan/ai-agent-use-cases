@@ -769,3 +769,13 @@ P-001–003不在合格數內。P-004已補讀原作者回報的實際RFP短名�
 - [UC-277](../cases/277-meeting-decision-change-audio-trace.md)｜納入｜B。Satoru / Toko自述Grok Bot比較三次會議決議變化並可追溯原音；沒有公開原音、差異表及準確率。只計跨次決議演變與來源追溯，不把轉錄、翻譯或分享各拆一案。[原文](https://note.com/tokothecat/n/nedf26ecfa11a)
 
 - UC-278：A。つねぞう在原始節目自述反覆製作加工中心構型工具，公開mc-builder原碼有對應輸入選項。只計概念配置，不計加工安全／製造驗證；與197既有零件組裝、258掃描重建及115角色資產不同。
+
+## 2026-10-17 17:45台灣時間：本批新增及補充
+
+本批新增4個不同工作流程（UC-285–288），均以X API直接讀到原作者全文與附圖（286無附圖）；沒有獨立重現。發布口徑269＋4＝273；保守口徑263＋3（285、287、288有可核附圖產物）＝266，286暫列待定。
+
+- [UC-285](../cases/285-x-voice-acting-audition-email-digest.md)｜納入｜B。@luckycold自述替配音員朋友設定每日早上的X徵件掃描與郵件摘要，回信可排除類別、隔天生效；附分組摘要信截圖。應徵或錄取未核。不同046關注帳號精選、035求職申請草稿，只計徵件蒐集到可回信調整摘要一次。[來源](https://x.com/luckycold/status/2111354305374527586)
+- [UC-286](../cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md)｜待定｜B。@RYOFUKUSHIMA日文自述Grok Bot列出房型票價、處理JR西日本會員註冊到查空位，全滿後改每日早上查空位；單則文字無截圖、未訂到。不同001比價付款前交接、015一般頁面監看。[來源](https://x.com/RYOFUKUSHIMA/status/2111329408355311664)
+- [UC-287](../cases/287-bot-site-review-analytics-signup-preview.md)｜納入｜A。@cgnot996自述主Bot審站→雜務Bot用自有信箱註冊Umami免費方案→網站Bot接預覽版自測→等作者核准上線；附群組回報與後台截圖。正式上線未見。不同195既有GA4事件核對、005 PR審查。[來源](https://x.com/cgnot996/status/2111392892917072213)
+- [UC-288](../cases/288-phone-only-home-screen-daily-board.md)｜納入｜B。@yukix2000日文自述只用手機讓Grok Bot做主畫面個人看板，每日早上更新行程、天氣、X發文目標與Addness目標；附打碼截圖，連續更新未核。不同044多人家庭看板與衝突處理。[來源](https://x.com/yukix2000/status/2111373911762100708)
+- UC-182併入@Gatherinfo4I Grok Bot版本（想讀清單93本→可借推理9本→挑5本附館藏與Kindle價），UC-028併入待查P-002三則原帖（一則附Muse回報與業者確認簡訊）；皆屬既有流程補充，不增加計數。

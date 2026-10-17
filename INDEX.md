@@ -2,9 +2,9 @@
 
 更新日期：2026-10-17。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 500 個不同實作工作流程為目標：截至 2026-10-17，**260 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 500 個不同實作工作流程為目標：截至 2026-10-17，**262 個有作者實作證據（含自述）**；不是獨立重現或成效認證，亦不同於網站條目總數。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-## 主要案例（267）
+## 主要案例（269）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -275,6 +275,8 @@
 | UC-273 | 夜間讓個人代理接力指揮程式代理（清上下文、額度恢復續跑） | ChatGPT dots／Claude Code；Grok Bot／Codex | [兩位作者實作自述（Zenn 長文＋X 截圖）；無用量數字、未重現](cases/273-overnight-coding-agent-relay.md) | 開發｜跨代理、排程、額度、多代理 |
 | UC-274 | 每月匯出 LinkedIn 人脈，直接問在某公司認識誰 | Grok Bot（Rolodex 模板）／信箱 | [作者自述＋公開模板頁；無名單或問答畫面、未重現](cases/274-linkedin-connections-monthly-rolodex.md) | 工作｜人脈、收件匣、排程、CRM |
 | UC-275 | 個人電話交給 AI 總機，多層查核擋詐騙來電 | Grok Bot／Grok Voice／Telnyx | [作者自述＋架構圖；無通話或攔截紀錄、未重現](cases/275-personal-phone-ai-receptionist-anti-scam.md) | 生活｜電話、詐騙、隱私、核准 |
+| UC-276 | 分人員代理入口與輪詢耗額度失敗 | Grok Bot／Base44／Claude | [作者實作失敗自述；隔離及用量未核](cases/276-staff-agent-portal-routing-failure.md) | 開發｜權限、多人入口、輪詢 |
+| UC-277 | 連續會議決議變更與原音追溯 | Grok Bot／Kanary | [作者使用自述；原音與差異表未公開](cases/277-meeting-decision-change-audio-trace.md) | 工作｜會議、版本對照、原音 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

@@ -1,6 +1,19 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-17 12:00 UTC／2026-10-17 20:00台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-17 12:40 UTC／2026-10-17 20:40台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+
+## 2026-10-17 20:40台灣時間：本批新增
+
+本批新增6個不同工作流程（UC-290–295），均以X API或公開頁直接讀到原作者全文（291、292、294含附圖）；沒有獨立重現。發布口徑274＋6＝280，主要頁281＋6＝287；保守口徑265＋5＝**270／500，尚差230**，290暫列待定。
+
+- [UC-290](../cases/290-election-twice-daily-sourced-brief.md)｜待定｜B。@michael_j_emery自述每天中午與晚上8點收Grok Bot兩段式紐西蘭大選簡報，公開完整提示詞；無任何報告輸出，無法確認已穩定執行內容。不同090預測市場、046帳號精選。[來源](https://x.com/michael_j_emery/status/2111337499075518791)
+- [UC-291](../cases/291-provisional-match-time-calendar-correction.md)｜納入｜B。@michalmlaka自述賽季暫定時間的球賽，當天早上Bot提醒正式開球時間、建議出門時間並詢問是否改日曆；附捷克文訊息截圖，修改結果未見。不同127錯置事件重建。[來源](https://x.com/michalmlaka/status/2111357635886825641)
+- [UC-292](../cases/292-new-model-api-signup-topup-console.md)｜納入｜B。@jumperz自述Grok Bot代開DeepSeek帳號、讀驗證碼、本人安全表單輸卡儲值、建金鑰並設定Mac，再建測試台Bot；附流程與測試台截圖。兩則貼文金額不一致，扣款未核。不同287、042。[來源](https://x.com/jumperz/status/2111431832503750670)
+- [UC-293](../cases/293-draft-ai-audit-ai-notion-audit-record.md)｜納入｜B。@nelsonsit自述Kimi起草三份報告、Grok Bot逐點查核並寫入Notion稽核紀錄、依驗收標準反覆修訂；無產物。不同045任務橋、289第三方主張處置。[來源](https://x.com/nelsonsit/status/2111412818914476061)
+- [UC-294](../cases/294-rare-collectible-multi-shop-hourly-watch.md)｜納入｜A。@shimesaba67日文自述Grok Bot每小時巡多家二手店找絕版眼鏡框，上架通知後本人下單；附Bot監看回報、商品頁訂購提示與訂單明細截圖。不同048、015、286。[來源](https://x.com/shimesaba67/status/2111398948820955379)
+- [UC-295](../cases/295-family-calendar-kitchen-display-voice-reminder.md)｜納入｜B。Mohammed Moyeen Avaram（@procoder）LinkedIn列出共用日曆→活動前30分鐘→Pillow畫卡→pychromecast投放Nest Hub→語音念出，限時段且改日曆需同意；影片未看、程式未公開。不同044、091、050。[來源](https://www.linkedin.com/feed/update/urn:li:activity:7517114616762597376/)
+
+[本批來源、去重與未收錄線索](research-2026-10-17-2040.md)。
 
 ## 2026-10-17 20:00台灣時間補核
 

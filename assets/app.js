@@ -33,7 +33,19 @@ function metadata(markdown, path, kind, suffix='') {
   if (scenario === '居家') scenario = '生活';
   else if (scenario.includes('生活')) scenario = '生活';
   else if (scenario.includes('工作')) scenario = '工作';
-  const rawTags = clean(lead.match(/^-\s*標籤\s*[：:]\s*(.+)$/m)?.[1] || '');
+  let rawTags = clean(lead.match(/^-\s*標籤\s*[：:]\s*(.+)$/m)?.[1] || '');
+  if (!rawTags) {
+    const rawCatTag = clean(lead.match(/^-\s*(?:分類／標籤|分類)\s*[：:]\s*(.+)$/m)?.[1] || '');
+    if (rawCatTag.includes('｜')) {
+      rawTags = rawCatTag.split('｜')[1] || '';
+    } else if (rawCatTag.includes('／')) {
+      const parts = rawCatTag.split('／');
+      if (parts.length > 1) rawTags = parts.slice(1).join('、');
+    } else if (rawCatTag.includes('/')) {
+      const parts = rawCatTag.split('/');
+      if (parts.length > 1) rawTags = parts.slice(1).join('、');
+    }
+  }
   const tags = rawTags ? rawTags.split(/[、,，\s/]+/).map(t=>t.trim()).filter(Boolean) : [];
   const proofLine = clean(lead.match(/^-\s*(?:來源證據|證據狀態|證據等級|證據)\s*[：:]\s*(.+)$/m)?.[1] || '');
   const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*(?:自報|第一手.*自述)|official/.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';

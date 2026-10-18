@@ -25,7 +25,20 @@ async function capture(page,name){
   if(observe){report.push(row);await browser.close();continue;}
   assert(rect&&rect.y>=0&&rect.y+rect.height<=height,'direct search entry must be in the initial viewport');
   assert(rect.height>=44,'search entry must have a 44px target');
+  assert.equal(await entry.getAttribute('href'),'#explore','native fallback stays on the static page');
+  const historyLength=await page.evaluate(()=>{history.replaceState({...history.state,entryQAMarker:'keep'},'');return history.length;});
+  for(const options of [{ctrlKey:true},{metaKey:true},{shiftKey:true},{altKey:true},{button:1}]){
+   const prevented=await entry.evaluate((link,options)=>{
+    let intercepted;
+    link.addEventListener('click',event=>{intercepted=event.defaultPrevented;event.preventDefault();},{once:true});
+    link.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,button:0,...options}));
+    return intercepted;
+   },options);
+   assert.equal(prevented,false,'modified/middle click retains native link handling');
+  }
   await entry.focus();await page.keyboard.press('Enter');
+  assert.equal(await page.evaluate(()=>history.length),historyLength,'shortcut does not add a history step');
+  assert.equal(await page.evaluate(()=>history.state.entryQAMarker),'keep');
   assert.equal(await page.locator('#query').evaluate(el=>document.activeElement===el),true);
   assert.equal(new URL(page.url()).hash,'#explore');
   const searchRect=await page.locator('#query').boundingBox();
@@ -66,7 +79,8 @@ async function capture(page,name){
   report.push(row);await browser.close();
  }
  if(!observe){
-  const browser=await chromium.launch(),page=await browser.newPage({viewport:{width:390,height:844}});
+  for(const engine of [chromium,webkit]){
+  const browser=await engine.launch(),page=await browser.newPage({viewport:{width:390,height:844}});
   let release;const gate=new Promise(resolve=>release=resolve);
   await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
   await page.goto(origin,{waitUntil:'domcontentloaded'});
@@ -75,6 +89,8 @@ async function capture(page,name){
   await page.locator('#query').evaluate(el=>{el.value='旅遊';el.dispatchEvent(new Event('input',{bubbles:true}));});
   assert.equal(await page.locator('#query').evaluate(el=>document.activeElement===el),true);
   release();await page.locator('#results .card').first().waitFor();
+  const loadedRect=await page.locator('#query').boundingBox();
+  assert(loadedRect.y>=0&&loadedRect.y+loadedRect.height<=844,'input remains visible after loading in '+engine.name());
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
   assert.equal(await page.locator('#query').evaluate(el=>document.activeElement===el),true);
   assert.equal(new URL(page.url()).hash,'#explore');
@@ -86,6 +102,7 @@ async function capture(page,name){
   await page.unroute('**/catalog.json');await page.locator('#retry').click();
   await page.locator('#results .card').first().waitFor();
   await browser.close();
+  }
  }
  fs.writeFileSync('qa-artifacts/entry-'+(observe?'baseline':'verification')+'.json',JSON.stringify(report,null,2));
  console.log('ENTRY_REPORT '+JSON.stringify(report));

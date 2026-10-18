@@ -1061,6 +1061,17 @@ $('use-loaded').addEventListener('click',()=>{
   $('use-loaded').setAttribute('aria-disabled','true');
   initialLoadController.abort();
 });
+// Keep explicit task search available before the corpus is ready.
+document.querySelectorAll('[data-search-entry]').forEach(link=>link.addEventListener('click',event=>{
+  if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  event.preventDefault();
+  allowAutomaticArrival=false;
+  const url=new URL(location.href);
+  url.hash='explore';
+  history.replaceState(history.state,'',url);
+  $('explore').scrollIntoView({block:'start',behavior:'instant'});
+  $('query').focus({preventScroll:true});
+}));
 $('copy-search-link').addEventListener('click',copySearchLink);
 // Choose the initial disclosure state once; typing, navigation and resizing
 // preserve the reader's choice and never hide a currently focused control.

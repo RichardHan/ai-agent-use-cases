@@ -1,7 +1,7 @@
 name: Home search entry QA
 on:
   push:
-    branches: [main, feat/home-search-entry]
+    branches: [main]
     paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', '.github/workflows/home-search-entry-qa.yml']
   pull_request:
     paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', '.github/workflows/home-search-entry-qa.yml']

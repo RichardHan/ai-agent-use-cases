@@ -17,6 +17,7 @@ function normalizeSourceUrl(rawUrl) {
     if (host === 'www.x.com' || host === 'mobile.x.com' || host === 'm.x.com') host = 'x.com';
     if (host === 'www.reddit.com' || host === 'old.reddit.com' || host === 'm.reddit.com' || host === 'new.reddit.com') host = 'reddit.com';
     if (host === 'www.facebook.com' || host === 'm.facebook.com' || host === 'web.facebook.com') host = 'facebook.com';
+    if (host === 'www.meta.com' || host === 'm.meta.com') host = 'meta.com';
     if (host === 'm.youtube.com') host = 'www.youtube.com';
     if (host === 'youtu.be') {
       host = 'www.youtube.com';
@@ -163,6 +164,8 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   // Specifically verify known shared discussion thread candidates are identified
   const redditDiscussion = duplicates.find(d => d.url.includes('1wa57uk/comment/p8gwy2e'));
   assert(redditDiscussion, 'Must detect shared Reddit comment thread candidate');
+  assert.equal(redditDiscussion.cases.length, 4, 'Shared thread candidate has 4 cases');
+  assert(redditDiscussion.cases.includes('cases/003-store-operations.md'), 'Shared thread candidate includes UC-003');
   assert(redditDiscussion.cases.includes('cases/097-public-gis-layer-map.md'), 'Shared thread candidate includes UC-097');
   assert(redditDiscussion.cases.includes('cases/098-engineering-pdf-excel-extraction.md'), 'Shared thread candidate includes UC-098');
   assert(redditDiscussion.cases.includes('cases/099-travel-photo-scrapbook.md'), 'Shared thread candidate includes UC-099');
@@ -448,6 +451,29 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(billyStickerCandidate, 'Must detect shared billysticker source between cases/028 and sources/pending.md');
   assert(billyStickerCandidate.cases.includes('cases/028-bill-comparison-preparation.md'));
   assert(billyStickerCandidate.cases.includes('sources/pending.md'));
+
+  const museBusinessCandidate = duplicates.find(d => d.url === 'https://muse.ai/business');
+  assert(museBusinessCandidate, 'Must detect shared Muse Business official page across 11 cases');
+  assert.equal(museBusinessCandidate.cases.length, 11);
+  assert(museBusinessCandidate.cases.includes('cases/003-store-operations.md'));
+  assert(museBusinessCandidate.cases.includes('cases/016-marketplace-selling-buyer-messages.md'));
+  assert(museBusinessCandidate.cases.includes('cases/026-school-deadline-list.md'));
+  assert(museBusinessCandidate.cases.includes('cases/034-expense-anomaly-review.md'));
+
+  const metaAiHelpCandidate = duplicates.find(d => d.url.includes('meta.com/en-gb/help/artificial-intelligence/1687253048996149'));
+  assert(metaAiHelpCandidate, 'Must detect shared Meta AI help page across 11 cases');
+  assert.equal(metaAiHelpCandidate.cases.length, 11);
+  assert(metaAiHelpCandidate.cases.includes('cases/016-marketplace-selling-buyer-messages.md'));
+  assert(metaAiHelpCandidate.cases.includes('cases/026-school-deadline-list.md'));
+  assert(metaAiHelpCandidate.cases.includes('cases/267-nfc-points-redemption-ledger.md'));
+
+  const grokBotApprovalsCandidate = duplicates.find(d => d.url === 'https://docs.x.ai/grok-bot/approvals-security-and-privacy');
+  assert(grokBotApprovalsCandidate, 'Must detect shared Grok Bot approvals-security-and-privacy docs across 11 files');
+  assert.equal(grokBotApprovalsCandidate.cases.length, 11);
+  assert(grokBotApprovalsCandidate.cases.includes('cases/101-procurement-capability-shortlist.md'));
+  assert(grokBotApprovalsCandidate.cases.includes('cases/156-mail-system-migration-verification.md'));
+  assert(grokBotApprovalsCandidate.cases.includes('cases/318-approved-account-form-shopify-customer-flow.md'));
+  assert(grokBotApprovalsCandidate.cases.includes('evidence/009-background-transfer-template.md'));
 });
 
 

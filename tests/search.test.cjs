@@ -415,6 +415,60 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('refunds')), {}).some(
 // Search quality: Agreement synonym
 assert(api.filterEntries(entries, Array.from(api.tokenize('agreement')), {}).some(x => x.id === 'UC-021'), 'agreement matches UC-021 via 合約 synonym');
 
+// Search quality: Database synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('database')), {}).some(x => x.id === 'UC-060'), 'database matches UC-060 via 資料庫 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('数据库')), {}).some(x => x.id === 'UC-060'), '数据库 matches UC-060 via 資料庫 synonym');
+
+// Search quality: Login synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('login')), {}).some(x => x.id === 'UC-005'), 'login matches UC-005 via 登入 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('signin')), {}).some(x => x.id === 'UC-005'), 'signin matches UC-005 via 登入 synonym');
+
+// Search quality: Spreadsheet synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('spreadsheet')), {}).some(x => x.id === 'UC-209'), 'spreadsheet matches UC-209 via 試算表 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('spreadsheets')), {}).some(x => x.id === 'UC-209'), 'spreadsheets matches UC-209 via 試算表 synonym');
+
+// Search quality: Attachment synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('attachment')), {}).some(x => x.id === 'UC-234'), 'attachment matches UC-234 via 附件 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('attachments')), {}).some(x => x.id === 'UC-234'), 'attachments matches UC-234 via 附件 synonym');
+
+// Search quality: Trigger synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('trigger')), {}).some(x => x.id === 'UC-074'), 'trigger matches UC-074 via 觸發 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('triggers')), {}).some(x => x.id === 'UC-074'), 'triggers matches UC-074 via 觸發 synonym');
+
+// Search quality: Credential & secret synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('credential')), {}).some(x => x.id === 'UC-042'), 'credential matches UC-042 via 憑證 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('credentials')), {}).some(x => x.id === 'UC-042'), 'credentials matches UC-042 via 憑證 synonym');
+
+// Search quality: Template synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('template')), {}).some(x => x.id === 'UC-009'), 'template matches UC-009 via 模板 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('templates')), {}).some(x => x.id === 'UC-009'), 'templates matches UC-009 via 模板 synonym');
+
+// Search quality: Anomaly synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('anomaly')), {}).some(x => x.id === 'UC-034'), 'anomaly matches UC-034 via 異常 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('anomalies')), {}).some(x => x.id === 'UC-034'), 'anomalies matches UC-034 via 異常 synonym');
+
+// Search quality: Webhooks plural
+assert(api.filterEntries(entries, Array.from(api.tokenize('webhooks')), {}).some(x => x.id === 'UC-074'), 'webhooks matches UC-074 via webhook synonym');
+
+// Search quality: Scrape base verb
+assert(api.filterEntries(entries, Array.from(api.tokenize('scrape')), {}).some(x => x.id === 'UC-060'), 'scrape matches UC-060 via 爬蟲 synonym');
+
+// Search quality: Troubleshoot and debugging
+assert(api.filterEntries(entries, Array.from(api.tokenize('troubleshoot')), {}).some(x => x.id === 'UC-068'), 'troubleshoot matches UC-068 via debug/排錯 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('debugging')), {}).some(x => x.id === 'UC-068'), 'debugging matches UC-068 via debug/除錯 synonym');
+
+// Search quality: Todos and task
+assert(api.filterEntries(entries, Array.from(api.tokenize('todos')), {}).some(x => x.id === 'UC-049'), 'todos matches UC-049 via 待辦 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('tasks')), {}).some(x => x.id === 'UC-049'), 'tasks matches UC-049 via 待辦 synonym');
+
+// Search quality: Bills and billing
+assert(api.filterEntries(entries, Array.from(api.tokenize('bills')), {}).some(x => x.id === 'UC-028'), 'bills matches UC-028 via 帳單 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('billing')), {}).some(x => x.id === 'UC-028'), 'billing matches UC-028 via 帳單 synonym');
+
+// Search quality: Invoices and receipts
+assert(api.filterEntries(entries, Array.from(api.tokenize('invoices')), {}).some(x => x.id === 'UC-024'), 'invoices matches UC-024 via 發票 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('receipts')), {}).some(x => x.id === 'UC-225'), 'receipts matches UC-225 via 收據 synonym');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

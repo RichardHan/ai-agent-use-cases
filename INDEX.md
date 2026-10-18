@@ -2,9 +2,11 @@
 
 更新日期：2026-10-18。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至 2026-10-18 11:00批次，**286／1,000 個逐案核對合格，尚差714**（含作者自述與實際失敗案例，未獨立重現）。沿用歷史發布口徑為299，主要頁306；三種數字不可混用。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至 2026-10-18 11:50批次，**288／1,000 個逐案核對合格，尚差712**（含作者自述與實際失敗案例，未獨立重現）。沿用歷史發布口徑為302，主要頁309；三種數字不可混用。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-2026-10-17 23:44台灣時間起，目標提高為1,000案。本輪以先前285為基準，新增314一案，共286。下方歷史批次保留當時目標與口徑，不回改舊報告。
+2026-10-17 23:44台灣時間起，目標提高為1,000案。本輪以先前286為基準，新增316、317兩案，共288；315單則自述暫列待定。下方歷史批次保留當時目標與口徑，不回改舊報告。
+
+11:50掃描：新增315工作／私人dots互調報稅文件交會計師（待定）、316官方工作坊Slack串分流＋重現Bot修到合併、317夜巡四Bot自主原型與獨立驗收；041補「成功六天卻沒寫入」的巡檢自述，054補MV Forge模板實際改用程式逐格繪製，235補跟單排行榜滾動回測與偏誤揭露，均不另計。[原文、去重與覆蓋](sources/research-2026-10-18-1150.md)。
 
 11:00批次：新增314代理雲機外接服務的長駐失敗；部署能連線不等於全天候可用。049、067、214補既有流程證據，不另計。Muse Code的VR移植有公開實作，但產品範圍待定，不納入嚴格數。[原文、去重與限制](sources/research-2026-10-18-1100.md)。
 
@@ -54,7 +56,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（306）
+## 主要案例（309）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -95,7 +97,7 @@
 | UC-038 | 從找布料到做樣品，先整理供應商與打樣規格 | Grok Bot／公開供應商資料 | [HN 作者自報；樣品完成與品質未核](cases/038-fabric-sourcing-sample-handoff.md) | 工作｜採購、打樣 |
 | UC-039 | 關閉App後，競品研究簡報仍完成了 | Meta Muse／Grok Bot模板 | [作者完成自述；持續監測仍未測](cases/039-competitor-positioning-review.md) | 工作｜競品 |
 | UC-040 | 行程方案後延遲複查天氣交通，並處理改條件 | ChatGPT dots | [作者文章示範；模擬未訂票](cases/040-trip-deferred-recheck.md) | 生活｜旅遊、排程 |
-| UC-041 | 多 Routine 健康檢查與晚間例外通報 | Grok Bot（＋作者另用 Claude 晨報） | [作者自述簡化指示；未重現](cases/041-routine-health-exception-ops.md) | 開發｜每日、排程、巡檢、多代理 |
+| UC-041 | 多 Routine 健康檢查與晚間例外通報 | Grok Bot（＋作者另用 Claude 晨報）；Grok Bot 專職巡檢與技能整理 Bot | [作者自述簡化指示＋抓到六天假成功同步自述；未重現](cases/041-routine-health-exception-ops.md) | 開發｜每日、排程、巡檢、多代理 |
 | UC-042 | Dots 憑證／單 Agent 限制後改回多 Bot 內容流水線 | ChatGPT dots／Grok Bot | [作者一週遷移長文；未重現](cases/042-dots-credential-multibot-return.md) | 開發｜憑證、多代理、工具限制 |
 | UC-043 | 從公開活動資料找出附近活動，整理成獨立日曆候選 | Meta Muse | [作者自報首次匯入；後續同步未核](cases/043-public-events-calendar.md) | 生活｜活動、日曆 |
 | UC-044 | 家務、採買、行程散在各處？做一頁家人看得懂的今日看板 | Meta Muse | [媒體作者自報；存取與同步未独立驗證](cases/044-household-shared-dashboard.md) | 生活｜每日、家庭、看板 |
@@ -108,7 +110,7 @@
 | UC-051 | 把多年報稅資料交給 Bot，複核會計師的申報 | Grok Bot | [兩位作者自測自述；錯誤與金額未核實](cases/051-tax-return-cpa-double-check.md) | 省錢｜報稅、核對、文件整理、核准 |
 | UC-052 | 雲端用量暴衝多扣錢，申請退款並修根因 | Grok Bot／Railway／Vercel／Neon | [作者自測自述；退款與 PR 未核](cases/052-cloud-overcharge-refund-root-cause.md) | 省錢｜帳單、退款、雲端費用、多代理 |
 | UC-053 | 補貨前先查退貨吃掉多少利潤 | Grok Bot／Amazon 賣家資料／Sellerboard | [作者自述實測；表格與補貨結果未核](cases/053-ecommerce-replenishment-refund-profit.md) | 工作｜電商、補貨、退貨、核對 |
-| UC-054 | 一句話或一首歌，串起作曲、生圖、動畫與剪輯做出 MV | Grok Bot／ElevenLabs Music／Canva／Grok Imagine；Claudia 模板（Suno／Midjourney／Opus） | [兩位作者自述＋模板公開文件已讀；未安裝未重現](cases/054-music-video-multi-tool-pipeline.md) | 創作｜影片、音樂、生成圖像、模板 |
+| UC-054 | 一句話或一首歌，串起作曲、生圖、動畫與剪輯做出 MV | Grok Bot／ElevenLabs Music／Canva／Grok Imagine；Claudia 模板（Suno／Midjourney／Opus）；MV Forge 模板（Three.js／Canvas2D／ffmpeg） | [三位作者自述＋模板公開頁已讀；未安裝未重現](cases/054-music-video-multi-tool-pipeline.md) | 創作｜影片、音樂、生成圖像、模板 |
 | UC-055 | 看到好項目丟給 Bot：建檔查重、調研、持續追蹤消息 | Grok Bot（四個 Bot 交接＋共用檔案） | [作者自述＋截圖＋官方多 Bot 文件；調研內容未核](cases/055-tweet-project-intake-research-monitor.md) | 學習｜多代理、資料查證、監看、書籤 |
 | UC-056 | 讓 Bot 找題目、建站、維護、收贊助，經營小網站 | Grok Bot／Cursor 代理／Stripe 外掛 | [作者自述＋第三方影片拆解＋網站公開頁已讀；收入流量未核](cases/056-agent-built-microbusiness-site.md) | 工作｜網站、營運、電子報、多代理 |
 | UC-057 | 在自己筆電架 GitHub 自架 runner，先講好安全邊界 | Grok Bot／GitHub Actions／Windows 筆電 | [作者自述＋截圖＋GitHub 官方安全文件；未重現](cases/057-self-hosted-ci-runner-on-laptop.md) | 開發｜CI、本機執行、權限、核准 | 
@@ -285,7 +287,7 @@
 | UC-232 | 已購教材下載盤點與到檔核對 | ChatGPT dots | [作者親數到檔自述；未核內容完整性](cases/232-purchased-resource-delivery-reconciliation.md) | 學習｜下載、檔案、驗收 |
 | UC-233 | 訂閱營收指標折扣口徑覆核 | ChatGPT dots | [作者已發現計算問題自述；無更正結果](cases/233-recurring-revenue-discount-definition-review.md) | 工作｜訂閱、營收、驗收 |
 | UC-234 | 待寄附件與核定提案一致性關卡 | Grok Bot／SharePoint／Planner | [作者運作及攔錯自述；無原件日誌](cases/234-proposal-attachment-consistency-send-gate.md) | 工作｜附件、核准、驗收 |
-| UC-235 | 歷史回測凍結紀錄與執行界線核對 | Grok Bot／NexusTrade | [平台作者公開整理紀錄；未獨立重跑](cases/235-backtest-freeze-evidence-boundary-review.md) | 學習｜研究、回測、失敗驗收 |
+| UC-235 | 歷史回測凍結紀錄與執行界線核對 | Grok Bot／NexusTrade；Grok Bot 跟單排行榜滾動回測 | [平台作者公開整理紀錄＋跟單回測作者自述與附圖；未獨立重跑](cases/235-backtest-freeze-evidence-boundary-review.md) | 學習｜研究、回測、失敗驗收 |
 | UC-236 | 事件播放暫停保留與原狀恢復分析 | Grok Bot／事件原型 | [公開原型及修正；平台用途有限制](cases/236-event-playback-state-restoration-prototype.md) | 開發｜事件、恢復、反例 |
 | UC-237 | 草圖零件STEP與製造規格交接 | Grok Bot／Claude Code／Xometry | [作者下訂自述；原檔實物未核](cases/237-sketch-part-step-manufacturing-handoff.md) | 開發｜CAD、零件、交接 |
 | UC-238 | 外掛事件分發範圍與人工通報交接 | Grok Bot／WP Beacon | [公開事件報告；渠道與現況未獨立驗證](cases/238-release-channel-exposure-incident-review.md) | 開發｜資安、版本、證據 |
@@ -364,6 +366,9 @@
 | UC-312 | 環境播放內容誤建本人待辦 | Grok Bot／Fieldy／Todoist | [已運作與誤判自述；未修復](cases/312-ambient-media-false-task-creation.md) | 生活／工作｜語音來源、待辦、失敗 |
 | UC-313 | 外部操作擔當移交的停止與完成對帳失敗 | ChatGPT dots／Codex | [作者競用時序自述；未證實重複寄送或修復](cases/313-external-action-assignee-handoff-race.md) | 開發｜多代理、停止、交接、失敗 |
 | UC-314 | 代理附帶雲機的外接服務長駐失敗 | Grok Bot／Pi agent／Telegram | [作者已部署與休眠失敗自述；無完整日誌、未重現](cases/314-agent-sandbox-always-on-service-failure.md) | 開發｜雲端環境、部署、可用性、失敗 |
+| UC-315 | 工作與私人代理互調報稅文件，交接會計師 | ChatGPT dots（工作 dot＋私人 dot）／電子郵件 | [作者單則文字自述；無截圖與申報結果，待定](cases/315-work-personal-agents-tax-document-cpa-handoff.md) | 生活｜報稅、文件整理、跨代理、交接 |
+| UC-316 | Slack 回報串：分流 Bot 去重、重現 Bot 截圖，人在同串修到合併 | Grok Bot Team Bot／BDK／Cursor Cloud Agents／Slack／Linear | [官方工作坊示範＋影片說明與 Team Bots 文件已讀；影片未看、未重現](cases/316-slack-thread-triage-repro-bot-bug-fix.md) | 開發｜Slack、分流、多代理、驗收 |
+| UC-317 | 夜巡四 Bot：凌晨自主選題、做原型、獨立驗收、晨報 | Grok Bot（四 Bot 群組 routine） | [繁中作者實作自述＋公開 repo 與 Demo；測試與晨報未公開、未重現](cases/317-nightly-explorer-builder-critic-prototype.md) | 開發｜每日、排程、多代理、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

@@ -1,6 +1,15 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對批次：2026-10-18 09:00 UTC／2026-10-18 17:00台灣時間批次（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對批次：2026-10-18 09:45 UTC／2026-10-18 17:45台灣時間批次（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+
+## 2026-10-18 17:45台灣時間補核
+
+嚴格合格 **299／1,000，尚差701**：先前已核定296＋本輪新增331–333三案。046併入書籤主動提取來源不另計。主要頁322＋3＝325，沿用歷史頁面發布口徑315＋3＝318；與嚴格數分開。
+
+- [331](../cases/331-undelivered-purchase-carrier-merchant-refund-chase.md)納入B：Katie Miller原文與入帳通知截圖已讀；無工單／對帳。不同088信箱催退、284行李延誤申請。
+- [332](../cases/332-x-ops-semiauto-prepost-human-approval.md)納入B：作者六項用法短帖已讀；X Article正文未得，二手資訊圖僅補「人按發文」界線。不同006 Facebook受監督發布。
+- [333](../cases/333-notion-cross-agent-outreach-memory.md)納入B：Notion記憶頁截圖與外聯跨代理自述已讀；無寄信成效。不同071 Obsidian外接記憶。
+- 046 S-046G補證不加數。
 
 ## 2026-10-18 17:00台灣時間補核
 

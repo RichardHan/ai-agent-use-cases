@@ -37,7 +37,7 @@ function normalizeSourceUrl(rawUrl) {
 test('all cases and evidence files have valid scenario, non-empty tags, and verification date', () => {
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
   const evidenceFiles = fs.readdirSync(path.join(root, 'evidence')).filter(f => f.endsWith('.md')).sort();
-  assert(caseFiles.length >= 322, `Expected at least 322 cases, found ${caseFiles.length}`);
+  assert(caseFiles.length >= 325, `Expected at least 325 cases, found ${caseFiles.length}`);
   assert(evidenceFiles.length >= 3, `Expected at least 3 evidence files, found ${evidenceFiles.length}`);
 
   const targets = [
@@ -158,7 +158,7 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
   // Confirm that candidate duplicates are purely listed as candidates and all original cases remain intact
-  assert(caseFiles.length >= 322, `Corpus case count must remain intact (no automatic deletion of candidates); got ${caseFiles.length}`);
+  assert(caseFiles.length >= 325, `Corpus case count must remain intact (no automatic deletion of candidates); got ${caseFiles.length}`);
 
   // Specifically verify known shared discussion thread candidates are identified
   const redditDiscussion = duplicates.find(d => d.url.includes('1wa57uk/comment/p8gwy2e'));
@@ -254,6 +254,28 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(botStoreAcademyCandidate, 'Must detect shared Bot Store Academy article between UC-024 and UC-035');
   assert(botStoreAcademyCandidate.cases.includes('cases/024-missing-invoice-check.md'));
   assert(botStoreAcademyCandidate.cases.includes('cases/035-job-search-application-drafts.md'));
+
+  const toolchainPrCandidate = duplicates.find(d => d.url.includes('github.com/toolchainjp/toolchainjp-lp/pull/1'));
+  assert(toolchainPrCandidate, 'Must detect shared Toolchain JP pull request between UC-006 and UC-042');
+  assert(toolchainPrCandidate.cases.includes('cases/006-facebook-publication.md'));
+  assert(toolchainPrCandidate.cases.includes('cases/042-dots-credential-multibot-return.md'));
+
+  const secureTunnelsCandidate = duplicates.find(d => d.url.includes('guides/secure-mcp-tunnels'));
+  assert(secureTunnelsCandidate, 'Must detect shared Secure MCP Tunnels guide between UC-074 and UC-239');
+  assert(secureTunnelsCandidate.cases.includes('cases/074-event-trigger-readback.md'));
+  assert(secureTunnelsCandidate.cases.includes('cases/239-wearable-conversation-delivery-state-validation.md'));
+
+  const dotsControlsCandidate = duplicates.find(d => d.url.includes('learn.chatgpt.com/docs/dots/controls'));
+  assert(dotsControlsCandidate, 'Must detect shared ChatGPT dots controls documentation across UC-005, UC-023, and UC-073');
+  assert(dotsControlsCandidate.cases.includes('cases/005-cloud-pr-review.md'));
+  assert(dotsControlsCandidate.cases.includes('cases/023-launch-material-revision.md'));
+  assert(dotsControlsCandidate.cases.includes('cases/073-customer-journey-content-audit.md'));
+
+  const dotsComputersCandidate = duplicates.find(d => d.url.includes('learn.chatgpt.com/docs/dots/computers-and-apps'));
+  assert(dotsComputersCandidate, 'Must detect shared ChatGPT dots computers-and-apps documentation across UC-005, UC-006, and UC-025');
+  assert(dotsComputersCandidate.cases.includes('cases/005-cloud-pr-review.md'));
+  assert(dotsComputersCandidate.cases.includes('cases/006-facebook-publication.md'));
+  assert(dotsComputersCandidate.cases.includes('cases/025-team-event-follow-through.md'));
 });
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {
@@ -306,7 +328,7 @@ test('INDEX.md maintains scenario consistency, working case links, and matches s
 
   // Verify all case and evidence links in INDEX.md exist on disk
   const links = Array.from(indexContent.matchAll(/\[(?:[^\]]*)\]\(((?:cases|evidence)\/[^)]+\.md)\)/g));
-  assert(links.length >= 322, `Expected at least 322 links in INDEX.md, found ${links.length}`);
+  assert(links.length >= 325, `Expected at least 325 links in INDEX.md, found ${links.length}`);
   for (const match of links) {
     const relPath = match[1];
     assert(fs.existsSync(path.join(root, relPath)), `Link target does not exist: ${relPath}`);

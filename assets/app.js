@@ -59,7 +59,16 @@ const SYNONYM_GROUPS = [
   ['語音', '音訊', '音頻', '聲音', 'voice', 'audio'],
   ['自動回覆', '自動回信', 'auto-reply', '自動回覆買家'],
   ['測試', 'qa', 'testing'],
-  ['審查', '審核', 'review', 'audit']
+  ['審查', '審核', 'review', 'audit'],
+  ['物流', '快遞', '包裹', '運送', '配送', 'shipping', 'delivery'],
+  ['社群', '社交媒體', 'sns'],
+  ['發文', '貼文', '發帖', 'post'],
+  ['外聯', 'outreach', '開發信', '拓客', '獲客'],
+  ['客戶', '顧客', '用戶', 'client', 'customer'],
+  ['記憶', 'memory', '記憶庫'],
+  ['提示詞', 'prompt', '提示語', '提示'],
+  ['核准', '審批', 'approval', '人工確認', '人工核准'],
+  ['網購', '電商', '購物', 'ecommerce', 'shopping']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

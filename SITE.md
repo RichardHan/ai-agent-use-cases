@@ -329,6 +329,36 @@ python -m http.server 8080 --directory /tmp/ai-usecase-preview
 本輪實際結果：20/20 測試全數通過，328 筆條目全文、同義詞對稱性驗證、句號容錯、疑似重複叢集偵測、查證日期精準萃取與全庫 322 案例一致性檢驗通過。
 下一輪建議：依重複來源候選清單（如多個案例共用同一討論串或長文網址）評估是否需在各案例頁內進一步精確標註發文時間碼或留言 anchor。
 
+## 2026-10-18：高頻生活與工作領域同義詞擴充、疑似重複來源候選叢集擴充與審核門檻同步
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與新案例檢索痛點：
+   - 物流與運送類：讀者搜尋「快遞」或「shipping」或「delivery」為 0 筆（或 1 筆），嚴重遺漏 UC-331（網購未送達催退）、UC-053、UC-088、UC-117、UC-181 等物流追蹤與退款催辦案例；
+   - 社群與發文類：讀者搜尋「發帖」、「社交媒體」或「sns」結果為 0 筆，遺漏 91 筆貼文、55 筆發文與 UC-332（X 營運半自動發文前人工關卡）、UC-006、UC-077 等社群案例；
+   - 外聯與客戶拓展類：讀者搜尋「outreach」（僅 1 筆）、「開發信」（0 筆）、「拓客」（0 筆），遺漏 UC-333（外聯 Notion 跨代理記憶）、UC-014、UC-059、UC-285 等商務外聯案例；
+   - 客戶與顧客類：全庫有 47 筆「客戶」，但讀者搜尋「顧客」（僅 6 筆）、「customer」（僅 2 筆）、「client」（僅 2 筆）、「用戶」（僅 6 筆）時無法檢索 40+ 筆相關案例；
+   - 記憶與知識庫類：全庫有 26 筆「記憶」（如 UC-071、UC-255、UC-333），讀者搜尋「memory」僅 3 筆、搜尋「記憶庫」僅 1 筆；
+   - 提示詞類：全庫有 141 筆「提示詞」，讀者搜尋「prompt」僅得 8 筆、搜尋「提示語」為 0 筆；
+   - 審批核准類：全庫有 173 筆「核准」，讀者搜尋常見同義詞「審批」僅 1 筆、「approval」僅 16 筆；
+   - 電商與網購類：讀者搜尋「ecommerce」為 0 筆，與「網購」、「電商」、「購物」割裂。
+2. 疑似重複來源候選叢集偵測覆蓋：
+   - 專案既有候選重複偵測未涵蓋 Toolchain JP PRs（UC-006 ↔ UC-042）、OpenAI Secure MCP Tunnels 指南（UC-074 ↔ UC-239）、ChatGPT dots controls 文件（UC-005 ↔ UC-023 ↔ UC-073）、ChatGPT dots computers-and-apps 文件（UC-005 ↔ UC-006 ↔ UC-025）等跨案例共享公開來源候選；
+   - 隨著 UC-331~333 納入，全庫主案例數由 322 增至 325 筆；`tests/audit.test.cjs` 既有案例數與連結數邊界斷言（322）需同步更新至 325，嚴格維持「只列候選、不自行刪除、325 筆案例保持完整」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `SYNONYM_GROUPS` 擴充 9 組高頻生活／工作領域同義詞群（物流/快遞/包裹/運送/配送/shipping/delivery、社群/社交媒體/sns、發文/貼文/發帖/post、外聯/outreach/開發信/拓客/獲客、客戶/顧客/用戶/client/customer、記憶/memory/記憶庫、提示詞/prompt/提示語/提示、核准/審批/approval/人工確認/人工核准、網購/電商/購物/ecommerce/shopping），並由系統自動建置 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：
+     - 同步主案例數量下限與 INDEX.md 連結下限至 325 筆。
+     - 擴充 4 組真實公開來源疑似重複候選叢集回歸斷言（Toolchain JP PRs、Secure MCP Tunnels、ChatGPT dots controls、ChatGPT dots computers-and-apps），恪守「只列候選、不自行刪除、總案例數 325 保持完整」。
+   - `tests/search.test.cjs`：加入快遞/shipping/delivery、發帖/sns/社交媒體、outreach/開發信/拓客、顧客/customer/client、memory/記憶庫、prompt/提示語、審批/approval、ecommerce/網購之搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/test-preview/ai-agent-use-cases`。
+本輪實際結果：20/20 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選叢集審核、全庫 325 案例一致性檢驗通過。
+下一輪建議：依重複來源候選清單（如多個案例共用同一討論串或長文網址）評估是否需在各案例頁內進一步精確標註發文時間碼或留言 anchor。
+
+
 
 
 

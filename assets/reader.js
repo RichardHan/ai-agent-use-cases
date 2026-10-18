@@ -1,6 +1,21 @@
 /* Source DOM has already passed through the text-only Markdown renderer. */
 (function(root){
   'use strict';
+  // Only promote a complete primary section. Unknown or long structures stay in
+  // the original research; never truncate away a later caveat or infer success.
+  function selectReadingSection(sections,kind){
+    if(kind==='pending')return -1;
+    const eligible=({title,text})=>text.trim().length>0&&text.length<=3200&&
+      !/本庫|設計|建議|預期|提示詞|補充|未測|未實|可參考/.test(title);
+    for(const pattern of [
+      /^(?:問題.*(?:實作|結果|成果|實際使用)|(?:原)?作者.*(?:實作|實際|做了|結果|完成範圍)|來源報告(?:與限制)?)$/,
+      /^(?:已讀來源版本|來源版本|來源說了什麼|來源與能確認的範圍)$/
+    ]){
+      const index=sections.findIndex(section=>eligible(section)&&pattern.test(section.title));
+      if(index!==-1)return index;
+    }
+    return -1;
+  }
   function selectJumps(titles){
     const used=new Set();
     const intents=[
@@ -54,7 +69,8 @@
     const warning=body.querySelector('.detail-warning');
     if(warning)evidence.append(warning);
     evidence.append(make('p','reader-evidence-footnote','以上沿用原文頁首；後續補充的來源與限制，請依各段文字判讀。'));
-    body.insertBefore(evidence,overview);
+    // Put the actual purpose first; retain every original proof row below it.
+    overview.after(evidence);
     if(!headings.length)return;
     const dialog=body.closest('dialog');
     const nav=make('nav','reader-nav');
@@ -78,6 +94,37 @@
       button.addEventListener('click',()=>jump(index));
       return button;
     };
+    const primary=[...markdown.children].filter(node=>node.tagName==='H2').map(heading=>{
+      const nodes=[];
+      for(let next=heading.nextElementSibling;next&&next.tagName!=='H2';next=next.nextElementSibling)nodes.push(next);
+      return {title:heading.textContent,text:nodes.map(node=>node.textContent).join('\n'),heading,nodes};
+    });
+    const readingIndex=selectReadingSection(primary,item.kind);
+    const report=make('section','reader-report');
+    report.setAttribute('aria-label','原文紀錄先讀');
+    if(readingIndex!==-1){
+      const selected=primary[readingIndex];
+      report.append(make('p','reader-report-label','原文紀錄先讀 · 非本庫實測'),make('h2','',selected.title),
+        make('p','reader-report-note','以下完整保留案例研究的這個段落，並非外部來源的逐字引文；其他版本與限制請一併核對。'));
+      const content=make('div','reader-report-content');
+      selected.nodes.forEach(node=>content.append(node.cloneNode(true)));
+      report.append(content,jumpButton(headings.indexOf(selected.heading),'reader-report-open'));
+      report.lastChild.textContent='到完整研究核對這一段 ↓';
+      report.dataset.sectionTitle=selected.title;
+    }else{
+      report.append(make('h2','',item.kind==='pending'?'先確認待查缺口':'先核對原始紀錄'),
+        make('p','reader-report-note',item.kind==='pending'?'這是待查線索，沒有可當成實際成果的紀錄。請先閱讀缺漏與來源。':'這篇未提供適合提前完整呈現的短段落。請從原始研究核對實作、來源與限制。'));
+      const open=make('button','reader-report-open','開啟原始研究 ↓');
+      open.type='button';
+      open.addEventListener('click',()=>{research.open=true;moveTo(research.querySelector('summary'));});
+      report.append(open);
+    }
+    const sourceIndex=titles.findIndex(title=>/^(?:來源|已讀來源|公開來源|參考資料)/.test(title));
+    if(sourceIndex!==-1){
+      const sources=jumpButton(sourceIndex,'reader-report-open');
+      sources.textContent='核對來源與版本 ↓';report.append(sources);
+    }
+    overview.after(report);
     const quick=make('div','reader-quick');
     selectJumps(titles).forEach(({index,label})=>{
       const button=jumpButton(index,'reader-jump');
@@ -101,9 +148,9 @@
     });
     full.append(list);
     nav.append(full);
-    body.insertBefore(nav,evidence);
+    evidence.after(nav);
   }
-  const api={selectJumps,enhance};
+  const api={selectJumps,selectReadingSection,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

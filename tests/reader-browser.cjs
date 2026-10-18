@@ -119,6 +119,7 @@ async function jump(page,button){
    assert.equal(await page.locator('.detail-toolbar-id').evaluate(id=>id.getBoundingClientRect().height<30),true,'case ID stays on one line');
    assert.equal(await page.locator('.detail-toolbar-actions button').evaluateAll(buttons=>buttons.every(button=>button.getBoundingClientRect().height>=26)),true,'toolbar controls retain usable target height');
    assert.match(await page.locator('.reader-nav-hint').innerText(),/不代表本庫獨立重現/);
+   await page.locator('.reader-nav-hint').scrollIntoViewIfNeeded();
    await visibleBelowToolbar(page,'.reader-nav-hint');
    assert.match(await page.locator('.reader-evidence').innerText(),/日文作者實測報告/);
    assert.match(await page.locator('.reader-evidence').innerText(),/獨立重現：否/);

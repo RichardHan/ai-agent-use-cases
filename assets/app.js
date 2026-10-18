@@ -793,7 +793,10 @@ window.addEventListener('popstate', () => {
       requestAnimationFrame(()=>{
         if(location.href!==returnURL||$('detail').open||!returnTarget?.isConnected)return;
         const active=document.activeElement;
-        if(active===document.body||active===fragment)returnTarget.focus();
+        if(active===document.body||active===fragment||active===returnTarget){
+          if(active!==returnTarget)returnTarget.focus({preventScroll:true});
+          returnTarget.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+        }
       });
     }
   }

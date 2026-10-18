@@ -1,0 +1,95 @@
+'use strict';
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const {AxeBuilder} = require('@axe-core/playwright');
+module.exports = async function searchRecovery({browser, origin, observe=false}) {
+  const report=[];
+  fs.mkdirSync('qa-artifacts',{recursive:true});
+  for (const [name,width,height] of [['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]) {
+    const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
+    await page.goto(origin,{waitUntil:'networkidle'});
+    await page.locator('#results .card').first().waitFor();
+    await page.locator('#query').fill('旅遊');
+    await page.locator('#tool').selectOption('Grok Bot');
+    await page.locator('#category').selectOption('旅遊／消費研究');
+    await page.locator('#proof').selectOption('作者報告／示範');
+    const matching=await page.locator('#results .card').count();
+    assert(matching>0);
+    await page.locator('#scenario').selectOption('開發');
+    assert.equal(await page.locator('#empty').isVisible(),true);
+    await page.locator('#results-count').scrollIntoViewIfNeeded();
+    await page.screenshot({path:'qa-artifacts/search-'+(observe?'before-':'after-')+name+'.jpg',type:'jpeg',quality:75});
+    console.log('VISUAL:search-'+(observe?'before-':'after-')+name+':'+fs.readFileSync('qa-artifacts/search-'+(observe?'before-':'after-')+name+'.jpg').toString('base64'));
+    const row={viewport:name,matchingBeforeScenario:matching,empty:await page.locator('#empty').innerText(),activeFilters:await page.locator('#active-filters button').count()};
+    if (observe) {
+      await page.locator('#empty-reset').click();
+      row.queryAfterReset=await page.locator('#query').inputValue();
+      report.push(row);
+      await page.close();
+      continue;
+    }
+    // Journey 1: recover from an incompatible combination without losing the task.
+    assert.equal(await page.locator('#active-filters [data-remove-filter]').count(),5);
+    const suggestion=page.locator('#empty-suggestions [data-remove-filter="scenario"]');
+    assert.equal(await suggestion.count(),1,'offer a precise, nonzero relaxation');
+    assert.match(await suggestion.innerText(),new RegExp(String(matching)+' 筆'));
+    await suggestion.focus();await page.keyboard.press('Enter');
+    assert.equal(await page.locator('#results .card').count(),matching);
+    assert.equal(await page.locator('#query').inputValue(),'旅遊');
+    assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
+    assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');
+    assert.equal(await page.locator('#proof').inputValue(),'作者報告／示範');
+    assert.equal(new URL(page.url()).searchParams.has('scenario'),false);
+    assert.equal(await page.locator('#results-count').evaluate(n=>document.activeElement===n),true);
+    // Journey 2: share a filtered result, read a case, and return to the same intent.
+    const filteredURL=page.url();
+    const id=await page.locator('#results .card').first().getAttribute('data-case-id');
+    await page.locator('#results .card .card-bottom button').first().click();
+    await page.locator('#detail[open]').waitFor();
+    const directURL=page.url();
+    await page.reload({waitUntil:'networkidle'});
+    await page.locator('#detail[open]').waitFor();
+    assert.equal(new URL(directURL).searchParams.get('case'),id);
+    await page.locator('#close-detail').click();
+    assert.equal(page.url(),filteredURL);
+    assert.equal(await page.locator('#active-filters [data-remove-filter]').count(),4);
+    const trigger=page.locator('#results .card .card-bottom button').first();
+    await trigger.click();await page.goBack();
+    assert.equal(await trigger.evaluate(n=>document.activeElement===n),true);
+    await page.locator('#active-filters [data-remove-filter="tool"]').click();
+    assert.equal(await page.locator('#tool').inputValue(),'');
+    assert.equal(await page.locator('#query').inputValue(),'旅遊');
+    assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
+    const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
+    row.axeViolations=audit.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}));
+    assert.deepEqual(row.axeViolations,[]);
+    // Journey 3: a genuinely unknown query is preserved when clearing only facets.
+    await page.locator('#query').fill('找不到的任務xyz987');
+    assert.equal(await page.locator('#empty').isVisible(),true);
+    await page.locator('#clear-facets').click();
+    assert.equal(await page.locator('#query').inputValue(),'找不到的任務xyz987');
+    assert.equal(await page.locator('#category').inputValue(),'');
+    assert.equal(await page.locator('#proof').inputValue(),'');
+    assert.equal(await page.locator('#empty').isVisible(),true);
+    assert.equal(await page.locator('#empty-suggestions [data-remove-filter]').count(),0);
+    await page.locator('#edit-query').click();
+    assert.equal(await page.locator('#query').evaluate(n=>document.activeElement===n),true);
+    await page.locator('#query').fill('很長的搜尋關鍵字'.repeat(30)+' <img src=x onerror=alert(1)>');
+    assert.equal(await page.locator('#active-filters img').count(),0);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    const emptyAudit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
+    assert.equal(emptyAudit.violations.length,0,JSON.stringify(emptyAudit.violations));
+    await page.locator('#active-filters [data-remove-filter="query"]').focus();
+    await page.keyboard.press('Enter');
+    assert.equal(await page.locator('#active-filters').isVisible(),false);
+    assert.equal(await page.locator('#empty').isVisible(),false);
+    assert.equal(await page.locator('#results-count').evaluate(n=>document.activeElement===n),true);
+    await page.locator('#query').fill('旅遊');
+    await page.locator('#empty-reset').evaluate(n=>n.click());
+    assert.equal(await page.locator('#query').inputValue(),'');
+    row.passed=true;report.push(row);
+    await page.close();
+  }
+  fs.writeFileSync('qa-artifacts/search-'+(observe?'baseline':'verification')+'.json',JSON.stringify(report,null,2));
+  console.log('SEARCH_RECOVERY '+JSON.stringify(report));
+};

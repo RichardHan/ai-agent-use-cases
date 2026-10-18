@@ -1120,31 +1120,35 @@ window.addEventListener('popstate', event => {
   if(wasOpen&&!item){
     restoreDetailFocus();
     // Fragment traversal can apply its native focus after the popstate handler.
-    // Restore once after that step, without overriding another control's focus.
+    // Restore briefly after that step, without overriding another control's focus.
     if(location.hash){
       const returnURL=location.href,returnTarget=document.activeElement;
       let fragment=null;
       try{fragment=document.getElementById(decodeURIComponent(location.hash.slice(1)));}catch{}
-      let cancelled=false;
+      let cancelled=false,frame=null,timer=null;
+      const deadline=performance.now()+300;
       const inputEvents=['pointerdown','keydown','wheel','touchstart'];
-      const cleanup=()=>inputEvents.forEach(type=>window.removeEventListener(type,cancel,true));
+      const cleanup=()=>{
+        inputEvents.forEach(type=>window.removeEventListener(type,cancel,true));
+        if(frame!==null){cancelAnimationFrame(frame);frame=null;}
+        if(timer!==null){clearTimeout(timer);timer=null;}
+      };
       const cancel=()=>{cancelled=true;cleanup();};
       inputEvents.forEach(type=>window.addEventListener(type,cancel,{capture:true,passive:true}));
-      const restoreVisibleReturn=()=>{
-        if(cancelled||location.href!==returnURL||$('detail').open||!returnTarget?.isConnected)return;
+      const settle=()=>{
+        frame=null;
+        if(cancelled||performance.now()>=deadline||location.href!==returnURL||$('detail').open||!returnTarget?.isConnected){cancel();return;}
         const active=document.activeElement;
-        if(active===document.body||active===fragment||active===returnTarget){
-          if(active!==returnTarget)returnTarget.focus({preventScroll:true});
-          const rect=returnTarget.getBoundingClientRect();
-          if(rect.top<0||rect.bottom>innerHeight)returnTarget.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
-        }
+        if(active!==document.body&&active!==fragment&&active!==returnTarget){cancel();return;}
+        if(active!==returnTarget)returnTarget.focus({preventScroll:true});
+        const rect=returnTarget.getBoundingClientRect();
+        if(rect.top<0||rect.bottom>innerHeight)returnTarget.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+        frame=requestAnimationFrame(settle);
       };
-      requestAnimationFrame(()=>{
-        restoreVisibleReturn();
-        // History/fragment layout can settle after the first frame. Recheck
-        // once, keeping the same URL, modal and newer-user-focus guards.
-        requestAnimationFrame(()=>{restoreVisibleReturn();cleanup();});
-      });
+      // Native fragment restoration can arrive after the first two frames.
+      // Stop at an absolute deadline, including when the tab suspends rAF.
+      timer=setTimeout(cancel,300);
+      frame=requestAnimationFrame(settle);
     }
   }
 });

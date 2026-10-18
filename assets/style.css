@@ -70,3 +70,46 @@
   .detail-actions{gap:8px}
 }
 
+
+/* Guided exploration: one question, one case, then the full collection. */
+.sr-only{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden;white-space:nowrap}
+.discovery-layout{display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:start;padding:56px 0 48px}
+.discovery-hero h1{font-size:clamp(34px,3.7vw,48px);letter-spacing:-1.6px;margin-bottom:16px}
+.discovery-hero .intro{margin:0 0 26px;color:#4c6258;font-size:16px;max-width:480px}
+.guide-options{border:0;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.guide-options button{min-height:74px;padding:12px 14px;text-align:left;background:transparent;border-color:#b9c5b7;display:flex;flex-direction:column;gap:3px;transition:background .15s}
+.guide-options button strong{font-size:15px;font-weight:650}
+.guide-options button span{font-size:12px;color:#4c6258}
+.guide-options button[aria-pressed=true]{background:var(--green);border-color:var(--green);color:white}
+.guide-options button[aria-pressed=true] span{color:#e1efc9}
+.guide-options button:hover:not([aria-pressed=true]):not(:disabled){background:#edf2e7}
+.guide-options button:disabled{cursor:wait;opacity:.6}
+.discovery-stage{background:#e9eee0;border:1px solid #cbd6bf;border-radius:16px;padding:28px;margin-top:4px;min-width:0}
+.draw-heading{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.draw-heading .eyebrow{font-size:10px;letter-spacing:.5px;margin-bottom:8px}
+.draw-heading h2{font-size:23px;letter-spacing:-.7px;line-height:1.5;margin:0}
+.draw-symbol{font-size:40px;line-height:1;color:var(--green)}
+.draw-status{min-height:40px;font-size:12px;line-height:1.7;color:#4c6258;margin:18px 0 12px}
+.drawn-case .card{min-height:295px;box-shadow:0 5px 0 #ccd7bf;padding:25px}
+.drawn-case .card:hover{transform:none;box-shadow:0 5px 0 #ccd7bf}
+.drawn-case .card h3{font-size:24px;line-height:1.6;margin-top:22px}
+.drawn-case .summary{-webkit-line-clamp:4}
+.drawn-case .card-bottom button{font-size:14px;padding:8px 0;white-space:normal}
+.drawn-case .card .proof{font-size:12px}
+.draw-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px}
+.primary-button{background:var(--green);border-color:var(--green);color:white;font-size:15px;font-weight:650;padding:12px 22px;min-height:48px}
+.primary-button:disabled{opacity:.6;cursor:default}
+.draw-actions a{font-size:13px;white-space:nowrap}
+.draw-note{font-size:12px;line-height:1.8;color:#4c6258;margin:18px 0 0}
+.draw-placeholder{background:#f7f8f2;border:1px dashed #9caa8d;border-radius:10px;padding:40px 24px;min-height:220px;font-size:15px;line-height:1.9}
+.explore{border-top:1px solid var(--line);padding-top:38px}
+.compact-stats{margin-bottom:24px}
+.card-bottom button{min-height:36px}
+@media(max-width:1000px){.discovery-layout{gap:28px}.discovery-stage{padding:22px}.guide-options button{padding:11px}.draw-actions{flex-wrap:wrap}.filter-row label{flex-basis:28%}}
+@media(max-width:760px){.discovery-layout{grid-template-columns:1fr;gap:26px;padding:30px 0 34px}.discovery-hero h1{font-size:36px}.discovery-hero .intro{font-size:15px;margin-bottom:20px}.guide-options{gap:8px}.guide-options button{min-height:66px;padding:10px 12px}.guide-options button strong{font-size:14px}.guide-options button span{font-size:11px}.discovery-stage{padding:22px;margin-top:0}.drawn-case .card{min-height:260px;padding:22px}.drawn-case .card h3{font-size:23px}.draw-status{min-height:0}.draw-actions{flex-wrap:nowrap;gap:12px}.primary-button{padding:12px 18px}.draw-actions a{font-size:12px}.compact-stats{margin-bottom:20px}.filter-row label{flex-basis:calc(50% - 6px)}}
+@media(prefers-reduced-motion:reduce){.guide-options button{transition:none}}
+
+/* Keep small reading-note text above WCAG AA contrast on its tinted panel. */
+.reading-note p{color:#4c6258}
+
+.stat-sub,.detail-badge{color:#4c6258}

@@ -11,7 +11,7 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s*[- ]\s*orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/\bscreen\s+shots?\b/g, ' screenshot ').replace(/\btime\s+sheets?\b/g, ' timesheet ').replace(/\bpay\s+checks?\b/g, ' paycheck ').replace(/\brun\s+times?\b/g, ' runtime ').replace(/\bhand\s*[- ]\s*offs?\b/g, ' handoff ').replace(/\bdry\s*[- ]\s*runs?\b/g, ' dryrun ').replace(/\bguard\s*[- ]\s*rails?\b/g, ' guardrail ').replace(/\bhuman\s*[- ]\s*in\s*[- ]\s*the\s*[- ]\s*loop\b/g, ' hitl ').replace(/\bmodel\s*[- ]\s*context\s*[- ]\s*protocols?\b/g, ' mcp ').replace(/\bcommand\s*[- ]\s*lines?\b/g, ' cli ').replace(/\bapi\s*[- ]\s*keys?\b/g, ' apikey ').replace(/\bgrokbot\b/g, ' grok bot ').replace(/\bmetamuse\b/g, ' meta muse ').replace(/\bprs\b/g, ' pr ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
+const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s*[- ]\s*orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/\bscreen\s+shots?\b/g, ' screenshot ').replace(/\btime\s+sheets?\b/g, ' timesheet ').replace(/\bpay\s+checks?\b/g, ' paycheck ').replace(/\brun\s+times?\b/g, ' runtime ').replace(/\bhand\s*[- ]\s*offs?\b/g, ' handoff ').replace(/\bdry\s*[- ]\s*runs?\b/g, ' dryrun ').replace(/\bguard\s*[- ]\s*rails?\b/g, ' guardrail ').replace(/\bhuman\s*[- ]\s*in\s*[- ]\s*the\s*[- ]\s*loop\b/g, ' hitl ').replace(/\bmodel\s*[- ]\s*context\s*[- ]\s*protocols?\b/g, ' mcp ').replace(/\bcommand\s*[- ]\s*lines?\b/g, ' cli ').replace(/\bapi\s*[- ]\s*keys?\b/g, ' apikey ').replace(/\bgrokbot\b/g, ' grok bot ').replace(/\bmetamuse\b/g, ' meta muse ').replace(/\bprs\b/g, ' pr ').replace(/\bmulti\s*[- ]\s*agents?\b/g, ' multi-agent ').replace(/\bmultiagents?\b/g, ' multi-agent ').replace(/\bretrieval\s*[- ]\s*augmented\s*[- ]\s*generations?\b/g, ' rag ').replace(/\bvector\s*[- ]\s*(?:dbs?|databases?)\b/g, ' vectordb ').replace(/\bcode\s*[- ]\s*reviews?\b/g, ' codereview ').replace(/\bcodereviews?\b/g, ' codereview ').replace(/\bmerge\s+requests?\b/g, ' mr ').replace(/\bweb\s*[- ]\s*hooks?\b/g, ' webhook ').replace(/\bcron\s*[- ]\s*jobs?\b/g, ' cron ').replace(/\bcronjobs?\b/g, ' cron ').replace(/\bcrontabs?\b/g, ' cron ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
   ['agent', 'agents', '智能體', '智能体', '代理'],
   ['每日報表', '每日報告', '日報', '晨報', 'daily'],
@@ -36,7 +36,7 @@ const SYNONYM_GROUPS = [
   ['代碼', '程式碼', '程式', 'code', 'codes', 'coding'],
   ['ticket', 'tickets', '工單', '工單系統', 'workorder', 'workorders', '客服', 'support', '客訴', '投訴'],
   ['飯店', '旅館', '住宿', 'hotel', 'hotels'],
-  ['多代理', 'multi-agent', '跨代理', '代理協作', 'cross-agent'],
+  ['多代理', 'multi-agent', 'multi-agents', 'multiagent', '多agent', '跨代理', '代理協作', 'cross-agent', '多智能體', '多智能体'],
   ['備份', 'backup', 'backups', '還原', '復原', 'restore', '回滾', 'rollback', 'rollbacks', 'revert', 'reverting', '回退'],
   ['監看', '監控', '監測', '巡檢', 'monitor', 'monitoring'],
   ['週報', 'weekly', '每週報告', '週報表'],
@@ -58,7 +58,7 @@ const SYNONYM_GROUPS = [
   ['圖片', '相片', '照片', 'image', 'images', 'photo', 'photos'],
   ['筆記', 'notes', '筆記本'],
   ['推特', 'twitter', 'x'],
-  ['rag', '知識庫', '知识库', 'knowledgebase', '檢索', 'retrieval', '向量', '嵌入', 'vector', 'vectors', 'embedding', 'embeddings'],
+  ['rag', '知識庫', '知识库', 'knowledgebase', '檢索', 'retrieval', '向量', '嵌入', 'vector', 'vectors', 'embedding', 'embeddings', '檢索增強', 'retrieval augmented generation', 'vectordb', '向量資料庫', '向量數據庫', '向量庫'],
   ['語音', '音訊', '音頻', '聲音', 'voice', 'audio'],
   ['自動回覆', '自動回信', 'auto-reply', '自動回覆買家'],
   ['測試', 'qa', 'test', 'tests', 'testing', '回歸', 'regression'],
@@ -130,7 +130,7 @@ const SYNONYM_GROUPS = [
   ['終端', '命令列', '命令行', 'terminal', 'terminals', 'cli', 'console', 'consoles'],
   ['遷移', '移轉', 'migration', 'migrations', 'migrate'],
   ['模擬', '仿真', 'mock', 'mocks', 'mocking', 'stub', 'stubs'],
-  ['認證', '身分驗證', '身份驗證', 'authentication', 'oauth', 'sso'],
+  ['認證', '身分驗證', '身份驗證', 'authentication', 'oauth', 'oauth2', 'sso', '單一登入', '單點登入'],
   ['快照', 'snapshot', 'snapshots'],
   ['批次', '批處理', 'batch', 'batches'],
   ['追蹤', 'tracing', 'trace', 'track', 'tracks', 'tracking'],
@@ -138,7 +138,7 @@ const SYNONYM_GROUPS = [
   ['健康檢查', 'healthcheck', 'healthchecks', 'liveness', 'readiness'],
   ['編排', 'orchestration', 'orchestrate'],
   ['協調', 'coordination', 'coordinate'],
-  ['降級', 'fallback', 'degradation'],
+  ['降級', 'fallback', 'fallbacks', 'degradation', '備援', '容錯', '備用方案'],
   ['狀態機', 'statemachine', 'statemachines', '狀態轉換', '狀態轉移'],
   ['檢查點', 'checkpoint', 'checkpoints'],
   ['儲存', '存儲', 'storage'],
@@ -182,7 +182,7 @@ const SYNONYM_GROUPS = [
   ['cookie', 'cookies'],
   ['heartbeat', 'heartbeats', '心跳'],
   ['screenshot', 'screenshots', '截圖', '螢幕截圖', '畫面截圖', '抓圖'],
-  ['routine', 'routines', '例行任務', '例行', '定時任務', '常規任務'],
+  ['routine', 'routines', '例行任務', '例行', '定時任務', '常規任務', '定期任務', 'cronjob', 'crontab'],
   ['manual', 'manually', '手動', '人工操作', '手動操作'],
   ['stale', '過期', '過時', '失效', '過時指示', '過期指示'],
   ['runtime', 'runtimes', '運行時', '執行期', '執行時', '運行環境', '執行環境'],
@@ -204,8 +204,10 @@ const SYNONYM_GROUPS = [
   ['mcp', 'model context protocol'],
   ['connector', 'connectors', '連接器', '連線器'],
   ['skill', 'skills', '技能', '外掛技能'],
-  ['pr', 'prs', 'pull request', 'pull requests', '合併請求'],
-  ['用量', '額度', 'usage', '配額', '限額', '消耗']
+  ['pr', 'prs', 'pull request', 'pull requests', 'mr', 'mrs', 'merge request', 'merge requests', '合併請求'],
+  ['用量', '額度', 'usage', '配額', '限額', '消耗'],
+  ['成本', '費用', '開銷', '支出', '花費', 'cost', 'costs', 'expense', 'expenses', 'expenditure', 'fee', 'fees'],
+  ['codereview', 'code review', '代碼審查', '程式碼審查', '代碼覆核', '代碼審核', '代碼評審', 'pr審查', 'pr 審查']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

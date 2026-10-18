@@ -1,17 +1,37 @@
 <!doctype html>
 <html lang="zh-Hant">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="可搜尋的 AI 代理實用案例庫。比較工作流程、工具、來源證據與權限邊界。"><meta name="color-scheme" content="light"><title>AI 用法實驗室 · 案例庫</title><link rel="stylesheet" href="assets/style.css"><script src="assets/app.js" defer></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="選個情境，抽一張 AI 用法靈感，再深入閱讀做法、限制與來源。"><meta name="color-scheme" content="light"><title>AI 用法實驗室 · 案例庫</title><link rel="stylesheet" href="assets/style.css"><script src="assets/discovery.js" defer></script><script src="assets/app.js" defer></script></head>
 <body>
-<a class="skip" href="#explore">跳到案例搜尋</a>
+<a class="skip" href="#discover">跳到案例探索</a>
 <header class="topbar"><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">✳</span> AI 用法實驗室 <span class="edition">FIELD NOTES</span></a><a class="repo-link" href="https://github.com/RichardHan/ai-agent-use-cases">GitHub 原始資料 ↗</a></header>
 <main>
-<section class="hero"><div><p class="eyebrow"><span></span> 持續整理的 AI 代理案例庫</p><h1>AI 能做什麼？<br><em>從真實用法開始找。</em></h1><p class="intro">找靈感，也看清限制。把公開案例、工作流程與來源證據放在一起，找到適合自己的下一個實驗。</p><a class="explore-link" href="#explore">探索案例 <span aria-hidden="true">↓</span></a></div><aside class="hero-note"><span class="note-index">研究筆記 / 01</span><div class="orbit" aria-hidden="true"><span>AI</span><i>想法</i><i>流程</i><i>驗收</i></div><p>不只看「做到了什麼」<br><strong>也看如何做、何時該停。</strong></p></aside></section>
-<section class="stats" aria-label="收錄統計"><div><strong id="case-count">—</strong><span>個用法靈感</span></div><div><strong id="evidence-count">—</strong><span>篇經驗與踩坑</span></div><div><strong id="pending-count">—</strong><span>個待查想法</span></div><p>收集別人怎麼用，也記錄哪裡卡住。<br>本庫尚未親自測試這些用法。</p></section>
-<section id="explore" class="explore"><div class="section-head"><div><p class="eyebrow">EXPLORE THE COLLECTION</p><h2>你想把哪件事交給 AI？</h2></div><span id="updated" class="muted"></span></div>
-<form id="filters" role="search"><label class="search-label" for="query">搜尋全部案例內容</label><div class="search-wrap"><span aria-hidden="true">⌕</span><input id="query" name="q" type="search" placeholder="搜尋工作、工具、提示詞…例如：旅遊、PR、驗收" autocomplete="off"><kbd aria-hidden="true">/</kbd></div><div class="filter-row"><label>收錄狀態<select id="kind" name="kind"><option value="">全部狀態</option><option value="case">用法靈感</option><option value="evidence">經驗與踩坑</option><option value="pending">還在查證</option></select></label><label>提及工具<select id="tool" name="tool"><option value="">全部工具</option></select></label><label>主題分類<select id="category" name="category"><option value="">全部分類</option></select></label><label>分享來自哪裡<select id="proof" name="proof"><option value="">全部來源類型</option></select></label><button id="reset" type="button" class="reset">清除篩選 ↺</button></div></form>
+<div class="discovery-layout"><section class="discovery-hero" aria-labelledby="welcome-title">
+  <p class="eyebrow">從一件你想做的事開始</p>
+  <h1 id="welcome-title">今天，想讓 AI<br><em>幫你哪件事？</em></h1>
+  <p class="intro">選個情境，抽一張別人的用法。覺得有意思，再看怎麼做。</p>
+  <fieldset id="guide-options" class="guide-options" disabled>
+    <legend class="sr-only">第一步：選擇你想探索的情境</legend>
+    <button type="button" data-scenario="" aria-pressed="true"><strong>隨便逛逛</strong><span>給我一點靈感</span></button>
+    <button type="button" data-scenario="生活" aria-pressed="false"><strong>生活大小事</strong><span>旅行、家庭、日常安排</span></button>
+    <button type="button" data-scenario="工作" aria-pressed="false"><strong>工作省點力</strong><span>郵件、客服、營運</span></button>
+    <button type="button" data-scenario="省錢" aria-pressed="false"><strong>精打細算</strong><span>帳單、比價、訂閱</span></button>
+    <button type="button" data-scenario="學習" aria-pressed="false"><strong>學點新東西</strong><span>自學、研究、查資料</span></button>
+    <button type="button" data-scenario="創作" aria-pressed="false"><strong>做出點作品</strong><span>影片、貼文、設計</span></button>
+    <button type="button" data-scenario="開發" aria-pressed="false"><strong>寫程式與修問題</strong><span>開發、測試、代理協作</span></button>
+  </fieldset>
+</section>
+<section id="discover" class="discovery-stage" aria-labelledby="draw-title" aria-busy="true">
+  <div class="draw-heading"><div><p class="eyebrow">一張卡，一個可以深入的想法</p><h2 id="draw-title">先看看這個用法</h2></div><span class="draw-symbol" aria-hidden="true">✳</span></div>
+  <p id="draw-status" class="draw-status" role="status" aria-live="polite">正在準備案例卡…</p>
+  <div id="drawn-case" class="drawn-case"><p class="draw-placeholder">讀取完成後，就能開始探索。</p></div>
+  <div class="draw-actions"><button id="draw-case" class="primary-button" type="button" disabled>抽一張靈感</button><a href="#explore">我想自己找 →</a></div>
+  <p class="draw-note">隨機探索公開案例，並非人氣排名；本庫未獨立重現。待查想法與模板補充可在下方搜尋。</p>
+</section>
+</div><section id="explore" class="explore"><div class="section-head"><div><p class="eyebrow">EXPLORE THE COLLECTION</p><h2>有方向了？自己找找看。</h2></div><span id="updated" class="muted"></span></div>
+<form id="filters" role="search"><label class="search-label" for="query">搜尋全部案例內容</label><div class="search-wrap"><span aria-hidden="true">⌕</span><input id="query" name="q" type="search" placeholder="搜尋工作、工具、提示詞…例如：旅遊、PR、驗收" autocomplete="off"><kbd aria-hidden="true">/</kbd></div><div class="filter-row"><label>使用情境<select id="scenario" name="scenario"><option value="">全部情境</option><option>生活</option><option>工作</option><option>省錢</option><option>學習</option><option>創作</option><option>開發</option></select></label><label>收錄狀態<select id="kind" name="kind"><option value="">全部狀態</option><option value="case">用法靈感</option><option value="evidence">經驗與踩坑</option><option value="pending">還在查證</option></select></label><label>提及工具<select id="tool" name="tool"><option value="">全部工具</option></select></label><label>主題分類<select id="category" name="category"><option value="">全部分類</option></select></label><label>分享來自哪裡<select id="proof" name="proof"><option value="">全部來源類型</option></select></label><button id="reset" type="button" class="reset">清除篩選 ↺</button></div></form>
 <div class="results-heading"><p id="results-count" role="status" aria-live="polite">正在讀取案例…</p><span class="muted">全文搜尋 · 多條件篩選</span></div><div id="results" class="cards"></div><div id="empty" class="empty" hidden><span aria-hidden="true">⌕</span><h3>目前沒有符合的案例</h3><p>試著減少關鍵字，或清除部分篩選條件。</p><button id="empty-reset" type="button">顯示全部案例</button></div><div id="error" class="empty" hidden><h3>案例暫時無法完整載入</h3><p id="error-message"></p><button type="button" id="retry">重新載入</button> <a href="https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md">先讀 GitHub 索引 ↗</a></div>
 </section>
-<section class="reading-note"><span aria-hidden="true">◎</span><div><h2>看懂能幫什麼，再決定要不要試。</h2><p>這裡整理別人的公開分享，本庫還沒親自測試。每篇先用白話說明用途與注意事項；想深入了解，再展開原始來源、完整流程和提示詞。「還在查證」的想法先別直接照做。</p></div><a href="https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md">來源與收錄原則 ↗</a></section>
+<section class="stats compact-stats" aria-label="收錄條目統計"><div><strong id="case-count">—</strong><span>個主要案例條目</span></div><div><strong id="evidence-count">—</strong><span>篇補充筆記</span></div><div><strong id="pending-count">—</strong><span>個待查想法</span></div><p>條目數不等於合格案例數。<br><a href="https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/qualification-audit-2026-10-16.md">查看逐案核對紀錄 ↗</a></p></section><section class="reading-note"><span aria-hidden="true">◎</span><div><h2>看懂能幫什麼，再決定要不要試。</h2><p>這裡整理別人的公開分享，本庫還沒親自測試。每篇先用白話說明用途與注意事項；想深入了解，再展開原始來源、完整流程和提示詞。「還在查證」的想法先別直接照做。</p></div><a href="https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md">來源與收錄原則 ↗</a></section>
 </main><footer><span>AI 用法實驗室 <span class="muted">/ 開放案例筆記</span></span><a href="https://github.com/RichardHan/ai-agent-use-cases">在 GitHub 查看與貢獻 ↗</a></footer>
 <dialog id="detail" aria-labelledby="detail-title"><div class="detail-toolbar"><span class="eyebrow">CASE NOTE</span><button id="close-detail" type="button" aria-label="關閉案例">關閉 ✕</button></div><div id="detail-body"></div></dialog>
 <noscript><p>搜尋需要 JavaScript。你仍可閱讀 <a href="https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md">完整 Markdown 案例索引</a>。</p></noscript>

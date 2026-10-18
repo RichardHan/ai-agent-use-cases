@@ -89,7 +89,7 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
  await page.route('**/catalog.json',route=>route.fulfill({contentType:'application/json',body:'{"files":[]}'}));
  await page.reload({waitUntil:'networkidle'});
  assert.equal(await page.locator('#error').isVisible(),true);
- assert.equal(await page.locator('#guide-options').isDisabled(),true);
+ assert.equal(await page.locator('[data-scenario]').first().isDisabled(),true);
  console.log('PASS BROWSER: network failure, retry recovery and empty catalog');
  fs.writeFileSync('qa-artifacts/accessibility.json',JSON.stringify(audits,null,2));
  await browser.close();

@@ -1,7 +1,5 @@
 name: Partial Load QA
 on:
-  push:
-    branches: [feat/partial-load-recovery]
   pull_request:
     paths: ['assets/**', 'index.html', 'tests/load-recovery*', '.github/workflows/load-recovery-qa.yml']
 permissions:

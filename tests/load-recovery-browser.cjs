@@ -32,7 +32,7 @@ async function fixture(page){
   if(delay)await new Promise(resolve=>setTimeout(resolve,delay));
   try{await r.fulfill(fail?{status:429,body:'Rate limited'}:{status:200,body});}catch{}
  });
- return {counts,unblock:path=>blocked.delete(path),delay:ms=>delay=ms};
+ return {counts,block:path=>blocked.add(path),unblock:path=>blocked.delete(path),delay:ms=>delay=ms};
 }
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});
@@ -41,7 +41,7 @@ async function fixture(page){
   const browser=await type.launch();
   for(const [name,width,height] of engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]]){
    // Actual corpus: compare the same source failure and view as the baseline.
-   const page=await browser.newPage({viewport:{width,height}});
+   const page=await (await browser.newContext({viewport:{width,height}})).newPage();
    let blocked=true;let requests=0;
    await page.route('**/cases/001-travel-checkout.md',async route=>{requests++;if(blocked)await route.fulfill({status:429,body:'Rate limited'});else await route.continue();});
    await ready(page,'?q=UC-001#explore');
@@ -65,10 +65,10 @@ async function fixture(page){
    assert.equal(await page.locator('#query').inputValue(),'UC-001');
    await audit(page,engine+'-'+name+'-recovered');
    report.push({engine,name,loaded,recovered:loaded+1,retryRequests:afterRequests-beforeRequests});
-   await page.close();
+   await page.context().close();
 
    // Journey 1: two sources fail, recovery is incremental, current filters win.
-   const p=await browser.newPage({viewport:{width,height}});const f=await fixture(p);
+   const p=await (await browser.newContext({viewport:{width,height}})).newPage();const f=await fixture(p);
    await ready(p,'?q=郵件&tool=Notion#explore');
    assert.equal(await p.locator('#tool').inputValue(),'Notion','unloaded facet from URL retained');
    assert.match(await p.locator('#empty h3').innerText(),/已載入內容/);
@@ -96,24 +96,24 @@ async function fixture(page){
    await p.locator('#query').fill('完全不存在');
    assert.match(await p.locator('#empty h3').innerText(),/^目前沒有/);
    await audit(p,engine+'-'+name+'-empty');
-   await p.close();
+   await p.context().close();
 
    // Journey 2: a shared missing case is recoverable without changing the URL.
-   const direct=await browser.newPage({viewport:{width,height}});const d=await fixture(direct);
+   const direct=await (await browser.newContext({viewport:{width,height}})).newPage();const d=await fixture(direct);
    await ready(direct,'?case=UC-992&q=工作');
    assert.match(await direct.locator('#partial-message').innerText(),/分享的案例/);
    d.unblock('cases/b.md');d.unblock('sources/pending.md');
    const directURL=direct.url();
-   await direct.locator('#retry-failed').focus();await direct.keyboard.press('Enter');await done(direct);
+   await direct.locator('#retry-failed').click();await done(direct);
    await direct.locator('#detail[open]').waitFor();assert.equal(direct.url(),directURL);
    assert.equal(await direct.locator('#detail-toolbar-id').innerText(),'UC-992');
    await direct.keyboard.press('Escape');assert.equal(await direct.locator('#query').inputValue(),'工作');
    await direct.reload();await direct.waitForFunction(()=>document.querySelector('#results-count').textContent.includes('筆收錄'));
    assert.equal(await direct.locator('#partial-load').isVisible(),false);
-   await direct.close();
+   await direct.context().close();
 
    // Journey 3: navigating/reading another case during recovery never reopens the old link.
-   const reading=await browser.newPage({viewport:{width,height}});const g=await fixture(reading);
+   const reading=await (await browser.newContext({viewport:{width,height}})).newPage();const g=await fixture(reading);
    await ready(reading,'?case=UC-992');g.unblock('cases/b.md');g.unblock('sources/pending.md');g.delay(350);
    await reading.locator('#retry-failed').click();
    await reading.locator('#results .card h3 button').first().click();
@@ -124,7 +124,34 @@ async function fixture(page){
    assert.match(reading.url(),/case=UC-991/);
    await reading.keyboard.press('Escape');
    await audit(reading,engine+'-'+name+'-reading-return');
-   await reading.close();
+   await reading.context().close();
+
+   // Recovery must not strand focus in a hidden empty state or cancel manual sharing.
+   const empty=await (await browser.newContext({viewport:{width,height}})).newPage();const h=await fixture(empty);
+   await ready(empty,'?q=郵件');h.unblock('cases/b.md');h.delay(350);
+   await empty.locator('#retry-failed').click();await empty.locator('#edit-query').focus();await done(empty);
+   assert.equal(await empty.locator('#results-count').evaluate(n=>n===document.activeElement),true,'hidden empty controls return focus to results');
+   await empty.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw Error('Denied');}}}));
+   h.unblock('sources/pending.md');
+   await empty.locator('#retry-failed').click();await empty.locator('#copy-search-link').click();
+   await empty.locator('#search-share-url').waitFor();const shared=await empty.locator('#search-share-url').inputValue();
+   await done(empty);
+   assert.equal(await empty.locator('#search-share-url').evaluate(n=>n===document.activeElement),true,'manual sharing focus retained');
+   assert.equal(await empty.locator('#search-share-url').inputValue(),shared);
+   await empty.context().close();
+
+
+   const allFailed=await (await browser.newContext({viewport:{width,height}})).newPage();const all=await fixture(allFailed);
+   all.block('cases/a.md');
+   await allFailed.goto(origin);await allFailed.locator('#error').waitFor();
+   await allFailed.locator('#query').fill('旅遊');
+   assert.equal(await allFailed.locator('#partial-load').isVisible(),false,'total failure only offers full initialization retry');
+   all.unblock('cases/a.md');all.unblock('cases/b.md');all.unblock('sources/pending.md');
+   await allFailed.locator('#retry').click();await allFailed.locator('#results .card').first().waitFor();
+   assert.equal(await allFailed.locator('#error').isVisible(),false);
+   assert.equal(await allFailed.locator('#draw-case').isDisabled(),false);
+   await allFailed.context().close();
+
    console.log('PASS LOAD '+engine+' '+name+': partial/only-failed/zero-success/incremental/pending/filter/empty/focus/direct-link/refresh/reading-return');
   }
   await browser.close();

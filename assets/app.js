@@ -544,8 +544,8 @@ function renderSearchFeedback(terms, filters) {
   $('edit-query').hidden=!$('query').value;
 }
 
-function render(updateURL=true) {
-  clearSearchShare();
+function render(updateURL=true, preserveShare=false) {
+  if(!preserveShare)clearSearchShare();
   $('copy-search-link').disabled=!discoveryReady;
   $('scenario').value=activeScenario;
   const q = tokenize($('query').value);
@@ -654,7 +654,7 @@ function refreshCorpusMetadata() {
   }
 }
 function updatePartialLoad() {
-  $('partial-load').hidden=!failedPaths.length;
+  $('partial-load').hidden=!discoveryReady||!failedPaths.length;
   $('retry-failed').setAttribute('aria-disabled',String(recoveringSources));
   $('retry-failed').textContent=recoveringSources?'正在重試…':'重試未載入來源';
   const target=new URLSearchParams(location.search).get('case');
@@ -674,7 +674,7 @@ function preserveRecoveryFocus() {
   const parentId=active.parentElement?.id;
   return ()=>{
     if(active===document.body)return;
-    if(active.isConnected && !(active===$('retry-failed') && !failedPaths.length))return;
+    if(active.isConnected && active.getClientRects().length && !active.closest('[hidden]'))return;
     let replacement;
     if(cardId){
       const node=[...$(area).querySelectorAll('.card')].find(c=>c.dataset.caseId===cardId);
@@ -682,11 +682,13 @@ function preserveRecoveryFocus() {
     }else if(filterKey && parentId){
       replacement=[...$(parentId).querySelectorAll('[data-remove-filter]')].find(b=>b.dataset.removeFilter===filterKey);
     }
-    (replacement||$('results-count')).focus({preventScroll:true});
+    const target=replacement||$('results-count');
+    target.focus({preventScroll:true});
+    target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
   };
 }
 async function retryFailedSources() {
-  if(recoveringSources||!failedPaths.length)return;
+  if(!discoveryReady||recoveringSources||!failedPaths.length)return;
   const paths=[...failedPaths];
   const requestedCase=new URLSearchParams(location.search).get('case');
   recoveringSources=true;recoveryNotice='正在重試 '+paths.length+' 個來源檔案，已載入內容仍可使用。';
@@ -701,7 +703,7 @@ async function retryFailedSources() {
     recoveryNotice='已補回 '+result.entries.length+' 筆收錄。'+(failedPaths.length?
       '仍有 '+failedPaths.length+' 個來源檔案未載入，請稍後再試。':'所有來源皆已載入。');
     refreshCorpusMetadata();
-    render(false);
+    render(false,true);
     updateModalNav();
     restoreFocus();
     const target=new URLSearchParams(location.search).get('case');
@@ -831,7 +833,11 @@ $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
 $('clear-facets').addEventListener('click', clearFacets);
 $('edit-query').addEventListener('click', () => { $('query').focus(); $('query').select(); });
-$('retry-failed').addEventListener('click',retryFailedSources);
+$('retry-failed').addEventListener('click',()=>{
+  if(recoveringSources)return;
+  $('retry-failed').focus({preventScroll:true});
+  retryFailedSources();
+});
 $('retry').addEventListener('click', () => { $('results-count').focus({preventScroll:true}); load(); });
 $('close-detail').addEventListener('click', closeDetail);
 $('nav-prev-case')?.addEventListener('click', () => navStep(-1));

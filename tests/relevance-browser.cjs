@@ -2,7 +2,7 @@ const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.RELEVANCE_URL||'http://127.0.0.1:8091/ai-agent-use-cases/';
-const observe=process.env.OBSERVE==='1',prefix=observe?'before':'after';
+const observe=process.env.OBSERVE==='1',prefix=observe?'before':process.env.RELEVANCE_LIVE?'live':'after';
 fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];

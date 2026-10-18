@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm');
 const source=fs.readFileSync('assets/app.js','utf8').split('/* Browser event bindings. */')[0];
-function api(){const c=vm.createContext({URL,URLSearchParams});vm.runInContext(source+';this.api={rankEntries,filterEntries,parseFile,tokenize};',c);vm.runInContext('displayCopy='+fs.readFileSync('assets/copy.json','utf8'),c);return c.api;}
+function api(){const c=vm.createContext({URL,URLSearchParams,Discovery:require('../assets/discovery.js')});vm.runInContext(source+';this.api={rankEntries,filterEntries,parseFile,tokenize};',c);vm.runInContext('displayCopy='+fs.readFileSync('assets/copy.json','utf8'),c);return c.api;}
 const ids=items=>Array.from(items,x=>x.id);
 const item=(id,title,summary='',extra={})=>({id,title,summary,category:'',scenario:'',tools:[],tags:[],...extra});
 test('purpose coverage precedes incidental matches; ties and empty queries preserve source order',()=>{
@@ -35,4 +35,12 @@ test('distinct purpose terms beat metadata coverage; repeats and frequency do no
  const input=[item('UC-001','薪資薪資薪資','',{tags:['報表']}),item('UC-002','薪資','報表'),item('UC-003','薪資','報表報表報表')];
  assert.deepEqual(ids(rankEntries(input,tokenize('薪水 報表'))),['UC-002','UC-003','UC-001']);
  assert.deepEqual(ids(rankEntries(input,tokenize('薪水 薪水 報表'))),['UC-002','UC-003','UC-001']);
+});
+
+test('short and numeric IDs remain exact even when a reference title would otherwise win',()=>{
+ const {rankEntries,tokenize}=api();
+ for(const [target,queries] of [['UC-001',['1','UC1','UC 1','UC-1']],['UC-313',['313','UC313']],['P-003',['P3','P 3','p-3']]]){
+  const input=[item('UC-999','參考 '+queries.join(' ')+' '+target),item(target,'實作紀錄')];
+  for(const q of queries)assert.equal(rankEntries(input,tokenize(q))[0].id,target,q);
+ }
 });

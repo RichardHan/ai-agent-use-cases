@@ -603,10 +603,10 @@ function rankEntries(items, terms) {
     const title = norm(item.title || '');
     const summary = norm(item.summary || '');
     const fields = [item.category, item.scenario, ...(item.tags || []), ...(item.tools || [])].map(value => norm(value || ''));
-    const id = tokenize(item.id || '')[0];
+    const id = norm(item.id || '');
     const score = [0, 0, 0, 0];
     queries.forEach(({term, variants}) => {
-      if (term === id) score[0]++;
+      if (variants.includes(id)) score[0]++;
       const inTitle = variants.some(variant => title.includes(variant));
       const inSummary = variants.some(variant => summary.includes(variant));
       if (inTitle || inSummary) score[1]++;

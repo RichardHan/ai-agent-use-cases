@@ -1,0 +1,316 @@
+{
+  "baselineRef": "1fc4af3c3e573c9c7095f26b9eaa52dc99fce614",
+  "implementationRef": "90393a3915d6654ed13c10162b584ffaa4c7136f",
+  "baselineRuns": [
+    39125681819,
+    39125681768
+  ],
+  "redRun": 39125819887,
+  "finalRuns": [
+    {
+      "id": 39126231359,
+      "name": "Website QA"
+    },
+    {
+      "id": 39126231397,
+      "name": "Reader QA"
+    }
+  ],
+  "baseline": {
+    "preview": [
+      {
+        "viewport": "desktop",
+        "label": "home",
+        "scrollY": 0,
+        "queryTop": 1014,
+        "resultsTop": 1371,
+        "focus": "",
+        "results": "顯示 331 / 331 筆收錄"
+      },
+      {
+        "viewport": "desktop",
+        "label": "search",
+        "scrollY": 0,
+        "queryTop": 1040,
+        "resultsTop": 1552,
+        "focus": "",
+        "results": "顯示 16 / 331 筆收錄"
+      },
+      {
+        "viewport": "desktop",
+        "label": "empty",
+        "scrollY": 0,
+        "queryTop": 899,
+        "resultsTop": 1389,
+        "focus": "",
+        "results": "顯示 0 / 331 筆收錄"
+      },
+      {
+        "viewport": "desktop",
+        "label": "close-shared-detail",
+        "scrollY": 0,
+        "focus": "draw-case",
+        "resultsTop": 1470
+      },
+      {
+        "viewport": "mobile",
+        "label": "home",
+        "scrollY": 0,
+        "queryTop": 1527,
+        "resultsTop": 1668,
+        "focus": "",
+        "results": "顯示 331 / 331 筆收錄"
+      },
+      {
+        "viewport": "mobile",
+        "label": "search",
+        "scrollY": 0,
+        "queryTop": 1516,
+        "resultsTop": 1832,
+        "focus": "",
+        "results": "顯示 16 / 331 筆收錄"
+      },
+      {
+        "viewport": "mobile",
+        "label": "empty",
+        "scrollY": 0,
+        "queryTop": 1351,
+        "resultsTop": 1622,
+        "focus": "",
+        "results": "顯示 0 / 331 筆收錄"
+      },
+      {
+        "viewport": "mobile",
+        "label": "close-shared-detail",
+        "scrollY": 0,
+        "focus": "draw-case",
+        "resultsTop": 1951
+      },
+      {
+        "viewport": "small-mobile",
+        "label": "home",
+        "scrollY": 0,
+        "queryTop": 1751,
+        "resultsTop": 1892,
+        "focus": "",
+        "results": "顯示 331 / 331 筆收錄"
+      },
+      {
+        "viewport": "small-mobile",
+        "label": "search",
+        "scrollY": 0,
+        "queryTop": 1657,
+        "resultsTop": 2025,
+        "focus": "",
+        "results": "顯示 16 / 331 筆收錄"
+      },
+      {
+        "viewport": "small-mobile",
+        "label": "empty",
+        "scrollY": 0,
+        "queryTop": 1373,
+        "resultsTop": 1643,
+        "focus": "",
+        "results": "顯示 0 / 331 筆收錄"
+      },
+      {
+        "viewport": "small-mobile",
+        "label": "close-shared-detail",
+        "scrollY": 0,
+        "focus": "draw-case",
+        "resultsTop": 2078
+      }
+    ],
+    "live": [
+      {
+        "viewport": "desktop",
+        "label": "home",
+        "scrollY": 0,
+        "queryTop": 975,
+        "resultsTop": 1332,
+        "focus": "",
+        "results": "顯示 331 / 331 筆收錄"
+      },
+      {
+        "viewport": "desktop",
+        "label": "search",
+        "scrollY": 0,
+        "queryTop": 989,
+        "resultsTop": 1502,
+        "focus": "",
+        "results": "顯示 16 / 331 筆收錄"
+      },
+      {
+        "viewport": "desktop",
+        "label": "empty",
+        "scrollY": 0,
+        "queryTop": 899,
+        "resultsTop": 1389,
+        "focus": "",
+        "results": "顯示 0 / 331 筆收錄"
+      },
+      {
+        "viewport": "desktop",
+        "label": "close-shared-detail",
+        "scrollY": 0,
+        "focus": "draw-case",
+        "resultsTop": 1552
+      },
+      {
+        "viewport": "mobile",
+        "label": "home",
+        "scrollY": 0,
+        "queryTop": 1491,
+        "resultsTop": 1632,
+        "focus": "",
+        "results": "顯示 331 / 331 筆收錄"
+      },
+      {
+        "viewport": "mobile",
+        "label": "search",
+        "scrollY": 0,
+        "queryTop": 1558,
+        "resultsTop": 1874,
+        "focus": "",
+        "results": "顯示 16 / 331 筆收錄"
+      },
+      {
+        "viewport": "mobile",
+        "label": "empty",
+        "scrollY": 0,
+        "queryTop": 1351,
+        "resultsTop": 1622,
+        "focus": "",
+        "results": "顯示 0 / 331 筆收錄"
+      },
+      {
+        "viewport": "mobile",
+        "label": "close-shared-detail",
+        "scrollY": 0,
+        "focus": "draw-case",
+        "resultsTop": 1844
+      },
+      {
+        "viewport": "small-mobile",
+        "label": "home",
+        "scrollY": 0,
+        "queryTop": 1611,
+        "resultsTop": 1752,
+        "focus": "",
+        "results": "顯示 331 / 331 筆收錄"
+      },
+      {
+        "viewport": "small-mobile",
+        "label": "search",
+        "scrollY": 0,
+        "queryTop": 1673,
+        "resultsTop": 2042,
+        "focus": "",
+        "results": "顯示 16 / 331 筆收錄"
+      },
+      {
+        "viewport": "small-mobile",
+        "label": "empty",
+        "scrollY": 0,
+        "queryTop": 1373,
+        "resultsTop": 1643,
+        "focus": "",
+        "results": "顯示 0 / 331 筆收錄"
+      },
+      {
+        "viewport": "small-mobile",
+        "label": "close-shared-detail",
+        "scrollY": 0,
+        "focus": "draw-case",
+        "resultsTop": 2005
+      }
+    ]
+  },
+  "after": [
+    {
+      "engine": "chromium-arrival",
+      "results": [
+        {
+          "viewport": "desktop",
+          "queryTop": 159,
+          "resultsTop": 683,
+          "focus": "search-title",
+          "scrollY": 855,
+          "loadMs": 66,
+          "domContentLoadedMs": 30,
+          "matches": 16,
+          "axeScans": 2,
+          "axeViolations": 0,
+          "passed": true
+        },
+        {
+          "viewport": "mobile",
+          "queryTop": 183,
+          "resultsTop": 510,
+          "focus": "search-title",
+          "scrollY": 1370,
+          "loadMs": 29,
+          "domContentLoadedMs": 26,
+          "matches": 16,
+          "axeScans": 2,
+          "axeViolations": 0,
+          "passed": true
+        },
+        {
+          "viewport": "small-mobile",
+          "queryTop": 182,
+          "resultsTop": 562,
+          "focus": "search-title",
+          "scrollY": 1511,
+          "loadMs": 67,
+          "domContentLoadedMs": 66,
+          "matches": 16,
+          "axeScans": 2,
+          "axeViolations": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "engine": "firefox-arrival",
+      "results": [
+        {
+          "viewport": "mobile",
+          "queryTop": 182,
+          "resultsTop": 510,
+          "focus": "search-title",
+          "scrollY": 1333.75,
+          "loadMs": 77,
+          "domContentLoadedMs": 76,
+          "matches": 16,
+          "axeScans": 2,
+          "axeViolations": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "engine": "webkit-arrival",
+      "results": [
+        {
+          "viewport": "mobile",
+          "queryTop": 182,
+          "resultsTop": 510,
+          "focus": "search-title",
+          "scrollY": 1359,
+          "loadMs": 195,
+          "domContentLoadedMs": 30,
+          "matches": 16,
+          "axeScans": 2,
+          "axeViolations": 0,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Cloud browser automation, not human research.",
+    "Document timings do not measure corpus readiness; local preview was not network-throttled.",
+    "Before screenshots: deployed baseline; after screenshots: 90393a3 preview."
+  ]
+}

@@ -5,6 +5,7 @@ const {ensureFiltersVisible}=require('./filter-controls.cjs');
 // Real published HTTP, without fixture responses or retries. Chromium uses four
 // corpus loads; Firefox/WebKit use two each. Exhaustive boundaries run in preview.
 module.exports=async function publishedArrival({browser,origin,engine}){
+ fs.mkdirSync('qa-artifacts',{recursive:true});
  const context=await browser.newContext({viewport:engine==='chromium'?{width:1440,height:1000}:{width:390,height:844},reducedMotion:'reduce'});
  await context.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{window.copiedSearch=text;}}}));
  let page=await context.newPage();const network=[],errors=[],report=[];let loads=0;

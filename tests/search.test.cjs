@@ -1585,11 +1585,52 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('冪等')), {}).some(x
 assert(api.filterEntries(entries, Array.from(api.tokenize('冪等性')), {}).some(x => x.id === 'UC-158'), '冪等性 matches UC-158 via idempotent synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('冪等操作')), {}).some(x => x.id === 'UC-158'), '冪等操作 matches UC-158 via idempotent synonym');
 
+// Search quality: orchestrator, orchestrators, 編排者, orchestration, orchestrate
+assert(api.filterEntries(entries, Array.from(api.tokenize('orchestrator')), {}).some(x => x.id === 'UC-061'), 'orchestrator matches UC-061 via orchestration tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('orchestrators')), {}).some(x => x.id === 'UC-061'), 'orchestrators matches UC-061 via orchestration tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('編排者')), {}).some(x => x.id === 'UC-061'), '編排者 matches UC-061 via orchestration synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('orchestration')), {}).some(x => x.id === 'UC-061'), 'orchestration matches UC-061');
+
+// Search quality: coordinator, coordinators, supervisor, supervisors, 協調者, 監管代理
+assert(api.filterEntries(entries, Array.from(api.tokenize('coordinator')), {}).some(x => x.id === 'UC-012'), 'coordinator matches UC-012 via coordination tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('coordinators')), {}).some(x => x.id === 'UC-012'), 'coordinators matches UC-012 via coordination tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('supervisor')), {}).some(x => x.id === 'UC-012'), 'supervisor matches UC-012 via coordination synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('supervisors')), {}).some(x => x.id === 'UC-012'), 'supervisors matches UC-012 via coordination synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('協調者')), {}).some(x => x.id === 'UC-012'), '協調者 matches UC-012 via coordination synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('監管代理')), {}).some(x => x.id === 'UC-012'), '監管代理 matches UC-012 via coordination synonym');
+
+// Search quality: access control, access-control, rbac, 存取控制, 訪問控制, 權限控制
+assert(api.filterEntries(entries, Array.from(api.tokenize('access control')), {}).some(x => x.id === 'UC-276'), 'access control matches UC-276 via access control tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('access-control')), {}).some(x => x.id === 'UC-276'), 'access-control matches UC-276 via access control tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('rbac')), {}).some(x => x.id === 'UC-276'), 'rbac matches UC-276 via access control synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('存取控制')), {}).some(x => x.id === 'UC-276'), '存取控制 matches UC-276 via access control synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('訪問控制')), {}).some(x => x.id === 'UC-276'), '訪問控制 matches UC-276 via access control synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('權限控制')), {}).some(x => x.id === 'UC-276'), '權限控制 matches UC-276 via access control synonym');
+
+// Search quality: event-driven, event driven, 事件驅動, 事件驅動架構
+assert(api.filterEntries(entries, Array.from(api.tokenize('event-driven')), {}).some(x => x.id === 'UC-074'), 'event-driven matches UC-074 via event-driven tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('event driven')), {}).some(x => x.id === 'UC-074'), 'event driven matches UC-074 via event-driven tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('事件驅動')), {}).some(x => x.id === 'UC-074'), '事件驅動 matches UC-074 via event-driven synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('事件驅動架構')), {}).some(x => x.id === 'UC-074'), '事件驅動架構 matches UC-074 via event-driven synonym');
+
+// Search quality: blue green deployment without hyphen
+assert(api.filterEntries(entries, Array.from(api.tokenize('blue green')), {}).some(x => x.id === 'UC-061'), 'blue green matches UC-061 via blue-green tokenization');
+
+// Search quality: rollback synonyms: 倒退
+assert(api.filterEntries(entries, Array.from(api.tokenize('倒退')), {}).some(x => x.id === 'UC-002'), '倒退 matches UC-002 via rollback synonym');
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');
 assert.equal(uc101.date, '2026-10-16', 'UC-101 date must be verification date 2026-10-16, not post date 2026-10-09');
+const uc221 = entries.find(x => x.id === 'UC-221');
+assert.equal(uc221.date, '2026-10-16', 'UC-221 date must be verification date 2026-10-16, not post date 2026-09-24');
+const uc222 = entries.find(x => x.id === 'UC-222');
+assert.equal(uc222.date, '2026-10-16', 'UC-222 date must be verification date 2026-10-16, not post date 2026-09-28');
+const uc260 = entries.find(x => x.id === 'UC-260');
+assert.equal(uc260.date, '2026-10-16', 'UC-260 date must be verification date 2026-10-16, not post date 2026-08-23');
+const uc278 = entries.find(x => x.id === 'UC-278');
+assert.equal(uc278.date, '2026-10-17', 'UC-278 date must be verification date 2026-10-17, not post date 2026-10-11');
 
 
 const rendered=api.renderMarkdown('# Example\n\n<script>alert(1)</script>\n\n[test](javascript:alert)\n\n## Section\n\n- safe','cases/test.md');

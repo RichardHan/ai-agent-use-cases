@@ -658,4 +658,34 @@ test('app.js metadata accurately extracts verification date rather than historic
 
   const uc101 = context.api.parseFile('cases/101-procurement-capability-shortlist.md', fs.readFileSync(path.join(root, 'cases/101-procurement-capability-shortlist.md'), 'utf8'))[0];
   assert.equal(uc101.date, '2026-10-16', 'UC-101 must extract verification date 2026-10-16 instead of post date 2026-10-09');
+
+  const uc221 = context.api.parseFile('cases/221-human-signature-completed-copy-handoff.md', fs.readFileSync(path.join(root, 'cases/221-human-signature-completed-copy-handoff.md'), 'utf8'))[0];
+  assert.equal(uc221.date, '2026-10-16', 'UC-221 must extract verification date 2026-10-16 instead of post date 2026-09-24');
+
+  const uc222 = context.api.parseFile('cases/222-legacy-business-rule-test-oracle-review.md', fs.readFileSync(path.join(root, 'cases/222-legacy-business-rule-test-oracle-review.md'), 'utf8'))[0];
+  assert.equal(uc222.date, '2026-10-16', 'UC-222 must extract verification date 2026-10-16 instead of post date 2026-09-28');
+
+  const uc224 = context.api.parseFile('cases/224-multi-shadow-shared-geometry-inverse-design.md', fs.readFileSync(path.join(root, 'cases/224-multi-shadow-shared-geometry-inverse-design.md'), 'utf8'))[0];
+  assert.equal(uc224.date, '2026-10-16', 'UC-224 must extract verification date 2026-10-16 instead of post date 2026-10-08');
+
+  const uc239 = context.api.parseFile('cases/239-wearable-conversation-delivery-state-validation.md', fs.readFileSync(path.join(root, 'cases/239-wearable-conversation-delivery-state-validation.md'), 'utf8'))[0];
+  assert.equal(uc239.date, '2026-10-16', 'UC-239 must extract verification date 2026-10-16 instead of header date 2026-10-18');
+
+  const uc256 = context.api.parseFile('cases/256-interactive-mystery-knowledge-unlock-audit.md', fs.readFileSync(path.join(root, 'cases/256-interactive-mystery-knowledge-unlock-audit.md'), 'utf8'))[0];
+  assert.equal(uc256.date, '2026-10-16', 'UC-256 must extract verification date 2026-10-16 instead of post date 2026-09-26');
+
+  const uc257 = context.api.parseFile('cases/257-inbound-call-coverage-message-reconciliation.md', fs.readFileSync(path.join(root, 'cases/257-inbound-call-coverage-message-reconciliation.md'), 'utf8'))[0];
+  assert.equal(uc257.date, '2026-10-16', 'UC-257 must extract verification date 2026-10-16 instead of post date 2026-09-29');
+
+  const uc258 = context.api.parseFile('cases/258-scan-reconstruction-scale-topology-audit.md', fs.readFileSync(path.join(root, 'cases/258-scan-reconstruction-scale-topology-audit.md'), 'utf8'))[0];
+  assert.equal(uc258.date, '2026-10-16', 'UC-258 must extract verification date 2026-10-16 instead of post date 2026-10-15');
+
+  const uc259 = context.api.parseFile('cases/259-multistation-observation-control-robustness.md', fs.readFileSync(path.join(root, 'cases/259-multistation-observation-control-robustness.md'), 'utf8'))[0];
+  assert.equal(uc259.date, '2026-10-16', 'UC-259 must extract verification date 2026-10-16 instead of post date 2026-10-11');
+
+  const uc260 = context.api.parseFile('cases/260-vendor-master-gap-quotation-grouping.md', fs.readFileSync(path.join(root, 'cases/260-vendor-master-gap-quotation-grouping.md'), 'utf8'))[0];
+  assert.equal(uc260.date, '2026-10-16', 'UC-260 must extract verification date 2026-10-16 instead of post date 2026-08-23');
+
+  const uc278 = context.api.parseFile('cases/278-machining-center-configuration-concept.md', fs.readFileSync(path.join(root, 'cases/278-machining-center-configuration-concept.md'), 'utf8'))[0];
+  assert.equal(uc278.date, '2026-10-17', 'UC-278 must extract verification date 2026-10-17 instead of post date 2026-10-11');
 });

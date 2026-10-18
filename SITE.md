@@ -1408,3 +1408,64 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 - 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
 下一輪建議：針對已標註之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
 
+## 2026-10-19：擴充發件匣模式、記憶管理、檢查點、沙盒、冪等性、GitHub Actions 與 PR 審查檢索品質
+
+問題調查與證據：
+1. Agent 系統工程架構與開發者工作流程關鍵字斷層：
+   - 發件匣模式（Outbox Pattern）：UC-329 核心架構採用可靠發件匣模式，但搜尋英文「outbox」、「outbox-pattern」、「outbox pattern」或中文「發件匣」、「發件箱」、「發件匣模式」皆無法命中；
+   - 記憶架構（Memory）：全庫包含外部記憶、工作記憶、共用記憶、持久記憶等多種記憶架構（UC-066、UC-067、UC-071、UC-255、UC-338），但搜尋英文多詞「long-term memory」、「working memory」、「external memory」、「shared memory」、「persistent memory」因分詞阻斷皆無法命中；
+   - 檢查點（Checkpoint）：UC-231 規範混音階段檢查點，搜尋英文複數「checkpoints」、分詞「check point」、「checkpointing」皆無法命中；
+   - 沙盒環境（Sandbox）：UC-317 原型具備沙盒隔離環境，搜尋英文複數「sandboxes」、「sandboxing」、中文「沙箱」、「沙盒環境」皆無法命中；
+   - 冪等性（Idempotence）：UC-158 處理訂單補償冪等操作，搜尋英文名詞「idempotence」、「idempotency」、中文「冪等性」、「冪等操作」皆無法命中；
+   - 開發者流程：搜尋「github actions」未映射至 CI/CD、「pr審查」未映射至代碼審查。
+
+改善內容：
+1. `assets/app.js`：
+   - 擴充 outbox、memory、checkpoint、sandbox、idempotent、github actions、pr 審查分詞與同義詞群；
+   - 保持 100% 互映對稱映射。
+2. `tests/search.test.cjs`：新增 49 組檢索回歸斷言。
+
+## 2026-10-19：修正案例查證日期誤抓歷史發布日缺陷、擴充多代理編排／協調者／存取控制／事件驅動／藍綠部署／倒退檢索品質
+
+問題調查與證據：
+1. 資料正確性與中繼資料缺陷（10 筆案例查證日期解析錯誤）：
+   - `assets/app.js` 中 `metadata` 之日期擷取原僅以 `^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]` 匹配行首標記，若行首為 `- 實作日期：`、`- 發布日期：`、`- 開始日期：` 或 `- 日期：`（但行內包含「查證2026-10-16」或「查閱2026-10-16」），則行首匹配落空；
+   - 其備援邏輯直接取 `lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0]`，導致 UC-221（2026-09-24）、UC-222（2026-09-28）、UC-224（2026-10-08）、UC-239（2026-10-18）、UC-256（2026-09-26）、UC-257（2026-09-29）、UC-258（2026-10-15）、UC-259（2026-10-11）、UC-260（2026-08-23）、UC-278（2026-10-11）共 10 筆案例之 `entry.date` 誤抓歷史發表／起草日期，而非真實查證日期（2026-10-16、2026-10-17），違反 `tests/audit.test.cjs` 驗證日期準確性原則；
+2. 核心 AI Agent 架構與安全性檢索斷層：
+   - 編排與編排者（Orchestration / Orchestrator）：全庫多案涉及任務與多代理編排（如 UC-061、UC-071 等），但搜尋英文「orchestrator」、「orchestrators」或中文「編排者」皆返回 0 筆；
+   - 協調與協調者（Coordination / Coordinator / Supervisor）：全庫共 34 筆案例涉及多代理分工協調（UC-005、UC-012、UC-054 等），但搜尋英文「coordinator」、「coordinators」、「supervisor」、「supervisors」或中文「協調者」、「監管代理」皆無法精確命中或返回 0 筆；
+   - 存取控制與角色權限（Access Control / RBAC）：全庫共 7 筆案例明確規範存取控制與權限邊界（UC-011、UC-044、UC-128、UC-130、UC-276、UC-297、UC-323），但搜尋「access control」遺漏 UC-276 等案，搜尋「access-control」、「rbac」、「訪問控制」、「權限控制」皆返回 0 筆；
+   - 事件驅動架構（Event-Driven）：UC-074 涉及 MCP 事件驅動工作流，但搜尋英文「event-driven」、「event driven」或中文「事件驅動架構」皆返回 0 筆；
+   - 藍綠部署與回退（Blue-Green / Rollback）：搜尋無連字號之「blue green」返回 0 筆，搜尋中文「倒退」返回 0 筆。
+
+本輪改善：
+1. `assets/app.js`：
+   - 修正 `metadata` 日期解析：於行首標記落空時，優先匹配行內 `(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})`，徹底修復 UC-221、UC-222、UC-224、UC-239、UC-256、UC-257、UC-258、UC-259、UC-260、UC-278 十筆案例之查證日期解析；
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\bblue\s*[- ]\s*green(?:\s*[- ]\s*(?:releases?|deployments?))?\b` → `blue-green`
+     - `\borchestrat(?:e|ed|es|ing|or|ors|ion|ions)\b` → `orchestration`
+     - `\bcoordinat(?:e|ed|es|ing|or|ors|ion|ions)\b` → `coordination`
+     - `\bsupervisors?\b` → `supervisor`
+     - `\baccess\s*[- ]\s*controls?\b` → `access-control`
+     - `\brole\s*[- ]\s*based\s*[- ]\s*access\s*[- ]\s*controls?\b` → `rbac`
+     - `\bevent\s*[- ]\s*driven\b` → `event-driven`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 擴充編排詞群：加入 `編排者`、`orchestrator`、`orchestrators`；
+     - 擴充協調詞群：加入 `協調者`、`coordinator`、`coordinators`、`supervisor`、`supervisors`、`監管代理`；
+     - 新增存取控制詞群：`access-control`／`access control`／`rbac`／`存取控制`／`訪問控制`／`存取權限`／`權限控制`；
+     - 新增事件驅動詞群：`event-driven`／`event driven`／`事件驅動`／`事件驅動架構`／`事件觸發`；
+     - 擴充回退詞群：加入 `倒退`；
+     - 保持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：新增對 UC-221、UC-222、UC-224、UC-239、UC-256、UC-257、UC-258、UC-259、UC-260、UC-278 十筆案例之真實查證日期防回歸自動化斷言；
+   - `tests/search.test.cjs`：新增 21 組檢索斷言，覆蓋 orchestrator/coordinators/supervisors/協調者/監管代理、access control/rbac/存取控制/訪問控制/權限控制、event-driven/事件驅動/事件驅動架構、blue green、倒退等檢索，並增加 4 筆案例日期斷言。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：66/66 單元測試全數通過（含 8/8 audit 測試）。
+- `for file in assets/*.js; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：針對已標註之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
+
+

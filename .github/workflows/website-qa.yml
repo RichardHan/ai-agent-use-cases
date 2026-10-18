@@ -8,7 +8,8 @@ on:
       - 'scripts/**'
       - '.github/workflows/website-qa.yml'
   push:
-    branches: ['feat/guided-case-discovery']
+    branches: ['main']
+    paths: ['assets/**', 'index.html', 'catalog.json', 'tests/**', 'scripts/**', '.github/workflows/website-qa.yml']
 permissions:
   contents: read
 jobs:
@@ -30,8 +31,9 @@ jobs:
       - name: Capture the original site
         env:
           NODE_PATH: ${{ runner.temp }}/browser-tools/node_modules
+          BASELINE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
-          git worktree add --detach "$RUNNER_TEMP/site-before" e6efbc70bce5a0e350e0a3e6fb173716fd05bd5e
+          git worktree add --detach "$RUNNER_TEMP/site-before" "$BASELINE_REF"
           python3 "$RUNNER_TEMP/site-before/scripts/preview.py" "$RUNNER_TEMP/preview-before/ai-agent-use-cases"
           python3 -m http.server 8080 --directory "$RUNNER_TEMP/preview-before" > /tmp/site-before.log 2>&1 &
           node tests/baseline-browser.cjs
@@ -48,6 +50,11 @@ jobs:
           python3 scripts/preview.py "$RUNNER_TEMP/preview-after/ai-agent-use-cases"
           python3 -m http.server 8081 --directory "$RUNNER_TEMP/preview-after" > /tmp/site-after.log 2>&1 &
           node tests/discovery-browser.cjs
+      - name: Verify the published GitHub Pages site
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/browser-tools/node_modules
+        run: node tests/deployed-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -41,3 +41,6 @@
 @media(max-width:1000px){.discovery-layout{gap:28px}.discovery-stage{padding:22px}.guide-options button{padding:11px}.draw-actions{flex-wrap:wrap}.filter-row label{flex-basis:28%}}
 @media(max-width:760px){.discovery-layout{grid-template-columns:1fr;gap:26px;padding:30px 0 34px}.discovery-hero h1{font-size:36px}.discovery-hero .intro{font-size:15px;margin-bottom:20px}.guide-options{gap:8px}.guide-options button{min-height:66px;padding:10px 12px}.guide-options button strong{font-size:14px}.guide-options button span{font-size:11px}.discovery-stage{padding:22px;margin-top:0}.drawn-case .card{min-height:260px;padding:22px}.drawn-case .card h3{font-size:23px}.draw-status{min-height:0}.draw-actions{flex-wrap:nowrap;gap:12px}.primary-button{padding:12px 18px}.draw-actions a{font-size:12px}.compact-stats{margin-bottom:20px}.filter-row label{flex-basis:calc(50% - 6px)}}
 @media(prefers-reduced-motion:reduce){.guide-options button{transition:none}}
+
+/* Keep small reading-note text above WCAG AA contrast on its tinted panel. */
+.reading-note p{color:#4c6258}

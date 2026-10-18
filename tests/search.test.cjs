@@ -170,6 +170,30 @@ assert(transcriptMatches.some(x => x.id === 'UC-191'), '逐字稿 includes UC-19
 const dbMatches = api.filterEntries(entries, Array.from(api.tokenize('數據庫')), {});
 assert(dbMatches.some(x => x.id === 'UC-324'), '數據庫 matches 資料庫 cases (UC-324 outage DB PR)');
 
+// Search quality: connectors (+, &, ＋, ＆) and hashtags (#)
+assert.deepEqual(Array.from(api.tokenize('旅遊+比價')), ['旅遊', '比價'], 'splits query with plus sign');
+assert.deepEqual(Array.from(api.tokenize('旅遊 + 比價')), ['旅遊', '比價'], 'splits query with spaced plus sign');
+assert.deepEqual(Array.from(api.tokenize('旅遊 & 比價')), ['旅遊', '比價'], 'splits query with ampersand');
+assert.deepEqual(Array.from(api.tokenize('旅遊 ＆ 比價')), ['旅遊', '比價'], 'splits query with full-width ampersand');
+assert.deepEqual(Array.from(api.tokenize('#旅遊#比價')), ['旅遊', '比價'], 'splits query with adjacent hashtags');
+assert(api.filterEntries(entries, Array.from(api.tokenize('旅遊+比價')), {}).some(x => x.id === 'UC-001'), '旅遊+比價 finds UC-001');
+assert(api.filterEntries(entries, Array.from(api.tokenize('旅遊 & 比價')), {}).some(x => x.id === 'UC-001'), '旅遊 & 比價 finds UC-001');
+
+// Search quality: expanded domain synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('行事曆')), {}).some(x => x.id === 'UC-043'), '行事曆 matches UC-043 via 日曆 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('calendar')), {}).some(x => x.id === 'UC-043'), 'calendar matches UC-043 via 日曆 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('代辦')), {}).some(x => x.id === 'UC-081'), '代辦 matches UC-081 via 待辦 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('todo')), {}).some(x => x.id === 'UC-081'), 'todo matches UC-081 via 待辦 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('報帳')), {}).some(x => x.id === 'UC-024'), '報帳 matches UC-024 via 發票/帳單 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('核銷')), {}).some(x => x.id === 'UC-225'), '核銷 matches UC-225 via 收據/憑證 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('debug')), {}).some(x => x.id === 'UC-316'), 'debug matches UC-316 via 修復/bug synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('排錯')), {}).some(x => x.id === 'UC-005'), '排錯 matches UC-005 via 除錯/修復 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('workflow')), {}).some(x => x.id === 'UC-006'), 'workflow matches UC-006 via 排程/工作流 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('面試')), {}).some(x => x.id === 'UC-035'), '面試 matches UC-035 via 求職/履歷 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('resume')), {}).some(x => x.id === 'UC-035'), 'resume matches UC-035 via 求職/履歷 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('email')), {}).some(x => x.id === 'UC-049'), 'email matches UC-049 via 郵件/信箱 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('代碼')), {}).some(x => x.id === 'UC-005'), '代碼 matches UC-005 via 程式碼/程式 synonym');
+
 
 const rendered=api.renderMarkdown('# Example\n\n<script>alert(1)</script>\n\n[test](javascript:alert)\n\n## Section\n\n- safe','cases/test.md');
 const tags=[];function walk(node){if(node.tagName)tags.push(node.tagName);(node.children||[]).forEach(walk);}walk(rendered);assert(!tags.includes('SCRIPT'));assert(!tags.includes('A'));assert(tags.includes('H2'));assert(tags.includes('LI'));

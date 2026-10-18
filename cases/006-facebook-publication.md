@@ -2,6 +2,8 @@
 
 - 情境：創作
 - 標籤：社群、發文、排程
+- 網站標題：從 Facebook 成效找題材，準備下一篇貼文
+- 一句話用途：參考過去的貼文表現與品牌素材，準備文案並在批准後發布。
 - 目標：讓社群代理從帳號歷史與實際指標出發，完成帶有品牌素材的貼文，並確認真的發在正確地方。
 - 工具：Meta Muse、Facebook Page、Meta Business Manager／Business Suite、Muse瀏覽器、使用者管理的公開Facebook Group
 - 查證日期：2026-10-13

@@ -8,7 +8,7 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…]+/g, ' ').split(/[\s,、，/／;；|｜]+/).filter(Boolean);
+const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#]+/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_MAP = {
   '每日報表': ['每日報表', '日報', '晨報', '每日報告'],
   '每日報告': ['每日報告', '每日報表', '日報', '晨報'],
@@ -36,7 +36,41 @@ const SYNONYM_MAP = {
   '逐字稿': ['逐字稿', '轉錄'],
   '轉錄': ['轉錄', '逐字稿'],
   '資料庫': ['資料庫', '數據庫'],
-  '數據庫': ['數據庫', '資料庫']
+  '數據庫': ['數據庫', '資料庫'],
+  '行事曆': ['行事曆', '日曆', 'calendar'],
+  '日曆': ['日曆', '行事曆', 'calendar'],
+  'calendar': ['calendar', '日曆', '行事曆'],
+  '代辦': ['代辦', '待辦', 'todo', 'todoist'],
+  '待辦': ['待辦', '代辦', 'todo', 'todoist'],
+  'todo': ['todo', '待辦', '代辦', 'todoist'],
+  'todoist': ['todoist', '待辦', '代辦', 'todo'],
+  '報帳': ['報帳', '核銷', '發票', '收據', '帳單', '對帳'],
+  '核銷': ['核銷', '報帳', '發票', '收據', '帳單', '對帳'],
+  '發票': ['發票', '收據', '報帳', '核銷', 'invoice'],
+  '收據': ['收據', '發票', '報帳', '核銷', 'receipt'],
+  'invoice': ['invoice', '發票', '收據', '報帳', '核銷'],
+  'receipt': ['receipt', '收據', '發票', '報帳', '核銷'],
+  'debug': ['debug', '除錯', '排錯', '修復', 'bug'],
+  '除錯': ['除錯', 'debug', '排錯', '修復', 'bug'],
+  '排錯': ['排錯', '除錯', 'debug', '修復', 'bug'],
+  '修復': ['修復', '除錯', '排錯', 'debug', 'bug'],
+  'bug': ['bug', '修復', '除錯', '排錯', 'debug'],
+  'workflow': ['workflow', '工作流', '自動化', '排程'],
+  '工作流': ['工作流', 'workflow', '自動化', '排程'],
+  '自動化': ['自動化', '排程', '工作流', 'workflow'],
+  '求職': ['求職', '履歷', '面試', 'cv', 'resume'],
+  '履歷': ['履歷', '求職', '面試', 'cv', 'resume'],
+  '面試': ['面試', '求職', '履歷', 'cv', 'resume'],
+  'resume': ['resume', '履歷', '求職', '面試', 'cv'],
+  'cv': ['cv', '履歷', '求職', '面試', 'resume'],
+  'email': ['email', '郵件', '信件', '信箱'],
+  '郵件': ['郵件', 'email', '信件', '信箱'],
+  '信件': ['信件', '郵件', 'email', '信箱'],
+  '信箱': ['信箱', '郵件', '信件', 'email', '收件匣'],
+  '代碼': ['代碼', '程式碼', '程式', 'code'],
+  '程式碼': ['程式碼', '代碼', '程式', 'code'],
+  '程式': ['程式', '程式碼', '代碼', 'code'],
+  'code': ['code', '程式', '程式碼', '代碼']
 };
 function idVariants(id) { const normId = id.toUpperCase(); const unhyphenated = normId.replace(/[-_]/g, ''); return normId !== unhyphenated ? `${normId} ${unhyphenated}` : normId; }
 function termVariants(term) { const t = norm(term).replace(/^#/, ''); const m = t.match(/^([a-z]+)[\s-]*(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } if (/^\d+$/.test(t)) { const padded = t.padStart(3, '0'); return [t, `uc-${padded}`, `uc${padded}`]; } return SYNONYM_MAP[t] || [t]; }

@@ -15,7 +15,13 @@ function normalizeSourceUrl(rawUrl) {
     u.searchParams.delete('utm_source');
     u.searchParams.delete('utm_medium');
     u.searchParams.delete('utm_campaign');
+    u.searchParams.delete('utm_content');
+    u.searchParams.delete('utm_term');
+    u.searchParams.delete('fbclid');
+    u.searchParams.delete('gclid');
     u.searchParams.delete('ref');
+    u.searchParams.delete('s');
+    u.searchParams.delete('t');
     const pathNoSlash = u.pathname.replace(/\/+$/, '');
     return (u.origin + pathNoSlash + (u.search ? u.search : '')).toLowerCase();
   } catch {
@@ -38,6 +44,7 @@ test('all cases and evidence files have valid scenario, non-empty tags, and veri
   const invalidScenario = [];
   const missingTags = [];
   const missingDate = [];
+  const missingProof = [];
 
   for (const { dir, file } of targets) {
     const content = fs.readFileSync(path.join(root, dir, file), 'utf8');
@@ -67,12 +74,18 @@ test('all cases and evidence files have valid scenario, non-empty tags, and veri
     if (!hasDate) {
       missingDate.push(`${dir}/${file}`);
     }
+
+    const hasProof = /^-\s*(?:來源證據|證據狀態|證據等級|證據)\s*[：:]\s*(.+)$/m.test(lead);
+    if (!hasProof) {
+      missingProof.push(`${dir}/${file}`);
+    }
   }
 
   assert.deepEqual(missingScenario, [], `Missing '- 情境：': ${missingScenario.join(', ')}`);
   assert.deepEqual(invalidScenario, [], `Invalid scenario: ${JSON.stringify(invalidScenario)}`);
   assert.deepEqual(missingTags, [], `Missing '- 標籤：': ${missingTags.join(', ')}`);
   assert.deepEqual(missingDate, [], `Missing verification date: ${missingDate.join(', ')}`);
+  assert.deepEqual(missingProof, [], `Missing proof/evidence header: ${missingProof.join(', ')}`);
 });
 
 test('all cases, evidence files, and pending leads contain verified external source URLs without placeholders', () => {
@@ -111,16 +124,22 @@ test('all cases, evidence files, and pending leads contain verified external sou
 
 test('candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus', () => {
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
+  const evidenceFiles = fs.readdirSync(path.join(root, 'evidence')).filter(f => f.endsWith('.md')).sort();
+  const targets = [
+    ...caseFiles.map(f => ({ dir: 'cases', file: f })),
+    ...evidenceFiles.map(f => ({ dir: 'evidence', file: f })),
+    { dir: 'sources', file: 'pending.md' }
+  ];
   const urlMap = new Map();
 
-  for (const file of caseFiles) {
-    const content = fs.readFileSync(path.join(root, 'cases', file), 'utf8');
+  for (const { dir, file } of targets) {
+    const content = fs.readFileSync(path.join(root, dir, file), 'utf8');
     const urls = content.match(/https?:\/\/[^\s)\],\"\'\''<>]+/g) || [];
     for (const rawUrl of urls) {
       const url = normalizeSourceUrl(rawUrl);
       if (!url || url.includes('github.com/richardhan') || url.includes('schema.org') || url.includes('w3.org')) continue;
       if (!urlMap.has(url)) urlMap.set(url, new Set());
-      urlMap.get(url).add(file);
+      urlMap.get(url).add(`${dir}/${file}`);
     }
   }
 
@@ -139,9 +158,20 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   // Specifically verify known shared discussion thread candidates are identified
   const redditDiscussion = duplicates.find(d => d.url.includes('1wa57uk/comment/p8gwy2e'));
   assert(redditDiscussion, 'Must detect shared Reddit comment thread candidate');
-  assert(redditDiscussion.cases.includes('097-public-gis-layer-map.md'), 'Shared thread candidate includes UC-097');
-  assert(redditDiscussion.cases.includes('098-engineering-pdf-excel-extraction.md'), 'Shared thread candidate includes UC-098');
-  assert(redditDiscussion.cases.includes('099-travel-photo-scrapbook.md'), 'Shared thread candidate includes UC-099');
+  assert(redditDiscussion.cases.includes('cases/097-public-gis-layer-map.md'), 'Shared thread candidate includes UC-097');
+  assert(redditDiscussion.cases.includes('cases/098-engineering-pdf-excel-extraction.md'), 'Shared thread candidate includes UC-098');
+  assert(redditDiscussion.cases.includes('cases/099-travel-photo-scrapbook.md'), 'Shared thread candidate includes UC-099');
+
+  // Verify cross-directory shared candidates (cases vs pending leads, cases vs evidence)
+  const pendingCrossCandidate = duplicates.find(d => d.url.includes('2101482577970303407'));
+  assert(pendingCrossCandidate, 'Must detect shared source between cases/028 and sources/pending.md');
+  assert(pendingCrossCandidate.cases.includes('cases/028-bill-comparison-preparation.md'));
+  assert(pendingCrossCandidate.cases.includes('sources/pending.md'));
+
+  const evidenceCrossCandidate = duplicates.find(d => d.url.includes('i-connected-chatgpt-dots-to-gmail-calendar-slack-and-notion'));
+  assert(evidenceCrossCandidate, 'Must detect shared source between cases/283 and evidence/008');
+  assert(evidenceCrossCandidate.cases.includes('cases/283-dots-connected-apps-permission-pitfalls.md'));
+  assert(evidenceCrossCandidate.cases.includes('evidence/008-morning-brief-validation.md'));
 });
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {
@@ -217,14 +247,23 @@ test('all cases have plain-language title and purpose either in markdown or copy
   const copy = JSON.parse(fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'));
 
   const missingTitleOrPurpose = [];
+  const missingNativeMarkdown = [];
+
   for (const file of caseFiles) {
     const content = fs.readFileSync(path.join(root, 'cases', file), 'utf8');
     const lead = content.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
     const idMatch = content.match(/^#\s*(UC-\d+)/m);
     const id = idMatch ? idMatch[1] : null;
 
-    const hasTitle = /^-\s*網站標題\s*[：:]\s*(.+)$/m.test(lead) || (id && copy[id]?.title);
-    const hasWhat = /^-\s*一句話用途\s*[：:]\s*(.+)$/m.test(lead) || (id && copy[id]?.what);
+    const hasNativeTitle = /^-\s*網站標題\s*[：:]\s*(.+)$/m.test(lead);
+    const hasNativeWhat = /^-\s*一句話用途\s*[：:]\s*(.+)$/m.test(lead);
+
+    if (!hasNativeTitle || !hasNativeWhat) {
+      missingNativeMarkdown.push({ file, id, hasNativeTitle, hasNativeWhat });
+    }
+
+    const hasTitle = hasNativeTitle || (id && copy[id]?.title);
+    const hasWhat = hasNativeWhat || (id && copy[id]?.what);
 
     if (!hasTitle || !hasWhat) {
       missingTitleOrPurpose.push({ file, id, hasTitle: !!hasTitle, hasWhat: !!hasWhat });
@@ -232,6 +271,7 @@ test('all cases have plain-language title and purpose either in markdown or copy
   }
 
   assert.deepEqual(missingTitleOrPurpose, [], `Cases missing plain-language title or purpose: ${JSON.stringify(missingTitleOrPurpose)}`);
+  assert.deepEqual(missingNativeMarkdown, [], `Cases missing native title/purpose in markdown: ${JSON.stringify(missingNativeMarkdown)}`);
 });
 
 test('app.js metadata extraction gracefully falls back to extract tags from category lines', () => {

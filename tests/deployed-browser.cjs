@@ -14,6 +14,8 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
    await page.locator('#drawn-case .card').waitFor({timeout:10000});
    await page.locator('#guide-options [data-scenario="省錢"]').click();
    assert.equal(await page.locator('#scenario').inputValue(),'省錢');
+   await page.locator('#active-filters [data-remove-filter="scenario"]').waitFor({timeout:1000});
+   assert.match(await page.locator('#active-filters [data-remove-filter="scenario"]').innerText(),/省錢/);
    await page.locator('#drawn-case .card-bottom button').click();
    await page.locator('#detail[open]').waitFor();
    await page.locator('#close-detail').click();

@@ -26,6 +26,14 @@ assert.equal(entries.find(x=>x.id==='P-003').title,'AI 做完後，能自己檢�
 assert.equal(entries.find(x=>x.id==='P-003').kind,'pending');
 assert.equal(api.filterEntries(entries,['CUA'],{kind:'pending'}).length>=1,true,'original terminology remains searchable');
 assert.equal(entries.find(x=>x.id==='UC-009').proof,'模板／文件核讀');
+assert.equal(entries.find(x=>x.id==='UC-239').originalTitle,'把既有助手接到眼鏡後，晚回、歷史與重開真的接得上嗎','strips full-width pipe delimiter in title');
+assert.equal(entries.find(x=>x.id==='UC-262').originalTitle,'角色動畫抽幀後的關鍵姿態覆核','strips full-width pipe delimiter in title');
+assert.equal(entries.find(x=>x.id==='UC-239').proof,'作者報告／示範','parses proof with 證據 header and 自述');
+assert.equal(entries.find(x=>x.id==='UC-262').proof,'作者報告／示範','parses proof with 證據 header and author-demo');
+assert.equal(entries.find(x=>x.id==='UC-095').proof,'作者報告／示範','parses proof with 證據 header and author-demo');
+assert.equal(entries.find(x=>x.id==='UC-026').proof,'官方自報','parses proof with 官方 and 第一手使用自述');
+assert.equal(entries.find(x=>x.id==='UC-088').proof,'作者報告／示範','parses proof with author-self-report');
+assert(api.filterEntries(entries,[],{proof:'作者報告／示範'}).some(x=>x.id==='UC-239'),'filters author demo cases having 證據 header');
 assert.equal(api.filterEntries(entries,['UC313'],{}).length,1,'matches unhyphenated case ID');
 assert.equal(api.filterEntries(entries,['uc313'],{}).length,1,'matches lowercase unhyphenated case ID');
 assert.equal(api.filterEntries(entries,['UC-001'],{}).length,8,'matches standard case ID');
@@ -70,5 +78,6 @@ assert.equal(api.safeLink('../sources/README.md#s-001','cases/test.md'),'https:/
 const rendered=api.renderMarkdown('# Example\n\n<script>alert(1)</script>\n\n[test](javascript:alert)\n\n## Section\n\n- safe','cases/test.md');
 const tags=[];function walk(node){if(node.tagName)tags.push(node.tagName);(node.children||[]).forEach(walk);}walk(rendered);assert(!tags.includes('SCRIPT'));assert(!tags.includes('A'));assert(tags.includes('H2'));assert(tags.includes('LI'));
 const future=api.parseFile('cases/999-new-case.md','# UC-999：新案例\n\n- 分類：新主題\n- 核心目標：可搜尋的新流程\n- 來源證據：author-demo');assert.equal(future[0].category,'新主題');assert.equal(api.filterEntries(future,['新流程'],{}).length,1);
+const pipeFuture=api.parseFile('cases/998-pipe-case.md','# UC-998｜直槓案例名稱\n\n- 證據：B，作者實跑自述\n- 核心目標：驗證直槓標題解析');assert.equal(pipeFuture[0].originalTitle,'直槓案例名稱');assert.equal(pipeFuture[0].proof,'作者報告／示範');
 const custom=api.parseFile('cases/001-test.md','# UC-001：原始研究名\n\n- 網站標題：我的新標題\n- 一句話用途：具體新用途');assert.equal(custom[0].title,'我的新標題');assert.equal(custom[0].what,'具體新用途');
 console.log(`PASS: ${entries.length} source entries; full-text, Unicode, combined filters, evidence, empty/reset matching, future entries, safe rendering and links.`);

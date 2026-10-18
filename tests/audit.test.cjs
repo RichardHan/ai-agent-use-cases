@@ -146,14 +146,26 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {
   const auditContent = fs.readFileSync(path.join(root, 'sources/qualification-audit-2026-10-16.md'), 'utf8');
-  const catalogCountMatch = auditContent.match(/嚴格合格\s*\*\*(\d+)[／/]1,000/);
-  assert(catalogCountMatch, 'Audit file must contain strict qualified count');
+  const latestAuditSection = auditContent.split(/^## /m)[1];
+  assert(latestAuditSection, 'Audit file must contain a current batch section');
+  const catalogCountMatch = latestAuditSection.match(/嚴格合格\s*\*\*(\d+)[／/]1,000，尚差\s*(\d+)/);
+  assert(catalogCountMatch, 'Audit file must contain strict qualified and remaining counts');
   const qualifiedCount = parseInt(catalogCountMatch[1], 10);
+  const remainingCount = parseInt(catalogCountMatch[2], 10);
 
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
-  // Qualified cases (e.g. 296) must be strictly less than or equal to total case markdown files
-  assert(qualifiedCount >= 296, `Expected qualified count >= 296 (2026-10-18 14:45 baseline), got ${qualifiedCount}`);
+  // Evidence review may lower the count. Validate the current audit's arithmetic,
+  // corpus bound and displayed values, rather than imposing a historical minimum.
+  assert(Number.isSafeInteger(qualifiedCount) && Number.isSafeInteger(remainingCount), 'Audit counts must be safe non-negative integers');
+  assert(qualifiedCount > 0, 'This non-empty qualified corpus must have a positive audit count');
+  assert.equal(qualifiedCount + remainingCount, 1000, 'Qualified and remaining counts must add up to the stated 1,000-case goal');
   assert(qualifiedCount <= caseFiles.length, `Qualified count (${qualifiedCount}) cannot exceed total cases (${caseFiles.length})`);
+
+  const indexContent = fs.readFileSync(path.join(root, 'INDEX.md'), 'utf8');
+  const indexSummaryMatch = indexContent.match(/\*\*(\d+)[／/]1,000[^*\n]*?尚差\s*(\d+)\*\*/);
+  assert(indexSummaryMatch, 'INDEX.md must contain qualified and remaining counts');
+  assert.equal(parseInt(indexSummaryMatch[1], 10), qualifiedCount, 'INDEX.md qualified count must match the current audit');
+  assert.equal(parseInt(indexSummaryMatch[2], 10), remainingCount, 'INDEX.md remaining count must match the current audit');
 
   // Verify that index.html displays the exact qualified count from the audit file
   const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');

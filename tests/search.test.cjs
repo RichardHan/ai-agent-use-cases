@@ -50,8 +50,24 @@ assert.equal(entries.find(x=>x.id==='UC-228').scenario,'生活','normalizes 居�
 assert(entries.find(x=>x.id==='UC-228').tags.includes('能源'),'extracts normalized tags for UC-228');
 assert.equal(entries.find(x=>x.id==='UC-312').scenario,'生活','normalizes composite scenario to 生活 for UC-312');
 assert(entries.find(x=>x.id==='UC-312').tags.includes('環境語音'),'extracts normalized tags for UC-312');
-assert.equal(api.filterEntries(entries,['UC313'],{}).length,1,'matches unhyphenated case ID');
-assert.equal(api.filterEntries(entries,['uc313'],{}).length,1,'matches lowercase unhyphenated case ID');
+const target313=entries.filter(x=>x.id==='UC-313');
+assert.equal(target313.length,1,'corpus has exactly one UC-313 target');
+const canonical313=Array.from(api.filterEntries(entries,['UC-313'],{}),x=>x.id).sort();
+for(const query of ['UC313','uc313']) {
+  const matches=api.filterEntries(entries,[query],{});
+  assert.equal(matches.filter(x=>x.id==='UC-313').length,1,`${query} includes the exact target once`);
+  assert.deepEqual(Array.from(matches,x=>x.id).sort(),canonical313,`${query} preserves canonical full-text matches including cross-references`);
+  assert.equal(api.matchCase(query,entries)?.id,'UC-313',`${query} resolves the exact case, not a referring case`);
+}
+// Corpus growth may add legitimate references; use a controlled fixture to test
+// inclusion of a reference and rejection of an unrelated case without fixed totals.
+const reference313=api.parseFile('cases/999-cross-reference.md','# UC-999：交叉引用\n\n- 核心目標：比較UC-313的交接驗收。')[0];
+const unrelated313=api.parseFile('cases/998-unrelated.md','# UC-998：無關案例\n\n- 核心目標：整理花園筆記。')[0];
+const idSearchFixture=[reference313,unrelated313,target313[0]];
+for(const query of ['UC-313','UC313','uc313']) {
+  assert.deepEqual(Array.from(api.filterEntries(idSearchFixture,[query],{}),x=>x.id).sort(),['UC-313','UC-999'],`${query} includes target and reference but excludes unrelated content`);
+  assert.equal(api.matchCase(query,idSearchFixture)?.id,'UC-313',`${query} selects target even when a reference appears first`);
+}
 assert.equal(api.filterEntries(entries,['UC-001'],{}).length,8,'matches standard case ID');
 assert.equal(api.filterEntries(entries,['UC001'],{}).length,8,'matches unhyphenated padded case ID');
 assert.equal(api.filterEntries(entries,['uc001'],{}).length,8,'matches lowercase unhyphenated padded case ID');

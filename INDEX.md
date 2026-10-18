@@ -2,9 +2,13 @@
 
 更新日期：2026-10-18。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至 2026-10-18 14:45批次，**296／1,000 個逐案核對合格，尚差704**（含作者自述與實際失敗案例，未獨立重現）。沿用歷史發布口徑為311，主要頁318；三種數字不可混用。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至2026-10-18 16:00批次，嚴格核對為**295／1,000，尚差705**（含作者自述與實際失敗，未獨立重現）。其中先前已核定292，加本輪納入327–329三案。沿用歷史頁面發布口徑314，主要頁321，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-2026-10-17 23:44台灣時間起，目標提高為1,000案。本輪由先前292加新增322–325四案，共296；326與315待定，先前來源缺口與排除判斷保留。下方歷史批次保留當時目標與口徑，不回改舊報告。
+2026-10-17 23:44台灣時間起，目標提高為1,000案。14:45協作者曾列296；16:00去重將322／324保留為既有流程版本，323／325原文未重新取得、維持前批自述但不併入本輪核定數；315／326仍待定。下方歷史批次保留當時口徑，不回改舊報告。
+
+16:00批次：327 CAD材料物性庫、328付費資料查詢報價偏差核准、329多段代理對話重啟恢復；099及239補交付驗收，不另計。322–325補來源與去重界線。[原文、實查範圍與限制](sources/research-2026-10-18-1600.md)。
+
+15:00研究草稿於16:00保留，材料庫改編327避免與協作者新增頁撞號；[當輪來源與覆蓋](sources/research-2026-10-18-1500.md)。
 
 14:45批次：新增322多平台創作者數據每日零token採集、323每日AI新聞逐則回饋與偏好筆記、324每日公開障礙消息查核入庫PR、325每晚語音日記確認後同步，326多家訂單匯整已擁有清單（待定）。皆為作者自述，324另有公開PR可核；未重現。[原文、去重與覆蓋](sources/research-2026-10-18-1445.md)。
 
@@ -64,7 +68,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（318）
+## 主要案例（321）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -381,11 +385,14 @@
 | UC-319 | 家居照片逐物盤點與人工認領交接 | Grok Bot／Drive／Excel；本人轉Sheets | [作者完成清單與交接自述；表格、辨識與清空結果未核](cases/319-home-photo-item-inventory-claim-handoff.md) | 生活｜照片、盤點、試算表、人工交接 |
 | UC-320 | 雙向待辦新增、完成與分類狀態同步 | Muse／Apple Reminders／Mac橋接 | [作者運作自述；衝突、離線與成本未驗證](cases/320-bidirectional-reminder-state-sync.md) | 生活｜待辦、雙向同步、狀態核對 |
 | UC-321 | 自有專業內容轉互動決策工具與人工邏輯校正 | Muse／HTML／CSS | [作者交付自述；工具僅核標題，互動與決策品質未核](cases/321-expert-corpus-interactive-decision-tool.md) | 創作｜知識產品、決策分支、人工驗收 |
-| UC-322 | 多平台創作者數據每日採集：固定腳本零 token 抓取，代理只做檢查與彙整 | Grok Bot／web-access Skill／Notion／儀表板 | [作者自述＋儀表板與用量截圖；公開Skill，作者即開發者，未重現](cases/322-creator-metrics-zero-token-daily-collection.md) | 創作｜每日、數據儀表板、瀏覽器自動化、用量 |
-| UC-323 | 每日AI新聞個人頁：逐則按有用／沒用，夜間改寫偏好筆記、隔天重選 | Grok Bot routine／Cloudflare Pages／Access／Workers KV | [作者自述步驟與兩天評價數字；影片未看、樣本小](cases/323-daily-ai-news-one-tap-feedback-preference-loop.md) | 學習｜每日、新聞、回饋學習、個人化 |
-| UC-324 | 每日公開障礙消息→官方狀態頁查核與去重→雲端代理開PR、人合併 | Grok Bot／Cursor Cloud Agent／GitHub／SQLite | [作者自述＋公開repo與PR #36、#40可核；Grok Bot交接未公開](cases/324-daily-outage-digest-verified-incident-db-pr.md) | 開發｜每日、資料庫、PR、來源查核 |
-| UC-325 | 每晚通訊軟體提醒寫日記：語音隨口說，確認後同步文件與試算表 | Grok Bot／微信／飛書文件／Excel | [作者自述＋提醒與寫入回覆截圖（打碼）；未重現](cases/325-nightly-voice-diary-prompt-confirm-sync.md) | 生活｜每日、日記、語音、人工確認 |
+| UC-322 | 多平台創作者數據每日採集：固定腳本零 token 抓取，代理只做檢查與彙整 | Grok Bot／web-access Skill／Notion／儀表板 | [前批作者自述；README歸屬已更正，048同流程版本不另計](cases/322-creator-metrics-zero-token-daily-collection.md) | 創作｜每日、數據儀表板、瀏覽器自動化、用量 |
+| UC-323 | 每日AI新聞個人頁：逐則按有用／沒用，夜間改寫偏好筆記、隔天重選 | Grok Bot routine／Cloudflare Pages／Access／Workers KV | [前批作者自述；原文本輪未取得，暫不併核定數](cases/323-daily-ai-news-one-tap-feedback-preference-loop.md) | 學習｜每日、新聞、回饋學習、個人化 |
+| UC-324 | 每日公開障礙消息→官方狀態頁查核與去重→雲端代理開PR、人合併 | Grok Bot／Cursor Cloud Agent／GitHub／SQLite | [公開PR及合併已核；212同流程版本不另計](cases/324-daily-outage-digest-verified-incident-db-pr.md) | 開發｜每日、資料庫、PR、來源查核 |
+| UC-325 | 每晚通訊軟體提醒寫日記：語音隨口說，確認後同步文件與試算表 | Grok Bot／微信／飛書文件／Excel | [前批作者自述；未見目的檔，本輪原文待核](cases/325-nightly-voice-diary-prompt-confirm-sync.md) | 生活｜每日、日記、語音、人工確認 |
 | UC-326 | 多家網購訂單匯整成已擁有清單，特賣時排除已有再推薦 | Grok Bot／Amazon／Yahoo!購物／樂天／Notion | [作者兩則文字自述；無截圖與產物，待定](cases/326-order-history-owned-items-sale-picks.md) | 省錢｜購物、所有物清單、Notion、特賣 |
+| UC-327 | CAD材料庫的物性欄位與版本建置 | Grok Bot／未具名CAD | [原作者寫入自述；無材料庫與數值驗證](cases/327-cad-material-library-property-population.md) | 工作｜CAD、材料庫、版本、驗收 |
+| UC-328 | 付費資料查詢報價升高後再次核准 | Meta Muse／AIsa | [廠商員工自述與原圖；有報告及停問，未核帳單](cases/328-paid-data-call-quote-variance-gate.md) | 工作｜付費API、報價、核准 |
+| UC-329 | 多段代理對話在重啟後的續跑驗收 | Grok Bot／Cursor／Codex／Grok CLI／SQLite | [公開程式與有限實跑紀錄；假PASS及接力遺失保留](cases/329-durable-agent-chain-restart-recovery.md) | 開發｜多代理、中斷恢復、失敗 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

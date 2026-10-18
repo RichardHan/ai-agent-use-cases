@@ -2,7 +2,7 @@
 
 - 網站標題：讓眼鏡接住助手回覆，也檢查漏回與重複朗讀
 - 一句話用途：從作者的 Dot Link 實機紀錄，學習核對雙向會話在待機、歷史選取及重開後是否正確交付。
-- 工具：ChatGPT dots／Dot Link／Even G2／Mac relay
+- 工具：ChatGPT dots／Dot Link／Even G2／Mac relay；2026-10-18補Grok Bot／Alexa／Cloudflare Worker
 - 分類：開發
 - 情境：開發
 - 標籤：穿戴、會話、狀態、驗收
@@ -54,3 +54,13 @@
 ## 去重
 
 不同UC087的語音拆任務與晨間進度、074的事件量測讀回、050的定時圖像、010的單向裝置顯示。本案只計「既有助手雙向多輪會話的交付與退出／歷史狀態驗收」一次；不把語音、位置、通知及每個硬體型號拆成新案例。
+
+## 補充：Alexa先回受理、結果另送聊天，避免mock假成功（2026-10-18）
+
+Debbie O’Brien，英文，2026-10-13，[作者實作原文](https://debbie.codes/blog/talk-to-my-bots-through-alexa/)全文已讀。作者讓Grok Bot委派Cursor建立Alexa到Worker再到Bot webhook的入口，本人操作Alexa控制台。已自述收到聊天答案；Echo僅先口頭回受理，不朗讀最終結果。曾遇語系不符未送請求、SDK回應格式錯誤，以及mock口頭說成功但沒喚醒；這些是作者觀察，沒有原始服務日誌。
+
+核對[固定提交](https://github.com/debs-obrien/alexa-grok-bot-skill/commit/f2f6b143f4bd8157403487dd1daf3c1cabd080f1)（2026-10-13 20:42:26 UTC）、[HTTP handler](https://github.com/debs-obrien/alexa-grok-bot-skill/blob/f2f6b143f4bd8157403487dd1daf3c1cabd080f1/src/http-app.ts)、[喚醒處理](https://github.com/debs-obrien/alexa-grok-bot-skill/blob/f2f6b143f4bd8157403487dd1daf3c1cabd080f1/src/wake.ts)及[測試定義](https://github.com/debs-obrien/alexa-grok-bot-skill/blob/f2f6b143f4bd8157403487dd1daf3c1cabd080f1/tests/skill.test.ts)：可見缺設定時回失敗、mock／正式模式及逾時處理。只讀程式，未執行測試、連裝置或部署；HTTP受理不是代理任務完成。
+
+此為既有助手跨裝置交付的補證，不因Alexa或同步回應期限另計數。入口無法證明誰在說話；payload寫唯讀不等於技術權限隔離，也未完成獨立資安稽核。應把有副作用的要求交回已驗證本人確認，不以口頭受理授權寄送、修改或購買。作者稱Worker在免費額度內，但未核帳單、硬體、代理訂閱或完整成本。
+
+沿用本頁合成事件驗收時，另分開mock、正式受理、喚醒、產生結果與結果送達，測缺設定與逾時是否誤報成功。這是本庫未測的驗收設計，不提供部署、金鑰或持續存取設定指令。

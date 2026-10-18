@@ -962,7 +962,11 @@ async function load() {
         $('loading-summary').textContent=text;
         if(!initialLoadController.signal.aborted)$('use-loaded').disabled=!entryCount;
         const milestone=Math.floor(completed/total*4);
-        if(milestone!==announced){announced=milestone;$('draw-status').textContent=text+' 完成後即可探索；等待過久會先顯示已讀取內容。';}
+        if(milestone!==announced){
+          announced=milestone;
+          const stages=['正在讀取來源全文。','已處理至少四分之一的來源。','已處理至少一半的來源。','已處理至少四分之三的來源。','來源讀取已結束。'];
+          $('draw-status').textContent=stages[milestone]+' 等待過久會先顯示已讀取內容。';
+        }
       }
     });
     failedPaths = failed;

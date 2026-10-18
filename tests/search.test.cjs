@@ -1182,6 +1182,64 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('消耗')), {}).some(x
 assert(api.filterEntries(entries, Array.from(api.tokenize('沙箱')), {}).some(x => x.id === 'UC-317'), '沙箱 matches UC-317 via 沙盒 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('沙盒')), {}).some(x => x.id === 'UC-329'), '沙盒 matches UC-329 via 沙箱 synonym');
 
+// Search quality: multi-agent, multi agent, multi-agents, multi agents, multiagent, 多agent, 多智能體
+assert(api.filterEntries(entries, Array.from(api.tokenize('multi agent')), {}).some(x => x.id === 'UC-042'), 'multi agent matches UC-042 via multi-agent tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('multi-agents')), {}).some(x => x.id === 'UC-042'), 'multi-agents matches UC-042 via multi-agent tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('multi agents')), {}).some(x => x.id === 'UC-042'), 'multi agents matches UC-042 via multi-agent tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('multiagent')), {}).some(x => x.id === 'UC-042'), 'multiagent matches UC-042 via multi-agent tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('多agent')), {}).some(x => x.id === 'UC-042'), '多agent matches UC-042 via multi-agent synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('多智能體')), {}).some(x => x.id === 'UC-042'), '多智能體 matches UC-042 via multi-agent synonym');
+
+// Search quality: 成本, 費用, cost, costs, expense, expenses, 開銷
+assert(api.filterEntries(entries, Array.from(api.tokenize('cost')), {}).some(x => x.id === 'UC-007'), 'cost matches UC-007 via 成本 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('costs')), {}).some(x => x.id === 'UC-007'), 'costs matches UC-007 via 成本 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('expense')), {}).some(x => x.id === 'UC-007'), 'expense matches UC-007 via 成本/費用 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('expenses')), {}).some(x => x.id === 'UC-007'), 'expenses matches UC-007 via 成本/費用 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('開銷')), {}).some(x => x.id === 'UC-007'), '開銷 matches UC-007 via 成本/費用 synonym');
+
+// Search quality: rag, retrieval augmented generation, 檢索增強
+assert(api.filterEntries(entries, Array.from(api.tokenize('retrieval augmented generation')), {}).some(x => x.id === 'UC-060'), 'retrieval augmented generation matches UC-060 via rag tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('retrieval-augmented generation')), {}).some(x => x.id === 'UC-060'), 'retrieval-augmented generation matches UC-060 via rag tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('檢索增強')), {}).some(x => x.id === 'UC-060'), '檢索增強 matches UC-060 via rag synonym');
+
+// Search quality: vector db, vector database, 向量資料庫, 向量庫
+assert(api.filterEntries(entries, Array.from(api.tokenize('vector db')), {}).some(x => x.id === 'UC-060'), 'vector db matches UC-060 via vector tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('vector database')), {}).some(x => x.id === 'UC-060'), 'vector database matches UC-060 via vector tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('向量資料庫')), {}).some(x => x.id === 'UC-060'), '向量資料庫 matches UC-060 via vector synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('向量庫')), {}).some(x => x.id === 'UC-060'), '向量庫 matches UC-060 via vector synonym');
+
+// Search quality: code review, codereview, 代碼審查, 程式碼審查, 代碼覆核
+assert(api.filterEntries(entries, Array.from(api.tokenize('codereview')), {}).some(x => x.id === 'UC-005'), 'codereview matches UC-005 via code review tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('代碼審查')), {}).some(x => x.id === 'UC-005'), '代碼審查 matches UC-005 via code review synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('程式碼審查')), {}).some(x => x.id === 'UC-005'), '程式碼審查 matches UC-005 via code review synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('代碼覆核')), {}).some(x => x.id === 'UC-005'), '代碼覆核 matches UC-005 via code review synonym');
+
+// Search quality: mr, merge request, merge requests
+assert(api.filterEntries(entries, Array.from(api.tokenize('merge request')), {}).some(x => x.id === 'UC-005'), 'merge request matches UC-005 via mr tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('merge requests')), {}).some(x => x.id === 'UC-005'), 'merge requests matches UC-005 via mr tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('mr')), {}).some(x => x.id === 'UC-005'), 'mr matches UC-005 via pr/mr synonym');
+
+// Search quality: oauth2, 單一登入, 單點登入
+assert(api.filterEntries(entries, Array.from(api.tokenize('oauth2')), {}).some(x => x.id === 'UC-061'), 'oauth2 matches UC-061 via oauth synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('單一登入')), {}).some(x => x.id === 'UC-061'), '單一登入 matches UC-061 via oauth/sso synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('單點登入')), {}).some(x => x.id === 'UC-061'), '單點登入 matches UC-061 via oauth/sso synonym');
+
+// Search quality: web-hook, web hooks
+assert(api.filterEntries(entries, Array.from(api.tokenize('web-hook')), {}).some(x => x.id === 'UC-074'), 'web-hook matches UC-074 via webhook tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('web hooks')), {}).some(x => x.id === 'UC-074'), 'web hooks matches UC-074 via webhook tokenization');
+
+// Search quality: cron job, cronjob, crontab, 定期任務
+assert(api.filterEntries(entries, Array.from(api.tokenize('cron job')), {}).some(x => x.id === 'UC-041'), 'cron job matches UC-041 via cron tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('cronjob')), {}).some(x => x.id === 'UC-041'), 'cronjob matches UC-041 via cron tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('crontab')), {}).some(x => x.id === 'UC-041'), 'crontab matches UC-041 via cron synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('定期任務')), {}).some(x => x.id === 'UC-041'), '定期任務 matches UC-041 via cron/routine synonym');
+
+// Search quality: fallbacks, 備援, 容錯, 備用方案
+assert(api.filterEntries(entries, Array.from(api.tokenize('fallbacks')), {}).some(x => x.id === 'UC-049'), 'fallbacks matches UC-049 via fallback synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('備援')), {}).some(x => x.id === 'UC-049'), '備援 matches UC-049 via fallback synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('容錯')), {}).some(x => x.id === 'UC-049'), '容錯 matches UC-049 via fallback synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('備用方案')), {}).some(x => x.id === 'UC-049'), '備用方案 matches UC-049 via fallback synonym');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

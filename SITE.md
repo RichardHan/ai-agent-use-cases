@@ -1038,3 +1038,49 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 - 總案例數維持 339 筆，合格數維持 299 筆，無編造案例、無擅刪候選。
 下一輪建議：針對已識別的 46 組多案例共用公開來源候選叢集，在詳情頁或閱讀器中建立同源案例關聯索引，提升跨案例交叉驗證體驗。
 
+## 2026-10-19：擴充多代理、成本費用、代碼審查、RAG、向量庫與 OAuth2 檢索品質與同義詞對稱
+
+問題調查與證據：
+1. 核心 AI Agent 領域詞態、分詞與空格自然語言斷層：
+   - 「多代理」（全庫 43 筆，如 UC-042、UC-055、UC-093、UC-248、UC-273、UC-315） vs 英文帶空格自然語言「multi agent」（僅 3 筆，遺失 40 筆）、複數「multi-agents」（0 筆）、「multi agents」（3 筆）、連寫「multiagent」（0 筆）、「多agent」（0 筆）及簡中「多智能體」／「多智能体」（0 筆）；
+   - 「成本」（全庫 143 筆）與「費用」（全庫 287 筆，如 UC-007、UC-022、UC-034、UC-056、UC-175 等，涉及 token 計費、訂閱費與模型開銷） vs 英文「cost」（0 筆）、「costs」（0 筆）、「expense」（僅 2 筆）、「expenses」（0 筆）及「開銷」（0 筆），全庫原先完全缺少成本與費用同義詞群，導致營運與財務相關英文檢索全面落空；
+   - 「RAG」（19 筆，如 UC-060、UC-129、UC-132、UC-324） vs 協定全稱「retrieval augmented generation」（0 筆）、「retrieval-augmented generation」（0 筆）及「檢索增強」（0 筆）；
+   - 「向量」／「vector」（19 筆，如 UC-060、UC-327） vs 複合詞「vector db」（僅 6 筆）、「vector database」（僅 5 筆）、「向量資料庫」（0 筆）、「向量庫」（0 筆）；
+   - 程式碼審查情境：「PR審查」／「審查」（如 UC-005、UC-131、UC-214 等） vs 英文「codereview」（0 筆）、「code review」（未對齊中文代碼審查）及中文「代碼審查」（0 筆）、「程式碼審查」（0 筆）、「代碼覆核」（0 筆）；
+   - GitLab 體系合併請求：原先僅支援 PR，GitLab 常見之「mr」（7 筆）、「merge request」（0 筆）、「merge requests」（0 筆）未能與 PR 互通；
+   - 身份認證情境：「oauth」（61 筆，如 UC-061、UC-218 等）及「sso」（61 筆） vs 具體版本「oauth2」（0 筆）及中文「單一登入」（0 筆）、「單點登入」（0 筆）；
+   - 通訊與排程複合詞：「webhook」（7 筆） vs 連字號「web-hook」（0 筆）、「web hooks」（0 筆）；「cron」（147 筆） vs 「cron job」（僅 9 筆）、「cronjob」（0 筆）、「crontab」（0 筆）及「定期任務」（2 筆）；
+   - 容錯降級情境：「降級」（4 筆，如 UC-049） vs 複數「fallbacks」（0 筆）、「備援」（僅 2 筆）、「容錯」（0 筆）及「備用方案」（0 筆）。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\bmulti\s*[- ]\s*agents?\b` 與 `\bmultiagents?\b` → `multi-agent`
+     - `\bretrieval\s*[- ]\s*augmented\s*[- ]\s*generations?\b` → `rag`
+     - `\bvector\s*[- ]\s*(?:dbs?|databases?)\b` → `vectordb`
+     - `\bcode\s*[- ]\s*reviews?\b` 與 `\bcodereviews?\b` → `codereview`
+     - `\bmerge\s+requests?\b` → `mr`
+     - `\bweb\s*[- ]\s*hooks?\b` → `webhook`
+     - `\bcron\s*[- ]\s*jobs?\b`、`\bcronjobs?\b`、`\bcrontabs?\b` → `cron`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 擴充多代理詞群：加入 multi-agents／multiagent／多agent／多智能體／多智能体；
+     - 擴充 RAG 與向量詞群：加入 檢索增強／retrieval augmented generation／vectordb／向量資料庫／向量數據庫／向量庫；
+     - 擴充認證詞群：加入 oauth2／單一登入／單點登入；
+     - 擴充降級詞群：加入 fallbacks／備援／容錯／備用方案；
+     - 擴充常規任務詞群：加入 定期任務／cronjob／crontab；
+     - 擴充 PR 詞群：加入 mr／mrs／merge request／merge requests；
+     - 新增成本與費用核心詞群：成本／費用／開銷／支出／花費／cost／costs／expense／expenses／expenditure／fee／fees；
+     - 新增代碼審查詞群：codereview／code review／代碼審查／程式碼審查／代碼覆核／代碼審核／代碼評審／pr審查／pr 審查；
+     - 保持 100% 互映對稱映射。
+2. `tests/search.test.cjs`：
+   - 增加 38 組搜尋斷言，覆蓋 multi agent/multi-agents/multi agents/multiagent/多agent/多智能體、cost/costs/expense/expenses/開銷、retrieval augmented generation/retrieval-augmented generation/檢索增強、vector db/vector database/向量資料庫/向量庫、codereview/代碼審查/程式碼審查/代碼覆核、mr/merge request/merge requests、oauth2/單一登入/單點登入、web-hook/web hooks、cron job/cronjob/crontab/定期任務、fallbacks/備援/容錯/備用方案等檢索。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：58/58 單元測試全數通過。
+- `for file in assets/*.js; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-search-quality/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，合格數維持 299 筆，無編造案例、無擅刪候選。
+下一輪建議：依目前已標註之多案例共用公開來源候選叢集，評估在閱讀器中增列同源候選標籤或關聯提示。
+
+

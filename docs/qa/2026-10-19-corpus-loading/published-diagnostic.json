@@ -1,0 +1,3484 @@
+[
+  {
+    "size": "desktop",
+    "networkFailures": [],
+    "appSHA256": "7a26cbbf8744d7152536ce03f13619aebb06afd83b75771dfa69e871ec105fcc",
+    "readyMs": 2869,
+    "entries": 339,
+    "missing": 0,
+    "failedPaths": [],
+    "resources": [
+      {
+        "path": "/ai-agent-use-cases/assets/style.css",
+        "bytes": 6297,
+        "durationMs": 102
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/reader.css",
+        "bytes": 1585,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/discovery.js",
+        "bytes": 825,
+        "durationMs": 122
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/reader.js",
+        "bytes": 3459,
+        "durationMs": 107
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/app.js",
+        "bytes": 22116,
+        "durationMs": 100
+      },
+      {
+        "path": "/ai-agent-use-cases/catalog.json",
+        "bytes": 6135,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/copy.json",
+        "bytes": 3553,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/001-travel-checkout.md",
+        "bytes": 4854,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/002-video-production.md",
+        "bytes": 5086,
+        "durationMs": 105
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/003-store-operations.md",
+        "bytes": 4694,
+        "durationMs": 95
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/004-social-crm.md",
+        "bytes": 3045,
+        "durationMs": 89
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/005-cloud-pr-review.md",
+        "bytes": 10630,
+        "durationMs": 102
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/006-facebook-publication.md",
+        "bytes": 7194,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/007-saas-renewal-audit.md",
+        "bytes": 2275,
+        "durationMs": 115
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/010-physical-oled-verification.md",
+        "bytes": 2769,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/011-sales-feedback-approved-revision.md",
+        "bytes": 4338,
+        "durationMs": 92
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/012-research-evaluation-provenance.md",
+        "bytes": 2625,
+        "durationMs": 102
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/014-support-inbox-approval-refund.md",
+        "bytes": 4767,
+        "durationMs": 100
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/015-public-page-change-watch.md",
+        "bytes": 5346,
+        "durationMs": 88
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/016-marketplace-selling-buyer-messages.md",
+        "bytes": 7368,
+        "durationMs": 93
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/017-prospect-research-drafts.md",
+        "bytes": 1307,
+        "durationMs": 107
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/018-demo-readiness.md",
+        "bytes": 1287,
+        "durationMs": 79
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/019-call-to-customer-deck.md",
+        "bytes": 1321,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/020-figma-batch-cards.md",
+        "bytes": 1832,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/021-legal-request-handoff.md",
+        "bytes": 1346,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/022-ad-spend-conversion-check.md",
+        "bytes": 1565,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/023-launch-material-revision.md",
+        "bytes": 4239,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/024-missing-invoice-check.md",
+        "bytes": 2947,
+        "durationMs": 85
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/025-team-event-follow-through.md",
+        "bytes": 4970,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/026-school-deadline-list.md",
+        "bytes": 2942,
+        "durationMs": 79
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/027-recipe-shopping-plan.md",
+        "bytes": 3041,
+        "durationMs": 280
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/028-bill-comparison-preparation.md",
+        "bytes": 3391,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/029-exercise-time-replan.md",
+        "bytes": 2555,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/030-interactive-study-guide.md",
+        "bytes": 8128,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/031-spending-dashboard.md",
+        "bytes": 2625,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/032-sleep-record-chart.md",
+        "bytes": 1756,
+        "durationMs": 89
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/033-business-experiment-plan.md",
+        "bytes": 1849,
+        "durationMs": 91
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/034-expense-anomaly-review.md",
+        "bytes": 2560,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/035-job-search-application-drafts.md",
+        "bytes": 5026,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/036-pos-accounting-csv.md",
+        "bytes": 2448,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/037-product-listing-comparison.md",
+        "bytes": 5069,
+        "durationMs": 79
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/038-fabric-sourcing-sample-handoff.md",
+        "bytes": 2268,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/039-competitor-positioning-review.md",
+        "bytes": 2932,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/040-trip-deferred-recheck.md",
+        "bytes": 2745,
+        "durationMs": 85
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/041-routine-health-exception-ops.md",
+        "bytes": 4769,
+        "durationMs": 273
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/042-dots-credential-multibot-return.md",
+        "bytes": 5509,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/043-public-events-calendar.md",
+        "bytes": 1638,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/044-household-shared-dashboard.md",
+        "bytes": 1870,
+        "durationMs": 468
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/045-cross-agent-research-handoff.md",
+        "bytes": 2674,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md",
+        "bytes": 6546,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/047-portfolio-provenance-catalog.md",
+        "bytes": 2055,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/048-daily-price-rank-tracking.md",
+        "bytes": 4545,
+        "durationMs": 83
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/049-daily-inbox-report-graduated-trust.md",
+        "bytes": 8822,
+        "durationMs": 93
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/050-daily-eink-mood-illustration.md",
+        "bytes": 2867,
+        "durationMs": 88
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/051-tax-return-cpa-double-check.md",
+        "bytes": 4084,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/052-cloud-overcharge-refund-root-cause.md",
+        "bytes": 2881,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/053-ecommerce-replenishment-refund-profit.md",
+        "bytes": 3101,
+        "durationMs": 100
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/054-music-video-multi-tool-pipeline.md",
+        "bytes": 6598,
+        "durationMs": 85
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/055-tweet-project-intake-research-monitor.md",
+        "bytes": 4187,
+        "durationMs": 83
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/056-agent-built-microbusiness-site.md",
+        "bytes": 4251,
+        "durationMs": 97
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/057-self-hosted-ci-runner-on-laptop.md",
+        "bytes": 4420,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/058-tennis-match-dead-time-editing.md",
+        "bytes": 2220,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/059-home-service-quote-handoff.md",
+        "bytes": 3538,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/060-x-mention-sourced-answer-bot.md",
+        "bytes": 4623,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/061-dispatcher-bot-typed-commands-ledger.md",
+        "bytes": 10897,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/062-figma-android-implementation-audit.md",
+        "bytes": 2087,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/063-plex-media-library-housekeeping.md",
+        "bytes": 2390,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/064-math-proof-review-formalization.md",
+        "bytes": 3178,
+        "durationMs": 71
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/065-suspicious-email-security-review.md",
+        "bytes": 4041,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/066-agent-token-usage-self-audit.md",
+        "bytes": 6573,
+        "durationMs": 88
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/067-agent-app-rebuild-manual.md",
+        "bytes": 9481,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/068-mac-local-helper-away-diagnosis.md",
+        "bytes": 5431,
+        "durationMs": 99
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/069-task-migration-reconciliation.md",
+        "bytes": 2740,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/070-github-outage-mac-cloudflare-publish.md",
+        "bytes": 2808,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/071-obsidian-dots-visible-memory.md",
+        "bytes": 4549,
+        "durationMs": 90
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/072-phone-task-disclosure-handoff.md",
+        "bytes": 5105,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/073-customer-journey-content-audit.md",
+        "bytes": 5986,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/074-event-trigger-readback.md",
+        "bytes": 2358,
+        "durationMs": 271
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/075-health-appointment-briefing-coach.md",
+        "bytes": 3351,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/076-spam-call-data-broker-optout.md",
+        "bytes": 5543,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/077-cloud-draft-local-script-wechat-publish.md",
+        "bytes": 3812,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/078-rental-listing-scam-check.md",
+        "bytes": 3302,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/079-business-email-alias-diagnosis.md",
+        "bytes": 3213,
+        "durationMs": 274
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/080-email-license-keys-to-password-vault.md",
+        "bytes": 4360,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/081-todoist-scheduled-headstart.md",
+        "bytes": 3406,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/082-multi-bot-fitness-coach-group.md",
+        "bytes": 4145,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/083-printable-grade1-math-worksheet.md",
+        "bytes": 3198,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/084-botops-tiered-fleet-notion-tickets.md",
+        "bytes": 3259,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/085-slack-bug-triage-product-preread.md",
+        "bytes": 1951,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/086-muse-concert-video-scraping-pipeline.md",
+        "bytes": 2530,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/087-voice-walk-intake-codex-morning-call.md",
+        "bytes": 2174,
+        "durationMs": 276
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/088-unrefunded-returns-inbox-chase.md",
+        "bytes": 2273,
+        "durationMs": 273
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/089-digital-declutter-approval-plan.md",
+        "bytes": 2952,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/090-daily-prediction-market-evidence-read.md",
+        "bytes": 1719,
+        "durationMs": 79
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/091-household-13-lane-bots.md",
+        "bytes": 2740,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/092-desk-can-cannot-receipts.md",
+        "bytes": 2411,
+        "durationMs": 73
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/093-local-newsletter-agent-team.md",
+        "bytes": 2220,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/094-meeting-stand-in-disclosure.md",
+        "bytes": 1571,
+        "durationMs": 272
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/095-product-usage-error-correlation.md",
+        "bytes": 1795,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/096-production-log-deploy-triage.md",
+        "bytes": 1769,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/097-public-gis-layer-map.md",
+        "bytes": 1190,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/098-engineering-pdf-excel-extraction.md",
+        "bytes": 1276,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/099-travel-photo-scrapbook.md",
+        "bytes": 1953,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/101-procurement-capability-shortlist.md",
+        "bytes": 1815,
+        "durationMs": 83
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/102-regulatory-change-safety-form-draft.md",
+        "bytes": 1809,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/103-insurance-crm-plan-code-reconciliation.md",
+        "bytes": 2177,
+        "durationMs": 86
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/104-genealogy-animation-print.md",
+        "bytes": 1622,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/105-gift-card-balance-inventory.md",
+        "bytes": 1570,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/106-animated-line-sticker-submission-package.md",
+        "bytes": 1495,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/107-old-blog-private-audio-archive.md",
+        "bytes": 1624,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/108-golf-round-practice-data-review.md",
+        "bytes": 1676,
+        "durationMs": 95
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/109-supermarket-coupon-activation.md",
+        "bytes": 1972,
+        "durationMs": 275
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/110-roblox-playtest-prototype.md",
+        "bytes": 2064,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/111-engineering-drawing-source-traceability.md",
+        "bytes": 2897,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/112-image-to-printable-articulated-model.md",
+        "bytes": 1799,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/113-architecture-material-visual-comparison.md",
+        "bytes": 1950,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/114-existing-worksheet-print-layout.md",
+        "bytes": 1617,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/115-rigged-character-asset-export.md",
+        "bytes": 1739,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/116-slack-branded-quote-draft.md",
+        "bytes": 1778,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/117-warranty-replacement-tracking.md",
+        "bytes": 1832,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/118-agent-email-rerouting-consent-test.md",
+        "bytes": 1822,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/119-fantasy-lineup-approval-review.md",
+        "bytes": 2278,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/120-bioinspired-material-simulation-specimen.md",
+        "bytes": 1905,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/121-visual-reference-classification-sheet.md",
+        "bytes": 1620,
+        "durationMs": 268
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/122-audio-lightshow-sequence-draft.md",
+        "bytes": 1824,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/123-mobile-game-resource-handoff.md",
+        "bytes": 1545,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/124-vehicle-maintenance-record-review.md",
+        "bytes": 1651,
+        "durationMs": 90
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/125-morse-decoder-hardware-loop-test.md",
+        "bytes": 1676,
+        "durationMs": 86
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/126-roofing-prework-admin-handoff.md",
+        "bytes": 1922,
+        "durationMs": 73
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/127-cross-channel-calendar-correction.md",
+        "bytes": 1621,
+        "durationMs": 73
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/128-test-database-revenue-query-review.md",
+        "bytes": 1709,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/129-store-stockout-velocity-audit.md",
+        "bytes": 1894,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/130-supplies-reorder-ledger-reconciliation.md",
+        "bytes": 1850,
+        "durationMs": 89
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/131-student-demo-code-prereview.md",
+        "bytes": 1720,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/132-podcast-transcript-retrieval-preparation.md",
+        "bytes": 1639,
+        "durationMs": 269
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/133-screen-reader-menu-reformat.md",
+        "bytes": 1575,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/134-handwritten-kitchen-order-cart.md",
+        "bytes": 1614,
+        "durationMs": 107
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/135-campus-meal-window-planning.md",
+        "bytes": 1506,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/136-community-park-feasibility-proposal.md",
+        "bytes": 1741,
+        "durationMs": 99
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/137-visitor-print-queue-handoff.md",
+        "bytes": 1891,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/138-streetlight-fault-report-handoff.md",
+        "bytes": 1257,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/139-lost-property-match-search.md",
+        "bytes": 1187,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/140-monocular-depth-robot-offline-review.md",
+        "bytes": 1361,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/141-vehicle-telemetry-gap-dashboard.md",
+        "bytes": 1383,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/142-historical-folder-access-revocation.md",
+        "bytes": 1700,
+        "durationMs": 88
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/143-unclaimed-property-candidate-handoff.md",
+        "bytes": 1732,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/144-classical-translation-source-review.md",
+        "bytes": 1887,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/145-offline-standard-form-field-validation.md",
+        "bytes": 1908,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/146-grant-supporting-document-gap-check.md",
+        "bytes": 1699,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/147-group-meal-bot-negotiation-demo.md",
+        "bytes": 1892,
+        "durationMs": 83
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/148-course-degree-planning-prototype.md",
+        "bytes": 2610,
+        "durationMs": 101
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/149-directory-submission-live-link-verification.md",
+        "bytes": 1989,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/150-spreadsheet-date-formula-repair.md",
+        "bytes": 1617,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/151-booked-stay-prerequisite-followup.md",
+        "bytes": 1832,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/152-interview-evidence-feedback-draft.md",
+        "bytes": 1798,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/153-tabletop-adventure-material-pack.md",
+        "bytes": 1724,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/154-contract-review-wait-time-analysis.md",
+        "bytes": 1757,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/155-field-service-job-change-coordination.md",
+        "bytes": 1700,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/156-mail-system-migration-verification.md",
+        "bytes": 1993,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/157-editable-diagram-geometry-readback.md",
+        "bytes": 1753,
+        "durationMs": 101
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/158-paid-orphan-order-recovery-review.md",
+        "bytes": 2391,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/159-reference-portrait-brush-fill-failure.md",
+        "bytes": 1861,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/160-handheld-device-integrated-prototype.md",
+        "bytes": 1921,
+        "durationMs": 79
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/161-cross-model-response-dataset-audit.md",
+        "bytes": 2181,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/162-mesh-simplification-camera-state-review.md",
+        "bytes": 1850,
+        "durationMs": 86
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/163-legacy-cms-history-migration.md",
+        "bytes": 1826,
+        "durationMs": 89
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/164-stale-ticket-retirement-scope-stop.md",
+        "bytes": 1852,
+        "durationMs": 89
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/165-offline-network-control-evidence-review.md",
+        "bytes": 1774,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/166-bidirectional-document-reading-order.md",
+        "bytes": 1663,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/167-web-accessibility-evidence-pack.md",
+        "bytes": 2294,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/168-customer-order-availability-price-review.md",
+        "bytes": 2274,
+        "durationMs": 91
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/169-cantilever-solver-verification-failure.md",
+        "bytes": 2370,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/170-home-scene-automation-review.md",
+        "bytes": 2212,
+        "durationMs": 89
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/171-credit-report-dispute-evidence-preparation.md",
+        "bytes": 2034,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/172-personal-playlist-era-genre-curation.md",
+        "bytes": 2485,
+        "durationMs": 71
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/173-frontend-performance-hypothesis-experiments.md",
+        "bytes": 2509,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/174-stateful-batch-form-reconciliation.md",
+        "bytes": 2224,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/175-group-expense-obligation-reconciliation.md",
+        "bytes": 2022,
+        "durationMs": 85
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/176-property-diligence-package-crosscheck.md",
+        "bytes": 2887,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/177-pcb-design-solver-coverage-review.md",
+        "bytes": 2299,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/178-scanned-page-text-image-reconstruction.md",
+        "bytes": 1980,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/179-duplicate-customer-email-flow-repair.md",
+        "bytes": 2118,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/180-photo-library-descriptive-metadata.md",
+        "bytes": 1943,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/181-shipping-label-fulfillment-preparation.md",
+        "bytes": 2821,
+        "durationMs": 275
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/182-library-book-selection-holds.md",
+        "bytes": 3124,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/183-ad-campaign-configuration-review.md",
+        "bytes": 2166,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/184-mail-archive-relevance-prescreen.md",
+        "bytes": 2101,
+        "durationMs": 101
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/185-event-results-leaderboard-awards.md",
+        "bytes": 2283,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/186-registration-pollution-mail-health.md",
+        "bytes": 2076,
+        "durationMs": 88
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/187-survey-batch-configuration-validation.md",
+        "bytes": 2111,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/188-dynamic-tariff-charging-window-review.md",
+        "bytes": 2235,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/189-article-narration-waveform-review.md",
+        "bytes": 2057,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/190-service-invoice-draft-reconciliation.md",
+        "bytes": 1892,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/191-podcast-segment-edit-listen-review.md",
+        "bytes": 1916,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/192-client-requirements-decision-clarification.md",
+        "bytes": 1856,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/193-deleted-conversation-readable-recovery.md",
+        "bytes": 2071,
+        "durationMs": 71
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/195-conversion-event-journey-timing-audit.md",
+        "bytes": 2288,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/196-private-game-session-log-validation.md",
+        "bytes": 2479,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/197-supplied-part-assembly-geometry-audit.md",
+        "bytes": 2151,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/198-prelab-document-gap-review.md",
+        "bytes": 2197,
+        "durationMs": 83
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/199-scheduled-score-stream-state-review.md",
+        "bytes": 1715,
+        "durationMs": 101
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/200-prior-statistical-analysis-rerun-comparison.md",
+        "bytes": 1686,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/201-damage-comparison-coverage-correction.md",
+        "bytes": 2267,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/204-reviewed-prototype-cms-rebuild.md",
+        "bytes": 1804,
+        "durationMs": 83
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/205-concept-origin-naming-chronology.md",
+        "bytes": 1970,
+        "durationMs": 90
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/206-own-account-transfer-reconciliation.md",
+        "bytes": 2456,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/207-trigger-gate-nonexecution-retrospective.md",
+        "bytes": 2216,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/208-portable-skill-binding-approval-check.md",
+        "bytes": 1862,
+        "durationMs": 95
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/209-spreadsheet-cross-app-formula-validation.md",
+        "bytes": 1871,
+        "durationMs": 270
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/210-astronomy-conditions-target-planning.md",
+        "bytes": 2197,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/211-versioned-procedure-role-handoff.md",
+        "bytes": 1954,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/212-public-dataset-field-update-proposals.md",
+        "bytes": 2090,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/213-storyboard-timed-effect-visual-review.md",
+        "bytes": 1969,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/214-release-artifact-runtime-identity-check.md",
+        "bytes": 2749,
+        "durationMs": 95
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/215-recipe-inbox-structured-collection.md",
+        "bytes": 2144,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/216-photo-shoot-selection-preset-handoff.md",
+        "bytes": 2037,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/217-hdl-build-functional-regression-gate.md",
+        "bytes": 1959,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/218-third-party-skill-install-trust-review.md",
+        "bytes": 2015,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/219-pdf-internal-navigation-bookmark-validation.md",
+        "bytes": 2299,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/220-used-product-recall-candidate-screening.md",
+        "bytes": 1834,
+        "durationMs": 73
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/221-human-signature-completed-copy-handoff.md",
+        "bytes": 1760,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/222-legacy-business-rule-test-oracle-review.md",
+        "bytes": 1871,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/223-household-solar-billing-period-reconciliation.md",
+        "bytes": 1805,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/224-multi-shadow-shared-geometry-inverse-design.md",
+        "bytes": 2085,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/225-receipt-transaction-evidence-matching.md",
+        "bytes": 2245,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/226-photo-wall-frame-print-fit.md",
+        "bytes": 2048,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/227-saved-map-places-list-maintenance.md",
+        "bytes": 2194,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/228-household-power-waveform-attribution.md",
+        "bytes": 2198,
+        "durationMs": 73
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/229-macos-distribution-signing-evidence.md",
+        "bytes": 2494,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/230-compensation-batch-human-review.md",
+        "bytes": 2492,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/231-multitrack-session-rough-mix-handoff.md",
+        "bytes": 2376,
+        "durationMs": 110
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/232-purchased-resource-delivery-reconciliation.md",
+        "bytes": 2200,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/233-recurring-revenue-discount-definition-review.md",
+        "bytes": 2115,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/234-proposal-attachment-consistency-send-gate.md",
+        "bytes": 2180,
+        "durationMs": 72
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/235-backtest-freeze-evidence-boundary-review.md",
+        "bytes": 4173,
+        "durationMs": 275
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/236-event-playback-state-restoration-prototype.md",
+        "bytes": 2329,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/237-sketch-part-step-manufacturing-handoff.md",
+        "bytes": 2121,
+        "durationMs": 274
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/238-release-channel-exposure-incident-review.md",
+        "bytes": 2368,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/239-wearable-conversation-delivery-state-validation.md",
+        "bytes": 4061,
+        "durationMs": 79
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/240-bilingual-controlled-vocabulary-export.md",
+        "bytes": 2600,
+        "durationMs": 86
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/241-community-participation-spam-review.md",
+        "bytes": 1989,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/242-aviation-bulletin-observation-brief-review.md",
+        "bytes": 2243,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/243-spoken-video-word-caption-delivery.md",
+        "bytes": 2097,
+        "durationMs": 86
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/244-navigation-file-repair-device-handoff.md",
+        "bytes": 2065,
+        "durationMs": 96
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/245-catalog-outfit-composition-provenance.md",
+        "bytes": 1995,
+        "durationMs": 87
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/246-membership-entitlement-consumption-order-diagnosis.md",
+        "bytes": 1868,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/247-parking-citation-payment-evidence-review.md",
+        "bytes": 2176,
+        "durationMs": 91
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/248-cross-agent-conversation-disclosure-boundary.md",
+        "bytes": 2019,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/249-eight-panel-zine-imposition-output.md",
+        "bytes": 2214,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/250-mail-migration-data-routing-cutover.md",
+        "bytes": 2411,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/251-orbital-snapshot-provenance-discrepancy-review.md",
+        "bytes": 2383,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/252-three-statement-scenario-board-pack.md",
+        "bytes": 2189,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/253-survey-ai-response-contamination-review.md",
+        "bytes": 1818,
+        "durationMs": 269
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/255-active-memory-version-consolidation-review.md",
+        "bytes": 1827,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/256-interactive-mystery-knowledge-unlock-audit.md",
+        "bytes": 2540,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/257-inbound-call-coverage-message-reconciliation.md",
+        "bytes": 2381,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/258-scan-reconstruction-scale-topology-audit.md",
+        "bytes": 2549,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/259-multistation-observation-control-robustness.md",
+        "bytes": 2605,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/260-vendor-master-gap-quotation-grouping.md",
+        "bytes": 2242,
+        "durationMs": 281
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/261-owned-model-image-anchor-display.md",
+        "bytes": 1875,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/262-animation-frame-pose-coverage-review.md",
+        "bytes": 2105,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/263-ledger-migration-trial-balance-reconciliation.md",
+        "bytes": 2211,
+        "durationMs": 270
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/264-generated-parcel-road-frontage-review.md",
+        "bytes": 2054,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/265-slide-grayscale-distinguishability-review.md",
+        "bytes": 2400,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/266-panel-moderation-timing-contingencies.md",
+        "bytes": 2413,
+        "durationMs": 73
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/267-nfc-points-redemption-ledger.md",
+        "bytes": 2394,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/268-agency-campaign-bundle-approval.md",
+        "bytes": 4741,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/269-single-vps-sysadmin-bot.md",
+        "bytes": 4067,
+        "durationMs": 110
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/270-subscription-replacement-blind-eval.md",
+        "bytes": 4109,
+        "durationMs": 83
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/271-layover-lounge-access-calendar.md",
+        "bytes": 2661,
+        "durationMs": 275
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/272-rain-only-umbrella-alert.md",
+        "bytes": 2832,
+        "durationMs": 274
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/273-overnight-coding-agent-relay.md",
+        "bytes": 4485,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/274-linkedin-connections-monthly-rolodex.md",
+        "bytes": 2765,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/275-personal-phone-ai-receptionist-anti-scam.md",
+        "bytes": 3302,
+        "durationMs": 285
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/276-staff-agent-portal-routing-failure.md",
+        "bytes": 2419,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/277-meeting-decision-change-audio-trace.md",
+        "bytes": 2331,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/278-machining-center-configuration-concept.md",
+        "bytes": 2511,
+        "durationMs": 71
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/279-airline-phone-rebook-identity-refusal.md",
+        "bytes": 2253,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/280-notion-daily-slack-dots-hours.md",
+        "bytes": 2403,
+        "durationMs": 79
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/281-grok-mockup-claude-worker-qa-pipeline.md",
+        "bytes": 2558,
+        "durationMs": 79
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/282-patient-portal-voice-to-message.md",
+        "bytes": 2340,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/283-dots-connected-apps-permission-pitfalls.md",
+        "bytes": 3980,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/284-delayed-baggage-status-expense-claim.md",
+        "bytes": 2225,
+        "durationMs": 283
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/285-x-voice-acting-audition-email-digest.md",
+        "bytes": 3076,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md",
+        "bytes": 2489,
+        "durationMs": 270
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/287-bot-site-review-analytics-signup-preview.md",
+        "bytes": 3372,
+        "durationMs": 83
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/288-phone-only-home-screen-daily-board.md",
+        "bytes": 2386,
+        "durationMs": 85
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/289-social-claim-evidence-triage.md",
+        "bytes": 1873,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/290-election-twice-daily-sourced-brief.md",
+        "bytes": 2559,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/291-provisional-match-time-calendar-correction.md",
+        "bytes": 2785,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/292-new-model-api-signup-topup-console.md",
+        "bytes": 3016,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/293-draft-ai-audit-ai-notion-audit-record.md",
+        "bytes": 2493,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/294-rare-collectible-multi-shop-hourly-watch.md",
+        "bytes": 2792,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/295-family-calendar-kitchen-display-voice-reminder.md",
+        "bytes": 2915,
+        "durationMs": 85
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/296-cross-vendor-device-display-bridge.md",
+        "bytes": 1892,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/297-knowledge-file-content-search-gap.md",
+        "bytes": 1745,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/298-commitment-lead-time-task-date-reconciliation.md",
+        "bytes": 1810,
+        "durationMs": 277
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/299-spoken-measurement-preliminary-drawing-handoff.md",
+        "bytes": 2086,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/300-service-eligibility-subsidy-application-packet.md",
+        "bytes": 1647,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/301-technician-chat-closeout-lead-register.md",
+        "bytes": 1799,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/302-labeled-inbox-classifier-optimization-cutover.md",
+        "bytes": 2087,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/303-overlooked-recall-notice-remedy-application.md",
+        "bytes": 1835,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/304-reviewed-scoped-lesson-recall.md",
+        "bytes": 2239,
+        "durationMs": 82
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/305-local-video-final-stage-deliverability-failure.md",
+        "bytes": 2218,
+        "durationMs": 343
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/306-stock-image-batch-metadata-submission.md",
+        "bytes": 2046,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/307-cloud-file-upload-byte-integrity-failure.md",
+        "bytes": 2090,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/308-personal-clinical-trial-daily-watch.md",
+        "bytes": 3244,
+        "durationMs": 92
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/309-product-trial-campaign-daily-auto-apply.md",
+        "bytes": 3033,
+        "durationMs": 79
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/310-agent-run-mistake-attribution-dashboard.md",
+        "bytes": 3202,
+        "durationMs": 269
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/311-new-model-prompt-batch-demo-gallery.md",
+        "bytes": 2976,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/312-ambient-media-false-task-creation.md",
+        "bytes": 1907,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/313-external-action-assignee-handoff-race.md",
+        "bytes": 2366,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/314-agent-sandbox-always-on-service-failure.md",
+        "bytes": 3887,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/315-work-personal-agents-tax-document-cpa-handoff.md",
+        "bytes": 3107,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/316-slack-thread-triage-repro-bot-bug-fix.md",
+        "bytes": 4531,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/317-nightly-explorer-builder-critic-prototype.md",
+        "bytes": 4669,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/318-approved-account-form-shopify-customer-flow.md",
+        "bytes": 3073,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/319-home-photo-item-inventory-claim-handoff.md",
+        "bytes": 2470,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/320-bidirectional-reminder-state-sync.md",
+        "bytes": 2411,
+        "durationMs": 80
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/321-expert-corpus-interactive-decision-tool.md",
+        "bytes": 2628,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/322-creator-metrics-zero-token-daily-collection.md",
+        "bytes": 4898,
+        "durationMs": 273
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/323-daily-ai-news-one-tap-feedback-preference-loop.md",
+        "bytes": 3782,
+        "durationMs": 272
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/324-daily-outage-digest-verified-incident-db-pr.md",
+        "bytes": 4519,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/325-nightly-voice-diary-prompt-confirm-sync.md",
+        "bytes": 3220,
+        "durationMs": 79
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/326-order-history-owned-items-sale-picks.md",
+        "bytes": 2823,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/327-cad-material-library-property-population.md",
+        "bytes": 2383,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/328-paid-data-call-quote-variance-gate.md",
+        "bytes": 2498,
+        "durationMs": 78
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/329-durable-agent-chain-restart-recovery.md",
+        "bytes": 3085,
+        "durationMs": 95
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/330-unsupported-home-device-commissioning-validation.md",
+        "bytes": 2883,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/331-undelivered-purchase-carrier-merchant-refund-chase.md",
+        "bytes": 2245,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/332-x-ops-semiauto-prepost-human-approval.md",
+        "bytes": 2659,
+        "durationMs": 75
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/333-notion-cross-agent-outreach-memory.md",
+        "bytes": 2098,
+        "durationMs": 77
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/334-sdr-adsb-receiver-decoder-range-ab-test.md",
+        "bytes": 4045,
+        "durationMs": 83
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/335-manual-routine-reenable-reverted-by-stale-instruction.md",
+        "bytes": 3113,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/336-handheld-voice-terminal-mcp-relay.md",
+        "bytes": 3430,
+        "durationMs": 76
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/337-daily-random-reference-photo-likeness-edit.md",
+        "bytes": 3410,
+        "durationMs": 96
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/338-driver-daily-hours-log-paycheck-check.md",
+        "bytes": 3099,
+        "durationMs": 73
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/339-stale-cross-product-request-provenance.md",
+        "bytes": 2474,
+        "durationMs": 81
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/340-tool-response-evidence-capture-acceptance.md",
+        "bytes": 2569,
+        "durationMs": 73
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/341-archived-task-runtime-state-reconciliation.md",
+        "bytes": 2269,
+        "durationMs": 84
+      },
+      {
+        "path": "/ai-agent-use-cases/evidence/008-morning-brief-validation.md",
+        "bytes": 1982,
+        "durationMs": 293
+      },
+      {
+        "path": "/ai-agent-use-cases/evidence/009-background-transfer-template.md",
+        "bytes": 3582,
+        "durationMs": 74
+      },
+      {
+        "path": "/ai-agent-use-cases/evidence/013-authentication-diagnosis.md",
+        "bytes": 1378,
+        "durationMs": 70
+      },
+      {
+        "path": "/ai-agent-use-cases/sources/pending.md",
+        "bytes": 1810,
+        "durationMs": 74
+      }
+    ],
+    "requests": 345,
+    "markdownRequests": 337,
+    "sourceURL": "https://github.com/openai/codex/issues/52208",
+    "sourceStatus": 200,
+    "axeViolations": [],
+    "errors": [],
+    "journeys": [
+      "travel + scenario + tool + keyboard return",
+      "empty + reset",
+      "failure report direct link + reload + source"
+    ]
+  },
+  {
+    "size": "mobile",
+    "networkFailures": [],
+    "appSHA256": "7a26cbbf8744d7152536ce03f13619aebb06afd83b75771dfa69e871ec105fcc",
+    "readyMs": 646,
+    "entries": 339,
+    "missing": 0,
+    "failedPaths": [],
+    "resources": [
+      {
+        "path": "/ai-agent-use-cases/assets/style.css",
+        "bytes": 6297,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/discovery.js",
+        "bytes": 825,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/reader.css",
+        "bytes": 1585,
+        "durationMs": 20
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/reader.js",
+        "bytes": 3459,
+        "durationMs": 21
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/app.js",
+        "bytes": 22116,
+        "durationMs": 20
+      },
+      {
+        "path": "/ai-agent-use-cases/catalog.json",
+        "bytes": 6135,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/copy.json",
+        "bytes": 3553,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/001-travel-checkout.md",
+        "bytes": 4854,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/002-video-production.md",
+        "bytes": 5086,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/003-store-operations.md",
+        "bytes": 4694,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/005-cloud-pr-review.md",
+        "bytes": 10630,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/004-social-crm.md",
+        "bytes": 3045,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/006-facebook-publication.md",
+        "bytes": 7194,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/007-saas-renewal-audit.md",
+        "bytes": 2275,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/010-physical-oled-verification.md",
+        "bytes": 2769,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/011-sales-feedback-approved-revision.md",
+        "bytes": 4338,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/012-research-evaluation-provenance.md",
+        "bytes": 2625,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/014-support-inbox-approval-refund.md",
+        "bytes": 4767,
+        "durationMs": 19
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/015-public-page-change-watch.md",
+        "bytes": 5346,
+        "durationMs": 19
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/016-marketplace-selling-buyer-messages.md",
+        "bytes": 7368,
+        "durationMs": 20
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/017-prospect-research-drafts.md",
+        "bytes": 1307,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/018-demo-readiness.md",
+        "bytes": 1287,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/019-call-to-customer-deck.md",
+        "bytes": 1321,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/020-figma-batch-cards.md",
+        "bytes": 1832,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/021-legal-request-handoff.md",
+        "bytes": 1346,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/022-ad-spend-conversion-check.md",
+        "bytes": 1565,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/023-launch-material-revision.md",
+        "bytes": 4239,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/024-missing-invoice-check.md",
+        "bytes": 2947,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/025-team-event-follow-through.md",
+        "bytes": 4970,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/026-school-deadline-list.md",
+        "bytes": 2942,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/027-recipe-shopping-plan.md",
+        "bytes": 3041,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/028-bill-comparison-preparation.md",
+        "bytes": 3391,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/029-exercise-time-replan.md",
+        "bytes": 2555,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/030-interactive-study-guide.md",
+        "bytes": 8128,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/031-spending-dashboard.md",
+        "bytes": 2625,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/032-sleep-record-chart.md",
+        "bytes": 1756,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/033-business-experiment-plan.md",
+        "bytes": 1849,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/034-expense-anomaly-review.md",
+        "bytes": 2560,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/035-job-search-application-drafts.md",
+        "bytes": 5026,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/036-pos-accounting-csv.md",
+        "bytes": 2448,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/037-product-listing-comparison.md",
+        "bytes": 5069,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/038-fabric-sourcing-sample-handoff.md",
+        "bytes": 2268,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/039-competitor-positioning-review.md",
+        "bytes": 2932,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/040-trip-deferred-recheck.md",
+        "bytes": 2745,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/041-routine-health-exception-ops.md",
+        "bytes": 4769,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/042-dots-credential-multibot-return.md",
+        "bytes": 5509,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/043-public-events-calendar.md",
+        "bytes": 1638,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/044-household-shared-dashboard.md",
+        "bytes": 1870,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/045-cross-agent-research-handoff.md",
+        "bytes": 2674,
+        "durationMs": 10
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md",
+        "bytes": 6546,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/047-portfolio-provenance-catalog.md",
+        "bytes": 2055,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/048-daily-price-rank-tracking.md",
+        "bytes": 4545,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/049-daily-inbox-report-graduated-trust.md",
+        "bytes": 8822,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/050-daily-eink-mood-illustration.md",
+        "bytes": 2867,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/051-tax-return-cpa-double-check.md",
+        "bytes": 4084,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/052-cloud-overcharge-refund-root-cause.md",
+        "bytes": 2881,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/053-ecommerce-replenishment-refund-profit.md",
+        "bytes": 3101,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/054-music-video-multi-tool-pipeline.md",
+        "bytes": 6598,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/055-tweet-project-intake-research-monitor.md",
+        "bytes": 4187,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/056-agent-built-microbusiness-site.md",
+        "bytes": 4251,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/057-self-hosted-ci-runner-on-laptop.md",
+        "bytes": 4420,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/058-tennis-match-dead-time-editing.md",
+        "bytes": 2220,
+        "durationMs": 10
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/059-home-service-quote-handoff.md",
+        "bytes": 3538,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/060-x-mention-sourced-answer-bot.md",
+        "bytes": 4623,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/061-dispatcher-bot-typed-commands-ledger.md",
+        "bytes": 10897,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/062-figma-android-implementation-audit.md",
+        "bytes": 2087,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/063-plex-media-library-housekeeping.md",
+        "bytes": 2390,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/064-math-proof-review-formalization.md",
+        "bytes": 3178,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/065-suspicious-email-security-review.md",
+        "bytes": 4041,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/066-agent-token-usage-self-audit.md",
+        "bytes": 6573,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/067-agent-app-rebuild-manual.md",
+        "bytes": 9481,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/068-mac-local-helper-away-diagnosis.md",
+        "bytes": 5431,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/069-task-migration-reconciliation.md",
+        "bytes": 2740,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/070-github-outage-mac-cloudflare-publish.md",
+        "bytes": 2808,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/071-obsidian-dots-visible-memory.md",
+        "bytes": 4549,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/072-phone-task-disclosure-handoff.md",
+        "bytes": 5105,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/073-customer-journey-content-audit.md",
+        "bytes": 5986,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/074-event-trigger-readback.md",
+        "bytes": 2358,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/075-health-appointment-briefing-coach.md",
+        "bytes": 3351,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/076-spam-call-data-broker-optout.md",
+        "bytes": 5543,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/077-cloud-draft-local-script-wechat-publish.md",
+        "bytes": 3812,
+        "durationMs": 24
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/078-rental-listing-scam-check.md",
+        "bytes": 3302,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/079-business-email-alias-diagnosis.md",
+        "bytes": 3213,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/080-email-license-keys-to-password-vault.md",
+        "bytes": 4360,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/081-todoist-scheduled-headstart.md",
+        "bytes": 3406,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/082-multi-bot-fitness-coach-group.md",
+        "bytes": 4145,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/083-printable-grade1-math-worksheet.md",
+        "bytes": 3198,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/084-botops-tiered-fleet-notion-tickets.md",
+        "bytes": 3259,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/085-slack-bug-triage-product-preread.md",
+        "bytes": 1951,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/086-muse-concert-video-scraping-pipeline.md",
+        "bytes": 2530,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/087-voice-walk-intake-codex-morning-call.md",
+        "bytes": 2174,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/088-unrefunded-returns-inbox-chase.md",
+        "bytes": 2273,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/089-digital-declutter-approval-plan.md",
+        "bytes": 2952,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/090-daily-prediction-market-evidence-read.md",
+        "bytes": 1719,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/091-household-13-lane-bots.md",
+        "bytes": 2740,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/092-desk-can-cannot-receipts.md",
+        "bytes": 2411,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/093-local-newsletter-agent-team.md",
+        "bytes": 2220,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/094-meeting-stand-in-disclosure.md",
+        "bytes": 1571,
+        "durationMs": 10
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/095-product-usage-error-correlation.md",
+        "bytes": 1795,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/096-production-log-deploy-triage.md",
+        "bytes": 1769,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/097-public-gis-layer-map.md",
+        "bytes": 1190,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/098-engineering-pdf-excel-extraction.md",
+        "bytes": 1276,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/099-travel-photo-scrapbook.md",
+        "bytes": 1953,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/101-procurement-capability-shortlist.md",
+        "bytes": 1815,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/102-regulatory-change-safety-form-draft.md",
+        "bytes": 1809,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/103-insurance-crm-plan-code-reconciliation.md",
+        "bytes": 2177,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/104-genealogy-animation-print.md",
+        "bytes": 1622,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/105-gift-card-balance-inventory.md",
+        "bytes": 1570,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/106-animated-line-sticker-submission-package.md",
+        "bytes": 1495,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/107-old-blog-private-audio-archive.md",
+        "bytes": 1624,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/108-golf-round-practice-data-review.md",
+        "bytes": 1676,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/109-supermarket-coupon-activation.md",
+        "bytes": 1972,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/110-roblox-playtest-prototype.md",
+        "bytes": 2064,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/111-engineering-drawing-source-traceability.md",
+        "bytes": 2897,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/112-image-to-printable-articulated-model.md",
+        "bytes": 1799,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/113-architecture-material-visual-comparison.md",
+        "bytes": 1950,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/114-existing-worksheet-print-layout.md",
+        "bytes": 1617,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/115-rigged-character-asset-export.md",
+        "bytes": 1739,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/116-slack-branded-quote-draft.md",
+        "bytes": 1778,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/117-warranty-replacement-tracking.md",
+        "bytes": 1832,
+        "durationMs": 38
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/118-agent-email-rerouting-consent-test.md",
+        "bytes": 1822,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/119-fantasy-lineup-approval-review.md",
+        "bytes": 2278,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/120-bioinspired-material-simulation-specimen.md",
+        "bytes": 1905,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/121-visual-reference-classification-sheet.md",
+        "bytes": 1620,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/122-audio-lightshow-sequence-draft.md",
+        "bytes": 1824,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/123-mobile-game-resource-handoff.md",
+        "bytes": 1545,
+        "durationMs": 10
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/124-vehicle-maintenance-record-review.md",
+        "bytes": 1651,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/125-morse-decoder-hardware-loop-test.md",
+        "bytes": 1676,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/126-roofing-prework-admin-handoff.md",
+        "bytes": 1922,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/127-cross-channel-calendar-correction.md",
+        "bytes": 1621,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/128-test-database-revenue-query-review.md",
+        "bytes": 1709,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/129-store-stockout-velocity-audit.md",
+        "bytes": 1894,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/130-supplies-reorder-ledger-reconciliation.md",
+        "bytes": 1850,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/131-student-demo-code-prereview.md",
+        "bytes": 1720,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/132-podcast-transcript-retrieval-preparation.md",
+        "bytes": 1639,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/133-screen-reader-menu-reformat.md",
+        "bytes": 1575,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/134-handwritten-kitchen-order-cart.md",
+        "bytes": 1614,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/135-campus-meal-window-planning.md",
+        "bytes": 1506,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/136-community-park-feasibility-proposal.md",
+        "bytes": 1741,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/137-visitor-print-queue-handoff.md",
+        "bytes": 1891,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/138-streetlight-fault-report-handoff.md",
+        "bytes": 1257,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/139-lost-property-match-search.md",
+        "bytes": 1187,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/140-monocular-depth-robot-offline-review.md",
+        "bytes": 1361,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/141-vehicle-telemetry-gap-dashboard.md",
+        "bytes": 1383,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/142-historical-folder-access-revocation.md",
+        "bytes": 1700,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/143-unclaimed-property-candidate-handoff.md",
+        "bytes": 1732,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/144-classical-translation-source-review.md",
+        "bytes": 1887,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/145-offline-standard-form-field-validation.md",
+        "bytes": 1908,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/146-grant-supporting-document-gap-check.md",
+        "bytes": 1699,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/147-group-meal-bot-negotiation-demo.md",
+        "bytes": 1892,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/148-course-degree-planning-prototype.md",
+        "bytes": 2610,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/149-directory-submission-live-link-verification.md",
+        "bytes": 1989,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/150-spreadsheet-date-formula-repair.md",
+        "bytes": 1617,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/151-booked-stay-prerequisite-followup.md",
+        "bytes": 1832,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/152-interview-evidence-feedback-draft.md",
+        "bytes": 1798,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/153-tabletop-adventure-material-pack.md",
+        "bytes": 1724,
+        "durationMs": 10
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/154-contract-review-wait-time-analysis.md",
+        "bytes": 1757,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/155-field-service-job-change-coordination.md",
+        "bytes": 1700,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/156-mail-system-migration-verification.md",
+        "bytes": 1993,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/157-editable-diagram-geometry-readback.md",
+        "bytes": 1753,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/158-paid-orphan-order-recovery-review.md",
+        "bytes": 2391,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/159-reference-portrait-brush-fill-failure.md",
+        "bytes": 1861,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/160-handheld-device-integrated-prototype.md",
+        "bytes": 1921,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/161-cross-model-response-dataset-audit.md",
+        "bytes": 2181,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/162-mesh-simplification-camera-state-review.md",
+        "bytes": 1850,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/163-legacy-cms-history-migration.md",
+        "bytes": 1826,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/164-stale-ticket-retirement-scope-stop.md",
+        "bytes": 1852,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/165-offline-network-control-evidence-review.md",
+        "bytes": 1774,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/166-bidirectional-document-reading-order.md",
+        "bytes": 1663,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/167-web-accessibility-evidence-pack.md",
+        "bytes": 2294,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/168-customer-order-availability-price-review.md",
+        "bytes": 2274,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/169-cantilever-solver-verification-failure.md",
+        "bytes": 2370,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/170-home-scene-automation-review.md",
+        "bytes": 2212,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/171-credit-report-dispute-evidence-preparation.md",
+        "bytes": 2034,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/172-personal-playlist-era-genre-curation.md",
+        "bytes": 2485,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/173-frontend-performance-hypothesis-experiments.md",
+        "bytes": 2509,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/174-stateful-batch-form-reconciliation.md",
+        "bytes": 2224,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/175-group-expense-obligation-reconciliation.md",
+        "bytes": 2022,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/176-property-diligence-package-crosscheck.md",
+        "bytes": 2887,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/177-pcb-design-solver-coverage-review.md",
+        "bytes": 2299,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/178-scanned-page-text-image-reconstruction.md",
+        "bytes": 1980,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/179-duplicate-customer-email-flow-repair.md",
+        "bytes": 2118,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/180-photo-library-descriptive-metadata.md",
+        "bytes": 1943,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/181-shipping-label-fulfillment-preparation.md",
+        "bytes": 2821,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/182-library-book-selection-holds.md",
+        "bytes": 3124,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/183-ad-campaign-configuration-review.md",
+        "bytes": 2166,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/184-mail-archive-relevance-prescreen.md",
+        "bytes": 2101,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/185-event-results-leaderboard-awards.md",
+        "bytes": 2283,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/186-registration-pollution-mail-health.md",
+        "bytes": 2076,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/187-survey-batch-configuration-validation.md",
+        "bytes": 2111,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/188-dynamic-tariff-charging-window-review.md",
+        "bytes": 2235,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/189-article-narration-waveform-review.md",
+        "bytes": 2057,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/190-service-invoice-draft-reconciliation.md",
+        "bytes": 1892,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/191-podcast-segment-edit-listen-review.md",
+        "bytes": 1916,
+        "durationMs": 22
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/192-client-requirements-decision-clarification.md",
+        "bytes": 1856,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/193-deleted-conversation-readable-recovery.md",
+        "bytes": 2071,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/195-conversion-event-journey-timing-audit.md",
+        "bytes": 2288,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/196-private-game-session-log-validation.md",
+        "bytes": 2479,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/197-supplied-part-assembly-geometry-audit.md",
+        "bytes": 2151,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/198-prelab-document-gap-review.md",
+        "bytes": 2197,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/199-scheduled-score-stream-state-review.md",
+        "bytes": 1715,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/200-prior-statistical-analysis-rerun-comparison.md",
+        "bytes": 1686,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/201-damage-comparison-coverage-correction.md",
+        "bytes": 2267,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/204-reviewed-prototype-cms-rebuild.md",
+        "bytes": 1804,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/205-concept-origin-naming-chronology.md",
+        "bytes": 1970,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/206-own-account-transfer-reconciliation.md",
+        "bytes": 2456,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/207-trigger-gate-nonexecution-retrospective.md",
+        "bytes": 2216,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/208-portable-skill-binding-approval-check.md",
+        "bytes": 1862,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/209-spreadsheet-cross-app-formula-validation.md",
+        "bytes": 1871,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/210-astronomy-conditions-target-planning.md",
+        "bytes": 2197,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/211-versioned-procedure-role-handoff.md",
+        "bytes": 1954,
+        "durationMs": 33
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/212-public-dataset-field-update-proposals.md",
+        "bytes": 2090,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/213-storyboard-timed-effect-visual-review.md",
+        "bytes": 1969,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/214-release-artifact-runtime-identity-check.md",
+        "bytes": 2749,
+        "durationMs": 23
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/215-recipe-inbox-structured-collection.md",
+        "bytes": 2144,
+        "durationMs": 20
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/216-photo-shoot-selection-preset-handoff.md",
+        "bytes": 2037,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/217-hdl-build-functional-regression-gate.md",
+        "bytes": 1959,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/218-third-party-skill-install-trust-review.md",
+        "bytes": 2015,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/219-pdf-internal-navigation-bookmark-validation.md",
+        "bytes": 2299,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/220-used-product-recall-candidate-screening.md",
+        "bytes": 1834,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/221-human-signature-completed-copy-handoff.md",
+        "bytes": 1760,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/222-legacy-business-rule-test-oracle-review.md",
+        "bytes": 1871,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/223-household-solar-billing-period-reconciliation.md",
+        "bytes": 1805,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/224-multi-shadow-shared-geometry-inverse-design.md",
+        "bytes": 2085,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/225-receipt-transaction-evidence-matching.md",
+        "bytes": 2245,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/226-photo-wall-frame-print-fit.md",
+        "bytes": 2048,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/227-saved-map-places-list-maintenance.md",
+        "bytes": 2194,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/228-household-power-waveform-attribution.md",
+        "bytes": 2198,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/229-macos-distribution-signing-evidence.md",
+        "bytes": 2494,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/230-compensation-batch-human-review.md",
+        "bytes": 2492,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/231-multitrack-session-rough-mix-handoff.md",
+        "bytes": 2376,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/232-purchased-resource-delivery-reconciliation.md",
+        "bytes": 2200,
+        "durationMs": 19
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/233-recurring-revenue-discount-definition-review.md",
+        "bytes": 2115,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/234-proposal-attachment-consistency-send-gate.md",
+        "bytes": 2180,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/235-backtest-freeze-evidence-boundary-review.md",
+        "bytes": 4173,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/236-event-playback-state-restoration-prototype.md",
+        "bytes": 2329,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/237-sketch-part-step-manufacturing-handoff.md",
+        "bytes": 2121,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/238-release-channel-exposure-incident-review.md",
+        "bytes": 2368,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/239-wearable-conversation-delivery-state-validation.md",
+        "bytes": 4061,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/240-bilingual-controlled-vocabulary-export.md",
+        "bytes": 2600,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/241-community-participation-spam-review.md",
+        "bytes": 1989,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/242-aviation-bulletin-observation-brief-review.md",
+        "bytes": 2243,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/243-spoken-video-word-caption-delivery.md",
+        "bytes": 2097,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/244-navigation-file-repair-device-handoff.md",
+        "bytes": 2065,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/245-catalog-outfit-composition-provenance.md",
+        "bytes": 1995,
+        "durationMs": 10
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/246-membership-entitlement-consumption-order-diagnosis.md",
+        "bytes": 1868,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/247-parking-citation-payment-evidence-review.md",
+        "bytes": 2176,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/248-cross-agent-conversation-disclosure-boundary.md",
+        "bytes": 2019,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/249-eight-panel-zine-imposition-output.md",
+        "bytes": 2214,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/250-mail-migration-data-routing-cutover.md",
+        "bytes": 2411,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/251-orbital-snapshot-provenance-discrepancy-review.md",
+        "bytes": 2383,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/252-three-statement-scenario-board-pack.md",
+        "bytes": 2189,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/253-survey-ai-response-contamination-review.md",
+        "bytes": 1818,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/255-active-memory-version-consolidation-review.md",
+        "bytes": 1827,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/256-interactive-mystery-knowledge-unlock-audit.md",
+        "bytes": 2540,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/257-inbound-call-coverage-message-reconciliation.md",
+        "bytes": 2381,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/258-scan-reconstruction-scale-topology-audit.md",
+        "bytes": 2549,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/259-multistation-observation-control-robustness.md",
+        "bytes": 2605,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/260-vendor-master-gap-quotation-grouping.md",
+        "bytes": 2242,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/261-owned-model-image-anchor-display.md",
+        "bytes": 1875,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/262-animation-frame-pose-coverage-review.md",
+        "bytes": 2105,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/263-ledger-migration-trial-balance-reconciliation.md",
+        "bytes": 2211,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/264-generated-parcel-road-frontage-review.md",
+        "bytes": 2054,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/265-slide-grayscale-distinguishability-review.md",
+        "bytes": 2400,
+        "durationMs": 32
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/266-panel-moderation-timing-contingencies.md",
+        "bytes": 2413,
+        "durationMs": 37
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/267-nfc-points-redemption-ledger.md",
+        "bytes": 2394,
+        "durationMs": 36
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/268-agency-campaign-bundle-approval.md",
+        "bytes": 4741,
+        "durationMs": 36
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/269-single-vps-sysadmin-bot.md",
+        "bytes": 4067,
+        "durationMs": 36
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/270-subscription-replacement-blind-eval.md",
+        "bytes": 4109,
+        "durationMs": 35
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/271-layover-lounge-access-calendar.md",
+        "bytes": 2661,
+        "durationMs": 35
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/272-rain-only-umbrella-alert.md",
+        "bytes": 2832,
+        "durationMs": 34
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/273-overnight-coding-agent-relay.md",
+        "bytes": 4485,
+        "durationMs": 34
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/274-linkedin-connections-monthly-rolodex.md",
+        "bytes": 2765,
+        "durationMs": 34
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/275-personal-phone-ai-receptionist-anti-scam.md",
+        "bytes": 3302,
+        "durationMs": 34
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/276-staff-agent-portal-routing-failure.md",
+        "bytes": 2419,
+        "durationMs": 34
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/277-meeting-decision-change-audio-trace.md",
+        "bytes": 2331,
+        "durationMs": 33
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/278-machining-center-configuration-concept.md",
+        "bytes": 2511,
+        "durationMs": 34
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/279-airline-phone-rebook-identity-refusal.md",
+        "bytes": 2253,
+        "durationMs": 33
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/280-notion-daily-slack-dots-hours.md",
+        "bytes": 2403,
+        "durationMs": 23
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/281-grok-mockup-claude-worker-qa-pipeline.md",
+        "bytes": 2558,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/282-patient-portal-voice-to-message.md",
+        "bytes": 2340,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/283-dots-connected-apps-permission-pitfalls.md",
+        "bytes": 3980,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/284-delayed-baggage-status-expense-claim.md",
+        "bytes": 2225,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/285-x-voice-acting-audition-email-digest.md",
+        "bytes": 3076,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md",
+        "bytes": 2489,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/287-bot-site-review-analytics-signup-preview.md",
+        "bytes": 3372,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/288-phone-only-home-screen-daily-board.md",
+        "bytes": 2386,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/289-social-claim-evidence-triage.md",
+        "bytes": 1873,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/290-election-twice-daily-sourced-brief.md",
+        "bytes": 2559,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/291-provisional-match-time-calendar-correction.md",
+        "bytes": 2785,
+        "durationMs": 19
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/292-new-model-api-signup-topup-console.md",
+        "bytes": 3016,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/293-draft-ai-audit-ai-notion-audit-record.md",
+        "bytes": 2493,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/294-rare-collectible-multi-shop-hourly-watch.md",
+        "bytes": 2792,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/295-family-calendar-kitchen-display-voice-reminder.md",
+        "bytes": 2915,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/296-cross-vendor-device-display-bridge.md",
+        "bytes": 1892,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/297-knowledge-file-content-search-gap.md",
+        "bytes": 1745,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/298-commitment-lead-time-task-date-reconciliation.md",
+        "bytes": 1810,
+        "durationMs": 10
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/299-spoken-measurement-preliminary-drawing-handoff.md",
+        "bytes": 2086,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/300-service-eligibility-subsidy-application-packet.md",
+        "bytes": 1647,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/301-technician-chat-closeout-lead-register.md",
+        "bytes": 1799,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/302-labeled-inbox-classifier-optimization-cutover.md",
+        "bytes": 2087,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/303-overlooked-recall-notice-remedy-application.md",
+        "bytes": 1835,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/304-reviewed-scoped-lesson-recall.md",
+        "bytes": 2239,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/305-local-video-final-stage-deliverability-failure.md",
+        "bytes": 2218,
+        "durationMs": 19
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/306-stock-image-batch-metadata-submission.md",
+        "bytes": 2046,
+        "durationMs": 19
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/307-cloud-file-upload-byte-integrity-failure.md",
+        "bytes": 2090,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/308-personal-clinical-trial-daily-watch.md",
+        "bytes": 3244,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/309-product-trial-campaign-daily-auto-apply.md",
+        "bytes": 3033,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/310-agent-run-mistake-attribution-dashboard.md",
+        "bytes": 3202,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/311-new-model-prompt-batch-demo-gallery.md",
+        "bytes": 2976,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/312-ambient-media-false-task-creation.md",
+        "bytes": 1907,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/313-external-action-assignee-handoff-race.md",
+        "bytes": 2366,
+        "durationMs": 16
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/314-agent-sandbox-always-on-service-failure.md",
+        "bytes": 3887,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/315-work-personal-agents-tax-document-cpa-handoff.md",
+        "bytes": 3107,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/316-slack-thread-triage-repro-bot-bug-fix.md",
+        "bytes": 4531,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/317-nightly-explorer-builder-critic-prototype.md",
+        "bytes": 4669,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/318-approved-account-form-shopify-customer-flow.md",
+        "bytes": 3073,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/319-home-photo-item-inventory-claim-handoff.md",
+        "bytes": 2470,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/320-bidirectional-reminder-state-sync.md",
+        "bytes": 2411,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/321-expert-corpus-interactive-decision-tool.md",
+        "bytes": 2628,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/322-creator-metrics-zero-token-daily-collection.md",
+        "bytes": 4898,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/323-daily-ai-news-one-tap-feedback-preference-loop.md",
+        "bytes": 3782,
+        "durationMs": 10
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/324-daily-outage-digest-verified-incident-db-pr.md",
+        "bytes": 4519,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/325-nightly-voice-diary-prompt-confirm-sync.md",
+        "bytes": 3220,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/326-order-history-owned-items-sale-picks.md",
+        "bytes": 2823,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/327-cad-material-library-property-population.md",
+        "bytes": 2383,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/328-paid-data-call-quote-variance-gate.md",
+        "bytes": 2498,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/329-durable-agent-chain-restart-recovery.md",
+        "bytes": 3085,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/330-unsupported-home-device-commissioning-validation.md",
+        "bytes": 2883,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/331-undelivered-purchase-carrier-merchant-refund-chase.md",
+        "bytes": 2245,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/332-x-ops-semiauto-prepost-human-approval.md",
+        "bytes": 2659,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/333-notion-cross-agent-outreach-memory.md",
+        "bytes": 2098,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/334-sdr-adsb-receiver-decoder-range-ab-test.md",
+        "bytes": 4045,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/335-manual-routine-reenable-reverted-by-stale-instruction.md",
+        "bytes": 3113,
+        "durationMs": 13
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/336-handheld-voice-terminal-mcp-relay.md",
+        "bytes": 3430,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/337-daily-random-reference-photo-likeness-edit.md",
+        "bytes": 3410,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/338-driver-daily-hours-log-paycheck-check.md",
+        "bytes": 3099,
+        "durationMs": 12
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/339-stale-cross-product-request-provenance.md",
+        "bytes": 2474,
+        "durationMs": 11
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/340-tool-response-evidence-capture-acceptance.md",
+        "bytes": 2569,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/cases/341-archived-task-runtime-state-reconciliation.md",
+        "bytes": 2269,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/evidence/008-morning-brief-validation.md",
+        "bytes": 1982,
+        "durationMs": 14
+      },
+      {
+        "path": "/ai-agent-use-cases/evidence/009-background-transfer-template.md",
+        "bytes": 3582,
+        "durationMs": 17
+      },
+      {
+        "path": "/ai-agent-use-cases/evidence/013-authentication-diagnosis.md",
+        "bytes": 1378,
+        "durationMs": 15
+      },
+      {
+        "path": "/ai-agent-use-cases/sources/pending.md",
+        "bytes": 1810,
+        "durationMs": 15
+      }
+    ],
+    "requests": 345,
+    "markdownRequests": 337,
+    "axeViolations": [],
+    "errors": [],
+    "journeys": [
+      "travel + scenario + tool + keyboard return",
+      "empty + reset",
+      "failure report direct link + reload + source"
+    ]
+  }
+]

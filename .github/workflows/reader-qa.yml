@@ -1,0 +1,54 @@
+name: Reader QA
+on:
+  push:
+    branches: [feat/reader-navigation, main]
+    paths: [assets/reader.js, assets/reader.css, assets/app.js, index.html, tests/reader-*.cjs, .github/workflows/reader-qa.yml]
+  pull_request:
+    paths: [assets/reader.js, assets/reader.css, tests/reader-*.cjs, .github/workflows/reader-qa.yml]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install cloud-only browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/reader-tools" playwright@1.56.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/reader-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Existing tests and syntax
+        run: |
+          node --test tests/*.test.cjs
+          node --check assets/app.js
+      - name: Observe published baseline
+        env:
+          NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
+        run: node tests/reader-baseline.cjs
+      - name: Verify reader preview
+        if: ${{ hashFiles('tests/reader-browser.cjs') != '' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
+        run: |
+          python3 scripts/preview.py "$RUNNER_TEMP/reader-preview/ai-agent-use-cases"
+          python3 -m http.server 8082 --directory "$RUNNER_TEMP/reader-preview" > /tmp/reader-preview.log 2>&1 &
+          node tests/reader-browser.cjs
+      - name: Verify published reader
+        if: ${{ github.ref == 'refs/heads/main' && hashFiles('tests/reader-browser.cjs') != '' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
+          READER_URL: https://richardhan.github.io/ai-agent-use-cases/
+          READER_DEPLOYED: '1'
+        run: node tests/reader-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reader-qa-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

@@ -4,6 +4,7 @@ const REPO = 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/';
 const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
 let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {};
+let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
@@ -19,7 +20,7 @@ function metadata(markdown, path, kind, suffix='') {
   const summary = clean(lead.match(/^-\s*(?:核心目標|問題|目標|已知標題|狀態)\s*[：:]\s*(.+)$/m)?.[1] || lead.split('\n').find(line => line.trim() && !/^#|^-/.test(line)) || '閱讀公開來源、建議流程與驗收限制。');
   let category = clean(lead.match(/^-\s*分類(?:／標籤)?\s*[：:]\s*(.+)$/m)?.[1] || '');
   if (!category) category = /旅遊|旅行/.test(heading) ? '旅遊／消費研究' : /OLED|裝置/.test(heading) ? '實體裝置／驗收' : /銷售|商機|商店|SaaS|帳單/.test(heading) ? '商業／營運' : /研究|PR|CUA/.test(heading) ? '研究／開發' : /影片|社群|Facebook|CRM/.test(heading) ? '內容／社群' : '個人生產力';
-  let scenario = clean(lead.match(/^-\s*情境\s*[：:]\s*(.+)$/m)?.[1] || '');
+  let scenario = Discovery.scenarioOf(markdown) || clean(lead.match(/^-\s*情境\s*[：:]\s*(.+)$/m)?.[1] || '');
   if (!scenario) {
     if (/旅遊|旅行|消費/.test(heading + category)) scenario = '生活';
     else if (/銷售|商機|商店|SaaS|帳單|商業|營運/.test(heading + category)) scenario = '工作';
@@ -94,7 +95,10 @@ function navStep(delta) {
 }
 function showDetail(item, trigger, updateURL=true) {
   if (!item) return;
-  lastTrigger = trigger || lastTrigger;
+  if(trigger){
+    lastTrigger=trigger;
+    lastTriggerContext={id:item.id,area:trigger.closest('#drawn-case')?'drawn-case':'results',read:!!trigger.closest('.card-bottom')};
+  }
   currentDetailItem = item;
   const toolbarId = $('detail-toolbar-id');
   if (toolbarId) toolbarId.textContent = item.id;
@@ -118,27 +122,20 @@ function showDetail(item, trigger, updateURL=true) {
   const copyBtn = el('button', 'btn-copy-link', '📋 複製案例連結');
   copyBtn.type = 'button';
   copyBtn.id = 'copy-case-link';
-  copyBtn.addEventListener('click', () => {
-    const url = new URL(location.href);
-    url.searchParams.set('case', item.id);
-    const markDone = () => {
-      copyBtn.textContent = '✓ 已複製！';
-      setTimeout(() => { copyBtn.textContent = '📋 複製案例連結'; }, 2000);
-    };
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(url.href).then(markDone).catch(() => {
-        try {
-          const t = document.createElement('textarea');
-          t.value = url.href;
-          document.body.append(t);
-          t.select();
-          document.execCommand('copy');
-          t.remove();
-          markDone();
-        } catch { markDone(); }
-      });
-    } else {
-      markDone();
+  copyBtn.addEventListener('click', async () => {
+    const url=new URL(location.href);url.searchParams.set('case',item.id);
+    try{
+      if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(url.href);
+      copyBtn.textContent='✓ 已複製！';
+      setTimeout(()=>{copyBtn.textContent='📋 複製案例連結';},2000);
+    }catch{
+      let manual=actionRow.querySelector('.manual-share-link');
+      if(!manual){
+        manual=el('input','manual-share-link');manual.type='text';manual.readOnly=true;
+        manual.setAttribute('aria-label','案例分享網址，請手動複製');actionRow.append(manual);
+      }
+      manual.value=url.href;copyBtn.textContent='請手動複製下方連結';manual.focus();manual.select();
     }
   });
   const source = el('a', 'detail-source', '查看 Markdown 原文 ↗');
@@ -177,16 +174,25 @@ function showDetail(item, trigger, updateURL=true) {
     history.pushState(null, '', url);
   }
 }
+function restoreDetailFocus(){
+  if(lastTrigger?.isConnected){lastTrigger.focus({preventScroll:true});return;}
+  if(lastTriggerContext){
+    const node=[...$(lastTriggerContext.area).querySelectorAll('.card')].find(card=>card.dataset.caseId===lastTriggerContext.id);
+    const trigger=node?.querySelector(lastTriggerContext.read?'.card-bottom button':'h3 button');
+    if(trigger){lastTrigger=trigger;trigger.focus({preventScroll:true});return;}
+  }
+  ($('draw-case').disabled?$('query'):$('draw-case')).focus({preventScroll:true});
+}
 function closeDetail() {
   if ($('detail').open) $('detail').close();
   const url = new URL(location.href);
   url.searchParams.delete('case');
   history.replaceState(null, '', url);
-  lastTrigger?.focus();
+  restoreDetailFocus();
 }
 function card(item) {
   const node = el('article', 'card');
-  node.dataset.kind = item.kind;
+  node.dataset.kind = item.kind;node.dataset.caseId=item.id;
   const top = el('div', 'card-top');
   const topInfo = el('span', 'card-id-tool', item.id + (item.tools.length ? ' · ' + item.tools.slice(0, 2).join(' / ') : ''));
   const kindBadge = el('span', 'kind', KIND[item.kind]);
@@ -238,11 +244,12 @@ function filterEntries(items, terms, filters) {
   return items.filter(item => terms.every(term => termVariants(term).some(v => item.search.includes(v))) && (!filters.kind || item.kind === filters.kind) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
 }
 function render(updateURL=true) {
+  $('scenario').value=activeScenario;
   const q = tokenize($('query').value);
   const filters = Object.fromEntries(['kind', 'tool', 'category', 'proof'].map(id => [id, $(id).value]));
   if (activeScenario) filters.scenario = activeScenario;
   currentFiltered = filterEntries(entries, q, filters);
-  $('results').replaceChildren(...currentFiltered.map(card));
+  $('results').replaceChildren(...currentFiltered.map(card));syncDiscovery(currentFiltered);
   $('empty').hidden = !!currentFiltered.length;
   $('results-count').textContent = `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄`;
 
@@ -283,6 +290,7 @@ function populate(id, values) {
   });
 }
 async function load() {
+  discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('discover').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
   $('error').hidden = true;
   $('empty').hidden = true;
   $('results-count').textContent = '正在讀取案例…';
@@ -312,10 +320,12 @@ async function load() {
       const value = params.get(id === 'query' ? 'q' : id) || '';
       if (id === 'query' || [...$(id).options].some(o => o.value === value)) $(id).value = value;
     });
+    discoveryReady=true;$('guide-options').disabled=false;$('discover').setAttribute('aria-busy','false');
     render(false);
     const current = matchCase(params.get('case'));
     if (current) showDetail(current, null, false);
   } catch (error) {
+    discoveryReady=false;$('discover').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();
     $('results-count').textContent = '載入未完成';
     $('error-message').textContent = '請稍後重試，或先閱讀 GitHub 原始資料。';
@@ -323,6 +333,44 @@ async function load() {
     console.error(error);
   }
 }
+function drawNext(){
+  if(!discoveryReady||!discoveryDeck)return;
+  const next=discoveryDeck.next();
+  if(!next)return;
+  $('drawn-case').replaceChildren(card(next.item));
+  const scope=$('scenario').value||'全部情境';
+  $('draw-status').textContent=scope+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
+  $('draw-case').textContent=next.total===1?'只有這一張，重新看看':'再抽一張 ↻';
+}
+function syncDiscovery(filtered){
+  document.querySelectorAll('[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
+  if(!discoveryReady)return;
+  const pool=Discovery.discoveryPool(filtered);
+  const key=$('scenario').value+'|'+pool.map(item=>item.id).join(',');
+  if(key===discoveryKey)return;
+  discoveryKey=key;discoveryDeck=Discovery.createDeck(pool);
+  $('draw-case').disabled=!pool.length;
+  if(pool.length)drawNext();
+  else{
+    $('drawn-case').replaceChildren(el('p','draw-placeholder','試試其他情境，或在下方調整篩選。待查線索與模板補充保留在搜尋結果中。'));
+    $('draw-status').textContent='這組條件目前沒有可抽的案例卡。';
+    $('draw-case').textContent='沒有可抽的案例';
+  }
+}
+function revealDiscovery(){
+  if(!window.matchMedia('(max-width:760px)').matches)return;
+  const rect=$('discover').getBoundingClientRect();
+  if(rect.top<0||rect.bottom>window.innerHeight)$('discover').scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+}
+function chooseScenario(value){
+  ['query','scenario','kind','tool','category','proof'].forEach(id=>$(id).value='');
+  activeScenario=value;render();revealDiscovery();
+}
+
+/* Browser event bindings. */
+$('draw-case').addEventListener('click',()=>{drawNext();revealDiscovery();});
+document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
+$('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;render();});
 $('filters').addEventListener('submit', e => e.preventDefault());
 $('query').addEventListener('input', () => render());
 ['kind', 'tool', 'category', 'proof'].forEach(id => $(id).addEventListener('change', () => render()));
@@ -366,9 +414,11 @@ window.addEventListener('popstate', () => {
   const params = new URLSearchParams(location.search);
   const id = params.get('case');
   const item = matchCase(id);
-  if (item) showDetail(item, null, false); else if ($('detail').open) $('detail').close();
+  const wasOpen=$('detail').open;
+  if (item) showDetail(item, null, false); else if (wasOpen) $('detail').close();
   activeScenario = params.get('scenario') || '';
   ['query', 'kind', 'tool', 'category', 'proof'].forEach(key => $(key).value = params.get(key === 'query' ? 'q' : key) || '');
   render(false);
+  if(wasOpen&&!item)restoreDetailFocus();
 });
 load();

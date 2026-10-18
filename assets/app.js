@@ -10,7 +10,7 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s+orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
+const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s+orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
   ['agent', 'agents', '智能體', '智能体', '代理'],
   ['每日報表', '每日報告', '日報', '晨報', 'daily'],
@@ -28,14 +28,14 @@ const SYNONYM_GROUPS = [
   ['待辦', '代辦', 'todo', 'todos', 'todoist', 'task', 'tasks'],
   ['報帳', '核銷', '對帳', '核帳', '報銷', 'reconciliation', 'reconcile', 'reconciling', 'reimbursement'],
   ['發票', '收據', '憑證', 'invoice', 'invoices', 'receipt', 'receipts'],
-  ['debug', 'debugging', '除錯', '排錯', '修復', 'bug', '故障', '排障', 'troubleshoot', 'troubleshooting'],
-  ['workflow', '工作流', '自動化', 'automation', 'automate', 'automations', '排程', '定時', 'cron', 'schedule', 'schedules', 'scheduling', '排班', '流水線', 'pipeline', 'pipelines'],
+  ['debug', 'debugging', '除錯', '排錯', '修復', 'bug', 'bugs', '故障', '排障', 'troubleshoot', 'troubleshooting', 'fault', 'faults'],
+  ['workflow', '工作流', '自動化', 'automation', 'automate', 'automations', '排程', '定時', 'cron', 'schedule', 'schedules', 'scheduling', '排班', '流水線', '管線', 'pipeline', 'pipelines'],
   ['求職', '履歷', '面試', '招聘', '招募', 'cv', 'resume', 'job', 'hiring', 'interview'],
   ['email', '郵件', '信件', '信箱', '收件匣', '收件箱', 'inbox'],
   ['代碼', '程式碼', '程式', 'code'],
   ['ticket', 'tickets', '工單', 'workorder', '客服', 'support', '客訴', '投訴'],
   ['飯店', '旅館', '住宿', 'hotel'],
-  ['多代理', 'multi-agent', '跨代理', '代理協作'],
+  ['多代理', 'multi-agent', '跨代理', '代理協作', 'cross-agent'],
   ['備份', 'backup', 'backups', '還原', '復原', 'restore', '回滾', 'rollback', 'rollbacks', 'revert', 'reverting', '回退'],
   ['監看', '監控', '監測', '巡檢', 'monitor', 'monitoring'],
   ['週報', 'weekly', '每週報告', '週報表'],
@@ -163,7 +163,23 @@ const SYNONYM_GROUPS = [
   ['助手', 'assistant', 'copilot'],
   ['生命週期', 'lifecycle'],
   ['冪等', '冪等性', 'idempotent', 'idempotency'],
-  ['環境變數', '環境變量', 'env']
+  ['環境變數', '環境變量', 'env'],
+  ['封存', '歸檔', 'archive', 'archives', 'archived', 'archiving'],
+  ['失敗', 'failure', 'failures', 'fail', 'fails'],
+  ['回應', '響應', 'response', 'responses'],
+  ['請求', 'request', 'requests'],
+  ['會話', '交談', '對話', 'session', 'sessions', 'conversation', 'conversations'],
+  ['bot', 'bots', '機器人'],
+  ['路由', 'routing', 'route', 'routes'],
+  ['產物', '成果', '成品', 'artifact', 'artifacts'],
+  ['參數', 'parameter', 'parameters', 'params'],
+  ['標頭', 'header', 'headers'],
+  ['負載', '有效負載', 'payload', 'payloads'],
+  ['出處', '溯源', 'provenance', '來源'],
+  ['工作者', 'worker', 'workers'],
+  ['schema', 'schemas', '綱要', '架構規範'],
+  ['cookie', 'cookies'],
+  ['heartbeat', 'heartbeats', '心跳']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

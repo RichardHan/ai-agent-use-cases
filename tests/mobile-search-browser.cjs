@@ -92,6 +92,7 @@ module.exports=async function mobileSearch({browser,origin,prefix='mobile-search
   await page.locator('#kind').selectOption('pending');
   assert((await page.locator('#results .card').count())>0);
   assert.match(await page.locator('#filter-count').innerText(),/1/);
+  assert.equal(await page.locator('.chip[data-query="收件匣"]').evaluate(n=>getComputedStyle(n).transitionDuration),'0s','Reduced motion must not animate chip state colors');
   const openAudit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
   assert.deepEqual(openAudit.violations,[]);
   await page.locator('#filter-summary').click();

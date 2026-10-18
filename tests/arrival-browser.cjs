@@ -120,6 +120,25 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
  await page.addStyleTag({content:'html,body{overflow-anchor:none!important}'});
  await page.locator('#query').focus();await page.keyboard.press('Tab');
  const focus=await page.evaluate(()=>document.activeElement.id);
+ // Firefox may finish native keyboard-focus scrolling after keyup. Establish
+ // a stable starting point before simulating the reader's one manual scroll.
+ // The exact pre/post-load 100px assertions below must remain unchanged.
+ await page.evaluate(async expected=>{
+  const deadline=performance.now()+5000;
+  let previous='',stableSince=performance.now();
+  while(performance.now()<deadline){
+   await new Promise(requestAnimationFrame);
+   const node=document.activeElement;
+   if(node.id!==expected)throw Error('Keyboard focus changed before manual scroll');
+   const rect=node.getBoundingClientRect(),visible=rect.top>=0&&rect.bottom<=innerHeight;
+   const sample=JSON.stringify([scrollX,scrollY,rect.top,rect.bottom,document.documentElement.scrollHeight]);
+   const now=performance.now();
+   if(!visible||sample!==previous)stableSince=now;
+   previous=sample;
+   if(visible&&now-stableSince>=200)return;
+  }
+  throw Error('Keyboard focus scrolling did not settle before manual scroll');
+ },focus);
  await page.evaluate(()=>scrollTo({top:100,behavior:'instant'}));
  assert.equal(await page.evaluate(()=>scrollY),100);
  releaseCatalog();

@@ -1,7 +1,7 @@
 name: Reader QA
 on:
   push:
-    branches: [main]
+    branches: [feat/reader-navigation, main]
     paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, .github/workflows/reader-qa.yml]
   pull_request:
     paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, .github/workflows/reader-qa.yml]
@@ -46,6 +46,12 @@ jobs:
           python3 scripts/preview.py "$RUNNER_TEMP/reader-preview/ai-agent-use-cases"
           python3 -m http.server 8082 --directory "$RUNNER_TEMP/reader-preview" > /tmp/reader-preview.log 2>&1 &
           node tests/reader-browser.cjs
+      - name: Diagnose a WebKit failure against the baseline
+        if: ${{ failure() && github.ref != 'refs/heads/main' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
+          DEBUG: pw:browser
+        run: node tests/reader-webkit-diagnostic.cjs
       - name: Verify published reader
         if: ${{ github.ref == 'refs/heads/main' && hashFiles('tests/reader-browser.cjs') != '' }}
         env:

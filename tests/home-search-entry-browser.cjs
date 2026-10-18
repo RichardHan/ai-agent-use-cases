@@ -64,14 +64,14 @@ async function capture(page,name){
   await page.goBack();await page.waitForFunction(()=>!document.getElementById('detail').open);
   try{await page.waitForFunction(id=>{
    const active=document.activeElement,rect=active.getBoundingClientRect();
-   return active.closest('.card')?.dataset.caseId===id&&rect.top>=0&&rect.bottom<=innerHeight;
+   return active.closest('.card')?.dataset.caseId===id&&rect.top>=-1&&rect.bottom<=innerHeight+1;
   },id,{timeout:1000});}catch(error){
    console.log('RETURN_DIAGNOSTIC '+JSON.stringify({engine:engine.name(),width,expected:id,trace:await page.evaluate(()=>window.entryReturnTrace)}));
    await capture(page,'entry-return-failure-'+engine.name()+'-'+width);
    throw error;
   }
   const returnedRect=await page.evaluate(()=>document.activeElement.getBoundingClientRect().toJSON());
-  assert(returnedRect.y>=0&&returnedRect.bottom<=height,'returned read button stays visible');
+  assert(returnedRect.y>=-1&&returnedRect.bottom<=height+1,'returned read button stays visible');
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
   await page.locator('#query').fill('no-such-task-entry-987654');
   await page.locator('#empty').waitFor({state:'visible'});

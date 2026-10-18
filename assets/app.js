@@ -7,10 +7,10 @@ let entries = [], lastTrigger = null, displayCopy = {};
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().split(/[\s,、，/／]+/).filter(Boolean);
+const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').split(/[\s,、，/／]+/).filter(Boolean);
 function idVariants(id) { const normId = id.toUpperCase(); const unhyphenated = normId.replace(/[-_]/g, ''); return normId !== unhyphenated ? `${normId} ${unhyphenated}` : normId; }
-function termVariants(term) { const t = norm(term); const m = t.match(/^([a-z]+)-?(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } return [t]; }
-const matchCase = (target, list = entries) => { if (!target) return null; const variants = termVariants(target); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
+function termVariants(term) { const t = norm(term).replace(/^#/, ''); const m = t.match(/^([a-z]+)[\s-]*(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } return [t]; }
+const matchCase = (target, list = entries) => { if (!target) return null; const t = norm(target).trim().replace(/^#/, ''); const m = t.match(/^(?:([a-z]+)[\s-]*)?(\d+)$/); const variants = m && (!m[1] || m[1] === 'uc' || m[1] === 'p') ? [`${m[1] || 'uc'}-${m[2].padStart(3, '0')}`, `${m[1] || 'uc'}${m[2].padStart(3, '0')}`] : termVariants(t); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);
   const id = title.match(/(?:UC|P)-\d+/)?.[0] || path.split('/').pop().replace(/\.md$/,'') + suffix;

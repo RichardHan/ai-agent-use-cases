@@ -1007,6 +1007,77 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('cross-agent')), {}).s
 assert(api.filterEntries(entries, Array.from(api.tokenize('life cycle')), {}).some(x => x.id === 'UC-341'), 'life cycle matches UC-341 via lifecycle normalization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('heart beat')), {}).some(x => x.id === 'UC-049'), 'heart beat matches UC-049 via heartbeat normalization');
 
+// Search quality: screenshot, screenshots, screen shot, screen shots, 截圖
+assert(api.filterEntries(entries, Array.from(api.tokenize('screenshot')), {}).some(x => x.id === 'UC-335'), 'screenshot matches UC-335 via 截圖 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('screenshots')), {}).some(x => x.id === 'UC-335'), 'screenshots matches UC-335 via 截圖 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('screen shot')), {}).some(x => x.id === 'UC-335'), 'screen shot matches UC-335 via tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('screen shots')), {}).some(x => x.id === 'UC-335'), 'screen shots matches UC-335 via tokenization');
+
+// Search quality: routine, routines, 例行任務
+assert(api.filterEntries(entries, Array.from(api.tokenize('routine')), {}).some(x => x.id === 'UC-335'), 'routine matches UC-335');
+assert(api.filterEntries(entries, Array.from(api.tokenize('routines')), {}).some(x => x.id === 'UC-335'), 'routines matches UC-335');
+assert(api.filterEntries(entries, Array.from(api.tokenize('例行任務')), {}).some(x => x.id === 'UC-041'), '例行任務 matches UC-041 via routine synonym');
+
+// Search quality: manual, manually, 手動
+assert(api.filterEntries(entries, Array.from(api.tokenize('manual')), {}).some(x => x.id === 'UC-335'), 'manual matches UC-335 via 手動 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('manually')), {}).some(x => x.id === 'UC-335'), 'manually matches UC-335 via 手動 synonym');
+
+// Search quality: stale, 過期, 過時, 失效
+assert(api.filterEntries(entries, Array.from(api.tokenize('stale')), {}).some(x => x.id === 'UC-335'), 'stale matches UC-335 via 過時 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('過期')), {}).some(x => x.id === 'UC-339'), '過期 matches UC-339 via stale synonym');
+
+// Search quality: runtime, runtimes, run time, 運行時, 執行期
+assert(api.filterEntries(entries, Array.from(api.tokenize('runtime')), {}).some(x => x.id === 'UC-304'), 'runtime matches UC-304 via 執行期 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('runtimes')), {}).some(x => x.id === 'UC-304'), 'runtimes matches UC-304 via 執行期 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('運行時')), {}).some(x => x.id === 'UC-214'), '運行時 matches UC-214 via runtime synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('run time')), {}).some(x => x.id === 'UC-304'), 'run time matches UC-304 via tokenization');
+
+// Search quality: timesheet, timesheets, time sheet, 工時
+assert(api.filterEntries(entries, Array.from(api.tokenize('timesheet')), {}).some(x => x.id === 'UC-338'), 'timesheet matches UC-338 via 工時 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('timesheets')), {}).some(x => x.id === 'UC-338'), 'timesheets matches UC-338 via 工時 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('time sheet')), {}).some(x => x.id === 'UC-338'), 'time sheet matches UC-338 via tokenization');
+
+// Search quality: paycheck, paychecks, pay check, 薪資單, 工資
+assert(api.filterEntries(entries, Array.from(api.tokenize('paycheck')), {}).some(x => x.id === 'UC-338'), 'paycheck matches UC-338 via 薪資 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('paychecks')), {}).some(x => x.id === 'UC-338'), 'paychecks matches UC-338 via 薪資 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('pay check')), {}).some(x => x.id === 'UC-338'), 'pay check matches UC-338 via tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('薪資單')), {}).some(x => x.id === 'UC-024'), '薪資單 matches UC-024 via 薪資 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('工資')), {}).some(x => x.id === 'UC-338'), '工資 matches UC-338 via 薪資 synonym');
+
+// Search quality: tunnel, tunnels, 隧道, 通道
+assert(api.filterEntries(entries, Array.from(api.tokenize('tunnel')), {}).some(x => x.id === 'UC-336'), 'tunnel matches UC-336');
+assert(api.filterEntries(entries, Array.from(api.tokenize('tunnels')), {}).some(x => x.id === 'UC-336'), 'tunnels matches UC-336 via tunnel synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('隧道')), {}).some(x => x.id === 'UC-336'), '隧道 matches UC-336 via tunnel synonym');
+
+// Search quality: relay, relays, 中繼, 轉發
+assert(api.filterEntries(entries, Array.from(api.tokenize('relay')), {}).some(x => x.id === 'UC-336'), 'relay matches UC-336 via 中繼 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('relays')), {}).some(x => x.id === 'UC-336'), 'relays matches UC-336 via 中繼 synonym');
+
+// Search quality: override, overrides, 覆寫, 覆蓋
+assert(api.filterEntries(entries, Array.from(api.tokenize('override')), {}).some(x => x.id === 'UC-335'), 'override matches UC-335 via 覆蓋 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('overrides')), {}).some(x => x.id === 'UC-335'), 'overrides matches UC-335 via 覆蓋 synonym');
+
+// Search quality: portrait, portraits, 肖像, 似顏繪, likeness
+assert(api.filterEntries(entries, Array.from(api.tokenize('portrait')), {}).some(x => x.id === 'UC-337'), 'portrait matches UC-337 via 肖像 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('portraits')), {}).some(x => x.id === 'UC-337'), 'portraits matches UC-337 via 肖像 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('似顏繪')), {}).some(x => x.id === 'UC-337'), '似顏繪 matches UC-337 via 肖像 synonym');
+
+// Search quality: radio, radios, 無線電, 軟體無線電, sdr
+assert(api.filterEntries(entries, Array.from(api.tokenize('radio')), {}).some(x => x.id === 'UC-334'), 'radio matches UC-334 via 無線電 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('radios')), {}).some(x => x.id === 'UC-334'), 'radios matches UC-334 via 無線電 synonym');
+
+// Search quality: filter, filters, 濾波器
+assert(api.filterEntries(entries, Array.from(api.tokenize('filter')), {}).some(x => x.id === 'UC-334'), 'filter matches UC-334 via 濾波器 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('filters')), {}).some(x => x.id === 'UC-334'), 'filters matches UC-334 via 濾波器 synonym');
+
+// Search quality: amplifier, amplifiers, 放大器
+assert(api.filterEntries(entries, Array.from(api.tokenize('amplifier')), {}).some(x => x.id === 'UC-334'), 'amplifier matches UC-334 via 放大器 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('amplifiers')), {}).some(x => x.id === 'UC-334'), 'amplifiers matches UC-334 via 放大器 synonym');
+
+// Search quality: antenna, antennas, 天線
+assert(api.filterEntries(entries, Array.from(api.tokenize('antenna')), {}).some(x => x.id === 'UC-334'), 'antenna matches UC-334 via 天線 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('antennas')), {}).some(x => x.id === 'UC-334'), 'antennas matches UC-334 via 天線 synonym');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

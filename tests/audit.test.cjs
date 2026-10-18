@@ -124,10 +124,16 @@ test('all cases, evidence files, and pending leads contain verified external sou
         suspiciousPlaceholders.push({ file: `${dir}/${file}`, url });
       }
     }
+
+    // Ensure raw URLs in markdown are properly bracketed and do not attach unclosed fullwidth closing punctuation
+    const unbracketedPunctuationUrls = content.match(/https?:\/\/[^\s)\]\"'<>]+[）〕』]/g) || [];
+    for (const rawUrl of unbracketedPunctuationUrls) {
+      suspiciousPlaceholders.push({ file: `${dir}/${file}`, url: rawUrl, reason: 'leaked trailing fullwidth punctuation' });
+    }
   }
 
   assert.deepEqual(missingExternalSource, [], `Files missing external source: ${missingExternalSource.join(', ')}`);
-  assert.deepEqual(suspiciousPlaceholders, [], `Files with placeholder URLs: ${JSON.stringify(suspiciousPlaceholders)}`);
+  assert.deepEqual(suspiciousPlaceholders, [], `Files with placeholder or malformed URLs: ${JSON.stringify(suspiciousPlaceholders)}`);
 });
 
 test('candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus', () => {

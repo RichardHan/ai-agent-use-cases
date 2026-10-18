@@ -75,7 +75,7 @@
   自述收藏很多卻記不住，建 Grok Bot「X Bookmarks」每 6 小時抓書籤、自動分類進 Notion 資料庫；附圖可見（本庫已下載核對畫面存在，未逐列核資料庫內容）。
 - v2：2026-10-13T15:23:15Z；https://x.com/jestonlu/status/2110028601554845836  
   新增每 24 小時寄一封整理信，三塊固定欄位：Connection（找 2–4 則不同話題但底層共通的收藏）、Use Today（今天工作用得上的一則）、Worth Remembering（至少一週前、可能已忘、並解釋為何仍重要）。作者概括為 Passive → active retrieval。
-- 發現線索：@Orderly_Milan 2026-10-18 轉述（https://x.com/Orderly_Milan/status/2111740484875960729），以原帖為準。
+- 發現線索：@Orderly_Milan 2026-10-18 轉述（[貼文](https://x.com/Orderly_Milan/status/2111740484875960729)），以原帖為準。
 - 證據：`author-demo`（自述＋截圖）；郵件實收、分類正確率、X API 用量未核。與 S-046F 同屬「書籤→Notion」，本案多「定時主動提取郵件」一層，故併入本頁不另開。
 
 ## 建議操作流程（本庫設計，未實跑）

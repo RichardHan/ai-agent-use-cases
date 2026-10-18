@@ -52,11 +52,24 @@ async function capture(page,name){
   await read.click();await page.locator('#detail[open]').waitFor();
   await page.locator('.research-details summary').click();
   assert.match(await page.locator('.markdown a[href^="https:"]').first().getAttribute('href'),/^https:/);
+  await page.evaluate(()=>{
+   window.entryReturnTrace=[];
+   const sample=label=>{
+    const active=document.activeElement;
+    const target=document.querySelector('#results .card .card-bottom button');
+    window.entryReturnTrace.push({label,time:performance.now(),scrollY,url:location.href,history:history.state,focus:{tag:active.tagName,id:active.id,card:active.closest('.card')?.dataset.caseId,rect:active.getBoundingClientRect().toJSON()},target:target?.getBoundingClientRect().toJSON(),open:document.getElementById('detail').open});
+   };
+   addEventListener('popstate',()=>{sample('popstate');[0,50,100,200,400,800].forEach(delay=>setTimeout(()=>sample('after-'+delay),delay));},{once:true});
+  });
   await page.goBack();await page.waitForFunction(()=>!document.getElementById('detail').open);
-  await page.waitForFunction(id=>{
+  try{await page.waitForFunction(id=>{
    const active=document.activeElement,rect=active.getBoundingClientRect();
    return active.closest('.card')?.dataset.caseId===id&&rect.top>=0&&rect.bottom<=innerHeight;
-  },id,{timeout:1000});
+  },id,{timeout:1000});}catch(error){
+   console.log('RETURN_DIAGNOSTIC '+JSON.stringify({engine:engine.name(),width,expected:id,trace:await page.evaluate(()=>window.entryReturnTrace)}));
+   await capture(page,'entry-return-failure-'+engine.name()+'-'+width);
+   throw error;
+  }
   const returnedRect=await page.evaluate(()=>document.activeElement.getBoundingClientRect().toJSON());
   assert(returnedRect.y>=0&&returnedRect.bottom<=height,'returned read button stays visible');
   assert.equal(await page.locator('#query').inputValue(),'旅遊');

@@ -193,6 +193,18 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('面試')), {}).some(x
 assert(api.filterEntries(entries, Array.from(api.tokenize('resume')), {}).some(x => x.id === 'UC-035'), 'resume matches UC-035 via 求職/履歷 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('email')), {}).some(x => x.id === 'UC-049'), 'email matches UC-049 via 郵件/信箱 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('代碼')), {}).some(x => x.id === 'UC-005'), '代碼 matches UC-005 via 程式碼/程式 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('ticket')), {}).some(x => x.id === 'UC-164'), 'ticket matches UC-164 via 工單 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('飯店')), {}).some(x => x.id === 'UC-151'), '飯店 matches UC-151 via 住宿/旅遊 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('hotel')), {}).some(x => x.id === 'UC-151'), 'hotel matches UC-151 via 住宿/旅遊 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('multi-agent')), {}).some(x => x.id === 'UC-005'), 'multi-agent matches UC-005 via 多代理 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('backup')), {}).some(x => x.id === 'UC-067'), 'backup matches UC-067 via 備份 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('restore')), {}).some(x => x.id === 'UC-067'), 'restore matches UC-067 via 還原/復原 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('monitor')), {}).some(x => x.id === 'UC-015'), 'monitor matches UC-015 via 監看/監控 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('weekly')), {}).some(x => x.id === 'UC-003'), 'weekly matches UC-003 via 週報 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('health')), {}).some(x => x.id === 'UC-041'), 'health matches UC-041 via 健康/醫療 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('call')), {}).some(x => x.id === 'UC-257'), 'call matches UC-257 via 電話/通話 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('security')), {}).some(x => x.id === 'UC-009'), 'security matches UC-009 via 資安/安全性 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('privacy')), {}).some(x => x.id === 'UC-009'), 'privacy matches UC-009 via 隱私 synonym');
 
 
 const rendered=api.renderMarkdown('# Example\n\n<script>alert(1)</script>\n\n[test](javascript:alert)\n\n## Section\n\n- safe','cases/test.md');

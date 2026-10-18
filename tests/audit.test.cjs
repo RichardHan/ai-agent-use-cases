@@ -10,20 +10,23 @@ const CANONICAL_SCENARIOS = ['生活', '工作', '省錢', '學習', '創作', '
 
 function normalizeSourceUrl(rawUrl) {
   try {
-    const cleaned = rawUrl.replace(/[.。;；)\]）〕』'\"<>?？!！]+$/, '');
+    const cleaned = rawUrl.replace(/^[<(（['"]+/, '').replace(/[.。;；)\]）〕』'\"<>?？!！]+$/, '');
     const u = new URL(cleaned);
-    u.searchParams.delete('utm_source');
-    u.searchParams.delete('utm_medium');
-    u.searchParams.delete('utm_campaign');
-    u.searchParams.delete('utm_content');
-    u.searchParams.delete('utm_term');
-    u.searchParams.delete('fbclid');
-    u.searchParams.delete('gclid');
-    u.searchParams.delete('ref');
-    u.searchParams.delete('s');
-    u.searchParams.delete('t');
+    let host = u.hostname.toLowerCase();
+    if (host === 'twitter.com' || host === 'www.twitter.com' || host === 'mobile.twitter.com') host = 'x.com';
+    if (host === 'www.x.com') host = 'x.com';
+    if (host === 'www.reddit.com' || host === 'old.reddit.com') host = 'reddit.com';
+    if (host === 'm.youtube.com') host = 'www.youtube.com';
+    if (host === 'youtu.be') {
+      host = 'www.youtube.com';
+      const id = u.pathname.slice(1);
+      u.pathname = '/watch';
+      u.searchParams.set('v', id);
+    }
+    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context'];
+    tracking.forEach(p => u.searchParams.delete(p));
     const pathNoSlash = u.pathname.replace(/\/+$/, '');
-    return (u.origin + pathNoSlash + (u.search ? u.search : '')).toLowerCase();
+    return (u.protocol + '//' + host + pathNoSlash + (u.search ? u.search : '')).toLowerCase();
   } catch {
     return null;
   }
@@ -172,6 +175,17 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(evidenceCrossCandidate, 'Must detect shared source between cases/283 and evidence/008');
   assert(evidenceCrossCandidate.cases.includes('cases/283-dots-connected-apps-permission-pitfalls.md'));
   assert(evidenceCrossCandidate.cases.includes('evidence/008-morning-brief-validation.md'));
+
+  // Verify domain-normalized candidate duplicates (Reddit www/non-www, Substack query params)
+  const redditMetaCandidate = duplicates.find(d => d.url.includes('reddit.com/r/metaai/comments/1wydk5b'));
+  assert(redditMetaCandidate, 'Must detect shared Reddit discussion between cases/171 and cases/284 via domain normalization');
+  assert(redditMetaCandidate.cases.includes('cases/171-credit-report-dispute-evidence-preparation.md'));
+  assert(redditMetaCandidate.cases.includes('cases/284-delayed-baggage-status-expense-claim.md'));
+
+  const substackCandidate = duplicates.find(d => d.url.includes('semicolonexpected.substack.com/p/i-tried-meta-muse-ai-specific-things'));
+  assert(substackCandidate, 'Must detect shared Substack article between cases/043 and cases/241 via tracking param normalization');
+  assert(substackCandidate.cases.includes('cases/043-public-events-calendar.md'));
+  assert(substackCandidate.cases.includes('cases/241-community-participation-spam-review.md'));
 });
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {
@@ -242,15 +256,20 @@ test('INDEX.md maintains scenario consistency, working case links, and matches s
   }
 });
 
-test('all cases have plain-language title and purpose either in markdown or copy.json', () => {
+test('all cases and evidence files have plain-language title and purpose either in markdown or copy.json', () => {
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
+  const evidenceFiles = fs.readdirSync(path.join(root, 'evidence')).filter(f => f.endsWith('.md')).sort();
+  const targets = [
+    ...caseFiles.map(f => ({ dir: 'cases', file: f })),
+    ...evidenceFiles.map(f => ({ dir: 'evidence', file: f }))
+  ];
   const copy = JSON.parse(fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'));
 
   const missingTitleOrPurpose = [];
   const missingNativeMarkdown = [];
 
-  for (const file of caseFiles) {
-    const content = fs.readFileSync(path.join(root, 'cases', file), 'utf8');
+  for (const { dir, file } of targets) {
+    const content = fs.readFileSync(path.join(root, dir, file), 'utf8');
     const lead = content.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
     const idMatch = content.match(/^#\s*(UC-\d+)/m);
     const id = idMatch ? idMatch[1] : null;
@@ -259,19 +278,19 @@ test('all cases have plain-language title and purpose either in markdown or copy
     const hasNativeWhat = /^-\s*一句話用途\s*[：:]\s*(.+)$/m.test(lead);
 
     if (!hasNativeTitle || !hasNativeWhat) {
-      missingNativeMarkdown.push({ file, id, hasNativeTitle, hasNativeWhat });
+      missingNativeMarkdown.push({ file: `${dir}/${file}`, id, hasNativeTitle, hasNativeWhat });
     }
 
     const hasTitle = hasNativeTitle || (id && copy[id]?.title);
     const hasWhat = hasNativeWhat || (id && copy[id]?.what);
 
     if (!hasTitle || !hasWhat) {
-      missingTitleOrPurpose.push({ file, id, hasTitle: !!hasTitle, hasWhat: !!hasWhat });
+      missingTitleOrPurpose.push({ file: `${dir}/${file}`, id, hasTitle: !!hasTitle, hasWhat: !!hasWhat });
     }
   }
 
-  assert.deepEqual(missingTitleOrPurpose, [], `Cases missing plain-language title or purpose: ${JSON.stringify(missingTitleOrPurpose)}`);
-  assert.deepEqual(missingNativeMarkdown, [], `Cases missing native title/purpose in markdown: ${JSON.stringify(missingNativeMarkdown)}`);
+  assert.deepEqual(missingTitleOrPurpose, [], `Files missing plain-language title or purpose: ${JSON.stringify(missingTitleOrPurpose)}`);
+  assert.deepEqual(missingNativeMarkdown, [], `Files missing native title/purpose in markdown: ${JSON.stringify(missingNativeMarkdown)}`);
 });
 
 test('app.js metadata extraction gracefully falls back to extract tags from category lines', () => {

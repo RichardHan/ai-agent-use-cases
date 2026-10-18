@@ -242,6 +242,41 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('晨報')), {}).some(x
 assert(api.filterEntries(entries, Array.from(api.tokenize('登入')), {}).some(x => x.id === 'UC-330'), '登入 matches UC-330 via 登錄 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('排程')), {}).some(x => x.id === 'UC-006'), '排程 matches UC-006 via workflow synonym');
 
+// Search quality & punctuation: full-stop and dot tolerance
+assert.deepEqual(Array.from(api.tokenize('旅遊。')), ['旅遊'], 'tokenize strips Chinese full stop');
+assert.deepEqual(Array.from(api.tokenize('比價.')), ['比價'], 'tokenize strips English period');
+assert.deepEqual(Array.from(api.tokenize('UC#001')), ['uc-001'], 'tokenize normalizes UC#001 into uc-001');
+assert.deepEqual(Array.from(api.tokenize('UC.001')), ['uc-001'], 'tokenize normalizes UC.001 into uc-001');
+assert.deepEqual(Array.from(api.tokenize('P#003')), ['p-003'], 'tokenize normalizes P#003 into p-003');
+assert(api.matchCase('UC#001', entries)?.id === 'UC-001', 'matchCase finds UC-001 with hashtag');
+assert(api.matchCase('UC.001', entries)?.id === 'UC-001', 'matchCase finds UC-001 with dot');
+
+// Search quality: Core AI terminology & high frequency domain synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('智能體')), {}).some(x => x.id === 'UC-005'), '智能體 matches UC-005 via agent/代理 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('智能体')), {}).some(x => x.id === 'UC-005'), '智能体 matches UC-005 via agent/代理 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('文字辨識')), {}).some(x => x.id === 'UC-178'), '文字辨識 matches UC-178 via ocr synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('圖片辨識')), {}).some(x => x.id === 'UC-178'), '圖片辨識 matches UC-178 via ocr synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('translate')), {}).some(x => x.id === 'UC-001'), 'translate matches UC-001 via 翻譯 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('總結')), {}).some(x => x.id === 'UC-002'), '總結 matches UC-002 via 摘要 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('summarize')), {}).some(x => x.id === 'UC-002'), 'summarize matches UC-002 via 摘要 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('crawler')), {}).some(x => x.id === 'UC-086'), 'crawler matches UC-086 via 爬蟲/抓取 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('scraper')), {}).some(x => x.id === 'UC-086'), 'scraper matches UC-086 via 爬蟲/抓取 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('視頻')), {}).some(x => x.id === 'UC-002'), '視頻 matches UC-002 via 影片 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('推特')), {}).some(x => x.id === 'UC-055'), '推特 matches UC-055 via x/twitter synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('cron')), {}).some(x => x.id === 'UC-006'), 'cron matches UC-006 via 排程/定時 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('排障')), {}).some(x => x.id === 'UC-005'), '排障 matches UC-005 via troubleshooting/修復 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('troubleshooting')), {}).some(x => x.id === 'UC-005'), 'troubleshooting matches UC-005 via 排障/修復 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('rag')), {}).some(x => x.id === 'UC-060'), 'rag matches UC-060 via 知識庫/檢索 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('auto-reply')), {}).some(x => x.id === 'UC-060'), 'auto-reply matches UC-060 via 自動回覆 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('qa')), {}).some(x => x.id === 'UC-217'), 'qa matches UC-217 via 測試 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('audit')), {}).some(x => x.id === 'UC-073'), 'audit matches UC-073 via 審查/審核 synonym');
+
+// Data accuracy: Verification date extraction priority over historical post dates
+const uc330 = entries.find(x => x.id === 'UC-330');
+assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
+const uc101 = entries.find(x => x.id === 'UC-101');
+assert.equal(uc101.date, '2026-10-16', 'UC-101 date must be verification date 2026-10-16, not post date 2026-10-09');
+
 
 const rendered=api.renderMarkdown('# Example\n\n<script>alert(1)</script>\n\n[test](javascript:alert)\n\n## Section\n\n- safe','cases/test.md');
 const tags=[];function walk(node){if(node.tagName)tags.push(node.tagName);(node.children||[]).forEach(walk);}walk(rendered);assert(!tags.includes('SCRIPT'));assert(!tags.includes('A'));assert(tags.includes('H2'));assert(tags.includes('LI'));

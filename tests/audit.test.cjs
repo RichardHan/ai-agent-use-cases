@@ -16,6 +16,7 @@ function normalizeSourceUrl(rawUrl) {
     if (host === 'twitter.com' || host === 'www.twitter.com' || host === 'mobile.twitter.com') host = 'x.com';
     if (host === 'www.x.com' || host === 'mobile.x.com' || host === 'm.x.com') host = 'x.com';
     if (host === 'www.reddit.com' || host === 'old.reddit.com' || host === 'm.reddit.com' || host === 'new.reddit.com') host = 'reddit.com';
+    if (host === 'www.facebook.com' || host === 'm.facebook.com' || host === 'web.facebook.com') host = 'facebook.com';
     if (host === 'm.youtube.com') host = 'www.youtube.com';
     if (host === 'youtu.be') {
       host = 'www.youtube.com';
@@ -23,8 +24,9 @@ function normalizeSourceUrl(rawUrl) {
       u.pathname = '/watch';
       u.searchParams.set('v', id);
     }
-    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json'];
+    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json', 'si', 'igsh', 'trk', 'spm_id_from'];
     tracking.forEach(p => u.searchParams.delete(p));
+    u.hash = '';
     const pathNoSlash = u.pathname.replace(/\/+$/, '');
     return (u.protocol + '//' + host + pathNoSlash + (u.search ? u.search : '')).toLowerCase();
   } catch {
@@ -212,6 +214,46 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(deployBlogCandidate, 'Must detect shared deployment workflow between UC-151 and UC-214');
   assert(deployBlogCandidate.cases.includes('cases/151-booked-stay-prerequisite-followup.md'));
   assert(deployBlogCandidate.cases.includes('cases/214-release-artifact-runtime-identity-check.md'));
+
+  const vehicleMaintenanceCandidate = duplicates.find(d => d.url.includes('pgubvln'));
+  assert(vehicleMaintenanceCandidate, 'Must detect shared Reddit discussion comment between UC-124 and UC-215');
+  assert(vehicleMaintenanceCandidate.cases.includes('cases/124-vehicle-maintenance-record-review.md'));
+  assert(vehicleMaintenanceCandidate.cases.includes('cases/215-recipe-inbox-structured-collection.md'));
+
+  const substackCodeCapitalCandidate = duplicates.find(d => d.url.includes('meus-principais-casos-de-uso-para-o-grok-bot'));
+  assert(substackCodeCapitalCandidate, 'Must detect shared CodeCapital Substack article between UC-095 and UC-096');
+  assert(substackCodeCapitalCandidate.cases.includes('cases/095-product-usage-error-correlation.md'));
+  assert(substackCodeCapitalCandidate.cases.includes('cases/096-production-log-deploy-triage.md'));
+
+  const eleanorKonikCandidate = duplicates.find(d => d.url.includes('muse-was-my-gateway-drug-to-grok'));
+  assert(eleanorKonikCandidate, 'Must detect shared Eleanor Konik article between UC-066 and UC-182');
+  assert(eleanorKonikCandidate.cases.includes('cases/066-agent-token-usage-self-audit.md'));
+  assert(eleanorKonikCandidate.cases.includes('cases/182-library-book-selection-holds.md'));
+
+  const platformMuseCandidate = duplicates.find(d => d.url.includes('platform.muse.ai/docs'));
+  assert(platformMuseCandidate, 'Must detect shared Platform Muse documentation between UC-155 and UC-248');
+  assert(platformMuseCandidate.cases.includes('cases/155-field-service-job-change-coordination.md'));
+  assert(platformMuseCandidate.cases.includes('cases/248-cross-agent-conversation-disclosure-boundary.md'));
+
+  const grokBotFilesCandidate = duplicates.find(d => d.url.includes('docs.x.ai/grok-bot/files-and-results'));
+  assert(grokBotFilesCandidate, 'Must detect shared Grok Bot files-and-results docs between UC-198 and UC-252');
+  assert(grokBotFilesCandidate.cases.includes('cases/198-prelab-document-gap-review.md'));
+  assert(grokBotFilesCandidate.cases.includes('cases/252-three-statement-scenario-board-pack.md'));
+
+  const mcpEventsCandidate = duplicates.find(d => d.url.includes('plugins/build/mcp-events'));
+  assert(mcpEventsCandidate, 'Must detect shared MCP events documentation between UC-074 and UC-239');
+  assert(mcpEventsCandidate.cases.includes('cases/074-event-trigger-readback.md'));
+  assert(mcpEventsCandidate.cases.includes('cases/239-wearable-conversation-delivery-state-validation.md'));
+
+  const digitizCandidate = duplicates.find(d => d.url.includes('digitiz.fr/chatgpt-dots'));
+  assert(digitizCandidate, 'Must detect shared Digitiz article between UC-002 and UC-073');
+  assert(digitizCandidate.cases.includes('cases/002-video-production.md'));
+  assert(digitizCandidate.cases.includes('cases/073-customer-journey-content-audit.md'));
+
+  const botStoreAcademyCandidate = duplicates.find(d => d.url.includes('bot.store/academy/what-people-use-grok-bot-for'));
+  assert(botStoreAcademyCandidate, 'Must detect shared Bot Store Academy article between UC-024 and UC-035');
+  assert(botStoreAcademyCandidate.cases.includes('cases/024-missing-invoice-check.md'));
+  assert(botStoreAcademyCandidate.cases.includes('cases/035-job-search-application-drafts.md'));
 });
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {
@@ -338,4 +380,29 @@ test('app.js metadata extraction gracefully falls back to extract tags from cate
   const doc2 = '# UC-902：測試案例二\n\n- 分類：開發｜發布、版本、環境、驗收\n- 來源證據：author-demo\n\n## 內容';
   const entry2 = context.api.parseFile('cases/902.md', doc2)[0];
   assert.deepEqual(Array.from(entry2.tags), ['發布', '版本', '環境', '驗收']);
+});
+
+test('app.js metadata accurately extracts verification date rather than historical publication date', () => {
+  const source = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8').split('/* Browser event bindings. */')[0];
+  class Node { constructor(tag) { this.tagName = tag; this.children = []; } append(...c) { this.children.push(...c); } }
+  const context = vm.createContext({
+    URL,
+    Discovery: require('../assets/discovery.js'),
+    document: { createElement: t => new Node(t), createTextNode: text => ({ textContent: text }) }
+  });
+  vm.runInContext(source + '\nthis.api={metadata,parseFile};', context);
+
+  const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
+  for (const file of caseFiles) {
+    const raw = fs.readFileSync(path.join(root, 'cases', file), 'utf8');
+    const entry = context.api.parseFile(`cases/${file}`, raw)[0];
+    assert(entry.date && /20\d{2}-\d{2}-\d{2}/.test(entry.date), `Case ${file} must have a valid extracted date, got "${entry.date}"`);
+  }
+
+  // Verify specific cases where historical post date precedes verification date
+  const uc330 = context.api.parseFile('cases/330-unsupported-home-device-commissioning-validation.md', fs.readFileSync(path.join(root, 'cases/330-unsupported-home-device-commissioning-validation.md'), 'utf8'))[0];
+  assert.equal(uc330.date, '2026-10-18', 'UC-330 must extract verification date 2026-10-18 instead of post date 2026-08-31');
+
+  const uc101 = context.api.parseFile('cases/101-procurement-capability-shortlist.md', fs.readFileSync(path.join(root, 'cases/101-procurement-capability-shortlist.md'), 'utf8'))[0];
+  assert.equal(uc101.date, '2026-10-16', 'UC-101 must extract verification date 2026-10-16 instead of post date 2026-10-09');
 });

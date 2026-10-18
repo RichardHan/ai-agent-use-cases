@@ -8,8 +8,9 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#]+/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
+const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
+  ['agent', '智能體', '智能体', '代理'],
   ['每日報表', '每日報告', '日報', '晨報'],
   ['儀錶板', '儀表板'],
   ['折價券', '優惠券'],
@@ -17,7 +18,7 @@ const SYNONYM_GROUPS = [
   ['記賬', '記帳'],
   ['登錄', '登入'],
   ['簡報', '投影片', 'ppt', 'powerpoint'],
-  ['爬蟲', '抓取', '採集', 'scraping'],
+  ['爬蟲', '抓取', '採集', 'scraping', 'crawler', 'scraper'],
   ['試算表', 'excel', 'sheets'],
   ['逐字稿', '轉錄'],
   ['資料庫', '數據庫'],
@@ -25,8 +26,8 @@ const SYNONYM_GROUPS = [
   ['待辦', '代辦', 'todo', 'todoist'],
   ['報帳', '核銷', '對帳', 'reconciliation'],
   ['發票', '收據', '憑證', 'invoice', 'receipt'],
-  ['debug', '除錯', '排錯', '修復', 'bug'],
-  ['workflow', '工作流', '自動化', '排程'],
+  ['debug', '除錯', '排錯', '修復', 'bug', '故障', '排障', 'troubleshooting'],
+  ['workflow', '工作流', '自動化', '排程', '定時', 'cron', 'schedule', '排班'],
   ['求職', '履歷', '面試', '招聘', '招募', 'cv', 'resume', 'job', 'hiring'],
   ['email', '郵件', '信件', '信箱', '收件匣', '收件箱', 'inbox'],
   ['代碼', '程式碼', '程式', 'code'],
@@ -46,7 +47,19 @@ const SYNONYM_GROUPS = [
   ['提醒', '通知', 'alert', 'notification', '推播'],
   ['退款', '退貨', 'refund'],
   ['播客', 'podcast'],
-  ['智慧家庭', '智能家居', '智能家庭', '智慧家電', 'iot', '物聯網']
+  ['智慧家庭', '智能家居', '智能家庭', '智慧家電', 'iot', '物聯網'],
+  ['ocr', '文字辨識', '圖片辨識', '光學字元辨識', '影像辨識'],
+  ['翻譯', 'translate', 'translation', '翻成中文', '譯文'],
+  ['摘要', '總結', 'summary', 'summarize', '重點整理'],
+  ['影片', '視頻', 'video', '剪輯', '短影音', '短片'],
+  ['圖片', '相片', '照片', 'image', 'photo'],
+  ['筆記', 'notes', '筆記本'],
+  ['推特', 'twitter', 'x'],
+  ['rag', '知識庫', '知识库', '檢索'],
+  ['語音', '音訊', '音頻', '聲音', 'voice', 'audio'],
+  ['自動回覆', '自動回信', 'auto-reply', '自動回覆買家'],
+  ['測試', 'qa', 'testing'],
+  ['審查', '審核', 'review', 'audit']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {
@@ -59,7 +72,7 @@ for (const group of SYNONYM_GROUPS) {
 };
 function idVariants(id) { const normId = id.toUpperCase(); const unhyphenated = normId.replace(/[-_]/g, ''); return normId !== unhyphenated ? `${normId} ${unhyphenated}` : normId; }
 function termVariants(term) { const t = norm(term).replace(/^#/, ''); const m = t.match(/^([a-z]+)[\s-]*(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } if (/^\d+$/.test(t)) { const padded = t.padStart(3, '0'); return [t, `uc-${padded}`, `uc${padded}`]; } return SYNONYM_MAP[t] || [t]; }
-const matchCase = (target, list = entries) => { if (!target) return null; const t = norm(target).trim().replace(/^#/, ''); const m = t.match(/^(?:([a-z]+)[\s-：:]*)?(\d+)$/); const variants = m && (!m[1] || m[1] === 'uc' || m[1] === 'p') ? [`${m[1] || 'uc'}-${m[2].padStart(3, '0')}`, `${m[1] || 'uc'}${m[2].padStart(3, '0')}`] : termVariants(t); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
+const matchCase = (target, list = entries) => { if (!target) return null; const t = norm(target).trim().replace(/^#/, ''); const m = t.match(/^(?:([a-z]+)[\s-：:#.]*)?(\d+)$/); const variants = m && (!m[1] || m[1] === 'uc' || m[1] === 'p') ? [`${m[1] || 'uc'}-${m[2].padStart(3, '0')}`, `${m[1] || 'uc'}${m[2].padStart(3, '0')}`] : termVariants(t); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);
   const id = title.match(/(?:UC|P)-\d+/)?.[0] || path.split('/').pop().replace(/\.md$/,'') + suffix;
@@ -98,7 +111,7 @@ function metadata(markdown, path, kind, suffix='') {
   const proofLine = clean(lead.match(/^-\s*(?:來源證據|證據狀態|證據等級|證據)\s*[：:]\s*(.+)$/m)?.[1] || '');
   const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*(?:自報|第一手.*自述)|official/.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
-  const date = lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '';
+  const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
   const copy=displayCopy[id]||{};
   const displayTitle=clean(lead.match(/^-\s*網站標題\s*[：:]\s*(.+)$/m)?.[1]||copy.title||heading);
   const what=clean(lead.match(/^-\s*一句話用途\s*[：:]\s*(.+)$/m)?.[1]||copy.what||summary);

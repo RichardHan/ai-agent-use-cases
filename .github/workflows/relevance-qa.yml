@@ -1,0 +1,79 @@
+name: Search relevance QA
+on:
+  push:
+    branches: [main]
+    paths: ['assets/**', 'index.html', 'tests/relevance*', '.github/workflows/relevance-qa.yml']
+  pull_request:
+    paths: ['assets/**', 'index.html', 'tests/relevance*', '.github/workflows/relevance-qa.yml']
+permissions:
+  contents: read
+jobs:
+  relevance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install cloud-only browsers
+        run: |
+          npm install --prefix "$RUNNER_TEMP/relevance-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/relevance-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Existing baseline tests, syntax and static build
+        run: |
+          node --test $(find tests -name '*.test.cjs' ! -name 'relevance.test.cjs')
+          for file in assets/*.js; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/relevance-after/ai-agent-use-cases"
+      - name: Observe unchanged baseline journeys
+        env:
+          NODE_PATH: ${{ runner.temp }}/relevance-tools/node_modules
+          RELEVANCE_URL: http://127.0.0.1:8090/ai-agent-use-cases/
+          OBSERVE: '1'
+        run: |
+          mkdir -p "$RUNNER_TEMP/relevance-source"
+          git archive 88c08fc1704a0b02408a4753062702759bccce2f | tar -x -C "$RUNNER_TEMP/relevance-source"
+          python3 "$RUNNER_TEMP/relevance-source/scripts/preview.py" "$RUNNER_TEMP/relevance-before/ai-agent-use-cases"
+          python3 -m http.server 8090 --directory "$RUNNER_TEMP/relevance-before" > /tmp/relevance-before.log 2>&1 &
+          node tests/relevance-browser.cjs
+      - name: Verify relevance regressions
+        run: node --test tests/relevance.test.cjs
+      - name: Verify updated journeys
+        env:
+          NODE_PATH: ${{ runner.temp }}/relevance-tools/node_modules
+        run: |
+          python3 -m http.server 8091 --directory "$RUNNER_TEMP/relevance-after" > /tmp/relevance-after.log 2>&1 &
+          node tests/relevance-browser.cjs
+      - name: Verify published assets and journeys
+        if: ${{ github.ref == 'refs/heads/main' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/relevance-tools/node_modules
+          RELEVANCE_URL: https://richardhan.github.io/ai-agent-use-cases/
+          RELEVANCE_LIVE: '1'
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          (async()=>{
+            const base='https://richardhan.github.io/ai-agent-use-cases/';
+            const files=['index.html','assets/app.js','assets/style.css'];
+            for(let attempt=0;attempt<90;attempt++){
+              const actual=await Promise.all(files.map(async file=>{
+                const r=await fetch(base+(file==='index.html'?'':file)+'?relevance='+process.env.GITHUB_SHA,{cache:'no-store'});
+                return r.ok?await r.text():'';
+              }));
+              if(actual.every((content,i)=>content===fs.readFileSync(files[i],'utf8'))){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
+              await new Promise(resolve=>setTimeout(resolve,2000));
+            }
+            throw Error('Published assets do not match this commit');
+          })().catch(error=>{console.error(error);process.exitCode=1});
+          NODE
+          node tests/relevance-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: relevance-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

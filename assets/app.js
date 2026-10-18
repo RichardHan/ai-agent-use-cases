@@ -594,6 +594,34 @@ function card(item, terms=[]) {
 function filterEntries(items, terms, filters) {
   return items.filter(item => terms.every(term => termVariants(term).some(v => item.search.includes(v))) && (!filters.kind || item.kind === filters.kind) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
 }
+
+/* Rank only existing matches; evidence status, popularity and frequency are not scores. */
+function rankEntries(items, terms) {
+  if (!terms.length) return items.slice();
+  const queries = [...new Set(terms)].map(term => ({term, variants:termVariants(term)}));
+  return items.map((item, index) => {
+    const title = norm(item.title || '');
+    const summary = norm(item.summary || '');
+    const fields = [item.category, item.scenario, ...(item.tags || []), ...(item.tools || [])].map(value => norm(value || ''));
+    const id = norm(item.id || '');
+    const score = [0, 0, 0, 0];
+    queries.forEach(({term, variants}) => {
+      if (variants.includes(id)) score[0]++;
+      const inTitle = variants.some(variant => title.includes(variant));
+      const inSummary = variants.some(variant => summary.includes(variant));
+      if (inTitle || inSummary) score[1]++;
+      if (inTitle) score[2]++;
+      if (variants.some(variant => fields.some(field => field.includes(variant)))) score[3]++;
+    });
+    return {item, index, score};
+  }).sort((a, b) => {
+    for (let i = 0; i < a.score.length; i++) {
+      if (a.score[i] !== b.score[i]) return b.score[i] - a.score[i];
+    }
+    return a.index - b.index;
+  }).map(result => result.item);
+}
+
 const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',tool:'提及工具',category:'主題分類',proof:'來源類型'};
 function activeConditions(query, filters) {
   return Object.entries({query, ...filters}).filter(([,value]) => value)
@@ -717,7 +745,8 @@ function render(updateURL=true, preserveShare=false) {
   if (activeScenario) filters.scenario = activeScenario;
   const facetCount = Object.values(filters).filter(Boolean).length;
   $('filter-count').textContent = facetCount ? `已套用 ${facetCount} 項篩選` : '未設定篩選';
-  currentFiltered = filterEntries(entries, q, filters);
+  currentFiltered = rankEntries(filterEntries(entries, q, filters), q);
+  $('search-order-note').hidden = !discoveryReady || !q.length || !currentFiltered.length;
   $('results').replaceChildren(...currentFiltered.map(item=>card(item,q)));syncDiscovery(currentFiltered);
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
   $('empty').querySelector('h3').textContent=failedPaths.length?'已載入內容中沒有符合的案例':'目前沒有符合的案例';
@@ -946,6 +975,7 @@ async function load() {
   $('error').hidden = true;
   $('empty').hidden = true;
   $('search-feedback').hidden = true;
+  $('search-order-note').hidden = true;
   $('empty-suggestions').replaceChildren();
   $('results-count').textContent = '正在讀取案例…';
   failedPaths = [];

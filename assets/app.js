@@ -1019,19 +1019,25 @@ window.addEventListener('popstate', event => {
       const returnURL=location.href,returnTarget=document.activeElement;
       let fragment=null;
       try{fragment=document.getElementById(decodeURIComponent(location.hash.slice(1)));}catch{}
+      let cancelled=false;
+      const inputEvents=['pointerdown','keydown','wheel','touchstart'];
+      const cleanup=()=>inputEvents.forEach(type=>window.removeEventListener(type,cancel,true));
+      const cancel=()=>{cancelled=true;cleanup();};
+      inputEvents.forEach(type=>window.addEventListener(type,cancel,{capture:true,passive:true}));
       const restoreVisibleReturn=()=>{
-        if(location.href!==returnURL||$('detail').open||!returnTarget?.isConnected)return;
+        if(cancelled||location.href!==returnURL||$('detail').open||!returnTarget?.isConnected)return;
         const active=document.activeElement;
         if(active===document.body||active===fragment||active===returnTarget){
           if(active!==returnTarget)returnTarget.focus({preventScroll:true});
-          returnTarget.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+          const rect=returnTarget.getBoundingClientRect();
+          if(rect.top<0||rect.bottom>innerHeight)returnTarget.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
         }
       };
       requestAnimationFrame(()=>{
         restoreVisibleReturn();
         // History/fragment layout can settle after the first frame. Recheck
         // once, keeping the same URL, modal and newer-user-focus guards.
-        requestAnimationFrame(restoreVisibleReturn);
+        requestAnimationFrame(()=>{restoreVisibleReturn();cleanup();});
       });
     }
   }

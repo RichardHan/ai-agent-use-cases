@@ -29,6 +29,7 @@ const hung=route=>new Promise(()=>{});
    assert.equal(new URL(page.url()).searchParams.get('scenario'),'生活');
    assert.equal(new URL(page.url()).searchParams.get('tool'),'Grok Bot');
    assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');
+   assert.match(await page.locator('#results-count').innerText(),/正在讀取案例/);
    await page.locator('#query').fill('旅遊');
    row.audits=[await audit(page,'waiting')];
    assert(await page.locator('#draw-status').evaluate(e=>!e.closest('[aria-busy=true]')));

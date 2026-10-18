@@ -1,0 +1,97 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "tag": "物流追蹤",
+    "focus": "results-count",
+    "rect": {
+      "x": 140,
+      "y": 24.375,
+      "width": 119,
+      "height": 21.4375,
+      "top": 24.375,
+      "right": 259,
+      "bottom": 45.8125,
+      "left": 140
+    },
+    "count": "顯示 1 / 339 筆收錄",
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "tag": "物流追蹤",
+    "focus": "results-count",
+    "rect": {
+      "x": 20,
+      "y": 24.359375,
+      "width": 119,
+      "height": 21.4375,
+      "top": 24.359375,
+      "right": 139,
+      "bottom": 45.796875,
+      "left": 20
+    },
+    "count": "顯示 1 / 339 筆收錄",
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "tag": "物流追蹤",
+    "focus": "results-count",
+    "rect": {
+      "x": 20,
+      "y": 24.078125,
+      "width": 119,
+      "height": 21.4375,
+      "top": 24.078125,
+      "right": 139,
+      "bottom": 45.515625,
+      "left": 20
+    },
+    "count": "顯示 1 / 339 筆收錄",
+    "axe": []
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "tag": "物流追蹤",
+    "focus": "results-count",
+    "rect": {
+      "x": 20,
+      "y": 23.566665649414062,
+      "width": 110.63333129882812,
+      "height": 21.449996948242188,
+      "top": 23.566665649414062,
+      "right": 130.63333129882812,
+      "bottom": 45.01666259765625,
+      "left": 20
+    },
+    "count": "顯示 1 / 339 筆收錄",
+    "axe": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "tag": "物流追蹤",
+    "focus": "results-count",
+    "rect": {
+      "x": 20,
+      "y": 24.359375,
+      "width": 119,
+      "height": 21.4375,
+      "top": 24.359375,
+      "right": 139,
+      "bottom": 45.796875,
+      "left": 20
+    },
+    "count": "顯示 1 / 339 筆收錄",
+    "axe": []
+  }
+]

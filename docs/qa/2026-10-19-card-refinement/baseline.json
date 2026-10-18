@@ -1,0 +1,56 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "tag": "物流追蹤",
+    "focus": "BODY",
+    "rect": {
+      "x": 140,
+      "y": -78.625,
+      "width": 119,
+      "height": 21.4375,
+      "top": -78.625,
+      "right": 259,
+      "bottom": -57.1875,
+      "left": 140
+    },
+    "count": "顯示 1 / 339 筆收錄"
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "tag": "物流追蹤",
+    "focus": "BODY",
+    "rect": {
+      "x": 20,
+      "y": -422.640625,
+      "width": 119,
+      "height": 21.4375,
+      "top": -422.640625,
+      "right": 139,
+      "bottom": -401.203125,
+      "left": 20
+    },
+    "count": "顯示 1 / 339 筆收錄"
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "tag": "物流追蹤",
+    "focus": "BODY",
+    "rect": {
+      "x": 20,
+      "y": -627.921875,
+      "width": 119,
+      "height": 21.4375,
+      "top": -627.921875,
+      "right": 139,
+      "bottom": -606.484375,
+      "left": 20
+    },
+    "count": "顯示 1 / 339 筆收錄"
+  }
+]

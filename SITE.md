@@ -1083,4 +1083,44 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 - 總案例數維持 339 筆，合格數維持 299 筆，無編造案例、無擅刪候選。
 下一輪建議：依目前已標註之多案例共用公開來源候選叢集，評估在閱讀器中增列同源候選標籤或關聯提示。
 
+## 2026-10-19：擴充工具呼叫、語音合成辨識、CI/CD、內網穿透、自架Runner與筆記軟體檢索品質與分詞
+
+問題調查與證據：
+1. 核心 AI Agent 執行機制與語音／維運領域分詞與同義詞斷層：
+   - 「工具呼叫」（全庫 6 筆，如 UC-066、UC-180、UC-196、UC-201、UC-307、UC-340 涉及工具調用取證與驗收） vs 英文帶空格自然語言「tool call」（0 筆）、「tool calls」（0 筆）、「tool calling」（0 筆）、「function call」（0 筆）、「function calls」（0 筆）、「function calling」（0 筆）及常見簡中／中文「工具調用」（0 筆）、「函式呼叫」（0 筆）、「函數調用」（0 筆），因未分詞為複合詞且「call」被展開為電話通話，導致 AI Agent 最核心之工具調用檢索全數落空；
+   - 語音處理（TTS / STT）：英文自然語言「text to speech」（0 筆）、「text-to-speech」（0 筆）與中文「語音合成」（0 筆）、「文字轉語音」（0 筆）、「語音朗讀」（0 筆）原先無法匹配涵蓋朗讀與合成音訊之案例（如 UC-046、UC-107、UC-189、UC-239）；英文「speech to text」（0 筆）、「speech-to-text」（0 筆）與中文「語音識別」（0 筆）無法匹配語音轉文字與逐字稿案例（如 UC-325、UC-336）；
+   - 持續整合情境：「cicd」（0 筆）、「ci cd」（0 筆）、「持續整合」（0 筆）與「continuous integration」（0 筆）無法檢索涵蓋 CI/CD 管線與 Actions 之案例（如 UC-005、UC-057、UC-096、UC-214）；
+   - 網路穿透情境：全庫支援「tunnel」／「隧道」，但中文最廣泛使用之「內網穿透」（0 筆）與「反向代理隧道」（0 筆）未納入同義詞群，無法檢索 UC-074、UC-239、UC-314、UC-336 等遠端轉發與隧道案例；
+   - 自架 Runner 情境：「self hosted runner」（0 筆）與「自託管 runner」（0 筆）因缺少 `self-hosted` 分詞與同義詞對齊，無法檢索 UC-057；
+   - 筆記與知識管理情境：「筆記軟體」（0 筆）與「pkm」（0 筆）無法檢索 UC-071、UC-333 等外部記憶與筆記案例。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\b(?:tool|function)\s*[- ]\s*calls?(?:ing)?\b` → `toolcall`
+     - `\btext\s*[- ]\s*to\s*[- ]\s*speech\b` → `tts`
+     - `\bspeech\s*[- ]\s*to\s*[- ]\s*text\b` → `stt`
+     - `\bci\s*[/_-]?\s*cd\b` 與 `\bcontinuous\s+integration\b` → `cicd`
+     - `\bself\s*[- ]\s*hosted\b` → `self-hosted`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 擴充 STT／轉錄詞群：加入 stt／speech to text／speech-to-text／語音轉文字／語音識別／語音辨識；
+     - 擴充筆記詞群：加入 筆記軟體／pkm；
+     - 擴充隧道詞群：加入 內網穿透／反向代理隧道；
+     - 新增工具呼叫詞群：toolcall／tool call／tool calls／tool calling／function call／function calls／function calling／工具呼叫／工具調用／函式呼叫／函數調用／工具使用；
+     - 新增 TTS 語音合成詞群：tts／text to speech／text-to-speech／語音合成／文字轉語音／語音朗讀／朗讀；
+     - 新增 CI/CD 詞群：cicd／ci/cd／ci cd／ci／持續整合／持續交付／continuous integration／github actions；
+     - 新增 self-hosted 自架詞群：self-hosted／self hosted／自架／自託管；
+     - 保持 100% 互映對稱映射。
+2. `tests/search.test.cjs`：
+   - 增加 25 組搜尋斷言，覆蓋 tool call/tool calls/tool calling/function call/function calls/function calling/工具調用/函式呼叫/函數調用、text to speech/text-to-speech/語音合成/文字轉語音/語音朗讀、speech to text/speech-to-text/語音識別、cicd/ci cd/持續整合/continuous integration、內網穿透/反向代理隧道、self-hosted runner/self hosted runner/自託管 runner、筆記軟體/pkm 等檢索。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：58/58 單元測試全數通過。
+- `for file in assets/*.js; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-search-quality/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，合格數維持 299 筆，無編造案例、無擅刪候選。
+下一輪建議：依目前已標註之 46 組多案例共用公開來源候選叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
+
+
 

@@ -112,14 +112,22 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
  }
  // A delayed load must not steal a reader's keyboard focus or scroll position.
  const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
- await page.route('**/catalog.json',async route=>{await new Promise(resolve=>setTimeout(resolve,1200));await route.continue();});
+ let releaseCatalog;
+ const catalogGate=new Promise(resolve=>{releaseCatalog=resolve;});
+ await page.route('**/catalog.json',async route=>{await catalogGate;await route.continue();});
  await page.goto(origin+'?q=旅遊',{waitUntil:'domcontentloaded'});
+ // Isolate application arrival from native anchoring as the random home card fills.
+ await page.addStyleTag({content:'html,body{overflow-anchor:none!important}'});
  await page.locator('#query').focus();await page.keyboard.press('Tab');
  const focus=await page.evaluate(()=>document.activeElement.id);
  await page.evaluate(()=>scrollTo({top:100,behavior:'instant'}));
- await page.locator('#results-count').filter({hasText:'顯示'}).waitFor();
- assert.equal(await page.evaluate(()=>document.activeElement.id),focus);
  assert.equal(await page.evaluate(()=>scrollY),100);
+ releaseCatalog();
+ await page.locator('#results-count').filter({hasText:'顯示'}).waitFor();
+ const manualState=await page.evaluate(()=>({focus:document.activeElement.id,scrollY,queryTop:document.getElementById('query').getBoundingClientRect().top}));
+ console.log('ARRIVAL_MANUAL_STATE '+prefix+' '+JSON.stringify(manualState));
+ assert.equal(manualState.focus,focus);
+ assert.equal(manualState.scrollY,100);
  await page.unroute('**/catalog.json');
  // Failures are reached; retry is explicit and does not jump away from the results.
  await page.route('**/catalog.json',route=>route.fulfill({status:503,body:'Unavailable'}));

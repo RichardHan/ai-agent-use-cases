@@ -497,6 +497,8 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert.equal(normalizeSourceUrl('https://about.fb.com/wp-content/uploads/2026/09/02_inline_quote_01.jpg?fit=1920%2C1672'), 'https://about.fb.com/wp-content/uploads/2026/09/02_inline_quote_01.jpg');
   assert.equal(normalizeSourceUrl('https://video.twimg.com/amplify_video/2090401111203291136/vid/avc1/1280x720/qrir1QJtjy7X5_k6.mp4?tag=29'), 'https://video.twimg.com/amplify_video/2090401111203291136/vid/avc1/1280x720/qrir1qjtjy7x5_k6.mp4');
   assert.equal(normalizeSourceUrl('https://www.canva.com/help/bulk-create/?query=Bulk+Create'), 'https://canva.com/help/bulk-create');
+  assert.equal(normalizeSourceUrl('https://www.shipai.club/programs/zero-to-launch/growth-engineering/deck?track=grok-bot'), 'https://shipai.club/programs/zero-to-launch/growth-engineering/deck');
+  assert.equal(normalizeSourceUrl('https://support.ynab.com/en_us/reconciling-accounts-a-guide-BJFE3fHys?mobile-help=true'), 'https://support.ynab.com/en_us/reconciling-accounts-a-guide-bjfe3fhys');
 });
 
 

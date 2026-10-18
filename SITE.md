@@ -860,3 +860,47 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
 本輪實際結果：36/36 測試全數通過，336 筆條目全文、同義詞擴充檢索、多詞分詞標準化、單複數對稱性檢驗、疑似重複來源候選審核、全庫一致性檢驗通過。
 下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
+
+## 2026-10-19：任務封存、失敗診斷、工具回應與請求、會話、機器人、路由、產物、參數、標頭、負載、來源溯源與多詞分詞對稱性強化及追蹤網址正規化審查
+
+先前走查與測試發現：
+1. 核心詞彙斷層與自然語言檢索痛點：
+   - 封存與歸檔類（Archive, archives, archived, archiving, 封存, 歸檔）：全庫有 14 筆「封存」案例（包含最新發布之 UC-341「已封存任務收到新交辦後啟動，但狀態仍留在封存」及 UC-340「搜尋代理的實際工具回應與模型輸出分開驗收」），但搜尋「archive」僅返回 1 筆、「archives」返回 0 筆、「archived」返回 0 筆、「歸檔」返回 0 筆；
+   - 失敗與故障診斷類（Failure, failures, fail, fails, fault, faults, 失敗）：全庫有 137 筆案例明確標記或包含「失敗」自述與復盤（包含 UC-339、UC-341、UC-276、UC-314、UC-169 等），但搜尋英文「failure」僅返回 1 筆（UC-324）、「failures」返回 0 筆、「fail」返回 0 筆；且「fault」僅返回 1 筆（漏掉 89 筆「故障」案例）、「bugs」返回 0 筆（與 89 筆「bug」斷層）；
+   - 工具回應與響應類（Response, responses, 回應, 響應）：全庫有 27 筆案例包含「回應」（包含最新 UC-340「實際工具回應與模型輸出分開驗收」），但搜尋「response」返回 0 筆、「responses」返回 0 筆、「響應」返回 0 筆；
+   - 請求與交辦類（Request, requests, 請求）：全庫有 35 筆案例包含「請求」（包含 UC-339「跨產品舊交辦重送」），但搜尋「request」僅返回 4 筆、「requests」返回 0 筆；
+   - 會話與交談類（Session, sessions, conversation, conversations, 會話, 交談）：全庫有「會話」與「交談」案例（UC-261, UC-296 等），但與英文「session」、「sessions」斷層；
+   - 機器人與代理類（Bot, bots, 機器人）：全庫有 250 筆「bot」案例，但中文搜尋「機器人」僅返回 4 筆；
+   - 路由與分流類（Routing, route, routes, 路由）：全庫有 10 筆「路由」案例（如 UC-250 郵件路由割接、UC-156 遷移驗證、UC-339 訊息路由、UC-316 分流重現），但搜尋常用英文「routing」返回 0 筆、「route」返回 0 筆、「routes」返回 0 筆；
+   - 產物與成品類（Artifact, artifacts, 產物, 成品）：全庫有 64 筆案例包含「產物」（如 UC-214 發布產物身分查驗、UC-005 PR 產物），但搜尋「artifact」僅返回 4 筆、「artifacts」返回 0 筆；
+   - 參數類（Parameter, parameters, params, 參數）：全庫有 20 筆案例包含「參數」，但搜尋「parameter」返回 0 筆、「parameters」返回 0 筆；
+   - 標頭類（Header, headers, 標頭）：全庫有 5 筆案例包含「標頭」，但搜尋「header」返回 0 筆、「headers」返回 0 筆；
+   - 負載類（Payload, payloads, 負載, 有效負載）：全庫有 6 筆案例包含「負載」或「payload」，但中英文未互映；
+   - 管線與流水線類（管線, 流水線, pipeline, pipelines）：全庫有 6 筆案例使用「管線」（如 UC-086, UC-132, UC-259, UC-299），但未納入自動化流水線詞群；
+   - 來源與溯源類（Provenance, 出處, 溯源, 來源）：全庫有 324 筆案例包含「來源」（包含 UC-339「跨產品舊交辦重送，錯呈現為本人新訊息」），但搜尋英文「provenance」返回 0 筆、「出處」僅 12 筆、「溯源」僅 7 筆；
+   - 工作者類（Worker, workers, 工作者）：全庫有 5 筆「工作者」案例（UC-024, UC-049, UC-087 等），但中英文未互映；
+   - Schema 與規範類（Schema, schemas, 綱要, 架構規範）：全庫有架構規範案例（UC-062），但「schemas」、「綱要」未互映；
+   - 英文單複數對稱：`cookies` (1 筆) vs `cookie` (6 筆)。
+2. 多詞術語分詞標準化：
+   - 使用者搜尋空格分詞如「cross agent」、「cross-agent」僅返回 1 筆，無法對應到全庫 43 筆「跨代理」/「multi-agent」流程；
+   - 使用者搜尋「life cycle」僅返回 1 筆，無法對應到 7 筆「lifecycle」/「生命週期」流程；
+   - 使用者搜尋「heart beat」無法對應到「heartbeat」/「心跳」。
+3. 來源網址追蹤參數正規化：
+   - 成長工程教材之 `track` 追蹤參數（如 `https://www.shipai.club/programs/zero-to-launch/growth-engineering/deck?track=grok-bot`）及 YNAB 支援頁 `mobile-help` 參數（如 `https://support.ynab.com/en_us/reconciling-accounts-a-guide-BJFE3fHys?mobile-help=true`）補入自動化回歸斷言；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 339 保持完整；嚴格合格案例數 299 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 新增多詞自然語言分詞標準化：`life cycle` → `lifecycle`、`cross agent`/`cross-agent` → `cross-agent`、`heart beat` → `heartbeat`。
+   - `SYNONYM_GROUPS` 補強與新增同義詞群：
+     - 擴充既有詞群：`['debug', 'debugging', '除錯', '排錯', '修復', 'bug', 'bugs', '故障', '排障', 'troubleshoot', 'troubleshooting', 'fault', 'faults']`、`['workflow', '工作流', '自動化', 'automation', 'automate', 'automations', '排程', '定時', 'cron', 'schedule', 'schedules', 'scheduling', '排班', '流水線', '管線', 'pipeline', 'pipelines']`、`['多代理', 'multi-agent', '跨代理', '代理協作', 'cross-agent']`。
+     - 新增 16 組獨立詞群：封存/歸檔/archive/archives/archived/archiving、失敗/failure/failures/fail/fails、回應/響應/response/responses、請求/request/requests、會話/交談/對話/session/sessions/conversation/conversations、bot/bots/機器人、路由/routing/route/routes、產物/成果/成品/artifact/artifacts、參數/parameter/parameters/params、標頭/header/headers、負載/有效負載/payload/payloads、出處/溯源/provenance/來源、工作者/worker/workers、schema/schemas/綱要/架構規範、cookie/cookies、heartbeat/heartbeats/心跳。
+     - 保持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：`normalizeSourceUrl` 補入 shipai.club `track` 參數及 ynab `mobile-help` 參數清理之回歸斷言，恪守「只列候選、不自行刪除、總案例數保持完整」。
+   - `tests/search.test.cjs`：加入 archive/archives/archived/歸檔、failure/failures/fail、fault/faults/bugs、response/responses/響應、request/requests、session/sessions、機器人/bots、routing/route/routes、artifact/artifacts、parameter/parameters、header/headers、payload/payloads、管線、provenance/溯源/出處、worker/workers、schemas/綱要、cookies，以及 cross agent/cross-agent、life cycle、heart beat 等 40 組搜尋與分詞回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
+本輪實際結果：36/36 測試全數通過，339 筆條目全文、同義詞擴充檢索、多詞分詞標準化、單複數對稱性檢驗、疑似重複來源候選審核、全庫一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
+

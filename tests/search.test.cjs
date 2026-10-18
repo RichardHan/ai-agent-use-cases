@@ -928,6 +928,85 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('retrospectives')), {}
 assert(api.filterEntries(entries, Array.from(api.tokenize('vms')), {}).some(x => x.id === 'UC-005'), 'vms matches UC-005 via vm synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('backups')), {}).some(x => x.id === 'UC-067'), 'backups matches UC-067 via backup synonym');
 
+// Search quality: 封存, 歸檔, archive, archives, archived, archiving
+assert(api.filterEntries(entries, Array.from(api.tokenize('archive')), {}).some(x => x.id === 'UC-341'), 'archive matches UC-341 via 封存 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('archives')), {}).some(x => x.id === 'UC-341'), 'archives matches UC-341 via 封存 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('archived')), {}).some(x => x.id === 'UC-341'), 'archived matches UC-341 via 封存 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('歸檔')), {}).some(x => x.id === 'UC-341'), '歸檔 matches UC-341 via 封存 synonym');
+
+// Search quality: 失敗, failure, failures, fail, fails
+assert(api.filterEntries(entries, Array.from(api.tokenize('failure')), {}).some(x => x.id === 'UC-339'), 'failure matches UC-339 via 失敗 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('failures')), {}).some(x => x.id === 'UC-276'), 'failures matches UC-276 via 失敗 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('fail')), {}).some(x => x.id === 'UC-339'), 'fail matches UC-339 via 失敗 synonym');
+
+// Search quality: fault, faults, bugs
+assert(api.filterEntries(entries, Array.from(api.tokenize('fault')), {}).some(x => x.id === 'UC-005'), 'fault matches UC-005 via 故障 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('faults')), {}).some(x => x.id === 'UC-005'), 'faults matches UC-005 via 故障 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('bugs')), {}).some(x => x.id === 'UC-005'), 'bugs matches UC-005 via bug synonym');
+
+// Search quality: 回應, 響應, response, responses
+assert(api.filterEntries(entries, Array.from(api.tokenize('response')), {}).some(x => x.id === 'UC-340'), 'response matches UC-340 via 回應 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('responses')), {}).some(x => x.id === 'UC-340'), 'responses matches UC-340 via 回應 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('響應')), {}).some(x => x.id === 'UC-340'), '響應 matches UC-340 via 回應 synonym');
+
+// Search quality: 請求, request, requests
+assert(api.filterEntries(entries, Array.from(api.tokenize('request')), {}).some(x => x.id === 'UC-339'), 'request matches UC-339 via 請求 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('requests')), {}).some(x => x.id === 'UC-021'), 'requests matches UC-021 via 請求 synonym');
+
+// Search quality: 會話, 交談, session, sessions, conversation
+assert(api.filterEntries(entries, Array.from(api.tokenize('session')), {}).some(x => x.id === 'UC-261'), 'session matches UC-261 via 會話 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sessions')), {}).some(x => x.id === 'UC-261'), 'sessions matches UC-261 via 會話 synonym');
+
+// Search quality: 機器人, bot, bots
+assert(api.filterEntries(entries, Array.from(api.tokenize('機器人')), {}).some(x => x.id === 'UC-003'), '機器人 matches UC-003 via bot synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('bots')), {}).some(x => x.id === 'UC-003'), 'bots matches UC-003 via bot synonym');
+
+// Search quality: 路由, routing, route, routes
+assert(api.filterEntries(entries, Array.from(api.tokenize('routing')), {}).some(x => x.id === 'UC-250'), 'routing matches UC-250 via 路由 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('route')), {}).some(x => x.id === 'UC-250'), 'route matches UC-250 via 路由 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('routes')), {}).some(x => x.id === 'UC-250'), 'routes matches UC-250 via 路由 synonym');
+
+// Search quality: 產物, artifact, artifacts
+assert(api.filterEntries(entries, Array.from(api.tokenize('artifact')), {}).some(x => x.id === 'UC-214'), 'artifact matches UC-214 via 產物 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('artifacts')), {}).some(x => x.id === 'UC-214'), 'artifacts matches UC-214 via 產物 synonym');
+
+// Search quality: 參數, parameter, parameters
+assert(api.filterEntries(entries, Array.from(api.tokenize('parameter')), {}).some(x => x.id === 'UC-002'), 'parameter matches UC-002 via 參數 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('parameters')), {}).some(x => x.id === 'UC-002'), 'parameters matches UC-002 via 參數 synonym');
+
+// Search quality: 標頭, header, headers
+assert(api.filterEntries(entries, Array.from(api.tokenize('header')), {}).some(x => x.id === 'UC-005'), 'header matches UC-005 via 標頭 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('headers')), {}).some(x => x.id === 'UC-005'), 'headers matches UC-005 via 標頭 synonym');
+
+// Search quality: 負載, payload, payloads
+assert(api.filterEntries(entries, Array.from(api.tokenize('payload')), {}).some(x => x.id === 'UC-213'), 'payload matches UC-213 via 負載 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('payloads')), {}).some(x => x.id === 'UC-213'), 'payloads matches UC-213 via 負載 synonym');
+
+// Search quality: 管線, 流水線, pipeline, pipelines
+assert(api.filterEntries(entries, Array.from(api.tokenize('管線')), {}).some(x => x.id === 'UC-002'), '管線 matches UC-002 via 流水線 synonym');
+
+// Search quality: 出處, 溯源, provenance, 來源
+assert(api.filterEntries(entries, Array.from(api.tokenize('provenance')), {}).some(x => x.id === 'UC-339'), 'provenance matches UC-339 via 來源/出處 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('溯源')), {}).some(x => x.id === 'UC-339'), '溯源 matches UC-339 via 來源 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('出處')), {}).some(x => x.id === 'UC-339'), '出處 matches UC-339 via 來源 synonym');
+
+// Search quality: 工作者, worker, workers
+assert(api.filterEntries(entries, Array.from(api.tokenize('worker')), {}).some(x => x.id === 'UC-024'), 'worker matches UC-024 via 工作者 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('workers')), {}).some(x => x.id === 'UC-024'), 'workers matches UC-024 via 工作者 synonym');
+
+// Search quality: schema, schemas, 綱要
+assert(api.filterEntries(entries, Array.from(api.tokenize('schemas')), {}).some(x => x.id === 'UC-062'), 'schemas matches UC-062 via schema synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('綱要')), {}).some(x => x.id === 'UC-062'), '綱要 matches UC-062 via schema synonym');
+
+// Search quality: cookies plural symmetry
+assert(api.filterEntries(entries, Array.from(api.tokenize('cookies')), {}).some(x => x.id === 'UC-005'), 'cookies matches UC-005 via cookie synonym');
+
+// Search quality: multi-word phrases (cross agent, life cycle, heart beat)
+assert(api.filterEntries(entries, Array.from(api.tokenize('cross agent')), {}).some(x => x.id === 'UC-339'), 'cross agent matches UC-339 via 跨代理 normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('cross-agent')), {}).some(x => x.id === 'UC-339'), 'cross-agent matches UC-339 via 跨代理 normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('life cycle')), {}).some(x => x.id === 'UC-341'), 'life cycle matches UC-341 via lifecycle normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('heart beat')), {}).some(x => x.id === 'UC-049'), 'heart beat matches UC-049 via heartbeat normalization');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

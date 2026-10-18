@@ -89,5 +89,5 @@ module.exports=async function publishedArrival({browser,origin,engine}){
   }
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   assert.deepEqual(errors,[]);console.log('LIVE_ARRIVAL_PASS '+JSON.stringify({engine,loads,entries:initial.entries,matches:initial.ids.length}));
- }catch(error){fs.writeFileSync('qa-artifacts/live-'+engine+'-failure.json',JSON.stringify({url:page.url(),network,errors,message:error.message},null,2));console.log('LIVE_ARRIVAL_FAILURE '+JSON.stringify({url:page.url(),network,errors,message:error.message}));await capture('failure');throw error;}finally{await context.close();}
+ }catch(error){const focus=await page.evaluate(()=>({active:document.activeElement.outerHTML.slice(0,600),open:document.getElementById('detail').open}));console.log('LIVE_FOCUS_FAILURE '+JSON.stringify(focus));fs.writeFileSync('qa-artifacts/live-'+engine+'-failure.json',JSON.stringify({url:page.url(),network,errors,message:error.message},null,2));console.log('LIVE_ARRIVAL_FAILURE '+JSON.stringify({url:page.url(),network,errors,message:error.message}));await capture('failure');throw error;}finally{await context.close();}
 };

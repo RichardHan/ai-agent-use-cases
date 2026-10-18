@@ -36,7 +36,7 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
    console.log('VISUAL:'+prefix+'-'+label+'-'+name+':'+shot.toString('base64'));
   };
   // Journey 1: a received search link lands with its query, facets and results.
-  await ready('?q=旅遊&tool=Grok%20Bot');
+  await ready('?q=旅遊&tool=Grok%20Bot#explore');
   const metrics=await page.evaluate(()=>({queryTop:Math.round(document.getElementById('query').getBoundingClientRect().top),resultsTop:Math.round(document.getElementById('results-count').getBoundingClientRect().top),focus:document.activeElement.id,scrollY,loadMs:Math.round(performance.getEntriesByType('navigation')[0].loadEventEnd),domContentLoadedMs:Math.round(performance.getEntriesByType('navigation')[0].domContentLoadedEventEnd)}));
   assert(metrics.queryTop>0&&metrics.queryTop<height/2,'Shared search should show query in the upper half');
   assert(metrics.resultsTop>0&&metrics.resultsTop<height,'Shared search should show the result count');
@@ -57,7 +57,7 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
   await recipient.close();
   const trigger=page.locator('#results .card .card-bottom button').first();
   await trigger.click();await page.locator('#detail[open]').waitFor();const direct=page.url();
-  await page.goBack();assert.equal(await trigger.evaluate(n=>n===document.activeElement),true);
+  await page.goBack();await page.waitForFunction(()=>!document.getElementById('detail').open&&document.activeElement.matches('#results .card .card-bottom button'));assert.equal(await trigger.evaluate(n=>n===document.activeElement),true);
   await page.goto(direct,{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();await sameResults(page,'direct',count);
   await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();await sameResults(page,'direct-reload',count);
   assert.equal(await page.evaluate(()=>document.activeElement.id),'detail-title');

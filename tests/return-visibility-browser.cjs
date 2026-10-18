@@ -29,10 +29,10 @@ const published=!!process.env.RETURN_NATIVE;
    // Real browser history, without injected scrolls or overridden clocks/rAF.
    // Inspect after the bounded guard has released its listeners.
    await page.waitForTimeout(500);
+   await page.screenshot({path:`qa-artifacts/return-${published?'live':'after'}-${engine}-button.png`});
    const state=await page.evaluate(()=>({scrollY,hash:location.hash,tool:document.getElementById('tool').value,focus:document.activeElement.id||document.activeElement.className,card:document.activeElement.closest('.card')?.dataset.caseId,rect:document.querySelector('#results .card .card-bottom button').getBoundingClientRect().toJSON(),height:innerHeight,open:document.getElementById('detail').open,query:document.getElementById('query').value,entries:entries.length,failedPaths:[...failedPaths]}));
    reports.push({engine,iteration,native:true,surface:published?'published':'preview',errors:[...errors],...state});
    fs.writeFileSync(`qa-artifacts/return-${published?'live':'after'}.json`,JSON.stringify(reports,null,2));
-   await page.screenshot({path:`qa-artifacts/return-${published?'live':'after'}-${engine}-button.png`});
    assert.deepEqual(errors,[]);assert.equal(state.open,false);assert.equal(state.query,'旅遊');assert.equal(state.tool,'Grok Bot');assert.equal(state.hash,'#explore');
    assert.deepEqual(await page.locator('#results .card').evaluateAll(nodes=>nodes.map(n=>n.dataset.caseId)),ids);
    assert.equal(state.card,ids[0]);

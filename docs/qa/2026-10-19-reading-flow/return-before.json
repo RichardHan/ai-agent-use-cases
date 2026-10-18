@@ -1,0 +1,28 @@
+[
+  {
+    "engine": "webkit",
+    "mode": "button",
+    "native": false,
+    "injected": true,
+    "scrollY": 1453,
+    "intendedScrollY": 1453,
+    "hash": "#explore",
+    "tool": "Grok Bot",
+    "targetConnected": true,
+    "focus": "",
+    "card": "UC-001",
+    "rect": {
+      "x": 278.953125,
+      "y": 899.1875,
+      "width": 68.046875,
+      "height": 36,
+      "top": 899.1875,
+      "right": 347,
+      "bottom": 935.1875,
+      "left": 278.953125
+    },
+    "height": 844,
+    "open": false,
+    "query": "旅遊"
+  }
+]

@@ -86,3 +86,19 @@ python3 -m http.server 8080 --directory /tmp/reading-preview
 自動 axe 不等於完整無障礙認證；未檢查實體 iPhone／真人偏好／轉換率。未知或過長章節刻意回原始研究，沒有自動重寫摘要。全庫全文下載仍是既有載入成本，來源頁是否持續公開也不能保證。
 
 下一輪最值得處理：減少開頁時數百次全文請求，以靜態索引與按需閱讀降低載入成本，並保留全文搜尋及來源一致性；這也回應本輪正式站重複載入逾時的實際證據。正式 Jekyll／部署後驗收將在合併後另記。
+
+
+## 正式發布與返回補修
+
+`61a48d9` 已合併 push， [Pages 正式 Jekyll 建置](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39149187114)成功；三個修改資產 HTTP 200 且 SHA-256 與提交一致，Liquid 索引產生337個來源檔案。 [Reading flow 正式站驗收39149187246](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39149187246)成功：1440／390／320，9次axe零違規；[原始正式站結果](published-reading.json)。Website、Related、Search context、Partial Load 的該次合併後QA也通過。
+
+另一次 [Reader QA正式站步驟39149187276](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39149187276)捕捉到WebKit返回缺陷：從`#explore`開案例、使用段落導覽、browser Back後，焦點回到閱讀按鈕，但按鈕top899.8／bottom935.8超出844px視窗。339筆均載入、無network/pageerror、axe零違規，故未將此失敗當成載入或無障礙掃描問題忽略。[原始失敗](return-native-before.json)／[畫面](return-native-before.jpg)。
+
+補修維持原生history設定；在兩個連續animation frame內檢查原按鈕是否仍可見，每次都核對網址、modal、目標連線與焦點。使用者點擊、按鍵、wheel或觸控會取消後續修正，臨時事件監聽器隨即清理；不強制改回使用者的新位置。
+
+`tests/return-visibility-browser.cjs`以真實Back加第一frame的受控晚到錨點捲動，確實重現舊版失敗，再檢查正常返回、新焦點、新捲動、新網址、重新開modal、目標移除六種狀態。注入只證明修正能處理這種時序，不冒稱已確證原生WebKit內部根因。中間測試的reopen fixture未關閉會遮住下一模式，已修正fixture隔離；最終檢查也收集pageerror，並核對新捲動位置而非只看按鈕在畫面外。
+
+收尾期間共用checkout被另一程序切分支、遠端main新增搜尋改善`5b5c93c`。本輪移到獨立工作樹，無衝突合併新基準，保留協作者的同義詞、來源網址與測試修改；整合後41/41單元通過。返回修正另由未參與實作的角色獨立複核守衛與清理路徑，未發現必修；正式站未注入流程將另驗收。
+
+
+[返回補修最終QA39150191477](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39150191477)通過：舊版同一受控時序確實失敗；補修後三引擎×六種狀態共18次檢查全通過，pageerror為空、使用者新捲動位置保留（誤差≤1px）。包含協作者`5b5c93c`基準，41/41單元通過。[舊版受控結果](return-before.json)／[修後18種結果](return-after.json)／[WebKit修後返回](return-after-webkit-button.png)。

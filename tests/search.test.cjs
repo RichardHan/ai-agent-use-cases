@@ -1488,6 +1488,55 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('系統提示詞')), {
 assert(api.filterEntries(entries, Array.from(api.tokenize('系統提示')), {}).some(x => x.id === 'UC-001'), '系統提示 matches UC-001 via system-prompt synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('system instructions')), {}).some(x => x.id === 'UC-001'), 'system instructions matches UC-001 via system-prompt tokenization');
 
+// Search quality: least privilege, least-privilege, least privileges, 最小權限, 最小權限原則, 權限最小化
+assert(api.filterEntries(entries, Array.from(api.tokenize('least privilege')), {}).some(x => x.id === 'UC-003'), 'least privilege matches UC-003 via least-privilege tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('least-privilege')), {}).some(x => x.id === 'UC-010'), 'least-privilege matches UC-010 via least-privilege synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('least privileges')), {}).some(x => x.id === 'UC-269'), 'least privileges matches UC-269 via least-privilege tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('最小權限')), {}).some(x => x.id === 'UC-003'), '最小權限 matches UC-003');
+assert(api.filterEntries(entries, Array.from(api.tokenize('最小權限原則')), {}).some(x => x.id === 'UC-003'), '最小權限原則 matches UC-003 via least-privilege synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('權限最小化')), {}).some(x => x.id === 'UC-003'), '權限最小化 matches UC-003 via least-privilege synonym');
+
+// Search quality: whitelist, whitelisting, allowlist, allowlisting, 白名單, 允許清單
+assert(api.filterEntries(entries, Array.from(api.tokenize('whitelist')), {}).some(x => x.id === 'UC-077'), 'whitelist matches UC-077 via whitelist tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('whitelisting')), {}).some(x => x.id === 'UC-077'), 'whitelisting matches UC-077 via whitelist tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('allowlist')), {}).some(x => x.id === 'UC-269'), 'allowlist matches UC-269 via allowlist synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('allowlisting')), {}).some(x => x.id === 'UC-275'), 'allowlisting matches UC-275 via allowlist synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('白名單')), {}).some(x => x.id === 'UC-077'), '白名單 matches UC-077');
+assert(api.filterEntries(entries, Array.from(api.tokenize('允許清單')), {}).some(x => x.id === 'UC-269'), '允許清單 matches UC-269 via allowlist synonym');
+
+// Search quality: blacklist, blacklisting, denylist, blocklist, 黑名單
+assert(api.filterEntries(entries, Array.from(api.tokenize('blacklist')), {}).some(x => x.id === 'UC-005'), 'blacklist matches UC-005 via blacklist tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('blacklisting')), {}).some(x => x.id === 'UC-005'), 'blacklisting matches UC-005 via blacklist tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('denylist')), {}).some(x => x.id === 'UC-005'), 'denylist matches UC-005 via denylist synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('blocklist')), {}).some(x => x.id === 'UC-005'), 'blocklist matches UC-005 via blocklist synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('黑名單')), {}).some(x => x.id === 'UC-005'), '黑名單 matches UC-005');
+
+// Search quality: sensitive data, sensitive information, sensitive info, 敏感資料, 敏感資訊, 敏感信息
+assert(api.filterEntries(entries, Array.from(api.tokenize('sensitive data')), {}).some(x => x.id === 'UC-049'), 'sensitive data matches UC-049 via sensitive-data tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sensitive information')), {}).some(x => x.id === 'UC-099'), 'sensitive information matches UC-099 via sensitive-data tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sensitive info')), {}).some(x => x.id === 'UC-180'), 'sensitive info matches UC-180 via sensitive-data tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('敏感資料')), {}).some(x => x.id === 'UC-049'), '敏感資料 matches UC-049');
+assert(api.filterEntries(entries, Array.from(api.tokenize('敏感資訊')), {}).some(x => x.id === 'UC-049'), '敏感資訊 matches UC-049 via sensitive-data synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('敏感信息')), {}).some(x => x.id === 'UC-099'), '敏感信息 matches UC-099 via sensitive-data synonym');
+
+// Search quality: router, routers, 路由器, 路由, routing, 動態路由
+assert(api.filterEntries(entries, Array.from(api.tokenize('router')), {}).some(x => x.id === 'UC-010'), 'router matches UC-010 via router synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('routers')), {}).some(x => x.id === 'UC-010'), 'routers matches UC-010 via router tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('路由器')), {}).some(x => x.id === 'UC-010'), '路由器 matches UC-010');
+assert(api.filterEntries(entries, Array.from(api.tokenize('路由')), {}).some(x => x.id === 'UC-010'), '路由 matches UC-010');
+assert(api.filterEntries(entries, Array.from(api.tokenize('routing')), {}).some(x => x.id === 'UC-010'), 'routing matches UC-010 via routing synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('動態路由')), {}).some(x => x.id === 'UC-156'), '動態路由 matches UC-156 via routing synonym');
+
+// Search quality: kill switch, emergency stop, circuit breaker, 緊急停止, 緊急開關, 停止開關, 熔斷, 斷路器
+assert(api.filterEntries(entries, Array.from(api.tokenize('kill switch')), {}).some(x => x.id === 'UC-275'), 'kill switch matches UC-275 via kill-switch tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('emergency stop')), {}).some(x => x.id === 'UC-275'), 'emergency stop matches UC-275 via emergency-stop tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('circuit breaker')), {}).some(x => x.id === 'UC-275'), 'circuit breaker matches UC-275 via circuit-breaker tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('緊急停止')), {}).some(x => x.id === 'UC-275'), '緊急停止 matches UC-275');
+assert(api.filterEntries(entries, Array.from(api.tokenize('緊急開關')), {}).some(x => x.id === 'UC-275'), '緊急開關 matches UC-275 via kill-switch synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('停止開關')), {}).some(x => x.id === 'UC-275'), '停止開關 matches UC-275 via kill-switch synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('熔斷')), {}).some(x => x.id === 'UC-275'), '熔斷 matches UC-275 via circuit-breaker synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('斷路器')), {}).some(x => x.id === 'UC-275'), '斷路器 matches UC-275 via circuit-breaker synonym');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

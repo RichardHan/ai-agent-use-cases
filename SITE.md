@@ -1361,3 +1361,48 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 - `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
 - 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
 下一輪建議：依目前已標註之 46 組多案例共用公開來源候選叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
+
+## 2026-10-19：擴充最小權限原則、允許／封鎖名單、敏感資料保護、路由器與緊急停止開關檢索品質及分詞
+
+問題調查與證據：
+1. 核心 AI Agent 安全架構、存取邊界、資料保護、任務路由與緊急熔斷檢索斷層：
+   - 最小權限原則（Least Privilege）：全庫共 11 筆案例（UC-003、UC-010、UC-024、UC-035、UC-061、UC-077、UC-118、UC-155、UC-218、UC-269、UC-283）明確規範代理人最小權限（包括最小權限帳號、API 權限收攏、目錄權限鎖定與唯讀操作），但使用者搜尋國際標準詞彙「least privilege」、「least-privilege」、「least privileges」或中文「最小權限原則」、「權限最小化」皆返回 0 筆；
+   - 允許名單與白名單（Allowlist / Whitelist）：UC-005、UC-077、UC-257、UC-269、UC-275、UC-308（共 6 筆案例）明確規範 IP 白名單、sudo 白名單、收件人白名單、來源網址白名單與號碼白名單，但搜尋英文「whitelist」、「whitelisting」、「allowlist」、「allowlisting」皆返回 0 筆；
+   - 拒絕名單與黑名單（Denylist / Blacklist）：UC-005 明確指出「指令黑名單與提示詞本身不等於作業系統隔離」，但搜尋英文「blacklist」、「blacklisting」、「denylist」、「denylisting」、「blocklist」或中文「封鎖名單」、「拒絕清單」皆返回 0 筆；
+   - 敏感資料與資訊保護（Sensitive Data）：全庫共 14 筆案例包含「敏感資料」、4 筆包含「敏感資訊」，但搜尋英文「sensitive data」、「sensitive-data」、「sensitive information」、「sensitive info」皆返回 0 筆，且搜尋「敏感資訊」僅能召回 4 筆、漏失另外 14 筆「敏感資料」案例，搜尋簡體「敏感信息」亦返回 0 筆；
+   - 路由與路由器（Router / Routing）：全庫共 12 筆案例涉及任務與模型「路由」（UC-010、UC-054、UC-156、UC-167、UC-250、UC-276、UC-302 等），且 UC-054 與 UC-302 明確使用「router」、UC-010 使用「路由器」，但搜尋英文「router」僅召回 2 筆、「routers」返回 0 筆、「路由器」僅召回 1 筆，無法關聯其餘 10 筆路由案例；
+   - 緊急停止開關與熔斷機制（Kill Switch / Circuit Breaker）：UC-275 核心架構包含「緊急停止開關」與一鍵停用，UC-005 與 UC-164 具備操作終止開關，但搜尋業界標準專有名詞「kill switch」、「kill-switch」、「emergency stop」、「emergency-stop」、「circuit breaker」、「circuit-breaker」、「緊急開關」、「熔斷」、「熔斷器」、「斷路器」皆返回 0 筆。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\bleast\s*[- ]\s*privileges?\b` → `least-privilege`
+     - `\bwhite\s*[- ]\s*lists?(?:ing)?\b` → `whitelist`
+     - `\ballow\s*[- ]\s*lists?(?:ing)?\b` → `allowlist`
+     - `\bblack\s*[- ]\s*lists?(?:ing)?\b` → `blacklist`
+     - `\bdeny\s*[- ]\s*lists?(?:ing)?\b` → `denylist`
+     - `\bblock\s*[- ]\s*lists?(?:ing)?\b` → `blocklist`
+     - `\bsensitive\s*[- ]\s*(?:data|info|information)\b` → `sensitive-data`
+     - `\brouters?\b` → `router`
+     - `\bkill\s*[- ]\s*switch(?:es)?\b` → `kill-switch`
+     - `\bemergency\s*[- ]\s*stops?\b` → `emergency-stop`
+     - `\bcircuit\s*[- ]\s*breakers?\b` → `circuit-breaker`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 擴充路由詞群：加入 `router`、`routers`、`路由器`、`動態路由`；
+     - 新增最小權限詞群：`least-privilege`／`least privilege`／`least privileges`／`最小權限`／`最小權限原則`／`權限最小化`；
+     - 新增白名單詞群：`whitelist`／`whitelisting`／`allowlist`／`allowlisting`／`白名單`／`允許清單`／`允許名單`；
+     - 新增黑名單詞群：`blacklist`／`blacklisting`／`denylist`／`denylisting`／`blocklist`／`blocklisting`／`黑名單`／`封鎖名單`／`拒絕清單`；
+     - 新增敏感資料詞群：`sensitive-data`／`sensitive data`／`sensitive information`／`sensitive info`／`敏感資料`／`敏感資訊`／`敏感信息`；
+     - 新增緊急停止與熔斷詞群：`kill-switch`／`kill switch`／`emergency-stop`／`emergency stop`／`circuit-breaker`／`circuit breaker`／`緊急停止`／`緊急開關`／`停止開關`／`熔斷`／`熔斷器`／`斷路器`／`緊急停止開關`；
+     - 保持 100% 互映對稱映射。
+2. `tests/search.test.cjs`：
+   - 增加 27 組搜尋斷言，覆蓋 least privilege/least-privilege/least privileges/最小權限/最小權限原則/權限最小化、whitelist/whitelisting/allowlist/allowlisting/白名單/允許清單、blacklist/blacklisting/denylist/blocklist/黑名單、sensitive data/sensitive information/sensitive info/敏感資料/敏感資訊/敏感信息、router/routers/路由器/路由/routing/動態路由、kill switch/emergency stop/circuit breaker/緊急停止/緊急開關/停止開關/熔斷/斷路器等檢索。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：63/63 單元測試全數通過。
+- `for file in assets/*.js; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：針對已標註之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
+

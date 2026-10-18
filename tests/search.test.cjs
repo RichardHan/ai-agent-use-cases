@@ -116,6 +116,45 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('賬單')), {}).length
 assert(api.filterEntries(entries, Array.from(api.tokenize('記賬')), {}).length > 0, '記賬 matches 記帳 cases');
 assert(api.filterEntries(entries, Array.from(api.tokenize('登錄')), {}).length > 0, '登錄 matches 登入 cases');
 
+// Search quality: query punctuation tolerance (question marks, exclamation marks, colons)
+assert.deepEqual(Array.from(api.tokenize('旅遊？')), ['旅遊'], 'strips full-width question mark');
+assert.deepEqual(Array.from(api.tokenize('旅遊?')), ['旅遊'], 'strips ASCII question mark');
+assert.deepEqual(Array.from(api.tokenize('比價！')), ['比價'], 'strips full-width exclamation mark');
+assert.deepEqual(Array.from(api.tokenize('比價!')), ['比價'], 'strips ASCII exclamation mark');
+assert.deepEqual(Array.from(api.tokenize('UC:001')), ['uc-001'], 'normalizes ASCII colon in case ID');
+assert.deepEqual(Array.from(api.tokenize('UC：001')), ['uc-001'], 'normalizes full-width colon in case ID');
+assert.deepEqual(Array.from(api.tokenize('情境：工作')), ['情境', '工作'], 'splits colon-separated query into tokens');
+assert.equal(api.filterEntries(entries, Array.from(api.tokenize('旅遊？')), {}).length, api.filterEntries(entries, ['旅遊'], {}).length, 'question mark query matches target cases');
+assert.equal(api.filterEntries(entries, Array.from(api.tokenize('比價！')), {}).length, api.filterEntries(entries, ['比價'], {}).length, 'exclamation query matches target cases');
+assert.equal(api.filterEntries(entries, Array.from(api.tokenize('UC:001')), {}).length, 8, 'colon-separated UC:001 matches case');
+assert.equal(api.filterEntries(entries, Array.from(api.tokenize('UC：001')), {}).length, 8, 'full-width colon UC：001 matches case');
+assert.equal(api.matchCase('UC:001', entries)?.id, 'UC-001', 'matchCase supports colon in ID');
+assert.equal(api.matchCase('UC：001', entries)?.id, 'UC-001', 'matchCase supports full-width colon in ID');
+
+// Search quality: presentations (簡報 / 投影片 / ppt / powerpoint)
+const slideMatches = api.filterEntries(entries, Array.from(api.tokenize('投影片')), {});
+assert(slideMatches.length >= 20, '投影片 query must match 簡報 cases via synonym map');
+assert(slideMatches.some(x => x.id === 'UC-019'), '投影片 includes UC-019 deck preparation');
+assert(api.filterEntries(entries, Array.from(api.tokenize('ppt')), {}).some(x => x.id === 'UC-019'), 'ppt includes UC-019 deck preparation');
+
+// Search quality: crawling / scraping (爬蟲 / 抓取 / 採集 / scraping)
+const crawlMatches = api.filterEntries(entries, Array.from(api.tokenize('爬蟲')), {});
+assert(crawlMatches.length >= 10, '爬蟲 query must match 抓取/採集 cases via synonym map');
+assert(crawlMatches.some(x => x.id === 'UC-322'), '爬蟲 includes UC-322 data collection');
+
+// Search quality: spreadsheets (試算表 / excel / sheets)
+const sheetMatches = api.filterEntries(entries, Array.from(api.tokenize('試算表')), {});
+assert(sheetMatches.some(x => x.id === 'UC-325'), '試算表 includes UC-325 excel sync');
+
+// Search quality: transcripts & speech (逐字稿 / 轉錄)
+const transcriptMatches = api.filterEntries(entries, Array.from(api.tokenize('逐字稿')), {});
+assert(transcriptMatches.some(x => x.id === 'UC-191'), '逐字稿 includes UC-191 podcast transcription');
+
+// Search quality: databases (資料庫 / 數據庫)
+const dbMatches = api.filterEntries(entries, Array.from(api.tokenize('數據庫')), {});
+assert(dbMatches.some(x => x.id === 'UC-324'), '數據庫 matches 資料庫 cases (UC-324 outage DB PR)');
+
+
 const rendered=api.renderMarkdown('# Example\n\n<script>alert(1)</script>\n\n[test](javascript:alert)\n\n## Section\n\n- safe','cases/test.md');
 const tags=[];function walk(node){if(node.tagName)tags.push(node.tagName);(node.children||[]).forEach(walk);}walk(rendered);assert(!tags.includes('SCRIPT'));assert(!tags.includes('A'));assert(tags.includes('H2'));assert(tags.includes('LI'));
 const future=api.parseFile('cases/999-new-case.md','# UC-999：新案例\n\n- 分類：新主題\n- 核心目標：可搜尋的新流程\n- 來源證據：author-demo');assert.equal(future[0].category,'新主題');assert.equal(api.filterEntries(future,['新流程'],{}).length,1);

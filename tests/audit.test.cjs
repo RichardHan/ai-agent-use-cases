@@ -10,7 +10,7 @@ const CANONICAL_SCENARIOS = ['生活', '工作', '省錢', '學習', '創作', '
 
 function normalizeSourceUrl(rawUrl) {
   try {
-    const cleaned = rawUrl.replace(/[.。;；)\]'\"<>]+$/, '');
+    const cleaned = rawUrl.replace(/[.。;；)\]）〕』'\"<>?？!！]+$/, '');
     const u = new URL(cleaned);
     u.searchParams.delete('utm_source');
     u.searchParams.delete('utm_medium');
@@ -75,12 +75,13 @@ test('all cases and evidence files have valid scenario, non-empty tags, and veri
   assert.deepEqual(missingDate, [], `Missing verification date: ${missingDate.join(', ')}`);
 });
 
-test('all cases and evidence files contain verified external source URLs without placeholders', () => {
+test('all cases, evidence files, and pending leads contain verified external source URLs without placeholders', () => {
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
   const evidenceFiles = fs.readdirSync(path.join(root, 'evidence')).filter(f => f.endsWith('.md')).sort();
   const targets = [
     ...caseFiles.map(f => ({ dir: 'cases', file: f })),
-    ...evidenceFiles.map(f => ({ dir: 'evidence', file: f }))
+    ...evidenceFiles.map(f => ({ dir: 'evidence', file: f })),
+    { dir: 'sources', file: 'pending.md' }
   ];
 
   const missingExternalSource = [];
@@ -133,7 +134,14 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
   // Confirm that candidate duplicates are purely listed as candidates and all original cases remain intact
-  assert(caseFiles.length >= 313, `Corpus case count must remain intact (no automatic deletion of candidates); got ${caseFiles.length}`);
+  assert(caseFiles.length >= 318, `Corpus case count must remain intact (no automatic deletion of candidates); got ${caseFiles.length}`);
+
+  // Specifically verify known shared discussion thread candidates are identified
+  const redditDiscussion = duplicates.find(d => d.url.includes('1wa57uk/comment/p8gwy2e'));
+  assert(redditDiscussion, 'Must detect shared Reddit comment thread candidate');
+  assert(redditDiscussion.cases.includes('097-public-gis-layer-map.md'), 'Shared thread candidate includes UC-097');
+  assert(redditDiscussion.cases.includes('098-engineering-pdf-excel-extraction.md'), 'Shared thread candidate includes UC-098');
+  assert(redditDiscussion.cases.includes('099-travel-photo-scrapbook.md'), 'Shared thread candidate includes UC-099');
 });
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {
@@ -143,7 +151,7 @@ test('qualification audit maintains strict separation between catalog entries an
   const qualifiedCount = parseInt(catalogCountMatch[1], 10);
 
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
-  // Qualified cases (e.g. 292) must be strictly less than or equal to total case markdown files
+  // Qualified cases (e.g. 296) must be strictly less than or equal to total case markdown files
   assert(qualifiedCount >= 296, `Expected qualified count >= 296 (2026-10-18 14:45 baseline), got ${qualifiedCount}`);
   assert(qualifiedCount <= caseFiles.length, `Qualified count (${qualifiedCount}) cannot exceed total cases (${caseFiles.length})`);
 
@@ -152,6 +160,44 @@ test('qualification audit maintains strict separation between catalog entries an
   const indexCountMatch = indexHtml.match(/<div class="stat-card stat-card-audit">[\s\S]*?<div class="stat-figure">\s*<strong>(\d+)<\/strong>/);
   assert(indexCountMatch, 'index.html must display strict qualified count');
   assert.equal(parseInt(indexCountMatch[1], 10), qualifiedCount, `index.html audit count (${indexCountMatch[1]}) must match audit doc (${qualifiedCount})`);
+});
+
+test('INDEX.md maintains scenario consistency, working case links, and matches strict qualification audit count', () => {
+  const indexContent = fs.readFileSync(path.join(root, 'INDEX.md'), 'utf8');
+  const auditContent = fs.readFileSync(path.join(root, 'sources/qualification-audit-2026-10-16.md'), 'utf8');
+
+  // Strict qualified count in INDEX.md header must match audit document
+  const auditMatch = auditContent.match(/嚴格合格\s*\*\*(\d+)[／/]1,000/);
+  assert(auditMatch, 'Audit file must contain strict qualified count');
+  const expectedQualified = auditMatch[1];
+  const indexMatch = indexContent.match(/截至\s*2026-10-18[^\n]*\*\*(\d+)[／/]1,000/);
+  assert(indexMatch, 'INDEX.md must contain current qualified count');
+  assert.equal(indexMatch[1], expectedQualified, `INDEX.md count (${indexMatch[1]}) must match audit doc (${expectedQualified})`);
+
+  // Main cases count in INDEX.md header must match cases/ file count
+  const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
+  const mainPagesMatch = indexContent.match(/主要頁\s*(\d+)/);
+  assert(mainPagesMatch, 'INDEX.md must state total main pages count');
+  assert.equal(parseInt(mainPagesMatch[1], 10), caseFiles.length, `INDEX.md main pages (${mainPagesMatch[1]}) must match cases/ count (${caseFiles.length})`);
+
+  // Verify all case and evidence links in INDEX.md exist on disk
+  const links = Array.from(indexContent.matchAll(/\[(?:[^\]]*)\]\(((?:cases|evidence)\/[^)]+\.md)\)/g));
+  assert(links.length >= 318, `Expected at least 318 links in INDEX.md, found ${links.length}`);
+  for (const match of links) {
+    const relPath = match[1];
+    assert(fs.existsSync(path.join(root, relPath)), `Link target does not exist: ${relPath}`);
+  }
+
+  // Verify all case rows in table 1 have valid canonical scenario
+  const caseRows = indexContent.split('\n').filter(l => l.startsWith('| UC-') && l.includes('(cases/'));
+  assert.equal(caseRows.length, caseFiles.length, `INDEX.md table case rows (${caseRows.length}) must match caseFiles (${caseFiles.length})`);
+  for (const row of caseRows) {
+    const cols = row.split('|').map(c => c.trim()).filter(Boolean);
+    const catTag = cols[4];
+    assert(catTag, `Row missing category/tag column: ${row}`);
+    const scenario = catTag.split(/[｜|]/)[0].trim();
+    assert(CANONICAL_SCENARIOS.includes(scenario), `Invalid scenario in INDEX.md: "${scenario}" in row: ${row}`);
+  }
 });
 
 test('all cases have plain-language title and purpose either in markdown or copy.json', () => {

@@ -1313,6 +1313,52 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('headless browser')), 
 assert(api.filterEntries(entries, Array.from(api.tokenize('無頭瀏覽器')), {}).some(x => x.id === 'UC-046'), '無頭瀏覽器 matches UC-046 via headless-browser synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('puppeteer')), {}).some(x => x.id === 'UC-046'), 'puppeteer matches UC-046 via browser automation synonym');
 
+// Search quality: subagent, subagents, sub-agent, sub agent, 子代理, 子agent
+assert(api.filterEntries(entries, Array.from(api.tokenize('subagent')), {}).some(x => x.id === 'UC-066'), 'subagent matches UC-066 via subagent synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('subagents')), {}).some(x => x.id === 'UC-066'), 'subagents matches UC-066 via subagent tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sub-agent')), {}).some(x => x.id === 'UC-066'), 'sub-agent matches UC-066 via subagent synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sub agent')), {}).some(x => x.id === 'UC-066'), 'sub agent matches UC-066 via subagent tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('子agent')), {}).some(x => x.id === 'UC-066'), '子agent matches UC-066 via subagent synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('子代理')), {}).some(x => x.id === 'UC-066'), '子代理 matches UC-066');
+
+// Search quality: worker agent, worker agents, 工作代理
+assert(api.filterEntries(entries, Array.from(api.tokenize('worker agent')), {}).some(x => x.id === 'UC-281'), 'worker agent matches UC-281 via worker synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('worker agents')), {}).some(x => x.id === 'UC-281'), 'worker agents matches UC-281 via worker synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('工作代理')), {}).some(x => x.id === 'UC-281'), '工作代理 matches UC-281 via worker synonym');
+
+// Search quality: data exfiltration, exfiltration, data leak, data leakage, 資料外洩, 資料洩漏, 個資外洩
+assert(api.filterEntries(entries, Array.from(api.tokenize('data exfiltration')), {}).some(x => x.id === 'UC-076'), 'data exfiltration matches UC-076 via leak/data-leak synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('exfiltration')), {}).some(x => x.id === 'UC-076'), 'exfiltration matches UC-076 via leak synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('data leak')), {}).some(x => x.id === 'UC-076'), 'data leak matches UC-076 via leak/data-leak synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('data leakage')), {}).some(x => x.id === 'UC-076'), 'data leakage matches UC-076 via leak/data-leak synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('資料外洩')), {}).some(x => x.id === 'UC-076'), '資料外洩 matches UC-076 via leak synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('資料洩漏')), {}).some(x => x.id === 'UC-235'), '資料洩漏 matches UC-235 via leak synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('個資外洩')), {}).some(x => x.id === 'UC-076'), '個資外洩 matches UC-076 via leak synonym');
+
+// Search quality: computer use, computer-use, cua, 電腦操作, gui agent
+assert(api.filterEntries(entries, Array.from(api.tokenize('computer use')), {}).some(x => x.id === 'UC-268'), 'computer use matches UC-268 via computer-use tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('computer-use')), {}).some(x => x.id === 'UC-268'), 'computer-use matches UC-268 via computer-use synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('cua')), {}).some(x => x.id === 'UC-268'), 'cua matches UC-268 via computer-use synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('電腦操作')), {}).some(x => x.id === 'UC-028'), '電腦操作 matches UC-028 via computer-use synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('gui agent')), {}).some(x => x.id === 'UC-268'), 'gui agent matches UC-268 via computer-use synonym');
+
+// Search quality: reasoning, inference, 思考過程, 思維過程
+assert(api.filterEntries(entries, Array.from(api.tokenize('reasoning')), {}).some(x => x.id === 'UC-292'), 'reasoning matches UC-292 via reasoning synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('inference')), {}).some(x => x.id === 'UC-305'), 'inference matches UC-305 via reasoning synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('思考過程')), {}).some(x => x.id === 'UC-292'), '思考過程 matches UC-292 via reasoning synonym');
+
+// Search quality: context window, context length, 上下文窗口, 上下文長度, 上下文壓縮, context compaction
+assert(api.filterEntries(entries, Array.from(api.tokenize('context window')), {}).some(x => x.id === 'UC-066'), 'context window matches UC-066 via context-window tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('上下文窗口')), {}).some(x => x.id === 'UC-066'), '上下文窗口 matches UC-066 via context-window synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('上下文長度')), {}).some(x => x.id === 'UC-066'), '上下文長度 matches UC-066 via context-window synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('long context')), {}).some(x => x.id === 'UC-066'), 'long context matches UC-066 via context-window synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('context compaction')), {}).some(x => x.id === 'UC-066'), 'context compaction matches UC-066 via context-compaction tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('上下文壓縮')), {}).some(x => x.id === 'UC-066'), '上下文壓縮 matches UC-066 via context-compaction synonym');
+
+// Search quality: hybrid search, 混合檢索
+assert(api.filterEntries(entries, Array.from(api.tokenize('hybrid search')), {}).some(x => x.id === 'UC-132'), 'hybrid search matches UC-132 via hybrid-search tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('混合檢索')), {}).some(x => x.id === 'UC-132'), '混合檢索 matches UC-132 via hybrid-search synonym');
+
 
 
 

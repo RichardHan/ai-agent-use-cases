@@ -1173,3 +1173,47 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 PR #49 合併為185cc17，保留同時新增的協作者af5a05a搜尋詞群、測試與SITE紀錄；獨立整合review無必修。實際模型與effort未有runtime介面可核實，不冒稱最高設定。所有寫入與瀏覽器驗證皆在GitHub雲端執行，本機僅最初唯讀檢查。
 
 [前後截圖、測試指令、實際數據、整合與驗證限制](docs/qa/2026-10-19-home-search-entry/README.md)。未驗實體iOS鍵盤或真人螢幕閱讀器。下一輪優先降低回訪全文載入成本，保持全文搜尋、來源一致與部分失敗回復。
+
+## 2026-10-19：擴充子代理、資料外洩防護、電腦操作CUA、模型推理與上下文長度檢索品質與分詞
+
+問題調查與證據：
+1. 核心 AI Agent 協作模式、資安外洩、終端操作與模型架構分詞斷層：
+   - 子代理與工作者代理：全庫 UC-061、UC-066、UC-070、UC-093、UC-281 等案例大量使用「子代理」與「工人代理／工作者」，是多代理協作的核心模式；但使用者搜尋英文常用詞 `subagent`、`subagents`、`sub-agent`、`sub agent`、`worker agent` 或中文夾雜 `子agent` 時，因 `tokenize` 未合併為複合詞且詞群未互映，檢索全數落空（0 筆）；
+   - 資料外洩防護：全庫 8 篇關鍵案例（UC-035、UC-076、UC-082、UC-235、UC-276、UC-279、UC-283、UC-288）涉及「資料外洩」、「資料洩漏」、「個資外洩」等 AI Agent 資安與隱私控制；但既有詞群僅有單詞 `外洩`，使用者搜尋英文自然語言 `data exfiltration`、`data leak`、`data leakage`、英文專有名詞 `exfiltration`，或中文完整詞彙 `資料外洩`、`資料洩漏`、`個資外洩` 時，因分詞與詞群缺失，檢索全數落空（0 筆）；
+   - 電腦操作與 CUA：UC-028、UC-268、UC-322 涉及電腦操作（Computer Use / CUA），使用者搜尋 `computer use`、`computer-use`、`cua`、`電腦操作`、`gui agent` 時，檢索結果零星或互不相通；
+   - 模型推理與思考過程：UC-292（DeepSeek think 串流推理行與思考過程）、UC-305（模型推理階段分解）等涉及最新推理模型特徵，使用者搜尋英文 `reasoning`、`inference` 或中文 `思考過程`、`思維過程` 時，結果全為 0 筆；
+   - 上下文長度與壓縮：UC-066 深度分析 7 天 238 次上下文壓縮與單則訊息超過上下文上限，UC-093 避免脈絡膨脹；使用者搜尋 `context window`、`上下文窗口`、`上下文長度`、`long context`、`context compaction`、`上下文壓縮` 多數為 0 筆；
+   - 混合檢索：UC-132、UC-297 提及混合檢索，使用者搜尋 `hybrid search` 為 0 筆。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\bsub\s*[- ]\s*agents?\b` 與 `\bsubagents?\b` → `subagent`
+     - `\bworker\s*[- ]\s*agents?\b` → `worker-agent`
+     - `\bdata\s*[- ]\s*(?:exfiltration|leakage|leaks?)\b` 與 `\bexfiltration\b` → `data-leak`
+     - `\bcomputer\s*[- ]\s*use\b` → `computer-use`
+     - `\bgui\s*[- ]\s*agents?\b` → `gui-agent`
+     - `\bcontext\s*[- ]\s*(?:windows?|lengths?)\b` 與 `\blong\s*[- ]\s*contexts?\b` → `context-window`
+     - `\bcontext\s*[- ]\s*compactions?\b` → `context-compaction`
+     - `\bhybrid\s*[- ]\s*search(?:es)?\b` → `hybrid-search`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 擴充 RAG 詞群：加入 hybrid-search、hybrid search、混合檢索；
+     - 擴充外洩防護詞群：加入 leak／leaks／leakage／leaking／data-leak／data leak／data leaks／data leakage／data exfiltration／exfiltration／資料外洩／資料洩漏／個資外洩／資訊洩漏／信息洩露；
+     - 擴充工作者詞群：加入 worker-agent／worker agent／worker agents／工作代理／工人／工人代理；
+     - 新增子代理詞群：subagent／subagents／sub-agent／sub agent／子代理／子agent；
+     - 新增電腦操作詞群：computer-use／computer use／cua／電腦操作／桌面操作／gui agent／gui-agent／gui代理；
+     - 新增推理思考詞群：reasoning／inference／推理／思考過程／思維過程；
+     - 新增上下文窗口詞群：context-window／context window／context-length／context length／上下文窗口／上下文長度／長上下文／long context／脈絡長度／上下文上限；
+     - 新增上下文壓縮詞群：context-compaction／context compaction／compaction／上下文壓縮／脈絡壓縮／對話壓縮；
+     - 保持 100% 互映對稱映射。
+2. `tests/search.test.cjs`：
+   - 增加 25 組搜尋斷言，覆蓋 subagent/subagents/sub-agent/sub agent/子agent/子代理、worker agent/worker agents/工作代理、data exfiltration/exfiltration/data leak/data leakage/資料外洩/資料洩漏/個資外洩、computer use/computer-use/cua/電腦操作/gui agent、reasoning/inference/思考過程、context window/上下文窗口/上下文長度/long context/context compaction/上下文壓縮、hybrid search/混合檢索等檢索。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：58/58 單元測試全數通過。
+- `for file in assets/*.js; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：依目前已標註之 46 組多案例共用公開來源候選叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
+

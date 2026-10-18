@@ -1,0 +1,21 @@
+{
+  "parent": "af5a05a35f77c1ce20c7300c9a7c70f0ac200a15",
+  "merged": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+  "files": [
+    {
+      "path": "index.html",
+      "before": 11780,
+      "after": 11921
+    },
+    {
+      "path": "assets/app.js",
+      "before": 68876,
+      "after": 69434
+    },
+    {
+      "path": "assets/style.css",
+      "before": 25795,
+      "after": 26166
+    }
+  ]
+}

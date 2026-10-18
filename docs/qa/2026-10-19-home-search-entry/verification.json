@@ -1,0 +1,97 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "height": 1000,
+    "entry": {
+      "x": 140,
+      "y": 389.125,
+      "width": 156.578125,
+      "height": 48
+    },
+    "queryBefore": {
+      "x": 193,
+      "y": 1014.359375,
+      "width": 1047.765625,
+      "height": 62
+    },
+    "axeViolations": [],
+    "journeys": "known-task, no-results-recovery, shared-case-reload"
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "height": 844,
+    "entry": {
+      "x": 20,
+      "y": 329.6875,
+      "width": 156.578125,
+      "height": 48
+    },
+    "queryBefore": {
+      "x": 58,
+      "y": 1703,
+      "width": 299,
+      "height": 56
+    },
+    "axeViolations": [],
+    "journeys": "known-task, no-results-recovery, shared-case-reload"
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "height": 740,
+    "entry": {
+      "x": 20,
+      "y": 329.6875,
+      "width": 156.578125,
+      "height": 48
+    },
+    "queryBefore": {
+      "x": 58,
+      "y": 1741.09375,
+      "width": 229,
+      "height": 56
+    },
+    "axeViolations": [],
+    "journeys": "known-task, no-results-recovery, shared-case-reload"
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "height": 844,
+    "entry": {
+      "x": 20,
+      "y": 329.70001220703125,
+      "width": 159,
+      "height": 48
+    },
+    "queryBefore": {
+      "x": 57.79999923706055,
+      "y": 1646,
+      "width": 299.20000076293945,
+      "height": 56
+    },
+    "axeViolations": [],
+    "journeys": "known-task, no-results-recovery, shared-case-reload"
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "height": 844,
+    "entry": {
+      "x": 20,
+      "y": 329.6875,
+      "width": 156.578125,
+      "height": 48
+    },
+    "queryBefore": {
+      "x": 57.8125,
+      "y": 1620.625,
+      "width": 299.1875,
+      "height": 56
+    },
+    "axeViolations": [],
+    "journeys": "known-task, no-results-recovery, shared-case-reload"
+  }
+]

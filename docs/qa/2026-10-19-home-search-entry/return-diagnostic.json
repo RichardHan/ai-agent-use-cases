@@ -1,0 +1,237 @@
+{
+  "engine": "chromium",
+  "width": 1440,
+  "expected": "UC-001",
+  "trace": [
+    {
+      "label": "popstate",
+      "time": 1232.4000000000087,
+      "scrollY": 1554,
+      "url": "http://127.0.0.1:8087/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB#explore",
+      "history": null,
+      "focus": {
+        "tag": "BUTTON",
+        "id": "",
+        "card": "UC-001",
+        "rect": {
+          "x": 420.28125,
+          "y": 494.46875,
+          "width": 68.046875,
+          "height": 36,
+          "top": 494.46875,
+          "right": 488.328125,
+          "bottom": 530.46875,
+          "left": 420.28125
+        }
+      },
+      "target": {
+        "x": 420.28125,
+        "y": 494.46875,
+        "width": 68.046875,
+        "height": 36,
+        "top": 494.46875,
+        "right": 488.328125,
+        "bottom": 530.46875,
+        "left": 420.28125
+      },
+      "open": false
+    },
+    {
+      "label": "after-0",
+      "time": 1233,
+      "scrollY": 855,
+      "url": "http://127.0.0.1:8087/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB#explore",
+      "history": null,
+      "focus": {
+        "tag": "BODY",
+        "id": "",
+        "rect": {
+          "x": 0,
+          "y": -855,
+          "width": 1440,
+          "height": 4867.515625,
+          "top": -855,
+          "right": 1440,
+          "bottom": 4012.515625,
+          "left": 0
+        }
+      },
+      "target": {
+        "x": 420.28125,
+        "y": 1193.46875,
+        "width": 68.046875,
+        "height": 36,
+        "top": 1193.46875,
+        "right": 488.328125,
+        "bottom": 1229.46875,
+        "left": 420.28125
+      },
+      "open": false
+    },
+    {
+      "label": "after-50",
+      "time": 1282.5,
+      "scrollY": 1084,
+      "url": "http://127.0.0.1:8087/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB#explore",
+      "history": null,
+      "focus": {
+        "tag": "BUTTON",
+        "id": "",
+        "card": "UC-001",
+        "rect": {
+          "x": 420.28125,
+          "y": 964.46875,
+          "width": 68.046875,
+          "height": 36,
+          "top": 964.46875,
+          "right": 488.328125,
+          "bottom": 1000.46875,
+          "left": 420.28125
+        }
+      },
+      "target": {
+        "x": 420.28125,
+        "y": 964.46875,
+        "width": 68.046875,
+        "height": 36,
+        "top": 964.46875,
+        "right": 488.328125,
+        "bottom": 1000.46875,
+        "left": 420.28125
+      },
+      "open": false
+    },
+    {
+      "label": "after-100",
+      "time": 1332.5,
+      "scrollY": 1084,
+      "url": "http://127.0.0.1:8087/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB#explore",
+      "history": null,
+      "focus": {
+        "tag": "BUTTON",
+        "id": "",
+        "card": "UC-001",
+        "rect": {
+          "x": 420.28125,
+          "y": 964.46875,
+          "width": 68.046875,
+          "height": 36,
+          "top": 964.46875,
+          "right": 488.328125,
+          "bottom": 1000.46875,
+          "left": 420.28125
+        }
+      },
+      "target": {
+        "x": 420.28125,
+        "y": 964.46875,
+        "width": 68.046875,
+        "height": 36,
+        "top": 964.46875,
+        "right": 488.328125,
+        "bottom": 1000.46875,
+        "left": 420.28125
+      },
+      "open": false
+    },
+    {
+      "label": "after-200",
+      "time": 1432.5,
+      "scrollY": 1084,
+      "url": "http://127.0.0.1:8087/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB#explore",
+      "history": null,
+      "focus": {
+        "tag": "BUTTON",
+        "id": "",
+        "card": "UC-001",
+        "rect": {
+          "x": 420.28125,
+          "y": 964.46875,
+          "width": 68.046875,
+          "height": 36,
+          "top": 964.46875,
+          "right": 488.328125,
+          "bottom": 1000.46875,
+          "left": 420.28125
+        }
+      },
+      "target": {
+        "x": 420.28125,
+        "y": 964.46875,
+        "width": 68.046875,
+        "height": 36,
+        "top": 964.46875,
+        "right": 488.328125,
+        "bottom": 1000.46875,
+        "left": 420.28125
+      },
+      "open": false
+    },
+    {
+      "label": "after-400",
+      "time": 1632.6000000000058,
+      "scrollY": 1084,
+      "url": "http://127.0.0.1:8087/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB#explore",
+      "history": null,
+      "focus": {
+        "tag": "BUTTON",
+        "id": "",
+        "card": "UC-001",
+        "rect": {
+          "x": 420.28125,
+          "y": 964.46875,
+          "width": 68.046875,
+          "height": 36,
+          "top": 964.46875,
+          "right": 488.328125,
+          "bottom": 1000.46875,
+          "left": 420.28125
+        }
+      },
+      "target": {
+        "x": 420.28125,
+        "y": 964.46875,
+        "width": 68.046875,
+        "height": 36,
+        "top": 964.46875,
+        "right": 488.328125,
+        "bottom": 1000.46875,
+        "left": 420.28125
+      },
+      "open": false
+    },
+    {
+      "label": "after-800",
+      "time": 2032.6000000000058,
+      "scrollY": 1084,
+      "url": "http://127.0.0.1:8087/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB#explore",
+      "history": null,
+      "focus": {
+        "tag": "BUTTON",
+        "id": "",
+        "card": "UC-001",
+        "rect": {
+          "x": 420.28125,
+          "y": 964.46875,
+          "width": 68.046875,
+          "height": 36,
+          "top": 964.46875,
+          "right": 488.328125,
+          "bottom": 1000.46875,
+          "left": 420.28125
+        }
+      },
+      "target": {
+        "x": 420.28125,
+        "y": 964.46875,
+        "width": 68.046875,
+        "height": 36,
+        "top": 964.46875,
+        "right": 488.328125,
+        "bottom": 1000.46875,
+        "left": 420.28125
+      },
+      "open": false
+    }
+  ]
+}

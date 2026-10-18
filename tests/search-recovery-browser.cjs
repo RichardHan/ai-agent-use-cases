@@ -84,8 +84,8 @@ module.exports = async function searchRecovery({browser, origin, observe=false})
     assert.equal(await page.locator('#active-filters').isVisible(),false);
     assert.equal(await page.locator('#empty').isVisible(),false);
     assert.equal(await page.locator('#results-count').evaluate(n=>document.activeElement===n),true);
-    await page.locator('#query').fill('旅遊');
-    await page.locator('#empty-reset').evaluate(n=>n.click());
+    await page.locator('#query').fill('xyz987');
+    await page.locator('#empty-reset').click();
     assert.equal(await page.locator('#query').inputValue(),'');
     row.passed=true;report.push(row);
     await page.close();

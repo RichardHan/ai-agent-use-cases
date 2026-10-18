@@ -319,6 +319,68 @@ function card(item) {
 function filterEntries(items, terms, filters) {
   return items.filter(item => terms.every(term => termVariants(term).some(v => item.search.includes(v))) && (!filters.kind || item.kind === filters.kind) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
 }
+const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',tool:'提及工具',category:'主題分類',proof:'來源類型'};
+function activeConditions(query, filters) {
+  return Object.entries({query, ...filters}).filter(([,value]) => value)
+    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : value}));
+}
+function relaxationOptions(items, terms, filters) {
+  return Object.entries(filters).filter(([,value])=>value).map(([key,value]) => ({
+    key, value, count:filterEntries(items,terms,{...filters,[key]:''}).length
+  })).filter(option=>option.count>0).sort((a,b)=>a.count-b.count);
+}
+function focusResults() {
+  $('results-count').focus();
+}
+function removeCondition(key) {
+  if(key==='scenario')activeScenario='';
+  else if(Object.hasOwn(FILTER_LABELS,key))$(key).value='';
+  render();
+  focusResults();
+}
+function clearFacets() {
+  activeScenario='';
+  ['kind','tool','category','proof'].forEach(id=>$(id).value='');
+  render();
+  focusResults();
+}
+function renderSearchFeedback(terms, filters) {
+  const conditions=activeConditions($('query').value,filters);
+  const active=$('active-filters');
+  active.replaceChildren();
+  active.hidden=!discoveryReady||!conditions.length;
+  conditions.forEach(condition=>{
+    const button=el('button','active-filter');
+    button.type='button';button.dataset.removeFilter=condition.key;
+    button.setAttribute('aria-label','移除'+condition.label+'：'+condition.display);
+    button.title=condition.label+'：'+condition.display;
+    button.append(el('span','active-filter-value',condition.label+'：'+condition.display));
+    const cross=el('span','active-filter-cross','×');cross.setAttribute('aria-hidden','true');button.append(cross);
+    button.addEventListener('click',()=>removeCondition(condition.key));
+    active.append(button);
+  });
+  const hasFacets=Object.values(filters).some(Boolean);
+  $('search-feedback').hidden=!discoveryReady||!conditions.length;
+  $('clear-facets').hidden=!hasFacets;
+  $('clear-facets').textContent=$('query').value ? '清除篩選，保留關鍵字' : '清除所有篩選';
+  const suggestions=$('empty-suggestions');suggestions.replaceChildren();
+  if(!currentFiltered.length&&discoveryReady){
+    const options=relaxationOptions(entries,terms,filters).slice(0,3);
+    options.forEach(({key,value,count})=>{
+      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:value)+'」 → 查看 '+count+' 筆');
+      button.type='button';button.dataset.removeFilter=key;
+      button.addEventListener('click',()=>removeCondition(key));
+      suggestions.append(button);
+    });
+    $('empty-hint').textContent=options.length
+      ? '每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。'
+      : hasFacets ? '目前條件沒有交集。可逐項移除上方條件，或清除篩選後保留關鍵字再找。'
+      : '試著用更短的任務關鍵字，例如「旅遊」或「收件匣」。';
+    if(failedPaths.length)$('empty-hint').textContent+=' 部分條目載入失敗，以下數量只計算已載入內容。';
+  }
+  $('edit-query').hidden=!$('query').value;
+}
+
 function render(updateURL=true) {
   $('scenario').value=activeScenario;
   const q = tokenize($('query').value);
@@ -326,7 +388,8 @@ function render(updateURL=true) {
   if (activeScenario) filters.scenario = activeScenario;
   currentFiltered = filterEntries(entries, q, filters);
   $('results').replaceChildren(...currentFiltered.map(card));syncDiscovery(currentFiltered);
-  $('empty').hidden = !!currentFiltered.length;
+  $('empty').hidden = !!currentFiltered.length || !discoveryReady;
+  renderSearchFeedback(q, filters);
   const skipNote = failedPaths.length ? `（${failedPaths.length} 筆載入略過）` : '';
   $('results-count').textContent = `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}`;
 
@@ -407,6 +470,8 @@ async function load() {
   discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('discover').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
   $('error').hidden = true;
   $('empty').hidden = true;
+  $('search-feedback').hidden = true;
+  $('empty-suggestions').replaceChildren();
   $('results-count').textContent = '正在讀取案例…';
   failedPaths = [];
   try {
@@ -497,7 +562,9 @@ $('filters').addEventListener('submit', e => e.preventDefault());
 $('query').addEventListener('input', () => render());
 ['kind', 'tool', 'category', 'proof'].forEach(id => $(id).addEventListener('change', () => render()));
 $('reset').addEventListener('click', reset);
-$('empty-reset').addEventListener('click', reset);
+$('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
+$('clear-facets').addEventListener('click', clearFacets);
+$('edit-query').addEventListener('click', () => { $('query').focus(); $('query').select(); });
 $('retry').addEventListener('click', load);
 $('close-detail').addEventListener('click', closeDetail);
 $('nav-prev-case')?.addEventListener('click', () => navStep(-1));

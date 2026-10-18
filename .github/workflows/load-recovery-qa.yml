@@ -1,0 +1,42 @@
+name: Partial Load QA
+on:
+  push:
+    branches: [feat/partial-load-recovery]
+  pull_request:
+    paths: ['assets/**', 'index.html', 'tests/load-recovery*', '.github/workflows/load-recovery-qa.yml']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Baseline tests and preview build
+        run: |
+          node --test tests/*.test.cjs
+          node --check assets/app.js
+          node --check assets/reader.js
+          python3 scripts/preview.py "$RUNNER_TEMP/load-preview/ai-agent-use-cases"
+      - name: Install existing cloud QA tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/load-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/load-tools/node_modules/.bin/playwright" install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Observe partial loading before changes
+        env:
+          NODE_PATH: ${{ runner.temp }}/load-tools/node_modules
+          PREVIEW_ROOT: ${{ runner.temp }}/load-preview
+          OBSERVE: '1'
+        run: |
+          python3 -m http.server 8086 --directory "$PREVIEW_ROOT" > /tmp/load-preview.log 2>&1 &
+          node tests/load-recovery-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: load-recovery-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

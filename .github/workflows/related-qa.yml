@@ -1,0 +1,42 @@
+name: Related reading QA
+on:
+  pull_request:
+    paths: ['assets/**', 'tests/related*', '.github/workflows/related-qa.yml']
+  push:
+    branches: [main]
+    paths: ['assets/**', 'tests/related*', '.github/workflows/related-qa.yml']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install cloud QA tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Baseline tests, syntax and preview
+        run: |
+          node --test tests/*.test.cjs
+          for file in assets/*.js; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Browser walkthrough
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          python3 -m http.server 8088 --directory "$RUNNER_TEMP/preview" >/tmp/related-preview.log 2>&1 &
+          node tests/related-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: related-reading-${{ github.sha }}
+          path: qa-artifacts/
+          retention-days: 30

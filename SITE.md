@@ -683,3 +683,37 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 - Reader原有人工捲動測試兩次失敗後，用同雲端Firefox對照重現於本輪前`ee1bfce`，確認測試準備可能與原生鍵盤焦點捲動競爭。只加人工捲動前的穩定檢查；保留載入前後精確100px及焦點斷言。
 - [驗收紀錄、原始數據與限制](docs/qa/2026-10-18-partial-load/README.md)記錄24次對照與首次失敗，不以重跑抹去。協作者後續搜尋修改完整保留。
 - 下一輪優先評估Jekyll全文資料包，減少初次逐檔請求；後續協作者版本的live check仍曾觀測2個來源讀取失敗，本輪未宣稱杜絕此問題。
+
+## 2026-10-18：逾時處理、任務佇列、依賴項、時延、分支提交、並行串流、終端命令列、系統遷移、模擬仿真、認證身分同義詞擴充與文檔視圖參數正規化
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與自然語言檢索痛點：
+   - 逾時與超時類（Timeout）：全庫有 5 筆「逾時」與 3 筆「超時」（如 UC-329 代理鏈長延遲重啟中斷恢復、UC-336 終端超時斷開），但讀者搜尋英文詞「timeout」得 0 筆、「timeouts」得 0 筆，導致檢索排程與網路中斷案例失敗；
+   - 任務隊列與佇列類（Task / message queues）：全庫有 9 筆「佇列」、1 筆「隊列」、4 筆「排隊」、4 筆「mq」（如 UC-042 多代理憑證與佇列狀態、UC-061 派工機器人、UC-179），但搜尋「queue」得 1 筆、「queues」得 0 筆、「隊列」得 0 筆，無法檢索隊列派發與處理案例；
+   - 依賴項與套件依賴類（Dependencies）：全庫有 30 筆「依賴」（如 UC-067 重建與依賴項、UC-214、UC-217 回歸檢查），但搜尋「dependency」得 0 筆、「dependencies」得 0 筆；
+   - 延遲與時延類（Latency & lag）：全庫有 17 筆「延遲」（如 UC-165 離線效能指標、UC-239 穿戴對話晚回與時延），但搜尋「latency」得 0 筆、「latencies」得 0 筆、「lag」得 0 筆；
+   - 分支與版本控制類（Branch & branches）：全庫有 14 筆「分支」（如 UC-005 PR 審查、UC-156、UC-217），但搜尋「branch」得 0 筆、「branches」得 0 筆；
+   - 提交與代碼變更類（Commit & commits）：全庫有 24 筆「commit」與 68 筆「提交」，但搜尋複數「commits」得 0 筆；
+   - 並行與並發類（Concurrency & parallel）：全庫有 4 筆「並行」與 3 筆「並發」，但搜尋「concurrency」得 0 筆、「concurrent」得 0 筆、「parallel」得 0 筆；
+   - 串流與流式輸出類（Streaming）：全庫有 3 筆「stream」與 2 筆「串流」（如 UC-217、UC-316），但搜尋「streaming」得 0 筆、「流式」得 0 筆；
+   - 終端與命令行類（Terminal & console）：全庫有 5 筆「終端」、10 筆「命令列」、18 筆「cli」、3 筆「console」，但搜尋「terminal」得 0 筆、「命令行」得 0 筆；
+   - 系統遷移與移轉類（Migration）：全庫有 9 筆「遷移」、15 筆「移轉」、2 筆「migration」、1 筆「migrate」（如 UC-069 任務遷移對帳），但既有組別未納入遷移與移轉，搜尋 migration/migrate 查無結果；
+   - 模擬與仿真類（Mock & stub）：全庫有 35 筆「模擬」與 3 筆「mock」（如 UC-003 模擬商店營運），但搜尋「mocking」得 0 筆、「stub」得 0 筆、「stubs」得 0 筆、「仿真」得 0 筆；
+   - 認證與身分驗證類（Authentication, OAuth, SSO）：全庫有 56 筆「認證」、115 筆「auth」、4 筆「oauth」、1 筆「sso」，但搜尋「身分驗證」得 0 筆、「身份驗證」得 0 筆、「authentication」原僅得 1 筆純英文案例；
+   - 差異與對比類（Diff & difference）：全庫有 97 筆「差異」、69 筆「比對」、3 筆「對比」，但既有組別缺少「差異」與「對比」；
+   - 既有組別單複數與對稱補齊：agent 補 agents（搜尋 agents 原僅得 23 筆，補齊後達 210 筆完整命中）、retry 補 retries、alert/notification 補 alerts/notifications、prompt 補 prompts/prompting。
+2. 疑似重複來源偵測之文檔與商店平台視圖參數正規化：
+   - `normalizeSourceUrl` 補齊 Microsoft Learn（`tabs`, `view`）、Apple App Store（`platform`, `see-all`）及 Stripe 文檔（`payment-ui`）視圖參數清理；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 336 保持完整；嚴格合格案例數 300 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `SYNONYM_GROUPS` 擴充 12 組新同義詞群（逾時/超時/timeout/timeouts、佇列/隊列/排隊/queue/queues/mq、依賴/依賴項/dependency/dependencies、延遲/時延/latency/latencies/lag、分支/branch/branches、commit/commits/提交、並行/並發/concurrency/concurrent/parallel、串流/流式/stream/streaming、終端/命令列/命令行/terminal/cli/console、遷移/移轉/migration/migrate、模擬/仿真/mock/mocking/stub/stubs、認證/身分驗證/身份驗證/authentication/oauth/sso）。
+   - 在既有組別補齊對稱詞彙：agent 補 agents、alert 補 alerts/notifications、prompt 補 prompts/prompting、retry 補 retries、diff 補 差異/對比，維持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：強化 `normalizeSourceUrl` 之 Microsoft Learn `tabs`/`view`、Apple App Store `platform`/`see-all` 及 Stripe `payment-ui` 參數清理，加入回歸斷言，恪守「只列候選、不自行刪除、總案例數保持完整」。
+   - `tests/search.test.cjs`：加入 timeout/timeouts/超時、queue/queues/隊列、dependency/dependencies、latency/latencies、branch/branches、commits、concurrency/concurrent、streaming/流式、terminal/命令行、migration/migrate、mocking/stub/仿真、身分驗證/身份驗證/authentication、差異/對比，以及 agents/retries/alerts/prompts 複數搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
+本輪實際結果：33/33 測試全數通過，336 筆條目全文、同義詞擴充檢索、疑似重複來源候選審核、全庫一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。

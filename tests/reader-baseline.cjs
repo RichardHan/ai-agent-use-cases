@@ -1,7 +1,7 @@
 'use strict';
 const {chromium}=require('playwright');
 const fs=require('node:fs');
-const origin='https://richardhan.github.io/ai-agent-use-cases/';
+const origin=process.env.READER_BASELINE_URL||'https://richardhan.github.io/ai-agent-use-cases/';
 (async()=>{
  const browser=await chromium.launch();
  fs.mkdirSync('qa-artifacts',{recursive:true});

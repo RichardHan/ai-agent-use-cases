@@ -4,8 +4,30 @@ const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.READER_URL||'http://127.0.0.1:8082/ai-agent-use-cases/';
 const deployed=!!process.env.READER_DEPLOYED;
-const audits=[];
+const audits=[],timings=[];
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+async function deployedVersion(page){
+ const paths=['assets/reader.js','assets/reader.css','index.html'];
+ const expected=paths.map(path=>fs.readFileSync(path,'utf8'));
+ for(let attempt=0;attempt<30;attempt++){
+  const responses=await Promise.all(paths.map(path=>page.request.get(origin+path,{headers:{'Cache-Control':'no-cache'}})));
+  const observed=await Promise.all(responses.map(response=>response.text()));
+  if(responses.every(response=>response.ok())&&observed.every((text,i)=>text===expected[i])){
+   const {createHash}=require('node:crypto');
+   fs.writeFileSync('qa-artifacts/reader-deployment.json',JSON.stringify({origin,verifiedAt:new Date().toISOString(),assets:paths.map((path,i)=>({path,sha256:createHash('sha256').update(observed[i]).digest('hex')}))},null,2));
+   return;
+  }
+  await wait(10000);
+ }
+ throw Error('Published assets do not match this checkout');
+}
+async function visibleBelowToolbar(page,selector){
+ const rect=await page.locator(selector).boundingBox();
+ const toolbar=await page.locator('.detail-toolbar').boundingBox();
+ const dialog=await page.locator('#detail').boundingBox();
+ assert(rect.y>=toolbar.y+toolbar.height,'sticky toolbar must not cover target');
+ assert(rect.y+rect.height<=dialog.y+dialog.height,'target must be visible inside the dialog');
+}
 async function ready(page,suffix=''){
  for(let attempt=0;attempt<(deployed?30:1);attempt++){
   await page.goto(origin+suffix,{waitUntil:'networkidle'});
@@ -27,15 +49,14 @@ async function jump(page,button){
  await button.focus();await page.keyboard.press('Enter');
  assert.equal(await page.locator('.research-details').evaluate(el=>el.open),true);
  assert.equal(await page.evaluate(id=>document.activeElement.id===id,target),true);
- const rect=await page.locator('#'+target).boundingBox();
- const toolbar=await page.locator('.detail-toolbar').boundingBox();
- assert(rect.y>=toolbar.y+toolbar.height,'sticky toolbar must not cover heading');
- assert(rect.y+rect.height<=(await page.locator('#detail').boundingBox()).y+(await page.locator('#detail').boundingBox()).height,'heading must be visible inside the dialog');
+ await visibleBelowToolbar(page,'#'+target);
  assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,scroll:scrollY})),before,'jump preserves history and page behind dialog');
  await page.keyboard.press('Tab');
  assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('reader-return')),true);
  await page.keyboard.press('Enter');
  assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title');
+ await visibleBelowToolbar(page,'#reader-nav-title');
+ assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,scroll:scrollY})),before,'return preserves history and page behind dialog');
 }
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});
@@ -46,7 +67,14 @@ async function jump(page,button){
    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
    const page=await context.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
+   if(deployed&&engine==='chromium'&&size==='desktop')await deployedVersion(page);
    await ready(page);
+   timings.push(await page.evaluate(({engine,size})=>{
+    const navigation=performance.getEntriesByType('navigation')[0];
+    const assets=performance.getEntriesByType('resource').filter(r=>/assets\/reader\.(js|css)/.test(r.name));
+    return {engine,size,domContentLoadedMs:Math.round(navigation.domContentLoadedEventEnd),loadMs:Math.round(navigation.loadEventEnd),readerAssets:assets.map(r=>({path:new URL(r.name).pathname,encodedBytes:r.encodedBodySize,durationMs:Math.round(r.duration)}))};
+   },{engine,size}));
+   fs.writeFileSync('qa-artifacts/reader-timings.json',JSON.stringify(timings,null,2));
    // Journey 1: search a practical need, combine filters, read and return.
    await page.locator('#query').fill('旅遊');
    await page.locator('#scenario').selectOption('生活');
@@ -56,14 +84,17 @@ async function jump(page,button){
    const read=page.locator('#results .card .card-bottom button').first();
    const caseID=await page.locator('#results .card').first().getAttribute('data-case-id');
    await read.click();await page.locator('.reader-nav').waitFor();
+   const listScroll=await page.evaluate(()=>scrollY);
    await jump(page,page.locator('.reader-jump').first());
    await page.keyboard.press('Escape');
    assert.equal(await read.evaluate(el=>el===document.activeElement),true);
    assert.equal(await page.locator('#query').inputValue(),'旅遊');
    assert.equal(await page.locator('#results .card').count(),count);
+   assert.equal(await page.evaluate(()=>scrollY),listScroll);
    await read.click();await page.goBack();
    assert.equal(await page.locator('#detail').evaluate(el=>el.open),false);
    assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),caseID);
+   assert.equal(await page.evaluate(()=>scrollY),listScroll);
    await page.locator('#query').fill('no-matching-case-123');
    assert.equal(await page.locator('#empty').isVisible(),true);
    await page.locator('#empty-reset').click();
@@ -90,6 +121,18 @@ async function jump(page,button){
    await page.reload({waitUntil:'networkidle'});await page.locator('.reader-nav').waitFor();
    assert.equal(new URL(page.url()).searchParams.get('case'),'UC-005');
    assert.equal(await page.locator('.reader-nav').count(),1);
+   await page.locator('.reader-jump').first().click();
+   const oldID=await page.locator('#detail-toolbar-id').innerText();
+   await page.keyboard.press('ArrowRight');
+   assert.notEqual(await page.locator('#detail-toolbar-id').innerText(),oldID);
+   assert.equal(await page.evaluate(()=>document.activeElement.id),'detail-title','new case must receive keyboard focus');
+   assert.equal(await page.locator('.reader-nav').count(),1);
+   // Editing a manual share URL must not trigger next/previous case navigation.
+   await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw Error('Denied');}}}));
+   await page.locator('#copy-case-link').click();await page.locator('.manual-share-link').waitFor();
+   const editingID=await page.locator('#detail-toolbar-id').innerText();
+   await page.keyboard.press('ArrowRight');
+   assert.equal(await page.locator('#detail-toolbar-id').innerText(),editingID);
    // Journey 3: a recent failure report and a pending idea retain their limits.
    await ready(page,'?case=UC-313');await page.locator('.reader-nav').waitFor();
    assert.match(await page.locator('.reader-evidence').innerText(),/作者真實失敗自述/);

@@ -2,9 +2,9 @@ name: Reader QA
 on:
   push:
     branches: [feat/reader-navigation, main]
-    paths: [assets/reader.js, assets/reader.css, assets/app.js, index.html, tests/reader-*.cjs, .github/workflows/reader-qa.yml]
+    paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, .github/workflows/reader-qa.yml]
   pull_request:
-    paths: [assets/reader.js, assets/reader.css, tests/reader-*.cjs, .github/workflows/reader-qa.yml]
+    paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, .github/workflows/reader-qa.yml]
 permissions:
   contents: read
 jobs:
@@ -27,10 +27,17 @@ jobs:
         run: |
           node --test tests/*.test.cjs
           node --check assets/app.js
-      - name: Observe published baseline
+      - name: Capture the comparison baseline
+        if: ${{ github.ref != 'refs/heads/main' }}
         env:
           NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
-        run: node tests/reader-baseline.cjs
+          BASELINE_REF: ${{ github.event.pull_request.base.sha || 'origin/main' }}
+          READER_BASELINE_URL: http://127.0.0.1:8083/ai-agent-use-cases/
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/reader-before" "$BASELINE_REF"
+          python3 "$RUNNER_TEMP/reader-before/scripts/preview.py" "$RUNNER_TEMP/reader-before-preview/ai-agent-use-cases"
+          python3 -m http.server 8083 --directory "$RUNNER_TEMP/reader-before-preview" > /tmp/reader-before.log 2>&1 &
+          node tests/reader-baseline.cjs
       - name: Verify reader preview
         if: ${{ hashFiles('tests/reader-browser.cjs') != '' }}
         env:

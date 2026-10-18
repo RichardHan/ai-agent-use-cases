@@ -22,7 +22,9 @@ const before=!!process.env.RETURN_BEFORE,native=!!process.env.RETURN_NATIVE;
   const trigger=page.locator('#results .card .card-bottom button').first();await trigger.waitFor();
   const ids=await page.locator('#results .card').evaluateAll(nodes=>nodes.map(n=>n.dataset.caseId));
   for(const mode of native?['button','button','button']:['button','new-focus','user-scroll','new-url','reopen','removed']){
+   if(await page.locator('#detail').evaluate(e=>e.open))await page.locator('#close-detail').click();
    if(mode!=='button')await page.goto(search,{waitUntil:'networkidle'});
+   await page.evaluate(()=>{window.returnFixtureInjected=false;});
    await trigger.click();await page.locator('#detail[open]').waitFor();
    await page.locator('.reader-jump').first().click();
    // Simulate WebKit applying fragment scroll after the app's first frame.
@@ -35,11 +37,12 @@ const before=!!process.env.RETURN_BEFORE,native=!!process.env.RETURN_NATIVE;
     if(mode==='reopen')document.getElementById('detail').showModal();
     if(mode==='removed')document.activeElement.remove();
     document.getElementById('explore').scrollIntoView({block:'start',behavior:'instant'});
+    window.returnFixtureIntendedScroll=scrollY;
     window.returnFixtureInjected=true;
    }),{once:true}),mode);
    await page.goBack();
    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))));
-   const state=await page.evaluate(()=>({injected:window.returnFixtureInjected,hash:location.hash,tool:document.getElementById('tool').value,targetConnected:window.returnFixtureTarget?.isConnected,focus:document.activeElement.id||document.activeElement.className,card:document.activeElement.closest('.card')?.dataset.caseId,rect:document.querySelector('#results .card .card-bottom button').getBoundingClientRect().toJSON(),height:innerHeight,open:document.getElementById('detail').open,query:document.getElementById('query').value}));
+   const state=await page.evaluate(()=>({injected:window.returnFixtureInjected,scrollY,intendedScrollY:window.returnFixtureIntendedScroll,hash:location.hash,tool:document.getElementById('tool').value,targetConnected:window.returnFixtureTarget?.isConnected,focus:document.activeElement.id||document.activeElement.className,card:document.activeElement.closest('.card')?.dataset.caseId,rect:document.querySelector('#results .card .card-bottom button').getBoundingClientRect().toJSON(),height:innerHeight,open:document.getElementById('detail').open,query:document.getElementById('query').value}));
    reports.push({engine,mode,native,...state});fs.writeFileSync(`qa-artifacts/return-${before?'before':native?'live':'after'}.json`,JSON.stringify(reports,null,2));
    await page.screenshot({path:`qa-artifacts/return-${before?'before':native?'live':'after'}-${engine}-${mode}.png`});
    assert.deepEqual(errors,[]);
@@ -47,7 +50,7 @@ const before=!!process.env.RETURN_BEFORE,native=!!process.env.RETURN_NATIVE;
    assert.deepEqual(await page.locator('#results .card').evaluateAll(nodes=>nodes.map(n=>n.dataset.caseId)),ids);
    if(mode==='new-focus')assert.equal(state.focus,'query','new user focus must win');
    else if(mode==='removed')assert.equal(state.targetConnected,false);
-   else if(['user-scroll','new-url'].includes(mode))assert(state.rect.bottom>state.height,'newer reader interaction must win');
+   else if(['user-scroll','new-url'].includes(mode)){assert(state.rect.bottom>state.height,'newer reader interaction must win');assert(Math.abs(state.scrollY-state.intendedScrollY)<=1,'preserve the reader-selected scroll position');}
    else if(mode==='button'){
     assert.equal(state.card,ids[0]);assert(state.rect.y>=-1&&state.rect.bottom<=state.height+1,'returning focused button remains visible after delayed fragment scrolling: '+JSON.stringify(state));
    }

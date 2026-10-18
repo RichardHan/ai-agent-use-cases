@@ -1,0 +1,32 @@
+/* Reading controls reuse the existing paper, ink and green palette. */
+.reader-nav,.reader-evidence{border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin:22px 0;background:var(--white)}
+.reader-nav h2,.reader-evidence h2{font-size:16px;letter-spacing:0;margin:0 0 8px;color:var(--green)}
+.reader-nav-hint,.reader-evidence-footnote{font-size:12px;line-height:1.8;color:var(--muted);margin:0 0 14px}
+.reader-quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.reader-jump{display:flex;flex-direction:column;gap:5px;text-align:left;padding:12px 14px;background:#f5f7ef;overflow-wrap:anywhere}
+.reader-jump strong{font-size:14px;font-weight:650;color:var(--green)}
+.reader-target{font-size:12px;line-height:1.7;color:var(--muted)}
+.reader-jump:hover,.reader-outline-jump:hover{background:#e9eee0;border-color:var(--green)}
+.reader-outline{margin-top:14px;font-size:13px}
+.reader-outline>summary{cursor:pointer;padding:6px 0;color:var(--green);font-weight:600}
+.reader-outline ol{margin:12px 0 0;padding-left:24px}
+.reader-outline li{padding:3px 0}
+.reader-outline-jump{border:0;padding:7px 8px;text-align:left;font-size:13px;line-height:1.8;border-radius:4px;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.reader-subsection{margin-left:14px}
+.reader-evidence{background:#f1f6ec}
+.reader-evidence ul{padding-left:20px;margin:8px 0}
+.reader-evidence li,.reader-evidence>p{font-size:13px;line-height:1.9;margin:6px 0}
+.reader-evidence .detail-warning{padding:0;border-radius:0;background:transparent;margin:12px 0 0}
+.reader-evidence .reader-evidence-footnote{font-size:12px;color:var(--muted)}
+.reader-evidence a{color:var(--green)}
+.reader-return{display:block;padding:4px 0;margin:-18px 0 12px;border:0;background:transparent;font-size:12px;color:var(--green);text-decoration:underline;text-underline-offset:3px}
+.reader-return:hover{text-decoration-thickness:2px}
+.reader-nav h2:focus-visible,.research-details .markdown h2:focus-visible,.research-details .markdown h3:focus-visible{outline:2px solid var(--green);outline-offset:5px}
+@media(max-width:640px){
+ .reader-nav,.reader-evidence{padding:16px;margin:18px 0}
+ .reader-quick{gap:8px}
+ .reader-jump{padding:10px}
+ .reader-target{font-size:12px}
+ .reader-outline-jump{padding:8px 4px}
+}
+@media(max-width:360px){.reader-quick{grid-template-columns:1fr}}

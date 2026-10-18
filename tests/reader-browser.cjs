@@ -65,6 +65,10 @@ async function jump(page,button){
   const browser=await type.launch();
   if(!deployed)await require('./mobile-search-browser.cjs')({browser,origin,prefix:engine+'-mobile-search',sizes:[['mobile',390,844]]});
   const sizes=engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]];
+  if(deployed&&engine==='chromium'){
+   const versionPage=await browser.newPage();await deployedVersion(versionPage);await versionPage.close();
+  }
+  await require('./arrival-browser.cjs')({browser,origin,prefix:(deployed?'live-':'')+engine+'-arrival',sizes});
   for(const [size,width,height] of sizes){
    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
    const page=await context.newPage(),errors=[];

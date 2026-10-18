@@ -6,7 +6,6 @@ const origin=process.env.READER_BASELINE_URL||'https://richardhan.github.io/ai-a
  const browser=await chromium.launch();
  fs.mkdirSync('qa-artifacts',{recursive:true});
  await require('./arrival-baseline.cjs')({browser,origin});
- await require('./arrival-baseline.cjs')({browser,origin:'https://richardhan.github.io/ai-agent-use-cases/'});
  const report=[];
  for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});

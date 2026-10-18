@@ -165,3 +165,12 @@
 #search-share-url{height:44px;margin:0 0 18px;padding:8px 12px;border:1px solid #a8b9a2;border-radius:6px;background:#fff;font-size:13px}
 #search-share-url:focus{outline:2px solid var(--green)!important;outline-offset:3px}
 #search-title:focus-visible{outline:2px solid var(--green);outline-offset:6px;border-radius:2px}
+
+/* Match context preserves the source's wording and keeps evidence labels separate. */
+.search-context{border-left:2px solid #a8b9a2;padding:0 0 0 12px;margin:0 0 20px;color:#314c40;overflow-wrap:anywhere}
+.search-context p{margin:0}
+.search-context-title{font-size:12px;font-weight:700;letter-spacing:.04em}
+.search-context-match{margin-top:7px}
+.search-context-label{font-size:12px;line-height:1.7;color:#4c6258}
+.search-context-excerpt{font-size:13px;line-height:1.85;margin-top:4px!important}
+.search-context-more{font-size:12px;line-height:1.7;margin-top:8px!important;color:#4c6258}

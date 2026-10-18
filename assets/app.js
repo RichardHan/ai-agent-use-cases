@@ -10,7 +10,7 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
+const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
   ['agent', 'agents', '智能體', '智能体', '代理'],
   ['每日報表', '每日報告', '日報', '晨報', 'daily'],
@@ -114,7 +114,7 @@ const SYNONYM_GROUPS = [
   ['沙盒', 'sandbox', 'sandboxes'],
   ['結構化', 'structured'],
   ['容器', '虛擬機', 'docker', 'container', 'containers', 'vm'],
-  ['配額', '限流', '限速', '頻率限制', 'quota', 'quotas', 'throttling'],
+  ['配額', '限流', '限速', '頻率限制', 'quota', 'quotas', 'throttling', 'ratelimit'],
   ['配置', '設定', '設定檔', 'config', 'configuration', 'settings'],
   ['指標', '度量', 'metric', 'metrics', 'kpi'],
   ['網關', '通訊閘', 'gateway', 'gateways'],
@@ -129,7 +129,22 @@ const SYNONYM_GROUPS = [
   ['終端', '命令列', '命令行', 'terminal', 'cli', 'console'],
   ['遷移', '移轉', 'migration', 'migrate'],
   ['模擬', '仿真', 'mock', 'mocking', 'stub', 'stubs'],
-  ['認證', '身分驗證', '身份驗證', 'authentication', 'oauth', 'sso']
+  ['認證', '身分驗證', '身份驗證', 'authentication', 'oauth', 'sso'],
+  ['快照', 'snapshot', 'snapshots'],
+  ['批次', '批處理', 'batch', 'batches'],
+  ['追蹤', 'tracing', 'trace', 'track', 'tracks', 'tracking'],
+  ['去識別', '脫敏', '遮罩', 'masking', 'redaction', 'anonymization', 'pii'],
+  ['健康檢查', 'healthcheck', 'liveness', 'readiness'],
+  ['編排', 'orchestration', 'orchestrate'],
+  ['協調', 'coordination', 'coordinate'],
+  ['降級', 'fallback', 'degradation'],
+  ['狀態機', 'statemachine', '狀態轉換', '狀態轉移'],
+  ['檢查點', 'checkpoint', 'checkpoints'],
+  ['儲存', '存儲', 'storage'],
+  ['幻覺', 'hallucination', 'hallucinations'],
+  ['協定', 'protocol', 'protocols'],
+  ['模組', 'module', 'modules'],
+  ['語意', '語義', 'semantic', 'semantics']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

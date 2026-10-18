@@ -692,6 +692,80 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('retries')), {}).some(
 assert(api.filterEntries(entries, Array.from(api.tokenize('alerts')), {}).some(x => x.id === 'UC-015'), 'alerts matches UC-015 via alert/提醒 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('prompts')), {}).some(x => x.id === 'UC-001'), 'prompts matches UC-001 via prompt/提示詞 synonym');
 
+// Search quality: Snapshot, snapshots, 快照 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('snapshot')), {}).some(x => x.id === 'UC-067'), 'snapshot matches UC-067 via 快照 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('snapshots')), {}).some(x => x.id === 'UC-067'), 'snapshots matches UC-067 via 快照 synonym');
+
+// Search quality: Batch, batches, 批次, 批處理 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('batch')), {}).some(x => x.id === 'UC-020'), 'batch matches UC-020 via 批次 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('batches')), {}).some(x => x.id === 'UC-020'), 'batches matches UC-020 via 批次 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('批處理')), {}).some(x => x.id === 'UC-020'), '批處理 matches UC-020 via 批次 synonym');
+
+// Search quality: Tracing, trace, tracking, 追蹤 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('tracing')), {}).some(x => x.id === 'UC-015'), 'tracing matches UC-015 via 追蹤 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('track')), {}).some(x => x.id === 'UC-015'), 'track matches UC-015 via 追蹤 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('tracking')), {}).some(x => x.id === 'UC-015'), 'tracking matches UC-015 via 追蹤 synonym');
+
+// Search quality: 去識別, 脫敏, 遮罩, masking, redaction, anonymization, pii synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('masking')), {}).some(x => x.id === 'UC-004'), 'masking matches UC-004 via 去識別/遮罩 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('redaction')), {}).some(x => x.id === 'UC-004'), 'redaction matches UC-004 via 去識別/遮罩 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('anonymization')), {}).some(x => x.id === 'UC-004'), 'anonymization matches UC-004 via 去識別 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('脫敏')), {}).some(x => x.id === 'UC-004'), '脫敏 matches UC-004 via 去識別 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('遮罩')), {}).some(x => x.id === 'UC-011'), '遮罩 matches UC-011 via 去識別 synonym');
+
+// Search quality: 健康檢查, health check, healthcheck, liveness, readiness synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('health check')), {}).some(x => x.id === 'UC-041'), 'health check matches UC-041 via 健康檢查 multi-word normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('healthcheck')), {}).some(x => x.id === 'UC-041'), 'healthcheck matches UC-041 via 健康檢查 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('liveness')), {}).some(x => x.id === 'UC-041'), 'liveness matches UC-041 via 健康檢查 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('readiness')), {}).some(x => x.id === 'UC-041'), 'readiness matches UC-041 via 健康檢查 synonym');
+
+// Search quality: 編排, orchestration, orchestrate synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('orchestration')), {}).some(x => x.id === 'UC-061'), 'orchestration matches UC-061 via 編排 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('orchestrate')), {}).some(x => x.id === 'UC-061'), 'orchestrate matches UC-061 via 編排 synonym');
+
+// Search quality: 協調, coordination, coordinate synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('coordination')), {}).some(x => x.id === 'UC-005'), 'coordination matches UC-005 via 協調 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('coordinate')), {}).some(x => x.id === 'UC-005'), 'coordinate matches UC-005 via 協調 synonym');
+
+// Search quality: 降級, fallback, degradation synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('fallback')), {}).some(x => x.id === 'UC-028'), 'fallback matches UC-028 via 降級 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('degradation')), {}).some(x => x.id === 'UC-028'), 'degradation matches UC-028 via 降級 synonym');
+
+// Search quality: 狀態機, state machine, 狀態轉換, 狀態轉移 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('state machine')), {}).some(x => x.id === 'UC-236'), 'state machine matches UC-236 via 狀態機 multi-word tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('statemachine')), {}).some(x => x.id === 'UC-236'), 'statemachine matches UC-236 via 狀態機 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('狀態轉換')), {}).some(x => x.id === 'UC-236'), '狀態轉換 matches UC-236 via 狀態機 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('狀態轉移')), {}).some(x => x.id === 'UC-236'), '狀態轉移 matches UC-236 via 狀態機 synonym');
+
+// Search quality: 檢查點, checkpoint, checkpoints synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('checkpoint')), {}).some(x => x.id === 'UC-149'), 'checkpoint matches UC-149 via 檢查點 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('checkpoints')), {}).some(x => x.id === 'UC-149'), 'checkpoints matches UC-149 via 檢查點 synonym');
+
+// Search quality: 儲存, 存儲, storage synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('storage')), {}).some(x => x.id === 'UC-067'), 'storage matches UC-067 via 儲存 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('存儲')), {}).some(x => x.id === 'UC-067'), '存儲 matches UC-067 via 儲存 synonym');
+
+// Search quality: 幻覺, hallucination, hallucinations synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('hallucination')), {}).some(x => x.id === 'UC-035'), 'hallucination matches UC-035 via 幻覺 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('hallucinations')), {}).some(x => x.id === 'UC-035'), 'hallucinations matches UC-035 via 幻覺 synonym');
+
+// Search quality: 協定, protocol, protocols synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('協定')), {}).some(x => x.id === 'UC-074'), '協定 matches UC-074 via protocol synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('protocols')), {}).some(x => x.id === 'UC-074'), 'protocols matches UC-074 via protocol synonym');
+
+// Search quality: 模組, module, modules synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('module')), {}).some(x => x.id === 'UC-039'), 'module matches UC-039 via 模組 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('modules')), {}).some(x => x.id === 'UC-039'), 'modules matches UC-039 via 模組 synonym');
+
+// Search quality: 語意, 語義, semantic, semantics synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('semantic')), {}).some(x => x.id === 'UC-081'), 'semantic matches UC-081 via 語意/語義 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('semantics')), {}).some(x => x.id === 'UC-081'), 'semantics matches UC-081 via 語意/語義 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('語義')), {}).some(x => x.id === 'UC-081'), '語義 matches UC-081 via 語意 synonym');
+
+// Search quality: 限流, rate limit, ratelimit synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('rate limit')), {}).some(x => x.id === 'UC-069'), 'rate limit matches UC-069 via 限流 multi-word normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('ratelimit')), {}).some(x => x.id === 'UC-069'), 'ratelimit matches UC-069 via 限流 synonym');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

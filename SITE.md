@@ -723,3 +723,41 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 正式站三尺寸走查發現：詳情沒有同主題閱讀選項，前後篇按鈕亦無篇名提示。本輪在原始研究後列出目前搜尋結果內、同分類的最多三筆主要案例，顯示匹配理由、摘要與來源類型；無候選明示，不以待查或整庫項目補位。保留研究優先、既有品牌、靜態 Pages 路徑與所有原始資料。
 
 補修跨搜尋歷史的入口焦點、搜尋外直鏈方向鍵跳篇，以及背景補讀後的候選更新。獨立角色審查提出的 3 項 P2 與 2 項 P3 已修正並確認解除。先以缺功能測試重現（33 pass / 2 fail），再交付實作；最終程式版本雲端 36/36、三尺寸 15 次 axe 0 違規、無水平溢出。正式 smoke 每尺寸兩次整庫載入，避免重複驗收造成限流。[前後截圖、三情境、指令、實際量測、限制與審查紀錄](docs/qa/2026-10-18-related-reading/README.md)。下一輪優先評估具體任務標籤的候選品質，避免重做同一導覽。
+
+## 2026-10-18：快照備份、批次處理、追蹤監控、遮罩脫敏、健康檢查、編排協調、降級容錯、狀態機、檢查點、儲存、幻覺、協定模組、語意檢索同義詞與來源歸因追蹤參數正規化
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與自然語言檢索痛點：
+   - 快照類（Snapshot & snapshots）：全庫有 21 筆「快照」（如 UC-067 重建手冊、UC-061 派工紀錄），但讀者搜尋英文詞「snapshot」得 0 筆、「snapshots」得 0 筆；
+   - 批次與批處理類（Batch & batches）：全庫有 36 筆「批次」、1 筆「批處理」（如 UC-020 Figma 批次卡片、UC-255 記憶版本整合），但搜尋「batch」得 0 筆、「batches」得 0 筆；
+   - 追蹤與 Trace 類（Tracing, trace, tracking）：全庫有 61 筆「追蹤」（如 UC-015 頁面變更監看、UC-021 法務轉發），但搜尋「tracing」得 0 筆，缺少完整單複數與分詞對映；
+   - 去識別、遮罩與資料防護類（Masking, redaction, anonymization, PII, 脫敏）：全庫有 25 筆「去識別」、3 筆「遮罩」、1 筆「pii」（如 UC-004 社群監聽、UC-011 業務備忘錄、UC-041 例行巡檢），但搜尋「masking」得 0 筆、「redaction」得 0 筆、「anonymization」得 0 筆、「脫敏」得 0 筆；
+   - 健康檢查與存活檢查類（Health check, healthcheck, liveness, readiness）：全庫有 11 筆「健康檢查」（如 UC-041、UC-060、UC-061、UC-066），但搜尋「health check」因空格分詞僅能命中 2 筆、搜尋「healthcheck」得 0 筆、「liveness」得 0 筆；
+   - 編排與調度類（Orchestration & orchestrate）：全庫有 8 筆「編排」（如 UC-061、UC-122、UC-172），但搜尋「orchestrate」得 0 筆；
+   - 協調類（Coordination & coordinate）：全庫有 25 筆「協調」（如 UC-005 PR 審查、UC-012、UC-054），但搜尋「coordination」得 0 筆、「coordinate」得 0 筆；
+   - 降級與容錯類（Fallback & degradation）：全庫有 4 筆「降級」（如 UC-028 帳單審核、UC-049 收件匣漸進信任），但搜尋「fallback」得 0 筆、「degradation」得 0 筆；
+   - 狀態機與狀態轉移動作類（State machine, statemachine, 狀態轉換, 狀態轉移）：全庫有 1 筆「狀態機」、2 筆「狀態轉換」、1 筆「狀態轉移」（如 UC-236 盲測評判、UC-284 行李延誤），但搜尋多詞「state machine」得 0 筆、「statemachine」得 0 筆；
+   - 檢查點類（Checkpoint & checkpoints）：全庫有 3 筆「檢查點」（如 UC-149 工單核准閘門、UC-231、UC-311），但搜尋「checkpoint」得 0 筆、「checkpoints」得 0 筆；
+   - 儲存與存儲類（Storage）：全庫有 28 筆「儲存」（如 UC-067、UC-005、UC-015），但搜尋「storage」得 0 筆、「存儲」得 0 筆；
+   - 幻覺與捏造類（Hallucination & hallucinations）：全庫有 1 筆「幻覺」（UC-035 求職信草稿），但搜尋「hallucination」得 0 筆、「hallucinations」得 0 筆；
+   - 協定與協議類（Protocol & protocols）：全庫有 5 筆「協定」（如 UC-074 MCP 協定讀回、UC-330 智慧開關導入），但搜尋「protocols」得 0 筆；
+   - 模組與套件類（Module & modules）：全庫有 3 筆「模組」（如 UC-039 競品定位、UC-044），但搜尋「module」得 0 筆、「modules」得 0 筆；
+   - 語意與語義類（Semantic & semantics）：全庫有 9 筆「語意」、2 筆「語義」（如 UC-081 主題分群、UC-195 內容重組），但搜尋「semantic」得 0 筆、「semantics」得 0 筆；
+   - 既有限流組別與多詞查詢自然語言支援：全庫有 3 筆「限流」（如 UC-069、UC-164），但搜尋「rate limit」因空格切分僅命中 1 筆，未對映至配額與限流同義詞組。
+2. 疑似重複來源偵測之追蹤參數與錨點正規化：
+   - `normalizeSourceUrl` 補齊 MoneyForward（`provider`, `provider_info`）及 Facebook 圖片（`fit`）追蹤展示參數清理；
+   - 補齊 Grok Bot Legal Ops 功能手冊（`x.ai/bot/guides/grok-bot-for-legal-ops`）錨點正規化重複候選回歸斷言（UC-021 與 UC-154）；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 336 保持完整；嚴格合格案例數 300 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 新增多詞術語自然語言分詞預處理（`rate limit` → `ratelimit`、`health check` → `healthcheck`、`state machine` → `statemachine`）。
+   - `SYNONYM_GROUPS` 擴充 15 組新同義詞群（快照/snapshot/snapshots、批次/批處理/batch/batches、追蹤/tracing/trace/track/tracks/tracking、去識別/脫敏/遮罩/masking/redaction/anonymization/pii、健康檢查/healthcheck/liveness/readiness、編排/orchestration/orchestrate、協調/coordination/coordinate、降級/fallback/degradation、狀態機/statemachine/狀態轉換/狀態轉移、檢查點/checkpoint/checkpoints、儲存/存儲/storage、幻覺/hallucination/hallucinations、協定/protocol/protocols、模組/module/modules、語意/語義/semantic/semantics）。
+   - 在既有配額/限流組別補齊 `ratelimit`，完成 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：`normalizeSourceUrl` 補齊 `provider`、`provider_info` 與 `fit` 參數清理，加入 Grok Bot Legal Ops 錨點候選去重與 MoneyForward/Facebook 參數清理回歸斷言，恪守「只列候選、不自行刪除、總案例數保持完整」。
+   - `tests/search.test.cjs`：加入 snapshot/snapshots、batch/batches/批處理、tracing/track/tracking、masking/redaction/anonymization/脫敏/遮罩、health check/healthcheck/liveness/readiness、orchestration/orchestrate、coordination/coordinate、fallback/degradation、state machine/statemachine/狀態轉換/狀態轉移、checkpoint/checkpoints、storage/存儲、hallucination/hallucinations、協定/protocols、module/modules、semantic/semantics/語義，以及 rate limit/ratelimit 搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
+本輪實際結果：36/36 測試全數通過，336 筆條目全文、同義詞擴充檢索、多詞分詞標準化、疑似重複來源候選審核、全庫一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。

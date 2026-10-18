@@ -1240,6 +1240,49 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('備援')), {}).some(x
 assert(api.filterEntries(entries, Array.from(api.tokenize('容錯')), {}).some(x => x.id === 'UC-049'), '容錯 matches UC-049 via fallback synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('備用方案')), {}).some(x => x.id === 'UC-049'), '備用方案 matches UC-049 via fallback synonym');
 
+// Search quality: tool call, tool calls, tool calling, function call, function calls, function calling, 工具調用, 函式呼叫, 函數調用
+assert(api.filterEntries(entries, Array.from(api.tokenize('tool call')), {}).some(x => x.id === 'UC-340'), 'tool call matches UC-340 via toolcall tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('tool calls')), {}).some(x => x.id === 'UC-340'), 'tool calls matches UC-340 via toolcall tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('tool calling')), {}).some(x => x.id === 'UC-340'), 'tool calling matches UC-340 via toolcall tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('function call')), {}).some(x => x.id === 'UC-340'), 'function call matches UC-340 via toolcall tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('function calls')), {}).some(x => x.id === 'UC-340'), 'function calls matches UC-340 via toolcall tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('function calling')), {}).some(x => x.id === 'UC-340'), 'function calling matches UC-340 via toolcall tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('工具調用')), {}).some(x => x.id === 'UC-340'), '工具調用 matches UC-340 via toolcall synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('函式呼叫')), {}).some(x => x.id === 'UC-340'), '函式呼叫 matches UC-340 via toolcall synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('函數調用')), {}).some(x => x.id === 'UC-340'), '函數調用 matches UC-340 via toolcall synonym');
+
+// Search quality: tts, text to speech, text-to-speech, 語音合成, 文字轉語音, 語音朗讀
+assert(api.filterEntries(entries, Array.from(api.tokenize('text to speech')), {}).some(x => x.id === 'UC-189'), 'text to speech matches UC-189 via tts tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('text-to-speech')), {}).some(x => x.id === 'UC-189'), 'text-to-speech matches UC-189 via tts tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('語音合成')), {}).some(x => x.id === 'UC-189'), '語音合成 matches UC-189 via tts synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('文字轉語音')), {}).some(x => x.id === 'UC-189'), '文字轉語音 matches UC-189 via tts synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('語音朗讀')), {}).some(x => x.id === 'UC-189'), '語音朗讀 matches UC-189 via tts synonym');
+
+// Search quality: stt, speech to text, speech-to-text, 語音轉文字, 語音識別
+assert(api.filterEntries(entries, Array.from(api.tokenize('speech to text')), {}).some(x => x.id === 'UC-325'), 'speech to text matches UC-325 via stt tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('speech-to-text')), {}).some(x => x.id === 'UC-325'), 'speech-to-text matches UC-325 via stt tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('語音識別')), {}).some(x => x.id === 'UC-325'), '語音識別 matches UC-325 via stt/transcription synonym');
+
+// Search quality: cicd, ci/cd, ci cd, 持續整合, continuous integration
+assert(api.filterEntries(entries, Array.from(api.tokenize('cicd')), {}).some(x => x.id === 'UC-005'), 'cicd matches UC-005 via cicd tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('ci cd')), {}).some(x => x.id === 'UC-005'), 'ci cd matches UC-005 via cicd tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('持續整合')), {}).some(x => x.id === 'UC-005'), '持續整合 matches UC-005 via cicd synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('continuous integration')), {}).some(x => x.id === 'UC-005'), 'continuous integration matches UC-005 via cicd tokenization');
+
+// Search quality: 內網穿透, 反向代理隧道
+assert(api.filterEntries(entries, Array.from(api.tokenize('內網穿透')), {}).some(x => x.id === 'UC-074'), '內網穿透 matches UC-074 via tunnel synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('反向代理隧道')), {}).some(x => x.id === 'UC-074'), '反向代理隧道 matches UC-074 via tunnel synonym');
+
+// Search quality: self-hosted runner, self hosted runner, 自託管 runner
+assert(api.filterEntries(entries, Array.from(api.tokenize('self-hosted runner')), {}).some(x => x.id === 'UC-057'), 'self-hosted runner matches UC-057 via self-hosted tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('self hosted runner')), {}).some(x => x.id === 'UC-057'), 'self hosted runner matches UC-057 via self-hosted tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('自託管 runner')), {}).some(x => x.id === 'UC-057'), '自託管 runner matches UC-057 via self-hosted synonym');
+
+// Search quality: 筆記軟體, pkm
+assert(api.filterEntries(entries, Array.from(api.tokenize('筆記軟體')), {}).some(x => x.id === 'UC-071'), '筆記軟體 matches UC-071 via notes synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('pkm')), {}).some(x => x.id === 'UC-071'), 'pkm matches UC-071 via notes synonym');
+
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

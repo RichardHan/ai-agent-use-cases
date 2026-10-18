@@ -17,6 +17,8 @@ const origin=process.env.RELATED_URL||'http://127.0.0.1:8088/ai-agent-use-cases/
   await page.locator('#results .card .card-bottom button').first().click();
   await page.locator('#detail[open]').waitFor();
   await page.screenshot({path:`qa-artifacts/related-before-detail-${name}.png`});
+  await page.locator('.research-details').scrollIntoViewIfNeeded();
+  await page.screenshot({path:`qa-artifacts/related-before-end-${name}.png`});
   const related=await page.locator('.related-cases').count();
   const nextTitle=await page.locator('#nav-next-case').getAttribute('title');
   await page.locator('.research-details summary').click();

@@ -352,7 +352,7 @@ function showDetail(item, trigger, updateURL=true) {
   if (updateURL) {
     const url = new URL(location.href);
     url.searchParams.set('case', item.id);
-    history.pushState(null, '', url);
+    history.pushState({...history.state, caseReturn:lastTriggerContext}, '', url);
   }
 }
 function restoreDetailFocus(){
@@ -925,7 +925,7 @@ document.addEventListener('keydown', e => {
     $('query').focus();
   }
 });
-window.addEventListener('popstate', () => {
+window.addEventListener('popstate', event => {
   const params = new URLSearchParams(location.search);
   const id = params.get('case');
   const item = matchCase(id);
@@ -933,7 +933,11 @@ window.addEventListener('popstate', () => {
   activeScenario = params.get('scenario') || '';
   ['query', 'kind', 'tool', 'category', 'proof'].forEach(key => $(key).value = params.get(key === 'query' ? 'q' : key) || '');
   render(false);
-  if (item) showDetail(item, null, false); else if (wasOpen) $('detail').close();
+  if (item) {
+    lastTrigger = null;
+    lastTriggerContext = event.state?.caseReturn || null;
+    showDetail(item, null, false);
+  } else if (wasOpen) $('detail').close();
   if(wasOpen&&!item){
     restoreDetailFocus();
     // Fragment traversal can apply its native focus after the popstate handler.

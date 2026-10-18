@@ -39,13 +39,16 @@ const live=process.env.RELATED_LIVE==='1';
   };
   // Scenario 1: find a travel method, compare a same-topic method, return to the original results.
   const started=Date.now();
+  const served=page.waitForResponse(r=>new URL(r.url()).pathname.endsWith('/assets/app.js'));
   await page.goto(origin+'?q=旅遊&tool=Grok%20Bot',{waitUntil:'networkidle'});
   await page.locator('#results .card').first().waitFor();
+  if(live)assert.equal(await (await served).text(),fs.readFileSync('assets/app.js','utf8'),'Browser receives deployed app asset');
   report.push({name,label:'load',elapsedMs:Date.now()-started,failed:await page.evaluate(()=>failedPaths.length)});
   assert.equal(await page.evaluate(()=>failedPaths.length),0);
   const resultIDs=await page.locator('#results .card').evaluateAll(es=>es.map(e=>e.dataset.caseId));
   await page.screenshot({path:`qa-artifacts/related-after-search-${name}.png`});
   await page.locator('#results .card .card-bottom button').first().click();
+  await page.screenshot({path:`qa-artifacts/related-after-top-${name}.png`});
   const firstID=await page.locator('#detail-toolbar-id').innerText();
   const suggestions=await checkRelated();assert(suggestions.length>0);
   await page.locator('.related-cases').scrollIntoViewIfNeeded();await audit('travel-related');
@@ -59,6 +62,16 @@ const live=process.env.RELATED_LIVE==='1';
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
   assert.deepEqual(await page.locator('#results .card').evaluateAll(es=>es.map(e=>e.dataset.caseId)),resultIDs);
   assert(await page.locator('#results .card .card-bottom button').first().evaluate(n=>n===document.activeElement));
+  // Live smoke uses two corpus loads per viewport; boundary repetitions stay on preview.
+  if(live){
+   await page.goto(origin+'?case=UC-005',{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
+   assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-005');
+   assert.equal(await page.evaluate(()=>failedPaths.length),0);
+   await checkRelated();await page.locator('.related-cases').scrollIntoViewIfNeeded();await audit('live-direct');
+   await page.locator('.related-back').click();
+   await page.locator('#query').fill('no-matching-case-123');assert(await page.locator('#empty').isVisible());
+   await audit('live-empty');assert.deepEqual(errors,[]);await context.close();continue;
+  }
   // Scenario 2: a shared long article, reload, source inspection, and a deliberately sparse search.
   await page.goto(origin+'?case=UC-005',{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
   await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
@@ -91,6 +104,7 @@ const live=process.env.RELATED_LIVE==='1';
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
   assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');assert((await checkRelated()).length);
   await page.locator('.related-back').click();
+  assert(await page.locator('#results [data-case-id="'+historyID+'"] .card-bottom button').evaluate(n=>n===document.activeElement),'Cross-search history returns focus to original A opener');
   await page.locator('#query').fill('no-matching-case-123');assert(await page.locator('#empty').isVisible());
   await audit('empty-results');assert.deepEqual(errors,[]);
   await context.close();

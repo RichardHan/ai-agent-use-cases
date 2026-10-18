@@ -3,6 +3,8 @@ on:
   push:
     branches: [fix/reading-return-visibility, fix/late-native-return, test/ordered-late-return, fix/loading-acceptance-final, main]
     paths: ['assets/app.js', 'tests/return-visibility*', 'tests/late-return.test.cjs', '.github/workflows/return-visibility-qa.yml']
+  pull_request:
+    paths: ['assets/app.js', 'tests/return-visibility*', 'tests/late-return.test.cjs', '.github/workflows/return-visibility-qa.yml']
 permissions:
   contents: read
 jobs:

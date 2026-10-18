@@ -805,3 +805,58 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
 本輪實際結果：36/36 測試全數通過，336 筆條目全文、同義詞擴充檢索、多詞分詞標準化、疑似重複來源候選審核、全庫一致性檢驗通過。
 下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
+
+## 2026-10-19：離線、基準基線、資料外洩、架構、非同步、端到端、斷言、標註、回饋反饋、輪詢、增量、助手、生命週期、冪等性、環境變數與複數同義詞對稱性強化及 Canva 說明網址正規化
+
+先前走查與測試發現：
+1. 核心詞彙斷層與自然語言檢索痛點：
+   - 離線類（Offline & 斷網）：全庫有 50 筆「離線」案例（57 處出現，如 UC-145 離線表單、UC-165 網路控制、UC-166 邊緣運算），但搜尋常用英文「offline」返回 0 筆、「斷網」返回 0 筆；
+   - 基準與基線類（Baseline & baselines）：全庫有 29 筆「基準」、2 筆「基線」案例（如 UC-173 效能實驗、UC-228 家電波形歸因），但搜尋「baseline」返回 0 筆、「baselines」返回 0 筆；
+   - 資料外洩與洩漏類（Leak, leakage, 洩露）：全庫有 7 筆「外洩」、4 筆「洩漏」案例（如 UC-076 垃圾電話個資、UC-283 連接帳號、UC-235 資料洩漏），但搜尋「leak」返回 0 筆、「leakage」返回 0 筆、「洩露」返回 0 筆；
+   - 架構類（Architecture & architectures）：全庫有 9 筆「架構」案例（如 UC-336 語音入口、UC-275 電話防詐、UC-248 代理群聊），但搜尋「architecture」返回 0 筆、「architectures」返回 0 筆；
+   - 回饋與反饋類（Feedback, 回饋, 反饋）：全庫有 18 筆「回饋」、1 筆「反饋」案例（如 UC-152 面試反饋、UC-323 新聞回饋），但搜尋「feedback」僅返回 1 筆、搜尋「反饋」僅返回 1 筆，無法跨兩岸用法互通；
+   - 非同步與異步類（Async & asynchronous）：全庫有 2 筆「非同步」（UC-074, UC-274）、1 筆「異步」（UC-239），但搜尋「async」返回 0 筆、「asynchronous」返回 0 筆；
+   - 端到端類（End-to-end, e2e, 端到端）：全庫有 4 筆「端到端」案例（UC-014, UC-169, UC-268, UC-289），但搜尋「e2e」返回 0 筆、「end-to-end」返回 0 筆、「end to end」因空格切分返回 0 筆；
+   - 斷言類（Assertion & assertions）：全庫有 7 筆「斷言」案例（如 UC-102, UC-179, UC-181, UC-222），但搜尋「assertion」返回 0 筆、「assertions」返回 0 筆；
+   - 標註與標籤化類（Annotation, annotations, labeling）：全庫有 9 筆「標註」案例（如 UC-091, UC-152, UC-178, UC-302），但搜尋「annotation」返回 0 筆、「annotations」返回 0 筆；
+   - 輪詢類（Polling）：全庫有 5 筆「輪詢」案例（如 UC-065, UC-066, UC-141, UC-151, UC-276），但搜尋「polling」返回 0 筆；
+   - 增量類（Incremental）：全庫有 4 筆「增量」案例（如 UC-026, UC-228, UC-250, UC-290），但搜尋「incremental」返回 0 筆；
+   - 助手與副駕駛類（Assistant & copilot）：全庫有 12 筆「助手」案例，但搜尋「assistant」僅返回 6 筆（漏掉 6 筆）、「copilot」返回 0 筆；
+   - 生命週期類（Lifecycle）：全庫有 5 筆「生命週期」案例（UC-057, UC-075, UC-208, UC-273, UC-329），但搜尋「lifecycle」僅返回 1 筆；
+   - 冪等性類（Idempotent & idempotency）：全庫有 2 筆「冪等」案例（UC-158, UC-320），但搜尋「冪等性」返回 0 筆、「idempotency」返回 0 筆；
+   - 環境變數與環境變量類（Env, 環境變數, 環境變量）：全庫有 2 筆「環境變數」案例（如 UC-057, UC-329），但搜尋「環境變量」返回 0 筆。
+2. 既有同義詞組別英文單複數斷層：
+   - `llm` (8 筆) vs `llms` (0 筆)
+   - `diff` (290 筆) vs `diffs` (0 筆)
+   - `browser` (94 筆) vs `browsers` (0 筆)、`webpage` (94 筆) vs `webpages` (0 筆)
+   - `diagram` (7 筆) vs `diagrams` (0 筆)、`flowchart` vs `flowcharts`、`mindmap` vs `mindmaps`
+   - `evaluation` (56 筆) vs `evaluations` (0 筆)
+   - `parser` (22 筆) vs `parsers` (0 筆)、`decoder` vs `decoders`
+   - `config` (169 筆) vs `configs` (0 筆)、`configuration` vs `configurations`
+   - `kpi` (16 筆) vs `kpis` (0 筆)
+   - `terminal` (28 筆) vs `terminals` (0 筆)、`console` vs `consoles`
+   - `migration` (19 筆) vs `migrations` (0 筆)
+   - `mock` (37 筆) vs `mocks` (0 筆)
+   - `healthcheck` (11 筆) vs `healthchecks` (0 筆)
+   - `statemachine` (4 筆) vs `statemachines` (0 筆)
+   - `postmortem` (27 筆) vs `postmortems` (0 筆)、`retrospective` vs `retrospectives`
+   - `vm` (10 筆) vs `vms` (0 筆)
+   - `backup` (44 筆) vs `backups` (0 筆)。
+3. 來源網址查詢參數正規化：
+   - Canva Help 說明頁之內部搜尋參數 `query`（如 `https://www.canva.com/help/bulk-create/?query=Bulk+Create`）未列入清理，造成說明文件網址規範斷層；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 336 保持完整；嚴格合格案例數 300 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 新增多詞術語自然語言分詞標準化（`end to end` / `end-to-end` → `e2e`）。
+   - `SYNONYM_GROUPS` 補強與新增同義詞群：
+     - 擴充既有群組英文單複數對稱：備份/backups、llm/llms、比對/diffs、瀏覽器/browsers/webpages、流程圖/flowcharts/diagrams/mindmaps、評估/evaluations、解析/parsers/decoders、容器/vms、配置/configs/configurations、指標/kpis、終端/terminals/consoles、遷移/migrations、模擬/mocks、健康檢查/healthchecks、狀態機/statemachines、復盤/retrospectives/postmortems。
+     - 新增 15 組獨立詞群：離線/offline/斷網、基準/基線/baseline/baselines、外洩/洩漏/洩露/leak/leakage、架構/architecture/architectures、回饋/反饋/feedback、非同步/異步/async/asynchronous、端到端/e2e/end-to-end、斷言/assertion/assertions、標註/annotation/annotations/標記/標籤化/labeling、輪詢/polling、增量/incremental、助手/assistant/copilot、生命週期/lifecycle、冪等/冪等性/idempotent/idempotency、環境變數/環境變量/env。
+     - 保持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：`normalizeSourceUrl` 補齊 Canva Help `query` 搜尋參數清理，加入回歸斷言，恪守「只列候選、不自行刪除、總案例數保持完整」。
+   - `tests/search.test.cjs`：加入 offline/斷網、baseline/baselines、leak/leakage/洩露、architecture/architectures、feedback/反饋、async/asynchronous、e2e/end-to-end/end to end、assertion/assertions、annotation/annotations、polling、incremental、assistant/copilot、lifecycle、冪等性/idempotency、環境變量，以及 llms/diffs/browsers/webpages/diagrams/flowcharts/mindmaps/evaluations/parsers/decoders/configs/configurations/kpis/terminals/consoles/migrations/mocks/healthchecks/statemachines/postmortems/retrospectives/vms/backups 等 38 組搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
+本輪實際結果：36/36 測試全數通過，336 筆條目全文、同義詞擴充檢索、多詞分詞標準化、單複數對稱性檢驗、疑似重複來源候選審核、全庫一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。

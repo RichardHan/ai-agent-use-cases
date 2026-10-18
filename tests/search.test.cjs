@@ -1138,6 +1138,50 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('reconciliations')), {
 assert(api.filterEntries(entries, Array.from(api.tokenize('對賬')), {}).some(x => x.id === 'UC-024'), '對賬 matches UC-024 via 對帳 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('核賬')), {}).some(x => x.id === 'UC-024'), '核賬 matches UC-024 via 核帳 synonym');
 
+// Search quality: mcp, model context protocol
+assert(api.filterEntries(entries, Array.from(api.tokenize('model context protocol')), {}).some(x => x.id === 'UC-010'), 'model context protocol matches UC-010 via mcp tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('model context protocols')), {}).some(x => x.id === 'UC-010'), 'model context protocols matches UC-010 via mcp tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('model-context-protocol')), {}).some(x => x.id === 'UC-010'), 'model-context-protocol matches UC-010 via mcp tokenization');
+
+// Search quality: connector, connectors, 連接器, 連線器
+assert(api.filterEntries(entries, Array.from(api.tokenize('connector')), {}).some(x => x.id === 'UC-016'), 'connector matches UC-016 via 連接器 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('connectors')), {}).some(x => x.id === 'UC-016'), 'connectors matches UC-016 via 連接器 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('連線器')), {}).some(x => x.id === 'UC-016'), '連線器 matches UC-016 via 連接器 synonym');
+
+// Search quality: skill, skills, 技能, 外掛技能
+assert(api.filterEntries(entries, Array.from(api.tokenize('skill')), {}).some(x => x.id === 'UC-006'), 'skill matches UC-006 via 技能 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('skills')), {}).some(x => x.id === 'UC-006'), 'skills matches UC-006 via 技能 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('技能')), {}).some(x => x.id === 'UC-006'), '技能 matches UC-006 via skill synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('外掛技能')), {}).some(x => x.id === 'UC-006'), '外掛技能 matches UC-006 via skill synonym');
+
+// Search quality: grokbot, grok bot
+assert(api.filterEntries(entries, Array.from(api.tokenize('grokbot')), {}).some(x => x.id === 'UC-003'), 'grokbot matches UC-003 via grok bot tokenization');
+
+// Search quality: metamuse, meta muse
+assert(api.filterEntries(entries, Array.from(api.tokenize('metamuse')), {}).some(x => x.id === 'UC-001'), 'metamuse matches UC-001 via meta muse tokenization');
+
+// Search quality: command line, cli, 命令列, 命令行
+assert(api.filterEntries(entries, Array.from(api.tokenize('command line')), {}).some(x => x.id === 'UC-269'), 'command line matches UC-269 via cli tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('command-line')), {}).some(x => x.id === 'UC-269'), 'command-line matches UC-269 via cli tokenization');
+
+// Search quality: api key, apikey, apikeys, 金鑰, 憑證
+assert(api.filterEntries(entries, Array.from(api.tokenize('apikey')), {}).some(x => x.id === 'UC-072'), 'apikey matches UC-072 via api key tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('api key')), {}).some(x => x.id === 'UC-072'), 'api key matches UC-072 via api key tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('api keys')), {}).some(x => x.id === 'UC-072'), 'api keys matches UC-072 via api key tokenization');
+
+// Search quality: pr, prs, pull request, pull requests
+assert(api.filterEntries(entries, Array.from(api.tokenize('prs')), {}).some(x => x.id === 'UC-005'), 'prs matches UC-005 via pr synonym/tokenization');
+
+// Search quality: 用量, 額度, usage, 消耗, 配額, 限額
+assert(api.filterEntries(entries, Array.from(api.tokenize('usage')), {}).some(x => x.id === 'UC-066'), 'usage matches UC-066 via 用量 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('用量')), {}).some(x => x.id === 'UC-066'), '用量 matches UC-066 via usage synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('額度')), {}).some(x => x.id === 'UC-066'), '額度 matches UC-066 via 用量 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('消耗')), {}).some(x => x.id === 'UC-066'), '消耗 matches UC-066 via 用量 synonym');
+
+// Search quality: 沙箱, 沙盒, sandbox, sandboxes
+assert(api.filterEntries(entries, Array.from(api.tokenize('沙箱')), {}).some(x => x.id === 'UC-317'), '沙箱 matches UC-317 via 沙盒 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('沙盒')), {}).some(x => x.id === 'UC-329'), '沙盒 matches UC-329 via 沙箱 synonym');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

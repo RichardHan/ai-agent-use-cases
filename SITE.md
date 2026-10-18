@@ -992,3 +992,49 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 - 總案例數維持 339 筆，合格數維持 299 筆，無編造案例、無擅刪候選。
 下一輪建議：依目前已標註之多案例共用公開來源候選叢集，評估在案例頁提供段落指引或進一步優化同義詞權重排序。
 
+## 2026-10-19：擴充 MCP、連接器、技能、CLI、API Key、用量與沙箱之檢索品質與同義詞對稱
+
+問題調查與證據：
+1. 核心 AI Agent 協定與工具連接檢索缺口：
+   - 「MCP」（全庫 24 筆，如 UC-010、UC-020、UC-030、UC-045、UC-048、UC-054、UC-061、UC-072、UC-074、UC-090） vs 完整名稱「model context protocol」（僅 1 筆）、「model-context-protocol」（0 筆）、「model context protocols」（0 筆）。讀者鍵入標準協定全稱時因案例多直接簡稱 MCP 而大量落空（24 筆中丟失 23 筆）；
+   - 「連接器」（全庫 38 筆，如 UC-006、UC-016、UC-026、UC-027、UC-028、UC-029、UC-030） vs 英文「connector」（18 筆）、「connectors」（12 筆，漏失 6 筆）、「連線器」（0 筆）。在 Meta Muse 及各類工具代理之連接器設定情境下，中英文未對稱關聯；
+   - 「技能」（全庫 22 筆，如 UC-006、UC-015、UC-023、UC-035、UC-039、UC-041、UC-046） vs 英文「skill」（21 筆）、「skills」（10 筆，漏失 11 筆）、「外掛技能」（0 筆）。Grok Bot 與 ChatGPT dots 體系中的自訂技能檢索存在詞態與語言斷層；
+   - 「grok bot」（245 筆） vs 社群與讀者常見之單詞寫法「grokbot」（僅 49 筆），因空格分詞漏失 196 筆案例；
+   - 「meta muse」（105 筆） vs 單詞寫法「metamuse」（0 筆），整庫檢索落空；
+   - 「命令列」／「命令行」／「cli」（30 筆，如 UC-005、UC-061、UC-072、UC-269、UC-273） vs 英文自然語言「command line」（0 筆）、「command-line」（0 筆）；
+   - 「金鑰」／「密鑰」／「憑證」（126 筆）及「api key」（7 筆，如 UC-072、UC-077、UC-082、UC-229） vs 單詞「apikey」（0 筆）、「api keys」（0 筆）；
+   - 「pr」／「pull request」（132 筆） vs 複數「prs」（0 筆）；
+   - 「用量」（121 筆，如 UC-001、UC-002、UC-004、UC-005、UC-066）、「額度」（52 筆）、「消耗」（35 筆） vs 英文「usage」（僅 5 筆）、「quota」（11 筆），用量稽核與限額管理中英文檢索割裂；
+   - 「沙盒」（3 筆，如 UC-317） vs 「沙箱」（1 筆，UC-329） vs 英文「sandbox」（3 筆），兩岸用詞未互通。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\bmodel\s*[- ]\s*context\s*[- ]\s*protocols?\b` → `mcp`
+     - `\bcommand\s*[- ]\s*lines?\b` → `cli`
+     - `\bapi\s*[- ]\s*keys?\b` → `apikey`
+     - `\bgrokbot\b` → `grok bot`
+     - `\bmetamuse\b` → `meta muse`
+     - `\bprs\b` → `pr`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 新增 5 組關鍵詞群：
+       - mcp／model context protocol
+       - connector／connectors／連接器／連線器
+       - skill／skills／技能／外掛技能
+       - pr／prs／pull request／pull requests／合併請求
+       - 用量／額度／usage／配額／限額／消耗
+     - 擴充憑證詞群：加入 apikey／apikeys；
+     - 擴充沙盒詞群：加入 沙箱（沙盒／沙箱／sandbox／sandboxes）；
+     - 保持 100% 互映對稱映射。
+2. `tests/search.test.cjs`：
+   - 增加 24 組搜尋斷言，覆蓋 model context protocol/protocols/model-context-protocol、connector/connectors/連線器、skill/skills/技能/外掛技能、grokbot、metamuse、command line/command-line、apikey/api key/api keys、prs、usage/用量/額度/消耗、沙箱/沙盒等檢索。
+3. 同步保留工作樹最新獨立回歸成果（tests/late-return.test.cjs 及 docs/qa/2026-10-19-corpus-loading 相關真實資產）。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：58/58 單元測試全數通過（含 13 項 late-return 嚴格時序測試）。
+- `for file in assets/*.js; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-search-quality/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，合格數維持 299 筆，無編造案例、無擅刪候選。
+下一輪建議：針對已識別的 46 組多案例共用公開來源候選叢集，在詳情頁或閱讀器中建立同源案例關聯索引，提升跨案例交叉驗證體驗。
+

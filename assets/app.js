@@ -11,7 +11,7 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s*[- ]\s*orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/\bscreen\s+shots?\b/g, ' screenshot ').replace(/\btime\s+sheets?\b/g, ' timesheet ').replace(/\bpay\s+checks?\b/g, ' paycheck ').replace(/\brun\s+times?\b/g, ' runtime ').replace(/\bhand\s*[- ]\s*offs?\b/g, ' handoff ').replace(/\bdry\s*[- ]\s*runs?\b/g, ' dryrun ').replace(/\bguard\s*[- ]\s*rails?\b/g, ' guardrail ').replace(/\bhuman\s*[- ]\s*in\s*[- ]\s*the\s*[- ]\s*loop\b/g, ' hitl ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
+const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s*[- ]\s*orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/\bscreen\s+shots?\b/g, ' screenshot ').replace(/\btime\s+sheets?\b/g, ' timesheet ').replace(/\bpay\s+checks?\b/g, ' paycheck ').replace(/\brun\s+times?\b/g, ' runtime ').replace(/\bhand\s*[- ]\s*offs?\b/g, ' handoff ').replace(/\bdry\s*[- ]\s*runs?\b/g, ' dryrun ').replace(/\bguard\s*[- ]\s*rails?\b/g, ' guardrail ').replace(/\bhuman\s*[- ]\s*in\s*[- ]\s*the\s*[- ]\s*loop\b/g, ' hitl ').replace(/\bmodel\s*[- ]\s*context\s*[- ]\s*protocols?\b/g, ' mcp ').replace(/\bcommand\s*[- ]\s*lines?\b/g, ' cli ').replace(/\bapi\s*[- ]\s*keys?\b/g, ' apikey ').replace(/\bgrokbot\b/g, ' grok bot ').replace(/\bmetamuse\b/g, ' meta muse ').replace(/\bprs\b/g, ' pr ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
   ['agent', 'agents', '智能體', '智能体', '代理'],
   ['每日報表', '每日報告', '日報', '晨報', 'daily'],
@@ -93,7 +93,7 @@ const SYNONYM_GROUPS = [
   ['日誌', '日誌記錄', 'log', 'logs', 'logging'],
   ['附件', 'attachment', 'attachments'],
   ['觸發', '觸發器', 'trigger', 'triggers'],
-  ['憑證', '密鑰', '金鑰', '密碼', '權杖', '令牌', 'credential', 'credentials', 'token', 'tokens', 'secret', 'secrets', 'password', 'passwords'],
+  ['憑證', '密鑰', '金鑰', '密碼', '權杖', '令牌', 'credential', 'credentials', 'token', 'tokens', 'secret', 'secrets', 'password', 'passwords', 'apikey', 'apikeys'],
   ['模板', '範本', '模版', 'template', 'templates'],
   ['異常', 'anomaly', 'anomalies', 'exception', 'exceptions'],
   ['webhook', 'webhooks', 'callback', 'callbacks', '回呼', '回調'],
@@ -112,7 +112,7 @@ const SYNONYM_GROUPS = [
   ['派工', '分派', '派發', '調度', '分流', 'dispatch', 'dispatcher', 'dispatching'],
   ['repo', 'repos', 'repository', 'repositories', '代碼庫', '程式庫', '儲存庫'],
   ['解析', '解碼', '剖析', 'parse', 'parser', 'parsers', 'parsing', 'decode', 'decoder', 'decoders', 'decoding'],
-  ['沙盒', 'sandbox', 'sandboxes'],
+  ['沙盒', '沙箱', 'sandbox', 'sandboxes'],
   ['結構化', 'structured'],
   ['容器', '虛擬機', 'docker', 'container', 'containers', 'vm', 'vms'],
   ['配額', '限流', '限速', '頻率限制', 'quota', 'quotas', 'throttling', 'ratelimit'],
@@ -200,7 +200,12 @@ const SYNONYM_GROUPS = [
   ['dryrun', 'dry-run', '試跑', '空跑', '模擬執行'],
   ['guardrail', 'guardrails', '護欄', '安全護欄'],
   ['telemetry', '遙測', '遠程測量', 'observability', '可觀測性', '可觀察性'],
-  ['hitl', 'human in the loop', '人工介入', '人工覆核', '人工審核', '人工把關']
+  ['hitl', 'human in the loop', '人工介入', '人工覆核', '人工審核', '人工把關'],
+  ['mcp', 'model context protocol'],
+  ['connector', 'connectors', '連接器', '連線器'],
+  ['skill', 'skills', '技能', '外掛技能'],
+  ['pr', 'prs', 'pull request', 'pull requests', '合併請求'],
+  ['用量', '額度', 'usage', '配額', '限額', '消耗']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

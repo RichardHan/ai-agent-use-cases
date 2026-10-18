@@ -266,10 +266,11 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(secureTunnelsCandidate.cases.includes('cases/239-wearable-conversation-delivery-state-validation.md'));
 
   const dotsControlsCandidate = duplicates.find(d => d.url.includes('learn.chatgpt.com/docs/dots/controls'));
-  assert(dotsControlsCandidate, 'Must detect shared ChatGPT dots controls documentation across UC-005, UC-023, and UC-073');
+  assert(dotsControlsCandidate, 'Must detect shared ChatGPT dots controls documentation across UC-005, UC-023, UC-073, and UC-218');
   assert(dotsControlsCandidate.cases.includes('cases/005-cloud-pr-review.md'));
   assert(dotsControlsCandidate.cases.includes('cases/023-launch-material-revision.md'));
   assert(dotsControlsCandidate.cases.includes('cases/073-customer-journey-content-audit.md'));
+  assert(dotsControlsCandidate.cases.includes('cases/218-third-party-skill-install-trust-review.md'));
 
   const dotsComputersCandidate = duplicates.find(d => d.url.includes('learn.chatgpt.com/docs/dots/computers-and-apps'));
   assert(dotsComputersCandidate, 'Must detect shared ChatGPT dots computers-and-apps documentation across UC-005, UC-006, and UC-025');
@@ -311,6 +312,46 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(toolchainBlogCandidate, 'Must detect shared Toolchain blog verification between UC-006 and UC-042');
   assert(toolchainBlogCandidate.cases.includes('cases/006-facebook-publication.md'));
   assert(toolchainBlogCandidate.cases.includes('cases/042-dots-credential-multibot-return.md'));
+
+  const museSmallBusinessCandidate = duplicates.find(d => d.url.includes('introducing-muse-small-business'));
+  assert(museSmallBusinessCandidate, 'Must detect shared Muse Small Business announcement across UC-022, UC-033, UC-034, and UC-179');
+  assert(museSmallBusinessCandidate.cases.includes('cases/022-ad-spend-conversion-check.md'));
+  assert(museSmallBusinessCandidate.cases.includes('cases/033-business-experiment-plan.md'));
+  assert(museSmallBusinessCandidate.cases.includes('cases/034-expense-anomaly-review.md'));
+  assert(museSmallBusinessCandidate.cases.includes('cases/179-duplicate-customer-email-flow-repair.md'));
+
+  const introducingMuseCandidate = duplicates.find(d => d.url.includes('introducing.muse.ai'));
+  assert(introducingMuseCandidate, 'Must detect shared Introducing Muse site across UC-026, UC-030, UC-031, and UC-032');
+  assert(introducingMuseCandidate.cases.includes('cases/026-school-deadline-list.md'));
+  assert(introducingMuseCandidate.cases.includes('cases/030-interactive-study-guide.md'));
+  assert(introducingMuseCandidate.cases.includes('cases/031-spending-dashboard.md'));
+  assert(introducingMuseCandidate.cases.includes('cases/032-sleep-record-chart.md'));
+
+  const designingGrokCandidate = duplicates.find(d => d.url.includes('designing-grok-bot-with-grok-bot'));
+  assert(designingGrokCandidate, 'Must detect shared Designing Grok Bot guide between UC-002 and UC-020');
+  assert(designingGrokCandidate.cases.includes('cases/002-video-production.md'));
+  assert(designingGrokCandidate.cases.includes('cases/020-figma-batch-cards.md'));
+
+  const dotsPrivacyFaqCandidate = duplicates.find(d => d.url.includes('20001529-dots-privacy-security-and-safety-faqs'));
+  assert(dotsPrivacyFaqCandidate, 'Must detect shared Dots Privacy FAQs between UC-006 and UC-071');
+  assert(dotsPrivacyFaqCandidate.cases.includes('cases/006-facebook-publication.md'));
+  assert(dotsPrivacyFaqCandidate.cases.includes('cases/071-obsidian-dots-visible-memory.md'));
+
+  const redditProcureCandidate2 = duplicates.find(d => d.url.includes('peuhvej'));
+  assert(redditProcureCandidate2, 'Must detect shared Reddit procurement discussion comment between UC-101 and UC-102');
+  assert(redditProcureCandidate2.cases.includes('cases/101-procurement-capability-shortlist.md'));
+  assert(redditProcureCandidate2.cases.includes('cases/102-regulatory-change-safety-form-draft.md'));
+
+  const toolchainPr12Candidate = duplicates.find(d => d.url.includes('github.com/toolchainjp/toolchainjp-lp/pull/12'));
+  assert(toolchainPr12Candidate, 'Must detect shared Toolchain JP pull request 12 between UC-006 and UC-042');
+  assert(toolchainPr12Candidate.cases.includes('cases/006-facebook-publication.md'));
+  assert(toolchainPr12Candidate.cases.includes('cases/042-dots-credential-multibot-return.md'));
+
+  const toolchainPr13Candidate = duplicates.find(d => d.url.includes('github.com/toolchainjp/toolchainjp-lp/pull/13'));
+  assert(toolchainPr13Candidate, 'Must detect shared Toolchain JP pull request 13 between UC-006 and UC-042');
+  assert(toolchainPr13Candidate.cases.includes('cases/006-facebook-publication.md'));
+  assert(toolchainPr13Candidate.cases.includes('cases/042-dots-credential-multibot-return.md'));
+
 });
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {

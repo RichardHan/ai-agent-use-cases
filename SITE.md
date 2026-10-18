@@ -526,3 +526,33 @@ python -m http.server 8080 --directory /tmp/ai-usecase-preview
 本輪實際結果：27/27 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選叢集審核、全庫 325 案例一致性檢驗通過。
 下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
 
+## 2026-10-18：行銷、採購、表單、會議紀錄、LLM 與推薦同義詞擴充、YouTube 與等價網域疑似重複偵測強化
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與專業業務檢索痛點：
+   - 行銷與廣告類：讀者搜尋常見英文詞「advertising」得 0 筆、「marketing」僅得 4 筆，嚴重遺漏全庫 21 筆「行銷」與 17 筆「廣告」案例（如 UC-022 廣告投放成效、UC-183 廣告帳戶設定、UC-017 開發信與客戶研究、UC-268 行銷活動審批）；
+   - 採購與招標類：全庫有 14 筆「採購」案例，但讀者搜尋「purchasing」得 0 筆、「sourcing」得 0 筆、「vendor」得 0 筆、「procurement」僅得 3 筆，嚴重遺漏 UC-007（Haggle Bot 採購案例）、UC-101（招標機會篩選 procurement capability shortlist）、UC-038（樣品採購與交接）、UC-154（供應商合約分析）等；
+   - 表單與問卷類：全庫有 33 筆「表單」，但讀者搜尋「survey」得 0 筆、「surveys」得 0 筆、「questionnaire」得 0 筆、「forms」僅得 1 筆、「問卷」僅得 1 筆，無法檢索大量表單流轉案例（如 UC-102 安全表單、UC-318 新帳戶表單、UC-035 求職表單、UC-127 表單填寫）；
+   - 會議紀錄與紀要類：讀者若輸入常見自然語言關鍵字「會議記錄」、「會議紀要」或「minutes」結果為 0 筆，與全庫 13 筆「會議」及「會議紀錄」案例（如 UC-094、UC-277）脫節；
+   - 大型語言模型類：讀者若搜尋「大型語言模型」、「大語言模型」或「大模型」結果為 0 筆，無法檢索 UC-161、UC-016、UC-170 等 8 筆標註 LLM 的關鍵案例；
+   - 爬蟲與採集類：既有爬蟲詞群遺漏動詞「爬取」（搜尋「爬取」僅得 2 筆，漏失 17 筆抓取／採集／爬蟲案例）；
+   - 比對與對照類：全庫有 31 筆「比對」與 17 筆「對照」，但搜尋「diff」（僅 1 筆）或「matching」（0 筆）無法命中；
+   - 推薦與精選類：全庫有 24 筆「推薦」與 11 筆「精選」，搜尋英文「recommendation」或「recommend」得 0 筆。
+2. 疑似重複來源偵測之 URL 正規化強化：
+   - `normalizeSourceUrl` 補齊 `youtube.com`（非 www 子網域，如待查來源 `sources/pending.md` 引用之影片網址）正規化為 `www.youtube.com`；
+   - 補齊 `www.linkedin.com` 歸一化為 `linkedin.com`；
+   - 統一通訊協定為 `https:`，並擴充社群與平台跳轉參數清除（`spm`、`ref_src`、`ref_url`、`from`）；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 325 保持完整；嚴格合格案例數 296 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `SYNONYM_GROUPS` 擴充 6 組新同義詞群（行銷/廣告/marketing/advertising/ads/投放/推廣、採購/招標/procurement/purchasing/sourcing/供應商/vendor/vendors、表單/問卷/調查/form/forms/survey/surveys/questionnaire、llm/大型語言模型/大語言模型/大模型/語言模型、比對/對照/核對/diff/matching、推薦/精選/recommendation/recommend/picks）。
+   - 在既有組別補齊對稱詞彙：會議補會議記錄/會議紀錄/會議紀要/開會紀錄/minutes、爬蟲補爬取，維持 100% 互映對稱映射（445 組對稱鍵值）。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：強化 `normalizeSourceUrl` 網址正規化（YouTube、LinkedIn、協定、跳轉參數），並加入 YouTube 與 LinkedIn 正規化回歸斷言，恪守「只列候選、不自行刪除、總案例數 325 保持完整」。
+   - `tests/search.test.cjs`：加入 marketing/advertising、procurement/purchasing、forms/survey、會議記錄/會議紀要/minutes、大型語言模型/大模型、爬取、diff、recommendation 等搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/test-preview/ai-agent-use-cases`。
+本輪實際結果：27/27 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選審核、全庫 325 案例一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
+

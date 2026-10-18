@@ -469,6 +469,36 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('billing')), {}).some(
 assert(api.filterEntries(entries, Array.from(api.tokenize('invoices')), {}).some(x => x.id === 'UC-024'), 'invoices matches UC-024 via 發票 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('receipts')), {}).some(x => x.id === 'UC-225'), 'receipts matches UC-225 via 收據 synonym');
 
+// Search quality: Marketing & advertising synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('marketing')), {}).some(x => x.id === 'UC-022'), 'marketing matches UC-022 via 行銷/廣告 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('advertising')), {}).some(x => x.id === 'UC-022'), 'advertising matches UC-022 via 廣告 synonym');
+
+// Search quality: Procurement & purchasing synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('procurement')), {}).some(x => x.id === 'UC-101'), 'procurement matches UC-101 via 採購/招標 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('purchasing')), {}).some(x => x.id === 'UC-007'), 'purchasing matches UC-007 via 採購 synonym');
+
+// Search quality: Form & survey synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('forms')), {}).some(x => x.id === 'UC-102'), 'forms matches UC-102 via 表單 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('survey')), {}).some(x => x.id === 'UC-102'), 'survey matches UC-102 via 表單/問卷 synonym');
+
+// Search quality: Meeting records & minutes synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('會議記錄')), {}).some(x => x.id === 'UC-094'), '會議記錄 matches UC-094 via 會議/會議紀錄 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('會議紀要')), {}).some(x => x.id === 'UC-277'), '會議紀要 matches UC-277 via 會議/會議紀錄 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('minutes')), {}).some(x => x.id === 'UC-094'), 'minutes matches UC-094 via 會議紀錄/會議 synonym');
+
+// Search quality: Large language model synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('大型語言模型')), {}).some(x => x.id === 'UC-161'), '大型語言模型 matches UC-161 via llm/模型 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('大模型')), {}).some(x => x.id === 'UC-161'), '大模型 matches UC-161 via llm/模型 synonym');
+
+// Search quality: Scraping (爬取) verb
+assert(api.filterEntries(entries, Array.from(api.tokenize('爬取')), {}).some(x => x.id === 'UC-060'), '爬取 matches UC-060 via 爬蟲/抓取 synonym');
+
+// Search quality: Diff & matching comparison
+assert(api.filterEntries(entries, Array.from(api.tokenize('diff')), {}).some(x => x.id === 'UC-024'), 'diff matches UC-024 via 比對/對照 synonym');
+
+// Search quality: Recommendation & picks
+assert(api.filterEntries(entries, Array.from(api.tokenize('recommendation')), {}).some(x => x.id === 'UC-326'), 'recommendation matches UC-326 via 推薦/精選 synonym');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

@@ -19,7 +19,7 @@ const SYNONYM_GROUPS = [
   ['記賬', '記帳'],
   ['登錄', '登入', 'login', 'signin'],
   ['簡報', '投影片', 'ppt', 'powerpoint'],
-  ['爬蟲', '抓取', '採集', 'scrape', 'scraping', 'crawler', 'scraper'],
+  ['爬蟲', '抓取', '採集', '爬取', 'scrape', 'scraping', 'crawler', 'scraper'],
   ['試算表', 'excel', 'sheets', 'spreadsheet', 'spreadsheets', 'csv'],
   ['逐字稿', '轉錄'],
   ['資料庫', '數據庫', 'database', 'sql', '数据库'],
@@ -44,7 +44,7 @@ const SYNONYM_GROUPS = [
   ['隱私', 'privacy'],
   ['旅遊', '旅行', 'travel'],
   ['比價', '比价', '折扣', '降價', '特價', '特賣', '促銷', '省錢'],
-  ['會議', '開會', 'meeting'],
+  ['會議', '開會', 'meeting', '會議記錄', '會議紀錄', '會議紀要', '開會紀錄', 'minutes'],
   ['提醒', '通知', 'alert', 'notification', '推播', '告警', '警報'],
   ['退款', '退貨', 'refund', 'refunds'],
   ['播客', 'podcast'],
@@ -94,7 +94,13 @@ const SYNONYM_GROUPS = [
   ['憑證', '密鑰', '金鑰', 'credential', 'credentials', 'token', 'tokens', 'secret', 'secrets'],
   ['模板', '範本', '模版', 'template', 'templates'],
   ['異常', 'anomaly', 'anomalies', 'exception', 'exceptions'],
-  ['webhook', 'webhooks']
+  ['webhook', 'webhooks'],
+  ['行銷', '廣告', 'marketing', 'advertising', 'ads', '投放', '推廣'],
+  ['採購', '招標', 'procurement', 'purchasing', 'sourcing', '供應商', 'vendor', 'vendors'],
+  ['表單', '問卷', '調查', 'form', 'forms', 'survey', 'surveys', 'questionnaire'],
+  ['llm', '大型語言模型', '大語言模型', '大模型', '語言模型'],
+  ['比對', '對照', '核對', 'diff', 'matching'],
+  ['推薦', '精選', 'recommendation', 'recommend', 'picks']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

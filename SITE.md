@@ -480,3 +480,42 @@ python -m http.server 8080 --directory /tmp/ai-usecase-preview
 本輪實際結果：24/24 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選叢集審核、全庫 325 案例一致性檢驗通過。
 下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
 
+## 2026-10-18：資料庫、登入、試算表、附件、觸發、憑證與異常同義詞擴充、官方頁與討論串疑似重複候選叢集擴充
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與檢索體驗痛點：
+   - 資料庫與 SQL：全庫有 25 筆「資料庫」，但搜尋常見英文詞「database」得 0 筆、「sql」得 12 筆，簡體「数据库」得 0 筆；
+   - 登入與身分認證：全庫有 145 筆「登入」，但搜尋高頻英文詞「login」得 0 筆、「signin」僅 2 筆；
+   - 試算表與表格：全庫有 29 筆「試算表」、29 筆「excel」、29 筆「sheets」，但搜尋常見英文詞「spreadsheet」得 0 筆、「spreadsheets」得 0 筆、「csv」得 22 筆；
+   - 附件檢索：全庫有 32 筆「附件」，但搜尋英文詞「attachment」得 0 筆、「attachments」得 0 筆（如 UC-234、UC-297 等）；
+   - 觸發機制：全庫有 38 筆「觸發」，但搜尋英文詞「trigger」得 0 筆、「triggers」得 0 筆（如 UC-074、UC-239 等）；
+   - 憑證與金鑰：全庫有 94 筆「憑證」、22 筆「金鑰」、36 筆「密碼」，但搜尋英文「credential」得 0 筆、「credentials」得 0 筆；
+   - 模板與範本：全庫有 30 筆「模板」、17 筆「範本」，但既有未納入完整模板詞群（template 僅 7 筆、templates 僅 3 筆）；
+   - 異常檢測：全庫有 32 筆「異常」，但搜尋英文「anomaly」僅 1 筆、「anomalies」得 0 筆；
+   - Webhook：全庫有 7 筆「webhook」，搜尋複數「webhooks」得 0 筆；
+   - 爬蟲：全庫有 17 筆「爬蟲/抓取」，既有詞群含 scraping/crawler/scraper，遺漏動詞原型「scrape」（得 0 筆）；
+   - 排錯與除錯：全庫有 88 筆「排錯/除錯/debug」，既有詞群含 troubleshooting，遺漏「troubleshoot」（僅 1 筆）與「debugging」（僅 1 筆）；
+   - 待辦事項：全庫有 32 筆「待辦/todo」，既有詞群遺漏複數「todos」（得 0 筆）與「task」（得 5 筆）、「tasks」（得 3 筆）；
+   - 帳單：全庫有 34 筆「帳單/bill」，既有詞群遺漏複數「bills」（得 0 筆）與「billing」（僅 4 筆）；
+   - 發票與收據：全庫有 94 筆「發票/invoice/receipt」，既有詞群遺漏複數「invoices」（得 0 筆）與「receipts」（僅 1 筆）。
+2. 疑似重複來源候選叢集偵測覆蓋：
+   - `https://muse.ai/business` 被 UC-003、UC-016、UC-026～UC-034 等 11 個案例共用；
+   - `https://meta.com/en-gb/help/artificial-intelligence/1687253048996149` 被 UC-016、UC-026～UC-034、UC-267 等 11 個案例共用；
+   - `https://docs.x.ai/grok-bot/approvals-security-and-privacy` 被 UC-101、UC-102、UC-103、UC-126、UC-156、UC-174、UC-252、UC-276、UC-318、UC-319 與 evidence/009 等 11 筆檔案共用；
+   - `https://reddit.com/r/grokbot/comments/1wa57uk/comment/p8gwy2e` 實質涵蓋 UC-003、UC-097、UC-098、UC-099 4 個案例，補齊 UC-003 與總筆數斷言；
+   - `normalizeSourceUrl` 補齊 `www.meta.com` 與 `m.meta.com` 至 `meta.com` 之正規化；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 325 保持完整；嚴格合格案例數 296 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `SYNONYM_GROUPS` 擴充 6 組新同義詞群（附件/attachment/attachments、觸發/觸發器/trigger/triggers、憑證/密鑰/金鑰/credential/credentials/token/tokens/secret/secrets、模板/範本/模版/template/templates、異常/anomaly/anomalies/exception/exceptions、webhook/webhooks）。
+   - 在既有組別補齊對稱詞彙：資料庫補database/sql/数据库、登入補login/signin、試算表補spreadsheet/spreadsheets/csv、爬蟲補scrape、除錯補troubleshoot/debugging、待辦補todos/task/tasks、帳單補bills/billing、發票收據補invoices/receipts，維持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：擴充 3 組大型官方與原作者來源疑似重複候選叢集斷言（Muse Business 11 案叢集、Meta AI Help 11 案叢集、Grok Bot approvals 11 檔叢集），更新 Reddit 4 案討論串覆蓋與總筆數斷言，補齊 meta.com 網域正規化，恪守「只列候選、不自行刪除、總案例數 325 保持完整」。
+   - `tests/search.test.cjs`：加入 database/数据库、login/signin、spreadsheet/spreadsheets、attachment/attachments、trigger/triggers、credential/credentials、template/templates、anomaly/anomalies、webhooks、scrape、troubleshoot/debugging、todos/tasks、bills/billing、invoices/receipts 等搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/test-preview/ai-agent-use-cases`。
+本輪實際結果：24/24 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選叢集審核、全庫 325 案例一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
+
+

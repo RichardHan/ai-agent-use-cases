@@ -213,7 +213,7 @@ async function jump(page,button){
    await resilient.goto(origin,{waitUntil:'networkidle'});
    await resilient.locator('#results .card').first().waitFor();
    assert.equal(await resilient.locator('#error').isVisible(),false);
-   assert.match(await resilient.locator('#results-count').innerText(),/1 筆載入略過/);
+   assert.match(await resilient.locator('#results-count').innerText(),/1 個來源檔案未載入/);
    assert((await resilient.locator('#results .card').count())>=300);
    console.log('PASS: resilient loader keeps catalog working when a single markdown case fails');
    await resilient.close();

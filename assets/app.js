@@ -5,6 +5,7 @@ const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在�
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
 let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {}, failedPaths = [];
 let allowAutomaticArrival=true, searchShareRequest=0;
+let recoveringSources=false, recoveryNotice='';
 let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
@@ -555,8 +556,10 @@ function render(updateURL=true) {
   currentFiltered = filterEntries(entries, q, filters);
   $('results').replaceChildren(...currentFiltered.map(item=>card(item,q)));syncDiscovery(currentFiltered);
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
+  $('empty').querySelector('h3').textContent=failedPaths.length?'已載入內容中沒有符合的案例':'目前沒有符合的案例';
   renderSearchFeedback(q, filters);
-  const skipNote = failedPaths.length ? `（${failedPaths.length} 筆載入略過）` : '';
+  updatePartialLoad();
+  const skipNote = failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入）` : '';
   $('results-count').textContent = `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}`;
 
   document.querySelectorAll('.chip[data-scenario]').forEach(btn => {
@@ -614,8 +617,10 @@ async function loadCorpus(paths, options = {}) {
   const limit = options.concurrency || 16;
   const parseFn = options.parseFile || parseFile;
   const results = await mapConcurrent(paths, limit, async path => {
+    const controller=options.timeout?new AbortController():null;
+    const timer=controller?setTimeout(()=>controller.abort(),options.timeout):null;
     try {
-      const r = await fetchFn(path, { cache: 'no-cache' });
+      const r = await fetchFn(path, { cache: 'no-cache', ...(controller?{signal:controller.signal}:{}) });
       if (!r.ok) {
         console.warn(`無法讀取 ${path} (HTTP ${r.status})`);
         return { ok: false, path, error: `HTTP ${r.status}` };
@@ -626,13 +631,95 @@ async function loadCorpus(paths, options = {}) {
     } catch (err) {
       console.warn(`無法讀取 ${path}：`, err);
       return { ok: false, path, error: err.message || String(err) };
+    } finally {
+      if(timer!==null)clearTimeout(timer);
     }
   });
   const entries = results.filter(r => r && r.ok).flatMap(r => r.entries);
   const failed = results.filter(r => r && !r.ok).map(r => r.path);
   return { entries, failed };
 }
+
+function mergeCorpus(current, recovered) {
+  const paths=new Set(recovered.map(item=>item.path));
+  return [...current.filter(item=>!paths.has(item.path)),...recovered].sort((a,b)=>
+    ({case:0,evidence:1,pending:2}[a.kind]-{case:0,evidence:1,pending:2}[b.kind])||a.id.localeCompare(b.id));
+}
+function refreshCorpusMetadata() {
+  for(const kind of Object.keys(KIND)) $(kind==='case'?'case-count':kind+'-count').textContent=entries.filter(e=>e.kind===kind).length;
+  for(const [id,values] of [['tool',entries.flatMap(e=>e.tools)],['category',entries.map(e=>e.category)],['proof',entries.map(e=>e.proof)]]){
+    const selected=$(id).value;
+    populate(id,selected?[...values,selected]:values);
+    $(id).value=selected;
+  }
+}
+function updatePartialLoad() {
+  $('partial-load').hidden=!failedPaths.length;
+  $('retry-failed').setAttribute('aria-disabled',String(recoveringSources));
+  $('retry-failed').textContent=recoveringSources?'正在重試…':'重試未載入來源';
+  const target=new URLSearchParams(location.search).get('case');
+  const missingTarget=target&&!matchCase(target);
+  $('partial-message').textContent=(missingTarget?'分享的案例目前無法開啟，可能仍在未載入的來源中。':'')+
+    '還有 '+failedPaths.length+' 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。'+
+    (recoveringSources?'正在補讀，你可以繼續搜尋或閱讀。':'可稍後重試，已載入內容會保留。');
+  $('load-status').textContent=recoveryNotice;
+}
+function preserveRecoveryFocus() {
+  const active=document.activeElement;
+  const cardNode=active.closest('.card');
+  const area=cardNode?.closest('#drawn-case')?'drawn-case':'results';
+  const cardId=cardNode?.dataset.caseId;
+  const buttonIndex=cardNode?[...cardNode.querySelectorAll('button')].indexOf(active):-1;
+  const filterKey=active.dataset.removeFilter;
+  const parentId=active.parentElement?.id;
+  return ()=>{
+    if(active===document.body)return;
+    if(active.isConnected && !(active===$('retry-failed') && !failedPaths.length))return;
+    let replacement;
+    if(cardId){
+      const node=[...$(area).querySelectorAll('.card')].find(c=>c.dataset.caseId===cardId);
+      replacement=node?.querySelectorAll('button')[buttonIndex];
+    }else if(filterKey && parentId){
+      replacement=[...$(parentId).querySelectorAll('[data-remove-filter]')].find(b=>b.dataset.removeFilter===filterKey);
+    }
+    (replacement||$('results-count')).focus({preventScroll:true});
+  };
+}
+async function retryFailedSources() {
+  if(recoveringSources||!failedPaths.length)return;
+  const paths=[...failedPaths];
+  const requestedCase=new URLSearchParams(location.search).get('case');
+  recoveringSources=true;recoveryNotice='正在重試 '+paths.length+' 個來源檔案，已載入內容仍可使用。';
+  updatePartialLoad();
+  try {
+    const result=await loadCorpus(paths,{concurrency:4,timeout:15000});
+    const restoreFocus=preserveRecoveryFocus();
+    const recoverRequested=document.activeElement===$('retry-failed');
+    entries=mergeCorpus(entries,result.entries);
+    failedPaths=result.failed;
+    recoveringSources=false;
+    recoveryNotice='已補回 '+result.entries.length+' 筆收錄。'+(failedPaths.length?
+      '仍有 '+failedPaths.length+' 個來源檔案未載入，請稍後再試。':'所有來源皆已載入。');
+    refreshCorpusMetadata();
+    render(false);
+    updateModalNav();
+    restoreFocus();
+    const target=new URLSearchParams(location.search).get('case');
+    if(recoverRequested && requestedCase && target===requestedCase && !$('detail').open){
+      const item=matchCase(target);
+      if(item)showDetail(item,null,false);
+    }
+  } catch(error) {
+    recoveryNotice='暫時無法補讀來源，已載入內容已保留，請稍後再試。';
+    console.error(error);
+  } finally {
+    recoveringSources=false;
+    updatePartialLoad();
+  }
+}
+
 async function load() {
+  recoveryNotice='';$('load-status').textContent='';$('partial-load').hidden=true;
   clearSearchShare();$('copy-search-link').disabled=true;
   discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('discover').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
   $('error').hidden = true;
@@ -662,16 +749,16 @@ async function load() {
     const { entries: loaded, failed } = await loadCorpus(paths, { fetch, parseFile, concurrency: 16 });
     failedPaths = failed;
     if (!loaded.length) throw Error('沒有成功讀取任何案例。');
-    entries = loaded.sort((a, b) => ({ case: 0, evidence: 1, pending: 2 }[a.kind] - { case: 0, evidence: 1, pending: 2 }[b.kind]) || a.id.localeCompare(b.id));
-    for (const kind of Object.keys(KIND)) $(kind === 'case' ? 'case-count' : kind + '-count').textContent = entries.filter(e => e.kind === kind).length;
+    entries = mergeCorpus([],loaded);
+    refreshCorpusMetadata();
     $('updated').textContent = '索引更新 ' + catalog.builtAt;
-    populate('tool', entries.flatMap(e => e.tools));
-    populate('category', entries.map(e => e.category));
-    populate('proof', entries.map(e => e.proof));
     const params = new URLSearchParams(location.search);
     activeScenario = params.get('scenario') || '';
     ['query', 'kind', 'tool', 'category', 'proof'].forEach(id => {
       const value = params.get(id === 'query' ? 'q' : id) || '';
+      if(failedPaths.length && value && ['tool','category','proof'].includes(id) && ![...$(id).options].some(o=>o.value===value)){
+        const option=el('option','',value);option.value=value;$(id).append(option);
+      }
       if (id === 'query' || [...$(id).options].some(o => o.value === value)) $(id).value = value;
     });
     discoveryReady=true;$('guide-options').disabled=false;$('discover').setAttribute('aria-busy','false');
@@ -744,6 +831,7 @@ $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
 $('clear-facets').addEventListener('click', clearFacets);
 $('edit-query').addEventListener('click', () => { $('query').focus(); $('query').select(); });
+$('retry-failed').addEventListener('click',retryFailedSources);
 $('retry').addEventListener('click', () => { $('results-count').focus({preventScroll:true}); load(); });
 $('close-detail').addEventListener('click', closeDetail);
 $('nav-prev-case')?.addEventListener('click', () => navStep(-1));

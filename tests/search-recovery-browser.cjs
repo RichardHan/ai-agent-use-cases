@@ -127,7 +127,7 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     await page.goto(origin+'?q=旅遊&tool=Grok%20Bot&category='+encodeURIComponent('旅遊／消費研究')+'&proof='+encodeURIComponent('作者報告／示範'),{waitUntil:'networkidle'});
     const loadedMatches=await page.locator('#results .card').count();
     assert(loadedMatches>0);
-    assert.match(await page.locator('#results-count').innerText(),/1 筆載入略過/);
+    assert.match(await page.locator('#results-count').innerText(),/1 個來源檔案未載入/);
     await ensureFiltersVisible(page);
     await page.locator('#scenario').selectOption('開發');
     const suggestion=page.locator('#empty-suggestions [data-remove-filter="scenario"]');

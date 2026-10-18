@@ -21,7 +21,7 @@ const origin=process.env.RELATED_URL||'http://127.0.0.1:8088/ai-agent-use-cases/
   const nextTitle=await page.locator('#nav-next-case').getAttribute('title');
   await page.locator('.research-details summary').click();
   const source=await page.locator('.research-details .markdown a[href^="https:"]').first().getAttribute('href');
-  const external=await page.context().newPage();let sourceStatus=null,sourceError=null;
+  const external=await browser.newPage();let sourceStatus=null,sourceError=null;
   try{sourceStatus=(await external.goto(source,{waitUntil:'domcontentloaded',timeout:15000}))?.status();}catch(e){sourceError=e.message;}
   await external.close();
   await page.keyboard.press('Escape');

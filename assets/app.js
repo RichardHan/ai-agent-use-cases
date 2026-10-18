@@ -713,6 +713,20 @@ window.addEventListener('popstate', () => {
   activeScenario = params.get('scenario') || '';
   ['query', 'kind', 'tool', 'category', 'proof'].forEach(key => $(key).value = params.get(key === 'query' ? 'q' : key) || '');
   render(false);
-  if(wasOpen&&!item)restoreDetailFocus();
+  if(wasOpen&&!item){
+    restoreDetailFocus();
+    // Fragment traversal can apply its native focus after the popstate handler.
+    // Restore once after that step, without overriding another control's focus.
+    if(location.hash){
+      const returnURL=location.href,returnTarget=document.activeElement;
+      let fragment=null;
+      try{fragment=document.getElementById(decodeURIComponent(location.hash.slice(1)));}catch{}
+      requestAnimationFrame(()=>{
+        if(location.href!==returnURL||$('detail').open||!returnTarget?.isConnected)return;
+        const active=document.activeElement;
+        if(active===document.body||active===fragment)returnTarget.focus({preventScroll:true});
+      });
+    }
+  }
 });
 load();

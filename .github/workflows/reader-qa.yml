@@ -46,6 +46,12 @@ jobs:
           python3 scripts/preview.py "$RUNNER_TEMP/reader-preview/ai-agent-use-cases"
           python3 -m http.server 8082 --directory "$RUNNER_TEMP/reader-preview" > /tmp/reader-preview.log 2>&1 &
           node tests/reader-browser.cjs
+      - name: Preserve existing discovery and sharing flows
+        env:
+          NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
+        run: |
+          python3 -m http.server 8081 --directory "$RUNNER_TEMP/reader-preview" > /tmp/reader-discovery.log 2>&1 &
+          node tests/discovery-browser.cjs
       - name: Diagnose a WebKit failure against the baseline
         if: ${{ failure() && github.ref != 'refs/heads/main' }}
         env:

@@ -1,0 +1,20 @@
+[
+  {
+    "label": "baseline",
+    "events": [
+      "first-journey-complete",
+      "page-crashed"
+    ],
+    "result": "failed",
+    "error": "page.goto: Page crashed\nCall log:\n  - navigating to \"http://127.0.0.1:8083/ai-agent-use-cases/?q=PR&case=UC-005\", waiting until \"networkidle\"\n"
+  },
+  {
+    "label": "updated",
+    "events": [
+      "first-journey-complete",
+      "page-crashed"
+    ],
+    "result": "failed",
+    "error": "page.goto: Page crashed\nCall log:\n  - navigating to \"http://127.0.0.1:8082/ai-agent-use-cases/?q=PR&case=UC-005\", waiting until \"networkidle\"\n"
+  }
+]

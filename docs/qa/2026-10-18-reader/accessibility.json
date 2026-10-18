@@ -1,0 +1,62 @@
+[
+  {
+    "label": "chromium-desktop-collapsed",
+    "violations": []
+  },
+  {
+    "label": "chromium-desktop-expanded",
+    "violations": []
+  },
+  {
+    "label": "chromium-desktop-pending",
+    "violations": []
+  },
+  {
+    "label": "chromium-mobile-collapsed",
+    "violations": []
+  },
+  {
+    "label": "chromium-mobile-expanded",
+    "violations": []
+  },
+  {
+    "label": "chromium-mobile-pending",
+    "violations": []
+  },
+  {
+    "label": "chromium-small-mobile-collapsed",
+    "violations": []
+  },
+  {
+    "label": "chromium-small-mobile-expanded",
+    "violations": []
+  },
+  {
+    "label": "chromium-small-mobile-pending",
+    "violations": []
+  },
+  {
+    "label": "firefox-mobile-collapsed",
+    "violations": []
+  },
+  {
+    "label": "firefox-mobile-expanded",
+    "violations": []
+  },
+  {
+    "label": "firefox-mobile-pending",
+    "violations": []
+  },
+  {
+    "label": "webkit-mobile-collapsed",
+    "violations": []
+  },
+  {
+    "label": "webkit-mobile-expanded",
+    "violations": []
+  },
+  {
+    "label": "webkit-mobile-pending",
+    "violations": []
+  }
+]

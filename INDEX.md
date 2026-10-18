@@ -2,9 +2,11 @@
 
 更新日期：2026-10-18。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至2026-10-18 20:43批次，嚴格核對為**300／1,000，尚差700**（含作者自述與實際失敗，未獨立重現）。先前已核定296，本輪新增334–337四案；338單則文字自述暫列待定；066補多Bot盤點來源不另計。主要頁330，沿用歷史頁面發布口徑323，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至2026-10-18 21:00批次，嚴格核對為**299／1,000，尚差701**（含作者自述與實際失敗，未獨立重現）。先前已核定296，納入前輪草稿339／340及本輪341共三案；協作者334／335待核、336／337既有流程版本，338仍待定。主要頁333，沿用歷史頁面發布口徑326，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
 2026-10-17 23:44台灣時間起，目標提高為1,000案。14:45協作者曾列296；16:00去重將322／324保留為既有流程版本，323／325原文未重新取得、維持前批自述但不併入核定數；315／326仍待定。下方歷史批次保留當時口徑，不回改舊報告。
+
+21:00批次：339跨產品舊交辦重送、340工具實際回應分存驗收、341新交辦後封存與執行狀態矛盾。334–338原頁與066補充保留，協作者20:43自報300不直接採作核定數。[原文、去重與實閱缺口](sources/research-2026-10-18-2100.md)。
 
 20:43批次：新增334自架ADS-B接收站雙頻輪收、解碼改寫與加裝放大器前後量測，335手動重新開啟的排程被Bot依舊約定關回（失敗），336掌上圓屏裝置經Mac轉文字與MCP的語音入口，337每日隨機不重複參考照換臉送達；338司機每日工時與薪資單核對為單則文字、待定。066併入13 Bot集中窗口兩天破綻、每月盤點例行任務與公開盤點外掛，不另計。[原文、去重與覆蓋](sources/research-2026-10-18-2043.md)。
 
@@ -78,7 +80,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（325）
+## 主要案例（333）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -407,11 +409,15 @@
 | UC-331 | 網購未送達：代追物流與商家到退款入帳通知 | Grok Bot／商家／DHL | [前批作者自述；本輪原文403、與088重疊待核，不加數](cases/331-undelivered-purchase-carrier-merchant-refund-chase.md) | 生活｜退款、物流追蹤、網購 |
 | UC-332 | X營運半自動：選題到草稿交給Bot，發文前人工核准 | Grok Bot／Typefully／Obsidian | [前批作者用法清單；本輪原文403、006流程版本，不加數](cases/332-x-ops-semiauto-prepost-human-approval.md) | 創作｜每日、社群、發文、核准 |
 | UC-333 | 外聯Notion跨代理記憶：Claude改文、Grok Bot讀流程 | Grok Bot／Claude／Notion | [前批作者自述；本輪原文未取得、071流程版本，不加數](cases/333-notion-cross-agent-outreach-memory.md) | 工作｜外聯、Notion、跨代理、記憶 |
-| UC-334 | 自架ADS-B接收站：雙頻輪收、解碼改寫，再用前後數據比較加裝放大器的效果 | Grok Bot／PlutoSDR／Raspberry Pi 4／SAWbird+ | [作者自述＋覆蓋圖與距離分布表；程式與原始資料未公開、未重現](cases/334-sdr-adsb-receiver-decoder-range-ab-test.md) | 開發｜硬體、無線電、效能量測、驗收 |
-| UC-335 | 手動重新開啟的排程，又被Bot依舊約定關掉 | Grok Bot routines | [作者失敗自述＋對話截圖；完整歷程未取得、未重現](cases/335-manual-routine-reenable-reverted-by-stale-instruction.md) | 開發｜排程、失敗、狀態同步、核准 |
-| UC-336 | 自製圓形掌上裝置當Grok Bot語音入口：錄音上傳、轉文字、經MCP送達再回到螢幕 | Grok Bot／ESP裝置／Mac轉文字／MCP／Cloudflare Tunnel | [作者示範影片（畫格已看）＋架構自述；原碼與延遲紀錄未公開、未重現](cases/336-handheld-voice-terminal-mcp-relay.md) | 開發｜實體裝置、語音、MCP、延遲 |
-| UC-337 | 每天早上從收藏的參考照隨機挑一張，換成自己的臉和髮型送來 | Grok Bot routine／ChatGPT圖像編修 | [作者自述＋設定與送達截圖；連續執行與來源出入未核、未重現](cases/337-daily-random-reference-photo-likeness-edit.md) | 創作｜每日、生成圖像、隨機不重複、排程 |
+| UC-334 | 自架ADS-B接收站：雙頻輪收、解碼改寫，再用前後數據比較加裝放大器的效果 | Grok Bot／PlutoSDR／Raspberry Pi 4／SAWbird+ | [原文本輪未取得，待核不加數；前批自述與圖表紀錄保留](cases/334-sdr-adsb-receiver-decoder-range-ab-test.md) | 開發｜硬體、無線電、效能量測、驗收 |
+| UC-335 | 手動重新開啟的排程，又被Bot依舊約定關掉 | Grok Bot routines | [原文本輪未取得，待核不加數；前批失敗自述保留](cases/335-manual-routine-reenable-reverted-by-stale-instruction.md) | 開發｜排程、失敗、狀態同步、核准 |
+| UC-336 | 自製圓形掌上裝置當Grok Bot語音入口：錄音上傳、轉文字、經MCP送達再回到螢幕 | Grok Bot／ESP裝置／Mac轉文字／MCP／Cloudflare Tunnel | [239跨裝置雙向會話版本，不另計；本輪未看原影片](cases/336-handheld-voice-terminal-mcp-relay.md) | 開發｜實體裝置、語音、MCP、延遲 |
+| UC-337 | 每天早上從收藏的參考照隨機挑一張，換成自己的臉和髮型送來 | Grok Bot routine／ChatGPT圖像編修 | [050每日素材生成送達版本，不另計；本輪原文未取得](cases/337-daily-random-reference-photo-likeness-edit.md) | 創作｜每日、生成圖像、隨機不重複、排程 |
 | UC-338 | 長途司機每天早上報工時，AI記週總、重算里程，再對薪資單 | Grok Bot（產品入口待核） | [單則文字自述；無截圖與核對結果，待定](cases/338-driver-daily-hours-log-paycheck-check.md) | 工作｜每日、工時、薪資核對、排班 |
+| UC-339 | 跨產品舊交辦被重送成新要求 | Grok Bot／grok.com | [作者失敗自述；根因及修復未核](cases/339-stale-cross-product-request-provenance.md) | 工作｜跨代理、訊息來源、舊任務、失敗 |
+| UC-340 | 搜尋代理實際工具回應與模型輸出分開驗收 | Grok Bot／Hermes／Ollama／SearXNG | [俄文作者實作自述；隔離及判讀未獨立核](cases/340-tool-response-evidence-capture-acceptance.md) | 開發｜搜尋、證據來源、工具紀錄、驗收 |
+| UC-341 | 已封存任務受理新交辦後啟動，狀態仍封存 | ChatGPT dots／Codex桌面應用 | [作者失敗自述及事件摘要；單一任務、未重現](cases/341-archived-task-runtime-state-reconciliation.md) | 開發｜任務生命週期、封存、失敗、狀態驗收 |
+
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

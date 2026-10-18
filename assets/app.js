@@ -307,7 +307,63 @@ function closeDetail() {
   history.replaceState(null, '', url);
   restoreDetailFocus();
 }
-function card(item) {
+// Explanations use the existing matching rules; they never rank or qualify evidence.
+function contextExcerpt(text, variant, limit=96) {
+  const chars=Array.from(text), index=norm(text).indexOf(variant);
+  if(chars.length<=limit)return text;
+  // Map the normalized offset back to original code points (NFKC can change length).
+  let low=0,high=chars.length;
+  while(low<high){
+    const mid=Math.floor((low+high)/2);
+    if(norm(chars.slice(0,mid+1).join('')).length<=index)low=mid+1;
+    else high=mid;
+  }
+  const start=Math.max(0,Math.min(low-32,chars.length-limit));
+  return (start?'…':'')+chars.slice(start,start+limit).join('')+(start+limit<chars.length?'…':'');
+}
+function searchContext(item, terms) {
+  if(!terms.length)return {matches:[],remaining:0};
+  const fields=[
+    ['標題',item.title],['用途',item.summary],['案例編號',idVariants(item.id)],
+    ['分類',item.category],['標籤',(item.tags||[]).join('、')],
+    ['提及工具',(item.tools||[]).join('、')],['情境',item.scenario],['收錄狀態',KIND[item.kind]]
+  ].map(([label,text])=>({label,text:text||'',original:false}));
+  let section='頁首資料';
+  for(const line of (item.markdown||'').split('\n')){
+    if(!line.trim())continue;
+    const heading=line.match(/^(#{1,6})\s+(.+)/);
+    if(heading&&heading[1].length>1)section=clean(heading[2]);
+    fields.push({label:'原文 · '+(heading?.[1].length===1?'標題':section),text:line.replace(/^(?:#{1,6}\s+|[-*>]\s+|\d+\.\s+)/,'').trim(),original:true});
+  }
+  const matches=[];
+  for(const term of [...new Set(terms)]){
+    const variants=termVariants(term);
+    for(const field of fields){
+      const text=norm(field.text),variant=variants.find(v=>text.includes(v));
+      if(!variant)continue;
+      matches.push({term,variant,label:field.label,excerpt:field.original?contextExcerpt(field.text,variant):''});
+      break;
+    }
+  }
+  return {matches:matches.slice(0,2),remaining:Math.max(0,matches.length-2)};
+}
+function renderSearchContext(item, terms) {
+  const context=searchContext(item,terms);
+  if(!context.matches.length)return null;
+  const box=el('div','search-context');
+  box.append(el('p','search-context-title',context.matches.some(match=>match.excerpt)?'搜尋命中 · 原文節錄':'搜尋命中'));
+  context.matches.forEach(match=>{
+    const row=el('div','search-context-match');
+    const relation=match.term===match.variant?'「'+match.term+'」':'「'+match.term+'」→「'+match.variant+'」';
+    row.append(el('p','search-context-label',relation+' · '+match.label));
+    if(match.excerpt)row.append(el('p','search-context-excerpt',match.excerpt));
+    box.append(row);
+  });
+  if(context.remaining)box.append(el('p','search-context-more','另有 '+context.remaining+' 個關鍵字符合；可開啟原文核對。'));
+  return box;
+}
+
+function card(item, terms=[]) {
   const node = el('article', 'card');
   node.dataset.kind = item.kind;node.dataset.caseId=item.id;
   const top = el('div', 'card-top');
@@ -322,6 +378,8 @@ function card(item) {
   title.addEventListener('click', () => showDetail(item, title));
   h.append(title);
   node.append(h, el('p', 'summary', item.summary));
+  const context=renderSearchContext(item,terms);
+  if(context)node.append(context);
 
   const tagsWrap = el('div', 'tags');
   const scenarioTag = el('button', 'tag tag-scenario', item.scenario);
@@ -484,7 +542,7 @@ function render(updateURL=true) {
   const facetCount = Object.values(filters).filter(Boolean).length;
   $('filter-count').textContent = facetCount ? `已套用 ${facetCount} 項篩選` : '未設定篩選';
   currentFiltered = filterEntries(entries, q, filters);
-  $('results').replaceChildren(...currentFiltered.map(card));syncDiscovery(currentFiltered);
+  $('results').replaceChildren(...currentFiltered.map(item=>card(item,q)));syncDiscovery(currentFiltered);
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
   renderSearchFeedback(q, filters);
   const skipNote = failedPaths.length ? `（${failedPaths.length} 筆載入略過）` : '';

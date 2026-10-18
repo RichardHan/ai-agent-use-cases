@@ -1,0 +1,54 @@
+name: Search context QA
+on:
+  push:
+    branches: ['main']
+    paths: ['assets/**', 'index.html', 'catalog.json', 'scripts/**', 'tests/search-context*', 'tests/match-baseline.cjs', '.github/workflows/search-context-qa.yml']
+  pull_request:
+    paths: ['assets/**', 'index.html', 'catalog.json', 'scripts/**', 'tests/search-context*', 'tests/match-baseline.cjs', '.github/workflows/search-context-qa.yml']
+permissions:
+  contents: read
+jobs:
+  context:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Existing baseline tests and build
+        run: |
+          node --test tests/*.test.cjs
+          node --check assets/app.js
+          node --check assets/reader.js
+          python3 scripts/preview.py "$RUNNER_TEMP/match-preview/ai-agent-use-cases"
+      - name: Install existing cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/match-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/match-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Compare baseline and updated preview
+        env:
+          NODE_PATH: ${{ runner.temp }}/match-tools/node_modules
+          BASELINE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/match-before" "$BASELINE_REF"
+          python3 "$RUNNER_TEMP/match-before/scripts/preview.py" "$RUNNER_TEMP/match-before-preview/ai-agent-use-cases"
+          python3 -m http.server 8080 --directory "$RUNNER_TEMP/match-before-preview" > /tmp/match-before.log 2>&1 &
+          MATCH_URL=http://127.0.0.1:8080/ai-agent-use-cases/ node tests/match-baseline.cjs
+          python3 -m http.server 8084 --directory "$RUNNER_TEMP/match-preview" > /tmp/match-after.log 2>&1 &
+          node tests/search-context-browser.cjs
+          MATCH_LIVE_URL=http://127.0.0.1:8084/ai-agent-use-cases/ node tests/search-context-live.cjs
+      - name: Verify published search with two corpus loads
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/match-tools/node_modules
+        run: node tests/search-context-live.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: search-context-${{ github.sha }}
+          path: qa-artifacts/
+          retention-days: 30

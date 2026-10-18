@@ -3,7 +3,7 @@ on:
   pull_request:
     paths: ['assets/**', 'index.html', 'tests/reading-flow*', '.github/workflows/reading-flow-qa.yml']
   push:
-    branches: [main]
+    branches: [main, feat/reader-evidence-journey]
     paths: ['assets/**', 'index.html', 'tests/reading-flow*', '.github/workflows/reading-flow-qa.yml']
 permissions:
   contents: read

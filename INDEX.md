@@ -2,9 +2,11 @@
 
 更新日期：2026-10-18。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至 2026-10-18 12:00批次，**289／1,000 個逐案核對合格，尚差711**（含作者自述與實際失敗案例，未獨立重現）。沿用歷史發布口徑為303，主要頁310；三種數字不可混用。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至 2026-10-18 13:00批次，**290／1,000 個逐案核對合格，尚差710**（含作者自述與實際失敗案例，未獨立重現）。沿用歷史發布口徑為304，主要頁311；三種數字不可混用。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-2026-10-17 23:44台灣時間起，目標提高為1,000案。本輪由先前286，加保留並覆核的協作者316、317兩案，再加新增318一案，共289；315仍待定。317沿用先前全文查閱並補核公開產物，本輪原文403限制另列。下方歷史批次保留當時目標與口徑，不回改舊報告。
+2026-10-17 23:44台灣時間起，目標提高為1,000案。本輪由先前289加新增319一案，共290；315仍待定，先前來源缺口與排除判斷保留。下方歷史批次保留當時目標與口徑，不回改舊報告。
+
+13:00批次：新增319家居照片逐物盤點與人工認領交接；有清單交付自述，無公開表格、估值驗證或清空成果。181補選郵資、購標列印曾成功後失效的作者觀察，不另計。[原文、去重與覆蓋](sources/research-2026-10-18-1300.md)。
 
 12:00批次：新增318新帳戶申請經核准後建立Shopify顧客；原作者隔夜修通自述，無執行日誌或顧客回讀。316補官方原說明核對；317補固定公開程式與本輪403缺口；273補一般訊息被誤當持久Goal的失敗。補證均不另計。[原文、去重與覆蓋](sources/research-2026-10-18-1200.md)。
 
@@ -238,7 +240,7 @@
 | UC-178 | 掃描頁圖文重建與完整性核對 | Grok Bot／PDF／Markdown | [作者失敗實作自述；原件與成品未公開](cases/178-scanned-page-text-image-reconstruction.md) | 工作｜掃描、圖文、完整性 |
 | UC-179 | 對客郵件重複觸發流程修復 | Meta Muse／未具名郵件平台 | [官方具名測試者自述；無流程與事件紀錄](cases/179-duplicate-customer-email-flow-repair.md) | 工作｜郵件、自動化、重複觸發 |
 | UC-180 | 相片庫標題與描述性中繼資料補齊 | Meta Muse／iCloud Photos | [作者部分處理自述；無寫回與恢復結果](cases/180-photo-library-descriptive-metadata.md) | 生活｜相片、描述、無障礙 |
-| UC-181 | 出貨標籤與訂單履約準備 | Grok Bot／TikTok Shop | [作者實際使用自述；無寄件與交付紀錄](cases/181-shipping-label-fulfillment-preparation.md) | 工作｜電商、物流、標籤 |
+| UC-181 | 出貨標籤與訂單履約準備 | Grok Bot／TikTok Shop；dots／Woo／Pirate Ship | [作者使用及後續失效自述；無寄件與交付紀錄](cases/181-shipping-label-fulfillment-preparation.md) | 工作｜電商、物流、標籤 |
 | UC-182 | 依閱讀需求選書與圖書館預約；Grok Bot 從想讀清單挑可借書 | Meta Muse／未具名圖書館；Grok Bot／ブクログ | [作者預約及可取通知自述＋Grok Bot 選書截圖；預約與期限管理未見畫面](cases/182-library-book-selection-holds.md) | 生活｜閱讀、圖書館、預約 |
 | UC-183 | 廣告活動設定到待發布，再交人檢查 | Meta Muse／Google Ads | [作者已配置自述；未核投放](cases/183-ad-campaign-configuration-review.md) | 工作｜廣告、設定、核准、驗收 |
 | UC-184 | 大量郵件先篩出相關候選，別把它當最終證據審查 | Grok Bot／mbox | [作者已初篩自述；雲端上傳更正、完整性未核](cases/184-mail-archive-relevance-prescreen.md) | 工作｜郵件封存、初篩、隱私、驗收 |
@@ -372,6 +374,8 @@
 | UC-316 | Slack 回報串：分流 Bot 去重、重現 Bot 截圖，人在同串修到合併 | Grok Bot Team Bot／BDK／Cursor Cloud Agents／Slack／Linear | [官方工作坊示範＋影片說明與 Team Bots 文件已讀；影片未看、未重現](cases/316-slack-thread-triage-repro-bot-bug-fix.md) | 開發｜Slack、分流、多代理、驗收 |
 | UC-317 | 夜巡四 Bot：凌晨自主選題、做原型、獨立驗收、晨報 | Grok Bot（四 Bot 群組 routine） | [繁中作者實作自述＋公開 repo 與 Demo；測試與晨報未公開、未重現](cases/317-nightly-explorer-builder-critic-prototype.md) | 開發｜每日、排程、多代理、驗收 |
 | UC-318 | 新帳戶申請經核准後建立顧客 | Grok Bot／Power Automate／Shopify | [作者隔夜修通自述；無流程檔或顧客回讀](cases/318-approved-account-form-shopify-customer-flow.md) | 工作｜表單、核准、跨系統、驗收 |
+
+| UC-319 | 家居照片逐物盤點與人工認領交接 | Grok Bot／Drive／Excel；本人轉Sheets | [作者完成清單與交接自述；表格、辨識與清空結果未核](cases/319-home-photo-item-inventory-claim-handoff.md) | 生活｜照片、盤點、試算表、人工交接 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

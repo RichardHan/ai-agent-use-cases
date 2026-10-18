@@ -73,6 +73,7 @@ async function jump(page,button){
    await browser.close();continue;
   }
   await require('./arrival-browser.cjs')({browser,origin,prefix:(deployed?'live-':'')+engine+'-arrival',sizes});
+  await require('./arrival-live.cjs')({browser,origin,engine,prefix:'preview-'+engine});
   for(const [size,width,height] of sizes){
    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
    const page=await context.newPage(),errors=[];

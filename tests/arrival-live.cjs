@@ -4,7 +4,7 @@ const {AxeBuilder}=require('@axe-core/playwright');
 const {ensureFiltersVisible}=require('./filter-controls.cjs');
 // Real published HTTP, without fixture responses or retries. Chromium uses four
 // corpus loads; Firefox/WebKit use two each. Exhaustive boundaries run in preview.
-module.exports=async function publishedArrival({browser,origin,engine}){
+module.exports=async function publishedArrival({browser,origin,engine,prefix='live-'+engine}){
  fs.mkdirSync('qa-artifacts',{recursive:true});
  const context=await browser.newContext({viewport:engine==='chromium'?{width:1440,height:1000}:{width:390,height:844},reducedMotion:'reduce'});
  await context.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{window.copiedSearch=text;}}}));
@@ -15,16 +15,16 @@ module.exports=async function publishedArrival({browser,origin,engine}){
  page.on('pageerror',e=>errors.push(e.message));
  const capture=async stage=>{
   const shot=await page.screenshot({type:'jpeg',quality:70});
-  fs.writeFileSync('qa-artifacts/live-'+engine+'-'+stage+'.jpg',shot);
-  console.log('VISUAL:live-'+engine+'-'+stage+':'+shot.toString('base64'));
+  fs.writeFileSync('qa-artifacts/'+prefix+'-'+stage+'.jpg',shot);
+  console.log('VISUAL:'+prefix+'-'+stage+':'+shot.toString('base64'));
  };
  const state=async stage=>{
   const row=await page.evaluate(()=>({url:location.href,entries:entries.length,failedPaths,ids:currentFiltered.map(x=>x.id),query:document.getElementById('query').value,
    tool:document.getElementById('tool').value,scenario:activeScenario,focus:document.activeElement.id,
    queryTop:Math.round(document.getElementById('query').getBoundingClientRect().top),
    resultsTop:Math.round(document.getElementById('results-count').getBoundingClientRect().top),viewport:{width:innerWidth,height:innerHeight}}));
-  report.push({stage,...row,loads,network:network.splice(0)});
-  fs.writeFileSync('qa-artifacts/live-'+engine+'-arrival.json',JSON.stringify(report,null,2));
+  report.push({prefix,stage,...row,loads,network:network.splice(0)});
+  fs.writeFileSync('qa-artifacts/'+prefix+'-arrival.json',JSON.stringify(report,null,2));
   console.log('LIVE_ARRIVAL_STATE '+JSON.stringify(report.at(-1)));
   assert.deepEqual(row.failedPaths,[],'Every published source must load; partial results are a failure');
   assert(row.entries>0);assert.deepEqual(errors,[]);
@@ -32,7 +32,7 @@ module.exports=async function publishedArrival({browser,origin,engine}){
  };
  const audit=async stage=>{
   const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
-  fs.writeFileSync('qa-artifacts/live-'+engine+'-'+stage+'-axe.json',JSON.stringify(result.violations,null,2));
+  fs.writeFileSync('qa-artifacts/'+prefix+'-'+stage+'-axe.json',JSON.stringify(result.violations,null,2));
   assert.deepEqual(result.violations,[]);
  };
  try{
@@ -89,6 +89,6 @@ module.exports=async function publishedArrival({browser,origin,engine}){
    await capture('mobile-search');await audit('mobile-search');
   }
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
-  assert.deepEqual(errors,[]);console.log('LIVE_ARRIVAL_PASS '+JSON.stringify({engine,loads,entries:initial.entries,matches:initial.ids.length}));
- }catch(error){const focus=await page.evaluate(()=>({active:document.activeElement.outerHTML.slice(0,600),open:document.getElementById('detail').open}));console.log('LIVE_FOCUS_FAILURE '+JSON.stringify(focus));fs.writeFileSync('qa-artifacts/live-'+engine+'-failure.json',JSON.stringify({url:page.url(),network,errors,message:error.message},null,2));console.log('LIVE_ARRIVAL_FAILURE '+JSON.stringify({url:page.url(),network,errors,message:error.message}));await capture('failure');throw error;}finally{await context.close();}
+  assert.deepEqual(errors,[]);console.log('LIVE_ARRIVAL_PASS '+JSON.stringify({prefix,engine,loads,entries:initial.entries,matches:initial.ids.length}));
+ }catch(error){const focus=await page.evaluate(()=>({active:document.activeElement.outerHTML.slice(0,600),open:document.getElementById('detail').open}));console.log('LIVE_FOCUS_FAILURE '+JSON.stringify(focus));fs.writeFileSync('qa-artifacts/'+prefix+'-failure.json',JSON.stringify({url:page.url(),network,errors,message:error.message},null,2));console.log('LIVE_ARRIVAL_FAILURE '+JSON.stringify({url:page.url(),network,errors,message:error.message}));await capture('failure');throw error;}finally{await context.close();}
 };

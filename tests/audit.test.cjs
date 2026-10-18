@@ -276,6 +276,41 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(dotsComputersCandidate.cases.includes('cases/005-cloud-pr-review.md'));
   assert(dotsComputersCandidate.cases.includes('cases/006-facebook-publication.md'));
   assert(dotsComputersCandidate.cases.includes('cases/025-team-event-follow-through.md'));
+
+  const devToDotsCandidate = duplicates.find(d => d.url.includes('dev.to/uehara'));
+  assert(devToDotsCandidate, 'Must detect shared Dev.to ChatGPT Dots article between UC-283 and evidence/008');
+  assert(devToDotsCandidate.cases.includes('cases/283-dots-connected-apps-permission-pitfalls.md'));
+  assert(devToDotsCandidate.cases.includes('evidence/008-morning-brief-validation.md'));
+
+  const grokGtmCandidate = duplicates.find(d => d.url.includes('x.ai/bot/guides/grok-bot-for-gtm'));
+  assert(grokGtmCandidate, 'Must detect shared Grok Bot for GTM guide between UC-017 and UC-019');
+  assert(grokGtmCandidate.cases.includes('cases/017-prospect-research-drafts.md'));
+  assert(grokGtmCandidate.cases.includes('cases/019-call-to-customer-deck.md'));
+
+  const grokLegalOpsCandidate = duplicates.find(d => d.url.includes('x.ai/bot/guides/grok-bot-for-legal-ops'));
+  assert(grokLegalOpsCandidate, 'Must detect shared Grok Bot for Legal Ops guide between UC-021 and UC-154');
+  assert(grokLegalOpsCandidate.cases.includes('cases/021-legal-request-handoff.md'));
+  assert(grokLegalOpsCandidate.cases.includes('cases/154-contract-review-wait-time-analysis.md'));
+
+  const openaiDotsCandidate = duplicates.find(d => d.url.includes('openai.com/index/introducing-dots'));
+  assert(openaiDotsCandidate, 'Must detect shared OpenAI Introducing Dots announcement between UC-023 and UC-024');
+  assert(openaiDotsCandidate.cases.includes('cases/023-launch-material-revision.md'));
+  assert(openaiDotsCandidate.cases.includes('cases/024-missing-invoice-check.md'));
+
+  const semicolonCandidate = duplicates.find(d => d.url.includes('semicolonexpected.substack.com/p/i-tried-meta-muse-ai-specific-things'));
+  assert(semicolonCandidate, 'Must detect shared Semicolon Expected newsletter between UC-043 and UC-241');
+  assert(semicolonCandidate.cases.includes('cases/043-public-events-calendar.md'));
+  assert(semicolonCandidate.cases.includes('cases/241-community-participation-spam-review.md'));
+
+  const aiAgentsLibraryCandidate = duplicates.find(d => d.url.includes('aiagentslibrary.com/blog/meta-muse-review'));
+  assert(aiAgentsLibraryCandidate, 'Must detect shared AI Agents Library review between UC-039 and UC-049');
+  assert(aiAgentsLibraryCandidate.cases.includes('cases/039-competitor-positioning-review.md'));
+  assert(aiAgentsLibraryCandidate.cases.includes('cases/049-daily-inbox-report-graduated-trust.md'));
+
+  const toolchainBlogCandidate = duplicates.find(d => d.url.includes('toolchain.jp/blog/2026-10-01/grok-bot-feature-verification'));
+  assert(toolchainBlogCandidate, 'Must detect shared Toolchain blog verification between UC-006 and UC-042');
+  assert(toolchainBlogCandidate.cases.includes('cases/006-facebook-publication.md'));
+  assert(toolchainBlogCandidate.cases.includes('cases/042-dots-credential-multibot-return.md'));
 });
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {

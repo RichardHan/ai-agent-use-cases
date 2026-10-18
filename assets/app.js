@@ -10,7 +10,7 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s+orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
+const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s+orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/\bscreen\s+shots?\b/g, ' screenshot ').replace(/\btime\s+sheets?\b/g, ' timesheet ').replace(/\bpay\s+checks?\b/g, ' paycheck ').replace(/\brun\s+times?\b/g, ' runtime ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
   ['agent', 'agents', '智能體', '智能体', '代理'],
   ['每日報表', '每日報告', '日報', '晨報', 'daily'],
@@ -72,7 +72,7 @@ const SYNONYM_GROUPS = [
   ['核准', '審批', '簽核', 'approval', 'approvals', 'approve', '人工確認', '人工核准'],
   ['網購', '電商', '購物', 'ecommerce', 'shopping'],
   ['合約', '合同', 'contract', '協議', 'agreement'],
-  ['薪資', '薪水', '薪酬', 'payroll', 'salary'],
+  ['薪資', '薪水', '薪酬', 'payroll', 'salary', 'paycheck', 'paychecks', '薪資單', '薪資條', '工資'],
   ['設備', '裝置', 'device', '硬體', 'hardware'],
   ['合規', 'compliance', '法規', '規章'],
   ['部署', 'deploy', 'deployment', 'deployments'],
@@ -179,7 +179,21 @@ const SYNONYM_GROUPS = [
   ['工作者', 'worker', 'workers'],
   ['schema', 'schemas', '綱要', '架構規範'],
   ['cookie', 'cookies'],
-  ['heartbeat', 'heartbeats', '心跳']
+  ['heartbeat', 'heartbeats', '心跳'],
+  ['screenshot', 'screenshots', '截圖', '螢幕截圖', '畫面截圖', '抓圖'],
+  ['routine', 'routines', '例行任務', '例行', '定時任務', '常規任務'],
+  ['manual', 'manually', '手動', '人工操作', '手動操作'],
+  ['stale', '過期', '過時', '失效', '過時指示', '過期指示'],
+  ['runtime', 'runtimes', '運行時', '執行期', '執行時', '運行環境', '執行環境'],
+  ['timesheet', 'timesheets', '工時', '工時表', '工時紀錄', '打卡', '出勤'],
+  ['tunnel', 'tunnels', '隧道', '通道'],
+  ['relay', 'relays', '中繼', '轉發'],
+  ['override', 'overrides', '覆寫', '覆蓋', '手動覆蓋'],
+  ['portrait', 'portraits', '肖像', '似顏繪', '人像', 'likeness'],
+  ['radio', 'radios', '無線電', '軟體無線電', 'sdr'],
+  ['filter', 'filters', '濾波器', '濾波'],
+  ['amplifier', 'amplifiers', '放大器'],
+  ['antenna', 'antennas', '天線']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

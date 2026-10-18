@@ -43,7 +43,7 @@
 
 - 作者：@timsonner（Tim Sonner）；英文；2026-10-15 20:21（台灣時間，貼文時間 2026-10-15T12:21:17Z）
 - 網址：https://x.com/timsonner/status/2110707584533701092
-- 作者提供可複製 Bot 連結（x.ai bot 頁）：貼文內 `https://x.ai/bot/71JkQeCeWX8UiZp0el9Jl`（短網址形式）；本庫未安裝、未執行該 Bot。
+- 作者提供可複製 Bot 連結（x.ai bot 頁）：貼文內 [Bot 連結](https://x.ai/bot/71JkQeCeWX8UiZp0el9Jl)（短網址形式）；本庫未安裝、未執行該 Bot。
 - 作者自述（翻譯改寫）：做了一個 Grok Bot，工作日每小時監看 CISA Known Exploited Vulnerabilities（KEV）清單，**只有新項目出現才通知**；每則警報含 CVSS、NVD 連結、是否遭勒索軟體利用、是否有公開 PoC。作者稱可免費複製。
 - 證據標記：`author-demo`。本庫未核對實際排程準點、誤報／漏報，也未驗證 Bot 模板內容與官方 KEV 資料一致性。
 - 與本頁關係：同屬「公開清單／頁面差異監看＋無變更則安靜」；領域是資安情報而非續約／價格頁。工具為 Grok Bot routine 風格，驗收仍應區分「無新項目」與「無法檢查」。

@@ -401,7 +401,6 @@ python -m http.server 8080 --directory /tmp/ai-usecase-preview
 本輪實際結果：24/24 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選叢集審核、全庫 325 案例一致性檢驗通過。
 下一輪建議：依重複來源候選清單（如多個案例共用同一討論串或長文網址）評估是否需在各案例頁內進一步精確標註發文時間碼或留言 anchor。
 
-
 ## 2026-10-18：手機搜尋前置與按需篩選
 
 雲端實測 390px 搜尋區原先先放快捷按鈕與五個篩選：輸入框距區段起點 416px、首張結果再往下 361px。改用搜尋前置與原生 details；手機初始收合、桌面展開，後續輸入／返回／縮放保留使用者選擇。已套用條件與零結果復原保持可見，摘要同步顯示篩選數。
@@ -409,3 +408,37 @@ python -m http.server 8080 --directory /tmp/ai-usecase-preview
 實測改善為 158px／181px；320px 同樣達標。24/24 測試、Chromium 三尺寸與 Firefox／WebKit 手機的三情境通過，新流程十個引擎尺寸／展開狀態的 axe 掃描無違規。獨立審查無阻擋；補齊閉合 Tab、760／761px 及共用測試的跨引擎 CI paths。協作者 main f59fe44 五個研究檔完整保留；整合版本與正式 Pages 仍以對應 CI 結果為準。
 
 [前後截圖、量測、測試指令、獨立審查與限制](docs/qa/2026-10-18-mobile-search/README.md)。下一輪：檢查分享搜尋網址的落點，縮短回訪者到結果的距離。
+
+## 2026-10-18：權限、庫存、報價、快取、介面與重試同義詞擴充、跨案例公開來源疑似重複候選叢集擴充
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與系統功能檢索痛點：
+   - 權限與安全授權：全庫有 315 筆「權限」與 243 筆「授權」，但讀者搜尋高頻英文詞「permission」僅得 3 筆、「authorization」得 0 筆，無法檢索大量安全邊界案例（如 UC-283、UC-042 等）；
+   - 庫存管理：全庫有 18 筆「庫存」（如 UC-003、UC-105、UC-157、UC-212、UC-319），但搜尋「inventory」僅得 1 筆、「stock」僅得 1 筆；
+   - 報價與估價：全庫有 25 筆「報價」與 3 筆「估價」（如 UC-136、UC-137、UC-328），但搜尋英文「quote」僅得 2 筆、「quotation」得 0 筆；
+   - 快取與緩存：全庫有 20 筆「快取」（如 UC-049、UC-061、UC-075、UC-089、UC-217 等），但搜尋「cache」僅得 4 筆、「caching」得 0 筆、「緩存」得 0 筆；
+   - 求職與面試：全庫有 11 筆「面試」，既有求職詞群涵蓋 cv/resume/job/hiring，但漏失了高頻詞「interview」（搜尋「interview」得 0 筆）；
+   - 介面與 API：全庫有 52 筆「介面」、87 筆「api」，但搜尋「interface」得 0 筆、「接口」僅 2 筆；
+   - 重試機制：全庫有 29 筆「重試」（如 UC-010、UC-041、UC-042、UC-074、UC-328 等），但搜尋「retry」僅得 1 筆；
+   - 告警與警報：全庫有 106 筆「alert/通知」，但搜尋「告警」僅 1 筆、「警報」僅 6 筆，未納入既有提醒詞群；
+   - 回滾與復原：既有「備份/復原/還原」詞群未納入「回滾/rollback」（搜尋「rollback」得 0 筆）。
+2. 疑似重複來源候選叢集偵測覆蓋：
+   - `learn.chatgpt.com/docs/dots/controls` 既有斷言只涵蓋 UC-005, UC-023, UC-073，實際上 UC-218（第三方技能安裝審核）亦共用此控制文件，形成包含 4 案例的候選叢集；
+   - `about.fb.com/news/2026/09/introducing-muse-small-business` 被 UC-022、UC-033、UC-034、UC-179 4 個案例共用；
+   - `introducing.muse.ai` 被 UC-026、UC-030、UC-031、UC-032 4 個案例共用；
+   - `x.ai/bot/guides/designing-grok-bot-with-grok-bot` 被 UC-002 與 UC-020 共用；
+   - `help.openai.com/en/articles/20001529-dots-privacy-security-and-safety-faqs` 被 UC-006 與 UC-071 共用；
+   - `reddit.com/r/grokbot/comments/1x1d7n9/comment/peuhvej` 被 UC-101 與 UC-102 共用；
+   - `github.com/toolchainjp/toolchainjp-lp/pull/12` 與 `pull/13` 被 UC-006 與 UC-042 共用；
+   - 恪守 AI 案例庫維護規範：「疑似重複只列候選，不自行刪除；總案例數 325 保持完整；嚴格合格案例數 296 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `SYNONYM_GROUPS` 擴充 6 組新同義詞群（權限/授權/permission/permissions/authorization/auth/access、庫存/存貨/inventory/stock、報價/估價/quote/quotation、快取/緩存/cache/caching、介面/接口/interface/api、重試/重跑/retry），並將 interview 補入求職詞群、告警/警報補入提醒詞群、回滾/rollback 補入備份復原詞群，維持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：擴充 7 組真實公開來源疑似重複候選叢集斷言（Dots controls 4 案叢集、Muse small business 4 案叢集、Introducing muse 4 案叢集、Designing Grok 指南、Dots privacy FAQ、Reddit 採購討論留言、Toolchain PR 12/13），恪守「只列候選、不自行刪除、總案例數 325 保持完整」。
+   - `tests/search.test.cjs`：加入 permission/authorization、inventory/stock、quote/quotation、cache/caching/緩存、interview、interface/接口、retry、告警/警報、rollback 等搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/test-preview/ai-agent-use-cases`。
+本輪實際結果：24/24 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選叢集審核、全庫 325 案例一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如多個案例共用同一介紹頁或官方文檔），評估是否需在案例頁中提供 anchor 或頁面子章節指引。

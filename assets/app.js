@@ -28,13 +28,13 @@ const SYNONYM_GROUPS = [
   ['發票', '收據', '憑證', 'invoice', 'receipt'],
   ['debug', '除錯', '排錯', '修復', 'bug', '故障', '排障', 'troubleshooting'],
   ['workflow', '工作流', '自動化', '排程', '定時', 'cron', 'schedule', '排班'],
-  ['求職', '履歷', '面試', '招聘', '招募', 'cv', 'resume', 'job', 'hiring'],
+  ['求職', '履歷', '面試', '招聘', '招募', 'cv', 'resume', 'job', 'hiring', 'interview'],
   ['email', '郵件', '信件', '信箱', '收件匣', '收件箱', 'inbox'],
   ['代碼', '程式碼', '程式', 'code'],
   ['ticket', '工單', '客服', 'support', '客訴', '投訴'],
   ['飯店', '旅館', '住宿', 'hotel'],
   ['多代理', 'multi-agent', '跨代理', '代理協作'],
-  ['備份', 'backup', '還原', '復原', 'restore'],
+  ['備份', 'backup', '還原', '復原', 'restore', '回滾', 'rollback'],
   ['監看', '監控', '監測', '巡檢', 'monitor'],
   ['週報', 'weekly', '每週報告', '週報表'],
   ['健康', '醫療', 'health', '健檢'],
@@ -44,7 +44,7 @@ const SYNONYM_GROUPS = [
   ['旅遊', '旅行', 'travel'],
   ['比價', '比价', '折扣', '降價', '特價', '特賣', '促銷', '省錢'],
   ['會議', '開會', 'meeting'],
-  ['提醒', '通知', 'alert', 'notification', '推播'],
+  ['提醒', '通知', 'alert', 'notification', '推播', '告警', '警報'],
   ['退款', '退貨', 'refund'],
   ['播客', 'podcast'],
   ['智慧家庭', '智能家居', '智能家庭', '智慧家電', 'iot', '物聯網'],
@@ -76,7 +76,13 @@ const SYNONYM_GROUPS = [
   ['部署', 'deploy', 'deployment'],
   ['同步', 'sync', 'synchronization'],
   ['圖表', 'chart', '圖表分析', '趨勢圖'],
-  ['搜尋', '搜索', 'search']
+  ['搜尋', '搜索', 'search'],
+  ['權限', '授權', 'permission', 'permissions', 'authorization', 'auth', 'access'],
+  ['庫存', '存貨', 'inventory', 'stock'],
+  ['報價', '估價', 'quote', 'quotation'],
+  ['快取', '緩存', 'cache', 'caching'],
+  ['介面', '接口', 'interface', 'api'],
+  ['重試', '重跑', 'retry']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

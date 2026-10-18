@@ -346,7 +346,40 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('chart')), {}).some(x 
 assert(api.filterEntries(entries, Array.from(api.tokenize('search')), {}).some(x => x.id === 'UC-060'), 'search matches UC-060 via 搜尋 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('retrieval')), {}).some(x => x.id === 'UC-060'), 'retrieval matches UC-060 via rag/檢索 synonym');
 
-// Data accuracy: Verification date extraction priority over historical post dates
+// Search quality: Permission and authorization synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('permission')), {}).some(x => x.id === 'UC-283'), 'permission matches UC-283 via 權限 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('authorization')), {}).some(x => x.id === 'UC-283'), 'authorization matches UC-283 via 授權 synonym');
+
+// Search quality: Inventory & stock synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('inventory')), {}).some(x => x.id === 'UC-003'), 'inventory matches UC-003 via 庫存 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('stock')), {}).some(x => x.id === 'UC-003'), 'stock matches UC-003 via 庫存 synonym');
+
+// Search quality: Quote & quotation synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('quote')), {}).some(x => x.id === 'UC-136'), 'quote matches UC-136 via 報價 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('quotation')), {}).some(x => x.id === 'UC-136'), 'quotation matches UC-136 via 報價 synonym');
+
+// Search quality: Cache & caching synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('cache')), {}).some(x => x.id === 'UC-049'), 'cache matches UC-049 via 快取 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('caching')), {}).some(x => x.id === 'UC-049'), 'caching matches UC-049 via 快取 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('緩存')), {}).some(x => x.id === 'UC-049'), '緩存 matches UC-049 via 快取 synonym');
+
+// Search quality: Job interview synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('interview')), {}).some(x => x.id === 'UC-035'), 'interview matches UC-035 via 面試 synonym');
+
+// Search quality: Interface & API synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('interface')), {}).some(x => x.id === 'UC-015'), 'interface matches UC-015 via 介面 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('接口')), {}).some(x => x.id === 'UC-015'), '接口 matches UC-015 via 介面 synonym');
+
+// Search quality: Retry synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('retry')), {}).some(x => x.id === 'UC-041'), 'retry matches UC-041 via 重試 synonym');
+
+// Search quality: Alert & alarm synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('告警')), {}).some(x => x.id === 'UC-015'), '告警 matches UC-015 via 提醒/alert synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('警報')), {}).some(x => x.id === 'UC-015'), '警報 matches UC-015 via 提醒/alert synonym');
+
+// Search quality: Rollback synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('rollback')), {}).some(x => x.id === 'UC-069'), 'rollback matches UC-069 via 復原/還原 synonym');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

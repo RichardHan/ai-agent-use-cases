@@ -643,3 +643,35 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 先紅後綠：基準31/31，新版33/33；Chromium三尺寸、Firefox／WebKit手機的三情境與邊界通過，20次axe掃描零違規。實測335→336只新增1個來源請求。獨立審查指出的全失敗入口、隱藏控制焦點與滑鼠直鏈已修正。資料與300合格／336收錄計數保留，未改初次逐檔載入架構。相關Reader QA與正式Pages部署結果依PR46／main對應checks確認。
 
 [前後截圖、原始數據、指令與限制](docs/qa/2026-10-18-partial-load/README.md)。全部repo操作與測試使用GitHub連線／既有雲端runner，未修改本機工作樹；主代理實際模型設定無法查證。下一輪：量測並降低首次整庫請求成本，評估Jekyll全文資料包與部署一致性。
+
+## 2026-10-18：容器維運、API端點、配額限流、配置設定、審計稽核、指標度量同義詞擴充與 Google Support 參數正規化
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與自然語言檢索痛點：
+   - 容器與虛擬環境類：全庫有 UC-005「容器」與 UC-052 等實作，但讀者搜尋常見英文詞「container」得 0 筆、「containers」得 0 筆、「docker」得 0 筆，無法檢索容器運作與維運案例；
+   - API 端點與介面類：全庫有 17 筆「端點」（如 UC-336 掌上語音終端派工至本機端點、UC-284 Reddit JSON 端點）與 125 筆「接口/api/介面」，但搜尋「endpoint」得 0 筆、「endpoints」得 0 筆，導致自然語言檢索脫節；
+   - 配額與速率限制類：全庫有 8 筆「配額」（如 UC-314、UC-023、UC-024）與 3 筆「限流」（UC-314），但搜尋「quota」得 0 筆、「quotas」得 0 筆、「throttling」得 0 筆、「限速」得 0 筆、「頻率限制」得 0 筆，無法檢索 API 配額與限流中斷案例；
+   - 設定與配置類：全庫有 31 筆「配置」（如 UC-183 廣告活動設定與結構化配置審查）與 5 筆「設定檔」，但讀者搜尋常見詞「config」得 0 筆、「configuration」得 0 筆、「settings」得 0 筆；
+   - 審計與稽核類：全庫有 44 筆「稽核」（如 UC-066 Token 用量稽核、UC-073、UC-195）與 8 筆「審計」，但既有審查組別 `['審查', '審核', 'review', 'audit']` 缺少「稽核」與「審計」，導致以英文 audit 搜尋無法命中多數以中文稽核記錄之案例；
+   - 指標與度量類：全庫有 14 筆「指標」（如 UC-322 營運指標收集、UC-165 離線效能指標），但搜尋「metrics」得 0 筆、「kpi」得 0 筆；
+   - 向量與嵌入類：知識庫檢索案例豐富，但 RAG 組別缺少「向量」、「嵌入」、「vector」、「vectors」、「embedding」、「embeddings」；
+   - 回呼機制類：webhook 觸發與事件分發案例中，搜尋「callback」得 0 筆、「callbacks」得 0 筆、「回呼」得 0 筆、「回調」得 0 筆；
+   - 網關通訊類：UC-336 等終端與 MCP 案例包含 gateway，但搜尋「網關」得 0 筆、「通訊閘」得 0 筆；
+   - 回退復原類：全庫有 7 筆「回退」，但既有 rollback 組缺少「回退」；
+   - 圖像與文字識別類：全庫有 67 筆「識別」與 42 筆「辨識」（如 UC-178、UC-134），但既有 OCR 組缺少「辨識」、「識別」與「recognition」；
+   - 權杖類：全庫有 4 筆「權杖」，但憑證 token 組缺少「權杖」。
+2. 疑似重複來源偵測之 Google Support 參數正規化強化：
+   - `normalizeSourceUrl` 補齊 Google 平台參數 `co` 清理（如 `https://support.google.com/maps/answer/7280933?co=GENIE.Platform%3DDesktop&hl=en-en` 自動歸一至 `https://support.google.com/maps/answer/7280933`）；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 336 保持完整；嚴格合格案例數 300 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `SYNONYM_GROUPS` 擴充 5 組新同義詞群（容器/虛擬機/docker/container/containers/vm、配額/限流/限速/頻率限制/quota/quotas/throttling、配置/設定/設定檔/config/configuration/settings、指標/度量/metric/metrics/kpi、網關/通訊閘/gateway/gateways）。
+   - 在既有組別補齊對稱詞彙：介面接口補端點/endpoint/endpoints，審查 audit 補稽核/審計/稽查，RAG 補向量/嵌入/vector/vectors/embedding/embeddings，webhook 補 callback/callbacks/回呼/回調，備份回滾補回退，OCR 辨識補識別/recognition/辨識，憑證 token 補權杖，維持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：強化 `normalizeSourceUrl` 之 Google Support `co` 參數正規化，加入回歸斷言，恪守「只列候選、不自行刪除、總案例數保持完整」。
+   - `tests/search.test.cjs`：加入 container/containers/docker、endpoint/endpoints、quota/quotas/throttling、config/configuration/settings、audit/審計、metrics/kpi、vector/vectors/embedding/embeddings、callback/callbacks/回呼、gateway/gateways/網關、回退、recognition/識別、權杖搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
+本輪實際結果：33/33 測試全數通過，336 筆條目全文、同義詞擴充檢索、疑似重複來源候選審核、全庫一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。

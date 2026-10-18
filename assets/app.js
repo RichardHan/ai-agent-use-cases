@@ -12,7 +12,7 @@ const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
 const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
-  ['agent', '智能體', '智能体', '代理'],
+  ['agent', 'agents', '智能體', '智能体', '代理'],
   ['每日報表', '每日報告', '日報', '晨報', 'daily'],
   ['儀錶板', '儀表板', 'dashboard'],
   ['折價券', '優惠券'],
@@ -46,7 +46,7 @@ const SYNONYM_GROUPS = [
   ['旅遊', '旅行', 'travel'],
   ['比價', '比价', '折扣', '降價', '特價', '特賣', '促銷', '省錢'],
   ['會議', '開會', 'meeting', '會議記錄', '會議紀錄', '會議紀要', '開會紀錄', 'minutes'],
-  ['提醒', '通知', 'alert', 'notification', '推播', '告警', '警報'],
+  ['提醒', '通知', 'alert', 'alerts', 'notification', 'notifications', '推播', '告警', '警報'],
   ['退款', '退貨', 'refund', 'refunds'],
   ['播客', 'podcast'],
   ['智慧家庭', '智能家居', '智能家庭', '智慧家電', 'iot', '物聯網'],
@@ -68,7 +68,7 @@ const SYNONYM_GROUPS = [
   ['外聯', 'outreach', '開發信', '拓客', '獲客'],
   ['客戶', '顧客', '用戶', 'client', 'customer'],
   ['記憶', 'memory', '記憶庫'],
-  ['提示詞', 'prompt', '提示語', '提示'],
+  ['提示詞', 'prompt', 'prompts', 'prompting', '提示語', '提示'],
   ['核准', '審批', 'approval', '人工確認', '人工核准'],
   ['網購', '電商', '購物', 'ecommerce', 'shopping'],
   ['合約', '合同', 'contract', '協議', 'agreement'],
@@ -84,7 +84,7 @@ const SYNONYM_GROUPS = [
   ['報價', '估價', 'quote', 'quotation'],
   ['快取', '緩存', 'cache', 'caching'],
   ['介面', '接口', 'interface', 'api', '端點', 'endpoint', 'endpoints'],
-  ['重試', '重跑', 'retry'],
+  ['重試', '重跑', 'retry', 'retries'],
   ['驗證', '核實', '查核', 'verify', 'verification', 'validate', 'validation'],
   ['訂閱', '訂閱制', 'subscription', 'subscriptions'],
   ['外掛', '擴充', '擴充功能', '插件', 'plugin', 'plugins', 'extension', 'extensions'],
@@ -100,7 +100,7 @@ const SYNONYM_GROUPS = [
   ['採購', '招標', 'procurement', 'purchasing', 'sourcing', '供應商', 'vendor', 'vendors'],
   ['表單', '問卷', '調查', 'form', 'forms', 'survey', 'surveys', 'questionnaire'],
   ['llm', '大型語言模型', '大語言模型', '大模型', '語言模型'],
-  ['比對', '對照', '核對', 'diff', 'matching'],
+  ['比對', '對照', '核對', '差異', '對比', 'diff', 'matching'],
   ['推薦', '精選', 'recommendation', 'recommend', 'picks'],
   ['瀏覽器', 'browser', 'browsing', '網頁', 'web', 'webpage'],
   ['帳號', '帳戶', 'account', 'accounts'],
@@ -117,7 +117,19 @@ const SYNONYM_GROUPS = [
   ['配額', '限流', '限速', '頻率限制', 'quota', 'quotas', 'throttling'],
   ['配置', '設定', '設定檔', 'config', 'configuration', 'settings'],
   ['指標', '度量', 'metric', 'metrics', 'kpi'],
-  ['網關', '通訊閘', 'gateway', 'gateways']
+  ['網關', '通訊閘', 'gateway', 'gateways'],
+  ['逾時', '超時', 'timeout', 'timeouts'],
+  ['佇列', '隊列', '排隊', 'queue', 'queues', 'mq'],
+  ['依賴', '依賴項', 'dependency', 'dependencies'],
+  ['延遲', '時延', 'latency', 'latencies', 'lag'],
+  ['分支', 'branch', 'branches'],
+  ['commit', 'commits', '提交'],
+  ['並行', '並發', 'concurrency', 'concurrent', 'parallel'],
+  ['串流', '流式', 'stream', 'streaming'],
+  ['終端', '命令列', '命令行', 'terminal', 'cli', 'console'],
+  ['遷移', '移轉', 'migration', 'migrate'],
+  ['模擬', '仿真', 'mock', 'mocking', 'stub', 'stubs'],
+  ['認證', '身分驗證', '身份驗證', 'authentication', 'oauth', 'sso']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

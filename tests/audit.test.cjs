@@ -25,7 +25,7 @@ function normalizeSourceUrl(rawUrl) {
       u.pathname = '/watch';
       u.searchParams.set('v', id);
     }
-    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json', 'si', 'igsh', 'trk', 'spm_id_from', 'spm', 'ref_src', 'ref_url', 'from', 'source', 'co'];
+    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json', 'si', 'igsh', 'trk', 'spm_id_from', 'spm', 'ref_src', 'ref_url', 'from', 'source', 'co', 'tabs', 'view', 'platform', 'see-all', 'payment-ui'];
     tracking.forEach(p => u.searchParams.delete(p));
     u.hash = '';
     if (host === 'reddit.com') u.pathname = u.pathname.replace(/\.json$/, '');
@@ -484,6 +484,10 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert.equal(normalizeSourceUrl('http://www.chatprd.ai/how-i-ai/alex-cornell-meta-muse-workflows?source=share'), 'https://chatprd.ai/how-i-ai/alex-cornell-meta-muse-workflows');
   assert.equal(normalizeSourceUrl('https://www.reddit.com/r/MetaAI/comments/1wydk5b/what_do_you_use_muse_for/.json?raw_json=1'), 'https://reddit.com/r/metaai/comments/1wydk5b/what_do_you_use_muse_for');
   assert.equal(normalizeSourceUrl('https://support.google.com/maps/answer/7280933?co=GENIE.Platform%3DDesktop&hl=en-en'), 'https://support.google.com/maps/answer/7280933');
+  assert.equal(normalizeSourceUrl('https://learn.microsoft.com/en-us/power-automate/modern-approvals?tabs=new-designer'), 'https://learn.microsoft.com/en-us/power-automate/modern-approvals');
+  assert.equal(normalizeSourceUrl('https://learn.microsoft.com/en-us/microsoft-365/admin/get-help-with-domains/create-dns-records-at-any-dns-hosting-provider?view=o365-worldwide'), 'https://learn.microsoft.com/en-us/microsoft-365/admin/get-help-with-domains/create-dns-records-at-any-dns-hosting-provider');
+  assert.equal(normalizeSourceUrl('https://apps.apple.com/us/app/grok-bot/id6794501026?platform=iphone&see-all=reviews'), 'https://apps.apple.com/us/app/grok-bot/id6794501026');
+  assert.equal(normalizeSourceUrl('https://docs.stripe.com/checkout/fulfillment.md?payment-ui=stripe-hosted'), 'https://docs.stripe.com/checkout/fulfillment.md');
 });
 
 

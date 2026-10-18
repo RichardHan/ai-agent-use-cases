@@ -631,6 +631,68 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('識別')), {}).some(x
 // Search quality: Token, 權杖 synonyms
 assert(api.filterEntries(entries, Array.from(api.tokenize('權杖')), {}).some(x => x.id === 'UC-066'), '權杖 matches UC-066 via token synonym');
 
+// Search quality: Timeout, timeouts, 逾時, 超時 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('timeout')), {}).some(x => x.id === 'UC-336'), 'timeout matches UC-336 via 逾時/超時 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('timeouts')), {}).some(x => x.id === 'UC-336'), 'timeouts matches UC-336 via 逾時/超時 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('超時')), {}).some(x => x.id === 'UC-313'), '超時 matches UC-313 via 逾時 synonym');
+
+// Search quality: Queue, queues, 佇列, 隊列, 排隊, mq synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('queue')), {}).some(x => x.id === 'UC-042'), 'queue matches UC-042 via 佇列/隊列 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('queues')), {}).some(x => x.id === 'UC-042'), 'queues matches UC-042 via 佇列/隊列 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('隊列')), {}).some(x => x.id === 'UC-042'), '隊列 matches UC-042 via 佇列 synonym');
+
+// Search quality: Dependency, dependencies, 依賴 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('dependency')), {}).some(x => x.id === 'UC-067'), 'dependency matches UC-067 via 依賴 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('dependencies')), {}).some(x => x.id === 'UC-067'), 'dependencies matches UC-067 via 依賴 synonym');
+
+// Search quality: Latency, latencies, lag, 延遲 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('latency')), {}).some(x => x.id === 'UC-239'), 'latency matches UC-239 via 延遲 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('latencies')), {}).some(x => x.id === 'UC-239'), 'latencies matches UC-239 via 延遲 synonym');
+
+// Search quality: Branch, branches, 分支 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('branch')), {}).some(x => x.id === 'UC-005'), 'branch matches UC-005 via 分支/PR synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('branches')), {}).some(x => x.id === 'UC-005'), 'branches matches UC-005 via 分支/PR synonym');
+
+// Search quality: Commits, commit, 提交 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('commits')), {}).some(x => x.id === 'UC-005'), 'commits matches UC-005 via commit/提交 synonym');
+
+// Search quality: Concurrency, concurrent, parallel, 並行, 並發 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('concurrency')), {}).some(x => x.id === 'UC-005'), 'concurrency matches UC-005 via 並行/並發 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('concurrent')), {}).some(x => x.id === 'UC-005'), 'concurrent matches UC-005 via 並行/並發 synonym');
+
+// Search quality: Stream, streaming, 串流, 流式 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('streaming')), {}).some(x => x.id === 'UC-217'), 'streaming matches UC-217 via 串流 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('流式')), {}).some(x => x.id === 'UC-217'), '流式 matches UC-217 via 串流 synonym');
+
+// Search quality: Terminal, console, 終端, 命令列, 命令行 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('terminal')), {}).some(x => x.id === 'UC-061'), 'terminal matches UC-061 via 命令列/cli synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('命令行')), {}).some(x => x.id === 'UC-061'), '命令行 matches UC-061 via 命令列/cli synonym');
+
+// Search quality: Migration, migrate, 遷移, 移轉 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('migration')), {}).some(x => x.id === 'UC-069'), 'migration matches UC-069 via 遷移/移轉 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('migrate')), {}).some(x => x.id === 'UC-069'), 'migrate matches UC-069 via 遷移/移轉 synonym');
+
+// Search quality: Mock, mocking, stub, stubs, 模擬, 仿真 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('mocking')), {}).some(x => x.id === 'UC-003'), 'mocking matches UC-003 via 模擬 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('stub')), {}).some(x => x.id === 'UC-003'), 'stub matches UC-003 via 模擬 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('仿真')), {}).some(x => x.id === 'UC-003'), '仿真 matches UC-003 via 模擬 synonym');
+
+// Search quality: Authentication, auth, oauth, sso, 認證, 身分驗證, 身份驗證 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('身分驗證')), {}).some(x => x.id === 'UC-013'), '身分驗證 matches UC-013 via 認證/auth synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('身份驗證')), {}).some(x => x.id === 'UC-013'), '身份驗證 matches UC-013 via 認證/auth synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('authentication')), {}).some(x => x.id === 'UC-013'), 'authentication matches UC-013 via 認證 synonym');
+
+// Search quality: 差異, 對比 in diff synonym group
+assert(api.filterEntries(entries, Array.from(api.tokenize('差異')), {}).some(x => x.id === 'UC-005'), '差異 matches UC-005 via diff/比對 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('對比')), {}).some(x => x.id === 'UC-005'), '對比 matches UC-005 via diff/比對 synonym');
+
+// Search quality: Plural symmetry: agents, retries, alerts, prompts
+assert(api.filterEntries(entries, Array.from(api.tokenize('agents')), {}).length >= 100, 'agents matches 100+ agent cases via plural synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('retries')), {}).some(x => x.id === 'UC-001'), 'retries matches UC-001 via retry/重試 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('alerts')), {}).some(x => x.id === 'UC-015'), 'alerts matches UC-015 via alert/提醒 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('prompts')), {}).some(x => x.id === 'UC-001'), 'prompts matches UC-001 via prompt/提示詞 synonym');
+
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

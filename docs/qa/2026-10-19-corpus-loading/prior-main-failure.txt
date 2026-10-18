@@ -1,0 +1,20 @@
+browser	Walk the current published website	﻿2026-10-18T17:59:25.9988531Z ##[group]Run node tests/load-recovery-live.cjs
+browser	Walk the current published website	2026-10-18T17:59:25.9988748Z ^[[36;1mnode tests/load-recovery-live.cjs^[[0m
+browser	Walk the current published website	2026-10-18T17:59:26.0039830Z shell: /usr/bin/bash -e {0}
+browser	Walk the current published website	2026-10-18T17:59:26.0039967Z env:
+browser	Walk the current published website	2026-10-18T17:59:26.0040111Z   NODE_PATH: /home/runner/work/_temp/load-tools/node_modules
+browser	Walk the current published website	2026-10-18T17:59:26.0040419Z   LOAD_DEPLOYED: 1
+browser	Walk the current published website	2026-10-18T17:59:26.0040531Z ##[endgroup]
+browser	Walk the current published website	2026-10-18T17:59:28.3850398Z AssertionError [ERR_ASSERTION]: live corpus must load completely
+browser	Walk the current published website	2026-10-18T17:59:28.3850773Z 
+browser	Walk the current published website	2026-10-18T17:59:28.3850850Z 1 !== 0
+browser	Walk the current published website	2026-10-18T17:59:28.3850954Z 
+browser	Walk the current published website	2026-10-18T17:59:28.3851273Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/load-recovery-live.cjs:34:10 {
+browser	Walk the current published website	2026-10-18T17:59:28.3851710Z   generatedMessage: false,
+browser	Walk the current published website	2026-10-18T17:59:28.3851919Z   code: 'ERR_ASSERTION',
+browser	Walk the current published website	2026-10-18T17:59:28.3852106Z   actual: 1,
+browser	Walk the current published website	2026-10-18T17:59:28.3855014Z   expected: 0,
+browser	Walk the current published website	2026-10-18T17:59:28.3855204Z   operator: 'strictEqual',
+browser	Walk the current published website	2026-10-18T17:59:28.3855405Z   diff: 'simple'
+browser	Walk the current published website	2026-10-18T17:59:28.3855638Z }
+browser	Walk the current published website	2026-10-18T17:59:28.4079306Z ##[error]Process completed with exit code 1.

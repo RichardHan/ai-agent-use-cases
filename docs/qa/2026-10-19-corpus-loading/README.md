@@ -96,3 +96,21 @@ CORPUS_URL=http://127.0.0.1:8087/ai-agent-use-cases/ CORPUS_LABEL=after node tes
 GitHub CLI受企業受管帳號限制，建立PR回應Unauthorized；個人SSH可正常push。依本次明確授權，在獨立審查後直接merge與push，不冒稱有PR審核。正式Jekyll發布與實際資產核對將另附於下方。
 
 收尾QA分流與動態計數已由獨立角色只讀審查，Node語法與YAML解析通過；最終桌面／390／320圖也已再檢視，里程文字正確且沒有溢出。
+
+## 正式發布與間歇缺項的界線
+
+`62a2160`已直接合併push；[Pages正式Jekyll建置39154456555](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39154456555)成功。[正式專用驗收39154457526](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39154457526)也全部成功：整合後動態總數的三引擎故障測試通過，並核對五個實際載入資產與checkout逐字一致。正式站1440／390px的三情境、直鏈、重新整理、鍵盤返回及來源均通過，339筆、0缺項、無pageerror、2次axe零違規，外部來源HTTP200。[原始正式站結果](published.json)、[整合後故障驗證](integrated-verification.json)、[正式桌面](published-desktop.png)、[正式手機](published-mobile.png)、[正式詳情](published-detail-mobile.png)。正式站就緒2,869／2,493ms是該次未節流雲端樣本，不當成通用效能保證。
+
+另[起點c4437dd的Partial Load QA39151976850](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39151976850)與[合併後同一測試39154457419](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39154457419)都曾在正式站因`failedPaths.length === 1`失敗；[起點原始失敗輸出](prior-main-failure.txt)。舊測試未保存該筆失敗的路徑或HTTP狀態，不能確證是哪個來源，也不能認定CDN、限流或這輪程式是根因。這不是axe違規，也沒有以放寬「必須完整載入」斷言略過。
+
+`7abbf02`只加強測試診斷，未改執行資產：在斷言前先保存失敗來源、HTTP／requestfailed事件與截圖；專用三情境驗收的首次首頁載入也明確要求0缺項。[診斷版Partial Load QA39154687781](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39154687781)通過，桌面與手機均339筆、0缺項、network及pageerror為空，原始來源HTTP200。[原始診斷](partial-live-diagnostic.json)。沒有將這次通過冒稱已修復間歇缺項；本輪的保證是等待有界、部分覆蓋透明且可補讀。首次337次全文請求與間歇缺項根因仍是後續改善範圍。
+
+## 正式WebKit返回的再次補修
+
+[Reader QA39154457588](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39154457588)在正式站WebKit原生Back捕捉到：339筆、network/errors均空，但原按鈕y899–935超出844px視窗；這與來源缺項不同，未當成網路失敗略過。[實際失敗JSON](late-native-before.json)／[截圖](late-native-before.jpg)。原先preview及專用native測試曾通過，不能代表該時序永遠不會發生。
+
+補修`348dc7a`在隔離分支完成：僅延長含fragment的既有返回監測到絕對300ms，每frame只在原目標越界時校正；新輸入、焦點、網址、modal或目標移除均永久停止，清理rAF、timer與監聽。另設deadline timer，背景分頁恢復也先查期限，不會晚到拉回位置。這不是對瀏覽器內部根因的確證，也不承諾接管300ms之後的原生捲動。
+
+新增測試先使用仍有兩frame守衛的`7abbf02`作red基準，於180ms才注入fragment捲動，確實出界；補修後三引擎各10種狀態共30次均通過，包含四種input取消、focus／URL／modal／移除及420ms後不再回拉。500ms後才取最終bounds，未放寬原±1px斷言。[雲端39155244825](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39155244825)、[舊版red](late-return-red.json)、[修後30項](late-return-preview.json)、[WebKit修後畫面](late-return-preview.png)。45/45單元與語法通過。
+
+獨立角色只讀review並以Node VM驗13種時序：80／180ms校正、四種input、焦點／URL／modal／disconnect、420ms期限後、背景恢復時rAF先跑或timer先跑；均確認不該發生的晚到校正被抑制且資源清除。正式部署後仍需原樣重跑先前失敗的Reader QA，以及三引擎各10次未注入的原生Back，結果將附於下方。

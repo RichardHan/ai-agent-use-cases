@@ -124,3 +124,16 @@ GitHub CLI受企業受管帳號限制，建立PR回應Unauthorized；個人SSH�
 瀏覽器僅驗真正未注入的Back：每引擎10次、等待至少500ms、先截圖完成再讀取最新焦點／座標，仍維持原±1px範圍、同搜尋條件及結果ID。這補強觀測順序，避免拿截圖前的舊座標作通過證據。[最終分支QA39156575151](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39156575151)全部成功：有效舊版red、新58項單元與preview真實Back30次。[red TAP](final-late-return-red.tap)、[原生preview30項](final-return-preview.json)、[最新preview畫面](final-return-preview.png)、[整合後58項單元](final-unit-tests.txt)。獨立角色已複核測試未重寫另一套產品邏輯或放寬斷言。
 
 收尾期間另一工作切換共用checkout並把搜尋擴充`8043b79`合併至main（`242d630`），也帶入共用的QA副本與三個紀錄檔。原checkout與未提交修改全數保留；本輪改用獨立工作樹。Git因同名未追蹤檔擋下合併時先停止，比對確認三檔SHA完全相同；對重疊QA沒有直接選邊覆蓋，而從最新main建立另一整合工作樹，以`git apply --check`無衝突套用僅8行已審查的QA加嚴。協作者app/search/SITE與來源資料沒有被本輪收尾改寫；整合後58/58通過。最終正式站與最新QA分層的驗收會附於下方。
+
+
+## 最終整合正式驗收（13f6bb0）
+
+協作者搜尋合併後，本輪QA與證據已正常fast-forward push至main `13f6bb0`，未force push。[Pages正式建置39157031822](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39157031822)、[Website QA39157031886](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39157031886)、[Return visibility QA39157031947](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39157031947)、[Corpus loading QA39157031873](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39157031873)均成功。整合後單元58/58、語法與靜態preview通過；正式Jekyll亦實際發布成功。最新協作者source的[Reader QA39156675667](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39156675667)也成功；沒有把歷史失敗刪除或宣稱從未失敗。
+
+- 正式站先核對五項資產與checkout一致，再驗瀏覽器實際收到版本；app SHA256為`31dc4262b96d0e880e1c28db3582f487f92afb0a3d90ce8d8cac09ef339c2e4f`。1440／390px皆339條目、0缺項、0 networkFailures／pageerror，兩次axe零違規，來源HTTP200；三種使用情境均成功。[最終正式原始結果](final-published.json)、[桌面](final-published-desktop.png)、[手機](final-published-mobile.png)。本次就緒2,335／2,355ms為單次未節流樣本，不是加速保證。
+- 整合loader三引擎故障驗收成功，包含320px：每次先讀338條目、僅補讀1來源後回復339，焦點可見；全部來源卡住約20.45／20.56／20.60秒停止並可補讀；10次等待／復原axe零違規。[最終故障資料](final-loading.json)。
+- preview與正式站各完成三引擎×10次原生Back，先截圖再取最新座標，搜尋／工具／hash／原卡片與可見性斷言全部通過，沒有注入捲動或改寫時鐘。[正式30次資料](final-native-published.json)、[正式WebKit畫面](final-native-published-webkit.png)。實際查看手機與桌面截圖，沒有新增溢出或遮蔽。
+
+主要變更為`assets/app.js`、`assets/style.css`、`index.html`；回歸與診斷在`tests/`及兩個專用workflow，完整過程與前後截圖保存在本目錄。獨立角色已通過架構、產品程式及最終整合review，且未編輯主要實作。
+
+本輪驗收達標即停止。仍未測實體手機與螢幕閱讀器實聽；首次337次全文請求未減少，歷史間歇缺項根因未確證，300ms返回守衛亦不承諾接管期限後的原生捲動。下一輪優先以部署revision安全失效的全文回訪快取降低重訪成本。本段及最終證據為docs-only收尾，不更動正式執行資產。

@@ -924,3 +924,71 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 正式補驗完成：補修`abdfbf2`的Pages建置`39150397063`成功，`39150397186`原生正式站WebKit/Chromium/Firefox各3次返回（共9次）均保持按鈕焦點與可見，無pageerror；未注入或mock瀏覽器行為。原生結果與最後一次WebKit畫面已收進本輪QA紀錄。
 
 本輪收尾全綠：補修後原Reader QA `39150397145`（含原生WebKit正式站）與Reading flow QA `39150397150`均成功，Website/Related/Search context/Partial Load/Return visibility/Pages亦全部通過。程式`abdfbf2`，後續僅維護紀錄；詳見本輪QA的final-ci.json，驗收完成停止。
+
+## 2026-10-19：AI Agent 關鍵概念搜尋補強與英文名詞單複數對稱性修復
+
+問題調查與證據：
+1. 核心 AI Agent 工作流英文搜尋缺口：
+   - 「草稿」（107 筆） vs 英文「draft」（僅 6 筆）、「drafts」（0 筆）、「drafting」（0 筆）、「初稿」（5 筆），搜尋 draft 無法查得全庫百筆代理撰寫與草稿流程；
+   - 「交接」（82 筆） vs 英文「handoff」（僅 4 筆）、「handoffs」（0 筆）、「hand off」（4 筆），多代理協作核心的代理交接與人機交接在中英文間存在嚴重搜尋不對稱；
+   - 「空跑」（12 筆）與「試跑」（19 筆） vs 英文「dry run」（3 筆）、「dryrun」（0 筆）、「dry-run」（0 筆），排程檢查與安全模擬執行在中英文間未對稱互映；
+   - 「護欄」（UC-316） vs 英文「guardrail」（0 筆）、「guardrails」（0 筆）、「guard rail」（0 筆）、「安全護欄」（0 筆），Agent 安全邊界與護欄搜尋落空；
+   - 「遙測」（UC-141、UC-223） vs 英文「telemetry」（0 筆）、「observability」（0 筆）、「可觀測性」（0 筆），運維與可觀測性流程中英文未互映；
+   - 「人工覆核」（23 筆，如 UC-184、UC-198、UC-242） vs 英文「hitl」（0 筆）、「human in the loop」（0 筆）、「人工介入」（3 筆），人機協同關鍵詞未能全面檢索。
+2. 既有核心關鍵字群英文單複數與型態遺漏：
+   - `workflow`（147 筆） vs `workflows`（僅 4 筆）——詞群遺漏複數 `workflows`；
+   - `crawler`（20 筆） vs `crawlers`（0 筆）、`scraper`（20 筆） vs `scrapers`（0 筆）；
+   - `email`（88 筆） vs `emails`（0 筆）、`mailbox`（4 筆） vs `mailboxes`（3 筆）；
+   - `code`（132 筆） vs `codes`（4 筆）、`coding`（4 筆）；
+   - `meeting`（13 筆） vs `meetings`（0 筆）；
+   - `video`（95 筆） vs `videos`（1 筆）；
+   - `image`（72 筆） vs `images`（4 筆）、`photo`（72 筆） vs `photos`（3 筆）；
+   - `customer`（57 筆） vs `customers`（2 筆）、`client`（57 筆） vs `clients`（0 筆）；
+   - `contract`（21 筆） vs `contracts`（0 筆）、`agreement`（21 筆） vs `agreements`（0 筆）；
+   - `device`（64 筆） vs `devices`（2 筆）；
+   - `database`（44 筆） vs `databases`（0 筆）；
+   - `workorder`（67 筆） vs `workorders`（0 筆）、`work-order`、`工單系統`；
+   - `reconciliation`（33 筆） vs `reconciliations`（0 筆）、`對賬`、`核賬`。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\bhand\s*[- ]\s*offs?\b` → `handoff`
+     - `\bdry\s*[- ]\s*runs?\b` → `dryrun`
+     - `\bguard\s*[- ]\s*rails?\b` → `guardrail`
+     - `\bhuman\s*[- ]\s*in\s*[- ]\s*the\s*[- ]\s*loop\b` → `hitl`
+     - `\bwork\s*[- ]\s*orders?\b` → `workorder`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 新增 6 組關鍵詞群：
+       - 草稿／初稿／draft／drafts／drafting
+       - 交接／交棒／轉交／handoff／handoffs
+       - dryrun／dry-run／試跑／空跑／模擬執行
+       - guardrail／guardrails／護欄／安全護欄
+       - telemetry／遙測／遠程測量／observability／可觀測性／可觀察性
+       - hitl／human in the loop／人工介入／人工覆核／人工審核／人工把關
+     - 補齊既有詞群單複數與型態：
+       - workflow 加入 workflows；
+       - crawler／scraper 加入 crawlers／scrapers；
+       - email 加入 emails／mail／mailbox／mailboxes；
+       - code 加入 codes／coding；
+       - meeting 加入 meetings；
+       - video 加入 videos；
+       - image／photo 加入 images／photos；
+       - customer／client 加入 customers／clients；
+       - contract／agreement 加入 contracts／agreements；
+       - device 加入 devices；
+       - database 加入 databases；
+       - workorder 加入 workorders／工單系統；
+       - reconcile 加入 reconciliations／對賬／核賬。
+     - 保持 100% 互映對稱映射。
+2. `tests/search.test.cjs`：
+   - 增加 30+ 組搜尋斷言，覆蓋 draft/drafts、handoff/handoffs/hand off、dry run/dryrun/試跑、guardrail/guardrails/guard rail、telemetry/observability/遙測、hitl/human in the loop/人工覆核，以及 workflows、crawlers、scrapers、emails、mailboxes、codes、coding、meetings、videos、images、photos、customers、clients、contracts、agreements、devices、databases、workorders、reconciliations 等單複數檢索。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：41/41 單元測試全數通過。
+- `node --check assets/app.js`：語法檢查通過。
+- `python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，合格數維持 299 筆，無編造案例、無擅刪候選。
+下一輪建議：依目前已標註之多案例共用公開來源候選叢集，評估在案例頁提供段落指引或進一步優化同義詞權重排序。
+

@@ -18,8 +18,10 @@
   }
   const sourceHeading=/來源|參考資料|原始連結|作者.*日期/;
   function selectSourceSection(sections){
-    const linked=sections.findIndex(section=>sourceHeading.test(section.title)&&section.hasLinks);
-    return linked!==-1?linked:sections.findIndex(section=>sourceHeading.test(section.title));
+    const isSource=section=>sourceHeading.test(section.title)&&
+      !/步驟|操作|流程|設計|建議|提示詞|預期/.test(section.title);
+    const linked=sections.findIndex(section=>isSource(section)&&section.hasLinks);
+    return linked!==-1?linked:sections.findIndex(isSource);
   }
   function selectJumps(titles){
     const used=new Set();

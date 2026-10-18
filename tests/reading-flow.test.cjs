@@ -40,6 +40,7 @@ test('source jumps include author/date and deduplication headings and prefer a l
  assert.equal(selectSourceSection([{title:'原作者實作'},{title:'作者、日期與來源',hasLinks:true}]),1);
  assert.equal(selectSourceSection([{title:'問題與作者實際使用'},{title:'去重與來源',hasLinks:true}]),1);
  assert.equal(selectSourceSection([{title:'來源報告與限制'},{title:'原始與官方來源',hasLinks:true}]),1);
+ assert.equal(selectSourceSection([{title:'操作步驟（依來源整理，含本庫保守化設計）',hasLinks:true},{title:'去重與來源',hasLinks:true}]),1);
  assert.equal(selectSourceSection([{title:'來源版本'}]),0);
  assert.equal(selectSourceSection([{title:'方法'}]),-1);
 });

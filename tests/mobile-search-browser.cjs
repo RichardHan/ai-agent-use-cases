@@ -29,8 +29,16 @@ module.exports=async function mobileSearch({browser,origin,prefix='mobile-search
    assert(row.firstResultFromSearch<240,'First result follows search without scrolling past unused controls');
    await page.locator('#query').focus();await page.keyboard.press('Tab');
    assert.equal(await page.evaluate(()=>document.activeElement.id),'filter-summary');
+   await page.keyboard.press('Tab');
+   assert.equal(await page.evaluate(()=>document.activeElement.closest('#filter-options')===null),true,'Closed controls are skipped by Tab');
+   await page.locator('#filter-summary').focus();
    await page.keyboard.press('Enter');
    assert.equal(await disclosure.evaluate(n=>n.open),true);
+  }
+  if(width<=760){
+   const expanded=await page.screenshot({type:'jpeg',quality:75});
+   fs.writeFileSync('qa-artifacts/'+prefix+'-expanded-'+name+'.jpg',expanded);
+   console.log('VISUAL:'+prefix+'-expanded-'+name+':'+expanded.toString('base64'));
   }
   // Journey 1: a concrete task plus tool/evidence filters, then read and return.
   await page.locator('#query').fill('旅遊');
@@ -106,6 +114,17 @@ module.exports=async function mobileSearch({browser,origin,prefix='mobile-search
   assert.deepEqual(errors,[]);
   row.axeScans=2;row.axeViolations=0;row.passed=true;report.push(row);
   await context.close();
+ }
+ if(prefix==='mobile-search'){
+  for(const width of [760,761]){
+   const page=await browser.newPage({viewport:{width,height:1000}});
+   await page.goto(origin,{waitUntil:'networkidle'});
+   await page.locator('#results .card').first().waitFor();
+   assert.equal(await page.locator('#filter-options').evaluate(n=>n.open),width>760);
+   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+   await page.close();
+  }
+  console.log('PASS MOBILE SEARCH: 760/761px initial disclosure boundary');
  }
  fs.writeFileSync('qa-artifacts/'+prefix+'.json',JSON.stringify(report,null,2));
  console.log('MOBILE_SEARCH_RESULTS '+prefix+' '+JSON.stringify(report));

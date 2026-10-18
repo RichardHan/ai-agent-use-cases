@@ -40,7 +40,7 @@ const hung=route=>new Promise(()=>{});
    assert(await page.locator('#loading-progress').isHidden());assert(await page.locator('#partial-load').isVisible());
    assert.equal(await page.locator('#results-count').evaluate(e=>e===document.activeElement),true);
    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
-   const focusBounds=await page.locator('#results-count').boundingBox();assert(focusBounds.y>=0&&focusBounds.y+focusBounds.height<=height);
+   const focusBounds=await page.locator('#results-count').boundingBox();row.focusBounds=focusBounds;save();assert(focusBounds.y>=0&&focusBounds.y+focusBounds.height<=height,JSON.stringify({size,height,focusBounds}));
    assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');
    row.partial=await page.evaluate(()=>({entries:entries.length,failed:[...failedPaths]}));assert.equal(row.partial.entries,338);assert.deepEqual(row.partial.failed,['cases/001-travel-checkout.md']);
    await page.locator('#partial-load').evaluate(e=>e.scrollIntoView({block:'start',behavior:'instant'}));

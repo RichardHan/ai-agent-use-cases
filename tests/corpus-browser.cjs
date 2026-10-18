@@ -19,11 +19,17 @@ const label=process.env.CORPUS_LABEL||'before',reports=[];
  const browser=await chromium.launch();
  for(const [size,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
-  const page=await context.newPage(),errors=[],requests=[];let appSource;
-  page.on('response',async r=>{if(new URL(r.url()).pathname.endsWith('/assets/app.js'))appSource=await r.text();});
+  const page=await context.newPage(),errors=[],requests=[],served={};let appSource;
+  page.on('response',async r=>{
+   const path=new URL(r.url()).pathname.replace(new URL(origin).pathname,'');
+   if(['assets/app.js','assets/style.css','assets/reader.js','assets/reader.css',''].includes(path)){
+    served[path||'index.html']=await r.text();if(path==='assets/app.js')appSource=served[path];
+   }
+  });
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
   await page.addInitScript(()=>performance.setResourceTimingBufferSize(2000));
   const start=Date.now();await page.goto(origin);await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
+  if(process.env.CORPUS_VERIFY)for(const path of ['assets/app.js','assets/style.css','assets/reader.js','assets/reader.css','index.html'])assert.equal(served[path],fs.readFileSync(path,'utf8'),'actual page asset '+path);
   const metrics=await page.evaluate(()=>({entries:entries.length,missing:failedPaths.length,resources:performance.getEntriesByType('resource').map(r=>({path:new URL(r.name).pathname,bytes:r.encodedBodySize,durationMs:Math.round(r.duration)}))}));
   const report={size,appSHA256:require('node:crypto').createHash('sha256').update(appSource).digest('hex'),readyMs:Date.now()-start,...metrics,requests:requests.length,markdownRequests:requests.filter(u=>/\/(cases|evidence)\/.*\.md$|\/sources\/pending\.md$/.test(u)).length};reports.push(report);
   fs.writeFileSync(`qa-artifacts/corpus-${label}.json`,JSON.stringify(reports,null,2));

@@ -891,6 +891,25 @@ async function retryFailedSources() {
   }
 }
 
+function focusLoadedResults() {
+  const target=$('results-count'),url=location.href;
+  target.focus({preventScroll:true});
+  target.scrollIntoView({block:'center',behavior:'instant'});
+  // Native anchoring may settle after the newly drawn card changes page height.
+  // Keep the requested result visible, unless the reader has already moved on.
+  let cancelled=false;
+  const events=['pointerdown','keydown','wheel','touchstart'];
+  const cancel=()=>{cancelled=true;cleanup();};
+  const cleanup=()=>events.forEach(type=>document.removeEventListener(type,cancel,true));
+  const keepVisible=()=>{
+    if(cancelled||location.href!==url||$('detail').open||document.activeElement!==target)return;
+    const rect=target.getBoundingClientRect();
+    if(rect.top<0||rect.bottom>innerHeight)target.scrollIntoView({block:'center',behavior:'instant'});
+  };
+  events.forEach(type=>document.addEventListener(type,cancel,{capture:true,passive:true}));
+  requestAnimationFrame(()=>{keepVisible();requestAnimationFrame(()=>{keepVisible();cleanup();});});
+}
+
 async function load() {
   if(initialLoading)return;
   initialLoading=true;
@@ -966,7 +985,7 @@ async function load() {
     render(false);
     const current = matchCase(params.get('case'));
     if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
-    else if(skippedFromButton){$('results-count').focus({preventScroll:true});$('results-count').scrollIntoView({block:'nearest',behavior:'instant'});}
+    else if(skippedFromButton)focusLoadedResults();
     else finishArrival(params,failedPaths.length>0);
   } catch (error) {
     discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;

@@ -2,9 +2,11 @@
 
 更新日期：2026-10-18。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至 2026-10-18 14:00批次，**292／1,000 個逐案核對合格，尚差708**（含作者自述與實際失敗案例，未獨立重現）。沿用歷史發布口徑為306，主要頁313；三種數字不可混用。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至 2026-10-18 14:45批次，**296／1,000 個逐案核對合格，尚差704**（含作者自述與實際失敗案例，未獨立重現）。沿用歷史發布口徑為311，主要頁318；三種數字不可混用。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
-2026-10-17 23:44台灣時間起，目標提高為1,000案。本輪由先前290加新增320、321兩案，共292；315仍待定，先前來源缺口與排除判斷保留。下方歷史批次保留當時目標與口徑，不回改舊報告。
+2026-10-17 23:44台灣時間起，目標提高為1,000案。本輪由先前292加新增322–325四案，共296；326與315待定，先前來源缺口與排除判斷保留。下方歷史批次保留當時目標與口徑，不回改舊報告。
+
+14:45批次：新增322多平台創作者數據每日零token採集、323每日AI新聞逐則回饋與偏好筆記、324每日公開障礙消息查核入庫PR、325每晚語音日記確認後同步，326多家訂單匯整已擁有清單（待定）。皆為作者自述，324另有公開PR可核；未重現。[原文、去重與覆蓋](sources/research-2026-10-18-1445.md)。
 
 14:00批次：新增320雙向待辦狀態同步、321專家自有內容轉互動決策工具。皆為原作者完成自述；未核同步衝突處理、成本或工具決策品質。[原文、去重與覆蓋](sources/research-2026-10-18-1400.md)。
 
@@ -62,7 +64,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（313）
+## 主要案例（318）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -376,11 +378,14 @@
 | UC-316 | Slack 回報串：分流 Bot 去重、重現 Bot 截圖，人在同串修到合併 | Grok Bot Team Bot／BDK／Cursor Cloud Agents／Slack／Linear | [官方工作坊示範＋影片說明與 Team Bots 文件已讀；影片未看、未重現](cases/316-slack-thread-triage-repro-bot-bug-fix.md) | 開發｜Slack、分流、多代理、驗收 |
 | UC-317 | 夜巡四 Bot：凌晨自主選題、做原型、獨立驗收、晨報 | Grok Bot（四 Bot 群組 routine） | [繁中作者實作自述＋公開 repo 與 Demo；測試與晨報未公開、未重現](cases/317-nightly-explorer-builder-critic-prototype.md) | 開發｜每日、排程、多代理、驗收 |
 | UC-318 | 新帳戶申請經核准後建立顧客 | Grok Bot／Power Automate／Shopify | [作者隔夜修通自述；無流程檔或顧客回讀](cases/318-approved-account-form-shopify-customer-flow.md) | 工作｜表單、核准、跨系統、驗收 |
-
 | UC-319 | 家居照片逐物盤點與人工認領交接 | Grok Bot／Drive／Excel；本人轉Sheets | [作者完成清單與交接自述；表格、辨識與清空結果未核](cases/319-home-photo-item-inventory-claim-handoff.md) | 生活｜照片、盤點、試算表、人工交接 |
-
 | UC-320 | 雙向待辦新增、完成與分類狀態同步 | Muse／Apple Reminders／Mac橋接 | [作者運作自述；衝突、離線與成本未驗證](cases/320-bidirectional-reminder-state-sync.md) | 生活｜待辦、雙向同步、狀態核對 |
 | UC-321 | 自有專業內容轉互動決策工具與人工邏輯校正 | Muse／HTML／CSS | [作者交付自述；工具僅核標題，互動與決策品質未核](cases/321-expert-corpus-interactive-decision-tool.md) | 創作｜知識產品、決策分支、人工驗收 |
+| UC-322 | 多平台創作者數據每日採集：固定腳本零 token 抓取，代理只做檢查與彙整 | Grok Bot／web-access Skill／Notion／儀表板 | [作者自述＋儀表板與用量截圖；公開Skill，作者即開發者，未重現](cases/322-creator-metrics-zero-token-daily-collection.md) | 創作｜每日、數據儀表板、瀏覽器自動化、用量 |
+| UC-323 | 每日AI新聞個人頁：逐則按有用／沒用，夜間改寫偏好筆記、隔天重選 | Grok Bot routine／Cloudflare Pages／Access／Workers KV | [作者自述步驟與兩天評價數字；影片未看、樣本小](cases/323-daily-ai-news-one-tap-feedback-preference-loop.md) | 學習｜每日、新聞、回饋學習、個人化 |
+| UC-324 | 每日公開障礙消息→官方狀態頁查核與去重→雲端代理開PR、人合併 | Grok Bot／Cursor Cloud Agent／GitHub／SQLite | [作者自述＋公開repo與PR #36、#40可核；Grok Bot交接未公開](cases/324-daily-outage-digest-verified-incident-db-pr.md) | 開發｜每日、資料庫、PR、來源查核 |
+| UC-325 | 每晚通訊軟體提醒寫日記：語音隨口說，確認後同步文件與試算表 | Grok Bot／微信／飛書文件／Excel | [作者自述＋提醒與寫入回覆截圖（打碼）；未重現](cases/325-nightly-voice-diary-prompt-confirm-sync.md) | 生活｜每日、日記、語音、人工確認 |
+| UC-326 | 多家網購訂單匯整成已擁有清單，特賣時排除已有再推薦 | Grok Bot／Amazon／Yahoo!購物／樂天／Notion | [作者兩則文字自述；無截圖與產物，待定](cases/326-order-history-owned-items-sale-picks.md) | 省錢｜購物、所有物清單、Notion、特賣 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

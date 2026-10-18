@@ -116,6 +116,7 @@ function showDetail(item, trigger, updateURL=true) {
 
   const title = el('h1', '', item.title);
   title.id = 'detail-title';
+  title.tabIndex = -1;
   body.append(title);
 
   const actionRow = el('div', 'detail-actions');
@@ -163,11 +164,13 @@ function showDetail(item, trigger, updateURL=true) {
   const toggle = el('summary', '', '查看原始研究、來源與完整提示詞');
   research.append(toggle, el('p', 'research-title', item.id + ' · ' + item.originalTitle), renderMarkdown(item.markdown, item.path));
   body.append(research);
+  globalThis.CaseReader?.enhance(body, item);
 
   updateModalNav();
 
   if (!$('detail').open) $('detail').showModal();
   $('detail').scrollTop = 0;
+  title.focus({preventScroll:true});
   if (updateURL) {
     const url = new URL(location.href);
     url.searchParams.set('case', item.id);
@@ -401,6 +404,7 @@ $('detail').addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if ($('detail').open) {
+    if (e.defaultPrevented || e.isComposing || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || document.activeElement.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"])')) return;
     if (e.key === 'ArrowLeft') { e.preventDefault(); navStep(-1); }
     else if (e.key === 'ArrowRight') { e.preventDefault(); navStep(1); }
     return;

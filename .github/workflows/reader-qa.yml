@@ -1,0 +1,73 @@
+name: Reader QA
+on:
+  push:
+    branches: [feat/reader-navigation, main]
+    paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, .github/workflows/reader-qa.yml]
+  pull_request:
+    paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, .github/workflows/reader-qa.yml]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install cloud-only browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/reader-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/reader-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Existing tests and syntax
+        run: |
+          node --test tests/*.test.cjs
+          node --check assets/app.js
+      - name: Capture the comparison baseline
+        if: ${{ github.ref != 'refs/heads/main' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
+          BASELINE_REF: ${{ github.event.pull_request.base.sha || 'origin/main' }}
+          READER_BASELINE_URL: http://127.0.0.1:8083/ai-agent-use-cases/
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/reader-before" "$BASELINE_REF"
+          python3 "$RUNNER_TEMP/reader-before/scripts/preview.py" "$RUNNER_TEMP/reader-before-preview/ai-agent-use-cases"
+          python3 -m http.server 8083 --directory "$RUNNER_TEMP/reader-before-preview" > /tmp/reader-before.log 2>&1 &
+          node tests/reader-baseline.cjs
+      - name: Verify reader preview
+        if: ${{ hashFiles('tests/reader-browser.cjs') != '' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
+        run: |
+          python3 scripts/preview.py "$RUNNER_TEMP/reader-preview/ai-agent-use-cases"
+          python3 -m http.server 8082 --directory "$RUNNER_TEMP/reader-preview" > /tmp/reader-preview.log 2>&1 &
+          node tests/reader-browser.cjs
+      - name: Preserve existing discovery and sharing flows
+        env:
+          NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
+        run: |
+          python3 -m http.server 8081 --directory "$RUNNER_TEMP/reader-preview" > /tmp/reader-discovery.log 2>&1 &
+          node tests/discovery-browser.cjs
+      - name: Diagnose a WebKit failure against the baseline
+        if: ${{ failure() && github.ref != 'refs/heads/main' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
+          DEBUG: pw:browser
+        run: node tests/reader-webkit-diagnostic.cjs
+      - name: Verify published reader
+        if: ${{ github.ref == 'refs/heads/main' && hashFiles('tests/reader-browser.cjs') != '' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
+          READER_URL: https://richardhan.github.io/ai-agent-use-cases/
+          READER_DEPLOYED: '1'
+        run: node tests/reader-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reader-qa-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

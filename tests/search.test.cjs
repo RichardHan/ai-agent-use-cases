@@ -42,6 +42,14 @@ assert(entries.find(x=>x.id==='UC-001').tags.includes('旅遊'),'extracts tags f
 assert(api.filterEntries(entries,[],{scenario:'生活'}).length>=60,'filters by 生活 scenario');
 assert(api.filterEntries(entries,[],{scenario:'開發'}).length>=60,'filters by 開發 scenario');
 assert(api.filterEntries(entries,[],{scenario:'工作'}).length>=100,'filters by 工作 scenario');
+assert.equal(entries.find(x=>x.id==='UC-109').scenario,'省錢','extracts normalized scenario for UC-109');
+assert(entries.find(x=>x.id==='UC-109').tags.includes('優惠券'),'extracts normalized tags for UC-109');
+assert.equal(entries.find(x=>x.id==='UC-217').scenario,'開發','extracts normalized scenario for UC-217');
+assert(entries.find(x=>x.id==='UC-217').tags.includes('回歸'),'extracts normalized tags for UC-217');
+assert.equal(entries.find(x=>x.id==='UC-228').scenario,'生活','normalizes 居家 to 生活 for UC-228');
+assert(entries.find(x=>x.id==='UC-228').tags.includes('能源'),'extracts normalized tags for UC-228');
+assert.equal(entries.find(x=>x.id==='UC-312').scenario,'生活','normalizes composite scenario to 生活 for UC-312');
+assert(entries.find(x=>x.id==='UC-312').tags.includes('環境語音'),'extracts normalized tags for UC-312');
 assert.equal(api.filterEntries(entries,['UC313'],{}).length,1,'matches unhyphenated case ID');
 assert.equal(api.filterEntries(entries,['uc313'],{}).length,1,'matches lowercase unhyphenated case ID');
 assert.equal(api.filterEntries(entries,['UC-001'],{}).length,8,'matches standard case ID');

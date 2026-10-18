@@ -13,6 +13,10 @@ Repository → Settings → Pages → Build and deployment：
 
 預期網址由 Pages 設定頁提供。請等該次 `pages build and deployment` 完成，再確認網址可開啟；提交程式碼不等於已上線。
 
+## 最新網站驗收
+
+2026-10-19：用途與完整來源紀錄優先閱讀、來源入口與WebKit返回補修均已驗收；[前後截圖、測試及部署紀錄](docs/qa/2026-10-19-reading-flow/README.md)。本輪維持原始資料與合格計數，後續優先降低全庫載入成本。
+
 ## 自動收錄
 
 Markdown 是唯一內容來源。`catalog.json` 在每次 Pages 建置時，透過內建 Liquid 自動列出 `cases/**/*.md`、`evidence/**/*.md` 與 `sources/pending.md`。網頁從同站讀取全文，無 GitHub API 配額、無外部搜尋服務、無憑證或分析追蹤。
@@ -916,3 +920,5 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 
 
 部署後補修：原Reader QA捕捉到WebKit返回`#explore`時焦點按鈕落在視窗外（bottom935.8>844px）。兩幀內有界重查可見位置，保留URL/modal/目標/焦點守衛，使用者輸入會取消且清理監聽。雲端`39150191477`以舊版失敗對照，三引擎六狀態18次檢查及41/41單元通過；獨立審查無必修。協作者`5b5c93c`已無衝突整合，正式站原生返回另驗。
+
+正式補驗完成：補修`abdfbf2`的Pages建置`39150397063`成功，`39150397186`原生正式站WebKit/Chromium/Firefox各3次返回（共9次）均保持按鈕焦點與可見，無pageerror；未注入或mock瀏覽器行為。原生結果與最後一次WebKit畫面已收進本輪QA紀錄。

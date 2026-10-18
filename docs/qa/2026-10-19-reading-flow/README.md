@@ -50,7 +50,7 @@
 
 獨立角色未修改實作，使用 gpt-6-astra/max 先提出兩案，再審查 diff 與資料覆蓋。提出並已修正：38 篇無附近來源入口、無章節待查入口未建立、正文可見範圍只測容器、鍵盤測試未核 activeElement、正式部署資產競賽。修後只讀全庫審核確認：193 篇提前呈現紀錄，無連結且無來源入口的缺項 38 → 0；目前靜態 review 無剩餘必修。最終視覺結論另依雲端截圖記錄。
 
-新增前端資產未壓縮差額共 6,118 bytes（app.js +326、reader.js +3,694、reader.css +2,098），是檔案尺寸差額，不是網路傳輸量或效能分數。
+閱讀版面階段（不含下方返回補修與協作者修改）新增前端資產未壓縮差額共 6,118 bytes（app.js +326、reader.js +3,694、reader.css +2,098），是檔案尺寸差額，不是網路傳輸量或效能分數。
 
 ## 最終預覽驗收與獨立審查
 
@@ -102,3 +102,8 @@ python3 -m http.server 8080 --directory /tmp/reading-preview
 
 
 [返回補修最終QA39150191477](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39150191477)通過：舊版同一受控時序確實失敗；補修後三引擎×六種狀態共18次檢查全通過，pageerror為空、使用者新捲動位置保留（誤差≤1px）。包含協作者`5b5c93c`基準，41/41單元通過。[舊版受控結果](return-before.json)／[修後18種結果](return-after.json)／[WebKit修後返回](return-after-webkit-button.png)。
+
+
+[補修正式部署39150397063](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39150397063)已成功，程式版本`abdfbf2`。[Return visibility QA39150397186](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39150397186)的preview與published兩個job全部成功：正式站先確認app資產與checkout逐字一致，再以**沒有注入錨點、沒有改寫瀏覽器行為**的原生Back檢查WebKit／Chromium／Firefox，各連續3次，共9次；原按鈕均維持焦點且完全可見，無pageerror。 [原生結果](return-native-after.json)／[WebKit正式站修後畫面](return-native-after.png)。每引擎3筆JSON皆保留，PNG是最後一次。
+
+返回補修另增加759個未壓縮bytes，仍未新增前端套件、資料傳送或儲存。正式站曾失敗的WebKit返回驗收已由以上原生路徑補驗；其內部時序根因仍未宣稱確證。下一輪優先仍是減少全庫全文請求；本輪不延伸追加功能。

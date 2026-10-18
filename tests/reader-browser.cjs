@@ -194,6 +194,22 @@ async function jump(page,button){
    assert.equal(await fallback.locator('#error').isVisible(),false);
    console.log('PASS: a missing optional reader script preserves original detail reading');
    await fallback.close();
+   const resilient=await browser.newPage();
+   await resilient.route('**/cases/001-travel-checkout.md',route=>route.fulfill({status:404,body:'Not found'}));
+   await resilient.goto(origin,{waitUntil:'networkidle'});
+   await resilient.locator('#results .card').first().waitFor();
+   assert.equal(await resilient.locator('#error').isVisible(),false);
+   assert.match(await resilient.locator('#results-count').innerText(),/1 筆載入略過/);
+   assert((await resilient.locator('#results .card').count())>=300);
+   console.log('PASS: resilient loader keeps catalog working when a single markdown case fails');
+   await resilient.close();
+   const copyFallback=await browser.newPage();
+   await copyFallback.route('**/assets/copy.json',route=>route.fulfill({status:404,body:'Not found'}));
+   await copyFallback.goto(origin,{waitUntil:'networkidle'});
+   await copyFallback.locator('#results .card').first().waitFor();
+   assert.equal(await copyFallback.locator('#error').isVisible(),false);
+   console.log('PASS: missing copy.json degrades gracefully to markdown copy without crashing');
+   await copyFallback.close();
   }
   await browser.close();
  }

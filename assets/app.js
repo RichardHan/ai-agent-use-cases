@@ -3,7 +3,7 @@
 const REPO = 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/';
 const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
-let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {};
+let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {}, failedPaths = [];
 let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
@@ -254,7 +254,8 @@ function render(updateURL=true) {
   currentFiltered = filterEntries(entries, q, filters);
   $('results').replaceChildren(...currentFiltered.map(card));syncDiscovery(currentFiltered);
   $('empty').hidden = !!currentFiltered.length;
-  $('results-count').textContent = `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄`;
+  const skipNote = failedPaths.length ? `（${failedPaths.length} 筆載入略過）` : '';
+  $('results-count').textContent = `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}`;
 
   document.querySelectorAll('.chip[data-scenario]').forEach(btn => {
     const isActive = btn.dataset.scenario === activeScenario;
@@ -292,26 +293,71 @@ function populate(id, values) {
     node.append(o);
   });
 }
+async function mapConcurrent(items, limit, workerFn) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+  const count = Math.min(Math.max(1, limit || 1), items.length);
+  if (!items.length) return results;
+  const workers = Array.from({ length: count }, async () => {
+    while (nextIndex < items.length) {
+      const index = nextIndex++;
+      results[index] = await workerFn(items[index], index);
+    }
+  });
+  await Promise.all(workers);
+  return results;
+}
+async function loadCorpus(paths, options = {}) {
+  const fetchFn = options.fetch || fetch;
+  const limit = options.concurrency || 16;
+  const parseFn = options.parseFile || parseFile;
+  const results = await mapConcurrent(paths, limit, async path => {
+    try {
+      const r = await fetchFn(path, { cache: 'no-cache' });
+      if (!r.ok) {
+        console.warn(`無法讀取 ${path} (HTTP ${r.status})`);
+        return { ok: false, path, error: `HTTP ${r.status}` };
+      }
+      const text = await r.text();
+      const entries = parseFn(path, text);
+      return { ok: true, path, entries };
+    } catch (err) {
+      console.warn(`無法讀取 ${path}：`, err);
+      return { ok: false, path, error: err.message || String(err) };
+    }
+  });
+  const entries = results.filter(r => r && r.ok).flatMap(r => r.entries);
+  const failed = results.filter(r => r && !r.ok).map(r => r.path);
+  return { entries, failed };
+}
 async function load() {
   discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('discover').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
   $('error').hidden = true;
   $('empty').hidden = true;
   $('results-count').textContent = '正在讀取案例…';
+  failedPaths = [];
   try {
     const response = await fetch('catalog.json', { cache: 'no-cache' });
     if (!response.ok) throw Error('索引讀取失敗。');
     const catalog = await response.json();
     if (!Array.isArray(catalog.files) || !catalog.files.length) throw Error('索引沒有案例。');
     const paths = catalog.files.filter(p => typeof p === 'string' && /^(cases|evidence)\/[a-zA-Z0-9_/-]+\.md$/.test(p) || p === 'sources/pending.md');
-    const copyResponse = await fetch('assets/copy.json', { cache: 'no-cache' });
-    if (!copyResponse.ok) throw Error('顯示文案讀取失敗。');
-    displayCopy = await copyResponse.json();
-    const loaded = await Promise.all(paths.map(async path => {
-      const r = await fetch(path, { cache: 'no-cache' });
-      if (!r.ok) throw Error(`無法讀取 ${path}`);
-      return parseFile(path, await r.text());
-    }));
-    entries = loaded.flat().sort((a, b) => ({ case: 0, evidence: 1, pending: 2 }[a.kind] - { case: 0, evidence: 1, pending: 2 }[b.kind]) || a.id.localeCompare(b.id));
+    try {
+      const copyResponse = await fetch('assets/copy.json', { cache: 'no-cache' });
+      if (copyResponse.ok) {
+        displayCopy = await copyResponse.json();
+      } else {
+        console.warn('顯示文案讀取失敗，使用 Markdown 預設文案。');
+        displayCopy = {};
+      }
+    } catch (e) {
+      console.warn('顯示文案載入失敗，使用 Markdown 預設文案：', e);
+      displayCopy = {};
+    }
+    const { entries: loaded, failed } = await loadCorpus(paths, { fetch, parseFile, concurrency: 16 });
+    failedPaths = failed;
+    if (!loaded.length) throw Error('沒有成功讀取任何案例。');
+    entries = loaded.sort((a, b) => ({ case: 0, evidence: 1, pending: 2 }[a.kind] - { case: 0, evidence: 1, pending: 2 }[b.kind]) || a.id.localeCompare(b.id));
     for (const kind of Object.keys(KIND)) $(kind === 'case' ? 'case-count' : kind + '-count').textContent = entries.filter(e => e.kind === kind).length;
     $('updated').textContent = '索引更新 ' + catalog.builtAt;
     populate('tool', entries.flatMap(e => e.tools));

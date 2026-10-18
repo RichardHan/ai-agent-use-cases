@@ -904,7 +904,7 @@ async function load() {
   $('use-loaded').removeAttribute('aria-disabled');
   recoveryNotice='';$('load-status').textContent='';$('partial-load').hidden=true;
   clearSearchShare();$('copy-search-link').disabled=true;
-  discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('discover').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
+  discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('drawn-case').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
   $('error').hidden = true;
   $('empty').hidden = true;
   $('search-feedback').hidden = true;
@@ -912,6 +912,18 @@ async function load() {
   $('results-count').textContent = '正在讀取案例…';
   failedPaths = [];
   try {
+    // Hydrate shared conditions before readers can edit the form during loading.
+    // Dynamic facets retain a temporary option until source metadata arrives.
+    const initialParams=new URLSearchParams(location.search);
+    activeScenario=initialParams.get('scenario')||'';
+    $('scenario').value=activeScenario;
+    ['query','kind','tool','category','proof'].forEach(id=>{
+      const value=initialParams.get(id==='query'?'q':id)||'';
+      if(value&&['tool','category','proof'].includes(id)&&![...$(id).options].some(o=>o.value===value)){
+        const option=el('option','',value);option.value=value;$(id).append(option);
+      }
+      $(id).value=value;
+    });
     const catalog = await readJSON('catalog.json', Math.min(8000,remaining()));
     if (!Array.isArray(catalog.files) || !catalog.files.length) throw Error('索引沒有案例。');
     const paths = catalog.files.filter(p => typeof p === 'string' && /^(cases|evidence)\/[a-zA-Z0-9_/-]+\.md$/.test(p) || p === 'sources/pending.md');
@@ -949,14 +961,15 @@ async function load() {
       if (id === 'query' || [...$(id).options].some(o => o.value === value)) $(id).value = value;
     });
     const skippedFromButton=document.activeElement===$('use-loaded');
-    discoveryReady=true;$('guide-options').disabled=false;$('discover').setAttribute('aria-busy','false');
+    $('loading-progress').hidden=true;
+    discoveryReady=true;$('guide-options').disabled=false;$('drawn-case').setAttribute('aria-busy','false');
     render(false);
     const current = matchCase(params.get('case'));
     if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
     else if(skippedFromButton){$('results-count').focus({preventScroll:true});$('results-count').scrollIntoView({block:'nearest',behavior:'instant'});}
     else finishArrival(params,failedPaths.length>0);
   } catch (error) {
-    discoveryReady=false;$('discover').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
+    discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();
     $('results-count').textContent = '載入未完成';
     $('error-message').textContent = '請稍後重試，或先閱讀 GitHub 原始資料。';

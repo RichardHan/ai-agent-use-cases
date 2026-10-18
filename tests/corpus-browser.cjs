@@ -6,15 +6,26 @@ const origin=process.env.CORPUS_URL||'https://richardhan.github.io/ai-agent-use-
 const label=process.env.CORPUS_LABEL||'before',reports=[];
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});
+ if(process.env.CORPUS_VERIFY){
+  const files=['assets/app.js','assets/style.css','assets/reader.js','assets/reader.css','index.html'];
+  let matched=false;
+  for(let attempt=0;attempt<60;attempt++){
+   const checks=await Promise.all(files.map(async path=>{try{const r=await fetch(origin+path+'?budget-qa='+Date.now(),{signal:AbortSignal.timeout(10000)});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}catch{return false;}}));
+   if(checks.every(Boolean)){matched=true;break;}
+   await new Promise(resolve=>setTimeout(resolve,5000));
+  }
+  assert(matched,'published assets match checkout');
+ }
  const browser=await chromium.launch();
  for(const [size,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
-  const page=await context.newPage(),errors=[],requests=[];
+  const page=await context.newPage(),errors=[],requests=[];let appSource;
+  page.on('response',async r=>{if(new URL(r.url()).pathname.endsWith('/assets/app.js'))appSource=await r.text();});
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
   await page.addInitScript(()=>performance.setResourceTimingBufferSize(2000));
   const start=Date.now();await page.goto(origin);await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
   const metrics=await page.evaluate(()=>({entries:entries.length,missing:failedPaths.length,resources:performance.getEntriesByType('resource').map(r=>({path:new URL(r.name).pathname,bytes:r.encodedBodySize,durationMs:Math.round(r.duration)}))}));
-  const report={size,readyMs:Date.now()-start,...metrics,requests:requests.length,markdownRequests:requests.filter(u=>/\/(cases|evidence)\/.*\.md$|\/sources\/pending\.md$/.test(u)).length};reports.push(report);
+  const report={size,appSHA256:require('node:crypto').createHash('sha256').update(appSource).digest('hex'),readyMs:Date.now()-start,...metrics,requests:requests.length,markdownRequests:requests.filter(u=>/\/(cases|evidence)\/.*\.md$|\/sources\/pending\.md$/.test(u)).length};reports.push(report);
   fs.writeFileSync(`qa-artifacts/corpus-${label}.json`,JSON.stringify(reports,null,2));
   await page.screenshot({path:`qa-artifacts/corpus-${label}-${size}.png`});
   await page.locator('#query').fill('旅遊');await require('./filter-controls.cjs').ensureFiltersVisible(page);

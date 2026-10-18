@@ -24,11 +24,20 @@ const hung=route=>new Promise(()=>{});
    assert.equal(await page.locator('#source-progress').getAttribute('max'),'337');
    assert.equal(await page.locator('#source-progress').getAttribute('value'),'336');
    row.progress=await page.locator('#loading-summary').innerText();
+   // Editing a shared search before completion must preserve its unedited facets.
+   await page.locator('#query').fill('郵件');
+   assert.equal(new URL(page.url()).searchParams.get('scenario'),'生活');
+   assert.equal(new URL(page.url()).searchParams.get('tool'),'Grok Bot');
+   assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');
+   await page.locator('#query').fill('旅遊');
    row.audits=[await audit(page,'waiting')];
+   assert(await page.locator('#draw-status').evaluate(e=>!e.closest('[aria-busy=true]')));
    await page.locator('#use-loaded').focus();await page.keyboard.press('Enter');
    await page.waitForFunction(()=>discoveryReady);
    assert(await page.locator('#loading-progress').isHidden());assert(await page.locator('#partial-load').isVisible());
    assert.equal(await page.locator('#results-count').evaluate(e=>e===document.activeElement),true);
+   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+   const focusBounds=await page.locator('#results-count').boundingBox();assert(focusBounds.y>=0&&focusBounds.y+focusBounds.height<=height);
    assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');
    row.partial=await page.evaluate(()=>({entries:entries.length,failed:[...failedPaths]}));assert.equal(row.partial.entries,338);assert.deepEqual(row.partial.failed,['cases/001-travel-checkout.md']);
    await page.screenshot({path:`qa-artifacts/loading-partial-${engine}-${size}.png`});
@@ -52,6 +61,20 @@ const hung=route=>new Promise(()=>{});
    assert(await p.locator('#partial-load').isVisible());assert.match(await p.locator('#partial-message').innerText(),/分享的案例/);assert(await p.locator('#detail').evaluate(e=>!e.open));
    await p.unroute('**/cases/001-travel-checkout.md');await p.locator('#retry-failed').click();await p.locator('#detail[open]').waitFor();assert.equal(await p.locator('#detail-toolbar-id').innerText(),'UC-001');
    report.push({engine,mode:'missing direct link',elapsedMs:Date.now()-started,recovered:'UC-001'});save();await direct.close();
+  }
+  if(!observe){
+   // Index hangs are recoverable; display-copy hangs fall back to source text.
+   for(const [path,expected] of [['catalog.json','error'],['assets/copy.json','ready']]){
+    const context=await browser.newContext(),page=await context.newPage();await page.route('**/'+path,hung);
+    const start=Date.now();await page.goto(origin);
+    if(expected==='error')await page.locator('#error').waitFor({state:'visible',timeout:11000});
+    else await page.waitForFunction(()=>discoveryReady,null,{timeout:15000});
+    assert(await page.locator('#loading-progress').isHidden());
+    const row={engine,mode:path+' stalled',elapsedMs:Date.now()-start,expected};report.push(row);save();
+    await page.unroute('**/'+path);
+    if(expected==='error'){await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:30000});}
+    assert.equal(await page.evaluate(()=>entries.length),339);await context.close();
+   }
   }
   await browser.close();
  }

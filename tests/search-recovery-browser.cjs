@@ -1,4 +1,5 @@
 'use strict';
+const {ensureFiltersVisible}=require('./filter-controls.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const {AxeBuilder} = require('@axe-core/playwright');
@@ -13,11 +14,15 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     await page.locator('#results .card').first().waitFor();
     const navigationAndReadyMs=Date.now()-started;
     await page.locator('#query').fill('旅遊');
+    await ensureFiltersVisible(page);
     await page.locator('#tool').selectOption('Grok Bot');
+    await ensureFiltersVisible(page);
     await page.locator('#category').selectOption('旅遊／消費研究');
+    await ensureFiltersVisible(page);
     await page.locator('#proof').selectOption('作者報告／示範');
     const matching=await page.locator('#results .card').count();
     assert(matching>0);
+    await ensureFiltersVisible(page);
     await page.locator('#scenario').selectOption('開發');
     assert.equal(await page.locator('#empty').isVisible(),true);
     await page.locator('#results-count').scrollIntoViewIfNeeded();
@@ -123,6 +128,7 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     const loadedMatches=await page.locator('#results .card').count();
     assert(loadedMatches>0);
     assert.match(await page.locator('#results-count').innerText(),/1 筆載入略過/);
+    await ensureFiltersVisible(page);
     await page.locator('#scenario').selectOption('開發');
     const suggestion=page.locator('#empty-suggestions [data-remove-filter="scenario"]');
     assert.match(await suggestion.innerText(),new RegExp(loadedMatches+' 筆'));

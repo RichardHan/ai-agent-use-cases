@@ -1,4 +1,5 @@
 'use strict';
+const {ensureFiltersVisible}=require('./filter-controls.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
@@ -62,6 +63,7 @@ async function jump(page,button){
  fs.mkdirSync('qa-artifacts',{recursive:true});
  for(const [engine,type] of [['chromium',chromium],['firefox',firefox],['webkit',webkit]]){
   const browser=await type.launch();
+  if(!deployed)await require('./mobile-search-browser.cjs')({browser,origin,prefix:engine+'-mobile-search',sizes:[['mobile',390,844]]});
   const sizes=engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]];
   for(const [size,width,height] of sizes){
    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
@@ -77,8 +79,11 @@ async function jump(page,button){
    fs.writeFileSync('qa-artifacts/reader-timings.json',JSON.stringify(timings,null,2));
    // Journey 1: search a practical need, combine filters, read and return.
    await page.locator('#query').fill('旅遊');
+   await ensureFiltersVisible(page);
    await page.locator('#scenario').selectOption('生活');
+   await ensureFiltersVisible(page);
    await page.locator('#tool').selectOption('Grok Bot');
+   await ensureFiltersVisible(page);
    await page.locator('#category').selectOption('旅遊／消費研究');
    const count=await page.locator('#results .card').count();assert(count>0);
    const read=page.locator('#results .card .card-bottom button').first();

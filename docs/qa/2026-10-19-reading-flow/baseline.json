@@ -1,0 +1,281 @@
+[
+  {
+    "engine": "chromium",
+    "size": "desktop",
+    "checks": [
+      "travel / combined filters / empty / keyboard return",
+      {
+        "id": "UC-001",
+        "purposeTop": 824,
+        "purposeBottom": 1121,
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-313",
+        "purposeTop": 824,
+        "purposeBottom": 1121,
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-340",
+        "purposeTop": 849,
+        "purposeBottom": 1178,
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-338",
+        "purposeTop": 849,
+        "purposeBottom": 1178,
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-005",
+        "purposeTop": 855,
+        "purposeBottom": 1151,
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      }
+    ],
+    "audits": []
+  },
+  {
+    "engine": "chromium",
+    "size": "mobile",
+    "checks": [
+      "travel / combined filters / empty / keyboard return",
+      {
+        "id": "UC-001",
+        "purposeTop": 955,
+        "purposeBottom": 1337,
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-313",
+        "purposeTop": 976,
+        "purposeBottom": 1388,
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-340",
+        "purposeTop": 1070,
+        "purposeBottom": 1482,
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-338",
+        "purposeTop": 1025,
+        "purposeBottom": 1498,
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-005",
+        "purposeTop": 1006,
+        "purposeBottom": 1388,
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      }
+    ],
+    "audits": []
+  },
+  {
+    "engine": "chromium",
+    "size": "small-mobile",
+    "checks": [
+      "travel / combined filters / empty / keyboard return",
+      {
+        "id": "UC-001",
+        "purposeTop": 1032,
+        "purposeBottom": 1413,
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-313",
+        "purposeTop": 1152,
+        "purposeBottom": 1594,
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-340",
+        "purposeTop": 1251,
+        "purposeBottom": 1723,
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-338",
+        "purposeTop": 1181,
+        "purposeBottom": 1714,
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-005",
+        "purposeTop": 1148,
+        "purposeBottom": 1530,
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "reader-nav",
+          "reader-evidence",
+          "plain-overview",
+          "research-details",
+          "related-cases"
+        ]
+      }
+    ],
+    "audits": []
+  }
+]

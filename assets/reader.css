@@ -50,3 +50,33 @@
 .related-summary{font-size:14px;line-height:1.9;margin:8px 0 10px}
 .related-empty{font-size:14px;line-height:1.9;margin:18px 0}
 .related-back{font-size:14px;min-height:44px;margin-top:4px}
+
+/* Read the purpose and a complete source section before general suggestions. */
+.plain-overview{margin-bottom:20px}
+.reader-report{padding:22px 24px;margin:20px 0 24px;border:1px solid var(--line);border-left:3px solid var(--green);border-radius:8px;background:var(--white);overflow-wrap:anywhere}
+.reader-report-label{font-size:12px;font-weight:650;letter-spacing:.04em;color:var(--green);margin:0 0 8px}
+.reader-report h2{font-size:20px;line-height:1.6;margin:0 0 8px;letter-spacing:0}
+.reader-report-note{font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 16px}
+.reader-report-content{font-size:15px;line-height:1.95}
+.reader-report-content> :first-child{margin-top:0}
+.reader-report-content> :last-child{margin-bottom:14px}
+.reader-report-open{font-size:13px;min-height:44px;margin:8px 10px 0 0;padding:9px 12px;text-align:left;text-decoration:underline;text-underline-offset:3px}
+.reader-guidance{margin:20px 0;padding:16px 20px;border:1px solid var(--line);border-radius:8px}
+.reader-guidance>summary{cursor:pointer;color:var(--green);font-size:14px;font-weight:600;line-height:1.8}
+.reader-guidance h2{font-size:15px;margin:20px 0 6px;letter-spacing:0}
+.reader-guidance p{font-size:14px;line-height:1.9;margin:0 0 8px}
+@media(max-width:640px){
+ .reader-report{padding:18px 16px;margin:18px 0}
+ .reader-report h2{font-size:18px}
+ .reader-report-content{font-size:15px}
+ .reader-guidance{padding:16px}
+ .reader-report-open{display:block;width:100%;margin-right:0}
+}
+.reader-report-content p,.reader-report-content li{font-size:15px;line-height:1.95}
+.reader-report-content li{margin:8px 0}
+.reader-report-content h3{font-size:16px;line-height:1.7}
+.reader-report-content ul,.reader-report-content ol{padding-left:22px}
+.reader-report-content a{color:var(--green)}
+.reader-report-content pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#e9eee0;padding:12px;border-radius:5px}
+.reader-report-content code{font-size:.9em;background:#e9eee0;padding:1px 4px}
+.reader-report-content blockquote{border-left:3px solid #acbf8b;margin-left:0;padding-left:15px;color:var(--muted)}

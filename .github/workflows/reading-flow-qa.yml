@@ -1,0 +1,72 @@
+name: Reading flow QA
+on:
+  pull_request:
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/reading-flow*', '.github/workflows/reading-flow-qa.yml']
+  push:
+    branches: [main, feat/reader-evidence-journey]
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/reading-flow*', '.github/workflows/reading-flow-qa.yml']
+permissions:
+  contents: read
+jobs:
+  reading:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Baseline tests and static preview
+        run: |
+          node --test tests/*.test.cjs
+          for file in assets/*.js; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/reading-preview/ai-agent-use-cases"
+      - name: Install cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/reading-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/reading-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Capture the unchanged comparison baseline
+        env:
+          NODE_PATH: ${{ runner.temp }}/reading-tools/node_modules
+          READING_URL: http://127.0.0.1:8085/ai-agent-use-cases/
+          READING_OBSERVE: '1'
+        run: |
+          mkdir -p "$RUNNER_TEMP/reading-before"
+          git archive ffd90e7adb5643db9522c1d10118cef20f0601f4 | tar -x -C "$RUNNER_TEMP/reading-before"
+          python3 "$RUNNER_TEMP/reading-before/scripts/preview.py" "$RUNNER_TEMP/reading-before-preview/ai-agent-use-cases"
+          python3 -m http.server 8085 --directory "$RUNNER_TEMP/reading-before-preview" > /tmp/reading-before.log 2>&1 &
+          node tests/reading-flow-browser.cjs
+      - name: Verify preview
+        env:
+          NODE_PATH: ${{ runner.temp }}/reading-tools/node_modules
+        run: |
+          python3 -m http.server 8086 --directory "$RUNNER_TEMP/reading-preview" > /tmp/reading-preview.log 2>&1 &
+          READING_URL=http://127.0.0.1:8086/ai-agent-use-cases/ node tests/reading-flow-browser.cjs
+      - name: Preserve existing reader, discovery and related flows
+        env:
+          NODE_PATH: ${{ runner.temp }}/reading-tools/node_modules
+          READER_URL: http://127.0.0.1:8086/ai-agent-use-cases/
+          RELATED_URL: http://127.0.0.1:8086/ai-agent-use-cases/
+          MATCH_URL: http://127.0.0.1:8086/ai-agent-use-cases/
+        run: |
+          python3 -m http.server 8081 --directory "$RUNNER_TEMP/reading-preview" > /tmp/reading-discovery.log 2>&1 &
+          node tests/reader-browser.cjs
+          node tests/discovery-browser.cjs
+          node tests/related-browser.cjs
+          node tests/search-context-browser.cjs
+      - name: Verify published reading flow
+        if: ${{ github.ref == 'refs/heads/main' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/reading-tools/node_modules
+          READING_URL: https://richardhan.github.io/ai-agent-use-cases/
+          READING_LIVE: '1'
+        run: node tests/reading-flow-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reading-flow-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

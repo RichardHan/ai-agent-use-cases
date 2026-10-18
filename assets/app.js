@@ -393,12 +393,21 @@ function showDetail(item, trigger, updateURL=true) {
   body.append(el('p', 'detail-warning', item.kind === 'pending' ? '待查線索：證據尚不足，不列成功或已完成案例。' : '來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。'));
 
   const overview = el('div', 'plain-overview');
-  [['可以幫你做什麼', item.what], ['怎麼開始', item.how], ['要注意什麼', item.caution]].forEach(([label, text]) => {
+  [['可以幫你做什麼', item.what]].forEach(([label, text]) => {
     const section = el('section');
     section.append(el('h2', '', label), el('p', '', text));
     overview.append(section);
   });
   body.append(overview);
+
+  const guidance = el('details', 'reader-guidance');
+  guidance.append(el('summary', '', '本庫的入門建議（非實測結果）'));
+  [['怎麼開始', item.how], ['要注意什麼', item.caution]].forEach(([label, text]) => {
+    const section = el('section');
+    section.append(el('h2', '', label), el('p', '', text));
+    guidance.append(section);
+  });
+  body.append(guidance);
 
   const research = el('details', 'research-details');
   const toggle = el('summary', '', '查看原始研究、來源與完整提示詞');

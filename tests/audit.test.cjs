@@ -28,6 +28,7 @@ function normalizeSourceUrl(rawUrl) {
     const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json', 'si', 'igsh', 'trk', 'spm_id_from', 'spm', 'ref_src', 'ref_url', 'from', 'source'];
     tracking.forEach(p => u.searchParams.delete(p));
     u.hash = '';
+    if (host === 'reddit.com') u.pathname = u.pathname.replace(/\.json$/, '');
     const pathNoSlash = u.pathname.replace(/\/+$/, '');
     const protocol = u.protocol === 'http:' ? 'https:' : u.protocol;
     return (protocol + '//' + host + pathNoSlash + (u.search ? u.search : '')).toLowerCase();
@@ -39,7 +40,7 @@ function normalizeSourceUrl(rawUrl) {
 test('all cases and evidence files have valid scenario, non-empty tags, and verification date', () => {
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
   const evidenceFiles = fs.readdirSync(path.join(root, 'evidence')).filter(f => f.endsWith('.md')).sort();
-  assert(caseFiles.length >= 325, `Expected at least 325 cases, found ${caseFiles.length}`);
+  assert(caseFiles.length >= 330, `Expected at least 330 cases, found ${caseFiles.length}`);
   assert(evidenceFiles.length >= 3, `Expected at least 3 evidence files, found ${evidenceFiles.length}`);
 
   const targets = [
@@ -160,7 +161,7 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
   // Confirm that candidate duplicates are purely listed as candidates and all original cases remain intact
-  assert(caseFiles.length >= 325, `Corpus case count must remain intact (no automatic deletion of candidates); got ${caseFiles.length}`);
+  assert(caseFiles.length >= 330, `Corpus case count must remain intact (no automatic deletion of candidates); got ${caseFiles.length}`);
 
   // Specifically verify known shared discussion thread candidates are identified
   const redditDiscussion = duplicates.find(d => d.url.includes('1wa57uk/comment/p8gwy2e'));
@@ -481,6 +482,7 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert.equal(normalizeSourceUrl('http://www.linkedin.com/in/test?ref_src=1'), 'https://linkedin.com/in/test');
   assert.equal(normalizeSourceUrl('https://www.github.com/foo/bar/'), 'https://github.com/foo/bar');
   assert.equal(normalizeSourceUrl('http://www.chatprd.ai/how-i-ai/alex-cornell-meta-muse-workflows?source=share'), 'https://chatprd.ai/how-i-ai/alex-cornell-meta-muse-workflows');
+  assert.equal(normalizeSourceUrl('https://www.reddit.com/r/MetaAI/comments/1wydk5b/what_do_you_use_muse_for/.json?raw_json=1'), 'https://reddit.com/r/metaai/comments/1wydk5b/what_do_you_use_muse_for');
 });
 
 
@@ -534,7 +536,7 @@ test('INDEX.md maintains scenario consistency, working case links, and matches s
 
   // Verify all case and evidence links in INDEX.md exist on disk
   const links = Array.from(indexContent.matchAll(/\[(?:[^\]]*)\]\(((?:cases|evidence)\/[^)]+\.md)\)/g));
-  assert(links.length >= 325, `Expected at least 325 links in INDEX.md, found ${links.length}`);
+  assert(links.length >= 330, `Expected at least 330 links in INDEX.md, found ${links.length}`);
   for (const match of links) {
     const relPath = match[1];
     assert(fs.existsSync(path.join(root, relPath)), `Link target does not exist: ${relPath}`);

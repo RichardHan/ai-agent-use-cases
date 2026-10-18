@@ -535,6 +535,49 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('diagram')), {}).some(
 assert(api.filterEntries(entries, Array.from(api.tokenize('mindmap')), {}).some(x => x.id === 'UC-179'), 'mindmap matches UC-179 via 流程圖 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('心智圖')), {}).some(x => x.id === 'UC-179'), '心智圖 matches UC-179 via 流程圖 synonym');
 
+// Search quality: Evaluation, eval, benchmark synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('evaluation')), {}).some(x => x.id === 'UC-270'), 'evaluation matches UC-270 via 評估/eval synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('benchmark')), {}).some(x => x.id === 'UC-165'), 'benchmark matches UC-165 via 評估/基準測試 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('benchmarks')), {}).some(x => x.id === 'UC-165'), 'benchmarks matches UC-165 via 評估/基準測試 synonym');
+
+// Search quality: Dispatch, dispatcher, 分流 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('dispatch')), {}).some(x => x.id === 'UC-061'), 'dispatch matches UC-061 via 派工/分流 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('dispatcher')), {}).some(x => x.id === 'UC-061'), 'dispatcher matches UC-061 via 派工/分流 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('分流')), {}).some(x => x.id === 'UC-316'), '分流 matches UC-316 via 派工 synonym');
+
+// Search quality: Repo, repository synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('repository')), {}).some(x => x.id === 'UC-005'), 'repository matches UC-005 via repo synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('repositories')), {}).some(x => x.id === 'UC-005'), 'repositories matches UC-005 via repo synonym');
+
+// Search quality: Parse, parsing, decode, decoder synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('parse')), {}).some(x => x.id === 'UC-020'), 'parse matches UC-020 via 解析 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('parsing')), {}).some(x => x.id === 'UC-020'), 'parsing matches UC-020 via 解析 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('decode')), {}).some(x => x.id === 'UC-334'), 'decode matches UC-334 via 解碼 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('decoder')), {}).some(x => x.id === 'UC-334'), 'decoder matches UC-334 via 解碼 synonym');
+
+// Search quality: Vulnerability, cybersecurity synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('vulnerability')), {}).some(x => x.id === 'UC-065'), 'vulnerability matches UC-065 via 漏洞/資安 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('vulnerabilities')), {}).some(x => x.id === 'UC-065'), 'vulnerabilities matches UC-065 via 漏洞/資安 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('cybersecurity')), {}).some(x => x.id === 'UC-065'), 'cybersecurity matches UC-065 via 資安 synonym');
+
+// Search quality: Privilege, privileges synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('privilege')), {}).some(x => x.id === 'UC-208'), 'privilege matches UC-208 via 權限 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('privileges')), {}).some(x => x.id === 'UC-208'), 'privileges matches UC-208 via 權限 synonym');
+
+// Search quality: Sandbox synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('sandbox')), {}).some(x => x.id === 'UC-317'), 'sandbox matches UC-317 via 沙盒 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sandboxes')), {}).some(x => x.id === 'UC-317'), 'sandboxes matches UC-317 via 沙盒 synonym');
+
+// Search quality: Structured synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('structured')), {}).some(x => x.id === 'UC-215'), 'structured matches UC-215 via 結構化 synonym');
+
+// Search quality: Automation synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('automation')), {}).some(x => x.id === 'UC-005'), 'automation matches UC-005 via 自動化/workflow synonym');
+
+// Search quality: Pull request query normalization
+assert(api.filterEntries(entries, Array.from(api.tokenize('pull request')), {}).some(x => x.id === 'UC-005'), 'pull request matches UC-005 via pr normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('pull requests')), {}).some(x => x.id === 'UC-005'), 'pull requests matches UC-005 via pr normalization');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

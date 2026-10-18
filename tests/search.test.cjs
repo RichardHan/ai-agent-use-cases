@@ -1359,6 +1359,47 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('上下文壓縮')), {
 assert(api.filterEntries(entries, Array.from(api.tokenize('hybrid search')), {}).some(x => x.id === 'UC-132'), 'hybrid search matches UC-132 via hybrid-search tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('混合檢索')), {}).some(x => x.id === 'UC-132'), '混合檢索 matches UC-132 via hybrid-search synonym');
 
+// Search quality: synthetic data, synthetic, 合成資料, 合成數據
+assert(api.filterEntries(entries, Array.from(api.tokenize('synthetic data')), {}).some(x => x.id === 'UC-103'), 'synthetic data matches UC-103 via synthetic-data tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('synthetic')), {}).some(x => x.id === 'UC-103'), 'synthetic matches UC-103 via synthetic synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('合成數據')), {}).some(x => x.id === 'UC-103'), '合成數據 matches UC-103 via synthetic synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('合成資料')), {}).some(x => x.id === 'UC-251'), '合成資料 matches UC-251 via synthetic synonym');
+
+// Search quality: autonomous agent, autonomous, 自主代理, 自主運行, 自主任務
+assert(api.filterEntries(entries, Array.from(api.tokenize('autonomous agent')), {}).some(x => x.id === 'UC-317'), 'autonomous agent matches UC-317 via autonomous-agent tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('自主代理')), {}).some(x => x.id === 'UC-317'), '自主代理 matches UC-317 via autonomous synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('自主運行')), {}).some(x => x.id === 'UC-061'), '自主運行 matches UC-061 via autonomous synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('自主任務')), {}).some(x => x.id === 'UC-317'), '自主任務 matches UC-317 via autonomous synonym');
+
+// Search quality: keepalive, keep-alive, 保活, 存活檢查
+assert(api.filterEntries(entries, Array.from(api.tokenize('keepalive')), {}).some(x => x.id === 'UC-314'), 'keepalive matches UC-314 via keepalive tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('keep-alive')), {}).some(x => x.id === 'UC-314'), 'keep-alive matches UC-314 via keepalive synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('保活')), {}).some(x => x.id === 'UC-314'), '保活 matches UC-314');
+assert(api.filterEntries(entries, Array.from(api.tokenize('存活檢查')), {}).some(x => x.id === 'UC-314'), '存活檢查 matches UC-314 via keepalive/heartbeat synonym');
+
+// Search quality: rate-limits, rate limit, 速率限制
+assert(api.filterEntries(entries, Array.from(api.tokenize('rate-limits')), {}).some(x => x.id === 'UC-164'), 'rate-limits matches UC-164 via ratelimit tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('rate limit')), {}).some(x => x.id === 'UC-164'), 'rate limit matches UC-164 via ratelimit tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('速率限制')), {}).some(x => x.id === 'UC-164'), '速率限制 matches UC-164 via ratelimit synonym');
+
+// Search quality: redirect, redirection, 重定向, 轉址
+assert(api.filterEntries(entries, Array.from(api.tokenize('redirect')), {}).some(x => x.id === 'UC-065'), 'redirect matches UC-065 via redirect tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('redirection')), {}).some(x => x.id === 'UC-073'), 'redirection matches UC-073 via redirect synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('重定向')), {}).some(x => x.id === 'UC-163'), '重定向 matches UC-163 via redirect synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('轉址')), {}).some(x => x.id === 'UC-065'), '轉址 matches UC-065');
+
+// Search quality: canary, 金絲雀, 灰度發布
+assert(api.filterEntries(entries, Array.from(api.tokenize('canary')), {}).some(x => x.id === 'UC-061'), 'canary matches UC-061');
+assert(api.filterEntries(entries, Array.from(api.tokenize('金絲雀')), {}).some(x => x.id === 'UC-061'), '金絲雀 matches UC-061 via canary synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('灰度發布')), {}).some(x => x.id === 'UC-061'), '灰度發布 matches UC-061 via canary synonym');
+
+// Search quality: semantic search, 語意搜尋, vector search, 向量檢索
+assert(api.filterEntries(entries, Array.from(api.tokenize('semantic search')), {}).some(x => x.id === 'UC-060'), 'semantic search matches UC-060 via semantic-search tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('語意搜尋')), {}).some(x => x.id === 'UC-060'), '語意搜尋 matches UC-060 via semantic-search synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('vector search')), {}).some(x => x.id === 'UC-060'), 'vector search matches UC-060 via vector-search tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('向量檢索')), {}).some(x => x.id === 'UC-060'), '向量檢索 matches UC-060 via vector-search synonym');
+
+
 
 
 

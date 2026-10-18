@@ -14,13 +14,13 @@ const matchCase = (target, list = entries) => { if (!target) return null; const 
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);
   const id = title.match(/(?:UC|P)-\d+/)?.[0] || path.split('/').pop().replace(/\.md$/,'') + suffix;
-  const heading = title.replace(/^(?:UC|P)-\d+[：:：\s]*/, '');
+  const heading = title.replace(/^(?:UC|P)-\d+[\s:：|｜]*/, '');
   const lead = markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
   const summary = clean(lead.match(/^-\s*(?:核心目標|問題|目標|已知標題|狀態)\s*[：:]\s*(.+)$/m)?.[1] || lead.split('\n').find(line => line.trim() && !/^#|^-/.test(line)) || '閱讀公開來源、建議流程與驗收限制。');
   let category = clean(lead.match(/^-\s*分類(?:／標籤)?\s*[：:]\s*(.+)$/m)?.[1] || '');
   if (!category) category = /旅遊|旅行/.test(heading) ? '旅遊／消費研究' : /OLED|裝置/.test(heading) ? '實體裝置／驗收' : /銷售|商機|商店|SaaS|帳單/.test(heading) ? '商業／營運' : /研究|PR|CUA/.test(heading) ? '研究／開發' : /影片|社群|Facebook|CRM/.test(heading) ? '內容／社群' : '個人生產力';
-  const proofLine = clean(lead.match(/^-\s*(?:來源證據|證據狀態|證據等級)\s*[：:]\s*(.+)$/m)?.[1] || '');
-  const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*自報|official/.test(proofLine) ? '官方自報' : /author-demo|作者|自驗/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
+  const proofLine = clean(lead.match(/^-\s*(?:來源證據|證據狀態|證據等級|證據)\s*[：:]\s*(.+)$/m)?.[1] || '');
+  const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*(?:自報|第一手.*自述)|official/.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '';
   const copy=displayCopy[id]||{};

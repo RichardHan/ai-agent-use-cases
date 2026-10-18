@@ -14,7 +14,7 @@ const fs=require('node:fs');
    report.queries.push(await page.evaluate(q=>({q,total:currentFiltered.length,visibleMatches:currentFiltered.filter(e=>termVariants(q).some(v=>norm(e.title+' '+e.summary).includes(v))).length,samples:currentFiltered.slice(0,4).map(e=>({id:e.id,title:e.title,summary:e.summary,matchingLine:e.markdown.split('\n').find(l=>termVariants(q).some(v=>norm(l).includes(v)))}))}),q));
   }
   await page.locator('#query').fill('薪水');
-  await page.locator('#results-count').scrollIntoViewIfNeeded();
+  await page.locator('#results-count').evaluate(e=>e.scrollIntoView({block:'start'}));
   await page.screenshot({path:'qa-artifacts/match-before-'+name+'.jpg',type:'jpeg',quality:65});
   console.log('MATCH_IMAGE_before_'+name+'='+fs.readFileSync('qa-artifacts/match-before-'+name+'.jpg').toString('base64'));
   await page.locator('#results .card .card-bottom button').first().click();

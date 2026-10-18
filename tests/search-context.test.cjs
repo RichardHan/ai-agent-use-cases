@@ -21,6 +21,7 @@ test('context distinguishes visible fields, source URLs, original titles and ID 
  const r=searchContext(entry('# 舊標題\n## 來源\n[公開文章](https://example.org/payroll-guide)'),['薪水']).matches[0];
  assert.equal(r.variant,'payroll');assert.match(r.excerpt,/https:\/\/example.org\/payroll-guide/);
  assert.equal(searchContext(entry('# 依薪資找職缺'),['薪水']).matches[0].label,'原文 · 標題');
+ assert.equal(searchContext(entry('# 標題\n- 備註：特殊字'),['特殊字']).matches[0].label,'原文 · 頁首資料');
  assert.equal(searchContext(entry(''),['uc999']).matches[0].label,'案例編號');
 });
 test('context explains separate query terms, bounds density, and omits empty searches',()=>{
@@ -37,6 +38,6 @@ test('excerpt preserves original Unicode, markup as text, and a bounded window a
  const excerpt=contextExcerpt(input,'api');
  assert.match(excerpt,/不要把ＡＰＩ或ﬃ當成果/);
  assert.match(excerpt,/<img src=x onerror=alert\(1\)>/);
- assert([...excerpt].length<=162);assert(!/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/.test(excerpt));
+ assert([...excerpt].length<=98);assert(!/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/.test(excerpt));
  assert.match(contextExcerpt('長'.repeat(300)+'ﬃ end','ffi'),/ﬃ end/);
 });

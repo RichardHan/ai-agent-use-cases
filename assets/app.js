@@ -308,7 +308,7 @@ function closeDetail() {
   restoreDetailFocus();
 }
 // Explanations use the existing matching rules; they never rank or qualify evidence.
-function contextExcerpt(text, variant, limit=160) {
+function contextExcerpt(text, variant, limit=96) {
   const chars=Array.from(text), index=norm(text).indexOf(variant);
   if(chars.length<=limit)return text;
   // Map the normalized offset back to original code points (NFKC can change length).
@@ -318,7 +318,7 @@ function contextExcerpt(text, variant, limit=160) {
     if(norm(chars.slice(0,mid+1).join('')).length<=index)low=mid+1;
     else high=mid;
   }
-  const start=Math.max(0,Math.min(low-45,chars.length-limit));
+  const start=Math.max(0,Math.min(low-32,chars.length-limit));
   return (start?'…':'')+chars.slice(start,start+limit).join('')+(start+limit<chars.length?'…':'');
 }
 function searchContext(item, terms) {
@@ -351,7 +351,7 @@ function renderSearchContext(item, terms) {
   const context=searchContext(item,terms);
   if(!context.matches.length)return null;
   const box=el('div','search-context');
-  box.append(el('p','search-context-title','搜尋命中'));
+  box.append(el('p','search-context-title',context.matches.some(match=>match.excerpt)?'搜尋命中 · 原文節錄':'搜尋命中'));
   context.matches.forEach(match=>{
     const row=el('div','search-context-match');
     const relation=match.term===match.variant?'「'+match.term+'」':'「'+match.term+'」→「'+match.variant+'」';

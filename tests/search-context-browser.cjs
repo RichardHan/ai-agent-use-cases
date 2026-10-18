@@ -29,7 +29,7 @@ const origin=process.env.MATCH_URL||'http://127.0.0.1:8084/ai-agent-use-cases/';
    assert.match(await first.locator('.search-context').innerText(),/薪水.*薪資/);
    assert.match(await first.locator('.search-context-excerpt').innerText(),/不登入系統、改派車、算薪資/);
    assert.match(await first.locator('.search-context-label').innerText(),/原文/);
-   await page.locator('#results-count').scrollIntoViewIfNeeded();
+   await page.locator('#results-count').evaluate(e=>e.scrollIntoView({block:'start'}));
    await page.screenshot({path:'qa-artifacts/match-after-'+engine+'-'+name+'.jpg',type:'jpeg',quality:65});
    if(engine==='chromium'&&name!=='small-mobile')console.log('MATCH_IMAGE_after_'+name+'='+fs.readFileSync('qa-artifacts/match-after-'+engine+'-'+name+'.jpg').toString('base64'));
    const read=first.locator('.card-bottom button');

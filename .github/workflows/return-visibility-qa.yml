@@ -1,8 +1,8 @@
 name: Return visibility QA
 on:
   push:
-    branches: [fix/reading-return-visibility, fix/late-native-return, main]
-    paths: ['assets/app.js', 'tests/return-visibility*', '.github/workflows/return-visibility-qa.yml']
+    branches: [fix/reading-return-visibility, fix/late-native-return, test/ordered-late-return, main]
+    paths: ['assets/app.js', 'tests/return-visibility*', 'tests/late-return.test.cjs', '.github/workflows/return-visibility-qa.yml']
 permissions:
   contents: read
 jobs:
@@ -21,25 +21,22 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/return-tools" playwright@1.64.1
           "$RUNNER_TEMP/return-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
           sudo apt-get install -y fonts-noto-cjk
-      - name: Reproduce a return after the two-frame guard ends
-        env:
-          NODE_PATH: ${{ runner.temp }}/return-tools/node_modules
-          RETURN_URL: http://127.0.0.1:8088/ai-agent-use-cases/
-          RETURN_BEFORE: '1'
+      - name: Reproduce late-return failures with a deterministic clock
+        if: ${{ github.ref != 'refs/heads/main' }}
         run: |
-          mkdir -p "$RUNNER_TEMP/return-before"
-          git archive 7abbf02 | tar -x -C "$RUNNER_TEMP/return-before"
-          python3 "$RUNNER_TEMP/return-before/scripts/preview.py" "$RUNNER_TEMP/return-before-preview/ai-agent-use-cases"
-          python3 -m http.server 8088 --directory "$RUNNER_TEMP/return-before-preview" > /tmp/return-before.log 2>&1 &
-          if node tests/return-visibility-browser.cjs; then
-            echo 'Expected original return visibility failure was not reproduced'
+          mkdir -p qa-artifacts
+          git show 7abbf02:assets/app.js > "$RUNNER_TEMP/late-return-before.js"
+          if RETURN_SOURCE_PATH="$RUNNER_TEMP/late-return-before.js" node --test --test-reporter=tap tests/late-return.test.cjs > qa-artifacts/late-return-red.tap 2>&1; then
+            echo 'Expected old late-return tests to fail'
             exit 1
           fi
-          python3 - <<'PY'
-          import json
-          report = json.load(open('qa-artifacts/return-before.json'))[-1]
-          assert report['rect']['bottom'] > report['height']
-          PY
+          python3 - <<'PYCODE'
+          import re
+          text = open('qa-artifacts/late-return-red.tap').read()
+          assert '# tests 13' in text
+          for delay in (80, 180):
+              assert re.search(r'^not ok \d+ - late return at '+str(delay)+r'ms ', text, re.M)
+          PYCODE
       - name: Verify updated return and preserve user focus
         env:
           NODE_PATH: ${{ runner.temp }}/return-tools/node_modules

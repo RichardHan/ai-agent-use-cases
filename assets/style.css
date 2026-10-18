@@ -33,7 +33,7 @@
 .card-id-tool{font-size:11px;font-weight:700;color:var(--green);letter-spacing:0}
 .tag-scenario{background:#e2ebdc;color:var(--green);font-weight:650;cursor:pointer}
 .tag-scenario:hover{background:var(--green);color:white}
-.tag-interactive{cursor:pointer;transition:all .12s}
+.tag-interactive{cursor:pointer}
 .tag-interactive:hover{background:var(--green);color:white;border-color:var(--green)}
 
 /* Modal Toolbar & Actions */

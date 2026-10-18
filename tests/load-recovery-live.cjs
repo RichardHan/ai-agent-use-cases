@@ -9,7 +9,7 @@ const origin='https://richardhan.github.io/ai-agent-use-cases/';
  if(process.env.LOAD_DEPLOYED==='1'){
   const deadline=Date.now()+300000;
   while(true){
-   const text=await (await fetch(origin+'assets/app.js?deploy-check='+Date.now())).text();
+   const text=await (await fetch(origin+'assets/app.js?deploy-check='+Date.now(),{signal:AbortSignal.timeout(10000)})).text();
    if(text===fs.readFileSync('assets/app.js','utf8'))break;
    if(Date.now()>deadline)throw Error('Deployment did not match within five minutes');
    await new Promise(resolve=>setTimeout(resolve,5000));

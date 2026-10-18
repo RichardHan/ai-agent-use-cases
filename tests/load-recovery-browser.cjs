@@ -125,6 +125,7 @@ async function fixture(page){
    assert.equal(await reading.evaluate(()=>document.activeElement.id),focused);
    assert.match(reading.url(),/case=UC-991/);
    await reading.keyboard.press('Escape');
+   assert.equal(await reading.locator('#results .tag-interactive').first().evaluate(n=>getComputedStyle(n).transitionDuration),'0s','tag colors do not cross low-contrast intermediate colors');
    await audit(reading,engine+'-'+name+'-reading-return');
    await reading.context().close();
 

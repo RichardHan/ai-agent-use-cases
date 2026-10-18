@@ -11,7 +11,7 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s*[- ]\s*orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/\bscreen\s+shots?\b/g, ' screenshot ').replace(/\btime\s+sheets?\b/g, ' timesheet ').replace(/\bpay\s+checks?\b/g, ' paycheck ').replace(/\brun\s+times?\b/g, ' runtime ').replace(/\bhand\s*[- ]\s*offs?\b/g, ' handoff ').replace(/\bdry\s*[- ]\s*runs?\b/g, ' dryrun ').replace(/\bguard\s*[- ]\s*rails?\b/g, ' guardrail ').replace(/\bhuman\s*[- ]\s*in\s*[- ]\s*the\s*[- ]\s*loop\b/g, ' hitl ').replace(/\bmodel\s*[- ]\s*context\s*[- ]\s*protocols?\b/g, ' mcp ').replace(/\bcommand\s*[- ]\s*lines?\b/g, ' cli ').replace(/\bapi\s*[- ]\s*keys?\b/g, ' apikey ').replace(/\bgrokbot\b/g, ' grok bot ').replace(/\bmetamuse\b/g, ' meta muse ').replace(/\bprs\b/g, ' pr ').replace(/\bmulti\s*[- ]\s*agents?\b/g, ' multi-agent ').replace(/\bmultiagents?\b/g, ' multi-agent ').replace(/\bretrieval\s*[- ]\s*augmented\s*[- ]\s*generations?\b/g, ' rag ').replace(/\bvector\s*[- ]\s*(?:dbs?|databases?)\b/g, ' vectordb ').replace(/\bcode\s*[- ]\s*reviews?\b/g, ' codereview ').replace(/\bcodereviews?\b/g, ' codereview ').replace(/\bmerge\s+requests?\b/g, ' mr ').replace(/\bweb\s*[- ]\s*hooks?\b/g, ' webhook ').replace(/\bcron\s*[- ]\s*jobs?\b/g, ' cron ').replace(/\bcronjobs?\b/g, ' cron ').replace(/\bcrontabs?\b/g, ' cron ').replace(/\b(?:tool|function)\s*[- ]\s*calls?(?:ing)?\b/g, ' toolcall ').replace(/\btext\s*[- ]\s*to\s*[- ]\s*speech\b/g, ' tts ').replace(/\bspeech\s*[- ]\s*to\s*[- ]\s*text\b/g, ' stt ').replace(/\bci\s*[/_-]?\s*cd\b/g, ' cicd ').replace(/\bcontinuous\s+integration\b/g, ' cicd ').replace(/\bself\s*[- ]\s*hosted\b/g, ' self-hosted ').replace(/\b(?:prompt|instruction)\s*[- ]\s*injections?\b/g, ' prompt-injection ').replace(/\bstructured\s*[- ]\s*outputs?\b/g, ' structured-output ').replace(/\bjson\s*[- ]\s*schemas?\b/g, ' json-schema ').replace(/\bserver\s*[- ]\s*sent\s*[- ]\s*events?\b/g, ' sse ').replace(/\bheadless\s*[- ]\s*browsers?\b/g, ' headless-browser ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
+const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s+limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s*[- ]\s*orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/\bscreen\s+shots?\b/g, ' screenshot ').replace(/\btime\s+sheets?\b/g, ' timesheet ').replace(/\bpay\s+checks?\b/g, ' paycheck ').replace(/\brun\s+times?\b/g, ' runtime ').replace(/\bhand\s*[- ]\s*offs?\b/g, ' handoff ').replace(/\bdry\s*[- ]\s*runs?\b/g, ' dryrun ').replace(/\bguard\s*[- ]\s*rails?\b/g, ' guardrail ').replace(/\bhuman\s*[- ]\s*in\s*[- ]\s*the\s*[- ]\s*loop\b/g, ' hitl ').replace(/\bmodel\s*[- ]\s*context\s*[- ]\s*protocols?\b/g, ' mcp ').replace(/\bcommand\s*[- ]\s*lines?\b/g, ' cli ').replace(/\bapi\s*[- ]\s*keys?\b/g, ' apikey ').replace(/\bgrokbot\b/g, ' grok bot ').replace(/\bmetamuse\b/g, ' meta muse ').replace(/\bprs\b/g, ' pr ').replace(/\bmulti\s*[- ]\s*agents?\b/g, ' multi-agent ').replace(/\bmultiagents?\b/g, ' multi-agent ').replace(/\bretrieval\s*[- ]\s*augmented\s*[- ]\s*generations?\b/g, ' rag ').replace(/\bvector\s*[- ]\s*(?:dbs?|databases?)\b/g, ' vectordb ').replace(/\bcode\s*[- ]\s*reviews?\b/g, ' codereview ').replace(/\bcodereviews?\b/g, ' codereview ').replace(/\bmerge\s+requests?\b/g, ' mr ').replace(/\bweb\s*[- ]\s*hooks?\b/g, ' webhook ').replace(/\bcron\s*[- ]\s*jobs?\b/g, ' cron ').replace(/\bcronjobs?\b/g, ' cron ').replace(/\bcrontabs?\b/g, ' cron ').replace(/\b(?:tool|function)\s*[- ]\s*calls?(?:ing)?\b/g, ' toolcall ').replace(/\btext\s*[- ]\s*to\s*[- ]\s*speech\b/g, ' tts ').replace(/\bspeech\s*[- ]\s*to\s*[- ]\s*text\b/g, ' stt ').replace(/\bci\s*[/_-]?\s*cd\b/g, ' cicd ').replace(/\bcontinuous\s+integration\b/g, ' cicd ').replace(/\bself\s*[- ]\s*hosted\b/g, ' self-hosted ').replace(/\b(?:prompt|instruction)\s*[- ]\s*injections?\b/g, ' prompt-injection ').replace(/\bstructured\s*[- ]\s*outputs?\b/g, ' structured-output ').replace(/\bjson\s*[- ]\s*schemas?\b/g, ' json-schema ').replace(/\bserver\s*[- ]\s*sent\s*[- ]\s*events?\b/g, ' sse ').replace(/\bheadless\s*[- ]\s*browsers?\b/g, ' headless-browser ').replace(/\bsub\s*[- ]\s*agents?\b/g, ' subagent ').replace(/\bsubagents?\b/g, ' subagent ').replace(/\bworker\s*[- ]\s*agents?\b/g, ' worker-agent ').replace(/\bdata\s*[- ]\s*(?:exfiltration|leakage|leaks?)\b/g, ' data-leak ').replace(/\bexfiltration\b/g, ' data-leak ').replace(/\bcomputer\s*[- ]\s*use\b/g, ' computer-use ').replace(/\bgui\s*[- ]\s*agents?\b/g, ' gui-agent ').replace(/\bcontext\s*[- ]\s*(?:windows?|lengths?)\b/g, ' context-window ').replace(/\blong\s*[- ]\s*contexts?\b/g, ' context-window ').replace(/\bcontext\s*[- ]\s*compactions?\b/g, ' context-compaction ').replace(/\bhybrid\s*[- ]\s*search(?:es)?\b/g, ' hybrid-search ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
   ['agent', 'agents', '智能體', '智能体', '代理'],
   ['每日報表', '每日報告', '日報', '晨報', 'daily'],
@@ -58,7 +58,7 @@ const SYNONYM_GROUPS = [
   ['圖片', '相片', '照片', 'image', 'images', 'photo', 'photos'],
   ['筆記', 'notes', '筆記本', '筆記軟體', 'pkm'],
   ['推特', 'twitter', 'x'],
-  ['rag', '知識庫', '知识库', 'knowledgebase', '檢索', 'retrieval', '向量', '嵌入', 'vector', 'vectors', 'embedding', 'embeddings', '檢索增強', 'retrieval augmented generation', 'vectordb', '向量資料庫', '向量數據庫', '向量庫'],
+  ['rag', '知識庫', '知识库', 'knowledgebase', '檢索', 'retrieval', '向量', '嵌入', 'vector', 'vectors', 'embedding', 'embeddings', '檢索增強', 'retrieval augmented generation', 'vectordb', '向量資料庫', '向量數據庫', '向量庫', 'hybrid-search', 'hybrid search', '混合檢索'],
   ['語音', '音訊', '音頻', '聲音', 'voice', 'audio'],
   ['自動回覆', '自動回信', 'auto-reply', '自動回覆買家'],
   ['測試', 'qa', 'test', 'tests', 'testing', '回歸', 'regression'],
@@ -152,7 +152,7 @@ const SYNONYM_GROUPS = [
   ['上下文', '語境', 'context', 'contexts'],
   ['離線', 'offline', '斷網'],
   ['基準', '基線', 'baseline', 'baselines'],
-  ['外洩', '洩漏', '洩露', 'leak', 'leakage'],
+  ['外洩', '洩漏', '洩露', 'leak', 'leaks', 'leakage', 'leaking', 'data-leak', 'data leak', 'data leaks', 'data leakage', 'data exfiltration', 'exfiltration', '資料外洩', '資料洩漏', '個資外洩', '資訊洩漏', '信息洩露'],
   ['架構', 'architecture', 'architectures'],
   ['回饋', '反饋', 'feedback'],
   ['非同步', '異步', 'async', 'asynchronous'],
@@ -177,7 +177,7 @@ const SYNONYM_GROUPS = [
   ['標頭', 'header', 'headers'],
   ['負載', '有效負載', 'payload', 'payloads'],
   ['出處', '溯源', 'provenance', '來源'],
-  ['工作者', 'worker', 'workers'],
+  ['工作者', 'worker', 'workers', 'worker-agent', 'worker agent', 'worker agents', '工作代理', '工人', '工人代理'],
   ['schema', 'schemas', '綱要', '架構規範'],
   ['cookie', 'cookies'],
   ['heartbeat', 'heartbeats', '心跳'],
@@ -214,7 +214,12 @@ const SYNONYM_GROUPS = [
   ['self-hosted', 'self hosted', '自架', '自託管'],
   ['prompt-injection', 'prompt injection', 'prompt injections', 'instruction injection', '提示詞注入', '提示注入', '指令注入', '越獄', 'jailbreak'],
   ['structured-output', 'structured output', 'structured outputs', '結構化輸出', '結構化成果', '結構化產物', 'json-schema', 'json schema'],
-  ['headless-browser', 'headless browser', '無頭瀏覽器', 'playwright', 'puppeteer', '瀏覽器自動化']
+  ['headless-browser', 'headless browser', '無頭瀏覽器', 'playwright', 'puppeteer', '瀏覽器自動化'],
+  ['subagent', 'subagents', 'sub-agent', 'sub agent', '子代理', '子agent'],
+  ['computer-use', 'computer use', 'cua', '電腦操作', '桌面操作', 'gui agent', 'gui-agent', 'gui代理'],
+  ['reasoning', 'inference', '推理', '思考過程', '思維過程'],
+  ['context-window', 'context window', 'context-length', 'context length', '上下文窗口', '上下文長度', '長上下文', 'long context', '脈絡長度', '上下文上限'],
+  ['context-compaction', 'context compaction', 'compaction', '上下文壓縮', '脈絡壓縮', '對話壓縮']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

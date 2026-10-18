@@ -10,21 +10,30 @@ const hung=route=>new Promise(()=>{});
  fs.mkdirSync('qa-artifacts',{recursive:true});
  for(const [engine,type] of observe?[['chromium',chromium]]:[['chromium',chromium],['firefox',firefox],['webkit',webkit]]){
   const browser=await type.launch();
+  // Read the served catalog, including the archived comparison version. New
+  // cases should not require changing fixed corpus totals in this regression.
+  const seed=await browser.newContext();
+  const catalog=await (await seed.request.get(origin+'catalog.json')).json();
+  const sourceCount=catalog.files.length;
+  const hasPending=catalog.files.includes('sources/pending.md');
+  const pending=hasPending?await (await seed.request.get(origin+'sources/pending.md')).text():'';
+  const entryCount=sourceCount-(hasPending?1:0)+(pending.match(/^##\s+P-/gm)||[]).length;
+  await seed.close();
   for(const [size,width,height] of engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]]){
    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-   // Only one actual source never responds: the other 336 complete normally.
+   // Only one actual source never responds: all other sources complete normally.
    await page.addInitScript(()=>performance.setResourceTimingBufferSize(2000));
    await page.route('**/cases/001-travel-checkout.md',hung);
    await page.goto(origin+'?q=旅遊&scenario=生活&tool=Grok%20Bot');
-   await page.waitForFunction(()=>performance.getEntriesByType('resource').filter(r=>/\/(cases|evidence)\/.*\.md$|\/sources\/pending\.md$/.test(r.name)).length>=336,null,{timeout:30000});
+   await page.waitForFunction(expected=>performance.getEntriesByType('resource').filter(r=>/\/(cases|evidence)\/.*\.md$|\/sources\/pending\.md$/.test(r.name)).length>=expected,sourceCount-1,{timeout:30000});
    assert.equal(await page.evaluate(()=>discoveryReady),false);
    const row={engine,size,waiting:true};report.push(row);save();
    await page.screenshot({path:`qa-artifacts/loading-home-${label}-${engine}-${size}.png`});
    await page.locator('#discover').evaluate(e=>e.scrollIntoView({block:'start',behavior:'instant'}));
    await page.screenshot({path:`qa-artifacts/loading-${label}-${engine}-${size}.png`});
    if(observe){await context.close();continue;}
-   assert.equal(await page.locator('#source-progress').getAttribute('max'),'337');
-   assert.equal(await page.locator('#source-progress').getAttribute('value'),'336');
+   assert.equal(await page.locator('#source-progress').getAttribute('max'),String(sourceCount));
+   assert.equal(await page.locator('#source-progress').getAttribute('value'),String(sourceCount-1));
    row.progress=await page.locator('#loading-summary').innerText();
    // Editing a shared search before completion must preserve its unedited facets.
    await page.locator('#query').fill('郵件');
@@ -42,13 +51,13 @@ const hung=route=>new Promise(()=>{});
    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
    const focusBounds=await page.locator('#results-count').boundingBox();row.focusBounds=focusBounds;save();assert(focusBounds.y>=0&&focusBounds.y+focusBounds.height<=height,JSON.stringify({size,height,focusBounds}));
    assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');
-   row.partial=await page.evaluate(()=>({entries:entries.length,failed:[...failedPaths]}));assert.equal(row.partial.entries,338);assert.deepEqual(row.partial.failed,['cases/001-travel-checkout.md']);
+   row.partial=await page.evaluate(()=>({entries:entries.length,failed:[...failedPaths]}));assert.equal(row.partial.entries,entryCount-1);assert.deepEqual(row.partial.failed,['cases/001-travel-checkout.md']);
    await page.locator('#partial-load').evaluate(e=>e.scrollIntoView({block:'start',behavior:'instant'}));
    await page.screenshot({path:`qa-artifacts/loading-partial-${engine}-${size}.png`});
    await page.unroute('**/cases/001-travel-checkout.md');let requests=0;page.on('request',r=>{if(r.url().endsWith('.md'))requests++;});
    await page.locator('#retry-failed').focus();await page.keyboard.press('Enter');await page.waitForFunction(()=>!recoveringSources);
-   assert.equal(requests,1);assert.equal(await page.evaluate(()=>entries.length),339);assert(await page.locator('#partial-load').isHidden());
-   row.recovered=339;row.retryRequests=requests;row.audits.push(await audit(page,'recovered'));assert.deepEqual(errors,[]);row.errors=errors;save();await context.close();
+   assert.equal(requests,1);assert.equal(await page.evaluate(()=>entries.length),entryCount);assert(await page.locator('#partial-load').isHidden());
+   row.recovered=entryCount;row.retryRequests=requests;row.audits.push(await audit(page,'recovered'));assert.deepEqual(errors,[]);row.errors=errors;save();await context.close();
   }
   if(!observe){
    // Every request hangs: the whole 20s budget must cap queue waves, including copy time.
@@ -58,7 +67,7 @@ const hung=route=>new Promise(()=>{});
    assert(elapsed>=19000&&elapsed<25000,'whole initial load finishes around its 20s deadline');assert(requested<=32,'deadline stops queued requests after at most two concurrency waves');
    assert(await page.locator('#loading-progress').isHidden());assert(await page.locator('#guide-options').evaluate(e=>e.disabled));assert(await page.locator('#guide-options button').first().isDisabled());
    const row={engine,mode:'whole budget',elapsedMs:elapsed,requested};report.push(row);save();
-   await page.unroute('**/*.md');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:30000});assert.equal(await page.evaluate(()=>entries.length),339);row.retryRecovered=339;save();await context.close();
+   await page.unroute('**/*.md');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:30000});assert.equal(await page.evaluate(()=>entries.length),entryCount);row.retryRecovered=entryCount;save();await context.close();
    // A missing requested case waits only for its file timeout and opens after recovery.
    const direct=await browser.newContext(),p=await direct.newPage();await p.route('**/cases/001-travel-checkout.md',hung);
    const started=Date.now();await p.goto(origin+'?case=UC-001');await p.waitForFunction(()=>discoveryReady,null,{timeout:18000});
@@ -77,7 +86,7 @@ const hung=route=>new Promise(()=>{});
     const row={engine,mode:path+' stalled',elapsedMs:Date.now()-start,expected};report.push(row);save();
     await page.unroute('**/'+path);
     if(expected==='error'){await page.locator('#query').fill('旅遊');assert.equal(await page.locator('#results-count').innerText(),'載入未完成');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:30000});}
-    assert.equal(await page.evaluate(()=>entries.length),339);await context.close();
+    assert.equal(await page.evaluate(()=>entries.length),entryCount);await context.close();
    }
   }
   await browser.close();

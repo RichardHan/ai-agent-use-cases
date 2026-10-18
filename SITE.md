@@ -15,7 +15,7 @@ Repository → Settings → Pages → Build and deployment：
 
 ## 最新網站驗收
 
-2026-10-19：用途與完整來源紀錄優先閱讀、來源入口與WebKit返回補修均已驗收；[前後截圖、測試及部署紀錄](docs/qa/2026-10-19-reading-flow/README.md)。本輪維持原始資料與合格計數，後續優先降低全庫載入成本。
+2026-10-19：加入整輪載入期限、真實來源進度與「先看已讀取內容」，並保留缺項補讀、分享條件與鍵盤焦點。[本輪截圖、驗收及部署紀錄](docs/qa/2026-10-19-corpus-loading/README.md)。原閱讀與返回驗收見[前輪紀錄](docs/qa/2026-10-19-reading-flow/README.md)；後續優先改善全文回訪載入成本。
 
 ## 自動收錄
 

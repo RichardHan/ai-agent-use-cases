@@ -8,6 +8,7 @@ permissions:
   contents: read
 jobs:
   browser:
+    if: ${{ github.ref != 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 18
     steps:
@@ -68,8 +69,39 @@ jobs:
           node tests/related-browser.cjs
           node tests/search-context-browser.cjs
           node tests/load-recovery-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: corpus-loading-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30
+
+  published:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify integrated tests and preview
+        run: |
+          node --test tests/*.test.cjs
+          for file in assets/*.js; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/corpus-preview/ai-agent-use-cases"
+      - name: Install cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/corpus-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/corpus-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Verify integrated loader and catalog-derived totals
+        env:
+          NODE_PATH: ${{ runner.temp }}/corpus-tools/node_modules
+        run: |
+          python3 -m http.server 8087 --directory "$RUNNER_TEMP/corpus-preview" > /tmp/corpus-release.log 2>&1 &
+          node tests/loading-budget-browser.cjs
       - name: Verify the published release
-        if: ${{ github.ref == 'refs/heads/main' }}
         env:
           NODE_PATH: ${{ runner.temp }}/corpus-tools/node_modules
           CORPUS_LABEL: published
@@ -78,6 +110,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: corpus-loading-${{ github.run_id }}
+          name: corpus-published-${{ github.run_id }}
           path: qa-artifacts/
           retention-days: 30

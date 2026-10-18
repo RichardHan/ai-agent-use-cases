@@ -1,0 +1,20 @@
+[
+  {
+    "path": "assets/app.js",
+    "beforeBytes": 60309,
+    "afterBytes": 65055,
+    "deltaBytes": 4746
+  },
+  {
+    "path": "assets/style.css",
+    "beforeBytes": 25037,
+    "afterBytes": 25795,
+    "deltaBytes": 758
+  },
+  {
+    "path": "index.html",
+    "beforeBytes": 11233,
+    "afterBytes": 11780,
+    "deltaBytes": 547
+  }
+]

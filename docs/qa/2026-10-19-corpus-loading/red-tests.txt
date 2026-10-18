@@ -1,0 +1,35 @@
+✖ whole-corpus budget keeps completed content and marks active plus queued paths for retry (201.865125ms)
+✖ choosing available content cancels in-flight work without dropping successful sources (201.945ms)
+✖ deadline includes reading the body after HTTP headers (201.422458ms)
+✔ per-source timeout frees a worker so later sources can finish before whole budget (15.336375ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 686.592583
+
+✖ failing tests:
+
+test at tests/loading-budget.test.cjs:7:1
+✖ whole-corpus budget keeps completed content and marks active plus queued paths for retry (201.865125ms)
+  Error: loader did not finish within test bound
+      at Timeout.<anonymous> (/private/tmp/loading-red/tests/loading-budget.test.cjs:6:117)
+      at listOnTimeout (node:internal/timers:614:17)
+      at process.processTimers (node:internal/timers:549:7)
+
+test at tests/loading-budget.test.cjs:16:1
+✖ choosing available content cancels in-flight work without dropping successful sources (201.945ms)
+  Error: loader did not finish within test bound
+      at Timeout.<anonymous> (/private/tmp/loading-red/tests/loading-budget.test.cjs:6:117)
+      at listOnTimeout (node:internal/timers:614:17)
+      at process.processTimers (node:internal/timers:549:7)
+
+test at tests/loading-budget.test.cjs:21:1
+✖ deadline includes reading the body after HTTP headers (201.422458ms)
+  Error: loader did not finish within test bound
+      at Timeout.<anonymous> (/private/tmp/loading-red/tests/loading-budget.test.cjs:6:117)
+      at listOnTimeout (node:internal/timers:614:17)
+      at process.processTimers (node:internal/timers:549:7)

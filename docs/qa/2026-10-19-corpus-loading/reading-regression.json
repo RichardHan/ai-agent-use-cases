@@ -1,0 +1,1096 @@
+[
+  {
+    "engine": "chromium",
+    "size": "desktop",
+    "checks": [
+      "travel / combined filters / empty / keyboard return",
+      {
+        "id": "UC-001",
+        "purposeTop": 297,
+        "purposeBottom": 396,
+        "purposeText": {
+          "top": 344.828125,
+          "visibleHeight": 32.296875,
+          "requiredHeight": 32.296875
+        },
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-313",
+        "purposeTop": 297,
+        "purposeBottom": 396,
+        "purposeText": {
+          "top": 344.828125,
+          "visibleHeight": 32.296875,
+          "requiredHeight": 32.296875
+        },
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-340",
+        "purposeTop": 297,
+        "purposeBottom": 428,
+        "purposeText": {
+          "top": 344.828125,
+          "visibleHeight": 64.59375,
+          "requiredHeight": 64.59375
+        },
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-338",
+        "purposeTop": 297,
+        "purposeBottom": 428,
+        "purposeText": {
+          "top": 344.828125,
+          "visibleHeight": 64.59375,
+          "requiredHeight": 64.59375
+        },
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-101",
+        "purposeTop": 297,
+        "purposeBottom": 396,
+        "purposeText": {
+          "top": 344.828125,
+          "visibleHeight": 32.296875,
+          "requiredHeight": 32.296875
+        },
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-173",
+        "purposeTop": 297,
+        "purposeBottom": 396,
+        "purposeText": {
+          "top": 344.828125,
+          "visibleHeight": 32.296875,
+          "requiredHeight": 32.296875
+        },
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-076",
+        "purposeTop": 297,
+        "purposeBottom": 428,
+        "purposeText": {
+          "top": 344.828125,
+          "visibleHeight": 64.59375,
+          "requiredHeight": 64.59375
+        },
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-005",
+        "purposeTop": 297,
+        "purposeBottom": 396,
+        "purposeText": {
+          "top": 344.828125,
+          "visibleHeight": 32.296875,
+          "requiredHeight": 32.296875
+        },
+        "viewport": 1000,
+        "dialogTop": 50,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "state": "failure report",
+        "violations": []
+      },
+      {
+        "state": "long source versions",
+        "violations": []
+      },
+      {
+        "state": "pending idea",
+        "violations": []
+      }
+    ],
+    "externalSource": {
+      "url": "https://github.com/openai/codex/issues/52208",
+      "status": 200
+    },
+    "corpus": {
+      "entries": 339,
+      "promoted": 193,
+      "skipped": 146
+    },
+    "timing": {
+      "domContentLoadedMs": 18,
+      "loadMs": 32
+    }
+  },
+  {
+    "engine": "chromium",
+    "size": "mobile",
+    "checks": [
+      "travel / combined filters / empty / keyboard return",
+      {
+        "id": "UC-001",
+        "purposeTop": 361,
+        "purposeBottom": 488,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 60.78125,
+          "requiredHeight": 60.78125
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-313",
+        "purposeTop": 361,
+        "purposeBottom": 518,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 91.171875,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-340",
+        "purposeTop": 361,
+        "purposeBottom": 518,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 91.171875,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-338",
+        "purposeTop": 361,
+        "purposeBottom": 579,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 151.953125,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-101",
+        "purposeTop": 361,
+        "purposeBottom": 488,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 60.78125,
+          "requiredHeight": 60.78125
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-173",
+        "purposeTop": 361,
+        "purposeBottom": 488,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 60.78125,
+          "requiredHeight": 60.78125
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-076",
+        "purposeTop": 328,
+        "purposeBottom": 486,
+        "purposeText": {
+          "top": 375.828125,
+          "visibleHeight": 91.171875,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-005",
+        "purposeTop": 361,
+        "purposeBottom": 488,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 60.78125,
+          "requiredHeight": 60.78125
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "state": "failure report",
+        "violations": []
+      },
+      {
+        "state": "long source versions",
+        "violations": []
+      },
+      {
+        "state": "pending idea",
+        "violations": []
+      }
+    ],
+    "timing": {
+      "domContentLoadedMs": 34,
+      "loadMs": 35
+    }
+  },
+  {
+    "engine": "chromium",
+    "size": "small-mobile",
+    "checks": [
+      "travel / combined filters / empty / keyboard return",
+      {
+        "id": "UC-001",
+        "purposeTop": 394,
+        "purposeBottom": 521,
+        "purposeText": {
+          "top": 441.25,
+          "visibleHeight": 60.78125,
+          "requiredHeight": 60.78125
+        },
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-313",
+        "purposeTop": 428,
+        "purposeBottom": 586,
+        "purposeText": {
+          "top": 475.75,
+          "visibleHeight": 91.171875,
+          "requiredHeight": 60.8
+        },
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-340",
+        "purposeTop": 428,
+        "purposeBottom": 616,
+        "purposeText": {
+          "top": 475.75,
+          "visibleHeight": 121.5625,
+          "requiredHeight": 60.8
+        },
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-338",
+        "purposeTop": 428,
+        "purposeBottom": 677,
+        "purposeText": {
+          "top": 475.75,
+          "visibleHeight": 182.34375,
+          "requiredHeight": 60.8
+        },
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-101",
+        "purposeTop": 428,
+        "purposeBottom": 586,
+        "purposeText": {
+          "top": 475.75,
+          "visibleHeight": 91.171875,
+          "requiredHeight": 60.8
+        },
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-173",
+        "purposeTop": 394,
+        "purposeBottom": 551,
+        "purposeText": {
+          "top": 441.25,
+          "visibleHeight": 91.171875,
+          "requiredHeight": 60.8
+        },
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-076",
+        "purposeTop": 428,
+        "purposeBottom": 616,
+        "purposeText": {
+          "top": 475.75,
+          "visibleHeight": 121.5625,
+          "requiredHeight": 60.8
+        },
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-005",
+        "purposeTop": 394,
+        "purposeBottom": 521,
+        "purposeText": {
+          "top": 441.25,
+          "visibleHeight": 60.78125,
+          "requiredHeight": 60.78125
+        },
+        "viewport": 740,
+        "dialogTop": 37,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "state": "failure report",
+        "violations": []
+      },
+      {
+        "state": "long source versions",
+        "violations": []
+      },
+      {
+        "state": "pending idea",
+        "violations": []
+      }
+    ],
+    "timing": {
+      "domContentLoadedMs": 23,
+      "loadMs": 24
+    }
+  },
+  {
+    "engine": "firefox",
+    "size": "mobile",
+    "checks": [
+      "travel / combined filters / empty / keyboard return",
+      {
+        "id": "UC-001",
+        "purposeTop": 328,
+        "purposeBottom": 456,
+        "purposeText": {
+          "top": 375.8500061035156,
+          "visibleHeight": 60.79998779296875,
+          "requiredHeight": 60.79998779296875
+        },
+        "viewport": 844,
+        "dialogTop": 42.19999694824219,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-313",
+        "purposeTop": 328,
+        "purposeBottom": 486,
+        "purposeText": {
+          "top": 375.8500061035156,
+          "visibleHeight": 91.19999694824219,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.19999694824219,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-340",
+        "purposeTop": 328,
+        "purposeBottom": 486,
+        "purposeText": {
+          "top": 375.8500061035156,
+          "visibleHeight": 91.19999694824219,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.19999694824219,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-338",
+        "purposeTop": 328,
+        "purposeBottom": 547,
+        "purposeText": {
+          "top": 375.8500061035156,
+          "visibleHeight": 152,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.19999694824219,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-101",
+        "purposeTop": 328,
+        "purposeBottom": 456,
+        "purposeText": {
+          "top": 375.8500061035156,
+          "visibleHeight": 60.79998779296875,
+          "requiredHeight": 60.79998779296875
+        },
+        "viewport": 844,
+        "dialogTop": 42.19999694824219,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-173",
+        "purposeTop": 328,
+        "purposeBottom": 456,
+        "purposeText": {
+          "top": 375.8500061035156,
+          "visibleHeight": 60.79998779296875,
+          "requiredHeight": 60.79998779296875
+        },
+        "viewport": 844,
+        "dialogTop": 42.19999694824219,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-076",
+        "purposeTop": 328,
+        "purposeBottom": 486,
+        "purposeText": {
+          "top": 375.8500061035156,
+          "visibleHeight": 91.19999694824219,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.19999694824219,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-005",
+        "purposeTop": 328,
+        "purposeBottom": 456,
+        "purposeText": {
+          "top": 375.8500061035156,
+          "visibleHeight": 60.79998779296875,
+          "requiredHeight": 60.79998779296875
+        },
+        "viewport": 844,
+        "dialogTop": 42.19999694824219,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "state": "failure report",
+        "violations": []
+      },
+      {
+        "state": "long source versions",
+        "violations": []
+      },
+      {
+        "state": "pending idea",
+        "violations": []
+      }
+    ],
+    "timing": {
+      "domContentLoadedMs": 39,
+      "loadMs": 40
+    }
+  },
+  {
+    "engine": "webkit",
+    "size": "mobile",
+    "checks": [
+      "travel / combined filters / empty / keyboard return",
+      {
+        "id": "UC-001",
+        "purposeTop": 361,
+        "purposeBottom": 488,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 60.78125,
+          "requiredHeight": 60.78125
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-313",
+        "purposeTop": 361,
+        "purposeBottom": 518,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 91.171875,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-340",
+        "purposeTop": 361,
+        "purposeBottom": 518,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 91.171875,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-338",
+        "purposeTop": 361,
+        "purposeBottom": 579,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 151.953125,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-101",
+        "purposeTop": 361,
+        "purposeBottom": 488,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 60.78125,
+          "requiredHeight": 60.78125
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-173",
+        "purposeTop": 361,
+        "purposeBottom": 488,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 60.78125,
+          "requiredHeight": 60.78125
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-076",
+        "purposeTop": 328,
+        "purposeBottom": 486,
+        "purposeText": {
+          "top": 375.828125,
+          "visibleHeight": 91.171875,
+          "requiredHeight": 60.8
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      },
+      {
+        "id": "UC-005",
+        "purposeTop": 361,
+        "purposeBottom": 488,
+        "purposeText": {
+          "top": 407.96875,
+          "visibleHeight": 60.78125,
+          "requiredHeight": 60.78125
+        },
+        "viewport": 844,
+        "dialogTop": 42.203125,
+        "order": [
+          "detail-header-meta",
+          "H1",
+          "detail-actions",
+          "plain-overview",
+          "reader-report",
+          "reader-evidence",
+          "reader-nav",
+          "reader-guidance",
+          "research-details",
+          "related-cases"
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "state": "failure report",
+        "violations": []
+      },
+      {
+        "state": "long source versions",
+        "violations": []
+      },
+      {
+        "state": "pending idea",
+        "violations": []
+      }
+    ],
+    "timing": {
+      "domContentLoadedMs": 20,
+      "loadMs": 24
+    }
+  }
+]

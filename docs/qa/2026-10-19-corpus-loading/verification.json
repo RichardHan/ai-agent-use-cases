@@ -1,0 +1,232 @@
+[
+  {
+    "engine": "chromium",
+    "size": "desktop",
+    "waiting": true,
+    "progress": "已處理 336 / 337 個來源，成功讀取 336 個。",
+    "audits": [
+      {
+        "state": "waiting",
+        "violations": []
+      },
+      {
+        "state": "recovered",
+        "violations": []
+      }
+    ],
+    "focusBounds": {
+      "x": 140,
+      "y": 501.34375,
+      "width": 261.40625,
+      "height": 21.4375
+    },
+    "partial": {
+      "entries": 338,
+      "failed": [
+        "cases/001-travel-checkout.md"
+      ]
+    },
+    "recovered": 339,
+    "retryRequests": 1,
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "size": "mobile",
+    "waiting": true,
+    "progress": "已處理 336 / 337 個來源，成功讀取 336 個。",
+    "audits": [
+      {
+        "state": "waiting",
+        "violations": []
+      },
+      {
+        "state": "recovered",
+        "violations": []
+      }
+    ],
+    "focusBounds": {
+      "x": 20,
+      "y": 423.234375,
+      "width": 261.40625,
+      "height": 21.4375
+    },
+    "partial": {
+      "entries": 338,
+      "failed": [
+        "cases/001-travel-checkout.md"
+      ]
+    },
+    "recovered": 339,
+    "retryRequests": 1,
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "size": "small-mobile",
+    "waiting": true,
+    "progress": "已處理 336 / 337 個來源，成功讀取 336 個。",
+    "audits": [
+      {
+        "state": "waiting",
+        "violations": []
+      },
+      {
+        "state": "recovered",
+        "violations": []
+      }
+    ],
+    "focusBounds": {
+      "x": 20,
+      "y": 370.984375,
+      "width": 261.40625,
+      "height": 21.4375
+    },
+    "partial": {
+      "entries": 338,
+      "failed": [
+        "cases/001-travel-checkout.md"
+      ]
+    },
+    "recovered": 339,
+    "retryRequests": 1,
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "mode": "whole budget",
+    "elapsedMs": 20493,
+    "requested": 32,
+    "retryRecovered": 339
+  },
+  {
+    "engine": "chromium",
+    "mode": "missing direct link",
+    "elapsedMs": 12465,
+    "recovered": "UC-001"
+  },
+  {
+    "engine": "chromium",
+    "mode": "catalog.json stalled",
+    "elapsedMs": 8413,
+    "expected": "error"
+  },
+  {
+    "engine": "chromium",
+    "mode": "assets/copy.json stalled",
+    "elapsedMs": 3171,
+    "expected": "ready"
+  },
+  {
+    "engine": "firefox",
+    "size": "mobile",
+    "waiting": true,
+    "progress": "已處理 336 / 337 個來源，成功讀取 336 個。",
+    "audits": [
+      {
+        "state": "waiting",
+        "violations": []
+      },
+      {
+        "state": "recovered",
+        "violations": []
+      }
+    ],
+    "focusBounds": {
+      "x": 20,
+      "y": 423.6499938964844,
+      "width": 250.76666259765625,
+      "height": 21.45001220703125
+    },
+    "partial": {
+      "entries": 338,
+      "failed": [
+        "cases/001-travel-checkout.md"
+      ]
+    },
+    "recovered": 339,
+    "retryRequests": 1,
+    "errors": []
+  },
+  {
+    "engine": "firefox",
+    "mode": "whole budget",
+    "elapsedMs": 20606,
+    "requested": 32,
+    "retryRecovered": 339
+  },
+  {
+    "engine": "firefox",
+    "mode": "missing direct link",
+    "elapsedMs": 12953,
+    "recovered": "UC-001"
+  },
+  {
+    "engine": "firefox",
+    "mode": "catalog.json stalled",
+    "elapsedMs": 8476,
+    "expected": "error"
+  },
+  {
+    "engine": "firefox",
+    "mode": "assets/copy.json stalled",
+    "elapsedMs": 3448,
+    "expected": "ready"
+  },
+  {
+    "engine": "webkit",
+    "size": "mobile",
+    "waiting": true,
+    "progress": "已處理 336 / 337 個來源，成功讀取 336 個。",
+    "audits": [
+      {
+        "state": "waiting",
+        "violations": []
+      },
+      {
+        "state": "recovered",
+        "violations": []
+      }
+    ],
+    "focusBounds": {
+      "x": 20,
+      "y": 423.03125,
+      "width": 261.40625,
+      "height": 21.4375
+    },
+    "partial": {
+      "entries": 338,
+      "failed": [
+        "cases/001-travel-checkout.md"
+      ]
+    },
+    "recovered": 339,
+    "retryRequests": 1,
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "mode": "whole budget",
+    "elapsedMs": 20107,
+    "requested": 32,
+    "retryRecovered": 339
+  },
+  {
+    "engine": "webkit",
+    "mode": "missing direct link",
+    "elapsedMs": 12917,
+    "recovered": "UC-001"
+  },
+  {
+    "engine": "webkit",
+    "mode": "catalog.json stalled",
+    "elapsedMs": 8049,
+    "expected": "error"
+  },
+  {
+    "engine": "webkit",
+    "mode": "assets/copy.json stalled",
+    "elapsedMs": 3510,
+    "expected": "ready"
+  }
+]

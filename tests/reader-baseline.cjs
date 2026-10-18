@@ -5,6 +5,8 @@ const origin=process.env.READER_BASELINE_URL||'https://richardhan.github.io/ai-a
 (async()=>{
  const browser=await chromium.launch();
  fs.mkdirSync('qa-artifacts',{recursive:true});
+ await require('./arrival-baseline.cjs')({browser,origin});
+ await require('./arrival-baseline.cjs')({browser,origin:'https://richardhan.github.io/ai-agent-use-cases/'});
  const report=[];
  for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
@@ -12,6 +14,7 @@ const origin=process.env.READER_BASELINE_URL||'https://richardhan.github.io/ai-a
   await page.locator('#results .card').first().waitFor();
   await page.screenshot({path:`qa-artifacts/reader-before-home-${name}.png`});
   await page.locator('#query').fill('旅遊');
+  await require('./filter-controls.cjs')(page);
   await page.locator('#tool').selectOption('Grok Bot');
   await page.locator('#category').selectOption('旅遊／消費研究');
   const results=await page.locator('#results .card').count();

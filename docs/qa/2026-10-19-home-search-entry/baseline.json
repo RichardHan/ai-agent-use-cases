@@ -1,0 +1,62 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "height": 1000,
+    "entry": null,
+    "queryBefore": {
+      "x": 193,
+      "y": 989.171875,
+      "width": 1047.765625,
+      "height": 62
+    }
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "height": 844,
+    "entry": null,
+    "queryBefore": {
+      "x": 58,
+      "y": 1598.203125,
+      "width": 299,
+      "height": 56
+    }
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "height": 740,
+    "entry": null,
+    "queryBefore": {
+      "x": 58,
+      "y": 1636.296875,
+      "width": 229,
+      "height": 56
+    }
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "height": 844,
+    "entry": null,
+    "queryBefore": {
+      "x": 57.79999923706055,
+      "y": 1490.800048828125,
+      "width": 299.20000076293945,
+      "height": 56
+    }
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "height": 844,
+    "entry": null,
+    "queryBefore": {
+      "x": 57.8125,
+      "y": 1552.625,
+      "width": 299.1875,
+      "height": 56
+    }
+  }
+]

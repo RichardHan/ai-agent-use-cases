@@ -1,0 +1,143 @@
+{
+  "pullRequest": 49,
+  "preview": [
+    {
+      "id": 39162533429,
+      "name": "Related reading QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a8c97ceb665da045c7dd916a3e41578169dd7556",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39162533429"
+    },
+    {
+      "id": 39162533408,
+      "name": "Search context QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a8c97ceb665da045c7dd916a3e41578169dd7556",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39162533408"
+    },
+    {
+      "id": 39162533374,
+      "name": "Home search entry QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a8c97ceb665da045c7dd916a3e41578169dd7556",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39162533374"
+    },
+    {
+      "id": 39162533379,
+      "name": "Partial Load QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a8c97ceb665da045c7dd916a3e41578169dd7556",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39162533379"
+    },
+    {
+      "id": 39162533415,
+      "name": "Website QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a8c97ceb665da045c7dd916a3e41578169dd7556",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39162533415"
+    },
+    {
+      "id": 39162533479,
+      "name": "Reader QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a8c97ceb665da045c7dd916a3e41578169dd7556",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39162533479"
+    },
+    {
+      "id": 39162533427,
+      "name": "Reading flow QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a8c97ceb665da045c7dd916a3e41578169dd7556",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39162533427"
+    }
+  ],
+  "merged": [
+    {
+      "id": 39163214447,
+      "name": "Reader QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39163214447"
+    },
+    {
+      "id": 39163213072,
+      "name": "pages build and deployment",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39163213072"
+    },
+    {
+      "id": 39163212195,
+      "name": "Reading flow QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39163212195"
+    },
+    {
+      "id": 39163212200,
+      "name": "Return visibility QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39163212200"
+    },
+    {
+      "id": 39163212187,
+      "name": "Partial Load QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39163212187"
+    },
+    {
+      "id": 39163212174,
+      "name": "Related reading QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39163212174"
+    },
+    {
+      "id": 39163212177,
+      "name": "Home search entry QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39163212177"
+    },
+    {
+      "id": 39163212176,
+      "name": "Search context QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39163212176"
+    },
+    {
+      "id": 39163212193,
+      "name": "Website QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39163212193"
+    },
+    {
+      "id": 39163212228,
+      "name": "Corpus loading QA",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185cc17d6d8617e59ce1c4cc1393b0993db52d18",
+      "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39163212228"
+    }
+  ]
+}

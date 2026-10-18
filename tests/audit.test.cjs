@@ -300,7 +300,7 @@ test('INDEX.md maintains scenario consistency, working case links, and matches s
 
   // Main cases count in INDEX.md header must match cases/ file count
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
-  const mainPagesMatch = indexContent.match(/主要頁\s*(\d+)/);
+  const mainPagesMatch = indexContent.match(/主要頁\s*(?:\d+[＋+]\d+＝)?(\d+)/);
   assert(mainPagesMatch, 'INDEX.md must state total main pages count');
   assert.equal(parseInt(mainPagesMatch[1], 10), caseFiles.length, `INDEX.md main pages (${mainPagesMatch[1]}) must match cases/ count (${caseFiles.length})`);
 

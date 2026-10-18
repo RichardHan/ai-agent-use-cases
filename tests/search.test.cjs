@@ -68,11 +68,11 @@ for(const query of ['UC-313','UC313','uc313']) {
   assert.deepEqual(Array.from(api.filterEntries(idSearchFixture,[query],{}),x=>x.id).sort(),['UC-313','UC-999'],`${query} includes target and reference but excludes unrelated content`);
   assert.equal(api.matchCase(query,idSearchFixture)?.id,'UC-313',`${query} selects target even when a reference appears first`);
 }
-assert.equal(api.filterEntries(entries,['UC-001'],{}).length,8,'matches standard case ID');
-assert.equal(api.filterEntries(entries,['UC001'],{}).length,8,'matches unhyphenated padded case ID');
-assert.equal(api.filterEntries(entries,['uc001'],{}).length,8,'matches lowercase unhyphenated padded case ID');
-assert.equal(api.filterEntries(entries,['UC1'],{}).length,8,'matches unpadded case ID');
-assert.equal(api.filterEntries(entries,['UC-1'],{}).length,8,'matches unpadded hyphenated case ID');
+assert.equal(api.filterEntries(entries,['UC-001'],{}).length,9,'matches standard case ID');
+assert.equal(api.filterEntries(entries,['UC001'],{}).length,9,'matches unhyphenated padded case ID');
+assert.equal(api.filterEntries(entries,['uc001'],{}).length,9,'matches lowercase unhyphenated padded case ID');
+assert.equal(api.filterEntries(entries,['UC1'],{}).length,9,'matches unpadded case ID');
+assert.equal(api.filterEntries(entries,['UC-1'],{}).length,9,'matches unpadded hyphenated case ID');
 assert.equal(api.filterEntries(entries,['P003'],{}).length,1,'matches unhyphenated pending ID');
 assert.equal(api.filterEntries(entries,['p3'],{}).length,1,'matches lowercase unpadded pending ID');
 assert.equal(api.filterEntries(entries,['P-3'],{}).length,1,'matches hyphenated unpadded pending ID');
@@ -101,8 +101,8 @@ assert.deepEqual(Array.from(api.tokenize('uc 1')),['uc-1'],'tokenizes space-sepa
 assert.deepEqual(Array.from(api.tokenize('#314')),['uc-314'],'tokenizes hash-prefixed case ID');
 assert.deepEqual(Array.from(api.tokenize('P 003')),['p-003'],'tokenizes space-separated pending ID');
 assert.deepEqual(Array.from(api.tokenize('p 3')),['p-3'],'tokenizes space-separated unpadded pending ID');
-assert.equal(api.filterEntries(entries,Array.from(api.tokenize('UC 001')),{}).length,8,'filters space-separated case ID');
-assert.equal(api.filterEntries(entries,Array.from(api.tokenize('UC 1')),{}).length,8,'filters space-separated unpadded case ID');
+assert.equal(api.filterEntries(entries,Array.from(api.tokenize('UC 001')),{}).length,9,'filters space-separated case ID');
+assert.equal(api.filterEntries(entries,Array.from(api.tokenize('UC 1')),{}).length,9,'filters space-separated unpadded case ID');
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('UC 314')),{}).length,2,'filters space-separated 314');
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('#314')),{}).length,2,'filters hash-prefixed 314');
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('P 003')),{}).length,1,'filters space-separated pending ID');
@@ -144,8 +144,8 @@ assert.deepEqual(Array.from(api.tokenize('UC：001')), ['uc-001'], 'normalizes f
 assert.deepEqual(Array.from(api.tokenize('情境：工作')), ['情境', '工作'], 'splits colon-separated query into tokens');
 assert.equal(api.filterEntries(entries, Array.from(api.tokenize('旅遊？')), {}).length, api.filterEntries(entries, ['旅遊'], {}).length, 'question mark query matches target cases');
 assert.equal(api.filterEntries(entries, Array.from(api.tokenize('比價！')), {}).length, api.filterEntries(entries, ['比價'], {}).length, 'exclamation query matches target cases');
-assert.equal(api.filterEntries(entries, Array.from(api.tokenize('UC:001')), {}).length, 8, 'colon-separated UC:001 matches case');
-assert.equal(api.filterEntries(entries, Array.from(api.tokenize('UC：001')), {}).length, 8, 'full-width colon UC：001 matches case');
+assert.equal(api.filterEntries(entries, Array.from(api.tokenize('UC:001')), {}).length, 9, 'colon-separated UC:001 matches case');
+assert.equal(api.filterEntries(entries, Array.from(api.tokenize('UC：001')), {}).length, 9, 'full-width colon UC：001 matches case');
 assert.equal(api.matchCase('UC:001', entries)?.id, 'UC-001', 'matchCase supports colon in ID');
 assert.equal(api.matchCase('UC：001', entries)?.id, 'UC-001', 'matchCase supports full-width colon in ID');
 

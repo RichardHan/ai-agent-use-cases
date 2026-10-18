@@ -3,7 +3,7 @@ const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.REFINE_URL||'http://127.0.0.1:8093/ai-agent-use-cases/';
-const observe=process.env.OBSERVE==='1';
+const observe=process.env.OBSERVE==='1',label=observe?'before':process.env.REFINE_LABEL||'after';
 fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];
@@ -28,7 +28,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    await tag.focus();await page.keyboard.press('Enter');
    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
    const state=await page.evaluate(()=>({focus:document.activeElement.id||document.activeElement.tagName,rect:document.getElementById('results-count').getBoundingClientRect().toJSON(),count:document.getElementById('results-count').textContent}));
-   await page.screenshot({path:`qa-artifacts/${observe?'before':'after'}-refine-${engine.name()}-${width}.jpg`,type:'jpeg',quality:85});
+   await page.screenshot({path:`qa-artifacts/${label}-refine-${engine.name()}-${width}.jpg`,type:'jpeg',quality:85});
    const row={engine:engine.name(),width,source,tag:value,...state};report.push(row);
    if(!observe){
     assert.equal(state.focus,'results-count');assert(state.rect.top>=0&&state.rect.bottom<=height);
@@ -70,5 +70,5 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   }
   await browser.close();
  }
- fs.writeFileSync('qa-artifacts/'+(observe?'baseline':'verification')+'.json',JSON.stringify(report,null,2));console.log('REFINEMENT_REPORT '+JSON.stringify(report));
+ fs.writeFileSync('qa-artifacts/'+(observe?'baseline':label+'-verification')+'.json',JSON.stringify(report,null,2));console.log('REFINEMENT_REPORT '+JSON.stringify(report));
 })().catch(e=>{console.error(e);process.exit(1)});

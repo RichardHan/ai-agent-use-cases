@@ -1,0 +1,69 @@
+{
+  "recordedAt": "2026-10-18T17:45:14.208246+00:00",
+  "testedCodeCommit": "abdfbf2",
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 39150569787,
+      "headSha": "12cf3d44f20684d3bea445cceff38a3a09c7d1eb",
+      "name": "pages build and deployment",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39150397186,
+      "headSha": "abdfbf2a335f34763b31626d1e2562a720eec73f",
+      "name": "Return visibility QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39150397149,
+      "headSha": "abdfbf2a335f34763b31626d1e2562a720eec73f",
+      "name": "Related reading QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39150397152,
+      "headSha": "abdfbf2a335f34763b31626d1e2562a720eec73f",
+      "name": "Search context QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39150397142,
+      "headSha": "abdfbf2a335f34763b31626d1e2562a720eec73f",
+      "name": "Partial Load QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39150397063,
+      "headSha": "abdfbf2a335f34763b31626d1e2562a720eec73f",
+      "name": "pages build and deployment",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39150397260,
+      "headSha": "abdfbf2a335f34763b31626d1e2562a720eec73f",
+      "name": "Website QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39150397150,
+      "headSha": "abdfbf2a335f34763b31626d1e2562a720eec73f",
+      "name": "Reading flow QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39150397145,
+      "headSha": "abdfbf2a335f34763b31626d1e2562a720eec73f",
+      "name": "Reader QA",
+      "status": "completed"
+    }
+  ]
+}

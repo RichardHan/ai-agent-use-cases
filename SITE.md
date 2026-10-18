@@ -922,3 +922,5 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 部署後補修：原Reader QA捕捉到WebKit返回`#explore`時焦點按鈕落在視窗外（bottom935.8>844px）。兩幀內有界重查可見位置，保留URL/modal/目標/焦點守衛，使用者輸入會取消且清理監聽。雲端`39150191477`以舊版失敗對照，三引擎六狀態18次檢查及41/41單元通過；獨立審查無必修。協作者`5b5c93c`已無衝突整合，正式站原生返回另驗。
 
 正式補驗完成：補修`abdfbf2`的Pages建置`39150397063`成功，`39150397186`原生正式站WebKit/Chromium/Firefox各3次返回（共9次）均保持按鈕焦點與可見，無pageerror；未注入或mock瀏覽器行為。原生結果與最後一次WebKit畫面已收進本輪QA紀錄。
+
+本輪收尾全綠：補修後原Reader QA `39150397145`（含原生WebKit正式站）與Reading flow QA `39150397150`均成功，Website/Related/Search context/Partial Load/Return visibility/Pages亦全部通過。程式`abdfbf2`，後續僅維護紀錄；詳見本輪QA的final-ci.json，驗收完成停止。

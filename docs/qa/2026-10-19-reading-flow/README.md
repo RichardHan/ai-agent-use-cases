@@ -107,3 +107,6 @@ python3 -m http.server 8080 --directory /tmp/reading-preview
 [補修正式部署39150397063](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39150397063)已成功，程式版本`abdfbf2`。[Return visibility QA39150397186](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39150397186)的preview與published兩個job全部成功：正式站先確認app資產與checkout逐字一致，再以**沒有注入錨點、沒有改寫瀏覽器行為**的原生Back檢查WebKit／Chromium／Firefox，各連續3次，共9次；原按鈕均維持焦點且完全可見，無pageerror。 [原生結果](return-native-after.json)／[WebKit正式站修後畫面](return-native-after.png)。每引擎3筆JSON皆保留，PNG是最後一次。
 
 返回補修另增加759個未壓縮bytes，仍未新增前端套件、資料傳送或儲存。正式站曾失敗的WebKit返回驗收已由以上原生路徑補驗；其內部時序根因仍未宣稱確證。下一輪優先仍是減少全庫全文請求；本輪不延伸追加功能。
+
+
+最終整合全部綠燈：[Reader QA39150397145](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39150397145)包含原先失敗的未注入正式站WebKit路徑已通過；[Reading flow QA39150397150](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39150397150)、Website、Related、Search context、Partial Load、Return visibility及Pages全部成功。程式碼為`abdfbf2`；其後提交僅維護紀錄及截圖，不改動執行資產。[完整CI快照](final-ci.json)。本輪驗收完成並停止。

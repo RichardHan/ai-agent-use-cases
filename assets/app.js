@@ -7,6 +7,10 @@ let entries = [], lastTrigger = null, displayCopy = {};
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
+const tokenize = text => norm(text || '').trim().split(/[\s,、，/／]+/).filter(Boolean);
+function idVariants(id) { const normId = id.toUpperCase(); const unhyphenated = normId.replace(/[-_]/g, ''); return normId !== unhyphenated ? `${normId} ${unhyphenated}` : normId; }
+function termVariants(term) { const t = norm(term); const m = t.match(/^([a-z]+)-?(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } return [t]; }
+const matchCase = (target, list = entries) => { if (!target) return null; const variants = termVariants(target); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);
   const id = title.match(/(?:UC|P)-\d+/)?.[0] || path.split('/').pop().replace(/\.md$/,'') + suffix;
@@ -22,7 +26,7 @@ function metadata(markdown, path, kind, suffix='') {
   const copy=displayCopy[id]||{};
   const displayTitle=clean(lead.match(/^-\s*網站標題\s*[：:]\s*(.+)$/m)?.[1]||copy.title||heading);
   const what=clean(lead.match(/^-\s*一句話用途\s*[：:]\s*(.+)$/m)?.[1]||copy.what||summary);
-  return {id,title:displayTitle,originalTitle:heading,what,how:copy.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',caution:copy.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',markdown,path,kind,category,summary:what,proof,tools,date,search:norm(markdown+' '+displayTitle+' '+what+' '+tools.join(' ')+' '+category+' '+KIND[kind])};
+  return {id,title:displayTitle,originalTitle:heading,what,how:copy.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',caution:copy.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',markdown,path,kind,category,summary:what,proof,tools,date,search:norm(markdown+' '+displayTitle+' '+what+' '+tools.join(' ')+' '+category+' '+KIND[kind]+' '+idVariants(id))};
 }
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>metadata(part,path,'pending',String(i)));
@@ -79,10 +83,10 @@ function card(item) {
   const bottom=el('div','card-bottom'),read=el('button','',item.kind==='pending'?'查看這個想法 →':'看看怎麼用 →');read.type='button';read.setAttribute('aria-label','閱讀 '+item.id+' '+item.title);read.addEventListener('click',()=>showDetail(item,read));bottom.append(el('span','proof',item.kind==='pending'?'尚未核實':item.kind==='evidence'?'補充筆記':'用法靈感'),read);node.append(bottom);return node;
 }
 function filterEntries(items,terms,filters) {
-  return items.filter(item=>terms.every(term=>item.search.includes(norm(term)))&&(!filters.kind||item.kind===filters.kind)&&(!filters.tool||item.tools.includes(filters.tool))&&(!filters.category||item.category===filters.category)&&(!filters.proof||item.proof===filters.proof));
+  return items.filter(item=>terms.every(term=>termVariants(term).some(v=>item.search.includes(v)))&&(!filters.kind||item.kind===filters.kind)&&(!filters.tool||item.tools.includes(filters.tool))&&(!filters.category||item.category===filters.category)&&(!filters.proof||item.proof===filters.proof));
 }
 function render(updateURL=true) {
-  const q=norm($('query').value).trim().split(/\s+/).filter(Boolean);
+  const q=tokenize($('query').value);
   const filtered=filterEntries(entries,q,Object.fromEntries(['kind','tool','category','proof'].map(id=>[id,$(id).value])));
   $('results').replaceChildren(...filtered.map(card));$('empty').hidden=!!filtered.length;$('results-count').textContent=`顯示 ${filtered.length} / ${entries.length} 筆收錄`;
   if(updateURL){const url=new URL(location.href);['query','kind','tool','category','proof'].forEach(id=>{const key=id==='query'?'q':id;if($(id).value)url.searchParams.set(key,$(id).value);else url.searchParams.delete(key);});history.replaceState(null,'',url);}
@@ -102,10 +106,10 @@ async function load(){
     $('updated').textContent='索引更新 '+catalog.builtAt;
     populate('tool',entries.flatMap(e=>e.tools));populate('category',entries.map(e=>e.category));populate('proof',entries.map(e=>e.proof));
     const params=new URLSearchParams(location.search);['query','kind','tool','category','proof'].forEach(id=>{const value=params.get(id==='query'?'q':id)||'';if(id==='query'||[...$(id).options].some(o=>o.value===value))$(id).value=value;});render(false);
-    const current=entries.find(e=>e.id===params.get('case'));if(current)showDetail(current,null,false);
+    const current=matchCase(params.get('case'));if(current)showDetail(current,null,false);
   }catch(error){$('results').replaceChildren();$('results-count').textContent='載入未完成';$('error-message').textContent='請稍後重試，或先閱讀 GitHub 原始資料。';$('error').hidden=false;console.error(error);}
 }
 $('filters').addEventListener('submit',e=>e.preventDefault());$('query').addEventListener('input',()=>render());['kind','tool','category','proof'].forEach(id=>$(id).addEventListener('change',()=>render()));$('reset').addEventListener('click',reset);$('empty-reset').addEventListener('click',reset);$('retry').addEventListener('click',load);$('close-detail').addEventListener('click',closeDetail);$('detail').addEventListener('cancel',e=>{e.preventDefault();closeDetail();});$('detail').addEventListener('click',e=>{if(e.target===$('detail')){const rect=$('detail').getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)closeDetail();}});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!$('detail').open&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();$('query').focus();}});
-window.addEventListener('popstate',()=>{const id=new URLSearchParams(location.search).get('case');const item=entries.find(e=>e.id===id);if(item)showDetail(item,null,false);else if($('detail').open)$('detail').close();const params=new URLSearchParams(location.search);['query','kind','tool','category','proof'].forEach(key=>$(key).value=params.get(key==='query'?'q':key)||'');render(false);});
+window.addEventListener('popstate',()=>{const id=new URLSearchParams(location.search).get('case');const item=matchCase(id);if(item)showDetail(item,null,false);else if($('detail').open)$('detail').close();const params=new URLSearchParams(location.search);['query','kind','tool','category','proof'].forEach(key=>$(key).value=params.get(key==='query'?'q':key)||'');render(false);});
 load();

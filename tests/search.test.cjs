@@ -5,7 +5,7 @@ const source=fs.readFileSync(path.join(root,'assets/app.js'),'utf8').split("$('f
 // Minimal text-node DOM: tests safe rendering without an installed browser.
 class Node {constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.textContent='';} append(...children){this.children.push(...children);} }
 const context=vm.createContext({URL,document:{createElement:tag=>new Node(tag),createTextNode:text=>({textContent:text})}});
-vm.runInContext(source+'\nthis.api={metadata,parseFile,filterEntries,norm,safeLink,renderMarkdown};',context);
+vm.runInContext(source+'\nthis.api={metadata,parseFile,filterEntries,norm,safeLink,renderMarkdown,tokenize,idVariants,termVariants,matchCase};',context);
 const api=context.api;
 vm.runInContext('displayCopy='+fs.readFileSync(path.join(root,'assets/copy.json'),'utf8'),context);
 const files=['cases','evidence'].flatMap(dir=>fs.readdirSync(path.join(root,dir)).filter(x=>x.endsWith('.md')).map(x=>dir+'/'+x)).concat('sources/pending.md');
@@ -26,6 +26,26 @@ assert.equal(entries.find(x=>x.id==='P-003').title,'AI 做完後，能自己檢�
 assert.equal(entries.find(x=>x.id==='P-003').kind,'pending');
 assert.equal(api.filterEntries(entries,['CUA'],{kind:'pending'}).length>=1,true,'original terminology remains searchable');
 assert.equal(entries.find(x=>x.id==='UC-009').proof,'模板／文件核讀');
+assert.equal(api.filterEntries(entries,['UC313'],{}).length,1,'matches unhyphenated case ID');
+assert.equal(api.filterEntries(entries,['uc313'],{}).length,1,'matches lowercase unhyphenated case ID');
+assert.equal(api.filterEntries(entries,['UC-001'],{}).length,8,'matches standard case ID');
+assert.equal(api.filterEntries(entries,['UC001'],{}).length,8,'matches unhyphenated padded case ID');
+assert.equal(api.filterEntries(entries,['uc001'],{}).length,8,'matches lowercase unhyphenated padded case ID');
+assert.equal(api.filterEntries(entries,['UC1'],{}).length,8,'matches unpadded case ID');
+assert.equal(api.filterEntries(entries,['UC-1'],{}).length,8,'matches unpadded hyphenated case ID');
+assert.equal(api.filterEntries(entries,['P003'],{}).length,1,'matches unhyphenated pending ID');
+assert.equal(api.filterEntries(entries,['p3'],{}).length,1,'matches lowercase unpadded pending ID');
+assert.equal(api.filterEntries(entries,['P-3'],{}).length,1,'matches hyphenated unpadded pending ID');
+assert.deepEqual(Array.from(api.tokenize('旅遊、排程')),['旅遊','排程']);
+assert.deepEqual(Array.from(api.tokenize('Grok Bot, Notion')),['grok','bot','notion']);
+assert.equal(api.filterEntries(entries,Array.from(api.tokenize('旅遊、排程')),{}).length,5,'tokenizes punctuation-separated query');
+assert.equal(api.matchCase('UC313',entries)?.id,'UC-313');
+assert.equal(api.matchCase('uc-313',entries)?.id,'UC-313');
+assert.equal(api.matchCase('UC1',entries)?.id,'UC-001');
+assert.equal(api.matchCase('uc-1',entries)?.id,'UC-001');
+assert.equal(api.matchCase('P003',entries)?.id,'P-003');
+assert.equal(api.matchCase('p3',entries)?.id,'P-003');
+assert.equal(api.matchCase(null,entries),null);
 assert.equal(api.safeLink('javascript:alert(1)','cases/test.md'),null);
 assert.equal(api.safeLink('../sources/README.md#s-001','cases/test.md'),'https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001');
 const rendered=api.renderMarkdown('# Example\n\n<script>alert(1)</script>\n\n[test](javascript:alert)\n\n## Section\n\n- safe','cases/test.md');

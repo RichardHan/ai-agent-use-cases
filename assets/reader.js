@@ -62,7 +62,7 @@
     const navTitle=make('h2','','你想先了解哪一段？');
     navTitle.tabIndex=-1;
     navTitle.id='reader-nav-title';
-    nav.append(navTitle,make('p','reader-nav-hint','直接前往原文；流程與提示詞的實測狀態依原標題標示。'));
+    nav.append(navTitle,make('p','reader-nav-hint','收錄不代表本庫獨立重現。點選段落看原文；流程與提示詞的實測狀態依原標題判讀。'));
     const moveTo=target=>{
       // scrollIntoView may also scroll the inert page behind a modal.
       const toolbar=dialog.querySelector('.detail-toolbar');

@@ -1,7 +1,7 @@
 name: Reader QA
 on:
   push:
-    branches: [feat/reader-navigation, main]
+    branches: [main]
     paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, .github/workflows/reader-qa.yml]
   pull_request:
     paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, .github/workflows/reader-qa.yml]

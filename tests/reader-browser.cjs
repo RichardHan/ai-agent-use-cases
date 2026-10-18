@@ -103,9 +103,13 @@ async function jump(page,button){
    await page.locator('.reader-nav').waitFor();
    assert.equal(await page.locator('.detail-toolbar').evaluate(toolbar=>toolbar.scrollWidth<=toolbar.clientWidth),true,'toolbar fits narrow screens');
    assert.equal(await page.locator('.detail-toolbar-id').evaluate(id=>id.getBoundingClientRect().height<30),true,'case ID stays on one line');
+   assert.equal(await page.locator('.detail-toolbar-actions button').evaluateAll(buttons=>buttons.every(button=>button.getBoundingClientRect().height>=26)),true,'toolbar controls retain usable target height');
+   assert.match(await page.locator('.reader-nav-hint').innerText(),/不代表本庫獨立重現/);
+   await visibleBelowToolbar(page,'.reader-nav-hint');
    assert.match(await page.locator('.reader-evidence').innerText(),/日文作者實測報告/);
    assert.match(await page.locator('.reader-evidence').innerText(),/獨立重現：否/);
    if(engine==='chromium')await page.screenshot({path:`qa-artifacts/reader-after-UC-005-${size}.png`});
+   await page.locator('.reader-jump').nth(1).hover();
    await audit(page,`${engine}-${size}-collapsed`);
    const originalTitles=await page.locator('.research-details .markdown h2,.research-details .markdown h3').allTextContents();
    await page.locator('.reader-outline summary').click();

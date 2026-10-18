@@ -4,7 +4,7 @@ const REPO = 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/';
 const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
 let entries = [], lastTrigger = null, displayCopy = {};
-let discoveryDeck = null, discoveryKey = '', discoveryReady = false;
+let discoveryDeck = null, discoveryKey = '', discoveryReady = false, lastTriggerContext = null;
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
@@ -65,7 +65,10 @@ function renderMarkdown(markdown,path) {
   flush();if(code)out.append(code);return out;
 }
 function showDetail(item, trigger, updateURL=true) {
-  lastTrigger=trigger||lastTrigger;
+  if(trigger){
+    lastTrigger=trigger;
+    lastTriggerContext={id:item.id,area:trigger.closest('#drawn-case')?'drawn-case':'results',read:!!trigger.closest('.card-bottom')};
+  }else if(lastTriggerContext?.id!==item.id){lastTrigger=null;lastTriggerContext=null;}
   const body=$('detail-body');body.replaceChildren();
   const title=el('h1','',item.title);title.id='detail-title';body.append(title);
   const source=el('a','detail-source','查看 Markdown 原文 ↗');source.href=REPO+item.path;source.target='_blank';source.rel='noopener noreferrer';body.append(source);
@@ -75,9 +78,18 @@ function showDetail(item, trigger, updateURL=true) {
   if(!$('detail').open)$('detail').showModal();$('detail').scrollTop=0;
   if(updateURL){const url=new URL(location.href);url.searchParams.set('case',item.id);history.pushState(null,'',url);}
 }
-function closeDetail(){ if($('detail').open)$('detail').close();const url=new URL(location.href);url.searchParams.delete('case');history.replaceState(null,'',url);lastTrigger?.focus(); }
+function restoreDetailFocus(){
+  if(lastTrigger?.isConnected){lastTrigger.focus({preventScroll:true});return;}
+  if(lastTriggerContext){
+    const node=[...$(lastTriggerContext.area).querySelectorAll('.card')].find(card=>card.dataset.caseId===lastTriggerContext.id);
+    const trigger=node?.querySelector(lastTriggerContext.read?'.card-bottom button':'h3 button');
+    if(trigger){lastTrigger=trigger;trigger.focus({preventScroll:true});return;}
+  }
+  ($('draw-case').disabled?$('query'):$('draw-case')).focus({preventScroll:true});
+}
+function closeDetail(){ if($('detail').open)$('detail').close();const url=new URL(location.href);url.searchParams.delete('case');history.replaceState(null,'',url);restoreDetailFocus(); }
 function card(item) {
-  const node=el('article','card');node.dataset.kind=item.kind;
+  const node=el('article','card');node.dataset.kind=item.kind;node.dataset.caseId=item.id;
   const top=el('div','card-top');top.append(el('span','',item.tools.slice(0,2).join(' / ')||'AI 用法'),el('span','kind',KIND[item.kind]));node.append(top);
   const h=el('h3'),title=el('button','',item.title);title.type='button';title.addEventListener('click',()=>showDetail(item,title));h.append(title);node.append(h,el('p','summary',item.summary));
   const tags=el('div','tags');tags.append(el('span','tag',item.kind==='pending'?'這個用法還不能直接照做':item.kind==='evidence'?'先看經驗與限制':'參考公開分享，本庫未親測'));node.append(tags);
@@ -119,7 +131,7 @@ function drawNext(){
   if(!next)return;
   $('drawn-case').replaceChildren(card(next.item));
   const scope=$('scenario').value||'全部情境';
-  $('draw-status').textContent=scope+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張';
+  $('draw-status').textContent=scope+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
   $('draw-case').textContent=next.total===1?'只有這一張，重新看看':'再抽一張 ↻';
 }
 function syncDiscovery(filtered){
@@ -137,15 +149,27 @@ function syncDiscovery(filtered){
     $('draw-case').textContent='沒有可抽的案例';
   }
 }
+function revealDiscovery(){
+  if(!window.matchMedia('(max-width:760px)').matches)return;
+  const rect=$('discover').getBoundingClientRect();
+  if(rect.top<0||rect.bottom>window.innerHeight)$('discover').scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+}
 function chooseScenario(value){
   ['query','scenario','kind','tool','category','proof'].forEach(id=>$(id).value='');
-  $('scenario').value=value;render();
+  $('scenario').value=value;render();revealDiscovery();
 }
 
 /* Browser event bindings. */
-$('draw-case').addEventListener('click',drawNext);
+$('draw-case').addEventListener('click',()=>{drawNext();revealDiscovery();});
 document.querySelectorAll('[data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
 $('filters').addEventListener('submit',e=>e.preventDefault());$('query').addEventListener('input',()=>render());['scenario','kind','tool','category','proof'].forEach(id=>$(id).addEventListener('change',()=>render()));$('reset').addEventListener('click',reset);$('empty-reset').addEventListener('click',reset);$('retry').addEventListener('click',load);$('close-detail').addEventListener('click',closeDetail);$('detail').addEventListener('cancel',e=>{e.preventDefault();closeDetail();});$('detail').addEventListener('click',e=>{if(e.target===$('detail')){const rect=$('detail').getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)closeDetail();}});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!$('detail').open&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();$('query').focus();}});
-window.addEventListener('popstate',()=>{const id=new URLSearchParams(location.search).get('case');const item=matchCase(id);if(item)showDetail(item,null,false);else if($('detail').open)$('detail').close();const params=new URLSearchParams(location.search);['query','scenario','kind','tool','category','proof'].forEach(key=>$(key).value=params.get(key==='query'?'q':key)||'');render(false);});
+window.addEventListener('popstate',()=>{
+  const params=new URLSearchParams(location.search),item=matchCase(params.get('case'));
+  const wasOpen=$('detail').open;
+  if(item)showDetail(item,null,false);else if(wasOpen)$('detail').close();
+  ['query','scenario','kind','tool','category','proof'].forEach(key=>$(key).value=params.get(key==='query'?'q':key)||'');
+  render(false);
+  if(wasOpen&&!item)restoreDetailFocus();
+});
 load();

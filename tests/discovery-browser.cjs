@@ -8,15 +8,18 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
  fs.mkdirSync('qa-artifacts',{recursive:true});
  const audits=[];
  for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]){
-  const page=await browser.newPage({viewport:{width,height}});
+  const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
+  const page=await context.newPage();
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(origin,{waitUntil:'networkidle'});
   await page.locator('#drawn-case .card').waitFor();
+  await page.evaluate(()=>scrollTo(0,0));
   await page.screenshot({path:'qa-artifacts/after-'+name+'.jpg',type:'jpeg',quality:70});
   await page.locator('.discovery-layout').screenshot({path:'qa-artifacts/guide-'+name+'.png'});
   if(name!=='small-mobile')console.log('VISUAL:after-'+name+':'+fs.readFileSync('qa-artifacts/after-'+name+'.jpg').toString('base64'));
   // Journey 1: choose a need, draw without repeats, read and return using the keyboard.
   await page.locator('[data-scenario="省錢"]').click();
+  if(width<=760)await page.waitForFunction(()=>{const r=document.getElementById('draw-title').getBoundingClientRect();return r.top>=0&&r.bottom<innerHeight;});
   assert.equal(await page.locator('#scenario').inputValue(),'省錢');
   assert.equal(await page.locator('[data-scenario="省錢"]').getAttribute('aria-pressed'),'true');
   const first=await page.locator('#drawn-case h3').innerText();
@@ -49,6 +52,11 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   assert.equal(await page.locator('#drawn-case .card').count(),0);
   assert((await page.locator('#results .card').count())>0);
   await page.locator('#reset').click();
+  const resultTrigger=page.locator('#results .card .card-bottom button').first();
+  const resultId=await page.locator('#results .card').first().getAttribute('data-case-id');
+  await resultTrigger.click();await page.goBack();
+  assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),resultId);
+  assert.equal(await page.evaluate(()=>document.activeElement.closest('#results')?.id),'results');
   // Journey 3: open a shareable direct link under the GitHub Pages base path.
   await page.goto(origin+'?scenario=生活&q=旅遊&case=UC-001',{waitUntil:'networkidle'});
   await page.locator('#detail[open]').waitFor();
@@ -68,7 +76,7 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   assert.equal(audit.violations.length,0,JSON.stringify(audits[audits.length-1]));
   assert.deepEqual(errors,[]);
   console.log('PASS BROWSER '+name+': guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations='+audit.violations.length);
-  await page.close();
+  await context.close();
  }
  const page=await browser.newPage();
  await page.route('**/catalog.json',route=>route.fulfill({status:503,body:'unavailable'}));

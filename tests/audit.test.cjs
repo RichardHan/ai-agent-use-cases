@@ -25,7 +25,7 @@ function normalizeSourceUrl(rawUrl) {
       u.pathname = '/watch';
       u.searchParams.set('v', id);
     }
-    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json', 'si', 'igsh', 'trk', 'spm_id_from', 'spm', 'ref_src', 'ref_url', 'from', 'source', 'co', 'tabs', 'view', 'platform', 'see-all', 'payment-ui', 'provider', 'provider_info', 'fit', 'tag'];
+    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json', 'si', 'igsh', 'trk', 'spm_id_from', 'spm', 'ref_src', 'ref_url', 'from', 'source', 'co', 'tabs', 'view', 'platform', 'see-all', 'payment-ui', 'provider', 'provider_info', 'fit', 'tag', 'query'];
     tracking.forEach(p => u.searchParams.delete(p));
     u.hash = '';
     if (host === 'reddit.com') u.pathname = u.pathname.replace(/\.json$/, '');
@@ -496,6 +496,7 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert.equal(normalizeSourceUrl('https://biz.moneyforward.com/expense/function/?provider=ac_basic&provider_info=cv.76684.part.article'), 'https://biz.moneyforward.com/expense/function');
   assert.equal(normalizeSourceUrl('https://about.fb.com/wp-content/uploads/2026/09/02_inline_quote_01.jpg?fit=1920%2C1672'), 'https://about.fb.com/wp-content/uploads/2026/09/02_inline_quote_01.jpg');
   assert.equal(normalizeSourceUrl('https://video.twimg.com/amplify_video/2090401111203291136/vid/avc1/1280x720/qrir1QJtjy7X5_k6.mp4?tag=29'), 'https://video.twimg.com/amplify_video/2090401111203291136/vid/avc1/1280x720/qrir1qjtjy7x5_k6.mp4');
+  assert.equal(normalizeSourceUrl('https://www.canva.com/help/bulk-create/?query=Bulk+Create'), 'https://canva.com/help/bulk-create');
 });
 
 

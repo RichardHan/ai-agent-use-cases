@@ -14,8 +14,8 @@ function normalizeSourceUrl(rawUrl) {
     const u = new URL(cleaned);
     let host = u.hostname.toLowerCase();
     if (host === 'twitter.com' || host === 'www.twitter.com' || host === 'mobile.twitter.com') host = 'x.com';
-    if (host === 'www.x.com') host = 'x.com';
-    if (host === 'www.reddit.com' || host === 'old.reddit.com') host = 'reddit.com';
+    if (host === 'www.x.com' || host === 'mobile.x.com' || host === 'm.x.com') host = 'x.com';
+    if (host === 'www.reddit.com' || host === 'old.reddit.com' || host === 'm.reddit.com' || host === 'new.reddit.com') host = 'reddit.com';
     if (host === 'm.youtube.com') host = 'www.youtube.com';
     if (host === 'youtu.be') {
       host = 'www.youtube.com';
@@ -23,7 +23,7 @@ function normalizeSourceUrl(rawUrl) {
       u.pathname = '/watch';
       u.searchParams.set('v', id);
     }
-    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context'];
+    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json'];
     tracking.forEach(p => u.searchParams.delete(p));
     const pathNoSlash = u.pathname.replace(/\/+$/, '');
     return (u.protocol + '//' + host + pathNoSlash + (u.search ? u.search : '')).toLowerCase();
@@ -35,7 +35,7 @@ function normalizeSourceUrl(rawUrl) {
 test('all cases and evidence files have valid scenario, non-empty tags, and verification date', () => {
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
   const evidenceFiles = fs.readdirSync(path.join(root, 'evidence')).filter(f => f.endsWith('.md')).sort();
-  assert(caseFiles.length >= 310, `Expected at least 310 cases, found ${caseFiles.length}`);
+  assert(caseFiles.length >= 322, `Expected at least 322 cases, found ${caseFiles.length}`);
   assert(evidenceFiles.length >= 3, `Expected at least 3 evidence files, found ${evidenceFiles.length}`);
 
   const targets = [
@@ -156,7 +156,7 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
   // Confirm that candidate duplicates are purely listed as candidates and all original cases remain intact
-  assert(caseFiles.length >= 318, `Corpus case count must remain intact (no automatic deletion of candidates); got ${caseFiles.length}`);
+  assert(caseFiles.length >= 322, `Corpus case count must remain intact (no automatic deletion of candidates); got ${caseFiles.length}`);
 
   // Specifically verify known shared discussion thread candidates are identified
   const redditDiscussion = duplicates.find(d => d.url.includes('1wa57uk/comment/p8gwy2e'));
@@ -186,6 +186,32 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(substackCandidate, 'Must detect shared Substack article between cases/043 and cases/241 via tracking param normalization');
   assert(substackCandidate.cases.includes('cases/043-public-events-calendar.md'));
   assert(substackCandidate.cases.includes('cases/241-community-participation-spam-review.md'));
+
+  // Verify additional cross-case candidate duplicate clusters without deleting any cases
+  const redditProcureCandidate = duplicates.find(d => d.url.includes('pesozyw'));
+  assert(redditProcureCandidate, 'Must detect shared Reddit procurement discussion between UC-101 and UC-102');
+  assert(redditProcureCandidate.cases.includes('cases/101-procurement-capability-shortlist.md'));
+  assert(redditProcureCandidate.cases.includes('cases/102-regulatory-change-safety-form-draft.md'));
+
+  const redditMailCandidate = duplicates.find(d => d.url.includes('peug3yn'));
+  assert(redditMailCandidate, 'Must detect shared Reddit mail migration discussion between UC-156 and UC-250');
+  assert(redditMailCandidate.cases.includes('cases/156-mail-system-migration-verification.md'));
+  assert(redditMailCandidate.cases.includes('cases/250-mail-migration-data-routing-cutover.md'));
+
+  const museWorkflowCandidate = duplicates.find(d => d.url.includes('alex-cornell-meta-muse-workflows'));
+  assert(museWorkflowCandidate, 'Must detect shared Alex Cornell workflow article between UC-107 and UC-108');
+  assert(museWorkflowCandidate.cases.includes('cases/107-old-blog-private-audio-archive.md'));
+  assert(museWorkflowCandidate.cases.includes('cases/108-golf-round-practice-data-review.md'));
+
+  const appleVisCandidate = duplicates.find(d => d.url.includes('applevis.com/apps/ios/productivity/muse-meta'));
+  assert(appleVisCandidate, 'Must detect shared AppleVis Muse review between UC-133 and UC-180');
+  assert(appleVisCandidate.cases.includes('cases/133-screen-reader-menu-reformat.md'));
+  assert(appleVisCandidate.cases.includes('cases/180-photo-library-descriptive-metadata.md'));
+
+  const deployBlogCandidate = duplicates.find(d => d.url.includes('zhuyawei.com/blog/meta-muse-personal-workflow-cloud-deploy'));
+  assert(deployBlogCandidate, 'Must detect shared deployment workflow between UC-151 and UC-214');
+  assert(deployBlogCandidate.cases.includes('cases/151-booked-stay-prerequisite-followup.md'));
+  assert(deployBlogCandidate.cases.includes('cases/214-release-artifact-runtime-identity-check.md'));
 });
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {
@@ -238,7 +264,7 @@ test('INDEX.md maintains scenario consistency, working case links, and matches s
 
   // Verify all case and evidence links in INDEX.md exist on disk
   const links = Array.from(indexContent.matchAll(/\[(?:[^\]]*)\]\(((?:cases|evidence)\/[^)]+\.md)\)/g));
-  assert(links.length >= 318, `Expected at least 318 links in INDEX.md, found ${links.length}`);
+  assert(links.length >= 322, `Expected at least 322 links in INDEX.md, found ${links.length}`);
   for (const match of links) {
     const relPath = match[1];
     assert(fs.existsSync(path.join(root, relPath)), `Link target does not exist: ${relPath}`);

@@ -56,6 +56,7 @@ module.exports=async function publishedArrival({browser,origin,engine}){
   await page.goBack();
   await page.waitForFunction(()=>!document.getElementById('detail').open&&document.activeElement.matches('#results .card .card-bottom button'));
   assert.equal(await trigger.evaluate(n=>n===document.activeElement),true);
+  const backButton=await trigger.boundingBox();assert(backButton.y>=0&&backButton.y+backButton.height<=page.viewportSize().height,'Back focus must be visible');await capture('back');
   assert.deepEqual((await state('in-session-return')).ids,initial.ids);
   await trigger.click();await page.locator('#detail[open]').waitFor();
   if(engine==='chromium'){

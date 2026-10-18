@@ -60,6 +60,7 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
   await page.goBack();
   console.log('BACK_FOCUS '+JSON.stringify(await page.evaluate(async()=>{const describe=()=>({tag:document.activeElement.tagName,id:document.activeElement.id,card:document.activeElement.closest('.card')?.dataset.caseId});const before=describe();await new Promise(requestAnimationFrame);return {before,after:describe()};})));
   await page.waitForFunction(()=>!document.getElementById('detail').open&&document.activeElement.matches('#results .card .card-bottom button'));assert.equal(await trigger.evaluate(n=>n===document.activeElement),true);
+  const backButton=await trigger.boundingBox();assert(backButton.y>=0&&backButton.y+backButton.height<=height,'Back must restore a visible originating button');await snapshot('back');
   await page.goto(direct,{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();await sameResults(page,'direct',count);
   await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();await sameResults(page,'direct-reload',count);
   assert.equal(await page.evaluate(()=>document.activeElement.id),'detail-title');

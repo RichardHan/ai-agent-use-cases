@@ -1,6 +1,17 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對批次：2026-10-18 03:00 UTC／2026-10-18 11:00台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對批次：2026-10-18 03:50 UTC／2026-10-18 11:50台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+
+## 2026-10-18 11:50台灣時間掃描
+
+嚴格合格 **288／1,000，尚差712**：先前286＋新增316、317兩案。歷史發布口徑299＋3＝302，主要頁306＋3＝309（315有頁但不計入嚴格數）。
+
+- [315](../cases/315-work-personal-agents-tax-document-cpa-handoff.md)｜待定。Tibo（@thsottiaux）單則英文文字自述：工作dot應私人dot要求以電子郵件交文件，再與會計師協調稅務，約20分鐘。無截圖、文件清單或會計師端紀錄，作者雖為OpenAI員工但屬個人說法，不當官方功能。補到原作者實作細節後再核。
+- [316](../cases/316-slack-thread-triage-repro-bot-bug-fix.md)｜納入｜B（廠商示範自報）。官方YouTube頻道Grok的工作坊說明欄明載分流Bot＋重現Team Bot＋設計師與工程師在同一Slack串修好並合併；@tibor_tee整理全文已讀，Team Bots官方文件已讀。影片本身未看，90分鐘、48／50評測為講者單次數字。與085（只到分流與彙整）分開：終點是重現、修正與合併。
+- [317](../cases/317-nightly-explorer-builder-critic-prototype.md)｜納入｜B。Let's Write繁中原文（dev.to轉載全文）含四角色設定與群組啟動指令，公開GitHub repo與Demo可讀；文中所稱Python版、自動測試與晨報未公開，不能核。不同273夜間接力與056小網站經營。
+- 041（@grovr_au巡檢Bot抓到六天假成功同步）、054（@old_pgmrs_will MV Forge模板，器樂曲改用Three.js／Canvas2D逐格繪製）、235（@JaydenInvest跟單排行榜滾動回測與偏誤揭露）均補既有流程，不另計。
+
+[原始來源、實閱範圍與限制](research-2026-10-18-1150.md)。
 
 ## 2026-10-18 11:00台灣時間補核
 

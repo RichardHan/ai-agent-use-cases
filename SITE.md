@@ -604,3 +604,34 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 正式重複載入曾實際遇到 HTTP 429：71 個來源略過、331→258 條目。完整邊界測試留在預覽，Reader 正式驗收改為8次真實整庫載入，仍嚴格要求零略過及相同結果 ID。這不是產品載入成本已解決；下一輪優先處理逐檔請求成本與部分載入恢復，不重做已由 PR #44 完成的命中說明。
 
 [前後與返回截圖、全部驗收、診斷摘要及限制](docs/qa/2026-10-18-shared-search/README.md)。沒有改研究證據或刪除疑似重複案例；無新追蹤／第三方產品依賴。主代理模型設定仍無法驗證；操作與測試使用 GitHub 連線／既有 Actions。
+
+## 2026-10-18：模型評測、派工分流、代碼庫、解碼解析、資安漏洞、沙盒與 Pull Request 同義詞擴充及 Reddit JSON 端點重複正規化
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與自然語言檢索痛點：
+   - 模型評測與基準測試類：全庫有 41 筆「評估」與 18 筆「評測」，但讀者搜尋常見英文詞「evaluation」得 0 筆、「benchmarks」得 0 筆、「benchmark」僅得 1 筆、「evals」僅得 2 筆，嚴重遺漏 UC-270 替換評估、UC-161 跨模型回覆評估、UC-165 離線效能基準、UC-222 業務規則測試、UC-311 新模型測試等核心 Agent 評測案例；
+   - 多代理派工與協調類：全庫有 21 筆「派工」與 10 筆「分流」，但讀者搜尋「dispatch」僅得 2 筆、「dispatcher」僅得 1 筆、「dispatching」得 0 筆、「分派」僅得 1 筆、「調度」僅得 1 筆、「派發」得 0 筆，無法檢索 UC-061 窗口派工台帳、UC-316 Slack 串分流、UC-336 掌上語音終端派工等代表性跨代理分流案例；
+   - 代碼庫與程式庫類：全庫有 41 筆「repo」與 5 筆「程式庫」，但讀者搜尋「repository」僅得 3 筆、「repositories」得 0 筆、「代碼庫」得 0 筆、「repos」僅得 3 筆，漏失 UC-005 雲端開發與 PR 審查、UC-057 自架 runner 限定私有 repo 等案例；
+   - 資料解析與解碼類：全庫有 18 筆「解析」與 6 筆「解碼」，但搜尋「parsing」得 0 筆、「parser」得 0 筆、「decode」得 0 筆、「剖析」得 0 筆，無法檢索 UC-334 SDR 雙頻輪收解碼改寫、UC-125 解碼器硬體在環、UC-020 Figma 批次卡片解析等案例；
+   - 資安漏洞類：全庫有 6 筆「漏洞」與 36 筆「資安」，但搜尋「vulnerability」得 0 筆、「vulnerabilities」得 0 筆、「cybersecurity」得 0 筆，既有組別未將漏洞與資安建立映射，遺漏 UC-065 可疑郵件安全審查、UC-218 技能信任審核等案例；
+   - 權限與特權類：搜尋「privilege」得 0 筆、「privileges」得 0 筆，既有權限詞群遺漏 privilege；
+   - 沙盒隔離類：全庫有 3 筆「沙盒」，但搜尋「sandbox」僅 0 筆在標籤中（UC-317 沙盒與 UC-314 沙盒長駐失敗未直接互通）；
+   - 結構化資料類：全庫有 14 筆「結構化」，搜尋英文「structured」僅得 1 筆；
+   - 自動化類：全庫有 141 筆「自動化」與「workflow」，但搜尋「automation」僅得 11 筆、「automate」僅得 3 筆、「automations」僅得 9 筆；
+   - Pull Request 檢索痛點：讀者若搜尋「pull request」或「pull requests」，因既有 tokenize 將其拆解為 pull 與 request 雙詞交集，結果為 0 筆，脫離全庫 135 筆 PR 案例。
+2. 疑似重複來源偵測之 Reddit API JSON 端點正規化強化：
+   - `normalizeSourceUrl` 補齊 Reddit API `.json` 端點移除（如 UC-284 引用之 `https://www.reddit.com/r/MetaAI/comments/1wydk5b/what_do_you_use_muse_for/.json?raw_json=1` 自動歸一至 `https://reddit.com/r/metaai/comments/1wydk5b/what_do_you_use_muse_for`），強化跨案例討論串候選重複比對；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 336 保持完整；嚴格合格案例數 300 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 新增 `pull request(s)` 歸一至 `pr` 詞彙映射，確保自然語言檢索直接涵蓋 135 筆 PR 審查與代碼流程案例。
+   - `SYNONYM_GROUPS` 擴充 6 組新同義詞群（評估/評測/基準測試/eval/evals/evaluation/benchmark/benchmarks、派工/分派/派發/調度/分流/dispatch/dispatcher/dispatching、repo/repos/repository/repositories/代碼庫/程式庫/儲存庫、解析/解碼/剖析/parse/parser/parsing/decode/decoder/decoding、沙盒/sandbox/sandboxes、結構化/structured）。
+   - 在既有組別補齊對稱詞彙：工作流自動化補 automation/automate/automations，資安補 cybersecurity/漏洞/vulnerability/vulnerabilities，權限補 privilege/privileges，維持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：強化 `normalizeSourceUrl` 之 Reddit `.json` 端點正規化，加入回歸斷言，並同步全庫案例下限至 330 筆，恪守「只列候選、不自行刪除、總案例數保持完整」。
+   - `tests/search.test.cjs`：加入 evaluation/benchmark/benchmarks、dispatch/dispatcher/分流、repository/repositories、parse/parsing/decode/decoder、vulnerability/vulnerabilities/cybersecurity、privilege/privileges、sandbox/sandboxes、structured、automation 及 pull request/pull requests 搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
+本輪實際結果：31/31 測試全數通過，336 筆條目全文、同義詞擴充檢索、疑似重複來源候選審核、全庫一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。

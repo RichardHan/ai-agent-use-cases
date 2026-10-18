@@ -9,7 +9,7 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
+const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
   ['agent', '智能體', '智能体', '代理'],
   ['每日報表', '每日報告', '日報', '晨報', 'daily'],
@@ -28,7 +28,7 @@ const SYNONYM_GROUPS = [
   ['報帳', '核銷', '對帳', '報銷', 'reconciliation', 'reimbursement'],
   ['發票', '收據', '憑證', 'invoice', 'invoices', 'receipt', 'receipts'],
   ['debug', 'debugging', '除錯', '排錯', '修復', 'bug', '故障', '排障', 'troubleshoot', 'troubleshooting'],
-  ['workflow', '工作流', '自動化', '排程', '定時', 'cron', 'schedule', '排班', '流水線', 'pipeline', 'pipelines'],
+  ['workflow', '工作流', '自動化', 'automation', 'automate', 'automations', '排程', '定時', 'cron', 'schedule', '排班', '流水線', 'pipeline', 'pipelines'],
   ['求職', '履歷', '面試', '招聘', '招募', 'cv', 'resume', 'job', 'hiring', 'interview'],
   ['email', '郵件', '信件', '信箱', '收件匣', '收件箱', 'inbox'],
   ['代碼', '程式碼', '程式', 'code'],
@@ -40,7 +40,7 @@ const SYNONYM_GROUPS = [
   ['週報', 'weekly', '每週報告', '週報表'],
   ['健康', '醫療', 'health', '健檢'],
   ['電話', '通話', 'call'],
-  ['資安', '安全性', 'security'],
+  ['資安', '安全性', 'security', 'cybersecurity', '漏洞', 'vulnerability', 'vulnerabilities'],
   ['隱私', 'privacy'],
   ['旅遊', '旅行', 'travel'],
   ['比價', '比价', '折扣', '降價', '特價', '特賣', '促銷', '省錢'],
@@ -78,7 +78,7 @@ const SYNONYM_GROUPS = [
   ['同步', 'sync', 'synchronization'],
   ['圖表', 'chart', '圖表分析', '趨勢圖'],
   ['搜尋', '搜索', 'search'],
-  ['權限', '授權', 'permission', 'permissions', 'authorization', 'auth', 'access'],
+  ['權限', '授權', 'permission', 'permissions', 'authorization', 'auth', 'access', 'privilege', 'privileges'],
   ['庫存', '存貨', 'inventory', 'stock'],
   ['報價', '估價', 'quote', 'quotation'],
   ['快取', '緩存', 'cache', 'caching'],
@@ -105,7 +105,13 @@ const SYNONYM_GROUPS = [
   ['帳號', '帳戶', 'account', 'accounts'],
   ['報告', '報表', '研報', 'report', 'reports'],
   ['擷取', '提取', '萃取', '提煉', 'extract', 'extraction'],
-  ['流程圖', '架構圖', '心智圖', '圖解', '草圖', 'flowchart', 'diagram', 'mindmap']
+  ['流程圖', '架構圖', '心智圖', '圖解', '草圖', 'flowchart', 'diagram', 'mindmap'],
+  ['評估', '評測', '基準測試', 'eval', 'evals', 'evaluation', 'benchmark', 'benchmarks'],
+  ['派工', '分派', '派發', '調度', '分流', 'dispatch', 'dispatcher', 'dispatching'],
+  ['repo', 'repos', 'repository', 'repositories', '代碼庫', '程式庫', '儲存庫'],
+  ['解析', '解碼', '剖析', 'parse', 'parser', 'parsing', 'decode', 'decoder', 'decoding'],
+  ['沙盒', 'sandbox', 'sandboxes'],
+  ['結構化', 'structured']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

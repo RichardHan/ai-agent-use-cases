@@ -1,7 +1,7 @@
 name: Search relevance QA
 on:
   push:
-    branches: [main, feat/search-purpose-order]
+    branches: [main]
     paths: ['assets/**', 'index.html', 'tests/relevance*', '.github/workflows/relevance-qa.yml']
   pull_request:
     paths: ['assets/**', 'index.html', 'tests/relevance*', '.github/workflows/relevance-qa.yml']

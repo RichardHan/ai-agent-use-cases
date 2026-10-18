@@ -9,7 +9,8 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
  for(const engine of observe?[chromium]:[chromium,firefox,webkit]){
  const browser=await engine.launch();
  for(const [width,height] of engine===chromium?[[1440,1000],[390,844],[320,740]]:[[390,844]]){
- const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
+ const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  const start=Date.now();await page.goto(origin,{waitUntil:'networkidle'});await page.locator('#results .card').first().waitFor();
  const row={engine:engine.name(),width,readyMs:Date.now()-start,queries:[]};report.push(row);
  await page.screenshot({path:'qa-artifacts/'+prefix+'-home-'+engine.name()+'-'+width+'.jpg',type:'jpeg',quality:75});
@@ -50,7 +51,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
  }
  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.deepEqual(errors,[]);
  fs.writeFileSync('qa-artifacts/'+prefix+'-relevance.json',JSON.stringify(report,null,2));
- await page.close();
+ await context.close();
  }
  await browser.close();
  }

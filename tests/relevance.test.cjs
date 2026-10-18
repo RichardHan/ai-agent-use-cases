@@ -29,3 +29,10 @@ test('real corpus: salary purpose precedes prohibition while recall and all filt
  assert(salary.includes('UC-230')&&salary.includes('UC-024'));
  assert(salary.indexOf('UC-230')<salary.indexOf('UC-024'));
 });
+
+test('distinct purpose terms beat metadata coverage; repeats and frequency do not boost rank',()=>{
+ const {rankEntries,tokenize}=api();
+ const input=[item('UC-001','薪資薪資薪資','',{tags:['報表']}),item('UC-002','薪資','報表'),item('UC-003','薪資','報表報表報表')];
+ assert.deepEqual(ids(rankEntries(input,tokenize('薪水 報表'))),['UC-002','UC-003','UC-001']);
+ assert.deepEqual(ids(rankEntries(input,tokenize('薪水 薪水 報表'))),['UC-002','UC-003','UC-001']);
+});

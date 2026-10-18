@@ -20,7 +20,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.locator('#results-count').scrollIntoViewIfNeeded();
   if(query==='薪水')await page.screenshot({path:'qa-artifacts/'+prefix+'-salary-'+engine.name()+'-'+width+'.jpg',type:'jpeg',quality:85});
   if(!observe){
-   if(query==='薪水')assert(results.findIndex(n=>n.id==='UC-230')<results.findIndex(n=>n.id==='UC-024'));
+   if(query==='薪水'){assert(results.some(n=>n.id==='UC-230')&&results.some(n=>n.id==='UC-024'));assert(results.findIndex(n=>n.id==='UC-230')<results.findIndex(n=>n.id==='UC-024'));}
    if(query==='UC313')assert.equal(results[0].id,'UC-313');
    assert(await page.locator('#search-order-note').isVisible());
   }

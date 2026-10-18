@@ -578,11 +578,12 @@ function card(item, terms=[]) {
   const tagsWrap = el('div', 'tags');
   const scenarioTag = el('button', 'tag tag-scenario', item.scenario);
   scenarioTag.type = 'button';
-  scenarioTag.title = '依此情境篩選';
+  scenarioTag.title = activeScenario === item.scenario ? '取消此情境篩選' : '依此情境篩選，保留其他條件';
+  scenarioTag.setAttribute('aria-label', '情境篩選：' + item.scenario);
+  scenarioTag.setAttribute('aria-pressed', String(activeScenario === item.scenario));
   scenarioTag.addEventListener('click', e => {
     e.stopPropagation();
-    activeScenario = activeScenario === item.scenario ? '' : item.scenario;
-    render();
+    refineFromCard('scenario', item.scenario);
   });
   tagsWrap.append(scenarioTag);
 
@@ -590,11 +591,11 @@ function card(item, terms=[]) {
   displayTags.forEach(t => {
     const tagBtn = el('button', 'tag tag-interactive', t);
     tagBtn.type = 'button';
-    tagBtn.title = '搜尋「' + t + '」';
+    tagBtn.title = '搜尋「' + t + '」，保留其他篩選';
+    tagBtn.setAttribute('aria-label', tagBtn.title);
     tagBtn.addEventListener('click', e => {
       e.stopPropagation();
-      $('query').value = t;
-      render();
+      refineFromCard('query', t);
     });
     tagsWrap.append(tagBtn);
   });
@@ -704,6 +705,17 @@ async function copySearchLink() {
 
 function focusResults() {
   $('results-count').focus();
+}
+function refineFromCard(key, value) {
+  if (key === 'scenario') activeScenario = activeScenario === value ? '' : value;
+  else if (key === 'query') $('query').value = value;
+  else return;
+  // Re-rendering removes the triggering card. Hand focus to a stable result
+  // summary, including when a combination is empty or starts at discovery.
+  allowAutomaticArrival = false;
+  render();
+  $('results-count').focus({preventScroll:true});
+  $('results-count').scrollIntoView({block:'start',behavior:'instant'});
 }
 function removeCondition(key) {
   if(key==='scenario')activeScenario='';

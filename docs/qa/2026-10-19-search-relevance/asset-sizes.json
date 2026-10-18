@@ -1,0 +1,17 @@
+{
+  "assets/app.js": {
+    "before": 70977,
+    "after": 72369,
+    "delta": 1392
+  },
+  "index.html": {
+    "before": 11921,
+    "after": 12074,
+    "delta": 153
+  },
+  "assets/style.css": {
+    "before": 26166,
+    "after": 26379,
+    "delta": 213
+  }
+}

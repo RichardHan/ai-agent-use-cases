@@ -1,0 +1,816 @@
+{
+  "count": 1,
+  "states": [
+    {
+      "engine": "webkit",
+      "iteration": 1,
+      "native": true,
+      "surface": "published",
+      "errors": [],
+      "scrollY": 1438,
+      "hash": "#explore",
+      "tool": "Grok Bot",
+      "focus": "",
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "height": 844,
+      "open": false,
+      "query": "旅遊",
+      "entries": 339,
+      "failedPaths": []
+    }
+  ],
+  "traceFirst": [
+    {
+      "label": "scroll",
+      "time": 313,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1247,
+      "active": {
+        "tag": "BODY",
+        "id": "",
+        "cls": "",
+        "connected": true
+      },
+      "open": false
+    },
+    {
+      "label": "focusin",
+      "time": 1055,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "H2",
+        "id": "search-title",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "scroll",
+      "time": 1250,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "H2",
+        "id": "search-title",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "scroll",
+      "time": 1576,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "H2",
+        "id": "search-title",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "pointerdown",
+      "time": 1579,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "H2",
+        "id": "search-title",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "focusout",
+      "time": 1579,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "BODY",
+        "id": "",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "focusin",
+      "time": 1579,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "click",
+      "time": 1580,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "focusout",
+      "time": 1582,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "BUTTON",
+        "id": "nav-next-case",
+        "cls": "nav-case-btn",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "focusin",
+      "time": 1631,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "BUTTON",
+        "id": "nav-next-case",
+        "cls": "nav-case-btn",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "focusout",
+      "time": 1631,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "BODY",
+        "id": "",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "focusin",
+      "time": 1632,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "H1",
+        "id": "detail-title",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "scroll",
+      "time": 2538,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok+Bot&case=UC-001#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "H1",
+        "id": "detail-title",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "pointerdown",
+      "time": 2540,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok+Bot&case=UC-001#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "H1",
+        "id": "detail-title",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "focusout",
+      "time": 2540,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok+Bot&case=UC-001#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "BODY",
+        "id": "",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "focusin",
+      "time": 2540,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok+Bot&case=UC-001#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "reader-jump",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "click",
+      "time": 2540,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok+Bot&case=UC-001#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "reader-jump",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "focusout",
+      "time": 2554,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok+Bot&case=UC-001#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "BODY",
+        "id": "",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "focusin",
+      "time": 2554,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok+Bot&case=UC-001#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "H2",
+        "id": "reader-section-1",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "scroll",
+      "time": 2555,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok+Bot&case=UC-001#explore",
+      "scrollY": 1978,
+      "active": {
+        "tag": "H2",
+        "id": "reader-section-1",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 416,
+        "width": 68.046875,
+        "height": 36,
+        "top": 416,
+        "right": 347,
+        "bottom": 452,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "focusout",
+      "time": 2558,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "BODY",
+        "id": "",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "popstate-capture",
+      "time": 2559,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "BODY",
+        "id": "",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "popstate-microtask",
+      "time": 2559,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "BODY",
+        "id": "",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": true
+    },
+    {
+      "label": "focusin",
+      "time": 2564,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "after-0",
+      "time": 2572,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "after-50",
+      "time": 2609,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "after-150",
+      "time": 2709,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "scroll",
+      "time": 2823,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "scroll",
+      "time": 2836,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1586,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 808,
+        "width": 68.046875,
+        "height": 36,
+        "top": 808,
+        "right": 347,
+        "bottom": 844,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "after-290",
+      "time": 2849,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1586,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 808,
+        "width": 68.046875,
+        "height": 36,
+        "top": 808,
+        "right": 347,
+        "bottom": 844,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "after-350",
+      "time": 2909,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1586,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 808,
+        "width": 68.046875,
+        "height": 36,
+        "top": 808,
+        "right": 347,
+        "bottom": 844,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "after-500",
+      "time": 3059,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1586,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "cls": "",
+        "card": "UC-001",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 808,
+        "width": 68.046875,
+        "height": 36,
+        "top": 808,
+        "right": 347,
+        "bottom": 844,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "focusout",
+      "time": 3082,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "BODY",
+        "id": "",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": false
+    },
+    {
+      "label": "scroll",
+      "time": 3095,
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Grok%20Bot#explore",
+      "scrollY": 1438,
+      "active": {
+        "tag": "BODY",
+        "id": "",
+        "cls": "",
+        "connected": true
+      },
+      "rect": {
+        "x": 278.953125,
+        "y": 956,
+        "width": 68.046875,
+        "height": 36,
+        "top": 956,
+        "right": 347,
+        "bottom": 992,
+        "left": 278.953125
+      },
+      "open": false
+    }
+  ]
+}

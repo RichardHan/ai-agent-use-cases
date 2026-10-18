@@ -1,0 +1,3098 @@
+{
+  "control-baseline.json": [
+    {
+      "owned": true,
+      "iteration": 0,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1951,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1860,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.828125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.828125,
+            "right": 347,
+            "bottom": 451.828125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1984,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1860,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.828125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.828125,
+            "right": 347,
+            "bottom": 451.828125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2249,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1860,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.828125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.828125,
+            "right": 347,
+            "bottom": 451.828125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2449,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1860,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.828125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.828125,
+            "right": 347,
+            "bottom": 451.828125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 506,
+      "shotEnd": 537
+    },
+    {
+      "owned": true,
+      "iteration": 1,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1841,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2005,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2139,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2005,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2339,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2005,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": true,
+      "iteration": 2,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1842,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1927,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.703125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.703125,
+            "right": 347,
+            "bottom": 451.703125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2139,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1927,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.703125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.703125,
+            "right": 347,
+            "bottom": 451.703125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2340,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1927,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.703125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.703125,
+            "right": 347,
+            "bottom": 451.703125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": true,
+      "iteration": 3,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1877,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1927,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.703125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.703125,
+            "right": 347,
+            "bottom": 451.703125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1910,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1927,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.703125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.703125,
+            "right": 347,
+            "bottom": 451.703125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2175,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1927,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.703125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.703125,
+            "right": 347,
+            "bottom": 451.703125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2375,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1927,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.703125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.703125,
+            "right": 347,
+            "bottom": 451.703125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 506,
+      "shotEnd": 537
+    },
+    {
+      "owned": true,
+      "iteration": 4,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1835,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2005,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1872,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2005,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2133,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2005,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2333,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2005,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 505,
+      "shotEnd": 539
+    },
+    {
+      "owned": true,
+      "iteration": 5,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1820,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2118,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2318,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": false,
+      "iteration": 0,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1807,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1911,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1841,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1911,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2105,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1911,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2305,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1911,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 505,
+      "shotEnd": 538
+    },
+    {
+      "owned": false,
+      "iteration": 1,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1951,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1886,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.015625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.015625,
+            "right": 347,
+            "bottom": 451.015625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2248,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1886,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.015625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.015625,
+            "right": 347,
+            "bottom": 451.015625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2449,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1886,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.015625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.015625,
+            "right": 347,
+            "bottom": 451.015625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": false,
+      "iteration": 2,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1963,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2260,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2461,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": false,
+      "iteration": 3,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1840,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1968,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1874,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1968,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2139,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1968,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2339,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1968,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 505,
+      "shotEnd": 537
+    },
+    {
+      "owned": false,
+      "iteration": 4,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1958,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1994,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2255,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2456,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 505,
+      "shotEnd": 539
+    },
+    {
+      "owned": false,
+      "iteration": 5,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1900,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2198,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2399,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1947,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    }
+  ],
+  "control-live.json": [
+    {
+      "owned": true,
+      "iteration": 0,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 4773,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1967,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 4809,
+          "tag": "BODY",
+          "id": "",
+          "scrollY": 1427,
+          "rect": {
+            "x": 278.953125,
+            "y": 955.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 955.390625,
+            "right": 347,
+            "bottom": 991.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 5068,
+          "tag": "BODY",
+          "id": "",
+          "scrollY": 1427,
+          "rect": {
+            "x": 278.953125,
+            "y": 955.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 955.390625,
+            "right": 347,
+            "bottom": 991.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 5268,
+          "tag": "BODY",
+          "id": "",
+          "scrollY": 1427,
+          "rect": {
+            "x": 278.953125,
+            "y": 955.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 955.390625,
+            "right": 347,
+            "bottom": 991.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 507,
+      "shotEnd": 540
+    },
+    {
+      "owned": true,
+      "iteration": 1,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 3844,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 4142,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 4341,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": true,
+      "iteration": 2,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2150,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1917,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.015625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.015625,
+            "right": 347,
+            "bottom": 451.015625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2447,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1917,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.015625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.015625,
+            "right": 347,
+            "bottom": 451.015625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2648,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1917,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.015625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.015625,
+            "right": 347,
+            "bottom": 451.015625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": true,
+      "iteration": 3,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2206,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2061,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.375,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.375,
+            "right": 347,
+            "bottom": 451.375,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 2241,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2061,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.375,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.375,
+            "right": 347,
+            "bottom": 451.375,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2504,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2061,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.375,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.375,
+            "right": 347,
+            "bottom": 451.375,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2706,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2061,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.375,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.375,
+            "right": 347,
+            "bottom": 451.375,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 506,
+      "shotEnd": 538
+    },
+    {
+      "owned": true,
+      "iteration": 4,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2078,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 2109,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2375,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2575,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 505,
+      "shotEnd": 534
+    },
+    {
+      "owned": true,
+      "iteration": 5,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2501,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2801,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2999,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": false,
+      "iteration": 0,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2171,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1978,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 2252,
+          "tag": "BODY",
+          "id": "",
+          "scrollY": 1438,
+          "rect": {
+            "x": 278.953125,
+            "y": 956,
+            "width": 68.046875,
+            "height": 36,
+            "top": 956,
+            "right": 347,
+            "bottom": 992,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2469,
+          "tag": "BODY",
+          "id": "",
+          "scrollY": 1438,
+          "rect": {
+            "x": 278.953125,
+            "y": 956,
+            "width": 68.046875,
+            "height": 36,
+            "top": 956,
+            "right": 347,
+            "bottom": 992,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2671,
+          "tag": "BODY",
+          "id": "",
+          "scrollY": 1438,
+          "rect": {
+            "x": 278.953125,
+            "y": 956,
+            "width": 68.046875,
+            "height": 36,
+            "top": 956,
+            "right": 347,
+            "bottom": 992,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 554,
+      "shotEnd": 584
+    },
+    {
+      "owned": false,
+      "iteration": 1,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2069,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1953,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.8125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.8125,
+            "right": 347,
+            "bottom": 451.8125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2366,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1953,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.8125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.8125,
+            "right": 347,
+            "bottom": 451.8125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2567,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1953,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.8125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.8125,
+            "right": 347,
+            "bottom": 451.8125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": false,
+      "iteration": 2,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2141,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1999,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2440,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1999,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2639,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1999,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": false,
+      "iteration": 3,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2082,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2024,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.578125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.578125,
+            "right": 347,
+            "bottom": 451.578125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 2114,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2024,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.578125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.578125,
+            "right": 347,
+            "bottom": 451.578125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2380,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2024,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.578125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.578125,
+            "right": 347,
+            "bottom": 451.578125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2580,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2024,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.578125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.578125,
+            "right": 347,
+            "bottom": 451.578125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 505,
+      "shotEnd": 535
+    },
+    {
+      "owned": false,
+      "iteration": 4,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2173,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1978,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 2206,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1978,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2472,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1978,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2671,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1978,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 506,
+      "shotEnd": 535
+    },
+    {
+      "owned": false,
+      "iteration": 5,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2374,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1983,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.890625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.890625,
+            "right": 347,
+            "bottom": 451.890625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2672,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1983,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.890625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.890625,
+            "right": 347,
+            "bottom": 451.890625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2872,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1983,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.890625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.890625,
+            "right": 347,
+            "bottom": 451.890625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    }
+  ],
+  "control-preview.json": [
+    {
+      "owned": true,
+      "iteration": 0,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2017,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 2055,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2315,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2514,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 507,
+      "shotEnd": 542
+    },
+    {
+      "owned": true,
+      "iteration": 1,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 2033,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1999,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2332,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1999,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2530,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1999,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": true,
+      "iteration": 2,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1959,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2259,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2458,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": true,
+      "iteration": 3,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1900,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1932,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2197,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2397,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 505,
+      "shotEnd": 536
+    },
+    {
+      "owned": true,
+      "iteration": 4,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1810,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1843,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2108,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2308,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 506,
+      "shotEnd": 536
+    },
+    {
+      "owned": true,
+      "iteration": 5,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1814,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1978,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2111,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1978,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2312,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1978,
+          "rect": {
+            "x": 278.953125,
+            "y": 416,
+            "width": 68.046875,
+            "height": 36,
+            "top": 416,
+            "right": 347,
+            "bottom": 452,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": false,
+      "iteration": 0,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1840,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1933,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.515625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.515625,
+            "right": 347,
+            "bottom": 451.515625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1870,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1933,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.515625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.515625,
+            "right": 347,
+            "bottom": 451.515625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2137,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1933,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.515625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.515625,
+            "right": 347,
+            "bottom": 451.515625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2337,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1933,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.515625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.515625,
+            "right": 347,
+            "bottom": 451.515625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 506,
+      "shotEnd": 534
+    },
+    {
+      "owned": false,
+      "iteration": 1,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1865,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2164,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2364,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2004,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.1875,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.1875,
+            "right": 347,
+            "bottom": 451.1875,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": false,
+      "iteration": 2,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1815,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1999,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2113,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1999,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2312,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1999,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.390625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.390625,
+            "right": 347,
+            "bottom": 451.390625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    },
+    {
+      "owned": false,
+      "iteration": 3,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1945,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2024,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.578125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.578125,
+            "right": 347,
+            "bottom": 451.578125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1979,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2024,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.578125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.578125,
+            "right": 347,
+            "bottom": 451.578125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2242,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2024,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.578125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.578125,
+            "right": 347,
+            "bottom": 451.578125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2443,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 2024,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.578125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.578125,
+            "right": 347,
+            "bottom": 451.578125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 506,
+      "shotEnd": 538
+    },
+    {
+      "owned": false,
+      "iteration": 4,
+      "shot": true,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1882,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1983,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.890625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.890625,
+            "right": 347,
+            "bottom": 451.890625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "immediately-after-shot",
+          "time": 1913,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1983,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.890625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.890625,
+            "right": 347,
+            "bottom": 451.890625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2180,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1983,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.890625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.890625,
+            "right": 347,
+            "bottom": 451.890625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2381,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1983,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.890625,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.890625,
+            "right": 347,
+            "bottom": 451.890625,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ],
+      "shotStart": 504,
+      "shotEnd": 533
+    },
+    {
+      "owned": false,
+      "iteration": 5,
+      "shot": false,
+      "id": "UC-001",
+      "samples": [
+        {
+          "label": "500-before-shot",
+          "time": 1977,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "800",
+          "time": 2274,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        },
+        {
+          "label": "1000",
+          "time": 2474,
+          "card": "UC-001",
+          "tag": "BUTTON",
+          "id": "",
+          "scrollY": 1942,
+          "rect": {
+            "x": 278.953125,
+            "y": 415.203125,
+            "width": 68.046875,
+            "height": 36,
+            "top": 415.203125,
+            "right": 347,
+            "bottom": 451.203125,
+            "left": 278.953125
+          },
+          "height": 844,
+          "open": false,
+          "query": "旅遊",
+          "tool": "Grok Bot"
+        }
+      ]
+    }
+  ]
+}

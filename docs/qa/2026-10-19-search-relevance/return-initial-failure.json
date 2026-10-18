@@ -1,0 +1,28 @@
+[
+  {
+    "engine": "webkit",
+    "iteration": 1,
+    "native": true,
+    "surface": "published",
+    "errors": [],
+    "scrollY": 1484,
+    "hash": "#explore",
+    "tool": "Grok Bot",
+    "focus": "",
+    "rect": {
+      "x": 278.953125,
+      "y": 955.578125,
+      "width": 68.046875,
+      "height": 36,
+      "top": 955.578125,
+      "right": 347,
+      "bottom": 991.578125,
+      "left": 278.953125
+    },
+    "height": 844,
+    "open": false,
+    "query": "旅遊",
+    "entries": 339,
+    "failedPaths": []
+  }
+]

@@ -1,0 +1,276 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "readyMs": 1106,
+    "queries": [
+      {
+        "query": "薪水",
+        "ms": 46,
+        "count": 7,
+        "first": [
+          {
+            "id": "UC-007",
+            "title": "找出可能白花的軟體訂閱費"
+          },
+          {
+            "id": "UC-024",
+            "title": "讓 dots 檢查已交付工作，找出可能漏開的帳單"
+          },
+          {
+            "id": "UC-035",
+            "title": "找合適職缺，把履歷改成有根據的申請草稿"
+          },
+          {
+            "id": "UC-051",
+            "title": "把過去幾年的報稅檔案交給 Bot，找出會計師可能漏掉或算錯的地方"
+          },
+          {
+            "id": "UC-185",
+            "title": "活動成績出爐後，把排行榜和獎狀一起準備好"
+          }
+        ],
+        "salaryPosition": 6,
+        "incidentalPosition": 2
+      },
+      {
+        "query": "收件匣",
+        "ms": 66,
+        "count": 89,
+        "first": [
+          {
+            "id": "UC-001",
+            "title": "規劃旅行，先把交通和住宿比清楚"
+          },
+          {
+            "id": "UC-003",
+            "title": "拿模擬商店，練習處理營運突發狀況"
+          },
+          {
+            "id": "UC-014",
+            "title": "讓 AI 先整理客服信，退款與承諾由你決定"
+          },
+          {
+            "id": "UC-015",
+            "title": "網站改價或更新規則時，請 AI 幫你盯著"
+          },
+          {
+            "id": "UC-016",
+            "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 8
+      },
+      {
+        "query": "UC313",
+        "ms": 19,
+        "count": 4,
+        "first": [
+          {
+            "id": "UC-313",
+            "title": "代理說收到停止指令，舊工作卻仍回報完成：換人前先對帳"
+          },
+          {
+            "id": "UC-329",
+            "title": "代理做到一半重啟，下一棒真的接得上嗎？"
+          },
+          {
+            "id": "UC-339",
+            "title": "以前交辦過的工作，為什麼又像新要求一樣送到另一個Bot？"
+          },
+          {
+            "id": "UC-341",
+            "title": "任務又開始跑了，為什麼仍被當成已封存？"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 0
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83"
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "readyMs": 952,
+    "queries": [
+      {
+        "query": "薪水",
+        "ms": 42,
+        "count": 7,
+        "first": [
+          {
+            "id": "UC-007",
+            "title": "找出可能白花的軟體訂閱費"
+          },
+          {
+            "id": "UC-024",
+            "title": "讓 dots 檢查已交付工作，找出可能漏開的帳單"
+          },
+          {
+            "id": "UC-035",
+            "title": "找合適職缺，把履歷改成有根據的申請草稿"
+          },
+          {
+            "id": "UC-051",
+            "title": "把過去幾年的報稅檔案交給 Bot，找出會計師可能漏掉或算錯的地方"
+          },
+          {
+            "id": "UC-185",
+            "title": "活動成績出爐後，把排行榜和獎狀一起準備好"
+          }
+        ],
+        "salaryPosition": 6,
+        "incidentalPosition": 2
+      },
+      {
+        "query": "收件匣",
+        "ms": 75,
+        "count": 89,
+        "first": [
+          {
+            "id": "UC-001",
+            "title": "規劃旅行，先把交通和住宿比清楚"
+          },
+          {
+            "id": "UC-003",
+            "title": "拿模擬商店，練習處理營運突發狀況"
+          },
+          {
+            "id": "UC-014",
+            "title": "讓 AI 先整理客服信，退款與承諾由你決定"
+          },
+          {
+            "id": "UC-015",
+            "title": "網站改價或更新規則時，請 AI 幫你盯著"
+          },
+          {
+            "id": "UC-016",
+            "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 8
+      },
+      {
+        "query": "UC313",
+        "ms": 14,
+        "count": 4,
+        "first": [
+          {
+            "id": "UC-313",
+            "title": "代理說收到停止指令，舊工作卻仍回報完成：換人前先對帳"
+          },
+          {
+            "id": "UC-329",
+            "title": "代理做到一半重啟，下一棒真的接得上嗎？"
+          },
+          {
+            "id": "UC-339",
+            "title": "以前交辦過的工作，為什麼又像新要求一樣送到另一個Bot？"
+          },
+          {
+            "id": "UC-341",
+            "title": "任務又開始跑了，為什麼仍被當成已封存？"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 0
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83"
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "readyMs": 938,
+    "queries": [
+      {
+        "query": "薪水",
+        "ms": 42,
+        "count": 7,
+        "first": [
+          {
+            "id": "UC-007",
+            "title": "找出可能白花的軟體訂閱費"
+          },
+          {
+            "id": "UC-024",
+            "title": "讓 dots 檢查已交付工作，找出可能漏開的帳單"
+          },
+          {
+            "id": "UC-035",
+            "title": "找合適職缺，把履歷改成有根據的申請草稿"
+          },
+          {
+            "id": "UC-051",
+            "title": "把過去幾年的報稅檔案交給 Bot，找出會計師可能漏掉或算錯的地方"
+          },
+          {
+            "id": "UC-185",
+            "title": "活動成績出爐後，把排行榜和獎狀一起準備好"
+          }
+        ],
+        "salaryPosition": 6,
+        "incidentalPosition": 2
+      },
+      {
+        "query": "收件匣",
+        "ms": 73,
+        "count": 89,
+        "first": [
+          {
+            "id": "UC-001",
+            "title": "規劃旅行，先把交通和住宿比清楚"
+          },
+          {
+            "id": "UC-003",
+            "title": "拿模擬商店，練習處理營運突發狀況"
+          },
+          {
+            "id": "UC-014",
+            "title": "讓 AI 先整理客服信，退款與承諾由你決定"
+          },
+          {
+            "id": "UC-015",
+            "title": "網站改價或更新規則時，請 AI 幫你盯著"
+          },
+          {
+            "id": "UC-016",
+            "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 8
+      },
+      {
+        "query": "UC313",
+        "ms": 13,
+        "count": 4,
+        "first": [
+          {
+            "id": "UC-313",
+            "title": "代理說收到停止指令，舊工作卻仍回報完成：換人前先對帳"
+          },
+          {
+            "id": "UC-329",
+            "title": "代理做到一半重啟，下一棒真的接得上嗎？"
+          },
+          {
+            "id": "UC-339",
+            "title": "以前交辦過的工作，為什麼又像新要求一樣送到另一個Bot？"
+          },
+          {
+            "id": "UC-341",
+            "title": "任務又開始跑了，為什麼仍被當成已封存？"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 0
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83"
+  }
+]

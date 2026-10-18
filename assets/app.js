@@ -241,6 +241,7 @@ function renderRelated(item) {
     related.forEach(other => {
       const row = el('li');
       const button = el('button', 'related-open', other.title);button.type = 'button';
+      button.dataset.relatedId = other.id;
       // Preserve the original result/discovery trigger for close and Escape.
       button.addEventListener('click', () => showDetail(other, null));
       row.append(el('p', 'related-meta', other.id + ' · 同主題：' + other.category), button,
@@ -249,11 +250,23 @@ function renderRelated(item) {
     });
     section.append(list);
   } else {
-    section.append(el('p', 'related-empty', '目前條件下，沒有其他相同主題的主要案例。可返回結果調整搜尋條件。'));
+    section.append(el('p', 'related-empty', '目前條件下，沒有其他相同主題的主要案例。可關閉閱讀後調整搜尋條件。'));
   }
-  const back = el('button', 'related-back', '返回搜尋結果');back.type = 'button';
+  const back = el('button', 'related-back', '關閉閱讀');back.type = 'button';
   back.addEventListener('click', closeDetail);section.append(back);
   return section;
+}
+function refreshRelated() {
+  const previous = $('detail-body').querySelector('.related-cases');
+  if (!$('detail').open || !previous || !currentDetailItem) return;
+  const active = document.activeElement;
+  const hadFocus = previous.contains(active);
+  const next = renderRelated(currentDetailItem);
+  previous.replaceWith(next);
+  if (hadFocus) {
+    const target = [...next.querySelectorAll('[data-related-id]')].find(button => button.dataset.relatedId === active.dataset.relatedId) || next.querySelector('.related-back');
+    target.focus({preventScroll:true});
+  }
 }
 function updateModalNav() {
   const prevBtn = $('nav-prev-case'), nextBtn = $('nav-next-case');
@@ -758,6 +771,7 @@ async function retryFailedSources() {
     render(false,true);
     updateModalNav();
     restoreFocus();
+    refreshRelated();
     const target=new URLSearchParams(location.search).get('case');
     if(recoverRequested && requestedCase && target===requestedCase && !$('detail').open){
       const item=matchCase(target);

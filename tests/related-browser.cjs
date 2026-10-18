@@ -107,6 +107,27 @@ const live=process.env.RELATED_LIVE==='1';
   assert(await page.locator('#results [data-case-id="'+historyID+'"] .card-bottom button').evaluate(n=>n===document.activeElement),'Cross-search history returns focus to original A opener');
   await page.locator('#query').fill('no-matching-case-123');assert(await page.locator('#empty').isVisible());
   await audit('empty-results');assert.deepEqual(errors,[]);
+  // A delayed background retry must update suggestions without losing dialog focus.
+  let recovered=false,release;
+  const waiting=new Promise(resolve=>release=resolve);
+  await page.route('**/catalog.json',r=>r.fulfill({json:{files:['cases/a.md','cases/b.md']}}));
+  const fixture=id=>'# UC-'+id+'：測試用案例（合成資料）\n\n- 分類：測試主題\n- 情境：生活\n- 標籤：測試\n- 來源證據：自設未測\n\n## 方法\n\n僅供自動驗收。';
+  await page.route('**/cases/a.md',r=>r.fulfill({body:fixture('991')}));
+  await page.route('**/cases/b.md',async r=>{
+   if(!recovered)return r.fulfill({status:503,body:'test unavailable'});
+   await waiting;await r.fulfill({body:fixture('992')});
+  });
+  await page.goto(origin,{waitUntil:'networkidle'});await page.locator('#results .card').first().waitFor();
+  recovered=true;
+  const request=page.waitForRequest(r=>r.url().endsWith('/cases/b.md'));
+  await page.locator('#retry-failed').click();await request;
+  await page.locator('#results .card .card-bottom button').first().click();
+  assert.equal(await page.locator('.related-open').count(),0);
+  await page.locator('.related-back').focus();release();
+  await page.waitForFunction(()=>document.querySelectorAll('.related-open').length===1);
+  assert.equal(await page.locator('.related-open').innerText(),'測試用案例（合成資料）');
+  assert(await page.locator('.related-back').evaluate(n=>n===document.activeElement),'Recovery preserves related control focus');
+  await audit('recovered-related');
   await context.close();
  }
  await browser.close();fs.writeFileSync('qa-artifacts/related-'+(live?'live':'after')+'.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));

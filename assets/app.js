@@ -11,7 +11,7 @@ const norm = text => text.normalize('NFKC').toLocaleLowerCase();
 const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
   ['agent', '智能體', '智能体', '代理'],
-  ['每日報表', '每日報告', '日報', '晨報'],
+  ['每日報表', '每日報告', '日報', '晨報', 'daily'],
   ['儀錶板', '儀表板', 'dashboard'],
   ['折價券', '優惠券'],
   ['賬單', '帳單', 'bill'],
@@ -27,7 +27,7 @@ const SYNONYM_GROUPS = [
   ['報帳', '核銷', '對帳', '報銷', 'reconciliation', 'reimbursement'],
   ['發票', '收據', '憑證', 'invoice', 'receipt'],
   ['debug', '除錯', '排錯', '修復', 'bug', '故障', '排障', 'troubleshooting'],
-  ['workflow', '工作流', '自動化', '排程', '定時', 'cron', 'schedule', '排班'],
+  ['workflow', '工作流', '自動化', '排程', '定時', 'cron', 'schedule', '排班', '流水線', 'pipeline', 'pipelines'],
   ['求職', '履歷', '面試', '招聘', '招募', 'cv', 'resume', 'job', 'hiring', 'interview'],
   ['email', '郵件', '信件', '信箱', '收件匣', '收件箱', 'inbox'],
   ['代碼', '程式碼', '程式', 'code'],
@@ -45,7 +45,7 @@ const SYNONYM_GROUPS = [
   ['比價', '比价', '折扣', '降價', '特價', '特賣', '促銷', '省錢'],
   ['會議', '開會', 'meeting'],
   ['提醒', '通知', 'alert', 'notification', '推播', '告警', '警報'],
-  ['退款', '退貨', 'refund'],
+  ['退款', '退貨', 'refund', 'refunds'],
   ['播客', 'podcast'],
   ['智慧家庭', '智能家居', '智能家庭', '智慧家電', 'iot', '物聯網'],
   ['ocr', '文字辨識', '圖片辨識', '光學字元辨識', '影像辨識'],
@@ -58,7 +58,7 @@ const SYNONYM_GROUPS = [
   ['rag', '知識庫', '知识库', '檢索', 'retrieval'],
   ['語音', '音訊', '音頻', '聲音', 'voice', 'audio'],
   ['自動回覆', '自動回信', 'auto-reply', '自動回覆買家'],
-  ['測試', 'qa', 'testing'],
+  ['測試', 'qa', 'test', 'tests', 'testing', '回歸', 'regression'],
   ['審查', '審核', 'review', 'audit'],
   ['物流', '快遞', '包裹', '運送', '配送', 'shipping', 'delivery'],
   ['社群', '社交媒體', 'sns'],
@@ -69,7 +69,7 @@ const SYNONYM_GROUPS = [
   ['提示詞', 'prompt', '提示語', '提示'],
   ['核准', '審批', 'approval', '人工確認', '人工核准'],
   ['網購', '電商', '購物', 'ecommerce', 'shopping'],
-  ['合約', '合同', 'contract', '協議'],
+  ['合約', '合同', 'contract', '協議', 'agreement'],
   ['薪資', '薪水', '薪酬', 'payroll', 'salary'],
   ['設備', '裝置', 'device', '硬體', 'hardware'],
   ['合規', 'compliance', '法規', '規章'],
@@ -82,7 +82,12 @@ const SYNONYM_GROUPS = [
   ['報價', '估價', 'quote', 'quotation'],
   ['快取', '緩存', 'cache', 'caching'],
   ['介面', '接口', 'interface', 'api'],
-  ['重試', '重跑', 'retry']
+  ['重試', '重跑', 'retry'],
+  ['驗證', '核實', '查核', 'verify', 'verification', 'validate', 'validation'],
+  ['訂閱', '訂閱制', 'subscription', 'subscriptions'],
+  ['外掛', '擴充', '擴充功能', '插件', 'plugin', 'plugins', 'extension', 'extensions'],
+  ['預算', '編列預算', 'budget', 'budgeting'],
+  ['日誌', '日誌記錄', 'log', 'logs', 'logging']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

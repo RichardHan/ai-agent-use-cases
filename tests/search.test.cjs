@@ -380,6 +380,41 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('警報')), {}).some(x
 // Search quality: Rollback synonyms
 assert(api.filterEntries(entries, Array.from(api.tokenize('rollback')), {}).some(x => x.id === 'UC-069'), 'rollback matches UC-069 via 復原/還原 synonym');
 
+// Search quality: Verification & validation synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('validate')), {}).some(x => x.id === 'UC-156'), 'validate matches UC-156 via 驗證 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('verify')), {}).some(x => x.id === 'UC-156'), 'verify matches UC-156 via 驗證 synonym');
+
+// Search quality: Subscription synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('subscription')), {}).some(x => x.id === 'UC-007'), 'subscription matches UC-007 via 訂閱 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('subscriptions')), {}).some(x => x.id === 'UC-007'), 'subscriptions matches UC-007 via 訂閱 synonym');
+
+// Search quality: Plugin & extension synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('plugin')), {}).some(x => x.id === 'UC-005'), 'plugin matches UC-005 via 外掛 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('extension')), {}).some(x => x.id === 'UC-005'), 'extension matches UC-005 via 外掛 synonym');
+
+// Search quality: Pipeline synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('pipeline')), {}).some(x => x.id === 'UC-042'), 'pipeline matches UC-042 via 流水線/workflow synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('pipelines')), {}).some(x => x.id === 'UC-042'), 'pipelines matches UC-042 via 流水線/workflow synonym');
+
+// Search quality: Test & regression synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('test')), {}).some(x => x.id === 'UC-006'), 'test matches UC-006 via 測試 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('regression')), {}).some(x => x.id === 'UC-217'), 'regression matches UC-217 via 回歸/測試 synonym');
+
+// Search quality: Daily report synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('daily')), {}).some(x => x.id === 'UC-041'), 'daily matches UC-041 via 日報/每日報表 synonym');
+
+// Search quality: Budget synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('budget')), {}).some(x => x.id === 'UC-022'), 'budget matches UC-022 via 預算 synonym');
+
+// Search quality: Log & logging synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('logging')), {}).some(x => x.id === 'UC-096'), 'logging matches UC-096 via 日誌 synonym');
+
+// Search quality: Refunds plural
+assert(api.filterEntries(entries, Array.from(api.tokenize('refunds')), {}).some(x => x.id === 'UC-088'), 'refunds matches UC-088 via 退款 synonym');
+
+// Search quality: Agreement synonym
+assert(api.filterEntries(entries, Array.from(api.tokenize('agreement')), {}).some(x => x.id === 'UC-021'), 'agreement matches UC-021 via 合約 synonym');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

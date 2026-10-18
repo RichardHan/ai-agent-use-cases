@@ -442,3 +442,41 @@ python -m http.server 8080 --directory /tmp/ai-usecase-preview
 回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/test-preview/ai-agent-use-cases`。
 本輪實際結果：24/24 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選叢集審核、全庫 325 案例一致性檢驗通過。
 下一輪建議：依多案例共用公開來源候選叢集（如多個案例共用同一介紹頁或官方文檔），評估是否需在案例頁中提供 anchor 或頁面子章節指引。
+
+## 2026-10-18：驗證、訂閱、外掛、流水線、回歸與日報同義詞擴充、大型官方與原帖來源疑似重複候選叢集擴充
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與使用體驗痛點：
+   - 驗證與核實：全庫有 194 筆「驗證」，但搜尋英文關鍵詞「validate」僅得 1 筆、「verify」得 0 筆，無法檢索大量驗證案例（如 UC-156 等）；
+   - 訂閱管理：全庫有 51 筆「訂閱」，但搜尋「subscription」或「subscriptions」僅得 11 筆，漏失 40 筆僅標註中文訂閱的案例（如 UC-007、UC-270 等）；
+   - 外掛與擴充：全庫有 21 筆「外掛」，但搜尋英文「plugin」僅得 6 筆、「plugins」得 5 筆、「extension」得 1 筆、「extensions」得 1 筆；
+   - 流水線與工作流：既有 workflow 詞群遺漏多代理與音影常見的「流水線、pipeline、pipelines」（搜尋「pipeline」得 2 筆、「pipelines」得 0 筆），無法檢索 UC-042「多 Bot 內容流水線」與 UC-054「多工具流水線」；
+   - 測試與回歸：既有測試詞群包含 testing，但遺漏基本詞「test」（得 30 筆）、「tests」（得 6 筆）及「回歸」、「regression」（得 0 筆），導致無法檢索全庫 172 筆「測試」案例；
+   - 日報與每日報表：既有週報包含 weekly，但對稱的「日報」詞群遺漏「daily」（搜尋「daily」得 2 筆，漏失 21 筆日報案例）；
+   - 預算管理：全庫有 22 筆「預算」，但搜尋「budget」僅得 1 筆、「budgeting」得 0 筆；
+   - 日誌記錄：全庫有 59 筆「日誌」，但搜尋「logs」僅得 2 筆、「logging」得 0 筆；
+   - 退款與合約協議：既有詞群分別遺漏「refunds」與「agreement」。
+2. 疑似重複來源候選叢集偵測覆蓋：
+   - `docs.x.ai/grok-bot/computer-and-apps` 被 18 個案例與 1 個經驗補充（共 19 筆檔案）共用；
+   - `meta.com/help/subscriptions/1021145227643680` 被 UC-016、UC-026～UC-034 等 10 個案例共用；
+   - `docs.x.ai/grok-bot/skills-routines-and-automations` 被 UC-006、UC-015、UC-039、UC-046、UC-060、UC-061、UC-208、UC-268、UC-269 等 9 個案例共用；
+   - `about.fb.com/news/2026/09/introducing-muse-personal-ai-agent` 被 UC-016、UC-027～029、UC-067、UC-104～105、UC-107～108 等 9 個案例共用；
+   - `docs.x.ai/grok-bot/bots` 被 6 個案例與 1 個模板補充（共 7 筆檔案）共用；
+   - `learn.chatgpt.com/docs/dots` 被 UC-023～025、UC-030、UC-035、UC-073 等 6 個案例共用；
+   - `docs.x.ai/grok-bot/faq` 被 UC-027、UC-054、UC-073、UC-225、UC-234 等 5 個案例共用；
+   - `aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots` 被 UC-001～003 等 3 個案例共用；
+   - P-002 原始 X 貼文（SteveFebbraro1、billysticker）在 `cases/028-bill-comparison-preparation.md` 與 `sources/pending.md` 之間共用；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 325 保持完整；嚴格合格案例數 296 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `SYNONYM_GROUPS` 擴充 5 組新同義詞群（驗證/核實/查核/verify/verification/validate/validation、訂閱/訂閱制/subscription/subscriptions、外掛/擴充/擴充功能/插件/plugin/plugins/extension/extensions、預算/編列預算/budget/budgeting、日誌/日誌記錄/log/logs/logging）。
+   - 在既有組別補齊對稱詞彙：工作流補流水線/pipeline/pipelines、測試補test/tests/回歸/regression、日報補daily、合約補agreement、退款補refunds，維持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：擴充 10 組核心官方與原作者來源疑似重複候選叢集斷言（Grok Bot 19 檔電腦控制叢集、Meta 10 案訂閱幫助中心、Grok Bot 9 案自動化文檔、Muse 9 案個人代理介紹、Grok Bot 7 檔機器人文檔、Dots 6 案基礎文檔、Grok Bot 5 案 FAQ、S-001 3 案同題比較、P-002 2 組原帖與待查共用），恪守「只列候選、不自行刪除、總案例數 325 保持完整」。
+   - `tests/search.test.cjs`：加入 validate/verify、subscription/subscriptions、plugin/extension、pipeline/pipelines、test/regression、daily、budget、logging、refunds、agreement 等搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/test-preview/ai-agent-use-cases`。
+本輪實際結果：24/24 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選叢集審核、全庫 325 案例一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
+

@@ -352,7 +352,104 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(toolchainPr13Candidate.cases.includes('cases/006-facebook-publication.md'));
   assert(toolchainPr13Candidate.cases.includes('cases/042-dots-credential-multibot-return.md'));
 
+  const grokBotComputersCandidate = duplicates.find(d => d.url.includes('docs.x.ai/grok-bot/computer-and-apps'));
+  assert(grokBotComputersCandidate, 'Must detect shared Grok Bot computers-and-apps across 19 cases');
+  assert.equal(grokBotComputersCandidate.cases.length, 19);
+  assert(grokBotComputersCandidate.cases.includes('cases/005-cloud-pr-review.md'));
+  assert(grokBotComputersCandidate.cases.includes('cases/006-facebook-publication.md'));
+  assert(grokBotComputersCandidate.cases.includes('cases/027-recipe-shopping-plan.md'));
+  assert(grokBotComputersCandidate.cases.includes('cases/046-followed-accounts-daily-digest.md'));
+  assert(grokBotComputersCandidate.cases.includes('evidence/009-background-transfer-template.md'));
+
+  const metaHelpSubscriptionsCandidate = duplicates.find(d => d.url.includes('meta.com/help/subscriptions/1021145227643680'));
+  assert(metaHelpSubscriptionsCandidate, 'Must detect shared Meta Help subscriptions page across 10 cases');
+  assert.equal(metaHelpSubscriptionsCandidate.cases.length, 10);
+  assert(metaHelpSubscriptionsCandidate.cases.includes('cases/016-marketplace-selling-buyer-messages.md'));
+  assert(metaHelpSubscriptionsCandidate.cases.includes('cases/026-school-deadline-list.md'));
+  assert(metaHelpSubscriptionsCandidate.cases.includes('cases/027-recipe-shopping-plan.md'));
+  assert(metaHelpSubscriptionsCandidate.cases.includes('cases/028-bill-comparison-preparation.md'));
+  assert(metaHelpSubscriptionsCandidate.cases.includes('cases/029-exercise-time-replan.md'));
+  assert(metaHelpSubscriptionsCandidate.cases.includes('cases/030-interactive-study-guide.md'));
+  assert(metaHelpSubscriptionsCandidate.cases.includes('cases/031-spending-dashboard.md'));
+  assert(metaHelpSubscriptionsCandidate.cases.includes('cases/032-sleep-record-chart.md'));
+  assert(metaHelpSubscriptionsCandidate.cases.includes('cases/033-business-experiment-plan.md'));
+  assert(metaHelpSubscriptionsCandidate.cases.includes('cases/034-expense-anomaly-review.md'));
+
+  const grokBotAutomationsCandidate = duplicates.find(d => d.url.includes('docs.x.ai/grok-bot/skills-routines-and-automations'));
+  assert(grokBotAutomationsCandidate, 'Must detect shared Grok Bot skills-routines-and-automations across 9 cases');
+  assert.equal(grokBotAutomationsCandidate.cases.length, 9);
+  assert(grokBotAutomationsCandidate.cases.includes('cases/006-facebook-publication.md'));
+  assert(grokBotAutomationsCandidate.cases.includes('cases/015-public-page-change-watch.md'));
+  assert(grokBotAutomationsCandidate.cases.includes('cases/039-competitor-positioning-review.md'));
+  assert(grokBotAutomationsCandidate.cases.includes('cases/046-followed-accounts-daily-digest.md'));
+  assert(grokBotAutomationsCandidate.cases.includes('cases/060-x-mention-sourced-answer-bot.md'));
+  assert(grokBotAutomationsCandidate.cases.includes('cases/061-dispatcher-bot-typed-commands-ledger.md'));
+  assert(grokBotAutomationsCandidate.cases.includes('cases/208-portable-skill-binding-approval-check.md'));
+  assert(grokBotAutomationsCandidate.cases.includes('cases/268-agency-campaign-bundle-approval.md'));
+  assert(grokBotAutomationsCandidate.cases.includes('cases/269-single-vps-sysadmin-bot.md'));
+
+  const musePersonalAgentCandidate = duplicates.find(d => d.url.includes('about.fb.com/news/2026/09/introducing-muse-personal-ai-agent'));
+  assert(musePersonalAgentCandidate, 'Must detect shared Introducing Muse personal AI agent announcement across 9 cases');
+  assert.equal(musePersonalAgentCandidate.cases.length, 9);
+  assert(musePersonalAgentCandidate.cases.includes('cases/016-marketplace-selling-buyer-messages.md'));
+  assert(musePersonalAgentCandidate.cases.includes('cases/027-recipe-shopping-plan.md'));
+  assert(musePersonalAgentCandidate.cases.includes('cases/028-bill-comparison-preparation.md'));
+  assert(musePersonalAgentCandidate.cases.includes('cases/029-exercise-time-replan.md'));
+  assert(musePersonalAgentCandidate.cases.includes('cases/067-agent-app-rebuild-manual.md'));
+  assert(musePersonalAgentCandidate.cases.includes('cases/104-genealogy-animation-print.md'));
+  assert(musePersonalAgentCandidate.cases.includes('cases/105-gift-card-balance-inventory.md'));
+  assert(musePersonalAgentCandidate.cases.includes('cases/107-old-blog-private-audio-archive.md'));
+  assert(musePersonalAgentCandidate.cases.includes('cases/108-golf-round-practice-data-review.md'));
+
+  const grokBotBotsCandidate = duplicates.find(d => d.url === 'https://docs.x.ai/grok-bot/bots');
+  assert(grokBotBotsCandidate, 'Must detect shared Grok Bot bots docs across 7 cases');
+  assert.equal(grokBotBotsCandidate.cases.length, 7);
+  assert(grokBotBotsCandidate.cases.includes('cases/003-store-operations.md'));
+  assert(grokBotBotsCandidate.cases.includes('evidence/009-background-transfer-template.md'));
+  assert(grokBotBotsCandidate.cases.includes('cases/055-tweet-project-intake-research-monitor.md'));
+  assert(grokBotBotsCandidate.cases.includes('cases/061-dispatcher-bot-typed-commands-ledger.md'));
+  assert(grokBotBotsCandidate.cases.includes('cases/255-active-memory-version-consolidation-review.md'));
+  assert(grokBotBotsCandidate.cases.includes('cases/268-agency-campaign-bundle-approval.md'));
+  assert(grokBotBotsCandidate.cases.includes('cases/270-subscription-replacement-blind-eval.md'));
+
+
+  const dotsLearnCandidate = duplicates.find(d => d.url === 'https://learn.chatgpt.com/docs/dots');
+  assert(dotsLearnCandidate, 'Must detect shared ChatGPT dots base documentation across 6 cases');
+  assert.equal(dotsLearnCandidate.cases.length, 6);
+  assert(dotsLearnCandidate.cases.includes('cases/023-launch-material-revision.md'));
+  assert(dotsLearnCandidate.cases.includes('cases/024-missing-invoice-check.md'));
+  assert(dotsLearnCandidate.cases.includes('cases/025-team-event-follow-through.md'));
+  assert(dotsLearnCandidate.cases.includes('cases/030-interactive-study-guide.md'));
+  assert(dotsLearnCandidate.cases.includes('cases/035-job-search-application-drafts.md'));
+  assert(dotsLearnCandidate.cases.includes('cases/073-customer-journey-content-audit.md'));
+
+  const grokBotFaqCandidate = duplicates.find(d => d.url.includes('docs.x.ai/grok-bot/faq'));
+  assert(grokBotFaqCandidate, 'Must detect shared Grok Bot FAQ docs across 5 cases');
+  assert.equal(grokBotFaqCandidate.cases.length, 5);
+  assert(grokBotFaqCandidate.cases.includes('cases/027-recipe-shopping-plan.md'));
+  assert(grokBotFaqCandidate.cases.includes('cases/054-music-video-multi-tool-pipeline.md'));
+  assert(grokBotFaqCandidate.cases.includes('cases/073-customer-journey-content-audit.md'));
+  assert(grokBotFaqCandidate.cases.includes('cases/225-receipt-transaction-evidence-matching.md'));
+  assert(grokBotFaqCandidate.cases.includes('cases/234-proposal-attachment-consistency-send-gate.md'));
+
+  const aiForMortalsCandidate = duplicates.find(d => d.url.includes('aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots'));
+  assert(aiForMortalsCandidate, 'Must detect shared AI for Mortals comparison across UC-001, UC-002, and UC-003');
+  assert.equal(aiForMortalsCandidate.cases.length, 3);
+  assert(aiForMortalsCandidate.cases.includes('cases/001-travel-checkout.md'));
+  assert(aiForMortalsCandidate.cases.includes('cases/002-video-production.md'));
+  assert(aiForMortalsCandidate.cases.includes('cases/003-store-operations.md'));
+
+  const steveFebbraroCandidate = duplicates.find(d => d.url.includes('2101333135879242062'));
+  assert(steveFebbraroCandidate, 'Must detect shared SteveFebbraro1 source between cases/028 and sources/pending.md');
+  assert(steveFebbraroCandidate.cases.includes('cases/028-bill-comparison-preparation.md'));
+  assert(steveFebbraroCandidate.cases.includes('sources/pending.md'));
+
+  const billyStickerCandidate = duplicates.find(d => d.url.includes('2104003676612567182'));
+  assert(billyStickerCandidate, 'Must detect shared billysticker source between cases/028 and sources/pending.md');
+  assert(billyStickerCandidate.cases.includes('cases/028-bill-comparison-preparation.md'));
+  assert(billyStickerCandidate.cases.includes('sources/pending.md'));
 });
+
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {
   const auditContent = fs.readFileSync(path.join(root, 'sources/qualification-audit-2026-10-16.md'), 'utf8');

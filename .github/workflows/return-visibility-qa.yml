@@ -39,6 +39,10 @@ jobs:
           python3 - <<'PY'
           import json
           report = json.load(open('qa-artifacts/return-before.json'))[-1]
+          assert report['mode'] == 'button' and report['native'] is False
+          assert report['injected'] is True
+          assert 179 <= report['timing']['injected'] <= 250
+          assert 0 <= report['timing']['frames'] <= report['timing']['injected']
           assert report['rect']['bottom'] > report['height']
           PY
       - name: Verify updated return and preserve user focus

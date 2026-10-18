@@ -44,7 +44,7 @@
 | axe | 15 次掃描，0 項違規，包含 hover、展開正文與待查狀態 |
 | 其他狀態 | 缺證據、無章節、重複標題、惡意樣式文字、網路失敗／重試、導覽腳本下載失敗的原閱讀備援通過 |
 
-Reader QA 另執行既有 `tests/discovery-browser.cjs`，保護首頁情境引導、抽卡不重複、組合篩選、分享成功與拒絕權限等原流程；不以新功能測試取代既有回歸。
+[最後整合回歸 39100625372](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39100625372)也全部通過：除上述閱讀驗收，再執行既有 `tests/discovery-browser.cjs`，三個尺寸的首頁情境引導、抽卡不重複、組合篩選、分享成功／拒絕權限及網路錯誤復原均通過。沒有以新功能測試取代既有回歸。
 
 原始結果：[全庫對應](corpus.json)、[axe](accessibility.json)、[載入量測](timings.json)。新增 JS 5,106 bytes、CSS 2,678 bytes；Node gzip 合計 3,193 bytes（壓縮計算值，非宣稱正式站傳輸量）。hover 文字 `#526057` 對背景 `#e9eee0` 的計算對比為 5.61:1。未節流雲端預覽的 DOMContentLoaded 為 15–232ms、load 61–232ms；這些是單次 runner 的頁面事件時間，不是全庫案例就緒時間、使用者體感或 Lighthouse 分數。
 

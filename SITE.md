@@ -564,3 +564,32 @@ python -m http.server 8080 --directory /tmp/ai-usecase-preview
 先紅27 pass／4 fail；96字版31/31通過，Chromium三尺寸、Firefox／WebKit手機三情境與10次axe掃描通過。獨立審查無產品阻擋，補頁首資料標籤回歸、節錄說明及瀏覽器實際部署資產比對。已整合PR42對比與返回修正；正式發布以PR44及main部署驗收為準。
 
 [前後截圖、量測、指令、限制與審查](docs/qa/2026-10-18-search-context/README.md)。下一輪：建立相關性樣本，再評估主要用途命中優先排序。
+
+## 2026-10-18：瀏覽器、帳號、語音轉錄、報表、密碼、資料擷取與流程圖同義詞擴充，及通用網域重複偵測強化
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與自然語言檢索痛點：
+   - 瀏覽器與網頁操作類：全庫有 50 筆「瀏覽器」與 40 筆「網頁」，但讀者搜尋常見詞「browser」得 0 筆、「browsing」得 0 筆、「webpage」得 0 筆，嚴重遺漏 UC-015 網頁監看、UC-086 網頁爬蟲、UC-149 網站連結驗證、UC-167 網頁可存取性等代表性 Agent 案例；
+   - 帳號與帳戶類：全庫有 182 筆「帳號」與 76 筆「帳戶」，但讀者搜尋「account」僅得 5 筆、「accounts」僅得 1 筆，無法檢索 UC-046 關注帳號每日摘要、UC-183 廣告帳戶設定、UC-318 新帳戶申請等案例；
+   - 錄音與語音轉錄類：全庫有 31 筆「逐字稿」、31 筆「轉錄」、20 筆「錄音」，但搜尋「transcription」得 0 筆、「聽打」得 0 筆、「transcribe」僅得 1 筆、「whisper」僅得 2 筆，既有組別 `['逐字稿', '轉錄']` 未涵蓋 UC-191 播客剪輯與試聽、UC-107 舊語音私有封存、UC-325 夜間語音日記等高頻需求；
+   - 報告與報表類：全庫有 145 筆「報告」與 17 筆「報表」，但搜尋複數「reports」僅得 3 筆、「研報」得 0 筆，且搜尋英文「report」漏失 100 多筆以繁體中文撰寫之各類分析報告、評估報告與對帳報告（如 UC-001 實測報告、UC-176 盡職調查報告、UC-200 統計分析報告、UC-263 試算表對帳報告）；
+   - 密碼與憑證類：全庫有 36 筆「密碼」，但搜尋「passwords」得 0 筆、「password」僅得 2 筆，既有組別 `['憑證', '密鑰', '金鑰', 'credential', ...]` 漏失「密碼」與「password/passwords」，無法與金鑰／密鑰（UC-080 密碼保險庫、UC-042 憑證與多 Bot 登入）對齊；
+   - 資料擷取與提取類：全庫有 18 筆「擷取」與 3 筆「提取」，但搜尋「extract」得 0 筆、「extraction」得 0 筆、「提煉」得 0 筆、「萃取」得 0 筆，無法檢索 UC-098 工程圖表 PDF 擷取、UC-178 掃描頁文字擷取、UC-251 空間資料萃取等資訊抽取案例；
+   - 流程圖與架構圖類：全庫有「流程圖」與「架構圖」案例（如 UC-179 郵件流程圖修復、UC-237 零件步驟草圖、UC-278 加工中心架構草圖），但搜尋「diagram」得 0 筆、「flowchart」得 0 筆、「mindmap」得 0 筆、「心智圖」得 0 筆。
+2. 疑似重複來源偵測之通用 URL 正規化強化：
+   - `normalizeSourceUrl` 補齊通用 `www.` 網域移除（除保留 `www.youtube.com` 慣例以外，其餘頂層網域皆標準化），確保 `www.github.com`、`www.chatprd.ai`、`www.eleanorkonik.com` 等與無 www 版本自動歸一；
+   - 擴充跳轉參數清除（`source`）；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 336 保持完整；嚴格合格案例數 300 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `SYNONYM_GROUPS` 擴充 5 組新同義詞群（瀏覽器/browser/browsing/網頁/web/webpage、帳號/帳戶/account/accounts、報告/報表/研報/report/reports、擷取/提取/萃取/提煉/extract/extraction、流程圖/架構圖/心智圖/圖解/草圖/flowchart/diagram/mindmap）。
+   - 在既有組別補齊對稱詞彙：逐字稿補錄音/聽打/transcription/transcribe/whisper，憑證金鑰組補密碼/password/passwords，維持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：強化 `normalizeSourceUrl` 通用 www 與 source 參數正規化，加入 GitHub 與 chatprd 網域正規化回歸斷言，恪守「只列候選、不自行刪除、總案例數保持完整」。
+   - `tests/search.test.cjs`：加入 browser/browsing/webpage、account/accounts/帳戶、transcription/transcribe/whisper/聽打、reports/研報、password/passwords、extract/extraction/萃取/提煉、flowchart/diagram/mindmap/心智圖等搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
+本輪實際結果：31/31 測試全數通過，336 筆條目全文、同義詞擴充檢索、疑似重複來源候選審核、全庫一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
+

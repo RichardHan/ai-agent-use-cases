@@ -15,7 +15,7 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
   };
   // Journey 1: a received search link lands with its query, facets and results.
   await ready('?q=旅遊&tool=Grok%20Bot');
-  const metrics=await page.evaluate(()=>({queryTop:Math.round(document.getElementById('query').getBoundingClientRect().top),resultsTop:Math.round(document.getElementById('results-count').getBoundingClientRect().top),focus:document.activeElement.id,scrollY}));
+  const metrics=await page.evaluate(()=>({queryTop:Math.round(document.getElementById('query').getBoundingClientRect().top),resultsTop:Math.round(document.getElementById('results-count').getBoundingClientRect().top),focus:document.activeElement.id,scrollY,loadMs:Math.round(performance.getEntriesByType('navigation')[0].loadEventEnd),domContentLoadedMs:Math.round(performance.getEntriesByType('navigation')[0].domContentLoadedEventEnd)}));
   assert(metrics.queryTop>0&&metrics.queryTop<height/2,'Shared search should show query in the upper half');
   assert(metrics.resultsTop>0&&metrics.resultsTop<height,'Shared search should show the result count');
   assert.equal(metrics.focus,'search-title');
@@ -26,11 +26,13 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
   const url=new URL(shared);assert.equal(url.hash,'#explore');assert.equal(url.searchParams.get('q'),'旅遊');
   assert.equal(url.searchParams.get('tool'),'Grok Bot');assert.equal(url.searchParams.has('case'),false);
   assert.match(await page.locator('#search-share-status').innerText(),/已複製/);
-  await page.goto(shared,{waitUntil:'networkidle'});
-  assert.equal(await page.locator('#results .card').count(),count);
-  assert.equal(await page.evaluate(()=>document.activeElement.id),'search-title');
-  await page.reload({waitUntil:'networkidle'});
-  assert.equal(await page.locator('#results .card').count(),count);
+  const recipient=await context.newPage();
+  await recipient.goto(shared,{waitUntil:'networkidle'});
+  assert.equal(await recipient.locator('#results .card').count(),count);
+  assert.equal(await recipient.evaluate(()=>document.activeElement.id),'search-title');
+  await recipient.reload({waitUntil:'networkidle'});
+  assert.equal(await recipient.locator('#results .card').count(),count);
+  await recipient.close();
   const trigger=page.locator('#results .card .card-bottom button').first();
   await trigger.click();await page.locator('#detail[open]').waitFor();const direct=page.url();
   await page.goBack();assert.equal(await trigger.evaluate(n=>n===document.activeElement),true);
@@ -64,6 +66,15 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
   const manualAudit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(manualAudit.violations,[]);
   await page.locator('#query').fill('旅遊');assert.equal(await manual.isVisible(),false);
   assert.equal(await page.locator('#search-share-status').innerText(),'');
+  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:undefined}));
+  await page.locator('#copy-search-link').click();assert.equal(await manual.isVisible(),true);
+  await page.locator('#query').fill('旅遊');
+  // A completed older copy must not announce success for newly changed conditions.
+  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:()=>new Promise(resolve=>{window.finishCopy=resolve;})}}));
+  await page.locator('#copy-search-link').click();
+  await page.locator('#query').fill('收件匣');
+  await page.evaluate(()=>window.finishCopy());
+  assert.equal(await page.locator('#search-share-status').innerText(),'');
   // Homepage and an explicit discovery anchor keep their original destination.
   await ready('');assert.equal(await page.evaluate(()=>scrollY),0);
   await ready('?q=旅遊#discover');assert.notEqual(await page.evaluate(()=>document.activeElement.id),'search-title');
@@ -89,9 +100,11 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
  await page.goto(origin+'?q=旅遊',{waitUntil:'networkidle'});
  assert.equal(await page.locator('#error').isVisible(),true);
  assert.equal(await page.locator('#copy-search-link').isDisabled(),true);
- await page.unroute('**/catalog.json');await page.locator('#retry').click();
+ await page.unroute('**/catalog.json');await page.locator('#retry').focus();await page.keyboard.press('Enter');
+ assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
  await page.locator('#results-count').filter({hasText:'顯示'}).waitFor();
  assert.equal(await page.locator('#copy-search-link').isEnabled(),true);
+ assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
  assert.equal(await page.locator('#query').inputValue(),'旅遊');
  await page.close();
  fs.writeFileSync('qa-artifacts/'+prefix+'.json',JSON.stringify(report,null,2));console.log('ARRIVAL_RESULTS '+prefix+' '+JSON.stringify(report));

@@ -644,7 +644,8 @@ function chooseScenario(value){
 
 /* Browser event bindings. */
 // An arriving reader may start using the page while the corpus is loading.
-// Never override that interaction with a late automatic scroll or focus change.
+// Never override that interaction with late search-arrival scrolling or focus.
+// An explicit case link still opens its requested case when loading completes.
 ['pointerdown','keydown','wheel','touchstart'].forEach(type=>{
   document.addEventListener(type,()=>{allowAutomaticArrival=false;},{once:true,passive:true});
 });
@@ -662,7 +663,7 @@ $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
 $('clear-facets').addEventListener('click', clearFacets);
 $('edit-query').addEventListener('click', () => { $('query').focus(); $('query').select(); });
-$('retry').addEventListener('click', load);
+$('retry').addEventListener('click', () => { $('results-count').focus({preventScroll:true}); load(); });
 $('close-detail').addEventListener('click', closeDetail);
 $('nav-prev-case')?.addEventListener('click', () => navStep(-1));
 $('nav-next-case')?.addEventListener('click', () => navStep(1));

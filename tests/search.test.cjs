@@ -1078,6 +1078,66 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('amplifiers')), {}).so
 assert(api.filterEntries(entries, Array.from(api.tokenize('antenna')), {}).some(x => x.id === 'UC-334'), 'antenna matches UC-334 via 天線 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('antennas')), {}).some(x => x.id === 'UC-334'), 'antennas matches UC-334 via 天線 synonym');
 
+// Search quality: draft, drafts, drafting, 草稿, 初稿
+assert(api.filterEntries(entries, Array.from(api.tokenize('draft')), {}).some(x => x.id === 'UC-017'), 'draft matches UC-017 via 草稿 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('drafts')), {}).some(x => x.id === 'UC-017'), 'drafts matches UC-017 via 草稿 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('drafting')), {}).some(x => x.id === 'UC-017'), 'drafting matches UC-017 via 草稿 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('初稿')), {}).some(x => x.id === 'UC-017'), '初稿 matches UC-017 via 草稿 synonym');
+
+// Search quality: handoff, handoffs, hand off, 交接, 交棒
+assert(api.filterEntries(entries, Array.from(api.tokenize('handoff')), {}).some(x => x.id === 'UC-001'), 'handoff matches UC-001 via 交接 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('handoffs')), {}).some(x => x.id === 'UC-001'), 'handoffs matches UC-001 via 交接 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('hand off')), {}).some(x => x.id === 'UC-001'), 'hand off matches UC-001 via tokenization and 交接 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('交棒')), {}).some(x => x.id === 'UC-001'), '交棒 matches UC-001 via 交接 synonym');
+
+// Search quality: dry run, dryrun, 試跑, 空跑, 模擬執行
+assert(api.filterEntries(entries, Array.from(api.tokenize('dry run')), {}).some(x => x.id === 'UC-049'), 'dry run matches UC-049 via 空跑 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('dryrun')), {}).some(x => x.id === 'UC-049'), 'dryrun matches UC-049 via 空跑 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('dry-run')), {}).some(x => x.id === 'UC-049'), 'dry-run matches UC-049 via 空跑 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('試跑')), {}).some(x => x.id === 'UC-049'), '試跑 matches UC-049 via 空跑 synonym');
+
+// Search quality: guardrail, guardrails, guard rail, 護欄, 安全護欄
+assert(api.filterEntries(entries, Array.from(api.tokenize('guardrail')), {}).some(x => x.id === 'UC-316'), 'guardrail matches UC-316 via 護欄 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('guardrails')), {}).some(x => x.id === 'UC-316'), 'guardrails matches UC-316 via 護欄 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('guard rail')), {}).some(x => x.id === 'UC-316'), 'guard rail matches UC-316 via tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('安全護欄')), {}).some(x => x.id === 'UC-316'), '安全護欄 matches UC-316 via 護欄 synonym');
+
+// Search quality: telemetry, 遙測, observability, 可觀測性
+assert(api.filterEntries(entries, Array.from(api.tokenize('telemetry')), {}).some(x => x.id === 'UC-141'), 'telemetry matches UC-141 via 遙測 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('observability')), {}).some(x => x.id === 'UC-141'), 'observability matches UC-141 via 遙測 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('可觀測性')), {}).some(x => x.id === 'UC-141'), '可觀測性 matches UC-141 via 遙測 synonym');
+
+// Search quality: hitl, human in the loop, 人工覆核, 人工介入
+assert(api.filterEntries(entries, Array.from(api.tokenize('hitl')), {}).some(x => x.id === 'UC-184'), 'hitl matches UC-184 via 人工覆核 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('human in the loop')), {}).some(x => x.id === 'UC-184'), 'human in the loop matches UC-184 via hitl tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('人工介入')), {}).some(x => x.id === 'UC-184'), '人工介入 matches UC-184 via 人工覆核 synonym');
+
+// Search quality: plural symmetry across key keyword groups
+assert(api.filterEntries(entries, Array.from(api.tokenize('workflows')), {}).some(x => x.id === 'UC-005'), 'workflows matches UC-005 via workflow synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('crawlers')), {}).some(x => x.id === 'UC-015'), 'crawlers matches UC-015 via crawler synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('scrapers')), {}).some(x => x.id === 'UC-015'), 'scrapers matches UC-015 via scraper synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('emails')), {}).some(x => x.id === 'UC-049'), 'emails matches UC-049 via email synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('mailbox')), {}).some(x => x.id === 'UC-049'), 'mailbox matches UC-049 via email synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('mailboxes')), {}).some(x => x.id === 'UC-049'), 'mailboxes matches UC-049 via email synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('codes')), {}).some(x => x.id === 'UC-273'), 'codes matches UC-273 via code synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('coding')), {}).some(x => x.id === 'UC-273'), 'coding matches UC-273 via code synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('meetings')), {}).some(x => x.id === 'UC-019'), 'meetings matches UC-019 via meeting synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('videos')), {}).some(x => x.id === 'UC-002'), 'videos matches UC-002 via video synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('images')), {}).some(x => x.id === 'UC-016'), 'images matches UC-016 via image synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('photos')), {}).some(x => x.id === 'UC-016'), 'photos matches UC-016 via photo synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('customers')), {}).some(x => x.id === 'UC-003'), 'customers matches UC-003 via customer synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('clients')), {}).some(x => x.id === 'UC-003'), 'clients matches UC-003 via client synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('contracts')), {}).some(x => x.id === 'UC-021'), 'contracts matches UC-021 via contract synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('agreements')), {}).some(x => x.id === 'UC-021'), 'agreements matches UC-021 via agreement synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('devices')), {}).some(x => x.id === 'UC-010'), 'devices matches UC-010 via device synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('databases')), {}).some(x => x.id === 'UC-060'), 'databases matches UC-060 via database synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('workorders')), {}).some(x => x.id === 'UC-155'), 'workorders matches UC-155 via workorder synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('work-order')), {}).some(x => x.id === 'UC-155'), 'work-order matches UC-155 via tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('工單系統')), {}).some(x => x.id === 'UC-155'), '工單系統 matches UC-155 via workorder synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('reconciliations')), {}).some(x => x.id === 'UC-024'), 'reconciliations matches UC-024 via reconcile synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('對賬')), {}).some(x => x.id === 'UC-024'), '對賬 matches UC-024 via 對帳 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('核賬')), {}).some(x => x.id === 'UC-024'), '核賬 matches UC-024 via 核帳 synonym');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

@@ -499,6 +499,42 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('diff')), {}).some(x =
 // Search quality: Recommendation & picks
 assert(api.filterEntries(entries, Array.from(api.tokenize('recommendation')), {}).some(x => x.id === 'UC-326'), 'recommendation matches UC-326 via 推薦/精選 synonym');
 
+// Search quality: Browser & web synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('browser')), {}).some(x => x.id === 'UC-015'), 'browser matches UC-015 via 瀏覽器/網頁 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('browsing')), {}).some(x => x.id === 'UC-015'), 'browsing matches UC-015 via 瀏覽器/網頁 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('webpage')), {}).some(x => x.id === 'UC-015'), 'webpage matches UC-015 via 網頁 synonym');
+
+// Search quality: Accounts & account synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('account')), {}).some(x => x.id === 'UC-046'), 'account matches UC-046 via 帳號/帳戶 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('accounts')), {}).some(x => x.id === 'UC-046'), 'accounts matches UC-046 via 帳號/帳戶 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('帳戶')), {}).some(x => x.id === 'UC-046'), '帳戶 matches UC-046 via 帳號 synonym');
+
+// Search quality: Voice transcription, listen, whisper synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('transcription')), {}).some(x => x.id === 'UC-191'), 'transcription matches UC-191 via 逐字稿/轉錄 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('transcribe')), {}).some(x => x.id === 'UC-191'), 'transcribe matches UC-191 via 逐字稿/轉錄 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('whisper')), {}).some(x => x.id === 'UC-191'), 'whisper matches UC-191 via 逐字稿/轉錄 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('聽打')), {}).some(x => x.id === 'UC-191'), '聽打 matches UC-191 via 逐字稿/轉錄 synonym');
+
+// Search quality: General report & reports synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('reports')), {}).some(x => x.id === 'UC-001'), 'reports matches UC-001 via 報告/報表 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('研報')), {}).some(x => x.id === 'UC-001'), '研報 matches UC-001 via 報告/報表 synonym');
+
+// Search quality: Password & passwords synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('password')), {}).some(x => x.id === 'UC-080'), 'password matches UC-080 via 密碼/憑證 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('passwords')), {}).some(x => x.id === 'UC-080'), 'passwords matches UC-080 via 密碼/憑證 synonym');
+
+// Search quality: Extract, extraction, 萃取 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('extract')), {}).some(x => x.id === 'UC-098'), 'extract matches UC-098 via 擷取/提取 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('extraction')), {}).some(x => x.id === 'UC-098'), 'extraction matches UC-098 via 擷取/提取 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('萃取')), {}).some(x => x.id === 'UC-098'), '萃取 matches UC-098 via 擷取/提取 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('提煉')), {}).some(x => x.id === 'UC-098'), '提煉 matches UC-098 via 擷取/提取 synonym');
+
+// Search quality: Flowchart, diagram, 草圖 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('flowchart')), {}).some(x => x.id === 'UC-179'), 'flowchart matches UC-179 via 流程圖 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('diagram')), {}).some(x => x.id === 'UC-179'), 'diagram matches UC-179 via 流程圖 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('mindmap')), {}).some(x => x.id === 'UC-179'), 'mindmap matches UC-179 via 流程圖 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('心智圖')), {}).some(x => x.id === 'UC-179'), '心智圖 matches UC-179 via 流程圖 synonym');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

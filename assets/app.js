@@ -21,7 +21,7 @@ const SYNONYM_GROUPS = [
   ['簡報', '投影片', 'ppt', 'powerpoint'],
   ['爬蟲', '抓取', '採集', '爬取', 'scrape', 'scraping', 'crawler', 'scraper'],
   ['試算表', 'excel', 'sheets', 'spreadsheet', 'spreadsheets', 'csv'],
-  ['逐字稿', '轉錄'],
+  ['逐字稿', '轉錄', '錄音', '聽打', 'transcription', 'transcribe', 'whisper'],
   ['資料庫', '數據庫', 'database', 'sql', '数据库'],
   ['行事曆', '日曆', 'calendar'],
   ['待辦', '代辦', 'todo', 'todos', 'todoist', 'task', 'tasks'],
@@ -91,7 +91,7 @@ const SYNONYM_GROUPS = [
   ['日誌', '日誌記錄', 'log', 'logs', 'logging'],
   ['附件', 'attachment', 'attachments'],
   ['觸發', '觸發器', 'trigger', 'triggers'],
-  ['憑證', '密鑰', '金鑰', 'credential', 'credentials', 'token', 'tokens', 'secret', 'secrets'],
+  ['憑證', '密鑰', '金鑰', '密碼', 'credential', 'credentials', 'token', 'tokens', 'secret', 'secrets', 'password', 'passwords'],
   ['模板', '範本', '模版', 'template', 'templates'],
   ['異常', 'anomaly', 'anomalies', 'exception', 'exceptions'],
   ['webhook', 'webhooks'],
@@ -100,7 +100,12 @@ const SYNONYM_GROUPS = [
   ['表單', '問卷', '調查', 'form', 'forms', 'survey', 'surveys', 'questionnaire'],
   ['llm', '大型語言模型', '大語言模型', '大模型', '語言模型'],
   ['比對', '對照', '核對', 'diff', 'matching'],
-  ['推薦', '精選', 'recommendation', 'recommend', 'picks']
+  ['推薦', '精選', 'recommendation', 'recommend', 'picks'],
+  ['瀏覽器', 'browser', 'browsing', '網頁', 'web', 'webpage'],
+  ['帳號', '帳戶', 'account', 'accounts'],
+  ['報告', '報表', '研報', 'report', 'reports'],
+  ['擷取', '提取', '萃取', '提煉', 'extract', 'extraction'],
+  ['流程圖', '架構圖', '心智圖', '圖解', '草圖', 'flowchart', 'diagram', 'mindmap']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

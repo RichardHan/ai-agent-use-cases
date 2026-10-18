@@ -13,11 +13,11 @@ function normalizeSourceUrl(rawUrl) {
     const cleaned = rawUrl.replace(/^[<(（['"]+/, '').replace(/[.。;；)\]）〕』'\"<>?？!！]+$/, '');
     const u = new URL(cleaned);
     let host = u.hostname.toLowerCase();
-    if (host === 'twitter.com' || host === 'www.twitter.com' || host === 'mobile.twitter.com') host = 'x.com';
-    if (host === 'www.x.com' || host === 'mobile.x.com' || host === 'm.x.com') host = 'x.com';
-    if (host === 'www.reddit.com' || host === 'old.reddit.com' || host === 'm.reddit.com' || host === 'new.reddit.com') host = 'reddit.com';
-    if (host === 'www.facebook.com' || host === 'm.facebook.com' || host === 'web.facebook.com') host = 'facebook.com';
-    if (host === 'www.meta.com' || host === 'm.meta.com') host = 'meta.com';
+    if (host.startsWith('www.') && host !== 'www.youtube.com') host = host.slice(4);
+    if (host === 'twitter.com' || host === 'mobile.twitter.com' || host === 'mobile.x.com' || host === 'm.x.com') host = 'x.com';
+    if (host === 'old.reddit.com' || host === 'm.reddit.com' || host === 'new.reddit.com') host = 'reddit.com';
+    if (host === 'm.facebook.com' || host === 'web.facebook.com') host = 'facebook.com';
+    if (host === 'm.meta.com') host = 'meta.com';
     if (host === 'm.youtube.com' || host === 'youtube.com') host = 'www.youtube.com';
     if (host === 'youtu.be') {
       host = 'www.youtube.com';
@@ -25,8 +25,7 @@ function normalizeSourceUrl(rawUrl) {
       u.pathname = '/watch';
       u.searchParams.set('v', id);
     }
-    if (host === 'www.linkedin.com') host = 'linkedin.com';
-    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json', 'si', 'igsh', 'trk', 'spm_id_from', 'spm', 'ref_src', 'ref_url', 'from'];
+    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json', 'si', 'igsh', 'trk', 'spm_id_from', 'spm', 'ref_src', 'ref_url', 'from', 'source'];
     tracking.forEach(p => u.searchParams.delete(p));
     u.hash = '';
     const pathNoSlash = u.pathname.replace(/\/+$/, '');
@@ -480,6 +479,8 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   // Verify YouTube normalization of pending lead URL
   assert.equal(normalizeSourceUrl('https://youtube.com/watch?v=ARMaDt5JBUg'), 'https://www.youtube.com/watch?v=armadt5jbug');
   assert.equal(normalizeSourceUrl('http://www.linkedin.com/in/test?ref_src=1'), 'https://linkedin.com/in/test');
+  assert.equal(normalizeSourceUrl('https://www.github.com/foo/bar/'), 'https://github.com/foo/bar');
+  assert.equal(normalizeSourceUrl('http://www.chatprd.ai/how-i-ai/alex-cornell-meta-muse-workflows?source=share'), 'https://chatprd.ai/how-i-ai/alex-cornell-meta-muse-workflows');
 });
 
 

@@ -53,7 +53,9 @@ module.exports=async function publishedArrival({browser,origin,engine}){
   assert.equal(await page.evaluate(id=>document.activeElement.id===id,target),true);
   assert.match(await page.locator('.detail-source').getAttribute('href'),/^https:\/\/github\.com\//);
   await capture('reading');await audit('reading');
-  await page.goBack();assert.equal(await trigger.evaluate(n=>n===document.activeElement),true);
+  await page.goBack();
+  await page.waitForFunction(()=>!document.getElementById('detail').open&&document.activeElement.matches('#results .card .card-bottom button'));
+  assert.equal(await trigger.evaluate(n=>n===document.activeElement),true);
   assert.deepEqual((await state('in-session-return')).ids,initial.ids);
   await trigger.click();await page.locator('#detail[open]').waitFor();
   if(engine==='chromium'){
@@ -87,5 +89,5 @@ module.exports=async function publishedArrival({browser,origin,engine}){
   }
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   assert.deepEqual(errors,[]);console.log('LIVE_ARRIVAL_PASS '+JSON.stringify({engine,loads,entries:initial.entries,matches:initial.ids.length}));
- }catch(error){await capture('failure');throw error;}finally{await context.close();}
+ }catch(error){fs.writeFileSync('qa-artifacts/live-'+engine+'-failure.json',JSON.stringify({url:page.url(),network,errors,message:error.message},null,2));console.log('LIVE_ARRIVAL_FAILURE '+JSON.stringify({url:page.url(),network,errors,message:error.message}));await capture('failure');throw error;}finally{await context.close();}
 };

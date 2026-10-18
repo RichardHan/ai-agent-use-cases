@@ -53,7 +53,10 @@ async function capture(page,name){
   await page.locator('.research-details summary').click();
   assert.match(await page.locator('.markdown a[href^="https:"]').first().getAttribute('href'),/^https:/);
   await page.goBack();await page.waitForFunction(()=>!document.getElementById('detail').open);
-  await page.waitForFunction(id=>document.activeElement.closest('.card')?.dataset.caseId===id,id);
+  await page.waitForFunction(id=>{
+   const active=document.activeElement,rect=active.getBoundingClientRect();
+   return active.closest('.card')?.dataset.caseId===id&&rect.top>=0&&rect.bottom<=innerHeight;
+  },id,{timeout:1000});
   const returnedRect=await page.evaluate(()=>document.activeElement.getBoundingClientRect().toJSON());
   assert(returnedRect.y>=0&&returnedRect.bottom<=height,'returned read button stays visible');
   assert.equal(await page.locator('#query').inputValue(),'旅遊');

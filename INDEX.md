@@ -2,9 +2,11 @@
 
 更新日期：2026-10-18。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至2026-10-18 17:45批次，嚴格核對為**299／1,000，尚差701**（含作者自述與實際失敗，未獨立重現）。其中先前已核定296，加本輪納入331–333三案；046補書籤主動提取來源不另計。沿用歷史頁面發布口徑315＋3＝318，主要頁322＋3＝325，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至2026-10-18 18:00批次，嚴格核對為**296／1,000，尚差704**（含作者自述與實際失敗，未獨立重現）。先前已核定296，本輪新增0；17:45所列331–333經來源與流程去重覆核，暫不新增核定數。主要頁325，沿用歷史頁面發布口徑318，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
 2026-10-17 23:44台灣時間起，目標提高為1,000案。14:45協作者曾列296；16:00去重將322／324保留為既有流程版本，323／325原文未重新取得、維持前批自述但不併入核定數；315／326仍待定。下方歷史批次保留當時口徑，不回改舊報告。
+
+18:00批次：331保留待核，催退流程與088有重疊；332的內容準備／人工發布與006重疊；333跨代理共用外部記憶與071重疊。原頁均保留，不因新作者、平台或儲存媒介另計。日文發布驗收、韓文文件時序核對及Muse手機橋接等新來源未形成可核的新流程。[覆核、原文與實閱缺口](sources/research-2026-10-18-1800.md)。
 
 17:45批次：331網購未送達催退入帳、332 X營運半自動發文前人工關卡、333 Notion跨代理外聯記憶；046併入jestonlu書籤主動提取不另計。今野X Article正文未取得；UberSKILLS／grill-me等工具向來源未收。[原文、實查範圍與限制](sources/research-2026-10-18-1745.md)。
 
@@ -398,9 +400,9 @@
 | UC-328 | 付費資料查詢報價升高後再次核准 | Meta Muse／AIsa | [廠商員工自述與原圖；有報告及停問，未核帳單](cases/328-paid-data-call-quote-variance-gate.md) | 工作｜付費API、報價、核准 |
 | UC-329 | 多段代理對話在重啟後的續跑驗收 | Grok Bot／Cursor／Codex／Grok CLI／SQLite | [公開程式與有限實跑紀錄；假PASS及接力遺失保留](cases/329-durable-agent-chain-restart-recovery.md) | 開發｜多代理、中斷恢復、失敗 |
 | UC-330 | 未支援智慧開關的分層排障與實體驗收 | Grok Bot／Home Assistant／Zigbee2MQTT | [作者完成自述；無原碼日誌，隱藏模式不受原廠支援](cases/330-unsupported-home-device-commissioning-validation.md) | 生活｜智慧家庭、故障診斷、實體驗收 |
-| UC-331 | 網購未送達：代追物流與商家到退款入帳通知 | Grok Bot／商家／DHL | [作者完成自述＋入帳通知截圖；工單與對帳未核](cases/331-undelivered-purchase-carrier-merchant-refund-chase.md) | 生活｜退款、物流追蹤、網購 |
-| UC-332 | X營運半自動：選題到草稿交給Bot，發文前人工核准 | Grok Bot／Typefully／Obsidian | [作者六項用法清單；Article正文未讀](cases/332-x-ops-semiauto-prepost-human-approval.md) | 創作｜每日、社群、發文、核准 |
-| UC-333 | 外聯Notion跨代理記憶：Claude改文、Grok Bot讀流程 | Grok Bot／Claude／Notion | [作者自述＋記憶頁截圖；外聯成效未核](cases/333-notion-cross-agent-outreach-memory.md) | 工作｜外聯、Notion、跨代理、記憶 |
+| UC-331 | 網購未送達：代追物流與商家到退款入帳通知 | Grok Bot／商家／DHL | [前批作者自述；本輪原文403、與088重疊待核，不加數](cases/331-undelivered-purchase-carrier-merchant-refund-chase.md) | 生活｜退款、物流追蹤、網購 |
+| UC-332 | X營運半自動：選題到草稿交給Bot，發文前人工核准 | Grok Bot／Typefully／Obsidian | [前批作者用法清單；本輪原文403、006流程版本，不加數](cases/332-x-ops-semiauto-prepost-human-approval.md) | 創作｜每日、社群、發文、核准 |
+| UC-333 | 外聯Notion跨代理記憶：Claude改文、Grok Bot讀流程 | Grok Bot／Claude／Notion | [前批作者自述；本輪原文未取得、071流程版本，不加數](cases/333-notion-cross-agent-outreach-memory.md) | 工作｜外聯、Notion、跨代理、記憶 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

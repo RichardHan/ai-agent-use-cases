@@ -166,6 +166,7 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
 
   // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
+  assert.equal(duplicates.length, 46, `Candidate duplicate detector must identify exactly 46 candidate clusters across corpus, found ${duplicates.length}`);
   // Confirm that candidate duplicates are purely listed as candidates and all original cases remain intact
   assert(caseFiles.length >= 330, `Corpus case count must remain intact (no automatic deletion of candidates); got ${caseFiles.length}`);
 

@@ -6,6 +6,7 @@ const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['Ch
 let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {}, failedPaths = [];
 let allowAutomaticArrival=true, searchShareRequest=0;
 let recoveringSources=false, recoveryNotice='';
+let initialLoading=false, initialLoadController=null;
 let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
@@ -704,7 +705,7 @@ function render(updateURL=true, preserveShare=false) {
   renderSearchFeedback(q, filters);
   updatePartialLoad();
   const skipNote = failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入）` : '';
-  $('results-count').textContent = `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}`;
+  $('results-count').textContent = discoveryReady ? `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}` : initialLoading ? '正在讀取案例，完成後會套用目前條件…' : '載入未完成';
 
   document.querySelectorAll('.chip[data-scenario]').forEach(btn => {
     const isActive = btn.dataset.scenario === activeScenario;
@@ -758,30 +759,55 @@ async function mapConcurrent(items, limit, workerFn) {
 }
 async function loadCorpus(paths, options = {}) {
   const fetchFn = options.fetch || fetch;
-  const limit = options.concurrency || 16;
   const parseFn = options.parseFile || parseFile;
-  const results = await mapConcurrent(paths, limit, async path => {
-    const controller=options.timeout?new AbortController():null;
-    const timer=controller?setTimeout(()=>controller.abort(),options.timeout):null;
-    try {
-      const r = await fetchFn(path, { cache: 'no-cache', ...(controller?{signal:controller.signal}:{}) });
-      if (!r.ok) {
-        console.warn(`無法讀取 ${path} (HTTP ${r.status})`);
-        return { ok: false, path, error: `HTTP ${r.status}` };
+  const batch = options.budget || options.signal ? new AbortController() : null;
+  const abortBatch = () => batch.abort();
+  const budgetTimer = options.budget ? setTimeout(abortBatch, options.budget) : null;
+  if (options.signal?.aborted) abortBatch();
+  else options.signal?.addEventListener('abort', abortBatch, {once:true});
+  let completed=0, succeeded=0, entryCount=0;
+  try {
+    const results = await mapConcurrent(paths, options.concurrency || 16, async path => {
+      let result;
+      if (batch?.signal.aborted) result={ok:false,path};
+      else {
+        const controller=options.timeout || batch ? new AbortController() : null;
+        const abortSource=()=>controller.abort();
+        batch?.signal.addEventListener('abort',abortSource,{once:true});
+        const timer=options.timeout ? setTimeout(abortSource,options.timeout) : null;
+        try {
+          const response=await fetchFn(path,{cache:'no-cache',...(controller?{signal:controller.signal}:{})});
+          if (!response.ok) throw Error('HTTP '+response.status);
+          const text=await response.text();
+          if (controller?.signal.aborted) throw Error('讀取已停止');
+          result={ok:true,path,entries:parseFn(path,text)};
+        } catch(error) {
+          if (!controller?.signal.aborted) console.warn(`無法讀取 ${path}：`,error);
+          result={ok:false,path};
+        } finally {
+          if (timer!==null) clearTimeout(timer);
+          batch?.signal.removeEventListener('abort',abortSource);
+        }
       }
-      const text = await r.text();
-      const entries = parseFn(path, text);
-      return { ok: true, path, entries };
-    } catch (err) {
-      console.warn(`無法讀取 ${path}：`, err);
-      return { ok: false, path, error: err.message || String(err) };
-    } finally {
-      if(timer!==null)clearTimeout(timer);
-    }
-  });
-  const entries = results.filter(r => r && r.ok).flatMap(r => r.entries);
-  const failed = results.filter(r => r && !r.ok).map(r => r.path);
-  return { entries, failed };
+      completed++;
+      if (result.ok) { succeeded++; entryCount+=result.entries.length; }
+      options.onProgress?.({completed,succeeded,entryCount,total:paths.length});
+      return result;
+    });
+    return {entries:results.filter(r=>r.ok).flatMap(r=>r.entries),failed:results.filter(r=>!r.ok).map(r=>r.path)};
+  } finally {
+    if (budgetTimer!==null) clearTimeout(budgetTimer);
+    options.signal?.removeEventListener('abort',abortBatch);
+  }
+}
+async function readJSON(path, timeout) {
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),timeout);
+  try {
+    const response=await fetch(path,{cache:'no-cache',signal:controller.signal});
+    if (!response.ok) throw Error('HTTP '+response.status);
+    return await response.json();
+  } finally { clearTimeout(timer); }
 }
 
 function mergeCorpus(current, recovered) {
@@ -838,7 +864,7 @@ async function retryFailedSources() {
   recoveringSources=true;recoveryNotice='正在重試 '+paths.length+' 個來源檔案，已載入內容仍可使用。';
   updatePartialLoad();
   try {
-    const result=await loadCorpus(paths,{concurrency:4,timeout:15000});
+    const result=await loadCorpus(paths,{concurrency:4,timeout:15000,budget:20000});
     const restoreFocus=preserveRecoveryFocus();
     const recoverRequested=document.activeElement===$('retry-failed');
     entries=mergeCorpus(entries,result.entries);
@@ -865,10 +891,39 @@ async function retryFailedSources() {
   }
 }
 
+function focusLoadedResults() {
+  const target=$('results-count'),url=location.href;
+  target.focus({preventScroll:true});
+  target.scrollIntoView({block:'center',behavior:'instant'});
+  // Native anchoring may settle after the newly drawn card changes page height.
+  // Keep the requested result visible, unless the reader has already moved on.
+  let cancelled=false;
+  const events=['pointerdown','keydown','wheel','touchstart'];
+  const cancel=()=>{cancelled=true;cleanup();};
+  const cleanup=()=>events.forEach(type=>document.removeEventListener(type,cancel,true));
+  const keepVisible=()=>{
+    if(cancelled||location.href!==url||$('detail').open||document.activeElement!==target)return;
+    const rect=target.getBoundingClientRect();
+    if(rect.top<0||rect.bottom>innerHeight)target.scrollIntoView({block:'center',behavior:'instant'});
+  };
+  events.forEach(type=>document.addEventListener(type,cancel,{capture:true,passive:true}));
+  requestAnimationFrame(()=>{keepVisible();requestAnimationFrame(()=>{keepVisible();cleanup();});});
+}
+
 async function load() {
+  if(initialLoading)return;
+  initialLoading=true;
+  const deadline=Date.now()+20000;
+  const remaining=()=>Math.max(1,deadline-Date.now());
+  initialLoadController=new AbortController();
+  $('loading-progress').hidden=false;
+  $('source-progress').removeAttribute('value');
+  $('loading-summary').textContent='正在讀取目錄，接著會讀取案例全文。';
+  $('use-loaded').disabled=true;
+  $('use-loaded').removeAttribute('aria-disabled');
   recoveryNotice='';$('load-status').textContent='';$('partial-load').hidden=true;
   clearSearchShare();$('copy-search-link').disabled=true;
-  discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('discover').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
+  discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('drawn-case').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
   $('error').hidden = true;
   $('empty').hidden = true;
   $('search-feedback').hidden = true;
@@ -876,24 +931,44 @@ async function load() {
   $('results-count').textContent = '正在讀取案例…';
   failedPaths = [];
   try {
-    const response = await fetch('catalog.json', { cache: 'no-cache' });
-    if (!response.ok) throw Error('索引讀取失敗。');
-    const catalog = await response.json();
+    // Hydrate shared conditions before readers can edit the form during loading.
+    // Dynamic facets retain a temporary option until source metadata arrives.
+    const initialParams=new URLSearchParams(location.search);
+    activeScenario=initialParams.get('scenario')||'';
+    $('scenario').value=activeScenario;
+    ['query','kind','tool','category','proof'].forEach(id=>{
+      const value=initialParams.get(id==='query'?'q':id)||'';
+      if(value&&['tool','category','proof'].includes(id)&&![...$(id).options].some(o=>o.value===value)){
+        const option=el('option','',value);option.value=value;$(id).append(option);
+      }
+      $(id).value=value;
+    });
+    const catalog = await readJSON('catalog.json', Math.min(8000,remaining()));
     if (!Array.isArray(catalog.files) || !catalog.files.length) throw Error('索引沒有案例。');
     const paths = catalog.files.filter(p => typeof p === 'string' && /^(cases|evidence)\/[a-zA-Z0-9_/-]+\.md$/.test(p) || p === 'sources/pending.md');
     try {
-      const copyResponse = await fetch('assets/copy.json', { cache: 'no-cache' });
-      if (copyResponse.ok) {
-        displayCopy = await copyResponse.json();
-      } else {
-        console.warn('顯示文案讀取失敗，使用 Markdown 預設文案。');
-        displayCopy = {};
-      }
+      displayCopy = await readJSON('assets/copy.json', Math.min(2500,remaining()));
     } catch (e) {
       console.warn('顯示文案載入失敗，使用 Markdown 預設文案：', e);
       displayCopy = {};
     }
-    const { entries: loaded, failed } = await loadCorpus(paths, { fetch, parseFile, concurrency: 16 });
+    let announced=-1;
+    const { entries: loaded, failed } = await loadCorpus(paths, {
+      fetch,parseFile,concurrency:16,timeout:12000,budget:remaining(),signal:initialLoadController.signal,
+      onProgress:({completed,succeeded,entryCount,total})=>{
+        $('source-progress').max=total;
+        $('source-progress').value=completed;
+        const text='已處理 '+completed+' / '+total+' 個來源，成功讀取 '+succeeded+' 個。';
+        $('loading-summary').textContent=text;
+        if(!initialLoadController.signal.aborted)$('use-loaded').disabled=!entryCount;
+        const milestone=Math.floor(completed/total*4);
+        if(milestone!==announced){
+          announced=milestone;
+          const stages=['正在讀取來源全文。','已處理至少四分之一的來源。','已處理至少一半的來源。','已處理至少四分之三的來源。','來源讀取已結束。'];
+          $('draw-status').textContent=stages[milestone]+' 等待過久會先顯示已讀取內容。';
+        }
+      }
+    });
     failedPaths = failed;
     if (!loaded.length) throw Error('沒有成功讀取任何案例。');
     entries = mergeCorpus([],loaded);
@@ -908,19 +983,25 @@ async function load() {
       }
       if (id === 'query' || [...$(id).options].some(o => o.value === value)) $(id).value = value;
     });
-    discoveryReady=true;$('guide-options').disabled=false;$('discover').setAttribute('aria-busy','false');
+    const skippedFromButton=document.activeElement===$('use-loaded');
+    $('loading-progress').hidden=true;
+    discoveryReady=true;$('guide-options').disabled=false;$('drawn-case').setAttribute('aria-busy','false');
     render(false);
     const current = matchCase(params.get('case'));
     if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
+    else if(skippedFromButton)focusLoadedResults();
     else finishArrival(params,failedPaths.length>0);
   } catch (error) {
-    discoveryReady=false;$('discover').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
+    discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();
     $('results-count').textContent = '載入未完成';
     $('error-message').textContent = '請稍後重試，或先閱讀 GitHub 原始資料。';
     $('error').hidden = false;
     finishArrival(new URLSearchParams(location.search),true);
     console.error(error);
+  } finally {
+    initialLoading=false;initialLoadController=null;
+    $('loading-progress').hidden=true;
   }
 }
 function drawNext(){
@@ -963,6 +1044,11 @@ function chooseScenario(value){
 // An explicit case link still opens its requested case when loading completes.
 ['pointerdown','keydown','wheel','touchstart'].forEach(type=>{
   document.addEventListener(type,()=>{allowAutomaticArrival=false;},{once:true,passive:true});
+});
+$('use-loaded').addEventListener('click',()=>{
+  if(!initialLoadController||$('use-loaded').disabled)return;
+  $('use-loaded').setAttribute('aria-disabled','true');
+  initialLoadController.abort();
 });
 $('copy-search-link').addEventListener('click',copySearchLink);
 // Choose the initial disclosure state once; typing, navigation and resizing

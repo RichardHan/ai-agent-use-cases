@@ -1,0 +1,17 @@
+[
+  {
+    "engine": "chromium",
+    "size": "desktop",
+    "waiting": true
+  },
+  {
+    "engine": "chromium",
+    "size": "mobile",
+    "waiting": true
+  },
+  {
+    "engine": "chromium",
+    "size": "small-mobile",
+    "waiting": true
+  }
+]

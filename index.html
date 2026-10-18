@@ -20,10 +20,17 @@
     <button type="button" data-scenario="開發" aria-pressed="false"><strong>寫程式與修問題</strong><span>開發、測試、代理協作</span></button>
   </fieldset>
 </section>
-<section id="discover" class="discovery-stage" aria-labelledby="draw-title" aria-busy="true">
+<section id="discover" class="discovery-stage" aria-labelledby="draw-title">
   <div class="draw-heading"><div><p class="eyebrow">一張卡，一個可以深入的想法</p><h2 id="draw-title">先看看這個用法</h2></div><span class="draw-symbol" aria-hidden="true">✳</span></div>
   <p id="draw-status" class="draw-status" role="status" aria-live="polite">正在準備案例卡…</p>
-  <div id="drawn-case" class="drawn-case"><p class="draw-placeholder">讀取完成後，就能開始探索。</p></div>
+  <div id="loading-progress" class="loading-progress" hidden>
+    <label for="source-progress">正在準備可搜尋的案例全文</label>
+    <progress id="source-progress" aria-describedby="loading-summary"></progress>
+    <p id="loading-summary">正在讀取目錄，接著會讀取案例全文。</p>
+    <p class="loading-hint">等候期間可以先輸入搜尋條件。若有來源等待過久，會先顯示已讀取內容，稍後可補讀。</p>
+    <button id="use-loaded" type="button" disabled>先看已讀取內容</button>
+  </div>
+  <div id="drawn-case" class="drawn-case" aria-busy="true"><p class="draw-placeholder">讀取完成後，就能開始探索。</p></div>
   <div class="draw-actions"><button id="draw-case" class="primary-button" type="button" disabled>抽一張靈感</button><a href="#explore">我想自己找 →</a></div>
   <p class="draw-note">隨機探索公開案例，並非人氣排名；本庫未獨立重現。待查想法與模板補充可在下方搜尋。</p>
 </section>

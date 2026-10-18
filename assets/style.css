@@ -186,3 +186,12 @@
 .load-status{font-size:14px;line-height:1.8;color:#4c6258;margin:12px 0 0}
 .load-status:empty{display:none}
 @media(max-width:760px){.partial-load{align-items:stretch;flex-direction:column;gap:12px;padding:16px}.partial-load button{align-self:flex-start}}
+
+/* Make source loading observable without presenting incomplete coverage as complete. */
+.loading-progress{padding:18px;border:1px solid #a4b8aa;border-radius:10px;background:#f7faf7;margin:12px 0 18px;color:#294b3b}
+.loading-progress label{display:block;font-size:15px;font-weight:650;line-height:1.6}
+.loading-progress progress{display:block;width:100%;height:12px;margin:14px 0;accent-color:#365e48}
+.loading-progress p{font-size:13px;line-height:1.8;margin:8px 0;overflow-wrap:anywhere}
+.loading-progress .loading-hint{color:#4c6258}
+.loading-progress button{min-height:44px;margin-top:6px;padding:10px 14px;border:1px solid #365e48;background:#fff;color:#294b3b;font-size:14px;font-weight:650}
+.loading-progress button:disabled{opacity:.6;cursor:wait}

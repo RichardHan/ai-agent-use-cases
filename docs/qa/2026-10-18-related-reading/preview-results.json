@@ -1,0 +1,95 @@
+[
+  {
+    "name": "desktop",
+    "label": "load",
+    "elapsedMs": 1099,
+    "failed": 0
+  },
+  {
+    "name": "desktop",
+    "label": "travel-related",
+    "axeViolations": 0
+  },
+  {
+    "name": "desktop",
+    "label": "long-direct",
+    "axeViolations": 0
+  },
+  {
+    "name": "desktop",
+    "label": "no-related",
+    "axeViolations": 0
+  },
+  {
+    "name": "desktop",
+    "label": "empty-results",
+    "axeViolations": 0
+  },
+  {
+    "name": "desktop",
+    "label": "recovered-related",
+    "axeViolations": 0
+  },
+  {
+    "name": "mobile",
+    "label": "load",
+    "elapsedMs": 926,
+    "failed": 0
+  },
+  {
+    "name": "mobile",
+    "label": "travel-related",
+    "axeViolations": 0
+  },
+  {
+    "name": "mobile",
+    "label": "long-direct",
+    "axeViolations": 0
+  },
+  {
+    "name": "mobile",
+    "label": "no-related",
+    "axeViolations": 0
+  },
+  {
+    "name": "mobile",
+    "label": "empty-results",
+    "axeViolations": 0
+  },
+  {
+    "name": "mobile",
+    "label": "recovered-related",
+    "axeViolations": 0
+  },
+  {
+    "name": "small-mobile",
+    "label": "load",
+    "elapsedMs": 984,
+    "failed": 0
+  },
+  {
+    "name": "small-mobile",
+    "label": "travel-related",
+    "axeViolations": 0
+  },
+  {
+    "name": "small-mobile",
+    "label": "long-direct",
+    "axeViolations": 0
+  },
+  {
+    "name": "small-mobile",
+    "label": "no-related",
+    "axeViolations": 0
+  },
+  {
+    "name": "small-mobile",
+    "label": "empty-results",
+    "axeViolations": 0
+  },
+  {
+    "name": "small-mobile",
+    "label": "recovered-related",
+    "axeViolations": 0
+  }
+]

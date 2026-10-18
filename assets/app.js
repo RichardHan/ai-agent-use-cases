@@ -222,18 +222,65 @@ function renderMarkdown(markdown,path) {
   }
   flush();if(code)out.append(code);return out;
 }
+function relatedEntries(item, items) {
+  if (!item.category || item.category === '未分類') return [];
+  return items.filter(other => other.id !== item.id && other.kind === 'case' && other.category === item.category).slice(0, 3);
+}
+function detailNeighbours(item, items) {
+  const index = items.findIndex(other => other.id === item?.id);
+  return index < 0 ? {prev:null,next:null} : {prev:items[index - 1] || null,next:items[index + 1] || null};
+}
+function renderRelated(item) {
+  const related = relatedEntries(item, currentFiltered);
+  const section = el('section', 'related-cases');
+  section.setAttribute('aria-labelledby', 'related-title');
+  const heading = el('h2', '', '同主題延伸閱讀');heading.id = 'related-title';
+  section.append(heading, el('p', 'related-note', '依主題分類整理，限目前搜尋結果；不是成效或證據排名。'));
+  if (related.length) {
+    const list = el('ul', 'related-list');
+    related.forEach(other => {
+      const row = el('li');
+      const button = el('button', 'related-open', other.title);button.type = 'button';
+      button.dataset.relatedId = other.id;
+      // Preserve the original result/discovery trigger for close and Escape.
+      button.addEventListener('click', () => showDetail(other, null));
+      row.append(el('p', 'related-meta', other.id + ' · 同主題：' + other.category), button,
+        el('p', 'related-summary', other.summary), el('p', 'related-proof', '來源類型：' + other.proof));
+      list.append(row);
+    });
+    section.append(list);
+  } else {
+    section.append(el('p', 'related-empty', '目前條件下，沒有其他相同主題的主要案例。可關閉閱讀後調整搜尋條件。'));
+  }
+  const back = el('button', 'related-back', '關閉閱讀');back.type = 'button';
+  back.addEventListener('click', closeDetail);section.append(back);
+  return section;
+}
+function refreshRelated() {
+  const previous = $('detail-body').querySelector('.related-cases');
+  if (!$('detail').open || !previous || !currentDetailItem) return;
+  const active = document.activeElement;
+  const hadFocus = previous.contains(active);
+  const next = renderRelated(currentDetailItem);
+  previous.replaceWith(next);
+  if (hadFocus) {
+    const target = [...next.querySelectorAll('[data-related-id]')].find(button => button.dataset.relatedId === active.dataset.relatedId) || next.querySelector('.related-back');
+    target.focus({preventScroll:true});
+  }
+}
 function updateModalNav() {
   const prevBtn = $('nav-prev-case'), nextBtn = $('nav-next-case');
   if (!prevBtn || !nextBtn) return;
-  const list = currentFiltered.length ? currentFiltered : entries;
-  const idx = list.findIndex(e => e.id === currentDetailItem?.id);
-  prevBtn.disabled = idx <= 0;
-  nextBtn.disabled = idx < 0 || idx >= list.length - 1;
+  const neighbours = detailNeighbours(currentDetailItem, currentFiltered);
+  [[prevBtn, neighbours.prev, '上一則案例'], [nextBtn, neighbours.next, '下一則案例']].forEach(([button, target, label]) => {
+    button.disabled = !target;
+    button.title = target ? label + '：' + target.title : label + '：目前結果中沒有可切換的案例';
+    button.setAttribute('aria-label', button.title);
+  });
 }
 function navStep(delta) {
-  const list = currentFiltered.length ? currentFiltered : entries;
-  const idx = list.findIndex(e => e.id === currentDetailItem?.id);
-  const target = list[idx + delta];
+  const neighbours = detailNeighbours(currentDetailItem, currentFiltered);
+  const target = delta === -1 ? neighbours.prev : delta === 1 ? neighbours.next : null;
   if (target) showDetail(target, null, true);
 }
 function showDetail(item, trigger, updateURL=true) {
@@ -308,6 +355,7 @@ function showDetail(item, trigger, updateURL=true) {
   research.append(toggle, el('p', 'research-title', item.id + ' · ' + item.originalTitle), renderMarkdown(item.markdown, item.path));
   body.append(research);
   globalThis.CaseReader?.enhance(body, item);
+  body.append(renderRelated(item));
 
   updateModalNav();
 
@@ -317,7 +365,7 @@ function showDetail(item, trigger, updateURL=true) {
   if (updateURL) {
     const url = new URL(location.href);
     url.searchParams.set('case', item.id);
-    history.pushState(null, '', url);
+    history.pushState({...history.state, caseReturn:lastTriggerContext}, '', url);
   }
 }
 function restoreDetailFocus(){
@@ -723,6 +771,7 @@ async function retryFailedSources() {
     render(false,true);
     updateModalNav();
     restoreFocus();
+    refreshRelated();
     const target=new URLSearchParams(location.search).get('case');
     if(recoverRequested && requestedCase && target===requestedCase && !$('detail').open){
       const item=matchCase(target);
@@ -890,15 +939,19 @@ document.addEventListener('keydown', e => {
     $('query').focus();
   }
 });
-window.addEventListener('popstate', () => {
+window.addEventListener('popstate', event => {
   const params = new URLSearchParams(location.search);
   const id = params.get('case');
   const item = matchCase(id);
   const wasOpen=$('detail').open;
-  if (item) showDetail(item, null, false); else if (wasOpen) $('detail').close();
   activeScenario = params.get('scenario') || '';
   ['query', 'kind', 'tool', 'category', 'proof'].forEach(key => $(key).value = params.get(key === 'query' ? 'q' : key) || '');
   render(false);
+  if (item) {
+    lastTrigger = null;
+    lastTriggerContext = event.state?.caseReturn || null;
+    showDetail(item, null, false);
+  } else if (wasOpen) $('detail').close();
   if(wasOpen&&!item){
     restoreDetailFocus();
     // Fragment traversal can apply its native focus after the popstate handler.

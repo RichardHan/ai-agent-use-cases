@@ -25,7 +25,7 @@ function normalizeSourceUrl(rawUrl) {
       u.pathname = '/watch';
       u.searchParams.set('v', id);
     }
-    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json', 'si', 'igsh', 'trk', 'spm_id_from', 'spm', 'ref_src', 'ref_url', 'from', 'source', 'co', 'tabs', 'view', 'platform', 'see-all', 'payment-ui'];
+    const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ref', 's', 't', 'feature', 'open', 'context', 'hl', 'mobile-help', 'track', 'raw_json', 'si', 'igsh', 'trk', 'spm_id_from', 'spm', 'ref_src', 'ref_url', 'from', 'source', 'co', 'tabs', 'view', 'platform', 'see-all', 'payment-ui', 'provider', 'provider_info', 'fit'];
     tracking.forEach(p => u.searchParams.delete(p));
     u.hash = '';
     if (host === 'reddit.com') u.pathname = u.pathname.replace(/\.json$/, '');
@@ -477,6 +477,11 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(grokBotApprovalsCandidate.cases.includes('cases/318-approved-account-form-shopify-customer-flow.md'));
   assert(grokBotApprovalsCandidate.cases.includes('evidence/009-background-transfer-template.md'));
 
+  const grokLegalOpsGuideCandidate = duplicates.find(d => d.url === 'https://x.ai/bot/guides/grok-bot-for-legal-ops');
+  assert(grokLegalOpsGuideCandidate, 'Must detect shared Grok Bot Legal Ops guide between UC-021 and UC-154 via hash normalization');
+  assert(grokLegalOpsGuideCandidate.cases.includes('cases/021-legal-request-handoff.md'));
+  assert(grokLegalOpsGuideCandidate.cases.includes('cases/154-contract-review-wait-time-analysis.md'));
+
   // Verify YouTube normalization of pending lead URL
   assert.equal(normalizeSourceUrl('https://youtube.com/watch?v=ARMaDt5JBUg'), 'https://www.youtube.com/watch?v=armadt5jbug');
   assert.equal(normalizeSourceUrl('http://www.linkedin.com/in/test?ref_src=1'), 'https://linkedin.com/in/test');
@@ -488,6 +493,8 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert.equal(normalizeSourceUrl('https://learn.microsoft.com/en-us/microsoft-365/admin/get-help-with-domains/create-dns-records-at-any-dns-hosting-provider?view=o365-worldwide'), 'https://learn.microsoft.com/en-us/microsoft-365/admin/get-help-with-domains/create-dns-records-at-any-dns-hosting-provider');
   assert.equal(normalizeSourceUrl('https://apps.apple.com/us/app/grok-bot/id6794501026?platform=iphone&see-all=reviews'), 'https://apps.apple.com/us/app/grok-bot/id6794501026');
   assert.equal(normalizeSourceUrl('https://docs.stripe.com/checkout/fulfillment.md?payment-ui=stripe-hosted'), 'https://docs.stripe.com/checkout/fulfillment.md');
+  assert.equal(normalizeSourceUrl('https://biz.moneyforward.com/expense/function/?provider=ac_basic&provider_info=cv.76684.part.article'), 'https://biz.moneyforward.com/expense/function');
+  assert.equal(normalizeSourceUrl('https://about.fb.com/wp-content/uploads/2026/09/02_inline_quote_01.jpg?fit=1920%2C1672'), 'https://about.fb.com/wp-content/uploads/2026/09/02_inline_quote_01.jpg');
 });
 
 

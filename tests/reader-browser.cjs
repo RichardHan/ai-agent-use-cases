@@ -68,6 +68,10 @@ async function jump(page,button){
   if(deployed&&engine==='chromium'){
    const versionPage=await browser.newPage();await deployedVersion(versionPage);await versionPage.close();
   }
+  if(deployed){
+   await require('./arrival-live.cjs')({browser,origin,engine});
+   await browser.close();continue;
+  }
   await require('./arrival-browser.cjs')({browser,origin,prefix:(deployed?'live-':'')+engine+'-arrival',sizes});
   for(const [size,width,height] of sizes){
    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});

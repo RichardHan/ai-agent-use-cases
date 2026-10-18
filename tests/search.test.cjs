@@ -271,6 +271,41 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('auto-reply')), {}).so
 assert(api.filterEntries(entries, Array.from(api.tokenize('qa')), {}).some(x => x.id === 'UC-217'), 'qa matches UC-217 via 測試 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('audit')), {}).some(x => x.id === 'UC-073'), 'audit matches UC-073 via 審查/審核 synonym');
 
+// Search quality: Logistics, shipping, delivery synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('快遞')), {}).some(x => x.id === 'UC-331'), '快遞 matches UC-331 via 物流/快遞 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('shipping')), {}).some(x => x.id === 'UC-331'), 'shipping matches UC-331 via 物流/包裹 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('delivery')), {}).some(x => x.id === 'UC-331'), 'delivery matches UC-331 via 物流/運送 synonym');
+
+// Search quality: Social media, posting & publishing synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('發帖')), {}).some(x => x.id === 'UC-332'), '發帖 matches UC-332 via 發文/貼文 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sns')), {}).some(x => x.id === 'UC-332'), 'sns matches UC-332 via 社群 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('社交媒體')), {}).some(x => x.id === 'UC-332'), '社交媒體 matches UC-332 via 社群 synonym');
+
+// Search quality: Outreach & cold email synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('outreach')), {}).some(x => x.id === 'UC-333'), 'outreach matches UC-333 via 外聯 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('開發信')), {}).some(x => x.id === 'UC-333'), '開發信 matches UC-333 via 外聯 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('拓客')), {}).some(x => x.id === 'UC-333'), '拓客 matches UC-333 via 外聯 synonym');
+
+// Search quality: Customer, client & user synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('顧客')), {}).some(x => x.id === 'UC-014'), '顧客 matches UC-014 via 客戶 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('customer')), {}).some(x => x.id === 'UC-014'), 'customer matches UC-014 via 客戶 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('client')), {}).some(x => x.id === 'UC-014'), 'client matches UC-014 via 客戶 synonym');
+
+// Search quality: Memory & knowledge memory synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('memory')), {}).some(x => x.id === 'UC-071'), 'memory matches UC-071 via 記憶 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('記憶庫')), {}).some(x => x.id === 'UC-333'), '記憶庫 matches UC-333 via 記憶 synonym');
+
+// Search quality: Prompt & instruction synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('prompt')), {}).some(x => x.id === 'UC-001'), 'prompt matches UC-001 via 提示詞 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('提示語')), {}).some(x => x.id === 'UC-001'), '提示語 matches UC-001 via 提示詞 synonym');
+
+// Search quality: Approval & audit gate synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('審批')), {}).some(x => x.id === 'UC-331'), '審批 matches UC-331 via 核准 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('approval')), {}).some(x => x.id === 'UC-331'), 'approval matches UC-331 via 核准 synonym');
+
+// Search quality: Ecommerce & online shopping synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('ecommerce')), {}).some(x => x.id === 'UC-331'), 'ecommerce matches UC-331 via 網購/購物 synonym');
+
 // Data accuracy: Verification date extraction priority over historical post dates
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

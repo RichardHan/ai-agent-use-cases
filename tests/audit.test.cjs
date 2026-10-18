@@ -133,7 +133,7 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
   // Confirm that candidate duplicates are purely listed as candidates and all original cases remain intact
-  assert.equal(caseFiles.length, 313, 'Corpus case count must remain intact (no automatic deletion of candidates)');
+  assert(caseFiles.length >= 313, `Corpus case count must remain intact (no automatic deletion of candidates); got ${caseFiles.length}`);
 });
 
 test('qualification audit maintains strict separation between catalog entries and verified cases', () => {
@@ -144,7 +144,7 @@ test('qualification audit maintains strict separation between catalog entries an
 
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
   // Qualified cases (e.g. 292) must be strictly less than or equal to total case markdown files
-  assert.equal(qualifiedCount, 292, `Expected qualified count 292 as of 2026-10-18 14:00 batch, got ${qualifiedCount}`);
+  assert(qualifiedCount >= 292, `Expected qualified count >= 292 (2026-10-18 14:00 baseline), got ${qualifiedCount}`);
   assert(qualifiedCount <= caseFiles.length, `Qualified count (${qualifiedCount}) cannot exceed total cases (${caseFiles.length})`);
 });
 

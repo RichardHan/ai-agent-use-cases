@@ -400,3 +400,12 @@ python -m http.server 8080 --directory /tmp/ai-usecase-preview
 回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/test-preview/ai-agent-use-cases`。
 本輪實際結果：24/24 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選叢集審核、全庫 325 案例一致性檢驗通過。
 下一輪建議：依重複來源候選清單（如多個案例共用同一討論串或長文網址）評估是否需在各案例頁內進一步精確標註發文時間碼或留言 anchor。
+
+
+## 2026-10-18：手機搜尋前置與按需篩選
+
+雲端實測 390px 搜尋區原先先放快捷按鈕與五個篩選：輸入框距區段起點 416px、首張結果再往下 361px。改用搜尋前置與原生 details；手機初始收合、桌面展開，後續輸入／返回／縮放保留使用者選擇。已套用條件與零結果復原保持可見，摘要同步顯示篩選數。
+
+實測改善為 158px／181px；320px 同樣達標。24/24 測試、Chromium 三尺寸與 Firefox／WebKit 手機的三情境通過，新流程十個引擎尺寸／展開狀態的 axe 掃描無違規。獨立審查無阻擋；補齊閉合 Tab、760／761px 及共用測試的跨引擎 CI paths。協作者 main f59fe44 五個研究檔完整保留；整合版本與正式 Pages 仍以對應 CI 結果為準。
+
+[前後截圖、量測、測試指令、獨立審查與限制](docs/qa/2026-10-18-mobile-search/README.md)。下一輪：檢查分享搜尋網址的落點，縮短回訪者到結果的距離。

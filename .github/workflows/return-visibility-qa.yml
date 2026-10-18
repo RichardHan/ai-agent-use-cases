@@ -1,7 +1,7 @@
 name: Return visibility QA
 on:
   push:
-    branches: [fix/reading-return-visibility, fix/late-native-return, test/ordered-late-return, main]
+    branches: [fix/reading-return-visibility, fix/late-native-return, test/ordered-late-return, fix/loading-acceptance-final, main]
     paths: ['assets/app.js', 'tests/return-visibility*', 'tests/late-return.test.cjs', '.github/workflows/return-visibility-qa.yml']
 permissions:
   contents: read
@@ -33,9 +33,13 @@ jobs:
           python3 - <<'PYCODE'
           import re
           text = open('qa-artifacts/late-return-red.tap').read()
-          assert '# tests 13' in text
+          for summary in ('# tests 13', '# pass 9', '# fail 4', '# cancelled 0', '# skipped 0'):
+              assert summary in text
           for delay in (80, 180):
-              assert re.search(r'^not ok \d+ - late return at '+str(delay)+r'ms ', text, re.M)
+              block = re.search(r'^not ok \d+ - late return at '+str(delay)+r'ms .*?^  \.\.\.', text, re.M | re.S)
+              assert block
+              assert "code: 'ERR_ASSERTION'" in block[0]
+              assert "error: 'late return remains visible'" in block[0]
           PYCODE
       - name: Verify updated return and preserve user focus
         env:

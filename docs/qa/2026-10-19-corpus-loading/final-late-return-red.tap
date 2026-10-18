@@ -1,0 +1,158 @@
+TAP version 13
+# Subtest: late return at 80ms becomes visible and releases the bounded guard
+not ok 1 - late return at 80ms becomes visible and releases the bounded guard
+  ---
+  duration_ms: 1.985715
+  type: 'test'
+  location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/late-return.test.cjs:29:26'
+  failureType: 'testCodeFailure'
+  error: 'late return remains visible'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/late-return.test.cjs:30:64)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: late return at 180ms becomes visible and releases the bounded guard
+not ok 2 - late return at 180ms becomes visible and releases the bounded guard
+  ---
+  duration_ms: 0.406957
+  type: 'test'
+  location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/late-return.test.cjs:29:26'
+  failureType: 'testCodeFailure'
+  error: 'late return remains visible'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/late-return.test.cjs:30:64)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: new pointerdown permanently cancels late scroll correction
+ok 3 - new pointerdown permanently cancels late scroll correction
+  ---
+  duration_ms: 0.539846
+  type: 'test'
+  ...
+# Subtest: new keydown permanently cancels late scroll correction
+ok 4 - new keydown permanently cancels late scroll correction
+  ---
+  duration_ms: 0.350724
+  type: 'test'
+  ...
+# Subtest: new wheel permanently cancels late scroll correction
+ok 5 - new wheel permanently cancels late scroll correction
+  ---
+  duration_ms: 0.361129
+  type: 'test'
+  ...
+# Subtest: new touchstart permanently cancels late scroll correction
+ok 6 - new touchstart permanently cancels late scroll correction
+  ---
+  duration_ms: 0.365535
+  type: 'test'
+  ...
+# Subtest: new focus wins and return monitoring is cleaned up
+ok 7 - new focus wins and return monitoring is cleaned up
+  ---
+  duration_ms: 0.405626
+  type: 'test'
+  ...
+# Subtest: new url wins and return monitoring is cleaned up
+ok 8 - new url wins and return monitoring is cleaned up
+  ---
+  duration_ms: 0.336853
+  type: 'test'
+  ...
+# Subtest: new modal wins and return monitoring is cleaned up
+ok 9 - new modal wins and return monitoring is cleaned up
+  ---
+  duration_ms: 0.96416
+  type: 'test'
+  ...
+# Subtest: new removed wins and return monitoring is cleaned up
+ok 10 - new removed wins and return monitoring is cleaned up
+  ---
+  duration_ms: 0.473507
+  type: 'test'
+  ...
+# Subtest: scroll after the 300ms deadline is never pulled back
+ok 11 - scroll after the 300ms deadline is never pulled back
+  ---
+  duration_ms: 0.419546
+  type: 'test'
+  ...
+# Subtest: background resume after deadline: frame runs first without late scrolling
+not ok 12 - background resume after deadline: frame runs first without late scrolling
+  ---
+  duration_ms: 0.531293
+  type: 'test'
+  location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/late-return.test.cjs:40:38'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    800 !== 899
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 899
+  actual: 800
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/late-return.test.cjs:41:58)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: background resume after deadline: timer runs first without late scrolling
+not ok 13 - background resume after deadline: timer runs first without late scrolling
+  ---
+  duration_ms: 0.454058
+  type: 'test'
+  location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/late-return.test.cjs:40:38'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    800 !== 899
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 899
+  actual: 800
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/late-return.test.cjs:41:58)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 9
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 45.919814

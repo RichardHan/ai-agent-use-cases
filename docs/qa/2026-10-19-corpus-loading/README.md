@@ -114,3 +114,13 @@ GitHub CLI受企業受管帳號限制，建立PR回應Unauthorized；個人SSH�
 新增測試先使用仍有兩frame守衛的`7abbf02`作red基準，於180ms才注入fragment捲動，確實出界；補修後三引擎各10種狀態共30次均通過，包含四種input取消、focus／URL／modal／移除及420ms後不再回拉。500ms後才取最終bounds，未放寬原±1px斷言。[雲端39155244825](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39155244825)、[舊版red](late-return-red.json)、[修後30項](late-return-preview.json)、[WebKit修後畫面](late-return-preview.png)。45/45單元與語法通過。
 
 獨立角色只讀review並以Node VM驗13種時序：80／180ms校正、四種input、焦點／URL／modal／disconnect、420ms期限後、背景恢復時rAF先跑或timer先跑；均確認不該發生的晚到校正被抑制且資源清除。正式部署後仍需原樣重跑先前失敗的Reader QA，以及三引擎各10次未注入的原生Back，結果將附於下方。
+
+## 最終測試分層與協作者整合
+
+300ms補修的正式[原生Back驗收39155509629／published job](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39155509629)已通過三引擎各10次、共30次；同run的歷史red重現步驟曾因headless frame／timer排序未保證而失敗，並非補修版native返回失敗。原先失敗的[Reader QA39155509584](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39155509584)也已原樣完整通過，含其正式站WebKit可見性斷言；[Reading flow39155509604](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39155509604)亦通過。
+
+不再用真實瀏覽器的固定sleep推定180ms與frame排序：精確時序改由`tests/late-return.test.cjs`直接執行實際guard原文及可控制scheduler，驗13種時序與永久清理。舊`7abbf02`的80／180ms及兩種背景恢復共4例會因原行為失敗，其他9例通過；red gate核對兩正例確為`ERR_ASSERTION`／`late return remains visible`，避免把執行錯誤當成功重現。新版全部13例通過，全庫單元合計58/58。
+
+瀏覽器僅驗真正未注入的Back：每引擎10次、等待至少500ms、先截圖完成再讀取最新焦點／座標，仍維持原±1px範圍、同搜尋條件及結果ID。這補強觀測順序，避免拿截圖前的舊座標作通過證據。[最終分支QA39156575151](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39156575151)全部成功：有效舊版red、新58項單元與preview真實Back30次。[red TAP](final-late-return-red.tap)、[原生preview30項](final-return-preview.json)、[最新preview畫面](final-return-preview.png)、[整合後58項單元](final-unit-tests.txt)。獨立角色已複核測試未重寫另一套產品邏輯或放寬斷言。
+
+收尾期間另一工作切換共用checkout並把搜尋擴充`8043b79`合併至main（`242d630`），也帶入共用的QA副本與三個紀錄檔。原checkout與未提交修改全數保留；本輪改用獨立工作樹。Git因同名未追蹤檔擋下合併時先停止，比對確認三檔SHA完全相同；對重疊QA沒有直接選邊覆蓋，而從最新main建立另一整合工作樹，以`git apply --check`無衝突套用僅8行已審查的QA加嚴。協作者app/search/SITE與來源資料沒有被本輪收尾改寫；整合後58/58通過。最終正式站與最新QA分層的驗收會附於下方。

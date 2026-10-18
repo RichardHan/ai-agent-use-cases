@@ -17,13 +17,15 @@ const origin='https://richardhan.github.io/ai-agent-use-cases/';
  }
  for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
   const context=await browser.newContext({viewport:{width,height}});
-  const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const page=await context.newPage();const errors=[],network=[];page.on('pageerror',e=>errors.push(e.message));
+  page.on('requestfailed',request=>network.push({url:request.url(),failure:request.failure()}));
+  page.on('response',response=>{if(response.status()>=400)network.push({url:response.url(),status:response.status()});});
   const served={};
   page.on('response',async response=>{for(const path of ['assets/app.js','assets/style.css'])if(new URL(response.url()).pathname.endsWith('/'+path))served[path]=await response.text();});
   const started=Date.now();
   await page.goto(origin);await page.waitForFunction(()=>document.querySelector('#results-count').textContent.includes('筆收錄'),{},{timeout:90000});
   const elapsedMs=Date.now()-started;
-  const state=await page.evaluate(()=>({entries:entries.length,failed:failedPaths.length,recoveryUI:!!document.getElementById('partial-load')}));
+  const state=await page.evaluate(()=>({entries:entries.length,failed:failedPaths.length,failedPaths:[...failedPaths],recoveryUI:!!document.getElementById('partial-load')}));
   if(process.env.LOAD_DEPLOYED==='1'){
    assert.equal(state.recoveryUI,true);
    for(const path of ['assets/app.js','assets/style.css']){
@@ -31,7 +33,11 @@ const origin='https://richardhan.github.io/ai-agent-use-cases/';
     assert.equal(actual,fs.readFileSync(path,'utf8'),'published '+path+' matches checkout');
    }
   }
-  assert.equal(state.failed,0,'live corpus must load completely');
+  const record={name,...state,elapsedMs,network,errors};records.push(record);
+  fs.mkdirSync('qa-artifacts',{recursive:true});
+  fs.writeFileSync('qa-artifacts/load-live.json',JSON.stringify(records,null,2));
+  if(state.failed){await page.locator('#partial-load').scrollIntoViewIfNeeded();await page.screenshot({path:'qa-artifacts/live-incomplete-'+name+'.png'});}
+  assert.equal(state.failed,0,'live corpus must load completely: '+JSON.stringify({failedPaths:state.failedPaths,network}));
   fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.screenshot({path:'qa-artifacts/live-home-'+name+'.jpg',type:'jpeg',quality:70});
   console.log('VISUAL:live-home-'+name+':'+fs.readFileSync('qa-artifacts/live-home-'+name+'.jpg').toString('base64'));
@@ -59,7 +65,7 @@ const origin='https://richardhan.github.io/ai-agent-use-cases/';
   assert.equal(await page.locator('#empty').isVisible(),true);
   await page.locator('#query').fill('旅遊');
   assert.deepEqual(await page.locator('#results .card').evaluateAll(nodes=>nodes.map(n=>n.dataset.caseId)),ids);
-  records.push({name,...state,elapsedMs,matching:ids.length,opened:id,sourceURL,original,originalStatus,originalError,errors});
+  Object.assign(record,{matching:ids.length,opened:id,sourceURL,original,originalStatus,originalError});
   assert.deepEqual(errors,[]);
   await context.close();
  }

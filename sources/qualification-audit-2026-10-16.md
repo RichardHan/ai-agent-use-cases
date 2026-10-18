@@ -1,6 +1,18 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對時間：2026-10-18 00:00 UTC／2026-10-18 08:00台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對時間：2026-10-18 00:46 UTC／2026-10-18 08:46台灣時間（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+
+## 2026-10-18 08:46台灣時間補核
+
+新增308–311四案，保守 **283／1,000，尚差717**；發布口徑296、主要頁303。四案均以X API讀到原作者全文並看過附圖或公開產物，沒有獨立重現。
+
+- [UC-308](../cases/308-personal-clinical-trial-daily-watch.md)｜納入｜B。@kevinace自述每日routine依自身病況比對試驗登錄、FDA決定、學會摘要與公司新聞，抓到9月新增的近距離試驗點並標出資格問題帶去問醫師；附routine設定（每天約9點）與Notion追蹤表截圖。醫療成效、資格與首次通知時間未核。不同075門診摘要、015一般頁面監看、048價格追蹤。[來源](https://x.com/kevinace/status/2111471078434295973)
+- [UC-309](../cases/309-product-trial-campaign-daily-auto-apply.md)｜納入｜B。@2ynch韓文自述每天10點、18點巡查Musinsa與Kakao禮物體驗團並依金額／品類／尺寸條件代申請；附Bot回報截圖（清單數與公布日）及公開範本頁。中選、平台規則與申請紀錄未核。不同241審核方初篩、294上架通知後本人下單。[來源](https://x.com/2ynch/status/2111439850524315839)
+- [UC-310](../cases/310-agent-run-mistake-attribution-dashboard.md)｜納入｜B。@Ezcorps自述PM Bot記錄每次Cursor雲端代理執行、標錯誤原因並每週建議角色模型；附儀表板截圖（5次執行、8錯誤、協調7／指令1）。截圖統計有一處前後不一，原始JSONL未核。不同061派工台帳、066用量稽核。[來源](https://x.com/Ezcorps/status/2111556045587747055)
+- [UC-311](../cases/311-new-model-prompt-batch-demo-gallery.md)｜納入｜B。@TokenGremlin自述Grok Bot跑完DeepSeek V4.1 Flash測試提示、保存示範並發布展示頁；公開頁本庫已讀（10張卡片，2張缺縮圖，抽查示範可開）。提示詞、重試與篩選未核。不同292 API開通、161資料集稽核。[來源](https://x.com/TokenGremlin/status/2111587262366388424)
+- UC-067併入@kwojt重置後Tailscale狀態還原、@EdisonTanEdtreo每週三處備份、@BeatAPIio回滾後備份計畫；UC-049併入@uzair_aftab「每次詢問」設定下dots仍讀信的截圖反例。皆屬既有流程補充，不增加計數。
+
+[本批原文、去重與覆蓋](research-2026-10-18-0846.md)。
 
 ## 2026-10-18 08:00台灣時間補核
 

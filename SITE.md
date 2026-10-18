@@ -761,3 +761,47 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
 本輪實際結果：36/36 測試全數通過，336 筆條目全文、同義詞擴充檢索、多詞分詞標準化、疑似重複來源候選審核、全庫一致性檢驗通過。
 下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
+
+## 2026-10-18：知識庫、工單、審批簽核、排程部署、監控告警、對帳回滾、看板儀表板、微調、里程碑、復盤回顧、外聯與多詞自然語言分詞強化及影片來源參數正規化
+
+先前走查與測試發現：
+1. 自然語言檢索痛點與多詞空格斷詞斷層：
+   - 知識庫類（Knowledge base & knowledgebase）：全庫有 19 筆「知識庫」案例（如 UC-060、UC-077、UC-297、UC-324），但讀者搜尋自然英文「knowledge base」因空格切分僅得 0 筆、搜尋「knowledgebase」亦得 0 筆；
+   - 工單類（Work order, work orders, workorder, tickets）：全庫有 67 筆「工單」與「客服」案例（如 UC-011、UC-014、UC-052），但搜尋「work order」僅命中 2 筆字面有 work order 的案例（漏掉 65 筆），搜尋複數「tickets」得 0 筆；
+   - 微調類（Fine-tuning, finetune, finetuning, fine tune）：全庫有「微調」案例（如 UC-122 燈光序列微調），但搜尋「fine-tuning」、「finetune」、「finetuning」皆得 0 筆；
+   - 拓客與外聯類（Cold outreach & outreach）：全庫有「外聯」案例（如 UC-333 Notion 跨代理外聯記憶、UC-149、UC-059），但搜尋「cold outreach」得 0 筆；
+   - 復盤與回顧類（Post-mortem & postmortem）：全庫有 20 筆「回顧」、7 筆「復盤」案例（如 UC-006、UC-041、UC-067），但搜尋「post-mortem」得 0 筆；
+2. 同義詞單複數、衍生詞與兩岸術語斷層：
+   - 排程類（Schedule, schedules, scheduling）：全庫有 142 筆排程/工作流案例，搜尋「schedule」有 142 筆，但搜尋英文複數「schedules」得 0 筆、「scheduling」得 0 筆；
+   - 部署類（Deploy, deployment, deployments）：全庫有 57 筆部署案例，搜尋「deploy」有 57 筆，但搜尋複數「deployments」得 0 筆；
+   - 監控類（Monitor & monitoring）：全庫有 51 筆監控案例，搜尋「monitor」有 51 筆，但搜尋動名詞「monitoring」得 0 筆；
+   - 審批與簽核類（Approval, approvals, approve, 簽核, 審批）：全庫有 187 筆審批/核准案例，搜尋「approval」有 187 筆，但搜尋「approvals」僅 11 筆、「approve」僅 3 筆、「簽核」僅 1 筆；
+   - 日曆類（Calendar & calendars）：全庫有 33 筆日曆/行事曆案例，搜尋「calendar」有 33 筆，但搜尋複數「calendars」僅 1 筆（漏掉 32 筆）；
+   - 對帳與核帳類（Reconciliation, reconcile, reconciling, 核帳, 對帳）：全庫有 29 筆對帳案例，但搜尋「reconcile」僅 1 筆、「reconciling」僅 1 筆、「核帳」僅 11 筆；
+   - 回滾類（Rollback, rollbacks, revert, reverting）：全庫有 44 筆回滾/備份案例，搜尋「rollback」有 44 筆，但搜尋複數「rollbacks」得 0 筆、「revert」得 0 筆、「reverting」得 0 筆；
+   - 看板與儀表板類（Dashboard, dashboards, 看板, 儀表板）：全庫有 19 筆看板案例、6 筆儀表板案例，搜尋「dashboards」得 0 筆，且「dashboard」與「看板」各自獨立無法互通檢索；
+   - 告警與通知類（Alert, alerting, notify, 通知, 提醒）：全庫有 112 筆告警/通知案例，但搜尋動名詞「alerting」得 0 筆、「notify」得 0 筆；
+   - 重試類（Retry & retrying）：全庫有 73 筆重試案例，搜尋「retrying」得 0 筆；
+   - 介面與端點類（Endpoint, api, apis）：全庫有 133 筆端點/API 案例，搜尋複數「apis」得 0 筆；
+   - 記憶類（Memory & memories）：全庫有 30 筆記憶案例，搜尋複數「memories」得 0 筆；
+   - 上下文類（Context & contexts）：全庫有 9 筆上下文案例，搜尋複數「contexts」得 0 筆；
+   - 權杖與令牌類（Token, tokens, 權杖, 令牌）：全庫有 126 筆權杖案例，但搜尋常見中文術語「令牌」僅命中 1 筆字面包含令牌的案例；
+   - 里程碑類（Milestone, milestones, 里程碑）：全庫有 2 筆里程碑案例（UC-012, UC-231），搜尋「milestone」得 0 筆、「milestones」得 0 筆。
+3. 來源網址追蹤/展示參數正規化：
+   - Twitter/X amplify 影片解析度與標籤參數 `tag`（如 `https://video.twimg.com/amplify_video/...mp4?tag=29`）未列入清理，造成影片來源規範斷層；
+   - 恪守 AI 案例庫規範：「疑似重複只列候選，不自行刪除；總案例數 336 保持完整；嚴格合格案例數 300 保持一致」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 新增多詞術語自然語言分詞標準化（`knowledge base` → `knowledgebase`、`work order` → `workorder`、`fine tuning`/`fine-tuning` → `finetune`、`cold outreach` → `outreach`、`post-mortem`/`post mortem` → `postmortem`）。
+   - `SYNONYM_GROUPS` 補強與新增同義詞群：
+     - 擴充既有群組：儀表板/看板/dashboards、日曆/calendars、對帳/核帳/reconcile/reconciling、排程/schedules/scheduling、工單/tickets/workorder、備份/回滾/rollbacks/revert/reverting、監控/monitoring、告警/alerting/notify、知識庫/knowledgebase、審批/簽核/approvals/approve、部署/deployments、介面/apis、重試/retrying、外聯/外呼、記憶/長期記憶/memories、權杖/令牌。
+     - 新增獨立組別：微調/finetune/finetuning、里程碑/milestone/milestones、復盤/回顧/retrospective/postmortem、上下文/語境/context/contexts。
+     - 保持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：`normalizeSourceUrl` 補齊 Twitter amplify 影片 `tag` 參數清理，加入回歸斷言，恪守「只列候選、不自行刪除、總案例數保持完整」。
+   - `tests/search.test.cjs`：加入 knowledge base/knowledgebase、tickets/work order/workorder、approvals/approve/簽核、calendars、reconcile/reconciling/核帳、rollbacks/revert/reverting、dashboards/dashboard/看板、schedules/scheduling、deployments、monitoring、alerting/notify、retrying、apis、memories、contexts、令牌、fine-tuning/finetune/finetuning、milestone/milestones、post-mortem/postmortem、cold outreach/outreach 等 20 組搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
+本輪實際結果：36/36 測試全數通過，336 筆條目全文、同義詞擴充檢索、多詞分詞標準化、疑似重複來源候選審核、全庫一致性檢驗通過。
+下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。

@@ -766,6 +766,84 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('語義')), {}).some(x
 assert(api.filterEntries(entries, Array.from(api.tokenize('rate limit')), {}).some(x => x.id === 'UC-069'), 'rate limit matches UC-069 via 限流 multi-word normalization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('ratelimit')), {}).some(x => x.id === 'UC-069'), 'ratelimit matches UC-069 via 限流 synonym');
 
+// Search quality: 知識庫, knowledge base, knowledgebase
+assert(api.filterEntries(entries, Array.from(api.tokenize('knowledge base')), {}).some(x => x.id === 'UC-060'), 'knowledge base matches UC-060 via 知識庫 multi-word normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('knowledgebase')), {}).some(x => x.id === 'UC-060'), 'knowledgebase matches UC-060 via 知識庫 synonym');
+
+// Search quality: 工單, ticket, tickets, work order, workorder
+assert(api.filterEntries(entries, Array.from(api.tokenize('tickets')), {}).some(x => x.id === 'UC-014'), 'tickets matches UC-014 via 工單 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('work order')), {}).some(x => x.id === 'UC-014'), 'work order matches UC-014 via 工單 multi-word normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('workorder')), {}).some(x => x.id === 'UC-014'), 'workorder matches UC-014 via 工單 synonym');
+
+// Search quality: 審批, 簽核, approval, approvals, approve
+assert(api.filterEntries(entries, Array.from(api.tokenize('approvals')), {}).some(x => x.id === 'UC-014'), 'approvals matches UC-014 via 審批 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('approve')), {}).some(x => x.id === 'UC-014'), 'approve matches UC-014 via 審批 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('簽核')), {}).some(x => x.id === 'UC-014'), '簽核 matches UC-014 via 審批 synonym');
+
+// Search quality: 日曆, 行事曆, calendar, calendars
+assert(api.filterEntries(entries, Array.from(api.tokenize('calendars')), {}).some(x => x.id === 'UC-043'), 'calendars matches UC-043 via 日曆 synonym');
+
+// Search quality: 對帳, 核帳, reconciliation, reconcile, reconciling
+assert(api.filterEntries(entries, Array.from(api.tokenize('reconcile')), {}).some(x => x.id === 'UC-037'), 'reconcile matches UC-037 via 對帳 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('reconciling')), {}).some(x => x.id === 'UC-037'), 'reconciling matches UC-037 via 對帳 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('核帳')), {}).some(x => x.id === 'UC-037'), '核帳 matches UC-037 via 對帳 synonym');
+
+// Search quality: 回滾, rollback, rollbacks, revert, reverting
+assert(api.filterEntries(entries, Array.from(api.tokenize('rollbacks')), {}).some(x => x.id === 'UC-067'), 'rollbacks matches UC-067 via 回滾 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('revert')), {}).some(x => x.id === 'UC-067'), 'revert matches UC-067 via 回滾 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('reverting')), {}).some(x => x.id === 'UC-067'), 'reverting matches UC-067 via 回滾 synonym');
+
+// Search quality: 看板, 儀表板, dashboard, dashboards
+assert(api.filterEntries(entries, Array.from(api.tokenize('dashboards')), {}).some(x => x.id === 'UC-031'), 'dashboards matches UC-031 via 儀表板 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('dashboard')), {}).some(x => x.id === 'UC-041'), 'dashboard matches UC-041 via 看板 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('看板')), {}).some(x => x.id === 'UC-031'), '看板 matches UC-031 via 儀表板 synonym');
+
+// Search quality: schedule, schedules, scheduling
+assert(api.filterEntries(entries, Array.from(api.tokenize('schedules')), {}).some(x => x.id === 'UC-005'), 'schedules matches UC-005 via 排程 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('scheduling')), {}).some(x => x.id === 'UC-005'), 'scheduling matches UC-005 via 排程 synonym');
+
+// Search quality: deploy, deployment, deployments
+assert(api.filterEntries(entries, Array.from(api.tokenize('deployments')), {}).some(x => x.id === 'UC-005'), 'deployments matches UC-005 via 部署 synonym');
+
+// Search quality: monitor, monitoring
+assert(api.filterEntries(entries, Array.from(api.tokenize('monitoring')), {}).some(x => x.id === 'UC-005'), 'monitoring matches UC-005 via 監控 synonym');
+
+// Search quality: alert, alerting, notify
+assert(api.filterEntries(entries, Array.from(api.tokenize('alerting')), {}).some(x => x.id === 'UC-041'), 'alerting matches UC-041 via 告警 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('notify')), {}).some(x => x.id === 'UC-041'), 'notify matches UC-041 via 通知 synonym');
+
+// Search quality: retry, retrying
+assert(api.filterEntries(entries, Array.from(api.tokenize('retrying')), {}).some(x => x.id === 'UC-005'), 'retrying matches UC-005 via 重試 synonym');
+
+// Search quality: endpoint, api, apis
+assert(api.filterEntries(entries, Array.from(api.tokenize('apis')), {}).some(x => x.id === 'UC-005'), 'apis matches UC-005 via 端點 synonym');
+
+// Search quality: memory, memories
+assert(api.filterEntries(entries, Array.from(api.tokenize('memories')), {}).some(x => x.id === 'UC-071'), 'memories matches UC-071 via 記憶 synonym');
+
+// Search quality: context, contexts
+assert(api.filterEntries(entries, Array.from(api.tokenize('contexts')), {}).some(x => x.id === 'UC-041'), 'contexts matches UC-041 via 上下文 synonym');
+
+// Search quality: 權杖, token, tokens, 令牌
+assert(api.filterEntries(entries, Array.from(api.tokenize('令牌')), {}).some(x => x.id === 'UC-066'), '令牌 matches UC-066 via 權杖 synonym');
+
+// Search quality: 微調, fine-tuning, finetune, finetuning
+assert(api.filterEntries(entries, Array.from(api.tokenize('fine-tuning')), {}).some(x => x.id === 'UC-122'), 'fine-tuning matches UC-122 via 微調 multi-word normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('finetune')), {}).some(x => x.id === 'UC-122'), 'finetune matches UC-122 via 微調 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('finetuning')), {}).some(x => x.id === 'UC-122'), 'finetuning matches UC-122 via 微調 synonym');
+
+// Search quality: 里程碑, milestone, milestones
+assert(api.filterEntries(entries, Array.from(api.tokenize('milestone')), {}).some(x => x.id === 'UC-012'), 'milestone matches UC-012 via 里程碑 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('milestones')), {}).some(x => x.id === 'UC-012'), 'milestones matches UC-012 via 里程碑 synonym');
+
+// Search quality: 回顧, 復盤, retrospective, postmortem, post-mortem
+assert(api.filterEntries(entries, Array.from(api.tokenize('post-mortem')), {}).some(x => x.id === 'UC-067'), 'post-mortem matches UC-067 via 回顧/復盤 multi-word normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('postmortem')), {}).some(x => x.id === 'UC-067'), 'postmortem matches UC-067 via 回顧/復盤 synonym');
+
+// Search quality: 拓客, 外呼, 外聯, outreach, cold outreach
+assert(api.filterEntries(entries, Array.from(api.tokenize('cold outreach')), {}).some(x => x.id === 'UC-333'), 'cold outreach matches UC-333 via 外聯 multi-word normalization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('outreach')), {}).some(x => x.id === 'UC-333'), 'outreach matches UC-333 via 外聯 synonym');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

@@ -18,5 +18,6 @@ const fs=require('node:fs');
   console.log('BASELINE '+name+': homepage/search/detail/close passed');
   await page.close();
  }
+ await require('./search-recovery-browser.cjs')({browser,origin:'http://127.0.0.1:8080/ai-agent-use-cases/',observe:true});
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

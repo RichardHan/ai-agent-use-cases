@@ -40,10 +40,8 @@ jobs:
           kill $!
       - name: Run existing regression tests
         run: |
-          node tests/search.test.cjs
-          node --test tests/loader.test.cjs
-      - name: Run discovery regression tests
-        run: node --test tests/discovery.test.cjs
+          node --test tests/*.test.cjs
+          node --check assets/app.js
       - name: Verify the updated site in Chromium
         if: ${{ hashFiles('tests/discovery-browser.cjs') != '' }}
         env:

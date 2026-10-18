@@ -211,6 +211,7 @@ async function jump(page,button){
    console.log('PASS: missing copy.json degrades gracefully to markdown copy without crashing');
    await copyFallback.close();
   }
+  if(engine!=='chromium')await require('./search-recovery-browser.cjs')({browser,origin,prefix:engine+'-search',sizes:[['mobile',390,844]]});
   await browser.close();
  }
 })().catch(e=>{console.error(e);process.exit(1)});

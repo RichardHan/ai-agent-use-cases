@@ -1,0 +1,92 @@
+{
+  "baseline": {
+    "sha": "3f97bcac56b31f31fc6bc4be35fc03de5c845580",
+    "run": 39117775005,
+    "observations": [
+      {
+        "viewport": "desktop",
+        "matchingBeforeScenario": 3,
+        "empty": "⌕\n目前沒有符合的案例\n\n試著減少關鍵字，或清除部分篩選條件。\n\n顯示全部案例",
+        "activeFilters": 0,
+        "queryAfterReset": ""
+      },
+      {
+        "viewport": "mobile",
+        "matchingBeforeScenario": 3,
+        "empty": "⌕\n目前沒有符合的案例\n\n試著減少關鍵字，或清除部分篩選條件。\n\n顯示全部案例",
+        "activeFilters": 0,
+        "queryAfterReset": ""
+      },
+      {
+        "viewport": "small-mobile",
+        "matchingBeforeScenario": 3,
+        "empty": "⌕\n目前沒有符合的案例\n\n試著減少關鍵字，或清除部分篩選條件。\n\n顯示全部案例",
+        "activeFilters": 0,
+        "queryAfterReset": ""
+      }
+    ]
+  },
+  "chromium": {
+    "sha": "bf239cfd66c73f1ad6a3f8840f7e1f9bc72781d3",
+    "run": 39118265250,
+    "observations": [
+      {
+        "viewport": "desktop",
+        "navigationAndReadyMs": 992,
+        "matchingBeforeScenario": 3,
+        "empty": "⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目",
+        "activeFilters": 5,
+        "keyboardRecoveryMs": 9,
+        "axeViolations": [],
+        "passed": true
+      },
+      {
+        "viewport": "mobile",
+        "navigationAndReadyMs": 958,
+        "matchingBeforeScenario": 3,
+        "empty": "⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目",
+        "activeFilters": 5,
+        "keyboardRecoveryMs": 10,
+        "axeViolations": [],
+        "passed": true
+      },
+      {
+        "viewport": "small-mobile",
+        "navigationAndReadyMs": 973,
+        "matchingBeforeScenario": 3,
+        "empty": "⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目",
+        "activeFilters": 5,
+        "keyboardRecoveryMs": 10,
+        "axeViolations": [],
+        "passed": true
+      }
+    ]
+  },
+  "otherEngines": {
+    "sha": "4abdb1b10fbd71f5c6a01fc5754d6936ed5c9828",
+    "run": 39118137159,
+    "observations": [
+      {
+        "viewport": "mobile",
+        "navigationAndReadyMs": 1056,
+        "matchingBeforeScenario": 3,
+        "empty": "⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目",
+        "activeFilters": 5,
+        "keyboardRecoveryMs": 21,
+        "axeViolations": [],
+        "passed": true
+      },
+      {
+        "viewport": "mobile",
+        "navigationAndReadyMs": 990,
+        "matchingBeforeScenario": 3,
+        "empty": "⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目",
+        "activeFilters": 5,
+        "keyboardRecoveryMs": 20,
+        "axeViolations": [],
+        "passed": true
+      }
+    ]
+  },
+  "measurementLimits": "Unthrottled GitHub-hosted Ubuntu runner. navigationAndReadyMs includes Playwright networkidle wait. keyboardRecoveryMs includes automation focus/key dispatch. No field performance or user conversion claims."
+}

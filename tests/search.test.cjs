@@ -1282,6 +1282,38 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('自託管 runner')), 
 assert(api.filterEntries(entries, Array.from(api.tokenize('筆記軟體')), {}).some(x => x.id === 'UC-071'), '筆記軟體 matches UC-071 via notes synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('pkm')), {}).some(x => x.id === 'UC-071'), 'pkm matches UC-071 via notes synonym');
 
+// Search quality: prompt injection, prompt injections, 提示詞注入, 指令注入, 越獄, jailbreak
+assert(api.filterEntries(entries, Array.from(api.tokenize('prompt injection')), {}).some(x => x.id === 'UC-218'), 'prompt injection matches UC-218 via prompt-injection tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('prompt injections')), {}).some(x => x.id === 'UC-218'), 'prompt injections matches UC-218 via prompt-injection tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('instruction injection')), {}).some(x => x.id === 'UC-218'), 'instruction injection matches UC-218 via prompt-injection tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('提示詞注入')), {}).some(x => x.id === 'UC-218'), '提示詞注入 matches UC-218 via prompt-injection synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('指令注入')), {}).some(x => x.id === 'UC-218'), '指令注入 matches UC-218 via prompt-injection synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('越獄')), {}).some(x => x.id === 'UC-218'), '越獄 matches UC-218 via prompt-injection/jailbreak synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('jailbreak')), {}).some(x => x.id === 'UC-218'), 'jailbreak matches UC-218 via prompt-injection/jailbreak synonym');
+
+// Search quality: structured output, structured outputs, 結構化輸出, json-schema, json schema
+assert(api.filterEntries(entries, Array.from(api.tokenize('structured output')), {}).some(x => x.id === 'UC-046'), 'structured output matches UC-046 via structured-output tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('structured outputs')), {}).some(x => x.id === 'UC-046'), 'structured outputs matches UC-046 via structured-output tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('結構化輸出')), {}).some(x => x.id === 'UC-046'), '結構化輸出 matches UC-046 via structured-output synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('json-schema')), {}).some(x => x.id === 'UC-062'), 'json-schema matches UC-062 via json-schema tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('json schema')), {}).some(x => x.id === 'UC-062'), 'json schema matches UC-062 via json-schema tokenization');
+
+// Search quality: sse, server sent events, server-sent events, 流式輸出, 流式傳輸
+assert(api.filterEntries(entries, Array.from(api.tokenize('流式輸出')), {}).some(x => x.id === 'UC-030'), '流式輸出 matches UC-030 via stream/sse synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('流式傳輸')), {}).some(x => x.id === 'UC-030'), '流式傳輸 matches UC-030 via stream/sse synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('server sent events')), {}).some(x => x.id === 'UC-030'), 'server sent events matches UC-030 via sse tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('server-sent events')), {}).some(x => x.id === 'UC-030'), 'server-sent events matches UC-030 via sse tokenization');
+
+// Search quality: jira, zendesk, 工單, ticket
+assert(api.filterEntries(entries, Array.from(api.tokenize('jira')), {}).some(x => x.id === 'UC-164'), 'jira matches UC-164 via ticket synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('zendesk')), {}).some(x => x.id === 'UC-164'), 'zendesk matches UC-164 via ticket synonym');
+
+// Search quality: headless browser, 無頭瀏覽器, puppeteer
+assert(api.filterEntries(entries, Array.from(api.tokenize('headless browser')), {}).some(x => x.id === 'UC-046'), 'headless browser matches UC-046 via headless-browser tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('無頭瀏覽器')), {}).some(x => x.id === 'UC-046'), '無頭瀏覽器 matches UC-046 via headless-browser synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('puppeteer')), {}).some(x => x.id === 'UC-046'), 'puppeteer matches UC-046 via browser automation synonym');
+
+
 
 
 const uc330 = entries.find(x => x.id === 'UC-330');

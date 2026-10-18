@@ -1122,5 +1122,42 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 - 總案例數維持 339 筆，合格數維持 299 筆，無編造案例、無擅刪候選。
 下一輪建議：依目前已標註之 46 組多案例共用公開來源候選叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
 
+## 2026-10-19：擴充提示詞注入防護、結構化輸出、SSE串流、Jira/Zendesk工單與無頭瀏覽器檢索品質及候選重複叢集審計
 
+問題調查與證據：
+1. 核心 AI Agent 資安防護、結構化約束、串流與工具分詞斷層：
+   - 提示詞注入與越獄安全防護：全庫多篇案例（如 UC-049、UC-118、UC-218 等）涉及提示詞防禦與惡意指令防護，但使用者搜尋常見繁體中文「提示詞注入」、通用「指令注入」、英文自然語言「prompt injection」、「prompt injections」、「instruction injection」或常見資安名詞「越獄」、「jailbreak」時，因 `tokenize` 未合併為複合詞且詞群未互映，檢索全數落空或僅 1 筆；
+   - 結構化輸出與 JSON Schema：全庫關鍵之「結構化輸出」（UC-046、UC-256）與「JSON Schema」（UC-062）約束，在使用者搜尋英文帶空格「structured output」、「structured outputs」時被拆分為獨立 `structured` 與 `output` 導致無交集（0 筆），連字號「json-schema」亦為 0 筆；
+   - 即時串流與 SSE：全庫多達 10 篇案例（UC-030, UC-065, UC-158, UC-165, UC-246, UC-263, UC-265, UC-298, UC-299, UC-310）採用 SSE（Server-Sent Events）串流傳輸，但既有詞群 `['串流', '流式', 'stream', 'streaming']` 缺少 `sse`、`server-sent events`、`流式輸出`、`流式傳輸`，導致搜「串流」完全遺漏這 10 個核心案例，搜「流式輸出」或「server sent events」為 0 筆；
+   - 工單與客服系統：全庫多篇案例涉及 Jira（12 筆）與 Zendesk（7 筆）（如 UC-011、UC-164、UC-283），但工單詞群原先缺少 `jira` 與 `zendesk`，無法與工單／ticket 對齊；
+   - 無頭瀏覽器與自動化：UC-046、UC-180 等依賴 Playwright 與網頁自動化，但搜尋「無頭瀏覽器」、「headless browser」、「puppeteer」結果為 0 筆。
+2. 疑似重複候選叢集測試完備性：
+   - 全庫經 URL 正規化後共識別 46 組 shared URL 候選叢集，過去僅有部分斷言，缺少精確總數約束；補齊 `assert.equal(duplicates.length, 46)`，嚴格保證候選叢集維持 46 組，未刪改任何真實案例或候選檔案。
 
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\b(?:prompt|instruction)\s*[- ]\s*injections?\b` → `prompt-injection`
+     - `\bstructured\s*[- ]\s*outputs?\b` → `structured-output`
+     - `\bjson\s*[- ]\s*schemas?\b` → `json-schema`
+     - `\bserver\s*[- ]\s*sent\s*[- ]\s*events?\b` → `sse`
+     - `\bheadless\s*[- ]\s*browsers?\b` → `headless-browser`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 擴充工單詞群：加入 jira、zendesk；
+     - 擴充串流詞群：加入 sse、server sent events、server-sent events、流式輸出、流式傳輸；
+     - 新增提示詞注入與越獄詞群：prompt-injection／prompt injection／prompt injections／instruction injection／提示詞注入／提示注入／指令注入／越獄／jailbreak；
+     - 新增結構化輸出詞群：structured-output／structured output／structured outputs／結構化輸出／結構化成果／結構化產物／json-schema／json schema；
+     - 新增無頭瀏覽器與自動化詞群：headless-browser／headless browser／無頭瀏覽器／playwright／puppeteer／瀏覽器自動化；
+     - 保持 100% 互映對稱映射。
+2. `tests/search.test.cjs`：
+   - 增加 20 組搜尋斷言，覆蓋 prompt injection/prompt injections/instruction injection/提示詞注入/指令注入/越獄/jailbreak、structured output/structured outputs/結構化輸出/json-schema/json schema、流式輸出/流式傳輸/server sent events/server-sent events、jira/zendesk、headless browser/無頭瀏覽器/puppeteer 等檢索。
+3. `tests/audit.test.cjs`：
+   - 嚴格鎖定全庫 46 組 shared candidate duplicate clusters 總數斷言，確保所有共用來源候選完整列出且絕不自動刪除。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：58/58 單元測試全數通過。
+- `for file in assets/*.js; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-search-quality-final/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，合格數維持 299 筆，無編造案例、無擅刪候選。
+下一輪建議：依目前已標註之 46 組多案例共用公開來源候選叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。

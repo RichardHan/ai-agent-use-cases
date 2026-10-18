@@ -14,7 +14,7 @@ const origin=process.env.READER_BASELINE_URL||'https://richardhan.github.io/ai-a
   await page.locator('#results .card').first().waitFor();
   await page.screenshot({path:`qa-artifacts/reader-before-home-${name}.png`});
   await page.locator('#query').fill('旅遊');
-  await require('./filter-controls.cjs')(page);
+  await require('./filter-controls.cjs').ensureFiltersVisible(page);
   await page.locator('#tool').selectOption('Grok Bot');
   await page.locator('#category').selectOption('旅遊／消費研究');
   const results=await page.locator('#results .card').count();

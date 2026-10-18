@@ -34,6 +34,14 @@ assert.equal(entries.find(x=>x.id==='UC-095').proof,'作者報告／示範','par
 assert.equal(entries.find(x=>x.id==='UC-026').proof,'官方自報','parses proof with 官方 and 第一手使用自述');
 assert.equal(entries.find(x=>x.id==='UC-088').proof,'作者報告／示範','parses proof with author-self-report');
 assert(api.filterEntries(entries,[],{proof:'作者報告／示範'}).some(x=>x.id==='UC-239'),'filters author demo cases having 證據 header');
+assert.equal(entries.find(x=>x.id==='UC-001').scenario,'生活','extracts scenario for UC-001');
+assert.equal(entries.find(x=>x.id==='UC-005').scenario,'開發','extracts scenario for UC-005');
+assert.equal(entries.find(x=>x.id==='UC-006').scenario,'創作','extracts scenario for UC-006');
+assert.equal(entries.find(x=>x.id==='UC-007').scenario,'省錢','extracts scenario for UC-007');
+assert(entries.find(x=>x.id==='UC-001').tags.includes('旅遊'),'extracts tags for UC-001');
+assert(api.filterEntries(entries,[],{scenario:'生活'}).length>=60,'filters by 生活 scenario');
+assert(api.filterEntries(entries,[],{scenario:'開發'}).length>=60,'filters by 開發 scenario');
+assert(api.filterEntries(entries,[],{scenario:'工作'}).length>=100,'filters by 工作 scenario');
 assert.equal(api.filterEntries(entries,['UC313'],{}).length,1,'matches unhyphenated case ID');
 assert.equal(api.filterEntries(entries,['uc313'],{}).length,1,'matches lowercase unhyphenated case ID');
 assert.equal(api.filterEntries(entries,['UC-001'],{}).length,8,'matches standard case ID');

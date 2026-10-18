@@ -1019,13 +1019,19 @@ window.addEventListener('popstate', event => {
       const returnURL=location.href,returnTarget=document.activeElement;
       let fragment=null;
       try{fragment=document.getElementById(decodeURIComponent(location.hash.slice(1)));}catch{}
-      requestAnimationFrame(()=>{
+      const restoreVisibleReturn=()=>{
         if(location.href!==returnURL||$('detail').open||!returnTarget?.isConnected)return;
         const active=document.activeElement;
         if(active===document.body||active===fragment||active===returnTarget){
           if(active!==returnTarget)returnTarget.focus({preventScroll:true});
           returnTarget.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
         }
+      };
+      requestAnimationFrame(()=>{
+        restoreVisibleReturn();
+        // History/fragment layout can settle after the first frame. Recheck
+        // once, keeping the same URL, modal and newer-user-focus guards.
+        requestAnimationFrame(restoreVisibleReturn);
       });
     }
   }

@@ -12,7 +12,7 @@ const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_：:#.]?
 const SYNONYM_GROUPS = [
   ['agent', '智能體', '智能体', '代理'],
   ['每日報表', '每日報告', '日報', '晨報'],
-  ['儀錶板', '儀表板'],
+  ['儀錶板', '儀表板', 'dashboard'],
   ['折價券', '優惠券'],
   ['賬單', '帳單', 'bill'],
   ['記賬', '記帳'],
@@ -24,14 +24,14 @@ const SYNONYM_GROUPS = [
   ['資料庫', '數據庫'],
   ['行事曆', '日曆', 'calendar'],
   ['待辦', '代辦', 'todo', 'todoist'],
-  ['報帳', '核銷', '對帳', 'reconciliation'],
+  ['報帳', '核銷', '對帳', '報銷', 'reconciliation', 'reimbursement'],
   ['發票', '收據', '憑證', 'invoice', 'receipt'],
   ['debug', '除錯', '排錯', '修復', 'bug', '故障', '排障', 'troubleshooting'],
   ['workflow', '工作流', '自動化', '排程', '定時', 'cron', 'schedule', '排班'],
   ['求職', '履歷', '面試', '招聘', '招募', 'cv', 'resume', 'job', 'hiring'],
   ['email', '郵件', '信件', '信箱', '收件匣', '收件箱', 'inbox'],
   ['代碼', '程式碼', '程式', 'code'],
-  ['ticket', '工單', '客服', 'support'],
+  ['ticket', '工單', '客服', 'support', '客訴', '投訴'],
   ['飯店', '旅館', '住宿', 'hotel'],
   ['多代理', 'multi-agent', '跨代理', '代理協作'],
   ['備份', 'backup', '還原', '復原', 'restore'],
@@ -55,7 +55,7 @@ const SYNONYM_GROUPS = [
   ['圖片', '相片', '照片', 'image', 'photo'],
   ['筆記', 'notes', '筆記本'],
   ['推特', 'twitter', 'x'],
-  ['rag', '知識庫', '知识库', '檢索'],
+  ['rag', '知識庫', '知识库', '檢索', 'retrieval'],
   ['語音', '音訊', '音頻', '聲音', 'voice', 'audio'],
   ['自動回覆', '自動回信', 'auto-reply', '自動回覆買家'],
   ['測試', 'qa', 'testing'],
@@ -68,7 +68,15 @@ const SYNONYM_GROUPS = [
   ['記憶', 'memory', '記憶庫'],
   ['提示詞', 'prompt', '提示語', '提示'],
   ['核准', '審批', 'approval', '人工確認', '人工核准'],
-  ['網購', '電商', '購物', 'ecommerce', 'shopping']
+  ['網購', '電商', '購物', 'ecommerce', 'shopping'],
+  ['合約', '合同', 'contract', '協議'],
+  ['薪資', '薪水', '薪酬', 'payroll', 'salary'],
+  ['設備', '裝置', 'device', '硬體', 'hardware'],
+  ['合規', 'compliance', '法規', '規章'],
+  ['部署', 'deploy', 'deployment'],
+  ['同步', 'sync', 'synchronization'],
+  ['圖表', 'chart', '圖表分析', '趨勢圖'],
+  ['搜尋', '搜索', 'search']
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {

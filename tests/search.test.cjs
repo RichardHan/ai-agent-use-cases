@@ -306,6 +306,46 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('approval')), {}).some
 // Search quality: Ecommerce & online shopping synonyms
 assert(api.filterEntries(entries, Array.from(api.tokenize('ecommerce')), {}).some(x => x.id === 'UC-331'), 'ecommerce matches UC-331 via 網購/購物 synonym');
 
+// Search quality: Legal & contract synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('合同')), {}).some(x => x.id === 'UC-021'), '合同 matches UC-021 via 合約 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('contract')), {}).some(x => x.id === 'UC-021'), 'contract matches UC-021 via 合約 synonym');
+
+// Search quality: Reimbursement & expense claims synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('報銷')), {}).some(x => x.id === 'UC-206'), '報銷 matches UC-206 via 報帳/核銷/對帳 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('reimbursement')), {}).some(x => x.id === 'UC-206'), 'reimbursement matches UC-206 via 報帳/核銷/對帳 synonym');
+
+// Search quality: Salary & payroll synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('薪水')), {}).some(x => x.id === 'UC-230'), '薪水 matches UC-230 via 薪資 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('salary')), {}).some(x => x.id === 'UC-230'), 'salary matches UC-230 via 薪資 synonym');
+
+// Search quality: Customer complaint synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('客訴')), {}).some(x => x.id === 'UC-014'), '客訴 matches UC-014 via 客服/工單 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('投訴')), {}).some(x => x.id === 'UC-014'), '投訴 matches UC-014 via 客服/工單 synonym');
+
+// Search quality: Device & hardware synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('device')), {}).some(x => x.id === 'UC-330'), 'device matches UC-330 via 設備/裝置 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('硬體')), {}).some(x => x.id === 'UC-330'), '硬體 matches UC-330 via 設備/裝置 synonym');
+
+// Search quality: Compliance & regulation synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('compliance')), {}).some(x => x.id === 'UC-102'), 'compliance matches UC-102 via 合規/法規 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('規章')), {}).some(x => x.id === 'UC-102'), '規章 matches UC-102 via 合規/法規 synonym');
+
+// Search quality: Deployment synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('deploy')), {}).some(x => x.id === 'UC-214'), 'deploy matches UC-214 via 部署 synonym');
+
+// Search quality: Sync synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('sync')), {}).some(x => x.id === 'UC-320'), 'sync matches UC-320 via 同步 synonym');
+
+// Search quality: Dashboard & visual chart synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('dashboard')), {}).some(x => x.id === 'UC-310'), 'dashboard matches UC-310 via 儀表板 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('chart')), {}).some(x => x.id === 'UC-031'), 'chart matches UC-031 via 圖表 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('趨勢圖')), {}).some(x => x.id === 'UC-031'), '趨勢圖 matches UC-031 via 圖表/chart synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('chart')), {}).some(x => x.id === 'UC-032'), 'chart matches UC-032 via 趨勢圖 synonym');
+
+// Search quality: Search & retrieval synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('search')), {}).some(x => x.id === 'UC-060'), 'search matches UC-060 via 搜尋 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('retrieval')), {}).some(x => x.id === 'UC-060'), 'retrieval matches UC-060 via rag/檢索 synonym');
+
 // Data accuracy: Verification date extraction priority over historical post dates
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

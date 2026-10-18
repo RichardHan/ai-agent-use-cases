@@ -369,3 +369,34 @@ python -m http.server 8080 --directory /tmp/ai-usecase-preview
 先紅後綠，24/24 單元測試與 Chromium 1440／390／320px、Firefox／WebKit 390px 三情境通過；新增流程 10 次 axe 掃描 0 違規。獨立審查無阻擋事項，已補 CI 測試接入、跨引擎驗收與部署等待。保留協作者 296 合格／331 收錄計數與研究資料。
 
 [前後截圖、指令、量測、限制與審查紀錄](docs/qa/2026-10-18-search-recovery/README.md)。下一輪：評估手機進階篩選收合，減少到結果前的捲動。
+
+## 2026-10-18：合約、報銷、薪資與設備同義詞擴充、跨案例公開來源疑似重複候選叢集擴充
+
+先前走查與測試發現：
+1. 搜尋詞彙斷層與專業工作流檢索痛點：
+   - 合約與法律文件：讀者搜尋「合同」得 0 筆、「contract」得 1 筆，嚴重遺漏全庫 16 筆「合約」案例（如 UC-021、UC-154、UC-155、UC-174）；
+   - 報銷與請款：全庫有 27 筆「報帳/核銷/對帳」，但讀者搜尋高頻職場財務詞彙「報銷」僅得 2 筆、「reimbursement」為 0 筆；
+   - 薪資與人事：讀者搜尋「薪水」為 0 筆、「salary」為 0 筆，遺漏 4 筆「薪資」案例（如 UC-230、UC-035、UC-051）；
+   - 客訴與投訴：全庫有 64 筆客服與工單，但讀者搜尋「客訴」得 0 筆，未與「客服/工單/support」互通；
+   - 設備與硬體：讀者搜尋「設備」得 34 筆、「裝置」得 33 筆、「device」僅 2 筆、「硬體」得 8 筆，彼此斷層未互通；
+   - 合規與法規：讀者搜尋「合規」得 14 筆、「compliance」得 0 筆、「法規」得 10 筆，彼此斷層；
+   - 部署與發布：全庫有 56 筆「部署」，讀者搜尋「deploy」僅得 3 筆、「deployment」得 0 筆；
+   - 同步：全庫有 34 筆「同步」，讀者搜尋「sync」僅得 2 筆；
+   - 儀表板與視覺化：讀者搜尋「dashboard」僅得 2 筆，未與「儀表板/儀錶板」互通；搜尋「chart」僅得 3 筆，未與「圖表/趨勢圖」互通；
+   - 檢索與搜尋：讀者搜尋「search」僅得 14 筆，未與「搜尋/搜索」互通；「retrieval」未與「rag/檢索」互通。
+2. 疑似重複來源候選叢集偵測覆蓋：
+   - 專案既有候選重複偵測未涵蓋 Dev.to ChatGPT Dots 實測（UC-283 ↔ 驗證檔 evidence/008）、Grok Bot GTM 指南（UC-017 ↔ UC-019）、Grok Bot Legal Ops 指南（UC-021 ↔ UC-154）、OpenAI Introducing Dots 公告（UC-023 ↔ UC-024）、Semicolon Expected 通訊（UC-043 ↔ UC-241）、AI Agents Library 評測（UC-039 ↔ UC-049）、Toolchain JP 驗證部落格（UC-006 ↔ UC-042）等跨案例公開來源候選；
+   - 恪守 AI 案例庫維護規範：「疑似重複只列候選，不自行刪除；總案例數 325 保持完整」。
+
+本輪改善：
+1. `assets/app.js`：
+   - `SYNONYM_GROUPS` 擴充 8 組核心職場／開發同義詞群（合約/合同/contract/協議、薪資/薪水/薪酬/payroll/salary、設備/裝置/device/硬體/hardware、合規/compliance/法規/規章、部署/deploy/deployment、同步/sync/synchronization、圖表/chart/圖表分析/趨勢圖、搜尋/搜索/search），並將 dashboard、報銷/reimbursement、客訴/投訴、retrieval 分別補入儀表板、報帳、客服、rag 詞群，維持 100% 互映對稱映射。
+2. `tests/audit.test.cjs` 與 `tests/search.test.cjs`：
+   - `tests/audit.test.cjs`：
+     - 擴充 7 組真實公開來源疑似重複候選叢集回歸斷言（Dev.to Dots、Grok GTM 指南、Grok Legal Ops 指南、OpenAI Dots 公告、Semicolon Expected 通訊、AI Agents Library 評測、Toolchain 部落格），恪守「只列候選、不自行刪除、總案例數 325 保持完整」。
+   - `tests/search.test.cjs`：
+     - 加入合同/contract、報銷/reimbursement、薪水/salary、客訴/投訴、device/硬體、compliance/規章、deploy、sync、dashboard、chart/趨勢圖、search、retrieval 等搜尋回歸斷言。
+
+回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/test-preview/ai-agent-use-cases`。
+本輪實際結果：24/24 測試全數通過，331 筆條目全文、同義詞擴充檢索、疑似重複來源候選叢集審核、全庫 325 案例一致性檢驗通過。
+下一輪建議：依重複來源候選清單（如多個案例共用同一討論串或長文網址）評估是否需在各案例頁內進一步精確標註發文時間碼或留言 anchor。

@@ -2,6 +2,8 @@
 
 - 情境：開發
 - 標籤：PR審查、多代理、雲端開發
+- 網站標題：讓 AI 寫功能，再找另一個 AI 挑問題
+- 一句話用途：把開發需求交給實作助手，再用另一個角色檢查程式修改。
 - 目標：把『幫我加功能』變成可驗收的開發交接，避免PR建立就被當作全部完成。
 - 工具：Grok Bot、loops 或 Lingxi's Engineer Bot、Cursor Cloud Agent、GitHub、PR Reviewer
 - 查證日期：2026-10-13

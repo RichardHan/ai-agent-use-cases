@@ -1399,6 +1399,46 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('語意搜尋')), {}).
 assert(api.filterEntries(entries, Array.from(api.tokenize('vector search')), {}).some(x => x.id === 'UC-060'), 'vector search matches UC-060 via vector-search tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('向量檢索')), {}).some(x => x.id === 'UC-060'), '向量檢索 matches UC-060 via vector-search synonym');
 
+// Search quality: 2fa, mfa, 雙重驗證, 二步驟驗證, 兩步驟驗證
+assert(api.filterEntries(entries, Array.from(api.tokenize('2fa')), {}).some(x => x.id === 'UC-092'), '2fa matches UC-092 via 2fa synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('mfa')), {}).some(x => x.id === 'UC-219'), 'mfa matches UC-219 via 2fa synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('二步驟驗證')), {}).some(x => x.id === 'UC-259'), '二步驟驗證 matches UC-259 via 2fa synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('兩步驟驗證')), {}).some(x => x.id === 'UC-259'), '兩步驟驗證 matches UC-259 via 2fa synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('雙重驗證')), {}).some(x => x.id === 'UC-219'), '雙重驗證 matches UC-219 via 2fa synonym');
+
+// Search quality: cot, chain of thought, chain-of-thought, 思維鏈, 思考鏈
+assert(api.filterEntries(entries, Array.from(api.tokenize('chain of thought')), {}).some(x => x.id === 'UC-086'), 'chain of thought matches UC-086 via cot tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('chain-of-thought')), {}).some(x => x.id === 'UC-086'), 'chain-of-thought matches UC-086 via cot tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('思維鏈')), {}).some(x => x.id === 'UC-086'), '思維鏈 matches UC-086 via cot synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('思考鏈')), {}).some(x => x.id === 'UC-086'), '思考鏈 matches UC-086 via cot synonym');
+
+// Search quality: isolation, airgap, air-gap, 網路隔離
+assert(api.filterEntries(entries, Array.from(api.tokenize('isolation')), {}).some(x => x.id === 'UC-005'), 'isolation matches UC-005 via 隔離 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('airgap')), {}).some(x => x.id === 'UC-005'), 'airgap matches UC-005 via 隔離 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('air-gap')), {}).some(x => x.id === 'UC-005'), 'air-gap matches UC-005 via 隔離 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('網路隔離')), {}).some(x => x.id === 'UC-005'), '網路隔離 matches UC-005 via 隔離 synonym');
+
+// Search quality: throttle, 節流
+assert(api.filterEntries(entries, Array.from(api.tokenize('throttle')), {}).some(x => x.id === 'UC-164'), 'throttle matches UC-164 via ratelimit synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('節流')), {}).some(x => x.id === 'UC-164'), '節流 matches UC-164 via ratelimit synonym');
+
+// Search quality: 人機協同, 人機協作, 人工審查
+assert(api.filterEntries(entries, Array.from(api.tokenize('人機協同')), {}).some(x => x.id === 'UC-184'), '人機協同 matches UC-184 via hitl synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('人機協作')), {}).some(x => x.id === 'UC-184'), '人機協作 matches UC-184 via hitl synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('人工審查')), {}).some(x => x.id === 'UC-184'), '人工審查 matches UC-184 via hitl synonym');
+
+// Search quality: dispatch, 分派, 分發
+assert(api.filterEntries(entries, Array.from(api.tokenize('dispatch')), {}).some(x => x.id === 'UC-079'), 'dispatch matches UC-079 via 分發 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('分派')), {}).some(x => x.id === 'UC-079'), '分派 matches UC-079 via 分發 synonym');
+
+// Search quality: 跑分
+assert(api.filterEntries(entries, Array.from(api.tokenize('跑分')), {}).some(x => x.id === 'UC-003'), '跑分 matches UC-003 via benchmark synonym');
+
+// Search quality: agentic workflow, 智能體工作流
+assert(api.filterEntries(entries, Array.from(api.tokenize('agentic workflow')), {}).some(x => x.id === 'UC-268'), 'agentic workflow matches UC-268 via agentic-workflow tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('智能體工作流')), {}).some(x => x.id === 'UC-268'), '智能體工作流 matches UC-268 via agentic-workflow synonym');
+
+
 
 
 

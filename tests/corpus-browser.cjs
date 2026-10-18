@@ -11,6 +11,7 @@ const label=process.env.CORPUS_LABEL||'before',reports=[];
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
   const page=await context.newPage(),errors=[],requests=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
+  await page.addInitScript(()=>performance.setResourceTimingBufferSize(2000));
   const start=Date.now();await page.goto(origin);await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
   const metrics=await page.evaluate(()=>({entries:entries.length,missing:failedPaths.length,resources:performance.getEntriesByType('resource').map(r=>({path:new URL(r.name).pathname,bytes:r.encodedBodySize,durationMs:Math.round(r.duration)}))}));
   const report={size,readyMs:Date.now()-start,...metrics,requests:requests.length,markdownRequests:requests.filter(u=>/\/(cases|evidence)\/.*\.md$|\/sources\/pending\.md$/.test(u)).length};reports.push(report);

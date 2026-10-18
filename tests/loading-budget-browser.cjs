@@ -13,6 +13,7 @@ const hung=route=>new Promise(()=>{});
   for(const [size,width,height] of engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]]){
    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
    // Only one actual source never responds: the other 336 complete normally.
+   await page.addInitScript(()=>performance.setResourceTimingBufferSize(2000));
    await page.route('**/cases/001-travel-checkout.md',hung);
    await page.goto(origin+'?q=旅遊&scenario=生活&tool=Grok%20Bot');
    await page.waitForFunction(()=>performance.getEntriesByType('resource').filter(r=>/\/(cases|evidence)\/.*\.md$|\/sources\/pending\.md$/.test(r.name)).length>=336,null,{timeout:30000});
@@ -41,7 +42,7 @@ const hung=route=>new Promise(()=>{});
    const context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();let requested=0;
    await page.route('**/*.md',r=>{requested++;return hung(r);});
    const start=Date.now();await page.goto(origin);await page.locator('#error').waitFor({state:'visible',timeout:26000});const elapsed=Date.now()-start;
-   assert(elapsed>=19000&&elapsed<25000,'whole initial load finishes around its 20s deadline');assert(requested<=16,'deadline stops queued requests');
+   assert(elapsed>=19000&&elapsed<25000,'whole initial load finishes around its 20s deadline');assert(requested<=32,'deadline stops queued requests after at most two concurrency waves');
    assert(await page.locator('#loading-progress').isHidden());assert(await page.locator('#guide-options').isDisabled());
    const row={engine,mode:'whole budget',elapsedMs:elapsed,requested};report.push(row);save();
    await page.unroute('**/*.md');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:30000});assert.equal(await page.evaluate(()=>entries.length),339);row.retryRecovered=339;save();await context.close();

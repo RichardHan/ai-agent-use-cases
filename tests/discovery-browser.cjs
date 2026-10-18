@@ -121,5 +121,6 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
  assert.equal(await page.locator('[data-scenario]').first().isDisabled(),true);
  console.log('PASS BROWSER: network failure, retry recovery and empty catalog');
  fs.writeFileSync('qa-artifacts/accessibility.json',JSON.stringify(audits,null,2));
+ await require('./search-recovery-browser.cjs')({browser,origin});
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

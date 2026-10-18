@@ -4,6 +4,7 @@ const REPO = 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/';
 const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
 let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {}, failedPaths = [];
+let allowAutomaticArrival=true, searchShareRequest=0;
 let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
@@ -285,7 +286,7 @@ function restoreDetailFocus(){
     const trigger=node?.querySelector(lastTriggerContext.read?'.card-bottom button':'h3 button');
     if(trigger){lastTrigger=trigger;trigger.focus({preventScroll:true});return;}
   }
-  ($('draw-case').disabled?$('query'):$('draw-case')).focus({preventScroll:true});
+  revealSearch(true);
 }
 function closeDetail() {
   if ($('detail').open) $('detail').close();
@@ -357,6 +358,58 @@ function relaxationOptions(items, terms, filters) {
     key, value, count:filterEntries(items,terms,{...filters,[key]:''}).length
   })).filter(option=>option.count>0).sort((a,b)=>a.count-b.count);
 }
+const SEARCH_KEYS=['q','scenario','kind','tool','category','proof'];
+function searchLink(href,query,filters) {
+  const current=new URL(href);
+  const url=new URL(current.pathname,current.origin);
+  if(query)url.searchParams.set('q',query);
+  SEARCH_KEYS.slice(1).forEach(key=>{if(filters[key])url.searchParams.set(key,filters[key]);});
+  url.hash='explore';
+  return url.href;
+}
+function hasSearchArrival(params,hash) {
+  if(hash)return hash==='#explore';
+  return SEARCH_KEYS.some(key=>(params.get(key)||'').trim());
+}
+function currentSearchLink() {
+  const filters=Object.fromEntries(['kind','tool','category','proof'].map(id=>[id,$(id).value]));
+  filters.scenario=activeScenario;
+  return searchLink(location.href,$('query').value,filters);
+}
+function revealSearch(resultsOnly=false) {
+  const target=$(resultsOnly?'results-count':'search-title');
+  (resultsOnly?$('results-count'):$('explore')).scrollIntoView({block:'start',behavior:'instant'});
+  target.focus({preventScroll:true});
+}
+function finishArrival(params,failed=false) {
+  const shouldMove=allowAutomaticArrival&&(hasSearchArrival(params,location.hash)||(failed&&params.has('case')));
+  allowAutomaticArrival=false;
+  if(shouldMove)revealSearch();
+}
+function clearSearchShare() {
+  searchShareRequest++;
+  $('search-share-status').textContent='';
+  $('search-share-url').hidden=true;
+  $('search-share-url').value='';
+}
+async function copySearchLink() {
+  if(!discoveryReady)return;
+  clearSearchShare();
+  const request=searchShareRequest;
+  const url=currentSearchLink();
+  try {
+    if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');
+    await navigator.clipboard.writeText(url);
+    if(request!==searchShareRequest)return;
+    $('search-share-status').textContent='已複製搜尋連結，包含目前關鍵字與篩選。';
+  } catch {
+    if(request!==searchShareRequest)return;
+    $('search-share-status').textContent='無法自動複製，請手動複製下方搜尋網址。';
+    const manual=$('search-share-url');
+    manual.value=url;manual.hidden=false;manual.focus();manual.select();
+  }
+}
+
 function focusResults() {
   $('results-count').focus();
 }
@@ -410,6 +463,8 @@ function renderSearchFeedback(terms, filters) {
 }
 
 function render(updateURL=true) {
+  clearSearchShare();
+  $('copy-search-link').disabled=!discoveryReady;
   $('scenario').value=activeScenario;
   const q = tokenize($('query').value);
   const filters = Object.fromEntries(['kind', 'tool', 'category', 'proof'].map(id => [id, $(id).value]));
@@ -497,6 +552,7 @@ async function loadCorpus(paths, options = {}) {
   return { entries, failed };
 }
 async function load() {
+  clearSearchShare();$('copy-search-link').disabled=true;
   discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('discover').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
   $('error').hidden = true;
   $('empty').hidden = true;
@@ -540,13 +596,15 @@ async function load() {
     discoveryReady=true;$('guide-options').disabled=false;$('discover').setAttribute('aria-busy','false');
     render(false);
     const current = matchCase(params.get('case'));
-    if (current) showDetail(current, null, false);
+    if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
+    else finishArrival(params);
   } catch (error) {
     discoveryReady=false;$('discover').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();
     $('results-count').textContent = '載入未完成';
     $('error-message').textContent = '請稍後重試，或先閱讀 GitHub 原始資料。';
     $('error').hidden = false;
+    finishArrival(new URLSearchParams(location.search),true);
     console.error(error);
   }
 }
@@ -585,6 +643,13 @@ function chooseScenario(value){
 }
 
 /* Browser event bindings. */
+// An arriving reader may start using the page while the corpus is loading.
+// Never override that interaction with late search-arrival scrolling or focus.
+// An explicit case link still opens its requested case when loading completes.
+['pointerdown','keydown','wheel','touchstart'].forEach(type=>{
+  document.addEventListener(type,()=>{allowAutomaticArrival=false;},{once:true,passive:true});
+});
+$('copy-search-link').addEventListener('click',copySearchLink);
 // Choose the initial disclosure state once; typing, navigation and resizing
 // preserve the reader's choice and never hide a currently focused control.
 $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
@@ -598,7 +663,7 @@ $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
 $('clear-facets').addEventListener('click', clearFacets);
 $('edit-query').addEventListener('click', () => { $('query').focus(); $('query').select(); });
-$('retry').addEventListener('click', load);
+$('retry').addEventListener('click', () => { $('results-count').focus({preventScroll:true}); load(); });
 $('close-detail').addEventListener('click', closeDetail);
 $('nav-prev-case')?.addEventListener('click', () => navStep(-1));
 $('nav-next-case')?.addEventListener('click', () => navStep(1));

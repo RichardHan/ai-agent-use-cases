@@ -155,3 +155,13 @@
  .filter-panel .reset{min-height:44px}
  .filter-panel .chip{min-height:44px;font-size:12px}
 }
+
+/* Share the collection's current question, and keep copy feedback beside results. */
+.results-heading{gap:12px;flex-wrap:wrap}
+.copy-search-link{min-height:44px;font-size:12px;color:var(--green);border-color:#a8b9a2;background:transparent}
+.copy-search-link:disabled{cursor:default;opacity:.6}
+.search-share p{margin:0;font-size:13px;color:#4c6258}
+.search-share p:not(:empty){margin:0 0 12px}
+#search-share-url{height:44px;margin:0 0 18px;padding:8px 12px;border:1px solid #a8b9a2;border-radius:6px;background:#fff;font-size:13px}
+#search-share-url:focus{outline:2px solid var(--green)!important;outline-offset:3px}
+#search-title:focus-visible{outline:2px solid var(--green);outline-offset:6px;border-radius:2px}

@@ -56,7 +56,8 @@ module.exports=async function publishedArrival({browser,origin,engine,prefix='li
   await page.goBack();
   await page.waitForFunction(()=>!document.getElementById('detail').open&&document.activeElement.matches('#results .card .card-bottom button'));
   assert.equal(await trigger.evaluate(n=>n===document.activeElement),true);
-  await capture('back');const backButton=await trigger.boundingBox();assert(backButton.y>=0&&backButton.y+backButton.height<=page.viewportSize().height,'Back focus must be visible: '+JSON.stringify({backButton,viewport:page.viewportSize()}));
+  // Integer scroll offsets can leave fractional CSS-pixel edges; allow 1px rounding.
+  await capture('back');const backButton=await trigger.boundingBox();assert(backButton.y>=-1&&backButton.y+backButton.height<=page.viewportSize().height+1,'Back focus must be visible: '+JSON.stringify({backButton,viewport:page.viewportSize()}));
   assert.deepEqual((await state('in-session-return')).ids,initial.ids);
   await trigger.click();await page.locator('#detail[open]').waitFor();
   if(engine==='chromium'){

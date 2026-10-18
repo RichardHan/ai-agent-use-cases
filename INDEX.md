@@ -369,7 +369,7 @@
 | UC-309 | 購物平台體驗團每日兩次巡查與條件式代申請 | Grok Bot／Musinsa／Kakao 禮物 | [作者自述＋Bot回報截圖＋公開範本頁；中選與平台規則未核](cases/309-product-trial-campaign-daily-auto-apply.md) | 省錢｜每日、排程、申請、活動 |
 | UC-310 | 雲端代理執行紀錄與錯誤原因歸因儀表板 | Grok Bot／Cursor Cloud Agents | [作者自述＋儀表板截圖；樣本小、原始紀錄未核](cases/310-agent-run-mistake-attribution-dashboard.md) | 開發｜多代理、模型評估、失敗、驗收 |
 | UC-311 | 新模型測試提示批次執行與公開展示頁 | Grok Bot／DeepSeek V4.1 Flash／ChatGPT Sites | [作者自述與截圖已核；展示頁本輪403，提示詞與篩選未核](cases/311-new-model-prompt-batch-demo-gallery.md) | 開發｜模型評估、批次、網站、驗收 |
-| UC-312 | 環境播放內容誤建本人待辦 | Grok Bot／Fieldy／Todoist | [已運作與誤判自述；未修復](cases/312-ambient-media-false-task-creation.md) | 生活／工作｜語音來源、待辦、失敗 |
+| UC-312 | 環境播放內容誤建本人待辦 | Grok Bot／Fieldy／Todoist | [已運作與誤判自述；未修復](cases/312-ambient-media-false-task-creation.md) | 生活｜語音來源、待辦、失敗 |
 | UC-313 | 外部操作擔當移交的停止與完成對帳失敗 | ChatGPT dots／Codex | [作者競用時序自述；未證實重複寄送或修復](cases/313-external-action-assignee-handoff-race.md) | 開發｜多代理、停止、交接、失敗 |
 | UC-314 | 代理附帶雲機的外接服務長駐失敗 | Grok Bot／Pi agent／Telegram | [作者已部署與休眠失敗自述；無完整日誌、未重現](cases/314-agent-sandbox-always-on-service-failure.md) | 開發｜雲端環境、部署、可用性、失敗 |
 | UC-315 | 工作與私人代理互調報稅文件，交接會計師 | ChatGPT dots（工作 dot＋私人 dot）／電子郵件 | [作者單則文字自述；無截圖與申報結果，待定](cases/315-work-personal-agents-tax-document-cpa-handoff.md) | 生活｜報稅、文件整理、跨代理、交接 |

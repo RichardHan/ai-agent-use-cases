@@ -8,54 +8,116 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const CANONICAL_SCENARIOS = ['生活', '工作', '省錢', '學習', '創作', '開發'];
 
-test('all cases have valid scenario and non-empty tags', () => {
+function normalizeSourceUrl(rawUrl) {
+  try {
+    const cleaned = rawUrl.replace(/[.。;；)\]'\"<>]+$/, '');
+    const u = new URL(cleaned);
+    u.searchParams.delete('utm_source');
+    u.searchParams.delete('utm_medium');
+    u.searchParams.delete('utm_campaign');
+    u.searchParams.delete('ref');
+    const pathNoSlash = u.pathname.replace(/\/+$/, '');
+    return (u.origin + pathNoSlash + (u.search ? u.search : '')).toLowerCase();
+  } catch {
+    return null;
+  }
+}
+
+test('all cases and evidence files have valid scenario, non-empty tags, and verification date', () => {
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
+  const evidenceFiles = fs.readdirSync(path.join(root, 'evidence')).filter(f => f.endsWith('.md')).sort();
   assert(caseFiles.length >= 310, `Expected at least 310 cases, found ${caseFiles.length}`);
+  assert(evidenceFiles.length >= 3, `Expected at least 3 evidence files, found ${evidenceFiles.length}`);
+
+  const targets = [
+    ...caseFiles.map(f => ({ dir: 'cases', file: f })),
+    ...evidenceFiles.map(f => ({ dir: 'evidence', file: f }))
+  ];
 
   const missingScenario = [];
   const invalidScenario = [];
   const missingTags = [];
+  const missingDate = [];
 
-  for (const file of caseFiles) {
-    const content = fs.readFileSync(path.join(root, 'cases', file), 'utf8');
+  for (const { dir, file } of targets) {
+    const content = fs.readFileSync(path.join(root, dir, file), 'utf8');
     const lead = content.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
 
     const scenarioMatch = lead.match(/^-\s*情境\s*[：:]\s*(.+)$/m);
     if (!scenarioMatch) {
-      missingScenario.push(file);
+      missingScenario.push(`${dir}/${file}`);
     } else {
       const val = scenarioMatch[1].replace(/[`*_]/g, '').trim();
       if (!CANONICAL_SCENARIOS.includes(val)) {
-        invalidScenario.push({ file, scenario: val });
+        invalidScenario.push({ file: `${dir}/${file}`, scenario: val });
       }
     }
 
     const tagsMatch = lead.match(/^-\s*標籤\s*[：:]\s*(.+)$/m);
     if (!tagsMatch) {
-      missingTags.push(file);
+      missingTags.push(`${dir}/${file}`);
     } else {
       const tags = tagsMatch[1].split(/[、,，\s/]+/).map(t => t.trim()).filter(Boolean);
       if (tags.length === 0) {
-        missingTags.push(file);
+        missingTags.push(`${dir}/${file}`);
+      }
+    }
+
+    const hasDate = /^-\s*查證日期\s*[：:]\s*(.+)$/m.test(lead) || /20\d{2}-\d{2}-\d{2}/.test(lead);
+    if (!hasDate) {
+      missingDate.push(`${dir}/${file}`);
+    }
+  }
+
+  assert.deepEqual(missingScenario, [], `Missing '- 情境：': ${missingScenario.join(', ')}`);
+  assert.deepEqual(invalidScenario, [], `Invalid scenario: ${JSON.stringify(invalidScenario)}`);
+  assert.deepEqual(missingTags, [], `Missing '- 標籤：': ${missingTags.join(', ')}`);
+  assert.deepEqual(missingDate, [], `Missing verification date: ${missingDate.join(', ')}`);
+});
+
+test('all cases and evidence files contain verified external source URLs without placeholders', () => {
+  const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
+  const evidenceFiles = fs.readdirSync(path.join(root, 'evidence')).filter(f => f.endsWith('.md')).sort();
+  const targets = [
+    ...caseFiles.map(f => ({ dir: 'cases', file: f })),
+    ...evidenceFiles.map(f => ({ dir: 'evidence', file: f }))
+  ];
+
+  const missingExternalSource = [];
+  const suspiciousPlaceholders = [];
+
+  for (const { dir, file } of targets) {
+    const content = fs.readFileSync(path.join(root, dir, file), 'utf8');
+    const urls = content.match(/https?:\/\/[^\s)\],\"\'\''<>]+/g) || [];
+    const validExternalUrls = urls
+      .map(normalizeSourceUrl)
+      .filter(u => u && !u.includes('github.com/richardhan') && !u.includes('schema.org') && !u.includes('w3.org'));
+
+    if (validExternalUrls.length === 0) {
+      missingExternalSource.push(`${dir}/${file}`);
+    }
+
+    for (const url of validExternalUrls) {
+      if (url.includes('example.com') || url.includes('localhost') || url.includes('foo.bar')) {
+        suspiciousPlaceholders.push({ file: `${dir}/${file}`, url });
       }
     }
   }
 
-  assert.deepEqual(missingScenario, [], `Cases missing '- 情境：': ${missingScenario.join(', ')}`);
-  assert.deepEqual(invalidScenario, [], `Cases with invalid scenario: ${JSON.stringify(invalidScenario)}`);
-  assert.deepEqual(missingTags, [], `Cases missing '- 標籤：': ${missingTags.join(', ')}`);
+  assert.deepEqual(missingExternalSource, [], `Files missing external source: ${missingExternalSource.join(', ')}`);
+  assert.deepEqual(suspiciousPlaceholders, [], `Files with placeholder URLs: ${JSON.stringify(suspiciousPlaceholders)}`);
 });
 
-test('candidate duplicate detection identifies shared external sources without modifying corpus', () => {
+test('candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus', () => {
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
   const urlMap = new Map();
 
   for (const file of caseFiles) {
     const content = fs.readFileSync(path.join(root, 'cases', file), 'utf8');
-    const urls = content.match(/https?:\/\/[^\s)\],\"'\''<>]+/g) || [];
+    const urls = content.match(/https?:\/\/[^\s)\],\"\'\''<>]+/g) || [];
     for (const rawUrl of urls) {
-      const url = rawUrl.replace(/[.。;；]+$/, '');
-      if (url.includes('github.com/RichardHan') || url.includes('schema.org') || url.includes('w3.org')) continue;
+      const url = normalizeSourceUrl(rawUrl);
+      if (!url || url.includes('github.com/richardhan') || url.includes('schema.org') || url.includes('w3.org')) continue;
       if (!urlMap.has(url)) urlMap.set(url, new Set());
       urlMap.get(url).add(file);
     }
@@ -68,7 +130,7 @@ test('candidate duplicate detection identifies shared external sources without m
     }
   }
 
-  // Ensure duplicate detection finds known shared source threads (e.g. Reddit comment threads or product docs)
+  // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
   // Confirm that candidate duplicates are purely listed as candidates and all original cases remain intact
   assert.equal(caseFiles.length, 313, 'Corpus case count must remain intact (no automatic deletion of candidates)');
@@ -81,9 +143,9 @@ test('qualification audit maintains strict separation between catalog entries an
   const qualifiedCount = parseInt(catalogCountMatch[1], 10);
 
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
-  // Qualified cases (e.g. 290+) must be strictly less than or equal to total case markdown files
+  // Qualified cases (e.g. 292) must be strictly less than or equal to total case markdown files
+  assert.equal(qualifiedCount, 292, `Expected qualified count 292 as of 2026-10-18 14:00 batch, got ${qualifiedCount}`);
   assert(qualifiedCount <= caseFiles.length, `Qualified count (${qualifiedCount}) cannot exceed total cases (${caseFiles.length})`);
-  assert(qualifiedCount >= 280, `Expected qualified count to be at least 280, got ${qualifiedCount}`);
 });
 
 test('app.js metadata extraction gracefully falls back to extract tags from category lines', () => {

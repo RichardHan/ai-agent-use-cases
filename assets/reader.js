@@ -16,13 +16,18 @@
     }
     return -1;
   }
+  const sourceHeading=/來源|參考資料|原始連結|作者.*日期/;
+  function selectSourceSection(sections){
+    const linked=sections.findIndex(section=>sourceHeading.test(section.title)&&section.hasLinks);
+    return linked!==-1?linked:sections.findIndex(section=>sourceHeading.test(section.title));
+  }
   function selectJumps(titles){
     const used=new Set();
     const intents=[
       ['實作與結果',[/問題|實作|做了|結果|發生|來源報告/]],
       ['方法與步驟',[/步驟|操作流程|參考流程|建議流程|怎麼開始|方法|可參考/,/提示詞|可貼指令/]],
       ['限制與權限',[/權限|費用|可用性/,/限制|證據.*缺|驗收/]],
-      ['來源與版本',[/來源|參考資料|原始連結|作者.*日期/]]
+      ['來源與版本',[sourceHeading]]
     ];
     return intents.flatMap(([label,patterns])=>{
       let index=-1;
@@ -71,7 +76,6 @@
     evidence.append(make('p','reader-evidence-footnote','以上沿用原文頁首；後續補充的來源與限制，請依各段文字判讀。'));
     // Put the actual purpose first; retain every original proof row below it.
     overview.after(evidence);
-    if(!headings.length)return;
     const dialog=body.closest('dialog');
     const nav=make('nav','reader-nav');
     nav.setAttribute('aria-label','案例閱讀導覽');
@@ -119,12 +123,19 @@
       open.addEventListener('click',()=>{research.open=true;moveTo(research.querySelector('summary'));});
       report.append(open);
     }
-    const sourceIndex=titles.findIndex(title=>/^(?:來源|已讀來源|公開來源|參考資料)/.test(title));
+    const sourceIndex=selectSourceSection(headings.map(heading=>{
+      let hasLinks=false;
+      for(let next=heading.nextElementSibling;next&&!/^H[23]$/.test(next.tagName);next=next.nextElementSibling){
+        if(next.querySelector('a'))hasLinks=true;
+      }
+      return {title:heading.textContent,hasLinks};
+    }));
     if(sourceIndex!==-1){
       const sources=jumpButton(sourceIndex,'reader-report-open');
       sources.textContent='核對來源與版本 ↓';report.append(sources);
     }
     overview.after(report);
+    if(!headings.length)return;
     const quick=make('div','reader-quick');
     selectJumps(titles).forEach(({index,label})=>{
       const button=jumpButton(index,'reader-jump');
@@ -150,7 +161,7 @@
     nav.append(full);
     evidence.after(nav);
   }
-  const api={selectJumps,selectReadingSection,enhance};
+  const api={selectJumps,selectReadingSection,selectSourceSection,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

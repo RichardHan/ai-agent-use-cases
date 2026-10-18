@@ -5,8 +5,23 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.READING_URL||'http://127.0.0.1:8086/ai-agent-use-cases/';
 const observe=!!process.env.READING_OBSERVE,live=!!process.env.READING_LIVE;
 const prefix=observe?'before':live?'live':'after';
+async function publishedVersion(){
+ for(let attempt=0;attempt<30;attempt++){
+  const files=['assets/app.js','assets/reader.js','assets/reader.css'];
+  const states=await Promise.all(files.map(async file=>{const response=await fetch(origin+file+'?reading-qa='+Date.now(),{cache:'no-store'});return response.ok&&await response.text()===fs.readFileSync(file,'utf8');}));
+  if(states.every(Boolean))return;
+  await new Promise(resolve=>setTimeout(resolve,5000));
+ }
+ throw Error('Published reading assets do not match this checkout');
+}
+async function focusedBelowToolbar(page,id){
+ const bounds=await page.locator('#'+id).boundingBox(),toolbar=await page.locator('.detail-toolbar').boundingBox(),dialog=await page.locator('#detail').boundingBox();
+ assert(await page.locator('#'+id).evaluate(e=>e===document.activeElement));
+ assert(bounds.y>=toolbar.y+toolbar.height-1&&bounds.y+bounds.height<=dialog.y+dialog.height+1,'focused heading is visible below toolbar');
+}
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});
+ if(live)await publishedVersion();
  const reports=[];
  const save=()=>fs.writeFileSync(`qa-artifacts/reading-${prefix}.json`,JSON.stringify(reports,null,2));
  const engines=observe||live?[['chromium',chromium]]:[['chromium',chromium],['firefox',firefox],['webkit',webkit]];
@@ -46,13 +61,13 @@ const prefix=observe?'before':live?'live':'after';
   await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(e=>e===document.activeElement));
   report.checks.push('travel / combined filters / empty / keyboard return');
   // 2. Read a failure report without losing its uncertainty or unexecuted proposal.
-  for(const id of ['UC-001','UC-313','UC-340','UC-338','UC-005']){
+  for(const id of ['UC-001','UC-313','UC-340','UC-338','UC-101','UC-173','UC-076','UC-005']){
    await open(id);
-   const measurements=await page.evaluate(()=>({purposeTop:Math.round(document.querySelector('.plain-overview').getBoundingClientRect().top),purposeBottom:Math.round(document.querySelector('.plain-overview').getBoundingClientRect().bottom),viewport:innerHeight,dialogTop:document.getElementById('detail').getBoundingClientRect().top,order:[...document.getElementById('detail-body').children].map(e=>e.className||e.tagName)}));
+   const measurements=await page.evaluate(()=>({purposeTop:Math.round(document.querySelector('.plain-overview').getBoundingClientRect().top),purposeBottom:Math.round(document.querySelector('.plain-overview').getBoundingClientRect().bottom),purposeText:(()=>{const p=document.querySelector('.plain-overview p'),r=p.getBoundingClientRect(),d=document.getElementById('detail').getBoundingClientRect();return {top:r.top,visibleHeight:Math.max(0,Math.min(r.bottom,d.bottom)-Math.max(r.top,d.top)),requiredHeight:Math.min(r.height,2*parseFloat(getComputedStyle(p).lineHeight))};})(),viewport:innerHeight,dialogTop:document.getElementById('detail').getBoundingClientRect().top,order:[...document.getElementById('detail-body').children].map(e=>e.className||e.tagName)}));
    report.checks.push({id,...measurements});save();
    await page.screenshot({path:`qa-artifacts/reading-${prefix}-${id}-${engine}-${size}.png`});
    if(observe)continue;
-   assert(measurements.purposeTop<height,'purpose begins within first viewport');
+   assert(measurements.purposeText.visibleHeight+1>=measurements.purposeText.requiredHeight,'at least two lines of purpose text visible within dialog');
    assert(await page.locator('.reader-guidance').evaluate(e=>!e.open));
    assert(await page.locator('.reader-report').evaluate(e=>!!(e.compareDocumentPosition(document.querySelector('.reader-guidance'))&Node.DOCUMENT_POSITION_FOLLOWING)));
    if(id==='UC-313'){
@@ -65,15 +80,30 @@ const prefix=observe?'before':live?'live':'after';
     if(engine==='chromium'&&size==='desktop'){
      const popupPromise=page.waitForEvent('popup');await page.locator('.reader-report-content a').first().click();
      const popup=await popupPromise;const response=await popup.waitForLoadState('domcontentloaded').then(()=>popup.url());
-     report.externalSource={url:response};assert.equal(new URL(response).pathname,'/openai/codex/issues/52208');await popup.close();
+     report.externalSource={url:response,status:(await popup.request.get(response)).status()};assert.equal(new URL(response).pathname,'/openai/codex/issues/52208');await popup.close();
     }
    }
    if(id==='UC-338')assert.match(await page.locator('.reader-report-content').innerText(),/沒有截圖、紀錄表、班表或薪資單比對結果/);
+   if(['UC-101','UC-173'].includes(id)){
+    await page.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();
+    const sourceTitle=await page.evaluate(()=>document.activeElement.textContent);
+    assert.match(sourceTitle,id==='UC-101'?/去重與來源/:/作者、日期與來源/);
+   }
+   if(id==='UC-076'){
+    await page.locator('.reader-report-content').scrollIntoViewIfNeeded();
+    await page.screenshot({path:`qa-artifacts/reading-${prefix}-long-report-${engine}-${size}.png`});
+   }
    const jump=page.locator('.reader-report-open').first(),target=await jump.getAttribute('aria-controls');
    const url=page.url();await jump.focus();await page.keyboard.press('Enter');
    assert(await page.locator('.research-details').evaluate(e=>e.open));assert.equal(page.url(),url);
-   assert(await page.locator('#'+target).evaluate(e=>e===document.activeElement));
-   await page.keyboard.press('Tab');assert(await page.locator('.reader-return').first().isVisible());
+   await focusedBelowToolbar(page,target);
+   await page.keyboard.press('Tab');assert(await page.evaluate(()=>document.activeElement.classList.contains('reader-return')));
+   await page.keyboard.press('Enter');await focusedBelowToolbar(page,'reader-nav-title');
+   const method=page.locator('.reader-jump').filter({hasText:'方法與步驟'});
+   if(await method.count()){
+    const methodTarget=await method.getAttribute('aria-controls');
+    await method.focus();await page.keyboard.press('Enter');await focusedBelowToolbar(page,methodTarget);
+   }
   }
   if(!observe){
    // 3. Share/reload a long case, inspect source versions, then compare a pending idea.
@@ -82,6 +112,7 @@ const prefix=observe?'before':live?'live':'after';
    assert(await page.locator('.research-details').evaluate(e=>e.open));
    await audit('long source versions');
    await open('P-003');assert.equal(await page.locator('.reader-report-content').count(),0);
+   await page.locator('.reader-report-open').click();assert(await page.locator('.research-details').evaluate(e=>e.open));
    assert.match(await page.locator('.reader-evidence').innerText(),/待查/);
    await audit('pending idea');
    if(!live&&engine==='chromium'&&size==='desktop'){

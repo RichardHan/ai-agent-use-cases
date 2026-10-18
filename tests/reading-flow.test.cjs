@@ -2,7 +2,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path');
-const {selectReadingSection}=require('../assets/reader.js');
+const {selectReadingSection,selectSourceSection}=require('../assets/reader.js');
 const root=path.resolve(__dirname,'..');
 function sections(markdown){
  return [...markdown.matchAll(/^## (.+)\n([\s\S]*?)(?=^## |$(?![\s\S]))/gm)].map(m=>({title:m[1],text:m[2].trim()}));
@@ -34,4 +34,12 @@ test('report takes precedence over source directory and excludes designed, expec
 test('long and unknown original sections remain available through research, never silently truncated',()=>{
  assert.equal(selectReadingSection([{title:'作者實作與結果',text:'長'.repeat(3201)}],'case'),-1);
  assert.equal(selectReadingSection([{title:'不明章節',text:'資料'}],'case'),-1);
+});
+
+test('source jumps include author/date and deduplication headings and prefer a linked source',()=>{
+ assert.equal(selectSourceSection([{title:'原作者實作'},{title:'作者、日期與來源',hasLinks:true}]),1);
+ assert.equal(selectSourceSection([{title:'問題與作者實際使用'},{title:'去重與來源',hasLinks:true}]),1);
+ assert.equal(selectSourceSection([{title:'來源報告與限制'},{title:'原始與官方來源',hasLinks:true}]),1);
+ assert.equal(selectSourceSection([{title:'來源版本'}]),0);
+ assert.equal(selectSourceSection([{title:'方法'}]),-1);
 });

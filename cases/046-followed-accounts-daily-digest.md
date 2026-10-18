@@ -8,7 +8,7 @@
 - 工具：Grok Bot（X 讀取＋routine）；社群另有 Notion、Obsidian 輸出與 ChatGPT dots 版本（未核）。
 - 分類／標籤：資訊整理／X／排程簡報／去重
 - 目標使用者：靠 X 追蹤業界動態、但不想被營銷號和重複轉貼淹沒的人
-- 首次收錄／最近查證：2026-10-14／2026-10-14（台灣時間）
+- 首次收錄／最近查證：2026-10-14／2026-10-18（台灣時間）
 - 證據狀態：`author-demo`（作者自述日常使用＋公開提示詞與輸出截圖）＋ `official`（Grok Bot X 讀取與 routine 文件）＋ `designed`（本庫提示詞）；dots 版本 `unverified`
 - 是否獨立重現：否
 
@@ -68,6 +68,16 @@
 - 每日 X API 成本：作者與先前轉述都提到直接讓 Bot 讀書籤或首頁時間線會耗額度；本庫未取得官方計價，標 `pending-verification`。
 - 證據：`author-self-report`。
 
+### S-046G：@jestonlu X Bookmarks agent — 每 6 小時入 Notion，再每日郵件主動提取
+
+- 作者：@jestonlu（Jeston Lu）；英文。
+- v1：2026-10-12T15:26:31Z；https://x.com/jestonlu/status/2109667034862862418  
+  自述收藏很多卻記不住，建 Grok Bot「X Bookmarks」每 6 小時抓書籤、自動分類進 Notion 資料庫；附圖可見（本庫已下載核對畫面存在，未逐列核資料庫內容）。
+- v2：2026-10-13T15:23:15Z；https://x.com/jestonlu/status/2110028601554845836  
+  新增每 24 小時寄一封整理信，三塊固定欄位：Connection（找 2–4 則不同話題但底層共通的收藏）、Use Today（今天工作用得上的一則）、Worth Remembering（至少一週前、可能已忘、並解釋為何仍重要）。作者概括為 Passive → active retrieval。
+- 發現線索：@Orderly_Milan 2026-10-18 轉述（https://x.com/Orderly_Milan/status/2111740484875960729），以原帖為準。
+- 證據：`author-demo`（自述＋截圖）；郵件實收、分類正確率、X API 用量未核。與 S-046F 同屬「書籤→Notion」，本案多「定時主動提取郵件」一層，故併入本頁不另開。
+
 ## 建議操作流程（本庫設計，未實跑）
 
 1. 先手動跑一次：只用明確列出的 10–20 個帳號，不讓 Bot 自行加帳號；指定時區與時間窗。
@@ -112,3 +122,4 @@
 - 2026-10-14：自 X 掃描新增。與 UC-004 不同：UC-004 是把追蹤的人整理成人脈 CRM（個人資料），本頁是定時整理他們的貼文內容。與 UC-008 不同：UC-008 是 dots 的行事曆／郵件晨報覆蓋驗收，本頁來源是 X 貼文與跨天去重；準時性驗收觀念可共用。與 UC-015 的公開網頁變更監看也不同。
 - Tw93、howie_serious、CoderBit233 是同一工作的不同輸出端，dots 版本並列為待核；不計為多個獨立案例。
 - 2026-10-16 21:00：併入 S-046E（@op7418 AI 早報影片，Grok Bot 與 Muse 兩版）與 S-046F（@fabianschierz X 書籤每日入 Notion）。都是「每天整理前一天的 X 內容」同一工作的不同輸出端（影片／資料庫），故併入本頁而不另開。
+- 2026-10-18 17:45：併入 S-046G（@jestonlu 書籤入 Notion＋每日主動提取郵件）。與 S-046F 同一「整理我的 X 書籤／內容」工作，不另計合格數。

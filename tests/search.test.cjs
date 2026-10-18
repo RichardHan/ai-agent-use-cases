@@ -1438,10 +1438,55 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('跑分')), {}).some(x
 assert(api.filterEntries(entries, Array.from(api.tokenize('agentic workflow')), {}).some(x => x.id === 'UC-268'), 'agentic workflow matches UC-268 via agentic-workflow tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('智能體工作流')), {}).some(x => x.id === 'UC-268'), '智能體工作流 matches UC-268 via agentic-workflow synonym');
 
+// Search quality: rerank, reranking, reranker, 重排, 二次排序
+assert(api.filterEntries(entries, Array.from(api.tokenize('rerank')), {}).some(x => x.id === 'UC-040'), 'rerank matches UC-040 via rerank tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('reranking')), {}).some(x => x.id === 'UC-040'), 'reranking matches UC-040 via rerank tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('reranker')), {}).some(x => x.id === 'UC-040'), 'reranker matches UC-040 via rerank synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('二次排序')), {}).some(x => x.id === 'UC-040'), '二次排序 matches UC-040 via rerank synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('重排')), {}).some(x => x.id === 'UC-040'), '重排 matches UC-040');
 
+// Search quality: dedup, deduplication, 去重, 去重複, 查重, 重複資料
+assert(api.filterEntries(entries, Array.from(api.tokenize('dedup')), {}).some(x => x.id === 'UC-046'), 'dedup matches UC-046 via dedup tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('deduplication')), {}).some(x => x.id === 'UC-046'), 'deduplication matches UC-046 via dedup tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('去重複')), {}).some(x => x.id === 'UC-046'), '去重複 matches UC-046 via dedup synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('查重')), {}).some(x => x.id === 'UC-055'), '查重 matches UC-055');
+assert(api.filterEntries(entries, Array.from(api.tokenize('重複資料')), {}).some(x => x.id === 'UC-255'), '重複資料 matches UC-255 via dedup synonym');
 
+// Search quality: delegate, delegation, 委派, 委託
+assert(api.filterEntries(entries, Array.from(api.tokenize('delegate')), {}).some(x => x.id === 'UC-039'), 'delegate matches UC-039 via delegation synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('delegation')), {}).some(x => x.id === 'UC-039'), 'delegation matches UC-039 via delegation synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('委派')), {}).some(x => x.id === 'UC-039'), '委派 matches UC-039');
+assert(api.filterEntries(entries, Array.from(api.tokenize('委託')), {}).some(x => x.id === 'UC-039'), '委託 matches UC-039 via delegation synonym');
 
+// Search quality: firewall, 防火牆, iptables, ufw
+assert(api.filterEntries(entries, Array.from(api.tokenize('firewall')), {}).some(x => x.id === 'UC-269'), 'firewall matches UC-269 via firewall synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('防火牆')), {}).some(x => x.id === 'UC-269'), '防火牆 matches UC-269');
+assert(api.filterEntries(entries, Array.from(api.tokenize('iptables')), {}).some(x => x.id === 'UC-269'), 'iptables matches UC-269 via firewall synonym');
 
+// Search quality: audit trail, 審計日誌, 稽核軌跡, 操作紀錄, 操作記錄, 操作軌跡
+assert(api.filterEntries(entries, Array.from(api.tokenize('audit trail')), {}).some(x => x.id === 'UC-225'), 'audit trail matches UC-225 via audit-trail tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('審計日誌')), {}).some(x => x.id === 'UC-225'), '審計日誌 matches UC-225 via audit-trail synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('操作軌跡')), {}).some(x => x.id === 'UC-225'), '操作軌跡 matches UC-225 via audit-trail synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('操作記錄')), {}).some(x => x.id === 'UC-016'), '操作記錄 matches UC-016 via audit-trail synonym');
+
+// Search quality: backoff, exponential backoff, 指數退避, 退避, 重試機制
+assert(api.filterEntries(entries, Array.from(api.tokenize('backoff')), {}).some(x => x.id === 'UC-005'), 'backoff matches UC-005 via retry synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('exponential backoff')), {}).some(x => x.id === 'UC-005'), 'exponential backoff matches UC-005 via backoff tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('指數退避')), {}).some(x => x.id === 'UC-005'), '指數退避 matches UC-005 via retry synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('退避')), {}).some(x => x.id === 'UC-005'), '退避 matches UC-005 via retry synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('重試機制')), {}).some(x => x.id === 'UC-005'), '重試機制 matches UC-005 via retry synonym');
+
+// Search quality: multimodal, 多模態, 看圖, 視覺模型, vlm
+assert(api.filterEntries(entries, Array.from(api.tokenize('multimodal')), {}).some(x => x.id === 'UC-083'), 'multimodal matches UC-083 via multimodal synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('多模態')), {}).some(x => x.id === 'UC-083'), '多模態 matches UC-083 via multimodal synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('視覺模型')), {}).some(x => x.id === 'UC-083'), '視覺模型 matches UC-083 via multimodal synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('看圖')), {}).some(x => x.id === 'UC-083'), '看圖 matches UC-083 via multimodal synonym');
+
+// Search quality: system prompt, system instructions, 系統提示詞, 系統提示
+assert(api.filterEntries(entries, Array.from(api.tokenize('system prompt')), {}).some(x => x.id === 'UC-001'), 'system prompt matches UC-001 via system-prompt tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('系統提示詞')), {}).some(x => x.id === 'UC-001'), '系統提示詞 matches UC-001 via system-prompt synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('系統提示')), {}).some(x => x.id === 'UC-001'), '系統提示 matches UC-001 via system-prompt synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('system instructions')), {}).some(x => x.id === 'UC-001'), 'system instructions matches UC-001 via system-prompt tokenization');
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

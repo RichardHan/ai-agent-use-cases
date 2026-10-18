@@ -1315,3 +1315,49 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 - 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
 下一輪建議：依目前已標註之 46 組多案例共用公開來源候選叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
 
+## 2026-10-19：擴充重新排序、去重查重、任務委派、防火牆、稽核軌跡、指數退避、多模態與系統提示詞檢索品質及分詞
+
+問題調查與證據：
+1. 核心 AI Agent 架構、資料處理、任務分發、維運防護與檢索分詞斷層：
+   - 檢索重新排序（Rerank）：UC-040 明確標記「模型重新排序（重排）候選路線」、UC-114 具體標記「重排」，全庫共 9 筆案例涉及候選結果二次篩選與重排，但搜尋業界標準專有名詞「rerank」、「reranker」、「reranking」、「二次排序」皆返回 0 筆；
+   - 資料去重與重複偵測（Dedup）：全庫 257 筆案例包含「去重與版本紀錄」，且 UC-046「跨天去重」、UC-055「查重」、UC-255「整合去重」均以去重為關鍵機制，但搜尋英文「deduplication」返回 0 筆、「去重複」返回 0 筆，「dedup」僅 1 筆、「查重」僅 6 筆，無法關聯全庫去重處理案例；
+   - 任務委派與委託（Delegation）：UC-039「委派其他代理人」、UC-045「委派專屬小幫手」、UC-075「委派不同 Bot」、UC-081「委派各個專業 Bot」、UC-120「委託 Bot」使用委派與委託概念，但搜尋英文「delegate」返回 0 筆、「delegation」僅 1 筆，且「委託」與現有派工調度（dispatch）割裂；
+   - 主機防火牆防護（Firewall）：UC-269 明確以「iptables 防火牆、fail2ban 與 Docker 狀態巡檢」為核心維運題目、UC-096 涉及防火牆日誌排查，但搜尋「firewall」、「iptables」、「ufw」皆返回 0 筆；
+   - 稽核軌跡與操作日誌（Audit Trail）：UC-061 涉及「指令台帳與稽核軌跡」、UC-225 明確提及「稽核軌跡仍未取得」、UC-283 涉及「稽核軌跡」、UC-241 標註「操作記錄」，但使用者搜尋「audit trail」、「審計日誌」、「操作軌跡」返回 0 筆，搜尋「操作記錄」因字元差異（記錄 vs 紀錄）漏失 12 筆案例；
+   - 指數退避與重試機制（Backoff）：全庫 UC-001、UC-005、UC-041、UC-045、UC-074、UC-164 等大量案例規範網路與服務重試邊界，但搜尋「backoff」、「exponential backoff」、「指數退避」、「退避」、「重試機制」皆返回 0 筆；
+   - 多模態與視覺模型（Multimodal）：UC-083（看圖填空）、UC-121（視覺特徵整理）、UC-140（視覺估距）、UC-242（看圖）、UC-245（看圖）、UC-314（看圖）等包含圖文與看圖案例，但搜尋現代名詞「multimodal」、「多模態」、「視覺模型」、「vlm」皆返回 0 筆；
+   - 系統提示詞（System Prompt）：全庫 157 筆案例涉及提示詞與系統指示，但搜尋「system prompt」、「system instructions」、「系統提示詞」、「系統提示」皆返回 0 筆或僅因空格拆分而無法準確召回提示詞主題案例。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\bre\s*[- ]*rank(?:ing|s|er|ers)?\b` → `rerank`
+     - `\bde\s*[- ]*dup(?:lication)?s?\b` → `dedup`
+     - `\bdelegat(?:e|es|ed|ing|ion|ions)\b` → `delegate`
+     - `\baudit\s*[- ]\s*trails?\b` → `audit-trail`
+     - `\baudit\s*[- ]\s*logs?\b` → `audit-log`
+     - `\bexponential\s*[- ]\s*backoffs?\b` → `backoff`
+     - `\bbackoffs?\b` → `backoff`
+     - `\bmulti\s*[- ]\s*modals?\b` → `multimodal`
+     - `\bvision\s*[- ]\s*language\s*[- ]\s*models?\b` → `vlm`
+     - `\bsystem\s*[- ]\s*(?:prompts?|instructions?)\b` → `system-prompt`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 擴充重試詞群：加入 `backoff`、`exponential backoff`、`指數退避`、`退避`、`重試機制`、`退避重試`；
+     - 擴充派工詞群：加入 `委派`、`委託`、`delegate`、`delegation`、`delegates`、`delegating`；
+     - 擴充提示詞群：加入 `system-prompt`、`system prompt`、`system prompts`、`system instructions`、`系統提示詞`、`系統提示`、`系統指令`、`系統設定詞`；
+     - 新增重排詞群：`rerank`／`reranking`／`reranker`／`重排`／`二次排序`／`重新排序`；
+     - 新增去重詞群：`dedup`／`deduplication`／`去重`／`去重複`／`查重`／`重複資料`／`數據去重`／`資料去重`；
+     - 新增防火牆詞群：`防火牆`／`firewall`／`firewalls`／`iptables`／`ufw`／`網路防火牆`／`網絡防火牆`；
+     - 新增稽核軌跡詞群：`audit-trail`／`audit trail`／`audit-trails`／`audit trails`／`audit-log`／`audit log`／`audit logs`／`稽核軌跡`／`審計日誌`／`稽核日誌`／`操作紀錄`／`操作記錄`／`操作軌跡`／`變更軌跡`／`審計軌跡`；
+     - 新增多模態詞群：`multimodal`／`multi-modal`／`多模態`／`看圖`／`視覺模型`／`vlm`／`視覺辨識`／`視覺分析`；
+     - 保持 100% 互映對稱映射。
+2. `tests/search.test.cjs`：
+   - 增加 28 組搜尋斷言，覆蓋 rerank/reranking/reranker/重排/二次排序、dedup/deduplication/去重複/查重/重複資料、delegate/delegation/委派/委託、firewall/防火牆/iptables、audit trail/審計日誌/操作軌跡/操作記錄、backoff/exponential backoff/指數退避/退避/重試機制、multimodal/多模態/視覺模型/看圖、system prompt/系統提示詞/系統提示/system instructions 等檢索。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：63/63 單元測試全數通過。
+- `for file in assets/*.js; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：依目前已標註之 46 組多案例共用公開來源候選叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。

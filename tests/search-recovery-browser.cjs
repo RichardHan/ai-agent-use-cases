@@ -2,13 +2,16 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const {AxeBuilder} = require('@axe-core/playwright');
-module.exports = async function searchRecovery({browser, origin, observe=false}) {
+module.exports = async function searchRecovery({browser, origin, observe=false,prefix='search',sizes=[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]}) {
   const report=[];
   fs.mkdirSync('qa-artifacts',{recursive:true});
-  for (const [name,width,height] of [['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]) {
-    const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
+  for (const [name,width,height] of sizes) {
+    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
+    const page=await context.newPage();
+    const started=Date.now();
     await page.goto(origin,{waitUntil:'networkidle'});
     await page.locator('#results .card').first().waitFor();
+    const navigationAndReadyMs=Date.now()-started;
     await page.locator('#query').fill('旅遊');
     await page.locator('#tool').selectOption('Grok Bot');
     await page.locator('#category').selectOption('旅遊／消費研究');
@@ -18,14 +21,14 @@ module.exports = async function searchRecovery({browser, origin, observe=false})
     await page.locator('#scenario').selectOption('開發');
     assert.equal(await page.locator('#empty').isVisible(),true);
     await page.locator('#results-count').scrollIntoViewIfNeeded();
-    await page.screenshot({path:'qa-artifacts/search-'+(observe?'before-':'after-')+name+'.jpg',type:'jpeg',quality:75});
-    console.log('VISUAL:search-'+(observe?'before-':'after-')+name+':'+fs.readFileSync('qa-artifacts/search-'+(observe?'before-':'after-')+name+'.jpg').toString('base64'));
-    const row={viewport:name,matchingBeforeScenario:matching,empty:await page.locator('#empty').innerText(),activeFilters:await page.locator('#active-filters button').count()};
+    await page.screenshot({path:'qa-artifacts/'+prefix+'-'+(observe?'before-':'after-')+name+'.jpg',type:'jpeg',quality:75});
+    console.log('VISUAL:'+prefix+'-'+(observe?'before-':'after-')+name+':'+fs.readFileSync('qa-artifacts/'+prefix+'-'+(observe?'before-':'after-')+name+'.jpg').toString('base64'));
+    const row={viewport:name,navigationAndReadyMs,matchingBeforeScenario:matching,empty:await page.locator('#empty').innerText(),activeFilters:await page.locator('#active-filters button').count()};
     if (observe) {
       await page.locator('#empty-reset').click();
       row.queryAfterReset=await page.locator('#query').inputValue();
       report.push(row);
-      await page.close();
+      await context.close();
       continue;
     }
     // Journey 1: recover from an incompatible combination without losing the task.
@@ -33,7 +36,9 @@ module.exports = async function searchRecovery({browser, origin, observe=false})
     const suggestion=page.locator('#empty-suggestions [data-remove-filter="scenario"]');
     assert.equal(await suggestion.count(),1,'offer a precise, nonzero relaxation');
     assert.match(await suggestion.innerText(),new RegExp(String(matching)+' 筆'));
+    const recoveryStarted=Date.now();
     await suggestion.focus();await page.keyboard.press('Enter');
+    row.keyboardRecoveryMs=Date.now()-recoveryStarted;
     assert.equal(await page.locator('#results .card').count(),matching);
     assert.equal(await page.locator('#query').inputValue(),'旅遊');
     assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
@@ -88,8 +93,46 @@ module.exports = async function searchRecovery({browser, origin, observe=false})
     await page.locator('#empty-reset').click();
     assert.equal(await page.locator('#query').inputValue(),'');
     row.passed=true;report.push(row);
-    await page.close();
+    await context.close();
   }
-  fs.writeFileSync('qa-artifacts/search-'+(observe?'baseline':'verification')+'.json',JSON.stringify(report,null,2));
-  console.log('SEARCH_RECOVERY '+JSON.stringify(report));
+
+  if(!observe&&prefix==='search'){
+    const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});
+    const page=await context.newPage();
+    let release;
+    const gate=new Promise(resolve=>{release=resolve;});
+    await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
+    await page.goto(origin+'?q=旅遊&scenario=開發',{waitUntil:'domcontentloaded'});
+    assert.equal(await page.locator('#search-feedback').isVisible(),false,'loading is not empty results');
+    assert.equal(await page.locator('#empty').isVisible(),false);
+    release();await page.locator('#search-feedback').waitFor();await page.unroute('**/catalog.json');
+    await page.route('**/catalog.json',route=>route.fulfill({status:503,body:'unavailable'}));
+    await page.reload({waitUntil:'networkidle'});
+    assert.equal(await page.locator('#error').isVisible(),true);
+    assert.equal(await page.locator('#search-feedback').isVisible(),false);
+    assert.equal(await page.locator('#empty').isVisible(),false);
+    await page.unroute('**/catalog.json');await page.locator('#retry').click();
+    await page.locator('#search-feedback').waitFor();
+    await page.goto(origin+'?q=旅遊&scenario=未分類情境',{waitUntil:'networkidle'});
+    assert.match(await page.locator('#active-filters [data-remove-filter="scenario"]').innerText(),/未分類情境/);
+    await page.locator('#active-filters [data-remove-filter="scenario"]').click();
+    assert.equal(await page.locator('#query').inputValue(),'旅遊');
+    assert((await page.locator('#results .card').count())>0);
+    await page.route('**/cases/001-travel-checkout.md',route=>route.fulfill({status:404,body:'not found'}));
+    await page.goto(origin+'?q=旅遊&tool=Grok%20Bot&category='+encodeURIComponent('旅遊／消費研究')+'&proof='+encodeURIComponent('作者報告／示範'),{waitUntil:'networkidle'});
+    const loadedMatches=await page.locator('#results .card').count();
+    assert(loadedMatches>0);
+    assert.match(await page.locator('#results-count').innerText(),/1 筆載入略過/);
+    await page.locator('#scenario').selectOption('開發');
+    const suggestion=page.locator('#empty-suggestions [data-remove-filter="scenario"]');
+    assert.match(await suggestion.innerText(),new RegExp(loadedMatches+' 筆'));
+    assert.match(await page.locator('#empty-hint').innerText(),/部分條目載入失敗/);
+    await suggestion.click();
+    assert.equal(await page.locator('#results .card').count(),loadedMatches);
+    await context.close();
+    console.log('PASS SEARCH STATES: loading, error/retry, unknown scenario, partial corpus counts');
+  }
+
+  fs.writeFileSync('qa-artifacts/'+prefix+'-'+(observe?'baseline':'verification')+'.json',JSON.stringify(report,null,2));
+  console.log('SEARCH_RECOVERY '+prefix+' '+JSON.stringify(report));
 };

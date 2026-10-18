@@ -39,5 +39,6 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
  await page.screenshot({path:'qa-artifacts/live-mobile.png'});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  console.log('PASS LIVE: mobile direct link, refresh, close, scenario selection and no horizontal overflow');
+ await require('./search-recovery-browser.cjs')({browser,origin,prefix:'live-search',sizes:[['desktop',1440,1000],['mobile',390,844]]});
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

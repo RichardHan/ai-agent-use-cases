@@ -1217,3 +1217,48 @@ PR #49 合併為185cc17，保留同時新增的協作者af5a05a搜尋詞群、�
 - 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
 下一輪建議：依目前已標註之 46 組多案例共用公開來源候選叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
 
+## 2026-10-19：擴充合成資料、自主代理、保活心跳、速率限制、安全轉址、灰度發布與語意檢索品質及分詞
+
+問題調查與證據：
+1. 核心 AI Agent 安全測試、自主協作、高可用保活與部署檢索分詞斷層：
+   - 合成資料與安全去識別：全庫 33 篇案例（如 UC-103、UC-145、UC-150、UC-166、UC-168、UC-174 等）在測試流程中嚴格規範使用「合成資料」，UC-251 明確註記「synthetic」；但使用者搜尋英文常用詞 `synthetic data` 僅命中 1 筆、`synthetic` 僅 1 筆，搜尋中文常見詞 `合成數據` 命中 0 筆，導致 33 篇安全測試案例全數被遺漏；
+   - 自主代理與自主運行：全庫 11 篇案例（UC-012、UC-025、UC-056、UC-061、UC-092、UC-164、UC-185、UC-192、UC-196、UC-270、UC-317）深入探討 AI Agent 自主性（如 UC-317 核心目標為「半夜自主做實驗」、UC-056 為「自主微型生意」），但搜尋 `自主代理` 僅 1 筆，搜尋 `autonomous agent` 僅 2 筆，搜尋 `自主運行` 或 `自主任務` 為 0 筆；
+   - 服務保活與心跳：UC-314 深入探討常駐雲端環境可用性與保活機制驗收，既有詞群僅有 `['heartbeat', 'heartbeats', '心跳']`，搜尋 `keepalive` 為 0 筆、`keep-alive` 為 0 筆、`存活檢查` 為 0 筆，且搜尋 `保活` 無法關聯到 heartbeat；
+   - 速率限制與正則連字號：UC-164 明確引用 `https://developer.zendesk.com/api-reference/introduction/rate-limits/`（「Zendesk官方限流」），但 `tokenize` 中的正則為 `\brate\s+limits?(?:ing)?\b`（僅限空格，未匹配連字號 `-`），導致 `rate-limits` 未被正規化；且詞群缺少 `rate-limit`、`rate-limits` 與 `速率限制`；
+   - 釣魚審查與安全轉址：UC-065（可疑釣魚轉址審查）、UC-073（客戶旅程轉址審計）、UC-163（舊系統轉址遷移）均為核心資安與維運案例，但搜尋英文 `redirect` 為 0 筆、中文 `重定向` 為 0 筆；
+   - 金絲雀與灰度發布：UC-061 包含 canary 真實帳號驗收與模擬評測，但搜尋 `金絲雀` 為 0 筆、`灰度發布` 為 0 筆；
+   - 語意檢索與向量搜尋：全庫大量使用向量與 RAG 檢索（如 UC-060、UC-061、UC-132、UC-297），但搜尋 `semantic search` 與 `vector search` 被拆分為獨立詞，搜尋 `語意搜尋` 或 `向量檢索` 為 0 筆。
+
+本輪改善：
+1. `assets/app.js`：
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\brate\s*[- ]\s*limits?(?:ing)?\b` → `ratelimit`（支援連字號與空格）
+     - `\bsynthetic\s*[- ]\s*data\b` → `synthetic-data`
+     - `\bautonomous\s*[- ]\s*agents?\b` → `autonomous-agent`
+     - `\bkeep\s*[- ]\s*alives?\b` → `keepalive`
+     - `\bredirects?(?:ion)?\b` → `redirect`
+     - `\bcanary\s*[- ]\s*(?:releases?|deployments?)?\b` → `canary`
+     - `\bblue\s*[- ]\s*green\s*[- ]\s*deployments?\b` → `blue-green`
+     - `\bsemantic\s*[- ]\s*search(?:es)?\b` → `semantic-search`
+     - `\bvector\s*[- ]\s*search(?:es)?\b` → `vector-search`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 擴充限流詞群：加入 `rate-limit`、`rate limit`、`rate-limits`、`rate limits`、`rate limiting`、`rate-limiting`、`速率限制`；
+     - 擴充保活／心跳詞群：加入 `keepalive`、`keep-alive`、`保活`、`存活檢查`、`存活確認`、`liveness`；
+     - 擴充 RAG 與語意檢索詞群：加入 `semantic-search`、`semantic search`、`語意搜尋`、`語義搜索`、`語意檢索`、`語義檢索`、`vector-search`、`vector search`、`向量檢索`；
+     - 新增合成資料詞群：`synthetic-data`／`synthetic data`／`synthetic`／`合成資料`／`合成數據`／`生成資料`／`生成數據`；
+     - 新增自主代理詞群：`autonomous-agent`／`autonomous agent`／`autonomous agents`／`autonomous`／`自主代理`／`自主agent`／`自主運行`／`自主智能體`／`自主任務`／`自主`；
+     - 新增轉址詞群：`redirect`／`redirects`／`redirection`／`轉址`／`重定向`／`跳轉`；
+     - 新增金絲雀／灰度部署詞群：`canary`／`canaries`／`金絲雀`／`灰度`／`灰度發布`／`灰度部署`／`藍綠部署`／`blue-green`；
+     - 保持 100% 互映對稱映射。
+2. `tests/search.test.cjs`：
+   - 增加 25 組搜尋斷言，覆蓋 synthetic data/synthetic/合成數據/合成資料、autonomous agent/自主代理/自主運行/自主任務、keepalive/keep-alive/保活/存活檢查、rate-limits/rate limit/速率限制、redirect/redirection/重定向/轉址、canary/金絲雀/灰度發布、semantic search/語意搜尋/vector search/向量檢索等檢索。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：58/58 單元測試全數通過。
+- `for file in assets/*.js; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：依目前已標註之 46 組多案例共用公開來源候選叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
+
+

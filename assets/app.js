@@ -122,27 +122,20 @@ function showDetail(item, trigger, updateURL=true) {
   const copyBtn = el('button', 'btn-copy-link', '📋 複製案例連結');
   copyBtn.type = 'button';
   copyBtn.id = 'copy-case-link';
-  copyBtn.addEventListener('click', () => {
-    const url = new URL(location.href);
-    url.searchParams.set('case', item.id);
-    const markDone = () => {
-      copyBtn.textContent = '✓ 已複製！';
-      setTimeout(() => { copyBtn.textContent = '📋 複製案例連結'; }, 2000);
-    };
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(url.href).then(markDone).catch(() => {
-        try {
-          const t = document.createElement('textarea');
-          t.value = url.href;
-          document.body.append(t);
-          t.select();
-          document.execCommand('copy');
-          t.remove();
-          markDone();
-        } catch { markDone(); }
-      });
-    } else {
-      markDone();
+  copyBtn.addEventListener('click', async () => {
+    const url=new URL(location.href);url.searchParams.set('case',item.id);
+    try{
+      if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(url.href);
+      copyBtn.textContent='✓ 已複製！';
+      setTimeout(()=>{copyBtn.textContent='📋 複製案例連結';},2000);
+    }catch{
+      let manual=actionRow.querySelector('.manual-share-link');
+      if(!manual){
+        manual=el('input','manual-share-link');manual.type='text';manual.readOnly=true;
+        manual.setAttribute('aria-label','案例分享網址，請手動複製');actionRow.append(manual);
+      }
+      manual.value=url.href;copyBtn.textContent='請手動複製下方連結';manual.focus();manual.select();
     }
   });
   const source = el('a', 'detail-source', '查看 Markdown 原文 ↗');

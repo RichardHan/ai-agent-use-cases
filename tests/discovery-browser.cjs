@@ -96,6 +96,17 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   console.log('PASS BROWSER '+name+': guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations='+audit.violations.length);
   await context.close();
  }
+ const deniedContext=await browser.newContext();
+ await deniedContext.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:async()=>{throw new Error('Denied');}}}));
+ const deniedPage=await deniedContext.newPage();
+ await deniedPage.goto(origin+'?case=UC-001',{waitUntil:'networkidle'});
+ await deniedPage.locator('#detail[open]').waitFor();
+ await deniedPage.locator('#copy-case-link').click();
+ await deniedPage.locator('.manual-share-link').waitFor();
+ assert.equal(new URL(await deniedPage.locator('.manual-share-link').inputValue()).searchParams.get('case'),'UC-001');
+ assert.equal((await deniedPage.locator('#copy-case-link').innerText()).includes('已複製'),false);
+ await deniedContext.close();
+ console.log('PASS BROWSER: clipboard permission failure exposes a manual share URL');
  const page=await browser.newPage();
  await page.route('**/catalog.json',route=>route.fulfill({status:503,body:'unavailable'}));
  await page.goto(origin,{waitUntil:'networkidle'});

@@ -61,3 +61,13 @@
 [最終 QA 39175042219](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39175042219)（`d70354a`）全部通過，包含既有 Reader 與首頁搜尋完整回歸。全庫 339 筆／2,320 章節／358 頁首證據行對應通過（[原始結果](reader-corpus.json)），保留來源、安全文字、長內容、缺資料、載入錯誤與重試路徑。上方 after 截圖及量測已換成本次最終 artifact。
 
 變更檔案：`assets/app.js`（卡片條件與焦點）、`assets/style.css`（情境套用外觀）、`tests/card-refinement.test.cjs`（3 項回歸）、`tests/card-refinement-browser.cjs`（三情境跨引擎）、`.github/workflows/card-refinement-qa.yml`（雲端預覽及發布驗證）、`SITE.md` 與本目錄（維護證據）。網站沒有新增依賴或網路服務。
+
+## 合併與正式發布
+
+安全 fetch 後確認 `origin/main` 仍是共同基準，以 fast-forward 合併至 `main` 並推送 `ef7fd79`，未強推或覆蓋協作者內容。使用者已明確授權直接推送合併；本輪採直接整合，未宣稱有 GitHub PR 核准。
+
+[正式 Jekyll／Pages 建置](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39175519367)成功。[發布後本輪 QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39175520481)成功：66/66 測試、預覽與既有 Reader／首頁回歸重跑成功，正式 app.js／style.css 逐字符合 `ef7fd79`；正式站五組跨引擎／尺寸走查均焦點正確、結果數可見、axe 零違規。分享直鏈、重新整理、返回、全部 facets、鍵盤及空結果復原皆完成。
+
+正式站截圖：[桌面](published-desktop.jpg)／[手機](published-mobile.jpg)，已親自與預覽比對。[發布原始量測](published-verification.json)。後續提交僅補驗收文件與圖片，不修改執行資產。
+
+整合版本 `ef7fd79` 的 12 個工作流程全部成功，包含 Pages、本輪 QA 與所有既有 QA；最後完成的 [Reading flow](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39175520446) 亦完成正式站走查。[完整 CI 快照](ci.json)。本輪驗收完成。

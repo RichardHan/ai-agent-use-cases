@@ -33,7 +33,7 @@
 .card-id-tool{font-size:11px;font-weight:700;color:var(--green);letter-spacing:0}
 .tag-scenario{background:#e2ebdc;color:var(--green);font-weight:650;cursor:pointer}
 .tag-scenario:hover{background:var(--green);color:white}
-.tag-interactive{cursor:pointer;transition:all .12s}
+.tag-interactive{cursor:pointer}
 .tag-interactive:hover{background:var(--green);color:white;border-color:var(--green)}
 
 /* Modal Toolbar & Actions */
@@ -176,3 +176,13 @@
 .search-context-label{font-size:12px;line-height:1.7;color:#4c6258}
 .search-context-excerpt{font-size:13px;line-height:1.85;margin-top:4px!important}
 .search-context-more{font-size:12px;line-height:1.7;margin-top:8px!important;color:#4c6258}
+
+/* Keep incomplete search results and their recovery action visible together. */
+.partial-load{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:20px;padding:18px 20px;background:#fff5e6;border:1px solid #b89c72;border-left:4px solid #94632b;border-radius:10px}
+.partial-load h3{font-size:16px;line-height:1.6;margin:0 0 4px;color:#513b20}
+.partial-load p{font-size:14px;line-height:1.8;margin:0;color:#513b20}
+.partial-load button{min-height:44px;flex-shrink:0;font-size:14px;font-weight:650;color:#513b20;border-color:#94632b;background:#fff}
+.partial-load button[aria-disabled=true]{cursor:wait}
+.load-status{font-size:14px;line-height:1.8;color:#4c6258;margin:12px 0 0}
+.load-status:empty{display:none}
+@media(max-width:760px){.partial-load{align-items:stretch;flex-direction:column;gap:12px;padding:16px}.partial-load button{align-self:flex-start}}

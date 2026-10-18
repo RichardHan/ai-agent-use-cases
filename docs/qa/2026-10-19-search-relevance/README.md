@@ -104,3 +104,11 @@ NODE_PATH=<cloud-tools>/node_modules node tests/relevance-browser.cjs
 見[原始最小對照](exact-return-control.json) 與[固定診斷程式](https://github.com/RichardHan/ai-agent-use-cases/blob/22c910a7cd473136692d9e5578bddd4f79e3652d/.github/workflows/return-diagnostic.yml)。獨立角色核對上述資料後，同意將返回測試改為先記錄狀態並驗收、只在失敗後best-effort截圖再拋回原錯誤。原500ms、焦點／URL／集合／±1px可見性斷言、產品300ms截止與輸入取消全部保留；不是延長等待、放寬斷言或修產品以配合測試。
 
 另讓Return visibility QA在PR也執行原生返回預覽，避免此路徑只在發布後驗收。尚不能宣稱已找到WebKit／Playwright的上游根因；本紀錄只證明這組環境中成功路徑取圖會干擾待測狀態。未驗實體iOS的限制仍保留。
+
+## 最後發布驗收
+
+[PR #52](https://github.com/RichardHan/ai-agent-use-cases/pull/52) 的Website QA與新增PR原生返回QA全部通過後，合併為 `15c3dc6`。獨立角色再次核對合併與已審版本 `024f284` 完整tree相同，父版本為協作者 `d2e21ff`；沒有產品資產差異或覆蓋。
+
+[正式Return visibility QA39168769578](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39168769578) 的預覽與published兩job全部成功。公開HTTPS站逐字比對app.js後，WebKit／Chromium／Firefox各10次原生Back，共30次全部維持原案例按鈕焦點、條件、結果順序與可見性；成功路徑沒有截圖、注入捲動或覆寫時鐘。[30次原始結果](return-published.json)。
+
+[Pages建置與部署39168769319](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39168769319) 成功。本輪驗收達標，後續文書提交只補此發布結果，不改產品或測試。

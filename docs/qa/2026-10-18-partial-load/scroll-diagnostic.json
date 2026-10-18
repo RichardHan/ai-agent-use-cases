@@ -1,0 +1,1051 @@
+[
+  {
+    "variant": "baseline",
+    "settle": false,
+    "trial": 0,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 465,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 469,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 487,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 502,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "baseline",
+    "settle": false,
+    "trial": 1,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 154,
+          "y": 683
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 158,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 174,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "baseline",
+    "settle": false,
+    "trial": 2,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 142,
+          "y": 683
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 150,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 153,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "baseline",
+    "settle": false,
+    "trial": 3,
+    "focus": "filter-summary",
+    "before": {
+      "y": 280,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 279,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 159,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 160,
+          "y": 280
+        },
+        {
+          "type": "scroll",
+          "time": 176,
+          "y": 279
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1211.800048828125
+    },
+    "passed": false
+  },
+  {
+    "variant": "baseline",
+    "settle": false,
+    "trial": 4,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 157,
+          "y": 683
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 164,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 170,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "baseline",
+    "settle": false,
+    "trial": 5,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 171,
+          "y": 683
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 175,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 185,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "baseline",
+    "settle": true,
+    "trial": 0,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 136,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 150,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 353,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 369,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "baseline",
+    "settle": true,
+    "trial": 1,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 145,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 157,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 362,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 374,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "baseline",
+    "settle": true,
+    "trial": 2,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 165,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 176,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 379,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 395,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "baseline",
+    "settle": true,
+    "trial": 3,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 145,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 153,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 357,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 372,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "baseline",
+    "settle": true,
+    "trial": 4,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 157,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 169,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 373,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 388,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "baseline",
+    "settle": true,
+    "trial": 5,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 144,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 161,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 381,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 395,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": false,
+    "trial": 0,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 142,
+          "y": 683
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 146,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 161,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": false,
+    "trial": 1,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 148,
+          "y": 683
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 156,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 162,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": false,
+    "trial": 2,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 163,
+          "y": 683
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 167,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 182,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": false,
+    "trial": 3,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 143,
+          "y": 683
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 150,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 153,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": false,
+    "trial": 4,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 154,
+          "y": 683
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 158,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 173,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": false,
+    "trial": 5,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 144,
+          "y": 683
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 147,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 163,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": true,
+    "trial": 0,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 151,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 167,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 370,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 385,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": true,
+    "trial": 1,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 167,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 183,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 387,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 402,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": true,
+    "trial": 2,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 156,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 167,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 369,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 385,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": true,
+    "trial": 3,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 138,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 154,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 373,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 388,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": true,
+    "trial": 4,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 167,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 184,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 388,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 400,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  },
+  {
+    "variant": "current",
+    "settle": true,
+    "trial": 5,
+    "focus": "filter-summary",
+    "before": {
+      "y": 100,
+      "focus": "filter-summary",
+      "behavior": "auto"
+    },
+    "after": {
+      "y": 100,
+      "focus": "filter-summary",
+      "trace": [
+        {
+          "type": "scroll",
+          "time": 155,
+          "y": 683
+        },
+        {
+          "type": "scroll",
+          "time": 171,
+          "y": 682
+        },
+        {
+          "type": "scrollTo",
+          "args": [
+            {
+              "top": 100,
+              "behavior": "instant"
+            }
+          ],
+          "time": 376,
+          "y": 682
+        },
+        {
+          "type": "scroll",
+          "time": 390,
+          "y": 100
+        }
+      ],
+      "allowAutomaticArrival": false,
+      "queryTop": 1390.800048828125
+    },
+    "passed": true
+  }
+]

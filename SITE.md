@@ -675,3 +675,11 @@ PR #40／#41／#42／#45 完成分享、搜尋直鏈落點、手動複製備援�
 回歸指令：`node --test tests/*.test.cjs`、`node tests/search.test.cjs`、`node tests/audit.test.cjs`、`node --check assets/*.js`、`python3 scripts/preview.py /tmp/preview-test/ai-agent-use-cases`。
 本輪實際結果：33/33 測試全數通過，336 筆條目全文、同義詞擴充檢索、疑似重複來源候選審核、全庫一致性檢驗通過。
 下一輪建議：依多案例共用公開來源候選叢集（如共用同一官方功能手冊或彙整頁面），評估是否需在案例頁中提供 anchor 或段落指引。
+
+
+### 2026-10-18 部分載入改善：發布驗收補記
+
+- PR #46（`bbacfb0`）已部署；桌面／手機實際新版JS/CSS一致，336條目、零略過、17筆旅遊＋Grok Bot結果；main Partial Load、Search context及Website QA通過。
+- Reader原有人工捲動測試兩次失敗後，用同雲端Firefox對照重現於本輪前`ee1bfce`，確認測試準備可能與原生鍵盤焦點捲動競爭。只加人工捲動前的穩定檢查；保留載入前後精確100px及焦點斷言。
+- [驗收紀錄、原始數據與限制](docs/qa/2026-10-18-partial-load/README.md)記錄24次對照與首次失敗，不以重跑抹去。協作者後續搜尋修改完整保留。
+- 下一輪優先評估Jekyll全文資料包，減少初次逐檔請求；後續協作者版本的live check仍曾觀測2個來源讀取失敗，本輪未宣稱杜絕此問題。

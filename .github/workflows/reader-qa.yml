@@ -2,9 +2,9 @@ name: Reader QA
 on:
   push:
     branches: [feat/reader-navigation, main]
-    paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, .github/workflows/reader-qa.yml]
+    paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, tests/mobile-search-browser.cjs, tests/filter-controls.cjs, .github/workflows/reader-qa.yml]
   pull_request:
-    paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, .github/workflows/reader-qa.yml]
+    paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, tests/mobile-search-browser.cjs, tests/filter-controls.cjs, .github/workflows/reader-qa.yml]
 permissions:
   contents: read
 jobs:

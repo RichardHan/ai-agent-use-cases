@@ -1,0 +1,108 @@
+{
+  "baseline": [
+    {
+      "viewport": "desktop",
+      "searchFromHeading": 273,
+      "firstResultFromSearch": 219,
+      "visibleSelects": 5
+    },
+    {
+      "viewport": "mobile",
+      "searchFromHeading": 416,
+      "firstResultFromSearch": 361,
+      "visibleSelects": 5
+    },
+    {
+      "viewport": "small-mobile",
+      "searchFromHeading": 489,
+      "firstResultFromSearch": 361,
+      "visibleSelects": 5
+    }
+  ],
+  "verifiedWebsite": [
+    {
+      "viewport": "desktop",
+      "readyMs": 1109,
+      "searchFromHeading": 135,
+      "firstResultFromSearch": 397,
+      "axeScans": 2,
+      "axeViolations": 0,
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "readyMs": 997,
+      "searchFromHeading": 158,
+      "firstResultFromSearch": 181,
+      "axeScans": 2,
+      "axeViolations": 0,
+      "passed": true
+    },
+    {
+      "viewport": "small-mobile",
+      "readyMs": 997,
+      "searchFromHeading": 158,
+      "firstResultFromSearch": 181,
+      "axeScans": 2,
+      "axeViolations": 0,
+      "passed": true
+    }
+  ],
+  "baselineCommit": "c14d4af56973bdf4a6b88ed7bb3e028dd6d63094",
+  "testedInterfaceCommit": "8dc020fa360bb0091b1ea6e5d9577f0b91a290bf",
+  "integrationCommit": "5ee4e0f7341a350a3bb073f20dfc64473d3a2e2c",
+  "measurements": "Unthrottled GitHub Actions runner preview; not Core Web Vitals or user conversion measurements.",
+  "crossEngine": {
+    "firefox": [
+      {
+        "viewport": "mobile",
+        "readyMs": 1567,
+        "searchFromHeading": 158,
+        "firstResultFromSearch": 181,
+        "axeScans": 2,
+        "axeViolations": 0,
+        "passed": true
+      }
+    ],
+    "webkit": [
+      {
+        "viewport": "mobile",
+        "readyMs": 1109,
+        "searchFromHeading": 158,
+        "firstResultFromSearch": 181,
+        "axeScans": 2,
+        "axeViolations": 0,
+        "passed": true
+      }
+    ]
+  },
+  "integratedWebsite": [
+    {
+      "viewport": "desktop",
+      "readyMs": 1097,
+      "searchFromHeading": 135,
+      "firstResultFromSearch": 397,
+      "axeScans": 2,
+      "axeViolations": 0,
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "readyMs": 1088,
+      "searchFromHeading": 158,
+      "firstResultFromSearch": 181,
+      "axeScans": 2,
+      "axeViolations": 0,
+      "passed": true
+    },
+    {
+      "viewport": "small-mobile",
+      "readyMs": 1002,
+      "searchFromHeading": 158,
+      "firstResultFromSearch": 181,
+      "axeScans": 2,
+      "axeViolations": 0,
+      "passed": true
+    }
+  ]
+}

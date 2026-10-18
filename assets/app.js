@@ -403,6 +403,8 @@ function render(updateURL=true) {
   const q = tokenize($('query').value);
   const filters = Object.fromEntries(['kind', 'tool', 'category', 'proof'].map(id => [id, $(id).value]));
   if (activeScenario) filters.scenario = activeScenario;
+  const facetCount = Object.values(filters).filter(Boolean).length;
+  $('filter-count').textContent = facetCount ? `已套用 ${facetCount} 項篩選` : '未設定篩選';
   currentFiltered = filterEntries(entries, q, filters);
   $('results').replaceChildren(...currentFiltered.map(card));syncDiscovery(currentFiltered);
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
@@ -572,6 +574,9 @@ function chooseScenario(value){
 }
 
 /* Browser event bindings. */
+// Choose the initial disclosure state once; typing, navigation and resizing
+// preserve the reader's choice and never hide a currently focused control.
+$('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
 $('draw-case').addEventListener('click',()=>{drawNext();revealDiscovery();});
 document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
 $('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;render();});

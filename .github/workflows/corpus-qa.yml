@@ -1,7 +1,8 @@
 name: Corpus loading QA
 on:
   push:
-    branches: [feat/corpus-loading]
+    branches: [feat/corpus-loading, main]
+    paths: [assets/**, index.html, tests/**, scripts/**, .github/workflows/corpus-qa.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -24,13 +25,48 @@ jobs:
       - name: Install cloud browser tools
         run: |
           npm install --prefix "$RUNNER_TEMP/corpus-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
-          "$RUNNER_TEMP/corpus-tools/node_modules/.bin/playwright" install --with-deps chromium
+          "$RUNNER_TEMP/corpus-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
           sudo apt-get install -y fonts-noto-cjk
+      - name: Compare the unchanged preview baseline
+        env:
+          NODE_PATH: ${{ runner.temp }}/corpus-tools/node_modules
+          BUDGET_URL: http://127.0.0.1:8088/ai-agent-use-cases/
+          BUDGET_OBSERVE: '1'
+        run: |
+          mkdir -p "$RUNNER_TEMP/corpus-before"
+          git archive c4437dd4fb115f01ec615d343d837d0ab2d84513 | tar -x -C "$RUNNER_TEMP/corpus-before"
+          python3 "$RUNNER_TEMP/corpus-before/scripts/preview.py" "$RUNNER_TEMP/corpus-before-preview/ai-agent-use-cases"
+          python3 -m http.server 8088 --directory "$RUNNER_TEMP/corpus-before-preview" > /tmp/corpus-before.log 2>&1 &
+          node tests/loading-budget-browser.cjs
       - name: Walk and measure published baseline
         env:
           NODE_PATH: ${{ runner.temp }}/corpus-tools/node_modules
           CORPUS_LABEL: before
         run: node tests/corpus-browser.cjs
+      - name: Verify bounded waiting and recovery across browsers
+        env:
+          NODE_PATH: ${{ runner.temp }}/corpus-tools/node_modules
+        run: |
+          python3 -m http.server 8087 --directory "$RUNNER_TEMP/corpus-preview" > /tmp/corpus-preview.log 2>&1 &
+          node tests/loading-budget-browser.cjs
+          CORPUS_URL=http://127.0.0.1:8087/ai-agent-use-cases/ CORPUS_LABEL=after node tests/corpus-browser.cjs
+      - name: Preserve existing reader and search flows
+        env:
+          NODE_PATH: ${{ runner.temp }}/corpus-tools/node_modules
+          READER_URL: http://127.0.0.1:8087/ai-agent-use-cases/
+          READING_URL: http://127.0.0.1:8087/ai-agent-use-cases/
+          RELATED_URL: http://127.0.0.1:8087/ai-agent-use-cases/
+          MATCH_URL: http://127.0.0.1:8087/ai-agent-use-cases/
+          LOAD_URL: http://127.0.0.1:8087/ai-agent-use-cases/
+          LOAD_ENGINES: all
+        run: |
+          python3 -m http.server 8081 --directory "$RUNNER_TEMP/corpus-preview" > /tmp/corpus-discovery.log 2>&1 &
+          node tests/reader-browser.cjs
+          node tests/discovery-browser.cjs
+          node tests/reading-flow-browser.cjs
+          node tests/related-browser.cjs
+          node tests/search-context-browser.cjs
+          node tests/load-recovery-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

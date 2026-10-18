@@ -8,9 +8,10 @@ const label=process.env.CORPUS_LABEL||'before',reports=[];
  fs.mkdirSync('qa-artifacts',{recursive:true});
  const browser=await chromium.launch();
  for(const [size,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
-  const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'}),errors=[],requests=[];
+  const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
+  const page=await context.newPage(),errors=[],requests=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
-  const start=Date.now();await page.goto(origin);await page.waitForFunction(()=>discoveryReady,{timeout:90000});
+  const start=Date.now();await page.goto(origin);await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
   const metrics=await page.evaluate(()=>({entries:entries.length,missing:failedPaths.length,resources:performance.getEntriesByType('resource').map(r=>({path:new URL(r.name).pathname,bytes:r.encodedBodySize,durationMs:Math.round(r.duration)}))}));
   const report={size,readyMs:Date.now()-start,...metrics,requests:requests.length,markdownRequests:requests.filter(u=>/\/(cases|evidence)\/.*\.md$|\/sources\/pending\.md$/.test(u)).length};reports.push(report);
   fs.writeFileSync(`qa-artifacts/corpus-${label}.json`,JSON.stringify(reports,null,2));
@@ -31,7 +32,7 @@ const label=process.env.CORPUS_LABEL||'before',reports=[];
   const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();report.axeViolations=audit.violations;report.errors=errors;
   assert.equal(audit.violations.length,0);assert.deepEqual(errors,[]);
   report.journeys=['travel + scenario + tool + keyboard return','empty + reset','failure report direct link + reload + source'];
-  fs.writeFileSync(`qa-artifacts/corpus-${label}.json`,JSON.stringify(reports,null,2));await page.close();
+  fs.writeFileSync(`qa-artifacts/corpus-${label}.json`,JSON.stringify(reports,null,2));await context.close();
  }
  await browser.close();console.log(JSON.stringify(reports.map(({resources,...r})=>r)));
 })().catch(e=>{console.error(e);process.exit(1)});

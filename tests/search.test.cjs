@@ -91,6 +91,17 @@ assert.equal(api.filterEntries(entries,Array.from(api.tokenize('P 003')),{}).len
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('p 3')),{}).length,1,'filters space-separated unpadded pending ID');
 assert.equal(api.safeLink('javascript:alert(1)','cases/test.md'),null);
 assert.equal(api.safeLink('../sources/README.md#s-001','cases/test.md'),'https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001');
+
+// Search quality: punctuation tolerance (quotes, brackets, semicolons, pipes)
+assert.deepEqual(Array.from(api.tokenize('「旅遊」')), ['旅遊'], 'strips corner brackets/quotes');
+assert.deepEqual(Array.from(api.tokenize('“收件匣”')), ['收件匣'], 'strips curly double quotes');
+assert.deepEqual(Array.from(api.tokenize('"比價"')), ['比價'], 'strips straight double quotes');
+assert.deepEqual(Array.from(api.tokenize('【每日】；【報表】')), ['每日', '報表'], 'splits by semicolons and strips brackets');
+assert.deepEqual(Array.from(api.tokenize('旅遊|比價')), ['旅遊', '比價'], 'splits by pipe delimiter');
+assert.equal(api.filterEntries(entries, Array.from(api.tokenize('「旅遊」')), {}).length, api.filterEntries(entries, ['旅遊'], {}).length, 'quoted query matches unquoted content');
+assert.equal(api.filterEntries(entries, Array.from(api.tokenize('“收件匣”')), {}).length, api.filterEntries(entries, ['收件匣'], {}).length, 'curly quoted query matches unquoted content');
+assert(api.filterEntries(entries, Array.from(api.tokenize('320')), {}).some(x => x.id === 'UC-320'), 'plain number query includes target UC case');
+
 const rendered=api.renderMarkdown('# Example\n\n<script>alert(1)</script>\n\n[test](javascript:alert)\n\n## Section\n\n- safe','cases/test.md');
 const tags=[];function walk(node){if(node.tagName)tags.push(node.tagName);(node.children||[]).forEach(walk);}walk(rendered);assert(!tags.includes('SCRIPT'));assert(!tags.includes('A'));assert(tags.includes('H2'));assert(tags.includes('LI'));
 const future=api.parseFile('cases/999-new-case.md','# UC-999：新案例\n\n- 分類：新主題\n- 核心目標：可搜尋的新流程\n- 來源證據：author-demo');assert.equal(future[0].category,'新主題');assert.equal(api.filterEntries(future,['新流程'],{}).length,1);

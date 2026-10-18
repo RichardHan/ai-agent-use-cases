@@ -2,9 +2,11 @@
 
 更新日期：2026-10-18。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至2026-10-18 19:00批次，嚴格核對為**296／1,000，尚差704**（含作者自述與實際失敗，未獨立重現）。先前已核定296，本輪新增0；331–333沿用18:00覆核判斷，未新增核定數。主要頁325，沿用歷史頁面發布口徑318，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至2026-10-18 20:43批次，嚴格核對為**300／1,000，尚差700**（含作者自述與實際失敗，未獨立重現）。先前已核定296，本輪新增334–337四案；338單則文字自述暫列待定；066補多Bot盤點來源不另計。主要頁330，沿用歷史頁面發布口徑323，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
 2026-10-17 23:44台灣時間起，目標提高為1,000案。14:45協作者曾列296；16:00去重將322／324保留為既有流程版本，323／325原文未重新取得、維持前批自述但不併入核定數；315／326仍待定。下方歷史批次保留當時口徑，不回改舊報告。
+
+20:43批次：新增334自架ADS-B接收站雙頻輪收、解碼改寫與加裝放大器前後量測，335手動重新開啟的排程被Bot依舊約定關回（失敗），336掌上圓屏裝置經Mac轉文字與MCP的語音入口，337每日隨機不重複參考照換臉送達；338司機每日工時與薪資單核對為單則文字、待定。066併入13 Bot集中窗口兩天破綻、每月盤點例行任務與公開盤點外掛，不另計。[原文、去重與覆蓋](sources/research-2026-10-18-2043.md)。
 
 19:00批次：314補公開可訪／持續採集的分項驗收；148補時數與先修查核後零門課程的結果。新日文排障與影音、英文域名遷移、西文體驗等來源經去重或因缺完成驗收，未新增案例。[原文、實閱範圍與缺口](sources/research-2026-10-18-1900.md)。
 
@@ -142,7 +144,7 @@
 | UC-063 | 盤點並整理 Plex 媒體庫命名、海報與備份 | Grok Bot／Plex | [論壇作者自述＋Plex 官方操作限制；未重現](cases/063-plex-media-library-housekeeping.md) | 生活｜影片、檔案整理、備份、驗收 |
 | UC-064 | 核對數學命題、反例搜尋與 Lean 證明檢查 | ChatGPT dots／Lean | [作者自述＋公開程式、CI及登記；未獨立重跑](cases/064-math-proof-review-formalization.md) | 學習｜科研、多代理、形式驗證、驗收 |
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢 | Grok Bot | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
-| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理 | Meta Muse | [作者自述＋公開稽核頁已讀；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
+| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
 | UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub | Meta Muse／Git；Grok Bot／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼、重置後 Tailscale 身分恢復、每週三處備份變體）＋官方文件；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
@@ -405,6 +407,11 @@
 | UC-331 | 網購未送達：代追物流與商家到退款入帳通知 | Grok Bot／商家／DHL | [前批作者自述；本輪原文403、與088重疊待核，不加數](cases/331-undelivered-purchase-carrier-merchant-refund-chase.md) | 生活｜退款、物流追蹤、網購 |
 | UC-332 | X營運半自動：選題到草稿交給Bot，發文前人工核准 | Grok Bot／Typefully／Obsidian | [前批作者用法清單；本輪原文403、006流程版本，不加數](cases/332-x-ops-semiauto-prepost-human-approval.md) | 創作｜每日、社群、發文、核准 |
 | UC-333 | 外聯Notion跨代理記憶：Claude改文、Grok Bot讀流程 | Grok Bot／Claude／Notion | [前批作者自述；本輪原文未取得、071流程版本，不加數](cases/333-notion-cross-agent-outreach-memory.md) | 工作｜外聯、Notion、跨代理、記憶 |
+| UC-334 | 自架ADS-B接收站：雙頻輪收、解碼改寫，再用前後數據比較加裝放大器的效果 | Grok Bot／PlutoSDR／Raspberry Pi 4／SAWbird+ | [作者自述＋覆蓋圖與距離分布表；程式與原始資料未公開、未重現](cases/334-sdr-adsb-receiver-decoder-range-ab-test.md) | 開發｜硬體、無線電、效能量測、驗收 |
+| UC-335 | 手動重新開啟的排程，又被Bot依舊約定關掉 | Grok Bot routines | [作者失敗自述＋對話截圖；完整歷程未取得、未重現](cases/335-manual-routine-reenable-reverted-by-stale-instruction.md) | 開發｜排程、失敗、狀態同步、核准 |
+| UC-336 | 自製圓形掌上裝置當Grok Bot語音入口：錄音上傳、轉文字、經MCP送達再回到螢幕 | Grok Bot／ESP裝置／Mac轉文字／MCP／Cloudflare Tunnel | [作者示範影片（畫格已看）＋架構自述；原碼與延遲紀錄未公開、未重現](cases/336-handheld-voice-terminal-mcp-relay.md) | 開發｜實體裝置、語音、MCP、延遲 |
+| UC-337 | 每天早上從收藏的參考照隨機挑一張，換成自己的臉和髮型送來 | Grok Bot routine／ChatGPT圖像編修 | [作者自述＋設定與送達截圖；連續執行與來源出入未核、未重現](cases/337-daily-random-reference-photo-likeness-edit.md) | 創作｜每日、生成圖像、隨機不重複、排程 |
+| UC-338 | 長途司機每天早上報工時，AI記週總、重算里程，再對薪資單 | Grok Bot（產品入口待核） | [單則文字自述；無截圖與核對結果，待定](cases/338-driver-daily-hours-log-paycheck-check.md) | 工作｜每日、工時、薪資核對、排班 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

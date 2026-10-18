@@ -6,7 +6,29 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
  for(const [name,width,height] of sizes){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
   await context.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{window.copiedSearch=text;}}}));
-  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const page=await context.newPage(),errors=[],network=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  context.on('response',r=>{if(r.status()>=400)network.push({url:r.url(),status:r.status()});});
+  context.on('requestfailed',r=>network.push({url:r.url(),failure:r.failure()?.errorText}));
+  context.on('page',p=>p.on('console',m=>{if(m.type()==='warning'||m.type()==='error')network.push({console:m.text()});}));
+  page.on('console',m=>{if(m.type()==='warning'||m.type()==='error')network.push({console:m.text()});});
+  const diagnose=async(p,stage)=>{
+   const state=await p.evaluate(()=>({url:location.href,query:document.getElementById('query').value,
+    facets:Object.fromEntries(['kind','tool','category','proof'].map(id=>[id,document.getElementById(id)?.value])),
+    scenario:typeof activeScenario==='undefined'?null:activeScenario,
+    count:document.querySelectorAll('#results .card').length,label:document.getElementById('results-count').textContent,
+    ids:typeof currentFiltered==='undefined'?[]:currentFiltered.map(x=>x.id),
+    entries:typeof entries==='undefined'?null:entries.length,failedPaths:typeof failedPaths==='undefined'?[]:failedPaths}));
+   const record={prefix,size:name,stage,...state,network:network.splice(0)};
+   fs.appendFileSync('qa-artifacts/'+prefix+'-arrival-diagnostics.jsonl',JSON.stringify(record)+'\n');
+   console.log('ARRIVAL_STATE '+JSON.stringify(record));
+   return state;
+  };
+  const sameResults=async(p,stage,expected)=>{
+   const state=await diagnose(p,stage);
+   if(state.count!==expected)await p.screenshot({path:'qa-artifacts/'+prefix+'-'+name+'-'+stage+'-failure.jpg'});
+   assert.equal(state.count,expected,'Search result count changed at '+stage+'; inspect ARRIVAL_STATE');
+  };
   const ready=async suffix=>{await page.goto(origin+suffix,{waitUntil:'networkidle'});await page.locator('#results-count').filter({hasText:'顯示'}).waitFor();};
   const snapshot=async label=>{
    const shot=await page.screenshot({type:'jpeg',quality:70});
@@ -19,7 +41,7 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
   assert(metrics.queryTop>0&&metrics.queryTop<height/2,'Shared search should show query in the upper half');
   assert(metrics.resultsTop>0&&metrics.resultsTop<height,'Shared search should show the result count');
   assert.equal(metrics.focus,'search-title');
-  const count=await page.locator('#results .card').count();assert(count>0);
+  const count=await page.locator('#results .card').count();assert(count>0);await diagnose(page,'initial');
   await snapshot('search');
   await page.locator('#copy-search-link').focus();await page.keyboard.press('Enter');
   const shared=await page.evaluate(()=>window.copiedSearch);
@@ -28,21 +50,21 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
   assert.match(await page.locator('#search-share-status').innerText(),/已複製/);
   const recipient=await context.newPage();
   await recipient.goto(shared,{waitUntil:'networkidle'});
-  assert.equal(await recipient.locator('#results .card').count(),count);
+  await sameResults(recipient,'recipient',count);
   assert.equal(await recipient.evaluate(()=>document.activeElement.id),'search-title');
   await recipient.reload({waitUntil:'networkidle'});
-  assert.equal(await recipient.locator('#results .card').count(),count);
+  await sameResults(recipient,'recipient-reload',count);
   await recipient.close();
   const trigger=page.locator('#results .card .card-bottom button').first();
   await trigger.click();await page.locator('#detail[open]').waitFor();const direct=page.url();
   await page.goBack();assert.equal(await trigger.evaluate(n=>n===document.activeElement),true);
-  await page.goto(direct,{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
-  await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
+  await page.goto(direct,{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();await sameResults(page,'direct',count);
+  await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();await sameResults(page,'direct-reload',count);
   assert.equal(await page.evaluate(()=>document.activeElement.id),'detail-title');
   await page.keyboard.press('Escape');
   assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
-  assert.equal(await page.locator('#results .card').count(),count);
+  await sameResults(page,'return',count);
   const returned=await page.locator('#results-count').boundingBox();assert(returned.y>=0&&returned.y<height/2);
   await snapshot('return');
   // Journey 2: a shared empty result is visible and can be recovered without losing the query.

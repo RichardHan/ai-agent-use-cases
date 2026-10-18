@@ -23,3 +23,10 @@ test('at most three suggestions, deterministic order, no invented fallback for s
  assert.deepEqual(plain(context.related({...item,category:'未分類'},all)),[]);
  assert.deepEqual(plain(context.related(item,[item])),[]);
 });
+test('keyboard neighbours never escape an empty or unrelated search result',()=>{
+ vm.runInContext('this.neighbours=detailNeighbours;',context);
+ const ids=x=>({prev:x.prev?.id||null,next:x.next?.id||null});
+ assert.deepEqual(ids(context.neighbours(item,[])),{prev:null,next:null});
+ assert.deepEqual(ids(context.neighbours(item,[candidate('UC-002')])),{prev:null,next:null});
+ assert.deepEqual(ids(context.neighbours(item,[candidate('UC-003'),item,candidate('UC-002')])),{prev:'UC-003',next:'UC-002'});
+});

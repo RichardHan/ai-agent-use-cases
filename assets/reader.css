@@ -38,3 +38,15 @@
  .reader-jump{padding:10px 8px}
  .reader-jump strong{font-size:13px}
 }
+
+/* Offer a deliberate next read without competing with the original research. */
+.related-cases{margin:28px 0 0;padding-top:24px;border-top:1px solid var(--line);overflow-wrap:anywhere}
+.related-cases h2{font-size:20px;letter-spacing:0;line-height:1.5;margin:0 0 8px;color:var(--green)}
+.related-note,.related-meta,.related-proof{font-size:12px;line-height:1.8;color:var(--muted);margin:0 0 8px}
+.related-list{list-style:none;padding:0;margin:18px 0}
+.related-list li{padding:18px 0;border-bottom:1px solid var(--line)}
+.related-open{display:block;text-align:left;font-size:17px;font-weight:650;line-height:1.7;padding:6px 0;border:0;border-radius:2px;background:transparent;color:var(--green);text-decoration:underline;text-underline-offset:4px;overflow-wrap:anywhere;max-width:100%}
+.related-open:hover{text-decoration-thickness:2px}
+.related-summary{font-size:14px;line-height:1.9;margin:8px 0 10px}
+.related-empty{font-size:14px;line-height:1.9;margin:18px 0}
+.related-back{font-size:14px;min-height:44px;margin-top:4px}

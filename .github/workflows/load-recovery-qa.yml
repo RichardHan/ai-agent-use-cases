@@ -1,5 +1,8 @@
 name: Partial Load QA
 on:
+  push:
+    branches: [main]
+    paths: ['assets/**', 'index.html', 'tests/load-recovery*', '.github/workflows/load-recovery-qa.yml']
   pull_request:
     paths: ['assets/**', 'index.html', 'tests/load-recovery*', '.github/workflows/load-recovery-qa.yml']
 permissions:
@@ -32,6 +35,11 @@ jobs:
         run: |
           python3 -m http.server 8086 --directory "$PREVIEW_ROOT" > /tmp/load-preview.log 2>&1 &
           node tests/load-recovery-browser.cjs
+      - name: Walk the current published website
+        env:
+          NODE_PATH: ${{ runner.temp }}/load-tools/node_modules
+          LOAD_DEPLOYED: ${{ github.event_name == 'push' && '1' || '0' }}
+        run: node tests/load-recovery-live.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

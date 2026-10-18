@@ -767,7 +767,7 @@ async function load() {
     render(false);
     const current = matchCase(params.get('case'));
     if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
-    else finishArrival(params);
+    else finishArrival(params,failedPaths.length>0);
   } catch (error) {
     discoveryReady=false;$('discover').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();

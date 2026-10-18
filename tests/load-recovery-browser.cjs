@@ -42,7 +42,8 @@ async function fixture(page){
   for(const [name,width,height] of engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]]){
    // Actual corpus: compare the same source failure and view as the baseline.
    const page=await (await browser.newContext({viewport:{width,height}})).newPage();
-   let blocked=true;let requests=0;
+   let blocked=true;let requests=0;let networkRequests=0;
+   page.on('request',()=>networkRequests++);
    await page.route('**/cases/001-travel-checkout.md',async route=>{requests++;if(blocked)await route.fulfill({status:429,body:'Rate limited'});else await route.continue();});
    await ready(page,'?q=UC-001#explore');
    assert.equal(await page.locator('#partial-load').isVisible(),true);
@@ -55,9 +56,9 @@ async function fixture(page){
    assert.equal(requests,2);
    assert.equal(await page.locator('#retry-failed').evaluate(n=>n===document.activeElement),true,'persistent failure keeps keyboard focus');
    blocked=false;
-   const beforeRequests=await page.evaluate(()=>performance.getEntriesByType('resource').length);
+   const beforeRequests=networkRequests;
    await page.keyboard.press('Enter');await done(page);
-   const afterRequests=await page.evaluate(()=>performance.getEntriesByType('resource').length);
+   const afterRequests=networkRequests;
    assert.equal(await page.evaluate(()=>entries.length),loaded+1);
    assert.equal(await page.locator('#partial-load').isVisible(),false);
    assert.equal(await page.locator('#results-count').evaluate(n=>n===document.activeElement),true,'hidden recovery button returns focus to results');
@@ -100,14 +101,15 @@ async function fixture(page){
 
    // Journey 2: a shared missing case is recoverable without changing the URL.
    const direct=await (await browser.newContext({viewport:{width,height}})).newPage();const d=await fixture(direct);
-   await ready(direct,'?case=UC-992&q=工作');
+   await ready(direct,'?case=UC-992');
+   assert.equal(await direct.locator('#search-title').evaluate(n=>n===document.activeElement),true,'missing pure case link arrives at recovery area');
    assert.match(await direct.locator('#partial-message').innerText(),/分享的案例/);
    d.unblock('cases/b.md');d.unblock('sources/pending.md');
    const directURL=direct.url();
    await direct.locator('#retry-failed').click();await done(direct);
    await direct.locator('#detail[open]').waitFor();assert.equal(direct.url(),directURL);
    assert.equal(await direct.locator('#detail-toolbar-id').innerText(),'UC-992');
-   await direct.keyboard.press('Escape');assert.equal(await direct.locator('#query').inputValue(),'工作');
+   await direct.keyboard.press('Escape');assert.equal(await direct.locator('#query').inputValue(),'');
    await direct.reload();await direct.waitForFunction(()=>document.querySelector('#results-count').textContent.includes('筆收錄'));
    assert.equal(await direct.locator('#partial-load').isVisible(),false);
    await direct.context().close();

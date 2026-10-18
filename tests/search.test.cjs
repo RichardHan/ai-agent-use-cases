@@ -102,6 +102,20 @@ assert.equal(api.filterEntries(entries, Array.from(api.tokenize('「旅遊」'))
 assert.equal(api.filterEntries(entries, Array.from(api.tokenize('“收件匣”')), {}).length, api.filterEntries(entries, ['收件匣'], {}).length, 'curly quoted query matches unquoted content');
 assert(api.filterEntries(entries, Array.from(api.tokenize('320')), {}).some(x => x.id === 'UC-320'), 'plain number query includes target UC case');
 
+// Search quality: README recommended query '每日報表' and domain synonyms
+const dailyReportMatches = api.filterEntries(entries, Array.from(api.tokenize('每日報表')), {});
+assert(dailyReportMatches.length > 0, 'README recommended query 每日報表 must return matching cases');
+assert(dailyReportMatches.some(x => x.id === 'UC-322'), '每日報表 includes UC-322 daily metrics collection');
+assert(dailyReportMatches.some(x => x.id === 'UC-049'), '每日報表 includes UC-049 daily inbox report');
+assert.equal(api.filterEntries(entries, Array.from(api.tokenize('「每日報表」')), {}).length, dailyReportMatches.length, 'quoted 每日報表 matches unquoted');
+
+// Domain synonyms and orthographic variant tolerance
+assert(api.filterEntries(entries, Array.from(api.tokenize('儀錶板')), {}).length > 0, '儀錶板 matches 儀表板 cases');
+assert(api.filterEntries(entries, Array.from(api.tokenize('折價券')), {}).length > 0, '折價券 matches 優惠券 cases');
+assert(api.filterEntries(entries, Array.from(api.tokenize('賬單')), {}).length > 0, '賬單 matches 帳單 cases');
+assert(api.filterEntries(entries, Array.from(api.tokenize('記賬')), {}).length > 0, '記賬 matches 記帳 cases');
+assert(api.filterEntries(entries, Array.from(api.tokenize('登錄')), {}).length > 0, '登錄 matches 登入 cases');
+
 const rendered=api.renderMarkdown('# Example\n\n<script>alert(1)</script>\n\n[test](javascript:alert)\n\n## Section\n\n- safe','cases/test.md');
 const tags=[];function walk(node){if(node.tagName)tags.push(node.tagName);(node.children||[]).forEach(walk);}walk(rendered);assert(!tags.includes('SCRIPT'));assert(!tags.includes('A'));assert(tags.includes('H2'));assert(tags.includes('LI'));
 const future=api.parseFile('cases/999-new-case.md','# UC-999：新案例\n\n- 分類：新主題\n- 核心目標：可搜尋的新流程\n- 來源證據：author-demo');assert.equal(future[0].category,'新主題');assert.equal(api.filterEntries(future,['新流程'],{}).length,1);

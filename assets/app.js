@@ -9,8 +9,22 @@ const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
 const tokenize = text => norm(text || '').trim().replace(/\b(uc|p)\s*[-_]?\s*(\d+)\b/g, '$1-$2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）]/g, ' ').split(/[\s,、，/／;；|｜]+/).filter(Boolean);
+const SYNONYM_MAP = {
+  '每日報表': ['每日報表', '日報', '晨報', '每日報告'],
+  '每日報告': ['每日報告', '每日報表', '日報', '晨報'],
+  '日報': ['日報', '每日報告', '每日報表'],
+  '儀錶板': ['儀錶板', '儀表板'],
+  '儀表板': ['儀表板', '儀錶板'],
+  '折價券': ['折價券', '優惠券'],
+  '優惠券': ['優惠券', '折價券'],
+  '賬單': ['賬單', '帳單'],
+  '帳單': ['帳單', '賬單'],
+  '記賬': ['記賬', '記帳'],
+  '記帳': ['記帳', '記賬'],
+  '登錄': ['登錄', '登入']
+};
 function idVariants(id) { const normId = id.toUpperCase(); const unhyphenated = normId.replace(/[-_]/g, ''); return normId !== unhyphenated ? `${normId} ${unhyphenated}` : normId; }
-function termVariants(term) { const t = norm(term).replace(/^#/, ''); const m = t.match(/^([a-z]+)[\s-]*(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } if (/^\d+$/.test(t)) { const padded = t.padStart(3, '0'); return [t, `uc-${padded}`, `uc${padded}`]; } return [t]; }
+function termVariants(term) { const t = norm(term).replace(/^#/, ''); const m = t.match(/^([a-z]+)[\s-]*(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } if (/^\d+$/.test(t)) { const padded = t.padStart(3, '0'); return [t, `uc-${padded}`, `uc${padded}`]; } return SYNONYM_MAP[t] || [t]; }
 const matchCase = (target, list = entries) => { if (!target) return null; const t = norm(target).trim().replace(/^#/, ''); const m = t.match(/^(?:([a-z]+)[\s-]*)?(\d+)$/); const variants = m && (!m[1] || m[1] === 'uc' || m[1] === 'p') ? [`${m[1] || 'uc'}-${m[2].padStart(3, '0')}`, `${m[1] || 'uc'}${m[2].padStart(3, '0')}`] : termVariants(t); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);

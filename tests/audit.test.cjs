@@ -144,8 +144,36 @@ test('qualification audit maintains strict separation between catalog entries an
 
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
   // Qualified cases (e.g. 292) must be strictly less than or equal to total case markdown files
-  assert(qualifiedCount >= 292, `Expected qualified count >= 292 (2026-10-18 14:00 baseline), got ${qualifiedCount}`);
+  assert(qualifiedCount >= 296, `Expected qualified count >= 296 (2026-10-18 14:45 baseline), got ${qualifiedCount}`);
   assert(qualifiedCount <= caseFiles.length, `Qualified count (${qualifiedCount}) cannot exceed total cases (${caseFiles.length})`);
+
+  // Verify that index.html displays the exact qualified count from the audit file
+  const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const indexCountMatch = indexHtml.match(/<div class="stat-card stat-card-audit">[\s\S]*?<div class="stat-figure">\s*<strong>(\d+)<\/strong>/);
+  assert(indexCountMatch, 'index.html must display strict qualified count');
+  assert.equal(parseInt(indexCountMatch[1], 10), qualifiedCount, `index.html audit count (${indexCountMatch[1]}) must match audit doc (${qualifiedCount})`);
+});
+
+test('all cases have plain-language title and purpose either in markdown or copy.json', () => {
+  const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
+  const copy = JSON.parse(fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'));
+
+  const missingTitleOrPurpose = [];
+  for (const file of caseFiles) {
+    const content = fs.readFileSync(path.join(root, 'cases', file), 'utf8');
+    const lead = content.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
+    const idMatch = content.match(/^#\s*(UC-\d+)/m);
+    const id = idMatch ? idMatch[1] : null;
+
+    const hasTitle = /^-\s*網站標題\s*[：:]\s*(.+)$/m.test(lead) || (id && copy[id]?.title);
+    const hasWhat = /^-\s*一句話用途\s*[：:]\s*(.+)$/m.test(lead) || (id && copy[id]?.what);
+
+    if (!hasTitle || !hasWhat) {
+      missingTitleOrPurpose.push({ file, id, hasTitle: !!hasTitle, hasWhat: !!hasWhat });
+    }
+  }
+
+  assert.deepEqual(missingTitleOrPurpose, [], `Cases missing plain-language title or purpose: ${JSON.stringify(missingTitleOrPurpose)}`);
 });
 
 test('app.js metadata extraction gracefully falls back to extract tags from category lines', () => {

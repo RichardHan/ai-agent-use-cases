@@ -39,7 +39,9 @@ jobs:
           node tests/baseline-browser.cjs
           kill $!
       - name: Run existing regression tests
-        run: node tests/search.test.cjs
+        run: |
+          node tests/search.test.cjs
+          node --test tests/loader.test.cjs
       - name: Run discovery regression tests
         run: node --test tests/discovery.test.cjs
       - name: Verify the updated site in Chromium

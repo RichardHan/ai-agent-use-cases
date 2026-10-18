@@ -7,7 +7,7 @@ const deployed=!!process.env.READER_DEPLOYED;
 const audits=[],timings=[];
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function deployedVersion(page){
- const paths=['assets/reader.js','assets/reader.css','index.html'];
+ const paths=['assets/reader.js','assets/reader.css','assets/app.js','assets/style.css','assets/discovery.js','index.html'];
  const expected=paths.map(path=>fs.readFileSync(path,'utf8'));
  for(let attempt=0;attempt<30;attempt++){
   const responses=await Promise.all(paths.map(path=>page.request.get(origin+path,{headers:{'Cache-Control':'no-cache'}})));
@@ -101,6 +101,8 @@ async function jump(page,button){
    // Journey 2: a shared long article, sources, refresh and keyboard outline.
    await ready(page,'?q=PR&case=UC-005');
    await page.locator('.reader-nav').waitFor();
+   assert.equal(await page.locator('.detail-toolbar').evaluate(toolbar=>toolbar.scrollWidth<=toolbar.clientWidth),true,'toolbar fits narrow screens');
+   assert.equal(await page.locator('.detail-toolbar-id').evaluate(id=>id.getBoundingClientRect().height<30),true,'case ID stays on one line');
    assert.match(await page.locator('.reader-evidence').innerText(),/日文作者實測報告/);
    assert.match(await page.locator('.reader-evidence').innerText(),/獨立重現：否/);
    if(engine==='chromium')await page.screenshot({path:`qa-artifacts/reader-after-UC-005-${size}.png`});
@@ -178,6 +180,16 @@ async function jump(page,button){
    assert.equal(await page.locator('#error').isVisible(),true);
    await page.unroute('**/catalog.json');await page.locator('#retry').click();await page.locator('#results .card').first().waitFor();
    console.log('PASS: corpus, missing evidence, duplicate/unsafe text, network failure and retry');
+   const fallback=await browser.newPage();
+   await fallback.route('**/assets/reader.js',route=>route.abort());
+   await fallback.goto(origin+'?case=UC-005',{waitUntil:'networkidle'});
+   await fallback.locator('#detail[open]').waitFor();
+   assert.equal(await fallback.locator('.reader-nav').count(),0);
+   await fallback.locator('.research-details summary').click();
+   assert((await fallback.locator('.research-details .markdown h2').count())>0);
+   assert.equal(await fallback.locator('#error').isVisible(),false);
+   console.log('PASS: a missing optional reader script preserves original detail reading');
+   await fallback.close();
   }
   await browser.close();
  }

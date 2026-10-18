@@ -40,6 +40,7 @@ jobs:
           MATCH_URL=http://127.0.0.1:8080/ai-agent-use-cases/ node tests/match-baseline.cjs
           python3 -m http.server 8084 --directory "$RUNNER_TEMP/match-preview" > /tmp/match-after.log 2>&1 &
           node tests/search-context-browser.cjs
+          MATCH_LIVE_URL=http://127.0.0.1:8084/ai-agent-use-cases/ node tests/search-context-live.cjs
       - name: Verify published search with two corpus loads
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         env:

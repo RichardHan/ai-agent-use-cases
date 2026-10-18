@@ -578,6 +578,59 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('automation')), {}).so
 assert(api.filterEntries(entries, Array.from(api.tokenize('pull request')), {}).some(x => x.id === 'UC-005'), 'pull request matches UC-005 via pr normalization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('pull requests')), {}).some(x => x.id === 'UC-005'), 'pull requests matches UC-005 via pr normalization');
 
+// Search quality: Container, docker, VM synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('container')), {}).some(x => x.id === 'UC-005'), 'container matches UC-005 via 容器 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('containers')), {}).some(x => x.id === 'UC-005'), 'containers matches UC-005 via 容器 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('docker')), {}).some(x => x.id === 'UC-005'), 'docker matches UC-005 via 容器 synonym');
+
+// Search quality: Endpoint, endpoints, 端點 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('endpoint')), {}).some(x => x.id === 'UC-336'), 'endpoint matches UC-336 via 端點/api synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('endpoints')), {}).some(x => x.id === 'UC-336'), 'endpoints matches UC-336 via 端點/api synonym');
+
+// Search quality: Quota, throttling, 限流, 限速 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('quota')), {}).some(x => x.id === 'UC-314'), 'quota matches UC-314 via 配額 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('quotas')), {}).some(x => x.id === 'UC-314'), 'quotas matches UC-314 via 配額 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('throttling')), {}).some(x => x.id === 'UC-314'), 'throttling matches UC-314 via 限流 synonym');
+
+// Search quality: Config, configuration, settings, 配置 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('config')), {}).some(x => x.id === 'UC-183'), 'config matches UC-183 via 配置/設定 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('configuration')), {}).some(x => x.id === 'UC-183'), 'configuration matches UC-183 via 配置/設定 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('settings')), {}).some(x => x.id === 'UC-183'), 'settings matches UC-183 via 配置/設定 synonym');
+
+// Search quality: Audit, 審計, 稽核 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('audit')), {}).some(x => x.id === 'UC-066'), 'audit matches UC-066 via 稽核/審核 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('審計')), {}).some(x => x.id === 'UC-066'), '審計 matches UC-066 via 稽核/audit synonym');
+
+// Search quality: Metrics, metric, kpi, 指標 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('metrics')), {}).some(x => x.id === 'UC-322'), 'metrics matches UC-322 via 指標 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('kpi')), {}).some(x => x.id === 'UC-322'), 'kpi matches UC-322 via 指標 synonym');
+
+// Search quality: Vector, vectors, embedding, embeddings, 向量 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('vector')), {}).some(x => x.id === 'UC-297'), 'vector matches UC-297 via 向量/rag synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('vectors')), {}).some(x => x.id === 'UC-297'), 'vectors matches UC-297 via 向量/rag synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('embedding')), {}).some(x => x.id === 'UC-297'), 'embedding matches UC-297 via 嵌入/rag synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('embeddings')), {}).some(x => x.id === 'UC-297'), 'embeddings matches UC-297 via 嵌入/rag synonym');
+
+// Search quality: Callback, callbacks, 回呼 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('callback')), {}).some(x => x.id === 'UC-074'), 'callback matches UC-074 via webhook/回呼 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('callbacks')), {}).some(x => x.id === 'UC-074'), 'callbacks matches UC-074 via webhook/回呼 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('回呼')), {}).some(x => x.id === 'UC-074'), '回呼 matches UC-074 via webhook synonym');
+
+// Search quality: Gateway, gateways, 網關 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('gateway')), {}).some(x => x.id === 'UC-336'), 'gateway matches UC-336');
+assert(api.filterEntries(entries, Array.from(api.tokenize('gateways')), {}).some(x => x.id === 'UC-336'), 'gateways matches UC-336 via gateway synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('網關')), {}).some(x => x.id === 'UC-336'), '網關 matches UC-336 via gateway synonym');
+
+// Search quality: Rollback, 回退 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('回退')), {}).some(x => x.id === 'UC-067'), '回退 matches UC-067 via rollback/還原 synonym');
+
+// Search quality: Recognition, 識別 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('recognition')), {}).some(x => x.id === 'UC-178'), 'recognition matches UC-178 via 辨識/識別 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('識別')), {}).some(x => x.id === 'UC-178'), '識別 matches UC-178 via 辨識 synonym');
+
+// Search quality: Token, 權杖 synonyms
+assert(api.filterEntries(entries, Array.from(api.tokenize('權杖')), {}).some(x => x.id === 'UC-066'), '權杖 matches UC-066 via token synonym');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

@@ -1537,6 +1537,55 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('停止開關')), {}).
 assert(api.filterEntries(entries, Array.from(api.tokenize('熔斷')), {}).some(x => x.id === 'UC-275'), '熔斷 matches UC-275 via circuit-breaker synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('斷路器')), {}).some(x => x.id === 'UC-275'), '斷路器 matches UC-275 via circuit-breaker synonym');
 
+// Search quality: outbox, outbox pattern, outbox-pattern, 發件匣, 發件箱, 發件匣模式, 發件箱模式
+assert(api.filterEntries(entries, Array.from(api.tokenize('outbox')), {}).some(x => x.id === 'UC-329'), 'outbox matches UC-329 via outbox synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('outbox pattern')), {}).some(x => x.id === 'UC-329'), 'outbox pattern matches UC-329 via outbox tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('outbox-pattern')), {}).some(x => x.id === 'UC-329'), 'outbox-pattern matches UC-329 via outbox tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('發件匣')), {}).some(x => x.id === 'UC-329'), '發件匣 matches UC-329 via outbox synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('發件箱')), {}).some(x => x.id === 'UC-329'), '發件箱 matches UC-329 via outbox synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('發件匣模式')), {}).some(x => x.id === 'UC-329'), '發件匣模式 matches UC-329 via outbox synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('發件箱模式')), {}).some(x => x.id === 'UC-329'), '發件箱模式 matches UC-329 via outbox synonym');
+
+// Search quality: checkpoint, checkpoints, check point, check points, checkpointing, 檢查點
+assert(api.filterEntries(entries, Array.from(api.tokenize('checkpoint')), {}).some(x => x.id === 'UC-231'), 'checkpoint matches UC-231 via checkpoint synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('checkpoints')), {}).some(x => x.id === 'UC-231'), 'checkpoints matches UC-231 via checkpoint synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('check point')), {}).some(x => x.id === 'UC-231'), 'check point matches UC-231 via checkpoint tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('check points')), {}).some(x => x.id === 'UC-231'), 'check points matches UC-231 via checkpoint tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('checkpointing')), {}).some(x => x.id === 'UC-231'), 'checkpointing matches UC-231 via checkpoint tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('檢查點')), {}).some(x => x.id === 'UC-231'), '檢查點 matches UC-231');
+
+// Search quality: sandbox, sandboxes, sandboxing, 沙盒, 沙箱, 沙盒環境, 沙箱環境
+assert(api.filterEntries(entries, Array.from(api.tokenize('sandbox')), {}).some(x => x.id === 'UC-317'), 'sandbox matches UC-317');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sandboxes')), {}).some(x => x.id === 'UC-317'), 'sandboxes matches UC-317 via sandbox synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sandboxing')), {}).some(x => x.id === 'UC-317'), 'sandboxing matches UC-317 via sandbox tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('沙盒')), {}).some(x => x.id === 'UC-317'), '沙盒 matches UC-317');
+assert(api.filterEntries(entries, Array.from(api.tokenize('沙箱')), {}).some(x => x.id === 'UC-317'), '沙箱 matches UC-317 via sandbox synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('沙盒環境')), {}).some(x => x.id === 'UC-317'), '沙盒環境 matches UC-317 via sandbox synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('沙箱環境')), {}).some(x => x.id === 'UC-317'), '沙箱環境 matches UC-317 via sandbox synonym');
+
+// Search quality: memory, long-term memory, working memory, external memory, shared memory, visible memory, persistent memory
+assert(api.filterEntries(entries, Array.from(api.tokenize('long-term memory')), {}).some(x => x.id === 'UC-255'), 'long-term memory matches UC-255 via memory tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('long term memory')), {}).some(x => x.id === 'UC-255'), 'long term memory matches UC-255 via memory tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('working memory')), {}).some(x => x.id === 'UC-255'), 'working memory matches UC-255 via memory tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('external memory')), {}).some(x => x.id === 'UC-071'), 'external memory matches UC-071 via memory tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('shared memory')), {}).some(x => x.id === 'UC-067'), 'shared memory matches UC-067 via memory tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('visible memory')), {}).some(x => x.id === 'UC-066'), 'visible memory matches UC-066 via memory tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('persistent memory')), {}).some(x => x.id === 'UC-338'), 'persistent memory matches UC-338 via memory tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('工作記憶')), {}).some(x => x.id === 'UC-255'), '工作記憶 matches UC-255 via memory synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('外部記憶')), {}).some(x => x.id === 'UC-071'), '外部記憶 matches UC-071 via memory synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('共用記憶')), {}).some(x => x.id === 'UC-067'), '共用記憶 matches UC-067 via memory synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('可見記憶')), {}).some(x => x.id === 'UC-066'), '可見記憶 matches UC-066 via memory synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('持久記憶')), {}).some(x => x.id === 'UC-338'), '持久記憶 matches UC-338 via memory synonym');
+
+// Search quality: idempotent, idempotency, idempotence, 冪等, 冪等性, 冪等操作
+assert(api.filterEntries(entries, Array.from(api.tokenize('idempotent')), {}).some(x => x.id === 'UC-158'), 'idempotent matches UC-158 via idempotent synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('idempotency')), {}).some(x => x.id === 'UC-158'), 'idempotency matches UC-158 via idempotent synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('idempotence')), {}).some(x => x.id === 'UC-158'), 'idempotence matches UC-158 via idempotent tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('冪等')), {}).some(x => x.id === 'UC-158'), '冪等 matches UC-158');
+assert(api.filterEntries(entries, Array.from(api.tokenize('冪等性')), {}).some(x => x.id === 'UC-158'), '冪等性 matches UC-158 via idempotent synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('冪等操作')), {}).some(x => x.id === 'UC-158'), '冪等操作 matches UC-158 via idempotent synonym');
+
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

@@ -25,6 +25,15 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   if(observe){await browser.close();continue;}
   assert.equal(row.hasGuide,1,'readers can inspect what source labels mean next to the results');
   assert(await page.locator('#source-type-note').isHidden(),'long explanations stay optional before reading results');
+  if(engine===chromium&&width===1440){
+   const cdp=await context.newCDPSession(page);
+   const {root}=await cdp.send('DOM.getDocument');
+   const {nodeId}=await cdp.send('DOM.querySelector',{nodeId:root.nodeId,selector:'#proof'});
+   const {nodes}=await cdp.send('Accessibility.getPartialAXTree',{nodeId,fetchRelatives:false});
+   row.sourceSelectDescription=nodes.find(node=>node.description)?.description.value||'';
+   assert.match(row.sourceSelectDescription,/未獨立重現/,'closed guidance still describes the source filter in the real accessibility tree');
+   await cdp.detach();
+  }
   assert.match(await page.locator('#source-type-note').textContent(),/作者報告／示範.*本庫未獨立重現/);
   const summary=page.locator('#source-guide summary');await summary.focus();await page.keyboard.press('Enter');
   assert(await page.locator('#source-guide').evaluate(e=>e.open));assert.equal(await page.locator('#source-guide dt').count(),5);

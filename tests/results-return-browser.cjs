@@ -75,11 +75,16 @@ const report=[];const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringif
   for(const position of ['first','last']){
    await page.route('**/cases/001-*.md',route=>route.fulfill({status:503,body:'unavailable'}));
    await page.goto(base);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.evaluate(()=>failedPaths.length),1);
-   const before=await page.locator('#results .card').count(),links=page.locator('#results [data-results-return]'),link=position==='first'?links.first():links.last();await link.focus();
+   const before=await page.locator('#results .card').count(),links=page.locator('#results [data-results-return]'),link=position==='first'?links.first():links.last();
    await page.unroute('**/cases/001-*.md');
-   // Trigger background recovery without moving the reader's existing keyboard focus.
-   await page.locator('#retry-failed').evaluate(e=>e.click());await page.waitForFunction(()=>failedPaths.length===0&&!recoveringSources);
+   let release;const gate=new Promise(resolve=>release=resolve);
+   await page.route('**/cases/001-*.md',async route=>{await gate;await route.continue();});
+   // Start a real retry, then continue browsing while its source is still in flight.
+   await page.locator('#retry-failed').click();await page.waitForFunction(()=>recoveringSources);await link.focus();
+   const expectedBefore=position==='first'?'6':String(before);assert.equal(await page.evaluate(()=>document.activeElement.dataset.resultsReturn),expectedBefore);
+   release();await page.waitForFunction(()=>failedPaths.length===0&&!recoveringSources);await page.unroute('**/cases/001-*.md');
    assert.equal(await page.locator('#results .card').count(),before+1);assert.equal(await page.evaluate(()=>document.activeElement.dataset.resultsReturn),position==='first'?'6':String(before+1));
+   const focused=await page.evaluate(()=>{const b=document.activeElement.getBoundingClientRect();return {top:b.top,bottom:b.bottom};});assert(focused.top>=0&&focused.bottom<=844);
    await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
   }
   await page.route('**/catalog.json',route=>route.fulfill({status:503,body:'unavailable'}));await page.reload();await page.locator('#error').waitFor({state:'visible'});assert.equal(await page.locator('#results [data-results-return]').count(),0);

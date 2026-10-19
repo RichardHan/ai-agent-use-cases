@@ -1,0 +1,24 @@
+{
+  "sha": "f4dd607523546696d75c58b7fef624372c743456",
+  "checkedAt": "2026-10-19T23:23:50.286Z",
+  "rows": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "match": true,
+      "sha256": "a0ec155646187f02d151b103194584c6fa7361c1bfdc67c604b56db0f2cf6c2c"
+    },
+    {
+      "path": "assets/app.js",
+      "status": 200,
+      "match": true,
+      "sha256": "f9ae0ed5083ed92cc4c78c48bc51a2f19d54084171b610305852656c2e9da072"
+    },
+    {
+      "path": "assets/style.css",
+      "status": 200,
+      "match": true,
+      "sha256": "6287c13bb2fd0012b25e13245173ddc15a60ac83ec6ac5fc9ff2e203467f72a4"
+    }
+  ]
+}

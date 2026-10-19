@@ -1,0 +1,17 @@
+{
+  "assets/app.js": {
+    "baselineBytes": 149501,
+    "finalBytes": 150328,
+    "addedBytes": 827
+  },
+  "assets/style.css": {
+    "baselineBytes": 28351,
+    "finalBytes": 28832,
+    "addedBytes": 481
+  },
+  "index.html": {
+    "baselineBytes": 13503,
+    "finalBytes": 13503,
+    "addedBytes": 0
+  }
+}

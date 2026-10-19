@@ -107,4 +107,18 @@ NODE_PATH=<browser-tools>/node_modules LOAD_URL=http://127.0.0.1:8100/ai-agent-u
 
 原Reader controls測試曾在早開後直接操作將被背景更新的related區塊而碰到detached node；完整控制流程現明確等全庫ready，早讀互動由本輪專門走查覆蓋。另一次wheel檢查遇到Firefox約31.6px、WebKit3px的未穩定位置差；測試改用連續12影格實際scrollTop穩定再量測，不增加容許誤差，不把固定等待150ms當成已停止捲動。[第一個main原始失敗](main-reading-red.json)。
 
-補修增加「提示位於視窗頂端、方法入口已聚焦」的持續內容位置驗證，以及既有method-shortcut、reader-controls兩套原標準到本輪CI；[補修QA39311291570](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39311291570)已完整通過；方法入口維持原本標準：[占位退化](method-layout-red.png)／[修後](method-layout-after.png)。產品與最終獨立審查通過版本相同。
+補修增加「提示位於視窗頂端、方法入口已聚焦」的持續內容位置驗證，以及既有method-shortcut、reader-controls兩套原標準到本輪CI；[補修QA39311291570](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39311291570)已完整通過；方法入口維持原本標準：[失敗時首屏（超出部分在畫面外）](method-layout-red.png)／[修後聚焦方法入口](method-layout-after.png)。產品與最終獨立審查通過版本相同。
+
+## 正式發布與停止
+
+補修以no-ff合併為 `eb8bac512dd952812d297a6719b896fce43c9ecd`，直接push至main。[Pages建置與部署39312271897](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39312271897)成功。
+
+[最終正式站QA39312273846](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39312273846)全數成功：先重跑87項單元、六組三引擎預覽、舊方法／控制／搜尋／載入回歸，再用正式站Chromium1440／480／390／320走完同一完整流程，包含載入中原生重整、關閉不重開、來源失敗補讀、搜尋、組合篩選、空結果、直鏈及返回。正式站8次axe零違規、非預期pageErrors為空，原文／wheel／提示移除位置差最大0.4375px。受控導航到單篇可讀199–679ms，不冒稱一般網速或全庫完成時間。正式站未另跑Firefox／WebKit；其同一產品資產已於Linux預覽驗證。
+
+[正式站完整JSON](published.json)／[瀏覽器資產確認](published-assets-ci.json)／[正常資產URL逐字一致](published-assets.json)；已實際檢視[正式桌面](published-desktop.png)、[正式手機](published-mobile.png)、[正式窄手機](published-small-mobile.png)。[直接使用網站](https://richardhan.github.io/ai-agent-use-cases/?case=UC-359)。
+
+合併後18個main工作流程均已結束，其中17個成功，Related reading QA一次因1個來源未載入而失敗；原輸出沒有記錄該來源路徑或HTTP原因，**未確認根因**，不把它抹成全綠。[最終main CI快照](final-ci.json)。
+
+為查證同一正式版的完整相關閱讀流程，使用只增加來源診斷、不修改產品或放寬斷言的 `verify/shared-reading-published-related` 分支重新執行。[獨立正式站重查39312694244](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39312694244)成功：1440／390／320三組均0來源失敗，相關閱讀、直鏈、空結果與axe檢查通過，瀏覽器實際app.js與相同產品碼逐字一致。[完整重查](published-related-live.json)／[來源診斷](related-published-source-diagnostics.json)。原失敗仍保留，不能由重查推定第一次的內部原因。
+
+最後提交只補QA紀錄與截圖，不改產品程式。原工作樹兩份未提交修改仍完整保留；本輪達到驗收標準後停止。

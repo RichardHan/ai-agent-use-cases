@@ -1,0 +1,17 @@
+{
+  "commit": "eb8bac512dd952812d297a6719b896fce43c9ecd",
+  "files": [
+    {
+      "path": "assets/app.js",
+      "status": 200,
+      "matched": true,
+      "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
+    },
+    {
+      "path": "assets/reader.css",
+      "status": 200,
+      "matched": true,
+      "sha256": "3ec2bc25e7c89ddd79540848201b83dcb4a5e6ba7b9b60fdf7fdcdfc6567110f"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "origin": "https://richardhan.github.io/ai-agent-use-cases/",
+  "name": "small-mobile",
+  "report": [
+    {
+      "name": "desktop",
+      "label": "load",
+      "elapsedMs": 2910,
+      "failed": 0
+    },
+    {
+      "name": "desktop",
+      "label": "travel-related",
+      "axeViolations": 0
+    },
+    {
+      "name": "desktop",
+      "label": "live-direct",
+      "axeViolations": 0
+    },
+    {
+      "name": "desktop",
+      "label": "live-empty",
+      "axeViolations": 0
+    },
+    {
+      "name": "mobile",
+      "label": "load",
+      "elapsedMs": 2864,
+      "failed": 0
+    },
+    {
+      "name": "mobile",
+      "label": "travel-related",
+      "axeViolations": 0
+    },
+    {
+      "name": "mobile",
+      "label": "live-direct",
+      "axeViolations": 0
+    },
+    {
+      "name": "mobile",
+      "label": "live-empty",
+      "axeViolations": 0
+    },
+    {
+      "name": "small-mobile",
+      "label": "load",
+      "elapsedMs": 1130,
+      "failed": 0
+    }
+  ],
+  "failedPaths": []
+}

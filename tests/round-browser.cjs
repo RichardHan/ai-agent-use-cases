@@ -66,6 +66,17 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   await closePage.locator('#query').focus();releaseClose();await closePage.waitForFunction(()=>discoveryReady);
   assert.equal(await closePage.locator('#detail').evaluate(e=>e.open),false);assert.equal(new URL(closePage.url()).searchParams.has('case'),false);
   assert.equal(await closePage.locator('#query').inputValue(),'旅遊');assert.equal(await closePage.locator('#scenario').inputValue(),'生活');assert.equal(await closePage.evaluate(()=>document.activeElement.id),'query');await closePage.close();
+  // Early search can expose the successfully loaded card. Completing the catalog
+  // must preserve its returned keyboard focus when result cards are rebuilt.
+  const cardPage=await context.newPage();const releaseCard=await hold(cardPage,'cases/001-travel-checkout.md');
+  await cardPage.goto(base+'?q=PR&scenario=開發&case=UC-005');await cardPage.locator('#detail[open]').waitFor();await cardPage.keyboard.press('Escape');
+  await cardPage.locator('#query').fill('PR');
+  const earlyCard=cardPage.locator('#results .card[data-case-id="UC-005"] .card-bottom button');
+  await earlyCard.click();await cardPage.keyboard.press('Escape');
+  assert.equal(await earlyCard.evaluate(e=>e===document.activeElement),true);
+  releaseCard();await cardPage.waitForFunction(()=>discoveryReady);
+  assert.equal(await cardPage.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),'UC-005','background completion must retain the early card return focus');
+  const cardBounds=await cardPage.locator('#results .card[data-case-id="UC-005"] .card-bottom button').boundingBox();assert(cardBounds.y>=-1&&cardBounds.y+cardBounds.height<=height+1,'returned card remains visible');await cardPage.close();
   // Target failure retains the original partial-load/retry path; no missing-case invention.
   const failed=await context.newPage();let fail=true;const failedTarget='cases/005-cloud-pr-review.md';
   await failed.route('**/'+failedTarget,route=>fail?route.fulfill({status:503,body:'Unavailable'}):route.continue());

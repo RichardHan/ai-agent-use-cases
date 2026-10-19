@@ -31,3 +31,11 @@ test('share scheduling supports existing ID aliases without treating filenames a
  for(const target of ['',null,'UC-9999','https://example.com/private','<img>'])assert.deepEqual(Array.from(context.api.prioritizeSharedSource(paths,target)),paths);
  assert.equal(paths[0],'cases/001-one.md','source catalog must remain unchanged');
 });
+
+test('source failures do not publish a row and later successful sources still arrive once',async()=>{
+ const published=[];
+ const result=await context.api.loadCorpus(['one','bad','two'],{concurrency:1,parseFile:(path,text)=>[{id:path,markdown:text}],fetch:async path=>({ok:path!=='bad',status:path==='bad'?404:200,text:async()=>path}),onSource:items=>published.push(...items)});
+ assert.deepEqual(published.map(i=>i.id),['one','two']);
+ assert.deepEqual(Array.from(result.failed),['bad']);
+ assert.deepEqual(Array.from(result.entries,i=>i.id),['one','two']);
+});

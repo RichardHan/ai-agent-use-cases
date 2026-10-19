@@ -30,7 +30,9 @@ jobs:
           NODE_PATH: ${{ runner.temp }}/facet-tools/node_modules
           FACET_URL: https://richardhan.github.io/ai-agent-use-cases/
           OBSERVE: '1'
-        run: node tests/facet-counts-browser.cjs
+        run: |
+          node tests/facet-counts-browser.cjs
+          READING_URL=https://richardhan.github.io/ai-agent-use-cases/ READING_OBSERVE=1 node tests/reading-flow-browser.cjs
       - name: Verify implementation when ready
         if: ${{ hashFiles('tests/facet-counts.test.cjs') != '' }}
         env:
@@ -39,6 +41,7 @@ jobs:
           node --test tests/facet-counts.test.cjs
           python3 -m http.server 8096 --directory "$RUNNER_TEMP/facet-preview" > /tmp/facet-preview.log 2>&1 &
           node tests/facet-counts-browser.cjs
+          READING_URL=http://127.0.0.1:8096/ai-agent-use-cases/ node tests/reading-flow-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

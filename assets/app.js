@@ -733,6 +733,39 @@ function relaxationOptions(items, terms, filters) {
     key, value, count:filterEntries(items,terms,{...filters,[key]:''}).length
   })).filter(option=>option.count>0).sort((a,b)=>a.count-b.count);
 }
+// Count alternatives against the query and every OTHER facet, once per facet.
+// The all-option is the base length, never a sum of multi-valued tool buckets.
+function facetCounts(items, terms, filters, key, values) {
+  const base=filterEntries(items,terms,{...filters,[key]:''});
+  const counts=new Map();
+  for(const item of base){
+    const options=key==='tool' ? new Set(item.tools) : [item[key]];
+    for(const value of options) counts.set(value,(counts.get(value)||0)+1);
+  }
+  return values.map(value=>value ? counts.get(value)||0 : base.length);
+}
+function renderFacetCounts(terms, filters) {
+  const hint=$('facet-count-hint');
+  hint.textContent=!discoveryReady
+    ? '案例載入完成後，會顯示各選項的符合筆數。'
+    : failedPaths.length
+      ? '筆數只計已載入條目；補讀後會更新。每個數字保留關鍵字與其他篩選，0 筆也可選。'
+      : '筆數保留關鍵字與其他篩選，預覽改選後的結果；0 筆也可選。';
+  for(const key of ['scenario','kind','tool','category','proof']){
+    const select=$(key);
+    // Keep unfamiliar shared scenarios visible, rather than showing an empty field.
+    if(key==='scenario' && activeScenario && ![...select.options].some(o=>o.value===activeScenario)){
+      const option=el('option','',activeScenario);option.value=activeScenario;select.append(option);
+      select.value=activeScenario;
+    }
+    const options=[...select.options];
+    const counts=discoveryReady ? facetCounts(entries,terms,filters,key,options.map(o=>o.value)) : [];
+    options.forEach((option,index)=>{
+      if(!option.dataset.label)option.dataset.label=option.textContent;
+      option.textContent=option.dataset.label+(discoveryReady ? '（'+counts[index]+' 筆）' : '');
+    });
+  }
+}
 const SEARCH_KEYS=['q','scenario','kind','tool','category','proof'];
 function searchLink(href,query,filters) {
   const current=new URL(href);
@@ -883,6 +916,7 @@ function render(updateURL=true, preserveShare=false) {
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
   $('empty').querySelector('h3').textContent=failedPaths.length?'已載入內容中沒有符合的案例':'目前沒有符合的案例';
   renderSearchFeedback(q, filters);
+  renderFacetCounts(q, filters);
   updatePartialLoad();
   const skipNote = failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入）` : '';
   $('results-count').textContent = discoveryReady ? `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}` : initialLoading ? '正在讀取案例，完成後會套用目前條件…' : '載入未完成';

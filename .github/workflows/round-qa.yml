@@ -1,7 +1,7 @@
 name: Improvement round QA
 on:
   push:
-    branches: [improve/reader-source-context, main]
+    branches: [improve/reader-source-context, fix/shared-reading-complete-layout, main]
     paths: ['tests/round*', '.github/workflows/round-qa.yml', 'assets/**', 'index.html']
 permissions:
   contents: read
@@ -47,6 +47,7 @@ jobs:
         run: |
           python3 -m http.server 8100 --directory "$RUNNER_TEMP/round-preview" > /tmp/round-preview.log 2>&1 &
           node tests/round-browser.cjs
+          METHOD_URL=http://127.0.0.1:8100/ai-agent-use-cases/ node tests/method-shortcut-browser.cjs
           READER_SEARCH_URL=http://127.0.0.1:8100/ai-agent-use-cases/ READER_SEARCH_ENGINES=all node tests/reader-search-browser.cjs
           LOAD_URL=http://127.0.0.1:8100/ai-agent-use-cases/ LOAD_ENGINES=all node tests/load-recovery-browser.cjs
       - name: Verify published assets and desktop/mobile journeys

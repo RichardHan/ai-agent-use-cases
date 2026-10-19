@@ -54,7 +54,7 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   check.readingScrollDelta=await page.locator('#detail').evaluate((e,previous)=>Math.abs(e.scrollTop-previous),reading.scroll);
   check.readingTargetDelta=await page.evaluate(previous=>Math.abs(document.activeElement.getBoundingClientRect().top-previous),reading.top);
   assert(check.readingTargetDelta<=2,'background completion must preserve the original section position in the viewport');
-  assert.match(await page.locator('.detail-load-status').innerText(),/已載入/);
+  assert.match(await page.locator('.detail-load-status').textContent(),/已載入/);assert.equal(await page.locator('.detail-load-status').isVisible(),false,'completed background loading must restore the original reading layout');
   await page.screenshot({path:`${output}/reading-${engine}-${size}.png`});
   await audit(page,check,'complete original section');
   // Native close/return and refresh preserve query + combined facets, including an empty result.
@@ -98,10 +98,10 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   const wheelTarget=wheelPage.locator('.reader-report h2');const targetBox=await wheelTarget.boundingBox();const wheelToolbar=await wheelPage.locator('.detail-toolbar').boundingBox();
   await wheelPage.mouse.move(width/2,height/2);await wheelPage.mouse.wheel(0,targetBox.y-wheelToolbar.y-wheelToolbar.height-30);await wheelPage.waitForTimeout(150);
   assert.equal(await wheelPage.evaluate(()=>document.activeElement.id),'detail-title');
-  check.wheelStatusHeightBefore=(await wheelPage.locator('.detail-load-status').boundingBox()).height;
+  check.wheelStatusHeightBefore=await wheelPage.locator('.detail-load-status').evaluate(e=>e.getBoundingClientRect().height);
   const wheelBefore=(await wheelTarget.boundingBox()).y;assert(wheelBefore>=wheelToolbar.y+wheelToolbar.height-1&&wheelBefore<height,'wheel reader reached the source section');
   releaseWheel();await wheelPage.waitForFunction(()=>discoveryReady);await wheelPage.waitForTimeout(150);
-  check.wheelStatusHeightAfter=(await wheelPage.locator('.detail-load-status').boundingBox()).height;
+  check.wheelStatusHeightAfter=await wheelPage.locator('.detail-load-status').evaluate(e=>e.getBoundingClientRect().height);
   check.wheelReadingDelta=Math.abs((await wheelTarget.boundingBox()).y-wheelBefore);assert(check.wheelReadingDelta<=2,'wheel reading stays anchored even with title focus outside the viewport');await wheelPage.close();
   // Target failure retains the original partial-load/retry path; no missing-case invention.
   const failed=await context.newPage();let fail=true;const failedTarget='cases/005-cloud-pr-review.md';

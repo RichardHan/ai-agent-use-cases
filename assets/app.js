@@ -1307,7 +1307,10 @@ async function load() {
       updateModalNav();
       refreshRelated();
       const status=$('detail-body').querySelector('.detail-load-status');
-      if(status)status.textContent=failedPaths.length ? '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。' : '其他案例已載入，可依目前搜尋條件切換與探索。';
+      if(status){
+        status.textContent=failedPaths.length ? '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。' : '其他案例已載入，可依目前搜尋條件切換與探索。';
+        status.hidden=!failedPaths.length;
+      }
       if(readingAnchor?.isConnected){
         dialog.scrollTop+=readingAnchor.getBoundingClientRect().top-readingTop;
       }

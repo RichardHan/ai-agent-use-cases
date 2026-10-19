@@ -2338,6 +2338,28 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('每天讀flomo舊筆�
 assert(api.filterEntries(entries, Array.from(api.tokenize('義大利特價攀岩鞋省50美元')), {}).some(x => x.id === 'UC-037'), '義大利特價攀岩鞋省50美元 matches UC-037 via discount climbing shoes tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('回收門號收到前持有人簡訊')), {}).some(x => x.id === 'UC-076'), '回收門號收到前持有人簡訊 matches UC-076 via recycled number previous owner SMS tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('hetzner售完自動下單')), {}).some(x => x.id === 'UC-286'), 'hetzner售完自動下單 matches UC-286 via sold out auto purchase tokenization');
+
+// A/B testing, restart, conjunction splitting & natural phrase search quality across UC-329, UC-334, UC-335, UC-338, UC-340, UC-341, UC-345, UC-347, UC-349, UC-350, UC-351, UC-352
+assert(api.filterEntries(entries, Array.from(api.tokenize('多代理對話鏈重新啟動')), {}).some(x => x.id === 'UC-329'), '多代理對話鏈重新啟動 matches UC-329 via restart synonym and tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('restart')), {}).some(x => x.id === 'UC-329'), 'restart matches UC-329 via 重啟 synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('重啟')), {}).some(x => x.id === 'UC-329'), '重啟 matches UC-329 via restart synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sdr天線ab測試')), {}).some(x => x.id === 'UC-334'), 'sdr天線ab測試 matches UC-334 via A/B test synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('ab-test')), {}).some(x => x.id === 'UC-334'), 'ab-test matches UC-334 via A/B test synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('adsb接收站前後對照')), {}).some(x => x.id === 'UC-334'), 'adsb接收站前後對照 matches UC-334 via before-after comparison tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('排程被舊指示停用')), {}).some(x => x.id === 'UC-335'), '排程被舊指示停用 matches UC-335 via stale instruction disable tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('手動開啟的排程被關掉')), {}).some(x => x.id === 'UC-335'), '手動開啟的排程被關掉 matches UC-335 via manual routine revert tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('卡車司機工時與薪資單對帳')), {}).some(x => x.id === 'UC-338'), '卡車司機工時與薪資單對帳 matches UC-338 via truck driver hours and conjunction tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('模型輸出分開儲存驗收')), {}).some(x => x.id === 'UC-340'), '模型輸出分開儲存驗收 matches UC-340 via model output separate storage acceptance tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('已封存任務被重新啟動')), {}).some(x => x.id === 'UC-341'), '已封存任務被重新啟動 matches UC-341 via archived task restart tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('客廳螢幕顯示女兒成績')), {}).some(x => x.id === 'UC-345'), '客廳螢幕顯示女兒成績 matches UC-345 via living room ambient screen grades tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('兒童影片可疑留言審查')), {}).some(x => x.id === 'UC-347'), '兒童影片可疑留言審查 matches UC-347 via child video suspicious comment review tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('詢問信受理表')), {}).some(x => x.id === 'UC-349'), '詢問信受理表 matches UC-349 via inquiry intake ledger tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('客戶來信存回信草稿')), {}).some(x => x.id === 'UC-349'), '客戶來信存回信草稿 matches UC-349 via customer email reply draft tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('主管晨報分流處理')), {}).some(x => x.id === 'UC-350'), '主管晨報分流處理 matches UC-350 via manager morning brief split tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('雲端電腦跑opencode')), {}).some(x => x.id === 'UC-351'), '雲端電腦跑opencode matches UC-351 via cloud computer run opencode tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('flomo筆記洞察')), {}).some(x => x.id === 'UC-352'), 'flomo筆記洞察 matches UC-352 via flomo memo insight tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('每日筆記回顧')), {}).some(x => x.id === 'UC-352'), '每日筆記回顧 matches UC-352 via daily memo review tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('每日筆記回顧模板輪換')), {}).some(x => x.id === 'UC-352'), '每日筆記回顧模板輪換 matches UC-352 via daily memo review rotating template tokenization');
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

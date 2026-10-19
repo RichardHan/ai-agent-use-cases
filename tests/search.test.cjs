@@ -2317,11 +2317,27 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('收尾回報用量'))
 assert(api.filterEntries(entries, Array.from(api.tokenize('回收門號')), {}).some(x => x.id === 'UC-076'), '回收門號 matches UC-076 via recycled number synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('回收門號前持有人')), {}).some(x => x.id === 'UC-076'), '回收門號前持有人 matches UC-076 via previous owner tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('門號仲介站列名')), {}).some(x => x.id === 'UC-076'), '門號仲介站列名 matches UC-076 via data broker listing tokenization');
-assert(api.filterEntries(entries, Array.from(api.tokenize('門號客服聊天送不出')), {}).some(x => x.id === 'UC-076'), '門號客服聊天送不出 matches UC-076 via carrier chat stuck tokenization');
-
-
-
-
+// Natural phrasing search quality assertions across UC-342 to UC-352, UC-037, UC-076, UC-286
+assert(api.filterEntries(entries, Array.from(api.tokenize('每天印著色頁給小孩')), {}).some(x => x.id === 'UC-342'), '每天印著色頁給小孩 matches UC-342 via preposition and child tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('印黑白線稿給孩子')), {}).some(x => x.id === 'UC-342'), '印黑白線稿給孩子 matches UC-342 via line art child tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('國外車輛拋錨保險表單')), {}).some(x => x.id === 'UC-343'), '國外車輛拋錨保險表單 matches UC-343 via breakdown insurance form tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('自駕車子拋錨拖吊求援')), {}).some(x => x.id === 'UC-343'), '自駕車子拋錨拖吊求援 matches UC-343 via road trip breakdown towing tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('電視看板看女兒成績')), {}).some(x => x.id === 'UC-345'), '電視看板看女兒成績 matches UC-345 via TV ambient board grades tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('客廳常亮螢幕查看成績與缺交作業')), {}).some(x => x.id === 'UC-345'), '客廳常亮螢幕查看成績與缺交作業 matches UC-345 via ambient display homework tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('特斯拉充到100%')), {}).some(x => x.id === 'UC-346'), '特斯拉充到100% matches UC-346 via 100% charge tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('出門前電動車充電自動還原')), {}).some(x => x.id === 'UC-346'), '出門前電動車充電自動還原 matches UC-346 via pre-departure EV charging auto-revert tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('teslascope長途準備')), {}).some(x => x.id === 'UC-346'), 'teslascope長途準備 matches UC-346 via road trip prep tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('買房預算學區過濾')), {}).some(x => x.id === 'UC-348'), '買房預算學區過濾 matches UC-348 via house budget school filter tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('交屋整修費用預估')), {}).some(x => x.id === 'UC-348'), '交屋整修費用預估 matches UC-348 via renovation cost estimate tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('notion受理表找空檔存回信草稿')), {}).some(x => x.id === 'UC-349'), 'notion受理表找空檔存回信草稿 matches UC-349 via intake calendar draft tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('客戶來信約時間存gmail草稿')), {}).some(x => x.id === 'UC-349'), '客戶來信約時間存gmail草稿 matches UC-349 via customer schedule inquiry draft tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('內部資料與公開資料分流晨報')), {}).some(x => x.id === 'UC-350'), '內部資料與公開資料分流晨報 matches UC-350 via internal public split morning brief tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('額度燒太快調度免費模型')), {}).some(x => x.id === 'UC-351'), '額度燒太快調度免費模型 matches UC-351 via quota burn free model dispatch tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('分層派工免費模型做重活')), {}).some(x => x.id === 'UC-351'), '分層派工免費模型做重活 matches UC-351 via tiered dispatch heavy work tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('每天讀flomo舊筆記推送回顧')), {}).some(x => x.id === 'UC-352'), '每天讀flomo舊筆記推送回顧 matches UC-352 via daily memo review push tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('義大利特價攀岩鞋省50美元')), {}).some(x => x.id === 'UC-037'), '義大利特價攀岩鞋省50美元 matches UC-037 via discount climbing shoes tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('回收門號收到前持有人簡訊')), {}).some(x => x.id === 'UC-076'), '回收門號收到前持有人簡訊 matches UC-076 via recycled number previous owner SMS tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('hetzner售完自動下單')), {}).some(x => x.id === 'UC-286'), 'hetzner售完自動下單 matches UC-286 via sold out auto purchase tokenization');
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

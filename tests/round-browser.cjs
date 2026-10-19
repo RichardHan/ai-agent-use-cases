@@ -12,11 +12,13 @@ async function settledScroll(page){await page.evaluate(()=>new Promise((resolve,
 async function hold(page,path){let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/'+path,async route=>{await gate;await route.continue();});return release;}
 (async()=>{
  for(const [engine,launcher] of (process.env.ROUND_ENGINES==='all'?[['chromium',chromium],['firefox',firefox],['webkit',webkit]]:[['chromium',chromium]])){
- const browser=await launcher.launch(),networkDiagnostics=[];try{
+ const browser=await launcher.launch(),networkDiagnostics=[];
+ const requestPage=request=>{try{return request.frame().page().url();}catch{return null;}};
+ try{
  for(const [size,width,height] of (engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740],['mid-mobile',480,844]]:[['mobile',390,844]])){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
-  context.on('requestfailed',request=>networkDiagnostics.push({kind:'requestfailed',url:request.url(),error:request.failure()?.errorText}));
-  context.on('response',response=>{if(response.status()>=400)networkDiagnostics.push({kind:'http',url:response.url(),status:response.status()});});
+  context.on('requestfailed',request=>networkDiagnostics.push({kind:'requestfailed',url:request.url(),page:requestPage(request),error:request.failure()?.errorText}));
+  context.on('response',response=>{if(response.status()>=400)networkDiagnostics.push({kind:'http',url:response.url(),page:requestPage(response.request()),status:response.status()});});
   const errors=[],navigationCancellationDiagnostics=[];let reloadingPage=null;
   context.on('page',p=>p.on('pageerror',e=>{if(!p.url().startsWith(base))return;if(p===reloadingPage&&engine==='webkit'&&/\/(?:(?:cases|evidence)\/[a-zA-Z0-9_/-]+\.md|sources\/pending\.md) due to access control checks\.$/.test(e.message))navigationCancellationDiagnostics.push(e.message);else errors.push(e.message);}));
   const page=await context.newPage();page.setDefaultTimeout(12000);
@@ -144,7 +146,7 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   for(const context of browser.contexts())for(const page of context.pages()){
    const index=report.failure.pages.length;
    try{
-    const state=await page.evaluate(()=>({url:location.href,ready:typeof discoveryReady==='undefined'?null:discoveryReady,failedPaths:typeof failedPaths==='undefined'?null:[...failedPaths],entries:typeof entries==='undefined'?null:entries.length,detailOpen:document.getElementById('detail')?.open,focus:document.activeElement?.id,loadStatus:document.getElementById('load-status')?.textContent,error:document.getElementById('error-message')?.textContent}));
+    const state=await page.evaluate(()=>({url:location.href,ready:typeof discoveryReady==='undefined'?null:discoveryReady,initialLoading:typeof initialLoading==='undefined'?null:initialLoading,targetMatch:typeof matchCase==='undefined'?null:matchCase(new URLSearchParams(location.search).get('case'))?.id,currentDetail:typeof currentDetailItem==='undefined'?null:currentDetailItem?.id,notices:Object.fromEntries(['missing-case','partial-load','error'].map(id=>{const e=document.getElementById(id);return [id,!!e&&!e.hidden&&e.getClientRects().length>0];})),failedPaths:typeof failedPaths==='undefined'?null:[...failedPaths],entries:typeof entries==='undefined'?null:entries.length,detailOpen:document.getElementById('detail')?.open,focus:document.activeElement?.id,loadStatus:document.getElementById('load-status')?.textContent,error:document.getElementById('error-message')?.textContent}));
     report.failure.pages.push(state);save();
     await page.screenshot({path:`${output}/failure-${engine}-${index}.png`,timeout:3000});
    }catch(diagnosticError){report.failure.pages.push({url:page.url(),diagnosticError:diagnosticError.message});save();}

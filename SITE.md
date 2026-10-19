@@ -1574,4 +1574,61 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 - 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
 下一輪建議：針對已標註之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
 
+## 2026-10-19：擴充著色頁／印表機列印／道路救援／代理停滯／學業成績／電視看板／上下文視窗檢索品質與同義詞對稱對映
+
+問題調查與證據：
+1. PR #53 合併新增案例（UC-342 著色頁排程列印、UC-343 國外拋錨道路救援、UC-344 代理卡住 webhook 通知、UC-345 電視待機看板成績與缺交作業）後，跨語言與同義詞檢索出現顯著斷層：
+   - 「著色頁／線稿」（UC-342）：「著色」命中 1 筆、「著色頁」命中 1 筆、「線稿」命中 1 筆，但搜尋英文「coloring」、「coloring page」命中 0 筆，「塗色」命中 0 筆。
+   - 「印表機／列印」（UC-342、UC-104、UC-175 等全庫 14 筆列印案例）：「列印」命中 14 筆、「印表機」命中 6 筆，但搜尋英文常用詞「printer」、「printers」命中 0 筆，「printing」僅命中 1 筆，「print」僅命中 3 筆。
+   - 「道路救援／拋錨」（UC-343）：「拋錨」命中 1 筆、「道路救援」命中 1 筆，但搜尋英文「breakdown」、「roadside」、「roadside assistance」命中 0 筆。
+   - 「代理卡住／停滯」（UC-344）：「卡住」命中 15 筆、「停滯」命中 3 筆，但搜尋英文「stalled」命中 0 筆，「stall」僅命中 1 筆，「hang」命中 0 筆，繁中「停擺」命中 0 筆。
+   - 「成績與缺交作業」（UC-345）：「成績」命中 12 筆、「作業」命中 18 筆，但搜尋英文「grades」、「homework」、「assignment」、「assignments」命中 0 筆。
+   - 「智慧電視／常亮看板」（UC-345）：「電視」命中 3 筆，但搜尋英文「smart tv」、「ambient display」命中 0 筆。
+2. 繁體中文與台灣／香港常用術語檢索斷層：
+   - 「向量搜尋」：`SYNONYM_GROUPS` 僅收錄「向量檢索」，搜尋台灣最常用詞「向量搜尋」與「向量搜索」命中 0 筆。
+   - 「上下文視窗」：`SYNONYM_GROUPS` 僅收錄簡中「上下文窗口」，搜尋台灣慣用語「上下文視窗」與「脈絡視窗」命中 0 筆。
+   - 「探活」：SRE 與 Agent 探活術語「探活」命中 0 筆，而「liveness」命中 12 筆、「heartbeat」命中 2 筆。
+   - 「提示詞攻擊／注入攻擊」：搜尋「注入攻擊」、「提示詞攻擊」命中 0 筆，而「prompt injection」命中 4 筆。
+   - 「agentic」：搜尋「agentic」僅命中 4 筆，而「agent」命中 216 筆。
+
+本輪改善：
+1. `assets/app.js` 分詞函數 `tokenize` 新增多詞與詞形標準化正則：
+   - `\bcolor(?:ing)?\s*[- ]\s*pages?\b` → `coloring`
+   - `\bprint(?:er|ers|ing|s)?\b` → `print`
+   - `\broad\s*[- ]?\s*side(?:\s*[- ]\s*assistance)?\b` → `roadside`
+   - `\bbreak\s*[- ]?\s*downs?\b` → `breakdown`
+   - `\bstall(?:s|ed|ing)?\b` → `stall`
+   - `\bgrades?\b` → `grade`
+   - `\bhome\s*[- ]?\s*works?\b` → `homework`
+   - `\bassign(?:ment|ments)?\b` → `assignment`
+   - `\bsmart\s*[- ]\s*tvs?\b` → `tv`
+   - `\bambient(?:\s*[- ]\s*(?:boards?|displays?))?\b` → `ambient`
+   - `\bprompt\s*[- ]\s*attacks?\b` → `prompt-injection`
+2. `assets/app.js` 同義詞群 `SYNONYM_GROUPS` 擴充與新增：
+   - 新增著色／線稿詞群：`['coloring', 'coloring-page', '著色', '著色頁', '線稿', '塗色', '塗色頁', '填色']`
+   - 新增列印／印表機詞群：`['print', 'prints', 'printer', 'printers', 'printing', '列印', '印表機', '印刷', '印製']`
+   - 新增道路救援／拋錨詞群：`['breakdown', 'breakdowns', 'roadside', 'roadside-assistance', 'roadside assistance', '拋錨', '道路救援', '故障救援', '車輛救援']`
+   - 新增停滯／卡住詞群：`['stall', 'stalls', 'stalled', 'stalling', 'hang', 'hanging', '卡住', '停滯', '停擺', '卡死']`
+   - 新增成績詞群：`['grade', 'grades', 'grading', '成績', '等第', '分數']`
+   - 新增作業／課業詞群：`['homework', 'assignment', 'assignments', '作業', '功課', '缺交作業', '課業']`
+   - 新增電視詞群：`['tv', 'tvs', 'television', '電視', '智慧電視', '智能電視', 'android tv', 'smart tv', 'smart-tv']`
+   - 新增常亮看板詞群：`['ambient', 'ambient-board', 'ambient-display', '待機畫面', '常亮看板', '待機螢幕']`
+   - 擴充 RAG 向量詞群：加入 `'向量搜尋'`, `'向量搜索'`
+   - 擴充 Context Window 詞群：加入 `'上下文視窗'`, `'脈絡視窗'`
+   - 擴充 Heartbeat 詞群：加入 `'探活'`
+   - 擴充 Prompt Injection 詞群：加入 `'提示詞攻擊'`, `'注入攻擊'`
+   - 擴充 Agent 詞群：加入 `'agentic'`
+   - 維持 1,584 鍵 100% 互映與自反對稱對映（Symmetry check complete，0 asymmetries）。
+3. `tests/search.test.cjs`：
+   - 新增 33 組檢索回歸斷言，驗證 coloring/coloring page/著色頁/塗色、printer/printers/printing/列印、breakdown/roadside/roadside assistance/道路救援/拋錨、stalled/stall/卡住/停滯、grades/homework/assignment/成績/缺交作業、smart tv/ambient display/待機畫面、向量搜尋/向量搜索、上下文視窗/脈絡視窗、探活、注入攻擊/提示詞攻擊、agentic 等查詢均能準確命中對應案例。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（343 筆條目全文與擴充檢索全數驗證通過，printer 命中躍升至 15 筆，coloring 升至 2 筆，breakdown/roadside 升至 1 筆，stalled 升至 27 筆，grades 升至 22 筆，向量搜尋升至 19 筆，上下文視窗升至 1 筆，agentic 升至 216 筆）。
+- `node --test tests/*.test.cjs`：66/66 單元測試全數通過（含 8/8 audit 測試）。
+- `for file in assets/*.js tests/*.cjs; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總條目數維持 343 筆（337 案例、3 經驗補充、3 待查項目），嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：評估在候選重複來源叢集測試中，擴充針對 PR #53 新增案例之來源 URL 模式與潛在重複叢集檢查。
+
+
 

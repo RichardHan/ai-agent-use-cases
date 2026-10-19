@@ -36,7 +36,7 @@ jobs:
           python3 -m http.server 8101 --directory "$RUNNER_TEMP/before" > /tmp/before.log 2>&1 &
           LABEL=before OBSERVE=1 CONTROLS_URL=http://127.0.0.1:8101/ai-agent-use-cases/ node tests/reader-controls-browser.cjs
           if LABEL=red CONTROLS_URL=http://127.0.0.1:8101/ai-agent-use-cases/ node tests/reader-controls-browser.cjs > qa-artifacts/red.log 2>&1; then exit 1; fi
-          grep -q 'AssertionError' qa-artifacts/red.log
+          grep -q 'TOUCH_TARGET_SIZE' qa-artifacts/red.log
           LABEL=after node tests/reader-controls-browser.cjs
           READER_URL=http://127.0.0.1:8100/ai-agent-use-cases/ node tests/reader-browser.cjs > qa-artifacts/reader-regression.log
           LOAD_URL=http://127.0.0.1:8100/ai-agent-use-cases/ node tests/load-recovery-browser.cjs > qa-artifacts/load-regression.log

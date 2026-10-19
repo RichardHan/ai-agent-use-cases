@@ -16,7 +16,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  const url=page.url(),initialId=await page.locator('#detail-toolbar-id').innerText();await page.screenshot({path:`qa-artifacts/${process.env.LABEL}-reader-${engine}-${width}.png`});
  const controls=await page.locator('.detail-toolbar-actions button').evaluateAll(ns=>ns.map(n=>{const r=n.getBoundingClientRect();return {id:n.id,width:r.width,height:r.height,font:getComputedStyle(n).fontSize}}));
  console.log('CONTROL_MEASUREMENTS '+JSON.stringify({engine,width,controls}));
- if(!process.env.OBSERVE)for(const c of controls){assert.ok(c.width>=44&&c.height>=44,JSON.stringify(c));assert.ok(parseFloat(c.font)>=14,JSON.stringify(c));}
+ if(!process.env.OBSERVE)for(const c of controls){assert.ok(c.width>=44&&c.height>=44,'TOUCH_TARGET_SIZE '+JSON.stringify(c));assert.ok(parseFloat(c.font)>=14,JSON.stringify(c));}
  await page.locator('#nav-next-case').click();assert.notEqual(await page.locator('#detail-toolbar-id').innerText(),initialId);
  await page.locator('#nav-prev-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),initialId);
  await page.locator('.reader-nav').scrollIntoViewIfNeeded();
@@ -31,8 +31,11 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  await page.locator('#empty-reset').click();await page.locator('#results .card').first().waitFor();
  await page.goto(base+'?case=UC-313');await page.locator('#detail[open]').waitFor();
  const shortcut=page.locator('.reader-method-shortcut');
- if(await shortcut.count()){
+ assert.equal(await shortcut.count(),1);
+ {
+  const targetId=await shortcut.getAttribute('aria-controls');
   await shortcut.click();
+  assert.equal(await page.evaluate(()=>document.activeElement.id),targetId);
   assert.ok(await page.evaluate(()=>document.activeElement.getBoundingClientRect().top>=document.querySelector('.detail-toolbar').getBoundingClientRect().bottom),'jump heading below toolbar');
  }
  await page.locator('.research-details').evaluate(n=>n.open=true);await page.locator('.related-cases').scrollIntoViewIfNeeded();

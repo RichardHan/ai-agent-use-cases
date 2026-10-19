@@ -8,8 +8,10 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  const browser=await ({chromium,firefox,webkit}[engine]).launch();
  try {
  const page=await browser.newPage({viewport:{width,height:width===1440?1000:844}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ let loadedCSS;page.on('response',response=>{if(new URL(response.url()).pathname.endsWith('/assets/reader.css'))loadedCSS=response.text();});
  const base=process.env.CONTROLS_URL||'http://127.0.0.1:8100/ai-agent-use-cases/';
  await page.goto(base);await page.locator('#results .card').first().waitFor();
+ if(process.env.LABEL==='live')assert.equal(await loadedCSS,fs.readFileSync('assets/reader.css','utf8'),'actual page-loaded reader.css matches checkout');
  await page.screenshot({path:`qa-artifacts/${process.env.LABEL}-home-${engine}-${width}.png`});
  await page.locator('[data-search-entry]').first().click();await page.locator('#query').fill('旅遊');
  await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');
@@ -37,13 +39,16 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
   const targetId=await shortcut.getAttribute('aria-controls');
   await shortcut.click();
   assert.equal(await page.evaluate(()=>document.activeElement.id),targetId);
-  assert.ok(await page.evaluate(()=>document.activeElement.getBoundingClientRect().top>=document.querySelector('.detail-toolbar').getBoundingClientRect().bottom),'jump heading below toolbar');
+  assert.ok(await page.evaluate(()=>{const r=document.activeElement.getBoundingClientRect(),toolbar=document.querySelector('.detail-toolbar').getBoundingClientRect(),dialog=document.getElementById('detail').getBoundingClientRect();return r.top>=toolbar.bottom&&r.bottom<=dialog.bottom;}),'entire jump heading visible below toolbar within dialog');
  }
  await page.locator('.research-details').evaluate(n=>n.open=true);await page.locator('.related-cases').scrollIntoViewIfNeeded();
  assert.equal(await page.locator('#detail').evaluate(n=>n.scrollWidth>n.clientWidth),false);
  assert.ok(await page.locator('.detail-toolbar-actions button').evaluateAll(ns=>ns.every(n=>{const r=n.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth})));
  if(!process.env.OBSERVE){
+  const idHeight=await page.locator('#detail-toolbar-id').evaluate(n=>n.getBoundingClientRect().height);
   await page.locator('#detail-toolbar-id').evaluate(n=>n.textContent='UC-very-long-identifier-'.repeat(8));
+  assert.equal(await page.locator('#detail-toolbar-id').evaluate(n=>n.getBoundingClientRect().height),idHeight,'long ID stays on one line');
+  assert.ok(await page.locator('.detail-toolbar-actions button').evaluateAll(ns=>{const rects=ns.map(n=>n.getBoundingClientRect());return rects.every((r,i)=>r.width>=44&&r.height>=44&&r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth&&(!i||rects[i-1].right<=r.left+1));}),'long ID preserves visible, non-overlapping 44px controls');
   assert.equal(await page.locator('#detail').evaluate(n=>n.scrollWidth>n.clientWidth),false);
   await page.locator('#detail-toolbar-id').evaluate((n,id)=>n.textContent=id,'UC-313');
  }

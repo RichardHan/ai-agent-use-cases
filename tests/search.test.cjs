@@ -1619,6 +1619,34 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('blue green')), {}).so
 // Search quality: rollback synonyms: 倒退
 assert(api.filterEntries(entries, Array.from(api.tokenize('倒退')), {}).some(x => x.id === 'UC-002'), '倒退 matches UC-002 via rollback synonym');
 
+// Search quality: planning, task planning, 任務規劃, 規劃
+assert(api.filterEntries(entries, Array.from(api.tokenize('planning')), {}).some(x => x.id === 'UC-001'), 'planning matches UC-001 via planning synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('task planning')), {}).some(x => x.id === 'UC-148'), 'task planning matches UC-148 via planning tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('任務規劃')), {}).some(x => x.id === 'UC-148'), '任務規劃 matches UC-148 via planning synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('規劃')), {}).some(x => x.id === 'UC-001'), '規劃 matches UC-001');
+
+// Search quality: reproducibility, reproducible, reproduce, 可重現, 重現性
+assert(api.filterEntries(entries, Array.from(api.tokenize('reproducibility')), {}).some(x => x.id === 'UC-003'), 'reproducibility matches UC-003 via reproducibility synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('reproducible')), {}).some(x => x.id === 'UC-003'), 'reproducible matches UC-003 via reproducibility tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('reproduce')), {}).some(x => x.id === 'UC-003'), 'reproduce matches UC-003 via reproducibility tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('可重現')), {}).some(x => x.id === 'UC-003'), '可重現 matches UC-003');
+assert(api.filterEntries(entries, Array.from(api.tokenize('重現性')), {}).some(x => x.id === 'UC-003'), '重現性 matches UC-003 via reproducibility synonym');
+
+// Search quality: citation, citations, 引用, 出處, 溯源
+assert(api.filterEntries(entries, Array.from(api.tokenize('citation')), {}).some(x => x.id === 'UC-002'), 'citation matches UC-002 via citation synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('citations')), {}).some(x => x.id === 'UC-002'), 'citations matches UC-002 via citation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('引用')), {}).some(x => x.id === 'UC-002'), '引用 matches UC-002');
+
+// Search quality: tool use, tool-use, 函式調用, 函數呼叫
+assert(api.filterEntries(entries, Array.from(api.tokenize('tool use')), {}).some(x => x.id === 'UC-066'), 'tool use matches UC-066 via toolcall tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('函式調用')), {}).some(x => x.id === 'UC-066'), '函式調用 matches UC-066 via toolcall synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('函數呼叫')), {}).some(x => x.id === 'UC-066'), '函數呼叫 matches UC-066 via toolcall synonym');
+
+// Search quality: failover, 故障轉移, 容災
+assert(api.filterEntries(entries, Array.from(api.tokenize('failover')), {}).some(x => x.id === 'UC-324'), 'failover matches UC-324 via failover synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('故障轉移')), {}).some(x => x.id === 'UC-324'), '故障轉移 matches UC-324 via failover synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('容災')), {}).some(x => x.id === 'UC-324'), '容災 matches UC-324 via failover synonym');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

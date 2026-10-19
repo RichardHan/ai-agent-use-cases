@@ -1468,4 +1468,51 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 - 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
 下一輪建議：針對已標註之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
 
+## 2026-10-19：修正來源網址全形標點沾黏瑕疵、擴充任務規劃／可重現性／引用出處／工具使用／容災檢索品質
+
+問題調查與證據：
+1. 來源驗證與 URL 正確性缺陷（2 筆案例之原始 URL 沾黏全形標點）：
+   - `cases/071-obsidian-dots-visible-memory.md` 行 31：原始貼文網址末端沾黏全形逗號 `https://x.com/MakeAI_CEO/status/2110593793364029721，`，導致 Markdown 網址解析錯誤；
+   - `cases/079-business-email-alias-diagnosis.md` 行 31：原始貼文網址末端沾黏全形冒號 `https://x.com/JavyDiaz/status/2110976719175790983：`，導致 Markdown 網址解析錯誤；
+   - `tests/audit.test.cjs` 原僅檢查 `[）〕』]`，未涵蓋全形逗號、全形冒號、全形分號、全形句號等 CJK 標點沾黏之檢驗。
+2. 核心 AI Agent 工作流與方法論檢索品質斷層：
+   - 任務規劃（Planning / Task Planning）：全庫有 27+ 案例以「規劃」為核心目標、標籤與用途（UC-001、UC-010、UC-016、UC-027、UC-033、UC-040、UC-043、UC-148、UC-170、UC-210、UC-211、UC-219、UC-264、UC-269 等），但搜尋英文「planning」僅命中 1 筆，搜尋「task planning」命中 0 筆，搜尋中文「任務規劃」命中 0 筆；
+   - 可重現性（Reproducibility / Reproducible）：全庫超過 94 筆案例在驗收標準與證據中明確包含「可重現」或「重現性」，但英文搜尋「reproducibility」、「reproducible」、「reproduce」命中 0 筆；
+   - 引用／出處／溯源（Citation / Citations / Provenance）：全庫 53 筆案例標示「引用」、331 筆標示「出處」與「溯源」，但英文搜尋「citation」、「citations」命中 0 筆；
+   - 工具使用／函式調用（Tool Use / Function Calling）：中文「函式調用」與「函數呼叫」及英文「tool use」、「tool-use」未納入同義詞群，搜尋「函式調用」或「函數呼叫」命中 0 筆；
+   - 容災／故障轉移（Failover）：UC-324 核心架構包含 failover，搜尋中文「故障轉移」、「容災」命中 0 筆。
+
+本輪改善：
+1. 案例網址修復：
+   - `cases/071-obsidian-dots-visible-memory.md`：將原始貼文網址轉換為標準 Markdown 連結格式 `[貼文](https://x.com/MakeAI_CEO/status/2110593793364029721)`，徹底隔開全形逗號；
+   - `cases/079-business-email-alias-diagnosis.md`：將原始貼文網址轉換為標準 Markdown 連結格式 `[貼文](https://x.com/JavyDiaz/status/2110976719175790983)`，徹底隔開全形冒號。
+2. `tests/audit.test.cjs`：
+   - 擴充 `unbracketedPunctuationUrls` 正則表達式，嚴格偵測全形標點 `[）〕』，。：；」”》】、！]` 沾黏 raw URL；
+   - 新增針對 UC-071 與 UC-079 URL 正確無沾黏之防回歸自動化斷言。
+3. `assets/app.js`：
+   - `tokenize` 多詞自然語言分詞標準化：
+     - `\b(?:task|work|job)\s*[- ]\s*plannings?\b` → `planning`
+     - `\bplannings?\b` → `planning`
+     - `\breproducib(?:ility|le)\b` → `reproducibility`
+     - `\breproduc(?:e|ed|es|ing)\b` → `reproducibility`
+     - `\bcitat(?:ion|ions|e|ed|es|ing)\b` → `citation`
+     - `\btool\s*[- ]\s*us(?:e|ed|es|ing)\b` → `toolcall`
+     - `\bfail\s*[- ]\s*overs?\b` → `failover`
+   - `SYNONYM_GROUPS` 擴充與新增：
+     - 新增規劃詞群：`['planning', 'plan', 'plans', '規劃', '任務規劃', '計畫', '計劃', '籌劃']`；
+     - 新增重現性詞群：`['reproducibility', 'reproducible', 'reproduce', '重現', '可重現', '重現性', '獨立重現', '復現', '復現性']`；
+     - 擴充出處詞群：加入 `citation`、`citations`、`引用`、`引文`；
+     - 擴充工具呼叫詞群：加入 `tool-use`、`tool use`、`函式調用`、`函數呼叫`；
+     - 新增容災詞群：`['failover', 'fail-over', '故障轉移', '容災', '備援切換']`；
+     - 保持 100% 互映對稱映射。
+4. `tests/search.test.cjs`：新增 17 組檢索回歸斷言，驗證 planning/task planning/任務規劃/規劃、reproducibility/reproducible/reproduce/可重現/重現性、citation/citations/引用、tool use/函式調用/函數呼叫、failover/故障轉移/容災等查詢均能準確命中。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索）。
+- `node --test tests/*.test.cjs`：66/66 單元測試全數通過（含 8/8 audit 測試）。
+- `for file in assets/*.js; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：針對已標註之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
+
 

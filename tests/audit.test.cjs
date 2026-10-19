@@ -125,8 +125,8 @@ test('all cases, evidence files, and pending leads contain verified external sou
       }
     }
 
-    // Ensure raw URLs in markdown are properly bracketed and do not attach unclosed fullwidth closing punctuation
-    const unbracketedPunctuationUrls = content.match(/https?:\/\/[^\s)\]\"'<>]+[）〕』]/g) || [];
+    // Ensure raw URLs in markdown are properly bracketed and do not attach unclosed fullwidth closing punctuation or CJK characters
+    const unbracketedPunctuationUrls = content.match(/https?:\/\/[^\s)\]\"'<>]+[）〕』，。：；」”》】、！]/g) || [];
     for (const rawUrl of unbracketedPunctuationUrls) {
       suspiciousPlaceholders.push({ file: `${dir}/${file}`, url: rawUrl, reason: 'leaked trailing fullwidth punctuation' });
     }
@@ -134,6 +134,12 @@ test('all cases, evidence files, and pending leads contain verified external sou
 
   assert.deepEqual(missingExternalSource, [], `Files missing external source: ${missingExternalSource.join(', ')}`);
   assert.deepEqual(suspiciousPlaceholders, [], `Files with placeholder or malformed URLs: ${JSON.stringify(suspiciousPlaceholders)}`);
+
+  // Verify specific cases where leaked CJK punctuation was resolved
+  const uc071Content = fs.readFileSync(path.join(root, 'cases/071-obsidian-dots-visible-memory.md'), 'utf8');
+  assert(!/https?:\/\/[^\s)\]\"'<>]+[，。：；]/.test(uc071Content), 'UC-071 must not have leaked CJK punctuation attached to raw URLs');
+  const uc079Content = fs.readFileSync(path.join(root, 'cases/079-business-email-alias-diagnosis.md'), 'utf8');
+  assert(!/https?:\/\/[^\s)\]\"'<>]+[，。：；]/.test(uc079Content), 'UC-079 must not have leaked CJK punctuation attached to raw URLs');
 });
 
 test('candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus', () => {

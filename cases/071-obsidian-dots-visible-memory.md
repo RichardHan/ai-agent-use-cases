@@ -28,7 +28,7 @@
   https://x.com/MakeAI_CEO/status/2110681489679794216  
   https://x.com/MakeAI_CEO/status/2110681492288680045  
   https://x.com/MakeAI_CEO/status/2110681494729683069
-- 作者另引用長文標題〈Obsidian × dots完全活用ガイド〉（https://x.com/MakeAI_CEO/status/2110593793364029721，約 2026-10-15 12:49 台灣時間）；本庫未能讀取 X Article 全文，僅依公開串文整理。
+- 作者另引用長文標題〈Obsidian × dots完全活用ガイド〉（[貼文](https://x.com/MakeAI_CEO/status/2110593793364029721)，約 2026-10-15 12:49 台灣時間）；本庫未能讀取 X Article 全文，僅依公開串文整理。
 - 作者自述要點（翻譯改寫）：
   1. Dot 內建記憶目前無法逐筆查看、刪除或修改；要清掉只能重置整個 Dot（連對話、記憶、定期任務一併消失）。斷開 App 連線也不會刪掉已學到的內容。
   2. 因此把「要記得的東西」寫進本機 Obsidian：全是 Markdown，換 AI 工具後筆記仍是自己的資產。

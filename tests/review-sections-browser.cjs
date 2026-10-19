@@ -92,7 +92,31 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
  if(!observe){
   await page.locator('.reader-review > summary').click();const gap=page.locator('.reader-review-jump').filter({hasText:'驗收與可重現性'});assert.equal(await gap.count(),1);await gap.click();assert.match(await page.locator('.markdown').innerText(),/沒有截圖、紀錄表、班表或薪資單比對結果/);await audit('unlinked evidence gap');
   assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth));
-
+  for(const id of ['UC-005','UC-067']){
+   await page.evaluate(id=>showDetail(matchCase(id),null,false),id);
+   await page.locator('.reader-review > summary').click();
+   if(id==='UC-005')await shot('long-index');
+   const last=page.locator('.reader-review-jump').last(),destination=await last.getAttribute('aria-controls');
+   await last.focus();await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),destination);
+   assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth));
+  }
+  const fixtures=[
+   {name:'headingless link',markdown:'# Test\n\n[待查連結](https://example.com/)\n\n[非網頁](mailto:someone@example.com)',count:1,target:'reader-source-meta'},
+   {name:'headingless plain',markdown:'# Test\n\n沒有連結或標準章節。',count:0},
+   {name:'duplicates literal long title',markdown:'# Test\n\n## 權限 <img src=x onerror=alert(1)>（未驗證）\n\n原始限制。\n\n## 權限 <img src=x onerror=alert(1)>（未驗證）'+ '長標題'.repeat(50)+'\n\n[javascript](javascript:alert(1))\n\n[頁面](https://example.com/)',count:2,target:'reader-section-1'},
+  ];
+  for(const fixture of fixtures){
+   await page.evaluate(markdown=>showDetail({...currentDetailItem,kind:'pending',markdown},null,false),fixture.markdown);
+   assert.equal(await page.locator('.reader-review').count(),fixture.count?1:0,fixture.name);
+   assert.equal(await page.locator('.reader-review-jump').count(),fixture.count,fixture.name);
+   assert.equal(await page.locator('.reader-review-jump img,.reader-review-jump script').count(),0);
+   if(fixture.target){
+    await page.locator('.reader-review > summary').click();const button=page.locator('.reader-review-jump').last();
+    assert.equal(await button.getAttribute('aria-controls'),fixture.target);
+    await button.focus();await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),fixture.target);
+    assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth));
+   }
+  }
  }
  assert.deepEqual(errors,[]);r.complete=true;save();await context.close();
  }

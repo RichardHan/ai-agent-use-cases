@@ -1,0 +1,9 @@
+browser	Verify the updated site in Chromium	﻿2026-10-19T22:18:49.6915452Z ##[group]Run python3 scripts/preview.py "$RUNNER_TEMP/preview-after/ai-agent-use-cases"
+browser	Verify the updated site in Chromium	2026-10-19T22:18:49.6915833Z ^[[36;1mpython3 scripts/preview.py "$RUNNER_TEMP/preview-after/ai-agent-use-cases"^[[0m
+browser	Verify the updated site in Chromium	2026-10-19T22:18:49.6916389Z ^[[36;1mpython3 -m http.server 8081 --directory "$RUNNER_TEMP/preview-after" > /tmp/site-after.log 2>&1 &^[[0m
+browser	Verify the updated site in Chromium	2026-10-19T22:18:49.6916671Z ^[[36;1mnode tests/discovery-browser.cjs^[[0m
+browser	Verify the updated site in Chromium	2026-10-19T22:18:49.6970075Z shell: /usr/bin/bash -e {0}
+browser	Verify the updated site in Chromium	2026-10-19T22:18:49.6970233Z env:
+browser	Verify the updated site in Chromium	2026-10-19T22:18:49.6970396Z   NODE_PATH: /home/runner/work/_temp/browser-tools/node_modules
+browser	Verify the updated site in Chromium	2026-10-19T22:18:49.6970592Z ##[endgroup]
+browser	Verify the updated site in Chromium	2026-10-19T22:18:49.7865405Z /home/runner/work/_temp/preview-after/ai-agent-use-cases

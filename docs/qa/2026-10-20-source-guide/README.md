@@ -5,7 +5,7 @@
 ## 方案、範圍與驗收
 
 - A：在結果上方常駐五類完整定義。操作少，但手機每次都要跨過較長說明。
-- B（採用）：常駐目前來源條件的短說明，五類定義放在原生折疊區。成本低中，讓需要的人深入核對，同時保留閱讀密度。
+- B（最終採用）：常駐「來源標籤怎麼看 · 未獨立重現」入口；目前來源條件的解釋與五類定義放在原生折疊區。成本低中，讓需要的人深入核對，也保留手機結果密度。初版常駐短說明曾造成下述手機退化，已補修。
 
 驗收：五類不當成可靠度排名；明示本庫未獨立重現、同篇補充可能有不同證據、本庫自設流程不是作者實測。選擇來源、分享直鏈、重設、瀏覽器返回及補讀後提示同步；鍵盤可展開，summary至少44px高；未知及長文字安全顯示。搜尋、組合篩選、空結果、來源連結、直鏈重新整理、返回焦點、長文、載入／部分失敗／重試／整體錯誤均維持可用。桌面1440、手機390／320，三瀏覽器與axe驗收。
 
@@ -23,15 +23,15 @@
 
 ## 修改與驗證
 
-`index.html` 在結果數與卡片之間加入說明與原生details/dl，來源select的aria-describedby連到目前說明。`assets/app.js` 五類說明集中一份，由共用render更新，只有文案變動才改live region，避免每次輸入都重複宣布；以textContent處理未知類型。`assets/style.css`沿用品牌文字、對比與focus，14px說明、44px以上展開目標，不增加動畫。
+`index.html` 在結果數與卡片之間加入說明與原生details/dl，來源select的aria-describedby連到常駐入口及展開後的目前說明。`assets/app.js` 五類說明集中一份，由共用render更新，只有文案變動才改live region，避免每次輸入都重複宣布；以textContent處理未知類型。`assets/style.css`沿用品牌文字、對比與focus，14px說明、44px以上展開目標，不增加動畫。
 
 基準與修改後截圖由真實headless瀏覽器產生；非設計稿。首屏內容可能因隨機抽卡不同。
 
 | 視圖 | 修改前 | 修改後 |
 | --- | --- | --- |
-| 桌面結果 | [1440](compare-before-1440.png) | [1440](compare-after-1440.png) |
-| 手機結果 | [390](compare-before-390.png) | [390](compare-after-390.png) |
-| 展開判讀 | 原版無入口 | [桌面](preview/after-guide-chromium-1440.png)／[手機](preview/after-guide-chromium-390.png) |
+| 桌面結果 | [1440](compare-before-1440.png) | [1440](mobile-fix/compare-after-1440.png) |
+| 手機結果 | [390](compare-before-390.png) | [390](mobile-fix/compare-after-390.png) |
+| 展開判讀 | 原版無入口 | [桌面](mobile-fix/after-complete-guide-chromium-1440.png)／[手機](mobile-fix/after-complete-guide-chromium-390.png) |
 
 三個具體模擬情境：
 1. UC001＋作者來源 → 展開說明 → 鍵盤讀案例／來源 → Escape回到同卡。
@@ -64,7 +64,7 @@ NODE_PATH=/tmp/ai-case-qa-tools/node_modules GUIDE_OUTPUT=qa-artifacts/source-gu
 
 獨立角色未參與實作，先審查架構、diff、安全文字處理及五類文案，再自行讀100項測試結果並看桌面／手機前後圖。依審查補拍完整guide區塊：[1440](preview/after-complete-guide-chromium-1440.png)／[390](preview/after-complete-guide-chromium-390.png)／[320](preview/after-complete-guide-chromium-320.png)，確認五類換行與間距。另補驗全357筆來源標籤都有定義，以及移除來源chip／清除篩選後回復預設說明，五配置重跑完成。截圖上下緣不同，不用來推算首屏空間改善或轉換成效。
 
-字色依WCAG相對亮度公式計算，#3c5148／#285344／#172b27對#f7f8f2分別7.98／8.16／13.93:1；前端三檔共增加2,687未壓縮bytes。詳見[sizes-and-contrast.json](sizes-and-contrast.json)，不是Lighthouse分數、網路傳輸量或載入提速證明。
+字色依WCAG相對亮度公式計算，#3c5148／#285344／#172b27對#f7f8f2分別7.98／8.16／13.93:1；初版前端三檔共增加2,687未壓縮bytes。詳見[sizes-and-contrast.json](sizes-and-contrast.json)，不是Lighthouse分數、網路傳輸量或載入提速證明。
 
 [雲端Source guide QA39332823089](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39332823089)檢查同一產品版本026b51d，並額外執行原search passage全庫原文完整性與loading budget回歸。PR建立被GitHub的Enterprise Managed User限制拒絕（createPullRequest Unauthorized）；不切換身份，依使用者既有授權直接非強推merge，合併前先確認獨立審查與雲端結果。
 
@@ -73,3 +73,18 @@ NODE_PATH=/tmp/ai-case-qa-tools/node_modules GUIDE_OUTPUT=qa-artifacts/source-gu
 第一輪雲端39332823089已成功；獨立reviewer自行下載logs／artifact，逐項核對：100／100單元；guide三引擎五配置、三情境、357筆無缺項、10次axe零違規；原context五配置、10次axe零違規，全庫357條目／459段落的原文DOM完整性斷言通過。原loading budget三引擎17項通過：5組356→357僅補1次；三次整輪期限20428／21023／20519ms、各32請求後可復原357；缺失直鏈、catalog／copy掛起復原也通過。原始數據：[guide](cloud-first-guide.json)／[context](cloud-first-context.json)／[loading](cloud-first-loading.json)／[CI](cloud-first-ci.json)。
 
 測試維護修正3dfa13e把兩個固定357斷言改為由served catalog＋P標題計算，保留精確相等與0缺項斷言；獨立核對與既有loading-budget公式相同，產品三檔無變動。最終雲端[39333237573](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39333237573)另行確認，不將第一輪當成測試修正後的結果。
+
+
+## 發布後原有QA抓到的退化與最終補修
+
+初版非強推合併48880b0，[Pages39333952290](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39333952290)建置部署成功，公開HTML／JS／CSS逐byte相同。初版[Source guide QA39333953063](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39333953063)的preview／published都成功，但不代表全部舊QA通過。原[Reader QA39333953244](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39333953244)在未修改的mobile-search-browser.cjs明確失敗：「First result follows search without scrolling past unused controls」。原[Website QA39333953245](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39333953245)也FAIL，該份log未提供完整斷言，不能確定與Reader同根因。保留[Reader原FAIL](initial-reader-failure.log)及[Website原FAIL](initial-website-failure.log)，不把初版窄範圍通過誤寫成全面通過。
+
+補修738ccb3／89a9524：完整說明移進details；入口仍有44px目標及「未獨立重現」提醒。縮小結果標頭原有margin-bottom，不使用跨分享區域的負margin。基準預設手機firstResultFromSearch=204px，初版超過原240px門檻；補修三引擎390／320實測233px，原門檻未放寬。原mobile搜尋三引擎五配置全部通過、10次axe零違規：[Chromium](mobile-fix/source-guide-chromium.json)／[Firefox](mobile-fix/source-guide-firefox.json)／[WebKit](mobile-fix/source-guide-webkit.json)。
+
+獨立角色進一步以Chromium實際輔助樹發現，閉合details的note不會進入select的description；89a9524將常駐summary加入aria-describedby，並以CDP斷言實際description包含「未獨立重現」。獨立補驗先確認served HTML等於固定89a9524，再驗閉合／展開兩狀態；展開後才有完整來源說明。沒有聲稱閉合時會朗讀隱藏文案。最終guide五配置／357筆無缺項／10次axe零違規：[補修報告](mobile-fix/report.json)。獨立角色已看最終手機、桌面與完整五類圖片，無剩餘必修項。
+
+分享成功／拒絕剪貼簿兩路各1440／390／320：summary距status底12px、距手動輸入框底18px，保留輸入框焦點且無重疊；[六組原始數據與圖片](mobile-fix/source-guide-share/report.json)。新workflow也加入未修改的mobile-search測試及原discovery-browser／reader-browser完整命令，防止只驗新功能漏掉既有閱讀密度。
+
+來源限制：本輪額外查驗GitHub原文時曾回HTTP429（[初版正式數據](initial-published-guide.json)、補修guide報告也保留），popup開啟的URL正確，但不宣稱第三方來源每次可讀或HTTP200；不為取得綠燈而反覆重試。手動版本核對腳本一度把native fetch.status當函式，導致部署前舊站提前進入guide檢查，該失敗[原log](premature-live-check.log)不算正式驗收成功；已改為先核對資產成功才執行。正式雲端workflow原本即有正確版本閘門。
+
+最終補修前端三檔相對17a0cae共增加2,810未壓縮bytes（HTML678、JS1355、CSS777），見[final-asset-sizes.json](final-asset-sizes.json)。不代表傳輸量或速度分數。最後預覽已加Chromium真AX描述檢查，仍為五配置357筆零缺項、10次axe零違規；原mobile另外五配置10次axe零違規，分享六組無重疊。雲端補修驗收[39334624106](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39334624106)會再核對原失敗的完整命令，結果另補。

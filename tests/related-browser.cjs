@@ -44,6 +44,7 @@ const live=process.env.RELATED_LIVE==='1';
   await page.locator('#results .card').first().waitFor();
   if(live)assert.equal(await (await served).text(),fs.readFileSync('assets/app.js','utf8'),'Browser receives deployed app asset');
   report.push({name,label:'load',elapsedMs:Date.now()-started,failed:await page.evaluate(()=>failedPaths.length)});
+  fs.writeFileSync('qa-artifacts/published-source-diagnostics.json',JSON.stringify({origin,name,report,failedPaths:await page.evaluate(()=>failedPaths)},null,2));
   assert.equal(await page.evaluate(()=>failedPaths.length),0);
   const resultIDs=await page.locator('#results .card').evaluateAll(es=>es.map(e=>e.dataset.caseId));
   await page.screenshot({path:`qa-artifacts/related-after-search-${name}.png`});

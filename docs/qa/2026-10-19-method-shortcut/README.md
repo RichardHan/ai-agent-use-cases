@@ -45,3 +45,6 @@ UC-338入口：桌面1451→444px、手機2314→595px；320×740由2856→693px
 中間一次修後驗收因axe要求明確browser context失敗；已修正測試工具設定，以上採成功完整重跑結果，沒有把該次失敗忽略或當通過。獨立角色只讀審查程式、測試、工作流程、實際桌面／手機前後圖與雲端JSON，結論無剩餘必修。主程式安全使用textContent、原標題索引及既有modal-only scroll，不新增外傳資料。
 
 變更：`assets/reader.js`方法選取及入口、`assets/reader.css`輕量排版、`tests/method-shortcut.test.cjs`三項選取回歸、`tests/method-shortcut-browser.cjs`三情境跨引擎、`.github/workflows/method-shortcut-qa.yml`雲端與發布驗收，及SITE／本QA紀錄。最後補存320入口截圖與正式發佈結果將續記。
+
+
+[最終QA39208179276](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39208179276)完整成功，涵蓋最終程式／測試（ce55961，後續僅紀錄），重跑69項測試、方法快捷、reading-flow與reader。另保存[320px實際聚焦入口](shortcut-small-mobile.png)，完整顯示未實測限定。

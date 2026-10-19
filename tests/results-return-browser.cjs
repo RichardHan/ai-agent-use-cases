@@ -83,7 +83,7 @@ const report=[];const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringif
    await page.locator('#retry-failed').click();await page.waitForFunction(()=>recoveringSources);await link.focus();
    const expectedBefore=position==='first'?'6':String(before);assert.equal(await page.evaluate(()=>document.activeElement.dataset.resultsReturn),expectedBefore);
    release();await page.waitForFunction(()=>failedPaths.length===0&&!recoveringSources);await page.unroute('**/cases/001-*.md');
-   assert.equal(await page.locator('#results .card').count(),before+1);assert.equal(await page.evaluate(()=>document.activeElement.dataset.resultsReturn),position==='first'?'6':String(before+1));
+   assert.equal(await page.locator('#results .card').count(),before+1);assert.equal(await page.evaluate(()=>document.activeElement.dataset.resultsReturn),position==='first'?'6':String(before%6===0?before:before+1));
    const focused=await page.evaluate(()=>{const b=document.activeElement.getBoundingClientRect();return {top:b.top,bottom:b.bottom};});assert(focused.top>=0&&focused.bottom<=844);
    await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
   }

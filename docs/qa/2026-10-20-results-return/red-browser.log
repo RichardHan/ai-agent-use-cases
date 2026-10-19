@@ -1,0 +1,9 @@
+AssertionError [ERR_ASSERTION]: Deep result browsing needs an in-flow route back to search and filters
+    at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/results-return-browser.cjs:25:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

@@ -7,7 +7,8 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  for(const [engine,width] of [['chromium',1440],['chromium',390],['chromium',320],['chromium',360],['firefox',390],['webkit',390]]){
  const browser=await ({chromium,firefox,webkit}[engine]).launch();
  try {
- const page=await browser.newPage({viewport:{width,height:width===1440?1000:844}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const context=await browser.newContext({viewport:{width,height:width===1440?1000:844}});
+ const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  let loadedCSS;page.on('response',response=>{if(new URL(response.url()).pathname.endsWith('/assets/reader.css'))loadedCSS=response.text();});
  const base=process.env.CONTROLS_URL||'http://127.0.0.1:8100/ai-agent-use-cases/';
  await page.goto(base);await page.locator('#results .card').first().waitFor();
@@ -28,8 +29,12 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  const sourceStatus=width===1440?(await page.request.get(source)).status():null;if(width===1440)assert.equal(sourceStatus,200);
  await page.keyboard.press('Escape');assert.equal(await page.locator('#detail').evaluate(n=>n.open),false);
  assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');
+ assert(await trigger.evaluate(n=>n===document.activeElement),'Escape restores original trigger focus');
  await page.goto(url);await page.locator('#detail[open]').waitFor();await page.reload();await page.locator('#detail[open]').waitFor();
+ assert.equal(await page.locator('#detail-toolbar-id').innerText(),initialId);
  await page.locator('#close-detail').click();
+ assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');
+ assert.equal(new URL(page.url()).searchParams.get('q'),'旅遊');assert.equal(new URL(page.url()).searchParams.get('scenario'),'生活');assert(!new URL(page.url()).searchParams.has('case'));
  await page.locator('#query').fill('zzzz-no-match-8472');await page.locator('#empty:not([hidden])').waitFor();
  await page.locator('#empty-reset').click();await page.locator('#results .card').first().waitFor();
  await page.goto(base+'?case=UC-313');await page.locator('#detail[open]').waitFor();
@@ -56,6 +61,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail');assert.equal(await page.locator('#close-detail').evaluate(n=>n.matches(':focus-visible')),true);
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
  reports.push({engine,width,controls,toolbarVisible,source,sourceStatus,axe:axe.violations.map(v=>v.id),errors});
+ fs.writeFileSync(`qa-artifacts/${process.env.LABEL}-report.json`,JSON.stringify(reports,null,2));
  assert.deepEqual(errors,[]);assert.deepEqual(axe.violations,[]);
  } finally { await browser.close(); }
  }

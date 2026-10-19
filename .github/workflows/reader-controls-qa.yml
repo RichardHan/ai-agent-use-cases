@@ -2,7 +2,7 @@ name: Reader controls QA
 on:
   push:
     branches: [improve/reader-position, improve/search-reading-context, main]
-    paths: ['assets/reader.css', 'tests/reader-controls-browser.cjs', '.github/workflows/reader-controls-qa.yml']
+    paths: ['assets/**', 'index.html', 'tests/reader-controls-browser.cjs', '.github/workflows/reader-controls-qa.yml']
 permissions:
   contents: read
 jobs:

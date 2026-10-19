@@ -461,6 +461,13 @@ function refreshRelated() {
   if (hadFocus) {
     const target = [...next.querySelectorAll('[data-related-id]')].find(button => button.dataset.relatedId === active.dataset.relatedId) || next.querySelector('.related-back');
     target.focus({preventScroll:true});
+    // New related links can move the returned control below the modal viewport.
+    // Scroll this dialog only, leaving the search page behind it untouched.
+    const dialog=$('detail'),rect=target.getBoundingClientRect();
+    const top=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom+8;
+    const bottom=dialog.getBoundingClientRect().bottom-8;
+    if(rect.top<top)dialog.scrollTop+=rect.top-top;
+    else if(rect.bottom>bottom)dialog.scrollTop+=rect.bottom-bottom;
   }
 }
 function updateModalNav() {
@@ -536,12 +543,6 @@ function showDetail(item, trigger, updateURL=true) {
   }
   body.append(actionRow);
 
-  if (!discoveryReady) {
-    const status=el('p','detail-load-status','這篇已可閱讀。其他案例仍在載入，完成後會提供切換與延伸閱讀。');
-    status.setAttribute('role','status');
-    body.append(status);
-  }
-
   body.append(el('p', 'detail-warning', item.kind === 'pending' ? '待查線索：證據尚不足，不列成功或已完成案例。' : '來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。'));
 
   const overview = el('div', 'plain-overview');
@@ -550,6 +551,11 @@ function showDetail(item, trigger, updateURL=true) {
     section.append(el('h2', '', label), el('p', '', text));
     overview.append(section);
   });
+  if (!discoveryReady) {
+    const status=el('p','detail-load-status','這篇已可閱讀。其他案例仍在載入，完成後會提供切換與延伸閱讀。');
+    status.setAttribute('role','status');
+    overview.append(status);
+  }
   body.append(overview);
 
   const guidance = el('details', 'reader-guidance');
@@ -1268,6 +1274,9 @@ async function load() {
     });
     failedPaths = failed;
     if (!loaded.length) throw Error('沒有成功讀取任何案例。');
+    const restoreFocus=preserveRecoveryFocus();
+    const readingFocus=$('detail').open ? document.activeElement : null;
+    const readingTop=readingFocus?.getBoundingClientRect().top;
     entries = mergeCorpus([],loaded);
     refreshCorpusMetadata();
     $('updated').textContent = '索引更新 ' + catalog.builtAt;
@@ -1291,10 +1300,14 @@ async function load() {
       refreshRelated();
       const status=$('detail-body').querySelector('.detail-load-status');
       if(status)status.textContent=failedPaths.length ? '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。' : '其他案例已載入，可依目前搜尋條件切換與探索。';
+      if(readingFocus?.isConnected && document.activeElement===readingFocus){
+        $('detail').scrollTop+=readingFocus.getBoundingClientRect().top-readingTop;
+      }
     }
     else if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
     else if(skippedFromButton)focusLoadedResults();
     else finishArrival(params,failedPaths.length>0);
+    restoreFocus();
   } catch (error) {
     discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();

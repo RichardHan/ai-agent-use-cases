@@ -14,7 +14,9 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
  const browser=await launcher.launch();try{
  for(const [size,width,height] of (engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]])){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
-  const page=await context.newPage();page.setDefaultTimeout(12000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const errors=[];context.on('page',p=>p.on('pageerror',e=>{if(p.url().startsWith(base))errors.push(e.message);}));
+  const page=await context.newPage();page.setDefaultTimeout(12000);
+  const assets=[];if(!observe)page.on('response',r=>{const path=['assets/app.js','assets/reader.css'].find(path=>new URL(r.url()).pathname.endsWith('/'+path));if(path)assets.push(r.text().then(text=>({path,text})));});
   const check={engine,size,audits:[]};report.checks.push(check);save();
   // Real catalog: a recently added shared source must not wait for any unrelated source.
   const release=await hold(page,'cases/001-travel-checkout.md');
@@ -24,8 +26,9 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   const targetPath='cases/'+fs.readdirSync('cases').find(f=>f.startsWith('359-'));
   const sourceReady=page.waitForResponse(r=>r.url().endsWith('/'+targetPath)).then(async r=>{await r.finished();return Date.now()-start;});
   await page.goto(base+'?case=UC-359');check.sourceReadyMs=await sourceReady;
-  if(observe){await page.waitForTimeout(600);check.earlyOpen=await page.locator('#detail').evaluate(e=>e.open);await page.screenshot({path:`${output}/before-${engine}-${size}.png`});release();await page.locator('#detail[open]').waitFor();check.openAfterReleaseMs=Date.now()-start;save();await context.close();continue;}
+  if(observe){await page.waitForTimeout(600);check.earlyOpen=await page.locator('#detail').evaluate(e=>e.open);assert.equal(check.earlyOpen,false,'original code waits for the unrelated source');await page.screenshot({path:`${output}/before-${engine}-${size}.png`});release();await page.locator('#detail[open]').waitFor();check.openAfterReleaseMs=Date.now()-start;save();await context.close();continue;}
   await page.locator('#detail[open]').waitFor();check.detailOpenMs=Date.now()-start;
+  const received=await Promise.all(assets);assert.equal(received.length,2);for(const {path,text} of received)assert.equal(text,fs.readFileSync(path,'utf8'),'browser received current '+path);check.actualAssets=received.map(({path,text})=>({path,sha256:require('node:crypto').createHash('sha256').update(text).digest('hex')}));
   assert.equal(await page.evaluate(()=>discoveryReady),false,'the unrelated source must still be waiting');
   assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-359');
   assert.equal(requested[0].endsWith('/'+targetPath),true,'shared source gets the first worker');
@@ -35,17 +38,20 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   assert.match(await page.locator('#nav-next-case').getAttribute('aria-label'),/載入/);
   assert.equal(await page.evaluate(()=>document.activeElement.id),'detail-title');
   assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth+1));
+  check.purposeBounds=await page.locator('.plain-overview section p').evaluate(e=>({top:e.getBoundingClientRect().top,lineHeight:parseFloat(getComputedStyle(e).lineHeight)}));
+  assert(check.purposeBounds.top+check.purposeBounds.lineHeight*2<height,'two lines of purpose fit even with the long title');
   await page.screenshot({path:`${output}/after-${engine}-${size}.png`});
   await audit(page,check,'early case');
   // Complete the corpus while reading an original section. The original DOM and focus survive.
   await page.locator('.reader-jump').first().focus();await page.keyboard.press('Enter');
-  const reading=await page.evaluate(()=>{window.savedMarkdown=document.querySelector('.research-details .markdown');window.savedFocus=document.activeElement;return {scroll:document.getElementById('detail').scrollTop,focus:document.activeElement.id,url:location.href};});
-  release();await page.waitForFunction(()=>discoveryReady);
+  const reading=await page.evaluate(()=>{window.savedMarkdown=document.querySelector('.research-details .markdown');window.savedFocus=document.activeElement;return {scroll:document.getElementById('detail').scrollTop,top:document.activeElement.getBoundingClientRect().top,focus:document.activeElement.id,url:location.href};});
+  release();await page.waitForFunction(()=>discoveryReady);await page.waitForTimeout(100);
   assert.equal(await page.evaluate(()=>window.savedMarkdown===document.querySelector('.research-details .markdown')),true);
   assert.equal(await page.evaluate(()=>window.savedFocus===document.activeElement),true);
   assert.equal(page.url(),reading.url);
   check.readingScrollDelta=await page.locator('#detail').evaluate((e,previous)=>Math.abs(e.scrollTop-previous),reading.scroll);
-  assert(check.readingScrollDelta<=2,'background completion must preserve the reading position');
+  check.readingTargetDelta=await page.evaluate(previous=>Math.abs(document.activeElement.getBoundingClientRect().top-previous),reading.top);
+  assert(check.readingTargetDelta<=2,'background completion must preserve the original section position in the viewport');
   assert.match(await page.locator('.detail-load-status').innerText(),/已載入/);
   await page.screenshot({path:`${output}/reading-${engine}-${size}.png`});
   await audit(page,check,'complete original section');
@@ -77,6 +83,13 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   releaseCard();await cardPage.waitForFunction(()=>discoveryReady);
   assert.equal(await cardPage.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),'UC-005','background completion must retain the early card return focus');
   const cardBounds=await cardPage.locator('#results .card[data-case-id="UC-005"] .card-bottom button').boundingBox();assert(cardBounds.y>=-1&&cardBounds.y+cardBounds.height<=height+1,'returned card remains visible');await cardPage.close();
+  // Focus at the end of the early related section stays visible as real links arrive.
+  const relatedPage=await context.newPage();const releaseRelated=await hold(relatedPage,'cases/001-travel-checkout.md');
+  await relatedPage.goto(base+'?case=UC-005');await relatedPage.locator('#detail[open]').waitFor();await relatedPage.locator('.related-back').focus();
+  releaseRelated();await relatedPage.waitForFunction(()=>discoveryReady);await relatedPage.waitForTimeout(100);
+  assert.equal(await relatedPage.evaluate(()=>document.activeElement.classList.contains('related-back')),true);
+  const relatedBounds=await relatedPage.locator('.related-back').boundingBox();const toolbarBounds=await relatedPage.locator('.detail-toolbar').boundingBox();
+  assert(relatedBounds.y>=toolbarBounds.y+toolbarBounds.height-1&&relatedBounds.y+relatedBounds.height<=height+1,'related-section return focus remains visible');await relatedPage.close();
   // Target failure retains the original partial-load/retry path; no missing-case invention.
   const failed=await context.newPage();let fail=true;const failedTarget='cases/005-cloud-pr-review.md';
   await failed.route('**/'+failedTarget,route=>fail?route.fulfill({status:503,body:'Unavailable'}):route.continue());

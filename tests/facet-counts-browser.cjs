@@ -90,6 +90,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.locator('.research-details summary').click();
   const source=await page.locator('.markdown a[href^="https:"]').first().getAttribute('href');
   assert(source.startsWith('https:'));
+  assert(new URL(page.url()).searchParams.get('case'),'opening detail creates a case URL before Back');
   const returnBefore={url:page.url(),history:await page.evaluate(()=>history.length)};
   await page.evaluate(()=>{window.facetReturnEvents=[];addEventListener('popstate',()=>window.facetReturnEvents.push({url:location.href,open:document.getElementById('detail').open}));});
   await page.goBack();

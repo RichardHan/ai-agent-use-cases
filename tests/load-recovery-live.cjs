@@ -43,7 +43,7 @@ const origin='https://richardhan.github.io/ai-agent-use-cases/';
   console.log('VISUAL:live-home-'+name+':'+fs.readFileSync('qa-artifacts/live-home-'+name+'.jpg').toString('base64'));
   await page.locator('#query').fill('旅遊');
   if(!await page.locator('#tool').isVisible())await page.locator('#filter-summary').click();
-  await page.locator('#tool').selectOption({label:'Grok Bot'});
+  await page.locator('#tool').selectOption('Grok Bot');
   const ids=await page.locator('#results .card').evaluateAll(nodes=>nodes.map(n=>n.dataset.caseId));
   assert(ids.length>0);
   await page.locator('#results .card h3 button').first().click();

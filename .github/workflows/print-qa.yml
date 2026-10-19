@@ -25,12 +25,14 @@ jobs:
           node --test tests/*.test.cjs
           for file in assets/*.js; do node --check "$file"; done
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
-      - name: Observe published reading and print
+      - name: Verify reading save and discovery on cloud browsers
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
-          PRINT_OBSERVE: '1'
-          PRINT_URL: https://richardhan.github.io/ai-agent-use-cases/
-        run: node tests/print-browser.cjs
+        run: |
+          python3 -m http.server 8087 --directory "$RUNNER_TEMP/preview" > /tmp/print-preview.log 2>&1 &
+          node tests/print-browser.cjs
+          SEARCH_ENTRY_URL=http://127.0.0.1:8087/ai-agent-use-cases/ node tests/home-search-entry-browser.cjs
+          READING_URL=http://127.0.0.1:8087/ai-agent-use-cases/ node tests/reading-flow-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

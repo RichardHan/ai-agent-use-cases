@@ -558,6 +558,7 @@ function showDetail(item, trigger, updateURL=true) {
   research.append(toggle, el('p', 'research-title', item.id + ' · ' + item.originalTitle), renderMarkdown(item.markdown, item.path));
   body.append(research);
   globalThis.CaseReader?.enhance(body, item);
+  globalThis.CasePrint?.enhance(body, item);
   body.append(renderRelated(item));
 
   updateModalNav();

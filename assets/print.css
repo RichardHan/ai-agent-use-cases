@@ -1,0 +1,23 @@
+.print-case-address{display:none}
+.btn-print-case{font-size:12px;min-height:44px;padding:8px 12px}
+@media print{
+ @page{size:A4;margin:16mm}
+ html,body:has(#detail[open]){height:auto;overflow:visible;scroll-behavior:auto;background:white;color:#172b27}
+ body:has(#detail[open])>:not(#detail){display:none!important}
+ #detail[open]{display:block;position:static;inset:auto;width:100%;max-width:none;height:auto;max-height:none;margin:0;padding:0;border:0;border-radius:0;overflow:visible;background:white;color:#172b27}
+ #detail::backdrop{display:none}
+ #detail-body{padding:0}
+ #detail .detail-toolbar,#detail .detail-actions,#detail .reader-nav,#detail .reader-return,#detail .reader-report,#detail .related-cases,#detail .reader-method-shortcut{display:none!important}
+ #detail .print-case-address{display:block;font-size:10pt;overflow-wrap:anywhere;margin:10pt 0 16pt}
+ #detail h1{font-size:23pt;line-height:1.4;margin:10pt 0}
+ #detail h2,#detail h3,#detail summary{break-after:avoid;page-break-after:avoid}
+ #detail p,#detail li{orphans:3;widows:3}
+ #detail details{display:block;overflow:visible}
+ #detail details>summary{list-style:none;font-weight:700}
+ #detail .markdown,#detail .plain-overview p,#detail .reader-guidance p{font-size:11pt;line-height:1.75}
+ #detail .reader-evidence,#detail .reader-guidance{border:1px solid #aaa;background:white;padding:12pt;margin:14pt 0}
+ #detail .markdown pre,#detail .markdown code{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f4f4}
+ #detail .markdown a[href]::after{content:' (' attr(href) ')';font-size:9pt;overflow-wrap:anywhere}
+ #detail a{color:#172b27;text-decoration:underline}
+ #detail button,#detail input{display:none!important}
+}

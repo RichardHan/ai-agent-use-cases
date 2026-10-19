@@ -11,6 +11,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -33,6 +35,15 @@ jobs:
         run: |
           node tests/facet-counts-browser.cjs
           READING_URL=https://richardhan.github.io/ai-agent-use-cases/ READING_OBSERVE=1 node tests/reading-flow-browser.cjs
+      - name: Verify red baseline for the new tests
+        if: ${{ hashFiles('tests/facet-counts.test.cjs') != '' }}
+        run: |
+          git show 1317a5e:assets/app.js > "$RUNNER_TEMP/facet-before.js"
+          if FACET_SOURCE="$RUNNER_TEMP/facet-before.js" node --test tests/facet-counts.test.cjs > qa-artifacts/red-baseline.tap 2>&1; then
+            echo 'Expected missing facetCounts to fail'
+            exit 1
+          fi
+          grep -q 'facetCounts is not defined' qa-artifacts/red-baseline.tap
       - name: Verify implementation when ready
         if: ${{ hashFiles('tests/facet-counts.test.cjs') != '' }}
         env:
@@ -42,6 +53,30 @@ jobs:
           python3 -m http.server 8096 --directory "$RUNNER_TEMP/facet-preview" > /tmp/facet-preview.log 2>&1 &
           node tests/facet-counts-browser.cjs
           READING_URL=http://127.0.0.1:8096/ai-agent-use-cases/ node tests/reading-flow-browser.cjs
+      - name: Verify published assets and journey
+        if: ${{ github.ref == 'refs/heads/main' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/facet-tools/node_modules
+          FACET_URL: https://richardhan.github.io/ai-agent-use-cases/
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          (async()=>{
+            const files=['assets/app.js','assets/style.css','index.html'];
+            for(let i=0;i<90;i++){
+              const matches=await Promise.all(files.map(async file=>{
+                const r=await fetch(process.env.FACET_URL+(file==='index.html'?'':file)+'?facets='+process.env.GITHUB_SHA,{cache:'no-store'});
+                return r.ok&&await r.text()===fs.readFileSync(file,'utf8');
+              }));
+              if(matches.every(Boolean)){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
+              await new Promise(r=>setTimeout(r,3000));
+            }
+            throw Error('Published assets mismatch');
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          NODE
+          mkdir -p qa-artifacts/preview
+          mv qa-artifacts/after-* qa-artifacts/verification.json qa-artifacts/preview/
+          node tests/facet-counts-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

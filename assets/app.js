@@ -761,6 +761,9 @@ function renderFacetCounts(terms, filters) {
     const options=[...select.options];
     const counts=discoveryReady ? facetCounts(entries,terms,filters,key,options.map(o=>o.value)) : [];
     options.forEach((option,index)=>{
+      // HTML options without a value attribute derive their value from the label.
+      // Freeze it before adding counts so filters and URLs keep the raw value.
+      option.value=option.value;
       if(!option.dataset.label)option.dataset.label=option.textContent;
       option.textContent=option.dataset.label+(discoveryReady ? '（'+counts[index]+' 筆）' : '');
     });

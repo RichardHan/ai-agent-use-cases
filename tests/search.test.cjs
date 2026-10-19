@@ -2131,6 +2131,56 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('國外修車表單'))
 assert(api.filterEntries(entries, Array.from(api.tokenize('電視看女兒成績')), {}).some(x => x.id === 'UC-345'), '電視看女兒成績 matches UC-345 via tv daughter grades tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('客廳電視成績看板')), {}).some(x => x.id === 'UC-345'), '客廳電視成績看板 matches UC-345 via living room tv grade board tokenization');
 
+// Search quality: UC-346 出發前充滿電自動還原
+assert(api.filterEntries(entries, Array.from(api.tokenize('出發前充滿電自動還原')), {}).some(x => x.id === 'UC-346'), '出發前充滿電自動還原 matches UC-346 via charge revert tokenization');
+
+// Search quality: UC-347 過濾小孩頻道怪人
+assert(api.filterEntries(entries, Array.from(api.tokenize('過濾小孩頻道怪人')), {}).some(x => x.id === 'UC-347'), '過濾小孩頻道怪人 matches UC-347 via child channel comment sweep tokenization');
+
+// Search quality: UC-348 zillow買房過濾交房仲, 調閱房屋揭露文件
+assert(api.filterEntries(entries, Array.from(api.tokenize('zillow買房過濾交房仲')), {}).some(x => x.id === 'UC-348'), 'zillow買房過濾交房仲 matches UC-348 via realtor screening handoff tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('調閱房屋揭露文件')), {}).some(x => x.id === 'UC-348'), '調閱房屋揭露文件 matches UC-348 via disclosure handoff tokenization');
+
+// Search quality: UC-349 詢問信寫入notion台帳, 查行事曆空檔草稿回信
+assert(api.filterEntries(entries, Array.from(api.tokenize('詢問信寫入notion台帳')), {}).some(x => x.id === 'UC-349'), '詢問信寫入notion台帳 matches UC-349 via inquiry ledger tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('查行事曆空檔草稿回信')), {}).some(x => x.id === 'UC-349'), '查行事曆空檔草稿回信 matches UC-349 via calendar slot reply draft tokenization');
+
+// Search quality: UC-350 主管晨報公開新聞分流, 內部信件交dots公開新聞交grok
+assert(api.filterEntries(entries, Array.from(api.tokenize('主管晨報公開新聞分流')), {}).some(x => x.id === 'UC-350'), '主管晨報公開新聞分流 matches UC-350 via news triage tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('內部信件交dots公開新聞交grok')), {}).some(x => x.id === 'UC-350'), '內部信件交dots公開新聞交grok matches UC-350 via internal-public split tokenization');
+
+// Search quality: UC-344 claude code卡住webhook
+assert(api.filterEntries(entries, Array.from(api.tokenize('claude code卡住webhook')), {}).some(x => x.id === 'UC-344'), 'claude code卡住webhook matches UC-344 via session stall webhook tokenization');
+
+// Search quality: UC-334 ads-b接收站雙頻輪收, 1090mhz天線量測
+assert(api.filterEntries(entries, Array.from(api.tokenize('ads-b接收站雙頻輪收')), {}).some(x => x.id === 'UC-334'), 'ads-b接收站雙頻輪收 matches UC-334 via dual-band ads-b tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('1090mhz天線量測')), {}).some(x => x.id === 'UC-334'), '1090mhz天線量測 matches UC-334 via antenna measurement tokenization');
+
+// Search quality: UC-335 手動開啟的排程被關掉
+assert(api.filterEntries(entries, Array.from(api.tokenize('手動開啟的排程被關掉')), {}).some(x => x.id === 'UC-335'), '手動開啟的排程被關掉 matches UC-335 via manual routine disable tokenization');
+
+// Search quality: UC-336 掌上型語音入口mcp
+assert(api.filterEntries(entries, Array.from(api.tokenize('掌上型語音入口mcp')), {}).some(x => x.id === 'UC-336'), '掌上型語音入口mcp matches UC-336 via handheld voice terminal tokenization');
+
+// Search quality: UC-337 每日隨機照片換臉
+assert(api.filterEntries(entries, Array.from(api.tokenize('每日隨機照片換臉')), {}).some(x => x.id === 'UC-337'), '每日隨機照片換臉 matches UC-337 via daily random likeness swap tokenization');
+
+// Search quality: UC-339 跨產品過期交辦重送
+assert(api.filterEntries(entries, Array.from(api.tokenize('跨產品過期交辦重送')), {}).some(x => x.id === 'UC-339'), '跨產品過期交辦重送 matches UC-339 via stale instruction resend tokenization');
+
+// Search quality: UC-330 智慧開關分層排障, 未支援設備配對成功不能動
+assert(api.filterEntries(entries, Array.from(api.tokenize('智慧開關分層排障')), {}).some(x => x.id === 'UC-330'), '智慧開關分層排障 matches UC-330 via switch troubleshooting tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('未支援設備配對成功不能動')), {}).some(x => x.id === 'UC-330'), '未支援設備配對成功不能動 matches UC-330 via unsupported device pairing tokenization');
+
+// Search quality: UC-331 網購未送達催退入帳
+assert(api.filterEntries(entries, Array.from(api.tokenize('網購未送達催退入帳')), {}).some(x => x.id === 'UC-331'), '網購未送達催退入帳 matches UC-331 via unrefunded delivery tokenization');
+
+// Search quality: UC-332 x發文前人工關卡
+assert(api.filterEntries(entries, Array.from(api.tokenize('x發文前人工關卡')), {}).some(x => x.id === 'UC-332'), 'x發文前人工關卡 matches UC-332 via prepost human approval tokenization');
+
+// Search quality: UC-333 notion跨代理外聯記憶
+assert(api.filterEntries(entries, Array.from(api.tokenize('notion跨代理外聯記憶')), {}).some(x => x.id === 'UC-333'), 'notion跨代理外聯記憶 matches UC-333 via cross-agent external memory tokenization');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

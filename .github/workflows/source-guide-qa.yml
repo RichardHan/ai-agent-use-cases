@@ -3,7 +3,7 @@ on:
   pull_request:
     paths: ['assets/**', 'index.html', 'tests/source-guide*', '.github/workflows/source-guide-qa.yml']
   push:
-    branches: ['main', 'improve/evidence-discovery-20261020']
+    branches: ['main', 'improve/evidence-discovery-20261020', 'fix/source-guide-mobile-density']
     paths: ['assets/**', 'index.html', 'tests/source-guide*', '.github/workflows/source-guide-qa.yml']
   workflow_dispatch:
 permissions:
@@ -11,7 +11,7 @@ permissions:
 jobs:
   preview:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,11 +33,17 @@ jobs:
           GUIDE_URL: http://127.0.0.1:8123/ai-agent-use-cases/
           CONTEXT_URL: http://127.0.0.1:8123/ai-agent-use-cases/
           BUDGET_URL: http://127.0.0.1:8123/ai-agent-use-cases/
+          READER_URL: http://127.0.0.1:8123/ai-agent-use-cases/
         run: |
           python3 -m http.server 8123 --directory "$RUNNER_TEMP/guide-preview" > /tmp/guide-preview.log 2>&1 &
+          python3 -m http.server 8081 --directory "$RUNNER_TEMP/guide-preview" > /tmp/guide-discovery.log 2>&1 &
           node tests/source-guide-browser.cjs
+          node tests/source-guide-mobile-regression.cjs
+          node tests/source-guide-share-layout.cjs
           node tests/reader-context-round.cjs
           node tests/loading-budget-browser.cjs
+          node tests/discovery-browser.cjs
+          node tests/reader-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

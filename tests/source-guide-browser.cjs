@@ -10,11 +10,15 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
 (async()=>{
  for(const [engine,width,height] of observe||process.env.GUIDE_PUBLISHED==='1'?[[chromium,1440,1000],[chromium,390,844]]:[[chromium,1440,1000],[chromium,390,844],[chromium,320,740],[firefox,390,844],[webkit,390,844]]){
   const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage();
+  const catalog=await (await context.request.get(base+'catalog.json')).json();
+  const hasPending=catalog.files.includes('sources/pending.md');
+  const pending=hasPending?await (await context.request.get(base+'sources/pending.md')).text():'';
+  const expectedEntries=catalog.files.length-(hasPending?1:0)+(pending.match(/^##\s+P-/gm)||[]).length;
   const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
   const row={engine:engine.name(),width,audits:[]};report.push(row);save();
   const ready=async()=>page.waitForFunction(()=>discoveryReady,null,{timeout:30000});
   const start=Date.now();await page.goto(base+'?q=UC001&proof='+encodeURIComponent('作者報告／示範')+'#explore');await ready();
-  row.readyMs=Date.now()-start;row.entries=await page.evaluate(()=>entries.length);row.failed=await page.evaluate(()=>[...failedPaths]);assert.equal(row.entries,357);assert.deepEqual(row.failed,[]);
+  row.readyMs=Date.now()-start;row.entries=await page.evaluate(()=>entries.length);row.failed=await page.evaluate(()=>[...failedPaths]);assert.equal(row.entries,expectedEntries);assert.deepEqual(row.failed,[]);
   await page.locator('#results-count').scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/${observe?'before':'after'}-results-${engine.name()}-${width}.png`});
   row.hasGuide=await page.locator('#source-guide').count();save();
@@ -47,7 +51,7 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   assert.match(await page.locator('#source-type-note').innerText(),/官方.*本庫未獨立重現/);assert(await page.locator('#empty').isVisible());
   await page.locator('#query').fill('no-source-guide-results-987654');assert(await page.locator('#empty').isVisible());await scan('empty');
   await page.locator('#empty-reset').click();assert.match(await page.locator('#source-type-note').innerText(),/不是.*驗證/);
-  assert.equal(await page.locator('#results .card').count(),357);
+  assert.equal(await page.locator('#results .card').count(),expectedEntries);
   // 3. Shared combined conditions and a long case survive reload and browser Back.
   await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot&proof='+encodeURIComponent('作者報告／示範')+'&case=UC-001');await ready();await page.locator('#detail[open]').waitFor();await page.reload();await ready();await page.locator('#detail[open]').waitFor();await page.locator('#close-detail').click();
   assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#proof').inputValue(),'作者報告／示範');assert.equal(await page.locator('#scenario').inputValue(),'生活');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');

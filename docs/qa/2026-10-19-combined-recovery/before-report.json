@@ -2,7 +2,7 @@
   {
     "engine": "chromium",
     "width": 1440,
-    "readyMs": 4423,
+    "readyMs": 3384,
     "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
     "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
     "emptyHint": "目前條件沒有交集。可逐項移除上方條件，或清除篩選後保留關鍵字再找。",

@@ -1,0 +1,62 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "readyMs": 1142,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "emptyHint": "至少要一起移除 2 項篩選才有結果。以下調整會保留關鍵字與其餘條件。",
+    "suggestions": "一起移除收錄狀態「還在查證」、使用情境「開發」 → 查看 7 筆",
+    "recoveredCount": 7,
+    "recoveryRenderMs": 9.60000000000582,
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "readyMs": 1163,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "emptyHint": "至少要一起移除 2 項篩選才有結果。以下調整會保留關鍵字與其餘條件。",
+    "suggestions": "一起移除收錄狀態「還在查證」、使用情境「開發」 → 查看 7 筆",
+    "recoveredCount": 7,
+    "recoveryRenderMs": 9.299999999988358,
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "readyMs": 1011,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "emptyHint": "至少要一起移除 2 項篩選才有結果。以下調整會保留關鍵字與其餘條件。",
+    "suggestions": "一起移除收錄狀態「還在查證」、使用情境「開發」 → 查看 7 筆",
+    "recoveredCount": 7,
+    "recoveryRenderMs": 9.800000000017462,
+    "axe": []
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "readyMs": 2030,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "emptyHint": "至少要一起移除 2 項篩選才有結果。以下調整會保留關鍵字與其餘條件。",
+    "suggestions": "一起移除收錄狀態「還在查證」、使用情境「開發」 → 查看 7 筆",
+    "recoveredCount": 7,
+    "recoveryRenderMs": 8,
+    "axe": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "readyMs": 1071,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "emptyHint": "至少要一起移除 2 項篩選才有結果。以下調整會保留關鍵字與其餘條件。",
+    "suggestions": "一起移除收錄狀態「還在查證」、使用情境「開發」 → 查看 7 筆",
+    "recoveredCount": 7,
+    "recoveryRenderMs": 8,
+    "axe": []
+  },
+  {
+    "journey": "loading-partial-retry-focus-long-error",
+    "passed": true
+  }
+]

@@ -430,6 +430,7 @@ function showDetail(item, trigger, updateURL=true) {
     lastTriggerContext={id:item.id,area:trigger.closest('#drawn-case')?'drawn-case':'results',read:!!trigger.closest('.card-bottom')};
   }
   currentDetailItem = item;
+  if($('missing-case'))$('missing-case').hidden=true;
   const toolbarId = $('detail-toolbar-id');
   if (toolbarId) toolbarId.textContent = item.id;
   const body = $('detail-body');
@@ -531,6 +532,7 @@ function closeDetail() {
   const url = new URL(location.href);
   url.searchParams.delete('case');
   history.replaceState(null, '', url);
+  updateMissingCase();
   restoreDetailFocus();
 }
 // Explanations use the existing matching rules; they never rank or qualify evidence.
@@ -706,10 +708,30 @@ function revealSearch(resultsOnly=false) {
   (resultsOnly?$('results-count'):$('explore')).scrollIntoView({block:'start',behavior:'instant'});
   target.focus({preventScroll:true});
 }
+// Only report an absent shared case once every source has been read.
+function updateMissingCase() {
+  const notice=$('missing-case');
+  if(!notice)return;
+  const params=new URLSearchParams(location.search),target=params.get('case');
+  notice.hidden=!discoveryReady||!!failedPaths.length||!params.has('case')||!!matchCase(target);
+  if(notice.hidden)return;
+  const label=(target||'').trim();
+  const display=Array.from(label).slice(0,80).join('')+(Array.from(label).length>80?'…':'');
+  const message=label?
+    '已讀取全部來源，但沒有找到「'+display+'」。請確認分享的案例編號，或向分享者索取完整連結。':
+    '分享連結沒有提供案例編號。請向分享者索取完整連結，或從下方搜尋開始。';
+  if($('missing-case-message').textContent!==message)$('missing-case-message').textContent=message;
+}
+function focusMissingCase() {
+  const title=$('missing-case-title');
+  title.focus({preventScroll:true});
+  $('missing-case').scrollIntoView({block:'start',behavior:'instant'});
+}
 function finishArrival(params,failed=false) {
-  const shouldMove=allowAutomaticArrival&&(hasSearchArrival(params,location.hash)||(failed&&params.has('case')));
+  const missing=$('missing-case')&&!$('missing-case').hidden;
+  const shouldMove=allowAutomaticArrival&&(missing||hasSearchArrival(params,location.hash)||(failed&&params.has('case')));
   allowAutomaticArrival=false;
-  if(shouldMove)revealSearch();
+  if(shouldMove){if(missing)focusMissingCase();else revealSearch();}
 }
 function clearSearchShare() {
   searchShareRequest++;
@@ -934,6 +956,7 @@ function refreshCorpusMetadata() {
   }
 }
 function updatePartialLoad() {
+  updateMissingCase();
   $('partial-load').hidden=!discoveryReady||!failedPaths.length;
   $('retry-failed').setAttribute('aria-disabled',String(recoveringSources));
   $('retry-failed').textContent=recoveringSources?'正在重試…':'重試未載入來源';
@@ -988,9 +1011,10 @@ async function retryFailedSources() {
     restoreFocus();
     refreshRelated();
     const target=new URLSearchParams(location.search).get('case');
-    if(recoverRequested && requestedCase && target===requestedCase && !$('detail').open){
+    if(recoverRequested && requestedCase!==null && target===requestedCase && !$('detail').open){
       const item=matchCase(target);
       if(item)showDetail(item,null,false);
+      else if($('missing-case')&&!$('missing-case').hidden)focusMissingCase();
     }
   } catch(error) {
     recoveryNotice='暫時無法補讀來源，已載入內容已保留，請稍後再試。';
@@ -1023,6 +1047,7 @@ function focusLoadedResults() {
 async function load() {
   if(initialLoading)return;
   initialLoading=true;
+  if($('missing-case'))$('missing-case').hidden=true;
   const deadline=Date.now()+20000;
   const remaining=()=>Math.max(1,deadline-Date.now());
   initialLoadController=new AbortController();
@@ -1172,6 +1197,16 @@ document.querySelectorAll('[data-search-entry]').forEach(link=>link.addEventList
   $('explore').scrollIntoView({block:'start',behavior:'instant'});
   $('query').focus({preventScroll:true});
 }));
+$('dismiss-missing-case').addEventListener('click',()=>{
+  allowAutomaticArrival=false;
+  const url=new URL(location.href);
+  url.searchParams.delete('case');
+  url.hash='explore';
+  history.replaceState(history.state,'',url);
+  updateMissingCase();
+  $('explore').scrollIntoView({block:'start',behavior:'instant'});
+  $('query').focus({preventScroll:true});
+});
 $('copy-search-link').addEventListener('click',copySearchLink);
 // Choose the initial disclosure state once; typing, navigation and resizing
 // preserve the reader's choice and never hide a currently focused control.
@@ -1231,6 +1266,7 @@ window.addEventListener('popstate', event => {
   const id = params.get('case');
   const item = matchCase(id);
   const wasOpen=$('detail').open;
+  const missingHadFocus=$('missing-case')?.contains(document.activeElement);
   activeScenario = params.get('scenario') || '';
   ['query', 'kind', 'tool', 'category', 'proof'].forEach(key => $(key).value = params.get(key === 'query' ? 'q' : key) || '');
   render(false);
@@ -1239,8 +1275,11 @@ window.addEventListener('popstate', event => {
     lastTriggerContext = event.state?.caseReturn || null;
     showDetail(item, null, false);
   } else if (wasOpen) $('detail').close();
+  if(!wasOpen&&missingHadFocus){
+    if($('missing-case')&&!$('missing-case').hidden)focusMissingCase();else revealSearch(true);
+  }
   if(wasOpen&&!item){
-    restoreDetailFocus();
+    if($('missing-case')&&!$('missing-case').hidden)focusMissingCase();else restoreDetailFocus();
     // Fragment traversal can apply its native focus after the popstate handler.
     // Restore briefly after that step, without overriding another control's focus.
     if(location.hash){

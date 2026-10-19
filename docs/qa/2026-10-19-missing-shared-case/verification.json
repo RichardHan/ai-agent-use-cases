@@ -1,0 +1,52 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "sourceStatus": 200,
+    "url": "http://127.0.0.1:8091/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB",
+    "visible": true,
+    "active": "missing-case-title",
+    "scrollY": 989,
+    "axeViolations": 0
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "sourceStatus": 200,
+    "url": "http://127.0.0.1:8091/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB",
+    "visible": true,
+    "active": "missing-case-title",
+    "scrollY": 1678,
+    "axeViolations": 0
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "sourceStatus": 200,
+    "url": "http://127.0.0.1:8091/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB",
+    "visible": true,
+    "active": "missing-case-title",
+    "scrollY": 1716,
+    "axeViolations": 0
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "sourceStatus": 200,
+    "url": "http://127.0.0.1:8091/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB",
+    "visible": true,
+    "active": "missing-case-title",
+    "scrollY": 1559,
+    "axeViolations": 0
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "sourceStatus": 200,
+    "url": "http://127.0.0.1:8091/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB",
+    "visible": true,
+    "active": "missing-case-title",
+    "scrollY": 1584,
+    "axeViolations": 0
+  }
+]

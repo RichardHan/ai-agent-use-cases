@@ -1,0 +1,20 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "sourceStatus": 200,
+    "url": "http://127.0.0.1:8090/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB",
+    "visible": false,
+    "active": "search-title",
+    "scrollY": 855
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "sourceStatus": 200,
+    "url": "http://127.0.0.1:8090/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB",
+    "visible": false,
+    "active": "search-title",
+    "scrollY": 1464
+  }
+]

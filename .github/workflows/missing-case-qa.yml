@@ -1,0 +1,75 @@
+name: Missing shared case QA
+on:
+  push:
+    branches: [fix/missing-shared-case, main]
+    paths: ['assets/**', 'index.html', 'tests/missing-case-browser.cjs', '.github/workflows/missing-case-qa.yml']
+concurrency:
+  group: missing-case-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  missing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/case-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/case-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Baseline tests and syntax
+        run: |
+          node --test tests/*.test.cjs
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+      - name: Observe current baseline journeys
+        env:
+          NODE_PATH: ${{ runner.temp }}/case-tools/node_modules
+          CASE_URL: http://127.0.0.1:8090/ai-agent-use-cases/
+          CASE_OBSERVE: '1'
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/case-before" 85deb0e92b615340502547abe32b08b8cbb246b6
+          python3 "$RUNNER_TEMP/case-before/scripts/preview.py" "$RUNNER_TEMP/case-before-preview/ai-agent-use-cases"
+          python3 -m http.server 8090 --directory "$RUNNER_TEMP/case-before-preview" > /tmp/case-before.log 2>&1 &
+          node tests/missing-case-browser.cjs
+      - name: Verify shared-case recovery
+        env:
+          NODE_PATH: ${{ runner.temp }}/case-tools/node_modules
+        run: |
+          python3 scripts/preview.py "$RUNNER_TEMP/case-preview/ai-agent-use-cases"
+          python3 -m http.server 8091 --directory "$RUNNER_TEMP/case-preview" > /tmp/case-preview.log 2>&1 &
+          node tests/missing-case-browser.cjs
+      - name: Verify published site
+        if: ${{ github.ref == 'refs/heads/main' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/case-tools/node_modules
+          CASE_URL: https://richardhan.github.io/ai-agent-use-cases/
+          CASE_LIVE: '1'
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs');
+          (async()=>{
+            const base=process.env.CASE_URL,files=['index.html','assets/app.js','assets/style.css'];
+            for(let i=0;i<90;i++){
+              const texts=await Promise.all(files.map(async file=>{
+                const r=await fetch(base+(file==='index.html'?'':file)+'?caseqa='+process.env.GITHUB_SHA,{cache:'no-store'});return r.ok?r.text():'';
+              }));
+              if(texts.every((s,j)=>s===fs.readFileSync(files[j],'utf8'))){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
+              await new Promise(r=>setTimeout(r,2000));
+            }
+            throw Error('Published assets mismatch');
+          })().catch(e=>{console.error(e);process.exitCode=1;});
+          NODE
+          node tests/missing-case-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: missing-case-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

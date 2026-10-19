@@ -69,7 +69,7 @@ const save=()=>fs.writeFileSync(output+'/report.json',JSON.stringify(reports,nul
    CaseReader.enhance(body,item,terms);
    for(const group of body.querySelectorAll('.reader-search-match')){
     const locate=group.querySelector('.reader-search-locate'),quote=group.querySelector('.reader-search-excerpt');if(!locate)continue;
-    const target=body.querySelector('#'+locate.getAttribute('aria-controls'));assertSource: {
+    const target=body.querySelector('#'+locate.getAttribute('aria-controls'));{
      if(!target||!['P','LI','PRE','BLOCKQUOTE'].includes(target.tagName))throw Error(item.id+' bad original block');
      if(quote&&!target.textContent.includes(quote.textContent.replace(/^…|…$/g,'')))throw Error(item.id+' nonliteral excerpt');
     }passages++;

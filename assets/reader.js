@@ -75,7 +75,7 @@
     if(index===-1)return null;
     const text=blocks[index],limit=240;
     if(Array.from(text).length<=limit)return {index,excerpt:text,partial:false};
-    if(typeof Intl.Segmenter!=='function')return {index,excerpt:null,partial:true};
+    if(typeof Intl==='undefined'||typeof Intl.Segmenter!=='function')return {index,excerpt:null,partial:true};
     const segments=[...new Intl.Segmenter(undefined,{granularity:'grapheme'}).segment(text)];
     let projected='',offsets=[];
     for(const {segment,index:start} of segments){

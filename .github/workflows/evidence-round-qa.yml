@@ -11,6 +11,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -24,12 +26,31 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
           "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
           sudo apt-get install -y fonts-noto-cjk
-      - name: Inspect published journeys
+      - name: Reproduce missing later-version index on baseline
+        run: |
+          git show 7b1b36a:assets/reader.js > "$RUNNER_TEMP/review-before.js"
+          mkdir -p qa-artifacts
+          if REVIEW_SOURCE="$RUNNER_TEMP/review-before.js" node --test tests/review-sections.test.cjs > qa-artifacts/red-baseline.tap 2>&1; then
+            echo 'Expected original missing review index to fail'
+            exit 1
+          fi
+          grep -q 'selectReviewSections is not a function' qa-artifacts/red-baseline.tap
+      - name: Inspect published baseline
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
-          READING_URL: https://richardhan.github.io/ai-agent-use-cases/
-          READING_OBSERVE: '1'
-        run: node tests/reading-flow-browser.cjs > /tmp/observe.log 2>&1 || { tail -c 4000 /tmp/observe.log; exit 1; }
+          REVIEW_URL: https://richardhan.github.io/ai-agent-use-cases/
+          REVIEW_OBSERVE: '1'
+        run: node tests/review-sections-browser.cjs
+      - name: Verify updated journeys and existing contextual reader
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          REVIEW_URL: http://127.0.0.1:8100/ai-agent-use-cases/
+          READER_SEARCH_URL: http://127.0.0.1:8100/ai-agent-use-cases/
+          READER_SEARCH_ENGINES: all
+        run: |
+          python3 -m http.server 8100 --directory "$RUNNER_TEMP/preview" > /tmp/review-preview.log 2>&1 &
+          node tests/review-sections-browser.cjs
+          node tests/reader-search-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -65,6 +65,14 @@
     }
     return matches;
   }
+  // This is an index of original headings, never an evidence classification.
+  function selectReviewSections(sections){
+    return sections.flatMap((section,index)=>{
+      const caution=/限制|權限|費用|可用性|驗收|可重現|缺口|缺漏|風險|證據|未驗證/.test(section.title);
+      const linkCount=section.linkCount||0;
+      return linkCount||caution?[{index,title:section.title,linkCount,caution}]:[];
+    });
+  }
   function enhance(body,item,searchTerms=[]){
     const research=body.querySelector('.research-details');
     const markdown=research?.querySelector('.markdown');
@@ -169,12 +177,16 @@
     }
     // Collect before inserting reader controls so their labels cannot become hits.
     const sourceSummary=research.querySelector('summary');
-    const sourceSections=[{title:'',text:'',target:sourceSummary}];
+    const sourceSections=[{title:'',text:'',target:sourceSummary,links:new Set()}];
     for(const block of markdown.children){
-      if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block});
+      if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Set()});
       const section=sourceSections[sourceSections.length-1];
       section.text+='\n'+(/^[UO]L$/.test(block.tagName)?[...block.children].map(row=>row.textContent).join('\n'):block.textContent);
-      for(const link of block.querySelectorAll('a'))section.text+='\n'+link.getAttribute('href');
+      for(const link of block.querySelectorAll('a')){
+        const href=link.getAttribute('href')||'';
+        section.text+='\n'+href;
+        if(/^https?:\/\//i.test(href))section.links.add(href);
+      }
     }
     const searchMatches=selectSearchSections(sourceSections,searchTerms);
     if(searchMatches.length){
@@ -194,7 +206,6 @@
       }
       overview.after(search);
     }
-    if(!headings.length)return;
     const quick=make('div','reader-quick');
     selectJumps(titles).forEach(({index,label})=>{
       const button=jumpButton(index,'reader-jump');
@@ -202,6 +213,26 @@
       quick.append(button);
     });
     if(quick.children.length)nav.append(quick);
+    const reviewSections=selectReviewSections(sourceSections.map(section=>({title:section.title,linkCount:section.links.size})));
+    if(reviewSections.length){
+      const review=make('details','reader-review');
+      review.append(make('summary','',`逐段核對連結與限制（${reviewSections.length}）`),
+        make('p','reader-review-note','依含網頁連結的段落與限制相關標題整理，不是獨立驗證，也不保證列出所有限制。連結可能是工具文件或延伸閱讀，請連同上下文判讀。'));
+      const reviewList=make('ol','reader-review-list');
+      for(const section of reviewSections){
+        const target=sourceSections[section.index].target;
+        if(target===sourceSummary)target.id='reader-source-meta';
+        const button=make('button','reader-review-jump');button.type='button';
+        button.setAttribute('aria-controls',target===sourceSummary?target.id:`reader-section-${headings.indexOf(target)}`);
+        const position=target===sourceSummary?'頁首資料':`原文第 ${headings.indexOf(target)+1} 段`;
+        const basis=[section.linkCount?'含網頁連結':'',section.caution?'限制相關標題':''].filter(Boolean).join(' · ');
+        button.append(make('span','',section.title||'頁首資料'),make('span','reader-target',position+' · '+basis+' ↓'));
+        button.addEventListener('click',()=>{research.open=true;moveTo(target);});
+        const row=make('li');row.append(button);reviewList.append(row);
+      }
+      review.append(reviewList);nav.append(review);
+    }
+    if(!headings.length){if(reviewSections.length)evidence.after(nav);return;}
     const full=make('details','reader-outline');
     full.append(make('summary','',`全部段落（${headings.length}）`));
     const list=make('ol');
@@ -220,7 +251,7 @@
     nav.append(full);
     evidence.after(nav);
   }
-  const api={selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,enhance};
+  const api={selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectReviewSections,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

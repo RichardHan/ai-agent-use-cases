@@ -35,7 +35,9 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
     // A 320px screen retains the complete purpose; its shortcut is within one short swipe.
     assert(bounds.y>=toolbar.y+toolbar.height&&bounds.y+bounds.height<=dialog.y+dialog.height+(width===320?180:0));
     assert.equal(await shortcut.locator('.reader-target').innerText(),'建議操作流程（本庫設計，未實測）');
-    await shortcut.focus();await page.keyboard.press('Enter');
+    await shortcut.focus();
+    if(width===320)await page.screenshot({path:`qa-artifacts/${label}-shortcut-${engine.name()}-${width}.png`});
+    await page.keyboard.press('Enter');
     const state=await page.evaluate(()=>{const e=document.activeElement,r=e.getBoundingClientRect(),t=document.querySelector('.detail-toolbar').getBoundingClientRect();return {text:e.textContent,id:e.id,top:r.top,bottom:r.bottom,toolbar:t.bottom};});
     assert.match(state.text,/步驟|流程|方法|提示詞|指令/);assert(state.top>=state.toolbar&&state.bottom<=dialog.y+dialog.height);
     assert.equal(await shortcut.getAttribute('aria-controls'),state.id);row.target=state;

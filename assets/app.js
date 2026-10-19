@@ -717,9 +717,10 @@ function updateMissingCase() {
   if(notice.hidden)return;
   const label=(target||'').trim();
   const display=Array.from(label).slice(0,80).join('')+(Array.from(label).length>80?'…':'');
-  $('missing-case-message').textContent=label?
+  const message=label?
     '已讀取全部來源，但沒有找到「'+display+'」。請確認分享的案例編號，或向分享者索取完整連結。':
     '分享連結沒有提供案例編號。請向分享者索取完整連結，或從下方搜尋開始。';
+  if($('missing-case-message').textContent!==message)$('missing-case-message').textContent=message;
 }
 function focusMissingCase() {
   const title=$('missing-case-title');

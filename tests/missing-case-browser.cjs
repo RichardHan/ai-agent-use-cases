@@ -46,6 +46,14 @@ for(const [engine,width,height] of [['chromium',1440,1000],['chromium',390,844],
  await page.reload({waitUntil:'networkidle'});await ready(page);await missing.waitFor({state:'visible'});
  const buttonBox=await page.locator('#dismiss-missing-case').boundingBox();assert(buttonBox.height>=44);
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ // Typing does not repeatedly announce an unchanged missing-case message.
+ await page.evaluate(()=>{
+   window.caseMessageMutations=0;
+   window.caseMessageObserver=new MutationObserver(records=>window.caseMessageMutations+=records.length);
+   window.caseMessageObserver.observe(document.getElementById('missing-case-message'),{childList:true,subtree:true,characterData:true});
+ });
+ await page.locator('#query').fill('旅行');await page.locator('#query').fill('旅遊');
+ assert.equal(await page.evaluate(()=>{window.caseMessageObserver.disconnect();return window.caseMessageMutations;}),0);
  // Keyboard recovery removes only case, keeps the query and scenario, and does not add history.
  const length=await page.evaluate(()=>history.length);
  await page.locator('#dismiss-missing-case').focus();await page.keyboard.press('Enter');

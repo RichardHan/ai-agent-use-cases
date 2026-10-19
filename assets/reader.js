@@ -217,7 +217,7 @@
     if(reviewSections.length){
       const review=make('details','reader-review');
       review.append(make('summary','',`逐段核對連結與限制（${reviewSections.length}）`),
-        make('p','reader-nav-hint','依含網頁連結的段落與限制相關標題整理，不是獨立驗證，也不保證列出所有限制。連結可能是工具文件或延伸閱讀，請連同上下文判讀。'));
+        make('p','reader-review-note','依含網頁連結的段落與限制相關標題整理，不是獨立驗證，也不保證列出所有限制。連結可能是工具文件或延伸閱讀，請連同上下文判讀。'));
       const reviewList=make('ol','reader-review-list');
       for(const section of reviewSections){
         const target=sourceSections[section.index].target;

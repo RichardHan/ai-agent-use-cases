@@ -9,7 +9,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -49,10 +49,12 @@ jobs:
           REVIEW_URL: http://127.0.0.1:8100/ai-agent-use-cases/
           READER_SEARCH_URL: http://127.0.0.1:8100/ai-agent-use-cases/
           READER_SEARCH_ENGINES: all
+          READER_URL: http://127.0.0.1:8100/ai-agent-use-cases/
         run: |
           python3 -m http.server 8100 --directory "$RUNNER_TEMP/preview" > /tmp/review-preview.log 2>&1 &
           node tests/review-sections-browser.cjs
           node tests/reader-search-browser.cjs
+          node tests/reader-browser.cjs > /tmp/original-reader.log 2>&1 || { tail -c 6000 /tmp/original-reader.log; exit 1; }
       - name: Verify actual Pages assets and published journeys
         if: github.ref == 'refs/heads/main'
         env:

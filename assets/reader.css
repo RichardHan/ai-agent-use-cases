@@ -106,7 +106,7 @@
 /* A compact, literal index lets readers inspect later versions and caveats. */
 .reader-review{margin-top:14px;border-top:1px solid var(--line);padding-top:8px}
 .reader-review>summary{min-height:44px;box-sizing:border-box;padding:10px 0;cursor:pointer;font-size:14px;font-weight:650;line-height:1.7;color:var(--green);overflow-wrap:anywhere}
-.reader-review .reader-nav-hint{margin:8px 0 12px}
+.reader-review-note{font-size:12px;line-height:1.8;color:var(--muted);margin:8px 0 12px}
 .reader-review-list{list-style:none;padding:0;margin:0;display:grid;gap:6px}
 .reader-review-list li{min-width:0}
 .reader-review-jump{display:flex;flex-direction:column;gap:4px;width:100%;min-height:44px;padding:10px 12px;text-align:left;font-size:14px;line-height:1.8;overflow-wrap:anywhere;background:#f5f7ef}

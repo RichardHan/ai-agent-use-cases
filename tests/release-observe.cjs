@@ -7,7 +7,9 @@ const label=process.env.DIAG_LABEL||'release',root='qa-artifacts/diagnostics/'+l
 fs.mkdirSync(root,{recursive:true});
 const origin='https://richardhan.github.io/ai-agent-use-cases/';
 const started=Date.now(),report={label,started:new Date().toISOString(),pages:[],holds:[]},pages=[];
-const save=()=>fs.writeFileSync(root+'/network-state.json',JSON.stringify(report,null,2));
+let saveTimer=null;
+const flush=()=>fs.writeFileSync(root+'/network-state.json',JSON.stringify(report,null,2));
+const save=()=>{if(saveTimer===null){saveTimer=setTimeout(()=>{saveTimer=null;flush();},1000);saveTimer.unref();}};
 const path=url=>url.startsWith(origin)?url.slice(origin.length):null;
 async function snapshot(page,reason){
  const row=pages.find(x=>x.page===page);if(!row||page.isClosed())return;
@@ -37,4 +39,4 @@ for(const launcher of [chromium,firefox,webkit]){
   return browser;
  };
 }
-process.on('exit',save);
+process.on('exit',flush);

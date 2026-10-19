@@ -27,7 +27,9 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  await page.locator('.reader-nav').scrollIntoViewIfNeeded();
  const toolbarVisible=await page.locator('#close-detail').evaluate(n=>{const r=n.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight});assert.ok(toolbarVisible);
  await page.locator('.detail-source').click({trial:true});const source=await page.locator('.detail-source').getAttribute('href');
- const sourceStatus=width===1440?(await page.request.get(source)).status():null;if(width===1440)assert.equal(sourceStatus,200);
+ assert.equal(source,'https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md','source entry keeps the public original path');
+ // Remote availability is recorded separately from UI correctness (GitHub can return 429).
+ const sourceStatus=width===1440?(await page.request.get(source)).status():null;
  await page.keyboard.press('Escape');assert.equal(await page.locator('#detail').evaluate(n=>n.open),false);
  assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');
  assert(await trigger.evaluate(n=>n===document.activeElement),'Escape restores original trigger focus');

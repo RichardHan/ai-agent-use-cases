@@ -4,11 +4,12 @@ const AxeBuilder=require('@axe-core/playwright').default;
 const fs=require('node:fs'),assert=require('node:assert/strict');
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});const reports=[];
- for(const [engine,width] of [['chromium',1440],['chromium',390],['chromium',320],['chromium',360],['firefox',390],['webkit',390]]){
- const browser=await ({chromium,firefox,webkit}[engine]).launch();
+ const views=[['chromium',1440],['chromium',390],['chromium',320],['chromium',360],['firefox',390],['webkit',390]];
+ for(const [engine,width] of (process.env.OBSERVE?views.slice(0,3):views)){
+ const browser=await ({chromium,firefox,webkit}[engine]).launch();let page;
  try {
  const context=await browser.newContext({viewport:{width,height:width===1440?1000:844}});
- const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
  let loadedCSS;page.on('response',response=>{if(new URL(response.url()).pathname.endsWith('/assets/reader.css'))loadedCSS=response.text();});
  const base=process.env.CONTROLS_URL||'http://127.0.0.1:8100/ai-agent-use-cases/';
  await page.goto(base);await page.locator('#results .card').first().waitFor();
@@ -63,6 +64,13 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  reports.push({engine,width,controls,toolbarVisible,source,sourceStatus,axe:axe.violations.map(v=>v.id),errors});
  fs.writeFileSync(`qa-artifacts/${process.env.LABEL}-report.json`,JSON.stringify(reports,null,2));
  assert.deepEqual(errors,[]);assert.deepEqual(axe.violations,[]);
+ } catch(error) {
+  if(page){
+   const state=await page.evaluate(()=>({url:location.href,dialogOpen:document.getElementById('detail')?.open,error:document.getElementById('error')?.textContent,partial:document.getElementById('partial-message')?.textContent,failed:typeof failedPaths==='undefined'?null:failedPaths,loaded:typeof entries==='undefined'?null:entries.length})).catch(()=>null);
+   fs.writeFileSync(`qa-artifacts/${process.env.LABEL}-failure-${engine}-${width}.json`,JSON.stringify({message:error.message,state},null,2));
+   await page.screenshot({path:`qa-artifacts/${process.env.LABEL}-failure-${engine}-${width}.png`}).catch(()=>{});
+  }
+  throw error;
  } finally { await browser.close(); }
  }
  fs.writeFileSync(`qa-artifacts/${process.env.LABEL}-report.json`,JSON.stringify(reports,null,2));console.log(JSON.stringify(reports));

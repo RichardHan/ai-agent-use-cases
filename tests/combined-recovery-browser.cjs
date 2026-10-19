@@ -7,7 +7,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];
  for(const [engine,width,height] of (observe?[[chromium,1440,1000],[chromium,390,844]]:[[chromium,1440,1000],[chromium,390,844],[chromium,320,740],[firefox,390,844],[webkit,390,844]])){
- const browser=await engine.launch(),page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
+ const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage();
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const start=Date.now();await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>!document.getElementById('copy-search-link').disabled);
  const row={engine:engine.name(),width,readyMs:Date.now()-start};report.push(row);

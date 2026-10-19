@@ -94,7 +94,7 @@
     let start=Math.max(0,hitStart-60),end=Math.min(segments.length,start+limit);
     if(hitEnd>end){end=hitEnd;start=Math.max(0,end-limit);}
     const from=segments[start].index,to=end<segments.length?segments[end].index:text.length;
-    return {index,excerpt:(from?'…':'')+text.slice(from,to)+(to<text.length?'…':''),partial:true};
+    return {index,excerpt:(from?'…':'')+text.slice(from,to)+(to<text.length?'…':''),partial:from>0||to<text.length};
   }
   // This is an index of original headings, never an evidence classification.
   function selectReviewSections(sections){

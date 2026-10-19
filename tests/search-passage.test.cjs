@@ -35,3 +35,7 @@ test('context-sensitive casing and expanding keywords cannot quote a different o
  const result=selectSearchPassage(['ΟΣ '+ '背景'.repeat(200)+' σ'],'σ');assert.equal(result.index,0);assert.equal(result.excerpt,null);
  const expanded=selectSearchPassage(['前'+ 'ffi'.repeat(100)+'後'],'ﬃ'.repeat(100));assert.equal(expanded.index,0);assert.equal(expanded.excerpt,null);
 });
+
+test('whole graphemes can be retained without falsely calling a complete quote partial',()=>{
+ const text='API'+'👩🏽‍💻'.repeat(70);const result=selectSearchPassage([text],'api');assert.equal(result.excerpt,text);assert.equal(result.partial,false);
+});

@@ -1,0 +1,18 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "readyMs": 761,
+    "total": 357,
+    "firstResultFromSearch": 486.828125,
+    "returnLinks": 0
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "readyMs": 761,
+    "total": 357,
+    "firstResultFromSearch": 233,
+    "returnLinks": 0
+  }
+]

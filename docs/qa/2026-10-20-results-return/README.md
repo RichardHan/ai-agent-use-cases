@@ -56,3 +56,29 @@ NODE_PATH="$RUNNER_TEMP/return-tools/node_modules" node tests/results-return-bro
 ## 限制與下一輪
 
 未驗實體手機、螢幕閱讀器或真人偏好；axe不代表完整無障礙認證。全結果仍一次呈現，列表未縮短；沒有聲稱載入或轉換率提升，沒有Lighthouse分數。來源頁受第三方限制。下一輪最值得做：在可正確調整Pages建置時量測並減少全文請求，保留原文一致性、早讀與部分失敗復原。
+
+## 最終雲端預覽驗收
+
+[固定9537d8a的run39339736747](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39339736747)成功：[CI快照](preview-ci.json)。103／103單元、所有JS語法、Python預覽成功；固定原基準missing-route紅燈符合預期。其後新功能、原source-guide、原discovery（含mobile-search）、原reader四個完整browser命令全部執行成功，沒有修改原有browser斷言。
+
+[新功能原始結果](preview/report.json)：Chromium1440／390／320、Firefox390、WebKit390共五配置；全360筆順序及60入口、0／1／6／7／12／15邊界、每配置三情境、Enter／修飾鍵、原生Back與直鏈重整通過，五次axe零違規。手機首結果距搜尋皆233px（原標準<240未放寬），無橫溢出；部分失敗等待補讀期間的first／last入口焦點及可見性、錯誤重試通過。
+
+原來源[報告](source-guide-report.json)五配置完成且十次axe零違規；原Reader[全庫檢查](reader-corpus.json)360筆、2506段標題、379證據列，[十五次axe](reader-accessibility.json)零違規。原手機搜尋：[Chromium三尺寸](mobile-search.json)、[Firefox390](firefox-mobile-search.json)、[WebKit390](webkit-mobile-search.json)通過，保留233px預算及各兩次axe零違規。
+
+| 同第六張附近的真實畫面 | 修改前（357筆基準） | 修改後（360筆整合） |
+| --- | --- | --- |
+| 桌面1440 | [前](before/deep-chromium-1440.png) | [後](preview/deep-chromium-1440.png) |
+| 手機390 | [前](before/deep-chromium-390.png) | [後](preview/deep-chromium-390.png) |
+| 手機320 | 未拍基準 | [後](preview/deep-chromium-320.png) |
+
+另有[Firefox](preview/deep-firefox-390.png)、[WebKit](preview/deep-webkit-390.png)及[手機搜尋入口](preview/search-chromium-390.png)。兩版本前六張內容相同，總數差異來自協作者新增三筆，未拿不同總數的頁高來宣稱改善。主角色已逐張查看前後、桌面與兩手機尺寸；獨立角色最終審查另補。
+
+預覽單次未節流量測：全庫就緒750–1050ms、同步input/render 21.9–33ms；這是GitHub runner本地HTTP，不代表正式網路或速度提升。新產品JS增加827、CSS456，合計1283未壓縮bytes；字色#285344對紙底#f7f8f2相對亮度對比8.156:1，見[計算與大小](asset-sizes.json)。這些不是Lighthouse分數或完整無障礙認證。
+
+操作範圍補記：沒有開工前原工作檔hash，故不宣稱以雜湊證明逐byte相同；本輪所有檔案寫入均在隔離工作樹，原目錄未經本輪write/reset/stash/checkout。獨立角色末次僅確認原目錄仍有相同兩個未提交檔案，不將dirty狀態當成逐byte證明。
+
+## 獨立最終審查
+
+未負責主要實作的角色固定9537d8a自行查GH head/status、另外下載artifact，並以job logs API核讀完整原始log（`gh run view --log`只讀到前段，沒有把缺後段誤判成未執行）。確認Discovery三尺寸及fallback PASS；Reader五配置、CORPUS、缺reader／單來源／缺copy全部PASS；新五配置360卡／60入口／三情境／axe0、source十次及reader十五次axe0、原手機233px與360／2506／379完整性符合。部分補讀first＋last真retry gate與焦點／可見斷言確實在固定程式中執行。
+
+其逐張看最終1440／390／320、Firefox／WebKit深讀入口與首卡、UC313手機長文及UC005小手機閱讀；程式、相容性、資料傳送與設計無剩餘必修，結論可合併。分支的published job是skipped，不宣稱已發布；Pages與HTTPS另驗。審查角色全程沒有產品或repo寫入，派工設定仍僅為gpt-6-astra／ultra請求。

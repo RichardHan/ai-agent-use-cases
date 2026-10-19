@@ -1,0 +1,11 @@
+[
+  {
+    "viewport": "mobile",
+    "readyMs": 1528,
+    "searchFromHeading": 158,
+    "firstResultFromSearch": 233,
+    "axeScans": 2,
+    "axeViolations": 0,
+    "passed": true
+  }
+]

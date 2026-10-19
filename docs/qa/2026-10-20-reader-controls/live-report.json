@@ -1,0 +1,176 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "controls": [
+      {
+        "id": "nav-prev-case",
+        "width": 84.609375,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "nav-next-case",
+        "width": 84.609375,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "close-detail",
+        "width": 70.1875,
+        "height": 44,
+        "font": "14px"
+      }
+    ],
+    "toolbarVisible": true,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": 200,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "controls": [
+      {
+        "id": "nav-prev-case",
+        "width": 104,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "nav-next-case",
+        "width": 104,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "close-detail",
+        "width": 104,
+        "height": 44,
+        "font": "14px"
+      }
+    ],
+    "toolbarVisible": true,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": null,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "controls": [
+      {
+        "id": "nav-prev-case",
+        "width": 80.65625,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "nav-next-case",
+        "width": 80.671875,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "close-detail",
+        "width": 80.65625,
+        "height": 44,
+        "font": "14px"
+      }
+    ],
+    "toolbarVisible": true,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": null,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 360,
+    "controls": [
+      {
+        "id": "nav-prev-case",
+        "width": 94,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "nav-next-case",
+        "width": 94,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "close-detail",
+        "width": 94,
+        "height": 44,
+        "font": "14px"
+      }
+    ],
+    "toolbarVisible": true,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": null,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "controls": [
+      {
+        "id": "nav-prev-case",
+        "width": 104,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "nav-next-case",
+        "width": 104,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "close-detail",
+        "width": 104,
+        "height": 44,
+        "font": "14px"
+      }
+    ],
+    "toolbarVisible": true,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": null,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "controls": [
+      {
+        "id": "nav-prev-case",
+        "width": 104,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "nav-next-case",
+        "width": 104,
+        "height": 44,
+        "font": "14px"
+      },
+      {
+        "id": "close-detail",
+        "width": 104,
+        "height": 44,
+        "font": "14px"
+      }
+    ],
+    "toolbarVisible": true,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": null,
+    "axe": [],
+    "errors": []
+  }
+]

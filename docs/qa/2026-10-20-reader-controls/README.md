@@ -1,6 +1,6 @@
 # 2026-10-20：手機閱讀控制列
 
-目前狀態：本輪已完成預覽驗收與前後截圖；以下保留前輪未完成時的歷史記錄，最新結果見「本輪接續」與「完整預覽驗收」。
+目前狀態：已合併main並完成Pages正式部署；三引擎六配置正式站驗收成功。以下保留前輪未完成時的歷史記錄，最新證據見文末「正式發布」。
 
 ## 問題與選題
 
@@ -109,3 +109,17 @@ python3 -m http.server 8100 --directory /tmp/reader-preview
 ```
 
 無實體手機、實體Safari、螢幕閱讀器或真人轉換率驗證；axe不等於完整認證。外站可能限流，首次數百個全文請求也仍有成本。下一輪優先量測並降低首次全文載入成本，保留完整搜尋與來源可核對性。
+
+
+## 正式發布
+
+產品以正常Git merge合併到main並push，提交`05f38efc9558f5f5281ae6e81ceee30eaa6e1acc`；未強推、未建立或冒稱有PR review。原工作樹兩個未提交搜尋檔案的diff SHA-256仍為`1e6bb01a304879f93009093c677e9d5d59203cac737c00751ced16765b3f162d`，與本輪開始檢查相同。
+
+- [Pages正式Jekyll建置及部署39293209912](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39293209912)成功。
+- [Reader controls正式站驗收39293211415](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39293211415)成功：再次完成78/78單元、固定基準red、新版預覽、閱讀／載入復原回歸與正式站六配置。頁面實際載入`reader.css` response逐配置與checkout全文相同；全部44px高／14px、6次axe零違規、pageerror為空。GitHub來源此次為200；先前429仍保留為外站風險。
+- 正式CSS HTTP200、SHA-256為`0e3cc6b48d473396207eead457ef6250a9e83d3c4df18db5f9de17d750c43a0e`，與提交一致。
+- [正式站原始報告](live-report.json)、[桌面正式畫面](live-reader-1440.png)、[390px正式畫面](live-reader-390.png)、[320px正式畫面](live-reader-320.png)。主整合者已再次實際檢視正式桌面與手機截圖。
+
+[立即體驗正式閱讀流程](https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore)。
+
+變更檔案為`assets/reader.css`、`tests/reader-controls-browser.cjs`、`.github/workflows/reader-controls-qa.yml`、`SITE.md`及本QA目錄（紀錄、截圖、原始報告）；未修改`index.html`、產品JavaScript、案例或來源資料。

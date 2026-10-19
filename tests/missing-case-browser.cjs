@@ -44,6 +44,8 @@ for(const [engine,width,height] of [['chromium',1440,1000],['chromium',390,844],
  assert.match(await missing.innerText(),/找不到/);
  await page.waitForFunction(()=>{const el=document.getElementById('missing-case-title'),r=el.getBoundingClientRect();return document.activeElement===el&&r.top>=-1&&r.bottom<=innerHeight+1;});
  await page.reload({waitUntil:'networkidle'});await ready(page);await missing.waitFor({state:'visible'});
+ const buttonBox=await page.locator('#dismiss-missing-case').boundingBox();assert(buttonBox.height>=44);
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
  // Keyboard recovery removes only case, keeps the query and scenario, and does not add history.
  const length=await page.evaluate(()=>history.length);
  await page.locator('#dismiss-missing-case').focus();await page.keyboard.press('Enter');
@@ -63,8 +65,14 @@ for(const [engine,width,height] of [['chromium',1440,1000],['chromium',390,844],
  assert.equal(await missing.locator('img').count(),0);
  await page.locator('#dismiss-missing-case').click();
  await page.locator('#empty-reset').click();await page.locator('#results .card').first().waitFor();
+ // Empty and long IDs remain readable without horizontal overflow.
+ for(const id of ['', ' '.repeat(3), 'X'.repeat(500)]){
+   await page.goto(origin+'?case='+encodeURIComponent(id),{waitUntil:'networkidle'});await ready(page);await missing.waitFor({state:'visible'});
+   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+   assert((await page.locator('#missing-case-message').innerText()).length<200);
+ }
  // Valid direct links and refresh still open their case.
- await page.goto(origin+'?case=UC-001',{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
+ await page.goto(origin+'?case=1&q=zzzznomatch999',{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
  assert.equal(await missing.isVisible(),false);
  await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
  assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-001');
@@ -76,19 +84,23 @@ for(const [engine,width,height] of [['chromium',1440,1000],['chromium',390,844],
  assert.equal(await page.locator('#detail').evaluate(e=>e.open),false);
  const axe=await new AxeBuilder({page}).analyze();
  assert.deepEqual(axe.violations.map(v=>({id:v.id,impact:v.impact})),[]);
+ // Hiding a focused missing notice through history leaves focus in visible results.
+ await page.evaluate(()=>{history.pushState(null,'',location.pathname+'?q=旅遊');dispatchEvent(new PopStateEvent('popstate'));});
+ assert.equal(await missing.isVisible(),false);
+ assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
  assert.deepEqual(errors,[]);
  reports[reports.length-1].axeViolations=axe.violations.length;
  await context.close();await browser.close();
 }
 // Full-load failure and partial source recovery must not claim a case is absent.
 if(!observe){
- const browser=await chromium.launch();const page=await browser.newPage({viewport:{width:390,height:844}});
+ const browser=await chromium.launch();const page=await browser.newPage({viewport:{width:390,height:844}});page.setDefaultTimeout(10000);
  await page.route('**/catalog.json',r=>r.fulfill({status:503,body:'unavailable'}));
  await page.goto(origin+'?case=UC-001');await page.locator('#error').waitFor({state:'visible'});
  assert.equal(await page.locator('#missing-case').isVisible(),false);
  await page.unroute('**/catalog.json');await page.locator('#retry').click();await page.locator('#detail[open]').waitFor();
  await page.close();
- const partial=await browser.newPage({viewport:{width:390,height:844}});
+ const partial=await browser.newPage({viewport:{width:390,height:844}});partial.setDefaultTimeout(10000);
  await partial.route('**/cases/001-*.md',r=>r.fulfill({status:503,body:'unavailable'}));
  await partial.goto(origin+'?case=UC-001',{waitUntil:'networkidle'});
  await partial.locator('#partial-load').waitFor({state:'visible'});
@@ -96,7 +108,25 @@ if(!observe){
  assert.match(await partial.locator('#partial-message').innerText(),/分享的案例目前無法開啟/);
  await partial.unroute('**/cases/001-*.md');await partial.locator('#retry-failed').click();await partial.locator('#detail[open]').waitFor();
  assert.equal(await partial.locator('#detail-toolbar-id').innerText(),'UC-001');
- await browser.close();
+ await partial.close();
+ const unknown=await browser.newPage({viewport:{width:390,height:844}});unknown.setDefaultTimeout(10000);
+ await unknown.route('**/cases/001-*.md',r=>r.fulfill({status:503,body:'unavailable'}));
+ await unknown.goto(origin+'?case=UC-999999',{waitUntil:'networkidle'});
+ await unknown.locator('#partial-load').waitFor({state:'visible'});
+ assert.equal(await unknown.locator('#missing-case').isVisible(),false);
+ await unknown.unroute('**/cases/001-*.md');await unknown.locator('#retry-failed').click();
+ await unknown.locator('#missing-case').waitFor({state:'visible'});
+ assert.equal(await unknown.evaluate(()=>document.activeElement.id),'missing-case-title');
+ await unknown.close();
+ const slow=await browser.newPage({viewport:{width:390,height:844}});slow.setDefaultTimeout(10000);
+ let release;const gate=new Promise(r=>release=r);
+ await slow.route('**/catalog.json',async r=>{await gate;await r.continue();});
+ await slow.goto(origin+'?case=UC-999999',{waitUntil:'domcontentloaded'});
+ await slow.locator('[data-search-entry]').first().click();await slow.locator('#query').fill('旅遊');
+ assert.equal(await slow.locator('#missing-case').isVisible(),false);
+ release();await slow.locator('#missing-case').waitFor({state:'visible'});
+ assert.equal(await slow.evaluate(()=>document.activeElement.id),'query');
+ await slow.close();await browser.close();
 }
 fs.writeFileSync('qa-artifacts/'+prefix+'.json',JSON.stringify(reports,null,2));
 console.log('CASE_ACCEPTANCE '+JSON.stringify(reports));

@@ -6,6 +6,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  fs.mkdirSync('qa-artifacts',{recursive:true});const reports=[];
  for(const [engine,width] of [['chromium',1440],['chromium',390],['chromium',320],['chromium',360],['firefox',390],['webkit',390]]){
  const browser=await ({chromium,firefox,webkit}[engine]).launch();
+ try {
  const page=await browser.newPage({viewport:{width,height:width===1440?1000:844}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  const base=process.env.CONTROLS_URL||'http://127.0.0.1:8100/ai-agent-use-cases/';
  await page.goto(base);await page.locator('#results .card').first().waitFor();
@@ -51,7 +52,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
  reports.push({engine,width,controls,toolbarVisible,source,sourceStatus,axe:axe.violations.map(v=>v.id),errors});
  assert.deepEqual(errors,[]);assert.deepEqual(axe.violations,[]);
- await browser.close();
+ } finally { await browser.close(); }
  }
  fs.writeFileSync(`qa-artifacts/${process.env.LABEL}-report.json`,JSON.stringify(reports,null,2));console.log(JSON.stringify(reports));
 })().catch(e=>{console.error(e);process.exitCode=1});

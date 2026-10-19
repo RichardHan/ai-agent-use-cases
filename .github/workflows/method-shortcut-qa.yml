@@ -1,7 +1,8 @@
 name: Method shortcut QA
 on:
   push:
-    branches: [feat/reader-method-shortcut]
+    branches: [feat/reader-method-shortcut, main]
+    paths: ['assets/**', 'tests/method-shortcut*', '.github/workflows/method-shortcut-qa.yml']
   workflow_dispatch:
 permissions:
   contents: read

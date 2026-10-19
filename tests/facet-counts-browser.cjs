@@ -8,6 +8,7 @@ const keys=['scenario','kind','tool','category','proof'];
 fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];
+ const save=()=>fs.writeFileSync(`qa-artifacts/${observe?'baseline':'verification'}.json`,JSON.stringify(report,null,2));
  for(const [engine,width,height] of (observe?[[chromium,1440,1000],[chromium,390,844]]:[[chromium,1440,1000],[chromium,390,844],[chromium,320,740],[firefox,390,844],[webkit,390,844]])){
   const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage();
   page.setDefaultTimeout(15000);
@@ -38,7 +39,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    await popup.close();await page.locator('#close-detail').click();
    await page.locator('#scenario').selectOption('開發');
   }
-  if(observe){report.push(row);await browser.close();continue;}
+  if(observe){report.push(row);save();await browser.close();continue;}
   assert(options.every(x=>/^\d+ · /.test(x)),'every scenario option previews its actual count');
   assert(empty,'incompatible combination still allowed, with honest empty state');
   await page.locator('#empty-suggestions [data-remove-filter="scenario"]').click();
@@ -94,7 +95,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.goto(base+'?q=旅遊&scenario=生活&case=UC-001#explore',{waitUntil:'networkidle'});
   await page.locator('#detail[open]').waitFor();await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();await page.locator('#close-detail').click();
   assert.equal(await page.locator('#scenario').inputValue(),'生活');
-  assert.deepEqual(errors,[]);report.push(row);console.log('FACET_CONFIG_PASS '+engine.name()+' '+width);await browser.close();
+  assert.deepEqual(errors,[]);report.push(row);save();console.log('FACET_CONFIG_PASS '+engine.name()+' '+width);await browser.close();
  }
  if(!observe){
   const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();

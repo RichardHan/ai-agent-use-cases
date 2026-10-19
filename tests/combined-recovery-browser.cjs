@@ -6,8 +6,9 @@ const firefoxOnly=process.env.RECOVERY_FIREFOX_ONLY==='1';
 const documentReports=[];
 async function diagnosticGoto(page,url,options){
  const response=await page.goto(url,options);
- const body=response?await response.text():'';
- const row={url,finalURL:page.url(),status:response?.status(),contentType:response?.headers()['content-type'],hasExpectedStaticHTML:body.includes('id="copy-search-link"'),bodySha256:require('node:crypto').createHash('sha256').update(body).digest('hex'),bodyStart:body.slice(0,1500)};
+ let body='',bodyError='';try{body=response?await response.text():'';}catch(error){bodyError=String(error);}
+ const redirects=[];for(let request=response?.request();request;request=request.redirectedFrom())redirects.unshift(request.url());
+ const row={url,bodyError,redirects,finalURL:page.url(),status:response?.status(),contentType:response?.headers()['content-type'],hasExpectedStaticHTML:body.includes('id="copy-search-link"'),bodySha256:require('node:crypto').createHash('sha256').update(body).digest('hex'),bodyStart:body.slice(0,1500)};
  documentReports.push(row);fs.writeFileSync('qa-artifacts/document-responses.json',JSON.stringify(documentReports,null,2));
  return response;
 }
@@ -26,7 +27,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    fs.writeFileSync('qa-artifacts/failure-state.json',JSON.stringify(state,null,2));await page.screenshot({path:'qa-artifacts/failure.png',fullPage:true});console.error('EMPTY_FAILURE '+JSON.stringify(state));throw error;
   }
  };
- const start=Date.now();await diagnosticGoto(page,base,{waitUntil:'networkidle'});await page.waitForFunction(()=>!document.getElementById('copy-search-link')?.disabled);
+ const start=Date.now();await diagnosticGoto(page,base,{waitUntil:'networkidle'});await page.waitForFunction(()=>{const button=document.getElementById('copy-search-link');return !!button&&!button.disabled;});
  const row={engine:engine.name(),width,readyMs:Date.now()-start};report.push(row);
  await page.screenshot({path:`qa-artifacts/${prefix}-home-${engine.name()}-${width}.png`});
  // Known-task journey: query, facets, details, source and return.

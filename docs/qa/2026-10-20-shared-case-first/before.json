@@ -7,36 +7,36 @@
       "size": "desktop",
       "audits": [],
       "navigationCancellationDiagnostics": [],
-      "sourceReadyMs": 589,
+      "sourceReadyMs": 695,
       "earlyOpen": false,
-      "openAfterReleaseMs": 1467
+      "openAfterReleaseMs": 1678
     },
     {
       "engine": "chromium",
       "size": "mobile",
       "audits": [],
       "navigationCancellationDiagnostics": [],
-      "sourceReadyMs": 460,
+      "sourceReadyMs": 612,
       "earlyOpen": false,
-      "openAfterReleaseMs": 1295
+      "openAfterReleaseMs": 1533
     },
     {
       "engine": "chromium",
       "size": "small-mobile",
       "audits": [],
       "navigationCancellationDiagnostics": [],
-      "sourceReadyMs": 463,
+      "sourceReadyMs": 603,
       "earlyOpen": false,
-      "openAfterReleaseMs": 1300
+      "openAfterReleaseMs": 1510
     },
     {
       "engine": "chromium",
       "size": "mid-mobile",
       "audits": [],
       "navigationCancellationDiagnostics": [],
-      "sourceReadyMs": 447,
+      "sourceReadyMs": 614,
       "earlyOpen": false,
-      "openAfterReleaseMs": 1281
+      "openAfterReleaseMs": 1536
     }
   ]
 }

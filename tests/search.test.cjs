@@ -2360,6 +2360,29 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('雲端電腦跑openco
 assert(api.filterEntries(entries, Array.from(api.tokenize('flomo筆記洞察')), {}).some(x => x.id === 'UC-352'), 'flomo筆記洞察 matches UC-352 via flomo memo insight tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('每日筆記回顧')), {}).some(x => x.id === 'UC-352'), '每日筆記回顧 matches UC-352 via daily memo review tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('每日筆記回顧模板輪換')), {}).some(x => x.id === 'UC-352'), '每日筆記回顧模板輪換 matches UC-352 via daily memo review rotating template tokenization');
+
+// Network connection errors, music generation, tariff, anti-scraping, usage analysis & recent case search quality across UC-037, UC-054, UC-066, UC-076, UC-343, UC-345, UC-348, UC-349, UC-350, UC-352
+assert(api.filterEntries(entries, Array.from(api.tokenize('vpn連線排障')), {}).some(x => x.id === 'UC-054'), 'vpn連線排障 matches UC-054 via VPN connection error synonym and tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('連線被拒')), {}).some(x => x.id === 'UC-054'), '連線被拒 matches UC-054 via connection-error synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('suno生成音樂')), {}).some(x => x.id === 'UC-054'), 'suno生成音樂 matches UC-054 via music generation synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('音樂生成')), {}).some(x => x.id === 'UC-054'), '音樂生成 matches UC-054 via music generation synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('義大利特價')), {}).some(x => x.id === 'UC-037'), '義大利特價 matches UC-037 via Italian discount tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('進口關稅')), {}).some(x => x.id === 'UC-037'), '進口關稅 matches UC-037 via tariff synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('前號主簡訊')), {}).some(x => x.id === 'UC-076'), '前號主簡訊 matches UC-076 via previous owner synonym and tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('原號主')), {}).some(x => x.id === 'UC-076'), '原號主 matches UC-076 via previous owner synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('爬蟲被擋')), {}).some(x => x.id === 'UC-076'), '爬蟲被擋 matches UC-076 via anti-scraping synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('反爬蟲')), {}).some(x => x.id === 'UC-076'), '反爬蟲 matches UC-076 via anti-scraping synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('主bot分析用量')), {}).some(x => x.id === 'UC-066'), '主bot分析用量 matches UC-066 via usage analysis tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('長對話撞上限')), {}).some(x => x.id === 'UC-066'), '長對話撞上限 matches UC-066 via context-window limit tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('精簡排程')), {}).some(x => x.id === 'UC-066'), '精簡排程 matches UC-066 via routine simplification tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('沒變化不送')), {}).some(x => x.id === 'UC-066'), '沒變化不送 matches UC-066 via no-change no-send tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('flomo每日洞察')), {}).some(x => x.id === 'UC-352'), 'flomo每日洞察 matches UC-352 via memo daily insight tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('flomo筆記輪換')), {}).some(x => x.id === 'UC-352'), 'flomo筆記輪換 matches UC-352 via memo rotating template tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('道路救援德文表單')), {}).some(x => x.id === 'UC-343'), '道路救援德文表單 matches UC-343 via German roadside assistance form tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('買房找房仲調揭露')), {}).some(x => x.id === 'UC-348'), '買房找房仲調揭露 matches UC-348 via realtor disclosure handoff tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('notion受理表存回信草稿')), {}).some(x => x.id === 'UC-349'), 'notion受理表存回信草稿 matches UC-349 via inquiry intake reply draft tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('詢問信找空檔回信')), {}).some(x => x.id === 'UC-349'), '詢問信找空檔回信 matches UC-349 via inquiry find slot reply tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('主管晨報內外情報分流')), {}).some(x => x.id === 'UC-350'), '主管晨報內外情報分流 matches UC-350 via internal public intelligence triage tokenization');
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

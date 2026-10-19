@@ -14,10 +14,11 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
  const browser=await launcher.launch();try{
  for(const [size,width,height] of (engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740],['mid-mobile',480,844]]:[['mobile',390,844]])){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
-  const errors=[];context.on('page',p=>p.on('pageerror',e=>{if(p.url().startsWith(base))errors.push(e.message);}));
+  const errors=[],navigationCancellationDiagnostics=[];let reloadingPage=null;
+  context.on('page',p=>p.on('pageerror',e=>{if(!p.url().startsWith(base))return;if(p===reloadingPage&&engine==='webkit'&&/ due to access control checks\.$/.test(e.message))navigationCancellationDiagnostics.push(e.message);else errors.push(e.message);}));
   const page=await context.newPage();page.setDefaultTimeout(12000);
   const assets=[];if(!observe)page.on('response',r=>{const path=['assets/app.js','assets/reader.css'].find(path=>new URL(r.url()).pathname.endsWith('/'+path));if(path)assets.push(r.text().then(text=>({path,text})));});
-  const check={engine,size,audits:[]};report.checks.push(check);save();
+  const check={engine,size,audits:[],navigationCancellationDiagnostics};report.checks.push(check);save();
   // Real catalog: a recently added shared source must not wait for any unrelated source.
   const release=await hold(page,'cases/001-travel-checkout.md');
   const requested=[];page.on('request',r=>{if(/\/(cases|evidence)\//.test(r.url()))requested.push(r.url());});
@@ -109,6 +110,16 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   // Pending aliases use the same original source without invented successful results.
   const pending=await context.newPage();const releasePending=await hold(pending,'cases/001-travel-checkout.md');
   await pending.goto(base+'?case=P003');await pending.locator('#detail[open]').waitFor();assert.equal(await pending.locator('#detail-toolbar-id').innerText(),'P-003');assert.match(await pending.locator('.reader-evidence').innerText(),/待查/);releasePending();await pending.waitForFunction(()=>discoveryReady);await pending.close();
+  // A native reload during early reading cancels the old document's requests.
+  // WebKit emits known access-control diagnostics for those cancelled fetches;
+  // preserve them separately and require every new-page source to load successfully.
+  const reloadPage=await context.newPage();const releaseReload=await hold(reloadPage,'cases/001-travel-checkout.md');
+  await reloadPage.goto(base+'?q=PR&scenario=開發&case=UC-005');await reloadPage.locator('#detail[open]').waitFor();assert.equal(await reloadPage.evaluate(()=>discoveryReady),false);
+  reloadingPage=reloadPage;await reloadPage.reload();await reloadPage.locator('#detail[open]').waitFor();
+  assert.equal(await reloadPage.locator('#detail-toolbar-id').innerText(),'UC-005');releaseReload();await reloadPage.waitForFunction(()=>discoveryReady);
+  assert.equal(await reloadPage.evaluate(()=>failedPaths.length),0,'new page must load every source after mid-load reload');
+  assert.equal(await reloadPage.locator('#query').inputValue(),'PR');assert.equal(await reloadPage.locator('#scenario').inputValue(),'開發');
+  reloadingPage=null;await reloadPage.close();check.midLoadReload=true;
   // Open an actual external source once; its availability is not evidence of case accuracy.
   if(engine==='chromium'&&size==='desktop'){
    await page.goto(base+'?case=UC-005');await page.locator('#detail[open]').waitFor();await page.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();

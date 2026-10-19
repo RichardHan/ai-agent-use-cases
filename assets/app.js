@@ -1274,7 +1274,7 @@ async function load() {
     });
     failedPaths = failed;
     if (!loaded.length) throw Error('沒有成功讀取任何案例。');
-    const restoreFocus=preserveRecoveryFocus();
+    const restoreFocus=$('detail').open ? ()=>{} : preserveRecoveryFocus();
     const readingFocus=$('detail').open ? document.activeElement : null;
     const readingTop=readingFocus?.getBoundingClientRect().top;
     entries = mergeCorpus([],loaded);

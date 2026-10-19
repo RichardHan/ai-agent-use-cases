@@ -1,0 +1,39 @@
+name: Reading save QA
+on:
+  push:
+    branches: [improve/reader-print]
+permissions:
+  contents: read
+jobs:
+  print:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install cloud browser
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk poppler-utils
+      - name: Baseline tests and static preview
+        run: |
+          node --test tests/*.test.cjs
+          for file in assets/*.js; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Observe published reading and print
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          PRINT_OBSERVE: '1'
+          PRINT_URL: https://richardhan.github.io/ai-agent-use-cases/
+        run: node tests/print-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reading-save-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

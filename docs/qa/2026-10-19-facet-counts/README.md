@@ -39,7 +39,7 @@
 
 320px另檢查[三位數總數](after-small-three-digits.png)、[長分類](after-small-long-option.png)、[零筆](after-small-zero.png)，數字不被截斷；長名稱仍有原生選項全文與完整條件chip。
 
-[原基準的同步render量測](baseline-measured.json)與修後JSON各配置5筆，只是未節流runner上同一「旅遊」查詢的同步事件耗時，非實體手機或input-to-paint效能分數。前後不是同一硬體執行序，不能當嚴格效能比較。
+[原基準的同步render量測](baseline-measured.json)與修後JSON各配置5筆，只是未節流runner上同一「旅遊」查詢的同步事件耗時，非實體手機或input-to-paint效能分數。桌面中位數3.6→8.2ms、390px中位數3.8→7.8ms（各5次）。前後不是同一硬體執行序，不能當嚴格效能比較，也不宣稱計數功能降低延遲。
 
 最終獨立視覺審查與發布結果完成後續記。未驗證實體手機、螢幕閱讀器、真人成效或Lighthouse。下一輪優先量測並改善全庫首次搜尋就緒成本，本輪不延伸做另一個載入重構。
 
@@ -54,7 +54,7 @@
 
 [最終分支QA39253837642](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39253837642)成功，驗收程式/產品資產對應31c2de4，原69＋新增4項單元、語法及靜態建置通過，五配置篩選與完整閱讀流程通過，20次axe零違規。[c9e6943驗收](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39253500269)亦成功，包含打開詳情後先驗case網址。
 
-Firefox壓力對照確認：242次選項切換，修前4,368ms、修後5,048ms，兩版均由瀏覽器console回報短時間過多history修改，case/history未建立。[完整對照](firefox-exhaustive-diagnostic.json)。不是本輪新增回歸，亦未宣稱修復該極端壓力限制。完整選項計數在Chromium1440逐項驗證，其他引擎與尺寸抽樣並保留真實多欄交集、原生返回、case網址與錯誤檢查；不能以該壓力測試冒充一般讀者操作。
+Firefox壓力對照確認：242次選項切換，以route置換為1317a5e原版app.js時4,368ms、當前app.js時5,048ms，兩版均由瀏覽器console回報短時間過多history修改，case/history未建立。[完整對照](firefox-exhaustive-diagnostic.json)。不是本輪新增回歸，亦未宣稱修復該極端壓力限制。完整選項計數在Chromium1440逐項驗證，其他引擎與尺寸抽樣並保留真實多欄交集、原生返回、case網址與錯誤檢查；不能以該壓力測試冒充一般讀者操作。
 
 原主線Partial Load QA的正式走查使用工具的固定顯示label，在加入動態數字後無法匹配；已改為穩定value（Grok Bot），未改網站條件或降低驗收要求。第一版長時間未結束的分支QA是失敗後瀏覽器未關閉，已讓腳本在失敗時退出；未當作通過。
 
@@ -68,3 +68,6 @@ Firefox壓力對照確認：242次選項切換，修前4,368ms、修後5,048ms�
 [正式Jekyll／Pages39254416472](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39254416472)成功；[正式QA39254418094](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39254418094)成功，先逐字核對app.js／style.css／index.html與32c79fd相符，再於正式站完成三引擎五配置、五次axe零違規與Chromium390補讀／未知情境驗收。同一run另重跑預覽73項測試與完整閱讀流程，預覽20次axe零違規。正式[桌面](published-desktop.png)／[手機](published-mobile.png)已實際讀圖並與預覽比較；[正式原始結果](published-verification.json)。
 
 [既有Partial Load QA39254417936](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39254417936)也已成功，固定顯示label改為value後正式走查恢復通過。
+
+
+變更檔案：`assets/app.js`計數與狀態／穩定value、`assets/style.css`與`index.html`提示；`tests/facet-counts.test.cjs`與`tests/facet-counts-browser.cjs`回歸、`tests/facet-rate-diagnostic.cjs`壓力對照、`tests/load-recovery-live.cjs`穩定選值；`.github/workflows/facet-counts-qa.yml`雲端驗收，`SITE.md`與本QA目錄保存維護紀錄。

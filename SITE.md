@@ -2746,7 +2746,7 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
    - 配置篩選預覽提示說明文字與無障礙文字樣式。
 3. 測試覆蓋：
    - `tests/facet-counts.test.cjs`：針對過濾器隔離、多值工具計算、同義詞展開搜尋語義、部分條目與空條目進行指定fixture斷言。
-   - `tests/facet-counts-browser.cjs`：桌面Chromium逐項驗證全部選項，其他尺寸及Firefox/WebKit抽樣選項；均進行即時選項預覽、複合條件切換、部分載入失敗重試恢復、未知情境、axe 的 WCAG A/AA 自動規則及 320px/390px/1440px 視區無水平捲動檢查（非完整無障礙認證）。
+   - `tests/facet-counts-browser.cjs`：桌面Chromium逐項驗證全部選項，其他尺寸及Firefox/WebKit抽樣選項；五配置均檢查即時選項預覽、複合條件切換、原生返回、axe 的 WCAG A/AA 自動規則及無水平捲動；部分載入補讀與未知情境另於Chromium390px驗證（非完整無障礙認證）。
    - `.github/workflows/facet-counts-qa.yml`：建立 red-baseline 失敗驗證與雲端瀏覽器自動化 QA 工作流。
 
 驗證指令與實際結果：

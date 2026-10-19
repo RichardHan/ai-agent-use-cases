@@ -84,7 +84,7 @@
 /* Keep reading controls legible and easy to tap, including narrow phones. */
 .detail-toolbar{gap:12px}
 .detail-toolbar-left{min-width:0}
-.detail-toolbar-id{overflow-wrap:anywhere}
+.detail-toolbar-id{min-width:0;max-width:100%;overflow-wrap:anywhere}
 .detail-toolbar-actions{flex-shrink:0}
 .detail-toolbar-actions button{min-width:44px;min-height:44px;font-size:14px;line-height:1.5;padding:10px 12px;white-space:nowrap}
 @media(max-width:640px){

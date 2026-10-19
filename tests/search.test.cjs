@@ -103,8 +103,8 @@ assert.deepEqual(Array.from(api.tokenize('P 003')),['p-003'],'tokenizes space-se
 assert.deepEqual(Array.from(api.tokenize('p 3')),['p-3'],'tokenizes space-separated unpadded pending ID');
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('UC 001')),{}).length,9,'filters space-separated case ID');
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('UC 1')),{}).length,9,'filters space-separated unpadded case ID');
-assert.equal(api.filterEntries(entries,Array.from(api.tokenize('UC 314')),{}).length,2,'filters space-separated 314');
-assert.equal(api.filterEntries(entries,Array.from(api.tokenize('#314')),{}).length,2,'filters hash-prefixed 314');
+assert.deepEqual(Array.from(api.filterEntries(entries,Array.from(api.tokenize('UC 314')),{}),item=>item.id),['UC-067','UC-314','UC-362'],'filters space-separated 314 including source cross-references');
+assert.deepEqual(Array.from(api.filterEntries(entries,Array.from(api.tokenize('#314')),{}),item=>item.id),['UC-067','UC-314','UC-362'],'filters hash-prefixed 314 including source cross-references');
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('P 003')),{}).length,1,'filters space-separated pending ID');
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('p 3')),{}).length,1,'filters space-separated unpadded pending ID');
 assert.equal(api.safeLink('javascript:alert(1)','cases/test.md'),null);

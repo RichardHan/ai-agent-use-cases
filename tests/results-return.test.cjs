@@ -21,3 +21,12 @@ test('modified, middle and cancelled result links retain their native behavior',
   const {context,calls}=setup();context.enter({button:0,...flags,preventDefault(){throw Error('must preserve native link');}});assert.deepEqual(calls,[]);assert.equal(context.arrival(),true);
  }
 });
+test('source recovery keeps an active return route near its original result position, including a changed tail',()=>{
+ for(const [oldPosition,newPositions,expected] of [[6,[6,7],6],[356,[6,354,357],357],[5,[6],6],[7,[6,12],12],[5,[],null]]){
+  const calls=[],active={dataset:{resultsReturn:String(oldPosition)},isConnected:false,parentElement:{},closest:()=>null};
+  const links=newPositions.map(position=>({dataset:{resultsReturn:String(position)},focus(){calls.push(position);},scrollIntoView(){}}));
+  const context=vm.createContext({document:{activeElement:active,body:{},getElementById:id=>id==='results'?{querySelectorAll:()=>links}:{focus(){calls.push(null);},scrollIntoView(){}}}});
+  vm.runInContext(fs.readFileSync('assets/app.js','utf8').split('/* Browser event bindings. */')[0]+'\nthis.preserve=preserveRecoveryFocus;',context);
+  context.preserve()();assert.deepEqual(calls,[expected]);
+ }
+});

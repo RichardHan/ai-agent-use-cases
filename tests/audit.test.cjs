@@ -557,11 +557,16 @@ test('INDEX.md maintains scenario consistency, working case links, and matches s
   assert(indexMatch, 'INDEX.md must contain current qualified count');
   assert.equal(indexMatch[1], expectedQualified, `INDEX.md count (${indexMatch[1]}) must match audit doc (${expectedQualified})`);
 
-  // Verify cases UC-342 through UC-356 are explicitly audited in qualification audit
-  for (let id = 342; id <= 356; id++) {
+  // Verify cases UC-342 through UC-359 are explicitly audited in qualification audit
+  for (let id = 342; id <= 359; id++) {
     const ucRegex = new RegExp(`UC-${id}|\\b${id}\\b[^\n]*\\[\\.\\./cases/`);
     assert(ucRegex.test(auditContent), `UC-${id} must be explicitly evaluated in qualification audit document`);
   }
+
+  // Specifically verify UC-357, UC-358, and UC-359 evaluations
+  assert(/UC-357[^\n]*納入[^\n]*B/.test(auditContent), 'UC-357 must be audited as B-grade qualified in audit document');
+  assert(/UC-358[^\n]*納入[^\n]*B/.test(auditContent), 'UC-358 must be audited as B-grade qualified in audit document');
+  assert(/UC-359[^\n]*待定/.test(auditContent), 'UC-359 must be audited as pending (待定) in audit document');
 
   // Main cases count in INDEX.md header must match cases/ file count
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));

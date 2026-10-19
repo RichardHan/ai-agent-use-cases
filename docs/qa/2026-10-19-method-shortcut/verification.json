@@ -1,0 +1,82 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "methodTop": 1537,
+    "shortcut": 1,
+    "shortcutTop": 444,
+    "shortcutBottom": 515,
+    "target": {
+      "text": "建議操作流程（本庫設計，未實測）",
+      "id": "reader-section-4",
+      "top": 130.375,
+      "bottom": 163.375,
+      "toolbar": 113.796875
+    },
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "methodTop": 2400,
+    "shortcut": 1,
+    "shortcutTop": 595,
+    "shortcutBottom": 665,
+    "target": {
+      "text": "建議操作流程（本庫設計，未實測）",
+      "id": "reader-section-4",
+      "top": 112.78125,
+      "bottom": 178.78125,
+      "toolbar": 96
+    },
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "methodTop": 2942,
+    "shortcut": 1,
+    "shortcutTop": 693,
+    "shortcutBottom": 763,
+    "target": {
+      "text": "建議操作流程（本庫設計，未實測）",
+      "id": "reader-section-4",
+      "top": 106.28125,
+      "bottom": 172.28125,
+      "toolbar": 89.140625
+    },
+    "axe": []
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "methodTop": 2375,
+    "shortcut": 1,
+    "shortcutTop": 563,
+    "shortcutBottom": 633,
+    "target": {
+      "text": "建議操作流程（本庫設計，未實測）",
+      "id": "reader-section-4",
+      "top": 113.44999694824219,
+      "bottom": 179.4499969482422,
+      "toolbar": 96
+    },
+    "axe": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "methodTop": 2400,
+    "shortcut": 1,
+    "shortcutTop": 595,
+    "shortcutBottom": 665,
+    "target": {
+      "text": "建議操作流程（本庫設計，未實測）",
+      "id": "reader-section-4",
+      "top": 113.78125,
+      "bottom": 179.78125,
+      "toolbar": 96
+    },
+    "axe": []
+  }
+]

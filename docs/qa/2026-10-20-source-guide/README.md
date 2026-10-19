@@ -88,3 +88,20 @@ NODE_PATH=/tmp/ai-case-qa-tools/node_modules GUIDE_OUTPUT=qa-artifacts/source-gu
 來源限制：本輪額外查驗GitHub原文時曾回HTTP429（[初版正式數據](initial-published-guide.json)、補修guide報告也保留），popup開啟的URL正確，但不宣稱第三方來源每次可讀或HTTP200；不為取得綠燈而反覆重試。手動版本核對腳本一度把native fetch.status當函式，導致部署前舊站提前進入guide檢查，該失敗[原log](premature-live-check.log)不算正式驗收成功；已改為先核對資產成功才執行。正式雲端workflow原本即有正確版本閘門。
 
 最終補修前端三檔相對17a0cae共增加2,810未壓縮bytes（HTML678、JS1355、CSS777），見[final-asset-sizes.json](final-asset-sizes.json)。不代表傳輸量或速度分數。最後預覽已加Chromium真AX描述檢查，仍為五配置357筆零缺項、10次axe零違規；原mobile另外五配置10次axe零違規，分享六組無重疊。雲端補修驗收[39334624106](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39334624106)會再核對原失敗的完整命令，結果另補。
+
+
+## 最終合併與正式站驗收
+
+補修[完整雲端39334624106](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39334624106)成功，固定89a9524；單元100／100、JS語法、Python預覽、七個完整browser命令皆成功，未修改原mobile／discovery／reader／context／budget斷言。獨立角色自行下載與解析全部artifact／logs，確認原Discovery與Reader確實抵達並成功，非只看workflow綠燈。Reader全庫357筆、2486節、376證據列、15次axe零違規。完整[獨立核對](independent-final-audit.json)；原始[guide](cloud-final-guide.json)／[context](cloud-final-context.json)／[loading](cloud-final-loading.json)／[reader corpus](cloud-final-reader-corpus.json)／[reader accessibility](cloud-final-reader-accessibility.json)／[CI](final-cloud-ci.json)。
+
+以非強推merge711921f整合補修，整合後100項單元再次通過。[Pages39336233001](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39336233001)的Jekyll建置／部署成功，公開HTML、JS、CSS逐byte等於整合checkout且HTTP200（[比對結果](published-assets.json)）。
+
+正式HTTPS網站Chromium1440／390的三情境、載入／部分失敗／重試／未知長字／整體錯誤皆通過，357筆無缺項；4次axe零違規，閉合來源欄位的真AX description含「未獨立重現」。UC001原文URL開啟正確、最後一次額外HTTP查驗200；前面的429仍保留，不把一次200當成所有外部來源可用證明。[正式完整結果](published/report.json)／[正式桌面完整guide](published/after-complete-guide-chromium-1440.png)／[正式手機完整guide](published/after-complete-guide-chromium-390.png)。
+
+另在正式站預設無條件結果實測：手機第一張結果距離233px、收合guide、357筆無缺項；[數據](published-density.json)／[桌面畫面](published-default-1440.png)／[手機畫面](published-default-390.png)。這與原<240px標準一致，沒有只驗選過篩選的特殊版面。
+
+可直接開啟[正式網站搜尋入口](https://richardhan.github.io/ai-agent-use-cases/#explore)或[來源篩選範例](https://richardhan.github.io/ai-agent-use-cases/?q=UC001&proof=作者報告／示範#explore)，點「來源標籤怎麼看 · 未獨立重現」。最終修改為index.html／assets/app.js／assets/style.css及測試、QA workflow與維護紀錄，案例原文與分類未改。完整七條驗證命令、port與環境設定見[Source guide QA](../../../.github/workflows/source-guide-qa.yml)。
+
+發布後原有完整QA也已確認：[Website QA39336234210](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39336234210)全部成功；[Reader QA39336234216](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39336234216)的preview與published皆成功，原先失敗的手機距離門檻及正式三瀏覽器閱讀路徑已回復。保留[Website結果](final-website-ci.json)／[Reader結果](final-reader-ci.json)與[合併版本全部CI快照](final-main-ci.json)。快照中尚在背景執行的其他job不冒稱已完成；本輪同碼完整七套preview已成功、正式站兩尺寸實測及原Website／Reader發布回歸成功，沒有繼續追加功能。
+
+本輪驗收完成。接續提交僅保存紀錄與圖片，不改執行資產。原工作樹仍保留相同兩個未提交搜尋檔案，部署仍為legacy Jekyll main/root。未驗證實體手機、真人螢幕閱讀器或留存；來源偶發429與355個全文請求仍是已記錄限制。下一輪優先在具備正確Pages建置設定能力後處理原文分包，不以手動副本掩蓋資料一致性。

@@ -1,0 +1,82 @@
+{
+  "head": "89a9524500ff668f4a8c770a915e1ca94d07b317",
+  "guideConfigurations": 5,
+  "guideAxeScans": 10,
+  "guideJourneysPerConfiguration": 3,
+  "sourceSelectDescription": "選項前的數字是符合筆數，保留關鍵字與其他篩選；0 筆也可選。 來源標籤怎麼看 · 未獨立重現",
+  "sourceHTTP": 200,
+  "mobile": {
+    "source-guide": {
+      "configurations": 5,
+      "mobileDistances": [
+        233,
+        233,
+        233,
+        233
+      ]
+    },
+    "chromium": {
+      "configurations": 1,
+      "mobileDistances": [
+        233
+      ]
+    },
+    "firefox": {
+      "configurations": 1,
+      "mobileDistances": [
+        233
+      ]
+    },
+    "webkit": {
+      "configurations": 1,
+      "mobileDistances": [
+        233
+      ]
+    },
+    "mobile-search": {
+      "configurations": 3,
+      "mobileDistances": [
+        233,
+        233
+      ]
+    }
+  },
+  "shareConfigurations": 6,
+  "contextConfigurations": 5,
+  "contextCorpus": {
+    "entries": 357,
+    "passages": 459
+  },
+  "budgetChecks": 17,
+  "wholeBudgets": [
+    {
+      "engine": "chromium",
+      "mode": "whole budget",
+      "elapsedMs": 20549,
+      "requested": 32,
+      "retryRecovered": 357
+    },
+    {
+      "engine": "firefox",
+      "mode": "whole budget",
+      "elapsedMs": 20690,
+      "requested": 32,
+      "retryRecovered": 357
+    },
+    {
+      "engine": "webkit",
+      "mode": "whole budget",
+      "elapsedMs": 20684,
+      "requested": 32,
+      "retryRecovered": 357
+    }
+  ],
+  "readerCorpus": {
+    "entries": 357,
+    "sections": 2486,
+    "proofRows": 376
+  },
+  "readerAxeScans": 15,
+  "discoveryAxeScans": 3,
+  "allAssertionsPassed": true
+}

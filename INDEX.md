@@ -1,10 +1,12 @@
 # 完整案例索引
 
-更新日期：2026-10-18。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
+更新日期：2026-10-19。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至2026-10-18 21:00批次，嚴格核對為**299／1,000，尚差701**（含作者自述與實際失敗，未獨立重現）。先前已核定296，納入前輪草稿339／340及本輪341共三案；協作者334／335待核、336／337既有流程版本，338仍待定。主要頁333，沿用歷史頁面發布口徑326，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至2026-10-18 21:00批次，嚴格核對為**299／1,000，尚差701**（含作者自述與實際失敗，未獨立重現）。先前已核定296，納入前輪草稿339／340及本輪341共三案；協作者334／335待核、336／337既有流程版本，338仍待定。主要頁333＋4＝337（2026-10-19 08:41批次新增342–345，嚴格數待核、暫不加入），沿用歷史頁面發布口徑326，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
 2026-10-17 23:44台灣時間起，目標提高為1,000案。14:45協作者曾列296；16:00去重將322／324保留為既有流程版本，323／325原文未重新取得、維持前批自述但不併入核定數；315／326仍待定。下方歷史批次保留當時口徑，不回改舊報告。
+
+2026-10-19 08:41批次：新增342每天6:30替兩個孩子各印一張著色頁、343國外拋錨語言不通改由Bot找保險救援表單代填（單則文字，待定）、344程式代理工作階段結束／卡住時以webhook叫醒Grok Bot通知（公開原碼）、345 Muse抓孩子成績與缺交作業顯示在自製電視首頁；028併入Grok Bot兩則線上客服議價／漲價抵免自述，072併入電話訂位模板（撥號前複誦核准、回報引用原話），均不另計。四頁皆作者自述、未重現；嚴格數維持299，待下次逐案覆核。[原文、去重與覆蓋](sources/research-2026-10-19-0841.md)。
 
 21:00批次：339跨產品舊交辦重送、340工具實際回應分存驗收、341新交辦後封存與執行狀態矛盾。334–338原頁與066補充保留，協作者20:43自報300不直接採作核定數。[原文、去重與實閱缺口](sources/research-2026-10-18-2100.md)。
 
@@ -80,7 +82,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（333）
+## 主要案例（337）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -108,7 +110,7 @@
 | UC-025 | 用 dots 追蹤團隊活動的期限、預算問題與待回覆事項 | ChatGPT dots | [官方示例＋作者測試及真實活動提醒；未重現](cases/025-team-event-follow-through.md) | 工作｜團隊活動、追蹤 |
 | UC-026 | 讓 Muse 整理開學通知與截止日 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/026-school-deadline-list.md) | 生活｜學校、期限 |
 | UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse；Grok Bot 網購下單失敗回報 | [Muse 官方自述＋Grok Bot 作者失敗自述；原創流程未實測](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買、網購 |
-| UC-028 | 先做帳單降費比較，再決定怎麼談；Muse 代查帳戶與客服議價 | Meta Muse | [原作者帳單檢查與本人通話準備自述＋P-002 三則原帖（一則附業者確認簡訊）；節省未核](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商 |
+| UC-028 | 先做帳單降費比較，再決定怎麼談；Muse 代查帳戶與客服議價；Grok Bot 訂閱線上議價與漲價抵免 | Meta Muse／Grok Bot | [原作者帳單檢查與本人通話準備自述＋P-002 三則原帖（一則附業者確認簡訊）＋Grok Bot 兩則自述（一則附Bot回報截圖）；節省未核](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商、訂閱 |
 | UC-029 | 刪掉12堂新排課，別動原本的2堂 | Meta Muse／Peloton | [作者實測報告；未獨立重現](cases/029-exercise-time-replan.md) | 生活｜運動、行程 |
 | UC-030 | 把筆記做成互動複習工具 | Meta Muse；ChatGPT dots／Sites（Kindle 生字字卡） | [官方自述＋作者自建字卡 App 自述；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具、語言學習 |
 | UC-031 | 用匿名消費明細建立支出看板 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/031-spending-dashboard.md) | 省錢｜記帳、看板 |
@@ -152,7 +154,7 @@
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
 | UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian；多家代理共用同一 vault | ChatGPT dots／Obsidian；Grok Bot／Muse／Hermes 共用 vault | [作者教學串＋官方記憶 FAQ＋跨供應商共用 vault 自述與截圖；未重現](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
-| UC-072 | 電話任務的身份揭露、核准與人工交接 | Grok Bot／DialBot／Bland AI；ClawCall 自述；電話訂餐自述 | [作者測試自述＋官方模板與費用＋電話訂披薩後自行向店家確認＋Bland 官方 Bot 自行開戶指南；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
+| UC-072 | 電話任務的身份揭露、核准與人工交接 | Grok Bot／DialBot／Bland AI；ClawCall 自述；電話訂餐自述；ClawCall 訂位模板 | [作者測試自述＋官方模板與費用＋電話訂披薩後自行向店家確認＋Bland 官方 Bot 自行開戶指南＋撥號前複誦核准的訂位模板自述；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
 | UC-073 | 網站顧客路徑、頁面盤點與表格讀回驗收 | ChatGPT dots／Grok Bot／公開網站／Sheets | [作者使用、核對及漏頁反例；完整產物未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
 | UC-074 | 裝置事件喚醒後重新讀取資料並驗收 | ChatGPT dots／MCP Events／自建 MCP | [作者建置自述＋官方文件；未重現](cases/074-event-trigger-readback.md) | 開發｜實體裝置、事件觸發、驗收 |
 | UC-075 | 就醫前整理健康摘要，診後追蹤建議與後續問題 | Muse／Grok Bot／ChatGPT dots | [作者長文自述；未重現](cases/075-health-appointment-briefing-coach.md) | 生活｜健康、門診、保險、驗收 |
@@ -417,6 +419,10 @@
 | UC-339 | 跨產品舊交辦被重送成新要求 | Grok Bot／grok.com | [作者失敗自述；根因及修復未核](cases/339-stale-cross-product-request-provenance.md) | 工作｜跨代理、訊息來源、舊任務、失敗 |
 | UC-340 | 搜尋代理實際工具回應與模型輸出分開驗收 | Grok Bot／Hermes／Ollama／SearXNG | [俄文作者實作自述；隔離及判讀未獨立核](cases/340-tool-response-evidence-capture-acceptance.md) | 開發｜搜尋、證據來源、工具紀錄、驗收 |
 | UC-341 | 已封存任務受理新交辦後啟動，狀態仍封存 | ChatGPT dots／Codex桌面應用 | [作者失敗自述及事件摘要；單一任務、未重現](cases/341-archived-task-runtime-state-reconciliation.md) | 開發｜任務生命週期、封存、失敗、狀態驗收 |
+| UC-342 | 每天早上6:30替兩個孩子各印一張著色頁 | Grok Bot／家用印表機 | [作者自述＋已上色成品照片；連續執行未核](cases/342-daily-kids-coloring-page-auto-print.md) | 生活｜家庭、每日、列印、生成圖像 |
+| UC-343 | 國外高速公路拋錨、語言不通，Bot找保險救援表單代填 | Grok Bot | [作者單則文字自述；保險與表單未知、待定](cases/343-foreign-roadside-breakdown-insurance-form.md) | 生活｜旅遊、緊急、語言、表單 |
+| UC-344 | 程式代理結束／卡住／需要人時以webhook叫醒Grok Bot通知 | Grok Bot／T3 Code／Claude Code／Codex／t3-done-notify | [作者自述＋公開原碼README與模板頁；未安裝、無使用紀錄](cases/344-coding-agent-session-attention-webhook-routine.md) | 開發｜跨代理、事件觸發、通知、多代理 |
+| UC-345 | Muse抓孩子成績與缺交作業，顯示在自製電視首頁 | Meta Muse／Cloudflare Worker／tv-vibehack | [作者自述＋電視畫面截圖；取得方式與更新頻率未公開](cases/345-muse-school-grades-tv-ambient-board.md) | 生活｜學校、家庭、看板、實體裝置 |
 
 
 ## 驗證與模板補充（3，不列新增成功案例）

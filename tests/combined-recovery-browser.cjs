@@ -2,20 +2,31 @@ const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.RECOVERY_URL||'http://127.0.0.1:8099/ai-agent-use-cases/';
+const firefoxOnly=process.env.RECOVERY_FIREFOX_ONLY==='1';
+const documentReports=[];
+async function diagnosticGoto(page,url,options){
+ const response=await page.goto(url,options);
+ const body=response?await response.text():'';
+ const row={url,finalURL:page.url(),status:response?.status(),contentType:response?.headers()['content-type'],hasExpectedStaticHTML:body.includes('id="copy-search-link"'),bodySha256:require('node:crypto').createHash('sha256').update(body).digest('hex'),bodyStart:body.slice(0,1500)};
+ documentReports.push(row);fs.writeFileSync('qa-artifacts/document-responses.json',JSON.stringify(documentReports,null,2));
+ return response;
+}
 const observe=process.env.OBSERVE==='1',prefix=observe?'before':'after';
 fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];
- for(const [engine,width,height] of (observe?[[chromium,1440,1000],[chromium,390,844]]:[[chromium,1440,1000],[chromium,390,844],[chromium,320,740],[firefox,390,844],[webkit,390,844]])){
+ for(const [engine,width,height] of (firefoxOnly?[[firefox,390,844]]:observe?[[chromium,1440,1000],[chromium,390,844]]:[[chromium,1440,1000],[chromium,390,844],[chromium,320,740],[firefox,390,844],[webkit,390,844]])){
  const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage();
+ const requestFailures=[];page.on('requestfailed',request=>{requestFailures.push({url:request.url(),type:request.resourceType(),error:request.failure()});fs.writeFileSync('qa-artifacts/request-failures.json',JSON.stringify(requestFailures,null,2));});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const waitEmpty=async()=>{
   try{await page.locator('#empty').waitFor({state:'visible'});}catch(error){
-   const state=await page.evaluate(()=>({url:location.href,ready:!document.getElementById('copy-search-link').disabled,results:document.getElementById('results-count').textContent,error:document.getElementById('error').textContent,errorHidden:document.getElementById('error').hidden,partial:document.getElementById('partial-message').textContent,load:document.getElementById('load-status').textContent,filters:[...document.querySelectorAll('#filters input,#filters select')].map(n=>({id:n.id,value:n.value})),cards:document.querySelectorAll('#results .card').length}));
+   fs.writeFileSync('qa-artifacts/original-empty-error.txt',String(error));fs.writeFileSync('qa-artifacts/failure-document.html',await page.content());
+   const state=await page.evaluate(()=>({url:location.href,ready:!document.getElementById('copy-search-link')?.disabled,results:document.getElementById('results-count')?.textContent,error:document.getElementById('error')?.textContent,errorHidden:document.getElementById('error')?.hidden,partial:document.getElementById('partial-message')?.textContent,load:document.getElementById('load-status')?.textContent,filters:[...document.querySelectorAll('#filters input,#filters select')].map(n=>({id:n.id,value:n.value})),cards:document.querySelectorAll('#results .card').length}));
    fs.writeFileSync('qa-artifacts/failure-state.json',JSON.stringify(state,null,2));await page.screenshot({path:'qa-artifacts/failure.png',fullPage:true});console.error('EMPTY_FAILURE '+JSON.stringify(state));throw error;
   }
  };
- const start=Date.now();await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>!document.getElementById('copy-search-link').disabled);
+ const start=Date.now();await diagnosticGoto(page,base,{waitUntil:'networkidle'});await page.waitForFunction(()=>!document.getElementById('copy-search-link')?.disabled);
  const row={engine:engine.name(),width,readyMs:Date.now()-start};report.push(row);
  await page.screenshot({path:`qa-artifacts/${prefix}-home-${engine.name()}-${width}.png`});
  // Known-task journey: query, facets, details, source and return.
@@ -26,7 +37,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
  if(width===1440){const pending=page.waitForEvent('popup');await source.click();const popup=await pending;await popup.waitForLoadState('domcontentloaded');row.sourceOpened=popup.url();await popup.close();}
  await page.keyboard.press('Escape');assert(await read.evaluate(e=>e===document.activeElement));
  // Two contradictory facets: removing either alone cannot recover UC-001.
- await page.goto(base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});await waitEmpty();
+ await diagnosticGoto(page,base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});await waitEmpty();
  row.emptyHint=await page.locator('#empty-hint').innerText();row.suggestions=await page.locator('#empty-suggestions').innerText();
  await page.locator('#empty').scrollIntoViewIfNeeded();await page.screenshot({path:`qa-artifacts/${prefix}-empty-${engine.name()}-${width}.png`});
  if(!observe){
@@ -36,19 +47,19 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   // No query matches: no invented recovery; query editor keeps facets.
   await page.locator('#query').fill('no-task-987654');await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');assert.equal(await page.locator('#empty-suggestions button').count(),0);await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(e=>e===document.activeElement));assert.equal(await page.locator('#scenario').inputValue(),'生活');
   await page.locator('#empty-reset').click();assert(await page.locator('#results .card').count()>300);
-  await page.goto(base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});await waitEmpty();
+  await diagnosticGoto(page,base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});await waitEmpty();
   row.recoveryRenderMs=await page.evaluate(()=>{const t=performance.now();document.getElementById('query').dispatchEvent(new Event('input',{bubbles:true}));return performance.now()-t;});
   const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();row.axe=audit.violations.map(v=>v.id);assert.deepEqual(row.axe,[]);
  }
  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.deepEqual(errors,[]);fs.writeFileSync(`qa-artifacts/${prefix}-report.json`,JSON.stringify(report,null,2));await browser.close();
  }
- if(!observe){
+ if(!observe&&!firefoxOnly){
   const browser=await chromium.launch(),page=await browser.newPage({viewport:{width:390,height:844}});
   // Source loading, partial recovery and focus retention during background refresh.
   let release;const gate=new Promise(r=>release=r);
   await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
   await page.route('**/cases/001-travel-checkout.md',route=>route.fulfill({status:503,body:'Unavailable'}));
-  await page.goto(base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'domcontentloaded'});
+  await diagnosticGoto(page,base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'domcontentloaded'});
   assert(await page.locator('#empty').isHidden());release();
   await page.locator('#partial-load').waitFor({state:'visible'});assert.match(await page.locator('#empty-hint').innerText(),/部分條目載入失敗/);const partialCount=Number((await page.locator('#empty-suggestions button').innerText()).match(/查看 (\d+) 筆/)[1]);
   await page.unroute('**/cases/001-travel-checkout.md');await page.locator('#retry-failed').click();await page.locator('#partial-load').waitFor({state:'hidden'});
@@ -58,7 +69,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   assert(await page.evaluate(()=>{const restore=preserveRecoveryFocus();render(false,true);restore();return document.activeElement.dataset.removeFilters===document.querySelector('#empty-suggestions button').dataset.removeFilters;}));
   // An unfamiliar long shared scenario wraps without hiding the retained tool.
   const params=new URLSearchParams({q:'UC001',scenario:'未知情境'.repeat(15),kind:'pending',tool:'Grok Bot'});
-  await page.goto(base+'?'+params+'#explore',{waitUntil:'networkidle'});await page.locator('#empty-suggestions button').waitFor();
+  await diagnosticGoto(page,base+'?'+params+'#explore',{waitUntil:'networkidle'});await page.locator('#empty-suggestions button').waitFor();
   assert.match(await page.locator('#empty-hint').innerText(),/2 項/);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.locator('#empty').scrollIntoViewIfNeeded();await page.screenshot({path:'qa-artifacts/after-long-390.png'});
   const longCount=Number((await page.locator('#empty-suggestions button').innerText()).match(/查看 (\d+) 筆/)[1]);await page.locator('#empty-suggestions button').click();assert.equal(await page.locator('#results .card').count(),longCount);

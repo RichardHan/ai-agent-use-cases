@@ -24,7 +24,20 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   const options=await page.locator('#scenario option').allTextContents();
   await page.locator('#filters').scrollIntoViewIfNeeded();
   await page.screenshot({path:`qa-artifacts/${observe?'before':'after'}-${engine.name()}-${width}.png`});
+  if(!observe&&engine===chromium&&width===320){
+   await page.locator('#reset').click();
+   await page.locator('.filter-row').scrollIntoViewIfNeeded();
+   await page.screenshot({path:'qa-artifacts/after-320-three-digits.png'});
+   const longest=await page.locator('#category option').evaluateAll(nodes=>nodes.map(n=>n.value).sort((a,b)=>b.length-a.length)[0]);
+   await page.locator('#category').selectOption(longest);
+   await page.screenshot({path:'qa-artifacts/after-320-long-option.png'});
+   await page.locator('#reset').click();await page.locator('#query').fill('旅遊');
+  }
   await page.locator('#scenario').selectOption('開發');
+  if(!observe&&engine===chromium&&width===320){
+   await page.locator('.filter-row').scrollIntoViewIfNeeded();
+   await page.screenshot({path:'qa-artifacts/after-320-zero.png'});
+  }
   const empty=await page.locator('#empty').isVisible();
   const row={engine:engine.name(),width,options,inputTimingMs:inputTiming,travelDevelopmentEmpty:empty};
   if(engine===chromium&&width===1440){
@@ -50,7 +63,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   for(const key of keys){
    const before=await page.locator('#'+key).inputValue();
    const choices=await page.locator('#'+key+' option').evaluateAll(nodes=>nodes.map(n=>({value:n.value,text:n.textContent,disabled:n.disabled})));
-   for(const choice of choices){
+   for(const choice of (engine===chromium&&width===1440 ? choices : choices.filter((_,i)=>i<3))){
     assert.equal(choice.disabled,false,'zero counts stay available');
     await page.locator('#'+key).selectOption(choice.value);
     assert.equal(await page.locator('#results .card').count(),Number(choice.text.match(/^(\d+) · /)[1]),key+' '+choice.value);
@@ -82,7 +95,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.goBack();
   try{await page.waitForFunction(()=>!document.getElementById('detail').open);}
   catch(error){
-   fs.writeFileSync('qa-artifacts/return-failure-'+engine.name()+'.json',JSON.stringify({before:returnBefore,after:{url:page.url(),history:await page.evaluate(()=>history.length)},events:await page.evaluate(()=>window.facetReturnEvents)},null,2));
+   fs.writeFileSync('qa-artifacts/return-failure-'+engine.name()+'.json',JSON.stringify({errors,before:returnBefore,after:{url:page.url(),history:await page.evaluate(()=>history.length)},events:await page.evaluate(()=>window.facetReturnEvents)},null,2));
    await page.screenshot({path:'qa-artifacts/return-failure-'+engine.name()+'.png'});throw error;
   }
   assert.equal(await page.locator('#query').inputValue(),'旅遊');

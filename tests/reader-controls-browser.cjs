@@ -46,7 +46,8 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
   assert.equal(await page.locator('#detail').evaluate(n=>n.scrollWidth>n.clientWidth),false);
   await page.locator('#detail-toolbar-id').evaluate((n,id)=>n.textContent=id,'UC-313');
  }
- await page.locator('#close-detail').focus();assert.equal(await page.locator('#close-detail').evaluate(n=>n.matches(':focus-visible')),true);
+ await page.locator('#copy-case-link').focus();await page.keyboard.press('Shift+Tab');
+ assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail');assert.equal(await page.locator('#close-detail').evaluate(n=>n.matches(':focus-visible')),true);
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
  reports.push({engine,width,controls,toolbarVisible,source,sourceStatus,axe:axe.violations.map(v=>v.id),errors});
  assert.deepEqual(errors,[]);assert.deepEqual(axe.violations,[]);

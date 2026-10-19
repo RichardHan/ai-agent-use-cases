@@ -733,6 +733,30 @@ function relaxationOptions(items, terms, filters) {
     key, value, count:filterEntries(items,terms,{...filters,[key]:''}).length
   })).filter(option=>option.count>0).sort((a,b)=>a.count-b.count);
 }
+// Only broaden an empty intersection when no single removal can recover it.
+// At most five facets: search smallest removal sets first, preserving the query.
+function combinedRelaxationOptions(items, terms, filters) {
+  const matches=filterEntries(items,terms,{});
+  if(!matches.length || filterEntries(matches,[],filters).length || relaxationOptions(matches,[],filters).length)return [];
+  const conditions=Object.entries(filters).filter(([key,value])=>key!=='query' && Object.hasOwn(FILTER_LABELS,key) && value)
+    .map(([key,value])=>({key,value}));
+  for(let size=2;size<=conditions.length;size++){
+    const options=[];
+    const visit=(start,removed)=>{
+      if(removed.length===size){
+        const remaining={...filters};
+        removed.forEach(({key})=>remaining[key]='');
+        const count=filterEntries(matches,[],remaining).length;
+        if(count)options.push({conditions:removed,count});
+        return;
+      }
+      for(let i=start;i<=conditions.length-(size-removed.length);i++)visit(i+1,[...removed,conditions[i]]);
+    };
+    visit(0,[]);
+    if(options.length)return options.sort((a,b)=>a.count-b.count);
+  }
+  return [];
+}
 // Count alternatives against the query and every OTHER facet, once per facet.
 // The all-option is the base length, never a sum of multi-valued tool buckets.
 function facetCounts(items, terms, filters, key, values) {
@@ -861,6 +885,14 @@ function removeCondition(key) {
   render();
   focusResults();
 }
+function removeConditions(conditions) {
+  conditions.forEach(({key})=>{
+    if(key==='scenario')activeScenario='';
+    else if(['kind','tool','category','proof'].includes(key))$(key).value='';
+  });
+  render();
+  focusResults();
+}
 function clearFacets() {
   activeScenario='';
   ['kind','tool','category','proof'].forEach(id=>$(id).value='');
@@ -895,7 +927,17 @@ function renderSearchFeedback(terms, filters) {
       button.addEventListener('click',()=>removeCondition(key));
       suggestions.append(button);
     });
-    $('empty-hint').textContent=options.length
+    const combined=options.length ? [] : combinedRelaxationOptions(entries,terms,filters).slice(0,3);
+    combined.forEach(({conditions,count})=>{
+      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:value)+'」');
+      const button=el('button','recovery-option','一起移除'+labels.join('、')+' → 查看 '+count+' 筆');
+      button.type='button';button.dataset.removeFilters=conditions.map(({key})=>key).join(',');
+      button.addEventListener('click',()=>removeConditions(conditions));
+      suggestions.append(button);
+    });
+    $('empty-hint').textContent=combined.length
+      ? '至少要一起移除 '+combined[0].conditions.length+' 項篩選才有結果。以下調整會保留關鍵字與其餘條件。'
+      : options.length
       ? '每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。'
       : hasFacets ? '目前條件沒有交集。可逐項移除上方條件，或清除篩選後保留關鍵字再找。'
       : '試著用更短的任務關鍵字，例如「旅遊」或「收件匣」。';
@@ -1059,6 +1101,7 @@ function preserveRecoveryFocus() {
   const cardId=cardNode?.dataset.caseId;
   const buttonIndex=cardNode?[...cardNode.querySelectorAll('button')].indexOf(active):-1;
   const filterKey=active.dataset.removeFilter;
+  const filterKeys=active.dataset.removeFilters;
   const parentId=active.parentElement?.id;
   return ()=>{
     if(active===document.body)return;
@@ -1067,6 +1110,8 @@ function preserveRecoveryFocus() {
     if(cardId){
       const node=[...$(area).querySelectorAll('.card')].find(c=>c.dataset.caseId===cardId);
       replacement=node?.querySelectorAll('button')[buttonIndex];
+    }else if(filterKeys && parentId){
+      replacement=[...$(parentId).querySelectorAll('[data-remove-filters]')].find(b=>b.dataset.removeFilters===filterKeys);
     }else if(filterKey && parentId){
       replacement=[...$(parentId).querySelectorAll('[data-remove-filter]')].find(b=>b.dataset.removeFilter===filterKey);
     }

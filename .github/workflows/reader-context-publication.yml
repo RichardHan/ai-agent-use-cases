@@ -1,0 +1,32 @@
+name: Reader context publication verification
+on:
+  push:
+    branches: [verify/reader-context-ready]
+permissions:
+  contents: read
+jobs:
+  context:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Verify unchanged contextual reader on actual publication
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          READER_SEARCH_URL: https://richardhan.github.io/ai-agent-use-cases/
+          READER_SEARCH_ENGINES: all
+        run: node tests/reader-search-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reader-context-publication
+          path: qa-artifacts/
+          retention-days: 30

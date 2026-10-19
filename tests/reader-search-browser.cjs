@@ -17,7 +17,16 @@ function save(){fs.writeFileSync(`${output}/${observe?'before':'verification'}.j
  const check={engine,size,audits:[]};report.checks.push(check);save();
  const audit=async state=>{const r=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();check.audits.push({state,violations:r.violations.map(v=>v.id)});save();assert.equal(r.violations.length,0,JSON.stringify(r.violations));};
  // Journey 1: synonym -> original negative constraint -> keyboard return.
- await page.goto(origin+'?q=薪水');await page.locator('#results .card[data-case-id="UC-024"]').waitFor();
+ const initialStart=Date.now(),initialResponse=await page.goto(origin+'?q=薪水');
+ check.initialDocument={status:initialResponse?.status(),url:page.url(),contentType:initialResponse?.headers()['content-type']};save();
+ assert.equal(initialResponse?.status(),200,'expected actual application HTML');
+ try{
+  // The app permits up to 20s for its initial corpus; wait for that lifecycle
+  // before asserting a particular result, retaining the exact result assertion.
+  await page.waitForFunction(()=>typeof discoveryReady!=='undefined'&&discoveryReady,null,{timeout:30000});
+ }catch(error){check.initialFailure=await page.evaluate(()=>({url:location.href,hasSearch:!!document.getElementById('copy-search-link'),results:document.getElementById('results-count')?.textContent,load:document.getElementById('load-status')?.textContent}));save();throw error;}
+ check.initialReady={elapsedMs:Date.now()-initialStart,failedPaths:await page.evaluate(()=>failedPaths)};save();
+ await page.locator('#results .card[data-case-id="UC-024"]').waitFor();
  const trigger=page.locator('#results .card[data-case-id="UC-024"] .card-bottom button');await trigger.focus();await page.keyboard.press('Enter');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
  check.query=await page.locator('#query').inputValue();check.toolbarTargets=await page.locator('.detail-toolbar-actions button').evaluateAll(es=>es.map(e=>({height:e.getBoundingClientRect().height,fontSize:getComputedStyle(e).fontSize})));assert(check.toolbarTargets.every(e=>e.height>=44&&parseFloat(e.fontSize)>=14));check.originalResearchLength=(await page.locator('.markdown').textContent()).length;
  await page.screenshot({path:`${output}/${observe?'before':'after'}-${engine}-${size}.jpg`,type:'jpeg',quality:80});

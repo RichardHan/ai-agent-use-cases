@@ -1785,6 +1785,57 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('token用量')), {}).s
 assert(api.filterEntries(entries, Array.from(api.tokenize('token消耗')), {}).some(x => x.id === 'UC-066'), 'token消耗 matches UC-066 via usage synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('額度消耗')), {}).some(x => x.id === 'UC-066'), '額度消耗 matches UC-066 via usage synonym');
 
+// Search quality: wakeup, wake up, 叫醒, 喚醒
+assert(api.filterEntries(entries, Array.from(api.tokenize('叫醒')), {}).some(x => x.id === 'UC-074'), '叫醒 matches UC-074 via wakeup synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('喚醒')), {}).some(x => x.id === 'UC-344'), '喚醒 matches UC-344 via wakeup synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('wake up')), {}).some(x => x.id === 'UC-344'), 'wake up matches UC-344 via wakeup tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('wakeup')), {}).some(x => x.id === 'UC-074'), 'wakeup matches UC-074 via wakeup tokenization');
+
+// Search quality: coding agent, 程式代理, 代碼代理, claudecode, t3-code, t3code
+assert(api.filterEntries(entries, Array.from(api.tokenize('coding agent')), {}).some(x => x.id === 'UC-344'), 'coding agent matches UC-344 via coding-agent tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('coding-agent')), {}).some(x => x.id === 'UC-344'), 'coding-agent matches UC-344 via coding-agent synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('代碼代理')), {}).some(x => x.id === 'UC-344'), '代碼代理 matches UC-344 via coding-agent synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('claudecode')), {}).some(x => x.id === 'UC-344'), 'claudecode matches UC-344 via claude code tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('t3-code')), {}).some(x => x.id === 'UC-344'), 't3-code matches UC-344 via t3 code tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('t3code')), {}).some(x => x.id === 'UC-344'), 't3code matches UC-344 via t3 code tokenization');
+
+// Search quality: car rental, rental car, 租賃車, 租車
+assert(api.filterEntries(entries, Array.from(api.tokenize('car rental')), {}).some(x => x.id === 'UC-343'), 'car rental matches UC-343 via car-rental tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('rental car')), {}).some(x => x.id === 'UC-343'), 'rental car matches UC-343 via car-rental tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('租賃車')), {}).some(x => x.id === 'UC-343'), '租賃車 matches UC-343 via car-rental synonym');
+
+// Search quality: 保險表單, 救援表單
+assert(api.filterEntries(entries, Array.from(api.tokenize('保險表單')), {}).some(x => x.id === 'UC-343'), '保險表單 matches UC-343 via compound tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('救援表單')), {}).some(x => x.id === 'UC-343'), '救援表單 matches UC-343 via compound tokenization');
+
+// Search quality: 聊天議價, chat negotiation, 線上議價
+assert(api.filterEntries(entries, Array.from(api.tokenize('聊天議價')), {}).some(x => x.id === 'UC-028'), '聊天議價 matches UC-028 via chat-negotiation synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('chat negotiation')), {}).some(x => x.id === 'UC-028'), 'chat negotiation matches UC-028 via chat-negotiation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('線上議價')), {}).some(x => x.id === 'UC-028'), '線上議價 matches UC-028 via chat-negotiation synonym');
+
+// Search quality: 餐廳預約, 電話預約
+assert(api.filterEntries(entries, Array.from(api.tokenize('餐廳預約')), {}).some(x => x.id === 'UC-072'), '餐廳預約 matches UC-072 via reservation synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('電話預約')), {}).some(x => x.id === 'UC-072'), '電話預約 matches UC-072 via reservation synonym');
+
+// Search quality: 自動打印, autoprint, auto-print
+assert(api.filterEntries(entries, Array.from(api.tokenize('自動打印')), {}).some(x => x.id === 'UC-342'), '自動打印 matches UC-342 via print synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('autoprint')), {}).some(x => x.id === 'UC-342'), 'autoprint matches UC-342 via auto-print tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('auto-print')), {}).some(x => x.id === 'UC-342'), 'auto-print matches UC-342 via auto-print tokenization');
+
+// Search quality: open-source, 開源工具, 開源專案
+assert(api.filterEntries(entries, Array.from(api.tokenize('open-source')), {}).some(x => x.id === 'UC-344'), 'open-source matches UC-344 via open-source tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('開源工具')), {}).some(x => x.id === 'UC-344'), '開源工具 matches UC-344 via open-source synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('開源專案')), {}).some(x => x.id === 'UC-344'), '開源專案 matches UC-344 via open-source synonym');
+
+// Search quality: webhook通知, tv看板, 電視看板, bot模板, mcp伺服器, mcp servers
+assert(api.filterEntries(entries, Array.from(api.tokenize('webhook通知')), {}).some(x => x.id === 'UC-344'), 'webhook通知 matches UC-344 via compound tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('tv看板')), {}).some(x => x.id === 'UC-345'), 'tv看板 matches UC-345 via compound tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('電視看板')), {}).some(x => x.id === 'UC-345'), '電視看板 matches UC-345 via compound tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('bot模板')), {}).some(x => x.id === 'UC-344'), 'bot模板 matches UC-344 via compound tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('mcp伺服器')), {}).some(x => x.id === 'UC-072'), 'mcp伺服器 matches UC-072 via compound tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('mcp servers')), {}).some(x => x.id === 'UC-072'), 'mcp servers matches UC-072 via server synonym');
+
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

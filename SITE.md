@@ -1681,6 +1681,77 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 - 總條目數維持 343 筆（337 案例、3 經驗補充、3 待查項目），嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
 下一輪建議：針對已識別之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤，供讀者橫向比對同源案例。
 
+## 2026-10-19：擴充代理喚醒／程式代理／租車與車險／線上聊天議價／開源工具與複合詞分詞檢索品質
+
+問題調查與證據：
+1. 「叫醒」與「喚醒」及英文「wake up / wakeup」檢索斷層：
+   - 最新收錄之 UC-344 使用「webhook 叫醒 Grok Bot 跟進」，UC-074 使用「webhook喚醒」，UC-066 使用「週喚醒」；
+   - 搜尋「叫醒」僅命中 2 筆（不含 UC-074），「wake up」、「wakeup」、「wake-up」均命中 0 筆；「叫醒」與「喚醒」未互通。
+2. 「程式代理」與「代碼代理」及英文「coding agent / coding-agent / claudecode / t3-code / t3code」：
+   - 搜尋繁簡「代碼代理」命中 0 筆（僅「程式代理」命中 11 筆）；
+   - 搜尋「coding-agent」僅命中 2 筆，與「coding agent」（92 筆）脫節；
+   - 搜尋「claudecode」緊湊寫法命中 0 筆（「claude code」命中 22 筆）；
+   - 搜尋「t3-code」或「t3code」命中 0 筆（「t3 code」命中 1 筆）。
+3. 國外租車、車輛拋錨與保險表單（UC-343）：
+   - 搜尋「car rental」、「rental car」、「租賃車」命中 0 筆（僅「租車」命中 1 筆）；
+   - 搜尋「保險表單」、「救援表單」命中 0 筆。
+4. 線上聊天議價、客服議價與訂位預約倒裝詞（UC-028, UC-072）：
+   - 搜尋「聊天議價」、「chat negotiation」、「線上議價」命中 0 筆（僅「客服議價」命中 1 筆）；
+   - 搜尋「餐廳預約」、「電話預約」命中 0 筆（而「預約餐廳」、「餐廳訂位」、「電話訂位」命中 19 筆）。
+5. 自動列印／打印與開源專案（UC-342, UC-344, UC-345）：
+   - 搜尋「自動打印」、「autoprint」、「auto-print」命中 0 筆；
+   - 搜尋「open-source」命中 0 筆（僅「open source」命中 1 筆）；
+   - 搜尋「開源程式」、「開源工具」、「開源專案」命中 0 筆（僅「開源」命中 13 筆）。
+6. 中英相鄰無空格複合詞分詞斷裂：
+   - 使用者輸入「webhook通知」、「tv看板」、「電視看板」、「bot模板」、「mcp伺服器」、「mcp servers」等詞時，因英數與中文字符緊鄰未空格，分詞為單一 token 導致命中 0 筆。
+
+本輪改善：
+1. `assets/app.js` 分詞函數 `tokenize` 新增多詞與詞形標準化正則：
+   - `\bwebhook\s*通知` → `webhook 通知`
+   - `\btv\s*看板` → `tv 看板`
+   - `電視\s*看板` → `電視 看板`
+   - `\bmcp\s*(?:伺服器|服務器)` → `mcp 伺服器`
+   - `\bmcp\s*工具` → `mcp 工具`
+   - `\bbot\s*模板` → `bot 模板`
+   - `\bbot\s*通知` → `bot 通知`
+   - `\bapi\s*金鑰` → `api 金鑰`
+   - `保險\s*表單` → `保險 表單`
+   - `救援\s*表單` → `救援 表單`
+   - `\bwake\s*[- ]\s*ups?\b`, `\bwakeups?\b` → `wakeup`
+   - `\bclaudecodes?\b` → `claude code`
+   - `\bt3\s*[- ]\s*codes?\b`, `\bt3codes?\b` → `t3 code`
+   - `\bcoding\s*[- ]\s*agents?\b` → `coding-agent`
+   - `\b(?:car\s*[- ]\s*rentals?|rental\s*[- ]\s*cars?)\b` → `car-rental`
+   - `\binsurance\s*[- ]\s*claims?\b` → `insurance-claim`
+   - `\b(?:auto|car)\s*[- ]\s*insurances?\b` → `car-insurance`
+   - `\bauto\s*[- ]\s*prints?\b`, `\bautoprints?\b` → `auto-print`
+   - `\bopen\s*[- ]\s*sources?\b` → `open-source`
+   - `\bchat\s*[- ]\s*negotiations?\b` → `chat-negotiation`
+   - `\bmcp\s*[- ]\s*servers?\b` → `mcp server`
+2. `assets/app.js` 同義詞群 `SYNONYM_GROUPS` 擴充與新增：
+   - 擴充列印詞群：加入 `'auto-print', 'auto print', 'autoprint', '自動列印', '自動打印'`
+   - 擴充訂位／預約詞群：加入 `'餐廳預約', '電話預約'`
+   - 新增喚醒／叫醒詞群：`['wakeup', 'wake-up', 'wake up', '喚醒', '叫醒', '主動叫醒', '叫醒bot', '喚醒bot']`
+   - 新增程式代理詞群：`['coding-agent', 'coding agent', 'coding agents', '程式代理', '代碼代理', '編程代理']`
+   - 新增租車詞群：`['car-rental', 'car rental', 'rental car', 'rental-car', '租車', '租賃車', '自駕租車']`
+   - 新增保險理賠詞群：`['insurance-claim', 'insurance claim', 'insurance claims', '保險理賠', '理賠', '理賠申請', '保險索賠']`
+   - 新增車險詞群：`['car-insurance', 'car insurance', 'auto insurance', '車險', '車輛保險', '汽車保險']`
+   - 新增議價談判詞群：`['chat-negotiation', 'chat negotiation', 'negotiation', 'negotiations', '議價', '聊天議價', '客服議價', '線上議價', '談判', '爭取優惠', '降費']`
+   - 新增開源專案詞群：`['open-source', 'open source', '開源', '開源專案', '開源程式', '開源工具', '開源原碼', '開源小程式']`
+   - 新增主機伺服器詞群：`['server', 'servers', '伺服器', '服務器', '主機']`
+   - 維持 1,700 鍵 100% 互映與自反對稱對映（Symmetry check complete，0 asymmetries）。
+3. `tests/search.test.cjs`：
+   - 新增 32 組檢索回歸斷言，驗證叫醒／喚醒／wake up／wakeup、coding agent／coding-agent／代碼代理／claudecode／t3-code／t3code、car rental／rental car／租賃車、保險表單／救援表單、聊天議價／chat negotiation／線上議價、餐廳預約／電話預約、自動打印／autoprint／auto-print、open-source／開源工具／開源專案、webhook通知／tv看板／電視看板／bot模板／mcp伺服器／mcp servers 等查詢均能準確命中對應案例。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（343 筆條目全文與擴充檢索全數驗證通過，叫醒／喚醒命中 12 筆，coding-agent 命中 14 筆，car-rental 命中 1 筆，保險表單命中 6 筆，救援表單命中 2 筆，聊天議價命中 8 筆，自動打印／列印命中 15 筆，open-source 命中 8 筆，webhook通知命中 6 筆，tv看板／電視看板命中 2 筆，bot模板命中 47 筆，mcp伺服器／mcp servers 命中 7 筆）。
+- `node --test tests/*.test.cjs`：66/66 單元測試全數通過（含 8/8 audit 測試）。
+- `for file in assets/*.js tests/*.cjs; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總條目數維持 343 筆（337 案例、3 經驗補充、3 待查項目），嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：針對已識別之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤，供讀者橫向比對同源案例。
+
+
 
 
 

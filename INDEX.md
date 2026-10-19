@@ -2,9 +2,11 @@
 
 更新日期：2026-10-19。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至2026-10-18 21:00批次，嚴格核對為**299／1,000，尚差701**（含作者自述與實際失敗，未獨立重現）。先前已核定296，納入前輪草稿339／340及本輪341共三案；協作者334／335待核、336／337既有流程版本，338仍待定。主要頁333＋4＝337（2026-10-19 08:41批次新增342–345，嚴格數待核、暫不加入），沿用歷史頁面發布口徑326，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至2026-10-18 21:00批次，嚴格核對為**299／1,000，尚差701**（含作者自述與實際失敗，未獨立重現）。先前已核定296，納入前輪草稿339／340及本輪341共三案；協作者334／335待核、336／337既有流程版本，338仍待定。主要頁337＋5＝342（2026-10-19 08:41批次已新增342–345、11:46批次再增346–350，嚴格數待核、暫不加入），沿用歷史頁面發布口徑326，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
 2026-10-17 23:44台灣時間起，目標提高為1,000案。14:45協作者曾列296；16:00去重將322／324保留為既有流程版本，323／325原文未重新取得、維持前批自述但不併入核定數；315／326仍待定。下方歷史批次保留當時口徑，不回改舊報告。
+
+2026-10-19 11:46批次：新增346出遠門前讓Bot把特斯拉設成出發時剛好充滿、出發後自動還原（公開技能全文）、347每天只讀孩子YouTube頻道公開留言挑出可疑內容（公開模板）、348買房物件分兩關過濾並經Slack交房仲調揭露文件（單則文字）、349 dots詢問信→Notion受理表→行事曆候選日→Gmail草稿、350主管平日晨報依資料分級拆給dots與Grok Bot（含失敗紀錄）；286併入上輪待處理的Hetzner雲主機售完後每30分鐘查貨並自動購買，不另計。五頁皆作者自述、未重現；嚴格數維持299，待下次逐案覆核。[原文、去重與覆蓋](sources/research-2026-10-19-1146.md)。
 
 2026-10-19 08:41批次：新增342每天6:30替兩個孩子各印一張著色頁、343國外拋錨語言不通改由Bot找保險救援表單代填（單則文字，待定）、344程式代理工作階段結束／卡住時以webhook叫醒Grok Bot通知（公開原碼）、345 Muse抓孩子成績與缺交作業顯示在自製電視首頁；028併入Grok Bot兩則線上客服議價／漲價抵免自述，072併入電話訂位模板（撥號前複誦核准、回報引用原話），均不另計。四頁皆作者自述、未重現；嚴格數維持299，待下次逐案覆核。[原文、去重與覆蓋](sources/research-2026-10-19-0841.md)。
 
@@ -82,7 +84,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（337）
+## 主要案例（342）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -363,7 +365,7 @@
 | UC-283 | dots 接工作 App 實測 17 項與核准陷阱 | ChatGPT dots／多種外掛 | [作者對照畫面與 git log；未重跑](cases/283-dots-connected-apps-permission-pitfalls.md) | 工作｜驗收、權限、排程、故障診斷 |
 | UC-284 | 延誤行李到達後的補購用品費用申請 | Meta Muse | [作者實際使用自述；無受理回條與付款證明](cases/284-delayed-baggage-status-expense-claim.md) | 生活｜旅遊、行李、報銷、核准 |
 | UC-285 | 每天早上把 X 上的配音試鏡徵件寄成可回信調整的摘要 | Grok Bot／X／Bot 自有信箱 | [作者自述＋摘要信截圖；應徵結果未核](cases/285-x-voice-acting-audition-email-digest.md) | 工作｜每日、X、收件匣、求職 |
-| UC-286 | 夜行列車個室全滿，改為每天早上查空位 | Grok Bot／JR西日本會員網站 | [日文作者單則自述；無截圖、未訂到](cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md) | 生活｜旅遊、每日、監看、比價 |
+| UC-286 | 夜行列車個室全滿，改為每天早上查空位；雲主機規格售完後每30分鐘查貨並自動購買 | Grok Bot／JR西日本會員網站；Grok Bot／Hetzner | [日文作者單則自述；無截圖、未訂到＋英文作者單則自述有貨即買下；無訂單證據](cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md) | 生活｜旅遊、每日、監看、比價、補貨 |
 | UC-287 | 主 Bot 審站，雜務 Bot 自行註冊統計工具，先接預覽再等核准 | Grok Bot 多 Bot／Umami | [作者自述＋群組回報與後台截圖；正式上線未見](cases/287-bot-site-review-analytics-signup-preview.md) | 開發｜多代理、分析、驗收、核准 |
 | UC-288 | 只用手機做出每天早上自動更新的主畫面個人看板 | Grok Bot／行事曆／X／Addness | [日文作者自述＋打碼看板截圖；連續更新未核](cases/288-phone-only-home-screen-daily-board.md) | 生活｜每日、看板、目標、日曆 |
 | UC-289 | 第三方貼文逐項證據處置與保留佇列 | Grok Bot／TypeSafe Jev | [作者端到端實測自述；準確率未驗](cases/289-social-claim-evidence-triage.md) | 學習｜查證、來源、保留、多代理 |
@@ -423,6 +425,11 @@
 | UC-343 | 國外高速公路拋錨、語言不通，Bot找保險救援表單代填 | Grok Bot | [作者單則文字自述；保險與表單未知、待定](cases/343-foreign-roadside-breakdown-insurance-form.md) | 生活｜旅遊、緊急、語言、表單 |
 | UC-344 | 程式代理結束／卡住／需要人時以webhook叫醒Grok Bot通知 | Grok Bot／T3 Code／Claude Code／Codex／t3-done-notify | [作者自述＋公開原碼README與模板頁；未安裝、無使用紀錄](cases/344-coding-agent-session-attention-webhook-routine.md) | 開發｜跨代理、事件觸發、通知、多代理 |
 | UC-345 | Muse抓孩子成績與缺交作業，顯示在自製電視首頁 | Meta Muse／Cloudflare Worker／tv-vibehack | [作者自述＋電視畫面截圖；取得方式與更新頻率未公開](cases/345-muse-school-grades-tv-ambient-board.md) | 生活｜學校、家庭、看板、實體裝置 |
+| UC-346 | 出遠門前讓Bot把特斯拉設成出發時剛好充滿，出發後自動改回原設定 | Grok Bot／Teslascope | [作者實車測試自述＋計畫截圖＋公開技能全文；還原執行未見畫面](cases/346-tesla-road-trip-charge-prep-skill.md) | 生活｜電動車、技能、核准、自動還原 |
+| UC-347 | 每天只讀孩子YouTube頻道公開留言，挑出可疑內容給家長 | Grok Bot（第三方模板YouTube Guard） | [作者自述＋螢幕錄影（未看）＋公開模板頁；每日執行未核](cases/347-child-youtube-channel-comment-safety-sweep.md) | 生活｜家庭、每日、網路安全、只讀 |
+| UC-348 | 買房物件先由Bot依預算、學區、尖峰通勤過濾，通過才交房仲調揭露文件再估整修費 | Grok Bot／Zillow／Slack | [作者單則文字自述；無截圖、篩選準確度未核](cases/348-home-search-screening-realtor-disclosure-handoff.md) | 生活｜買房、篩選、交接、Slack |
+| UC-349 | dots主動提醒詢問信，登錄Notion受理表、查行事曆空檔、存附候選日的回信草稿 | ChatGPT dots／Gmail／Notion／Google行事曆 | [日文作者自述＋流程示意圖；無實際畫面、未重現](cases/349-dots-inquiry-ledger-calendar-reply-draft.md) | 工作｜收件匣、Notion、日曆、草稿 |
+| UC-350 | 主管平日晨報分工：dots讀內部資料存Notion，Grok Bot分角色收公開新聞與作品評價發Slack | ChatGPT dots／Grok Bot／Slack／Notion | [日文作者長文自述，含接收程式停擺、Auto-review卡關等失敗；無截圖](cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md) | 工作｜每日、晨報、多代理、Slack |
 
 
 ## 驗證與模板補充（3，不列新增成功案例）

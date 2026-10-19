@@ -1,0 +1,14 @@
+{
+  "independentExhaustiveOracleCasesPassed": 500,
+  "classifications": {
+    "existingResult": 80,
+    "singleRecovery": 183,
+    "combinedRecovery": 215,
+    "noRecovery": 22
+  },
+  "corpusEntries": 354,
+  "worstFacetSearchMedianMs": 0.33866599999998925,
+  "worstFacetSearchMaxMs": 0.8821670000000097,
+  "runtime": "v23.7.0",
+  "note": "Local Node pure-function measurements; not browser end-to-end performance."
+}

@@ -1275,8 +1275,15 @@ async function load() {
     failedPaths = failed;
     if (!loaded.length) throw Error('沒有成功讀取任何案例。');
     const restoreFocus=$('detail').open ? ()=>{} : preserveRecoveryFocus();
-    const readingFocus=$('detail').open ? document.activeElement : null;
-    const readingTop=readingFocus?.getBoundingClientRect().top;
+    const dialog=$('detail');
+    const readingEdge=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
+    // Wheel/touch readers may still have an offscreen title focused. Preserve
+    // visible reading content rather than pulling the viewport toward that title.
+    const readingAnchor=dialog.open ? [...dialog.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')].find(node=>{
+      const rect=node.getBoundingClientRect();
+      return rect.height>0 && rect.bottom>readingEdge && rect.top<dialog.getBoundingClientRect().bottom;
+    }) : null;
+    const readingTop=readingAnchor?.getBoundingClientRect().top;
     entries = mergeCorpus([],loaded);
     refreshCorpusMetadata();
     $('updated').textContent = '索引更新 ' + catalog.builtAt;
@@ -1300,8 +1307,8 @@ async function load() {
       refreshRelated();
       const status=$('detail-body').querySelector('.detail-load-status');
       if(status)status.textContent=failedPaths.length ? '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。' : '其他案例已載入，可依目前搜尋條件切換與探索。';
-      if(readingFocus?.isConnected && document.activeElement===readingFocus){
-        $('detail').scrollTop+=readingFocus.getBoundingClientRect().top-readingTop;
+      if(readingAnchor?.isConnected){
+        dialog.scrollTop+=readingAnchor.getBoundingClientRect().top-readingTop;
       }
     }
     else if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }

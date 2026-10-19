@@ -90,6 +90,15 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   assert.equal(await relatedPage.evaluate(()=>document.activeElement.classList.contains('related-back')),true);
   const relatedBounds=await relatedPage.locator('.related-back').boundingBox();const toolbarBounds=await relatedPage.locator('.detail-toolbar').boundingBox();
   assert(relatedBounds.y>=toolbarBounds.y+toolbarBounds.height-1&&relatedBounds.y+relatedBounds.height<=height+1,'related-section return focus remains visible');await relatedPage.close();
+  // Touch/wheel readers do not move keyboard focus to their current paragraph.
+  const wheelPage=await context.newPage();const releaseWheel=await hold(wheelPage,'cases/001-travel-checkout.md');
+  await wheelPage.goto(base+'?case=UC-359');await wheelPage.locator('#detail[open]').waitFor();
+  const wheelTarget=wheelPage.locator('.reader-report h2');const targetBox=await wheelTarget.boundingBox();const wheelToolbar=await wheelPage.locator('.detail-toolbar').boundingBox();
+  await wheelPage.mouse.move(width/2,height/2);await wheelPage.mouse.wheel(0,targetBox.y-wheelToolbar.y-wheelToolbar.height-30);await wheelPage.waitForTimeout(150);
+  assert.equal(await wheelPage.evaluate(()=>document.activeElement.id),'detail-title');
+  const wheelBefore=(await wheelTarget.boundingBox()).y;assert(wheelBefore>=wheelToolbar.y+wheelToolbar.height-1&&wheelBefore<height,'wheel reader reached the source section');
+  releaseWheel();await wheelPage.waitForFunction(()=>discoveryReady);await wheelPage.waitForTimeout(150);
+  check.wheelReadingDelta=Math.abs((await wheelTarget.boundingBox()).y-wheelBefore);assert(check.wheelReadingDelta<=2,'wheel reading stays anchored even with title focus outside the viewport');await wheelPage.close();
   // Target failure retains the original partial-load/retry path; no missing-case invention.
   const failed=await context.newPage();let fail=true;const failedTarget='cases/005-cloud-pr-review.md';
   await failed.route('**/'+failedTarget,route=>fail?route.fulfill({status:503,body:'Unavailable'}):route.continue());

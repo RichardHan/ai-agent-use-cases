@@ -69,3 +69,13 @@ NODE_PATH=<cloud-tools>/node_modules node tests/missing-case-browser.cjs
 ## 限制與下一輪
 
 未使用實體手機、iOS軟鍵盤或真人螢幕閱讀器；axe不等於完整無障礙認證。未量測Lighthouse、真實網路效能、留存或轉換率。回訪仍需抓取全文；下一輪最值得做的是降低回訪全文載入成本，保留來源一致性及部分失敗補讀。
+
+本輪變更檔案：`index.html`、`assets/app.js`、`assets/style.css`、`tests/missing-case-browser.cjs`、`.github/workflows/missing-case-qa.yml`、`SITE.md`，以及本目錄的截圖與驗收證據。
+
+## 正式發布與整合驗收
+
+[PR #54](https://github.com/RichardHan/ai-agent-use-cases/pull/54) 在十套預覽QA全部成功後 squash merge 為 `2e645ee`。獨立角色直接比對 Git tree/blob，確認合併後 assets、index.html、tests與.github 與已驗收產品提交 `0cc7ac7` 完全相同；未覆蓋協作者內容。[Pages Jekyll建置與部署39194374171](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39194374171) 全部成功。
+
+[正式站驗收39194374639](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39194374639) 全部成功；先取得公開HTTPS資產，逐字確認HTML、app.js與style.css一致（`PUBLISHED_ASSETS_MATCH 2e645ee45cf345369a126a43b7ee975767c5eaf7`），再對正式網址執行Chromium1440／390／320及Firefox／WebKit390的全部情境。5次正式站axe掃描0違規；外部來源在3組Chromium檢查回傳HTTP200，Firefox／WebKit的兩次請求回傳429限流，因此這兩次來源讀取成功未能驗證，沒有反覆重試刷來源。未知ID提示、恢復搜尋、直鏈重新整理、原生返回、空／長ID、503重試、補讀後仍缺目標與慢載入輸入皆通過。獨立角色再次讀取正式logs核對，沒有未解必修項。
+
+完整證據：[正式站結果](published.json)、[預覽CI](preview-ci.json)。截圖是前述固定產品版本的實際雲端預覽；正式資產完全一致。最後文書提交只補正式驗收證據，不再修改產品碼。本輪達標停止。

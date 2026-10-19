@@ -42,3 +42,9 @@ Thomas Licari與其Grok Bot Mary Ann整理仍在使用的過期、重複及互�
 ## 去重
 
 不同於UC071外部可編輯筆記、UC067重建準備、UC009跨助手索引、UC193遺失復原及UC089檔案副本整理。本案只計仍在使用的陳述版本合併與保護規則核對一次；11批及60多筆不拆計。
+
+## 2026-10-20補充：日文規則、到期日與差分整理
+
+Yuichi Uemura（2026-08-19，日文）公開自己的每日記憶整理 routine，區分固定規則、暫時調整與事實，加入到期日、差分游標及單一管理者。作者仍遇到日文表達問題，最後借助 ChatGPT 排障；沒有量化前後測試，不能宣稱已徹底修復。此為既有記憶合併流程變體，不另計。
+
+本輪讀到[作者全文](https://zenn.dev/u1/articles/grok-bot-memory-and-japanese-rules)及[公開 routine](https://github.com/u-ichi/temp-pages/blob/main/2026-08-18-grok-bot-routine.md)。公開文字不是修改真正代理記憶的授權；可先用合成記錄核對到期與保留規則。

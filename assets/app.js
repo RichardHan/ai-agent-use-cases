@@ -1279,7 +1279,8 @@ async function load() {
     const readingEdge=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
     // Wheel/touch readers may still have an offscreen title focused. Preserve
     // visible reading content rather than pulling the viewport toward that title.
-    const readingAnchor=dialog.open ? [...dialog.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')].find(node=>{
+    const relatedHasFocus=dialog.querySelector('.related-cases')?.contains(document.activeElement);
+    const readingAnchor=dialog.open && !relatedHasFocus ? [...dialog.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')].find(node=>{
       const rect=node.getBoundingClientRect();
       return rect.height>0 && rect.bottom>readingEdge && rect.top<dialog.getBoundingClientRect().bottom;
     }) : null;

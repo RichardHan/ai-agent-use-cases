@@ -21,6 +21,46 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
  const audit=async label=>{const a=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();r.audits.push({label,violations:a.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}))});save();assert.equal(a.violations.length,0,JSON.stringify(a.violations));};
  // 1. First visit -> problem search -> combined filter -> empty -> reading -> return.
  await page.goto(origin);await ready();r.total=await page.locator('#results-count').innerText();await shot('home');
+ if(!observe&&engine==='chromium'&&size==='desktop'){
+  r.corpus=await page.evaluate(()=>{
+   const cases=[...entries,
+    {id:'no-candidates',kind:'pending',path:'sources/test.md',markdown:'# Test\n\n## 用途\n\n只是待查。'},
+    {id:'no-headings',kind:'pending',path:'sources/test.md',markdown:'# Test\n\n[待查連結](https://example.com/)\n\n[非網頁](mailto:someone@example.com)'},
+    {id:'literal-duplicate',kind:'case',path:'cases/test.md',markdown:'# Test\n\n## 權限 <img src=x onerror=alert(1)>（未驗證）\n\n原始限制。\n\n## 權限 <img src=x onerror=alert(1)>（未驗證）\n\n[只有這裡有連結](https://example.com/)'},
+   ];
+   let totalCandidates=0;const examples=[];
+   for(const item of cases){
+    const body=document.createElement('div');body.innerHTML='<section class="plain-overview"></section><details class="research-details"><summary>完整研究</summary></details>';
+    const markdown=renderMarkdown(item.markdown,item.path);body.querySelector('details').append(markdown);
+    const original=markdown.innerHTML,headings=[...markdown.querySelectorAll('h2,h3')];
+    const expected=new Set();let target='reader-source-meta';
+    for(const block of markdown.children){
+     if(/^H[23]$/.test(block.tagName)){
+      target='reader-section-'+headings.indexOf(block);
+      if(/限制|權限|費用|可用性|驗收|可重現|缺口|缺漏|風險|證據|未驗證/.test(block.textContent))expected.add(target);
+     }
+     if([...block.querySelectorAll('a')].some(a=>/^https?:\/\//i.test(a.getAttribute('href')||'')))expected.add(target);
+    }
+    CaseReader.enhance(body,item);
+    const buttons=[...body.querySelectorAll('.reader-review-jump')];
+    const actual=buttons.map(b=>b.getAttribute('aria-controls'));
+    if(JSON.stringify(actual)!==JSON.stringify([...expected]))throw Error(item.id+' candidate mapping differs');
+    for(const button of buttons){
+     const id=button.getAttribute('aria-controls'),node=body.querySelector('#'+id);
+     if(!node)throw Error(item.id+' missing destination '+id);
+     if(id!=='reader-source-meta'&&button.firstChild.textContent!==node.textContent)throw Error(item.id+' changed title');
+     if(button.querySelector('img,script'))throw Error(item.id+' unsafe title');
+    }
+    const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return').forEach(n=>n.remove());clean.querySelectorAll('h2,h3').forEach(n=>{n.removeAttribute('id');n.removeAttribute('tabindex');});
+    if(clean.innerHTML!==original)throw Error(item.id+' original research changed');
+    if(!expected.size&&body.querySelector('.reader-review'))throw Error(item.id+' empty index visible');
+    totalCandidates+=buttons.length;
+    if(['UC-005','UC-067','UC-024','UC-338','no-headings','literal-duplicate'].includes(item.id))examples.push({id:item.id,candidates:buttons.length,titles:buttons.map(b=>b.textContent)});
+   }
+   return {entries:entries.length,fixtures:cases.length-entries.length,totalCandidates,examples};
+  });save();
+ }
+
  await page.locator('#query').fill('旅遊');await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');
  assert(await page.locator('#results .card').count()>0);await page.locator('#query').fill('review-no-results-98765');assert(await page.locator('#empty').isVisible());
  await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(e=>e===document.activeElement));await page.locator('#query').fill('旅遊');
@@ -52,9 +92,7 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
  if(!observe){
   await page.locator('.reader-review > summary').click();const gap=page.locator('.reader-review-jump').filter({hasText:'驗收與可重現性'});assert.equal(await gap.count(),1);await gap.click();assert.match(await page.locator('.markdown').innerText(),/沒有截圖、紀錄表、班表或薪資單比對結果/);await audit('unlinked evidence gap');
   assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth));
-  // DOM is text-only, never inject raw titles into the index.
-  await page.evaluate(()=>{const body=document.getElementById('detail-body');body.querySelector('.markdown').innerHTML='<h2>&lt;img src=x onerror=alert(1)&gt; 權限（未驗證）</h2><p>原始限制。</p>';CaseReader.enhance(body,{kind:'pending'});});
-  assert.equal(await page.locator('.reader-review-jump img').count(),0);assert((await page.locator('.reader-review-jump').allTextContents()).some(s=>s.includes('<img src=x onerror=alert(1)>')));
+
  }
  assert.deepEqual(errors,[]);r.complete=true;save();await context.close();
  }

@@ -38,6 +38,7 @@ jobs:
       - name: Verify red baseline for the new tests
         if: ${{ hashFiles('tests/facet-counts.test.cjs') != '' }}
         run: |
+          mkdir -p qa-artifacts
           git show 1317a5e:assets/app.js > "$RUNNER_TEMP/facet-before.js"
           if FACET_SOURCE="$RUNNER_TEMP/facet-before.js" node --test tests/facet-counts.test.cjs > qa-artifacts/red-baseline.tap 2>&1; then
             echo 'Expected missing facetCounts to fail'

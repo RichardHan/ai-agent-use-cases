@@ -1,0 +1,994 @@
+[
+  {
+    "motion": "no-preference",
+    "attempt": 0,
+    "position": "first",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 627.3000000000029,
+        "scrollY": 1543,
+        "focus": "6",
+        "top": 2711.0625,
+        "bottom": 2755.0625,
+        "visible": false
+      },
+      {
+        "label": "after-recovery",
+        "time": 700.4000000000015,
+        "scrollY": 3196,
+        "focus": "6",
+        "top": 786.375,
+        "bottom": 830.375,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 711.5,
+        "scrollY": 3196,
+        "focus": "6",
+        "top": 786.375,
+        "bottom": 830.375,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 763.1999999999971,
+        "scrollY": 3196,
+        "focus": "6",
+        "top": 786.375,
+        "bottom": 830.375,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 864.5,
+        "scrollY": 3196,
+        "focus": "6",
+        "top": 786.375,
+        "bottom": 830.375,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1165,
+        "scrollY": 3196,
+        "focus": "6",
+        "top": 786.375,
+        "bottom": 830.375,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "no-preference",
+    "attempt": 0,
+    "position": "last",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 553.7999999999956,
+        "scrollY": 1506,
+        "focus": "359",
+        "top": 136054.328125,
+        "bottom": 136098.328125,
+        "visible": false
+      },
+      {
+        "label": "after-recovery",
+        "time": 627,
+        "scrollY": 136821,
+        "focus": "360",
+        "top": 751.921875,
+        "bottom": 795.921875,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 641.6999999999971,
+        "scrollY": 136821,
+        "focus": "360",
+        "top": 751.921875,
+        "bottom": 795.921875,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 693,
+        "scrollY": 136821,
+        "focus": "360",
+        "top": 751.921875,
+        "bottom": 795.921875,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 794.5999999999985,
+        "scrollY": 136821,
+        "focus": "360",
+        "top": 751.921875,
+        "bottom": 795.921875,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1095.3999999999942,
+        "scrollY": 136821,
+        "focus": "360",
+        "top": 751.921875,
+        "bottom": 795.921875,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "no-preference",
+    "attempt": 1,
+    "position": "first",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 522.7999999999956,
+        "scrollY": 1424,
+        "focus": "6",
+        "top": 2710.890625,
+        "bottom": 2754.890625,
+        "visible": false
+      },
+      {
+        "label": "after-recovery",
+        "time": 593.8999999999942,
+        "scrollY": 3109,
+        "focus": "6",
+        "top": 786.203125,
+        "bottom": 830.203125,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 610.0999999999985,
+        "scrollY": 3109,
+        "focus": "6",
+        "top": 786.203125,
+        "bottom": 830.203125,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 661.2999999999956,
+        "scrollY": 3109,
+        "focus": "6",
+        "top": 786.203125,
+        "bottom": 830.203125,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 762.5,
+        "scrollY": 3109,
+        "focus": "6",
+        "top": 786.203125,
+        "bottom": 830.203125,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1063.5999999999985,
+        "scrollY": 3109,
+        "focus": "6",
+        "top": 786.203125,
+        "bottom": 830.203125,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "no-preference",
+    "attempt": 1,
+    "position": "last",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 534,
+        "scrollY": 1399,
+        "focus": "359",
+        "top": 136053.765625,
+        "bottom": 136097.765625,
+        "visible": false
+      },
+      {
+        "label": "after-recovery",
+        "time": 616.8000000000029,
+        "scrollY": 136833,
+        "focus": "360",
+        "top": 751.53125,
+        "bottom": 795.53125,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 622.1000000000058,
+        "scrollY": 136833,
+        "focus": "360",
+        "top": 751.53125,
+        "bottom": 795.53125,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 674,
+        "scrollY": 136833,
+        "focus": "360",
+        "top": 751.53125,
+        "bottom": 795.53125,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 775.7000000000044,
+        "scrollY": 136833,
+        "focus": "360",
+        "top": 751.53125,
+        "bottom": 795.53125,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1094.300000000003,
+        "scrollY": 136833,
+        "focus": "360",
+        "top": 751.53125,
+        "bottom": 795.53125,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "no-preference",
+    "attempt": 2,
+    "position": "first",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 507.5,
+        "scrollY": 1424,
+        "focus": "6",
+        "top": 2710.890625,
+        "bottom": 2754.890625,
+        "visible": false
+      },
+      {
+        "label": "after-recovery",
+        "time": 575,
+        "scrollY": 3146,
+        "focus": "6",
+        "top": 786,
+        "bottom": 830,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 578.5,
+        "scrollY": 3146,
+        "focus": "6",
+        "top": 786,
+        "bottom": 830,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 629.6999999999971,
+        "scrollY": 3146,
+        "focus": "6",
+        "top": 786,
+        "bottom": 830,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 731.2999999999956,
+        "scrollY": 3146,
+        "focus": "6",
+        "top": 786,
+        "bottom": 830,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1034.3999999999942,
+        "scrollY": 3146,
+        "focus": "6",
+        "top": 786,
+        "bottom": 830,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "no-preference",
+    "attempt": 2,
+    "position": "last",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 505.40000000000146,
+        "scrollY": 1399,
+        "focus": "359",
+        "top": 136053.765625,
+        "bottom": 136097.765625,
+        "visible": false
+      },
+      {
+        "label": "after-recovery",
+        "time": 577.5,
+        "scrollY": 136821,
+        "focus": "360",
+        "top": 751.921875,
+        "bottom": 795.921875,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 594.0999999999985,
+        "scrollY": 136821,
+        "focus": "360",
+        "top": 751.921875,
+        "bottom": 795.921875,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 645.4000000000015,
+        "scrollY": 136821,
+        "focus": "360",
+        "top": 751.921875,
+        "bottom": 795.921875,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 746.8000000000029,
+        "scrollY": 136821,
+        "focus": "360",
+        "top": 751.921875,
+        "bottom": 795.921875,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1047.5,
+        "scrollY": 136821,
+        "focus": "360",
+        "top": 751.921875,
+        "bottom": 795.921875,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "no-preference",
+    "attempt": 3,
+    "position": "first",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 491.1000000000058,
+        "scrollY": 1424,
+        "focus": "6",
+        "top": 2710.890625,
+        "bottom": 2754.890625,
+        "visible": false
+      },
+      {
+        "label": "after-recovery",
+        "time": 560.6000000000058,
+        "scrollY": 3109,
+        "focus": "6",
+        "top": 786.203125,
+        "bottom": 830.203125,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 563.2000000000044,
+        "scrollY": 3109,
+        "focus": "6",
+        "top": 786.203125,
+        "bottom": 830.203125,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 614.4000000000015,
+        "scrollY": 3109,
+        "focus": "6",
+        "top": 786.203125,
+        "bottom": 830.203125,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 715.6000000000058,
+        "scrollY": 3109,
+        "focus": "6",
+        "top": 786.203125,
+        "bottom": 830.203125,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1016.2000000000044,
+        "scrollY": 3109,
+        "focus": "6",
+        "top": 786.203125,
+        "bottom": 830.203125,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "no-preference",
+    "attempt": 3,
+    "position": "last",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 509.70000000000437,
+        "scrollY": 1543,
+        "focus": "359",
+        "top": 136054.125,
+        "bottom": 136098.125,
+        "visible": false
+      },
+      {
+        "label": "after-recovery",
+        "time": 584.4000000000015,
+        "scrollY": 136796,
+        "focus": "360",
+        "top": 751.734375,
+        "bottom": 795.734375,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 598.2000000000044,
+        "scrollY": 136796,
+        "focus": "360",
+        "top": 751.734375,
+        "bottom": 795.734375,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 649.5,
+        "scrollY": 136796,
+        "focus": "360",
+        "top": 751.734375,
+        "bottom": 795.734375,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 750.9000000000015,
+        "scrollY": 136796,
+        "focus": "360",
+        "top": 751.734375,
+        "bottom": 795.734375,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1051.7000000000044,
+        "scrollY": 136796,
+        "focus": "360",
+        "top": 751.734375,
+        "bottom": 795.734375,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "reduce",
+    "attempt": 0,
+    "position": "first",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 519.5,
+        "scrollY": 3698,
+        "focus": "6",
+        "top": 411.703125,
+        "bottom": 455.703125,
+        "visible": true
+      },
+      {
+        "label": "after-recovery",
+        "time": 620.1999999999971,
+        "scrollY": 3475,
+        "focus": "6",
+        "top": 445.390625,
+        "bottom": 489.390625,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 658.1999999999971,
+        "scrollY": 3475,
+        "focus": "6",
+        "top": 445.390625,
+        "bottom": 489.390625,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 822.9000000000015,
+        "scrollY": 3475,
+        "focus": "6",
+        "top": 445.390625,
+        "bottom": 489.390625,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 941.1999999999971,
+        "scrollY": 3475,
+        "focus": "6",
+        "top": 445.390625,
+        "bottom": 489.390625,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1252.699999999997,
+        "scrollY": 3475,
+        "focus": "6",
+        "top": 445.390625,
+        "bottom": 489.390625,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "reduce",
+    "attempt": 0,
+    "position": "last",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 508,
+        "scrollY": 137128,
+        "focus": "359",
+        "top": 411.9375,
+        "bottom": 455.9375,
+        "visible": true
+      },
+      {
+        "label": "after-recovery",
+        "time": 578.1999999999971,
+        "scrollY": 136854,
+        "focus": "360",
+        "top": 755.71875,
+        "bottom": 799.71875,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 580,
+        "scrollY": 136854,
+        "focus": "360",
+        "top": 755.71875,
+        "bottom": 799.71875,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 631.1999999999971,
+        "scrollY": 136854,
+        "focus": "360",
+        "top": 755.71875,
+        "bottom": 799.71875,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 732.2999999999956,
+        "scrollY": 136854,
+        "focus": "360",
+        "top": 755.71875,
+        "bottom": 799.71875,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1032.7999999999956,
+        "scrollY": 136854,
+        "focus": "360",
+        "top": 755.71875,
+        "bottom": 799.71875,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "reduce",
+    "attempt": 1,
+    "position": "first",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 506.40000000000873,
+        "scrollY": 3760,
+        "focus": "6",
+        "top": 411.6875,
+        "bottom": 455.6875,
+        "visible": true
+      },
+      {
+        "label": "after-recovery",
+        "time": 577.3000000000029,
+        "scrollY": 3631,
+        "focus": "6",
+        "top": 445.359375,
+        "bottom": 489.359375,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 594.8000000000029,
+        "scrollY": 3631,
+        "focus": "6",
+        "top": 445.359375,
+        "bottom": 489.359375,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 646,
+        "scrollY": 3631,
+        "focus": "6",
+        "top": 445.359375,
+        "bottom": 489.359375,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 747.1999999999971,
+        "scrollY": 3631,
+        "focus": "6",
+        "top": 445.359375,
+        "bottom": 489.359375,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1047.6000000000058,
+        "scrollY": 3631,
+        "focus": "6",
+        "top": 445.359375,
+        "bottom": 489.359375,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "reduce",
+    "attempt": 1,
+    "position": "last",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 492.1999999999971,
+        "scrollY": 137066,
+        "focus": "359",
+        "top": 411.953125,
+        "bottom": 455.953125,
+        "visible": true
+      },
+      {
+        "label": "after-recovery",
+        "time": 561.6000000000058,
+        "scrollY": 136879,
+        "focus": "360",
+        "top": 755.90625,
+        "bottom": 799.90625,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 580.1000000000058,
+        "scrollY": 136879,
+        "focus": "360",
+        "top": 755.90625,
+        "bottom": 799.90625,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 630.3000000000029,
+        "scrollY": 136879,
+        "focus": "360",
+        "top": 755.90625,
+        "bottom": 799.90625,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 731.4000000000087,
+        "scrollY": 136879,
+        "focus": "360",
+        "top": 755.90625,
+        "bottom": 799.90625,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1031.800000000003,
+        "scrollY": 136879,
+        "focus": "360",
+        "top": 755.90625,
+        "bottom": 799.90625,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "reduce",
+    "attempt": 2,
+    "position": "first",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 491.8000000000029,
+        "scrollY": 3698,
+        "focus": "6",
+        "top": 411.703125,
+        "bottom": 455.703125,
+        "visible": true
+      },
+      {
+        "label": "after-recovery",
+        "time": 561.5,
+        "scrollY": 3450,
+        "focus": "6",
+        "top": 445.203125,
+        "bottom": 489.203125,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 580.1999999999971,
+        "scrollY": 3450,
+        "focus": "6",
+        "top": 445.203125,
+        "bottom": 489.203125,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 631.3999999999942,
+        "scrollY": 3450,
+        "focus": "6",
+        "top": 445.203125,
+        "bottom": 489.203125,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 732.6000000000058,
+        "scrollY": 3450,
+        "focus": "6",
+        "top": 445.203125,
+        "bottom": 489.203125,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1034.3999999999942,
+        "scrollY": 3450,
+        "focus": "6",
+        "top": 445.203125,
+        "bottom": 489.203125,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "reduce",
+    "attempt": 2,
+    "position": "last",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 490.5,
+        "scrollY": 137185,
+        "focus": "359",
+        "top": 412.125,
+        "bottom": 456.125,
+        "visible": true
+      },
+      {
+        "label": "after-recovery",
+        "time": 560,
+        "scrollY": 136936,
+        "focus": "360",
+        "top": 756.09375,
+        "bottom": 800.09375,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 562.5999999999913,
+        "scrollY": 136936,
+        "focus": "360",
+        "top": 756.09375,
+        "bottom": 800.09375,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 613.7999999999884,
+        "scrollY": 136936,
+        "focus": "360",
+        "top": 756.09375,
+        "bottom": 800.09375,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 715.5999999999913,
+        "scrollY": 136936,
+        "focus": "360",
+        "top": 756.09375,
+        "bottom": 800.09375,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1021.2999999999884,
+        "scrollY": 136936,
+        "focus": "360",
+        "top": 756.09375,
+        "bottom": 800.09375,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "reduce",
+    "attempt": 3,
+    "position": "first",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 525,
+        "scrollY": 3748,
+        "focus": "6",
+        "top": 412.078125,
+        "bottom": 456.078125,
+        "visible": true
+      },
+      {
+        "label": "after-recovery",
+        "time": 597.3000000000029,
+        "scrollY": 3511,
+        "focus": "6",
+        "top": 446.1875,
+        "bottom": 490.1875,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 613,
+        "scrollY": 3511,
+        "focus": "6",
+        "top": 446.1875,
+        "bottom": 490.1875,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 664.1999999999971,
+        "scrollY": 3511,
+        "focus": "6",
+        "top": 446.1875,
+        "bottom": 490.1875,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 765.3999999999942,
+        "scrollY": 3511,
+        "focus": "6",
+        "top": 446.1875,
+        "bottom": 490.1875,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1065.800000000003,
+        "scrollY": 3511,
+        "focus": "6",
+        "top": 446.1875,
+        "bottom": 490.1875,
+        "visible": true
+      }
+    ],
+    "before": 359
+  },
+  {
+    "motion": "reduce",
+    "attempt": 3,
+    "position": "last",
+    "trace": [
+      {
+        "label": "focused-before-release",
+        "time": 506.5,
+        "scrollY": 137066,
+        "focus": "359",
+        "top": 411.953125,
+        "bottom": 455.953125,
+        "visible": true
+      },
+      {
+        "label": "after-recovery",
+        "time": 576.8000000000029,
+        "scrollY": 136854,
+        "focus": "360",
+        "top": 755.71875,
+        "bottom": 799.71875,
+        "visible": true
+      },
+      {
+        "label": "next-frame",
+        "time": 578.7000000000116,
+        "scrollY": 136854,
+        "focus": "360",
+        "top": 755.71875,
+        "bottom": 799.71875,
+        "visible": true
+      },
+      {
+        "label": "after-50ms",
+        "time": 631.3000000000029,
+        "scrollY": 136854,
+        "focus": "360",
+        "top": 755.71875,
+        "bottom": 799.71875,
+        "visible": true
+      },
+      {
+        "label": "after-100ms",
+        "time": 733.7000000000116,
+        "scrollY": 136854,
+        "focus": "360",
+        "top": 755.71875,
+        "bottom": 799.71875,
+        "visible": true
+      },
+      {
+        "label": "after-300ms",
+        "time": 1037,
+        "scrollY": 136854,
+        "focus": "360",
+        "top": 755.71875,
+        "bottom": 799.71875,
+        "visible": true
+      }
+    ],
+    "before": 359
+  }
+]

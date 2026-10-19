@@ -67,11 +67,11 @@ NODE_PATH="$RUNNER_TEMP/return-tools/node_modules" node tests/results-return-bro
 
 | 同第六張附近的真實畫面 | 修改前（357筆基準） | 修改後（360筆整合） |
 | --- | --- | --- |
-| 桌面1440 | [前](before/deep-chromium-1440.png) | [後](preview/deep-chromium-1440.png) |
-| 手機390 | [前](before/deep-chromium-390.png) | [後](preview/deep-chromium-390.png) |
-| 手機320 | 未拍基準 | [後](preview/deep-chromium-320.png) |
+| 桌面1440 | [前](before/deep-chromium-1440.png) | [後](fix-preview/deep-chromium-1440.png) |
+| 手機390 | [前](before/deep-chromium-390.png) | [後](fix-preview/deep-chromium-390.png) |
+| 手機320 | 未拍基準 | [後](fix-preview/deep-chromium-320.png) |
 
-另有[Firefox](preview/deep-firefox-390.png)、[WebKit](preview/deep-webkit-390.png)及[手機搜尋入口](preview/search-chromium-390.png)。兩版本前六張內容相同，總數差異來自協作者新增三筆，未拿不同總數的頁高來宣稱改善。主角色已逐張查看前後、桌面與兩手機尺寸；獨立角色最終審查另補。
+另有[Firefox](fix-preview/deep-firefox-390.png)、[WebKit](fix-preview/deep-webkit-390.png)及[手機搜尋入口](fix-preview/search-chromium-390.png)。兩版本前六張內容相同，總數差異來自協作者新增三筆，未拿不同總數的頁高來宣稱改善。主角色已逐張查看前後、桌面與兩手機尺寸；獨立角色最終審查另補。
 
 預覽單次未節流量測：全庫就緒750–1050ms、同步input/render 21.9–33ms；這是GitHub runner本地HTTP，不代表正式網路或速度提升。新產品JS增加827、CSS456，合計1283未壓縮bytes；字色#285344對紙底#f7f8f2相對亮度對比8.156:1，見[計算與大小](asset-sizes.json)。這些不是Lighthouse分數或完整無障礙認證。
 
@@ -82,3 +82,31 @@ NODE_PATH="$RUNNER_TEMP/return-tools/node_modules" node tests/results-return-bro
 未負責主要實作的角色固定9537d8a自行查GH head/status、另外下載artifact，並以job logs API核讀完整原始log（`gh run view --log`只讀到前段，沒有把缺後段誤判成未執行）。確認Discovery三尺寸及fallback PASS；Reader五配置、CORPUS、缺reader／單來源／缺copy全部PASS；新五配置360卡／60入口／三情境／axe0、source十次及reader十五次axe0、原手機233px與360／2506／379完整性符合。部分補讀first＋last真retry gate與焦點／可見斷言確實在固定程式中執行。
 
 其逐張看最終1440／390／320、Firefox／WebKit深讀入口與首卡、UC313手機長文及UC005小手機閱讀；程式、相容性、資料傳送與設計無剩餘必修，結論可合併。分支的published job是skipped，不宣稱已發布；Pages與HTTPS另驗。審查角色全程沒有產品或repo寫入，派工設定仍僅為gpt-6-astra／ultra請求。
+
+## 合併後抓到的可見性退化與診斷
+
+首次正常merge f4dd607；整合後103項單元通過，tree與已審分支一致。首次[Pages39340889464](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39340889464)成功，HTML／JS／CSS皆HTTP200並逐字相符：[資產紀錄](published-assets.json)。這不代表本輪已通過正式驗收。
+
+[main Results return QA39340890322](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39340890322)在preview部分補讀的嚴格可見性斷言失敗，正確入口仍有焦點，但rect未完全在0..844；published job因此skipped，後三個browser命令未到達。保留[原始FAIL](main-recovery-visibility-failure.log)，沒有只重跑取綠燈。
+
+先不改產品，另建隔離修正分支以[診斷39341208660](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39341208660)跑一般／減少動態兩種設定×4次×first／last共16組。記錄focus前、補讀後、下一幀與後續50／100／300ms連續等待後的位置，最後才拍圖，不讓中途截圖干擾成功路徑。label為連續等待，實際elapsed以performance.now差計算，不稱為絕對50／100／300ms。
+
+[原始16組trace](recovery-before/report.json)顯示：一般動態8組有4組補讀後bottom持續為844.0625／844.203125／844.40625，後續到從釋放前取樣起約570–586ms仍相同；焦點皆正確6或360。減少動態8組皆可見。原生focus當下仍在smooth捲動，但補讀後超界沒有自然消失，不能只加等待或套±1px容差。
+
+修正708d0de在返回連結加scroll-margin-block:12px，讓既有nearest捲動留足完整目標與3px＋4px焦點外框；不改JS、HTML、首卡或網格布局高度。獨立審查核讀原始trace與末端圖片後同意修正。原0..844門檻維持；新診斷驗收將逐一核對全部補讀後trace焦點與可見性。
+
+補查歷史CI：[舊Reader controls FAIL](historical-reader-controls-failure.log)在711921f正式站Firefox等待detail逾時，原run仍為FAIL，不能猜根因或說當時已修。協作者c3665a2的[Reading flow基準FAIL](historical-research-baseline-failure.log)是100項單元96pass／4fail，browser全部skipped；三項為本輪已處理的315／47群／UC314交叉引用，第四項INDEX句式由協作者c63190a改回「主要頁354」已修。本輪承接保留，現在103單元已涵蓋四項。本輪原Reader controls／Reading flow仍另以正式重跑結果驗收。
+
+補修[16組嚴格驗收39341462977](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39341462977)成功，固定708d0de。兩種動態偏好×4次×first／last，全部80個補讀後sample焦點正確且完全在0..844；最小top445.203125、最大bottom830.375、最小底留白13.625px，全部容納7px外框。[trace](recovery-after/report.json)／[CI](recovery-after-ci.json)／[末尾修後圖](recovery-after/no-preference-0-last.png)。獨立角色自行重算及看圖得相同結果；取樣結束才拍圖。這是真正留白修正，沒有只加等待、容差或改小目標。
+
+首次main的[全部20套CI快照](first-main-ci.json)最終為18成功、2失敗。原Reader controls、Reading flow、Reader、Source guide（preview及published）均已成功；不把此結果說成已確證或修復舊Firefox逾時根因。兩項FAIL為本輪補讀可見性與Improvement round：後者正式Chromium desktop全部完成，mobile早讀UC359的兩項axe也通過，接著另一closePage等待UC005直鏈開啟逾時；沒有當頁來源／載入狀態，根因未知。[原FAIL](main-shared-case-timeout.log)／[當次報告](main-shared-case-timeout.json)。不能把留白修正說成其修復。
+
+為下一次原流程重跑增加唯讀診斷：測試在導航前記錄HTTP>=400與requestfailed及所屬page URL，失敗catch記當頁URL、initialLoading、目標是否已載入、currentDetailItem、失敗來源與提示，再拍圖並重新throw原錯。原斷言、timeout、重試次數未變；沒有加產品請求或資料傳送。即使下次通過也保留此次未定根因風險。
+
+## 補修完整預覽與再次獨立核對
+
+[固定708d0de完整39341462975](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39341462975)成功：[CI](fix-preview-ci.json)／[新流程JSON](fix-preview/report.json)。103／103、所有JS語法及預覽成功；新五配置三情境＋first／last補讀／錯誤重試成功，原source-guide／discovery／reader四個完整命令確實全部到達。source十次、reader十五次axe均零違規；[360筆／2506節／379證據列](fix-preview/reader-corpus.json)，手機首卡距離仍233px。前後表的修後連結已更新成此版；新增留白只影響捲動目標，不增加列表布局高度。
+
+獨立角色另下載固定708d0de產物、核讀3.43MB完整job logs，確認Discovery三尺寸及fallback、Reader五配置／全庫／缺檔fallback全部PASS；逐張看1440／390／320、Firefox／WebKit最終圖，認定可合併、無剩餘必修。後續7a2e7d1只有失敗診斷補強，產品與708d0de完全相同。分支published仍skipped，正式站結果另記。
+
+最終前端大小以[final-asset-sizes.json](final-asset-sizes.json)為準，包含12px留白；不是壓縮傳輸量或效能分數。案例內容原樣保留，315／360分開呈現。

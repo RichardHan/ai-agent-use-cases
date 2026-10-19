@@ -2270,6 +2270,55 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('hetzner主機售完�
 assert(api.filterEntries(entries, Array.from(api.tokenize('雲主機售完每30分鐘查貨')), {}).some(x => x.id === 'UC-286'), '雲主機售完每30分鐘查貨 matches UC-286 via cloud server periodic vacancy check tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('售完每30分鐘查貨')), {}).some(x => x.id === 'UC-286'), '售完每30分鐘查貨 matches UC-286 via sold-out periodic check tokenization');
 
+// Commute regression tests (fixing over-eager commute tokenization)
+assert(api.filterEntries(entries, Array.from(api.tokenize('通勤')), {}).some(x => x.id === 'UC-087'), '通勤 matches UC-087 via commute synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('通勤')), {}).some(x => x.id === 'UC-272'), '通勤 matches UC-272 via commute synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('通勤')), {}).some(x => x.id === 'UC-348'), '通勤 matches UC-348 via commute synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('通勤')), {}).some(x => x.id === 'UC-352'), '通勤 matches UC-352 via commute synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('尖峰通勤')), {}).some(x => x.id === 'UC-348'), '尖峰通勤 matches UC-348 via peak commute tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('買房通勤時間與學區')), {}).some(x => x.id === 'UC-348'), '買房通勤時間與學區 still matches UC-348');
+
+// UC-351 search quality: dispatch only, heavy lifting to free/low-cost model agents
+assert(api.filterEntries(entries, Array.from(api.tokenize('免費模型代理')), {}).some(x => x.id === 'UC-351'), '免費模型代理 matches UC-351 via free model agent tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('調度重活免費模型')), {}).some(x => x.id === 'UC-351'), '調度重活免費模型 matches UC-351 via dispatch heavy work tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('只負責調度')), {}).some(x => x.id === 'UC-351'), '只負責調度 matches UC-351 via dispatch-only tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('分層派工')), {}).some(x => x.id === 'UC-351'), '分層派工 matches UC-351 via tiered dispatch tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('外部代理保底')), {}).some(x => x.id === 'UC-351'), '外部代理保底 matches UC-351 via external agent fallback tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('重活交給雲端電腦')), {}).some(x => x.id === 'UC-351'), '重活交給雲端電腦 matches UC-351 via heavy work offload tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('opencode免費模型')), {}).some(x => x.id === 'UC-351'), 'opencode免費模型 matches UC-351 via Latin-CJK boundary tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('deepseek付費保底')), {}).some(x => x.id === 'UC-351'), 'deepseek付費保底 matches UC-351 via Latin-CJK boundary tokenization');
+
+// UC-352 search quality: daily flomo memo insight push rotating template
+assert(api.filterEntries(entries, Array.from(api.tokenize('讀你的flomo筆記')), {}).some(x => x.id === 'UC-352'), '讀你的flomo筆記 matches UC-352 via read flomo notes tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('flomo筆記')), {}).some(x => x.id === 'UC-352'), 'flomo筆記 matches UC-352 via Latin-CJK boundary tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('舊筆記回顧')), {}).some(x => x.id === 'UC-352'), '舊筆記回顧 matches UC-352 via past notes retrospective tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('洞察角度推送')), {}).some(x => x.id === 'UC-352'), '洞察角度推送 matches UC-352 via insight perspective push tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('洞察模板輪換')), {}).some(x => x.id === 'UC-352'), '洞察模板輪換 matches UC-352 via insight template rotation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('通勤地鐵上讀筆記')), {}).some(x => x.id === 'UC-352'), '通勤地鐵上讀筆記 matches UC-352 via subway reading tokenization');
+
+// UC-037 search quality: rock climbing shoes price comparison & import tax
+assert(api.filterEntries(entries, Array.from(api.tokenize('義大利攀岩鞋')), {}).some(x => x.id === 'UC-037'), '義大利攀岩鞋 matches UC-037 via Italian climbing shoes tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('攀岩鞋比價')), {}).some(x => x.id === 'UC-037'), '攀岩鞋比價 matches UC-037 via climbing shoes price compare tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('攀岩鞋特價')), {}).some(x => x.id === 'UC-037'), '攀岩鞋特價 matches UC-037 via climbing shoes discount tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('攀岩鞋進口稅')), {}).some(x => x.id === 'UC-037'), '攀岩鞋進口稅 matches UC-037 via climbing shoes customs tariff tokenization');
+
+// UC-054 search quality: rap music video and VPN TUN mode
+assert(api.filterEntries(entries, Array.from(api.tokenize('饒舌講解影片')), {}).some(x => x.id === 'UC-054'), '饒舌講解影片 matches UC-054 via rap video tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('押韻歌詞樣片')), {}).some(x => x.id === 'UC-054'), '押韻歌詞樣片 matches UC-054 via rhyming lyrics demo tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('tun模式')), {}).some(x => x.id === 'UC-054'), 'tun模式 matches UC-054 via Latin-CJK boundary tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('vpn tun模式')), {}).some(x => x.id === 'UC-054'), 'vpn tun模式 matches UC-054 via VPN TUN mode tokenization');
+
+// UC-066 search quality: usage CSV analysis and wrap-up token audit
+assert(api.filterEntries(entries, Array.from(api.tokenize('用量csv分析')), {}).some(x => x.id === 'UC-066'), '用量csv分析 matches UC-066 via usage CSV tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('用量事件表')), {}).some(x => x.id === 'UC-066'), '用量事件表 matches UC-066 via usage event ledger tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('收尾回報用量')), {}).some(x => x.id === 'UC-066'), '收尾回報用量 matches UC-066 via wrap-up reporting tokenization');
+
+// UC-076 search quality: recycled phone number previous owner & data broker
+assert(api.filterEntries(entries, Array.from(api.tokenize('回收門號')), {}).some(x => x.id === 'UC-076'), '回收門號 matches UC-076 via recycled number synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('回收門號前持有人')), {}).some(x => x.id === 'UC-076'), '回收門號前持有人 matches UC-076 via previous owner tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('門號仲介站列名')), {}).some(x => x.id === 'UC-076'), '門號仲介站列名 matches UC-076 via data broker listing tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('門號客服聊天送不出')), {}).some(x => x.id === 'UC-076'), '門號客服聊天送不出 matches UC-076 via carrier chat stuck tokenization');
+
 
 
 

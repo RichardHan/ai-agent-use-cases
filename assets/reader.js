@@ -169,11 +169,11 @@
     }
     // Collect before inserting reader controls so their labels cannot become hits.
     const sourceSummary=research.querySelector('summary');
-    const sourceSections=[{title:'頁首資料',text:'',target:sourceSummary}];
+    const sourceSections=[{title:'',text:'',target:sourceSummary}];
     for(const block of markdown.children){
       if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block});
       const section=sourceSections[sourceSections.length-1];
-      section.text+='\n'+block.textContent;
+      section.text+='\n'+(/^[UO]L$/.test(block.tagName)?[...block.children].map(row=>row.textContent).join('\n'):block.textContent);
       for(const link of block.querySelectorAll('a'))section.text+='\n'+link.getAttribute('href');
     }
     const searchMatches=selectSearchSections(sourceSections,searchTerms);
@@ -188,7 +188,7 @@
         const button=make('button','reader-search-jump');button.type='button';
         button.setAttribute('aria-controls',target===sourceSummary?target.id:`reader-section-${headings.indexOf(target)}`);
         const relation=match.term===match.variant?'「'+match.term+'」':'「'+match.term+'」→「'+match.variant+'」';
-        button.append(make('strong','',relation),make('span','reader-target','原文 · '+match.title+' ↓'));
+        button.append(make('strong','',relation),make('span','reader-target','原文 · '+(match.title||'頁首資料')+' ↓'));
         button.addEventListener('click',()=>{research.open=true;moveTo(target);});
         search.append(button);
       }

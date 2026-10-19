@@ -1,0 +1,23 @@
+{
+  "assets/app.js": {
+    "beforeBytes": 144390,
+    "afterBytes": 144466,
+    "deltaBytes": 76,
+    "beforeGzipBytes": 44217,
+    "afterGzipBytes": 44242
+  },
+  "assets/reader.js": {
+    "beforeBytes": 9450,
+    "afterBytes": 12155,
+    "deltaBytes": 2705,
+    "beforeGzipBytes": 3628,
+    "afterGzipBytes": 4429
+  },
+  "assets/reader.css": {
+    "beforeBytes": 6708,
+    "afterBytes": 7530,
+    "deltaBytes": 822,
+    "beforeGzipBytes": 1792,
+    "afterGzipBytes": 1915
+  }
+}

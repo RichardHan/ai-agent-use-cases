@@ -1,0 +1,13 @@
+{
+  "reader.js": {
+    "before": 12155,
+    "after": 14358,
+    "delta": 2203
+  },
+  "reader.css": {
+    "before": 7728,
+    "after": 8665,
+    "delta": 937
+  },
+  "note": "Uncompressed file bytes, not transfer size or performance score"
+}

@@ -8,6 +8,7 @@ const output=process.env.ROUND_OUTPUT||'qa-artifacts/round';
 const report={base,observe,checks:[]};fs.mkdirSync(output,{recursive:true});
 const save=()=>fs.writeFileSync(output+'/verification.json',JSON.stringify(report,null,2));
 async function audit(page,check,state){const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();check.audits.push({state,violations:result.violations.map(v=>v.id)});save();assert.equal(result.violations.length,0,JSON.stringify(result.violations));}
+async function settledScroll(page){await page.evaluate(()=>new Promise((resolve,reject)=>{const dialog=document.getElementById('detail');let previous=dialog.scrollTop,stable=0,frames=0;const tick=()=>{const current=dialog.scrollTop;stable=Math.abs(current-previous)<0.1?stable+1:0;previous=current;if(stable>=12)return resolve();if(++frames>120)return reject(Error('dialog scrolling did not settle'));requestAnimationFrame(tick);};requestAnimationFrame(tick);}));}
 async function hold(page,path){let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/'+path,async route=>{await gate;await route.continue();});return release;}
 (async()=>{
  for(const [engine,launcher] of (process.env.ROUND_ENGINES==='all'?[['chromium',chromium],['firefox',firefox],['webkit',webkit]]:[['chromium',chromium]])){
@@ -54,7 +55,7 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   check.readingScrollDelta=await page.locator('#detail').evaluate((e,previous)=>Math.abs(e.scrollTop-previous),reading.scroll);
   check.readingTargetDelta=await page.evaluate(previous=>Math.abs(document.activeElement.getBoundingClientRect().top-previous),reading.top);
   assert(check.readingTargetDelta<=2,'background completion must preserve the original section position in the viewport');
-  assert.match(await page.locator('.detail-load-status').innerText(),/已載入/);
+  assert.match(await page.locator('.detail-load-status').textContent(),/已載入/);assert.equal(await page.locator('.detail-load-status').isVisible(),false,'completed background loading must restore the original reading layout');
   await page.screenshot({path:`${output}/reading-${engine}-${size}.png`});
   await audit(page,check,'complete original section');
   // Native close/return and refresh preserve query + combined facets, including an empty result.
@@ -96,13 +97,21 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   const wheelPage=await context.newPage();const releaseWheel=await hold(wheelPage,'cases/001-travel-checkout.md');
   await wheelPage.goto(base+'?case=UC-359');await wheelPage.locator('#detail[open]').waitFor();
   const wheelTarget=wheelPage.locator('.reader-report h2');const targetBox=await wheelTarget.boundingBox();const wheelToolbar=await wheelPage.locator('.detail-toolbar').boundingBox();
-  await wheelPage.mouse.move(width/2,height/2);await wheelPage.mouse.wheel(0,targetBox.y-wheelToolbar.y-wheelToolbar.height-30);await wheelPage.waitForTimeout(150);
+  await wheelPage.mouse.move(width/2,height/2);await wheelPage.mouse.wheel(0,targetBox.y-wheelToolbar.y-wheelToolbar.height-30);await settledScroll(wheelPage);
   assert.equal(await wheelPage.evaluate(()=>document.activeElement.id),'detail-title');
-  check.wheelStatusHeightBefore=(await wheelPage.locator('.detail-load-status').boundingBox()).height;
+  check.wheelStatusHeightBefore=await wheelPage.locator('.detail-load-status').evaluate(e=>e.getBoundingClientRect().height);
   const wheelBefore=(await wheelTarget.boundingBox()).y;assert(wheelBefore>=wheelToolbar.y+wheelToolbar.height-1&&wheelBefore<height,'wheel reader reached the source section');
-  releaseWheel();await wheelPage.waitForFunction(()=>discoveryReady);await wheelPage.waitForTimeout(150);
-  check.wheelStatusHeightAfter=(await wheelPage.locator('.detail-load-status').boundingBox()).height;
+  releaseWheel();await wheelPage.waitForFunction(()=>discoveryReady);await settledScroll(wheelPage);
+  check.wheelStatusHeightAfter=await wheelPage.locator('.detail-load-status').evaluate(e=>e.getBoundingClientRect().height);
   check.wheelReadingDelta=Math.abs((await wheelTarget.boundingBox()).y-wheelBefore);assert(check.wheelReadingDelta<=2,'wheel reading stays anchored even with title focus outside the viewport');await wheelPage.close();
+  const statusPage=await context.newPage();const releaseStatus=await hold(statusPage,'cases/001-travel-checkout.md');
+  await statusPage.goto(base+'?case=UC-005');await statusPage.locator('#detail[open]').waitFor();
+  const statusTop=(await statusPage.locator('.detail-load-status').boundingBox()).y;const statusToolbar=await statusPage.locator('.detail-toolbar').boundingBox();
+  await statusPage.mouse.move(width/2,height/2);await statusPage.mouse.wheel(0,statusTop-statusToolbar.y-statusToolbar.height-8);await settledScroll(statusPage);
+  const persistent=statusPage.locator('.reader-method-shortcut');await persistent.focus();const persistentTop=(await persistent.boundingBox()).y;
+  releaseStatus();await statusPage.waitForFunction(()=>discoveryReady);await settledScroll(statusPage);
+  assert.equal(await persistent.evaluate(e=>e===document.activeElement),true,'method shortcut focus survives status removal');
+  check.statusRemovalReadingDelta=Math.abs((await persistent.boundingBox()).y-persistentTop);assert(check.statusRemovalReadingDelta<=2,'removing completed status preserves the next persistent content');await statusPage.close();
   // Target failure retains the original partial-load/retry path; no missing-case invention.
   const failed=await context.newPage();let fail=true;const failedTarget='cases/005-cloud-pr-review.md';
   await failed.route('**/'+failedTarget,route=>fail?route.fulfill({status:503,body:'Unavailable'}):route.continue());

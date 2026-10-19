@@ -31,21 +31,21 @@ WebKit在舊測試的載入中重整後，回報一批 `due to access control ch
 
 ## 最終預覽驗收與截圖
 
-[完整雲端QA 39309948421](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39309948421) 驗證 `219d578`，全部成功。產品資產自 `c919a36` 起相同，後續只收緊測試。
+[最終補修完整雲端QA 39311291570](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39311291570) 驗證 `c593915`，全部成功。此為合併後補修版，未沿用先前綠燈冒充最終結果。
 
 | 檢查 | 實際結果 |
 | --- | --- |
 | 單元／語法／靜態預覽 | 87/87，0 fail；所有JS語法通過；有效靜態catalog與base path |
 | 本輪瀏覽器流程 | Chromium1440／480／390／320、Firefox390、WebKit390，六組全部完成 |
 | 同一受控慢來源 | 基準四尺寸均未提前開啟；改後未放行無關來源就已開啟分享單篇 |
-| 正文／焦點／位置 | 原研究DOM不變，原文座標及wheel閱讀位移0–0.1875px，卡片返回與相關閱讀焦點可見 |
-| 320／480換行 | 提示高度確實減少約25.19px；兩行用途完整出現在dialog可見範圍 |
+| 正文／焦點／位置 | 原研究DOM不變，原文座標及wheel閱讀位移0–0.625px，卡片返回與相關閱讀焦點可見 |
+| 320／480換行 | 完整成功後提示隱藏；兩行用途完整出現在dialog可見範圍，原方法入口標準亦通過 |
 | 早讀期間原生重整 | 六組重新早開、新頁無來源失敗、q與scenario保留 |
 | 本輪axe | 12次掃描0違規，含文字對比；不宣稱完整無障礙認證 |
-| 舊流程回歸 | reader-search五組與load-recovery三引擎全過；正常重整改明確等待全庫ready |
+| 舊流程回歸 | reader-search五組、load-recovery三引擎、method-shortcut五組、controls六組全過；完整回歸明確等待全庫ready |
 | 實際瀏覽資產 | JS／CSS response全文與checkout比對，JSON保留sha256 |
 
-[完整本輪JSON](preview.json)／[基準觀測](before.json)／[單元輸出](unit.tap)／[搜尋回歸](search-regression.json)／[載入回歸](load-regression.json)。受控runner從導航到單篇可讀134–444ms；這不是一般網路速度、總載入時間或Lighthouse分數。WebKit明確early reload階段80筆來源路徑診斷完整保留於JSON；其餘pageErrors為空，沒有把這80筆隱藏或宣稱全程零診斷。
+[完整本輪JSON](preview.json)／[基準觀測](before.json)／[單元輸出](unit.tap)／[搜尋回歸](search-regression.json)／[載入回歸](load-regression.json)／[方法入口](method-regression.json)／[控制列](controls-regression.json)。受控runner從導航到單篇可讀178–593ms；這不是一般網路速度、總載入時間或Lighthouse分數。WebKit明確early reload階段48筆來源路徑診斷完整保留於JSON；其餘pageErrors為空，沒有把這48筆隱藏或宣稱全程零診斷。
 
 以下同一原始基準、同一UC-359、同一無關來源暫緩的前後比較：
 
@@ -55,14 +55,14 @@ WebKit在舊測試的載入中重整後，回報一批 `due to access control ch
 | 390×844 | [手機前](before-mobile.png) | [手機後](after-mobile.png) |
 | 320×740 | [窄手機前](before-small-mobile.png) | [窄手機後](after-small-mobile.png) |
 
-[完整原文閱讀畫面](reading-mobile.png)。獨立角色已逐張檢視桌面、390與320前後及閱讀畫面，無剩餘產品必修；最終JSON亦另送複核。未負責主要實作的審查提出卡片焦點、相關閱讀控制可見、offscreen focus、正文錨點與測試分類範圍，均補修及雲端驗證。
+[完整原文閱讀畫面](reading-mobile.png)。獨立角色已逐張檢視桌面、390與320前後及閱讀畫面，無剩餘產品必修；最終獨立release review已核實結果與artifact逐位元相同並通過。未負責主要實作的審查提出卡片焦點、相關閱讀控制可見、offscreen focus、正文錨點與測試分類範圍，均補修及雲端驗證。
 
 ## 變更範圍
 
 - `assets/app.js`：優先讀分享來源、成功來源回呼、載入狀態、背景完成保留正文與焦點。
 - `assets/reader.css`：載入提示沿用品牌樣式，用途正文排在提示前。
 - `tests/round.test.cjs`、`tests/round-browser.cjs`：失敗先行與完整本輪走查。
-- `tests/reader-search-browser.cjs`：既有完整搜尋回歸明確等待全庫ready，不再假設詳情已開即全庫載完。
+- `tests/reader-search-browser.cjs`、`tests/reader-controls-browser.cjs`：既有完整回歸明確等待全庫ready，不再假設詳情已開即全庫載完。
 - `.github/workflows/round-qa.yml`：雲端基準、三引擎預覽與正式發布驗收。
 - `SITE.md`與本紀錄：保留成果、數據、限制與下一輪方向。
 
@@ -83,6 +83,8 @@ python3 -m http.server 8100 --directory /tmp/shared-case-preview
 # 以下工具只需安裝於測試環境；產品沒有新增套件。
 NODE_PATH=<browser-tools>/node_modules ROUND_ENGINES=all node tests/round-browser.cjs
 NODE_PATH=<browser-tools>/node_modules READER_SEARCH_URL=http://127.0.0.1:8100/ai-agent-use-cases/ READER_SEARCH_ENGINES=all node tests/reader-search-browser.cjs
+NODE_PATH=<browser-tools>/node_modules METHOD_URL=http://127.0.0.1:8100/ai-agent-use-cases/ node tests/method-shortcut-browser.cjs
+NODE_PATH=<browser-tools>/node_modules CONTROLS_URL=http://127.0.0.1:8100/ai-agent-use-cases/ LABEL=manual node tests/reader-controls-browser.cjs
 NODE_PATH=<browser-tools>/node_modules LOAD_URL=http://127.0.0.1:8100/ai-agent-use-cases/ LOAD_ENGINES=all node tests/load-recovery-browser.cjs
 ```
 
@@ -90,10 +92,19 @@ NODE_PATH=<browser-tools>/node_modules LOAD_URL=http://127.0.0.1:8100/ai-agent-u
 
 三個模擬走查：收到近期UC-359連結→先讀原文→背景完成繼續讀；提早關閉→依問題搜尋並組合篩選→空結果／返回／重整；目標失敗→原缺項提示→補讀開啟，並比較P-003待查限制。另補鍵盤返回卡片、相關閱讀焦點、滑鼠捲動與載入中原生重整。這些是檢查，沒有真人訪談、留存或轉換率主張。
 
-資產增加3,698個未壓縮bytes，分檔gzip差額共1,151bytes：[尺寸計算](asset-sizes.json)。不是實際網路傳輸或Lighthouse分數；沒有新增前端依賴。
+資產增加3,878個未壓縮bytes，分檔gzip差額共1,187bytes：[尺寸計算](asset-sizes.json)。不是實際網路傳輸或Lighthouse分數；沒有新增前端依賴。
 
 ## 限制與下一輪
 
 沒有實體手機、iOS軟鍵盤或真人螢幕閱讀器驗證；axe不等於完整無障礙認證。受控延遲量測只證明無關來源不再阻擋單篇，不代表所有網路都會得到相同時間。GitHub Actions artifact有保存期限，本紀錄選定截圖與JSON保留於repo。
 
 全庫搜尋仍需讀取所有來源，不宣稱已降低總流量或做到離線使用。下一輪最值得做：量測回訪全文載入成本，再設計能驗證資料新鮮性的快取策略；不要僅以部署revision查詢參數推定CDN內容屬於同一版本。
+
+
+## 合併後補修（預覽驗收完成）
+
+第一個整合提交`f18e168`的Pages成功，但既有Method shortcut QA發現UC-338完成後提示占位，方法入口超出原手機位置；沒有放寬舊標準。補修改為完整成功後隱藏提示，部分失敗才保留缺項訊息；並從可見閱讀錨點排除即將隱藏的提示。
+
+原Reader controls測試曾在早開後直接操作將被背景更新的related區塊而碰到detached node；完整控制流程現明確等全庫ready，早讀互動由本輪專門走查覆蓋。另一次wheel檢查遇到Firefox約31.6px、WebKit3px的未穩定位置差；測試改用連續12影格實際scrollTop穩定再量測，不增加容許誤差，不把固定等待150ms當成已停止捲動。[第一個main原始失敗](main-reading-red.json)。
+
+補修增加「提示位於視窗頂端、方法入口已聚焦」的持續內容位置驗證，以及既有method-shortcut、reader-controls兩套原標準到本輪CI；[補修QA39311291570](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39311291570)已完整通過；方法入口維持原本標準：[占位退化](method-layout-red.png)／[修後](method-layout-after.png)。產品與最終獨立審查通過版本相同。

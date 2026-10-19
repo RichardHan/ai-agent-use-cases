@@ -16,8 +16,8 @@
         }
       ],
       "navigationCancellationDiagnostics": [],
-      "sourceReadyMs": 142,
-      "detailOpenMs": 234,
+      "sourceReadyMs": 190,
+      "detailOpenMs": 307,
       "actualAssets": [
         {
           "path": "assets/reader.css",
@@ -25,18 +25,19 @@
         },
         {
           "path": "assets/app.js",
-          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+          "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
         }
       ],
       "purposeBounds": {
         "top": 399.03125,
         "lineHeight": 32.3
       },
-      "readingScrollDelta": 0,
-      "readingTargetDelta": 0,
+      "readingScrollDelta": 59,
+      "readingTargetDelta": 0.1875,
       "wheelStatusHeightBefore": 45.1875,
-      "wheelStatusHeightAfter": 45.1875,
-      "wheelReadingDelta": 0,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.1875,
+      "statusRemovalReadingDelta": 0.1875,
       "midLoadReload": true,
       "sourceHref": "https://zenn.dev/tec/articles/c4fbfcfffde4ad",
       "openedSource": "https://zenn.dev/tec/articles/c4fbfcfffde4ad",
@@ -57,8 +58,8 @@
         }
       ],
       "navigationCancellationDiagnostics": [],
-      "sourceReadyMs": 82,
-      "detailOpenMs": 137,
+      "sourceReadyMs": 113,
+      "detailOpenMs": 199,
       "actualAssets": [
         {
           "path": "assets/reader.css",
@@ -66,18 +67,19 @@
         },
         {
           "path": "assets/app.js",
-          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+          "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
         }
       ],
       "purposeBounds": {
         "top": 520.96875,
         "lineHeight": 30.4
       },
-      "readingScrollDelta": 0,
-      "readingTargetDelta": 0,
+      "readingScrollDelta": 84,
+      "readingTargetDelta": 0.375,
       "wheelStatusHeightBefore": 70.375,
-      "wheelStatusHeightAfter": 70.375,
-      "wheelReadingDelta": 0,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.375,
+      "statusRemovalReadingDelta": 0.375,
       "midLoadReload": true,
       "pageErrors": [],
       "complete": true
@@ -96,8 +98,8 @@
         }
       ],
       "navigationCancellationDiagnostics": [],
-      "sourceReadyMs": 85,
-      "detailOpenMs": 135,
+      "sourceReadyMs": 109,
+      "detailOpenMs": 189,
       "actualAssets": [
         {
           "path": "assets/reader.css",
@@ -105,18 +107,19 @@
         },
         {
           "path": "assets/app.js",
-          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+          "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
         }
       ],
       "purposeBounds": {
         "top": 624.90625,
         "lineHeight": 30.4
       },
-      "readingScrollDelta": 25,
-      "readingTargetDelta": 0.1875,
+      "readingScrollDelta": 110,
+      "readingTargetDelta": 0.4375,
       "wheelStatusHeightBefore": 95.5625,
-      "wheelStatusHeightAfter": 70.375,
-      "wheelReadingDelta": 0.1875,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.4375,
+      "statusRemovalReadingDelta": 0.4375,
       "midLoadReload": true,
       "pageErrors": [],
       "complete": true
@@ -135,8 +138,8 @@
         }
       ],
       "navigationCancellationDiagnostics": [],
-      "sourceReadyMs": 84,
-      "detailOpenMs": 134,
+      "sourceReadyMs": 110,
+      "detailOpenMs": 178,
       "actualAssets": [
         {
           "path": "assets/reader.css",
@@ -144,18 +147,19 @@
         },
         {
           "path": "assets/app.js",
-          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+          "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
         }
       ],
       "purposeBounds": {
         "top": 454.328125,
         "lineHeight": 30.4
       },
-      "readingScrollDelta": 25,
-      "readingTargetDelta": 0.1875,
+      "readingScrollDelta": 84,
+      "readingTargetDelta": 0.375,
       "wheelStatusHeightBefore": 70.375,
-      "wheelStatusHeightAfter": 45.1875,
-      "wheelReadingDelta": 0.1875,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.375,
+      "statusRemovalReadingDelta": 0.375,
       "midLoadReload": true,
       "pageErrors": [],
       "complete": true
@@ -174,8 +178,8 @@
         }
       ],
       "navigationCancellationDiagnostics": [],
-      "sourceReadyMs": 354,
-      "detailOpenMs": 444,
+      "sourceReadyMs": 475,
+      "detailOpenMs": 593,
       "actualAssets": [
         {
           "path": "assets/reader.css",
@@ -183,18 +187,19 @@
         },
         {
           "path": "assets/app.js",
-          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+          "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
         }
       ],
       "purposeBounds": {
         "top": 488.8500061035156,
         "lineHeight": 30.4
       },
-      "readingScrollDelta": 0,
+      "readingScrollDelta": 84.39990234375,
       "readingTargetDelta": 0,
-      "wheelStatusHeightBefore": 70.4000015258789,
-      "wheelStatusHeightAfter": 70.4000015258789,
-      "wheelReadingDelta": 0,
+      "wheelStatusHeightBefore": 70.39999389648438,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.399993896484375,
+      "statusRemovalReadingDelta": 0.4000091552734375,
       "midLoadReload": true,
       "pageErrors": [],
       "complete": true
@@ -213,6 +218,8 @@
         }
       ],
       "navigationCancellationDiagnostics": [
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/036-pos-accounting-csv.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/037-product-listing-comparison.md due to access control checks.",
         "/127.0.0.1:8100/ai-agent-use-cases/cases/038-fabric-sourcing-sample-handoff.md due to access control checks.",
         "/127.0.0.1:8100/ai-agent-use-cases/cases/039-competitor-positioning-review.md due to access control checks.",
         "/127.0.0.1:8100/ai-agent-use-cases/cases/040-trip-deferred-recheck.md due to access control checks.",
@@ -258,48 +265,14 @@
         "/127.0.0.1:8100/ai-agent-use-cases/cases/080-email-license-keys-to-password-vault.md due to access control checks.",
         "/127.0.0.1:8100/ai-agent-use-cases/cases/081-todoist-scheduled-headstart.md due to access control checks.",
         "/127.0.0.1:8100/ai-agent-use-cases/cases/082-multi-bot-fitness-coach-group.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/083-printable-grade1-math-worksheet.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/084-botops-tiered-fleet-notion-tickets.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/085-slack-bug-triage-product-preread.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/086-muse-concert-video-scraping-pipeline.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/087-voice-walk-intake-codex-morning-call.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/088-unrefunded-returns-inbox-chase.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/089-digital-declutter-approval-plan.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/090-daily-prediction-market-evidence-read.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/091-household-13-lane-bots.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/092-desk-can-cannot-receipts.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/093-local-newsletter-agent-team.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/094-meeting-stand-in-disclosure.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/095-product-usage-error-correlation.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/096-production-log-deploy-triage.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/097-public-gis-layer-map.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/098-engineering-pdf-excel-extraction.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/099-travel-photo-scrapbook.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/101-procurement-capability-shortlist.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/102-regulatory-change-safety-form-draft.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/103-insurance-crm-plan-code-reconciliation.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/104-genealogy-animation-print.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/105-gift-card-balance-inventory.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/106-animated-line-sticker-submission-package.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/107-old-blog-private-audio-archive.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/108-golf-round-practice-data-review.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/109-supermarket-coupon-activation.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/110-roblox-playtest-prototype.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/111-engineering-drawing-source-traceability.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/112-image-to-printable-articulated-model.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/113-architecture-material-visual-comparison.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/114-existing-worksheet-print-layout.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/115-rigged-character-asset-export.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/116-slack-branded-quote-draft.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/117-warranty-replacement-tracking.md due to access control checks.",
-        "/127.0.0.1:8100/ai-agent-use-cases/cases/118-agent-email-rerouting-consent-test.md due to access control checks."
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/083-printable-grade1-math-worksheet.md due to access control checks."
       ],
-      "sourceReadyMs": 163,
-      "detailOpenMs": 269,
+      "sourceReadyMs": 203,
+      "detailOpenMs": 355,
       "actualAssets": [
         {
           "path": "assets/app.js",
-          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+          "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
         },
         {
           "path": "assets/reader.css",
@@ -310,11 +283,12 @@
         "top": 520.96875,
         "lineHeight": 30.4
       },
-      "readingScrollDelta": 0,
-      "readingTargetDelta": 0,
+      "readingScrollDelta": 85,
+      "readingTargetDelta": 0.625,
       "wheelStatusHeightBefore": 70.375,
-      "wheelStatusHeightAfter": 70.375,
-      "wheelReadingDelta": 0,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.625,
+      "statusRemovalReadingDelta": 0.625,
       "midLoadReload": true,
       "pageErrors": [],
       "complete": true

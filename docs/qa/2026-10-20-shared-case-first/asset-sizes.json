@@ -2,9 +2,9 @@
   {
     "path": "assets/app.js",
     "beforeBytes": 144466,
-    "afterBytes": 147966,
-    "deltaBytes": 3500,
-    "gzipDeltaBytes": 1119
+    "afterBytes": 148146,
+    "deltaBytes": 3680,
+    "gzipDeltaBytes": 1155
   },
   {
     "path": "assets/reader.css",

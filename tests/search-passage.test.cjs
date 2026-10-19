@@ -30,3 +30,8 @@ test('first actual text match wins, and an oversized keyword is never falsely ex
  assert.equal(selectSearchPassage(['薪資未測','薪資已測'],'薪資').index,0);
  const query='長'.repeat(300);const result=selectSearchPassage(['前'+query+'後'],'長'.repeat(300));assert.equal(result.index,0);assert.equal(result.excerpt,null);
 });
+
+test('context-sensitive casing and expanding keywords cannot quote a different occurrence',()=>{
+ const result=selectSearchPassage(['ΟΣ '+ '背景'.repeat(200)+' σ'],'σ');assert.equal(result.index,0);assert.equal(result.excerpt,null);
+ const expanded=selectSearchPassage(['前'+ 'ffi'.repeat(100)+'後'],'ﬃ'.repeat(100));assert.equal(expanded.index,0);assert.equal(expanded.excerpt,null);
+});

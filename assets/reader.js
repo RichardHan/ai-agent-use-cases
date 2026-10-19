@@ -86,10 +86,11 @@
     // Context-sensitive casing may differ across a grapheme boundary. Keep the
     // real passage destination, but omit a quote if it cannot be mapped exactly.
     const at=projected.indexOf(needle);
-    if(at===-1||Array.from(variant).length>limit)return {index,excerpt:null,partial:true};
+    if(projected!==normalize(text)||at===-1||Array.from(variant).length>limit)return {index,excerpt:null,partial:true};
     const first=offsets[at].start,last=offsets[at+needle.length-1].end;
     const hitStart=segments.findIndex(s=>s.index===first);
     const hitEnd=segments.findIndex(s=>s.index+s.segment.length===last)+1;
+    if(hitEnd-hitStart>limit)return {index,excerpt:null,partial:true};
     let start=Math.max(0,hitStart-60),end=Math.min(segments.length,start+limit);
     if(hitEnd>end){end=hitEnd;start=Math.max(0,end-limit);}
     const from=segments[start].index,to=end<segments.length?segments[end].index:text.length;

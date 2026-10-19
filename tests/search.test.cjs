@@ -1735,6 +1735,56 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('提示詞攻擊')), {
 // Search quality: agentic
 assert(api.filterEntries(entries, Array.from(api.tokenize('agentic')), {}).some(x => x.id === 'UC-001'), 'agentic matches UC-001 via agent synonym');
 
+// Search quality: reservations, bookings, 訂位, 預約, 餐廳訂位, 預約餐廳, 電話訂位
+assert(api.filterEntries(entries, Array.from(api.tokenize('reservations')), {}).some(x => x.id === 'UC-072'), 'reservations matches UC-072 via reservation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('bookings')), {}).some(x => x.id === 'UC-072'), 'bookings matches UC-072 via booking tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('餐廳訂位')), {}).some(x => x.id === 'UC-072'), '餐廳訂位 matches UC-072 via reservation synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('預約餐廳')), {}).some(x => x.id === 'UC-072'), '預約餐廳 matches UC-072 via reservation synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('電話訂位')), {}).some(x => x.id === 'UC-072'), '電話訂位 matches UC-072 via reservation synonym');
+
+// Search quality: reflection, self-reflection, 反思, 自我反思, 自我反省
+assert(api.filterEntries(entries, Array.from(api.tokenize('reflection')), {}).some(x => x.id === 'UC-325'), 'reflection matches UC-325 via reflection tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('self-reflection')), {}).some(x => x.id === 'UC-325'), 'self-reflection matches UC-325 via reflection tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('反思')), {}).some(x => x.id === 'UC-325'), '反思 matches UC-325 via reflection synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('自我反思')), {}).some(x => x.id === 'UC-325'), '自我反思 matches UC-325 via reflection synonym');
+
+// Search quality: self-correction, self-healing, 自我修正, 自我修復, 自動修復, 自我檢查
+assert(api.filterEntries(entries, Array.from(api.tokenize('self-correction')), {}).some(x => x.id === 'UC-018'), 'self-correction matches UC-018 via self-correction tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('self-healing')), {}).some(x => x.id === 'UC-018'), 'self-healing matches UC-018 via self-correction synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('自我修正')), {}).some(x => x.id === 'UC-018'), '自我修正 matches UC-018 via self-correction synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('自我修復')), {}).some(x => x.id === 'UC-018'), '自我修復 matches UC-018 via self-correction synonym');
+
+// Search quality: coloring book, 著色本, 塗色本, 填色本, 著色畫, 兒童著色
+assert(api.filterEntries(entries, Array.from(api.tokenize('coloring book')), {}).some(x => x.id === 'UC-342'), 'coloring book matches UC-342 via coloring tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('著色本')), {}).some(x => x.id === 'UC-342'), '著色本 matches UC-342 via coloring synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('塗色本')), {}).some(x => x.id === 'UC-342'), '塗色本 matches UC-342 via coloring synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('填色本')), {}).some(x => x.id === 'UC-342'), '填色本 matches UC-342 via coloring synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('著色畫')), {}).some(x => x.id === 'UC-342'), '著色畫 matches UC-342 via coloring synonym');
+
+// Search quality: towing, tow truck, 拖吊, 拖車, 車輛拋錨, 汽車拋錨, 道路支援
+assert(api.filterEntries(entries, Array.from(api.tokenize('towing')), {}).some(x => x.id === 'UC-343'), 'towing matches UC-343 via towing tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('tow truck')), {}).some(x => x.id === 'UC-343'), 'tow truck matches UC-343 via towing tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('拖吊')), {}).some(x => x.id === 'UC-343'), '拖吊 matches UC-343 via breakdown synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('拖車')), {}).some(x => x.id === 'UC-343'), '拖車 matches UC-343 via breakdown synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('車輛拋錨')), {}).some(x => x.id === 'UC-343'), '車輛拋錨 matches UC-343 via breakdown synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('汽車拋錨')), {}).some(x => x.id === 'UC-343'), '汽車拋錨 matches UC-343 via breakdown synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('道路支援')), {}).some(x => x.id === 'UC-343'), '道路支援 matches UC-343 via breakdown synonym');
+
+// Search quality: 常亮螢幕, 常亮顯示, 常亮
+assert(api.filterEntries(entries, Array.from(api.tokenize('常亮螢幕')), {}).some(x => x.id === 'UC-345'), '常亮螢幕 matches UC-345 via ambient synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('常亮顯示')), {}).some(x => x.id === 'UC-345'), '常亮顯示 matches UC-345 via ambient synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('常亮')), {}).some(x => x.id === 'UC-345'), '常亮 matches UC-345 via ambient synonym');
+
+// Search quality: 作業缺交, 學業成績, 成績看板
+assert(api.filterEntries(entries, Array.from(api.tokenize('作業缺交')), {}).some(x => x.id === 'UC-345'), '作業缺交 matches UC-345 via homework synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('學業成績')), {}).some(x => x.id === 'UC-345'), '學業成績 matches UC-345 via grade synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('成績看板')), {}).some(x => x.id === 'UC-345'), '成績看板 matches UC-345 via grade synonym');
+
+// Search quality: token用量, token消耗, 額度消耗
+assert(api.filterEntries(entries, Array.from(api.tokenize('token用量')), {}).some(x => x.id === 'UC-066'), 'token用量 matches UC-066 via usage synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('token消耗')), {}).some(x => x.id === 'UC-066'), 'token消耗 matches UC-066 via usage synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('額度消耗')), {}).some(x => x.id === 'UC-066'), '額度消耗 matches UC-066 via usage synonym');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

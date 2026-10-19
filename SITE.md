@@ -1630,5 +1630,57 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 - 總條目數維持 343 筆（337 案例、3 經驗補充、3 待查項目），嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
 下一輪建議：評估在候選重複來源叢集測試中，擴充針對 PR #53 新增案例之來源 URL 模式與潛在重複叢集檢查。
 
+## 2026-10-19：擴充訂位預約／反思與自我修正／著色本／拖吊救援／常亮螢幕／作業倒裝／Token用量檢索品質與同義詞對稱對映
+
+問題調查與證據：
+1. 訂位與預約（Reservation / Booking）搜尋斷層與詞彙斷裂：
+   - UC-072 新增版本 E（Brian Roemmele 的 ClawCall 電話餐廳訂位 Bot 模板，以及全庫既有 15 筆預約／訂位案例）：
+   - 搜尋「餐廳訂位」命中 0 筆、「預約餐廳」命中 0 筆、「訂位電話」命中 0 筆；
+   - 搜尋英文複數「reservations」命中 0 筆、「bookings」命中 0 筆；
+   - 「預約」（15 筆）與「訂位」（4 筆）同義詞完全沒有打通，使用者搜尋「預約」無法檢索到 UC-072 訂位案例。
+2. AI Agent 核心架構方法論「反思與自我修正／修復（Reflection / Self-Correction / Self-Healing）」搜尋完全空白：
+   - 搜尋「reflection」、「reflections」、「self-reflection」、「self-correction」、「self-healing」命中 0 筆；
+   - 搜尋繁中「自我修正」、「自我反思」、「自我修復」、「自我反省」、「自我檢查」命中 0 筆；
+   - 庫中 UC-325（每日反思紀錄）、UC-018（隔離展示修復）、UC-068（Mac mini 斷線自愈排障）、UC-096、P-003（AI 自我檢查修好）等案例無法透過標準術語檢索。
+3. PR #53 新增案例日常用語與複合詞搜尋斷層：
+   - 「著色本／塗色本／填色本／著色畫／圖畫紙」（UC-342）：家長最常用詞「著色本」、「塗色本」、「填色本」、「著色畫」全部命中 0 筆，英文「coloring book」、「coloring sheet」命中 0 筆。
+   - 「拖吊／拖車／車輛拋錨／道路支援」（UC-343）：搜尋「車輛拋錨」、「汽車拋錨」、「道路支援」、「towing」、「tow truck」命中 0 筆，「拖吊」、「拖車」與「道路救援／拋錨」未形成同義詞映射。
+   - 「常亮螢幕／常亮顯示／常亮」（UC-345）：搜尋「常亮螢幕」、「常亮顯示」、「常亮」命中 0 筆（僅「常亮看板」命中 1 筆）。
+   - 「作業缺交／成績看板／學業成績」（UC-345）：搜尋中文倒裝詞「作業缺交」命中 0 筆（僅「缺交作業」命中）；搜尋「學業成績」、「成績看板」命中 0 筆。
+   - 「Token用量與消耗」（UC-066 等）：搜尋「token用量」命中 0 筆，「token消耗」命中 0 筆。
+
+本輪改善：
+1. `assets/app.js` 分詞函數 `tokenize` 新增多詞與詞形標準化正則：
+   - `\breservations?\b` → `reservation`
+   - `\bbookings?\b` → `booking`
+   - `\bcolor(?:ing)?\s*[- ]\s*(?:books?|sheets?)\b` → `coloring`
+   - `\btow(?:ing)?(?:\s*[- ]\s*trucks?)?\b` → `towing`
+   - `\bself\s*[- ]\s*reflect(?:ion|ive)?\b` → `reflection`
+   - `\breflections?\b` → `reflection`
+   - `\bself\s*[- ]\s*(?:correct(?:ion|ing|s)?|heal(?:ing|s)?)\b` → `self-correction`
+   - `\btoken\s*(?:用量|消耗)\b` → `token 用量`
+2. `assets/app.js` 同義詞群 `SYNONYM_GROUPS` 擴充與新增：
+   - 新增訂位／預約詞群：`['reservation', 'reservations', 'booking', 'bookings', '訂位', '預約', '餐廳訂位', '預約餐廳', '電話訂位', '訂位電話', '代訂', '訂席']`
+   - 新增反思詞群：`['reflection', 'reflections', 'self-reflection', '反思', '自我反思', '自我反省', '反思機制']`
+   - 新增自我修正／修復詞群：`['self-correction', 'self-healing', '自我修正', '自我修復', '自我修復機制', '自動修復', '自我檢查']`
+   - 擴充著色詞群：加入 `'coloring-book'`, `'coloring book'`, `'coloring sheet'`, `'coloring sheets'`, `'著色本'`, `'著色畫'`, `'塗色本'`, `'填色本'`, `'兒童著色'`
+   - 擴充道路救援詞群：加入 `'towing'`, `'tow truck'`, `'拖吊'`, `'拖車'`, `'車輛拋錨'`, `'汽車拋錨'`, `'道路支援'`
+   - 擴充常亮看板詞群：加入 `'常亮'`, `'常亮螢幕'`, `'常亮顯示'`
+   - 擴充作業詞群：加入 `'作業缺交'`（解決中文倒裝搜尋）
+   - 擴充成績詞群：加入 `'學業成績'`, `'成績看板'`
+   - 擴充用量詞群：加入 `'token用量'`, `'token消耗'`, `'額度消耗'`
+   - 維持 1,635 鍵 100% 互映與自反對稱對映（Symmetry check complete，0 asymmetries）。
+3. `tests/search.test.cjs`：
+   - 新增 32 組檢索回歸斷言，驗證 reservations/bookings/餐廳訂位/預約餐廳/電話訂位、reflection/self-reflection/反思/自我反思、self-correction/self-healing/自我修正/自我修復、coloring book/著色本/塗色本/填色本/著色畫、towing/tow truck/拖吊/拖車/車輛拋錨/汽車拋錨/道路支援、常亮螢幕/常亮顯示/常亮、作業缺交/學業成績/成績看板、token用量/token消耗/額度消耗等查詢均能準確命中對應案例。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（343 筆條目全文與擴充檢索全數驗證通過，reservations/訂位/預約命中躍升至 19 筆，reflection 升至 1 筆，self-correction 升至 2 筆，coloring book/著色本升至 2 筆，towing/拖車/車輛拋錨升至 2 筆，常亮螢幕升至 1 筆，作業缺交升至 19 筆，學業成績升至 22 筆，token用量升至 165 筆）。
+- `node --test tests/*.test.cjs`：66/66 單元測試全數通過（含 8/8 audit 測試）。
+- `for file in assets/*.js tests/*.cjs; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總條目數維持 343 筆（337 案例、3 經驗補充、3 待查項目），嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：針對已識別之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤，供讀者橫向比對同源案例。
+
+
 
 

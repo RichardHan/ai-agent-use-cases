@@ -203,6 +203,16 @@
 
 /* Explain query order without adding another control to the mobile filter panel. */
 .search-order-note{margin:-8px 0 20px;font-size:13px;line-height:1.7;color:var(--green);max-width:65ch;overflow-wrap:anywhere}
+.source-guidance{margin:0 0 24px;max-width:78ch;font-size:14px;line-height:1.8;overflow-wrap:anywhere;color:#3c5148}
+.source-guidance>p{margin:0}
+.source-guidance summary{width:fit-content;max-width:100%;min-height:44px;padding:9px 0;box-sizing:border-box;cursor:pointer;font-weight:650;color:var(--green)}
+.source-guidance summary:focus-visible{outline:3px solid #799f27;outline-offset:4px;border-radius:3px}
+.source-guidance details[open]{padding-bottom:4px}
+.source-guidance details>p{margin:4px 0 16px}
+.source-guidance dl{margin:0;padding-left:16px;border-left:2px solid #b2c2a5}
+.source-guidance dl>div+div{margin-top:14px}
+.source-guidance dt{font-weight:650;color:var(--ink)}
+.source-guidance dd{margin:2px 0 0}
 
 /* Keep a broken shared link understandable, with a route back to the collection. */
 .missing-case{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 24px;margin:0 0 24px;border:1px solid #a8b9a2;border-left:4px solid var(--green);border-radius:10px;background:#fff;color:#285344;overflow-wrap:anywhere}

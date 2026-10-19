@@ -1,0 +1,138 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "audits": [
+      {
+        "state": "guide-open",
+        "violations": []
+      },
+      {
+        "state": "empty",
+        "violations": []
+      }
+    ],
+    "readyMs": 423,
+    "entries": 357,
+    "failed": [],
+    "hasGuide": 1,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "openedSource": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": 200,
+    "journeys": [
+      "author source and keyboard return",
+      "official origin and empty/reset",
+      "shared combined filters/reload/Back and long reading"
+    ],
+    "requests": 1452,
+    "complete": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "audits": [
+      {
+        "state": "guide-open",
+        "violations": []
+      },
+      {
+        "state": "empty",
+        "violations": []
+      }
+    ],
+    "readyMs": 392,
+    "entries": 357,
+    "failed": [],
+    "hasGuide": 1,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "journeys": [
+      "author source and keyboard return",
+      "official origin and empty/reset",
+      "shared combined filters/reload/Back and long reading"
+    ],
+    "requests": 1452,
+    "complete": true
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "audits": [
+      {
+        "state": "guide-open",
+        "violations": []
+      },
+      {
+        "state": "empty",
+        "violations": []
+      }
+    ],
+    "readyMs": 401,
+    "entries": 357,
+    "failed": [],
+    "hasGuide": 1,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "journeys": [
+      "author source and keyboard return",
+      "official origin and empty/reset",
+      "shared combined filters/reload/Back and long reading"
+    ],
+    "requests": 1452,
+    "complete": true
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "audits": [
+      {
+        "state": "guide-open",
+        "violations": []
+      },
+      {
+        "state": "empty",
+        "violations": []
+      }
+    ],
+    "readyMs": 848,
+    "entries": 357,
+    "failed": [],
+    "hasGuide": 1,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "journeys": [
+      "author source and keyboard return",
+      "official origin and empty/reset",
+      "shared combined filters/reload/Back and long reading"
+    ],
+    "requests": 1446,
+    "complete": true
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "audits": [
+      {
+        "state": "guide-open",
+        "violations": []
+      },
+      {
+        "state": "empty",
+        "violations": []
+      }
+    ],
+    "readyMs": 2406,
+    "entries": 357,
+    "failed": [],
+    "hasGuide": 1,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "journeys": [
+      "author source and keyboard return",
+      "official origin and empty/reset",
+      "shared combined filters/reload/Back and long reading"
+    ],
+    "requests": 1452,
+    "complete": true
+  },
+  {
+    "journey": "loading/disclosure/partial/retry/long-unknown/error",
+    "complete": true
+  }
+]

@@ -108,8 +108,9 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   await statusPage.goto(base+'?case=UC-005');await statusPage.locator('#detail[open]').waitFor();
   const statusTop=(await statusPage.locator('.detail-load-status').boundingBox()).y;const statusToolbar=await statusPage.locator('.detail-toolbar').boundingBox();
   await statusPage.mouse.move(width/2,height/2);await statusPage.mouse.wheel(0,statusTop-statusToolbar.y-statusToolbar.height-8);await settledScroll(statusPage);
-  const persistent=statusPage.locator('.reader-method-shortcut');const persistentTop=(await persistent.boundingBox()).y;
+  const persistent=statusPage.locator('.reader-method-shortcut');await persistent.focus();const persistentTop=(await persistent.boundingBox()).y;
   releaseStatus();await statusPage.waitForFunction(()=>discoveryReady);await settledScroll(statusPage);
+  assert.equal(await persistent.evaluate(e=>e===document.activeElement),true,'method shortcut focus survives status removal');
   check.statusRemovalReadingDelta=Math.abs((await persistent.boundingBox()).y-persistentTop);assert(check.statusRemovalReadingDelta<=2,'removing completed status preserves the next persistent content');await statusPage.close();
   // Target failure retains the original partial-load/retry path; no missing-case invention.
   const failed=await context.newPage();let fail=true;const failedTarget='cases/005-cloud-pr-review.md';

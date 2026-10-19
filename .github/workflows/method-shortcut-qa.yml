@@ -1,0 +1,49 @@
+name: Method shortcut QA
+on:
+  push:
+    branches: [feat/reader-method-shortcut]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  journey:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Baseline unit tests, syntax and static build
+        run: |
+          node --test tests/*.test.cjs
+          for file in assets/*.js; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/method-preview/ai-agent-use-cases"
+      - name: Cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/method-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/method-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Observe published baseline
+        env:
+          NODE_PATH: ${{ runner.temp }}/method-tools/node_modules
+          METHOD_URL: https://richardhan.github.io/ai-agent-use-cases/
+          OBSERVE: '1'
+        run: node tests/method-shortcut-browser.cjs
+      - name: Verify preview when implemented
+        if: ${{ hashFiles('tests/method-shortcut.test.cjs') != '' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/method-tools/node_modules
+          READING_URL: http://127.0.0.1:8095/ai-agent-use-cases/
+          READER_URL: http://127.0.0.1:8095/ai-agent-use-cases/
+        run: |
+          python3 -m http.server 8095 --directory "$RUNNER_TEMP/method-preview" > /tmp/method-preview.log 2>&1 &
+          node tests/method-shortcut-browser.cjs
+          node tests/reading-flow-browser.cjs
+          node tests/reader-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: method-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

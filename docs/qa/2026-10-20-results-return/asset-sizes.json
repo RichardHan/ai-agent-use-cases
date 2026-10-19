@@ -1,0 +1,23 @@
+{
+  "assets/app.js": {
+    "beforeBytes": 149501,
+    "afterBytes": 150328,
+    "addedBytes": 827
+  },
+  "assets/style.css": {
+    "beforeBytes": 28351,
+    "afterBytes": 28807,
+    "addedBytes": 456
+  },
+  "index.html": {
+    "beforeBytes": 13503,
+    "afterBytes": 13503,
+    "addedBytes": 0
+  },
+  "linkContrast": {
+    "foreground": "#285344",
+    "background": "#f7f8f2",
+    "ratio": 8.156,
+    "method": "WCAG relative luminance; static color values, not full accessibility certification"
+  }
+}

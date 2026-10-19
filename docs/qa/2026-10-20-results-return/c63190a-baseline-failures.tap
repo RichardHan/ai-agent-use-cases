@@ -1,0 +1,179 @@
+✔ search links preserve exact terms and all facets under the Pages base path (8.8685ms)
+✔ unfiltered links still target the collection and never leak unrelated URL state (3.776ms)
+✔ arrival distinguishes search intent from the homepage and explicit other anchors (4.1745ms)
+✔ all cases and evidence files have valid scenario, non-empty tags, and verification date (54.147667ms)
+✔ all cases, evidence files, and pending leads contain verified external source URLs without placeholders (57.167834ms)
+✖ candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus (55.205417ms)
+✖ qualification audit maintains strict separation between catalog entries and verified cases (2.144958ms)
+✔ INDEX.md maintains scenario consistency, working case links, and matches strict qualification audit count (4.013125ms)
+✔ all cases and evidence files have plain-language title and purpose either in markdown or copy.json (32.383583ms)
+✔ app.js metadata extraction gracefully falls back to extract tags from category lines (10.431667ms)
+✔ app.js metadata accurately extracts verification date rather than historical publication date (64.468541ms)
+✔ tag exploration replaces only the query, preserving every active facet (7.008583ms)
+✔ scenario toggles off and on without throwing away the task or other facets (3.114333ms)
+✔ unrecognized card action cannot mutate controls or move the reader (4.967875ms)
+✔ two conflicting facets recover real query matches while retaining the other facets (9.594708ms)
+✔ never replace an existing result or a single-facet recovery, and never weaken the query (7.406708ms)
+✔ offer only the smallest removals and report all matching loaded entries (14.773708ms)
+✔ multiple alternatives stay independent, ignore empty values and use the normal multi-tool matching (1.572625ms)
+✔ five conflicting facets recover without mutating any supplied data (0.5405ms)
+✔ scenario comes from the declared lead metadata, never from later source prose (0.567334ms)
+✔ discovery excludes pending leads, evidence supplements and untested templates (0.41625ms)
+✔ a deck visits every case once, avoids immediate repeats across rounds, and preserves input (0.202792ms)
+✔ empty and single-item decks have explicit states (0.058917ms)
+✔ facet alternatives ignore only their own current selection and retain query and all other filters (20.421292ms)
+✔ tool membership, all-option and missing values count real entries exactly once (0.314875ms)
+✔ empty query results, empty corpus and partial corpus do not invent available entries (5.775333ms)
+✔ synonym-expanded counts use the same search semantics as result filtering (0.367875ms)
+✔ late return at 80ms becomes visible and releases the bounded guard (1.480875ms)
+✔ late return at 180ms becomes visible and releases the bounded guard (0.94825ms)
+✔ new pointerdown permanently cancels late scroll correction (0.423209ms)
+✔ new keydown permanently cancels late scroll correction (0.265792ms)
+✔ new wheel permanently cancels late scroll correction (0.341792ms)
+✔ new touchstart permanently cancels late scroll correction (0.263291ms)
+✔ new focus wins and return monitoring is cleaned up (0.316416ms)
+✔ new url wins and return monitoring is cleaned up (0.277541ms)
+✔ new modal wins and return monitoring is cleaned up (0.910167ms)
+✔ new removed wins and return monitoring is cleaned up (0.448167ms)
+✔ scroll after the 300ms deadline is never pulled back (0.328458ms)
+✔ background resume after deadline: frame runs first without late scrolling (0.313834ms)
+✔ background resume after deadline: timer runs first without late scrolling (0.446583ms)
+✔ recovery merges by source path and retains all pending items in stable order (11.20825ms)
+✔ timed-out source fails independently without losing completed content (10.910792ms)
+✔ mapConcurrent respects concurrency limit and preserves ordering (39.140125ms)
+✔ mapConcurrent handles empty arrays and boundary limits (0.196083ms)
+✔ loadCorpus isolates single-file failure and preserves remaining cases (2.361583ms)
+✔ loadCorpus reports zero entries when all files fail (0.30375ms)
+✔ whole-corpus budget keeps completed content and marks active plus queued paths for retry (23.389875ms)
+✔ choosing available content cancels in-flight work without dropping successful sources (0.48ms)
+✔ deadline includes reading the body after HTTP headers (16.553334ms)
+✔ per-source timeout frees a worker so later sources can finish before whole budget (10.707333ms)
+✔ method shortcut preserves the full untested heading and original index (2.111541ms)
+✔ pending, sparse and missing methods do not fabricate an actionable workflow (0.377542ms)
+✔ prompt fallback and evidence methods keep literal source labels (0.137167ms)
+✔ search route preserves a negative source section and the matched synonym (1.277ms)
+✔ routes use section indices even when original headings repeat (0.158583ms)
+✔ literal Unicode and href matches use the same normalized variants without regex (0.26325ms)
+✔ routes are bounded, deduplicate sections and keep term order (0.221459ms)
+✔ empty, missing and metadata-only terms never invent original matches (0.198083ms)
+✔ jump choices point to existing result, method, limits and source headings (2.184209ms)
+✔ sparse, pending and unknown structures do not invent sections or evidence (0.531541ms)
+✔ duplicate and unsafe-looking heading text stays literal and keeps its index (0.187666ms)
+✔ UC-313 promotes the entire report including uncertainty and unexecuted proposal (1.758708ms)
+✔ source versions retain every list item and are not called verified results (1.063083ms)
+✔ report takes precedence over source directory and excludes designed, expected and supplementary outcomes (0.08975ms)
+✔ long and unknown original sections remain available through research, never silently truncated (0.130625ms)
+✔ source jumps include author/date and deduplication headings and prefer a linked source (0.143ms)
+✔ reading suggestions exist and use only other main cases in the same topic and current results (0.983417ms)
+✔ at most three suggestions, deterministic order, no invented fallback for sparse or unknown topics (0.3315ms)
+✔ keyboard neighbours never escape an empty or unrelated search result (0.349667ms)
+✔ purpose coverage precedes incidental matches; ties and empty queries preserve source order (27.9845ms)
+✔ exact ID precedes references; metadata matches precede body-only matches; optional fields are safe (14.391041ms)
+✔ real corpus: salary purpose precedes prohibition while recall and all filters stay unchanged (140.229375ms)
+✔ distinct purpose terms beat metadata coverage; repeats and frequency do not boost rank (2.539667ms)
+✔ short and numeric IDs remain exact even when a reference title would otherwise win (3.021708ms)
+✔ later versions with links and unlinked limitations remain discoverable in original order (1.531666ms)
+✔ duplicates preserve separate destinations, raw qualification and unsafe-looking literal titles (0.217333ms)
+✔ sparse and unknown structures do not invent verification or source destinations (0.238708ms)
+✔ a successful shared source is published before an unrelated request finishes (3.889709ms)
+✔ failed and aborted sources never publish invented or duplicate entries (0.595292ms)
+✔ share scheduling supports existing ID aliases without treating filenames as evidence (0.622375ms)
+✔ source failures do not publish a row and later successful sources still arrive once (0.251916ms)
+✔ context explains deep synonym matches without turning a prohibition into a claim (9.527208ms)
+✔ context distinguishes visible fields, source URLs, original titles and ID aliases (3.699208ms)
+✔ context explains separate query terms, bounds density, and omits empty searches (3.642708ms)
+✔ excerpt preserves original Unicode, markup as text, and a bounded window around a late match (3.835375ms)
+✔ passage points to the actual late block, preserving its negative source text (1.277834ms)
+✔ passage never joins list rows, invents href quotes, or matches empty input (0.088208ms)
+✔ literal excerpts retain original Unicode, punctuation and unsafe-looking text (0.135833ms)
+✔ long excerpts are continuous original text around the match with explicit omission (13.32825ms)
+✔ normalization length changes near a distant hit keep the matching original letters (1.173291ms)
+✔ first actual text match wins, and an oversized keyword is never falsely excerpted (0.597458ms)
+✔ context-sensitive casing and expanding keywords cannot quote a different occurrence (0.368625ms)
+✔ whole graphemes can be retained without falsely calling a complete quote partial (0.119791ms)
+✔ active conditions preserve the original query, all facets and unfamiliar scenario URLs (1.483958ms)
+✔ a relaxation changes exactly one facet, preserves input and reports the real count (20.671167ms)
+✔ never propose a single change that still returns zero, or discard the query (28.754667ms)
+✔ suggestion counts use the supplied loaded corpus, including pending entries without inventing evidence (0.941292ms)
+node:assert:128
+  throw new AssertionError(obj);
+  ^
+
+AssertionError [ERR_ASSERTION]: filters space-separated 314
+
+3 !== 2
+
+    at Object.<anonymous> (/private/tmp/ai-results-return-new-baseline/tests/search.test.cjs:106:8)
+    at Module._compile (node:internal/modules/cjs/loader:1723:14)
+    at Object..js (node:internal/modules/cjs/loader:1888:10)
+    at Module.load (node:internal/modules/cjs/loader:1458:32)
+    at Function._load (node:internal/modules/cjs/loader:1275:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:234:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:151:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 3,
+  expected: 2,
+  operator: 'strictEqual'
+}
+
+Node.js v23.7.0
+✖ tests/search.test.cjs (216.088125ms)
+✔ source guide distinguishes all current origin labels without claiming independent verification (0.9495ms)
+✔ default and unfamiliar source types remain honest instead of silently assigning evidence (0.093708ms)
+ℹ tests 100
+ℹ suites 0
+ℹ pass 97
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 454.089916
+
+✖ failing tests:
+
+test at tests/audit.test.cjs:145:1
+✖ candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus (55.205417ms)
+  AssertionError [ERR_ASSERTION]: Candidate duplicate detector must identify exactly 46 candidate clusters across corpus, found 47
+  
+  47 !== 46
+  
+      at TestContext.<anonymous> (/private/tmp/ai-results-return-new-baseline/tests/audit.test.cjs:175:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 47,
+    expected: 46,
+    operator: 'strictEqual'
+  }
+
+test at tests/audit.test.cjs:518:1
+✖ qualification audit maintains strict separation between catalog entries and verified cases (2.144958ms)
+  AssertionError [ERR_ASSERTION]: index.html audit count (312) must match audit doc (315)
+  
+  312 !== 315
+  
+      at TestContext.<anonymous> (/private/tmp/ai-results-return-new-baseline/tests/audit.test.cjs:545:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 312,
+    expected: 315,
+    operator: 'strictEqual'
+  }
+
+test at tests/search.test.cjs:1:1
+✖ tests/search.test.cjs (216.088125ms)
+  'test failed'

@@ -226,3 +226,8 @@
 
 /* Counts explain the next selection without changing native option order. */
 .facet-count-hint{font-size:13px;line-height:1.7;color:#4c6258;margin:12px 0 10px;overflow-wrap:anywhere}
+
+/* In-flow return routes keep long collections easy to refine without covering cards. */
+.results-return{grid-column:1/-1;display:flex;justify-content:flex-end;border-top:1px solid var(--line);padding:4px 0}
+.results-return a{display:inline-flex;align-items:center;min-height:44px;padding:8px 6px;font-size:14px;font-weight:650;color:var(--green);text-decoration:underline;text-underline-offset:4px}
+.results-return a:hover{text-decoration-thickness:2px}

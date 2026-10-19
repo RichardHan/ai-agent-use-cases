@@ -1,0 +1,29 @@
+[
+  {
+    "viewport": "desktop",
+    "readyMs": 1178,
+    "searchFromHeading": 135,
+    "firstResultFromSearch": 487,
+    "axeScans": 2,
+    "axeViolations": 0,
+    "passed": true
+  },
+  {
+    "viewport": "mobile",
+    "readyMs": 1000,
+    "searchFromHeading": 158,
+    "firstResultFromSearch": 233,
+    "axeScans": 2,
+    "axeViolations": 0,
+    "passed": true
+  },
+  {
+    "viewport": "small-mobile",
+    "readyMs": 990,
+    "searchFromHeading": 158,
+    "firstResultFromSearch": 233,
+    "axeScans": 2,
+    "axeViolations": 0,
+    "passed": true
+  }
+]

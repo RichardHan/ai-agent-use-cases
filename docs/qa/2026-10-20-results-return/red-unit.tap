@@ -1,0 +1,56 @@
+✖ result return preserves filters and history state, focuses search, and cancels late arrival (6.789333ms)
+✖ modified, middle and cancelled result links retain their native behavior (3.4135ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 61.700167
+
+✖ failing tests:
+
+test at tests/results-return.test.cjs:12:1
+✖ result return preserves filters and history state, focuses search, and cancels late arrival (6.789333ms)
+  AssertionError [ERR_ASSERTION]: dynamic result links must share the search handoff
+  + actual - expected
+  
+  + 'object'
+  - 'function'
+  
+      at setup (/private/tmp/ai-task-discovery-20261020/tests/results-return.test.cjs:9:9)
+      at TestContext.<anonymous> (/private/tmp/ai-task-discovery-20261020/tests/results-return.test.cjs:13:36)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'object',
+    expected: 'function',
+    operator: 'strictEqual'
+  }
+
+test at tests/results-return.test.cjs:19:1
+✖ modified, middle and cancelled result links retain their native behavior (3.4135ms)
+  AssertionError [ERR_ASSERTION]: dynamic result links must share the search handoff
+  + actual - expected
+  
+  + 'object'
+  - 'function'
+  
+      at setup (/private/tmp/ai-task-discovery-20261020/tests/results-return.test.cjs:9:9)
+      at TestContext.<anonymous> (/private/tmp/ai-task-discovery-20261020/tests/results-return.test.cjs:21:25)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'object',
+    expected: 'function',
+    operator: 'strictEqual'
+  }

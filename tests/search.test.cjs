@@ -1946,6 +1946,65 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('待機首頁')), {}).
 assert(api.filterEntries(entries, Array.from(api.tokenize('webhook叫醒')), {}).some(x => x.id === 'UC-344'), 'webhook叫醒 matches UC-344 via webhook wakeup tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('程式代理通知')), {}).some(x => x.id === 'UC-344'), '程式代理通知 matches UC-344 via agent notification tokenization');
 
+// Search quality: 叫醒grok, 叫醒Grok Bot, 叫醒bot
+assert(api.filterEntries(entries, Array.from(api.tokenize('叫醒Grok Bot')), {}).some(x => x.id === 'UC-344'), '叫醒Grok Bot matches UC-344 via wakeup grok tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('叫醒grok')), {}).some(x => x.id === 'UC-344'), '叫醒grok matches UC-344 via wakeup grok tokenization');
+
+// Search quality: 工作階段停滯, 工作階段卡住
+assert(api.filterEntries(entries, Array.from(api.tokenize('工作階段停滯')), {}).some(x => x.id === 'UC-344'), '工作階段停滯 matches UC-344 via session stall tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('工作階段卡住')), {}).some(x => x.id === 'UC-344'), '工作階段卡住 matches UC-344 via session stall tokenization');
+
+// Search quality: 代訂餐廳, 代訂位, 餐廳代訂, 訂位代理
+assert(api.filterEntries(entries, Array.from(api.tokenize('代訂餐廳')), {}).some(x => x.id === 'UC-072'), '代訂餐廳 matches UC-072 via reservation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('代訂位')), {}).some(x => x.id === 'UC-072'), '代訂位 matches UC-072 via reservation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('餐廳代訂')), {}).some(x => x.id === 'UC-072'), '餐廳代訂 matches UC-072 via reservation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('訂位代理')), {}).some(x => x.id === 'UC-072'), '訂位代理 matches UC-072 via reservation tokenization');
+
+// Search quality: 智慧開關排障, 開關排障, 家電導入, 未支援設備
+assert(api.filterEntries(entries, Array.from(api.tokenize('智慧開關排障')), {}).some(x => x.id === 'UC-330'), '智慧開關排障 matches UC-330 via switch troubleshooting tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('開關排障')), {}).some(x => x.id === 'UC-330'), '開關排障 matches UC-330 via switch troubleshooting tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('家電導入')), {}).some(x => x.id === 'UC-330'), '家電導入 matches UC-330 via device onboarding tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('未支援設備')), {}).some(x => x.id === 'UC-330'), '未支援設備 matches UC-330 via unsupported device tokenization');
+
+// Search quality: sdr接收站, sdr接收機, sdr解碼, adsb接收機
+assert(api.filterEntries(entries, Array.from(api.tokenize('sdr接收站')), {}).some(x => x.id === 'UC-334'), 'sdr接收站 matches UC-334 via sdr receiver station tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sdr接收機')), {}).some(x => x.id === 'UC-334'), 'sdr接收機 matches UC-334 via sdr receiver tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('sdr解碼')), {}).some(x => x.id === 'UC-334'), 'sdr解碼 matches UC-334 via sdr decoding tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('adsb接收機')), {}).some(x => x.id === 'UC-334'), 'adsb接收機 matches UC-334 via ads-b receiver tokenization');
+
+// Search quality: 小孩著色, 小孩著色頁
+assert(api.filterEntries(entries, Array.from(api.tokenize('小孩著色')), {}).some(x => x.id === 'UC-342'), '小孩著色 matches UC-342 via kids coloring tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('小孩著色頁')), {}).some(x => x.id === 'UC-342'), '小孩著色頁 matches UC-342 via kids coloring page tokenization');
+
+// Search quality: 工具實際回應, 工具回應分存, 分存驗收, 模型輸出分存
+assert(api.filterEntries(entries, Array.from(api.tokenize('工具實際回應')), {}).some(x => x.id === 'UC-340'), '工具實際回應 matches UC-340 via tool response tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('工具回應分存')), {}).some(x => x.id === 'UC-340'), '工具回應分存 matches UC-340 via tool response storage tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('分存驗收')), {}).some(x => x.id === 'UC-340'), '分存驗收 matches UC-340 via storage acceptance tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('模型輸出分存')), {}).some(x => x.id === 'UC-340'), '模型輸出分存 matches UC-340 via model output storage tokenization');
+
+// Search quality: 交辦任務, 舊交辦任務, 新交辦任務
+assert(api.filterEntries(entries, Array.from(api.tokenize('交辦任務')), {}).some(x => x.id === 'UC-339' || x.id === 'UC-341'), '交辦任務 matches UC-339/UC-341 via request task tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('舊交辦任務')), {}).some(x => x.id === 'UC-339'), '舊交辦任務 matches UC-339 via stale request task tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('新交辦任務')), {}).some(x => x.id === 'UC-341'), '新交辦任務 matches UC-341 via request task tokenization');
+
+// Search quality: 高速公路故障
+assert(api.filterEntries(entries, Array.from(api.tokenize('高速公路故障')), {}).some(x => x.id === 'UC-343'), '高速公路故障 matches UC-343 via highway breakdown tokenization');
+
+// Search quality: 參考照換臉, 隨機參考照
+assert(api.filterEntries(entries, Array.from(api.tokenize('參考照換臉')), {}).some(x => x.id === 'UC-337'), '參考照換臉 matches UC-337 via reference photo face-swap tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('隨機參考照')), {}).some(x => x.id === 'UC-337'), '隨機參考照 matches UC-337 via random reference photo tokenization');
+
+// Search quality: 掌上型圓屏, 圓屏裝置
+assert(api.filterEntries(entries, Array.from(api.tokenize('掌上型圓屏')), {}).some(x => x.id === 'UC-336'), '掌上型圓屏 matches UC-336 via round screen handheld tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('圓屏裝置')), {}).some(x => x.id === 'UC-336'), '圓屏裝置 matches UC-336 via round screen device tokenization');
+
+// Search quality: 排程關掉, 排程關回
+assert(api.filterEntries(entries, Array.from(api.tokenize('排程關回')), {}).some(x => x.id === 'UC-335'), '排程關回 matches UC-335 via routine shutdown tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('排程關掉')), {}).some(x => x.id === 'UC-335'), '排程關掉 matches UC-335 via routine shutdown tokenization');
+
+// Search quality: 執行狀態矛盾
+assert(api.filterEntries(entries, Array.from(api.tokenize('執行狀態矛盾')), {}).some(x => x.id === 'UC-341'), '執行狀態矛盾 matches UC-341 via state contradiction tokenization');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

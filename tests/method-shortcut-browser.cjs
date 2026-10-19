@@ -10,7 +10,8 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
  for(const engine of observe?[chromium]:[chromium,firefox,webkit]){
   const browser=await engine.launch();
   for(const width of engine===chromium?[1440,390,320]:[390]){
-   const page=await browser.newPage({viewport:{width,height:width===1440?1000:width===320?740:844},reducedMotion:'reduce'});
+   const context=await browser.newContext({viewport:{width,height:width===1440?1000:width===320?740:844},reducedMotion:'reduce'});
+   const page=await context.newPage();
    const errors=[];page.on('pageerror',e=>errors.push(e.message));
    await page.goto(base,{waitUntil:'networkidle'});await page.locator('#results .card').first().waitFor({timeout:60000});
    await page.screenshot({path:`qa-artifacts/${label}-home-${engine.name()}-${width}.png`});
@@ -49,7 +50,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
     const pending=await page.evaluate(()=>entries.find(e=>e.kind==='pending').id);
     await page.goto(base+'?case='+pending,{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();assert.equal(await page.locator('.reader-method-shortcut').count(),0);
    }
-   assert.deepEqual(errors,[]);await page.close();
+   assert.deepEqual(errors,[]);await context.close();
   }
   await browser.close();
  }

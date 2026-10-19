@@ -1,0 +1,30 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "options": [
+      "全部情境",
+      "生活",
+      "工作",
+      "省錢",
+      "學習",
+      "創作",
+      "開發"
+    ],
+    "travelDevelopmentEmpty": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "options": [
+      "全部情境",
+      "生活",
+      "工作",
+      "省錢",
+      "學習",
+      "創作",
+      "開發"
+    ],
+    "travelDevelopmentEmpty": true
+  }
+]

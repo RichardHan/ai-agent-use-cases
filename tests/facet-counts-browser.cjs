@@ -45,6 +45,13 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    await page.locator('#'+key).selectOption(before);
   }
   await page.locator('#scenario').selectOption('生活');
+  await page.locator('#kind').selectOption('case');
+  const combined=await page.locator('#tool option').evaluateAll(nodes=>nodes.map(n=>({value:n.value,text:n.textContent})));
+  for(const choice of combined){
+   await page.locator('#tool').selectOption(choice.value);
+   assert.equal(await page.locator('#results .card').count(),Number(choice.text.match(/（(\d+) 筆）$/)[1]),'query + scenario + kind, changing tool');
+  }
+  await page.locator('#tool').selectOption('Grok Bot');
   const values=await page.locator('#filters select').evaluateAll(nodes=>nodes.map(n=>n.value));
   await page.locator('#query').fill('no-facet-task-987654');
   assert.equal(await page.locator('#empty').isVisible(),true);
@@ -72,6 +79,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
  }
  if(!observe){
   const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();
+  page.setDefaultTimeout(15000);
   let releaseCatalog;
   const gate=new Promise(resolve=>releaseCatalog=resolve);
   await page.route('**/catalog.json',async route=>{await gate;await route.continue();});

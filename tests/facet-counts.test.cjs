@@ -6,7 +6,7 @@ vm.runInContext(source+'\nthis.api={facetCounts,tokenize};',context);
 const {facetCounts,tokenize}=context.api;
 const plain=x=>JSON.parse(JSON.stringify(x));
 const items=[
- {search:'旅遊 travel',scenario:'生活',kind:'case',tools:['Grok Bot','GitHub'],category:'旅行',proof:'作者自述'},
+ {search:'旅遊 travel',scenario:'生活',kind:'case',tools:['Grok Bot','Grok Bot','GitHub'],category:'旅行',proof:'作者自述'},
  {search:'旅遊 travel',scenario:'生活',kind:'pending',tools:['Grok Bot'],category:'旅行',proof:'待查'},
  {search:'開發 code',scenario:'開發',kind:'case',tools:['GitHub'],category:'開發',proof:'官方'}
 ];
@@ -26,4 +26,9 @@ test('empty query results, empty corpus and partial corpus do not invent availab
  assert.deepEqual(plain(facetCounts(items,tokenize('no-match-987'),{},'scenario',['','生活'])),[0,0]);
  assert.deepEqual(plain(facetCounts([],[],{},'category',['','旅行'])),[0,0]);
  assert.deepEqual(plain(facetCounts(items.slice(0,1),[],{},'kind',['','case','pending'])),[1,1,0]);
+});
+
+test('synonym-expanded counts use the same search semantics as result filtering',()=>{
+ const travel=[{...items[0],search:'旅行 itinerary'}];
+ assert.deepEqual(plain(facetCounts(travel,tokenize('旅遊'),{},'scenario',['','生活','開發'])),[1,1,0]);
 });

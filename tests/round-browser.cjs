@@ -28,8 +28,20 @@ const base=process.env.ROUND_URL||'https://richardhan.github.io/ai-agent-use-cas
   await page.goto(base+'?case=UC-005');await page.locator('#detail[open]').waitFor();
   before.direct=await page.locator('#detail-body').innerText();
   await page.screenshot({path:`qa-artifacts/round/before-direct-${size}.png`});
-  report.push(before);fs.writeFileSync('qa-artifacts/round/baseline.json',JSON.stringify(report,null,2));
   await page.close();
+  const slow=await browser.newPage({viewport:{width,height}});
+  let release;const gate=new Promise(resolve=>release=resolve);
+  await slow.route('**/cases/001-travel-checkout.md',async route=>{await gate;await route.continue();});
+  const start=Date.now();
+  const targetReady=slow.waitForResponse(r=>r.url().endsWith('/cases/005-cloud-pr-review.md'));
+  await slow.goto(base+'?case=UC-005');await targetReady;
+  await slow.waitForTimeout(500);
+  before.slowUnrelated={targetReadyMs:Date.now()-start,dialogOpen:await slow.locator('#detail').evaluate(e=>e.open),loading:await slow.locator('#loading-summary').innerText()};
+  await slow.screenshot({path:`qa-artifacts/round/before-waiting-${size}.png`});
+  release();await slow.locator('#detail[open]').waitFor();
+  before.slowUnrelated.afterReleaseMs=Date.now()-start;
+  await slow.close();
+  report.push(before);fs.writeFileSync('qa-artifacts/round/baseline.json',JSON.stringify(report,null,2));
  }
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

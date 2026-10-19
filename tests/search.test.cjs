@@ -1647,6 +1647,39 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('failover')), {}).some
 assert(api.filterEntries(entries, Array.from(api.tokenize('故障轉移')), {}).some(x => x.id === 'UC-324'), '故障轉移 matches UC-324 via failover synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('容災')), {}).some(x => x.id === 'UC-324'), '容災 matches UC-324 via failover synonym');
 
+// Search quality: acceptance, acceptance criteria, acceptance test, 驗收, 驗收標準, 驗收條件, 驗收規範
+assert(api.filterEntries(entries, Array.from(api.tokenize('acceptance')), {}).some(x => x.id === 'UC-001'), 'acceptance matches UC-001 via acceptance synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('acceptance criteria')), {}).some(x => x.id === 'UC-001'), 'acceptance criteria matches UC-001 via acceptance tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('acceptance test')), {}).some(x => x.id === 'UC-001'), 'acceptance test matches UC-001 via acceptance tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('驗收標準')), {}).some(x => x.id === 'UC-001'), '驗收標準 matches UC-001 via acceptance synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('驗收條件')), {}).some(x => x.id === 'UC-001'), '驗收條件 matches UC-001 via acceptance synonym');
+
+// Search quality: parallelism, 平行, 並行
+assert(api.filterEntries(entries, Array.from(api.tokenize('平行')), {}).some(x => x.id === 'UC-005'), '平行 matches UC-005 via parallel synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('parallelism')), {}).some(x => x.id === 'UC-005'), 'parallelism matches UC-005 via parallel tokenization');
+
+// Search quality: 移交, handoff
+assert(api.filterEntries(entries, Array.from(api.tokenize('移交')), {}).some(x => x.id === 'UC-005'), '移交 matches UC-005 via handoff synonym');
+
+// Search quality: guardrail, 防護欄, safety rail
+assert(api.filterEntries(entries, Array.from(api.tokenize('防護欄')), {}).some(x => x.id === 'UC-316'), '防護欄 matches UC-316 via guardrail synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('safety rail')), {}).some(x => x.id === 'UC-316'), 'safety rail matches UC-316 via guardrail tokenization');
+
+// Search quality: graceful degradation, 優雅降級
+assert(api.filterEntries(entries, Array.from(api.tokenize('優雅降級')), {}).some(x => x.id === 'UC-028'), '優雅降級 matches UC-028 via fallback synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('graceful degradation')), {}).some(x => x.id === 'UC-028'), 'graceful degradation matches UC-028 via fallback tokenization');
+
+// Search quality: caches, scheduler, 排程器, 異常檢測, anomaly detection, reviewing, reviewer, benchmarking, evaluating
+assert(api.filterEntries(entries, Array.from(api.tokenize('caches')), {}).some(x => x.id === 'UC-001'), 'caches matches UC-001 via cache tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('scheduler')), {}).some(x => x.id === 'UC-002'), 'scheduler matches UC-002 via schedule tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('排程器')), {}).some(x => x.id === 'UC-002'), '排程器 matches UC-002 via schedule synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('異常檢測')), {}).some(x => x.id === 'UC-003'), '異常檢測 matches UC-003 via anomaly synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('anomaly detection')), {}).some(x => x.id === 'UC-003'), 'anomaly detection matches UC-003 via anomaly tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('reviewing')), {}).some(x => x.id === 'UC-005'), 'reviewing matches UC-005 via review tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('reviewer')), {}).some(x => x.id === 'UC-005'), 'reviewer matches UC-005 via review tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('benchmarking')), {}).some(x => x.id === 'UC-003'), 'benchmarking matches UC-003 via benchmark tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('evaluating')), {}).some(x => x.id === 'UC-003'), 'evaluating matches UC-003 via evaluation tokenization');
+
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

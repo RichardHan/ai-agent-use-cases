@@ -1515,4 +1515,63 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 - 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
 下一輪建議：針對已標註之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
 
+## 2026-10-19：擴充驗收標準／平行處理／移交／防護欄／優雅降級／排程器檢索品質與同義詞對稱對映
+
+問題調查與證據：
+1. 核心 AI Agent 方法論「驗收標準（Acceptance Criteria）」檢索斷層：
+   - 「驗收」為本庫出現頻率最高的首要核心標籤（全庫 123 筆案例標記「驗收」，301 筆條目包含驗收討論與驗收規範）；
+   - 但搜尋英文「acceptance」僅命中 2 筆，搜尋「acceptance criteria」、「acceptance test」命中 0 筆；
+   - 搜尋繁中複合詞「驗收標準」僅命中 2 筆，「驗收條件」僅命中 7 筆，「驗收規範」命中 0 筆；
+   - 主因為 `assets/app.js` 原同義詞群 `SYNONYM_GROUPS` 完全缺少驗收詞群，分詞函數亦未將 acceptance 複合片語標準化。
+2. 平行與並發（Parallelism / Concurrency）繁簡台港語彙斷層：
+   - 繁體中文慣用詞「平行」（例如平行處理、平行代理、平行執行）搜尋僅命中 3 筆，而「並行」、「並發」、「concurrency」、「parallel」命中 7 筆，「parallelism」命中 0 筆。
+3. 職責交接與移交（Handoff）：
+   - 公文與企劃常用詞「移交」僅命中 1 筆，而「交接」、「handoff」命中 86 筆。
+4. 防護欄與安全機制（Guardrails / Safety Rails）：
+   - 搜尋「防護欄」命中 0 筆，英文「safety rail」命中 0 筆；原同義詞群僅有「護欄」與「安全護欄」。
+5. 優雅降級（Graceful Degradation / Fallback）：
+   - 搜尋「優雅降級」命中 0 筆，「graceful degradation」命中 0 筆，而「降級」、「fallback」命中 6 筆。
+6. 排程器、快取複數、異常檢測、審查與評估詞形標準化：
+   - 搜尋「scheduler」、「排程器」命中 0～1 筆，而「schedule」、「排程」命中 147 筆；
+   - 搜尋「caches」命中 0 筆，而「cache」命中 26 筆；
+   - 搜尋「異常檢測」、「anomaly detection」命中 0 筆，而「異常」命中 35 筆；
+   - 搜尋「reviewing」、「reviewer」命中 0～2 筆，而「review」、「審查」命中 126 筆；
+   - 搜尋「benchmarking」、「evaluating」命中 0 筆，而「benchmark」、「evaluation」、「評估」命中 57 筆。
+
+本輪改善：
+1. `assets/app.js` 分詞函數 `tokenize` 新增多詞與詞形標準化正則：
+   - `\bacceptance\s*[- ]\s*(?:criteri(?:a|on)|tests?|testing)?\b` → `acceptance`
+   - `\bacceptances?\b` → `acceptance`
+   - `\bparallel(?:ism)?\b` → `parallel`
+   - `\bconcurr(?:ency|ent)\b` → `concurrency`
+   - `\bgraceful\s*[- ]\s*degradations?\b` → `fallback`
+   - `\bcach(?:e|es|ed|ing)\b` → `cache`
+   - `\bschedul(?:e|es|ed|ing|er|ers)\b` → `schedule`
+   - `\banomaly\s*[- ]\s*detections?\b` → `anomaly`
+   - `\breview(?:s|ed|ing|er|ers)?\b` → `review`
+   - `\bbenchmark(?:ing|s)?\b` → `benchmark`
+   - `\bevaluat(?:e|es|ed|ing|ion|ions)\b` → `evaluation`
+   - `\bsafety\s*[- ]\s*rails?\b` → `guardrail`
+2. `assets/app.js` 同義詞群 `SYNONYM_GROUPS` 擴充與新增：
+   - 新增驗收標準詞群：`['acceptance', 'acceptance-criteria', 'acceptance-test', '驗收', '驗收標準', '驗收條件', '驗收測試', '驗收規範']`；
+   - 擴充平行／並發詞群：加入 `'平行'`, `'parallelism'`；
+   - 擴充交接詞群：加入 `'移交'`；
+   - 擴充護欄詞群：加入 `'防護欄'`, `'防護網'`, `'安全防護欄'`；
+   - 擴充降級詞群：加入 `'優雅降級'`, `'平滑降級'`；
+   - 擴充快取詞群：加入 `'caches'`；
+   - 擴充排程詞群：加入 `'scheduler'`, `'schedulers'`, `'排程器'`, `'定時器'`；
+   - 擴充異常詞群：加入 `'異常檢測'`, `'異常排查'`；
+   - 擴充審查詞群：加入 `'reviewing'`, `'reviewer'`, `'reviewers'`；
+   - 維持 100% 互映與自反對稱對映（Symmetry check complete）。
+3. `tests/search.test.cjs`：
+   - 新增 19 組檢索回歸斷言，驗證 acceptance/acceptance criteria/acceptance test/驗收/驗收標準/驗收條件、parallelism/平行/並行、移交/handoff、防護欄/safety rail/guardrail、優雅降級/graceful degradation、caches、scheduler/排程器、異常檢測/anomaly detection、reviewing/reviewer、benchmarking/evaluating 等查詢均能準確命中。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（339 筆條目全文與擴充檢索，acceptance 與驗收標準命中躍升至 301 筆，平行升至 10 筆，移交升至 86 筆，優雅降級升至 6 筆，排程器升至 147 筆，異常檢測升至 35 筆）。
+- `node --test tests/*.test.cjs`：66/66 單元測試全數通過（含 8/8 audit 測試）。
+- `for file in assets/*.js tests/*.cjs; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總案例數維持 339 筆，嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：針對已標註之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤。
+
 

@@ -1,0 +1,32 @@
+[
+  {
+    "version": "current",
+    "selections": 242,
+    "elapsedMs": 5048,
+    "errors": [],
+    "consoleMessages": [
+      "[JavaScript Warning: \"Scroll anchoring was disabled in a scroll container because of too many consecutive adjustments (11) with too little total distance (-1.05454548922452 px average, -11.6 px total).\" {file: \"resource://gre/modules/Readerable.sys.mjs\" line: 174}]",
+      "[JavaScript Error: \"Too many attempts to navigate or modify history within a short timeframe.\" {file: \"http://127.0.0.1:8096/ai-agent-use-cases/assets/app.js\" line: 946}]",
+      "[JavaScript Error: \"Too many attempts to navigate or modify history within a short timeframe.\" {file: \"http://127.0.0.1:8096/ai-agent-use-cases/assets/app.js\" line: 946}]",
+      "[JavaScript Error: \"Too many attempts to navigate or modify history within a short timeframe.\" {file: \"http://127.0.0.1:8096/ai-agent-use-cases/assets/app.js\" line: 946}]",
+      "[JavaScript Error: \"Too many attempts to navigate or modify history within a short timeframe.\" {file: \"http://127.0.0.1:8096/ai-agent-use-cases/assets/app.js\" line: 946}]"
+    ],
+    "url": "http://127.0.0.1:8096/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&category=%E6%9C%83%E8%AD%B0%EF%BC%8F%E4%BB%A3%E7%90%86%E5%87%BA%E5%B8%AD%EF%BC%8F%E6%8F%AD%E9%9C%B2#explore",
+    "history": 1
+  },
+  {
+    "version": "baseline",
+    "selections": 242,
+    "elapsedMs": 4368,
+    "errors": [],
+    "consoleMessages": [
+      "[JavaScript Warning: \"Scroll anchoring was disabled in a scroll container because of too many consecutive adjustments (15) with too little total distance (-1.68000005086263 px average, -25.2 px total).\" {file: \"http://127.0.0.1:8096/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&tool=Notion#explore\" line: 0}]",
+      "[JavaScript Error: \"Too many attempts to navigate or modify history within a short timeframe.\" {file: \"http://127.0.0.1:8096/ai-agent-use-cases/assets/app.js\" line: 909}]",
+      "[JavaScript Error: \"Too many attempts to navigate or modify history within a short timeframe.\" {file: \"http://127.0.0.1:8096/ai-agent-use-cases/assets/app.js\" line: 909}]",
+      "[JavaScript Error: \"Too many attempts to navigate or modify history within a short timeframe.\" {file: \"http://127.0.0.1:8096/ai-agent-use-cases/assets/app.js\" line: 909}]",
+      "[JavaScript Error: \"Too many attempts to navigate or modify history within a short timeframe.\" {file: \"http://127.0.0.1:8096/ai-agent-use-cases/assets/app.js\" line: 909}]"
+    ],
+    "url": "http://127.0.0.1:8096/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&category=%E6%9C%83%E8%AD%B0%EF%BC%8F%E4%BB%A3%E7%90%86%E5%87%BA%E5%B8%AD%EF%BC%8F%E6%8F%AD%E9%9C%B2#explore",
+    "history": 1
+  }
+]

@@ -15,6 +15,8 @@ Repository → Settings → Pages → Build and deployment：
 
 ## 最新網站驗收
 
+2026-10-19：篩選選項預覽保留其他條件後的符合筆數；數字前置，320px也可讀。保留零筆選項、分享條件與補讀更新。[前後截圖、方案、雲端驗收及獨立審查](docs/qa/2026-10-19-facet-counts/README.md)。
+
 2026-10-19：詳情用途後新增方法捷徑，保留「本庫設計，未實測」等完整原標題；桌面與手機不必捲過長來源才能找方法，待查不製造入口。[方案、前後截圖、測試與獨立審查](docs/qa/2026-10-19-method-shortcut/README.md)。
 
 2026-10-19：分享案例不存在時顯示明確提示，保留搜尋條件接回探索；區分來源未載入、支援補讀、空編號與返回焦點。[本輪前後截圖、方案、測試與獨立審查](docs/qa/2026-10-19-missing-shared-case/README.md)。
@@ -2738,13 +2740,13 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 本輪改善：
 1. `assets/app.js`：
    - 新增 `facetCounts(items, terms, filters, key, values)` 純函數：計算各維度候選選項在保留關鍵字與其它所有篩選條件下的獨立命中數量，確保不修改傳入 filters 物件，且對同一個 item 中的重複工具進行去重。
-   - 新增 `renderFacetCounts` 及即時更新機制：在各下拉選項後呈現 `（N 筆）`，並在修改文字前執行 `option.value = option.value;` 凍結原生值，保障篩選與分享網址正確性。
+   - 新增 `renderFacetCounts` 及即時更新機制：在各下拉選項前呈現 `N · 名稱`（避免窄螢幕截掉數字），並在修改文字前執行 `option.value = option.value;` 凍結原生值，保障篩選與分享網址正確性。
    - 支援 0 筆結果可選性、部分載入狀態下提示只計算已載入條目，重試載入後自動更新選項筆數。
 2. `index.html` 與 `assets/style.css`：
    - 配置篩選預覽提示說明文字與無障礙文字樣式。
 3. 測試覆蓋：
-   - `tests/facet-counts.test.cjs`：針對過濾器隔離、多值工具計算、同義詞展開搜尋語義、部分條目與空條目進行全覆蓋斷言。
-   - `tests/facet-counts-browser.cjs`：針對 Chromium、Firefox、WebKit 進行即時選項預覽、複合條件切換、部分載入失敗重試恢復、未知情境、WCAG 2.1 AA 無障礙標準及 320px/390px/1440px 視區無水平捲動等完整驗收。
+   - `tests/facet-counts.test.cjs`：針對過濾器隔離、多值工具計算、同義詞展開搜尋語義、部分條目與空條目進行指定fixture斷言。
+   - `tests/facet-counts-browser.cjs`：桌面Chromium逐項驗證全部選項，其他尺寸及Firefox/WebKit抽樣選項；均進行即時選項預覽、複合條件切換、部分載入失敗重試恢復、未知情境、axe 的 WCAG A/AA 自動規則及 320px/390px/1440px 視區無水平捲動檢查（非完整無障礙認證）。
    - `.github/workflows/facet-counts-qa.yml`：建立 red-baseline 失敗驗證與雲端瀏覽器自動化 QA 工作流。
 
 驗證指令與實際結果：

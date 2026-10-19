@@ -1,0 +1,40 @@
+[
+  {
+    "size": "desktop",
+    "networkFailures": [],
+    "appSHA256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a",
+    "readyMs": 2716,
+    "entries": 357,
+    "missing": 0,
+    "failedPaths": [],
+    "requests": 363,
+    "markdownRequests": 355,
+    "sourceURL": "https://github.com/openai/codex/issues/52208",
+    "sourceStatus": 200,
+    "axeViolations": [],
+    "errors": [],
+    "journeys": [
+      "travel + scenario + tool + keyboard return",
+      "empty + reset",
+      "failure report direct link + reload + source"
+    ]
+  },
+  {
+    "size": "mobile",
+    "networkFailures": [],
+    "appSHA256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a",
+    "readyMs": 543,
+    "entries": 357,
+    "missing": 0,
+    "failedPaths": [],
+    "requests": 363,
+    "markdownRequests": 355,
+    "axeViolations": [],
+    "errors": [],
+    "journeys": [
+      "travel + scenario + tool + keyboard return",
+      "empty + reset",
+      "failure report direct link + reload + source"
+    ]
+  }
+]

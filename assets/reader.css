@@ -112,3 +112,10 @@
 .reader-review-jump{display:flex;flex-direction:column;gap:4px;width:100%;min-height:44px;padding:10px 12px;text-align:left;font-size:14px;line-height:1.8;overflow-wrap:anywhere;background:#f5f7ef}
 .reader-review-jump:hover{background:#e9eee0;border-color:var(--green)}
 .reader-review>summary:focus-visible,.reader-review-jump:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+
+/* Literal search context uses the same paper and ink as the original research. */
+.reader-search-match+.reader-search-match{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.reader-search-excerpt-label{margin:12px 0 4px;font-size:12px;line-height:1.8;color:var(--muted)}
+.reader-search-excerpt{margin:0 0 8px;padding-left:12px;border-left:2px solid var(--line);font-size:14px;line-height:1.9;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.reader-search-locate{min-height:44px;padding:10px 12px;font-size:14px;line-height:1.7;text-align:left;background:var(--white);color:var(--green)}
+.reader-search-locate:focus-visible,.markdown [id^="reader-passage-"]:focus{outline:2px solid var(--green);outline-offset:4px}

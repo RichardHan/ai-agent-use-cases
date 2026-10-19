@@ -1,0 +1,82 @@
+name: Reader context round
+on:
+  workflow_dispatch:
+  push:
+    branches: [improve/reader-context-search, main]
+    paths: ['assets/reader.*', 'tests/search-passage.test.cjs', '.github/workflows/reader-context-round.yml', 'tests/reader-context-round.cjs']
+permissions:
+  contents: read
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Baseline tests and preview build
+        run: |
+          mkdir -p qa-artifacts
+          node --test tests/*.test.cjs > qa-artifacts/baseline.tap
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Install browsers in authorized cloud
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Walk current published desktop and mobile site
+        if: github.ref != 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          CORPUS_LABEL: round-baseline
+        run: |
+          node tests/corpus-browser.cjs
+          CONTEXT_OBSERVE=1 node tests/reader-context-round.cjs
+      - name: Verify passage flow across browsers and preserve contextual navigation
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          CONTEXT_URL: http://127.0.0.1:8110/ai-agent-use-cases/
+          CONTEXT_OUTPUT: qa-artifacts/after-passage
+          READER_SEARCH_URL: http://127.0.0.1:8110/ai-agent-use-cases/
+          READER_SEARCH_ENGINES: all
+          READER_URL: http://127.0.0.1:8110/ai-agent-use-cases/
+          REVIEW_URL: http://127.0.0.1:8110/ai-agent-use-cases/
+        run: |
+          python3 -m http.server 8110 --directory "$RUNNER_TEMP/preview" > /tmp/passage-preview.log 2>&1 &
+          node tests/reader-context-round.cjs
+          node tests/reader-search-browser.cjs
+          node tests/review-sections-browser.cjs
+          node tests/reader-browser.cjs > qa-artifacts/original-reader.log 2>&1 || { tail -c 6000 qa-artifacts/original-reader.log; exit 1; }
+      - name: Verify actual Pages publication
+        if: github.ref == 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          CONTEXT_OUTPUT: qa-artifacts/published-passage
+        run: |
+          python3 - <<'PYTHON'
+          import pathlib, time, urllib.request
+          files=('assets/reader.js','assets/reader.css')
+          for attempt in range(60):
+              try:
+                  matches=[]
+                  for name in files:
+                      with urllib.request.urlopen('https://richardhan.github.io/ai-agent-use-cases/'+name+'?passage='+str(time.time()), timeout=20) as response:
+                          matches.append(response.read()==pathlib.Path(name).read_bytes())
+                  if all(matches):
+                      print('PUBLISHED_ASSETS_MATCH')
+                      break
+              except Exception as error:
+                  print(type(error).__name__)
+              time.sleep(3)
+          else:
+              raise SystemExit('Pages assets did not match')
+          PYTHON
+          node tests/reader-context-round.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reader-context-round
+          path: qa-artifacts/
+          retention-days: 30

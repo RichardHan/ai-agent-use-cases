@@ -26,6 +26,18 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.locator('#scenario').selectOption('開發');
   const empty=await page.locator('#empty').isVisible();
   const row={engine:engine.name(),width,options,inputTimingMs:inputTiming,travelDevelopmentEmpty:empty};
+  if(engine===chromium&&width===1440){
+   await page.locator('#scenario').selectOption('');
+   await page.locator('#results .card .card-bottom button').first().click();
+   await page.locator('.research-details summary').click();
+   const sourceLink=page.locator('.markdown a[href^="https:"]').first();
+   const sourceURL=await sourceLink.getAttribute('href');
+   const popupPromise=page.waitForEvent('popup');await sourceLink.click();const popup=await popupPromise;
+   try{await popup.waitForLoadState('domcontentloaded',{timeout:10000});row.source={requested:sourceURL,opened:popup.url()};}
+   catch{row.source={requested:sourceURL,opened:popup.url(),note:'external destination did not finish within 10s'};}
+   await popup.close();await page.locator('#close-detail').click();
+   await page.locator('#scenario').selectOption('開發');
+  }
   if(observe){report.push(row);await browser.close();continue;}
   assert(options.every(x=>/（\d+ 筆）$/.test(x)),'every scenario option previews its actual count');
   assert(empty,'incompatible combination still allowed, with honest empty state');

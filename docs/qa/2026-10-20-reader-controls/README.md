@@ -6,7 +6,7 @@
 
 基準 `8fb425f`。fetch 後 origin/main 相同，無開啟 PR，無適用 AGENTS.md。原工作樹 `assets/app.js`、`tests/search.test.cjs` 有未提交編輯，完整保留；另建 `/tmp/ai-reader-position`、`improve/reader-position`，主角色單一整合。已讀 README、SITE、既有閱讀與搜尋 QA、部署 workflow。
 
-相同基準的 [既有雲端 run39269334998](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39269334998) 預覽截圖顯示 320px 閱讀末段的上一則／下一則／關閉仍是窄小控制列。CSS specificity 檢查指出手機一般為12px、<=360px為11px，不能把被覆蓋的10px宣稱為實測字級。本輪新增雲端實測與前後比較，數據以報告為準。
+相同基準的 [既有雲端 run39269334998](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39269334998) 預覽截圖顯示 320px 閱讀末段的上一則／下一則／關閉仍是窄小控制列。CSS specificity 檢查指出手機一般為12px、<=360px為11px，不能把被覆蓋的10px宣稱為實測字級。本輪新增雲端實測與前後比較，數據以報告為準。已實際檢視並保存同基準雲端預覽的[320px截圖](baseline-reader-320.png)與[1440px截圖](baseline-reader-1440.png)，兩張位於長文尾段，能比較原控制列尺寸；不冒稱為本輪新跑出的截圖。
 
 兩方案：A 保持單列並擴大按鈕，改動少，但320px容易擠壓；B 桌面單列、手機案例編號與三按鈕分兩列，增加一列高度但完整保留文字與常駐識別。採B。既有章節跳轉依實際toolbar高度計算落點。
 
@@ -39,6 +39,16 @@ NODE_PATH=<runner-tools>/node_modules LABEL=after node tests/reader-controls-bro
 
 獨立審查者唯讀檢查CSS specificity、320px欄寬、長ID、sticky跳轉與測試；提出方法焦點及專屬red訊息補強，已採納。跨引擎與視覺結論待雲端結果補入。
 
-## 待完成驗收
+## 雲端阻塞與交接狀態
 
-雲端runner排隊期間尚不宣稱瀏覽驗收、部署或合併完成。後續於此記錄實測報告、截圖、審查及發布結果。
+[GitHub官方事故8tzbpcnl75jp](https://www.githubstatus.com/incidents/8tzbpcnl75jp) 自2026-10-19 15:49 UTC 通報 Actions、Pages、Webhooks降級；16:30更新指出緩解後正在恢復，仍可能延遲工作流程及網站部署。這與本輪queued狀態一致，不能證明單一run的根因。
+
+產品與鍵盤測試[驗收run39286391969](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39286391969) 針對最終產品與鍵盤測試提交`64b3294`。目前無runner、無瀏覽器輸出。較早的五個run同樣排隊；嘗試取消過時首run遭GitHub API 403（現有CLI身分無此repo管理權限），未反覆嘗試。SSH分支push成功，沒有更換帳號或憑證。
+
+已交付可審查分支與靜態預覽 `/tmp/reader-preview/ai-agent-use-cases`。正式站仍為基準；**未merge、未部署本輪產品、未宣稱跨瀏覽器或axe通過**。主工作樹的兩個未提交修改仍完整保留。
+
+待服務恢復：讀取最新run的artifacts，確認red失敗專屬尺寸訊息、新版六配置與reader/load回歸通過；檢視before/after截圖，由獨立角色複審，再fetch main正常merge/push並等候正式站live驗收。若仍有失敗先修正，不能以此次靜態review代替瀏覽驗收。
+
+尚無新版前後對照圖或實測性能/axe分數，不捏造資料；未驗證實體手機、Safari、螢幕閱讀器。下一輪首要工作是完成此輪雲端視覺與正式發布驗收，不另起一輪重做版面。
+
+獨立角色最終靜態結論：沒有發現阻擋性程式問題；修正了其提出的鍵盤modality測試誤斷言與workflow尾端空白。這不代表實際視覺、跨引擎或無障礙已通過。

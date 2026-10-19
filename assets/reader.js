@@ -47,7 +47,25 @@
     const method=selectJumps(titles).find(jump=>jump.label==='方法與步驟');
     return method?{index:method.index,title:method.title}:null;
   }
-  function enhance(body,item){
+  // Route only to actual rendered source sections; matching never qualifies evidence.
+  function selectSearchSections(sections,terms){
+    const normalize=text=>text.normalize('NFKC').toLocaleLowerCase();
+    const used=new Set(),matches=[];
+    for(const {term,variants} of terms){
+      for(let index=0;index<sections.length;index++){
+        const section=sections[index],text=normalize(section.title+'\n'+section.text);
+        const variant=variants.find(value=>value&&text.includes(normalize(value)));
+        if(!variant)continue;
+        if(!used.has(index)){
+          used.add(index);matches.push({index,term,variant,title:section.title});
+        }
+        break;
+      }
+      if(matches.length===2)break;
+    }
+    return matches;
+  }
+  function enhance(body,item,searchTerms=[]){
     const research=body.querySelector('.research-details');
     const markdown=research?.querySelector('.markdown');
     if(!markdown)return;
@@ -149,6 +167,33 @@
       // Preserve the original qualification beside the action, including untested designs.
       overview.append(shortcut);
     }
+    // Collect before inserting reader controls so their labels cannot become hits.
+    const sourceSummary=research.querySelector('summary');
+    const sourceSections=[{title:'',text:'',target:sourceSummary}];
+    for(const block of markdown.children){
+      if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block});
+      const section=sourceSections[sourceSections.length-1];
+      section.text+='\n'+(/^[UO]L$/.test(block.tagName)?[...block.children].map(row=>row.textContent).join('\n'):block.textContent);
+      for(const link of block.querySelectorAll('a'))section.text+='\n'+link.getAttribute('href');
+    }
+    const searchMatches=selectSearchSections(sourceSections,searchTerms);
+    if(searchMatches.length){
+      const search=make('section','reader-search');
+      search.setAttribute('aria-labelledby','reader-search-title');
+      const title=make('h2','','接著核對搜尋命中');title.id='reader-search-title';
+      search.append(title,make('p','reader-search-note','命中也可能是限制或否定敘述，不代表已完成。前往原文，連同上下文一起讀。'));
+      for(const match of searchMatches){
+        const target=sourceSections[match.index].target;
+        if(target===sourceSummary)target.id='reader-source-meta';
+        const button=make('button','reader-search-jump');button.type='button';
+        button.setAttribute('aria-controls',target===sourceSummary?target.id:`reader-section-${headings.indexOf(target)}`);
+        const relation=match.term===match.variant?'「'+match.term+'」':'「'+match.term+'」→「'+match.variant+'」';
+        button.append(make('strong','',relation),make('span','reader-target','原文 · '+(match.title||'頁首資料')+' ↓'));
+        button.addEventListener('click',()=>{research.open=true;moveTo(target);});
+        search.append(button);
+      }
+      overview.after(search);
+    }
     if(!headings.length)return;
     const quick=make('div','reader-quick');
     selectJumps(titles).forEach(({index,label})=>{
@@ -175,7 +220,7 @@
     nav.append(full);
     evidence.after(nav);
   }
-  const api={selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,enhance};
+  const api={selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

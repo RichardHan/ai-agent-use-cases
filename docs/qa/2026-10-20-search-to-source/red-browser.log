@@ -1,0 +1,8 @@
+AssertionError [ERR_ASSERTION]: search should continue into the original source section
+    at /private/tmp/ai-case-improvement-20261020/tests/reader-search-browser.cjs:26:2 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '=='
+}

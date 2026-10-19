@@ -93,3 +93,11 @@
  .detail-toolbar-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
  .detail-toolbar-actions button{padding:10px 4px}
 }
+/* Keep the search question beside a route to its original, qualified context. */
+.reader-search{margin:20px 0;padding:16px 20px;border:1px solid var(--line);border-radius:8px;background:#f1f6ec;overflow-wrap:anywhere}
+.reader-search h2{font-size:16px;line-height:1.7;margin:0 0 6px;letter-spacing:0;color:var(--green)}
+.reader-search-note{font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 10px}
+.reader-search-jump{display:flex;flex-direction:column;gap:4px;min-height:44px;max-width:100%;width:100%;margin:8px 0 0;padding:10px 12px;text-align:left;white-space:normal;overflow-wrap:anywhere}
+.reader-search-jump strong{font-size:14px;line-height:1.7;color:var(--green)}
+.reader-search-jump:hover{background:#e9eee0;border-color:var(--green)}
+@media(max-width:640px){.reader-search{padding:16px;margin:18px 0}}

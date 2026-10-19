@@ -1,0 +1,30 @@
+{
+  "origin": "http://127.0.0.1:8099/ai-agent-use-cases/",
+  "observe": true,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "audits": [],
+      "query": "薪水",
+      "originalResearchLength": 1799,
+      "shortcutCount": 0
+    },
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "audits": [],
+      "query": "薪水",
+      "originalResearchLength": 1799,
+      "shortcutCount": 0
+    },
+    {
+      "engine": "chromium",
+      "size": "small-mobile",
+      "audits": [],
+      "query": "薪水",
+      "originalResearchLength": 1799,
+      "shortcutCount": 0
+    }
+  ]
+}

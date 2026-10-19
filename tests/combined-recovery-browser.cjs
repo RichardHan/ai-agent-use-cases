@@ -50,10 +50,10 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await recovery.focus();
   // The same preservation path used by retry must match a newly rendered button.
   assert(await page.evaluate(()=>{const restore=preserveRecoveryFocus();render(false,true);restore();return document.activeElement.dataset.removeFilters===document.querySelector('#empty-suggestions button').dataset.removeFilters;}));
-  // Unknown, long shared facet values wrap and all five removals remain explicit.
-  const params=new URLSearchParams({q:'UC001',scenario:'未知情境'.repeat(15),kind:'unknown',tool:'unknown',category:'unknown',proof:'unknown'});
+  // An unfamiliar long shared scenario wraps without hiding the retained tool.
+  const params=new URLSearchParams({q:'UC001',scenario:'未知情境'.repeat(15),kind:'pending',tool:'Grok Bot'});
   await page.goto(base+'?'+params+'#explore',{waitUntil:'networkidle'});await page.locator('#empty-suggestions button').waitFor();
-  assert.match(await page.locator('#empty-hint').innerText(),/5 項/);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  assert.match(await page.locator('#empty-hint').innerText(),/2 項/);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.locator('#empty').scrollIntoViewIfNeeded();await page.screenshot({path:'qa-artifacts/after-long-390.png'});
   await page.locator('#empty-suggestions button').click();assert.equal(await page.locator('#results .card').count(),1);
   // Fully unavailable catalog: retain the existing honest error/retry flow.

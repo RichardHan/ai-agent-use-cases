@@ -445,7 +445,7 @@ function renderRelated(item) {
     });
     section.append(list);
   } else {
-    section.append(el('p', 'related-empty', '目前條件下，沒有其他相同主題的主要案例。可關閉閱讀後調整搜尋條件。'));
+    section.append(el('p', 'related-empty', discoveryReady ? '目前條件下，沒有其他相同主題的主要案例。可關閉閱讀後調整搜尋條件。' : '其他案例仍在載入，完成後會依目前搜尋條件提供延伸閱讀。'));
   }
   const back = el('button', 'related-back', '關閉閱讀');back.type = 'button';
   back.addEventListener('click', closeDetail);section.append(back);
@@ -461,6 +461,13 @@ function refreshRelated() {
   if (hadFocus) {
     const target = [...next.querySelectorAll('[data-related-id]')].find(button => button.dataset.relatedId === active.dataset.relatedId) || next.querySelector('.related-back');
     target.focus({preventScroll:true});
+    // New related links can move the returned control below the modal viewport.
+    // Scroll this dialog only, leaving the search page behind it untouched.
+    const dialog=$('detail'),rect=target.getBoundingClientRect();
+    const top=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom+8;
+    const bottom=dialog.getBoundingClientRect().bottom-8;
+    if(rect.top<top)dialog.scrollTop+=rect.top-top;
+    else if(rect.bottom>bottom)dialog.scrollTop+=rect.bottom-bottom;
   }
 }
 function updateModalNav() {
@@ -469,7 +476,7 @@ function updateModalNav() {
   const neighbours = detailNeighbours(currentDetailItem, currentFiltered);
   [[prevBtn, neighbours.prev, '上一則案例'], [nextBtn, neighbours.next, '下一則案例']].forEach(([button, target, label]) => {
     button.disabled = !target;
-    button.title = target ? label + '：' + target.title : label + '：目前結果中沒有可切換的案例';
+    button.title = target ? label + '：' + target.title : label + (discoveryReady ? '：目前結果中沒有可切換的案例' : '：其他案例仍在載入');
     button.setAttribute('aria-label', button.title);
   });
 }
@@ -544,6 +551,11 @@ function showDetail(item, trigger, updateURL=true) {
     section.append(el('h2', '', label), el('p', '', text));
     overview.append(section);
   });
+  if (!discoveryReady) {
+    const status=el('p','detail-load-status','這篇已可閱讀。其他案例仍在載入，完成後會提供切換與延伸閱讀。');
+    status.setAttribute('role','status');
+    overview.append(status);
+  }
   body.append(overview);
 
   const guidance = el('details', 'reader-guidance');
@@ -1023,6 +1035,12 @@ async function mapConcurrent(items, limit, workerFn) {
   await Promise.all(workers);
   return results;
 }
+function prioritizeSharedSource(paths,target) {
+  const id=norm(target||'').trim().replace(/^#/, '').match(/^(?:([a-z]+)[\s-：:#.]*)?(\d+)$/);
+  if(!id || (id[1] && !['uc','p'].includes(id[1])))return paths;
+  const first=id[1]==='p' ? 'sources/pending.md' : paths.find(path=>new RegExp('^(?:cases|evidence)/'+id[2].padStart(3,'0')+'-').test(path));
+  return first && paths.includes(first) ? [first,...paths.filter(path=>path!==first)] : paths;
+}
 async function loadCorpus(paths, options = {}) {
   const fetchFn = options.fetch || fetch;
   const parseFn = options.parseFile || parseFile;
@@ -1056,7 +1074,7 @@ async function loadCorpus(paths, options = {}) {
         }
       }
       completed++;
-      if (result.ok) { succeeded++; entryCount+=result.entries.length; }
+      if (result.ok) { succeeded++; entryCount+=result.entries.length; options.onSource?.(result.entries); }
       options.onProgress?.({completed,succeeded,entryCount,total:paths.length});
       return result;
     });
@@ -1226,8 +1244,20 @@ async function load() {
       displayCopy = {};
     }
     let announced=-1;
-    const { entries: loaded, failed } = await loadCorpus(paths, {
+    const orderedPaths=prioritizeSharedSource(paths,new URLSearchParams(location.search).get('case'));
+    const { entries: loaded, failed } = await loadCorpus(orderedPaths, {
       fetch,parseFile,concurrency:16,timeout:12000,budget:remaining(),signal:initialLoadController.signal,
+      onSource:items=>{
+        // Read only a successfully parsed source whose actual ID still matches
+        // the current URL. Do not reopen a case after close or history traversal.
+        if($('detail').open)return;
+        const target=new URLSearchParams(location.search).get('case');
+        const item=matchCase(target,items);
+        if(!item)return;
+        entries=mergeCorpus(entries,items);
+        allowAutomaticArrival=false;
+        showDetail(item,null,false);
+      },
       onProgress:({completed,succeeded,entryCount,total})=>{
         $('source-progress').max=total;
         $('source-progress').value=completed;
@@ -1244,6 +1274,17 @@ async function load() {
     });
     failedPaths = failed;
     if (!loaded.length) throw Error('沒有成功讀取任何案例。');
+    const restoreFocus=$('detail').open ? ()=>{} : preserveRecoveryFocus();
+    const dialog=$('detail');
+    const readingEdge=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
+    // Wheel/touch readers may still have an offscreen title focused. Preserve
+    // visible reading content rather than pulling the viewport toward that title.
+    const relatedHasFocus=dialog.querySelector('.related-cases')?.contains(document.activeElement);
+    const readingAnchor=dialog.open && !relatedHasFocus ? [...dialog.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')].find(node=>{
+      const rect=node.getBoundingClientRect();
+      return rect.height>0 && rect.bottom>readingEdge && rect.top<dialog.getBoundingClientRect().bottom;
+    }) : null;
+    const readingTop=readingAnchor?.getBoundingClientRect().top;
     entries = mergeCorpus([],loaded);
     refreshCorpusMetadata();
     $('updated').textContent = '索引更新 ' + catalog.builtAt;
@@ -1261,9 +1302,20 @@ async function load() {
     discoveryReady=true;$('guide-options').disabled=false;$('drawn-case').setAttribute('aria-busy','false');
     render(false);
     const current = matchCase(params.get('case'));
-    if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
+    if ($('detail').open && currentDetailItem?.id===current?.id) {
+      // Keep the exact research DOM, reading position and focused control.
+      updateModalNav();
+      refreshRelated();
+      const status=$('detail-body').querySelector('.detail-load-status');
+      if(status)status.textContent=failedPaths.length ? '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。' : '其他案例已載入，可依目前搜尋條件切換與探索。';
+      if(readingAnchor?.isConnected){
+        dialog.scrollTop+=readingAnchor.getBoundingClientRect().top-readingTop;
+      }
+    }
+    else if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
     else if(skippedFromButton)focusLoadedResults();
     else finishArrival(params,failedPaths.length>0);
+    restoreFocus();
   } catch (error) {
     discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();

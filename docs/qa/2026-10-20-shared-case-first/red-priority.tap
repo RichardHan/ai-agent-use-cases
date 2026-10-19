@@ -1,0 +1,32 @@
+evalmachine.<anonymous>:1339
+this.api={loadCorpus,prioritizeSharedSource}
+                     ^
+
+ReferenceError: prioritizeSharedSource is not defined
+    at evalmachine.<anonymous>:1339:22
+    at Script.runInContext (node:vm:149:12)
+    at Object.runInContext (node:vm:301:6)
+    at Object.<anonymous> (/private/tmp/ai-reader-source-context/tests/round.test.cjs:5:4)
+    at Module._compile (node:internal/modules/cjs/loader:1723:14)
+    at Object..js (node:internal/modules/cjs/loader:1888:10)
+    at Module.load (node:internal/modules/cjs/loader:1458:32)
+    at Function._load (node:internal/modules/cjs/loader:1275:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:234:24)
+
+Node.js v23.7.0
+✖ tests/round.test.cjs (36.692625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 39.826292
+
+✖ failing tests:
+
+test at tests/round.test.cjs:1:1
+✖ tests/round.test.cjs (36.692625ms)
+  'test failed'

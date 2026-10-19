@@ -1,0 +1,117 @@
+[
+  {
+    "label": "chromium-desktop-partial",
+    "axeViolations": []
+  },
+  {
+    "label": "chromium-desktop-recovered",
+    "axeViolations": []
+  },
+  {
+    "engine": "chromium",
+    "name": "desktop",
+    "loaded": 356,
+    "recovered": 357,
+    "retryRequests": 1
+  },
+  {
+    "label": "chromium-desktop-empty",
+    "axeViolations": []
+  },
+  {
+    "label": "chromium-desktop-reading-return",
+    "axeViolations": []
+  },
+  {
+    "label": "chromium-mobile-partial",
+    "axeViolations": []
+  },
+  {
+    "label": "chromium-mobile-recovered",
+    "axeViolations": []
+  },
+  {
+    "engine": "chromium",
+    "name": "mobile",
+    "loaded": 356,
+    "recovered": 357,
+    "retryRequests": 1
+  },
+  {
+    "label": "chromium-mobile-empty",
+    "axeViolations": []
+  },
+  {
+    "label": "chromium-mobile-reading-return",
+    "axeViolations": []
+  },
+  {
+    "label": "chromium-small-mobile-partial",
+    "axeViolations": []
+  },
+  {
+    "label": "chromium-small-mobile-recovered",
+    "axeViolations": []
+  },
+  {
+    "engine": "chromium",
+    "name": "small-mobile",
+    "loaded": 356,
+    "recovered": 357,
+    "retryRequests": 1
+  },
+  {
+    "label": "chromium-small-mobile-empty",
+    "axeViolations": []
+  },
+  {
+    "label": "chromium-small-mobile-reading-return",
+    "axeViolations": []
+  },
+  {
+    "label": "firefox-mobile-partial",
+    "axeViolations": []
+  },
+  {
+    "label": "firefox-mobile-recovered",
+    "axeViolations": []
+  },
+  {
+    "engine": "firefox",
+    "name": "mobile",
+    "loaded": 356,
+    "recovered": 357,
+    "retryRequests": 1
+  },
+  {
+    "label": "firefox-mobile-empty",
+    "axeViolations": []
+  },
+  {
+    "label": "firefox-mobile-reading-return",
+    "axeViolations": []
+  },
+  {
+    "label": "webkit-mobile-partial",
+    "axeViolations": []
+  },
+  {
+    "label": "webkit-mobile-recovered",
+    "axeViolations": []
+  },
+  {
+    "engine": "webkit",
+    "name": "mobile",
+    "loaded": 356,
+    "recovered": 357,
+    "retryRequests": 1
+  },
+  {
+    "label": "webkit-mobile-empty",
+    "axeViolations": []
+  },
+  {
+    "label": "webkit-mobile-reading-return",
+    "axeViolations": []
+  }
+]

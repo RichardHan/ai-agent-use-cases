@@ -1,0 +1,77 @@
+name: Improvement round QA
+on:
+  push:
+    branches: [improve/reader-source-context, main]
+    paths: ['tests/round*', '.github/workflows/round-qa.yml', 'assets/**', 'index.html']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Unit regressions, syntax and static build
+        run: |
+          mkdir -p qa-artifacts/round
+          node --test tests/*.test.cjs > qa-artifacts/round/unit.tap
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/round-preview/ai-agent-use-cases"
+      - name: Install cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/round-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/round-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Reproduce delayed shared reading against original code
+        if: github.ref != 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/round-tools/node_modules
+          ROUND_URL: http://127.0.0.1:8101/ai-agent-use-cases/
+          ROUND_OUTPUT: qa-artifacts/round-before
+          ROUND_OBSERVE: '1'
+        run: |
+          mkdir -p "$RUNNER_TEMP/round-before"
+          git archive eb9608e | tar -x -C "$RUNNER_TEMP/round-before"
+          python3 "$RUNNER_TEMP/round-before/scripts/preview.py" "$RUNNER_TEMP/round-before-preview/ai-agent-use-cases"
+          python3 -m http.server 8101 --directory "$RUNNER_TEMP/round-before-preview" > /tmp/round-before.log 2>&1 &
+          node tests/round-browser.cjs
+      - name: Verify desktop, mobile, failures, focus and reading continuity
+        env:
+          NODE_PATH: ${{ runner.temp }}/round-tools/node_modules
+          ROUND_ENGINES: all
+        run: |
+          python3 -m http.server 8100 --directory "$RUNNER_TEMP/round-preview" > /tmp/round-preview.log 2>&1 &
+          node tests/round-browser.cjs
+          READER_SEARCH_URL=http://127.0.0.1:8100/ai-agent-use-cases/ READER_SEARCH_ENGINES=all node tests/reader-search-browser.cjs
+          LOAD_URL=http://127.0.0.1:8100/ai-agent-use-cases/ LOAD_ENGINES=all node tests/load-recovery-browser.cjs
+      - name: Verify published assets and desktop/mobile journeys
+        if: github.ref == 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/round-tools/node_modules
+          ROUND_URL: https://richardhan.github.io/ai-agent-use-cases/
+          ROUND_OUTPUT: qa-artifacts/round-published
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          (async()=>{
+           for(let i=0;i<90;i++){
+            const paths=['assets/app.js','assets/reader.css'];
+            const matches=await Promise.all(paths.map(async path=>{const r=await fetch(process.env.ROUND_URL+path+'?round='+process.env.GITHUB_SHA,{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}));
+            if(matches.every(Boolean)){fs.writeFileSync('qa-artifacts/round-published-assets.json',JSON.stringify({sha:process.env.GITHUB_SHA,paths,matched:true}));return;}
+            await new Promise(resolve=>setTimeout(resolve,3000));
+           }
+           throw Error('Published assets differ');
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          NODE
+          node tests/round-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: round-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

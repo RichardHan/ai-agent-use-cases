@@ -1,0 +1,48 @@
+✖ a successful shared source is published before an unrelated request finishes (1.787334ms)
+✖ failed and aborted sources never publish invented or duplicate entries (0.774125ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46.817542
+
+✖ failing tests:
+
+test at tests/round.test.cjs:6:1
+✖ a successful shared source is published before an unrelated request finishes (1.787334ms)
+  AssertionError [ERR_ASSERTION]: shared source should be available while another source is still waiting
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/ai-reader-source-context/tests/round.test.cjs:13:10)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at tests/round.test.cjs:18:1
+✖ failed and aborted sources never publish invented or duplicate entries (0.774125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'shared'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/ai-reader-source-context/tests/round.test.cjs:21:9)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'shared' ],
+    operator: 'deepStrictEqual'
+  }

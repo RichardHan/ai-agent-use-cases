@@ -15,6 +15,8 @@ Repository → Settings → Pages → Build and deployment：
 
 ## 最新網站驗收
 
+2026-10-20：分享單篇讀取成功後立即開啟，其他來源背景續載；完成時保留可見原文、鍵盤返回卡片與相關閱讀焦點，待查與缺項補讀沿用原流程。[兩案取捨、前後截圖、測試與獨立審查](docs/qa/2026-10-20-shared-case-first/README.md)。
+
 2026-10-19：補強近期案例補充（UC-082、UC-178、UC-067）與最新案例（UC-357–359、UC-355）之搜尋召回與分詞正規化；支援健身教練、早晨喚醒、掃描轉EPUB、快照失效、備份Bot等自然語言查詢。[方案、測試與獨立審查](docs/qa/2026-10-19-search-recall-supplements-and-cases/README.md)。
 
 2026-10-19：空結果新增「一起移除最少條件」建議與真實筆數，保留關鍵字、其餘篩選及補讀焦點；單項可解時仍沿用原建議。[方案、前後截圖、測試與獨立審查](docs/qa/2026-10-19-combined-recovery/README.md)。

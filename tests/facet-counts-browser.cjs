@@ -87,7 +87,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.goto(base+'?q=旅遊&scenario=生活&case=UC-001#explore',{waitUntil:'networkidle'});
   await page.locator('#detail[open]').waitFor();await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();await page.locator('#close-detail').click();
   assert.equal(await page.locator('#scenario').inputValue(),'生活');
-  assert.deepEqual(errors,[]);report.push(row);await browser.close();
+  assert.deepEqual(errors,[]);report.push(row);console.log('FACET_CONFIG_PASS '+engine.name()+' '+width);await browser.close();
  }
  if(!observe){
   const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();
@@ -121,4 +121,4 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await browser.close();
  }
  fs.writeFileSync(`qa-artifacts/${observe?'baseline':'verification'}.json`,JSON.stringify(report,null,2));
-})().catch(e=>{console.error(e);process.exitCode=1});
+})().catch(e=>{console.error(e);process.exit(1)});

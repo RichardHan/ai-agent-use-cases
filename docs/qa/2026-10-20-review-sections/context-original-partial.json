@@ -1,0 +1,96 @@
+{
+  "origin": "https://richardhan.github.io/ai-agent-use-cases/",
+  "observe": false,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "audits": [
+        {
+          "state": "original negative constraint",
+          "violations": []
+        },
+        {
+          "state": "search contextual route",
+          "violations": []
+        }
+      ],
+      "query": "薪水",
+      "toolbarTargets": [
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        }
+      ],
+      "originalResearchLength": 1799,
+      "shortcutCount": 1,
+      "targetBounds": {
+        "top": 189.640625,
+        "bottom": 217.6875,
+        "toolbarBottom": 126,
+        "viewport": 1000
+      },
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/024-missing-invoice-check.md",
+      "externalHref": "https://openai.com/index/introducing-dots/",
+      "externalOpened": "https://openai.com/index/introducing-dots/?__cf_chl_rt_tk=lZHtLX6wiTumcgrOlhL2UQ6HumWu.3G.QIviNrGx5Qs-1792441582-1.0.1.1-wxDRdEAAgWKJRJCr09tTxivQfsDZaTRUPHnr5ZuRgZ0",
+      "externalStatus": 200,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "original negative constraint",
+          "violations": []
+        },
+        {
+          "state": "search contextual route",
+          "violations": []
+        }
+      ],
+      "query": "薪水",
+      "toolbarTargets": [
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        }
+      ],
+      "originalResearchLength": 1799,
+      "shortcutCount": 1,
+      "targetBounds": {
+        "top": 157.359375,
+        "bottom": 185.40625,
+        "toolbarBottom": 140,
+        "viewport": 844
+      },
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/024-missing-invoice-check.md",
+      "externalHref": "https://openai.com/index/introducing-dots/",
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "small-mobile",
+      "audits": []
+    }
+  ],
+  "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('#results .card[data-case-id=\"UC-024\"]') to be visible\n\n    at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/reader-search-browser.cjs:20:94"
+}

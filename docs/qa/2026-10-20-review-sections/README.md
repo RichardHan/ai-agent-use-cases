@@ -77,3 +77,25 @@ READER_SEARCH_URL=http://127.0.0.1:8100/ai-agent-use-cases/ READER_SEARCH_ENGINE
 runner未節流的DOM/load事件時間保存在reader-timings.json，只是雲端本機靜態預覽頁面事件，非全庫就緒、真實裝置效能或Lighthouse評分；不據此宣稱加速。產品資產增量3140 bytes未壓縮，不新增網路服務。
 
 獨立角色以工具明確指定的gpt-6-astra/ultra，只讀審查diff、原文及實際desktop／390／320圖。提出的乾淨fixture與取景缺口已修，CSS唯一性及P003斷言另經獨立審查；最終合併與發布另記。
+
+
+## 合併、正式部署與背景檢查
+
+合併前獨立審查通過，沒有剩餘必修。從最新origin/main建立整合分支，非強推合併為812511b；無衝突，產品、測試、workflow與受驗9ae031d完全一致。原工作樹仍只有原本兩個未提交檔案。[Pages39318305965](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39318305965) Jekyll建置與部署成功；公開HTML/app.js/reader.js/reader.css逐byte相同，SHA256見published-assets.json。
+
+背景[Combined recovery39318306587](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39318306587) 的預覽五配置、正式Chromium三尺寸成功，但正式Firefox第二次導頁後empty等待逾時；舊診斷讀取靜態必有的copy-search-link時為null，又拋錯，因此未保存HTTP status/body。不能稱全背景QA全綠，也不能稱已證實網路抖動。app.js與index.html未改，索引沒有導向或替換主文件，因此尚無因果證據歸為本輪回歸。
+
+在獨立verify/combined-recovery-document診斷分支（未併入main、不改產品）補存主回應status/content-type/redirect chain/body hash/前段及失敗請求，保留原斷言。最終[Firefox單次完整重播39319126396](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39319126396)成功：三次goto皆HTTP200且含預期HTML；兩項矛盾條件正確恢復7筆，直鏈重新整理、返回、查無結果、重設與axe0違規。診斷初版前一趟39319068571亦成功，但以保留嚴格ready條件的最終重播為準。原失敗沒有被抹去，原因仍未確定；見firefox-replay-document-responses.json及firefox-replay-after-report.json。這是一次有完整診斷的補驗，不是修改產品後宣稱根因修好。
+
+
+## 正式站最終驗收與結案
+
+[812511b正式站驗收39318307098](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39318307098) 的本輪新功能五配置全部完成：Chromium1440/390/320、Firefox390、WebKit390，10次axe零違規；每組均357/357，全部原文候選映射、三情境、長清單、無章節、焦點、直接連結及返回通過。published-verification.json與本目錄after／expanded／later-index／long-index圖已更新為正式站實際畫面。四檔資產也先經雲端再次逐byte確認。
+
+該run整體仍是FAIL：接續舊reader-search在320px最初等待UC024卡片的10秒逾時。desktop與390完成且4次axe0；Firefox/WebKit在那一次未執行。原狀態保存在context-original-partial.json，沒有反稱原run全成功。
+
+獨立審查確認app初載有20秒deadline，舊script在discoveryReady之前只有10秒等待，是等待契約的脆弱點，但原失敗沒有保存ready或缺項狀態，不能確定這次逾時根因。於verify/reader-context-ready（不改產品、未併入main）在原卡片斷言之前新增HTTP200與有界30秒discoveryReady等待，記錄就緒時間及failedPaths；其他原文、焦點、工具列、網址、來源、返回和axe斷言全部保留。
+
+[正式context補驗39319575921](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39319575921) 五配置全成功、10次axe0，failedPaths皆空。該runner未節流的初載完成時間為2395/2223/485/1152/1030ms，非真實手機或前後效能比較；見context-published-verification.json。補驗補足正式context覆蓋，沒有把原FAIL改寫成成功。主合併的[原始Reading flow39318306705](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39318306705)與Reader QA等其餘背景檢查亦成功；上述兩次原失敗仍保留，未聲稱全背景綠燈。
+
+合併前的獨立gpt-6-astra/ultra審查通過；發布後另獨立核對新功能五配置、補驗資料與正式截圖。沒有新增產品必修。未證實的兩次失敗原因留待後續有完整診斷時追蹤；不據此擴改來源或捏造根因。最後提交只補紀錄與圖，不再改產品。本輪達標停止。

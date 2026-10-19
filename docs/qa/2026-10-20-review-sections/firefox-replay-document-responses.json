@@ -1,0 +1,41 @@
+[
+  {
+    "url": "https://richardhan.github.io/ai-agent-use-cases/",
+    "bodyError": "",
+    "redirects": [
+      "https://richardhan.github.io/ai-agent-use-cases/"
+    ],
+    "finalURL": "https://richardhan.github.io/ai-agent-use-cases/",
+    "status": 200,
+    "contentType": "text/html; charset=utf-8",
+    "hasExpectedStaticHTML": true,
+    "bodySha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d",
+    "bodyStart": "<!doctype html>\n<html lang=\"zh-Hant\">\n<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"description\" content=\"選個情境，抽一張 AI 用法靈感，再深入閱讀做法、限制與來源。\"><meta name=\"color-scheme\" content=\"light\"><title>AI 用法實驗室 · 案例庫</title><link rel=\"stylesheet\" href=\"assets/style.css\"><link rel=\"stylesheet\" href=\"assets/reader.css\"><script src=\"assets/discovery.js\" defer></script><script src=\"assets/reader.js\" defer></script><script src=\"assets/app.js\" defer></script></head>\n<body>\n<a class=\"skip\" href=\"#discover\">跳到案例探索</a>\n<header class=\"topbar\"><a class=\"brand\" href=\"./\"><span class=\"brand-icon\" aria-hidden=\"true\">✳</span> AI 用法實驗室 <span class=\"edition\">FIELD NOTES</span></a><a class=\"repo-link\" href=\"https://github.com/RichardHan/ai-agent-use-cases\">GitHub 原始資料 ↗</a></header>\n<main>\n<div class=\"discovery-layout\"><section class=\"discovery-hero\" aria-labelledby=\"welcome-title\">\n  <p class=\"eyebrow\">從一件你想做的事開始</p>\n  <h1 id=\"welcome-title\">今天，想讓 AI<br><em>幫你哪件事？</em></h1>\n  <p class=\"intro\">選個情境，抽一張別人的用法。覺得有意思，再看怎麼做。</p>\n  <a class=\"hero-search-link\" href=\"#explore\" data-search-entry>直接搜尋案例 <span aria-hidden=\"true\">→</span></a>\n  <fieldset id=\"guide-options\" class=\"guide-options\" disabled>\n    <legend class=\"sr-only\">第一步：選擇你想探索的情境</legend>\n    <button type=\"button\" data-scenario=\"\" aria-pressed=\"true\"><strong>隨便逛逛</strong><span>給我一點靈感</span></button>\n    <button type=\"button\" data-scenario=\"生活\" aria-pressed=\"false\"><strong>生活大小事</strong><span>旅"
+  },
+  {
+    "url": "https://richardhan.github.io/ai-agent-use-cases/?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore",
+    "bodyError": "",
+    "redirects": [
+      "https://richardhan.github.io/ai-agent-use-cases/?q=UC001&scenario=%E9%96%8B%E7%99%BC&kind=pending&tool=Grok%20Bot"
+    ],
+    "finalURL": "https://richardhan.github.io/ai-agent-use-cases/?q=UC001&scenario=%E9%96%8B%E7%99%BC&kind=pending&tool=Grok%20Bot#explore",
+    "status": 200,
+    "contentType": "text/html; charset=utf-8",
+    "hasExpectedStaticHTML": true,
+    "bodySha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d",
+    "bodyStart": "<!doctype html>\n<html lang=\"zh-Hant\">\n<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"description\" content=\"選個情境，抽一張 AI 用法靈感，再深入閱讀做法、限制與來源。\"><meta name=\"color-scheme\" content=\"light\"><title>AI 用法實驗室 · 案例庫</title><link rel=\"stylesheet\" href=\"assets/style.css\"><link rel=\"stylesheet\" href=\"assets/reader.css\"><script src=\"assets/discovery.js\" defer></script><script src=\"assets/reader.js\" defer></script><script src=\"assets/app.js\" defer></script></head>\n<body>\n<a class=\"skip\" href=\"#discover\">跳到案例探索</a>\n<header class=\"topbar\"><a class=\"brand\" href=\"./\"><span class=\"brand-icon\" aria-hidden=\"true\">✳</span> AI 用法實驗室 <span class=\"edition\">FIELD NOTES</span></a><a class=\"repo-link\" href=\"https://github.com/RichardHan/ai-agent-use-cases\">GitHub 原始資料 ↗</a></header>\n<main>\n<div class=\"discovery-layout\"><section class=\"discovery-hero\" aria-labelledby=\"welcome-title\">\n  <p class=\"eyebrow\">從一件你想做的事開始</p>\n  <h1 id=\"welcome-title\">今天，想讓 AI<br><em>幫你哪件事？</em></h1>\n  <p class=\"intro\">選個情境，抽一張別人的用法。覺得有意思，再看怎麼做。</p>\n  <a class=\"hero-search-link\" href=\"#explore\" data-search-entry>直接搜尋案例 <span aria-hidden=\"true\">→</span></a>\n  <fieldset id=\"guide-options\" class=\"guide-options\" disabled>\n    <legend class=\"sr-only\">第一步：選擇你想探索的情境</legend>\n    <button type=\"button\" data-scenario=\"\" aria-pressed=\"true\"><strong>隨便逛逛</strong><span>給我一點靈感</span></button>\n    <button type=\"button\" data-scenario=\"生活\" aria-pressed=\"false\"><strong>生活大小事</strong><span>旅"
+  },
+  {
+    "url": "https://richardhan.github.io/ai-agent-use-cases/?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore",
+    "bodyError": "",
+    "redirects": [
+      "https://richardhan.github.io/ai-agent-use-cases/?q=UC001&scenario=%E9%96%8B%E7%99%BC&kind=pending&tool=Grok%20Bot"
+    ],
+    "finalURL": "https://richardhan.github.io/ai-agent-use-cases/?q=UC001&scenario=%E9%96%8B%E7%99%BC&kind=pending&tool=Grok%20Bot#explore",
+    "status": 200,
+    "contentType": "text/html; charset=utf-8",
+    "hasExpectedStaticHTML": true,
+    "bodySha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d",
+    "bodyStart": "<!doctype html>\n<html lang=\"zh-Hant\">\n<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"description\" content=\"選個情境，抽一張 AI 用法靈感，再深入閱讀做法、限制與來源。\"><meta name=\"color-scheme\" content=\"light\"><title>AI 用法實驗室 · 案例庫</title><link rel=\"stylesheet\" href=\"assets/style.css\"><link rel=\"stylesheet\" href=\"assets/reader.css\"><script src=\"assets/discovery.js\" defer></script><script src=\"assets/reader.js\" defer></script><script src=\"assets/app.js\" defer></script></head>\n<body>\n<a class=\"skip\" href=\"#discover\">跳到案例探索</a>\n<header class=\"topbar\"><a class=\"brand\" href=\"./\"><span class=\"brand-icon\" aria-hidden=\"true\">✳</span> AI 用法實驗室 <span class=\"edition\">FIELD NOTES</span></a><a class=\"repo-link\" href=\"https://github.com/RichardHan/ai-agent-use-cases\">GitHub 原始資料 ↗</a></header>\n<main>\n<div class=\"discovery-layout\"><section class=\"discovery-hero\" aria-labelledby=\"welcome-title\">\n  <p class=\"eyebrow\">從一件你想做的事開始</p>\n  <h1 id=\"welcome-title\">今天，想讓 AI<br><em>幫你哪件事？</em></h1>\n  <p class=\"intro\">選個情境，抽一張別人的用法。覺得有意思，再看怎麼做。</p>\n  <a class=\"hero-search-link\" href=\"#explore\" data-search-entry>直接搜尋案例 <span aria-hidden=\"true\">→</span></a>\n  <fieldset id=\"guide-options\" class=\"guide-options\" disabled>\n    <legend class=\"sr-only\">第一步：選擇你想探索的情境</legend>\n    <button type=\"button\" data-scenario=\"\" aria-pressed=\"true\"><strong>隨便逛逛</strong><span>給我一點靈感</span></button>\n    <button type=\"button\" data-scenario=\"生活\" aria-pressed=\"false\"><strong>生活大小事</strong><span>旅"
+  }
+]

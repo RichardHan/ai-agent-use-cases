@@ -1,0 +1,26 @@
+{
+  "commit": "812511b",
+  "verifiedAt": "2026-10-19T20:20:44.640770+00:00",
+  "assets": [
+    {
+      "path": "assets/app.js",
+      "match": true,
+      "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
+    },
+    {
+      "path": "assets/reader.js",
+      "match": true,
+      "sha256": "5486a008053b387d70d8fce0858cab24c4cf1b0cfb61f8ab009a0a369794332e"
+    },
+    {
+      "path": "assets/reader.css",
+      "match": true,
+      "sha256": "f5372d4c8cba5f8de5d5e32c0d8fc1b2ed9bdedd8210e15d689da6cc1e9c9c81"
+    },
+    {
+      "path": "index.html",
+      "match": true,
+      "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+    }
+  ]
+}

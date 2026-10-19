@@ -48,3 +48,15 @@ UC-338入口：桌面1451→444px、手機2314→595px；320×740由2856→693px
 
 
 [最終QA39208179276](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39208179276)完整成功，涵蓋最終程式／測試（ce55961，後續僅紀錄），重跑69項測試、方法快捷、reading-flow與reader。另保存[320px實際聚焦入口](shortcut-small-mobile.png)，完整顯示未實測限定。
+
+
+## 合併與正式發布
+
+再次fetch確認遠端基準未變且工作樹乾淨後，fast-forward合併並push main `4ca1172`，無reset、強推或覆蓋協作者。依使用者授權直接整合，未建立PR或冒稱PR核准。
+
+[正式Jekyll／Pages39208901113](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39208901113)成功；[本輪正式QA39208901690](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39208901690)成功，先核對reader.js與reader.css逐字符合4ca1172，再完成正式站三引擎五組配置與五次axe零違規，並重跑69項單元及完整預覽reading-flow／reader。正式截圖已與預覽比對：[桌面](published-desktop.png)／[手機](published-mobile.png)／[原始結果](published-verification.json)。
+
+執行資產未壓縮差額：reader.js +650 bytes、reader.css +430 bytes，共1080 bytes；不是網路傳輸或效能分數。320px入口截圖也經獨立複核，限定文字與焦點清楚，無新增必修。其後提交只補驗收紀錄與圖片，不改執行資產。
+
+
+最終13個工作流程全部成功，包含Pages、本輪方法捷徑及所有既有QA；[CI快照](ci.json)。Reader QA39208901730及Reading flow QA39208901850亦成功，無未處理CI失敗。本輪達標停止；仍未宣稱實體裝置、螢幕閱讀器或真人成效已驗證。

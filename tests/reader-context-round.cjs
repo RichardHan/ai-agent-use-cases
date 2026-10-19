@@ -18,8 +18,15 @@ const save=()=>fs.writeFileSync(output+'/report.json',JSON.stringify(reports,nul
  for(const [id,query] of [['UC-001','Lyft'],['UC-028','服務降級']]){
  const response=await page.goto(origin+'?q='+encodeURIComponent(query)+'&case='+id);assert.equal(response.status(),200);
  await page.waitForFunction(()=>discoveryReady,null,{timeout:30000});await page.locator('#detail[open]').waitFor();
- const jump=page.locator('.reader-search-jump').first();await jump.scrollIntoViewIfNeeded();
+ report.loaded=await page.evaluate(()=>({entries:entries.length,failedPaths:[...failedPaths]}));assert.deepEqual(report.loaded.failedPaths,[]);
+ const jump=page.locator('.reader-search-jump').first();
+ await page.locator('.reader-search').evaluate(e=>{const d=e.closest('dialog'),t=d.querySelector('.detail-toolbar');d.scrollTo({top:d.scrollTop+e.getBoundingClientRect().top-t.getBoundingClientRect().bottom-16,behavior:'instant'});});
  await page.screenshot({path:`${output}/${id}-${engine}-${size}-entry.jpg`,type:'jpeg',quality:80});
+ if(!observe){
+  const action=page.locator('.reader-search-locate').first();await action.scrollIntoViewIfNeeded();
+  await page.screenshot({path:`${output}/${id}-${engine}-${size}-context-action.jpg`,type:'jpeg',quality:80});
+  assert((await action.boundingBox()).height>=44);
+ }
  const target=await jump.getAttribute('aria-controls');await jump.click();
  const finding=await page.evaluate(({target,query})=>{
   const heading=document.getElementById(target),blocks=[];

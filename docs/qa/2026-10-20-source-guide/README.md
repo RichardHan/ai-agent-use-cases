@@ -29,8 +29,8 @@
 
 | 視圖 | 修改前 | 修改後 |
 | --- | --- | --- |
-| 桌面結果 | [1440](before-evidence-1440.png) | [1440](preview/after-results-chromium-1440.png) |
-| 手機結果 | [390](before-evidence-390.png) | [390](preview/after-results-chromium-390.png) |
+| 桌面結果 | [1440](compare-before-1440.png) | [1440](compare-after-1440.png) |
+| 手機結果 | [390](compare-before-390.png) | [390](compare-after-390.png) |
 | 展開判讀 | 原版無入口 | [桌面](preview/after-guide-chromium-1440.png)／[手機](preview/after-guide-chromium-390.png) |
 
 三個具體模擬情境：
@@ -67,3 +67,9 @@ NODE_PATH=/tmp/ai-case-qa-tools/node_modules GUIDE_OUTPUT=qa-artifacts/source-gu
 字色依WCAG相對亮度公式計算，#3c5148／#285344／#172b27對#f7f8f2分別7.98／8.16／13.93:1；前端三檔共增加2,687未壓縮bytes。詳見[sizes-and-contrast.json](sizes-and-contrast.json)，不是Lighthouse分數、網路傳輸量或載入提速證明。
 
 [雲端Source guide QA39332823089](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39332823089)檢查同一產品版本026b51d，並額外執行原search passage全庫原文完整性與loading budget回歸。PR建立被GitHub的Enterprise Managed User限制拒絕（createPullRequest Unauthorized）；不切換身份，依使用者既有授權直接非強推merge，合併前先確認獨立審查與雲端結果。
+
+比較補記：固定基準17a0cae與修改後使用同query／proof及viewport，將結果數定位在視窗top約40px。兩版本皆9／357筆，偏差小於1px；[comparison.json](comparison.json)。上表已改用這組可直接比較的畫面，舊截圖仍保留。獨立審查固定讀026b51d，確認產品與發布QA皆無必修；其一度提出的正式模式引擎配置疑慮，已自行以VM執行固定commit實際運算式後撤回，正式2個Chromium配置、預覽三引擎5配置相符。
+
+第一輪雲端39332823089已成功；獨立reviewer自行下載logs／artifact，逐項核對：100／100單元；guide三引擎五配置、三情境、357筆無缺項、10次axe零違規；原context五配置、10次axe零違規，全庫357條目／459段落的原文DOM完整性斷言通過。原loading budget三引擎17項通過：5組356→357僅補1次；三次整輪期限20428／21023／20519ms、各32請求後可復原357；缺失直鏈、catalog／copy掛起復原也通過。原始數據：[guide](cloud-first-guide.json)／[context](cloud-first-context.json)／[loading](cloud-first-loading.json)／[CI](cloud-first-ci.json)。
+
+測試維護修正3dfa13e把兩個固定357斷言改為由served catalog＋P標題計算，保留精確相等與0缺項斷言；獨立核對與既有loading-budget公式相同，產品三檔無變動。最終雲端[39333237573](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39333237573)另行確認，不將第一輪當成測試修正後的結果。

@@ -2,9 +2,11 @@
 
 更新日期：2026-10-19。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至2026-10-18 21:00批次，嚴格核對為**299／1,000，尚差701**（含作者自述與實際失敗，未獨立重現）。先前已核定296，納入前輪草稿339／340及本輪341共三案；協作者334／335待核、336／337既有流程版本，338仍待定。主要頁342＋2＝344（2026-10-19 08:41批次已新增342–345、11:46批次增346–350、14:40批次再增351–352，嚴格數待核、暫不加入），沿用歷史頁面發布口徑326，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至2026-10-18 21:00批次，嚴格核對為**299／1,000，尚差701**（含作者自述與實際失敗，未獨立重現）。先前已核定296，納入前輪草稿339／340及本輪341共三案；協作者334／335待核、336／337既有流程版本，338仍待定。主要頁344＋4＝348（2026-10-19 08:41批次已新增342–345、11:46批次增346–350、14:40批次增351–352、17:40批次再增353–356，嚴格數待核、暫不加入），沿用歷史頁面發布口徑326，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
 
 2026-10-17 23:44台灣時間起，目標提高為1,000案。14:45協作者曾列296；16:00去重將322／324保留為既有流程版本，323／325原文未重新取得、維持前批自述但不併入核定數；315／326仍待定。下方歷史批次保留當時口徑，不回改舊報告。
+
+2026-10-19 17:40批次：新增353雲端Grok Bot與本機代理只經私有Git任務檔雙向交接、雲端不對本機下命令（中文作者＋公開參考實作，作者自列公開版未完成端到端驗證）、354每天從X書籤挑一則做成互動網頁demo、瀏覽器檢查後上線（英文，作品集21個demo）、355只負責督促X原創發文的教練Bot每日盤點與兩週數據（英文，附截圖）、356付費Substack文章用非官方瀏覽器側欄送給研究Bot摘要並對照持股（中文，附截圖）；351併入同作者grokbot-local-agent（工作編號、webhook叫醒、漏通知補報），314併入常駐程式只在Bot呼叫工具時在線、Bot卻回報正常的失敗，均不另計。皆作者自述、未重現；嚴格數維持299，待下次逐案覆核。[原文、去重與覆蓋](sources/research-2026-10-19-1740.md)。
 
 2026-10-19 14:40批次：新增351 Grok Bot只負責調度、重活交給雲端電腦上的OpenCode免費模型，做不好再降級到Pi Agent＋DeepSeek（中文四則串）、352每天讓Bot讀flomo筆記並輪換洞察角度推送一則回顧（中文，附單日截圖）；066併入匯出用量CSV請主Bot分析（附分析截圖）與日文10個角色Bot的排程／通知精簡規則，037併入Muse找到義大利網站特價、計入運費與美國進口稅仍較便宜的跨境版本，054併入中文饒舌講解影片五步提示（Suno配樂、VPN連線排障），076併入CNET記者讓Muse處理回收門號、電信客服機器人與仲介站表單皆被擋的失敗實測，均不另計。皆作者自述、未重現；嚴格數維持299，待下次逐案覆核。[原文、去重與覆蓋](sources/research-2026-10-19-1440.md)。
 
@@ -395,7 +397,7 @@
 | UC-311 | 新模型測試提示批次執行與公開展示頁 | Grok Bot／DeepSeek V4.1 Flash／ChatGPT Sites | [作者自述與截圖已核；展示頁本輪403，提示詞與篩選未核](cases/311-new-model-prompt-batch-demo-gallery.md) | 開發｜模型評估、批次、網站、驗收 |
 | UC-312 | 環境播放內容誤建本人待辦 | Grok Bot／Fieldy／Todoist | [已運作與誤判自述；未修復](cases/312-ambient-media-false-task-creation.md) | 生活｜語音來源、待辦、失敗 |
 | UC-313 | 外部操作擔當移交的停止與完成對帳失敗 | ChatGPT dots／Codex | [作者競用時序自述；未證實重複寄送或修復](cases/313-external-action-assignee-handoff-race.md) | 開發｜多代理、停止、交接、失敗 |
-| UC-314 | 代理附帶雲機的外接服務長駐失敗 | Grok Bot／Pi agent／Telegram | [作者已部署與休眠失敗自述；無完整日誌、未重現](cases/314-agent-sandbox-always-on-service-failure.md) | 開發｜雲端環境、部署、可用性、失敗 |
+| UC-314 | 代理附帶雲機的外接服務長駐失敗 | Grok Bot／Pi agent／Telegram | [作者已部署與休眠失敗自述＋中文常駐程式掉線、Bot誤報在線補充；無完整日誌、未重現](cases/314-agent-sandbox-always-on-service-failure.md) | 開發｜雲端環境、部署、可用性、失敗 |
 | UC-315 | 工作與私人代理互調報稅文件，交接會計師 | ChatGPT dots（工作 dot＋私人 dot）／電子郵件 | [作者單則文字自述；無截圖與申報結果，待定](cases/315-work-personal-agents-tax-document-cpa-handoff.md) | 生活｜報稅、文件整理、跨代理、交接 |
 | UC-316 | Slack 回報串：分流 Bot 去重、重現 Bot 截圖，人在同串修到合併 | Grok Bot Team Bot／BDK／Cursor Cloud Agents／Slack／Linear | [官方工作坊示範＋影片說明與 Team Bots 文件已讀；影片未看、未重現](cases/316-slack-thread-triage-repro-bot-bug-fix.md) | 開發｜Slack、分流、多代理、驗收 |
 | UC-317 | 夜巡四 Bot：凌晨自主選題、做原型、獨立驗收、晨報 | Grok Bot（四 Bot 群組 routine） | [繁中作者實作自述＋公開 repo 與 Demo；測試與晨報未公開、未重現](cases/317-nightly-explorer-builder-critic-prototype.md) | 開發｜每日、排程、多代理、驗收 |
@@ -432,8 +434,12 @@
 | UC-348 | 買房物件先由Bot依預算、學區、尖峰通勤過濾，通過才交房仲調揭露文件再估整修費 | Grok Bot／Zillow／Slack | [作者單則文字自述；無截圖、篩選準確度未核](cases/348-home-search-screening-realtor-disclosure-handoff.md) | 生活｜買房、篩選、交接、Slack |
 | UC-349 | dots主動提醒詢問信，登錄Notion受理表、查行事曆空檔、存附候選日的回信草稿 | ChatGPT dots／Gmail／Notion／Google行事曆 | [日文作者自述＋流程示意圖；無實際畫面、未重現](cases/349-dots-inquiry-ledger-calendar-reply-draft.md) | 工作｜收件匣、Notion、日曆、草稿 |
 | UC-350 | 主管平日晨報分工：dots讀內部資料存Notion，Grok Bot分角色收公開新聞與作品評價發Slack | ChatGPT dots／Grok Bot／Slack／Notion | [日文作者長文自述，含接收程式停擺、Auto-review卡關等失敗；無截圖](cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md) | 工作｜每日、晨報、多代理、Slack |
-| UC-351 | Grok Bot只負責調度，重活交給雲端電腦上的OpenCode免費模型，做不好再換Pi Agent＋DeepSeek | Grok Bot／OpenCode／Pi Agent／DeepSeek | [中文作者四則串自述＋架構示意圖；無用量前後數據、未重現](cases/351-grokbot-dispatch-only-offload-free-model-agents.md) | 開發｜多代理、派工、用量 |
+| UC-351 | Grok Bot只負責調度，重活交給雲端電腦上的OpenCode免費模型，做不好再換Pi Agent＋DeepSeek | Grok Bot／OpenCode／Pi Agent／DeepSeek | [中文作者四則串自述＋架構示意圖＋另一作者公開腳本（webhook叫醒）；無用量前後數據、未重現](cases/351-grokbot-dispatch-only-offload-free-model-agents.md) | 開發｜多代理、派工、用量 |
 | UC-352 | 每天讓Bot讀flomo筆記，換一種洞察角度推送一則回顧 | Grok Bot／flomo | [中文作者自述＋單日推送截圖；接入方式與模板輪換未見、未重現](cases/352-daily-flomo-memo-insight-push-rotating-template.md) | 學習｜每日、筆記、自我回顧 |
+| UC-353 | 雲端Bot與本機代理只經私有Git任務檔交接，雲端不對本機下命令 | Grok Bot／GitHub Actions／macOS launchd／本機代理 | [中文作者自述＋公開參考實作文件已讀；公開版端到端未驗證、未重現](cases/353-cloud-local-agent-git-task-relay.md) | 開發｜跨代理、交接、事件觸發、權限邊界 |
+| UC-354 | 每天從X書籤挑一個點子做成互動網頁demo，瀏覽器檢查後上線 | Grok Bot／Cursor雲端代理／Claude Code／Cloudflare | [英文作者多日貼文＋公開作品集；排程與檢查紀錄未見、未重現](cases/354-daily-bookmark-to-live-interactive-demo.md) | 創作｜每日、書籤、互動網頁、部署 |
+| UC-355 | X發文教練Bot每天盤點原創與轉發、給隔天功課，兩週後看數據 | Grok Bot／X分析 | [英文作者三則貼文＋檢討與分析截圖；讀取方式未說明、未重現](cases/355-x-posting-coach-bot-daily-checkin.md) | 創作｜每日、社群、教練、發文 |
+| UC-356 | 付費訂閱文章用瀏覽器側欄送給研究Bot，摘要並對照持股 | Grok Bot／Grok Bot Clipper（非官方）／Substack | [中文作者自述＋兩張截圖；持股對照結果未見、未重現](cases/356-paid-article-clipper-portfolio-check.md) | 學習｜投資研究、付費文章、瀏覽器擴充、資料查證 |
 
 
 ## 驗證與模板補充（3，不列新增成功案例）

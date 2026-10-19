@@ -3,14 +3,15 @@ on:
   push:
     branches: [fix/missing-shared-case, main]
     paths: ['assets/**', 'index.html', 'tests/missing-case-browser.cjs', '.github/workflows/missing-case-qa.yml']
-  pull_request:
-    paths: ['assets/**', 'index.html', 'tests/missing-case-browser.cjs', '.github/workflows/missing-case-qa.yml']
+concurrency:
+  group: missing-case-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
   missing:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:

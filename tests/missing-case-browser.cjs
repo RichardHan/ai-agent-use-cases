@@ -100,4 +100,4 @@ if(!observe){
 }
 fs.writeFileSync('qa-artifacts/'+prefix+'.json',JSON.stringify(reports,null,2));
 console.log('CASE_ACCEPTANCE '+JSON.stringify(reports));
-})().catch(e=>{console.error(e);process.exitCode=1;});
+})().catch(e=>{console.error(e);process.exit(1);});

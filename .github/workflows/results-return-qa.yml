@@ -1,0 +1,102 @@
+name: Results return QA
+on:
+  push:
+    branches: ['improve/task-discovery-20261020', 'main']
+    paths: ['assets/**', 'index.html', 'tests/results-return*', '.github/workflows/results-return-qa.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Tests and syntax
+        run: |
+          node --test tests/*.test.cjs
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/return-preview/ai-agent-use-cases"
+      - name: Cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/return-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/return-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Reproduce the missing route on the original baseline
+        env:
+          NODE_PATH: ${{ runner.temp }}/return-tools/node_modules
+          RETURN_URL: http://127.0.0.1:8129/ai-agent-use-cases/
+          RETURN_OUTPUT: qa-artifacts/results-before
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/return-before" 7cd3638
+          python3 "$RUNNER_TEMP/return-before/scripts/preview.py" "$RUNNER_TEMP/return-before-preview/ai-agent-use-cases"
+          python3 -m http.server 8129 --directory "$RUNNER_TEMP/return-before-preview" > /tmp/return-before.log 2>&1 &
+          RETURN_OBSERVE=1 node tests/results-return-browser.cjs
+          if node tests/results-return-browser.cjs > qa-artifacts/red-browser.log 2>&1; then
+            echo 'Expected the original deep-results route to be missing'
+            exit 1
+          fi
+          grep -q 'Deep result browsing needs an in-flow route back to search and filters' qa-artifacts/red-browser.log
+      - name: Verify new journeys and original regressions
+        env:
+          NODE_PATH: ${{ runner.temp }}/return-tools/node_modules
+          GUIDE_URL: http://127.0.0.1:8130/ai-agent-use-cases/
+          READER_URL: http://127.0.0.1:8130/ai-agent-use-cases/
+        run: |
+          python3 -m http.server 8130 --directory "$RUNNER_TEMP/return-preview" > /tmp/return-preview.log 2>&1 &
+          python3 -m http.server 8081 --directory "$RUNNER_TEMP/return-preview" > /tmp/return-discovery.log 2>&1 &
+          node tests/results-return-browser.cjs
+          node tests/source-guide-browser.cjs
+          node tests/discovery-browser.cjs
+          node tests/reader-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-return-preview-${{ github.sha }}
+          path: qa-artifacts/
+          retention-days: 30
+  published:
+    if: github.ref == 'refs/heads/main'
+    needs: preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/return-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/return-tools/node_modules/.bin/playwright" install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Match published assets
+        run: |
+          node - <<'JS'
+          const fs=require('node:fs');
+          (async()=>{
+            for(let i=0;i<36;i++){
+              const matches=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async path=>{const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/'+path+'?return='+Date.now(),{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}));
+              if(matches.every(Boolean)){console.log('Published assets match '+process.env.GITHUB_SHA);return;}
+              await new Promise(resolve=>setTimeout(resolve,5000));
+            }
+            throw Error('Published asset mismatch');
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+      - name: Verify HTTPS desktop and mobile
+        env:
+          NODE_PATH: ${{ runner.temp }}/return-tools/node_modules
+          RETURN_URL: https://richardhan.github.io/ai-agent-use-cases/
+          RETURN_OUTPUT: qa-artifacts/results-published
+          RETURN_PUBLISHED: '1'
+        run: node tests/results-return-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-return-published-${{ github.sha }}
+          path: qa-artifacts/

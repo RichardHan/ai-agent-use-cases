@@ -711,6 +711,32 @@ function card(item, terms=[]) {
   node.append(bottom);
   return node;
 }
+// Keep a nearby route back to refinement without hiding or reordering results.
+function resultCards(items, terms) {
+  const nodes=[];
+  items.forEach((item,index)=>{
+    nodes.push(card(item,terms));
+    if((index+1)%6===0||index===items.length-1){
+      const row=el('div','results-return');
+      const link=el('a','','回到搜尋與篩選 ↑');
+      link.href='#explore';
+      link.dataset.resultsReturn=String(index+1);
+      link.addEventListener('click',enterSearch);
+      row.append(link);nodes.push(row);
+    }
+  });
+  return nodes;
+}
+function enterSearch(event) {
+  if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  event.preventDefault();
+  allowAutomaticArrival=false;
+  const url=new URL(location.href);
+  url.hash='explore';
+  history.replaceState(history.state,'',url);
+  $('explore').scrollIntoView({block:'start',behavior:'instant'});
+  $('query').focus({preventScroll:true});
+}
 function filterEntries(items, terms, filters) {
   return items.filter(item => terms.every(term => termVariants(term).some(v => item.search.includes(v))) && (!filters.kind || item.kind === filters.kind) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
 }
@@ -990,7 +1016,7 @@ function render(updateURL=true, preserveShare=false) {
   $('filter-count').textContent = facetCount ? `已套用 ${facetCount} 項篩選` : '未設定篩選';
   currentFiltered = rankEntries(filterEntries(entries, q, filters), q);
   $('search-order-note').hidden = !discoveryReady || !q.length || !currentFiltered.length;
-  $('results').replaceChildren(...currentFiltered.map(item=>card(item,q)));syncDiscovery(currentFiltered);
+  $('results').replaceChildren(...resultCards(currentFiltered,q));syncDiscovery(currentFiltered);
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
   $('empty').querySelector('h3').textContent=failedPaths.length?'已載入內容中沒有符合的案例':'目前沒有符合的案例';
   renderSearchFeedback(q, filters);
@@ -1141,6 +1167,7 @@ function preserveRecoveryFocus() {
   const buttonIndex=cardNode?[...cardNode.querySelectorAll('button')].indexOf(active):-1;
   const filterKey=active.dataset.removeFilter;
   const filterKeys=active.dataset.removeFilters;
+  const resultsReturn=active.dataset.resultsReturn;
   const parentId=active.parentElement?.id;
   return ()=>{
     if(active===document.body)return;
@@ -1149,6 +1176,8 @@ function preserveRecoveryFocus() {
     if(cardId){
       const node=[...$(area).querySelectorAll('.card')].find(c=>c.dataset.caseId===cardId);
       replacement=node?.querySelectorAll('button')[buttonIndex];
+    }else if(resultsReturn){
+      replacement=[...$('results').querySelectorAll('[data-results-return]')].find(link=>link.dataset.resultsReturn===resultsReturn);
     }else if(filterKeys && parentId){
       replacement=[...$(parentId).querySelectorAll('[data-remove-filters]')].find(b=>b.dataset.removeFilters===filterKeys);
     }else if(filterKey && parentId){
@@ -1399,16 +1428,7 @@ $('use-loaded').addEventListener('click',()=>{
   initialLoadController.abort();
 });
 // Keep explicit task search available before the corpus is ready.
-document.querySelectorAll('[data-search-entry]').forEach(link=>link.addEventListener('click',event=>{
-  if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
-  event.preventDefault();
-  allowAutomaticArrival=false;
-  const url=new URL(location.href);
-  url.hash='explore';
-  history.replaceState(history.state,'',url);
-  $('explore').scrollIntoView({block:'start',behavior:'instant'});
-  $('query').focus({preventScroll:true});
-}));
+document.querySelectorAll('[data-search-entry]').forEach(link=>link.addEventListener('click',enterSearch));
 $('dismiss-missing-case').addEventListener('click',()=>{
   allowAutomaticArrival=false;
   const url=new URL(location.href);

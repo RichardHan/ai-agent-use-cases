@@ -59,3 +59,11 @@ NODE_PATH=/tmp/ai-case-qa-tools/node_modules GUIDE_OUTPUT=qa-artifacts/source-gu
 未用實體手機、螢幕閱讀器或真人研究；axe不等於完整認證。未量測Lighthouse、留存、轉換；本輪沒有宣稱降低請求或加快載入。來源標籤本身仍是既有頁首文字歸類，不替代原文證據，也未重新稽核357筆的分類。
 
 下一輪最值得做：在有權調整Pages建置來源後，同次建置生成content-addressed全文分包，保留早讀、局部復原、原文完整性與HTTP診斷；不能以手動同步副本替代。
+
+## 獨立審查與補強
+
+獨立角色未參與實作，先審查架構、diff、安全文字處理及五類文案，再自行讀100項測試結果並看桌面／手機前後圖。依審查補拍完整guide區塊：[1440](preview/after-complete-guide-chromium-1440.png)／[390](preview/after-complete-guide-chromium-390.png)／[320](preview/after-complete-guide-chromium-320.png)，確認五類換行與間距。另補驗全357筆來源標籤都有定義，以及移除來源chip／清除篩選後回復預設說明，五配置重跑完成。截圖上下緣不同，不用來推算首屏空間改善或轉換成效。
+
+字色依WCAG相對亮度公式計算，#3c5148／#285344／#172b27對#f7f8f2分別7.98／8.16／13.93:1；前端三檔共增加2,687未壓縮bytes。詳見[sizes-and-contrast.json](sizes-and-contrast.json)，不是Lighthouse分數、網路傳輸量或載入提速證明。
+
+[雲端Source guide QA39332823089](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39332823089)檢查同一產品版本026b51d，並額外執行原search passage全庫原文完整性與loading budget回歸。PR建立被GitHub的Enterprise Managed User限制拒絕（createPullRequest Unauthorized）；不切換身份，依使用者既有授權直接非強推merge，合併前先確認獨立審查與雲端結果。

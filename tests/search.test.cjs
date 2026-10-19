@@ -2227,6 +2227,25 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('電動車')), {}).som
 assert(api.filterEntries(entries, Array.from(api.tokenize('線稿')), {}).some(x => x.id === 'UC-342'), '線稿 matches UC-342 without requiring black-white coloring');
 assert.deepEqual(Array.from(api.tokenize('城堡')), ['城堡'], '城堡 does not false convert to unicorn line art');
 
+// Search quality: UC-342 to UC-350 natural phrasing and Chinese connector recall tests
+assert(api.filterEntries(entries, Array.from(api.tokenize('特斯拉出發前充飽電')), {}).some(x => x.id === 'UC-346'), '特斯拉出發前充飽電 matches UC-346 via road trip charging prep tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('tesla出門充電技能')), {}).some(x => x.id === 'UC-346'), 'tesla出門充電技能 matches UC-346 via tesla skill tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('電動車充到滿')), {}).some(x => x.id === 'UC-346'), '電動車充到滿 matches UC-346 via EV charge target tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('清理youtube垃圾留言')), {}).some(x => x.id === 'UC-347'), '清理youtube垃圾留言 matches UC-347 via comment sweep/audit tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('兒童頻道留言過濾')), {}).some(x => x.id === 'UC-347'), '兒童頻道留言過濾 matches UC-347 via child channel comment filter tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('房屋揭露文件交給房仲')), {}).some(x => x.id === 'UC-348'), '房屋揭露文件交給房仲 matches UC-348 via disclosure handoff tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('買房通勤時間與學區')), {}).some(x => x.id === 'UC-348'), '買房通勤時間與學區 matches UC-348 via connector-split tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('詢問信台帳與回信草稿')), {}).some(x => x.id === 'UC-349'), '詢問信台帳與回信草稿 matches UC-349 via inquiry ledger draft tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('日曆找空檔擬回信')), {}).some(x => x.id === 'UC-349'), '日曆找空檔擬回信 matches UC-349 via calendar slot reply tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('內部郵件與公開情報分流')), {}).some(x => x.id === 'UC-350'), '內部郵件與公開情報分流 matches UC-350 via email/info split tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('晨報分工notion日報')), {}).some(x => x.id === 'UC-350'), '晨報分工notion日報 matches UC-350 via morning report notion split tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('智慧電視常亮看板')), {}).some(x => x.id === 'UC-345'), '智慧電視常亮看板 matches UC-345 via ambient smart TV board tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('兒童塗色線稿')), {}).some(x => x.id === 'UC-342'), '兒童塗色線稿 matches UC-342 via child coloring line-art tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('聽不懂德文填救援申請表')), {}).some(x => x.id === 'UC-343'), '聽不懂德文填救援申請表 matches UC-343 via German breakdown assistance form tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('公路車子壞掉找拖吊')), {}).some(x => x.id === 'UC-343'), '公路車子壞掉找拖吊 matches UC-343 via highway towing assistance tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('超時未更新webhook通知')), {}).some(x => x.id === 'UC-344'), '超時未更新webhook通知 matches UC-344 via timeout webhook alert tokenization');
+
+
 
 
 const uc330 = entries.find(x => x.id === 'UC-330');

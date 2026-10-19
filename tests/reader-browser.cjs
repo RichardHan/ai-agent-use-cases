@@ -163,7 +163,12 @@ async function jump(page,button){
    if(engine==='chromium')await page.screenshot({path:`qa-artifacts/reader-result-UC-313-${size}.png`});
    await ready(page,'?case=P-003');
    await page.locator('.reader-evidence').waitFor();
-   assert.equal(await page.locator('.reader-nav').count(),0,'no invented outline for a source without sections');
+   assert.equal(await page.locator('.reader-outline').count(),0,'no invented headings for a source without sections');
+   assert.equal(await page.locator('.reader-jump').count(),0,'no invented quick sections');
+   assert.equal(await page.locator('.reader-review-jump').count(),1,'the original pending source remains reachable');
+   await page.locator('.reader-review > summary').click();
+   await page.locator('.reader-review-jump').click();
+   assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-source-meta');
    assert.match(await page.locator('.reader-evidence').innerText(),/待查線索/);
    await audit(page,`${engine}-${size}-pending`);
    assert.deepEqual(errors,[]);

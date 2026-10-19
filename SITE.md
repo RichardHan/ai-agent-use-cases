@@ -1751,6 +1751,80 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 - 總條目數維持 343 筆（337 案例、3 經驗補充、3 待查項目），嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
 下一輪建議：針對已識別之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤，供讀者橫向比對同源案例。
 
+## 2026-10-19：擴充航空追蹤／德國高速公路救援／電視裝置／Cloudflare Worker／工作階段與司機工時分詞檢索品質
+
+問題調查與證據：
+1. SDR ADS-B 航空追蹤與民航機追蹤（UC-334）檢索斷層：
+   - 搜尋「adsb」命中 0 筆（僅帶連字號「ads-b」命中 1 筆）；
+   - 搜尋「飛機追蹤」、「航班追蹤」、「航空追蹤」、「航機追蹤」均命中 0 筆，與 UC-334（SDR 接收 1090MHz ADS-B 訊號解碼民航機位置）脫節。
+2. 德國高速公路救援、德文與 Autobahn（UC-343, UC-119, UC-125 等）檢索斷層：
+   - 搜尋「germany」命中 0 筆（僅「德國」命中 1 筆 UC-343）；
+   - 搜尋「german」命中 0 筆（僅「德文」命中 6 筆）；
+   - 搜尋「autobahn」命中 0 筆（UC-343 即為德國高速公路車輛故障）；
+   - 搜尋「公路救援」命中 0 筆（僅「道路救援」命中 2 筆）。
+3. Android TV / Google TV / Smart TV 複合詞分詞斷裂（UC-345）：
+   - 搜尋緊湊寫法「android-tv」或「google-tv」命中 0 筆（而「android tv」命中 1 筆）；
+   - 搜尋「television」命中 0 筆。
+4. Cloudflare Worker 寫法與連字號（UC-345, UC-239, UC-323）：
+   - 搜尋「cloudflare-worker」或「cloudflare-workers」命中 0 筆（「cloudflare worker」空格寫法命中 3 筆）；
+   - 搜尋「cf worker」或「cf-worker」命中 0 筆。
+5. 程式代理「工作階段」與英文「session」互通脫節（UC-344, UC-005, UC-067 等）：
+   - UC-344 核心使用「程式代理工作階段結束、卡住或需要人時」，但搜尋「session」未能互通「工作階段」；搜尋「工作階段」無法擴充至其他 110 筆包含「session / 會話 / 對話」的案例。
+6. 總指揮／指揮官與 Supervisor / Orchestrator（UC-344, UC-005 等）：
+   - UC-344 說明「在 T3 Code 裡讓 Grok Bot 當 Claude 與 Codex 代理之上的『總指揮』」；搜尋「總指揮」、「指揮官」、「指揮代理」未能與「orchestrator / supervisor / 統籌 / 協調」互通。
+7. 卡車司機工時紀錄與薪資單核對（UC-338）相鄰中文未空格分詞：
+   - 搜尋「駕駛工時」、「司機工時」、「工時核對」命中 0 筆，因未分詞導致無法命中 UC-338。
+8. 已封存任務狀態矛盾（UC-341）倒裝詞檢索：
+   - 搜尋「任務封存」命中 0 筆（僅「封存任務」命中 1 筆）。
+9. 開源組件／套件／庫與開源元件（UC-344, UC-345）：
+   - 搜尋「開源組件」命中 0 筆（「開源元件」命中 1 筆）。
+10. 連字號漏溢導致懸垂連字號 Token（例如 `idempotency-key` 產生 `['-key']`）：
+    - `tokenize` 在進行英文詞幹替換時，緊隨連字號留下未清理的孤立連字號；孤立或首尾懸垂連字號應如同孤立點號般清理。
+
+本輪改善：
+1. `assets/app.js` 分詞函數 `tokenize` 新增多詞與詞形標準化正則：
+   - `\bads\s*[- ]?\s*b\b` → `ads-b`
+   - `\bautobahns?\b` → `autobahn`
+   - `\b(?:smart|android|google|apple)\s*[- ]\s*tvs?\b` → `tv`
+   - `\bandroid-tv\b` → `tv`
+   - `\bgoogle-tv\b` → `tv`
+   - `\bcloudflare\s*[- ]\s*workers?\b` → `cloudflare-worker`
+   - `\bcf\s*[- ]\s*workers?\b` → `cloudflare-worker`
+   - `(?:駕駛|司機)\s*工時` → `司機 工時`
+   - `工時\s*(?:核對|查核|對帳|稽核)` → `工時 對帳`
+   - `(?:出勤|打卡)\s*紀錄` → `打卡 紀錄`
+   - `超時\s*(?:工作|工時)` → `超時 工時`
+   - `(?:任務|工作)\s*封存` → `任務 封存`
+   - `封存\s*(?:任務|工作)` → `封存 任務`
+   - `家用\s*印表機` → `家用 印表機`
+   - 新增 `replace(/(?:^|\s)-+|-+(?:\s|$)/g, ' ')` 清理懸垂連字號，徹底解決 `idempotency-key` 溢出 `'-key'` 的分詞缺陷。
+2. `assets/app.js` 同義詞群 `SYNONYM_GROUPS` 擴充與新增：
+   - 擴充編排詞群：加入 `'總指揮', '指揮官', '指揮代理'`
+   - 擴充協調監督詞群：加入 `'總監', '主控代理'`
+   - 擴充會話詞群：加入 `'工作階段', '工作會話', '作業階段'`
+   - 擴充工時紀錄詞群：加入 `'工時核對', '派車單', '出勤紀錄'`
+   - 擴充去重與查重詞群：加入 `'同源案例', '同源', '重複來源', '候選重複', '重複候選', '同源叢集'`
+   - 擴充道路救援詞群：加入 `'公路救援'`
+   - 擴充電視詞群：加入 `'google tv', 'google-tv', 'android-tv'`
+   - 擴充開源專案詞群：加入 `'開源組件', '開源元件', '開源套件', '開源庫'`
+   - 新增 ADS-B 航空追蹤詞群：`['ads-b', 'adsb', 'ads b', '航空追蹤', '航班追蹤', '飛機追蹤', '廣播式自動相關監視', '航機追蹤']`
+   - 新增德國與德文詞群：`['german', 'germany', '德國', '德文', '德語']`
+   - 新增高速公路詞群：`['highway', 'highways', 'freeway', 'freeways', 'expressway', 'expressways', 'autobahn', '高速公路', '公路']`
+   - 新增 Cloudflare Worker 詞群：`['cloudflare-worker', 'cloudflare worker', 'cloudflare workers', 'cloudflare-workers', 'cf worker', 'cf workers', 'cf-worker']`
+   - 新增司機／駕駛詞群：`['driver', 'drivers', '司機', '駕駛', '駕駛員', '運將', '卡車司機']`
+   - 維持 1,761 鍵 100% 互映與自反對稱對映（Symmetry check complete，0 asymmetries）。
+3. `tests/search.test.cjs`：
+   - 新增 31 組檢索回歸斷言，涵蓋 adsb／ads-b／飛機追蹤／航班追蹤／航空追蹤、germany／german／autobahn／公路救援、android-tv／google-tv／google tv、cloudflare-worker／cloudflare-workers／cf worker、工作階段／工作會話、總指揮／指揮官／指揮代理、駕駛工時／司機工時／工時核對／派車單、任務封存、開源組件／開源套件、同源案例／候選重複／重複來源，以及 idempotency-key 乾淨分詞斷言。
+
+驗證指令與實際結果：
+- `node tests/search.test.cjs`：通過（343 筆條目全文與擴充檢索全數驗證通過，adsb/ads-b 命中 1 筆，germany/german 命中 6 筆，autobahn/公路救援 命中 2 筆，android-tv/google-tv 命中 6 筆，cloudflare-worker 命中 2 筆，工作階段 命中 113 筆，總指揮 命中 10 筆，駕駛工時 命中 1 筆，任務封存 命中 5 筆，開源組件 命中 8 筆，同源案例 命中 265 筆）。
+- `node --test tests/*.test.cjs`：66/66 單元測試全數通過（含 8/8 audit 測試）。
+- `for file in assets/*.js tests/*.cjs; do node --check "$file"; done`：語法檢查全數通過。
+- `python3 scripts/preview.py /tmp/preview-check/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總條目數維持 343 筆（337 案例、3 經驗補充、3 待查項目），嚴格合格數維持 299 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+下一輪建議：針對已識別之 46 組候選重複來源叢集，評估在詳情頁或閱讀器中建立同源案例關聯索引或候選標籤，供讀者橫向比對同源案例。
+
+
 
 
 

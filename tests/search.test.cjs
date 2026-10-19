@@ -1835,6 +1835,59 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('bot模板')), {}).som
 assert(api.filterEntries(entries, Array.from(api.tokenize('mcp伺服器')), {}).some(x => x.id === 'UC-072'), 'mcp伺服器 matches UC-072 via compound tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('mcp servers')), {}).some(x => x.id === 'UC-072'), 'mcp servers matches UC-072 via server synonym');
 
+// Search quality: adsb, ads-b, 飛機追蹤, 航班追蹤, 航空追蹤
+assert(api.filterEntries(entries, Array.from(api.tokenize('adsb')), {}).some(x => x.id === 'UC-334'), 'adsb matches UC-334 via ads-b tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('ads-b')), {}).some(x => x.id === 'UC-334'), 'ads-b matches UC-334');
+assert(api.filterEntries(entries, Array.from(api.tokenize('飛機追蹤')), {}).some(x => x.id === 'UC-334'), '飛機追蹤 matches UC-334 via ads-b synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('航班追蹤')), {}).some(x => x.id === 'UC-334'), '航班追蹤 matches UC-334 via ads-b synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('航空追蹤')), {}).some(x => x.id === 'UC-334'), '航空追蹤 matches UC-334 via ads-b synonym');
+
+// Search quality: germany, german, autobahn, 公路救援
+assert(api.filterEntries(entries, Array.from(api.tokenize('germany')), {}).some(x => x.id === 'UC-343'), 'germany matches UC-343 via german synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('german')), {}).some(x => x.id === 'UC-343'), 'german matches UC-343 via german synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('autobahn')), {}).some(x => x.id === 'UC-343'), 'autobahn matches UC-343 via highway synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('公路救援')), {}).some(x => x.id === 'UC-343'), '公路救援 matches UC-343 via roadside synonym');
+
+// Search quality: android-tv, google-tv, google tv
+assert(api.filterEntries(entries, Array.from(api.tokenize('android-tv')), {}).some(x => x.id === 'UC-345'), 'android-tv matches UC-345 via tv tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('google-tv')), {}).some(x => x.id === 'UC-345'), 'google-tv matches UC-345 via tv tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('google tv')), {}).some(x => x.id === 'UC-345'), 'google tv matches UC-345 via tv tokenization');
+
+// Search quality: cloudflare-worker, cloudflare-workers, cf worker
+assert(api.filterEntries(entries, Array.from(api.tokenize('cloudflare-worker')), {}).some(x => x.id === 'UC-345'), 'cloudflare-worker matches UC-345 via cf-worker tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('cloudflare-workers')), {}).some(x => x.id === 'UC-345'), 'cloudflare-workers matches UC-345 via cf-worker tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('cf worker')), {}).some(x => x.id === 'UC-345'), 'cf worker matches UC-345 via cf-worker synonym');
+
+// Search quality: 工作階段, 工作會話
+assert(api.filterEntries(entries, Array.from(api.tokenize('工作階段')), {}).some(x => x.id === 'UC-344'), '工作階段 matches UC-344 via session synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('工作會話')), {}).some(x => x.id === 'UC-344'), '工作會話 matches UC-344 via session synonym');
+
+// Search quality: 總指揮, 指揮官, 指揮代理
+assert(api.filterEntries(entries, Array.from(api.tokenize('總指揮')), {}).some(x => x.id === 'UC-344'), '總指揮 matches UC-344 via orchestrator synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('指揮官')), {}).some(x => x.id === 'UC-344'), '指揮官 matches UC-344 via orchestrator synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('指揮代理')), {}).some(x => x.id === 'UC-344'), '指揮代理 matches UC-344 via orchestrator synonym');
+
+// Search quality: 駕駛工時, 司機工時, 工時核對, 派車單
+assert(api.filterEntries(entries, Array.from(api.tokenize('駕駛工時')), {}).some(x => x.id === 'UC-338'), '駕駛工時 matches UC-338 via driver and timesheet tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('司機工時')), {}).some(x => x.id === 'UC-338'), '司機工時 matches UC-338 via driver and timesheet tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('工時核對')), {}).some(x => x.id === 'UC-338'), '工時核對 matches UC-338 via timesheet and reconciliation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('派車單')), {}).some(x => x.id === 'UC-338'), '派車單 matches UC-338 via timesheet synonym');
+
+// Search quality: 任務封存
+assert(api.filterEntries(entries, Array.from(api.tokenize('任務封存')), {}).some(x => x.id === 'UC-341'), '任務封存 matches UC-341 via task archive tokenization');
+
+// Search quality: 開源組件, 開源套件
+assert(api.filterEntries(entries, Array.from(api.tokenize('開源組件')), {}).some(x => x.id === 'UC-345'), '開源組件 matches UC-345 via open-source synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('開源套件')), {}).some(x => x.id === 'UC-344'), '開源套件 matches UC-344 via open-source synonym');
+
+// Search quality: 同源案例, 候選重複, 重複來源
+assert(api.filterEntries(entries, Array.from(api.tokenize('同源案例')), {}).some(x => x.id === 'UC-344'), '同源案例 matches UC-344 via dedup synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('候選重複')), {}).some(x => x.id === 'UC-344'), '候選重複 matches UC-344 via dedup synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('重複來源')), {}).some(x => x.id === 'UC-344'), '重複來源 matches UC-344 via dedup synonym');
+
+// Search quality: clean tokenization without dangling hyphens
+assert.deepEqual(Array.from(api.tokenize('idempotency-key')), ['idempotent', 'key'], 'idempotency-key tokenizes cleanly without dangling -key');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

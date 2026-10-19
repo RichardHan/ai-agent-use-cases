@@ -553,9 +553,15 @@ test('INDEX.md maintains scenario consistency, working case links, and matches s
   const auditMatch = auditContent.match(/嚴格合格\s*\*\*(\d+)[／/]1,000/);
   assert(auditMatch, 'Audit file must contain strict qualified count');
   const expectedQualified = auditMatch[1];
-  const indexMatch = indexContent.match(/截至\s*2026-10-18[^\n]*\*\*(\d+)[／/]1,000/);
+  const indexMatch = indexContent.match(/截至\s*2026-10-\d{2}[^\n]*\*\*(\d+)[／/]1,000/);
   assert(indexMatch, 'INDEX.md must contain current qualified count');
   assert.equal(indexMatch[1], expectedQualified, `INDEX.md count (${indexMatch[1]}) must match audit doc (${expectedQualified})`);
+
+  // Verify cases UC-342 through UC-356 are explicitly audited in qualification audit
+  for (let id = 342; id <= 356; id++) {
+    const ucRegex = new RegExp(`UC-${id}|\\b${id}\\b[^\n]*\\[\\.\\./cases/`);
+    assert(ucRegex.test(auditContent), `UC-${id} must be explicitly evaluated in qualification audit document`);
+  }
 
   // Main cases count in INDEX.md header must match cases/ file count
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));

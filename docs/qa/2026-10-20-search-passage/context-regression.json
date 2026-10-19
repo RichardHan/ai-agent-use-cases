@@ -1,0 +1,213 @@
+{
+  "origin": "http://127.0.0.1:8110/ai-agent-use-cases/",
+  "observe": false,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "audits": [
+        {
+          "state": "original negative constraint",
+          "violations": []
+        },
+        {
+          "state": "search contextual route",
+          "violations": []
+        }
+      ],
+      "query": "薪水",
+      "toolbarTargets": [
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        }
+      ],
+      "originalResearchLength": 1799,
+      "shortcutCount": 1,
+      "targetBounds": {
+        "top": 189.8125,
+        "bottom": 217.859375,
+        "toolbarBottom": 126,
+        "viewport": 1000
+      },
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/024-missing-invoice-check.md",
+      "externalHref": "https://openai.com/index/introducing-dots/",
+      "externalOpened": "https://openai.com/index/introducing-dots/?__cf_chl_rt_tk=yqlDHK5eqFWzcZyCkZBmp6xXy2QtXWJH7JcXqwDQMhQ-1792444608-1.0.1.1-pM7BfjbpnVHtUSjgWgqtF9E_9W8dNCGDqMDlXGTgTwo",
+      "externalStatus": 200,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "original negative constraint",
+          "violations": []
+        },
+        {
+          "state": "search contextual route",
+          "violations": []
+        }
+      ],
+      "query": "薪水",
+      "toolbarTargets": [
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        }
+      ],
+      "originalResearchLength": 1799,
+      "shortcutCount": 1,
+      "targetBounds": {
+        "top": 156.5,
+        "bottom": 184.546875,
+        "toolbarBottom": 140,
+        "viewport": 844
+      },
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/024-missing-invoice-check.md",
+      "externalHref": "https://openai.com/index/introducing-dots/",
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "small-mobile",
+      "audits": [
+        {
+          "state": "original negative constraint",
+          "violations": []
+        },
+        {
+          "state": "search contextual route",
+          "violations": []
+        }
+      ],
+      "query": "薪水",
+      "toolbarTargets": [
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        }
+      ],
+      "originalResearchLength": 1799,
+      "shortcutCount": 1,
+      "targetBounds": {
+        "top": 152.21875,
+        "bottom": 180.265625,
+        "toolbarBottom": 134.796875,
+        "viewport": 740
+      },
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/024-missing-invoice-check.md",
+      "externalHref": "https://openai.com/index/introducing-dots/",
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "firefox",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "original negative constraint",
+          "violations": []
+        },
+        {
+          "state": "search contextual route",
+          "violations": []
+        }
+      ],
+      "query": "薪水",
+      "toolbarTargets": [
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        }
+      ],
+      "originalResearchLength": 1799,
+      "shortcutCount": 1,
+      "targetBounds": {
+        "top": 156.64999389648438,
+        "bottom": 184.6999969482422,
+        "toolbarBottom": 140,
+        "viewport": 844
+      },
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/024-missing-invoice-check.md",
+      "externalHref": "https://openai.com/index/introducing-dots/",
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "webkit",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "original negative constraint",
+          "violations": []
+        },
+        {
+          "state": "search contextual route",
+          "violations": []
+        }
+      ],
+      "query": "薪水",
+      "toolbarTargets": [
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        },
+        {
+          "height": 44,
+          "fontSize": "14px"
+        }
+      ],
+      "originalResearchLength": 1799,
+      "shortcutCount": 1,
+      "targetBounds": {
+        "top": 157.5,
+        "bottom": 185.546875,
+        "toolbarBottom": 140,
+        "viewport": 844
+      },
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/024-missing-invoice-check.md",
+      "externalHref": "https://openai.com/index/introducing-dots/",
+      "pageErrors": [],
+      "complete": true
+    }
+  ]
+}

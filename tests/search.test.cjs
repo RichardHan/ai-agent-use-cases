@@ -2095,6 +2095,42 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('關掉電視廣告'))
 assert(api.filterEntries(entries, Array.from(api.tokenize('esp圓形螢幕')), {}).some(x => x.id === 'UC-336'), 'esp圓形螢幕 matches UC-336 via esp round screen tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('語音終端中繼')), {}).some(x => x.id === 'UC-336'), '語音終端中繼 matches UC-336 via voice terminal relay tokenization');
 
+// Search quality: UC-346 teslascope排程, 電動車充電排程, 特斯拉充滿自動還原
+assert(api.filterEntries(entries, Array.from(api.tokenize('teslascope排程')), {}).some(x => x.id === 'UC-346'), 'teslascope排程 matches UC-346 via teslascope schedule tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('電動車充電排程')), {}).some(x => x.id === 'UC-346'), '電動車充電排程 matches UC-346 via EV charge schedule tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('特斯拉充滿自動還原')), {}).some(x => x.id === 'UC-346'), '特斯拉充滿自動還原 matches UC-346 via tesla charge auto-revert tokenization');
+
+// Search quality: UC-347 檢查小孩留言, youtube怪人留言
+assert(api.filterEntries(entries, Array.from(api.tokenize('檢查小孩留言')), {}).some(x => x.id === 'UC-347'), '檢查小孩留言 matches UC-347 via child comment review tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('youtube怪人留言')), {}).some(x => x.id === 'UC-347'), 'youtube怪人留言 matches UC-347 via stranger comment filter tokenization');
+
+// Search quality: UC-348 買房通勤時間, 買房學區篩選, 交屋整修費用
+assert(api.filterEntries(entries, Array.from(api.tokenize('買房通勤時間')), {}).some(x => x.id === 'UC-348'), '買房通勤時間 matches UC-348 via commute time screening tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('買房學區篩選')), {}).some(x => x.id === 'UC-348'), '買房學區篩選 matches UC-348 via school district screening tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('交屋整修費用')), {}).some(x => x.id === 'UC-348'), '交屋整修費用 matches UC-348 via renovation cost tokenization');
+
+// Search quality: UC-349 dots日曆找空檔, 客戶來信約時間
+assert(api.filterEntries(entries, Array.from(api.tokenize('dots日曆找空檔')), {}).some(x => x.id === 'UC-349'), 'dots日曆找空檔 matches UC-349 via calendar slot tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('客戶來信約時間')), {}).some(x => x.id === 'UC-349'), '客戶來信約時間 matches UC-349 via customer inquiry appointment tokenization');
+
+// Search quality: UC-350 dots讀內部信件, grok bot收公開新聞
+assert(api.filterEntries(entries, Array.from(api.tokenize('dots讀內部信件')), {}).some(x => x.id === 'UC-350'), 'dots讀內部信件 matches UC-350 via internal mail tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('grok bot收公開新聞')), {}).some(x => x.id === 'UC-350'), 'grok bot收公開新聞 matches UC-350 via public news harvest tokenization');
+
+// Search quality: UC-342 每天早上吐出著色頁, 家裡印表機著色
+assert(api.filterEntries(entries, Array.from(api.tokenize('每天早上吐出著色頁')), {}).some(x => x.id === 'UC-342'), '每天早上吐出著色頁 matches UC-342 via morning print tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('家裡印表機著色')), {}).some(x => x.id === 'UC-342'), '家裡印表機著色 matches UC-342 via home printer coloring tokenization');
+
+// Search quality: UC-343 高速公路車子故障, 看不懂德文找救援, 海外自駕道路救援, 國外修車表單
+assert(api.filterEntries(entries, Array.from(api.tokenize('高速公路車子故障')), {}).some(x => x.id === 'UC-343'), '高速公路車子故障 matches UC-343 via highway breakdown tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('看不懂德文找救援')), {}).some(x => x.id === 'UC-343'), '看不懂德文找救援 matches UC-343 via german language barrier tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('海外自駕道路救援')), {}).some(x => x.id === 'UC-343'), '海外自駕道路救援 matches UC-343 via roadside assistance tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('國外修車表單')), {}).some(x => x.id === 'UC-343'), '國外修車表單 matches UC-343 via foreign repair form tokenization');
+
+// Search quality: UC-345 電視看女兒成績, 客廳電視成績看板
+assert(api.filterEntries(entries, Array.from(api.tokenize('電視看女兒成績')), {}).some(x => x.id === 'UC-345'), '電視看女兒成績 matches UC-345 via tv daughter grades tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('客廳電視成績看板')), {}).some(x => x.id === 'UC-345'), '客廳電視成績看板 matches UC-345 via living room tv grade board tokenization');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

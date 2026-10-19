@@ -15,8 +15,9 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  const trigger=page.locator('#results .card h3 button').first();await trigger.click();await page.locator('#detail[open]').waitFor();
  const url=page.url();await page.screenshot({path:`qa-artifacts/${process.env.LABEL}-reader-${engine}-${width}.png`});
  const controls=await page.locator('.detail-toolbar-actions button').evaluateAll(ns=>ns.map(n=>{const r=n.getBoundingClientRect();return {id:n.id,width:r.width,height:r.height,font:getComputedStyle(n).fontSize}}));
+ console.log('CONTROL_MEASUREMENTS '+JSON.stringify({engine,width,controls}));
  if(!process.env.OBSERVE)for(const c of controls){assert.ok(c.width>=44&&c.height>=44,JSON.stringify(c));assert.ok(parseFloat(c.font)>=14,JSON.stringify(c));}
- await page.locator('#nav-next-case').click();await page.locator('#detail-title').toBeVisible?.();
+ await page.locator('#nav-next-case').click();assert.notEqual(page.url(),url);
  await page.locator('.reader-nav').scrollIntoViewIfNeeded();
  const toolbarVisible=await page.locator('#close-detail').evaluate(n=>{const r=n.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight});assert.ok(toolbarVisible);
  await page.locator('.detail-source').click({trial:true});const source=await page.locator('.detail-source').getAttribute('href');

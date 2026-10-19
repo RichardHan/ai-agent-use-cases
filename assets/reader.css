@@ -30,11 +30,6 @@
  .reader-outline-jump{padding:8px 4px}
 }
 @media(max-width:360px){
- .detail-toolbar{padding:10px;gap:6px}
- .detail-toolbar-left{flex-shrink:0}
- .detail-toolbar-id{white-space:nowrap}
- .detail-toolbar-actions{gap:4px}
- .detail-toolbar-actions button{white-space:nowrap;flex-shrink:0;padding:5px 7px;font-size:11px}
  .reader-jump{padding:10px 8px}
  .reader-jump strong{font-size:13px}
 }
@@ -85,3 +80,16 @@
 .reader-method-shortcut{display:flex;flex-direction:column;gap:4px;max-width:100%;min-height:44px;margin:16px 0 0;padding:10px 14px;text-align:left;background:#f5f7ef;overflow-wrap:anywhere}
 .reader-method-shortcut strong{font-size:14px;line-height:1.7;color:var(--green)}
 .reader-method-shortcut:hover{background:#e9eee0;border-color:var(--green)}
+
+/* Keep reading controls legible and easy to tap, including narrow phones. */
+.detail-toolbar{gap:12px}
+.detail-toolbar-left{min-width:0}
+.detail-toolbar-id{overflow-wrap:anywhere}
+.detail-toolbar-actions{flex-shrink:0}
+.detail-toolbar-actions button{min-width:44px;min-height:44px;font-size:14px;line-height:1.5;padding:10px 12px;white-space:nowrap}
+@media(max-width:640px){
+ .detail-toolbar{flex-direction:column;align-items:stretch;gap:8px;padding:10px 14px}
+ .detail-toolbar-left{justify-content:space-between}
+ .detail-toolbar-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .detail-toolbar-actions button{padding:10px 4px}
+}

@@ -1,0 +1,8 @@
+{
+  "message": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#detail[open]') to be visible\n",
+  "state": {
+    "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "failed": null,
+    "loaded": null
+  }
+}

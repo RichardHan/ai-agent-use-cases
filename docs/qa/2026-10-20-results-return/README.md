@@ -67,8 +67,8 @@ NODE_PATH="$RUNNER_TEMP/return-tools/node_modules" node tests/results-return-bro
 
 | 同第六張附近的真實畫面 | 修改前（357筆基準） | 修改後（360筆整合） |
 | --- | --- | --- |
-| 桌面1440 | [前](before/deep-chromium-1440.png) | [後](fix-preview/deep-chromium-1440.png) |
-| 手機390 | [前](before/deep-chromium-390.png) | [後](fix-preview/deep-chromium-390.png) |
+| 桌面1440 | [前](before/deep-chromium-1440.png) | [後](published/deep-chromium-1440.png) |
+| 手機390 | [前](before/deep-chromium-390.png) | [後](published/deep-chromium-390.png) |
 | 手機320 | 未拍基準 | [後](fix-preview/deep-chromium-320.png) |
 
 另有[Firefox](fix-preview/deep-firefox-390.png)、[WebKit](fix-preview/deep-webkit-390.png)及[手機搜尋入口](fix-preview/search-chromium-390.png)。兩版本前六張內容相同，總數差異來自協作者新增三筆，未拿不同總數的頁高來宣稱改善。主角色已逐張查看前後、桌面與兩手機尺寸；獨立角色最終審查另補。
@@ -110,3 +110,25 @@ NODE_PATH="$RUNNER_TEMP/return-tools/node_modules" node tests/results-return-bro
 獨立角色另下載固定708d0de產物、核讀3.43MB完整job logs，確認Discovery三尺寸及fallback、Reader五配置／全庫／缺檔fallback全部PASS；逐張看1440／390／320、Firefox／WebKit最終圖，認定可合併、無剩餘必修。後續7a2e7d1只有失敗診斷補強，產品與708d0de完全相同。分支published仍skipped，正式站結果另記。
 
 最終前端大小以[final-asset-sizes.json](final-asset-sizes.json)為準，包含12px留白；不是壓縮傳輸量或效能分數。案例內容原樣保留，315／360分開呈現。
+
+## 最終發布與HTTPS驗收
+
+已正常merge／push補修為`8bfe711`，整合tree與已審分支完全相同，103項單元再次通過。[Pages39342371073](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39342371073)建置部署成功；[正式資產](final-published-assets.json)的HTML／app.js／style.css皆HTTP200且逐byte相同，新CSS SHA256為`4b401e8a7fc4a15099f7eb1b31a164da719f0915a28710456143b3ecadd7e88b`，包含12px補修。
+
+[Results return QA39342372057](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39342372057)的preview與published兩個job全成功：[CI](final-ci.json)。合併版再次完成103單元、新五配置及全部四browser命令；發布job先匹配資產，再實際開HTTPS網站1440／390，兩尺寸均360卡／60入口、0／1／6／7／12／15邊界、三情境、鍵盤／修飾鍵、組合篩選／空結果、直鏈重整／Back、first＋last補讀／錯誤重試通過；兩次axe零違規，手機首卡仍233px。[正式原始JSON](published/report.json)／[正式桌面圖](published/deep-chromium-1440.png)／[正式手機圖](published/deep-chromium-390.png)。前後表的1440／390修後連結已換成正式站圖；主角色已目視兩圖。
+
+正式站單次未節流就緒669／612ms、同步input/render18.4／17.6ms；包含當時快取與runner條件，不能用來推論一般讀者網路或相對預覽提速。沒有Lighthouse、真人偏好、轉換或留存宣稱。
+
+### 仍保留的真實限制
+
+[合併版CI快照](final-main-ci.json)不是全部綠燈。既有Improvement round[39342371952](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39342371952)preview六配置與正式desktop已完成，但正式mobile的UC001重新整理收到Pages主文件HTTP429，app完全沒載入，ready／entries／target均null；診斷另記112個真429及一個既有故障注入503。這次可以確認被限流，[原始FAIL](final-round-rate-limit.log)／[診斷JSON](rate-limit/verification.json)／[Pages限流畫面](rate-limit/failure-chromium-0.png)。畫面中的IP屬GitHub runner，非使用者電腦。
+
+既有Reader controls[39342372054](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39342372054)也在正式Chromium360重新整理時被同樣Pages限流頁阻擋，非44px尺寸斷言或Firefox；[原FAIL](final-reader-controls-rate-limit.log)／[當頁狀態](rate-limit/live-failure-chromium-360.json)／[限流圖](rate-limit/live-failure-chromium-360.png)。兩個FAIL原樣保留，不放寬標準、不高頻重跑、不繞過限制；不能倒推前次無診斷的逾時一定同因。
+
+本輪產品功能的完整預覽、嚴格80取樣與獨立正式HTTPS已通過；沒有宣稱上述兩套歷史大流程全數成功。快照中的其他背景job仍依實際status列示，不冒稱已完成。沒有實體手機、真人或螢幕閱讀器研究，主runtime型號／強度仍未核實。
+
+可直接[體驗正式搜尋](https://richardhan.github.io/ai-agent-use-cases/#explore)，向下看六張卡，選「回到搜尋與篩選 ↑」再縮小條件。修改產品檔為`assets/app.js`／`assets/style.css`／`index.html`；另有測試、QA workflows及本維護紀錄，協作者原始案例未重寫或刪除。下一輪最值得做的是降低首次全文請求與正式QA的請求量，減少限流風險；本輪不再擴大架構。
+
+最終獨立發布審查：另行查固定8bfe711的preview／published兩job、讀published原始log中的資產guard及真HTTPS RETURN_URL、另外下載正式artifact核對報告與圖片；確認桌機／手機三情境、first／last補讀、錯誤重試、兩次axe0與233px。另讀main preview完整log確認103項及原四命令、Reader五配置與360／2506／379全部成功。結論本輪目標可結案、無產品必修；兩項429 FAIL及仍執行的Source guide workflow不改寫為通過。
+
+本輪達標後停止。後續提交只保存本次發布證據、圖片與紀錄，不改產品資產；原工作樹未經本輪寫入。

@@ -1,0 +1,29 @@
+browser	Verify published assets and desktop/mobile journeys	﻿2026-10-19T23:39:22.9511104Z ##[group]Run node <<'NODE'
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9511428Z ^[[36;1mnode <<'NODE'^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9511665Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9511929Z ^[[36;1m(async()=>{^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9512143Z ^[[36;1m for(let i=0;i<90;i++){^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9512458Z ^[[36;1m  const paths=['assets/app.js','assets/reader.css'];^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9513383Z ^[[36;1m  const matches=await Promise.all(paths.map(async path=>{const r=await fetch(process.env.ROUND_URL+path+'?round='+process.env.GITHUB_SHA,{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}));^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9514699Z ^[[36;1m  if(matches.every(Boolean)){fs.writeFileSync('qa-artifacts/round-published-assets.json',JSON.stringify({sha:process.env.GITHUB_SHA,paths,matched:true}));return;}^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9515494Z ^[[36;1m  await new Promise(resolve=>setTimeout(resolve,3000));^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9515828Z ^[[36;1m }^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9516053Z ^[[36;1m throw Error('Published assets differ');^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9516458Z ^[[36;1m})().catch(e=>{console.error(e);process.exitCode=1});^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9517115Z ^[[36;1mNODE^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9517359Z ^[[36;1mnode tests/round-browser.cjs^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9581469Z shell: /usr/bin/bash -e {0}
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9581723Z env:
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9581990Z   NODE_PATH: /home/runner/work/_temp/round-tools/node_modules
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9582427Z   ROUND_URL: https://richardhan.github.io/ai-agent-use-cases/
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9582991Z   ROUND_OUTPUT: qa-artifacts/round-published
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:22.9583276Z ##[endgroup]
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:58.3157550Z locator.waitFor: Timeout 12000ms exceeded.
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:58.3159221Z Call log:
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:58.3159982Z   - waiting for locator('#detail[open]') to be visible
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:58.3160427Z 
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:58.3161020Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/round-browser.cjs:72:176 {
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:58.3162019Z   log: [ "  - waiting for locator('#detail[open]') to be visible" ],
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:58.3162643Z   name: 'TimeoutError'
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:58.3163013Z }
+browser	Verify published assets and desktop/mobile journeys	2026-10-19T23:39:58.3415390Z ##[error]Process completed with exit code 1.

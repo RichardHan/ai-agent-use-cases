@@ -1,0 +1,122 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "readyMs": 669,
+    "total": 360,
+    "firstResultFromSearch": 486.828125,
+    "returnLinks": 60,
+    "boundaries": [
+      {
+        "total": 0,
+        "cards": 0,
+        "links": []
+      },
+      {
+        "total": 1,
+        "cards": 1,
+        "links": [
+          1
+        ]
+      },
+      {
+        "total": 6,
+        "cards": 6,
+        "links": [
+          6
+        ]
+      },
+      {
+        "total": 7,
+        "cards": 7,
+        "links": [
+          6,
+          7
+        ]
+      },
+      {
+        "total": 12,
+        "cards": 12,
+        "links": [
+          6,
+          12
+        ]
+      },
+      {
+        "total": 15,
+        "cards": 15,
+        "links": [
+          6,
+          12,
+          15
+        ]
+      }
+    ],
+    "inputRenderMs": 18.39999999999418,
+    "axe": [],
+    "journeys": 3,
+    "travelCount": 15
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "readyMs": 612,
+    "total": 360,
+    "firstResultFromSearch": 233,
+    "returnLinks": 60,
+    "boundaries": [
+      {
+        "total": 0,
+        "cards": 0,
+        "links": []
+      },
+      {
+        "total": 1,
+        "cards": 1,
+        "links": [
+          1
+        ]
+      },
+      {
+        "total": 6,
+        "cards": 6,
+        "links": [
+          6
+        ]
+      },
+      {
+        "total": 7,
+        "cards": 7,
+        "links": [
+          6,
+          7
+        ]
+      },
+      {
+        "total": 12,
+        "cards": 12,
+        "links": [
+          6,
+          12
+        ]
+      },
+      {
+        "total": 15,
+        "cards": 15,
+        "links": [
+          6,
+          12,
+          15
+        ]
+      }
+    ],
+    "inputRenderMs": 17.60000000000582,
+    "axe": [],
+    "journeys": 3,
+    "travelCount": 15
+  },
+  {
+    "states": "partial-load/focused-link-recovery/error/retry",
+    "passed": true
+  }
+]

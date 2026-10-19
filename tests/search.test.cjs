@@ -2198,6 +2198,34 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('衝突')), {}).some(x
 assert(api.filterEntries(entries, Array.from(api.tokenize('衝突')), {}).some(x => x.id === 'UC-230'), '衝突 matches UC-230 without false state prefix injection');
 assert(api.filterEntries(entries, Array.from(api.tokenize('衝突')), {}).some(x => x.id === 'UC-237'), '衝突 matches UC-237 without false state prefix injection');
 assert(api.filterEntries(entries, Array.from(api.tokenize('衝突')), {}).some(x => x.id === 'UC-240'), '衝突 matches UC-240 without false state prefix injection');
+// 5. 印表機 must match UC-137, UC-181, and UC-342 (without requiring 家用 or 著色)
+assert(api.filterEntries(entries, Array.from(api.tokenize('印表機')), {}).some(x => x.id === 'UC-137'), '印表機 matches UC-137 without false home/coloring prefix injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('印表機')), {}).some(x => x.id === 'UC-181'), '印表機 matches UC-181 without false home/coloring prefix injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('印表機')), {}).some(x => x.id === 'UC-342'), '印表機 matches UC-342');
+assert(api.filterEntries(entries, Array.from(api.tokenize('家用印表機')), {}).some(x => x.id === 'UC-342'), '家用印表機 matches UC-342 via compound phrase');
+// 6. 程式代理 must match UC-052, UC-310, and UC-344 (without requiring 工作階段 unless specified)
+assert(api.filterEntries(entries, Array.from(api.tokenize('程式代理')), {}).some(x => x.id === 'UC-052'), '程式代理 matches UC-052 without false session injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('程式代理')), {}).some(x => x.id === 'UC-310'), '程式代理 matches UC-310 without false session injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('程式代理')), {}).some(x => x.id === 'UC-344'), '程式代理 matches UC-344');
+assert(api.filterEntries(entries, Array.from(api.tokenize('程式代理卡住')), {}).some(x => x.id === 'UC-344'), '程式代理卡住 matches UC-344 via session stall');
+// 7. 交辦 must match UC-127, UC-284, and UC-339 (without requiring 任務)
+assert(api.filterEntries(entries, Array.from(api.tokenize('交辦')), {}).some(x => x.id === 'UC-127'), '交辦 matches UC-127 without false task injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('交辦')), {}).some(x => x.id === 'UC-284'), '交辦 matches UC-284 without false task injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('交辦')), {}).some(x => x.id === 'UC-339'), '交辦 matches UC-339');
+// 8. 德文 must match UC-125, UC-161, and UC-343 (without requiring 語言)
+assert(api.filterEntries(entries, Array.from(api.tokenize('德文')), {}).some(x => x.id === 'UC-125'), '德文 matches UC-125 without false language injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('德文')), {}).some(x => x.id === 'UC-161'), '德文 matches UC-161 without false language injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('德文')), {}).some(x => x.id === 'UC-343'), '德文 matches UC-343');
+// 9. esp / esp32 must match UC-125 (without requiring 圓形 or 螢幕)
+assert(api.filterEntries(entries, Array.from(api.tokenize('esp')), {}).some(x => x.id === 'UC-125'), 'esp matches UC-125 without false round screen injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('esp32')), {}).some(x => x.id === 'UC-125'), 'esp32 matches UC-125 without false round screen injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('esp圓形螢幕')), {}).some(x => x.id === 'UC-336'), 'esp圓形螢幕 matches UC-336 via round screen terminal');
+// 10. 特斯拉 / 電動車 queries
+assert(api.filterEntries(entries, Array.from(api.tokenize('特斯拉')), {}).some(x => x.id === 'UC-346'), '特斯拉 matches UC-346 without requiring departure or charge');
+assert(api.filterEntries(entries, Array.from(api.tokenize('電動車')), {}).some(x => x.id === 'UC-346'), '電動車 matches UC-346 without requiring charge or schedule');
+// 11. 線稿 / 城堡 queries
+assert(api.filterEntries(entries, Array.from(api.tokenize('線稿')), {}).some(x => x.id === 'UC-342'), '線稿 matches UC-342 without requiring black-white coloring');
+assert.deepEqual(Array.from(api.tokenize('城堡')), ['城堡'], '城堡 does not false convert to unicorn line art');
 
 
 

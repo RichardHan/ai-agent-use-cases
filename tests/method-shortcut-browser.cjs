@@ -29,14 +29,14 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    if(!observe){
     const shortcut=page.locator('.reader-method-shortcut');
     const before=await page.evaluate(()=>({url:location.href,length:history.length,scroll:scrollY}));
-    const bounds=await shortcut.boundingBox(),dialog=await page.locator('#detail').boundingBox();
+    const bounds=await shortcut.boundingBox(),dialog=await page.locator('#detail').boundingBox(),toolbar=await page.locator('.detail-toolbar').boundingBox();
     row.shortcutTop=Math.round(bounds.y);row.shortcutBottom=Math.round(bounds.y+bounds.height);
     // A 320px screen retains the complete purpose; its shortcut is within one short swipe.
-    assert(bounds.y>=dialog.y&&bounds.y+bounds.height<=dialog.y+dialog.height+(width===320?180:0));
+    assert(bounds.y>=toolbar.y+toolbar.height&&bounds.y+bounds.height<=dialog.y+dialog.height+(width===320?180:0));
     assert.equal(await shortcut.locator('.reader-target').innerText(),'建議操作流程（本庫設計，未實測）');
     await shortcut.focus();await page.keyboard.press('Enter');
     const state=await page.evaluate(()=>{const e=document.activeElement,r=e.getBoundingClientRect(),t=document.querySelector('.detail-toolbar').getBoundingClientRect();return {text:e.textContent,id:e.id,top:r.top,bottom:r.bottom,toolbar:t.bottom};});
-    assert.match(state.text,/步驟|流程|方法|提示詞|指令/);assert(state.top>=state.toolbar&&state.bottom<=page.viewportSize().height);
+    assert.match(state.text,/步驟|流程|方法|提示詞|指令/);assert(state.top>=state.toolbar&&state.bottom<=dialog.y+dialog.height);
     assert.equal(await shortcut.getAttribute('aria-controls'),state.id);row.target=state;
     assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,scroll:scrollY})),before);
     await page.screenshot({path:`qa-artifacts/${label}-method-${engine.name()}-${width}.png`});

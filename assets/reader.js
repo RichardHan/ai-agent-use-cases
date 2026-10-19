@@ -42,6 +42,11 @@
       return [{label,index,title:titles[index]}];
     });
   }
+  function selectMethodShortcut(titles,kind){
+    if(kind==='pending')return null;
+    const method=selectJumps(titles).find(jump=>jump.label==='方法與步驟');
+    return method?{index:method.index,title:method.title}:null;
+  }
   function enhance(body,item){
     const research=body.querySelector('.research-details');
     const markdown=research?.querySelector('.markdown');
@@ -137,6 +142,13 @@
       sources.textContent='核對來源與版本 ↓';report.append(sources);
     }
     overview.after(report);
+    const method=selectMethodShortcut(titles,item.kind);
+    if(method){
+      const shortcut=jumpButton(method.index,'reader-method-shortcut');
+      shortcut.replaceChildren(make('strong','','前往方法與步驟 ↓'),make('span','reader-target',method.title));
+      // Preserve the original qualification beside the action, including untested designs.
+      overview.append(shortcut);
+    }
     if(!headings.length)return;
     const quick=make('div','reader-quick');
     selectJumps(titles).forEach(({index,label})=>{
@@ -163,7 +175,7 @@
     nav.append(full);
     evidence.after(nav);
   }
-  const api={selectJumps,selectReadingSection,selectSourceSection,enhance};
+  const api={selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

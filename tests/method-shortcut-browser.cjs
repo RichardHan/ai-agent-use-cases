@@ -10,7 +10,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
  for(const engine of observe?[chromium]:[chromium,firefox,webkit]){
   const browser=await engine.launch();
   for(const width of engine===chromium?[1440,390,320]:[390]){
-   const page=await browser.newPage({viewport:{width,height:width===1440?1000:844},reducedMotion:'reduce'});
+   const page=await browser.newPage({viewport:{width,height:width===1440?1000:width===320?740:844},reducedMotion:'reduce'});
    const errors=[];page.on('pageerror',e=>errors.push(e.message));
    await page.goto(base,{waitUntil:'networkidle'});await page.locator('#results .card').first().waitFor({timeout:60000});
    await page.screenshot({path:`qa-artifacts/${label}-home-${engine.name()}-${width}.png`});
@@ -28,14 +28,20 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    await page.screenshot({path:`qa-artifacts/${label}-reader-${engine.name()}-${width}.png`});
    if(!observe){
     const shortcut=page.locator('.reader-method-shortcut');
-    const bounds=await shortcut.boundingBox();assert(bounds.y>=0&&bounds.y+bounds.height<=page.viewportSize().height);
+    const before=await page.evaluate(()=>({url:location.href,length:history.length,scroll:scrollY}));
+    const bounds=await shortcut.boundingBox(),dialog=await page.locator('#detail').boundingBox();
+    row.shortcutTop=Math.round(bounds.y);row.shortcutBottom=Math.round(bounds.y+bounds.height);
+    // A 320px screen retains the complete purpose; its shortcut is within one short swipe.
+    assert(bounds.y>=dialog.y&&bounds.y+bounds.height<=dialog.y+dialog.height+(width===320?180:0));
+    assert.equal(await shortcut.locator('.reader-target').innerText(),'建議操作流程（本庫設計，未實測）');
     await shortcut.focus();await page.keyboard.press('Enter');
     const state=await page.evaluate(()=>{const e=document.activeElement,r=e.getBoundingClientRect(),t=document.querySelector('.detail-toolbar').getBoundingClientRect();return {text:e.textContent,id:e.id,top:r.top,bottom:r.bottom,toolbar:t.bottom};});
     assert.match(state.text,/步驟|流程|方法|提示詞|指令/);assert(state.top>=state.toolbar&&state.bottom<=page.viewportSize().height);
     assert.equal(await shortcut.getAttribute('aria-controls'),state.id);row.target=state;
+    assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,scroll:scrollY})),before);
     await page.screenshot({path:`qa-artifacts/${label}-method-${engine.name()}-${width}.png`});
     await page.locator('#'+state.id+' + .reader-return').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title');
-    await page.keyboard.press('Escape');await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
+    await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
     assert.equal(await page.locator('.reader-method-shortcut').count(),1);
     const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();row.axe=audit.violations.map(v=>v.id);assert.deepEqual(row.axe,[]);
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

@@ -80,3 +80,8 @@
 .reader-report-content pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#e9eee0;padding:12px;border-radius:5px}
 .reader-report-content code{font-size:.9em;background:#e9eee0;padding:1px 4px}
 .reader-report-content blockquote{border-left:3px solid #acbf8b;margin-left:0;padding-left:15px;color:var(--muted)}
+
+/* A small route to the original method, with its unabridged evidence label. */
+.reader-method-shortcut{display:flex;flex-direction:column;gap:4px;max-width:100%;min-height:44px;margin:16px 0 0;padding:10px 14px;text-align:left;background:#f5f7ef;overflow-wrap:anywhere}
+.reader-method-shortcut strong{font-size:14px;line-height:1.7;color:var(--green)}
+.reader-method-shortcut:hover{background:#e9eee0;border-color:var(--green)}

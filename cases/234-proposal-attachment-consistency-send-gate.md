@@ -41,3 +41,7 @@ Grok Bot 官方說明同帳號 Bots 共用電腦、檔案及登入，角色名�
 - [Microsoft 官方分享權限說明](https://support.microsoft.com/en-us/sharepoint/sharepoint-sharing-and-permissions/share-sharepoint-files-or-folders)：權限背景，非作者配置已驗證。
 - [Grok Bot 官方 FAQ](https://docs.x.ai/grok-bot/faq)：共用電腦與登入邊界，非作者流程成功保證。
 - 與 UC-146 缺件證據、UC-168 訂單條件、UC-211 程序版本交接、UC-221 本人簽後副本不同；只計送前附件對核定提案的一致性關卡。
+
+## 2026-10-20補充：dots請款附件換版後仍由人寄出
+
+伊藤／さすてなメイト在2026-10-12日文三日實用紀錄中，自述 dots 將請款 PDF 附入回信草稿，發現付款日期不符後換檔，再由人檢查寄出。這是附件欄位一致性與草稿覆核的工具變體，不另計，也不能泛化為 dots 能無條件寄送或已驗證帳款入帳。原始附件未公開，本庫未重現。[作者全文](https://note.com/sustainamate_ai/n/n26d37039c129)

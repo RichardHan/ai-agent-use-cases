@@ -1,0 +1,16 @@
+[
+  {
+    "path": "assets/app.js",
+    "beforeBytes": 144466,
+    "afterBytes": 147966,
+    "deltaBytes": 3500,
+    "gzipDeltaBytes": 1119
+  },
+  {
+    "path": "assets/reader.css",
+    "beforeBytes": 7530,
+    "afterBytes": 7728,
+    "deltaBytes": 198,
+    "gzipDeltaBytes": 32
+  }
+]

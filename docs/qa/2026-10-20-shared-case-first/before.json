@@ -1,0 +1,42 @@
+{
+  "base": "http://127.0.0.1:8101/ai-agent-use-cases/",
+  "observe": true,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "audits": [],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 589,
+      "earlyOpen": false,
+      "openAfterReleaseMs": 1467
+    },
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "audits": [],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 460,
+      "earlyOpen": false,
+      "openAfterReleaseMs": 1295
+    },
+    {
+      "engine": "chromium",
+      "size": "small-mobile",
+      "audits": [],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 463,
+      "earlyOpen": false,
+      "openAfterReleaseMs": 1300
+    },
+    {
+      "engine": "chromium",
+      "size": "mid-mobile",
+      "audits": [],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 447,
+      "earlyOpen": false,
+      "openAfterReleaseMs": 1281
+    }
+  ]
+}

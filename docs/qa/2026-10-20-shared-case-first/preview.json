@@ -1,0 +1,323 @@
+{
+  "base": "http://127.0.0.1:8100/ai-agent-use-cases/",
+  "observe": false,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 142,
+      "detailOpenMs": 234,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "3ec2bc25e7c89ddd79540848201b83dcb4a5e6ba7b9b60fdf7fdcdfc6567110f"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+        }
+      ],
+      "purposeBounds": {
+        "top": 399.03125,
+        "lineHeight": 32.3
+      },
+      "readingScrollDelta": 0,
+      "readingTargetDelta": 0,
+      "wheelStatusHeightBefore": 45.1875,
+      "wheelStatusHeightAfter": 45.1875,
+      "wheelReadingDelta": 0,
+      "midLoadReload": true,
+      "sourceHref": "https://zenn.dev/tec/articles/c4fbfcfffde4ad",
+      "openedSource": "https://zenn.dev/tec/articles/c4fbfcfffde4ad",
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 82,
+      "detailOpenMs": 137,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "3ec2bc25e7c89ddd79540848201b83dcb4a5e6ba7b9b60fdf7fdcdfc6567110f"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+        }
+      ],
+      "purposeBounds": {
+        "top": 520.96875,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 0,
+      "readingTargetDelta": 0,
+      "wheelStatusHeightBefore": 70.375,
+      "wheelStatusHeightAfter": 70.375,
+      "wheelReadingDelta": 0,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "small-mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 85,
+      "detailOpenMs": 135,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "3ec2bc25e7c89ddd79540848201b83dcb4a5e6ba7b9b60fdf7fdcdfc6567110f"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+        }
+      ],
+      "purposeBounds": {
+        "top": 624.90625,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 25,
+      "readingTargetDelta": 0.1875,
+      "wheelStatusHeightBefore": 95.5625,
+      "wheelStatusHeightAfter": 70.375,
+      "wheelReadingDelta": 0.1875,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mid-mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 84,
+      "detailOpenMs": 134,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "3ec2bc25e7c89ddd79540848201b83dcb4a5e6ba7b9b60fdf7fdcdfc6567110f"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+        }
+      ],
+      "purposeBounds": {
+        "top": 454.328125,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 25,
+      "readingTargetDelta": 0.1875,
+      "wheelStatusHeightBefore": 70.375,
+      "wheelStatusHeightAfter": 45.1875,
+      "wheelReadingDelta": 0.1875,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "firefox",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 354,
+      "detailOpenMs": 444,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "3ec2bc25e7c89ddd79540848201b83dcb4a5e6ba7b9b60fdf7fdcdfc6567110f"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+        }
+      ],
+      "purposeBounds": {
+        "top": 488.8500061035156,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 0,
+      "readingTargetDelta": 0,
+      "wheelStatusHeightBefore": 70.4000015258789,
+      "wheelStatusHeightAfter": 70.4000015258789,
+      "wheelReadingDelta": 0,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "webkit",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/038-fabric-sourcing-sample-handoff.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/039-competitor-positioning-review.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/040-trip-deferred-recheck.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/041-routine-health-exception-ops.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/042-dots-credential-multibot-return.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/043-public-events-calendar.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/044-household-shared-dashboard.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/045-cross-agent-research-handoff.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/047-portfolio-provenance-catalog.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/048-daily-price-rank-tracking.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/049-daily-inbox-report-graduated-trust.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/050-daily-eink-mood-illustration.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/051-tax-return-cpa-double-check.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/052-cloud-overcharge-refund-root-cause.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/053-ecommerce-replenishment-refund-profit.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/054-music-video-multi-tool-pipeline.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/055-tweet-project-intake-research-monitor.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/056-agent-built-microbusiness-site.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/057-self-hosted-ci-runner-on-laptop.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/058-tennis-match-dead-time-editing.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/059-home-service-quote-handoff.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/060-x-mention-sourced-answer-bot.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/061-dispatcher-bot-typed-commands-ledger.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/062-figma-android-implementation-audit.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/063-plex-media-library-housekeeping.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/064-math-proof-review-formalization.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/065-suspicious-email-security-review.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/066-agent-token-usage-self-audit.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/067-agent-app-rebuild-manual.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/068-mac-local-helper-away-diagnosis.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/069-task-migration-reconciliation.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/070-github-outage-mac-cloudflare-publish.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/071-obsidian-dots-visible-memory.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/072-phone-task-disclosure-handoff.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/073-customer-journey-content-audit.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/074-event-trigger-readback.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/075-health-appointment-briefing-coach.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/076-spam-call-data-broker-optout.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/077-cloud-draft-local-script-wechat-publish.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/078-rental-listing-scam-check.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/079-business-email-alias-diagnosis.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/080-email-license-keys-to-password-vault.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/081-todoist-scheduled-headstart.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/082-multi-bot-fitness-coach-group.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/083-printable-grade1-math-worksheet.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/084-botops-tiered-fleet-notion-tickets.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/085-slack-bug-triage-product-preread.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/086-muse-concert-video-scraping-pipeline.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/087-voice-walk-intake-codex-morning-call.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/088-unrefunded-returns-inbox-chase.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/089-digital-declutter-approval-plan.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/090-daily-prediction-market-evidence-read.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/091-household-13-lane-bots.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/092-desk-can-cannot-receipts.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/093-local-newsletter-agent-team.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/094-meeting-stand-in-disclosure.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/095-product-usage-error-correlation.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/096-production-log-deploy-triage.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/097-public-gis-layer-map.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/098-engineering-pdf-excel-extraction.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/099-travel-photo-scrapbook.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/101-procurement-capability-shortlist.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/102-regulatory-change-safety-form-draft.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/103-insurance-crm-plan-code-reconciliation.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/104-genealogy-animation-print.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/105-gift-card-balance-inventory.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/106-animated-line-sticker-submission-package.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/107-old-blog-private-audio-archive.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/108-golf-round-practice-data-review.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/109-supermarket-coupon-activation.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/110-roblox-playtest-prototype.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/111-engineering-drawing-source-traceability.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/112-image-to-printable-articulated-model.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/113-architecture-material-visual-comparison.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/114-existing-worksheet-print-layout.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/115-rigged-character-asset-export.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/116-slack-branded-quote-draft.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/117-warranty-replacement-tracking.md due to access control checks.",
+        "/127.0.0.1:8100/ai-agent-use-cases/cases/118-agent-email-rerouting-consent-test.md due to access control checks."
+      ],
+      "sourceReadyMs": 163,
+      "detailOpenMs": 269,
+      "actualAssets": [
+        {
+          "path": "assets/app.js",
+          "sha256": "06c4365761491ec936d19b3fb13c804e28e586241bb0f865c09aa0408adddeed"
+        },
+        {
+          "path": "assets/reader.css",
+          "sha256": "3ec2bc25e7c89ddd79540848201b83dcb4a5e6ba7b9b60fdf7fdcdfc6567110f"
+        }
+      ],
+      "purposeBounds": {
+        "top": 520.96875,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 0,
+      "readingTargetDelta": 0,
+      "wheelStatusHeightBefore": 70.375,
+      "wheelStatusHeightAfter": 70.375,
+      "wheelReadingDelta": 0,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    }
+  ]
+}

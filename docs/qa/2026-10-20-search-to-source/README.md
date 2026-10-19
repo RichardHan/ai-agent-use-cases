@@ -71,4 +71,10 @@ MATCH_URL=http://127.0.0.1:8098/ai-agent-use-cases/ NODE_PATH=<tools>/node_modul
 
 ## 發布
 
-PR、雲端CI與正式Pages結果待本輪最後驗收後補記；在確認前不宣稱已發布。
+[PR #59](https://github.com/RichardHan/ai-agent-use-cases/pull/59) 在10套PR檢查全部成功後，squash merge為`fb98b891feeaec9230951f8c4e3061282068bfed`。[PR checks](pr-ci.json)
+
+[本輪雲端QA 39300191700](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39300191700) 於Linux完成Chromium1440／390／320、Firefox390、WebKit390，10次axe0違規、0pageerror、外部來源200；WebKit原生Tab通過，沒有平台skip。[雲端結果](cloud-preview.json) 獨立角色補審JSON與390／320／WebKit截圖通過，沒有必修項。
+
+[Pages建置與部署39301608985](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39301608985)成功。公開三份產品資產逐字相同：[資產一致](published-assets.json)。正式站同一完整script完成Chromium1440／390／320三情境與擴充邊界，6次axe0違規、0pageerror、外部來源200：[正式結果](published.json)、[正式桌面](published-desktop.jpg)、[正式手機](published-mobile.jpg)。正式站沒有重跑Firefox／WebKit；其相同資產已在Linux預覽驗證，不冒充正式實機驗證。
+
+合併後main push另外觸發既有16套背景QA，本輪正式驗收完成時仍有部分執行中；不把pending冒稱全綠。相同產品的10套PR檢查已全成功，Pages與本輪正式流程皆成功。最後文書提交只補發布證據，產品碼不再改動。本輪達標停止。

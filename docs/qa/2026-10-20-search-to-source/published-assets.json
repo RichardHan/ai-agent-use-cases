@@ -1,0 +1,17 @@
+[
+  {
+    "asset": "assets/app.js",
+    "matches": true,
+    "bytes": 144466
+  },
+  {
+    "asset": "assets/reader.js",
+    "matches": true,
+    "bytes": 12155
+  },
+  {
+    "asset": "assets/reader.css",
+    "matches": true,
+    "bytes": 7530
+  }
+]

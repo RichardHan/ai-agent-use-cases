@@ -62,7 +62,7 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   assert(await page.locator('#results .card').count()>0);
   const trigger=page.locator('#results .card .card-bottom button').first();await trigger.focus();await page.keyboard.press('Enter');
   const direct=page.url();await page.goBack();await page.waitForFunction(()=>!document.querySelector('#detail').open);assert.equal(await trigger.evaluate(e=>e===document.activeElement),true);
-  await page.goto(direct);await page.locator('#detail[open]').waitFor();await page.reload();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
+  await page.goto(direct);await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await page.reload();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
   await page.locator('#close-detail').click();assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');
   await page.locator('#query').fill('no-round-match-987654');assert(await page.locator('#empty').isVisible());await page.locator('#edit-query').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
   // A reader who closes early stays in search after the background loader completes.

@@ -18,7 +18,7 @@ function save(){fs.writeFileSync(`${output}/${observe?'before':'verification'}.j
  const audit=async state=>{const r=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();check.audits.push({state,violations:r.violations.map(v=>v.id)});save();assert.equal(r.violations.length,0,JSON.stringify(r.violations));};
  // Journey 1: synonym -> original negative constraint -> keyboard return.
  await page.goto(origin+'?q=薪水');await page.locator('#results .card[data-case-id="UC-024"]').waitFor();
- const trigger=page.locator('#results .card[data-case-id="UC-024"] .card-bottom button');await trigger.focus();await page.keyboard.press('Enter');await page.locator('#detail[open]').waitFor();
+ const trigger=page.locator('#results .card[data-case-id="UC-024"] .card-bottom button');await trigger.focus();await page.keyboard.press('Enter');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
  check.query=await page.locator('#query').inputValue();check.toolbarTargets=await page.locator('.detail-toolbar-actions button').evaluateAll(es=>es.map(e=>({height:e.getBoundingClientRect().height,fontSize:getComputedStyle(e).fontSize})));assert(check.toolbarTargets.every(e=>e.height>=44&&parseFloat(e.fontSize)>=14));check.originalResearchLength=(await page.locator('.markdown').textContent()).length;
  await page.screenshot({path:`${output}/${observe?'before':'after'}-${engine}-${size}.jpg`,type:'jpeg',quality:80});
  check.shortcutCount=await page.locator('.reader-search-jump').count();save();
@@ -43,12 +43,12 @@ function save(){fs.writeFileSync(`${output}/${observe?'before':'verification'}.j
  // Journey 2: combined filters, empty results, direct link reload, back.
  await page.locator('#query').fill('旅遊');await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#scenario').selectOption('生活');assert(await page.locator('#results .card').count()>0);
  await page.locator('#query').fill('no-reader-match-987654');assert(await page.locator('#empty').isVisible());await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(e=>e===document.activeElement));await page.locator('#query').fill('旅遊');
- await page.locator('#results .card .card-bottom button').first().click();const direct=page.url();await page.reload();await page.locator('#detail[open]').waitFor();assert.equal(page.url(),direct);await page.locator('#close-detail').click();assert.equal(await page.locator('#scenario').inputValue(),'生活');assert.equal(await page.locator('#query').inputValue(),'旅遊');
+ await page.locator('#results .card .card-bottom button').first().click();const direct=page.url();await page.waitForFunction(()=>discoveryReady);await page.reload();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);assert.equal(page.url(),direct);await page.locator('#close-detail').click();assert.equal(await page.locator('#scenario').inputValue(),'生活');assert.equal(await page.locator('#query').inputValue(),'旅遊');
  await page.locator('#results .card .card-bottom button').first().click();await page.goBack();await page.waitForFunction(()=>!document.querySelector('#detail').open);
  // Journey 3: No original match has no false route; query+case direct link retains contextual route.
- await page.goto(origin+'?q=no-original-match-987654&case=UC-024');await page.locator('#detail[open]').waitFor();assert.equal(await page.locator('.reader-search').count(),0);
- await page.goto(origin+'?case=UC-024');await page.locator('#detail[open]').waitFor();assert.equal(await page.locator('.reader-search').count(),0);
- await page.goto(origin+'?q=薪水&case=UC-024');await page.locator('#detail[open]').waitFor();assert(await page.locator('.reader-search-jump').count()>0);await page.reload();await page.locator('.reader-search-jump').first().waitFor();
+ await page.goto(origin+'?q=no-original-match-987654&case=UC-024');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);assert.equal(await page.locator('.reader-search').count(),0);
+ await page.goto(origin+'?case=UC-024');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);assert.equal(await page.locator('.reader-search').count(),0);
+ await page.goto(origin+'?q=薪水&case=UC-024');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);assert(await page.locator('.reader-search-jump').count()>0);await page.waitForFunction(()=>discoveryReady);await page.reload();await page.locator('.reader-search-jump').first().waitFor();
  await audit('search contextual route');
  assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth+1));
  check.sourceHref=await page.locator('.detail-source').getAttribute('href');assert.match(check.sourceHref,/cases\/024-missing-invoice-check.md$/);

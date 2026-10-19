@@ -212,3 +212,6 @@
 .missing-case button{min-height:44px;flex-shrink:0;font-size:14px;font-weight:650;color:#285344;border-color:#285344;background:#fff}
 #missing-case-title:focus-visible{outline:2px solid var(--green);outline-offset:4px}
 @media(max-width:760px){.missing-case{flex-direction:column;align-items:stretch;gap:12px;padding:18px}.missing-case button{align-self:flex-start}}
+
+/* Counts explain the next selection without changing native option order. */
+.facet-count-hint{font-size:13px;line-height:1.7;color:#4c6258;margin:12px 0 10px;overflow-wrap:anywhere}

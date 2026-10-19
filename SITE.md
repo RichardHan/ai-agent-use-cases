@@ -2729,6 +2729,34 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 
 下一輪建議：依據 `sources/qualification-audit-2026-10-16.md` 既有待定案件（如 UC-338、UC-343、UC-348、UC-351、UC-352），持續追蹤原作者是否公開執行截圖、對帳單或日誌以補充證據。
 
+## 2026-10-19 搜尋情境下拉選項即時筆數預覽（Facet Counts）與篩選恢復改善
+
+問題背景與調查證據：
+1. 讀者在使用情境、收錄狀態、提及工具、主題分類與來源類型等下拉篩選器時，過去僅顯示靜態選項名稱，無法預先得知若點選該選項會有幾筆匹配案例。尤其在關鍵字已輸入或已套用多項篩選條件下，容易選入 0 筆結果或難以判斷各選項的收錄豐富度。
+2. 瀏覽器原生 HTML `<option>` 在沒有顯式 `value` 屬性時，其 IDL `value` 預設直接取自標籤文字。若直接在文字後追加筆數預覽（如 `（N 筆）`），會導致原生表單取值與 URL 參數被污染為包含筆數之文字，造成後續過濾完全失效。
+
+本輪改善：
+1. `assets/app.js`：
+   - 新增 `facetCounts(items, terms, filters, key, values)` 純函數：計算各維度候選選項在保留關鍵字與其它所有篩選條件下的獨立命中數量，確保不修改傳入 filters 物件，且對同一個 item 中的重複工具進行去重。
+   - 新增 `renderFacetCounts` 及即時更新機制：在各下拉選項後呈現 `（N 筆）`，並在修改文字前執行 `option.value = option.value;` 凍結原生值，保障篩選與分享網址正確性。
+   - 支援 0 筆結果可選性、部分載入狀態下提示只計算已載入條目，重試載入後自動更新選項筆數。
+2. `index.html` 與 `assets/style.css`：
+   - 配置篩選預覽提示說明文字與無障礙文字樣式。
+3. 測試覆蓋：
+   - `tests/facet-counts.test.cjs`：針對過濾器隔離、多值工具計算、同義詞展開搜尋語義、部分條目與空條目進行全覆蓋斷言。
+   - `tests/facet-counts-browser.cjs`：針對 Chromium、Firefox、WebKit 進行即時選項預覽、複合條件切換、部分載入失敗重試恢復、未知情境、WCAG 2.1 AA 無障礙標準及 320px/390px/1440px 視區無水平捲動等完整驗收。
+   - `.github/workflows/facet-counts-qa.yml`：建立 red-baseline 失敗驗證與雲端瀏覽器自動化 QA 工作流。
+
+驗證指令與實際結果：
+- `node tests/facet-counts.test.cjs`：4/4 測試通過。
+- `node --test tests/*.test.cjs`：73/73 測試全數通過（含 search 全文搜尋、審計計數與情境計數）。
+- `node --check assets/app.js`：語法檢查通過。
+- `python3 scripts/preview.py /tmp/facet-preview/ai-agent-use-cases`：靜態站預覽構建成功。
+- 總條目數為 354 筆（348 案例、3 經驗補充、3 待查項目），嚴格合格數維持 310 筆，候選重複叢集數維持 46 組，無編造案例、無擅刪候選。
+
+下一輪建議：針對行動端在開啟下拉選單後的焦點移動體驗，以及在多個篩選條件均為 0 筆時的空狀態引導推薦進行更細緻的體驗微調。
+
+
 
 
 

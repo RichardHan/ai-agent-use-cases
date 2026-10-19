@@ -13,7 +13,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
 for(const [engine,width,height] of [['chromium',1440,1000],['chromium',390,844],...observe?[]:[['chromium',320,740],['firefox',390,844],['webkit',390,844]]]){
  const browser=await ({chromium,firefox,webkit}[engine]).launch();
  const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
- const page=await context.newPage();
+ const page=await context.newPage();page.setDefaultTimeout(10000);
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const label=engine+'-'+width;
  await page.goto(origin,{waitUntil:'networkidle'});await ready(page);await shot(page,'home-'+label);

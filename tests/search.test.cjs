@@ -2005,6 +2005,96 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('排程關掉')), {}).
 // Search quality: 執行狀態矛盾
 assert(api.filterEntries(entries, Array.from(api.tokenize('執行狀態矛盾')), {}).some(x => x.id === 'UC-341'), '執行狀態矛盾 matches UC-341 via state contradiction tokenization');
 
+// Search quality: UC-346 特斯拉出發充電, tesla充電技能, 出門前充電, 特斯拉長途出發
+assert(api.filterEntries(entries, Array.from(api.tokenize('特斯拉出發充電')), {}).some(x => x.id === 'UC-346'), '特斯拉出發充電 matches UC-346 via tesla charge tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('tesla充電技能')), {}).some(x => x.id === 'UC-346'), 'tesla充電技能 matches UC-346 via tesla charge skill tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('出門前充電')), {}).some(x => x.id === 'UC-346'), '出門前充電 matches UC-346 via prep charge tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('特斯拉長途出發')), {}).some(x => x.id === 'UC-346'), '特斯拉長途出發 matches UC-346 via tesla roadtrip tokenization');
+
+// Search quality: UC-347 youtube留言巡檢, 小孩頻道留言過濾, 留言安全審查, 惡意留言過濾
+assert(api.filterEntries(entries, Array.from(api.tokenize('youtube留言巡檢')), {}).some(x => x.id === 'UC-347'), 'youtube留言巡檢 matches UC-347 via comment sweep tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('小孩頻道留言過濾')), {}).some(x => x.id === 'UC-347'), '小孩頻道留言過濾 matches UC-347 via channel comment filter tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('留言安全審查')), {}).some(x => x.id === 'UC-347'), '留言安全審查 matches UC-347 via comment safety review tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('惡意留言過濾')), {}).some(x => x.id === 'UC-347'), '惡意留言過濾 matches UC-347 via harmful comment filter tokenization');
+
+// Search quality: UC-348 zillow買房過濾, 買房兩關過濾, 房源篩選房仲, 看房篩選
+assert(api.filterEntries(entries, Array.from(api.tokenize('zillow買房過濾')), {}).some(x => x.id === 'UC-348'), 'zillow買房過濾 matches UC-348 via zillow home screening tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('買房兩關過濾')), {}).some(x => x.id === 'UC-348'), '買房兩關過濾 matches UC-348 via home search filter tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('房源篩選房仲')), {}).some(x => x.id === 'UC-348'), '房源篩選房仲 matches UC-348 via realtor disclosure tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('看房篩選')), {}).some(x => x.id === 'UC-348'), '看房篩選 matches UC-348 via home tour screening tokenization');
+
+// Search quality: UC-349 詢問信台帳, dots詢問信, 詢問信草稿
+assert(api.filterEntries(entries, Array.from(api.tokenize('詢問信台帳')), {}).some(x => x.id === 'UC-349'), '詢問信台帳 matches UC-349 via inquiry ledger tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('dots詢問信')), {}).some(x => x.id === 'UC-349'), 'dots詢問信 matches UC-349 via dots inquiry tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('詢問信草稿')), {}).some(x => x.id === 'UC-349'), '詢問信草稿 matches UC-349 via reply draft tokenization');
+
+// Search quality: UC-350 主管晨報分工, 主管日報分工, 內網外部情報分工, 晨報分工
+assert(api.filterEntries(entries, Array.from(api.tokenize('主管晨報分工')), {}).some(x => x.id === 'UC-350'), '主管晨報分工 matches UC-350 via manager morning digest tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('主管日報分工')), {}).some(x => x.id === 'UC-350'), '主管日報分工 matches UC-350 via manager daily digest tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('內網外部情報分工')), {}).some(x => x.id === 'UC-350'), '內網外部情報分工 matches UC-350 via intelligence split tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('晨報分工')), {}).some(x => x.id === 'UC-350'), '晨報分工 matches UC-350 via morning digest split tokenization');
+
+// Search quality: UC-286 hetzner補貨, hetzner查貨, 雲主機補貨下單, 主機售完候補
+assert(api.filterEntries(entries, Array.from(api.tokenize('hetzner補貨')), {}).some(x => x.id === 'UC-286'), 'hetzner補貨 matches UC-286 via server restock tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('hetzner查貨')), {}).some(x => x.id === 'UC-286'), 'hetzner查貨 matches UC-286 via server check tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('雲主機補貨下單')), {}).some(x => x.id === 'UC-286'), '雲主機補貨下單 matches UC-286 via server order tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('主機售完候補')), {}).some(x => x.id === 'UC-286'), '主機售完候補 matches UC-286 via soldout waitlist tokenization');
+
+// Search quality: UC-072 電話訂位bot, clawcall電話訂位, clawcall訂位, 語音訂位
+assert(api.filterEntries(entries, Array.from(api.tokenize('電話訂位bot')), {}).some(x => x.id === 'UC-072'), '電話訂位bot matches UC-072 via phone booking bot tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('clawcall電話訂位')), {}).some(x => x.id === 'UC-072'), 'clawcall電話訂位 matches UC-072 via clawcall tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('clawcall訂位')), {}).some(x => x.id === 'UC-072'), 'clawcall訂位 matches UC-072 via clawcall booking tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('語音訂位')), {}).some(x => x.id === 'UC-072'), '語音訂位 matches UC-072 via voice booking tokenization');
+
+// Search quality: UC-028 t-mobile漲價, t-mobile抵免, siriusxm議價, 線上聊天議價
+assert(api.filterEntries(entries, Array.from(api.tokenize('t-mobile漲價')), {}).some(x => x.id === 'UC-028'), 't-mobile漲價 matches UC-028 via price increase tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('t-mobile抵免')), {}).some(x => x.id === 'UC-028'), 't-mobile抵免 matches UC-028 via bill credit tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('siriusxm議價')), {}).some(x => x.id === 'UC-028'), 'siriusxm議價 matches UC-028 via negotiation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('線上聊天議價')), {}).some(x => x.id === 'UC-028'), '線上聊天議價 matches UC-028 via online chat negotiation tokenization');
+
+// Search quality: UC-338 司機對薪資單, 月底對薪水, 工時算薪水
+assert(api.filterEntries(entries, Array.from(api.tokenize('司機對薪資單')), {}).some(x => x.id === 'UC-338'), '司機對薪資單 matches UC-338 via driver paycheck reconciliation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('月底對薪水')), {}).some(x => x.id === 'UC-338'), '月底對薪水 matches UC-338 via paycheck check tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('工時算薪水')), {}).some(x => x.id === 'UC-338'), '工時算薪水 matches UC-338 via workhours salary calculation tokenization');
+
+// Search quality: UC-339 過期任務重送, 待辦任務過期, 逾期任務重送
+assert(api.filterEntries(entries, Array.from(api.tokenize('過期任務重送')), {}).some(x => x.id === 'UC-339'), '過期任務重送 matches UC-339 via stale task redelivery tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('待辦任務過期')), {}).some(x => x.id === 'UC-339'), '待辦任務過期 matches UC-339 via stale todo tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('逾期任務重送')), {}).some(x => x.id === 'UC-339'), '逾期任務重送 matches UC-339 via expired task redelivery tokenization');
+
+// Search quality: UC-340 工具呼叫回應隔離, 回應隔離
+assert(api.filterEntries(entries, Array.from(api.tokenize('工具呼叫回應隔離')), {}).some(x => x.id === 'UC-340'), '工具呼叫回應隔離 matches UC-340 via tool response quarantine tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('回應隔離')), {}).some(x => x.id === 'UC-340'), '回應隔離 matches UC-340 via response quarantine tokenization');
+
+// Search quality: UC-341 封存任務衝突, 封存任務恢復
+assert(api.filterEntries(entries, Array.from(api.tokenize('封存任務衝突')), {}).some(x => x.id === 'UC-341'), '封存任務衝突 matches UC-341 via archive task contradiction tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('封存任務恢復')), {}).some(x => x.id === 'UC-341'), '封存任務恢復 matches UC-341 via archive task restoration tokenization');
+
+// Search quality: UC-342 每天早上列印, 黑白線稿列印, 城堡獨角獸線稿
+assert(api.filterEntries(entries, Array.from(api.tokenize('每天早上列印')), {}).some(x => x.id === 'UC-342'), '每天早上列印 matches UC-342 via daily morning print tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('黑白線稿列印')), {}).some(x => x.id === 'UC-342'), '黑白線稿列印 matches UC-342 via line art print tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('城堡獨角獸線稿')), {}).some(x => x.id === 'UC-342'), '城堡獨角獸線稿 matches UC-342 via unicorn line art tokenization');
+
+// Search quality: UC-343 國外拋錨求援, 德文語音聽不懂, 道路救援申請表
+assert(api.filterEntries(entries, Array.from(api.tokenize('國外拋錨求援')), {}).some(x => x.id === 'UC-343'), '國外拋錨求援 matches UC-343 via breakdown assistance tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('德文語音聽不懂')), {}).some(x => x.id === 'UC-343'), '德文語音聽不懂 matches UC-343 via german language barrier tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('道路救援申請表')), {}).some(x => x.id === 'UC-343'), '道路救援申請表 matches UC-343 via roadside assistance form tokenization');
+
+// Search quality: UC-344 45分鐘停滯, 程式代理跑完沒, claude code跑完, 程式代理卡住
+assert(api.filterEntries(entries, Array.from(api.tokenize('45分鐘停滯')), {}).some(x => x.id === 'UC-344'), '45分鐘停滯 matches UC-344 via session stall tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('程式代理跑完沒')), {}).some(x => x.id === 'UC-344'), '程式代理跑完沒 matches UC-344 via coding agent completion tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('claude code跑完')), {}).some(x => x.id === 'UC-344'), 'claude code跑完 matches UC-344 via claude code completion tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('程式代理卡住')), {}).some(x => x.id === 'UC-344'), '程式代理卡住 matches UC-344 via coding agent stall tokenization');
+
+// Search quality: UC-345 抓女兒成績, 學校缺交作業, 關掉電視廣告
+assert(api.filterEntries(entries, Array.from(api.tokenize('抓女兒成績')), {}).some(x => x.id === 'UC-345'), '抓女兒成績 matches UC-345 via daughter grades tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('學校缺交作業')), {}).some(x => x.id === 'UC-345'), '學校缺交作業 matches UC-345 via missing homework tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('關掉電視廣告')), {}).some(x => x.id === 'UC-345'), '關掉電視廣告 matches UC-345 via tv ad disable tokenization');
+
+// Search quality: UC-336 esp圓形螢幕, 語音終端中繼
+assert(api.filterEntries(entries, Array.from(api.tokenize('esp圓形螢幕')), {}).some(x => x.id === 'UC-336'), 'esp圓形螢幕 matches UC-336 via esp round screen tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('語音終端中繼')), {}).some(x => x.id === 'UC-336'), '語音終端中繼 matches UC-336 via voice terminal relay tokenization');
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

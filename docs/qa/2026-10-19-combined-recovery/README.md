@@ -74,8 +74,17 @@ node docs/qa/2026-10-19-combined-recovery/independent-oracle.cjs "$PWD"
 
 ## 發布與限制
 
-GitHub CLI 的企業帳號無法在個人 repo 建立 PR（`Enterprise Managed User` 拒絕），SSH 分支 push 成功。使用者已授權直接 merge／push；通過驗收後以正常 Git 合併，不強推。
+GitHub CLI 的企業帳號無法在個人 repo 建立 PR（`Enterprise Managed User` 拒絕），SSH 分支 push 成功。使用者已授權直接 merge／push；驗收後已正常 Git 合併並 push 至 main，不強推。產品發布提交 `ebaa9d3`；診斷腳本提交 `3e359b8` 不變更產品程式。
 
 本輪不變更原始案例或合格計數；初始基準354筆，協作者研究PR新增後357筆。推薦調整不代表案例可靠度。部分載入的筆數只涵蓋已載入內容。沒有真人測試、實體手機或實體 Safari 驗證；axe 自動檢查不等同完整無障礙認證。
 
 下一輪：量測並降低首次全文載入成本，本輪不處理載入架構。
+
+### 正式發布結果
+
+- [Pages建置與部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39258847875) 成功。
+- [正式站驗收 run39258852426](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39258852426) 成功，`PUBLISHED_ASSETS_MATCH 3e359b8ba53125845e20bf10cf393c11d021f37a`。357筆、78/78單元測試，以及預覽與正式站各五配置完整流程通過。
+- [正式站原始報告](live-report.json)、[Chromium390實際截圖](live-empty-390.png)、[Firefox390實際截圖](live-empty-firefox-390.png)。正式站五次axe皆0；本輪 input/render單次8–9.8ms，未節流首頁就緒1097–1507ms，不作速度提升宣稱。
+- 第一輪正式站[run39258369521](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39258369521) Chromium1440/390/320已通過，Firefox390切換帶條件網址時等待空結果30秒逾時。補上失敗URL／表單／載入／錯誤／完整截圖診斷後重跑完整正式驗收通過；沒有改產品邏輯、等待時間或放寬驗收。未取得首次逾時當下狀態，根因未定，不能歸因或宣稱已修復Firefox／網路。這是保留風險。
+
+[立即體驗組合調整](https://richardhan.github.io/ai-agent-use-cases/?q=UC001&scenario=%E9%96%8B%E7%99%BC&kind=pending&tool=Grok%20Bot#explore)。

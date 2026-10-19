@@ -742,6 +742,18 @@ function rankEntries(items, terms) {
   }).map(result => result.item);
 }
 
+const SOURCE_TYPES = Object.freeze({
+  '作者報告／示範':'依作者的使用敘述或展示整理；實際產物、完整過程與成效仍須逐案核對。',
+  '官方自報':'包含官方的能力說明或案例自報；適用版本、條件與實際成效請看原文。',
+  '公開資料核讀':'依可讀的公開資料整理；核讀資料不等於證實成效，請查看原始來源與限制。',
+  '模板／文件核讀':'依模板或文件整理可參考的做法；文件列出功能，不代表已完成實作或驗收。',
+  '尚待查證':'仍有證據缺口，請先看待查事項；不要把想法當成已驗證的做法。'
+});
+function sourceTypeMessage(type) {
+  if(!type)return '來源標籤不是獨立驗證。本庫未獨立重現，請核對原始報告與限制。';
+  const description=Object.hasOwn(SOURCE_TYPES,type)?SOURCE_TYPES[type]:'此類型未列入說明，請核對原文與限制。';
+  return type+'：'+description+' 本庫未獨立重現。';
+}
 const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',tool:'提及工具',category:'主題分類',proof:'來源類型'};
 function activeConditions(query, filters) {
   return Object.entries({query, ...filters}).filter(([,value]) => value)
@@ -972,6 +984,8 @@ function render(updateURL=true, preserveShare=false) {
   const q = tokenize($('query').value);
   const filters = Object.fromEntries(['kind', 'tool', 'category', 'proof'].map(id => [id, $(id).value]));
   if (activeScenario) filters.scenario = activeScenario;
+  const sourceNote=sourceTypeMessage(filters.proof);
+  if($('source-type-note').textContent!==sourceNote)$('source-type-note').textContent=sourceNote;
   const facetCount = Object.values(filters).filter(Boolean).length;
   $('filter-count').textContent = facetCount ? `已套用 ${facetCount} 項篩選` : '未設定篩選';
   currentFiltered = rankEntries(filterEntries(entries, q, filters), q);
@@ -1368,6 +1382,11 @@ function chooseScenario(value){
 }
 
 /* Browser event bindings. */
+for(const [type,description] of Object.entries(SOURCE_TYPES)){
+  const definition=el('div');
+  definition.append(el('dt','',type),el('dd','',description));
+  $('source-type-definitions').append(definition);
+}
 // An arriving reader may start using the page while the corpus is loading.
 // Never override that interaction with late search-arrival scrolling or focus.
 // An explicit case link still opens its requested case when loading completes.

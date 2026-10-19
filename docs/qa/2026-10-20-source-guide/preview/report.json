@@ -1,0 +1,16 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "audits": [
+      {
+        "state": "guide-open",
+        "violations": []
+      }
+    ],
+    "readyMs": 231,
+    "entries": 357,
+    "failed": [],
+    "hasGuide": 1
+  }
+]

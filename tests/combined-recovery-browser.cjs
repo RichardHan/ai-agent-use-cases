@@ -9,6 +9,12 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
  for(const [engine,width,height] of (observe?[[chromium,1440,1000],[chromium,390,844]]:[[chromium,1440,1000],[chromium,390,844],[chromium,320,740],[firefox,390,844],[webkit,390,844]])){
  const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage();
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const waitEmpty=async()=>{
+  try{await page.locator('#empty').waitFor({state:'visible'});}catch(error){
+   const state=await page.evaluate(()=>({url:location.href,ready:!document.getElementById('copy-search-link').disabled,results:document.getElementById('results-count').textContent,error:document.getElementById('error').textContent,errorHidden:document.getElementById('error').hidden,partial:document.getElementById('partial-message').textContent,load:document.getElementById('load-status').textContent,filters:[...document.querySelectorAll('#filters input,#filters select')].map(n=>({id:n.id,value:n.value})),cards:document.querySelectorAll('#results .card').length}));
+   fs.writeFileSync('qa-artifacts/failure-state.json',JSON.stringify(state,null,2));await page.screenshot({path:'qa-artifacts/failure.png',fullPage:true});console.error('EMPTY_FAILURE '+JSON.stringify(state));throw error;
+  }
+ };
  const start=Date.now();await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>!document.getElementById('copy-search-link').disabled);
  const row={engine:engine.name(),width,readyMs:Date.now()-start};report.push(row);
  await page.screenshot({path:`qa-artifacts/${prefix}-home-${engine.name()}-${width}.png`});
@@ -20,7 +26,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
  if(width===1440){const pending=page.waitForEvent('popup');await source.click();const popup=await pending;await popup.waitForLoadState('domcontentloaded');row.sourceOpened=popup.url();await popup.close();}
  await page.keyboard.press('Escape');assert(await read.evaluate(e=>e===document.activeElement));
  // Two contradictory facets: removing either alone cannot recover UC-001.
- await page.goto(base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});await page.locator('#empty').waitFor({state:'visible'});
+ await page.goto(base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});await waitEmpty();
  row.emptyHint=await page.locator('#empty-hint').innerText();row.suggestions=await page.locator('#empty-suggestions').innerText();
  await page.locator('#empty').scrollIntoViewIfNeeded();await page.screenshot({path:`qa-artifacts/${prefix}-empty-${engine.name()}-${width}.png`});
  if(!observe){
@@ -30,7 +36,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   // No query matches: no invented recovery; query editor keeps facets.
   await page.locator('#query').fill('no-task-987654');await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');assert.equal(await page.locator('#empty-suggestions button').count(),0);await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(e=>e===document.activeElement));assert.equal(await page.locator('#scenario').inputValue(),'生活');
   await page.locator('#empty-reset').click();assert(await page.locator('#results .card').count()>300);
-  await page.goto(base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});await page.locator('#empty').waitFor({state:'visible'});
+  await page.goto(base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});await waitEmpty();
   row.recoveryRenderMs=await page.evaluate(()=>{const t=performance.now();document.getElementById('query').dispatchEvent(new Event('input',{bubbles:true}));return performance.now()-t;});
   const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();row.axe=audit.violations.map(v=>v.id);assert.deepEqual(row.axe,[]);
  }

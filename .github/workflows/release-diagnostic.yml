@@ -1,0 +1,65 @@
+name: Search passage publication diagnostic
+on:
+  push:
+    branches: [verify/search-passage-release]
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Published new journeys with HTTP and failure state
+        id: passage
+        continue-on-error: true
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          DIAG_LABEL: passage
+          CONTEXT_OUTPUT: qa-artifacts/published-passage
+        run: node --require ./tests/release-observe.cjs tests/reader-context-round.cjs
+      - name: Original failed reader context at Chromium390 with original 10sec assertion
+        id: context
+        continue-on-error: true
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          DIAG_LABEL: context
+          READER_SEARCH_URL: https://richardhan.github.io/ai-agent-use-cases/
+        run: node --require ./tests/release-observe.cjs tests/reader-search-browser.cjs
+      - name: Original failed early case at Chromium390 with hold timeline
+        id: early
+        continue-on-error: true
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          DIAG_LABEL: early
+          ROUND_URL: https://richardhan.github.io/ai-agent-use-cases/
+        run: node --require ./tests/release-observe.cjs tests/round-browser.cjs
+      - name: Original failed method at Chromium390 with original 60sec assertion
+        id: method
+        continue-on-error: true
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          DIAG_LABEL: method
+          METHOD_URL: https://richardhan.github.io/ai-agent-use-cases/
+        run: node --require ./tests/release-observe.cjs tests/method-shortcut-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: release-diagnostic
+          path: qa-artifacts/
+          retention-days: 30
+      - name: Preserve failed result if any original assertion fails
+        if: always()
+        run: |
+          test '${{ steps.passage.outcome }}' = success
+          test '${{ steps.context.outcome }}' = success
+          test '${{ steps.early.outcome }}' = success
+          test '${{ steps.method.outcome }}' = success

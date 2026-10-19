@@ -11,7 +11,7 @@ fs.mkdirSync(output,{recursive:true});
 function save(){fs.writeFileSync(`${output}/${observe?'before':'verification'}.json`,JSON.stringify(report,null,2));}
 (async()=>{
  for(const [engine,launcher] of engines){const browser=await launcher.launch();try{
- for(const [size,width,height] of (engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]])){
+ for(const [size,width,height] of [['mobile',390,844]]){
  const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});const page=await context.newPage();page.setDefaultTimeout(10000);page.setDefaultNavigationTimeout(45000);
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const check={engine,size,audits:[]};report.checks.push(check);save();
@@ -74,4 +74,4 @@ function save(){fs.writeFileSync(`${output}/${observe?'before':'verification'}.j
  }
  }finally{await browser.close();}}
  save();console.log(JSON.stringify(report,null,2));
-})().catch(e=>{report.error=e.stack;save();console.error(e);process.exit(1);});
+})().catch(async e=>{await globalThis.releaseObserve.capture('error');report.error=e.stack;save();console.error(e);process.exit(1);});

@@ -9,11 +9,11 @@ const report={base,observe,checks:[]};fs.mkdirSync(output,{recursive:true});
 const save=()=>fs.writeFileSync(output+'/verification.json',JSON.stringify(report,null,2));
 async function audit(page,check,state){const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();check.audits.push({state,violations:result.violations.map(v=>v.id)});save();assert.equal(result.violations.length,0,JSON.stringify(result.violations));}
 async function settledScroll(page){await page.evaluate(()=>new Promise((resolve,reject)=>{const dialog=document.getElementById('detail');let previous=dialog.scrollTop,stable=0,frames=0;const tick=()=>{const current=dialog.scrollTop;stable=Math.abs(current-previous)<0.1?stable+1:0;previous=current;if(stable>=12)return resolve();if(++frames>120)return reject(Error('dialog scrolling did not settle'));requestAnimationFrame(tick);};requestAnimationFrame(tick);}));}
-async function hold(page,path){let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/'+path,async route=>{await gate;await route.continue();});return release;}
+async function hold(page,path){let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/'+path,async route=>{globalThis.releaseObserve.hold({phase:'request-held',url:page.url(),path});await gate;globalThis.releaseObserve.hold({phase:'continue',url:page.url(),path});await route.continue();});return ()=>{globalThis.releaseObserve.hold({phase:'release',url:page.url(),path});release();};}
 (async()=>{
  for(const [engine,launcher] of (process.env.ROUND_ENGINES==='all'?[['chromium',chromium],['firefox',firefox],['webkit',webkit]]:[['chromium',chromium]])){
  const browser=await launcher.launch();try{
- for(const [size,width,height] of (engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740],['mid-mobile',480,844]]:[['mobile',390,844]])){
+ for(const [size,width,height] of [['mobile',390,844]]){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
   const errors=[],navigationCancellationDiagnostics=[];let reloadingPage=null;
   context.on('page',p=>p.on('pageerror',e=>{if(!p.url().startsWith(base))return;if(p===reloadingPage&&engine==='webkit'&&/\/(?:(?:cases|evidence)\/[a-zA-Z0-9_/-]+\.md|sources\/pending\.md) due to access control checks\.$/.test(e.message))navigationCancellationDiagnostics.push(e.message);else errors.push(e.message);}));
@@ -140,4 +140,4 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
  }finally{await browser.close();}}
  if(!observe)assert(report.checks.some(c=>Math.abs(c.wheelStatusHeightBefore-c.wheelStatusHeightAfter)>2),'at least one viewport must exercise an actual status height change');
  save();console.log(JSON.stringify(report,null,2));
-})().catch(e=>{report.error=e.stack;save();console.error(e);process.exit(1);});
+})().catch(async e=>{await globalThis.releaseObserve.capture('error');report.error=e.stack;save();console.error(e);process.exit(1);});

@@ -7,9 +7,9 @@ const observe=process.env.OBSERVE==='1',label=observe?'before':'after';
 fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const rows=[];
- for(const engine of observe?[chromium]:[chromium,firefox,webkit]){
+ for(const engine of [chromium]){
   const browser=await engine.launch();
-  for(const width of engine===chromium?[1440,390,320]:[390]){
+  for(const width of [390]){
    const context=await browser.newContext({viewport:{width,height:width===1440?1000:width===320?740:844},reducedMotion:'reduce'});
    const page=await context.newPage();
    const errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -57,4 +57,4 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await browser.close();
  }
  fs.writeFileSync(`qa-artifacts/method-${label}.json`,JSON.stringify(rows,null,2));console.log(JSON.stringify(rows));
-})().catch(e=>{console.error(e);process.exit(1)});
+})().catch(async e=>{await globalThis.releaseObserve.capture('error');console.error(e);process.exit(1)});

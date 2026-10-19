@@ -2181,6 +2181,25 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('x發文前人工關�
 // Search quality: UC-333 notion跨代理外聯記憶
 assert(api.filterEntries(entries, Array.from(api.tokenize('notion跨代理外聯記憶')), {}).some(x => x.id === 'UC-333'), 'notion跨代理外聯記憶 matches UC-333 via cross-agent external memory tokenization');
 
+// Search quality regression tests: single words must not be over-eagerly converted by optional prefixes
+// 1. 廣告 must match UC-022 and UC-183 (without requiring 電視)
+assert(api.filterEntries(entries, Array.from(api.tokenize('廣告')), {}).some(x => x.id === 'UC-022'), '廣告 matches UC-022 without false tv prefix injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('廣告')), {}).some(x => x.id === 'UC-183'), '廣告 matches UC-183 without false tv prefix injection');
+// 2. 表單 must match UC-102, UC-126, UC-145, UC-174, UC-318 (without requiring 救援)
+assert(api.filterEntries(entries, Array.from(api.tokenize('表單')), {}).some(x => x.id === 'UC-102'), '表單 matches UC-102 without false rescue prefix injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('表單')), {}).some(x => x.id === 'UC-126'), '表單 matches UC-126 without false rescue prefix injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('表單')), {}).some(x => x.id === 'UC-145'), '表單 matches UC-145 without false rescue prefix injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('表單')), {}).some(x => x.id === 'UC-174'), '表單 matches UC-174 without false rescue prefix injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('表單')), {}).some(x => x.id === 'UC-318'), '表單 matches UC-318 without false rescue prefix injection');
+// 3. 約時間 must match UC-059 (without requiring 客戶 or 來信)
+assert(api.filterEntries(entries, Array.from(api.tokenize('整理詢價再約時間')), {}).some(x => x.id === 'UC-059'), '整理詢價再約時間 matches UC-059 without false client letter prefix injection');
+// 4. 衝突 must match UC-230, UC-237, UC-240, UC-266 (without requiring 狀態)
+assert(api.filterEntries(entries, Array.from(api.tokenize('衝突')), {}).some(x => x.id === 'UC-266'), '衝突 matches UC-266 without false state prefix injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('衝突')), {}).some(x => x.id === 'UC-230'), '衝突 matches UC-230 without false state prefix injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('衝突')), {}).some(x => x.id === 'UC-237'), '衝突 matches UC-237 without false state prefix injection');
+assert(api.filterEntries(entries, Array.from(api.tokenize('衝突')), {}).some(x => x.id === 'UC-240'), '衝突 matches UC-240 without false state prefix injection');
+
+
 
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');

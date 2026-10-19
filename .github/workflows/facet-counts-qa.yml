@@ -1,0 +1,47 @@
+name: Facet counts QA
+on:
+  push:
+    branches: [improve/filter-recovery, main]
+    paths: ['assets/**', 'index.html', 'tests/facet-counts*', '.github/workflows/facet-counts-qa.yml']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Baseline tests syntax and build
+        run: |
+          node --test $(find tests -name '*.test.cjs' ! -name 'facet-counts.test.cjs')
+          for file in assets/*.js; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/facet-preview/ai-agent-use-cases"
+      - name: Cloud browsers only
+        run: |
+          npm install --prefix "$RUNNER_TEMP/facet-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/facet-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Observe published baseline
+        if: ${{ github.ref != 'refs/heads/main' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/facet-tools/node_modules
+          FACET_URL: https://richardhan.github.io/ai-agent-use-cases/
+          OBSERVE: '1'
+        run: node tests/facet-counts-browser.cjs
+      - name: Verify implementation when ready
+        if: ${{ hashFiles('tests/facet-counts.test.cjs') != '' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/facet-tools/node_modules
+        run: |
+          node --test tests/facet-counts.test.cjs
+          python3 -m http.server 8096 --directory "$RUNNER_TEMP/facet-preview" > /tmp/facet-preview.log 2>&1 &
+          node tests/facet-counts-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: facets-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

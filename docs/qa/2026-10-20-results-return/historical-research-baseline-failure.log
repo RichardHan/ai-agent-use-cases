@@ -1,0 +1,704 @@
+reading	Baseline tests and static preview	﻿2026-10-19T23:04:14.4617634Z ##[group]Run node --test tests/*.test.cjs
+reading	Baseline tests and static preview	2026-10-19T23:04:14.4617943Z ^[[36;1mnode --test tests/*.test.cjs^[[0m
+reading	Baseline tests and static preview	2026-10-19T23:04:14.4618147Z ^[[36;1mfor file in assets/*.js; do node --check "$file"; done^[[0m
+reading	Baseline tests and static preview	2026-10-19T23:04:14.4618437Z ^[[36;1mpython3 scripts/preview.py "$RUNNER_TEMP/reading-preview/ai-agent-use-cases"^[[0m
+reading	Baseline tests and static preview	2026-10-19T23:04:14.4868860Z shell: /usr/bin/bash -e {0}
+reading	Baseline tests and static preview	2026-10-19T23:04:14.4869139Z ##[endgroup]
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5380067Z TAP version 13
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5880240Z # Subtest: search links preserve exact terms and all facets under the Pages base path
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5899997Z ok 1 - search links preserve exact terms and all facets under the Pages base path
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5900526Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5900767Z   duration_ms: 11.323096
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5901014Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5901211Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5901934Z # Subtest: unfiltered links still target the collection and never leak unrelated URL state
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5902530Z ok 2 - unfiltered links still target the collection and never leak unrelated URL state
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5903050Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5903227Z   duration_ms: 5.309409
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5903429Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5903607Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5929215Z # Subtest: arrival distinguishes search intent from the homepage and explicit other anchors
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5937764Z ok 3 - arrival distinguishes search intent from the homepage and explicit other anchors
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5938235Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5938430Z   duration_ms: 6.099196
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5938633Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.5938807Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7001266Z # Subtest: all cases and evidence files have valid scenario, non-empty tags, and verification date
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7013423Z ok 4 - all cases and evidence files have valid scenario, non-empty tags, and verification date
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7043914Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7063135Z   duration_ms: 16.290001
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7072775Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7102620Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7103151Z # Subtest: all cases, evidence files, and pending leads contain verified external source URLs without placeholders
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7103990Z ok 5 - all cases, evidence files, and pending leads contain verified external source URLs without placeholders
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7104284Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7104513Z   duration_ms: 29.620373
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7104799Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7105040Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7105509Z # Subtest: candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7106036Z not ok 6 - candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7106408Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7106601Z   duration_ms: 25.792041
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7106844Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7107284Z   location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/audit.test.cjs:145:1'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7107825Z   failureType: 'testCodeFailure'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7108194Z   error: |-
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7108724Z     Candidate duplicate detector must identify exactly 46 candidate clusters across corpus, found 47
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7109200Z     
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7109367Z     47 !== 46
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7109537Z     
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7109758Z   code: 'ERR_ASSERTION'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7109978Z   name: 'AssertionError'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7110186Z   expected: 46
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7110373Z   actual: 47
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7110560Z   operator: 'strictEqual'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7110809Z   stack: |-
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7111288Z     TestContext.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/audit.test.cjs:175:10)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7111922Z     Test.runInAsyncScope (node:async_hooks:214:14)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7112265Z     Test.run (node:internal/test_runner/test:1047:25)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7112681Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7113607Z     Test.postRun (node:internal/test_runner/test:1173:19)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7113958Z     Test.run (node:internal/test_runner/test:1101:12)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7114354Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7114576Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7114873Z # Subtest: qualification audit maintains strict separation between catalog entries and verified cases
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7115447Z not ok 7 - qualification audit maintains strict separation between catalog entries and verified cases
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7115696Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7115817Z   duration_ms: 2.513597
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7115950Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7116204Z   location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/audit.test.cjs:518:1'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7116480Z   failureType: 'testCodeFailure'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7116626Z   error: |-
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7116797Z     index.html audit count (312) must match audit doc (315)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7116980Z     
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7117086Z     312 !== 315
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7117200Z     
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7117315Z   code: 'ERR_ASSERTION'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7117450Z   name: 'AssertionError'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7117580Z   expected: 315
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7117699Z   actual: 312
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7117822Z   operator: 'strictEqual'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7117953Z   stack: |-
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7118236Z     TestContext.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/audit.test.cjs:545:10)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7118559Z     Test.runInAsyncScope (node:async_hooks:214:14)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7118775Z     Test.run (node:internal/test_runner/test:1047:25)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7119030Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7119284Z     Test.postRun (node:internal/test_runner/test:1173:19)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7119507Z     Test.run (node:internal/test_runner/test:1101:12)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7119767Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7119978Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7120294Z # Subtest: INDEX.md maintains scenario consistency, working case links, and matches strict qualification audit count
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7120774Z not ok 8 - INDEX.md maintains scenario consistency, working case links, and matches strict qualification audit count
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7121055Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7121169Z   duration_ms: 2.627539
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7121299Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7121552Z   location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/audit.test.cjs:548:1'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7121976Z   failureType: 'testCodeFailure'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7122121Z   error: |-
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7122295Z     INDEX.md main pages (304) must match cases/ count (354)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7122472Z     
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7122579Z     304 !== 354
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7122689Z     
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7122800Z   code: 'ERR_ASSERTION'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7122940Z   name: 'AssertionError'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7123072Z   expected: 354
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7123191Z   actual: 304
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7123315Z   operator: 'strictEqual'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7123446Z   stack: |-
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7123720Z     TestContext.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/audit.test.cjs:575:10)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7124060Z     Test.runInAsyncScope (node:async_hooks:214:14)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7124281Z     Test.run (node:internal/test_runner/test:1047:25)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7124537Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7124792Z     Test.postRun (node:internal/test_runner/test:1173:19)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7125009Z     Test.run (node:internal/test_runner/test:1101:12)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7125265Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7125478Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7125780Z # Subtest: all cases and evidence files have plain-language title and purpose either in markdown or copy.json
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7126399Z ok 9 - all cases and evidence files have plain-language title and purpose either in markdown or copy.json
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7126653Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7126768Z   duration_ms: 17.914027
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7126899Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7127014Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7127281Z # Subtest: app.js metadata extraction gracefully falls back to extract tags from category lines
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7127778Z ok 10 - app.js metadata extraction gracefully falls back to extract tags from category lines
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7128014Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7128126Z   duration_ms: 12.367516
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7128258Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7128371Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7128655Z # Subtest: app.js metadata accurately extracts verification date rather than historical publication date
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7129076Z ok 11 - app.js metadata accurately extracts verification date rather than historical publication date
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7129356Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7129471Z   duration_ms: 32.212439
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7129603Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7129716Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7170615Z # Subtest: tag exploration replaces only the query, preserving every active facet
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7183124Z ok 12 - tag exploration replaces only the query, preserving every active facet
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7183808Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7187557Z   duration_ms: 11.175375
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7222636Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7223102Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7223674Z # Subtest: scenario toggles off and on without throwing away the task or other facets
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7224388Z ok 13 - scenario toggles off and on without throwing away the task or other facets
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7224863Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7225170Z   duration_ms: 5.801318
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7225497Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7225674Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7226060Z # Subtest: unrecognized card action cannot mutate controls or move the reader
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7226581Z ok 14 - unrecognized card action cannot mutate controls or move the reader
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7226912Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7227086Z   duration_ms: 6.479598
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7227287Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7227463Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7227871Z # Subtest: two conflicting facets recover real query matches while retaining the other facets
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7228491Z ok 15 - two conflicting facets recover real query matches while retaining the other facets
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7228887Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7229098Z   duration_ms: 8.522608
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7229303Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7229476Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7229810Z # Subtest: never replace an existing result or a single-facet recovery, and never weaken the query
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7230229Z ok 16 - never replace an existing result or a single-facet recovery, and never weaken the query
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7230478Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7230591Z   duration_ms: 5.865645
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7230722Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7230836Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7231082Z # Subtest: offer only the smallest removals and report all matching loaded entries
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7231423Z ok 17 - offer only the smallest removals and report all matching loaded entries
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7231796Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7231982Z   duration_ms: 10.729885
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7232192Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7232363Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7232858Z # Subtest: multiple alternatives stay independent, ignore empty values and use the normal multi-tool matching
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7233645Z ok 18 - multiple alternatives stay independent, ignore empty values and use the normal multi-tool matching
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7234075Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7234257Z   duration_ms: 1.958243
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7234463Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7234640Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7234998Z # Subtest: five conflicting facets recover without mutating any supplied data
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7235961Z ok 19 - five conflicting facets recover without mutating any supplied data
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7236282Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7236455Z   duration_ms: 1.092311
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7236645Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7236818Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7237201Z # Subtest: scenario comes from the declared lead metadata, never from later source prose
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7237936Z ok 20 - scenario comes from the declared lead metadata, never from later source prose
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7238280Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7238452Z   duration_ms: 1.330249
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7238647Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7238824Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7239239Z # Subtest: discovery excludes pending leads, evidence supplements and untested templates
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7239840Z ok 21 - discovery excludes pending leads, evidence supplements and untested templates
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7240193Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7240378Z   duration_ms: 0.733482
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7240572Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7240741Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7241174Z # Subtest: a deck visits every case once, avoids immediate repeats across rounds, and preserves input
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7241993Z ok 22 - a deck visits every case once, avoids immediate repeats across rounds, and preserves input
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7242370Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7242555Z   duration_ms: 0.389055
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7242750Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7242924Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7243229Z # Subtest: empty and single-item decks have explicit states
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7243636Z ok 23 - empty and single-item decks have explicit states
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7243911Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7244085Z   duration_ms: 0.149264
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7244286Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7244466Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7272776Z # Subtest: facet alternatives ignore only their own current selection and retain query and all other filters
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7274140Z ok 24 - facet alternatives ignore only their own current selection and retain query and all other filters
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7300049Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7300570Z   duration_ms: 22.940175
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7300968Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7301321Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7302096Z # Subtest: tool membership, all-option and missing values count real entries exactly once
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7302936Z ok 25 - tool membership, all-option and missing values count real entries exactly once
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7303473Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7303812Z   duration_ms: 0.460102
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7304187Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7304521Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7305144Z # Subtest: empty query results, empty corpus and partial corpus do not invent available entries
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7305988Z ok 26 - empty query results, empty corpus and partial corpus do not invent available entries
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7306536Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7306873Z   duration_ms: 5.300746
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7307258Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7307581Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7308146Z # Subtest: synonym-expanded counts use the same search semantics as result filtering
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7308913Z ok 27 - synonym-expanded counts use the same search semantics as result filtering
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7309425Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7309744Z   duration_ms: 0.914534
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7310097Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7310435Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7403961Z # Subtest: late return at 80ms becomes visible and releases the bounded guard
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7433154Z ok 28 - late return at 80ms becomes visible and releases the bounded guard
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7434080Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7434449Z   duration_ms: 2.560558
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7435007Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7435487Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7436034Z # Subtest: late return at 180ms becomes visible and releases the bounded guard
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7436704Z ok 29 - late return at 180ms becomes visible and releases the bounded guard
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7437659Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7437972Z   duration_ms: 2.28895
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7438311Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7438618Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7439107Z # Subtest: new pointerdown permanently cancels late scroll correction
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7439713Z ok 30 - new pointerdown permanently cancels late scroll correction
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7440419Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7440766Z   duration_ms: 0.859712
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7441096Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7441419Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7444997Z # Subtest: new keydown permanently cancels late scroll correction
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7452958Z ok 31 - new keydown permanently cancels late scroll correction
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7453424Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7453708Z   duration_ms: 0.6586
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7453998Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7454251Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7454643Z # Subtest: new wheel permanently cancels late scroll correction
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7455157Z ok 32 - new wheel permanently cancels late scroll correction
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7455502Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7455751Z   duration_ms: 0.709396
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7456022Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7456260Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7456659Z # Subtest: new touchstart permanently cancels late scroll correction
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7457185Z ok 33 - new touchstart permanently cancels late scroll correction
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7457557Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7457857Z   duration_ms: 0.627273
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7458132Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7458379Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7458750Z # Subtest: new focus wins and return monitoring is cleaned up
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7459230Z ok 34 - new focus wins and return monitoring is cleaned up
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7459569Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7459802Z   duration_ms: 0.671459
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7460053Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7460284Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7460629Z # Subtest: new url wins and return monitoring is cleaned up
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7461093Z ok 35 - new url wins and return monitoring is cleaned up
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7461424Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7461931Z   duration_ms: 2.060546
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7462202Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7462443Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7462816Z # Subtest: new modal wins and return monitoring is cleaned up
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7463324Z ok 36 - new modal wins and return monitoring is cleaned up
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7463677Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7463927Z   duration_ms: 0.89786
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7464196Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7464441Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7464826Z # Subtest: new removed wins and return monitoring is cleaned up
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7465318Z ok 37 - new removed wins and return monitoring is cleaned up
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7465820Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7466069Z   duration_ms: 0.850078
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7466335Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7466585Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7466966Z # Subtest: scroll after the 300ms deadline is never pulled back
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7467471Z ok 38 - scroll after the 300ms deadline is never pulled back
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7467832Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7468080Z   duration_ms: 0.767213
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7468353Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7468605Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7469073Z # Subtest: background resume after deadline: frame runs first without late scrolling
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7469735Z ok 39 - background resume after deadline: frame runs first without late scrolling
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7470157Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7470407Z   duration_ms: 0.597048
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7470681Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7470926Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7471383Z # Subtest: background resume after deadline: timer runs first without late scrolling
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7472155Z ok 40 - background resume after deadline: timer runs first without late scrolling
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7472579Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7472847Z   duration_ms: 0.53909
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7473378Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7473549Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7833366Z # Subtest: recovery merges by source path and retains all pending items in stable order
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7834404Z ok 41 - recovery merges by source path and retains all pending items in stable order
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7835098Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7835394Z   duration_ms: 18.419507
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7835632Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7836267Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7933438Z # Subtest: timed-out source fails independently without losing completed content
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7934557Z ok 42 - timed-out source fails independently without losing completed content
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7935207Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7935722Z   duration_ms: 10.557476
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7936148Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.7936503Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8286613Z # Subtest: mapConcurrent respects concurrency limit and preserves ordering
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8303212Z ok 43 - mapConcurrent respects concurrency limit and preserves ordering
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8304009Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8304362Z   duration_ms: 38.3952
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8304753Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8305082Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8305580Z # Subtest: mapConcurrent handles empty arrays and boundary limits
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8306178Z ok 44 - mapConcurrent handles empty arrays and boundary limits
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8306643Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8307029Z   duration_ms: 0.478249
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8344306Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8346546Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8347720Z # Subtest: loadCorpus isolates single-file failure and preserves remaining cases
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8372216Z ok 45 - loadCorpus isolates single-file failure and preserves remaining cases
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8372966Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8375661Z   duration_ms: 3.941583
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8376188Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8376713Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8377218Z # Subtest: loadCorpus reports zero entries when all files fail
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8377890Z ok 46 - loadCorpus reports zero entries when all files fail
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8378376Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8378959Z   duration_ms: 0.358269
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8379339Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8379671Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8457916Z # Subtest: whole-corpus budget keeps completed content and marks active plus queued paths for retry
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8526289Z ok 47 - whole-corpus budget keeps completed content and marks active plus queued paths for retry
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8562973Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8593604Z   duration_ms: 21.55207
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8601041Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8601551Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8602413Z # Subtest: choosing available content cancels in-flight work without dropping successful sources
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8603248Z ok 48 - choosing available content cancels in-flight work without dropping successful sources
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8603823Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8604159Z   duration_ms: 0.608114
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8604542Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8604850Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8605329Z # Subtest: deadline includes reading the body after HTTP headers
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8605921Z ok 49 - deadline includes reading the body after HTTP headers
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8606355Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8606670Z   duration_ms: 15.669299
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8607016Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8607332Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8607923Z # Subtest: per-source timeout frees a worker so later sources can finish before whole budget
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8608707Z ok 50 - per-source timeout frees a worker so later sources can finish before whole budget
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8609223Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8609547Z   duration_ms: 12.883872
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8609897Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8610215Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8610838Z # Subtest: method shortcut preserves the full untested heading and original index
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8611571Z ok 51 - method shortcut preserves the full untested heading and original index
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8612597Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8612915Z   duration_ms: 1.1178
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8613266Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8613579Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8614120Z # Subtest: pending, sparse and missing methods do not fabricate an actionable workflow
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8614850Z ok 52 - pending, sparse and missing methods do not fabricate an actionable workflow
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8615493Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8615818Z   duration_ms: 0.242885
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8616160Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8616482Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8616978Z # Subtest: prompt fallback and evidence methods keep literal source labels
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8617631Z ok 53 - prompt fallback and evidence methods keep literal source labels
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8618094Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8618411Z   duration_ms: 0.114902
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8618751Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8619065Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8913296Z # Subtest: search route preserves a negative source section and the matched synonym
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8915076Z ok 54 - search route preserves a negative source section and the matched synonym
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8944301Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8955270Z   duration_ms: 1.566434
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8955832Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8956182Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8956757Z # Subtest: routes use section indices even when original headings repeat
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8957615Z ok 55 - routes use section indices even when original headings repeat
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8958104Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8958441Z   duration_ms: 0.266059
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8958820Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8959163Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8959761Z # Subtest: literal Unicode and href matches use the same normalized variants without regex
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8960565Z ok 56 - literal Unicode and href matches use the same normalized variants without regex
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8961126Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8961467Z   duration_ms: 0.320191
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8962027Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8962373Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8962893Z # Subtest: routes are bounded, deduplicate sections and keep term order
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8963553Z ok 57 - routes are bounded, deduplicate sections and keep term order
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8964029Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8964372Z   duration_ms: 0.238088
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8964744Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8965067Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8965636Z # Subtest: empty, missing and metadata-only terms never invent original matches
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8966343Z ok 58 - empty, missing and metadata-only terms never invent original matches
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8966854Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8967193Z   duration_ms: 0.255574
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8967559Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.8967894Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9099587Z # Subtest: jump choices point to existing result, method, limits and source headings
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9113323Z ok 59 - jump choices point to existing result, method, limits and source headings
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9113972Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9114256Z   duration_ms: 1.67017
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9114567Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9114814Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9115291Z # Subtest: sparse, pending and unknown structures do not invent sections or evidence
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9115926Z ok 60 - sparse, pending and unknown structures do not invent sections or evidence
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9116388Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9122735Z   duration_ms: 0.871189
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9129097Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9129521Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9130142Z # Subtest: duplicate and unsafe-looking heading text stays literal and keeps its index
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9130909Z ok 61 - duplicate and unsafe-looking heading text stays literal and keeps its index
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9131418Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9132074Z   duration_ms: 0.185098
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9132405Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9132689Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9179496Z # Subtest: UC-313 promotes the entire report including uncertainty and unexecuted proposal
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9184235Z ok 62 - UC-313 promotes the entire report including uncertainty and unexecuted proposal
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9185068Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9185514Z   duration_ms: 2.171023
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9185906Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9186245Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9186824Z # Subtest: source versions retain every list item and are not called verified results
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9187851Z ok 63 - source versions retain every list item and are not called verified results
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9188352Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9188680Z   duration_ms: 0.777238
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9189037Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9189368Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9190051Z # Subtest: report takes precedence over source directory and excludes designed, expected and supplementary outcomes
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9190985Z ok 64 - report takes precedence over source directory and excludes designed, expected and supplementary outcomes
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9191569Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9192051Z   duration_ms: 0.156716
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9192418Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9192752Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9194358Z # Subtest: long and unknown original sections remain available through research, never silently truncated
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9195270Z ok 65 - long and unknown original sections remain available through research, never silently truncated
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9195857Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9196197Z   duration_ms: 1.561156
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9196561Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9196899Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9197521Z # Subtest: source jumps include author/date and deduplication headings and prefer a linked source
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9198470Z ok 66 - source jumps include author/date and deduplication headings and prefer a linked source
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9199027Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9199363Z   duration_ms: 0.336876
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9199725Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9200076Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9659402Z # Subtest: reading suggestions exist and use only other main cases in the same topic and current results
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9670263Z ok 67 - reading suggestions exist and use only other main cases in the same topic and current results
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9693163Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9693821Z   duration_ms: 1.664682
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9721564Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9752672Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9765039Z # Subtest: at most three suggestions, deterministic order, no invented fallback for sparse or unknown topics
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9766155Z ok 68 - at most three suggestions, deterministic order, no invented fallback for sparse or unknown topics
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9766771Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9767119Z   duration_ms: 0.38568
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9767474Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9767806Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9768347Z # Subtest: keyboard neighbours never escape an empty or unrelated search result
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9769088Z ok 69 - keyboard neighbours never escape an empty or unrelated search result
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9769586Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9769914Z   duration_ms: 0.508905
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9770267Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:14.9770591Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1722699Z # Subtest: purpose coverage precedes incidental matches; ties and empty queries preserve source order
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1725167Z ok 70 - purpose coverage precedes incidental matches; ties and empty queries preserve source order
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1739493Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1762565Z   duration_ms: 35.169963
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1769778Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1770183Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1770919Z # Subtest: exact ID precedes references; metadata matches precede body-only matches; optional fields are safe
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1772069Z ok 71 - exact ID precedes references; metadata matches precede body-only matches; optional fields are safe
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1772664Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1772984Z   duration_ms: 13.440889
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1773771Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1774130Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1774746Z # Subtest: real corpus: salary purpose precedes prohibition while recall and all filters stay unchanged
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1775600Z ok 72 - real corpus: salary purpose precedes prohibition while recall and all filters stay unchanged
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1776149Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1776459Z   duration_ms: 157.595093
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1777043Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1777344Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1777929Z # Subtest: distinct purpose terms beat metadata coverage; repeats and frequency do not boost rank
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1778740Z ok 73 - distinct purpose terms beat metadata coverage; repeats and frequency do not boost rank
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1779271Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1779578Z   duration_ms: 4.548405
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1779913Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1780214Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1780764Z # Subtest: short and numeric IDs remain exact even when a reference title would otherwise win
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1781533Z ok 74 - short and numeric IDs remain exact even when a reference title would otherwise win
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1782217Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1782528Z   duration_ms: 5.970263
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1782876Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1783198Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1893780Z # Subtest: later versions with links and unlinked limitations remain discoverable in original order
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1895029Z ok 75 - later versions with links and unlinked limitations remain discoverable in original order
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1895582Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1895898Z   duration_ms: 1.459704
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1896313Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1896596Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1897206Z # Subtest: duplicates preserve separate destinations, raw qualification and unsafe-looking literal titles
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1898087Z ok 76 - duplicates preserve separate destinations, raw qualification and unsafe-looking literal titles
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1901235Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1902177Z   duration_ms: 0.225338
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1902538Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1902849Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1903429Z # Subtest: sparse and unknown structures do not invent verification or source destinations
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1904231Z ok 77 - sparse and unknown structures do not invent verification or source destinations
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1904733Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1905054Z   duration_ms: 0.22638
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1905389Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1905703Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1906246Z # Subtest: a successful shared source is published before an unrelated request finishes
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1906981Z ok 78 - a successful shared source is published before an unrelated request finishes
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1907481Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1907787Z   duration_ms: 5.499825
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1908121Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1908430Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1908941Z # Subtest: failed and aborted sources never publish invented or duplicate entries
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1909644Z ok 79 - failed and aborted sources never publish invented or duplicate entries
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1910125Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1910431Z   duration_ms: 0.666672
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1910765Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1911064Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1912074Z # Subtest: share scheduling supports existing ID aliases without treating filenames as evidence
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1913192Z ok 80 - share scheduling supports existing ID aliases without treating filenames as evidence
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1913882Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1914182Z   duration_ms: 0.744268
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1914609Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1914904Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1915560Z # Subtest: source failures do not publish a row and later successful sources still arrive once
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1916482Z ok 81 - source failures do not publish a row and later successful sources still arrive once
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1916901Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1917469Z   duration_ms: 0.571059
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1917691Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1917869Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1918266Z # Subtest: context explains deep synonym matches without turning a prohibition into a claim
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1918870Z ok 82 - context explains deep synonym matches without turning a prohibition into a claim
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1919244Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1919418Z   duration_ms: 11.817108
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1919771Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1919954Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1920318Z # Subtest: context distinguishes visible fields, source URLs, original titles and ID aliases
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1920803Z ok 83 - context distinguishes visible fields, source URLs, original titles and ID aliases
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1921041Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1921156Z   duration_ms: 6.670805
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1921290Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1921403Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1922034Z # Subtest: context explains separate query terms, bounds density, and omits empty searches
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1922622Z ok 84 - context explains separate query terms, bounds density, and omits empty searches
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1922952Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1923118Z   duration_ms: 6.065481
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1923274Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1923387Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1923671Z # Subtest: excerpt preserves original Unicode, markup as text, and a bounded window around a late match
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1924247Z ok 85 - excerpt preserves original Unicode, markup as text, and a bounded window around a late match
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1924546Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1924715Z   duration_ms: 6.56119
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1924863Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1924977Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1925218Z # Subtest: passage points to the actual late block, preserving its negative source text
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1925723Z ok 86 - passage points to the actual late block, preserving its negative source text
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1926065Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1926193Z   duration_ms: 1.522688
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1926323Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1926436Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1926672Z # Subtest: passage never joins list rows, invents href quotes, or matches empty input
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1927100Z ok 87 - passage never joins list rows, invents href quotes, or matches empty input
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1927313Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1927425Z   duration_ms: 0.148834
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1927614Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1927746Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1927998Z # Subtest: literal excerpts retain original Unicode, punctuation and unsafe-looking text
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1928455Z ok 88 - literal excerpts retain original Unicode, punctuation and unsafe-looking text
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1928680Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1928791Z   duration_ms: 0.210476
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1928920Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1929033Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1929375Z # Subtest: long excerpts are continuous original text around the match with explicit omission
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1929775Z ok 89 - long excerpts are continuous original text around the match with explicit omission
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1930078Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1930240Z   duration_ms: 18.687724
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1930441Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1930611Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1931042Z # Subtest: normalization length changes near a distant hit keep the matching original letters
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1931773Z ok 90 - normalization length changes near a distant hit keep the matching original letters
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1932139Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1932315Z   duration_ms: 1.586804
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1932515Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1932686Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1933091Z # Subtest: first actual text match wins, and an oversized keyword is never falsely excerpted
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1933647Z ok 91 - first actual text match wins, and an oversized keyword is never falsely excerpted
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1933872Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1933983Z   duration_ms: 0.472069
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1934262Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1934376Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1934652Z # Subtest: context-sensitive casing and expanding keywords cannot quote a different occurrence
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1935056Z ok 92 - context-sensitive casing and expanding keywords cannot quote a different occurrence
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1935304Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1935415Z   duration_ms: 0.872772
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1935690Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1935806Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1936068Z # Subtest: whole graphemes can be retained without falsely calling a complete quote partial
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1936454Z ok 93 - whole graphemes can be retained without falsely calling a complete quote partial
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1936684Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1936794Z   duration_ms: 0.302454
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1936923Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1937040Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1937319Z # Subtest: active conditions preserve the original query, all facets and unfamiliar scenario URLs
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1937741Z ok 94 - active conditions preserve the original query, all facets and unfamiliar scenario URLs
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1937980Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1938111Z   duration_ms: 1.432403
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1938239Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1938353Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1938624Z # Subtest: a relaxation changes exactly one facet, preserves input and reports the real count
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1939022Z ok 95 - a relaxation changes exactly one facet, preserves input and reports the real count
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1939253Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1939365Z   duration_ms: 23.378354
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1939496Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1939609Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1939860Z # Subtest: never propose a single change that still returns zero, or discard the query
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1940223Z ok 96 - never propose a single change that still returns zero, or discard the query
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1940443Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1940554Z   duration_ms: 15.476298
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1940689Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1940802Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1941151Z # Subtest: suggestion counts use the supplied loaded corpus, including pending entries without inventing evidence
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1941625Z ok 97 - suggestion counts use the supplied loaded corpus, including pending entries without inventing evidence
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1942222Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1942385Z   duration_ms: 1.59646
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1942591Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.1942765Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2661164Z # node:assert:150
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2661961Z #   throw new AssertionError(obj);
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2662508Z #   ^
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2662935Z # AssertionError [ERR_ASSERTION]: filters space-separated 314
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2663383Z # 3 !== 2
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2664062Z #     at Object.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/search.test.cjs:106:8)
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2664770Z #     at Module._compile (node:internal/modules/cjs/loader:1781:14)
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2665359Z #     at Object..js (node:internal/modules/cjs/loader:1913:10)
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2665889Z #     at Module.load (node:internal/modules/cjs/loader:1505:32)
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2666438Z #     at Function._load (node:internal/modules/cjs/loader:1309:12)
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2666995Z #     at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2668050Z #     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2668667Z #     at node:internal/main/run_main_module:36:49 {
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2669012Z #   generatedMessage: false,
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2669270Z #   code: 'ERR_ASSERTION',
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2669490Z #   actual: 3,
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2669677Z #   expected: 2,
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2669897Z #   operator: 'strictEqual',
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2670139Z #   diff: 'simple'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2670334Z # }
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2670521Z # Node.js v22.23.3
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2730176Z # Subtest: tests/search.test.cjs
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2730677Z not ok 22 - tests/search.test.cjs
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2730919Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2731111Z   duration_ms: 152.356795
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2731332Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2731938Z   location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/search.test.cjs:1:1'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2732407Z   failureType: 'testCodeFailure'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2733103Z   exitCode: 1
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2733287Z   signal: ~
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2733476Z   error: 'test failed'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2733706Z   code: 'ERR_TEST_FAILURE'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2733915Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2734448Z # Subtest: source guide distinguishes all current origin labels without claiming independent verification
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2735186Z ok 99 - source guide distinguishes all current origin labels without claiming independent verification
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2735614Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2735801Z   duration_ms: 1.59713
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2736024Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2736202Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2736672Z # Subtest: default and unfamiliar source types remain honest instead of silently assigning evidence
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2737372Z ok 100 - default and unfamiliar source types remain honest instead of silently assigning evidence
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2737789Z   ---
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2737968Z   duration_ms: 0.230306
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2738183Z   type: 'test'
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2738375Z   ...
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2772983Z 1..100
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2781046Z # tests 100
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2792883Z # suites 0
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2793141Z # pass 96
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2793326Z # fail 4
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2793519Z # cancelled 0
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2793730Z # skipped 0
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2793911Z # todo 0
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2794127Z # duration_ms 753.802791
+reading	Baseline tests and static preview	2026-10-19T23:04:15.2877589Z ##[error]Process completed with exit code 1.

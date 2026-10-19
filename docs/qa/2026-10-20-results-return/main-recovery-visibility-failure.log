@@ -1,0 +1,26 @@
+preview	Verify new journeys and original regressions	﻿2026-10-19T23:21:02.8594789Z ##[group]Run python3 -m http.server 8130 --directory "$RUNNER_TEMP/return-preview" > /tmp/return-preview.log 2>&1 &
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8595670Z ^[[36;1mpython3 -m http.server 8130 --directory "$RUNNER_TEMP/return-preview" > /tmp/return-preview.log 2>&1 &^[[0m
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8596421Z ^[[36;1mpython3 -m http.server 8081 --directory "$RUNNER_TEMP/return-preview" > /tmp/return-discovery.log 2>&1 &^[[0m
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8596968Z ^[[36;1mnode tests/results-return-browser.cjs^[[0m
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8597290Z ^[[36;1mnode tests/source-guide-browser.cjs^[[0m
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8597593Z ^[[36;1mnode tests/discovery-browser.cjs^[[0m
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8597883Z ^[[36;1mnode tests/reader-browser.cjs^[[0m
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8650651Z shell: /usr/bin/bash -e {0}
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8650927Z env:
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8651202Z   NODE_PATH: /home/runner/work/_temp/return-tools/node_modules
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8651634Z   GUIDE_URL: http://127.0.0.1:8130/ai-agent-use-cases/
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8651997Z   READER_URL: http://127.0.0.1:8130/ai-agent-use-cases/
+preview	Verify new journeys and original regressions	2026-10-19T23:21:02.8652341Z ##[endgroup]
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1300413Z AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1301049Z 
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1301342Z   assert(focused.top>=0&&focused.bottom<=844)
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1301693Z 
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1302298Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/results-return-browser.cjs:87:136 {
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1303095Z   generatedMessage: true,
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1303500Z   code: 'ERR_ASSERTION',
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1303902Z   actual: false,
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1304260Z   expected: true,
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1304616Z   operator: '==',
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1304968Z   diff: 'simple'
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1305291Z }
+preview	Verify new journeys and original regressions	2026-10-19T23:21:46.1690679Z ##[error]Process completed with exit code 1.

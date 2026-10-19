@@ -1,0 +1,30 @@
+controls	Verify published reader	﻿2026-10-19T22:43:16.3916815Z ##[group]Run node <<'NODE'
+controls	Verify published reader	2026-10-19T22:43:16.3917102Z ^[[36;1mnode <<'NODE'^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3917294Z ^[[36;1mconst fs=require('node:fs');^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3917505Z ^[[36;1m(async()=>{^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3917684Z ^[[36;1m  for(let i=0;i<90;i++){^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3918349Z ^[[36;1m    const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/assets/reader.css?qa='+process.env.GITHUB_SHA);^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3918912Z ^[[36;1m    if(r.ok&&await r.text()===fs.readFileSync('assets/reader.css','utf8'))return;^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3919252Z ^[[36;1m    await new Promise(r=>setTimeout(r,2000));^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3919486Z ^[[36;1m  }^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3919670Z ^[[36;1m  throw Error('Published CSS mismatch');^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3919947Z ^[[36;1m})().catch(e=>{console.error(e);process.exitCode=1});^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3920192Z ^[[36;1mNODE^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3920567Z ^[[36;1mLABEL=live CONTROLS_URL=https://richardhan.github.io/ai-agent-use-cases/ node tests/reader-controls-browser.cjs^[[0m
+controls	Verify published reader	2026-10-19T22:43:16.3976323Z shell: /usr/bin/bash -e {0}
+controls	Verify published reader	2026-10-19T22:43:16.3976532Z env:
+controls	Verify published reader	2026-10-19T22:43:16.3976735Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+controls	Verify published reader	2026-10-19T22:43:16.3976983Z ##[endgroup]
+controls	Verify published reader	2026-10-19T22:43:19.0011646Z CONTROL_MEASUREMENTS {"engine":"chromium","width":1440,"controls":[{"id":"nav-prev-case","width":84.609375,"height":44,"font":"14px"},{"id":"nav-next-case","width":84.609375,"height":44,"font":"14px"},{"id":"close-detail","width":70.1875,"height":44,"font":"14px"}]}
+controls	Verify published reader	2026-10-19T22:43:23.7622149Z CONTROL_MEASUREMENTS {"engine":"chromium","width":390,"controls":[{"id":"nav-prev-case","width":104,"height":44,"font":"14px"},{"id":"nav-next-case","width":104,"height":44,"font":"14px"},{"id":"close-detail","width":104,"height":44,"font":"14px"}]}
+controls	Verify published reader	2026-10-19T22:43:27.7791071Z CONTROL_MEASUREMENTS {"engine":"chromium","width":320,"controls":[{"id":"nav-prev-case","width":80.65625,"height":44,"font":"14px"},{"id":"nav-next-case","width":80.671875,"height":44,"font":"14px"},{"id":"close-detail","width":80.65625,"height":44,"font":"14px"}]}
+controls	Verify published reader	2026-10-19T22:43:31.7722708Z CONTROL_MEASUREMENTS {"engine":"chromium","width":360,"controls":[{"id":"nav-prev-case","width":94,"height":44,"font":"14px"},{"id":"nav-next-case","width":94,"height":44,"font":"14px"},{"id":"close-detail","width":94,"height":44,"font":"14px"}]}
+controls	Verify published reader	2026-10-19T22:44:02.0421013Z locator.waitFor: Timeout 30000ms exceeded.
+controls	Verify published reader	2026-10-19T22:44:02.0421359Z Call log:
+controls	Verify published reader	2026-10-19T22:44:02.0421611Z   - waiting for locator('#detail[open]') to be visible
+controls	Verify published reader	2026-10-19T22:44:02.0421832Z 
+controls	Verify published reader	2026-10-19T22:44:02.0422138Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/reader-controls-browser.cjs:36:59 {
+controls	Verify published reader	2026-10-19T22:44:02.0422618Z   log: [ "  - waiting for locator('#detail[open]') to be visible" ],
+controls	Verify published reader	2026-10-19T22:44:02.0422898Z   name: 'TimeoutError'
+controls	Verify published reader	2026-10-19T22:44:02.0423086Z }
+controls	Verify published reader	2026-10-19T22:44:02.4162000Z ##[error]Process completed with exit code 1.

@@ -101,3 +101,4 @@
 .reader-search-jump strong{font-size:14px;line-height:1.7;color:var(--green)}
 .reader-search-jump:hover{background:#e9eee0;border-color:var(--green)}
 @media(max-width:640px){.reader-search{padding:16px;margin:18px 0}}
+.detail-load-status{padding:10px 12px;border-left:3px solid var(--green);background:#f1f6ec;color:var(--green);font-size:14px;line-height:1.8;overflow-wrap:anywhere}

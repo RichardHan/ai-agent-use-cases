@@ -445,7 +445,7 @@ function renderRelated(item) {
     });
     section.append(list);
   } else {
-    section.append(el('p', 'related-empty', '目前條件下，沒有其他相同主題的主要案例。可關閉閱讀後調整搜尋條件。'));
+    section.append(el('p', 'related-empty', discoveryReady ? '目前條件下，沒有其他相同主題的主要案例。可關閉閱讀後調整搜尋條件。' : '其他案例仍在載入，完成後會依目前搜尋條件提供延伸閱讀。'));
   }
   const back = el('button', 'related-back', '關閉閱讀');back.type = 'button';
   back.addEventListener('click', closeDetail);section.append(back);
@@ -469,7 +469,7 @@ function updateModalNav() {
   const neighbours = detailNeighbours(currentDetailItem, currentFiltered);
   [[prevBtn, neighbours.prev, '上一則案例'], [nextBtn, neighbours.next, '下一則案例']].forEach(([button, target, label]) => {
     button.disabled = !target;
-    button.title = target ? label + '：' + target.title : label + '：目前結果中沒有可切換的案例';
+    button.title = target ? label + '：' + target.title : label + (discoveryReady ? '：目前結果中沒有可切換的案例' : '：其他案例仍在載入');
     button.setAttribute('aria-label', button.title);
   });
 }
@@ -535,6 +535,12 @@ function showDetail(item, trigger, updateURL=true) {
     actionRow.append(tagsRow);
   }
   body.append(actionRow);
+
+  if (!discoveryReady) {
+    const status=el('p','detail-load-status','這篇已可閱讀。其他案例仍在載入，完成後會提供切換與延伸閱讀。');
+    status.setAttribute('role','status');
+    body.append(status);
+  }
 
   body.append(el('p', 'detail-warning', item.kind === 'pending' ? '待查線索：證據尚不足，不列成功或已完成案例。' : '來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。'));
 
@@ -1023,6 +1029,12 @@ async function mapConcurrent(items, limit, workerFn) {
   await Promise.all(workers);
   return results;
 }
+function prioritizeSharedSource(paths,target) {
+  const id=norm(target||'').trim().replace(/^#/, '').match(/^(?:([a-z]+)[\s-：:#.]*)?(\d+)$/);
+  if(!id || (id[1] && !['uc','p'].includes(id[1])))return paths;
+  const first=id[1]==='p' ? 'sources/pending.md' : paths.find(path=>new RegExp('^(?:cases|evidence)/'+id[2].padStart(3,'0')+'-').test(path));
+  return first && paths.includes(first) ? [first,...paths.filter(path=>path!==first)] : paths;
+}
 async function loadCorpus(paths, options = {}) {
   const fetchFn = options.fetch || fetch;
   const parseFn = options.parseFile || parseFile;
@@ -1056,7 +1068,7 @@ async function loadCorpus(paths, options = {}) {
         }
       }
       completed++;
-      if (result.ok) { succeeded++; entryCount+=result.entries.length; }
+      if (result.ok) { succeeded++; entryCount+=result.entries.length; options.onSource?.(result.entries); }
       options.onProgress?.({completed,succeeded,entryCount,total:paths.length});
       return result;
     });
@@ -1226,8 +1238,20 @@ async function load() {
       displayCopy = {};
     }
     let announced=-1;
-    const { entries: loaded, failed } = await loadCorpus(paths, {
+    const orderedPaths=prioritizeSharedSource(paths,new URLSearchParams(location.search).get('case'));
+    const { entries: loaded, failed } = await loadCorpus(orderedPaths, {
       fetch,parseFile,concurrency:16,timeout:12000,budget:remaining(),signal:initialLoadController.signal,
+      onSource:items=>{
+        // Read only a successfully parsed source whose actual ID still matches
+        // the current URL. Do not reopen a case after close or history traversal.
+        if($('detail').open)return;
+        const target=new URLSearchParams(location.search).get('case');
+        const item=matchCase(target,items);
+        if(!item)return;
+        entries=mergeCorpus(entries,items);
+        allowAutomaticArrival=false;
+        showDetail(item,null,false);
+      },
       onProgress:({completed,succeeded,entryCount,total})=>{
         $('source-progress').max=total;
         $('source-progress').value=completed;
@@ -1261,7 +1285,14 @@ async function load() {
     discoveryReady=true;$('guide-options').disabled=false;$('drawn-case').setAttribute('aria-busy','false');
     render(false);
     const current = matchCase(params.get('case'));
-    if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
+    if ($('detail').open && currentDetailItem?.id===current?.id) {
+      // Keep the exact research DOM, reading position and focused control.
+      updateModalNav();
+      refreshRelated();
+      const status=$('detail-body').querySelector('.detail-load-status');
+      if(status)status.textContent=failedPaths.length ? '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。' : '其他案例已載入，可依目前搜尋條件切換與探索。';
+    }
+    else if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
     else if(skippedFromButton)focusLoadedResults();
     else finishArrival(params,failedPaths.length>0);
   } catch (error) {

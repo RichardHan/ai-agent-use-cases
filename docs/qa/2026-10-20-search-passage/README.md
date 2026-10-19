@@ -95,4 +95,41 @@ NODE_PATH=<cloud-tools>/node_modules CONTEXT_URL=http://127.0.0.1:8110/ai-agent-
 | 390手機命中位置 | [before-mobile-location.jpg](before-mobile-location.jpg) | [after-mobile-location.jpg](after-mobile-location.jpg) |
 | 320手機命中位置 | [before-small-mobile-location.jpg](before-small-mobile-location.jpg) | [after-small-mobile-location.jpg](after-small-mobile-location.jpg) |
 
-上表節錄入口的before/after取自同一最終runner，正式站當時仍為基準reader；定位before沿用較早正式站原圖。320px的較長限制段需要捲動，兩張畫面保留上下文，未用CSS截斷原文或節錄。主整合者已目視，獨立視覺判定另補。產品資產共增加4185 bytes（未壓縮），不是載入提速主張。
+上表節錄入口的before/after取自同一最終runner，正式站當時仍為基準reader；定位before沿用較早正式站原圖。320px的較長限制段需要捲動，兩張畫面保留上下文，未用CSS截斷原文或節錄。主整合者已目視，獨立視覺判定可合併、無剩餘必修。產品資產共增加4185 bytes（未壓縮），不是載入提速主張。
+
+## 合併與 Pages 建置
+
+獨立角色最終判定可合併，無剩餘必修；已完整目視桌面／390／320節錄與原段定位，並核對98單元、45次主要axe及原始JSON。依授權以非強推merge整合為8ed7258；獨立比對產品、tests、workflow與f7c476d完全一致，沒有覆蓋原工作樹兩個未提交修改。沒有開PR（EMU限制），不是PR合併。
+
+[Pages39327059373](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39327059373)正式Jekyll建置與部署全部成功；公開HTML、app.js、reader.js、reader.css皆HTTP200且逐byte等於合併提交，SHA256見published-assets.json。正式瀏覽器流程39327060863的失敗與後續有診斷補驗見下方，沒有把原run改記為成功。
+
+
+變更檔案：`assets/reader.js`、`assets/reader.css`、`tests/search-passage.test.cjs`、`tests/reader-context-round.cjs`、`.github/workflows/reader-context-round.yml`、`SITE.md`及本目錄證據。原始案例、來源、目錄、首頁與`assets/app.js`均未修改。
+
+
+## 原正式驗收失敗：保留，不改寫為成功
+
+8ed7258的Pages部署和公開資產均成功，但不等於全背景QA全綠：
+
+- [本輪39327060863](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39327060863)：整合預覽四套全過；正式desktop與390完成，320的UC001已完成、接著UC028入站的完整載入斷言失敗（loaded欄位每次入站覆寫，不能說成320第一次就失敗）。合計完成5次axe且0違規，Firefox/WebKit該次正式尚未執行；原始published-original-partial.json保留缺項名單。
+- [Evidence39327060689](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39327060689)：預覽全過、正式review-sections五配置完成；接續舊reader-search在390的第二個無q『?case=UC024』等待detail10秒逾時，不是前一個帶no-original-match的網址。見context-published-original-partial.json。
+- [Improvement39327060697](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39327060697)：預覽六配置全過，正式390在讀UC359、刻意暫停來源釋放後進入部分來源未載入狀態，而原斷言要求全庫已載入。見early-published-original-partial.json。
+- [Method39327060802](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39327060802)：公開reader資產完全一致，但UC338直接連結等detail60秒逾時。原log可於該run下載。
+
+後三個失敗階段皆無q，節錄helper不執行；app.js也未變。但原產物缺HTTP/缺項時序，不能僅憑此確定根因、宣稱網路抖動或已修好。本輪另有診斷補證，原失敗仍保留。
+
+診斷分支verify/search-passage-release（8ef3dd7，未合併main）只加網路與當場狀態、截圖及hold時序；原功能斷言與10/60秒逾時皆保留。新流程仍五配置；三套舊失敗只補Chromium390，每項一次，沒有自動重試。獨立角色確認不削弱斷言；正式補證結果見下方。
+
+
+## 正式補證與結案
+
+[有診斷補驗39328468003](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39328468003)驗證8ef3dd7（產品與main8ed7258完全相同），各情境一次、沒有自動重試，全部成功：
+
+- 正式新流程：Chromium1440/390/320、Firefox390、WebKit390五配置，皆357筆／零缺項，10次axe零違規；搜尋、組合篩選、空結果、定位、直鏈重新整理與返回、否定、Unicode、原文完整性與44px控制均保留原斷言。原始結果published-verification.json。
+- 原context、early、method三套：只重播原失敗Chromium390配置，保留原10秒、60秒與完整載入文字斷言，各一次成功，不冒稱又跑全部尺寸。context-published-replay.json、early-published-replay.json及method-published-replay.json。
+- 所有捕捉到的第一方主文件皆HTTP200、含預期detail HTML，沒有pageerror或requestfailed事件；200/304來源讀取與原測試UC-005受控來源503另列於publication-diagnostic-summary.json。完整逐請求紀錄見該run的release-diagnostic artifact，repo摘要有明示節錄範圍，未稱為完整網路log。
+- 正常流程在context.close後才browser.close，所以末尾snapshot為空；本次無失敗，不能將空snapshot當作拿到了歷史失敗當場資料。歷史四次原因仍未確定，本次成功不等於已修復它們；不據此改產品或放寬QA。
+
+公開實圖：[桌面節錄](published-desktop-entry.jpg) · [390節錄與定位入口](published-mobile-entry.jpg) · [320原段焦點](published-small-mobile-location.jpg)。這些取自正式HTTPS網站；前述同runner前後圖仍保留以便比較。公開資產與部署成功證據亦保留。
+
+76b63de為初版診斷（未合併、產品不變）亦成功，但逐response寫JSON可能干擾期限，因此結論只採每秒buffer的8ef3dd7。補證分支不合併main，避免將臨時診斷帶入產品。最後僅補文書與證據，不改產品。四次原正式QA失敗仍留在GitHub及本紀錄，不聲稱全背景綠燈。

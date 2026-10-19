@@ -1,0 +1,46 @@
+{
+  "base": "https://richardhan.github.io/ai-agent-use-cases/",
+  "observe": false,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 233,
+      "detailOpenMs": 362,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "46ba4e55c84e59ed750d9441ffd56b124f0080804207e1d8bbe1c5c91cba4534"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
+        }
+      ],
+      "purposeBounds": {
+        "top": 520.96875,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 84,
+      "readingTargetDelta": 0.375,
+      "wheelStatusHeightBefore": 70.375,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.375,
+      "statusRemovalReadingDelta": 0.375,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    }
+  ]
+}

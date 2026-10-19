@@ -1,0 +1,224 @@
+[
+  {
+    "engine": "chromium",
+    "size": "desktop",
+    "cases": [
+      {
+        "id": "UC-001",
+        "query": "Lyft",
+        "heading": "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+        "headingTop": 143.25,
+        "hitTop": 639.359375,
+        "hitText": "同篇另兩項（簡記，不另開案例）：訂餐廳時 Muse 很快訂好並寫進日曆，但餐廳價位明顯超出作者給的預算；申請航班延誤的 Lyft 費用退款時，Muse 依收據截圖寫出不錯的郵件草稿，卻把「航空公司不收郵件申請、要貼到官網表單」埋在草稿裡，作者最後仍手動到官網填寫。",
+        "viewport": 1000,
+        "located": {
+          "top": 143.359375,
+          "bottom": 223.140625,
+          "toolbarBottom": 126,
+          "text": "同篇另兩項（簡記，不另開案例）：訂餐廳時 Muse 很快訂好並寫進日曆，但餐廳價位明顯超出作者給的預算；申請航班延誤的 Lyft 費用退款時，Muse 依收據截圖寫出不錯的郵件草稿，卻把「航空公司不收郵件申請、要貼到官網表單」埋在草稿裡，作者最後仍手動到官網填寫。"
+        }
+      },
+      {
+        "id": "UC-028",
+        "query": "服務降級",
+        "heading": "待查P-002原帖補讀：Muse代為檢查電信帳戶與線上客服議價（2026-10-17補）",
+        "headingTop": 143.34375,
+        "hitTop": 588.265625,
+        "hitText": "證據判斷：三則都是作者歸因的節省金額，未核前後帳單、優惠到期後價格、是否有新綁約或服務降級。截圖中的「每月$40×6個月」只代表短期折扣，不等於長期降費。代理自行與客服對話或在帳戶內改方案，屬於代表本人做出帳戶與合約變更，應事先明確授權，並在接受任何方案前回報條件給本人確認。",
+        "viewport": 1000,
+        "located": {
+          "top": 143.265625,
+          "bottom": 223.046875,
+          "toolbarBottom": 126,
+          "text": "證據判斷：三則都是作者歸因的節省金額，未核前後帳單、優惠到期後價格、是否有新綁約或服務降級。截圖中的「每月$40×6個月」只代表短期折扣，不等於長期降費。代理自行與客服對話或在帳戶內改方案，屬於代表本人做出帳戶與合約變更，應事先明確授權，並在接受任何方案前回報條件給本人確認。"
+        }
+      }
+    ],
+    "audits": [
+      {
+        "id": "UC-001",
+        "violations": []
+      },
+      {
+        "id": "UC-028",
+        "violations": []
+      }
+    ],
+    "loaded": {
+      "entries": 357,
+      "failedPaths": []
+    },
+    "corpus": {
+      "entries": 357,
+      "passages": 459
+    },
+    "complete": true
+  },
+  {
+    "engine": "chromium",
+    "size": "mobile",
+    "cases": [
+      {
+        "id": "UC-001",
+        "query": "Lyft",
+        "heading": "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+        "headingTop": 157.078125,
+        "hitTop": 1224.46875,
+        "hitText": "同篇另兩項（簡記，不另開案例）：訂餐廳時 Muse 很快訂好並寫進日曆，但餐廳價位明顯超出作者給的預算；申請航班延誤的 Lyft 費用退款時，Muse 依收據截圖寫出不錯的郵件草稿，卻把「航空公司不收郵件申請、要貼到官網表單」埋在草稿裡，作者最後仍手動到官網填寫。",
+        "viewport": 844,
+        "located": {
+          "top": 157.46875,
+          "bottom": 370.21875,
+          "toolbarBottom": 140,
+          "text": "同篇另兩項（簡記，不另開案例）：訂餐廳時 Muse 很快訂好並寫進日曆，但餐廳價位明顯超出作者給的預算；申請航班延誤的 Lyft 費用退款時，Muse 依收據截圖寫出不錯的郵件草稿，卻把「航空公司不收郵件申請、要貼到官網表單」埋在草稿裡，作者最後仍手動到官網填寫。"
+        }
+      },
+      {
+        "id": "UC-028",
+        "query": "服務降級",
+        "heading": "待查P-002原帖補讀：Muse代為檢查電信帳戶與線上客服議價（2026-10-17補）",
+        "headingTop": 157.03125,
+        "hitTop": 1113.640625,
+        "hitText": "證據判斷：三則都是作者歸因的節省金額，未核前後帳單、優惠到期後價格、是否有新綁約或服務降級。截圖中的「每月$40×6個月」只代表短期折扣，不等於長期降費。代理自行與客服對話或在帳戶內改方案，屬於代表本人做出帳戶與合約變更，應事先明確授權，並在接受任何方案前回報條件給本人確認。",
+        "viewport": 844,
+        "located": {
+          "top": 156.640625,
+          "bottom": 342.796875,
+          "toolbarBottom": 140,
+          "text": "證據判斷：三則都是作者歸因的節省金額，未核前後帳單、優惠到期後價格、是否有新綁約或服務降級。截圖中的「每月$40×6個月」只代表短期折扣，不等於長期降費。代理自行與客服對話或在帳戶內改方案，屬於代表本人做出帳戶與合約變更，應事先明確授權，並在接受任何方案前回報條件給本人確認。"
+        }
+      }
+    ],
+    "audits": [
+      {
+        "id": "UC-001",
+        "violations": []
+      },
+      {
+        "id": "UC-028",
+        "violations": []
+      }
+    ],
+    "loaded": {
+      "entries": 357,
+      "failedPaths": []
+    },
+    "complete": true
+  },
+  {
+    "engine": "chromium",
+    "size": "small-mobile",
+    "cases": [
+      {
+        "id": "UC-001",
+        "query": "Lyft",
+        "heading": "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+        "headingTop": 151.46875,
+        "hitTop": 1597.578125,
+        "hitText": "同篇另兩項（簡記，不另開案例）：訂餐廳時 Muse 很快訂好並寫進日曆，但餐廳價位明顯超出作者給的預算；申請航班延誤的 Lyft 費用退款時，Muse 依收據截圖寫出不錯的郵件草稿，卻把「航空公司不收郵件申請、要貼到官網表單」埋在草稿裡，作者最後仍手動到官網填寫。",
+        "viewport": 740,
+        "located": {
+          "top": 151.578125,
+          "bottom": 444.109375,
+          "toolbarBottom": 134.796875,
+          "text": "同篇另兩項（簡記，不另開案例）：訂餐廳時 Muse 很快訂好並寫進日曆，但餐廳價位明顯超出作者給的預算；申請航班延誤的 Lyft 費用退款時，Muse 依收據截圖寫出不錯的郵件草稿，卻把「航空公司不收郵件申請、要貼到官網表單」埋在草稿裡，作者最後仍手動到官網填寫。"
+        }
+      }
+    ],
+    "audits": [
+      {
+        "id": "UC-001",
+        "violations": []
+      }
+    ],
+    "loaded": {
+      "entries": 271,
+      "failedPaths": [
+        "cases/280-notion-daily-slack-dots-hours.md",
+        "cases/281-grok-mockup-claude-worker-qa-pipeline.md",
+        "cases/282-patient-portal-voice-to-message.md",
+        "cases/283-dots-connected-apps-permission-pitfalls.md",
+        "cases/284-delayed-baggage-status-expense-claim.md",
+        "cases/285-x-voice-acting-audition-email-digest.md",
+        "cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md",
+        "cases/287-bot-site-review-analytics-signup-preview.md",
+        "cases/288-phone-only-home-screen-daily-board.md",
+        "cases/289-social-claim-evidence-triage.md",
+        "cases/290-election-twice-daily-sourced-brief.md",
+        "cases/291-provisional-match-time-calendar-correction.md",
+        "cases/292-new-model-api-signup-topup-console.md",
+        "cases/293-draft-ai-audit-ai-notion-audit-record.md",
+        "cases/294-rare-collectible-multi-shop-hourly-watch.md",
+        "cases/295-family-calendar-kitchen-display-voice-reminder.md",
+        "cases/296-cross-vendor-device-display-bridge.md",
+        "cases/297-knowledge-file-content-search-gap.md",
+        "cases/298-commitment-lead-time-task-date-reconciliation.md",
+        "cases/299-spoken-measurement-preliminary-drawing-handoff.md",
+        "cases/300-service-eligibility-subsidy-application-packet.md",
+        "cases/301-technician-chat-closeout-lead-register.md",
+        "cases/302-labeled-inbox-classifier-optimization-cutover.md",
+        "cases/303-overlooked-recall-notice-remedy-application.md",
+        "cases/304-reviewed-scoped-lesson-recall.md",
+        "cases/305-local-video-final-stage-deliverability-failure.md",
+        "cases/306-stock-image-batch-metadata-submission.md",
+        "cases/307-cloud-file-upload-byte-integrity-failure.md",
+        "cases/308-personal-clinical-trial-daily-watch.md",
+        "cases/309-product-trial-campaign-daily-auto-apply.md",
+        "cases/310-agent-run-mistake-attribution-dashboard.md",
+        "cases/311-new-model-prompt-batch-demo-gallery.md",
+        "cases/312-ambient-media-false-task-creation.md",
+        "cases/313-external-action-assignee-handoff-race.md",
+        "cases/314-agent-sandbox-always-on-service-failure.md",
+        "cases/315-work-personal-agents-tax-document-cpa-handoff.md",
+        "cases/316-slack-thread-triage-repro-bot-bug-fix.md",
+        "cases/317-nightly-explorer-builder-critic-prototype.md",
+        "cases/318-approved-account-form-shopify-customer-flow.md",
+        "cases/319-home-photo-item-inventory-claim-handoff.md",
+        "cases/320-bidirectional-reminder-state-sync.md",
+        "cases/321-expert-corpus-interactive-decision-tool.md",
+        "cases/322-creator-metrics-zero-token-daily-collection.md",
+        "cases/323-daily-ai-news-one-tap-feedback-preference-loop.md",
+        "cases/324-daily-outage-digest-verified-incident-db-pr.md",
+        "cases/325-nightly-voice-diary-prompt-confirm-sync.md",
+        "cases/326-order-history-owned-items-sale-picks.md",
+        "cases/327-cad-material-library-property-population.md",
+        "cases/328-paid-data-call-quote-variance-gate.md",
+        "cases/329-durable-agent-chain-restart-recovery.md",
+        "cases/330-unsupported-home-device-commissioning-validation.md",
+        "cases/331-undelivered-purchase-carrier-merchant-refund-chase.md",
+        "cases/332-x-ops-semiauto-prepost-human-approval.md",
+        "cases/333-notion-cross-agent-outreach-memory.md",
+        "cases/334-sdr-adsb-receiver-decoder-range-ab-test.md",
+        "cases/335-manual-routine-reenable-reverted-by-stale-instruction.md",
+        "cases/336-handheld-voice-terminal-mcp-relay.md",
+        "cases/337-daily-random-reference-photo-likeness-edit.md",
+        "cases/338-driver-daily-hours-log-paycheck-check.md",
+        "cases/339-stale-cross-product-request-provenance.md",
+        "cases/340-tool-response-evidence-capture-acceptance.md",
+        "cases/341-archived-task-runtime-state-reconciliation.md",
+        "cases/342-daily-kids-coloring-page-auto-print.md",
+        "cases/343-foreign-roadside-breakdown-insurance-form.md",
+        "cases/344-coding-agent-session-attention-webhook-routine.md",
+        "cases/345-muse-school-grades-tv-ambient-board.md",
+        "cases/346-tesla-road-trip-charge-prep-skill.md",
+        "cases/347-child-youtube-channel-comment-safety-sweep.md",
+        "cases/348-home-search-screening-realtor-disclosure-handoff.md",
+        "cases/349-dots-inquiry-ledger-calendar-reply-draft.md",
+        "cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md",
+        "cases/351-grokbot-dispatch-only-offload-free-model-agents.md",
+        "cases/352-daily-flomo-memo-insight-push-rotating-template.md",
+        "cases/353-cloud-local-agent-git-task-relay.md",
+        "cases/354-daily-bookmark-to-live-interactive-demo.md",
+        "cases/355-x-posting-coach-bot-daily-checkin.md",
+        "cases/356-paid-article-clipper-portfolio-check.md",
+        "cases/357-daily-printed-crypto-sheet-confirmed-vs-reported.md",
+        "cases/358-dots-daily-youtube-picks-private-playlist.md",
+        "cases/359-x-follower-following-audit-criteria-feedback.md",
+        "evidence/008-morning-brief-validation.md",
+        "evidence/009-background-transfer-template.md",
+        "evidence/013-authentication-diagnosis.md",
+        "sources/pending.md"
+      ]
+    }
+  }
+]

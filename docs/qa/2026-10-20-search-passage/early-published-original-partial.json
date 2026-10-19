@@ -1,0 +1,78 @@
+{
+  "base": "https://richardhan.github.io/ai-agent-use-cases/",
+  "observe": false,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 197,
+      "detailOpenMs": 324,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "46ba4e55c84e59ed750d9441ffd56b124f0080804207e1d8bbe1c5c91cba4534"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
+        }
+      ],
+      "purposeBounds": {
+        "top": 399.03125,
+        "lineHeight": 32.3
+      },
+      "readingScrollDelta": 59,
+      "readingTargetDelta": 0.1875,
+      "wheelStatusHeightBefore": 45.1875,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.1875,
+      "statusRemovalReadingDelta": 0.1875,
+      "midLoadReload": true,
+      "sourceHref": "https://zenn.dev/tec/articles/c4fbfcfffde4ad",
+      "openedSource": "https://zenn.dev/tec/articles/c4fbfcfffde4ad",
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 126,
+      "detailOpenMs": 201,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "46ba4e55c84e59ed750d9441ffd56b124f0080804207e1d8bbe1c5c91cba4534"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
+        }
+      ],
+      "purposeBounds": {
+        "top": 520.96875,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 0,
+      "readingTargetDelta": 0
+    }
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /已載入/. Input:\n\n'這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。'\n\n    at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/round-browser.cjs:58:10"
+}

@@ -1,0 +1,609 @@
+{
+  "run": 39328468003,
+  "diagnosticCommit": "8ef3dd709cea97b1ebe3e653893c40ec3cee76c8",
+  "productCommit": "8ed72585d01fdf5bfd23011f4cac7dc96e37eb9a",
+  "configuration": "New flow: five configurations; old context/early/method: original failing Chromium390 only; no retries or weakened assertions",
+  "diagnostics": [
+    {
+      "label": "context",
+      "documentResponses": [
+        {
+          "navigation": null,
+          "path": "?q=%E8%96%AA%E6%B0%B4",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=no-original-match-987654&case=UC-024",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?case=UC-024",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E8%96%AA%E6%B0%B4&case=UC-024",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E8%96%AA%E6%B0%B4&case=UC-024",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        }
+      ],
+      "resourceStatuses": {
+        "200": 2178
+      },
+      "requestFailedEvents": [],
+      "pageErrors": [],
+      "nonSuccessResources": [],
+      "holdTimeline": [],
+      "snapshots": 0
+    },
+    {
+      "label": "early",
+      "documentResponses": [
+        {
+          "navigation": null,
+          "path": "?case=UC-359",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?case=UC-005",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?case=UC-359",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?case=UC-005",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?case=UC-005",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?case=P003",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        }
+      ],
+      "resourceStatuses": {
+        "200": 4032,
+        "503": 1
+      },
+      "requestFailedEvents": [],
+      "pageErrors": [],
+      "nonSuccessResources": [
+        {
+          "received": 10416,
+          "path": "cases/005-cloud-pr-review.md",
+          "status": 503
+        }
+      ],
+      "holdTimeline": [
+        {
+          "at": 392,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-359",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 1664,
+          "phase": "release",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-359",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 1664,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-359",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 3361,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 3361,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 4085,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 4085,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 4977,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 5196,
+          "phase": "release",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 5197,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 5886,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 6151,
+          "phase": "release",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 6152,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 6818,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 6912,
+          "phase": "release",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 6912,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 7937,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-359",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 8396,
+          "phase": "release",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-359",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 8396,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-359",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 9176,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 9593,
+          "phase": "release",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 9593,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 11596,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=P003",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 11668,
+          "phase": "release",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=P003",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 11668,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?case=P003",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 12608,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 12785,
+          "phase": "request-held",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 12858,
+          "phase": "release",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 12858,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        },
+        {
+          "at": 12859,
+          "phase": "continue",
+          "url": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+          "path": "cases/001-travel-checkout.md"
+        }
+      ],
+      "snapshots": 0
+    },
+    {
+      "label": "method",
+      "documentResponses": [
+        {
+          "navigation": null,
+          "path": "",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?case=UC-338",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?case=UC-338",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?case=P-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        }
+      ],
+      "resourceStatuses": {
+        "200": 1452
+      },
+      "requestFailedEvents": [],
+      "pageErrors": [],
+      "nonSuccessResources": [],
+      "holdTimeline": [],
+      "snapshots": 0
+    },
+    {
+      "label": "passage",
+      "documentResponses": [
+        {
+          "navigation": null,
+          "path": "?q=Lyft&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=Lyft&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%9C%8D%E5%8B%99%E9%99%8D%E7%B4%9A&case=UC-028",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%9C%8D%E5%8B%99%E9%99%8D%E7%B4%9A&case=UC-028",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=Lyft&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=Lyft&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%9C%8D%E5%8B%99%E9%99%8D%E7%B4%9A&case=UC-028",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%9C%8D%E5%8B%99%E9%99%8D%E7%B4%9A&case=UC-028",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=Lyft&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=Lyft&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%9C%8D%E5%8B%99%E9%99%8D%E7%B4%9A&case=UC-028",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%9C%8D%E5%8B%99%E9%99%8D%E7%B4%9A&case=UC-028",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=Lyft&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%9C%8D%E5%8B%99%E9%99%8D%E7%B4%9A&case=UC-028",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=Lyft&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=Lyft&case=UC-001",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%9C%8D%E5%8B%99%E9%99%8D%E7%B4%9A&case=UC-028",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%9C%8D%E5%8B%99%E9%99%8D%E7%B4%9A&case=UC-028",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        },
+        {
+          "navigation": null,
+          "path": "?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot",
+          "status": 200,
+          "type": "text/html; charset=utf-8",
+          "hasDetail": true,
+          "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+        }
+      ],
+      "resourceStatuses": {
+        "200": 7637,
+        "304": 1430
+      },
+      "requestFailedEvents": [],
+      "pageErrors": [],
+      "nonSuccessResources": [],
+      "holdTimeline": [],
+      "snapshots": 0
+    }
+  ]
+}

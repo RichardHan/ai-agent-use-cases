@@ -1,0 +1,26 @@
+[
+  {
+    "path": "index.html",
+    "status": 200,
+    "matches": true,
+    "sha256": "aba46d0077b95c20c21e9fe72bb752904bdb04abd509e7fc6ff06a39e691601d"
+  },
+  {
+    "path": "assets/app.js",
+    "status": 200,
+    "matches": true,
+    "sha256": "36adaf0417d9c5dd550840e1dffdbdbb287ef11b1a7ec82ef65b55a44a84b19a"
+  },
+  {
+    "path": "assets/reader.js",
+    "status": 200,
+    "matches": true,
+    "sha256": "2d7fd47e4422bc36213acbd316ab01894a147e7a1a0b99d09c3abec4c12c3afb"
+  },
+  {
+    "path": "assets/reader.css",
+    "status": 200,
+    "matches": true,
+    "sha256": "46ba4e55c84e59ed750d9441ffd56b124f0080804207e1d8bbe1c5c91cba4534"
+  }
+]

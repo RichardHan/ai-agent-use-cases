@@ -1,6 +1,30 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對批次：2026-10-18 13:00 UTC／2026-10-18 21:00台灣時間批次（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對批次：2026-10-19 19:30台灣時間批次（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295、308–311、316–321、327–330、334–337、339–341、342、344–347、349–350、353–356。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+
+## 2026-10-19 19:30台灣時間補核
+
+嚴格合格 **310／1,000，尚差690**：以前輪已核定299為基準，本輪逐案覆核2026-10-19新增之UC-342至UC-356共15案（08:41批次新增342–345、11:46批次增346–350、14:40批次增351–352、17:40批次增353–356）。依據本庫合格稽核標準，其中11案納入B級不同實作工作流程、4案列待定（343、348、351、352）；主要案例頁348頁、網站總收錄354筆（含3筆經驗補充、3筆待查來源），發布口徑與嚴格合格數嚴格分開。
+
+- [UC-342](../cases/342-daily-kids-coloring-page-auto-print.md)｜納入｜B。@ciguleva自述Grok Bot排程產出著色線稿並以家用印表機自動列印，附已上色成品照片。印表機連接與連續多天未核。不同050筆記天氣推墨水屏、083商品去背、337隨機參考照換臉，只計排程生成至實體著色頁列印一次。[來源](https://x.com/ciguleva/status/2111224141189984720)
+- [UC-343](../cases/343-foreign-roadside-breakdown-insurance-form.md)｜待定。@farmerathlete英文單則文字自述國外拋錨語言不通由Bot找保險道路救援表單代填；無保險公司、表單畫面、送出或受理紀錄，救援抵達僅作者歸因。流程雖不同072電話任務交接、284行李索賠，但證據不足，列待定。
+- [UC-344](../cases/344-coding-agent-session-attention-webhook-routine.md)｜納入｜B。@taylorhbuilds自述程式代理工作階段結束或停滯時以webhook叫醒Grok Bot通知，公開開源倉庫[t3-done-notify](https://github.com/TayHCode/t3-done-notify)可核README與提交紀錄。無通知截圖或漏報誤報紀錄。不同273夜間接力、074事件喚醒、061派工台帳，只計代理工作階段停滯狀態叫醒通知一次。[來源](https://x.com/taylorhbuilds/status/2111899291707215951)
+- [UC-345](../cases/345-muse-school-grades-tv-ambient-board.md)｜納入｜B。@strada自述Muse抓取孩子成績與缺交作業並經Cloudflare Worker推至電視待機首頁，附電視畫面截圖。成績抓取方式未公開，保護隱私不轉錄孩子個資。不同026學校重要時程清單、288手機個人看板、295常亮日曆，只計學業狀態推播至環境顯示一次。[來源](https://x.com/strada/status/2111926263627800968)
+- [UC-346](../cases/346-tesla-road-trip-charge-prep-skill.md)｜納入｜B。@DBurkland自述出遠門前讓Bot將特斯拉充電限制調至100%並於出發後自動還原日常上限，附計畫截圖與公開技能文字。Teslascope看不到新式排程，需本人至官方App確認。不同188電價時窗充電、010實體顯示橋接、074事件喚醒，只計長途行程充電排程與出發後自動還原一次。[來源](https://x.com/DBurkland/status/2112017140710883535)
+- [UC-347](../cases/347-child-youtube-channel-comment-safety-sweep.md)｜納入｜B。@Adamdesgns自述每日定期巡檢孩子YouTube頻道留言挑出可疑評論，附他牌拒絕截圖與公開[YouTube Guard模板頁](https://x.ai/bot/vJUWN_COWR6wA-VewASbf)。留言數與疑慮數為作者轉述，每日執行未核。不同065社群帳號稽核、345學業看板、006貼文監管，只計兒少頻道留言安全巡檢一次。[來源](https://x.com/Adamdesgns/status/2111995342329647488)
+- [UC-348](../cases/348-home-search-screening-realtor-disclosure-handoff.md)｜待定。@thecsguy英文單則文字自述買房物件兩關過濾並經Slack交房仲調閱揭露文件；對房仲自動發訊、整修費推估依據均未說明，無對話或文件紀錄。流程雖不同084看房清單、078租屋篩選，但缺乏產物證據，列待定。
+- [UC-349](../cases/349-dots-inquiry-ledger-calendar-reply-draft.md)｜納入｜B。@tetumemo日文自述dots讀取官網諮詢信、記進Notion受理台帳、查行事曆空檔並擬好Gmail回信草稿，附流程示意插圖。無台帳或草稿實際畫面，轉述者未獨立再現。不同049收件匣分級信任、059搬家詢價、025團隊活動跟進，只計詢問信登記到日曆空檔草稿一次。[來源](https://x.com/tetumemo/status/2108139463339835645)
+- [UC-350](../cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md)｜納入｜B。clearether在Zenn專文自述主管晨報依資料敏感度分級，dots讀內部郵件行程、Grok Bot整理公開新聞，含失敗與修正紀錄。無截圖，長期效益待觀察。不同008多工具連線、041多routine健康檢查、323新聞回饋、046帳號精選，只計內外部資料分級晨報分工一次。[來源](https://zenn.dev/no9_dev/articles/41b02dc076eec5)
+- [UC-351](../cases/351-grokbot-dispatch-only-offload-free-model-agents.md)｜待定。@YUMIN0369中文串自述Grok Bot只做調度、重活交雲端電腦免費模型降級Pi Agent＋DeepSeek，附架構示意圖；來源B附開源腳本[robbin/grokbot-local-agent](https://github.com/robbin/grokbot-local-agent)。兩者均無用量前後對照數據或帳單數字，省額度成效未驗證，列待定。
+- [UC-352](../cases/352-daily-flomo-memo-insight-push-rotating-template.md)｜待定。@hichaochun中文自述每天讓Grok Bot讀flomo筆記並輪換洞察角度推送回顧，附單日手機截圖。接入方式、模板輪換規則與連續執行未見，flomo AI額度描述未向官方核對，列待定。
+- [UC-353](../cases/353-cloud-local-agent-git-task-relay.md)｜納入｜B。@fankaishuoai自述雲端Grok Bot與本機多代理經私有Git任務檔雙向交接、雲端不對本機下命令，公開[robbin/agent-relay](https://github.com/robbin/agent-relay)參考實作。作者自承公開版未完成全新帳號端到端驗證，但私人版有跑通自述與權限邊界設計。不同344單向完成通知、061派工台帳、045跨代理交接，只計跨環境非對稱Git任務檔接力一次。[來源](https://x.com/fankaishuoai/status/2112108533579927701)
+- [UC-354](../cases/354-daily-bookmark-to-live-interactive-demo.md)｜納入｜B。@jxwalker自述每天從X書籤挑選點子做成可互動網頁demo，公開[作品集](https://interesting-x.scorpion-labs.com/)含21個可存取demo。早期貼文混用工具，近兩日寫Grok Bot，作品集具備獨立可訪問之成果產物。不同317夜間沙盒原型不發布、055推文研究、046書籤精選，只計書籤點子到可互動網頁demo部署一次。[來源](https://x.com/jxwalker/status/2112115508652699976)
+- [UC-355](../cases/355-x-posting-coach-bot-daily-checkin.md)｜納入｜B。@aurelcorp自述設定教練Bot每日盤點原創與轉發並檢討發文數據，附每日檢討截圖與兩週數據截圖。Bot讀取數據方式未說明。不同332發文前人工閘門、046精選、082目標進度追蹤，只計發文教練每日盤點與功課指派一次。[來源](https://x.com/aurelcorp/status/2112090254945788384)
+- [UC-356](../cases/356-paid-article-clipper-portfolio-check.md)｜納入｜B。@Will_Will_WOW自述付費Substack文章透過非官方側欄剪藏送研究Bot摘要並對照持股清單，附側欄與Bot回覆截圖及開源外掛[RongleCat/grok-bot-clipper](https://github.com/RongleCat/grok-bot-clipper)。持股對照畫面未公開。不同046精選、055研究監控、235跟單回測，只計瀏覽器側欄剪藏付費文章至研究Bot一次。[來源](https://x.com/Will_Will_WOW/status/2112086680048197689)
+- 既有案例補充（不另計）：UC-028併入SiriusXM線上議價（@BIGRICK_XLDJ）與T-Mobile漲價抵免（@attack_engineer）；UC-072併入ClawCall電話訂位模板（@BrianRoemmele）；UC-286併入Hetzner雲主機售完候補自動下單（@fabianschierz）；UC-066併入用量CSV主Bot分析（@tejas3732）與10角色Bot精簡營運規則（@yagiryuuu）；UC-037併入義大利攀岩鞋跨境含稅比價（@andriybuday）；UC-054併入饒舌影片Suno配樂與VPN TUN連線排障（@jingwangtalk）；UC-076併入CNET記者回收門號客服被擋失敗實測（Amanda Smith）；UC-351併入robbin/grokbot-local-agent回報機制；UC-314併入常駐程式閒置暫停失敗反例（@bubbleinpit）。皆屬既有流程補充，不增加計數。
+- 334／335待核、336／337既有流程版本、338待定及其他既有待定判定不變。
+
+[本批來源與覆核範圍](research-2026-10-19-1740.md)。
 
 ## 2026-10-18 21:00台灣時間補核
 

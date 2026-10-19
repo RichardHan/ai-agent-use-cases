@@ -58,4 +58,13 @@ Firefox壓力對照確認：242次選項切換，修前4,368ms、修後5,048ms�
 
 原主線Partial Load QA的正式走查使用工具的固定顯示label，在加入動態數字後無法匹配；已改為穩定value（Grok Bot），未改網站條件或降低驗收要求。第一版長時間未結束的分支QA是失敗後瀏覽器未關閉，已讓腳本在失敗時退出；未當作通過。
 
-獨立角色實讀最終產品diff、JSON和補圖，無剩餘必修。正式合併及Pages結果於完成後續記。
+獨立角色實讀最終產品diff、JSON和補圖，無剩餘必修。正式合併及Pages結果見下節。
+
+
+## 正式發布
+
+主代理再次fetch確認main仍為584e5af、工作樹沒有其他未提交內容後，將fix/facet-acceptance fast-forward整合並push main `32c79fd`；沒有reset、強推或覆蓋其他工作樹，未建立PR或冒稱PR核准。後續僅補驗收紀錄與圖片。
+
+[正式Jekyll／Pages39254416472](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39254416472)成功；[正式QA39254418094](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39254418094)成功，先逐字核對app.js／style.css／index.html與32c79fd相符，再於正式站完成三引擎五配置、五次axe零違規與Chromium390補讀／未知情境驗收。同一run另重跑預覽73項測試與完整閱讀流程，預覽20次axe零違規。正式[桌面](published-desktop.png)／[手機](published-mobile.png)已實際讀圖並與預覽比較；[正式原始結果](published-verification.json)。
+
+[既有Partial Load QA39254417936](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39254417936)也已成功，固定顯示label改為value後正式走查恢復通過。

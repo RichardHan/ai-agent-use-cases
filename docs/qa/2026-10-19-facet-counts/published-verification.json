@@ -1,0 +1,121 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "options": [
+      "24 · 全部情境",
+      "15 · 生活",
+      "4 · 工作",
+      "0 · 省錢",
+      "0 · 學習",
+      "5 · 創作",
+      "0 · 開發"
+    ],
+    "inputTimingMs": [
+      8.299999999988358,
+      9.300000000017462,
+      7.699999999982538,
+      8,
+      6.899999999994179
+    ],
+    "travelDevelopmentEmpty": true,
+    "source": {
+      "requested": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+      "opened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83"
+    },
+    "axeViolations": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "options": [
+      "24 · 全部情境",
+      "15 · 生活",
+      "4 · 工作",
+      "0 · 省錢",
+      "0 · 學習",
+      "5 · 創作",
+      "0 · 開發"
+    ],
+    "inputTimingMs": [
+      8.10000000000582,
+      8.599999999976717,
+      7.5,
+      7.600000000005821,
+      6.899999999994179
+    ],
+    "travelDevelopmentEmpty": true,
+    "axeViolations": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "options": [
+      "24 · 全部情境",
+      "15 · 生活",
+      "4 · 工作",
+      "0 · 省錢",
+      "0 · 學習",
+      "5 · 創作",
+      "0 · 開發"
+    ],
+    "inputTimingMs": [
+      9,
+      11.10000000000582,
+      7.100000000005821,
+      7.2000000000116415,
+      8.099999999976717
+    ],
+    "travelDevelopmentEmpty": true,
+    "axeViolations": []
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "options": [
+      "24 · 全部情境",
+      "15 · 生活",
+      "4 · 工作",
+      "0 · 省錢",
+      "0 · 學習",
+      "5 · 創作",
+      "0 · 開發"
+    ],
+    "inputTimingMs": [
+      11,
+      8,
+      9,
+      10,
+      9
+    ],
+    "travelDevelopmentEmpty": true,
+    "axeViolations": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "options": [
+      "24 · 全部情境",
+      "15 · 生活",
+      "4 · 工作",
+      "0 · 省錢",
+      "0 · 學習",
+      "5 · 創作",
+      "0 · 開發"
+    ],
+    "inputTimingMs": [
+      12,
+      8,
+      8,
+      8,
+      8
+    ],
+    "travelDevelopmentEmpty": true,
+    "axeViolations": []
+  },
+  {
+    "journey": "loading-partial-retry",
+    "countBefore": 14,
+    "countAfter": 15
+  }
+]

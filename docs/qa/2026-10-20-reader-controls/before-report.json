@@ -1,0 +1,89 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "controls": [
+      {
+        "id": "nav-prev-case",
+        "width": 72.234375,
+        "height": 31.796875,
+        "font": "12px"
+      },
+      {
+        "id": "nav-next-case",
+        "width": 72.234375,
+        "height": 31.796875,
+        "font": "12px"
+      },
+      {
+        "id": "close-detail",
+        "width": 63.875,
+        "height": 31.796875,
+        "font": "12px"
+      }
+    ],
+    "toolbarVisible": true,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": 200,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "controls": [
+      {
+        "id": "nav-prev-case",
+        "width": 66.234375,
+        "height": 29.796875,
+        "font": "12px"
+      },
+      {
+        "id": "nav-next-case",
+        "width": 66.234375,
+        "height": 29.796875,
+        "font": "12px"
+      },
+      {
+        "id": "close-detail",
+        "width": 63.875,
+        "height": 31.796875,
+        "font": "12px"
+      }
+    ],
+    "toolbarVisible": true,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": null,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "controls": [
+      {
+        "id": "nav-prev-case",
+        "width": 62.046875,
+        "height": 30.140625,
+        "font": "11px"
+      },
+      {
+        "id": "nav-next-case",
+        "width": 62.046875,
+        "height": 30.140625,
+        "font": "11px"
+      },
+      {
+        "id": "close-detail",
+        "width": 50.71875,
+        "height": 30.140625,
+        "font": "11px"
+      }
+    ],
+    "toolbarVisible": true,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": null,
+    "axe": [],
+    "errors": []
+  }
+]

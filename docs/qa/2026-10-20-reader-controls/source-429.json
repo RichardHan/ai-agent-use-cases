@@ -1,0 +1,11 @@
+{
+  "message": "Expected values to be strictly equal:\n\n429 !== 200\n",
+  "state": {
+    "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "dialogOpen": true,
+    "error": "案例暫時無法完整載入重新載入 先讀 GitHub 索引 ↗",
+    "partial": "還有 0 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。可稍後重試，已載入內容會保留。",
+    "failed": [],
+    "loaded": 357
+  }
+}

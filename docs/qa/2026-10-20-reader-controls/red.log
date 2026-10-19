@@ -1,0 +1,13 @@
+CONTROL_MEASUREMENTS {"engine":"chromium","width":1440,"controls":[{"id":"nav-prev-case","width":72.234375,"height":31.796875,"font":"12px"},{"id":"nav-next-case","width":72.234375,"height":31.796875,"font":"12px"},{"id":"close-detail","width":63.875,"height":31.796875,"font":"12px"}]}
+AssertionError [ERR_ASSERTION]: TOUCH_TARGET_SIZE {"id":"nav-prev-case","width":72.234375,"height":31.796875,"font":"12px"}
+    at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/reader-controls-browser.cjs:24:58
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at process.processImmediate (node:internal/timers:452:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

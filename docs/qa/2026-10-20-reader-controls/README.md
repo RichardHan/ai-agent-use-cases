@@ -1,5 +1,7 @@
 # 2026-10-20：手機閱讀控制列
 
+目前狀態：本輪已完成預覽驗收與前後截圖；以下保留前輪未完成時的歷史記錄，最新結果見「本輪接續」與「完整預覽驗收」。
+
 ## 問題與選題
 
 目標讀者：手機上從搜尋讀長案例、連續比較不同做法，再返回結果的人。
@@ -39,7 +41,7 @@ NODE_PATH=<runner-tools>/node_modules LABEL=after node tests/reader-controls-bro
 
 獨立審查者唯讀檢查CSS specificity、320px欄寬、長ID、sticky跳轉與測試；提出方法焦點及專屬red訊息補強，已採納。跨引擎與視覺結論待雲端結果補入。
 
-## 雲端阻塞與交接狀態
+## 前輪歷史：雲端阻塞與交接狀態（非本輪最終結果）
 
 [GitHub官方事故8tzbpcnl75jp](https://www.githubstatus.com/incidents/8tzbpcnl75jp) 自2026-10-19 15:49 UTC 通報 Actions、Pages、Webhooks降級；16:30更新指出緩解後正在恢復，仍可能延遲工作流程及網站部署。這與本輪queued狀態一致，不能證明單一run的根因。
 
@@ -52,3 +54,58 @@ NODE_PATH=<runner-tools>/node_modules LABEL=after node tests/reader-controls-bro
 尚無新版前後對照圖或實測性能/axe分數，不捏造資料；未驗證實體手機、Safari、螢幕閱讀器。下一輪首要工作是完成此輪雲端視覺與正式發布驗收，不另起一輪重做版面。
 
 獨立角色最終靜態結論：沒有發現阻擋性程式問題；修正了其提出的鍵盤modality測試誤斷言與workflow尾端空白。這不代表實際視覺、跨引擎或無障礙已通過。
+
+
+## 本輪接續：2026-10-20 雲端驗收與整合
+
+本輪從既有未完成分支接續，不重做選題或另改配色。主整合者使用 `/tmp/ai-search-reading-context` 獨立工作樹，整合 `improve/reader-position`；原 checkout 兩個未提交搜尋檔案保持不變。遠端 main 基準仍為 `8fb425f`，沒有開啟 PR。
+
+本次正式站走查已確認：1440px 按鈕高31.80px／12px字；390px 上一則／下一則高29.80px／12px字、關閉31.80px；320px 三按鈕高30.14px／11px字。正式站桌面／390／320完整搜尋、篩選、切換、來源入口、Escape焦點、分享直鏈重整、空結果、長文方法跳轉與鍵盤檢查通過。新版六配置皆44px高／14px字，320px三按鈕各約80.7px寬。
+
+獨立審查先以 `gpt-6-astra/max`、最終以 `gpt-6-astra/ultra` 明確指定請求，均未參與實作；主對話實際模型／推理仍無法讀取或切換，不能聲稱已確認帳號最高模型。審查提出並已修正：刻意red失敗時瀏覽器未清理、axe須明確browser context、實際頁面載入CSS版本比對、整個方法標題可見、長ID後按鈕尺寸與不重疊、Escape原焦點、直鏈條件及完整workflow paths。三引擎與視覺結論依實測，未以靜態review取代。
+
+驗收過程保留的限制：
+- `39290962013` 的原QA腳本因 axe 要求 `browser.newContext()` 失敗，已修正腳本；不是網站無障礙違規。
+- `39291263097` 正式站前三尺寸完成後，360px重整直鏈逾時，當時未存足夠失敗狀態，根因不明；後補失敗URL、載入缺項與截圖診斷。沒有宣稱修好網站載入根因。
+- `39291632580` 的GitHub原文GET回429，同一來源此前曾200。當時網站357筆已載入、`failed=[]`、詳情開啟。來源入口仍精確核對原始UC-001檔案，外站HTTP狀態另行實測保留，不拿第三方永遠200作CSS驗收條件。既有reader回歸仍實際開啟外部來源popup。
+- 第一個過時run的取消操作遭GitHub API 403；未更換帳號、憑證或擴充權限。
+
+三個模擬情境：旅遊＋生活後連續比較與返回；分享帶搜尋條件直鏈並重整後關閉；無結果恢復後讀UC-313長文、方法跳轉及鍵盤操作。另以既有load recovery套件檢查載入／部分失敗／重試／無資料；模擬走查不代表真人偏好或轉換率。
+
+
+## 完整預覽驗收
+
+[雲端run39291990938](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39291990938) 驗證 `3282f6d`，全部成功；產品CSS與最後審查版一致。
+
+| 指令／檢查 | 實際輸出摘要 |
+| --- | --- |
+| `node --test tests/*.test.cjs` | 78 tests、78 pass、0 fail；357筆網站條目 |
+| `for file in assets/*.js; do node --check "$file"; done` | 語法通過 |
+| `python3 scripts/preview.py <output>/ai-agent-use-cases` | 靜態預覽與catalog產生成功；不是正式Jekyll建置 |
+| `OBSERVE=1 LABEL=published-before CONTROLS_URL=<正式站> node tests/reader-controls-browser.cjs` | 1440／390／320完整流程；3次axe皆0違規 |
+| `LABEL=red CONTROLS_URL=<8fb425f預覽> node tests/reader-controls-browser.cjs` | 明確因`TOUCH_TARGET_SIZE`失敗，確認舊版問題可重現；見[red.log](red.log) |
+| `LABEL=after CONTROLS_URL=<預覽> node tests/reader-controls-browser.cjs` | Chromium1440／390／320／360、Firefox390、WebKit390，六配置三情境及44px尺寸、14px字、長ID、來源精確path、焦點、直鏈重整、方法標題完整可見、無橫溢出通過；6次axe為0，pageerror為空 |
+| `READER_URL=<預覽> node tests/reader-browser.cjs` | 既有三引擎閱讀、搜尋／篩選／空結果／返回／章節與原始證據／外部來源popup／分享回歸通過；15次axe零違規；全庫357筆、2486章節、376個證據列 |
+| `LOAD_URL=<預覽> node tests/load-recovery-browser.cjs` | 既有Chromium1440／390／320載入／部分失敗／重試／零成功／無資料／焦點／閱讀返回通過，12次axe零違規；本次未把此套件宣稱為三引擎 |
+
+產品變更是`assets/reader.css`的13增5刪，未壓縮6232→6708 bytes（+476），不新增網路請求。runner靜態預覽的DOMContentLoaded為32–79ms、load為43–170ms，只是頁面事件時間，非全庫就緒、實際手機或Lighthouse效能分數；未宣稱速度提升。
+
+原始結果：[正式站基準](published-before-report.json)、[同基準預覽](before-report.json)、[新版六配置](after-report.json)、[閱讀axe](reader-accessibility.json)、[全庫核對](reader-corpus.json)、[載入復原](load-recovery.json)、[事件時間](reader-timings.json)、[外站429診斷](source-429.json)。完整其他畫面與log保留於該run artifacts。
+
+| 尺寸 | 本輪修改前（正式站） | 修改後（雲端預覽） |
+| --- | --- | --- |
+| 桌面1440×1000 | [before](before-reader-1440.png) | [after](after-reader-1440.png) |
+| 手機390×844 | [before](before-reader-390.png) | [after](after-reader-390.png) |
+| 窄手機320×844 | [before](before-reader-320.png) | [after](after-reader-320.png) |
+
+另存[320px長文閱讀](reader-after-UC-005-small-mobile.png)、[長篇失敗案例](reader-result-UC-313-mobile.png)、[WebKit390](after-reader-webkit-390.png)。主整合者與未參與實作的獨立最終審查者皆已實際檢視桌面／手機前後、長文及WebKit圖片；最終結論可合併、無阻擋問題。兩列操作區保持案例識別、按鈕完整且正文仍可讀。手機多一列高度是擴大操作區的取捨。
+
+預覽方式（僅在已授權環境執行）：
+
+```sh
+python3 scripts/preview.py /tmp/reader-preview/ai-agent-use-cases
+python3 -m http.server 8100 --directory /tmp/reader-preview
+# http://127.0.0.1:8100/ai-agent-use-cases/?q=旅遊&scenario=生活&case=UC-001
+```
+
+無實體手機、實體Safari、螢幕閱讀器或真人轉換率驗證；axe不等於完整認證。外站可能限流，首次數百個全文請求也仍有成本。下一輪優先量測並降低首次全文載入成本，保留完整搜尋與來源可核對性。

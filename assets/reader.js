@@ -65,6 +65,36 @@
     }
     return matches;
   }
+  // Keep quotes within one original block. Normalization is for matching only;
+  // grapheme offsets map the excerpt back to the unchanged source characters.
+  function selectSearchPassage(blocks,variant){
+    const normalize=text=>text.normalize('NFKC').toLocaleLowerCase();
+    const needle=normalize(variant);
+    if(!needle)return null;
+    const index=blocks.findIndex(text=>normalize(text).includes(needle));
+    if(index===-1)return null;
+    const text=blocks[index],limit=240;
+    if(Array.from(text).length<=limit)return {index,excerpt:text,partial:false};
+    if(typeof Intl.Segmenter!=='function')return {index,excerpt:null,partial:true};
+    const segments=[...new Intl.Segmenter(undefined,{granularity:'grapheme'}).segment(text)];
+    let projected='',offsets=[];
+    for(const {segment,index:start} of segments){
+      const value=normalize(segment);
+      for(let i=0;i<value.length;i++)offsets.push({start,end:start+segment.length});
+      projected+=value;
+    }
+    // Context-sensitive casing may differ across a grapheme boundary. Keep the
+    // real passage destination, but omit a quote if it cannot be mapped exactly.
+    const at=projected.indexOf(needle);
+    if(at===-1||Array.from(variant).length>limit)return {index,excerpt:null,partial:true};
+    const first=offsets[at].start,last=offsets[at+needle.length-1].end;
+    const hitStart=segments.findIndex(s=>s.index===first);
+    const hitEnd=segments.findIndex(s=>s.index+s.segment.length===last)+1;
+    let start=Math.max(0,hitStart-60),end=Math.min(segments.length,start+limit);
+    if(hitEnd>end){end=hitEnd;start=Math.max(0,end-limit);}
+    const from=segments[start].index,to=end<segments.length?segments[end].index:text.length;
+    return {index,excerpt:(from?'…':'')+text.slice(from,to)+(to<text.length?'…':''),partial:true};
+  }
   // This is an index of original headings, never an evidence classification.
   function selectReviewSections(sections){
     return sections.flatMap((section,index)=>{
@@ -177,11 +207,13 @@
     }
     // Collect before inserting reader controls so their labels cannot become hits.
     const sourceSummary=research.querySelector('summary');
-    const sourceSections=[{title:'',text:'',target:sourceSummary,links:new Set()}];
+    const sourceSections=[{title:'',text:'',target:sourceSummary,links:new Set(),passages:[]}];
     for(const block of markdown.children){
-      if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Set()});
+      if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Set(),passages:[]});
       const section=sourceSections[sourceSections.length-1];
       section.text+='\n'+(/^[UO]L$/.test(block.tagName)?[...block.children].map(row=>row.textContent).join('\n'):block.textContent);
+      const passages=/^[UO]L$/.test(block.tagName)?[...block.children]:/^(P|PRE|BLOCKQUOTE)$/.test(block.tagName)?[block]:[];
+      section.passages.push(...passages);
       for(const link of block.querySelectorAll('a')){
         const href=link.getAttribute('href')||'';
         section.text+='\n'+href;
@@ -202,7 +234,26 @@
         const relation=match.term===match.variant?'「'+match.term+'」':'「'+match.term+'」→「'+match.variant+'」';
         button.append(make('strong','',relation),make('span','reader-target','原文 · '+(match.title||'頁首資料')+' ↓'));
         button.addEventListener('click',()=>{research.open=true;moveTo(target);});
-        search.append(button);
+        const group=make('div','reader-search-match');
+        group.append(button);
+        const section=sourceSections[match.index];
+        const titleHit=section.title.normalize('NFKC').toLocaleLowerCase().includes(match.variant.normalize('NFKC').toLocaleLowerCase());
+        const passage=titleHit?null:selectSearchPassage(section.passages.map(node=>node.textContent),match.variant);
+        if(passage){
+          if(passage.excerpt){
+            group.append(make('p','reader-search-excerpt-label',passage.partial?'命中附近原文 · 節錄，非完整段落':'命中這段原文 · 限制請連同全文核對'),
+              make('p','reader-search-excerpt',passage.excerpt));
+          }
+          const original=section.passages[passage.index];
+          const destination=`reader-passage-${match.index}`;
+          // Give only this existing source block an address; no text is replaced.
+          original.id=destination;original.tabIndex=-1;
+          const locate=make('button','reader-search-locate','定位這段原文 ↓');locate.type='button';
+          locate.setAttribute('aria-controls',destination);
+          locate.addEventListener('click',()=>{research.open=true;moveTo(original);});
+          group.append(locate);
+        }
+        search.append(group);
       }
       overview.after(search);
     }
@@ -251,7 +302,7 @@
     nav.append(full);
     evidence.after(nav);
   }
-  const api={selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectReviewSections,enhance};
+  const api={selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

@@ -1010,7 +1010,7 @@ async function retryFailedSources() {
     restoreFocus();
     refreshRelated();
     const target=new URLSearchParams(location.search).get('case');
-    if(recoverRequested && requestedCase && target===requestedCase && !$('detail').open){
+    if(recoverRequested && requestedCase!==null && target===requestedCase && !$('detail').open){
       const item=matchCase(target);
       if(item)showDetail(item,null,false);
       else if($('missing-case')&&!$('missing-case').hidden)focusMissingCase();

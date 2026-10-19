@@ -109,15 +109,17 @@ if(!observe){
  await partial.unroute('**/cases/001-*.md');await partial.locator('#retry-failed').click();await partial.locator('#detail[open]').waitFor();
  assert.equal(await partial.locator('#detail-toolbar-id').innerText(),'UC-001');
  await partial.close();
+ for(const missingId of ['UC-999999','']){
  const unknown=await browser.newPage({viewport:{width:390,height:844}});unknown.setDefaultTimeout(10000);
  await unknown.route('**/cases/001-*.md',r=>r.fulfill({status:503,body:'unavailable'}));
- await unknown.goto(origin+'?case=UC-999999',{waitUntil:'networkidle'});
+ await unknown.goto(origin+'?case='+encodeURIComponent(missingId),{waitUntil:'networkidle'});
  await unknown.locator('#partial-load').waitFor({state:'visible'});
  assert.equal(await unknown.locator('#missing-case').isVisible(),false);
  await unknown.unroute('**/cases/001-*.md');await unknown.locator('#retry-failed').click();
  await unknown.locator('#missing-case').waitFor({state:'visible'});
  assert.equal(await unknown.evaluate(()=>document.activeElement.id),'missing-case-title');
  await unknown.close();
+ }
  const slow=await browser.newPage({viewport:{width:390,height:844}});slow.setDefaultTimeout(10000);
  let release;const gate=new Promise(r=>release=r);
  await slow.route('**/catalog.json',async r=>{await gate;await r.continue();});

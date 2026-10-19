@@ -39,7 +39,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    await page.locator('#scenario').selectOption('開發');
   }
   if(observe){report.push(row);await browser.close();continue;}
-  assert(options.every(x=>/（\d+ 筆）$/.test(x)),'every scenario option previews its actual count');
+  assert(options.every(x=>/^\d+ · /.test(x)),'every scenario option previews its actual count');
   assert(empty,'incompatible combination still allowed, with honest empty state');
   await page.locator('#empty-suggestions [data-remove-filter="scenario"]').click();
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
@@ -52,7 +52,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    for(const choice of choices){
     assert.equal(choice.disabled,false,'zero counts stay available');
     await page.locator('#'+key).selectOption(choice.value);
-    assert.equal(await page.locator('#results .card').count(),Number(choice.text.match(/（(\d+) 筆）$/)[1]),key+' '+choice.value);
+    assert.equal(await page.locator('#results .card').count(),Number(choice.text.match(/^(\d+) · /)[1]),key+' '+choice.value);
    }
    await page.locator('#'+key).selectOption(before);
   }
@@ -61,14 +61,14 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   const combined=await page.locator('#tool option').evaluateAll(nodes=>nodes.map(n=>({value:n.value,text:n.textContent})));
   for(const choice of combined){
    await page.locator('#tool').selectOption(choice.value);
-   assert.equal(await page.locator('#results .card').count(),Number(choice.text.match(/（(\d+) 筆）$/)[1]),'query + scenario + kind, changing tool');
+   assert.equal(await page.locator('#results .card').count(),Number(choice.text.match(/^(\d+) · /)[1]),'query + scenario + kind, changing tool');
   }
   await page.locator('#tool').selectOption('Grok Bot');
   const values=await page.locator('#filters select').evaluateAll(nodes=>nodes.map(n=>n.value));
   await page.locator('#query').fill('no-facet-task-987654');
   assert.equal(await page.locator('#empty').isVisible(),true);
   assert.deepEqual(await page.locator('#filters select').evaluateAll(nodes=>nodes.map(n=>n.value)),values);
-  assert((await page.locator('#scenario option').allTextContents()).every(x=>/（0 筆）$/.test(x)));
+  assert((await page.locator('#scenario option').allTextContents()).every(x=>/^0 · /.test(x)));
   await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(n=>n===document.activeElement));
   await page.locator('#query').fill('旅遊');
   await page.locator('#results .card .card-bottom button').first().click();
@@ -76,7 +76,14 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.locator('.research-details summary').click();
   const source=await page.locator('.markdown a[href^="https:"]').first().getAttribute('href');
   assert(source.startsWith('https:'));
-  await page.goBack();await page.waitForFunction(()=>!document.getElementById('detail').open);
+  const returnBefore={url:page.url(),history:await page.evaluate(()=>history.length)};
+  await page.evaluate(()=>{window.facetReturnEvents=[];addEventListener('popstate',()=>window.facetReturnEvents.push({url:location.href,open:document.getElementById('detail').open}));});
+  await page.goBack();
+  try{await page.waitForFunction(()=>!document.getElementById('detail').open);}
+  catch(error){
+   fs.writeFileSync('qa-artifacts/return-failure-'+engine.name()+'.json',JSON.stringify({before:returnBefore,after:{url:page.url(),history:await page.evaluate(()=>history.length)},events:await page.evaluate(()=>window.facetReturnEvents)},null,2));
+   await page.screenshot({path:'qa-artifacts/return-failure-'+engine.name()+'.png'});throw error;
+  }
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
   assert.equal(await page.locator('#scenario').inputValue(),'生活');
   await page.locator('#query').focus();await page.keyboard.press('Tab');
@@ -98,7 +105,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.route('**/cases/001-travel-checkout.md',route=>route.fulfill({status:503,body:'Unavailable'}));
   await page.goto(base+'?q=旅遊&scenario=生活#explore',{waitUntil:'domcontentloaded'});
   assert.match(await page.locator('#facet-count-hint').textContent(),/載入完成後/);
-  assert(!(await page.locator('#scenario option').allTextContents()).some(x=>/（\d+ 筆）/.test(x)));
+  assert(!(await page.locator('#scenario option').allTextContents()).some(x=>/^\d+ · /.test(x)));
   releaseCatalog();
   await page.waitForFunction(()=>!document.getElementById('copy-search-link').disabled);
   await page.locator('#partial-load').waitFor({state:'visible'});
@@ -110,14 +117,14 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.locator('#partial-load').waitFor({state:'hidden'});
   assert.equal(await page.locator('#results .card').count(),countBefore+1);
   const optionAfter=await page.locator('#scenario option[value="生活"]').textContent();
-  assert.equal(Number(optionAfter.match(/（(\d+) 筆）/)[1]),Number(optionBefore.match(/（(\d+) 筆）/)[1])+1);
+  assert.equal(Number(optionAfter.match(/^(\d+) · /)[1]),Number(optionBefore.match(/^(\d+) · /)[1])+1);
   assert.equal(page.url(),urlBefore);
   assert.equal(await page.locator('#scenario').inputValue(),'生活');
   assert(await page.locator('#results-count').evaluate(n=>n===document.activeElement));
   report.push({journey:'loading-partial-retry',countBefore,countAfter:countBefore+1});
   await page.goto(base+'?q=旅遊&scenario='+encodeURIComponent('未知情境')+'#explore',{waitUntil:'networkidle'});
   assert.equal(await page.locator('#scenario').inputValue(),'未知情境');
-  assert.match(await page.locator('#scenario option:checked').textContent(),/未知情境（0 筆）/);
+  assert.match(await page.locator('#scenario option:checked').textContent(),/^0 · 未知情境$/);
   await browser.close();
  }
  fs.writeFileSync(`qa-artifacts/${observe?'baseline':'verification'}.json`,JSON.stringify(report,null,2));

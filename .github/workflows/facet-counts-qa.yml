@@ -1,7 +1,7 @@
 name: Facet counts QA
 on:
   push:
-    branches: [improve/filter-recovery, main]
+    branches: [improve/filter-recovery, fix/facet-acceptance, main]
     paths: ['assets/**', 'index.html', 'tests/facet-counts*', '.github/workflows/facet-counts-qa.yml']
 permissions:
   contents: read

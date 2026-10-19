@@ -749,8 +749,8 @@ function renderFacetCounts(terms, filters) {
   hint.textContent=!discoveryReady
     ? '案例載入完成後，會顯示各選項的符合筆數。'
     : failedPaths.length
-      ? '筆數只計已載入條目；補讀後會更新。每個數字保留關鍵字與其他篩選，0 筆也可選。'
-      : '筆數保留關鍵字與其他篩選，預覽改選後的結果；0 筆也可選。';
+      ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選，0 筆也可選。'
+      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；0 筆也可選。';
   for(const key of ['scenario','kind','tool','category','proof']){
     const select=$(key);
     // Keep unfamiliar shared scenarios visible, rather than showing an empty field.
@@ -765,7 +765,7 @@ function renderFacetCounts(terms, filters) {
       // Freeze it before adding counts so filters and URLs keep the raw value.
       option.value=option.value;
       if(!option.dataset.label)option.dataset.label=option.textContent;
-      option.textContent=option.dataset.label+(discoveryReady ? '（'+counts[index]+' 筆）' : '');
+      option.textContent=(discoveryReady ? counts[index]+' · ' : '')+option.dataset.label;
     });
   }
 }

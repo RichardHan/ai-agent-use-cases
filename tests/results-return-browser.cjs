@@ -13,7 +13,7 @@ const report=[];const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringif
   page.on('pageerror',e=>errors.push(e.message));
   const row={engine:engine.name(),width};report.push(row);save();
   const ready=async()=>page.waitForFunction(()=>discoveryReady);
-  await page.goto(base);await ready();await page.locator('.hero-search-link').click();
+  const started=Date.now();await page.goto(base);await ready();row.readyMs=Date.now()-started;await page.locator('.hero-search-link').click();
   row.total=await page.locator('#results .card').count();
   row.firstResultFromSearch=await page.evaluate(()=>document.querySelector('#results .card').getBoundingClientRect().top-document.getElementById('query').getBoundingClientRect().top);
   await page.screenshot({path:`${out}/search-${engine.name()}-${width}.png`});
@@ -42,8 +42,14 @@ const report=[];const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringif
   assert.deepEqual(await page.evaluate(()=>({length:history.length,params:location.search})),before);
   assert.equal(await page.evaluate(()=>history.state.returnMarker),'keep');
   const queryBox=await page.locator('#query').boundingBox();assert(queryBox.y>=0&&queryBox.y+queryBox.height<=height);
+  const boundaries=await page.evaluate(()=>[0,1,6,7,12,15].map(total=>{
+    const fixture=entries.slice(0,total),host=document.createElement('div');host.append(...resultCards(fixture,[]));
+    return {total,cards:host.querySelectorAll('.card').length,links:[...host.querySelectorAll('[data-results-return]')].map(e=>Number(e.dataset.resultsReturn))};
+  }));
+  for(const boundary of boundaries){assert.equal(boundary.cards,boundary.total);assert.deepEqual(boundary.links,Array.from({length:Math.ceil(boundary.total/6)},(_,i)=>Math.min((i+1)*6,boundary.total)));}
+  row.boundaries=boundaries;
   // 1. Refine an initially broad collection, read a later card, and return to that same card.
-  await page.locator('#query').fill('旅遊');await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');
+  row.inputRenderMs=await page.locator('#query').evaluate(e=>{const start=performance.now();e.value='旅遊';e.dispatchEvent(new Event('input',{bubbles:true}));return performance.now()-start;});await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');
   const travelCount=await page.locator('#results .card').count();assert(travelCount>6);
   const read=page.locator('#results .card .card-bottom button').nth(6),id=await page.locator('#results .card').nth(6).getAttribute('data-case-id');
   await read.click();await page.locator('#detail[open]').waitFor();assert(await page.locator('#results [data-results-return]').first().evaluate(e=>e.closest('body').querySelector('#detail').open));
@@ -66,14 +72,16 @@ const report=[];const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringif
  }
  if(!observe){
   const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();
-  await page.route('**/cases/001-*.md',route=>route.fulfill({status:503,body:'unavailable'}));
-  await page.goto(base);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.evaluate(()=>failedPaths.length),1);
-  const before=await page.locator('#results .card').count(),link=page.locator('#results [data-results-return]').first();await link.focus();
-  await page.unroute('**/cases/001-*.md');
-  // Trigger background recovery without moving the reader's existing keyboard focus.
-  await page.locator('#retry-failed').evaluate(e=>e.click());await page.waitForFunction(()=>failedPaths.length===0&&!recoveringSources);
-  assert.equal(await page.locator('#results .card').count(),before+1);assert.equal(await page.evaluate(()=>document.activeElement.dataset.resultsReturn),'6');
-  await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
+  for(const position of ['first','last']){
+   await page.route('**/cases/001-*.md',route=>route.fulfill({status:503,body:'unavailable'}));
+   await page.goto(base);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.evaluate(()=>failedPaths.length),1);
+   const before=await page.locator('#results .card').count(),links=page.locator('#results [data-results-return]'),link=position==='first'?links.first():links.last();await link.focus();
+   await page.unroute('**/cases/001-*.md');
+   // Trigger background recovery without moving the reader's existing keyboard focus.
+   await page.locator('#retry-failed').evaluate(e=>e.click());await page.waitForFunction(()=>failedPaths.length===0&&!recoveringSources);
+   assert.equal(await page.locator('#results .card').count(),before+1);assert.equal(await page.evaluate(()=>document.activeElement.dataset.resultsReturn),position==='first'?'6':String(before+1));
+   await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
+  }
   await page.route('**/catalog.json',route=>route.fulfill({status:503,body:'unavailable'}));await page.reload();await page.locator('#error').waitFor({state:'visible'});assert.equal(await page.locator('#results [data-results-return]').count(),0);
   await page.unroute('**/catalog.json');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady);assert((await page.locator('#results [data-results-return]').count())>0);
   report.push({states:'partial-load/focused-link-recovery/error/retry',passed:true});save();await browser.close();

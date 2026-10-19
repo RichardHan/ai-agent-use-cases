@@ -37,7 +37,7 @@ jobs:
           python3 "$RUNNER_TEMP/return-before/scripts/preview.py" "$RUNNER_TEMP/return-before-preview/ai-agent-use-cases"
           python3 -m http.server 8129 --directory "$RUNNER_TEMP/return-before-preview" > /tmp/return-before.log 2>&1 &
           RETURN_OBSERVE=1 node tests/results-return-browser.cjs
-          if node tests/results-return-browser.cjs > qa-artifacts/red-browser.log 2>&1; then
+          if RETURN_OUTPUT=qa-artifacts/results-red node tests/results-return-browser.cjs > qa-artifacts/red-browser.log 2>&1; then
             echo 'Expected the original deep-results route to be missing'
             exit 1
           fi

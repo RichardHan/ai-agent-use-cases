@@ -1177,7 +1177,8 @@ function preserveRecoveryFocus() {
       const node=[...$(area).querySelectorAll('.card')].find(c=>c.dataset.caseId===cardId);
       replacement=node?.querySelectorAll('button')[buttonIndex];
     }else if(resultsReturn){
-      replacement=[...$('results').querySelectorAll('[data-results-return]')].find(link=>link.dataset.resultsReturn===resultsReturn);
+      const links=[...$('results').querySelectorAll('[data-results-return]')];
+      replacement=links.find(link=>link.dataset.resultsReturn===resultsReturn)||links.at(-1);
     }else if(filterKeys && parentId){
       replacement=[...$(parentId).querySelectorAll('[data-remove-filters]')].find(b=>b.dataset.removeFilters===filterKeys);
     }else if(filterKey && parentId){

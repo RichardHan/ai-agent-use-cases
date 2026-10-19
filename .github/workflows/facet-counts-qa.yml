@@ -33,7 +33,6 @@ jobs:
           FACET_URL: https://richardhan.github.io/ai-agent-use-cases/
           OBSERVE: '1'
         run: |
-          if [ "${{ github.ref }}" = refs/heads/fix/facet-acceptance ]; then node tests/facet-rate-diagnostic.cjs; fi
           node tests/facet-counts-browser.cjs
           READING_URL=https://richardhan.github.io/ai-agent-use-cases/ READING_OBSERVE=1 node tests/reading-flow-browser.cjs
       - name: Verify red baseline for the new tests

@@ -1,0 +1,11 @@
+AssertionError [ERR_ASSERTION]: readers can inspect what source labels mean next to the results
+
+0 !== 1
+
+    at /private/tmp/ai-case-improvement-20261020-r2/tests/source-guide-browser.cjs:26:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: 1,
+  operator: 'strictEqual'
+}

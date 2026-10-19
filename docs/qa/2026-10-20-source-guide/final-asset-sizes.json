@@ -1,0 +1,14 @@
+{
+  "index.html": {
+    "before": 12825,
+    "after": 13503
+  },
+  "assets/app.js": {
+    "before": 148146,
+    "after": 149501
+  },
+  "assets/style.css": {
+    "before": 27574,
+    "after": 28351
+  }
+}

@@ -1,0 +1,21 @@
+browser	Verify reader preview	﻿2026-10-19T22:19:10.9322694Z ##[group]Run python3 scripts/preview.py "$RUNNER_TEMP/reader-preview/ai-agent-use-cases"
+browser	Verify reader preview	2026-10-19T22:19:10.9323316Z ^[[36;1mpython3 scripts/preview.py "$RUNNER_TEMP/reader-preview/ai-agent-use-cases"^[[0m
+browser	Verify reader preview	2026-10-19T22:19:10.9323947Z ^[[36;1mpython3 -m http.server 8082 --directory "$RUNNER_TEMP/reader-preview" > /tmp/reader-preview.log 2>&1 &^[[0m
+browser	Verify reader preview	2026-10-19T22:19:10.9324431Z ^[[36;1mnode tests/reader-browser.cjs^[[0m
+browser	Verify reader preview	2026-10-19T22:19:10.9355910Z shell: /usr/bin/bash -e {0}
+browser	Verify reader preview	2026-10-19T22:19:10.9356188Z env:
+browser	Verify reader preview	2026-10-19T22:19:10.9356482Z   NODE_PATH: /home/runner/work/_temp/reader-tools/node_modules
+browser	Verify reader preview	2026-10-19T22:19:10.9356800Z ##[endgroup]
+browser	Verify reader preview	2026-10-19T22:19:11.0313383Z /home/runner/work/_temp/reader-preview/ai-agent-use-cases
+browser	Verify reader preview	2026-10-19T22:19:13.2140766Z AssertionError [ERR_ASSERTION]: First result follows search without scrolling past unused controls
+browser	Verify reader preview	2026-10-19T22:19:13.2141927Z     at mobileSearch (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/mobile-search-browser.cjs:29:4)
+browser	Verify reader preview	2026-10-19T22:19:13.2143035Z     at async /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/reader-browser.cjs:66:16 {
+browser	Verify reader preview	2026-10-19T22:19:13.2144034Z   generatedMessage: false,
+browser	Verify reader preview	2026-10-19T22:19:13.2144285Z   code: 'ERR_ASSERTION',
+browser	Verify reader preview	2026-10-19T22:19:13.2144518Z   actual: false,
+browser	Verify reader preview	2026-10-19T22:19:13.2144982Z   expected: true,
+browser	Verify reader preview	2026-10-19T22:19:13.2145186Z   operator: '==',
+browser	Verify reader preview	2026-10-19T22:19:13.2145388Z   diff: 'simple'
+browser	Verify reader preview	2026-10-19T22:19:13.2145585Z }
+browser	Verify reader preview	2026-10-19T22:19:13.2156446Z ##[error]Process completed with exit code 1.
+

@@ -17,6 +17,7 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const r={engine,size,audits:[]};reports.push(r);save();
  const ready=()=>page.waitForFunction(()=>discoveryReady,{},{timeout:60000});
+ const frame=locator=>locator.evaluate(e=>{const d=e.closest('dialog'),t=d.querySelector('.detail-toolbar');d.scrollTo({top:d.scrollTop+e.getBoundingClientRect().top-t.getBoundingClientRect().bottom-16,behavior:'instant'});});
  const shot=label=>page.screenshot({path:`${output}/${observe?'before':'after'}-${label}-${engine}-${size}.jpg`,type:'jpeg',quality:80});
  const audit=async label=>{const a=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();r.audits.push({label,violations:a.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}))});save();assert.equal(a.violations.length,0,JSON.stringify(a.violations));};
  // 1. First visit -> problem search -> combined filter -> empty -> reading -> return.
@@ -72,9 +73,9 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
  r.reviewCount=await page.locator('.reader-review-jump').count();save();
  if(!observe){
   assert(r.reviewCount>1);assert(!(await page.locator('.reader-review').evaluate(e=>e.open)));
-  const summary=page.locator('.reader-review > summary');await summary.focus();await page.keyboard.press('Enter');assert(await page.locator('.reader-review').evaluate(e=>e.open));await shot('expanded');
+  const summary=page.locator('.reader-review > summary');await summary.focus();await page.keyboard.press('Enter');assert(await page.locator('.reader-review').evaluate(e=>e.open));await frame(summary);await shot('expanded');
   assert.match(await page.locator('.reader-review').innerText(),/不是獨立驗證/);
-  const later=page.locator('.reader-review-jump').filter({hasText:'Grok Bot貨運版本'});assert.equal(await later.count(),1);
+  const later=page.locator('.reader-review-jump').filter({hasText:'Grok Bot貨運版本'});assert.equal(await later.count(),1);await frame(later);await shot('later-index');
   const target=await later.getAttribute('aria-controls'),url=page.url();await later.focus();await page.keyboard.press('Enter');assert.equal(page.url(),url);assert.equal(await page.evaluate(()=>document.activeElement.id),target);
   const bounds=await page.evaluate(id=>({top:document.getElementById(id).getBoundingClientRect().top,toolbarBottom:document.querySelector('.detail-toolbar').getBoundingClientRect().bottom}),target);assert(bounds.top>=bounds.toolbarBottom);assert(bounds.top<height);
   assert.match(await page.locator('.markdown').innerText(),/金額錯誤、漏存文件/);await shot('version');await audit('later source version');
@@ -95,7 +96,7 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
   for(const id of ['UC-005','UC-067']){
    await page.evaluate(id=>showDetail(matchCase(id),null,false),id);
    await page.locator('.reader-review > summary').click();
-   if(id==='UC-005')await shot('long-index');
+   if(id==='UC-005'){await frame(page.locator('.reader-review-jump').nth((await page.locator('.reader-review-jump').count())-4));await shot('long-index');}
    const last=page.locator('.reader-review-jump').last(),destination=await last.getAttribute('aria-controls');
    await last.focus();await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),destination);
    assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth));

@@ -172,7 +172,7 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
 
   // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
-  assert.equal(duplicates.length, 47, `Candidate duplicate detector must identify exactly 47 candidate clusters across corpus, found ${duplicates.length}`);
+  assert.equal(duplicates.length, 49, `Candidate duplicate detector must identify exactly 49 candidate clusters across corpus, found ${duplicates.length}`);
   const newSharedSource=duplicates.find(d=>d.url==='https://note.com/sustainamate_ai/n/n26d37039c129');
   assert.deepEqual(newSharedSource?.cases,['cases/225-receipt-transaction-evidence-matching.md','cases/234-proposal-attachment-consistency-send-gate.md'],'new shared source is a candidate only; both original cases remain');
   // Confirm that candidate duplicates are purely listed as candidates and all original cases remain intact

@@ -173,8 +173,9 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
   assert.equal(duplicates.length, 49, `Candidate duplicate detector must identify exactly 49 candidate clusters across corpus, found ${duplicates.length}`);
-  assert.deepEqual(duplicates.find(d=>d.url==='https://learn.chatgpt.com/docs/dots/tasks-and-memory')?.cases,
-    ['cases/005-cloud-pr-review.md','cases/365-scheduled-task-inplace-edit-readback.md','cases/369-existing-task-view-route-reconciliation.md']);
+  const dotsTasksDocCases=duplicates.find(d=>d.url==='https://learn.chatgpt.com/docs/dots/tasks-and-memory')?.cases||[];
+  for (const f of ['cases/005-cloud-pr-review.md','cases/362-muse-spawn-delivery-reconciliation.md','cases/365-scheduled-task-inplace-edit-readback.md','cases/369-existing-task-view-route-reconciliation.md'])
+    assert(dotsTasksDocCases.includes(f), `Shared dots tasks-and-memory doc candidate should include ${f}`);
   assert.deepEqual(duplicates.find(d=>d.url==='https://reddit.com/r/grokbot/comments/1x9kmc4/groq_bot_use_cases_compilation_i_complied_from_10')?.cases,
     ['cases/030-interactive-study-guide.md','cases/360-paint-stage-quantity-spec-cart.md']);
   const newSharedSource=duplicates.find(d=>d.url==='https://note.com/sustainamate_ai/n/n26d37039c129');

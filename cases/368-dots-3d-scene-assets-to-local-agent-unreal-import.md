@@ -73,3 +73,11 @@
 - 不同 UC-112（圖片轉可列印關節模型）、UC-115（綁骨角色資產匯出）：本例重點在場景素材的配置規格與引擎匯入。
 - 2026-10-19 17:40 批次曾把來源A 第 1 則列為「Unreal 測試結果尚未公布」的待處理線索；本輪作者公布 UE 運作確認，故收錄。
 - 2026-10-20 08:48 批次首次收錄。
+
+## 2026-10-20補充：同題三代理交場景，漂亮靜幀不代表雨真的會動（不另計）
+
+liuliuliu11（刘博摸鱼之路）的[簡中論壇原文](https://linux.do/t/topic/2975244)，2026-10-01 12:54（頁面時區未核），同規格要求dots、Muse、Grok Bot交程序化Blender雨夜街景、工程、靜幀、十秒動畫及重建腳本。作者公開三份結果，並親自指出dots雨滴靜止。這是作者反例，不是本庫播放後的判斷，也不表示目前頁面完全沒有影片。
+
+本輪已讀[dots產物頁](https://neon-rain-district.lfc1176.chatgpt.site/)與[Grok產物頁](https://neon-rain-lfcbot-1001.netlify.app/)，Grok的[建置腳本](https://neon-rain-lfcbot-1001.netlify.app/downloads/build_scene.py)、[說明](https://neon-rain-lfcbot-1001.netlify.app/downloads/README_zh.md)及[場景統計](https://neon-rain-lfcbot-1001.netlify.app/downloads/scene_stats.json)可公開取得並已讀。固定seed及相機路徑修訂可在原碼看到，但說明內的續渲、逐幀檢查與統計仍是生成產物的記錄，未經本庫重建或量測。Muse分享頁讀取失敗，三份影片均未完整播放。
+
+這補強同一場景交付流程的公開產物與失敗驗收，不把三款產品算三例，亦不因腳本或鏡頭數加數。可交叉參照UC-213的時序視覺驗收：自行設計但未測的清單應分別驗收工程可開、依賴完整、靜幀、連續動態及重建結果，不能用數張漂亮圖片通過全部要求。雲端軟體、運算、第三方代理連接與發布各需適當授權；作者未提供可比的單次成本。本庫未執行腳本、Blender或使用個人電腦。

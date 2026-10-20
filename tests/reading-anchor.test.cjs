@@ -3,7 +3,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),vm=requir
 const source=fs.readFileSync(process.env.ANCHOR_SOURCE||'assets/app.js','utf8').split('/* Browser event bindings. */')[0];
 const context=vm.createContext({URL,AbortController,setTimeout,clearTimeout,Discovery:require('../assets/discovery.js')});
 vm.runInContext(source+'\nthis.choose=(...args)=>selectReadingAnchor(...args)',context);
-function node(top,bottom,status=false){return {classList:{contains:()=>status},getBoundingClientRect:()=>({top,bottom,height:bottom-top})};}
+function node(top,bottom,status=false,related=false){return {closest:()=>related?{}:null,classList:{contains:()=>status},getBoundingClientRect:()=>({top,bottom,height:bottom-top})};}
 test('a clipped overview above the disappearing status must not displace the visible source report',()=>{
  const overview=node(-189,267),label=node(495.6,515.4),heading=node(523.4,552.2);
  assert.equal(context.choose([overview,label,heading],140,800),label);
@@ -20,4 +20,9 @@ test('hidden blocks, the temporary status, and offscreen starts are excluded',()
 test('normal visible section order is retained',()=>{
  const heading=node(140,170),paragraph=node(180,400);
  assert.equal(context.choose([heading,paragraph],140,800),heading);
+});
+
+test('a related section replaced on completion cannot displace the persistent research anchor',()=>{
+ const research=node(-200,250),relatedHeading=node(400,440,false,true);
+ assert.equal(context.choose([research,relatedHeading],140,800),research);
 });

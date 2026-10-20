@@ -1294,7 +1294,7 @@ function focusLoadedResults(block='center') {
 // anchoring that overview would miss layout changes between the two blocks.
 function selectReadingAnchor(nodes, top, bottom) {
   const visible=nodes.filter(node=>{
-    if(node.classList.contains('detail-load-status'))return false;
+    if(node.classList.contains('detail-load-status') || node.closest('.related-cases'))return false;
     const rect=node.getBoundingClientRect();
     return rect.height>0 && rect.bottom>top && rect.top<bottom;
   });

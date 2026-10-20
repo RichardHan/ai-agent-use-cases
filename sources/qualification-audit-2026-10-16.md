@@ -1,16 +1,23 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對批次：2026-10-20 11:48台灣時間批次（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295、308–311、316–321、327–330、334–337、339–341、342、344–347、349–350、353–358、360–366、368–370、373–374。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對批次：2026-10-20 12:00及11:48（改編號後合併）台灣時間批次（UTC+08:00）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295、308–311、316–321、327–330、334–337、339–341、342、344–347、349–350、353–358、360–366、368–371、374–375。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
 
-## 2026-10-20 11:48台灣時間補核
+## 2026-10-20 11:48台灣時間補核（改編號後於12:00批次之後合併）
 
-嚴格合格 **324／1,000，尚差676**。承接322，新增371–374：373、374納入B級作者自述（附截圖），371、372單則文字列待定。未重現、非全庫重新驗證。主要頁366與網站總條目分開。
+嚴格合格 **325／1,000，尚差675**。承接main的323（12:00批次），新增372–375：374、375納入B級作者自述（附截圖），372、373單則文字列待定。本批開PR時原編371–374，因12:00批次先合併UC-371而改編，未動協作者頁面。未重現、非全庫重新驗證。主要頁363＋4＝367與網站總條目分開。
 
-- [UC-371](../cases/371-office-mfp-scan-to-folder-smb-auth-fix.md)｜待定。@RoseSte75977276自述Grok Bot在Mac與Ricoh事務機兩端建SMB共用、判定登入失敗、開SMB-NT雜湊、驗寫入、設通訊錄路徑後實掃成功；附圖為示意圖，無設定畫面或對話，依標準列待定。不同330智慧開關排障、013代理登入診斷。[來源](https://x.com/RoseSte75977276/status/2112369179542389053)
-- [UC-372](../cases/372-voter-registration-mail-ballot-two-agent-comparison.md)｜待定。@johnhelmuth_同晚兩工具同題：選民登記查詢＋郵寄選票申請（Grok Bot驗證碼後送出、dots停在最後確認）與Amazon回購（Grok Bot被擋、dots改Chrome後經核准下單）；單則長文無截圖。Amazon題併在同頁，不另計。不同290選舉簡報。[來源](https://x.com/johnhelmuth_/status/2112374037208784920)
-- [UC-373](../cases/373-contract-renewal-saved-signature-reply-draft.md)｜納入｜B。@freeshiuan繁中串文：Bot從Google Drive取本人簽名圖貼至續約合約乙方簽名處、存回信草稿，本人審閱後寄出；附已遮蔽簽名頁截圖。不同221本人親簽、代理只取回完成版。[來源](https://x.com/freeshiuan/status/2112365029714796976)
-- [UC-374](../cases/374-workshop-prompts-cloud-browser-dry-run.md)｜納入｜B。同作者同串另一場景：只能用網頁版Copilot的工作坊，讓Bot在雲端瀏覽器以學員身分跑完所有練習指令，附Bot電腦畫面截圖；測試結果表未公開。目標與373不同，分計。[來源](https://x.com/freeshiuan/status/2112365036526313949)
+- [UC-372](../cases/372-office-mfp-scan-to-folder-smb-auth-fix.md)｜待定。@RoseSte75977276自述Grok Bot在Mac與Ricoh事務機兩端建SMB共用、判定登入失敗、開SMB-NT雜湊、驗寫入、設通訊錄路徑後實掃成功；附圖為示意圖，無設定畫面或對話，依標準列待定。不同330智慧開關排障、013代理登入診斷。[來源](https://x.com/RoseSte75977276/status/2112369179542389053)
+- [UC-373](../cases/373-voter-registration-mail-ballot-two-agent-comparison.md)｜待定。@johnhelmuth_同晚兩工具同題：選民登記查詢＋郵寄選票申請（Grok Bot驗證碼後送出、dots停在最後確認）與Amazon回購（Grok Bot被擋、dots改Chrome後經核准下單）；單則長文無截圖。Amazon題併在同頁，不另計。不同290選舉簡報。[來源](https://x.com/johnhelmuth_/status/2112374037208784920)
+- [UC-374](../cases/374-contract-renewal-saved-signature-reply-draft.md)｜納入｜B。@freeshiuan繁中串文：Bot從Google Drive取本人簽名圖貼至續約合約乙方簽名處、存回信草稿，本人審閱後寄出；附已遮蔽簽名頁截圖。不同221本人親簽、代理只取回完成版。[來源](https://x.com/freeshiuan/status/2112365029714796976)
+- [UC-375](../cases/375-workshop-prompts-cloud-browser-dry-run.md)｜納入｜B。同作者同串另一場景：只能用網頁版Copilot的工作坊，讓Bot在雲端瀏覽器以學員身分跑完所有練習指令，附Bot電腦畫面截圖；測試結果表未公開。目標與374不同，分計。[來源](https://x.com/freeshiuan/status/2112365036526313949)
 - 既有案例補充（不另計）：UC-359併入@MaxCryptoSpace追蹤名單CSV三分類、確認後每3小時代退追40個（文字＋公開提示詞，359仍待定）；UC-096併入V2EX siriusliangcn只讀權限跨系統初判銷售半夜問題。其他待定／排除維持。[實讀範圍](research-2026-10-20-1148.md)。
+
+## 2026-10-20 12:00台灣時間補核
+
+嚴格合格 **323／1,000，尚差677**。承接322，新增371一個B級作者對照失敗實作；未重現，非全庫重驗。主要案例頁363不可冒充合格數。
+
+- [UC-371](../cases/371-library-search-retrieval-scope-differential.md)｜納入｜B。lingzhic046公開英文回報兩個測試檔搜尋命中但內容取回403，另有可讀Space頁面與跨入口對照。具體失敗階段可追溯；沒有獨立重現、私人測試檔或修復證據。不同297內容搜尋索引，不拆兩檔或入口計數。
+- 362補RYUXiA日文多專案回報缺失／重工，為完成與交付對帳之工具變體，不另計。其餘待定／排除維持。[實讀範圍](research-2026-10-20-1200.md)。
 
 ## 2026-10-20 11:00台灣時間補核
 

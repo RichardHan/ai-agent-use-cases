@@ -2,9 +2,11 @@
 
 更新日期：2026-10-20。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至2026-10-20 11:48批次，嚴格合格為**324／1,000，尚差676**。承接322，新增373、374兩個B級作者自述（附截圖），371、372單則文字列待定；未獨立重現、未重新驗證全部舊案。主要頁366，不能當合格數。[逐案計數](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至2026-10-20 12:00批次及其後合併的11:48批次，嚴格合格為**325／1,000，尚差675**。12:00批次承接322新增371一個B級作者對照失敗實作；11:48批次新增374、375兩個B級作者自述（附截圖），372、373單則文字列待定。未獨立重現、未重新驗證全部舊案。主要頁367，不能當合格數。[逐案計數](sources/qualification-audit-2026-10-16.md)。
 
-2026-10-20 11:48批次：新增371新事務機掃描到資料夾SMB認證排障並實掃驗證（英文，單則文字，待定）、372同晚讓Grok Bot與dots查選民登記並申請郵寄選票、Amazon回購，記錄驗證碼接手與誰停在送出前（英文，單則長文，待定）、373續約合約由Bot取雲端硬碟簽名圖貼上並存回信草稿（繁中，附截圖，納入B）、374工作坊備課讓Bot在雲端瀏覽器以學員身分跑網頁版Copilot練習指令（繁中，附截圖，納入B）；359併入繁中作者追蹤名單CSV三分類、確認後每3小時代退追40個（726→362），096併入V2EX銷售半夜來信、Bot以只讀權限跨程式碼／資料庫／日誌／工單先初判，均不另計。皆未重現。[原文、去重與覆蓋](sources/research-2026-10-20-1148.md)。
+2026-10-20 11:48批次（原編371–374，因UC-371已被12:00批次使用改編為372–375）：新增372新事務機掃描到資料夾SMB認證排障並實掃驗證（英文，單則文字，待定）、373同晚讓Grok Bot與dots查選民登記並申請郵寄選票、Amazon回購，記錄驗證碼接手與誰停在送出前（英文，單則長文，待定）、374續約合約由Bot取雲端硬碟簽名圖貼上並存回信草稿（繁中，附截圖，納入B）、375工作坊備課讓Bot在雲端瀏覽器以學員身分跑網頁版Copilot練習指令（繁中，附截圖，納入B）；359併入繁中作者追蹤名單CSV三分類、確認後每3小時代退追40個（726→362），096併入V2EX銷售半夜來信、Bot以只讀權限跨程式碼／資料庫／日誌／工單先初判，均不另計。皆未重現。[原文、去重與覆蓋](sources/research-2026-10-20-1148.md)。
+
+2026-10-20 12:00批次：新增371 Library搜尋命中與內容授權拒絕分層排障；362補日文dots多專案回報缺失／重工，不另計。[來源、去重與缺口](sources/research-2026-10-20-1200.md)。
 
 2026-10-20 11:00批次：新增370電子報逐期音訊、受理與產物狀態分開及缺件補製；005補日文多Bot圖表依賴排障，不另計。[來源、去重與缺口](sources/research-2026-10-20-1100.md)。
 
@@ -470,11 +472,11 @@
 | UC-368 | dots在雲端量產建築到街區的3D場景素材，交本機代理實作進Unreal Engine | ChatGPT dots／Claude／Unreal Engine | [日文兩位作者自述＋影片縮圖與成品圖；影片未播放、未重現](cases/368-dots-3d-scene-assets-to-local-agent-unreal-import.md) | 創作｜遊戲素材、3D、跨代理、驗收 |
 | UC-369 | 既有任務從側欄打不開，先核同一任務在Activity的閱讀結果 | ChatGPT dots／Codex桌面應用 | [作者入口對照自述；非永久修復、未重現](cases/369-existing-task-view-route-reconciliation.md) | 開發｜任務入口、歷史保存、失敗、驗收 |
 | UC-370 | 電子報逐期音訊與缺件補製對帳 | Grok Bot／Gmail／NotebookLM／Cloudflare | [作者建置及試聽自述；長期執行與恢復未驗](cases/370-newsletter-audio-backfill-state-reconciliation.md) | 學習｜電子報、音訊、去重、補製 |
-| UC-371 | 新事務機「掃描到資料夾」一直認證失敗，Bot查電腦與事務機設定找出SMB問題並實掃驗證 | Grok Bot／macOS檔案共享／Ricoh事務機 | [英文作者單則文字自述（附圖為示意圖）；未重現](cases/371-office-mfp-scan-to-folder-smb-auth-fix.md) | 開發｜裝置、故障診斷、檔案分享、驗收 |
-| UC-372 | 同一晚讓兩款代理查選民登記並申請郵寄選票、Amazon回購同款肥皂，比誰停在最後一步 | Grok Bot／ChatGPT dots／Amazon | [英文作者單則長文對照自述；無截圖、未重現](cases/372-voter-registration-mail-ballot-two-agent-comparison.md) | 生活｜表單、驗證碼、核准、比較 |
-| UC-373 | 續約合約：Bot從雲端硬碟找簽名圖貼到簽名處，存回信草稿等本人審閱寄出 | Grok Bot／Google Drive／郵件草稿 | [繁中作者串文＋已遮蔽合約簽名頁截圖；未重現](cases/373-contract-renewal-saved-signature-reply-draft.md) | 工作｜文件、簽署、草稿、核准 |
-| UC-374 | 企業工作坊備課：Bot在雲端瀏覽器以學員身分把網頁版Copilot練習指令跑一遍 | Grok Bot／Microsoft 365 Copilot網頁版 | [繁中作者串文＋Bot雲端電腦畫面截圖；未重現](cases/374-workshop-prompts-cloud-browser-dry-run.md) | 工作｜教材、測試、雲端電腦、驗收 |
-
+| UC-371 | Library搜尋與內容授權分層排障 | ChatGPT dots／Library／Space | [作者雙測試檔失敗對照；未重現、未修復](cases/371-library-search-retrieval-scope-differential.md) | 工作｜Library、權限、對照測試、失敗紀錄 |
+| UC-372 | 新事務機「掃描到資料夾」一直認證失敗，Bot查電腦與事務機設定找出SMB問題並實掃驗證 | Grok Bot／macOS檔案共享／Ricoh事務機 | [英文作者單則文字自述（附圖為示意圖）；未重現](cases/372-office-mfp-scan-to-folder-smb-auth-fix.md) | 開發｜裝置、故障診斷、檔案分享、驗收 |
+| UC-373 | 同一晚讓兩款代理查選民登記並申請郵寄選票、Amazon回購同款肥皂，比誰停在最後一步 | Grok Bot／ChatGPT dots／Amazon | [英文作者單則長文對照自述；無截圖、未重現](cases/373-voter-registration-mail-ballot-two-agent-comparison.md) | 生活｜表單、驗證碼、核准、比較 |
+| UC-374 | 續約合約：Bot從雲端硬碟找簽名圖貼到簽名處，存回信草稿等本人審閱寄出 | Grok Bot／Google Drive／郵件草稿 | [繁中作者串文＋已遮蔽合約簽名頁截圖；未重現](cases/374-contract-renewal-saved-signature-reply-draft.md) | 工作｜文件、簽署、草稿、核准 |
+| UC-375 | 企業工作坊備課：Bot在雲端瀏覽器以學員身分把網頁版Copilot練習指令跑一遍 | Grok Bot／Microsoft 365 Copilot網頁版 | [繁中作者串文＋Bot雲端電腦畫面截圖；未重現](cases/375-workshop-prompts-cloud-browser-dry-run.md) | 工作｜教材、測試、雲端電腦、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

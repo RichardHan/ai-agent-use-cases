@@ -1,0 +1,19 @@
+{
+  "run": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39490060237",
+  "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /已載入/. Input:\n\n'這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。'\n\n    at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/round-browser.cjs:62:10",
+  "networkCounts": [
+    {
+      "kind": "http",
+      "status": 503,
+      "error": null,
+      "count": 2
+    },
+    {
+      "kind": "http",
+      "status": 429,
+      "error": null,
+      "count": 391
+    }
+  ],
+  "note": "Distinct from passing source-links published check; published full-corpus round incomplete. No assertion weakening or source changes."
+}

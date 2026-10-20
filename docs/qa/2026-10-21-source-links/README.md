@@ -54,3 +54,19 @@
 | 手機390 | [來源殘字與擠斷](before/source-390.png) | [完整來源與焦點](after/source-390.png) |
 
 主角色已逐張目視比較：兩來源各自顯示短標籤，沒有遺失檔名殘字；手機焦點外框清楚，限制說明與原始核對段落完整可讀。[修改前報告](before/report.json)／[修改後報告](after/report.json)。
+
+### 合併與正式發布
+
+正常merge commit `5cb0014c90e7dc7663151a26c15ec4bfecc294e5` 已以SSH push到main；未強推。最後預覽workflow版[cfa788d／39488981294](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39488981294)亦完整通過。正式[Pages部署39490059202](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39490059202)成功；排隊後共7分54秒完成。
+
+[本輪主線驗收39490060134](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39490060134)成功：132/132單元、preview／完整原有回歸、正式app.js內容與checkout完全一致、正式1440與390來源直鏈／新頁／重整／Escape返回通過。兩尺寸395條目、零缺項／pageerror／水平溢出、兩次正式axe皆0。[正式報告](published/report.json)、[桌面](published/source-1440.png)、[手機](published/source-390.png)。主角色已目視正式手機截圖，與驗收後圖一致。
+
+UC-161兩個完整來源另以公開HTTP HEAD當次皆200（[原始紀錄](source-head.json)），未下載／驗證CSV內容，也不保證永久可用。這是授權repository shell的HTTP檢查，與雲端browser的新頁URL測試分開。
+
+**主線其餘檢查沒有全部綠燈，以下限制保留，不弱化斷言：**
+
+- 部署完成前，[Return visibility](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39490060238)、[Search relevance](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39490060131)、[Home search entry](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39490059897)、[Related reading](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39490060135)、[Search context](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39490059845)、[Missing shared case](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39490059801)六項在資產一致性等待／斷言失敗；日誌核對均為尚未更新的app.js，不宣稱已執行其後正式流程。
+- 另一[Improvement round](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39490060237)preview通過，正式desktop／390完成，但320完整載入因部分來源未載入而未完成。其保存network diagnostics有391次HTTP429、2次503（[摘要](published-round-limitation.json)），畫面正確呈現部分來源警告；不能把它算成正式全庫流程通過，也不能只憑這些狀態判定產品程式回歸或所有失敗的根因。本輪正式來源測試於兩尺寸另已完成395條目、零缺項。
+- 部署成功後嘗試 `gh run rerun 39490060238 --failed`，API回覆 `cannot be rerun; Must have admin rights to Repository.`，停止重複相同權限操作。沒有切換身分、削弱測試或聲稱整批主線CI全綠。其他自動主線job以Actions實際狀態為準，非本輪追加驗收。
+
+下一輪優先降低首次全文請求量，並讓正式站QA在Pages部署完成後排程、限制並行全文掃描；這次排隊與429／503是具體證據。此輪來源修正已達驗收標準，停止追加產品修改。

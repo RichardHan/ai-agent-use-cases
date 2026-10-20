@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-20T20:17:22.598Z",
+  "context": "Public HTTP HEAD via authorized repository shell; distinct from cloud browser URL checks",
+  "checks": [
+    {
+      "name": "llm-alignment-summary-long.csv",
+      "method": "HEAD",
+      "status": 200,
+      "finalURL": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary-long.csv"
+    },
+    {
+      "name": "llm-alignment-summary_README.md",
+      "method": "HEAD",
+      "status": 200,
+      "finalURL": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary_README.md"
+    }
+  ]
+}

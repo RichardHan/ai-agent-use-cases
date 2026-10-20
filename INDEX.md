@@ -2,7 +2,9 @@
 
 更新日期：2026-10-20。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至2026-10-20 09:00批次，嚴格合格為**318／1,000，尚差682**（含作者自述與實際失敗，未獨立重現）。承接已核定317，本輪新增365一個不同流程；不是重新獨立驗證全部舊案。主要頁357，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至2026-10-20 08:48批次（09:30合併），嚴格合格為**320／1,000，尚差680**（含作者自述與實際失敗，未獨立重現）。承接09:00批次已核定318，本輪逐案新增366、368共2個不同流程納入，367單則文字列待定；不是重新獨立驗證全部舊案。主要頁357＋3＝360，與嚴格合格數分開。[逐案計數、來源與排除理由](sources/qualification-audit-2026-10-16.md)。
+
+2026-10-20 08:48批次（09:30合併）：新增366請Grok Bot把OpenRGB的顯示卡燈效協定移植成Armoury Crate外掛、先唯讀探測再寫入（英文，公開原碼＋Bot回報截圖，納入B）、367清奈高等法院律師每天由Bot送晨報、晚間比對庭期表、白天盯叫號看板並整理逐案開庭資料夾（英文，單則文字，待定）、368 dots在雲端量產建築到街區的3D素材、交Claude在桌機實作進Unreal Engine，另附3,000個低多邊形物件卡在配置規格的實驗（日文，影片未播放，納入B）；286併入在Bot雲端電腦登入個人微信每天搶醫院專家號而被判違規的失敗（V2EX中文），056併入Zenn「あうとき」Bot依四條規則獨自營運網站並公開上線初期錯誤，066併入每週看用量、合併早晨排程後自動化只占5%，均不另計。皆未重現。[原文、去重與覆蓋](sources/research-2026-10-20-0848.md)。
 
 2026-10-20 09:00批次：新增365排程原位修訂失敗與不變欄位回讀驗收；030補每週課程錄影／教材轉Anki版本不另計。原作者自述均未重現。[查閱範圍、去重與缺口](sources/research-2026-10-20-0900.md)。
 
@@ -96,7 +98,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（357）
+## 主要案例（360）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -152,7 +154,7 @@
 | UC-053 | 補貨前先查退貨吃掉多少利潤 | Grok Bot／Amazon 賣家資料／Sellerboard | [作者自述實測；表格與補貨結果未核](cases/053-ecommerce-replenishment-refund-profit.md) | 工作｜電商、補貨、退貨、核對 |
 | UC-054 | 一句話或一首歌，串起作曲、生圖、動畫與剪輯做出 MV；中文饒舌講解影片 | Grok Bot／ElevenLabs Music／Canva／Grok Imagine；Claudia 模板（Suno／Midjourney／Opus）；MV Forge 模板（Three.js／Canvas2D／ffmpeg）；Grok Bot＋Suno 講解影片 | [三位作者自述＋模板公開頁已讀＋中文講解影片五步提示與VPN連線排障自述（影片未看）；未安裝未重現](cases/054-music-video-multi-tool-pipeline.md) | 創作｜影片、音樂、生成圖像、模板 |
 | UC-055 | 看到好項目丟給 Bot：建檔查重、調研、持續追蹤消息 | Grok Bot（四個 Bot 交接＋共用檔案） | [作者自述＋截圖＋官方多 Bot 文件；調研內容未核](cases/055-tweet-project-intake-research-monitor.md) | 學習｜多代理、資料查證、監看、書籤 |
-| UC-056 | 讓 Bot 找題目、建站、維護、收贊助，經營小網站 | Grok Bot／Cursor 代理／Stripe 外掛 | [作者自述＋第三方影片拆解＋網站公開頁已讀；收入流量未核](cases/056-agent-built-microbusiness-site.md) | 工作｜網站、營運、電子報、多代理 |
+| UC-056 | 讓 Bot 找題目、建站、維護、收贊助，經營小網站；Bot依四條規則獨自營運並自修上線初期錯誤 | Grok Bot／Cursor 代理／Stripe 外掛；Grok Bot／Next.js／Vercel | [作者自述＋第三方影片拆解＋網站公開頁已讀＋日文Zenn營運紀錄（計測重複、遷移500、雲端登入被擋）；收入流量未核](cases/056-agent-built-microbusiness-site.md) | 工作｜網站、營運、電子報、多代理 |
 | UC-057 | 在自己筆電架 GitHub 自架 runner，先講好安全邊界 | Grok Bot／GitHub Actions／Windows 筆電 | [作者自述＋截圖＋GitHub 官方安全文件；未重現](cases/057-self-hosted-ci-runner-on-laptop.md) | 開發｜CI、本機執行、權限、核准 | 
 | UC-058 | 把整場網球錄影剪成每一分，減少等待 | Meta Muse | [作者自述仍在改善；未看成片、未重現](cases/058-tennis-match-dead-time-editing.md) | 創作｜影片、運動、剪輯、驗收 |
 | UC-059 | 找居家清運商、核准詢價，再確認預約；dots 多日聯絡搬家業者 | Meta Muse；ChatGPT dots／Gmail／Shiply | [媒體作者使用報告＋OpenAI 員工 dots 搬家長文自述；未確認完工、節省金額未核、未重現](cases/059-home-service-quote-handoff.md) | 生活｜家務、詢價、預約、核准 |
@@ -162,7 +164,7 @@
 | UC-063 | 盤點並整理 Plex 媒體庫命名、海報與備份 | Grok Bot／Plex | [論壇作者自述＋Plex 官方操作限制；未重現](cases/063-plex-media-library-housekeeping.md) | 生活｜影片、檔案整理、備份、驗收 |
 | UC-064 | 核對數學命題、反例搜尋與 Lean 證明檢查 | ChatGPT dots／Lean | [作者自述＋公開程式、CI及登記；未獨立重跑](cases/064-math-proof-review-formalization.md) | 學習｜科研、多代理、形式驗證、驗收 |
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢 | Grok Bot | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
-| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
+| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
 | UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub | Meta Muse／Git；Grok Bot／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼、重置後 Tailscale 身分恢復、每週三處備份變體）＋官方文件＋快照回滾且備份同時失效的二手轉述（待驗證）；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
@@ -377,7 +379,7 @@
 | UC-283 | dots 接工作 App 實測 17 項與核准陷阱 | ChatGPT dots／多種外掛 | [作者對照畫面與 git log；未重跑](cases/283-dots-connected-apps-permission-pitfalls.md) | 工作｜驗收、權限、排程、故障診斷 |
 | UC-284 | 延誤行李到達後的補購用品費用申請 | Meta Muse | [作者實際使用自述；無受理回條與付款證明](cases/284-delayed-baggage-status-expense-claim.md) | 生活｜旅遊、行李、報銷、核准 |
 | UC-285 | 每天早上把 X 上的配音試鏡徵件寄成可回信調整的摘要 | Grok Bot／X／Bot 自有信箱 | [作者自述＋摘要信截圖；應徵結果未核](cases/285-x-voice-acting-audition-email-digest.md) | 工作｜每日、X、收件匣、求職 |
-| UC-286 | 夜行列車個室全滿，改為每天早上查空位；雲主機規格售完後每30分鐘查貨並自動購買 | Grok Bot／JR西日本會員網站；Grok Bot／Hetzner | [日文作者單則自述；無截圖、未訂到＋英文作者單則自述有貨即買下；無訂單證據](cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md) | 生活｜旅遊、每日、監看、比價、補貨 |
+| UC-286 | 夜行列車個室全滿，改為每天早上查空位；雲主機規格售完後每30分鐘查貨並自動購買；在Bot雲端電腦登入微信每天搶專家號被判違規 | Grok Bot／JR西日本會員網站；Grok Bot／Hetzner；Grok Bot／微信 | [日文作者單則自述；無截圖、未訂到＋英文作者單則自述有貨即買下；無訂單證據＋中文V2EX失敗自述，申訴後恢復](cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md) | 生活｜旅遊、每日、監看、比價、補貨 |
 | UC-287 | 主 Bot 審站，雜務 Bot 自行註冊統計工具，先接預覽再等核准 | Grok Bot 多 Bot／Umami | [作者自述＋群組回報與後台截圖；正式上線未見](cases/287-bot-site-review-analytics-signup-preview.md) | 開發｜多代理、分析、驗收、核准 |
 | UC-288 | 只用手機做出每天早上自動更新的主畫面個人看板 | Grok Bot／行事曆／X／Addness | [日文作者自述＋打碼看板截圖；連續更新未核](cases/288-phone-only-home-screen-daily-board.md) | 生活｜每日、看板、目標、日曆 |
 | UC-289 | 第三方貼文逐項證據處置與保留佇列 | Grok Bot／TypeSafe Jev | [作者端到端實測自述；準確率未驗](cases/289-social-claim-evidence-triage.md) | 學習｜查證、來源、保留、多代理 |
@@ -457,6 +459,9 @@
 | UC-363 | 語音組別事件對齊心率時間序列，分開驗收休息計時 | ChatGPT dots／Polar／Notion | [日文作者實作與圖表解說；未核原始資料](cases/363-voice-workout-event-heart-rate-alignment.md) | 生活｜運動紀錄、時間對齊 |
 | UC-364 | 人工決策接力與外部任務狀態顯示驗收 | ChatGPT dots／Dot Face | [日文作者真實任務展示；非官方、未重現](cases/364-human-agent-handoff-state-display.md) | 開發｜人工決策、狀態驗收 |
 | UC-365 | 排程原位修訂與不變欄位回讀驗收 | ChatGPT dots／官方任務編輯器 | [作者工具失敗、同任務保存自述；後續執行未核](cases/365-scheduled-task-inplace-edit-readback.md) | 工作｜排程、失敗、回讀 |
+| UC-366 | 請Bot把開源專案的顯示卡燈效協定移植成另一家控制軟體的外掛，先唯讀探測再寫入 | Grok Bot／OpenRGB／ASUS Armoury Crate | [英文作者自述＋Bot回報截圖＋公開GitHub原碼；實機僅作者自述、未重現](cases/366-gpu-rgb-protocol-port-vendor-plugin-readonly-probe.md) | 開發｜硬體、外掛、移植、唯讀測試 |
+| UC-367 | 律師每天由Bot送晨報、晚間比對庭期表、白天盯法庭叫號看板，並整理逐案開庭資料夾 | Grok Bot／eCourts | [英文作者單則文字自述；無截圖、未重現](cases/367-advocate-daily-cause-list-court-board-case-bundle.md) | 工作｜每日、法律、庭期、案卷 |
+| UC-368 | dots在雲端量產建築到街區的3D場景素材，交本機代理實作進Unreal Engine | ChatGPT dots／Claude／Unreal Engine | [日文兩位作者自述＋影片縮圖與成品圖；影片未播放、未重現](cases/368-dots-3d-scene-assets-to-local-agent-unreal-import.md) | 創作｜遊戲素材、3D、跨代理、驗收 |
 
 
 ## 驗證與模板補充（3，不列新增成功案例）

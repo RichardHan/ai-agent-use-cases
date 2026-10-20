@@ -60,3 +60,13 @@ READER_URL=http://127.0.0.1:8160/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/nod
 實際runner頁面時序保存在[reader-timings.json](reader-timings.json)，僅是GitHub runner本地HTTP預覽的navigation／reader assets取樣，未節流，不能外推正式網路速度、完整全文載入時間或效能提升。未跑Lighthouse。
 
 未知分享值保留在原生選單供辨認和清除，helper僅從entries實際分類查找；不把URL文字當已收錄分類。下一輪優先項目不變。
+
+## 正式發布完成
+
+正常非強推merge `b255ba3` 已push main，遠端基準仍為a32f19a，無整合衝突。[Pages39507680646](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39507680646)的Jekyll建置／部署成功。[正式Category QA39507681295](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39507681295)整套成功，先逐byte確認公開index.html／app.js／style.css與merge checkout相同，再於Chromium1440與390走完整三情境、未知分享分類、實際來源新頁、重新整理／返回與鍵盤操作；兩配置均395條目、零pageerror，4次axe零違規。[資產比對](published-assets.json)／[正式結果](published.json)／[正式桌面](published-1440.png)／[正式手機](published-390.png)。正式站已目視核對。預覽三引擎的503／補讀注入不在公開網站重做，沒有把公開站當測試資料寫入目標。
+
+[直接預覽正式網站](https://richardhan.github.io/ai-agent-use-cases/?q=旅遊&scenario=生活#explore)，展開篩選，再展開「分類太多？依名稱找分類」，輸入「旅遊 消費」即可操作。
+
+部署排隊曾受20個既有runner工作佔滿影響。整合Website QA39507681080成功；七套舊正式QA的原失敗保留：Return visibility39507681160、Home search entry39507681000、Search context39507680995、Combined recovery39507681078、Related reading39507681140、Facet counts39507681043、Partial Load39507681068。已讀各失敗logs，皆在公開資產與checkout不一致／等待部署逾時終止，發生於Pages部署成功之前，不當成通過，也未為它們修改斷言。[CI當時快照](ci.json)另含其他成功、失敗與未完成工作，不宣稱全庫CI全綠。
+
+最後提交只補本輪發布數據、截圖與維護紀錄，產品資產維持2601f3f；沒有重跑已通過的整套預覽。原目錄兩個未提交搜尋修改仍在原分支，未改動。本輪達標並停止追加功能。

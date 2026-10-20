@@ -1,0 +1,40 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "audits": [
+      [],
+      []
+    ],
+    "entries": 395,
+    "focusStyle": {
+      "style": "solid",
+      "width": "2px"
+    },
+    "finder": "找到 5 個分類。筆數保留案例關鍵字與其他篩選；0 筆也可選。",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "broadStatus": "找到 11 個分類。先列 8 個；可增加字詞縮小範圍。筆數保留案例關鍵字與其他篩選；0 筆也可選。",
+    "complete": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      [],
+      []
+    ],
+    "entries": 395,
+    "focusStyle": {
+      "style": "solid",
+      "width": "2px"
+    },
+    "finder": "找到 5 個分類。筆數保留案例關鍵字與其他篩選；0 筆也可選。",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "broadStatus": "找到 11 個分類。先列 8 個；可增加字詞縮小範圍。筆數保留案例關鍵字與其他篩選；0 筆也可選。",
+    "complete": true
+  }
+]

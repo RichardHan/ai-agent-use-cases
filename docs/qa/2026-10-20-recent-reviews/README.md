@@ -72,3 +72,5 @@ RECENT_URL=http://127.0.0.1:8131/ai-agent-use-cases/ node tests/recent-review-re
 正式發布505c825整合後110／110。首次正式驗收39356284786於01:58:12～02:01:15等待版本，Pages仍排隊，HTML／JS／CSS仍HTTP200舊版，故版本閘門正確FAIL、未執行HTTPS旅程；[失敗log](published-before-deploy-failure.log)與[當時資產](published-before-deploy-assets.json)保留。Jekyll build與Pages部署隨後成功，正式HTTPS複驗亦通過（見上表）。CLI rerun被帳號權限拒絕，因此以已授權git push調整QA等待上限為8分鐘後再驗，不放寬任何資產、目錄或原文比對。未改產品／語料／原測試。
 
 正式站先確認HTML／JS／CSS逐bytes等於checkout，catalog的364個來源路徑集合完全相同，再走完三情境；逐筆核對366條目原文與349／17日期覆蓋。[資產雜湊](published-assets.json) · [Pages結果](pages-ci.json) · [HTTPS結果](published-ci.json)。既有Return CI首次也在部署前版本閘門失敗，保留[原log](return-queued-deploy-failure.log)；[發布CI快照](publication-ci-snapshot.json)僅作當時狀態，不宣稱所有其他workflow已綠燈。正式HTTPS驗收完成後，main另有協作者b801362／a7f1768新增案例與來源註記；保留其內容。上述366筆結果明確對應d923b8b，不延伸聲稱後續新增資料也已完成同一套瀏覽器驗收。本輪驗收已達標，停止功能修改。
+
+最後保留協作者UC-369後，完整單元重跑出現兩個資料同步失敗（[108／110紅燈](post-publication-integration-red.tap)）：首頁合格320落後稽核321、來源候選精確集合新增369。依既有資料只同步首頁321與測試候選名單，不刪資料、不放寬49簇斷言；[重跑110／110通過](post-publication-integration-green.tap)。這兩行同步另經獨立審查；前述正式截圖仍保留已測d923b8b版本，不重標為後續資料快照。

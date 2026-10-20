@@ -895,6 +895,16 @@ function currentSearchLink() {
   filters.scenario=activeScenario;
   return searchLink(location.href,$('query').value,filters,$('sort').value);
 }
+let searchComposing = false;
+function submitSearch(event) {
+  event.preventDefault();
+  if (!discoveryReady || searchComposing || event.isComposing) return;
+  allowAutomaticArrival = false;
+  const url = new URL(location.href);
+  url.hash = 'explore';
+  history.replaceState(history.state, '', url);
+  revealSearch(true);
+}
 function revealSearch(resultsOnly=false) {
   const target=$(resultsOnly?'results-count':'search-title');
   (resultsOnly?$('results-count'):$('explore')).scrollIntoView({block:'start',behavior:'instant'});
@@ -1033,6 +1043,7 @@ function renderSearchFeedback(terms, filters) {
 function render(updateURL=true, preserveShare=false) {
   if(!preserveShare)clearSearchShare();
   $('copy-search-link').disabled=!discoveryReady;
+  $('search-submit').disabled=!discoveryReady;
   $('scenario').value=activeScenario;
   const q = tokenize($('query').value);
   const filters = Object.fromEntries(['kind', 'tool', 'category', 'proof'].map(id => [id, $(id).value]));
@@ -1291,7 +1302,7 @@ async function load() {
   $('use-loaded').disabled=true;
   $('use-loaded').removeAttribute('aria-disabled');
   recoveryNotice='';$('load-status').textContent='';$('partial-load').hidden=true;
-  clearSearchShare();$('copy-search-link').disabled=true;
+  clearSearchShare();$('copy-search-link').disabled=true;$('search-submit').disabled=true;
   discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('drawn-case').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
   $('error').hidden = true;
   $('empty').hidden = true;
@@ -1484,7 +1495,9 @@ $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
 $('draw-case').addEventListener('click',()=>{drawNext();revealDiscovery();});
 document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
 $('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;render();});
-$('filters').addEventListener('submit', e => e.preventDefault());
+$('filters').addEventListener('submit', submitSearch);
+$('query').addEventListener('compositionstart', () => { searchComposing = true; });
+$('query').addEventListener('compositionend', () => { searchComposing = false; });
 $('query').addEventListener('input', () => render());
 $('sort').addEventListener('change', () => render());
 $('recent-entry').addEventListener('click', event => {

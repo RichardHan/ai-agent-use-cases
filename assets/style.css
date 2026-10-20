@@ -239,3 +239,9 @@
 #audit-status{display:block;margin:0;width:100%;max-width:52ch;font-size:13px;line-height:1.7;overflow-wrap:anywhere}
 .audit-retry{align-self:flex-start;min-height:44px;padding:8px 14px;border:1px solid var(--green);border-radius:6px;background:#fff;color:var(--green);font:inherit;cursor:pointer}
 .audit-retry[hidden]{display:none}
+
+/* An explicit handoff stays available when mobile filters are collapsed. */
+.search-submit-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px}
+.search-submit-row p{margin:0;color:var(--muted);font-size:13px}
+.search-submit-row button{flex-shrink:0}
+@media(max-width:640px){.search-submit-row{align-items:stretch;flex-direction:column;gap:10px}.search-submit-row button{width:100%}}

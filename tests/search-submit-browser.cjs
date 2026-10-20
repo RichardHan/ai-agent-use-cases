@@ -44,7 +44,15 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  await page.locator('#filters').evaluate(e=>e.requestSubmit());assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
  await page.locator('#query').dispatchEvent('compositionend');await page.locator('#query').press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
  await page.locator('#filter-summary').click();if(await page.locator('#filter-options').evaluate(e=>e.open))await page.locator('#filter-summary').click();
- assert(await page.locator('#search-submit').isVisible());await page.locator('#search-submit').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
+ assert(await page.locator('#search-submit').isVisible());await page.locator('#search-submit').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/${name}-${size}-action.jpg`});await page.locator('#search-submit').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
+ await page.locator('#filter-summary').click();
+ const facet=await page.evaluate(()=>({kind:currentFiltered[0].kind,category:currentFiltered[0].category,proof:currentFiltered[0].proof,tool:currentFiltered[0].tools[0],scenario:currentFiltered[0].scenario}));
+ for(const [id,value] of Object.entries(facet))await page.locator('#'+id).selectOption(value);
+ await page.locator('#sort').selectOption('reviewed');
+ const before=await page.evaluate(()=>{history.replaceState({submitQA:true},'',location.href);return {url:location.href,length:history.length,ids:[...document.querySelectorAll('#results .card')].map(e=>e.dataset.caseId)};});
+ await page.locator('#query').press('Enter');
+ const after=await page.evaluate(()=>({url:location.href,length:history.length,ids:[...document.querySelectorAll('#results .card')].map(e=>e.dataset.caseId),state:history.state}));
+ assert.equal(after.url,before.url);assert.equal(after.length,before.length);assert.deepEqual(after.ids,before.ids);assert(after.state.submitQA);report.combinedFacetsAndSort='preserved query, all five facets, reviewed sort, result order, URL and history state/length';
  report.ime='synthetic composition events guard; native OS IME not verified';
  }
  fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));await context.close();

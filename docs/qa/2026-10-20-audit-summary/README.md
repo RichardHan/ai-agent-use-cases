@@ -56,7 +56,7 @@ Python預覽模擬catalog和摘要；正式相容性由本輪QA的`actions/jekyl
 
 限制：沒有實體手機、iOS軟鍵盤與真人螢幕閱讀器驗證；axe只涵蓋自動規則。GitHub閱讀報告仍需要網路，無JS時不抄寫合格數、可直接開報告。摘要格式變更會明確顯示無法讀取，不回退歷史數；canonical報告須維持首批為當前、完整摘要與明確台灣時間的規範。
 
-下一輪最值得做：量測全庫全文搜尋在回訪與慢網路下的載入成本，再評估可驗證資料新鮮性的快取；這輪沒有擅自新增持久快取。
+下一輪最值得做：先釐清既有長文捲動錨點失敗與正式站CI的發布等待條件；回訪全文載入成本及快取策略留待之後量測。這輪沒有新增持久快取。
 
 
 手機截圖複核另外發現既有小螢幕`.stats p{display:none}`也隱藏了新增批次與錯誤訊息；前輪innerText與axe通過不代表訪客真的看得到。新增實際可見性斷言與4d43635專用重現，補修`#audit-status`顯式顯示、13px及行距；最終截圖需以補修後版本為準，不沿用隱藏文字版本作完成證據。
@@ -96,3 +96,26 @@ Python預覽模擬catalog和摘要；正式相容性由本輪QA的`actions/jekyl
 這些是自動化與模擬走查，不是真人訪談或留存／轉換率成長證據。
 
 變更檔案：`audit-summary.json`、`assets/audit.js`、`index.html`與`assets/style.css`為產品；`scripts/preview.py`模擬摘要；`INDEX.md`移除重複現況；`tests/audit.test.cjs`及`tests/trust-*.cjs`為資料／瀏覽器／發布驗證；`.github/workflows/trust-summary-qa.yml`為雲端QA；`SITE.md`及本目錄保存維護與驗收。原始研究及canonical稽核判定完全未改。
+
+
+## 已合併與正式發布
+
+安全fetch後main仍為958a1bc，無衝突，以merge commit [`037989e`](https://github.com/RichardHan/ai-agent-use-cases/commit/037989e9daff112cb0fc513f93df07418de2080e)整合及push。與審查／預覽驗證的711c3b5相比，後續僅SITE及驗收文件／圖片有差異，產品資產未變。
+
+[GitHub Pages39424668359](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39424668359)成功；[本輪main QA39424669670](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39424669670)亦全部成功。正式站HTML、audit.js、style.css內容與checkout逐位元一致並保存SHA256；當前批次原文亦逐字一致：[發布資產證據](published-assets.json)。正式HTTPS桌面1440與手機390，全部來源成功、336與20:00正確、2次axe零違規、無pageerror、桌面noJS通過：[正式走查JSON](published.json)、[正式桌面](published-desktop.png)、[正式手機](published-mobile.png)。主角色已實看兩張正式截圖。
+
+預發布最終獨立審查已核對113測試、全部JSON及實際最終截圖，無本輪產品或合併阻擋點。沒有把此結論冒充整個repo所有CI全綠。
+
+### 其他CI失敗與未解風險
+
+main的其他既有workflow仍有失敗，均保留，不改測試標準來取得綠燈：
+
+- [Improvement round39424669751](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39424669751)：round-browser:110Firefox長文wheel閱讀位移84.400024px，超過2px；本輪前後原始artifact均為相同位移，Chromium四尺寸通過。獨立審查找到本輪之前的[39408129316](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39408129316)在同一斷言失敗；780f071b到本輪merge的app.js、reader.js、reader.css及round-browser.cjs沒有差異。[本輪前原始JSON](legacy-wheel-before.json)／[本輪後原始JSON](legacy-wheel-after.json)。這是既存未解問題，不以本輪計數驗收通過聲稱已修好。
+- [Combined recovery39424669643](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39424669643)：本機預覽完成，正式站partial-load逾時。它只比對未變的app.js就當作新版本，12:47:23失敗時本次Pages仍未開始build，不能據此證明新版本partial功能退化；也沒有以此排除它本身仍需釐清的風險。
+- [Partial Load39424669823](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39424669823)：12:48:52正式style.css與checkout不同，當時仍在發布；本輪稍後已證明實際發布CSS一致，舊workflow等待條件尚未修。
+- [Recent review39424669872](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39424669872)：12:49:12單一UC-174來源讀取失敗。本輪稍後桌面／手機完整來源已成功，不宣稱單憑成功重跑便證明當時根因或永久解決。
+
+本輪合格計數、手機錯誤訊息與獨立審查的驗收標準已達成，依指示停止，不順勢擴張為重寫所有CI或長文閱讀功能。下一輪優先建立可重現的長文捲動對照，並讓正式站驗收等待真正部署資產，再處理載入新鮮性／成本。
+
+
+最終獨立release review已核對正式站三個資產hash、合併SHA與首批原文，以及桌面／手機完整來源、2次axe及截圖；本輪功能正式發布驗收通過。另建議發布穩定後僅補跑Combined／Partial／Recent原失敗job。實際嘗試`gh run rerun 39424669643 --failed`，GitHub回覆`cannot be rerun; Must have admin rights to Repository.`，因此未能完成這三個舊job的重跑；未切換帳號、擴張權限或把未重跑的結果改稱通過。Firefox問題保留為既有未解，不稱偶發問題。

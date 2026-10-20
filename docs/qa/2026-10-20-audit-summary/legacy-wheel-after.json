@@ -1,0 +1,247 @@
+{
+  "base": "http://127.0.0.1:8100/ai-agent-use-cases/",
+  "observe": false,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 174,
+      "detailOpenMs": 283,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "46ba4e55c84e59ed750d9441ffd56b124f0080804207e1d8bbe1c5c91cba4534"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "958598aa468c04297acd49a1125703d423abd419aa8dfb486df0be028c33153c"
+        }
+      ],
+      "purposeBounds": {
+        "top": 399.03125,
+        "lineHeight": 32.3
+      },
+      "readingScrollDelta": 59,
+      "readingTargetDelta": 0.1875,
+      "wheelStatusHeightBefore": 45.1875,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.1875,
+      "statusRemovalReadingDelta": 0.1875,
+      "midLoadReload": true,
+      "sourceHref": "https://zenn.dev/tec/articles/c4fbfcfffde4ad",
+      "openedSource": "https://zenn.dev/tec/articles/c4fbfcfffde4ad",
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 117,
+      "detailOpenMs": 194,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "46ba4e55c84e59ed750d9441ffd56b124f0080804207e1d8bbe1c5c91cba4534"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "958598aa468c04297acd49a1125703d423abd419aa8dfb486df0be028c33153c"
+        }
+      ],
+      "purposeBounds": {
+        "top": 520.96875,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 84,
+      "readingTargetDelta": 0.375,
+      "wheelStatusHeightBefore": 70.375,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.375,
+      "statusRemovalReadingDelta": 0.375,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "small-mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 110,
+      "detailOpenMs": 187,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "46ba4e55c84e59ed750d9441ffd56b124f0080804207e1d8bbe1c5c91cba4534"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "958598aa468c04297acd49a1125703d423abd419aa8dfb486df0be028c33153c"
+        }
+      ],
+      "purposeBounds": {
+        "top": 624.90625,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 110,
+      "readingTargetDelta": 0.4375,
+      "wheelStatusHeightBefore": 95.5625,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.4375,
+      "statusRemovalReadingDelta": 0.4375,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mid-mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 113,
+      "detailOpenMs": 190,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "46ba4e55c84e59ed750d9441ffd56b124f0080804207e1d8bbe1c5c91cba4534"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "958598aa468c04297acd49a1125703d423abd419aa8dfb486df0be028c33153c"
+        }
+      ],
+      "purposeBounds": {
+        "top": 486.46875,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 84,
+      "readingTargetDelta": 0.375,
+      "wheelStatusHeightBefore": 70.375,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.375,
+      "statusRemovalReadingDelta": 0.375,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "firefox",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 437,
+      "detailOpenMs": 530,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "46ba4e55c84e59ed750d9441ffd56b124f0080804207e1d8bbe1c5c91cba4534"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "958598aa468c04297acd49a1125703d423abd419aa8dfb486df0be028c33153c"
+        }
+      ],
+      "purposeBounds": {
+        "top": 521,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 84.39990234375,
+      "readingTargetDelta": 0,
+      "wheelStatusHeightBefore": 70.39999389648438,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 84.4000244140625
+    }
+  ],
+  "failure": {
+    "engine": "firefox",
+    "error": "AssertionError [ERR_ASSERTION]: wheel reading stays anchored even with title focus outside the viewport\n    at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/round-browser.cjs:110:85",
+    "networkDiagnostics": [],
+    "pages": [
+      {
+        "url": "http://127.0.0.1:8100/ai-agent-use-cases/?q=no-round-match-987654&scenario=%E7%94%9F%E6%B4%BB",
+        "ready": true,
+        "initialLoading": false,
+        "currentDetail": "UC-001",
+        "notices": {
+          "missing-case": false,
+          "partial-load": false,
+          "error": false
+        },
+        "failedPaths": [],
+        "entries": 387,
+        "detailOpen": false,
+        "focus": "query",
+        "loadStatus": "",
+        "error": ""
+      },
+      {
+        "url": "http://127.0.0.1:8100/ai-agent-use-cases/?case=UC-359",
+        "ready": true,
+        "initialLoading": false,
+        "targetMatch": "UC-359",
+        "currentDetail": "UC-359",
+        "notices": {
+          "missing-case": false,
+          "partial-load": false,
+          "error": false
+        },
+        "failedPaths": [],
+        "entries": 387,
+        "detailOpen": true,
+        "focus": "detail-title",
+        "loadStatus": "",
+        "error": ""
+      }
+    ]
+  },
+  "error": "AssertionError [ERR_ASSERTION]: wheel reading stays anchored even with title focus outside the viewport\n    at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/round-browser.cjs:110:85"
+}

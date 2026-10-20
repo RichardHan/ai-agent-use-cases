@@ -1,4 +1,4 @@
-# UC-374：準備企業工作坊時，讓 Bot 在自己的雲端瀏覽器以學員身分把每條指令跑一遍
+# UC-375：準備企業工作坊時，讓 Bot 在自己的雲端瀏覽器以學員身分把每條指令跑一遍
 
 - 情境：工作
 - 標籤：教材、測試、雲端電腦、驗收
@@ -61,5 +61,5 @@
 
 - 不同於 [UC-030](030-interactive-study-guide.md)：那頁是把內容做成學習教材；本案是驗證既有教材在指定工具中能不能照做。
 - 不同於 [UC-145](145-offline-standard-form-field-validation.md)：那頁用假資料驗證表單欄位；本案用學員視角跑一遍 AI 工具練習。
-- 同一串文另有場景 1（合約簽名與回信草稿）見 [UC-373](373-contract-renewal-saved-signature-reply-draft.md)。
+- 同一串文另有場景 1（合約簽名與回信草稿）見 [UC-374](374-contract-renewal-saved-signature-reply-draft.md)。
 - 2026-10-20 11:48 批次首次收錄。

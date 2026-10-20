@@ -60,6 +60,9 @@ async function order(page){
      const read=page.locator('#results .card .card-bottom button').first();await read.click();
      await page.locator('#detail[open]').waitFor();assert.match(await page.locator('.detail-header-meta').innerText(),/頁首核對/);
      await page.screenshot({path:`${output}/${name}-${size}-detail.png`});await audit(page,report,'recent detail');
+     const secondID=await page.locator('#results .card').nth(1).getAttribute('data-case-id');
+     await page.locator('#nav-next-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),secondID);
+     await page.locator('#nav-prev-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),firstID);
      await page.locator('#copy-case-link').click();
      if(name==='chromium'){const link=new URL(await page.evaluate(()=>navigator.clipboard.readText()));assert.equal(link.searchParams.get('sort'),'reviewed');assert.equal(link.searchParams.get('case'),firstID);}
      await page.goBack();await page.waitForFunction(()=>!$('detail').open);

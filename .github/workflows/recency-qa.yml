@@ -59,7 +59,7 @@ jobs:
         run: |
           python3 -m http.server 8131 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-preview.log 2>&1 &
           python3 -m http.server 8081 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-discovery.log 2>&1 &
-          for suite in recent-review-browser recent-review-recovery source-guide-mobile-regression loading-budget-browser relevance-browser discovery-browser reader-browser; do
+          for suite in discovery-browser reader-browser recent-review-browser recent-review-recovery source-guide-mobile-regression loading-budget-browser relevance-browser; do
             if node "tests/$suite.cjs" > "qa-artifacts/$suite.log" 2>&1; then
               echo "PASS $suite"
             else

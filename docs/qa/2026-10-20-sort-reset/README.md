@@ -40,7 +40,7 @@ python3 -m http.server 8124 --directory /tmp/filter-preview
 # http://127.0.0.1:8124/ai-agent-use-cases/?sort=reviewed#explore
 ```
 
-未驗證實體手機、原生觸控鍵盤、真人螢幕閱讀器或使用偏好；axe不等於完整無障礙認證。未量測Lighthouse或轉換率。246項分類選單依然很長，屬於本輪診斷中觀察到但未改的探索成本；下一輪最值得評估如何讓訪客以任務縮小分類選項，先核對各選項語意與證據，避免杜撰難度或重新分類原始案例。
+未驗證實體手機、原生觸控鍵盤、真人螢幕閱讀器或使用偏好；axe不等於完整無障礙認證。未量測Lighthouse或轉換率。246項分類選單依然很長，屬於本輪診斷中觀察到但未改的探索成本；下一輪優先降低首次全文載入成本，保留直鏈早讀、全文搜尋與失敗復原；246項分類選單的探索成本另留待後續，不杜撰難度或重新分類原始案例。
 
 正式發布結果將於合併後補記。
 
@@ -66,3 +66,22 @@ python3 -m http.server 8124 --directory /tmp/filter-preview
 [Firefox手機](after/after-firefox-390.png)、[WebKit手機](after/after-webkit-390.png)。主整合者已實際開圖比對：新按鈕手機另起一列，320px摘要自然換行，無遮擋或水平溢出。手機最近核對狀態的首卡因此往下移，是直接復原入口的成本；預設狀態無此按鈕與說明容器。未將這項操作檢查冒稱真人喜好。
 
 獨立角色最後實讀44795f1產品diff、四份報告、125項unit及八張前後／三引擎圖，結論可合併、無剩餘產品必修，亦核對recent的378個已知日期與17個未知日期。此結論對預覽版本，正式發布須另驗。既有submit回歸的Chromium390與WebKit390外部來源HTTP429，其餘200；新sort流程桌面實際新分頁及來源HTTP200。外部限流原樣保留，不概括為所有來源皆可用，也不把連結可達當案例事實核驗。
+
+## 正式發布驗收
+
+一般merge [`b0fd745`](https://github.com/RichardHan/ai-agent-use-cases/commit/b0fd74514153f3322fcbd3868a4aae50f6dcd28d)已推送main；[Pages39446752901](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39446752901)正式Jekyll建置與部署成功。[main Filter entry QA39446753692](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39446753692)整套成功：再次跑完整預覽，並完成公開HTTPS的1440／390／320三情境、6次axe零違規、pageerrors空、來源新頁HTTP200。公開三檔與checkout逐byte一致，[獨立HTTP核對](published-assets.json)、[runner資產核對](published-run-assets.json)、[正式流程](published/report.json)。主整合者已實際檢視[正式桌面](published/after-chromium-1440.png)與[正式手機](published/after-chromium-390.png)。
+
+本次部署曾排隊，部分舊QA在公開資產更新前逾時，未冒稱整批CI全綠。Related、Return visibility、Partial Load、Combined recovery、Home search entry及Search relevance的失敗訊息為資產不符／部署等待逾時，部分原始log保存在[背景失敗](background-failures/related-assets.log)；其他結果以[CI快照](main-ci.json)為準。Improvement round正式流程另在部分來源未完成時對「已載入」文字的斷言失敗，不當作已修復。
+
+原Search submit QA39446753725已匹配公開資產後，在WebKit390出現焦點失敗（[原始報告](background-failures/search-submit.json)、[log](background-failures/search-submit.log)）：+350ms時results-count仍正確且在視窗內，接著原script先截圖、再讀trace、最後才按Tab；截圖前state正確；截圖後保存的trace已記錄Tab之前失焦回捲，不能確定由截圖造成，也不能說是Tab之後才發生。該情境sort為預設，新按鈕隱藏且DOM在原分享按鈕後。這與本輪預覽兩次全五配置通過不同，因此另保留原斷言、以新舊固定基準及等時等待做對照，未直接更改產品焦點保護或宣稱根因已修。
+
+### 正式鍵盤補驗與結論
+
+[診斷39448602753](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39448602753)使用新舊固定預覽及公開網站三個variant，各以截圖／等時等待兩模式與三次交錯fresh context，18次全部保持results-count焦點，Tab皆到copy-search-link；來源缺項與pageerrors皆空。[18次原始焦點紀錄](supplement/focus-controls.json)。此diagnostic是觀察腳本，不以workflow成功取代逐筆passed欄位核對；整合者已核對18/18。這次沒有重現原失敗，無法證明截圖是確定根因，也不宣稱已修好。
+
+[補驗39448450877](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39448450877)另在正式站執行**未修改的**原search-submit完整腳本，五配置全部成功、5次axe零違規、WebKit原生Tab通過；[原始結果](supplement/original-submit.json)。Chromium320來源HTTP429，其餘四配置200，來源限制仍保留。此成功補證不覆寫原run的FAIL，也不是產品修正。診斷程式與workflow僅保留在[verify/sort-release-20261020／fb9d397](https://github.com/RichardHan/ai-agent-use-cases/commit/fb9d397df36d0543b9a9355a23b18ea62c1e69dc)分支，不合併額外產品或CI變更。
+
+本輪功能達成、正式發布成功；預覽25次主要axe、正式新流程6次、原搜尋正式補驗5次皆零違規，原始背景失敗與未核實根因保留。未量測真人使用、原生手機鍵盤、Lighthouse或轉換率，不將自動掃描視為完整無障礙認證。至此停止追加功能。
+
+
+最終獨立角色再實讀正式報告、資產核對、18次對照與未改原腳本的五配置補驗，確認上述數據與限制忠實，可交付、無新增產品阻擋問題。後續未重現不等於修復WebKit。最終CI快照另包括Method shortcut及Reader controls在正式站等待首張卡片60／30秒逾時，Missing shared case被取消；其根因未核實，不冒稱只是部署等待，也不延伸修改本輪之外的載入邏輯。本輪新流程與正式原搜尋補驗皆來源完整，仍保留這些背景失敗作下一輪降低載入成本的證據。

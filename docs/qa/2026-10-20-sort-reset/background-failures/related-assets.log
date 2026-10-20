@@ -1,0 +1,18 @@
+browser	Verify deployed assets and reading flow	﻿2026-10-20T15:16:59.0682273Z ##[group]Run node tests/related-browser.cjs
+browser	Verify deployed assets and reading flow	2026-10-20T15:16:59.0682633Z ^[[36;1mnode tests/related-browser.cjs^[[0m
+browser	Verify deployed assets and reading flow	2026-10-20T15:16:59.0756046Z shell: /usr/bin/bash -e {0}
+browser	Verify deployed assets and reading flow	2026-10-20T15:16:59.0756306Z env:
+browser	Verify deployed assets and reading flow	2026-10-20T15:16:59.0756534Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Verify deployed assets and reading flow	2026-10-20T15:16:59.0756938Z   RELATED_URL: https://richardhan.github.io/ai-agent-use-cases/
+browser	Verify deployed assets and reading flow	2026-10-20T15:16:59.0757246Z   RELATED_LIVE: 1
+browser	Verify deployed assets and reading flow	2026-10-20T15:16:59.0757429Z ##[endgroup]
+browser	Verify deployed assets and reading flow	2026-10-20T15:22:03.2037444Z AssertionError [ERR_ASSERTION]: Published asset matches commit: assets/app.js
+browser	Verify deployed assets and reading flow	2026-10-20T15:22:03.2038597Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/related-browser.cjs:16:4 {
+browser	Verify deployed assets and reading flow	2026-10-20T15:22:03.2039960Z   generatedMessage: false,
+browser	Verify deployed assets and reading flow	2026-10-20T15:22:03.2040348Z   code: 'ERR_ASSERTION',
+browser	Verify deployed assets and reading flow	2026-10-20T15:22:03.2040587Z   actual: false,
+browser	Verify deployed assets and reading flow	2026-10-20T15:22:03.2040826Z   expected: true,
+browser	Verify deployed assets and reading flow	2026-10-20T15:22:03.2041005Z   operator: '==',
+browser	Verify deployed assets and reading flow	2026-10-20T15:22:03.2041189Z   diff: 'simple'
+browser	Verify deployed assets and reading flow	2026-10-20T15:22:03.2041434Z }
+browser	Verify deployed assets and reading flow	2026-10-20T15:22:03.2130510Z ##[error]Process completed with exit code 1.

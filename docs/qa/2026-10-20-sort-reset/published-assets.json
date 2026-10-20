@@ -1,0 +1,23 @@
+{
+  "checkedAtUTC": "2026-10-20T15:23:34.173725+00:00",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "matchesCheckout": true,
+      "sha256": "e8cd9f956f65270946d81e231afcac26467e35ace1770dcddddb3cb26d97aaba"
+    },
+    {
+      "path": "assets/app.js",
+      "status": 200,
+      "matchesCheckout": true,
+      "sha256": "fc08bb0fa79992290e81bc7eae4a072af3b957e9cb357301bbeba548c0218d8b"
+    },
+    {
+      "path": "assets/style.css",
+      "status": 200,
+      "matchesCheckout": true,
+      "sha256": "f205ac5b910f513429aa692a39a2155e3fa20b964f2828d1fdb487aa517644df"
+    }
+  ]
+}

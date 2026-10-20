@@ -1,0 +1,222 @@
+[
+  {
+    "name": "chromium",
+    "size": "desktop",
+    "state": {
+      "focus": "results-count",
+      "query": "旅遊",
+      "results": 12,
+      "top": 24.046875,
+      "height": 1000,
+      "hash": "#explore",
+      "submitButtons": 1
+    },
+    "errors": [],
+    "trace": [
+      {
+        "type": "focusin",
+        "time": 1381.3999999999942,
+        "focus": "results-count",
+        "top": 747.046875
+      },
+      {
+        "type": "scroll",
+        "time": 1394.2999999999884,
+        "focus": "results-count",
+        "top": 24.046875
+      }
+    ],
+    "keyboard": "Tab continues from result summary to share action",
+    "sourceURL": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceHTTP": 200,
+    "violations": [],
+    "combinedFacetsAndSort": "preserved query, all five facets, reviewed sort, result order, URL and history state/length",
+    "ime": "synthetic composition events guard; native OS IME not verified"
+  },
+  {
+    "name": "chromium",
+    "size": "mobile",
+    "state": {
+      "focus": "results-count",
+      "query": "旅遊",
+      "results": 12,
+      "top": 23.8125,
+      "height": 844,
+      "hash": "#explore",
+      "submitButtons": 1
+    },
+    "errors": [],
+    "trace": [
+      {
+        "type": "focusin",
+        "time": 1439.7000000000116,
+        "focus": "query",
+        "top": 1217.8125
+      },
+      {
+        "type": "focusin",
+        "time": 1441.7000000000116,
+        "focus": "results-count",
+        "top": 1217.8125
+      },
+      {
+        "type": "scroll",
+        "time": 1452.5,
+        "focus": "results-count",
+        "top": 23.8125
+      }
+    ],
+    "keyboard": "Tab continues from result summary to share action",
+    "sourceURL": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceHTTP": 200,
+    "violations": [],
+    "combinedFacetsAndSort": "preserved query, all five facets, reviewed sort, result order, URL and history state/length",
+    "ime": "synthetic composition events guard; native OS IME not verified"
+  },
+  {
+    "name": "chromium",
+    "size": "narrow",
+    "state": {
+      "focus": "results-count",
+      "query": "旅遊",
+      "results": 12,
+      "top": 23.703125,
+      "height": 740,
+      "hash": "#explore",
+      "submitButtons": 1
+    },
+    "errors": [],
+    "trace": [
+      {
+        "type": "focusin",
+        "time": 1363.8999999999942,
+        "focus": "query",
+        "top": 1390.703125
+      },
+      {
+        "type": "focusin",
+        "time": 1366,
+        "focus": "results-count",
+        "top": 1390.703125
+      },
+      {
+        "type": "scroll",
+        "time": 1366.8999999999942,
+        "focus": "results-count",
+        "top": 23.703125
+      }
+    ],
+    "keyboard": "Tab continues from result summary to share action",
+    "sourceURL": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceHTTP": 429,
+    "violations": [],
+    "combinedFacetsAndSort": "preserved query, all five facets, reviewed sort, result order, URL and history state/length",
+    "ime": "synthetic composition events guard; native OS IME not verified"
+  },
+  {
+    "name": "chromium",
+    "loading": "blocked submission, no deferred focus, explicit resubmission passes"
+  },
+  {
+    "name": "chromium",
+    "totalFailure": "disabled, no empty-results handoff"
+  },
+  {
+    "name": "chromium",
+    "partialFailure": "can submit, retains incomplete-source and zero-match notices"
+  },
+  {
+    "name": "firefox",
+    "size": "mobile",
+    "state": {
+      "focus": "results-count",
+      "query": "旅遊",
+      "results": 12,
+      "top": 24.216659545898438,
+      "height": 844,
+      "hash": "#explore",
+      "submitButtons": 1
+    },
+    "errors": [],
+    "trace": [
+      {
+        "type": "focusin",
+        "time": 1881,
+        "focus": "query",
+        "top": 1218.2166748046875
+      },
+      {
+        "type": "focusin",
+        "time": 1894,
+        "focus": "results-count",
+        "top": 1218.2166748046875
+      },
+      {
+        "type": "scroll",
+        "time": 1895,
+        "focus": "results-count",
+        "top": 1044.2166748046875
+      },
+      {
+        "type": "scroll",
+        "time": 1905,
+        "focus": "results-count",
+        "top": 24.216659545898438
+      }
+    ],
+    "keyboard": "Tab continues from result summary to share action",
+    "sourceURL": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceHTTP": 200,
+    "violations": [],
+    "combinedFacetsAndSort": "preserved query, all five facets, reviewed sort, result order, URL and history state/length",
+    "ime": "synthetic composition events guard; native OS IME not verified"
+  },
+  {
+    "name": "firefox",
+    "loading": "blocked submission, no deferred focus, explicit resubmission passes"
+  },
+  {
+    "name": "webkit",
+    "size": "mobile",
+    "state": {
+      "focus": "results-count",
+      "query": "旅遊",
+      "results": 12,
+      "top": 24.140625,
+      "height": 844,
+      "hash": "#explore",
+      "submitButtons": 1
+    },
+    "errors": [],
+    "trace": [
+      {
+        "type": "focusin",
+        "time": 2034,
+        "focus": "query",
+        "top": 1181.140625
+      },
+      {
+        "type": "focusin",
+        "time": 2040,
+        "focus": "results-count",
+        "top": 1181.140625
+      },
+      {
+        "type": "scroll",
+        "time": 2064,
+        "focus": "results-count",
+        "top": 24.140625
+      }
+    ],
+    "keyboard": "Tab continues from result summary to share action",
+    "sourceURL": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceHTTP": 200,
+    "violations": [],
+    "combinedFacetsAndSort": "preserved query, all five facets, reviewed sort, result order, URL and history state/length",
+    "ime": "synthetic composition events guard; native OS IME not verified"
+  },
+  {
+    "name": "webkit",
+    "loading": "blocked submission, no deferred focus, explicit resubmission passes"
+  }
+]

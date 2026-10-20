@@ -1,0 +1,40 @@
+browser	Published acceptance	﻿2026-10-20T15:22:04.9103343Z ##[group]Run python3 - <<'PYTHON'
+browser	Published acceptance	2026-10-20T15:22:04.9104191Z ^[[36;1mpython3 - <<'PYTHON'^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9104699Z ^[[36;1mimport pathlib,time,urllib.request^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9105264Z ^[[36;1mfor attempt in range(60):^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9105732Z ^[[36;1m    try:^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9106112Z ^[[36;1m        matches=[]^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9106730Z ^[[36;1m        for name in ('assets/app.js','assets/style.css','index.html'):^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9108049Z ^[[36;1m            with urllib.request.urlopen('https://richardhan.github.io/ai-agent-use-cases/'+name+'?submit='+str(time.time()),timeout=20) as response:^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9109470Z ^[[36;1m                matches.append(response.read()==pathlib.Path(name).read_bytes())^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9110232Z ^[[36;1m        if all(matches):^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9110753Z ^[[36;1m            print('PUBLISHED_ASSETS_MATCH')^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9111317Z ^[[36;1m            break^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9111836Z ^[[36;1m    except Exception as error:^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9112429Z ^[[36;1m        print(type(error).__name__)^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9112952Z ^[[36;1m    time.sleep(3)^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9113370Z ^[[36;1melse:^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9114492Z ^[[36;1m    raise SystemExit('Pages assets did not match checkout')^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9115152Z ^[[36;1mPYTHON^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9115579Z ^[[36;1mnode tests/search-submit-browser.cjs^[[0m
+browser	Published acceptance	2026-10-20T15:22:04.9191951Z shell: /usr/bin/bash -e {0}
+browser	Published acceptance	2026-10-20T15:22:04.9192421Z env:
+browser	Published acceptance	2026-10-20T15:22:04.9192870Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Published acceptance	2026-10-20T15:22:04.9193760Z   SUBMIT_OUTPUT: qa-artifacts/published
+browser	Published acceptance	2026-10-20T15:22:04.9194270Z ##[endgroup]
+browser	Published acceptance	2026-10-20T15:22:39.5638048Z PUBLISHED_ASSETS_MATCH
+browser	Published acceptance	2026-10-20T15:23:19.1159797Z AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+browser	Published acceptance	2026-10-20T15:23:19.1160716Z + actual - expected
+browser	Published acceptance	2026-10-20T15:23:19.1161026Z 
+browser	Published acceptance	2026-10-20T15:23:19.1165787Z + 'query'
+browser	Published acceptance	2026-10-20T15:23:19.1166044Z - 'copy-search-link'
+browser	Published acceptance	2026-10-20T15:23:19.1166245Z 
+browser	Published acceptance	2026-10-20T15:23:19.1166637Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/search-submit-browser.cjs:25:222 {
+browser	Published acceptance	2026-10-20T15:23:19.1167171Z   generatedMessage: true,
+browser	Published acceptance	2026-10-20T15:23:19.1167427Z   code: 'ERR_ASSERTION',
+browser	Published acceptance	2026-10-20T15:23:19.1167660Z   actual: 'query',
+browser	Published acceptance	2026-10-20T15:23:19.1167910Z   expected: 'copy-search-link',
+browser	Published acceptance	2026-10-20T15:23:19.1168177Z   operator: 'strictEqual',
+browser	Published acceptance	2026-10-20T15:23:19.1168418Z   diff: 'simple'
+browser	Published acceptance	2026-10-20T15:23:19.1168615Z }
+browser	Published acceptance	2026-10-20T15:23:19.1534486Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,2252 @@
+[
+  {
+    "variant": "before",
+    "attempt": 1,
+    "mode": "screenshot",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2605,
+      "top": 23.953125
+    },
+    "measurementMs": 24,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2605,
+      "top": 23.953125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2594,
+      "top": 34.953125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2594,
+      "top": 34.953125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1437,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1572,
+        "resultsTop": 1056.953125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1438,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1572,
+        "resultsTop": 1056.953125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1439,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1572,
+        "resultsTop": 1056.953125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1441,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1572,
+        "resultsTop": 1056.953125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1441,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1572,
+        "resultsTop": 1056.953125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1698,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2605,
+        "resultsTop": 23.953125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1820,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2605,
+        "resultsTop": 23.953125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1820,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2605,
+        "resultsTop": 23.953125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1821,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2605,
+        "resultsTop": 23.953125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 2044,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2594,
+        "resultsTop": 34.953125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "before",
+    "attempt": 1,
+    "mode": "equal-wait",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2605,
+      "top": 23.953125
+    },
+    "measurementMs": 25,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2605,
+      "top": 23.953125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2594,
+      "top": 34.953125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2594,
+      "top": 34.953125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1148,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1217.953125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1149,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1217.953125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1150,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1217.953125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1151,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1217.953125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1151,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1411,
+        "resultsTop": 1217.953125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1193,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2605,
+        "resultsTop": 23.953125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1529,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2605,
+        "resultsTop": 23.953125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1529,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2605,
+        "resultsTop": 23.953125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1529,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2605,
+        "resultsTop": 23.953125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1537,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2594,
+        "resultsTop": 34.953125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-preview",
+    "attempt": 1,
+    "mode": "screenshot",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2667,
+      "top": 23.9375
+    },
+    "measurementMs": 22,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2667,
+      "top": 23.9375
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2656,
+      "top": 34.9375
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2656,
+      "top": 34.9375
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1137,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1452,
+        "resultsTop": 1238.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1139,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1452,
+        "resultsTop": 1238.9375
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1140,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1452,
+        "resultsTop": 1238.9375
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1142,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1452,
+        "resultsTop": 1238.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1142,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1452,
+        "resultsTop": 1238.9375
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1152,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1518,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1518,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1518,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1532,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2656,
+        "resultsTop": 34.9375
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-preview",
+    "attempt": 1,
+    "mode": "equal-wait",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2692,
+      "top": 24.125
+    },
+    "measurementMs": 22,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2692,
+      "top": 24.125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2681,
+      "top": 35.125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2681,
+      "top": 35.125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1147,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1305.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1148,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1305.125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1151,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1305.125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1152,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1305.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1153,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1411,
+        "resultsTop": 1305.125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1173,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1530,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1530,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1530,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1537,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2681,
+        "resultsTop": 35.125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-published",
+    "attempt": 1,
+    "mode": "screenshot",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2692,
+      "top": 24.125
+    },
+    "measurementMs": 20,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2692,
+      "top": 24.125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2681,
+      "top": 35.125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2681,
+      "top": 35.125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 2877,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1592,
+        "resultsTop": 1124.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 2878,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1592,
+        "resultsTop": 1124.125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 2879,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1592,
+        "resultsTop": 1124.125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 2880,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1592,
+        "resultsTop": 1124.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 2880,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1592,
+        "resultsTop": 1124.125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 2894,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 3254,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 3254,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 3254,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 3264,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2681,
+        "resultsTop": 35.125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-published",
+    "attempt": 1,
+    "mode": "equal-wait",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2692,
+      "top": 24.125
+    },
+    "measurementMs": 20,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2692,
+      "top": 24.125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2681,
+      "top": 35.125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2681,
+      "top": 35.125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1575,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1473,
+        "resultsTop": 1243.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1576,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1473,
+        "resultsTop": 1243.125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1577,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1473,
+        "resultsTop": 1243.125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1579,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1473,
+        "resultsTop": 1243.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1579,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1473,
+        "resultsTop": 1243.125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1595,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1953,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1953,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1953,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1957,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2681,
+        "resultsTop": 35.125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "before",
+    "attempt": 2,
+    "mode": "screenshot",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2672,
+      "top": 23.828125
+    },
+    "measurementMs": 21,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2672,
+      "top": 23.828125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2661,
+      "top": 34.828125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2661,
+      "top": 34.828125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1213,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1448,
+        "resultsTop": 1247.828125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1214,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1448,
+        "resultsTop": 1247.828125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1217,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1448,
+        "resultsTop": 1247.828125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1218,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1448,
+        "resultsTop": 1247.828125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1218,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1448,
+        "resultsTop": 1247.828125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1239,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2672,
+        "resultsTop": 23.828125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1594,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2672,
+        "resultsTop": 23.828125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1594,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2672,
+        "resultsTop": 23.828125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1594,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2672,
+        "resultsTop": 23.828125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1602,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2661,
+        "resultsTop": 34.828125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "before",
+    "attempt": 2,
+    "mode": "equal-wait",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2667,
+      "top": 23.9375
+    },
+    "measurementMs": 22,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2667,
+      "top": 23.9375
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2656,
+      "top": 34.9375
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2656,
+      "top": 34.9375
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1162,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1279.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1163,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1279.9375
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1164,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1279.9375
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1165,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1279.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1166,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1411,
+        "resultsTop": 1279.9375
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1182,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1541,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1541,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1541,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1547,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2656,
+        "resultsTop": 34.9375
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-preview",
+    "attempt": 2,
+    "mode": "screenshot",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2766,
+      "top": 23.8125
+    },
+    "measurementMs": 22,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2766,
+      "top": 23.8125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2755,
+      "top": 34.8125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2755,
+      "top": 34.8125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1139,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1473,
+        "resultsTop": 1316.8125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1140,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1473,
+        "resultsTop": 1316.8125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1141,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1473,
+        "resultsTop": 1316.8125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1143,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1473,
+        "resultsTop": 1316.8125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1143,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1473,
+        "resultsTop": 1316.8125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1162,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2766,
+        "resultsTop": 23.8125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1518,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2766,
+        "resultsTop": 23.8125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1518,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2766,
+        "resultsTop": 23.8125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1519,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2766,
+        "resultsTop": 23.8125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1524,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2755,
+        "resultsTop": 34.8125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-preview",
+    "attempt": 2,
+    "mode": "equal-wait",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2749,
+      "top": 24.3125
+    },
+    "measurementMs": 22,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2749,
+      "top": 24.3125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2738,
+      "top": 35.3125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2738,
+      "top": 35.3125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1150,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1592,
+        "resultsTop": 1181.3125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1151,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1592,
+        "resultsTop": 1181.3125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1155,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1592,
+        "resultsTop": 1181.3125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1156,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1592,
+        "resultsTop": 1181.3125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1156,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1592,
+        "resultsTop": 1181.3125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1179,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2749,
+        "resultsTop": 24.3125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1534,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2749,
+        "resultsTop": 24.3125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1534,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2749,
+        "resultsTop": 24.3125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1534,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2749,
+        "resultsTop": 24.3125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1540,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2738,
+        "resultsTop": 35.3125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-published",
+    "attempt": 2,
+    "mode": "screenshot",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2749,
+      "top": 24.3125
+    },
+    "measurementMs": 21,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2749,
+      "top": 24.3125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2738,
+      "top": 35.3125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2738,
+      "top": 35.3125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1518,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1555,
+        "resultsTop": 1218.3125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1519,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1555,
+        "resultsTop": 1218.3125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1520,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1555,
+        "resultsTop": 1218.3125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1522,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1555,
+        "resultsTop": 1218.3125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1522,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1555,
+        "resultsTop": 1218.3125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1538,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2749,
+        "resultsTop": 24.3125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1896,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2749,
+        "resultsTop": 24.3125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1897,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2749,
+        "resultsTop": 24.3125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1897,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2749,
+        "resultsTop": 24.3125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1903,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2738,
+        "resultsTop": 35.3125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-published",
+    "attempt": 2,
+    "mode": "equal-wait",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2692,
+      "top": 24.125
+    },
+    "measurementMs": 21,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2692,
+      "top": 24.125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2681,
+      "top": 35.125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2681,
+      "top": 35.125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1577,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1452,
+        "resultsTop": 1264.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1578,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1452,
+        "resultsTop": 1264.125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1579,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1452,
+        "resultsTop": 1264.125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1581,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1452,
+        "resultsTop": 1264.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1581,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1452,
+        "resultsTop": 1264.125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1597,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1956,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1956,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1956,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2692,
+        "resultsTop": 24.125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1960,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2681,
+        "resultsTop": 35.125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "before",
+    "attempt": 3,
+    "mode": "screenshot",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2667,
+      "top": 23.9375
+    },
+    "measurementMs": 22,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2667,
+      "top": 23.9375
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2656,
+      "top": 34.9375
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2656,
+      "top": 34.9375
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1133,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1493,
+        "resultsTop": 1197.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1134,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1493,
+        "resultsTop": 1197.9375
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1134,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1493,
+        "resultsTop": 1197.9375
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1135,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1493,
+        "resultsTop": 1197.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1136,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1493,
+        "resultsTop": 1197.9375
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1153,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1511,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1511,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1511,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1516,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2656,
+        "resultsTop": 34.9375
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "before",
+    "attempt": 3,
+    "mode": "equal-wait",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2630,
+      "top": 24.140625
+    },
+    "measurementMs": 22,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2630,
+      "top": 24.140625
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2619,
+      "top": 35.140625
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2619,
+      "top": 35.140625
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1129,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1436,
+        "resultsTop": 1218.140625
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1130,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1436,
+        "resultsTop": 1218.140625
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1133,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1436,
+        "resultsTop": 1218.140625
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1134,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1436,
+        "resultsTop": 1218.140625
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1134,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1436,
+        "resultsTop": 1218.140625
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1153,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2630,
+        "resultsTop": 24.140625
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1511,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2630,
+        "resultsTop": 24.140625
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1511,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2630,
+        "resultsTop": 24.140625
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1511,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2630,
+        "resultsTop": 24.140625
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1521,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2619,
+        "resultsTop": 35.140625
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-preview",
+    "attempt": 3,
+    "mode": "screenshot",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2655,
+      "top": 24.328125
+    },
+    "measurementMs": 23,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2655,
+      "top": 24.328125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2644,
+      "top": 35.328125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2644,
+      "top": 35.328125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1142,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1268.328125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1143,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1268.328125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1145,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1268.328125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1147,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1268.328125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1147,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1411,
+        "resultsTop": 1268.328125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1164,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2655,
+        "resultsTop": 24.328125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1525,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2655,
+        "resultsTop": 24.328125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1525,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2655,
+        "resultsTop": 24.328125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1525,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2655,
+        "resultsTop": 24.328125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1540,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2644,
+        "resultsTop": 35.328125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-preview",
+    "attempt": 3,
+    "mode": "equal-wait",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2672,
+      "top": 23.828125
+    },
+    "measurementMs": 23,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2672,
+      "top": 23.828125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2661,
+      "top": 34.828125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2661,
+      "top": 34.828125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1148,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1284.828125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1149,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1284.828125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1150,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1284.828125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1151,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1284.828125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1151,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1411,
+        "resultsTop": 1284.828125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1167,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2672,
+        "resultsTop": 23.828125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1528,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2672,
+        "resultsTop": 23.828125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1528,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2672,
+        "resultsTop": 23.828125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1529,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2672,
+        "resultsTop": 23.828125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1530,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2661,
+        "resultsTop": 34.828125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-published",
+    "attempt": 3,
+    "mode": "screenshot",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2766,
+      "top": 23.8125
+    },
+    "measurementMs": 22,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2766,
+      "top": 23.8125
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2755,
+      "top": 34.8125
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2755,
+      "top": 34.8125
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1509,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1473,
+        "resultsTop": 1316.8125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1510,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1473,
+        "resultsTop": 1316.8125
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 1511,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1473,
+        "resultsTop": 1316.8125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1512,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1473,
+        "resultsTop": 1316.8125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1512,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1473,
+        "resultsTop": 1316.8125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1529,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2766,
+        "resultsTop": 23.8125
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 1888,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2766,
+        "resultsTop": 23.8125
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 1888,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2766,
+        "resultsTop": 23.8125
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 1888,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2766,
+        "resultsTop": 23.8125
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 1896,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2755,
+        "resultsTop": 34.8125
+      }
+    ],
+    "passed": true
+  },
+  {
+    "variant": "after-published",
+    "attempt": 3,
+    "mode": "equal-wait",
+    "errors": [],
+    "failed": [],
+    "after350": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2667,
+      "top": 23.9375
+    },
+    "measurementMs": 22,
+    "beforeTab": {
+      "tag": "P",
+      "focus": "results-count",
+      "scrollY": 2667,
+      "top": 23.9375
+    },
+    "immediateAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2656,
+      "top": 34.9375
+    },
+    "settledAfterTab": {
+      "tag": "BUTTON",
+      "focus": "copy-search-link",
+      "scrollY": 2656,
+      "top": 34.9375
+    },
+    "trace": [
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 2721,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1279.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 2722,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1279.9375
+      },
+      {
+        "type": "keydown",
+        "key": "Enter",
+        "at": 2723,
+        "tag": "INPUT",
+        "focus": "query",
+        "scrollY": 1411,
+        "resultsTop": 1279.9375
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 2725,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 1411,
+        "resultsTop": 1279.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 2725,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 1411,
+        "resultsTop": 1279.9375
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 2745,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "at": 3101,
+        "tag": "P",
+        "focus": "results-count",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "focusout",
+        "key": "",
+        "at": 3101,
+        "tag": "BODY",
+        "focus": "",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "focusin",
+        "key": "",
+        "at": 3102,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2667,
+        "resultsTop": 23.9375
+      },
+      {
+        "type": "scroll",
+        "key": "",
+        "at": 3107,
+        "tag": "BUTTON",
+        "focus": "copy-search-link",
+        "scrollY": 2656,
+        "resultsTop": 34.9375
+      }
+    ],
+    "passed": true
+  }
+]

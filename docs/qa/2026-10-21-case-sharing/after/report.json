@@ -1,0 +1,273 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "audits": [
+      {
+        "label": "copy success",
+        "violations": []
+      },
+      {
+        "label": "manual copy",
+        "violations": []
+      },
+      {
+        "label": "returned combined results",
+        "violations": []
+      }
+    ],
+    "caseId": "UC-001",
+    "entries": 395,
+    "failed": [],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": 429,
+    "copied": "http://127.0.0.1:8140/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "control": {
+      "text": "📋 複製案例連結",
+      "height": 44,
+      "font": "14px",
+      "live": null
+    },
+    "manual": "http://127.0.0.1:8140/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "active": "manual-share-link",
+    "manualFocus": {
+      "focused": true,
+      "outline": "solid",
+      "width": "2px",
+      "selected": true,
+      "readonly": true
+    },
+    "journeys": [
+      "task search + scenario + source + sharing + denied retry",
+      "recipient direct URL + refresh + close + Back",
+      "long content + empty recovery + five facets + reviewed share"
+    ]
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      {
+        "label": "copy success",
+        "violations": []
+      },
+      {
+        "label": "manual copy",
+        "violations": []
+      },
+      {
+        "label": "returned combined results",
+        "violations": []
+      }
+    ],
+    "caseId": "UC-001",
+    "entries": 395,
+    "failed": [],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "copied": "http://127.0.0.1:8140/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "control": {
+      "text": "📋 複製案例連結",
+      "height": 44,
+      "font": "14px",
+      "live": null
+    },
+    "manual": "http://127.0.0.1:8140/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "active": "manual-share-link",
+    "manualFocus": {
+      "focused": true,
+      "outline": "solid",
+      "width": "2px",
+      "selected": true,
+      "readonly": true
+    },
+    "journeys": [
+      "task search + scenario + source + sharing + denied retry",
+      "recipient direct URL + refresh + close + Back",
+      "long content + empty recovery + five facets + reviewed share"
+    ]
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "audits": [
+      {
+        "label": "copy success",
+        "violations": []
+      },
+      {
+        "label": "manual copy",
+        "violations": []
+      },
+      {
+        "label": "returned combined results",
+        "violations": []
+      }
+    ],
+    "caseId": "UC-001",
+    "entries": 395,
+    "failed": [],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "copied": "http://127.0.0.1:8140/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "control": {
+      "text": "📋 複製案例連結",
+      "height": 44,
+      "font": "14px",
+      "live": null
+    },
+    "manual": "http://127.0.0.1:8140/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "active": "manual-share-link",
+    "manualFocus": {
+      "focused": true,
+      "outline": "solid",
+      "width": "2px",
+      "selected": true,
+      "readonly": true
+    },
+    "journeys": [
+      "task search + scenario + source + sharing + denied retry",
+      "recipient direct URL + refresh + close + Back",
+      "long content + empty recovery + five facets + reviewed share"
+    ]
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      {
+        "label": "copy success",
+        "violations": []
+      },
+      {
+        "label": "manual copy",
+        "violations": []
+      },
+      {
+        "label": "returned combined results",
+        "violations": []
+      }
+    ],
+    "caseId": "UC-001",
+    "entries": 395,
+    "failed": [],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "copied": "http://127.0.0.1:8140/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "control": {
+      "text": "📋 複製案例連結",
+      "height": 44,
+      "font": "14px",
+      "live": null
+    },
+    "manual": "http://127.0.0.1:8140/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "active": "manual-share-link",
+    "manualFocus": {
+      "focused": true,
+      "outline": "solid",
+      "width": "2px",
+      "selected": true,
+      "readonly": true
+    },
+    "journeys": [
+      "task search + scenario + source + sharing + denied retry",
+      "recipient direct URL + refresh + close + Back",
+      "long content + empty recovery + five facets + reviewed share"
+    ]
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      {
+        "label": "copy success",
+        "violations": []
+      },
+      {
+        "label": "manual copy",
+        "violations": []
+      },
+      {
+        "label": "returned combined results",
+        "violations": []
+      }
+    ],
+    "caseId": "UC-001",
+    "entries": 395,
+    "failed": [],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "copied": "http://127.0.0.1:8140/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "control": {
+      "text": "📋 複製案例連結",
+      "height": 44,
+      "font": "14px",
+      "live": null
+    },
+    "manual": "http://127.0.0.1:8140/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001#explore",
+    "active": "manual-share-link",
+    "manualFocus": {
+      "focused": true,
+      "outline": "solid",
+      "width": "2px",
+      "selected": true,
+      "readonly": true
+    },
+    "journeys": [
+      "task search + scenario + source + sharing + denied retry",
+      "recipient direct URL + refresh + close + Back",
+      "long content + empty recovery + five facets + reviewed share"
+    ]
+  },
+  {
+    "states": [
+      {
+        "state": "closed",
+        "focus": "results-count",
+        "status": "正在複製案例連結…",
+        "passed": true
+      },
+      {
+        "state": "next case",
+        "focus": "detail-title",
+        "status": "",
+        "passed": true
+      },
+      {
+        "state": "reopened",
+        "focus": "detail-title",
+        "status": "",
+        "passed": true
+      },
+      {
+        "state": "newer success",
+        "focus": "copy-case-link",
+        "status": "已複製案例連結，包含目前搜尋與篩選條件。",
+        "passed": true
+      },
+      {
+        "state": "newer rejection",
+        "focus": "manual-share-link",
+        "status": "無法自動複製。請手動複製下方網址；連結包含目前搜尋與篩選條件。",
+        "passed": true
+      },
+      {
+        "state": "moved focus",
+        "focus": "detail-source",
+        "status": "正在複製案例連結…",
+        "passed": true
+      },
+      {
+        "state": "missing Clipboard API",
+        "passed": true
+      }
+    ],
+    "errors": []
+  },
+  {
+    "realChromiumClipboard": true,
+    "url": "http://127.0.0.1:8140/ai-agent-use-cases/?case=UC-001#explore"
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "viewport": "mobile",
+    "queryTop": 182,
+    "resultsTop": 510,
+    "focus": "search-title",
+    "scrollY": 1411,
+    "loadMs": 183,
+    "domContentLoadedMs": 42,
+    "matches": 20,
+    "axeScans": 2,
+    "axeViolations": 0,
+    "passed": true
+  }
+]

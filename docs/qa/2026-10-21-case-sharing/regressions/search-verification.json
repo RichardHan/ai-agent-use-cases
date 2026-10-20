@@ -1,0 +1,32 @@
+[
+  {
+    "viewport": "desktop",
+    "navigationAndReadyMs": 1065,
+    "matchingBeforeScenario": 3,
+    "empty": "⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目",
+    "activeFilters": 5,
+    "keyboardRecoveryMs": 27,
+    "axeViolations": [],
+    "passed": true
+  },
+  {
+    "viewport": "mobile",
+    "navigationAndReadyMs": 1057,
+    "matchingBeforeScenario": 3,
+    "empty": "⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目",
+    "activeFilters": 5,
+    "keyboardRecoveryMs": 22,
+    "axeViolations": [],
+    "passed": true
+  },
+  {
+    "viewport": "small-mobile",
+    "navigationAndReadyMs": 1025,
+    "matchingBeforeScenario": 3,
+    "empty": "⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目",
+    "activeFilters": 5,
+    "keyboardRecoveryMs": 20,
+    "axeViolations": [],
+    "passed": true
+  }
+]

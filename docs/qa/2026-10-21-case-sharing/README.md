@@ -57,3 +57,29 @@ Python預覽模擬Liquid，不等於正式Jekyll；正式Pages部署另驗。原
 只使用授權目錄、既有Git／SSH及GitHub Actions，無付費API或購買credits，無個人GUI控制。Orca CLI報`Unable to determine Orca.app path from symlink: /usr/local/bin/orca`後停止該介面，以原生Git安全建立工作樹。
 
 未驗證真人、實體手機、真人螢幕閱讀器或實體Safari；axe自動零違規不等於完整WCAG認證。成功／拒絕狀態以DOM與可存取屬性驗證，不能冒稱已聽到真人輔具播報。下一輪最值得做的是降低首次全文載入成本，同時保留直鏈先讀及失敗復原。
+
+## 最終預覽驗收與獨立補修
+
+[最終雲端39472309659](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39472309659)（產品`f48d078`）成功：127/127單元、逐檔語法、靜態預覽、固定舊基準red、五瀏覽器／尺寸配置與三種情境全部通過；本輪15次axe掃描皆0，無pageerror或水平溢出。按鈕五配置都是44px／14px，手動網址唯讀、全選、2px可見焦點。實際Chromium Clipboard API成功；拒絕／無API／延遲用受控測試注入，沒有操作使用者的剪貼簿。
+
+[本輪完整原始報告](after/report.json)、[最終單元TAP](final-unit.tap)。`control.live=null`指按鈕本身；通知在旁側status，另有ariaSnapshot與polite／atomic斷言。race報告`status`欄記的是舊請求完成**之前**的文字；moved-focus另直接斷言完成後是失敗文字且焦點未移，不能把欄位誤讀成最後狀態。收件者初次打開與重整均驗案例，完整條目與零缺項斷言在重整後，不誇大成每次載入均已完整核對。
+
+既有discovery、reader、search-submit三套完整回歸通過；全庫395條目、2,802章節、414行證據一致（[資料完整性](reader-corpus.json)）。Reader另檢查缺證據、重複／不安全文字、catalog失敗與重試、reader腳本缺失、單一Markdown失敗、copy文案缺失。原始無障礙／搜尋／載入量測在[回歸紀錄](regressions/)；這些自動檢查不等同真人研究或完整無障礙認證。
+
+基準來源請求HTTP200；最終本輪預覽的同一GitHub原始Markdown請求HTTP429，仍實際核對新頁URL，未把429算成來源可讀。原search-submit另一次來源請求HTTP200，不代表所有時點皆可用。未公開外站回應HTML、客戶端IP或憑證。
+
+第一版[39471867678](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39471867678)也曾通過，但獨立審查抓到：成功時可見label與固定名稱不同、初始status被display:none；已修後才執行以上最終驗收。可見按鈕文字固定，成功只更新旁側狀態；空status保持可存取但不占版面。另補同案例移走焦點後延遲拒絕的防搶焦點與測試。更新舊discovery斷言為驗status與真實clipboard，沒有刪除複製成功／拒絕驗收。
+
+| 尺寸 | 修改前手動複製 | 修改後手動複製 |
+| --- | --- | --- |
+| 桌面1440 | [前](before/manual-chromium-1440.png) | [後](after/manual-chromium-1440.png) |
+| 手機390 | [前](before/manual-chromium-390.png) | [後](after/manual-chromium-390.png) |
+| 窄螢幕320 | [前](before/manual-chromium-320.png) | [後](after/manual-chromium-320.png) |
+
+[成功狀態前圖](before/success-chromium-1440.png)／[成功狀態後圖](after/success-chromium-1440.png)。主角色已目視桌面、390與320對照：完整標題、操作、狀態及焦點可辨識，無重疊；較窄時原文連結自然換行，不縮小觸控尺寸。Firefox／WebKit手機圖亦保存於after。兩張手動圖皆是實際拒絕路徑，沒有繪製示意畫面代替。
+
+JS／CSS gzip共增加362 bytes；[reader載入量測](regressions/reader-timings.json)是未節流的雲端本地預覽單次資料，不代表完整395筆全文就緒或真實手機效能，未提供Lighthouse分數，也未宣稱加速。
+
+變更檔案：`assets/app.js`（URL與分享生命週期）、`assets/style.css`（觸控／焦點／狀態）、`tests/case-share.test.cjs`（URL回歸）、`tests/case-share-browser.cjs`（三情境與故障）、`tests/discovery-browser.cjs`（對齊固定label的新status契約）、`.github/workflows/case-share-qa.yml`（雲端預覽及正式發布）、`SITE.md`及本QA目錄（證據）。
+
+最終獨立review已閱讀上述原始報告與實際前後截圖，結論「可合併，未發現必修」。Firefox成功態截圖未見額外focus-visible外框，未另量測該成功按鈕outline，故不泛稱所有狀態的焦點樣式都已實測；手動欄位五配置可見焦點已有斷言。主角色沒有把review角色當真人使用者。

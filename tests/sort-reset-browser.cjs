@@ -5,7 +5,7 @@ const base=process.env.SORT_URL||'http://127.0.0.1:8124/ai-agent-use-cases/',out
 const reports=[];fs.mkdirSync(out,{recursive:true});const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(reports,null,2));
 (async()=>{
  for(const [engine,width,height] of process.env.SORT_LIVE==='1'||observe?[[chromium,1440,1000],[chromium,390,844],[chromium,320,740]]:[[chromium,1440,1000],[chromium,390,844],[chromium,320,740],[firefox,390,844],[webkit,390,844]]){
- const browser=await engine.launch(),page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
+ const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage();
  const row={engine:engine.name(),width,errors:[],audits:[]};reports.push(row);save();page.on('pageerror',e=>row.errors.push(e.message));
  const ready=()=>page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
  const state=()=>page.evaluate(()=>({query:$('query').value,facets:Object.fromEntries(['scenario','kind','tool','category','proof'].map(id=>[id,$(id).value])),ids:currentFiltered.map(e=>e.id).sort(),draw:$('drawn-case').textContent}));

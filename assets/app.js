@@ -1331,6 +1331,8 @@ async function load() {
   $('empty').hidden = true;
   $('search-feedback').hidden = true;
   $('search-order-note').hidden = true;
+  $('search-order-controls').hidden = true;
+  $('reset-sort').hidden = true;
   $('empty-suggestions').replaceChildren();
   $('results-count').textContent = '正在讀取案例…';
   failedPaths = [];

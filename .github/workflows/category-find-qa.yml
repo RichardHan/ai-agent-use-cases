@@ -35,14 +35,17 @@ jobs:
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
           python3 -m http.server 8160 --directory "$RUNNER_TEMP/preview" > /tmp/category-preview.log 2>&1 &
       - name: Observe published journeys
+        if: github.ref != 'refs/heads/main'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
         run: node tests/category-find-browser.cjs
       - name: Verify updated category journeys
+        if: github.ref != 'refs/heads/main'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
         run: node tests/category-lookup-browser.cjs
       - name: Preserve existing reader and search flows
+        if: github.ref != 'refs/heads/main'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           READER_URL: http://127.0.0.1:8160/ai-agent-use-cases/

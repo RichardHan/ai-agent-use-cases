@@ -39,7 +39,7 @@ READER_URL=http://127.0.0.1:8160/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/nod
 
 ## 截圖與限制
 
-修改前：[桌面篩選](filters-1440.png)／[手機篩選](filters-390.png)，另有home與detail原始截圖。修改後與正式驗收證據待雲端完成後補入。
+修改前：[桌面篩選](filters-1440.png)／[手機篩選](filters-390.png)，另有home與detail原始截圖。修改後：[桌面](finder-chromium-1440.png)／[手機](finder-chromium-390.png)／[WebKit手機](finder-webkit-390.png)／[320px長名稱](long-chromium-320.png)。前圖為旅遊＋生活，後圖再選消費研究分類；比較入口與完整名稱閱讀，不將結果筆數差異當成效。
 
 未測實體手機／軟鍵盤／真人輔具，不以axe冒稱完整WCAG認證，不捏造效能分數或留存提升。下一輪優先降低首次全文載入成本，保留直鏈早讀與來源缺項復原。
 
@@ -49,4 +49,14 @@ READER_URL=http://127.0.0.1:8160/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/nod
 
 中間雲端[39505453274](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39505453274)、[39505535938](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39505535938)、[39505729000](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39505729000)皆有WebKit在連續早讀導頁時的access control checks pageerror，列失敗、不改寫原結果。第二次run的Chromium三尺寸與Firefox390主要流程均完成，五配置共10次axe成功零違規，但整個run未通過。最終測試對每次direct-link重新整理先等discoveryReady，使這條驗收專注完整載入後的直鏈重整，保留全部pageerror斷言；沒有改WebKit設定、過濾錯誤或宣稱已確認上游根因。早讀導頁期間的瀏覽器錯誤行為仍屬未確證限制。
 
-新增資產未壓縮5,817 bytes、gzip本機估算+1,406 bytes；不是網路傳輸或效能改善量測。新文字對白底對比8.71:1及6.57:1，[原始計算](sizes-and-contrast.json)。
+新增資產未壓縮5,913 bytes、gzip本機估算+1,436 bytes；不是網路傳輸或效能改善量測。新文字對白底對比8.71:1及6.57:1，[原始計算](sizes-and-contrast.json)。
+
+## 最終預覽驗收
+
+[39506532952](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39506532952)對產品`2601f3f`整套成功：136/136單元、舊基準red重現、JS語法、靜態preview、Chromium1440／390／320及Firefox／WebKit390五配置的完整三情境、原生來源新頁、長名稱、未知分享分類、明確／隱含submit、合成IME事件、焦點外框、部分503來源補載時的按鈕焦點，以及catalog503後重試。五配置各395條目、零缺項、零pageerror與水平溢出，新流程10次axe零違規。[原始結果](verification.json)。最後正式站基準也實際開來源新頁，兩尺寸完成，見[baseline-final.json](baseline-final.json)。外部新頁URL能開不等於內容可讀或永久可用。
+
+同run原reader全套回歸成功，15次reader axe零違規，395條目、2802原文章節、414頁首證據列完整；另保留既有搜尋／空結果復原等子流程。本文只列主要10＋15掃描，不把其他子流程重複計數。[reader掃描](reader-accessibility.json)／[全庫DOM核對](reader-corpus.json)。獨立審查已確認最終code及實際桌面／WebKit390／320長名畫面，無剩餘必修；補讀焦點、IME及Safari明確submit等審查意見均先修後驗。
+
+實際runner頁面時序保存在[reader-timings.json](reader-timings.json)，僅是GitHub runner本地HTTP預覽的navigation／reader assets取樣，未節流，不能外推正式網路速度、完整全文載入時間或效能提升。未跑Lighthouse。
+
+未知分享值保留在原生選單供辨認和清除，helper僅從entries實際分類查找；不把URL文字當已收錄分類。下一輪優先項目不變。

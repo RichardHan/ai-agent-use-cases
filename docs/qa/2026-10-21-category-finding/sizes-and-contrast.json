@@ -11,10 +11,10 @@
     {
       "path": "assets/app.js",
       "before": 158013,
-      "after": 161602,
-      "delta": 3589,
+      "after": 161698,
+      "delta": 3685,
       "gzipBefore": 48150,
-      "gzipAfter": 49099
+      "gzipAfter": 49129
     },
     {
       "path": "assets/style.css",

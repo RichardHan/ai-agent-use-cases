@@ -13,7 +13,8 @@ row.categories=await page.locator('#category option').count();row.tools=await pa
 await page.locator('#category').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/filters-${width}.png`});
 await page.locator('#category').selectOption('旅遊／消費研究');
 const trigger=page.locator('#results .card-bottom button').first();await trigger.click();await page.locator('.research-details').evaluate(e=>e.open=true);
-row.source=await page.locator('.research-details .markdown a').first().getAttribute('href');await page.screenshot({path:`${out}/detail-${width}.png`});
+row.source=await page.locator('.research-details .markdown a').first().getAttribute('href');
+const popupWait=page.waitForEvent('popup');await page.locator('.research-details .markdown a').first().click();const popup=await popupWait;await popup.waitForLoadState('domcontentloaded').catch(()=>{});row.sourceOpened=popup.url();assert.match(row.sourceOpened,/^https?:/);await popup.close();await page.screenshot({path:`${out}/detail-${width}.png`});
 await page.goBack();assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
 await page.locator('#query').fill('no-such-case-987');assert(await page.locator('#empty').isVisible());row.failed=await page.evaluate(()=>failedPaths);row.entries=await page.evaluate(()=>entries.length);await page.close();
 }}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1});

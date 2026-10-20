@@ -1002,10 +1002,10 @@ function currentSearchLink() {
   filters.scenario=activeScenario;
   return searchLink(location.href,$('query').value,filters,$('sort').value);
 }
-let searchComposing = false;
+let searchComposing = false, categoryComposing = false;
 function submitSearch(event) {
   event.preventDefault();
-  if (!discoveryReady || searchComposing || event.isComposing || document.activeElement?.id==='category-query') return;
+  if (!discoveryReady || searchComposing || event.isComposing || categoryComposing || (document.activeElement?.id==='category-query' && event.submitter?.id!=='search-submit')) return;
   allowAutomaticArrival = false;
   const url = new URL(location.href);
   url.hash = 'explore';
@@ -1633,6 +1633,8 @@ $('query').addEventListener('keydown', event => {
   $('filters').requestSubmit();
 });
 $('category-query').addEventListener('input', renderCategoryFinder);
+$('category-query').addEventListener('compositionstart',()=>{categoryComposing=true;});
+$('category-query').addEventListener('compositionend',()=>{categoryComposing=false;});
 $('category-query').addEventListener('keydown', event => {
   if(event.key==='Enter' && !event.isComposing && event.keyCode!==229)event.preventDefault();
 });

@@ -25,3 +25,11 @@ test('implicit form submission from category lookup never changes case search or
  vm.runInContext(source+'\ndiscoveryReady=true;this.submit=submitSearch;',ctx);
  let prevented=false;ctx.submit({preventDefault(){prevented=true;}});assert(prevented);
 });
+
+test('composition guard allows explicit case-search submit after category composition ends',()=>{
+ let navigations=0;const target={focus(){},scrollIntoView(){}};
+ const ctx=vm.createContext({URL,location:{href:'https://example.test/?q=旅遊'},history:{state:null,replaceState(){navigations++;}},requestAnimationFrame(){},document:{activeElement:{id:'category-query'},getElementById(){return target;},addEventListener(){}}});
+ vm.runInContext(source+'\ndiscoveryReady=true;categoryComposing=true;this.submit=submitSearch;this.end=()=>categoryComposing=false;',ctx);
+ ctx.submit({preventDefault(){},submitter:{id:'search-submit'}});assert.equal(navigations,0);
+ ctx.end();ctx.submit({preventDefault(){},submitter:{id:'search-submit'}});assert.equal(navigations,1);
+});

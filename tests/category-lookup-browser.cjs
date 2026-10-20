@@ -18,6 +18,8 @@ const out=process.env.LOOKUP_OUTPUT||'qa-artifacts/lookup';fs.mkdirSync(out,{rec
  await input.dispatchEvent('keydown',{key:'Enter',isComposing:true,keyCode:229});
  await page.locator('#filters').evaluate(form=>form.requestSubmit());
  assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,ids:currentFiltered.map(e=>e.id)})),before);
+ await page.locator('#search-submit').evaluate(button=>button.click());
+ await page.waitForFunction(()=>document.activeElement.id==='results-count');await input.focus();
  row.focusStyle=await input.evaluate(e=>({style:getComputedStyle(e).outlineStyle,width:getComputedStyle(e).outlineWidth}));assert.equal(row.focusStyle.style,'solid');assert.equal(row.focusStyle.width,'2px');
  row.finder=await page.locator('#category-find-status').innerText();
  assert(await page.locator('.category-match').count()>0);
@@ -49,8 +51,8 @@ const out=process.env.LOOKUP_OUTPUT||'qa-artifacts/lookup';fs.mkdirSync(out,{rec
  await page.locator('#empty-reset').click();await input.fill('研究');row.broadStatus=await page.locator('#category-find-status').innerText();assert.match(row.broadStatus,/先列 8 個/);assert.equal(await page.locator('.category-match').count(),8);
  row.audits.push((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id));assert.deepEqual(row.audits.at(-1),[]);
  // Direct link and refresh retain the actual selected category, with helper initially closed.
- await page.goto(base+'?q=旅遊&scenario=生活&category='+encodeURIComponent('旅遊／消費研究')+'&case=UC-001');await page.locator('#detail[open]').waitFor({timeout:90000});
- await page.reload();await page.locator('#detail[open]').waitFor({timeout:90000});await page.locator('#close-detail').click();assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
+ await page.goto(base+'?q=旅遊&scenario=生活&category='+encodeURIComponent('旅遊／消費研究')+'&case=UC-001');await page.locator('#detail[open]').waitFor({timeout:90000});await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
+ await page.reload();await page.locator('#detail[open]').waitFor({timeout:90000});await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});await page.locator('#close-detail').click();assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
  assert.equal(await page.locator('#category-finder').evaluate(e=>e.open),false);
  // Long labels wrap; partial-source retry preserves the focused category button.
  let attempts=0,release;const gate=new Promise(resolve=>release=resolve);

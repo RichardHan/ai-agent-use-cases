@@ -1,5 +1,7 @@
 # 完整案例索引
 
+2026-10-20 21:00批次：三路公開研究共審核26組來源候選，新增UC-392統計模型同規格對照與多起點驗收、UC-393同一提案的外部材料與會後筆記對帳、UC-394跨套件Wasm移植及雙向RPC驗收，均為B級作者實作與公開產物，未獨立重現。227、077、389補充既有流程不加數；其餘去重及證據不足逐項保留。承接協作者338，嚴格合格341／1000，尚差659，主要頁386。[來源、淘汰與驗證範圍](sources/research-2026-10-20-2100.md)。
+
 2026-10-20 20:40批次：新增UC-390中文作者讓Linear每天開一張「核對新開源模型」循環工單，Grok Bot開發群（Lead／Dev／QA／Ops）依倉庫規範查官方設定檔、由Cursor Cloud Agent開PR，沒有新模型就只刷新時間戳並列出「看過但不收」的理由（V2EX＋公開逐日PR，納入B）、UC-391英文作者請幕僚長Bot交建置Bot、再交Cloudflare Bot，約25分鐘上線只限本人的51個Bot總覽並每天重建，推送前腳本掃描金額、密鑰、電郵與健康用語（X＋公開規格與截圖倉庫，納入B）；381併入中文作者用Grok Bot團隊自建新聞閱讀器、簡報經API推入，067併入日文作者隊長Bot彙整全隊職責成復原手冊並每月更新，089併入PCMag作者讓dots／Muse／Spark同題清理行銷信（只有dots跟著退訂連結走），076併入Sawyer Merritt政治垃圾訊息模板與使用者每天8點複查回報，均不另計。皆未重現。嚴格合格336→338／1000，尚差662；主要頁383。[原文、去重與覆蓋](sources/research-2026-10-20-2040.md)。
 
 2026-10-20 20:00批次：新增UC-389已成功任務在接續後失去工具的回歸驗收，保留暫時成功後復發反例，B級作者實作自述；嚴格合格336／1000，尚差664。未獨立重現。[研究範圍](sources/research-2026-10-20-2000.md)。
@@ -515,6 +517,9 @@
 | UC-389 | 已成功任務接續後的工具退化驗收 | ChatGPT dots／Codex | [作者失敗與暫時成功自述，未重現](cases/389-resumed-task-native-capability-regression.md) | 開發｜生命週期、回歸驗收、失敗 |
 | UC-390 | 工單系統每天開核對新模型工單，Bot團隊查官方設定檔開PR，沒新東西只刷新時間戳 | Grok Bot（Lead／Dev／QA／Ops）／Linear循環工單／Cursor Cloud Agent／GitHub | [V2EX中文作者流程＋公開倉庫逐日PR與查證紀錄；派工過程僅自述、未重現](cases/390-linear-recurring-model-catalog-refresh-bot-team-pr.md) | 開發｜每日、多代理、資料維護、PR |
 | UC-391 | 幕僚Bot接力建置部署只限本人的Bot團隊總覽，每天重建、推送前掃描金額與私人資料 | Grok Bot（幕僚長／建置／Cloudflare部署）／GitHub私有倉庫／Cloudflare Access | [英文作者貼文＋公開規格與截圖倉庫；儀表板本體私有、未重現](cases/391-bot-fleet-private-dashboard-sensitive-scan-before-push.md) | 開發｜多代理、儀表板、每日、隱私檢查 |
+| UC-392 | 統計程式顯示正常，仍用同模型對照與多起點尋找較差解 | Grok Bot／gllvmTMB／GLLVModels.jl | [B作者公開結果、生成碼與修訂紀錄；未重現](cases/392-latent-model-multistart-optimum-audit.md) | 學習｜統計、數值驗收、多起點、失敗 |
+| UC-393 | 補齊提案材料，將會後筆記對回同一案 | Meta Muse／Signed／Granola／deckk | [B作者實作與公開原碼；私人提案未核、未重現](cases/393-pitch-deck-meeting-context-reconciliation.md) | 工作｜提案、附件補全、會議脈絡、人工覆核 |
+| UC-394 | .NET依賴鏈移到Wasm，驗收回傳值、主動通知與安全降級 | Grok Bot／NetWasm／Nerdbank.JsonRpc | [B作者報告與固定原碼；未重跑、限PoC](cases/394-netwasm-rpc-compatibility-poc.md) | 開發｜跨平台、依賴鏈、雙向通訊、驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 
@@ -538,4 +543,5 @@
 [本次論壇探索範圍與缺漏](sources/forum-research-2026-10-13.md)
 
 [官方發布與早期教學覆蓋盤點](sources/launch-coverage-2026-10-13.md)
+
 

@@ -400,8 +400,8 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(metaHelpSubscriptionsCandidate.cases.includes('cases/034-expense-anomaly-review.md'));
 
   const grokBotAutomationsCandidate = duplicates.find(d => d.url.includes('docs.x.ai/grok-bot/skills-routines-and-automations'));
-  assert(grokBotAutomationsCandidate, 'Must detect shared Grok Bot skills-routines-and-automations across 9 cases');
-  assert.equal(grokBotAutomationsCandidate.cases.length, 9);
+  assert(grokBotAutomationsCandidate, 'Must detect shared Grok Bot skills-routines-and-automations across cases');
+  assert(grokBotAutomationsCandidate.cases.length >= 10, `Shared Grok Bot automations doc should be cited by at least 10 files; got ${grokBotAutomationsCandidate.cases.length}`);
   assert(grokBotAutomationsCandidate.cases.includes('cases/006-facebook-publication.md'));
   assert(grokBotAutomationsCandidate.cases.includes('cases/015-public-page-change-watch.md'));
   assert(grokBotAutomationsCandidate.cases.includes('cases/039-competitor-positioning-review.md'));
@@ -411,6 +411,7 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(grokBotAutomationsCandidate.cases.includes('cases/208-portable-skill-binding-approval-check.md'));
   assert(grokBotAutomationsCandidate.cases.includes('cases/268-agency-campaign-bundle-approval.md'));
   assert(grokBotAutomationsCandidate.cases.includes('cases/269-single-vps-sysadmin-bot.md'));
+  assert(grokBotAutomationsCandidate.cases.includes('cases/370-newsletter-audio-backfill-state-reconciliation.md'));
 
   const musePersonalAgentCandidate = duplicates.find(d => d.url.includes('about.fb.com/news/2026/09/introducing-muse-personal-ai-agent'));
   assert(musePersonalAgentCandidate, 'Must detect shared Introducing Muse personal AI agent announcement across 9 cases');

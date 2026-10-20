@@ -4,6 +4,11 @@ on:
     branches: ['improve/reader-next-step-20261021', 'main']
     paths: ['assets/**', 'tests/case-share*', '.github/workflows/case-share-qa.yml']
   workflow_dispatch:
+    inputs:
+      published_only:
+        description: 'Verify unchanged published assets and journeys without repeating preview suites'
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -29,6 +34,7 @@ jobs:
           for file in assets/*.js tests/*.cjs; do node --check "$file"; done
           python3 scripts/preview.py "$RUNNER_TEMP/share-preview/ai-agent-use-cases"
       - name: Reproduce old unit failure and start static preview
+        if: inputs.published_only != true
         shell: bash
         run: |
           mkdir -p "$RUNNER_TEMP/share-before"
@@ -41,6 +47,7 @@ jobs:
           python3 -m http.server 8081 --directory "$RUNNER_TEMP/share-preview" > /tmp/share-discovery.log 2>&1 &
           curl --retry 5 --retry-connrefused --retry-delay 1 --fail http://127.0.0.1:8140/ai-agent-use-cases/ > /dev/null
       - name: Five browser configurations, clipboard states and existing regressions
+        if: inputs.published_only != true
         env:
           NODE_PATH: ${{ runner.temp }}/share-tools/node_modules
           SHARE_URL: http://127.0.0.1:8140/ai-agent-use-cases/
@@ -53,7 +60,7 @@ jobs:
           node tests/reader-browser.cjs
           node tests/search-submit-browser.cjs
       - name: Published assets and desktop/mobile journeys
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || inputs.published_only == true
         env:
           NODE_PATH: ${{ runner.temp }}/share-tools/node_modules
           SHARE_URL: https://richardhan.github.io/ai-agent-use-cases/
@@ -73,6 +80,12 @@ jobs:
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
           node tests/case-share-browser.cjs
+          node - <<'JS'
+          const fs=require('node:fs'),assert=require('node:assert/strict');
+          const rows=JSON.parse(fs.readFileSync(process.env.SHARE_OUTPUT+'/report.json','utf8'));
+          assert.deepEqual(rows.map(r=>r.width),[1440,390]);
+          for(const row of rows){assert.equal(row.completed,true);assert.equal(row.journeys.length,3);assert.equal(row.audits.length,3);}
+          JS
       - uses: actions/upload-artifact@v4
         if: always()
         with:

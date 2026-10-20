@@ -79,7 +79,7 @@ const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(reports,null,2
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   row.journeys=['task search + scenario + source + sharing + denied retry','recipient direct URL + refresh + close + Back','long content + empty recovery + five facets + reviewed share'];
  }
- assert.deepEqual(row.errors,[]);
+ assert.deepEqual(row.errors,[]);row.completed=true;save();
  }catch(e){row.failure=e.message;save();if(page)await page.screenshot({path:`${out}/failure-${engine.name()}-${width}.png`}).catch(()=>{});throw e;}finally{await browser.close();}
  }
  if(!observe&&!live){

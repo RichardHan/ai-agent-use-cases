@@ -7,9 +7,22 @@ const origin=process.env.RECENT_URL||'http://127.0.0.1:8131/ai-agent-use-cases/'
 const output=process.env.RECENT_OUTPUT||'qa-artifacts/recent';
 const baseline=process.env.RECENT_BASELINE==='1',live=process.env.RECENT_LIVE==='1';
 const reports=[];
+const root=require('node:path').resolve(__dirname,'..');
+const sourceFiles=new Map(['cases','evidence'].flatMap(dir=>fs.readdirSync(root+'/'+dir).filter(file=>file.endsWith('.md')).map(file=>[dir+'/'+file,fs.readFileSync(root+'/'+dir+'/'+file,'utf8')])));
+const pending=fs.readFileSync(root+'/sources/pending.md','utf8').split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part));
+async function verifyCorpus(page){
+ const actual=await page.evaluate(()=>entries.map(e=>({id:e.id,path:e.path,markdown:e.markdown})));
+ assert.equal(actual.length,sourceFiles.size+pending.length,'the served corpus includes every current entry');
+ assert.deepEqual([...new Set(actual.map(e=>e.path))].sort(),[...sourceFiles.keys(),'sources/pending.md'].sort());
+ for(const entry of actual){
+  const expected=entry.path==='sources/pending.md'?pending.find(part=>part.match(/^##\s+(P-\d+)/)?.[1]===entry.id):sourceFiles.get(entry.path);
+  assert.equal(entry.markdown,expected,'served source matches checkout: '+entry.id);
+ }
+}
 async function ready(page,suffix=''){
  await page.goto(origin+suffix);await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
  assert.deepEqual(await page.evaluate(()=>failedPaths),[],'all sources loaded');
+ if(!baseline)await verifyCorpus(page);
 }
 async function audit(page,report,label){
  const scan=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
@@ -38,6 +51,7 @@ async function order(page){
     try{
      await ready(page);
      report.entries=await page.evaluate(()=>entries.length);
+     if(!baseline)report.corpusMatchesCheckout=true;
      await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
      await page.screenshot({path:`${output}/${name}-${size}-home.png`});
      if(baseline){
@@ -60,14 +74,19 @@ async function order(page){
      const read=page.locator('#results .card .card-bottom button').first();await read.click();
      await page.locator('#detail[open]').waitFor();assert.match(await page.locator('.detail-header-meta').innerText(),/頁首核對/);
      await page.screenshot({path:`${output}/${name}-${size}-detail.png`});await audit(page,report,'recent detail');
-     const secondID=await page.locator('#results .card').nth(1).getAttribute('data-case-id');
-     await page.locator('#nav-next-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),secondID);
-     await page.locator('#nav-prev-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),firstID);
      await page.locator('#copy-case-link').click();
      if(name==='chromium'){const link=new URL(await page.evaluate(()=>navigator.clipboard.readText()));assert.equal(link.searchParams.get('sort'),'reviewed');assert.equal(link.searchParams.get('case'),firstID);}
      await page.goBack();await page.waitForFunction(()=>!$('detail').open);
      assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),firstID);
      assert.equal(await page.locator('#sort').inputValue(),'reviewed');await order(page);
+     // Article navigation adds history entries. Test its order separately from
+     // the single-open native Back journey, then use the explicit close action.
+     await read.click();
+     const secondID=await page.locator('#results .card').nth(1).getAttribute('data-case-id');
+     await page.locator('#nav-next-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),secondID);
+     await page.locator('#nav-prev-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),firstID);
+     await page.keyboard.press('Escape');
+     assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),firstID);
      // The select keeps focus; changing order does not redraw the discovery card.
      await ensureFiltersVisible(page);const drawn=await page.locator('#drawn-case').innerText();
      await page.locator('#sort').selectOption('');assert.equal(await page.locator('#drawn-case').innerText(),drawn);
@@ -97,6 +116,7 @@ async function order(page){
      await page.goto(origin+'?sort=reviewed&case=UC-313');await page.locator('#detail[open]').waitFor({timeout:90000});
      await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
      await page.reload();await page.locator('#detail[open]').waitFor({timeout:90000});await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
+     await verifyCorpus(page);
      assert.equal(await page.locator('#sort').inputValue(),'reviewed');
      assert.match(await page.locator('.reader-report-content').innerText(),/未證實實際重複寄送/);
      assert.equal(await page.locator('.reader-report-content a').first().getAttribute('href'),'https://github.com/openai/codex/issues/52208');

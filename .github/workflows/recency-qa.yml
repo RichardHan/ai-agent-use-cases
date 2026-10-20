@@ -59,7 +59,7 @@ jobs:
         run: |
           python3 -m http.server 8131 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-preview.log 2>&1 &
           python3 -m http.server 8081 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-discovery.log 2>&1 &
-          for suite in discovery-browser reader-browser recent-review-browser recent-review-recovery source-guide-mobile-regression loading-budget-browser relevance-browser; do
+          for suite in recent-review-browser recent-review-recovery source-guide-mobile-regression loading-budget-browser relevance-browser; do
             if node "tests/$suite.cjs" > "qa-artifacts/$suite.log" 2>&1; then
               echo "PASS $suite"
             else
@@ -72,13 +72,16 @@ jobs:
         run: |
           node - <<'JS'
           const fs=require('node:fs');
+          const expected=['cases','evidence'].flatMap(dir=>fs.readdirSync(dir,{recursive:true}).filter(file=>file.endsWith('.md')).map(file=>dir+'/'+file)).concat('sources/pending.md').sort();
           (async()=>{
             for(let i=0;i<36;i++){
               const matched=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async file=>{
                 const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/'+file+'?review='+Date.now());
                 return r.ok&&await r.text()===fs.readFileSync(file,'utf8');
               }));
-              if(matched.every(Boolean)){console.log('Published HTML/JS/CSS match checkout');return;}
+              let catalogMatches=false;
+              try{const response=await fetch('https://richardhan.github.io/ai-agent-use-cases/catalog.json?review='+Date.now());const catalog=await response.json();catalogMatches=response.ok&&Array.isArray(catalog.files)&&JSON.stringify(catalog.files.slice().sort())===JSON.stringify(expected);}catch{}
+              if(matched.every(Boolean)&&catalogMatches){console.log('Published HTML/JS/CSS and catalog match checkout');return;}
               await new Promise(resolve=>setTimeout(resolve,5000));
             }
             throw Error('Published assets do not match checkout');

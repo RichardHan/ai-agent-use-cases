@@ -17,6 +17,8 @@ async function audit(page,report,label){
 }
 async function order(page){
  const actual=await page.locator('#results .card').evaluateAll(cards=>cards.map(c=>c.dataset.caseId));
+ const matchingIDs=await page.evaluate(()=>filterEntries(entries,tokenize($('query').value),Object.fromEntries(['kind','tool','category','proof','scenario'].map(id=>[id,$(id).value]))).map(e=>e.id).sort());
+ assert.deepEqual([...actual].sort(),matchingIDs,'sorting preserves every matching ID exactly once');
  const expected=await page.evaluate(()=>orderEntries(filterEntries(entries,tokenize($('query').value),Object.fromEntries(['kind','tool','category','proof','scenario'].map(id=>[id,$(id).value]))),tokenize($('query').value),'reviewed').map(e=>e.id));
  assert.deepEqual(actual,expected);
  // Independently check dates descend, including unknown dates at the end.
@@ -45,11 +47,11 @@ async function order(page){
       continue;
      }
      // 1. Returning reader finds recent reviews from home, without refetching.
-     const navigationCount=await page.evaluate(()=>performance.getEntriesByType('navigation').length);
+     const timeOrigin=await page.evaluate(()=>performance.timeOrigin);
      await page.locator('#recent-entry').focus();await page.keyboard.press('Enter');
      assert.equal(await page.locator('#sort').inputValue(),'reviewed');
      assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
-     assert.equal(await page.evaluate(()=>performance.getEntriesByType('navigation').length),navigationCount);
+     assert.equal(await page.evaluate(()=>performance.timeOrigin),timeOrigin,'home entry keeps the same document');
      assert.equal(await page.evaluate(()=>location.href),new URL('?sort=reviewed#explore',origin).href);
      await order(page);assert.match(await page.locator('#search-order-note').innerText(),/正文補充不計/);
      await page.locator('#results-count').scrollIntoViewIfNeeded();
@@ -81,8 +83,8 @@ async function order(page){
      await page.locator('#recent-entry').click();assert.equal(await page.locator('#query').inputValue(),'');assert.equal(await page.locator('#tool').inputValue(),'');
      assert.equal(await page.evaluate(()=>location.href),new URL('?sort=reviewed#explore',origin).href);
      // 3. Unknown dates, no matches and reset never imply verification or new cases.
-     await page.locator('#query').fill('UC-239');assert.match(await page.locator('#results .review-date').innerText(),/未提供/);
-     await page.locator('#results .card .card-bottom button').click();assert.match(await page.locator('.detail-header-meta').innerText(),/頁首未提供/);await page.keyboard.press('Escape');
+     await page.locator('#query').fill('UC-239');assert.match(await page.locator('#results .card[data-case-id="UC-239"] .review-date').innerText(),/未提供/);
+     await page.locator('#results .card[data-case-id="UC-239"] .card-bottom button').click();assert.match(await page.locator('.detail-header-meta').innerText(),/頁首未提供/);await page.keyboard.press('Escape');
      await page.locator('#query').fill('no-such-case-98182');assert(await page.locator('#empty').isVisible());assert.equal(await page.locator('#sort').inputValue(),'reviewed');
      await page.locator('#empty-reset').click();assert.equal(await page.locator('#sort').inputValue(),'');
      await page.goto(origin+'?sort=reviewed&case=UC-313');await page.locator('#detail[open]').waitFor({timeout:90000});
@@ -92,6 +94,9 @@ async function order(page){
      assert.equal(await page.locator('.reader-report-content a').first().getAttribute('href'),'https://github.com/openai/codex/issues/52208');
      await page.keyboard.press('Escape');await order(page);
      report.dateCoverage=await page.evaluate(()=>({known:entries.filter(e=>e.reviewedDate).length,unknown:entries.filter(e=>!e.reviewedDate).map(e=>e.id)}));
+     assert.equal(await page.locator('#results .review-date time').count(),report.dateCoverage.known);
+     assert.equal(await page.locator('#results .review-date').count(),report.dateCoverage.known+report.dateCoverage.unknown.length);
+     report.journeys=['home recent + keyboard + native Back','task + facets + share + reload','unknown date + empty + reset + direct case'];
      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
      assert.deepEqual(report.errors,[]);
     }finally{await context.close();fs.writeFileSync(output+'/report.json',JSON.stringify(reports,null,2));}

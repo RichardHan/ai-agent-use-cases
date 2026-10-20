@@ -49,6 +49,7 @@ jobs:
           GUIDE_URL: http://127.0.0.1:8131/ai-agent-use-cases/
           READER_URL: http://127.0.0.1:8131/ai-agent-use-cases/
           BUDGET_URL: http://127.0.0.1:8131/ai-agent-use-cases/
+          RELEVANCE_URL: http://127.0.0.1:8131/ai-agent-use-cases/
         run: |
           python3 -m http.server 8131 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-preview.log 2>&1 &
           python3 -m http.server 8081 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-discovery.log 2>&1 &
@@ -56,6 +57,7 @@ jobs:
           node tests/recent-review-recovery.cjs
           node tests/source-guide-mobile-regression.cjs
           node tests/loading-budget-browser.cjs
+          node tests/relevance-browser.cjs
           node tests/discovery-browser.cjs
           node tests/reader-browser.cjs
       - name: Verify published version before live journeys

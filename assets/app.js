@@ -1043,7 +1043,7 @@ function render(updateURL=true, preserveShare=false) {
   $('filter-count').textContent = facetCount ? `已套用 ${facetCount} 項篩選` : '未設定篩選';
   const matches=filterEntries(entries,q,filters);
   currentFiltered = orderEntries(matches, q, $('sort').value);
-  $('search-order-note').hidden = !discoveryReady || (!q.length&&$('sort').value!=='reviewed');
+  $('search-order-note').hidden = !discoveryReady || ($('sort').value!=='reviewed'&&(!q.length||!currentFiltered.length));
   $('search-order-note').textContent=$('sort').value==='reviewed'
     ? '依頁首核對日由新到舊；不是發布日，也不代表新增或獨立驗證。正文補充不計；未提供者置後，同日保留原本的符合順序。'
     : '標題與用途優先；全文仍納入搜尋。排序不代表成果或證據可靠度。';

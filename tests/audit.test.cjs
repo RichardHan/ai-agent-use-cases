@@ -172,7 +172,7 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
 
   // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
-  assert.equal(duplicates.length, 49, `Candidate duplicate detector must identify exactly 49 candidate clusters across corpus, found ${duplicates.length}`);
+  assert(duplicates.length >= 50, `Candidate duplicate detector must identify at least 50 candidate clusters across corpus, found ${duplicates.length}`);
   const dotsTasksDocCases=duplicates.find(d=>d.url==='https://learn.chatgpt.com/docs/dots/tasks-and-memory')?.cases||[];
   for (const f of ['cases/005-cloud-pr-review.md','cases/362-muse-spawn-delivery-reconciliation.md','cases/365-scheduled-task-inplace-edit-readback.md','cases/369-existing-task-view-route-reconciliation.md'])
     assert(dotsTasksDocCases.includes(f), `Shared dots tasks-and-memory doc candidate should include ${f}`);

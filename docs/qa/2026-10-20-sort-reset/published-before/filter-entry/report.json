@@ -1,0 +1,38 @@
+[
+  {
+    "width": 1440,
+    "filterSummary": "篩選、排序與常見任務 未設定篩選",
+    "sort": "reviewed",
+    "feedbackHidden": true,
+    "optionsOpen": true,
+    "tools": 11,
+    "categories": 246,
+    "sortNote": 650.578125,
+    "resultsTop": 714.765625,
+    "failed": []
+  },
+  {
+    "width": 390,
+    "filterSummary": "篩選、排序與常見任務 未設定篩選",
+    "sort": "reviewed",
+    "feedbackHidden": true,
+    "optionsOpen": false,
+    "tools": 11,
+    "categories": 246,
+    "sortNote": 413.828125,
+    "resultsTop": 500.109375,
+    "failed": []
+  },
+  {
+    "width": 320,
+    "filterSummary": "篩選、排序與常見任務 未設定篩選",
+    "sort": "reviewed",
+    "feedbackHidden": true,
+    "optionsOpen": false,
+    "tools": 11,
+    "categories": 246,
+    "sortNote": 410,
+    "resultsTop": 496.28125,
+    "failed": []
+  }
+]

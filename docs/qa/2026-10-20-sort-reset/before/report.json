@@ -1,0 +1,26 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "audits": [],
+    "summary": "篩選、排序與常見任務 未設定篩選",
+    "resetCount": 0
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "audits": [],
+    "summary": "篩選、排序與常見任務 未設定篩選",
+    "resetCount": 0
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "audits": [],
+    "summary": "篩選、排序與常見任務 未設定篩選",
+    "resetCount": 0
+  }
+]

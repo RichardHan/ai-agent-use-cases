@@ -1,0 +1,20 @@
+browser	Five browser configurations, failure recovery and existing regressions	﻿2026-10-20T15:06:39.9256988Z ##[group]Run node tests/sort-reset-browser.cjs
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:39.9257335Z ^[[36;1mnode tests/sort-reset-browser.cjs^[[0m
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:39.9257599Z ^[[36;1mnode tests/search-submit-browser.cjs^[[0m
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:39.9257855Z ^[[36;1mnode tests/recent-review-browser.cjs^[[0m
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:39.9304232Z shell: /usr/bin/bash -e {0}
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:39.9304462Z env:
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:39.9304691Z   NODE_PATH: /home/runner/work/_temp/filter-tools/node_modules
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:39.9305055Z   SORT_URL: http://127.0.0.1:8124/ai-agent-use-cases/
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:39.9305345Z   SUBMIT_URL: http://127.0.0.1:8124/ai-agent-use-cases/
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:39.9305621Z   RECENT_URL: http://127.0.0.1:8124/ai-agent-use-cases/
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:39.9305865Z ##[endgroup]
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:49.8130010Z Error: Please use browser.newContext()
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:49.8130991Z  Please check out https://github.com/dequelabs/axe-core-npm/blob/develop/packages/playwright/error-handling.md
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:49.8132170Z     at AxeBuilder.analyze (/home/runner/work/_temp/filter-tools/node_modules/@axe-core/playwright/dist/index.js:253:13)
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:49.8135211Z     at runNextTicks (node:internal/process/task_queues:64:5)
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:49.8135815Z     at process.processImmediate (node:internal/timers:452:9)
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:49.8136857Z     at process.callbackTrampoline (node:internal/async_hooks:130:17)
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:49.8137670Z     at async audit (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/sort-reset-browser.cjs:13:36)
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:49.8138584Z     at async /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/sort-reset-browser.cjs:22:125
+browser	Five browser configurations, failure recovery and existing regressions	2026-10-20T15:06:49.8714839Z ##[error]Process completed with exit code 1.

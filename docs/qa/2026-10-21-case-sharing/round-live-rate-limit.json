@@ -1,0 +1,302 @@
+{
+  "run": 39474038549,
+  "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39474038549",
+  "error": "page.waitForResponse: Timeout 12000ms exceeded while waiting for event \"response\"\n    at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/round-browser.cjs:33:26",
+  "desktopComplete": true,
+  "desktopPageErrors": [],
+  "httpResponses": [
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/005-cloud-pr-review.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 503
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/356-paid-article-clipper-portfolio-check.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/362-muse-spawn-delivery-reconciliation.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/365-scheduled-task-inplace-edit-readback.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/361-exact-account-binding-synthetic-guard-test.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/369-existing-task-view-route-reconciliation.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/360-paint-stage-quantity-spec-cart.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/358-dots-daily-youtube-picks-private-playlist.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/364-human-agent-handoff-state-display.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/368-dots-3d-scene-assets-to-local-agent-unreal-import.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/363-voice-workout-event-heart-rate-alignment.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/367-advocate-daily-cause-list-court-board-case-bundle.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/366-gpu-rgb-protocol-port-vendor-plugin-readonly-probe.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/370-newsletter-audio-backfill-state-reconciliation.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/372-office-mfp-scan-to-folder-smb-auth-fix.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/371-library-search-retrieval-scope-differential.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/374-contract-renewal-saved-signature-reply-draft.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/373-voter-registration-mail-ballot-two-agent-comparison.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/375-workshop-prompts-cloud-browser-dry-run.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/377-calendar-client-code-to-freshbooks-time-entry.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/376-windows-audio-runtime-test-evidence-boundary.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/378-standard-camera-mount-interface-reuse.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/379-local-project-delegation-preflight-failure.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/380-client-webmaster-agent-mail-channel-rollback.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/381-dots-daily-ai-brief-to-archived-news-page.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/382-bot-team-paid-newsletter-approval-log.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/384-paid-article-boundary-post-edit-verification.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/383-external-qa-ci-failure-issue-handoff.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/385-kdp-puzzle-book-sat-verified-phone-checklist.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/386-trading-bot-pnl-bucket-postmortem-change-brief.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/387-hourly-bank-bonus-scout-seen-log-trust-labels.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/388-sponsored-post-age-metrics-evidence-pack.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/389-resumed-task-native-capability-regression.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/390-linear-recurring-model-catalog-refresh-bot-team-pr.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/391-bot-fleet-private-dashboard-sensitive-scan-before-push.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/392-latent-model-multistart-optimum-audit.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/393-pitch-deck-meeting-context-reconciliation.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/396-page-mention-persistence-dispatch-verification.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/394-netwasm-rpc-compatibility-poc.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/395-missing-project-samples-licensed-asset-recovery.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/397-feature-spec-repository-grounded-backlog.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/evidence/008-morning-brief-validation.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/evidence/009-background-transfer-template.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/sources/pending.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/evidence/013-authentication-diagnosis.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-359",
+      "page": "about:blank",
+      "status": 429
+    }
+  ],
+  "pages": [
+    {
+      "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-359",
+      "ready": null,
+      "initialLoading": null,
+      "targetMatch": null,
+      "currentDetail": null,
+      "notices": {
+        "missing-case": false,
+        "partial-load": false,
+        "error": false
+      },
+      "failedPaths": null,
+      "entries": null,
+      "focus": ""
+    }
+  ]
+}

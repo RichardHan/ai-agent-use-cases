@@ -1,0 +1,51 @@
+[
+  {
+    "run": 39474038467,
+    "name": "Home search entry QA",
+    "observedError": "Published Pages assets did not match this checkout within 180 seconds",
+    "phase": "published asset match before Pages deployment completed",
+    "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39474038467"
+  },
+  {
+    "run": 39474038368,
+    "name": "Search relevance QA",
+    "observedError": "Published assets do not match this commit",
+    "phase": "published asset match before Pages deployment completed",
+    "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39474038368"
+  },
+  {
+    "run": 39474038382,
+    "name": "Combined recovery QA",
+    "observedError": "Published assets mismatch",
+    "phase": "published asset match before Pages deployment completed",
+    "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39474038382"
+  },
+  {
+    "run": 39474038279,
+    "name": "Related reading QA",
+    "observedError": "Published asset matches commit: assets/app.js",
+    "phase": "published asset match before Pages deployment completed",
+    "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39474038279"
+  },
+  {
+    "run": 39474038612,
+    "name": "Search context QA",
+    "observedError": "Published asset must match checked-out commit: assets/app.js",
+    "phase": "published asset match before Pages deployment completed",
+    "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39474038612"
+  },
+  {
+    "run": 39474038251,
+    "name": "Partial Load QA",
+    "observedError": "Deployment did not match within five minutes",
+    "phase": "published asset match before Pages deployment completed",
+    "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39474038251"
+  },
+  {
+    "run": 39474038329,
+    "name": "Missing shared case QA",
+    "observedError": "Published assets mismatch",
+    "phase": "published asset match before Pages deployment completed",
+    "url": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39474038329"
+  }
+]

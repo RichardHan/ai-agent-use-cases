@@ -83,3 +83,17 @@ JS／CSS gzip共增加362 bytes；[reader載入量測](regressions/reader-timing
 變更檔案：`assets/app.js`（URL與分享生命週期）、`assets/style.css`（觸控／焦點／狀態）、`tests/case-share.test.cjs`（URL回歸）、`tests/case-share-browser.cjs`（三情境與故障）、`tests/discovery-browser.cjs`（對齊固定label的新status契約）、`.github/workflows/case-share-qa.yml`（雲端預覽及正式發布）、`SITE.md`及本QA目錄（證據）。
 
 最終獨立review已閱讀上述原始報告與實際前後截圖，結論「可合併，未發現必修」。Firefox成功態截圖未見額外focus-visible外框，未另量測該成功按鈕outline，故不泛稱所有狀態的焦點樣式都已實測；手動欄位五配置可見焦點已有斷言。主角色沒有把review角色當真人使用者。
+
+## 合併、正式部署與報告完整性
+
+使用者明確授權直接push／merge。安全fetch確認main仍是共同基準後，非強制快轉推送`5e2be36`至main（產品資產`f48d078`），沒有覆寫協作者內容或建立假PR核准。[Pages39474038044](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39474038044)正式Jekyll建置與部署均成功，部署完成時間18:29:06 UTC。
+
+[main驗收39474038403](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39474038403)成功，重跑127單元、五配置與三套既有預覽回歸；公開app.js／style.css逐字相符（[資產證據](published-assets.json)），正式桌面／手機亦執行成功。該次來源請求HTTP200。然而整理產物時發現最後390px報告只在手動複製後落盤，後段斷言執行完成但未再次save；保留[原始未補寫報告](published-initial/report.json)，不把五次已保存axe宣稱成完整六筆證據。
+
+已補修測試報告在全部斷言完成後設定`completed=true`再落盤，workflow強制兩尺寸各三情境／三次axe齊全。**沒有更動網站產品資產，也沒有放寬測試**。手動dispatch遭GitHub HTTP403（需admin），改由已授權的SSH分支push觸發`verify/case-share-published-20261021`，只補正式站驗收、保留127單元／語法／資產相符檢查，避免再重跑已通過的預覽。獨立review確認診斷改動合理。
+
+[完整正式站補驗39475431022](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39475431022)成功：Chromium1440與390均completed=true、各三情境、共六次axe0、395條目無初次載入缺項，無pageerror或水平溢出；app／style與診斷checkout`8f12f24`逐字相同，該兩資產亦與已部署`5e2be36`／產品`f48d078`完全相同。[完整報告](published/report.json)、[補驗資產證據](published-complete-assets.json)、[正式手機](published/manual-chromium-390.png)、[正式桌面](published/success-chromium-1440.png)。主角色已目視最終正式手機與桌面對照；這次Markdown原文請求HTTP429，保留初次200與補驗429，不宣稱外站始終可用。
+
+不能宣稱所有歷史workflow皆綠：[本次main CI快照](publication-ci-snapshot.json)。七套原QA在部署完成之前，已於各自公開資產比對期限結束失敗；逐條讀取實際錯誤，列於[原始錯誤摘要](predeployment-failures.json)。另Improvement round QA通過正式桌面及兩次axe後，在下一個手機UC-359等待來源回應12秒逾時；其網路診斷記錄該手機文件HTTP429、未啟動app（[只含公開URL／狀態的診斷](round-live-rate-limit.json)），不把該手機路徑算通過，也未公開可能含客戶端IP的失敗HTML／截圖。其他背景工作以快照中的pending／in_progress為準，沒有刪除或改寫失敗。
+
+本輪新功能的完整預覽、獨立審查、正式部署及完整兩尺寸補驗已達標。最後提交只整合報告完整性修正、workflow與維護證據；不再追加產品功能。原工作目錄兩項未提交修改仍保留。下一輪優先降低首次全文來源請求成本；部署與大量公開QA同時啟動的佇列／限流也應保留為維運風險。

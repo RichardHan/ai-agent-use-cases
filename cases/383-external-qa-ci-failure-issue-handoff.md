@@ -4,6 +4,7 @@
 - 一句話用途：公開專案維護者把 Grok Bot 限定為外部 QA；它發現 GitHub 排程的 PR 活性檢查因權限遭拒，留下問題單，由既有開發流程修復。修復 PR 與後續觀察員規範可查，不把網站上線、單元測試通過與排程恢復混為一談。
 - 工具：Grok Bot／GitHub Issues／GitHub Actions；不是 Grok Build CLI
 - 情境：開發
+- 標籤：CI、問題單、權限、驗收
 - 分類／標籤：開發／CI監看／問題單／權限邊界／驗收
 - 作者：GitHub 維護者 krisztiankoos；部分後續問題單由 cursor[bot] 發布，產品歸屬另由維護者 #6742 與公開 runbook 說明
 - 原文日期：2026-08-13 至 2026-08-14（UTC）；本輪為舊案例補收錄

@@ -240,8 +240,6 @@
 .audit-retry{align-self:flex-start;min-height:44px;padding:8px 14px;border:1px solid var(--green);border-radius:6px;background:#fff;color:var(--green);font:inherit;cursor:pointer}
 .audit-retry[hidden]{display:none}
 
-/* An explicit handoff stays available when mobile filters are collapsed. */
-.search-submit-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px}
-.search-submit-row p{margin:0;color:var(--muted);font-size:13px}
-.search-submit-row button{flex-shrink:0}
-@media(max-width:640px){.search-submit-row{align-items:stretch;flex-direction:column;gap:10px}.search-submit-row button{width:100%}}
+/* Keep the explicit search action beside the query without pushing results down. */
+.search-wrap #search-submit{flex-shrink:0;min-height:44px;padding:8px 16px;font-size:14px;margin:6px 0}
+@media(max-width:640px){.search-wrap{padding-right:6px}.search-wrap>span{display:none}.search-wrap #search-submit{padding:8px 12px;font-size:13px}}

@@ -19,7 +19,7 @@ test('submission while loading or composing does not steal focus or schedule del
  }
 });
 test('search action remains outside the collapsible filters and is initially unavailable',()=>{
- const html=fs.readFileSync('index.html','utf8');assert.match(html,/<\/details>[\s\S]*?<button[^>]+id="search-submit"[^>]+type="submit"[^>]+disabled/);
+ const html=fs.readFileSync('index.html','utf8');assert.match(html,/<button[^>]+id="search-submit"[^>]+type="submit"[^>]+disabled/);assert(html.indexOf('id="search-submit"')<html.indexOf('<details id="filter-options"'));
  assert.match(fs.readFileSync('assets/app.js','utf8'),/\$\('filters'\)\.addEventListener\('submit', submitSearch\)/);
 });
 

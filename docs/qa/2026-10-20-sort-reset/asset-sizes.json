@@ -1,0 +1,23 @@
+[
+  {
+    "file": "assets/app.js",
+    "beforeBytes": 154505,
+    "afterBytes": 155011,
+    "deltaBytes": 506,
+    "gzipDeltaBytes": 115
+  },
+  {
+    "file": "assets/style.css",
+    "beforeBytes": 29893,
+    "afterBytes": 30239,
+    "deltaBytes": 346,
+    "gzipDeltaBytes": 47
+  },
+  {
+    "file": "index.html",
+    "beforeBytes": 14661,
+    "afterBytes": 14883,
+    "deltaBytes": 222,
+    "gzipDeltaBytes": 51
+  }
+]

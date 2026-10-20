@@ -1,0 +1,20 @@
+[
+  {
+    "file": "index.html",
+    "status": 200,
+    "match": false,
+    "sha256": "2228d17a648081f2ea83d9d0a3a3672e23989f0b2340ee3fe4cc37643efdc0aa"
+  },
+  {
+    "file": "assets/app.js",
+    "status": 200,
+    "match": false,
+    "sha256": "f9ae0ed5083ed92cc4c78c48bc51a2f19d54084171b610305852656c2e9da072"
+  },
+  {
+    "file": "assets/style.css",
+    "status": 200,
+    "match": false,
+    "sha256": "4b401e8a7fc4a15099f7eb1b31a164da719f0915a28710456143b3ecadd7e88b"
+  }
+]

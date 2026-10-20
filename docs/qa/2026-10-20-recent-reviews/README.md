@@ -68,3 +68,5 @@ RECENT_URL=http://127.0.0.1:8131/ai-agent-use-cases/ node tests/recent-review-re
 下一輪優先：建立能自動同步的全文分包建置，降低每次開頁的全庫下載成本。調查、所有中間失敗及紅燈證據見[investigation.md](investigation.md)，不重做已完成的近期排序。
 
 原手機五配置完成且390／320距搜尋233px，原門檻未放寬；新增復原[結果](final-recent-recovery.json)、載入期限[17項結果](final-loading-after.json)、相關性[五配置](final-after-relevance.json)、完整預覽[結果](preview/report.json)、[CI](final-preview-ci.json)。
+
+正式發布505c825整合後110／110。首次正式驗收39356284786於01:58:12～02:01:15等待版本，Pages仍排隊，HTML／JS／CSS仍HTTP200舊版，故版本閘門正確FAIL、未執行HTTPS旅程；[失敗log](published-before-deploy-failure.log)與[當時資產](published-before-deploy-assets.json)保留。Jekyll build隨後成功，部署另待結果。CLI rerun被帳號權限拒絕，因此以已授權git push調整QA等待上限為8分鐘後再驗，不放寬任何資產、目錄或原文比對。未改產品／語料／原測試。

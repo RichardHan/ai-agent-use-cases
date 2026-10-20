@@ -74,7 +74,7 @@ jobs:
           const fs=require('node:fs');
           const expected=['cases','evidence'].flatMap(dir=>fs.readdirSync(dir,{recursive:true}).filter(file=>file.endsWith('.md')).map(file=>dir+'/'+file)).concat('sources/pending.md').sort();
           (async()=>{
-            for(let i=0;i<36;i++){
+            for(let i=0;i<96;i++){
               const matched=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async file=>{
                 const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/'+file+'?review='+Date.now());
                 return r.ok&&await r.text()===fs.readFileSync(file,'utf8');
@@ -84,7 +84,7 @@ jobs:
               if(matched.every(Boolean)&&catalogMatches){console.log('Published HTML/JS/CSS and catalog match checkout');return;}
               await new Promise(resolve=>setTimeout(resolve,5000));
             }
-            throw Error('Published assets do not match checkout');
+            throw Error('Published assets and catalog did not match checkout within eight minutes');
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
       - name: Verify real HTTPS desktop and mobile journeys

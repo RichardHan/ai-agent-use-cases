@@ -865,8 +865,8 @@ function renderFacetCounts(terms, filters) {
   hint.textContent=!discoveryReady
     ? '案例載入完成後，會顯示各選項的符合筆數。'
     : failedPaths.length
-      ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選，0 筆也可選。'
-      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；0 筆也可選。';
+      ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
+      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。';
   for(const key of ['scenario','kind','tool','category','proof']){
     const select=$(key);
     // Keep unfamiliar shared scenarios visible, rather than showing an empty field.
@@ -883,7 +883,26 @@ function renderFacetCounts(terms, filters) {
       if(!option.dataset.label)option.dataset.label=option.textContent;
       option.textContent=(discoveryReady ? counts[index]+' · ' : '')+option.dataset.label;
     });
+    if(discoveryReady && ['tool','category'].includes(key)) groupFacetOptions(select,counts);
   }
+}
+// Keep platform-native selection and every zero-result alternative available.
+function groupFacetOptions(select,counts) {
+  const selected=select.value;
+  const options=[...select.options];
+  const buckets=[[],[]];
+  options.slice(1).forEach((option,index)=>buckets[counts[index+1]>0?0:1].push(option));
+  const children=[options[0]];
+  buckets.forEach((bucket,index)=>{
+    if(!bucket.length)return;
+    const group=el('optgroup');
+    group.label=(index===0?'有符合條目':'目前 0 筆')+'（'+bucket.length+' 個選項）';
+    bucket.sort((a,b)=>a.value.localeCompare(b.value,'zh-Hant'));
+    group.append(...bucket);
+    children.push(group);
+  });
+  select.replaceChildren(...children);
+  select.value=selected;
 }
 const SEARCH_KEYS=['q','scenario','kind','tool','category','proof'];
 function searchLink(href,query,filters,sort='') {
@@ -1111,7 +1130,7 @@ function reset() {
 }
 function populate(id, values) {
   const node = $(id);
-  while (node.options.length > 1) node.remove(1);
+  node.replaceChildren(node.options[0]);
   [...new Set(values)].sort((a, b) => a.localeCompare(b, 'zh-Hant')).forEach(v => {
     const o = el('option', '', v);
     o.value = v;

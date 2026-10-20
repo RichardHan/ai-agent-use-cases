@@ -1,0 +1,29 @@
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ []
+- [
+-   [
+-     'ChatGPT dots',
+-     'Google Drive',
+-     'Google Sheets',
+-     'Grok Bot',
+-     'Meta Muse',
+-     'Notion'
+-   ],
+-   [
+-     'Cursor',
+-     'Facebook',
+-     'GitHub',
+-     'Haggle Bot'
+-   ]
+- ]
+
+    at verify (/private/tmp/ai-reader-print-20261021/tests/available-facets-browser.cjs:27:12)
+    at async /private/tmp/ai-reader-print-20261021/tests/available-facets-browser.cjs:38:109 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [],
+  expected: [Array],
+  operator: 'deepStrictEqual'
+}

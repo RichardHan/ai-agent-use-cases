@@ -59,6 +59,18 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  await page.locator('#query').press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
  reports.push({name,loading:'blocked submission, no deferred focus, explicit resubmission passes'});fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));await page.close();
  }
+ if(!observe&&name==='chromium'){
+ const page=await browser.newPage({viewport:{width:390,height:844}});
+ await page.route('**/catalog.json',route=>route.fulfill({status:503,body:'unavailable'}));
+ await page.goto(base,{waitUntil:'networkidle'});await page.locator('#error').waitFor();assert(await page.locator('#search-submit').isDisabled());
+ await page.locator('#query').fill('旅遊');await page.locator('#filters').evaluate(e=>e.requestSubmit());assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
+ reports.push({name,totalFailure:'disabled, no empty-results handoff'});await page.close();
+ const partial=await browser.newPage({viewport:{width:390,height:844}});
+ await partial.route('**/cases/001-*',route=>route.fulfill({status:404,body:'missing fixture'}));
+ await partial.goto(base,{waitUntil:'networkidle'});await partial.waitForFunction(()=>!document.querySelector('#search-submit').disabled);await partial.locator('#partial-load').waitFor();
+ await partial.locator('#query').fill('zzzz-no-such-usecase');await partial.locator('#search-submit').click();assert(await partial.locator('#partial-load').isVisible());assert(await partial.locator('#empty').isVisible());assert.equal(await partial.evaluate(()=>document.activeElement.id),'results-count');
+ reports.push({name,partialFailure:'can submit, retains incomplete-source and zero-match notices'});await partial.close();fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));
+ }
  await browser.close();
  }
  console.log(JSON.stringify(reports,null,2));

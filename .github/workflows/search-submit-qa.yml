@@ -42,6 +42,36 @@ jobs:
         run: |
           python3 -m http.server 8121 --directory "$RUNNER_TEMP/preview" > /tmp/submit-preview.log 2>&1 &
           node tests/search-submit-browser.cjs
+      - name: Existing reader regression
+        if: hashFiles('tests/search-submit.test.cjs') != ''
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          READER_URL: http://127.0.0.1:8121/ai-agent-use-cases/
+        run: node tests/reader-browser.cjs > qa-artifacts/reader.log 2>&1 || { tail -c 5000 qa-artifacts/reader.log; exit 1; }
+      - name: Published acceptance
+        if: github.ref == 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          SUBMIT_OUTPUT: qa-artifacts/published
+        run: |
+          python3 - <<'PYTHON'
+          import pathlib,time,urllib.request
+          for attempt in range(60):
+              try:
+                  matches=[]
+                  for name in ('assets/app.js','assets/style.css','index.html'):
+                      with urllib.request.urlopen('https://richardhan.github.io/ai-agent-use-cases/'+name+'?submit='+str(time.time()),timeout=20) as response:
+                          matches.append(response.read()==pathlib.Path(name).read_bytes())
+                  if all(matches):
+                      print('PUBLISHED_ASSETS_MATCH')
+                      break
+              except Exception as error:
+                  print(type(error).__name__)
+              time.sleep(3)
+          else:
+              raise SystemExit('Pages assets did not match checkout')
+          PYTHON
+          node tests/search-submit-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

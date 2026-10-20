@@ -4,7 +4,7 @@ const source=fs.readFileSync('assets/app.js','utf8').split('/* Browser event bin
 function setup(ready=true){
  const calls=[],target={focus:o=>calls.push(['focus',o]),scrollIntoView:o=>calls.push(['scroll',o])};
  const context=vm.createContext({URL,location:{href:'https://example.test/ai-agent-use-cases/?q=旅遊&tool=Grok&sort=reviewed#old'},document:{getElementById:id=>{assert.equal(id,'results-count');return target;}},history:{state:{preserve:1},replaceState:(state,title,url)=>calls.push(['history',state,url.href])}});
- vm.runInContext(source+`\ndiscoveryReady=${ready};this.submit=typeof submitSearch==='function'?submitSearch:null;this.arrival=()=>allowAutomaticArrival;`,context);
+ vm.runInContext(source+`\ndiscoveryReady=${ready};this.submit=typeof submitSearch==='function'?submitSearch:null;this.arrival=()=>allowAutomaticArrival;this.compose=value=>{searchComposing=value;};`,context);
  assert.equal(typeof context.submit,'function');return {context,calls};
 }
 test('explicit submission preserves URL filters and history, reveals results and moves keyboard focus',()=>{
@@ -21,4 +21,8 @@ test('submission while loading or composing does not steal focus or schedule del
 test('search action remains outside the collapsible filters and is initially unavailable',()=>{
  const html=fs.readFileSync('index.html','utf8');assert.match(html,/<\/details>[\s\S]*?<button[^>]+id="search-submit"[^>]+type="submit"[^>]+disabled/);
  assert.match(fs.readFileSync('assets/app.js','utf8'),/\$\('filters'\)\.addEventListener\('submit', submitSearch\)/);
+});
+
+test('composition state also guards native SubmitEvent without isComposing',()=>{
+ const {context,calls}=setup();context.compose(true);context.submit({preventDefault(){}});assert.deepEqual(calls,[]);context.compose(false);context.submit({preventDefault(){}});assert.equal(calls.length,3);
 });

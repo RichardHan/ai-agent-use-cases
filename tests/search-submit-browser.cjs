@@ -10,7 +10,7 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  for(const [name,engine] of (observe?[['chromium',chromium]]:[['chromium',chromium],['firefox',firefox],['webkit',webkit]])){
  const browser=await engine.launch();
  for(const [size,width,height] of (name==='chromium'?[['desktop',1440,1000],['mobile',390,844],['narrow',320,740]]:[['mobile',390,844]])){
- const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base,{waitUntil:'networkidle'});await page.locator('#results .card').first().waitFor({timeout:60000});
  await page.screenshot({path:`${out}/${name}-${size}-home.jpg`});
  await page.locator('[data-search-entry]').first().click();await page.locator('#query').fill('旅遊');
@@ -47,7 +47,7 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  assert(await page.locator('#search-submit').isVisible());await page.locator('#search-submit').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
  report.ime='synthetic composition events guard; native OS IME not verified';
  }
- fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));await page.close();
+ fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));await context.close();
  }
  if(!observe){
  const page=await browser.newPage({viewport:{width:390,height:844}});let release;

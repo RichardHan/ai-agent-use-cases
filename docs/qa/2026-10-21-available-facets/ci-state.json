@@ -1,0 +1,187 @@
+{
+  "capturedAt": "2026-10-20T16:20:09.181693+00:00",
+  "runs": [
+    {
+      "conclusion": "",
+      "databaseId": 39455083393,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Reading flow QA",
+      "status": "in_progress"
+    },
+    {
+      "conclusion": "failure",
+      "databaseId": 39455082947,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Return visibility QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "",
+      "databaseId": 39455083358,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Results return QA",
+      "status": "in_progress"
+    },
+    {
+      "conclusion": "",
+      "databaseId": 39455083086,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Source guide QA",
+      "status": "in_progress"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455082912,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Website QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "",
+      "databaseId": 39455082887,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Improvement round QA",
+      "status": "in_progress"
+    },
+    {
+      "conclusion": "failure",
+      "databaseId": 39455083284,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Home search entry QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "",
+      "databaseId": 39455083351,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Missing shared case QA",
+      "status": "in_progress"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083340,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Audit summary round QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "failure",
+      "databaseId": 39455083228,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Search relevance QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083356,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Recent review discovery QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083225,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Related reading QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455082598,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Card refinement QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455082665,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Search submit QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "failure",
+      "databaseId": 39455083246,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Reader controls QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083088,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Filter entry QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "failure",
+      "databaseId": 39455082848,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Combined recovery QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083339,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Method shortcut QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455082694,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Available facet options QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083091,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Search context QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083398,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Corpus loading QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083120,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Partial Load QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083116,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Reader QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083247,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Reading anchor QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455083335,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "Facet counts QA",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39455080794,
+      "headSha": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+      "name": "pages build and deployment",
+      "status": "completed"
+    }
+  ]
+}

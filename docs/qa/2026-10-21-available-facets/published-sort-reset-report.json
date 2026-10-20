@@ -1,0 +1,123 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "audits": [
+      {
+        "label": "reviewed",
+        "violations": []
+      },
+      {
+        "label": "empty-reviewed",
+        "violations": []
+      }
+    ],
+    "summary": "篩選、排序與常見任務 未設定篩選 · 頁首最近核對",
+    "resetCount": 1,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/139-lost-property-match-search.md",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/139-lost-property-match-search.md",
+    "sourceStatus": 429,
+    "journeys": [
+      "home recent then restore default",
+      "query + five facets + shared reload + source + Back",
+      "clear facets keeps sort; empty results restore only sort"
+    ]
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      {
+        "label": "reviewed",
+        "violations": []
+      },
+      {
+        "label": "empty-reviewed",
+        "violations": []
+      }
+    ],
+    "summary": "篩選、排序與常見任務 未設定篩選 · 頁首最近核對",
+    "resetCount": 1,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/139-lost-property-match-search.md",
+    "journeys": [
+      "home recent then restore default",
+      "query + five facets + shared reload + source + Back",
+      "clear facets keeps sort; empty results restore only sort"
+    ]
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "audits": [
+      {
+        "label": "reviewed",
+        "violations": []
+      },
+      {
+        "label": "empty-reviewed",
+        "violations": []
+      }
+    ],
+    "summary": "篩選、排序與常見任務 未設定篩選 · 頁首最近核對",
+    "resetCount": 1,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/139-lost-property-match-search.md",
+    "journeys": [
+      "home recent then restore default",
+      "query + five facets + shared reload + source + Back",
+      "clear facets keeps sort; empty results restore only sort"
+    ]
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      {
+        "label": "reviewed",
+        "violations": []
+      },
+      {
+        "label": "empty-reviewed",
+        "violations": []
+      }
+    ],
+    "summary": "篩選、排序與常見任務 未設定篩選 · 頁首最近核對",
+    "resetCount": 1,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/139-lost-property-match-search.md",
+    "journeys": [
+      "home recent then restore default",
+      "query + five facets + shared reload + source + Back",
+      "clear facets keeps sort; empty results restore only sort"
+    ]
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      {
+        "label": "reviewed",
+        "violations": []
+      },
+      {
+        "label": "empty-reviewed",
+        "violations": []
+      }
+    ],
+    "summary": "篩選、排序與常見任務 未設定篩選 · 頁首最近核對",
+    "resetCount": 1,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/139-lost-property-match-search.md",
+    "journeys": [
+      "home recent then restore default",
+      "query + five facets + shared reload + source + Back",
+      "clear facets keeps sort; empty results restore only sort"
+    ]
+  },
+  {
+    "states": "loading/partial failure/retry/total failure/retry",
+    "complete": true
+  }
+]

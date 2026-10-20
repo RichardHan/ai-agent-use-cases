@@ -30,6 +30,7 @@ Chromium1440／390／320、Firefox390、WebKit390檢查，組合篩選與空結�
 - `for file in assets/*.js tests/*.cjs; do node --check "$file"; done` 與 `git diff --check` 通過。repo無獨立lint、TypeScript或npm build，不以語法檢查冒稱lint。
 - `python3 scripts/preview.py /tmp/available-facets-preview/ai-agent-use-cases` 成功，沿用GitHub Pages子路徑；正式Jekyll部署另驗。
 - 產品只改 `assets/app.js`：新增原生分組、保留selected值、populate清舊組、提示文字。新增browser測試、`.github/workflows/available-facets-qa.yml`及QA／SITE維護紀錄。
+- 本機補充[同步render＋layout量測](render-timing.json)：390×900、相同catalog/HTML/CSS，舊app.js以72b7ff9攔截對照；交替旅遊／比價＋生活，暖機10次後20次樣本。舊／新中位數9.0／9.7ms，p95 17.7／10.1ms。單次、未節流的本機診斷有雜訊，不能推稱更快或代表手機真實載入／輸入延遲。
 - app.js：155,011 → 155,905 bytes；gzip（mtime=0）47,327 → 47,595 bytes，增加268 bytes。這是檔案計算，不是實測載入速度或Lighthouse分數。
 
 本機第一次流程曾因GitHub來源HTTP429中止；保留外站限制後，實際點原始Markdown新頁並驗證URL，後續取得HTTP200。外部HTTP狀態記錄但不把外站限流冒稱產品錯誤。雲端紀錄另列。
@@ -65,3 +66,16 @@ GitHub建立PR遭Enterprise Managed User權限拒絕；既有SSH push可用，�
 尚未選分類的同狀態截圖也保留於上述兩資料夾。主角色實際目視桌面及手機前後圖，提示換行、選單與條件標籤無重疊或水平溢出；不宣稱目視了原生popup。正式部署驗收另補。
 
 獨立審查已核對雲端原始報告並給出可合併結論（審查產品eca98e8）：未發現功能退化、相容性、資料外洩或設計阻擋；預覽兩套流程合計20次axe零違規。
+
+
+## 正式發布結果
+
+已以非強制、可快轉push合併至main（產品c963230，origin/main原基準72b7ff9），無衝突。[Pages39455080794](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39455080794)建置與部署成功；[正式站驗收39455082694](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39455082694)全部成功：公開app.js逐字符合checkout，重跑完整預覽、既有sort-reset及正式站Chromium1440/390/320三情境、原生鍵盤、6次axe零違規、原始Markdown HTTP200。主角色目視正式手機截圖；[正式站報告](published/report.json)、[手機截圖](published/first-choice-chromium-390.png)、[桌面截圖](published/first-choice-chromium-1440.png)。
+
+[直接試用正式站](https://richardhan.github.io/ai-agent-use-cases/?q=旅遊&scenario=生活#explore)。原工作目錄仍是原分支、原兩項未提交修改，本輪獨立工作樹另存。
+
+不能宣稱所有歷史workflow皆綠：[發布狀態摘要](publication-summary.json)列四個在Pages部署前就因公開資產不符而逾時的既有job；另Reader controls正式站Chromium四尺寸通過後，Firefox等第一張結果卡逾時，未計通過。嘗試重跑失敗jobs遭GitHub拒絕，需repo admin權限；未切帳號／繞過權限。部署後以既有腳本補驗時收到GitHub Pages限流頁，故停止擴大重跑，未把缺DOM／缺條目的後續斷言當作通過；不公開含客戶端IP的回應HTML或完整日誌。這些限制與本輪新增正式站QA通過分開記錄。
+
+下一輪以減少首次全文載入請求為優先，同時保留完整搜尋、分享直鏈先讀及失敗復原；本輪未改動載入架構。
+
+發布證據複核補充：同一39455082694的[排序回歸報告](published-sort-reset-report.json)原始Markdown請求HTTP429；新增正式站流程的來源請求HTTP200。兩套流程通過不代表所有來源在所有時刻可讀。額外home-entry本機重驗另於等待詳情對話框逾時，未計通過，未確定其個別根因；不能把所有失敗都斷言為限流造成。合併後其他既有job的[狀態快照](ci-state.json)包含尚執行中的項目。

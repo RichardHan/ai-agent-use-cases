@@ -1,0 +1,36 @@
+{
+  "newPreviewRun": 39454419889,
+  "newPublishedRun": 39455082694,
+  "pagesRun": 39455080794,
+  "productCommit": "c9632305e15bb8bd3895c56b2e1047f1ee2e87b7",
+  "legacyFailures": [
+    {
+      "run": 39455082947,
+      "name": "Return visibility QA",
+      "reason": "public asset mismatch before Pages deployment"
+    },
+    {
+      "run": 39455083284,
+      "name": "Home search entry QA",
+      "reason": "public asset mismatch before Pages deployment"
+    },
+    {
+      "run": 39455083228,
+      "name": "Search relevance QA",
+      "reason": "public asset mismatch before Pages deployment"
+    },
+    {
+      "run": 39455082848,
+      "name": "Combined recovery QA",
+      "reason": "public asset mismatch before Pages deployment"
+    },
+    {
+      "run": 39455083246,
+      "name": "Reader controls QA",
+      "reason": "published Chromium four widths passed; Firefox first results card timed out; not classified as passing"
+    }
+  ],
+  "rerunAuthorization": "gh run rerun --failed rejected: Must have admin rights to Repository",
+  "additionalLocalLiveRevalidation": "Stopped after GitHub Pages rate limiting; return received rate-limit HTML instead of app.js, recovery lacked expected DOM, relevance assertion lacked expected case IDs; inconclusive, not counted as passed. No response HTML or client IP published. Home-entry later timed out waiting for detail dialog; not classified as passing and exact cause not established.",
+  "publishedSortRegressionSourceStatus": 429
+}

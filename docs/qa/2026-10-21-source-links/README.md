@@ -28,3 +28,7 @@
 正式首頁／旅遊搜尋＋生活篩選／來源新頁／分享／Escape返回基準[39488492724](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39488492724)在1440與390通過；395條目、零缺項、兩次axe皆0。Markdown原文外站請求當次429，不聲稱所有來源可讀。後續來源驗收以實際URL開啟核對，不保證外站永久可用。
 
 未驗真人喜好、轉換率、實體手機／輔具或完整WCAG認證。沒有提供Lighthouse分數或加速宣稱。下一輪最值得處理首次全文載入成本，保留直鏈優先及缺項復原；本輪達標即停。
+
+獨立review最終確認：132/132單元通過，沒有剩餘必修；不完整destination保留可見原字，其中裸URL仍沿用既有auto-link規則，未宣稱全為不可點文字。來源browser驗證的是新頁URL，未測外站內容可讀性。`app.js` gzip由47,855增為48,150 bytes（+295 bytes），是本機估算，不是載入速度量測。
+
+新測試工具的兩項錯誤已修正：axe需要明確browser context；原有reader regression需要安裝Chromium／Firefox／WebKit。失敗紀錄保留於Actions，不當成網站原有失敗。嘗試建立PR時GitHub GraphQL回覆 `Unauthorized: As an Enterprise Managed User, you cannot access this content (createPullRequest)`；依使用者既有直接push／merge授權，在完整驗收後使用正常Git merge＋SSH push，無強推，不切換API身分。

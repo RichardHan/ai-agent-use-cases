@@ -214,6 +214,9 @@
 .source-guidance dt{font-weight:650;color:var(--ink)}
 .source-guidance dd{margin:2px 0 0}
 .source-guidance+.search-order-note{margin-top:8px}
+.hero-search-actions{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 16px}
+.recent-entry{display:inline-flex;align-items:center;min-height:44px;margin-bottom:20px;font-size:14px;font-weight:650;color:var(--green);text-underline-offset:4px}
+.review-date{font-size:12px;line-height:1.7;color:var(--green);margin:0 0 14px}
 
 /* Keep a broken shared link understandable, with a route back to the collection. */
 .missing-case{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 24px;margin:0 0 24px;border:1px solid #a8b9a2;border-left:4px solid var(--green);border-radius:10px;background:#fff;color:#285344;overflow-wrap:anywhere}

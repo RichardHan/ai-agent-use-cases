@@ -31,12 +31,18 @@ jobs:
           SUBMIT_OBSERVE: '1'
           SUBMIT_OUTPUT: qa-artifacts/before
         run: node tests/search-submit-browser.cjs
+      - name: Observe all reading positions before changing production code
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          ANCHOR_OBSERVE: '1'
+        run: |
+          python3 -m http.server 8100 --directory "$RUNNER_TEMP/preview" > /tmp/anchor-preview.log 2>&1 &
+          node tests/reading-anchor-browser.cjs
       - name: Reproduce reading continuity failure
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           ROUND_ENGINES: all
         run: |
-          python3 -m http.server 8100 --directory "$RUNNER_TEMP/preview" > /tmp/anchor-preview.log 2>&1 &
           node tests/round-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

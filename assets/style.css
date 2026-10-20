@@ -236,6 +236,6 @@
 .results-return a:hover{text-decoration-thickness:2px}
 
 /* Audit status remains separate from live catalog totals. */
-#audit-status{margin:0;max-width:52ch}
+#audit-status{display:block;margin:0;width:100%;max-width:52ch;font-size:13px;line-height:1.7;overflow-wrap:anywhere}
 .audit-retry{align-self:flex-start;min-height:44px;padding:8px 14px;border:1px solid var(--green);border-radius:6px;background:#fff;color:var(--green);font:inherit;cursor:pointer}
 .audit-retry[hidden]{display:none}

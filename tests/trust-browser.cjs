@@ -22,6 +22,7 @@ async function ready(page){await page.waitForFunction(()=>discoveryReady,null,{t
    row.observedCount=await page.locator('.stat-card-audit .stat-figure strong').innerText();row.expectedCount=expected[1];
    if(!observe){
     await page.waitForFunction(value=>document.getElementById('audit-count').textContent===value,expected[1]);
+    assert(await page.locator('#audit-status').isVisible(),'batch must be visibly rendered, including mobile');
     row.batch=await page.locator('#audit-status').innerText();assert(row.batch.includes(expectedDate));assert.match(row.batch,/台灣時間.*不是全庫重新驗證日期/);
     const json=await page.request.get(origin+'audit-summary.json');assert(json.ok());const summary=await json.json();assert.equal(summary.latestBatch.trimEnd(),canonical.trimEnd(),'real Jekyll JSON contains precisely the current canonical section');
     assert.match(await page.locator('.stat-card-audit').innerText(),/未獨立重現，不代表成功率/);
@@ -43,6 +44,7 @@ async function ready(page){await page.waitForFunction(()=>discoveryReady,null,{t
     });
     const checkFailure=async label=>{
      await failurePage.goto(origin+'?q=旅遊&scenario=生活');await ready(failurePage);await failurePage.locator('#audit-retry').waitFor({state:'visible'});
+     assert(await failurePage.locator('#audit-status').isVisible(),'error message must be visibly rendered');
      assert.equal(await failurePage.locator('#audit-count').innerText(),'—');assert.match(await failurePage.locator('#audit-status').innerText(),/暫時無法讀取/);
      assert(await failurePage.locator('#results .card').count()>0);assert.equal(await failurePage.locator('#query').inputValue(),'旅遊');
      row.failures??=[];row.failures.push(label);save();
@@ -67,7 +69,7 @@ async function ready(page){await page.waitForFunction(()=>discoveryReady,null,{t
   }
   // JavaScript disabled still provides the complete report, without a stale count.
   if(engine==='chromium'&&!observe){
-   const context=await browser.newContext({javaScriptEnabled:false}),page=await context.newPage();await page.goto(origin);assert.equal(await page.locator('#audit-count').innerText(),'—');assert(await page.locator('.stat-card-audit a').isVisible());assert(await page.locator('noscript').innerText());assert.doesNotMatch(await page.locator('#audit-status').innerText(),/正在讀取/);report.noScript=true;save();await context.close();
+   const context=await browser.newContext({javaScriptEnabled:false}),page=await context.newPage();await page.goto(origin);assert.equal(await page.locator('#audit-count').innerText(),'—');assert(await page.locator('.stat-card-audit a').isVisible());assert(await page.locator('noscript').innerText());assert.doesNotMatch(await page.locator('#audit-status').innerText(),/正在讀取/);assert(await page.locator('#audit-status').isVisible());report.noScript=true;save();await context.close();
   }
   }finally{await browser.close();}
  }

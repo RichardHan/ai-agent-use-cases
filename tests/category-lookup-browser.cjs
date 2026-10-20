@@ -1,0 +1,87 @@
+'use strict';
+const {chromium,firefox,webkit}=require('playwright'),{AxeBuilder}=require('@axe-core/playwright');
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const base=process.env.LOOKUP_URL||'http://127.0.0.1:8160/ai-agent-use-cases/';
+const out=process.env.LOOKUP_OUTPUT||'qa-artifacts/lookup';fs.mkdirSync(out,{recursive:true});const report=[];
+const live=process.env.LOOKUP_LIVE==='1';
+(async()=>{for(const [engine,width] of (live?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
+ const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:width===1440?1000:844},reducedMotion:'reduce'}),page=await context.newPage();
+ const row={engine:engine.name(),width,errors:[],audits:[]};report.push(row);
+ try{
+ page.on('pageerror',e=>row.errors.push(e.message));
+ await page.goto(base+'?q=旅遊&scenario=生活');await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
+ assert.deepEqual(await page.evaluate(()=>failedPaths),[]);row.entries=await page.evaluate(()=>entries.length);
+ await page.locator('#filter-options').evaluate(e=>e.open=true);assert.equal(await page.locator('#category-finder').evaluate(e=>e.open),false);
+ await page.locator('#category-finder>summary').focus();await page.keyboard.press('Enter');
+ const input=page.locator('#category-query');
+ const before=await page.evaluate(()=>({url:location.href,length:history.length,ids:currentFiltered.map(e=>e.id)}));
+ await input.fill('研究');
+ assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,ids:currentFiltered.map(e=>e.id)})),before);
+ assert.equal(await page.locator('#query').inputValue(),'旅遊');await input.fill('旅遊');
+ await page.keyboard.press('Enter');
+ await input.dispatchEvent('keydown',{key:'Enter',isComposing:true,keyCode:229});
+ await page.locator('#filters').evaluate(form=>form.requestSubmit());
+ assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,ids:currentFiltered.map(e=>e.id)})),before);
+ await page.locator('#search-submit').evaluate(button=>button.click());
+ await page.waitForFunction(()=>document.activeElement.id==='results-count');await input.focus();
+ row.focusStyle=await input.evaluate(e=>({style:getComputedStyle(e).outlineStyle,width:getComputedStyle(e).outlineWidth}));assert.equal(row.focusStyle.style,'solid');assert.equal(row.focusStyle.width,'2px');
+ row.finder=await page.locator('#category-find-status').innerText();
+ assert(await page.locator('.category-match').count()>0);
+ const choice=page.locator('.category-match').filter({hasText:'旅遊／消費研究'});
+ await choice.focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
+ assert.equal(await page.evaluate(()=>document.activeElement.id),'category');assert.equal(await page.locator('#query').inputValue(),'旅遊');
+ assert.equal(await page.locator('#scenario').inputValue(),'生活');
+ // Find by multiple name words, without using full-text case synonyms.
+ await input.fill('旅遊 消費');assert.equal(await page.locator('.category-match').count(),1);
+ await page.locator('#category-finder').scrollIntoViewIfNeeded();
+ await page.screenshot({path:`${out}/finder-${engine.name()}-${width}.png`});
+ for(const button of await page.locator('.category-match').all())assert((await button.boundingBox()).height>=44);
+ assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ row.audits.push((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id));assert.deepEqual(row.audits.at(-1),[]);
+ // Read the selected result and return, preserving both search state and local finder text.
+ const trigger=page.locator('#results .card-bottom button').first();await trigger.click();await page.locator('#detail[open]').waitFor();
+ await page.locator('.research-details').evaluate(e=>e.open=true);row.source=await page.locator('.research-details .markdown a').first().getAttribute('href');assert.match(row.source,/^https?:/);
+ const popupWait=page.waitForEvent('popup');await page.locator('.research-details .markdown a').first().click();const popup=await popupWait;await popup.waitForLoadState('domcontentloaded').catch(()=>{});row.sourceOpened=popup.url();assert.match(row.sourceOpened,/^https?:/);await popup.close();
+ await page.screenshot({path:`${out}/detail-${engine.name()}-${width}.png`});await page.goBack();
+ await page.waitForFunction(()=>!document.querySelector('#detail').open);assert.equal(await input.inputValue(),'旅遊 消費');
+ assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
+ assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),await trigger.locator('..').locator('..').getAttribute('data-case-id'));
+ // Unknown shared category stays selected but is never invented as a loaded name.
+ await page.goto(base+'?q=旅遊&category='+encodeURIComponent('不存在的分類987'));await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
+ await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#category-finder').evaluate(e=>e.open=true);await input.fill('不存在的分類987');
+ assert.equal(await page.locator('#category').inputValue(),'不存在的分類987');assert.equal(await page.locator('.category-match').count(),0);
+ await page.locator('#category').selectOption('旅遊／消費研究');
+ // Full zero-result intersection still offers real category names with zero counts.
+ await page.locator('#query').fill('no-case-lookup-924');await input.fill('旅遊');
+ assert(await page.locator('#empty').isVisible());assert(await page.locator('.category-match').count()>0);
+ assert((await page.locator('.category-match-count').allTextContents()).every(text=>text==='0 筆'));
+ await page.locator('.category-match').first().click();assert(await page.locator('#empty').isVisible());
+ await input.fill('不存在的分類987');assert.equal(await page.locator('.category-match').count(),0);assert.match(await page.locator('#category-find-status').innerText(),/沒有名稱符合/);
+ await page.locator('#clear-category-query').click();assert.equal(await input.inputValue(),'');assert.equal(await page.evaluate(()=>document.activeElement.id),'category-query');
+ await page.locator('#empty-reset').click();await input.fill('研究');row.broadStatus=await page.locator('#category-find-status').innerText();assert.match(row.broadStatus,/先列 8 個/);assert.equal(await page.locator('.category-match').count(),8);
+ row.audits.push((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id));assert.deepEqual(row.audits.at(-1),[]);
+ // Direct link and refresh retain the actual selected category, with helper initially closed.
+ await page.goto(base+'?q=旅遊&scenario=生活&category='+encodeURIComponent('旅遊／消費研究')+'&case=UC-001');await page.locator('#detail[open]').waitFor({timeout:90000});await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
+ await page.reload();await page.locator('#detail[open]').waitFor({timeout:90000});await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});await page.locator('#close-detail').click();assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
+ assert.equal(await page.locator('#category-finder').evaluate(e=>e.open),false);
+ if(!live){
+ // Long labels wrap; partial-source retry preserves the focused category button.
+ let attempts=0,release;const gate=new Promise(resolve=>release=resolve);
+ await context.route('**/cases/001-travel-checkout.md',async route=>{attempts++;if(attempts===1)return route.fulfill({status:503,body:'missing'});await gate;await route.continue();});
+ await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert.equal(await page.evaluate(()=>failedPaths.length),1);
+ await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#category-finder').evaluate(e=>e.open=true);
+ await input.fill('省錢 開戶');await page.locator('#category-finder').scrollIntoViewIfNeeded();
+ await page.screenshot({path:`${out}/long-${engine.name()}-${width}.png`});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ await input.fill('研究');assert.match(await page.locator('#category-find-status').innerText(),/只含已載入來源/);
+ await page.locator('#retry-failed').click();await page.locator('.category-match').first().focus();
+ const focusedCategory=await page.evaluate(()=>document.activeElement.dataset.categoryValue);release();
+ await page.waitForFunction(()=>!recoveringSources && failedPaths.length===0,null,{timeout:60000});
+ assert.equal(await page.evaluate(()=>document.activeElement.dataset.categoryValue),focusedCategory);await context.unroute('**/cases/001-travel-checkout.md');
+ // Catalog loading: local input survives and is never reported as a real zero.
+ await context.route('**/catalog.json',route=>route.fulfill({status:503,body:'unavailable'}));await page.goto(base);await page.locator('#error:not([hidden])').waitFor();
+ await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#category-finder').evaluate(e=>e.open=true);await input.fill('旅遊');assert.match(await page.locator('#category-find-status').innerText(),/分類尚未載入/);
+ await context.unroute('**/catalog.json');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert.equal(await input.inputValue(),'旅遊');assert(await page.locator('.category-match').count()>0);
+ }
+ assert.deepEqual(row.errors,[]);row.complete=true;
+ }catch(e){row.failure=e.stack;throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));await browser.close();}
+}})().catch(e=>{console.error(e);process.exitCode=1});

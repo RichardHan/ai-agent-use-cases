@@ -892,6 +892,44 @@ function facetCounts(items, terms, filters, key, values) {
   }
   return values.map(value=>value ? counts.get(value)||0 : base.length);
 }
+// A local name finder, separate from full-text case search and URL state.
+function findCategories(values, query, limit=8) {
+  const terms=norm(query).trim().split(/\s+/).filter(Boolean);
+  if(!terms.length)return {total:0,matches:[]};
+  const matches=values.filter(({value})=>value && terms.every(term=>norm(value).includes(term)))
+    .sort((a,b)=>(Number(b.count>0)-Number(a.count>0)) || a.value.localeCompare(b.value,'zh-Hant'));
+  return {total:matches.length,matches:matches.slice(0,limit)};
+}
+function renderCategoryFinder() {
+  const input=$('category-query'),status=$('category-find-status'),list=$('category-matches');
+  const focusedValue=list.contains(document.activeElement)?document.activeElement.dataset.categoryValue:null;
+  list.replaceChildren();
+  if(!input.value.trim()){status.textContent='輸入字詞，縮小分類選項。';return;}
+  if(!discoveryReady){status.textContent=initialLoading?'正在讀取分類；輸入內容會保留，載入後顯示選項。':'分類尚未載入；請先使用下方「重新載入」，輸入內容會保留。';return;}
+  const loadedNames=new Set(entries.map(item=>item.category));
+  const values=[...$('category').options].filter(option=>option.value && loadedNames.has(option.value)).map(option=>({value:option.value,count:Number(option.dataset.count)||0}));
+  const result=findCategories(values,input.value);
+  const scope=failedPaths.length?'（只含已載入來源）':'';
+  status.textContent=result.total
+    ? '找到 '+result.total+' 個分類'+scope+'。'+(result.total>result.matches.length?'先列 '+result.matches.length+' 個；可增加字詞縮小範圍。':'')+'筆數保留案例關鍵字與其他篩選；0 筆也可選。'
+    : '沒有名稱符合的分類'+scope+'。試著縮短字詞，或用上方案例搜尋找全文。';
+  for(const {value,count} of result.matches){
+    const button=el('button','category-match');button.type='button';button.dataset.categoryValue=value;
+    button.setAttribute('aria-pressed',String($('category').value===value));
+    button.append(el('span','',value),el('span','category-match-count',count+' 筆'));
+    button.addEventListener('click',()=>{
+      $('category').value=value;
+      render();
+      // The picker is rebuilt by render; return to the stable selected control.
+      $('category').focus({preventScroll:true});$('category').scrollIntoView({block:'nearest',behavior:'instant'});
+    });
+    list.append(button);
+  }
+  if(focusedValue){
+    const replacement=[...list.children].find(button=>button.dataset.categoryValue===focusedValue);
+    (replacement||input).focus({preventScroll:true});
+  }
+}
 function renderFacetCounts(terms, filters) {
   const hint=$('facet-count-hint');
   hint.textContent=!discoveryReady
@@ -913,10 +951,12 @@ function renderFacetCounts(terms, filters) {
       // Freeze it before adding counts so filters and URLs keep the raw value.
       option.value=option.value;
       if(!option.dataset.label)option.dataset.label=option.textContent;
+      option.dataset.count=discoveryReady ? String(counts[index]) : '';
       option.textContent=(discoveryReady ? counts[index]+' · ' : '')+option.dataset.label;
     });
     if(discoveryReady && ['tool','category'].includes(key)) groupFacetOptions(select,counts);
   }
+  renderCategoryFinder();
 }
 // Keep platform-native selection and every zero-result alternative available.
 function groupFacetOptions(select,counts) {
@@ -963,10 +1003,10 @@ function currentSearchLink() {
   filters.scenario=activeScenario;
   return searchLink(location.href,$('query').value,filters,$('sort').value);
 }
-let searchComposing = false;
+let searchComposing = false, categoryComposing = false;
 function submitSearch(event) {
   event.preventDefault();
-  if (!discoveryReady || searchComposing || event.isComposing) return;
+  if (!discoveryReady || searchComposing || event.isComposing || categoryComposing || (document.activeElement?.id==='category-query' && event.submitter?.id!=='search-submit')) return;
   allowAutomaticArrival = false;
   const url = new URL(location.href);
   url.hash = 'explore';
@@ -1284,6 +1324,7 @@ function preserveRecoveryFocus() {
   const filterKey=active.dataset.removeFilter;
   const filterKeys=active.dataset.removeFilters;
   const resultsReturn=active.dataset.resultsReturn;
+  const categoryValue=active.dataset.categoryValue;
   const parentId=active.parentElement?.id;
   return ()=>{
     if(active===document.body)return;
@@ -1292,6 +1333,8 @@ function preserveRecoveryFocus() {
     if(cardId){
       const node=[...$(area).querySelectorAll('.card')].find(c=>c.dataset.caseId===cardId);
       replacement=node?.querySelectorAll('button')[buttonIndex];
+    }else if(categoryValue){
+      replacement=[...$('category-matches').children].find(button=>button.dataset.categoryValue===categoryValue)||$('category-query');
     }else if(resultsReturn){
       const links=[...$('results').querySelectorAll('[data-results-return]')];
       replacement=links.find(link=>link.dataset.resultsReturn===resultsReturn)||links.at(-1);
@@ -1394,6 +1437,7 @@ async function load() {
   $('reset-sort').hidden = true;
   $('empty-suggestions').replaceChildren();
   $('results-count').textContent = '正在讀取案例…';
+  renderCategoryFinder();
   failedPaths = [];
   try {
     // Hydrate shared conditions before readers can edit the form during loading.
@@ -1505,6 +1549,7 @@ async function load() {
     console.error(error);
   } finally {
     initialLoading=false;initialLoadController=null;
+    renderCategoryFinder();
     $('loading-progress').hidden=true;
   }
 }
@@ -1587,6 +1632,15 @@ $('query').addEventListener('keydown', event => {
   if (event.key !== 'Enter' || event.isComposing || searchComposing || event.keyCode === 229) return;
   event.preventDefault();
   $('filters').requestSubmit();
+});
+$('category-query').addEventListener('input', renderCategoryFinder);
+$('category-query').addEventListener('compositionstart',()=>{categoryComposing=true;});
+$('category-query').addEventListener('compositionend',()=>{categoryComposing=false;});
+$('category-query').addEventListener('keydown', event => {
+  if(event.key==='Enter' && !event.isComposing && event.keyCode!==229)event.preventDefault();
+});
+$('clear-category-query').addEventListener('click',()=>{
+  $('category-query').value='';renderCategoryFinder();$('category-query').focus();
 });
 $('query').addEventListener('input', () => render());
 $('sort').addEventListener('change', () => render());

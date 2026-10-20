@@ -1,0 +1,81 @@
+name: Category finding QA
+on:
+  push:
+    branches: [improve/reader-section-outline-20261021, main]
+    paths: [assets/**, index.html, tests/category*, .github/workflows/category-find-qa.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud browsers
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Unit, syntax and static preview
+        run: |
+          mkdir -p qa-artifacts
+          node --test tests/*.test.cjs > qa-artifacts/unit.tap
+          git show a32f19a:assets/app.js > "$RUNNER_TEMP/before-category.js"
+          if CATEGORY_SOURCE="$RUNNER_TEMP/before-category.js" node --test tests/category-find.test.cjs > qa-artifacts/red.tap 2>&1; then
+            echo 'Expected original category lookup test failure'; exit 1
+          fi
+          grep -q 'findCategories is not defined' qa-artifacts/red.tap
+          for file in assets/*.js tests/category*.cjs; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          python3 -m http.server 8160 --directory "$RUNNER_TEMP/preview" > /tmp/category-preview.log 2>&1 &
+      - name: Observe published journeys
+        if: github.ref != 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: node tests/category-find-browser.cjs
+      - name: Verify updated category journeys
+        if: github.ref != 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: node tests/category-lookup-browser.cjs
+      - name: Preserve existing reader and search flows
+        if: github.ref != 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          READER_URL: http://127.0.0.1:8160/ai-agent-use-cases/
+        run: node tests/reader-browser.cjs
+      - name: Verify published improvement
+        if: github.ref == 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          LOOKUP_URL: https://richardhan.github.io/ai-agent-use-cases/
+          LOOKUP_OUTPUT: qa-artifacts/published
+          LOOKUP_LIVE: '1'
+        run: |
+          node - <<'JS'
+          const fs=require('node:fs');
+          (async()=>{
+            const files=['index.html','assets/app.js','assets/style.css'];
+            for(let i=0;i<90;i++){
+              const observed=await Promise.all(files.map(async file=>{
+                const r=await fetch(process.env.LOOKUP_URL+file+'?categoryqa='+Date.now());
+                return r.ok?await r.text():'';
+              }));
+              if(observed.every((text,i)=>text===fs.readFileSync(files[i],'utf8'))){fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify({commit:process.env.GITHUB_SHA,files,matched:true}));return;}
+              await new Promise(resolve=>setTimeout(resolve,2000));
+            }
+            throw Error('Published assets differ');
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          JS
+          node tests/category-lookup-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: category-${{ github.run_id }}
+          path: qa-artifacts/

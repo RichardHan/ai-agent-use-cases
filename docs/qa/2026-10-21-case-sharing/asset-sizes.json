@@ -1,0 +1,14 @@
+{
+  "assets/app.js": {
+    "beforeBytes": 155905,
+    "afterBytes": 157201,
+    "beforeGzip": 47595,
+    "afterGzip": 47855
+  },
+  "assets/style.css": {
+    "beforeBytes": 30239,
+    "afterBytes": 30857,
+    "beforeGzip": 7109,
+    "afterGzip": 7211
+  }
+}

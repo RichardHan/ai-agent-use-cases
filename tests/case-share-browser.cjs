@@ -19,6 +19,7 @@ const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(reports,null,2
  await page.goto(base);await ready();await page.screenshot({path:`${out}/home-${engine.name()}-${width}.png`});
  await page.locator('#query').fill('旅遊');await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');
  await page.locator('#results .card h3 button').first().click();await page.locator('#detail[open]').waitFor();
+ if(!observe){assert.match(await page.locator('#case-share-status').ariaSnapshot(),/status/);assert.equal(await page.locator('#case-share-status').getAttribute('aria-live'),'polite');}
  row.caseId=await page.locator('#detail-toolbar-id').innerText();row.entries=await page.evaluate(()=>entries.length);row.failed=await page.evaluate(()=>failedPaths);assert.deepEqual(row.failed,[]);
  row.source=await page.locator('.detail-source').getAttribute('href');
  if(width===1440){const popupWait=page.waitForEvent('popup');await page.locator('.detail-source').click();const popup=await popupWait;row.sourceOpened=popup.url();await popup.close();row.sourceStatus=(await page.request.get(row.source)).status();}
@@ -37,6 +38,8 @@ const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(reports,null,2
   assert.equal(await page.locator('#copy-case-link').getAttribute('aria-label'),'複製案例連結');
   assert.equal(await page.locator('#case-share-status').getAttribute('role'),'status');assert.equal(await page.locator('#case-share-status').getAttribute('aria-atomic'),'true');
   assert.match(await page.locator('#case-share-status').innerText(),/已複製.*搜尋與篩選/);
+  assert.match(await page.locator('#copy-case-link').innerText(),/複製案例連結/);
+  const successAudit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();row.audits.push({label:'copy success',violations:successAudit.violations.map(v=>v.id)});assert.deepEqual(successAudit.violations,[]);
  }
  await page.evaluate(()=>window.denyCopy=true);await page.locator('#copy-case-link').click();await page.locator('.manual-share-link').waitFor();
  row.manual=await page.locator('.manual-share-link').inputValue();row.active=await page.evaluate(()=>document.activeElement.className);
@@ -55,7 +58,7 @@ const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(reports,null,2
   // Recipient opens, refreshes and closes the actual copied URL with its context intact.
   const recipient=await context.newPage();await recipient.goto(row.copied);await recipient.waitForFunction(()=>discoveryReady,null,{timeout:90000});await recipient.locator('#detail[open]').waitFor();
   assert.equal(await recipient.locator('#detail-toolbar-id').innerText(),row.caseId);
-  await recipient.reload();await recipient.waitForFunction(()=>discoveryReady,null,{timeout:90000});await recipient.locator('#detail[open]').waitFor();await recipient.locator('#close-detail').click();
+  await recipient.reload();await recipient.waitForFunction(()=>discoveryReady,null,{timeout:90000});await recipient.locator('#detail[open]').waitFor();assert.deepEqual(await recipient.evaluate(()=>failedPaths),[]);assert.equal(await recipient.evaluate(()=>entries.length),row.entries);await recipient.locator('#close-detail').click();
   assert.equal(await recipient.locator('#query').inputValue(),'旅遊');assert.equal(await recipient.locator('#scenario').inputValue(),'生活');
   await recipient.locator('#results .card h3 button').first().click();await recipient.goBack();assert(!(await recipient.locator('#detail').evaluate(n=>n.open)));await recipient.close();
   // A long source page still reads and returns; an empty task search can recover.
@@ -87,7 +90,7 @@ const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(reports,null,2
   Object.defineProperty(navigator,'clipboard',{configurable:true,value:clipboardStub});
  });
  const ready=()=>page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
- for(const state of ['closed','next case','reopened','newer success','newer rejection']){
+ for(const state of ['closed','next case','reopened','newer success','newer rejection','moved focus']){
   await page.goto(base+'?q=旅遊&scenario=生活&case=UC-001');await ready();await page.locator('#detail[open]').waitFor();
   const title=await page.locator('#detail-title').innerText();await page.locator('#copy-case-link').click();assert.equal(await page.evaluate(()=>pendingCopies.length),1);
   if(state==='closed'||state==='reopened')await page.locator('#close-detail').click();
@@ -97,11 +100,13 @@ const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(reports,null,2
    await page.locator('#copy-case-link').click();assert.equal(await page.evaluate(()=>pendingCopies.length),2);
    if(state==='newer success')await page.evaluate(()=>pendingCopies[1].resolve());else await page.evaluate(()=>pendingCopies[1].reject(Error('newer denied')));
   }
+  if(state==='moved focus')await page.locator('.detail-source').focus();
   const before=await page.locator('#case-share-status').textContent();
   const focus=await page.evaluate(()=>{window.focusBeforeLateCopy=document.activeElement;return document.activeElement.id||document.activeElement.className;});
   if(state==='newer rejection')await page.evaluate(()=>pendingCopies[0].resolve());else await page.evaluate(()=>pendingCopies[0].reject(Error('late denied')));
   await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
-  assert.equal(await page.locator('#case-share-status').textContent(),before);assert(await page.evaluate(()=>document.activeElement===focusBeforeLateCopy));
+  if(state==='moved focus')assert.match(await page.locator('#case-share-status').textContent(),/無法自動複製/);else assert.equal(await page.locator('#case-share-status').textContent(),before);
+  assert(await page.evaluate(()=>document.activeElement===focusBeforeLateCopy));
   if(state==='newer success')assert.match(before,/已複製/);
   if(state==='newer rejection'){assert.match(before,/無法自動複製/);assert(await page.locator('.manual-share-link').isVisible());}
   race.states.push({state,focus,status:before,passed:true});save();

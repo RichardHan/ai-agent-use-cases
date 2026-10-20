@@ -38,6 +38,7 @@ jobs:
             echo 'Expected old URL-sharing tests to fail'; exit 1
           fi
           python3 -m http.server 8140 --directory "$RUNNER_TEMP/share-preview" > /tmp/share-preview.log 2>&1 &
+          python3 -m http.server 8081 --directory "$RUNNER_TEMP/share-preview" > /tmp/share-discovery.log 2>&1 &
           curl --retry 5 --retry-connrefused --retry-delay 1 --fail http://127.0.0.1:8140/ai-agent-use-cases/ > /dev/null
       - name: Five browser configurations, clipboard states and existing regressions
         env:
@@ -48,6 +49,7 @@ jobs:
           SUBMIT_URL: http://127.0.0.1:8140/ai-agent-use-cases/
         run: |
           node tests/case-share-browser.cjs
+          node tests/discovery-browser.cjs
           node tests/reader-browser.cjs
           node tests/search-submit-browser.cjs
       - name: Published assets and desktop/mobile journeys

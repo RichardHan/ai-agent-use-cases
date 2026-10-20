@@ -249,8 +249,8 @@
 
 /* Sharing feedback stays beside the action and available after the copy completes. */
 .detail-actions .detail-source{min-height:44px;display:inline-flex;align-items:center;margin-bottom:0}
-.case-share-feedback{flex-basis:100%;min-width:0;max-width:100%}
-.case-share-feedback:has(.case-share-status:empty){display:none}
-.case-share-status{margin:0;font-size:13px;color:#4c6258}
-.case-share-feedback .manual-share-link{display:block;width:100%;min-width:0;margin-top:10px}
+.case-share-feedback{display:contents}
+.case-share-status:empty{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden;white-space:nowrap}
+.case-share-status{flex-basis:100%;margin:0;font-size:13px;color:#4c6258}
+.case-share-feedback .manual-share-link{display:block;width:100%;min-width:0;margin-top:0}
 .manual-share-link:focus{outline:2px solid var(--green)!important;outline-offset:3px}

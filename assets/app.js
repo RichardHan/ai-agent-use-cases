@@ -536,28 +536,28 @@ function showDetail(item, trigger, updateURL=true) {
   copyBtn.setAttribute('aria-describedby','case-share-status');
   const shareFeedback=el('div','case-share-feedback');
   const shareStatus=el('p','case-share-status');shareStatus.id='case-share-status';
-  shareStatus.setAttribute('role','status');shareStatus.setAttribute('aria-atomic','true');
+  shareStatus.setAttribute('role','status');shareStatus.setAttribute('aria-live','polite');shareStatus.setAttribute('aria-atomic','true');
   const manual=el('input','manual-share-link');manual.type='text';manual.readOnly=true;manual.hidden=true;
   manual.setAttribute('aria-label','案例分享網址，請手動複製');
   manual.setAttribute('aria-describedby','case-share-status');
   shareFeedback.append(shareStatus,manual);
   let shareRequest=0;
   copyBtn.addEventListener('click', async () => {
-    const request=++shareRequest;
+    const request=++shareRequest,focusAtRequest=document.activeElement;
     const isCurrent=()=>request===shareRequest&&copyBtn.isConnected&&$('detail').open&&currentDetailItem===item;
     const url=caseLink(location.href,item.id);
-    manual.hidden=true;manual.value='';copyBtn.textContent='📋 複製案例連結';
+    manual.hidden=true;manual.value='';
     shareStatus.textContent='正在複製案例連結…';
     try{
       if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');
       await navigator.clipboard.writeText(url);
       if(!isCurrent())return;
-      copyBtn.textContent='✓ 已複製！';
       shareStatus.textContent='已複製案例連結，包含目前搜尋與篩選條件。';
     }catch{
       if(!isCurrent())return;
-      shareStatus.textContent='無法自動複製。已選取下方網址，請手動複製；連結包含目前搜尋與篩選條件。';
-      manual.value=url;manual.hidden=false;manual.focus();manual.select();
+      shareStatus.textContent='無法自動複製。請手動複製下方網址；連結包含目前搜尋與篩選條件。';
+      manual.value=url;manual.hidden=false;
+      if(document.activeElement===focusAtRequest){manual.focus();manual.select();}
     }
   });
   const source = el('a', 'detail-source', '查看 Markdown 原文 ↗');

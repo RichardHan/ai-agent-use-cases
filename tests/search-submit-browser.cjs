@@ -16,10 +16,11 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  await page.locator('[data-search-entry]').first().click();await page.locator('#query').fill('旅遊');
  if(!await page.locator('#filter-options').evaluate(e=>e.open))await page.locator('#filter-summary').click();
  await page.locator('#scenario').selectOption('生活');await page.locator('#tool').selectOption('Grok Bot');
- await page.locator('#query').focus();await page.keyboard.press('Enter');await page.waitForTimeout(250);
+ await page.evaluate(()=>{globalThis.submitTrace=[];for(const type of ['scroll','focusin'])document.addEventListener(type,()=>{if(submitTrace.length<60)submitTrace.push({type,time:performance.now(),focus:document.activeElement.id,top:document.querySelector('#results-count').getBoundingClientRect().top});},true);});
+ await page.locator('#query').focus();await page.keyboard.press('Enter');await page.waitForTimeout(350);
  const state=await page.evaluate(()=>({focus:document.activeElement.id,query:document.querySelector('#query').value,results:document.querySelectorAll('#results .card').length,top:document.querySelector('#results-count').getBoundingClientRect().top,height:innerHeight,hash:location.hash,submitButtons:document.querySelectorAll('#filters button[type=submit]').length}));
  await page.screenshot({path:`${out}/${name}-${size}-submit.jpg`});
- const report={name,size,state,errors};reports.push(report);fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));
+ const report={name,size,state,errors,trace:await page.evaluate(()=>submitTrace)};reports.push(report);fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));
  if(!observe){
  assert.equal(state.focus,'results-count');assert(state.top>=0&&state.top<height-30);assert.equal(state.hash,'#explore');assert.equal(state.submitButtons,1);assert(state.results>0);await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'copy-search-link');report.keyboard='Tab continues from result summary to share action';
  const first=page.locator('#results .card .card-bottom button').first();await first.click();await page.locator('#detail[open]').waitFor();

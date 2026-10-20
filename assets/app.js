@@ -903,7 +903,7 @@ function submitSearch(event) {
   const url = new URL(location.href);
   url.hash = 'explore';
   history.replaceState(history.state, '', url);
-  revealSearch(true);
+  focusLoadedResults('start');
 }
 function revealSearch(resultsOnly=false) {
   const target=$(resultsOnly?'results-count':'search-title');
@@ -1270,10 +1270,10 @@ async function retryFailedSources() {
   }
 }
 
-function focusLoadedResults() {
+function focusLoadedResults(block='center') {
   const target=$('results-count'),url=location.href;
   target.focus({preventScroll:true});
-  target.scrollIntoView({block:'center',behavior:'instant'});
+  target.scrollIntoView({block,behavior:'instant'});
   // Native anchoring may settle after the newly drawn card changes page height.
   // Keep the requested result visible, unless the reader has already moved on.
   let cancelled=false;
@@ -1283,7 +1283,7 @@ function focusLoadedResults() {
   const keepVisible=()=>{
     if(cancelled||location.href!==url||$('detail').open||document.activeElement!==target)return;
     const rect=target.getBoundingClientRect();
-    if(rect.top<0||rect.bottom>innerHeight)target.scrollIntoView({block:'center',behavior:'instant'});
+    if(rect.top<0||rect.bottom>innerHeight)target.scrollIntoView({block,behavior:'instant'});
   };
   events.forEach(type=>document.addEventListener(type,cancel,{capture:true,passive:true}));
   requestAnimationFrame(()=>{keepVisible();requestAnimationFrame(()=>{keepVisible();cleanup();});});

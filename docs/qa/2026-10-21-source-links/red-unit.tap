@@ -1,0 +1,85 @@
+✖ real UC-161 evidence links keep the full distinct filenames and no destination residue (2.205708ms)
+✖ nested, encoded and escaped parentheses keep adjacent text and independent links (0.759667ms)
+✖ unsafe schemes stay text, code stays literal, malformed destinations preserve source text (0.551791ms)
+✔ ordinary relative and bare sources retain their existing destinations (0.082083ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 63.880334
+
+✖ failing tests:
+
+test at tests/source-links.test.cjs:10:1
+✖ real UC-161 evidence links keep the full distinct filenames and no destination residue (2.205708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM'
+  - 'https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary-long.csv'
+  
+      at TestContext.<anonymous> (/private/tmp/ai-source-links-20261021/tests/source-links.test.cjs:15:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM',
+    expected: 'https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary-long.csv',
+    operator: 'strictEqual'
+  }
+
+test at tests/source-links.test.cjs:19:1
+✖ nested, encoded and escaped parentheses keep adjacent text and independent links (0.759667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'https://example.org/a(b(c',
+  -   'https://example.org/a(b(c)d)/file?q=(x)#part',
+      'https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/file%28x%29.md',
+  +   'https://example.org/a/(b/'
+  -   'https://example.org/a(b)/file'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/ai-source-links-20261021/tests/source-links.test.cjs:21:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'https://example.org/a(b(c', 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/file%28x%29.md', 'https://example.org/a/(b/' ],
+    expected: [ 'https://example.org/a(b(c)d)/file?q=(x)#part', 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/file%28x%29.md', 'https://example.org/a(b)/file' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/source-links.test.cjs:24:1
+✖ unsafe schemes stay text, code stays literal, malformed destinations preserve source text (0.551791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'https://example.org/',
+  +   'https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/folder(a'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/ai-source-links-20261021/tests/source-links.test.cjs:26:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'https://example.org/', 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/folder(a' ],
+    expected: [ 'https://example.org/' ],
+    operator: 'deepStrictEqual'
+  }

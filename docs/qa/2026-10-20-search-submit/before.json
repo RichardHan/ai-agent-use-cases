@@ -1,0 +1,44 @@
+[
+  {
+    "name": "chromium",
+    "size": "desktop",
+    "state": {
+      "focus": "query",
+      "query": "旅遊",
+      "results": 12,
+      "top": 657.5,
+      "height": 1000,
+      "hash": "#explore",
+      "submitButtons": 0
+    },
+    "errors": []
+  },
+  {
+    "name": "chromium",
+    "size": "mobile",
+    "state": {
+      "focus": "query",
+      "query": "旅遊",
+      "results": 12,
+      "top": 1268.828125,
+      "height": 844,
+      "hash": "#explore",
+      "submitButtons": 0
+    },
+    "errors": []
+  },
+  {
+    "name": "chromium",
+    "size": "narrow",
+    "state": {
+      "focus": "query",
+      "query": "旅遊",
+      "results": 12,
+      "top": 1407.40625,
+      "height": 740,
+      "hash": "#explore",
+      "submitButtons": 0
+    },
+    "errors": []
+  }
+]

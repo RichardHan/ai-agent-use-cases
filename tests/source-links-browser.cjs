@@ -7,7 +7,7 @@ fs.mkdirSync(out,{recursive:true});const report=[];
 const prefix='https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/';
 const expected=[prefix+'llm-alignment-summary-long.csv',prefix+'llm-alignment-summary_README.md'];
 (async()=>{for(const width of [1440,390]){
- const browser=await chromium.launch(),page=await browser.newPage({viewport:{width,height:width===1440?1000:844},reducedMotion:'reduce'});const row={width,links:[],errors:[]};report.push(row);
+ const browser=await chromium.launch(),context=await browser.newContext({viewport:{width,height:width===1440?1000:844},reducedMotion:'reduce'}),page=await context.newPage();const row={width,links:[],errors:[]};report.push(row);
  try{page.on('pageerror',e=>row.errors.push(e.message));await page.goto(base+'?case=UC-161');await page.locator('#detail[open]').waitFor({timeout:90000});
  await page.locator('.research-details').evaluate(e=>e.open=true);
  const links=page.locator('.research-details .markdown a');

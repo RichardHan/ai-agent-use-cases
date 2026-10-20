@@ -1,0 +1,126 @@
+{
+  "origin": "http://127.0.0.1:8141/ai-agent-use-cases/",
+  "observe": false,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "errors": [],
+      "audits": [
+        {
+          "state": "normal",
+          "violations": []
+        },
+        {
+          "state": "retry success",
+          "violations": []
+        }
+      ],
+      "observedCount": "336",
+      "expectedCount": "336",
+      "batch": "核對批次：2026-10-20 20:00（台灣時間）。不是全庫重新驗證日期。",
+      "failures": [
+        "HTTP 404 with usable combined search"
+      ],
+      "reportURL": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/qualification-audit-2026-10-16.md",
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "errors": [],
+      "audits": [
+        {
+          "state": "normal",
+          "violations": []
+        },
+        {
+          "state": "retry success",
+          "violations": []
+        },
+        {
+          "state": "summary unavailable",
+          "violations": []
+        }
+      ],
+      "observedCount": "336",
+      "expectedCount": "336",
+      "batch": "核對批次：2026-10-20 20:00（台灣時間）。不是全庫重新驗證日期。",
+      "failures": [
+        "HTTP 404 with usable combined search",
+        "json",
+        "arithmetic",
+        "history",
+        "timeout"
+      ],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "small",
+      "errors": [],
+      "audits": [
+        {
+          "state": "normal",
+          "violations": []
+        },
+        {
+          "state": "retry success",
+          "violations": []
+        }
+      ],
+      "observedCount": "336",
+      "expectedCount": "336",
+      "batch": "核對批次：2026-10-20 20:00（台灣時間）。不是全庫重新驗證日期。",
+      "failures": [
+        "HTTP 404 with usable combined search"
+      ],
+      "complete": true
+    },
+    {
+      "engine": "firefox",
+      "size": "mobile",
+      "errors": [],
+      "audits": [
+        {
+          "state": "normal",
+          "violations": []
+        },
+        {
+          "state": "retry success",
+          "violations": []
+        }
+      ],
+      "observedCount": "336",
+      "expectedCount": "336",
+      "batch": "核對批次：2026-10-20 20:00（台灣時間）。不是全庫重新驗證日期。",
+      "failures": [
+        "HTTP 404 with usable combined search"
+      ],
+      "complete": true
+    },
+    {
+      "engine": "webkit",
+      "size": "mobile",
+      "errors": [],
+      "audits": [
+        {
+          "state": "normal",
+          "violations": []
+        },
+        {
+          "state": "retry success",
+          "violations": []
+        }
+      ],
+      "observedCount": "336",
+      "expectedCount": "336",
+      "batch": "核對批次：2026-10-20 20:00（台灣時間）。不是全庫重新驗證日期。",
+      "failures": [
+        "HTTP 404 with usable combined search"
+      ],
+      "complete": true
+    }
+  ],
+  "noScript": true
+}

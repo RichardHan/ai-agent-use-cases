@@ -1,0 +1,23 @@
+[
+  {
+    "path": "index.html",
+    "beforeBytes": 14035,
+    "afterBytes": 14412,
+    "byteDelta": 377,
+    "gzipDelta": 74
+  },
+  {
+    "path": "assets/style.css",
+    "beforeBytes": 29159,
+    "afterBytes": 29555,
+    "byteDelta": 396,
+    "gzipDelta": 94
+  },
+  {
+    "path": "assets/audit.js",
+    "beforeBytes": 0,
+    "afterBytes": 2915,
+    "byteDelta": 2915,
+    "gzipDelta": 1418
+  }
+]

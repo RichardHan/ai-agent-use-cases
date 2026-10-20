@@ -1,0 +1,689 @@
+TAP version 13
+# Subtest: search links preserve exact terms and all facets under the Pages base path
+ok 1 - search links preserve exact terms and all facets under the Pages base path
+  ---
+  duration_ms: 12.903278
+  type: 'test'
+  ...
+# Subtest: unfiltered links still target the collection and never leak unrelated URL state
+ok 2 - unfiltered links still target the collection and never leak unrelated URL state
+  ---
+  duration_ms: 4.662035
+  type: 'test'
+  ...
+# Subtest: arrival distinguishes search intent from the homepage and explicit other anchors
+ok 3 - arrival distinguishes search intent from the homepage and explicit other anchors
+  ---
+  duration_ms: 5.089265
+  type: 'test'
+  ...
+# Subtest: all cases and evidence files have valid scenario, non-empty tags, and verification date
+ok 4 - all cases and evidence files have valid scenario, non-empty tags, and verification date
+  ---
+  duration_ms: 32.026251
+  type: 'test'
+  ...
+# Subtest: all cases, evidence files, and pending leads contain verified external source URLs without placeholders
+ok 5 - all cases, evidence files, and pending leads contain verified external source URLs without placeholders
+  ---
+  duration_ms: 58.729333
+  type: 'test'
+  ...
+# Subtest: candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus
+ok 6 - candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus
+  ---
+  duration_ms: 54.893563
+  type: 'test'
+  ...
+# Subtest: qualification audit maintains strict separation between catalog entries and verified cases
+ok 7 - qualification audit maintains strict separation between catalog entries and verified cases
+  ---
+  duration_ms: 8.364191
+  type: 'test'
+  ...
+# Subtest: INDEX.md maintains scenario consistency, complete case rows and canonical current-audit link
+ok 8 - INDEX.md maintains scenario consistency, complete case rows and canonical current-audit link
+  ---
+  duration_ms: 21.126791
+  type: 'test'
+  ...
+# Subtest: all cases and evidence files have plain-language title and purpose either in markdown or copy.json
+ok 9 - all cases and evidence files have plain-language title and purpose either in markdown or copy.json
+  ---
+  duration_ms: 23.580718
+  type: 'test'
+  ...
+# Subtest: app.js metadata extraction gracefully falls back to extract tags from category lines
+ok 10 - app.js metadata extraction gracefully falls back to extract tags from category lines
+  ---
+  duration_ms: 12.463731
+  type: 'test'
+  ...
+# Subtest: app.js metadata accurately extracts verification date rather than historical publication date
+ok 11 - app.js metadata accurately extracts verification date rather than historical publication date
+  ---
+  duration_ms: 85.831977
+  type: 'test'
+  ...
+# Subtest: tag exploration replaces only the query, preserving every active facet
+ok 12 - tag exploration replaces only the query, preserving every active facet
+  ---
+  duration_ms: 15.665529
+  type: 'test'
+  ...
+# Subtest: scenario toggles off and on without throwing away the task or other facets
+ok 13 - scenario toggles off and on without throwing away the task or other facets
+  ---
+  duration_ms: 10.580502
+  type: 'test'
+  ...
+# Subtest: unrecognized card action cannot mutate controls or move the reader
+ok 14 - unrecognized card action cannot mutate controls or move the reader
+  ---
+  duration_ms: 8.940519
+  type: 'test'
+  ...
+# Subtest: two conflicting facets recover real query matches while retaining the other facets
+ok 15 - two conflicting facets recover real query matches while retaining the other facets
+  ---
+  duration_ms: 18.521059
+  type: 'test'
+  ...
+# Subtest: never replace an existing result or a single-facet recovery, and never weaken the query
+ok 16 - never replace an existing result or a single-facet recovery, and never weaken the query
+  ---
+  duration_ms: 11.804465
+  type: 'test'
+  ...
+# Subtest: offer only the smallest removals and report all matching loaded entries
+ok 17 - offer only the smallest removals and report all matching loaded entries
+  ---
+  duration_ms: 21.295507
+  type: 'test'
+  ...
+# Subtest: multiple alternatives stay independent, ignore empty values and use the normal multi-tool matching
+ok 18 - multiple alternatives stay independent, ignore empty values and use the normal multi-tool matching
+  ---
+  duration_ms: 2.947321
+  type: 'test'
+  ...
+# Subtest: five conflicting facets recover without mutating any supplied data
+ok 19 - five conflicting facets recover without mutating any supplied data
+  ---
+  duration_ms: 4.50499
+  type: 'test'
+  ...
+# Subtest: scenario comes from the declared lead metadata, never from later source prose
+ok 20 - scenario comes from the declared lead metadata, never from later source prose
+  ---
+  duration_ms: 1.747965
+  type: 'test'
+  ...
+# Subtest: discovery excludes pending leads, evidence supplements and untested templates
+ok 21 - discovery excludes pending leads, evidence supplements and untested templates
+  ---
+  duration_ms: 1.096946
+  type: 'test'
+  ...
+# Subtest: a deck visits every case once, avoids immediate repeats across rounds, and preserves input
+ok 22 - a deck visits every case once, avoids immediate repeats across rounds, and preserves input
+  ---
+  duration_ms: 0.554229
+  type: 'test'
+  ...
+# Subtest: empty and single-item decks have explicit states
+ok 23 - empty and single-item decks have explicit states
+  ---
+  duration_ms: 0.215724
+  type: 'test'
+  ...
+# Subtest: facet alternatives ignore only their own current selection and retain query and all other filters
+ok 24 - facet alternatives ignore only their own current selection and retain query and all other filters
+  ---
+  duration_ms: 38.229283
+  type: 'test'
+  ...
+# Subtest: tool membership, all-option and missing values count real entries exactly once
+ok 25 - tool membership, all-option and missing values count real entries exactly once
+  ---
+  duration_ms: 0.522399
+  type: 'test'
+  ...
+# Subtest: empty query results, empty corpus and partial corpus do not invent available entries
+ok 26 - empty query results, empty corpus and partial corpus do not invent available entries
+  ---
+  duration_ms: 10.609678
+  type: 'test'
+  ...
+# Subtest: synonym-expanded counts use the same search semantics as result filtering
+ok 27 - synonym-expanded counts use the same search semantics as result filtering
+  ---
+  duration_ms: 1.023347
+  type: 'test'
+  ...
+# Subtest: late return at 80ms becomes visible and releases the bounded guard
+ok 28 - late return at 80ms becomes visible and releases the bounded guard
+  ---
+  duration_ms: 2.861961
+  type: 'test'
+  ...
+# Subtest: late return at 180ms becomes visible and releases the bounded guard
+ok 29 - late return at 180ms becomes visible and releases the bounded guard
+  ---
+  duration_ms: 2.493852
+  type: 'test'
+  ...
+# Subtest: new pointerdown permanently cancels late scroll correction
+ok 30 - new pointerdown permanently cancels late scroll correction
+  ---
+  duration_ms: 1.338007
+  type: 'test'
+  ...
+# Subtest: new keydown permanently cancels late scroll correction
+ok 31 - new keydown permanently cancels late scroll correction
+  ---
+  duration_ms: 1.095853
+  type: 'test'
+  ...
+# Subtest: new wheel permanently cancels late scroll correction
+ok 32 - new wheel permanently cancels late scroll correction
+  ---
+  duration_ms: 1.14749
+  type: 'test'
+  ...
+# Subtest: new touchstart permanently cancels late scroll correction
+ok 33 - new touchstart permanently cancels late scroll correction
+  ---
+  duration_ms: 1.090563
+  type: 'test'
+  ...
+# Subtest: new focus wins and return monitoring is cleaned up
+ok 34 - new focus wins and return monitoring is cleaned up
+  ---
+  duration_ms: 1.191583
+  type: 'test'
+  ...
+# Subtest: new url wins and return monitoring is cleaned up
+ok 35 - new url wins and return monitoring is cleaned up
+  ---
+  duration_ms: 2.578882
+  type: 'test'
+  ...
+# Subtest: new modal wins and return monitoring is cleaned up
+ok 36 - new modal wins and return monitoring is cleaned up
+  ---
+  duration_ms: 1.549734
+  type: 'test'
+  ...
+# Subtest: new removed wins and return monitoring is cleaned up
+ok 37 - new removed wins and return monitoring is cleaned up
+  ---
+  duration_ms: 1.489381
+  type: 'test'
+  ...
+# Subtest: scroll after the 300ms deadline is never pulled back
+ok 38 - scroll after the 300ms deadline is never pulled back
+  ---
+  duration_ms: 1.144795
+  type: 'test'
+  ...
+# Subtest: background resume after deadline: frame runs first without late scrolling
+ok 39 - background resume after deadline: frame runs first without late scrolling
+  ---
+  duration_ms: 0.985366
+  type: 'test'
+  ...
+# Subtest: background resume after deadline: timer runs first without late scrolling
+ok 40 - background resume after deadline: timer runs first without late scrolling
+  ---
+  duration_ms: 0.803114
+  type: 'test'
+  ...
+# Subtest: recovery merges by source path and retains all pending items in stable order
+ok 41 - recovery merges by source path and retains all pending items in stable order
+  ---
+  duration_ms: 14.365133
+  type: 'test'
+  ...
+# Subtest: timed-out source fails independently without losing completed content
+ok 42 - timed-out source fails independently without losing completed content
+  ---
+  duration_ms: 11.269236
+  type: 'test'
+  ...
+# Subtest: mapConcurrent respects concurrency limit and preserves ordering
+ok 43 - mapConcurrent respects concurrency limit and preserves ordering
+  ---
+  duration_ms: 41.437793
+  type: 'test'
+  ...
+# Subtest: mapConcurrent handles empty arrays and boundary limits
+ok 44 - mapConcurrent handles empty arrays and boundary limits
+  ---
+  duration_ms: 0.397846
+  type: 'test'
+  ...
+# Subtest: loadCorpus isolates single-file failure and preserves remaining cases
+ok 45 - loadCorpus isolates single-file failure and preserves remaining cases
+  ---
+  duration_ms: 3.489338
+  type: 'test'
+  ...
+# Subtest: loadCorpus reports zero entries when all files fail
+ok 46 - loadCorpus reports zero entries when all files fail
+  ---
+  duration_ms: 0.344795
+  type: 'test'
+  ...
+# Subtest: whole-corpus budget keeps completed content and marks active plus queued paths for retry
+ok 47 - whole-corpus budget keeps completed content and marks active plus queued paths for retry
+  ---
+  duration_ms: 21.812009
+  type: 'test'
+  ...
+# Subtest: choosing available content cancels in-flight work without dropping successful sources
+ok 48 - choosing available content cancels in-flight work without dropping successful sources
+  ---
+  duration_ms: 0.890458
+  type: 'test'
+  ...
+# Subtest: deadline includes reading the body after HTTP headers
+ok 49 - deadline includes reading the body after HTTP headers
+  ---
+  duration_ms: 15.304422
+  type: 'test'
+  ...
+# Subtest: per-source timeout frees a worker so later sources can finish before whole budget
+ok 50 - per-source timeout frees a worker so later sources can finish before whole budget
+  ---
+  duration_ms: 11.275104
+  type: 'test'
+  ...
+# Subtest: method shortcut preserves the full untested heading and original index
+ok 51 - method shortcut preserves the full untested heading and original index
+  ---
+  duration_ms: 1.836491
+  type: 'test'
+  ...
+# Subtest: pending, sparse and missing methods do not fabricate an actionable workflow
+ok 52 - pending, sparse and missing methods do not fabricate an actionable workflow
+  ---
+  duration_ms: 0.353843
+  type: 'test'
+  ...
+# Subtest: prompt fallback and evidence methods keep literal source labels
+ok 53 - prompt fallback and evidence methods keep literal source labels
+  ---
+  duration_ms: 0.230592
+  type: 'test'
+  ...
+# Subtest: search route preserves a negative source section and the matched synonym
+ok 54 - search route preserves a negative source section and the matched synonym
+  ---
+  duration_ms: 2.090818
+  type: 'test'
+  ...
+# Subtest: routes use section indices even when original headings repeat
+ok 55 - routes use section indices even when original headings repeat
+  ---
+  duration_ms: 0.270888
+  type: 'test'
+  ...
+# Subtest: literal Unicode and href matches use the same normalized variants without regex
+ok 56 - literal Unicode and href matches use the same normalized variants without regex
+  ---
+  duration_ms: 0.424064
+  type: 'test'
+  ...
+# Subtest: routes are bounded, deduplicate sections and keep term order
+ok 57 - routes are bounded, deduplicate sections and keep term order
+  ---
+  duration_ms: 0.307696
+  type: 'test'
+  ...
+# Subtest: empty, missing and metadata-only terms never invent original matches
+ok 58 - empty, missing and metadata-only terms never invent original matches
+  ---
+  duration_ms: 0.306374
+  type: 'test'
+  ...
+# Subtest: jump choices point to existing result, method, limits and source headings
+ok 59 - jump choices point to existing result, method, limits and source headings
+  ---
+  duration_ms: 1.757272
+  type: 'test'
+  ...
+# Subtest: sparse, pending and unknown structures do not invent sections or evidence
+ok 60 - sparse, pending and unknown structures do not invent sections or evidence
+  ---
+  duration_ms: 0.504786
+  type: 'test'
+  ...
+# Subtest: duplicate and unsafe-looking heading text stays literal and keeps its index
+ok 61 - duplicate and unsafe-looking heading text stays literal and keeps its index
+  ---
+  duration_ms: 0.204222
+  type: 'test'
+  ...
+# Subtest: UC-313 promotes the entire report including uncertainty and unexecuted proposal
+ok 62 - UC-313 promotes the entire report including uncertainty and unexecuted proposal
+  ---
+  duration_ms: 2.338993
+  type: 'test'
+  ...
+# Subtest: source versions retain every list item and are not called verified results
+ok 63 - source versions retain every list item and are not called verified results
+  ---
+  duration_ms: 1.125159
+  type: 'test'
+  ...
+# Subtest: report takes precedence over source directory and excludes designed, expected and supplementary outcomes
+ok 64 - report takes precedence over source directory and excludes designed, expected and supplementary outcomes
+  ---
+  duration_ms: 0.268563
+  type: 'test'
+  ...
+# Subtest: long and unknown original sections remain available through research, never silently truncated
+ok 65 - long and unknown original sections remain available through research, never silently truncated
+  ---
+  duration_ms: 0.361458
+  type: 'test'
+  ...
+# Subtest: source jumps include author/date and deduplication headings and prefer a linked source
+ok 66 - source jumps include author/date and deduplication headings and prefer a linked source
+  ---
+  duration_ms: 0.477735
+  type: 'test'
+  ...
+# Subtest: served corpus validation accepts the complete source set in any reading order
+ok 67 - served corpus validation accepts the complete source set in any reading order
+  ---
+  duration_ms: 2.988229
+  type: 'test'
+  ...
+# Subtest: served corpus validation rejects a duplicated pending ID replacing another, even with equal counts and paths
+ok 68 - served corpus validation rejects a duplicated pending ID replacing another, even with equal counts and paths
+  ---
+  duration_ms: 2.094915
+  type: 'test'
+  ...
+# Subtest: served corpus validation rejects stale original text and missing sources
+ok 69 - served corpus validation rejects stale original text and missing sources
+  ---
+  duration_ms: 0.988972
+  type: 'test'
+  ...
+# Subtest: review date uses explicit lead verification fields, takes latest valid date and never borrows source dates
+ok 70 - review date uses explicit lead verification fields, takes latest valid date and never borrows source dates
+  ---
+  duration_ms: 17.699066
+  type: 'test'
+  ...
+# Subtest: recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries
+ok 71 - recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries
+  ---
+  duration_ms: 25.071825
+  type: 'test'
+  ...
+# Subtest: review sorting survives shared search URLs and is search arrival, without sharing unrelated or invalid state
+ok 72 - review sorting survives shared search URLs and is search arrival, without sharing unrelated or invalid state
+  ---
+  duration_ms: 10.507796
+  type: 'test'
+  ...
+# Subtest: real records preserve paired dates and leave undocumented review dates unknown
+ok 73 - real records preserve paired dates and leave undocumented review dates unknown
+  ---
+  duration_ms: 17.449923
+  type: 'test'
+  ...
+# Subtest: reading suggestions exist and use only other main cases in the same topic and current results
+ok 74 - reading suggestions exist and use only other main cases in the same topic and current results
+  ---
+  duration_ms: 2.303466
+  type: 'test'
+  ...
+# Subtest: at most three suggestions, deterministic order, no invented fallback for sparse or unknown topics
+ok 75 - at most three suggestions, deterministic order, no invented fallback for sparse or unknown topics
+  ---
+  duration_ms: 0.444192
+  type: 'test'
+  ...
+# Subtest: keyboard neighbours never escape an empty or unrelated search result
+ok 76 - keyboard neighbours never escape an empty or unrelated search result
+  ---
+  duration_ms: 0.556913
+  type: 'test'
+  ...
+# Subtest: purpose coverage precedes incidental matches; ties and empty queries preserve source order
+ok 77 - purpose coverage precedes incidental matches; ties and empty queries preserve source order
+  ---
+  duration_ms: 51.753474
+  type: 'test'
+  ...
+# Subtest: exact ID precedes references; metadata matches precede body-only matches; optional fields are safe
+ok 78 - exact ID precedes references; metadata matches precede body-only matches; optional fields are safe
+  ---
+  duration_ms: 22.365602
+  type: 'test'
+  ...
+# Subtest: real corpus: salary purpose precedes prohibition while recall and all filters stay unchanged
+ok 79 - real corpus: salary purpose precedes prohibition while recall and all filters stay unchanged
+  ---
+  duration_ms: 223.194644
+  type: 'test'
+  ...
+# Subtest: distinct purpose terms beat metadata coverage; repeats and frequency do not boost rank
+ok 80 - distinct purpose terms beat metadata coverage; repeats and frequency do not boost rank
+  ---
+  duration_ms: 4.783141
+  type: 'test'
+  ...
+# Subtest: short and numeric IDs remain exact even when a reference title would otherwise win
+ok 81 - short and numeric IDs remain exact even when a reference title would otherwise win
+  ---
+  duration_ms: 6.016622
+  type: 'test'
+  ...
+# Subtest: result return preserves filters and history state, focuses search, and cancels late arrival
+ok 82 - result return preserves filters and history state, focuses search, and cancels late arrival
+  ---
+  duration_ms: 11.531614
+  type: 'test'
+  ...
+# Subtest: modified, middle and cancelled result links retain their native behavior
+ok 83 - modified, middle and cancelled result links retain their native behavior
+  ---
+  duration_ms: 36.262527
+  type: 'test'
+  ...
+# Subtest: source recovery keeps an active return route near its original result position, including a changed tail
+ok 84 - source recovery keeps an active return route near its original result position, including a changed tail
+  ---
+  duration_ms: 44.757379
+  type: 'test'
+  ...
+# Subtest: later versions with links and unlinked limitations remain discoverable in original order
+ok 85 - later versions with links and unlinked limitations remain discoverable in original order
+  ---
+  duration_ms: 2.392933
+  type: 'test'
+  ...
+# Subtest: duplicates preserve separate destinations, raw qualification and unsafe-looking literal titles
+ok 86 - duplicates preserve separate destinations, raw qualification and unsafe-looking literal titles
+  ---
+  duration_ms: 0.344155
+  type: 'test'
+  ...
+# Subtest: sparse and unknown structures do not invent verification or source destinations
+ok 87 - sparse and unknown structures do not invent verification or source destinations
+  ---
+  duration_ms: 0.380953
+  type: 'test'
+  ...
+# Subtest: a successful shared source is published before an unrelated request finishes
+ok 88 - a successful shared source is published before an unrelated request finishes
+  ---
+  duration_ms: 7.424681
+  type: 'test'
+  ...
+# Subtest: failed and aborted sources never publish invented or duplicate entries
+ok 89 - failed and aborted sources never publish invented or duplicate entries
+  ---
+  duration_ms: 0.956031
+  type: 'test'
+  ...
+# Subtest: share scheduling supports existing ID aliases without treating filenames as evidence
+ok 90 - share scheduling supports existing ID aliases without treating filenames as evidence
+  ---
+  duration_ms: 0.984614
+  type: 'test'
+  ...
+# Subtest: source failures do not publish a row and later successful sources still arrive once
+ok 91 - source failures do not publish a row and later successful sources still arrive once
+  ---
+  duration_ms: 0.77973
+  type: 'test'
+  ...
+# Subtest: context explains deep synonym matches without turning a prohibition into a claim
+ok 92 - context explains deep synonym matches without turning a prohibition into a claim
+  ---
+  duration_ms: 16.492689
+  type: 'test'
+  ...
+# Subtest: context distinguishes visible fields, source URLs, original titles and ID aliases
+ok 93 - context distinguishes visible fields, source URLs, original titles and ID aliases
+  ---
+  duration_ms: 9.246824
+  type: 'test'
+  ...
+# Subtest: context explains separate query terms, bounds density, and omits empty searches
+ok 94 - context explains separate query terms, bounds density, and omits empty searches
+  ---
+  duration_ms: 8.725727
+  type: 'test'
+  ...
+# Subtest: excerpt preserves original Unicode, markup as text, and a bounded window around a late match
+ok 95 - excerpt preserves original Unicode, markup as text, and a bounded window around a late match
+  ---
+  duration_ms: 9.331403
+  type: 'test'
+  ...
+# Subtest: passage points to the actual late block, preserving its negative source text
+ok 96 - passage points to the actual late block, preserving its negative source text
+  ---
+  duration_ms: 1.636305
+  type: 'test'
+  ...
+# Subtest: passage never joins list rows, invents href quotes, or matches empty input
+ok 97 - passage never joins list rows, invents href quotes, or matches empty input
+  ---
+  duration_ms: 0.199664
+  type: 'test'
+  ...
+# Subtest: literal excerpts retain original Unicode, punctuation and unsafe-looking text
+ok 98 - literal excerpts retain original Unicode, punctuation and unsafe-looking text
+  ---
+  duration_ms: 0.25627
+  type: 'test'
+  ...
+# Subtest: long excerpts are continuous original text around the match with explicit omission
+ok 99 - long excerpts are continuous original text around the match with explicit omission
+  ---
+  duration_ms: 13.307412
+  type: 'test'
+  ...
+# Subtest: normalization length changes near a distant hit keep the matching original letters
+ok 100 - normalization length changes near a distant hit keep the matching original letters
+  ---
+  duration_ms: 1.379835
+  type: 'test'
+  ...
+# Subtest: first actual text match wins, and an oversized keyword is never falsely excerpted
+ok 101 - first actual text match wins, and an oversized keyword is never falsely excerpted
+  ---
+  duration_ms: 0.476202
+  type: 'test'
+  ...
+# Subtest: context-sensitive casing and expanding keywords cannot quote a different occurrence
+ok 102 - context-sensitive casing and expanding keywords cannot quote a different occurrence
+  ---
+  duration_ms: 0.817372
+  type: 'test'
+  ...
+# Subtest: whole graphemes can be retained without falsely calling a complete quote partial
+ok 103 - whole graphemes can be retained without falsely calling a complete quote partial
+  ---
+  duration_ms: 0.276568
+  type: 'test'
+  ...
+# Subtest: active conditions preserve the original query, all facets and unfamiliar scenario URLs
+ok 104 - active conditions preserve the original query, all facets and unfamiliar scenario URLs
+  ---
+  duration_ms: 1.504979
+  type: 'test'
+  ...
+# Subtest: a relaxation changes exactly one facet, preserves input and reports the real count
+ok 105 - a relaxation changes exactly one facet, preserves input and reports the real count
+  ---
+  duration_ms: 26.927989
+  type: 'test'
+  ...
+# Subtest: never propose a single change that still returns zero, or discard the query
+ok 106 - never propose a single change that still returns zero, or discard the query
+  ---
+  duration_ms: 29.52753
+  type: 'test'
+  ...
+# Subtest: suggestion counts use the supplied loaded corpus, including pending entries without inventing evidence
+ok 107 - suggestion counts use the supplied loaded corpus, including pending entries without inventing evidence
+  ---
+  duration_ms: 1.891133
+  type: 'test'
+  ...
+# PASS: 387 source entries; full-text, Unicode, combined filters, evidence, empty/reset matching, future entries, safe rendering and links.
+# Subtest: tests/search.test.cjs
+ok 25 - tests/search.test.cjs
+  ---
+  duration_ms: 3742.891975
+  type: 'test'
+  ...
+# Subtest: source guide distinguishes all current origin labels without claiming independent verification
+ok 109 - source guide distinguishes all current origin labels without claiming independent verification
+  ---
+  duration_ms: 2.450141
+  type: 'test'
+  ...
+# Subtest: default and unfamiliar source types remain honest instead of silently assigning evidence
+ok 110 - default and unfamiliar source types remain honest instead of silently assigning evidence
+  ---
+  duration_ms: 0.290014
+  type: 'test'
+  ...
+# Subtest: current batch supplies counts and its own timestamp without equating catalog size or success
+ok 111 - current batch supplies counts and its own timestamp without equating catalog size or success
+  ---
+  duration_ms: 2.088022
+  type: 'test'
+  ...
+# Subtest: malformed current batch never borrows a historical count or coerces invalid values
+ok 112 - malformed current batch never borrows a historical count or coerces invalid values
+  ---
+  duration_ms: 0.520986
+  type: 'test'
+  ...
+# Subtest: current repository batch parses without consulting INDEX or hardcoding a historical minimum
+ok 113 - current repository batch parses without consulting INDEX or hardcoding a historical minimum
+  ---
+  duration_ms: 1.738517
+  type: 'test'
+  ...
+1..113
+# tests 113
+# suites 0
+# pass 113
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4678.970271

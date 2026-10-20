@@ -1,0 +1,32 @@
+{
+  "assets": [
+    {
+      "path": "index.html",
+      "before": 14883,
+      "after": 15681,
+      "delta": 798,
+      "gzipBefore": 5178,
+      "gzipAfter": 5397
+    },
+    {
+      "path": "assets/app.js",
+      "before": 158013,
+      "after": 161602,
+      "delta": 3589,
+      "gzipBefore": 48150,
+      "gzipAfter": 49099
+    },
+    {
+      "path": "assets/style.css",
+      "before": 30857,
+      "after": 32287,
+      "delta": 1430,
+      "gzipBefore": 7211,
+      "gzipAfter": 7449
+    }
+  ],
+  "contrastOnWhite": {
+    "285344": 8.71,
+    "4c6258": 6.57
+  }
+}

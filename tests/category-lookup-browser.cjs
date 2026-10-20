@@ -3,7 +3,8 @@ const {chromium,firefox,webkit}=require('playwright'),{AxeBuilder}=require('@axe
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.LOOKUP_URL||'http://127.0.0.1:8160/ai-agent-use-cases/';
 const out=process.env.LOOKUP_OUTPUT||'qa-artifacts/lookup';fs.mkdirSync(out,{recursive:true});const report=[];
-(async()=>{for(const [engine,width] of [[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]]){
+const live=process.env.LOOKUP_LIVE==='1';
+(async()=>{for(const [engine,width] of (live?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
  const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:width===1440?1000:844},reducedMotion:'reduce'}),page=await context.newPage();
  const row={engine:engine.name(),width,errors:[],audits:[]};report.push(row);
  try{
@@ -54,6 +55,7 @@ const out=process.env.LOOKUP_OUTPUT||'qa-artifacts/lookup';fs.mkdirSync(out,{rec
  await page.goto(base+'?q=旅遊&scenario=生活&category='+encodeURIComponent('旅遊／消費研究')+'&case=UC-001');await page.locator('#detail[open]').waitFor({timeout:90000});await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
  await page.reload();await page.locator('#detail[open]').waitFor({timeout:90000});await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});await page.locator('#close-detail').click();assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
  assert.equal(await page.locator('#category-finder').evaluate(e=>e.open),false);
+ if(!live){
  // Long labels wrap; partial-source retry preserves the focused category button.
  let attempts=0,release;const gate=new Promise(resolve=>release=resolve);
  await context.route('**/cases/001-travel-checkout.md',async route=>{attempts++;if(attempts===1)return route.fulfill({status:503,body:'missing'});await gate;await route.continue();});
@@ -70,6 +72,7 @@ const out=process.env.LOOKUP_OUTPUT||'qa-artifacts/lookup';fs.mkdirSync(out,{rec
  await context.route('**/catalog.json',route=>route.fulfill({status:503,body:'unavailable'}));await page.goto(base);await page.locator('#error:not([hidden])').waitFor();
  await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#category-finder').evaluate(e=>e.open=true);await input.fill('旅遊');assert.match(await page.locator('#category-find-status').innerText(),/分類尚未載入/);
  await context.unroute('**/catalog.json');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert.equal(await input.inputValue(),'旅遊');assert(await page.locator('.category-match').count()>0);
+ }
  assert.deepEqual(row.errors,[]);row.complete=true;
  }catch(e){row.failure=e.stack;throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));await browser.close();}
 }})().catch(e=>{console.error(e);process.exitCode=1});

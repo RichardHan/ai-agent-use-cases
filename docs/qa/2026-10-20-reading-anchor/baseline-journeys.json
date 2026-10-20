@@ -1,0 +1,137 @@
+[
+  {
+    "name": "chromium",
+    "size": "desktop",
+    "state": {
+      "focus": "results-count",
+      "query": "旅遊",
+      "results": 12,
+      "top": 24.078125,
+      "height": 1000,
+      "hash": "#explore",
+      "submitButtons": 1
+    },
+    "errors": [],
+    "trace": [
+      {
+        "type": "focusin",
+        "time": 3609.899999999994,
+        "focus": "results-count",
+        "top": 721.078125
+      },
+      {
+        "type": "scroll",
+        "time": 3622.399999999994,
+        "focus": "results-count",
+        "top": 24.078125
+      }
+    ],
+    "sourceURL": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceHTTP": 429,
+    "baselineWalk": [
+      "home",
+      "search + scenario + tool",
+      "detail",
+      "source HTTP",
+      "direct link reload",
+      "return",
+      "empty recovery"
+    ]
+  },
+  {
+    "name": "chromium",
+    "size": "mobile",
+    "state": {
+      "focus": "results-count",
+      "query": "旅遊",
+      "results": 12,
+      "top": 23.953125,
+      "height": 844,
+      "hash": "#explore",
+      "submitButtons": 1
+    },
+    "errors": [],
+    "trace": [
+      {
+        "type": "scroll",
+        "time": 1226.800000000003,
+        "focus": "filter-summary",
+        "top": 1217.953125
+      },
+      {
+        "type": "focusin",
+        "time": 1231.2000000000116,
+        "focus": "query",
+        "top": 1217.953125
+      },
+      {
+        "type": "focusin",
+        "time": 1232.6000000000058,
+        "focus": "results-count",
+        "top": 1217.953125
+      },
+      {
+        "type": "scroll",
+        "time": 1238.9000000000087,
+        "focus": "results-count",
+        "top": 23.953125
+      }
+    ],
+    "sourceURL": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceHTTP": 200,
+    "baselineWalk": [
+      "home",
+      "search + scenario + tool",
+      "detail",
+      "source HTTP",
+      "direct link reload",
+      "return",
+      "empty recovery"
+    ]
+  },
+  {
+    "name": "chromium",
+    "size": "narrow",
+    "state": {
+      "focus": "results-count",
+      "query": "旅遊",
+      "results": 12,
+      "top": 23.609375,
+      "height": 740,
+      "hash": "#explore",
+      "submitButtons": 1
+    },
+    "errors": [],
+    "trace": [
+      {
+        "type": "focusin",
+        "time": 1210.7999999999884,
+        "focus": "query",
+        "top": 1370.609375
+      },
+      {
+        "type": "focusin",
+        "time": 1212,
+        "focus": "results-count",
+        "top": 1370.609375
+      },
+      {
+        "type": "scroll",
+        "time": 1214.699999999997,
+        "focus": "results-count",
+        "top": 23.609375
+      }
+    ],
+    "sourceURL": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceHTTP": 200,
+    "baselineWalk": [
+      "home",
+      "search + scenario + tool",
+      "detail",
+      "source HTTP",
+      "direct link reload",
+      "return",
+      "empty recovery"
+    ]
+  }
+]

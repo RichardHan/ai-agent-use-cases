@@ -1,0 +1,748 @@
+[
+  {
+    "engine": "chromium",
+    "size": "desktop",
+    "before": {
+      "scroll": 704,
+      "focus": "detail-title",
+      "statusHeight": 45.1875,
+      "targetTop": 156.28125,
+      "anchors": [
+        {
+          "tag": "P",
+          "class": "reader-report-label",
+          "text": "原文紀錄先讀 · 非本庫實測",
+          "top": 128.484375,
+          "bottom": 148.28125
+        },
+        {
+          "tag": "H2",
+          "class": "",
+          "text": "來源版本",
+          "top": 156.28125,
+          "bottom": 188.28125
+        },
+        {
+          "tag": "P",
+          "class": "reader-report-note",
+          "text": "以下完整保留案例研究的這個段落，並非外部來源的逐字引文；其他版本與限制請一併核對。",
+          "top": 196.28125,
+          "bottom": 219.671875
+        },
+        {
+          "tag": "LI",
+          "class": "",
+          "text": "原始網址：原帖（2026-10-19 11:14 UTC，台灣時間 19:14）。",
+          "top": 278.859375,
+          "bottom": 308.109375
+        },
+        {
+          "tag": "LI",
+          "class": "",
+          "text": "原文語言：簡體中文。",
+          "top": 316.109375,
+          "bottom": 345.359375
+        }
+      ]
+    },
+    "after": {
+      "scroll": 645,
+      "focus": "detail-title",
+      "statusHeight": 0,
+      "targetTop": 156.09375
+    },
+    "delta": -0.1875,
+    "trace": [
+      {
+        "time": 1195.6000000000058,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1196.9000000000087,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1206.300000000003,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1244,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1255.800000000003,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1272.6000000000058,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1289.199999999997,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1305.800000000003,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1322.6000000000058,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1339.199999999997,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1355.9000000000087,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1372.5,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1389.199999999997,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      },
+      {
+        "time": 1405.9000000000087,
+        "scroll": 645,
+        "top": 156.09375,
+        "ready": true
+      }
+    ],
+    "violations": [],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "size": "mobile",
+    "before": {
+      "scroll": 1063,
+      "focus": "detail-title",
+      "statusHeight": 70.375,
+      "targetTop": 170.1875,
+      "anchors": [
+        {
+          "tag": "P",
+          "class": "reader-report-label",
+          "text": "原文紀錄先讀 · 非本庫實測",
+          "top": 142.390625,
+          "bottom": 162.1875
+        },
+        {
+          "tag": "H2",
+          "class": "",
+          "text": "來源版本",
+          "top": 170.1875,
+          "bottom": 198.984375
+        },
+        {
+          "tag": "P",
+          "class": "reader-report-note",
+          "text": "以下完整保留案例研究的這個段落，並非外部來源的逐字引文；其他版本與限制請一併核對。",
+          "top": 206.984375,
+          "bottom": 253.765625
+        },
+        {
+          "tag": "LI",
+          "class": "",
+          "text": "原始網址：原帖（2026-10-19 11:14 UTC，台灣時間 19:14）。",
+          "top": 340.140625,
+          "bottom": 398.640625
+        },
+        {
+          "tag": "LI",
+          "class": "",
+          "text": "原文語言：簡體中文。",
+          "top": 406.640625,
+          "bottom": 435.890625
+        }
+      ]
+    },
+    "after": {
+      "scroll": 979,
+      "focus": "detail-title",
+      "statusHeight": 0,
+      "targetTop": 169.8125
+    },
+    "delta": -0.375,
+    "trace": [
+      {
+        "time": 476.6999999999971,
+        "scroll": 1063,
+        "top": 170.1875,
+        "ready": false
+      },
+      {
+        "time": 614.2999999999884,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 615.7999999999884,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 628.0999999999913,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 642.1999999999971,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 658.8999999999942,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 675.5999999999913,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 692.2999999999884,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 709,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 725.5999999999913,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 742.2999999999884,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 758.8999999999942,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 775.5,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      },
+      {
+        "time": 792.1999999999971,
+        "scroll": 979,
+        "top": 169.8125,
+        "ready": true
+      }
+    ],
+    "violations": [],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "size": "narrow",
+    "before": {
+      "scroll": 1319,
+      "focus": "detail-title",
+      "statusHeight": 95.5625,
+      "targetTop": 164.875,
+      "anchors": [
+        {
+          "tag": "P",
+          "class": "reader-report-label",
+          "text": "原文紀錄先讀 · 非本庫實測",
+          "top": 137.078125,
+          "bottom": 156.875
+        },
+        {
+          "tag": "H2",
+          "class": "",
+          "text": "來源版本",
+          "top": 164.875,
+          "bottom": 193.671875
+        },
+        {
+          "tag": "P",
+          "class": "reader-report-note",
+          "text": "以下完整保留案例研究的這個段落，並非外部來源的逐字引文；其他版本與限制請一併核對。",
+          "top": 201.671875,
+          "bottom": 271.84375
+        },
+        {
+          "tag": "LI",
+          "class": "",
+          "text": "原始網址：原帖（2026-10-19 11:14 UTC，台灣時間 19:14）。",
+          "top": 358.21875,
+          "bottom": 445.96875
+        },
+        {
+          "tag": "LI",
+          "class": "",
+          "text": "原文語言：簡體中文。",
+          "top": 453.96875,
+          "bottom": 483.21875
+        }
+      ]
+    },
+    "after": {
+      "scroll": 1209,
+      "focus": "detail-title",
+      "statusHeight": 0,
+      "targetTop": 165.3125
+    },
+    "delta": 0.4375,
+    "trace": [
+      {
+        "time": 445.1999999999971,
+        "scroll": 1319,
+        "top": 164.875,
+        "ready": false
+      },
+      {
+        "time": 579.1999999999971,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 580.8000000000029,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 594.4000000000087,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 611.1000000000058,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 627.6999999999971,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 644.4000000000087,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 661.1000000000058,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 677.6999999999971,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 694.4000000000087,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 711.1000000000058,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 727.8000000000029,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 744.4000000000087,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      },
+      {
+        "time": 761.1000000000058,
+        "scroll": 1209,
+        "top": 165.3125,
+        "ready": true
+      }
+    ],
+    "violations": [],
+    "errors": []
+  },
+  {
+    "engine": "firefox",
+    "size": "mobile",
+    "before": {
+      "scroll": 710,
+      "focus": "detail-title",
+      "statusHeight": 70.39999389648438,
+      "targetTop": 523.4000244140625,
+      "anchors": [
+        {
+          "tag": "P",
+          "class": "",
+          "text": "中文作者 @aWildWander 示範：請 Grok Bot 依自己列的幾條標準（近兩個月有發文、不是每天發幾十則、不像 AI 自動發文、追蹤數不超過粉絲數）",
+          "top": -189,
+          "bottom": 267
+        },
+        {
+          "tag": "P",
+          "class": "reader-report-label",
+          "text": "原文紀錄先讀 · 非本庫實測",
+          "top": 495.6000061035156,
+          "bottom": 515.3999938964844
+        },
+        {
+          "tag": "H2",
+          "class": "",
+          "text": "來源版本",
+          "top": 523.4000244140625,
+          "bottom": 552.2000274658203
+        },
+        {
+          "tag": "P",
+          "class": "reader-report-note",
+          "text": "以下完整保留案例研究的這個段落，並非外部來源的逐字引文；其他版本與限制請一併核對。",
+          "top": 560.2000122070312,
+          "bottom": 607.0000152587891
+        },
+        {
+          "tag": "LI",
+          "class": "",
+          "text": "原始網址：原帖（2026-10-19 11:14 UTC，台灣時間 19:14）。",
+          "top": 693.4000244140625,
+          "bottom": 752.9000244140625
+        }
+      ]
+    },
+    "after": {
+      "scroll": 710,
+      "focus": "detail-title",
+      "statusHeight": 0,
+      "targetTop": 439
+    },
+    "delta": -84.4000244140625,
+    "trace": [
+      {
+        "time": 776,
+        "scroll": 710,
+        "top": 523.4000244140625,
+        "ready": false
+      },
+      {
+        "time": 794,
+        "scroll": 710,
+        "top": 523.4000244140625,
+        "ready": false
+      },
+      {
+        "time": 809,
+        "scroll": 710,
+        "top": 523.4000244140625,
+        "ready": false
+      },
+      {
+        "time": 826,
+        "scroll": 710,
+        "top": 523.4000244140625,
+        "ready": false
+      },
+      {
+        "time": 843,
+        "scroll": 710,
+        "top": 523.4000244140625,
+        "ready": false
+      },
+      {
+        "time": 860,
+        "scroll": 710,
+        "top": 523.4000244140625,
+        "ready": false
+      },
+      {
+        "time": 877,
+        "scroll": 710,
+        "top": 523.4000244140625,
+        "ready": false
+      },
+      {
+        "time": 893,
+        "scroll": 710,
+        "top": 523.4000244140625,
+        "ready": false
+      },
+      {
+        "time": 972,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 977,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 993,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 1011,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 1026,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 1067,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 1076,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 1093,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 1110,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 1126,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 1144,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 1160,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      },
+      {
+        "time": 1176,
+        "scroll": 710,
+        "top": 439,
+        "ready": true
+      }
+    ],
+    "violations": [],
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "size": "mobile",
+    "before": {
+      "scroll": 1063,
+      "focus": "detail-title",
+      "statusHeight": 70.375,
+      "targetTop": 170.1875,
+      "anchors": [
+        {
+          "tag": "P",
+          "class": "reader-report-label",
+          "text": "原文紀錄先讀 · 非本庫實測",
+          "top": 142.390625,
+          "bottom": 162.1875
+        },
+        {
+          "tag": "H2",
+          "class": "",
+          "text": "來源版本",
+          "top": 170.1875,
+          "bottom": 198.984375
+        },
+        {
+          "tag": "P",
+          "class": "reader-report-note",
+          "text": "以下完整保留案例研究的這個段落，並非外部來源的逐字引文；其他版本與限制請一併核對。",
+          "top": 206.984375,
+          "bottom": 253.765625
+        },
+        {
+          "tag": "LI",
+          "class": "",
+          "text": "原始網址：原帖（2026-10-19 11:14 UTC，台灣時間 19:14）。",
+          "top": 340.140625,
+          "bottom": 398.640625
+        },
+        {
+          "tag": "LI",
+          "class": "",
+          "text": "原文語言：簡體中文。",
+          "top": 406.640625,
+          "bottom": 435.890625
+        }
+      ]
+    },
+    "after": {
+      "scroll": 978,
+      "focus": "detail-title",
+      "statusHeight": 0,
+      "targetTop": 170.8125
+    },
+    "delta": 0.625,
+    "trace": [
+      {
+        "time": 2738,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2808,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2822,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2838,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2854,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2870,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2886,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2902,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2918,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2935,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2951,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2967,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      },
+      {
+        "time": 2983,
+        "scroll": 978,
+        "top": 170.8125,
+        "ready": true
+      }
+    ],
+    "violations": [],
+    "errors": []
+  }
+]

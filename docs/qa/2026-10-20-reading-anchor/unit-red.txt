@@ -1,0 +1,60 @@
+✖ a clipped overview above the disappearing status must not displace the visible source report (0.302083ms)
+✖ one long paragraph filling the reading viewport retains its position (0.043666ms)
+✖ hidden blocks, the temporary status, and offscreen starts are excluded (0.039291ms)
+✖ normal visible section order is retained (0.033958ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46.33225
+
+✖ failing tests:
+
+test at tests/reading-anchor.test.cjs:7:1
+✖ a clipped overview above the disappearing status must not displace the visible source report (0.302083ms)
+  ReferenceError [Error]: selectReadingAnchor is not defined
+      at Object.choose (evalmachine.<anonymous>:1463:24)
+      at TestContext.<anonymous> (/private/tmp/ai-case-round-20261020-accessibility/tests/reading-anchor.test.cjs:9:23)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17)
+
+test at tests/reading-anchor.test.cjs:11:1
+✖ one long paragraph filling the reading viewport retains its position (0.043666ms)
+  ReferenceError [Error]: selectReadingAnchor is not defined
+      at Object.choose (evalmachine.<anonymous>:1463:24)
+      at TestContext.<anonymous> (/private/tmp/ai-case-round-20261020-accessibility/tests/reading-anchor.test.cjs:13:23)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3)
+
+test at tests/reading-anchor.test.cjs:15:1
+✖ hidden blocks, the temporary status, and offscreen starts are excluded (0.039291ms)
+  ReferenceError [Error]: selectReadingAnchor is not defined
+      at Object.choose (evalmachine.<anonymous>:1463:24)
+      at TestContext.<anonymous> (/private/tmp/ai-case-round-20261020-accessibility/tests/reading-anchor.test.cjs:17:23)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+
+test at tests/reading-anchor.test.cjs:20:1
+✖ normal visible section order is retained (0.033958ms)
+  ReferenceError [Error]: selectReadingAnchor is not defined
+      at Object.choose (evalmachine.<anonymous>:1463:24)
+      at TestContext.<anonymous> (/private/tmp/ai-case-round-20261020-accessibility/tests/reading-anchor.test.cjs:22:23)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7)

@@ -65,7 +65,7 @@ GitHub CLI 的企業帳號無權在個人 repo 建立 PR（Enterprise Managed Us
 
 預覽：正式 [GitHub Pages](https://richardhan.github.io/ai-agent-use-cases/)。自選雲端預覽可先執行 Python preview，再以 http.server 服務父目錄，使用 /ai-agent-use-cases/ 子路徑，避免繞過 base path。
 
-下一輪建議：先量測全庫準備時間及數百個 Markdown 請求對慢速網路的影響，再評估是否值得建立保留原文、局部復原能力的靜態搜尋索引。
+下一輪最值得做：重現並修復長文在全文補載後的滾輪閱讀位置跳動；既有 round-browser.cjs:110 已在本輪前與合併後同樣失敗，應先把這個持續的閱讀品質缺口修好。
 
 
 ## 最終預覽驗收
@@ -75,3 +75,17 @@ GitHub CLI 的企業帳號無權在個人 repo 建立 PR（Enterprise Managed Us
 既有 reader 整庫驗證392條目、2771章節、411頁首證據行對應；長文、原始報告新分頁、直鏈重整、錯誤重試、安全文字及缺資料流程通過。見 [reader-corpus.json](reader-corpus.json)、[reader-accessibility.json](reader-accessibility.json)。手機首張結果距離仍保持原本<240px門檻，見 [chromium-mobile-search.json](chromium-mobile-search.json)。前後條目389→392是協作者研究更新，並非本輪新增案例或成果指標。
 
 main 原有 CI 失敗另存 [baseline-ci.json](baseline-ci.json)，包含基準9fec688的Audit summary，以及前版legacy QA；本輪沒有聲稱所有歷史workflow皆綠。正式發布驗收另於完成後附入。
+
+
+合併提交 [a06338b](https://github.com/RichardHan/ai-agent-use-cases/commit/a06338bac6782ce966e416988f567325912aa999) 已直接推至 main。合併後 Facet counts 的舊鍵盤測試尚假設 query→filter-summary，6a5f8ff 新增 search-submit 中間站斷言，原 filter-summary 斷言保留；無執行資產變更，獨立審查確認沒有放寬驗收。
+
+已知未解：Improvement round 的 wheel reading stays anchored / round-browser.cjs:110，在[本輪前39424669751](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39424669751)及[合併後39430395668](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39430395668)同樣失敗，維持未解、不冒稱整站全部CI通過。本輪獨立 reader 與搜尋核心通過不代表這項補載長文問題已修復。
+
+
+## 正式發布驗收
+
+[Pages 39430754984](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39430754984) 建置及部署成功；[main Search submit QA 39430395522](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39430395522) 全部成功。13:33:57 UTC 公開 index.html/app.js/style.css 已逐位元組符合已驗收資產，接著完成正式站五視圖走查：搜尋與全部篩選/排序、Enter/按鈕、空結果、IME合成guard、載入與失敗、詳情直鏈重整、關閉返回、Tab順序。摘要top 23.83–24.41px、焦點正確，五次axe零違規、零pageerror；本次五組Markdown原始檔HTTP均200，之前429仍保留觀測紀錄。見 [正式數據](published-verification.json)、[正式桌面](published-desktop.jpg)、[正式手機](published-mobile.jpg)。主整合者已目視正式截圖並與預覽/基準比較。
+
+[CI快照](final-ci.json) 保留其他工作流程狀態；本輪QA成功不代表所有legacy CI均成功。Return visibility曾因Pages排程超過其資產等待上限失敗，正式資產一致與本輪直鏈返回已另驗；既有長文wheel失敗仍未解。最終補交僅文件及證據，不修改執行資產。本輪達到驗收標準，停止新增改善。
+
+[Facet counts 修正後 QA 39430756490](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39430756490) 成功，新鍵盤順序及原篩選驗收均保留。

@@ -1289,6 +1289,18 @@ function focusLoadedResults(block='center') {
   requestAnimationFrame(()=>{keepVisible();requestAnimationFrame(()=>{keepVisible();cleanup();});});
 }
 
+// Prefer a block starting inside the reading area. A clipped overview can
+// straddle the toolbar while a later source report is already being read;
+// anchoring that overview would miss layout changes between the two blocks.
+function selectReadingAnchor(nodes, top, bottom) {
+  const visible=nodes.filter(node=>{
+    if(node.classList.contains('detail-load-status') || node.closest('.related-cases'))return false;
+    const rect=node.getBoundingClientRect();
+    return rect.height>0 && rect.bottom>top && rect.top<bottom;
+  });
+  return visible.find(node=>node.getBoundingClientRect().top>=top) || visible[0] || null;
+}
+
 async function load() {
   if(initialLoading)return;
   initialLoading=true;
@@ -1371,11 +1383,10 @@ async function load() {
     // Wheel/touch readers may still have an offscreen title focused. Preserve
     // visible reading content rather than pulling the viewport toward that title.
     const relatedHasFocus=dialog.querySelector('.related-cases')?.contains(document.activeElement);
-    const readingAnchor=dialog.open && !relatedHasFocus ? [...dialog.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')].find(node=>{
-      if(node.classList.contains('detail-load-status'))return false;
-      const rect=node.getBoundingClientRect();
-      return rect.height>0 && rect.bottom>readingEdge && rect.top<dialog.getBoundingClientRect().bottom;
-    }) : null;
+    const readingAnchor=dialog.open && !relatedHasFocus ? selectReadingAnchor(
+      [...dialog.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')],
+      readingEdge,dialog.getBoundingClientRect().bottom
+    ) : null;
     const readingTop=readingAnchor?.getBoundingClientRect().top;
     entries = mergeCorpus([],loaded);
     refreshCorpusMetadata();

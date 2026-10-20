@@ -21,7 +21,7 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  await page.screenshot({path:`${out}/${name}-${size}-submit.jpg`});
  const report={name,size,state,errors};reports.push(report);fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));
  if(!observe){
- assert.equal(state.focus,'results-count');assert(state.top>=0&&state.top<height-30);assert.equal(state.hash,'#explore');assert.equal(state.submitButtons,1);assert(state.results>0);
+ assert.equal(state.focus,'results-count');assert(state.top>=0&&state.top<height-30);assert.equal(state.hash,'#explore');assert.equal(state.submitButtons,1);assert(state.results>0);await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'copy-search-link');report.keyboard='Tab continues from result summary to share action';
  const first=page.locator('#results .card .card-bottom button').first();await first.click();await page.locator('#detail[open]').waitFor();
  const link=page.locator('#detail a[target="_blank"]').first();assert(await link.count());const href=await link.getAttribute('href');assert(/^https?:/.test(href));report.sourceURL=href;report.sourceHTTP=(await page.request.get(href)).status();
  await page.keyboard.press('Escape');assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');

@@ -15,3 +15,8 @@ if (root/'sources/pending.md').exists():
     files.append('sources/pending.md')
 (dest/'catalog.json').write_text(json.dumps({'builtAt': str(datetime.date.today()), 'files': files}, ensure_ascii=False), encoding='utf-8')
 print(dest)
+
+# Mirror only the Liquid section extraction; the browser validates its contents.
+audit = (root/"sources/qualification-audit-2026-10-16.md").read_text(encoding="utf-8")
+batches = audit.split("\n## ")
+(dest/"audit-summary.json").write_text(json.dumps({"latestBatch": batches[1] if len(batches) > 1 else None}, ensure_ascii=False), encoding="utf-8")

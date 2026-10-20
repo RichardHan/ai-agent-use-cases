@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-Hant">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="選個情境，抽一張 AI 用法靈感，再深入閱讀做法、限制與來源。"><meta name="color-scheme" content="light"><title>AI 用法實驗室 · 案例庫</title><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/reader.css"><script src="assets/discovery.js" defer></script><script src="assets/reader.js" defer></script><script src="assets/app.js" defer></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="選個情境，抽一張 AI 用法靈感，再深入閱讀做法、限制與來源。"><meta name="color-scheme" content="light"><title>AI 用法實驗室 · 案例庫</title><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/reader.css"><script src="assets/audit.js" defer></script><script src="assets/discovery.js" defer></script><script src="assets/reader.js" defer></script><script src="assets/app.js" defer></script></head>
 <body>
 <a class="skip" href="#discover">跳到案例探索</a>
 <header class="topbar"><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">✳</span> AI 用法實驗室 <span class="edition">FIELD NOTES</span></a><a class="repo-link" href="https://github.com/RichardHan/ai-agent-use-cases">GitHub 原始資料 ↗</a></header>
@@ -66,11 +66,13 @@
   <div class="stat-card stat-card-audit">
     <div class="stat-badge">嚴格核對合格</div>
     <div class="stat-figure">
-      <strong>334</strong>
+      <strong id="audit-count">—</strong>
       <span class="stat-target">/ 1,000 案</span>
     </div>
-    <span class="stat-sub">逐案核對有作者實作或自述證據（含失敗復盤，未獨立重現）</span>
-    <a class="stat-link" href="sources/qualification-audit-2026-10-16.md" target="_blank" rel="noopener noreferrer">逐案核對標準與排除理由 ↗</a>
+    <span class="stat-sub">依收錄規則核對作者實作或自述證據，含失敗案例；未獨立重現，不代表成功率。</span>
+    <p id="audit-status" class="stat-sub" role="status" aria-live="polite">正在讀取核對批次…</p>
+    <button id="audit-retry" class="audit-retry" type="button" hidden>重試核對摘要</button>
+    <a class="stat-link" href="https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/qualification-audit-2026-10-16.md" target="_blank" rel="noopener noreferrer">逐案核對標準與排除理由 ↗</a>
   </div>
   <div class="stat-card stat-card-catalog">
     <div class="stat-badge stat-badge-outline">網站收錄條目</div>

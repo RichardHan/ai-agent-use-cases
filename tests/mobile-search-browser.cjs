@@ -28,6 +28,8 @@ module.exports=async function mobileSearch({browser,origin,prefix='mobile-search
    assert(row.searchFromHeading<160,'Search comes directly after the section heading');
    assert(row.firstResultFromSearch<240,'First result follows search without scrolling past unused controls');
    await page.locator('#query').focus();await page.keyboard.press('Tab');
+   assert.equal(await page.evaluate(()=>document.activeElement.id),'search-submit');
+   await page.keyboard.press('Tab');
    assert.equal(await page.evaluate(()=>document.activeElement.id),'filter-summary');
    await page.keyboard.press('Tab');
    assert.equal(await page.evaluate(()=>document.activeElement.closest('#filter-options')===null),true,'Closed controls are skipped by Tab');

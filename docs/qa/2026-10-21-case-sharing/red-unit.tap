@@ -1,0 +1,47 @@
+✖ case sharing includes only reading conditions and current case, preserving Pages base path (5.957625ms)
+✖ case sharing drops empty and unsupported sorting state, preserves unknown user-selected facets as text (2.455083ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 51.603458
+
+✖ failing tests:
+
+test at tests/case-share.test.cjs:9:1
+✖ case sharing includes only reading conditions and current case, preserving Pages base path (5.957625ms)
+  evalmachine.<anonymous>:1506
+  this.api={caseLink};
+            ^
+  
+  ReferenceError: caseLink is not defined
+      at evalmachine.<anonymous>:1506:11
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at api (/private/tmp/ai-reader-next-step-20261021/tests/case-share.test.cjs:6:5)
+      at TestContext.<anonymous> (/private/tmp/ai-reader-next-step-20261021/tests/case-share.test.cjs:10:19)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17)
+
+test at tests/case-share.test.cjs:18:1
+✖ case sharing drops empty and unsupported sorting state, preserves unknown user-selected facets as text (2.455083ms)
+  evalmachine.<anonymous>:1506
+  this.api={caseLink};
+            ^
+  
+  ReferenceError: caseLink is not defined
+      at evalmachine.<anonymous>:1506:11
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at api (/private/tmp/ai-reader-next-step-20261021/tests/case-share.test.cjs:6:5)
+      at TestContext.<anonymous> (/private/tmp/ai-reader-next-step-20261021/tests/case-share.test.cjs:19:19)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)

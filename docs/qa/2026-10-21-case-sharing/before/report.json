@@ -1,0 +1,76 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "audits": [
+      {
+        "label": "manual copy",
+        "violations": []
+      }
+    ],
+    "caseId": "UC-001",
+    "entries": 395,
+    "failed": [],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "sourceStatus": 200,
+    "copied": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001&unrelated=synthetic-marker#unrelated-fragment",
+    "control": {
+      "text": "✓ 已複製！",
+      "height": 32.140625,
+      "font": "11px",
+      "live": null
+    },
+    "manual": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001&unrelated=synthetic-marker#unrelated-fragment",
+    "active": "manual-share-link"
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      {
+        "label": "manual copy",
+        "violations": []
+      }
+    ],
+    "caseId": "UC-001",
+    "entries": 395,
+    "failed": [],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "copied": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001&unrelated=synthetic-marker#unrelated-fragment",
+    "control": {
+      "text": "✓ 已複製！",
+      "height": 32.140625,
+      "font": "11px",
+      "live": null
+    },
+    "manual": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001&unrelated=synthetic-marker#unrelated-fragment",
+    "active": "manual-share-link"
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "audits": [
+      {
+        "label": "manual copy",
+        "violations": []
+      }
+    ],
+    "caseId": "UC-001",
+    "entries": 395,
+    "failed": [],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
+    "copied": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001&unrelated=synthetic-marker#unrelated-fragment",
+    "control": {
+      "text": "✓ 已複製！",
+      "height": 32.140625,
+      "font": "11px",
+      "live": null
+    },
+    "manual": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&case=UC-001&unrelated=synthetic-marker#unrelated-fragment",
+    "active": "manual-share-link"
+  }
+]

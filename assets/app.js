@@ -532,20 +532,32 @@ function showDetail(item, trigger, updateURL=true) {
   const copyBtn = el('button', 'btn-copy-link', '📋 複製案例連結');
   copyBtn.type = 'button';
   copyBtn.id = 'copy-case-link';
+  copyBtn.setAttribute('aria-label','複製案例連結');
+  copyBtn.setAttribute('aria-describedby','case-share-status');
+  const shareFeedback=el('div','case-share-feedback');
+  const shareStatus=el('p','case-share-status');shareStatus.id='case-share-status';
+  shareStatus.setAttribute('role','status');shareStatus.setAttribute('aria-atomic','true');
+  const manual=el('input','manual-share-link');manual.type='text';manual.readOnly=true;manual.hidden=true;
+  manual.setAttribute('aria-label','案例分享網址，請手動複製');
+  manual.setAttribute('aria-describedby','case-share-status');
+  shareFeedback.append(shareStatus,manual);
+  let shareRequest=0;
   copyBtn.addEventListener('click', async () => {
-    const url=new URL(location.href);url.searchParams.set('case',item.id);
+    const request=++shareRequest;
+    const isCurrent=()=>request===shareRequest&&copyBtn.isConnected&&$('detail').open&&currentDetailItem===item;
+    const url=caseLink(location.href,item.id);
+    manual.hidden=true;manual.value='';copyBtn.textContent='📋 複製案例連結';
+    shareStatus.textContent='正在複製案例連結…';
     try{
       if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');
-      await navigator.clipboard.writeText(url.href);
+      await navigator.clipboard.writeText(url);
+      if(!isCurrent())return;
       copyBtn.textContent='✓ 已複製！';
-      setTimeout(()=>{copyBtn.textContent='📋 複製案例連結';},2000);
+      shareStatus.textContent='已複製案例連結，包含目前搜尋與篩選條件。';
     }catch{
-      let manual=actionRow.querySelector('.manual-share-link');
-      if(!manual){
-        manual=el('input','manual-share-link');manual.type='text';manual.readOnly=true;
-        manual.setAttribute('aria-label','案例分享網址，請手動複製');actionRow.append(manual);
-      }
-      manual.value=url.href;copyBtn.textContent='請手動複製下方連結';manual.focus();manual.select();
+      if(!isCurrent())return;
+      shareStatus.textContent='無法自動複製。已選取下方網址，請手動複製；連結包含目前搜尋與篩選條件。';
+      manual.value=url;manual.hidden=false;manual.focus();manual.select();
     }
   });
   const source = el('a', 'detail-source', '查看 Markdown 原文 ↗');
@@ -557,6 +569,7 @@ function showDetail(item, trigger, updateURL=true) {
     const tagsRow = el('span', 'detail-tags-text', '標籤：' + item.tags.join('、'));
     actionRow.append(tagsRow);
   }
+  actionRow.append(shareFeedback);
   body.append(actionRow);
 
   body.append(el('p', 'detail-warning', item.kind === 'pending' ? '待查線索：證據尚不足，不列成功或已完成案例。' : '來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。'));
@@ -912,6 +925,14 @@ function searchLink(href,query,filters,sort='') {
   SEARCH_KEYS.slice(1).forEach(key=>{if(filters[key])url.searchParams.set(key,filters[key]);});
   if(reviewSort(sort))url.searchParams.set('sort',sort);
   url.hash='explore';
+  return url.href;
+}
+// Share only supported reading state, never arbitrary parameters or fragments.
+function caseLink(href,id) {
+  const current=new URL(href),params=current.searchParams;
+  const filters=Object.fromEntries(SEARCH_KEYS.slice(1).map(key=>[key,params.get(key)||'']));
+  const url=new URL(searchLink(href,params.get('q')||'',filters,params.get('sort')||''));
+  url.searchParams.set('case',id);
   return url.href;
 }
 function hasSearchArrival(params,hash) {

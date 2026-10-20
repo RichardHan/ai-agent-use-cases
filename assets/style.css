@@ -51,7 +51,7 @@
 .detail-badge{font-size:11px;padding:3px 8px;border-radius:4px;background:#e9eee0;color:var(--muted)}
 .detail-badge.scenario-badge{background:#e1e9db;color:var(--green);font-weight:600}
 .detail-actions{display:flex;gap:14px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
-.btn-copy-link{font-size:11px;padding:6px 12px;background:white;border:1px solid var(--green);color:var(--green);border-radius:6px;font-weight:600;cursor:pointer}
+.btn-copy-link{min-height:44px;font-size:14px;padding:9px 12px;background:white;border:1px solid var(--green);color:var(--green);border-radius:6px;font-weight:600;cursor:pointer}
 .btn-copy-link:hover{background:var(--green);color:white}
 .detail-tags-text{font-size:12px;color:var(--muted)}
 
@@ -246,3 +246,11 @@
 /* Keep the explicit search action beside the query without pushing results down. */
 .search-wrap #search-submit{flex-shrink:0;min-height:44px;padding:8px 16px;font-size:14px;margin:6px 0}
 @media(max-width:640px){.search-wrap{padding-right:6px}.search-wrap>span{display:none}.search-wrap #search-submit{padding:8px 12px;font-size:13px}}
+
+/* Sharing feedback stays beside the action and available after the copy completes. */
+.detail-actions .detail-source{min-height:44px;display:inline-flex;align-items:center;margin-bottom:0}
+.case-share-feedback{flex-basis:100%;min-width:0;max-width:100%}
+.case-share-feedback:has(.case-share-status:empty){display:none}
+.case-share-status{margin:0;font-size:13px;color:#4c6258}
+.case-share-feedback .manual-share-link{display:block;width:100%;min-width:0;margin-top:10px}
+.manual-share-link:focus{outline:2px solid var(--green)!important;outline-offset:3px}

@@ -906,7 +906,8 @@ function renderCategoryFinder() {
   list.replaceChildren();
   if(!input.value.trim()){status.textContent='輸入字詞，縮小分類選項。';return;}
   if(!discoveryReady){status.textContent=initialLoading?'正在讀取分類；輸入內容會保留，載入後顯示選項。':'分類尚未載入；請先使用下方「重新載入」，輸入內容會保留。';return;}
-  const values=[...$('category').options].filter(option=>option.value).map(option=>({value:option.value,count:Number(option.dataset.count)||0}));
+  const loadedNames=new Set(entries.map(item=>item.category));
+  const values=[...$('category').options].filter(option=>option.value && loadedNames.has(option.value)).map(option=>({value:option.value,count:Number(option.dataset.count)||0}));
   const result=findCategories(values,input.value);
   const scope=failedPaths.length?'（只含已載入來源）':'';
   status.textContent=result.total

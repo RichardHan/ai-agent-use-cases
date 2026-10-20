@@ -46,6 +46,11 @@ const live=process.env.LOOKUP_LIVE==='1';
  await page.waitForFunction(()=>!document.querySelector('#detail').open);assert.equal(await input.inputValue(),'旅遊 消費');
  assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
  assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),await trigger.locator('..').locator('..').getAttribute('data-case-id'));
+ // Unknown shared category stays selected but is never invented as a loaded name.
+ await page.goto(base+'?q=旅遊&category='+encodeURIComponent('不存在的分類987'));await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
+ await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#category-finder').evaluate(e=>e.open=true);await input.fill('不存在的分類987');
+ assert.equal(await page.locator('#category').inputValue(),'不存在的分類987');assert.equal(await page.locator('.category-match').count(),0);
+ await page.locator('#category').selectOption('旅遊／消費研究');
  // Full zero-result intersection still offers real category names with zero counts.
  await page.locator('#query').fill('no-case-lookup-924');await input.fill('旅遊');
  assert(await page.locator('#empty').isVisible());assert(await page.locator('.category-match').count()>0);

@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-20T14:24:27.078834+00:00",
+  "files": [
+    {
+      "path": "assets/app.js",
+      "matches": true,
+      "sha256": "97f938cee6242c0dda959646610008c176fb83de4347a56ac8a43011d095f44e"
+    },
+    {
+      "path": "index.html",
+      "matches": true,
+      "sha256": "fb3ce9aff08aeac2a03c245047e83a6b8617d2800d6f4eb7c7cd4977250dba6e"
+    },
+    {
+      "path": "assets/reader.css",
+      "matches": true,
+      "sha256": "46ba4e55c84e59ed750d9441ffd56b124f0080804207e1d8bbe1c5c91cba4534"
+    }
+  ]
+}

@@ -57,3 +57,11 @@
 獨立角色已review最終產品碼及5項選錨unit（5/5），相關區塊P2已修；前版同核心1350a1c的五組視覺、六組流程也經獨立核對，最終b08ff82由整合者另檢圖及核對結果。不把前版審查冒稱已審過當時尚未完成的最終雲端run。
 
 變更檔案：assets/app.js、tests/reading-anchor.test.cjs、tests/reading-anchor-browser.cjs、.github/workflows/reading-anchor-qa.yml、本QA目錄及SITE.md。沒有新增前端依賴；[資產尺寸差額](asset-size.json)為gzip檔案計算，不是實測網路傳輸或效能評分。
+
+## 正式發布完成
+
+一般no-ff merge [`ce9ccb2`](https://github.com/RichardHan/ai-agent-use-cases/commit/ce9ccb28d0e3629e612b0f62feaf04fd9b210555)已push main；[Pages39437816928](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39437816928)建置與部署成功。[main Reading anchor QA39437818411](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39437818411)全套成功，再次跑完整預覽回歸後完成正式站三引擎／五配置驗收。正式來源位置最大0.625px、Firefox0.400px、5次axe零違規、pageErrors為空，見[正式數據](published-reading.json)。[正式手機](published-mobile.jpg)與[正式桌面](published-desktop.jpg)已實際目視比較。
+
+14:24:27 UTC正常公開URL的app.js、HTML、reader.css均與已驗收資產逐byte相符；app.js SHA256為97f938cee6242c0dda959646610008c176fb83de4347a56ac8a43011d095f44e，見[公開資產核對](published-assets.json)。獨立角色也完成b08ff82最終五配置／六流程與截圖審查，確認實際瀏覽器資產雜湊一致、無待修finding。原目錄兩個未提交修改的diff-stat仍是開始時的20插入／3刪除，原分支未切換。
+
+[發布CI快照](publication-ci.json)保留其他工作流程狀態；不是所有CI皆綠。Return visibility與Home search entry在Pages仍排隊、公開資產尚未更新時超過各自等待上限；其原FAIL不改寫。Related reading於14:23:38回報`Published asset matches commit: assets/app.js`斷言失敗，Missing shared case於14:23:12回報`Published assets mismatch`，Partial Load於14:24:02回報`Deployment did not match within five minutes`；三者也都在新版公開資產更新前結束。14:24:27已另外確認正常URL資產一致，本輪正式QA成功，但不把這五個原FAIL改成PASS。本輪主驗收通過不代表所有歷史／並行QA皆通過。最後補交僅維護紀錄、截圖與原始JSON，產品資產不再變動；本輪達到驗收標準後停止。

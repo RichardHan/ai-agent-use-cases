@@ -1,0 +1,9 @@
+{
+  "app.js": {
+    "beforeBytes": 157201,
+    "afterBytes": 158013,
+    "beforeGzipBytes": 47855,
+    "afterGzipBytes": 48150
+  },
+  "note": "Local transfer-size estimate only; no end-to-end speed or Lighthouse claim."
+}

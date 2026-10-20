@@ -405,14 +405,33 @@ function el(tag,cls,text) { const node=document.createElement(tag); if(cls)node.
 function safeLink(target,path) {
   try { const url = new URL(target, REPO+path); return ['https:','http:'].includes(url.protocol) ? url.href : null; } catch { return null; }
 }
+// Read one destination without confusing a URL's own parentheses with Markdown's
+// closing delimiter. Unsupported whitespace or an unmatched delimiter stays text.
+function markdownDestination(text,start) {
+  let depth=1,target='';
+  for(let i=start;i<text.length;i++) {
+    const char=text[i];
+    if(/\s/.test(char))return null;
+    if(char==='\\' && /[()\\]/.test(text[i+1]||'')){target+=text[++i];continue;}
+    if(char==='(')depth++;
+    if(char===')'){depth--;if(depth===0)return target?{target,end:i+1}:null;}
+    target+=char;
+  }
+  return null;
+}
 function inline(node,text,path) {
   // All source text is inserted as text nodes; source HTML can never execute.
-  const regex=/\[([^\]]+)\]\(([^)]+)\)|https?:\/\/[^\s<>]+|`([^`]+)`/g; let last=0,match;
+  const regex=/\[([^\]]+)\]\(|https?:\/\/[^\s<>]+|`([^`]+)`/g; let last=0,match;
   while((match=regex.exec(text))) {
     node.append(document.createTextNode(text.slice(last,match.index)));
-    if(match[3]) node.append(el('code','',match[3]));
-    else { const target=match[2]||match[0]; const href=safeLink(target,path); const label=match[1]||target;
-      if(href){const a=el('a','',label);a.href=href;a.target='_blank';a.rel='noopener noreferrer';node.append(a);}else node.append(document.createTextNode(label)); }
+    if(match[2]) node.append(el('code','',match[2]));
+    else {
+      const destination=match[1]?markdownDestination(text,regex.lastIndex):null;
+      if(match[1]&&!destination){node.append(document.createTextNode(match[0]));last=regex.lastIndex;continue;}
+      if(destination)regex.lastIndex=destination.end;
+      const target=destination?destination.target:match[0],href=safeLink(target,path),label=match[1]||target;
+      if(href){const a=el('a','',label);a.href=href;a.target='_blank';a.rel='noopener noreferrer';node.append(a);}else node.append(document.createTextNode(label));
+    }
     last=regex.lastIndex;
   }
   node.append(document.createTextNode(text.slice(last)));

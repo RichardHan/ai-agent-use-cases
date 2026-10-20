@@ -1,0 +1,24 @@
+{
+  "origin": "http://127.0.0.1:8141/ai-agent-use-cases/",
+  "observe": false,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "errors": [],
+      "audits": [
+        {
+          "state": "normal",
+          "violations": []
+        }
+      ],
+      "observedCount": "336",
+      "expectedCount": "336",
+      "batch": "核對批次：2026-10-20 20:00（台灣時間）。不是全庫重新驗證日期。",
+      "failures": [
+        "HTTP 404 with usable combined search"
+      ]
+    }
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'' !== 'audit-retry'\n\n    at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/trust-browser.cjs:50:12"
+}

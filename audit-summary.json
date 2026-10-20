@@ -1,0 +1,8 @@
+---
+layout: null
+---
+{%- capture audit -%}{%- include_relative sources/qualification-audit-2026-10-16.md -%}{%- endcapture -%}
+{%- capture boundary %}
+## {% endcapture -%}
+{%- assign latest = audit | split: boundary -%}
+{"latestBatch": {{ latest[1] | jsonify }}}

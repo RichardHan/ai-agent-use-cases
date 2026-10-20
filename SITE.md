@@ -15,6 +15,8 @@ Repository → Settings → Pages → Build and deployment：
 
 ## 最新網站驗收
 
+2026-10-20：首頁嚴格合格數改由逐案稽核報告當前批次產生，分開顯示計數核對時間與網站條目；摘要失敗可重試且不影響探索，手機狀態文字有實際可見性驗收。[方案、前後截圖、測試與獨立審查](docs/qa/2026-10-20-audit-summary/README.md)。
+
 2026-10-20：分享單篇讀取成功後立即開啟，其他來源背景續載；完成時保留可見原文、鍵盤返回卡片與相關閱讀焦點，待查與缺項補讀沿用原流程。[兩案取捨、前後截圖、測試與獨立審查](docs/qa/2026-10-20-shared-case-first/README.md)。
 
 2026-10-19：補強近期案例補充（UC-082、UC-178、UC-067）與最新案例（UC-357–359、UC-355）之搜尋召回與分詞正規化；支援健身教練、早晨喚醒、掃描轉EPUB、快照失效、備份Bot等自然語言查詢。[方案、測試與獨立審查](docs/qa/2026-10-19-search-recall-supplements-and-cases/README.md)。
@@ -56,6 +58,12 @@ python -m http.server 8080 --directory /tmp/ai-usecase-preview
 
 不要編輯預覽輸出代替 Markdown；不要把個資、私有工作資料或秘密放入公開 repo。
 
+
+## 合格計數的唯一現況來源
+
+首頁合格數由`audit-summary.json`在Pages內建Jekyll建置時擷取`sources/qualification-audit-2026-10-16.md`首個`##`批次原文，再由`assets/audit.js`驗證；不要在index.html另填數字，也不要把INDEX的歷史批次當目前總數。當前批次須有有效日期、明確「台灣時間」或「臺灣時間」（時間可省略；有時須HH:mm）與唯一`嚴格合格 **N／1,000，尚差M**`摘要，N+M=1,000。新批次放第一段，不以最大日期或數字猜測。格式不符會顯示「—」及報告連結，絕不回退舊批次。
+
+摘要有獨立8秒期限和鍵盤可用的重試；失敗不阻擋catalog／全文搜尋。HTML無JS也提供完整報告連結。計數核對批次不是全庫重新驗證日期，不代表獨立重現或成功率。新QA在稽核原文更新時也觸發，實際建置Jekyll並核對摘要，維持branch Pages部署方式。
 
 ## 網站標題與用途文案
 

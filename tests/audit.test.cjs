@@ -545,29 +545,23 @@ test('qualification audit maintains strict separation between catalog entries an
   assert(qualifiedCount <= caseFiles.length, `Qualified count (${qualifiedCount}) cannot exceed total cases (${caseFiles.length})`);
 
   const indexContent = fs.readFileSync(path.join(root, 'INDEX.md'), 'utf8');
-  const indexSummaryMatch = indexContent.match(/\*\*(\d+)[／/]1,000[^*\n]*?尚差\s*(\d+)\*\*/);
-  assert(indexSummaryMatch, 'INDEX.md must contain qualified and remaining counts');
-  assert.equal(parseInt(indexSummaryMatch[1], 10), qualifiedCount, 'INDEX.md qualified count must match the current audit');
-  assert.equal(parseInt(indexSummaryMatch[2], 10), remainingCount, 'INDEX.md remaining count must match the current audit');
-
-  // Verify that index.html displays the exact qualified count from the audit file
+  assert.match(indexContent, /目前嚴格合格數[^\n]*\[逐案計數報告的當前批次\]\(sources\/qualification-audit-2026-10-16\.md\)/, 'INDEX delegates the current count to the canonical batch');
   const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-  const indexCountMatch = indexHtml.match(/<div class="stat-card stat-card-audit">[\s\S]*?<div class="stat-figure">\s*<strong>(\d+)<\/strong>/);
-  assert(indexCountMatch, 'index.html must display strict qualified count');
-  assert.equal(parseInt(indexCountMatch[1], 10), qualifiedCount, `index.html audit count (${indexCountMatch[1]}) must match audit doc (${qualifiedCount})`);
+  assert.match(indexHtml, /<strong id="audit-count">—<\/strong>/, 'No stale qualified count is embedded in HTML');
+  assert.match(indexHtml, /assets\/audit\.js/, 'Homepage loads the validated summary');
+  const latestBatch = auditContent.split(/^## /m)[1];
+  const summary = require('../assets/audit.js').parseSummary({latestBatch});
+  assert(summary, 'The same parser used by the homepage accepts the current canonical batch');
+  assert.equal(summary.count, qualifiedCount);
+  assert.equal(summary.remaining, remainingCount);
 });
 
-test('INDEX.md maintains scenario consistency, working case links, and matches strict qualification audit count', () => {
+test('INDEX.md maintains scenario consistency, complete case rows and canonical current-audit link', () => {
   const indexContent = fs.readFileSync(path.join(root, 'INDEX.md'), 'utf8');
   const auditContent = fs.readFileSync(path.join(root, 'sources/qualification-audit-2026-10-16.md'), 'utf8');
 
-  // Strict qualified count in INDEX.md header must match audit document
-  const auditMatch = auditContent.match(/嚴格合格\s*\*\*(\d+)[／/]1,000/);
-  assert(auditMatch, 'Audit file must contain strict qualified count');
-  const expectedQualified = auditMatch[1];
-  const indexMatch = indexContent.match(/截至\s*2026-10-\d{2}[^\n]*\*\*(\d+)[／/]1,000/);
-  assert(indexMatch, 'INDEX.md must contain current qualified count');
-  assert.equal(indexMatch[1], expectedQualified, `INDEX.md count (${indexMatch[1]}) must match audit doc (${expectedQualified})`);
+  assert.match(indexContent, /目前嚴格合格數[^\n]*sources\/qualification-audit-2026-10-16\.md/);
+  assert(require('../assets/audit.js').parseSummary({latestBatch:auditContent.split(/^## /m)[1]}));
 
   // Verify cases UC-342 through UC-359 are explicitly audited in qualification audit
   for (let id = 342; id <= 359; id++) {
@@ -582,9 +576,8 @@ test('INDEX.md maintains scenario consistency, working case links, and matches s
 
   // Main cases count in INDEX.md header must match cases/ file count
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
-  const mainPagesMatch = indexContent.match(/主要頁\s*(?:\d+[＋+]\d+＝)?(\d+)/);
-  assert(mainPagesMatch, 'INDEX.md must state total main pages count');
-  assert.equal(parseInt(mainPagesMatch[1], 10), caseFiles.length, `INDEX.md main pages (${mainPagesMatch[1]}) must match cases/ count (${caseFiles.length})`);
+  // The actual table, checked below, supplies page coverage. Historical batch
+  // page totals are deliberately preserved and are not current inventory.
 
   // Verify all case and evidence links in INDEX.md exist on disk
   const links = Array.from(indexContent.matchAll(/\[(?:[^\]]*)\]\(((?:cases|evidence)\/[^)]+\.md)\)/g));

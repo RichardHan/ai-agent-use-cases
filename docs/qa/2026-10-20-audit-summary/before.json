@@ -1,0 +1,24 @@
+{
+  "origin": "http://127.0.0.1:8140/ai-agent-use-cases/",
+  "observe": true,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "errors": [],
+      "audits": [],
+      "observedCount": "334",
+      "expectedCount": "336",
+      "reproduced": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "errors": [],
+      "audits": [],
+      "observedCount": "334",
+      "expectedCount": "336",
+      "reproduced": true
+    }
+  ]
+}

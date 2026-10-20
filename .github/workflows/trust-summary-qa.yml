@@ -1,0 +1,92 @@
+name: Audit summary round QA
+on:
+  push:
+    branches: [improve/reading-find-20261020, main]
+    paths: ['.github/workflows/trust-summary-qa.yml', 'tests/trust-*', 'tests/audit.test.cjs', 'scripts/preview.py', 'assets/**', 'index.html', 'audit-summary.json', 'sources/qualification-audit-2026-10-16.md', 'INDEX.md']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/trust-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/trust-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Unit tests and syntax
+        run: |
+          mkdir -p qa-artifacts
+          node --test tests/*.test.cjs > qa-artifacts/unit.tap
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+      - name: Build with the GitHub Pages Jekyll builder
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Check generated summary and static preview agree
+        run: |
+          python3 scripts/preview.py "$RUNNER_TEMP/trust-preview/ai-agent-use-cases"
+          python3 - <<'PY'
+          import json, os, pathlib
+          built = json.loads(pathlib.Path('_site/audit-summary.json').read_text())
+          preview = json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'trust-preview/ai-agent-use-cases/audit-summary.json').read_text())
+          assert built['latestBatch'].rstrip() == preview['latestBatch'].rstrip()
+          pathlib.Path('qa-artifacts/jekyll-summary.json').write_text(json.dumps(built, ensure_ascii=False))
+          PY
+      - name: Capture and reproduce original count drift
+        if: github.ref != 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/trust-tools/node_modules
+          TRUST_URL: http://127.0.0.1:8140/ai-agent-use-cases/
+          TRUST_OUTPUT: qa-artifacts/before
+          TRUST_OBSERVE: '1'
+        run: |
+          mkdir -p "$RUNNER_TEMP/trust-before"
+          git archive 958a1bc | tar -x -C "$RUNNER_TEMP/trust-before"
+          python3 "$RUNNER_TEMP/trust-before/scripts/preview.py" "$RUNNER_TEMP/trust-before-preview/ai-agent-use-cases"
+          python3 -m http.server 8140 --directory "$RUNNER_TEMP/trust-before-preview" > /tmp/trust-before.log 2>&1 &
+          node tests/trust-browser.cjs
+      - name: Reproduce hidden mobile status in the first implementation
+        if: github.ref != 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/trust-tools/node_modules
+        run: |
+          mkdir -p "$RUNNER_TEMP/trust-hidden"
+          git archive 4d43635 | tar -x -C "$RUNNER_TEMP/trust-hidden"
+          python3 "$RUNNER_TEMP/trust-hidden/scripts/preview.py" "$RUNNER_TEMP/trust-hidden-preview/ai-agent-use-cases"
+          python3 -m http.server 8142 --directory "$RUNNER_TEMP/trust-hidden-preview" > /tmp/trust-hidden.log 2>&1 &
+          node tests/trust-status-baseline.cjs
+      - name: Verify built Pages across browsers
+        env:
+          NODE_PATH: ${{ runner.temp }}/trust-tools/node_modules
+          TRUST_URL: http://127.0.0.1:8141/ai-agent-use-cases/
+        run: |
+          mkdir -p "$RUNNER_TEMP/trust-built"
+          ln -s "$GITHUB_WORKSPACE/_site" "$RUNNER_TEMP/trust-built/ai-agent-use-cases"
+          python3 -m http.server 8141 --directory "$RUNNER_TEMP/trust-built" > /tmp/trust-built.log 2>&1 &
+          node tests/trust-browser.cjs
+          READER_SEARCH_URL=http://127.0.0.1:8141/ai-agent-use-cases/ READER_SEARCH_ENGINES=all node tests/reader-search-browser.cjs > qa-artifacts/reader-regression.log
+      - name: Verify published desktop and mobile
+        if: github.ref == 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/trust-tools/node_modules
+          TRUST_URL: https://richardhan.github.io/ai-agent-use-cases/
+          TRUST_OUTPUT: qa-artifacts/published
+          TRUST_LIVE: '1'
+        run: |
+          node tests/trust-published.cjs
+          node tests/trust-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trust-summary-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

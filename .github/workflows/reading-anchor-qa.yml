@@ -1,0 +1,46 @@
+name: Reading anchor QA
+on:
+  push:
+    branches: [improve/reader-findability-20261020, main]
+    paths: ['assets/**', 'tests/reading-anchor*', '.github/workflows/reading-anchor-qa.yml']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Baseline tests and preview
+        run: |
+          mkdir -p qa-artifacts
+          node --test tests/*.test.cjs > qa-artifacts/unit.tap
+          for file in assets/*.js; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Published desktop and mobile baseline journey
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          SUBMIT_OBSERVE: '1'
+          SUBMIT_OUTPUT: qa-artifacts/before
+        run: node tests/search-submit-browser.cjs
+      - name: Reproduce reading continuity failure
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          ROUND_ENGINES: all
+        run: |
+          python3 -m http.server 8100 --directory "$RUNNER_TEMP/preview" > /tmp/anchor-preview.log 2>&1 &
+          node tests/round-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reading-anchor-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

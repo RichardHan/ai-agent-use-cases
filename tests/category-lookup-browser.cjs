@@ -15,10 +15,13 @@ const out=process.env.LOOKUP_OUTPUT||'qa-artifacts/lookup';fs.mkdirSync(out,{rec
  const input=page.locator('#category-query');await input.fill('旅遊');
  const before=await page.evaluate(()=>({url:location.href,length:history.length,ids:currentFiltered.map(e=>e.id)}));
  await page.keyboard.press('Enter');
+ await input.dispatchEvent('keydown',{key:'Enter',isComposing:true,keyCode:229});
+ await page.locator('#filters').evaluate(form=>form.requestSubmit());
  assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,ids:currentFiltered.map(e=>e.id)})),before);
+ row.focusStyle=await input.evaluate(e=>({style:getComputedStyle(e).outlineStyle,width:getComputedStyle(e).outlineWidth}));assert.equal(row.focusStyle.style,'solid');assert.equal(row.focusStyle.width,'2px');
  row.finder=await page.locator('#category-find-status').innerText();
  assert(await page.locator('.category-match').count()>0);
- const choice=page.locator('.category-match').filter({has:page.locator('span').getByText('旅遊／消費研究',{exact:true})});
+ const choice=page.locator('.category-match').filter({hasText:'旅遊／消費研究'});
  await choice.focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
  assert.equal(await page.evaluate(()=>document.activeElement.id),'category');assert.equal(await page.locator('#query').inputValue(),'旅遊');
  assert.equal(await page.locator('#scenario').inputValue(),'生活');
@@ -49,6 +52,18 @@ const out=process.env.LOOKUP_OUTPUT||'qa-artifacts/lookup';fs.mkdirSync(out,{rec
  await page.goto(base+'?q=旅遊&scenario=生活&category='+encodeURIComponent('旅遊／消費研究')+'&case=UC-001');await page.locator('#detail[open]').waitFor({timeout:90000});
  await page.reload();await page.locator('#detail[open]').waitFor({timeout:90000});await page.locator('#close-detail').click();assert.equal(await page.locator('#category').inputValue(),'旅遊／消費研究');
  assert.equal(await page.locator('#category-finder').evaluate(e=>e.open),false);
+ // Long labels wrap; partial-source retry preserves the focused category button.
+ let attempts=0,release;const gate=new Promise(resolve=>release=resolve);
+ await context.route('**/cases/001-travel-checkout.md',async route=>{attempts++;if(attempts===1)return route.fulfill({status:503,body:'missing'});await gate;await route.continue();});
+ await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert.equal(await page.evaluate(()=>failedPaths.length),1);
+ await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#category-finder').evaluate(e=>e.open=true);
+ await input.fill('省錢 開戶');await page.locator('#category-finder').scrollIntoViewIfNeeded();
+ await page.screenshot({path:`${out}/long-${engine.name()}-${width}.png`});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ await input.fill('研究');assert.match(await page.locator('#category-find-status').innerText(),/只含已載入來源/);
+ await page.locator('#retry-failed').click();await page.locator('.category-match').first().focus();
+ const focusedCategory=await page.evaluate(()=>document.activeElement.dataset.categoryValue);release();
+ await page.waitForFunction(()=>!recoveringSources && failedPaths.length===0,null,{timeout:60000});
+ assert.equal(await page.evaluate(()=>document.activeElement.dataset.categoryValue),focusedCategory);await context.unroute('**/cases/001-travel-checkout.md');
  // Catalog loading: local input survives and is never reported as a real zero.
  await context.route('**/catalog.json',route=>route.fulfill({status:503,body:'unavailable'}));await page.goto(base);await page.locator('#error:not([hidden])').waitFor();
  await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#category-finder').evaluate(e=>e.open=true);await input.fill('旅遊');assert.match(await page.locator('#category-find-status').innerText(),/分類尚未載入/);

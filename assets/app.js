@@ -902,6 +902,7 @@ function findCategories(values, query, limit=8) {
 }
 function renderCategoryFinder() {
   const input=$('category-query'),status=$('category-find-status'),list=$('category-matches');
+  const focusedValue=list.contains(document.activeElement)?document.activeElement.dataset.categoryValue:null;
   list.replaceChildren();
   if(!input.value.trim()){status.textContent='輸入字詞，縮小分類選項。';return;}
   if(!discoveryReady){status.textContent=initialLoading?'正在讀取分類；輸入內容會保留，載入後顯示選項。':'分類尚未載入；請先使用下方「重新載入」，輸入內容會保留。';return;}
@@ -912,7 +913,7 @@ function renderCategoryFinder() {
     ? '找到 '+result.total+' 個分類'+scope+'。'+(result.total>result.matches.length?'先列 '+result.matches.length+' 個；可增加字詞縮小範圍。':'')+'筆數保留案例關鍵字與其他篩選；0 筆也可選。'
     : '沒有名稱符合的分類'+scope+'。試著縮短字詞，或用上方案例搜尋找全文。';
   for(const {value,count} of result.matches){
-    const button=el('button','category-match');button.type='button';
+    const button=el('button','category-match');button.type='button';button.dataset.categoryValue=value;
     button.setAttribute('aria-pressed',String($('category').value===value));
     button.append(el('span','',value),el('span','category-match-count',count+' 筆'));
     button.addEventListener('click',()=>{
@@ -922,6 +923,10 @@ function renderCategoryFinder() {
       $('category').focus({preventScroll:true});$('category').scrollIntoView({block:'nearest',behavior:'instant'});
     });
     list.append(button);
+  }
+  if(focusedValue){
+    const replacement=[...list.children].find(button=>button.dataset.categoryValue===focusedValue);
+    (replacement||input).focus({preventScroll:true});
   }
 }
 function renderFacetCounts(terms, filters) {
@@ -1000,7 +1005,7 @@ function currentSearchLink() {
 let searchComposing = false;
 function submitSearch(event) {
   event.preventDefault();
-  if (!discoveryReady || searchComposing || event.isComposing) return;
+  if (!discoveryReady || searchComposing || event.isComposing || document.activeElement?.id==='category-query') return;
   allowAutomaticArrival = false;
   const url = new URL(location.href);
   url.hash = 'explore';
@@ -1318,6 +1323,7 @@ function preserveRecoveryFocus() {
   const filterKey=active.dataset.removeFilter;
   const filterKeys=active.dataset.removeFilters;
   const resultsReturn=active.dataset.resultsReturn;
+  const categoryValue=active.dataset.categoryValue;
   const parentId=active.parentElement?.id;
   return ()=>{
     if(active===document.body)return;
@@ -1326,6 +1332,8 @@ function preserveRecoveryFocus() {
     if(cardId){
       const node=[...$(area).querySelectorAll('.card')].find(c=>c.dataset.caseId===cardId);
       replacement=node?.querySelectorAll('button')[buttonIndex];
+    }else if(categoryValue){
+      replacement=[...$('category-matches').children].find(button=>button.dataset.categoryValue===categoryValue)||$('category-query');
     }else if(resultsReturn){
       const links=[...$('results').querySelectorAll('[data-results-return]')];
       replacement=links.find(link=>link.dataset.resultsReturn===resultsReturn)||links.at(-1);

@@ -19,3 +19,9 @@ test('normalize full-width Latin and case, retain zero-result alternatives and l
  assert.equal(find(values,'AI',20).matches.at(-1).count,0);
  assert.equal(find([],'AI').total,0);
 });
+
+test('implicit form submission from category lookup never changes case search or focus',()=>{
+ const ctx=vm.createContext({document:{activeElement:{id:'category-query'}}});
+ vm.runInContext(source+'\ndiscoveryReady=true;this.submit=submitSearch;',ctx);
+ let prevented=false;ctx.submit({preventDefault(){prevented=true;}});assert(prevented);
+});

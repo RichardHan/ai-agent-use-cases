@@ -1,0 +1,46 @@
+✖ collapsed controls disclose recent-review sorting without counting it as a filter (4.534ms)
+✖ restoring default order retains the query, all five facets and the discovery deck (1.874417ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 47.827625
+
+✖ failing tests:
+
+test at tests/sort-reset.test.cjs:5:1
+✖ collapsed controls disclose recent-review sorting without counting it as a filter (4.534ms)
+  evalmachine.<anonymous>:1
+  filterSummary(0,'reviewed')
+  ^
+  
+  ReferenceError: filterSummary is not defined
+      at evalmachine.<anonymous>:1:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at TestContext.<anonymous> (/private/tmp/ai-filter-summary-20261020/tests/sort-reset.test.cjs:7:18)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17)
+
+test at tests/sort-reset.test.cjs:12:1
+✖ restoring default order retains the query, all five facets and the discovery deck (1.874417ms)
+  evalmachine.<anonymous>:5
+   resetSort();globalThis.afterScenario=activeScenario;
+   ^
+  
+  ReferenceError: resetSort is not defined
+      at evalmachine.<anonymous>:5:2
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at TestContext.<anonymous> (/private/tmp/ai-filter-summary-20261020/tests/sort-reset.test.cjs:14:5)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3)

@@ -1,14 +1,15 @@
 name: Filter entry QA
 on:
   push:
-    branches: ['improve/filter-summary-20261020']
+    branches: ['improve/filter-summary-20261020', 'main']
+    paths: ['assets/**', 'index.html', 'tests/sort-reset*', '.github/workflows/filter-entry-qa.yml']
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   browser:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -21,16 +22,55 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/filter-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
           "$RUNNER_TEMP/filter-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
           sudo apt-get install -y fonts-noto-cjk
-      - name: Browse current published site
+      - name: Unit, syntax, static preview and pinned before preview
+        run: |
+          mkdir -p qa-artifacts
+          node --test tests/*.test.cjs | tee qa-artifacts/unit.tap
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/filter-preview/ai-agent-use-cases"
+          mkdir -p "$RUNNER_TEMP/filter-before"
+          git archive 32d8305 | tar -x -C "$RUNNER_TEMP/filter-before"
+          python3 "$RUNNER_TEMP/filter-before/scripts/preview.py" "$RUNNER_TEMP/filter-before-preview/ai-agent-use-cases"
+          python3 -m http.server 8124 --directory "$RUNNER_TEMP/filter-preview" > /tmp/filter-preview.log 2>&1 &
+          python3 -m http.server 8125 --directory "$RUNNER_TEMP/filter-before-preview" > /tmp/filter-before.log 2>&1 &
+      - name: Capture matching before screenshots
         env:
           NODE_PATH: ${{ runner.temp }}/filter-tools/node_modules
-          SUBMIT_OBSERVE: '1'
-          SUBMIT_OUTPUT: qa-artifacts/baseline
-        run: node tests/search-submit-browser.cjs
-      - name: Inspect filter state
+          SORT_URL: http://127.0.0.1:8125/ai-agent-use-cases/
+          SORT_OBSERVE: '1'
+          SORT_OUTPUT: qa-artifacts/sort-before
+        run: node tests/sort-reset-browser.cjs
+      - name: Five browser configurations, failure recovery and existing regressions
         env:
           NODE_PATH: ${{ runner.temp }}/filter-tools/node_modules
-        run: node tests/filter-entry-browser.cjs
+          SORT_URL: http://127.0.0.1:8124/ai-agent-use-cases/
+          SUBMIT_URL: http://127.0.0.1:8124/ai-agent-use-cases/
+          RECENT_URL: http://127.0.0.1:8124/ai-agent-use-cases/
+        run: |
+          node tests/sort-reset-browser.cjs
+          node tests/search-submit-browser.cjs
+          node tests/recent-review-browser.cjs
+      - name: Published asset and real site verification
+        if: github.ref == 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/filter-tools/node_modules
+          SORT_URL: https://richardhan.github.io/ai-agent-use-cases/
+          SORT_OUTPUT: qa-artifacts/sort-published
+          SORT_LIVE: '1'
+        run: |
+          node - <<'JS'
+          const fs=require('node:fs');
+          (async()=>{
+            for(let i=0;i<60;i++){
+              const files=['index.html','assets/app.js','assets/style.css'];
+              const matches=await Promise.all(files.map(async file=>{const r=await fetch(process.env.SORT_URL+file+'?sortqa='+Date.now(),{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(file,'utf8');}));
+              if(matches.every(Boolean)){fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify({sha:process.env.GITHUB_SHA,files,matched:true}));return;}
+              await new Promise(r=>setTimeout(r,5000));
+            }
+            throw Error('Published assets differ from checkout');
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node tests/sort-reset-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

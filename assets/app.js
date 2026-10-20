@@ -793,6 +793,15 @@ function orderEntries(items, terms, sort) {
   return sort==='reviewed' ? ranked.sort((a,b)=>(b.reviewedDate||'').localeCompare(a.reviewedDate||'')) : ranked;
 }
 const reviewSort = value => value==='reviewed' ? value : '';
+function filterSummary(count, sort) {
+  const filters=count ? `已套用 ${count} 項篩選` : '未設定篩選';
+  return filters+(reviewSort(sort) ? ' · 頁首最近核對' : '');
+}
+function resetSort() {
+  $('sort').value='';
+  render();
+  focusResults();
+}
 
 const SOURCE_TYPES = Object.freeze({
   '作者報告／示範':'依作者的使用敘述或展示整理；實際產物、完整過程與成效仍須逐案核對。',
@@ -1051,10 +1060,12 @@ function render(updateURL=true, preserveShare=false) {
   const sourceNote=sourceTypeMessage(filters.proof);
   if($('source-type-note').textContent!==sourceNote)$('source-type-note').textContent=sourceNote;
   const facetCount = Object.values(filters).filter(Boolean).length;
-  $('filter-count').textContent = facetCount ? `已套用 ${facetCount} 項篩選` : '未設定篩選';
+  $('filter-count').textContent = filterSummary(facetCount, $('sort').value);
   const matches=filterEntries(entries,q,filters);
   currentFiltered = orderEntries(matches, q, $('sort').value);
   $('search-order-note').hidden = !discoveryReady || ($('sort').value!=='reviewed'&&(!q.length||!currentFiltered.length));
+  $('search-order-controls').hidden=$('search-order-note').hidden;
+  $('reset-sort').hidden=!discoveryReady||$('sort').value!=='reviewed';
   $('search-order-note').textContent=$('sort').value==='reviewed'
     ? '依頁首核對日由新到舊；不是發布日，也不代表新增或獨立驗證。正文補充不計；未提供者置後，同日保留原本的符合順序。'
     : '標題與用途優先；全文仍納入搜尋。排序不代表成果或證據可靠度。';
@@ -1518,6 +1529,7 @@ $('query').addEventListener('keydown', event => {
 });
 $('query').addEventListener('input', () => render());
 $('sort').addEventListener('change', () => render());
+$('reset-sort').addEventListener('click', resetSort);
 $('recent-entry').addEventListener('click', event => {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   history.replaceState(null,'',event.currentTarget.href);

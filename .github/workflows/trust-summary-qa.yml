@@ -1,0 +1,33 @@
+name: Audit summary round QA
+on:
+  push:
+    branches: [improve/reading-find-20261020]
+    paths: ['.github/workflows/trust-summary-qa.yml', 'tests/trust-*', 'assets/**', 'index.html', 'audit-summary.json']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/trust-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/trust-tools/node_modules/.bin/playwright" install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Observe published desktop and mobile journeys
+        env:
+          NODE_PATH: ${{ runner.temp }}/trust-tools/node_modules
+        run: node tests/recency-observe.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trust-summary-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

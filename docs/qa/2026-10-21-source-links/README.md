@@ -23,7 +23,7 @@
 
 ## 雲端驗收與截圖
 
-結果將在驗收完成後補入。正式體驗：[UC-161直鏈](https://richardhan.github.io/ai-agent-use-cases/?case=UC-161)。本機可選擇 `python3 scripts/preview.py /tmp/source-preview/ai-agent-use-cases`，再以 `python3 -m http.server 8150 --directory /tmp/source-preview` 開啟 `http://127.0.0.1:8150/ai-agent-use-cases/?case=UC-161`。
+完整預覽驗收[39488938321](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39488938321)通過（產品 `30acb2e`，後續產品檔未再修改）。正式體驗：[UC-161直鏈](https://richardhan.github.io/ai-agent-use-cases/?case=UC-161)。本機可選擇 `python3 scripts/preview.py /tmp/source-preview/ai-agent-use-cases`，再以 `python3 -m http.server 8150 --directory /tmp/source-preview` 開啟 `http://127.0.0.1:8150/ai-agent-use-cases/?case=UC-161`。
 
 正式首頁／旅遊搜尋＋生活篩選／來源新頁／分享／Escape返回基準[39488492724](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39488492724)在1440與390通過；395條目、零缺項、兩次axe皆0。Markdown原文外站請求當次429，不聲稱所有來源可讀。後續來源驗收以實際URL開啟核對，不保證外站永久可用。
 
@@ -32,3 +32,25 @@
 獨立review最終確認：132/132單元通過，沒有剩餘必修；不完整destination保留可見原字，其中裸URL仍沿用既有auto-link規則，未宣稱全為不可點文字。來源browser驗證的是新頁URL，未測外站內容可讀性。`app.js` gzip由47,855增為48,150 bytes（+295 bytes），是本機估算，不是載入速度量測。
 
 新測試工具的兩項錯誤已修正：axe需要明確browser context；原有reader regression需要安裝Chromium／Firefox／WebKit。失敗紀錄保留於Actions，不當成網站原有失敗。嘗試建立PR時GitHub GraphQL回覆 `Unauthorized: As an Enterprise Managed User, you cannot access this content (createPullRequest)`；依使用者既有直接push／merge授權，在完整驗收後使用正常Git merge＋SSH push，無強推，不切換API身分。
+
+
+### 完整預覽驗收
+
+132/132單元、所有JS語法、舊基準失敗重現、靜態preview build通過。來源兩尺寸完整URL與兩個不同新頁皆正確；395條目、零缺項、零pageerror與水平溢出。保留的來源／discovery／reader／分享報告共26次修改後axe掃描皆0；未當成完整WCAG認證。
+
+原有 `discovery-browser.cjs`、`reader-browser.cjs`、`case-share-browser.cjs`通過：Chromium1440／390／320、Firefox390、WebKit390閱讀；包含長內容、證據／待查狀態、鍵盤返回與焦點、缺資料／腳本／來源錯誤及復原。全庫395條目、2,802章節、414行證據保留（[資料檢查](reader-corpus.json)）。
+
+三種具體模擬情境均在桌面1440與手機390走完（[原始紀錄](journeys.json)）：
+
+1. 首訪者搜尋旅遊＋生活，閱讀來源、分享與拒絕後手動複製，再試成功。
+2. 接收者開啟案例直鏈、重整、關閉與原生Back，保留查詢條件。
+3. 長文讀者經空結果復原，組合五類篩選＋最近核對排序，分享後結果集合一致。
+
+分享的受控拒絕為測試注入，並非真人權限故障；模擬流程不代表真人喜好或轉換率。這次旅遊原文新頁另一次HTTP200，與初次429分開記錄，不推論所有外站皆可用。UC-161兩來源只核對新頁完整URL，沒有宣稱內容已可讀。
+
+| 尺寸 | 修改前 | 修改後 |
+| --- | --- | --- |
+| 桌面1440 | [來源殘字](before/source-1440.png) | [完整來源](after/source-1440.png) |
+| 手機390 | [來源殘字與擠斷](before/source-390.png) | [完整來源與焦點](after/source-390.png) |
+
+主角色已逐張目視比較：兩來源各自顯示短標籤，沒有遺失檔名殘字；手機焦點外框清楚，限制說明與原始核對段落完整可讀。[修改前報告](before/report.json)／[修改後報告](after/report.json)。

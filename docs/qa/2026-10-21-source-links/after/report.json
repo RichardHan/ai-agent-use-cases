@@ -1,0 +1,66 @@
+[
+  {
+    "width": 1440,
+    "links": [
+      {
+        "label": "公開CSV",
+        "expected": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary-long.csv",
+        "actual": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary-long.csv",
+        "text": "原始任務文件；公開CSV；補檔紀錄。"
+      },
+      {
+        "label": "補檔紀錄",
+        "expected": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary_README.md",
+        "actual": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary_README.md",
+        "text": "原始任務文件；公開CSV；補檔紀錄。"
+      }
+    ],
+    "errors": [],
+    "popups": [
+      {
+        "label": "公開CSV",
+        "url": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary-long.csv"
+      },
+      {
+        "label": "補檔紀錄",
+        "url": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary_README.md"
+      }
+    ],
+    "audit": [],
+    "entries": 395,
+    "failed": [],
+    "completed": true
+  },
+  {
+    "width": 390,
+    "links": [
+      {
+        "label": "公開CSV",
+        "expected": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary-long.csv",
+        "actual": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary-long.csv",
+        "text": "原始任務文件；公開CSV；補檔紀錄。"
+      },
+      {
+        "label": "補檔紀錄",
+        "expected": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary_README.md",
+        "actual": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary_README.md",
+        "text": "原始任務文件；公開CSV；補檔紀錄。"
+      }
+    ],
+    "errors": [],
+    "popups": [
+      {
+        "label": "公開CSV",
+        "url": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary-long.csv"
+      },
+      {
+        "label": "補檔紀錄",
+        "url": "https://github.com/jojowanuby/LLM-Alignment-Atlas/blob/main/GrokBot%20Workspace%20(copied%20from%20VM)/llm-alignment-summary_README.md"
+      }
+    ],
+    "audit": [],
+    "entries": 395,
+    "failed": [],
+    "completed": true
+  }
+]

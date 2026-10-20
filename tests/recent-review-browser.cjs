@@ -8,12 +8,13 @@ const output=process.env.RECENT_OUTPUT||'qa-artifacts/recent';
 const baseline=process.env.RECENT_BASELINE==='1',live=process.env.RECENT_LIVE==='1';
 const reports=[];
 const root=require('node:path').resolve(__dirname,'..');
-const sourceFiles=new Map(['cases','evidence'].flatMap(dir=>fs.readdirSync(root+'/'+dir).filter(file=>file.endsWith('.md')).map(file=>[dir+'/'+file,fs.readFileSync(root+'/'+dir+'/'+file,'utf8')])));
+const sourceFiles=new Map(['cases','evidence'].flatMap(dir=>fs.readdirSync(root+'/'+dir,{recursive:true}).filter(file=>file.endsWith('.md')).map(file=>[dir+'/'+file,fs.readFileSync(root+'/'+dir+'/'+file,'utf8')])));
 const pending=fs.readFileSync(root+'/sources/pending.md','utf8').split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part));
 async function verifyCorpus(page){
  const actual=await page.evaluate(()=>entries.map(e=>({id:e.id,path:e.path,markdown:e.markdown})));
  assert.equal(actual.length,sourceFiles.size+pending.length,'the served corpus includes every current entry');
  assert.deepEqual([...new Set(actual.map(e=>e.path))].sort(),[...sourceFiles.keys(),'sources/pending.md'].sort());
+ assert.deepEqual(actual.filter(e=>e.path==='sources/pending.md').map(e=>e.id).sort(),pending.map(part=>part.match(/^##\s+(P-\d+)/)?.[1]).sort(),'all pending IDs occur exactly as recorded, including multiplicity');
  for(const entry of actual){
   const expected=entry.path==='sources/pending.md'?pending.find(part=>part.match(/^##\s+(P-\d+)/)?.[1]===entry.id):sourceFiles.get(entry.path);
   assert.equal(entry.markdown,expected,'served source matches checkout: '+entry.id);

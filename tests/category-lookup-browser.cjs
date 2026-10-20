@@ -51,7 +51,7 @@ const out=process.env.LOOKUP_OUTPUT||'qa-artifacts/lookup';fs.mkdirSync(out,{rec
  assert.equal(await page.locator('#category-finder').evaluate(e=>e.open),false);
  // Catalog loading: local input survives and is never reported as a real zero.
  await context.route('**/catalog.json',route=>route.fulfill({status:503,body:'unavailable'}));await page.goto(base);await page.locator('#error:not([hidden])').waitFor();
- await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#category-finder').evaluate(e=>e.open=true);await input.fill('旅遊');assert.match(await page.locator('#category-find-status').innerText(),/正在讀取分類/);
+ await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#category-finder').evaluate(e=>e.open=true);await input.fill('旅遊');assert.match(await page.locator('#category-find-status').innerText(),/分類尚未載入/);
  await context.unroute('**/catalog.json');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert.equal(await input.inputValue(),'旅遊');assert(await page.locator('.category-match').count()>0);
  assert.deepEqual(row.errors,[]);row.complete=true;
  }catch(e){row.failure=e.stack;throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));await browser.close();}

@@ -904,7 +904,7 @@ function renderCategoryFinder() {
   const input=$('category-query'),status=$('category-find-status'),list=$('category-matches');
   list.replaceChildren();
   if(!input.value.trim()){status.textContent='輸入字詞，縮小分類選項。';return;}
-  if(!discoveryReady){status.textContent='正在讀取分類；輸入內容會保留，載入後顯示選項。';return;}
+  if(!discoveryReady){status.textContent=initialLoading?'正在讀取分類；輸入內容會保留，載入後顯示選項。':'分類尚未載入；請先使用下方「重新載入」，輸入內容會保留。';return;}
   const values=[...$('category').options].filter(option=>option.value).map(option=>({value:option.value,count:Number(option.dataset.count)||0}));
   const result=findCategories(values,input.value);
   const scope=failedPaths.length?'（只含已載入來源）':'';
@@ -1428,6 +1428,7 @@ async function load() {
   $('reset-sort').hidden = true;
   $('empty-suggestions').replaceChildren();
   $('results-count').textContent = '正在讀取案例…';
+  renderCategoryFinder();
   failedPaths = [];
   try {
     // Hydrate shared conditions before readers can edit the form during loading.
@@ -1539,6 +1540,7 @@ async function load() {
     console.error(error);
   } finally {
     initialLoading=false;initialLoadController=null;
+    renderCategoryFinder();
     $('loading-progress').hidden=true;
   }
 }
@@ -1624,7 +1626,7 @@ $('query').addEventListener('keydown', event => {
 });
 $('category-query').addEventListener('input', renderCategoryFinder);
 $('category-query').addEventListener('keydown', event => {
-  if(event.key==='Enter')event.preventDefault();
+  if(event.key==='Enter' && !event.isComposing && event.keyCode!==229)event.preventDefault();
 });
 $('clear-category-query').addEventListener('click',()=>{
   $('category-query').value='';renderCategoryFinder();$('category-query').focus();

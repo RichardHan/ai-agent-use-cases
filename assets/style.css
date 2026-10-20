@@ -269,3 +269,6 @@
 .category-match[aria-pressed="true"]{border-color:var(--green);background:#edf2e7}
 .category-match-count{white-space:nowrap;align-self:center;color:#4c6258}
 @media(max-width:760px){.category-matches{grid-template-columns:1fr}}
+
+#category-query:focus{outline:2px solid var(--green)!important;outline-offset:3px}
+.category-finder>summary:focus-visible{outline:3px solid #799f27;outline-offset:3px;border-radius:4px}

@@ -172,7 +172,11 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
 
   // Ensure duplicate detection finds shared source candidates (Reddit threads, docs, blogs)
   assert(duplicates.length > 0, 'Candidate duplicate detector should find shared source candidates');
-  assert.equal(duplicates.length, 47, `Candidate duplicate detector must identify exactly 47 candidate clusters across corpus, found ${duplicates.length}`);
+  assert.equal(duplicates.length, 49, `Candidate duplicate detector must identify exactly 49 candidate clusters across corpus, found ${duplicates.length}`);
+  assert.deepEqual(duplicates.find(d=>d.url==='https://learn.chatgpt.com/docs/dots/tasks-and-memory')?.cases,
+    ['cases/005-cloud-pr-review.md','cases/365-scheduled-task-inplace-edit-readback.md']);
+  assert.deepEqual(duplicates.find(d=>d.url==='https://reddit.com/r/grokbot/comments/1x9kmc4/groq_bot_use_cases_compilation_i_complied_from_10')?.cases,
+    ['cases/030-interactive-study-guide.md','cases/360-paint-stage-quantity-spec-cart.md']);
   const newSharedSource=duplicates.find(d=>d.url==='https://note.com/sustainamate_ai/n/n26d37039c129');
   assert.deepEqual(newSharedSource?.cases,['cases/225-receipt-transaction-evidence-matching.md','cases/234-proposal-attachment-consistency-send-gate.md'],'new shared source is a candidate only; both original cases remain');
   // Confirm that candidate duplicates are purely listed as candidates and all original cases remain intact

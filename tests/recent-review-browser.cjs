@@ -92,6 +92,7 @@ async function order(page){
      await page.locator('#query').fill('no-such-case-98182');assert(await page.locator('#empty').isVisible());assert.equal(await page.locator('#sort').inputValue(),'reviewed');
      await page.locator('#empty-reset').click();assert.equal(await page.locator('#sort').inputValue(),'');
      await page.goto(origin+'?sort=reviewed&case=UC-313');await page.locator('#detail[open]').waitFor({timeout:90000});
+     await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
      await page.reload();await page.locator('#detail[open]').waitFor({timeout:90000});await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
      assert.equal(await page.locator('#sort').inputValue(),'reviewed');
      assert.match(await page.locator('.reader-report-content').innerText(),/未證實實際重複寄送/);

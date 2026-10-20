@@ -1,0 +1,30 @@
+browser	Verify complete journeys across browsers	﻿2026-10-20T01:08:41.9282407Z ##[group]Run python3 -m http.server 8131 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-preview.log 2>&1 &
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9283056Z ^[[36;1mpython3 -m http.server 8131 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-preview.log 2>&1 &^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9283770Z ^[[36;1mpython3 -m http.server 8081 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-discovery.log 2>&1 &^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9284175Z ^[[36;1mnode tests/recent-review-browser.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9284435Z ^[[36;1mnode tests/recent-review-recovery.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9284710Z ^[[36;1mnode tests/source-guide-mobile-regression.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9284986Z ^[[36;1mnode tests/loading-budget-browser.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9285229Z ^[[36;1mnode tests/discovery-browser.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9285457Z ^[[36;1mnode tests/reader-browser.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9341271Z shell: /usr/bin/bash -e {0}
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9341479Z env:
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9341734Z   NODE_PATH: /home/runner/work/_temp/recent-tools/node_modules
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9342097Z   RECENT_URL: http://127.0.0.1:8131/ai-agent-use-cases/
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9342389Z   GUIDE_URL: http://127.0.0.1:8131/ai-agent-use-cases/
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9342659Z   READER_URL: http://127.0.0.1:8131/ai-agent-use-cases/
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9342930Z   BUDGET_URL: http://127.0.0.1:8131/ai-agent-use-cases/
+browser	Verify complete journeys across browsers	2026-10-20T01:08:41.9343157Z ##[endgroup]
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5258003Z locator.innerText: Error: strict mode violation: locator('#results .review-date') resolved to 4 elements:
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5258947Z     1) <p class="review-date">…</p> aka locator('#results').getByText('頁首核對 2026-10-18')
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5259603Z     2) <p class="review-date">…</p> aka getByText('頁首核對 2026-10-17')
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5260054Z     3) <p class="review-date">頁首未提供核對日</p> aka getByText('頁首未提供核對日').first()
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5260524Z     4) <p class="review-date">頁首未提供核對日</p> aka getByText('頁首未提供核對日').nth(1)
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5260734Z 
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5260861Z Call log:
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5261078Z   - waiting for locator('#results .review-date')
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5261248Z 
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5261533Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/recent-review-browser.cjs:84:107 {
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5262044Z   log: [ "  - waiting for locator('#results .review-date')" ]
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5262300Z }
+browser	Verify complete journeys across browsers	2026-10-20T01:08:55.5711662Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,18 @@
+[
+  {
+    "engine": "chromium",
+    "size": "desktop",
+    "audits": [],
+    "errors": [],
+    "entries": 362,
+    "hasSort": false
+  },
+  {
+    "engine": "chromium",
+    "size": "mobile",
+    "audits": [],
+    "errors": [],
+    "entries": 362,
+    "hasSort": false
+  }
+]

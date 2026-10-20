@@ -1,0 +1,463 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "readyMs": 1218,
+    "queries": [
+      {
+        "query": "薪水",
+        "ms": 72,
+        "count": 8,
+        "first": [
+          {
+            "id": "UC-230",
+            "title": "每人報酬算法不同？先做可逐項覆核的薪酬草表"
+          },
+          {
+            "id": "UC-338",
+            "title": "每天早上說一句工時，月底就能拿AI的估算對薪水"
+          },
+          {
+            "id": "UC-007",
+            "title": "找出可能白花的軟體訂閱費"
+          },
+          {
+            "id": "UC-024",
+            "title": "讓 dots 檢查已交付工作，找出可能漏開的帳單"
+          },
+          {
+            "id": "UC-035",
+            "title": "找合適職缺，把履歷改成有根據的申請草稿"
+          }
+        ],
+        "salaryPosition": 1,
+        "incidentalPosition": 4
+      },
+      {
+        "query": "收件匣",
+        "ms": 93,
+        "count": 93,
+        "first": [
+          {
+            "id": "UC-080",
+            "title": "軟體序號散在三個信箱裡？請 Bot 掃信找出來，先給你清單，再存進 1Password"
+          },
+          {
+            "id": "UC-088",
+            "title": "讓 Bot 翻信箱找出「已退貨、沒退款」的訂單，寫信請商家退錢"
+          },
+          {
+            "id": "UC-118",
+            "title": "AI客戶來信怎麼分流？先問主人，再轉專用信箱"
+          },
+          {
+            "id": "UC-156",
+            "title": "信箱搬到新平台了，舊信和新信都真的正常嗎？"
+          },
+          {
+            "id": "UC-184",
+            "title": "大量郵件先篩出相關候選，別把它當最終證據審查"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 43
+      },
+      {
+        "query": "UC313",
+        "ms": 25,
+        "count": 4,
+        "first": [
+          {
+            "id": "UC-313",
+            "title": "代理說收到停止指令，舊工作卻仍回報完成：換人前先對帳"
+          },
+          {
+            "id": "UC-329",
+            "title": "代理做到一半重啟，下一棒真的接得上嗎？"
+          },
+          {
+            "id": "UC-339",
+            "title": "以前交辦過的工作，為什麼又像新要求一樣送到另一個Bot？"
+          },
+          {
+            "id": "UC-341",
+            "title": "任務又開始跑了，為什麼仍被當成已封存？"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 0
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "readyMs": 1011,
+    "queries": [
+      {
+        "query": "薪水",
+        "ms": 64,
+        "count": 8,
+        "first": [
+          {
+            "id": "UC-230",
+            "title": "每人報酬算法不同？先做可逐項覆核的薪酬草表"
+          },
+          {
+            "id": "UC-338",
+            "title": "每天早上說一句工時，月底就能拿AI的估算對薪水"
+          },
+          {
+            "id": "UC-007",
+            "title": "找出可能白花的軟體訂閱費"
+          },
+          {
+            "id": "UC-024",
+            "title": "讓 dots 檢查已交付工作，找出可能漏開的帳單"
+          },
+          {
+            "id": "UC-035",
+            "title": "找合適職缺，把履歷改成有根據的申請草稿"
+          }
+        ],
+        "salaryPosition": 1,
+        "incidentalPosition": 4
+      },
+      {
+        "query": "收件匣",
+        "ms": 91,
+        "count": 93,
+        "first": [
+          {
+            "id": "UC-080",
+            "title": "軟體序號散在三個信箱裡？請 Bot 掃信找出來，先給你清單，再存進 1Password"
+          },
+          {
+            "id": "UC-088",
+            "title": "讓 Bot 翻信箱找出「已退貨、沒退款」的訂單，寫信請商家退錢"
+          },
+          {
+            "id": "UC-118",
+            "title": "AI客戶來信怎麼分流？先問主人，再轉專用信箱"
+          },
+          {
+            "id": "UC-156",
+            "title": "信箱搬到新平台了，舊信和新信都真的正常嗎？"
+          },
+          {
+            "id": "UC-184",
+            "title": "大量郵件先篩出相關候選，別把它當最終證據審查"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 43
+      },
+      {
+        "query": "UC313",
+        "ms": 20,
+        "count": 4,
+        "first": [
+          {
+            "id": "UC-313",
+            "title": "代理說收到停止指令，舊工作卻仍回報完成：換人前先對帳"
+          },
+          {
+            "id": "UC-329",
+            "title": "代理做到一半重啟，下一棒真的接得上嗎？"
+          },
+          {
+            "id": "UC-339",
+            "title": "以前交辦過的工作，為什麼又像新要求一樣送到另一個Bot？"
+          },
+          {
+            "id": "UC-341",
+            "title": "任務又開始跑了，為什麼仍被當成已封存？"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 0
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "readyMs": 1008,
+    "queries": [
+      {
+        "query": "薪水",
+        "ms": 62,
+        "count": 8,
+        "first": [
+          {
+            "id": "UC-230",
+            "title": "每人報酬算法不同？先做可逐項覆核的薪酬草表"
+          },
+          {
+            "id": "UC-338",
+            "title": "每天早上說一句工時，月底就能拿AI的估算對薪水"
+          },
+          {
+            "id": "UC-007",
+            "title": "找出可能白花的軟體訂閱費"
+          },
+          {
+            "id": "UC-024",
+            "title": "讓 dots 檢查已交付工作，找出可能漏開的帳單"
+          },
+          {
+            "id": "UC-035",
+            "title": "找合適職缺，把履歷改成有根據的申請草稿"
+          }
+        ],
+        "salaryPosition": 1,
+        "incidentalPosition": 4
+      },
+      {
+        "query": "收件匣",
+        "ms": 91,
+        "count": 93,
+        "first": [
+          {
+            "id": "UC-080",
+            "title": "軟體序號散在三個信箱裡？請 Bot 掃信找出來，先給你清單，再存進 1Password"
+          },
+          {
+            "id": "UC-088",
+            "title": "讓 Bot 翻信箱找出「已退貨、沒退款」的訂單，寫信請商家退錢"
+          },
+          {
+            "id": "UC-118",
+            "title": "AI客戶來信怎麼分流？先問主人，再轉專用信箱"
+          },
+          {
+            "id": "UC-156",
+            "title": "信箱搬到新平台了，舊信和新信都真的正常嗎？"
+          },
+          {
+            "id": "UC-184",
+            "title": "大量郵件先篩出相關候選，別把它當最終證據審查"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 43
+      },
+      {
+        "query": "UC313",
+        "ms": 20,
+        "count": 4,
+        "first": [
+          {
+            "id": "UC-313",
+            "title": "代理說收到停止指令，舊工作卻仍回報完成：換人前先對帳"
+          },
+          {
+            "id": "UC-329",
+            "title": "代理做到一半重啟，下一棒真的接得上嗎？"
+          },
+          {
+            "id": "UC-339",
+            "title": "以前交辦過的工作，為什麼又像新要求一樣送到另一個Bot？"
+          },
+          {
+            "id": "UC-341",
+            "title": "任務又開始跑了，為什麼仍被當成已封存？"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 0
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "axe": []
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "readyMs": 1655,
+    "queries": [
+      {
+        "query": "薪水",
+        "ms": 101,
+        "count": 8,
+        "first": [
+          {
+            "id": "UC-230",
+            "title": "每人報酬算法不同？先做可逐項覆核的薪酬草表"
+          },
+          {
+            "id": "UC-338",
+            "title": "每天早上說一句工時，月底就能拿AI的估算對薪水"
+          },
+          {
+            "id": "UC-007",
+            "title": "找出可能白花的軟體訂閱費"
+          },
+          {
+            "id": "UC-024",
+            "title": "讓 dots 檢查已交付工作，找出可能漏開的帳單"
+          },
+          {
+            "id": "UC-035",
+            "title": "找合適職缺，把履歷改成有根據的申請草稿"
+          }
+        ],
+        "salaryPosition": 1,
+        "incidentalPosition": 4
+      },
+      {
+        "query": "收件匣",
+        "ms": 76,
+        "count": 93,
+        "first": [
+          {
+            "id": "UC-080",
+            "title": "軟體序號散在三個信箱裡？請 Bot 掃信找出來，先給你清單，再存進 1Password"
+          },
+          {
+            "id": "UC-088",
+            "title": "讓 Bot 翻信箱找出「已退貨、沒退款」的訂單，寫信請商家退錢"
+          },
+          {
+            "id": "UC-118",
+            "title": "AI客戶來信怎麼分流？先問主人，再轉專用信箱"
+          },
+          {
+            "id": "UC-156",
+            "title": "信箱搬到新平台了，舊信和新信都真的正常嗎？"
+          },
+          {
+            "id": "UC-184",
+            "title": "大量郵件先篩出相關候選，別把它當最終證據審查"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 43
+      },
+      {
+        "query": "UC313",
+        "ms": 29,
+        "count": 4,
+        "first": [
+          {
+            "id": "UC-313",
+            "title": "代理說收到停止指令，舊工作卻仍回報完成：換人前先對帳"
+          },
+          {
+            "id": "UC-329",
+            "title": "代理做到一半重啟，下一棒真的接得上嗎？"
+          },
+          {
+            "id": "UC-339",
+            "title": "以前交辦過的工作，為什麼又像新要求一樣送到另一個Bot？"
+          },
+          {
+            "id": "UC-341",
+            "title": "任務又開始跑了，為什麼仍被當成已封存？"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 0
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "axe": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "readyMs": 1232,
+    "queries": [
+      {
+        "query": "薪水",
+        "ms": 94,
+        "count": 8,
+        "first": [
+          {
+            "id": "UC-230",
+            "title": "每人報酬算法不同？先做可逐項覆核的薪酬草表"
+          },
+          {
+            "id": "UC-338",
+            "title": "每天早上說一句工時，月底就能拿AI的估算對薪水"
+          },
+          {
+            "id": "UC-007",
+            "title": "找出可能白花的軟體訂閱費"
+          },
+          {
+            "id": "UC-024",
+            "title": "讓 dots 檢查已交付工作，找出可能漏開的帳單"
+          },
+          {
+            "id": "UC-035",
+            "title": "找合適職缺，把履歷改成有根據的申請草稿"
+          }
+        ],
+        "salaryPosition": 1,
+        "incidentalPosition": 4
+      },
+      {
+        "query": "收件匣",
+        "ms": 116,
+        "count": 93,
+        "first": [
+          {
+            "id": "UC-080",
+            "title": "軟體序號散在三個信箱裡？請 Bot 掃信找出來，先給你清單，再存進 1Password"
+          },
+          {
+            "id": "UC-088",
+            "title": "讓 Bot 翻信箱找出「已退貨、沒退款」的訂單，寫信請商家退錢"
+          },
+          {
+            "id": "UC-118",
+            "title": "AI客戶來信怎麼分流？先問主人，再轉專用信箱"
+          },
+          {
+            "id": "UC-156",
+            "title": "信箱搬到新平台了，舊信和新信都真的正常嗎？"
+          },
+          {
+            "id": "UC-184",
+            "title": "大量郵件先篩出相關候選，別把它當最終證據審查"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 43
+      },
+      {
+        "query": "UC313",
+        "ms": 28,
+        "count": 4,
+        "first": [
+          {
+            "id": "UC-313",
+            "title": "代理說收到停止指令，舊工作卻仍回報完成：換人前先對帳"
+          },
+          {
+            "id": "UC-329",
+            "title": "代理做到一半重啟，下一棒真的接得上嗎？"
+          },
+          {
+            "id": "UC-339",
+            "title": "以前交辦過的工作，為什麼又像新要求一樣送到另一個Bot？"
+          },
+          {
+            "id": "UC-341",
+            "title": "任務又開始跑了，為什麼仍被當成已封存？"
+          }
+        ],
+        "salaryPosition": 0,
+        "incidentalPosition": 0
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "axe": []
+  }
+]

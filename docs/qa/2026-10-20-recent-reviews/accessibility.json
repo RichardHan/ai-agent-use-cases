@@ -1,0 +1,14 @@
+[
+  {
+    "viewport": "desktop",
+    "violations": []
+  },
+  {
+    "viewport": "mobile",
+    "violations": []
+  },
+  {
+    "viewport": "small-mobile",
+    "violations": []
+  }
+]

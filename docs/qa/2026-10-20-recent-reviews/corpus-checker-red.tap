@@ -1,0 +1,26 @@
+✔ served corpus validation accepts the complete source set in any reading order (0.690875ms)
+✖ served corpus validation rejects a duplicated pending ID replacing another, even with equal counts and paths (0.359625ms)
+✔ served corpus validation rejects stale original text and missing sources (0.352916ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 39.733542
+
+✖ failing tests:
+
+test at tests/recent-review-corpus.test.cjs:16:1
+✖ served corpus validation rejects a duplicated pending ID replacing another, even with equal counts and paths (0.359625ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/ai-catalog-round-20261020/tests/recent-review-corpus.test.cjs:17:59)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'rejects'
+  }

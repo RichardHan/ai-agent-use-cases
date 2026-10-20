@@ -338,6 +338,20 @@ for (const group of SYNONYM_GROUPS) {
 function idVariants(id) { const normId = id.toUpperCase(); const unhyphenated = normId.replace(/[-_]/g, ''); return normId !== unhyphenated ? `${normId} ${unhyphenated}` : normId; }
 function termVariants(term) { const t = norm(term).replace(/^#/, ''); const m = t.match(/^([a-z]+)[\s-]*(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } if (/^\d+$/.test(t)) { const padded = t.padStart(3, '0'); return [t, `uc-${padded}`, `uc${padded}`]; } return SYNONYM_MAP[t] || [t]; }
 const matchCase = (target, list = entries) => { if (!target) return null; const t = norm(target).trim().replace(/^#/, ''); const m = t.match(/^(?:([a-z]+)[\s-：:#.]*)?(\d+)$/); const variants = m && (!m[1] || m[1] === 'uc' || m[1] === 'p') ? [`${m[1] || 'uc'}-${m[2].padStart(3, '0')}`, `${m[1] || 'uc'}${m[2].padStart(3, '0')}`] : termVariants(t); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
+// Only explicit lead fields describe this library's review date. Source dates
+// and dated supplements are intentionally not evidence of a page-level review.
+function reviewDate(markdown) {
+  const lead=markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
+  const dates=[];
+  for(const line of lead.split('\n')){
+    if(!/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|查證|首次收錄[／、](?:最近查證|查證))\s*[：:]/.test(line))continue;
+    for(const date of line.match(/\b20\d{2}-\d{2}-\d{2}\b/g)||[]){
+      const parsed=new Date(date+'T00:00:00Z');
+      if(!Number.isNaN(parsed.getTime())&&parsed.toISOString().slice(0,10)===date)dates.push(date);
+    }
+  }
+  return dates.sort().pop()||'';
+}
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);
   const id = title.match(/(?:UC|P)-\d+/)?.[0] || path.split('/').pop().replace(/\.md$/,'') + suffix;
@@ -380,7 +394,8 @@ function metadata(markdown, path, kind, suffix='') {
   const copy=displayCopy[id]||{};
   const displayTitle=clean(lead.match(/^-\s*網站標題\s*[：:]\s*(.+)$/m)?.[1]||copy.title||heading);
   const what=clean(lead.match(/^-\s*一句話用途\s*[：:]\s*(.+)$/m)?.[1]||copy.what||summary);
-  return {id,title:displayTitle,originalTitle:heading,what,how:copy.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',caution:copy.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,search:norm(markdown+' '+displayTitle+' '+what+' '+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+idVariants(id))};
+  const reviewedDate=reviewDate(markdown);
+  return {id,title:displayTitle,originalTitle:heading,what,how:copy.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',caution:copy.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,search:norm(markdown+' '+displayTitle+' '+what+' '+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+idVariants(id))};
 }
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>metadata(part,path,'pending',String(i)));
@@ -505,6 +520,7 @@ function showDetail(item, trigger, updateURL=true) {
     el('span', 'detail-badge proof-badge', item.proof),
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
+  metaBar.append(el('span','detail-badge',item.reviewedDate?'頁首核對 '+item.reviewedDate:'頁首未提供核對日'));
   body.append(metaBar);
 
   const title = el('h1', '', item.title);
@@ -673,6 +689,10 @@ function card(item, terms=[]) {
   title.addEventListener('click', () => showDetail(item, title));
   h.append(title);
   node.append(h, el('p', 'summary', item.summary));
+  const reviewed=el('p','review-date');
+  if(item.reviewedDate){const time=el('time','',item.reviewedDate);time.dateTime=item.reviewedDate;reviewed.append(document.createTextNode('頁首核對 '),time);}
+  else reviewed.textContent='頁首未提供核對日';
+  node.append(reviewed);
   const context=renderSearchContext(item,terms);
   if(context)node.append(context);
 
@@ -768,6 +788,12 @@ function rankEntries(items, terms) {
   }).map(result => result.item);
 }
 
+function orderEntries(items, terms, sort) {
+  const ranked=rankEntries(items,terms);
+  return sort==='reviewed' ? ranked.sort((a,b)=>(b.reviewedDate||'').localeCompare(a.reviewedDate||'')) : ranked;
+}
+const reviewSort = value => value==='reviewed' ? value : '';
+
 const SOURCE_TYPES = Object.freeze({
   '作者報告／示範':'依作者的使用敘述或展示整理；實際產物、完整過程與成效仍須逐案核對。',
   '官方自報':'包含官方的能力說明或案例自報；適用版本、條件與實際成效請看原文。',
@@ -851,22 +877,23 @@ function renderFacetCounts(terms, filters) {
   }
 }
 const SEARCH_KEYS=['q','scenario','kind','tool','category','proof'];
-function searchLink(href,query,filters) {
+function searchLink(href,query,filters,sort='') {
   const current=new URL(href);
   const url=new URL(current.pathname,current.origin);
   if(query)url.searchParams.set('q',query);
   SEARCH_KEYS.slice(1).forEach(key=>{if(filters[key])url.searchParams.set(key,filters[key]);});
+  if(reviewSort(sort))url.searchParams.set('sort',sort);
   url.hash='explore';
   return url.href;
 }
 function hasSearchArrival(params,hash) {
   if(hash)return hash==='#explore';
-  return SEARCH_KEYS.some(key=>(params.get(key)||'').trim());
+  return SEARCH_KEYS.some(key=>(params.get(key)||'').trim())||params.get('sort')==='reviewed';
 }
 function currentSearchLink() {
   const filters=Object.fromEntries(['kind','tool','category','proof'].map(id=>[id,$(id).value]));
   filters.scenario=activeScenario;
-  return searchLink(location.href,$('query').value,filters);
+  return searchLink(location.href,$('query').value,filters,$('sort').value);
 }
 function revealSearch(resultsOnly=false) {
   const target=$(resultsOnly?'results-count':'search-title');
@@ -1014,9 +1041,15 @@ function render(updateURL=true, preserveShare=false) {
   if($('source-type-note').textContent!==sourceNote)$('source-type-note').textContent=sourceNote;
   const facetCount = Object.values(filters).filter(Boolean).length;
   $('filter-count').textContent = facetCount ? `已套用 ${facetCount} 項篩選` : '未設定篩選';
-  currentFiltered = rankEntries(filterEntries(entries, q, filters), q);
-  $('search-order-note').hidden = !discoveryReady || !q.length || !currentFiltered.length;
-  $('results').replaceChildren(...resultCards(currentFiltered,q));syncDiscovery(currentFiltered);
+  const matches=filterEntries(entries,q,filters);
+  currentFiltered = orderEntries(matches, q, $('sort').value);
+  $('search-order-note').hidden = !discoveryReady || ($('sort').value!=='reviewed'&&(!q.length||!currentFiltered.length));
+  $('search-order-note').textContent=$('sort').value==='reviewed'
+    ? '依頁首核對日由新到舊；不是發布日，也不代表新增或獨立驗證。正文補充不計；未提供者置後，同日保留原本的符合順序。'
+    : '標題與用途優先；全文仍納入搜尋。排序不代表成果或證據可靠度。';
+  $('results').replaceChildren(...resultCards(currentFiltered,q));
+  // Sorting is a reading preference; keep the current discovery deck intact.
+  syncDiscovery(rankEntries(matches,q));
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
   $('empty').querySelector('h3').textContent=failedPaths.length?'已載入內容中沒有符合的案例':'目前沒有符合的案例';
   renderSearchFeedback(q, filters);
@@ -1044,11 +1077,13 @@ function render(updateURL=true, preserveShare=false) {
       if ($(id).value) url.searchParams.set(key, $(id).value); else url.searchParams.delete(key);
     });
     if (activeScenario) url.searchParams.set('scenario', activeScenario); else url.searchParams.delete('scenario');
+    if(reviewSort($('sort').value))url.searchParams.set('sort','reviewed');else url.searchParams.delete('sort');
     history.replaceState(null, '', url);
   }
 }
 function reset() {
   activeScenario = '';
+  $('sort').value='';
   ['query', 'kind', 'tool', 'category', 'proof'].forEach(id => $(id).value = '');
   render();
 }
@@ -1269,6 +1304,7 @@ async function load() {
     // Hydrate shared conditions before readers can edit the form during loading.
     // Dynamic facets retain a temporary option until source metadata arrives.
     const initialParams=new URLSearchParams(location.search);
+    $('sort').value=reviewSort(initialParams.get('sort'));
     activeScenario=initialParams.get('scenario')||'';
     $('scenario').value=activeScenario;
     ['query','kind','tool','category','proof'].forEach(id=>{
@@ -1334,6 +1370,7 @@ async function load() {
     refreshCorpusMetadata();
     $('updated').textContent = '索引更新 ' + catalog.builtAt;
     const params = new URLSearchParams(location.search);
+    $('sort').value=reviewSort(params.get('sort'));
     activeScenario = params.get('scenario') || '';
     ['query', 'kind', 'tool', 'category', 'proof'].forEach(id => {
       const value = params.get(id === 'query' ? 'q' : id) || '';
@@ -1449,6 +1486,14 @@ document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>butt
 $('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;render();});
 $('filters').addEventListener('submit', e => e.preventDefault());
 $('query').addEventListener('input', () => render());
+$('sort').addEventListener('change', () => render());
+$('recent-entry').addEventListener('click', event => {
+  if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  history.replaceState(null,'',event.currentTarget.href);
+  activeScenario='';
+  ['query','kind','tool','category','proof'].forEach(id=>$(id).value='');
+  $('sort').value='reviewed';render();enterSearch(event);
+});
 ['kind', 'tool', 'category', 'proof'].forEach(id => $(id).addEventListener('change', () => render()));
 $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
@@ -1500,6 +1545,7 @@ window.addEventListener('popstate', event => {
   const item = matchCase(id);
   const wasOpen=$('detail').open;
   const missingHadFocus=$('missing-case')?.contains(document.activeElement);
+  $('sort').value=reviewSort(params.get('sort'));
   activeScenario = params.get('scenario') || '';
   ['query', 'kind', 'tool', 'category', 'proof'].forEach(key => $(key).value = params.get(key === 'query' ? 'q' : key) || '');
   render(false);

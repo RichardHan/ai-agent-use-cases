@@ -1,0 +1,19 @@
+[Base64 screenshot line omitted; original screenshot retained in Actions artifact.]
+[Base64 screenshot line omitted; original screenshot retained in Actions artifact.]
+[Base64 screenshot line omitted; original screenshot retained in Actions artifact.]
+[Base64 screenshot line omitted; original screenshot retained in Actions artifact.]
+[Base64 screenshot line omitted; original screenshot retained in Actions artifact.]
+PASS MOBILE SEARCH: 760/761px initial disclosure boundary
+MOBILE_SEARCH_RESULTS mobile-search [{"viewport":"desktop","readyMs":1216,"searchFromHeading":135,"firstResultFromSearch":487,"axeScans":2,"axeViolations":0,"passed":true},{"viewport":"mobile","readyMs":1030,"searchFromHeading":158,"firstResultFromSearch":233,"axeScans":2,"axeViolations":0,"passed":true},{"viewport":"small-mobile","readyMs":1032,"searchFromHeading":158,"firstResultFromSearch":233,"axeScans":2,"axeViolations":0,"passed":true}]
+[Base64 screenshot line omitted; original screenshot retained in Actions artifact.]
+PASS BROWSER desktop: guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations=0
+[Base64 screenshot line omitted; original screenshot retained in Actions artifact.]
+PASS BROWSER mobile: guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations=0
+PASS BROWSER small-mobile: guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations=0
+PASS BROWSER: clipboard permission failure exposes a manual share URL
+PASS BROWSER: network failure, retry recovery and empty catalog
+[Base64 screenshot line omitted; original screenshot retained in Actions artifact.]
+[Base64 screenshot line omitted; original screenshot retained in Actions artifact.]
+[Base64 screenshot line omitted; original screenshot retained in Actions artifact.]
+PASS SEARCH STATES: loading, error/retry, unknown scenario, partial corpus counts
+SEARCH_RECOVERY search [{"viewport":"desktop","navigationAndReadyMs":1043,"matchingBeforeScenario":3,"empty":"⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目","activeFilters":5,"keyboardRecoveryMs":19,"axeViolations":[],"passed":true},{"viewport":"mobile","navigationAndReadyMs":1007,"matchingBeforeScenario":3,"empty":"⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目","activeFilters":5,"keyboardRecoveryMs":19,"axeViolations":[],"passed":true},{"viewport":"small-mobile","navigationAndReadyMs":1016,"matchingBeforeScenario":3,"empty":"⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目","activeFilters":5,"keyboardRecoveryMs":18,"axeViolations":[],"passed":true}]

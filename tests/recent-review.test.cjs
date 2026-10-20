@@ -34,3 +34,12 @@ test('review sorting survives shared search URLs and is search arrival, without 
  assert.equal(hasSearchArrival(new URLSearchParams('sort=other'),''),false);
  assert.equal(hasSearchArrival(new URLSearchParams('sort=reviewed'),'#discover'),false);
 });
+test('real records preserve paired dates and leave undocumented review dates unknown',()=>{
+ const {metadata}=api();
+ for(const [id,expected] of [['028','2026-10-19'],['074','2026-10-16'],['082','2026-10-19'],['233','2026-10-17'],['239','']]){
+  const file=fs.readdirSync(path.join(__dirname,'../cases')).find(f=>f.startsWith(id+'-'));
+  const markdown=fs.readFileSync(path.join(__dirname,'../cases',file),'utf8');
+  const item=metadata(markdown,'cases/'+file,'case');
+  assert.equal(item.reviewedDate,expected,file);assert.equal(item.markdown,markdown);
+ }
+});

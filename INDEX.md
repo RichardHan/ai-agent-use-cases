@@ -2,6 +2,8 @@
 
 2026-10-20 18:00批次：UC-365加入Grok Bot同名試算表替換反例，按原位更新與同一識別驗收流程合併，不加新案；嚴格合格332不變。[來源、去重與範圍](sources/research-2026-10-20-1800.md)。
 
+2026-10-20 17:40批次：新增385英文作者一人經營謎題書副業，Grok Bot寫題目產生器並以獨立SAT解題器逐題證明唯一解與難度、交手機上架清單，15本做好6本上架0訂單（Substack長文＋公開書籍倉庫與驗證報告，納入B）、386同作者約5美元交易程式一夜虧損，Bot唯讀讀日誌把損益拆四桶、抓出繞過帳本的市價單並寫附驗收條件與小額上線門檻的修正規格（長文＋公開規格檔，納入B）、387同作者每小時偵察銀行開戶獎金與有償研究，只報新變化、每條標可信度、偵察與規劃分開、本人才開戶（長文無產物，待定不計）；017併入繁中作者把n8n客戶開發流程搬到多Bot分工並實際寄出14封，034併入日文作者每天9點以雲端瀏覽器比對信用卡明細，均不另計。皆未重現。嚴格合格332→334／1000，尚差666；主要頁379。[原文、去重與覆蓋](sources/research-2026-10-20-1740.md)。
+
 2026-10-20 17:00批次：新增384付費文章修訂後的免費／付費界線與正文讀回，只有AI第一人稱敘述，列待驗、不計數；嚴格合格332不變。[來源與範圍](sources/research-2026-10-20-1700.md)。
 
 2026-10-20 16:00批次：新增383外部QA觀察員把CI權限失敗整理成可追溯問題單，修復PR及角色規範可核；承接協作者331，嚴格合格332／1000。[來源、去重與缺口](sources/research-2026-10-20-1600.md)。
@@ -16,7 +18,7 @@
 
 更新日期：2026-10-20。所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：截至2026-10-20 17:00批次，嚴格合格為**332／1,000，尚差668**。384付費文章界線讀回候選只有AI敘述，不加數；377仍待定。未獨立重現、未重新驗證全部舊案。主要頁376，不能當合格數。[逐案計數](sources/qualification-audit-2026-10-16.md)。
+以 1,000 個不同實作工作流程為目標：截至2026-10-20 17:40批次，嚴格合格為**334／1,000，尚差666**。385、386納入B；387開戶獎金偵察沒有公開產物而待定、不加數；384付費文章界線讀回候選只有AI敘述，不加數；377仍待定。未獨立重現、未重新驗證全部舊案。主要頁379，不能當合格數。[逐案計數](sources/qualification-audit-2026-10-16.md)。
 
 2026-10-20 11:48批次（原編371–374，因UC-371已被12:00批次使用改編為372–375）：新增372新事務機掃描到資料夾SMB認證排障並實掃驗證（英文，單則文字，待定）、373同晚讓Grok Bot與dots查選民登記並申請郵寄選票、Amazon回購，記錄驗證碼接手與誰停在送出前（英文，單則長文，待定）、374續約合約由Bot取雲端硬碟簽名圖貼上並存回信草稿（繁中，附截圖，納入B）、375工作坊備課讓Bot在雲端瀏覽器以學員身分跑網頁版Copilot練習指令（繁中，附截圖，納入B）；359併入繁中作者追蹤名單CSV三分類、確認後每3小時代退追40個（726→362），096併入V2EX銷售半夜來信、Bot以只讀權限跨程式碼／資料庫／日誌／工單先初判，均不另計。皆未重現。[原文、去重與覆蓋](sources/research-2026-10-20-1148.md)。
 
@@ -137,7 +139,7 @@
 | UC-014 | 客服收件匣巡檢與人核准退款 | Grok Bot／Intercom／Stripe；dots 垃圾箱分診＋影片待看 | [作者自述＋dots 垃圾箱年付求助分診截圖；影片僅讀描述](cases/014-support-inbox-approval-refund.md) | 工作｜客服、收件匣、核准 |
 | UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine（含 KEV） | [dots 結構化測試＋Grok Bot 官方文件＋KEV 監看自述；未重現](cases/015-public-page-change-watch.md) | 工作｜監看、排程、驗收 |
 | UC-016 | 二手刊登與買家對話代管 | Meta Muse／Facebook Marketplace；dots 多平台 | [Muse 地址外洩事件（媒體轉述）＋官方權限文件＋作者自述；未重現](cases/016-marketplace-selling-buyer-messages.md) | 生活｜二手、買家訊息、隱私 |
-| UC-017 | 先研究潛在客戶，再準備有根據的聯絡草稿 | Grok Bot／公開公司來源／草稿 | [官方展示／署名作者自報；未獨立重現](cases/017-prospect-research-drafts.md) | 工作｜業務開發、草稿 |
+| UC-017 | 先研究潛在客戶，再準備有根據的聯絡草稿；繁中作者把n8n客戶開發搬到多Bot分工並實際寄信 | Grok Bot／公開公司來源／草稿；Apify Google Maps Scraper／Gmail／Routines | [官方展示／署名作者自報＋繁中作者實測自述（寄出14封、回覆未公開）；未獨立重現](cases/017-prospect-research-drafts.md) | 工作｜業務開發、草稿 |
 | UC-018 | 正式展示前，先檢查示範環境能不能跑 | Grok Bot／授權測試環境 | [官方展示／署名作者自報；未獨立重現](cases/018-demo-readiness.md) | 工作｜展示、驗收 |
 | UC-019 | 把剛談到的客戶需求，變成下一版簡報 | Grok Bot／Granola／Figma | [官方展示／署名作者自報；未獨立重現](cases/019-call-to-customer-deck.md) | 工作｜簡報、會議 |
 | UC-020 | 用一張設計範本，做出整批一致的卡片 | Grok Bot／Figma MCP | [官方展示／署名作者自報；未獨立重現](cases/020-figma-batch-cards.md) | 創作｜設計、Figma、批次製作 |
@@ -154,7 +156,7 @@
 | UC-031 | 用匿名消費明細建立支出看板 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/031-spending-dashboard.md) | 省錢｜記帳、看板 |
 | UC-032 | 把虛構睡眠紀錄整理成趨勢圖 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/032-sleep-record-chart.md) | 生活｜睡眠、健康 |
 | UC-033 | 從年度營運數據排出下一季實驗 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/033-business-experiment-plan.md) | 工作｜營運、實驗規劃 |
-| UC-034 | 把可疑費用整理成覆核清單 | Meta Muse／Grok Bot | [Muse建議＋Grok Bot作者疑似重複扣款自述；未核退款](cases/034-expense-anomaly-review.md) | 省錢｜費用、異常 |
+| UC-034 | 把可疑費用整理成覆核清單；每天比對信用卡明細與前一天 | Meta Muse／Grok Bot（雲端瀏覽器＋Routine） | [Muse建議＋Grok Bot作者疑似重複扣款自述＋日文作者每日明細比對自述（無截圖）；未核退款](cases/034-expense-anomaly-review.md) | 省錢｜費用、異常 |
 | UC-035 | 找合適職缺，把履歷改成有根據的申請草稿 | dots／Work歸屬待核；Grok Bot反例兩則 | [作者自報＋未核准及重複投遞反例＋代理內部筆記險些送出反例；未重現](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
 | UC-036 | 每天的收銀資料，整理成可核對的入帳檔 | Grok Bot／POS／QuickBooks Online | [論壇作者自報；無實際入帳或核帳證據](cases/036-pos-accounting-csv.md) | 工作｜每日、收銀、記帳 |
 | UC-037 | 跨商店比同款商品，先看清總價與賣家；海外特價算入運費與進口稅 | Meta Muse；Grok Bot（Amazon 擋代理後改找他店）；dots 本機替代路徑；Muse 跨境含稅比價 | [媒體作者單次測試＋Grok Bot／dots 失敗與本機路徑自述＋robots.txt 已讀＋Muse跨境購買單則自述（無購買證據）；未獨立重現](cases/037-product-listing-comparison.md) | 省錢｜購物、比價、網購 |
@@ -500,6 +502,9 @@
 | UC-382 | 一人經營付費週報與社群：Bot團隊研究、編寫、初審，公開與收費只等本人核准 | Grok Bot／GitHub／Buffer／note／Discord | [日文作者note長文＋體制圖；未重現](cases/382-bot-team-paid-newsletter-approval-log.md) | 工作｜多代理、核准、電子報、每日 |
 | UC-383 | 觀察既有CI失敗、附證據交問題單，不接管修復與派工 | Grok Bot／GitHub Actions／Issues | [維護者歸屬＋公開問題單及已合併PR；未重現排程](cases/383-external-qa-ci-failure-issue-handoff.md) | 開發｜CI、問題單、權限、驗收 |
 | UC-384 | 更新付費文章後核對讀者可見界線 | Grok Bot／note | [待驗：僅AI敘述，缺人類確認與操作產物](cases/384-paid-article-boundary-post-edit-verification.md) | 創作｜付費文章、發布、讀回、失敗紀錄 |
+| UC-385 | 一人經營謎題書副業：Bot寫題目產生器、獨立解題器逐題驗證唯一解與難度，交手機上架清單 | Grok Bot／Git／Python／Amazon KDP（本人上架） | [英文作者Substack長文＋公開書籍倉庫與驗證報告；銷售為自報0訂單、未重現](cases/385-kdp-puzzle-book-sat-verified-phone-checklist.md) | 創作｜出版、謎題書、驗收、核准 |
+| UC-386 | 小額交易程式一夜虧損：唯讀讀日誌把損益拆四桶，找出繞過帳本的市價單並寫可驗收修正規格 | Grok Bot／自寫造市程式（Coinbase、Kraken）／日誌唯讀 | [英文作者Substack長文＋公開規格檔；損益為作者自報、未重現](cases/386-trading-bot-pnl-bucket-postmortem-change-brief.md) | 開發｜故障診斷、損益對帳、交易機器人、驗收 |
+| UC-387 | 每小時找開戶獎金與有償研究：只報新變化、每條標可信度，開戶與轉帳由本人做 | Grok Bot（偵察／規劃／推薦三個Bot）／已報紀錄檔 | [待定：英文作者長文自述，無掃描輸出或追蹤表；尚未開戶](cases/387-hourly-bank-bonus-scout-seen-log-trust-labels.md) | 省錢｜開戶獎勵、排程、資料查證、每日 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

@@ -1,0 +1,12 @@
+{
+  "baselineRef": "1e69263",
+  "comparedHead": "632377ab59ed3237b56c40092c07db97f9b9057a",
+  "files": 505,
+  "excluded": [
+    "tests/recent-review*",
+    "workflow and QA records"
+  ],
+  "beforeSHA256": "0c51dea62f84ecac4afa34df19598c6b7879ce1a3c236b4c1c714db5fdc9de4d",
+  "afterSHA256": "0c51dea62f84ecac4afa34df19598c6b7879ce1a3c236b4c1c714db5fdc9de4d",
+  "changed": []
+}

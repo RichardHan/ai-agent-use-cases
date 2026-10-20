@@ -1,0 +1,25 @@
+{
+  "uncompressedFileBytes": {
+    "index.html": {
+      "before": 13503,
+      "after": 14035,
+      "delta": 532
+    },
+    "assets/app.js": {
+      "before": 150328,
+      "after": 153140,
+      "delta": 2812
+    },
+    "assets/style.css": {
+      "before": 28832,
+      "after": 29159,
+      "delta": 327
+    }
+  },
+  "totalDelta": 3671,
+  "reviewTextContrast": {
+    "ffffff": 8.71,
+    "f7f8f2": 8.16
+  },
+  "note": "WCAG relative luminance formula; file bytes are not transferred bytes or performance scores."
+}

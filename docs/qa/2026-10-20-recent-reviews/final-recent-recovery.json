@@ -1,0 +1,18 @@
+[
+  {
+    "state": "edited during loading",
+    "sort": "reviewed",
+    "query": "旅遊"
+  },
+  {
+    "state": "partial recovery",
+    "focusedID": "UC-056",
+    "sort": "reviewed",
+    "missing": 0
+  },
+  {
+    "state": "catalog error retry",
+    "sort": "reviewed",
+    "missing": 0
+  }
+]

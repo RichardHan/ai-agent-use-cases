@@ -1,0 +1,16 @@
+[
+  {
+    "suite": "discovery-browser",
+    "run": 39353924703,
+    "sha": "1e69263",
+    "originalLogSHA256": "3c97b0ee18d14023af101a30025f2c5c54126a72b15bb54fc4c5285e4d143fa1",
+    "omitted": "only VISUAL base64 screenshot lines"
+  },
+  {
+    "suite": "reader-browser",
+    "run": 39353924703,
+    "sha": "1e69263",
+    "originalLogSHA256": "dc120178a1aabc8cf7448c4b582ad4e048a9fca12b0d30ad0b3aa1537a3b183e",
+    "omitted": "only VISUAL base64 screenshot lines"
+  }
+]

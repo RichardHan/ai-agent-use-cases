@@ -1,0 +1,67 @@
+browser	Verify complete journeys across browsers	﻿2026-10-20T01:11:00.8995875Z ##[group]Run python3 -m http.server 8131 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-preview.log 2>&1 &
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.8997113Z ^[[36;1mpython3 -m http.server 8131 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-preview.log 2>&1 &^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.8997966Z ^[[36;1mpython3 -m http.server 8081 --directory "$RUNNER_TEMP/recent-preview" > /tmp/recent-discovery.log 2>&1 &^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.8998581Z ^[[36;1mnode tests/recent-review-browser.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.8998946Z ^[[36;1mnode tests/recent-review-recovery.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.8999314Z ^[[36;1mnode tests/source-guide-mobile-regression.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.8999695Z ^[[36;1mnode tests/loading-budget-browser.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9000030Z ^[[36;1mnode tests/relevance-browser.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9000342Z ^[[36;1mnode tests/discovery-browser.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9000646Z ^[[36;1mnode tests/reader-browser.cjs^[[0m
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9052299Z shell: /usr/bin/bash -e {0}
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9052607Z env:
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9052889Z   NODE_PATH: /home/runner/work/_temp/recent-tools/node_modules
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9053355Z   RECENT_URL: http://127.0.0.1:8131/ai-agent-use-cases/
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9053736Z   GUIDE_URL: http://127.0.0.1:8131/ai-agent-use-cases/
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9054098Z   READER_URL: http://127.0.0.1:8131/ai-agent-use-cases/
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9054450Z   BUDGET_URL: http://127.0.0.1:8131/ai-agent-use-cases/
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9054991Z   RELEVANCE_URL: http://127.0.0.1:8131/ai-agent-use-cases/
+browser	Verify complete journeys across browsers	2026-10-20T01:11:00.9055324Z ##[endgroup]
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9516936Z AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9518313Z + actual - expected
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9518641Z 
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9518852Z + [
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9520277Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/045-cross-agent-research-handoff.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9522259Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9523821Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/047-portfolio-provenance-catalog.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9525140Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/048-daily-price-rank-tracking.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9527077Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/049-daily-inbox-report-graduated-trust.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9528522Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/050-daily-eink-mood-illustration.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9529898Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/051-tax-return-cpa-double-check.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9531126Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/052-cloud-overcharge-refund-root-cause.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9532197Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/053-ecommerce-replenishment-refund-profit.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9533237Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/054-music-video-multi-tool-pipeline.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9534324Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/055-tweet-project-intake-research-monitor.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9535341Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/056-agent-built-microbusiness-site.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9536331Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/057-self-hosted-ci-runner-on-laptop.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9537785Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/058-tennis-match-dead-time-editing.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9538762Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/059-home-service-quote-handoff.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9539719Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/060-x-mention-sourced-answer-bot.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9541074Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/061-dispatcher-bot-typed-commands-ledger.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9542057Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/062-figma-android-implementation-audit.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9542976Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/063-plex-media-library-housekeeping.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9543881Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/064-math-proof-review-formalization.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9544759Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/065-suspicious-email-security-review.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9545626Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/066-agent-token-usage-self-audit.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9546753Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/067-agent-app-rebuild-manual.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9547691Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/068-mac-local-helper-away-diagnosis.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9548587Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/069-task-migration-reconciliation.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9549510Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/070-github-outage-mac-cloudflare-publish.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9550639Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/071-obsidian-dots-visible-memory.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9551540Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/072-phone-task-disclosure-handoff.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9552433Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/073-customer-journey-content-audit.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9553360Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/074-event-trigger-readback.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9554267Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/075-health-appointment-briefing-coach.md due to access control checks.',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9555161Z +   '/127.0.0.1:8131/ai-agent-use-cases/cases/076-spam-call-data-broker-optout.md due to access control checks.'
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9555688Z + ]
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9555869Z - []
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9555977Z 
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9556575Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/recent-review-browser.cjs:101:13 {
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9557134Z   generatedMessage: true,
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9557388Z   code: 'ERR_ASSERTION',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9557617Z   actual: [Array],
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9557827Z   expected: [],
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9558066Z   operator: 'deepStrictEqual',
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9558310Z   diff: 'simple'
+browser	Verify complete journeys across browsers	2026-10-20T01:12:49.9558503Z }
+browser	Verify complete journeys across browsers	2026-10-20T01:12:50.0589887Z ##[error]Process completed with exit code 1.

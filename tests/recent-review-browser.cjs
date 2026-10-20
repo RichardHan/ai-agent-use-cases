@@ -41,7 +41,7 @@ async function order(page){
      await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
      await page.screenshot({path:`${output}/${name}-${size}-home.png`});
      if(baseline){
-      await page.locator('#results-count').scrollIntoViewIfNeeded();
+      await page.evaluate(()=>$('explore').scrollIntoView({block:'start',behavior:'instant'}));
       await page.screenshot({path:`${output}/${name}-${size}-results.png`});
       report.hasSort=await page.locator('#sort').count()===1;
       continue;
@@ -54,12 +54,14 @@ async function order(page){
      assert.equal(await page.evaluate(()=>performance.timeOrigin),timeOrigin,'home entry keeps the same document');
      assert.equal(await page.evaluate(()=>location.href),new URL('?sort=reviewed#explore',origin).href);
      await order(page);assert.match(await page.locator('#search-order-note').innerText(),/正文補充不計/);
-     await page.locator('#results-count').scrollIntoViewIfNeeded();
+     await page.evaluate(()=>$('explore').scrollIntoView({block:'start',behavior:'instant'}));
      await page.screenshot({path:`${output}/${name}-${size}-recent.png`});await audit(page,report,'recent results');
      const firstID=await page.locator('#results .card').first().getAttribute('data-case-id');
      const read=page.locator('#results .card .card-bottom button').first();await read.click();
      await page.locator('#detail[open]').waitFor();assert.match(await page.locator('.detail-header-meta').innerText(),/頁首核對/);
      await page.screenshot({path:`${output}/${name}-${size}-detail.png`});await audit(page,report,'recent detail');
+     await page.locator('#copy-case-link').click();
+     if(name==='chromium'){const link=new URL(await page.evaluate(()=>navigator.clipboard.readText()));assert.equal(link.searchParams.get('sort'),'reviewed');assert.equal(link.searchParams.get('case'),firstID);}
      await page.goBack();await page.waitForFunction(()=>!$('detail').open);
      assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),firstID);
      assert.equal(await page.locator('#sort').inputValue(),'reviewed');await order(page);
@@ -79,6 +81,8 @@ async function order(page){
      if(name==='chromium')assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),shared);
      await ready(page,new URL(shared).search+new URL(shared).hash);await order(page);
      assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');
+     await page.locator('#clear-facets').click();
+     assert.equal(await page.locator('#sort').inputValue(),'reviewed');assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#tool').inputValue(),'');
      // The global home entry equals its real href even after a filtered search.
      await page.locator('#recent-entry').click();assert.equal(await page.locator('#query').inputValue(),'');assert.equal(await page.locator('#tool').inputValue(),'');
      assert.equal(await page.evaluate(()=>location.href),new URL('?sort=reviewed#explore',origin).href);

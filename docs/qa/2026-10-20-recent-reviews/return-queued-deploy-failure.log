@@ -1,0 +1,12 @@
+published	Verify the published unmodified Back path	﻿2026-10-20T01:58:22.3853991Z ##[group]Run node tests/return-visibility-browser.cjs
+published	Verify the published unmodified Back path	2026-10-20T01:58:22.3854252Z ^[[36;1mnode tests/return-visibility-browser.cjs^[[0m
+published	Verify the published unmodified Back path	2026-10-20T01:58:22.3909285Z shell: /usr/bin/bash -e {0}
+published	Verify the published unmodified Back path	2026-10-20T01:58:22.3909430Z env:
+published	Verify the published unmodified Back path	2026-10-20T01:58:22.3909585Z   NODE_PATH: /home/runner/work/_temp/native-tools/node_modules
+published	Verify the published unmodified Back path	2026-10-20T01:58:22.3909834Z   RETURN_URL: https://richardhan.github.io/ai-agent-use-cases/
+published	Verify the published unmodified Back path	2026-10-20T01:58:22.3910021Z   RETURN_NATIVE: 1
+published	Verify the published unmodified Back path	2026-10-20T01:58:22.3910140Z ##[endgroup]
+published	Verify the published unmodified Back path	2026-10-20T02:00:49.5712149Z Error: Published return asset does not match checkout
+published	Verify the published unmodified Back path	2026-10-20T02:00:49.5713154Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/return-visibility-browser.cjs:12:26
+published	Verify the published unmodified Back path	2026-10-20T02:00:49.5713711Z     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+published	Verify the published unmodified Back path	2026-10-20T02:00:49.5790558Z ##[error]Process completed with exit code 1.

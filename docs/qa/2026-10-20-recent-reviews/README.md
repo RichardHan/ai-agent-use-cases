@@ -1,6 +1,6 @@
 # 2026-10-20：最近核對的內容
 
-狀態：預覽驗收通過，準備合併與正式部署。發布結果補於下方。
+狀態：已合併至main並發布；實際HTTPS桌面與手機驗收通過。產品整合505c825，發布驗收d923b8b，後續紀錄提交不改產品或語料。
 
 首頁新增「最近核對的內容」入口，篩選面板可切換頁首核對日排序，卡片與詳情可讀到日期。回訪者可直接開啟、收藏或分享近期列表；預設仍保留原相關性排序。只改排序不重抽靈感卡、不改匹配集合，返回、分享、重新整理與補讀都保留排序。
 
@@ -21,8 +21,8 @@
 
 | 尺寸 | 修改前 | 修改後近期列表 |
 | --- | --- | --- |
-| 桌面1440×1000 | [前](before/chromium-desktop-results.png) | [後](preview/chromium-desktop-recent.png) |
-| 手機390×844 | [前](before/chromium-mobile-results.png) | [後](preview/chromium-mobile-recent.png) |
+| 桌面1440×1000 | [前](before/chromium-desktop-results.png) | [正式站修改後](published/chromium-desktop-recent.png) |
+| 手機390×844 | [前](before/chromium-mobile-results.png) | [正式站修改後](published/chromium-mobile-recent.png) |
 
 [手機首頁](preview/chromium-mobile-home.png) · [320px](preview/chromium-small-recent.png) · [手機詳情](preview/chromium-mobile-detail.png)
 
@@ -37,11 +37,11 @@
 | JS與預覽 | 語法及Python靜態預覽通過；沒有獨立lint／TypeScript／npm build；不冒稱是Jekyll建置 |
 | 原探索與閱讀 | [1e69263／39353924703](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39353924703)兩套命令明確PASS；366條目／2556節／385證據列、15次axe零違規。該run後續新測試錯誤，整體仍FAIL |
 | 最終五套預覽 | [632377a／39355497515](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39355497515)成功；Chromium1440／390／320、Firefox／WebKit390：366筆逐筆原文符合checkout、349日期／17未知、0pageerror、10次axe零違規；載入編輯／部分補讀／整體錯誤重試皆通過 |
-| 正式部署與HTTPS | 尚未執行 |
+| 正式部署與HTTPS | [Jekyll Pages 39356283983](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39356283983)成功；[正式HTTPS 39356746879](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39356746879)成功：1440／390兩尺寸、三情境、366筆原文符合checkout、0pageerror、4次axe零違規；[報告](published/report.json) |
 
 原兩套回歸與最終產品、語料、scripts及原測試依賴505檔雜湊完全相同，見[比對](reused-regression-integrity.json)。跨run分套記錄，不把失敗run改記成功。[Discovery輸出](discovery-browser.log) · [Reader輸出](reader-browser.log) · [原文資料完整性](reader-corpus.json)。最終五套另記recent／recovery／mobile／budget／relevance，既有main Website／Reader CI未改。
 
-未參與實作的角色指定gpt-6-astra／max，已審查架構、資料、安全、功能、桌面及390／320畫面；指出並已修正零結果說明、入口href等價、抽卡穩定、history測試分離及P項目身份驗收漏洞。最終獨立核對已完成：110單元與五套PASS、所有JSON及11張新圖一致，沒有剩餘產品必修項，可合併；正式HTTPS另驗。主對話實際模型／推理及帳號最高可用設定無法核實；本機預設僅顯示gpt-6.1-sol／medium，未切換或假稱最強。
+未參與實作的角色指定gpt-6-astra／max，已審查架構、資料、安全、功能、桌面及390／320畫面；指出並已修正零結果說明、入口href等價、抽卡穩定、history測試分離及P項目身份驗收漏洞。最終獨立核對已完成：110單元與五套PASS、所有JSON及11張新圖一致，沒有剩餘產品必修項，可合併；其後正式HTTPS也已通過。主對話實際模型／推理及帳號最高可用設定無法核實；本機預設僅顯示gpt-6.1-sol／medium，未切換或假稱最強。
 
 前端三檔增加3,671未壓縮bytes；日期文字對白卡片8.71:1、紙色8.16:1，見[尺寸與對比](sizes-and-contrast.json)。不是傳輸量、Lighthouse或速度改善證明。
 
@@ -57,7 +57,7 @@ RECENT_URL=http://127.0.0.1:8131/ai-agent-use-cases/ node tests/recent-review-br
 RECENT_URL=http://127.0.0.1:8131/ai-agent-use-cases/ node tests/recent-review-recovery.cjs
 ```
 
-正式入口預計為[最近核對](https://richardhan.github.io/ai-agent-use-cases/?sort=reviewed#explore)；發布前不能當新版預覽。其餘完整命令見[workflow](../../../.github/workflows/recency-qa.yml)。
+可直接使用正式入口[最近核對](https://richardhan.github.io/ai-agent-use-cases/?sort=reviewed#explore)。其餘完整命令見[workflow](../../../.github/workflows/recency-qa.yml)。
 
 ## 界線與下一輪
 
@@ -69,4 +69,6 @@ RECENT_URL=http://127.0.0.1:8131/ai-agent-use-cases/ node tests/recent-review-re
 
 原手機五配置完成且390／320距搜尋233px，原門檻未放寬；新增復原[結果](final-recent-recovery.json)、載入期限[17項結果](final-loading-after.json)、相關性[五配置](final-after-relevance.json)、完整預覽[結果](preview/report.json)、[CI](final-preview-ci.json)。
 
-正式發布505c825整合後110／110。首次正式驗收39356284786於01:58:12～02:01:15等待版本，Pages仍排隊，HTML／JS／CSS仍HTTP200舊版，故版本閘門正確FAIL、未執行HTTPS旅程；[失敗log](published-before-deploy-failure.log)與[當時資產](published-before-deploy-assets.json)保留。Jekyll build隨後成功，部署另待結果。CLI rerun被帳號權限拒絕，因此以已授權git push調整QA等待上限為8分鐘後再驗，不放寬任何資產、目錄或原文比對。未改產品／語料／原測試。
+正式發布505c825整合後110／110。首次正式驗收39356284786於01:58:12～02:01:15等待版本，Pages仍排隊，HTML／JS／CSS仍HTTP200舊版，故版本閘門正確FAIL、未執行HTTPS旅程；[失敗log](published-before-deploy-failure.log)與[當時資產](published-before-deploy-assets.json)保留。Jekyll build與Pages部署隨後成功，正式HTTPS複驗亦通過（見上表）。CLI rerun被帳號權限拒絕，因此以已授權git push調整QA等待上限為8分鐘後再驗，不放寬任何資產、目錄或原文比對。未改產品／語料／原測試。
+
+正式站先確認HTML／JS／CSS逐bytes等於checkout，catalog的364個來源路徑集合完全相同，再走完三情境；逐筆核對366條目原文與349／17日期覆蓋。[資產雜湊](published-assets.json) · [Pages結果](pages-ci.json) · [HTTPS結果](published-ci.json)。既有Return CI首次也在部署前版本閘門失敗，保留[原log](return-queued-deploy-failure.log)；[發布CI快照](publication-ci-snapshot.json)僅作當時狀態，不宣稱所有其他workflow已綠燈。正式HTTPS驗收完成後，main另有協作者b801362／a7f1768新增案例與來源註記；保留其內容。上述366筆結果明確對應d923b8b，不延伸聲稱後續新增資料也已完成同一套瀏覽器驗收。本輪驗收已達標，停止功能修改。

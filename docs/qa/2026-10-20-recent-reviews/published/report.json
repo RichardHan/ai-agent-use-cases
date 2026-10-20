@@ -1,0 +1,90 @@
+[
+  {
+    "engine": "chromium",
+    "size": "desktop",
+    "audits": [
+      {
+        "label": "recent results",
+        "violations": []
+      },
+      {
+        "label": "recent detail",
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "entries": 366,
+    "corpusMatchesCheckout": true,
+    "dateCoverage": {
+      "known": 349,
+      "unknown": [
+        "UC-218",
+        "UC-220",
+        "UC-221",
+        "UC-222",
+        "UC-223",
+        "UC-224",
+        "UC-239",
+        "UC-256",
+        "UC-257",
+        "UC-258",
+        "UC-259",
+        "UC-260",
+        "UC-261",
+        "UC-278",
+        "P-001",
+        "P-002",
+        "P-003"
+      ]
+    },
+    "journeys": [
+      "home recent + keyboard + native Back",
+      "task + facets + share + reload",
+      "unknown date + empty + reset + direct case"
+    ]
+  },
+  {
+    "engine": "chromium",
+    "size": "mobile",
+    "audits": [
+      {
+        "label": "recent results",
+        "violations": []
+      },
+      {
+        "label": "recent detail",
+        "violations": []
+      }
+    ],
+    "errors": [],
+    "entries": 366,
+    "corpusMatchesCheckout": true,
+    "dateCoverage": {
+      "known": 349,
+      "unknown": [
+        "UC-218",
+        "UC-220",
+        "UC-221",
+        "UC-222",
+        "UC-223",
+        "UC-224",
+        "UC-239",
+        "UC-256",
+        "UC-257",
+        "UC-258",
+        "UC-259",
+        "UC-260",
+        "UC-261",
+        "UC-278",
+        "P-001",
+        "P-002",
+        "P-003"
+      ]
+    },
+    "journeys": [
+      "home recent + keyboard + native Back",
+      "task + facets + share + reload",
+      "unknown date + empty + reset + direct case"
+    ]
+  }
+]

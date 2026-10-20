@@ -1,0 +1,25 @@
+{
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "match": true,
+      "sha256": "3bdaafc8294eba7950a39707e1f9c540201561447470b6deac1af954eb0bf80b"
+    },
+    {
+      "file": "assets/app.js",
+      "status": 200,
+      "match": true,
+      "sha256": "958598aa468c04297acd49a1125703d423abd419aa8dfb486df0be028c33153c"
+    },
+    {
+      "file": "assets/style.css",
+      "status": 200,
+      "match": true,
+      "sha256": "11c36dec1a22571816badd9ce0a9767903e4b2ea3bc010cd7e2c9d06603e1fbe"
+    }
+  ],
+  "catalogStatus": 200,
+  "catalogFiles": 364,
+  "catalogMatch": true
+}

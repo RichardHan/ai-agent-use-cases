@@ -491,8 +491,12 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(metaAiHelpCandidate.cases.includes('cases/267-nfc-points-redemption-ledger.md'));
 
   const grokBotApprovalsCandidate = duplicates.find(d => d.url === 'https://docs.x.ai/grok-bot/approvals-security-and-privacy');
-  assert(grokBotApprovalsCandidate, 'Must detect shared Grok Bot approvals-security-and-privacy docs across 11 files');
-  assert.equal(grokBotApprovalsCandidate.cases.length, 11);
+  assert(grokBotApprovalsCandidate, 'Must detect shared Grok Bot approvals-security-and-privacy docs across files');
+  assert(grokBotApprovalsCandidate.cases.length >= 15, `Shared Grok Bot approvals doc should be cited by at least 15 files; got ${grokBotApprovalsCandidate.cases.length}`);
+  assert(grokBotApprovalsCandidate.cases.includes('cases/372-office-mfp-scan-to-folder-smb-auth-fix.md'));
+  assert(grokBotApprovalsCandidate.cases.includes('cases/373-voter-registration-mail-ballot-two-agent-comparison.md'));
+  assert(grokBotApprovalsCandidate.cases.includes('cases/374-contract-renewal-saved-signature-reply-draft.md'));
+  assert(grokBotApprovalsCandidate.cases.includes('cases/375-workshop-prompts-cloud-browser-dry-run.md'));
   assert(grokBotApprovalsCandidate.cases.includes('cases/101-procurement-capability-shortlist.md'));
   assert(grokBotApprovalsCandidate.cases.includes('cases/156-mail-system-migration-verification.md'));
   assert(grokBotApprovalsCandidate.cases.includes('cases/318-approved-account-form-shopify-customer-flow.md'));

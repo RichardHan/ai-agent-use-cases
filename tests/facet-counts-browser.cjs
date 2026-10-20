@@ -102,6 +102,8 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
   assert.equal(await page.locator('#scenario').inputValue(),'生活');
   await page.locator('#query').focus();await page.keyboard.press('Tab');
+  assert(await page.locator('#search-submit').evaluate(n=>n===document.activeElement));
+  await page.keyboard.press('Tab');
   assert(await page.locator('#filter-summary').evaluate(n=>n===document.activeElement));
   const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
   row.axeViolations=axe.violations.map(v=>v.id);assert.deepEqual(row.axeViolations,[]);

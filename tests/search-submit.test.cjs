@@ -26,3 +26,15 @@ test('search action remains outside the collapsible filters and is initially una
 test('composition state also guards native SubmitEvent without isComposing',()=>{
  const {context,calls}=setup();context.compose(true);context.submit({preventDefault(){}});assert.deepEqual(calls,[]);context.compose(false);context.submit({preventDefault(){}});assert.equal(calls.length,3);
 });
+
+test('result settling is bounded and yields to new interaction, URL, focus or dialog changes',()=>{
+ for(const interrupt of ['none','pointer','url','focus','dialog']){
+  const frames=[],listeners=new Map(),scrolls=[];const location={href:'https://example.test/?q=travel#explore'},dialog={open:false};
+  const document={activeElement:null,getElementById:id=>id==='detail'?dialog:target,addEventListener:(type,fn)=>listeners.set(type,fn),removeEventListener:type=>listeners.delete(type)};
+  const target={focus(){document.activeElement=this;},scrollIntoView:options=>scrolls.push(options.block),getBoundingClientRect:()=>({top:1000,bottom:1030})};
+  const context=vm.createContext({document,location,innerHeight:844,requestAnimationFrame:fn=>frames.push(fn)});vm.runInContext(source+'\nthis.settle=focusLoadedResults;',context);context.settle('start');assert.deepEqual(scrolls,['start']);
+  if(interrupt==='pointer')listeners.get('pointerdown')();if(interrupt==='url')location.href+='changed';if(interrupt==='focus')document.activeElement={};if(interrupt==='dialog')dialog.open=true;
+  let count=0;while(frames.length){frames.shift()();assert(++count<=2,'no unbounded scroll loop');}
+  assert.deepEqual(scrolls,interrupt==='none'?['start','start','start']:['start']);assert.equal(listeners.size,0);
+ }
+});

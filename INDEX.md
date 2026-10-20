@@ -1,5 +1,7 @@
 # 完整案例索引
 
+2026-10-20 20:00批次：新增UC-389已成功任務在接續後失去工具的回歸驗收，保留暫時成功後復發反例，B級作者實作自述；嚴格合格336／1000，尚差664。未獨立重現。[研究範圍](sources/research-2026-10-20-2000.md)。
+
 2026-10-20 19:00批次：新增UC-388贊助貼文到齡後跨後台建立可追溯成效包，B級作者實作自述；原報表未公開、未重現。承接協作者334，嚴格合格335／1000，尚差665。舊批次數字保留為歷史。[研究範圍](sources/research-2026-10-20-1900.md)。
 
 2026-10-20 18:00批次：UC-365加入Grok Bot同名試算表替換反例，按原位更新與同一識別驗收流程合併，不加新案；嚴格合格332不變。[來源、去重與範圍](sources/research-2026-10-20-1800.md)。
@@ -508,6 +510,7 @@
 | UC-386 | 小額交易程式一夜虧損：唯讀讀日誌把損益拆四桶，找出繞過帳本的市價單並寫可驗收修正規格 | Grok Bot／自寫造市程式（Coinbase、Kraken）／日誌唯讀 | [英文作者Substack長文＋公開規格檔；損益為作者自報、未重現](cases/386-trading-bot-pnl-bucket-postmortem-change-brief.md) | 開發｜故障診斷、損益對帳、交易機器人、驗收 |
 | UC-387 | 每小時找開戶獎金與有償研究：只報新變化、每條標可信度，開戶與轉帳由本人做 | Grok Bot（偵察／規劃／推薦三個Bot）／已報紀錄檔 | [待定：英文作者長文自述，無掃描輸出或追蹤表；尚未開戶](cases/387-hourly-bank-bonus-scout-seen-log-trust-labels.md) | 省錢｜開戶獎勵、排程、資料查證、每日 |
 | UC-388 | 贊助貼文到齡後跨後台建立成效證據包 | Grok Bot／Instagram Insights／Meta Business Suite／Drive／Sheets | [作者具體實作及返工自述；原報表未公開、未重現](cases/388-sponsored-post-age-metrics-evidence-pack.md) | 工作｜贊助交付、資料口徑、證據包 |
+| UC-389 | 已成功任務接續後的工具退化驗收 | ChatGPT dots／Codex | [作者失敗與暫時成功自述，未重現](cases/389-resumed-task-native-capability-regression.md) | 開發｜生命週期、回歸驗收、失敗 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 
@@ -531,3 +534,4 @@
 [本次論壇探索範圍與缺漏](sources/forum-research-2026-10-13.md)
 
 [官方發布與早期教學覆蓋盤點](sources/launch-coverage-2026-10-13.md)
+

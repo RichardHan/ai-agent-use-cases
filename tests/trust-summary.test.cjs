@@ -7,11 +7,14 @@ test('current batch supplies counts and its own timestamp without equating catal
  assert.equal(parseSummary(batch(0,1000)).count,0);
  assert.equal(parseSummary(batch(1000,0)).count,1000);
  assert.equal(parseSummary(batch(300,700,'2026-10-19 台灣時間核對')).time,'');
+ assert.equal(parseSummary(batch(300,700,'2026-10-19 14:44台灣時間補核')).time,'14:44');
 });
 test('malformed current batch never borrows a historical count or coerces invalid values',()=>{
  const invalid=[null,{},[],{latestBatch:null},{latestBatch:3},{latestBatch:''},
   batch(-1,1001),batch(336,665),batch('336<script>',664),batch('3.36',664),
-  batch(1001,-1),batch(336,664,'2026-02-30 20:00 核對'),batch(336,664,'2026-10-20 24:00 核對'),
+  batch(1001,-1),batch(336,664,'2026-02-30 20:00 核對'),batch(336,664,'2026-10-20 24:00 台灣時間核對'),
+  batch(336,664,'2026-10-20 20:00:99 台灣時間核對'),batch(336,664,'2026-10-20 9:00 台灣時間核對'),
+  batch(336,664,'2026-10-20 20:00 UTC核對'),batch(336,664,'2026-10-20 核對'),
   {latestBatch:'沒有當前數字\n## 2026-10-19 核對\n嚴格合格 **335／1,000，尚差665**'},
   {latestBatch:batch().latestBatch+'\n## 舊批次\n嚴格合格 **335／1,000，尚差665**'},
   {latestBatch:batch().latestBatch+'\n嚴格合格 **335／1,000，尚差665**'},

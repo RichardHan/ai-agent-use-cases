@@ -16,6 +16,8 @@ async function ready(page){await page.waitForFunction(()=>discoveryReady,null,{t
    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage();
    const row={engine,size,errors:[],audits:[]};report.checks.push(row);save();page.on('pageerror',e=>row.errors.push(e.message));
    await page.goto(origin);await ready(page);
+   await page.evaluate(()=>scrollTo(0,0));
+   await page.screenshot({path:out+'/home-'+engine+'-'+size+'.png'});
    await page.locator('.stats').scrollIntoViewIfNeeded();
    row.observedCount=await page.locator('.stat-card-audit .stat-figure strong').innerText();row.expectedCount=expected[1];
    if(!observe){
@@ -31,7 +33,7 @@ async function ready(page){await page.waitForFunction(()=>discoveryReady,null,{t
    if(observe){row.reproduced=row.observedCount!==row.expectedCount;assert(row.reproduced,'baseline must reproduce stale audit count');save();await context.close();continue;}
    // A separate page proves summary failure does not block the existing corpus.
    if(!live){
-    const failurePage=await context.newPage();let mode='http';
+    const failurePage=await context.newPage();failurePage.on('pageerror',e=>row.errors.push(e.message));let mode='http';
     await failurePage.route('**/audit-summary.json',async route=>{
      if(mode==='timeout'){await new Promise(r=>setTimeout(r,9000));await route.fulfill({status:200,body:'{}'}).catch(()=>{});return;}
      if(mode==='http')return route.fulfill({status:404,body:'missing'});
@@ -65,7 +67,7 @@ async function ready(page){await page.waitForFunction(()=>discoveryReady,null,{t
   }
   // JavaScript disabled still provides the complete report, without a stale count.
   if(engine==='chromium'&&!observe){
-   const context=await browser.newContext({javaScriptEnabled:false}),page=await context.newPage();await page.goto(origin);assert.equal(await page.locator('#audit-count').innerText(),'—');assert(await page.locator('.stat-card-audit a').isVisible());assert(await page.locator('noscript').innerText());report.noScript=true;save();await context.close();
+   const context=await browser.newContext({javaScriptEnabled:false}),page=await context.newPage();await page.goto(origin);assert.equal(await page.locator('#audit-count').innerText(),'—');assert(await page.locator('.stat-card-audit a').isVisible());assert(await page.locator('noscript').innerText());assert.doesNotMatch(await page.locator('#audit-status').innerText(),/正在讀取/);report.noScript=true;save();await context.close();
   }
   }finally{await browser.close();}
  }

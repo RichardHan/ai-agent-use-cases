@@ -61,7 +61,7 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  const page=await browser.newPage({viewport:{width:390,height:844}});let release;
  const gate=new Promise(resolve=>{release=resolve;});
  await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
- await page.goto(base,{waitUntil:'domcontentloaded'});await page.locator('#query').fill('旅遊');
+ await page.goto(base,{waitUntil:'domcontentloaded'});await page.locator('#query').click();await page.locator('#query').fill('旅遊');await page.locator('#query').press('Enter');
  assert(await page.locator('#search-submit').isDisabled());await page.locator('#filters').evaluate(e=>e.requestSubmit());assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
  release();await page.locator('#search-submit').waitFor();await page.waitForFunction(()=>!document.querySelector('#search-submit').disabled);assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
  await page.locator('#query').press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');

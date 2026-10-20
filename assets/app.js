@@ -1498,6 +1498,13 @@ $('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;
 $('filters').addEventListener('submit', submitSearch);
 $('query').addEventListener('compositionstart', () => { searchComposing = true; });
 $('query').addEventListener('compositionend', () => { searchComposing = false; });
+// Firefox can scroll its implicit submit button into view after the submit
+// handler returns. Dispatch the same form action without that native scroll.
+$('query').addEventListener('keydown', event => {
+  if (event.key !== 'Enter' || event.isComposing || searchComposing || event.keyCode === 229) return;
+  event.preventDefault();
+  $('filters').requestSubmit();
+});
 $('query').addEventListener('input', () => render());
 $('sort').addEventListener('change', () => render());
 $('recent-entry').addEventListener('click', event => {

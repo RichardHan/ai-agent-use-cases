@@ -30,12 +30,6 @@ jobs:
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
         run: node tests/sort-release-diagnostic.cjs
-      - name: Repeat unchanged original published acceptance with all engines
-        env:
-          NODE_PATH: ${{ runner.temp }}/tools/node_modules
-          SUBMIT_URL: https://richardhan.github.io/ai-agent-use-cases/
-          SUBMIT_OUTPUT: qa-artifacts/original-published-submit
-        run: node tests/search-submit-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

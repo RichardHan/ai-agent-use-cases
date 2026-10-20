@@ -33,3 +33,9 @@ test('ordinary relative and bare sources retain their existing destinations',()=
  const result=render('[source](../sources/README.md#s-001) https://example.org/source');
  assert.deepEqual(links(result).map(n=>n.href),['https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001','https://example.org/source']);
 });
+
+test('empty destinations stay literal instead of inventing a self-link',()=>{
+ const result=render('[missing]() [also missing]( )');
+ assert.equal(links(result).length,0);
+ assert.equal(text(result),'[missing]() [also missing]( )');
+});

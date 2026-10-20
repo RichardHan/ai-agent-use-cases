@@ -414,7 +414,7 @@ function markdownDestination(text,start) {
     if(/\s/.test(char))return null;
     if(char==='\\' && /[()\\]/.test(text[i+1]||'')){target+=text[++i];continue;}
     if(char==='(')depth++;
-    if(char===')'){depth--;if(depth===0)return {target,end:i+1};}
+    if(char===')'){depth--;if(depth===0)return target?{target,end:i+1}:null;}
     target+=char;
   }
   return null;

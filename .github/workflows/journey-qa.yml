@@ -3,6 +3,12 @@ on:
   push:
     branches: [improve/reader-journey-20261021]
   workflow_dispatch:
+    inputs:
+      target:
+        description: Acceptance target
+        type: choice
+        options: [preview, published]
+        default: preview
 permissions:
   contents: read
 jobs:
@@ -28,6 +34,7 @@ jobs:
           for file in assets/*.js tests/journey*.cjs; do node --check "$file"; done
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
       - name: Reproduce original small controls
+        if: inputs.target != 'published'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           JOURNEY_URL: http://127.0.0.1:8171/ai-agent-use-cases/
@@ -42,12 +49,14 @@ jobs:
           fi
           grep -q 'below 44px' qa-artifacts/red.log
       - name: Verify improved journeys
+        if: inputs.target != 'published'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
         run: |
           python3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/journey-after.log 2>&1 &
           node tests/journey-controls-browser.cjs
       - name: Preserve reader and background load anchoring
+        if: inputs.target != 'published'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           READER_URL: http://127.0.0.1:8170/ai-agent-use-cases/
@@ -55,6 +64,23 @@ jobs:
         run: |
           node tests/reader-browser.cjs
           node tests/reading-anchor-browser.cjs
+      - name: Verify published assets and journeys
+        if: inputs.target == 'published'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          JOURNEY_URL: https://richardhan.github.io/ai-agent-use-cases/
+          JOURNEY_OUTPUT: qa-artifacts/published
+          JOURNEY_LIVE: '1'
+        run: |
+          node - <<'JS'
+          const fs=require('node:fs');
+          (async()=>{const files=['index.html','assets/reader.css','assets/reader.js','assets/app.js'];
+          const observed=await Promise.all(files.map(async f=>{const r=await fetch(process.env.JOURNEY_URL+f+'?journey='+process.env.GITHUB_SHA);if(!r.ok)throw Error(f+' HTTP '+r.status);return await r.text();}));
+          if(!observed.every((text,i)=>text===fs.readFileSync(files[i],'utf8')))throw Error('Published assets differ from checkout');
+          fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify({sha:process.env.GITHUB_SHA,files,matched:true},null,2));
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          JS
+          node tests/journey-controls-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

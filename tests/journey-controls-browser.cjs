@@ -22,8 +22,8 @@ async function jumpAndReturn(page,button){
  assert(await page.locator('#'+id+' + .reader-return').evaluate(e=>{const s=getComputedStyle(e);return s.outlineStyle!=='none'&&parseFloat(s.outlineWidth)>=2;}));
  await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title');await visible(page,'#reader-nav-title');assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,scroll:scrollY})),before);
 }
-(async()=>{for(const [engine,launcher] of (process.env.JOURNEY_CHECK_ONLY?[['chromium',chromium]]:[['chromium',chromium],['firefox',firefox],['webkit',webkit]])){
- const browser=await launcher.launch();try{for(const width of (engine==='chromium'&&!process.env.JOURNEY_CHECK_ONLY?[1440,390,320]:[390])){
+(async()=>{for(const [engine,launcher] of (process.env.JOURNEY_CHECK_ONLY||process.env.JOURNEY_LIVE?[['chromium',chromium]]:[['chromium',chromium],['firefox',firefox],['webkit',webkit]])){
+ const browser=await launcher.launch();try{for(const width of (engine==='chromium'&&!process.env.JOURNEY_CHECK_ONLY?(process.env.JOURNEY_LIVE?[1440,390]:[1440,390,320]):[390])){
  const context=await browser.newContext({viewport:{width,height:width===1440?1000:844},reducedMotion:'reduce'}),page=await context.newPage();page.setDefaultTimeout(15000);
  const row={engine,width,audits:[],errors:[],journeys:[]};report.checks.push(row);page.on('pageerror',e=>row.errors.push(e.message));save();
  // Practical search -> method -> limits -> source -> native Back.
@@ -47,13 +47,13 @@ async function jumpAndReturn(page,button){
  await page.locator('.reader-outline').evaluate(e=>e.open=true);const h3=await page.locator('.research-details .markdown h3').first().getAttribute('id');await jumpAndReturn(page,page.locator('.reader-outline-jump[aria-controls="'+h3+'"]'));
  await page.keyboard.press('Escape');await page.locator('#query').fill('journey-no-match-20261021');assert(await page.locator('#empty').isVisible());await page.locator('#edit-query').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'query');await page.locator('#query').fill('旅遊');assert(await page.locator('#results .card').count()>0);row.journeys.push('direct link, reload, H3, empty results and recovery');
  // Completing other sources must preserve the actual original-section return control.
- const late=await context.newPage();let release;const gate=new Promise(resolve=>release=resolve);
+ if(!process.env.JOURNEY_LIVE){const late=await context.newPage();late.on('pageerror',e=>row.errors.push(e.message));let release;const gate=new Promise(resolve=>release=resolve);
  await late.route('**/cases/001-travel-checkout.md',async route=>{await gate;await route.continue();});
  await late.goto(base+'?case=UC-359');await late.locator('#detail[open]').waitFor();assert.equal(await late.evaluate(()=>discoveryReady),false);
  await late.locator('.reader-method-shortcut').click();await late.keyboard.press('Tab');
  const reading=await late.evaluate(()=>{window.savedReturn=document.activeElement;return {text:savedReturn.textContent,top:savedReturn.getBoundingClientRect().top};});assert.match(reading.text,/回到閱讀導覽/);
- release();await late.waitForFunction(()=>discoveryReady);await late.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
- row.originalReturnDelta=await late.evaluate(top=>Math.abs(savedReturn.getBoundingClientRect().top-top),reading.top);assert(row.originalReturnDelta<=2,'original-section return stays within 2px after source completion');assert(await late.evaluate(()=>savedReturn===document.activeElement));await late.close();save();
+ release();await late.waitForFunction(()=>discoveryReady);await late.evaluate(()=>new Promise((resolve,reject)=>{const d=document.querySelector('#detail');let previous=d.scrollTop,stable=0,frames=0;function tick(){const top=d.scrollTop;stable=Math.abs(top-previous)<.1?stable+1:0;previous=top;if(stable>=12)return resolve();if(++frames>120)return reject(Error('reading scroll did not settle'));requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
+ row.originalReturnDelta=await late.evaluate(top=>Math.abs(savedReturn.getBoundingClientRect().top-top),reading.top);assert(row.originalReturnDelta<=2,'original-section return stays within 2px after source completion');assert(await late.evaluate(()=>savedReturn===document.activeElement));await late.close();save();}
  // A long case with sparse/pending data retains literal headings; no fabricated outline.
  await page.evaluate(()=>{const body=document.createElement('div');body.id='fixture';body.innerHTML='<div class="plain-overview"></div><p class="detail-warning">待查</p><details class="research-details"><summary>原始研究</summary><div class="markdown"><p>尚無標準段落</p></div></details>';document.querySelector('#detail-body').replaceChildren(...body.childNodes);CaseReader.enhance(document.querySelector('#detail-body'),{kind:'pending'});});
  assert.equal(await page.locator('.reader-outline').count(),0);assert.equal(await page.locator('.reader-return').count(),0);row.journeys.push('no headings: no invented outline');assert.deepEqual(row.errors,[]);save();await context.close();

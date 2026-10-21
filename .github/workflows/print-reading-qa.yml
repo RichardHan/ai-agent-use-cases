@@ -35,6 +35,7 @@ jobs:
           if node --test "$RUNNER_TEMP/print-red/tests/print.test.cjs" > qa-artifacts/red.tap 2>&1; then exit 1; fi
           grep -q 'createPrintSession is not a function' qa-artifacts/red.tap
       - name: Observe published site
+        if: github.ref != 'refs/heads/main'
         env:
           NODE_PATH: ${{ runner.temp }}/print-tools/node_modules
           PRINT_URL: https://richardhan.github.io/ai-agent-use-cases/

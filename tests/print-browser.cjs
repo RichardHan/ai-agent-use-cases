@@ -25,7 +25,8 @@ const normalize=s=>s.normalize('NFKC').replace(/[\s\u200b\uFEFF]/gu,'');
  await page.keyboard.press('Escape');assert(await read.evaluate(e=>e===document.activeElement));assert.equal(await page.locator('#query').inputValue(),'旅遊');
  await page.locator('#query').fill('no-match-398239');assert(await page.locator('#empty').isVisible());
  report.checks.push('travel / combined filters / empty / return focus');save();
- for(const id of engine==='chromium'?['UC-005','UC-313','P-003']:['UC-005']){
+ // Published baseline needs one representative long case; acceptance covers all three states.
+ for(const id of !observe&&engine==='chromium'?['UC-005','UC-313','P-003']:['UC-005']){
  await page.goto(base+'?case='+id,{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
  await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
  const prefix=`qa-artifacts/${label}-${engine}-${width}-${id}`;

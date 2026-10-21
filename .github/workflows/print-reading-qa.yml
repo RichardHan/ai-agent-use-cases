@@ -1,0 +1,47 @@
+name: Print reading QA
+on:
+  push:
+    branches: [improve/reader-print-20261021-v2]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Baseline tests and static build
+        run: |
+          node --test tests/*.test.cjs
+          for file in assets/*.js; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/print-preview/ai-agent-use-cases"
+      - name: Cloud browser
+        run: |
+          npm install --prefix "$RUNNER_TEMP/print-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/print-tools/node_modules/.bin/playwright" install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Observe published site
+        env:
+          NODE_PATH: ${{ runner.temp }}/print-tools/node_modules
+          PRINT_URL: https://richardhan.github.io/ai-agent-use-cases/
+          OBSERVE: '1'
+        run: node tests/print-browser.cjs
+      - name: Verify preview
+        if: ${{ hashFiles('tests/print.test.cjs') != '' }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/print-tools/node_modules
+        run: |
+          python3 -m http.server 8108 --directory "$RUNNER_TEMP/print-preview" > /tmp/print-preview.log 2>&1 &
+          node tests/print-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: print-reading-${{ github.run_id }}
+          path: qa-artifacts/
+          retention-days: 30

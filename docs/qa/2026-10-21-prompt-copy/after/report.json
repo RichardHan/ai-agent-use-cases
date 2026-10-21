@@ -1,0 +1,85 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "audits": [
+      []
+    ],
+    "journeys": [
+      "search/filter, copy, denial/manual, print exclusion, return, empty recovery",
+      "long direct link/reload, every prompt, original links, empty/pending",
+      "stale denial after latest success; delayed denial retains moved focus; late success after switch; late denial after close"
+    ],
+    "entries": 408,
+    "results": "顯示 17 / 408 筆收錄",
+    "actions": 1,
+    "controlHeight": 45.796875,
+    "realClipboard": true,
+    "longPrompts": 4,
+    "corpus": {
+      "entries": 408,
+      "copyActions": 396,
+      "originalTextUnchanged": true
+    },
+    "completed": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      []
+    ],
+    "journeys": [
+      "search/filter, copy, denial/manual, print exclusion, return, empty recovery",
+      "long direct link/reload, every prompt, original links, empty/pending",
+      "stale denial after latest success; delayed denial retains moved focus; late success after switch; late denial after close"
+    ],
+    "entries": 408,
+    "results": "顯示 17 / 408 筆收錄",
+    "actions": 1,
+    "controlHeight": 45.796875,
+    "realClipboard": true,
+    "longPrompts": 4,
+    "completed": true
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      []
+    ],
+    "journeys": [
+      "search/filter, copy, denial/manual, print exclusion, return, empty recovery",
+      "long direct link/reload, every prompt, original links, empty/pending",
+      "stale denial after latest success; delayed denial retains moved focus; late success after switch; late denial after close"
+    ],
+    "entries": 408,
+    "results": "顯示 17 / 408 筆收錄",
+    "actions": 1,
+    "controlHeight": 45.79998779296875,
+    "longPrompts": 4,
+    "completed": true
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      []
+    ],
+    "journeys": [
+      "search/filter, copy, denial/manual, print exclusion, return, empty recovery",
+      "long direct link/reload, every prompt, original links, empty/pending",
+      "stale denial after latest success; delayed denial retains moved focus; late success after switch; late denial after close"
+    ],
+    "entries": 408,
+    "results": "顯示 17 / 408 筆收錄",
+    "actions": 1,
+    "controlHeight": 45.796875,
+    "longPrompts": 4,
+    "completed": true
+  }
+]

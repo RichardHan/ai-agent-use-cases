@@ -1,0 +1,9 @@
+{
+  "foreground": "#285344",
+  "method": "WCAG sRGB relative luminance contrast",
+  "ratios": {
+    "white": 8.71,
+    "paper": 8.156,
+    "hover": 8.06
+  }
+}

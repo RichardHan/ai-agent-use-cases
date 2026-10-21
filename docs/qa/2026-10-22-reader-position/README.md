@@ -72,3 +72,8 @@ Orca CLI依技能讀guide時回報「Unable to determine Orca.app path from syml
 
 
 獨立目視終審已實際比對1440／390／320前後及partial圖，確認集合與位置可讀、與ID區隔清楚，沒有重疊、截字、擠壓、額外工具列或水平溢出；並核對報告中的高度、用途落點、44px按鈕、15次axe及lifecycle結果。無剩餘產品或視覺必修，全程唯讀，沒有修改實作。
+
+
+[加嚴後最終預覽39684149779](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39684149779)全套success（c0ded41），包含DOM順序oracle／動態筆數、限定原版失敗類型、五配置15次axe零、loading／partial／retry及完整既有reader回歸。產品與首輪相同；[最終專項](checks/final-report.json)、[最終載入狀態](checks/final-lifecycle.json)、[雲端154項單元](checks/cloud-unit.tap)、[原版三項斷言失敗](checks/cloud-red.tap)。
+
+另保留協作者03f6d1c的多語研究新檔，無衝突整合，未改動本輪產品資產。以下正式發布另核對Pages，沒有把預覽當成已部署。

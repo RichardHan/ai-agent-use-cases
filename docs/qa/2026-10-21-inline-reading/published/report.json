@@ -1,0 +1,436 @@
+{
+  "base": "https://richardhan.github.io/ai-agent-use-cases/",
+  "checks": [
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "audits": [
+        {
+          "state": "full outline",
+          "violations": []
+        },
+        {
+          "state": "returned navigation",
+          "violations": []
+        }
+      ],
+      "errors": [],
+      "journeys": [
+        "search, method, limits, source, Back preserve conditions",
+        "direct link, reload, H3, empty results and recovery",
+        "no headings: no invented outline"
+      ],
+      "entries": 399,
+      "readyMs": 811,
+      "controls": [
+        {
+          "class": "",
+          "tag": "SUMMARY",
+          "text": "全部段落（10）",
+          "height": 44,
+          "width": 726,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "已讀來源版本",
+          "height": 44,
+          "width": 702,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "本庫建議流程",
+          "height": 44,
+          "width": 702,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "可複製提示詞（本庫原創設計）",
+          "height": 44,
+          "width": 702,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "權限與驗收",
+          "height": 44,
+          "width": 702,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "去重紀錄",
+          "height": 44,
+          "width": 702,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+          "height": 44,
+          "width": 702,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "停止條件補充（本庫設計，未實跑）",
+          "height": 44,
+          "width": 688,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班",
+          "height": 44,
+          "width": 702,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "相關結帳失敗：重試後重新核對金額與完成狀態",
+          "height": 44,
+          "width": 702,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "補充驗收（本庫原創、未實測）",
+          "height": 44,
+          "width": 688,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        }
+      ],
+      "overlaps": [],
+      "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+      "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "audits": [
+        {
+          "state": "full outline",
+          "violations": []
+        },
+        {
+          "state": "returned navigation",
+          "violations": []
+        }
+      ],
+      "errors": [],
+      "journeys": [
+        "search, method, limits, source, Back preserve conditions",
+        "direct link, reload, H3, empty results and recovery",
+        "no headings: no invented outline"
+      ],
+      "entries": 399,
+      "readyMs": 688,
+      "controls": [
+        {
+          "class": "",
+          "tag": "SUMMARY",
+          "text": "全部段落（10）",
+          "height": 44,
+          "width": 278,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "已讀來源版本",
+          "height": 44,
+          "width": 254,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "本庫建議流程",
+          "height": 44,
+          "width": 254,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "可複製提示詞（本庫原創設計）",
+          "height": 44,
+          "width": 254,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "權限與驗收",
+          "height": 44,
+          "width": 254,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "去重紀錄",
+          "height": 44,
+          "width": 254,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+          "height": 91.5625,
+          "width": 254,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "停止條件補充（本庫設計，未實跑）",
+          "height": 44,
+          "width": 240,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班",
+          "height": 91.5625,
+          "width": 254,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "相關結帳失敗：重試後重新核對金額與完成狀態",
+          "height": 66.375,
+          "width": 254,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-outline-jump",
+          "tag": "BUTTON",
+          "text": "補充驗收（本庫原創、未實測）",
+          "height": 44,
+          "width": 240,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        },
+        {
+          "class": "reader-return",
+          "tag": "BUTTON",
+          "text": "↑ 回到閱讀導覽",
+          "height": 44,
+          "width": 116.1875,
+          "font": 14,
+          "overflow": false
+        }
+      ],
+      "overlaps": [],
+      "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83"
+    }
+  ]
+}

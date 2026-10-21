@@ -1,0 +1,29 @@
+controls	Verify published reader	﻿2026-10-21T01:25:01.0293278Z ##[group]Run node <<'NODE'
+controls	Verify published reader	2026-10-21T01:25:01.0293614Z ^[[36;1mnode <<'NODE'^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0293856Z ^[[36;1mconst fs=require('node:fs');^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0294119Z ^[[36;1m(async()=>{^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0294339Z ^[[36;1m  for(let i=0;i<90;i++){^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0294936Z ^[[36;1m    const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/assets/reader.css?qa='+process.env.GITHUB_SHA);^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0295630Z ^[[36;1m    if(r.ok&&await r.text()===fs.readFileSync('assets/reader.css','utf8'))return;^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0296066Z ^[[36;1m    await new Promise(r=>setTimeout(r,2000));^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0296365Z ^[[36;1m  }^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0296598Z ^[[36;1m  throw Error('Published CSS mismatch');^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0296955Z ^[[36;1m})().catch(e=>{console.error(e);process.exitCode=1});^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0297262Z ^[[36;1mNODE^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0297747Z ^[[36;1mLABEL=live CONTROLS_URL=https://richardhan.github.io/ai-agent-use-cases/ node tests/reader-controls-browser.cjs^[[0m
+controls	Verify published reader	2026-10-21T01:25:01.0363211Z shell: /usr/bin/bash -e {0}
+controls	Verify published reader	2026-10-21T01:25:01.0363465Z env:
+controls	Verify published reader	2026-10-21T01:25:01.0363715Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+controls	Verify published reader	2026-10-21T01:25:01.0364025Z ##[endgroup]
+controls	Verify published reader	2026-10-21T01:25:05.2044505Z CONTROL_MEASUREMENTS {"engine":"chromium","width":1440,"controls":[{"id":"nav-prev-case","width":84.609375,"height":44,"font":"14px"},{"id":"nav-next-case","width":84.609375,"height":44,"font":"14px"},{"id":"close-detail","width":70.1875,"height":44,"font":"14px"}]}
+controls	Verify published reader	2026-10-21T01:25:11.4225631Z CONTROL_MEASUREMENTS {"engine":"chromium","width":390,"controls":[{"id":"nav-prev-case","width":104,"height":44,"font":"14px"},{"id":"nav-next-case","width":104,"height":44,"font":"14px"},{"id":"close-detail","width":104,"height":44,"font":"14px"}]}
+controls	Verify published reader	2026-10-21T01:25:16.7925321Z CONTROL_MEASUREMENTS {"engine":"chromium","width":320,"controls":[{"id":"nav-prev-case","width":80.65625,"height":44,"font":"14px"},{"id":"nav-next-case","width":80.671875,"height":44,"font":"14px"},{"id":"close-detail","width":80.65625,"height":44,"font":"14px"}]}
+controls	Verify published reader	2026-10-21T01:25:50.6312328Z locator.waitFor: Timeout 30000ms exceeded.
+controls	Verify published reader	2026-10-21T01:25:50.6312866Z Call log:
+controls	Verify published reader	2026-10-21T01:25:50.6313222Z   - waiting for locator('#results .card').first() to be visible
+controls	Verify published reader	2026-10-21T01:25:50.6313827Z 
+controls	Verify published reader	2026-10-21T01:25:50.6314227Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/reader-controls-browser.cjs:15:69 {
+controls	Verify published reader	2026-10-21T01:25:50.6314880Z   log: [ "  - waiting for locator('#results .card').first() to be visible" ],
+controls	Verify published reader	2026-10-21T01:25:50.6315275Z   name: 'TimeoutError'
+controls	Verify published reader	2026-10-21T01:25:50.6315492Z }
+controls	Verify published reader	2026-10-21T01:25:51.0326337Z ##[error]Process completed with exit code 1.

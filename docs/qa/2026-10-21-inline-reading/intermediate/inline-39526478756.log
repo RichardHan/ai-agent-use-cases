@@ -1,0 +1,149 @@
+baseline	Verify actual Pages publication	﻿2026-10-21T01:24:46.2469215Z ##[group]Run python3 - <<'PYTHON'
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2469505Z ^[[36;1mpython3 - <<'PYTHON'^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2469739Z ^[[36;1mimport pathlib, time, urllib.request^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2470031Z ^[[36;1mfiles=('assets/reader.js','assets/reader.css')^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2470294Z ^[[36;1mfor attempt in range(60):^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2470504Z ^[[36;1m    try:^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2470680Z ^[[36;1m        matches=[]^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2470880Z ^[[36;1m        for name in files:^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2471409Z ^[[36;1m            with urllib.request.urlopen('https://richardhan.github.io/ai-agent-use-cases/'+name+'?passage='+str(time.time()), timeout=20) as response:^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2472003Z ^[[36;1m                matches.append(response.read()==pathlib.Path(name).read_bytes())^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2472570Z ^[[36;1m        if all(matches):^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2472911Z ^[[36;1m            print('PUBLISHED_ASSETS_MATCH')^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2473333Z ^[[36;1m            break^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2473564Z ^[[36;1m    except Exception as error:^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2473807Z ^[[36;1m        print(type(error).__name__)^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2474034Z ^[[36;1m    time.sleep(3)^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2474250Z ^[[36;1melse:^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2474467Z ^[[36;1m    raise SystemExit('Pages assets did not match')^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2474722Z ^[[36;1mPYTHON^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2474916Z ^[[36;1mnode tests/reader-context-round.cjs^[[0m
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2530323Z shell: /usr/bin/bash -e {0}
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2530536Z env:
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2530752Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2531041Z   CONTEXT_OUTPUT: qa-artifacts/published-passage
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.2531286Z ##[endgroup]
+baseline	Verify actual Pages publication	2026-10-21T01:24:46.5766355Z PUBLISHED_ASSETS_MATCH
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3511539Z AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3512091Z + actual - expected
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3512977Z 
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3513071Z + [
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3513545Z +   'cases/299-spoken-measurement-preliminary-drawing-handoff.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3514147Z +   'cases/300-service-eligibility-subsidy-application-packet.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3514721Z +   'cases/301-technician-chat-closeout-lead-register.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3515254Z +   'cases/302-labeled-inbox-classifier-optimization-cutover.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3515749Z +   'cases/303-overlooked-recall-notice-remedy-application.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3516135Z +   'cases/304-reviewed-scoped-lesson-recall.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3516531Z +   'cases/305-local-video-final-stage-deliverability-failure.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3516909Z +   'cases/306-stock-image-batch-metadata-submission.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3517300Z +   'cases/307-cloud-file-upload-byte-integrity-failure.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3517672Z +   'cases/308-personal-clinical-trial-daily-watch.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3518021Z +   'cases/309-product-trial-campaign-daily-auto-apply.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3518386Z +   'cases/310-agent-run-mistake-attribution-dashboard.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3518732Z +   'cases/311-new-model-prompt-batch-demo-gallery.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3519050Z +   'cases/312-ambient-media-false-task-creation.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3519380Z +   'cases/313-external-action-assignee-handoff-race.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3519722Z +   'cases/314-agent-sandbox-always-on-service-failure.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3520096Z +   'cases/315-work-personal-agents-tax-document-cpa-handoff.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3520461Z +   'cases/316-slack-thread-triage-repro-bot-bug-fix.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3520817Z +   'cases/317-nightly-explorer-builder-critic-prototype.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3521195Z +   'cases/318-approved-account-form-shopify-customer-flow.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3521558Z +   'cases/319-home-photo-item-inventory-claim-handoff.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3521881Z +   'cases/320-bidirectional-reminder-state-sync.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3522381Z +   'cases/321-expert-corpus-interactive-decision-tool.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3523051Z +   'cases/322-creator-metrics-zero-token-daily-collection.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3523445Z +   'cases/323-daily-ai-news-one-tap-feedback-preference-loop.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3523864Z +   'cases/324-daily-outage-digest-verified-incident-db-pr.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3524250Z +   'cases/325-nightly-voice-diary-prompt-confirm-sync.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3524629Z +   'cases/326-order-history-owned-items-sale-picks.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3524996Z +   'cases/327-cad-material-library-property-population.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3525373Z +   'cases/328-paid-data-call-quote-variance-gate.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3525722Z +   'cases/329-durable-agent-chain-restart-recovery.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3526119Z +   'cases/330-unsupported-home-device-commissioning-validation.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3526584Z +   'cases/331-undelivered-purchase-carrier-merchant-refund-chase.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3527197Z +   'cases/332-x-ops-semiauto-prepost-human-approval.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3527551Z +   'cases/333-notion-cross-agent-outreach-memory.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3527906Z +   'cases/334-sdr-adsb-receiver-decoder-range-ab-test.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3528347Z +   'cases/335-manual-routine-reenable-reverted-by-stale-instruction.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3528782Z +   'cases/336-handheld-voice-terminal-mcp-relay.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3529182Z +   'cases/337-daily-random-reference-photo-likeness-edit.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3529573Z +   'cases/338-driver-daily-hours-log-paycheck-check.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3529936Z +   'cases/339-stale-cross-product-request-provenance.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3530327Z +   'cases/340-tool-response-evidence-capture-acceptance.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3530719Z +   'cases/341-archived-task-runtime-state-reconciliation.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3531082Z +   'cases/342-daily-kids-coloring-page-auto-print.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3531443Z +   'cases/343-foreign-roadside-breakdown-insurance-form.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3531845Z +   'cases/344-coding-agent-session-attention-webhook-routine.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3532390Z +   'cases/345-muse-school-grades-tv-ambient-board.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3532760Z +   'cases/346-tesla-road-trip-charge-prep-skill.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3533133Z +   'cases/347-child-youtube-channel-comment-safety-sweep.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3533547Z +   'cases/348-home-search-screening-realtor-disclosure-handoff.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3533966Z +   'cases/349-dots-inquiry-ledger-calendar-reply-draft.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3534412Z +   'cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3534896Z +   'cases/351-grokbot-dispatch-only-offload-free-model-agents.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3535339Z +   'cases/352-daily-flomo-memo-insight-push-rotating-template.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3535740Z +   'cases/353-cloud-local-agent-git-task-relay.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3536103Z +   'cases/354-daily-bookmark-to-live-interactive-demo.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3536476Z +   'cases/355-x-posting-coach-bot-daily-checkin.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3536824Z +   'cases/356-paid-article-clipper-portfolio-check.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3537223Z +   'cases/357-daily-printed-crypto-sheet-confirmed-vs-reported.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3537642Z +   'cases/358-dots-daily-youtube-picks-private-playlist.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3538040Z +   'cases/359-x-follower-following-audit-criteria-feedback.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3538397Z +   'cases/360-paint-stage-quantity-spec-cart.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3538757Z +   'cases/361-exact-account-binding-synthetic-guard-test.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3539133Z +   'cases/362-muse-spawn-delivery-reconciliation.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3539500Z +   'cases/363-voice-workout-event-heart-rate-alignment.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3539844Z +   'cases/364-human-agent-handoff-state-display.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3540179Z +   'cases/365-scheduled-task-inplace-edit-readback.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3540594Z +   'cases/366-gpu-rgb-protocol-port-vendor-plugin-readonly-probe.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3541230Z +   'cases/367-advocate-daily-cause-list-court-board-case-bundle.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3541667Z +   'cases/368-dots-3d-scene-assets-to-local-agent-unreal-import.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3542087Z +   'cases/369-existing-task-view-route-reconciliation.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3543449Z +   'cases/370-newsletter-audio-backfill-state-reconciliation.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3543875Z +   'cases/371-library-search-retrieval-scope-differential.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3544260Z +   'cases/372-office-mfp-scan-to-folder-smb-auth-fix.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3544694Z +   'cases/373-voter-registration-mail-ballot-two-agent-comparison.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3545131Z +   'cases/374-contract-renewal-saved-signature-reply-draft.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3545526Z +   'cases/375-workshop-prompts-cloud-browser-dry-run.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3545906Z +   'cases/376-windows-audio-runtime-test-evidence-boundary.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3546450Z +   'cases/377-calendar-client-code-to-freshbooks-time-entry.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3546847Z +   'cases/378-standard-camera-mount-interface-reuse.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3547225Z +   'cases/379-local-project-delegation-preflight-failure.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3547639Z +   'cases/380-client-webmaster-agent-mail-channel-rollback.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3548028Z +   'cases/381-dots-daily-ai-brief-to-archived-news-page.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3548390Z +   'cases/382-bot-team-paid-newsletter-approval-log.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3548745Z +   'cases/383-external-qa-ci-failure-issue-handoff.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3549140Z +   'cases/384-paid-article-boundary-post-edit-verification.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3549549Z +   'cases/385-kdp-puzzle-book-sat-verified-phone-checklist.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3549972Z +   'cases/386-trading-bot-pnl-bucket-postmortem-change-brief.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3550383Z +   'cases/387-hourly-bank-bonus-scout-seen-log-trust-labels.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3550776Z +   'cases/388-sponsored-post-age-metrics-evidence-pack.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3551181Z +   'cases/389-resumed-task-native-capability-regression.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3551604Z +   'cases/390-linear-recurring-model-catalog-refresh-bot-team-pr.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3552093Z +   'cases/391-bot-fleet-private-dashboard-sensitive-scan-before-push.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3552657Z +   'cases/392-latent-model-multistart-optimum-audit.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3553041Z +   'cases/393-pitch-deck-meeting-context-reconciliation.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3553387Z +   'cases/394-netwasm-rpc-compatibility-poc.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3553788Z +   'cases/395-missing-project-samples-licensed-asset-recovery.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3554217Z +   'cases/396-page-mention-persistence-dispatch-verification.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3554626Z +   'cases/397-feature-spec-repository-grounded-backlog.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3555040Z +   'cases/398-support-incident-spike-watch-approved-batch-sweep.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3555479Z +   'cases/399-gadget-relay-shared-credits-receipts-acceptance.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3555933Z +   'cases/400-x-api-read-only-creator-bots-cost-estimate-vs-bill.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3556359Z +   'cases/401-weekly-family-menu-survey-calendar-grocery-list.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3556724Z +   'evidence/008-morning-brief-validation.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3557045Z +   'evidence/009-background-transfer-template.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3557376Z +   'evidence/013-authentication-diagnosis.md',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3557634Z +   'sources/pending.md'
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3557819Z + ]
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3557978Z - []
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3558078Z 
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3558383Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/reader-context-round.cjs:21:104 {
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3558792Z   generatedMessage: true,
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3559013Z   code: 'ERR_ASSERTION',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3559197Z   actual: [Array],
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3559385Z   expected: [],
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3559598Z   operator: 'deepStrictEqual',
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3559800Z   diff: 'simple'
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3560107Z }
+baseline	Verify actual Pages publication	2026-10-21T01:25:09.3821929Z ##[error]Process completed with exit code 1.

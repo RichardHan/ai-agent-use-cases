@@ -1,0 +1,37 @@
+browser	Verify actual Pages assets and published journeys	﻿2026-10-21T01:25:25.2898643Z ##[group]Run python3 - <<'PYTHON'
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2898868Z ^[[36;1mpython3 - <<'PYTHON'^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2899031Z ^[[36;1mimport pathlib, time, urllib.request^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2899285Z ^[[36;1mfiles=('assets/app.js','assets/reader.js','assets/reader.css','index.html')^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2899512Z ^[[36;1mfor attempt in range(60):^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2899653Z ^[[36;1m    try:^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2899771Z ^[[36;1m        matches=[]^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2899910Z ^[[36;1m        for name in files:^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2900270Z ^[[36;1m            with urllib.request.urlopen('https://richardhan.github.io/ai-agent-use-cases/'+name+'?review-qa='+str(time.time()), timeout=30) as response:^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2900688Z ^[[36;1m                matches.append(response.read()==pathlib.Path(name).read_bytes())^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2900911Z ^[[36;1m        if all(matches):^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2901067Z ^[[36;1m            print('PUBLISHED_ASSETS_MATCH')^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2901229Z ^[[36;1m            break^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2901387Z ^[[36;1m    except Exception as error:^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2901548Z ^[[36;1m        print(type(error).__name__)^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2901710Z ^[[36;1m    time.sleep(5)^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2901833Z ^[[36;1melse:^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2901979Z ^[[36;1m    raise SystemExit('Pages assets did not match')^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2902149Z ^[[36;1mPYTHON^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2902282Z ^[[36;1mnode tests/review-sections-browser.cjs^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2902463Z ^[[36;1mnode tests/reader-search-browser.cjs^[[0m
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2945337Z shell: /usr/bin/bash -e {0}
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2945493Z env:
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2945642Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2945871Z   REVIEW_URL: https://richardhan.github.io/ai-agent-use-cases/
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2946070Z   REVIEW_OUTPUT: qa-artifacts/published
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2946273Z   READER_SEARCH_URL: https://richardhan.github.io/ai-agent-use-cases/
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2946507Z   READER_SEARCH_OUTPUT: qa-artifacts/published-context
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2946680Z   READER_SEARCH_ENGINES: all
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:25.2946816Z ##[endgroup]
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:26.0139212Z PUBLISHED_ASSETS_MATCH
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:52.2166138Z page.waitForFunction: ReferenceError: Can't find variable: discoveryReady
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:52.2166959Z     at ready (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/review-sections-browser.cjs:19:23)
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:52.2167638Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/review-sections-browser.cjs:24:32 {
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:52.2167977Z   log: []
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:52.2168176Z }
+browser	Verify actual Pages assets and published journeys	2026-10-21T01:25:52.2476769Z ##[error]Process completed with exit code 1.

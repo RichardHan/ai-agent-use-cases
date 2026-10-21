@@ -1,0 +1,32 @@
+journey	Verify published assets and journey	﻿2026-10-21T01:24:25.8041132Z ##[group]Run node <<'NODE'
+journey	Verify published assets and journey	2026-10-21T01:24:25.8041459Z ^[[36;1mnode <<'NODE'^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8041697Z ^[[36;1mconst fs=require('node:fs');^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8041972Z ^[[36;1m(async()=>{^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8042189Z ^[[36;1m  for(let i=0;i<60;i++){^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8042517Z ^[[36;1m    const files=['assets/reader.js','assets/reader.css'];^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8043326Z ^[[36;1m    const matches=await Promise.all(files.map(async file=>{^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8044037Z ^[[36;1m      const r=await fetch(process.env.METHOD_URL+file+'?method='+process.env.GITHUB_SHA,{cache:'no-store'});^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8044658Z ^[[36;1m      return r.ok&&await r.text()===fs.readFileSync(file,'utf8');^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8045023Z ^[[36;1m    }));^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8045442Z ^[[36;1m    if(matches.every(Boolean)){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8045980Z ^[[36;1m    await new Promise(r=>setTimeout(r,3000));^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8046314Z ^[[36;1m  }^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8046568Z ^[[36;1m  throw Error('Published reader assets mismatch');^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8046971Z ^[[36;1m})().catch(e=>{console.error(e);process.exitCode=1});^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8047294Z ^[[36;1mNODE^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8047527Z ^[[36;1mnode tests/method-shortcut-browser.cjs^[[0m
+journey	Verify published assets and journey	2026-10-21T01:24:25.8109203Z shell: /usr/bin/bash -e {0}
+journey	Verify published assets and journey	2026-10-21T01:24:25.8109459Z env:
+journey	Verify published assets and journey	2026-10-21T01:24:25.8109745Z   NODE_PATH: /home/runner/work/_temp/method-tools/node_modules
+journey	Verify published assets and journey	2026-10-21T01:24:25.8110197Z   METHOD_URL: https://richardhan.github.io/ai-agent-use-cases/
+journey	Verify published assets and journey	2026-10-21T01:24:25.8110559Z ##[endgroup]
+journey	Verify published assets and journey	2026-10-21T01:24:25.9295968Z PUBLISHED_ASSETS_MATCH 62a935af0ad2821d12f50cb0a8ec1d614c8968f6
+journey	Verify published assets and journey	2026-10-21T01:25:45.8781485Z locator.waitFor: Timeout 60000ms exceeded.
+journey	Verify published assets and journey	2026-10-21T01:25:45.8781980Z Call log:
+journey	Verify published assets and journey	2026-10-21T01:25:45.8782519Z   - waiting for locator('#results .card').first() to be visible
+journey	Verify published assets and journey	2026-10-21T01:25:45.8793574Z 
+journey	Verify published assets and journey	2026-10-21T01:25:45.8794376Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/method-shortcut-browser.cjs:16:97 {
+journey	Verify published assets and journey	2026-10-21T01:25:45.8795818Z   log: [ "  - waiting for locator('#results .card').first() to be visible" ],
+journey	Verify published assets and journey	2026-10-21T01:25:45.8796573Z   name: 'TimeoutError'
+journey	Verify published assets and journey	2026-10-21T01:25:45.8796968Z }
+journey	Verify published assets and journey	2026-10-21T01:25:45.9051477Z ##[error]Process completed with exit code 1.

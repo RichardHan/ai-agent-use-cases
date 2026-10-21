@@ -73,3 +73,18 @@ repo無獨立lint、TypeScript或npm build；JS syntax與preview構建不冒稱l
 3. 查不到時恢復探索：無命中字詞→修改關鍵字焦點→保留生活條件恢復旅遊結果；原reader另驗待查、無段落、錯誤／部分來源／缺腳本降級及重試。
 
 這些是模擬走查，沒有真人偏好或轉換率結論。
+
+## 合併與正式發布
+
+正常merge `62a935af0ad2821d12f50cb0a8ec1d614c8968f6` 已SSH push到main，未強推。[Pages39526477628](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39526477628)正式Jekyll建置／部署成功；部署runner排隊約五分鐘。
+
+`gh workflow run journey-qa.yml --ref main -f target=published`回HTTP403「Must have admin rights to Repository」。保留原API身分、未修改權限，改用已授權SSH分支推送`verify/inline-reading-published-20261021`觸發同一工作流；`ceba79c`只改觸發條件，產品資產與main完全相同，獨立審查確認verify分支只走正式流程。
+
+[正式驗收39527104769](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39527104769)全部成功：[四檔資產逐字一致](published-assets.json)、136單元／syntax／preview構建、正式Chromium1440與390完整新流程，每組399條目全載入（failedPaths空陣列斷言）、無pageerror／水平溢出／重疊，44px／14px皆達標，四次正式axe零違規。[原始正式報告](published/report.json)／[正式手機方法](published/method-chromium-390.png)／[正式桌面目錄](published/outline-chromium-1440.png)。主角色已目視兩張正式圖，與驗收版一致。原reader與anchor整套屬preview驗收，沒有冒稱正式也跑同一整套。
+
+其餘主線CI不宣稱全部通過：[記錄快照](main-ci-snapshot.json)當時17成功、5失敗、7進行中。五個背景正式失敗保留如下，不改寫原結果、不推測全部根因：
+
+- [Improvement round39526478803](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39526478803)：正式1440／390完成，320在來源未完整載入而失敗；[原報告](background-round-failure.json)network diagnostics共703次HTTP429、2次503，狀態正確顯示部分來源未載入。這是當次網路紀錄，不證明所有失敗皆同一根因。
+- [Reader context39526478756](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39526478756)：failedPaths非空；[Method39526478769](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39526478769)及[Reader controls39526478816](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39526478816)：正式詳情等待逾時；[Evidence39526478758](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39526478758)：正式頁discoveryReady未定義。原始失敗日誌存於[intermediate](intermediate/)，未宣稱已修這些未確證問題。本輪嚴格正式兩尺寸另成功全載399條目。
+
+原工作目錄最後仍是原分支與兩項未提交修改，沒有切換／重設／覆蓋。最後只補驗收觸發方式與公開證據，產品CSS維持最初修正。下一輪優先降低首次全文請求量及讓正式站QA在部署後串行執行，保留直鏈早讀、部分失敗與補讀復原。這輪已達驗收標準，停止追加產品修改。

@@ -1,0 +1,33 @@
+browser	Verify published assets and desktop/mobile journeys	﻿2026-10-21T01:21:47.5693222Z ##[group]Run node <<'NODE'
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5693414Z ^[[36;1mnode <<'NODE'^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5693547Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5693704Z ^[[36;1m(async()=>{^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5693827Z ^[[36;1m for(let i=0;i<90;i++){^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5694002Z ^[[36;1m  const paths=['assets/app.js','assets/reader.css'];^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5694491Z ^[[36;1m  const matches=await Promise.all(paths.map(async path=>{const r=await fetch(process.env.ROUND_URL+path+'?round='+process.env.GITHUB_SHA,{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}));^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5695382Z ^[[36;1m  if(matches.every(Boolean)){fs.writeFileSync('qa-artifacts/round-published-assets.json',JSON.stringify({sha:process.env.GITHUB_SHA,paths,matched:true}));return;}^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5695795Z ^[[36;1m  await new Promise(resolve=>setTimeout(resolve,3000));^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5695972Z ^[[36;1m }^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5696098Z ^[[36;1m throw Error('Published assets differ');^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5696318Z ^[[36;1m})().catch(e=>{console.error(e);process.exitCode=1});^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5696487Z ^[[36;1mNODE^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5696609Z ^[[36;1mnode tests/round-browser.cjs^[[0m
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5749753Z shell: /usr/bin/bash -e {0}
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5749901Z env:
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5750051Z   NODE_PATH: /home/runner/work/_temp/round-tools/node_modules
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5750287Z   ROUND_URL: https://richardhan.github.io/ai-agent-use-cases/
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5750492Z   ROUND_OUTPUT: qa-artifacts/round-published
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:21:47.5750647Z ##[endgroup]
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0984578Z AssertionError [ERR_ASSERTION]: The input did not match the regular expression /已載入/. Input:
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0985300Z 
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0985566Z '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。'
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0985675Z 
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0985876Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/round-browser.cjs:62:10 {
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0986165Z   generatedMessage: true,
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0986362Z   code: 'ERR_ASSERTION',
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0986566Z   actual: '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。',
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0986766Z   expected: /已載入/,
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0986893Z   operator: 'match',
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0987018Z   diff: 'simple'
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.0987141Z }
+browser	Verify published assets and desktop/mobile journeys	2026-10-21T01:23:58.1285464Z ##[error]Process completed with exit code 1.

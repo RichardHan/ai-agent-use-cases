@@ -1,0 +1,16 @@
+[
+  {
+    "file": "assets/app.js",
+    "beforeBytes": 163183,
+    "afterBytes": 163560,
+    "beforeGzip": 49514,
+    "afterGzip": 49565
+  },
+  {
+    "file": "index.html",
+    "beforeBytes": 15681,
+    "afterBytes": 15885,
+    "beforeGzip": 5397,
+    "afterGzip": 5454
+  }
+]

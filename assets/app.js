@@ -1204,6 +1204,11 @@ function render(updateURL=true, preserveShare=false) {
     btn.classList.toggle('active', isActive);
     btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
   });
+  document.querySelectorAll('.chip[data-kind]').forEach(btn => {
+    const isActive = $('kind').value === btn.dataset.kind;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
   const currentQ = $('query').value.trim();
   document.querySelectorAll('.chip[data-query]').forEach(btn => {
     const isActive = currentQ === btn.dataset.query;
@@ -1691,6 +1696,9 @@ $('scenario-chips')?.addEventListener('click', e => {
   if (!chip) return;
   if (chip.dataset.scenario) {
     activeScenario = activeScenario === chip.dataset.scenario ? '' : chip.dataset.scenario;
+    render();
+  } else if (chip.dataset.kind) {
+    $('kind').value = $('kind').value === chip.dataset.kind ? '' : chip.dataset.kind;
     render();
   } else if (chip.dataset.query) {
     const q = chip.dataset.query;

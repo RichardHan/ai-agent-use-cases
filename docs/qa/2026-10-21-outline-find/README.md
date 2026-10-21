@@ -45,3 +45,11 @@ OUTLINE_ENGINE=webkit NODE_PATH=/tmp/ai-round-tools/node_modules node tests/outl
 本機Codex設定檔為 `gpt-6.1-sol` / `medium`；無法證實或切換主對話的實際模型/推理，未宣稱主代理使用最高設定。[官方模型與推理說明](https://learn.chatgpt.com/docs/agent-configuration/subagents)。只使用既有訂閱工具，沒有使用另付費API。Orca CLI因symlink解析失敗而停用，改用獨立Git worktree，原工作樹兩份未提交搜尋修改保留。
 
 下一輪優先：改善長篇目錄的補充版本層級，讓使用者更容易區分原始案例與後續補讀；不要把來源更新日當成全案重驗。
+
+## 整合與發布
+
+已安全整合上游研究PR #74（`312bdf7`），整合後146/146與Chromium三尺寸專項通過。原工作樹未提交搜尋修改未變。本輪修改：`assets/reader.js`、`assets/reader.css`、兩份outline-find測試、一份專項workflow、SITE維護摘要與本驗收附件。
+
+[首輪雲端QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39605885690)成功；下載artifact確認Linux三引擎五配置全部完成、10次axe零違規，WebKit原生Tab亦通過。最後測試補強僅把WebKit替代驗證限定macOS並新增返回焦點斷言，[最新雲端QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39606188295)另行驗證。
+
+CLI建立PR被GitHub Enterprise Managed User存取限制拒絕；採使用者明確授權的SSH非強制推送整合至main，保留上游歷史與研究內容，不冒稱已建立PR。

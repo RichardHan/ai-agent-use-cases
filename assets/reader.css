@@ -8,10 +8,10 @@
 .reader-target{font-size:12px;line-height:1.7;color:#526057}
 .reader-jump:hover,.reader-outline-jump:hover{background:#e9eee0;border-color:var(--green)}
 .reader-outline{margin-top:14px;font-size:13px}
-.reader-outline>summary{cursor:pointer;padding:6px 0;color:var(--green);font-weight:600}
+.reader-outline>summary{min-height:44px;cursor:pointer;padding:10px 0;font-size:14px;line-height:1.7;color:var(--green);font-weight:600}
 .reader-outline ol{margin:12px 0 0;padding-left:24px}
 .reader-outline li{padding:3px 0}
-.reader-outline-jump{border:0;padding:7px 8px;text-align:left;font-size:13px;line-height:1.8;border-radius:4px;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.reader-outline-jump{display:block;width:100%;min-height:44px;border:0;padding:9px 8px;text-align:left;font-size:14px;line-height:1.8;border-radius:4px;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
 .reader-subsection{margin-left:14px}
 .reader-evidence{background:#f1f6ec}
 .reader-evidence ul{padding-left:20px;margin:8px 0}
@@ -19,8 +19,9 @@
 .reader-evidence .detail-warning{padding:0;border-radius:0;background:transparent;margin:12px 0 0}
 .reader-evidence .reader-evidence-footnote{font-size:12px;color:var(--muted)}
 .reader-evidence a{color:var(--green)}
-.reader-return{display:block;padding:4px 0;margin:-18px 0 12px;border:0;background:transparent;font-size:12px;color:var(--green);text-decoration:underline;text-underline-offset:3px}
-.reader-return:hover{text-decoration-thickness:2px}
+.reader-return{display:block;max-width:100%;min-height:44px;padding:10px 8px;margin:0 0 12px;border:0;background:transparent;font-size:14px;line-height:1.7;color:var(--green);text-align:left;overflow-wrap:anywhere;text-decoration:underline;text-underline-offset:3px}
+.reader-return:hover{text-decoration-thickness:2px;background:#f5f7ef}
+.reader-return:focus-visible,.reader-outline>summary:focus-visible,.reader-outline-jump:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 #detail-title:focus-visible,.reader-nav h2:focus-visible,.research-details .markdown h2:focus-visible,.research-details .markdown h3:focus-visible{outline:2px solid var(--green);outline-offset:5px}
 @media(max-width:640px){
  .reader-nav,.reader-evidence{padding:16px;margin:18px 0}

@@ -27,10 +27,34 @@ jobs:
           node --test tests/*.test.cjs > qa-artifacts/unit.tap
           for file in assets/*.js tests/journey*.cjs; do node --check "$file"; done
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
-      - name: Observe published journeys
+      - name: Reproduce original small controls
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
-        run: node tests/journey-observe.cjs
+          JOURNEY_URL: http://127.0.0.1:8171/ai-agent-use-cases/
+          JOURNEY_OUTPUT: qa-artifacts/red
+          JOURNEY_CHECK_ONLY: '1'
+        run: |
+          cp -R "$RUNNER_TEMP/preview" "$RUNNER_TEMP/before"
+          git show 08440bd:assets/reader.css > "$RUNNER_TEMP/before/ai-agent-use-cases/assets/reader.css"
+          python3 -m http.server 8171 --directory "$RUNNER_TEMP/before" > /tmp/journey-before.log 2>&1 &
+          if node tests/journey-controls-browser.cjs > qa-artifacts/red.log 2>&1; then
+            echo 'Expected old controls below 44px'; exit 1
+          fi
+          grep -q 'below 44px' qa-artifacts/red.log
+      - name: Verify improved journeys
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          python3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/journey-after.log 2>&1 &
+          node tests/journey-controls-browser.cjs
+      - name: Preserve reader and background load anchoring
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          READER_URL: http://127.0.0.1:8170/ai-agent-use-cases/
+          ANCHOR_URL: http://127.0.0.1:8170/ai-agent-use-cases/
+        run: |
+          node tests/reader-browser.cjs
+          node tests/reading-anchor-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

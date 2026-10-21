@@ -46,6 +46,7 @@ const normalize=s=>s.normalize('NFKC').replace(/[\s\u200b\uFEFF]/gu,'');
  if(!observe){
   // Exercise the visible control without opening an OS print dialog on the runner.
   await page.evaluate(()=>{window.print=()=>{window.__printCalls=(window.__printCalls||0)+1;dispatchEvent(new Event('beforeprint'));dispatchEvent(new Event('afterprint'));};});
+  assert.equal(await page.getByRole('button',{name:width<=640?'列印／PDF':'列印／存成 PDF',exact:true}).count(),1,'visible label matches accessible name');
   const button=page.locator('#print-case');await button.focus();await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>window.__printCalls),1);
   assert.equal(await page.locator('.research-details').evaluate(e=>e.open),false);
   assert(await button.evaluate(e=>e===document.activeElement));
@@ -82,7 +83,7 @@ const normalize=s=>s.normalize('NFKC').replace(/[\s\u200b\uFEFF]/gu,'');
  if(!observe){assert(state.printButton);assert(state.researchHeight>0);assert(state.lastBlockHeight>0,'last original block is rendered');assert(!state.mainVisible);assert(state.dialog.scrollHeight<=state.dialog.height+2,'no clipping');}
  await page.emulateMedia({media:'screen'});
  if(!observe)await page.evaluate(()=>dispatchEvent(new Event('afterprint')));
- const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();report.checks.push({id,axe:axe.violations.map(v=>v.id)});save();assert.equal(axe.violations.length,0);
+ const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();report.checks.push({id,axe:axe.violations.map(v=>v.id)});save();assert.equal(axe.violations.length,0);
  if(!observe){
   // A second cycle with an already expanded original must preserve the reader's choice.
   await page.locator('.research-details>summary').click();

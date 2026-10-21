@@ -549,6 +549,7 @@ function showDetail(item, trigger, updateURL=true) {
 
   const actionRow = el('div', 'detail-actions');
   const copyBtn = el('button', 'btn-copy-link', '📋 複製案例連結');
+  copyBtn.replaceChildren(el('span','print-action-long','📋 複製案例連結'),el('span','print-action-short','複製案例連結'));
   copyBtn.type = 'button';
   copyBtn.id = 'copy-case-link';
   copyBtn.setAttribute('aria-label','複製案例連結');
@@ -580,10 +581,13 @@ function showDetail(item, trigger, updateURL=true) {
     }
   });
   const source = el('a', 'detail-source', '查看 Markdown 原文 ↗');
+  source.replaceChildren(el('span','print-action-long','查看 Markdown 原文 ↗'),el('span','print-action-short','Markdown ↗'));
+  source.setAttribute('aria-label','查看 Markdown 原文 ↗');
   source.href = REPO + item.path;
   source.target = '_blank';
   source.rel = 'noopener noreferrer';
   const printBtn=el('button','btn-copy-link','列印／存成 PDF');
+  printBtn.replaceChildren(el('span','print-action-long','列印／存成 PDF'),el('span','print-action-short','列印／PDF'));
   printBtn.id='print-case';printBtn.type='button';
   printBtn.setAttribute('aria-describedby','print-case-hint');
   printBtn.addEventListener('click',()=>window.print());
@@ -593,7 +597,7 @@ function showDetail(item, trigger, updateURL=true) {
     actionRow.append(tagsRow);
   }
   actionRow.append(shareFeedback);
-  const printHint=el('p','print-case-hint','列印完整原始研究與來源；可在列印視窗選擇存成 PDF。');
+  const printHint=el('p','print-case-hint sr-only','列印完整原始研究與來源；可在列印視窗選擇存成 PDF。');
   printHint.id='print-case-hint';
   body.append(actionRow,printHint);
   const warningText=item.kind === 'pending' ? '待查線索：證據尚不足，不列成功或已完成案例。' : '來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。';

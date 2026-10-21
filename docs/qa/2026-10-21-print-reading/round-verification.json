@@ -1,0 +1,168 @@
+{
+  "base": "http://127.0.0.1:8108/ai-agent-use-cases/",
+  "observe": false,
+  "checks": [
+    {
+      "engine": "chromium",
+      "size": "desktop",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 182,
+      "detailOpenMs": 313,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "07aab6de433df7259cfc0675bc822f176e796770edaeda6264c3c1befbc7357d"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "882f33194120d52bd1f6a68ad73e205fcde42f60762de8eb17d1373f5059f1cb"
+        }
+      ],
+      "purposeBounds": {
+        "top": 403.234375,
+        "lineHeight": 32.3
+      },
+      "readingScrollDelta": 59,
+      "readingTargetDelta": 0.1875,
+      "wheelStatusHeightBefore": 45.1875,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.1875,
+      "statusRemovalReadingDelta": 0.1875,
+      "midLoadReload": true,
+      "sourceHref": "https://zenn.dev/tec/articles/c4fbfcfffde4ad",
+      "openedSource": "https://zenn.dev/tec/articles/c4fbfcfffde4ad",
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 127,
+      "detailOpenMs": 205,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "07aab6de433df7259cfc0675bc822f176e796770edaeda6264c3c1befbc7357d"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "882f33194120d52bd1f6a68ad73e205fcde42f60762de8eb17d1373f5059f1cb"
+        }
+      ],
+      "purposeBounds": {
+        "top": 525.171875,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 84,
+      "readingTargetDelta": 0.375,
+      "wheelStatusHeightBefore": 70.375,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.375,
+      "statusRemovalReadingDelta": 0.375,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "small-mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 117,
+      "detailOpenMs": 195,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "07aab6de433df7259cfc0675bc822f176e796770edaeda6264c3c1befbc7357d"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "882f33194120d52bd1f6a68ad73e205fcde42f60762de8eb17d1373f5059f1cb"
+        }
+      ],
+      "purposeBounds": {
+        "top": 640.96875,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 110,
+      "readingTargetDelta": 0.4375,
+      "wheelStatusHeightBefore": 95.5625,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.4375,
+      "statusRemovalReadingDelta": 0.4375,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    },
+    {
+      "engine": "chromium",
+      "size": "mid-mobile",
+      "audits": [
+        {
+          "state": "early case",
+          "violations": []
+        },
+        {
+          "state": "complete original section",
+          "violations": []
+        }
+      ],
+      "navigationCancellationDiagnostics": [],
+      "sourceReadyMs": 119,
+      "detailOpenMs": 205,
+      "actualAssets": [
+        {
+          "path": "assets/reader.css",
+          "sha256": "07aab6de433df7259cfc0675bc822f176e796770edaeda6264c3c1befbc7357d"
+        },
+        {
+          "path": "assets/app.js",
+          "sha256": "882f33194120d52bd1f6a68ad73e205fcde42f60762de8eb17d1373f5059f1cb"
+        }
+      ],
+      "purposeBounds": {
+        "top": 490.671875,
+        "lineHeight": 30.4
+      },
+      "readingScrollDelta": 84,
+      "readingTargetDelta": 0.375,
+      "wheelStatusHeightBefore": 70.375,
+      "wheelStatusHeightAfter": 0,
+      "wheelReadingDelta": 0.375,
+      "statusRemovalReadingDelta": 0.375,
+      "midLoadReload": true,
+      "pageErrors": [],
+      "complete": true
+    }
+  ]
+}

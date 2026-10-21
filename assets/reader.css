@@ -122,7 +122,12 @@
 .reader-search-locate:focus-visible,.markdown [id^="reader-passage-"]:focus{outline:2px solid var(--green);outline-offset:4px}
 
 /* Keep a portable reading copy tied to its evidence and original source URLs. */
-.print-case-hint{font-size:12px;line-height:1.8;color:var(--muted);margin:-8px 0 20px}
+.print-case-hint{margin:0}
+.print-action-short{display:none}
+@media(max-width:640px){
+ .detail-actions .print-action-long{display:none}
+ .detail-actions .print-action-short{display:inline}
+}
 .reader-print-meta{display:none}
 @media print{
  @page{margin:16mm}

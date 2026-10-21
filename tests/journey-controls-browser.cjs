@@ -26,7 +26,7 @@ async function jumpAndReturn(page,button){
  const context=await browser.newContext({viewport:{width,height:width===1440?1000:844},reducedMotion:'reduce'}),page=await context.newPage();page.setDefaultTimeout(15000);
  const row={engine,width,audits:[],errors:[],journeys:[]};report.checks.push(row);page.on('pageerror',e=>row.errors.push(e.message));save();
  // Practical search -> method -> limits -> source -> native Back.
- const start=Date.now();await page.goto(base+'?q=旅遊&scenario=生活&case=UC-001');await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});await page.locator('#detail[open]').waitFor();row.readyMs=Date.now()-start;
+ const start=Date.now();await page.goto(base+'?q=旅遊&scenario=生活');await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});await page.locator('#results .card[data-case-id="UC-001"] .card-bottom button').click();await page.locator('#detail[open]').waitFor();row.readyMs=Date.now()-start;
  await page.locator('.reader-method-shortcut').click();await page.screenshot({path:`${out}/method-${engine}-${width}.png`});
  await controls(page,row);if(process.env.JOURNEY_CHECK_ONLY){await context.close();continue;}
  await page.locator('#'+await page.evaluate(()=>document.activeElement.id)+' + .reader-return').click();

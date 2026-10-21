@@ -1,0 +1,36 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "audits": [
+      []
+    ],
+    "journeys": [
+      "search/filter, copy, denial/manual, print exclusion, return, empty recovery"
+    ],
+    "entries": 408,
+    "results": "顯示 17 / 408 筆收錄",
+    "actions": 1,
+    "controlHeight": 45.796875,
+    "realClipboard": true,
+    "completed": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      []
+    ],
+    "journeys": [
+      "search/filter, copy, denial/manual, print exclusion, return, empty recovery"
+    ],
+    "entries": 408,
+    "results": "顯示 17 / 408 筆收錄",
+    "actions": 1,
+    "controlHeight": 45.796875,
+    "realClipboard": true,
+    "completed": true
+  }
+]

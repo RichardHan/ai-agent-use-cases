@@ -57,4 +57,12 @@ READER_URL=http://127.0.0.1:8180/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/nod
 
 資產gzip本機估算：reader.js增加1005 bytes、reader.css增加180 bytes，合計1185 bytes（[原始大小](asset-size.json)）；不是網路載入速度量測，不宣稱效能分數。舊run39582006774、39582094807、39582187468亦成功，但不取代最終修正版驗收。嘗試取消已被取代的舊run時同樣收到403，未換身分；該run後續自行成功。
 
-發布結果待部署後補錄。未驗實體手機、軟鍵盤、真人輔具或完整WCAG認證；axe只記實際結果，不宣稱全站認證。未提供虛構效能或轉換率分數。下一輪優先改善首次全文請求量與公開QA並行限流；本輪不以複製功能聲稱解決既有429問題。
+正常merge commit `441c56e0c1c7a2cc6a5a9e81ab4a97d3d93df3f9` 已push至main；無強推，原工作目錄仍保留兩項未提交修改。獨立角色已對最終產品`bb3ac12`與144項單元、四配置及截圖簽核，無剩餘必修。[Pages部署39583270329](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39583270329)已成功；建置完成後曾因既有並行QA而排隊。正式[發布驗收39583921998](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39583921998)成功：reader.js／reader.css與已審查產品內容完全一致（[資產比對](published-assets.json)），1440及390均408條目、旅遊＋生活17筆、真正剪貼簿內容一致、拒絕／API缺失手動複製與返回／空結果復原通過，兩次正式axe皆0、零pageerror／水平溢出。[正式報告](published/report.json)、[桌面](published/prompt-chromium-1440.png)、[手機](published/prompt-chromium-390.png)。主角色已目視正式兩尺寸，與預覽一致。資產報告sha為驗證checkout `94bfea8`，其中產品檔與部署merge `441c56e`相同；不把測試checkout誤稱部署commit。
+
+發布後廣域CI暴露我漏同步的原文比較規則：[Evidence round39583272365](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39583272365)、[Reader context39583272487](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39583272487)明確報`UC-001 original research changed`。舊測試只排除reader-return，錯把新生成的reader-copy控制當成原文。`ba93beb`精確排除此容器，仍逐篇完整`innerHTML===original`，原文字、URL、結構與順序任一變動仍失敗；來源renderer不允許原文建立該HTML class，並非廣泛略過div/p。獨立review確認沒有削弱正文保護，並將兩套完整流程納入本輪雲端驗收。`94bfea8`同時同步搜尋命中、先讀與PDF文字取樣的三個相同排除點。產品檔未再更改。
+
+另[Source guide39583272314](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39583272314)的preview步驟失敗，保存來源流程及分享報告已完成、後續context僅第一配置記錄；下載的failed-step log未含實際例外，不憑時間推定根因，也不宣稱此舊run通過。其他main CI以Actions實際狀態為準，未宣稱全批綠燈。
+
+[最終測試適配重跑39583915912](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39583915912)在`94bfea8`完整成功：144項單元、build、四配置複製及原reader五配置再通過；[來源限制導覽](integrity/review-sections.json)與[搜尋原文定位](integrity/context.json)各五配置完成、各10次axe掃描皆0，兩套全庫嚴格HTML比對均408筆通過。來源導覽含3個額外fixture、1426個實際候選索引；搜尋定位含521段原文命中。這些是檢查數，非成功案例數。獨立review確認測試適配與正式圖，無剩餘必修。
+
+此輪產品驗收已完成。早於適配的三筆舊main失敗保留為歷史，不把重跑成功改寫成舊run成功；其他並行main檢查不作全綠宣稱。最終整合僅追加測試適配及這份發布證據，沒有再修改已部署產品資產。未驗實體手機、軟鍵盤、真人輔具或完整WCAG認證；axe只記實際結果，不宣稱全站認證。未提供虛構效能或轉換率分數。下一輪優先改善首次全文請求量與公開QA並行限流；本輪不以複製功能聲稱解決既有429問題。

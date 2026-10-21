@@ -1,0 +1,404 @@
+[
+  {
+    "engine": "chromium",
+    "size": "desktop",
+    "audits": [
+      {
+        "label": "later source version",
+        "violations": []
+      },
+      {
+        "label": "unlinked evidence gap",
+        "violations": []
+      }
+    ],
+    "total": "顯示 408 / 408 筆收錄",
+    "corpus": {
+      "entries": 408,
+      "fixtures": 3,
+      "totalCandidates": 1426,
+      "examples": [
+        {
+          "id": "UC-005",
+          "candidates": 25,
+          "titles": [
+            "來源原文第 1 段 · 含網頁連結 ↓",
+            "來源報告與限制原文第 2 段 · 限制相關標題 ↓",
+            "權限、費用與可用性原文第 5 段 · 限制相關標題 ↓",
+            "驗收原文第 6 段 · 限制相關標題 ↓",
+            "補充版本：ChatGPT dots 協調 Codex 執行緒（2026-10-13 新增，X 作者自述，未核）原文第 7 段 · 含網頁連結 ↓",
+            "發布期官方教學補充（2026-10-13 核讀）原文第 9 段 · 含網頁連結 ↓",
+            "dots 官方介面示例補充原文第 10 段 · 含網頁連結 ↓",
+            "社群來源與證據原文第 12 段 · 含網頁連結 · 限制相關標題 ↓",
+            "權限、費用與可用性原文第 15 段 · 含網頁連結 · 限制相關標題 ↓",
+            "測試跑很多次，仍可能裝不上目標機器（2026-10-14 補充）原文第 16 段 · 含網頁連結 ↓",
+            "還沒開始寫程式就卡住？先核對空倉庫與初始提交原文第 17 段 · 含網頁連結 ↓",
+            "社群來源與證據（author-demo，未核）原文第 19 段 · 含網頁連結 · 限制相關標題 ↓",
+            "權限與限制原文第 22 段 · 限制相關標題 ↓",
+            "空畫面不代表通過：把端對端驗收證據交回修正（2026-10-14 補充）原文第 23 段 · 含網頁連結 · 限制相關標題 ↓",
+            "本庫新增驗收指令（自設未測）原文第 24 段 · 限制相關標題 ↓",
+            "兩件工作輪流推進：別把開啟通知當成已證實的恢復開關（2026-10-15 補充）原文第 25 段 · 含網頁連結 ↓",
+            "延續工作怎麼驗收（整理者自設，未測）原文第 26 段 · 限制相關標題 ↓",
+            "黑畫面可能是顯示器把輸出擦掉，先核對原始證據（2026-10-16 補充）原文第 27 段 · 含網頁連結 · 限制相關標題 ↓",
+            "可貼指令（本庫原創，未測）原文第 28 段 · 含網頁連結 ↓",
+            "網站還活著，不代表新版本已部署（2026-10-17 台灣時間補充）原文第 29 段 · 含網頁連結 ↓",
+            "2026-10-17補讀：模擬測試全過，真機仍有資源競用原文第 30 段 · 含網頁連結 ↓",
+            "2026-10-20補充：反覆改圖沒修好，改查建置依賴（不另計）原文第 31 段 · 含網頁連結 ↓",
+            "2026-10-20補充：瀏覽器說失敗，伺服器可能仍在工作（不另計）原文第 32 段 · 含網頁連結 ↓",
+            "2026-10-20 22:30補充：測試全過，仍由獨立審查找到重複發送原文第 33 段 · 含網頁連結 ↓",
+            "同批補充：既有付費產品的角色分工，公開設定不等於部署證據原文第 34 段 · 含網頁連結 · 限制相關標題 ↓"
+          ]
+        },
+        {
+          "id": "UC-024",
+          "candidates": 5,
+          "titles": [
+            "來源與證據原文第 1 段 · 含網頁連結 · 限制相關標題 ↓",
+            "權限、費用與限制原文第 5 段 · 限制相關標題 ↓",
+            "共通方案與費用原文第 6 段 · 含網頁連結 · 限制相關標題 ↓",
+            "Grok Bot貨運版本：先找缺簽收文件，再準備開單（2026-10-14）原文第 7 段 · 含網頁連結 ↓",
+            "自設只讀驗收（未實跑）原文第 8 段 · 限制相關標題 ↓"
+          ]
+        },
+        {
+          "id": "UC-067",
+          "candidates": 16,
+          "titles": [
+            "原作者做法與證據原文第 2 段 · 含網頁連結 · 限制相關標題 ↓",
+            "Grok Bot 版本：怕雲端電腦重置，讓 Bot 把可備份的東西分類存進 GitHub（作者自述＋截圖）原文第 3 段 · 含網頁連結 ↓",
+            "權限、費用與可用性原文第 6 段 · 含網頁連結 · 限制相關標題 ↓",
+            "驗收與去重原文第 7 段 · 限制相關標題 ↓",
+            "Grok Bot 版本補充：每日備份到私有 GitHub——fine-grained token 與 gh 裝置碼兩種登入（author-demo）原文第 8 段 · 含網頁連結 ↓",
+            "2026-10-16 補充反例：只答應整理虛擬磁碟，作者卻稱實體資料盤受損原文第 9 段 · 含網頁連結 ↓",
+            "可貼的只讀驗收指令（本庫自行設計，未實測）原文第 10 段 · 限制相關標題 ↓",
+            "2026-10-17 補充：主機故障後從平台備份換機，仍要核對排程與套件原文第 11 段 · 含網頁連結 ↓",
+            "變體 A：把 Tailscale 執行檔、狀態備份與還原腳本放在使用者家目錄（author-demo）原文第 13 段 · 含網頁連結 ↓",
+            "變體 B：每週三處備份、測試壓縮檔並互相檢查（author-demo）原文第 14 段 · 含網頁連結 ↓",
+            "變體 C：遭遇回滾後的夜間 git 推送計畫（僅計畫，unverified 層級）原文第 15 段 · 含網頁連結 ↓",
+            "驗收重點補充（本庫設計，未執行）原文第 16 段 · 限制相關標題 ↓",
+            "2026-10-19 補充：雲端電腦自行重啟、回到數週前快照，同時外部備份也在失敗（二手轉述，unverified）原文第 17 段 · 含網頁連結 ↓",
+            "2026-10-18 補核：恢復原始碼，不等於找回原始測試證據原文第 18 段 · 含網頁連結 · 限制相關標題 ↓",
+            "2026-10-20 20:40 補充：不備份檔案，先把整個 Bot 環境寫成一本「復原手冊」，每月 1 日更新（作者自述）原文第 19 段 · 含網頁連結 ↓",
+            "2026-10-21 14:40 補充：dots 版本——讓 dots 自己把 Automation、規則與脈絡定期推到私有 GitHub，對話變亂時開新的 dot 讀回（作者自述）原文第 20 段 · 含網頁連結 ↓"
+          ]
+        },
+        {
+          "id": "UC-338",
+          "candidates": 4,
+          "titles": [
+            "S-338A：Grok Bot每日工時與薪資核對（作者自述）原文第 3 段 · 含網頁連結 ↓",
+            "所需連接、權限與限制原文第 7 段 · 限制相關標題 ↓",
+            "驗收與可重現性原文第 8 段 · 限制相關標題 ↓",
+            "去重原文第 9 段 · 含網頁連結 ↓"
+          ]
+        },
+        {
+          "id": "no-headings",
+          "candidates": 1,
+          "titles": [
+            "頁首資料頁首資料 · 含網頁連結 ↓"
+          ]
+        },
+        {
+          "id": "literal-duplicate",
+          "candidates": 2,
+          "titles": [
+            "權限 <img src=x onerror=alert(1)>（未驗證）原文第 1 段 · 限制相關標題 ↓",
+            "權限 <img src=x onerror=alert(1)>（未驗證）原文第 2 段 · 含網頁連結 · 限制相關標題 ↓"
+          ]
+        }
+      ]
+    },
+    "headings": [
+      "來源與證據",
+      "適合誰",
+      "建議操作步驟（原創，未實測）",
+      "原創提示詞｜UNTESTED",
+      "權限、費用與限制",
+      "共通方案與費用",
+      "Grok Bot貨運版本：先找缺簽收文件，再準備開單（2026-10-14）",
+      "自設只讀驗收（未實跑）"
+    ],
+    "primary": [
+      "方法與步驟 ↓建議操作步驟（原創，未實測）",
+      "限制與權限 ↓權限、費用與限制",
+      "來源與版本 ↓來源與證據"
+    ],
+    "researchLength": 1799,
+    "reviewCount": 5,
+    "sourceHref": "https://www.reddit.com/r/GrokBot/comments/1vya1zs/i_own_a_trucking_company_i_trained_grokbot_for_8/",
+    "sourceOpened": "https://www.reddit.com/r/GrokBot/comments/1vya1zs/i_own_a_trucking_company_i_trained_grokbot_for_8/",
+    "controls": [
+      {
+        "id": "reader-section-0",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-4",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-5",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-6",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-7",
+        "height": 71.578125,
+        "exists": true
+      }
+    ],
+    "complete": true
+  },
+  {
+    "engine": "chromium",
+    "size": "mobile",
+    "audits": [
+      {
+        "label": "later source version",
+        "violations": []
+      },
+      {
+        "label": "unlinked evidence gap",
+        "violations": []
+      }
+    ],
+    "total": "顯示 408 / 408 筆收錄",
+    "headings": [
+      "來源與證據",
+      "適合誰",
+      "建議操作步驟（原創，未實測）",
+      "原創提示詞｜UNTESTED",
+      "權限、費用與限制",
+      "共通方案與費用",
+      "Grok Bot貨運版本：先找缺簽收文件，再準備開單（2026-10-14）",
+      "自設只讀驗收（未實跑）"
+    ],
+    "primary": [
+      "方法與步驟 ↓建議操作步驟（原創，未實測）",
+      "限制與權限 ↓權限、費用與限制",
+      "來源與版本 ↓來源與證據"
+    ],
+    "researchLength": 1799,
+    "reviewCount": 5,
+    "sourceHref": "https://www.reddit.com/r/GrokBot/comments/1vya1zs/i_own_a_trucking_company_i_trained_grokbot_for_8/",
+    "controls": [
+      {
+        "id": "reader-section-0",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-4",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-5",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-6",
+        "height": 96.765625,
+        "exists": true
+      },
+      {
+        "id": "reader-section-7",
+        "height": 71.578125,
+        "exists": true
+      }
+    ],
+    "complete": true
+  },
+  {
+    "engine": "chromium",
+    "size": "small-mobile",
+    "audits": [
+      {
+        "label": "later source version",
+        "violations": []
+      },
+      {
+        "label": "unlinked evidence gap",
+        "violations": []
+      }
+    ],
+    "total": "顯示 408 / 408 筆收錄",
+    "headings": [
+      "來源與證據",
+      "適合誰",
+      "建議操作步驟（原創，未實測）",
+      "原創提示詞｜UNTESTED",
+      "權限、費用與限制",
+      "共通方案與費用",
+      "Grok Bot貨運版本：先找缺簽收文件，再準備開單（2026-10-14）",
+      "自設只讀驗收（未實跑）"
+    ],
+    "primary": [
+      "方法與步驟 ↓建議操作步驟（原創，未實測）",
+      "限制與權限 ↓權限、費用與限制",
+      "來源與版本 ↓來源與證據"
+    ],
+    "researchLength": 1799,
+    "reviewCount": 5,
+    "sourceHref": "https://www.reddit.com/r/GrokBot/comments/1vya1zs/i_own_a_trucking_company_i_trained_grokbot_for_8/",
+    "controls": [
+      {
+        "id": "reader-section-0",
+        "height": 91.96875,
+        "exists": true
+      },
+      {
+        "id": "reader-section-4",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-5",
+        "height": 91.96875,
+        "exists": true
+      },
+      {
+        "id": "reader-section-6",
+        "height": 121.953125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-7",
+        "height": 71.578125,
+        "exists": true
+      }
+    ],
+    "complete": true
+  },
+  {
+    "engine": "firefox",
+    "size": "mobile",
+    "audits": [
+      {
+        "label": "later source version",
+        "violations": []
+      },
+      {
+        "label": "unlinked evidence gap",
+        "violations": []
+      }
+    ],
+    "total": "顯示 408 / 408 筆收錄",
+    "headings": [
+      "來源與證據",
+      "適合誰",
+      "建議操作步驟（原創，未實測）",
+      "原創提示詞｜UNTESTED",
+      "權限、費用與限制",
+      "共通方案與費用",
+      "Grok Bot貨運版本：先找缺簽收文件，再準備開單（2026-10-14）",
+      "自設只讀驗收（未實跑）"
+    ],
+    "primary": [
+      "方法與步驟 ↓建議操作步驟（原創，未實測）",
+      "限制與權限 ↓權限、費用與限制",
+      "來源與版本 ↓來源與證據"
+    ],
+    "researchLength": 1799,
+    "reviewCount": 5,
+    "sourceHref": "https://www.reddit.com/r/GrokBot/comments/1vya1zs/i_own_a_trucking_company_i_trained_grokbot_for_8/",
+    "controls": [
+      {
+        "id": "reader-section-0",
+        "height": 71.60000610351562,
+        "exists": true
+      },
+      {
+        "id": "reader-section-4",
+        "height": 71.59999084472656,
+        "exists": true
+      },
+      {
+        "id": "reader-section-5",
+        "height": 71.60000610351562,
+        "exists": true
+      },
+      {
+        "id": "reader-section-6",
+        "height": 96.80000305175781,
+        "exists": true
+      },
+      {
+        "id": "reader-section-7",
+        "height": 71.59999084472656,
+        "exists": true
+      }
+    ],
+    "complete": true
+  },
+  {
+    "engine": "webkit",
+    "size": "mobile",
+    "audits": [
+      {
+        "label": "later source version",
+        "violations": []
+      },
+      {
+        "label": "unlinked evidence gap",
+        "violations": []
+      }
+    ],
+    "total": "顯示 408 / 408 筆收錄",
+    "headings": [
+      "來源與證據",
+      "適合誰",
+      "建議操作步驟（原創，未實測）",
+      "原創提示詞｜UNTESTED",
+      "權限、費用與限制",
+      "共通方案與費用",
+      "Grok Bot貨運版本：先找缺簽收文件，再準備開單（2026-10-14）",
+      "自設只讀驗收（未實跑）"
+    ],
+    "primary": [
+      "方法與步驟 ↓建議操作步驟（原創，未實測）",
+      "限制與權限 ↓權限、費用與限制",
+      "來源與版本 ↓來源與證據"
+    ],
+    "researchLength": 1799,
+    "reviewCount": 5,
+    "sourceHref": "https://www.reddit.com/r/GrokBot/comments/1vya1zs/i_own_a_trucking_company_i_trained_grokbot_for_8/",
+    "controls": [
+      {
+        "id": "reader-section-0",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-4",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-5",
+        "height": 71.578125,
+        "exists": true
+      },
+      {
+        "id": "reader-section-6",
+        "height": 96.765625,
+        "exists": true
+      },
+      {
+        "id": "reader-section-7",
+        "height": 71.578125,
+        "exists": true
+      }
+    ],
+    "complete": true
+  }
+]

@@ -36,4 +36,4 @@ const observe=process.env.OBSERVE==='1',label=process.env.LABEL||(observe?'befor
  await page.close();
  }
  fs.writeFileSync(`qa-artifacts/${label}-report.json`,JSON.stringify(reports,null,2));await browser.close();
-})().catch(e=>{console.error(e);process.exitCode=1});
+})().catch(e=>{console.error(e);process.exit(1)});

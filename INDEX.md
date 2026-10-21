@@ -1,5 +1,7 @@
 # 完整案例索引
 
+2026-10-21 08:43批次：X（英文為主，另掃日、中、韓文）＋官方News、GitHub、Hacker News、dev.to、Qiita候選集中核對。新增UC-398官方客服團隊用兩個Bot隊友偵測工單尖峰、事後依工程師核准批次回覆（官方自述）、UC-399開源作者把ESP32小螢幕分享給朋友的Bot並以額度限次、簽章收據對帳（B，附公開驗收紀錄）、UC-400創作者六支只讀X分析Bot與按量API成本預估對帳（B）、UC-401每週家人菜單問卷依行事曆排菜與採買清單（B）；015併入每天看官方更新紀錄並轉成個人化建議、未經同意不設定，不另計。皆未重現。承接344，嚴格合格348／1000，尚差652；主要頁393。[逐組判斷與實閱範圍](sources/research-2026-10-21-0843.md)。
+
 2026-10-20 22:30批次：32組來源／問題候選集中核對，新增UC-397規格與倉庫脈絡轉工程待辦結構，B級作者自述，無公開看板、未獨立重現。21組既有流程中12組來源實際補9頁，另10組不納入。預測凍結不當準確度、模型格式失敗不當算術錯誤。嚴格合格344／1000，尚差656；主要頁389。[逐組判斷與實閱範圍](sources/research-2026-10-20-2230.md)。
 
 2026-10-20 21:30批次：41組來源／問題候選集中審核，新增UC-395舊音樂專案缺失的已授權素材恢復、UC-396 Page留言保存與代理自動受理分層驗收，均為B級作者具體實作／失敗回報，未獨立重現。27組既有流程中實際補005、049、368，12組證據不足不計。承接341，嚴格合格343／1000，尚差657；主要頁388。[逐組來源、淘汰及查閱界線](sources/research-2026-10-20-2130.md)。
@@ -149,7 +151,7 @@
 | UC-011 | 商機與回饋交叉分析、批准後修訂材料 | ChatGPT dots／Drive／Sheets | [作者樣本測試，無營收成效驗證](cases/011-sales-feedback-approved-revision.md) | 工作｜業務、簡報、客戶回饋 |
 | UC-012 | 科研評估來源稽核、領域批判與圖稿整合 | Grok Bot／Jupyter／LaTeX | [作者回溯性科研案例，原始紀錄不完整](cases/012-research-evaluation-provenance.md) | 學習｜科研、資料稽核、多代理 |
 | UC-014 | 客服收件匣巡檢與人核准退款 | Grok Bot／Intercom／Stripe；dots 垃圾箱分診＋影片待看 | [作者自述＋dots 垃圾箱年付求助分診截圖；影片僅讀描述](cases/014-support-inbox-approval-refund.md) | 工作｜客服、收件匣、核准 |
-| UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine（含 KEV） | [dots 結構化測試＋Grok Bot 官方文件＋KEV 監看自述；未重現](cases/015-public-page-change-watch.md) | 工作｜監看、排程、驗收 |
+| UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine（含 KEV、官方更新紀錄） | [dots 結構化測試＋Grok Bot 官方文件＋KEV 監看自述＋每日看更新紀錄轉個人建議自述；未重現](cases/015-public-page-change-watch.md) | 工作｜每日、監看、排程、驗收 |
 | UC-016 | 二手刊登與買家對話代管 | Meta Muse／Facebook Marketplace；dots 多平台 | [Muse 地址外洩事件（媒體轉述）＋官方權限文件＋作者自述；未重現](cases/016-marketplace-selling-buyer-messages.md) | 生活｜二手、買家訊息、隱私 |
 | UC-017 | 先研究潛在客戶，再準備有根據的聯絡草稿；繁中作者把n8n客戶開發搬到多Bot分工並實際寄信 | Grok Bot／公開公司來源／草稿；Apify Google Maps Scraper／Gmail／Routines | [官方展示／署名作者自報＋繁中作者實測自述（寄出14封、回覆未公開）；未獨立重現](cases/017-prospect-research-drafts.md) | 工作｜業務開發、草稿 |
 | UC-018 | 正式展示前，先檢查示範環境能不能跑 | Grok Bot／授權測試環境 | [官方展示／署名作者自報；未獨立重現](cases/018-demo-readiness.md) | 工作｜展示、驗收 |
@@ -524,10 +526,13 @@
 | UC-392 | 統計程式顯示正常，仍用同模型對照與多起點尋找較差解 | Grok Bot／gllvmTMB／GLLVModels.jl | [B作者公開結果、生成碼與修訂紀錄；未重現](cases/392-latent-model-multistart-optimum-audit.md) | 學習｜統計、數值驗收、多起點、失敗 |
 | UC-393 | 補齊提案材料，將會後筆記對回同一案 | Meta Muse／Signed／Granola／deckk | [B作者實作與公開原碼；私人提案未核、未重現](cases/393-pitch-deck-meeting-context-reconciliation.md) | 工作｜提案、附件補全、會議脈絡、人工覆核 |
 | UC-394 | .NET依賴鏈移到Wasm，驗收回傳值、主動通知與安全降級 | Grok Bot／NetWasm／Nerdbank.JsonRpc | [B作者報告與固定原碼；未重跑、限PoC](cases/394-netwasm-rpc-compatibility-poc.md) | 開發｜跨平台、依賴鏈、雙向通訊、驗收 |
-
 | UC-395 | 舊音樂專案換電腦後缺樣本，從已授權素材找回原有依賴 | Meta Muse／Dropbox／Splice／Ableton Live | [B原作者完成更正與澄清；無原專案或音訊、未重現](cases/395-missing-project-samples-licensed-asset-recovery.md) | 創作｜音樂、缺件恢復、素材授權、驗收 |
 | UC-396 | Page留言已保存且提及正確，分開核對自動受理與人工補救 | ChatGPT dots／Pages | [B作者兩頁失敗與直聊對照；未知根因、未重現](cases/396-page-mention-persistence-dispatch-verification.md) | 工作｜留言、任務受理、對照、失敗 |
 | UC-397 | 把現有倉庫與功能規格拆成有驗收條件和依賴的工程待辦 | ChatGPT dots／GitHub | [B原作者三看板與審閱自述；無公開產物、未重現](cases/397-feature-spec-repository-grounded-backlog.md) | 開發｜需求拆解、工作項目、依賴、人工審閱 |
+| UC-398 | 客服工單湧入同一問題時，Bot偵測尖峰通知值班，事後依核准批次統一回覆結案 | Grok Bot（IncidentWatch／IncidentSweep／Support Bot） | [官方內部案例自述，204張約10分鐘為官方自報；未重現](cases/398-support-incident-spike-watch-approved-batch-sweep.md) | 工作｜客服、工單、事故、批次核准 |
+| UC-399 | 把自己的實體小裝置分享給朋友的Bot用，用額度限次並以簽章收據對帳 | Grok Bot（兩帳號）／Grok Gadgets開源中繼／ESP32-S3 OLED | [B作者自述＋公開驗收紀錄與記錄檔；未重現](cases/399-gadget-relay-shared-credits-receipts-acceptance.md) | 開發｜裝置、額度、共享、驗收 |
+| UC-400 | 六個只讀不發文的X帳號分析Bot，先估每次成本再對實際帳單 | Grok Bot排程／X API按量計費／Cloudflare私人頁 | [B作者自述設定與花費；無公開腳本或帳單、未重現](cases/400-x-api-read-only-creator-bots-cost-estimate-vs-bill.md) | 創作｜每日、X、只讀報告、成本 |
+| UC-401 | 每週寄家人菜單問卷，依行事曆忙碌程度排菜並產生採買清單 | Grok Bot／Paprika食譜／電郵／行事曆 | [B作者自述跑過一輪；無問卷或清單樣本、未重現](cases/401-weekly-family-menu-survey-calendar-grocery-list.md) | 生活｜家庭、食譜、問卷、採買 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

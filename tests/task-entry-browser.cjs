@@ -10,7 +10,7 @@ for(const [engine,width] of configs){const browser=await engine.launch();const l
  const context=await browser.newContext({viewport:{width,height:width===390?844:1000},reducedMotion:'reduce'}),page=await context.newPage();
  const row={engine:engine.name(),width,pageErrors:[]};report.push(row);page.on('pageerror',e=>row.pageErrors.push(e.message));
  await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
- row.total=await page.evaluate(()=>entries.length);await page.screenshot({path:out+'/home-'+label+'.png'});
+ console.log('LOADED '+label);row.total=await page.evaluate(()=>entries.length);await page.screenshot({path:out+'/home-'+label+'.png'});
  await page.locator('.hero-search-link').click();await page.locator('#filter-options').evaluate(e=>e.open=true);
  const task=page.locator('.chip[data-query="驗收"], .chip[data-kind="evidence"]');row.task=await task.innerText();await task.click();
  row.query=await page.locator('#query').inputValue();row.kind=await page.locator('#kind').inputValue();row.results=await page.evaluate(()=>currentFiltered.length);
@@ -23,10 +23,10 @@ for(const [engine,width] of configs){const browser=await engine.launch();const l
  await page.locator('#results .card .card-bottom button').first().click();await page.locator('#detail[open]').waitFor();
  row.detail=(await page.locator('#detail-body').innerText()).slice(0,1800);await page.screenshot({path:out+'/detail-'+label+'.png'});
  await page.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();row.source=await page.locator('.markdown a[href^="https:"]').first().getAttribute('href');
- const pending=page.waitForEvent('popup');await page.locator('.markdown a[href^="https:"]').first().click();const popup=await pending;await popup.waitForLoadState('domcontentloaded').catch(()=>{});row.openedSource=popup.url().split('?')[0];await popup.close();
+ const pending=page.waitForEvent('popup');await page.locator('.markdown a[href^="https:"]').first().click();const popup=await pending;await popup.waitForLoadState('domcontentloaded',{timeout:10000}).catch(()=>{row.sourceLoadTimedOut=true;});row.openedSource=popup.url().split('?')[0];await popup.close();
  await page.keyboard.press('Escape');row.returnFocus=await page.evaluate(()=>document.activeElement.outerHTML);
  if(process.env.VERIFY_TASK==='1'){
-   assert(row.returnFocus.includes('閱讀 '+initialId));
+   assert(await page.locator('#results .card[data-case-id="'+initialId+'"] .card-bottom button').evaluate(el=>el===document.activeElement),'return must focus the exact reading button');
    await page.locator('#filter-options').evaluate(e=>e.open=true);await task.click();assert.equal(await page.locator('#kind').inputValue(),'');assert.equal(await task.getAttribute('aria-pressed'),'false');
    await page.locator('#query').fill('晨報');await page.locator('#scenario').selectOption('工作');await page.locator('#sort').selectOption('reviewed');await page.locator('#kind').selectOption('pending');
    await task.focus();await page.keyboard.press('Space');assert.equal(await page.locator('#kind').inputValue(),'evidence');assert.equal(await page.locator('#query').inputValue(),'晨報');assert.equal(await page.locator('#scenario').inputValue(),'工作');assert.equal(await page.locator('#sort').inputValue(),'reviewed');
@@ -47,7 +47,7 @@ for(const [engine,width] of configs){const browser=await engine.launch();const l
  assert.equal(await page.locator('#scenario').inputValue(),'生活');
  await page.locator('#query').fill('no-such-task-entry');await page.locator('#empty').waitFor({state:'visible'});await page.locator('#edit-query').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
  row.axe=(await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id);assert.deepEqual(row.pageErrors,[]);assert.deepEqual(row.axe,[]);
- fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));await context.close();await browser.close();
+ console.log('PASS TASK '+label+' results='+row.results);fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));await context.close();await browser.close();
 }
 if(process.env.VERIFY_TASK==='1'){
  const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();

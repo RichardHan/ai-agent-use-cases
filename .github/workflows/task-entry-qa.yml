@@ -3,6 +3,9 @@ on:
   push:
     branches: [improve/reader-source-disclosure-20261022, verify/task-entry-published-20261022]
   workflow_dispatch:
+concurrency:
+  group: task-entry-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -31,7 +34,7 @@ jobs:
           if TASK_SOURCE="$RUNNER_TEMP/original-app.js" node --test tests/task-entry.test.cjs > qa-artifacts/red.tap 2>&1; then
             echo 'Expected original status shortcut tests to fail'; exit 1
           fi
-      - name: Compare baseline and full preview
+      - name: Compare baseline and task preview
         if: github.ref != 'refs/heads/verify/task-entry-published-20261022'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
@@ -42,8 +45,22 @@ jobs:
           python3 -m http.server 8081 --directory "$RUNNER_TEMP/preview" > /tmp/task-after.log 2>&1 &
           SITE_URL=http://127.0.0.1:8131/ai-agent-use-cases/ QA_OUT=qa-artifacts/before node tests/task-entry-browser.cjs
           VERIFY_TASK=1 SITE_URL=http://127.0.0.1:8081/ai-agent-use-cases/ QA_OUT=qa-artifacts/after node tests/task-entry-browser.cjs
-          node tests/discovery-browser.cjs > qa-artifacts/discovery.log
-          READER_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/reader-browser.cjs > qa-artifacts/reader.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: task-entry-journeys
+          path: qa-artifacts/
+      - name: Existing discovery regression
+        if: github.ref != 'refs/heads/verify/task-entry-published-20261022'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: node tests/discovery-browser.cjs > qa-artifacts/discovery.log
+      - name: Existing reader regression
+        if: github.ref != 'refs/heads/verify/task-entry-published-20261022'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          READER_URL: http://127.0.0.1:8081/ai-agent-use-cases/
+        run: node tests/reader-browser.cjs > qa-artifacts/reader.log
       - name: Verify published improvement
         if: github.ref == 'refs/heads/verify/task-entry-published-20261022'
         env:

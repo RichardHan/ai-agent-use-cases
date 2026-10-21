@@ -50,3 +50,14 @@ Splice官方提供重新下載已授權素材的方法，包括逐檔、多選�
 - goshfather，[原帖](https://www.threads.com/@goshfather/post/Dd76gxFFOGL)，2026-10-01 03:11:36 UTC；[Dropbox回覆](https://www.threads.com/@goshfather/post/Dd8Pmz9lJhj)，06:15:56 UTC；[完成更正](https://www.threads.com/@goshfather/post/Dd8PwfEFLmi)，06:17:15 UTC；[已完成歌曲與缺樣本澄清](https://www.threads.com/@goshfather/post/Dd9VmEJGnn8)，16:27:30 UTC。英文原文及回覆在公開頁實讀，日期由頁面時間元素核對；介面依時區可能顯示9月30日或10月2日。
 - Ableton，[Managing Audio Clips and Samples](https://help.ableton.com/hc/en-us/articles/5068208334226-Managing-Audio-Clips-and-Samples)、[Saving Projects](https://help.ableton.com/hc/en-us/articles/115000915804-Saving-Projects)，英文官方說明，2026-10-20查閱。
 - Splice，[How do I re-download sounds I previously licensed?](https://support.splice.com/en/articles/9792288-how-do-i-re-download-sounds-i-previously-licensed)，2024-10-23；[取消訂閱後的樣本與點數](https://support.splice.com/en/articles/8652638-if-i-cancel-my-subscription-do-i-lose-my-samples-and-credits)，2026-08-25。英文官方說明，2026-10-20查閱；只用於權利及操作背景，不是本案執行證明。
+
+
+## 2026-10-21 23:30補核：可取回檔案，不代表可在Muse直接預覽或聽驗
+
+[Dropbox官方整合說明](https://help.dropbox.com/integrations/connect-to-meta-muse)（英文，頁面更新2026-10-02；本次讀取功能、權限與FAQ段落）明列：此整合適用Dropbox全方案、使用Meta Muse的美國與加拿大客戶；可搜尋／取回檔案及串接支援的動作，但目前不能直接在Muse預覽Dropbox檔案。閱讀與下載、建立／刪除內容、檔案請求及分享有個別動作設定，不能把已連接當作所有動作都獲准。
+
+對本案的實質意義：找出候選音訊檔、取得檔案、在Ableton修復連結、本人播放驗收必須分開。沒有Muse內嵌預覽不等於素材不存在，也不能把檔名搜尋命中當成聽過正確鼓聲；應保留原檔身份及由本人在授權播放器／專案副本核聽的步驟。官方整合說明不是goshfather實際用了該連接器的證據，亦未證實Splice整合、作者所在地或全部歌曲已恢復。
+
+可貼補充（本庫自設、未實測）：只對虛構缺件清單，將「搜尋命中、已取回、身份比對、連結修復、本人聽驗」分欄。無預覽或沒有音訊驗收就標未驗，不自行補成成功；不要連接帳號、擴權、下載、刪檔、分享或操作電腦。
+
+此補充只新增官方可用性與驗收邊界，不新增案例、不提升原作者自述的證據等級；原作者實作及其他來源本輪未重驗。費用仍未核，Dropbox全方案支援不表示Muse或整個恢復流程免費。

@@ -1,0 +1,6 @@
+{
+  "foreground": "#285344",
+  "background": "#f7f8f2",
+  "ratio": 8.16,
+  "method": "WCAG relative luminance from declared CSS colors; browser axe run separately"
+}

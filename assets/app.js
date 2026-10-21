@@ -507,6 +507,14 @@ function refreshRelated() {
 function updateModalNav() {
   const prevBtn = $('nav-prev-case'), nextBtn = $('nav-next-case');
   if (!prevBtn || !nextBtn) return;
+  const context = $('detail-result-context');
+  if(context){
+    const index=currentFiltered.findIndex(item=>item.id===currentDetailItem?.id);
+    const collection=failedPaths.length?'已載入結果':'目前結果';
+    context.textContent=!discoveryReady ? '其他案例載入中'
+      : index<0 ? (failedPaths.length?'不在已載入結果中':'不在目前結果中')
+      : `${collection} ${index+1}／${currentFiltered.length}`;
+  }
   const neighbours = detailNeighbours(currentDetailItem, currentFiltered);
   [[prevBtn, neighbours.prev, '上一則案例'], [nextBtn, neighbours.next, '下一則案例']].forEach(([button, target, label]) => {
     button.disabled = !target;

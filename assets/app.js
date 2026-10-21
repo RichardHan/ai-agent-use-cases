@@ -549,7 +549,7 @@ function showDetail(item, trigger, updateURL=true) {
 
   const actionRow = el('div', 'detail-actions');
   const copyBtn = el('button', 'btn-copy-link', '📋 複製案例連結');
-  copyBtn.replaceChildren(el('span','print-action-long','📋 複製案例連結'),el('span','print-action-short','複製連結'));
+  copyBtn.replaceChildren(el('span','print-action-long','📋 複製案例連結'),el('span','print-action-short','複製案例連結'));
   copyBtn.type = 'button';
   copyBtn.id = 'copy-case-link';
   copyBtn.setAttribute('aria-label','複製案例連結');

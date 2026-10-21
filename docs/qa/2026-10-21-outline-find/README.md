@@ -36,7 +36,7 @@ OUTLINE_ENGINE=webkit NODE_PATH=/tmp/ai-round-tools/node_modules node tests/outl
 
 新版146/146測試通過。Chromium三尺寸、Firefox390、WebKit390，三種具體情境完成：①旅遊＋生活→短篇→返回→空結果復原；②長篇直鏈/重整→找獨立審查→原文→返回目錄；③重複的未測指令→零符合→清空→稀疏待查。10次axe掃描零違規；完整結果見[Chromium](chromium.json)、[Firefox](firefox.json)、[WebKit](webkit.json)。UI沒有新增網路請求；未量測Lighthouse或宣稱效能分數。
 
-既有廣域 `tests/reading-flow-browser.cjs` 在本機WebKit的第100行（Tab到按鈕）失敗，[修改前](reading-before.txt)與[修改後](reading-after.txt)同樣失敗；Chromium三尺寸與Firefox已走到後續情境。新版專項如實記錄WebKit `nativeTabToReturn:false`，以直接聚焦既有返回按鈕再Enter繼續驗證；這不等於WebKit原生Tab循環通過。macOS WebKit預設鍵盤行為是目前限制，未為本輪去改個人系統設定。IME只有事件模擬，未測實體輸入法/讀屏器。靜態預覽不等於正式Jekyll部署。
+既有廣域 `tests/reading-flow-browser.cjs` 在本機WebKit的第100行（Tab到按鈕）失敗，[修改前](reading-before.txt)與[修改後](reading-after.txt)同樣失敗；Chromium三尺寸與Firefox已走到後續情境。新版專項如實記錄WebKit `nativeTabToReturn:false`，以直接聚焦既有返回按鈕再Enter繼續驗證；這不等於WebKit原生Tab循環通過。macOS WebKit預設鍵盤行為是目前限制，未為本輪去改個人系統設定。`tests/reader-browser.cjs`亦在WebKit的mobile-search第31行遇到同類Tab跳過按鈕；已用未修改基準單獨重現[相同斷言](mobile-keyboard-before.txt)。IME只有事件模擬，未測實體輸入法/讀屏器。靜態預覽不等於正式Jekyll部署。
 
 ## 獨立審查與模型
 

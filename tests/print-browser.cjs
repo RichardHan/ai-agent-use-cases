@@ -50,6 +50,8 @@ const normalize=s=>s.normalize('NFKC').replace(/[\s\u200b\uFEFF]/gu,'');
   return {text,urls:[...e.querySelectorAll('a[href^="http"]')].map(a=>a.href)};
  });
  if(engine==='chromium'){
+  // Remove the previous screen emulation so PDF uses native print media.
+  await page.emulateMedia({media:null});
   const prior=await page.evaluate(()=>({scroll:document.querySelector('#detail').scrollTop,open:document.querySelector('.research-details').open,focus:document.activeElement.id}));
   await page.pdf({path:prefix+'.pdf',format:'A4',printBackground:true});
   const text=normalize(execFileSync('pdftotext',['-layout',prefix+'.pdf','-'],{encoding:'utf8'}));

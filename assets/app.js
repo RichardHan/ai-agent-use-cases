@@ -631,6 +631,9 @@ function showDetail(item, trigger, updateURL=true) {
   const research = el('details', 'research-details');
   const toggle = el('summary', '', '查看原始研究、來源與完整提示詞');
   research.append(toggle, el('p', 'research-title', item.id + ' · ' + item.originalTitle), renderMarkdown(item.markdown, item.path));
+  for(const link of research.querySelectorAll('a[href^="http"]')){
+    if(link.textContent.trim()===link.getAttribute('href'))link.classList.add('reader-visible-url');
+  }
   body.append(research);
   globalThis.CaseReader?.enhance(body, item, tokenize($('query').value).map(term=>({term,variants:termVariants(term)})));
   body.append(renderRelated(item));

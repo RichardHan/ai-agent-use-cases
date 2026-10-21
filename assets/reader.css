@@ -150,5 +150,5 @@
  .research-details .markdown p,.research-details .markdown li{font-size:11pt;line-height:1.65;orphans:3;widows:3}
  .research-details .markdown pre{white-space:pre-wrap;overflow:visible;overflow-wrap:anywhere;background:white;border:1px solid #aaa;font-size:9pt}
  .research-details .markdown a{color:#111;overflow-wrap:anywhere}
- .research-details .markdown a[href^="http"]::after{content:" (" attr(href) ")";font-size:9pt;font-weight:400}
+ .research-details .markdown a[href^="http"]:not(.reader-visible-url)::after{content:" (" attr(href) ")";font-size:9pt;font-weight:400}
 }

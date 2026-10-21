@@ -1,0 +1,29 @@
+{
+  "run": 39685050885,
+  "error": "AssertionError [ERR_ASSERTION]: new page must load every source after mid-load reload\n\n102 !== 0\n\n    at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/round-browser.cjs:134:10\n    at runNextTicks (node:internal/process/task_queues:64:5)\n    at process.processImmediate (node:internal/timers:452:9)\n    at process.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "httpStatusCounts": {
+    "503": 1,
+    "429": 102
+  },
+  "examples429": [
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/317-nightly-explorer-builder-critic-prototype.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/319-home-photo-item-inventory-claim-handoff.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+      "status": 429
+    },
+    {
+      "kind": "http",
+      "url": "https://richardhan.github.io/ai-agent-use-cases/cases/320-bidirectional-reminder-state-sync.md",
+      "page": "https://richardhan.github.io/ai-agent-use-cases/?q=PR&scenario=%E9%96%8B%E7%99%BC&case=UC-005",
+      "status": 429
+    }
+  ],
+  "note": "503 is an intentional fixture. Mid-load reload assertion observed failedPaths=102. Root cause beyond recorded HTTP 429 not established."
+}

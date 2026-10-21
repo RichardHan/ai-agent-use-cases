@@ -1,0 +1,162 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "audits": [
+      [],
+      [],
+      []
+    ],
+    "measure": {
+      "toolbarHeight": 75,
+      "purposeTop": 331.796875,
+      "overflow": false,
+      "context": "目前結果 1／3",
+      "buttons": [
+        {
+          "height": 44,
+          "width": 84.609375
+        },
+        {
+          "height": 44,
+          "width": 84.609375
+        },
+        {
+          "height": 44,
+          "width": 70.1875
+        }
+      ]
+    },
+    "start": "目前結果 1／3",
+    "travelCount": 17
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      [],
+      [],
+      []
+    ],
+    "measure": {
+      "toolbarHeight": 96.796875,
+      "purposeTop": 426.734375,
+      "overflow": false,
+      "context": "目前結果 1／3",
+      "buttons": [
+        {
+          "height": 44,
+          "width": 104
+        },
+        {
+          "height": 44,
+          "width": 104
+        },
+        {
+          "height": 44,
+          "width": 104
+        }
+      ]
+    },
+    "start": "目前結果 1／3",
+    "travelCount": 17
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "audits": [
+      [],
+      [],
+      []
+    ],
+    "measure": {
+      "toolbarHeight": 96.796875,
+      "purposeTop": 510.875,
+      "overflow": false,
+      "context": "目前結果 1／3",
+      "buttons": [
+        {
+          "height": 44,
+          "width": 80.65625
+        },
+        {
+          "height": 44,
+          "width": 80.671875
+        },
+        {
+          "height": 44,
+          "width": 80.65625
+        }
+      ]
+    },
+    "start": "目前結果 1／3",
+    "travelCount": 17
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      [],
+      [],
+      []
+    ],
+    "measure": {
+      "toolbarHeight": 96.80000305175781,
+      "purposeTop": 426.75,
+      "overflow": false,
+      "context": "目前結果 1／3",
+      "buttons": [
+        {
+          "height": 44,
+          "width": 104
+        },
+        {
+          "height": 44,
+          "width": 104
+        },
+        {
+          "height": 44,
+          "width": 104
+        }
+      ]
+    },
+    "start": "目前結果 1／3",
+    "travelCount": 17
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      [],
+      [],
+      []
+    ],
+    "measure": {
+      "toolbarHeight": 96.796875,
+      "purposeTop": 426.734375,
+      "overflow": false,
+      "context": "目前結果 1／3",
+      "buttons": [
+        {
+          "height": 44,
+          "width": 104
+        },
+        {
+          "height": 44,
+          "width": 104
+        },
+        {
+          "height": 44,
+          "width": 104
+        }
+      ]
+    },
+    "start": "目前結果 1／3",
+    "travelCount": 17
+  }
+]

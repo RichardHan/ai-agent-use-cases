@@ -45,7 +45,7 @@ Orca CLI依技能讀guide時回報「Unable to determine Orca.app path from syml
 
 可重現預覽：`python3 scripts/preview.py /tmp/reader-position-preview/ai-agent-use-cases`，再`python3 -m http.server 8141 --directory /tmp/reader-position-preview`，開啟`http://127.0.0.1:8141/ai-agent-use-cases/?kind=evidence&case=UC-008`。
 
-未驗證實體手機、真人偏好、留存或轉換率；axe不等於完整WCAG／輔具認證。下一輪最值得做：減少全庫全文請求，保留全文搜尋與原文一致性，以降低重複載入成本。
+未驗證實體手機、真人偏好、留存或轉換率；axe不等於完整WCAG／輔具認證。下一輪最值得做：整併重複QA，讓正式站檢查在Pages部署完成後才執行，並控制全庫讀取併發，減少排隊、舊版誤報與429壓力。
 
 
 ## 整合與審查補記
@@ -77,3 +77,16 @@ Orca CLI依技能讀guide時回報「Unable to determine Orca.app path from syml
 [加嚴後最終預覽39684149779](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39684149779)全套success（c0ded41），包含DOM順序oracle／動態筆數、限定原版失敗類型、五配置15次axe零、loading／partial／retry及完整既有reader回歸。產品與首輪相同；[最終專項](checks/final-report.json)、[最終載入狀態](checks/final-lifecycle.json)、[雲端154項單元](checks/cloud-unit.tap)、[原版三項斷言失敗](checks/cloud-red.tap)。
 
 另保留協作者03f6d1c的多語研究新檔，無衝突整合，未改動本輪產品資產。以下正式發布另核對Pages，沒有把預覽當成已部署。
+
+
+## 正式發布與停止點
+
+已直接merge＋SSH push至main，合併提交bc3ca78，沒有強推或覆蓋協作者修改。[正式Pages建置／部署39685050834](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39685050834)成功；[三項正式資產HTTP200與SHA-256核對](checks/published-assets.json)均逐字匹配。
+
+[正式站專項39685071186](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39685071186)全套success：重新執行154單元、舊版三項預期斷言及語法／靜態preview，確認線上資產匹配後，以Chromium1440／390／320、Firefox390、WebKit390走首／中／末篇、排序、搜尋＋情境、空結果、Back／Escape、直鏈重整與長文。五配置各三次axe均零，共15次；pageerror空，旅遊＋生活17筆，經驗集合3筆，均顯示正確結果位置。[正式站報告](published/report.json)、[正式桌面](published/detail-chromium-1440.png)、[正式手機](published/detail-chromium-390.png)。主角色已目視兩張正式圖，與預覽一致；背景載入／缺項路由fixture僅在雲端preview執行，不混稱正式故障。
+
+既有[Reader QA39685050869](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39685050869)及[Website QA39685050879](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39685050879)亦success。沒有宣稱全部廣域CI綠燈：[停止前CI快照](checks/release-ci.json)有部分仍執行中，18項失敗中17項停在正式資產版本不符／等待部署，當時Pages仍在排隊或剛部署；不是把未執行的正式站互動算成通過。分類QA前一次發布也有相同等待資產失敗，不能僅據此判定本輪回歸。
+
+另一項[Improvement round39685050885](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39685050885)已讀到新資產，卻在『載入中重新整理後來源皆完整』斷言觀察102個未載入來源；診斷記錄含HTTP429，[精簡證據](checks/reload-429.json)。503是測試刻意注入，不能混當真實服務故障。HTTP429與缺項是真實測試失敗，未當作通過，也不宣稱已證明所有內部根因；本輪未改loader或重試架構。新增位置提示會如實標示已載入結果，本輪專項及既有reader／website正式站檢查另通過，並不消除這項廣域載入風險。
+
+本輪可驗收功能、獨立審查、前後畫面與正式部署均完成，到此停止；不為追求整片CI綠燈反覆重跑造成更多全文請求。未完成項是發布檢查時序整併、429下的載入穩定性，以及實體裝置／真人研究／完整輔具驗證。下一輪優先僅為上述QA排程與併發整併。

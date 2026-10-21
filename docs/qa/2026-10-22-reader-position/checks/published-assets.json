@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-10-21T22:25:12.002440+00:00",
+  "commit": "bc3ca78",
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "matches": true,
+      "sha256": "b8b6ee79005b5002c37337f18b37b5c27ea75cdad32d8509c382431c61e63f59"
+    },
+    {
+      "file": "assets/app.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "0dc518bae716ed6d5528df11e458604f869af16b4ed64b08cff4a054bd9cfd0e"
+    },
+    {
+      "file": "assets/reader.css",
+      "status": 200,
+      "matches": true,
+      "sha256": "5cfcbeabd791b43d486ba74995deab9575142a8f0b21699a74dc17f0e8d25cc3"
+    }
+  ]
+}

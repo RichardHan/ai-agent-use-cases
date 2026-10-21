@@ -1,5 +1,7 @@
 # 完整案例索引
 
+2026-10-21 17:45批次：X（英、中、日、韓；Muse／dots一輪）＋Substack／Medium類長文與dev.to（公開API）、Naver部落格（搜尋）、YouTube與Product Hunt（搜尋）、note（API）集中核對。新增UC-408英文作者每天站會前30分鐘由Bot讀行事曆、Notion、Slack、Linear交一頁會前準備（待定，只有提示詞卡，不計數）、UC-409英文作者Substack短文三流程：每日提示＋語音回答保留原話整理、每週拆解熱門短文結構、批次起草核准後排程（B）、UC-410波蘭文作者建Bot團隊第一天範圍失控後的煞車：盤點、7份規則檔、把握度<90%就停下提問、凍結14天（B）；049併入日文作者只讀晨報連跑一週（起點用上次實際送出時刻、誤判驗證信、報過的期限消失），066併入英文作者郵件Bot寫一次分類腳本只讀摘要，048併入英文作者每週優惠清單看到收據就移出已買品項，均不另計。皆未重現。承接352，嚴格合格354／1000，尚差646；主要頁402。[逐組判斷與實閱範圍](sources/research-2026-10-21-1745.md)。
+
 2026-10-21 14:40批次：X（英、中、日、韓）＋note／Zenn／Qiita（API）、Hacker News（Algolia）、V2EX（sov2ex）、Reddit（搜尋）、官方模板頁集中核對。新增UC-405日文作者把自己的6分鐘影片交Grok Bot剪成直式短片，只准剪不准生成、每輪附雜湊與規格、本人逐秒看片修正（B）、UC-406日文作者的Bot團隊做M5Stack用量表，VPS有人問才查並快取、Tunnel＋標頭密語、登入資訊不進裝置（B；取數走非官方介面）、UC-407英文作者只讀資安看守模板，盤點自身資產後比對漏洞／憑證／外洩並分級示警（待定，不計數）；028併入英文作者讀PDF帳單、本人登入後Bot在線上客服代談並先確認新總額，067併入日文作者讓dots定期把設定匯出到私有倉庫再重建，351併入日文作者在自家Mac輪用兩個Claude Code帳號與Codex並把用量寫進Bot標籤，均不另計。皆未重現。承接350，嚴格合格352／1000，尚差648；主要頁399。[逐組判斷與實閱範圍](sources/research-2026-10-21-1440.md)。
 
 2026-10-21 11:47批次：X（英、中、日、韓）＋GitHub模板／配方倉庫、V2EX、知乎（搜尋）、note／Zenn、Velog、HN、PTT／Dcard（搜尋）集中核對。新增UC-402韓文作者讓Bot只用最小權限SSH帳號經Tailscale連回家用伺服器、每天報告車況並把建置對話整理成文件（B）、UC-403中文作者的公開精選清單由Grok Bot每天找料、本機Claude Code依收錄門檻核實並逐輪公開回執（B，公開倉庫紀錄）、UC-404日文作者追星Bot早晚兩段摘要與日曆去重（待驗，不計數）；351併入英文作者外部CLI以webhook回報與每日routine稽核、066併入中文教學站routine指令「何時停＋上限」自檢腳本，均不另計。皆未重現。承接348，嚴格合格350／1000，尚差650；主要頁396。[逐組判斷與實閱範圍](sources/research-2026-10-21-1147.md)。
@@ -140,7 +142,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（399）
+## 主要案例（402）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -188,8 +190,8 @@
 | UC-045 | 把公開網頁查證交給Grok Bot，再把證據交回Codex | Codex／Grok Bot／第三方任務橋 | [作者手動觸發自報；Routine未驗證](cases/045-cross-agent-research-handoff.md) | 開發｜跨代理、研究交接 |
 | UC-046 | 每天把關注帳號的貼文整理成去重精選 | Grok Bot／X；Notion、Obsidian、dots 版本待核 | [作者自述日常使用＋官方 X 讀取文件；未重現](cases/046-followed-accounts-daily-digest.md) | 工作｜每日、X、排程、去重、簡報 |
 | UC-047 | 把作品與製作紀錄整理成可搜尋的作品集 | ChatGPT dots／網站 | [作者自報＋公開介面；作品資料未獨立驗收](cases/047-portfolio-provenance-catalog.md) | 創作｜作品集、來源查證、搜尋、驗收 |
-| UC-048 | 每天查商品排名或價格，有變動才通知 | Grok Bot（含限額代理卡下單、結帳失敗回報） | [作者自述＋公開範本頁說明＋Robinhood 代理卡說明已讀；下單無訂單證據、未重現](cases/048-daily-price-rank-tracking.md) | 省錢｜每日、比價、電商、排程 |
-| UC-049 | 每日收件匣報告，從只讀逐步放權 | Grok Bot（含＋別名觸發 routine）；dots／Muse 檢查頻率比較；dots 權限設定未生效反例 | [影片二手轉述＋作者自述＋跨產品觀察＋官方人員別名公告＋dots「每次詢問」仍讀信截圖反例；說明頁未同步、未重現](cases/049-daily-inbox-report-graduated-trust.md) | 工作｜每日、收件匣、核准、排程 |
+| UC-048 | 每天查商品排名或價格，有變動才通知；每週找優惠清單看到收據就移出已買品項 | Grok Bot（含限額代理卡下單、結帳失敗回報） | [作者自述＋公開範本頁說明＋Robinhood 代理卡說明已讀＋收據自動移出品項自述；下單無訂單證據、未重現](cases/048-daily-price-rank-tracking.md) | 省錢｜每日、比價、電商、排程 |
+| UC-049 | 每日收件匣報告，從只讀逐步放權 | Grok Bot（含＋別名觸發 routine）；dots／Muse 檢查頻率比較；dots 權限設定未生效反例 | [影片二手轉述＋作者自述＋跨產品觀察＋官方人員別名公告＋dots「每次詢問」仍讀信截圖反例＋日文作者只讀晨報連跑一週自述（漏送0、誤判驗證信、報過的期限消失）；說明頁未同步、未重現](cases/049-daily-inbox-report-graduated-trust.md) | 工作｜每日、收件匣、核准、排程 |
 | UC-050 | 每天依筆記與天氣生成圖，推到墨水屏 | Meta Muse／樹莓派／BOOX | [作者自述＋Meta 員工 SDK 公告；未重現](cases/050-daily-eink-mood-illustration.md) | 創作｜每日、實體裝置、生成圖像、筆記 |
 | UC-051 | 把多年報稅資料交給 Bot，複核會計師的申報 | Grok Bot | [兩位作者自測自述；錯誤與金額未核實](cases/051-tax-return-cpa-double-check.md) | 省錢｜報稅、核對、文件整理、核准 |
 | UC-052 | 雲端用量暴衝多扣錢，申請退款並修根因 | Grok Bot／Railway／Vercel／Neon | [作者自測自述；退款與 PR 未核](cases/052-cloud-overcharge-refund-root-cause.md) | 省錢｜帳單、退款、雲端費用、多代理 |
@@ -206,7 +208,7 @@
 | UC-063 | 盤點並整理 Plex 媒體庫命名、海報與備份 | Grok Bot／Plex | [論壇作者自述＋Plex 官方操作限制；未重現](cases/063-plex-media-library-housekeeping.md) | 生活｜影片、檔案整理、備份、驗收 |
 | UC-064 | 核對數學命題、反例搜尋與 Lean 證明檢查 | ChatGPT dots／Lean | [作者自述＋公開程式、CI及登記；未獨立重跑](cases/064-math-proof-review-formalization.md) | 學習｜科研、多代理、形式驗證、驗收 |
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢 | Grok Bot | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
-| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
+| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
 | UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub；隊長Bot彙整全隊職責與例行任務成復原手冊、每月1日更新；dots 自己定期把 Automation／規則匯出到私有倉庫、對話變亂時開新 dot 讀回 | Meta Muse／Git；Grok Bot／GitHub；ChatGPT dots／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼、重置後 Tailscale 身分恢復、每週三處備份變體）＋官方文件＋快照回滾且備份同時失效的二手轉述（待驗證）＋日文作者復原手冊自述＋日文作者 dots 設定匯出與重建自述；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
@@ -543,6 +545,9 @@
 | UC-405 | 把自己的6分鐘影片剪成約37秒直式短片：只准剪不准生成，第一輪只交雜湊、逐字稿與剪輯表，本人定片段後才輸出，再用成品秒數逐點修正 | Grok Bot（雲端電腦上的ffmpeg、Whisper） | [B日文作者note長文自述＋各輪回覆與畫格截圖；未重現](cases/405-video-to-vertical-short-edit-only-verify-hashes.md) | 創作｜影片、剪輯、驗收、字幕 |
 | UC-406 | Bot團隊一夜做出M5Stack桌上用量表：裝置只問自己的VPS，VPS有人問才查並快取5分鐘、加鎖，經Cloudflare Tunnel與標頭密語對外 | Grok Bot（多Bot團隊）／M5Stack Core2／VPS／Cloudflare Tunnel | [B日文作者Zenn作業紀錄（Bot撰寫）＋畫面圖；取用量走非官方介面、作者自承灰色，未重現](cases/406-m5stack-usage-meter-vps-cache-tunnel-shared-secret.md) | 開發｜裝置、用量、權限邊界、驗收 |
 | UC-407 | 只讀資安看守：先盤點自己的網站、網域、帳號與裝置，每天3次比對被利用漏洞、憑證事件、外洩與仿冒網域，兩來源確認、影響到才示警並附下3步與期限 | Grok Bot（公開模板Tripwire） | [待定：英文作者貼文＋模板頁說明，成果僅一句自述（第一天抓到需修補的PHP網站）；未加入模板、未重現](cases/407-stack-aware-security-watch-exploited-vulns-certs-breaches.md) | 開發｜每日、資安、監看、只讀報告 |
+| UC-408 | 每天站會前30分鐘讀行事曆、Notion議程、Slack與Linear，交一頁會前準備（每人一行、3件值得提的事） | Grok Bot routine／Notion／Slack／Linear／行事曆 | [待定：英文作者貼文＋公開提示詞卡圖片，無實際輸出；不計數](cases/408-daily-team-sync-one-page-prep-calendar-notion-slack-linear.md) | 工作｜每日、會議、Slack、Linear |
+| UC-409 | Substack短文：每天一題寫作提示、語音回答由Bot保留原話整理；每週拆解熱門短文結構再批次起草，核准後才排程 | Grok Bot（兩個角色）／Notion／Substack Notes | [B英文作者Substack文章自述；無發布數據、未重現](cases/409-substack-notes-daily-prompt-voice-reply-weekly-swipe-file-drafts.md) | 創作｜每日、Substack、草稿、核准 |
+| UC-410 | 建Bot團隊第一天範圍失控、燒掉約兩成用量：煞車盤點、7份規則檔、目標／範圍／禁止／把握度卡（<90%就停下問）、凍結14天 | Grok Bot（幕僚長＋多角色、技能、routine） | [B波蘭文作者dev.to建置日紀錄；無檔案或用量畫面、未重現](cases/410-agent-team-build-day-scope-creep-brake-rule-files-intent-card.md) | 開發｜多代理、用量、核准、規則檔 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

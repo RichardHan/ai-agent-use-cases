@@ -1,8 +1,7 @@
 name: Reading flow round QA
 on:
   push:
-    branches: [improve/reader-outline-20261021]
-    paths: ['tests/outline*', 'tests/prompt-copy*', '.github/workflows/outline-qa.yml', 'assets/**']
+    branches: [improve/reader-outline-20261021, verify/prompt-copy-published-20261021]
   workflow_dispatch:
     inputs:
       target:
@@ -35,7 +34,7 @@ jobs:
           for f in assets/*.js tests/outline*.cjs; do node --check "$f"; done
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
       - name: Reproduce missing copy and compare baseline
-        if: inputs.target != 'published'
+        if: inputs.target != 'published' && github.ref != 'refs/heads/verify/prompt-copy-published-20261021'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           COPY_URL: http://127.0.0.1:8181/ai-agent-use-cases/
@@ -52,7 +51,7 @@ jobs:
           if node --test "$RUNNER_TEMP/prompt-copy-red.cjs" > qa-artifacts/red.tap 2>&1; then exit 1; fi
           grep -q 'selectCopySections is not a function' qa-artifacts/red.tap
       - name: Verify copy flows and existing reading
-        if: inputs.target != 'published'
+        if: inputs.target != 'published' && github.ref != 'refs/heads/verify/prompt-copy-published-20261021'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           READER_URL: http://127.0.0.1:8180/ai-agent-use-cases/
@@ -61,7 +60,7 @@ jobs:
           node tests/outline-copy-browser.cjs
           node tests/reader-browser.cjs > qa-artifacts/reader.log 2>&1
       - name: Verify published copy flows
-        if: inputs.target == 'published'
+        if: inputs.target == 'published' || github.ref == 'refs/heads/verify/prompt-copy-published-20261021'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           COPY_URL: https://richardhan.github.io/ai-agent-use-cases/

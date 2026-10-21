@@ -1,7 +1,7 @@
 name: Round 22 QA
 on:
   push:
-    branches: [improve/clear-filter-context-20261022]
+    branches: [verify/reader-body-published-20261022]
   workflow_dispatch:
     inputs:
       published:
@@ -39,6 +39,7 @@ jobs:
           cp -R "$RUNNER_TEMP/preview" "$RUNNER_TEMP/before"
           cp "$RUNNER_TEMP/original/assets/reader.js" "$RUNNER_TEMP/before/ai-agent-use-cases/assets/reader.js"
       - name: Before and after desktop and mobile journeys
+        if: github.ref != 'refs/heads/verify/reader-body-published-20261022'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
         run: |
@@ -50,7 +51,7 @@ jobs:
           node tests/discovery-browser.cjs > qa-artifacts/discovery.log
           READER_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/reader-browser.cjs > qa-artifacts/reader.log
       - name: Verify published behavior
-        if: inputs.published
+        if: inputs.published || github.ref == 'refs/heads/verify/reader-body-published-20261022'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           SITE_URL: https://richardhan.github.io/ai-agent-use-cases/

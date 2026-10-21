@@ -1,0 +1,17 @@
+browser	Verify improved journeys	﻿2026-10-21T01:06:17.1747243Z ##[group]Run python3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/journey-after.log 2>&1 &
+browser	Verify improved journeys	2026-10-21T01:06:17.1748015Z ^[[36;1mpython3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/journey-after.log 2>&1 &^[[0m
+browser	Verify improved journeys	2026-10-21T01:06:17.1748531Z ^[[36;1mnode tests/journey-controls-browser.cjs^[[0m
+browser	Verify improved journeys	2026-10-21T01:06:17.1799503Z shell: /usr/bin/bash -e {0}
+browser	Verify improved journeys	2026-10-21T01:06:17.1799749Z env:
+browser	Verify improved journeys	2026-10-21T01:06:17.1800005Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Verify improved journeys	2026-10-21T01:06:17.1800324Z ##[endgroup]
+browser	Verify improved journeys	2026-10-21T01:06:35.7426841Z AssertionError [ERR_ASSERTION]: false == true
+browser	Verify improved journeys	2026-10-21T01:06:35.7428232Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/journey-controls-browser.cjs:34:2 {
+browser	Verify improved journeys	2026-10-21T01:06:35.7429540Z   generatedMessage: true,
+browser	Verify improved journeys	2026-10-21T01:06:35.7430134Z   code: 'ERR_ASSERTION',
+browser	Verify improved journeys	2026-10-21T01:06:35.7430667Z   actual: false,
+browser	Verify improved journeys	2026-10-21T01:06:35.7431178Z   expected: true,
+browser	Verify improved journeys	2026-10-21T01:06:35.7431700Z   operator: '==',
+browser	Verify improved journeys	2026-10-21T01:06:35.7432252Z   diff: 'simple'
+browser	Verify improved journeys	2026-10-21T01:06:35.7432751Z }
+browser	Verify improved journeys	2026-10-21T01:06:35.7796802Z ##[error]Process completed with exit code 1.

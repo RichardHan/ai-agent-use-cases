@@ -1,0 +1,10 @@
+AssertionError [ERR_ASSERTION]: SUMMARY height 33.4375 is below 44px
+    at controls (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/journey-controls-browser.cjs:15:31)
+    at async /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/journey-controls-browser.cjs:33:2 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

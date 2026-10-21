@@ -1,0 +1,16 @@
+browser	Verify improved journeys	﻿2026-10-21T01:06:04.9083092Z ##[group]Run python3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/journey-after.log 2>&1 &
+browser	Verify improved journeys	2026-10-21T01:06:04.9084709Z ^[[36;1mpython3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/journey-after.log 2>&1 &^[[0m
+browser	Verify improved journeys	2026-10-21T01:06:04.9086058Z ^[[36;1mnode tests/journey-controls-browser.cjs^[[0m
+browser	Verify improved journeys	2026-10-21T01:06:04.9155091Z shell: /usr/bin/bash -e {0}
+browser	Verify improved journeys	2026-10-21T01:06:04.9155735Z env:
+browser	Verify improved journeys	2026-10-21T01:06:04.9156142Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Verify improved journeys	2026-10-21T01:06:04.9156768Z ##[endgroup]
+browser	Verify improved journeys	2026-10-21T01:06:26.0106430Z locator.evaluate: Timeout 15000ms exceeded.
+browser	Verify improved journeys	2026-10-21T01:06:26.0106952Z Call log:
+browser	Verify improved journeys	2026-10-21T01:06:26.0107287Z   - waiting for locator('#detail')
+browser	Verify improved journeys	2026-10-21T01:06:26.0107574Z 
+browser	Verify improved journeys	2026-10-21T01:06:26.0108101Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/journey-controls-browser.cjs:43:65 {
+browser	Verify improved journeys	2026-10-21T01:06:26.0108868Z   log: [ "  - waiting for locator('#detail')" ],
+browser	Verify improved journeys	2026-10-21T01:06:26.0109322Z   name: 'TimeoutError'
+browser	Verify improved journeys	2026-10-21T01:06:26.0109714Z }
+browser	Verify improved journeys	2026-10-21T01:06:26.3673304Z ##[error]Process completed with exit code 1.

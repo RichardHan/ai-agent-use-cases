@@ -1,0 +1,144 @@
+[
+  {
+    "width": 1440,
+    "errors": [],
+    "results": "顯示 16 / 395 筆收錄",
+    "id": "UC-001",
+    "title": "規劃旅行，先把交通和住宿比清楚",
+    "method": {
+      "focus": "本庫建議流程",
+      "toolbar": "CASE NOTE\nUC-001\n← 上一則\n下一則 →\n關閉 ✕",
+      "scroll": 2411,
+      "returnButtons": [
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        }
+      ],
+      "headings": [
+        "已讀來源版本",
+        "本庫建議流程",
+        "可複製提示詞（本庫原創設計）",
+        "權限與驗收",
+        "去重紀錄",
+        "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+        "停止條件補充（本庫設計，未實跑）",
+        "2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班",
+        "相關結帳失敗：重試後重新核對金額與完成狀態",
+        "補充驗收（本庫原創、未實測）"
+      ]
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "closedOnBack": true,
+    "restored": "旅遊",
+    "empty": true
+  },
+  {
+    "width": 390,
+    "errors": [],
+    "results": "顯示 16 / 395 筆收錄",
+    "id": "UC-001",
+    "title": "規劃旅行，先把交通和住宿比清楚",
+    "method": {
+      "focus": "本庫建議流程",
+      "toolbar": "UC-001\n← 上一則\n下一則 →\n關閉 ✕",
+      "scroll": 3154,
+      "returnButtons": [
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        },
+        {
+          "height": 27.796875,
+          "font": "12px"
+        }
+      ],
+      "headings": [
+        "已讀來源版本",
+        "本庫建議流程",
+        "可複製提示詞（本庫原創設計）",
+        "權限與驗收",
+        "去重紀錄",
+        "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+        "停止條件補充（本庫設計，未實跑）",
+        "2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班",
+        "相關結帳失敗：重試後重新核對金額與完成狀態",
+        "補充驗收（本庫原創、未實測）"
+      ]
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "closedOnBack": true,
+    "restored": "旅遊",
+    "empty": true
+  }
+]

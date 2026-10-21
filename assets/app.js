@@ -589,7 +589,6 @@ function showDetail(item, trigger, updateURL=true) {
   const printBtn=el('button','btn-copy-link','列印／存成 PDF');
   printBtn.replaceChildren(el('span','print-action-long','列印／存成 PDF'),el('span','print-action-short','列印／PDF'));
   printBtn.id='print-case';printBtn.type='button';
-  printBtn.setAttribute('aria-label','列印／存成 PDF');
   printBtn.setAttribute('aria-describedby','print-case-hint');
   printBtn.addEventListener('click',()=>window.print());
   actionRow.append(copyBtn,printBtn,source);

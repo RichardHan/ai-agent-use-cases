@@ -104,6 +104,29 @@
       return linkCount||caution?[{index,title:section.title,linkCount,caution}]:[];
     });
   }
+  // Only explicit prompt headings get a copy action; keep all qualifications.
+  function selectCopySections(sections,kind){
+    if(kind==='pending')return [];
+    return sections.flatMap((section,index)=>
+      /^(?:可複製提示詞|可貼指令)(?:[（(：:\s]|$)/.test(section.title)&&section.text.trim()?[index]:[]);
+  }
+  // Mirror heading/fence boundaries of the existing renderer, copying source
+  // Markdown so lists, code indentation and link destinations remain intact.
+  function promptSections(markdown){
+    const lines=markdown.split('\n'),headings=[];let code=false;
+    for(let i=1;i<lines.length;i++){
+      if(/^```/.test(lines[i])){code=!code;continue;}
+      if(code)continue;
+      const match=lines[i].match(/^(#{2,6})\s+(.+)/);
+      if(match)headings.push({start:i,level:match[1].length,title:match[2]});
+    }
+    return headings.map((heading,index)=>{
+      const next=headings.slice(index+1).find(other=>other.level<=heading.level);
+      const end=next?next.start:lines.length;
+      return {title:heading.title,text:lines.slice(heading.start+1,end).join('\n'),
+        copyText:lines.slice(heading.start,end).join('\n').trim()};
+    });
+  }
   function enhance(body,item,searchTerms=[]){
     const research=body.querySelector('.research-details');
     const markdown=research?.querySelector('.markdown');
@@ -285,6 +308,9 @@
       review.append(reviewList);nav.append(review);
     }
     if(!headings.length){if(reviewSections.length)evidence.after(nav);return;}
+    // Capture source before injecting controls; never copy their labels.
+    const copySections=promptSections(item.markdown||'');
+    const copyIndices=new Set(copySections.length===headings.length?selectCopySections(copySections,item.kind):[]);
     const full=make('details','reader-outline');
     full.append(make('summary','',`全部段落（${headings.length}）`));
     const list=make('ol');
@@ -298,6 +324,35 @@
       back.type='button';
       back.addEventListener('click',()=>moveTo(navTitle));
       heading.after(back);
+      if(copyIndices.has(index)){
+        const section=copySections[index],text=section.copyText;
+        const controls=make('div','reader-copy');
+        const copy=make('button','reader-copy-button','複製本段（含標題）');copy.type='button';
+        copy.setAttribute('aria-label','複製本段（含標題）：'+section.title);
+        const status=make('p','reader-copy-status');status.id=`reader-copy-status-${index}`;
+        status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.setAttribute('aria-atomic','true');
+        copy.setAttribute('aria-describedby',status.id);
+        const manual=make('textarea','reader-copy-manual');manual.readOnly=true;manual.hidden=true;
+        manual.setAttribute('aria-label','手動複製本段（含標題）：'+section.title);
+        manual.setAttribute('aria-describedby',status.id);
+        let request=0;
+        copy.addEventListener('click',async()=>{
+          const token=++request,focusAtRequest=document.activeElement;
+          const current=()=>token===request&&controls.isConnected&&dialog.open;
+          manual.hidden=true;manual.value='';status.textContent='正在複製…';
+          try{
+            if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');
+            await navigator.clipboard.writeText(text);
+            if(current())status.textContent='已複製本段與原標題；請先核對限制，再依需求修改。';
+          }catch{
+            if(!current())return;
+            status.textContent='無法自動複製。請手動複製下方完整文字，包含原標題。';
+            manual.value=text;manual.hidden=false;
+            if(document.activeElement===focusAtRequest){manual.focus();manual.select();}
+          }
+        });
+        controls.append(copy,status,manual);back.after(controls);
+      }
     });
     full.append(list);
     nav.append(full);
@@ -329,7 +384,7 @@
     root.addEventListener('beforeprint',()=>session.before());
     root.addEventListener('afterprint',()=>session.after());
   }
-  const api={createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
+  const api={promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

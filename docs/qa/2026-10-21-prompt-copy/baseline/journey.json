@@ -1,0 +1,476 @@
+[
+  {
+    "width": 1440,
+    "errors": [],
+    "results": "顯示 17 / 405 筆收錄",
+    "controls": [
+      {
+        "text": "← 上一則",
+        "height": 44
+      },
+      {
+        "text": "下一則 →",
+        "height": 44
+      },
+      {
+        "text": "關閉 ✕",
+        "height": 44
+      },
+      {
+        "text": "📋 複製案例連結複製案例連結",
+        "height": 44
+      },
+      {
+        "text": "列印／存成 PDF列印／PDF",
+        "height": 44
+      },
+      {
+        "text": "前往方法與步驟 ↓本庫建議流程",
+        "height": 70.1875
+      },
+      {
+        "text": "「旅遊」原文 · 頁首資料 ↓",
+        "height": 70.1875
+      },
+      {
+        "text": "定位這段原文 ↓",
+        "height": 45.796875
+      },
+      {
+        "text": "到完整研究核對這一段 ↓",
+        "height": 44
+      },
+      {
+        "text": "核對來源與版本 ↓",
+        "height": 44
+      },
+      {
+        "text": "方法與步驟 ↓本庫建議流程",
+        "height": 74.484375
+      },
+      {
+        "text": "限制與權限 ↓權限與驗收",
+        "height": 74.484375
+      },
+      {
+        "text": "來源與版本 ↓已讀來源版本",
+        "height": 74.484375
+      },
+      {
+        "text": "已讀來源版本原文第 1 段 · 含網頁連結 ↓",
+        "height": 71.578125
+      },
+      {
+        "text": "權限與驗收原文第 4 段 · 限制相關標題 ↓",
+        "height": 71.578125
+      },
+      {
+        "text": "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗原文第 6 段 · 含網頁連結 ↓",
+        "height": 71.578125
+      },
+      {
+        "text": "2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班原文第 8 段 · 含網頁連結 ↓",
+        "height": 71.578125
+      },
+      {
+        "text": "相關結帳失敗：重試後重新核對金額與完成狀態原文第 9 段 · 含網頁連結 ↓",
+        "height": 71.578125
+      },
+      {
+        "text": "補充驗收（本庫原創、未實測）原文第 10 段 · 限制相關標題 ↓",
+        "height": 71.578125
+      },
+      {
+        "text": "已讀來源版本",
+        "height": 44
+      },
+      {
+        "text": "本庫建議流程",
+        "height": 44
+      },
+      {
+        "text": "可複製提示詞（本庫原創設計）",
+        "height": 44
+      },
+      {
+        "text": "權限與驗收",
+        "height": 44
+      },
+      {
+        "text": "去重紀錄",
+        "height": 44
+      },
+      {
+        "text": "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+        "height": 44
+      },
+      {
+        "text": "停止條件補充（本庫設計，未實跑）",
+        "height": 44
+      },
+      {
+        "text": "2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班",
+        "height": 44
+      },
+      {
+        "text": "相關結帳失敗：重試後重新核對金額與完成狀態",
+        "height": 44
+      },
+      {
+        "text": "補充驗收（本庫原創、未實測）",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "旅行丟了包？先查失物招領清單，找到候選再認領",
+        "height": 40.890625
+      },
+      {
+        "text": "關閉閱讀",
+        "height": 44
+      }
+    ],
+    "id": "UC-001",
+    "title": "規劃旅行，先把交通和住宿比清楚",
+    "method": {
+      "focus": "本庫建議流程",
+      "toolbar": "CASE NOTE\nUC-001\n← 上一則\n下一則 →\n關閉 ✕",
+      "scroll": 2456,
+      "returnButtons": [
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        }
+      ],
+      "headings": [
+        "已讀來源版本",
+        "本庫建議流程",
+        "可複製提示詞（本庫原創設計）",
+        "權限與驗收",
+        "去重紀錄",
+        "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+        "停止條件補充（本庫設計，未實跑）",
+        "2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班",
+        "相關結帳失敗：重試後重新核對金額與完成狀態",
+        "補充驗收（本庫原創、未實測）"
+      ]
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "closedOnBack": true,
+    "restored": "旅遊",
+    "empty": true
+  },
+  {
+    "width": 390,
+    "errors": [],
+    "results": "顯示 17 / 405 筆收錄",
+    "controls": [
+      {
+        "text": "← 上一則",
+        "height": 44
+      },
+      {
+        "text": "下一則 →",
+        "height": 44
+      },
+      {
+        "text": "關閉 ✕",
+        "height": 44
+      },
+      {
+        "text": "📋 複製案例連結複製案例連結",
+        "height": 44
+      },
+      {
+        "text": "列印／存成 PDF列印／PDF",
+        "height": 44
+      },
+      {
+        "text": "前往方法與步驟 ↓本庫建議流程",
+        "height": 70.1875
+      },
+      {
+        "text": "「旅遊」原文 · 頁首資料 ↓",
+        "height": 70.1875
+      },
+      {
+        "text": "定位這段原文 ↓",
+        "height": 45.796875
+      },
+      {
+        "text": "到完整研究核對這一段 ↓",
+        "height": 44
+      },
+      {
+        "text": "核對來源與版本 ↓",
+        "height": 44
+      },
+      {
+        "text": "方法與步驟 ↓本庫建議流程",
+        "height": 70.484375
+      },
+      {
+        "text": "限制與權限 ↓權限與驗收",
+        "height": 70.484375
+      },
+      {
+        "text": "來源與版本 ↓已讀來源版本",
+        "height": 70.484375
+      },
+      {
+        "text": "已讀來源版本原文第 1 段 · 含網頁連結 ↓",
+        "height": 71.578125
+      },
+      {
+        "text": "權限與驗收原文第 4 段 · 限制相關標題 ↓",
+        "height": 71.578125
+      },
+      {
+        "text": "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗原文第 6 段 · 含網頁連結 ↓",
+        "height": 121.953125
+      },
+      {
+        "text": "2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班原文第 8 段 · 含網頁連結 ↓",
+        "height": 121.953125
+      },
+      {
+        "text": "相關結帳失敗：重試後重新核對金額與完成狀態原文第 9 段 · 含網頁連結 ↓",
+        "height": 96.765625
+      },
+      {
+        "text": "補充驗收（本庫原創、未實測）原文第 10 段 · 限制相關標題 ↓",
+        "height": 71.578125
+      },
+      {
+        "text": "已讀來源版本",
+        "height": 44
+      },
+      {
+        "text": "本庫建議流程",
+        "height": 44
+      },
+      {
+        "text": "可複製提示詞（本庫原創設計）",
+        "height": 44
+      },
+      {
+        "text": "權限與驗收",
+        "height": 44
+      },
+      {
+        "text": "去重紀錄",
+        "height": 44
+      },
+      {
+        "text": "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+        "height": 91.5625
+      },
+      {
+        "text": "停止條件補充（本庫設計，未實跑）",
+        "height": 44
+      },
+      {
+        "text": "2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班",
+        "height": 91.5625
+      },
+      {
+        "text": "相關結帳失敗：重試後重新核對金額與完成狀態",
+        "height": 66.375
+      },
+      {
+        "text": "補充驗收（本庫原創、未實測）",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "↑ 回到閱讀導覽",
+        "height": 44
+      },
+      {
+        "text": "旅行丟了包？先查失物招領清單，找到候選再認領",
+        "height": 69.78125
+      },
+      {
+        "text": "關閉閱讀",
+        "height": 44
+      }
+    ],
+    "id": "UC-001",
+    "title": "規劃旅行，先把交通和住宿比清楚",
+    "method": {
+      "focus": "本庫建議流程",
+      "toolbar": "UC-001\n← 上一則\n下一則 →\n關閉 ✕",
+      "scroll": 3199,
+      "returnButtons": [
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "height": 44,
+          "font": "14px"
+        }
+      ],
+      "headings": [
+        "已讀來源版本",
+        "本庫建議流程",
+        "可複製提示詞（本庫原創設計）",
+        "權限與驗收",
+        "去重紀錄",
+        "2026-10-15 補充：Muse 媒體實測——比機票拖太久、航空公司擋 Bot、手動接手登入也失敗",
+        "停止條件補充（本庫設計，未實跑）",
+        "2026-10-16 補充：Grok Bot 訂機票實測停在最後一步；內部用例偏好有 Starlink 的航班",
+        "相關結帳失敗：重試後重新核對金額與完成狀態",
+        "補充驗收（本庫原創、未實測）"
+      ]
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "closedOnBack": true,
+    "restored": "旅遊",
+    "empty": true
+  }
+]

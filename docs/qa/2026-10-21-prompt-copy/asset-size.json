@@ -1,0 +1,14 @@
+{
+  "assets/reader.js": {
+    "beforeBytes": 18855,
+    "afterBytes": 22168,
+    "beforeGzip": 6346,
+    "afterGzip": 7351
+  },
+  "assets/reader.css": {
+    "beforeBytes": 12306,
+    "afterBytes": 13222,
+    "beforeGzip": 2854,
+    "afterGzip": 3034
+  }
+}

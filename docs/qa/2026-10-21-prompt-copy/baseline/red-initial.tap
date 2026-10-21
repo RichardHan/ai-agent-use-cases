@@ -1,0 +1,32 @@
+✖ copy candidates retain their full qualified headings and original section indices (0.34775ms)
+✖ pending, empty, descriptive references and unrelated sections do not become copy actions (0.057042ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62.093
+
+✖ failing tests:
+
+test at tests/prompt-copy.test.cjs:4:1
+✖ copy candidates retain their full qualified headings and original section indices (0.34775ms)
+  TypeError [Error]: selectCopySections is not a function
+      at TestContext.<anonymous> (/private/tmp/ai-outline-20261021/tests/prompt-copy.test.cjs:6:19)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17)
+
+test at tests/prompt-copy.test.cjs:8:1
+✖ pending, empty, descriptive references and unrelated sections do not become copy actions (0.057042ms)
+  TypeError [Error]: selectCopySections is not a function
+      at TestContext.<anonymous> (/private/tmp/ai-outline-20261021/tests/prompt-copy.test.cjs:10:19)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3)

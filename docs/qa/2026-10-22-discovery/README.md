@@ -46,7 +46,13 @@
 
 效能僅有雲端本地靜態server導航觀測：5配置DOMContentLoaded 30–68ms、load 34–148ms（[原始時間](checks/reader-timings.json)），不代表正式網路／全文可用時間或速度提升。reader.js未壓縮24,792→25,135 bytes；本機gzip估算8,099→8,222 bytes（+123），沒有Lighthouse分數或加速宣稱。
 
-發布結果於正式站核對後補記。
+發布完成：正常merge＋SSH push到main，merge為`c02e5f6`，無強推。合併前遠端新增`59c7352`研究紀錄，無衝突保留；整合後148/148再次通過，靜態preview build及diff檢查通過。其後協作者`e96989f`只新增另一份研究紀錄，亦完整保留；舊Pages工作39633887643被後續建置取代而取消，沒有冒稱成功。
+
+[Pages39634675756](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39634675756)build／deploy成功，部署內容包含本輪修正。SSH推送驗證分支執行[正式驗收39634960787](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39634960787)成功，checkout `e96989f`；公開reader.js與檔案逐字一致，最終加強版round22測試已實際執行。1440／390各17筆旅遊＋生活結果、零缺項、pageerror空、axe各0，正文目標`reader-section-2`正確；空結果修改、Escape焦點、直鏈重整及篩選保留均通過。桌面實開的是案例來源筆記README新頁，手機核對同一href；外部作者原始來源另在既有reader回歸開啟，不混為同一次檢查。
+
+已目視正式[桌面](published/passage-1440.png)及[手機](published/passage-390.png)，與預覽保持一致。[完整正式流程輸出](published/report.json)。本輪主要掃描為預覽30次＋正式2次，共32次axe零違規，未宣稱完整WCAG認證。最後提交僅紀錄與截圖，不再變動產品程式。
+
+主線其他既有QA沒有全部綠燈，保留[實際CI快照](checks/main-ci-snapshot.json)。已檢查的失敗包括Category finding缺少UC-066來源、Combined recovery找不到copy-search-link，以及Reader controls在六個尺寸／引擎的44px量測成功後等待dialog逾時；這些測試發生在Pages排隊及更新期間，尚未確證每項內部根因，不斷言全是網路問題，也沒有將它們算成通過。本輪完整靜態預覽及部署後兩尺寸驗收均成功；其餘工作仍執行中的狀態以快照為準，不冒稱整批CI全綠。另兩項失敗為Reader context重新整理後等待discoveryReady逾時，以及Evidence round在讀UC-024直鏈時等待dialog逾時，均非正文選擇斷言失敗；內部根因仍未確證。快照共17成功、5失敗、8執行中、1被取代取消。後續宜將正式站QA排在Pages完成後，並降低同時全文請求造成的驗收不穩定風險。
 
 預覽：執行上述preview build後，`python3 -m http.server 8133 --directory /tmp/round22-preview`，開啟 `http://127.0.0.1:8133/ai-agent-use-cases/?q=旅遊&scenario=生活&case=UC-001#explore`。
 

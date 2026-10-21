@@ -90,7 +90,7 @@ SHARE_URL=http://127.0.0.1:8108/ai-agent-use-cases/ node tests/case-share-browse
 - 方法：Chromium1440／390／320＋Firefox／WebKit390，5組均通過；390捷徑位於643–713px，320保留完整用途且可短滑抵達；5次axe為0。
 - 分享：三引擎五組尺寸，成功／fallback／操作焦點通過；另7種遲到回應／缺Clipboard API狀態全過，真Chromium剪貼簿讀回通過；15次axe為0。
 
-以上共36次axe掃描0違規，各suite的實際覆蓋仍以腳本tags為準，不宣稱全面無障礙認證。Node139/139持續通過。獨立審查複核程式與最終圖後再合併。
+以上共36次axe掃描0違規，各suite的實際覆蓋仍以腳本tags為準，不宣稱全面無障礙認證。Node139/139持續通過。獨立審查已複核程式、四份報告與最終手機圖並簽核，補修合併為 `f1a801f`。
 
 [閱讀完整JSON](round-verification.json) · [方法完整JSON](method-verification.json) · [分享完整JSON](sharing-verification.json)。
 
@@ -98,10 +98,28 @@ SHARE_URL=http://127.0.0.1:8108/ai-agent-use-cases/ node tests/case-share-browse
 | --- | --- |
 | ![長標題首屏補修](after-small-mobile.png) | ![方法首屏補修](after-method-mobile.png) |
 
-第一版發布的專用run39543769737曾因Pages部署排隊超過180秒而等待失敗；不視為已發布成功。初版Pages實際建置／部署於 [39543769295](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39543769295) 成功。補修版正式發布驗收將另記提交與run。
+第一版發布的專用run39543769737曾因Pages部署排隊超過180秒而等待失敗；不視為已發布成功。初版Pages實際建置／部署於 [39543769295](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39543769295) 成功。補修版 **`f1a801f7f24aad3da2cafcbc04cfaa6c08578732` 已正式上線**：[Pages建置與部署39545167110](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39545167110) 與 [正式站完整驗收39545167747](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39545167747) 均成功。正式站逐檔回應文字與checkout完整相等後，才走查三引擎／桌面手機、來源、搜尋、篩選、空結果、直鏈重整、返回、列印還原與六份真PDF。400來源／402條目完整、pageerror0、六份PDF全文與URL缺漏0；正式站另8次axe0，加同run預覽36次共44次0。
+
+[正式站JSON](published-report.json) · [發布提交與資產SHA-256](release-verification.json)。未測實體印表機、實機Safari／Firefox原生分頁；正式站源碼比對與Chrome真PDF是已測結果。
+
+| 正式站桌面 | 正式站手機 |
+| --- | --- |
+| ![正式站桌面](published-desktop.png) | ![正式站手機](published-mobile.png) |
+
+[正式站PDF首頁（正式永久網址）](published-pdf-first.png) · [正式站PDF末頁](published-pdf-last.png)。
+
+## 廣域CI未解項（不宣稱全部CI綠燈）
+
+獨立審查另逐筆核對本發布提交13筆廣域CI失敗：
+
+- 8筆未進入新版正式功能驗收：Category finding39545167532、Search relevance39545167662、Home search entry39545167613、Search context39545167529、Partial Load39545167580、Facet counts39545167598、Available facet39545167522、Recent review39545167483。資產／catalog等待於04:42:59–04:47:23 UTC結束，早於Pages deploy step於04:47:35 UTC完成；確認是部署排隊超出各自等待上限。
+- [Improvement round39545167637](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39545167637)：桌面已完成，手機UC359主文件HTTP429，診斷另記377次429與1次503；[Reader context39545167555](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39545167555)：主文件HTTP429；[Reader controls39545167707](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39545167707)：1440／390／320已完成，360截圖明示GitHub Pages Rate limit exceeded。這3筆有實際限流證據，未認定成新尺寸／名稱退化。
+- **根因仍未知**：[Combined recovery39545167723](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39545167723) 的公開Chromium1440／390／320完成，但Firefox首頁缺少copy-search-link；[Evidence round39545167667](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39545167667) 的review-sections五配置與reader-search桌面完成，但手機UC024直鏈等詳情逾時。沒有HTTP診斷，保留FAIL，不逕稱429或已修復。
+
+本輪的專用正式站驗收成功，不取代以上未解項。下一輪需先補齊失敗頁HTTP診斷，量測全文載入成本與CI並行負載，再決定如何改善載入可靠度；不要靠放寬斷言或捏造成功掩蓋限流。
 
 ## 預覽與下一輪
 
 部署後開 https://richardhan.github.io/ai-agent-use-cases/?case=UC-005 ，使用「列印／存成 PDF」。開發預覽：`python3 scripts/preview.py /tmp/ai-print-preview/ai-agent-use-cases`，再`python3 -m http.server 8108 --directory /tmp/ai-print-preview`，進入 `/ai-agent-use-cases/?case=UC-005`。
 
-下一輪最值得做：量測首次與回訪時的全文載入成本，優先改善真實慢網閱讀等待；避免再重做已完成的來源導覽、分類搜尋或列印版面。
+下一輪最值得做：針對實際429／未明逾時補齊HTTP診斷、量測全文載入與CI並行負載，改善首次與回訪載入可靠度。避免再重做已完成的來源導覽、分類搜尋或列印版面。

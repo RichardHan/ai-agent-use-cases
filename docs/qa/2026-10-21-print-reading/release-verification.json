@@ -1,0 +1,21 @@
+{
+  "commit": "f1a801f7f24aad3da2cafcbc04cfaa6c08578732",
+  "pagesRun": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39545167110",
+  "acceptanceRun": "https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39545167747",
+  "site": "https://richardhan.github.io/ai-agent-use-cases/",
+  "comparison": "Main acceptance passed exact response-text equality against checkout for all listed assets before browser journeys.",
+  "expectedAssets": [
+    {
+      "path": "assets/app.js",
+      "sha256": "882f33194120d52bd1f6a68ad73e205fcde42f60762de8eb17d1373f5059f1cb"
+    },
+    {
+      "path": "assets/reader.js",
+      "sha256": "eb48e2569f8509591575ae64ccf60362870876bd2f33a8902d91ccdd967b9db4"
+    },
+    {
+      "path": "assets/reader.css",
+      "sha256": "07aab6de433df7259cfc0675bc822f176e796770edaeda6264c3c1befbc7357d"
+    }
+  ]
+}

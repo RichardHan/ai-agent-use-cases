@@ -1,0 +1,32 @@
+✖ find a later supplement without hiding qualifiers or merging repeated headings (1.10325ms)
+✖ title matching normalizes width/case, handles empty and literal unsafe-looking queries (0.092875ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68.219709
+
+✖ failing tests:
+
+test at tests/outline-find.test.cjs:4:1
+✖ find a later supplement without hiding qualifiers or merging repeated headings (1.10325ms)
+  TypeError [Error]: findOutlineSections is not a function
+      at TestContext.<anonymous> (/private/tmp/ai-website-round-20261021/tests/outline-find.test.cjs:6:19)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17)
+
+test at tests/outline-find.test.cjs:11:1
+✖ title matching normalizes width/case, handles empty and literal unsafe-looking queries (0.092875ms)
+  TypeError [Error]: findOutlineSections is not a function
+      at TestContext.<anonymous> (/private/tmp/ai-website-round-20261021/tests/outline-find.test.cjs:13:19)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3)

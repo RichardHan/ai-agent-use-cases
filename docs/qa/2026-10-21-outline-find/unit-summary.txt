@@ -1,0 +1,9 @@
+✔ current repository batch parses without consulting INDEX or hardcoding a historical minimum (1.670833ms)
+ℹ tests 146
+ℹ suites 0
+ℹ pass 146
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3875.657625

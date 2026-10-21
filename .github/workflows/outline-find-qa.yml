@@ -1,0 +1,42 @@
+name: Find reader sections QA
+on:
+  pull_request:
+    paths: ['assets/reader.*', 'tests/outline-find*', '.github/workflows/outline-find-qa.yml']
+  push:
+    branches: [main, improve/reader-task-flow-20261021]
+    paths: ['assets/reader.*', 'tests/outline-find*', '.github/workflows/outline-find-qa.yml']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser QA tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Unit, syntax and static preview
+        run: |
+          node --test tests/*.test.cjs
+          node --check assets/reader.js
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Verify three reading journeys and IME
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          python3 -m http.server 8094 --directory "$RUNNER_TEMP/preview" > /tmp/outline-preview.log 2>&1 &
+          for engine in chromium firefox webkit; do
+            OUTLINE_ENGINE="$engine" OUTLINE_OUTPUT="qa-artifacts/$engine" node tests/outline-find-browser.cjs
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: outline-find-${{ github.sha }}
+          path: qa-artifacts/
+          retention-days: 30

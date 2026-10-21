@@ -81,7 +81,7 @@ const save=()=>fs.writeFileSync(output+'/report.json',JSON.stringify(reports,nul
      if(quote&&!target.textContent.includes(quote.textContent.replace(/^…|…$/g,'')))throw Error(item.id+' nonliteral excerpt');
     }passages++;
    }
-   const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return').forEach(n=>n.remove());
+   const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return,.reader-copy').forEach(n=>n.remove());
    clean.querySelectorAll('h2,h3,[id^="reader-passage-"]').forEach(n=>{n.removeAttribute('id');n.removeAttribute('tabindex');});
    if(clean.innerHTML!==original)throw Error(item.id+' original research changed');
   }return {entries:entries.length,passages};

@@ -52,7 +52,7 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
      if(id!=='reader-source-meta'&&button.firstChild.textContent!==node.textContent)throw Error(item.id+' changed title');
      if(button.querySelector('img,script'))throw Error(item.id+' unsafe title');
     }
-    const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return').forEach(n=>n.remove());clean.querySelectorAll('h2,h3').forEach(n=>{n.removeAttribute('id');n.removeAttribute('tabindex');});
+    const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return,.reader-copy').forEach(n=>n.remove());clean.querySelectorAll('h2,h3').forEach(n=>{n.removeAttribute('id');n.removeAttribute('tabindex');});
     if(clean.innerHTML!==original)throw Error(item.id+' original research changed');
     if(!expected.size&&body.querySelector('.reader-review'))throw Error(item.id+' empty index visible');
     totalCandidates+=buttons.length;

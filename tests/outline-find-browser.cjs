@@ -44,12 +44,13 @@ fs.mkdirSync(out,{recursive:true});const reports=[];
  await page.screenshot({path:`${out}/destination-${width}.png`});
  await page.keyboard.press('Tab');
  report.nativeTabToReturn=await page.evaluate(()=>document.activeElement.classList.contains('reader-return'));
- if(!report.nativeTabToReturn&&engine==='webkit'){
+ if(!report.nativeTabToReturn&&engine==='webkit'&&process.platform==='darwin'){
   // macOS WebKit's default keyboard preference omits buttons from Tab order.
   // Record that limitation, then verify Enter on the existing return control.
   await page.locator('#'+destination+' + .reader-return').focus();
  }else assert(report.nativeTabToReturn);
- await page.keyboard.press('Enter');await input.fill('可貼指令');
+ await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title');
+ await input.fill('可貼指令');
  report.repeatedMatches=await outline.locator('li:visible').count();assert(report.repeatedMatches>1);
  const titles=await outline.locator('li:visible').allTextContents();assert(titles.every(t=>/未測/.test(t)));
  await input.fill('沒有這段 <script>');assert.equal(await outline.locator('li:visible').count(),0);

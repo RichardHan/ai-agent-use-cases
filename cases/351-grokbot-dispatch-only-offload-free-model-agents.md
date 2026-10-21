@@ -5,11 +5,11 @@
 - 網站標題：Grok Bot 額度燒太快？讓它只負責拆工作和檢查，實際執行交給雲端電腦上的免費模型，搞不定再換便宜的付費模型
 - 一句話用途：中文作者分享的省額度做法：在 Grok Bot 的雲端電腦裝 OpenCode 接免費模型、另備 Pi Agent＋DeepSeek 當付費保底；工作先丟免費模型，做不好再降級到 DeepSeek，Grok Bot 自己只做調度、拆解、檢查和總結。作者自述兩套都跑通、Grok Bot 本身用量大幅下降；本庫未重現。
 - 核心目標：把「想用 Bot 做很多事」和「每週額度有限」的矛盾，改成分層派工：便宜的執行層做重活，Grok Bot 只花額度在判斷與驗收。
-- 工具：Grok Bot（雲端電腦、調度）／OpenCode（作者測 DeepSeek V4.1 Flash Free 等免費模型）／Pi Agent＋DeepSeek（deepseek-v4-flash、複雜任務 deepseek-v4-pro）；來源B另加 webhook 觸發的 routine 與開源腳本 grokbot-local-agent（MIT）；來源C為 Claude Code CLI／Codex CLI／腳本＋webhook 回報與每日 routine 稽核
+- 工具：Grok Bot（雲端電腦、調度）／OpenCode（作者測 DeepSeek V4.1 Flash Free 等免費模型）／Pi Agent＋DeepSeek（deepseek-v4-flash、複雜任務 deepseek-v4-pro）；來源B另加 webhook 觸發的 routine 與開源腳本 grokbot-local-agent（MIT）；來源C為 Claude Code CLI／Codex CLI／腳本＋webhook 回報與每日 routine 稽核；來源D為本人 Mac 上的 Claude Code（兩帳號）＋Codex CLI 與每小時用量標籤
 - 分類／標籤：多代理派工／用量分層／外部代理保底
 - 目標使用者：已經常碰到 Grok Bot 每週額度上限、又不想升級方案，且能自己管理外部模型帳號與金鑰的進階使用者
-- 首次收錄／最近查證：2026-10-19／2026-10-21 11:47（台灣時間，只核來源C）
-- 證據狀態：`author-demo`（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；三者都沒有用量前後截圖或數字。
+- 首次收錄／最近查證：2026-10-19／2026-10-21 14:40（台灣時間，只核來源D）
+- 證據狀態：`author-demo`（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；來源D日文作者 note 長文（含指令片段與當下用量讀數）；四者都沒有用量前後對照數據。
 - 是否獨立重現：否
 
 ## 輸入與預期輸出
@@ -55,6 +55,20 @@
 - 失敗點／缺口：沒說明哪些工作移出、webhook 怎麼設定、外部 CLI 用的是誰的帳號與費用；「每日稽核新 routine」的輸出樣本沒有公開。
 - 合併理由：核心與來源A／B相同（Grok Bot 只調度、重活交外部代理以省額度）；新增的是「外部工具做完用 webhook 叫回 Grok Bot」與「每天／每週由主 Bot 稽核 routine」兩個做法，後者的量測面另見 [UC-066](066-agent-token-usage-self-audit.md)。不另立案、不另計數。
 
+### 來源D：PaiOurs（note 文章，日文）——Grok Bot 當唯一窗口，在自家 Mac 上以非互動指令呼叫兩個 Claude Code 帳號與 Codex，並把用量寫進 Bot 名稱旁的標籤（2026-10-21 14:40 批次併入）
+
+- 原始網址：https://note.com/paiours/n/ndefe96e4c557 （2026-10-21 11:07 日本時間＝10:07 台灣時間）；日文；免費文章。
+- 取得內容：本輪讀取全文（含作者列出的指令與設定片段）；無截圖判讀。
+- 作者寫的做法（翻譯改寫）：
+  1. 在自家 Mac mini 上，把 Grok Bot（作者命名為「MotherAI」）設為所有工作的「總服務台」；作者描述 Grok Bot 可在這台 Mac 上執行指令，且每個指令都會先徵求核准。
+  2. 第二個 Claude Code 帳號以獨立設定目錄並存，用環境變數切換；Grok Bot 以非互動的單次指令呼叫 Claude（兩帳號）與 Codex，並在指令尾端把標準輸入接到空裝置——作者說少了這一步，Claude 每次會先等 3 秒才警告。
+  3. 分工：寫程式交 Claude（案件間兩帳號輪替、接近上限的那個提早換掉）；程式審查交 Codex；接案、分派、調查、寫作、設計與最後彙整由 Grok Bot 自己做，輕量工作不外包。
+  4. 用量可視化：從 Claude 的串流輸出與 Codex 的本機工作階段紀錄讀出 5 小時與每週用量百分比及重設時間；因 Grok Bot 介面沒有自訂小工具，作者用每小時一次的 routine（日本時間 8:00–22:00）改寫 Bot 名稱旁的短標籤，顯示如「A 26% · B 92% · Codex 9%」，任一 5 小時用量超過 90% 時加警示符號。
+  5. 自訂的省量規則：指示要短、只給必要檔案、同一件事不同時丟給兩個 AI。
+- 作者報告結果：設定約 10 分鐘完成；首次測試時帳號 A 已達工作階段上限而無法執行，切到 B 才跑；當下讀到 B 的週用量 92%，於是在 B 重設前把寫程式全部改給 A。作者也提醒每次查用量本身會送出一個小請求、會耗量，不宜查太頻繁；macOS 預設沒有 `timeout` 指令。尚未用實際案件長期驗證（作者列為下一步）。
+- 失敗點／缺口：沒有用量前後數據；「每小時改名稱標籤」是否會干擾其他功能未說明；Grok Bot 每個指令都要核准，長時間無人值守時如何運作未提。
+- 合併理由：核心同來源A–C（Grok Bot 只調度、重活交外部代理以分攤用量）；新增的是「在本人電腦上以非互動指令呼叫多帳號 CLI」與「把各家用量百分比常駐顯示在 Bot 標籤、據此選帳號」。另一種把用量顯示在實體小螢幕的做法見 [UC-406](406-m5stack-usage-meter-vps-cache-tunnel-shared-secret.md)。不另立案、不另計數。
+
 ### 相關觀察（不另計來源）
 
 - 同日 @yagiryuuu 的日文營運筆記（已併入[UC-066](066-agent-token-usage-self-audit.md) S-066F）也提到把重活交給 Grok Bot 電腦上的 Claude Code 或雲端代理以節省用量；與本案方向相同，但那篇的重點是多 Bot 團隊的排程與通知精簡，不是模型分層。
@@ -99,3 +113,4 @@
 - 2026-10-19首次收錄；原串於11:39（台灣）發布，前一輪列為「可下輪讀全串」的線索，本輪讀完四則後收錄。
 - 2026-10-19 17:40 批次併入來源B（@fankaishuoai／robbin/grokbot-local-agent）：同樣是「Bot 只調度、重活交給雲端電腦上的另一個代理」以省額度，差別是補上工作編號、webhook 叫醒與漏通知補報的機制；核心目標相同，不另立案。同作者另一個 agent-relay（雲端 Bot ↔ 使用者本機代理經私有 Git 交接）目標不同，另立[UC-353](353-cloud-local-agent-git-task-relay.md)。
 - 2026-10-21 11:47 批次併入來源C（@_ketsana）：同為「Grok Bot 只調度、重活外包」以省額度，補上外部 CLI 以 webhook 回報及每日／每週 routine 稽核；不另立案。
+- 2026-10-21 14:40 批次併入來源D（PaiOurs，note）：同為「Grok Bot 當窗口、重活交 Claude Code／Codex」，補上本機非互動呼叫、雙帳號輪替與用量常駐顯示；不另立案。

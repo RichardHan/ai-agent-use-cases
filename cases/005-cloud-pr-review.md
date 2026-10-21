@@ -233,3 +233,14 @@ ishizakahiroshi的[日文開發實錄](https://zenn.dev/ishizakahiroshi/articles
 ### 同批補充：既有付費產品的角色分工，公開設定不等於部署證據
 
 Jessica Temporal的[英文原文](https://jtemporal.com/i-built-my-ai-squad-in-grok-bot/)（2026-08-30）自述六個Grok Bot協助My Yarn Stash，已做批次匯入與Undo、Heroku至FastAPI Cloud遷移及Auth0網域遷移；她保留最後檢查與staging決定。[公開角色設定](https://gist.github.com/jtemporal/2a532f60eafede070c7da20862f2cc43)可讀，但只能佐證分工指示，不能證明每次部署成功。文章及gist全文已讀、影片未播放；沒有公開PR、測試或部署日誌，不採完全自主或生產力保證。具體生產工作補本頁，不拆三種功能計數；不依文章建立憑證或擴大正式環境權限。
+
+
+## 2026-10-22 補充：兩層審查仍曾發生先合併、後審查
+
+英文作者 u/explorioapp 的[Reddit 實作報告](https://www.reddit.com/r/buildinpublic/comments/1w94xmq/i_was_mowing_the_sheep_pasture_while_a_cursor_bot/)及作者補充留言已讀；頁面只顯示相對日期，精確發布時間未核。作者承認技術段由 Bot 協助摘要，非獨立第三方測試。
+
+Grok Bot 分管派工與工程判斷，Cursor Cloud Agents 開 PR，再同步 Replit、執行測試及重啟 API。作者說已完成多個 PR、仍留一項小問題；更重要的是曾出現審查尚未完成便合併的競態，後續補修並明確指定審查責任。未公開對應 PR、時序日誌或部署證據，不能把「兩個 Bot 都看過」當成不會早合併的保證，也不採用其加速倍數宣稱。
+
+這補既有實作與獨立審查流程，不新增案例。作者當日授權自動合併不構成讀者的授權；本頁仍建議人審。GitHub [保護分支官方文件](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)區分必要審查、狀態檢查及新提交後過期核准；未核原作者是否設定這些規則，不自行改倉庫權限。各代理與 Replit 額度、單次成本未核。
+
+可貼指令（本庫自設、未測）：只讀去敏的 PR 時序，逐項核對需求版本、最後提交、審查所對應提交、必要檢查與合併時間。審查後又改碼就標待重審；合併後另核實際部署版本，不能以 API 仍在線代替新版本驗收。只交證據清單，不啟動代理、不合併、部署、建立憑證或改規則。

@@ -583,13 +583,24 @@ function showDetail(item, trigger, updateURL=true) {
   source.href = REPO + item.path;
   source.target = '_blank';
   source.rel = 'noopener noreferrer';
-  actionRow.append(copyBtn, source);
+  const printBtn=el('button','btn-copy-link','列印／存成 PDF');
+  printBtn.id='print-case';printBtn.type='button';
+  printBtn.setAttribute('aria-describedby','print-case-hint');
+  printBtn.addEventListener('click',()=>window.print());
+  actionRow.append(copyBtn,printBtn,source);
   if (item.tags && item.tags.length) {
     const tagsRow = el('span', 'detail-tags-text', '標籤：' + item.tags.join('、'));
     actionRow.append(tagsRow);
   }
   actionRow.append(shareFeedback);
-  body.append(actionRow);
+  const printHint=el('p','print-case-hint','列印完整原始研究與來源；可在列印視窗選擇存成 PDF。');
+  printHint.id='print-case-hint';
+  body.append(actionRow,printHint);
+  const printMeta=el('p','reader-print-meta');
+  const permanent=new URL(location.href);permanent.search='';permanent.hash='';permanent.searchParams.set('case',item.id);
+  printMeta.append(el('span','','AI 用法實驗室 · 案例永久連結：'),el('a','',permanent.href));
+  printMeta.lastChild.href=permanent.href;
+  body.append(printMeta);
 
   body.append(el('p', 'detail-warning', item.kind === 'pending' ? '待查線索：證據尚不足，不列成功或已完成案例。' : '來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。'));
 

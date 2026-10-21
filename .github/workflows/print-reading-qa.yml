@@ -24,8 +24,15 @@ jobs:
       - name: Cloud browser
         run: |
           npm install --prefix "$RUNNER_TEMP/print-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
-          "$RUNNER_TEMP/print-tools/node_modules/.bin/playwright" install --with-deps chromium
-          sudo apt-get install -y fonts-noto-cjk
+          "$RUNNER_TEMP/print-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk poppler-utils
+      - name: Reproduce original missing print lifecycle
+        run: |
+          mkdir -p qa-artifacts "$RUNNER_TEMP/print-red/assets" "$RUNNER_TEMP/print-red/tests"
+          git show 9f22923:assets/reader.js > "$RUNNER_TEMP/print-red/assets/reader.js"
+          cp tests/print.test.cjs "$RUNNER_TEMP/print-red/tests/"
+          if node --test "$RUNNER_TEMP/print-red/tests/print.test.cjs" > qa-artifacts/red.tap 2>&1; then exit 1; fi
+          grep -q 'createPrintSession is not a function' qa-artifacts/red.tap
       - name: Observe published site
         env:
           NODE_PATH: ${{ runner.temp }}/print-tools/node_modules
@@ -33,7 +40,6 @@ jobs:
           OBSERVE: '1'
         run: node tests/print-browser.cjs
       - name: Verify preview
-        if: ${{ hashFiles('tests/print.test.cjs') != '' }}
         env:
           NODE_PATH: ${{ runner.temp }}/print-tools/node_modules
         run: |

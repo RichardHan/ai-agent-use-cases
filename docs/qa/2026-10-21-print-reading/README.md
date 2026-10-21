@@ -8,7 +8,7 @@
 
 已讀 README、SITE.md、部署 workflow、歷史 QA 與維護規則；repo 內與其父目錄未發現適用 AGENTS.md。原工作目錄仍停在 `improve/search-recall-recent-workflows-and-tokenization`，既有 `assets/app.js` 與 `tests/search.test.cjs` 未提交修改完整保留。從遠端 main `9f22923` 另建 worktree／分支；其後正常合入協作者 PR #71 的 `27fed37`，沒有衝突，未覆寫其案例／核對報告。
 
-雲端實際走查正式站 1440×1000、390×844：首頁 → 旅遊搜尋 → 生活＋Grok Bot → 閱讀 → Escape 返回焦點 → 空結果 → UC-005 直鏈 → 開原始來源 → 列印。正式站來源實際開啟 https://zenn.dev/tec/articles/c4fbfcfffde4ad 。原有 dialog 仍限高 898px、內容 1922px、overflow:auto，印出背景整批結果，原始研究未展開。原生 PDF 約89頁，UC-005有164個原文文字節點缺漏；這不是完整閱讀稿。
+雲端實際走查正式站 1440×1000、390×844：首頁 → 旅遊搜尋 → 生活＋Grok Bot → 閱讀 → Escape 返回焦點 → 空結果 → UC-005 直鏈 → 開原始來源 → 列印。正式站來源實際開啟 https://zenn.dev/tec/articles/c4fbfcfffde4ad 。原有 dialog 仍限高 898px、內容 1922px、overflow:auto，印出背景整批結果，原始研究未展開。原生 PDF 桌面90頁／手機89頁，UC-005有164個原文文字節點缺漏；這不是完整閱讀稿。
 
 兩方案：
 - A，沿用詳情，增設單篇列印／存PDF入口、專用列印排版與可還原的展開狀態。成本低，保留既有直鏈與閱讀流程。**採用。**
@@ -34,6 +34,8 @@
 
 本機基準：`node --test tests/*.test.cjs`，136/136通過。新增後／合入最新研究後：139/139通過。`for file in assets/*.js; do node --check "$file"; done`與`git diff --check`通過。`python3 scripts/preview.py /tmp/print-round-final/ai-agent-use-cases`成功；前端沒有獨立lint、TypeScript或npm build，此預覽不等於Jekyll正式部署。
 
+本輪開始前已有兩筆歷史正式站CI失敗：[Reader controls QA 39526478816](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39526478816) 等待首張結果卡逾時；[Improvement round QA 39526478803](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39526478803) 在部分來源尚未載入時不符合「已載入」斷言。這些是本輪之前的紀錄，未宣稱已由列印改善修復。全文載入成本仍是下一輪優先題。
+
 紅測試在固定 `9f22923` 的 reader.js 執行3項新測試，全失敗（`createPrintSession is not a function`）；修正後3/3通過。
 
 三種模擬情境：
@@ -45,7 +47,27 @@ Chromium：1440／390，各測UC-005、UC-313、P-003，產生實際A4 PDF。以
 
 這是模擬走查，不代表真人喜好或轉換率提升；axe結果也不等於完整無障礙認證。尚未做Lighthouse／節流效能分數，未捏造載入改善或分數。
 
-最終雲端結果與截圖：待本輪整合run結束後補入。
+最終整合驗收：[Print reading QA 39543330276](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39543330276)，提交 `63d7d11`，全部通過。400個目錄來源逐一對應、402條目（396主要案例頁＋3經驗補充＋3待查），failedPaths為空；此為網站條目數，**不是嚴格核對合格案例數**。
+
+| 引擎／尺寸 | 真正PDF | 全文文字節點 | 原文／URL缺漏 | axe |
+| --- | --- | --- | --- | --- |
+| Chromium 1440 | UC005 10頁、UC313 3頁、P003 1頁 | 175／41／12 | 全部0／0 | 3次均0 |
+| Chromium 390 | UC005 10頁、UC313 3頁、P003 1頁 | 175／41／12 | 全部0／0 | 3次均0 |
+| Firefox 390 | 未測原生PDF分頁；print media末段可見 | 原文／末段rendered height>0 | 不以此宣稱PDF全文已驗證 | 1次0 |
+| WebKit 390 | 未測原生PDF分頁；print media末段可見 | 原文／末段rendered height>0 | 不以此宣稱PDF全文已驗證 | 1次0 |
+
+全部四組均通過搜尋、組合篩選、空結果、鍵盤返回、外部來源、直鏈重整、列印按鈕、連續列印和展開狀態還原，JS pageerror皆0。原版UC005缺164／175個原文字節點與27個來源URL；修後全部保留。這是完整性結果，不能當效能或真人偏好指標。
+
+[完整修後JSON](after-report.json) · [正式站基準JSON](before-report.json) · [原版紅測試](red.tap)。所有PDF與各引擎截圖在上述Actions artifact（保留30天），以下關鍵截圖永久納入repo。PDF頁面中的localhost網址是靜態預覽網址；正式站列印會使用同站正式網址。
+
+| 流程 | 修改前 | 修改後 |
+| --- | --- | --- |
+| 桌面詳情 | ![桌面詳情原版](before-desktop.png) | ![桌面詳情加入列印入口](after-desktop.png) |
+| 手機詳情 | ![手機詳情原版](before-mobile.png) | ![手機詳情加入列印入口](after-mobile.png) |
+| 真正PDF首頁 | ![原版列印仍是視窗與背景](before-pdf-first.png) | ![修後原始研究與證據完整](after-pdf-first.png) |
+| 手機print media | ![原版收合原文且背景混入](before-mobile-print.png) | ![修後原文展開且無背景](after-mobile-print.png) |
+
+[最長案例的末頁](after-pdf-last.png) · [待查提醒與完整來源](after-pending.png)。
 
 ## 預覽與下一輪
 

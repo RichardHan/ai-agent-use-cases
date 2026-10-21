@@ -41,6 +41,7 @@ async function prompt(page,index){
  assert.equal(await manual.inputValue(),expected);assert.equal(await manual.getAttribute('readonly'),'');
  assert.equal(await manual.evaluate(e=>e===document.activeElement&&e.selectionStart===0&&e.selectionEnd===e.value.length),true);
  assert.equal(await manual.evaluate(e=>parseFloat(getComputedStyle(e).fontSize)),16);
+ const editingID=await page.locator('#detail-toolbar-id').innerText();await page.keyboard.press('ArrowLeft');await page.keyboard.press('ArrowRight');assert.equal(await page.locator('#detail-toolbar-id').innerText(),editingID);
  await page.screenshot({path:`${out}/manual-${engine}-${width}.png`});
  row.audits.push((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id));assert.deepEqual(row.audits.at(-1),[]);
  await page.emulateMedia({media:'print'});assert.equal(await controls.evaluate(e=>getComputedStyle(e).display),'none');await page.emulateMedia({media:'screen'});
@@ -66,13 +67,26 @@ async function prompt(page,index){
  await page.evaluate(()=>showDetail(entries.find(e=>e.id==='UC-001'),null,false));await prompt(page,index);
  const action=page.locator('.reader-copy-button').first();
  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:()=>new Promise((resolve,reject)=>{window.copyResolve=resolve;window.copyReject=reject;})}}));
+ await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:()=>new Promise((resolve,reject)=>{(window.copyQueue??=[]).push({resolve,reject});})}}));
+ await action.click();await action.click();await page.evaluate(()=>{copyQueue[1].resolve();copyQueue[0].reject(Error('old denial'));});
+ await page.waitForFunction(()=>document.querySelector('.reader-copy-status').textContent.includes('已複製'));assert.equal(await controls.locator('textarea').isVisible(),false);
+ await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:()=>new Promise((resolve,reject)=>{window.copyResolve=resolve;window.copyReject=reject;})}}));
  await action.click();await page.locator('#close-detail').focus();await page.evaluate(()=>window.copyReject(Error('delayed denial')));
  await controls.locator('textarea').waitFor({state:'visible'});assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail');
  await action.click();await page.locator('#nav-next-case').click();await page.evaluate(()=>window.copyResolve());
  assert.equal(await page.evaluate(()=>document.activeElement.id),'detail-title');assert.equal(await page.locator('.reader-copy-status').filter({hasText:'已複製'}).count(),0);
  await page.evaluate(()=>showDetail(entries.find(e=>e.id==='UC-001'),null,false));await prompt(page,index);await page.locator('.reader-copy-button').first().click();
  await page.keyboard.press('Escape');await page.evaluate(()=>window.copyReject(Error('closed denial')));assert.equal(await page.locator('#detail').evaluate(e=>e.open),false);
- row.journeys.push('delayed rejection retains moved focus; late success after case switch; late rejection after close');
+ row.journeys.push('stale denial after latest success; delayed denial retains moved focus; late success after switch; late denial after close');
+ if(engine==='chromium'&&width===1440){
+ row.corpus=await page.evaluate(()=>{let count=0,actions=0;for(const item of entries){
+ showDetail(item,null,false);const original=renderMarkdown(item.markdown,item.path),copy=document.querySelector('.research-details .markdown').cloneNode(true);
+ copy.querySelectorAll('.reader-copy,.reader-return').forEach(e=>e.remove());
+ if(copy.textContent!==original.textContent)throw Error('Changed original text '+item.id);
+ actions+=document.querySelectorAll('.reader-copy-button').length;count++;
+ }return {entries:count,copyActions:actions,originalTextUnchanged:true};});
+ }
+
  }
  assert.deepEqual(row.errors,[]);row.completed=true;
  }catch(e){row.failure=e.stack;throw e;}finally{save();await context.close();}

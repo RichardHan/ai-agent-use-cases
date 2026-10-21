@@ -1,6 +1,16 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對批次：2026-10-21 17:45（Asia/Taipei）。前次批次：2026-10-21 14:40（Asia/Taipei）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295、308–311、316–321、327–330、334–337、339–341、342、344–347、349–350、353–358、360–366、368–371、374–376、378–383、385–386、388–403、405–406、409–410。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對批次：2026-10-21 20:50（Asia/Taipei）。前次批次：2026-10-21 17:45（Asia/Taipei）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295、308–311、316–321、327–330、334–337、339–341、342、344–347、349–350、353–358、360–366、368–371、374–376、378–383、385–386、388–403、405–406、409–413。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+
+## 2026-10-21 20:50 台灣時間增量核對
+
+- 承接354，UC-411、UC-412、UC-413 各納入B；嚴格合格 **357／1,000，尚差643**。UC-414、UC-415 列待定、不計數。主要案例頁407不是合格數；未重驗所有舊案、未獨立重現。
+- [UC-411](../cases/411-carplay-shortcut-location-to-bot-home-assistant-on-demand-update.md)：B，日文作者部落格逐段實測（郵件延遲約30分鐘→改捷徑 Send Message 即時4次；CarPlay 上 Siri 叫捷徑最終接通語音；HA `request_location_update` 約1秒回傳；外出往返6次位置更新表）。附捷徑截圖與示範影片（影片未看）。
+- [UC-412](../cases/412-dots-podcast-transcript-to-note-article-thumbnail-post.md)：B，日文作者 X 自述 dots 從逐字稿到 note 發布與宣傳貼文；公開 note 文章（含編輯聲明）與節目帳號貼文可讀。發布前核准與人工修改幅度不明。
+- [UC-413](../cases/413-unifi-kids-tv-nightly-internet-curfew-text-exceptions.md)：B，英文作者單則自述具體排程（平日20:00、週六22:30斷網，08:00恢復）與訊息例外；無截圖或紀錄。
+- [UC-414](../cases/414-event-registrant-email-alias-credit-link-once-per-person.md)：待定。作者自述剛建好，無實際發放紀錄。
+- [UC-415](../cases/415-agent-24h-indie-game-promotion-public-scoreboard-failures.md)：待定。Bot 第一人稱文章＋公開記分板，開發者本人說法未取得；比照 UC-384 處理。
+- UC-067 併入一個新來源（每晚加密備份到本機 SSD 並抽回逐檔比對），不加數。
 
 ## 2026-10-21 17:45 台灣時間增量核對
 

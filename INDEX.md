@@ -1,5 +1,7 @@
 # 完整案例索引
 
+2026-10-21 20:50批次：X（英、中、日、韓；Muse／dots一輪）＋部落格與note（API）、Velog、PTT／Mobile01／Dcard（搜尋）、官方說明與社群論壇（搜尋）集中核對。新增UC-411日文作者用iPhone捷徑先送現在地址給Bot再接語音、CarPlay上以Siri呼叫成功，另讓Bot經Home Assistant要一次最新位置並記下往返位置更新表（B）、UC-412日文作者把Podcast逐字稿交給dots，由它找縮圖、編成note文章發布並發宣傳貼文（B，公開產出可讀）、UC-413英文作者讓Bot登入UniFi每晚定時斷掉電視網路、傳一句話臨時延長（B，單則自述）、UC-414日文作者活動點數發放：報名者寄信到Bot＋別名信箱，比對名單每人只回一次（待定，不計數）、UC-415 Bot自寫的24小時零預算推廣網頁遊戲紀錄與公開記分板（待定，不計數）；067併入英文作者每晚把多Bot共用電腦加密備份到Mac mini SSD並抽回比對1,696／1,696檔，不另計。皆未重現。承接354，嚴格合格357／1000，尚差643；主要頁407。[逐組判斷與實閱範圍](sources/research-2026-10-21-2050.md)。
+
 2026-10-21 17:45批次：X（英、中、日、韓；Muse／dots一輪）＋Substack／Medium類長文與dev.to（公開API）、Naver部落格（搜尋）、YouTube與Product Hunt（搜尋）、note（API）集中核對。新增UC-408英文作者每天站會前30分鐘由Bot讀行事曆、Notion、Slack、Linear交一頁會前準備（待定，只有提示詞卡，不計數）、UC-409英文作者Substack短文三流程：每日提示＋語音回答保留原話整理、每週拆解熱門短文結構、批次起草核准後排程（B）、UC-410波蘭文作者建Bot團隊第一天範圍失控後的煞車：盤點、7份規則檔、把握度<90%就停下提問、凍結14天（B）；049併入日文作者只讀晨報連跑一週（起點用上次實際送出時刻、誤判驗證信、報過的期限消失），066併入英文作者郵件Bot寫一次分類腳本只讀摘要，048併入英文作者每週優惠清單看到收據就移出已買品項，均不另計。皆未重現。承接352，嚴格合格354／1000，尚差646；主要頁402。[逐組判斷與實閱範圍](sources/research-2026-10-21-1745.md)。
 
 2026-10-21 14:40批次：X（英、中、日、韓）＋note／Zenn／Qiita（API）、Hacker News（Algolia）、V2EX（sov2ex）、Reddit（搜尋）、官方模板頁集中核對。新增UC-405日文作者把自己的6分鐘影片交Grok Bot剪成直式短片，只准剪不准生成、每輪附雜湊與規格、本人逐秒看片修正（B）、UC-406日文作者的Bot團隊做M5Stack用量表，VPS有人問才查並快取、Tunnel＋標頭密語、登入資訊不進裝置（B；取數走非官方介面）、UC-407英文作者只讀資安看守模板，盤點自身資產後比對漏洞／憑證／外洩並分級示警（待定，不計數）；028併入英文作者讀PDF帳單、本人登入後Bot在線上客服代談並先確認新總額，067併入日文作者讓dots定期把設定匯出到私有倉庫再重建，351併入日文作者在自家Mac輪用兩個Claude Code帳號與Codex並把用量寫進Bot標籤，均不另計。皆未重現。承接350，嚴格合格352／1000，尚差648；主要頁399。[逐組判斷與實閱範圍](sources/research-2026-10-21-1440.md)。
@@ -142,7 +144,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（402）
+## 主要案例（407）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -209,7 +211,7 @@
 | UC-064 | 核對數學命題、反例搜尋與 Lean 證明檢查 | ChatGPT dots／Lean | [作者自述＋公開程式、CI及登記；未獨立重跑](cases/064-math-proof-review-formalization.md) | 學習｜科研、多代理、形式驗證、驗收 |
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢 | Grok Bot | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
 | UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
-| UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub；隊長Bot彙整全隊職責與例行任務成復原手冊、每月1日更新；dots 自己定期把 Automation／規則匯出到私有倉庫、對話變亂時開新 dot 讀回 | Meta Muse／Git；Grok Bot／GitHub；ChatGPT dots／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼、重置後 Tailscale 身分恢復、每週三處備份變體）＋官方文件＋快照回滾且備份同時失效的二手轉述（待驗證）＋日文作者復原手冊自述＋日文作者 dots 設定匯出與重建自述；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
+| UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub；隊長Bot彙整全隊職責與例行任務成復原手冊、每月1日更新；dots 自己定期把 Automation／規則匯出到私有倉庫、對話變亂時開新 dot 讀回；每晚把多Bot共用電腦加密備份到自家Mac mini SSD並抽回逐檔比對 | Meta Muse／Git；Grok Bot／GitHub；ChatGPT dots／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼、重置後 Tailscale 身分恢復、每週三處備份變體）＋官方文件＋快照回滾且備份同時失效的二手轉述（待驗證）＋日文作者復原手冊自述＋日文作者 dots 設定匯出與重建自述＋英文作者每晚加密備份到本機SSD、抽回1,696／1,696檔相符自述；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
@@ -548,6 +550,11 @@
 | UC-408 | 每天站會前30分鐘讀行事曆、Notion議程、Slack與Linear，交一頁會前準備（每人一行、3件值得提的事） | Grok Bot routine／Notion／Slack／Linear／行事曆 | [待定：英文作者貼文＋公開提示詞卡圖片，無實際輸出；不計數](cases/408-daily-team-sync-one-page-prep-calendar-notion-slack-linear.md) | 工作｜每日、會議、Slack、Linear |
 | UC-409 | Substack短文：每天一題寫作提示、語音回答由Bot保留原話整理；每週拆解熱門短文結構再批次起草，核准後才排程 | Grok Bot（兩個角色）／Notion／Substack Notes | [B英文作者Substack文章自述；無發布數據、未重現](cases/409-substack-notes-daily-prompt-voice-reply-weekly-swipe-file-drafts.md) | 創作｜每日、Substack、草稿、核准 |
 | UC-410 | 建Bot團隊第一天範圍失控、燒掉約兩成用量：煞車盤點、7份規則檔、目標／範圍／禁止／把握度卡（<90%就停下問）、凍結14天 | Grok Bot（幕僚長＋多角色、技能、routine） | [B波蘭文作者dev.to建置日紀錄；無檔案或用量畫面、未重現](cases/410-agent-team-build-day-scope-creep-brake-rule-files-intent-card.md) | 開發｜多代理、用量、核准、規則檔 |
+| UC-411 | 開車或外出時讓Bot知道你在哪：iPhone捷徑先送現在地址再接語音（CarPlay上Siri呼叫成功）；或Bot經Home Assistant先要一次最新位置再回答 | Grok Bot（iOS捷徑動作）／Siri／CarPlay／Home Assistant | [B日文作者部落格實測＋捷徑截圖＋往返位置更新表；影片未看、未重現](cases/411-carplay-shortcut-location-to-bot-home-assistant-on-demand-update.md) | 生活｜位置、捷徑、語音、Home Assistant |
+| UC-412 | 把Podcast逐字稿交給dots：挑重點、找縮圖、編成note文章並發布，再發一則X宣傳 | ChatGPT dots／note／X | [B日文作者X自述＋公開note文章與宣傳貼文；發布前是否核准不明、未重現](cases/412-dots-podcast-transcript-to-note-article-thumbnail-post.md) | 創作｜播客、逐字稿、note、發布 |
+| UC-413 | 小孩睡前偷看電視：Bot登入UniFi每晚定時斷掉電視網路、早上恢復，傳一句話臨時延長當晚 | Grok Bot／UniFi | [B英文作者單則X自述；無截圖或執行紀錄、未重現](cases/413-unifi-kids-tv-nightly-internet-curfew-text-exceptions.md) | 生活｜每日、家庭、網路、排程 |
+| UC-414 | 活動點數發放：報名者寄信到Bot的＋別名信箱，Bot比對Luma名單，每人只回一次連結、名單外不回 | Grok Bot（專用信箱＋別名）／Luma | [待定：日文作者貼文自述剛建好，無發放紀錄；不計數](cases/414-event-registrant-email-alias-credit-link-once-per-person.md) | 工作｜活動、收件匣、名單比對、自動回覆 |
+| UC-415 | Bot用24小時零預算推廣免費網頁遊戲：每小時讀計畫與日誌行動、?ref=標記與公開記分板，寄21封信回1封、被論壇封鎖 | Grok Bot（主代理＋子代理、每小時routine）／GitHub Pages | [待定：Bot第一人稱Velog文章＋公開記分板與data.json；開發者本人說法未取得、不計數](cases/415-agent-24h-indie-game-promotion-public-scoreboard-failures.md) | 工作｜行銷、多代理、失敗、公開紀錄 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

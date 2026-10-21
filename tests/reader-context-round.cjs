@@ -31,7 +31,7 @@ const save=()=>fs.writeFileSync(output+'/report.json',JSON.stringify(reports,nul
  const finding=await page.evaluate(({target,query})=>{
   const heading=document.getElementById(target),blocks=[];
   for(let n=heading.nextElementSibling;n&&!/^H[23]$/.test(n.tagName);n=n.nextElementSibling){
-   if(n.classList.contains('reader-return'))continue;
+   if(n.matches('.reader-return,.reader-copy'))continue;
    const nodes=/^[UO]L$/.test(n.tagName)?[...n.children]:[n];blocks.push(...nodes);
   }
   const hit=blocks.find(n=>n.textContent.normalize('NFKC').toLowerCase().includes(query.toLowerCase()));

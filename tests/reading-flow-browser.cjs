@@ -124,7 +124,7 @@ async function focusedBelowToolbar(page,id){
       if(!preview){skipped++;continue;}
       const title=document.querySelector('.reader-report').dataset.sectionTitle;
       const heading=[...document.querySelectorAll('.research-details .markdown>h2')].find(e=>e.textContent===title);
-      const original=[];for(let n=heading.nextElementSibling;n&&n.tagName!=='H2';n=n.nextElementSibling)if(!n.classList.contains('reader-return'))original.push(n);
+      const original=[];for(let n=heading.nextElementSibling;n&&n.tagName!=='H2';n=n.nextElementSibling)if(!n.matches('.reader-return,.reader-copy'))original.push(n);
       const normalized=node=>node.textContent.replace(/↑ 回到閱讀導覽/g,'');
       if(preview.children.length!==original.length||[...preview.children].some((n,i)=>normalized(n)!==normalized(original[i])))throw Error('Incomplete section '+item.id);
       if(preview.querySelector('[id]'))throw Error('Duplicate ID '+item.id);

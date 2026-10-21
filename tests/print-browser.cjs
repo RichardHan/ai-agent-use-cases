@@ -53,7 +53,7 @@ const normalize=s=>s.normalize('NFKC').replace(/[\s\u200b\uFEFF]/gu,'');
  }
  const original=await page.locator('.research-details').evaluate(e=>{
   const walker=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);const text=[];let node;
-  while(node=walker.nextNode())if(node.textContent.trim()&&!node.parentElement.closest('button,summary'))text.push(node.textContent.trim());
+  while(node=walker.nextNode())if(node.textContent.trim()&&!node.parentElement.closest('button,summary,.reader-copy'))text.push(node.textContent.trim());
   return {text,urls:[...e.querySelectorAll('a[href^="http"]')].map(a=>a.href)};
  });
  if(engine==='chromium'){

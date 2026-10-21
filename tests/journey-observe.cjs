@@ -1,0 +1,21 @@
+'use strict';
+const {chromium}=require('playwright'),fs=require('node:fs');
+const out='qa-artifacts/before';fs.mkdirSync(out,{recursive:true});
+(async()=>{const browser=await chromium.launch();const report=[];
+try{for(const width of [1440,390]){
+const page=await browser.newPage({viewport:{width,height:width===1440?1000:844}});const row={width,errors:[]};report.push(row);page.on('pageerror',e=>row.errors.push(e.message));
+await page.goto('https://richardhan.github.io/ai-agent-use-cases/');await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
+await page.screenshot({path:`${out}/home-${width}.png`});
+await page.locator('[data-search-entry]').first().click();await page.locator('#query').fill('旅遊');await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#scenario').selectOption('生活');await page.locator('#search-submit').click();
+row.results=await page.locator('#results-count').innerText();await page.screenshot({path:`${out}/results-${width}.png`});
+await page.locator('#results .card-bottom button').first().click();await page.screenshot({path:`${out}/detail-${width}.png`});
+row.id=await page.locator('#detail-toolbar-id').innerText();row.title=await page.locator('#detail-title').innerText();
+await page.locator('.reader-method-shortcut').click();await page.screenshot({path:`${out}/method-${width}.png`});
+row.method=await page.evaluate(()=>({focus:document.activeElement.textContent,toolbar:document.querySelector('.detail-toolbar').innerText,scroll:document.querySelector('#detail').scrollTop,returnButtons:[...document.querySelectorAll('.reader-return')].map(e=>({height:e.getBoundingClientRect().height,font:getComputedStyle(e).fontSize})),headings:[...document.querySelectorAll('.markdown h2,.markdown h3')].map(e=>e.textContent)}));
+await page.locator('.reader-return').first().click();await page.screenshot({path:`${out}/navigation-${width}.png`});
+await page.locator('.reader-report-open').last().click();await page.screenshot({path:`${out}/source-${width}.png`});
+const link=page.locator('.research-details .markdown a').first();row.source=await link.getAttribute('href');const popupPromise=page.waitForEvent('popup');await link.click();const popup=await popupPromise;await popup.waitForLoadState('domcontentloaded').catch(()=>{});row.sourceOpened=popup.url();await popup.close();
+await page.goBack();row.closedOnBack=await page.locator('#detail').evaluate(e=>!e.open);row.restored=await page.locator('#query').inputValue();
+await page.locator('#query').fill('no-match-journey-021');row.empty=await page.locator('#empty').isVisible();await page.screenshot({path:`${out}/empty-${width}.png`});await page.close();
+fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));
+}}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1});

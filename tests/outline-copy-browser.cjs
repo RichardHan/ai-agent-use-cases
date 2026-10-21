@@ -43,6 +43,7 @@ async function prompt(page,index){
  assert.equal(await manual.evaluate(e=>parseFloat(getComputedStyle(e).fontSize)),16);
  const editingID=await page.locator('#detail-toolbar-id').innerText();await page.keyboard.press('ArrowLeft');await page.keyboard.press('ArrowRight');assert.equal(await page.locator('#detail-toolbar-id').innerText(),editingID);
  await page.screenshot({path:`${out}/manual-${engine}-${width}.png`});
+ await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:undefined}));await copy.click();await manual.waitFor({state:'visible'});assert.equal(await manual.inputValue(),expected);
  row.audits.push((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id));assert.deepEqual(row.audits.at(-1),[]);
  await page.emulateMedia({media:'print'});assert.equal(await controls.evaluate(e=>getComputedStyle(e).display),'none');await page.emulateMedia({media:'screen'});
  assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth+1));

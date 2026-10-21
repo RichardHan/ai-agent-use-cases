@@ -26,3 +26,9 @@ test('nested subsections stay with their parent and peer subsections end the cop
  assert(sections[0].copyText.includes('### 限制\nstop'));
  assert.equal(sections[1].copyText,'### 可貼指令（補充）\nsecond');
 });
+
+test('deeper Markdown headings keep their restrictions inside the copied chapter',()=>{
+ const sections=promptSections('# Case\n### 可貼指令（未測）\n請先核對\n#### 必須保留的限制\n不得送出\n##### 細節\n不得付款\n### 來源\nsource');
+ assert.equal(sections[0].copyText,'### 可貼指令（未測）\n請先核對\n#### 必須保留的限制\n不得送出\n##### 細節\n不得付款');
+ assert.equal(sections[1].copyText,'#### 必須保留的限制\n不得送出\n##### 細節\n不得付款');
+});

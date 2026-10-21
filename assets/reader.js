@@ -118,7 +118,7 @@
       if(/^```/.test(lines[i])){code=!code;continue;}
       if(code)continue;
       const match=lines[i].match(/^(#{2,6})\s+(.+)/);
-      if(match)headings.push({start:i,level:match[1].length===2?2:3,title:match[2]});
+      if(match)headings.push({start:i,level:match[1].length,title:match[2]});
     }
     return headings.map((heading,index)=>{
       const next=headings.slice(index+1).find(other=>other.level<=heading.level);

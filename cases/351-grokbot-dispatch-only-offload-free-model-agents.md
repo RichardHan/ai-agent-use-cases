@@ -5,11 +5,11 @@
 - 網站標題：Grok Bot 額度燒太快？讓它只負責拆工作和檢查，實際執行交給雲端電腦上的免費模型，搞不定再換便宜的付費模型
 - 一句話用途：中文作者分享的省額度做法：在 Grok Bot 的雲端電腦裝 OpenCode 接免費模型、另備 Pi Agent＋DeepSeek 當付費保底；工作先丟免費模型，做不好再降級到 DeepSeek，Grok Bot 自己只做調度、拆解、檢查和總結。作者自述兩套都跑通、Grok Bot 本身用量大幅下降；本庫未重現。
 - 核心目標：把「想用 Bot 做很多事」和「每週額度有限」的矛盾，改成分層派工：便宜的執行層做重活，Grok Bot 只花額度在判斷與驗收。
-- 工具：Grok Bot（雲端電腦、調度）／OpenCode（作者測 DeepSeek V4.1 Flash Free 等免費模型）／Pi Agent＋DeepSeek（deepseek-v4-flash、複雜任務 deepseek-v4-pro）；來源B另加 webhook 觸發的 routine 與開源腳本 grokbot-local-agent（MIT）
+- 工具：Grok Bot（雲端電腦、調度）／OpenCode（作者測 DeepSeek V4.1 Flash Free 等免費模型）／Pi Agent＋DeepSeek（deepseek-v4-flash、複雜任務 deepseek-v4-pro）；來源B另加 webhook 觸發的 routine 與開源腳本 grokbot-local-agent（MIT）；來源C為 Claude Code CLI／Codex CLI／腳本＋webhook 回報與每日 routine 稽核
 - 分類／標籤：多代理派工／用量分層／外部代理保底
 - 目標使用者：已經常碰到 Grok Bot 每週額度上限、又不想升級方案，且能自己管理外部模型帳號與金鑰的進階使用者
-- 首次收錄／最近查證：2026-10-19（台灣時間）
-- 證據狀態：`author-demo`（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；兩者都沒有用量前後截圖或數字。
+- 首次收錄／最近查證：2026-10-19／2026-10-21 11:47（台灣時間，只核來源C）
+- 證據狀態：`author-demo`（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；三者都沒有用量前後截圖或數字。
 - 是否獨立重現：否
 
 ## 輸入與預期輸出
@@ -40,6 +40,20 @@
 - 倉庫：[robbin/grokbot-local-agent](https://github.com/robbin/grokbot-local-agent)，MIT，建立於 2026-10-18 08:23 UTC（台灣時間 16:23），最近推送 2026-10-19 09:03 UTC（台灣時間 17:03）；README 已讀，未安裝。README 寫明：這裡的「本地」指 Bot 自己的 Linux 雲端電腦，不是使用者的 Mac；`pi-task` 把每次呼叫包成有編號的工作，檔案放在 `~/.pi/tasks/<ID>/`，完成時只送出 `{source, id, owner, state, exit_code}` 給 webhook；routine 叫醒 Bot 後讀檔、核對 `result.md`／git diff／測試，再回報並 `ack`；每件工作記下派工 Bot 的 ID，避免多個 Bot 回報彼此的工作；「通知只為了快，磁碟上的狀態才是準」，漏通知不要重跑。模型登入要使用者自己在互動終端完成，README 明說不要叫代理讀或複製 `~/.pi/agent/auth.json`；webhook 網址與金鑰用宿主的安全輸入機制存放。
 - 作者報告結果：自述 webhook 已開好幾個、使用順利；另提醒回應 webhook 本身也可能消耗用量。沒有用量前後數字。
 - 失敗點／缺口：README 自承這只是 Bot 電腦上的「第二雙手」，不是隔離的工作服務；不要假設雲端電腦有專屬沙盒、無限的程序存活時間或強權限隔離；長期專案可能更適合專用的雲端開發環境。與來源A相同，沒有用量比較。
+
+### 來源C：@_ketsana（X，英文）——重活交給外部 CLI、以 webhook 回報，並由主 Bot 每天稽核新 routine（2026-10-21 11:47 批次併入）
+
+- 原始網址：https://x.com/_ketsana/status/2112729510491656604 （2026-10-21 02:15 UTC，台灣時間 10:15）；英文。
+- 取得內容：以 X API 讀到全文；附圖已看，是第三方模板「dr eggbot」的介紹卡（說明它會先問幾個偏好問題、再建立品質較高的 Bot），不是用量畫面。
+- 作者寫的做法（翻譯改寫）：
+  1. 盡量把運算移出 Grok Bot，雲端電腦只當備援。
+  2. 運算與瀏覽器工作交給 Claude Code CLI、Codex CLI、腳本，或「腳本＋自選模型」「腳本＋Jev」（Jev 是作者提到的另一個工具，本庫未查證其身分）。
+  3. 讓所用 CLI 的 webhook 回到負責該流程的 Grok Bot。
+  4. 主 Bot（作者稱「幕僚長」，由 dr eggbot 模板建立）每天結束時有一個 routine 稽核當天新增的 routine，找可提效、可刪、可改之處；另每週對全部 routine 做一次效率檢查。
+  5. 自己也用慣用模型審 routine：哪些 LLM 步驟可以刪、哪些可以改成腳本、哪些機率性工作可以交給 Jev。
+- 作者報告結果：自述這樣讓 Grok Bot 的用量「多撐很久」，並說不論哪個方案額度都不算寬裕，建議讓它負責調度、把實作外包。沒有用量前後數字或截圖。
+- 失敗點／缺口：沒說明哪些工作移出、webhook 怎麼設定、外部 CLI 用的是誰的帳號與費用；「每日稽核新 routine」的輸出樣本沒有公開。
+- 合併理由：核心與來源A／B相同（Grok Bot 只調度、重活交外部代理以省額度）；新增的是「外部工具做完用 webhook 叫回 Grok Bot」與「每天／每週由主 Bot 稽核 routine」兩個做法，後者的量測面另見 [UC-066](066-agent-token-usage-self-audit.md)。不另立案、不另計數。
 
 ### 相關觀察（不另計來源）
 
@@ -84,3 +98,4 @@
 - 不同於[代理雲機長駐外部服務失敗的既有案例](314-agent-sandbox-always-on-service-failure.md)：那一頁是在代理雲機上長駐外部服務的失敗；本案是按需呼叫外部代理執行單次工作。
 - 2026-10-19首次收錄；原串於11:39（台灣）發布，前一輪列為「可下輪讀全串」的線索，本輪讀完四則後收錄。
 - 2026-10-19 17:40 批次併入來源B（@fankaishuoai／robbin/grokbot-local-agent）：同樣是「Bot 只調度、重活交給雲端電腦上的另一個代理」以省額度，差別是補上工作編號、webhook 叫醒與漏通知補報的機制；核心目標相同，不另立案。同作者另一個 agent-relay（雲端 Bot ↔ 使用者本機代理經私有 Git 交接）目標不同，另立[UC-353](353-cloud-local-agent-git-task-relay.md)。
+- 2026-10-21 11:47 批次併入來源C（@_ketsana）：同為「Grok Bot 只調度、重活外包」以省額度，補上外部 CLI 以 webhook 回報及每日／每週 routine 稽核；不另立案。

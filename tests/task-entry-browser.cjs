@@ -12,7 +12,7 @@ for(const [engine,width] of configs){const browser=await engine.launch();const l
  await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
  row.total=await page.evaluate(()=>entries.length);await page.screenshot({path:out+'/home-'+label+'.png'});
  await page.locator('.hero-search-link').click();await page.locator('#filter-options').evaluate(e=>e.open=true);
- const task=page.locator('[data-query="驗收"], [data-kind="evidence"]');row.task=await task.innerText();await task.click();
+ const task=page.locator('.chip[data-query="驗收"], .chip[data-kind="evidence"]');row.task=await task.innerText();await task.click();
  row.query=await page.locator('#query').inputValue();row.kind=await page.locator('#kind').inputValue();row.results=await page.evaluate(()=>currentFiltered.length);
  row.sample=await page.locator('#results .card h3').allTextContents();
  row.kinds=await page.locator('#results .card').evaluateAll(nodes=>nodes.map(n=>n.dataset.kind));
@@ -52,9 +52,9 @@ for(const [engine,width] of configs){const browser=await engine.launch();const l
 if(process.env.VERIFY_TASK==='1'){
  const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();
  let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
- await page.goto(base);await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#query').fill('晨報');await page.locator('[data-kind="evidence"]').click();release();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
- assert.equal(await page.locator('#kind').inputValue(),'evidence');assert.equal(await page.locator('#query').inputValue(),'晨報');assert.equal(await page.locator('[data-kind="evidence"]').getAttribute('aria-pressed'),'true');assert(await page.locator('#results .card[data-case-id="UC-008"]').count());
- await context.close();const errorContext=await browser.newContext();const errorPage=await errorContext.newPage();await errorPage.route('**/catalog.json',route=>route.abort());await errorPage.goto(base);await errorPage.locator('#error').waitFor({state:'visible'});await errorPage.locator('#filter-options').evaluate(e=>e.open=true);await errorPage.locator('[data-kind="evidence"]').click();await errorPage.unroute('**/catalog.json');await errorPage.locator('#retry').click();await errorPage.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await errorPage.locator('#kind').inputValue(),'evidence');assert.equal(await errorPage.locator('[data-kind="evidence"]').getAttribute('aria-pressed'),'true');
+ await page.goto(base);await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#query').fill('晨報');await page.locator('.chip[data-kind="evidence"]').click();release();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
+ assert.equal(await page.locator('#kind').inputValue(),'evidence');assert.equal(await page.locator('#query').inputValue(),'晨報');assert.equal(await page.locator('.chip[data-kind="evidence"]').getAttribute('aria-pressed'),'true');assert(await page.locator('#results .card[data-case-id="UC-008"]').count());
+ await context.close();const errorContext=await browser.newContext();const errorPage=await errorContext.newPage();await errorPage.route('**/catalog.json',route=>route.abort());await errorPage.goto(base);await errorPage.locator('#error').waitFor({state:'visible'});await errorPage.locator('#filter-options').evaluate(e=>e.open=true);await errorPage.locator('.chip[data-kind="evidence"]').click();await errorPage.unroute('**/catalog.json');await errorPage.locator('#retry').click();await errorPage.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await errorPage.locator('#kind').inputValue(),'evidence');assert.equal(await errorPage.locator('.chip[data-kind="evidence"]').getAttribute('aria-pressed'),'true');
  fs.writeFileSync(out+'/lifecycle.json',JSON.stringify({loadingIntentPreserved:true,catalogRetryPreserved:true}));await errorContext.close();await browser.close();
 }
 })().catch(e=>{console.error(e);process.exit(1)});

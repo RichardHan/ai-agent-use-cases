@@ -20,7 +20,7 @@
 
 ## 變更
 
-- `assets/app.js`：詳情「列印／存成 PDF」按鈕、明確說明；只供列印的案例永久連結與證據提醒。永久連結清除搜尋條件與fragment，保留base path與案例ID。已顯示完整URL的來源連結不重複加括號。
+- `assets/app.js`：詳情「列印／存成 PDF」按鈕與輔助科技補充說明；只供列印的案例永久連結與證據提醒。永久連結清除搜尋條件與fragment，保留base path與案例ID。已顯示完整URL的來源連結不重複加括號。
 - `assets/reader.js`：原生 beforeprint／afterprint 生命週期；只展開原研究，保存並還原同一節點的原開關、焦點與捲動，支援重入和連續列印。瀏覽器原生列印快捷鍵也會經過同一生命週期。
 - `assets/reader.css`：單篇白底閱讀稿，移除dialog限高與捲動裁切，隱藏背景／導覽／重複先讀區；來源網址可換行、標題避免孤留頁尾，程式區可換行。
 - `tests/print.test.cjs`：先紅後綠的取消／還原、已展開、重複列印與已離開節點測試。
@@ -47,7 +47,7 @@ Chromium：1440／390，各測UC-005、UC-313、P-003，產生實際A4 PDF。以
 
 這是模擬走查，不代表真人喜好或轉換率提升；axe結果也不等於完整無障礙認證。尚未做Lighthouse／節流效能分數，未捏造載入改善或分數。
 
-最終整合驗收：[Print reading QA 39543330276](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39543330276)，提交 `63d7d11`，全部通過。400個目錄來源逐一對應、402條目（396主要案例頁＋3經驗補充＋3待查），failedPaths為空；此為網站條目數，**不是嚴格核對合格案例數**。
+第一版完整列印驗收：[Print reading QA 39543330276](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39543330276)，提交 `63d7d11`，全部通過。400個目錄來源逐一對應、402條目（396主要案例頁＋3經驗補充＋3待查），failedPaths為空；此為網站條目數，**不是嚴格核對合格案例數**。
 
 | 引擎／尺寸 | 真正PDF | 全文文字節點 | 原文／URL缺漏 | axe |
 | --- | --- | --- | --- | --- |
@@ -68,6 +68,37 @@ Chromium：1440／390，各測UC-005、UC-313、P-003，產生實際A4 PDF。以
 | 手機print media | ![原版收合原文且背景混入](before-mobile-print.png) | ![修後原文展開且無背景](after-mobile-print.png) |
 
 [最長案例的末頁](after-pdf-last.png) · [待查提醒與完整來源](after-pending.png)。
+
+## 首屏回歸補修
+
+第一版合併 `050493b` 後，既有 [Reading anchor QA 39543769629](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39543769629) 在UC-359兩行用途的首屏門檻失敗；[Method shortcut QA 39543769655](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39543769655) 在UC-338的方法捷徑位置門檻失敗。新增列印操作與可見輔助段落增加窄螢幕標題區高度，這是本輪導致的真實回歸，不能歸為原有CI失敗。最初專用驗收沒有覆蓋這兩個幾何門檻，合併後已補修與擴充驗收。
+
+640px以下使用緊湊操作標籤：複製案例連結／列印PDF／Markdown；列印完整說明供輔助科技讀取，避免擠壓首屏。複製仍保留完整原可見名稱及aria-label；列印由目前可見span提供名字，避免Label in Name失配。axe加入wcag21a，並以getByRole的精確名稱檢查桌面／手機。
+
+專用workflow補跑既有測試，保留原斷言，不放寬首屏標準：
+
+```sh
+ROUND_URL=http://127.0.0.1:8108/ai-agent-use-cases/ node tests/round-browser.cjs
+METHOD_URL=http://127.0.0.1:8108/ai-agent-use-cases/ node tests/method-shortcut-browser.cjs
+SHARE_URL=http://127.0.0.1:8108/ai-agent-use-cases/ node tests/case-share-browser.cjs
+```
+
+前兩個讀寫流程已於 [39544107524](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39544107524) 通過；最終含名稱、分享成功／手動fallback／遲到回應的整輪於 [39544294774](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39544294774)（`cdcae60`）全通過：
+
+- print：四組，400來源／402條目完整；六真PDF原文／URL缺漏0；8次axe為0（包含wcag21a與精確可及名稱斷言）。
+- 閱讀：Chromium1440／390／320／480全部完成；長標題兩行用途、背景完成後閱讀位置、錯誤補讀、待查、重新整理／返回保留原斷言；8次axe為0。
+- 方法：Chromium1440／390／320＋Firefox／WebKit390，5組均通過；390捷徑位於643–713px，320保留完整用途且可短滑抵達；5次axe為0。
+- 分享：三引擎五組尺寸，成功／fallback／操作焦點通過；另7種遲到回應／缺Clipboard API狀態全過，真Chromium剪貼簿讀回通過；15次axe為0。
+
+以上共36次axe掃描0違規，各suite的實際覆蓋仍以腳本tags為準，不宣稱全面無障礙認證。Node139/139持續通過。獨立審查複核程式與最終圖後再合併。
+
+[閱讀完整JSON](round-verification.json) · [方法完整JSON](method-verification.json) · [分享完整JSON](sharing-verification.json)。
+
+| 320px長標題：前兩行用途可見 | 390px方法捷徑：首屏可操作 |
+| --- | --- |
+| ![長標題首屏補修](after-small-mobile.png) | ![方法首屏補修](after-method-mobile.png) |
+
+第一版發布的專用run39543769737曾因Pages部署排隊超過180秒而等待失敗；不視為已發布成功。初版Pages實際建置／部署於 [39543769295](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39543769295) 成功。補修版正式發布驗收將另記提交與run。
 
 ## 預覽與下一輪
 

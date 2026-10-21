@@ -51,8 +51,12 @@
   function selectSearchSections(sections,terms){
     const normalize=text=>text.normalize('NFKC').toLocaleLowerCase();
     const used=new Set(),matches=[];
+    // Leading tags already appear on cards. Prefer an original body section,
+    // keeping metadata as a fallback and preserving each section's real index.
+    const indices=sections.map((_,index)=>index);
+    const readingOrder=[...indices.filter(index=>!sections[index].isMetadata),...indices.filter(index=>sections[index].isMetadata)];
     for(const {term,variants} of terms){
-      for(let index=0;index<sections.length;index++){
+      for(const index of readingOrder){
         const section=sections[index],text=normalize(section.title+'\n'+section.text);
         const variant=variants.find(value=>value&&text.includes(normalize(value)));
         if(!variant)continue;
@@ -237,7 +241,7 @@
     }
     // Collect before inserting reader controls so their labels cannot become hits.
     const sourceSummary=research.querySelector('summary');
-    const sourceSections=[{title:'',text:'',target:sourceSummary,links:new Set(),passages:[]}];
+    const sourceSections=[{title:'',text:'',isMetadata:true,target:sourceSummary,links:new Set(),passages:[]}];
     for(const block of markdown.children){
       if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Set(),passages:[]});
       const section=sourceSections[sourceSections.length-1];

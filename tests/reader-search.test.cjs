@@ -29,3 +29,12 @@ test('empty, missing and metadata-only terms never invent original matches',()=>
  assert.deepEqual(selectSearchSections([{title:'資料',text:'沒有命中'}],[]),[]);
  assert.deepEqual(selectSearchSections([{title:'資料',text:'內容'}],terms('uc-999')),[]);
 });
+test('body matches take readers beyond repeated leading tags, retaining original section indices',()=>{
+ const sections=[{title:'',text:'標籤：旅遊、比價',isMetadata:true},{title:'方法',text:'比較交通與住宿'},{title:'媒體實測與限制',text:'作者無法訂旅遊；需本人核對預算。'}];
+ assert.deepEqual(selectSearchSections(sections,terms('旅遊')),[{index:2,term:'旅遊',variant:'旅遊',title:'媒體實測與限制'}]);
+});
+test('metadata-only terms still route to original metadata, while synonyms prefer a body section',()=>{
+ const sections=[{title:'',text:'頁首特有詞；薪水',isMetadata:true},{title:'限制',text:'沒有薪資計算結果。'}];
+ assert.equal(selectSearchSections(sections,terms('頁首特有詞'))[0].index,0);
+ assert.deepEqual(selectSearchSections(sections,terms('薪水',['薪水','薪資'])),[{index:1,term:'薪水',variant:'薪資',title:'限制'}]);
+});

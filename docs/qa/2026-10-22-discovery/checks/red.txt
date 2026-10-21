@@ -1,0 +1,78 @@
+✔ search route preserves a negative source section and the matched synonym (0.652583ms)
+✔ routes use section indices even when original headings repeat (0.106667ms)
+✔ literal Unicode and href matches use the same normalized variants without regex (0.083125ms)
+✔ routes are bounded, deduplicate sections and keep term order (0.07625ms)
+✔ empty, missing and metadata-only terms never invent original matches (0.053083ms)
+✖ body matches take readers beyond repeated leading tags, retaining original section indices (1.274458ms)
+✖ metadata-only terms still route to original metadata, while synonyms prefer a body section (0.986666ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46.906625
+
+✖ failing tests:
+
+test at tests/reader-search.test.cjs:32:1
+✖ body matches take readers beyond repeated leading tags, retaining original section indices (1.274458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      {
+  +     index: 0,
+  -     index: 2,
+        term: '旅遊',
+  +     title: '',
+  -     title: '媒體實測與限制',
+        variant: '旅遊'
+      }
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/ai-use-cases-20261022/tests/reader-search.test.cjs:34:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { index: 0, term: '旅遊', variant: '旅遊', title: '' } ],
+    expected: [ { index: 2, term: '旅遊', variant: '旅遊', title: '媒體實測與限制' } ],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/reader-search.test.cjs:36:1
+✖ metadata-only terms still route to original metadata, while synonyms prefer a body section (0.986666ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      {
+  +     index: 0,
+  -     index: 1,
+        term: '薪水',
+  +     title: '',
+  +     variant: '薪水'
+  -     title: '限制',
+  -     variant: '薪資'
+      }
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/ai-use-cases-20261022/tests/reader-search.test.cjs:39:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { index: 0, term: '薪水', variant: '薪水', title: '' } ],
+    expected: [ { index: 1, term: '薪水', variant: '薪資', title: '限制' } ],
+    operator: 'deepStrictEqual'
+  }

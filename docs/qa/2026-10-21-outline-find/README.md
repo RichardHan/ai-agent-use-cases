@@ -50,6 +50,6 @@ OUTLINE_ENGINE=webkit NODE_PATH=/tmp/ai-round-tools/node_modules node tests/outl
 
 已安全整合上游研究PR #74（`312bdf7`），整合後146/146與Chromium三尺寸專項通過。原工作樹未提交搜尋修改未變。本輪修改：`assets/reader.js`、`assets/reader.css`、兩份outline-find測試、一份專項workflow、SITE維護摘要與本驗收附件。
 
-[首輪雲端QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39605885690)成功；下載artifact確認Linux三引擎五配置全部完成、10次axe零違規，WebKit原生Tab亦通過。最後測試補強僅把WebKit替代驗證限定macOS並新增返回焦點斷言，[最新雲端QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39606188295)另行驗證。
+[首輪雲端QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39605885690)成功；下載artifact確認Linux三引擎五配置全部完成、10次axe零違規，WebKit原生Tab亦通過。最後測試補強僅把WebKit替代驗證限定macOS並新增返回焦點斷言，[最新雲端QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39606188295)亦成功，包含新增返回焦點斷言及Linux原生Tab要求。
 
 CLI建立PR被GitHub Enterprise Managed User存取限制拒絕；採使用者明確授權的SSH非強制推送整合至main，保留上游歷史與研究內容，不冒稱已建立PR。

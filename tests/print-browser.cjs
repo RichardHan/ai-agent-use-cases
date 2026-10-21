@@ -61,6 +61,8 @@ const normalize=s=>s.normalize('NFKC').replace(/[\s\u200b\uFEFF]/gu,'');
   if(!observe){
    assert.deepEqual(missing,[],'PDF retains every original text node');assert.deepEqual(missingURLs,[],'offline source URLs');
    assert(!text.includes(normalize('今天，想讓 AI')),'no homepage background');assert(!text.includes('回到閱讀導覽'),'no reading controls');
+   for(const control of ['← 上一則','下一則 →','關閉 ✕'])assert(!text.includes(normalize(control)),'no toolbar '+control);
+   assert(text.includes(normalize(id.startsWith('P-')?'待查線索：證據尚不足，不列成功或已完成案例。':'收錄不代表獨立重現或取得執行授權。')),'uncertainty survives PDF');
    assert.deepEqual(await page.evaluate(()=>({scroll:document.querySelector('#detail').scrollTop,open:document.querySelector('.research-details').open,focus:document.activeElement.id})),prior,'native PDF print restores disclosure, scroll and focus');
   }
  }

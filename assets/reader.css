@@ -129,6 +129,7 @@
  html,body:has(#detail[open]){height:auto!important;overflow:visible!important;background:white}
  body:has(#detail[open])>:not(#detail){display:none!important}
  #detail[open]{position:static!important;display:block!important;inset:auto!important;width:auto!important;max-width:none!important;height:auto!important;max-height:none!important;overflow:visible!important;margin:0!important;padding:0;border:0;border-radius:0;background:white;color:#111;font-size:11pt;line-height:1.65}
+ #detail>.detail-toolbar{display:none!important}
  #detail::backdrop{display:none;background:none}
  #detail-body{padding:0}
  #detail-body>:not(.detail-header-meta):not(#detail-title):not(.detail-warning):not(.reader-print-meta):not(.research-details){display:none!important}

@@ -2,6 +2,7 @@ name: Reader journey QA
 on:
   push:
     branches: [improve/reader-journey-20261021]
+    paths: ['assets/**', 'index.html', 'tests/journey*.cjs', '.github/workflows/journey-qa.yml']
   workflow_dispatch:
     inputs:
       target:

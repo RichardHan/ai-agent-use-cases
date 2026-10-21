@@ -5,6 +5,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
 const base=process.env.JOURNEY_URL||'http://127.0.0.1:8170/ai-agent-use-cases/';
 const out=process.env.JOURNEY_OUTPUT||'qa-artifacts/after';fs.mkdirSync(out,{recursive:true});
 const report={base,checks:[]};const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));
+async function loaded(page){await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert.deepEqual(await page.evaluate(()=>failedPaths),[],'all catalog sources must be loaded');}
 async function visible(page,selector){const a=await page.locator(selector).boundingBox(),b=await page.locator('.detail-toolbar').boundingBox(),d=await page.locator('#detail').boundingBox();assert(a.y>=b.y+b.height-1,'destination below toolbar');assert(a.y+a.height<=d.y+d.height+1,'destination fits dialog');}
 async function audit(page,row,state){const r=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();row.audits.push({state,violations:r.violations.map(v=>v.id)});save();assert.equal(r.violations.length,0,JSON.stringify(r.violations));}
 async function controls(page,row){
@@ -27,7 +28,7 @@ async function jumpAndReturn(page,button){
  const context=await browser.newContext({viewport:{width,height:width===1440?1000:844},reducedMotion:'reduce'}),page=await context.newPage();page.setDefaultTimeout(15000);
  const row={engine,width,audits:[],errors:[],journeys:[]};report.checks.push(row);page.on('pageerror',e=>row.errors.push(e.message));save();
  // Practical search -> method -> limits -> source -> native Back.
- const start=Date.now();await page.goto(base+'?q=旅遊&scenario=生活');await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});await page.locator('#results .card[data-case-id="UC-001"] .card-bottom button').click();await page.locator('#detail[open]').waitFor();row.readyMs=Date.now()-start;
+ const start=Date.now();await page.goto(base+'?q=旅遊&scenario=生活');await loaded(page);row.entries=await page.evaluate(()=>entries.length);await page.locator('#results .card[data-case-id="UC-001"] .card-bottom button').click();await page.locator('#detail[open]').waitFor();row.readyMs=Date.now()-start;
  await page.locator('.reader-method-shortcut').click();await page.screenshot({path:`${out}/method-${engine}-${width}.png`});
  await controls(page,row);if(process.env.JOURNEY_CHECK_ONLY){await context.close();continue;}
  await page.locator('#'+await page.evaluate(()=>document.activeElement.id)+' + .reader-return').click();
@@ -43,7 +44,7 @@ async function jumpAndReturn(page,button){
  if(engine==='chromium'&&width===1440){const next=page.waitForEvent('popup');await source.click();const popup=await next;await popup.waitForLoadState('domcontentloaded').catch(()=>{});row.sourceOpened=popup.url();assert.equal(row.sourceOpened,row.source);await popup.close();}
  await page.goBack();assert.equal(await page.locator('#detail').evaluate(e=>e.open),false);assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');row.journeys.push('search, method, limits, source, Back preserve conditions');
  // Shared long note, reload, H3 and empty recovery.
- await page.goto(base+'?q=旅遊&scenario=生活&case=UC-001');await page.waitForFunction(()=>discoveryReady);await page.reload();await page.waitForFunction(()=>discoveryReady);await page.locator('#detail[open]').waitFor();
+ await page.goto(base+'?q=旅遊&scenario=生活&case=UC-001');await loaded(page);await page.reload();await loaded(page);await page.locator('#detail[open]').waitFor();
  await page.locator('.reader-outline').evaluate(e=>e.open=true);const h3=await page.locator('.research-details .markdown h3').first().getAttribute('id');await jumpAndReturn(page,page.locator('.reader-outline-jump[aria-controls="'+h3+'"]'));
  await page.keyboard.press('Escape');await page.locator('#query').fill('journey-no-match-20261021');assert(await page.locator('#empty').isVisible());await page.locator('#edit-query').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'query');await page.locator('#query').fill('旅遊');assert(await page.locator('#results .card').count()>0);row.journeys.push('direct link, reload, H3, empty results and recovery');
  // Completing other sources must preserve the actual original-section return control.
@@ -52,7 +53,7 @@ async function jumpAndReturn(page,button){
  await late.goto(base+'?case=UC-359');await late.locator('#detail[open]').waitFor();assert.equal(await late.evaluate(()=>discoveryReady),false);
  await late.locator('.reader-method-shortcut').click();await late.keyboard.press('Tab');
  const reading=await late.evaluate(()=>{window.savedReturn=document.activeElement;return {text:savedReturn.textContent,top:savedReturn.getBoundingClientRect().top};});assert.match(reading.text,/回到閱讀導覽/);
- release();await late.waitForFunction(()=>discoveryReady);await late.evaluate(()=>new Promise((resolve,reject)=>{const d=document.querySelector('#detail');let previous=d.scrollTop,stable=0,frames=0;function tick(){const top=d.scrollTop;stable=Math.abs(top-previous)<.1?stable+1:0;previous=top;if(stable>=12)return resolve();if(++frames>120)return reject(Error('reading scroll did not settle'));requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
+ release();await loaded(late);await late.evaluate(()=>new Promise((resolve,reject)=>{const d=document.querySelector('#detail');let previous=d.scrollTop,stable=0,frames=0;function tick(){const top=d.scrollTop;stable=Math.abs(top-previous)<.1?stable+1:0;previous=top;if(stable>=12)return resolve();if(++frames>120)return reject(Error('reading scroll did not settle'));requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
  row.originalReturnDelta=await late.evaluate(top=>Math.abs(savedReturn.getBoundingClientRect().top-top),reading.top);assert(row.originalReturnDelta<=2,'original-section return stays within 2px after source completion');assert(await late.evaluate(()=>savedReturn===document.activeElement));await late.close();save();}
  // A long case with sparse/pending data retains literal headings; no fabricated outline.
  await page.evaluate(()=>{const body=document.createElement('div');body.id='fixture';body.innerHTML='<div class="plain-overview"></div><p class="detail-warning">待查</p><details class="research-details"><summary>原始研究</summary><div class="markdown"><p>尚無標準段落</p></div></details>';document.querySelector('#detail-body').replaceChildren(...body.childNodes);CaseReader.enhance(document.querySelector('#detail-body'),{kind:'pending'});});

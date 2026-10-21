@@ -1,7 +1,8 @@
 name: Print reading QA
 on:
   push:
-    branches: [improve/reader-print-20261021-v2]
+    branches: [improve/reader-print-20261021-v2, main]
+    paths: ['assets/reader.js', 'assets/reader.css', 'tests/print*', '.github/workflows/print-reading-qa.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -44,6 +45,30 @@ jobs:
           NODE_PATH: ${{ runner.temp }}/print-tools/node_modules
         run: |
           python3 -m http.server 8108 --directory "$RUNNER_TEMP/print-preview" > /tmp/print-preview.log 2>&1 &
+          node tests/print-browser.cjs
+      - name: Verify published print flow
+        if: github.ref == 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/print-tools/node_modules
+          PRINT_URL: https://richardhan.github.io/ai-agent-use-cases/
+          VERIFY_ASSETS: '1'
+          LABEL: published
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs');
+          (async()=>{
+            const paths=['assets/app.js','assets/reader.js','assets/reader.css'];
+            for(let i=0;i<60;i++){
+              const states=await Promise.all(paths.map(async path=>{
+                const r=await fetch(process.env.PRINT_URL+path+'?print='+process.env.GITHUB_SHA,{cache:'no-store'});
+                return r.ok&&await r.text()===fs.readFileSync(path,'utf8');
+              }));
+              if(states.every(Boolean))return;
+              await new Promise(resolve=>setTimeout(resolve,3000));
+            }
+            throw Error('Published print assets do not match');
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
           node tests/print-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

@@ -66,12 +66,14 @@ const normalize=s=>s.normalize('NFKC').replace(/[\s\u200b\uFEFF]/gu,'');
    assert.deepEqual(await page.evaluate(()=>({scroll:document.querySelector('#detail').scrollTop,open:document.querySelector('.research-details').open,focus:document.activeElement.id})),prior,'native PDF print restores disclosure, scroll and focus');
   }
  }
+ if(!observe)await page.evaluate(()=>dispatchEvent(new Event('beforeprint')));
  await page.emulateMedia({media:'print'});
  await page.screenshot({path:prefix+'-print.png'});
- const state=await page.evaluate(()=>({dialog:{height:document.querySelector('#detail').clientHeight,scrollHeight:document.querySelector('#detail').scrollHeight,overflow:getComputedStyle(document.querySelector('#detail')).overflowY},mainVisible:getComputedStyle(document.querySelector('main')).display!=='none',printButton:!!document.querySelector('#print-case')}));
+ const state=await page.evaluate(()=>({dialog:{height:document.querySelector('#detail').clientHeight,scrollHeight:document.querySelector('#detail').scrollHeight,overflow:getComputedStyle(document.querySelector('#detail')).overflowY},researchHeight:document.querySelector('.research-details .markdown').getBoundingClientRect().height,lastBlockHeight:document.querySelector('.research-details .markdown').lastElementChild.getBoundingClientRect().height,mainVisible:getComputedStyle(document.querySelector('main')).display!=='none',printButton:!!document.querySelector('#print-case')}));
  report.checks.push({id,state});save();
- if(!observe){assert(state.printButton);assert(!state.mainVisible);assert(state.dialog.scrollHeight<=state.dialog.height+2,'no clipping');}
+ if(!observe){assert(state.printButton);assert(state.researchHeight>0);assert(state.lastBlockHeight>0,'last original block is rendered');assert(!state.mainVisible);assert(state.dialog.scrollHeight<=state.dialog.height+2,'no clipping');}
  await page.emulateMedia({media:'screen'});
+ if(!observe)await page.evaluate(()=>dispatchEvent(new Event('afterprint')));
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();report.checks.push({id,axe:axe.violations.map(v=>v.id)});save();assert.equal(axe.violations.length,0);
  if(!observe){
   // A second cycle with an already expanded original must preserve the reader's choice.

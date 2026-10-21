@@ -303,7 +303,33 @@
     nav.append(full);
     evidence.after(nav);
   }
-  const api={selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
+  // A native print/cancel cycle must not change the reader's disclosure or place.
+  function createPrintSession(dialog){
+    let saved=null;
+    return {
+      before(){
+        if(saved||!dialog.open)return;
+        saved={scroll:dialog.scrollTop,focus:dialog.ownerDocument.activeElement,
+          details:[...dialog.querySelectorAll('.research-details')].map(node=>({node,open:node.open}))};
+        for(const {node} of saved.details)node.open=true;
+      },
+      after(){
+        if(!saved)return;
+        const previous=saved;saved=null;
+        for(const {node,open} of previous.details)if(node.isConnected)node.open=open;
+        if(dialog.open){
+          dialog.scrollTop=previous.scroll;
+          if(previous.focus?.isConnected)previous.focus.focus({preventScroll:true});
+        }
+      }
+    };
+  }
+  if(root.document){
+    const session=createPrintSession(root.document.querySelector('#detail'));
+    root.addEventListener('beforeprint',()=>session.before());
+    root.addEventListener('afterprint',()=>session.after());
+  }
+  const api={createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

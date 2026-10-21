@@ -13,6 +13,14 @@
 .reader-outline li{padding:3px 0}
 .reader-outline-jump{display:block;width:100%;min-height:44px;border:0;padding:9px 8px;text-align:left;font-size:14px;line-height:1.8;border-radius:4px;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
 .reader-subsection{margin-left:14px}
+.reader-outline-finder{margin:8px 0 14px;padding:14px;background:#f5f7ef;border-radius:6px}
+.reader-outline-finder label{display:block;font-size:14px;font-weight:600;color:var(--green);margin-bottom:8px}
+.reader-outline-input{display:flex;gap:8px}
+.reader-outline-input input{min-width:0;width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:5px;background:var(--white);color:var(--ink);font:inherit;font-size:16px}
+.reader-outline-clear{flex-shrink:0;min-height:44px;padding:8px 12px;font-size:14px}
+.reader-outline-hint,.reader-outline-status{font-size:13px;line-height:1.8;margin:8px 0 0;color:var(--muted)}
+.reader-outline-status{color:var(--green)}
+.reader-outline-input input:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 .reader-evidence{background:#f1f6ec}
 .reader-evidence ul{padding-left:20px;margin:8px 0}
 .reader-evidence li,.reader-evidence>p{font-size:13px;line-height:1.9;margin:6px 0}

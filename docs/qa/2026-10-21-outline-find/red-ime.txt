@@ -1,0 +1,14 @@
+AssertionError [ERR_ASSERTION]: IME state is not a navigation action
+
+true !== false
+
+    at /private/tmp/ai-website-round-20261021/tests/outline-find-browser.cjs:32:10
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:479:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: true,
+  expected: false,
+  operator: 'strictEqual'
+}

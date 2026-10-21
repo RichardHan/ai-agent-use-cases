@@ -1,0 +1,8 @@
+AssertionError [ERR_ASSERTION]: false == true
+    at /private/tmp/ai-website-round-20261021/tests/reading-flow-browser.cjs:100:37 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '=='
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      {
+        "state": "long outline",
+        "violations": []
+      },
+      {
+        "state": "filtered outline",
+        "violations": []
+      }
+    ],
+    "sections": 34,
+    "nativeTabToReturn": true,
+    "repeatedMatches": 3,
+    "completed": true
+  }
+]

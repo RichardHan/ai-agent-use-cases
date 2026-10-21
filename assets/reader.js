@@ -110,6 +110,12 @@
     return sections.flatMap((section,index)=>
       /^(?:可複製提示詞|可貼指令)(?:[（(：:\s]|$)/.test(section.title)&&section.text.trim()?[index]:[]);
   }
+  // Search only original titles, preserving order, duplicates and qualifications.
+  function findOutlineSections(titles,query){
+    const normalize=text=>text.normalize('NFKC').toLocaleLowerCase();
+    const words=normalize(query).trim().split(/\s+/).filter(Boolean);
+    return titles.flatMap((title,index)=>words.every(word=>normalize(title).includes(word))?[index]:[]);
+  }
   // Mirror heading/fence boundaries of the existing renderer, copying source
   // Markdown so lists, code indentation and link destinations remain intact.
   function promptSections(markdown){
@@ -318,6 +324,7 @@
       heading.id=`reader-section-${index}`;
       heading.tabIndex=-1;
       const li=make('li',heading.tagName==='H3'?'reader-subsection':'');
+      li.value=index+1;
       li.append(jumpButton(index,'reader-outline-jump'));
       list.append(li);
       const back=make('button','reader-return','↑ 回到閱讀導覽');
@@ -355,6 +362,39 @@
       }
     });
     full.append(list);
+    if(headings.length>=12){
+      const finder=make('div','reader-outline-finder');
+      const label=make('label','','依標題找段落');label.htmlFor='reader-outline-query';
+      const input=make('input');input.type='search';input.id='reader-outline-query';
+      input.placeholder='例如：補充、限制、提示詞';input.autocomplete='off';
+      input.setAttribute('aria-describedby','reader-outline-hint reader-outline-status');
+      const clear=make('button','reader-outline-clear','清空');clear.type='button';
+      clear.setAttribute('aria-label','清空段落標題搜尋');
+      const controls=make('div','reader-outline-input');controls.append(input,clear);
+      const hint=make('p','reader-outline-hint','只找原文段落標題；多個字詞以空格分開。按 Enter 前往第一個符合段落。');
+      hint.id='reader-outline-hint';
+      const status=make('p','reader-outline-status');status.id='reader-outline-status';
+      status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.setAttribute('aria-atomic','true');
+      let matches=[],composing=false;
+      const update=()=>{
+        matches=findOutlineSections(titles,input.value);
+        const visible=new Set(matches);
+        [...list.children].forEach((row,index)=>{row.hidden=!visible.has(index);});
+        status.textContent=!input.value.trim()?`全部 ${titles.length} 個段落`:
+          matches.length?`找到 ${matches.length} / ${titles.length} 個段落`:
+          '沒有符合的段落標題。清空可查看全部段落；這裡不搜尋正文。';
+      };
+      input.addEventListener('input',update);
+      input.addEventListener('compositionstart',()=>{composing=true;});
+      input.addEventListener('compositionend',()=>{composing=false;});
+      input.addEventListener('keydown',event=>{
+        if(event.key==='Enter'&&!event.isComposing&&!composing&&event.keyCode!==229){
+          event.preventDefault();if(matches.length)jump(matches[0]);
+        }
+      });
+      clear.addEventListener('click',()=>{input.value='';update();input.focus({preventScroll:true});});
+      update();finder.append(label,controls,hint,status);list.before(finder);
+    }
     nav.append(full);
     evidence.after(nav);
   }
@@ -384,7 +424,7 @@
     root.addEventListener('beforeprint',()=>session.before());
     root.addEventListener('afterprint',()=>session.after());
   }
-  const api={promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
+  const api={findOutlineSections,promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

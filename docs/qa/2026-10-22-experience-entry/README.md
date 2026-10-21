@@ -39,7 +39,7 @@
 
 基準兩次axe掃描皆0違規、pageerror空；這不是完整WCAG認證。外部來源實開新頁並核對網址，部分外站轉到防護挑戰頁，不能聲稱外站內容皆可讀。保存的report移除防護query並縮短結果標題清單，完整原artifact留在Actions。
 
-未驗證真人喜好、留存、轉換率、實體手機或完整輔具／WCAG認證。沒有Lighthouse或載入加速分數。下一輪最值得做：以真實任務及案例標題／用途檢查其他常見入口的語意，避免用「每日」「排程」等通用段落用詞代替明確目的。
+未驗證真人喜好、留存、轉換率、實體手機或完整輔具／WCAG認證。沒有Lighthouse或載入加速分數。下一輪最值得做：將正式站QA排在Pages部署完成後並合併重複工作，減少發布排隊與驗收讀到舊版的風險。其他任務入口的語意可接續改善。
 
 兩次中間雲端驗收 [39658649331](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39658649331)／[39658855240](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39658855240) 的單元、語法與build成功，但browser因測試selector同時抓到按鈕與結果卡片而失敗；已限縮`.chip`，未視為產品既有失敗或成功。取消舊run的API請求回403（需admin），沒有改帳號或憑證。
 
@@ -59,3 +59,27 @@ Task配置為Chromium1440／390／320、Firefox390、WebKit390。五組皆3／41
 以上不是真人使用研究，未宣稱留存／轉換率改善。已目視1440／390／320修改後圖，未見水平溢出、遮擋或不可讀文字；[320補充圖](after/task-320.png)。新增說明讓窄螢幕篩選區稍長，沿用可折疊篩選；不為縮短版面隱藏必要說明。
 
 最終獨立目視審查通過：1440／390／320層級、按鈕狀態及說明清楚，無重疊或明顯對比退化；手機增加少量高度可接受。已確認最終測試使用exact button===activeElement，外站等待上限10秒。審查者未修改檔案。
+
+已正常merge＋SSH push至main，merge `d02c3cc`。整合最新`db21987`，保留期間四筆研究提交；整合後151/151、全JS語法、diff及靜態preview再次通過。原工作目錄未提交修改未觸動，無reset或強推。
+
+加嚴精確焦點及外站10秒上限的最終task預覽`d2e5bb8`在[39660583314](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39660583314)五組通過，15次axe皆0，所有來源載入等待均未逾時；[精確版報告](checks/final-task-report.json)與[lifecycle](checks/final-lifecycle.json)。此處僅指已完成的task步驟，整個workflow其餘回歸狀態另記。
+
+效能觀測來自雲端本地靜態server的reader回歸：5配置DOMContentLoaded42–97ms、load51–173ms（[原始時間](checks/reader-timings.json)）。不代表正式網路、全文可搜尋時間或速度提升，沒有Lighthouse分數。
+
+Pages `39661023948` build已成功、deploy排隊時，main同時啟動約30個既有QA工作；HTTP核對仍是舊版。沒有把已push當已發布，也沒有任意取消協作者工作。
+
+最終精確版完整預覽[39660583314](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39660583314)已全數成功，包含task、discovery及reader；產品未再修改。main其他既有QA未全綠，[實際快照](checks/main-ci-snapshot.json)保留狀態。已查五項失敗：Category finding、Home search entry、Search context、Related reading均在等待正式資產匹配時逾時；Method shortcut核對的是未變動reader資產，之後等待結果卡片逾時，內部根因尚未確證，未概稱都是網路問題。
+
+協作者其後新增`1585897`來源研究紀錄，產品檔未變；GitHub取消舊Pages`39661023948`，改排包含本輪merge的新部署`39661844681`。未將被取代取消視為成功。
+
+[Pages39661844681](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39661844681) build／deploy成功，版本`1585897`包含本輪merge，協作者來源研究完整保留。HTTP實取`index.html`與`assets/app.js`皆200、逐字匹配本輪產品；正式雲端走查為[39662624466](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39662624466)，checkout同版本。
+
+## 正式發布驗收完成
+
+[正式驗收39662624466](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39662624466)全數成功：checkout `1585897`，公開index/app逐字匹配；151/151單元、語法、preview與原版失敗重現亦通過。正式站Chromium1440／390／320、Firefox390、WebKit390五組皆413條目、3筆evidence結果、pageerror空、15次axe皆0違規；精確返回按鈕焦點、Space／Enter、下拉／條件標籤／clear-facets、晨報＋工作＋排序保留、分享重整、旅遊直鏈、空結果、載入前選取與catalog失敗重試均通過。來源新頁載入未逾時，但未驗證外站內文或案例成效。
+
+已目視正式[桌面](published/task-1440.png)及[手機](published/task-390.png)，與預覽功能及品牌一致。正式[完整流程報告](published/report.json)、[載入／重試](published/lifecycle.json)、[單元](checks/published-unit.tap)可查；更多截圖留在上述Actions artifact。未聲稱全repo歷史CI轉綠、完整WCAG認證或真人轉換成效。
+
+可直接試用：[經驗與踩坑](https://richardhan.github.io/ai-agent-use-cases/?kind=evidence#explore)；[保留晨報問題與工作情境](https://richardhan.github.io/ai-agent-use-cases/?q=晨報&scenario=工作&kind=evidence&sort=reviewed#explore)。
+
+最後提交只新增維護紀錄、報告及截圖，沒有再動產品。原目錄仍為原分支與原兩個未提交檔案。達成本輪驗收即停止。

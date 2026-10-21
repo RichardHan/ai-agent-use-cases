@@ -53,3 +53,11 @@ OUTLINE_ENGINE=webkit NODE_PATH=/tmp/ai-round-tools/node_modules node tests/outl
 [首輪雲端QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39605885690)成功；下載artifact確認Linux三引擎五配置全部完成、10次axe零違規，WebKit原生Tab亦通過。最後測試補強僅把WebKit替代驗證限定macOS並新增返回焦點斷言，[最新雲端QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39606188295)亦成功，包含新增返回焦點斷言及Linux原生Tab要求。
 
 CLI建立PR被GitHub Enterprise Managed User存取限制拒絕；採使用者明確授權的SSH非強制推送整合至main，保留上游歷史與研究內容，不冒稱已建立PR。
+
+### 正式站驗收完成與仍紅的廣域檢查
+
+本輪整合提交 `4379277` 已非強制推送至main；[正式Pages建置與部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39606557171)成功。[main專項QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39606558615)成功。正式站reader.js與reader.css逐byte等於checkout；Chromium1440/390/320的完整三情境通過、6次axe零違規，見[正式站報告](published.json)、[正式手機截圖](published-mobile.png)。[載入核對](published-corpus.json)：413筆網站總條目、failedPaths空、詳情開啟且34個目錄段落；這不是嚴格合格案例數。
+
+仍有廣域CI失敗，不宣稱全部綠燈：[Reader controls](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39606558609)正式站詳情30秒逾時；[Reader context](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39606558537)正式首頁明確回HTTP429；[Evidence round](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39606558683)正式站詳情10秒逾時，該雲端逾時根因未確認。CLI重跑被GitHub拒絕（須repo admin），沒有更動權限。直接重跑相同reader-controls腳本，在Chromium四尺寸與Firefox390共5配置通過、5次axe零違規，見[部分報告](published-controls-partial.json)；WebKit首頁收到GitHub Pages『Rate limit exceeded』頁，沒有JS環境，故其餘正式站廣域檢查無法完成。Reader-context也在後續首頁導覽失去JS環境而中止，不能當通過。未公開限流畫面上的IP資訊。
+
+為避免再增加負載已停止額外正式站請求，未取消協作者工作、未放寬產品斷言、未把429說成已修復。所有本輪產品驗收已在限流前通過，廣域失敗與後續限制單獨保留。下一輪最高優先改為：集中、節流並在Pages部署完成後執行正式站驗收，避免多個workflow並行重複抓取全庫；長篇補充版本層級為後續產品題目。

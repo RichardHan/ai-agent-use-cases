@@ -41,3 +41,11 @@
 
 - [原作者文章](https://www.blackopscenter.com/blog/portable-skills)：已讀公開全文及日期 metadata；未讀私人 session／後台。
 - [Grok Bot 技能、routine 與自動化](https://docs.x.ai/grok-bot/skills-routines-and-automations)：官方一般限制，不是 BlackOps 實測證明。
+
+## 2026-10-22補充：安裝成功不等於技能放在代理會讀的位置
+
+Sergio Sisternes 的 [APM問題單3083](https://github.com/microsoft/apm/issues/3083)（英文，2026-09-26）指出：裝到Cursor／Grok Build目錄，不代表Grok Bot可發現技能。[PR3106](https://github.com/microsoft/apm/pull/3106)於2026-10-12合併，新增須明確選取的grok-bot目標及專案／使用者範圍路由；頁面顯示23項檢查通過。這支持部署路徑修正，不證明真實Bot載入、工具權限或寫入核准已驗收。
+
+本庫只讀公開問題單、PR及測試說明；未安裝或執行。這是UC-208技能移植前置層的補充，不另計案例。[官方技能文件](https://docs.x.ai/grok-bot/skills-routines-and-automations)提醒技能仍依賴相關連接與登入，不能用安裝器成功取代實際驗收。
+
+可貼指令（AI構想／未實測）：只比較我提供的合成目錄清單、技能描述與權限表。分開判定套件已下載、檔案放對位置、代理可發現、工具已綁定及核准停點有效；每層缺證就標未驗。不得安裝、改路徑、連帳戶或執行技能。實作前另核版本、來源信任、授權及費用，不將第三方安裝工具當Grok Bot官方支援。

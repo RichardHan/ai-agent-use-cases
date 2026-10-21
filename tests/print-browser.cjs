@@ -15,6 +15,10 @@ const normalize=s=>s.normalize('NFKC').replace(/[\s\u200b\uFEFF]/gu,'');
  const report={engine,width,errors:[],checks:[]};reports.push(report);save();page.on('pageerror',e=>{report.errors.push(e.message);save();});
  await page.goto(base,{waitUntil:'networkidle'});
  await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
+ const catalog=await(await page.request.get(base+'catalog.json')).json();
+ const corpus=await page.evaluate(()=>({failedPaths,paths:[...new Set(entries.map(e=>e.path))].sort(),entries:entries.length}));
+ assert.deepEqual(corpus.failedPaths,[],'acceptance requires a complete catalog');
+ assert.deepEqual(corpus.paths,[...catalog.files].sort(),'every catalog source is present');report.corpus=corpus;
  report.entries=await page.locator('#case-count').innerText();report.results=await page.locator('#results-count').innerText();save();
  if(process.env.VERIFY_ASSETS)for(const path of ['assets/app.js','assets/reader.js','assets/reader.css'])assert.equal(await(await page.request.get(base+path)).text(),fs.readFileSync(path,'utf8'),'published '+path);
  await page.screenshot({path:`qa-artifacts/${label}-home-${engine}-${width}.png`});
@@ -29,6 +33,7 @@ const normalize=s=>s.normalize('NFKC').replace(/[\s\u200b\uFEFF]/gu,'');
  for(const id of !observe&&engine==='chromium'?['UC-005','UC-313','P-003']:['UC-005']){
  await page.goto(base+'?case='+id,{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
  await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
+ assert.deepEqual(await page.evaluate(()=>failedPaths),[],'direct-link corpus is complete');
  const prefix=`qa-artifacts/${label}-${engine}-${width}-${id}`;
  await page.screenshot({path:prefix+'-screen.png'});
  if(id==='UC-005'){

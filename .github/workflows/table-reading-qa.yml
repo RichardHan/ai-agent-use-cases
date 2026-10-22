@@ -1,7 +1,7 @@
 name: Table reading round QA
 on:
   push:
-    branches: [improve/reading-access-20261023]
+    branches: [improve/reading-access-20261023, verify/table-reading-20261023]
   workflow_dispatch:
     inputs:
       target:
@@ -53,7 +53,7 @@ jobs:
       - name: Complete browser journeys
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
-          QA_TARGET: ${{ inputs.target || 'preview' }}
+          QA_TARGET: ${{ inputs.target || (github.ref == 'refs/heads/verify/table-reading-20261023' && 'published') || 'preview' }}
         run: |
           python3 -m http.server 8163 --directory "$RUNNER_TEMP/preview" > /tmp/table-preview.log 2>&1 &
           export SITE_URL=http://127.0.0.1:8163/ai-agent-use-cases/
@@ -67,7 +67,7 @@ jobs:
           chown -R pwuser:pwuser qa-artifacts
           runuser -u pwuser -- node tests/table-reading-browser.cjs
       - name: Existing discovery and reader regressions
-        if: inputs.target != 'published'
+        if: inputs.target != 'published' && github.ref != 'refs/heads/verify/table-reading-20261023'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           READER_ENGINE: chromium

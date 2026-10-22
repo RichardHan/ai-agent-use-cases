@@ -1,6 +1,6 @@
 # 原文比較表：保留欄位關係，接回搜尋與列印
 
-狀態：預覽驗收及獨立審查完成，正式發布與驗收待補。
+狀態：已合併、部署並完成正式驗收，本輪完成。
 
 ## 問題與兩案
 
@@ -23,8 +23,8 @@
 
 | 畫面 | 修改前 | 修改後 |
 | --- | --- | --- |
-| 桌面1440 | [整段pipe文字](before/table-1440.png) | [保留原表頭四欄](after/table-chromium-1440.png) |
-| 手機390 | [欄列混在段落](before/table-390.png) | [區域橫捲與可見焦點](after/table-chromium-390.png) |
+| 桌面1440 | [整段pipe文字](before/table-1440.png) | [正式站保留原表頭四欄](published/table-chromium-1440.png) |
+| 手機390 | [欄列混在段落](before/table-390.png) | [正式站區域橫捲與可見焦點](published/table-chromium-390.png) |
 
 [桌面首頁](before/home-1440.png)／[手機首頁](before/home-390.png)為本輪原正式站走查。本輪不改首頁外觀，沒有把隨機卡片差異當改善。
 
@@ -57,11 +57,11 @@ node tests/discovery-browser.cjs
 
 既有[discovery摘要](checks/discovery-summary.log)：Chromium1440／390／320、鍵盤／抽卡／組合篩選／分享拒絕fallback、網路失敗／retry／空目錄、loading／error／partial全部通過；[reader摘要](checks/reader-summary.log)：同三尺寸、來源／直鏈重整／返回／目錄、單檔缺項／缺可選script／copy.json降級通過。[全庫reader](checks/reader-corpus.json)為423條目／3163原章節／442頁首證據列。
 
-主線710565c的UC-017／045／067三筆研究補充已無衝突merge並保留；整合後175／176仍只同一audit失敗，語法、preview build與diff check通過。[整合結果](checks/integrated-unit.log)。上述雲端預覽是a3a8413，沒有冒稱含後續研究文字；正式站另核對。額外Tab離開表格的明確斷言只加在測試，將隨正式QA驗證，未改產品。
+主線710565c的UC-017／045／067三筆研究補充已無衝突merge並保留；整合後175／176仍只同一audit失敗，語法、preview build與diff check通過。[整合結果](checks/integrated-unit.log)。上述雲端預覽是a3a8413，沒有冒稱含後續研究文字；正式站另核對。額外Tab離開表格的明確斷言只加在測試，已隨正式QA五配置通過，未改產品。
 
 ## 獨立審查與環境
 
-主角色唯一實作／整合者，獨立角色唯讀審查與驗證。獨立24項針對單元通過；以同一輕量DOM harness比較起始5c9e0e1與首版135e815的421個Markdown來源檔，420檔輸出完全相同、唯一變動UC-400。這是來源檔層級比較，不冒稱421個網站條目或browser全庫DOM。已指出並納入左右鍵衝突與逐格搜尋定位，另要求雲端手機尺寸橫捲後的PDF／列印媒體還原檢查；最終結論「可合併，未發現需阻擋的產品問題」；正式發布及新增Tab離開斷言另驗。
+主角色唯一實作／整合者，獨立角色唯讀審查與驗證。獨立24項針對單元通過；以同一輕量DOM harness比較起始5c9e0e1與首版135e815的421個Markdown來源檔，420檔輸出完全相同、唯一變動UC-400。這是來源檔層級比較，不冒稱421個網站條目或browser全庫DOM。已指出並納入左右鍵衝突與逐格搜尋定位，另要求雲端手機尺寸橫捲後的PDF／列印媒體還原檢查；最終結論「可合併，未發現需阻擋的產品問題」；正式發布及新增Tab離開斷言亦已通過，詳見下方正式紀錄。
 
 起始5c9e0e1，無適用AGENTS.md。已讀README、SITE、歷史維護規則、近期QA、preview/catalog/Jekyll與部署workflow。隔離`/tmp/ai-website-20261023`，分支`improve/reading-access-20261023`。原工作樹`assets/app.js`與`tests/search.test.cjs`未提交修改保留，不reset、不強推；既有研究PR #79／#80、維護PR #78不擅自整合。
 
@@ -70,3 +70,17 @@ node tests/discovery-browser.cjs
 未驗證：真人留存或滿意度、真手機與輔具完整認證、完整GFM規格（對齊與複雜跳脫不宣稱全支援）。成本仍為作者自報，未獨立核帳。效能只有雲端本機靜態server導航量測：第一輪五配置DOMContentLoaded 16.6–50.0ms、load 22.1–52.0ms，非全文ready或正式網速。三資產gzip估算共增加1,370 bytes，產品無新請求。[大小估算](checks/asset-size.json)。無Lighthouse分數，不推論正式網速提升。
 
 下一輪最值得做：延續既有量測，降低首次全文載入請求成本，保留單篇早讀及部分失敗復原。
+
+## 正式發布
+
+正常merge並push至main為`ce468ba`，保留協作者額外的`b91a51a`午夜研究紀錄，未強推。[Pages39812812942](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39812812942)build／deploy／report全部成功。主角色獨立HTTP200及app.js／reader.js／reader.css逐byte一致，[實際hash](checks/published-http-assets.json)。原工作樹未提交兩檔的[雜湊保留證據](checks/original-worktree-preserved.json)。
+
+正式QA的workflow_dispatch被GitHub API拒絕403（Must have admin rights to Repository），未更改權限或要求額外登入；改以授權push觸發`verify/table-reading-20261023`，7abb0f5只調整QA觸發條件，產品三資產與main逐byte相同。這是CI觸發權限限制，不是產品測試失敗。
+
+[正式QA39812954830](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39812954830)全部成功，先核對公開三資產相同再操作。Chromium1440／390／320、Firefox390、WebKit390，全部423條目零缺項、頁面錯誤空、10次主要axe零違規；三情境、每格原文、左右鍵、Tab離開、Escape返回、右側搜尋定位、直鏈重整、空結果、長格與兩受控列印還原路徑全部通過。[正式原始報告](published/report.json)／[正式單元175／176，僅原audit21／19](checks/published-unit.tap)。預覽10次＋正式10次主要axe均0，重跑不加總為更多使用者；也不稱完整WCAG認證。
+
+已由主角色目視[正式桌面](published/table-chromium-1440.png)／[正式手機](published/table-chromium-390.png)／[320px成本焦點](published/cost-search-chromium-320.png)及[正式PDF第2頁](published/uc400-print-page2.png)，欄列清楚、焦點可見，沒有重疊或頁面橫溢。正式job沿用預覽已通過的舊discovery／reader回歸結果，該步明確skipped，未冒稱再次正式跑舊全套。
+
+可用預覽：[正式案例UC-400](https://richardhan.github.io/ai-agent-use-cases/?case=UC-400)；測試右側定位可用[搜尋6.50並直接開啟](https://richardhan.github.io/ai-agent-use-cases/?q=6.50&case=UC-400)。新增維護證據與QA觸發修正不改產品，原有audit斷言與實機／原生列印視窗限制仍保留，不宣稱main所有廣域舊CI全綠。已達本輪驗收標準，停止擴充。
+
+獨立角色已唯讀核對正式原始報告、手機畫面、Tab／列印狀態與公開資產hash，最終結論「可交付，沒有未解決的產品阻擋」。所有保存log只清除行尾空白，不改失敗或測試內容。

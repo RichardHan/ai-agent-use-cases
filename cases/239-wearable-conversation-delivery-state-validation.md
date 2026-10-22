@@ -95,3 +95,12 @@ Sid Dani（sidart10）的英文 [muse-glasses](https://github.com/sidart10/muse-
 可貼指令（本庫自行設計／未實測）：只讀我提供的合成會話事件，按request、parent message與session逐筆對帳。插入一則手機別題回覆、側執行緒回覆、completed但無答案與晚到答案，標哪些可顯示給眼鏡、哪些需隔離或報錯。將腳本測試與真機證據分欄，核准卡只記待本人處理，不代為批准、不連裝置或啟動服務。
 
 併入UC-239的跨端會話交付驗收，不因Muse或新眼鏡另增案例。
+
+
+## 2026-10-23 06:20補充：語音入口格式轉換成功，不代表身分驗證或任務完成
+
+u/riceman2000 在[Reddit 原帖](https://www.reddit.com/r/GrokBot/comments/1wpgvhr/grok_bot_from_pebble_index_01_smart_ring/)自述正在使用 Pebble Index 01→Cloudflare Worker→Grok Bot。其 [README](https://github.com/Riceman2000/pebble-bounce/blob/main/README.md)及 [Rust 實作](https://github.com/Riceman2000/pebble-bounce/blob/main/src/lib.rs)將 multipart 轉 JSON，保留時間、轉錄及可選音訊，傳回下游狀態、不自動跟隨重新導向。只要求 Authorization 標頭存在，真正有效性由下游判定，不是已完成驗證。英文、原帖絕對日期未核；已讀公開正文、README與原碼，未執行、無送達日誌。
+
+[裝置官方文件](https://help.repebble.com/en/articles/15724406-index-advanced-features-mcp-webhook)說 webhook 是原裝置動作之外的附加動作，不表示原本行動停止。官方只核裝置格式，不替第三方橋接背書。作者稱免費額度可容納，不代表硬體與Bot訂閱零成本；聲音、轉錄會經外部服務，需限定資料及授權，金鑰不公開。本輪沒有部署或建立存取。
+
+沿用跨端交付驗收，合併本頁而非換硬體另計。本庫自設／未實測提示：只對合成 payload 列格式、時間、空值、標頭存在／有效驗證、下游受理、代理完成及原裝置平行動作。缺驗證、下游401、重新導向與重複事件各別標記，HTTP成功不當任務完成。不發送、不連裝置、不部署、不輸入真實憑證。

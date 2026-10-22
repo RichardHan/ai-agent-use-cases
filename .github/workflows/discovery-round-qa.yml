@@ -1,7 +1,8 @@
 name: Discovery improvement round QA
 on:
   push:
-    branches: [improve/actionable-discovery-20261022, verify/actionable-discovery-20261022]
+    branches: [verify/actionable-discovery-20261022]
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:

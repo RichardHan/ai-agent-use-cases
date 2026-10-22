@@ -29,10 +29,10 @@ browser	Browser labels and complete journeys	2026-10-22T19:11:47.9676255Z     8)
 browser	Browser labels and complete journeys	2026-10-22T19:11:47.9677688Z     9) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka locator('article:nth-child(54) > .tags > button:nth-child(2)')
 browser	Browser labels and complete journeys	2026-10-22T19:11:47.9679341Z     10) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka locator('article:nth-child(66) > .tags > button:nth-child(2)')
 browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680021Z     ...
-browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680135Z 
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680135Z
 browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680278Z Call log:
 browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680676Z   - waiting for getByRole('button', { name: /搜尋「每日」/ }) to be visible
-browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680954Z 
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680954Z
 browser	Browser labels and complete journeys	2026-10-22T19:11:47.9681259Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/task-labels-browser.cjs:9:118 {
 browser	Browser labels and complete journeys	2026-10-22T19:11:47.9681706Z   log: [
 browser	Browser labels and complete journeys	2026-10-22T19:11:47.9682100Z     "  - waiting for getByRole('button', { name: /搜尋「每日」/ }) to be visible"

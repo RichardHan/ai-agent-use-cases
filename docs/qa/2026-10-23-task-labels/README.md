@@ -1,6 +1,6 @@
 # 常用搜尋入口：先知道會找什麼
 
-狀態：預覽驗收進行中，尚未宣稱發布完成。
+狀態：預覽驗收及獨立審查成功，待正式發布核對。
 
 ## 問題、方案與範圍
 
@@ -19,8 +19,8 @@
 
 | 尺寸 | 修改前 | 修改後 |
 | --- | --- | --- |
-| 桌面1440 | [任務名稱與查詢不同](before/tasks-1440.png) | 待雲端驗收 |
-| 手機390 | [原入口](before/tasks-390.png) | 待雲端驗收 |
+| 桌面1440 | [任務名稱與查詢不同](before/tasks-1440.png) | [明示搜尋字詞與範圍](after/tasks-1440.png) |
+| 手機390 | [原入口](before/tasks-390.png) | [自然換行與完整說明](after/tasks-390.png) |
 
 正式預覽：https://richardhan.github.io/ai-agent-use-cases/#explore 。預覽建置需維持`/ai-agent-use-cases/`base path：
 
@@ -55,4 +55,12 @@ NODE_PATH=<cloud-tools>/node_modules node tests/task-shortcuts-browser.cjs
 
 使用OpenAI Docs skill及[官方設定說明](https://learn.chatgpt.com/docs/config-file/config-basic)；本機config為`gpt-6.1-sol / medium`，無法讀取或切換主會話runtime，無法證實帳號最高模型／推理強度。獨立角色指定工具提供的`gpt-6-astra / ultra`，也不當成runtime證明。僅使用既有訂閱工具與授權GitHub Actions，不另付費API、不購買credits。專案檔案與shell操作在授權目錄／隔離工作目錄，未操作個人GUI。
 
-未驗證真手機、輔具完整認證、真人理解或留存。未跑Lighthouse，不提供虛構分數。產品只有HTML文字改動，沒有速度改善主張。下一輪最值得做：降低首次全文請求成本，保留單篇早讀及部分失敗復原；人工任務分類另需逐案核對。
+未驗證真手機、輔具完整認證、真人理解或留存。未跑Lighthouse，不提供虛構分數。HTML由16,378增至16,483 bytes，gzip由5,554增至5,579 bytes，[大小量測](checks/html-size.json)；沒有新增產品請求，也沒有速度改善主張。下一輪最值得做：降低首次全文請求成本，保留單篇早讀及部分失敗復原；人工任務分類另需逐案核對。
+
+
+測試工具修正紀錄：[39837853148](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39837853148)明確失敗於全頁同名按鈕定位（51個結果），[原始log](checks/first-browser-failed.log)與[未完成報告](checks/first-label-report.json)保留，未計為通過。主角色將測試範圍限於入口容器，沒有刪除名稱斷言。獨立審查另外發現axe不適用隱含context的測試工具缺陷，改用明確context；未把尚未執行到的axe當作該run首個錯誤。舊catch只設exitCode可能留下browser，已改立即退出並加步驟逾時。39836838137／39836934178較早版本仍執行中，取消API403（需admin），沒有更改權限或要求額外登入；這些run不作通過證據。
+
+獨立唯讀審查以398361d與a4a1a21兩份真實parse/filter/order及原始資料，比對四查詢×七組條件×兩排序共56組，結果ID與順序完全相同；app.js逐byte相同。另跑task-shortcuts／task-entry／relevance／task-labels共14項針對測試全過，產品diff只有HTML文字，無新增請求、儲存或依賴。獨立角色已目視新版1440／390／320入口、Chromium與WebKit詳情長文，並核對原報告；最終結論「可合併，未發現產品阻擋」。正式站資產與流程另驗。
+
+
+[最終預覽39838046831](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39838046831)成功：[三尺寸標籤報告](checks/preview-labels.json)、[五配置流程](checks/preview-browser.json)、[載入復原](checks/preview-lifecycle.json)。Chromium1440／390／320、Firefox390、WebKit390，423條目無缺項、pageerror空，20次入口啟動與取消、組合篩選、詳情、直鏈重整、返回、空結果復原及loading／error／partial通過。三尺寸新入口axe3次＋五配置結果／空結果axe10次均0違規，涵蓋WCAG A／AA選定規則，非完整認證。[320px圖](after/tasks-320.png)與[手機詳情](after/detail-chromium-390.png)已由主角色目視，文字完整、無重疊與水平溢出；長標題沿用真實案例。外部Reddit來源新頁HTTP403保留，這只證明能開啟來源網址，未宣稱已讀到外部原文。

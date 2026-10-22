@@ -14,7 +14,7 @@ const observe=process.env.OBSERVE==='1',out=process.env.QA_OUT||'qa-artifacts/ta
   const audit=async name=>{const violations=(await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id);row.audits.push({name,violations});save();assert.deepEqual(violations,[]);};
   await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});row.entries=await page.evaluate(()=>entries.length);row.failed=await page.evaluate(()=>failedPaths);assert.deepEqual(row.failed,[]);
   // Stable real card for comparable screenshots, without adding or editing case data.
-  await page.evaluate(()=>{const item=entries.find(e=>e.id==='UC-001');document.getElementById('drawn-case').replaceChildren(card(item));});
+  await page.evaluate(()=>{const item=entries.find(e=>e.id==='UC-001');discoveryDeck=Discovery.createDeck([item]);drawNext();});
   await page.locator('#drawn-case').scrollIntoViewIfNeeded();await shot('inspiration');
   check(await measure('#drawn-case h3 button, #drawn-case .tag, #drawn-case .card-bottom button'));
   // 1. Search by a problem and combine a scenario, then use keyboard to read and return.

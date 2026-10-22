@@ -50,6 +50,23 @@ jobs:
             echo 'Expected original reader focus regression'; exit 1
           fi
           grep -q 'Keyboard focus must have a visible outline: #reader-outline-query' qa-artifacts/red.log
+      - name: Verify repaired focus and full journeys
+        timeout-minutes: 7
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          python3 -m http.server 8134 --directory "$RUNNER_TEMP/preview" > /tmp/focus-preview.log 2>&1 &
+          export SITE_URL=http://127.0.0.1:8134/ai-agent-use-cases/
+          if [ "${{ github.ref }}" = refs/heads/verify/search-focus-20261023 ]; then
+            export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/
+            node - <<'JS'
+          const fs=require('node:fs');
+          (async()=>{for(const file of ['index.html','assets/style.css','assets/reader.css','assets/app.js','assets/reader.js']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?focus='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);}console.log('Published product assets match checkout');})().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          fi
+          chown -R pwuser:pwuser qa-artifacts
+          QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/search-focus-browser.cjs
+          QA_OUT=qa-artifacts/regression runuser -u pwuser -- node tests/task-shortcuts-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

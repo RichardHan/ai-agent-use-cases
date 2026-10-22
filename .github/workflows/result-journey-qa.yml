@@ -22,13 +22,38 @@ jobs:
           mkdir -p /usr/local/share/fonts
           curl -fL --max-time 90 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f
-      - name: Observe published journeys
+      - name: Baseline, red and preview build
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          mkdir -p qa-artifacts
+          git worktree add --detach "$RUNNER_TEMP/baseline" 4c62054
+          python3 "$RUNNER_TEMP/baseline/scripts/preview.py" "$RUNNER_TEMP/before/ai-agent-use-cases"
+          python3 scripts/preview.py "$RUNNER_TEMP/after/ai-agent-use-cases"
+          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1 || true
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+          git diff 4c62054 --check
+      - name: Measure original card targets then reproduce failure
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          SITE_URL: http://127.0.0.1:8141/ai-agent-use-cases/
         run: |
-          mkdir -p qa-artifacts
+          python3 -m http.server 8141 --directory "$RUNNER_TEMP/before" > /tmp/card-before.log 2>&1 &
           chown -R pwuser:pwuser qa-artifacts
-          runuser -u pwuser -- node tests/discovery-round-observe.cjs
+          OBSERVE=1 QA_OUT=qa-artifacts/before runuser -u pwuser -- node tests/card-targets-browser.cjs
+          if QA_OUT=qa-artifacts/red runuser -u pwuser -- node tests/card-targets-browser.cjs > qa-artifacts/red.log 2>&1; then
+            echo 'Expected baseline target assertion failure'; exit 1
+          fi
+          node -e "const assert=require('node:assert/strict'),fs=require('node:fs');assert.match(fs.readFileSync('qa-artifacts/red.log','utf8'),/AssertionError.*44px target:/s);"
+      - name: Verify preview journeys and existing regression
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          SITE_URL: http://127.0.0.1:8140/ai-agent-use-cases/
+          REFINE_URL: http://127.0.0.1:8140/ai-agent-use-cases/
+        run: |
+          python3 -m http.server 8140 --directory "$RUNNER_TEMP/after" > /tmp/card-after.log 2>&1 &
+          QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/card-targets-browser.cjs
+          runuser -u pwuser -- node tests/card-refinement-browser.cjs > qa-artifacts/refinement.log
+          runuser -u pwuser -- node tests/inspiration-handoff-browser.cjs > qa-artifacts/inspiration.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:

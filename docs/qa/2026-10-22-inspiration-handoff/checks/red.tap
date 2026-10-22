@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: explicit mobile inspiration handoff focuses the new readable card, with bounded instant scrolling
+not ok 1 - explicit mobile inspiration handoff focuses the new readable card, with bounded instant scrolling
+  ---
+  duration_ms: 10.173792
+  type: 'test'
+  location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/inspiration-handoff.test.cjs:14:1'
+  failureType: 'testCodeFailure'
+  error: 'focus must follow the visible new card'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/inspiration-handoff.test.cjs:16:2)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: desktop inspiration handoff also reaches the card without scrolling an already visible stage
+not ok 2 - desktop inspiration handoff also reaches the card without scrolling an already visible stage
+  ---
+  duration_ms: 5.767766
+  type: 'test'
+  location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/inspiration-handoff.test.cjs:20:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+
+    + []
+    - [
+    -   'title'
+    - ]
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'title'
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/inspiration-handoff.test.cjs:22:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: empty deck focuses its explanation instead of a disabled draw button
+not ok 3 - empty deck focuses its explanation instead of a disabled draw button
+  ---
+  duration_ms: 9.160176
+  type: 'test'
+  location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/inspiration-handoff.test.cjs:24:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+
+      assert(calls.some(([target])=>target==='status'))
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/inspiration-handoff.test.cjs:26:2)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: loading or failure never moves focus or schedules a late handoff
+not ok 4 - loading or failure never moves focus or schedules a late handoff
+  ---
+  duration_ms: 7.266991
+  type: 'test'
+  location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/inspiration-handoff.test.cjs:28:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+
+    + [
+    +   [
+    +     'scroll',
+    +     {
+    +       behavior: 'instant',
+    +       block: 'start'
+    +     }
+    +   ]
+    + ]
+    - []
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0:
+      0: 'scroll'
+      1:
+        block: 'start'
+        behavior: 'instant'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/inspiration-handoff.test.cjs:29:62)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: long original titles bring the focus target into view even after a tall status
+not ok 5 - long original titles bring the focus target into view even after a tall status
+  ---
+  duration_ms: 5.199294
+  type: 'test'
+  location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/inspiration-handoff.test.cjs:32:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+
+      assert(calls.some(([target,options])=>target==='target-scroll'&&options.block==='start'&&options.behavior==='instant'))
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/inspiration-handoff.test.cjs:34:2)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 0
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 98.03813

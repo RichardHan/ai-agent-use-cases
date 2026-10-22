@@ -15,6 +15,8 @@ Repository → Settings → Pages → Build and deployment：
 
 ## 最新網站驗收
 
+2026-10-22：首頁選情境／抽卡後，鍵盤焦點直接接到可閱讀標題；Enter開啟、Escape精確返回，空卡組及長標題也可操作。核心五配置、四載入狀態與既有discovery／reader回歸已驗；原有計數斷言及舊WebKit故障分開記錄。[方案、前後截圖、驗收與獨立審查](docs/qa/2026-10-22-inspiration-handoff/README.md)。
+
 2026-10-22：原文清單保留父子層級與編號，搜尋定位指向實際子項、避免跨項拼接；原始研究與來源不改寫。[兩案、前後截圖、驗收與獨立審查](docs/qa/2026-10-22-list-reading/README.md)。
 
 2026-10-22：詳情工具列新增目前搜尋結果位置，區分載入中、部分來源與篩選外直鏈。154項單元、獨立審查、五配置正式站15次axe零違規、Pages及Reader／Website QA通過；廣域部署等待與429另記。[方案、前後截圖、測試與獨立審查](docs/qa/2026-10-22-reader-position/README.md)。

@@ -5,6 +5,8 @@ const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.READER_URL||'http://127.0.0.1:8082/ai-agent-use-cases/';
 const deployed=!!process.env.READER_DEPLOYED;
+const requestedEngine=process.env.READER_ENGINE||'';
+if(requestedEngine&&!['chromium','firefox','webkit'].includes(requestedEngine))throw Error('Unknown READER_ENGINE: '+requestedEngine);
 const audits=[],timings=[];
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function deployedVersion(page){
@@ -61,7 +63,7 @@ async function jump(page,button){
 }
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});
- for(const [engine,type] of [['chromium',chromium],['firefox',firefox],['webkit',webkit]]){
+ for(const [engine,type] of [['chromium',chromium],['firefox',firefox],['webkit',webkit]].filter(([name])=>!requestedEngine||name===requestedEngine)){
   const browser=await type.launch();
   if(!deployed)await require('./mobile-search-browser.cjs')({browser,origin,prefix:engine+'-mobile-search',sizes:[['mobile',390,844]]});
   const sizes=engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]];

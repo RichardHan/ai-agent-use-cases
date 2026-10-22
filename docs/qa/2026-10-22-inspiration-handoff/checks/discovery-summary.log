@@ -1,0 +1,8 @@
+PASS MOBILE SEARCH: 760/761px initial disclosure boundary
+PASS BROWSER desktop: guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations=0
+PASS BROWSER mobile: guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations=0
+PASS BROWSER small-mobile: guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations=0
+PASS BROWSER: clipboard permission failure exposes a manual share URL
+PASS BROWSER: network failure, retry recovery and empty catalog
+PASS SEARCH STATES: loading, error/retry, unknown scenario, partial corpus counts
+SEARCH_RECOVERY search [{"viewport":"desktop","navigationAndReadyMs":1106,"matchingBeforeScenario":3,"empty":"⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目","activeFilters":5,"keyboardRecoveryMs":29,"axeViolations":[],"passed":true},{"viewport":"mobile","navigationAndReadyMs":1110,"matchingBeforeScenario":3,"empty":"⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目","activeFilters":5,"keyboardRecoveryMs":23,"axeViolations":[],"passed":true},{"viewport":"small-mobile","navigationAndReadyMs":1109,"matchingBeforeScenario":3,"empty":"⌕\n目前沒有符合的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除使用情境「開發」 → 查看 3 筆\n修改關鍵字\n清除全部條件，顯示所有條目","activeFilters":5,"keyboardRecoveryMs":22,"axeViolations":[],"passed":true}]

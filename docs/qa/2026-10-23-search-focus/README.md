@@ -1,6 +1,6 @@
 # 搜尋焦點可辨識，也回得去欄位
 
-狀態：實作驗收中，尚未宣稱發布。
+狀態：已合併、部署並完成正式驗收，本輪完成。
 
 ## 證據與兩案
 
@@ -87,3 +87,15 @@ NODE_PATH=<cloud-tools>/node_modules SITE_URL=http://127.0.0.1:8134/ai-agent-use
 [正式首驗39864394186](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39864394186)在單元閘門失敗，未進瀏覽器，不算通過：研究b326a0b使同一固定來源計數由22變23，原預期仍19。整合原log本就顯示23，主角色只看摘要沿用22的紀錄錯誤已更正。另在無本輪產品變更的b326a0b乾淨匯出中獨立重跑audit也得到23／19，[獨立基準](checks/release-baseline-audit.tap)及[正式首驗全單元](checks/published-first-unit.tap)均保留。QA只精確辨認這一測試名稱與23／19，仍拒絕其他失敗；沒有改動原audit斷言。
 
 主線廣域舊CI亦非全綠：Website QA39864354266在Playwright1.56.1安裝階段不支援ubuntu26.04而失敗；Combined recovery39864354327在原audit23／19失敗。這些與本輪固定Noble容器的專項驗收分開記錄，不以專項成功冒稱所有CI成功。
+
+## 正式站最終驗收
+
+[正式補驗39864658112](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39864658112)全部成功：先逐byte確認公開HTML及四產品資產，再對正式URL執行正常完整腳本。Chromium1440／390／320、Firefox390、WebKit390各428條目、零缺項／頁面例外，包含新增UC-430。詳情直鏈重整、來源入口、返回原卡、組合條件、空結果mouse與Enter復原、長目錄焦點與長文字全過；loading／error／partial及重試也全過。
+
+[正式焦點原報告](published/focus-report.json)、[既有流程](published/regression.json)、[載入狀態](published/lifecycle.json)、[完整單元177／178，原audit23／19](published/unit.tap)。正式專項15次＋既有流程10次axe零違規；與預覽分開記錄，不加總為真人樣本或完整認證。
+
+主角色已目視[正式桌面目錄](published/outline-focus-chromium-1440.png)、[正式手機目錄](published/outline-focus-chromium-390.png)、[320px](published/outline-focus-chromium-320.png)及[WebKit復原](published/recovered-query-focus-webkit-390.png)，與固定基準／預覽比較，外框清楚、欄位可見，無新增重疊或頁面橫溢。
+
+可用預覽：[正式網站](https://richardhan.github.io/ai-agent-use-cases/)／[長篇UC-005](https://richardhan.github.io/ai-agent-use-cases/?case=UC-005)。原工作目錄修改完整保留；既有audit、舊runner與外部來源403、真機及完整輔具限制保留。最後提交僅QA閘門與維護證據，不改動已驗收產品。本輪達標，停止擴充。
+
+獨立角色已最後核對正式原報告與桌面／手機目錄、WebKit復原畫面，結論「可交付，沒有未解決的產品或視覺阻擋」。主線舊CI與來源403限制沒有被隱藏；無須再改產品。

@@ -140,6 +140,8 @@
   // Keep each list item's own words separate from its descendants. A match
   // must not be fabricated by concatenating the end of a parent and a child.
   function readingPassages(block){
+    if(block.tagName==='TABLE')return [...block.children].flatMap(group=>[...group.children].flatMap(row=>[...row.children].map(cell=>({node:cell,text:cell.textContent}))));
+    if(block.tagName==='DIV'&&block.className==='markdown-table')return [...block.children].flatMap(readingPassages);
     if(!/^[UO]L$/.test(block.tagName))return /^(P|PRE|BLOCKQUOTE)$/.test(block.tagName)?[{node:block,text:block.textContent}]:[];
     const passages=[];
     for(const row of block.children){
@@ -200,6 +202,11 @@
       // scrollIntoView may also scroll the inert page behind a modal.
       const toolbar=dialog.querySelector('.detail-toolbar');
       dialog.scrollTo({top:dialog.scrollTop+target.getBoundingClientRect().top-dialog.getBoundingClientRect().top-toolbar.getBoundingClientRect().height-18,behavior:'instant'});
+      const table=target.closest('.markdown-table');
+      if(table){
+        const cell=target.getBoundingClientRect(),viewport=table.getBoundingClientRect();
+        if(cell.left<viewport.left||cell.right>viewport.right)table.scrollLeft+=cell.left-viewport.left;
+      }
       target.focus({preventScroll:true});
     };
     const jump=index=>{research.open=true;moveTo(headings[index]);};
@@ -262,7 +269,7 @@
       if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Set(),passages:[]});
       const section=sourceSections[sourceSections.length-1];
       const passages=readingPassages(block);
-      section.text+='\n'+(/^[UO]L$/.test(block.tagName)?passages.map(passage=>passage.text).join('\n'):block.textContent);
+      section.text+='\n'+(/^[UO]L$/.test(block.tagName)||block.className==='markdown-table'?passages.map(passage=>passage.text).join('\n'):block.textContent);
       section.passages.push(...passages);
       for(const link of block.querySelectorAll('a')){
         const href=link.getAttribute('href')||'';

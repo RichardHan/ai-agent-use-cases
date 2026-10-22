@@ -181,3 +181,22 @@
 /* Keep original list hierarchy legible in narrow reading columns. */
 .markdown ul,.markdown ol,.reader-report-content ul,.reader-report-content ol{padding-inline-start:1.5em}
 .markdown li>ul,.markdown li>ol,.reader-report-content li>ul,.reader-report-content li>ol{margin-block:.35em}
+/* Keep source comparisons as real columns, with scrolling confined to the table. */
+.markdown-table{max-width:100%;margin:18px 0;overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--white);overscroll-behavior-x:contain}
+.markdown-table::before{content:'較寬時可左右捲動查看各欄 →';position:sticky;left:0;display:block;width:fit-content;max-width:100%;padding:8px 12px;color:var(--green);font-size:12px;line-height:1.7}
+.markdown-table:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.markdown-table table{width:100%;min-width:620px;border-collapse:collapse;font-size:14px;line-height:1.8;text-align:left}
+.markdown-table th,.markdown-table td{padding:12px;vertical-align:top;border-top:1px solid var(--line);border-right:1px solid var(--line);overflow-wrap:anywhere}
+.markdown-table th{background:#e9eee0;font-weight:650}
+.markdown-table th:last-child,.markdown-table td:last-child{border-right:0}
+.markdown-table th:first-child{width:19%}
+.markdown-table th:nth-child(2){width:17%}
+.markdown-table th:last-child{width:23%}
+@media print{
+ .markdown-table{overflow:visible;border-radius:0}
+ .markdown-table::before{display:none}
+ .markdown-table table{min-width:0;table-layout:fixed;font-size:9pt;line-height:1.6}
+ .markdown-table th,.markdown-table td{padding:6pt;color:#111;background:white;border-color:#888}
+ .markdown-table thead{display:table-header-group}
+ .markdown-table tr{break-inside:avoid}
+}

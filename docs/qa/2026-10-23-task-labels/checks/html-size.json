@@ -1,0 +1,11 @@
+{
+  "before": {
+    "bytes": 16378,
+    "gzip": 5554
+  },
+  "after": {
+    "bytes": 16483,
+    "gzip": 5579
+  },
+  "addedRequests": 0
+}

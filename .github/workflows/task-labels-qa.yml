@@ -34,6 +34,7 @@ jobs:
           git diff --check
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
       - name: Browser labels and complete journeys
+        timeout-minutes: 7
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           QA_TARGET: ${{ github.ref == 'refs/heads/verify/task-labels-20261023' && 'published' || 'preview' }}

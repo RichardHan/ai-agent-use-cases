@@ -38,9 +38,9 @@ not ok 6 - candidate duplicate detection normalizes URLs and identifies shared e
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
-    
+
     21 !== 19
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: 19

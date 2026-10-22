@@ -49,3 +49,5 @@ NODE_PATH=<cloud-tools>/node_modules node tests/inspiration-handoff-browser.cjs
 39762729052首次完成容器單元／語法／build／原版red並進入新版瀏覽；桌面前三情境走到長標題fixture時，測試硬設標題top<200px而失敗。這不是產品的必要可見性條件；改驗標題top>=0、起始至多80px在900px視窗內，並在斷言前保存幾何與截圖。沒有因此修改產品，未把失敗當作通過。
 
 39762979285的Chromium1440／390／320三情境及長標題通過（各axe0、pageerror空），Firefox尚未啟動便因容器帳戶／使用者目錄擁有者不符而退出。改讓瀏覽器測試以容器既有pwuser執行，不覆寫HOME變數，不操作本機帳號。產品仍不變。依獨立review，長標題檢查再加嚴為可容納者完整可見、超過一屏者至少起始80px可見，另加真實高於900px的受控fixture；舊discovery測試也由區塊標題可見改驗新的可操作標題焦點及可讀性。這是更新已改變的互動契約，其他抽卡、分享、返回與資料斷言保留。
+
+39763432026五配置三情境、5次axe、長標題與實際超900px標題全部通過，產品無pageerror；之後loading fixture只用程式化fill，沒有任何pointer/keydown，仍允許既有搜尋arrival於載入完成時導入。該測試停止，未執行後續discovery／reader。調整為click＋fill來代表實際使用者輸入，另保存精確前後focus；產品不變，不將此run算完整通過。

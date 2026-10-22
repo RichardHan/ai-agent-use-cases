@@ -53,12 +53,12 @@ for(const mode of ['loading','error','partial','empty']){
  if(mode==='partial')await page.route('**/cases/001-travel-checkout.md',route=>route.abort());
  if(mode==='empty')await page.route('**/catalog.json',route=>route.fulfill({json:{files:['cases/005-cloud-pr-review.md']}}));
  await page.goto(base);if(mode==='empty'){await page.waitForFunction(()=>discoveryReady);await page.locator('#guide-options [data-scenario="生活"]').click();assert(await page.locator('#draw-status').evaluate(n=>n===document.activeElement));assert(await page.locator('#draw-case').isDisabled());await page.screenshot({path:out+'/empty-guide.png'});lifecycle.push({mode,passed:true,focus:'draw-status'});await context.close();continue;}if(mode==='error')await page.locator('#error').waitFor({state:'visible'});if(mode==='partial')await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
- await page.locator('#query').fill('旅遊');await page.evaluate(()=>revealDiscovery());
+ await page.locator('#query').click();await page.locator('#query').fill('旅遊');const before=await page.evaluate(()=>document.activeElement.id);await page.evaluate(()=>revealDiscovery());
  if(mode!=='partial')assert(await page.locator('#query').evaluate(n=>n===document.activeElement));
  if(mode==='loading'){release();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert(await page.locator('#query').evaluate(n=>n===document.activeElement));}
  if(mode==='error'){await page.unroute('**/catalog.json');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');}
  if(mode==='partial'){await page.unroute('**/cases/001-travel-checkout.md');await page.locator('#retry-failed').click();await page.waitForFunction(()=>!recoveringSources&&failedPaths.length===0,null,{timeout:120000});assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');}
- lifecycle.push({mode,passed:true});await context.close();
+ lifecycle.push({mode,passed:true,before,after:await page.evaluate(()=>document.activeElement.id)});fs.writeFileSync(out+'/lifecycle.json',JSON.stringify(lifecycle,null,2));await context.close();
 }
 fs.writeFileSync(out+'/lifecycle.json',JSON.stringify(lifecycle,null,2));await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

@@ -1,6 +1,6 @@
 # 首頁靈感卡：選情境後，直接接著閱讀
 
-狀態：預覽與獨立審查完成，待正式部署驗收。
+狀態：已合併、部署並完成正式驗收；本輪完成。
 
 ## 問題、兩案與範圍
 
@@ -74,3 +74,16 @@ READER_ENGINE=webkit NODE_PATH=<cloud-tools>/node_modules node tests/reader-brow
 未解決風險：原有audit計數斷言、舊WebKit1.56的UC-005崩潰。下一輪最值得做：定位這個可重現的舊WebKit閱讀故障，先確認支援範圍與根因。
 
 整合前主線新增3095a04研究紀錄及UC-010／UC-143原文補充，正常merge無衝突，原有全部內容保留；整合後169／170仍僅同audit20／19失敗，static preview build與diff-check通過。[整合單元](checks/integrated-unit.log)。上述預覽／基準資料快照為05577e2／1693505，不冒稱與後續研究文字完全同版；正式部署會另驗實際資料。
+
+
+## 正式發布完成
+
+正常merge＋SSH push到main，合併為`3c9eb53`，沒有強推。推送前主線又新增UC-067／UC-293來源界線補充至f330e81，一併完整保留。此後協作者僅加1850研究紀錄至02f9b93，亦正常fast-forward保留；它取代取消merge本身的Pages工作，不把取消算成功。[Pages39766919638](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39766919638)在02f9b93的build／deploy／report全部成功，包含本輪產品。
+
+[正式QA39766912690](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39766912690)成功，checkout3c9eb53；使用匹配Playwright1.64.0環境，公開HTML/app.js/style.css逐字一致後才操作。[公開資產hash](checks/published-assets.json)、[主角色獨立HTTP200及逐byte核對](checks/published-http-assets.json)。這不是把Python preview當正式Jekyll。
+
+正式五配置均423條目、零缺項，三條件搜尋14筆，guide／draw焦點在可見標題，Enter／Space／Tab／Escape、來源、直鏈重整、空結果、長／超屏文字與四個生命週期全部通過。5次主要axe零違規、pageerror空。[正式報告](published/report.json)、[生命週期](published/lifecycle.json)、[正式單元169／170，僅原有20／19](checks/published-unit.tap)。本輪主要axe計preview5＋正式5共10次零違規；其他回歸另列，不把中間重跑重複加總。
+
+正式[桌面](published/guide-chromium-1440.png)／[手機](published/guide-chromium-390.png)已由主角色及獨立review目視：焦點清楚、可讀、無重疊。獨立角色最終結論「可交付，無剩餘阻擋」，沒有擴張為真人偏好或完整WCAG認證。
+
+正式網站／可直接預覽：[AI用法實驗室](https://richardhan.github.io/ai-agent-use-cases/)。正式驗收後僅補本紀錄與證據，不再改產品；既有audit斷言、舊WebKit故障及其他主線CI狀態仍照實保留，沒有宣稱整批CI全綠。

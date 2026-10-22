@@ -1,0 +1,266 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "measurements": [
+      {
+        "selector": "#drawn-case h3 button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 360,
+            "height": 38.390625,
+            "font": 24
+          },
+          {
+            "text": "生活",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "旅遊",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "比價",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 88.203125,
+            "height": 39.09375,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results .card:first-child h3 button, #results .card:first-child .tag, #results .card:first-child .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 315,
+            "height": 32.546875,
+            "font": 21
+          },
+          {
+            "text": "生活",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "旅遊",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "比價",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 69.3125,
+            "height": 36,
+            "font": 11
+          }
+        ]
+      }
+    ],
+    "audits": [],
+    "entries": 423,
+    "failed": [],
+    "tagStates": {
+      "selected": "rgb(40, 83, 68)",
+      "ordinary": "rgb(245, 247, 239)"
+    },
+    "filtered": "顯示 18 / 423 筆收錄",
+    "navigation": {
+      "domContentLoadedMs": 49,
+      "loadMs": 89.40000000000873
+    }
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "measurements": [
+      {
+        "selector": "#drawn-case h3 button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 258,
+            "height": 73.59375,
+            "font": 23
+          },
+          {
+            "text": "生活",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "旅遊",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "比價",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 88.203125,
+            "height": 39.09375,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results .card:first-child h3 button, #results .card:first-child .tag, #results .card:first-child .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 304,
+            "height": 68.1875,
+            "font": 22
+          },
+          {
+            "text": "生活",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "旅遊",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "比價",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 69.3125,
+            "height": 36,
+            "font": 11
+          }
+        ]
+      }
+    ],
+    "audits": [],
+    "entries": 423,
+    "failed": [],
+    "tagStates": {
+      "selected": "rgb(40, 83, 68)",
+      "ordinary": "rgb(245, 247, 239)"
+    },
+    "filtered": "顯示 18 / 423 筆收錄",
+    "navigation": {
+      "domContentLoadedMs": 83.80000000000291,
+      "loadMs": 85.40000000000873
+    }
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "measurements": [
+      {
+        "selector": "#drawn-case h3 button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 188,
+            "height": 73.59375,
+            "font": 23
+          },
+          {
+            "text": "生活",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "旅遊",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "比價",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 88.203125,
+            "height": 39.09375,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results .card:first-child h3 button, #results .card:first-child .tag, #results .card:first-child .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 234,
+            "height": 68.1875,
+            "font": 22
+          },
+          {
+            "text": "生活",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "旅遊",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "比價",
+            "width": 36,
+            "height": 24.5,
+            "font": 10
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 69.3125,
+            "height": 36,
+            "font": 11
+          }
+        ]
+      }
+    ],
+    "audits": [],
+    "entries": 423,
+    "failed": [],
+    "tagStates": {
+      "selected": "rgb(40, 83, 68)",
+      "ordinary": "rgb(245, 247, 239)"
+    },
+    "filtered": "顯示 18 / 423 筆收錄",
+    "navigation": {
+      "domContentLoadedMs": 72.10000000000582,
+      "loadMs": 73.39999999999418
+    }
+  }
+]

@@ -23,6 +23,7 @@ jobs:
           curl -fL --max-time 90 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f
       - name: Baseline, red and preview build
+        if: github.ref == 'refs/heads/improve/result-link-semantics-20261022'
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           mkdir -p qa-artifacts
@@ -44,6 +45,7 @@ jobs:
           for file in assets/*.js tests/*.cjs; do node --check "$file"; done
           git diff 4c62054 --check
       - name: Measure original card targets then reproduce failure
+        if: github.ref == 'refs/heads/improve/result-link-semantics-20261022'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           SITE_URL: http://127.0.0.1:8141/ai-agent-use-cases/
@@ -56,6 +58,7 @@ jobs:
           fi
           node -e "const assert=require('node:assert/strict'),fs=require('node:fs');assert.match(fs.readFileSync('qa-artifacts/red.log','utf8'),/AssertionError.*44px target:/s);"
       - name: Verify preview journeys and existing regression
+        if: github.ref == 'refs/heads/improve/result-link-semantics-20261022'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           SITE_URL: http://127.0.0.1:8140/ai-agent-use-cases/
@@ -72,6 +75,8 @@ jobs:
           SITE_URL: https://richardhan.github.io/ai-agent-use-cases/
           QA_OUT: qa-artifacts/published
         run: |
+          mkdir -p qa-artifacts
+          chown -R pwuser:pwuser qa-artifacts
           node - <<'JS'
           const fs=require('node:fs'),{createHash}=require('node:crypto');
           (async()=>{

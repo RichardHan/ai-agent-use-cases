@@ -1,0 +1,218 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "@dot留言放了十小時沒動靜，先分清「已存、對象正確、已受理」",
+      "rect": {
+        "x": 841.5,
+        "y": 385.28125,
+        "width": 403.484375,
+        "height": 76.78125
+      }
+    },
+    "readID": "UC-396",
+    "draw": {
+      "focus": "Bot一多就忘了誰做過什麼？每晚讓一個專責Bot用同一格式問全隊，寫進自己Mac裡的Obsidian，一天一頁、不覆蓋，之後問「9月我在做什麼」就有週摘要",
+      "rect": {
+        "x": 841.5,
+        "y": 273.671875,
+        "width": 403.484375,
+        "height": 191.953125
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 841.5,
+      "y": 314.453125,
+      "width": 403.484375,
+      "height": 383.90625
+    },
+    "oversizedTitle": {
+      "x": 841.5,
+      "y": 48.09375,
+      "width": 403.484375,
+      "height": 1842.75
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 15,
+      "load": 19.199999999982538
+    }
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "辦活動要發點數或優惠連結給報名者？讓報名者寄信到Bot的專用信箱，Bot比對名單後每人只回一次，名單外一律不回",
+      "rect": {
+        "x": 66,
+        "y": 264.296875,
+        "width": 258,
+        "height": 183.984375
+      }
+    },
+    "readID": "UC-414",
+    "draw": {
+      "focus": "查詢費比預估高，代理先停下來問，報告和費用分開核對",
+      "rect": {
+        "x": 66,
+        "y": 243.90625,
+        "width": 258,
+        "height": 110.390625
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 345.859375,
+      "width": 258,
+      "height": 515.15625
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48.015625,
+      "width": 258,
+      "height": 2612.578125
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 14,
+      "load": 17
+    }
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "讓 Bot 先接 Slack 的 bug 回報做初步分流，並每兩週整理一份產品行銷預讀",
+      "rect": {
+        "x": 66,
+        "y": 280.796875,
+        "width": 188,
+        "height": 183.984375
+      }
+    },
+    "readID": "UC-085",
+    "draw": {
+      "focus": "@dot留言放了十小時沒動靜，先分清「已存、對象正確、已受理」",
+      "rect": {
+        "x": 66,
+        "y": 280.796875,
+        "width": 188,
+        "height": 147.1875
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 47.53125,
+      "width": 188,
+      "height": 699.140625
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48.03125,
+      "width": 188,
+      "height": 3532.5
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 18.900000000023283,
+      "load": 22.300000000017462
+    }
+  },
+  {
+    "label": "firefox-390",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "Bot說買好了，庫存表卻沒更新？補貨流程要核對到最後",
+      "rect": {
+        "x": 66,
+        "y": 244,
+        "width": 258,
+        "height": 110.39999389648438
+      }
+    },
+    "readID": "UC-130",
+    "draw": {
+      "focus": "出差前，找出當地值得聯絡的人",
+      "rect": {
+        "x": 66,
+        "y": 244,
+        "width": 258,
+        "height": 73.60000610351562
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 48.29999923706055,
+      "width": 258,
+      "height": 588.799976348877
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48,
+      "width": 258,
+      "height": 2833.60009765625
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 50,
+      "load": 50
+    }
+  },
+  {
+    "label": "webkit-390",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "有人在 X 標記你就自動回答？先建好附出處的資料庫，敏感題留給人",
+      "rect": {
+        "x": 66,
+        "y": 243.90625,
+        "width": 258,
+        "height": 110.390625
+      }
+    },
+    "readID": "UC-060",
+    "draw": {
+      "focus": "補齊知識庫附件內容搜尋，結果帶回原檔位置",
+      "rect": {
+        "x": 66,
+        "y": 243.90625,
+        "width": 258,
+        "height": 73.59375
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 345.859375,
+      "width": 258,
+      "height": 515.15625
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48.015625,
+      "width": 258,
+      "height": 2612.578125
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 18,
+      "load": 26
+    }
+  }
+]

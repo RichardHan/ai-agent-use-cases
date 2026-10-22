@@ -80,3 +80,18 @@ README v0.6.1描述忙碌時不立即催問，可排一個閒置後ping；新訊
 此為同一雙向交付問題的工具變體與證據限制補充，不另計案例。裝置、常開中繼、既有帳號、隧道與外部轉錄可能涉及費用及另行授權；沒有安裝、配對或建立存取。不要把讀取歷史的權限當成發訊息、打斷任務或啟用麥克風的授權。
 
 本庫自設／未實測的可貼指令：只讀合成事件，列出busy、queued、idle、ping送出、reply及HUD顯示的ID與順序；檢查多次點擊是否只排一筆、取消後是否仍送出、重開後有無重送。模擬與實機欄分開，沒有紀錄標未知，不操作真實裝置或帳號。
+
+
+## 2026-10-22 18:30補充：眼鏡不能把手機別題的回覆當成自己的答案
+
+Sid Dani（sidart10）的英文 [muse-glasses](https://github.com/sidart10/muse-glasses/blob/f082026cf0a69b67a36f00af3d49f1b5d8a70447/README.md)，固定提交時間2026-10-20 03:52:15 UTC，本輪已讀README及兩個測試檔。這是Meta Muse／Ray-Ban Display／Mac橋接的非官方變體；本庫未看43秒實機影片、未安裝或執行。頁面的完整流程展示明示是腳本情境，不能當全部真機驗收。
+
+作者列出三個限制：只接主聊天，側執行緒回覆不送到gadget；「Hey Meta」呼叫WebMCP不可靠，改用App內口述；原生音訊模式失效，改讓Mac朗讀文字。這些是作者版本觀察，非官方全帳戶故障公告。眼鏡顯示核准請求後仍導向手機，不表示已在眼鏡批准動作。
+
+[測試定義](https://github.com/sidart10/muse-glasses/blob/f082026cf0a69b67a36f00af3d49f1b5d8a70447/tests/test_live_turns.py)以FakeSession餵事件，包含手機另一題的無父ID回覆不混入、缺訂閱不發送、任務完成但無答案要報錯，以及晚到答案仍對原request。檔名雖含live，仍是合成事件測試，不是本庫或作者該版真實服務通過證據。[橋接測試](https://github.com/sidart10/muse-glasses/blob/f082026cf0a69b67a36f00af3d49f1b5d8a70447/tests/test_bridge.py)另含空命令白名單、拒絕shell／檔案命令的斷言；只證明設計與測試存在，未做資安認證。
+
+[官方SDK README](https://github.com/facebookincubator/muse-gadget-sdk)只支持有ESP32／Linux裝置SDK、配對需token及Developer mode等要求，不替macOS移植背書。常開Mac、相容眼鏡、帳戶、網域與中繼的完整費用未核；作者「免費執行」不能代表硬體與訂閱零成本。配對、憑證、隧道、麥克風及背景服務須另行核准，不由本研究啟用。
+
+可貼指令（本庫自行設計／未實測）：只讀我提供的合成會話事件，按request、parent message與session逐筆對帳。插入一則手機別題回覆、側執行緒回覆、completed但無答案與晚到答案，標哪些可顯示給眼鏡、哪些需隔離或報錯。將腳本測試與真機證據分欄，核准卡只記待本人處理，不代為批准、不連裝置或啟動服務。
+
+併入UC-239的跨端會話交付驗收，不因Muse或新眼鏡另增案例。

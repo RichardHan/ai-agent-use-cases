@@ -436,13 +436,52 @@ function inline(node,text,path) {
   }
   node.append(document.createTextNode(text.slice(last)));
 }
+// Recognize only complete pipe tables. Unsupported rows stay literal rather
+// than silently discarding source cells or guessing missing values.
+function tableCells(line) {
+  let value=line.trim();
+  if(!value.includes('|'))return null;
+  if(value.startsWith('|'))value=value.slice(1);
+  if(/(?<!\\)\|$/.test(value))value=value.slice(0,-1);
+  const cells=[];let cell='';
+  for(let i=0;i<value.length;i++){
+    if(value[i]==='\\'&&value[i+1]==='|'){cell+='|';i++;continue;}
+    if(value[i]==='`'){
+      const fence=value.slice(i).match(/^`+/)[0],end=value.indexOf(fence,i+fence.length);
+      if(end!==-1){cell+=value.slice(i,end+fence.length).replace(/\\\|/g,'|');i=end+fence.length-1;continue;}
+    }
+    if(value[i]==='|'){cells.push(cell.trim());cell='';}else cell+=value[i];
+  }
+  cells.push(cell.trim());return cells;
+}
+function sourceTable(lines,start,path) {
+  const header=tableCells(lines[start]),divider=tableCells(lines[start+1]||'');
+  if(!header||header.length<2||!divider||divider.length!==header.length||!divider.every(cell=>/^:?-{3,}:?$/.test(cell)))return null;
+  const rows=[];let end=start+2;
+  for(;end<lines.length&&lines[end].trim()&&lines[end].includes('|');end++){
+    const cells=tableCells(lines[end]);
+    if(!cells||cells.length!==header.length)return null;
+    rows.push(cells);
+  }
+  const wrap=el('div','markdown-table');wrap.tabIndex=0;
+  wrap.setAttribute('role','region');wrap.setAttribute('aria-label','原文表格；可左右捲動，鍵盤聚焦後可用左右方向鍵');
+  const table=el('table'),head=el('thead'),body=el('tbody'),tr=el('tr');
+  header.forEach(text=>{const th=el('th');th.scope='col';inline(th,text,path);tr.append(th);});
+  head.append(tr);
+  rows.forEach(cells=>{const row=el('tr');cells.forEach(text=>{const td=el('td');inline(td,text,path);row.append(td);});body.append(row);});
+  table.append(head,body);wrap.append(table);return {node:wrap,end};
+}
 function renderMarkdown(markdown,path) {
   const out=el('div','markdown'); let paragraph=[],lists=[],code=null;
   const flush=()=>{if(paragraph.length){const p=el('p');inline(p,paragraph.join(' '),path);out.append(p);paragraph=[];}lists=[];};
-  for(const line of markdown.split('\n').slice(1)) {
+  const lines=markdown.split('\n').slice(1);
+  for(let i=0;i<lines.length;i++) {
+    const line=lines[i];
     if(/^```/.test(line)){flush();if(code){out.append(code);code=null;}else code=el('pre');continue;}
     if(code){code.textContent+=line+'\n';continue;}
     if(!line.trim()){flush();continue;}
+    const table=sourceTable(lines,i,path);
+    if(table){flush();out.append(table.node);i=table.end-1;continue;}
     const head=line.match(/^(#{2,6})\s+(.+)/),item=line.match(/^(\s*)([-*]|\d+\.)\s+(.+)/);
     if(head){flush();const h=el(head[1].length===2?'h2':'h3');inline(h,head[2],path);out.append(h);}
     else if(item){
@@ -1753,7 +1792,7 @@ $('detail').addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if ($('detail').open) {
-    if (e.defaultPrevented || e.isComposing || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || document.activeElement.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"])')) return;
+    if (e.defaultPrevented || e.isComposing || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || document.activeElement.closest('.markdown-table,input,textarea,select,[contenteditable]:not([contenteditable="false"])')) return;
     if (e.key === 'ArrowLeft') { e.preventDefault(); navStep(-1); }
     else if (e.key === 'ArrowRight') { e.preventDefault(); navStep(1); }
     return;

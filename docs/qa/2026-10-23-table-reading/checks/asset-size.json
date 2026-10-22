@@ -1,0 +1,23 @@
+[
+  {
+    "path": "assets/app.js",
+    "beforeBytes": 165477,
+    "afterBytes": 167572,
+    "gzipBefore": 50172,
+    "gzipAfter": 50893
+  },
+  {
+    "path": "assets/reader.js",
+    "beforeBytes": 25774,
+    "afterBytes": 26661,
+    "gzipBefore": 8443,
+    "gzipAfter": 8701
+  },
+  {
+    "path": "assets/reader.css",
+    "beforeBytes": 14496,
+    "afterBytes": 15959,
+    "gzipBefore": 3272,
+    "gzipAfter": 3663
+  }
+]

@@ -1,6 +1,6 @@
 # 2026-10-22 任務快選直接看結果
 
-狀態：產品完成，雲端與獨立審查進行中；發布前更新最終結果。
+狀態：預覽驗收通過；正式發布核對另於文末補記。
 
 ## 問題證據與目標
 
@@ -46,7 +46,30 @@ NODE_PATH=<雲端工具目錄>/node_modules node tests/task-shortcuts-browser.cj
 
 | 尺寸 | 修改前 | 修改後 |
 | --- | --- | --- |
-| 桌面1440 | [看不到結果](before/desktop.png) | 驗收後補 |
-| 手機390 | [停留篩選面板](before/mobile.png) | 驗收後補 |
+| 桌面1440 | [看不到結果](before/desktop.png) | [直接讀結果](after/desktop.png) |
+| 手機390 | [停留篩選面板](before/mobile.png) | [直接讀結果](after/mobile.png) |
 
-尚待雲端最終結果、獨立review與正式發布核對。未量測Lighthouse或速度提升，未驗證實體手機、真人留存與完整輔具認證。下一輪候選：以真實結果校準任務標籤的範圍（如「每日」全文也會命中每日配額限制），避免把全文命中當成任務實作證據。
+未量測Lighthouse或速度提升，未驗證實體手機、真人留存與完整輔具認證。下一輪候選：以真實結果校準任務標籤的範圍（如「每日」全文也會命中每日配額限制），避免把全文命中當成任務實作證據。
+
+## 雲端預覽驗收
+
+[最終39720692991](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39720692991)全套成功，checkout `0df282c`，產品程式從`d56684f`起未再變動。165單元、全JS語法、diff、preview build及舊版3 red／1 pass通過；三引擎五配置（Chromium1440／390／320、Firefox390、WebKit390）本輪20次任務操作，結果數y=23.50–24.49px、首卡可見，任務筆數98／120／44／200與正式站基準相同。主流程要求failedPaths=0，415條目均完整。10次主要axe WCAG A/AA自動掃描均零違規，pageerror全空；不是完整無障礙認證。
+
+[報告](checks/preview-report.json)、[載入生命週期](checks/preview-lifecycle.json)、[320px說明截圖](after/hint-320.png)。原reader與search-submit跨三引擎五配置全部通過；[提交報告](checks/submit-report.json)包含Tab順序、五篩選／排序、URL與歷史、組字保護、來源Markdown HTTP200等既有回歸。合成IME不代表原生輸入法測試。
+
+三種具體模擬走查：
+1. 每日／收件匣／比價／排程快選 → 可見結果與首卡 → 再按取消；Enter和Space、面板狀態、長標題與320px均通過。
+2. 工作＋Grok Bot＋最近核對 → 收件匣 → 詳情來源 → Escape回同一卡按鈕 → 直鏈及重新整理，保留查詢、條件、排序與結果次序。
+3. 待查＋官方自報的互斥條件 → 比價 → 可見空結果 → 修改關鍵字聚焦 → 清除全部恢復；載入中／失敗只保留任務、不排程搶焦點，部分補讀成功後仍保留任務。
+
+以上是自動化模擬，未宣稱真人滿意度。桌面實開UC-035 Reddit來源新頁，URL正確但外站HTTP403，無法驗證其內文；未把403算成來源可讀或獨立驗證。其他尺寸核對同一href。既有submit回歸另開原始Markdown取得HTTP200，兩者不同不可混用。
+
+[原文完整性](checks/reader-corpus.json)：415條目、3041節、434行頁首證據。[實際時間](checks/reader-timings.json)：雲端同機靜態server五配置DOMContentLoaded31–70ms、load66–136ms；不是正式網路速度、全文就緒時間或效能改善，也沒有Lighthouse分數。
+
+中間驗收保留：[39720433592](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39720433592)雖成功，但search-submit錯設SITE_URL而腳本讀SUBMIT_URL，該回歸實際測正式舊站，不計新版通過。獨立審查與主角色均抓到後修正；[39720582067](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39720582067)正確preview回歸成功；最終run再增加完整載入斷言及hint圖後成功。未為消耗額度更動產品。曾嘗試取消被新run取代的舊CI，但GitHub API回403無admin權限；未繞過權限，保留完成結果。
+
+驗收期間協作者合併研究PR #76與兩份研究補充；正常merge最新main到`075cdcc`，無衝突，保留UC-418–421及全部協作者內容。整合後[165單元](checks/integrated-unit.log)、preview build與diff再次通過；預覽報告415筆屬舊資料集，正式部署另驗整合後資料，不假稱兩者同一版本。
+
+## 獨立審查
+
+未負責主實作的角色以只讀方式審查產品diff、工作流程、原文資料與隱私影響，獨立跑17項相關單元檢查；目視桌面／390／320結果及手機hint圖，核對最終預覽報告與回歸。結論「可合併，未發現阻擋問題」。已修正其發現的SUBMIT_URL設定並補完整來源斷言／hint截圖；沒有新增傳送、儲存或依賴。保留Reddit403、實體手機／完整輔具與效能提升未驗證等限制；正式部署需完成後才宣稱發布。

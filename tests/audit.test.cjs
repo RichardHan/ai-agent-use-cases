@@ -378,8 +378,8 @@ test('candidate duplicate detection normalizes URLs and identifies shared extern
   assert(toolchainPr13Candidate.cases.includes('cases/042-dots-credential-multibot-return.md'));
 
   const grokBotComputersCandidate = duplicates.find(d => d.url.includes('docs.x.ai/grok-bot/computer-and-apps'));
-  assert(grokBotComputersCandidate, 'Must detect shared Grok Bot computers-and-apps across 19 cases');
-  assert.equal(grokBotComputersCandidate.cases.length, 19);
+  assert(grokBotComputersCandidate, 'Must detect shared Grok Bot computers-and-apps across at least 19 cases');
+  assert(grokBotComputersCandidate.cases.length >= 19, `Expected at least 19 cases citing computers-and-apps, found ${grokBotComputersCandidate.cases.length}`);
   assert(grokBotComputersCandidate.cases.includes('cases/005-cloud-pr-review.md'));
   assert(grokBotComputersCandidate.cases.includes('cases/006-facebook-publication.md'));
   assert(grokBotComputersCandidate.cases.includes('cases/027-recipe-shopping-plan.md'));

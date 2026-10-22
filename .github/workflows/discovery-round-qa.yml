@@ -34,8 +34,10 @@ jobs:
             const tap=fs.readFileSync('qa-artifacts/unit.tap','utf8');
             const failed=[...tap.matchAll(/^not ok \d+ - (.+)$/gm)].map(m=>m[1]);
             assert.deepEqual(failed,['candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus']);
-            console.log('Only the recorded baseline audit count failure remains; see unit.tap');
-            JS
+            const failure=tap.slice(tap.indexOf('\nnot ok ')).split('\n# Subtest:')[0];
+            assert.match(failure,/code: 'ERR_ASSERTION'/);assert.match(failure,/expected: 19\n  actual: 20/);
+            console.log('Only the recorded baseline audit count failure remains (actual20/expected19); see unit.tap');
+          JS
           fi
           for file in assets/*.js tests/*.cjs; do node --check "$file"; done
           git diff --check
@@ -45,7 +47,7 @@ jobs:
             echo 'Expected old card handoff to fail'; exit 1
           fi
           node - <<'JS'
-          const fs=require('node:fs'),assert=require('node:assert/strict');const tap=fs.readFileSync('qa-artifacts/red.tap','utf8');assert.match(tap,/# fail 5/);assert(!tap.includes('TypeError'));
+          const fs=require('node:fs'),assert=require('node:assert/strict');const tap=fs.readFileSync('qa-artifacts/red.tap','utf8');assert.match(tap,/# fail 5/);assert.deepEqual([...tap.matchAll(/^  code: '([^']+)'/gm)].map(m=>m[1]),Array(5).fill('ERR_ASSERTION'));
           JS
       - name: Complete preview journeys
         if: github.ref == 'refs/heads/improve/actionable-discovery-20261022'

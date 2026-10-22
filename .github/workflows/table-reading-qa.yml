@@ -1,0 +1,37 @@
+name: Table reading round QA
+on:
+  push:
+    branches: [improve/reading-access-20261023]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
+          mkdir -p /usr/local/share/fonts
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
+          fc-cache -f
+      - name: Browse published baseline
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          mkdir -p qa-artifacts
+          chown -R pwuser:pwuser qa-artifacts
+          runuser -u pwuser -- node tests/table-reading-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: table-reading-qa
+          path: qa-artifacts/

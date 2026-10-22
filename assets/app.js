@@ -1754,7 +1754,13 @@ $('recent-entry').addEventListener('click', event => {
 $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
 $('clear-facets').addEventListener('click', clearFacets);
-$('edit-query').addEventListener('click', () => { $('query').focus(); $('query').select(); });
+$('edit-query').addEventListener('click', () => {
+  const query=$('query');
+  query.focus({preventScroll:true});
+  query.select();
+  // Keep this explicit recovery visible even when native focus does not scroll.
+  query.scrollIntoView({block:'center',behavior:'instant'});
+});
 $('retry-failed').addEventListener('click',()=>{
   if(recoveringSources)return;
   $('retry-failed').focus({preventScroll:true});

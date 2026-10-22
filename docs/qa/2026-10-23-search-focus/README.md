@@ -70,12 +70,20 @@ NODE_PATH=<cloud-tools>/node_modules SITE_URL=http://127.0.0.1:8134/ai-agent-use
 
 限制：未驗證實體手機、實體輸入法／讀屏器、完整無障礙認證、真人留存、Lighthouse或網路速度。焦點色#285344相對白色的計算對比為8.71:1，相對目錄背景#f5f7ef為8.06:1，這是CSS色值計算，非整站認證。CSS增加88個未壓縮bytes、gzip估算增加47 bytes；JS增加182 bytes、gzip估算增加44 bytes，無新增產品請求；[大小量測](checks/asset-size.json)不當成速度成績。
 
-下一輪最值得做：降低首次開頁全文請求成本，同時保留單篇早讀、全文搜尋與部分失敗復原；本輪不延伸載入架構。
+下一輪最值得做：修復既有主線CI的固定計數與runner／Playwright相容性，讓廣域回歸能持續執行；本輪保留原有失敗、使用固定雲端容器完成產品驗收。
 
 ## 獨立終審與整合
 
 未參與實作的角色全程唯讀，獨立執行18項相關單元及語法／diff檢查，審查兩個原基準紅燈、正常與隔離模式、最終原始JSON及1440／390／320與WebKit復原截圖。結論「可合併，未發現剩餘產品或視覺阻擋」。WebKit復原query top由-1421.8125變為433.1875，mouse與Enter後均可見；目錄綠框不遮擋。未把自動走查當真人滿意度。外部Reddit新頁回403保留：只證明能開啟來源網址，不宣稱該原文可讀。
 
-主線新增b326a0b的UC-430、UC-006與evidence013公開補充、索引及研究紀錄，無衝突整合並完整保留。整合後全套仍177／178、只有相同audit22／19；語法、preview build及diff check通過，[整合原輸出](checks/integrated-unit.tap)。最終雲端預覽為5cdd871，不冒稱已含後續研究；正式站另核對。
+主線新增b326a0b的UC-430、UC-006與evidence013公開補充、索引及研究紀錄，無衝突整合並完整保留。整合後全套仍177／178、只有相同audit候選斷言，實際已增為23／19；語法、preview build及diff check通過，[整合原輸出](checks/integrated-unit.tap)。最終雲端預覽為5cdd871，不冒稱已含後續研究；正式站另核對。
 
 保存log只清行尾空白，不改失敗／數值。原工作樹兩個未提交檔案雜湊前後一致。
+
+## 正式部署及首輪QA閘門
+
+正常merge cac2e76並push main 2d6d056，無強推、未透過PR冒稱平台審核。[Pages39864352848](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39864352848)build／deploy／report全成功。公開HTML與四個CSS／JS均HTTP200且逐byte與checkout相同，[實際hash](checks/published-http-assets.json)。
+
+[正式首驗39864394186](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39864394186)在單元閘門失敗，未進瀏覽器，不算通過：研究b326a0b使同一固定來源計數由22變23，原預期仍19。整合原log本就顯示23，主角色只看摘要沿用22的紀錄錯誤已更正。另在無本輪產品變更的b326a0b乾淨匯出中獨立重跑audit也得到23／19，[獨立基準](checks/release-baseline-audit.tap)及[正式首驗全單元](checks/published-first-unit.tap)均保留。QA只精確辨認這一測試名稱與23／19，仍拒絕其他失敗；沒有改動原audit斷言。
+
+主線廣域舊CI亦非全綠：Website QA39864354266在Playwright1.56.1安裝階段不支援ubuntu26.04而失敗；Combined recovery39864354327在原audit23／19失敗。這些與本輪固定Noble容器的專項驗收分開記錄，不以專項成功冒稱所有CI成功。

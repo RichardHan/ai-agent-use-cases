@@ -1,0 +1,36 @@
+name: Reader round QA
+on:
+  push:
+    branches: [improve/reader-source-return-20261022, verify/reader-round-20261022]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
+          "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Unit, syntax and build
+        run: |
+          mkdir -p qa-artifacts
+          node --test tests/*.test.cjs > qa-artifacts/unit.tap
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Live observation
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: node tests/round-reader-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reader-round
+          path: qa-artifacts/

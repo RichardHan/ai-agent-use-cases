@@ -49,12 +49,13 @@
   </div>
   <div class="chips-row">
     <span class="chips-title">常見任務：</span>
-    <button type="button" class="chip chip-task" data-query="每日" aria-pressed="false">☀️ 每日自動</button>
-    <button type="button" class="chip chip-task" data-query="收件匣" aria-pressed="false">📬 收件匣整理</button>
-    <button type="button" class="chip chip-task" data-query="比價" aria-pressed="false">🏷️ 比價防漏</button>
-    <button type="button" class="chip chip-task" data-query="排程" aria-pressed="false">⏱️ 排程巡檢</button>
+    <button type="button" class="chip chip-task" data-query="每日" aria-pressed="false" aria-describedby="task-shortcuts-hint">☀️ 每日自動</button>
+    <button type="button" class="chip chip-task" data-query="收件匣" aria-pressed="false" aria-describedby="task-shortcuts-hint">📬 收件匣整理</button>
+    <button type="button" class="chip chip-task" data-query="比價" aria-pressed="false" aria-describedby="task-shortcuts-hint">🏷️ 比價防漏</button>
+    <button type="button" class="chip chip-task" data-query="排程" aria-pressed="false" aria-describedby="task-shortcuts-hint">⏱️ 排程巡檢</button>
     <button type="button" class="chip chip-task" data-kind="evidence" aria-pressed="false" aria-describedby="experience-entry-hint">🛡️ 經驗與踩坑</button>
   </div>
+<p id="task-shortcuts-hint" class="facet-count-hint">前四個任務會取代搜尋字詞、保留其他篩選，並帶你看結果；再按一次可取消該字詞。載入中會先保留選擇。</p>
 <p id="experience-entry-hint" class="facet-count-hint">「經驗與踩坑」依收錄狀態篩選，保留關鍵字與其他條件；再按一次可取消。</p>
 </div>
 <p id="facet-count-hint" class="facet-count-hint">案例載入完成後，會顯示各選項的符合筆數。</p>

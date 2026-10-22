@@ -1729,7 +1729,11 @@ $('scenario-chips')?.addEventListener('click', e => {
   } else if (chip.dataset.query) {
     const q = chip.dataset.query;
     $('query').value = $('query').value.trim() === q ? '' : q;
+    allowAutomaticArrival = false;
     render();
+    // Task shortcuts are explicit searches. Reuse the bounded result handoff,
+    // but keep loading/error intent in place without a delayed focus jump.
+    if (discoveryReady) focusLoadedResults('start');
   }
 });
 $('detail').addEventListener('cancel', e => { e.preventDefault(); closeDetail(); });

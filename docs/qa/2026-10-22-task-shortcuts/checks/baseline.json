@@ -1,0 +1,548 @@
+[
+  {
+    "width": 1440,
+    "q": "每日",
+    "query": "每日",
+    "count": 98,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-323",
+        "title": "逐則評價每日AI新聞，讓下一份依主題偏好調整"
+      },
+      {
+        "id": "UC-090",
+        "title": "每天找出明天要結算、機率 70%–90% 的預測市場，逐一查背景寫一段判讀"
+      },
+      {
+        "id": "UC-408",
+        "title": "不想再花時間準備每天的團隊站會？讓 Bot 在會前 30 分鐘讀完議程、進度和討論串，交給你一頁重點"
+      },
+      {
+        "id": "UC-275",
+        "title": "怕接到詐騙電話？讓 AI 先替你接聽、核對來電者說法，可疑才傳簡訊通知你"
+      },
+      {
+        "id": "UC-417",
+        "title": "課程報名通知突然不來了也沒報錯？讓Bot數報名人數找出中斷的那段，查出是免費寄信方案每天100封上限，再從網站資料庫把漏掉的人補回來"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"每日\" aria-pressed=\"true\">☀️ 每日自動</button>",
+    "results": {
+      "x": 140,
+      "y": 908.765625,
+      "width": 127.265625,
+      "height": 21.4375,
+      "top": 908.765625,
+      "right": 267.265625,
+      "bottom": 930.203125,
+      "left": 140
+    },
+    "scrollY": 843
+  },
+  {
+    "width": 1440,
+    "q": "收件匣",
+    "query": "收件匣",
+    "count": 120,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-080",
+        "title": "軟體序號散在三個信箱裡？請 Bot 掃信找出來，先給你清單，再存進 1Password"
+      },
+      {
+        "id": "UC-088",
+        "title": "讓 Bot 翻信箱找出「已退貨、沒退款」的訂單，寫信請商家退錢"
+      },
+      {
+        "id": "UC-118",
+        "title": "AI客戶來信怎麼分流？先問主人，再轉專用信箱"
+      },
+      {
+        "id": "UC-156",
+        "title": "信箱搬到新平台了，舊信和新信都真的正常嗎？"
+      },
+      {
+        "id": "UC-184",
+        "title": "大量郵件先篩出相關候選，別把它當最終證據審查"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"收件匣\" aria-pressed=\"true\">📬 收件匣整理</button>",
+    "results": {
+      "x": 140,
+      "y": 909.203125,
+      "width": 135.546875,
+      "height": 21.4375,
+      "top": 909.203125,
+      "right": 275.546875,
+      "bottom": 930.640625,
+      "left": 140
+    },
+    "scrollY": 767
+  },
+  {
+    "width": 1440,
+    "q": "比價",
+    "query": "比價",
+    "count": 44,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-048",
+        "title": "每天幫你盯商品排名或降價，有變動才通知"
+      },
+      {
+        "id": "UC-326",
+        "title": "把 Amazon、樂天等訂單紀錄整理成家中物品清單，特賣時先排除已經有的再推薦"
+      },
+      {
+        "id": "UC-179",
+        "title": "同一封促銷信一直重寄？先找重複流程再改設定"
+      },
+      {
+        "id": "UC-233",
+        "title": "找出訂閱營收漏算折扣的地方"
+      },
+      {
+        "id": "UC-087",
+        "title": "把散步時的語音筆記交給 dots，它拆成 Codex 任務，早上再用十分鐘電話對一次"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"比價\" aria-pressed=\"true\">🏷️ 比價防漏</button>",
+    "results": {
+      "x": 140,
+      "y": 909.21875,
+      "width": 127.265625,
+      "height": 21.4375,
+      "top": 909.21875,
+      "right": 267.265625,
+      "bottom": 930.65625,
+      "left": 140
+    },
+    "scrollY": 753
+  },
+  {
+    "width": 1440,
+    "q": "排程",
+    "query": "排程",
+    "count": 200,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-066",
+        "title": "請 Agent 盤點自己一週的用量，找出最浪費的排程"
+      },
+      {
+        "id": "UC-068",
+        "title": "Bot 排程要用你的 Mac 卻連不上？先讓它查原因、說明要改什麼，改完再驗證"
+      },
+      {
+        "id": "UC-076",
+        "title": "請 Bot 到人肉搜尋站申請退出，並依排程再檢查"
+      },
+      {
+        "id": "UC-081",
+        "title": "讓 dots 定時看 Todoist，先幫你想好下一則跟催怎麼寫"
+      },
+      {
+        "id": "UC-309",
+        "title": "免費體驗活動不用每天手動報名：先定排除條件，Bot 定時巡查代申請"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"排程\" aria-pressed=\"true\">⏱️ 排程巡檢</button>",
+    "results": {
+      "x": 140,
+      "y": 948.390625,
+      "width": 135.546875,
+      "height": 21.4375,
+      "top": 948.390625,
+      "right": 275.546875,
+      "bottom": 969.828125,
+      "left": 140
+    },
+    "scrollY": 753
+  },
+  {
+    "width": 1440,
+    "detail": "規劃旅行，先把交通和住宿比清楚",
+    "sources": [
+      {
+        "text": "查看 Markdown 原文 ↗Markdown ↗",
+        "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md"
+      },
+      {
+        "text": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-001",
+        "href": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-001"
+      },
+      {
+        "text": "S-001：Pat Simmons，2026-10-06，英文",
+        "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83"
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "q": "每日",
+    "query": "每日",
+    "count": 98,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-323",
+        "title": "逐則評價每日AI新聞，讓下一份依主題偏好調整"
+      },
+      {
+        "id": "UC-090",
+        "title": "每天找出明天要結算、機率 70%–90% 的預測市場，逐一查背景寫一段判讀"
+      },
+      {
+        "id": "UC-408",
+        "title": "不想再花時間準備每天的團隊站會？讓 Bot 在會前 30 分鐘讀完議程、進度和討論串，交給你一頁重點"
+      },
+      {
+        "id": "UC-275",
+        "title": "怕接到詐騙電話？讓 AI 先替你接聽、核對來電者說法，可疑才傳簡訊通知你"
+      },
+      {
+        "id": "UC-417",
+        "title": "課程報名通知突然不來了也沒報錯？讓Bot數報名人數找出中斷的那段，查出是免費寄信方案每天100封上限，再從網站資料庫把漏掉的人補回來"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"每日\" aria-pressed=\"true\">☀️ 每日自動</button>",
+    "results": {
+      "x": 20,
+      "y": 1437.296875,
+      "width": 127.265625,
+      "height": 21.4375,
+      "top": 1437.296875,
+      "right": 147.265625,
+      "bottom": 1458.734375,
+      "left": 20
+    },
+    "scrollY": 1410
+  },
+  {
+    "width": 390,
+    "q": "收件匣",
+    "query": "收件匣",
+    "count": 120,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-080",
+        "title": "軟體序號散在三個信箱裡？請 Bot 掃信找出來，先給你清單，再存進 1Password"
+      },
+      {
+        "id": "UC-088",
+        "title": "讓 Bot 翻信箱找出「已退貨、沒退款」的訂單，寫信請商家退錢"
+      },
+      {
+        "id": "UC-118",
+        "title": "AI客戶來信怎麼分流？先問主人，再轉專用信箱"
+      },
+      {
+        "id": "UC-156",
+        "title": "信箱搬到新平台了，舊信和新信都真的正常嗎？"
+      },
+      {
+        "id": "UC-184",
+        "title": "大量郵件先篩出相關候選，別把它當最終證據審查"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"收件匣\" aria-pressed=\"true\">📬 收件匣整理</button>",
+    "results": {
+      "x": 20,
+      "y": 1437.515625,
+      "width": 135.546875,
+      "height": 21.4375,
+      "top": 1437.515625,
+      "right": 155.546875,
+      "bottom": 1458.953125,
+      "left": 20
+    },
+    "scrollY": 1279
+  },
+  {
+    "width": 390,
+    "q": "比價",
+    "query": "比價",
+    "count": 44,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-048",
+        "title": "每天幫你盯商品排名或降價，有變動才通知"
+      },
+      {
+        "id": "UC-326",
+        "title": "把 Amazon、樂天等訂單紀錄整理成家中物品清單，特賣時先排除已經有的再推薦"
+      },
+      {
+        "id": "UC-179",
+        "title": "同一封促銷信一直重寄？先找重複流程再改設定"
+      },
+      {
+        "id": "UC-233",
+        "title": "找出訂閱營收漏算折扣的地方"
+      },
+      {
+        "id": "UC-087",
+        "title": "把散步時的語音筆記交給 dots，它拆成 Codex 任務，早上再用十分鐘電話對一次"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"比價\" aria-pressed=\"true\">🏷️ 比價防漏</button>",
+    "results": {
+      "x": 20,
+      "y": 1437.125,
+      "width": 127.265625,
+      "height": 21.4375,
+      "top": 1437.125,
+      "right": 147.265625,
+      "bottom": 1458.5625,
+      "left": 20
+    },
+    "scrollY": 1291
+  },
+  {
+    "width": 390,
+    "q": "排程",
+    "query": "排程",
+    "count": 200,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-066",
+        "title": "請 Agent 盤點自己一週的用量，找出最浪費的排程"
+      },
+      {
+        "id": "UC-068",
+        "title": "Bot 排程要用你的 Mac 卻連不上？先讓它查原因、說明要改什麼，改完再驗證"
+      },
+      {
+        "id": "UC-076",
+        "title": "請 Bot 到人肉搜尋站申請退出，並依排程再檢查"
+      },
+      {
+        "id": "UC-081",
+        "title": "讓 dots 定時看 Todoist，先幫你想好下一則跟催怎麼寫"
+      },
+      {
+        "id": "UC-309",
+        "title": "免費體驗活動不用每天手動報名：先定排除條件，Bot 定時巡查代申請"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"排程\" aria-pressed=\"true\">⏱️ 排程巡檢</button>",
+    "results": {
+      "x": 20,
+      "y": 1437.3125,
+      "width": 135.546875,
+      "height": 21.4375,
+      "top": 1437.3125,
+      "right": 155.546875,
+      "bottom": 1458.75,
+      "left": 20
+    },
+    "scrollY": 1316
+  },
+  {
+    "width": 390,
+    "detail": "規劃旅行，先把交通和住宿比清楚",
+    "sources": [
+      {
+        "text": "查看 Markdown 原文 ↗Markdown ↗",
+        "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md"
+      },
+      {
+        "text": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-001",
+        "href": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-001"
+      },
+      {
+        "text": "S-001：Pat Simmons，2026-10-06，英文",
+        "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83"
+      }
+    ]
+  },
+  {
+    "width": 320,
+    "q": "每日",
+    "query": "每日",
+    "count": 98,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-323",
+        "title": "逐則評價每日AI新聞，讓下一份依主題偏好調整"
+      },
+      {
+        "id": "UC-090",
+        "title": "每天找出明天要結算、機率 70%–90% 的預測市場，逐一查背景寫一段判讀"
+      },
+      {
+        "id": "UC-408",
+        "title": "不想再花時間準備每天的團隊站會？讓 Bot 在會前 30 分鐘讀完議程、進度和討論串，交給你一頁重點"
+      },
+      {
+        "id": "UC-275",
+        "title": "怕接到詐騙電話？讓 AI 先替你接聽、核對來電者說法，可疑才傳簡訊通知你"
+      },
+      {
+        "id": "UC-417",
+        "title": "課程報名通知突然不來了也沒報錯？讓Bot數報名人數找出中斷的那段，查出是免費寄信方案每天100封上限，再從網站資料庫把漏掉的人補回來"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"每日\" aria-pressed=\"true\">☀️ 每日自動</button>",
+    "results": {
+      "x": 20,
+      "y": 1560.390625,
+      "width": 127.265625,
+      "height": 21.4375,
+      "top": 1560.390625,
+      "right": 147.265625,
+      "bottom": 1581.828125,
+      "left": 20
+    },
+    "scrollY": 1421
+  },
+  {
+    "width": 320,
+    "q": "收件匣",
+    "query": "收件匣",
+    "count": 120,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-080",
+        "title": "軟體序號散在三個信箱裡？請 Bot 掃信找出來，先給你清單，再存進 1Password"
+      },
+      {
+        "id": "UC-088",
+        "title": "讓 Bot 翻信箱找出「已退貨、沒退款」的訂單，寫信請商家退錢"
+      },
+      {
+        "id": "UC-118",
+        "title": "AI客戶來信怎麼分流？先問主人，再轉專用信箱"
+      },
+      {
+        "id": "UC-156",
+        "title": "信箱搬到新平台了，舊信和新信都真的正常嗎？"
+      },
+      {
+        "id": "UC-184",
+        "title": "大量郵件先篩出相關候選，別把它當最終證據審查"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"收件匣\" aria-pressed=\"true\">📬 收件匣整理</button>",
+    "results": {
+      "x": 20,
+      "y": 1559.65625,
+      "width": 135.546875,
+      "height": 21.4375,
+      "top": 1559.65625,
+      "right": 155.546875,
+      "bottom": 1581.09375,
+      "left": 20
+    },
+    "scrollY": 1663
+  },
+  {
+    "width": 320,
+    "q": "比價",
+    "query": "比價",
+    "count": 44,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-048",
+        "title": "每天幫你盯商品排名或降價，有變動才通知"
+      },
+      {
+        "id": "UC-326",
+        "title": "把 Amazon、樂天等訂單紀錄整理成家中物品清單，特賣時先排除已經有的再推薦"
+      },
+      {
+        "id": "UC-179",
+        "title": "同一封促銷信一直重寄？先找重複流程再改設定"
+      },
+      {
+        "id": "UC-233",
+        "title": "找出訂閱營收漏算折扣的地方"
+      },
+      {
+        "id": "UC-087",
+        "title": "把散步時的語音筆記交給 dots，它拆成 Codex 任務，早上再用十分鐘電話對一次"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"比價\" aria-pressed=\"true\">🏷️ 比價防漏</button>",
+    "results": {
+      "x": 20,
+      "y": 1559.96875,
+      "width": 127.265625,
+      "height": 21.4375,
+      "top": 1559.96875,
+      "right": 147.265625,
+      "bottom": 1581.40625,
+      "left": 20
+    },
+    "scrollY": 1589
+  },
+  {
+    "width": 320,
+    "q": "排程",
+    "query": "排程",
+    "count": 200,
+    "total": 415,
+    "first": [
+      {
+        "id": "UC-066",
+        "title": "請 Agent 盤點自己一週的用量，找出最浪費的排程"
+      },
+      {
+        "id": "UC-068",
+        "title": "Bot 排程要用你的 Mac 卻連不上？先讓它查原因、說明要改什麼，改完再驗證"
+      },
+      {
+        "id": "UC-076",
+        "title": "請 Bot 到人肉搜尋站申請退出，並依排程再檢查"
+      },
+      {
+        "id": "UC-081",
+        "title": "讓 dots 定時看 Todoist，先幫你想好下一則跟催怎麼寫"
+      },
+      {
+        "id": "UC-309",
+        "title": "免費體驗活動不用每天手動報名：先定排除條件，Bot 定時巡查代申請"
+      }
+    ],
+    "focus": "<button type=\"button\" class=\"chip chip-task active\" data-query=\"排程\" aria-pressed=\"true\">⏱️ 排程巡檢</button>",
+    "results": {
+      "x": 20,
+      "y": 1560.1875,
+      "width": 135.546875,
+      "height": 21.4375,
+      "top": 1560.1875,
+      "right": 155.546875,
+      "bottom": 1581.625,
+      "left": 20
+    },
+    "scrollY": 1458
+  },
+  {
+    "width": 320,
+    "detail": "規劃旅行，先把交通和住宿比清楚",
+    "sources": [
+      {
+        "text": "查看 Markdown 原文 ↗Markdown ↗",
+        "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md"
+      },
+      {
+        "text": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-001",
+        "href": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-001"
+      },
+      {
+        "text": "S-001：Pat Simmons，2026-10-06，英文",
+        "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83"
+      }
+    ]
+  }
+]

@@ -1,0 +1,47 @@
+✖ keyword shortcuts name the exact search term rather than promise an automated outcome (1.247667ms)
+✖ search scope and evidence caveats are visible alongside independent status filtering (0.412ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 57.614709
+
+✖ failing tests:
+
+test at tests/task-labels.test.cjs:4:1
+✖ keyword shortcuts name the exact search term rather than promise an automated outcome (1.247667ms)
+  AssertionError [ERR_ASSERTION]: ☀️ 每日自動
+      at TestContext.<anonymous> (/private/tmp/ai-reading-round-20261023/tests/task-labels.test.cjs:7:27)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at tests/task-labels.test.cjs:11:1
+✖ search scope and evidence caveats are visible alongside independent status filtering (0.412ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /搜尋全文，包含來源與限制/. Input:
+  
+  '前四個任務會取代搜尋字詞、保留其他篩選，並帶你看結果；再按一次可取消該字詞。載入中會先保留選擇。'
+  
+      at TestContext.<anonymous> (/private/tmp/ai-reading-round-20261023/tests/task-labels.test.cjs:13:22)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '前四個任務會取代搜尋字詞、保留其他篩選，並帶你看結果；再按一次可取消該字詞。載入中會先保留選擇。',
+    expected: /搜尋全文，包含來源與限制/,
+    operator: 'match'
+  }

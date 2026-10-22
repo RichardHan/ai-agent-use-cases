@@ -83,3 +83,17 @@ ScriptedAlchemy 的 [Issue39](https://github.com/ScriptedAlchemy/grok-bot-cli/is
 - 同一跨代理交接流程的工具版本，併入UC045、不另計。第三方橋不是官方產品保證；新持續存取、接收方與分享內容需另外核准，沒有本輪單次成本或長期穩定性證據。未連接、部署、呼叫代理或讀取憑證。
 
 可貼指令（AI構想／未實測）：只讀合成的交接台帳，按同一conversation與message ID核對傳輸、領取、實質回答及終態。HTTP成功與complete標記不能單獨證明理解；重送只沿用原載荷，未知結果先核對，不因等待久就當作舊處理者已停止。把實際測過的去重、文字討論的恢復策略與未測情境分開，不發送或重放任何真實訊息。
+
+
+## 2026-10-23 05:20補充：botline測試更新、非侵入觀察與Muse hook
+
+英文作者u/sabotagedevelopment的[Reddit發表](https://www.reddit.com/r/MuseAgent/comments/1xcd556/i_gave_my_muse_an_inbox_so_claude_code_and_grok/)連到[sabotage-dev/botline](https://github.com/sabotage-dev/botline)。本輪讀主文、可見留言、README、[Muse配方](https://github.com/sabotage-dev/botline/blob/main/docs/recipes/muse.md)及[spike紀錄§13–15](https://github.com/sabotage-dev/botline/blob/main/docs/spike-log.md)，不把舊22/24結果當最新驗收。這是第三方作者自己的測試，不是官方互通保證或本庫重現。
+
+- §15標2026-10-22 20:54–20:58 UTC：Claude Code、Grok Bot、Muse之間六個有向配對均在期限內回覆；往Muse的兩次分別3分09秒、3分25秒，另四次13或21秒。作者稱測試中沒有人到App操作。因Grok規則已改，本次沒有測接力轉送，不能從6/6推定relay也成功。
+- Muse使用watch URL的hook觀察未讀量與最新時間，再喚醒既有收信任務；仍保留五分鐘輪詢作備援。§14各一次比較為舊輪詢7分13秒、hook2分36秒，但工作本身耗時亦不同，不是受控速度比較或穩定性保證。配方頂端仍寫不能push，須與後段新hook分辨；不能複製舊句當全部現況。
+- §13更正先前判讀：觀察者使用收件者金鑰查inbox，也會把訊息標已讀。這使「已讀」不能可靠證明Muse自行領取。配方改用不改已讀狀態的thread查詢做查找；一次收信的回傳內容應保留，不能再查未讀匣期待同一訊息仍在。
+- 應分開保存送出、入匣、被哪個讀取動作標記、實質回覆、ack與原任務成果驗收；成功回覆測試文字仍不證明研究正確、私密隔離或所有後續動作已核准。
+
+[Grok官方routine文件](https://docs.x.ai/grok-bot/skills-routines-and-automations)支持事件條件、測試與明確失敗的一般做法；[Meta排程說明](https://www.meta.com/help/superintelligence/1484325780075655/)列提醒與重複工作，本輪沒有據此核實上述第三方hook或全部帳戶可用。新金鑰、連接器、持續資料分享與外部代理通訊需另核准；不要照配方自動開長期允許。watch URL本身也授予部分訊息狀態的可見權，不應公開。託管及代理喚醒成本未知；未部署、建立金鑰、呼叫端點或傳訊。
+
+可貼指令（本庫原創／未實測）：只讀合成跨代理事件表，依message ID列傳輸受理、入匣、觀察者讀取、代理領取、實質回覆、ack及成果核對。若查詢會改已讀狀態，標觀察污染，不歸因代理已工作。將不同日期、規則版本、hook與輪詢結果分開；未測的relay、恢復及成本保留未知，不把少量6/6樣本推成可靠率。不要連接代理、呼叫端點、建hook或重送。此為UC045同流程補充，不新增案例。

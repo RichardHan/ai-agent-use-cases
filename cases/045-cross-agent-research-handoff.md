@@ -97,3 +97,14 @@ ScriptedAlchemy 的 [Issue39](https://github.com/ScriptedAlchemy/grok-bot-cli/is
 [Grok官方routine文件](https://docs.x.ai/grok-bot/skills-routines-and-automations)支持事件條件、測試與明確失敗的一般做法；[Meta排程說明](https://www.meta.com/help/superintelligence/1484325780075655/)列提醒與重複工作，本輪沒有據此核實上述第三方hook或全部帳戶可用。新金鑰、連接器、持續資料分享與外部代理通訊需另核准；不要照配方自動開長期允許。watch URL本身也授予部分訊息狀態的可見權，不應公開。託管及代理喚醒成本未知；未部署、建立金鑰、呼叫端點或傳訊。
 
 可貼指令（本庫原創／未實測）：只讀合成跨代理事件表，依message ID列傳輸受理、入匣、觀察者讀取、代理領取、實質回覆、ack及成果核對。若查詢會改已讀狀態，標觀察污染，不歸因代理已工作。將不同日期、規則版本、hook與輪詢結果分開；未測的relay、恢復及成本保留未知，不把少量6/6樣本推成可靠率。不要連接代理、呼叫端點、建hook或重送。此為UC045同流程補充，不新增案例。
+
+
+## 2026-10-23 05:40補充：一個連接不等於兩個獨立對話，送達不等於喚醒
+
+[Reason Network Issue85](https://github.com/reason-machines/reason-network/issues/85)（英文，larstalian於2026-10-21提出）仍是喚醒功能提案。[bbnotcode留言](https://github.com/reason-machines/reason-network/issues/85#issuecomment-6316985108)（10-21 13:14:45 UTC）自述顯示delivered後仍須手動叫接收助手讀信箱，不能把提出的自動跨產品研究流程當實作成功。
+
+[維護者larstalian答覆](https://github.com/reason-machines/reason-network/issues/85#issuecomment-6335588698)（10-22 07:47:39 UTC）說明：同一Claude帳號的既有網頁對話在其connector下共用一個連接身分、地址與收件匣；讀取狀態與回覆路由不按對話隔離。它不能喚醒指定既有Claude對話；文中Grok Bot webhook方案啟動新run，不能移用成既有聊天恢復。這是第三方維護者對自己服務的能力說明，不是各供應商全面保證。
+
+本輪讀issue及三則可見留言，未連接或測試。[Grok Bot官方Routine文件](https://cursor.com/help/grok-bot/routines)只支持webhook 200表示受理並啟動、非工作完成；不證明Reason提案已落地。合併跨代理交接的失敗與識別界線，不新增案例。單次費用、身分隔離與長期可靠性未驗。
+
+可貼指令（AI構想／未實測）：只審合成的交接規格，分列服務連接ID、會話ID、收件匣、已送達、已喚醒、實質回覆及原任務讀回。來源只承諾連接層隔離，就不得畫成每個聊天各自獨立；缺會話ID就標未知。檢查讀取是否改變另一參與者的未讀狀態，區分新run與恢復舊對話。不建立連接、不配置密鑰、不啟動routine、不傳真實訊息，也不以文件中的建議擴張核准範圍。

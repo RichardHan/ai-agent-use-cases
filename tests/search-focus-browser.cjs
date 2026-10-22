@@ -13,6 +13,8 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  const ready=async suffix=>{await page.goto(base+(suffix||''));await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await page.evaluate(()=>failedPaths.length),0);};
  const screenshot=async name=>page.screenshot({path:out+'/'+name+'-'+label+'.png'});
  const style=async (target,ringTarget=target)=>{
+  // Native focus scrolling may animate in WebKit. Observe it; never scroll for the test.
+  if(!observe)await page.waitForFunction(selector=>{const n=document.querySelector(selector),r=n.getBoundingClientRect(),bar=n.closest('dialog')?.querySelector('.detail-toolbar')?.getBoundingClientRect();return r.top>=(bar?.bottom||0)&&r.bottom<=innerHeight;},ringTarget,{timeout:2000}).catch(()=>{});
   const active=await page.locator(target).evaluate(n=>({active:n===document.activeElement,focusVisible:n.matches(':focus-visible')}));
   const ring=await page.locator(ringTarget).evaluate(n=>{const s=getComputedStyle(n),r=n.getBoundingClientRect(),d=n.closest('dialog'),bar=d?.querySelector('.detail-toolbar')?.getBoundingClientRect();return {outlineStyle:s.outlineStyle,outlineWidth:s.outlineWidth,outlineColor:s.outlineColor,outlineOffset:s.outlineOffset,background:s.backgroundColor,top:r.top,bottom:r.bottom,left:r.left,right:r.right,toolbarBottom:bar?.bottom||0,scrollWidth:n.scrollWidth,clientWidth:n.clientWidth};});
   const state={target,ringTarget,...active,...ring};row.focus.push(state);save();
@@ -28,7 +30,7 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  const read=page.locator('#results .card .card-bottom button').first();const id=await read.evaluate(n=>n.closest('.card').dataset.caseId);await read.click();await page.locator('#detail[open]').waitFor();
  await page.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();row.source=await page.locator('.markdown a[href^="https:"]').first().getAttribute('href');await page.keyboard.press('Escape');assert(await page.locator(`#results .card[data-case-id="${id}"] .card-bottom button`).evaluate(n=>n===document.activeElement));
  // Returning reader: long detail direct link + reload, keyboard into heading search.
- await ready('?case=UC-005');await page.locator('#detail[open]').waitFor();await page.reload();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
+ await ready('?case=UC-005');await page.locator('#detail[open]').waitFor();await page.reload();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await page.evaluate(()=>failedPaths.length),0,'Reload must preserve a complete corpus');
  await page.locator('.reader-outline summary').focus();await page.keyboard.press('Enter');assert(await page.locator('.reader-outline').evaluate(n=>n.open));await page.keyboard.press('Tab');
  const input=page.locator('#reader-outline-query');const state=await style('#reader-outline-query');await screenshot('outline-focus');
  if(observe){row.reproduced=state.outlineStyle==='none';save();await context.close();await browser.close();continue;}

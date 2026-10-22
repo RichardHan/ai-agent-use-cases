@@ -1,0 +1,25 @@
+[
+  {
+    "mode": "loading",
+    "passed": true,
+    "before": "query",
+    "after": "query"
+  },
+  {
+    "mode": "error",
+    "passed": true,
+    "before": "query",
+    "after": "results-count"
+  },
+  {
+    "mode": "partial",
+    "passed": true,
+    "before": "query",
+    "after": "results-count"
+  },
+  {
+    "mode": "empty",
+    "passed": true,
+    "focus": "draw-status"
+  }
+]

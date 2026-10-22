@@ -1,0 +1,14 @@
+[
+  {
+    "label": "webkit-mobile-collapsed",
+    "violations": []
+  },
+  {
+    "label": "webkit-mobile-expanded",
+    "violations": []
+  },
+  {
+    "label": "webkit-mobile-pending",
+    "violations": []
+  }
+]

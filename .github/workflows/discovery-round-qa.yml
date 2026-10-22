@@ -8,7 +8,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.56.1-noble
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
@@ -20,7 +20,7 @@ jobs:
       - name: Install cloud browser tools
         timeout-minutes: 5
         run: |
-          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.56.1 @axe-core/playwright@4.10.2
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
           mkdir -p /usr/local/share/fonts
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f

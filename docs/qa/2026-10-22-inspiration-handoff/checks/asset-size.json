@@ -1,0 +1,16 @@
+[
+  {
+    "path": "assets/app.js",
+    "beforeBytes": 165020,
+    "afterBytes": 165477,
+    "beforeGzip": 50023,
+    "afterGzip": 50172
+  },
+  {
+    "path": "assets/style.css",
+    "beforeBytes": 32287,
+    "afterBytes": 32434,
+    "beforeGzip": 7449,
+    "afterGzip": 7510
+  }
+]

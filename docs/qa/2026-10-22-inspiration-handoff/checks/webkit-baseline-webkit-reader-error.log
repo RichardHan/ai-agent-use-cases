@@ -1,0 +1,8 @@
+page.goto: Page crashed
+Call log:
+  - navigating to "http://127.0.0.1:8136/ai-agent-use-cases/?q=PR&case=UC-005", waiting until "networkidle"
+
+    at ready (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/reader-browser.cjs:36:14)
+    at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/reader-browser.cjs:118:10 {
+  name: 'Error'
+}

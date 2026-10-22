@@ -1,0 +1,92 @@
+[
+  {
+    "engine": "chromium",
+    "size": "desktop",
+    "domContentLoadedMs": 58,
+    "loadMs": 59,
+    "readerAssets": [
+      {
+        "path": "/ai-agent-use-cases/assets/reader.css",
+        "encodedBytes": 14496,
+        "durationMs": 4
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/reader.js",
+        "encodedBytes": 25774,
+        "durationMs": 9
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "size": "mobile",
+    "domContentLoadedMs": 58,
+    "loadMs": 60,
+    "readerAssets": [
+      {
+        "path": "/ai-agent-use-cases/assets/reader.css",
+        "encodedBytes": 14496,
+        "durationMs": 4
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/reader.js",
+        "encodedBytes": 25774,
+        "durationMs": 10
+      }
+    ]
+  },
+  {
+    "engine": "chromium",
+    "size": "small-mobile",
+    "domContentLoadedMs": 59,
+    "loadMs": 60,
+    "readerAssets": [
+      {
+        "path": "/ai-agent-use-cases/assets/reader.css",
+        "encodedBytes": 14496,
+        "durationMs": 4
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/reader.js",
+        "encodedBytes": 25774,
+        "durationMs": 11
+      }
+    ]
+  },
+  {
+    "engine": "firefox",
+    "size": "mobile",
+    "domContentLoadedMs": 89,
+    "loadMs": 92,
+    "readerAssets": [
+      {
+        "path": "/ai-agent-use-cases/assets/reader.css",
+        "encodedBytes": 14496,
+        "durationMs": 18
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/reader.js",
+        "encodedBytes": 25774,
+        "durationMs": 20
+      }
+    ]
+  },
+  {
+    "engine": "webkit",
+    "size": "mobile",
+    "domContentLoadedMs": 44,
+    "loadMs": 270,
+    "readerAssets": [
+      {
+        "path": "/ai-agent-use-cases/assets/reader.css",
+        "encodedBytes": 14496,
+        "durationMs": 7
+      },
+      {
+        "path": "/ai-agent-use-cases/assets/reader.js",
+        "encodedBytes": 25774,
+        "durationMs": 6
+      }
+    ]
+  }
+]

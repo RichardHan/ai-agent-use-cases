@@ -1,0 +1,218 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "每天早上說一句工時，月底就能拿AI的估算對薪水",
+      "rect": {
+        "x": 841.5,
+        "y": 385.28125,
+        "width": 403.484375,
+        "height": 76.78125
+      }
+    },
+    "readID": "UC-338",
+    "draw": {
+      "focus": "每天早上的資訊整理，內部資料和公開資料交給不同 AI，各自只做「收集、整理、給我看」",
+      "rect": {
+        "x": 841.5,
+        "y": 253.28125,
+        "width": 403.484375,
+        "height": 115.171875
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 841.5,
+      "y": 314.453125,
+      "width": 403.484375,
+      "height": 383.90625
+    },
+    "oversizedTitle": {
+      "x": 841.5,
+      "y": 48.09375,
+      "width": 403.484375,
+      "height": 1842.75
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 17.69999999999709,
+      "load": 25.5
+    }
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "週末收到要簽的合約？用手機叫 Bot 找出你的簽名圖、貼好簽名處，再存成回信草稿讓你看過才寄",
+      "rect": {
+        "x": 66,
+        "y": 264.296875,
+        "width": 258,
+        "height": 147.1875
+      }
+    },
+    "readID": "UC-374",
+    "draw": {
+      "focus": "把「活動前一週交」和日曆、任務日期交叉核對",
+      "rect": {
+        "x": 66,
+        "y": 243.90625,
+        "width": 258,
+        "height": 73.59375
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 345.859375,
+      "width": 258,
+      "height": 515.15625
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48.015625,
+      "width": 258,
+      "height": 2612.578125
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 16,
+      "load": 20.39999999999418
+    }
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "每天的收銀資料，整理成可核對的入帳檔",
+      "rect": {
+        "x": 66,
+        "y": 243.90625,
+        "width": 188,
+        "height": 110.390625
+      }
+    },
+    "readID": "UC-036",
+    "draw": {
+      "focus": "庫存報表很漂亮也會算錯，先檢查商品真正上架了幾天",
+      "rect": {
+        "x": 66,
+        "y": 264.296875,
+        "width": 188,
+        "height": 110.390625
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 47.53125,
+      "width": 188,
+      "height": 699.140625
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48.03125,
+      "width": 188,
+      "height": 3532.5
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 14.80000000000291,
+      "load": 19.30000000000291
+    }
+  },
+  {
+    "label": "firefox-390",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "技師在群組報完工，日終整理回客戶線索表",
+      "rect": {
+        "x": 66,
+        "y": 244,
+        "width": 258,
+        "height": 73.60000610351562
+      }
+    },
+    "readID": "UC-301",
+    "draw": {
+      "focus": "找合適職缺，把履歷改成有根據的申請草稿",
+      "rect": {
+        "x": 66,
+        "y": 244,
+        "width": 258,
+        "height": 73.60000610351562
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 48.29999923706055,
+      "width": 258,
+      "height": 588.799976348877
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48,
+      "width": 258,
+      "height": 2833.60009765625
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 188,
+      "load": 189
+    }
+  },
+  {
+    "label": "webkit-390",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "執業律師把每天的庭期追蹤與開庭資料夾交給 Bot，判斷與簽名仍自己來",
+      "rect": {
+        "x": 66,
+        "y": 262,
+        "width": 258,
+        "height": 144
+      }
+    },
+    "readID": "UC-367",
+    "draw": {
+      "focus": "讓好幾個Bot一起看盤，怎麼避免它們互相打架、亂下單？分角色各寫一個檔案，只准一個Bot碰錢，風控上限先寫死",
+      "rect": {
+        "x": 66,
+        "y": 262,
+        "width": 258,
+        "height": 180
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 342,
+      "width": 258,
+      "height": 504
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48,
+      "width": 258,
+      "height": 2556
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 33,
+      "load": 41
+    }
+  }
+]

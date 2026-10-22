@@ -18,7 +18,7 @@ for(const [engine,width] of [[chromium,1440],[chromium,390],[chromium,320],[fire
  const wrap=page.locator('.markdown-table').first(),table=wrap.locator('table');assert.equal(await table.locator('thead th[scope="col"]').count(),4);assert.equal(await table.locator('tbody tr').count(),6);
  const original=fs.readFileSync('cases/400-x-api-read-only-creator-bots-cost-estimate-vs-bill.md','utf8').split('\n').filter(l=>l.startsWith('|')&&!/^\| ---/.test(l)).map(l=>l.slice(1,-1).split('|').map(c=>c.trim()));
  const actual=await table.locator('tr').evaluateAll(rows=>rows.map(r=>[...r.cells].map(c=>c.textContent)));assert.deepEqual(actual,original);row.cells=actual;
- await wrap.evaluate(n=>{const d=document.querySelector('#detail');d.scrollTop+=n.getBoundingClientRect().top-document.querySelector('.detail-toolbar').getBoundingClientRect().bottom-18;});await wrap.focus();await page.screenshot({path:`${out}/table-${label}.png`});
+ await wrap.evaluate(n=>{const d=document.querySelector('#detail');d.scrollTop+=n.getBoundingClientRect().top-document.querySelector('.detail-toolbar').getBoundingClientRect().bottom-18;});await page.keyboard.press('Tab');await wrap.focus();await page.screenshot({path:`${out}/table-${label}.png`});
  row.overflow=await wrap.evaluate(n=>n.scrollWidth>n.clientWidth);if(row.overflow){const left=await wrap.evaluate(n=>n.scrollLeft);await page.keyboard.press('ArrowRight');await page.waitForFunction(before=>document.querySelector('.markdown-table').scrollLeft>before,left);row.keyboardScroll=await wrap.evaluate(n=>n.scrollLeft);assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-400');await page.keyboard.press('ArrowLeft');}
  assert(await page.locator('#detail').evaluate(n=>n.scrollWidth<=n.clientWidth+1));assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  row.audits.push((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})));
@@ -30,7 +30,14 @@ for(const [engine,width] of [[chromium,1440],[chromium,390],[chromium,320],[fire
  await page.goto(base+'?q=6.50&case=UC-400');await page.locator('#detail[open]').waitFor();await ready(page);await page.locator('.reader-search-locate').first().focus();await page.keyboard.press('Enter');
  row.searchTarget=await page.evaluate(()=>{const n=document.activeElement,r=n.getBoundingClientRect(),w=n.closest('.markdown-table'),v=w?.getBoundingClientRect();return {tag:n.tagName,text:n.textContent,left:r.left,right:r.right,viewportLeft:v?.left,viewportRight:v?.right,scrollLeft:w?.scrollLeft};});
  assert.equal(row.searchTarget.tag,'TD');assert.equal(row.searchTarget.text,'約6.50美元');assert(row.searchTarget.left>=row.searchTarget.viewportLeft-1);assert(row.searchTarget.right<=row.searchTarget.viewportRight+1);
- await page.screenshot({path:`${out}/cost-search-${label}.png`});await page.reload();await page.locator('#detail[open]').waitFor();await ready(page);assert.equal(await page.locator('#query').inputValue(),'6.50');assert.equal(await page.locator('.markdown-table tbody tr').count(),6);
+ await page.screenshot({path:`${out}/cost-search-${label}.png`});
+ if(engine===chromium&&width===390){
+  const state=()=>page.evaluate(()=>({left:document.querySelector('.markdown-table').scrollLeft,top:document.querySelector('#detail').scrollTop,focus:document.activeElement.id}));
+  row.printBefore=await state();await page.pdf({path:`${out}/uc400-mobile.pdf`,format:'A4',printBackground:true});row.printAfterPDF=await state();
+  await page.evaluate(()=>dispatchEvent(new Event('beforeprint')));await page.emulateMedia({media:'print'});await page.locator('.markdown-table').evaluate(n=>n.getBoundingClientRect());await page.emulateMedia({media:'screen'});await page.evaluate(()=>dispatchEvent(new Event('afterprint')));row.printAfterMedia=await state();
+  assert.deepEqual(row.printAfterPDF,row.printBefore,'PDF retains horizontal reading position');assert.deepEqual(row.printAfterMedia,row.printBefore,'native print media retains horizontal reading position');
+ }
+ await page.reload();await page.locator('#detail[open]').waitFor();await ready(page);assert.equal(await page.locator('#query').inputValue(),'6.50');assert.equal(await page.locator('.markdown-table tbody tr').count(),6);
  await page.keyboard.press('Escape');await page.locator('#query').fill('no-table-results-qa');await page.locator('#empty').waitFor({state:'visible'});await page.locator('#edit-query').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
  row.audits.push((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})));
  // Controlled long-cell layout only; it never modifies repository source data.

@@ -269,6 +269,10 @@
       if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Set(),passages:[]});
       const section=sourceSections[sourceSections.length-1];
       const passages=readingPassages(block);
+      if(block.className==='markdown-table'){
+        block.setAttribute('aria-label',`${section.title||'原文'}：表格；可左右捲動，鍵盤聚焦後可用左右方向鍵`);
+        block.querySelector('table').setAttribute('aria-label',section.title||'原文表格');
+      }
       section.text+='\n'+(/^[UO]L$/.test(block.tagName)||block.className==='markdown-table'?passages.map(passage=>passage.text).join('\n'):block.textContent);
       section.passages.push(...passages);
       for(const link of block.querySelectorAll('a')){

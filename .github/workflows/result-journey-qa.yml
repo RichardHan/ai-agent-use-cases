@@ -1,0 +1,36 @@
+name: Result journey QA
+on:
+  push:
+    branches: [improve/result-link-semantics-20261022, verify/result-link-semantics-20261022]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install cloud tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
+          mkdir -p /usr/local/share/fonts
+          curl -fL --max-time 90 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
+          fc-cache -f
+      - name: Observe published journeys
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          mkdir -p qa-artifacts
+          chown -R pwuser:pwuser qa-artifacts
+          runuser -u pwuser -- node tests/discovery-round-observe.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: result-journey-qa
+          path: qa-artifacts/

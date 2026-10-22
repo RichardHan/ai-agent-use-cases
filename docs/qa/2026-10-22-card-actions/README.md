@@ -1,6 +1,6 @@
 # 卡片操作尺寸：標籤能點，閱讀看得清楚
 
-狀態：產品完成，完整雲端預覽與獨立審查通過；正式發布另記。
+狀態：已正常合併、部署並完成正式驗收；本輪完成。
 
 目標讀者：第一次在手機搜尋問題，想從卡片繼續篩選或深入閱讀的人。
 
@@ -45,7 +45,7 @@ REFINE_URL=http://127.0.0.1:8140/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/nod
 QA_OUT=qa-artifacts/inspiration SITE_URL=http://127.0.0.1:8140/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_modules node tests/inspiration-handoff-browser.cjs
 ```
 
-預覽由Python server提供`http://127.0.0.1:8140/ai-agent-use-cases/`；正式站[AI用法實驗室](https://richardhan.github.io/ai-agent-use-cases/)仍待本輪發布驗證。
+預覽由Python server提供`http://127.0.0.1:8140/ai-agent-use-cases/`；正式站[AI用法實驗室](https://richardhan.github.io/ai-agent-use-cases/)已完成本輪發布驗證。
 
 中間失敗如實保留：39783865525為新增workflow heredoc結尾縮排導致shell語法錯誤，修正e9ced72；獨立審查抓到兩套測試共用after/report.json會覆寫量測，fbb9873改分開輸出。39784059037／39784228827的WebKit在直鏈尚未載完全文就reload時出現32條取消請求pageerror，原run均FAIL，[原始錯誤](checks/intermediate-webkit.log)保留。9622bdc讓該流程等待全文完成再重整；這是驗收邊界調整，不宣稱修復快速重整。7d39396讓受控比較圖改用正常deck API，保持卡片與上方狀態一致。未因測試工具問題更改產品或放寬44px標準。
 
@@ -76,3 +76,13 @@ QA_OUT=qa-artifacts/inspiration SITE_URL=http://127.0.0.1:8140/ai-agent-use-case
 獨立角色唯讀檢查diff、舊／新八張桌面／手機／320px長文與focus圖、原始量測、兩套回歸及red／unit，結論「可合併，無剩餘必修」。報告覆寫、標題與hover漏驗及受控截圖狀態不一致等意見已處理；主角色唯一實作與整合。
 
 最後比較圖補驗[39784703975](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39784703975)同樣完整成功，產品CSS未變；受控單卡的上方狀態與UC-001卡片一致，前後圖均已更新。最終[專項報告](after/report.json)五配置／15次axe全通過，[UC-341窄卡](after/real-UC-341-chromium-320.png)、[待查卡](after/real-P-003-chromium-320.png)、[長字](after/long-labels-chromium-320.png)、[鍵盤焦點](after/keyboard-focus-chromium-390.png)。各次重跑的axe不重複累計為成效；log只清除行尾空白。
+
+## 正式發布完成
+
+正常merge與SSH push到main為`d67b5cc`，沒有reset／強推；協作者其後新增`ed5c715`僅研究紀錄，已正常fast-forward完整保留。原Pages39785586628被該更新取代取消，未算成功；[Pages39785649112](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39785649112)的Jekyll build／deploy／report成功，包含本輪產品。Pages仍legacy main根目錄，沒有改部署方式。
+
+[正式QA39785609776](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39785609776)成功，五個公開HTML／JS／CSS先逐byte比對checkout才實走，[資產hash](checks/published-assets.json)；主角色另HTTP200逐byte核對[五檔](checks/published-http.json)。正式Chromium1440／390／320、Firefox390、WebKit390各423條目完整、零缺項／pageerror，尺寸最小48×44px、字體最小14px，來源新頁、搜尋、組合條件、標籤、焦點、返回、直鏈重整、空結果與長字全部通過，15次主要axe零違規。[正式原始報告](published/report.json)。預覽＋正式各15次主要axe，不重複累計中間重跑。
+
+主角色已目視正式[桌面](published/results-chromium-1440.png)／[手機](published/results-chromium-390.png)；獨立角色另核對正式證據。最後僅補紀錄與圖，不再變動產品。原工作目錄兩項未提交搜尋修改仍在原分支保持不變。
+
+其他主線CI的[實際快照](checks/main-ci-snapshot.json)仍含失敗及執行中，未宣稱全庫CI全綠；本輪必要預覽、正式驗收與獨立review均已通過。原有audit21／19、快速重整及舊WebKit限制照實保留。下一輪優先任務標籤／結果語意對齊，未追加功能或排程。

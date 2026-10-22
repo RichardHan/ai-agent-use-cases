@@ -1629,9 +1629,17 @@ function syncDiscovery(filtered){
   }
 }
 function revealDiscovery(){
-  if(!window.matchMedia('(max-width:760px)').matches)return;
-  const rect=$('discover').getBoundingClientRect();
-  if(rect.top<0||rect.bottom>window.innerHeight)$('discover').scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  // Only explicit scenario/draw actions call this helper. Automatic deck updates
+  // must leave the reader's current input and focus untouched.
+  if(!discoveryReady)return;
+  const target=$('drawn-case').querySelector('h3 button')||$('draw-status');
+  if(target===$('draw-status'))target.tabIndex=-1;
+  const stage=$('discover'),rect=stage.getBoundingClientRect();
+  if(rect.top<0||rect.bottom>window.innerHeight)stage.scrollIntoView({block:'start',behavior:'instant'});
+  // A long status or title can extend past the stage's initial landing.
+  const titleRect=target.getBoundingClientRect();
+  if(titleRect.top<16||titleRect.bottom>window.innerHeight-16)target.scrollIntoView({block:'start',behavior:'instant'});
+  target.focus({preventScroll:true});
 }
 function chooseScenario(value){
   ['query','scenario','kind','tool','category','proof'].forEach(id=>$(id).value='');

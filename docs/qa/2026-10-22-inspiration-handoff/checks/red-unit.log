@@ -1,0 +1,124 @@
+✖ explicit mobile inspiration handoff focuses the new readable card, with bounded instant scrolling (5.864209ms)
+✖ desktop inspiration handoff also reaches the card without scrolling an already visible stage (3.8595ms)
+✖ empty deck focuses its explanation instead of a disabled draw button (7.944417ms)
+✖ loading or failure never moves focus or schedules a late handoff (3.876459ms)
+✖ long original titles bring the focus target into view even after a tall status (2.988667ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 70.681583
+
+✖ failing tests:
+
+test at tests/inspiration-handoff.test.cjs:14:1
+✖ explicit mobile inspiration handoff focuses the new readable card, with bounded instant scrolling (5.864209ms)
+  AssertionError [ERR_ASSERTION]: focus must follow the visible new card
+      at TestContext.<anonymous> (/private/tmp/ai-discovery-20261022/tests/inspiration-handoff.test.cjs:16:2)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at tests/inspiration-handoff.test.cjs:20:1
+✖ desktop inspiration handoff also reaches the card without scrolling an already visible stage (3.8595ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'title'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/ai-discovery-20261022/tests/inspiration-handoff.test.cjs:22:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'title' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/inspiration-handoff.test.cjs:24:1
+✖ empty deck focuses its explanation instead of a disabled draw button (7.944417ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert(calls.some(([target])=>target==='status'))
+  
+      at TestContext.<anonymous> (/private/tmp/ai-discovery-20261022/tests/inspiration-handoff.test.cjs:26:2)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at tests/inspiration-handoff.test.cjs:28:1
+✖ loading or failure never moves focus or schedules a late handoff (3.876459ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   [
+  +     'scroll',
+  +     {
+  +       behavior: 'instant',
+  +       block: 'start'
+  +     }
+  +   ]
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/private/tmp/ai-discovery-20261022/tests/inspiration-handoff.test.cjs:29:62)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ [ 'scroll', [Object] ] ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/inspiration-handoff.test.cjs:32:1
+✖ long original titles bring the focus target into view even after a tall status (2.988667ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert(calls.some(([target,options])=>target==='target-scroll'&&options.block==='start'&&options.behavior==='instant'))
+  
+      at TestContext.<anonymous> (/private/tmp/ai-discovery-20261022/tests/inspiration-handoff.test.cjs:34:2)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

@@ -23,10 +23,62 @@ jobs:
           mkdir -p /usr/local/share/fonts
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f
-      - name: Observe current website
+      - name: Unit, syntax, static build and original failures
+        run: |
+          mkdir -p qa-artifacts
+          if node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1; then
+            echo 'All unit tests passed'
+          else
+            node - <<'JS'
+            const fs=require('node:fs'),assert=require('node:assert/strict');
+            const tap=fs.readFileSync('qa-artifacts/unit.tap','utf8');
+            const failed=[...tap.matchAll(/^not ok \d+ - (.+)$/gm)].map(m=>m[1]);
+            assert.deepEqual(failed,['candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus']);
+            console.log('Only the recorded baseline audit count failure remains; see unit.tap');
+            JS
+          fi
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+          git diff --check
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          git show 1693505:assets/app.js > "$RUNNER_TEMP/original-app.js"
+          if INSPIRATION_SOURCE="$RUNNER_TEMP/original-app.js" node --test --test-reporter=tap tests/inspiration-handoff.test.cjs > qa-artifacts/red.tap 2>&1; then
+            echo 'Expected old card handoff to fail'; exit 1
+          fi
+          node - <<'JS'
+          const fs=require('node:fs'),assert=require('node:assert/strict');const tap=fs.readFileSync('qa-artifacts/red.tap','utf8');assert.match(tap,/# fail 5/);assert(!tap.includes('TypeError'));
+          JS
+      - name: Complete preview journeys
+        if: github.ref == 'refs/heads/improve/actionable-discovery-20261022'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
-        run: node tests/discovery-round-observe.cjs
+          SITE_URL: http://127.0.0.1:8136/ai-agent-use-cases/
+          READER_URL: http://127.0.0.1:8136/ai-agent-use-cases/
+        run: |
+          python3 -m http.server 8136 --directory "$RUNNER_TEMP/preview" > /tmp/inspiration-preview.log 2>&1 &
+          python3 -m http.server 8081 --directory "$RUNNER_TEMP/preview" > /tmp/inspiration-discovery.log 2>&1 &
+          node tests/inspiration-handoff-browser.cjs
+          node tests/discovery-browser.cjs > qa-artifacts/discovery.log
+          node tests/reader-browser.cjs > qa-artifacts/reader.log
+      - name: Published assets and complete journeys
+        if: github.ref == 'refs/heads/verify/actionable-discovery-20261022'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          SITE_URL: https://richardhan.github.io/ai-agent-use-cases/
+          QA_OUT: qa-artifacts/published
+        run: |
+          node - <<'JS'
+          const fs=require('node:fs'),{createHash}=require('node:crypto');
+          (async()=>{
+            const files=['index.html','assets/app.js','assets/style.css'];
+            for(let attempt=0;attempt<30;attempt++){
+              const matches=await Promise.all(files.map(async f=>{try{const r=await fetch(process.env.SITE_URL+(f==='index.html'?'':f)+'?inspiration='+process.env.GITHUB_SHA,{signal:AbortSignal.timeout(15000)});return r.ok&&await r.text()===fs.readFileSync(f,'utf8');}catch{return false;}}));
+              if(matches.every(Boolean)){fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify(files.map(f=>({path:f,sha256:createHash('sha256').update(fs.readFileSync(f)).digest('hex')})),null,2));console.log('Published HTML/app.js/style.css match checkout');return;}
+              await new Promise(r=>setTimeout(r,10000));
+            }
+            throw Error('Pages assets did not match checkout');
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node tests/inspiration-handoff-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

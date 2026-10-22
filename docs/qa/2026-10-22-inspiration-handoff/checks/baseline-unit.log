@@ -178,9 +178,9 @@ PASS: 423 source entries; full-text, Unicode, combined filters, evidence, empty/
 test at tests/audit.test.cjs:145:1
 ✖ candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus (79.97375ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
-  
+
   20 !== 19
-  
+
       at TestContext.<anonymous> (/private/tmp/ai-discovery-20261022/tests/audit.test.cjs:382:10)
       at Test.runInAsyncScope (node:async_hooks:211:14)
       at Test.run (node:internal/test_runner/test:980:25)

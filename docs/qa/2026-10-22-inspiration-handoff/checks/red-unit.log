@@ -33,12 +33,12 @@ test at tests/inspiration-handoff.test.cjs:20:1
 ✖ desktop inspiration handoff also reaches the card without scrolling an already visible stage (3.8595ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
-  
+
   + []
   - [
   -   'title'
   - ]
-  
+
       at TestContext.<anonymous> (/private/tmp/ai-discovery-20261022/tests/inspiration-handoff.test.cjs:22:9)
       at Test.runInAsyncScope (node:async_hooks:211:14)
       at Test.run (node:internal/test_runner/test:980:25)
@@ -56,9 +56,9 @@ test at tests/inspiration-handoff.test.cjs:20:1
 test at tests/inspiration-handoff.test.cjs:24:1
 ✖ empty deck focuses its explanation instead of a disabled draw button (7.944417ms)
   AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
-  
+
     assert(calls.some(([target])=>target==='status'))
-  
+
       at TestContext.<anonymous> (/private/tmp/ai-discovery-20261022/tests/inspiration-handoff.test.cjs:26:2)
       at Test.runInAsyncScope (node:async_hooks:211:14)
       at Test.run (node:internal/test_runner/test:980:25)
@@ -77,7 +77,7 @@ test at tests/inspiration-handoff.test.cjs:28:1
 ✖ loading or failure never moves focus or schedules a late handoff (3.876459ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
-  
+
   + [
   +   [
   +     'scroll',
@@ -88,7 +88,7 @@ test at tests/inspiration-handoff.test.cjs:28:1
   +   ]
   + ]
   - []
-  
+
       at TestContext.<anonymous> (/private/tmp/ai-discovery-20261022/tests/inspiration-handoff.test.cjs:29:62)
       at Test.runInAsyncScope (node:async_hooks:211:14)
       at Test.run (node:internal/test_runner/test:980:25)
@@ -106,9 +106,9 @@ test at tests/inspiration-handoff.test.cjs:28:1
 test at tests/inspiration-handoff.test.cjs:32:1
 ✖ long original titles bring the focus target into view even after a tall status (2.988667ms)
   AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
-  
+
     assert(calls.some(([target,options])=>target==='target-scroll'&&options.block==='start'&&options.behavior==='instant'))
-  
+
       at TestContext.<anonymous> (/private/tmp/ai-discovery-20261022/tests/inspiration-handoff.test.cjs:34:2)
       at Test.runInAsyncScope (node:async_hooks:211:14)
       at Test.run (node:internal/test_runner/test:980:25)

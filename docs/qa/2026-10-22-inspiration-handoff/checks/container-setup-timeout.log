@@ -3,6 +3,6 @@ browser	Install cloud browser tools	2026-10-22T10:10:29.5651934Z ^[[36;1mnpm ins
 browser	Install cloud browser tools	2026-10-22T10:10:29.5652254Z ^[[36;1mapt-get update -qq && apt-get install -y fonts-noto-cjk^[[0m
 browser	Install cloud browser tools	2026-10-22T10:10:29.5654719Z shell: sh -e {0}
 browser	Install cloud browser tools	2026-10-22T10:10:29.5654853Z ##[endgroup]
-browser	Install cloud browser tools	2026-10-22T10:10:31.6490054Z 
+browser	Install cloud browser tools	2026-10-22T10:10:31.6490054Z
 browser	Install cloud browser tools	2026-10-22T10:10:31.6502644Z added 5 packages in 2s
 browser	Install cloud browser tools	2026-10-22T10:15:29.5717732Z ##[error]The action 'Install cloud browser tools' has timed out after 5 minutes.

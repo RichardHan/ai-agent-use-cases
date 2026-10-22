@@ -25,6 +25,7 @@ jobs:
           fc-cache -f
       - name: Unit, syntax, static build and original failures
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           mkdir -p qa-artifacts
           if node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1; then
             echo 'All unit tests passed'
@@ -40,7 +41,7 @@ jobs:
           JS
           fi
           for file in assets/*.js tests/*.cjs; do node --check "$file"; done
-          git diff --check
+          git diff 1693505 --check
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
           git show 1693505:assets/app.js > "$RUNNER_TEMP/original-app.js"
           if INSPIRATION_SOURCE="$RUNNER_TEMP/original-app.js" node --test --test-reporter=tap tests/inspiration-handoff.test.cjs > qa-artifacts/red.tap 2>&1; then

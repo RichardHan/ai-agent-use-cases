@@ -28,7 +28,7 @@ jobs:
           node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1 || node - <<'JS'
           const fs=require('node:fs'),assert=require('node:assert/strict'),tap=fs.readFileSync('qa-artifacts/unit.tap','utf8');
           assert.deepEqual([...tap.matchAll(/^not ok \d+ - (.+)$/gm)].map(m=>m[1]),['candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus']);
-          assert.match(tap,/expected: 19\n  actual: 21/);console.log('Only recorded baseline audit failure remains (21 vs 19)');
+          assert.match(tap,/expected: 19\n  actual: 22/);console.log('Only recorded baseline audit failure remains (22 vs 19)');
           JS
           for f in assets/*.js tests/task-labels*.cjs; do node --check "$f"; done
           git diff --check

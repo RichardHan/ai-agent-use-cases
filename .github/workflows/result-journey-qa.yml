@@ -39,7 +39,7 @@ jobs:
             const failure=tap.slice(tap.indexOf('\nnot ok ')).split('\n# Subtest:')[0];
             assert.match(failure,/code: 'ERR_ASSERTION'/);assert.match(failure,/expected: 19\n  actual: 21/);
             console.log('Only recorded original audit failure 21/19 remains; not an all-green unit result');
-            JS
+          JS
           fi
           for file in assets/*.js tests/*.cjs; do node --check "$file"; done
           git diff 4c62054 --check

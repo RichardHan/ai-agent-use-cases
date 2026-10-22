@@ -99,3 +99,5 @@ NODE_PATH=<cloud-tools>/node_modules SITE_URL=http://127.0.0.1:8134/ai-agent-use
 可用預覽：[正式網站](https://richardhan.github.io/ai-agent-use-cases/)／[長篇UC-005](https://richardhan.github.io/ai-agent-use-cases/?case=UC-005)。原工作目錄修改完整保留；既有audit、舊runner與外部來源403、真機及完整輔具限制保留。最後提交僅QA閘門與維護證據，不改動已驗收產品。本輪達標，停止擴充。
 
 獨立角色已最後核對正式原報告與桌面／手機目錄、WebKit復原畫面，結論「可交付，沒有未解決的產品或視覺阻擋」。主線舊CI與來源403限制沒有被隱藏；無須再改產品。
+
+收尾並行研究保留：最後維護證據push因遠端4192088新研究而被普通non-fast-forward拒絕，沒有強推；檢查其6檔均為UC-431／113／389公開來源、索引及研究紀錄，正常無衝突合併。五個已驗收產品資產相對2d6d056逐byte不變。合併後完整單元仍177／178、同一23／19，[最終整合輸出](checks/final-integrated-unit.tap)。正式428條目報告是該次真實驗收，不冒稱含後來UC-431；條目數會隨協作者研究更新。最後只補維護證據，不擴大產品範圍。

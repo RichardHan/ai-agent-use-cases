@@ -572,6 +572,10 @@
 | UC-424 | 拆解喜歡的網站主視覺構成與寓意，再換成可商用的公有領域素材重做品牌橫幅 | Grok Bot／NASA公有領域衛星影像 | [B英文作者貼文＋兩張成品圖；拆解對話未公開、未重現](cases/424-reference-banner-deconstruct-public-domain-remake.md) | 創作｜設計、主視覺、授權、品牌 |
 | UC-425 | 取消後忘掉的旅行：Muse清點閒置航空抵用金、部分退款與附帶旅遊保險，代為申請理賠 | Meta Muse | [B英文作者單則自述（核准1,445.52美元）；無截圖、未重現](cases/425-cancelled-trip-forgotten-credits-refund-insurance-claim.md) | 省錢｜旅遊、退款、保險理賠、抵用金 |
 
+| UC-426 | 讓DNA結構轉成短片，但不要把鏡頭旋轉說成分子模擬 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/426-fixed-molecular-coordinates-camera-storytelling.md) | 創作｜3D、來源、驗收 |
+| UC-427 | 機構說不清？用同一模型的外觀、斷面、分解與狀態圖檢查 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/427-invention-prose-coherent-mechanism-explanation-views.md) | 創作｜3D、來源、驗收 |
+| UC-428 | 檔案做好卻拿不到？用固定版本的接收站分清保存、收件和匯入 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/428-version-fixed-artifact-receipt-hub.md) | 開發｜交付、版本、驗收 |
+
 ## 驗證與模板補充（3，不列新增成功案例）
 
 | 編號 | 補充 | 狀態 | 情境／標籤 |
@@ -601,3 +605,8 @@
 ## 2026-10-23 04:40研究補充
 
 [本輪14候選審查與三個待完整去重流程](sources/research-2026-10-23-0440.md)：UC127事件類型／重建讀回，UC382選題與稿件品質關卡。2項補充，不新增合格數；成果物hub、機構解釋圖與固定DNA座標動畫保留候選，不因跨工具或題材改寫湊數。現有累計未重驗，2000目標計數口徑仍待確認。
+
+
+## 2026-10-23 04:50研究批次
+
+[6候選審查與三個承接流程去重結論](sources/research-2026-10-23-0450.md)：首次收錄UC426固定科學座標鏡頭敘事、UC427機構說明場景、UC428固定版成果接收。新增B級作者實作3，非獨立重現；補充0、證據不足2、既有同源1。承接三候選不重算新發現；現全庫三類累計未知，歷史357@2026-10-21 20:50未重驗，2000口徑待確認。

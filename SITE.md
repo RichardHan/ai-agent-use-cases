@@ -15,6 +15,8 @@ Repository → Settings → Pages → Build and deployment：
 
 ## 最新網站驗收
 
+2026-10-23：原文比較表保留欄列、作者限定與安全連結，手機支援鍵盤橫捲，搜尋可定位右側成本格，列印完整保留來源。完整兩案、前後圖、測試與發布證據見[本輪紀錄](docs/qa/2026-10-23-table-reading/README.md)。
+
 2026-10-22：首頁選情境／抽卡後，鍵盤焦點直接接到可閱讀標題；Enter開啟、Escape精確返回，空卡組及長標題也可操作。核心五配置、四載入狀態與既有discovery／reader回歸已驗；原有計數斷言及舊WebKit故障分開記錄。[方案、前後截圖、驗收與獨立審查](docs/qa/2026-10-22-inspiration-handoff/README.md)。
 
 2026-10-22：原文清單保留父子層級與編號，搜尋定位指向實際子項、避免跨項拼接；原始研究與來源不改寫。[兩案、前後截圖、驗收與獨立審查](docs/qa/2026-10-22-list-reading/README.md)。

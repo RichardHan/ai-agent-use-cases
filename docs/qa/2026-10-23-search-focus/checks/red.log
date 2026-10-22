@@ -1,0 +1,13 @@
+AssertionError [ERR_ASSERTION]: Keyboard focus must have a visible outline: #reader-outline-query
+
+'none' !== 'solid'
+
+    at style (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/search-focus-browser.cjs:19:86)
+    at async /__w/ai-agent-use-cases/ai-agent-use-cases/tests/search-focus-browser.cjs:33:64 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'none',
+  expected: 'solid',
+  operator: 'strictEqual',
+  diff: 'simple'
+}

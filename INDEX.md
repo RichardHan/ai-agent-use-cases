@@ -1,5 +1,7 @@
 # 完整案例索引
 
+2026-10-22 08:46批次：X（英、中、日、韓；Muse／dots一輪）＋note（公開API）、dev.to（公開API）、GitHub模板倉庫、Hacker News（Algolia，本輪請求失敗）集中核對，並接手17:45批次待比對的dev.to線索。新增UC-416日文作者讓LinkedIn專責Bot每天記追蹤者與人脈數、抓不到寫「未取得＋原因」，並把29篇貼文依曝光排名（B）、UC-417英文作者報名通知撞免費寄信上限靜默停發，Bot比對報名數找出缺口並從網站資料庫補回（B，單則自述）；046併入@Scobleizer每小時讀X列表產出新聞文件頁、@JiapeiYang21427 xshelf每天把書籤整理成可搜尋公開網站（附模板），071併入英文作者多Bot共用Obsidian vault（各Bot資料夾、只追加紀錄、共用收件匣）與日文作者dots讀Grok Bot的Notion日報發現行事曆未改先問本人，035併入英文作者Grok Bot每4小時打分、只投高分並以回執為準，均不另計。皆未重現。承接357，嚴格合格359／1000，尚差641；主要頁409。[逐組判斷與實閱範圍](sources/research-2026-10-22-0846.md)。
+
 2026-10-21 20:50批次：X（英、中、日、韓；Muse／dots一輪）＋部落格與note（API）、Velog、PTT／Mobile01／Dcard（搜尋）、官方說明與社群論壇（搜尋）集中核對。新增UC-411日文作者用iPhone捷徑先送現在地址給Bot再接語音、CarPlay上以Siri呼叫成功，另讓Bot經Home Assistant要一次最新位置並記下往返位置更新表（B）、UC-412日文作者把Podcast逐字稿交給dots，由它找縮圖、編成note文章發布並發宣傳貼文（B，公開產出可讀）、UC-413英文作者讓Bot登入UniFi每晚定時斷掉電視網路、傳一句話臨時延長（B，單則自述）、UC-414日文作者活動點數發放：報名者寄信到Bot＋別名信箱，比對名單每人只回一次（待定，不計數）、UC-415 Bot自寫的24小時零預算推廣網頁遊戲紀錄與公開記分板（待定，不計數）；067併入英文作者每晚把多Bot共用電腦加密備份到Mac mini SSD並抽回比對1,696／1,696檔，不另計。皆未重現。承接354，嚴格合格357／1000，尚差643；主要頁407。[逐組判斷與實閱範圍](sources/research-2026-10-21-2050.md)。
 
 2026-10-21 17:45批次：X（英、中、日、韓；Muse／dots一輪）＋Substack／Medium類長文與dev.to（公開API）、Naver部落格（搜尋）、YouTube與Product Hunt（搜尋）、note（API）集中核對。新增UC-408英文作者每天站會前30分鐘由Bot讀行事曆、Notion、Slack、Linear交一頁會前準備（待定，只有提示詞卡，不計數）、UC-409英文作者Substack短文三流程：每日提示＋語音回答保留原話整理、每週拆解熱門短文結構、批次起草核准後排程（B）、UC-410波蘭文作者建Bot團隊第一天範圍失控後的煞車：盤點、7份規則檔、把握度<90%就停下提問、凍結14天（B）；049併入日文作者只讀晨報連跑一週（起點用上次實際送出時刻、誤判驗證信、報過的期限消失），066併入英文作者郵件Bot寫一次分類腳本只讀摘要，048併入英文作者每週優惠清單看到收據就移出已買品項，均不另計。皆未重現。承接352，嚴格合格354／1000，尚差646；主要頁402。[逐組判斷與實閱範圍](sources/research-2026-10-21-1745.md)。
@@ -144,7 +146,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（407）
+## 主要案例（409）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -179,7 +181,7 @@
 | UC-032 | 把虛構睡眠紀錄整理成趨勢圖 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/032-sleep-record-chart.md) | 生活｜睡眠、健康 |
 | UC-033 | 從年度營運數據排出下一季實驗 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/033-business-experiment-plan.md) | 工作｜營運、實驗規劃 |
 | UC-034 | 把可疑費用整理成覆核清單；每天比對信用卡明細與前一天 | Meta Muse／Grok Bot（雲端瀏覽器＋Routine） | [Muse建議＋Grok Bot作者疑似重複扣款自述＋日文作者每日明細比對自述（無截圖）；未核退款](cases/034-expense-anomaly-review.md) | 省錢｜費用、異常 |
-| UC-035 | 找合適職缺，把履歷改成有根據的申請草稿 | dots／Work歸屬待核；Grok Bot反例兩則 | [作者自報＋未核准及重複投遞反例＋代理內部筆記險些送出反例；未重現](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
+| UC-035 | 找合適職缺，把履歷改成有根據的申請草稿；Grok Bot每4小時打分、只投高分並以回執為準的變體 | dots／Work歸屬待核；Grok Bot反例兩則＋自動打分投遞變體 | [作者自報＋未核准及重複投遞反例＋代理內部筆記險些送出反例＋英文作者打分權重與投遞帳本自述（無回執）；未重現](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
 | UC-036 | 每天的收銀資料，整理成可核對的入帳檔 | Grok Bot／POS／QuickBooks Online | [論壇作者自報；無實際入帳或核帳證據](cases/036-pos-accounting-csv.md) | 工作｜每日、收銀、記帳 |
 | UC-037 | 跨商店比同款商品，先看清總價與賣家；海外特價算入運費與進口稅 | Meta Muse；Grok Bot（Amazon 擋代理後改找他店）；dots 本機替代路徑；Muse 跨境含稅比價 | [媒體作者單次測試＋Grok Bot／dots 失敗與本機路徑自述＋robots.txt 已讀＋Muse跨境購買單則自述（無購買證據）；未獨立重現](cases/037-product-listing-comparison.md) | 省錢｜購物、比價、網購 |
 | UC-038 | 從找布料到做樣品，先整理供應商與打樣規格 | Grok Bot／公開供應商資料 | [HN 作者自報；樣品完成與品質未核](cases/038-fabric-sourcing-sample-handoff.md) | 工作｜採購、打樣 |
@@ -190,7 +192,7 @@
 | UC-043 | 從公開活動資料找出附近活動，整理成獨立日曆候選 | Meta Muse | [作者自報首次匯入；後續同步未核](cases/043-public-events-calendar.md) | 生活｜活動、日曆 |
 | UC-044 | 家務、採買、行程散在各處？做一頁家人看得懂的今日看板 | Meta Muse | [媒體作者自報；存取與同步未独立驗證](cases/044-household-shared-dashboard.md) | 生活｜每日、家庭、看板 |
 | UC-045 | 把公開網頁查證交給Grok Bot，再把證據交回Codex | Codex／Grok Bot／第三方任務橋 | [作者手動觸發自報；Routine未驗證](cases/045-cross-agent-research-handoff.md) | 開發｜跨代理、研究交接 |
-| UC-046 | 每天把關注帳號的貼文整理成去重精選 | Grok Bot／X；Notion、Obsidian、dots 版本待核 | [作者自述日常使用＋官方 X 讀取文件；未重現](cases/046-followed-accounts-daily-digest.md) | 工作｜每日、X、排程、去重、簡報 |
+| UC-046 | 每天把關注帳號的貼文整理成去重精選；每小時讀X列表出一頁新聞；書籤每日整理成可搜尋網站 | Grok Bot／X（列表、書籤）；Notion、Obsidian、Google 文件、GitHub Pages；dots 版本待核 | [作者自述日常使用＋官方 X 讀取文件＋公開新聞文件頁＋公開書籤網站模板與演示站；未重現](cases/046-followed-accounts-daily-digest.md) | 工作｜每日、X、排程、去重、簡報 |
 | UC-047 | 把作品與製作紀錄整理成可搜尋的作品集 | ChatGPT dots／網站 | [作者自報＋公開介面；作品資料未獨立驗收](cases/047-portfolio-provenance-catalog.md) | 創作｜作品集、來源查證、搜尋、驗收 |
 | UC-048 | 每天查商品排名或價格，有變動才通知；每週找優惠清單看到收據就移出已買品項 | Grok Bot（含限額代理卡下單、結帳失敗回報） | [作者自述＋公開範本頁說明＋Robinhood 代理卡說明已讀＋收據自動移出品項自述；下單無訂單證據、未重現](cases/048-daily-price-rank-tracking.md) | 省錢｜每日、比價、電商、排程 |
 | UC-049 | 每日收件匣報告，從只讀逐步放權 | Grok Bot（含＋別名觸發 routine）；dots／Muse 檢查頻率比較；dots 權限設定未生效反例 | [影片二手轉述＋作者自述＋跨產品觀察＋官方人員別名公告＋dots「每次詢問」仍讀信截圖反例＋日文作者只讀晨報連跑一週自述（漏送0、誤判驗證信、報過的期限消失）；說明頁未同步、未重現](cases/049-daily-inbox-report-graduated-trust.md) | 工作｜每日、收件匣、核准、排程 |
@@ -215,7 +217,7 @@
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
-| UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian；多家代理共用同一 vault | ChatGPT dots／Obsidian；Grok Bot／Muse／Hermes 共用 vault | [作者教學串＋官方記憶 FAQ＋跨供應商共用 vault 自述與截圖；未重現](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
+| UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian；多家代理共用同一 vault（各Bot資料夾、只追加紀錄、共用收件匣）；dots讀Grok Bot的Notion日報發現行事曆未改先問本人 | ChatGPT dots／Obsidian；Grok Bot／Muse／Hermes 共用 vault；dots／Grok Bot／Notion | [作者教學串＋官方記憶 FAQ＋跨供應商共用 vault 自述與截圖＋日文作者單次衝突確認自述；未重現](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
 | UC-072 | 電話任務的身份揭露、核准與人工交接 | Grok Bot／DialBot／Bland AI；ClawCall 自述；電話訂餐自述；ClawCall 訂位模板 | [作者測試自述＋官方模板與費用＋電話訂披薩後自行向店家確認＋Bland 官方 Bot 自行開戶指南＋撥號前複誦核准的訂位模板自述；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
 | UC-073 | 網站顧客路徑、頁面盤點與表格讀回驗收 | ChatGPT dots／Grok Bot／公開網站／Sheets | [作者使用、核對及漏頁反例；完整產物未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
 | UC-074 | 裝置事件喚醒後重新讀取資料並驗收 | ChatGPT dots／MCP Events／自建 MCP | [作者建置自述＋官方文件；未重現](cases/074-event-trigger-readback.md) | 開發｜實體裝置、事件觸發、驗收 |
@@ -555,6 +557,8 @@
 | UC-413 | 小孩睡前偷看電視：Bot登入UniFi每晚定時斷掉電視網路、早上恢復，傳一句話臨時延長當晚 | Grok Bot／UniFi | [B英文作者單則X自述；無截圖或執行紀錄、未重現](cases/413-unifi-kids-tv-nightly-internet-curfew-text-exceptions.md) | 生活｜每日、家庭、網路、排程 |
 | UC-414 | 活動點數發放：報名者寄信到Bot的＋別名信箱，Bot比對Luma名單，每人只回一次連結、名單外不回 | Grok Bot（專用信箱＋別名）／Luma | [待定：日文作者貼文自述剛建好，無發放紀錄；不計數](cases/414-event-registrant-email-alias-credit-link-once-per-person.md) | 工作｜活動、收件匣、名單比對、自動回覆 |
 | UC-415 | Bot用24小時零預算推廣免費網頁遊戲：每小時讀計畫與日誌行動、?ref=標記與公開記分板，寄21封信回1封、被論壇封鎖 | Grok Bot（主代理＋子代理、每小時routine）／GitHub Pages | [待定：Bot第一人稱Velog文章＋公開記分板與data.json；開發者本人說法未取得、不計數](cases/415-agent-24h-indie-game-promotion-public-scoreboard-failures.md) | 工作｜行銷、多代理、失敗、公開紀錄 |
+| UC-416 | LinkedIn數字每天記一行（追蹤者、人脈、確認畫面、前日差），抓不到寫「未取得＋原因」不寫0；過去貼文依曝光排成成績表 | Grok Bot（專責Bot＋每日排程）／LinkedIn | [B日文作者note自述（6天580→661、29篇排名、登錯空帳號兩天的失敗）；無原始紀錄、未重現](cases/416-linkedin-daily-follower-log-post-scorecard.md) | 工作｜每日、LinkedIn、社群經營、成效 |
+| UC-417 | 報名通知信撞到免費寄信方案每日100封上限而靜默停發：Bot比對報名數找出缺口、追到原因，從網站資料庫補回名單 | Grok Bot／Resend／網站資料庫 | [B英文作者單則X自述（646人、0遺漏）；無截圖或紀錄、未重現](cases/417-signup-alert-silent-quota-gap-recover-from-database.md) | 工作｜故障診斷、報名、通知、對帳 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

@@ -1,0 +1,23 @@
+{
+  "verifiedAt": "2026-10-22T01:29:05.437Z",
+  "rows": [
+    {
+      "file": "assets/app.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "36284668fe9f7418670ca9a8b14fb08ddf559b854550784bcca7f5c3773ae82b"
+    },
+    {
+      "file": "assets/reader.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "d77b41f50c8652f0be2d2f872792ad79212881fbbb29913263ca429f6a0354b4"
+    },
+    {
+      "file": "assets/reader.css",
+      "status": 200,
+      "matches": true,
+      "sha256": "81a77fdc44c4ffcefe36b66f65172173e373fd897d47b1544007f75389080ce0"
+    }
+  ]
+}

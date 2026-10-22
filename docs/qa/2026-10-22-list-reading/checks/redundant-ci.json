@@ -1,0 +1,147 @@
+[
+  {
+    "id": 39705019433,
+    "name": "Corpus loading QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019399,
+    "name": "Case sharing QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019286,
+    "name": "Recent review discovery QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019377,
+    "name": "Card refinement QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019455,
+    "name": "Search submit QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019289,
+    "name": "Return visibility QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019356,
+    "name": "Results return QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019392,
+    "name": "Reader context round",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019362,
+    "name": "Filter entry QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019422,
+    "name": "Facet counts QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019294,
+    "name": "Reading anchor QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019355,
+    "name": "Partial Load QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019385,
+    "name": "Available facet options QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019417,
+    "name": "Related reading QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019305,
+    "name": "Combined recovery QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019411,
+    "name": "Reading flow QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019438,
+    "name": "Category finding QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019479,
+    "name": "Find reader sections QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019425,
+    "name": "Audit summary round QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019441,
+    "name": "Search relevance QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019473,
+    "name": "Improvement round QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019443,
+    "name": "Method shortcut QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019364,
+    "name": "Reader source links QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019461,
+    "name": "Home search entry QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019343,
+    "name": "Evidence round QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019414,
+    "name": "Reader controls QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019520,
+    "name": "Missing shared case QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019462,
+    "name": "Search context QA",
+    "cancelRequested": false
+  },
+  {
+    "id": 39705019440,
+    "name": "Source guide QA",
+    "cancelRequested": false
+  }
+]

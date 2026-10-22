@@ -54,3 +54,13 @@ UC-001原文的「訂假期機票」下有三項子紀錄，「本庫判讀」�
 獨立目視終審已比對前後1440／390與新版320五張圖，父項／子步驟層級清楚，手機行寬可讀、無截字、橫向溢出或工具列碰撞。窄螢幕第4步需要正常垂直捲動，不是內容遺失。讀取完成後才進下一情境是本輪完成閱讀流程的驗收邊界，不代表修復WebKit快速重整／中途離站的背景請求觀察；根因未確認，保留checks/webkit-observation.log供後續調查。下一輪優先釐清這項真實觀察，再評估跨篇續讀。
 
 最終補修提交1baeda1的 [39704317365](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39704317365) 全套success：161／161、靜態preview、三引擎五配置、15次axe零違規、pageerror空、文字hash／38個li及四子項歸屬正確；完整既有reader回歸與兩尺寸完整走查亦通過。已將after截圖換成這次最終圖；[最終專項](checks/final-preview.json)、[雲端單元](checks/cloud-unit.tap)、[reader摘要](checks/final-reader-summary.log)。完整artifact保留在該run。模擬情境、載入完成邊界及未解WebKit觀察如上。
+
+## 發布、正式站與停止點
+
+已安全快轉合併並SSH push main至755382c（包含整合協作者b07b900），沒有強推。[Pages 39705018390](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39705018390)部署成功；三項修改資產HTTP200且逐字匹配，[SHA-256紀錄](checks/published-assets.json)。
+
+[正式站39705051064](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39705051064)全套success：重新跑161單元、語法與靜態preview，確認正式資產匹配後，雲端Chromium1440／390實走三個情境，六次axe零違規、pageerror空，四子項歸屬正確、38個li與原文hash保留、無水平溢出，搜尋子項定位、直鏈重整、空結果及Back返回均通過。[正式報告](published/report.json)、[正式桌面](published/lists-chromium-1440.png)、[正式手機](published/lists-chromium-390.png)。主角色已目視正式圖，與最終preview一致。
+
+本次push觸發大量重疊歷史QA，部署曾排在後方，部分歷史檢查等待新資產時失敗；曾只針對本次提交要求取消重複run，GitHub回HTTP403「Must have admin rights to Repository」，沒有任何取消成功，也未提升權限或改帳號。[取消請求結果](checks/redundant-ci.json)、[CI快照](checks/ci-snapshot.json)。不宣稱廣域CI全部綠燈：Card refinement在瀏覽器下載階段失敗，Return visibility在Pages尚未部署時因資產不匹配失敗。既有Website QA成功；本輪專項、完整reader預覽與正式驗收依上述success紀錄判定。
+
+下一輪最值得做的一件事：整併重複QA並安排Pages部署完成後才啟動正式站檢查，避免互等、舊版誤報與大量同時全文讀取。WebKit快速重整觀察仍保留，沒有將等待完成後的通過冒稱其已修復。未驗證真人偏好、實體手機、完整輔具與紙本列印；模型runtime仍無法可靠確認。達到本輪驗收後停止，不追加無目的改版。

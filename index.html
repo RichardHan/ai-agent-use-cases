@@ -37,7 +37,7 @@
 </section>
 </div><section id="explore" class="explore"><div class="section-head"><div><p class="eyebrow">EXPLORE THE COLLECTION</p><h2 id="search-title" tabindex="-1">有方向了？自己找找看。</h2></div><span id="updated" class="muted"></span></div>
 <section id="missing-case" class="missing-case" aria-labelledby="missing-case-title" hidden><div><p class="eyebrow">分享連結未能開啟</p><h3 id="missing-case-title" tabindex="-1">找不到這個案例</h3><p id="missing-case-message" role="status" aria-live="polite" aria-atomic="true"></p><p>你仍可搜尋其他案例；原有關鍵字與篩選已保留。</p></div><button id="dismiss-missing-case" type="button">回到搜尋</button></section>
-<form id="filters" role="search"><label class="search-label" for="query">搜尋全部案例內容</label><div class="search-wrap"><span aria-hidden="true">⌕</span><input id="query" name="q" type="search" placeholder="搜尋工作、工具、提示詞…例如：旅遊、PR、驗收" autocomplete="off"><kbd aria-hidden="true">/</kbd><button id="search-submit" class="primary-button" type="submit" aria-describedby="search-submit-hint" disabled>查看結果</button></div><p id="search-submit-hint" class="sr-only">結果會即時更新；按 Enter 或「查看結果」前往閱讀。</p><details id="filter-options" class="filter-options" open><summary id="filter-summary">篩選、排序與常見任務 <span id="filter-count">未設定篩選</span></summary><div class="filter-panel"><div class="scenario-chips" id="scenario-chips" role="toolbar" aria-label="依情境或常見任務快速探索">
+<form id="filters" role="search"><label class="search-label" for="query">搜尋全部案例內容</label><div class="search-wrap"><span aria-hidden="true">⌕</span><input id="query" name="q" type="search" placeholder="搜尋工作、工具、提示詞…例如：旅遊、PR、驗收" autocomplete="off"><kbd aria-hidden="true">/</kbd><button id="search-submit" class="primary-button" type="submit" aria-describedby="search-submit-hint" disabled>查看結果</button></div><p id="search-submit-hint" class="sr-only">結果會即時更新；按 Enter 或「查看結果」前往閱讀。</p><details id="filter-options" class="filter-options" open><summary id="filter-summary">篩選、排序與常用搜尋 <span id="filter-count">未設定篩選</span></summary><div class="filter-panel"><div class="scenario-chips" id="scenario-chips" role="toolbar" aria-label="依情境或常用搜尋快速探索">
   <div class="chips-row">
     <span class="chips-title">依情境探索：</span>
     <button type="button" class="chip" data-scenario="生活" aria-pressed="false">🏖️ 生活日常</button>
@@ -48,14 +48,14 @@
     <button type="button" class="chip" data-scenario="開發" aria-pressed="false">💻 程式開發</button>
   </div>
   <div class="chips-row">
-    <span class="chips-title">常見任務：</span>
-    <button type="button" class="chip chip-task" data-query="每日" aria-pressed="false" aria-describedby="task-shortcuts-hint">☀️ 每日自動</button>
-    <button type="button" class="chip chip-task" data-query="收件匣" aria-pressed="false" aria-describedby="task-shortcuts-hint">📬 收件匣整理</button>
-    <button type="button" class="chip chip-task" data-query="比價" aria-pressed="false" aria-describedby="task-shortcuts-hint">🏷️ 比價防漏</button>
-    <button type="button" class="chip chip-task" data-query="排程" aria-pressed="false" aria-describedby="task-shortcuts-hint">⏱️ 排程巡檢</button>
+    <span class="chips-title">常用搜尋：</span>
+    <button type="button" class="chip chip-task" data-query="每日" aria-pressed="false" aria-describedby="task-shortcuts-hint">☀️ 搜尋「每日」</button>
+    <button type="button" class="chip chip-task" data-query="收件匣" aria-pressed="false" aria-describedby="task-shortcuts-hint">📬 搜尋「收件匣」</button>
+    <button type="button" class="chip chip-task" data-query="比價" aria-pressed="false" aria-describedby="task-shortcuts-hint">🏷️ 搜尋「比價」</button>
+    <button type="button" class="chip chip-task" data-query="排程" aria-pressed="false" aria-describedby="task-shortcuts-hint">⏱️ 搜尋「排程」</button>
     <button type="button" class="chip chip-task" data-kind="evidence" aria-pressed="false" aria-describedby="experience-entry-hint">🛡️ 經驗與踩坑</button>
   </div>
-<p id="task-shortcuts-hint" class="facet-count-hint">前四個任務會取代搜尋字詞、保留其他篩選，並帶你看結果；再按一次可取消該字詞。載入中會先保留選擇。</p>
+<p id="task-shortcuts-hint" class="facet-count-hint">前四個按鈕會搜尋全文，包含來源與限制；命中不代表已實作或驗證。會取代搜尋字詞、保留其他篩選，並帶你看結果；再按一次可取消。載入中會先保留選擇。</p>
 <p id="experience-entry-hint" class="facet-count-hint">「經驗與踩坑」依收錄狀態篩選，保留關鍵字與其他條件；再按一次可取消。</p>
 </div>
 <p id="facet-count-hint" class="facet-count-hint">案例載入完成後，會顯示各選項的符合筆數。</p>

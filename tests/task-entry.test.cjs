@@ -7,7 +7,7 @@ const listener=source.slice(source.indexOf("$('scenario-chips')?.addEventListene
 function setup(kind=''){
  const fields=Object.fromEntries(Object.entries({query:'晨報',kind,tool:'ChatGPT dots',category:'檢核',proof:'作者報告／示範',sort:'reviewed'}).map(([id,value])=>[id,{value}]));
  let click,renders=0;
- const context=vm.createContext({$:id=>id==='scenario-chips'?{addEventListener:(type,fn)=>{click=fn;}}:fields[id],render:()=>renders++,activeScenario:'工作'});
+ const context=vm.createContext({$:id=>id==='scenario-chips'?{addEventListener:(type,fn)=>{click=fn;}}:fields[id],render:()=>renders++,activeScenario:'工作',discoveryReady:true,allowAutomaticArrival:true,focusLoadedResults:()=>{}});
  vm.runInContext(listener,context);
  return {fields,context,click:dataset=>click({target:{closest:()=>({dataset})}}),renders:()=>renders};
 }

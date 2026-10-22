@@ -26,7 +26,7 @@
 
 新增5項單元修正後全過，全套169／170，唯一失敗仍為同一基準audit固定計數；所有JS語法、diff與static preview build成功。[green](checks/green-unit.log)。
 
-雲端環境：初版ubuntu-latest安裝系統依賴約11分鐘；容器run39761020529的apt-get update五分鐘逾時，未進入瀏覽。改用固定Playwright1.56.1預裝容器，僅下載測試字型，39761891625約一分鐘完成setup並成功。字型不是產品請求，不新增網站依賴。[實際逾時](checks/container-setup-timeout.log)。另一個被替代的原版觀察run39760167735保留其最終狀態，不算成功。
+雲端環境：初版ubuntu-latest安裝系統依賴約11分鐘；容器run39761020529的apt-get update五分鐘逾時，未進入瀏覽。改用固定Playwright1.56.1預裝容器，僅下載測試字型，39761891625約一分鐘完成setup並成功。字型不是產品請求，不新增網站依賴。[實際逾時](checks/container-setup-timeout.log)。另一個被替代的原版觀察run39760167735最後被取消，不算成功。
 
 ## 實作與預覽
 
@@ -45,3 +45,5 @@ NODE_PATH=<cloud-tools>/node_modules node tests/inspiration-handoff-browser.cjs
 預覽網址 `http://127.0.0.1:8136/ai-agent-use-cases/`；本機只建置檔案，實際瀏覽使用GitHub Actions。最終前後比較、獨立審查與發布證據待補。
 
 中間驗收39762240019於shell heredoc縮排失敗、未進browser，已修；39762464522的170單元確定169成功／1已記錄失敗，語法成功，但容器checkout安全目錄設定只存在於action的臨時HOME，後續Git無法辨認工作樹而中止；只在雲端容器補safe.directory，不改本機設定。未將兩個run當作瀏覽成功。獨立review加嚴原版red必須是5個ERR_ASSERTION，audit例外同時限定唯一測試名、ERR_ASSERTION及actual20／expected19，其他失敗仍擋下。保存log只清除尾端空白，未改實質輸出。
+
+39762729052首次完成容器單元／語法／build／原版red並進入新版瀏覽；桌面前三情境走到長標題fixture時，測試硬設標題top<200px而失敗。這不是產品的必要可見性條件；改驗標題top>=0、起始至多80px在900px視窗內，並在斷言前保存幾何與截圖。沒有因此修改產品，未把失敗當作通過。

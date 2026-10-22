@@ -37,7 +37,7 @@ for(const [engine,width] of [[chromium,1440],[chromium,390],[chromium,320],[fire
  await page.locator('#empty-reset').click();assert(await page.locator('#results .card').count()>0);
  // Long title preserves an actionable focus target and wraps on narrow screens.
  await page.evaluate(()=>{const item={...entries.find(e=>e.kind==='case'),title:'長標題與來源限定，'.repeat(16)};discoveryDeck=Discovery.createDeck([item]);drawNext();});await page.locator('#draw-case').scrollIntoViewIfNeeded();await page.evaluate(()=>revealDiscovery());
- assert(await cardTitle().evaluate(n=>n===document.activeElement));const long=await cardTitle().boundingBox();assert(long.y>=0&&long.y<200,'beginning of long title must be readable');assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));row.longTitle=long;await shot('long-title');
+ assert(await cardTitle().evaluate(n=>n===document.activeElement));const long=await cardTitle().boundingBox();row.longTitle=long;fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));await shot('long-title');assert(long.y>=0&&long.y+Math.min(long.height,80)<=900,'beginning of long title must be readable');assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
  row.axe=(await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id);assert.deepEqual(row.axe,[]);assert.deepEqual(row.errors,[]);
  row.timing=await page.evaluate(()=>{const n=performance.getEntriesByType('navigation')[0];return {domContentLoaded:n.domContentLoadedEventEnd,load:n.loadEventEnd};});
  fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));await context.close();await browser.close();

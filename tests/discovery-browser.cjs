@@ -21,7 +21,10 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   if(name!=='small-mobile')console.log('VISUAL:after-'+name+':'+fs.readFileSync('qa-artifacts/after-'+name+'.jpg').toString('base64'));
   // Journey 1: choose a need, draw without repeats, read and return using the keyboard.
   await page.locator('#guide-options [data-scenario="省錢"]').click();
-  if(width<=760)await page.waitForFunction(()=>{const r=document.getElementById('draw-title').getBoundingClientRect();return r.top>=0&&r.bottom<innerHeight;});
+  const drawnTitle=page.locator('#drawn-case h3 button');
+  assert(await drawnTitle.evaluate(node=>node===document.activeElement),'explicit scenario hands off to the readable card');
+  const titleRect=await drawnTitle.boundingBox();
+  assert(titleRect.y>=0&&(titleRect.height<=height-48?titleRect.y+titleRect.height<=height:titleRect.y+80<=height));
   assert.equal(await page.locator('#scenario').inputValue(),'省錢');
   assert.equal(await page.locator('#guide-options [data-scenario="省錢"]').getAttribute('aria-pressed'),'true');
   const first=await page.locator('#drawn-case h3').innerText();

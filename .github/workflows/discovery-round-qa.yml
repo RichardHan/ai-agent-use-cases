@@ -59,9 +59,10 @@ jobs:
         run: |
           python3 -m http.server 8136 --directory "$RUNNER_TEMP/preview" > /tmp/inspiration-preview.log 2>&1 &
           python3 -m http.server 8081 --directory "$RUNNER_TEMP/preview" > /tmp/inspiration-discovery.log 2>&1 &
-          node tests/inspiration-handoff-browser.cjs
-          node tests/discovery-browser.cjs > qa-artifacts/discovery.log
-          node tests/reader-browser.cjs > qa-artifacts/reader.log
+          chown -R pwuser:pwuser qa-artifacts
+          runuser -u pwuser -- node tests/inspiration-handoff-browser.cjs
+          runuser -u pwuser -- node tests/discovery-browser.cjs > qa-artifacts/discovery.log
+          runuser -u pwuser -- node tests/reader-browser.cjs > qa-artifacts/reader.log
       - name: Published assets and complete journeys
         if: github.ref == 'refs/heads/verify/actionable-discovery-20261022'
         env:
@@ -81,7 +82,8 @@ jobs:
             throw Error('Pages assets did not match checkout');
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
-          node tests/inspiration-handoff-browser.cjs
+          chown -R pwuser:pwuser qa-artifacts
+          runuser -u pwuser -- node tests/inspiration-handoff-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

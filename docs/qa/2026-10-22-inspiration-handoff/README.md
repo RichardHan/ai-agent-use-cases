@@ -47,3 +47,5 @@ NODE_PATH=<cloud-tools>/node_modules node tests/inspiration-handoff-browser.cjs
 中間驗收39762240019於shell heredoc縮排失敗、未進browser，已修；39762464522的170單元確定169成功／1已記錄失敗，語法成功，但容器checkout安全目錄設定只存在於action的臨時HOME，後續Git無法辨認工作樹而中止；只在雲端容器補safe.directory，不改本機設定。未將兩個run當作瀏覽成功。獨立review加嚴原版red必須是5個ERR_ASSERTION，audit例外同時限定唯一測試名、ERR_ASSERTION及actual20／expected19，其他失敗仍擋下。保存log只清除尾端空白，未改實質輸出。
 
 39762729052首次完成容器單元／語法／build／原版red並進入新版瀏覽；桌面前三情境走到長標題fixture時，測試硬設標題top<200px而失敗。這不是產品的必要可見性條件；改驗標題top>=0、起始至多80px在900px視窗內，並在斷言前保存幾何與截圖。沒有因此修改產品，未把失敗當作通過。
+
+39762979285的Chromium1440／390／320三情境及長標題通過（各axe0、pageerror空），Firefox尚未啟動便因容器帳戶／使用者目錄擁有者不符而退出。改讓瀏覽器測試以容器既有pwuser執行，不覆寫HOME變數，不操作本機帳號。產品仍不變。依獨立review，長標題檢查再加嚴為可容納者完整可見、超過一屏者至少起始80px可見，另加真實高於900px的受控fixture；舊discovery測試也由區塊標題可見改驗新的可操作標題焦點及可讀性。這是更新已改變的互動契約，其他抽卡、分享、返回與資料斷言保留。

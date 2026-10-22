@@ -1,5 +1,7 @@
 # 完整案例索引
 
+2026-10-22 14:40批次：X（英、中、日、韓；Grok Bot流程關鍵詞、Muse／dots各一輪）＋Hacker News（Algolia）、官方說明（Muse通話、x.ai Bot模板頁）集中核對。新增UC-422英文作者@DBurkland讓Bot每班起飛前一小時依航線抓SIGMET／AIRMET／PIREP與Turbli，寄分段亂流表與地圖、飛行中可再問（B，附真實報告截圖與公開模板）、UC-423英文作者@Anniliese_ETH五角色交易小組：各角色只寫自己的檔案交接、只有執行Bot能下單、風控上限寫死、每晚分角色檢討，並記下停損過近被掃的教訓（B，非投資建議）、UC-424英文作者@YifeiZhou讓Bot讀網頁原始碼拆解喜歡的橫幅構成與寓意，Bot提醒館藏畫作商用授權後改用NASA公有領域影像重做（B，附成品圖）、UC-425英文作者@SravanVadige讓Muse清點取消行程後閒置的航空抵用金、部分退款與忘了買過的保險並代申請理賠（B，單則自述）；072併入@kylemissionai讓Muse代打停車退款電話、第一通資料不足失敗後問本人再打成功，391併入@emilyntech用官方頁面功能做16個Bot總覽、抓到重複Bot、每Bot用量拿不到，均不另計。皆未重現。承接363，嚴格合格367／1000，尚差633；主要頁417。[逐組判斷與實閱範圍](sources/research-2026-10-22-1443.md)。
+
 2026-10-22 11:45批次：X（英、中、日；Grok Bot／Muse／dots各一輪＋流程關鍵詞一輪）＋Hacker News（Algolia）、note（公開API）、Qiita與Zenn（API，窗口內無新相關文）、V2EX（sov2ex）、GitHub倉庫搜尋、官方說明頁集中核對。新增UC-418日文作者讓「記錄係」Bot每晚21:30用6欄格式向全隊收當天的事、23:00寫成一日一頁Obsidian筆記且不覆蓋，Mac離線時補寫、可回答「9月做了什麼」（B）、UC-419 HN英文使用者讓Muse每週進餐盒網站依飲食偏好挑下週候選、避免被派預設菜（B，單則留言）、UC-420英文作者用Grok Bot官方新「頁面」功能把每天追的公開數字做成每天早上更新的儀表板並另存公開快照（官方功能＋B）、UC-421英文作者把幕僚長Bot每天的靜態狀態頁改成私人即時看板，待決卡片上按核准／修改／催負責人經webhook回傳（B，截圖）；348併入同一HN作者以Muse每天搜Craigslist／FB Marketplace租屋、只在符合時通知，332併入簡中作者X運營助手每個高頻routine配錯開的「兜底檢查」並把用量從每天20%+壓到約13%，均不另計。皆未重現。承接359，嚴格合格363／1000，尚差637；主要頁413。[逐組判斷與實閱範圍](sources/research-2026-10-22-1145.md)。
 
 2026-10-22 08:46批次：X（英、中、日、韓；Muse／dots一輪）＋note（公開API）、dev.to（公開API）、GitHub模板倉庫、Hacker News（Algolia，本輪請求失敗）集中核對，並接手17:45批次待比對的dev.to線索。新增UC-416日文作者讓LinkedIn專責Bot每天記追蹤者與人脈數、抓不到寫「未取得＋原因」，並把29篇貼文依曝光排名（B）、UC-417英文作者報名通知撞免費寄信上限靜默停發，Bot比對報名數找出缺口並從網站資料庫補回（B，單則自述）；046併入@Scobleizer每小時讀X列表產出新聞文件頁、@JiapeiYang21427 xshelf每天把書籤整理成可搜尋公開網站（附模板），071併入英文作者多Bot共用Obsidian vault（各Bot資料夾、只追加紀錄、共用收件匣）與日文作者dots讀Grok Bot的Notion日報發現行事曆未改先問本人，035併入英文作者Grok Bot每4小時打分、只投高分並以回執為準，均不另計。皆未重現。承接357，嚴格合格359／1000，尚差641；主要頁409。[逐組判斷與實閱範圍](sources/research-2026-10-22-0846.md)。
@@ -148,7 +150,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（413）
+## 主要案例（417）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -220,7 +222,7 @@
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
 | UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian；多家代理共用同一 vault（各Bot資料夾、只追加紀錄、共用收件匣）；dots讀Grok Bot的Notion日報發現行事曆未改先問本人 | ChatGPT dots／Obsidian；Grok Bot／Muse／Hermes 共用 vault；dots／Grok Bot／Notion | [作者教學串＋官方記憶 FAQ＋跨供應商共用 vault 自述與截圖＋日文作者單次衝突確認自述；未重現](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
-| UC-072 | 電話任務的身份揭露、核准與人工交接 | Grok Bot／DialBot／Bland AI；ClawCall 自述；電話訂餐自述；ClawCall 訂位模板 | [作者測試自述＋官方模板與費用＋電話訂披薩後自行向店家確認＋Bland 官方 Bot 自行開戶指南＋撥號前複誦核准的訂位模板自述；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
+| UC-072 | 電話任務的身份揭露、核准與人工交接；Muse代打退款電話，資料不足先回頭問本人再重撥 | Grok Bot／DialBot／Bland AI；ClawCall 自述；電話訂餐自述；ClawCall 訂位模板；Meta Muse（美國商家通話測試功能） | [作者測試自述＋官方模板與費用＋電話訂披薩後自行向店家確認＋Bland 官方 Bot 自行開戶指南＋撥號前複誦核准的訂位模板自述＋Muse停車退款兩通電話自述；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
 | UC-073 | 網站顧客路徑、頁面盤點與表格讀回驗收 | ChatGPT dots／Grok Bot／公開網站／Sheets | [作者使用、核對及漏頁反例；完整產物未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
 | UC-074 | 裝置事件喚醒後重新讀取資料並驗收 | ChatGPT dots／MCP Events／自建 MCP | [作者建置自述＋官方文件；未重現](cases/074-event-trigger-readback.md) | 開發｜實體裝置、事件觸發、驗收 |
 | UC-075 | 就醫前整理健康摘要，診後追蹤建議與後續問題 | Muse／Grok Bot／ChatGPT dots | [作者長文自述；未重現](cases/075-health-appointment-briefing-coach.md) | 生活｜健康、門診、保險、驗收 |
@@ -534,7 +536,7 @@
 | UC-388 | 贊助貼文到齡後跨後台建立成效證據包 | Grok Bot／Instagram Insights／Meta Business Suite／Drive／Sheets | [作者具體實作及返工自述；原報表未公開、未重現](cases/388-sponsored-post-age-metrics-evidence-pack.md) | 工作｜贊助交付、資料口徑、證據包 |
 | UC-389 | 已成功任務接續後的工具退化驗收 | ChatGPT dots／Codex | [作者失敗與暫時成功自述，未重現](cases/389-resumed-task-native-capability-regression.md) | 開發｜生命週期、回歸驗收、失敗 |
 | UC-390 | 工單系統每天開核對新模型工單，Bot團隊查官方設定檔開PR，沒新東西只刷新時間戳 | Grok Bot（Lead／Dev／QA／Ops）／Linear循環工單／Cursor Cloud Agent／GitHub | [V2EX中文作者流程＋公開倉庫逐日PR與查證紀錄；派工過程僅自述、未重現](cases/390-linear-recurring-model-catalog-refresh-bot-team-pr.md) | 開發｜每日、多代理、資料維護、PR |
-| UC-391 | 幕僚Bot接力建置部署只限本人的Bot團隊總覽，每天重建、推送前掃描金額與私人資料 | Grok Bot（幕僚長／建置／Cloudflare部署）／GitHub私有倉庫／Cloudflare Access | [英文作者貼文＋公開規格與截圖倉庫；儀表板本體私有、未重現](cases/391-bot-fleet-private-dashboard-sensitive-scan-before-push.md) | 開發｜多代理、儀表板、每日、隱私檢查 |
+| UC-391 | 幕僚Bot接力建置部署只限本人的Bot團隊總覽，每天重建、推送前掃描金額與私人資料；用官方頁面功能做16個Bot總覽、抓出重複Bot | Grok Bot（幕僚長／建置／Cloudflare部署；頁面Pages）／GitHub私有倉庫／Cloudflare Access | [英文作者貼文＋公開規格與截圖倉庫＋另一英文作者頁面總覽自述（影片未看）；儀表板本體私有、未重現](cases/391-bot-fleet-private-dashboard-sensitive-scan-before-push.md) | 開發｜多代理、儀表板、每日、隱私檢查 |
 | UC-392 | 統計程式顯示正常，仍用同模型對照與多起點尋找較差解 | Grok Bot／gllvmTMB／GLLVModels.jl | [B作者公開結果、生成碼與修訂紀錄；未重現](cases/392-latent-model-multistart-optimum-audit.md) | 學習｜統計、數值驗收、多起點、失敗 |
 | UC-393 | 補齊提案材料，將會後筆記對回同一案 | Meta Muse／Signed／Granola／deckk | [B作者實作與公開原碼；私人提案未核、未重現](cases/393-pitch-deck-meeting-context-reconciliation.md) | 工作｜提案、附件補全、會議脈絡、人工覆核 |
 | UC-394 | .NET依賴鏈移到Wasm，驗收回傳值、主動通知與安全降級 | Grok Bot／NetWasm／Nerdbank.JsonRpc | [B作者報告與固定原碼；未重跑、限PoC](cases/394-netwasm-rpc-compatibility-poc.md) | 開發｜跨平台、依賴鏈、雙向通訊、驗收 |
@@ -565,6 +567,10 @@
 | UC-419 | 訂閱餐盒每週選菜常忘、被派預設菜：讓Muse每週進網站依飲食偏好列出下週候選 | Meta Muse（瀏覽器操作）／送餐服務網站 | [B英文HN單則留言自述；是否代為送出未說、未重現](cases/419-muse-weekly-meal-kit-menu-pick-before-default.md) | 生活｜排程、餐飲、訂閱、瀏覽器自動化 |
 | UC-420 | 每天追的公開數字交Bot做成頁面儀表板：聊天裡共改配色與圖表，私人版每天早上更新，另存一份當天公開快照 | Grok Bot Pages（官方功能）／X、App Store、Google Play | [官方發布＋說明頁；B英文作者貼文＋截圖與公開快照網址（正文前端載入未取得）、未重現](cases/420-grok-bot-pages-metrics-dashboard-morning-refresh-public-snapshot.md) | 工作｜每日、數據儀表板、Pages、公開分享 |
 | UC-421 | 幕僚長Bot每天的靜態狀態頁改成私人即時專案看板，待決卡片上按核准／修改／催負責人／完成經webhook回傳 | Grok Bot（幕僚長）／Cursor雲端代理／Vercel | [B英文作者貼文＋看板截圖（卡片已遮蔽、webhook當時待設定）；未重現](cases/421-chief-of-staff-live-project-board-decision-cards-webhook.md) | 開發｜每日、看板、核准、多代理 |
+| UC-422 | 每班飛機起飛前一小時，依航線整理亂流預報分段表與地圖，飛行中可再問 | Grok Bot（自建Bot＋skill）／行事曆／SIGMET、AIRMET、PIREP、METAR／TAF／Turbli | [B英文作者貼文＋飛行中報告截圖＋公開模板頁；未重現](cases/422-flight-turbulence-report-hour-before-departure.md) | 生活｜旅遊、航班、天氣、行事曆 |
+| UC-423 | 五角色交易小組：研究／題材／訊號／風控各寫檔案交接，只有一個Bot能下單，風控上限寫死，每晚分角色檢討 | Grok Bot（多Bot＋共用檔案＋routine）／Hyperliquid API錢包（不可提領）／X API | [B英文作者長文全文＋影片貼文（未看）；無成交紀錄、未重現；非投資建議](cases/423-five-role-trading-desk-single-executor-hard-risk-caps.md) | 工作｜多代理、交易、風控、排程 |
+| UC-424 | 拆解喜歡的網站主視覺構成與寓意，再換成可商用的公有領域素材重做品牌橫幅 | Grok Bot／NASA公有領域衛星影像 | [B英文作者貼文＋兩張成品圖；拆解對話未公開、未重現](cases/424-reference-banner-deconstruct-public-domain-remake.md) | 創作｜設計、主視覺、授權、品牌 |
+| UC-425 | 取消後忘掉的旅行：Muse清點閒置航空抵用金、部分退款與附帶旅遊保險，代為申請理賠 | Meta Muse | [B英文作者單則自述（核准1,445.52美元）；無截圖、未重現](cases/425-cancelled-trip-forgotten-credits-refund-insurance-claim.md) | 省錢｜旅遊、退款、保險理賠、抵用金 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

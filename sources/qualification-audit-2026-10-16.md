@@ -1,6 +1,16 @@
 # 案例計數稽核：有作者實作證據（含自述）
 
-基準稽核日期：2026-10-16。最新計數核對批次：2026-10-22 08:46（Asia/Taipei）。前次批次：2026-10-21 20:50（Asia/Taipei）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295、308–311、316–321、327–330、334–337、339–341、342、344–347、349–350、353–358、360–366、368–371、374–376、378–383、385–386、388–403、405–406、409–413、416–417。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+基準稽核日期：2026-10-16。最新計數核對批次：2026-10-22 14:40（Asia/Taipei）。前次批次：2026-10-22 08:46（Asia/Taipei）。基準為原 UC-001–094，另列新增 UC-095–099、UC-101–193、UC-195–201、UC-204–253、255–277、290–295、308–311、316–321、327–330、334–337、339–341、342、344–347、349–350、353–358、360–366、368–371、374–376、378–383、385–386、388–403、405–406、409–413、416–417。[案例索引](https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md)
+
+## 2026-10-22 14:40 台灣時間增量核對
+
+- 承接11:45批次的363（該批在 INDEX 記 UC-418–421 各納入B、359→363，但未在本頁寫增量段，本段一併補記；11:45 之後協作者的各候選審查批次新增合格均為0），本批 UC-422、UC-423、UC-424、UC-425 各納入B；嚴格合格 **367／1,000，尚差633**。主要案例頁417不是合格數；未重驗所有舊案、未獨立重現。
+- 補記11:45批次：[UC-418](../cases/418-nightly-bot-team-journal-obsidian-daily-note.md)（日文 note 全文）、[UC-419](../cases/419-muse-weekly-meal-kit-menu-pick-before-default.md)（HN 單則留言）、[UC-420](../cases/420-grok-bot-pages-metrics-dashboard-morning-refresh-public-snapshot.md)（官方功能＋作者截圖）、[UC-421](../cases/421-chief-of-staff-live-project-board-decision-cards-webhook.md)（作者截圖）各B，判斷見 [11:45 研究紀錄](research-2026-10-22-1145.md)。
+- [UC-422](../cases/422-flight-turbulence-report-hour-before-departure.md)：B，英文作者 X 貼文＋飛行中真實報告截圖（分段表、資料來源、缺口說明、路線圖）＋公開 Bot 模板頁；只有一次展示。
+- [UC-423](../cases/423-five-role-trading-desk-single-executor-hard-risk-caps.md)：B，英文作者 X 長文全文自述具體角色、檔案、風控上限、排程與一次模擬交易停損失誤的修正；影片未看，無成交紀錄。
+- [UC-424](../cases/424-reference-banner-deconstruct-public-domain-remake.md)：B，英文作者 X 貼文自述拆解與授權改選素材過程＋兩張成品圖；拆解對話未公開。
+- [UC-425](../cases/425-cancelled-trip-forgotten-credits-refund-insurance-claim.md)：B，英文作者單則 X 自述（核准1,445.52美元）；無截圖，理賠送出方式未說。
+- UC-072（一個來源）、UC-391（一個來源）併入既有流程，不加數。
 
 ## 2026-10-22 08:46 台灣時間增量核對
 

@@ -439,12 +439,64 @@
       }
     };
   }
+  // Per-tab, bounded reading views. Nothing is persisted or sent elsewhere.
+  function createReadingMemory(limit=20){
+    const views=new Map();
+    return {
+      save(key,item,view){
+        if(!key||!item||!view)return;
+        views.delete(key);views.set(key,{id:item.id,source:item.markdown,view});
+        while(views.size>limit)views.delete(views.keys().next().value);
+      },
+      read(key,item){
+        const saved=views.get(key);
+        return saved&&saved.id===item?.id&&saved.source===item.markdown?saved.view:null;
+      }
+    };
+  }
+  function readingBlocks(body){
+    return [...body.querySelectorAll('.markdown h2,.markdown h3,.markdown p,.markdown li,.markdown pre,.markdown blockquote')]
+      .filter(node=>!node.closest('.reader-copy'));
+  }
+  function captureReadingView(dialog,body,focusId){
+    const top=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
+    const bottom=dialog.getBoundingClientRect().bottom;
+    const blocks=readingBlocks(body),visible=blocks.filter(node=>{
+      const rect=node.getBoundingClientRect();return rect.height>0&&rect.bottom>top&&rect.top<bottom;
+    });
+    const anchor=visible.find(node=>node.getBoundingClientRect().top>=top)||visible[0];
+    return {
+      scroll:dialog.scrollTop,
+      disclosures:[...body.querySelectorAll('details')].map(node=>({kind:node.className,open:node.open})),
+      query:body.querySelector('#reader-outline-query')?.value||'',focusId,
+      anchor:anchor?{index:blocks.indexOf(anchor),tag:anchor.tagName,text:anchor.textContent,offset:anchor.getBoundingClientRect().top-top}:null
+    };
+  }
+  function restoreReadingView(dialog,body,view){
+    const disclosures=[...body.querySelectorAll('details')];
+    if(disclosures.length!==view.disclosures.length||disclosures.some((node,i)=>node.className!==view.disclosures[i].kind))return false;
+    disclosures.forEach((node,i)=>{node.open=view.disclosures[i].open;});
+    const query=body.querySelector('#reader-outline-query');
+    if(query){query.value=view.query;query.dispatchEvent(new Event('input',{bubbles:true}));}
+    dialog.scrollTop=view.scroll;
+    const anchor=view.anchor?readingBlocks(body)[view.anchor.index]:null;
+    const validAnchor=anchor&&anchor.tagName===view.anchor.tag&&anchor.textContent===view.anchor.text&&anchor.getBoundingClientRect().height>0;
+    const top=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
+    if(validAnchor)dialog.scrollTop+=anchor.getBoundingClientRect().top-top-view.anchor.offset;
+    const bottom=dialog.getBoundingClientRect().bottom;
+    const visible=node=>{const rect=node?.getBoundingClientRect();return rect&&rect.height>0&&rect.top>=top-1&&rect.bottom<=bottom+1;};
+    const saved=view.focusId?body.ownerDocument.getElementById(view.focusId):null;
+    const target=saved&&body.contains(saved)&&visible(saved)?saved:validAnchor&&visible(anchor)?anchor:body;
+    if(!target.hasAttribute('tabindex')&&!/^(BUTTON|INPUT|TEXTAREA|SELECT|A|SUMMARY)$/.test(target.tagName))target.tabIndex=-1;
+    target.focus({preventScroll:true});
+    return true;
+  }
   if(root.document){
     const session=createPrintSession(root.document.querySelector('#detail'));
     root.addEventListener('beforeprint',()=>session.before());
     root.addEventListener('afterprint',()=>session.after());
   }
-  const api={readingPassages,findOutlineSections,promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
+  const api={createReadingMemory,captureReadingView,restoreReadingView,readingPassages,findOutlineSections,promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

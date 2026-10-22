@@ -5,7 +5,7 @@ const {AxeBuilder}=require('@axe-core/playwright');
 const base=process.env.SITE_URL||'http://127.0.0.1:8135/ai-agent-use-cases/';
 const out=process.env.QA_OUT||'qa-artifacts/after',observe=process.env.OBSERVE==='1';fs.mkdirSync(out,{recursive:true});
 (async()=>{const report=[];
-for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
+for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:process.env.RED==='1'?[[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
  const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),page=await context.newPage();const label=engine.name()+'-'+width,row={label,errors:[]};report.push(row);page.on('pageerror',e=>row.errors.push(e.message));
  const ready=async suffix=>{await page.goto(base+suffix);await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await page.evaluate(()=>failedPaths.length),0);};
  const view=()=>page.evaluate(()=>({id:currentDetailItem.id,scroll:document.getElementById('detail').scrollTop,open:document.querySelector('.research-details').open,focus:document.activeElement.id,top:document.activeElement.getBoundingClientRect().top,toolbar:document.querySelector('.detail-toolbar').getBoundingClientRect().bottom}));

@@ -8,6 +8,13 @@ let allowAutomaticArrival=true, searchShareRequest=0;
 let recoveringSources=false, recoveryNotice='';
 let initialLoading=false, initialLoadController=null;
 let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
+const readingMemory=globalThis.CaseReader?.createReadingMemory();
+let activeReadingKey=null,readingSequence=0,lastReadingFocusId=null;
+function rememberReadingView(){
+  if(readingMemory&&activeReadingKey&&$('detail').open&&currentDetailItem)
+    readingMemory.save(activeReadingKey,currentDetailItem,CaseReader.captureReadingView($('detail'),$('detail-body'),lastReadingFocusId));
+}
+
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
@@ -547,6 +554,10 @@ function navStep(delta) {
 }
 function showDetail(item, trigger, updateURL=true) {
   if (!item) return;
+  rememberReadingView();
+  const readingKey=!updateURL&&history.state?.caseReadingKey||`reading-${Date.now()}-${++readingSequence}`;
+  const savedReading=!updateURL?readingMemory?.read(readingKey,item):null;
+  activeReadingKey=readingKey;lastReadingFocusId=null;
   if(trigger){
     lastTrigger=trigger;
     lastTriggerContext={id:item.id,area:trigger.closest('#drawn-case')?'drawn-case':'results',read:!!trigger.closest('.card-bottom')};
@@ -676,8 +687,11 @@ function showDetail(item, trigger, updateURL=true) {
   if (updateURL) {
     const url = new URL(location.href);
     url.searchParams.set('case', item.id);
-    history.pushState({...history.state, caseReturn:lastTriggerContext}, '', url);
+    history.pushState({...history.state, caseReturn:lastTriggerContext,caseReadingKey:readingKey}, '', url);
+  } else {
+    history.replaceState({...history.state,caseReadingKey:readingKey},'',location.href);
   }
+  if(savedReading)CaseReader.restoreReadingView($('detail'),body,savedReading);
 }
 function restoreDetailFocus(){
   if(lastTrigger?.isConnected){lastTrigger.focus({preventScroll:true});return;}
@@ -689,6 +703,7 @@ function restoreDetailFocus(){
   revealSearch(true);
 }
 function closeDetail() {
+  rememberReadingView();activeReadingKey=null;lastReadingFocusId=null;
   if ($('detail').open) $('detail').close();
   const url = new URL(location.href);
   url.searchParams.delete('case');
@@ -1250,7 +1265,7 @@ function render(updateURL=true, preserveShare=false) {
     });
     if (activeScenario) url.searchParams.set('scenario', activeScenario); else url.searchParams.delete('scenario');
     if(reviewSort($('sort').value))url.searchParams.set('sort','reviewed');else url.searchParams.delete('sort');
-    history.replaceState(null, '', url);
+    history.replaceState($('detail').open?history.state:null, '', url);
   }
 }
 function reset() {
@@ -1714,6 +1729,7 @@ $('retry-failed').addEventListener('click',()=>{
   retryFailedSources();
 });
 $('retry').addEventListener('click', () => { $('results-count').focus({preventScroll:true}); load(); });
+$('detail-body').addEventListener('focusin',event=>{lastReadingFocusId=event.target.id||null;});
 $('close-detail').addEventListener('click', closeDetail);
 $('nav-prev-case')?.addEventListener('click', () => navStep(-1));
 $('nav-next-case')?.addEventListener('click', () => navStep(1));
@@ -1756,6 +1772,7 @@ document.addEventListener('keydown', e => {
   }
 });
 window.addEventListener('popstate', event => {
+  rememberReadingView();
   const params = new URLSearchParams(location.search);
   const id = params.get('case');
   const item = matchCase(id);
@@ -1769,7 +1786,10 @@ window.addEventListener('popstate', event => {
     lastTrigger = null;
     lastTriggerContext = event.state?.caseReturn || null;
     showDetail(item, null, false);
-  } else if (wasOpen) $('detail').close();
+  } else {
+    activeReadingKey=null;lastReadingFocusId=null;
+    if(wasOpen)$('detail').close();
+  }
   if(!wasOpen&&missingHadFocus){
     if($('missing-case')&&!$('missing-case').hidden)focusMissingCase();else revealSearch(true);
   }

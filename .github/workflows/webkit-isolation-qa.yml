@@ -8,18 +8,33 @@ permissions:
   contents: read
 jobs:
   webkit:
+    name: WebKit ${{ matrix.label }}
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.56.1-noble
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: baseline-1.56.1
+            playwright: '1.56.1'
+            baseline: '1693505'
+          - label: updated-1.64.0
+            playwright: '1.64.0'
+            baseline: ''
+    container: mcr.microsoft.com/playwright:v${{ matrix.playwright }}-noble
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - name: Install matching cloud test tools
         timeout-minutes: 5
+        env:
+          PLAYWRIGHT_VERSION: ${{ matrix.playwright }}
         run: |
-          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.56.1 @axe-core/playwright@4.10.2
+          npm install --prefix "$RUNNER_TEMP/tools" "playwright@$PLAYWRIGHT_VERSION" @axe-core/playwright@4.10.2
           mkdir -p /usr/local/share/fonts
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f
@@ -28,15 +43,28 @@ jobs:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           READER_URL: http://127.0.0.1:8136/ai-agent-use-cases/
           READER_ENGINE: webkit
+          BASELINE_REF: ${{ matrix.baseline }}
         run: |
           node --check tests/reader-browser.cjs
           mkdir -p qa-artifacts
-          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          df -h /dev/shm > qa-artifacts/shared-memory.txt
+          if [ -n "$BASELINE_REF" ]; then
+            mkdir -p "$RUNNER_TEMP/source"
+            git -c safe.directory="$GITHUB_WORKSPACE" archive "$BASELINE_REF" | tar -x -C "$RUNNER_TEMP/source"
+            python3 "$RUNNER_TEMP/source/scripts/preview.py" "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          else
+            python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          fi
           python3 -m http.server 8136 --directory "$RUNNER_TEMP/preview" > /tmp/webkit-preview.log 2>&1 &
           chown -R pwuser:pwuser qa-artifacts
-          runuser -u pwuser -- node tests/reader-browser.cjs > qa-artifacts/webkit-reader.log
+          runuser -u pwuser -- node tests/reader-browser.cjs > qa-artifacts/webkit-reader.log 2> qa-artifacts/webkit-reader-error.log
+      - name: Preserve resource counters
+        if: always()
+        run: |
+          mkdir -p qa-artifacts
+          if [ -f /sys/fs/cgroup/memory.events ]; then cat /sys/fs/cgroup/memory.events > qa-artifacts/memory-events.txt; fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: webkit-isolation-qa
+          name: webkit-isolation-${{ matrix.label }}
           path: qa-artifacts/

@@ -53,3 +53,5 @@ NODE_PATH=<cloud-tools>/node_modules node tests/inspiration-handoff-browser.cjs
 39763432026五配置三情境、5次axe、長標題與實際超900px標題全部通過，產品無pageerror；之後loading fixture只用程式化fill，沒有任何pointer/keydown，仍允許既有搜尋arrival於載入完成時導入。該測試停止，未執行後續discovery／reader。調整為click＋fill來代表實際使用者輸入，另保存精確前後focus；產品不變，不將此run算完整通過。
 
 39763951477：本輪五配置、loading/error/partial/empty四情境及既有discovery三尺寸全過。reader Chromium三尺寸、Firefox390及423條／3137節／442行證據完整性通過，WebKit已過arrival、reading/search/empty，之後PR／UC-005導航page crashed，完整job仍標失敗，根因未確證。獨立review建議只以全新Node程序保留全部WebKit斷言重驗，不重跑已完成的C/F。新增可驗值的READER_ENGINE，未設定仍跑原三引擎；本輪另建isolated workflow，原round workflow改為手動preview／verify分支，避免每次紀錄更新重跑已完成工作。沒有依文件直接把WebKit崩潰歸因共享記憶體，也沒有為通過移除任何reader斷言。
+
+孤立39765693299仍於相同PR／UC-005 goto page crashed；尚未確定是否原有問題。下一步相同1.56.1環境跑1693505原版，另以匹配1.64.0 image/package驗新版reader。兩者分開解讀，不用版本差異證明因果；未同時改IPC／init設定。

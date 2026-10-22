@@ -177,3 +177,7 @@
 
 /* Result position shares the existing ID row, including on narrow screens. */
 .detail-result-context{font-size:12px;line-height:1.5;color:var(--green);font-weight:650;letter-spacing:0;white-space:nowrap}
+
+/* Keep original list hierarchy legible in narrow reading columns. */
+.markdown ul,.markdown ol,.reader-report-content ul,.reader-report-content ol{padding-inline-start:1.5em}
+.markdown li>ul,.markdown li>ol,.reader-report-content li>ul,.reader-report-content li>ol{margin-block:.35em}

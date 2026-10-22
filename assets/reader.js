@@ -137,6 +137,18 @@
         copyText:lines.slice(heading.start,end).join('\n').trim()};
     });
   }
+  // Keep each list item's own words separate from its descendants. A match
+  // must not be fabricated by concatenating the end of a parent and a child.
+  function readingPassages(block){
+    if(!/^[UO]L$/.test(block.tagName))return /^(P|PRE|BLOCKQUOTE)$/.test(block.tagName)?[{node:block,text:block.textContent}]:[];
+    const passages=[];
+    for(const row of block.children){
+      const text=[...row.childNodes].filter(node=>!/^[UO]L$/.test(node.tagName||'')).map(node=>node.textContent).join('');
+      passages.push({node:row,text});
+      for(const child of row.children)if(/^[UO]L$/.test(child.tagName))passages.push(...readingPassages(child));
+    }
+    return passages;
+  }
   function enhance(body,item,searchTerms=[]){
     const research=body.querySelector('.research-details');
     const markdown=research?.querySelector('.markdown');
@@ -245,8 +257,8 @@
     for(const block of markdown.children){
       if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Set(),passages:[]});
       const section=sourceSections[sourceSections.length-1];
-      section.text+='\n'+(/^[UO]L$/.test(block.tagName)?[...block.children].map(row=>row.textContent).join('\n'):block.textContent);
-      const passages=/^[UO]L$/.test(block.tagName)?[...block.children]:/^(P|PRE|BLOCKQUOTE)$/.test(block.tagName)?[block]:[];
+      const passages=readingPassages(block);
+      section.text+='\n'+(/^[UO]L$/.test(block.tagName)?passages.map(passage=>passage.text).join('\n'):block.textContent);
       section.passages.push(...passages);
       for(const link of block.querySelectorAll('a')){
         const href=link.getAttribute('href')||'';
@@ -272,13 +284,13 @@
         group.append(button);
         const section=sourceSections[match.index];
         const titleHit=section.title.normalize('NFKC').toLocaleLowerCase().includes(match.variant.normalize('NFKC').toLocaleLowerCase());
-        const passage=titleHit?null:selectSearchPassage(section.passages.map(node=>node.textContent),match.variant);
+        const passage=titleHit?null:selectSearchPassage(section.passages.map(passage=>passage.text),match.variant);
         if(passage){
           if(passage.excerpt){
             group.append(make('p','reader-search-excerpt-label',passage.partial?'命中附近原文 · 節錄，非完整段落':'命中這段原文 · 限制請連同全文核對'),
               make('p','reader-search-excerpt',passage.excerpt));
           }
-          const original=section.passages[passage.index];
+          const original=section.passages[passage.index].node;
           const destination=`reader-passage-${match.index}`;
           // Give only this existing source block an address; no text is replaced.
           original.id=destination;original.tabIndex=-1;
@@ -428,7 +440,7 @@
     root.addEventListener('beforeprint',()=>session.before());
     root.addEventListener('afterprint',()=>session.after());
   }
-  const api={findOutlineSections,promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
+  const api={readingPassages,findOutlineSections,promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

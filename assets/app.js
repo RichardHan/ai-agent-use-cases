@@ -437,17 +437,35 @@ function inline(node,text,path) {
   node.append(document.createTextNode(text.slice(last)));
 }
 function renderMarkdown(markdown,path) {
-  const out=el('div','markdown'); let paragraph=[],list=null,code=null;
-  const flush=()=>{if(paragraph.length){const p=el('p');inline(p,paragraph.join(' '),path);out.append(p);paragraph=[];}list=null;};
+  const out=el('div','markdown'); let paragraph=[],lists=[],code=null;
+  const flush=()=>{if(paragraph.length){const p=el('p');inline(p,paragraph.join(' '),path);out.append(p);paragraph=[];}lists=[];};
   for(const line of markdown.split('\n').slice(1)) {
     if(/^```/.test(line)){flush();if(code){out.append(code);code=null;}else code=el('pre');continue;}
     if(code){code.textContent+=line+'\n';continue;}
     if(!line.trim()){flush();continue;}
-    const head=line.match(/^(#{2,6})\s+(.+)/),item=line.match(/^\s*(?:[-*]|\d+\.)\s+(.+)/);
+    const head=line.match(/^(#{2,6})\s+(.+)/),item=line.match(/^(\s*)([-*]|\d+\.)\s+(.+)/);
     if(head){flush();const h=el(head[1].length===2?'h2':'h3');inline(h,head[2],path);out.append(h);}
-    else if(item){if(paragraph.length)flush();const type=/^\s*\d+\./.test(line)?'ol':'ul';if(!list||list.tagName.toLowerCase()!==type){list=el(type);out.append(list);}const li=el('li');inline(li,item[1],path);list.append(li);}
+    else if(item){
+      if(paragraph.length)flush();
+      const indent=item[1].replace(/\t/g,'    ').length,type=/^\d/.test(item[2])?'ol':'ul';
+      while(lists.length&&indent<lists.at(-1).indent)lists.pop();
+      if(lists.length&&indent===lists.at(-1).indent&&type!==lists.at(-1).type)lists.pop();
+      if(!lists.length||indent>lists.at(-1).indent){
+        const list=el(type),parent=lists.at(-1)?.last;
+        (parent||out).append(list);lists.push({indent,type,list,last:null});
+      }
+      const level=lists.at(-1),li=el('li');
+      if(type==='ol')li.value=Number.parseInt(item[2],10);
+      inline(li,item[3],path);level.list.append(li);level.last=li;
+    }
     else if(/^>\s?/.test(line)){flush();const quote=el('blockquote');inline(quote,line.replace(/^>\s?/,''),path);out.append(quote);}
-    else {if(list)flush();paragraph.push(line);}
+    else if(lists.length&&/^\s+/.test(line)){
+      // Continuation text belongs to the preceding item, never a new sibling.
+      const indent=line.match(/^\s*/)[0].replace(/\t/g,'    ').length;
+      while(lists.length>1&&indent<=lists.at(-1).indent)lists.pop();
+      inline(lists.at(-1).last,' '+line.trim(),path);
+    }
+    else {if(lists.length)flush();paragraph.push(line);}
   }
   flush();if(code)out.append(code);return out;
 }

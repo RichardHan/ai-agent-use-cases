@@ -1,0 +1,97 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "audits": [
+      [],
+      [],
+      []
+    ],
+    "childCount": 4,
+    "listCount": 38,
+    "textHash": "a202dfecb1061600a0a0620039c903d24bfc81fd95dae68beebb762a82327f07",
+    "overflow": false,
+    "hit": {
+      "tag": "LI",
+      "text": "申請類工作要先確認對方接受的管道（郵件、表單、電話），再決定產出草稿的格式。",
+      "parent": "OL"
+    }
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      [],
+      [],
+      []
+    ],
+    "childCount": 4,
+    "listCount": 38,
+    "textHash": "a202dfecb1061600a0a0620039c903d24bfc81fd95dae68beebb762a82327f07",
+    "overflow": false,
+    "hit": {
+      "tag": "LI",
+      "text": "申請類工作要先確認對方接受的管道（郵件、表單、電話），再決定產出草稿的格式。",
+      "parent": "OL"
+    }
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "audits": [
+      [],
+      [],
+      []
+    ],
+    "childCount": 4,
+    "listCount": 38,
+    "textHash": "a202dfecb1061600a0a0620039c903d24bfc81fd95dae68beebb762a82327f07",
+    "overflow": false,
+    "hit": {
+      "tag": "LI",
+      "text": "申請類工作要先確認對方接受的管道（郵件、表單、電話），再決定產出草稿的格式。",
+      "parent": "OL"
+    }
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      [],
+      [],
+      []
+    ],
+    "childCount": 4,
+    "listCount": 38,
+    "textHash": "a202dfecb1061600a0a0620039c903d24bfc81fd95dae68beebb762a82327f07",
+    "overflow": false,
+    "hit": {
+      "tag": "LI",
+      "text": "申請類工作要先確認對方接受的管道（郵件、表單、電話），再決定產出草稿的格式。",
+      "parent": "OL"
+    }
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      [],
+      [],
+      []
+    ],
+    "childCount": 4,
+    "listCount": 38,
+    "textHash": "a202dfecb1061600a0a0620039c903d24bfc81fd95dae68beebb762a82327f07",
+    "overflow": false,
+    "hit": {
+      "tag": "LI",
+      "text": "申請類工作要先確認對方接受的管道（郵件、表單、電話），再決定產出草稿的格式。",
+      "parent": "OL"
+    }
+  }
+]

@@ -32,3 +32,21 @@ UC-001原文的「訂假期機票」下有三項子紀錄，「本庫判讀」�
 預覽：`python3 scripts/preview.py /tmp/list-preview/ai-agent-use-cases`，再`python3 -m http.server 8151 --directory /tmp/list-preview`；開啟`http://127.0.0.1:8151/ai-agent-use-cases/?q=旅遊&scenario=生活&case=UC-001`並展開原始研究。
 
 未驗證實體手機、真人留存／轉換率、完整螢幕閱讀器或完整CommonMark一致性；axe不等同完整WCAG認證。下一輪建議：比較不同案例後返回原閱讀段落，避免長文被強制帶回篇首。
+
+## 雲端前後與獨立審查
+
+首輪完整雲端 [39703707778](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39703707778) success：三引擎五配置（Chromium1440／390／320、Firefox390、WebKit390），15次axe零違規、pageerror空、38個li完整保留、UC-001文字hash相同；各尺寸四子項屬原父項，巢狀搜尋定位正確，沒有水平溢出。另完整既有reader及兩尺寸走查通過。這一輪是續文節錄補修前版本，最終結果另列，不把它當最終提交驗收。
+
+| 尺寸 | 修改前 | 修改後 |
+| --- | --- | --- |
+| 桌面1440 | [父子清單分離](before/lists-chromium-1440.png) | [步驟歸屬原限定](after/lists-chromium-1440.png) |
+| 手機390 | [同層原文](before/lists-chromium-390.png) | [保留父子階層](after/lists-chromium-390.png) |
+| 小手機320 | 基準未另截320 | [窄螢幕閱讀](after/lists-chromium-320.png) |
+
+三個模擬情境：從旅遊＋生活閱讀作者限制，鍵盤段落導覽後返回；搜尋子項「申請類工作」定位到原li並看父項脈絡；分享直鏈重整、長文、空結果復原、來源及原生Back回原卡。基準來源另實際開啟新頁，不宣稱全庫外站長期公開。模擬不是訪客轉換或真人喜好證據。
+
+獨立角色未參與主要實作，發現一項P2：父項在子清單前後的自身文字不可拼成連續引文；已依childNodes順序分段並新增第161項回歸測試。其獨立跑161項全過，另比對413檔與1809個連結完整。安全文字節點、先讀clone、Markdown複製及原研究列印路徑未見新增阻擋。完整性另由checks/corpus-oracle.cjs支持，不將單篇瀏覽器hash當全庫瀏覽器驗證。
+
+補修重跑 [39704000212](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39704000212) 的WebKit在快速連續導航／重新整理時，背景全文fetch出現access-control pageerror而失敗；前四配置通過。已讓各情境在全文完成後才開始下一次導航，仍保留所有pageerror檢查，不排除錯誤或宣稱該次全綠。背景讀取與錯誤復原另由既有reader回歸覆蓋。
+
+三個資產未壓縮增加1702 bytes，gzip本機估算增加532 bytes，無新請求；不是實際網路延遲或Lighthouse分數。色彩沿用；axe涵蓋自動化文字對比檢查。尚未做本輪新實體紙本列印驗收。

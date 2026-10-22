@@ -30,13 +30,13 @@ fs.mkdirSync(out,{recursive:true});
   assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-section-0');
   await page.keyboard.press('Escape');assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');
   // 2: a nested search hit must land on the actual child item, with its parent intact.
-  await page.goto(base+'?q=申請類工作&case=UC-001');await page.locator('#detail[open]').waitFor();
+  await page.goto(base+'?q=申請類工作&case=UC-001');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
   const passage=page.getByRole('button',{name:'定位這段原文 ↓'}).first();await passage.click();
   row.hit=await page.evaluate(()=>({tag:document.activeElement.tagName,text:document.activeElement.textContent,parent:document.activeElement.parentElement.tagName}));
   assert.equal(row.hit.tag,'LI');assert.equal(row.hit.parent,'OL');assert(row.hit.text.startsWith('申請類工作'));
   assert.equal(await page.locator('.markdown li:has(> ol)').filter({hasText:/^本庫判讀：/}).count(),1);
   // 3: direct refresh, long content, empty recovery, source links and native Back.
-  await page.reload();await page.locator('#detail[open]').waitFor();assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-001');
+  await page.reload();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-001');
   await page.keyboard.press('Escape');await page.locator('#query').fill('no-list-results-qa');await page.locator('#empty').waitFor({state:'visible'});
   row.audits.push((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id));
   await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(n=>n===document.activeElement));

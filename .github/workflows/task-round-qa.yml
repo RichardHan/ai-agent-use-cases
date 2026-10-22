@@ -1,7 +1,7 @@
-name: Task round observation
+name: Search focus QA
 on:
   push:
-    branches: [improve/task-search-20261023]
+    branches: [improve/task-search-20261023, verify/search-focus-20261023]
 permissions:
   contents: read
 jobs:
@@ -11,6 +11,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -22,12 +24,34 @@ jobs:
           fc-cache -f
           mkdir -p qa-artifacts
           chown -R pwuser:pwuser qa-artifacts
-      - name: Observe published journeys in cloud
+      - name: Unit, syntax and static preview
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1 || node - <<'JS'
+          const fs=require('node:fs'),assert=require('node:assert/strict'),tap=fs.readFileSync('qa-artifacts/unit.tap','utf8');
+          assert.deepEqual([...tap.matchAll(/^not ok \d+ - (.+)$/gm)].map(m=>m[1]),['candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus']);
+          assert.match(tap,/expected: 19\n  actual: 22/);console.log('Recorded baseline audit failure only: 22 vs 19');
+          JS
+          for f in assets/*.js tests/search-focus*.cjs; do node --check "$f"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          mkdir -p "$RUNNER_TEMP/baseline"
+          git archive d80db401b41c82950d7b8534cb6d29190c3c8420 | tar -x -C "$RUNNER_TEMP/baseline"
+          python3 "$RUNNER_TEMP/baseline/scripts/preview.py" "$RUNNER_TEMP/before/ai-agent-use-cases"
+      - name: Reproduce missing focus on fixed baseline
+        timeout-minutes: 5
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
-        run: runuser -u pwuser -- node tests/task-round-observe.cjs
+        run: |
+          python3 -m http.server 8133 --directory "$RUNNER_TEMP/before" > /tmp/focus-before.log 2>&1 &
+          export SITE_URL=http://127.0.0.1:8133/ai-agent-use-cases/
+          chown -R pwuser:pwuser qa-artifacts
+          QA_OUT=qa-artifacts/before FOCUS_OBSERVE=1 runuser -u pwuser -- node tests/search-focus-browser.cjs
+          if QA_OUT=qa-artifacts/red runuser -u pwuser -- node tests/search-focus-browser.cjs > qa-artifacts/red.log 2>&1; then
+            echo 'Expected original reader focus regression'; exit 1
+          fi
+          grep -q 'Keyboard focus must have a visible outline: #reader-outline-query' qa-artifacts/red.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: task-round-qa
+          name: search-focus-qa
           path: qa-artifacts/

@@ -1,0 +1,14 @@
+[
+  {
+    "file": "index.html",
+    "status": 200,
+    "same": true,
+    "sha256": "20df68c19e486aeeb7a89777c4449429796bb8b19304815c0edfc89b5a613185"
+  },
+  {
+    "file": "assets/app.js",
+    "status": 200,
+    "same": true,
+    "sha256": "a22216185fc506f8768db15b1f094da818bbc1c06656a583a3d2c607b924c427"
+  }
+]

@@ -1,6 +1,6 @@
 # 2026-10-22 任務快選直接看結果
 
-狀態：預覽驗收通過；正式發布核對另於文末補記。
+狀態：已合併、正式部署及發布驗收通過；本輪完成。
 
 ## 問題證據與目標
 
@@ -73,3 +73,17 @@ NODE_PATH=<雲端工具目錄>/node_modules node tests/task-shortcuts-browser.cj
 ## 獨立審查
 
 未負責主實作的角色以只讀方式審查產品diff、工作流程、原文資料與隱私影響，獨立跑17項相關單元檢查；目視桌面／390／320結果及手機hint圖，核對最終預覽報告與回歸。結論「可合併，未發現阻擋問題」。已修正其發現的SUBMIT_URL設定並補完整來源斷言／hint截圖；沒有新增傳送、儲存或依賴。保留Reddit403、實體手機／完整輔具與效能提升未驗證等限制；正式部署需完成後才宣稱發布。
+
+## 正式發布完成
+
+正常merge並SSH push到main：`91cea97`，未強推。其Pages39721582807因協作者後續原文補充被取代取消；後續3485cd2／c6d33ca／ad39f78的建置亦被取代，未計為成功。最新`186a6f6`保留本輪產品與研究PR #76及後續三篇案例來源補充，[Pages39722394897](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39722394897) build／deploy／report均成功。沒有覆蓋協作者內容。
+
+[正式QA39722064674](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39722064674)成功，checkout0368330（產品同91cea97；僅workflow新增有界資產等待，公開HTML/app.js一致後才走查）。[公開資產HTTP200與SHA256](published/assets.json)；主角色另以HTTP逐byte再次核對一致。這不是把preview當正式Jekyll。
+
+正式三引擎五配置419條目完整、failedPaths=0、20組任務操作結果數y=23.50–24.49px、首卡可見、pageerror全空，10次主要axe零違規；三情境、直鏈重整、返回及載入／失敗／部分補讀均通過。[正式報告](published/report.json)、[生命週期](published/lifecycle.json)、[桌面](published/desktop.png)、[手機](published/mobile.png)；主角色已目視正式桌面／手機截圖，維持預覽行為。本輪主要axe為preview10＋正式10共20次零違規，未把其他回歸或中間run重複加總。
+
+正式四任務筆數103／122／46／203，與preview415條目時98／120／44／200不同；此間協作者新增4主要案例及原文補充，正式共419條目，不是本輪改搜尋演算法或新增合格認定。419只是網站條目數，不是合格真實案例數。Reddit來源新頁仍403，保留為無法讀取內文；不宣稱來源全面可用。
+
+其他主線既有CI包含未完或失敗，見[實際快照](checks/main-ci-snapshot.json)，不宣稱整批全綠；本輪完整preview、既有reader／submit回歸及發布後五配置則均成功。最後只補證據、維護紀錄與已實際執行成功的workflow資產等待，不再更動產品程式。本輪達成驗收後停止。
+
+獨立角色最後抽查正式419條目報告與1440／390圖、公開資產及三項生命週期，結論「可交付，無阻擋問題」。發布後未修改產品程式；保留外站403與前述非真人／非完整輔具驗證限制。

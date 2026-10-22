@@ -4,7 +4,7 @@ const {chromium,firefox,webkit}=require('playwright');
 const base=process.env.SITE_URL||'https://richardhan.github.io/ai-agent-use-cases/';
 const out=process.env.QA_OUT||'qa-artifacts/before';fs.mkdirSync(out,{recursive:true});
 (async()=>{const report=[];for(const width of [1440,390]){
-const browser=await chromium.launch(),page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});const row={width,errors:[]};report.push(row);page.on('pageerror',e=>row.errors.push(e.message));
+const browser=await chromium.launch({channel:'chrome'}),page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});const row={width,errors:[]};report.push(row);page.on('pageerror',e=>row.errors.push(e.message));
 await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});row.total=await page.evaluate(()=>entries.length);await page.screenshot({path:`${out}/home-${width}.png`});
 await page.locator('[data-search-entry]').first().click();await page.locator('#query').fill('旅遊');if(!await page.locator('#filter-options').evaluate(n=>n.open))await page.locator('#filter-summary').click();await page.locator('#scenario').selectOption('生活');await page.locator('#query').press('Enter');await page.screenshot({path:`${out}/results-${width}.png`});row.count=await page.evaluate(()=>currentFiltered.length);
 const trigger=page.locator('#results .card .card-bottom button').first();await trigger.click();await page.locator('#detail[open]').waitFor();row.direct=page.url();await page.screenshot({path:`${out}/detail-${width}.png`});

@@ -275,3 +275,11 @@
 
 /* Keep focused inspiration text clear of the viewport edge, including long titles. */
 #drawn-case h3 button,#draw-status{scroll-margin-top:24px}
+
+/* Card labels are actions: keep readable targets in results and inspiration cards. */
+.card .tags{gap:8px;align-items:flex-start}
+.card .tag{min-width:44px;min-height:44px;max-width:100%;padding:9px 10px;font-size:14px;line-height:1.6;white-space:normal;overflow-wrap:anywhere;text-align:left}
+.card h3 button{min-width:44px;min-height:44px;max-width:100%;overflow-wrap:anywhere}
+.card-bottom{flex-wrap:wrap;column-gap:12px;row-gap:8px}
+.card-bottom .proof{flex:1 1 100px;min-width:0;overflow-wrap:anywhere}
+.card .card-bottom button{min-width:44px;min-height:44px;max-width:100%;font-size:14px;padding:8px 0;white-space:normal;overflow-wrap:anywhere;text-align:left;margin-left:auto}

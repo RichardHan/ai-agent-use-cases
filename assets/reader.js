@@ -143,9 +143,13 @@
     if(!/^[UO]L$/.test(block.tagName))return /^(P|PRE|BLOCKQUOTE)$/.test(block.tagName)?[{node:block,text:block.textContent}]:[];
     const passages=[];
     for(const row of block.children){
-      const text=[...row.childNodes].filter(node=>!/^[UO]L$/.test(node.tagName||'')).map(node=>node.textContent).join('');
-      passages.push({node:row,text});
-      for(const child of row.children)if(/^[UO]L$/.test(child.tagName))passages.push(...readingPassages(child));
+      let text='';
+      const flush=()=>{if(text.trim())passages.push({node:row,text});text='';};
+      for(const child of row.childNodes){
+        if(/^[UO]L$/.test(child.tagName||'')){flush();passages.push(...readingPassages(child));}
+        else text+=child.textContent;
+      }
+      flush();
     }
     return passages;
   }

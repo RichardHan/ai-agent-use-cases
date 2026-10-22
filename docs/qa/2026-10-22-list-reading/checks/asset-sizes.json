@@ -1,0 +1,17 @@
+[
+  {
+    "file": "assets/app.js",
+    "bytesDelta": 776,
+    "gzipBytesDelta": 238
+  },
+  {
+    "file": "assets/reader.js",
+    "bytesDelta": 639,
+    "gzipBytesDelta": 221
+  },
+  {
+    "file": "assets/reader.css",
+    "bytesDelta": 287,
+    "gzipBytesDelta": 73
+  }
+]

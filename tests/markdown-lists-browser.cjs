@@ -5,11 +5,12 @@ const base=process.env.SITE_URL||'http://127.0.0.1:8151/ai-agent-use-cases/',out
 fs.mkdirSync(out,{recursive:true});
 (async()=>{
  const report=[];
- for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
+ for(const [engine,width] of (observe||process.env.LIST_LIVE==='1'?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
   const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:width>500?1000:844},reducedMotion:'reduce'}),page=await context.newPage();
   const row={engine:engine.name(),width,errors:[],audits:[]};report.push(row);page.on('pageerror',e=>row.errors.push(e.message));
   await page.goto(base+'?q=旅遊&scenario=生活&case=UC-001');await page.locator('#detail[open]').waitFor();
   await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
+  row.timing=await page.evaluate(()=>({domContentLoadedMs:Math.round(performance.getEntriesByType('navigation')[0].domContentLoadedEventEnd),elapsedToCorpusMs:Math.round(performance.now())}));
   await page.locator('.research-details summary').click();
   const parent=page.locator('.research-details .markdown li').filter({hasText:/^本庫判讀：這是單一作者/}).first();
   row.childCount=await parent.locator(':scope > ol > li').count();
@@ -30,8 +31,6 @@ fs.mkdirSync(out,{recursive:true});
   await page.keyboard.press('Escape');assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');
   // 2: a nested search hit must land on the actual child item, with its parent intact.
   await page.goto(base+'?q=申請類工作&case=UC-001');await page.locator('#detail[open]').waitFor();
-  const jump=page.locator('.reader-search-passage').first();
-  // Existing label/class is kept by the reader; locate by its explicit text if needed.
   const passage=page.getByRole('button',{name:'定位這段原文 ↓'}).first();await passage.click();
   row.hit=await page.evaluate(()=>({tag:document.activeElement.tagName,text:document.activeElement.textContent,parent:document.activeElement.parentElement.tagName}));
   assert.equal(row.hit.tag,'LI');assert.equal(row.hit.parent,'OL');assert(row.hit.text.startsWith('申請類工作'));

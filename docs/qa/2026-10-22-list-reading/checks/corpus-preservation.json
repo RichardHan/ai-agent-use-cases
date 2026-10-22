@@ -1,0 +1,2486 @@
+{
+  "files": 413,
+  "allTextEqual": true,
+  "allLinksEqual": true,
+  "allItemCountsEqual": true,
+  "rows": [
+    {
+      "file": "cases/001-travel-checkout.md",
+      "textHash": "62065ba87da0a02a565629bde019f4fc4ded43b2b66e58aa56c00c25346ccf87",
+      "links": 8,
+      "listItems": 38
+    },
+    {
+      "file": "cases/002-video-production.md",
+      "textHash": "14100953d4a404ec4695677fd1372273d00daee7320169abad0db01923ecabc7",
+      "links": 12,
+      "listItems": 51
+    },
+    {
+      "file": "cases/003-store-operations.md",
+      "textHash": "41979093c6033b17d8fe232a93041e367f88d24ed1c20197249e5f37e8a32a1b",
+      "links": 9,
+      "listItems": 23
+    },
+    {
+      "file": "cases/004-social-crm.md",
+      "textHash": "921bb7a47e282b6a4cacd5d6ec9951c2a9c849a2dffadb3d0e2f32438ec6b9c4",
+      "links": 5,
+      "listItems": 30
+    },
+    {
+      "file": "cases/005-cloud-pr-review.md",
+      "textHash": "8119d323d0ffea3efaf17de2f3aea4e83a7002bfa91b6e389998d4a0f6ec7938",
+      "links": 30,
+      "listItems": 51
+    },
+    {
+      "file": "cases/006-facebook-publication.md",
+      "textHash": "8e928f2c052b9abd45580b8ddfa79ea13d46d34083f0c281e2773c613a975b28",
+      "links": 18,
+      "listItems": 64
+    },
+    {
+      "file": "cases/007-saas-renewal-audit.md",
+      "textHash": "38dcb183618e7c15024a060556dc25c89f606ca408e309d2e8204efbd8547dea",
+      "links": 1,
+      "listItems": 24
+    },
+    {
+      "file": "cases/010-physical-oled-verification.md",
+      "textHash": "637e1e952274dec6da2436821dd2b3d8d4e404c205f60a655432f1af641097b6",
+      "links": 6,
+      "listItems": 23
+    },
+    {
+      "file": "cases/011-sales-feedback-approved-revision.md",
+      "textHash": "3ab92858fdcbc3b3ec351f4a964f29147d8304fd4737c64e2346f583012faa13",
+      "links": 6,
+      "listItems": 37
+    },
+    {
+      "file": "cases/012-research-evaluation-provenance.md",
+      "textHash": "30b7f938184f222f66dfe00517abd1a6f58cf83143fcc1cad4023eb8501520aa",
+      "links": 5,
+      "listItems": 23
+    },
+    {
+      "file": "cases/014-support-inbox-approval-refund.md",
+      "textHash": "14da997d1e292af3d154e4b4f237a624025e10998474eee0323bd3fd5e0e3157",
+      "links": 5,
+      "listItems": 54
+    },
+    {
+      "file": "cases/015-public-page-change-watch.md",
+      "textHash": "c71f1519d9024d39ad1c8eeefc673859a3c2a68b452ca4af8ff13cc19a582f43",
+      "links": 10,
+      "listItems": 59
+    },
+    {
+      "file": "cases/016-marketplace-selling-buyer-messages.md",
+      "textHash": "554b1cc22ccb48e7486f30cb7a6ae3c2e0370649f477d690fc3b8dc2700be56e",
+      "links": 18,
+      "listItems": 72
+    },
+    {
+      "file": "cases/017-prospect-research-drafts.md",
+      "textHash": "c6b4a7dacd273e7e3873f860a2a9ca22707da698858d8630bdac4aa6cabbb8e6",
+      "links": 4,
+      "listItems": 26
+    },
+    {
+      "file": "cases/018-demo-readiness.md",
+      "textHash": "fa1531446d03ed7666305ad8d0c2141e1e99943394eace667f277fc96ed253fd",
+      "links": 1,
+      "listItems": 13
+    },
+    {
+      "file": "cases/019-call-to-customer-deck.md",
+      "textHash": "ac58a2c2f8cfadbd84f4c816ac96e95a3749f935257e618c32edeaa5fc1c1d4b",
+      "links": 1,
+      "listItems": 13
+    },
+    {
+      "file": "cases/020-figma-batch-cards.md",
+      "textHash": "fe90fb3155bb0d199531dc1b1a7fa5b8e73000d7fa883aa1f731b757348409d7",
+      "links": 2,
+      "listItems": 13
+    },
+    {
+      "file": "cases/021-legal-request-handoff.md",
+      "textHash": "56d61d918c29820cbe2f39363dcd4fa4191ec1c004e3f95b41291f8690ee957c",
+      "links": 1,
+      "listItems": 13
+    },
+    {
+      "file": "cases/022-ad-spend-conversion-check.md",
+      "textHash": "a70b172d811b2efb130f7b299ec5e9aaa1bcd651a7ccc231504017a6b04a43dc",
+      "links": 2,
+      "listItems": 13
+    },
+    {
+      "file": "cases/023-launch-material-revision.md",
+      "textHash": "7c1f701638128ab0fb333593de6d456df4eb6b5c8ac4dd1339a271500cd231c8",
+      "links": 10,
+      "listItems": 35
+    },
+    {
+      "file": "cases/024-missing-invoice-check.md",
+      "textHash": "977aec6d5903234fe128edbbe7aaae96a13e78f55bfd6d701b55d8b241254d0b",
+      "links": 4,
+      "listItems": 23
+    },
+    {
+      "file": "cases/025-team-event-follow-through.md",
+      "textHash": "a2e98f82ff920eeb8882f4a52b07bd12e5f3e9b6b17eb543b8e045ca054a4c1b",
+      "links": 9,
+      "listItems": 26
+    },
+    {
+      "file": "cases/026-school-deadline-list.md",
+      "textHash": "31c2908ec5679a7c01ddff847c6e722719d91274bf4696e67560788557812af0",
+      "links": 5,
+      "listItems": 23
+    },
+    {
+      "file": "cases/027-recipe-shopping-plan.md",
+      "textHash": "33f9c4cc261165b667f909f55f7a530d89efd71ad6561fa0d0c1e58d9ee10521",
+      "links": 8,
+      "listItems": 33
+    },
+    {
+      "file": "cases/028-bill-comparison-preparation.md",
+      "textHash": "da96d115e5b3e926106865370b943e0ee0eba2a85be5d2757c89129f22115c18",
+      "links": 12,
+      "listItems": 36
+    },
+    {
+      "file": "cases/029-exercise-time-replan.md",
+      "textHash": "71760c5f39ba30d9f7eba6edeb62db9ed5d091699879467974f801dc8961163a",
+      "links": 5,
+      "listItems": 23
+    },
+    {
+      "file": "cases/030-interactive-study-guide.md",
+      "textHash": "d498cb415a074510616b1282d630419aeee795be40d89b93a3f150c07af49275",
+      "links": 25,
+      "listItems": 54
+    },
+    {
+      "file": "cases/031-spending-dashboard.md",
+      "textHash": "a60104d56d59bd5f37b92c9bc0dcc237bcab69ed33496da8573d9f075720781c",
+      "links": 5,
+      "listItems": 24
+    },
+    {
+      "file": "cases/032-sleep-record-chart.md",
+      "textHash": "ae5b67efee0e2327d7898219f060fbd6b5930f441daf17a225603540fa851dab",
+      "links": 4,
+      "listItems": 19
+    },
+    {
+      "file": "cases/033-business-experiment-plan.md",
+      "textHash": "99bd0670de645f587d94c49ce3ddab2f45a6dfda61648bdd7883e25169859133",
+      "links": 4,
+      "listItems": 19
+    },
+    {
+      "file": "cases/034-expense-anomaly-review.md",
+      "textHash": "8100c0e0d64bf1221ebe0d87829476b20c348ac4ca90bcad5d713ebddf8da756",
+      "links": 10,
+      "listItems": 30
+    },
+    {
+      "file": "cases/035-job-search-application-drafts.md",
+      "textHash": "caf25746231d6be8aebd217a93b2563687adede821c99539153abe9e487a591b",
+      "links": 10,
+      "listItems": 55
+    },
+    {
+      "file": "cases/036-pos-accounting-csv.md",
+      "textHash": "65bd118083e3a885a9cdcef24e18f9401163db74eef40cc89c9f3f05d8b67f9a",
+      "links": 2,
+      "listItems": 18
+    },
+    {
+      "file": "cases/037-product-listing-comparison.md",
+      "textHash": "32c7d18ee133c578df74598ba6bdc857d0328a9bd1916660d480fc758bd8561b",
+      "links": 14,
+      "listItems": 43
+    },
+    {
+      "file": "cases/038-fabric-sourcing-sample-handoff.md",
+      "textHash": "e8b91a44d386fc1107df22f85837d3dc743c0225ab8329f8acd6e31c68536b18",
+      "links": 1,
+      "listItems": 15
+    },
+    {
+      "file": "cases/039-competitor-positioning-review.md",
+      "textHash": "4bfb4e15701b59ad98f84ff585af1ca142dde759588dd7a896a41958929ac678",
+      "links": 5,
+      "listItems": 18
+    },
+    {
+      "file": "cases/040-trip-deferred-recheck.md",
+      "textHash": "32e628d9f9edf41b29718db4d6ff9af0c4cf21cc8c88eef183a12ade311ef547",
+      "links": 1,
+      "listItems": 36
+    },
+    {
+      "file": "cases/041-routine-health-exception-ops.md",
+      "textHash": "632a49ac6b97b0f080b471de9dd3157c512a6b491e6b106f5c858539b4e0e0bf",
+      "links": 3,
+      "listItems": 47
+    },
+    {
+      "file": "cases/042-dots-credential-multibot-return.md",
+      "textHash": "5009c5351501ea182984205807fed94db079ea938af89516f50eb27cd3b7597f",
+      "links": 8,
+      "listItems": 46
+    },
+    {
+      "file": "cases/043-public-events-calendar.md",
+      "textHash": "edee5bedf47aa023ffbab556b1f7ea76533278c189b8e64a24dc7a5c0584cc47",
+      "links": 1,
+      "listItems": 13
+    },
+    {
+      "file": "cases/044-household-shared-dashboard.md",
+      "textHash": "977c47fb74d2fafbae3340fcdec85541644a957267b5eccb2584c2be7cb42f73",
+      "links": 1,
+      "listItems": 13
+    },
+    {
+      "file": "cases/045-cross-agent-research-handoff.md",
+      "textHash": "72fc7ba7055c1b903d95db24638bda62b4d4ebd7632f8658076d83128cadf528",
+      "links": 11,
+      "listItems": 20
+    },
+    {
+      "file": "cases/046-followed-accounts-daily-digest.md",
+      "textHash": "5bd4e3b3c388086b78370ef8a8446bcd3d946526614fdf7623156fa2875d9043",
+      "links": 22,
+      "listItems": 81
+    },
+    {
+      "file": "cases/047-portfolio-provenance-catalog.md",
+      "textHash": "05d97ca87e8ef1de718909af13c941cf84564e770ad7ada425ddb676efc6fb0d",
+      "links": 2,
+      "listItems": 17
+    },
+    {
+      "file": "cases/048-daily-price-rank-tracking.md",
+      "textHash": "a4a555a76e45baf2fa97e9ada8c871d9435ffa18a70395f772234e904c07d012",
+      "links": 8,
+      "listItems": 52
+    },
+    {
+      "file": "cases/049-daily-inbox-report-graduated-trust.md",
+      "textHash": "78e6a8f0a55837bf258e38adcf6e787912ebda1843b81d4667d27e180cbd41d8",
+      "links": 14,
+      "listItems": 94
+    },
+    {
+      "file": "cases/050-daily-eink-mood-illustration.md",
+      "textHash": "83141ea66f73eb0079eddc14d4b953d6cb9e5dea2386284f571a13365b0bc2e0",
+      "links": 4,
+      "listItems": 39
+    },
+    {
+      "file": "cases/051-tax-return-cpa-double-check.md",
+      "textHash": "1f842c0e034ff9623cf45e6d793256126f6861b0d770bb835a334a0f5b776ac9",
+      "links": 5,
+      "listItems": 50
+    },
+    {
+      "file": "cases/052-cloud-overcharge-refund-root-cause.md",
+      "textHash": "31ab36798c2d2eadf0ad420f654ef81910edf6bbf30843155514efe4f08822d1",
+      "links": 1,
+      "listItems": 42
+    },
+    {
+      "file": "cases/053-ecommerce-replenishment-refund-profit.md",
+      "textHash": "fdcaa3a154d95f262c927fa4642cc97445ae9007b0b73464a6105110b8e5e5ff",
+      "links": 1,
+      "listItems": 43
+    },
+    {
+      "file": "cases/054-music-video-multi-tool-pipeline.md",
+      "textHash": "d5a8ad04ccb2e753a1101afebd3e0f85d2e2709d25b78df3e38d1b76d78f9cdc",
+      "links": 16,
+      "listItems": 78
+    },
+    {
+      "file": "cases/055-tweet-project-intake-research-monitor.md",
+      "textHash": "1d410e2423b170f9b3f334d0ba2f6fd3f95aadfe1fe9435a2cf65913bd4f6672",
+      "links": 3,
+      "listItems": 51
+    },
+    {
+      "file": "cases/056-agent-built-microbusiness-site.md",
+      "textHash": "b965c92c3fef40b070b84ba544f44df51870e76e10d7f632c0779eb4d25117fc",
+      "links": 12,
+      "listItems": 68
+    },
+    {
+      "file": "cases/057-self-hosted-ci-runner-on-laptop.md",
+      "textHash": "ade9d25725cb9727b66f1fbbc077023bc52a0af7f8489da660b04b155581cf4a",
+      "links": 4,
+      "listItems": 49
+    },
+    {
+      "file": "cases/058-tennis-match-dead-time-editing.md",
+      "textHash": "4ee61efab7a3daa8fb523e8c91c341b3b072f2c9edd48ae6085da21b14361efe",
+      "links": 2,
+      "listItems": 13
+    },
+    {
+      "file": "cases/059-home-service-quote-handoff.md",
+      "textHash": "66cf12cdd6e282e774726ca47b284c4ce9a6239643135f3c3ddd35b6bac13707",
+      "links": 2,
+      "listItems": 19
+    },
+    {
+      "file": "cases/060-x-mention-sourced-answer-bot.md",
+      "textHash": "11d940826f893c82cabe01ad11fe4136dc1447618bfb2fefe0790300509dc7d2",
+      "links": 6,
+      "listItems": 53
+    },
+    {
+      "file": "cases/061-dispatcher-bot-typed-commands-ledger.md",
+      "textHash": "d71e6527432a9228466b13d514a7e3e8eb0ba6a41161c22e50d6433295543533",
+      "links": 17,
+      "listItems": 101
+    },
+    {
+      "file": "cases/062-figma-android-implementation-audit.md",
+      "textHash": "1522f3ffe4fc5a260bf5c831975639f94bcb14120e2780948154fbdb63bcbfd8",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/063-plex-media-library-housekeeping.md",
+      "textHash": "d30fb0cdbe9ce63b60d4a8f4548743c2559254f393093d021116f3b715c25683",
+      "links": 5,
+      "listItems": 23
+    },
+    {
+      "file": "cases/064-math-proof-review-formalization.md",
+      "textHash": "ff54dec7d5fddec497b6acb8fcd0437970b4e970f804a63eb149bd755b68989b",
+      "links": 8,
+      "listItems": 30
+    },
+    {
+      "file": "cases/065-suspicious-email-security-review.md",
+      "textHash": "a8a761c41923ed5ca707d524eeb4e9e49955a7cbd4a89a1a8728ec4ed3a12951",
+      "links": 5,
+      "listItems": 43
+    },
+    {
+      "file": "cases/066-agent-token-usage-self-audit.md",
+      "textHash": "7ef9d97bfaaf5851e0b8ce97dab96aa9f02316d593278e3b4c77434a0aa63bed",
+      "links": 26,
+      "listItems": 93
+    },
+    {
+      "file": "cases/067-agent-app-rebuild-manual.md",
+      "textHash": "3d0cd0fde8a8a1e8978d9ca17ffd45df4ba729c2afddec59b56263dace6d6426",
+      "links": 25,
+      "listItems": 101
+    },
+    {
+      "file": "cases/068-mac-local-helper-away-diagnosis.md",
+      "textHash": "f24b606c0d6ac70cd949d284b6cbc8310b833f7ce41dcdf20b27e0b63cd09d5e",
+      "links": 5,
+      "listItems": 56
+    },
+    {
+      "file": "cases/069-task-migration-reconciliation.md",
+      "textHash": "1a658cd6b9f523e7b94c9e57aa30e8ce2a94f1891fe6e32378141e7d8a1a2d71",
+      "links": 3,
+      "listItems": 16
+    },
+    {
+      "file": "cases/070-github-outage-mac-cloudflare-publish.md",
+      "textHash": "33b522b1414d54b637f653ebf72439ca769e73f1e1ad89fa54618e84d2dc2c0d",
+      "links": 1,
+      "listItems": 39
+    },
+    {
+      "file": "cases/071-obsidian-dots-visible-memory.md",
+      "textHash": "6c4093dad32bdfc6c6e0cc3619410ce85d47ccbbc397ec917c3f1c3076832d5c",
+      "links": 15,
+      "listItems": 59
+    },
+    {
+      "file": "cases/072-phone-task-disclosure-handoff.md",
+      "textHash": "f4ee4ed1380fe0ffd2d2ea077849e6e3b13670dba25673274b5dac867814409e",
+      "links": 14,
+      "listItems": 21
+    },
+    {
+      "file": "cases/073-customer-journey-content-audit.md",
+      "textHash": "2cd125ba95157a57fffbda599eb8cfa5a23d3f334f1a8da14f4f19a1db9eefdc",
+      "links": 14,
+      "listItems": 45
+    },
+    {
+      "file": "cases/074-event-trigger-readback.md",
+      "textHash": "5be6e8ff6bcd6446ca199b1aefa9ad97151e0d01a0f2e9693d4e17cdf6aa6782",
+      "links": 3,
+      "listItems": 12
+    },
+    {
+      "file": "cases/075-health-appointment-briefing-coach.md",
+      "textHash": "eab1dce1b2b5f5455cabb11f9a0d2e3619916b41e476ace8e94353a41e0a1eb4",
+      "links": 3,
+      "listItems": 41
+    },
+    {
+      "file": "cases/076-spam-call-data-broker-optout.md",
+      "textHash": "88f53972700e55c61409c6dc9326abe88415b4d50c4fe2ac02bdfe183ffab001",
+      "links": 19,
+      "listItems": 89
+    },
+    {
+      "file": "cases/077-cloud-draft-local-script-wechat-publish.md",
+      "textHash": "6f1293912275fca75353ed7af236a612fb81764a23bf2aab48e0bdf700091fe4",
+      "links": 4,
+      "listItems": 50
+    },
+    {
+      "file": "cases/078-rental-listing-scam-check.md",
+      "textHash": "ba3287fea3b38bfbd2f18004971dd695bd964064c276fb987460596dc7f972ba",
+      "links": 1,
+      "listItems": 41
+    },
+    {
+      "file": "cases/079-business-email-alias-diagnosis.md",
+      "textHash": "a5e72d11189507657471882eb80f75789f164b2ccad5e25d2e4c39837b187130",
+      "links": 2,
+      "listItems": 43
+    },
+    {
+      "file": "cases/080-email-license-keys-to-password-vault.md",
+      "textHash": "643fd1f7ef0fdf8915912277296dc58e4015789efc85fe226f4d0a2dc60d5583",
+      "links": 4,
+      "listItems": 50
+    },
+    {
+      "file": "cases/081-todoist-scheduled-headstart.md",
+      "textHash": "4ebb64a214f6bb642bae30f44b598ca47d02ee18fafd8a429f6a865282640b95",
+      "links": 2,
+      "listItems": 39
+    },
+    {
+      "file": "cases/082-multi-bot-fitness-coach-group.md",
+      "textHash": "be79b5b08ba3dd402dee0ddba4f685ae7f51f2b31de2f8266dc0b14ffaeab6d7",
+      "links": 2,
+      "listItems": 60
+    },
+    {
+      "file": "cases/083-printable-grade1-math-worksheet.md",
+      "textHash": "b9f21af50a3964dc8891f8c901dbc8107790d48e0972c79437f660e95a09a5ee",
+      "links": 1,
+      "listItems": 40
+    },
+    {
+      "file": "cases/084-botops-tiered-fleet-notion-tickets.md",
+      "textHash": "bc49b908c29e34350cba21ce9414b0efe5248c37c40eae8520a2efc29ca7015c",
+      "links": 1,
+      "listItems": 42
+    },
+    {
+      "file": "cases/085-slack-bug-triage-product-preread.md",
+      "textHash": "c08632fa677ed56a8e955cdd0149af051671c5fff40f7137c6be8f273cb86448",
+      "links": 1,
+      "listItems": 31
+    },
+    {
+      "file": "cases/086-muse-concert-video-scraping-pipeline.md",
+      "textHash": "47bfdfdeaf291a6d12f63a569c9513ea59c41ac9b1e1910e04a1c05600c1e791",
+      "links": 2,
+      "listItems": 36
+    },
+    {
+      "file": "cases/087-voice-walk-intake-codex-morning-call.md",
+      "textHash": "2fca9b84bda201530abb2232fb1b4ae389e90e47e3667a1f5bfd86dc9db92953",
+      "links": 4,
+      "listItems": 40
+    },
+    {
+      "file": "cases/088-unrefunded-returns-inbox-chase.md",
+      "textHash": "257508c67770c7027e3e87ce1e2aaa1095cb30266ff37f47ad1bcc1bc59d118f",
+      "links": 2,
+      "listItems": 33
+    },
+    {
+      "file": "cases/089-digital-declutter-approval-plan.md",
+      "textHash": "34a2eb3c7ce1ab5a6ea7db5377fc564db6845d7ffd2ef90ff4a68ca29ab78d80",
+      "links": 4,
+      "listItems": 51
+    },
+    {
+      "file": "cases/090-daily-prediction-market-evidence-read.md",
+      "textHash": "6268870a9c498d15663480dac6adbf5ed8666b7cfd113c021ec454814ca90b22",
+      "links": 1,
+      "listItems": 30
+    },
+    {
+      "file": "cases/091-household-13-lane-bots.md",
+      "textHash": "74ed30767896457a0ad797f86503bd1b82cbb01c2d0b3a95f1d36ae786b907fd",
+      "links": 1,
+      "listItems": 38
+    },
+    {
+      "file": "cases/092-desk-can-cannot-receipts.md",
+      "textHash": "4f6f4c5043cac1e135b4c547fc4e02eaa8f2164e1d3384eb5a0cd51b9dcde838",
+      "links": 1,
+      "listItems": 38
+    },
+    {
+      "file": "cases/093-local-newsletter-agent-team.md",
+      "textHash": "17fbf5753ec3500049b330070801bea00ae9aa65c580e57de565937a242e14f5",
+      "links": 1,
+      "listItems": 32
+    },
+    {
+      "file": "cases/094-meeting-stand-in-disclosure.md",
+      "textHash": "55ebd41120ff7366768b9400a71dfb71254de006fa42901a683c00590db54300",
+      "links": 1,
+      "listItems": 30
+    },
+    {
+      "file": "cases/095-product-usage-error-correlation.md",
+      "textHash": "6c44228a87ab0a57366f12b11c3e9106a9bbc493fb5417ee7d3bc6957984ebec",
+      "links": 2,
+      "listItems": 19
+    },
+    {
+      "file": "cases/096-production-log-deploy-triage.md",
+      "textHash": "fb3fadf54c9b2ad6ec3f642a441c4af3b97b5b65cadaa8234b4b1a9d1f50f14f",
+      "links": 3,
+      "listItems": 25
+    },
+    {
+      "file": "cases/097-public-gis-layer-map.md",
+      "textHash": "040c3d593bc617b2a54ebe41045b1156b309b5931214ed4bda549ea1661c56a4",
+      "links": 1,
+      "listItems": 10
+    },
+    {
+      "file": "cases/098-engineering-pdf-excel-extraction.md",
+      "textHash": "336263cdbb37c50e4a1dad7f897000b8267e8c3c002ba8a0153763ffbeed20bf",
+      "links": 1,
+      "listItems": 10
+    },
+    {
+      "file": "cases/099-travel-photo-scrapbook.md",
+      "textHash": "b77d97963ec3be9c69a131aca9550db97cf89b91ee74bbc8524c80e1d0e80009",
+      "links": 3,
+      "listItems": 10
+    },
+    {
+      "file": "cases/101-procurement-capability-shortlist.md",
+      "textHash": "cdb75af269ffead4e83030a882110b3dc6b61d2de486f58abcafdd46a66c3b85",
+      "links": 3,
+      "listItems": 15
+    },
+    {
+      "file": "cases/102-regulatory-change-safety-form-draft.md",
+      "textHash": "bebbf207aba5122e08e512da61d31116285dd2ab1a0c3d2cccedfe845ff22723",
+      "links": 3,
+      "listItems": 15
+    },
+    {
+      "file": "cases/103-insurance-crm-plan-code-reconciliation.md",
+      "textHash": "d7020e5594be4927c9eed5ad026157fc4c5f776083f4f571eb330a2bc59f2e45",
+      "links": 4,
+      "listItems": 18
+    },
+    {
+      "file": "cases/104-genealogy-animation-print.md",
+      "textHash": "6bf930afcbb9549b1667e7431712c8b8155b513c3bae0d6b855a073234711563",
+      "links": 2,
+      "listItems": 12
+    },
+    {
+      "file": "cases/105-gift-card-balance-inventory.md",
+      "textHash": "deeb5b270b671bc97bb43cfb6a3cb75b5c06b55be4b54b0b350360dca41f3cc1",
+      "links": 2,
+      "listItems": 12
+    },
+    {
+      "file": "cases/106-animated-line-sticker-submission-package.md",
+      "textHash": "53eb527c5408ec32972455523baf161dd2ca8ba16072b178be84ad10d55bb9c1",
+      "links": 4,
+      "listItems": 12
+    },
+    {
+      "file": "cases/107-old-blog-private-audio-archive.md",
+      "textHash": "6b7af7e106c1eb3500248d74d355f467a3447d77c54f88aad4690af4128fd624",
+      "links": 3,
+      "listItems": 15
+    },
+    {
+      "file": "cases/108-golf-round-practice-data-review.md",
+      "textHash": "a9388e82f8156c025037f54e04c640bf2de84d04b3e38655372869e3fa3e381b",
+      "links": 3,
+      "listItems": 15
+    },
+    {
+      "file": "cases/109-supermarket-coupon-activation.md",
+      "textHash": "5b7e1621b7e8eec8ea5336858a800f431c79ffb3e5ea4886720873a7c288060c",
+      "links": 2,
+      "listItems": 23
+    },
+    {
+      "file": "cases/110-roblox-playtest-prototype.md",
+      "textHash": "8598161aadac74369fcc8d90c5cd1b2775cb60aa61f38fd6cdab295aeb9a2ed1",
+      "links": 4,
+      "listItems": 22
+    },
+    {
+      "file": "cases/111-engineering-drawing-source-traceability.md",
+      "textHash": "bb8458225f4fb201b241051ba22831f2fe7fc055e1fdcb1415c6e363804758fc",
+      "links": 3,
+      "listItems": 23
+    },
+    {
+      "file": "cases/112-image-to-printable-articulated-model.md",
+      "textHash": "55ace2ec9016423f1f4b87e2ce9f4c935e45a7c6dd53aecb322058b2b6da64ff",
+      "links": 2,
+      "listItems": 22
+    },
+    {
+      "file": "cases/113-architecture-material-visual-comparison.md",
+      "textHash": "d57751c38d5a847262178de571e987e5ce24d761acc960f8627b04343f6a181e",
+      "links": 1,
+      "listItems": 23
+    },
+    {
+      "file": "cases/114-existing-worksheet-print-layout.md",
+      "textHash": "d31937eebb8ce653744ca254ec1e44a9cf37a6b86f939f7273314c7f89ddc102",
+      "links": 2,
+      "listItems": 21
+    },
+    {
+      "file": "cases/115-rigged-character-asset-export.md",
+      "textHash": "ad359faa527f79663763be370835bf87831b9f844a10c2282abc4101f362ed8e",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/116-slack-branded-quote-draft.md",
+      "textHash": "f979d5eb62f7f07d8557cf32ce4336b834a623a80d4e0a05fd7863dda6721715",
+      "links": 1,
+      "listItems": 22
+    },
+    {
+      "file": "cases/117-warranty-replacement-tracking.md",
+      "textHash": "9a0df8fccc5f28966889e68d1fe911c30aeb1be3e496086e15f30f98bd27725d",
+      "links": 2,
+      "listItems": 17
+    },
+    {
+      "file": "cases/118-agent-email-rerouting-consent-test.md",
+      "textHash": "7a6273b8509bf0f9c7539f6886e4517a05f19bb81830cf5e2245019bfa8a7141",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/119-fantasy-lineup-approval-review.md",
+      "textHash": "eeb3217f9a32fea1e31d1fdad5286e3dd4b19d5604f4306b20a4324ade8c73b9",
+      "links": 2,
+      "listItems": 20
+    },
+    {
+      "file": "cases/120-bioinspired-material-simulation-specimen.md",
+      "textHash": "50b60d82308c2ea4faa8d9b702bc8f45957f2a77cd528fe38041fd1e78606f21",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/121-visual-reference-classification-sheet.md",
+      "textHash": "945683df1642e61c071eca89be4bb8a0908dc7d3159f0aa47907122dc9663b86",
+      "links": 1,
+      "listItems": 22
+    },
+    {
+      "file": "cases/122-audio-lightshow-sequence-draft.md",
+      "textHash": "ddd5d00ee6337a65fbbec3d1e59291bdfbfd93245266e996e1941553e816a0e2",
+      "links": 1,
+      "listItems": 22
+    },
+    {
+      "file": "cases/123-mobile-game-resource-handoff.md",
+      "textHash": "000a721dbcf2111cec71d509ac2420baa1d01a140f0afb4f5a3b366ea7e460d6",
+      "links": 1,
+      "listItems": 20
+    },
+    {
+      "file": "cases/124-vehicle-maintenance-record-review.md",
+      "textHash": "551f8d4cc72f471b31d8a9cb0a9b0c8fc3ae26fcd0add0ec40f016d7f3f64f6e",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/125-morse-decoder-hardware-loop-test.md",
+      "textHash": "ded9ba3083b1cbf463d0362f50f55b2ab983a5754dbaf06f80a6d6b51b73c847",
+      "links": 1,
+      "listItems": 20
+    },
+    {
+      "file": "cases/126-roofing-prework-admin-handoff.md",
+      "textHash": "4c1bad17b0dbff827a7de9bd230472f722461600fb0dcfa7c209096b25216ade",
+      "links": 2,
+      "listItems": 21
+    },
+    {
+      "file": "cases/127-cross-channel-calendar-correction.md",
+      "textHash": "2dc389cdb69807248a062663b03113531a417c95416520db098be191cf12259b",
+      "links": 2,
+      "listItems": 20
+    },
+    {
+      "file": "cases/128-test-database-revenue-query-review.md",
+      "textHash": "3b3ef2ed56f1af709b878418fd97ffa714678d784ad9b1671d6cdf3425f70025",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/129-store-stockout-velocity-audit.md",
+      "textHash": "49f1aa9aa4e97bc230a5f1c1a9b0b319c7ddbf8088fd12660cc603a9966d1dad",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/130-supplies-reorder-ledger-reconciliation.md",
+      "textHash": "61f4c401e6a5088566a33c508037593cec8eefa397b99c6428da9699ebbffcd7",
+      "links": 2,
+      "listItems": 22
+    },
+    {
+      "file": "cases/131-student-demo-code-prereview.md",
+      "textHash": "cd8781ab28a50d818ff9d5a64bad291230db2fcce7ae690c803ed8bc75926a53",
+      "links": 2,
+      "listItems": 21
+    },
+    {
+      "file": "cases/132-podcast-transcript-retrieval-preparation.md",
+      "textHash": "6334b9c37981cbc501831ce21206e97c2f3f46bfb670bf885e0e094c5eb80ecb",
+      "links": 2,
+      "listItems": 20
+    },
+    {
+      "file": "cases/133-screen-reader-menu-reformat.md",
+      "textHash": "b5546dec5e1bd2f1dca8dc52f27a4e3f9bbb9eb7372b0adb4c29338eb2ad2726",
+      "links": 2,
+      "listItems": 21
+    },
+    {
+      "file": "cases/134-handwritten-kitchen-order-cart.md",
+      "textHash": "59ce0b3184c2b4a10763869386b7988b34aec1897b4fcac15e55545b571cd897",
+      "links": 1,
+      "listItems": 20
+    },
+    {
+      "file": "cases/135-campus-meal-window-planning.md",
+      "textHash": "343358aeb3316b27c4272e3d710dbe0ff048b96759fd5996358f4f9e9fbf2c51",
+      "links": 1,
+      "listItems": 19
+    },
+    {
+      "file": "cases/136-community-park-feasibility-proposal.md",
+      "textHash": "2c9482925f748880ca1b9162396b578339ebd8e9942b5e5920557fa6774985d1",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/137-visitor-print-queue-handoff.md",
+      "textHash": "6e0cfc1a151e334302fb5c683dca40771f0287c0da6c731d5108af8999a499c1",
+      "links": 2,
+      "listItems": 22
+    },
+    {
+      "file": "cases/138-streetlight-fault-report-handoff.md",
+      "textHash": "cfbf10ce0363c3b9a31daf2df21f92479361273c9f090c7b70d0883324230a2c",
+      "links": 1,
+      "listItems": 11
+    },
+    {
+      "file": "cases/139-lost-property-match-search.md",
+      "textHash": "25b68c7ed4ebcee37db0d0b81bb02dec8df7747f9e2b145bd9e7e59e58b3b6de",
+      "links": 1,
+      "listItems": 11
+    },
+    {
+      "file": "cases/140-monocular-depth-robot-offline-review.md",
+      "textHash": "374b3fa27ea623c5860d796e4e11517a68c22dcc679ad7df221645311192a74e",
+      "links": 2,
+      "listItems": 12
+    },
+    {
+      "file": "cases/141-vehicle-telemetry-gap-dashboard.md",
+      "textHash": "2ceb74a608b70724640673f15dbafe3b222816934a231523565dd4597c8469a3",
+      "links": 1,
+      "listItems": 11
+    },
+    {
+      "file": "cases/142-historical-folder-access-revocation.md",
+      "textHash": "14885b55aa03c5a744f62c8806abe15f70034819de77085e525f2918fd570d3b",
+      "links": 3,
+      "listItems": 23
+    },
+    {
+      "file": "cases/143-unclaimed-property-candidate-handoff.md",
+      "textHash": "a2855bfa0849d8471f3af2277614129670637c60a118988815355764277f2768",
+      "links": 4,
+      "listItems": 23
+    },
+    {
+      "file": "cases/144-classical-translation-source-review.md",
+      "textHash": "57a86910e8197cd936ef350eb88a335a6e51dc68063714cbe06b7248cab17a42",
+      "links": 4,
+      "listItems": 24
+    },
+    {
+      "file": "cases/145-offline-standard-form-field-validation.md",
+      "textHash": "a09706b6d99950c0db8839432660f6319bf66c807239e1f0701d32885edf58e6",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/146-grant-supporting-document-gap-check.md",
+      "textHash": "3533f33a7018057c8bd3b0ca7ca8407b8ab11cf869b05e3dc515d2dea95a0c55",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/147-group-meal-bot-negotiation-demo.md",
+      "textHash": "054c93fe0a4afca7704015c658f4f3979595af53b2a5c1b9e4efd1029a120d6e",
+      "links": 3,
+      "listItems": 24
+    },
+    {
+      "file": "cases/148-course-degree-planning-prototype.md",
+      "textHash": "41773a0273043f8102c4c5084858dcb70b3d0176e0ea9c7d2623042b42899c7c",
+      "links": 7,
+      "listItems": 27
+    },
+    {
+      "file": "cases/149-directory-submission-live-link-verification.md",
+      "textHash": "f1991d46427b98ce1783de97ae93b2b06ddff6996ef28adf4a52860c8d5941b7",
+      "links": 3,
+      "listItems": 23
+    },
+    {
+      "file": "cases/150-spreadsheet-date-formula-repair.md",
+      "textHash": "a242d9c49ccac7369ab73c6eea01d21c605d9d9f317c4a73bf38607e50ba4559",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/151-booked-stay-prerequisite-followup.md",
+      "textHash": "0a9d749b03e50cb7a8ea5d2e54c643207af0dbe36afdebbcfd7e99fc54dbf2d0",
+      "links": 2,
+      "listItems": 22
+    },
+    {
+      "file": "cases/152-interview-evidence-feedback-draft.md",
+      "textHash": "f0631bb3bb370e70e434cab9deca9d32a890cdc1fb3f3d034c2678a575ac6d7e",
+      "links": 1,
+      "listItems": 22
+    },
+    {
+      "file": "cases/153-tabletop-adventure-material-pack.md",
+      "textHash": "be5fecfa54783bdb69cc7e0555d0e9902b94f1d8ba3327b200b1bd1280d59115",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/154-contract-review-wait-time-analysis.md",
+      "textHash": "0afb20507a9c28b2ac5a734ae215110dc575a9ddba827b86a92087fc2e24ea0d",
+      "links": 1,
+      "listItems": 22
+    },
+    {
+      "file": "cases/155-field-service-job-change-coordination.md",
+      "textHash": "f4c5ace41f13562495e76fec123a9005456c7c0feaa4fa221272bf84bb79f84d",
+      "links": 2,
+      "listItems": 22
+    },
+    {
+      "file": "cases/156-mail-system-migration-verification.md",
+      "textHash": "b2aa840324ff6493d27357cf8ad37f6c74b06d3896a53a2e9656b17e0fea8cb6",
+      "links": 4,
+      "listItems": 25
+    },
+    {
+      "file": "cases/157-editable-diagram-geometry-readback.md",
+      "textHash": "fe5fa38b12b4a977acc58a44a0177e688112563df70122620a8dcbb3e5b83e6c",
+      "links": 2,
+      "listItems": 22
+    },
+    {
+      "file": "cases/158-paid-orphan-order-recovery-review.md",
+      "textHash": "a10eda7a0110c6d0ae9d41d03b7ebc621151d04a879b529cd01257080b10fb4d",
+      "links": 7,
+      "listItems": 27
+    },
+    {
+      "file": "cases/159-reference-portrait-brush-fill-failure.md",
+      "textHash": "6e692009164c68bc2e815a11e373831fd65d341f0eb290cbf26cd8c1bac3f3aa",
+      "links": 3,
+      "listItems": 22
+    },
+    {
+      "file": "cases/160-handheld-device-integrated-prototype.md",
+      "textHash": "62c4d747b8e920fbc371422149224940c720d3abfb782a64595468ffc868d7e6",
+      "links": 5,
+      "listItems": 32
+    },
+    {
+      "file": "cases/161-cross-model-response-dataset-audit.md",
+      "textHash": "978eeb8be756bce414b0154df7f9e2595e3c86c2c79c2c93a6b55a6af1dc3791",
+      "links": 8,
+      "listItems": 16
+    },
+    {
+      "file": "cases/162-mesh-simplification-camera-state-review.md",
+      "textHash": "a604876fd50bfee55cfa9840158aab617ded7bfd5e078a919828415885a69d88",
+      "links": 2,
+      "listItems": 13
+    },
+    {
+      "file": "cases/163-legacy-cms-history-migration.md",
+      "textHash": "1d8972447fcb1e22a9c3c3503046590117006673ad4ecc783833eb71e6550c16",
+      "links": 4,
+      "listItems": 16
+    },
+    {
+      "file": "cases/164-stale-ticket-retirement-scope-stop.md",
+      "textHash": "d2a2b3bb25155f4c8c308c74afe779ab0985baa5b5138b56a973e70b7b527435",
+      "links": 3,
+      "listItems": 15
+    },
+    {
+      "file": "cases/165-offline-network-control-evidence-review.md",
+      "textHash": "23d30794db632be9b6bf2bd31f6455669d0f13868eae3b757f95187e11579344",
+      "links": 4,
+      "listItems": 15
+    },
+    {
+      "file": "cases/166-bidirectional-document-reading-order.md",
+      "textHash": "c49a51f74474654021acd7cd120163b1607356e0453bb51f50d9844e29b99b82",
+      "links": 2,
+      "listItems": 14
+    },
+    {
+      "file": "cases/167-web-accessibility-evidence-pack.md",
+      "textHash": "03974f01d61eee90fcc8a06003b43f36ae3194d54b47cae87156ce86eef80f34",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/168-customer-order-availability-price-review.md",
+      "textHash": "e6cd13a5be43115d4d4025f0ef56c97ee66a5b4fa9d5c7b3b369ce7784625146",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/169-cantilever-solver-verification-failure.md",
+      "textHash": "e0a5d9f2e4c81d21a2f01aee67d7d6f6d07fee64b6834034be1ef89d29ec3a83",
+      "links": 8,
+      "listItems": 20
+    },
+    {
+      "file": "cases/170-home-scene-automation-review.md",
+      "textHash": "ac77a8ebed44277adbdb0847935348b1403fa158807918e2b36433e90284b071",
+      "links": 2,
+      "listItems": 20
+    },
+    {
+      "file": "cases/171-credit-report-dispute-evidence-preparation.md",
+      "textHash": "048516393f9edac21d384e92d4c4570a0ffd510b3d10c7f58e932884ee712077",
+      "links": 2,
+      "listItems": 18
+    },
+    {
+      "file": "cases/172-personal-playlist-era-genre-curation.md",
+      "textHash": "95bba4dceae3b74638ef5313e7b326b0193a2e30dc256f32880f33b042313b16",
+      "links": 7,
+      "listItems": 20
+    },
+    {
+      "file": "cases/173-frontend-performance-hypothesis-experiments.md",
+      "textHash": "cb0fdfc0dd39942a13b7d575d56c68f352bf21283262744d7d5ee0642c98e151",
+      "links": 7,
+      "listItems": 20
+    },
+    {
+      "file": "cases/174-stateful-batch-form-reconciliation.md",
+      "textHash": "6e4f78a4f5de575868defd671236c96ffcdbf3609368ae27debfe04a18866f86",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/175-group-expense-obligation-reconciliation.md",
+      "textHash": "cb491cb650d44bcce1987776047e9a0579216830018ada266926ffdc96286625",
+      "links": 3,
+      "listItems": 18
+    },
+    {
+      "file": "cases/176-property-diligence-package-crosscheck.md",
+      "textHash": "700776dbb2cb01942e5818ad5e66f9306486cbbd44d9c8c8447a37f4a2874792",
+      "links": 4,
+      "listItems": 18
+    },
+    {
+      "file": "cases/177-pcb-design-solver-coverage-review.md",
+      "textHash": "d798de761539eb099a73fdfd643d4a474a2feeb56a391249eadfa30aa011968a",
+      "links": 5,
+      "listItems": 21
+    },
+    {
+      "file": "cases/178-scanned-page-text-image-reconstruction.md",
+      "textHash": "23a601d40a9e1750c585bf80ab54ed30597b936da4d8df1f21c30e112f9c2b6c",
+      "links": 4,
+      "listItems": 27
+    },
+    {
+      "file": "cases/179-duplicate-customer-email-flow-repair.md",
+      "textHash": "347e855ae59e0d0c817a3c04690d0d8a9e4870953a6ad257956266afc5c99c12",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/180-photo-library-descriptive-metadata.md",
+      "textHash": "f715fd7ea72200c3c724226e25aa6b2f6f7b0b7519203b442c6c3e8e680580f9",
+      "links": 2,
+      "listItems": 19
+    },
+    {
+      "file": "cases/181-shipping-label-fulfillment-preparation.md",
+      "textHash": "bef4a406a5218e1188209d2171b60d04075f83be7ca6a3c7443d8a627939192d",
+      "links": 4,
+      "listItems": 19
+    },
+    {
+      "file": "cases/182-library-book-selection-holds.md",
+      "textHash": "42c02af79730b97a74b448f9db05f1b5395a41342409f7d415195b6b829886ad",
+      "links": 4,
+      "listItems": 25
+    },
+    {
+      "file": "cases/183-ad-campaign-configuration-review.md",
+      "textHash": "e452eb40774aaae11c20089b02d7a0f82c3570aa4102f325a70f66b1f153f795",
+      "links": 3,
+      "listItems": 18
+    },
+    {
+      "file": "cases/184-mail-archive-relevance-prescreen.md",
+      "textHash": "e3ea58aa180ad0a375671be6e63749f433aa1bcbac6e8ed87ed76bb8d7caf3a2",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/185-event-results-leaderboard-awards.md",
+      "textHash": "0aa7485179a89d7bc5e1a23ee946ddea74b6c6ebbfb59042636424a89a14b07d",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/186-registration-pollution-mail-health.md",
+      "textHash": "a4baebd481ee7b0584bed758ff06e8bc0a7096fb6eb97000d23686aac3d5c208",
+      "links": 2,
+      "listItems": 18
+    },
+    {
+      "file": "cases/187-survey-batch-configuration-validation.md",
+      "textHash": "65742d122d6c02cb18a8eb23a48ea8f94f846a35ea068e1abecabd8b29fae2ea",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/188-dynamic-tariff-charging-window-review.md",
+      "textHash": "67bfe08202b600921a7a8187b8c035419c117cce83be3a8568aeb9c62a958c8d",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/189-article-narration-waveform-review.md",
+      "textHash": "3bc500b5f6d576144d14996c5f3945a45dd4b4bfc61250770f26bb14dcdf523d",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/190-service-invoice-draft-reconciliation.md",
+      "textHash": "54fe812481a135d627fb8e78a781b4f84d79667fdf637416b1bb6fa931293eb9",
+      "links": 2,
+      "listItems": 17
+    },
+    {
+      "file": "cases/191-podcast-segment-edit-listen-review.md",
+      "textHash": "a53ecdded84b450636da7c495758ab4c0d14112d0a12dc99a24cb8f394fa55b6",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/192-client-requirements-decision-clarification.md",
+      "textHash": "f13630f23af9a5ac8c8aeefd138c37310beee8b8c26592f6337a3d0c57b9a393",
+      "links": 1,
+      "listItems": 20
+    },
+    {
+      "file": "cases/193-deleted-conversation-readable-recovery.md",
+      "textHash": "9523b81b1228a061dc210b2689d91b300b854eb8976af97f4e096bcc53d9e1bf",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/195-conversion-event-journey-timing-audit.md",
+      "textHash": "c18b8e30af281d07707d6db8b3833ac2fb7fbb5ccc272d3fb6f198490c597b84",
+      "links": 4,
+      "listItems": 18
+    },
+    {
+      "file": "cases/196-private-game-session-log-validation.md",
+      "textHash": "0444fdfc53b4e091a1ef32332262dbe948982235dc3322c87b00f5fcbcf49ae2",
+      "links": 7,
+      "listItems": 22
+    },
+    {
+      "file": "cases/197-supplied-part-assembly-geometry-audit.md",
+      "textHash": "cb6985f96645f1035cd24cdfbe003001cc698ae9f6e3f40d460a4b7250edbb0c",
+      "links": 6,
+      "listItems": 20
+    },
+    {
+      "file": "cases/198-prelab-document-gap-review.md",
+      "textHash": "c6c26a1cc54143cd79ec921cd344d797a20d95e75854260f6a943daf29bab8b6",
+      "links": 3,
+      "listItems": 20
+    },
+    {
+      "file": "cases/199-scheduled-score-stream-state-review.md",
+      "textHash": "3c957b91aa4bac87453cdd595a79426ef13ee34c96fe944cd445adeb4829ec46",
+      "links": 4,
+      "listItems": 15
+    },
+    {
+      "file": "cases/200-prior-statistical-analysis-rerun-comparison.md",
+      "textHash": "5515488cb77eb46e0e03808ba44926c3d3f6bd922c61d788198d515d8b42eab5",
+      "links": 2,
+      "listItems": 13
+    },
+    {
+      "file": "cases/201-damage-comparison-coverage-correction.md",
+      "textHash": "c1c200b8ce8fba7415ed390289a39a684df0c3f7701583fadfd9980753aabbc2",
+      "links": 4,
+      "listItems": 21
+    },
+    {
+      "file": "cases/204-reviewed-prototype-cms-rebuild.md",
+      "textHash": "e4b652071fb58a22dfd4be50048a67565f5bafb56e54ba1126964086229f67fc",
+      "links": 1,
+      "listItems": 16
+    },
+    {
+      "file": "cases/205-concept-origin-naming-chronology.md",
+      "textHash": "729abaadcde6c64eddcec789a22084aa99fd532b42402be6049f2a6b058c0ae6",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/206-own-account-transfer-reconciliation.md",
+      "textHash": "5e5afbbc7e977e87b8597b85fa8bd5cdde9cc012c104b5a706985e9c9d335d0a",
+      "links": 3,
+      "listItems": 21
+    },
+    {
+      "file": "cases/207-trigger-gate-nonexecution-retrospective.md",
+      "textHash": "701ba8b52e2b9009815efbcb16e9cecd5776346bb254ce3155c674c74dea199e",
+      "links": 3,
+      "listItems": 20
+    },
+    {
+      "file": "cases/208-portable-skill-binding-approval-check.md",
+      "textHash": "23ef903b9c53c3ad456c3c1ea351e0aad36851b71eb320bd3341d64e177ee294",
+      "links": 5,
+      "listItems": 20
+    },
+    {
+      "file": "cases/209-spreadsheet-cross-app-formula-validation.md",
+      "textHash": "3e1f3495e6ec91854462fe8f2dffc8f41f578eb561ba2ff987c9e1250f5cac07",
+      "links": 3,
+      "listItems": 21
+    },
+    {
+      "file": "cases/210-astronomy-conditions-target-planning.md",
+      "textHash": "6a594cd6edfbc127e94394dd2535e437c45053c1b8c94e4dc2796804aeaa178e",
+      "links": 6,
+      "listItems": 25
+    },
+    {
+      "file": "cases/211-versioned-procedure-role-handoff.md",
+      "textHash": "a6d292b7132a4670c8defdb084f4c3f351d77d73d3c123d5dc0bfb2a188d5e8f",
+      "links": 2,
+      "listItems": 21
+    },
+    {
+      "file": "cases/212-public-dataset-field-update-proposals.md",
+      "textHash": "327cf490abdacef7724e73107c7bc16f2d5dcbf3739ba8d67652c95a4190f419",
+      "links": 4,
+      "listItems": 22
+    },
+    {
+      "file": "cases/213-storyboard-timed-effect-visual-review.md",
+      "textHash": "1ccb106600c4eea58008d437235e72eaba81506652b147f7551088d7f9c69123",
+      "links": 2,
+      "listItems": 20
+    },
+    {
+      "file": "cases/214-release-artifact-runtime-identity-check.md",
+      "textHash": "830491ef1813429652c560a6d8410cdd7714338cd9e605c2c70bdcbae6cb90e4",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/215-recipe-inbox-structured-collection.md",
+      "textHash": "32ef88b71f782cf7e77d514dcb91cd336cd468b6af0612e799a4333dbe9a3d0a",
+      "links": 3,
+      "listItems": 22
+    },
+    {
+      "file": "cases/216-photo-shoot-selection-preset-handoff.md",
+      "textHash": "fdcdae0f2521e6482513ef39c0b0566cb30db53e0d68681b44c8e8143c35f983",
+      "links": 4,
+      "listItems": 22
+    },
+    {
+      "file": "cases/217-hdl-build-functional-regression-gate.md",
+      "textHash": "5850b3547f9cb0ae64d54d816b81fcde92e5e21e2de22059bb78ba537d76cc1d",
+      "links": 4,
+      "listItems": 23
+    },
+    {
+      "file": "cases/218-third-party-skill-install-trust-review.md",
+      "textHash": "bde559150b18d8c111f408621977fa214a54295a8f2755c012dccc03d51fddc4",
+      "links": 4,
+      "listItems": 22
+    },
+    {
+      "file": "cases/219-pdf-internal-navigation-bookmark-validation.md",
+      "textHash": "e8cea0d3681d4d44b6de2569a9545b3112ebc08a32f04346e5a0b2765625d4be",
+      "links": 7,
+      "listItems": 18
+    },
+    {
+      "file": "cases/220-used-product-recall-candidate-screening.md",
+      "textHash": "8b6c13ef5421e0f9d2c3336e1c2f6ede5247ecbe71c14a1da3697b1bfab309a6",
+      "links": 2,
+      "listItems": 16
+    },
+    {
+      "file": "cases/221-human-signature-completed-copy-handoff.md",
+      "textHash": "0a0835e32d1598feb09b233085c82860679372363ce9d25bb6771f82e46fa52d",
+      "links": 2,
+      "listItems": 16
+    },
+    {
+      "file": "cases/222-legacy-business-rule-test-oracle-review.md",
+      "textHash": "7bfc78c9e0b10a0de32705b60187eda804b11e1f857e7498e1a98c0254206892",
+      "links": 4,
+      "listItems": 16
+    },
+    {
+      "file": "cases/223-household-solar-billing-period-reconciliation.md",
+      "textHash": "fd699e23e1deba8c07dc8fe887b4586900481809eac9544a1a3e9eaa60d949ad",
+      "links": 3,
+      "listItems": 17
+    },
+    {
+      "file": "cases/224-multi-shadow-shared-geometry-inverse-design.md",
+      "textHash": "06f92a0b66142b8dd84c908659eeaa81997a0ac82a110b2050b8fd530e176e7c",
+      "links": 5,
+      "listItems": 18
+    },
+    {
+      "file": "cases/225-receipt-transaction-evidence-matching.md",
+      "textHash": "c591dffbcf2272a8275bd7b4687859da2c8150d8800c552221d0c43047dba7f2",
+      "links": 8,
+      "listItems": 15
+    },
+    {
+      "file": "cases/226-photo-wall-frame-print-fit.md",
+      "textHash": "3a62ca781998ecc16d79d8e7dff3ccebe9ab6bc2fef486f5a53bc676af563206",
+      "links": 8,
+      "listItems": 14
+    },
+    {
+      "file": "cases/227-saved-map-places-list-maintenance.md",
+      "textHash": "afd5ed4446209dcce8b00ffc6d5e1e061f286b727bd9b7bbed0a33ced060ea9d",
+      "links": 11,
+      "listItems": 20
+    },
+    {
+      "file": "cases/228-household-power-waveform-attribution.md",
+      "textHash": "6ff265478cc2f3d80706c207b1ef9677ee04018dfb4809d67b4d1112244e680c",
+      "links": 2,
+      "listItems": 20
+    },
+    {
+      "file": "cases/229-macos-distribution-signing-evidence.md",
+      "textHash": "f6c5da62f3ebae92d017339285cfb5648981bd3d5cb7981136ae9d89dde1c72e",
+      "links": 5,
+      "listItems": 21
+    },
+    {
+      "file": "cases/230-compensation-batch-human-review.md",
+      "textHash": "42b3abca542e7e10e842ef3603366d9f8f1dc60c42f0d0c91107daae733a0290",
+      "links": 3,
+      "listItems": 21
+    },
+    {
+      "file": "cases/231-multitrack-session-rough-mix-handoff.md",
+      "textHash": "feb94ad839560ec0d379e85d20824540ecf46accbf54a672c4a45403ac12862e",
+      "links": 3,
+      "listItems": 20
+    },
+    {
+      "file": "cases/232-purchased-resource-delivery-reconciliation.md",
+      "textHash": "1666876f5ee3ce6033454fc353a72bf3f287396d336d6bb1514b533cc714515c",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/233-recurring-revenue-discount-definition-review.md",
+      "textHash": "2274a8b367a651f3a095dfcb44af1d42134e148b70e4228a1beccf3a2f515d26",
+      "links": 3,
+      "listItems": 17
+    },
+    {
+      "file": "cases/234-proposal-attachment-consistency-send-gate.md",
+      "textHash": "ef9c26dfdd5aa87e63df178f975b17a00761709615dda9b16b514a94b3ce9684",
+      "links": 4,
+      "listItems": 19
+    },
+    {
+      "file": "cases/235-backtest-freeze-evidence-boundary-review.md",
+      "textHash": "928ebb17eb36e5214dddc218ecc42ef9ac2d17d6df960dd2dc079e08234e198a",
+      "links": 9,
+      "listItems": 35
+    },
+    {
+      "file": "cases/236-event-playback-state-restoration-prototype.md",
+      "textHash": "b907fc3600c3c3857318c5e1b07bcff625314f7d78a95c40ee3afe598dd3b997",
+      "links": 8,
+      "listItems": 21
+    },
+    {
+      "file": "cases/237-sketch-part-step-manufacturing-handoff.md",
+      "textHash": "d641faaa88c09f44e2008823c45637aa309bdef621a2ff992346020d4846ae17",
+      "links": 3,
+      "listItems": 16
+    },
+    {
+      "file": "cases/238-release-channel-exposure-incident-review.md",
+      "textHash": "845fbbbec98082bcf58fd9f5f004ed23d8fa9dd324240a0ed1e5554d9229b55e",
+      "links": 4,
+      "listItems": 18
+    },
+    {
+      "file": "cases/239-wearable-conversation-delivery-state-validation.md",
+      "textHash": "655cc75d68e06ec8d593bdaba48bb6306d2f8c5c06fe156ed3ab19b5ccda3ef9",
+      "links": 19,
+      "listItems": 27
+    },
+    {
+      "file": "cases/240-bilingual-controlled-vocabulary-export.md",
+      "textHash": "b17b1e037bed5440e047d7e57658616f6a3c0647f6c4a32a28029f1a04d422b2",
+      "links": 7,
+      "listItems": 27
+    },
+    {
+      "file": "cases/241-community-participation-spam-review.md",
+      "textHash": "da49aebc318a249abeedaefaa7940f414893c90d823d4d93ae6877ee7831266d",
+      "links": 3,
+      "listItems": 21
+    },
+    {
+      "file": "cases/242-aviation-bulletin-observation-brief-review.md",
+      "textHash": "fd8a9242eeee88b08a92a745adc8e592b37d2cf30c31e3b27b769a77d4e47e84",
+      "links": 3,
+      "listItems": 21
+    },
+    {
+      "file": "cases/243-spoken-video-word-caption-delivery.md",
+      "textHash": "c1455506e695ce2c2c4769c4a93131e51500edb05e0e4ac8383a887a336936a5",
+      "links": 3,
+      "listItems": 21
+    },
+    {
+      "file": "cases/244-navigation-file-repair-device-handoff.md",
+      "textHash": "ab1208afe89175e12816f92e57a97caffef851b7e95ed30a7106c99907ecbf2d",
+      "links": 3,
+      "listItems": 20
+    },
+    {
+      "file": "cases/245-catalog-outfit-composition-provenance.md",
+      "textHash": "995bc633722cebf7ebf811deafc213bea4b1e9bbbd75f508f620ab17d4d48302",
+      "links": 5,
+      "listItems": 22
+    },
+    {
+      "file": "cases/246-membership-entitlement-consumption-order-diagnosis.md",
+      "textHash": "abd507228036abb3390600e68e764251666266e29b79188c9e050ebdbf000b07",
+      "links": 3,
+      "listItems": 21
+    },
+    {
+      "file": "cases/247-parking-citation-payment-evidence-review.md",
+      "textHash": "659d508ea70c6d9f2d0d8e62298ed9a6fd45a17065ce539b3eaade7ce3c772cd",
+      "links": 4,
+      "listItems": 23
+    },
+    {
+      "file": "cases/248-cross-agent-conversation-disclosure-boundary.md",
+      "textHash": "d714411a6938158046b52d7c7ebb3ae70ff8e2d5d9307ce9e4476b0e97a87607",
+      "links": 2,
+      "listItems": 17
+    },
+    {
+      "file": "cases/249-eight-panel-zine-imposition-output.md",
+      "textHash": "70ea9e5241f95aabe697ea2529b8c0c2a8efd842c8d0ca2708b43718a4210335",
+      "links": 8,
+      "listItems": 21
+    },
+    {
+      "file": "cases/250-mail-migration-data-routing-cutover.md",
+      "textHash": "543368fe013b7c156f920e3a49bd164de2005c25c0065038b8ee2d5cd4f2d658",
+      "links": 5,
+      "listItems": 20
+    },
+    {
+      "file": "cases/251-orbital-snapshot-provenance-discrepancy-review.md",
+      "textHash": "01f3c9817d15c41e0ef0e6fb9c1f4fd185b5aafad2c330a0945a98edce5cf9fe",
+      "links": 6,
+      "listItems": 23
+    },
+    {
+      "file": "cases/252-three-statement-scenario-board-pack.md",
+      "textHash": "02d79aa72a3ade49913426656b4c297c9564662c9d85e48191e628deda41299e",
+      "links": 4,
+      "listItems": 20
+    },
+    {
+      "file": "cases/253-survey-ai-response-contamination-review.md",
+      "textHash": "88cc7f906ebdfbf088b286da97c4cefe4118a4e317464da0396886ca312b3f71",
+      "links": 3,
+      "listItems": 18
+    },
+    {
+      "file": "cases/255-active-memory-version-consolidation-review.md",
+      "textHash": "14a9ee56516515a6c5cea22f8d6721718f04871bbe8a5afd9197a8ede553b202",
+      "links": 4,
+      "listItems": 19
+    },
+    {
+      "file": "cases/256-interactive-mystery-knowledge-unlock-audit.md",
+      "textHash": "f6134d3ad18ce28d7e17397c3789640651ae12b83ffd9fc713761c52a0c248cd",
+      "links": 9,
+      "listItems": 22
+    },
+    {
+      "file": "cases/257-inbound-call-coverage-message-reconciliation.md",
+      "textHash": "88ae006fa779f1da0e4619d32eb5bb31ee2ef949193cb5b772db3c467c0fbd78",
+      "links": 6,
+      "listItems": 19
+    },
+    {
+      "file": "cases/258-scan-reconstruction-scale-topology-audit.md",
+      "textHash": "a3a8bd2892c99d1890238721e76b10a6947db096b304c51c9e118ac1e9ab5ff0",
+      "links": 7,
+      "listItems": 20
+    },
+    {
+      "file": "cases/259-multistation-observation-control-robustness.md",
+      "textHash": "06f01565280972641092d6c8c2eaf007de7928789d05bbe49f6def3252ddbeea",
+      "links": 6,
+      "listItems": 20
+    },
+    {
+      "file": "cases/260-vendor-master-gap-quotation-grouping.md",
+      "textHash": "ea2ed0f333e8acdc48c08f2c9dfcb4a0ef10f05ab83ebb1d1a005315b849add0",
+      "links": 4,
+      "listItems": 19
+    },
+    {
+      "file": "cases/261-owned-model-image-anchor-display.md",
+      "textHash": "20825524b80f325fda67973c34e5c7f1305f8acadd37bfcc249534d5f243a4ad",
+      "links": 4,
+      "listItems": 18
+    },
+    {
+      "file": "cases/262-animation-frame-pose-coverage-review.md",
+      "textHash": "93d959d123e0b1b4c0a07e88ce2c725c608b09d3beae35376035e9195deaa864",
+      "links": 4,
+      "listItems": 18
+    },
+    {
+      "file": "cases/263-ledger-migration-trial-balance-reconciliation.md",
+      "textHash": "238ca83f1ede835396f3d6c612c51dbbc461c6c8ebe21b2d70f3386b2b0cf6b3",
+      "links": 4,
+      "listItems": 19
+    },
+    {
+      "file": "cases/264-generated-parcel-road-frontage-review.md",
+      "textHash": "f8a8db9585f0ed8856039caf819e2516574ad428231bb64cc84c78070e73a14a",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/265-slide-grayscale-distinguishability-review.md",
+      "textHash": "e2479bcc853811133a7d132e30844490c260187b9429da5e499818e3acdf1a24",
+      "links": 4,
+      "listItems": 22
+    },
+    {
+      "file": "cases/266-panel-moderation-timing-contingencies.md",
+      "textHash": "cd1b734e586a9334996adc41a075ecb5e3849088e052d46642f36b3fb55c6d8a",
+      "links": 2,
+      "listItems": 21
+    },
+    {
+      "file": "cases/267-nfc-points-redemption-ledger.md",
+      "textHash": "b3a78e438cefd44cb8541144f2c84ffab6c7b51b27ec1677b7869a5ae0c725b2",
+      "links": 3,
+      "listItems": 22
+    },
+    {
+      "file": "cases/268-agency-campaign-bundle-approval.md",
+      "textHash": "9b079ea0bd397300744c324c4bca524c3789f451c693053b5feb1a4c65966095",
+      "links": 8,
+      "listItems": 48
+    },
+    {
+      "file": "cases/269-single-vps-sysadmin-bot.md",
+      "textHash": "c67b0dacdd602f139dcc322b4a58072c90e601e7010e9e4f77f1d2fd64ad6085",
+      "links": 3,
+      "listItems": 38
+    },
+    {
+      "file": "cases/270-subscription-replacement-blind-eval.md",
+      "textHash": "ad4def9d566f8b84d0f31c7d284bc8883f037be371c7ed3943e95efee36edc13",
+      "links": 3,
+      "listItems": 38
+    },
+    {
+      "file": "cases/271-layover-lounge-access-calendar.md",
+      "textHash": "e2d2552fd8b2e6dcc2987c948ccbf170aa718f0ede6c04dfe37e23cfa87e8705",
+      "links": 1,
+      "listItems": 33
+    },
+    {
+      "file": "cases/272-rain-only-umbrella-alert.md",
+      "textHash": "829ac7b2fa9b4d503a6a98c9fc15c640f475db2783e2e1b83bd5ff3431a873d1",
+      "links": 1,
+      "listItems": 32
+    },
+    {
+      "file": "cases/273-overnight-coding-agent-relay.md",
+      "textHash": "ef1e4cbded422622f896c1718139e35d9aa265647ddf44dc9017f856867d715a",
+      "links": 3,
+      "listItems": 38
+    },
+    {
+      "file": "cases/274-linkedin-connections-monthly-rolodex.md",
+      "textHash": "fc0d0db1e386e4b6e0cf7a7f6d953ff90837d25afba1bbd34ce12b11d35edd77",
+      "links": 2,
+      "listItems": 31
+    },
+    {
+      "file": "cases/275-personal-phone-ai-receptionist-anti-scam.md",
+      "textHash": "818f28886d40c58b8e68c6eb245c357eac43270025314fa237b40aa51b51f62e",
+      "links": 1,
+      "listItems": 34
+    },
+    {
+      "file": "cases/276-staff-agent-portal-routing-failure.md",
+      "textHash": "f59aeec6e3a4fb41b381c6fb656bbdd2353dd7f36d09a1d9d4dd6109b6d8b010",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/277-meeting-decision-change-audio-trace.md",
+      "textHash": "6918d8949f5859bf59f1789c006a745ae53c83bf5bed1cd2685035126851106f",
+      "links": 1,
+      "listItems": 20
+    },
+    {
+      "file": "cases/278-machining-center-configuration-concept.md",
+      "textHash": "c5241e0f0583274825c73b902fe2b387e71cd9c39d149673e4983d9af9109e2b",
+      "links": 5,
+      "listItems": 24
+    },
+    {
+      "file": "cases/279-airline-phone-rebook-identity-refusal.md",
+      "textHash": "db366f8eadceae17701577afc87565b7ea5c0d973037ca2ba5431d380a059700",
+      "links": 1,
+      "listItems": 32
+    },
+    {
+      "file": "cases/280-notion-daily-slack-dots-hours.md",
+      "textHash": "b9423dfcf98389de1fb0f17cd9de31eb6b22d2ba73b9eb0671a16c438daf0a0f",
+      "links": 1,
+      "listItems": 31
+    },
+    {
+      "file": "cases/281-grok-mockup-claude-worker-qa-pipeline.md",
+      "textHash": "c7f74386aa2440659e44cb3210393ca044003b92527c6e33f85ce37aaa655337",
+      "links": 1,
+      "listItems": 29
+    },
+    {
+      "file": "cases/282-patient-portal-voice-to-message.md",
+      "textHash": "49bec763557b8b387162f6d5d8bbda51dcbda9a03c6701471e42ca76d80c7523",
+      "links": 1,
+      "listItems": 30
+    },
+    {
+      "file": "cases/283-dots-connected-apps-permission-pitfalls.md",
+      "textHash": "8d04d6046ea867db4827aea62d1b70d42a61a0dd8361959152cdc819d1d4f6c0",
+      "links": 4,
+      "listItems": 38
+    },
+    {
+      "file": "cases/284-delayed-baggage-status-expense-claim.md",
+      "textHash": "a512e82b16c7732254ce700f923971bd2f01301b25839dc59189d9dd6ef3f858",
+      "links": 3,
+      "listItems": 22
+    },
+    {
+      "file": "cases/285-x-voice-acting-audition-email-digest.md",
+      "textHash": "6c5c2f840c689ecd54cabf922ef732fff656e27b0c21ebcad3b1049d8a6df32f",
+      "links": 1,
+      "listItems": 35
+    },
+    {
+      "file": "cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md",
+      "textHash": "306ade9645ab4ca7fccfcc9598aec5a341e3d05e52ee34b7147a7925a44a5ecc",
+      "links": 3,
+      "listItems": 51
+    },
+    {
+      "file": "cases/287-bot-site-review-analytics-signup-preview.md",
+      "textHash": "b4012129dafaee5300cc1820f13fc53d7e60e248ffa9695768d7b9bd429af5cc",
+      "links": 2,
+      "listItems": 39
+    },
+    {
+      "file": "cases/288-phone-only-home-screen-daily-board.md",
+      "textHash": "b6651135ec56fb68f6cf3e3ca86d2855296ff16297827772f5380f7bc4e2866c",
+      "links": 1,
+      "listItems": 34
+    },
+    {
+      "file": "cases/289-social-claim-evidence-triage.md",
+      "textHash": "5a92154a9397b3d1193842e6be2f2f641d937981eda7d0c338f5f39d95dce88f",
+      "links": 1,
+      "listItems": 14
+    },
+    {
+      "file": "cases/290-election-twice-daily-sourced-brief.md",
+      "textHash": "c3905c51bb3d458016bcf0e1263022cf6fd80ba1b4f26d0e3669de89ad7fc8ef",
+      "links": 1,
+      "listItems": 34
+    },
+    {
+      "file": "cases/291-provisional-match-time-calendar-correction.md",
+      "textHash": "5c2d36ce4224bbf778a168cdf07894b187496f268859dba331e76e170055e0c6",
+      "links": 2,
+      "listItems": 32
+    },
+    {
+      "file": "cases/292-new-model-api-signup-topup-console.md",
+      "textHash": "185d0461a56bc39e42d3e117157a121e5b5dc025c3b57e0b1c9491a028c5cb16",
+      "links": 2,
+      "listItems": 33
+    },
+    {
+      "file": "cases/293-draft-ai-audit-ai-notion-audit-record.md",
+      "textHash": "195da73e2ba95030c5797945600356c8798acaa35b23b9ad104a10758fcca70b",
+      "links": 1,
+      "listItems": 33
+    },
+    {
+      "file": "cases/294-rare-collectible-multi-shop-hourly-watch.md",
+      "textHash": "c4c3da76c42e4758fbc69e25313ae95495816cc778e9584dbe6f057d0f077061",
+      "links": 1,
+      "listItems": 34
+    },
+    {
+      "file": "cases/295-family-calendar-kitchen-display-voice-reminder.md",
+      "textHash": "90a7f4fb8cb0ecabf2fb0cf961994f62f16b2d6d950ceed7c4c00258bb440506",
+      "links": 2,
+      "listItems": 34
+    },
+    {
+      "file": "cases/296-cross-vendor-device-display-bridge.md",
+      "textHash": "b06afdebfa0305908b0d80a6ac7736a6636fa57a71807d20c239e5903012447d",
+      "links": 1,
+      "listItems": 19
+    },
+    {
+      "file": "cases/297-knowledge-file-content-search-gap.md",
+      "textHash": "eb2e8073c91bf3d6c74d1f4df9f60e516183b0848a690a734351f2e690322d3e",
+      "links": 1,
+      "listItems": 12
+    },
+    {
+      "file": "cases/298-commitment-lead-time-task-date-reconciliation.md",
+      "textHash": "7b8463ffb816962a98be8dc56703ba059b679f9975fde240043b77d90240ee3d",
+      "links": 1,
+      "listItems": 12
+    },
+    {
+      "file": "cases/299-spoken-measurement-preliminary-drawing-handoff.md",
+      "textHash": "2969ddd16082f53404beb3a4ce276734f10a8e816f63ab56f19df323f6b83ae2",
+      "links": 6,
+      "listItems": 12
+    },
+    {
+      "file": "cases/300-service-eligibility-subsidy-application-packet.md",
+      "textHash": "d5aa578cf066e950a7690f3113b41d07cd811296c85ff0e8c61d4a0add081f28",
+      "links": 1,
+      "listItems": 12
+    },
+    {
+      "file": "cases/301-technician-chat-closeout-lead-register.md",
+      "textHash": "5612fcd6a933d641041166d792469788db3d1a20f7c6484709d4aae5c9bf28a5",
+      "links": 2,
+      "listItems": 12
+    },
+    {
+      "file": "cases/302-labeled-inbox-classifier-optimization-cutover.md",
+      "textHash": "3fec57d6af9912763708cf6403109ee1849cea48561ac7326c82e7d374721589",
+      "links": 1,
+      "listItems": 13
+    },
+    {
+      "file": "cases/303-overlooked-recall-notice-remedy-application.md",
+      "textHash": "aa12adff4e2f6801d79d8782de9b9ac1c67f3f1d1a60a94ac74bad064a55589f",
+      "links": 1,
+      "listItems": 13
+    },
+    {
+      "file": "cases/304-reviewed-scoped-lesson-recall.md",
+      "textHash": "cc884fc2c0530735beac431b7cffc10dfebdb0e11ac911a7e7bf1bbc6aaee250",
+      "links": 3,
+      "listItems": 17
+    },
+    {
+      "file": "cases/305-local-video-final-stage-deliverability-failure.md",
+      "textHash": "13431dd006acf10a81a8e196d007792398713a843f0a0471f4bf5df98983af62",
+      "links": 1,
+      "listItems": 16
+    },
+    {
+      "file": "cases/306-stock-image-batch-metadata-submission.md",
+      "textHash": "74b8eb2891706dfdb7b5f75b970ad679653f5f83302bb06abcb86fa6d6af9a48",
+      "links": 2,
+      "listItems": 16
+    },
+    {
+      "file": "cases/307-cloud-file-upload-byte-integrity-failure.md",
+      "textHash": "907eb0c58da68951c2f06c3aaabe314b23443cbdaa3b0ea0ae1ff681456459ab",
+      "links": 1,
+      "listItems": 16
+    },
+    {
+      "file": "cases/308-personal-clinical-trial-daily-watch.md",
+      "textHash": "e30c07d50078e55272b024ceb8adc6e921e22528bbbbe4085375affab5639399",
+      "links": 2,
+      "listItems": 38
+    },
+    {
+      "file": "cases/309-product-trial-campaign-daily-auto-apply.md",
+      "textHash": "5639442710b021cfc305d600c0280d9c25962ed559cff70d10e8f484542be1c1",
+      "links": 3,
+      "listItems": 34
+    },
+    {
+      "file": "cases/310-agent-run-mistake-attribution-dashboard.md",
+      "textHash": "19fe407cb2d878712a0458bb689cca0cf469961ee7b8e3be9611f312fca415ee",
+      "links": 1,
+      "listItems": 37
+    },
+    {
+      "file": "cases/311-new-model-prompt-batch-demo-gallery.md",
+      "textHash": "48649db32217519d40cb11dfc9b4a6ea94ae59cff37d25b0e5f404175b70409e",
+      "links": 2,
+      "listItems": 32
+    },
+    {
+      "file": "cases/312-ambient-media-false-task-creation.md",
+      "textHash": "fa7904a70ba07e4d571a115ca680055e80ccab080fdf4a967e7a24b97e4d5fc7",
+      "links": 1,
+      "listItems": 15
+    },
+    {
+      "file": "cases/313-external-action-assignee-handoff-race.md",
+      "textHash": "d72a2f856c719019509875c32deef8cdece6e6c6c143cefad10698c158fa1b52",
+      "links": 1,
+      "listItems": 26
+    },
+    {
+      "file": "cases/314-agent-sandbox-always-on-service-failure.md",
+      "textHash": "03ae19b3a9e1050901967cadcc0afed11939a578a6827a5e8b592ca03d70768e",
+      "links": 7,
+      "listItems": 34
+    },
+    {
+      "file": "cases/315-work-personal-agents-tax-document-cpa-handoff.md",
+      "textHash": "399b63f0155793b6a57eb727fc94636e0b410c35e60246a886f0bd3fe617fdb8",
+      "links": 2,
+      "listItems": 35
+    },
+    {
+      "file": "cases/316-slack-thread-triage-repro-bot-bug-fix.md",
+      "textHash": "34724c9fa17d0c525025f1d749bcbe8f175abca9979c66c50549da61276f6dac",
+      "links": 3,
+      "listItems": 43
+    },
+    {
+      "file": "cases/317-nightly-explorer-builder-critic-prototype.md",
+      "textHash": "43062eab14130c3afd74e92c0ba2d152ca88107b4f26738ee8c0f28dcd5b3187",
+      "links": 5,
+      "listItems": 42
+    },
+    {
+      "file": "cases/318-approved-account-form-shopify-customer-flow.md",
+      "textHash": "e539cd129bf546187cbcfc1f6dcb8f2661273a3be2882cdc823f450fd1be49f8",
+      "links": 6,
+      "listItems": 22
+    },
+    {
+      "file": "cases/319-home-photo-item-inventory-claim-handoff.md",
+      "textHash": "b50e5115243fc4fa85cbe7006bb5a3c97fbb28c7cc83e98e72712939290d8231",
+      "links": 2,
+      "listItems": 17
+    },
+    {
+      "file": "cases/320-bidirectional-reminder-state-sync.md",
+      "textHash": "fdd233fe272abe7b266bb12464865ae0967c9e4508ae59fde116e43e7f5ce852",
+      "links": 1,
+      "listItems": 17
+    },
+    {
+      "file": "cases/321-expert-corpus-interactive-decision-tool.md",
+      "textHash": "001d29ec5d553e4b44286ab05664df688221aa2998fcb06dba39e5d5501d865a",
+      "links": 2,
+      "listItems": 19
+    },
+    {
+      "file": "cases/322-creator-metrics-zero-token-daily-collection.md",
+      "textHash": "4f852498f6362f46fdcb9bfc2d448b59255a8c0004b17cc62ee213b97c2a0e51",
+      "links": 7,
+      "listItems": 46
+    },
+    {
+      "file": "cases/323-daily-ai-news-one-tap-feedback-preference-loop.md",
+      "textHash": "bf6fbf225c20519eb7d428d56f98bc6dc4471eb036c7a8363f68c7fb0c2a6804",
+      "links": 1,
+      "listItems": 37
+    },
+    {
+      "file": "cases/324-daily-outage-digest-verified-incident-db-pr.md",
+      "textHash": "2f539266aec696f5e0ef03ffb426470ade8397f7614f6bbb743e9bf7bea18734",
+      "links": 10,
+      "listItems": 47
+    },
+    {
+      "file": "cases/325-nightly-voice-diary-prompt-confirm-sync.md",
+      "textHash": "7708daa79ff521de7e8a90305b977e357e81bcfcfb66aa6ff29406991b84ec31",
+      "links": 1,
+      "listItems": 35
+    },
+    {
+      "file": "cases/326-order-history-owned-items-sale-picks.md",
+      "textHash": "ce43e813c78d808c1ff6694fcdeacd05447611cad75c91df656aba3afd77aa52",
+      "links": 2,
+      "listItems": 35
+    },
+    {
+      "file": "cases/327-cad-material-library-property-population.md",
+      "textHash": "9ed7a739092247a1e51657d02bd5a80874b03fa893a85d6314063e6d915e2b4c",
+      "links": 1,
+      "listItems": 17
+    },
+    {
+      "file": "cases/328-paid-data-call-quote-variance-gate.md",
+      "textHash": "40d026f8869c6f6b89a93d76a27672780d82157a726ac11a63416cf8c578b8ea",
+      "links": 3,
+      "listItems": 20
+    },
+    {
+      "file": "cases/329-durable-agent-chain-restart-recovery.md",
+      "textHash": "bce61d314b0c760e5d8ade931611fffb53f0c6ea1846ea6e868a8b8962c29cf6",
+      "links": 7,
+      "listItems": 24
+    },
+    {
+      "file": "cases/330-unsupported-home-device-commissioning-validation.md",
+      "textHash": "fda74bf85db41a47c384719faa8f6f39e678843479ee67fec242342876213638",
+      "links": 4,
+      "listItems": 22
+    },
+    {
+      "file": "cases/331-undelivered-purchase-carrier-merchant-refund-chase.md",
+      "textHash": "f7efefd910870c71b487f9d3d6557e47efffb0e106bcb8f11d11d8bbde2a2327",
+      "links": 2,
+      "listItems": 19
+    },
+    {
+      "file": "cases/332-x-ops-semiauto-prepost-human-approval.md",
+      "textHash": "08b2ec4bc1e661353ee08e0ce10d406d28fcdcd2711dddd51773f9dfb0f7105b",
+      "links": 3,
+      "listItems": 26
+    },
+    {
+      "file": "cases/333-notion-cross-agent-outreach-memory.md",
+      "textHash": "2ddfa3b765c9790392eba4d3f7b84e9d8ec7bc1d3f99266ff33f29dea91ed3f8",
+      "links": 2,
+      "listItems": 18
+    },
+    {
+      "file": "cases/334-sdr-adsb-receiver-decoder-range-ab-test.md",
+      "textHash": "33a322b8db8eebc7f80dfa28ddbfd5117a170012c990350b48e2a6f7a90f04c0",
+      "links": 8,
+      "listItems": 33
+    },
+    {
+      "file": "cases/335-manual-routine-reenable-reverted-by-stale-instruction.md",
+      "textHash": "e80d29282993a4c3a644b39e78a0e23fb87c22f3a913fca24d91c1c952b2b578",
+      "links": 6,
+      "listItems": 30
+    },
+    {
+      "file": "cases/336-handheld-voice-terminal-mcp-relay.md",
+      "textHash": "3670d1fcc5d1e6879be64439c4caab5c22a56404ff9d5c7bfee4ce36ddc18d44",
+      "links": 7,
+      "listItems": 29
+    },
+    {
+      "file": "cases/337-daily-random-reference-photo-likeness-edit.md",
+      "textHash": "4803f2336674ad72b24700e0961bb4569e07a8f670bd7f309c5c86bd2d3f1dd3",
+      "links": 5,
+      "listItems": 31
+    },
+    {
+      "file": "cases/338-driver-daily-hours-log-paycheck-check.md",
+      "textHash": "867c7a3cad97df8bca4aa3ea4fccf3067c707ee79c00764be3d9ae94e7cbb231",
+      "links": 4,
+      "listItems": 31
+    },
+    {
+      "file": "cases/339-stale-cross-product-request-provenance.md",
+      "textHash": "616881d99a119a026979278e6df6109dda5f7dc33c1d8f42eb37aa46a8476630",
+      "links": 1,
+      "listItems": 20
+    },
+    {
+      "file": "cases/340-tool-response-evidence-capture-acceptance.md",
+      "textHash": "173da34c89e27af99e7c4db709e9cf51cb76b95a0a8a6a12c0f4af4f349a5d8d",
+      "links": 1,
+      "listItems": 21
+    },
+    {
+      "file": "cases/341-archived-task-runtime-state-reconciliation.md",
+      "textHash": "5807453676a3f43e10740977150b8206d901ed0cdd87e6885daa19e626e2cd8a",
+      "links": 1,
+      "listItems": 20
+    },
+    {
+      "file": "cases/342-daily-kids-coloring-page-auto-print.md",
+      "textHash": "24c5c77c03dec91939b0c564c9f575880ead50e7a46b98d5dc111ad7a9b57abe",
+      "links": 1,
+      "listItems": 35
+    },
+    {
+      "file": "cases/343-foreign-roadside-breakdown-insurance-form.md",
+      "textHash": "0f87a74f479c441d4ad47edf5a646ac3ff92551694e364e2b100442fd59ce210",
+      "links": 1,
+      "listItems": 34
+    },
+    {
+      "file": "cases/344-coding-agent-session-attention-webhook-routine.md",
+      "textHash": "34b91ecb8d2718f8f7db7c8041c69c77c670b0392f16587d080be69aff3d5065",
+      "links": 5,
+      "listItems": 37
+    },
+    {
+      "file": "cases/345-muse-school-grades-tv-ambient-board.md",
+      "textHash": "10da6ef55ff8a7dbb4c3e4cd6f84591f8362110ce53087aa4b81125f55ce6cf8",
+      "links": 3,
+      "listItems": 36
+    },
+    {
+      "file": "cases/346-tesla-road-trip-charge-prep-skill.md",
+      "textHash": "3f52fa6b93b59da17b4dcb30506bee3f87dde20bbcff044fe6b1d0cb132a17a8",
+      "links": 2,
+      "listItems": 36
+    },
+    {
+      "file": "cases/347-child-youtube-channel-comment-safety-sweep.md",
+      "textHash": "b24651f4194abc7c168b9491c2d7171e84fbf7aad2b8da2a5a8a9f2b4435f889",
+      "links": 5,
+      "listItems": 36
+    },
+    {
+      "file": "cases/348-home-search-screening-realtor-disclosure-handoff.md",
+      "textHash": "51d2e0eef5ad60b977a5d961e5f75feaa563e02ec49eab01f6e29290870fc24b",
+      "links": 2,
+      "listItems": 33
+    },
+    {
+      "file": "cases/349-dots-inquiry-ledger-calendar-reply-draft.md",
+      "textHash": "7ce31efc2e59d76030b69629e0b762461cf5d674747f71f57c5fab904406c708",
+      "links": 2,
+      "listItems": 36
+    },
+    {
+      "file": "cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md",
+      "textHash": "b8101c1e2dbcd5c2ed5f0309f0aea1a22e144859949156a43e5b66a7377c5e14",
+      "links": 1,
+      "listItems": 40
+    },
+    {
+      "file": "cases/351-grokbot-dispatch-only-offload-free-model-agents.md",
+      "textHash": "131e799406bbf5b2dbbac071135bb6c2d3881c928817b9c929f132182b9d9bf3",
+      "links": 18,
+      "listItems": 74
+    },
+    {
+      "file": "cases/352-daily-flomo-memo-insight-push-rotating-template.md",
+      "textHash": "41e6b80e1f1e3ba69266735aa526168e83bfcfd1bb38b6a8d1ed1f444c69a64c",
+      "links": 6,
+      "listItems": 36
+    },
+    {
+      "file": "cases/353-cloud-local-agent-git-task-relay.md",
+      "textHash": "61c3c97b6a730b29fb143c6a901278533b5da058e4f6ce07f452e4a6e43a7fa1",
+      "links": 11,
+      "listItems": 46
+    },
+    {
+      "file": "cases/354-daily-bookmark-to-live-interactive-demo.md",
+      "textHash": "2b978c4ed09022eee138914fa1a15e1269675949894c42eac2525827f9d721b0",
+      "links": 19,
+      "listItems": 38
+    },
+    {
+      "file": "cases/355-x-posting-coach-bot-daily-checkin.md",
+      "textHash": "a6529abfc4458c1ad1e8ca82511d7923f42301fd21223e371413b7a3ce4a6849",
+      "links": 7,
+      "listItems": 40
+    },
+    {
+      "file": "cases/356-paid-article-clipper-portfolio-check.md",
+      "textHash": "0e2d5a5b10ec612800f902a2284afebe84d6c2a0a400701bac5679434fb1b8f7",
+      "links": 7,
+      "listItems": 36
+    },
+    {
+      "file": "cases/357-daily-printed-crypto-sheet-confirmed-vs-reported.md",
+      "textHash": "6120a1a932bf2f67e8c0de062be4269fe4b3669a5e749e24b9f5aebce63f03aa",
+      "links": 6,
+      "listItems": 44
+    },
+    {
+      "file": "cases/358-dots-daily-youtube-picks-private-playlist.md",
+      "textHash": "48c552033f595f6160aa6cb864b7188c9de16b8a0fd4d9bc11165bfd922abae4",
+      "links": 4,
+      "listItems": 36
+    },
+    {
+      "file": "cases/359-x-follower-following-audit-criteria-feedback.md",
+      "textHash": "abc25e8600e7fbb3deabcdd5922379911e2de04a900047c350180e1e3b500eca",
+      "links": 7,
+      "listItems": 43
+    },
+    {
+      "file": "cases/360-paint-stage-quantity-spec-cart.md",
+      "textHash": "fc42b98f680a3a13eafd036cdcd793641ca4097b201ee4d71d4b7853fce56efc",
+      "links": 3,
+      "listItems": 18
+    },
+    {
+      "file": "cases/361-exact-account-binding-synthetic-guard-test.md",
+      "textHash": "57f8b4a1001d5224c7c81decef2776423c8f97588d6b527d4cc0a7befddcfbc3",
+      "links": 2,
+      "listItems": 15
+    },
+    {
+      "file": "cases/362-muse-spawn-delivery-reconciliation.md",
+      "textHash": "61740c85a76c7131b16623d3c618280f0c82c9e2adc76f3e9f5b41617295804f",
+      "links": 6,
+      "listItems": 28
+    },
+    {
+      "file": "cases/363-voice-workout-event-heart-rate-alignment.md",
+      "textHash": "638647ad36c728cf9fddb6c73c90ac50591314a20af9fdf83f4154ac8dce3048",
+      "links": 4,
+      "listItems": 22
+    },
+    {
+      "file": "cases/364-human-agent-handoff-state-display.md",
+      "textHash": "fc77835546d0ae6335aa7968f8fcb24b07f992d52bce2ba315039559a81520b6",
+      "links": 2,
+      "listItems": 22
+    },
+    {
+      "file": "cases/365-scheduled-task-inplace-edit-readback.md",
+      "textHash": "b5c300111bc3957792ae769ae99963e828a9fbb4ef4477c79dfaef93332e052e",
+      "links": 7,
+      "listItems": 25
+    },
+    {
+      "file": "cases/366-gpu-rgb-protocol-port-vendor-plugin-readonly-probe.md",
+      "textHash": "0f2bc69129786b8329ef6960bd3def4eee87fda4182cd3a7dcf508534bb0fd93",
+      "links": 2,
+      "listItems": 44
+    },
+    {
+      "file": "cases/367-advocate-daily-cause-list-court-board-case-bundle.md",
+      "textHash": "d611f6341c1e919654a40b9c2100f45e1a528830662b0db6b87bf10dc39a687d",
+      "links": 2,
+      "listItems": 42
+    },
+    {
+      "file": "cases/368-dots-3d-scene-assets-to-local-agent-unreal-import.md",
+      "textHash": "a5d3551562e5a7068bfa94cb03beb6b3a6597fdb4611ff34b3c4aa0132906e28",
+      "links": 9,
+      "listItems": 37
+    },
+    {
+      "file": "cases/369-existing-task-view-route-reconciliation.md",
+      "textHash": "18ac663d3ae029745d5231cabc152c989be5c5c3b853939b35994ee7c578bd29",
+      "links": 4,
+      "listItems": 16
+    },
+    {
+      "file": "cases/370-newsletter-audio-backfill-state-reconciliation.md",
+      "textHash": "bf399371766d51bf17bfe5cc211627e88b19983c20209e100149d7d218c0bdb7",
+      "links": 3,
+      "listItems": 20
+    },
+    {
+      "file": "cases/371-library-search-retrieval-scope-differential.md",
+      "textHash": "684b64523df58c145424e160f535f9aeb7ff8302c7ad40656ea5d8e4873cd4e3",
+      "links": 3,
+      "listItems": 21
+    },
+    {
+      "file": "cases/372-office-mfp-scan-to-folder-smb-auth-fix.md",
+      "textHash": "d39fff64ab47d09a204b076beab16bda03fe43d1a5e362fb5592fd8e955f3c46",
+      "links": 6,
+      "listItems": 41
+    },
+    {
+      "file": "cases/373-voter-registration-mail-ballot-two-agent-comparison.md",
+      "textHash": "d8330d4c1d241681eb156281493247fc915464290b57515544ee83cc9d71d3f6",
+      "links": 7,
+      "listItems": 44
+    },
+    {
+      "file": "cases/374-contract-renewal-saved-signature-reply-draft.md",
+      "textHash": "5cc52fb46feebddd554abef9c5760e7d1e0c95f6369147d2dac2be48b794fc0d",
+      "links": 8,
+      "listItems": 36
+    },
+    {
+      "file": "cases/375-workshop-prompts-cloud-browser-dry-run.md",
+      "textHash": "942c354719d151e01fd8bfefb372f570a7a032c61f64ec2b7b191f76a5dd48ad",
+      "links": 6,
+      "listItems": 35
+    },
+    {
+      "file": "cases/376-windows-audio-runtime-test-evidence-boundary.md",
+      "textHash": "6979144303fcdccaf8e869363846a35855e001e2ac2a39deaeda4b7e1272c900",
+      "links": 2,
+      "listItems": 14
+    },
+    {
+      "file": "cases/377-calendar-client-code-to-freshbooks-time-entry.md",
+      "textHash": "fec8f3d6a0a79ca90a31cd52d83f68ffd541512c18fb5c75054b0e573b3ae36f",
+      "links": 2,
+      "listItems": 9
+    },
+    {
+      "file": "cases/378-standard-camera-mount-interface-reuse.md",
+      "textHash": "2d02de66743a8a81061038efc9ed21d2a6e8142121763a6f102babfe997545a5",
+      "links": 4,
+      "listItems": 16
+    },
+    {
+      "file": "cases/379-local-project-delegation-preflight-failure.md",
+      "textHash": "3de3729b59fc3b0da3385e453ae303bb88dad13cd2ad34d9a5fe59dc665709ad",
+      "links": 11,
+      "listItems": 15
+    },
+    {
+      "file": "cases/380-client-webmaster-agent-mail-channel-rollback.md",
+      "textHash": "11584840f40ff6f68021302d3fb2d1fc27d2fff79f2b10fc90b2c954342f38ef",
+      "links": 5,
+      "listItems": 45
+    },
+    {
+      "file": "cases/381-dots-daily-ai-brief-to-archived-news-page.md",
+      "textHash": "2b38c9669f8139837b8148cc2ede32dde7c84fbbd8bb709d8f292065366b4407",
+      "links": 13,
+      "listItems": 54
+    },
+    {
+      "file": "cases/382-bot-team-paid-newsletter-approval-log.md",
+      "textHash": "530d0f38d56f6ba4462fc690bcdb42bf266a62292d997a1f7e29a989fb0edb4d",
+      "links": 7,
+      "listItems": 44
+    },
+    {
+      "file": "cases/383-external-qa-ci-failure-issue-handoff.md",
+      "textHash": "a39ee68d099a07cf420d29124552cc4fe1da9f081e19fc53aa1458b63a0554cc",
+      "links": 8,
+      "listItems": 20
+    },
+    {
+      "file": "cases/384-paid-article-boundary-post-edit-verification.md",
+      "textHash": "c5f52a29e81308b8c5dc65ded791d19f363f2e2be9fad687d7477273495fb738",
+      "links": 3,
+      "listItems": 19
+    },
+    {
+      "file": "cases/385-kdp-puzzle-book-sat-verified-phone-checklist.md",
+      "textHash": "2cdab535fe8d013d76f92803b2b9939d17ca0ea271964d030ae3a6b566294d06",
+      "links": 10,
+      "listItems": 54
+    },
+    {
+      "file": "cases/386-trading-bot-pnl-bucket-postmortem-change-brief.md",
+      "textHash": "c3318b65d175302ba38bc52450a96fd6a77f04befe9bd17adc8aaeefca6ecf6d",
+      "links": 9,
+      "listItems": 48
+    },
+    {
+      "file": "cases/387-hourly-bank-bonus-scout-seen-log-trust-labels.md",
+      "textHash": "ae53e1c4779a6a92cf6325689209455308acf1a19e1b9216719d28c64c0daa00",
+      "links": 7,
+      "listItems": 44
+    },
+    {
+      "file": "cases/388-sponsored-post-age-metrics-evidence-pack.md",
+      "textHash": "93db31781f906c50c201c1327e2bbfa6c2cc1f6133c54cb339a8168340c5b519",
+      "links": 2,
+      "listItems": 19
+    },
+    {
+      "file": "cases/389-resumed-task-native-capability-regression.md",
+      "textHash": "173043b6e2910f1e4db57723fbe241d9aea06b40273830c4bc07dbb6431a87ad",
+      "links": 3,
+      "listItems": 17
+    },
+    {
+      "file": "cases/390-linear-recurring-model-catalog-refresh-bot-team-pr.md",
+      "textHash": "e0f136be055f4465ae47a30327e8a40dbb7f56588969374310d5aed9ed24dd47",
+      "links": 8,
+      "listItems": 44
+    },
+    {
+      "file": "cases/391-bot-fleet-private-dashboard-sensitive-scan-before-push.md",
+      "textHash": "c74d40ba60a2749045fa352a9dc68901370ebd593b2914c4472a7300ae3c1142",
+      "links": 7,
+      "listItems": 39
+    },
+    {
+      "file": "cases/392-latent-model-multistart-optimum-audit.md",
+      "textHash": "4fb82ba9cbc25e5acfbf93f3f724904bae3337b16c9ed638b5ef5bfa52ea8c79",
+      "links": 7,
+      "listItems": 26
+    },
+    {
+      "file": "cases/393-pitch-deck-meeting-context-reconciliation.md",
+      "textHash": "508e4f7f9154d896341560010fe86fd1dcce56b1b7f0afce9de04cc117736898",
+      "links": 6,
+      "listItems": 28
+    },
+    {
+      "file": "cases/394-netwasm-rpc-compatibility-poc.md",
+      "textHash": "af38dca4232d48c948af466ac9789cccabea4b0b9cc3b5d2ebe8b2d0fbc3e24b",
+      "links": 9,
+      "listItems": 26
+    },
+    {
+      "file": "cases/395-missing-project-samples-licensed-asset-recovery.md",
+      "textHash": "a7ba8abdb4c134d8c855d83fc0c351980a014c785f26c33fd569413ed3a6eebc",
+      "links": 13,
+      "listItems": 23
+    },
+    {
+      "file": "cases/396-page-mention-persistence-dispatch-verification.md",
+      "textHash": "57cf1cfaa4f528f670876066f2a030394c7b42aa8acfd0fe625fe674508304f7",
+      "links": 4,
+      "listItems": 22
+    },
+    {
+      "file": "cases/397-feature-spec-repository-grounded-backlog.md",
+      "textHash": "e080fd9f1003fb4b9c1f7eaadfa0b8ba9a39f5fb20bf963b967f0863f4511089",
+      "links": 4,
+      "listItems": 16
+    },
+    {
+      "file": "cases/398-support-incident-spike-watch-approved-batch-sweep.md",
+      "textHash": "874b377d13443e52372e31e7bf1d5af80d509478cd76b8049c04b5f38fa19f7d",
+      "links": 4,
+      "listItems": 40
+    },
+    {
+      "file": "cases/399-gadget-relay-shared-credits-receipts-acceptance.md",
+      "textHash": "61b26a7159db37e6017ea9ecf1f6e536343fde83b6bb80942071406768599308",
+      "links": 3,
+      "listItems": 35
+    },
+    {
+      "file": "cases/400-x-api-read-only-creator-bots-cost-estimate-vs-bill.md",
+      "textHash": "53619fa497f69e93152b4bc26dbc462568c6e57653dba0fd30c1d52610f1d6e2",
+      "links": 6,
+      "listItems": 32
+    },
+    {
+      "file": "cases/401-weekly-family-menu-survey-calendar-grocery-list.md",
+      "textHash": "e090e43411a8a7dc3b5062e40c6652ecc3f581b9276a4e219b2af50c753539d6",
+      "links": 4,
+      "listItems": 30
+    },
+    {
+      "file": "cases/402-home-server-bot-least-privilege-ssh-daily-car-home-report.md",
+      "textHash": "7f566351ce70359cd78b88387a1811b30b2fead9a80545439b3a777d4a0de5ff",
+      "links": 9,
+      "listItems": 39
+    },
+    {
+      "file": "cases/403-public-curated-list-grokbot-scout-claude-code-verify-git-mailbox.md",
+      "textHash": "654146353309a18c156039767ae477861b21e2e515cd10f9f85d001382351e17",
+      "links": 5,
+      "listItems": 39
+    },
+    {
+      "file": "cases/404-fan-watch-official-news-twice-daily-calendar-dedup.md",
+      "textHash": "a03cdf84a065f22c7edc37628de046ec8ecca023af410815cad9482af0bbe861",
+      "links": 5,
+      "listItems": 33
+    },
+    {
+      "file": "cases/405-video-to-vertical-short-edit-only-verify-hashes.md",
+      "textHash": "3033ec83570531b6c19eb19af89f32a8d22a8678d05a34b2172e741c57bd051a",
+      "links": 3,
+      "listItems": 41
+    },
+    {
+      "file": "cases/406-m5stack-usage-meter-vps-cache-tunnel-shared-secret.md",
+      "textHash": "c72fe19d487c17e2f4b73f3b8a502d0ff064347ab93cb45daae354c8c050ca91",
+      "links": 5,
+      "listItems": 45
+    },
+    {
+      "file": "cases/407-stack-aware-security-watch-exploited-vulns-certs-breaches.md",
+      "textHash": "04631d7788bb756330072b96d00b788011ade5d66ee0473d74ec60b623a3bd90",
+      "links": 4,
+      "listItems": 39
+    },
+    {
+      "file": "cases/408-daily-team-sync-one-page-prep-calendar-notion-slack-linear.md",
+      "textHash": "f7f952d859f4a8ddf680f1bfa8e98c3ab6045e09e5138e61b020340b68e4aaf1",
+      "links": 4,
+      "listItems": 32
+    },
+    {
+      "file": "cases/409-substack-notes-daily-prompt-voice-reply-weekly-swipe-file-drafts.md",
+      "textHash": "c139bc56edc0d0b5558a95d2a243f7e8912cd6015d55115ea35cefa433cd5147",
+      "links": 4,
+      "listItems": 35
+    },
+    {
+      "file": "cases/410-agent-team-build-day-scope-creep-brake-rule-files-intent-card.md",
+      "textHash": "e923e6757de765f38485504bac80f4939731afe3f0e76059bbb618b75d6aa7ba",
+      "links": 5,
+      "listItems": 50
+    },
+    {
+      "file": "cases/411-carplay-shortcut-location-to-bot-home-assistant-on-demand-update.md",
+      "textHash": "150a349c509b8557ac812a9bbfd6e5f91b19fe1a41f3806916708e4cdf5a264d",
+      "links": 6,
+      "listItems": 39
+    },
+    {
+      "file": "cases/412-dots-podcast-transcript-to-note-article-thumbnail-post.md",
+      "textHash": "591c771482dcd8bedb3c459555d439eb80e1b5f15d07304f976a1aa71e348081",
+      "links": 9,
+      "listItems": 35
+    },
+    {
+      "file": "cases/413-unifi-kids-tv-nightly-internet-curfew-text-exceptions.md",
+      "textHash": "22c0f1f406b0c980ba3612ac804f46422e62de6e3c49e6342e99a07cdb9dcb14",
+      "links": 4,
+      "listItems": 31
+    },
+    {
+      "file": "cases/414-event-registrant-email-alias-credit-link-once-per-person.md",
+      "textHash": "463c5e48cfe35213a62b9778ff3f0d4fcd23d12caab41aa5d6bbbe2762c084f3",
+      "links": 4,
+      "listItems": 30
+    },
+    {
+      "file": "cases/415-agent-24h-indie-game-promotion-public-scoreboard-failures.md",
+      "textHash": "13657c6aa14d64bfac59a72e9265decc86be1994e856d9b1b719407db788efac",
+      "links": 5,
+      "listItems": 37
+    },
+    {
+      "file": "cases/416-linkedin-daily-follower-log-post-scorecard.md",
+      "textHash": "9bd04691a6bc8d1577d2da5be6d0ba9079286cbfc83c2a1b5987fd52aabd828c",
+      "links": 4,
+      "listItems": 41
+    },
+    {
+      "file": "cases/417-signup-alert-silent-quota-gap-recover-from-database.md",
+      "textHash": "0640f1329bc6e06aee923a97a453d71bf5d3c1ea0d6205c8dbecfcf253bbf42c",
+      "links": 6,
+      "listItems": 32
+    },
+    {
+      "file": "evidence/008-morning-brief-validation.md",
+      "textHash": "5263ca2c7aaf0e92c039dd07e01f7674e9e77d3156e267b3658a39cf147a97d5",
+      "links": 1,
+      "listItems": 22
+    },
+    {
+      "file": "evidence/009-background-transfer-template.md",
+      "textHash": "97e44020fa650448b4789e164f050a08ac67566548a3b446be9a802b5ad180b0",
+      "links": 6,
+      "listItems": 40
+    },
+    {
+      "file": "evidence/013-authentication-diagnosis.md",
+      "textHash": "2d4860b63043f9bc03a13093d1daa7be887466596a2e19837cde8821288e312c",
+      "links": 1,
+      "listItems": 16
+    },
+    {
+      "file": "sources/pending.md",
+      "textHash": "814e3c277e4a07849cb7f6c1341d3da1d2ec2e307a519307a0786d22e1192458",
+      "links": 9,
+      "listItems": 18
+    }
+  ]
+}

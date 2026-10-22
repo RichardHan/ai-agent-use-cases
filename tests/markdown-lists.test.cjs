@@ -52,3 +52,12 @@ test('an initially indented list has no fabricated parent; boundaries do not swa
  const root=render('  - 第一項\n  - 第二項\n\n## 新段落\n文字\n\n> 限定');
  assert.deepEqual(root.children.map(n=>n.tagName),['UL','H2','P','BLOCKQUOTE']);assert.equal(root.children[0].children.length,2);
 });
+
+test('parent continuation after a child list cannot fabricate a contiguous quote',()=>{
+ const leaf=text=>({tagName:'#TEXT',textContent:text});
+ const child={tagName:'LI',childNodes:[leaf('中段子項')]};
+ const parent={tagName:'LI',childNodes:[leaf('父項前段'),{tagName:'UL',children:[child]},leaf('父項後段')]};
+ const passages=readingPassages({tagName:'UL',children:[parent]});
+ assert.deepEqual(passages.map(p=>p.text),['父項前段','中段子項','父項後段']);
+ assert.equal(selectSearchPassage(passages.map(p=>p.text),'前段父項後段'),null);
+});

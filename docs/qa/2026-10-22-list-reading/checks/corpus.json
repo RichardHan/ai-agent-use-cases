@@ -1,0 +1,38 @@
+{
+  "files": 77,
+  "indentedItems": 491,
+  "examples": [
+    [
+      "cases/415-agent-24h-indie-game-promotion-public-scoreboard-failures.md",
+      5
+    ],
+    [
+      "cases/317-nightly-explorer-builder-critic-prototype.md",
+      6
+    ],
+    [
+      "cases/366-gpu-rgb-protocol-port-vendor-plugin-readonly-probe.md",
+      4
+    ],
+    [
+      "cases/068-mac-local-helper-away-diagnosis.md",
+      13
+    ],
+    [
+      "cases/084-botops-tiered-fleet-notion-tickets.md",
+      5
+    ],
+    [
+      "cases/411-carplay-shortcut-location-to-bot-home-assistant-on-demand-update.md",
+      7
+    ],
+    [
+      "cases/070-github-outage-mac-cloudflare-publish.md",
+      7
+    ],
+    [
+      "cases/310-agent-run-mistake-attribution-dashboard.md",
+      3
+    ]
+  ]
+}

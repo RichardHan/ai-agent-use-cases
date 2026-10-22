@@ -1,0 +1,119 @@
+✖ nested methods stay under their parent and return to the correct sibling (0.978292ms)
+✖ explicit numbering, mixed sibling list types and paragraph boundaries remain faithful (0.552833ms)
+✖ real UC-001 interpretation keeps four numbered requirements inside the author limitation (0.863291ms)
+✖ continuations keep source text and safe links without treating fenced lists as markup (0.154667ms)
+✖ nested list search targets each own row without joining parent and child text (0.116875ms)
+✔ an initially indented list has no fabricated parent; boundaries do not swallow following prose (0.073209ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 1
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 51.09075
+
+✖ failing tests:
+
+test at tests/markdown-lists.test.cjs:9:1
+✖ nested methods stay under their parent and return to the correct sibling (0.978292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  5 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/ai-round-20261022/tests/markdown-lists.test.cjs:11:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 5,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at tests/markdown-lists.test.cjs:17:1
+✖ explicit numbering, mixed sibling list types and paragraph boundaries remain faithful (0.552833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   undefined,
+  +   undefined
+  -   3,
+  -   7
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/ai-round-20261022/tests/markdown-lists.test.cjs:20:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ undefined, undefined ],
+    expected: [ 3, 7 ],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/markdown-lists.test.cjs:23:1
+✖ real UC-001 interpretation keeps four numbered requirements inside the author limitation (0.863291ms)
+  AssertionError [ERR_ASSERTION]: UC-001 interpretation must own its four substeps
+      at TestContext.<anonymous> (/private/tmp/ai-round-20261022/tests/markdown-lists.test.cjs:27:74)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }
+
+test at tests/markdown-lists.test.cjs:30:1
+✖ continuations keep source text and safe links without treating fenced lists as markup (0.154667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  4 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/ai-round-20261022/tests/markdown-lists.test.cjs:32:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at tests/markdown-lists.test.cjs:39:1
+✖ nested list search targets each own row without joining parent and child text (0.116875ms)
+  AssertionError [ERR_ASSERTION]: reader must collect distinct nested list passages
+  + actual - expected
+  
+  + 'undefined'
+  - 'function'
+  
+      at TestContext.<anonymous> (/private/tmp/ai-round-20261022/tests/markdown-lists.test.cjs:44:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'function',
+    operator: 'strictEqual'
+  }

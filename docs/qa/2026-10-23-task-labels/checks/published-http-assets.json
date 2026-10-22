@@ -1,0 +1,32 @@
+[
+  {
+    "file": "index.html",
+    "status": 200,
+    "matches": true,
+    "sha256": "8f260f7d0ac18776af706278bac8c9104d1349ec356a83f1878f213f17037651"
+  },
+  {
+    "file": "assets/app.js",
+    "status": 200,
+    "matches": true,
+    "sha256": "d67794baf905899bd948c7cdbb7e9819c6f35547dd7f4dc383b1393067d149b5"
+  },
+  {
+    "file": "assets/style.css",
+    "status": 200,
+    "matches": true,
+    "sha256": "f3d625fd842d513f5142acfa1627d61ef7e3ad92867dbaecca7b373673ba89cd"
+  },
+  {
+    "file": "assets/reader.js",
+    "status": 200,
+    "matches": true,
+    "sha256": "b8a2c03580248d4c1f6c3e1af520a76960cc2422ff4b08c68c2b967b6a8b511c"
+  },
+  {
+    "file": "assets/reader.css",
+    "status": 200,
+    "matches": true,
+    "sha256": "cce3346d75b5e6de54ec92581c5e7e8245d157aeb8089e9d3a312cd6786f9a69"
+  }
+]

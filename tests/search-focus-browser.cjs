@@ -3,22 +3,22 @@ const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.SITE_URL||'http://127.0.0.1:8134/ai-agent-use-cases/';
-const out=process.env.QA_OUT||'qa-artifacts/after',observe=process.env.FOCUS_OBSERVE==='1';
+const out=process.env.QA_OUT||'qa-artifacts/after',observe=process.env.FOCUS_OBSERVE==='1',recoveryRed=process.env.FOCUS_RECOVERY_RED==='1';
 fs.mkdirSync(out,{recursive:true});
 const report=[];
 (async()=>{
-for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
+for(const [engine,width] of (recoveryRed?[[webkit,390]]:observe?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
  const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),page=await context.newPage(),label=engine.name()+'-'+width,row={label,errors:[],focus:[],axe:[]};report.push(row);page.on('pageerror',e=>row.errors.push(e.message));
  const save=()=>fs.writeFileSync(out+'/focus-report.json',JSON.stringify(report,null,2));
  const ready=async suffix=>{await page.goto(base+(suffix||''));await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await page.evaluate(()=>failedPaths.length),0);};
  const screenshot=async name=>page.screenshot({path:out+'/'+name+'-'+label+'.png'});
  const style=async (target,ringTarget=target)=>{
-  // Native focus scrolling may animate in WebKit. Observe it; never scroll for the test.
+  // Native focus scrolling may settle after the handler returns. Observe it; never scroll for the test.
   if(!observe)await page.waitForFunction(selector=>{const n=document.querySelector(selector),r=n.getBoundingClientRect(),bar=n.closest('dialog')?.querySelector('.detail-toolbar')?.getBoundingClientRect();return r.top>=(bar?.bottom||0)&&r.bottom<=innerHeight;},ringTarget,{timeout:2000}).catch(()=>{});
   const active=await page.locator(target).evaluate(n=>({active:n===document.activeElement,focusVisible:n.matches(':focus-visible')}));
   const ring=await page.locator(ringTarget).evaluate(n=>{const s=getComputedStyle(n),r=n.getBoundingClientRect(),d=n.closest('dialog'),bar=d?.querySelector('.detail-toolbar')?.getBoundingClientRect();return {outlineStyle:s.outlineStyle,outlineWidth:s.outlineWidth,outlineColor:s.outlineColor,outlineOffset:s.outlineOffset,background:s.backgroundColor,top:r.top,bottom:r.bottom,left:r.left,right:r.right,toolbarBottom:bar?.bottom||0,scrollWidth:n.scrollWidth,clientWidth:n.clientWidth};});
   const state={target,ringTarget,...active,...ring};row.focus.push(state);save();
-  if(!observe){assert(state.active&&state.focusVisible,JSON.stringify(state));assert.equal(state.outlineStyle,'solid','Keyboard focus must have a visible outline: '+target);assert(parseFloat(state.outlineWidth)>=2);assert(state.top>=state.toolbarBottom&&state.bottom<=900);assert(state.left>=0&&state.right<=width);}
+  if(!observe){assert(state.active&&state.focusVisible,JSON.stringify(state));if(!(recoveryRed&&target==='#reader-outline-query')){assert.equal(state.outlineStyle,'solid','Keyboard focus must have a visible outline: '+target);assert(parseFloat(state.outlineWidth)>=2);}if(state.top<state.toolbarBottom||state.bottom>900)await screenshot('offscreen-focus');assert(state.top>=state.toolbarBottom&&state.bottom<=900,'Focused control must be visible: '+target);assert(state.left>=0&&state.right<=width);}
   return state;
  };
  const audit=async()=>{const r=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();row.axe.push(r.violations.map(v=>v.id));assert.deepEqual(row.axe.at(-1),[]);};
@@ -34,7 +34,7 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  await page.locator('.reader-outline summary').focus();await page.keyboard.press('Enter');assert(await page.locator('.reader-outline').evaluate(n=>n.open));await page.keyboard.press('Tab');
  const input=page.locator('#reader-outline-query');const state=await style('#reader-outline-query');await screenshot('outline-focus');
  if(observe){row.reproduced=state.outlineStyle==='none';save();await context.close();await browser.close();continue;}
- assert.equal(state.outlineColor,'rgb(40, 83, 68)');await input.fill('獨立審查');await input.press('Enter');assert.match(await page.locator(':focus').innerText(),/獨立審查/);
+ if(!recoveryRed)assert.equal(state.outlineColor,'rgb(40, 83, 68)');await input.fill('獨立審查');await input.press('Enter');assert.match(await page.locator(':focus').innerText(),/獨立審查/);
  await page.locator('.reader-outline summary').scrollIntoViewIfNeeded();await input.focus();await input.fill('沒有這個段落 <script>');assert.match(await page.locator('#reader-outline-status').innerText(),/沒有符合/);await style('#reader-outline-query');await screenshot('outline-empty');
  await page.locator('.reader-outline-clear').click();assert.equal(await input.inputValue(),'');await style('#reader-outline-query');
  await audit();await page.keyboard.press('Escape');

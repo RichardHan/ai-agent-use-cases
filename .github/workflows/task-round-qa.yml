@@ -50,6 +50,10 @@ jobs:
             echo 'Expected original reader focus regression'; exit 1
           fi
           grep -q 'Keyboard focus must have a visible outline: #reader-outline-query' qa-artifacts/red.log
+          if QA_OUT=qa-artifacts/recovery-red FOCUS_RECOVERY_RED=1 runuser -u pwuser -- node tests/search-focus-browser.cjs > qa-artifacts/recovery-red.log 2>&1; then
+            echo 'Expected original WebKit recovery visibility failure'; exit 1
+          fi
+          grep -q 'Focused control must be visible: #query' qa-artifacts/recovery-red.log
       - name: Verify repaired focus and full journeys
         timeout-minutes: 7
         env:

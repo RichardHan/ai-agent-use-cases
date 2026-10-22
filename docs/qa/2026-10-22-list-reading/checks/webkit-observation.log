@@ -1,0 +1,70 @@
+browser	List reading before and after	﻿2026-10-22T01:10:22.7511757Z ##[group]Run python3 -m http.server 8150 --directory "$RUNNER_TEMP/before" > /tmp/list-before.log 2>&1 &
+browser	List reading before and after	2026-10-22T01:10:22.7512538Z ^[[36;1mpython3 -m http.server 8150 --directory "$RUNNER_TEMP/before" > /tmp/list-before.log 2>&1 &^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7513234Z ^[[36;1mpython3 -m http.server 8151 --directory "$RUNNER_TEMP/preview" > /tmp/list-after.log 2>&1 &^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7514242Z ^[[36;1mLIST_OBSERVE=1 SITE_URL=http://127.0.0.1:8150/ai-agent-use-cases/ QA_OUT=qa-artifacts/before node tests/markdown-lists-browser.cjs^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7514876Z ^[[36;1mnode tests/markdown-lists-browser.cjs^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7515193Z ^[[36;1mpython3 - <<'PYCOMPARE'^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7515444Z ^[[36;1mimport json^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7515943Z ^[[36;1mbefore=json.load(open('qa-artifacts/before/report.json'))^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7516524Z ^[[36;1mafter=json.load(open('qa-artifacts/after/report.json'))^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7516985Z ^[[36;1mfor row in before:^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7517461Z ^[[36;1m    actual=next(r for r in after if r['width']==row['width'] and r['engine']==row['engine'])^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7518408Z ^[[36;1m    assert row['textHash']==actual['textHash'], 'Original text must remain identical'^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7519128Z ^[[36;1m    assert row['listCount']==actual['listCount'], 'Original list items must remain complete'^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7519748Z ^[[36;1mPYCOMPARE^[[0m
+browser	List reading before and after	2026-10-22T01:10:22.7584565Z shell: /usr/bin/bash -e {0}
+browser	List reading before and after	2026-10-22T01:10:22.7585061Z env:
+browser	List reading before and after	2026-10-22T01:10:22.7585413Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	List reading before and after	2026-10-22T01:10:22.7585807Z ##[endgroup]
+browser	List reading before and after	2026-10-22T01:10:33.4992391Z PASS LIST chromium 1440
+browser	List reading before and after	2026-10-22T01:10:38.6674327Z PASS LIST chromium 390
+browser	List reading before and after	2026-10-22T01:10:43.8194532Z PASS LIST chromium 320
+browser	List reading before and after	2026-10-22T01:10:52.6856321Z PASS LIST firefox 390
+browser	List reading before and after	2026-10-22T01:11:06.3087719Z AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+browser	List reading before and after	2026-10-22T01:11:06.3088632Z + actual - expected
+browser	List reading before and after	2026-10-22T01:11:06.3088942Z 
+browser	List reading before and after	2026-10-22T01:11:06.3089153Z + [
+browser	List reading before and after	2026-10-22T01:11:06.3099083Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/169-cantilever-solver-verification-failure.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3101365Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/170-home-scene-automation-review.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3103243Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/171-credit-report-dispute-evidence-preparation.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3105112Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/172-personal-playlist-era-genre-curation.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3106916Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/173-frontend-performance-hypothesis-experiments.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3108750Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/174-stateful-batch-form-reconciliation.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3110687Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/175-group-expense-obligation-reconciliation.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3112480Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/176-property-diligence-package-crosscheck.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3114332Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/177-pcb-design-solver-coverage-review.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3116261Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/178-scanned-page-text-image-reconstruction.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3118229Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/179-duplicate-customer-email-flow-repair.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3120114Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/180-photo-library-descriptive-metadata.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3143810Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/181-shipping-label-fulfillment-preparation.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3145634Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/182-library-book-selection-holds.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3148056Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/183-ad-campaign-configuration-review.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3150046Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/184-mail-archive-relevance-prescreen.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3152589Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/185-event-results-leaderboard-awards.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3154566Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/186-registration-pollution-mail-health.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3156447Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/187-survey-batch-configuration-validation.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3158401Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/188-dynamic-tariff-charging-window-review.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3160546Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/189-article-narration-waveform-review.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3162470Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/190-service-invoice-draft-reconciliation.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3164293Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/191-podcast-segment-edit-listen-review.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3166110Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/192-client-requirements-decision-clarification.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3168079Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/193-deleted-conversation-readable-recovery.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3169923Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/195-conversion-event-journey-timing-audit.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3172264Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/196-private-game-session-log-validation.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3174162Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/197-supplied-part-assembly-geometry-audit.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3175816Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/198-prelab-document-gap-review.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3177561Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/199-scheduled-score-stream-state-review.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3179481Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/200-prior-statistical-analysis-rerun-comparison.md due to access control checks.',
+browser	List reading before and after	2026-10-22T01:11:06.3181650Z +   '/127.0.0.1:8151/ai-agent-use-cases/cases/201-damage-comparison-coverage-correction.md due to access control checks.'
+browser	List reading before and after	2026-10-22T01:11:06.3182865Z + ]
+browser	List reading before and after	2026-10-22T01:11:06.3183289Z - []
+browser	List reading before and after	2026-10-22T01:11:06.3183526Z 
+browser	List reading before and after	2026-10-22T01:11:06.3184346Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/markdown-lists-browser.cjs:48:49 {
+browser	List reading before and after	2026-10-22T01:11:06.3185443Z   generatedMessage: true,
+browser	List reading before and after	2026-10-22T01:11:06.3186016Z   code: 'ERR_ASSERTION',
+browser	List reading before and after	2026-10-22T01:11:06.3186607Z   actual: [Array],
+browser	List reading before and after	2026-10-22T01:11:06.3187081Z   expected: [],
+browser	List reading before and after	2026-10-22T01:11:06.3187654Z   operator: 'deepStrictEqual',
+browser	List reading before and after	2026-10-22T01:11:06.3188261Z   diff: 'simple'
+browser	List reading before and after	2026-10-22T01:11:06.3188710Z }
+browser	List reading before and after	2026-10-22T01:11:06.3453368Z ##[error]Process completed with exit code 1.

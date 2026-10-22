@@ -1,0 +1,13 @@
+LIVE_ARRIVAL_PASS {"prefix":"preview-chromium","engine":"chromium","loads":4,"entries":415,"matches":21}
+PASS chromium desktop: search/filter/empty/back/focus, original outline, sticky offset, sources, direct-link/refresh, pending; axe=0
+PASS chromium mobile: search/filter/empty/back/focus, original outline, sticky offset, sources, direct-link/refresh, pending; axe=0
+PASS chromium small-mobile: search/filter/empty/back/focus, original outline, sticky offset, sources, direct-link/refresh, pending; axe=0
+PASS CORPUS {"entries":415,"sections":3029,"proofRows":434}
+PASS: corpus, missing evidence, duplicate/unsafe text, network failure and retry
+PASS: a missing optional reader script preserves original detail reading
+PASS: resilient loader keeps catalog working when a single markdown case fails
+PASS: missing copy.json degrades gracefully to markdown copy without crashing
+LIVE_ARRIVAL_PASS {"prefix":"preview-firefox","engine":"firefox","loads":2,"entries":415,"matches":21}
+PASS firefox mobile: search/filter/empty/back/focus, original outline, sticky offset, sources, direct-link/refresh, pending; axe=0
+LIVE_ARRIVAL_PASS {"prefix":"preview-webkit","engine":"webkit","loads":2,"entries":415,"matches":21}
+PASS webkit mobile: search/filter/empty/back/focus, original outline, sticky offset, sources, direct-link/refresh, pending; axe=0

@@ -50,3 +50,7 @@ UC-001原文的「訂假期機票」下有三項子紀錄，「本庫判讀」�
 補修重跑 [39704000212](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39704000212) 的WebKit在快速連續導航／重新整理時，背景全文fetch出現access-control pageerror而失敗；前四配置通過。已讓各情境在全文完成後才開始下一次導航，仍保留所有pageerror檢查，不排除錯誤或宣稱該次全綠。背景讀取與錯誤復原另由既有reader回歸覆蓋。
 
 三個資產未壓縮增加1702 bytes，gzip本機估算增加532 bytes，無新請求；不是實際網路延遲或Lighthouse分數。色彩沿用；axe涵蓋自動化文字對比檢查。尚未做本輪新實體紙本列印驗收。
+
+獨立目視終審已比對前後1440／390與新版320五張圖，父項／子步驟層級清楚，手機行寬可讀、無截字、橫向溢出或工具列碰撞。窄螢幕第4步需要正常垂直捲動，不是內容遺失。讀取完成後才進下一情境是本輪完成閱讀流程的驗收邊界，不代表修復WebKit快速重整／中途離站的背景請求觀察；根因未確認，保留checks/webkit-observation.log供後續調查。下一輪優先釐清這項真實觀察，再評估跨篇續讀。
+
+最終補修提交1baeda1的 [39704317365](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39704317365) 全套success：161／161、靜態preview、三引擎五配置、15次axe零違規、pageerror空、文字hash／38個li及四子項歸屬正確；完整既有reader回歸與兩尺寸完整走查亦通過。已將after截圖換成這次最終圖；[最終專項](checks/final-preview.json)、[雲端單元](checks/cloud-unit.tap)、[reader摘要](checks/final-reader-summary.log)。完整artifact保留在該run。模擬情境、載入完成邊界及未解WebKit觀察如上。

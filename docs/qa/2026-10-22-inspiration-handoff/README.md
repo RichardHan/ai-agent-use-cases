@@ -72,3 +72,5 @@ READER_ENGINE=webkit NODE_PATH=<cloud-tools>/node_modules node tests/reader-brow
 中間失敗保留：原ubuntu依賴安裝慢、39761020529 apt索引5分鐘逾時；之後用固定預裝瀏覽器容器與測試字型。39762240019 shell heredoc縮排、39762464522容器Git安全目錄、39762729052測試誤設top<200、39762979285 Firefox容器帳戶，均修正後才驗，不算成功。39763432026程式化fill未帶互動事件，原版／新版arrival同樣會導入；改click＋fill代表實際輸入，未修改產品arrival。被取代39760167735最後取消。字型與帳戶處理僅限雲端驗收，不增加產品外連、不覆寫HOME或改本機帳戶。
 
 未解決風險：原有audit計數斷言、舊WebKit1.56的UC-005崩潰。下一輪最值得做：定位這個可重現的舊WebKit閱讀故障，先確認支援範圍與根因。
+
+整合前主線新增3095a04研究紀錄及UC-010／UC-143原文補充，正常merge無衝突，原有全部內容保留；整合後169／170仍僅同audit20／19失敗，static preview build與diff-check通過。[整合單元](checks/integrated-unit.log)。上述預覽／基準資料快照為05577e2／1693505，不冒稱與後續研究文字完全同版；正式部署會另驗實際資料。

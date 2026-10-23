@@ -8,7 +8,7 @@ const base=process.env.SITE_URL||'http://127.0.0.1:8178/ai-agent-use-cases/',out
  const path='cases/001-travel-checkout.md';
  await page.route('**/'+path,async r=>{row.requests[path]=(row.requests[path]||0)+1;if(row.requests[path]===1)await r.fulfill({status:503,headers:{'Retry-After':'0'},body:'Temporary failure'});else await r.continue();});
  try{
- const start=Date.now();await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok%20Bot');await page.waitForFunction(()=>discoveryReady,null,{timeout:30000});row.elapsedMs=Date.now()-start;row.corpus=await page.evaluate(()=>({total:entries.length,failed:[...failedPaths]}));row.resultText=await page.locator('#results-count').innerText();
+ const start=Date.now();await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok%20Bot');await page.waitForFunction(()=>discoveryReady,null,{timeout:30000});row.elapsedMs=Date.now()-start;row.corpus=await page.evaluate(()=>({total:entries.length,failed:[...failedPaths]}));row.resultText=await page.locator('#results-count').innerText();row.initialRequests={...row.requests};
  if(before){assert.deepEqual(row.corpus.failed,[path]);assert.equal(row.requests[path],1);await page.locator('#partial-load').scrollIntoViewIfNeeded();}else {assert.deepEqual(row.corpus.failed,[]);assert.equal(row.requests[path],2);assert(await page.locator('#partial-load').isHidden());await page.locator('#results-count').scrollIntoViewIfNeeded();}
  await page.screenshot({path:`${out}/results-${row.label}.png`});
  if(before){await page.locator('#retry-failed').click();await page.waitForFunction(()=>!recoveringSources);assert.equal(await page.evaluate(()=>failedPaths.length),0);}

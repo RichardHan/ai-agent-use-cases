@@ -27,6 +27,12 @@ jobs:
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
         run: runuser -u pwuser -- node tests/round23-observe.cjs
+      - name: Observe early table reading
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          SITE_URL: https://richardhan.github.io/ai-agent-use-cases/
+          TABLE_ANCHOR_OBSERVE: '1'
+        run: runuser -u pwuser -- node tests/table-anchor-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

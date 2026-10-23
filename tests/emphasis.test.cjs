@@ -43,3 +43,11 @@ test('nested code and destinations cannot terminate source emphasis or truncate 
  assert.equal(text(root),'含 a**b 程式碼；來源');
  for(const s of ['**未核***','**未核****','**未核 *其他* **'])assert.equal(text(render(s)),s);
 });
+
+test('incomplete URLs never crash and code scanning matches the existing inline token grammar',()=>{
+ for(const s of ['**來源尚待提供 https://','**來源 https://<未定>**'])assert.doesNotThrow(()=>render(s));
+ for(const s of ['**含 ``a**b`` 程式碼**','**含 '+String.fromCharCode(92)+'`a**b` 程式碼**']){
+  const root=render(s);assert.equal(walk(root).find(n=>n.tagName==='CODE').textContent,'a**b');
+  assert.equal(walk(root).filter(n=>n.tagName==='STRONG').length,1);
+ }
+});

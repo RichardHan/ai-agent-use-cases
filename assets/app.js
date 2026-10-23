@@ -453,10 +453,10 @@ function markdownStrong(text,start) {
   for(let i=start;i<text.length;i++) {
     const char=text[i];
     if(char==='\n')return null;
-    if(char==='\\'){i++;continue;}
+    if(char==='\\'&&text[i+1]==='*')return null;
     if(char==='`') {
-      const end=text.indexOf('`',i+1);if(end===-1)return null;
-      i=end;continue;
+      const code=text.slice(i).match(/^`([^`]+)`/);
+      if(code){i+=code[0].length-1;continue;}
     }
     if(char==='[') {
       const label=text.slice(i).match(/^\[[^\]]+\]\(/);
@@ -467,9 +467,8 @@ function markdownStrong(text,start) {
       }
     }
     // A bare URL is one opaque existing token; never infer its ending.
-    if(/^https?:\/\//.test(text.slice(i))) {
-      const url=text.slice(i).match(/^https?:\/\/[^\s<>]+/)[0];i+=url.length-1;continue;
-    }
+    const url=text.slice(i).match(/^https?:\/\/[^\s<>]+/);
+    if(url){i+=url[0].length-1;continue;}
     if(char==='*') {
       if(text.slice(i,i+2)==='**'&&text[i+2]!=='*'&&!/\s/.test(text[i-1]))return {text:text.slice(start,i),end:i+2};
       return null;

@@ -334,7 +334,7 @@ browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:06.69
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:13.0231587Z PASS TABLE chromium-390
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4337118Z AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4337790Z + actual - expected
-browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4337952Z 
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4337952Z
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4338033Z + [
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4338364Z +   'cases/118-agent-email-rerouting-consent-test.md',
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4338840Z +   'cases/119-fantasy-lineup-approval-review.md',
@@ -666,7 +666,7 @@ browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.45
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527162Z +   'sources/pending.md'
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527383Z + ]
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527577Z - []
-browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527683Z 
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527683Z
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527990Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/table-reading-browser.cjs:13:132
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4528541Z     at runNextTicks (node:internal/process/task_queues:64:5)
 browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4528968Z     at process.processImmediate (node:internal/timers:452:9)

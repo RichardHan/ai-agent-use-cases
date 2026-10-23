@@ -17,7 +17,7 @@ async function settle(page){await page.evaluate(()=>new Promise((resolve,reject)
  const check={engine,size};report.push(check);save();
  await page.goto(base+'?case=UC-400');await page.locator('#detail[open]').waitFor();
  assert.equal(await page.evaluate(()=>discoveryReady),false);
- await page.locator('.research-details summary').click();
+ await page.locator('.research-details summary').click();await page.locator('#detail-title').evaluate(n=>n.focus({preventScroll:true}));
  const target=page.locator('.markdown-table tbody tr').nth(0),toolbar=await page.locator('.detail-toolbar').boundingBox();
  const box=await target.boundingBox();await page.mouse.move(width/2,height/2);await page.mouse.wheel(0,box.y-toolbar.y-toolbar.height-30);await settle(page);
  check.before=await page.evaluate(()=>{const d=document.querySelector('#detail'),edge=d.querySelector('.detail-toolbar').getBoundingClientRect().bottom;

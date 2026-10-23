@@ -8,9 +8,9 @@ not ok 1 - transient HTTP and network failures recover once without duplicate en
   failureType: 'testCodeFailure'
   error: |-
     408
-    
+
     1 !== 2
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: 2
@@ -30,9 +30,9 @@ not ok 2 - persistent transient error retries at most once and retains exact fai
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
-    
+
     1 !== 2
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: 2
@@ -83,9 +83,9 @@ not ok 6 - abort during retry waiting cancels immediately without a second reque
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
-    
+
     2 !== 1
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: 1
@@ -112,12 +112,12 @@ not ok 8 - retry is opt-in and successful shared sources are emitted before anot
   error: |-
     Expected values to be strictly deep-equal:
     + actual - expected
-    
+
       [
         'shared',
     -   'slow'
       ]
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:

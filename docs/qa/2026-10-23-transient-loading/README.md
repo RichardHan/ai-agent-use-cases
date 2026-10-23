@@ -13,7 +13,7 @@
 
 驗收：408／429／500／502／503／504、fetch或body網路錯誤可補讀一次；404等永久HTTP、解析錯誤、單源逾時、全輪期限及使用者取消不重試。最短等500ms，遵守Retry-After秒數／HTTP-date；大於2秒就交回原手動復原，不縮短伺服器等待。12秒單源、20秒整輪期限皆包含等待且不重置。每來源只完成一次進度與內容發布，並行上限／結果順序保留；共享單篇成功即可閱讀，背景補讀不搶焦點。重試仍失敗誠實列入failedPaths。
 
-本輪不改案例、來源、證據分類、合格計數、搜尋語意、品牌版面、框架或部署方式；不做整庫打包／快取。沒有產品新依賴、追蹤器、cookie、登入或第三方傳送。
+本輪不重寫研究內容、來源、合格計數、搜尋語意、品牌版面、框架或部署方式；整合時僅補標UC-444既有證據敘述（下述），不做整庫打包／快取。沒有產品新依賴、追蹤器、cookie、登入或第三方傳送。
 
 ## 實作與測試
 
@@ -31,7 +31,7 @@ SITE_URL=http://127.0.0.1:8178/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_
 
 基準[189／189](checks/baseline.log)；先補8項回歸，原版[3過5失敗](checks/red.tap)，實作後[8／8](checks/green.tap)，[全套197／197](checks/unit.tap)。最初測試harness曾有缺函式export及引號SyntaxError，已先修正才保存有效red，不將工具錯誤列為產品重現。Repo沒有獨立lint、TypeScript或npm build；JS語法檢查不是lint／type check；preview.py不是正式Jekyll。正式Pages建置另核對。
 
-變更範圍：`assets/app.js`、`tests/transient-loading.test.cjs`、`tests/transient-loading-browser.cjs`、觀察用`tests/code-reading-observe.cjs`、`.github/workflows/code-reading-qa.yml`、`SITE.md`與本輪QA證據。分支暫名reader-code-blocks不代表新增語法高亮或橫捲。
+變更範圍：`assets/app.js`、`tests/transient-loading.test.cjs`、`tests/transient-loading-browser.cjs`、觀察用`tests/code-reading-observe.cjs`、`.github/workflows/code-reading-qa.yml`、`cases/444-feature-request-release-notification-loop.md`、`SITE.md`與本輪QA證據。分支暫名reader-code-blocks不代表新增語法高亮或橫捲。
 
 ## 環境與獨立審查
 
@@ -64,3 +64,8 @@ SITE_URL=http://127.0.0.1:8178/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_
 3. 來源持續不可用或404，看見真實缺項提示，取消等待後能手動補回；沒有結果時可回關鍵字欄修改。
 
 這是自動化模擬，不宣稱真人喜歡、轉換率或回訪率已提升。產品gzip增加558bytes，正常成功來源不增加請求；[大小](checks/asset-size.json)不代表實測效能分數，未量測Lighthouse。主要改善證據是相同故障下內容可恢復，不將不同公開載入耗時作速度成效。
+
+
+整合最新協作者ecba0ac無衝突，原有全套首次為196／197，唯一失敗UC-444缺來源證據欄：[原始失敗](checks/integration-original-failure.tap)。獨立確認原分類已有「作者實作自述，未獨立重現」，保留原分類及全文，只新增同句來源證據欄；不新增來源或改研究判斷。網站因此由預設「公開資料核讀」正確顯示「作者報告／示範」。[整合後197／197](checks/integrated-unit.tap)，語法與preview build通過；未因此重跑不相關矩陣。
+
+獨立終審核對全部報告及三張新版圖，產品可合併。正式QA採固定公開站、唯讀權限、choice input僅作if比較，不作shell插值；另已依審查補上瀏覽器實際app.js response逐byte比對，避免只比對帶query的獨立HTTP請求。之前雲端API曾顯示run仍in_progress，但所有13個step（含Complete job）均success，驗收以保存的實際步驟及產物為據，不自行改寫GitHub狀態。

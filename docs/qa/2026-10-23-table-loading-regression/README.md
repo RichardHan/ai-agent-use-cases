@@ -1,6 +1,6 @@
 # 表格早讀與背景載入：檢查結果及回歸防線
 
-本輪沒有修改產品碼。遵照「沒有有價值的改動時，交付檢查結果並停止」，不把未重現的假設當作網站問題。實際交付是可阻擋未來退化的雲端驗收，以及本次可追溯的檢查資料。已完成實作與獨立程式審查；發布合併狀態見末尾。
+本輪沒有修改產品碼。遵照「沒有有價值的改動時，交付檢查結果並停止」，不把未重現的假設當作網站問題。實際交付是可阻擋未來退化的雲端驗收，以及本次可追溯的檢查資料。已合併PR #83並完成Pages建置部署；發布證據見末尾。
 
 ## 基準與決策
 
@@ -76,4 +76,11 @@ SITE_URL=http://127.0.0.1:8180/ai-agent-use-cases/ node tests/table-reading-brow
 中間僅pin24的39938124436仍停留相依套件安裝逾七分鐘，因此改為相符預裝容器；該run未算通過、沒有為了綠燈改測試。官方registry manifest HTTP200只證明image tag存在，不當作整趟驗證。最終0a4db2e再經獨立唯讀審查無阻擋；新雲端實際啟動與原測試結果見下方。
 
 
-最終Website QA [39939042069](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39939042069) 全成功：相符容器初始化、工具／字型安裝、瀏覽器啟動、原基準走查、197項回歸與更新後Chromium探索全過；PR情境的正式部署驗證依原規則skip，沒有說成已跑。完整摘要[legacy-verified.log](checks/legacy-verified.log)略去公開截圖base64長行，原run保留原始log。最新專項[39939042098](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39939042098)亦全成功，與既有Website QA同為受審0a4db2e，後續僅補文件證據。原僅pin24的39938124436為被取代的run，沒有計為通過。兩套最終CI及獨立審查完成，準備依使用者授權合併；產品碼仍零變動。
+最終Website QA [39939042069](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39939042069) 全成功：相符容器初始化、工具／字型安裝、瀏覽器啟動、原基準走查、197項回歸與更新後Chromium探索全過；PR情境的正式部署驗證依原規則skip，沒有說成已跑。完整摘要[legacy-verified.log](checks/legacy-verified.log)略去公開截圖base64長行，原run保留原始log。最新專項[39939042098](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39939042098)亦全成功，與既有Website QA同為受審0a4db2e，後續僅補文件證據。原僅pin24的39938124436為被取代的run，沒有計為通過。兩套最終CI及獨立審查完成，已依使用者授權合併；產品碼仍零變動。
+
+
+## 發布補記（本輪完成）
+
+[PR #83](https://github.com/RichardHan/ai-agent-use-cases/pull/83) 已依使用者明確授權squash合併為 `998ababb3679ae7de281ce263ac09a34ff8d05bd`，沒有強推。Pages [39939714757](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39939714757) 的正式Jekyll build、deploy及report-build-status全部成功。公開首頁、app.js、style.css、reader.js、reader.css五檔逐byte與合併版本一致；產品／案例／catalog對dc3b1f8零diff。原工作樹仍在原分支，兩項未提交修改保留。
+
+被取代的pin24-only run39938124436最終狀態cancelled，未計通過；不將其等同於最終matching-container成功run。合併後其他背景CI仍有未完成項，沒有宣稱整批主線CI全綠；本輪受審兩套最終PR CI已通過，正式公開完整載入328缺項的原FAIL仍照實保留。最後只補此發布紀錄，不再變更測試、workflow或產品。本輪完成並停止。

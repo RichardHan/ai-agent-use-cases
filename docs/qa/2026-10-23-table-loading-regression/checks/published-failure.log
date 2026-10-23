@@ -1,0 +1,681 @@
+browser	Cloud visitor journeys and early table regression	﻿2026-10-23T10:13:18.6049247Z ##[group]Run python3 -m http.server 8180 --directory "$RUNNER_TEMP/preview" > /tmp/round23-preview.log 2>&1 &
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6050085Z ^[[36;1mpython3 -m http.server 8180 --directory "$RUNNER_TEMP/preview" > /tmp/round23-preview.log 2>&1 &^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6050684Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8180/ai-agent-use-cases/^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6051116Z ^[[36;1mif [ "$GITHUB_REF_NAME" = verify/round23-published ]; then^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6051585Z ^[[36;1m  export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6051973Z ^[[36;1m  node - <<'JS'^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6052219Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6053645Z ^[[36;1m(async()=>{for(const file of ['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?round23='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);console.log('MATCH '+file);}})().catch(e=>{console.error(e);process.exit(1)});^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6055621Z ^[[36;1mJS^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6055815Z ^[[36;1mfi^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6056183Z ^[[36;1mQA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/round23-observe.cjs^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6056828Z ^[[36;1mQA_OUT=qa-artifacts/early-table runuser -u pwuser -- node tests/table-anchor-browser.cjs^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6057540Z ^[[36;1mQA_OUT=qa-artifacts/table SITE_URL="$SITE_URL" runuser -u pwuser -- node tests/table-reading-browser.cjs^[[0m
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6058160Z shell: sh -e {0}
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6058355Z env:
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6058595Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.6058906Z ##[endgroup]
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.8435407Z MATCH index.html
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.8676461Z MATCH assets/app.js
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.8792417Z MATCH assets/style.css
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.8894687Z MATCH assets/reader.js
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:18.8978894Z MATCH assets/reader.css
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5866361Z [
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5866795Z   {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5871337Z     "engine": "chromium",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5871851Z     "size": "desktop",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5872229Z     "before": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5872607Z       "scroll": 2854,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5873020Z       "left": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5873495Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5874271Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5874656Z         "count": 1,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5875019Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5875375Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5875768Z       "statusHeight": 45.1875,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5876229Z       "targetTop": 155.5625,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5876755Z       "anchors": [
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5877096Z         {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5877448Z           "tag": "H2",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5877857Z           "class": "",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5878582Z           "text": "來源版本",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5879071Z           "top": 562.75,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5879597Z           "bottom": 595.75
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5880018Z         },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5880344Z         {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5880684Z           "tag": "LI",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5881099Z           "class": "",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5882059Z           "text": "作者：@GlennHasABeard（Glenn Williams）",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5882670Z           "top": 778.390625,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5883080Z           "bottom": 804.984375
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5883326Z         },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5883505Z         {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5883697Z           "tag": "LI",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5884253Z           "class": "",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5884790Z           "text": "網址：https://x.com/GlennHasABeard/status/2111935110929174714",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5885198Z           "top": 811.984375,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5885504Z           "bottom": 838.578125
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5885752Z         },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5885934Z         {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5886116Z           "tag": "LI",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5886325Z           "class": "",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5887203Z           "text": "日期：2026-10-19 05:39（台灣時間；2026-10-18T21:39:02Z）；英文；附一張圖（本庫未判讀圖中內容）",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5887591Z           "top": 845.578125,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5887844Z           "bottom": 872.171875
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5888076Z         },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5888249Z         {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5888426Z           "tag": "LI",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5888632Z           "class": "",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5889218Z           "text": "內容（改寫）：為了讓Grok Bot直接連X API而升級方案；週末設好六個Bot，腳本由Claude寫、Grok Bot按排程執行；六個都不發文、不回覆、不按",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5889637Z           "top": 879.171875,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5889889Z           "bottom": 932.359375
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5890106Z         }
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5890283Z       ]
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5890459Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5890638Z     "after": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5891046Z       "scroll": 2795,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5891265Z       "left": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5891501Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5891742Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5891958Z         "count": 443,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5892166Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5892367Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5892561Z       "statusHeight": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5892802Z       "targetTop": 155.375
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5893019Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5893203Z     "delta": -0.1875,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5893414Z     "violations": [],
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5893614Z     "errors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5894094Z   },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5894299Z   {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5894488Z     "engine": "chromium",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5894721Z     "size": "mobile",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5894931Z     "before": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5895128Z       "scroll": 4199,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5895329Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5895558Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5895811Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5896016Z         "count": 1,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5896212Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5896408Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5896599Z       "statusHeight": 70.375,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5896841Z       "targetTop": 170.46875,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5897074Z       "anchors": [
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5897269Z         {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5897458Z           "tag": "H2",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5897664Z           "class": "",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5897929Z           "text": "來源版本",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5898153Z           "top": 628.03125,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5898384Z           "bottom": 661.03125
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5898639Z         }
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5898822Z       ]
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5899007Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5899187Z     "after": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5899393Z       "scroll": 4115,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5899596Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5899820Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5900058Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5900260Z         "count": 443,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5900466Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5900692Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5900895Z       "statusHeight": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5901153Z       "targetTop": 170.09375
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5901391Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5901575Z     "delta": -0.375,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5901780Z     "violations": [],
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5901985Z     "errors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5902170Z   },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5902335Z   {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5902517Z     "engine": "chromium",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5902741Z     "size": "narrow",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5902937Z     "before": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5903160Z       "scroll": 5047,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5903378Z       "left": 410,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5903612Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5904131Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5904372Z         "count": 1,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5904607Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5904830Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5905043Z       "statusHeight": 95.5625,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5905331Z       "targetTop": 165.265625,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5905607Z       "anchors": [
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5905814Z         {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5906024Z           "tag": "H2",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5906464Z           "class": "",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5906765Z           "text": "來源版本",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5907013Z           "top": 622.828125,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5907266Z           "bottom": 655.828125
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5907521Z         }
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5907719Z       ]
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5907897Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5908091Z     "after": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5908296Z       "scroll": 4937,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5908525Z       "left": 410,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5908760Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5909032Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5909250Z         "count": 443,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5909464Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5909678Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5909875Z       "statusHeight": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5910279Z       "targetTop": 165.703125
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5910536Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5910719Z     "delta": 0.4375,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5910949Z     "violations": [],
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5911174Z     "errors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5911372Z   },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5911564Z   {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5911746Z     "engine": "chromium",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5911992Z     "size": "short",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5912204Z     "before": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5912402Z       "scroll": 4199,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5912627Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5912867Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5913104Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5913327Z         "count": 1,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5913539Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5914105Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5914392Z       "statusHeight": 70.375,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5914709Z       "targetTop": 152.265625,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5914973Z       "anchors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5915192Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5915382Z     "after": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5915615Z       "scroll": 4115,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5915839Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5916071Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5916329Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5916556Z         "count": 443,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5916775Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5917003Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5917195Z       "statusHeight": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5917465Z       "targetTop": 151.890625
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5917709Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5917893Z     "delta": -0.375,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5918135Z     "violations": [],
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5918365Z     "errors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5918561Z   },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5918755Z   {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5918956Z     "engine": "firefox",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5919184Z     "size": "mobile",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5919410Z     "before": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5919612Z       "scroll": 4221,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5919840Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5920094Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5920341Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5920564Z         "count": 1,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5920763Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5920988Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5921223Z       "statusHeight": 70.39999389648438,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5921539Z       "targetTop": 170.14999389648438,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5921823Z       "anchors": [
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5922052Z         {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5922242Z           "tag": "H2",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5922483Z           "class": "",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5922790Z           "text": "來源版本",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5923041Z           "top": 627.8499755859375,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5923346Z           "bottom": 660.8499755859375
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5923620Z         }
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5924129Z       ]
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5924329Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5924544Z     "after": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5924780Z       "scroll": 4136.60009765625,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5925046Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5925296Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5925551Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5925774Z         "count": 443,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5926002Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5926203Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5926416Z       "statusHeight": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5926896Z       "targetTop": 170.14999389648438
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5927171Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5927349Z     "delta": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5927576Z     "violations": [],
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5927807Z     "errors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5928002Z   },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5928198Z   {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5928383Z     "engine": "firefox",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5928631Z     "size": "short",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5928849Z     "before": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5929055Z       "scroll": 4221,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5929289Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5929543Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5929802Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5930021Z         "count": 1,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5930224Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5930582Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5930836Z       "statusHeight": 70.39999389648438,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5931153Z       "targetTop": 151.9499969482422,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5931425Z       "anchors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5931627Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5931828Z     "after": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5932064Z       "scroll": 4136.60009765625,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5932330Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5932556Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5932812Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5933025Z         "count": 443,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5933232Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5933449Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5933642Z       "statusHeight": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5934196Z       "targetTop": 151.9499969482422
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5934484Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5934686Z     "delta": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5934893Z     "violations": [],
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5935124Z     "errors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5935335Z   },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5935508Z   {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5935729Z     "engine": "webkit",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5935958Z     "size": "mobile",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5936191Z     "before": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5936404Z       "scroll": 4198,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5936613Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5936880Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5937134Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5937337Z         "count": 1,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5937580Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5937834Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5938052Z       "statusHeight": 70.375,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5938336Z       "targetTop": 170.96875,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5938569Z       "anchors": [
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5938788Z         {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5939008Z           "tag": "H2",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5939376Z           "class": "",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5939691Z           "text": "來源版本",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5939942Z           "top": 629.03125,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5940179Z           "bottom": 662.03125
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5940436Z         }
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5940636Z       ]
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5940817Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5941020Z     "after": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5941233Z       "scroll": 4113,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5941454Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5941705Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5941966Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5942170Z         "count": 443,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5942395Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5942590Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5942809Z       "statusHeight": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5943053Z       "targetTop": 171.59375
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5943281Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5943481Z     "delta": 0.625,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5943687Z     "violations": [],
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5944148Z     "errors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5944344Z   },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5944544Z   {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5944723Z     "engine": "webkit",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5944965Z     "size": "short",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5945188Z     "before": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5945385Z       "scroll": 4198,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5945610Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5945860Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5946123Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5946345Z         "count": 1,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5946560Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5946944Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5947147Z       "statusHeight": 70.375,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5947429Z       "targetTop": 152.765625,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5947691Z       "anchors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5947899Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5948103Z     "after": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5948316Z       "scroll": 4114,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5948528Z       "left": 340,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5948772Z       "focus": "detail-title",
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5949016Z       "corpus": {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5949240Z         "count": 443,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5949472Z         "failed": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5949695Z       },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5949918Z       "statusHeight": 0,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5950173Z       "targetTop": 152.390625
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5950422Z     },
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5950859Z     "delta": -0.375,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5951097Z     "violations": [],
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5951311Z     "errors": []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5951523Z   }
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:13:58.5951699Z ]
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:06.6971475Z PASS TABLE chromium-1440
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:13.0231587Z PASS TABLE chromium-390
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4337118Z AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4337790Z + actual - expected
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4337952Z 
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4338033Z + [
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4338364Z +   'cases/118-agent-email-rerouting-consent-test.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4338840Z +   'cases/119-fantasy-lineup-approval-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4339346Z +   'cases/120-bioinspired-material-simulation-specimen.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4339850Z +   'cases/121-visual-reference-classification-sheet.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4340300Z +   'cases/122-audio-lightshow-sequence-draft.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4340728Z +   'cases/123-mobile-game-resource-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4341176Z +   'cases/124-vehicle-maintenance-record-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4341626Z +   'cases/125-morse-decoder-hardware-loop-test.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4342052Z +   'cases/126-roofing-prework-admin-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4342512Z +   'cases/127-cross-channel-calendar-correction.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4342948Z +   'cases/128-test-database-revenue-query-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4343363Z +   'cases/129-store-stockout-velocity-audit.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4344068Z +   'cases/130-supplies-reorder-ledger-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4344544Z +   'cases/131-student-demo-code-prereview.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4345026Z +   'cases/132-podcast-transcript-retrieval-preparation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4345487Z +   'cases/133-screen-reader-menu-reformat.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4345899Z +   'cases/134-handwritten-kitchen-order-cart.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4346322Z +   'cases/135-campus-meal-window-planning.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4346751Z +   'cases/136-community-park-feasibility-proposal.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4347200Z +   'cases/137-visitor-print-queue-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4347615Z +   'cases/138-streetlight-fault-report-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4348024Z +   'cases/139-lost-property-match-search.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4348456Z +   'cases/140-monocular-depth-robot-offline-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4348896Z +   'cases/141-vehicle-telemetry-gap-dashboard.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4349582Z +   'cases/142-historical-folder-access-revocation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4350044Z +   'cases/143-unclaimed-property-candidate-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4350487Z +   'cases/144-classical-translation-source-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4350923Z +   'cases/145-offline-standard-form-field-validation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4351384Z +   'cases/146-grant-supporting-document-gap-check.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4351807Z +   'cases/147-group-meal-bot-negotiation-demo.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4352227Z +   'cases/148-course-degree-planning-prototype.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4352717Z +   'cases/149-directory-submission-live-link-verification.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4353195Z +   'cases/150-spreadsheet-date-formula-repair.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4353626Z +   'cases/151-booked-stay-prerequisite-followup.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4354784Z +   'cases/152-interview-evidence-feedback-draft.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4355264Z +   'cases/153-tabletop-adventure-material-pack.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4355727Z +   'cases/154-contract-review-wait-time-analysis.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4356203Z +   'cases/155-field-service-job-change-coordination.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4356662Z +   'cases/156-mail-system-migration-verification.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4357094Z +   'cases/157-editable-diagram-geometry-readback.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4357541Z +   'cases/158-paid-orphan-order-recovery-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4358004Z +   'cases/159-reference-portrait-brush-fill-failure.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4358483Z +   'cases/160-handheld-device-integrated-prototype.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4359112Z +   'cases/161-cross-model-response-dataset-audit.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4359576Z +   'cases/162-mesh-simplification-camera-state-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4360013Z +   'cases/163-legacy-cms-history-migration.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4360515Z +   'cases/164-stale-ticket-retirement-scope-stop.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4360989Z +   'cases/165-offline-network-control-evidence-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4361470Z +   'cases/166-bidirectional-document-reading-order.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4361914Z +   'cases/167-web-accessibility-evidence-pack.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4362379Z +   'cases/168-customer-order-availability-price-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4362852Z +   'cases/169-cantilever-solver-verification-failure.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4363284Z +   'cases/170-home-scene-automation-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4364042Z +   'cases/171-credit-report-dispute-evidence-preparation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4364639Z +   'cases/172-personal-playlist-era-genre-curation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4365191Z +   'cases/173-frontend-performance-hypothesis-experiments.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4365691Z +   'cases/174-stateful-batch-form-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4366162Z +   'cases/175-group-expense-obligation-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4366647Z +   'cases/176-property-diligence-package-crosscheck.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4367102Z +   'cases/177-pcb-design-solver-coverage-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4367559Z +   'cases/178-scanned-page-text-image-reconstruction.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4368002Z +   'cases/179-duplicate-customer-email-flow-repair.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4368453Z +   'cases/180-photo-library-descriptive-metadata.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4368906Z +   'cases/181-shipping-label-fulfillment-preparation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4369332Z +   'cases/182-library-book-selection-holds.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4369729Z +   'cases/183-ad-campaign-configuration-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4370157Z +   'cases/184-mail-archive-relevance-prescreen.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4370582Z +   'cases/185-event-results-leaderboard-awards.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4371012Z +   'cases/186-registration-pollution-mail-health.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4371460Z +   'cases/187-survey-batch-configuration-validation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4371921Z +   'cases/188-dynamic-tariff-charging-window-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4372358Z +   'cases/189-article-narration-waveform-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4372797Z +   'cases/190-service-invoice-draft-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4373221Z +   'cases/191-podcast-segment-edit-listen-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4373696Z +   'cases/192-client-requirements-decision-clarification.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4375205Z +   'cases/193-deleted-conversation-readable-recovery.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4375697Z +   'cases/195-conversion-event-journey-timing-audit.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4376169Z +   'cases/196-private-game-session-log-validation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4376635Z +   'cases/197-supplied-part-assembly-geometry-audit.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4377079Z +   'cases/198-prelab-document-gap-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4377495Z +   'cases/199-scheduled-score-stream-state-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4377990Z +   'cases/200-prior-statistical-analysis-rerun-comparison.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4378686Z +   'cases/201-damage-comparison-coverage-correction.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4379218Z +   'cases/204-reviewed-prototype-cms-rebuild.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4379821Z +   'cases/205-concept-origin-naming-chronology.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4380365Z +   'cases/206-own-account-transfer-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4381097Z +   'cases/207-trigger-gate-nonexecution-retrospective.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4381689Z +   'cases/208-portable-skill-binding-approval-check.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4382326Z +   'cases/209-spreadsheet-cross-app-formula-validation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4382960Z +   'cases/210-astronomy-conditions-target-planning.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4383518Z +   'cases/211-versioned-procedure-role-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4384609Z +   'cases/212-public-dataset-field-update-proposals.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4385194Z +   'cases/213-storyboard-timed-effect-visual-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4385834Z +   'cases/214-release-artifact-runtime-identity-check.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4386473Z +   'cases/215-recipe-inbox-structured-collection.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4399469Z +   'cases/216-photo-shoot-selection-preset-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4400389Z +   'cases/217-hdl-build-functional-regression-gate.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4401216Z +   'cases/218-third-party-skill-install-trust-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4402172Z +   'cases/219-pdf-internal-navigation-bookmark-validation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4402756Z +   'cases/220-used-product-recall-candidate-screening.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4403281Z +   'cases/221-human-signature-completed-copy-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4404136Z +   'cases/222-legacy-business-rule-test-oracle-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4404733Z +   'cases/223-household-solar-billing-period-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4405293Z +   'cases/224-multi-shadow-shared-geometry-inverse-design.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4405788Z +   'cases/225-receipt-transaction-evidence-matching.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4406249Z +   'cases/226-photo-wall-frame-print-fit.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4406674Z +   'cases/227-saved-map-places-list-maintenance.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4407125Z +   'cases/228-household-power-waveform-attribution.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4407613Z +   'cases/229-macos-distribution-signing-evidence.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4408069Z +   'cases/230-compensation-batch-human-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4408552Z +   'cases/231-multitrack-session-rough-mix-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4409059Z +   'cases/232-purchased-resource-delivery-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4409610Z +   'cases/233-recurring-revenue-discount-definition-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4410155Z +   'cases/234-proposal-attachment-consistency-send-gate.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4410661Z +   'cases/235-backtest-freeze-evidence-boundary-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4411193Z +   'cases/236-event-playback-state-restoration-prototype.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4411703Z +   'cases/237-sketch-part-step-manufacturing-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4412233Z +   'cases/238-release-channel-exposure-incident-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4412767Z +   'cases/239-wearable-conversation-delivery-state-validation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4413334Z +   'cases/240-bilingual-controlled-vocabulary-export.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4414070Z +   'cases/241-community-participation-spam-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4414584Z +   'cases/242-aviation-bulletin-observation-brief-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4415077Z +   'cases/243-spoken-video-word-caption-delivery.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4415557Z +   'cases/244-navigation-file-repair-device-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4416025Z +   'cases/245-catalog-outfit-composition-provenance.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4416614Z +   'cases/246-membership-entitlement-consumption-order-diagnosis.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4417175Z +   'cases/247-parking-citation-payment-evidence-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4417708Z +   'cases/248-cross-agent-conversation-disclosure-boundary.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4418485Z +   'cases/249-eight-panel-zine-imposition-output.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4418968Z +   'cases/250-mail-migration-data-routing-cutover.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4419492Z +   'cases/251-orbital-snapshot-provenance-discrepancy-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4419997Z +   'cases/252-three-statement-scenario-board-pack.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4420489Z +   'cases/253-survey-ai-response-contamination-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4420995Z +   'cases/255-active-memory-version-consolidation-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4421517Z +   'cases/256-interactive-mystery-knowledge-unlock-audit.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4422028Z +   'cases/257-inbound-call-coverage-message-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4422557Z +   'cases/258-scan-reconstruction-scale-topology-audit.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4423237Z +   'cases/259-multistation-observation-control-robustness.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4423961Z +   'cases/260-vendor-master-gap-quotation-grouping.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4424474Z +   'cases/261-owned-model-image-anchor-display.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4424953Z +   'cases/262-animation-frame-pose-coverage-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4425480Z +   'cases/263-ledger-migration-trial-balance-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4425985Z +   'cases/264-generated-parcel-road-frontage-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4426491Z +   'cases/265-slide-grayscale-distinguishability-review.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4426974Z +   'cases/266-panel-moderation-timing-contingencies.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4427433Z +   'cases/267-nfc-points-redemption-ledger.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4427852Z +   'cases/268-agency-campaign-bundle-approval.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4428251Z +   'cases/269-single-vps-sysadmin-bot.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4428673Z +   'cases/270-subscription-replacement-blind-eval.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4429108Z +   'cases/271-layover-lounge-access-calendar.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4429526Z +   'cases/272-rain-only-umbrella-alert.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4429916Z +   'cases/273-overnight-coding-agent-relay.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4430359Z +   'cases/274-linkedin-connections-monthly-rolodex.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4430840Z +   'cases/275-personal-phone-ai-receptionist-anti-scam.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4431343Z +   'cases/276-staff-agent-portal-routing-failure.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4431808Z +   'cases/277-meeting-decision-change-audio-trace.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4432304Z +   'cases/278-machining-center-configuration-concept.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4432782Z +   'cases/279-airline-phone-rebook-identity-refusal.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4433238Z +   'cases/280-notion-daily-slack-dots-hours.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4433682Z +   'cases/281-grok-mockup-claude-worker-qa-pipeline.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4434390Z +   'cases/282-patient-portal-voice-to-message.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4434865Z +   'cases/283-dots-connected-apps-permission-pitfalls.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4435380Z +   'cases/284-delayed-baggage-status-expense-claim.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4435837Z +   'cases/285-x-voice-acting-audition-email-digest.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4436371Z +   'cases/286-sleeper-train-room-sellout-daily-vacancy-watch.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4436891Z +   'cases/287-bot-site-review-analytics-signup-preview.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4437378Z +   'cases/288-phone-only-home-screen-daily-board.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4437803Z +   'cases/289-social-claim-evidence-triage.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4438230Z +   'cases/290-election-twice-daily-sourced-brief.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4438730Z +   'cases/291-provisional-match-time-calendar-correction.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4439211Z +   'cases/292-new-model-api-signup-topup-console.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4439679Z +   'cases/293-draft-ai-audit-ai-notion-audit-record.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4440161Z +   'cases/294-rare-collectible-multi-shop-hourly-watch.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4440723Z +   'cases/295-family-calendar-kitchen-display-voice-reminder.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4441206Z +   'cases/296-cross-vendor-device-display-bridge.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4441660Z +   'cases/297-knowledge-file-content-search-gap.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4442337Z +   'cases/298-commitment-lead-time-task-date-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4442893Z +   'cases/299-spoken-measurement-preliminary-drawing-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4443438Z +   'cases/300-service-eligibility-subsidy-application-packet.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4444286Z +   'cases/301-technician-chat-closeout-lead-register.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4444838Z +   'cases/302-labeled-inbox-classifier-optimization-cutover.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4445376Z +   'cases/303-overlooked-recall-notice-remedy-application.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4445871Z +   'cases/304-reviewed-scoped-lesson-recall.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4446355Z +   'cases/305-local-video-final-stage-deliverability-failure.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4446873Z +   'cases/306-stock-image-batch-metadata-submission.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4447518Z +   'cases/307-cloud-file-upload-byte-integrity-failure.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4448010Z +   'cases/308-personal-clinical-trial-daily-watch.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4448488Z +   'cases/309-product-trial-campaign-daily-auto-apply.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4448989Z +   'cases/310-agent-run-mistake-attribution-dashboard.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4449447Z +   'cases/311-new-model-prompt-batch-demo-gallery.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4449891Z +   'cases/312-ambient-media-false-task-creation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4450357Z +   'cases/313-external-action-assignee-handoff-race.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4450820Z +   'cases/314-agent-sandbox-always-on-service-failure.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4451357Z +   'cases/315-work-personal-agents-tax-document-cpa-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4451864Z +   'cases/316-slack-thread-triage-repro-bot-bug-fix.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4452374Z +   'cases/317-nightly-explorer-builder-critic-prototype.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4452900Z +   'cases/318-approved-account-form-shopify-customer-flow.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4453430Z +   'cases/319-home-photo-item-inventory-claim-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4454118Z +   'cases/320-bidirectional-reminder-state-sync.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4454622Z +   'cases/321-expert-corpus-interactive-decision-tool.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4455126Z +   'cases/322-creator-metrics-zero-token-daily-collection.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4455661Z +   'cases/323-daily-ai-news-one-tap-feedback-preference-loop.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4456206Z +   'cases/324-daily-outage-digest-verified-incident-db-pr.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4456718Z +   'cases/325-nightly-voice-diary-prompt-confirm-sync.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4457221Z +   'cases/326-order-history-owned-items-sale-picks.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4457703Z +   'cases/327-cad-material-library-property-population.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4458197Z +   'cases/328-paid-data-call-quote-variance-gate.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4458648Z +   'cases/329-durable-agent-chain-restart-recovery.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4459195Z +   'cases/330-unsupported-home-device-commissioning-validation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4459798Z +   'cases/331-undelivered-purchase-carrier-merchant-refund-chase.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4460334Z +   'cases/332-x-ops-semiauto-prepost-human-approval.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4460800Z +   'cases/333-notion-cross-agent-outreach-memory.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4461267Z +   'cases/334-sdr-adsb-receiver-decoder-range-ab-test.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4461841Z +   'cases/335-manual-routine-reenable-reverted-by-stale-instruction.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4462363Z +   'cases/336-handheld-voice-terminal-mcp-relay.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4462854Z +   'cases/337-daily-random-reference-photo-likeness-edit.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4463336Z +   'cases/338-driver-daily-hours-log-paycheck-check.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4464122Z +   'cases/339-stale-cross-product-request-provenance.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4464665Z +   'cases/340-tool-response-evidence-capture-acceptance.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4465182Z +   'cases/341-archived-task-runtime-state-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4465660Z +   'cases/342-daily-kids-coloring-page-auto-print.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4466413Z +   'cases/343-foreign-roadside-breakdown-insurance-form.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4466956Z +   'cases/344-coding-agent-session-attention-webhook-routine.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4467450Z +   'cases/345-muse-school-grades-tv-ambient-board.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4467901Z +   'cases/346-tesla-road-trip-charge-prep-skill.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4468373Z +   'cases/347-child-youtube-channel-comment-safety-sweep.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4468926Z +   'cases/348-home-search-screening-realtor-disclosure-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4469449Z +   'cases/349-dots-inquiry-ledger-calendar-reply-draft.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4470060Z +   'cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4470673Z +   'cases/351-grokbot-dispatch-only-offload-free-model-agents.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4471377Z +   'cases/352-daily-flomo-memo-insight-push-rotating-template.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4471889Z +   'cases/353-cloud-local-agent-git-task-relay.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4472349Z +   'cases/354-daily-bookmark-to-live-interactive-demo.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4472808Z +   'cases/355-x-posting-coach-bot-daily-checkin.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4473277Z +   'cases/356-paid-article-clipper-portfolio-check.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4474069Z +   'cases/357-daily-printed-crypto-sheet-confirmed-vs-reported.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4474873Z +   'cases/358-dots-daily-youtube-picks-private-playlist.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4475415Z +   'cases/359-x-follower-following-audit-criteria-feedback.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4475909Z +   'cases/360-paint-stage-quantity-spec-cart.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4476400Z +   'cases/361-exact-account-binding-synthetic-guard-test.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4476876Z +   'cases/362-muse-spawn-delivery-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4477364Z +   'cases/363-voice-workout-event-heart-rate-alignment.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4477835Z +   'cases/364-human-agent-handoff-state-display.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4478292Z +   'cases/365-scheduled-task-inplace-edit-readback.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4478827Z +   'cases/366-gpu-rgb-protocol-port-vendor-plugin-readonly-probe.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4479434Z +   'cases/367-advocate-daily-cause-list-court-board-case-bundle.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4480006Z +   'cases/368-dots-3d-scene-assets-to-local-agent-unreal-import.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4480546Z +   'cases/369-existing-task-view-route-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4481072Z +   'cases/370-newsletter-audio-backfill-state-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4481625Z +   'cases/371-library-search-retrieval-scope-differential.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4482117Z +   'cases/372-office-mfp-scan-to-folder-smb-auth-fix.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4482673Z +   'cases/373-voter-registration-mail-ballot-two-agent-comparison.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4483245Z +   'cases/374-contract-renewal-saved-signature-reply-draft.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4484006Z +   'cases/375-workshop-prompts-cloud-browser-dry-run.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4484567Z +   'cases/376-windows-audio-runtime-test-evidence-boundary.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4485116Z +   'cases/377-calendar-client-code-to-freshbooks-time-entry.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4485632Z +   'cases/378-standard-camera-mount-interface-reuse.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4486125Z +   'cases/379-local-project-delegation-preflight-failure.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4486641Z +   'cases/380-client-webmaster-agent-mail-channel-rollback.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4487177Z +   'cases/381-dots-daily-ai-brief-to-archived-news-page.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4487663Z +   'cases/382-bot-team-paid-newsletter-approval-log.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4488122Z +   'cases/383-external-qa-ci-failure-issue-handoff.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4488624Z +   'cases/384-paid-article-boundary-post-edit-verification.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4489143Z +   'cases/385-kdp-puzzle-book-sat-verified-phone-checklist.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4489710Z +   'cases/386-trading-bot-pnl-bucket-postmortem-change-brief.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4490243Z +   'cases/387-hourly-bank-bonus-scout-seen-log-trust-labels.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4490960Z +   'cases/388-sponsored-post-age-metrics-evidence-pack.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4491476Z +   'cases/389-resumed-task-native-capability-regression.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4492026Z +   'cases/390-linear-recurring-model-catalog-refresh-bot-team-pr.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4492658Z +   'cases/391-bot-fleet-private-dashboard-sensitive-scan-before-push.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4493224Z +   'cases/392-latent-model-multistart-optimum-audit.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4493912Z +   'cases/393-pitch-deck-meeting-context-reconciliation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4494537Z +   'cases/394-netwasm-rpc-compatibility-poc.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4495028Z +   'cases/395-missing-project-samples-licensed-asset-recovery.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4495564Z +   'cases/396-page-mention-persistence-dispatch-verification.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4496257Z +   'cases/397-feature-spec-repository-grounded-backlog.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4496805Z +   'cases/398-support-incident-spike-watch-approved-batch-sweep.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4497414Z +   'cases/399-gadget-relay-shared-credits-receipts-acceptance.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4497986Z +   'cases/400-x-api-read-only-creator-bots-cost-estimate-vs-bill.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4498568Z +   'cases/401-weekly-family-menu-survey-calendar-grocery-list.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4499209Z +   'cases/402-home-server-bot-least-privilege-ssh-daily-car-home-report.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4499932Z +   'cases/403-public-curated-list-grokbot-scout-claude-code-verify-git-mailbox.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4500607Z +   'cases/404-fan-watch-official-news-twice-daily-calendar-dedup.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4501165Z +   'cases/405-video-to-vertical-short-edit-only-verify-hashes.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4501751Z +   'cases/406-m5stack-usage-meter-vps-cache-tunnel-shared-secret.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4502392Z +   'cases/407-stack-aware-security-watch-exploited-vulns-certs-breaches.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4503089Z +   'cases/408-daily-team-sync-one-page-prep-calendar-notion-slack-linear.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4504280Z +   'cases/409-substack-notes-daily-prompt-voice-reply-weekly-swipe-file-drafts.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4505078Z +   'cases/410-agent-team-build-day-scope-creep-brake-rule-files-intent-card.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4505821Z +   'cases/411-carplay-shortcut-location-to-bot-home-assistant-on-demand-update.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4506528Z +   'cases/412-dots-podcast-transcript-to-note-article-thumbnail-post.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4507196Z +   'cases/413-unifi-kids-tv-nightly-internet-curfew-text-exceptions.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4507868Z +   'cases/414-event-registrant-email-alias-credit-link-once-per-person.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4508539Z +   'cases/415-agent-24h-indie-game-promotion-public-scoreboard-failures.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4509166Z +   'cases/416-linkedin-daily-follower-log-post-scorecard.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4509755Z +   'cases/417-signup-alert-silent-quota-gap-recover-from-database.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4510348Z +   'cases/418-nightly-bot-team-journal-obsidian-daily-note.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4510879Z +   'cases/419-muse-weekly-meal-kit-menu-pick-before-default.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4511539Z +   'cases/420-grok-bot-pages-metrics-dashboard-morning-refresh-public-snapshot.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4512240Z +   'cases/421-chief-of-staff-live-project-board-decision-cards-webhook.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4512866Z +   'cases/422-flight-turbulence-report-hour-before-departure.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4513477Z +   'cases/423-five-role-trading-desk-single-executor-hard-risk-caps.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4514292Z +   'cases/424-reference-banner-deconstruct-public-domain-remake.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4514878Z +   'cases/425-cancelled-trip-forgotten-credits-refund-insurance-claim.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4515471Z +   'cases/426-fixed-molecular-coordinates-camera-storytelling.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4516070Z +   'cases/427-invention-prose-coherent-mechanism-explanation-views.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4516572Z +   'cases/428-version-fixed-artifact-receipt-hub.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4517294Z +   'cases/429-editable-digital-product-multiformat-filled-state-validation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4517841Z +   'cases/430-solar-surplus-ev-charge-rate-evidence.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4518319Z +   'cases/431-public-incident-geofence-record-request-ledger.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4518820Z +   'cases/432-public-site-evidence-triage-prototype.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4519308Z +   'cases/433-email-opportunity-erp-authoritative-state-guard.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4519786Z +   'cases/434-sold-asset-policy-status-proof-refund.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4520258Z +   'cases/435-longitudinal-public-statistics-comparability.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4520758Z +   'cases/436-hvac-vfd-cross-brand-replacement-wiring-map.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4521227Z +   'cases/437-strava-race-goal-pages-nightly-refresh.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4521806Z +   'cases/438-muse-warrant-sheet-sec-ev-currency-check.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4522323Z +   'cases/439-morning-multibot-draft-desk-review-approval-ledger.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4522849Z +   'cases/440-saas-ai-credit-change-impact-backup-check.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4523330Z +   'cases/441-gis-roundtrip-identifier-attribute-fidelity.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4524072Z +   'cases/442-group-buy-authorized-quorum-settlement-plan.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4524610Z +   'cases/443-training-evaluation-preprocessor-pairing-audit.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4525113Z +   'cases/444-feature-request-release-notification-loop.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4525557Z +   'cases/445-campaign-experiment-goal-guard.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4525940Z +   'evidence/008-morning-brief-validation.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4526453Z +   'evidence/009-background-transfer-template.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4526844Z +   'evidence/013-authentication-diagnosis.md',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527162Z +   'sources/pending.md'
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527383Z + ]
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527577Z - []
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527683Z 
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4527990Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/table-reading-browser.cjs:13:132
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4528541Z     at runNextTicks (node:internal/process/task_queues:64:5)
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4528968Z     at process.processImmediate (node:internal/timers:452:9)
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4529430Z     at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4529835Z   generatedMessage: true,
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4530078Z   code: 'ERR_ASSERTION',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4530303Z   actual: [Array],
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4530511Z   expected: [],
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4530745Z   operator: 'deepStrictEqual',
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4530988Z   diff: 'simple'
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4531189Z }
+browser	Cloud visitor journeys and early table regression	2026-10-23T10:14:24.4722958Z ##[error]Process completed with exit code 1.

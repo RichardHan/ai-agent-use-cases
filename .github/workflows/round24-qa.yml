@@ -29,7 +29,7 @@ jobs:
           SITE_URL: https://richardhan.github.io/ai-agent-use-cases/
           QA_OUT: qa-artifacts/before
           QA_OBSERVE: '1'
-        run: runuser -u pwuser -- node tests/page-context-browser.cjs
+        run: runuser -u pwuser -- node tests/search-share-focus-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

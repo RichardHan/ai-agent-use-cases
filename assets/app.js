@@ -1497,7 +1497,7 @@ function updatePartialLoad() {
   $('retry-failed').textContent=recoveringSources?'正在重試…':'重試未載入來源';
   $('recovery-progress').hidden=!recoveringSources;
   $('stop-recovery').hidden=!recoveringSources;
-  $('stop-recovery').disabled=!!recoveryController?.signal.aborted;
+  $('stop-recovery').setAttribute('aria-disabled',String(!!recoveryController?.signal.aborted));
   if(recoveryProgress){
     $('recovery-progress').max=recoveryProgress.total;
     $('recovery-progress').value=recoveryProgress.completed;

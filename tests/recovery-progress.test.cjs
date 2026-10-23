@@ -18,11 +18,16 @@ test('slow recovery reports successful progress while keeping existing results u
  assert.equal(f.node('recovery-progress').hidden,true);assert.equal(f.node('stop-recovery').hidden,true);
 });
 test('stop keeps completed recovery and exact failed paths, then permits another retry',async()=>{
- const f=fixture(),done=f.run();await settle();f.document.activeElement=f.node('stop-recovery');f.stop();await done;
+ const f=fixture(),done=f.run();await settle();f.document.activeElement=f.node('stop-recovery');f.stop();f.stop();await f.run();assert.equal(f.calls(),2);await done;
  assert(f.aborted());assert.deepEqual(Array.from(f.state().entries,x=>x.path),['kept','fast']);assert.deepEqual(Array.from(f.state().failedPaths),['slow']);assert.equal(f.state().recoveringSources,false);assert.match(f.node('load-status').textContent,/已停止等待/);assert.equal(f.document.activeElement.id,'retry-failed');
  const second=f.run();await settle();f.release();await second;assert.equal(f.state().failedPaths.length,0);assert.equal(f.state().entries.length,3);assert.equal(f.node('partial-load').hidden,true);assert.equal(f.document.activeElement.id,'results-count');
 });
 test('completion and stop do not steal focus from a reader who moved elsewhere',async()=>{
  const f=fixture(),done=f.run();await settle();f.document.activeElement=f.node('query');f.stop();await done;assert.equal(f.document.activeElement.id,'query');assert.equal(f.state().entries.length,2);
  f.stop();assert.equal(f.state().entries.length,2);
+});
+
+test('stop before any successful recovery retains the entire existing corpus',async()=>{
+ const f=fixture();f.ctx.fetch=async(path,{signal})=>new Promise((resolve,reject)=>signal.addEventListener('abort',()=>reject(Error('aborted')),{once:true}));
+ const done=f.run();await settle();f.stop();await done;assert.deepEqual(Array.from(f.state().entries,x=>x.path),['kept']);assert.deepEqual(Array.from(f.state().failedPaths),['fast','slow']);assert.match(f.node('load-status').textContent,/已補回 0 筆/);
 });

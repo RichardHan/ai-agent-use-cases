@@ -37,14 +37,15 @@ jobs:
           SITE_URL: http://127.0.0.1:8178/ai-agent-use-cases/
         run: |
           python3 -m http.server 8178 --directory "$RUNNER_TEMP/preview" > /tmp/transient-preview.log 2>&1 &
-          QA_BEFORE=1 QA_OUT=qa-artifacts/before node tests/transient-loading-browser.cjs
-          QA_OUT=qa-artifacts/after node tests/transient-loading-browser.cjs
+          chown -R pwuser:pwuser qa-artifacts
+          QA_BEFORE=1 QA_OUT=qa-artifacts/before runuser -u pwuser -- node tests/transient-loading-browser.cjs
+          QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/transient-loading-browser.cjs
       - name: Existing reading and lifecycle regression
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           SITE_URL: http://127.0.0.1:8178/ai-agent-use-cases/
           QA_OUT: qa-artifacts/regression
-        run: node tests/page-context-browser.cjs > qa-artifacts/regression.log 2>&1
+        run: runuser -u pwuser -- node tests/page-context-browser.cjs > qa-artifacts/regression.log 2>&1
       - uses: actions/upload-artifact@v4
         if: always()
         with:

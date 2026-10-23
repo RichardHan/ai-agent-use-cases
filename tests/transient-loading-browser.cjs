@@ -35,4 +35,4 @@ if(!before){
  }
  await browser.close();
 }
-})().catch(e=>{console.error(e);process.exit(1)});
+})().catch(e=>{fs.writeFileSync(out+'/failure.log',String(e.stack||e));console.error(e);process.exit(1)});

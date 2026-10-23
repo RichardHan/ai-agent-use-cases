@@ -64,4 +64,16 @@ SITE_URL=http://127.0.0.1:8180/ai-agent-use-cases/ node tests/table-reading-brow
 
 三情境為：(1)第一次依旅遊問題＋生活篩選閱讀並返回；(2)分享直鏈先讀UC400右側成本、背景完成、鍵盤與焦點保留；(3)用6.50查成本格、直鏈重整，再以無結果查詢修改關鍵字恢復。來源開啟／長格／列印沿用既有表格五配置預覽回歸。是模擬走查，不是使用者研究。
 
-交付檔案：tests/table-anchor-browser.cjs、tests/round23-observe.cjs、.github/workflows/round23-qa.yml、SITE.md與本目錄證據。新CI在main及未來網站相關PR執行；不改產品、資料或部署設定。獨立review紀錄見[checks/independent-review.md](checks/independent-review.md)。本輪驗收停止於此，不擴大改版。
+交付檔案：tests/table-anchor-browser.cjs、tests/round23-observe.cjs、.github/workflows/round23-qa.yml、.github/workflows/website-qa.yml、SITE.md與本目錄證據。新CI在main及未來網站相關PR執行；不改產品、資料或部署設定。獨立review紀錄見[checks/independent-review.md](checks/independent-review.md)。本輪驗收停止於此，不擴大改版。
+
+
+## PR中發現的確定品質故障：舊瀏覽器工具與漂移runner不相容
+
+[Website QA39937977898](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39937977898) 在安裝瀏覽器前失敗，原始訊息為 `Playwright does not support chromium on ubuntu26.04-x64`，見[原log](checks/legacy-runner-failure.log)。原工作流使用 ubuntu-latest 與固定Playwright1.56.1，latest漂移成26.04導致檢查完全無法執行。
+
+兩案：A固定Ubuntu24.04並使用與原工具相同版本的官方預裝瀏覽器容器（採用，成本低，隔離OS與即時套件安裝漂移）；B同步升級舊Playwright與其瀏覽器版本（成本較高、影響基準截圖與相容性矩陣，本輪不做）。最終 .github/workflows/website-qa.yml 固定 ubuntu-24.04 與 mcr.microsoft.com/playwright:v1.56.1-noble，npm工具維持1.56.1，省去即時apt／browser download；沿用其他QA的官方NotoTC字型curl（90s上限）與fc-cache，git safe.directory只指定當前workspace。沒有降低斷言、刪除失敗檢查或改動contents:read權限。
+
+中間僅pin24的39938124436仍停留相依套件安裝逾七分鐘，因此改為相符預裝容器；該run未算通過、沒有為了綠燈改測試。官方registry manifest HTTP200只證明image tag存在，不當作整趟驗證。最終0a4db2e再經獨立唯讀審查無阻擋；新雲端實際啟動與原測試結果見下方。
+
+
+最終Website QA [39939042069](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39939042069) 全成功：相符容器初始化、工具／字型安裝、瀏覽器啟動、原基準走查、197項回歸與更新後Chromium探索全過；PR情境的正式部署驗證依原規則skip，沒有說成已跑。完整摘要[legacy-verified.log](checks/legacy-verified.log)略去公開截圖base64長行，原run保留原始log。最新專項[39939042098](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39939042098)亦全成功，與既有Website QA同為受審0a4db2e，後續僅補文件證據。原僅pin24的39938124436為被取代的run，沒有計為通過。兩套最終CI及獨立審查完成，準備依使用者授權合併；產品碼仍零變動。

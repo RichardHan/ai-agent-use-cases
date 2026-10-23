@@ -1,0 +1,1686 @@
+browser	Set up job	﻿2026-10-23T10:25:54.2440789Z Current runner version: '2.338.0'
+browser	Set up job	2026-10-23T10:25:54.2466675Z ##[group]Runner Image Provisioner
+browser	Set up job	2026-10-23T10:25:54.2467614Z Hosted Compute Agent
+browser	Set up job	2026-10-23T10:25:54.2468284Z Version: 20261012.601
+browser	Set up job	2026-10-23T10:25:54.2468918Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+browser	Set up job	2026-10-23T10:25:54.2469630Z Build Date: 2026-10-12T17:48:21Z
+browser	Set up job	2026-10-23T10:25:54.2470425Z Worker ID: {30712922-7943-4a93-99d5-eacabb8065e8}
+browser	Set up job	2026-10-23T10:25:54.2471158Z Region: westus
+browser	Set up job	2026-10-23T10:25:54.2472129Z Cloud: Azure
+browser	Set up job	2026-10-23T10:25:54.2472690Z ##[endgroup]
+browser	Set up job	2026-10-23T10:25:54.2474153Z ##[group]Operating System
+browser	Set up job	2026-10-23T10:25:54.2474899Z Ubuntu
+browser	Set up job	2026-10-23T10:25:54.2475458Z 24.04.5
+browser	Set up job	2026-10-23T10:25:54.2475998Z LTS
+browser	Set up job	2026-10-23T10:25:54.2476545Z ##[endgroup]
+browser	Set up job	2026-10-23T10:25:54.2477099Z ##[group]Runner Image
+browser	Set up job	2026-10-23T10:25:54.2477780Z Image: ubuntu-24.04
+browser	Set up job	2026-10-23T10:25:54.2478378Z Version: 20261012.334.1
+browser	Set up job	2026-10-23T10:25:54.2479474Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+browser	Set up job	2026-10-23T10:25:54.2481250Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+browser	Set up job	2026-10-23T10:25:54.2482711Z ##[endgroup]
+browser	Set up job	2026-10-23T10:25:54.2483823Z ##[group]GITHUB_TOKEN Permissions
+browser	Set up job	2026-10-23T10:25:54.2486011Z Contents: read
+browser	Set up job	2026-10-23T10:25:54.2486637Z Metadata: read
+browser	Set up job	2026-10-23T10:25:54.2487259Z ##[endgroup]
+browser	Set up job	2026-10-23T10:25:54.2489323Z Secret source: Actions
+browser	Set up job	2026-10-23T10:25:54.2490393Z Cache mode: write
+browser	Set up job	2026-10-23T10:25:54.2491697Z Prepare workflow directory
+browser	Set up job	2026-10-23T10:25:54.2902473Z Prepare all required actions
+browser	Set up job	2026-10-23T10:25:54.2952096Z Getting action download info
+browser	Set up job	2026-10-23T10:25:54.6804811Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+browser	Set up job	2026-10-23T10:25:54.7936103Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+browser	Set up job	2026-10-23T10:25:54.8908075Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+browser	Set up job	2026-10-23T10:25:55.1003129Z Complete job name: browser
+browser	Initialize containers	﻿2026-10-23T10:25:55.1528391Z ##[group]Checking docker version
+browser	Initialize containers	2026-10-23T10:25:55.1541542Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+browser	Initialize containers	2026-10-23T10:25:55.2346662Z '1.48'
+browser	Initialize containers	2026-10-23T10:25:55.2362157Z Docker daemon API version: '1.48'
+browser	Initialize containers	2026-10-23T10:25:55.2363188Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+browser	Initialize containers	2026-10-23T10:25:55.2523338Z '1.48'
+browser	Initialize containers	2026-10-23T10:25:55.2536618Z Docker client API version: '1.48'
+browser	Initialize containers	2026-10-23T10:25:55.2542370Z ##[endgroup]
+browser	Initialize containers	2026-10-23T10:25:55.2546035Z ##[group]Clean up resources from previous jobs
+browser	Initialize containers	2026-10-23T10:25:55.2552493Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=823cd3"
+browser	Initialize containers	2026-10-23T10:25:55.2700271Z ##[command]/usr/bin/docker network prune --force --filter "label=823cd3"
+browser	Initialize containers	2026-10-23T10:25:55.2836225Z ##[endgroup]
+browser	Initialize containers	2026-10-23T10:25:55.2836795Z ##[group]Create local container network
+browser	Initialize containers	2026-10-23T10:25:55.2846843Z ##[command]/usr/bin/docker network create --label 823cd3 github_network_e1dbbb8d5cfc4f4e8422347e7960699b
+browser	Initialize containers	2026-10-23T10:25:55.3468479Z 9014b7dfc3de9aeaeee3de479ef05915ed981b1da062d95c6403d00bc5c08f4b
+browser	Initialize containers	2026-10-23T10:25:55.3490712Z ##[endgroup]
+browser	Initialize containers	2026-10-23T10:25:55.3517150Z ##[group]Starting job container
+browser	Initialize containers	2026-10-23T10:25:55.3547536Z ##[command]/usr/bin/docker pull mcr.microsoft.com/playwright:v1.56.1-noble
+browser	Initialize containers	2026-10-23T10:25:55.4982766Z v1.56.1-noble: Pulling from playwright
+browser	Initialize containers	2026-10-23T10:25:55.5324525Z cf57d2112d89: Pulling fs layer
+browser	Initialize containers	2026-10-23T10:25:55.5325617Z e1de47aaed0a: Pulling fs layer
+browser	Initialize containers	2026-10-23T10:25:55.5326770Z 495d3111de8d: Pulling fs layer
+browser	Initialize containers	2026-10-23T10:25:55.5327395Z 44acc34a5cf7: Pulling fs layer
+browser	Initialize containers	2026-10-23T10:25:55.5328081Z 44acc34a5cf7: Waiting
+browser	Initialize containers	2026-10-23T10:25:55.5827206Z 495d3111de8d: Download complete
+browser	Initialize containers	2026-10-23T10:25:55.7316954Z cf57d2112d89: Verifying Checksum
+browser	Initialize containers	2026-10-23T10:25:55.7318102Z cf57d2112d89: Download complete
+browser	Initialize containers	2026-10-23T10:25:55.9893936Z e1de47aaed0a: Verifying Checksum
+browser	Initialize containers	2026-10-23T10:25:55.9895674Z e1de47aaed0a: Download complete
+browser	Initialize containers	2026-10-23T10:25:57.1286583Z cf57d2112d89: Pull complete
+browser	Initialize containers	2026-10-23T10:25:58.6138729Z 44acc34a5cf7: Verifying Checksum
+browser	Initialize containers	2026-10-23T10:25:58.6140446Z 44acc34a5cf7: Download complete
+browser	Initialize containers	2026-10-23T10:26:03.6703148Z e1de47aaed0a: Pull complete
+browser	Initialize containers	2026-10-23T10:26:03.6871194Z 495d3111de8d: Pull complete
+browser	Initialize containers	2026-10-23T10:26:20.2393134Z 44acc34a5cf7: Pull complete
+browser	Initialize containers	2026-10-23T10:26:20.2434695Z Digest: sha256:f1e7e01021efd65dd1a2c56064be399f3e4de00fd021ac561325f2bfbb2b837a
+browser	Initialize containers	2026-10-23T10:26:20.2445874Z Status: Downloaded newer image for mcr.microsoft.com/playwright:v1.56.1-noble
+browser	Initialize containers	2026-10-23T10:26:20.2454087Z mcr.microsoft.com/playwright:v1.56.1-noble
+browser	Initialize containers	2026-10-23T10:26:20.2539949Z ##[command]/usr/bin/docker create --name a3372317d2f645edad4c6906f8364669_mcrmicrosoftcomplaywrightv1561noble_e65197 --label 823cd3 --workdir /__w/ai-agent-use-cases/ai-agent-use-cases --network github_network_e1dbbb8d5cfc4f4e8422347e7960699b  -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/cached/2.338.0/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" mcr.microsoft.com/playwright:v1.56.1-noble "-f" "/dev/null"
+browser	Initialize containers	2026-10-23T10:26:20.2841635Z aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12
+browser	Initialize containers	2026-10-23T10:26:20.2865313Z ##[command]/usr/bin/docker start aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12
+browser	Initialize containers	2026-10-23T10:26:20.4765901Z aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12
+browser	Initialize containers	2026-10-23T10:26:20.4802015Z ##[command]/usr/bin/docker ps --all --filter id=aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12 --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+browser	Initialize containers	2026-10-23T10:26:20.4930839Z aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12 Up Less than a second
+browser	Initialize containers	2026-10-23T10:26:20.4951098Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12
+browser	Initialize containers	2026-10-23T10:26:20.5075319Z HOME=/github/home
+browser	Initialize containers	2026-10-23T10:26:20.5076269Z GITHUB_ACTIONS=true
+browser	Initialize containers	2026-10-23T10:26:20.5087238Z CI=true
+browser	Initialize containers	2026-10-23T10:26:20.5087941Z PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+browser	Initialize containers	2026-10-23T10:26:20.5088730Z LANG=C.UTF-8
+browser	Initialize containers	2026-10-23T10:26:20.5089155Z LC_ALL=C.UTF-8
+browser	Initialize containers	2026-10-23T10:26:20.5089490Z PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+browser	Initialize containers	2026-10-23T10:26:20.5098735Z ##[endgroup]
+browser	Initialize containers	2026-10-23T10:26:20.5107716Z ##[group]Waiting for all services to be ready
+browser	Initialize containers	2026-10-23T10:26:20.5109492Z ##[endgroup]
+browser	Run actions/checkout@v4	﻿2026-10-23T10:26:20.5506298Z ##[group]Run actions/checkout@v4
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5507006Z with:
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5507298Z   fetch-depth: 0
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5507605Z   repository: RichardHan/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5511099Z   token: ***
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5511642Z   ssh-strict: true
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5511913Z   ssh-user: git
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5512175Z   persist-credentials: true
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5512464Z   clean: true
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5512726Z   sparse-checkout-cone-mode: true
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5513035Z   fetch-tags: false
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5513289Z   show-progress: true
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5513547Z   lfs: false
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5513784Z   submodules: false
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5514041Z   set-safe-directory: true
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5514345Z   allow-unsafe-pr-checkout: false
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5514919Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.5578130Z ##[command]/usr/bin/docker exec  aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12 sh -c "cat /etc/*release | grep ^ID"
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7611344Z Syncing repository: RichardHan/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7613783Z ##[group]Getting Git version info
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7614650Z Working directory is '/__w/ai-agent-use-cases/ai-agent-use-cases'
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7616209Z [command]/usr/bin/git version
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7616717Z git version 2.43.0
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7618430Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7626933Z Temporarily overriding HOME='/__w/_temp/ac1b3e76-59ff-4add-afc1-783909d0d3c3' before making global git config changes
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7628797Z Adding repository directory to the temporary git global config as a safe directory
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7631079Z [command]/usr/bin/git config --global --add safe.directory /__w/ai-agent-use-cases/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7668293Z Deleting the contents of '/__w/ai-agent-use-cases/ai-agent-use-cases'
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7673013Z ##[group]Initializing the repository
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7676766Z [command]/usr/bin/git init /__w/ai-agent-use-cases/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7716170Z hint: Using 'master' as the name for the initial branch. This default branch name
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7717775Z hint: is subject to change. To configure the initial branch name to use in all
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7719019Z hint: of your new repositories, which will suppress this warning, call:
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7719755Z hint:
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7720482Z hint: 	git config --global init.defaultBranch <name>
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7721214Z hint:
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7722059Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7723046Z hint: 'development'. The just-created branch can be renamed via this command:
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7723837Z hint:
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7724308Z hint: 	git branch -m <name>
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7738028Z Initialized empty Git repository in /__w/ai-agent-use-cases/ai-agent-use-cases/.git/
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7743080Z [command]/usr/bin/git remote add origin https://github.com/RichardHan/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7814286Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7815216Z ##[group]Disabling automatic garbage collection
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7817853Z [command]/usr/bin/git config --local gc.auto 0
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7850704Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7851828Z ##[group]Setting up auth
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7859743Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.7892503Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.8180691Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.8216311Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.8502793Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.8543472Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.8798848Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.8841101Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.8842436Z ##[group]Fetching the repository
+browser	Run actions/checkout@v4	2026-10-23T10:26:20.8852855Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +c07462f3d49bee8e1a7ddacee925eb8053860a9d:refs/remotes/pull/83/merge
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3530746Z From https://github.com/RichardHan/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3532280Z  * [new branch]      chore/remove-stray-help                  -> origin/chore/remove-stray-help
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3533687Z  * [new branch]      docs/home-search-entry-acceptance        -> origin/docs/home-search-entry-acceptance
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3535127Z  * [new branch]      docs/search-relevance-acceptance         -> origin/docs/search-relevance-acceptance
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3536497Z  * [new branch]      feat/corpus-loading                      -> origin/feat/corpus-loading
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3539917Z  * [new branch]      feat/guided-card-integration             -> origin/feat/guided-card-integration
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3541622Z  * [new branch]      feat/guided-case-discovery               -> origin/feat/guided-case-discovery
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3542844Z  * [new branch]      feat/home-search-entry                   -> origin/feat/home-search-entry
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3544681Z  * [new branch]      feat/metadata-normalization-and-audit    -> origin/feat/metadata-normalization-and-audit
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3546344Z  * [new branch]      feat/mobile-search-disclosure            -> origin/feat/mobile-search-disclosure
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3548914Z  * [new branch]      feat/partial-load-recovery               -> origin/feat/partial-load-recovery
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3550675Z  * [new branch]      feat/qualification-audit-uc342-356       -> origin/feat/qualification-audit-uc342-356
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3553663Z  * [new branch]      feat/qualification-audit-uc357-359       -> origin/feat/qualification-audit-uc357-359
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3555700Z  * [new branch]      feat/reader-evidence-journey             -> origin/feat/reader-evidence-journey
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3557200Z  * [new branch]      feat/reader-method-shortcut              -> origin/feat/reader-method-shortcut
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3558682Z  * [new branch]      feat/reader-navigation                   -> origin/feat/reader-navigation
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3575560Z  * [new branch]      feat/reader-related-exploration          -> origin/feat/reader-related-exploration
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3576890Z  * [new branch]      feat/resilient-corpus-loader             -> origin/feat/resilient-corpus-loader
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3578027Z  * [new branch]      feat/scenario-tags                       -> origin/feat/scenario-tags
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3579485Z  * [new branch]      feat/search-connectors-synonyms-and-full-audit -> origin/feat/search-connectors-synonyms-and-full-audit
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3580378Z  * [new branch]      feat/search-match-context-20261018       -> origin/feat/search-match-context-20261018
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3581531Z  * [new branch]      feat/search-punctuation-synonyms-and-audit-coverage -> origin/feat/search-punctuation-synonyms-and-audit-coverage
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3582499Z  * [new branch]      feat/search-purpose-order                -> origin/feat/search-purpose-order
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3607163Z  * [new branch]      feat/search-quality-2fa-cot-isolation-throttle-and-hitl -> origin/feat/search-quality-2fa-cot-isolation-throttle-and-hitl
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3609762Z  * [new branch]      feat/search-quality-acceptance-criteria-parallelism-and-graceful-degradation -> origin/feat/search-quality-acceptance-criteria-parallelism-and-graceful-degradation
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3612550Z  * [new branch]      feat/search-quality-adsb-flight-germany-tv-worker-and-timesheet -> origin/feat/search-quality-adsb-flight-germany-tv-worker-and-timesheet
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3615258Z  * [new branch]      feat/search-quality-and-source-audit     -> origin/feat/search-quality-and-source-audit
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3617616Z  * [new branch]      feat/search-quality-archive-failure-response-and-provenance -> origin/feat/search-quality-archive-failure-response-and-provenance
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3620137Z  * [new branch]      feat/search-quality-batch-snapshot-tracing-and-audit -> origin/feat/search-quality-batch-snapshot-tracing-and-audit
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3623570Z  * [new branch]      feat/search-quality-booking-reflection-coloring-towing-and-duplicates -> origin/feat/search-quality-booking-reflection-coloring-towing-and-duplicates
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3626614Z  * [new branch]      feat/search-quality-cjk-latin-boundary-and-uc351-352-recall -> origin/feat/search-quality-cjk-latin-boundary-and-uc351-352-recall
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3629596Z  * [new branch]      feat/search-quality-conjunction-spaces-synonyms-and-recent-cases-recall -> origin/feat/search-quality-conjunction-spaces-synonyms-and-recent-cases-recall
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3632892Z  * [new branch]      feat/search-quality-connectors-and-latest-cases -> origin/feat/search-quality-connectors-and-latest-cases
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3635272Z  * [new branch]      feat/search-quality-container-endpoint-quota-and-duplicate-clusters -> origin/feat/search-quality-container-endpoint-quota-and-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3638503Z  * [new branch]      feat/search-quality-database-login-synonyms-and-candidate-duplicate-clusters -> origin/feat/search-quality-database-login-synonyms-and-candidate-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3641501Z  * [new branch]      feat/search-quality-date-audit-and-duplicate-clusters -> origin/feat/search-quality-date-audit-and-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3644240Z  * [new branch]      feat/search-quality-domain-synonyms-and-duplicate-clusters -> origin/feat/search-quality-domain-synonyms-and-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3647054Z  * [new branch]      feat/search-quality-draft-handoff-dryrun-and-plural-symmetry -> origin/feat/search-quality-draft-handoff-dryrun-and-plural-symmetry
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3649681Z  * [new branch]      feat/search-quality-evidence-synonyms-and-url-audit -> origin/feat/search-quality-evidence-synonyms-and-url-audit
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3652301Z  * [new branch]      feat/search-quality-handheld-faceswap-paycheck-and-adsb-frequency -> origin/feat/search-quality-handheld-faceswap-paycheck-and-adsb-frequency
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3655223Z  * [new branch]      feat/search-quality-least-privilege-allowlist-sensitive-data-and-killswitch -> origin/feat/search-quality-least-privilege-allowlist-sensitive-data-and-killswitch
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3658846Z  * [new branch]      feat/search-quality-marketing-procurement-forms-and-canonical-duplicate-detection -> origin/feat/search-quality-marketing-procurement-forms-and-canonical-duplicate-detection
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3662432Z  * [new branch]      feat/search-quality-mcp-connector-skills-and-token-usage -> origin/feat/search-quality-mcp-connector-skills-and-token-usage
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3665052Z  * [new branch]      feat/search-quality-multiagent-cost-codereview-and-rag -> origin/feat/search-quality-multiagent-cost-codereview-and-rag
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3667746Z  * [new branch]      feat/search-quality-offline-baseline-leak-and-synonym-symmetry -> origin/feat/search-quality-offline-baseline-leak-and-synonym-symmetry
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3670362Z  * [new branch]      feat/search-quality-orchestration-access-control-and-date-audit -> origin/feat/search-quality-orchestration-access-control-and-date-audit
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3673138Z  * [new branch]      feat/search-quality-outbox-memory-checkpoint-sandbox-idempotence -> origin/feat/search-quality-outbox-memory-checkpoint-sandbox-idempotence
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3675815Z  * [new branch]      feat/search-quality-over-eager-tokenization-fix -> origin/feat/search-quality-over-eager-tokenization-fix
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3679181Z  * [new branch]      feat/search-quality-permission-inventory-synonyms-and-candidate-duplicate-clusters -> origin/feat/search-quality-permission-inventory-synonyms-and-candidate-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3682595Z  * [new branch]      feat/search-quality-phrase-tokenization-and-candidate-duplicates -> origin/feat/search-quality-phrase-tokenization-and-candidate-duplicates
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3685575Z  * [new branch]      feat/search-quality-planning-reproducibility-and-source-url-audit -> origin/feat/search-quality-planning-reproducibility-and-source-url-audit
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3688978Z  * [new branch]      feat/search-quality-printing-coloring-breakdown-stalled-grades-and-context-window -> origin/feat/search-quality-printing-coloring-breakdown-stalled-grades-and-context-window
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3693130Z  * [new branch]      feat/search-quality-prompt-injection-streaming-structured-output-and-duplicate-clusters -> origin/feat/search-quality-prompt-injection-streaming-structured-output-and-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3696217Z  * [new branch]      feat/search-quality-rerank-dedup-delegate-and-firewall -> origin/feat/search-quality-rerank-dedup-delegate-and-firewall
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3698890Z  * [new branch]      feat/search-quality-session-stall-sdr-coloring-and-tool-response -> origin/feat/search-quality-session-stall-sdr-coloring-and-tool-response
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3701718Z  * [new branch]      feat/search-quality-subagent-exfiltration-computer-use-and-reasoning -> origin/feat/search-quality-subagent-exfiltration-computer-use-and-reasoning
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3704595Z  * [new branch]      feat/search-quality-synonyms-and-candidate-duplicate-clusters -> origin/feat/search-quality-synonyms-and-candidate-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3707322Z  * [new branch]      feat/search-quality-synthetic-autonomous-keepalive-ratelimit -> origin/feat/search-quality-synthetic-autonomous-keepalive-ratelimit
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3710011Z  * [new branch]      feat/search-quality-teslascope-comment-sweep-screening-and-inquiry-ledger -> origin/feat/search-quality-teslascope-comment-sweep-screening-and-inquiry-ledger
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3712913Z  * [new branch]      feat/search-quality-timeout-queue-dependency-and-audit -> origin/feat/search-quality-timeout-queue-dependency-and-audit
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3715329Z  * [new branch]      feat/search-quality-tokenization-and-synonyms-uc330-350 -> origin/feat/search-quality-tokenization-and-synonyms-uc330-350
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3717865Z  * [new branch]      feat/search-quality-tokenization-boundary-hardening -> origin/feat/search-quality-tokenization-boundary-hardening
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3720495Z  * [new branch]      feat/search-quality-toolcall-speech-cicd-and-duplicate-clusters -> origin/feat/search-quality-toolcall-speech-cicd-and-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3724547Z  * [new branch]      feat/search-quality-uc342-352-compound-splitting-and-synonyms -> origin/feat/search-quality-uc342-352-compound-splitting-and-synonyms
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3727685Z  * [new branch]      feat/search-quality-uc342-356-compound-tokenization-and-synonyms -> origin/feat/search-quality-uc342-356-compound-tokenization-and-synonyms
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3729728Z  * [new branch]      feat/search-quality-uc353-356-synonyms-and-recall -> origin/feat/search-quality-uc353-356-synonyms-and-recall
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3732759Z  * [new branch]      feat/search-quality-validation-synonyms-and-candidate-duplicate-clusters -> origin/feat/search-quality-validation-synonyms-and-candidate-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3736046Z  * [new branch]      feat/search-quality-wakeup-coding-agent-car-rental-and-negotiation -> origin/feat/search-quality-wakeup-coding-agent-car-rental-and-negotiation
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3738023Z  * [new branch]      feat/search-recovery-20261018            -> origin/feat/search-recovery-20261018
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3740038Z  * [new branch]      feat/search-synonym-symmetry-and-candidate-duplicate-clusters -> origin/feat/search-synonym-symmetry-and-candidate-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3742663Z  * [new branch]      feat/search-synonyms-and-audit-sync      -> origin/feat/search-synonyms-and-audit-sync
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3743939Z  * [new branch]      feat/search-synonyms-candidate-duplicates-and-evidence-metadata -> origin/feat/search-synonyms-candidate-duplicates-and-evidence-metadata
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3745934Z  * [new branch]      feat/shared-search-arrival-20261018      -> origin/feat/shared-search-arrival-20261018
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3747637Z  * [new branch]      feat/source-aware-reading                -> origin/feat/source-aware-reading
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3748959Z  * [new branch]      fix/audit-count-bounds                   -> origin/fix/audit-count-bounds
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3754697Z  * [new branch]      fix/audit-entries                        -> origin/fix/audit-entries
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3756766Z  * [new branch]      fix/count-sync-20261020-2040             -> origin/fix/count-sync-20261020-2040
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3758053Z  * [new branch]      fix/dup-groups                           -> origin/fix/dup-groups
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3759440Z  * [new branch]      fix/dup-groups-lb                        -> origin/fix/dup-groups-lb
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3760061Z  * [new branch]      fix/facet-acceptance                     -> origin/fix/facet-acceptance
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3763436Z  * [new branch]      fix/index-table-blank-lines              -> origin/fix/index-table-blank-lines
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3767992Z  * [new branch]      fix/late-native-return                   -> origin/fix/late-native-return
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3771683Z  * [new branch]      fix/loading-acceptance-final             -> origin/fix/loading-acceptance-final
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3773611Z  * [new branch]      fix/missing-shared-case                  -> origin/fix/missing-shared-case
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3778986Z  * [new branch]      fix/print-mobile-reading-density         -> origin/fix/print-mobile-reading-density
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3780930Z  * [new branch]      fix/reading-return-visibility            -> origin/fix/reading-return-visibility
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3782487Z  * [new branch]      fix/results-return-recovery              -> origin/fix/results-return-recovery
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3784567Z  * [new branch]      fix/search-state-transition-qa           -> origin/fix/search-state-transition-qa
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3787806Z  * [new branch]      fix/shared-reading-complete-layout       -> origin/fix/shared-reading-complete-layout
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3795155Z  * [new branch]      fix/shared-search-visible-return         -> origin/fix/shared-search-visible-return
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3796479Z  * [new branch]      fix/source-guide-mobile-density          -> origin/fix/source-guide-mobile-density
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3804587Z  * [new branch]      improve/accessible-search-20261021       -> origin/improve/accessible-search-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3806372Z  * [new branch]      improve/actionable-discovery-20261022    -> origin/improve/actionable-discovery-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3808679Z  * [new branch]      improve/available-facets-20261021        -> origin/improve/available-facets-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3810602Z  * [new branch]      improve/clear-filter-context-20261022    -> origin/improve/clear-filter-context-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3812729Z  * [new branch]      improve/evidence-discovery-20261020      -> origin/improve/evidence-discovery-20261020
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3814056Z  * [new branch]      improve/filter-recovery                  -> origin/improve/filter-recovery
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3815689Z  * [new branch]      improve/filter-summary-20261020          -> origin/improve/filter-summary-20261020
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3817854Z  * [new branch]      improve/reader-code-blocks-20261023      -> origin/improve/reader-code-blocks-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3821487Z  * [new branch]      improve/reader-context-search            -> origin/improve/reader-context-search
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3823431Z  * [new branch]      improve/reader-evidence-navigation       -> origin/improve/reader-evidence-navigation
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3826475Z  * [new branch]      improve/reader-find-in-case              -> origin/improve/reader-find-in-case
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3828912Z  * [new branch]      improve/reader-findability-20261020      -> origin/improve/reader-findability-20261020
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3834593Z  * [new branch]      improve/reader-journey-20261021          -> origin/improve/reader-journey-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3836518Z  * [new branch]      improve/reader-next-step-20261021        -> origin/improve/reader-next-step-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3837951Z  * [new branch]      improve/reader-outline-20261021          -> origin/improve/reader-outline-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3840624Z  * [new branch]      improve/reader-position                  -> origin/improve/reader-position
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3842837Z  * [new branch]      improve/reader-print                     -> origin/improve/reader-print
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3846975Z  * [new branch]      improve/reader-print-20261021-v2         -> origin/improve/reader-print-20261021-v2
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3849703Z  * [new branch]      improve/reader-section-outline-20261021  -> origin/improve/reader-section-outline-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3853668Z  * [new branch]      improve/reader-source-context            -> origin/improve/reader-source-context
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3856676Z  * [new branch]      improve/reader-source-disclosure-20261022 -> origin/improve/reader-source-disclosure-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3860593Z  * [new branch]      improve/reader-source-links-20261021     -> origin/improve/reader-source-links-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3864835Z  * [new branch]      improve/reader-source-return-20261022    -> origin/improve/reader-source-return-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3866851Z  * [new branch]      improve/reader-tables-20261023           -> origin/improve/reader-tables-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3869435Z  * [new branch]      improve/reader-task-flow-20261021        -> origin/improve/reader-task-flow-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3872085Z  * [new branch]      improve/reading-access-20261023          -> origin/improve/reading-access-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3875180Z  * [new branch]      improve/reading-find-20261020            -> origin/improve/reading-find-20261020
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3878258Z  * [new branch]      improve/reading-round-20261022           -> origin/improve/reading-round-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3895643Z  * [new branch]      improve/reading-round-20261023           -> origin/improve/reading-round-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3900549Z  * [new branch]      improve/reading-round-20261023-r2        -> origin/improve/reading-round-20261023-r2
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3902088Z  * [new branch]      improve/reading-source-links-20261023    -> origin/improve/reading-source-links-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3903435Z  * [new branch]      improve/result-link-semantics-20261022   -> origin/improve/result-link-semantics-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3904754Z  * [new branch]      improve/result-pagination-20261020       -> origin/improve/result-pagination-20261020
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3905790Z  * [new branch]      improve/returning-discovery-20261022     -> origin/improve/returning-discovery-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3906569Z  * [new branch]      improve/search-catalog-loading-20261020  -> origin/improve/search-catalog-loading-20261020
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3907273Z  * [new branch]      improve/search-clear-control             -> origin/improve/search-clear-control
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3908058Z  * [new branch]      improve/search-reading-context           -> origin/improve/search-reading-context
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3912085Z  * [new branch]      improve/search-recall-supplements-and-cases -> origin/improve/search-recall-supplements-and-cases
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3913146Z  * [new branch]      improve/task-discovery-20261020          -> origin/improve/task-discovery-20261020
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3913866Z  * [new branch]      improve/task-search-20261023             -> origin/improve/task-search-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3932785Z  * [new branch]      improve/task-shortcuts-20261022          -> origin/improve/task-shortcuts-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3934003Z  * [new branch]      main                                     -> origin/main
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3935217Z  * [new branch]      maint/audit-computers-apps-lower-bound   -> origin/maint/audit-computers-apps-lower-bound
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3936580Z  * [new branch]      maint/stale-count-20261023-0845          -> origin/maint/stale-count-20261023-0845
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3937727Z  * [new branch]      research/2026-10-18-1445                 -> origin/research/2026-10-18-1445
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3962459Z  * [new branch]      research/2026-10-19-1146-scan            -> origin/research/2026-10-19-1146-scan
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.3992980Z  * [new branch]      research/2026-10-19-1440-scan            -> origin/research/2026-10-19-1440-scan
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4002919Z  * [new branch]      research/2026-10-21-0843                 -> origin/research/2026-10-21-0843
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4012633Z  * [new branch]      research/2026-10-21-1147                 -> origin/research/2026-10-21-1147
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4014458Z  * [new branch]      research/2026-10-21-1440                 -> origin/research/2026-10-21-1440
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4016347Z  * [new branch]      research/2026-10-21-1745                 -> origin/research/2026-10-21-1745
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4017414Z  * [new branch]      research/2026-10-22-0846                 -> origin/research/2026-10-22-0846
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4018441Z  * [new branch]      research/2026-10-22-1145                 -> origin/research/2026-10-22-1145
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4019438Z  * [new branch]      research/2026-10-22-1440                 -> origin/research/2026-10-22-1440
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4021097Z  * [new branch]      research/2026-10-22-1745                 -> origin/research/2026-10-22-1745
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4022297Z  * [new branch]      research/2026-10-22-2050                 -> origin/research/2026-10-22-2050
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4023349Z  * [new branch]      research/2026-10-23-0845                 -> origin/research/2026-10-23-0845
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4024712Z  * [new branch]      research/daily-routines                  -> origin/research/daily-routines
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4026083Z  * [new branch]      research/large-crawl-1                   -> origin/research/large-crawl-1
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4027428Z  * [new branch]      research/large-crawl-2                   -> origin/research/large-crawl-2
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4028836Z  * [new branch]      research/scan-2026-10-19-1740            -> origin/research/scan-2026-10-19-1740
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4029999Z  * [new branch]      research/scan-2026-10-19-2040            -> origin/research/scan-2026-10-19-2040
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4031679Z  * [new branch]      research/scan-2026-10-20-0848-r2         -> origin/research/scan-2026-10-20-0848-r2
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4033171Z  * [new branch]      research/scan-20261018-2043              -> origin/research/scan-20261018-2043
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4034332Z  * [new branch]      research/uc-014-015-support-page-watch   -> origin/research/uc-014-015-support-page-watch
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4035431Z  * [new branch]      research/x-round                         -> origin/research/x-round
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4037218Z  * [new branch]      research/x-scan-2026-10-14-1143          -> origin/research/x-scan-2026-10-14-1143
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4038462Z  * [new branch]      research/x-scan-20261014-1745            -> origin/research/x-scan-20261014-1745
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4039683Z  * [new branch]      research/x-scan-20261014-2045            -> origin/research/x-scan-20261014-2045
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4040790Z  * [new branch]      research/x-scan-20261015-0845            -> origin/research/x-scan-20261015-0845
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4042129Z  * [new branch]      research/x-scan-20261015-1140            -> origin/research/x-scan-20261015-1140
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4043679Z  * [new branch]      research/x-scan-20261015-1440            -> origin/research/x-scan-20261015-1440
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4045785Z  * [new branch]      research/x-scan-20261015-1745            -> origin/research/x-scan-20261015-1745
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4047332Z  * [new branch]      research/x-scan-20261016-1147            -> origin/research/x-scan-20261016-1147
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4048786Z  * [new branch]      research/x-scan-20261016-1749            -> origin/research/x-scan-20261016-1749
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4050178Z  * [new branch]      scan/2026-10-17-1142                     -> origin/scan/2026-10-17-1142
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4051376Z  * [new branch]      scan/2026-10-17-1745                     -> origin/scan/2026-10-17-1745
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4052751Z  * [new branch]      scan/2026-10-17-2040                     -> origin/scan/2026-10-17-2040
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4053953Z  * [new branch]      scan/2026-10-17-am                       -> origin/scan/2026-10-17-am
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4055631Z  * [new branch]      scan/2026-10-17-am-fix                   -> origin/scan/2026-10-17-am-fix
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4057022Z  * [new branch]      scan/2026-10-18-0846                     -> origin/scan/2026-10-18-0846
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4058427Z  * [new branch]      scan/2026-10-18-1150                     -> origin/scan/2026-10-18-1150
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4059783Z  * [new branch]      scan/2026-10-20-1148                     -> origin/scan/2026-10-20-1148
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4060735Z  * [new branch]      scan/2026-10-20-1444                     -> origin/scan/2026-10-20-1444
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4061827Z  * [new branch]      scan/2026-10-20-1740                     -> origin/scan/2026-10-20-1740
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4063025Z  * [new branch]      scan/2026-10-20-2040                     -> origin/scan/2026-10-20-2040
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4064258Z  * [new branch]      scan/x-ai-20261014-1450                  -> origin/scan/x-ai-20261014-1450
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4065412Z  * [new branch]      test/arrival-scroll-diagnostics          -> origin/test/arrival-scroll-diagnostics
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4066600Z  * [new branch]      test/ordered-late-return                 -> origin/test/ordered-late-return
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4067756Z  * [new branch]      test/search-return-diagnostic            -> origin/test/search-return-diagnostic
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4069126Z  * [new branch]      test/settle-keyboard-scroll-before-arrival-check -> origin/test/settle-keyboard-scroll-before-arrival-check
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4070059Z  * [new branch]      test/shared-search-live-diagnostics      -> origin/test/shared-search-live-diagnostics
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4070874Z  * [new branch]      verify/actionable-discovery-20261022     -> origin/verify/actionable-discovery-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4072106Z  * [new branch]      verify/case-share-published-20261021     -> origin/verify/case-share-published-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4072929Z  * [new branch]      verify/combined-recovery-document        -> origin/verify/combined-recovery-document
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4074026Z  * [new branch]      verify/inline-reading-published-20261021 -> origin/verify/inline-reading-published-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4075220Z  * [new branch]      verify/page-context-20261023             -> origin/verify/page-context-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4076052Z  * [new branch]      verify/prompt-copy-published-20261021    -> origin/verify/prompt-copy-published-20261021
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4076888Z  * [new branch]      verify/reader-body-published-20261022    -> origin/verify/reader-body-published-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4077661Z  * [new branch]      verify/reader-context-ready              -> origin/verify/reader-context-ready
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4078380Z  * [new branch]      verify/reader-round-20261022             -> origin/verify/reader-round-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4079145Z  * [new branch]      verify/result-link-semantics-20261022    -> origin/verify/result-link-semantics-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4079949Z  * [new branch]      verify/returning-discovery-20261022      -> origin/verify/returning-discovery-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4080876Z  * [new branch]      verify/round23-published                 -> origin/verify/round23-published
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4081729Z  * [new branch]      verify/search-focus-20261023             -> origin/verify/search-focus-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4082478Z  * [new branch]      verify/search-passage-release            -> origin/verify/search-passage-release
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4094221Z  * [new branch]      verify/shared-reading-published-related  -> origin/verify/shared-reading-published-related
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4095439Z  * [new branch]      verify/sort-release-20261020             -> origin/verify/sort-release-20261020
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4096520Z  * [new branch]      verify/source-emphasis-20261023          -> origin/verify/source-emphasis-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4097574Z  * [new branch]      verify/source-fonts-20261023             -> origin/verify/source-fonts-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4098581Z  * [new branch]      verify/table-reading-20261023            -> origin/verify/table-reading-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4099685Z  * [new branch]      verify/task-entry-published-20261022     -> origin/verify/task-entry-published-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4100968Z  * [new branch]      verify/task-labels-20261023              -> origin/verify/task-labels-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4102331Z  * [new branch]      verify/task-shortcuts-20261022           -> origin/verify/task-shortcuts-20261022
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4103359Z  * [new branch]      verify/transient-loading-20261023        -> origin/verify/transient-loading-20261023
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4104233Z  * [new ref]         c07462f3d49bee8e1a7ddacee925eb8053860a9d -> pull/83/merge
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4155958Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4156454Z ##[group]Determining the checkout info
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4156902Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4159488Z [command]/usr/bin/git sparse-checkout disable
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4204105Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4236630Z ##[group]Checking out the ref
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.4240895Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/83/merge
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9312310Z Note: switching to 'refs/remotes/pull/83/merge'.
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9312859Z
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9313216Z You are in 'detached HEAD' state. You can look around, make experimental
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9314073Z changes and commit them, and you can discard any commits you make in this
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9314907Z state without impacting any branches by switching back to a branch.
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9315395Z
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9315747Z If you want to create a new branch to retain commits you create, you may
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9316561Z do so (now or later) by using -c with the switch command. Example:
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9316899Z
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9317022Z   git switch -c <new-branch-name>
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9317242Z
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9317362Z Or undo this operation with:
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9317570Z
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9317673Z   git switch -
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9317817Z
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9318085Z Turn off this advice by setting config variable advice.detachedHead to false
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9318484Z
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9319281Z HEAD is now at c07462f Merge 0a4db2e3f6f7cb75fd0bea9d3491419f764f3b82 into dc3b1f83c97af6eb78b5733588f545e7a8858f63
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9351837Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9397670Z [command]/usr/bin/git log -1 --format=%H
+browser	Run actions/checkout@v4	2026-10-23T10:26:24.9426033Z c07462f3d49bee8e1a7ddacee925eb8053860a9d
+browser	Run actions/setup-node@v4	﻿2026-10-23T10:26:24.9719657Z ##[group]Run actions/setup-node@v4
+browser	Run actions/setup-node@v4	2026-10-23T10:26:24.9719955Z with:
+browser	Run actions/setup-node@v4	2026-10-23T10:26:24.9720150Z   node-version: 22
+browser	Run actions/setup-node@v4	2026-10-23T10:26:24.9720427Z   always-auth: false
+browser	Run actions/setup-node@v4	2026-10-23T10:26:24.9720645Z   check-latest: false
+browser	Run actions/setup-node@v4	2026-10-23T10:26:24.9723938Z   token: ***
+browser	Run actions/setup-node@v4	2026-10-23T10:26:24.9724154Z ##[endgroup]
+browser	Run actions/setup-node@v4	2026-10-23T10:26:24.9731700Z ##[command]/usr/bin/docker exec  aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12 sh -c "cat /etc/*release | grep ^ID"
+browser	Run actions/setup-node@v4	2026-10-23T10:26:25.2188299Z Found in cache @ /__t/node/22.23.3/x64
+browser	Run actions/setup-node@v4	2026-10-23T10:26:25.2193644Z (node:146) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+browser	Run actions/setup-node@v4	2026-10-23T10:26:25.2217025Z (Use `node --trace-deprecation ...` to show where the warning was created)
+browser	Run actions/setup-node@v4	2026-10-23T10:26:25.2218171Z ##[group]Environment details
+browser	Run actions/setup-node@v4	2026-10-23T10:26:25.5968950Z node: v22.23.3
+browser	Run actions/setup-node@v4	2026-10-23T10:26:25.5969554Z npm: 10.9.9
+browser	Run actions/setup-node@v4	2026-10-23T10:26:25.5969908Z yarn: 1.22.22
+browser	Run actions/setup-node@v4	2026-10-23T10:26:25.5970859Z ##[endgroup]
+browser	Install browser QA tools on the GitHub runner	﻿2026-10-23T10:26:25.6140214Z ##[group]Run npm install --prefix "$RUNNER_TEMP/browser-tools" playwright@1.56.1 @axe-core/playwright@4.10.2
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:25.6141062Z ^[[36;1mnpm install --prefix "$RUNNER_TEMP/browser-tools" playwright@1.56.1 @axe-core/playwright@4.10.2^[[0m
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:25.6141977Z ^[[36;1mmkdir -p /usr/local/share/fonts^[[0m
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:25.6142908Z ^[[36;1mcurl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf^[[0m
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:25.6143783Z ^[[36;1mfc-cache -f^[[0m
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:25.6144104Z ^[[36;1mgit config --global --add safe.directory "$GITHUB_WORKSPACE"^[[0m
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:25.6148038Z shell: sh -e {0}
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:25.6148279Z ##[endgroup]
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:28.3880859Z
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:28.3891730Z added 5 packages in 3s
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:28.4583122Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:28.4583781Z                                  Dload  Upload   Total   Spent    Left  Speed
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:28.4584125Z
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:28.5315511Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+browser	Install browser QA tools on the GitHub runner	2026-10-23T10:26:28.5316347Z 100 15.6M  100 15.6M    0     0   212M      0 --:--:-- --:--:-- --:--:--  214M
+browser	Capture the original site	﻿2026-10-23T10:26:30.6430390Z ##[group]Run git worktree add --detach "$RUNNER_TEMP/site-before" "$BASELINE_REF"
+browser	Capture the original site	2026-10-23T10:26:30.6430991Z ^[[36;1mgit worktree add --detach "$RUNNER_TEMP/site-before" "$BASELINE_REF"^[[0m
+browser	Capture the original site	2026-10-23T10:26:30.6431904Z ^[[36;1mpython3 "$RUNNER_TEMP/site-before/scripts/preview.py" "$RUNNER_TEMP/preview-before/ai-agent-use-cases"^[[0m
+browser	Capture the original site	2026-10-23T10:26:30.6432655Z ^[[36;1mpython3 -m http.server 8080 --directory "$RUNNER_TEMP/preview-before" > /tmp/site-before.log 2>&1 &^[[0m
+browser	Capture the original site	2026-10-23T10:26:30.6433167Z ^[[36;1mnode tests/baseline-browser.cjs^[[0m
+browser	Capture the original site	2026-10-23T10:26:30.6433437Z ^[[36;1mkill $!^[[0m
+browser	Capture the original site	2026-10-23T10:26:30.6433725Z shell: sh -e {0}
+browser	Capture the original site	2026-10-23T10:26:30.6433921Z env:
+browser	Capture the original site	2026-10-23T10:26:30.6434185Z   NODE_PATH: /home/runner/work/_temp/browser-tools/node_modules
+browser	Capture the original site	2026-10-23T10:26:30.6434581Z   BASELINE_REF: dc3b1f83c97af6eb78b5733588f545e7a8858f63
+browser	Capture the original site	2026-10-23T10:26:30.6434891Z ##[endgroup]
+browser	Capture the original site	2026-10-23T10:26:30.7073350Z Preparing worktree (detached HEAD dc3b1f8)
+browser	Capture the original site	2026-10-23T10:26:31.2192691Z HEAD is now at dc3b1f8 docs: extend cross-agent handoff with bounded review and receipt evidence
+browser	Capture the original site	2026-10-23T10:26:31.5675109Z /__w/_temp/preview-before/ai-agent-use-cases
+browser	Run existing regression tests	﻿2026-10-23T10:26:46.3913742Z ##[group]Run node --test tests/*.test.cjs
+browser	Run existing regression tests	2026-10-23T10:26:46.3914146Z ^[[36;1mnode --test tests/*.test.cjs^[[0m
+browser	Run existing regression tests	2026-10-23T10:26:46.3914444Z ^[[36;1mnode --check assets/app.js^[[0m
+browser	Run existing regression tests	2026-10-23T10:26:46.3914825Z shell: sh -e {0}
+browser	Run existing regression tests	2026-10-23T10:26:46.3915035Z ##[endgroup]
+browser	Run existing regression tests	2026-10-23T10:26:46.5028224Z TAP version 13
+browser	Run existing regression tests	2026-10-23T10:26:46.5803056Z # Subtest: search links preserve exact terms and all facets under the Pages base path
+browser	Run existing regression tests	2026-10-23T10:26:46.5827625Z ok 1 - search links preserve exact terms and all facets under the Pages base path
+browser	Run existing regression tests	2026-10-23T10:26:46.5842450Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.5843251Z   duration_ms: 17.520726
+browser	Run existing regression tests	2026-10-23T10:26:46.5843999Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.5844393Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.5845266Z # Subtest: unfiltered links still target the collection and never leak unrelated URL state
+browser	Run existing regression tests	2026-10-23T10:26:46.5846565Z ok 2 - unfiltered links still target the collection and never leak unrelated URL state
+browser	Run existing regression tests	2026-10-23T10:26:46.5847352Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.5847694Z   duration_ms: 8.521647
+browser	Run existing regression tests	2026-10-23T10:26:46.5848150Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.5848497Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.5849351Z # Subtest: arrival distinguishes search intent from the homepage and explicit other anchors
+browser	Run existing regression tests	2026-10-23T10:26:46.5850750Z ok 3 - arrival distinguishes search intent from the homepage and explicit other anchors
+browser	Run existing regression tests	2026-10-23T10:26:46.5851761Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.5852112Z   duration_ms: 9.025708
+browser	Run existing regression tests	2026-10-23T10:26:46.5852530Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.5852870Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9583535Z # Subtest: all cases and evidence files have valid scenario, non-empty tags, and verification date
+browser	Run existing regression tests	2026-10-23T10:26:46.9586167Z ok 4 - all cases and evidence files have valid scenario, non-empty tags, and verification date
+browser	Run existing regression tests	2026-10-23T10:26:46.9587523Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9588264Z   duration_ms: 51.319206
+browser	Run existing regression tests	2026-10-23T10:26:46.9588988Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9589632Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9591059Z # Subtest: all cases, evidence files, and pending leads contain verified external source URLs without placeholders
+browser	Run existing regression tests	2026-10-23T10:26:46.9593659Z ok 5 - all cases, evidence files, and pending leads contain verified external source URLs without placeholders
+browser	Run existing regression tests	2026-10-23T10:26:46.9594951Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9595600Z   duration_ms: 94.289227
+browser	Run existing regression tests	2026-10-23T10:26:46.9596282Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9596890Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9605995Z # Subtest: candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus
+browser	Run existing regression tests	2026-10-23T10:26:46.9608552Z ok 6 - candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus
+browser	Run existing regression tests	2026-10-23T10:26:46.9609976Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9610578Z   duration_ms: 81.73772
+browser	Run existing regression tests	2026-10-23T10:26:46.9610979Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9611723Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9613351Z # Subtest: qualification audit maintains strict separation between catalog entries and verified cases
+browser	Run existing regression tests	2026-10-23T10:26:46.9615064Z ok 7 - qualification audit maintains strict separation between catalog entries and verified cases
+browser	Run existing regression tests	2026-10-23T10:26:46.9616135Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9616653Z   duration_ms: 9.024326
+browser	Run existing regression tests	2026-10-23T10:26:46.9617214Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9617731Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9618829Z # Subtest: INDEX.md maintains scenario consistency, complete case rows and canonical current-audit link
+browser	Run existing regression tests	2026-10-23T10:26:46.9620438Z ok 8 - INDEX.md maintains scenario consistency, complete case rows and canonical current-audit link
+browser	Run existing regression tests	2026-10-23T10:26:46.9621719Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9622711Z   duration_ms: 11.59819
+browser	Run existing regression tests	2026-10-23T10:26:46.9623251Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9623981Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9625209Z # Subtest: all cases and evidence files have plain-language title and purpose either in markdown or copy.json
+browser	Run existing regression tests	2026-10-23T10:26:46.9652643Z ok 9 - all cases and evidence files have plain-language title and purpose either in markdown or copy.json
+browser	Run existing regression tests	2026-10-23T10:26:46.9675297Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9676010Z   duration_ms: 33.543926
+browser	Run existing regression tests	2026-10-23T10:26:46.9676637Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9677676Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9678849Z # Subtest: app.js metadata extraction gracefully falls back to extract tags from category lines
+browser	Run existing regression tests	2026-10-23T10:26:46.9680800Z ok 10 - app.js metadata extraction gracefully falls back to extract tags from category lines
+browser	Run existing regression tests	2026-10-23T10:26:46.9682319Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9682950Z   duration_ms: 16.97073
+browser	Run existing regression tests	2026-10-23T10:26:46.9683619Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9684220Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9685520Z # Subtest: app.js metadata accurately extracts verification date rather than historical publication date
+browser	Run existing regression tests	2026-10-23T10:26:46.9687423Z ok 11 - app.js metadata accurately extracts verification date rather than historical publication date
+browser	Run existing regression tests	2026-10-23T10:26:46.9688597Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9689192Z   duration_ms: 104.682193
+browser	Run existing regression tests	2026-10-23T10:26:46.9689865Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9690459Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9863297Z # Subtest: tag exploration replaces only the query, preserving every active facet
+browser	Run existing regression tests	2026-10-23T10:26:46.9869720Z ok 12 - tag exploration replaces only the query, preserving every active facet
+browser	Run existing regression tests	2026-10-23T10:26:46.9874775Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9875926Z   duration_ms: 11.331983
+browser	Run existing regression tests	2026-10-23T10:26:46.9876408Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9876774Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9882108Z # Subtest: scenario toggles off and on without throwing away the task or other facets
+browser	Run existing regression tests	2026-10-23T10:26:46.9893915Z ok 13 - scenario toggles off and on without throwing away the task or other facets
+browser	Run existing regression tests	2026-10-23T10:26:46.9894746Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9895380Z   duration_ms: 9.06389
+browser	Run existing regression tests	2026-10-23T10:26:46.9895808Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9896158Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9896918Z # Subtest: unrecognized card action cannot mutate controls or move the reader
+browser	Run existing regression tests	2026-10-23T10:26:46.9898117Z ok 14 - unrecognized card action cannot mutate controls or move the reader
+browser	Run existing regression tests	2026-10-23T10:26:46.9898874Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9899234Z   duration_ms: 9.500866
+browser	Run existing regression tests	2026-10-23T10:26:46.9899643Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9900001Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9901013Z # Subtest: case sharing includes only reading conditions and current case, preserving Pages base path
+browser	Run existing regression tests	2026-10-23T10:26:46.9903437Z ok 15 - case sharing includes only reading conditions and current case, preserving Pages base path
+browser	Run existing regression tests	2026-10-23T10:26:46.9904344Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9910033Z   duration_ms: 12.524661
+browser	Run existing regression tests	2026-10-23T10:26:46.9910662Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9911255Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9922970Z # Subtest: case sharing drops empty and unsupported sorting state, preserves unknown user-selected facets as text
+browser	Run existing regression tests	2026-10-23T10:26:46.9926104Z ok 16 - case sharing drops empty and unsupported sorting state, preserves unknown user-selected facets as text
+browser	Run existing regression tests	2026-10-23T10:26:46.9927937Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9928280Z   duration_ms: 9.569392
+browser	Run existing regression tests	2026-10-23T10:26:46.9928670Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9929000Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9934807Z # Subtest: find category names without inventing new labels or searching case content
+browser	Run existing regression tests	2026-10-23T10:26:46.9938217Z ok 17 - find category names without inventing new labels or searching case content
+browser	Run existing regression tests	2026-10-23T10:26:46.9940543Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9940891Z   duration_ms: 1.862597
+browser	Run existing regression tests	2026-10-23T10:26:46.9941543Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9941896Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9946051Z # Subtest: normalize full-width Latin and case, retain zero-result alternatives and limit previews
+browser	Run existing regression tests	2026-10-23T10:26:46.9949115Z ok 18 - normalize full-width Latin and case, retain zero-result alternatives and limit previews
+browser	Run existing regression tests	2026-10-23T10:26:46.9951106Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9951831Z   duration_ms: 9.072616
+browser	Run existing regression tests	2026-10-23T10:26:46.9952236Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9952569Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9955451Z # Subtest: implicit form submission from category lookup never changes case search or focus
+browser	Run existing regression tests	2026-10-23T10:26:46.9958440Z ok 19 - implicit form submission from category lookup never changes case search or focus
+browser	Run existing regression tests	2026-10-23T10:26:46.9960503Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9960877Z   duration_ms: 14.059465
+browser	Run existing regression tests	2026-10-23T10:26:46.9961911Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9962284Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9964915Z # Subtest: composition guard allows explicit case-search submit after category composition ends
+browser	Run existing regression tests	2026-10-23T10:26:46.9968106Z ok 20 - composition guard allows explicit case-search submit after category composition ends
+browser	Run existing regression tests	2026-10-23T10:26:46.9969925Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9970308Z   duration_ms: 9.977715
+browser	Run existing regression tests	2026-10-23T10:26:46.9970722Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9971076Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9976469Z # Subtest: two conflicting facets recover real query matches while retaining the other facets
+browser	Run existing regression tests	2026-10-23T10:26:46.9979502Z ok 21 - two conflicting facets recover real query matches while retaining the other facets
+browser	Run existing regression tests	2026-10-23T10:26:46.9981640Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9981996Z   duration_ms: 16.026296
+browser	Run existing regression tests	2026-10-23T10:26:46.9982403Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9982735Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:46.9985629Z # Subtest: never replace an existing result or a single-facet recovery, and never weaken the query
+browser	Run existing regression tests	2026-10-23T10:26:46.9989097Z ok 22 - never replace an existing result or a single-facet recovery, and never weaken the query
+browser	Run existing regression tests	2026-10-23T10:26:46.9991220Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:46.9991892Z   duration_ms: 10.0021
+browser	Run existing regression tests	2026-10-23T10:26:46.9992313Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:46.9992678Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0035689Z # Subtest: offer only the smallest removals and report all matching loaded entries
+browser	Run existing regression tests	2026-10-23T10:26:47.0038800Z ok 23 - offer only the smallest removals and report all matching loaded entries
+browser	Run existing regression tests	2026-10-23T10:26:47.0040890Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0041780Z   duration_ms: 19.300528
+browser	Run existing regression tests	2026-10-23T10:26:47.0042772Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0043160Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0046900Z # Subtest: multiple alternatives stay independent, ignore empty values and use the normal multi-tool matching
+browser	Run existing regression tests	2026-10-23T10:26:47.0049937Z ok 24 - multiple alternatives stay independent, ignore empty values and use the normal multi-tool matching
+browser	Run existing regression tests	2026-10-23T10:26:47.0052112Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0052492Z   duration_ms: 2.734966
+browser	Run existing regression tests	2026-10-23T10:26:47.0052922Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0053273Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0056027Z # Subtest: five conflicting facets recover without mutating any supplied data
+browser	Run existing regression tests	2026-10-23T10:26:47.0059051Z ok 25 - five conflicting facets recover without mutating any supplied data
+browser	Run existing regression tests	2026-10-23T10:26:47.0061063Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0061890Z   duration_ms: 1.402869
+browser	Run existing regression tests	2026-10-23T10:26:47.0062341Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0062718Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0067737Z # Subtest: scenario comes from the declared lead metadata, never from later source prose
+browser	Run existing regression tests	2026-10-23T10:26:47.0070794Z ok 26 - scenario comes from the declared lead metadata, never from later source prose
+browser	Run existing regression tests	2026-10-23T10:26:47.0072983Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0073372Z   duration_ms: 1.860212
+browser	Run existing regression tests	2026-10-23T10:26:47.0073791Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0074149Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0077746Z # Subtest: discovery excludes pending leads, evidence supplements and untested templates
+browser	Run existing regression tests	2026-10-23T10:26:47.0081033Z ok 27 - discovery excludes pending leads, evidence supplements and untested templates
+browser	Run existing regression tests	2026-10-23T10:26:47.0089503Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0090016Z   duration_ms: 1.149706
+browser	Run existing regression tests	2026-10-23T10:26:47.0090562Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0091078Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0095366Z # Subtest: a deck visits every case once, avoids immediate repeats across rounds, and preserves input
+browser	Run existing regression tests	2026-10-23T10:26:47.0098752Z ok 28 - a deck visits every case once, avoids immediate repeats across rounds, and preserves input
+browser	Run existing regression tests	2026-10-23T10:26:47.0124483Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0124899Z   duration_ms: 0.596192
+browser	Run existing regression tests	2026-10-23T10:26:47.0152246Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0167956Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0178599Z # Subtest: empty and single-item decks have explicit states
+browser	Run existing regression tests	2026-10-23T10:26:47.0182157Z ok 29 - empty and single-item decks have explicit states
+browser	Run existing regression tests	2026-10-23T10:26:47.0183970Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0184754Z   duration_ms: 0.236521
+browser	Run existing regression tests	2026-10-23T10:26:47.0185487Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0185870Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0193980Z # Subtest: source emphasis conveys the original action and evidence boundaries
+browser	Run existing regression tests	2026-10-23T10:26:47.0196628Z ok 30 - source emphasis conveys the original action and evidence boundaries
+browser	Run existing regression tests	2026-10-23T10:26:47.0198813Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0199510Z   duration_ms: 6.269554
+browser	Run existing regression tests	2026-10-23T10:26:47.0200173Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0200554Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0205862Z # Subtest: strong spans keep surrounding text and permit existing safe inline code and links
+browser	Run existing regression tests	2026-10-23T10:26:47.0208703Z ok 31 - strong spans keep surrounding text and permit existing safe inline code and links
+browser	Run existing regression tests	2026-10-23T10:26:47.0210569Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0211145Z   duration_ms: 0.466671
+browser	Run existing regression tests	2026-10-23T10:26:47.0212206Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0212555Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0217379Z # Subtest: code blocks, inline code and URL destinations retain literal asterisks
+browser	Run existing regression tests	2026-10-23T10:26:47.0220533Z ok 32 - code blocks, inline code and URL destinations retain literal asterisks
+browser	Run existing regression tests	2026-10-23T10:26:47.0226463Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0226985Z   duration_ms: 0.308717
+browser	Run existing regression tests	2026-10-23T10:26:47.0227615Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0228182Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0232948Z # Subtest: unsupported or incomplete emphasis remains literal and source HTML stays inert
+browser	Run existing regression tests	2026-10-23T10:26:47.0236940Z ok 33 - unsupported or incomplete emphasis remains literal and source HTML stays inert
+browser	Run existing regression tests	2026-10-23T10:26:47.0239291Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0239820Z   duration_ms: 0.424762
+browser	Run existing regression tests	2026-10-23T10:26:47.0240447Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0241011Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0246848Z # Subtest: headings, nested lists, quotes and tables share the safe emphasis rendering
+browser	Run existing regression tests	2026-10-23T10:26:47.0249866Z ok 34 - headings, nested lists, quotes and tables share the safe emphasis rendering
+browser	Run existing regression tests	2026-10-23T10:26:47.0252523Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0253133Z   duration_ms: 0.58414
+browser	Run existing regression tests	2026-10-23T10:26:47.0253832Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0254465Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0256984Z # Subtest: nested code and destinations cannot terminate source emphasis or truncate links
+browser	Run existing regression tests	2026-10-23T10:26:47.0260183Z ok 35 - nested code and destinations cannot terminate source emphasis or truncate links
+browser	Run existing regression tests	2026-10-23T10:26:47.0262678Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0263200Z   duration_ms: 0.484615
+browser	Run existing regression tests	2026-10-23T10:26:47.0263797Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0264323Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0266840Z # Subtest: incomplete URLs never crash and code scanning matches the existing inline token grammar
+browser	Run existing regression tests	2026-10-23T10:26:47.0269764Z ok 36 - incomplete URLs never crash and code scanning matches the existing inline token grammar
+browser	Run existing regression tests	2026-10-23T10:26:47.0271866Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0272645Z   duration_ms: 0.391401
+browser	Run existing regression tests	2026-10-23T10:26:47.0273224Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0273755Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0277917Z # Subtest: facet alternatives ignore only their own current selection and retain query and all other filters
+browser	Run existing regression tests	2026-10-23T10:26:47.0284893Z ok 37 - facet alternatives ignore only their own current selection and retain query and all other filters
+browser	Run existing regression tests	2026-10-23T10:26:47.0286105Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0286592Z   duration_ms: 38.017487
+browser	Run existing regression tests	2026-10-23T10:26:47.0287194Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0287674Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0290025Z # Subtest: tool membership, all-option and missing values count real entries exactly once
+browser	Run existing regression tests	2026-10-23T10:26:47.0293395Z ok 38 - tool membership, all-option and missing values count real entries exactly once
+browser	Run existing regression tests	2026-10-23T10:26:47.0295413Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0295950Z   duration_ms: 0.536341
+browser	Run existing regression tests	2026-10-23T10:26:47.0296535Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0297366Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0299439Z # Subtest: empty query results, empty corpus and partial corpus do not invent available entries
+browser	Run existing regression tests	2026-10-23T10:26:47.0302731Z ok 39 - empty query results, empty corpus and partial corpus do not invent available entries
+browser	Run existing regression tests	2026-10-23T10:26:47.0304855Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0305385Z   duration_ms: 8.300364
+browser	Run existing regression tests	2026-10-23T10:26:47.0305960Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0306470Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0309820Z # Subtest: synonym-expanded counts use the same search semantics as result filtering
+browser	Run existing regression tests	2026-10-23T10:26:47.0313512Z ok 40 - synonym-expanded counts use the same search semantics as result filtering
+browser	Run existing regression tests	2026-10-23T10:26:47.0315793Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0316308Z   duration_ms: 0.786037
+browser	Run existing regression tests	2026-10-23T10:26:47.0316893Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0317426Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0322796Z # Subtest: explicit mobile inspiration handoff focuses the new readable card, with bounded instant scrolling
+browser	Run existing regression tests	2026-10-23T10:26:47.0326128Z ok 41 - explicit mobile inspiration handoff focuses the new readable card, with bounded instant scrolling
+browser	Run existing regression tests	2026-10-23T10:26:47.0327942Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0328454Z   duration_ms: 10.482439
+browser	Run existing regression tests	2026-10-23T10:26:47.0329077Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0329591Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0332175Z # Subtest: desktop inspiration handoff also reaches the card without scrolling an already visible stage
+browser	Run existing regression tests	2026-10-23T10:26:47.0334870Z ok 42 - desktop inspiration handoff also reaches the card without scrolling an already visible stage
+browser	Run existing regression tests	2026-10-23T10:26:47.0336664Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0337123Z   duration_ms: 6.219981
+browser	Run existing regression tests	2026-10-23T10:26:47.0337696Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0338201Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0340620Z # Subtest: empty deck focuses its explanation instead of a disabled draw button
+browser	Run existing regression tests	2026-10-23T10:26:47.0343711Z ok 43 - empty deck focuses its explanation instead of a disabled draw button
+browser	Run existing regression tests	2026-10-23T10:26:47.0345874Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0346490Z   duration_ms: 4.568257
+browser	Run existing regression tests	2026-10-23T10:26:47.0347084Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0347737Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0349566Z # Subtest: loading or failure never moves focus or schedules a late handoff
+browser	Run existing regression tests	2026-10-23T10:26:47.0352723Z ok 44 - loading or failure never moves focus or schedules a late handoff
+browser	Run existing regression tests	2026-10-23T10:26:47.0354472Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0355092Z   duration_ms: 7.116464
+browser	Run existing regression tests	2026-10-23T10:26:47.0355785Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0356310Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0358206Z # Subtest: long original titles bring the focus target into view even after a tall status
+browser	Run existing regression tests	2026-10-23T10:26:47.0361050Z ok 45 - long original titles bring the focus target into view even after a tall status
+browser	Run existing regression tests	2026-10-23T10:26:47.0362980Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0363584Z   duration_ms: 5.337774
+browser	Run existing regression tests	2026-10-23T10:26:47.0364242Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0364834Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0392783Z # Subtest: late return at 80ms becomes visible and releases the bounded guard
+browser	Run existing regression tests	2026-10-23T10:26:47.0424001Z ok 46 - late return at 80ms becomes visible and releases the bounded guard
+browser	Run existing regression tests	2026-10-23T10:26:47.0464095Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0464677Z   duration_ms: 3.051957
+browser	Run existing regression tests	2026-10-23T10:26:47.0465388Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0466091Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0467095Z # Subtest: late return at 180ms becomes visible and releases the bounded guard
+browser	Run existing regression tests	2026-10-23T10:26:47.0468624Z ok 47 - late return at 180ms becomes visible and releases the bounded guard
+browser	Run existing regression tests	2026-10-23T10:26:47.0469475Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0469961Z   duration_ms: 2.542346
+browser	Run existing regression tests	2026-10-23T10:26:47.0470508Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0471013Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0472213Z # Subtest: new pointerdown permanently cancels late scroll correction
+browser	Run existing regression tests	2026-10-23T10:26:47.0512582Z ok 48 - new pointerdown permanently cancels late scroll correction
+browser	Run existing regression tests	2026-10-23T10:26:47.0513486Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0514138Z   duration_ms: 1.201473
+browser	Run existing regression tests	2026-10-23T10:26:47.0514795Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0515378Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0516258Z # Subtest: new keydown permanently cancels late scroll correction
+browser	Run existing regression tests	2026-10-23T10:26:47.0517802Z ok 49 - new keydown permanently cancels late scroll correction
+browser	Run existing regression tests	2026-10-23T10:26:47.0518627Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0519182Z   duration_ms: 1.026206
+browser	Run existing regression tests	2026-10-23T10:26:47.0519796Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0520349Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0532322Z # Subtest: new wheel permanently cancels late scroll correction
+browser	Run existing regression tests	2026-10-23T10:26:47.0540503Z ok 50 - new wheel permanently cancels late scroll correction
+browser	Run existing regression tests	2026-10-23T10:26:47.0549878Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0550442Z   duration_ms: 1.184822
+browser	Run existing regression tests	2026-10-23T10:26:47.0551588Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0552231Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0561720Z # Subtest: new touchstart permanently cancels late scroll correction
+browser	Run existing regression tests	2026-10-23T10:26:47.0568827Z ok 51 - new touchstart permanently cancels late scroll correction
+browser	Run existing regression tests	2026-10-23T10:26:47.0569675Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0570287Z   duration_ms: 0.96945
+browser	Run existing regression tests	2026-10-23T10:26:47.0570906Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0571693Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0582769Z # Subtest: new focus wins and return monitoring is cleaned up
+browser	Run existing regression tests	2026-10-23T10:26:47.0583881Z ok 52 - new focus wins and return monitoring is cleaned up
+browser	Run existing regression tests	2026-10-23T10:26:47.0584666Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0585231Z   duration_ms: 1.123607
+browser	Run existing regression tests	2026-10-23T10:26:47.0585828Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0586371Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0599161Z # Subtest: new url wins and return monitoring is cleaned up
+browser	Run existing regression tests	2026-10-23T10:26:47.0599804Z ok 53 - new url wins and return monitoring is cleaned up
+browser	Run existing regression tests	2026-10-23T10:26:47.0600468Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0600860Z   duration_ms: 2.488936
+browser	Run existing regression tests	2026-10-23T10:26:47.0601544Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0602166Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0604056Z # Subtest: new modal wins and return monitoring is cleaned up
+browser	Run existing regression tests	2026-10-23T10:26:47.0607032Z ok 54 - new modal wins and return monitoring is cleaned up
+browser	Run existing regression tests	2026-10-23T10:26:47.0607731Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0608229Z   duration_ms: 1.458813
+browser	Run existing regression tests	2026-10-23T10:26:47.0608769Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0609262Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0610035Z # Subtest: new removed wins and return monitoring is cleaned up
+browser	Run existing regression tests	2026-10-23T10:26:47.0611079Z ok 55 - new removed wins and return monitoring is cleaned up
+browser	Run existing regression tests	2026-10-23T10:26:47.0612149Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0612640Z   duration_ms: 1.379215
+browser	Run existing regression tests	2026-10-23T10:26:47.0613174Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0613659Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0614432Z # Subtest: scroll after the 300ms deadline is never pulled back
+browser	Run existing regression tests	2026-10-23T10:26:47.0615449Z ok 56 - scroll after the 300ms deadline is never pulled back
+browser	Run existing regression tests	2026-10-23T10:26:47.0616168Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0616653Z   duration_ms: 1.021868
+browser	Run existing regression tests	2026-10-23T10:26:47.0617199Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0617693Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0618649Z # Subtest: background resume after deadline: frame runs first without late scrolling
+browser	Run existing regression tests	2026-10-23T10:26:47.0619997Z ok 57 - background resume after deadline: frame runs first without late scrolling
+browser	Run existing regression tests	2026-10-23T10:26:47.0620878Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0621593Z   duration_ms: 0.968348
+browser	Run existing regression tests	2026-10-23T10:26:47.0622143Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0622486Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0623243Z # Subtest: background resume after deadline: timer runs first without late scrolling
+browser	Run existing regression tests	2026-10-23T10:26:47.0624397Z ok 58 - background resume after deadline: timer runs first without late scrolling
+browser	Run existing regression tests	2026-10-23T10:26:47.0625079Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0625399Z   duration_ms: 0.756712
+browser	Run existing regression tests	2026-10-23T10:26:47.0625769Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0626056Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0654250Z # Subtest: recovery merges by source path and retains all pending items in stable order
+browser	Run existing regression tests	2026-10-23T10:26:47.0665313Z ok 59 - recovery merges by source path and retains all pending items in stable order
+browser	Run existing regression tests	2026-10-23T10:26:47.0666073Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0666407Z   duration_ms: 20.998567
+browser	Run existing regression tests	2026-10-23T10:26:47.0666790Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0667120Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.0669342Z # Subtest: timed-out source fails independently without losing completed content
+browser	Run existing regression tests	2026-10-23T10:26:47.0674441Z ok 60 - timed-out source fails independently without losing completed content
+browser	Run existing regression tests	2026-10-23T10:26:47.0675954Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.0676487Z   duration_ms: 11.549451
+browser	Run existing regression tests	2026-10-23T10:26:47.0676896Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.0677236Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1173563Z # Subtest: mapConcurrent respects concurrency limit and preserves ordering
+browser	Run existing regression tests	2026-10-23T10:26:47.1175251Z ok 61 - mapConcurrent respects concurrency limit and preserves ordering
+browser	Run existing regression tests	2026-10-23T10:26:47.1176442Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1177074Z   duration_ms: 39.26692
+browser	Run existing regression tests	2026-10-23T10:26:47.1177741Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1178781Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1192485Z # Subtest: mapConcurrent handles empty arrays and boundary limits
+browser	Run existing regression tests	2026-10-23T10:26:47.1193691Z ok 62 - mapConcurrent handles empty arrays and boundary limits
+browser	Run existing regression tests	2026-10-23T10:26:47.1194763Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1195285Z   duration_ms: 0.590763
+browser	Run existing regression tests	2026-10-23T10:26:47.1195687Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1196155Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1196912Z # Subtest: loadCorpus isolates single-file failure and preserves remaining cases
+browser	Run existing regression tests	2026-10-23T10:26:47.1198066Z ok 63 - loadCorpus isolates single-file failure and preserves remaining cases
+browser	Run existing regression tests	2026-10-23T10:26:47.1198752Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1199072Z   duration_ms: 5.976026
+browser	Run existing regression tests	2026-10-23T10:26:47.1199446Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1199760Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1200854Z # Subtest: loadCorpus reports zero entries when all files fail
+browser	Run existing regression tests	2026-10-23T10:26:47.1201926Z ok 64 - loadCorpus reports zero entries when all files fail
+browser	Run existing regression tests	2026-10-23T10:26:47.1202489Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1202804Z   duration_ms: 0.464357
+browser	Run existing regression tests	2026-10-23T10:26:47.1203196Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1203511Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1361686Z # Subtest: whole-corpus budget keeps completed content and marks active plus queued paths for retry
+browser	Run existing regression tests	2026-10-23T10:26:47.1366055Z ok 65 - whole-corpus budget keeps completed content and marks active plus queued paths for retry
+browser	Run existing regression tests	2026-10-23T10:26:47.1367196Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1367556Z   duration_ms: 22.342097
+browser	Run existing regression tests	2026-10-23T10:26:47.1367947Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1368279Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1373831Z # Subtest: choosing available content cancels in-flight work without dropping successful sources
+browser	Run existing regression tests	2026-10-23T10:26:47.1376991Z ok 66 - choosing available content cancels in-flight work without dropping successful sources
+browser	Run existing regression tests	2026-10-23T10:26:47.1378302Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1378690Z   duration_ms: 0.835209
+browser	Run existing regression tests	2026-10-23T10:26:47.1379113Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1379426Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1516645Z # Subtest: deadline includes reading the body after HTTP headers
+browser	Run existing regression tests	2026-10-23T10:26:47.1519874Z ok 67 - deadline includes reading the body after HTTP headers
+browser	Run existing regression tests	2026-10-23T10:26:47.1521126Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1521779Z   duration_ms: 15.473095
+browser	Run existing regression tests	2026-10-23T10:26:47.1522231Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1522599Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1626780Z # Subtest: per-source timeout frees a worker so later sources can finish before whole budget
+browser	Run existing regression tests	2026-10-23T10:26:47.1628537Z ok 68 - per-source timeout frees a worker so later sources can finish before whole budget
+browser	Run existing regression tests	2026-10-23T10:26:47.1640127Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1640680Z   duration_ms: 11.251413
+browser	Run existing regression tests	2026-10-23T10:26:47.1641223Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1641896Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1784880Z # Subtest: nested methods stay under their parent and return to the correct sibling
+browser	Run existing regression tests	2026-10-23T10:26:47.1787162Z ok 69 - nested methods stay under their parent and return to the correct sibling
+browser	Run existing regression tests	2026-10-23T10:26:47.1787925Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1788311Z   duration_ms: 1.837971
+browser	Run existing regression tests	2026-10-23T10:26:47.1788741Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1789137Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1790097Z # Subtest: explicit numbering, mixed sibling list types and paragraph boundaries remain faithful
+browser	Run existing regression tests	2026-10-23T10:26:47.1792396Z ok 70 - explicit numbering, mixed sibling list types and paragraph boundaries remain faithful
+browser	Run existing regression tests	2026-10-23T10:26:47.1793318Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1793698Z   duration_ms: 0.956586
+browser	Run existing regression tests	2026-10-23T10:26:47.1794144Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1794524Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1795518Z # Subtest: real UC-001 interpretation keeps four numbered requirements inside the author limitation
+browser	Run existing regression tests	2026-10-23T10:26:47.1797474Z ok 71 - real UC-001 interpretation keeps four numbered requirements inside the author limitation
+browser	Run existing regression tests	2026-10-23T10:26:47.1798362Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1798732Z   duration_ms: 4.062273
+browser	Run existing regression tests	2026-10-23T10:26:47.1799166Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1799523Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1800527Z # Subtest: continuations keep source text and safe links without treating fenced lists as markup
+browser	Run existing regression tests	2026-10-23T10:26:47.1802206Z ok 72 - continuations keep source text and safe links without treating fenced lists as markup
+browser	Run existing regression tests	2026-10-23T10:26:47.1803365Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1803711Z   duration_ms: 0.399425
+browser	Run existing regression tests	2026-10-23T10:26:47.1804124Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1804486Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1805354Z # Subtest: nested list search targets each own row without joining parent and child text
+browser	Run existing regression tests	2026-10-23T10:26:47.1806706Z ok 73 - nested list search targets each own row without joining parent and child text
+browser	Run existing regression tests	2026-10-23T10:26:47.1807510Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1807895Z   duration_ms: 0.673958
+browser	Run existing regression tests	2026-10-23T10:26:47.1808319Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1808683Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1809756Z # Subtest: an initially indented list has no fabricated parent; boundaries do not swallow following prose
+browser	Run existing regression tests	2026-10-23T10:26:47.1822041Z ok 74 - an initially indented list has no fabricated parent; boundaries do not swallow following prose
+browser	Run existing regression tests	2026-10-23T10:26:47.1823324Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1823959Z   duration_ms: 0.260376
+browser	Run existing regression tests	2026-10-23T10:26:47.1824440Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1824814Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1825668Z # Subtest: parent continuation after a child list cannot fabricate a contiguous quote
+browser	Run existing regression tests	2026-10-23T10:26:47.1826959Z ok 75 - parent continuation after a child list cannot fabricate a contiguous quote
+browser	Run existing regression tests	2026-10-23T10:26:47.1828004Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1828355Z   duration_ms: 0.328743
+browser	Run existing regression tests	2026-10-23T10:26:47.1829098Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1829467Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1830280Z # Subtest: method shortcut preserves the full untested heading and original index
+browser	Run existing regression tests	2026-10-23T10:26:47.1835252Z ok 76 - method shortcut preserves the full untested heading and original index
+browser	Run existing regression tests	2026-10-23T10:26:47.1836241Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1836641Z   duration_ms: 2.129044
+browser	Run existing regression tests	2026-10-23T10:26:47.1837215Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1837700Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1847040Z # Subtest: pending, sparse and missing methods do not fabricate an actionable workflow
+browser	Run existing regression tests	2026-10-23T10:26:47.1856908Z ok 77 - pending, sparse and missing methods do not fabricate an actionable workflow
+browser	Run existing regression tests	2026-10-23T10:26:47.1864758Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1865751Z   duration_ms: 0.528336
+browser	Run existing regression tests	2026-10-23T10:26:47.1866875Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1867470Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.1875636Z # Subtest: prompt fallback and evidence methods keep literal source labels
+browser	Run existing regression tests	2026-10-23T10:26:47.1882705Z ok 78 - prompt fallback and evidence methods keep literal source labels
+browser	Run existing regression tests	2026-10-23T10:26:47.1883931Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.1884877Z   duration_ms: 0.276546
+browser	Run existing regression tests	2026-10-23T10:26:47.1885590Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.1886169Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2110102Z # Subtest: find a later supplement without hiding qualifiers or merging repeated headings
+browser	Run existing regression tests	2026-10-23T10:26:47.2115381Z ok 79 - find a later supplement without hiding qualifiers or merging repeated headings
+browser	Run existing regression tests	2026-10-23T10:26:47.2116497Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2117073Z   duration_ms: 2.425918
+browser	Run existing regression tests	2026-10-23T10:26:47.2117741Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2139540Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2147138Z # Subtest: title matching normalizes width/case, handles empty and literal unsafe-looking queries
+browser	Run existing regression tests	2026-10-23T10:26:47.2153333Z ok 80 - title matching normalizes width/case, handles empty and literal unsafe-looking queries
+browser	Run existing regression tests	2026-10-23T10:26:47.2154845Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2155552Z   duration_ms: 0.419694
+browser	Run existing regression tests	2026-10-23T10:26:47.2155994Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2156364Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2454687Z # Subtest: home, keyword, facet-only and review sort give distinguishable bookmark titles
+browser	Run existing regression tests	2026-10-23T10:26:47.2459779Z ok 81 - home, keyword, facet-only and review sort give distinguishable bookmark titles
+browser	Run existing regression tests	2026-10-23T10:26:47.2460961Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2461772Z   duration_ms: 1.450447
+browser	Run existing regression tests	2026-10-23T10:26:47.2462260Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2462639Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2465410Z # Subtest: visible detail wins over loading, failed, missing and background search state
+browser	Run existing regression tests	2026-10-23T10:26:47.2467049Z ok 82 - visible detail wins over loading, failed, missing and background search state
+browser	Run existing regression tests	2026-10-23T10:26:47.2468307Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2468992Z   duration_ms: 0.213168
+browser	Run existing regression tests	2026-10-23T10:26:47.2469879Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2470569Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2492296Z # Subtest: loading, error, incomplete results and missing cases never claim completed reading
+browser	Run existing regression tests	2026-10-23T10:26:47.2493901Z ok 83 - loading, error, incomplete results and missing cases never claim completed reading
+browser	Run existing regression tests	2026-10-23T10:26:47.2495085Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2495716Z   duration_ms: 0.413732
+browser	Run existing regression tests	2026-10-23T10:26:47.2496177Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2496520Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2497377Z # Subtest: multiline Unicode, long queries and HTML-like input remain literal readable text
+browser	Run existing regression tests	2026-10-23T10:26:47.2498685Z ok 84 - multiline Unicode, long queries and HTML-like input remain literal readable text
+browser	Run existing regression tests	2026-10-23T10:26:47.2499458Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2499789Z   duration_ms: 0.411589
+browser	Run existing regression tests	2026-10-23T10:26:47.2500187Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2500518Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2587865Z # Subtest: printing expands closed original research and restores position, state and focus after cancel
+browser	Run existing regression tests	2026-10-23T10:26:47.2589523Z ok 85 - printing expands closed original research and restores position, state and focus after cancel
+browser	Run existing regression tests	2026-10-23T10:26:47.2590440Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2590815Z   duration_ms: 1.638859
+browser	Run existing regression tests	2026-10-23T10:26:47.2591242Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2592050Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2598006Z # Subtest: already expanded research stays expanded and repeated print captures the new reading position
+browser	Run existing regression tests	2026-10-23T10:26:47.2600071Z ok 86 - already expanded research stays expanded and repeated print captures the new reading position
+browser	Run existing regression tests	2026-10-23T10:26:47.2601427Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2603655Z   duration_ms: 0.17636
+browser	Run existing regression tests	2026-10-23T10:26:47.2604068Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2606083Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2607389Z # Subtest: closed dialog does not change state; replaced research never receives stale restoration
+browser	Run existing regression tests	2026-10-23T10:26:47.2609692Z ok 87 - closed dialog does not change state; replaced research never receives stale restoration
+browser	Run existing regression tests	2026-10-23T10:26:47.2610790Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2611145Z   duration_ms: 0.217486
+browser	Run existing regression tests	2026-10-23T10:26:47.2611706Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2612062Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2842576Z # Subtest: copy candidates retain their full qualified headings and original section indices
+browser	Run existing regression tests	2026-10-23T10:26:47.2865992Z ok 88 - copy candidates retain their full qualified headings and original section indices
+browser	Run existing regression tests	2026-10-23T10:26:47.2891872Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2899652Z   duration_ms: 2.007257
+browser	Run existing regression tests	2026-10-23T10:26:47.2900387Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2900946Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2902509Z # Subtest: pending, empty, descriptive references and unrelated sections do not become copy actions
+browser	Run existing regression tests	2026-10-23T10:26:47.2904625Z ok 89 - pending, empty, descriptive references and unrelated sections do not become copy actions
+browser	Run existing regression tests	2026-10-23T10:26:47.2906359Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2906966Z   duration_ms: 0.232193
+browser	Run existing regression tests	2026-10-23T10:26:47.2907973Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2908850Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2910577Z # Subtest: source copy keeps links, code, list boundaries and nested qualifications without UI text
+browser	Run existing regression tests	2026-10-23T10:26:47.2912863Z ok 90 - source copy keeps links, code, list boundaries and nested qualifications without UI text
+browser	Run existing regression tests	2026-10-23T10:26:47.2914210Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2914756Z   duration_ms: 0.726386
+browser	Run existing regression tests	2026-10-23T10:26:47.2915440Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2915978Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2917069Z # Subtest: nested subsections stay with their parent and peer subsections end the copied range
+browser	Run existing regression tests	2026-10-23T10:26:47.2919009Z ok 91 - nested subsections stay with their parent and peer subsections end the copied range
+browser	Run existing regression tests	2026-10-23T10:26:47.2920187Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2920818Z   duration_ms: 0.32657
+browser	Run existing regression tests	2026-10-23T10:26:47.2921800Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2922453Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.2923570Z # Subtest: deeper Markdown headings keep their restrictions inside the copied chapter
+browser	Run existing regression tests	2026-10-23T10:26:47.2925171Z ok 92 - deeper Markdown headings keep their restrictions inside the copied chapter
+browser	Run existing regression tests	2026-10-23T10:26:47.2926603Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.2927268Z   duration_ms: 0.335607
+browser	Run existing regression tests	2026-10-23T10:26:47.2927966Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.2928611Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.3993393Z # Subtest: visible reader position follows the current result order and preserves navigation boundaries
+browser	Run existing regression tests	2026-10-23T10:26:47.4002103Z ok 93 - visible reader position follows the current result order and preserves navigation boundaries
+browser	Run existing regression tests	2026-10-23T10:26:47.4009211Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4009849Z   duration_ms: 38.889616
+browser	Run existing regression tests	2026-10-23T10:26:47.4010642Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4011618Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4055881Z # Subtest: single and outside-filter direct links never invent a result position
+browser	Run existing regression tests	2026-10-23T10:26:47.4064478Z ok 94 - single and outside-filter direct links never invent a result position
+browser	Run existing regression tests	2026-10-23T10:26:47.4071808Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4072485Z   duration_ms: 25.314394
+browser	Run existing regression tests	2026-10-23T10:26:47.4073242Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4073960Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4084631Z # Subtest: loading and partial-source states distinguish available results from a complete collection
+browser	Run existing regression tests	2026-10-23T10:26:47.4096679Z ok 95 - loading and partial-source states distinguish available results from a complete collection
+browser	Run existing regression tests	2026-10-23T10:26:47.4098068Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4098725Z   duration_ms: 23.011845
+browser	Run existing regression tests	2026-10-23T10:26:47.4099448Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4100055Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4238055Z # Subtest: search route preserves a negative source section and the matched synonym
+browser	Run existing regression tests	2026-10-23T10:26:47.4240000Z ok 96 - search route preserves a negative source section and the matched synonym
+browser	Run existing regression tests	2026-10-23T10:26:47.4250308Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4251030Z   duration_ms: 2.299552
+browser	Run existing regression tests	2026-10-23T10:26:47.4251977Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4252499Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4263755Z # Subtest: routes use section indices even when original headings repeat
+browser	Run existing regression tests	2026-10-23T10:26:47.4271429Z ok 97 - routes use section indices even when original headings repeat
+browser	Run existing regression tests	2026-10-23T10:26:47.4278731Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4279288Z   duration_ms: 0.413031
+browser	Run existing regression tests	2026-10-23T10:26:47.4280074Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4280754Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4290337Z # Subtest: literal Unicode and href matches use the same normalized variants without regex
+browser	Run existing regression tests	2026-10-23T10:26:47.4297602Z ok 98 - literal Unicode and href matches use the same normalized variants without regex
+browser	Run existing regression tests	2026-10-23T10:26:47.4304642Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4305188Z   duration_ms: 0.432978
+browser	Run existing regression tests	2026-10-23T10:26:47.4305829Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4306387Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4315381Z # Subtest: routes are bounded, deduplicate sections and keep term order
+browser	Run existing regression tests	2026-10-23T10:26:47.4322324Z ok 99 - routes are bounded, deduplicate sections and keep term order
+browser	Run existing regression tests	2026-10-23T10:26:47.4327881Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4328625Z   duration_ms: 0.34274
+browser	Run existing regression tests	2026-10-23T10:26:47.4329313Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4329887Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4339126Z # Subtest: empty, missing and metadata-only terms never invent original matches
+browser	Run existing regression tests	2026-10-23T10:26:47.4346627Z ok 100 - empty, missing and metadata-only terms never invent original matches
+browser	Run existing regression tests	2026-10-23T10:26:47.4353134Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4353716Z   duration_ms: 1.310847
+browser	Run existing regression tests	2026-10-23T10:26:47.4354344Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4354931Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4364270Z # Subtest: body matches take readers beyond repeated leading tags, retaining original section indices
+browser	Run existing regression tests	2026-10-23T10:26:47.4371698Z ok 101 - body matches take readers beyond repeated leading tags, retaining original section indices
+browser	Run existing regression tests	2026-10-23T10:26:47.4378765Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4379311Z   duration_ms: 0.324617
+browser	Run existing regression tests	2026-10-23T10:26:47.4379929Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4380697Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4390282Z # Subtest: metadata-only terms still route to original metadata, while synonyms prefer a body section
+browser	Run existing regression tests	2026-10-23T10:26:47.4398090Z ok 102 - metadata-only terms still route to original metadata, while synonyms prefer a body section
+browser	Run existing regression tests	2026-10-23T10:26:47.4399311Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4400370Z   duration_ms: 0.428961
+browser	Run existing regression tests	2026-10-23T10:26:47.4401029Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4401871Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4412542Z # Subtest: jump choices point to existing result, method, limits and source headings
+browser	Run existing regression tests	2026-10-23T10:26:47.4420248Z ok 103 - jump choices point to existing result, method, limits and source headings
+browser	Run existing regression tests	2026-10-23T10:26:47.4437154Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4437717Z   duration_ms: 1.730581
+browser	Run existing regression tests	2026-10-23T10:26:47.4438391Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4439040Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4448861Z # Subtest: sparse, pending and unknown structures do not invent sections or evidence
+browser	Run existing regression tests	2026-10-23T10:26:47.4456931Z ok 104 - sparse, pending and unknown structures do not invent sections or evidence
+browser	Run existing regression tests	2026-10-23T10:26:47.4463965Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4464577Z   duration_ms: 0.497258
+browser	Run existing regression tests	2026-10-23T10:26:47.4465252Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4465870Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4476107Z # Subtest: duplicate and unsafe-looking heading text stays literal and keeps its index
+browser	Run existing regression tests	2026-10-23T10:26:47.4484451Z ok 105 - duplicate and unsafe-looking heading text stays literal and keeps its index
+browser	Run existing regression tests	2026-10-23T10:26:47.4491496Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4492316Z   duration_ms: 0.193612
+browser	Run existing regression tests	2026-10-23T10:26:47.4493069Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4493692Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4504659Z # Subtest: a clipped overview above the disappearing status must not displace the visible source report
+browser	Run existing regression tests	2026-10-23T10:26:47.4512861Z ok 106 - a clipped overview above the disappearing status must not displace the visible source report
+browser	Run existing regression tests	2026-10-23T10:26:47.4519810Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4520448Z   duration_ms: 1.29092
+browser	Run existing regression tests	2026-10-23T10:26:47.4521161Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4522146Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4533029Z # Subtest: one long paragraph filling the reading viewport retains its position
+browser	Run existing regression tests	2026-10-23T10:26:47.4541018Z ok 107 - one long paragraph filling the reading viewport retains its position
+browser	Run existing regression tests	2026-10-23T10:26:47.4547897Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4548519Z   duration_ms: 0.209451
+browser	Run existing regression tests	2026-10-23T10:26:47.4549205Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4549823Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4559399Z # Subtest: hidden blocks, the temporary status, and offscreen starts are excluded
+browser	Run existing regression tests	2026-10-23T10:26:47.4567402Z ok 108 - hidden blocks, the temporary status, and offscreen starts are excluded
+browser	Run existing regression tests	2026-10-23T10:26:47.4574033Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4574639Z   duration_ms: 0.308105
+browser	Run existing regression tests	2026-10-23T10:26:47.4575373Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4576047Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4585560Z # Subtest: normal visible section order is retained
+browser	Run existing regression tests	2026-10-23T10:26:47.4592620Z ok 109 - normal visible section order is retained
+browser	Run existing regression tests	2026-10-23T10:26:47.4599381Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4599946Z   duration_ms: 0.21415
+browser	Run existing regression tests	2026-10-23T10:26:47.4600596Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4601172Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4611513Z # Subtest: a related section replaced on completion cannot displace the persistent research anchor
+browser	Run existing regression tests	2026-10-23T10:26:47.4620618Z ok 110 - a related section replaced on completion cannot displace the persistent research anchor
+browser	Run existing regression tests	2026-10-23T10:26:47.4627840Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4628495Z   duration_ms: 0.192709
+browser	Run existing regression tests	2026-10-23T10:26:47.4629224Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4629888Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4641010Z # Subtest: UC-313 promotes the entire report including uncertainty and unexecuted proposal
+browser	Run existing regression tests	2026-10-23T10:26:47.4649509Z ok 111 - UC-313 promotes the entire report including uncertainty and unexecuted proposal
+browser	Run existing regression tests	2026-10-23T10:26:47.4657065Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4657768Z   duration_ms: 1.78972
+browser	Run existing regression tests	2026-10-23T10:26:47.4659031Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4659751Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4669992Z # Subtest: source versions retain every list item and are not called verified results
+browser	Run existing regression tests	2026-10-23T10:26:47.4677910Z ok 112 - source versions retain every list item and are not called verified results
+browser	Run existing regression tests	2026-10-23T10:26:47.4685034Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4685676Z   duration_ms: 0.876616
+browser	Run existing regression tests	2026-10-23T10:26:47.4686385Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4686994Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4697427Z # Subtest: report takes precedence over source directory and excludes designed, expected and supplementary outcomes
+browser	Run existing regression tests	2026-10-23T10:26:47.4706343Z ok 113 - report takes precedence over source directory and excludes designed, expected and supplementary outcomes
+browser	Run existing regression tests	2026-10-23T10:26:47.4713730Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4714299Z   duration_ms: 1.071621
+browser	Run existing regression tests	2026-10-23T10:26:47.4714865Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4715714Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4717362Z # Subtest: long and unknown original sections remain available through research, never silently truncated
+browser	Run existing regression tests	2026-10-23T10:26:47.4721166Z ok 114 - long and unknown original sections remain available through research, never silently truncated
+browser	Run existing regression tests	2026-10-23T10:26:47.4724811Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4725112Z   duration_ms: 0.281776
+browser	Run existing regression tests	2026-10-23T10:26:47.4725516Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4725756Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4726262Z # Subtest: source jumps include author/date and deduplication headings and prefer a linked source
+browser	Run existing regression tests	2026-10-23T10:26:47.4727286Z ok 115 - source jumps include author/date and deduplication headings and prefer a linked source
+browser	Run existing regression tests	2026-10-23T10:26:47.4727877Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4728160Z   duration_ms: 0.461191
+browser	Run existing regression tests	2026-10-23T10:26:47.4728390Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4728588Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4816655Z # Subtest: served corpus validation accepts the complete source set in any reading order
+browser	Run existing regression tests	2026-10-23T10:26:47.4818334Z ok 116 - served corpus validation accepts the complete source set in any reading order
+browser	Run existing regression tests	2026-10-23T10:26:47.4819503Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4820264Z   duration_ms: 3.477061
+browser	Run existing regression tests	2026-10-23T10:26:47.4820927Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4822608Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4825428Z # Subtest: served corpus validation rejects a duplicated pending ID replacing another, even with equal counts and paths
+browser	Run existing regression tests	2026-10-23T10:26:47.4828231Z ok 117 - served corpus validation rejects a duplicated pending ID replacing another, even with equal counts and paths
+browser	Run existing regression tests	2026-10-23T10:26:47.4829527Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4830260Z   duration_ms: 4.353922
+browser	Run existing regression tests	2026-10-23T10:26:47.4830864Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4831723Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.4832821Z # Subtest: served corpus validation rejects stale original text and missing sources
+browser	Run existing regression tests	2026-10-23T10:26:47.4834257Z ok 118 - served corpus validation rejects stale original text and missing sources
+browser	Run existing regression tests	2026-10-23T10:26:47.4834968Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.4835293Z   duration_ms: 0.994276
+browser	Run existing regression tests	2026-10-23T10:26:47.4835666Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.4835994Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.5504722Z # Subtest: review date uses explicit lead verification fields, takes latest valid date and never borrows source dates
+browser	Run existing regression tests	2026-10-23T10:26:47.5507719Z ok 119 - review date uses explicit lead verification fields, takes latest valid date and never borrows source dates
+browser	Run existing regression tests	2026-10-23T10:26:47.5509037Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.5509804Z   duration_ms: 24.629386
+browser	Run existing regression tests	2026-10-23T10:26:47.5510391Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.5510736Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.5531179Z # Subtest: recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries
+browser	Run existing regression tests	2026-10-23T10:26:47.5539261Z ok 120 - recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries
+browser	Run existing regression tests	2026-10-23T10:26:47.5540894Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.5541926Z   duration_ms: 25.830091
+browser	Run existing regression tests	2026-10-23T10:26:47.5542669Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.5543202Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.5544518Z # Subtest: review sorting survives shared search URLs and is search arrival, without sharing unrelated or invalid state
+browser	Run existing regression tests	2026-10-23T10:26:47.5546957Z ok 121 - review sorting survives shared search URLs and is search arrival, without sharing unrelated or invalid state
+browser	Run existing regression tests	2026-10-23T10:26:47.5548145Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.5548724Z   duration_ms: 10.2372
+browser	Run existing regression tests	2026-10-23T10:26:47.5549337Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.5549895Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.5550964Z # Subtest: real records preserve paired dates and leave undocumented review dates unknown
+browser	Run existing regression tests	2026-10-23T10:26:47.5553362Z ok 122 - real records preserve paired dates and leave undocumented review dates unknown
+browser	Run existing regression tests	2026-10-23T10:26:47.5554343Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.5554864Z   duration_ms: 16.865042
+browser	Run existing regression tests	2026-10-23T10:26:47.5555471Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.5556001Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.5684039Z # Subtest: reading suggestions exist and use only other main cases in the same topic and current results
+browser	Run existing regression tests	2026-10-23T10:26:47.5702576Z ok 123 - reading suggestions exist and use only other main cases in the same topic and current results
+browser	Run existing regression tests	2026-10-23T10:26:47.5705330Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.5705849Z   duration_ms: 2.104339
+browser	Run existing regression tests	2026-10-23T10:26:47.5706255Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.5706591Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.5707571Z # Subtest: at most three suggestions, deterministic order, no invented fallback for sparse or unknown topics
+browser	Run existing regression tests	2026-10-23T10:26:47.5709080Z ok 124 - at most three suggestions, deterministic order, no invented fallback for sparse or unknown topics
+browser	Run existing regression tests	2026-10-23T10:26:47.5709916Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.5710238Z   duration_ms: 0.437126
+browser	Run existing regression tests	2026-10-23T10:26:47.5710581Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.5710882Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.5711820Z # Subtest: keyboard neighbours never escape an empty or unrelated search result
+browser	Run existing regression tests	2026-10-23T10:26:47.5712941Z ok 125 - keyboard neighbours never escape an empty or unrelated search result
+browser	Run existing regression tests	2026-10-23T10:26:47.5713642Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.5713966Z   duration_ms: 0.482841
+browser	Run existing regression tests	2026-10-23T10:26:47.5714343Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.5714664Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.8932888Z # Subtest: purpose coverage precedes incidental matches; ties and empty queries preserve source order
+browser	Run existing regression tests	2026-10-23T10:26:47.8977032Z ok 126 - purpose coverage precedes incidental matches; ties and empty queries preserve source order
+browser	Run existing regression tests	2026-10-23T10:26:47.8978434Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.8979131Z   duration_ms: 63.872078
+browser	Run existing regression tests	2026-10-23T10:26:47.8979578Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.8979905Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.8980880Z # Subtest: exact ID precedes references; metadata matches precede body-only matches; optional fields are safe
+browser	Run existing regression tests	2026-10-23T10:26:47.8982659Z ok 127 - exact ID precedes references; metadata matches precede body-only matches; optional fields are safe
+browser	Run existing regression tests	2026-10-23T10:26:47.8988230Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.8991762Z   duration_ms: 24.840029
+browser	Run existing regression tests	2026-10-23T10:26:47.8992176Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.8992489Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.8993397Z # Subtest: real corpus: salary purpose precedes prohibition while recall and all filters stay unchanged
+browser	Run existing regression tests	2026-10-23T10:26:47.8994768Z ok 128 - real corpus: salary purpose precedes prohibition while recall and all filters stay unchanged
+browser	Run existing regression tests	2026-10-23T10:26:47.8995570Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.8995875Z   duration_ms: 242.060637
+browser	Run existing regression tests	2026-10-23T10:26:47.8996234Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.8996537Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.8997367Z # Subtest: distinct purpose terms beat metadata coverage; repeats and frequency do not boost rank
+browser	Run existing regression tests	2026-10-23T10:26:47.8998658Z ok 129 - distinct purpose terms beat metadata coverage; repeats and frequency do not boost rank
+browser	Run existing regression tests	2026-10-23T10:26:47.8999629Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9000196Z   duration_ms: 10.067855
+browser	Run existing regression tests	2026-10-23T10:26:47.9000882Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9001682Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9002676Z # Subtest: short and numeric IDs remain exact even when a reference title would otherwise win
+browser	Run existing regression tests	2026-10-23T10:26:47.9004100Z ok 130 - short and numeric IDs remain exact even when a reference title would otherwise win
+browser	Run existing regression tests	2026-10-23T10:26:47.9005039Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9005551Z   duration_ms: 10.494282
+browser	Run existing regression tests	2026-10-23T10:26:47.9006498Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9006989Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9300914Z # Subtest: result return preserves filters and history state, focuses search, and cancels late arrival
+browser	Run existing regression tests	2026-10-23T10:26:47.9307878Z ok 131 - result return preserves filters and history state, focuses search, and cancels late arrival
+browser	Run existing regression tests	2026-10-23T10:26:47.9309205Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9309861Z   duration_ms: 11.582933
+browser	Run existing regression tests	2026-10-23T10:26:47.9310493Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9311032Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9312692Z # Subtest: modified, middle and cancelled result links retain their native behavior
+browser	Run existing regression tests	2026-10-23T10:26:47.9314188Z ok 132 - modified, middle and cancelled result links retain their native behavior
+browser	Run existing regression tests	2026-10-23T10:26:47.9315184Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9315775Z   duration_ms: 61.096048
+browser	Run existing regression tests	2026-10-23T10:26:47.9316394Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9316977Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9318254Z # Subtest: source recovery keeps an active return route near its original result position, including a changed tail
+browser	Run existing regression tests	2026-10-23T10:26:47.9320166Z ok 133 - source recovery keeps an active return route near its original result position, including a changed tail
+browser	Run existing regression tests	2026-10-23T10:26:47.9321805Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9322428Z   duration_ms: 47.524582
+browser	Run existing regression tests	2026-10-23T10:26:47.9323036Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9323586Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9324735Z # Subtest: later versions with links and unlinked limitations remain discoverable in original order
+browser	Run existing regression tests	2026-10-23T10:26:47.9332994Z ok 134 - later versions with links and unlinked limitations remain discoverable in original order
+browser	Run existing regression tests	2026-10-23T10:26:47.9334305Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9334930Z   duration_ms: 2.247346
+browser	Run existing regression tests	2026-10-23T10:26:47.9335513Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9336064Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9337260Z # Subtest: duplicates preserve separate destinations, raw qualification and unsafe-looking literal titles
+browser	Run existing regression tests	2026-10-23T10:26:47.9339089Z ok 135 - duplicates preserve separate destinations, raw qualification and unsafe-looking literal titles
+browser	Run existing regression tests	2026-10-23T10:26:47.9340214Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9340800Z   duration_ms: 0.400699
+browser	Run existing regression tests	2026-10-23T10:26:47.9341710Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9342266Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9343274Z # Subtest: sparse and unknown structures do not invent verification or source destinations
+browser	Run existing regression tests	2026-10-23T10:26:47.9344720Z ok 136 - sparse and unknown structures do not invent verification or source destinations
+browser	Run existing regression tests	2026-10-23T10:26:47.9345719Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9346256Z   duration_ms: 0.380861
+browser	Run existing regression tests	2026-10-23T10:26:47.9346851Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9347378Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9348378Z # Subtest: a successful shared source is published before an unrelated request finishes
+browser	Run existing regression tests	2026-10-23T10:26:47.9349816Z ok 137 - a successful shared source is published before an unrelated request finishes
+browser	Run existing regression tests	2026-10-23T10:26:47.9350812Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9351628Z   duration_ms: 7.479171
+browser	Run existing regression tests	2026-10-23T10:26:47.9352298Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9352856Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9353819Z # Subtest: failed and aborted sources never publish invented or duplicate entries
+browser	Run existing regression tests	2026-10-23T10:26:47.9355178Z ok 138 - failed and aborted sources never publish invented or duplicate entries
+browser	Run existing regression tests	2026-10-23T10:26:47.9356115Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9356636Z   duration_ms: 1.04972
+browser	Run existing regression tests	2026-10-23T10:26:47.9357201Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9357746Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9358831Z # Subtest: share scheduling supports existing ID aliases without treating filenames as evidence
+browser	Run existing regression tests	2026-10-23T10:26:47.9360425Z ok 139 - share scheduling supports existing ID aliases without treating filenames as evidence
+browser	Run existing regression tests	2026-10-23T10:26:47.9361785Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9362360Z   duration_ms: 1.197636
+browser	Run existing regression tests	2026-10-23T10:26:47.9362991Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9363504Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9364513Z # Subtest: source failures do not publish a row and later successful sources still arrive once
+browser	Run existing regression tests	2026-10-23T10:26:47.9366202Z ok 140 - source failures do not publish a row and later successful sources still arrive once
+browser	Run existing regression tests	2026-10-23T10:26:47.9367217Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9368102Z   duration_ms: 0.95884
+browser	Run existing regression tests	2026-10-23T10:26:47.9368739Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9369295Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9370313Z # Subtest: context explains deep synonym matches without turning a prohibition into a claim
+browser	Run existing regression tests	2026-10-23T10:26:47.9372048Z ok 141 - context explains deep synonym matches without turning a prohibition into a claim
+browser	Run existing regression tests	2026-10-23T10:26:47.9372990Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9373495Z   duration_ms: 16.390707
+browser	Run existing regression tests	2026-10-23T10:26:47.9374038Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9374743Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9375728Z # Subtest: context distinguishes visible fields, source URLs, original titles and ID aliases
+browser	Run existing regression tests	2026-10-23T10:26:47.9377163Z ok 142 - context distinguishes visible fields, source URLs, original titles and ID aliases
+browser	Run existing regression tests	2026-10-23T10:26:47.9378129Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9378664Z   duration_ms: 10.814686
+browser	Run existing regression tests	2026-10-23T10:26:47.9379242Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9379735Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9380739Z # Subtest: context explains separate query terms, bounds density, and omits empty searches
+browser	Run existing regression tests	2026-10-23T10:26:47.9382501Z ok 143 - context explains separate query terms, bounds density, and omits empty searches
+browser	Run existing regression tests	2026-10-23T10:26:47.9383556Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9384121Z   duration_ms: 5.383258
+browser	Run existing regression tests	2026-10-23T10:26:47.9384737Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9385291Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9386456Z # Subtest: excerpt preserves original Unicode, markup as text, and a bounded window around a late match
+browser	Run existing regression tests	2026-10-23T10:26:47.9388218Z ok 144 - excerpt preserves original Unicode, markup as text, and a bounded window around a late match
+browser	Run existing regression tests	2026-10-23T10:26:47.9389292Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9389853Z   duration_ms: 4.350461
+browser	Run existing regression tests	2026-10-23T10:26:47.9390454Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9391013Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9392255Z # Subtest: passage points to the actual late block, preserving its negative source text
+browser	Run existing regression tests	2026-10-23T10:26:47.9393920Z ok 145 - passage points to the actual late block, preserving its negative source text
+browser	Run existing regression tests	2026-10-23T10:26:47.9394866Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9395408Z   duration_ms: 2.231005
+browser	Run existing regression tests	2026-10-23T10:26:47.9395953Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9396469Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9397391Z # Subtest: passage never joins list rows, invents href quotes, or matches empty input
+browser	Run existing regression tests	2026-10-23T10:26:47.9398745Z ok 146 - passage never joins list rows, invents href quotes, or matches empty input
+browser	Run existing regression tests	2026-10-23T10:26:47.9399619Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9400134Z   duration_ms: 0.245698
+browser	Run existing regression tests	2026-10-23T10:26:47.9400677Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9401198Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9402489Z # Subtest: literal excerpts retain original Unicode, punctuation and unsafe-looking text
+browser	Run existing regression tests	2026-10-23T10:26:47.9404061Z ok 147 - literal excerpts retain original Unicode, punctuation and unsafe-looking text
+browser	Run existing regression tests	2026-10-23T10:26:47.9405050Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9405704Z   duration_ms: 0.405156
+browser	Run existing regression tests	2026-10-23T10:26:47.9406288Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9406780Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9407827Z # Subtest: long excerpts are continuous original text around the match with explicit omission
+browser	Run existing regression tests	2026-10-23T10:26:47.9409351Z ok 148 - long excerpts are continuous original text around the match with explicit omission
+browser	Run existing regression tests	2026-10-23T10:26:47.9410332Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9410862Z   duration_ms: 24.401801
+browser	Run existing regression tests	2026-10-23T10:26:47.9411589Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9412113Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9413137Z # Subtest: normalization length changes near a distant hit keep the matching original letters
+browser	Run existing regression tests	2026-10-23T10:26:47.9414637Z ok 149 - normalization length changes near a distant hit keep the matching original letters
+browser	Run existing regression tests	2026-10-23T10:26:47.9415605Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9416091Z   duration_ms: 1.970217
+browser	Run existing regression tests	2026-10-23T10:26:47.9416658Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9417148Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9418137Z # Subtest: first actual text match wins, and an oversized keyword is never falsely excerpted
+browser	Run existing regression tests	2026-10-23T10:26:47.9419547Z ok 150 - first actual text match wins, and an oversized keyword is never falsely excerpted
+browser	Run existing regression tests	2026-10-23T10:26:47.9420460Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9421227Z   duration_ms: 0.806356
+browser	Run existing regression tests	2026-10-23T10:26:47.9422086Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9422612Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9423647Z # Subtest: context-sensitive casing and expanding keywords cannot quote a different occurrence
+browser	Run existing regression tests	2026-10-23T10:26:47.9425171Z ok 151 - context-sensitive casing and expanding keywords cannot quote a different occurrence
+browser	Run existing regression tests	2026-10-23T10:26:47.9426141Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9426628Z   duration_ms: 1.542849
+browser	Run existing regression tests	2026-10-23T10:26:47.9427197Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9427894Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9428895Z # Subtest: whole graphemes can be retained without falsely calling a complete quote partial
+browser	Run existing regression tests	2026-10-23T10:26:47.9430331Z ok 152 - whole graphemes can be retained without falsely calling a complete quote partial
+browser	Run existing regression tests	2026-10-23T10:26:47.9431460Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9432066Z   duration_ms: 0.440292
+browser	Run existing regression tests	2026-10-23T10:26:47.9438607Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9439182Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9440339Z # Subtest: active conditions preserve the original query, all facets and unfamiliar scenario URLs
+browser	Run existing regression tests	2026-10-23T10:26:47.9442113Z ok 153 - active conditions preserve the original query, all facets and unfamiliar scenario URLs
+browser	Run existing regression tests	2026-10-23T10:26:47.9443149Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9443698Z   duration_ms: 2.108556
+browser	Run existing regression tests	2026-10-23T10:26:47.9444309Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9444852Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9445871Z # Subtest: a relaxation changes exactly one facet, preserves input and reports the real count
+browser	Run existing regression tests	2026-10-23T10:26:47.9447434Z ok 154 - a relaxation changes exactly one facet, preserves input and reports the real count
+browser	Run existing regression tests	2026-10-23T10:26:47.9448415Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9448952Z   duration_ms: 35.800085
+browser	Run existing regression tests	2026-10-23T10:26:47.9449556Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9450063Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9451009Z # Subtest: never propose a single change that still returns zero, or discard the query
+browser	Run existing regression tests	2026-10-23T10:26:47.9452582Z ok 155 - never propose a single change that still returns zero, or discard the query
+browser	Run existing regression tests	2026-10-23T10:26:47.9453498Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9454217Z   duration_ms: 31.264508
+browser	Run existing regression tests	2026-10-23T10:26:47.9454802Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9455321Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9456683Z # Subtest: suggestion counts use the supplied loaded corpus, including pending entries without inventing evidence
+browser	Run existing regression tests	2026-10-23T10:26:47.9458631Z ok 156 - suggestion counts use the supplied loaded corpus, including pending entries without inventing evidence
+browser	Run existing regression tests	2026-10-23T10:26:47.9459774Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9460304Z   duration_ms: 1.711275
+browser	Run existing regression tests	2026-10-23T10:26:47.9460888Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9461633Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9590767Z # Subtest: explicit submission preserves URL filters and history, reveals results and moves keyboard focus
+browser	Run existing regression tests	2026-10-23T10:26:47.9593291Z ok 157 - explicit submission preserves URL filters and history, reveals results and moves keyboard focus
+browser	Run existing regression tests	2026-10-23T10:26:47.9595061Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9595729Z   duration_ms: 18.981256
+browser	Run existing regression tests	2026-10-23T10:26:47.9596475Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9597062Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9598922Z # Subtest: submission while loading or composing does not steal focus or schedule delayed arrival
+browser	Run existing regression tests	2026-10-23T10:26:47.9601185Z ok 158 - submission while loading or composing does not steal focus or schedule delayed arrival
+browser	Run existing regression tests	2026-10-23T10:26:47.9602535Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9603091Z   duration_ms: 28.466344
+browser	Run existing regression tests	2026-10-23T10:26:47.9603693Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9604236Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9606611Z # Subtest: search action remains outside the collapsible filters and is initially unavailable
+browser	Run existing regression tests	2026-10-23T10:26:47.9610064Z ok 159 - search action remains outside the collapsible filters and is initially unavailable
+browser	Run existing regression tests	2026-10-23T10:26:47.9611729Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9612340Z   duration_ms: 2.221497
+browser	Run existing regression tests	2026-10-23T10:26:47.9613030Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9613623Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9615890Z # Subtest: composition state also guards native SubmitEvent without isComposing
+browser	Run existing regression tests	2026-10-23T10:26:47.9618164Z ok 160 - composition state also guards native SubmitEvent without isComposing
+browser	Run existing regression tests	2026-10-23T10:26:47.9619714Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9620320Z   duration_ms: 4.234095
+browser	Run existing regression tests	2026-10-23T10:26:47.9620967Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9621878Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:47.9623739Z # Subtest: result settling is bounded and yields to new interaction, URL, focus or dialog changes
+browser	Run existing regression tests	2026-10-23T10:26:47.9625703Z ok 161 - result settling is bounded and yields to new interaction, URL, focus or dialog changes
+browser	Run existing regression tests	2026-10-23T10:26:47.9626771Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:47.9627334Z   duration_ms: 36.428238
+browser	Run existing regression tests	2026-10-23T10:26:47.9628257Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:47.9628804Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7273442Z # PASS: 443 source entries; full-text, Unicode, combined filters, evidence, empty/reset matching, future entries, safe rendering and links.
+browser	Run existing regression tests	2026-10-23T10:26:52.7422966Z # Subtest: tests/search.test.cjs
+browser	Run existing regression tests	2026-10-23T10:26:52.7423577Z ok 37 - tests/search.test.cjs
+browser	Run existing regression tests	2026-10-23T10:26:52.7424000Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7424326Z   duration_ms: 4813.972067
+browser	Run existing regression tests	2026-10-23T10:26:52.7424713Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7425058Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7425900Z # Subtest: collapsed controls disclose recent-review sorting without counting it as a filter
+browser	Run existing regression tests	2026-10-23T10:26:52.7427207Z ok 163 - collapsed controls disclose recent-review sorting without counting it as a filter
+browser	Run existing regression tests	2026-10-23T10:26:52.7427978Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7428293Z   duration_ms: 17.177229
+browser	Run existing regression tests	2026-10-23T10:26:52.7428672Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7428988Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7429806Z # Subtest: restoring default order retains the query, all five facets and the discovery deck
+browser	Run existing regression tests	2026-10-23T10:26:52.7431094Z ok 164 - restoring default order retains the query, all five facets and the discovery deck
+browser	Run existing regression tests	2026-10-23T10:26:52.7439191Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7439559Z   duration_ms: 9.04707
+browser	Run existing regression tests	2026-10-23T10:26:52.7439938Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7440265Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7452131Z # Subtest: source guide distinguishes all current origin labels without claiming independent verification
+browser	Run existing regression tests	2026-10-23T10:26:52.7453894Z ok 165 - source guide distinguishes all current origin labels without claiming independent verification
+browser	Run existing regression tests	2026-10-23T10:26:52.7455497Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7456183Z   duration_ms: 1.698591
+browser	Run existing regression tests	2026-10-23T10:26:52.7456704Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7457061Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7458025Z # Subtest: default and unfamiliar source types remain honest instead of silently assigning evidence
+browser	Run existing regression tests	2026-10-23T10:26:52.7459501Z ok 166 - default and unfamiliar source types remain honest instead of silently assigning evidence
+browser	Run existing regression tests	2026-10-23T10:26:52.7460362Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7460697Z   duration_ms: 0.280494
+browser	Run existing regression tests	2026-10-23T10:26:52.7461084Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7461690Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7462617Z # Subtest: real UC-161 evidence links keep the full distinct filenames and no destination residue
+browser	Run existing regression tests	2026-10-23T10:26:52.7464015Z ok 167 - real UC-161 evidence links keep the full distinct filenames and no destination residue
+browser	Run existing regression tests	2026-10-23T10:26:52.7464817Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7465154Z   duration_ms: 3.187721
+browser	Run existing regression tests	2026-10-23T10:26:52.7465557Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7465885Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7466756Z # Subtest: nested, encoded and escaped parentheses keep adjacent text and independent links
+browser	Run existing regression tests	2026-10-23T10:26:52.7468081Z ok 168 - nested, encoded and escaped parentheses keep adjacent text and independent links
+browser	Run existing regression tests	2026-10-23T10:26:52.7468885Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7469240Z   duration_ms: 2.263298
+browser	Run existing regression tests	2026-10-23T10:26:52.7469644Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7469991Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7470930Z # Subtest: unsafe schemes stay text, code stays literal, malformed destinations preserve source text
+browser	Run existing regression tests	2026-10-23T10:26:52.7472743Z ok 169 - unsafe schemes stay text, code stays literal, malformed destinations preserve source text
+browser	Run existing regression tests	2026-10-23T10:26:52.7473589Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7473934Z   duration_ms: 0.832835
+browser	Run existing regression tests	2026-10-23T10:26:52.7474327Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7474665Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7475427Z # Subtest: ordinary relative and bare sources retain their existing destinations
+browser	Run existing regression tests	2026-10-23T10:26:52.7476991Z ok 170 - ordinary relative and bare sources retain their existing destinations
+browser	Run existing regression tests	2026-10-23T10:26:52.7477698Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7478039Z   duration_ms: 0.338852
+browser	Run existing regression tests	2026-10-23T10:26:52.7478435Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7478768Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7479504Z # Subtest: empty destinations stay literal instead of inventing a self-link
+browser	Run existing regression tests	2026-10-23T10:26:52.7480694Z ok 171 - empty destinations stay literal instead of inventing a self-link
+browser	Run existing regression tests	2026-10-23T10:26:52.7481674Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7482346Z   duration_ms: 0.464447
+browser	Run existing regression tests	2026-10-23T10:26:52.7482762Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7483122Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7483961Z # Subtest: source table keeps real column headers, row boundaries and qualified costs
+browser	Run existing regression tests	2026-10-23T10:26:52.7485308Z ok 172 - source table keeps real column headers, row boundaries and qualified costs
+browser	Run existing regression tests	2026-10-23T10:26:52.7486097Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7486456Z   duration_ms: 2.953123
+browser	Run existing regression tests	2026-10-23T10:26:52.7486853Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7487215Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7487964Z # Subtest: real UC-400 preserves all six bots and every literal source cell
+browser	Run existing regression tests	2026-10-23T10:26:52.7489086Z ok 173 - real UC-400 preserves all six bots and every literal source cell
+browser	Run existing regression tests	2026-10-23T10:26:52.7489795Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7490151Z   duration_ms: 2.232557
+browser	Run existing regression tests	2026-10-23T10:26:52.7490563Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7490911Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7492040Z # Subtest: pipes in escaped cells and inline code remain content; links stay text-safe
+browser	Run existing regression tests	2026-10-23T10:26:52.7493207Z ok 174 - pipes in escaped cells and inline code remain content; links stay text-safe
+browser	Run existing regression tests	2026-10-23T10:26:52.7493876Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7494191Z   duration_ms: 0.731556
+browser	Run existing regression tests	2026-10-23T10:26:52.7494558Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7494863Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7495557Z # Subtest: literal pipes and malformed or fenced tables keep the original text
+browser	Run existing regression tests	2026-10-23T10:26:52.7496676Z ok 175 - literal pipes and malformed or fenced tables keep the original text
+browser	Run existing regression tests	2026-10-23T10:26:52.7497392Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7497744Z   duration_ms: 0.533716
+browser	Run existing regression tests	2026-10-23T10:26:52.7498142Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7498452Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7499327Z # Subtest: optional edge pipes render; inconsistent rows stay literal without dropping cells
+browser	Run existing regression tests	2026-10-23T10:26:52.7500666Z ok 176 - optional edge pipes render; inconsistent rows stay literal without dropping cells
+browser	Run existing regression tests	2026-10-23T10:26:52.7501757Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7502106Z   duration_ms: 0.543294
+browser	Run existing regression tests	2026-10-23T10:26:52.7502496Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7502822Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7503648Z # Subtest: search passages target literal table cells without joining different columns
+browser	Run existing regression tests	2026-10-23T10:26:52.7504911Z ok 177 - search passages target literal table cells without joining different columns
+browser	Run existing regression tests	2026-10-23T10:26:52.7505676Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7505989Z   duration_ms: 0.668438
+browser	Run existing regression tests	2026-10-23T10:26:52.7506378Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7506728Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7507654Z # Subtest: experience entry applies the explicit status without replacing a task or other facets
+browser	Run existing regression tests	2026-10-23T10:26:52.7509094Z ok 178 - experience entry applies the explicit status without replacing a task or other facets
+browser	Run existing regression tests	2026-10-23T10:26:52.7509967Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7510321Z   duration_ms: 3.190887
+browser	Run existing regression tests	2026-10-23T10:26:52.7510727Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7511104Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7512231Z # Subtest: second click removes only the experience status, including under an empty intersection
+browser	Run existing regression tests	2026-10-23T10:26:52.7513636Z ok 179 - second click removes only the experience status, including under an empty intersection
+browser	Run existing regression tests	2026-10-23T10:26:52.7514775Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7515422Z   duration_ms: 0.630477
+browser	Run existing regression tests	2026-10-23T10:26:52.7516029Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7516713Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7517725Z # Subtest: existing query and scenario entries retain their independent toggle behavior
+browser	Run existing regression tests	2026-10-23T10:26:52.7519119Z ok 180 - existing query and scenario entries retain their independent toggle behavior
+browser	Run existing regression tests	2026-10-23T10:26:52.7520395Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7521189Z   duration_ms: 0.806496
+browser	Run existing regression tests	2026-10-23T10:26:52.7522069Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7533260Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7534139Z # Subtest: keyword shortcuts name the exact search term rather than promise an automated outcome
+browser	Run existing regression tests	2026-10-23T10:26:52.7535388Z ok 181 - keyword shortcuts name the exact search term rather than promise an automated outcome
+browser	Run existing regression tests	2026-10-23T10:26:52.7536185Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7536518Z   duration_ms: 2.606386
+browser	Run existing regression tests	2026-10-23T10:26:52.7536897Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7537463Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7538326Z # Subtest: search scope and evidence caveats are visible alongside independent status filtering
+browser	Run existing regression tests	2026-10-23T10:26:52.7539716Z ok 182 - search scope and evidence caveats are visible alongside independent status filtering
+browser	Run existing regression tests	2026-10-23T10:26:52.7540502Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7540816Z   duration_ms: 0.43427
+browser	Run existing regression tests	2026-10-23T10:26:52.7541182Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7541679Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7542532Z # Subtest: each task shortcut applies only its query and hands off to visible results after render
+browser	Run existing regression tests	2026-10-23T10:26:52.7543881Z ok 183 - each task shortcut applies only its query and hands off to visible results after render
+browser	Run existing regression tests	2026-10-23T10:26:52.7544657Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7544972Z   duration_ms: 5.824985
+browser	Run existing regression tests	2026-10-23T10:26:52.7545342Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7545658Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7546521Z # Subtest: second activation clears the task and still hands off, including an empty intersection
+browser	Run existing regression tests	2026-10-23T10:26:52.7547884Z ok 184 - second activation clears the task and still hands off, including an empty intersection
+browser	Run existing regression tests	2026-10-23T10:26:52.7548671Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7548990Z   duration_ms: 0.953911
+browser	Run existing regression tests	2026-10-23T10:26:52.7549359Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7549674Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7550440Z # Subtest: loading or failed corpus preserves task intent without a late focus handoff
+browser	Run existing regression tests	2026-10-23T10:26:52.7551779Z ok 185 - loading or failed corpus preserves task intent without a late focus handoff
+browser	Run existing regression tests	2026-10-23T10:26:52.7552551Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7552885Z   duration_ms: 1.027288
+browser	Run existing regression tests	2026-10-23T10:26:52.7553262Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7553589Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7554344Z # Subtest: scenario and experience chips retain their existing filter editing behavior
+browser	Run existing regression tests	2026-10-23T10:26:52.7555474Z ok 186 - scenario and experience chips retain their existing filter editing behavior
+browser	Run existing regression tests	2026-10-23T10:26:52.7556164Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7556478Z   duration_ms: 0.93174
+browser	Run existing regression tests	2026-10-23T10:26:52.7556841Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7557166Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7558057Z # Subtest: transient HTTP and network failures recover once without duplicate entries or progress
+browser	Run existing regression tests	2026-10-23T10:26:52.7559378Z ok 187 - transient HTTP and network failures recover once without duplicate entries or progress
+browser	Run existing regression tests	2026-10-23T10:26:52.7560141Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7560444Z   duration_ms: 46.287624
+browser	Run existing regression tests	2026-10-23T10:26:52.7560818Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7561135Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7562095Z # Subtest: persistent transient error retries at most once and retains exact failed path
+browser	Run existing regression tests	2026-10-23T10:26:52.7562905Z ok 188 - persistent transient error retries at most once and retains exact failed path
+browser	Run existing regression tests	2026-10-23T10:26:52.7563657Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7563987Z   duration_ms: 5.403398
+browser	Run existing regression tests	2026-10-23T10:26:52.7564380Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7564725Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7565487Z # Subtest: permanent HTTP and parse errors do not create extra requests
+browser	Run existing regression tests	2026-10-23T10:26:52.7566527Z ok 189 - permanent HTTP and parse errors do not create extra requests
+browser	Run existing regression tests	2026-10-23T10:26:52.7567201Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7567546Z   duration_ms: 0.985179
+browser	Run existing regression tests	2026-10-23T10:26:52.7567945Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7568283Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7569113Z # Subtest: Retry-After uses seconds or server date and never shortens server waiting time
+browser	Run existing regression tests	2026-10-23T10:26:52.7570392Z ok 190 - Retry-After uses seconds or server date and never shortens server waiting time
+browser	Run existing regression tests	2026-10-23T10:26:52.7571127Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7571692Z   duration_ms: 0.277878
+browser	Run existing regression tests	2026-10-23T10:26:52.7572309Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7572637Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7573428Z # Subtest: long Retry-After stays failed instead of delaying the queue or retrying early
+browser	Run existing regression tests	2026-10-23T10:26:52.7574624Z ok 191 - long Retry-After stays failed instead of delaying the queue or retrying early
+browser	Run existing regression tests	2026-10-23T10:26:52.7575343Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7575664Z   duration_ms: 0.387764
+browser	Run existing regression tests	2026-10-23T10:26:52.7576044Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7576365Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7577273Z # Subtest: abort during retry waiting cancels immediately without a second request
+browser	Run existing regression tests	2026-10-23T10:26:52.7578406Z ok 192 - abort during retry waiting cancels immediately without a second request
+browser	Run existing regression tests	2026-10-23T10:26:52.7579089Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7579414Z   duration_ms: 10.808839
+browser	Run existing regression tests	2026-10-23T10:26:52.7579808Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7580133Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7580958Z # Subtest: whole budget and per-source timeout include waiting; never retry a timed-out request
+browser	Run existing regression tests	2026-10-23T10:26:52.7582503Z ok 193 - whole budget and per-source timeout include waiting; never retry a timed-out request
+browser	Run existing regression tests	2026-10-23T10:26:52.7583269Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7583584Z   duration_ms: 41.113985
+browser	Run existing regression tests	2026-10-23T10:26:52.7583955Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7584268Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7585203Z # Subtest: retry is opt-in and successful shared sources are emitted before another source recovers
+browser	Run existing regression tests	2026-10-23T10:26:52.7586604Z ok 194 - retry is opt-in and successful shared sources are emitted before another source recovers
+browser	Run existing regression tests	2026-10-23T10:26:52.7587437Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7587766Z   duration_ms: 6.243627
+browser	Run existing regression tests	2026-10-23T10:26:52.7588148Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7588473Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7589409Z # Subtest: current batch supplies counts and its own timestamp without equating catalog size or success
+browser	Run existing regression tests	2026-10-23T10:26:52.7590885Z ok 195 - current batch supplies counts and its own timestamp without equating catalog size or success
+browser	Run existing regression tests	2026-10-23T10:26:52.7591931Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7592278Z   duration_ms: 2.310013
+browser	Run existing regression tests	2026-10-23T10:26:52.7592651Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7592973Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7593815Z # Subtest: malformed current batch never borrows a historical count or coerces invalid values
+browser	Run existing regression tests	2026-10-23T10:26:52.7595151Z ok 196 - malformed current batch never borrows a historical count or coerces invalid values
+browser	Run existing regression tests	2026-10-23T10:26:52.7595946Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7596287Z   duration_ms: 0.543915
+browser	Run existing regression tests	2026-10-23T10:26:52.7596674Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7597004Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7597950Z # Subtest: current repository batch parses without consulting INDEX or hardcoding a historical minimum
+browser	Run existing regression tests	2026-10-23T10:26:52.7599387Z ok 197 - current repository batch parses without consulting INDEX or hardcoding a historical minimum
+browser	Run existing regression tests	2026-10-23T10:26:52.7600221Z   ---
+browser	Run existing regression tests	2026-10-23T10:26:52.7600542Z   duration_ms: 1.902933
+browser	Run existing regression tests	2026-10-23T10:26:52.7600926Z   type: 'test'
+browser	Run existing regression tests	2026-10-23T10:26:52.7601480Z   ...
+browser	Run existing regression tests	2026-10-23T10:26:52.7601794Z 1..197
+browser	Run existing regression tests	2026-10-23T10:26:52.7602102Z # tests 197
+browser	Run existing regression tests	2026-10-23T10:26:52.7602420Z # suites 0
+browser	Run existing regression tests	2026-10-23T10:26:52.7602722Z # pass 197
+browser	Run existing regression tests	2026-10-23T10:26:52.7603034Z # fail 0
+browser	Run existing regression tests	2026-10-23T10:26:52.7603343Z # cancelled 0
+browser	Run existing regression tests	2026-10-23T10:26:52.7603676Z # skipped 0
+browser	Run existing regression tests	2026-10-23T10:26:52.7603986Z # todo 0
+browser	Run existing regression tests	2026-10-23T10:26:52.7604337Z # duration_ms 6266.61443
+browser	Verify the updated site in Chromium	﻿2026-10-23T10:26:52.8586159Z ##[group]Run python3 scripts/preview.py "$RUNNER_TEMP/preview-after/ai-agent-use-cases"
+browser	Verify the updated site in Chromium	2026-10-23T10:26:52.8586823Z ^[[36;1mpython3 scripts/preview.py "$RUNNER_TEMP/preview-after/ai-agent-use-cases"^[[0m
+browser	Verify the updated site in Chromium	2026-10-23T10:26:52.8587503Z ^[[36;1mpython3 -m http.server 8081 --directory "$RUNNER_TEMP/preview-after" > /tmp/site-after.log 2>&1 &^[[0m
+browser	Verify the updated site in Chromium	2026-10-23T10:26:52.8588030Z ^[[36;1mnode tests/discovery-browser.cjs^[[0m
+browser	Verify the updated site in Chromium	2026-10-23T10:26:52.8588415Z shell: sh -e {0}
+browser	Verify the updated site in Chromium	2026-10-23T10:26:52.8588620Z env:
+browser	Verify the updated site in Chromium	2026-10-23T10:26:52.8588900Z   NODE_PATH: /home/runner/work/_temp/browser-tools/node_modules
+browser	Verify the updated site in Chromium	2026-10-23T10:26:52.8589250Z ##[endgroup]
+browser	Verify the updated site in Chromium	2026-10-23T10:26:53.3334652Z /__w/_temp/preview-after/ai-agent-use-cases
+browser	Run actions/upload-artifact@v4	﻿2026-10-23T10:29:33.6238884Z ##[group]Run actions/upload-artifact@v4
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.6239204Z with:
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.6239486Z   name: website-qa-c07462f3d49bee8e1a7ddacee925eb8053860a9d
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.6239844Z   path: qa-artifacts/
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.6240081Z   retention-days: 14
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.6240304Z   if-no-files-found: warn
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.6240550Z   compression-level: 6
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.6240772Z   overwrite: false
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.6240999Z   include-hidden-files: false
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.6241245Z ##[endgroup]
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.6245204Z ##[command]/usr/bin/docker exec  aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12 sh -c "cat /etc/*release | grep ^ID"
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.8771410Z (node:19091) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.8772730Z (Use `node --trace-deprecation ...` to show where the warning was created)
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.8916067Z With the provided path, there will be 29 files uploaded
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.8924247Z Artifact name is valid!
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:33.8924795Z Root directory input is valid!
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:34.2746222Z Beginning upload of artifact content to blob storage
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:34.3719102Z (node:19091) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:35.0026908Z Uploaded bytes 1488068
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:35.0745786Z Finished uploading artifact content to blob storage!
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:35.0747193Z SHA256 digest of uploaded artifact zip is b3c7aa6ee9bbcb599a6781ac43df0137f2d2fdc0ff0ac5fe8706baab300fd701
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:35.0750156Z Finalizing artifact upload
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:35.5482973Z Artifact website-qa-c07462f3d49bee8e1a7ddacee925eb8053860a9d.zip successfully finalized. Artifact ID 12494813859
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:35.5485264Z Artifact website-qa-c07462f3d49bee8e1a7ddacee925eb8053860a9d has been successfully uploaded! Final size is 1488068 bytes. Artifact ID is 12494813859
+browser	Run actions/upload-artifact@v4	2026-10-23T10:29:35.5490452Z Artifact download URL: https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39939042069/artifacts/12494813859
+browser	Post Run actions/setup-node@v4	﻿2026-10-23T10:29:35.5714545Z Post job cleanup.
+browser	Post Run actions/setup-node@v4	2026-10-23T10:29:35.5721760Z ##[command]/usr/bin/docker exec  aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12 sh -c "cat /etc/*release | grep ^ID"
+browser	Post Run actions/setup-node@v4	2026-10-23T10:29:35.7811183Z (node:19116) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+browser	Post Run actions/setup-node@v4	2026-10-23T10:29:35.7827268Z (Use `node --trace-deprecation ...` to show where the warning was created)
+browser	Post Run actions/checkout@v4	﻿2026-10-23T10:29:35.8042691Z Post job cleanup.
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:35.8051018Z ##[command]/usr/bin/docker exec  aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12 sh -c "cat /etc/*release | grep ^ID"
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:35.9869208Z [command]/usr/bin/git version
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:35.9910520Z git version 2.43.0
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:35.9982791Z Copying '/github/home/.gitconfig' to '/__w/_temp/3bbc9bdd-7d56-417c-b8f2-9d814824d243/.gitconfig'
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:35.9997857Z Temporarily overriding HOME='/__w/_temp/3bbc9bdd-7d56-417c-b8f2-9d814824d243' before making global git config changes
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:35.9999982Z Adding repository directory to the temporary git global config as a safe directory
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:36.0003641Z [command]/usr/bin/git config --global --add safe.directory /__w/ai-agent-use-cases/ai-agent-use-cases
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:36.0042383Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:36.0083733Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:36.0349650Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:36.0402748Z http.https://github.com/.extraheader
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:36.0404442Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:36.0456388Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:36.0757711Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+browser	Post Run actions/checkout@v4	2026-10-23T10:29:36.0795717Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+browser	Stop containers	﻿2026-10-23T10:29:36.1196406Z Stop and remove container: a3372317d2f645edad4c6906f8364669_mcrmicrosoftcomplaywrightv1561noble_e65197
+browser	Stop containers	2026-10-23T10:29:36.1201959Z ##[command]/usr/bin/docker rm --force aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12
+browser	Stop containers	2026-10-23T10:29:36.2601476Z aaaa804d95d72588280564655cbc3b239653e2977711b21354868e589395dc12
+browser	Stop containers	2026-10-23T10:29:36.2632247Z Remove container network: github_network_e1dbbb8d5cfc4f4e8422347e7960699b
+browser	Stop containers	2026-10-23T10:29:36.2636912Z ##[command]/usr/bin/docker network rm github_network_e1dbbb8d5cfc4f4e8422347e7960699b
+browser	Stop containers	2026-10-23T10:29:36.3608466Z github_network_e1dbbb8d5cfc4f4e8422347e7960699b
+browser	Complete job	﻿2026-10-23T10:29:36.3680389Z Cleaning up orphan processes
+browser	Complete job	2026-10-23T10:29:36.4101042Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

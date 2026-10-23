@@ -4,9 +4,11 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.SITE_URL||'https://richardhan.github.io/ai-agent-use-cases/',observe=process.env.QA_OBSERVE==='1',out=process.env.QA_OUT||'qa-artifacts/before';fs.mkdirSync(out,{recursive:true});
 (async()=>{const rows=[];
 for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
- const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),page=await context.newPage(),row={label:engine.name()+'-'+width,errors:[]};rows.push(row);page.on('pageerror',e=>row.errors.push(e.message));
+ const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),page=await context.newPage(),row={label:engine.name()+'-'+width,errors:[],network:[]};rows.push(row);page.on('pageerror',e=>row.errors.push(e.message));context.on('response',r=>{if(r.status()>=400)row.network.push({url:r.url().split('?')[0],status:r.status()});});context.on('requestfailed',r=>row.network.push({url:r.url().split('?')[0],error:r.failure()?.errorText}));
  try{
- await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});row.corpus=await page.evaluate(()=>({total:entries.length,failed:[...failedPaths]}));assert.deepEqual(row.corpus.failed,[]);await page.screenshot({path:`${out}/home-${row.label}.png`});
+ await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});row.initialCorpus=await page.evaluate(()=>({total:entries.length,failed:[...failedPaths]}));
+ if(row.initialCorpus.failed.length){assert(await page.locator('#partial-load').isVisible());row.recovery=[];for(let attempt=0;attempt<2;attempt++){await page.waitForTimeout(5000);await page.locator('#retry-failed').click();await page.waitForFunction(()=>!recoveringSources);row.recovery.push(await page.evaluate(()=>({total:entries.length,failed:[...failedPaths]})));if(!row.recovery.at(-1).failed.length)break;}}
+ row.corpus=await page.evaluate(()=>({total:entries.length,failed:[...failedPaths]}));assert.deepEqual(row.corpus.failed,[],'All source files must load, including after any recorded recovery');await page.screenshot({path:`${out}/home-${row.label}.png`});
  await page.locator('#query').fill('旅遊');await page.locator('#filter-options').evaluate(n=>n.open=true);await page.locator('#scenario').selectOption('生活');await page.locator('#tool').selectOption('Grok Bot');await page.locator('#search-submit').click();row.results=await page.locator('#results-count').innerText();
  const trigger=page.locator('#results .card[data-case-id="UC-001"] .card-bottom button');await trigger.click();await page.locator('#detail[open]').waitFor();await page.keyboard.press('Escape');assert(await trigger.evaluate(n=>n===document.activeElement));assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');
  await page.goto(base+'?case=UC-313');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await page.locator('.research-details summary').click();
@@ -30,5 +32,6 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  }
  await page.keyboard.press('Escape');await page.locator('#query').fill('zzzz_no_match_731');await page.locator('#empty').waitFor({state:'visible'});await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(n=>n===document.activeElement));row.emptyRecovery=true;assert.deepEqual(row.errors,[]);
  }catch(e){row.failure=e.stack;throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await browser.close();}
+ if(base.startsWith('https:'))await new Promise(r=>setTimeout(r,5000));
 }
 })().catch(e=>{console.error(e);process.exit(1)});

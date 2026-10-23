@@ -1,5 +1,7 @@
 # 完整案例索引
 
+2026-10-23 22:50台灣時間批次：7組候選，新增合格0；2組作者版本合併UC143，補「官方收件／等支票不等於入帳」與驗證卡關。另5組證據或全文去重不足，不入庫計數；三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-23-2250.md)。
+
 2026-10-23 17:10台灣時間批次：11組候選，新增合格0、UC041補充1組Muse跨代理晨報發現未升級同步故障的作者自述；1組既有、7組證據或去重不足、2組排除。未驗安全詞與修後狀態，不加數；三類累計未重驗。[來源與範圍](sources/research-2026-10-23-1710.md)。
 
 2026-10-23 15:10台灣時間批次：15組候選，新增合格0、合併補充2（379同一原對話讀取路徑對照、368結構與視覺驗收分離），2組已收錄、11組證據或全文去重不足。三類累計未重驗，補充不加數。[來源與範圍](sources/research-2026-10-23-1510.md)。
@@ -300,7 +302,7 @@
 | UC-140 | 機器人只看到平面影像？先驗證估距，再談移動 | Meta Muse／Depth Anything V2 | [作者實作自述；未重現](cases/140-monocular-depth-robot-offline-review.md) | 開發｜視覺、機器人、估距、驗收 |
 | UC-141 | 停車時掉了多少電？把車輛讀值和資料中斷一起看 | Meta Muse／Rivian | [作者實作自述；未重現](cases/141-vehicle-telemetry-gap-dashboard.md) | 生活｜車輛、遙測、看板、資料缺口 |
 | UC-142 | 以前分享給某人的資料夾，現在還有哪些能被打開？ | Grok Bot／Google Drive | [作者自述；未重現](cases/142-historical-folder-access-revocation.md) | 工作｜共享權限、資料夾、核對、核准 |
-| UC-143 | 可能有遺忘的款項？先查官方條目，別把找到當領到 | Grok Bot／MissingMoney | [作者自述；未重現](cases/143-unclaimed-property-candidate-handoff.md) | 省錢｜公開查詢、候選核對、認領、交接 |
+| UC-143 | 可能有遺忘的款項？先查官方條目，別把找到當領到 | Grok Bot／Meta Muse／MissingMoney | [作者自述；未重現](cases/143-unclaimed-property-candidate-handoff.md) | 省錢｜公開查詢、候選核對、認領、交接 |
 | UC-144 | 把古籍變成可對照原文的譯作，疑義別藏起來 | Grok Bot／Via Patrum／多提供者AI | [作者自述＋公開譯作；未重現](cases/144-classical-translation-source-review.md) | 學習｜翻譯、古籍、來源查證、驗收 |
 | UC-145 | 同一份調查表一直重抄？用假資料先驗證每個欄位有沒有漏 | Grok Bot／ChatGPT／Claude | [作者實驗／使用報告；未重現](cases/145-offline-standard-form-field-validation.md) | 工作｜表單、離線工具、欄位核對、驗收 |
 | UC-146 | 補助文件看似齊了？先核每一項要求有沒有證據 | ChatGPT dots／Google帳號資料 | [作者實驗／使用報告；未重現](cases/146-grant-supporting-document-gap-check.md) | 生活｜補助、文件核對、缺漏、交接 |

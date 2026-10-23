@@ -1,0 +1,44 @@
+name: Browser page context QA
+on:
+  push:
+    branches: [improve/reading-round-20261023-r2, verify/page-context-20261023]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
+          mkdir -p /usr/local/share/fonts qa-artifacts
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
+          fc-cache -f
+          chown -R pwuser:pwuser qa-artifacts
+      - name: Checks and preview
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+          for f in assets/*.js tests/page-context*.cjs; do node --check "$f"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Observe live journeys before implementation
+        timeout-minutes: 6
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          SITE_URL: https://richardhan.github.io/ai-agent-use-cases/
+          QA_OUT: qa-artifacts/before
+          QA_OBSERVE: '1'
+        run: runuser -u pwuser -- node tests/page-context-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: page-context-qa
+          path: qa-artifacts/

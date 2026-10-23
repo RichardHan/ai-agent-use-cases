@@ -19,7 +19,7 @@ async function settle(page){await page.evaluate(()=>new Promise((resolve,reject)
  assert.equal(await page.evaluate(()=>discoveryReady),false);
  await page.locator('.research-details summary').click();await page.locator('#detail-title').evaluate(n=>n.focus({preventScroll:true}));
  const target=page.locator('.markdown-table tbody tr').nth(0),toolbar=await page.locator('.detail-toolbar').boundingBox();
- const box=await target.boundingBox();await page.mouse.move(width/2,height/2);await page.mouse.wheel(0,box.y-toolbar.y-toolbar.height-30);await settle(page);
+ await target.evaluate(n=>{const d=document.querySelector('#detail');d.scrollTop+=n.getBoundingClientRect().top-d.querySelector('.detail-toolbar').getBoundingClientRect().bottom-30;});await settle(page);
  check.before=await page.evaluate(()=>{const d=document.querySelector('#detail'),edge=d.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
  const candidates=[...d.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')].filter(n=>!n.classList.contains('detail-load-status')&&n.getBoundingClientRect().height>0&&n.getBoundingClientRect().bottom>edge&&n.getBoundingClientRect().top<d.getBoundingClientRect().bottom);
  return {scroll:d.scrollTop,focus:document.activeElement.id,statusHeight:document.querySelector('.detail-load-status').getBoundingClientRect().height,targetTop:document.querySelector('.markdown-table tbody tr:nth-child(1)').getBoundingClientRect().top,anchors:candidates.slice(0,5).map(n=>({tag:n.tagName,class:n.className,text:n.textContent.slice(0,80),top:n.getBoundingClientRect().top,bottom:n.getBoundingClientRect().bottom}))};});

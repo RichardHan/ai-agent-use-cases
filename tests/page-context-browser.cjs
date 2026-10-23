@@ -46,7 +46,7 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
 if(!observe){
  const browser=await chromium.launch(),lifecycle=[];
  for(const mode of ['loading-early','error','partial']){
-  const context=await browser.newContext({viewport:{width:390,height:900}}),page=await context.newPage();const row={mode};lifecycle.push(row);let releaseCatalog,releaseSources;
+  const context=await browser.newContext({viewport:{width:390,height:900}}),page=await context.newPage();const row={mode,network:[]};lifecycle.push(row);context.on('response',r=>{if(r.status()>=400)row.network.push({url:r.url().split('?')[0],status:r.status()});});context.on('requestfailed',r=>row.network.push({url:r.url().split('?')[0],error:r.failure()?.errorText}));let releaseCatalog,releaseSources;
   const catalogGate=new Promise(r=>releaseCatalog=r),sourceGate=new Promise(r=>releaseSources=r);
   try{
   if(mode==='loading-early'){
@@ -66,7 +66,7 @@ if(!observe){
   if(mode==='partial'){
    await page.waitForFunction(()=>discoveryReady);row.partialTitle=await page.title();assert.equal(row.partialTitle,'已載入內容 · 搜尋「旅遊」｜AI 用法實驗室');assert(await page.locator('#partial-load').isVisible());await page.unroute('**/cases/001-travel-checkout.md');await page.locator('#retry-failed').click();await page.waitForFunction(()=>!recoveringSources&&failedPaths.length===0);
   }
-  await page.waitForFunction(()=>discoveryReady);await page.locator('#detail[open]').waitFor();assert.equal(await page.title(),'UC-001 · '+await page.locator('#detail-title').innerText()+'｜AI 用法實驗室');row.finalTitle=await page.title();
+  await page.waitForFunction(()=>discoveryReady);row.corpus=await page.evaluate(()=>({total:entries.length,failed:[...failedPaths]}));assert.deepEqual(row.corpus.failed,[],'Recovery requires every source file');await page.locator('#detail[open]').waitFor();assert.equal(await page.title(),'UC-001 · '+await page.locator('#detail-title').innerText()+'｜AI 用法實驗室');row.finalTitle=await page.title();
   await page.keyboard.press('Escape');assert.equal(await page.title(),'搜尋「旅遊」｜AI 用法實驗室');row.passed=true;
   }catch(e){row.failure=e.stack;throw e;}finally{releaseCatalog();releaseSources();fs.writeFileSync(out+'/lifecycle.json',JSON.stringify(lifecycle,null,2));await context.close();}
  }

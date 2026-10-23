@@ -449,10 +449,14 @@ function markdownDestination(text,start) {
 }
 function inline(node,text,path) {
   // All source text is inserted as text nodes; source HTML can never execute.
-  const regex=/\[([^\]]+)\]\(|https?:\/\/[^\s<>]+|`([^`]+)`/g; let last=0,match;
+  const regex=/\[([^\]]+)\]\(|https?:\/\/[^\s<>]+|`([^`]+)`|(?<![\\*])\*\*(?![\s*])([^*\n]*?\S)\*\*(?!\*)/g; let last=0,match;
   while((match=regex.exec(text))) {
     node.append(document.createTextNode(text.slice(last,match.index)));
-    if(match[2]) node.append(el('code','',match[2]));
+    if(match[3]) {
+      // A bounded subset of source emphasis; code and URL tokens stay literal.
+      const strong=el('strong');inline(strong,match[3],path);node.append(strong);
+    }
+    else if(match[2]) node.append(el('code','',match[2]));
     else {
       const destination=match[1]?markdownDestination(text,regex.lastIndex):null;
       if(match[1]&&!destination){node.append(document.createTextNode(match[0]));last=regex.lastIndex;continue;}

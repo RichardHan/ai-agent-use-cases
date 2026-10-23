@@ -15,6 +15,16 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  if(width===1440){const pending=page.waitForEvent('popup');await link.click();const popup=await pending;await popup.waitForLoadState('domcontentloaded').catch(()=>{});row.sourceOpened=popup.url();await popup.close();}
  await page.reload();await page.locator('#detail[open]').waitFor();assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-313');
  if(!observe){assert.deepEqual(row.emphasis.strong,['未證實實際重複寄送，也未重新核對外部服務狀態']);assert(!row.emphasis.text.includes('**'));assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert(await page.locator('#detail').evaluate(n=>n.scrollWidth<=n.clientWidth+1));row.violations=(await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}));assert.deepEqual(row.violations,[]);}
+ if(!observe){
+ // A reader searches for the exact evidence caveat, reads its full context, and returns.
+ await page.goto(base+'?q='+encodeURIComponent('未證實實際重複寄送')+'&case=UC-313');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
+ await page.locator('.reader-search-locate').first().focus();await page.keyboard.press('Enter');
+ row.searchTarget=await page.evaluate(()=>({tag:document.activeElement.tagName,text:document.activeElement.textContent,strong:[...document.activeElement.querySelectorAll('strong')].map(n=>n.textContent)}));assert(row.searchTarget.text.includes('未證實實際重複寄送'));assert.deepEqual(row.searchTarget.strong,['未證實實際重複寄送，也未重新核對外部服務狀態']);
+ await page.screenshot({path:`${out}/search-${row.label}.png`});
+ await page.keyboard.press('Escape');assert.equal(await page.locator('#query').inputValue(),'未證實實際重複寄送');
+ await page.goto(base+'?case=UC-089');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await page.locator('.research-details summary').click();
+ row.approvalBoundary=await page.locator('.research-details strong').allTextContents();assert(row.approvalBoundary.includes('未經核准不得移動、刪除、退訂或取消任何東西'));
+ }
  await page.keyboard.press('Escape');await page.locator('#query').fill('zzzz_no_match_731');await page.locator('#empty').waitFor({state:'visible'});await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(n=>n===document.activeElement));row.emptyRecovery=true;assert.deepEqual(row.errors,[]);
  }catch(e){row.failure=e.stack;throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await browser.close();}
 }

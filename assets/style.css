@@ -286,3 +286,12 @@
 
 /* The main search uses its container ring; other inputs keep their own focus styles. */
 #query{outline:none}
+
+/* Recovery remains usable while a slow source is still pending. */
+.recovery-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.partial-load>div:first-child{min-width:0;flex:1}
+.partial-load .recovery-actions{flex:0 1 280px}
+.recovery-actions button{max-width:100%;white-space:normal;text-align:left}
+#recovery-progress{display:block;width:100%;height:10px;margin-top:12px;accent-color:#94632b}
+#recovery-progress[hidden]{display:none}
+@media(max-width:760px){.partial-load .recovery-actions{flex:auto}}

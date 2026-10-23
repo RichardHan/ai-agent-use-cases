@@ -1,0 +1,22 @@
+browser	Cloud recovery and visitor journeys	﻿2026-10-23T13:07:44.5701254Z ##[group]Run python3 -m http.server 8184 --directory "$RUNNER_TEMP/preview" > /tmp/reliability-preview.log 2>&1 &
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5702136Z ^[[36;1mpython3 -m http.server 8184 --directory "$RUNNER_TEMP/preview" > /tmp/reliability-preview.log 2>&1 &^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5702773Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8184/ai-agent-use-cases/^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5703242Z ^[[36;1mif [ "$GITHUB_REF_NAME" = verify/reliable-corpus-20261023 ]; then^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5703737Z ^[[36;1m  export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5704139Z ^[[36;1m  node - <<'JS'^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5704384Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5705825Z ^[[36;1m(async()=>{for(const file of ['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?recovery='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);console.log('MATCH '+file);}})().catch(e=>{console.error(e);process.exit(1)});^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5707294Z ^[[36;1mJS^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5707478Z ^[[36;1mfi^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5707702Z ^[[36;1mchown -R pwuser:pwuser qa-artifacts^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5708218Z ^[[36;1mQA_OUT=qa-artifacts/recovery runuser -u pwuser -- node tests/recovery-progress-browser.cjs^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5708890Z ^[[36;1mQA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5709445Z shell: sh -e {0}
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5709638Z env:
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5710155Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:44.5710482Z ##[endgroup]
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:48.0284983Z Error: Please use browser.newContext()
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:48.0286134Z  Please check out https://github.com/dequelabs/axe-core-npm/blob/develop/packages/playwright/error-handling.md
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:48.0287392Z     at AxeBuilder.analyze (/__w/_temp/tools/node_modules/@axe-core/playwright/dist/index.js:253:13)
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:48.0288634Z     at async /__w/ai-agent-use-cases/ai-agent-use-cases/tests/recovery-progress-browser.cjs:20:705
+browser	Cloud recovery and visitor journeys	2026-10-23T13:07:48.0469248Z ##[error]Process completed with exit code 1.

@@ -5,7 +5,7 @@ const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在�
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
 let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {}, failedPaths = [];
 let allowAutomaticArrival=true, searchShareRequest=0;
-let recoveringSources=false, recoveryNotice='';
+let recoveringSources=false, recoveryNotice='', recoveryController=null, recoveryProgress=null;
 let initialLoading=false, initialLoadController=null;
 let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
 const $ = id => document.getElementById(id);
@@ -1495,11 +1495,20 @@ function updatePartialLoad() {
   $('partial-load').hidden=!discoveryReady||!failedPaths.length;
   $('retry-failed').setAttribute('aria-disabled',String(recoveringSources));
   $('retry-failed').textContent=recoveringSources?'正在重試…':'重試未載入來源';
+  $('recovery-progress').hidden=!recoveringSources;
+  $('stop-recovery').hidden=!recoveringSources;
+  $('stop-recovery').setAttribute('aria-disabled',String(!!recoveryController?.signal.aborted));
+  if(recoveryProgress){
+    $('recovery-progress').max=recoveryProgress.total;
+    $('recovery-progress').value=recoveryProgress.completed;
+  }
   const target=new URLSearchParams(location.search).get('case');
   const missingTarget=target&&!matchCase(target);
   $('partial-message').textContent=(missingTarget?'分享的案例目前無法開啟，可能仍在未載入的來源中。':'')+
     '還有 '+failedPaths.length+' 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。'+
-    (recoveringSources?'正在補讀，你可以繼續搜尋或閱讀。':'可稍後重試，已載入內容會保留。');
+    (recoveringSources?'正在補讀，你可以繼續搜尋或閱讀。'+
+      (recoveryProgress?'已處理 '+recoveryProgress.completed+' / '+recoveryProgress.total+' 個來源，成功讀取 '+recoveryProgress.succeeded+' 個。':'')+
+      '不想等待時，可停止並使用已補回內容。':'可稍後重試，已載入內容會保留。');
   $('load-status').textContent=recoveryNotice;
 }
 function preserveRecoveryFocus() {
@@ -1535,25 +1544,37 @@ function preserveRecoveryFocus() {
     target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
   };
 }
+function stopSourceRecovery() {
+  if(recoveringSources)recoveryController?.abort();
+}
 async function retryFailedSources() {
   if(!discoveryReady||recoveringSources||!failedPaths.length)return;
   const paths=[...failedPaths];
   const requestedCase=new URLSearchParams(location.search).get('case');
+  recoveryController=new AbortController();
+  recoveryProgress={completed:0,succeeded:0,total:paths.length};
   recoveringSources=true;recoveryNotice='正在重試 '+paths.length+' 個來源檔案，已載入內容仍可使用。';
   updatePartialLoad();
   try {
-    const result=await loadCorpus(paths,{concurrency:4,timeout:15000,budget:20000});
+    const result=await loadCorpus(paths,{concurrency:4,timeout:15000,budget:20000,signal:recoveryController.signal,
+      onProgress:progress=>{recoveryProgress=progress;updatePartialLoad();}
+    });
     const restoreFocus=preserveRecoveryFocus();
-    const recoverRequested=document.activeElement===$('retry-failed');
+    const recoveryControlFocused=[$('retry-failed'),$('stop-recovery')].includes(document.activeElement);
+    const recoverRequested=recoveryControlFocused;
     entries=mergeCorpus(entries,result.entries);
     failedPaths=result.failed;
     recoveringSources=false;
-    recoveryNotice='已補回 '+result.entries.length+' 筆收錄。'+(failedPaths.length?
+    recoveryNotice=(recoveryController.signal.aborted?'已停止等待。':'')+'已補回 '+result.entries.length+' 筆收錄。'+(failedPaths.length?
       '仍有 '+failedPaths.length+' 個來源檔案未載入，請稍後再試。':'所有來源皆已載入。');
     refreshCorpusMetadata();
     render(false,true);
     updateModalNav();
-    restoreFocus();
+    if(recoveryControlFocused){
+      const target=failedPaths.length?$('retry-failed'):$('results-count');
+      target.focus({preventScroll:true});
+      target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+    }else restoreFocus();
     refreshRelated();
     const target=new URLSearchParams(location.search).get('case');
     if(recoverRequested && requestedCase!==null && target===requestedCase && !$('detail').open){
@@ -1566,6 +1587,7 @@ async function retryFailedSources() {
     console.error(error);
   } finally {
     recoveringSources=false;
+    recoveryController=null;recoveryProgress=null;
     updatePartialLoad();
   }
 }
@@ -1861,6 +1883,7 @@ $('edit-query').addEventListener('click', () => {
   // Keep this explicit recovery visible even when native focus does not scroll.
   query.scrollIntoView({block:'center',behavior:'instant'});
 });
+$('stop-recovery').addEventListener('click',stopSourceRecovery);
 $('retry-failed').addEventListener('click',()=>{
   if(recoveringSources)return;
   $('retry-failed').focus({preventScroll:true});

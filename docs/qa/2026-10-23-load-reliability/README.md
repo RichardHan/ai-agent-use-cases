@@ -65,3 +65,14 @@ PR建立因EMU限制遭GraphQL Unauthorized，沒有修改權限；依使用者�
 變更檔案：`assets/app.js`、`assets/style.css`、`index.html`、`tests/recovery-progress.test.cjs`、`tests/recovery-progress-browser.cjs`、`tests/reliability-observe.cjs`、`.github/workflows/reliability-round-qa.yml`、`SITE.md`及本輪證據。預覽可用上述build後在 `/ai-agent-use-cases/` 開啟；公開網站部署後同路徑可用。
 
 下一輪優先量測並降低首次全文請求量，保留單篇早讀與部分補讀；不要把本輪停止等待當作已修復載入根因。
+
+
+## 發布進度與明確驗收範圍
+
+一般merge `b4317da`已推送main，沒有強推；PR API因EMU限制被拒。正式首驗39959816385在Pages仍排隊時，因公開index.html與預期版本不同而FAIL，保留[原log](checks/published-before-deployment.log)，沒有拿舊站當成新版成功。
+
+正式常態旅程使用既有 QA_OBSERVE 模式：實走兩尺寸搜尋、組合篩選、來源開啟、返回焦點與空結果，記錄title；此模式不執行title斷言與detail／empty的兩次axe，僅結尾axe。完整title、各狀態axe、直鏈重整與歷史回返已由最終預覽5配置執行通過。正式補讀三配置仍保留原成功數、停止、再次補讀、焦點、原文節點與axe斷言；沒有聲稱縮小的正式流程與完整預覽相同。
+
+主線既有其他QA存在失敗／執行中，不宣稱整批main CI全綠。此次只據明確專項、獨立審查與實際Pages結果判斷本輪驗收。
+
+Pages [39959790740](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39959790740) 的正式Jekyll build、report及deploy已全部成功，deployment SHA為 `b4317da99329a63610081713705408b26d066c53`。公開首頁、app.js、style.css、reader.js、reader.css五檔HTTP200且逐byte吻合。EMU帳號無admin權限不能rerun既有驗收，改以授權SSH推送僅文件補記觸發新版正式驗收；產品資產未改。

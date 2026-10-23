@@ -1,0 +1,16 @@
+[
+  {
+    "label": "chromium-1440",
+    "states": [
+      {
+        "name": "home",
+        "title": "AI 用法實驗室 · 案例庫",
+        "url": "https://richardhan.github.io/ai-agent-use-cases/",
+        "heading": "顯示 433 / 433 筆收錄"
+      }
+    ],
+    "errors": [],
+    "total": 433,
+    "failure": "locator.click: Error: strict mode violation: locator('[data-search-entry]') resolved to 2 elements:\n    1) <a href=\"#explore\" data-search-entry=\"\" class=\"hero-search-link\">…</a> aka getByRole('link', { name: '直接搜尋案例' })\n    2) <a href=\"#explore\" data-search-entry=\"\">我想自己找 →</a> aka getByRole('link', { name: '我想自己找 →' })\n\nCall log:\n  - waiting for locator('[data-search-entry]')\n\n    at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/page-context-browser.cjs:13:44"
+  }
+]

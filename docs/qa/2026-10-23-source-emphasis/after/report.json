@@ -1,0 +1,203 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "corpus": {
+      "total": 439,
+      "failed": []
+    },
+    "results": "顯示 15 / 439 筆收錄",
+    "emphasis": {
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ],
+      "weights": [
+        {
+          "strong": "700",
+          "parent": "400"
+        }
+      ]
+    },
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Noto Sans TC",
+          "postScriptName": "NotoSansTC-Thin",
+          "isCustomFont": false,
+          "glyphCount": 22
+        }
+      ]
+    },
+    "source": "https://github.com/openai/codex/issues/52208",
+    "sourceOpened": "https://github.com/openai/codex/issues/52208",
+    "violations": [],
+    "searchTarget": {
+      "tag": "P",
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ]
+    },
+    "approvalBoundary": [
+      "未經核准不得移動、刪除、退訂或取消任何東西"
+    ],
+    "emptyRecovery": true
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "corpus": {
+      "total": 439,
+      "failed": []
+    },
+    "results": "顯示 15 / 439 筆收錄",
+    "emphasis": {
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ],
+      "weights": [
+        {
+          "strong": "700",
+          "parent": "400"
+        }
+      ]
+    },
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Noto Sans TC",
+          "postScriptName": "NotoSansTC-Thin",
+          "isCustomFont": false,
+          "glyphCount": 22
+        }
+      ]
+    },
+    "source": "https://github.com/openai/codex/issues/52208",
+    "violations": [],
+    "searchTarget": {
+      "tag": "P",
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ]
+    },
+    "approvalBoundary": [
+      "未經核准不得移動、刪除、退訂或取消任何東西"
+    ],
+    "emptyRecovery": true
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "corpus": {
+      "total": 439,
+      "failed": []
+    },
+    "results": "顯示 15 / 439 筆收錄",
+    "emphasis": {
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ],
+      "weights": [
+        {
+          "strong": "700",
+          "parent": "400"
+        }
+      ]
+    },
+    "platformFonts": {
+      "fonts": [
+        {
+          "familyName": "Noto Sans TC",
+          "postScriptName": "NotoSansTC-Thin",
+          "isCustomFont": false,
+          "glyphCount": 22
+        }
+      ]
+    },
+    "source": "https://github.com/openai/codex/issues/52208",
+    "violations": [],
+    "searchTarget": {
+      "tag": "P",
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ]
+    },
+    "approvalBoundary": [
+      "未經核准不得移動、刪除、退訂或取消任何東西"
+    ],
+    "emptyRecovery": true
+  },
+  {
+    "label": "firefox-390",
+    "errors": [],
+    "corpus": {
+      "total": 439,
+      "failed": []
+    },
+    "results": "顯示 15 / 439 筆收錄",
+    "emphasis": {
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ],
+      "weights": [
+        {
+          "strong": "700",
+          "parent": "400"
+        }
+      ]
+    },
+    "source": "https://github.com/openai/codex/issues/52208",
+    "violations": [],
+    "searchTarget": {
+      "tag": "P",
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ]
+    },
+    "approvalBoundary": [
+      "未經核准不得移動、刪除、退訂或取消任何東西"
+    ],
+    "emptyRecovery": true
+  },
+  {
+    "label": "webkit-390",
+    "errors": [],
+    "corpus": {
+      "total": 439,
+      "failed": []
+    },
+    "results": "顯示 15 / 439 筆收錄",
+    "emphasis": {
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ],
+      "weights": [
+        {
+          "strong": "700",
+          "parent": "400"
+        }
+      ]
+    },
+    "source": "https://github.com/openai/codex/issues/52208",
+    "violations": [],
+    "searchTarget": {
+      "tag": "P",
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ]
+    },
+    "approvalBoundary": [
+      "未經核准不得移動、刪除、退訂或取消任何東西"
+    ],
+    "emptyRecovery": true
+  }
+]

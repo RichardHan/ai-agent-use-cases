@@ -283,3 +283,12 @@ iiiizzzz於2026-10-14的[日文Zenn實作](https://zenn.dev/izumi_ren/articles/0
 可貼指令（本庫原創／未實測）：請只依虛構服務需求列必要功能、可接受小瑕疵、最多修正輪數及人工驗收；區分已建置、已測、已發布，碰到用量門檻先停。不開服務、付費、改權限或對外發訊息。
 
 作者當時Pro開通仍逐步提供；目前方案與此次實付成本未核。實際LINE服務與資料分享需另外授權，不能把發表頁等同官方支持；此為既有需求、實作及驗收流程的新作者版本，不另計案例。
+
+
+## 2026-10-23補充：多模型共識不能取代實際diff與跨檔案內容
+
+stoneskin／Mr. Sun的[Muse thinktank實作文章](https://stoneskin.github.io/writings/i-built-muse-a-think-tank-en.html)（2026-10-14，英文）與[公開code-review範例](https://github.com/stoneskin/muse-thinktank/blob/main/examples/code-review/README.md)指出：只給「修正了什麼」的摘要，審查者可能捏造隨機數或非同步問題；改給實際diff才有可檢查依據。作者另報告分塊曾丟失跨檔案關聯。屬作者自述，未獨立重現，不採信多模型一致即正確或零幻覺的宣傳。
+
+[PR1](https://github.com/stoneskin/muse-thinktank/pull/1)已合併只能證明變更存在，不證明審查品質。範例有diff長度上限，超出與未提供的關聯檔案應列為缺口，不以看過摘要冒充完整審查。OpenRouter多模型呼叫屬另行服務與費用，不等於Muse訂閱已包含；勿上傳未授權私有程式。
+
+可加指令（整理者原創／未實測）：「每項問題指向已提供diff或檔案位置；推測另列。先說明截斷、未讀檔案及跨檔案依賴；無法取得完整內容就限定結論。不同模型同意不是已重現證據。」此為UC005同流程補充，不另計新案例。

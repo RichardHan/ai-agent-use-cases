@@ -86,3 +86,5 @@ Pages [39959790740](https://github.com/RichardHan/ai-agent-use-cases/actions/run
 原工作樹兩檔SHA-256和開始完全一致：app.js `6e70c1c846de9eea49839382b74c84819a23ac9368851d505556f164b41dba23`，search.test.cjs `3313f45de597da1113165e153ff59f78a04715bc650de923395a611b50271821`；原分支、未提交改動及協作者研究PR保持。
 
 [主線CI快照](checks/main-ci-snapshot.json) 包含本次merge的其他失敗與執行中工作，沒有宣稱main整批全綠。此次專項最終預覽及正式均成功，Pages正式build/deploy成功；首輪舊版資產比對FAIL照實保留。最後僅補文件與發布圖，不再變更產品／測試／工作流，本輪達到驗收並停止。
+
+最後補推證據時遇到協作者主線 `bf7a490`（INDEX、UC-067與研究筆記補充），首次push被non-fast-forward安全拒絕。已一般merge完整保留，無衝突、無強推；五產品資產對已正式驗證的b4317da零diff。此後新增的協作者研究文字不冒稱已由本輪舊快照驗收。

@@ -1,7 +1,7 @@
 name: Transient loading round QA
 on:
   push:
-    branches: [improve/reader-code-blocks-20261023]
+    branches: [improve/reader-code-blocks-20261023, verify/transient-loading-20261023]
   workflow_dispatch:
     inputs:
       target:
@@ -37,7 +37,7 @@ jobs:
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
           git show 3494ed9:assets/app.js > "$RUNNER_TEMP/before-app.js"
       - name: Compare same-corpus transient failure and verify recovery
-        if: inputs.target != 'published'
+        if: inputs.target != 'published' && github.ref != 'refs/heads/verify/transient-loading-20261023'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           BEFORE_APP: ${{ runner.temp }}/before-app.js
@@ -48,14 +48,14 @@ jobs:
           QA_BEFORE=1 QA_OUT=qa-artifacts/before runuser -u pwuser -- node tests/transient-loading-browser.cjs
           QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/transient-loading-browser.cjs
       - name: Existing reading and lifecycle regression
-        if: inputs.target != 'published'
+        if: inputs.target != 'published' && github.ref != 'refs/heads/verify/transient-loading-20261023'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           SITE_URL: http://127.0.0.1:8178/ai-agent-use-cases/
           QA_OUT: qa-artifacts/regression
         run: runuser -u pwuser -- node tests/page-context-browser.cjs > qa-artifacts/regression.log 2>&1
       - name: Verify published assets and three reading scenarios
-        if: inputs.target == 'published'
+        if: inputs.target == 'published' || github.ref == 'refs/heads/verify/transient-loading-20261023'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
         run: |

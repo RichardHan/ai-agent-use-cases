@@ -1,5 +1,7 @@
 # 完整案例索引
 
+2026-10-23 10:40台灣時間批次：16組候選，新增合格0、UC030合併1組日文實作，補標準答案／AI解析分離與跨裝置錯題紀錄驗收；7組已收錄、8組證據或全文去重不足。三類累計未重驗，不以網站條目數替代2000目標。[來源與範圍](sources/research-2026-10-23-1040.md)。
+
 2026-10-23 10:10台灣時間批次：16組候選審查，新增合格0、UC208補1組分享模板漏帶技能的作者故障陳述；7組已有、8組證據或去重不足。未重驗全庫累計，不沿用歷史數當現況。[來源與範圍](sources/research-2026-10-23-1010.md)。
 
 2026-10-22 14:40批次：X（英、中、日、韓；Grok Bot流程關鍵詞、Muse／dots各一輪）＋Hacker News（Algolia）、官方說明（Muse通話、x.ai Bot模板頁）集中核對。新增UC-422英文作者@DBurkland讓Bot每班起飛前一小時依航線抓SIGMET／AIRMET／PIREP與Turbli，寄分段亂流表與地圖、飛行中可再問（B，附真實報告截圖與公開模板）、UC-423英文作者@Anniliese_ETH五角色交易小組：各角色只寫自己的檔案交接、只有執行Bot能下單、風控上限寫死、每晚分角色檢討，並記下停損過近被掃的教訓（B，非投資建議）、UC-424英文作者@YifeiZhou讓Bot讀網頁原始碼拆解喜歡的橫幅構成與寓意，Bot提醒館藏畫作商用授權後改用NASA公有領域影像重做（B，附成品圖）、UC-425英文作者@SravanVadige讓Muse清點取消行程後閒置的航空抵用金、部分退款與忘了買過的保險並代申請理賠（B，單則自述）；072併入@kylemissionai讓Muse代打停車退款電話、第一通資料不足失敗後問本人再打成功，391併入@emilyntech用官方頁面功能做16個Bot總覽、抓到重複Bot、每Bot用量拿不到，均不另計。皆未重現。承接363，嚴格合格367／1000，尚差633；主要頁417。[逐組判斷與實閱範圍](sources/research-2026-10-22-1443.md)。
@@ -182,7 +184,7 @@
 | UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse；Grok Bot 網購下單失敗回報 | [Muse 官方自述＋Grok Bot 作者失敗自述；原創流程未實測](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買、網購 |
 | UC-028 | 先做帳單降費比較，再決定怎麼談；Muse 代查帳戶與客服議價；Grok Bot 訂閱線上議價與漲價抵免；Grok Bot 讀 PDF 帳單、本人登入後代談並先確認新總額 | Meta Muse／Grok Bot | [原作者帳單檢查與本人通話準備自述＋P-002 三則原帖（一則附業者確認簡訊）＋Grok Bot 兩則自述（一則附Bot回報截圖）＋Grok Bot 同業者現價比對與優惠到期提醒自述；節省未核](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商、訂閱 |
 | UC-029 | 刪掉12堂新排課，別動原本的2堂 | Meta Muse／Peloton | [作者實測報告；未獨立重現](cases/029-exercise-time-replan.md) | 生活｜運動、行程 |
-| UC-030 | 把筆記做成互動複習工具 | Meta Muse；ChatGPT dots／Sites（Kindle 生字字卡） | [官方自述＋作者自建字卡 App 自述；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具、語言學習 |
+| UC-030 | 把筆記做成互動複習工具 | Meta Muse；ChatGPT dots／Sites；Grok Bot（題庫與共享作答紀錄） | [官方自述＋作者自建字卡 App 自述；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具、語言學習 |
 | UC-031 | 用匿名消費明細建立支出看板 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/031-spending-dashboard.md) | 省錢｜記帳、看板 |
 | UC-032 | 把虛構睡眠紀錄整理成趨勢圖 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/032-sleep-record-chart.md) | 生活｜睡眠、健康 |
 | UC-033 | 從年度營運數據排出下一季實驗 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/033-business-experiment-plan.md) | 工作｜營運、實驗規劃 |

@@ -1,0 +1,46 @@
+[
+  {
+    "mode": "loading-early",
+    "network": [],
+    "loadingTitle": "載入中 · 搜尋「旅遊」｜AI 用法實驗室",
+    "earlyTitle": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+    "corpus": {
+      "total": 439,
+      "failed": []
+    },
+    "finalTitle": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+    "passed": true
+  },
+  {
+    "mode": "error",
+    "network": [
+      {
+        "url": "http://127.0.0.1:8174/ai-agent-use-cases/catalog.json",
+        "error": "net::ERR_FAILED"
+      }
+    ],
+    "errorTitle": "載入失敗 · 搜尋「旅遊」｜AI 用法實驗室",
+    "corpus": {
+      "total": 439,
+      "failed": []
+    },
+    "finalTitle": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+    "passed": true
+  },
+  {
+    "mode": "partial",
+    "network": [
+      {
+        "url": "http://127.0.0.1:8174/ai-agent-use-cases/cases/001-travel-checkout.md",
+        "error": "net::ERR_FAILED"
+      }
+    ],
+    "partialTitle": "已載入內容 · 搜尋「旅遊」｜AI 用法實驗室",
+    "corpus": {
+      "total": 439,
+      "failed": []
+    },
+    "finalTitle": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+    "passed": true
+  }
+]

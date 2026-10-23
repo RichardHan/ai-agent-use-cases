@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: source emphasis conveys the original action and evidence boundaries
+ok 1 - source emphasis conveys the original action and evidence boundaries
+  ---
+  duration_ms: 3.644458
+  type: 'test'
+  ...
+# Subtest: strong spans keep surrounding text and permit existing safe inline code and links
+ok 2 - strong spans keep surrounding text and permit existing safe inline code and links
+  ---
+  duration_ms: 0.1675
+  type: 'test'
+  ...
+# Subtest: code blocks, inline code and URL destinations retain literal asterisks
+ok 3 - code blocks, inline code and URL destinations retain literal asterisks
+  ---
+  duration_ms: 0.082125
+  type: 'test'
+  ...
+# Subtest: unsupported or incomplete emphasis remains literal and source HTML stays inert
+ok 4 - unsupported or incomplete emphasis remains literal and source HTML stays inert
+  ---
+  duration_ms: 0.15025
+  type: 'test'
+  ...
+# Subtest: headings, nested lists, quotes and tables share the safe emphasis rendering
+ok 5 - headings, nested lists, quotes and tables share the safe emphasis rendering
+  ---
+  duration_ms: 0.220917
+  type: 'test'
+  ...
+# Subtest: nested code and destinations cannot terminate source emphasis or truncate links
+ok 6 - nested code and destinations cannot terminate source emphasis or truncate links
+  ---
+  duration_ms: 0.188875
+  type: 'test'
+  ...
+# Subtest: incomplete URLs never crash and code scanning matches the existing inline token grammar
+ok 7 - incomplete URLs never crash and code scanning matches the existing inline token grammar
+  ---
+  duration_ms: 0.135208
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 57.068541

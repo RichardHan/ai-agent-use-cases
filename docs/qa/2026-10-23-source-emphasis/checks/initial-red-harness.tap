@@ -1,0 +1,102 @@
+TAP version 13
+# Subtest: source emphasis conveys the original action and evidence boundaries
+not ok 1 - source emphasis conveys the original action and evidence boundaries
+  ---
+  duration_ms: 2.699792
+  type: 'test'
+  location: '/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:7:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    cases/089-digital-declutter-approval-plan.md
+    + actual - expected
+
+    + []
+    - [
+    -   '未經核准不得移動、刪除、退訂或取消任何東西'
+    - ]
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: '未經核准不得移動、刪除、退訂或取消任何東西'
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:11:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.start (node:internal/test_runner/test:878:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17)
+  ...
+# Subtest: strong spans keep surrounding text and permit existing safe inline code and links
+not ok 2 - strong spans keep surrounding text and permit existing safe inline code and links
+  ---
+  duration_ms: 0.178958
+  type: 'test'
+  location: '/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + '前 **不得 delete，先核對**；**未驗證** 後'
+    - '前 不得 delete，先核對；未驗證 後'
+         ^
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '前 不得 delete，先核對；未驗證 後'
+  actual: '前 **不得 delete，先核對**；**未驗證** 後'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:16:9)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3)
+  ...
+# Subtest: code blocks, inline code and URL destinations retain literal asterisks
+ok 3 - code blocks, inline code and URL destinations retain literal asterisks
+  ---
+  duration_ms: 0.134542
+  type: 'test'
+  ...
+# Subtest: unsupported or incomplete emphasis remains literal and source HTML stays inert
+ok 4 - unsupported or incomplete emphasis remains literal and source HTML stays inert
+  ---
+  duration_ms: 0.116125
+  type: 'test'
+  ...
+# Subtest: headings, nested lists, quotes and tables share the safe emphasis rendering
+not ok 5 - headings, nested lists, quotes and tables share the safe emphasis rendering
+  ---
+  duration_ms: 0.141709
+  type: 'test'
+  location: '/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:33:1'
+  failureType: 'testCodeFailure'
+  error: 'wrap.setAttribute is not a function'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    sourceTable (evalmachine.<anonymous>:495:8)
+    Object.renderMarkdown (evalmachine.<anonymous>:511:17)
+    render (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:6:25)
+    TestContext.<anonymous> (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:34:13)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 2
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 57.02325

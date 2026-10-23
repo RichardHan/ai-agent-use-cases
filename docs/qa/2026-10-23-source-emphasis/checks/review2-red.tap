@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: source emphasis conveys the original action and evidence boundaries
+ok 1 - source emphasis conveys the original action and evidence boundaries
+  ---
+  duration_ms: 4.196
+  type: 'test'
+  ...
+# Subtest: strong spans keep surrounding text and permit existing safe inline code and links
+ok 2 - strong spans keep surrounding text and permit existing safe inline code and links
+  ---
+  duration_ms: 0.148666
+  type: 'test'
+  ...
+# Subtest: code blocks, inline code and URL destinations retain literal asterisks
+ok 3 - code blocks, inline code and URL destinations retain literal asterisks
+  ---
+  duration_ms: 0.081458
+  type: 'test'
+  ...
+# Subtest: unsupported or incomplete emphasis remains literal and source HTML stays inert
+ok 4 - unsupported or incomplete emphasis remains literal and source HTML stays inert
+  ---
+  duration_ms: 0.257333
+  type: 'test'
+  ...
+# Subtest: headings, nested lists, quotes and tables share the safe emphasis rendering
+ok 5 - headings, nested lists, quotes and tables share the safe emphasis rendering
+  ---
+  duration_ms: 0.231917
+  type: 'test'
+  ...
+# Subtest: nested code and destinations cannot terminate source emphasis or truncate links
+ok 6 - nested code and destinations cannot terminate source emphasis or truncate links
+  ---
+  duration_ms: 0.17575
+  type: 'test'
+  ...
+# Subtest: incomplete URLs never crash and code scanning matches the existing inline token grammar
+not ok 7 - incomplete URLs never crash and code scanning matches the existing inline token grammar
+  ---
+  duration_ms: 0.342333
+  type: 'test'
+  location: '/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:47:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Got unwanted exception.
+    Actual message: "Cannot read properties of null (reading '0')"
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  actual:
+  error: "Cannot read properties of null (reading '0')"
+  name: 'TypeError'
+  stack: |-
+    markdownStrong (evalmachine.<anonymous>:471:60)
+    inline (evalmachine.<anonymous>:486:18)
+    flush (evalmachine.<anonymous>:539:57)
+    Object.renderMarkdown (evalmachine.<anonymous>:572:3)
+    render (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:6:25)
+    /private/tmp/ai-source-20261023/tests/emphasis.test.cjs:48:85
+    getActual (node:assert:840:5)
+    Function.doesNotThrow (node:assert:1006:32)
+    TestContext.<anonymous> (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:48:68)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+  operator: 'doesNotThrow'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:48:68)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 6
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 56.337

@@ -23,16 +23,24 @@ jobs:
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f
           chown -R pwuser:pwuser qa-artifacts
-      - name: Observe published journeys
+      - name: Unit, syntax and static preview
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+          for f in assets/*.js tests/round23-observe.cjs tests/table-anchor-browser.cjs; do node --check "$f"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Cloud visitor journeys and early table regression
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
-        run: runuser -u pwuser -- node tests/round23-observe.cjs
-      - name: Observe early table reading
-        env:
-          NODE_PATH: ${{ runner.temp }}/tools/node_modules
-          SITE_URL: https://richardhan.github.io/ai-agent-use-cases/
-          TABLE_ANCHOR_OBSERVE: '1'
-        run: runuser -u pwuser -- node tests/table-anchor-browser.cjs
+        run: |
+          python3 -m http.server 8180 --directory "$RUNNER_TEMP/preview" > /tmp/round23-preview.log 2>&1 &
+          export SITE_URL=http://127.0.0.1:8180/ai-agent-use-cases/
+          if [ "$GITHUB_REF_NAME" = verify/round23-published ]; then
+            export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/
+          fi
+          QA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/round23-observe.cjs
+          QA_OUT=qa-artifacts/early-table runuser -u pwuser -- node tests/table-anchor-browser.cjs
+          QA_OUT=qa-artifacts/table SITE_URL="$SITE_URL" runuser -u pwuser -- node tests/table-reading-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

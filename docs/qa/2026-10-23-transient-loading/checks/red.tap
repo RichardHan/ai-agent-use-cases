@@ -1,0 +1,142 @@
+TAP version 13
+# Subtest: transient HTTP and network failures recover once without duplicate entries or progress
+not ok 1 - transient HTTP and network failures recover once without duplicate entries or progress
+  ---
+  duration_ms: 0.880875
+  type: 'test'
+  location: '/private/tmp/ai-code-reading-20261023/tests/transient-loading.test.cjs:7:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    408
+    
+    1 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-code-reading-20261023/tests/transient-loading.test.cjs:13:10)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3)
+  ...
+# Subtest: persistent transient error retries at most once and retains exact failed path
+not ok 2 - persistent transient error retries at most once and retains exact failed path
+  ---
+  duration_ms: 0.164458
+  type: 'test'
+  location: '/private/tmp/ai-code-reading-20261023/tests/transient-loading.test.cjs:16:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-code-reading-20261023/tests/transient-loading.test.cjs:17:121)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: permanent HTTP and parse errors do not create extra requests
+ok 3 - permanent HTTP and parse errors do not create extra requests
+  ---
+  duration_ms: 0.482459
+  type: 'test'
+  ...
+# Subtest: Retry-After uses seconds or server date and never shortens server waiting time
+not ok 4 - Retry-After uses seconds or server date and never shortens server waiting time
+  ---
+  duration_ms: 0.060459
+  type: 'test'
+  location: '/private/tmp/ai-code-reading-20261023/tests/transient-loading.test.cjs:23:1'
+  failureType: 'testCodeFailure'
+  error: 'delay is not a function'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-code-reading-20261023/tests/transient-loading.test.cjs:25:15)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: long Retry-After stays failed instead of delaying the queue or retrying early
+ok 5 - long Retry-After stays failed instead of delaying the queue or retrying early
+  ---
+  duration_ms: 0.120667
+  type: 'test'
+  ...
+# Subtest: abort during retry waiting cancels immediately without a second request
+not ok 6 - abort during retry waiting cancels immediately without a second request
+  ---
+  duration_ms: 0.231708
+  type: 'test'
+  location: '/private/tmp/ai-code-reading-20261023/tests/transient-loading.test.cjs:30:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    2 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 2
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-code-reading-20261023/tests/transient-loading.test.cjs:31:319)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: whole budget and per-source timeout include waiting; never retry a timed-out request
+ok 7 - whole budget and per-source timeout include waiting; never retry a timed-out request
+  ---
+  duration_ms: 11.884375
+  type: 'test'
+  ...
+# Subtest: retry is opt-in and successful shared sources are emitted before another source recovers
+not ok 8 - retry is opt-in and successful shared sources are emitted before another source recovers
+  ---
+  duration_ms: 0.513667
+  type: 'test'
+  location: '/private/tmp/ai-code-reading-20261023/tests/transient-loading.test.cjs:37:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        'shared',
+    -   'slow'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'shared'
+    1: 'slow'
+  actual:
+    0: 'shared'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-code-reading-20261023/tests/transient-loading.test.cjs:39:270)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 3
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 57.547

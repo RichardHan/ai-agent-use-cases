@@ -1,4 +1,4 @@
-name: Code reading round QA
+name: Transient loading round QA
 on:
   push:
     branches: [improve/reader-code-blocks-20261023]
@@ -21,10 +21,28 @@ jobs:
           mkdir -p /usr/local/share/fonts qa-artifacts
           curl -fL --max-time 90 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f
-      - name: Observe published reading flow
+      - name: Unit, syntax and preview build
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+          for f in assets/*.js tests/transient-loading*.cjs; do node --check "$f"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          git show 3494ed9:assets/app.js > "$RUNNER_TEMP/before-app.js"
+      - name: Compare same-corpus transient failure and verify recovery
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
-        run: node tests/code-reading-observe.cjs
+          BEFORE_APP: ${{ runner.temp }}/before-app.js
+          SITE_URL: http://127.0.0.1:8178/ai-agent-use-cases/
+        run: |
+          python3 -m http.server 8178 --directory "$RUNNER_TEMP/preview" > /tmp/transient-preview.log 2>&1 &
+          QA_BEFORE=1 QA_OUT=qa-artifacts/before node tests/transient-loading-browser.cjs
+          QA_OUT=qa-artifacts/after node tests/transient-loading-browser.cjs
+      - name: Existing reading and lifecycle regression
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          SITE_URL: http://127.0.0.1:8178/ai-agent-use-cases/
+          QA_OUT: qa-artifacts/regression
+        run: node tests/page-context-browser.cjs > qa-artifacts/regression.log 2>&1
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -1392,6 +1392,21 @@ function prioritizeSharedSource(paths,target) {
   const first=id[1]==='p' ? 'sources/pending.md' : paths.find(path=>new RegExp('^(?:cases|evidence)/'+id[2].padStart(3,'0')+'-').test(path));
   return first && paths.includes(first) ? [first,...paths.filter(path=>path!==first)] : paths;
 }
+// Server waiting instructions are a minimum, never a suggestion to retry sooner.
+function sourceRetryDelay(value, minimum=500, now=Date.now()) {
+  if(!value)return minimum;
+  const delay=/^\d+$/.test(value.trim()) ? Number(value)*1000 : Date.parse(value)-now;
+  return Number.isNaN(delay)?minimum:Math.max(minimum,delay);
+}
+function waitForSourceRetry(delay,signal) {
+  if(signal?.aborted)return Promise.resolve(false);
+  return new Promise(resolve=>{
+    const finish=value=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);resolve(value);};
+    const abort=()=>finish(false);
+    const timer=setTimeout(()=>finish(true),delay);
+    signal?.addEventListener('abort',abort,{once:true});
+  });
+}
 async function loadCorpus(paths, options = {}) {
   const fetchFn = options.fetch || fetch;
   const parseFn = options.parseFile || parseFile;
@@ -1411,10 +1426,27 @@ async function loadCorpus(paths, options = {}) {
         batch?.signal.addEventListener('abort',abortSource,{once:true});
         const timer=options.timeout ? setTimeout(abortSource,options.timeout) : null;
         try {
-          const response=await fetchFn(path,{cache:'no-cache',...(controller?{signal:controller.signal}:{})});
-          if (!response.ok) throw Error('HTTP '+response.status);
-          const text=await response.text();
-          if (controller?.signal.aborted) throw Error('讀取已停止');
+          let text;
+          for(let attempt=0;attempt<2;attempt++) {
+            let retryable=true,delay=options.retryDelay??500;
+            try {
+              const response=await fetchFn(path,{cache:'no-cache',...(controller?{signal:controller.signal}:{})});
+              if(!response.ok){
+                retryable=[408,429,500,502,503,504].includes(response.status);
+                delay=sourceRetryDelay(response.headers?.get('Retry-After'),delay);
+                throw Error('HTTP '+response.status);
+              }
+              text=await response.text();
+              if(controller?.signal.aborted)throw Error('讀取已停止');
+              break;
+            } catch(error) {
+              // One opt-in retry, within the original source and whole-load
+              // deadlines. Longer server waits remain available for manual retry.
+              if(!options.retryTransient||attempt||!retryable||controller?.signal.aborted||delay>2000)throw error;
+              if(!await waitForSourceRetry(delay,controller?.signal))throw error;
+            }
+          }
+          // A parse error is a content problem, never a transient network error.
           result={ok:true,path,entries:parseFn(path,text)};
         } catch(error) {
           if (!controller?.signal.aborted) console.warn(`無法讀取 ${path}：`,error);
@@ -1621,7 +1653,7 @@ async function load() {
     let announced=-1;
     const orderedPaths=prioritizeSharedSource(paths,new URLSearchParams(location.search).get('case'));
     const { entries: loaded, failed } = await loadCorpus(orderedPaths, {
-      fetch,parseFile,concurrency:16,timeout:12000,budget:remaining(),signal:initialLoadController.signal,
+      fetch,parseFile,concurrency:16,timeout:12000,budget:remaining(),signal:initialLoadController.signal,retryTransient:true,
       onSource:items=>{
         // Read only a successfully parsed source whose actual ID still matches
         // the current URL. Do not reopen a case after close or history traversal.

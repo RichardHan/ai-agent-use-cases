@@ -26,7 +26,7 @@ jobs:
           rm -f /usr/share/fonts/truetype/wqy/wqy-zenhei.ttc
           fc-cache -f
           fc-match -f '%{family} %{style}\n' 'Noto Sans TC:weight=bold'
-          fc-match -f '%{family} %{style}\n' 'system-ui:lang=zh-tw:weight=bold' 
+          fc-match -f '%{family} %{style}\n' 'system-ui:lang=zh-tw:weight=bold'
           chown -R pwuser:pwuser qa-artifacts
       - name: Baseline checks
         run: |

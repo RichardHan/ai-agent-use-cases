@@ -9,12 +9,12 @@ not ok 1 - source emphasis conveys the original action and evidence boundaries
   error: |-
     cases/089-digital-declutter-approval-plan.md
     + actual - expected
-    
+
     + []
     - [
     -   '未經核准不得移動、刪除、退訂或取消任何東西'
     - ]
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:
@@ -38,11 +38,11 @@ not ok 2 - strong spans keep surrounding text and permit existing safe inline co
   error: |-
     Expected values to be strictly equal:
     + actual - expected
-    
+
     + '前 **不得 delete，先核對**；**未驗證** 後'
     - '前 不得 delete，先核對；未驗證 後'
          ^
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: '前 不得 delete，先核對；未驗證 後'
@@ -79,7 +79,7 @@ not ok 5 - headings, nested lists, quotes and tables share the safe emphasis ren
   error: |-
     Expected values to be strictly deep-equal:
     + actual - expected
-    
+
     + []
     - [
     -   '限制',
@@ -89,7 +89,7 @@ not ok 5 - headings, nested lists, quotes and tables share the safe emphasis ren
     -   '欄位',
     -   '約數'
     - ]
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:
@@ -120,13 +120,13 @@ not ok 6 - nested code and destinations cannot terminate source emphasis or trun
   error: |-
     Expected values to be strictly deep-equal:
     + actual - expected
-    
+
     + []
     - [
     -   '含 a**b 程式碼',
     -   '來源'
     - ]
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:
@@ -152,9 +152,9 @@ not ok 7 - incomplete URLs never crash and code scanning matches the existing in
   failureType: 'testCodeFailure'
   error: |-
     Expected values to be strictly equal:
-    
+
     0 !== 1
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected: 1

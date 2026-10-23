@@ -50,7 +50,9 @@ SITE_URL=http://127.0.0.1:8174/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_
 
 [最終視覺QA39900015754](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39900015754)成功：同一完整Noto環境重拍正式站before與預覽after，主角色目視桌面／手機限制句清楚強調、原文完整且無溢出。五配置strong700／parent400；Chromium CDP實際familyName為Noto Sans TC（variable font的PostScript名保留Thin，不從該名稱推論實際字重），5次主要axe0、439條完整與三情境皆通過。這輪只補字型與樣式證據，完整page-context／載入復原沿用產品相同的39899337505／39898918956成功結果，沒有冒稱重跑。產品三資產逐byte相同，字型變更僅雲端容器。
 
-獨立角色已目視同字型環境的四張前後圖，結論「可以合併」：強調清楚且適度、完整限制句保留、手機換行自然、無新溢出或重疊，產品不需追加CSS。最終before正式站已因協作者8bfe3eb新增研究到440條，after隔離基準仍439；計數差是資料版本差異，不是parser刪除案例。UC-313比較文字相同。整合時保留UC-160補證及UC-431新案例，正式站另驗證。
+獨立角色已目視同字型環境的四張前後圖，結論「可以合併」：強調清楚且適度、完整限制句保留、手機換行自然、無新溢出或重疊，產品不需追加CSS。最終before正式站已因協作者8bfe3eb新增研究到440條，after隔離基準仍439；計數差是資料版本差異，不是parser刪除案例。UC-313比較文字相同。整合時保留UC-160補證及UC-442新案例，正式站另驗證。
+
+整合8bfe3eb無衝突，189項單元、資產語法與preview build通過。[整合輸出](checks/integrated-unit.tap)。保存的log僅清除行尾空白，不更動失敗或斷言。
 
 正式站發布結果待填。
 

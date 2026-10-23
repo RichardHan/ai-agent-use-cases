@@ -1,0 +1,20 @@
+[
+  {
+    "file": "assets/app.js",
+    "status": 200,
+    "matches": true,
+    "sha256": "5854bc81568ae67aa58e7a4b75dfc1e79e97bda01da062ccfe7e2473ec7a9bf5"
+  },
+  {
+    "file": "assets/reader.js",
+    "status": 200,
+    "matches": true,
+    "sha256": "b8a2c03580248d4c1f6c3e1af520a76960cc2422ff4b08c68c2b967b6a8b511c"
+  },
+  {
+    "file": "assets/reader.css",
+    "status": 200,
+    "matches": true,
+    "sha256": "cce3346d75b5e6de54ec92581c5e7e8245d157aeb8089e9d3a312cd6786f9a69"
+  }
+]

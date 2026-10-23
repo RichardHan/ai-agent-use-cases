@@ -1570,8 +1570,11 @@ async function retryFailedSources() {
     refreshCorpusMetadata();
     render(false,true);
     updateModalNav();
-    restoreFocus();
-    if(recoveryControlFocused)(failedPaths.length?$('retry-failed'):$('results-count')).focus({preventScroll:true});
+    if(recoveryControlFocused){
+      const target=failedPaths.length?$('retry-failed'):$('results-count');
+      target.focus({preventScroll:true});
+      target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+    }else restoreFocus();
     refreshRelated();
     const target=new URLSearchParams(location.search).get('case');
     if(recoverRequested && requestedCase!==null && target===requestedCase && !$('detail').open){

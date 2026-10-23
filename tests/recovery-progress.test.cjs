@@ -1,11 +1,11 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 function fixture(){
- const nodes=new Map();const node=id=>{if(!nodes.has(id))nodes.set(id,{id,hidden:false,textContent:'',value:0,setAttribute(){},focus(){document.activeElement=this;}});return nodes.get(id);};
+ const nodes=new Map();const node=id=>{if(!nodes.has(id))nodes.set(id,{id,hidden:false,textContent:'',value:0,setAttribute(){},scrollIntoView(){},focus(){document.activeElement=this;}});return nodes.get(id);};
  const document={activeElement:node('retry-failed'),getElementById:node};
  const ctx=vm.createContext({AbortController,URLSearchParams,setTimeout,clearTimeout,console:{warn(){},error(){}},document,location:{search:'?q=旅遊&scenario=生活'},Discovery:require('../assets/discovery.js')});
  vm.runInContext(fs.readFileSync(process.env.RECOVERY_SOURCE||'assets/app.js','utf8').split('/* Browser event bindings. */')[0],ctx);
- 
+
  vm.runInContext(`discoveryReady=true;entries=[{path:'kept',id:'UC-001',kind:'case'}];failedPaths=['fast','slow'];updateMissingCase=()=>{};refreshCorpusMetadata=()=>{};render=()=>{};updateModalNav=()=>{};refreshRelated=()=>{};preserveRecoveryFocus=()=>()=>{};`,ctx);
  let calls=0,aborted=false,release;
  ctx.fetch=async(path,{signal}={})=>{calls++;if(path==='fast')return {ok:true,text:async()=>'recovered'};return new Promise((resolve,reject)=>{release=()=>resolve({ok:true,text:async()=>'late'});signal?.addEventListener('abort',()=>{aborted=true;reject(Error('aborted'));},{once:true});});};

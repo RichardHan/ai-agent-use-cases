@@ -1,7 +1,7 @@
 name: Source emphasis QA
 on:
   push:
-    branches: [improve/reading-source-links-20261023, verify/source-emphasis-20261023]
+    branches: [improve/reading-source-links-20261023, verify/source-emphasis-20261023, verify/source-fonts-20261023]
 permissions:
   contents: read
 jobs:
@@ -22,7 +22,10 @@ jobs:
           mkdir -p /usr/local/share/fonts qa-artifacts
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Bold.otf -o /usr/local/share/fonts/NotoSansCJKtc-Bold.otf
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/Variable/TTF/Subset/NotoSansTC-VF.ttf -o /usr/local/share/fonts/NotoSansTC-VF.ttf
           fc-cache -f
+          fc-match -f '%{family} %{style}\n' 'Noto Sans TC:weight=bold'
+          fc-match -f '%{family} %{style}\n' 'system-ui:lang=zh-tw:weight=bold' 
           chown -R pwuser:pwuser qa-artifacts
       - name: Baseline checks
         run: |
@@ -57,7 +60,7 @@ jobs:
           fi
           QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/emphasis-browser.cjs
       - name: Existing full reading and lifecycle regressions
-        if: github.ref != 'refs/heads/verify/source-emphasis-20261023'
+        if: github.ref != 'refs/heads/verify/source-emphasis-20261023' && github.ref != 'refs/heads/verify/source-fonts-20261023'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           SITE_URL: http://127.0.0.1:8174/ai-agent-use-cases/

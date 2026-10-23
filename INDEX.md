@@ -571,22 +571,20 @@
 | UC-423 | 五角色交易小組：研究／題材／訊號／風控各寫檔案交接，只有一個Bot能下單，風控上限寫死，每晚分角色檢討 | Grok Bot（多Bot＋共用檔案＋routine）／Hyperliquid API錢包（不可提領）／X API | [B英文作者長文全文＋影片貼文（未看）；無成交紀錄、未重現；非投資建議](cases/423-five-role-trading-desk-single-executor-hard-risk-caps.md) | 工作｜多代理、交易、風控、排程 |
 | UC-424 | 拆解喜歡的網站主視覺構成與寓意，再換成可商用的公有領域素材重做品牌橫幅 | Grok Bot／NASA公有領域衛星影像 | [B英文作者貼文＋兩張成品圖；拆解對話未公開、未重現](cases/424-reference-banner-deconstruct-public-domain-remake.md) | 創作｜設計、主視覺、授權、品牌 |
 | UC-425 | 取消後忘掉的旅行：Muse清點閒置航空抵用金、部分退款與附帶旅遊保險，代為申請理賠 | Meta Muse | [B英文作者單則自述（核准1,445.52美元）；無截圖、未重現](cases/425-cancelled-trip-forgotten-credits-refund-insurance-claim.md) | 省錢｜旅遊、退款、保險理賠、抵用金 |
-
 | UC-426 | 讓DNA結構轉成短片，但不要把鏡頭旋轉說成分子模擬 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/426-fixed-molecular-coordinates-camera-storytelling.md) | 創作｜3D、來源、驗收 |
 | UC-427 | 機構說不清？用同一模型的外觀、斷面、分解與狀態圖檢查 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/427-invention-prose-coherent-mechanism-explanation-views.md) | 創作｜3D、來源、驗收 |
 | UC-428 | 檔案做好卻拿不到？用固定版本的接收站分清保存、收件和匯入 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/428-version-fixed-artifact-receipt-hub.md) | 開發｜交付、版本、驗收 |
-
 | UC-429 | 可編輯商品多格式用途一致、填寫後再驗匯出版面 | ChatGPT dots／PDF／Word／TXT／Google Docs | [B作者實作自述；未獨立重現](cases/429-editable-digital-product-multiformat-filled-state-validation.md) | 創作｜數位商品、工作紙、多格式、驗收 |
-
 | UC-430 | 隨太陽出力調整車輛充電，分清發電與可用餘電 | Grok Bot／未指明光電與車輛系統 | [B作者使用自述；無量測，未獨立重現](cases/430-solar-surplus-ev-charge-rate-evidence.md) | 生活｜太陽能、充電、量測、驗收 |
-
 | UC-431 | 公開事件日報按街區篩選，以案號去重並追蹤紀錄申請回執 | Grok Bot／公開PDF／未具名紀錄入口 | [B作者實作自述；無回執、未獨立重現](cases/431-public-incident-geofence-record-request-ledger.md) | 生活｜公開資料、地理篩選、去重、回執 |
-
 | UC-432 | 公開網站證據分級原型，區分確定、推測與看不到 | ChatGPT dots／作者自建API應用 | [B作者建置自述＋公開repo；未獨立重現](cases/432-public-site-evidence-triage-prototype.md) | 開發｜公開證據、原型、限制 |
-
 | UC-433 | 郵件更新商機，但不推翻正式系統已確認狀態 | Grok Bot／ERP匯入資料／業務應用 | [B實施供應商自述；未獨立重現](cases/433-email-opportunity-erp-authoritative-state-guard.md) | 工作｜製造業、郵件、狀態、驗收 |
-
 | UC-434 | 物品售出後，核對保單狀態並找出售證明供本人審信 | Grok Bot | [B作者實作自述；退款同意非入帳、未重現](cases/434-sold-asset-policy-status-proof-refund.md) | 省錢｜保險、售出證明、狀態、退款 |
+| UC-435 | 舊變頻器換成不同品牌新機，依兩台型號與現場接線照片排出新端子對照，卡關後補原廠接線圖 | Grok Bot | [B作者單則自述；無對照表、未重現](cases/435-hvac-vfd-cross-brand-replacement-wiring-map.md) | 工作｜現場維修、接線對照、設備更換、驗收 |
+| UC-436 | 跑步破PB目標：連Strava與報名信做成訓練、賽季、目標三個頁面，每晚自動更新並說有沒有跟上計畫 | Grok Bot Pages／Strava／郵件 | [B作者單則自述；頁面未公開、未重現](cases/436-strava-race-goal-pages-nightly-refresh.md) | 生活｜每日、運動、儀表板、目標追蹤 |
+| UC-437 | 投資研究試算表：重建全市場權證清單並填Google Finance公式，依SEC資料更新企業價值並提醒幣別混用 | Meta Muse／Google試算表 | [B論壇作者自述；表格未公開、未重現](cases/437-muse-warrant-sheet-sec-ev-currency-check.md) | 學習｜投資研究、試算表、資料查證、監看 |
+| UC-438 | 每天清晨的多Bot編輯部：統括派稿、寫手交檔、品管依清單退回附改法、只存下書並登核准台帳 | Grok Bot（多Bot）／ChatGPT作圖／note／X | [B公司note自述時間紀錄；台帳未公開、未重現](cases/438-morning-multibot-draft-desk-review-approval-ledger.md) | 工作｜每日、多代理、內容發布、核准 |
+| UC-439 | 常用SaaS的AI改點數制：依官方說明算自己的影響，再只在已訂閱工具裡找備援 | Grok Bot／Notion AI | [B作者note自述；備援仍在調查、未重現](cases/439-saas-ai-credit-change-impact-backup-check.md) | 省錢｜訂閱、方案變更、用量、備援 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 
@@ -657,3 +655,8 @@
 ## 2026-10-23 08:00研究批次
 
 [14候選與證據界線](sources/research-2026-10-23-0800.md)：新增1（UC434，售出物品與保單狀態核對，B作者自述未重現）；合併2（034人工對帳、005實際diff審查）、既有／變體3、證據／去重不足6、排除2。新增來源待補及AI構想獨立條目各0；三類全庫累計未知，歷史357@2026-10-21 20:50未重驗，2000口徑待確認。
+
+
+## 2026-10-23 08:45研究批次
+
+[候選審查與來源界線](sources/research-2026-10-23-0845.md)：X（英、中日韓）＋Hacker News（Algolia）、價值投資論壇、note、Zenn／Qiita集中核對。新增5（皆B作者自述、未重現）：UC435英文空調技師把舊Schneider變頻器換成ABB新機，Bot依型號序號與接線照片排出端子對照、補原廠圖後對上；UC436英文跑者連Strava與報名信做三個Pages頁面每晚更新；UC437論壇會員讓Muse重建權證試算表、依SEC資料更新企業價值並提醒幣別混用；UC438宮崎公司每天清晨多Bot編輯部（品管抓舊文重複18字、只存下書、核准台帳）；UC439日文作者依官方說明評估Notion AI點數制影響並在既有訂閱找備援。合併0。全庫累計未重驗。

@@ -580,6 +580,7 @@
 | UC-432 | 公開網站證據分級原型，區分確定、推測與看不到 | ChatGPT dots／作者自建API應用 | [B作者建置自述＋公開repo；未獨立重現](cases/432-public-site-evidence-triage-prototype.md) | 開發｜公開證據、原型、限制 |
 | UC-433 | 郵件更新商機，但不推翻正式系統已確認狀態 | Grok Bot／ERP匯入資料／業務應用 | [B實施供應商自述；未獨立重現](cases/433-email-opportunity-erp-authoritative-state-guard.md) | 工作｜製造業、郵件、狀態、驗收 |
 | UC-434 | 物品售出後，核對保單狀態並找出售證明供本人審信 | Grok Bot | [B作者實作自述；退款同意非入帳、未重現](cases/434-sold-asset-policy-status-proof-refund.md) | 省錢｜保險、售出證明、狀態、退款 |
+| UC-435 | 跨年度公開統計，先核對學校／學科身分與統計口徑再銜接趨勢 | ChatGPT dots／作者另用Claude覆核 | [B作者實作自述；兩個官方局部值文字對照，未重現](cases/435-longitudinal-public-statistics-comparability.md) | 學習｜公開統計、時間序列、母體、驗收 |
 | UC-436 | 舊變頻器換成不同品牌新機，依兩台型號與現場接線照片排出新端子對照，卡關後補原廠接線圖 | Grok Bot | [B作者單則自述；無對照表、未重現](cases/436-hvac-vfd-cross-brand-replacement-wiring-map.md) | 工作｜現場維修、接線對照、設備更換、驗收 |
 | UC-437 | 跑步破PB目標：連Strava與報名信做成訓練、賽季、目標三個頁面，每晚自動更新並說有沒有跟上計畫 | Grok Bot Pages／Strava／郵件 | [B作者單則自述；頁面未公開、未重現](cases/437-strava-race-goal-pages-nightly-refresh.md) | 生活｜每日、運動、儀表板、目標追蹤 |
 | UC-438 | 投資研究試算表：重建全市場權證清單並填Google Finance公式，依SEC資料更新企業價值並提醒幣別混用 | Meta Muse／Google試算表 | [B論壇作者自述；表格未公開、未重現](cases/438-muse-warrant-sheet-sec-ev-currency-check.md) | 學習｜投資研究、試算表、資料查證、監看 |
@@ -660,3 +661,8 @@
 ## 2026-10-23 08:45研究批次
 
 [候選審查與來源界線](sources/research-2026-10-23-0845.md)：X（英、中日韓）＋Hacker News（Algolia）、價值投資論壇、note、Zenn／Qiita集中核對。新增5（皆B作者自述、未重現）：UC436英文空調技師把舊Schneider變頻器換成ABB新機，Bot依型號序號與接線照片排出端子對照、補原廠圖後對上；UC437英文跑者連Strava與報名信做三個Pages頁面每晚更新；UC438論壇會員讓Muse重建權證試算表、依SEC資料更新企業價值並提醒幣別混用；UC439宮崎公司每天清晨多Bot編輯部（品管抓舊文重複18字、只存下書、核准台帳）；UC440日文作者依官方說明評估Notion AI點數制影響並在既有訂閱找備援。合併0。全庫累計未重驗。
+
+
+## 2026-10-23 08:50研究批次
+
+[13候選與閱讀界線](sources/research-2026-10-23-0850.md)：新增合格1（UC435，跨年度公開統計可比性，B作者自述未重現）；合併0、已收錄3、證據／去重不足8、排除1。新增來源待補與AI構想獨立條目各0；全庫三類累計未知，歷史357@2026-10-21 20:50未重驗，2000計數口徑待確認。

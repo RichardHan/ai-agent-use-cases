@@ -1,0 +1,39 @@
+browser	Browser titles, complete journeys and recovery	﻿2026-10-23T01:27:50.4875768Z ##[group]Run python3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/page-context-preview.log 2>&1 &
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4876245Z ^[[36;1mpython3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/page-context-preview.log 2>&1 &^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4876593Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8170/ai-agent-use-cases/^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4876811Z ^[[36;1mif [ "$QA_TARGET" = published ]; then^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4877484Z ^[[36;1m  export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4877706Z ^[[36;1m  node - <<'JS'^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4877848Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4878652Z ^[[36;1m(async()=>{for(const file of ['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?context='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);}console.log('Published assets match checkout');})().catch(e=>{console.error(e);process.exit(1)});^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4879462Z ^[[36;1mJS^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4879573Z ^[[36;1mfi^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4879839Z ^[[36;1mchown -R pwuser:pwuser qa-artifacts^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4880102Z ^[[36;1mQA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/page-context-browser.cjs^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4880451Z ^[[36;1mQA_OUT=qa-artifacts/regression runuser -u pwuser -- node tests/task-shortcuts-browser.cjs^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4880798Z shell: sh -e {0}
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4880922Z env:
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4881071Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4881250Z   QA_TARGET: published
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.4881383Z ##[endgroup]
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:27:50.8623403Z Published assets match checkout
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:28:10.4609648Z PASS chromium-1440
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:28:26.7653279Z PASS chromium-390
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:28:42.6061094Z PASS chromium-320
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:04.4127759Z PASS firefox-390
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:22.4595858Z PASS webkit-390
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3481061Z AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3482331Z + actual - expected
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3484495Z
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3485457Z + '已載入內容 · 搜尋「旅遊」｜AI 用法實驗室'
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3485844Z - '搜尋「旅遊」｜AI 用法實驗室'
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3486061Z
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3486459Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/page-context-browser.cjs:70:46 {
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3487113Z   generatedMessage: true,
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3487446Z   code: 'ERR_ASSERTION',
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3487847Z   actual: '已載入內容 · 搜尋「旅遊」｜AI 用法實驗室',
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3488287Z   expected: '搜尋「旅遊」｜AI 用法實驗室',
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3488679Z   operator: 'strictEqual',
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3488991Z   diff: 'simple'
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.3489279Z }
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:29:28.4261472Z ##[error]Process completed with exit code 1.

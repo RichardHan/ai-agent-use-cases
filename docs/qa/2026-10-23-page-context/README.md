@@ -68,8 +68,26 @@ NODE_PATH=<cloud-tools>/node_modules node tests/task-shortcuts-browser.cjs
 
 ## 最終預覽與獨立審查
 
-[39882593090](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39882593090)完整成功，產品資產自06346ca未再變動。Chromium1440／390／320、Firefox390、WebKit390共五配置，433條目零缺項、pageerror空；[新流程報告](after/report.json)／[新載入復原](after/lifecycle.json)、[既有探索回歸](checks/regression-report.json)／[既有復原](checks/regression-lifecycle.json)。25次主要axe掃描零違規（新流程詳情／空結果／最終狀態15次，既有結果／空結果10次），涵蓋WCAG A／AA選定規則，不是完整認證。[雲端182項單元](checks/cloud-unit.tap)與[舊版4項red](checks/cloud-red.tap)皆符合預期。所有來源新頁完成載入，回歸報告未見HTTP錯誤；不把能開啟來源當作已查證內容。
+[39882593090](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39882593090)完整成功，產品資產自06346ca未再變動。Chromium1440／390／320、Firefox390、WebKit390共五配置，433條目零缺項、pageerror空；[新流程報告](after/report.json)／[新載入復原](after/lifecycle.json)、[既有探索回歸](checks/regression-report.json)／[既有復原](checks/regression-lifecycle.json)。25次主要axe掃描零違規（新流程詳情／空結果／最終狀態15次，既有結果／空結果10次），涵蓋WCAG A／AA選定規則，不是完整認證。[雲端182項單元](checks/cloud-unit.tap)與[舊版4項red](checks/cloud-red.tap)皆符合預期。兩套流程皆核對來源新頁網址，既有回歸未記HTTP錯誤或來源逾時；不把能開啟來源當作已查證內容。
 
 主角色目視前後桌面／390／320詳情與手機來源長文，焦點可見、長標題與URL換行正常。獨立角色唯讀核對產品／測試diff、另跑28項相關單元與DOM-state fixture、核對五配置title／URL／heading及三復原，目視桌面／手機／320／WebKit來源長文，結論無產品或視覺阻擋。其指出的axe範圍已精確標明，新run才計入新增掃描。[原工作樹兩檔雜湊](checks/original-worktree-preserved.json)前後相同。
 
 發布方式：`gh pr create`被GitHub GraphQL拒絕（Enterprise Managed User無權createPullRequest），沒有PR編號；未要求額外權限或換帳號。沿用使用者明確授權及已可用的個人repo SSH remote，以一般merge推送main，不強推。
+
+## 合併與正式發布
+
+正常merge並push main為`411ae28`，無強推。合併前fetch同步協作者PR #82之`d55da80`，保留UC-436–440與來源／索引，無衝突；相較預覽增加5筆案例。整合後[182項單元](checks/integrated-unit.tap)仍全通過。預覽433條目是預覽當時資料，正式另驗，不混稱已測過同一資料版本。
+
+部署等候期間協作者再推`6219f41`，保留UC-441與UC-037補證，產品五資產不變；本地快轉同步後[182項單元](checks/release-unit.tap)全通過。`411ae28`的Pages39883295963被取代取消，未算部署成功；後續以最新部署及公開資產為準。
+
+[Pages39883517680](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39883517680)在`6219f41`完成正式Jekyll build／deploy／report；本輪產品已包含在其祖先411ae28。五個公開HTML／JS／CSS皆HTTP200且逐byte相同，[SHA-256證據](checks/published-assets.json)。[正式專項39883332538](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39883332538)由已授權的verify分支push觸發，不另要求管理權限。
+
+正式首驗39883332538五配置439條目零缺項、title／歷史／直鏈／返回與15次axe均通過，[原始主流程](checks/first-published/report.json)；但後續故障復原在error模式重試後仍有來源未完整載入，Escape後正確顯示「已載入內容」，未符合測試要求的完整搜尋，[原始復原](checks/first-published/lifecycle.json)／[FAIL log](checks/first-published-failed.log)。原工具沒有保存該次HTTP與缺失檔案，因此根因未確，不能宣稱HTTP429或產品已修復。產品不變，只加HTTP／requestfailed／failedPaths診斷與更嚴格的零缺項斷言，原title斷言保留後再驗。此run整體仍為FAIL，既有回歸尚未執行，未冒稱完整正式驗收。
+
+[正式補驗39884473549](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39884473549)完整成功。先逐byte比對五公開資產，再執行Chromium1440／390／320、Firefox390、WebKit390；五配置各439條目零缺項、pageerror空。[正式主流程](published/report.json)／[三種復原](published/lifecycle.json)、[既有回歸](published/regression-report.json)／[復原](published/regression-lifecycle.json)皆通過；新15＋舊10共25次主要axe零違規。補驗三復原最終439條目、failed皆空；network中error模式catalog與partial模式UC-001為刻意注入abort，其他未記網路異常。這只證明當次補驗完整，不能宣稱首驗缺項根因已修復。
+
+主角色已目視[正式桌面](published/detail-chromium-1440.png)、[正式手機](published/detail-chromium-390.png)及[正式來源長文](published/source-chromium-390.png)，與預覽相比無文字／控制列／長文退化。分頁title、直鏈與返回／前進已驗；未驗原生歷史選單標題、真機與真人留存。
+
+其他main舊CI仍有失敗或未完，[快照](checks/main-ci-snapshot.json)如實保留；未逐一確定其根因，不將本輪專項通過說成全庫CI全綠。首驗缺項的不確定性與首次全文載入成本仍是後續風險。最後只補測試診斷與證據，產品檔案自06346ca不再修改。
+
+獨立角色最終逐項核對正式補驗raw reports、六復原與兩筆受控abort，目視正式桌面／手機詳情及來源長文，結論「可交付，無剩餘阻擋」；沒有再跑相同單元或修改產品。達成本輪驗收，停止追加功能。

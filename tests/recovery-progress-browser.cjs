@@ -4,7 +4,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.SITE_URL||'https://richardhan.github.io/ai-agent-use-cases/',out=process.env.QA_OUT||'qa-artifacts/recovery',before=process.env.QA_BEFORE==='1';
 (async()=>{fs.mkdirSync(out,{recursive:true});const rows=[];
 for(const [engine,width,mode='stop'] of (before?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390],[chromium,390,'zero'],[chromium,390,'reader']])){
- const b=await engine.launch(),p=await b.newPage({viewport:{width,height:900},reducedMotion:'reduce'}),r={engine:engine.name(),width,mode,errors:[]};rows.push(r);p.on('pageerror',e=>r.errors.push(e.message));
+ const b=await engine.launch(),context=await b.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),p=await context.newPage(),r={engine:engine.name(),width,mode,errors:[]};rows.push(r);p.on('pageerror',e=>r.errors.push(e.message));
  let phase='initial',release;const gate=new Promise(resolve=>release=resolve),calls={};const paths=['cases/001-travel-checkout.md','cases/002-daily-brief.md'];
  try{
  const catalog=await (await p.request.get(base+'catalog.json')).json();paths[1]=catalog.files.find(x=>x.startsWith('cases/002-'));assert(paths[1]);

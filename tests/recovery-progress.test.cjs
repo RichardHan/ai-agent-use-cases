@@ -31,3 +31,9 @@ test('stop before any successful recovery retains the entire existing corpus',as
  const f=fixture();f.ctx.fetch=async(path,{signal})=>new Promise((resolve,reject)=>signal.addEventListener('abort',()=>reject(Error('aborted')),{once:true}));
  const done=f.run();await settle();f.stop();await done;assert.deepEqual(Array.from(f.state().entries,x=>x.path),['kept']);assert.deepEqual(Array.from(f.state().failedPaths),['fast','slow']);assert.match(f.node('load-status').textContent,/已補回 0 筆/);
 });
+
+test('a recovered pending source keeps every item and is not requested on the next retry',async()=>{
+ const f=fixture();vm.runInContext("failedPaths=['fast','slow'];parseFile=(path,text)=>path==='fast'?[{path,id:'P-001',kind:'pending'},{path,id:'P-002',kind:'pending'}]:[{path,id:'UC-003',kind:'case'}];",f.ctx);
+ const done=f.run();await settle();f.stop();await done;assert.deepEqual(Array.from(f.state().entries,x=>x.id),['UC-001','P-001','P-002']);
+ const calls=f.calls(),next=f.run();await settle();assert.equal(f.calls(),calls+1);f.release();await next;assert.equal(f.state().entries.length,4);assert.equal(new Set(Array.from(f.state().entries,x=>x.id)).size,4);
+});

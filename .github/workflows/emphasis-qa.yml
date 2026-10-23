@@ -23,6 +23,7 @@ jobs:
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Bold.otf -o /usr/local/share/fonts/NotoSansCJKtc-Bold.otf
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/Variable/TTF/Subset/NotoSansTC-VF.ttf -o /usr/local/share/fonts/NotoSansTC-VF.ttf
+          rm -f /usr/share/fonts/truetype/wqy/wqy-zenhei.ttc
           fc-cache -f
           fc-match -f '%{family} %{style}\n' 'Noto Sans TC:weight=bold'
           fc-match -f '%{family} %{style}\n' 'system-ui:lang=zh-tw:weight=bold' 

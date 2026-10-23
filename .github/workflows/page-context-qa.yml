@@ -27,16 +27,31 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+          git show d79b7ad:assets/app.js > "$RUNNER_TEMP/before-app.js"
+          if CONTEXT_SOURCE="$RUNNER_TEMP/before-app.js" node --test --test-reporter=tap tests/page-context.test.cjs > qa-artifacts/red.tap 2>&1; then
+            echo 'Expected old-title regression'; exit 1
+          fi
+          node -e "require('node:assert/strict').match(require('node:fs').readFileSync('qa-artifacts/red.tap','utf8'), /# fail 4/);"
           for f in assets/*.js tests/page-context*.cjs; do node --check "$f"; done
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
-      - name: Observe live journeys before implementation
-        timeout-minutes: 6
+      - name: Browser titles, complete journeys and recovery
+        timeout-minutes: 9
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
-          SITE_URL: https://richardhan.github.io/ai-agent-use-cases/
-          QA_OUT: qa-artifacts/before
-          QA_OBSERVE: '1'
-        run: runuser -u pwuser -- node tests/page-context-browser.cjs
+          QA_TARGET: ${{ github.ref == 'refs/heads/verify/page-context-20261023' && 'published' || 'preview' }}
+        run: |
+          python3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/page-context-preview.log 2>&1 &
+          export SITE_URL=http://127.0.0.1:8170/ai-agent-use-cases/
+          if [ "$QA_TARGET" = published ]; then
+            export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/
+            node - <<'JS'
+          const fs=require('node:fs');
+          (async()=>{for(const file of ['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?context='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);}console.log('Published assets match checkout');})().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          fi
+          chown -R pwuser:pwuser qa-artifacts
+          QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/page-context-browser.cjs
+          QA_OUT=qa-artifacts/regression runuser -u pwuser -- node tests/task-shortcuts-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

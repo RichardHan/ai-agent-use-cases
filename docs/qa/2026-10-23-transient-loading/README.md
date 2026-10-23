@@ -69,3 +69,26 @@ SITE_URL=http://127.0.0.1:8178/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_
 整合最新協作者ecba0ac無衝突，原有全套首次為196／197，唯一失敗UC-444缺來源證據欄：[原始失敗](checks/integration-original-failure.tap)。獨立確認原分類已有「作者實作自述，未獨立重現」，保留原分類及全文，只新增同句來源證據欄；不新增來源或改研究判斷。網站因此由預設「公開資料核讀」正確顯示「作者報告／示範」。[整合後197／197](checks/integrated-unit.tap)，語法與preview build通過；未因此重跑不相關矩陣。
 
 獨立終審核對全部報告及三張新版圖，產品可合併。正式QA採固定公開站、唯讀權限、choice input僅作if比較，不作shell插值；另已依審查補上瀏覽器實際app.js response逐byte比對，避免只比對帶query的獨立HTTP請求。之前雲端API曾顯示run仍in_progress，但所有13個step（含Complete job）均success，驗收以保存的實際步驟及產物為據，不自行改寫GitHub狀態。
+
+## 正式發布與停止條件
+
+已一般merge（2bd4725）整合改善，最小UC-444補欄後以a4fc42d推送main，未強推。協作者後續01f4be7的兩篇研究補充保留；再整合後[197／197](checks/final-integrated-unit.tap)。本輪產品app.js仍與已完整矩陣驗收的版本相同。原工作樹分支與兩項未提交修改仍在：[狀態與numstat](checks/original-worktree.txt)，沒有reset或覆蓋。
+
+API手動dispatch回403「Must have admin rights」，未更改帳號權限；沿用授權SSH push觸發verify/transient-loading-20261023唯讀驗收分支。第一個Pages39917105715被協作者提交取代而取消，不算成功；最新[Pages39917326704](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39917326704)的正式Jekyll build／deploy／report皆成功：[jobs](checks/pages-jobs.json)。
+
+[正式QA39917171131](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39917171131)所有必要步驟成功：[jobs](checks/published-jobs.json)、[報告](published/report.json)。桌面1440及手機390，瀏覽器實際app.js response逐byte一致，首頁首次均442條目／failed=[]；UC-444正確標為作者報告／示範。桌面真實UC-045首請求503、只有該來源自動發第二次後恢復完整；手機無HTTP錯誤及首輪重複請求。這是正式實例支持機制有效，不是保證永不缺項。4次正式axe A/AA零違規、errors=[]，搜尋／組合篩選／Enter／Escape焦點返回／來源popup／空結果／長原文／直鏈重整成功。後續goto/reload只驗證指定流程，沒有宣稱每次導航都量測全庫完整。載入快照1,507／686ms，不能拿不同尺寸與暖快取當前後效能改善。
+
+預覽441條與正式442條的差異來自保留新增的UC-444，不是重試產生重複案例；這些都是網站條目數，不是嚴格合格數。正式HTTP app.js為200且逐byte相同：[hash](checks/published-http.json)。
+
+| 尺寸 | 修改前，相同故障注入 | 修改後，正式站 |
+| --- | --- | --- |
+| 桌面1440 | [14筆與缺項](before/results-chromium-1440.png) | [15筆完整結果](published/results-1440.png) |
+| 手機390 | [14筆與缺項](before/results-chromium-390.png) | [15筆完整結果](published/results-390.png) |
+
+主角色及獨立角色已目視正式截圖，可交付；[正式長文](published/reading-390.png)仍顯示其他案例載入中，只證明單篇可先讀。已達本輪驗收，最後僅保存證據與已驗證QA流程，使用skip-ci避免重新觸發整批舊QA及Pages佇列，產品不再變動。
+
+[主線其他CI快照](checks/main-ci-snapshot.json)並非全綠：Website QA在執行產品前因Playwright1.56.1不支援Ubuntu26.04安裝失敗，[原始輸出](checks/legacy-browser-install.log)；Combined recovery等舊正式等待在Pages未部署完成時超時，[原始輸出](checks/deployment-wait-timeout.log)。本輪專項固定Playwright1.64.0-noble容器，完整單元／跨引擎預覽與正式驗收另有成功證據，不將舊CI失敗改稱通過。
+
+直接使用：[正式網站](https://richardhan.github.io/ai-agent-use-cases/)／[旅遊組合篩選](https://richardhan.github.io/ai-agent-use-cases/?q=旅遊&scenario=生活&tool=Grok%20Bot)／[長提示詞直鏈](https://richardhan.github.io/ai-agent-use-cases/?case=UC-366)。本機預覽指令見前文，保留/ai-agent-use-cases/ base path。
+
+未解決：持續503、較長Retry-After或逾時仍可能缺項，沿用手動補讀；未做實體裝置、完整輔具認證、真人偏好／回訪率研究或Lighthouse分數。下一輪優先減少首次全文請求數，保留分享單篇先讀與缺項復原；舊CI環境及部署順序的維護問題另留待處理。

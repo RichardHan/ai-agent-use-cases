@@ -21,6 +21,7 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
           mkdir -p /usr/local/share/fonts qa-artifacts
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Bold.otf -o /usr/local/share/fonts/NotoSansCJKtc-Bold.otf
           fc-cache -f
           chown -R pwuser:pwuser qa-artifacts
       - name: Baseline checks

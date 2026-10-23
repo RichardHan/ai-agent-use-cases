@@ -1,4 +1,4 @@
-# UC-437：投資研究試算表交給Muse：重建全市場權證清單並填公式，依SEC最新資料更新企業價值，還提醒幣別混用
+# UC-438：投資研究試算表交給Muse：重建全市場權證清單並填公式，依SEC最新資料更新企業價值，還提醒幣別混用
 
 - 情境：學習
 - 標籤：投資研究、試算表、資料查證、監看
@@ -19,7 +19,7 @@
 
 ## 來源版本
 
-### S-437A：sholland（Corner of Berkshire and Fairfax 論壇，英文）
+### S-438A：sholland（Corner of Berkshire and Fairfax 論壇，英文）
 
 - 討論串：[Anyone use MUSE or OpenClaw?](https://thecobf.com/forum/topic/21931-anyone-use-muse-or-openclaw/)（由 schin 於 2026-10-14 開串；本庫 2026-10-23 讀公開頁）。
 - 第一則（他人引用時標示 2026-10-15 10:54 AM，論壇時區未標示）：「我有好幾份 Google 試算表讓 Muse 用 SEC 最新資料更新、計算企業價值，它還聰明地提醒我不要把外幣計價的股價和以美元申報的數字混在一起。」（翻譯改寫）

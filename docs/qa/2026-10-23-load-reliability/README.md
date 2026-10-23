@@ -76,3 +76,13 @@ PR建立因EMU限制遭GraphQL Unauthorized，沒有修改權限；依使用者�
 主線既有其他QA存在失敗／執行中，不宣稱整批main CI全綠。此次只據明確專項、獨立審查與實際Pages結果判斷本輪驗收。
 
 Pages [39959790740](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39959790740) 的正式Jekyll build、report及deploy已全部成功，deployment SHA為 `b4317da99329a63610081713705408b26d066c53`。公開首頁、app.js、style.css、reader.js、reader.css五檔HTTP200且逐byte吻合。EMU帳號無admin權限不能rerun既有驗收，改以授權SSH推送僅文件補記觸發新版正式驗收；產品資產未改。
+
+## 最終正式站驗收與停止
+
+[正式39961197141](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39961197141) 全成功：202單元、五公開資產逐byte相同；桌面1440／390停止補讀及手機reader三配置，另兩尺寸常態旅程均通過，7次主要axe0，所有pageerror空。兩尺寸常態全庫皆443條零缺項；受控兩來源失敗時441筆，停止後442筆且焦點在可見重試入口，再試補齊443；手機reader原文段落／容器及指定焦點保留。這是模擬走查，沒有聲稱真人滿意或留存提升。
+
+主角色已目視正式圖：[桌面進度](published/waiting-chromium-1440-stop.png)、[手機進度](published/waiting-chromium-390-stop.png)、[手機停止後](published/stopped-chromium-390-stop.png)，並和修改前對照。正式機器報告：[補讀](published/report.json)／[常態旅程](checks/published-journeys.json)。預覽28＋正式7＝35次本輪主要axe掃描零違規，仍不等同人工讀屏器或實機驗證。
+
+原工作樹兩檔SHA-256和開始完全一致：app.js `6e70c1c846de9eea49839382b74c84819a23ac9368851d505556f164b41dba23`，search.test.cjs `3313f45de597da1113165e153ff59f78a04715bc650de923395a611b50271821`；原分支、未提交改動及協作者研究PR保持。
+
+[主線CI快照](checks/main-ci-snapshot.json) 包含本次merge的其他失敗與執行中工作，沒有宣稱main整批全綠。此次專項最終預覽及正式均成功，Pages正式build/deploy成功；首輪舊版資產比對FAIL照實保留。最後僅補文件與發布圖，不再變更產品／測試／工作流，本輪達到驗收並停止。

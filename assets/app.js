@@ -447,14 +447,45 @@ function markdownDestination(text,start) {
   }
   return null;
 }
+// Find a closing strong delimiter without consuming code or link destinations.
+// Ambiguous star runs and unsupported markup stay literal.
+function markdownStrong(text,start) {
+  for(let i=start;i<text.length;i++) {
+    const char=text[i];
+    if(char==='\n')return null;
+    if(char==='\\'){i++;continue;}
+    if(char==='`') {
+      const end=text.indexOf('`',i+1);if(end===-1)return null;
+      i=end;continue;
+    }
+    if(char==='[') {
+      const label=text.slice(i).match(/^\[[^\]]+\]\(/);
+      if(label) {
+        const destination=markdownDestination(text,i+label[0].length);
+        if(!destination)return null;
+        i=destination.end-1;continue;
+      }
+    }
+    // A bare URL is one opaque existing token; never infer its ending.
+    if(/^https?:\/\//.test(text.slice(i))) {
+      const url=text.slice(i).match(/^https?:\/\/[^\s<>]+/)[0];i+=url.length-1;continue;
+    }
+    if(char==='*') {
+      if(text.slice(i,i+2)==='**'&&text[i+2]!=='*'&&!/\s/.test(text[i-1]))return {text:text.slice(start,i),end:i+2};
+      return null;
+    }
+  }
+  return null;
+}
 function inline(node,text,path) {
   // All source text is inserted as text nodes; source HTML can never execute.
-  const regex=/\[([^\]]+)\]\(|https?:\/\/[^\s<>]+|`([^`]+)`|(?<![\\*])\*\*(?![\s*])([^*\n]*?\S)\*\*(?!\*)/g; let last=0,match;
+  const regex=/\[([^\]]+)\]\(|https?:\/\/[^\s<>]+|`([^`]+)`|(?<![\\*])\*\*(?![\s*])/g; let last=0,match;
   while((match=regex.exec(text))) {
     node.append(document.createTextNode(text.slice(last,match.index)));
-    if(match[3]) {
-      // A bounded subset of source emphasis; code and URL tokens stay literal.
-      const strong=el('strong');inline(strong,match[3],path);node.append(strong);
+    if(match[0]==='**') {
+      const span=markdownStrong(text,regex.lastIndex);
+      if(span){const strong=el('strong');inline(strong,span.text,path);node.append(strong);regex.lastIndex=span.end;}
+      else node.append(document.createTextNode(match[0]));
     }
     else if(match[2]) node.append(el('code','',match[2]));
     else {

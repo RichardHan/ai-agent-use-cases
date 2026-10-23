@@ -42,7 +42,7 @@ jobs:
           if EMPHASIS_SOURCE="$RUNNER_TEMP/before-app.js" node --test --test-reporter=tap tests/emphasis.test.cjs > qa-artifacts/red.tap 2>&1; then
             echo 'Expected baseline emphasis regression'; exit 1
           fi
-          node -e "const fs=require('node:fs'),a=require('node:assert/strict'),s=fs.readFileSync('qa-artifacts/red.tap','utf8');a.match(s,/# fail 3/);a.equal([...s.matchAll(/code: 'ERR_ASSERTION'/g)].length,3)"
+          node -e "const fs=require('node:fs'),a=require('node:assert/strict'),s=fs.readFileSync('qa-artifacts/red.tap','utf8');a.match(s,/# fail 4/);a.equal([...s.matchAll(/code: 'ERR_ASSERTION'/g)].length,4)"
           python3 -m http.server 8174 --directory "$RUNNER_TEMP/preview" > /tmp/emphasis-preview.log 2>&1 &
           chown -R pwuser:pwuser qa-artifacts
           SITE_URL=http://127.0.0.1:8174/ai-agent-use-cases/ QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/emphasis-browser.cjs

@@ -4,7 +4,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.SITE_URL||'https://richardhan.github.io/ai-agent-use-cases/',observe=process.env.QA_OBSERVE==='1',out=process.env.QA_OUT||'qa-artifacts/before';fs.mkdirSync(out,{recursive:true});
 (async()=>{const rows=[];
 for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
- const browser=await engine.launch(),page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'}),row={label:engine.name()+'-'+width,errors:[]};rows.push(row);page.on('pageerror',e=>row.errors.push(e.message));
+ const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),page=await context.newPage(),row={label:engine.name()+'-'+width,errors:[]};rows.push(row);page.on('pageerror',e=>row.errors.push(e.message));
  try{
  await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});row.corpus=await page.evaluate(()=>({total:entries.length,failed:[...failedPaths]}));assert.deepEqual(row.corpus.failed,[]);await page.screenshot({path:`${out}/home-${row.label}.png`});
  await page.locator('#query').fill('旅遊');await page.locator('#filter-options').evaluate(n=>n.open=true);await page.locator('#scenario').selectOption('生活');await page.locator('#tool').selectOption('Grok Bot');await page.locator('#search-submit').click();row.results=await page.locator('#results-count').innerText();

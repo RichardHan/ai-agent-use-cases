@@ -34,3 +34,12 @@ test('headings, nested lists, quotes and tables share the safe emphasis renderin
  const root=render('## **限制**\n- **先核准**\n  - **再執行**\n\n> **未驗證**\n\n| **欄位** | 說明 |\n| --- | --- |\n| **約數** | 作者自述 |');
  assert.deepEqual(walk(root).filter(n=>n.tagName==='STRONG').map(text),['限制','先核准','再執行','未驗證','欄位','約數']);
 });
+
+test('nested code and destinations cannot terminate source emphasis or truncate links',()=>{
+ const root=render('**含 `a**b` 程式碼**；**[來源](https://example.org/a**b)**');
+ assert.equal(walk(root).find(n=>n.tagName==='CODE').textContent,'a**b');
+ assert.equal(walk(root).find(n=>n.tagName==='A').href,'https://example.org/a**b');
+ assert.deepEqual(walk(root).filter(n=>n.tagName==='STRONG').map(text),['含 a**b 程式碼','來源']);
+ assert.equal(text(root),'含 a**b 程式碼；來源');
+ for(const s of ['**未核***','**未核****','**未核 *其他* **'])assert.equal(text(render(s)),s);
+});

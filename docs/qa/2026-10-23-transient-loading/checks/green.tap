@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: transient HTTP and network failures recover once without duplicate entries or progress
+ok 1 - transient HTTP and network failures recover once without duplicate entries or progress
+  ---
+  duration_ms: 52.451958
+  type: 'test'
+  ...
+# Subtest: persistent transient error retries at most once and retains exact failed path
+ok 2 - persistent transient error retries at most once and retains exact failed path
+  ---
+  duration_ms: 6.878875
+  type: 'test'
+  ...
+# Subtest: permanent HTTP and parse errors do not create extra requests
+ok 3 - permanent HTTP and parse errors do not create extra requests
+  ---
+  duration_ms: 0.307
+  type: 'test'
+  ...
+# Subtest: Retry-After uses seconds or server date and never shortens server waiting time
+ok 4 - Retry-After uses seconds or server date and never shortens server waiting time
+  ---
+  duration_ms: 0.114084
+  type: 'test'
+  ...
+# Subtest: long Retry-After stays failed instead of delaying the queue or retrying early
+ok 5 - long Retry-After stays failed instead of delaying the queue or retrying early
+  ---
+  duration_ms: 0.122291
+  type: 'test'
+  ...
+# Subtest: abort during retry waiting cancels immediately without a second request
+ok 6 - abort during retry waiting cancels immediately without a second request
+  ---
+  duration_ms: 11.8205
+  type: 'test'
+  ...
+# Subtest: whole budget and per-source timeout include waiting; never retry a timed-out request
+ok 7 - whole budget and per-source timeout include waiting; never retry a timed-out request
+  ---
+  duration_ms: 46.768708
+  type: 'test'
+  ...
+# Subtest: retry is opt-in and successful shared sources are emitted before another source recovers
+ok 8 - retry is opt-in and successful shared sources are emitted before another source recovers
+  ---
+  duration_ms: 5.654042
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 170.789667

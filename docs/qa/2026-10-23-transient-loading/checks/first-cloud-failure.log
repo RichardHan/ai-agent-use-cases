@@ -1,0 +1,11 @@
+browser	Unit, syntax and preview build	﻿2026-10-23T07:08:48.4838958Z ##[group]Run git config --global --add safe.directory "$GITHUB_WORKSPACE"
+browser	Unit, syntax and preview build	2026-10-23T07:08:48.4839646Z ^[[36;1mgit config --global --add safe.directory "$GITHUB_WORKSPACE"^[[0m
+browser	Unit, syntax and preview build	2026-10-23T07:08:48.4840224Z ^[[36;1mnode --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1^[[0m
+browser	Unit, syntax and preview build	2026-10-23T07:08:48.4840687Z ^[[36;1mfor f in assets/*.js tests/transient-loading*.cjs; do node --check "$f"; done^[[0m
+browser	Unit, syntax and preview build	2026-10-23T07:08:48.4841102Z ^[[36;1mpython3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"^[[0m
+browser	Unit, syntax and preview build	2026-10-23T07:08:48.4841479Z ^[[36;1mgit show 3494ed9:assets/app.js > "$RUNNER_TEMP/before-app.js"^[[0m
+browser	Unit, syntax and preview build	2026-10-23T07:08:48.4841968Z shell: sh -e {0}
+browser	Unit, syntax and preview build	2026-10-23T07:08:48.4842141Z ##[endgroup]
+browser	Unit, syntax and preview build	2026-10-23T07:08:53.8925387Z /__w/_temp/preview/ai-agent-use-cases
+browser	Unit, syntax and preview build	2026-10-23T07:08:53.8976827Z fatal: invalid object name '3494ed9'.
+browser	Unit, syntax and preview build	2026-10-23T07:08:53.9017527Z ##[error]Process completed with exit code 128.

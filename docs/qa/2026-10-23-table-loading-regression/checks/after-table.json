@@ -1,0 +1,398 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "audits": [
+      [],
+      []
+    ],
+    "corpus": {
+      "entries": 443,
+      "missing": []
+    },
+    "results": "顯示 15 / 443 筆收錄",
+    "cells": [
+      [
+        "Bot（作者命名）",
+        "頻率（作者自述）",
+        "產出",
+        "作者報的每次成本"
+      ],
+      [
+        "Mention Radar",
+        "每天2次",
+        "尚未回覆的回覆與引用，已認證互追者優先",
+        "約0.20美元"
+      ],
+      [
+        "Creator Scout",
+        "每天早上",
+        "規模相近、尚未追蹤的已認證AI藝術家",
+        "約0.45美元"
+      ],
+      [
+        "Warm Leads",
+        "週一、週四",
+        "常互動但沒追蹤自己的已認證帳號",
+        "0（重用Mention Radar資料）"
+      ],
+      [
+        "Shoutout Desk",
+        "每週一",
+        "10位從未被自己推薦過的小型互追創作者，保留完整歷史避免重複",
+        "約0.20美元"
+      ],
+      [
+        "Rerun Picker",
+        "每週一",
+        "適合引用重發的舊佳作，附新切角",
+        "約0.02美元"
+      ],
+      [
+        "Headcount",
+        "每季手動",
+        "掃描粉絲與追蹤，標出假帳號／不活躍、記錄取消追蹤與等待回追時間",
+        "約6.50美元"
+      ]
+    ],
+    "overflow": false,
+    "tabExit": true,
+    "source": "https://x.com/GlennHasABeard/status/2111935110929174714",
+    "sourceOpened": "https://x.com/GlennHasABeard/status/2111935110929174714",
+    "pdf": true,
+    "searchTarget": {
+      "tag": "TD",
+      "text": "約6.50美元",
+      "left": 915.484375,
+      "right": 1082,
+      "viewportLeft": 357,
+      "viewportRight": 1083,
+      "scrollLeft": 0
+    },
+    "longCell": true,
+    "timing": {
+      "domContentLoadedMs": 22.89999999999418,
+      "loadMs": 31.30000000000291
+    },
+    "passed": true
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "audits": [
+      [],
+      []
+    ],
+    "corpus": {
+      "entries": 443,
+      "missing": []
+    },
+    "results": "顯示 15 / 443 筆收錄",
+    "cells": [
+      [
+        "Bot（作者命名）",
+        "頻率（作者自述）",
+        "產出",
+        "作者報的每次成本"
+      ],
+      [
+        "Mention Radar",
+        "每天2次",
+        "尚未回覆的回覆與引用，已認證互追者優先",
+        "約0.20美元"
+      ],
+      [
+        "Creator Scout",
+        "每天早上",
+        "規模相近、尚未追蹤的已認證AI藝術家",
+        "約0.45美元"
+      ],
+      [
+        "Warm Leads",
+        "週一、週四",
+        "常互動但沒追蹤自己的已認證帳號",
+        "0（重用Mention Radar資料）"
+      ],
+      [
+        "Shoutout Desk",
+        "每週一",
+        "10位從未被自己推薦過的小型互追創作者，保留完整歷史避免重複",
+        "約0.20美元"
+      ],
+      [
+        "Rerun Picker",
+        "每週一",
+        "適合引用重發的舊佳作，附新切角",
+        "約0.02美元"
+      ],
+      [
+        "Headcount",
+        "每季手動",
+        "掃描粉絲與追蹤，標出假帳號／不活躍、記錄取消追蹤與等待回追時間",
+        "約6.50美元"
+      ]
+    ],
+    "overflow": true,
+    "keyboardScroll": 3,
+    "tabExit": true,
+    "source": "https://x.com/GlennHasABeard/status/2111935110929174714",
+    "searchTarget": {
+      "tag": "TD",
+      "text": "約6.50美元",
+      "left": 192.40625,
+      "right": 335,
+      "viewportLeft": 54,
+      "viewportRight": 336,
+      "scrollLeft": 340
+    },
+    "printBefore": {
+      "left": 340,
+      "top": 4810,
+      "focus": "reader-passage-1"
+    },
+    "printAfterPDF": {
+      "left": 340,
+      "top": 4810,
+      "focus": "reader-passage-1"
+    },
+    "printAfterMedia": {
+      "left": 340,
+      "top": 4810,
+      "focus": "reader-passage-1"
+    },
+    "longCell": true,
+    "timing": {
+      "domContentLoadedMs": 30.59999999999127,
+      "loadMs": 31.59999999999127
+    },
+    "passed": true
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "audits": [
+      [],
+      []
+    ],
+    "corpus": {
+      "entries": 443,
+      "missing": []
+    },
+    "results": "顯示 15 / 443 筆收錄",
+    "cells": [
+      [
+        "Bot（作者命名）",
+        "頻率（作者自述）",
+        "產出",
+        "作者報的每次成本"
+      ],
+      [
+        "Mention Radar",
+        "每天2次",
+        "尚未回覆的回覆與引用，已認證互追者優先",
+        "約0.20美元"
+      ],
+      [
+        "Creator Scout",
+        "每天早上",
+        "規模相近、尚未追蹤的已認證AI藝術家",
+        "約0.45美元"
+      ],
+      [
+        "Warm Leads",
+        "週一、週四",
+        "常互動但沒追蹤自己的已認證帳號",
+        "0（重用Mention Radar資料）"
+      ],
+      [
+        "Shoutout Desk",
+        "每週一",
+        "10位從未被自己推薦過的小型互追創作者，保留完整歷史避免重複",
+        "約0.20美元"
+      ],
+      [
+        "Rerun Picker",
+        "每週一",
+        "適合引用重發的舊佳作，附新切角",
+        "約0.02美元"
+      ],
+      [
+        "Headcount",
+        "每季手動",
+        "掃描粉絲與追蹤，標出假帳號／不活躍、記錄取消追蹤與等待回追時間",
+        "約6.50美元"
+      ]
+    ],
+    "overflow": true,
+    "keyboardScroll": 1,
+    "tabExit": true,
+    "source": "https://x.com/GlennHasABeard/status/2111935110929174714",
+    "searchTarget": {
+      "tag": "TD",
+      "text": "約6.50美元",
+      "left": 122.40625,
+      "right": 265,
+      "viewportLeft": 54,
+      "viewportRight": 266,
+      "scrollLeft": 410
+    },
+    "longCell": true,
+    "timing": {
+      "domContentLoadedMs": 15.30000000000291,
+      "loadMs": 22.09999999999127
+    },
+    "passed": true
+  },
+  {
+    "label": "firefox-390",
+    "errors": [],
+    "audits": [
+      [],
+      []
+    ],
+    "corpus": {
+      "entries": 443,
+      "missing": []
+    },
+    "results": "顯示 15 / 443 筆收錄",
+    "cells": [
+      [
+        "Bot（作者命名）",
+        "頻率（作者自述）",
+        "產出",
+        "作者報的每次成本"
+      ],
+      [
+        "Mention Radar",
+        "每天2次",
+        "尚未回覆的回覆與引用，已認證互追者優先",
+        "約0.20美元"
+      ],
+      [
+        "Creator Scout",
+        "每天早上",
+        "規模相近、尚未追蹤的已認證AI藝術家",
+        "約0.45美元"
+      ],
+      [
+        "Warm Leads",
+        "週一、週四",
+        "常互動但沒追蹤自己的已認證帳號",
+        "0（重用Mention Radar資料）"
+      ],
+      [
+        "Shoutout Desk",
+        "每週一",
+        "10位從未被自己推薦過的小型互追創作者，保留完整歷史避免重複",
+        "約0.20美元"
+      ],
+      [
+        "Rerun Picker",
+        "每週一",
+        "適合引用重發的舊佳作，附新切角",
+        "約0.02美元"
+      ],
+      [
+        "Headcount",
+        "每季手動",
+        "掃描粉絲與追蹤，標出假帳號／不活躍、記錄取消追蹤與等待回追時間",
+        "約6.50美元"
+      ]
+    ],
+    "overflow": true,
+    "keyboardScroll": 7,
+    "tabExit": true,
+    "source": "https://x.com/GlennHasABeard/status/2111935110929174714",
+    "searchTarget": {
+      "tag": "TD",
+      "text": "約6.50美元",
+      "left": 192.39999389648438,
+      "right": 335,
+      "viewportLeft": 54,
+      "viewportRight": 336,
+      "scrollLeft": 340
+    },
+    "longCell": true,
+    "timing": {
+      "domContentLoadedMs": 56,
+      "loadMs": 59
+    },
+    "passed": true
+  },
+  {
+    "label": "webkit-390",
+    "errors": [],
+    "audits": [
+      [],
+      []
+    ],
+    "corpus": {
+      "entries": 443,
+      "missing": []
+    },
+    "results": "顯示 15 / 443 筆收錄",
+    "cells": [
+      [
+        "Bot（作者命名）",
+        "頻率（作者自述）",
+        "產出",
+        "作者報的每次成本"
+      ],
+      [
+        "Mention Radar",
+        "每天2次",
+        "尚未回覆的回覆與引用，已認證互追者優先",
+        "約0.20美元"
+      ],
+      [
+        "Creator Scout",
+        "每天早上",
+        "規模相近、尚未追蹤的已認證AI藝術家",
+        "約0.45美元"
+      ],
+      [
+        "Warm Leads",
+        "週一、週四",
+        "常互動但沒追蹤自己的已認證帳號",
+        "0（重用Mention Radar資料）"
+      ],
+      [
+        "Shoutout Desk",
+        "每週一",
+        "10位從未被自己推薦過的小型互追創作者，保留完整歷史避免重複",
+        "約0.20美元"
+      ],
+      [
+        "Rerun Picker",
+        "每週一",
+        "適合引用重發的舊佳作，附新切角",
+        "約0.02美元"
+      ],
+      [
+        "Headcount",
+        "每季手動",
+        "掃描粉絲與追蹤，標出假帳號／不活躍、記錄取消追蹤與等待回追時間",
+        "約6.50美元"
+      ]
+    ],
+    "overflow": true,
+    "keyboardScroll": 39,
+    "tabExit": true,
+    "source": "https://x.com/GlennHasABeard/status/2111935110929174714",
+    "searchTarget": {
+      "tag": "TD",
+      "text": "約6.50美元",
+      "left": 192.40625,
+      "right": 335,
+      "viewportLeft": 54,
+      "viewportRight": 336,
+      "scrollLeft": 340
+    },
+    "longCell": true,
+    "timing": {
+      "domContentLoadedMs": 22,
+      "loadMs": 33
+    },
+    "passed": true
+  }
+]

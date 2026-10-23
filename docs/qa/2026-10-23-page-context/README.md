@@ -9,7 +9,7 @@
 - 方案A：只在開／關詳情更新案例title。成本最低，但無法辨識搜尋分頁，歷史與背景載入仍容易覆寫。
 - 方案B（採用）：集中純formatter與同步入口，以開啟中的詳情為優先，再依實際搜尋／篩選／最近核對及載入狀態呈現。成本為35行產品程式與狀態回歸，解決完整往返。
 
-驗收：詳情顯示ID＋完整顯示標題＋站名；關閉恢復搜尋字詞與五類篩選；無條件回首頁title。上一／下一則、返回／前進、三種關閉、直鏈重整與背景補載一致。載入中／失敗／部分結果／不存在case各自辨識，未載入的URL不冒充已讀案例。不將條目數或命中當作獨立驗證。
+驗收：詳情顯示ID＋完整顯示標題＋站名；關閉恢復搜尋字詞與五類篩選；清空搜尋與篩選時恢復首頁title。上一／下一則、返回／前進、三種關閉、直鏈重整與背景補載一致。載入中／失敗／部分結果／不存在case各自辨識，未載入的URL不冒充已讀案例。不將條目數或命中當作獨立驗證。
 
 不處理：案例編輯、來源查證、分類重做、搜尋召回、全文載入架構、視覺換色、既有書籤重新命名及社群預覽。靜態HTML仍提供首頁title，JavaScript執行後才同步；未執行JS的分享爬蟲仍只見首頁資訊。
 
@@ -49,7 +49,7 @@ NODE_PATH=<cloud-tools>/node_modules node tests/task-shortcuts-browser.cjs
 
 走查均是自動化模擬，非真人研究，沒有聲稱喜好、轉換率或留存提升：
 1. 新訪客從首頁進搜尋，組合生活＋Grok Bot讀旅遊方法，查看來源後Escape返回原卡及原條件，空結果可回到關鍵字。
-2. 多分頁／回訪：首頁情境與抽卡、案例直鏈、上一／下一則、返回／前進、重新整理、按鈕／Escape／背景關閉，以及只有篩選的分頁。
+2. 分頁辨識／回訪：首頁情境與抽卡、案例直鏈、上一／下一則、返回／前進、重新整理、按鈕／Escape／背景關閉，以及只有篩選的分頁。
 3. 壞連結與慢網路：不存在案例與取消通知、超長Unicode／HTML樣式文字、載入中、單篇早讀、背景補載、目錄失敗與重試、部分缺項與重試。
 
 [資產大小](checks/asset-size.json)提供真實bytes與gzip；沒有新增產品網路請求、依賴、儲存或第三方資料傳送。未量測Lighthouse，不提供效能或無障礙虛構分數。
@@ -71,3 +71,5 @@ NODE_PATH=<cloud-tools>/node_modules node tests/task-shortcuts-browser.cjs
 [39882593090](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/39882593090)完整成功，產品資產自06346ca未再變動。Chromium1440／390／320、Firefox390、WebKit390共五配置，433條目零缺項、pageerror空；[新流程報告](after/report.json)／[新載入復原](after/lifecycle.json)、[既有探索回歸](checks/regression-report.json)／[既有復原](checks/regression-lifecycle.json)。25次主要axe掃描零違規（新流程詳情／空結果／最終狀態15次，既有結果／空結果10次），涵蓋WCAG A／AA選定規則，不是完整認證。[雲端182項單元](checks/cloud-unit.tap)與[舊版4項red](checks/cloud-red.tap)皆符合預期。所有來源新頁完成載入，回歸報告未見HTTP錯誤；不把能開啟來源當作已查證內容。
 
 主角色目視前後桌面／390／320詳情與手機來源長文，焦點可見、長標題與URL換行正常。獨立角色唯讀核對產品／測試diff、另跑28項相關單元與DOM-state fixture、核對五配置title／URL／heading及三復原，目視桌面／手機／320／WebKit來源長文，結論無產品或視覺阻擋。其指出的axe範圍已精確標明，新run才計入新增掃描。[原工作樹兩檔雜湊](checks/original-worktree-preserved.json)前後相同。
+
+發布方式：`gh pr create`被GitHub GraphQL拒絕（Enterprise Managed User無權createPullRequest），沒有PR編號；未要求額外權限或換帳號。沿用使用者明確授權及已可用的個人repo SSH remote，以一般merge推送main，不強推。

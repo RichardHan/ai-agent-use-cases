@@ -50,6 +50,12 @@
 .detail-id-badge{font-size:12px;font-weight:750;background:var(--green);color:var(--lime);padding:3px 8px;border-radius:4px}
 .detail-badge{font-size:11px;padding:3px 8px;border-radius:4px;background:#e9eee0;color:var(--muted)}
 .detail-badge.scenario-badge{background:#e1e9db;color:var(--green);font-weight:600}
+.detail-badge.proof-badge{background:#edf3ea;border:1px solid #c9d9c4;color:#244237;font-weight:600}
+.detail-badge.proof-badge[data-proof="官方自報"]{background:#ebf5fa;border-color:#cde4f0;color:#1a4f6e}
+.detail-badge.proof-badge[data-proof="尚待查證"]{background:#fcf3e3;border-color:#f0dab0;color:#7c4f10}
+.detail-badge.kind-pending{background:#fdf2e2;color:#875b1d;font-weight:600}
+.detail-badge.kind-case{background:#e8f4ec;color:var(--green);font-weight:600}
+.detail-badge.kind-evidence{background:#edf2f7;color:#2b4365;font-weight:600}
 .detail-actions{display:flex;gap:14px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
 .btn-copy-link{min-height:44px;font-size:14px;padding:9px 12px;background:white;border:1px solid var(--green);color:var(--green);border-radius:6px;font-weight:600;cursor:pointer}
 .btn-copy-link:hover{background:var(--green);color:white}
@@ -308,3 +314,23 @@
 .filter-panel .filter-row select:focus-visible,.filter-panel .filter-row .reset:focus-visible{outline:3px solid var(--green);outline-offset:3px}
 @media(max-width:1000px){.filter-panel .filter-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.filter-panel .filter-row{grid-template-columns:minmax(0,1fr)}}
+
+/* Evidence proof badge styling: credible, accessible, and responsive. */
+.card-bottom .proof{font-size:12px;line-height:1.5;color:#244237;font-weight:550;background:#edf3ea;border:1px solid #d4e0cf;border-radius:4px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;flex:0 1 auto;max-width:fit-content}
+.card-bottom .proof[data-proof="官方自報"]{background:#ebf5fa;border-color:#cde4f0;color:#1a4f6e}
+.card-bottom .proof[data-proof="作者報告／示範"]{background:#edf3ea;border-color:#d4e0cf;color:#244237}
+.card-bottom .proof[data-proof="公開資料核讀"]{background:#f4f3ec;border-color:#e2decb;color:#4b4533}
+.card-bottom .proof[data-proof="尚待查證"]{background:#fcf3e3;border-color:#f0dab0;color:#7c4f10}
+.card-bottom .proof[data-proof="模板／文件核讀"]{background:#f0f1f5;border-color:#d6d9e4;color:#384260}
+
+/* Plain overview enhancement: clear problem focus and comfortable reading rhythm */
+.plain-overview{margin:18px 0 24px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:14px 18px}
+.plain-overview section{padding:0;border-bottom:0}
+.plain-overview h2{font-size:13px;font-weight:700;letter-spacing:.5px;color:var(--green);margin:0 0 6px}
+.plain-overview p{font-size:17px;line-height:1.65;margin:0;color:var(--ink)}
+
+@media(max-width:640px){
+  .card-bottom{flex-direction:row;justify-content:space-between;align-items:center;column-gap:8px}
+  .card-bottom .proof{font-size:11px;padding:2px 6px}
+  .plain-overview{padding:12px 14px;margin:14px 0 20px}
+}

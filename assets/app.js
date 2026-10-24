@@ -746,7 +746,7 @@ function showDetail(item, trigger, updateURL=true) {
   metaBar.append(
     el('span', 'detail-id-badge', item.id),
     el('span', 'detail-badge kind-' + item.kind, KIND[item.kind]),
-    el('span', 'detail-badge proof-badge', item.proof),
+    (()=>{ const b = el('span', 'detail-badge proof-badge', item.proof); b.dataset.proof = item.proof; return b; })(),
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
   metaBar.append(el('span','detail-badge',item.reviewedDate?'頁首核對 '+item.reviewedDate:'頁首未提供核對日'));
@@ -942,7 +942,7 @@ function renderSearchContext(item, terms) {
 
 function card(item, terms=[]) {
   const node = el('article', 'card');
-  node.dataset.kind = item.kind;node.dataset.caseId=item.id;
+  node.dataset.kind = item.kind;node.dataset.caseId=item.id;node.dataset.proof=item.proof;
   const top = el('div', 'card-top');
   const topInfo = el('span', 'card-id-tool', item.id + (item.tools.length ? ' · ' + item.tools.slice(0, 2).join(' / ') : ''));
   const kindBadge = el('span', 'kind', KIND[item.kind]);
@@ -993,7 +993,8 @@ function card(item, terms=[]) {
   read.type = 'button';
   read.setAttribute('aria-label', '閱讀 ' + item.id + ' ' + item.title);
   read.addEventListener('click', () => showDetail(item, read));
-  bottom.append(el('span', 'proof', item.proof), read);
+  const proofBadge = el('span', 'proof', item.proof);proofBadge.dataset.proof = item.proof;
+  bottom.append(proofBadge, read);
   node.append(bottom);
   return node;
 }

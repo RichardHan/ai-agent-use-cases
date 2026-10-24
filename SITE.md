@@ -1,6 +1,6 @@
-## 2026-10-25 GitHub Actions Ubuntu runner drift prevention
+## 2026-10-25 Actions runner stability and reader toolbar readability
 
-Based on confirmed failure `39937977898` (`Playwright does not support chromium on ubuntu26.04-x64`), pinned all 50 workflows using floating `ubuntu-latest` to the repository's established `ubuntu-24.04` runner; added a regression assertion that prevents reintroducing floating Ubuntu images. No site UI, corpus, permissions, browser assertions, or dependencies changed. Red/green check, YAML parse, screenshots, and current Actions limitations are recorded in [runner stability QA](docs/qa/2026-10-25-runner-stability/README.md).
+Pinned all 54 Ubuntu runners in 50 workflows to `ubuntu-24.04` after confirming the Playwright/Ubuntu 26.04 setup failure; added a regression guard against floating runner labels. PR workflows also exposed 13px mobile case-navigation labels failing the existing 14px readability check; increased them to 14px while retaining 44px controls. CI and mobile viewport evidence, screenshots, test results, and remaining Actions risks: [runner and reader QA](docs/qa/2026-10-25-runner-stability/README.md).
 
 ## 2026-10-25 詳情頁目標讀者與結構化指引、語意化憑據解讀與行動步驟閱讀層級升級
 

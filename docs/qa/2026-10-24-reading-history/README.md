@@ -55,4 +55,12 @@
 
 限制：只保留同次頁面的最近12個離開快照，不跨reload或裝置；未測實體iOS／Android或完整輔具。下一輪最值得做的是量測並降低首次全文請求成本，先協調既有catalog-bundle工作，避免重複實作。
 
-正式部署與公開資產驗收待發布後補記，不預先宣稱成功。
+正式部署已完成；公開browser驗收結果與限制如下。
+
+
+發布首驗：一般merge193dcf0推送main，Pages40080234021正式Jekyll build／deploy／report成功；五公開資產逐byte一致。正式40080627629的1440／390流程通過，但320在reload後有大量來源缺載，整輪FAIL並保留[原始報告](checks/first-public-failure.json)。未改產品或放寬零缺項斷言，只補網路狀態與requestfailed診斷再核對；不宣稱載入根因已修復。
+
+
+發布診斷終驗：[40080842629](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40080842629)仍FAIL。1440／390兩配置完整通過，網路錯誤與pageerror皆空、各兩次axe零違規；320初次載入即收到750筆HTTP429回應（含重試），零缺項斷言在line12失敗，後續320與Firefox／WebKit未執行。[完整網路報告](published/report.json)、[正式桌面返回](published/returned-chromium-1440.png)、[正式手機返回](published/returned-chromium-390.png)、[正式手機表格](published/table-returned-chromium-390.png)。這只證明本次收到限流，不能倒推前次根因，也不能代表一般訪客一定遇到；停止密集重跑，沒有放寬斷言或另改載入產品流程。正式全套驗收未完成，三引擎完整通過僅指雲端預覽。
+
+主線193dcf0的Pages [40080234021](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40080234021)與Website QA [40080234696](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40080234696)成功。Reader QA [40080234687](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40080234687)仍在「Shared search should show the result count」失敗，基準40078452992同斷言已失敗；Partial Load QA [40080234653](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40080234653)失敗，較早40078452888亦失敗，但本輪未定位其根因。不能宣稱所有主線CI全綠。[狀態快照](checks/main-ci-status.json)保留檢查時間的實際狀態。

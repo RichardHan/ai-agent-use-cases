@@ -1,0 +1,120 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "before": {
+      "id": "UC-005",
+      "top": 12170,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "reader-section-32",
+      "anchor": 137.859375,
+      "overflow": false
+    },
+    "nextID": "UC-006",
+    "nextTop": 2350,
+    "returned": {
+      "id": "UC-005",
+      "top": 12170,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "nav-next-case",
+      "anchor": 137.859375,
+      "overflow": false
+    },
+    "violations": [],
+    "tableBefore": {
+      "top": 139.109375,
+      "left": 0
+    },
+    "tableReturned": {
+      "top": 139.109375,
+      "left": 0
+    },
+    "returnedFocus": {
+      "tag": "DIV",
+      "top": 139.109375,
+      "bottom": 629.5625,
+      "visible": true
+    },
+    "tableViolations": [],
+    "scenarios": [
+      "long reading Back and Forward",
+      "distinct visits and reload",
+      "filtered results Back and Forward",
+      "offscreen focus and horizontal table"
+    ]
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "before": {
+      "id": "UC-005",
+      "top": 19897,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "reader-section-32",
+      "anchor": 160.25,
+      "overflow": false
+    },
+    "nextID": "UC-006",
+    "nextTop": 3278,
+    "returned": {
+      "id": "UC-005",
+      "top": 19897,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "nav-next-case",
+      "anchor": 160.25,
+      "overflow": false
+    },
+    "violations": [],
+    "tableBefore": {
+      "top": 160.625,
+      "left": 160
+    },
+    "tableReturned": {
+      "top": 160.625,
+      "left": 160
+    },
+    "returnedFocus": {
+      "tag": "DIV",
+      "top": 160.625,
+      "bottom": 701.453125,
+      "visible": true
+    },
+    "tableViolations": [],
+    "scenarios": [
+      "long reading Back and Forward",
+      "distinct visits and reload",
+      "filtered results Back and Forward",
+      "offscreen focus and horizontal table"
+    ]
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "before": {
+      "id": "UC-005",
+      "top": 24590,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "reader-section-32",
+      "anchor": 159.328125,
+      "overflow": false
+    },
+    "nextID": "UC-006",
+    "nextTop": 3734,
+    "returned": {
+      "id": "UC-005",
+      "top": 24590,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "nav-next-case",
+      "anchor": 159.328125,
+      "overflow": false
+    },
+    "violations": [],
+    "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'cases/394-netwasm-rpc-compatibility-poc.md',\n+   'cases/395-missing-project-samples-licensed-asset-recovery.md',\n+   'cases/396-page-mention-persistence-dispatch-verification.md',\n+   'cases/397-feature-spec-repository-grounded-backlog.md',\n+   'cases/398-support-incident-spike-watch-approved-batch-sweep.md',\n+   'cases/399-gadget-relay-shared-credits-receipts-acceptance.md',\n+   'cases/400-x-api-read-only-creator-bots-cost-estimate-vs-bill.md',\n+   'cases/401-weekly-family-menu-survey-calendar-grocery-list.md',\n+   'cases/402-home-server-bot-least-privilege-ssh-daily-car-home-report.md',\n+   'cases/403-public-curated-list-grokbot-scout-claude-code-verify-git-mailbox.md',\n+   'cases/404-fan-watch-official-news-twice-daily-calendar-dedup.md',\n+   'cases/405-video-to-vertical-short-edit-only-verify-hashes.md',\n+   'cases/406-m5stack-usage-meter-vps-cache-tunnel-shared-secret.md',\n+   'cases/407-stack-aware-security-watch-exploited-vulns-certs-breaches.md',\n+   'cases/408-daily-team-sync-one-page-prep-calendar-notion-slack-linear.md',\n+   'cases/409-substack-notes-daily-prompt-voice-reply-weekly-swipe-file-drafts.md',\n+   'cases/410-agent-team-build-day-scope-creep-brake-rule-files-intent-card.md',\n+   'cases/411-carplay-shortcut-location-to-bot-home-assistant-on-demand-update.md',\n+   'cases/412-dots-podcast-transcript-to-note-article-thumbnail-post.md',\n+   'cases/413-unifi-kids-tv-nightly-internet-curfew-text-exceptions.md',\n+   'cases/414-event-registrant-email-alias-credit-link-once-per-person.md',\n+   'cases/415-agent-24h-indie-game-promotion-public-scoreboard-failures.md',\n+   'cases/416-linkedin-daily-follower-log-post-scorecard.md',\n+   'cases/417-signup-alert-silent-quota-gap-recover-from-database.md',\n+   'cases/418-nightly-bot-team-journal-obsidian-daily-note.md',\n+   'cases/419-muse-weekly-meal-kit-menu-pick-before-default.md',\n+   'cases/420-grok-bot-pages-metrics-dashboard-morning-refresh-public-snapshot.md',\n+   'cases/421-chief-of-staff-live-project-board-decision-cards-webhook.md',\n+   'cases/422-flight-turbulence-report-hour-before-departure.md',\n+   'cases/423-five-role-trading-desk-single-executor-hard-risk-caps.md',\n+   'cases/424-reference-banner-deconstruct-public-domain-remake.md',\n+   'cases/425-cancelled-trip-forgotten-credits-refund-insurance-claim.md',\n+   'cases/426-fixed-molecular-coordinates-camera-storytelling.md',\n+   'cases/427-invention-prose-coherent-mechanism-explanation-views.md',\n+   'cases/428-version-fixed-artifact-receipt-hub.md',\n+   'cases/429-editable-digital-product-multiformat-filled-state-validation.md',\n+   'cases/430-solar-surplus-ev-charge-rate-evidence.md',\n+   'cases/431-public-incident-geofence-record-request-ledger.md',\n+   'cases/432-public-site-evidence-triage-prototype.md',\n+   'cases/433-email-opportunity-erp-authoritative-state-guard.md',\n+   'cases/434-sold-asset-policy-status-proof-refund.md',\n+   'cases/435-longitudinal-public-statistics-comparability.md',\n+   'cases/436-hvac-vfd-cross-brand-replacement-wiring-map.md',\n+   'cases/437-strava-race-goal-pages-nightly-refresh.md',\n+   'cases/438-muse-warrant-sheet-sec-ev-currency-check.md',\n+   'cases/439-morning-multibot-draft-desk-review-approval-ledger.md',\n+   'cases/440-saas-ai-credit-change-impact-backup-check.md',\n+   'cases/441-gis-roundtrip-identifier-attribute-fidelity.md',\n+   'cases/442-group-buy-authorized-quorum-settlement-plan.md',\n+   'cases/443-training-evaluation-preprocessor-pairing-audit.md',\n+   'cases/444-feature-request-release-notification-loop.md',\n+   'cases/445-campaign-experiment-goal-guard.md',\n+   'cases/446-creator-sponsor-program-tracker.md',\n+   'cases/447-jet-lag-light-sleep-coach.md',\n+   'cases/448-scoped-cloudflare-access-policy-bot.md',\n+   'cases/449-crm-contact-merge-conflict-review.md',\n+   'evidence/008-morning-brief-validation.md',\n+   'evidence/009-background-transfer-template.md',\n+   'evidence/013-authentication-diagnosis.md',\n+   'sources/pending.md'\n+ ]\n- []\n\n    at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/reading-history-browser.cjs:28:92\n    at runNextTicks (node:internal/process/task_queues:64:5)\n    at process.processImmediate (node:internal/timers:452:9)\n    at process.callbackTrampoline (node:internal/async_hooks:130:17)"
+  }
+]

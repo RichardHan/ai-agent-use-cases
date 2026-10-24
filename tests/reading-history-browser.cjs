@@ -1,0 +1,21 @@
+'use strict';
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const {chromium,firefox,webkit}=require('playwright');
+const {AxeBuilder}=require('@axe-core/playwright');
+const base=process.env.SITE_URL||'http://127.0.0.1:8190/ai-agent-use-cases/';
+const out=process.env.QA_OUT||'qa-artifacts/history',observe=process.env.QA_OBSERVE==='1';
+fs.mkdirSync(out,{recursive:true});
+(async()=>{const rows=[];
+for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
+ const b=await engine.launch(),context=await b.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),p=await context.newPage(),row={label:engine.name()+'-'+width,errors:[]};rows.push(row);p.on('pageerror',e=>row.errors.push(e.message));
+ try{
+ await p.goto(base+'?case=UC-005');await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);
+ await p.locator('.reader-outline>summary').click();await p.locator('#reader-outline-query').fill('獨立審查');await p.locator('#reader-outline-query').press('Enter');
+ const state=()=>p.evaluate(()=>({id:currentDetailItem.id,top:document.querySelector('#detail').scrollTop,open:document.querySelector('.research-details').open,query:document.querySelector('#reader-outline-query').value,focus:document.activeElement.id,anchor:document.querySelector('#reader-section-32').getBoundingClientRect().top,overflow:document.documentElement.scrollWidth>innerWidth}));
+ row.before=await state();assert(row.before.open&&row.before.top>500);await p.screenshot({path:`${out}/reading-${row.label}.png`});
+ await p.locator('#nav-next-case').click();await p.goBack();await p.waitForFunction(()=>currentDetailItem.id==='UC-005');row.returned=await state();await p.screenshot({path:`${out}/returned-${row.label}.png`});
+ if(!observe){assert(row.returned.open,'History must restore expanded original research');assert.equal(row.returned.query,row.before.query);assert(Math.abs(row.returned.anchor-row.before.anchor)<3,'History must restore reading anchor');assert.equal(row.returned.overflow,false);row.violations=(await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id);assert.deepEqual(row.violations,[]);}
+ assert.deepEqual(row.errors,[]);
+ }catch(e){row.failure=e.stack;throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await b.close();}
+}
+})().catch(e=>{console.error(e);process.exit(1)});

@@ -51,3 +51,5 @@
 ## 發布
 
 待驗收通過與獨立審查結論後正常合併，並用verify分支實測公開資產與桌面／手機流程；此段會補實際結果，不預先宣稱正式通過。
+
+補充最終整合驗收：[40062879922](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40062879922)在3e4b0e7成功，已保留主線搜尋分享修正與新增研究：206／206單元、三引擎10版面＋5完整流程、25次axe零違規、447條目完整及3復原全過。[最終原始報告](final-preview/filter-after/report.json)。獨立審查無阻擋，指出的中寬度與公開QA斷言跳過問題已修正。後續450cc1b僅再整合協作者搜尋分享按鈕12→14px與其兩套測試；產品filter CSS無衝突，以151a432一般merge提交push main，並觸發verify分支正式驗收。PR建立遭EMU限制，取消被取代驗收工作API亦403；未繞過權限或強推，原run結果保留。

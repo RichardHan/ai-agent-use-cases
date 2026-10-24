@@ -8,7 +8,7 @@ permissions:
 jobs:
   controls:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -58,7 +58,7 @@ jobs:
           const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let i=0;i<90;i++){
+            for(let i=0;i<450;i++){
               const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/assets/reader.css?qa='+process.env.GITHUB_SHA);
               if(r.ok&&await r.text()===fs.readFileSync('assets/reader.css','utf8'))return;
               await new Promise(r=>setTimeout(r,2000));

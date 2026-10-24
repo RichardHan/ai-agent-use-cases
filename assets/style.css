@@ -359,3 +359,11 @@
   .card-bottom .proof{font-size:11px;padding:2px 6px}
   .plain-overview{padding:12px 14px;margin:14px 0 20px}
 }
+
+/* Search guidance & keyboard focus enhancements */
+.search-hint{font-size:13px;line-height:1.6;color:#4c6258;margin:8px 0 14px;padding:0 2px}
+.active-filter:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.card .summary{color:#2a3a34;letter-spacing:-.1px}
+@media(max-width:640px){
+  .search-hint{font-size:12px;margin:6px 0 12px}
+}

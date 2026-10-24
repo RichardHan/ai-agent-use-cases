@@ -24,7 +24,7 @@ function isCurrentMainCommit(checkoutSha,getMainSha=getRemoteMainSha){
 }
 
 function getRemoteMainSha(){
- const output=execFileSync('git',['ls-remote','origin','refs/heads/main'],{encoding:'utf8',stdio:['ignore','pipe','pipe']});
+ const output=execFileSync('git',['ls-remote','origin','refs/heads/main'],{encoding:'utf8',stdio:['ignore','pipe','pipe'],timeout:10000});
  return output.trim().split(/\s+/)[0];
 }
 

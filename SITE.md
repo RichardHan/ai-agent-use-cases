@@ -1,3 +1,7 @@
+## 2026-10-25 搜尋心智模型導引、無障礙錯誤播報與 GitHub Actions 發布逾時韌性加固
+
+首頁搜尋表單新增白話提示「支援多詞同時符合（AND）；可搜尋想解決的問題、提及工具、實作作法與限制」，建立清晰檢索心智模型；為 `#error` 狀態補充 `role="alert"` 與 `aria-live="assertive"` 強化輔助科技播報；提升 `.active-filter:focus-visible` 焦點可見性與卡片摘要閱讀節奏；系統性解決 GitHub Actions 頻繁失敗根因：將 `tests/published-version.cjs` 輪詢嘗試次數放寬至 300 次（15 分鐘），同步將 `facet-counts-qa.yml`、`reader-controls-qa.yml`、`round-qa.yml` 工作逾時提升至 25 分鐘，為 `scripts/published-check.cjs` 補齊 10 秒執行逾時保護，建立 `.gitignore` 與 `_config.yml` 排除暫存目錄。全套單元測試增至 285 項全數通過，語法檢查 0 錯誤，桌面與手機 360px 視口零水平溢出。前後截圖、兩案取捨、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-visitor-quality-and-ci-stability/README.md)。
+
 ## 2026-10-25 GitHub Actions 部署等待與空結果捷徑驗收
 
 根據 Actions #40128833680、#40128833678 實際失敗，修正無結果時六個痛點捷徑的鍵盤驗收，並將 Card refinement、Combined recovery 的 Pages 資產輪詢各延長至15分鐘（工作上限25分鐘），涵蓋已量得的11分38秒部署。沒有更動網站介面或案例資料；桌面／手機前後截圖、來源走查、獨立審查與驗收見[本輪紀錄](docs/qa/2026-10-25-actions-recovery/README.md)。

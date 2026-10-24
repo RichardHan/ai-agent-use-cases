@@ -70,3 +70,27 @@ test('GitHub Actions workflows provide sufficient polling window for Pages deplo
   assert.ok(submitMatch, 'search-submit-qa.yml must contain attempt range');
   assert.ok(parseInt(submitMatch[1], 10) >= 120, 'search-submit-qa.yml should poll at least 120 attempts');
 });
+
+test('published-version.cjs covers observed Pages deployment latency (>= 300 attempts / 15 minutes)', () => {
+  const publishedVersionCjs = fs.readFileSync(path.join(__dirname, 'published-version.cjs'), 'utf8');
+  const pollMatch = publishedVersionCjs.match(/attempt\s*<\s*(\d+)/);
+  assert.ok(pollMatch, 'published-version.cjs must contain bounded attempt loop');
+  assert.ok(Number(pollMatch[1]) >= 300, 'published-version.cjs should poll at least 300 attempts');
+});
+
+test('facet-counts-qa.yml bounds job duration to cover published-version poll (>= 25 minutes)', () => {
+  const facetWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/facet-counts-qa.yml'), 'utf8');
+  const timeoutMatch = facetWorkflow.match(/timeout-minutes:\s*(\d+)/);
+  assert.ok(timeoutMatch, 'facet-counts-qa.yml must bound its job duration');
+  assert.ok(Number(timeoutMatch[1]) >= 25, 'job timeout must cover setup plus published-version poll');
+});
+
+test('search-hint provides plain-language AND mental model and accessible error announcement', () => {
+  const indexHtml = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+  assert.match(indexHtml, /id="search-hint"/, 'index.html must define #search-hint');
+  assert.match(indexHtml, /支援多詞同時符合（AND）/, 'search-hint must explain multi-term AND behavior');
+  assert.match(indexHtml, /aria-describedby="[^"]*search-hint/, '#query must reference search-hint via aria-describedby');
+  assert.match(indexHtml, /<div id="error" class="empty" role="alert" aria-live="assertive"/, '#error must have role="alert" and aria-live="assertive"');
+  assert.match(css, /\.search-hint\s*\{/, 'style.css must define .search-hint styling');
+  assert.match(css, /\.active-filter:focus-visible\s*\{/, 'style.css must define focus-visible for .active-filter');
+});

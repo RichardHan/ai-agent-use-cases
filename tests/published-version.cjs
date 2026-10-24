@@ -22,7 +22,7 @@ if(require.main===module){
  const local={catalog:JSON.parse(fs.readFileSync(path.join(built,'catalog.json'),'utf8')),corpus:JSON.parse(fs.readFileSync(path.join(built,'corpus.json'),'utf8'))};
  (async()=>{
   let diagnostic='';
-  for(let attempt=0;attempt<60;attempt++){
+  for(let attempt=0;attempt<300;attempt++){
    try{
     const responses=await Promise.all([...assets,'catalog.json','corpus.json'].map(async file=>{
      const response=await fetch(base+(file==='index.html'?'':file)+'?facet-release='+process.env.GITHUB_SHA,{cache:'no-store',signal:AbortSignal.timeout(15000)});

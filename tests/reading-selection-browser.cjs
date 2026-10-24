@@ -11,7 +11,7 @@ for(const [engine,width] of (process.env.QA_CHROMIUM==='1'?[[chromium,1440],[chr
  const row={engine:engine.name(),width,checks:[],errors:[]};rows.push(row);page.on('pageerror',e=>row.errors.push(e.message));
  const id=()=>page.locator('#detail-toolbar-id').innerText();
  const snapshot=()=>page.evaluate(()=>({url:location.href,history:history.length,title:document.title}));
- const select=async selector=>{const n=page.locator(selector).first();await n.scrollIntoViewIfNeeded();await n.evaluate(n=>{n.focus();const range=document.createRange();range.selectNodeContents(n);const s=document.getSelection();s.removeAllRanges();s.addRange(range)});assert(await page.evaluate(()=>!getSelection().isCollapsed));};
+ const select=async (selector,focus=true)=>{const n=page.locator(selector).first();await n.scrollIntoViewIfNeeded();await n.evaluate((n,focus)=>{if(focus)n.focus();const range=document.createRange();range.selectNodeContents(n);const s=document.getSelection();s.removeAllRanges();s.addRange(range)},focus);assert(await page.evaluate(()=>!getSelection().isCollapsed));};
  try{
  await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot&case=UC-001');await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});await page.locator('#detail[open]').waitFor();await page.reload();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await id(),'UC-001');
  // Reader who selects the title before quoting or saving a case.
@@ -26,7 +26,7 @@ for(const [engine,width] of (process.env.QA_CHROMIUM==='1'?[[chromium,1440],[chr
  for(const key of ['ArrowLeft','ArrowRight']){await select('.markdown p');const previous=await snapshot();await page.keyboard.press(key);assert.equal(await id(),'UC-001');assert.deepEqual(await snapshot(),previous);}
  row.checks.push({flow:'source-passage',bothDirections:true});
  // Explicit navigation still works while a range exists (Enter and pointer).
- await select('#detail-title');await page.locator('#nav-next-case').focus();await page.keyboard.press('Enter');assert.notEqual(await id(),'UC-001');
+ await page.locator('#nav-next-case').focus();await select('#detail-title',false);await page.keyboard.press('Enter');assert.notEqual(await id(),'UC-001');
  await select('#detail-title');await page.locator('#nav-prev-case').click();assert.equal(await id(),'UC-001');
  await select('#detail-title');
  row.checks.push({flow:'selected-explicit-navigation',passed:true});

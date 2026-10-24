@@ -1990,6 +1990,8 @@ $('detail').addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if ($('detail').open) {
+    // Arrow keys belong to the browser while readers select or copy passage text.
+    if (document.getSelection()?.isCollapsed === false) return;
     if (e.defaultPrevented || e.isComposing || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || document.activeElement.closest('.markdown-table,input,textarea,select,[contenteditable]:not([contenteditable="false"])')) return;
     if (e.key === 'ArrowLeft') { e.preventDefault(); navStep(-1); }
     else if (e.key === 'ArrowRight') { e.preventDefault(); navStep(1); }

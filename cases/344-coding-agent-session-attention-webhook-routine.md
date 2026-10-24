@@ -91,3 +91,14 @@
 ## 2026-10-23 21:50更新：Reason提案狀態已改，舊限制不是最新結論
 
 本輪重讀[Issue85維護者10月23日更新](https://github.com/reason-machines/reason-network/issues/85#issuecomment-6358899651)，已回報Grok Bot routine實際喚醒、讀信並回覆，Issue已關閉；僅為維護者自述，未由本庫重現。不同as名稱的收件匣亦有新說明，但不等於自動恢復指定原生聊天。詳細時間、限制與安全核對併於[UC045本輪更新](045-cross-agent-research-handoff.md)，不把同一證據在兩頁算兩個案例。上方10月22日Open與共享匣敘述是歷史查閱狀態。
+
+
+## 2026-10-24 12:30補充：錯誤輸出不是新郵件，避免空喚醒
+
+zsz1210在[Reason Network Issue120](https://github.com/reason-machines/reason-network/issues/120)（英文，2026-10-23 00:20:57 UTC；本輪12:33台灣時間讀正文及唯一留言）自述：自己的shell迴圈解析listen輸出時，曾把daemon錯誤當成新訊息，叫醒Bot後卻沒有郵件可讀。這是具體失敗自述，不是本庫重現；沒有公開原始事件表、頻率或費用數字。
+
+作者提出把事件判別移進listen的exec模式，並希望處理失敗時保留未讀、支援突發訊息。[維護者回覆](https://github.com/reason-machines/reason-network/issues/120#issuecomment-6355442305)（同日01:49:24 UTC）表示方向合理，但序列執行與卡住逾時仍待決定。本輪Issue仍Open，不能把建議語法、失敗後保留未讀或去重行為寫成已發布、已測通的功能。既有Issue85的伺服器喚醒成功，也不能代替這個本機listener路徑的驗收。
+
+[官方Routine說明](https://cursor.com/help/grok-bot/routines)本輪核讀：每次啟動會使用額度，webhook回200表示受理並開始，仍須另查工作結果。這支持「空喚醒也需要辨識」的驗收價值，但沒有證明上述第三方故障的帳單影響。本庫未安裝、執行、建連接或觸發webhook；單次成本、修復與長期可靠性未知。
+
+可貼指令（本庫原創／未實測）：只讀我提供的合成listener事件表，分開標出真正郵件、daemon錯誤、斷線、重連、喚醒回條及實際收件結果。錯誤文字不得當成新郵件；沒有可核訊息ID就標待查，不喚醒、不重送。把作者已發生的錯誤、仍在討論的exec設計及測過的行為分開。列出需要補的最小證據，不執行命令、不改未讀狀態或核准規則。此為UC344事件判別的失敗補充，不新增案例數。

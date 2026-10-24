@@ -7,7 +7,7 @@ const out=process.env.QA_OUT||'qa-artifacts/history',observe=process.env.QA_OBSE
 fs.mkdirSync(out,{recursive:true});
 (async()=>{const rows=[];
 for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
- const b=await engine.launch(),context=await b.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),p=await context.newPage(),row={label:engine.name()+'-'+width,errors:[]};rows.push(row);p.on('pageerror',e=>row.errors.push(e.message));
+ const b=await engine.launch(),context=await b.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),p=await context.newPage(),row={label:engine.name()+'-'+width,errors:[],network:[]};rows.push(row);p.on('pageerror',e=>row.errors.push(e.message));p.on('response',r=>{if(r.status()>=400)row.network.push({url:r.url(),status:r.status()});});p.on('requestfailed',r=>row.network.push({url:r.url(),error:r.failure()?.errorText}));
  try{
  await p.goto(base+'?case=UC-005');await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);
  await p.locator('.reader-outline>summary').click();await p.locator('#reader-outline-query').fill('獨立審查');await p.locator('#reader-outline-query').press('Enter');

@@ -56,3 +56,6 @@
 限制：只保留同次頁面的最近12個離開快照，不跨reload或裝置；未測實體iOS／Android或完整輔具。下一輪最值得做的是量測並降低首次全文請求成本，先協調既有catalog-bundle工作，避免重複實作。
 
 正式部署與公開資產驗收待發布後補記，不預先宣稱成功。
+
+
+發布首驗：一般merge193dcf0推送main，Pages40080234021正式Jekyll build／deploy／report成功；五公開資產逐byte一致。正式40080627629的1440／390流程通過，但320在reload後有大量來源缺載，整輪FAIL並保留[原始報告](checks/first-public-failure.json)。未改產品或放寬零缺項斷言，只補網路狀態與requestfailed診斷再核對；不宣稱載入根因已修復。

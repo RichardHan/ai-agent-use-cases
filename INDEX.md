@@ -195,7 +195,7 @@
 | UC-011 | 商機與回饋交叉分析、批准後修訂材料 | ChatGPT dots／Drive／Sheets | [作者樣本測試，無營收成效驗證](cases/011-sales-feedback-approved-revision.md) | 工作｜業務、簡報、客戶回饋 |
 | UC-012 | 科研評估來源稽核、領域批判與圖稿整合 | Grok Bot／Jupyter／LaTeX | [作者回溯性科研案例，原始紀錄不完整](cases/012-research-evaluation-provenance.md) | 學習｜科研、資料稽核、多代理 |
 | UC-014 | 客服收件匣巡檢與人核准退款 | Grok Bot／Intercom／Stripe；dots 垃圾箱分診＋影片待看 | [作者自述＋dots 垃圾箱年付求助分診截圖；影片僅讀描述](cases/014-support-inbox-approval-refund.md) | 工作｜客服、收件匣、核准 |
-| UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine（含 KEV、官方更新紀錄） | [dots 結構化測試＋Grok Bot 官方文件＋KEV 監看自述＋每日看更新紀錄轉個人建議自述；未重現](cases/015-public-page-change-watch.md) | 工作｜每日、監看、排程、驗收 |
+| UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine（含 KEV、公告覆蓋驗收） | [dots 結構化測試＋Grok Bot 官方文件＋KEV 監看自述＋每日看更新紀錄轉個人建議自述；未重現](cases/015-public-page-change-watch.md) | 工作｜每日、監看、排程、驗收 |
 | UC-016 | 二手刊登與買家對話代管 | Meta Muse／Facebook Marketplace；dots 多平台 | [Muse 地址外洩事件（媒體轉述）＋官方權限文件＋作者自述；未重現](cases/016-marketplace-selling-buyer-messages.md) | 生活｜二手、買家訊息、隱私 |
 | UC-017 | 先研究潛在客戶，再準備有根據的聯絡草稿；繁中作者把n8n客戶開發搬到多Bot分工並實際寄信 | Grok Bot／公開公司來源／草稿；Apify Google Maps Scraper／Gmail／Routines | [官方展示／署名作者自報＋繁中作者實測自述（寄出14封、回覆未公開）；未獨立重現](cases/017-prospect-research-drafts.md) | 工作｜業務開發、草稿 |
 | UC-018 | 正式展示前，先檢查示範環境能不能跑 | Grok Bot／授權測試環境 | [官方展示／署名作者自報；未獨立重現](cases/018-demo-readiness.md) | 工作｜展示、驗收 |
@@ -295,7 +295,7 @@
 | UC-113 | 建築模型的外牆與內裝方案比較 | Grok Bot／Sunburst | [作者實作自述；未重現](cases/113-architecture-material-visual-comparison.md) | 創作｜建築、材質、驗收 |
 | UC-114 | 既有教材保留內容的省紙重排 | Grok Bot／PDF | [作者實作自述；未重現](cases/114-existing-worksheet-print-layout.md) | 學習｜教材、排版、列印 |
 | UC-115 | 帶骨架與動畫的可重用角色資產 | Grok Bot／Three.js | [作者實作自述；未重現](cases/115-rigged-character-asset-export.md) | 創作｜3D角色、骨架、匯出 |
-| UC-116 | Slack需求轉品牌一致的報價草稿 | Grok Bot／Slack／Notion／PDF | [西文作者實作自述；價格與對外交付未核](cases/116-slack-branded-quote-draft.md) | 工作｜報價、草稿、審核 |
+| UC-116 | Slack需求轉品牌一致的報價草稿 | Grok Bot／ChatGPT dots／Slack／文件 | [西文、日文作者實作自述；補跨檔條件同步反例，價格與對外交付未核](cases/116-slack-branded-quote-draft.md) | 工作｜報價、草稿、審核 |
 | UC-117 | 故障產品保固換貨與到貨追蹤 | Grok Bot | [作者評論自述；品牌訂單未核](cases/117-warranty-replacement-tracking.md) | 生活｜保固、換貨、追蹤 |
 | UC-118 | 代理郵件改收件者前的核准分流測試 | Grok Bot／Meta Muse | [作者虛構商家測試；未重現](cases/118-agent-email-rerouting-consent-test.md) | 開發｜收件匣、核准、測試 |
 | UC-119 | 夢幻球隊先發建議與核准後調整 | Meta Muse | [作者實作自述；得分未獨立核](cases/119-fantasy-lineup-approval-review.md) | 生活｜運動、名單、核准 |
@@ -825,3 +825,8 @@
 ## 2026-10-24 08:00 多語補證
 
 [12組候選與閱讀界線](sources/research-2026-10-24-0800.md)：新增合格0、合併2（042韓文HTML交接包與設定復原限制；073日文草稿保存不等於QA通過），其餘8組保留證據／去重限制、2組排除。來源待補及AI構想獨立新增各0；三類全庫累計未重驗，2000目標計數口徑仍待確認。
+
+
+## 2026-10-24 10:40 多語補證
+
+[12組候選與查閱限制](sources/research-2026-10-24-1040.md)：新增合格0、合併2（015大批次公開公告的正文覆蓋；116報價條件跨檔不同步）。既有2、證據或去重不足6、排除2；來源待補及AI構想獨立新增各0，三類全庫累計未重驗，2000計數口徑仍待確認。

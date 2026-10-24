@@ -1,0 +1,114 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "height": 1000,
+    "entry": {
+      "x": 140,
+      "y": 389.125,
+      "width": 157.828125,
+      "height": 48
+    },
+    "queryBefore": {
+      "x": 194.0625,
+      "y": 1073.15625,
+      "width": 941.734375,
+      "height": 62
+    },
+    "taskSearches": [
+      {
+        "label": "規劃旅行",
+        "count": 1,
+        "first": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "label": "收件匣",
+        "count": 136,
+        "first": "軟體序號散在三個信箱裡？請 Bot 掃信找出來，先給你清單，再存進 1Password"
+      },
+      {
+        "label": "比價",
+        "count": 51,
+        "first": "每天幫你盯商品排名或降價，有變動才通知"
+      }
+    ],
+    "axeViolations": [],
+    "journeys": "known-task, no-results-recovery, shared-case-reload"
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "height": 844,
+    "entry": {
+      "x": 20,
+      "y": 329.6875,
+      "width": 157.828125,
+      "height": 48
+    },
+    "queryBefore": {
+      "x": 33,
+      "y": 1707.234375,
+      "width": 244,
+      "height": 56
+    },
+    "axeViolations": [],
+    "journeys": "known-task, no-results-recovery, shared-case-reload"
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "height": 740,
+    "entry": {
+      "x": 20,
+      "y": 329.6875,
+      "width": 157.828125,
+      "height": 48
+    },
+    "queryBefore": {
+      "x": 33,
+      "y": 1866.203125,
+      "width": 174,
+      "height": 56
+    },
+    "axeViolations": [],
+    "journeys": "known-task, no-results-recovery, shared-case-reload"
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "height": 844,
+    "entry": {
+      "x": 20,
+      "y": 329.70001220703125,
+      "width": 157.81666564941406,
+      "height": 48
+    },
+    "queryBefore": {
+      "x": 33,
+      "y": 1707.4000244140625,
+      "width": 244,
+      "height": 56
+    },
+    "axeViolations": [],
+    "journeys": "known-task, no-results-recovery, shared-case-reload"
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "height": 844,
+    "entry": {
+      "x": 20,
+      "y": 329.6875,
+      "width": 157.140625,
+      "height": 48
+    },
+    "queryBefore": {
+      "x": 33,
+      "y": 1814.796875,
+      "width": 244.390625,
+      "height": 56
+    },
+    "axeViolations": [],
+    "journeys": "known-task, no-results-recovery, shared-case-reload"
+  }
+]

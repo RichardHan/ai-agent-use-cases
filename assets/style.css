@@ -200,6 +200,10 @@
 /* A visible route for visitors who arrive with a task in mind. */
 .hero-search-link{display:inline-flex;align-items:center;gap:20px;min-height:48px;padding:9px 16px;margin:0 0 20px;border:1px solid var(--green);border-radius:8px;color:var(--green);background:var(--white);font-size:15px;font-weight:650;text-decoration:none}
 .hero-search-link:hover{background:#e9eee0}
+.hero-task-examples{display:flex;align-items:center;flex-wrap:wrap;gap:4px 14px;margin:-9px 0 18px;color:#4c6258;font-size:13px;line-height:1.5}
+.hero-task-examples>a{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:650;text-underline-offset:4px}
+.hero-task-examples>a:hover{color:#172b27}
+.hero-task-examples>a:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
 
 /* Explain query order without adding another control to the mobile filter panel. */
 .search-order-note{margin:0;font-size:13px;line-height:1.7;color:var(--green);max-width:65ch;overflow-wrap:anywhere}

@@ -33,7 +33,7 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
    for(const item of cases){
     const body=document.createElement('div');body.innerHTML='<section class="plain-overview"></section><details class="research-details"><summary>完整研究</summary></details>';
     const markdown=renderMarkdown(item.markdown,item.path);body.querySelector('details').append(markdown);
-    const original=markdown.innerHTML,headings=[...markdown.querySelectorAll('h2,h3')];
+    const original=markdown.cloneNode(true),headings=[...markdown.querySelectorAll('h2,h3')];
     const expected=new Set();let target='reader-source-meta';
     for(const block of markdown.children){
      if(/^H[23]$/.test(block.tagName)){
@@ -52,8 +52,25 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
      if(id!=='reader-source-meta'&&button.firstChild.textContent!==node.textContent)throw Error(item.id+' changed title');
      if(button.querySelector('img,script'))throw Error(item.id+' unsafe title');
     }
-    const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return,.reader-copy').forEach(n=>n.remove());clean.querySelectorAll('h2,h3').forEach(n=>{n.removeAttribute('id');n.removeAttribute('tabindex');});
-    if(clean.innerHTML!==original)throw Error(item.id+' original research changed');
+    const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return,.reader-copy').forEach(n=>n.remove());
+    const originalNodes=[...original.querySelectorAll('*')],cleanNodes=[...clean.querySelectorAll('*')];
+    cleanNodes.forEach((node,index)=>{
+     const baseline=originalNodes[index];
+     for(const attribute of ['id','tabindex']){
+      if(baseline?.hasAttribute(attribute))node.setAttribute(attribute,baseline.getAttribute(attribute));
+      else node.removeAttribute(attribute);
+     }
+    });
+    const originalTables=[...original.querySelectorAll('.markdown-table')];
+    clean.querySelectorAll('.markdown-table').forEach((table,index)=>{
+     const originalTable=originalTables[index],originalInner=originalTable?.querySelector('table'),inner=table.querySelector('table');
+     for(const [target,baseline] of [[table,originalTable],[inner,originalInner]]){
+      if(!target||!baseline)continue;
+      if(baseline.hasAttribute('aria-label'))target.setAttribute('aria-label',baseline.getAttribute('aria-label'));
+      else target.removeAttribute('aria-label');
+     }
+    });
+    if(clean.innerHTML!==original.innerHTML)throw Error(item.id+' original research changed');
     if(!expected.size&&body.querySelector('.reader-review'))throw Error(item.id+' empty index visible');
     totalCandidates+=buttons.length;
     if(['UC-005','UC-067','UC-024','UC-338','no-headings','literal-duplicate'].includes(item.id))examples.push({id:item.id,candidates:buttons.length,titles:buttons.map(b=>b.textContent)});

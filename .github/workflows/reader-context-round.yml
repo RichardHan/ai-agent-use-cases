@@ -2,8 +2,8 @@ name: Reader context round
 on:
   workflow_dispatch:
   push:
-    branches: [improve/reader-context-search, main]
-    paths: ['assets/reader.*', 'tests/search-passage.test.cjs', '.github/workflows/reader-context-round.yml', 'tests/reader-context-round.cjs']
+    branches: [improve/reader-context-search, main, 'fix/**']
+    paths: ['assets/reader.*', 'tests/search-passage.test.cjs', '.github/workflows/reader-context-round.yml', 'tests/reader-context-round.cjs', 'tests/review-sections-browser.cjs']
 permissions:
   contents: read
 jobs:

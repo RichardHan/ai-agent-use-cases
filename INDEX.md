@@ -1,5 +1,7 @@
 # 完整案例索引
 
+2026-10-24 09:00台灣時間批次：X＋Zenn／note／Hacker News共11組候選，新增3（UC446業配品牌開發追蹤表、UC447時差教練〔待驗證〕、UC448限縮權限的Cloudflare存取名單Bot）、合併1（UC281併入PM Bot開issue→程式代理開PR→聊天核准合併的精簡變體）。其餘既有或證據不足；三類累計未重驗。[來源與範圍](sources/research-2026-10-24-0900.md)。
+
 2026-10-24 08:40台灣時間批次：12組候選、新增合格0、合併補充2。UC071補外部記憶分階段失敗與冪等檢查；UC072補新會話驗證與通話逐題驗收。精確既有2、未達進階門檻2、證據或全文去重不足6；三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-24-0840.md)。
 
 2026-10-24 07:10台灣時間批次：15組候選，新增合格0；UC369補作者撤回推測、追出持久設定並報告復原，UC037補預售配件排除與正文矛盾。3組精確既有、10組證據或全文去重不足；三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-24-0710.md)。
@@ -450,7 +452,7 @@
 | UC-278 | 加工中心軸與結構配置的3D概念比較 | Grok Bot／自建網頁 | [日文作者實作＋公開原碼；未執行、工程性能未驗](cases/278-machining-center-configuration-concept.md) | 開發｜機械、3D、參數、驗收 |
 | UC-279 | 電話以韓語向航空公司改票，因非本人被拒 | Grok Bot | [作者自述成功通話與拒絕原因；無錄音](cases/279-airline-phone-rebook-identity-refusal.md) | 生活｜旅遊、電話、核准、驗收 |
 | UC-280 | Notion 日報接 Slack，dots 落成任務並記工時 | ChatGPT dots／Notion／Slack／日曆 | [日文作者自述；無設定截圖](cases/280-notion-daily-slack-dots-hours.md) | 工作｜日誌、排程、工時、驗收 |
-| UC-281 | Grok Bot 出 mockup，Claude 工人實作，截圖 QA | Grok Bot／Claude Opus／GitHub | [作者長文自述＋附圖；專案未核](cases/281-grok-mockup-claude-worker-qa-pipeline.md) | 開發｜多代理、驗收、設計、程式 |
+| UC-281 | Grok Bot 出 mockup，Claude 工人實作，截圖 QA | Grok Bot／Claude Opus／GitHub | [作者長文自述＋附圖；10-24併入PM Bot→PR精簡變體；專案未核](cases/281-grok-mockup-claude-worker-qa-pipeline.md) | 開發｜多代理、驗收、設計、程式 |
 | UC-282 | 語音交給 dots，代登病患入口傳訊給醫師 | ChatGPT dots | [Pro 社群訪談自述；無操作錄影](cases/282-patient-portal-voice-to-message.md) | 生活｜健康、收件匣、核准、語音 |
 | UC-283 | dots 接工作 App 實測 17 項與核准陷阱 | ChatGPT dots／多種外掛 | [作者對照畫面與 git log；未重跑](cases/283-dots-connected-apps-permission-pitfalls.md) | 工作｜驗收、權限、排程、故障診斷 |
 | UC-284 | 延誤行李到達後的補購用品費用申請 | Meta Muse | [作者實際使用自述；無受理回條與付款證明](cases/284-delayed-baggage-status-expense-claim.md) | 生活｜旅遊、行李、報銷、核准 |
@@ -610,6 +612,9 @@
 | UC-438 | 投資研究試算表：重建全市場權證清單並填Google Finance公式，依SEC資料更新企業價值並提醒幣別混用 | Meta Muse／Google試算表 | [B論壇作者自述；表格未公開、未重現](cases/438-muse-warrant-sheet-sec-ev-currency-check.md) | 學習｜投資研究、試算表、資料查證、監看 |
 | UC-439 | 每天清晨的多Bot編輯部：統括派稿、寫手交檔、品管依清單退回附改法、只存下書並登核准台帳 | Grok Bot（多Bot）／ChatGPT作圖／note／X | [B公司note自述時間紀錄；台帳未公開、未重現](cases/439-morning-multibot-draft-desk-review-approval-ledger.md) | 工作｜每日、多代理、內容發布、核准 |
 | UC-440 | 常用SaaS的AI改點數制：依官方說明算自己的影響，再只在已訂閱工具裡找備援 | Grok Bot／Notion AI | [B作者note自述；備援仍在調查、未重現](cases/440-saas-ai-credit-change-impact-backup-check.md) | 省錢｜訂閱、方案變更、用量、備援 |
+| UC-446 | 從公開業配貼文反查品牌合作計畫，整理證據追蹤表與待批提案 | Grok Bot | [作者自述實測；名單未公開、未重現](cases/446-creator-sponsor-program-tracker.md) | 工作｜創作者、贊助、追蹤表、人工核准 |
+| UC-447 | 依睡眠資料與身體時鐘安排時差照光、睡眠與咖啡提醒 | Grok Bot | [待驗證：作者已設定，首次實測12月](cases/447-jet-lag-light-sleep-coach.md) | 生活｜旅遊、睡眠、穿戴裝置、每日 |
+| UC-448 | 只限Access權限的連接，讓Bot確認並修改Cloudflare存取名單 | Grok Bot／Cloudflare | [作者自述使用；無設定紀錄、未重現](cases/448-scoped-cloudflare-access-policy-bot.md) | 開發｜權限、雲端設定、最小權限 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

@@ -84,8 +84,7 @@ const save=()=>fs.writeFileSync(output+'/report.json',JSON.stringify(reports,nul
     }passages++;
    }
    const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return,.reader-copy').forEach(n=>n.remove());
-   clean.querySelectorAll('h2,h3,[id^="reader-passage-"]').forEach(n=>{n.removeAttribute('id');n.removeAttribute('tabindex');});
-   clean.querySelectorAll('.markdown-table').forEach(table=>{table.removeAttribute('aria-label');table.querySelector('table')?.removeAttribute('aria-label');});
+   clean.querySelectorAll('[id],[tabindex],[aria-label]').forEach(node=>{node.removeAttribute('id');node.removeAttribute('tabindex');node.removeAttribute('aria-label');});
    if(clean.innerHTML!==original)throw Error(item.id+' original research changed');
    if(item.id==='UC-400'&&!targetTags.some(tag=>tag==='TD'||tag==='TH'))throw Error('UC-400 table matches must locate their original cell');
    }

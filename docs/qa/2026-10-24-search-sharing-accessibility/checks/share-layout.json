@@ -1,0 +1,104 @@
+[
+  {
+    "status": {
+      "top": 900.609375,
+      "bottom": 922.046875
+    },
+    "input": {
+      "top": 0,
+      "bottom": 0
+    },
+    "summary": {
+      "top": 934.046875,
+      "bottom": 978.046875
+    },
+    "focused": "copy-search-link",
+    "width": 1440,
+    "reject": false
+  },
+  {
+    "status": {
+      "top": 901.1875,
+      "bottom": 922.625
+    },
+    "input": {
+      "top": 934.625,
+      "bottom": 978.625
+    },
+    "summary": {
+      "top": 996.625,
+      "bottom": 1040.625
+    },
+    "focused": "search-share-url",
+    "width": 1440,
+    "reject": true
+  },
+  {
+    "status": {
+      "top": 496.671875,
+      "bottom": 518.109375
+    },
+    "input": {
+      "top": 0,
+      "bottom": 0
+    },
+    "summary": {
+      "top": 530.109375,
+      "bottom": 574.109375
+    },
+    "focused": "copy-search-link",
+    "width": 390,
+    "reject": false
+  },
+  {
+    "status": {
+      "top": 497.046875,
+      "bottom": 518.484375
+    },
+    "input": {
+      "top": 530.484375,
+      "bottom": 574.484375
+    },
+    "summary": {
+      "top": 592.484375,
+      "bottom": 636.484375
+    },
+    "focused": "search-share-url",
+    "width": 390,
+    "reject": true
+  },
+  {
+    "status": {
+      "top": 496.3125,
+      "bottom": 517.75
+    },
+    "input": {
+      "top": 0,
+      "bottom": 0
+    },
+    "summary": {
+      "top": 529.75,
+      "bottom": 573.75
+    },
+    "focused": "copy-search-link",
+    "width": 320,
+    "reject": false
+  },
+  {
+    "status": {
+      "top": 496.328125,
+      "bottom": 517.765625
+    },
+    "input": {
+      "top": 529.765625,
+      "bottom": 573.765625
+    },
+    "summary": {
+      "top": 591.765625,
+      "bottom": 635.765625
+    },
+    "focused": "search-share-url",
+    "width": 320,
+    "reject": true
+  }
+]

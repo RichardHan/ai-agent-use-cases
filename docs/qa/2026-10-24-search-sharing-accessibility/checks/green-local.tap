@@ -1,0 +1,12 @@
+✔ search sharing announces pending, then success with only supported search conditions (18.957167ms)
+✔ delayed denied clipboard preserves a reader who moved to another control (9.989542ms)
+✔ denied or missing clipboard focuses and selects fallback when the requester still has focus (20.119584ms)
+✔ superseded and cleared requests cannot replace the newest feedback or fallback (11.147375ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 192.3905

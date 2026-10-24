@@ -1,0 +1,79 @@
+TAP version 13
+# Subtest: search sharing announces pending, then success with only supported search conditions
+not ok 1 - search sharing announces pending, then success with only supported search conditions
+  ---
+  duration_ms: 12.191353
+  type: 'test'
+  location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/search-sharing.test.cjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    '' !== '正在複製搜尋連結…'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '正在複製搜尋連結…'
+  actual: ''
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/search-sharing.test.cjs:13:48)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: delayed denied clipboard preserves a reader who moved to another control
+not ok 2 - delayed denied clipboard preserves a reader who moved to another control
+  ---
+  duration_ms: 6.641352
+  type: 'test'
+  location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/search-sharing.test.cjs:16:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected "actual" to be reference-equal to "expected":
+    + actual - expected
+    
+      {
+        focus: [Function: focus],
+    +   hidden: false,
+    +   id: 'search-share-url',
+    -   hidden: true,
+    -   id: 'query',
+        open: false,
+        select: [Function: select],
+    +   selected: true,
+        textContent: '',
+    +   value: 'https://example.org/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&sort=reviewed#explore'
+    -   value: '旅遊'
+      }
+    
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: denied or missing clipboard focuses and selects fallback when the requester still has focus
+ok 3 - denied or missing clipboard focuses and selects fallback when the requester still has focus
+  ---
+  duration_ms: 11.252745
+  type: 'test'
+  ...
+# Subtest: superseded and cleared requests cannot replace the newest feedback or fallback
+ok 4 - superseded and cleared requests cannot replace the newest feedback or fallback
+  ---
+  duration_ms: 6.841875
+  type: 'test'
+  ...
+# Subtest: late success after changed search cannot announce that obsolete conditions were copied
+ok 5 - late success after changed search cannot announce that obsolete conditions were copied
+  ---
+  duration_ms: 5.230907
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 3
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103.488742

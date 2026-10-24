@@ -1,0 +1,293 @@
+[
+  {
+    "width": 1440,
+    "controls": [
+      {
+        "text": "使用情境446 · 全部情境91 · 生活144 · 工作2",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 67.140625,
+        "width": 159.609375
+      },
+      {
+        "text": "446 · 全部情境91 · 生活144 · 工作21 · ",
+        "tag": "SELECT",
+        "font": "12px",
+        "height": 42,
+        "width": 159.609375
+      },
+      {
+        "text": "收錄狀態446 · 全部狀態440 · 用法靈感3 · 經驗",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 67.140625,
+        "width": 159.625
+      },
+      {
+        "text": "446 · 全部狀態440 · 用法靈感3 · 經驗與踩坑3",
+        "tag": "SELECT",
+        "font": "12px",
+        "height": 42,
+        "width": 159.625
+      },
+      {
+        "text": "提及工具446 · 全部工具157 · ChatGPT do",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 67.140625,
+        "width": 159.609375
+      },
+      {
+        "text": "446 · 全部工具157 · ChatGPT dots50",
+        "tag": "SELECT",
+        "font": "12px",
+        "height": 42,
+        "width": 159.609375
+      },
+      {
+        "text": "主題分類446 · 全部分類1 · 二手販售、買家訊息、權限",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 67.140625,
+        "width": 159.625
+      },
+      {
+        "text": "446 · 全部分類1 · 二手販售、買家訊息、權限設定、失",
+        "tag": "SELECT",
+        "font": "12px",
+        "height": 42,
+        "width": 159.625
+      },
+      {
+        "text": "分享來自哪裡446 · 全部來源類型19 · 公開資料核讀3",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 67.140625,
+        "width": 159.609375
+      },
+      {
+        "text": "446 · 全部來源類型19 · 公開資料核讀389 · 作",
+        "tag": "SELECT",
+        "font": "12px",
+        "height": 42,
+        "width": 159.609375
+      },
+      {
+        "text": "結果排序關鍵字符合優先頁首最近核對",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 67.140625,
+        "width": 159.609375
+      },
+      {
+        "text": "關鍵字符合優先頁首最近核對",
+        "tag": "SELECT",
+        "font": "12px",
+        "height": 42,
+        "width": 159.609375
+      },
+      {
+        "text": "全部重設 ↺",
+        "tag": "BUTTON",
+        "font": "11px",
+        "height": 42,
+        "width": 84.3125
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "controls": [
+      {
+        "text": "使用情境446 · 全部情境91 · 生活144 · 工作2",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 154
+      },
+      {
+        "text": "446 · 全部情境91 · 生活144 · 工作21 · ",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 154
+      },
+      {
+        "text": "收錄狀態446 · 全部狀態440 · 用法靈感3 · 經驗",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 154
+      },
+      {
+        "text": "446 · 全部狀態440 · 用法靈感3 · 經驗與踩坑3",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 154
+      },
+      {
+        "text": "提及工具446 · 全部工具157 · ChatGPT do",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 154
+      },
+      {
+        "text": "446 · 全部工具157 · ChatGPT dots50",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 154
+      },
+      {
+        "text": "主題分類446 · 全部分類1 · 二手販售、買家訊息、權限",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 154
+      },
+      {
+        "text": "446 · 全部分類1 · 二手販售、買家訊息、權限設定、失",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 154
+      },
+      {
+        "text": "分享來自哪裡446 · 全部來源類型19 · 公開資料核讀3",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 154
+      },
+      {
+        "text": "446 · 全部來源類型19 · 公開資料核讀389 · 作",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 154
+      },
+      {
+        "text": "結果排序關鍵字符合優先頁首最近核對",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 154
+      },
+      {
+        "text": "關鍵字符合優先頁首最近核對",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 154
+      },
+      {
+        "text": "全部重設 ↺",
+        "tag": "BUTTON",
+        "font": "11px",
+        "height": 44,
+        "width": 56.3125
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "controls": [
+      {
+        "text": "使用情境446 · 全部情境91 · 生活144 · 工作2",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 119
+      },
+      {
+        "text": "446 · 全部情境91 · 生活144 · 工作21 · ",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 119
+      },
+      {
+        "text": "收錄狀態446 · 全部狀態440 · 用法靈感3 · 經驗",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 119
+      },
+      {
+        "text": "446 · 全部狀態440 · 用法靈感3 · 經驗與踩坑3",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 119
+      },
+      {
+        "text": "提及工具446 · 全部工具157 · ChatGPT do",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 119
+      },
+      {
+        "text": "446 · 全部工具157 · ChatGPT dots50",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 119
+      },
+      {
+        "text": "主題分類446 · 全部分類1 · 二手販售、買家訊息、權限",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 119
+      },
+      {
+        "text": "446 · 全部分類1 · 二手販售、買家訊息、權限設定、失",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 119
+      },
+      {
+        "text": "分享來自哪裡446 · 全部來源類型19 · 公開資料核讀3",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 119
+      },
+      {
+        "text": "446 · 全部來源類型19 · 公開資料核讀389 · 作",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 119
+      },
+      {
+        "text": "結果排序關鍵字符合優先頁首最近核對",
+        "tag": "LABEL",
+        "font": "11px",
+        "height": 69.140625,
+        "width": 119
+      },
+      {
+        "text": "關鍵字符合優先頁首最近核對",
+        "tag": "SELECT",
+        "font": "14px",
+        "height": 44,
+        "width": 119
+      },
+      {
+        "text": "全部重設 ↺",
+        "tag": "BUTTON",
+        "font": "11px",
+        "height": 44,
+        "width": 56.3125
+      }
+    ],
+    "overflow": false
+  }
+]

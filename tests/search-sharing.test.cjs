@@ -25,3 +25,7 @@ test('superseded and cleared requests cannot replace the newest feedback or fall
  const f=fixture(),first=f.copySearchLink(),second=f.copySearchLink();f.pending[1].resolve();await second;f.pending[0].reject(Error('old denied'));await first;assert.match(f.nodes['search-share-status'].textContent,/已複製/);assert.equal(f.nodes['search-share-url'].hidden,true);
  const third=f.copySearchLink();f.clearSearchShare();f.pending[2].reject(Error('cleared'));await third;assert.equal(f.nodes['search-share-status'].textContent,'');assert.equal(f.nodes['search-share-url'].value,'');assert.equal(f.nodes['search-share-url'].hidden,true);
 });
+
+test('late success after changed search cannot announce that obsolete conditions were copied',async()=>{
+ const f=fixture(),p=f.copySearchLink();f.clearSearchShare();f.nodes.query.value='新的問題';f.pending[0].resolve();await p;assert.equal(f.nodes['search-share-status'].textContent,'');assert.equal(f.nodes['search-share-url'].hidden,true);
+});

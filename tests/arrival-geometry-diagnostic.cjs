@@ -1,13 +1,16 @@
 'use strict';
-const fs=require('node:fs'),{chromium}=require('playwright');
+const fs=require('node:fs'),assert=require('node:assert/strict'),{chromium}=require('playwright');
 const base=process.env.SITE_URL,out='qa-artifacts/arrival-diagnostic';fs.mkdirSync(out,{recursive:true});
 (async()=>{const rows=[],browser=await chromium.launch();
- for(const mode of ['baseline','bundle'])for(const [width,height] of [[1440,1000],[390,844],[320,740]]){
+ for(const mode of ['baseline','bundle'])for(const [width,height] of [[1440,1000],[1440,1600],[390,844],[320,740]]){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage(),row={mode,width,height};rows.push(row);
   if(mode==='baseline')await page.route('**/assets/app.js',route=>route.fulfill({path:process.env.BEFORE_APP,contentType:'text/javascript'}));
   await page.goto(base+'?q=旅遊&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});await page.locator('#results-count').filter({hasText:'顯示'}).waitFor();
   const measure=()=>page.evaluate(()=>({queryTop:document.querySelector('#query').getBoundingClientRect().top,resultsTop:document.querySelector('#results-count').getBoundingClientRect().top,focus:document.activeElement.id,scrollY,ready:discoveryReady,failed:failedPaths,filtersOpen:document.querySelector('#filter-options').open,filtersHeight:document.querySelector('#filter-options').getBoundingClientRect().height,label:document.querySelector('#results-count').textContent}));
-  row.immediate=await measure();await page.screenshot({path:`${out}/${mode}-${width}.png`});await page.waitForTimeout(700);row.settled=await measure();fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await context.close();
+  row.immediate=await measure();await page.screenshot({path:`${out}/${mode}-${width}.png`});await page.waitForTimeout(700);row.settled=await measure();
+  if(mode==='bundle'){assert(row.settled.resultsTop>0&&row.settled.resultsTop<height);assert.equal(row.settled.filtersOpen,height===1600);assert.equal(row.settled.focus,'search-title');if(!row.settled.filtersOpen)await page.locator('#filter-options summary').click();await page.locator('#scenario').selectOption('生活');await page.locator('#results .card .card-bottom button').first().click();await page.locator('#detail[open]').waitFor();await page.keyboard.press('Escape');assert(await page.locator('#filter-options').evaluate(n=>n.open));row.reopenedPreserved=true;}
+  fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await context.close();
  }
+ const context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage();let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/corpus.json',async route=>{await gate;await route.continue();});await page.goto(base+'?q=旅遊&tool=Grok%20Bot#explore');await page.locator('#query').fill('旅遊');await page.locator('#filter-options summary').click();await page.locator('#filter-options summary').click();release();await page.waitForFunction(()=>discoveryReady);assert(await page.locator('#filter-options').evaluate(n=>n.open));assert(await page.locator('#filter-options summary').evaluate(n=>n===document.activeElement));rows.push({mode:'interacted-during-load',panelOpen:true,focus:'filter-summary'});fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await context.close();
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

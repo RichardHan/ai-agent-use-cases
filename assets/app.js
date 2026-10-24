@@ -1163,6 +1163,11 @@ function submitSearch(event) {
   focusLoadedResults('start');
 }
 function revealSearch(resultsOnly=false) {
+  // Compact only an initial, untouched arrival that cannot show its results.
+  // Keep readable controls and their values; explicit returns preserve choices.
+  const panel=$('filter-options');
+  if(!resultsOnly && panel.open && !panel.contains(document.activeElement) &&
+    $('results-count').getBoundingClientRect().bottom-$('explore').getBoundingClientRect().top>innerHeight-24)panel.open=false;
   const target=$(resultsOnly?'results-count':'search-title');
   (resultsOnly?$('results-count'):$('explore')).scrollIntoView({block:'start',behavior:'instant'});
   target.focus({preventScroll:true});

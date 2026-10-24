@@ -1,0 +1,9 @@
+{
+  "beforeRevision": "5876d13",
+  "productMerge": "151a432",
+  "stylesheetBytesBefore": 33730,
+  "stylesheetBytesAfter": 34703,
+  "addedUncompressedBytes": 973,
+  "newAssetRequests": 0,
+  "note": "Byte counts only; not a loading-time or Lighthouse measurement."
+}

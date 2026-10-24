@@ -23,14 +23,6 @@ jobs:
           curl -fL --max-time 90 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f
           chown -R pwuser:pwuser qa-artifacts
-      - name: Observe published baseline
-        if: github.ref_name != 'verify/filter-reading-20261024'
-        env:
-          NODE_PATH: ${{ runner.temp }}/tools/node_modules
-          QA_OUT: qa-artifacts/before-journeys
-        run: |
-          runuser -u pwuser -- node tests/filter-reading-observe.cjs
-          runuser -u pwuser -- node tests/round23-observe.cjs
       - name: Reproduce readability regression on the original preview
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules

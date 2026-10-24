@@ -54,9 +54,14 @@ test('a bundled pending source keeps all entries and fires one source callback f
  const calls=[];const result=await load(paths,options({parseFile:(path,text)=>path===paths[2]?[{path,id:'P-001'},{path,id:'P-002'}]:parse(path,text),fetch:async()=>response(json()),onSource:items=>calls.push(items)}));
  assert.equal(result.entries.length,4);assert.equal(calls.length,3);assert.equal(calls[2].length,2);
 });
-test('shared and fallback completions in the same turn keep progress consistent and monotonic',async()=>{
- let release;const gate=new Promise(r=>release=r),progress=[];
- const resultPromise=load(paths,options({sharedPath:paths[0],fetch:async path=>{if(path==='corpus.json'){release();return {ok:false,status:404};}await gate;return response('original');},onProgress:p=>progress.push({...p})}));
- const result=await resultPromise;assert.equal(result.entries.length,3);
+test('simultaneous shared and fallback sources never report more successes than completions',async()=>{
+ const racePaths=['shared','other'];let release;
+ const gate=new Promise(resolve=>release=resolve),progress=[];
+ const pending=load(racePaths,options({sharedPath:racePaths[0],fetch:async path=>{
+  if(path==='corpus.json')return {ok:false,status:404};
+  await gate;return response(path);
+ },onProgress:p=>progress.push({...p})}));
+ await new Promise(resolve=>setImmediate(resolve));release();
+ const result=await pending;assert.equal(result.entries.length,2);assert.equal(result.failed.length,0);
  let last=0;for(const p of progress){assert(p.succeeded<=p.completed,JSON.stringify(p));assert(p.completed>=last);assert(p.completed<=p.total);last=p.completed;}
 });

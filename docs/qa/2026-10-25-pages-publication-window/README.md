@@ -26,9 +26,9 @@
 - 新增回歸測試在設定修改前先失敗：`partial load published check must cover 15 minutes`；設定完成後通過。
 - `node --test tests/*.test.cjs`：290 passed、0 failed（基準 289 passed）。
 - `node --check assets/*.js scripts/*.cjs tests/*.cjs`：通過。
-- `python3 scripts/preview.py /tmp/ai-agent-use-cases-after-preview/ai-agent-use-cases`：通過；`check_corpus_bundle.py` 回報 445 個來源逐 byte 一致。
+- `python3 scripts/preview.py /tmp/ai-agent-use-cases-final-preview/ai-agent-use-cases`：通過；`check_corpus_bundle.py` 回報 445 個來源逐 byte 一致。
 - 正式站桌機 1440×1000、手機 390×844 首頁均無水平溢位。新訪客點「收件匣」得 136 筆；旅人以「旅遊＋生活＋Grok Bot」得 16 筆，UC-001 顯示「作者報告／示範」，Escape 返回保留搜尋、篩選、結果與焦點；UC-001 原始文章連結實際開啟並顯示「Grok Bot vs Meta Muse vs ChatGPT Dots, Tested」。分支預覽的不相符查詢顯示痛點捷徑，Tab 可達「查看結果」，選「日報」恢復 62 筆。
-- 桌機 1440×1000：[修改前](screenshots/before-desktop.png) · [修改後](screenshots/after-desktop.png)；手機 390×844：[修改前](screenshots/before-mobile.png) · [修改後](screenshots/after-mobile.png)；空結果另存[手機截圖](screenshots/after-mobile-empty.png)。這輪只調 CI 時限，未改網站 UI；首頁抽卡每次會變，因此截圖不宣稱逐像素相同。
+- 桌機 1440×1000：[修改前](screenshots/before-desktop.png) · [修改後](screenshots/after-desktop.png)；手機 390×844：[修改前](screenshots/before-mobile.png) · [修改後](screenshots/after-mobile.png)；空結果另存[手機截圖](screenshots/after-mobile-empty.png)。修改前取自正式站 `7737128`，修改後取自更新至 `f46f246` 的分支預覽；本輪只調 CI 時限、未改網站 UI，首頁抽卡每次會變，因此截圖不宣稱逐像素相同。
 - `package.json`、lint/type-check 設定與 `actionlint` 均不存在；沒有宣稱執行它們。YAML 以可用 parser 驗證。
 
 ## 限制與後續

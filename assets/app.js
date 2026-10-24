@@ -1491,12 +1491,14 @@ async function loadInitialCorpus(paths, options = {}) {
   const timer=setTimeout(abort,Math.max(1,deadline-Date.now()));
   if(options.signal?.aborted)abort();else options.signal?.addEventListener('abort',abort,{once:true});
   const successful=new Map();
-  let completedFallback=0,sharedFinished=false,inFallback=false;
-  const progress=()=>options.onProgress?.({completed:inFallback?completedFallback+Number(sharedFinished):successful.size,succeeded:successful.size,entryCount:[...successful.values()].reduce((n,items)=>n+items.length,0),total:paths.length});
+  let completedFallback=0,sharedFinished=false,inFallback=false,lastCompleted=0;
+  const progress=()=>{
+    lastCompleted=Math.max(lastCompleted,successful.size,inFallback?completedFallback+Number(sharedFinished):0);
+    options.onProgress?.({completed:lastCompleted,succeeded:successful.size,entryCount:[...successful.values()].reduce((n,items)=>n+items.length,0),total:paths.length});
+  };
   const remember=(path,items)=>{
     if(successful.has(path))return;
     successful.set(path,items);options.onSource?.(items);
-
   };
   const perFileOptions={...options,fetch:fetchFn,parseFile:parseFn};
   const sharedPath=paths.includes(options.sharedPath)?options.sharedPath:null;

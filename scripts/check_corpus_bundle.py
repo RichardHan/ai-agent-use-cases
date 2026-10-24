@@ -9,7 +9,10 @@ catalog = json.loads((built/'catalog.json').read_bytes())
 bundle = json.loads((built/'corpus.json').read_bytes())
 assert bundle['version'] == 1
 assert bundle['revision'] == catalog['bundleRevision'] and bundle['revision']
-expected = set(catalog['files'])
+expected = {str(path.relative_to(root)) for folder in ('cases', 'evidence') for path in (root/folder).rglob('*.md')}
+if (root/'sources/pending.md').exists():
+    expected.add('sources/pending.md')
+assert set(catalog['files']) == expected, 'Catalog must include the complete current source set'
 assert len(expected) == len(catalog['files'])
 assert len(bundle['sources']) == len(expected)
 seen = set()

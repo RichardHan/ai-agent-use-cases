@@ -3,13 +3,14 @@ const {chromium,firefox,webkit}=require('playwright'),{AxeBuilder}=require('@axe
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.SITE_URL,out=process.env.QA_OUT||'qa-artifacts/bundle';fs.mkdirSync(out,{recursive:true});
 (async()=>{const rows=[];const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));
-const publicRun=process.env.QA_PUBLIC==='1';
-for(const [engine,width] of publicRun?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]]){
+const publicRun=process.env.QA_PUBLIC==='1',legacy=process.env.QA_LEGACY==='1';
+for(const [engine,width] of publicRun||legacy?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]]){
  const b=await engine.launch(),context=await b.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),p=await context.newPage(),r={engine:engine.name(),width,requests:[],errors:[]};rows.push(r);p.on('pageerror',e=>r.errors.push(e.message));
  p.on('request',req=>{if(/\.(md|json)(\?|$)/.test(req.url()))r.requests.push(new URL(req.url()).pathname);});
  try{
+ if(legacy)await p.route('**/catalog.json',async route=>{const response=await route.fetch(),catalog=await response.json();delete catalog.bundleRevision;await route.fulfill({response,json:catalog});});
  const start=Date.now();await p.goto(base);await p.waitForFunction(()=>discoveryReady,null,{timeout:60000});r.readyMs=Date.now()-start;r.corpus=await p.evaluate(()=>({total:entries.length,failed:failedPaths}));assert.deepEqual(r.corpus.failed,[]);assert(r.corpus.total>400);
- r.sourceRequests=r.requests.filter(s=>s.endsWith('.md'));assert.equal(r.sourceRequests.length,0);assert.equal(r.requests.filter(s=>s.endsWith('/corpus.json')).length,1);
+ r.sourceRequests=r.requests.filter(s=>s.endsWith('.md'));assert.equal(r.sourceRequests.length,legacy?r.corpus.total-2:0);assert.equal(r.requests.filter(s=>s.endsWith('/corpus.json')).length,legacy?0:1);
  await p.screenshot({path:`${out}/home-${engine.name()}-${width}.png`});
  // Verify every parsed entry against the old loader on the same original corpus.
  const fidelity=await p.evaluate(async()=>{const c=await(await fetch('catalog.json')).json(),bundle=await(await fetch('corpus.json')).json();const original=bundle.sources.flatMap(s=>parseFile(s.path,s.markdown));const normalize=xs=>JSON.stringify(xs.map(e=>[e.path,e.id,e.markdown,e.title,e.purpose,e.scenario,e.tools,e.proof]).sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b))));return {same:normalize(entries)===normalize(original),files:c.files.length,bytes:new TextEncoder().encode(JSON.stringify(bundle)).length};});assert(fidelity.same);r.fidelity=fidelity;
@@ -20,7 +21,7 @@ for(const [engine,width] of publicRun?[[chromium,1440],[chromium,390]]:[[chromiu
  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.deepEqual(r.errors,[]);
  }finally{save();await b.close();}
 }
-if(!publicRun){
+if(!publicRun&&!legacy){
  const b=await chromium.launch();
  for(const mode of ['bundle-http','bundle-invalid','bundle-stall','shared-early','shared-cancel','bundle-wins']){
   const context=await b.newContext({viewport:{width:390,height:900}}),p=await context.newPage(),r={mode,errors:[]};rows.push(r);let release;const gate=new Promise(resolve=>release=resolve);p.on('pageerror',e=>r.errors.push(e.message));

@@ -50,7 +50,7 @@ jobs:
           const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let i=0;i<90;i++){
+            for(let i=0;i<180;i++){
               const r=await fetch(process.env.ANCHOR_URL+'assets/app.js?anchor='+process.env.GITHUB_SHA,{cache:'no-store'});
               if(r.ok&&await r.text()===fs.readFileSync('assets/app.js','utf8'))return;
               await new Promise(r=>setTimeout(r,2000));

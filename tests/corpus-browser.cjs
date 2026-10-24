@@ -11,7 +11,7 @@ const label=process.env.CORPUS_LABEL||'before',reports=[];
  if(process.env.CORPUS_VERIFY){
   const files=['assets/app.js','assets/style.css','assets/reader.js','assets/reader.css','index.html'];
   let matched=false;
-  for(let attempt=0;attempt<60;attempt++){
+  for(let attempt=0;attempt<181;attempt++){
    const checks=await Promise.all(files.map(async path=>{try{const r=await fetch(origin+path+'?budget-qa='+Date.now(),{signal:AbortSignal.timeout(10000)});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}catch{return false;}}));
    if(checks.every(Boolean)){matched=true;break;}
    await new Promise(resolve=>setTimeout(resolve,5000));

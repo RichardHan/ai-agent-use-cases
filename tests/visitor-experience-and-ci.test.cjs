@@ -41,6 +41,83 @@ test('tests/load-recovery-live.cjs validates all critical assets during deployme
   assert.match(loadRecoveryCjs, /index\.html/, 'deployment readiness check must verify index.html');
 });
 
+test('published checks allow the observed 11m38s Pages deployment to finish', () => {
+  const gates = [
+    {
+      label: 'partial load',
+      workflow: '../.github/workflows/load-recovery-qa.yml',
+      source: 'load-recovery-live.cjs',
+      attempts: /deadline=Date\.now\(\)\+(\d+)/,
+      interval: /setTimeout\(resolve,\s*(\d+)\)/,
+      expectedMs: 900000
+    },
+    {
+      label: 'corpus',
+      workflow: '../.github/workflows/corpus-qa.yml',
+      source: 'corpus-browser.cjs',
+      attempts: /attempt<(\d+)/,
+      interval: /setTimeout\(resolve,\s*(\d+)\)/,
+      expectedMs: 900000
+    },
+    {
+      label: 'relevance',
+      workflow: '../.github/workflows/relevance-qa.yml',
+      source: '../.github/workflows/relevance-qa.yml',
+      attempts: /attempt<(\d+)/,
+      interval: /setTimeout\(resolve,\s*(\d+)\)/,
+      expectedMs: 900000
+    },
+    {
+      label: 'print',
+      workflow: '../.github/workflows/print-reading-qa.yml',
+      source: '../.github/workflows/print-reading-qa.yml',
+      attempts: /for\(let i=0;i<(\d+);i\+\+\)/,
+      interval: /setTimeout\(resolve,\s*(\d+)\)/,
+      expectedMs: 900000
+    },
+    {
+      label: 'missing case',
+      workflow: '../.github/workflows/missing-case-qa.yml',
+      source: '../.github/workflows/missing-case-qa.yml',
+      attempts: /for\(let i=0;i<(\d+);i\+\+\)/,
+      interval: /setTimeout\(r,\s*(\d+)\)/,
+      expectedMs: 900000
+    },
+    {
+      label: 'return visibility',
+      workflow: '../.github/workflows/return-visibility-qa.yml',
+      source: 'return-visibility-browser.cjs',
+      attempts: /attempt<(\d+)/,
+      interval: /setTimeout\(resolve,\s*(\d+)\)/,
+      expectedMs: 900000,
+      terminalAttempt: /attempt===(\d+)\)throw/
+    }
+  ];
+  for (const gate of gates) {
+    const source = fs.readFileSync(path.join(__dirname, gate.source), 'utf8');
+    const attemptsMatch = source.match(gate.attempts);
+    const intervalMatch = source.match(gate.interval);
+    assert.ok(attemptsMatch, `${gate.label} published check must have a bounded deadline`);
+    assert.ok(intervalMatch, `${gate.label} published check must have a retry interval`);
+    const budgetMs = gate.label === 'partial load'
+      ? Number(attemptsMatch[1])
+      : (Number(attemptsMatch[1]) - 1) * Number(intervalMatch[1]);
+    assert.ok(budgetMs >= gate.expectedMs, `${gate.label} published check must cover 15 minutes`);
+    if (gate.terminalAttempt) {
+      const terminalMatch = source.match(gate.terminalAttempt);
+      assert.ok(terminalMatch, `${gate.label} must fail after its final poll`);
+      assert.equal(Number(terminalMatch[1]), Number(attemptsMatch[1]) - 1, `${gate.label} timeout must not skip the final poll`);
+    }
+    const workflow = fs.readFileSync(path.join(__dirname, gate.workflow), 'utf8');
+    const publishedJob = ['corpus', 'return visibility'].includes(gate.label)
+      ? workflow.split(/^  published:\s*$/m)[1]
+      : workflow;
+    assert.ok(publishedJob, `${gate.label} workflow must define the published job`);
+    const timeoutMatch = publishedJob.match(/timeout-minutes:\s*(\d+)/);
+    assert.ok(timeoutMatch && Number(timeoutMatch[1]) >= 25, `${gate.label} job must cover setup and deployment wait`);
+  }
+});
+
 test('card-refinement published verification covers observed Pages deployment latency', () => {
   const pollMatch = cardRefinementWorkflow.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
   const delayMatch = cardRefinementWorkflow.match(/setTimeout\(\s*(?:resolve|r)\s*,\s*(\d+)\s*\)/);
@@ -105,6 +182,7 @@ test('source-guide published verification covers observed Pages deployment laten
   assert.ok(Number(pollMatch[1]) * Number(intervalMatch[1]) >= 15 * 60 * 1000, 'asset poll must cover the measured 11m38s deployment with margin');
   assert.ok(timeoutMatch && Number(timeoutMatch[1]) >= 25, 'job timeout must cover the asset poll');
 });
+
 
 test('search-hint provides plain-language AND mental model and accessible error announcement', () => {
   const indexHtml = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');

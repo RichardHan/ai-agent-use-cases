@@ -9,7 +9,7 @@ if(process.env.LOAD_DEPLOYED==='1'&&skipIfSupersededPublishedUrl(origin)){consol
  const browser=await chromium.launch();
  const records=[];
  if(process.env.LOAD_DEPLOYED==='1'){
-  const deadline=Date.now()+480000;
+  const deadline=Date.now()+900000;
   const files=['assets/app.js','assets/style.css','index.html'];
   while(true){
    const matches=await Promise.all(files.map(async file=>{
@@ -19,7 +19,7 @@ if(process.env.LOAD_DEPLOYED==='1'&&skipIfSupersededPublishedUrl(origin)){consol
     }catch{return false;}
    }));
    if(matches.every(Boolean))break;
-   if(Date.now()>deadline)throw Error('Deployment did not match within eight minutes');
+   if(Date.now()>deadline)throw Error('Deployment did not match within fifteen minutes');
    await new Promise(resolve=>setTimeout(resolve,5000));
   }
  }

@@ -73,7 +73,7 @@ const save=()=>fs.writeFileSync(output+'/report.json',JSON.stringify(reports,nul
    for(const item of entries){
    const targetTags=[];
    const body=document.createElement('div');body.innerHTML='<section class="plain-overview"></section><details class="research-details"><summary>完整研究</summary></details>';
-   const markdown=renderMarkdown(item.markdown,item.path);body.querySelector('details').append(markdown);const original=markdown.innerHTML;
+   const markdown=renderMarkdown(item.markdown,item.path);body.querySelector('details').append(markdown);const original=markdown.cloneNode(true);
    CaseReader.enhance(body,item,terms);
    for(const group of body.querySelectorAll('.reader-search-match')){
     const locate=group.querySelector('.reader-search-locate'),quote=group.querySelector('.reader-search-excerpt');if(!locate)continue;
@@ -84,8 +84,24 @@ const save=()=>fs.writeFileSync(output+'/report.json',JSON.stringify(reports,nul
     }passages++;
    }
    const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return,.reader-copy').forEach(n=>n.remove());
-   clean.querySelectorAll('[id],[tabindex],[aria-label]').forEach(node=>{node.removeAttribute('id');node.removeAttribute('tabindex');node.removeAttribute('aria-label');});
-   if(clean.innerHTML!==original)throw Error(item.id+' original research changed');
+   const originalNodes=[...original.querySelectorAll('*')],cleanNodes=[...clean.querySelectorAll('*')];
+   cleanNodes.forEach((node,index)=>{
+    const baseline=originalNodes[index];
+    for(const attribute of ['id','tabindex']){
+     if(baseline?.hasAttribute(attribute))node.setAttribute(attribute,baseline.getAttribute(attribute));
+     else node.removeAttribute(attribute);
+    }
+   });
+   const originalTables=[...original.querySelectorAll('.markdown-table')];
+   clean.querySelectorAll('.markdown-table').forEach((table,index)=>{
+    const originalTable=originalTables[index],originalInner=originalTable?.querySelector('table'),inner=table.querySelector('table');
+    for(const [target,baseline] of [[table,originalTable],[inner,originalInner]]){
+     if(!target||!baseline)continue;
+     if(baseline.hasAttribute('aria-label'))target.setAttribute('aria-label',baseline.getAttribute('aria-label'));
+     else target.removeAttribute('aria-label');
+    }
+   });
+   if(clean.innerHTML!==original.innerHTML)throw Error(item.id+' original research changed');
    if(item.id==='UC-400'&&!targetTags.some(tag=>tag==='TD'||tag==='TH'))throw Error('UC-400 table matches must locate their original cell');
    }
   return {entries:entries.length,passages};

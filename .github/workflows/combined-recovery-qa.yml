@@ -9,7 +9,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -61,7 +61,7 @@ jobs:
           const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let i=0;i<140;i++){
+            for(let i=0;i<300;i++){
               const r=await fetch(process.env.RECOVERY_URL+'assets/app.js?recovery='+process.env.GITHUB_SHA,{cache:'no-store'});
               if(r.ok&&await r.text()===fs.readFileSync('assets/app.js','utf8')){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
               await new Promise(r=>setTimeout(r,3000));

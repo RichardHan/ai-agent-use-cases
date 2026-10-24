@@ -9,6 +9,7 @@ const appJs = fs.readFileSync(path.join(__dirname, '../assets/app.js'), 'utf8');
 const searchSubmitCjs = fs.readFileSync(path.join(__dirname, 'search-submit-browser.cjs'), 'utf8');
 const loadRecoveryCjs = fs.readFileSync(path.join(__dirname, 'load-recovery-live.cjs'), 'utf8');
 const cardRefinementWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/card-refinement-qa.yml'), 'utf8');
+const combinedRecoveryWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/combined-recovery-qa.yml'), 'utf8');
 const relevanceWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/relevance-qa.yml'), 'utf8');
 const submitWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/search-submit-qa.yml'), 'utf8');
 
@@ -50,6 +51,16 @@ test('card-refinement published verification covers observed Pages deployment la
   assert.ok(Number(timeoutMatch[1]) >= 25, 'job timeout must cover setup plus the published-asset poll');
 });
 
+
+test('combined recovery published verification covers observed Pages deployment latency', () => {
+  const pollMatch = combinedRecoveryWorkflow.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
+  assert.ok(pollMatch, 'combined-recovery-qa.yml must contain a bounded published-asset poll');
+  assert.ok(Number(pollMatch[1]) >= 300, 'poll must allow at least 15 minutes for Pages assets');
+
+  const timeoutMatch = combinedRecoveryWorkflow.match(/timeout-minutes:\s*(\d+)/);
+  assert.ok(timeoutMatch, 'combined-recovery-qa.yml must bound its job duration');
+  assert.ok(Number(timeoutMatch[1]) >= 25, 'job timeout must cover setup plus the published-asset poll');
+});
 test('GitHub Actions workflows provide sufficient polling window for Pages deployment', () => {
   const relevanceMatch = relevanceWorkflow.match(/attempt\s*<\s*(\d+)/);
   assert.ok(relevanceMatch, 'relevance-qa.yml must contain attempt loop');

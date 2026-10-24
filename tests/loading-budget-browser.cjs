@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright'),{AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.BUDGET_URL||'http://127.0.0.1:8087/ai-agent-use-cases/',observe=!!process.env.BUDGET_OBSERVE;
@@ -23,7 +24,7 @@ const hung=route=>new Promise(()=>{});
    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
    // Only one actual source never responds: all other sources complete normally.
    await page.addInitScript(()=>performance.setResourceTimingBufferSize(2000));
-   await page.route('**/cases/001-travel-checkout.md',hung);
+   await sourceRoute(page,'**/cases/001-travel-checkout.md',hung);
    await page.goto(origin+'?q=旅遊&scenario=生活&tool=Grok%20Bot');
    await page.waitForFunction(expected=>performance.getEntriesByType('resource').filter(r=>/\/(cases|evidence)\/.*\.md$|\/sources\/pending\.md$/.test(r.name)).length>=expected,sourceCount-1,{timeout:30000});
    assert.equal(await page.evaluate(()=>discoveryReady),false);
@@ -62,14 +63,14 @@ const hung=route=>new Promise(()=>{});
   if(!observe){
    // Every request hangs: the whole 20s budget must cap queue waves, including copy time.
    const context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();let requested=0;
-   await page.route('**/*.md',r=>{requested++;return hung(r);});
+   await sourceRoute(page,'**/*.md',r=>{requested++;return hung(r);});
    const start=Date.now();await page.goto(origin);await page.locator('#error').waitFor({state:'visible',timeout:26000});const elapsed=Date.now()-start;
    assert(elapsed>=19000&&elapsed<25000,'whole initial load finishes around its 20s deadline');assert(requested<=32,'deadline stops queued requests after at most two concurrency waves');
    assert(await page.locator('#loading-progress').isHidden());assert(await page.locator('#guide-options').evaluate(e=>e.disabled));assert(await page.locator('#guide-options button').first().isDisabled());
    const row={engine,mode:'whole budget',elapsedMs:elapsed,requested};report.push(row);save();
    await page.unroute('**/*.md');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:30000});assert.equal(await page.evaluate(()=>entries.length),entryCount);row.retryRecovered=entryCount;save();await context.close();
    // A missing requested case waits only for its file timeout and opens after recovery.
-   const direct=await browser.newContext(),p=await direct.newPage();await p.route('**/cases/001-travel-checkout.md',hung);
+   const direct=await browser.newContext(),p=await direct.newPage();await sourceRoute(p,'**/cases/001-travel-checkout.md',hung);
    const started=Date.now();await p.goto(origin+'?case=UC-001');await p.waitForFunction(()=>discoveryReady,null,{timeout:18000});
    assert(await p.locator('#partial-load').isVisible());assert.match(await p.locator('#partial-message').innerText(),/分享的案例/);assert(await p.locator('#detail').evaluate(e=>!e.open));
    await p.unroute('**/cases/001-travel-checkout.md');await p.locator('#retry-failed').click();await p.locator('#detail[open]').waitFor();assert.equal(await p.locator('#detail-toolbar-id').innerText(),'UC-001');
@@ -78,7 +79,7 @@ const hung=route=>new Promise(()=>{});
   if(!observe){
    // Index hangs are recoverable; display-copy hangs fall back to source text.
    for(const [path,expected] of [['catalog.json','error'],['assets/copy.json','ready']]){
-    const context=await browser.newContext(),page=await context.newPage();await page.route('**/'+path,hung);
+    const context=await browser.newContext(),page=await context.newPage();await sourceRoute(page,'**/'+path,hung);
     const start=Date.now();await page.goto(origin);
     if(expected==='error')await page.locator('#error').waitFor({state:'visible',timeout:11000});
     else await page.waitForFunction(()=>discoveryReady,null,{timeout:15000});

@@ -1,0 +1,22 @@
+---
+layout: null
+---
+{
+  "version": 1,
+  "revision": {{ site.time | date: '%Y%m%d%H%M%S%N' | jsonify }},
+  "sources": [
+  {%- assign emitted = false -%}
+  {%- for file in site.static_files -%}
+    {%- assign folder = file.path | split: '/' -%}
+    {%- if file.extname == '.md' -%}
+      {%- if folder[1] == 'cases' or folder[1] == 'evidence' or file.path == '/sources/pending.md' -%}
+        {%- assign source_path = file.path | remove_first: '/' -%}
+        {% capture markdown %}{% include_relative {{ source_path }} %}{% endcapture %}
+        {%- if emitted -%},{%- endif -%}
+        {"path": {{ source_path | jsonify }}, "markdown": {{ markdown | jsonify }}}
+        {%- assign emitted = true -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  ]
+}

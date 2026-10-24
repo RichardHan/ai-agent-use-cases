@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium}=require('playwright'),fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.RETURN_URL||'http://127.0.0.1:8130/ai-agent-use-cases/';
 const output=process.env.RETURN_RECOVERY_OUTPUT||'qa-artifacts/recovery-diagnostic';
@@ -9,8 +10,8 @@ fs.mkdirSync(output,{recursive:true});
   const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:motion}),page=await context.newPage();
   const row={motion,attempt,position,trace:[]};report.push(row);save();
   const sample=async label=>{row.trace.push(await page.evaluate(label=>{const e=document.activeElement,b=e.getBoundingClientRect();return {label,time:performance.now(),scrollY,focus:e.dataset.resultsReturn||e.id,top:b.top,bottom:b.bottom,visible:b.top>=0&&b.bottom<=innerHeight};},label));save();};
-  await page.route('**/cases/001-*.md',r=>r.fulfill({status:503,body:'unavailable'}));await page.goto(base);await page.waitForFunction(()=>discoveryReady);row.before=await page.locator('#results .card').count();
-  await page.unroute('**/cases/001-*.md');let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/cases/001-*.md',async r=>{await gate;await r.continue();});
+  await sourceRoute(page,'**/cases/001-*.md',r=>r.fulfill({status:503,body:'unavailable'}));await page.goto(base);await page.waitForFunction(()=>discoveryReady);row.before=await page.locator('#results .card').count();
+  await page.unroute('**/cases/001-*.md');let release;const gate=new Promise(resolve=>release=resolve);await sourceRoute(page,'**/cases/001-*.md',async r=>{await gate;await r.continue();});
   await page.locator('#retry-failed').click();await page.waitForFunction(()=>recoveringSources);const links=page.locator('#results [data-results-return]');await (position==='first'?links.first():links.last()).focus();await sample('focused-before-release');
   release();await page.waitForFunction(()=>failedPaths.length===0&&!recoveringSources);await sample('after-recovery');
   await page.evaluate(()=>new Promise(requestAnimationFrame));await sample('next-frame');

@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright'),{AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.SITE_URL||'https://richardhan.github.io/ai-agent-use-cases/',out=process.env.QA_OUT||'qa-artifacts/recovery',before=process.env.QA_BEFORE==='1';
@@ -8,7 +9,7 @@ for(const [engine,width,mode='stop'] of (before?[[chromium,1440],[chromium,390]]
  let phase='initial',release;const gate=new Promise(resolve=>release=resolve),calls={};const paths=['cases/001-travel-checkout.md','cases/002-daily-brief.md'];
  try{
  const catalog=await (await p.request.get(base+'catalog.json')).json();paths[1]=catalog.files.find(x=>x.startsWith('cases/002-'));assert(paths[1]);
- await p.route('**/*.md',async route=>{const path=paths.find(x=>route.request().url().endsWith('/'+x));if(!path)return route.continue();calls[path]=(calls[path]||0)+1;if(phase==='initial')return route.fulfill({status:404,body:'QA unavailable source'});if(phase==='recovery'&&(mode==='zero'||path===paths[1]))await gate;return route.continue().catch(()=>{});});
+ await sourceRoute(p,'**/*.md',async route=>{const path=paths.find(x=>route.request().url().endsWith('/'+x));if(!path)return route.continue();calls[path]=(calls[path]||0)+1;if(phase==='initial')return route.fulfill({status:404,body:'QA unavailable source'});if(phase==='recovery'&&(mode==='zero'||path===paths[1]))await gate;return route.continue().catch(()=>{});});
  await p.goto(base+'?q=旅遊&scenario=生活');await p.waitForFunction(()=>discoveryReady,null,{timeout:30000});r.initial=await p.evaluate(()=>({count:entries.length,failed:[...failedPaths]}));assert.deepEqual([...r.initial.failed].sort(),[...paths].sort());
  phase='recovery';await p.locator('#retry-failed').click();await p.waitForFunction(()=>recoveringSources);await p.waitForFunction(()=>document.querySelector('#partial-message').textContent.includes('正在補讀'));
  if(!before&&mode!=='zero')await p.waitForFunction(()=>document.querySelector('#recovery-progress').value===1);

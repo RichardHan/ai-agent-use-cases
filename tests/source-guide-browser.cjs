@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
@@ -79,7 +80,7 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   await page.route('**/catalog.json',async r=>{await gate;await r.continue();});
   await page.goto(base+'?proof='+encodeURIComponent('官方自報'),{waitUntil:'domcontentloaded'});
   await page.locator('#source-guide summary').click();assert(await page.locator('#source-guide').evaluate(e=>e.open));release();await page.waitForFunction(()=>discoveryReady);assert(await page.locator('#source-guide').evaluate(e=>e.open));
-  await page.route('**/cases/001-travel-checkout.md',r=>r.fulfill({status:503,body:'Unavailable'}));await page.reload();await page.waitForFunction(()=>discoveryReady);assert(await page.locator('#partial-load').isVisible());assert.match(await page.locator('#source-type-note').textContent(),/官方/);
+  await sourceRoute(page,'**/cases/001-travel-checkout.md',r=>r.fulfill({status:503,body:'Unavailable'}));await page.reload();await page.waitForFunction(()=>discoveryReady);assert(await page.locator('#partial-load').isVisible());assert.match(await page.locator('#source-type-note').textContent(),/官方/);
   await page.unroute('**/cases/001-travel-checkout.md');await page.locator('#retry-failed').click();await page.waitForFunction(()=>!recoveringSources);assert(await page.locator('#partial-load').isHidden());
   await page.evaluate(()=>{const value='未知來源 <img src=x onerror=alert(1)> '+ '長文字'.repeat(30);const option=document.createElement('option');option.value=value;option.textContent=value;document.getElementById('proof').append(option);document.getElementById('proof').value=value;render();});
   await page.locator('#source-guide').evaluate(e=>e.open=true);

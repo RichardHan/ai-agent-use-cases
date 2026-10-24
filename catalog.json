@@ -3,6 +3,7 @@ layout: null
 ---
 {
   "builtAt": {{ site.time | date: '%Y-%m-%d' | jsonify }},
+  "bundleRevision": {{ site.time | date: '%Y%m%d%H%M%S%N' | jsonify }},
   "files": [
   {%- assign emitted = false -%}
   {%- for file in site.static_files -%}

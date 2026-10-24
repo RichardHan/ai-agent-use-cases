@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
@@ -52,7 +53,7 @@ const out=process.env.QA_OUT||'qa-artifacts/after';fs.mkdirSync(out,{recursive:t
   const context=await browser.newContext({viewport:{width:390,height:900}}),page=await context.newPage();let release;const gate=new Promise(r=>release=r);
   if(mode==='loading')await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
   if(mode==='error')await page.route('**/catalog.json',route=>route.abort());
-  if(mode==='partial')await page.route('**/cases/001-travel-checkout.md',route=>route.abort());
+  if(mode==='partial')await sourceRoute(page,'**/cases/001-travel-checkout.md',route=>route.abort());
   await page.goto(base);if(mode==='error')await page.locator('#error').waitFor({state:'visible'});if(mode==='partial')await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
   await page.locator('#filter-options').evaluate(n=>n.open=true);const chip=page.locator('.chip[data-query="每日"]');await chip.click();
   if(mode==='partial'){await page.waitForFunction(()=>document.activeElement.id==='results-count');assert(await page.locator('#partial-load').isVisible());}

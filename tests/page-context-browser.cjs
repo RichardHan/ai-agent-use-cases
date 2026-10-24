@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
@@ -51,10 +52,10 @@ if(!observe){
   try{
   if(mode==='loading-early'){
    await page.route('**/catalog.json',async route=>{await catalogGate;await route.continue();});
-   await page.route('**/*.md',async route=>{if(/\/(cases|evidence)\//.test(new URL(route.request().url()).pathname)&&!route.request().url().includes('/001-travel-checkout.md'))await sourceGate;await route.continue();});
+   await sourceRoute(page,'**/*.md',async route=>{if(/\/(cases|evidence)\//.test(new URL(route.request().url()).pathname)&&!route.request().url().includes('/001-travel-checkout.md'))await sourceGate;await route.continue();});
   }
   if(mode==='error')await page.route('**/catalog.json',route=>route.abort());
-  if(mode==='partial')await page.route('**/cases/001-travel-checkout.md',route=>route.abort());
+  if(mode==='partial')await sourceRoute(page,'**/cases/001-travel-checkout.md',route=>route.abort());
   await page.goto(base+'?q=旅遊&case=UC-001');
   if(mode==='loading-early'){
    await page.waitForFunction(()=>document.title.startsWith('載入中'));row.loadingTitle=await page.title();assert.equal(row.loadingTitle,'載入中 · 搜尋「旅遊」｜AI 用法實驗室');

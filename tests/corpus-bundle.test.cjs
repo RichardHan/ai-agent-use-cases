@@ -1,0 +1,44 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const context=vm.createContext({URL,URLSearchParams,AbortController,setTimeout,clearTimeout,console:{warn(){}},Discovery:require('../assets/discovery.js')});
+vm.runInContext(fs.readFileSync('assets/app.js','utf8').split('/* Browser event bindings. */')[0]+'\nthis.api={loadInitialCorpus:typeof loadInitialCorpus==="function"?loadInitialCorpus:loadCorpus};',context);
+const load=context.api.loadInitialCorpus;
+const paths=['cases/001-one.md','cases/002-two.md','sources/pending.md'];
+const texts=['one','two','pending'];
+const json=(sources=paths.map((path,i)=>({path,markdown:texts[i]})),revision='r1')=>({version:1,revision,sources});
+const response=value=>({ok:true,json:async()=>value,text:async()=>value});
+const parse=(path,text)=>[{path,text,id:text}];
+const options=extra=>({bundleRevision:'r1',parseFile:parse,budget:1000,...extra});
+const stalled=signal=>new Promise((resolve,reject)=>{if(signal.aborted)reject(Error('abort'));else signal.addEventListener('abort',()=>reject(Error('abort')),{once:true});});
+
+test('one bundle replaces every source request without altering source text or order',async()=>{
+ const calls=[],progress=[];const result=await load(paths,options({fetch:async path=>{calls.push(path);return response(json());},onProgress:p=>progress.push({...p})}));
+ assert.deepEqual(calls,['corpus.json']);assert.deepEqual(Array.from(result.entries,e=>[e.path,e.text]),paths.map((p,i)=>[p,texts[i]]));assert.deepEqual(Array.from(result.failed),[]);assert.equal(progress.at(-1).succeeded,3);
+});
+for(const mode of ['http','bad-json','revision','missing','duplicate','unsafe','bad-text','parse'])test('unusable bundle falls back without publishing untrusted content: '+mode,async()=>{
+ const calls=[];const result=await load(paths,options({parseFile:(path,text)=>{if(text==='bad-parse')throw Error('parse');return parse(path,text);},fetch:async path=>{calls.push(path);if(path!=='corpus.json')return response(texts[paths.indexOf(path)]);
+ if(mode==='http')return {ok:false,status:404};if(mode==='bad-json')return {ok:true,json:async()=>{throw Error('json');}};
+ const b=json();if(mode==='revision')b.revision='old';if(mode==='missing')b.sources.pop();if(mode==='duplicate')b.sources[1]=b.sources[0];if(mode==='unsafe')b.sources[0].path='../secret';if(mode==='bad-text')b.sources[0].markdown=null;if(mode==='parse')b.sources[1].markdown='bad-parse';return response(b);
+ }}));assert.deepEqual(Array.from(result.entries,e=>e.text),texts);assert.equal(calls.length,4);assert.deepEqual(Array.from(result.failed),[]);
+});
+test('shared source opens before a delayed bundle and successful source is not fetched again on fallback',async()=>{
+ let release;const gate=new Promise(r=>release=r),seen=[],calls=[];
+ const promise=load(paths,options({sharedPath:paths[0],fetch:async path=>{calls.push(path);if(path==='corpus.json'){await gate;return {ok:false,status:404};}return response(texts[paths.indexOf(path)]);},onSource:items=>{seen.push(items[0].text);if(items[0].text==='one')release();}}));
+ const result=await promise;assert.equal(seen[0],'one');assert.equal(calls.filter(p=>p===paths[0]).length,1);assert.equal(result.entries.length,3);
+});
+test('bundle completion cancels a stalled shared request without waiting for its source timeout',async()=>{
+ let signal;const result=await load(paths,options({sharedPath:paths[0],fetch:async(path,opt)=>{if(path!=='corpus.json'){signal=opt.signal;return stalled(signal);}return response(json());}}));
+ assert(signal.aborted);assert.equal(result.entries.length,3);assert.deepEqual(Array.from(result.failed),[]);
+});
+test('bundle timeout leaves a budget for fallback, individual failures stay retryable',async()=>{
+ const result=await load(paths,options({bundleTimeout:10,timeout:20,fetch:async(path,opt)=>{if(path==='corpus.json')return stalled(opt.signal);if(path===paths[1])return {ok:false,status:404};return response(texts[paths.indexOf(path)]);}}));
+ assert.deepEqual(Array.from(result.failed),[paths[1]]);assert.deepEqual(Array.from(result.entries,e=>e.text),['one','pending']);
+});
+test('stopping while bundle waits retains the already readable shared source and exact missing paths',async()=>{
+ const stop=new AbortController();const result=await load(paths,options({signal:stop.signal,sharedPath:paths[0],fetch:async(path,opt)=>path==='corpus.json'?stalled(opt.signal):response('one'),onSource:()=>stop.abort()}));
+ assert.equal(result.entries.length,1);assert.deepEqual(Array.from(result.failed),paths.slice(1));
+});
+test('old catalogs keep the existing per-file loader and pending one-file/multiple-entry behavior',async()=>{
+ const calls=[];const result=await load(paths,{parseFile:(path,text)=>path===paths[2]?[{path,id:'P-1'},{path,id:'P-2'}]:parse(path,text),fetch:async path=>{calls.push(path);return response('original');}});
+ assert.deepEqual(calls,paths);assert.equal(result.entries.length,4);
+});

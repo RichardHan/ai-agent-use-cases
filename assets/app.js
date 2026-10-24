@@ -1457,7 +1457,7 @@ async function loadCorpus(paths, options = {}) {
         }
       }
       completed++;
-      if (result.ok) { succeeded++; entryCount+=result.entries.length; options.onSource?.(result.entries); }
+      if (result.ok) { succeeded++; entryCount+=result.entries.length; options.onSource?.(result.entries,result.path); }
       options.onProgress?.({completed,succeeded,entryCount,total:paths.length});
       return result;
     });
@@ -1467,6 +1467,69 @@ async function loadCorpus(paths, options = {}) {
     options.signal?.removeEventListener('abort',abortBatch);
   }
 }
+// The bundle is only a transport: every original Markdown still goes through
+// parseFile. An older/mixed deployment or a failed bundle uses the per-file path.
+function parseCorpusBundle(bundle, paths, revision, parseFn) {
+  if(bundle?.version!==1 || bundle.revision!==revision || !Array.isArray(bundle.sources) || bundle.sources.length!==paths.length)throw Error('全文整包版本不符');
+  const allowed=new Set(paths),seen=new Set();
+  const parsed=new Map();
+  for(const source of bundle.sources){
+    if(!allowed.has(source?.path)||seen.has(source.path)||typeof source.markdown!=='string')throw Error('全文整包來源不符');
+    seen.add(source.path);
+    parsed.set(source.path,parseFn(source.path,source.markdown));
+  }
+  return parsed;
+}
+async function loadInitialCorpus(paths, options = {}) {
+  if(typeof options.bundleRevision!=='string'||!options.bundleRevision)return loadCorpus(paths,options);
+  const fetchFn=options.fetch||fetch,parseFn=options.parseFile||parseFile;
+  const controller=new AbortController(),sharedController=new AbortController();
+  const abort=()=>{controller.abort();sharedController.abort();};
+  const deadline=Date.now()+(options.budget||20000);
+  const timer=setTimeout(abort,Math.max(1,deadline-Date.now()));
+  if(options.signal?.aborted)abort();else options.signal?.addEventListener('abort',abort,{once:true});
+  const successful=new Map();
+  let completedFallback=0,sharedFinished=false,inFallback=false;
+  const progress=()=>options.onProgress?.({completed:inFallback?completedFallback+Number(sharedFinished):successful.size,succeeded:successful.size,entryCount:[...successful.values()].reduce((n,items)=>n+items.length,0),total:paths.length});
+  const remember=(path,items)=>{
+    if(successful.has(path))return;
+    successful.set(path,items);options.onSource?.(items);
+
+  };
+  const perFileOptions={...options,fetch:fetchFn,parseFile:parseFn};
+  const sharedPath=paths.includes(options.sharedPath)?options.sharedPath:null;
+  const shared=sharedPath ? loadCorpus([sharedPath],{...perFileOptions,signal:sharedController.signal,budget:Math.max(1,deadline-Date.now()),onSource:items=>remember(sharedPath,items),onProgress:undefined}).then(()=>{sharedFinished=true;progress();}) : Promise.resolve();
+  try {
+    const bundleController=new AbortController();
+    const abortBundle=()=>bundleController.abort();
+    controller.signal.addEventListener('abort',abortBundle,{once:true});
+    if(controller.signal.aborted)abortBundle();
+    const bundleTimer=setTimeout(abortBundle,Math.min(options.bundleTimeout||2500,Math.max(1,deadline-Date.now())));
+    let bundled=false;
+    try {
+      const response=await fetchFn('corpus.json',{cache:'no-cache',signal:bundleController.signal});
+      if(!response.ok)throw Error('HTTP '+response.status);
+      const data=await response.json();
+      if(bundleController.signal.aborted)throw Error('全文整包讀取已停止');
+      const parsed=parseCorpusBundle(data,paths,options.bundleRevision,parseFn);
+      if(controller.signal.aborted)throw Error('讀取已停止');
+      for(const path of paths){remember(path,parsed.get(path));progress();}
+      bundled=true;
+    }catch(error){
+      if(!controller.signal.aborted)console.warn('全文整包未能使用，改為逐篇讀取：',error);
+    }finally{clearTimeout(bundleTimer);controller.signal.removeEventListener('abort',abortBundle);}
+    if(bundled)sharedController.abort();
+    else if(!controller.signal.aborted){
+      const pending=paths.filter(path=>!successful.has(path)&&path!==sharedPath);
+      inFallback=true;
+      await loadCorpus(pending,{...perFileOptions,signal:controller.signal,budget:Math.max(1,deadline-Date.now()),onSource:(items,path)=>remember(path,items),onProgress:status=>{completedFallback=status.completed;progress();}});
+    }
+    await shared;
+    options.onProgress?.({completed:paths.length,succeeded:successful.size,entryCount:[...successful.values()].reduce((n,items)=>n+items.length,0),total:paths.length});
+    return {entries:paths.flatMap(path=>successful.get(path)||[]),failed:paths.filter(path=>!successful.has(path))};
+  }finally{clearTimeout(timer);abort();options.signal?.removeEventListener('abort',abort);}
+}
+
 async function readJSON(path, timeout) {
   const controller=new AbortController();
   const timer=setTimeout(()=>controller.abort(),timeout);
@@ -1674,7 +1737,9 @@ async function load() {
     }
     let announced=-1;
     const orderedPaths=prioritizeSharedSource(paths,new URLSearchParams(location.search).get('case'));
-    const { entries: loaded, failed } = await loadCorpus(orderedPaths, {
+    const { entries: loaded, failed } = await loadInitialCorpus(orderedPaths, {
+      bundleRevision:catalog.bundleRevision,
+      sharedPath:new URLSearchParams(location.search).has('case') && orderedPaths!==paths ? orderedPaths[0] : null,
       fetch,parseFile,concurrency:16,timeout:12000,budget:remaining(),signal:initialLoadController.signal,retryTransient:true,
       onSource:items=>{
         // Read only a successfully parsed source whose actual ID still matches

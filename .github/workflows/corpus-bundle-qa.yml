@@ -1,7 +1,9 @@
 name: Corpus bundle QA
 on:
   push:
-    branches: [improve/catalog-bundle-20261024, verify/catalog-bundle-20261024]
+    branches: [improve/catalog-bundle-20261024, verify/catalog-bundle-20261024, main]
+    paths: ['assets/**', 'catalog.json', 'corpus.json', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/**', 'tests/**', '.github/workflows/corpus-bundle-qa.yml']
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -28,7 +30,43 @@ jobs:
         run: |
           node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
           for f in assets/*.js; do node --check "$f"; done
+      - name: Build actual GitHub Pages Jekyll output
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Original bytes and preview compatibility
+        run: |
+          python3 scripts/check_corpus_bundle.py _site
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          python3 scripts/check_corpus_bundle.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          mkdir -p "$RUNNER_TEMP/served/ai-agent-use-cases"
+          cp -R _site/. "$RUNNER_TEMP/served/ai-agent-use-cases/"
+      - name: Bundle, full visitor journeys and source recovery
+        if: github.ref != 'refs/heads/verify/catalog-bundle-20261024'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          python3 -m http.server 8190 --directory "$RUNNER_TEMP/served" > /tmp/bundle-preview.log 2>&1 &
+          export SITE_URL=http://127.0.0.1:8190/ai-agent-use-cases/
+          QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/corpus-bundle-browser.cjs
+          QA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs
+          QA_OUT=qa-artifacts/recovery runuser -u pwuser -- node tests/recovery-progress-browser.cjs
+      - name: Published assets and focused visitor journeys
+        if: github.ref == 'refs/heads/verify/catalog-bundle-20261024'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          SITE_URL: https://richardhan.github.io/ai-agent-use-cases/
+          QA_PUBLIC: '1'
+        run: |
+          node - <<'JS'
+          const fs=require('node:fs');
+          (async()=>{for(const file of ['index.html','assets/app.js','assets/reader.js','assets/reader.css','assets/style.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file));if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published mismatch '+file);console.log('MATCH '+file);}
+          const c=await(await fetch(process.env.SITE_URL+'catalog.json')).json(),b=await(await fetch(process.env.SITE_URL+'corpus.json')).json();if(b.revision!==c.bundleRevision)throw Error('Published revision mismatch');for(const source of b.sources)if(source.markdown!==fs.readFileSync(source.path,'utf8'))throw Error('Published text mismatch '+source.path);console.log('MATCH all '+b.sources.length+' source texts');})().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          QA_OUT=qa-artifacts/published runuser -u pwuser -- node tests/corpus-bundle-browser.cjs
       - name: Observe current public site
+        if: github.ref == 'refs/heads/verify/catalog-bundle-20261024'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
         run: QA_OUT=qa-artifacts/before runuser -u pwuser -- node tests/reliability-observe.cjs

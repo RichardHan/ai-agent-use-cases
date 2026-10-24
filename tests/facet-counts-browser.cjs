@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs');
@@ -119,7 +120,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   let releaseCatalog;
   const gate=new Promise(resolve=>releaseCatalog=resolve);
   await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
-  await page.route('**/cases/001-travel-checkout.md',route=>route.fulfill({status:503,body:'Unavailable'}));
+  await sourceRoute(page,'**/cases/001-travel-checkout.md',route=>route.fulfill({status:503,body:'Unavailable'}));
   await page.goto(base+'?q=旅遊&scenario=生活#explore',{waitUntil:'domcontentloaded'});
   assert.match(await page.locator('#facet-count-hint').textContent(),/載入完成後/);
   assert(!(await page.locator('#scenario option').allTextContents()).some(x=>/^\d+ · /.test(x)));

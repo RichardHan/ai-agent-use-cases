@@ -20,6 +20,7 @@ jobs:
           node-version: '22'
       - name: Cloud browser tools
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
           mkdir -p /usr/local/share/fonts qa-artifacts
           for weight in Regular Bold; do curl -fL --retry 2 --max-time 90 "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-$weight.otf" -o "/usr/local/share/fonts/NotoSansCJKtc-$weight.otf"; done

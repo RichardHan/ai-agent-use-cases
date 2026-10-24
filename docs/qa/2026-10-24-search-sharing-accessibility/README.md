@@ -41,6 +41,20 @@ repo沒有獨立lint／TypeScript設定，JS語法檢查不冒稱lint或type che
 
 ## 前後截圖與結果
 
-待最終雲端結果補入。原始修改前報告與兩尺寸截圖已保留於 `before/`。
+[最終預覽40062641866](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40062641866)成功：207/207單元、JS syntax、static preview；Chromium1440／390／320、Firefox390、WebKit390各447條目無缺項。五配置的分享與完整page-context旅程、3種loading-early／error／partial復原、6配置既有來源說明分享版面全部通過。主要20次axe掃描0違規（分享5＋旅程15）；分享按鈕全部44px／14px，無pageerror，分享直鏈還原條件及有序結果ID完全一致。主角色已目視桌面、手機與320px備援畫面。
+
+| 畫面 | 修改前 | 修改後 |
+| --- | --- | --- |
+| 手機等待 | [沒有處理狀態](before/pending-chromium-390.png) | [立即等待回饋](after/pending-chromium-390.png) |
+| 手機移開焦點 | [焦點被拉回網址](before/moved-focus-chromium-390.png) | [保留篩選開關焦點](after/moved-focus-chromium-390.png) |
+| 桌面移開焦點 | [焦點被拉回網址](before/moved-focus-chromium-1440.png) | [保留原控制項](after/moved-focus-chromium-1440.png) |
+
+[320px完整手動選取](after/fallback-chromium-320.png)、[成功回饋](after/success-chromium-390.png)；[分享原始數據](after/report.json)、[完整旅程](checks/journeys-report.json)、[載入復原](checks/journeys-lifecycle.json)、[207單元實際輸出](checks/unit.tap)、[原碼2失敗](checks/red.tap)、[獨立審查](checks/independent-review.txt)。
+
+三種具體情境：①帶旅遊＋生活＋工具＋最近核對條件分享，複製成功及恢復有序結果；②剪貼簿延遲拒絕，已移到篩選開關的人保留焦點，仍等待的人得到全選網址；③分享尚未回應時改搜尋／進入詳情／連點，不讓舊結果覆寫新狀態或打斷閱讀。另有無Clipboard API、空結果與錯誤／部分復原驗證。均為模擬情境。
+
+三產品資產相對基準合計增加255 bytes，沒有新增產品請求；這不是載入速度提升量測。API拒絕取消舊run（403 admin權限）後未再嘗試繞過；前三個預覽40062548117、40062594215、40062641866實際全成功。PR建立遭Enterprise Managed User GraphQL限制拒絕，依使用者既有授權採一般SSH merge，沒有強推。最終發布證據待Pages部署完成另補，不提前宣稱上線。
+
+另一工作樹的同一焦點修正已由協作者合併到main `95e89cd`；本輪保留該實作、原測試與完整證據，新增差異集中在14px分享操作、ARIA狀態關聯與獨立完整還原驗收，避免重複改產品邏輯。
 
 下一輪優先降低首次全文請求量，先確保每次公開來源變動都可產生一致且可驗證的新資料產物，再評估打包；保留直鏈早讀與失敗補讀。

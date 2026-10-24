@@ -34,18 +34,18 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  // Touch/wheel-style reading keeps a distant title focused; a table keeps its right-side columns.
  await p.goto(base+'?case=UC-400');await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);await p.locator('.research-details>summary').click();
  const table=p.locator('.markdown-table').first();await table.evaluate(n=>{const d=document.querySelector('#detail');d.scrollTop+=n.getBoundingClientRect().top-document.querySelector('.detail-toolbar').getBoundingClientRect().bottom-18;n.scrollLeft=160;});
- await p.locator('#detail-title').focus({preventScroll:true});
- const tableState=()=>table.evaluate(n=>({top:n.getBoundingClientRect().top,left:n.scrollLeft}));row.tableBefore=await tableState();
+ await p.locator('#detail-title').evaluate(n=>n.focus({preventScroll:true}));
+ const tableState=()=>table.evaluate(n=>({top:n.getBoundingClientRect().top,left:n.scrollLeft}));row.tableBefore=await tableState();assert(row.tableBefore.top>=0&&row.tableBefore.top<850,'Table must actually be visible before navigating');if(width<1000)assert(row.tableBefore.left>0,'Mobile reading starts in the right-side columns');
  await p.keyboard.press('ArrowRight');assert.notEqual(await p.locator('#detail-toolbar-id').innerText(),'UC-400');await p.goBack();await p.waitForFunction(()=>currentDetailItem.id==='UC-400');row.tableReturned=await tableState();
  assert(Math.abs(row.tableReturned.top-row.tableBefore.top)<3);assert.equal(row.tableReturned.left,row.tableBefore.left);
- row.returnedFocus=await p.evaluate(()=>{const r=document.activeElement.getBoundingClientRect(),d=document.querySelector('#detail').getBoundingClientRect();return {tag:document.activeElement.tagName,top:r.top,bottom:r.bottom,visible:r.bottom>d.top&&r.top<d.bottom};});assert(row.returnedFocus.visible,'Return focus stays in the visible reading area');
+ row.returnedFocus=await p.evaluate(()=>{const r=document.activeElement.getBoundingClientRect(),d=document.querySelector('#detail').getBoundingClientRect();const top=document.activeElement.closest('.detail-toolbar')?d.top:document.querySelector('.detail-toolbar').getBoundingClientRect().bottom;return {tag:document.activeElement.tagName,top:r.top,bottom:r.bottom,visible:r.bottom>top&&r.top<d.bottom};});assert(row.returnedFocus.visible,'Return focus stays in the visible reading area');
  await p.screenshot({path:`${out}/table-returned-${row.label}.png`});
  row.tableViolations=(await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id);assert.deepEqual(row.tableViolations,[]);
  // Related-case browsing returns to its original, visible button rather than the offscreen title.
  const relatedCaseID=await p.evaluate(()=>entries.find(item=>relatedEntries(item,entries).length).id);await p.goto(base+'?case='+relatedCaseID);await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);
  const related=p.locator('.related-cases [data-related-id]').first();const relatedID=await related.getAttribute('data-related-id');await related.scrollIntoViewIfNeeded();await related.click();await p.waitForFunction(id=>currentDetailItem.id===id,relatedID);await p.goBack();await p.waitForFunction(id=>currentDetailItem.id===id,relatedCaseID);
  assert(await related.evaluate(n=>n===document.activeElement),'Related case return restores its visible trigger');
- const relatedRect=await related.boundingBox();assert(relatedRect.y>=0&&relatedRect.y+relatedRect.height<=900);await p.screenshot({path:`${out}/related-returned-${row.label}.png`});
+ const relatedRect=await related.boundingBox(),bounds=await p.evaluate(()=>({top:document.querySelector('.detail-toolbar').getBoundingClientRect().bottom,bottom:document.querySelector('#detail').getBoundingClientRect().bottom}));assert(relatedRect.y>=bounds.top&&relatedRect.y+relatedRect.height<=bounds.bottom);await p.screenshot({path:`${out}/related-returned-${row.label}.png`});
  row.scenarios=['long reading Back and Forward','distinct visits and reload','filtered results Back and Forward','offscreen focus and horizontal table'];
  }
  assert.deepEqual(row.errors,[]);

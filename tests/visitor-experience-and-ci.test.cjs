@@ -43,8 +43,11 @@ test('tests/load-recovery-live.cjs validates all critical assets during deployme
 
 test('card-refinement published verification covers observed Pages deployment latency', () => {
   const pollMatch = cardRefinementWorkflow.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
+  const delayMatch = cardRefinementWorkflow.match(/setTimeout\(\s*(?:resolve|r)\s*,\s*(\d+)\s*\)/);
   assert.ok(pollMatch, 'card-refinement-qa.yml must contain a bounded published-asset poll');
+  assert.ok(delayMatch, 'card-refinement-qa.yml must bound the interval between asset checks');
   assert.ok(Number(pollMatch[1]) >= 450, 'poll must allow at least 15 minutes for Pages assets');
+  assert.ok(Number(pollMatch[1]) * Number(delayMatch[1]) >= 900000, 'poll attempts and interval together must allow at least 15 minutes');
 
   const timeoutMatch = cardRefinementWorkflow.match(/timeout-minutes:\s*(\d+)/);
   assert.ok(timeoutMatch, 'card-refinement-qa.yml must bound its job duration');
@@ -54,13 +57,18 @@ test('card-refinement published verification covers observed Pages deployment la
 
 test('combined recovery published verification covers observed Pages deployment latency', () => {
   const pollMatch = combinedRecoveryWorkflow.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
+  const delayMatch = combinedRecoveryWorkflow.match(/setTimeout\(\s*(?:resolve|r)\s*,\s*(\d+)\s*\)/);
   assert.ok(pollMatch, 'combined-recovery-qa.yml must contain a bounded published-asset poll');
+  assert.ok(delayMatch, 'combined-recovery-qa.yml must bound the interval between asset checks');
   assert.ok(Number(pollMatch[1]) >= 300, 'poll must allow at least 15 minutes for Pages assets');
+  assert.ok(Number(pollMatch[1]) * Number(delayMatch[1]) >= 900000, 'poll attempts and interval together must allow at least 15 minutes');
 
   const timeoutMatch = combinedRecoveryWorkflow.match(/timeout-minutes:\s*(\d+)/);
   assert.ok(timeoutMatch, 'combined-recovery-qa.yml must bound its job duration');
   assert.ok(Number(timeoutMatch[1]) >= 25, 'job timeout must cover setup plus the published-asset poll');
 });
+
+
 test('GitHub Actions workflows provide sufficient polling window for Pages deployment', () => {
   const relevanceMatch = relevanceWorkflow.match(/attempt\s*<\s*(\d+)/);
   assert.ok(relevanceMatch, 'relevance-qa.yml must contain attempt loop');

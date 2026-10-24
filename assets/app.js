@@ -1201,8 +1201,9 @@ function clearSearchShare() {
 async function copySearchLink() {
   if(!discoveryReady)return;
   clearSearchShare();
-  const request=searchShareRequest;
+  const request=searchShareRequest,focusAtRequest=document.activeElement;
   const url=currentSearchLink();
+  $('search-share-status').textContent='正在複製搜尋連結…';
   try {
     if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');
     await navigator.clipboard.writeText(url);
@@ -1212,7 +1213,8 @@ async function copySearchLink() {
     if(request!==searchShareRequest)return;
     $('search-share-status').textContent='無法自動複製，請手動複製下方搜尋網址。';
     const manual=$('search-share-url');
-    manual.value=url;manual.hidden=false;manual.focus();manual.select();
+    manual.value=url;manual.hidden=false;
+    if(document.activeElement===focusAtRequest){manual.focus();manual.select();}
   }
 }
 

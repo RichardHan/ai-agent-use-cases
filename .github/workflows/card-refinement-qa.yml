@@ -9,7 +9,7 @@ permissions:
 jobs:
   refinement:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -64,7 +64,7 @@ jobs:
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const base='https://richardhan.github.io/ai-agent-use-cases/';
             const files=['assets/app.js','assets/style.css'];
-            for(let i=0;i<180;i++){
+            for(let i=0;i<450;i++){
               const actual=await Promise.all(files.map(async file=>{
                 const r=await fetch(base+file+'?refine='+process.env.GITHUB_SHA,{cache:'no-store'});
                 return r.ok?await r.text():'';

@@ -1,3 +1,7 @@
+## 2026-10-25 GitHub Actions 部署等待與空結果捷徑驗收
+
+根據 Actions #40128833680、#40128833678 實際失敗，補測無結果時六個痛點捷徑的鍵盤返回，並把 Card refinement Pages 資產比對延長至15分鐘（工作上限25分鐘），涵蓋已量得的11分38秒部署。沒有更動網站介面或案例資料；桌面／手機前後截圖、來源走查、限制與驗收見[本輪紀錄](docs/qa/2026-10-25-actions-recovery/README.md)。
+
 ## 2026-10-25 搜尋空結果常見痛點引流與 CI 部署驗收穩定性加固
 
 在搜尋未命中（0 筆結果）時，自動呈現 6 個常見痛點探索標籤（日報整理、發票對帳、PR 審查、除錯修復、旅遊規劃、商品比價），具備 44px 觸控大小與清楚 focus-visible 外框，點選即可重新定位結果，消除搜尋中斷死胡同；系統性修復 GitHub Actions 頻繁失敗問題：修復 `search-submit-browser.cjs` 中 WebKit 按鈕 Tab 焦點限制、加固 `load-recovery-live.cjs` 發布核驗閘門同步檢查 HTML/JS/CSS 三資產、放寬 `relevance-qa`（180 次）與 `search-submit-qa`（140 次）之 Pages 部署等待窗口至 6～7 分鐘。全套單元測試由 275 項擴充至 280 項全數通過，語法檢查 0 錯誤，桌面 1440px、手機 390px 及窄螢幕 320px 全無溢出。兩案取捨、前後 WebP 截圖、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-reader-flow-and-empty-guidance/README.md)。

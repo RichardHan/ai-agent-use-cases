@@ -74,3 +74,14 @@ SITE_URL=http://127.0.0.1:8096/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_
 發布gate在分支先實際通過：本次Jekyll revision為20261024121757067612080，正式為20261024115929411927543，五產品資產與445份來源原文字節一致。這證明可正確區分建置時間差與內容差，未放寬原文驗證。正式站修改前流程已通過，但合併後完整正式流程與Pages結果仍須補記。
 
 獨立終審確認可合併。最終來源直接HTTP探測遇GitHub429限流，未將來源可讀當成已驗證；popup目的URL正確，且首輪曾回200。不反覆刷外部來源，正式結果另記。
+
+
+## 正式發布與停止點
+
+一般merge d688ee1 已推送main；未強推，原目錄分支及三個未提交檔案仍保留。[Pages40093702743](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40093702743) build／report／deploy全部成功。
+
+[合併後專項40093703400](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40093703400) 全部成功：260單元、真正Pages建置與preview、三引擎五配置整合旅程、正式資產／445來源原文字節核對，以及正式站三引擎五配置篩選／零筆回復／直鏈／reload／返回、Chromium1440／390來源判讀與三旅程全成功。該run整合預覽30次主要axe零違規，正式另5次facet＋4次來源＝9次零違規。正式載入／補讀fixture亦通過；外部GitHub直接探測429，URL正確但未驗證當下來源body可讀。主角色已目視[正式桌面](published-desktop.png)與[正式手機](published-mobile.png)，沒有可見重疊或裁切；這兩張是另一組UC001＋來源篩選，前後比較請使用上方同旅遊生活條件。
+
+[main快照](main-ci.json)八套流程七成功、一失敗。失敗為[舊Source guide QA40093703439](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40093703439)：其source-guide-browser五配置與10次axe已complete，後續複合regression步驟失敗，根因未在本輪定位。沒有宣稱main所有CI全綠，也沒有反覆重跑外部來源；本輪限定的兩個驗收前提修復已達標。下一輪優先定位該複合回歸失敗並與未改產品的基準對照，不先放寬斷言。
+
+後續文書提交只保存本段結果及原始JSON／截圖，不再更動已驗證的程式、測試或資料。本輪完成停止。

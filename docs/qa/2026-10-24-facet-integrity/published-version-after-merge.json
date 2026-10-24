@@ -1,0 +1,14 @@
+{
+  "base": "https://richardhan.github.io/ai-agent-use-cases/",
+  "assets": [
+    "index.html",
+    "assets/app.js",
+    "assets/style.css",
+    "assets/reader.js",
+    "assets/reader.css"
+  ],
+  "sourceCount": 445,
+  "localRevision": "20261024122418041091175",
+  "publishedRevision": "20261024122333766924256",
+  "verifiedAt": "2026-10-24T12:27:43.778Z"
+}

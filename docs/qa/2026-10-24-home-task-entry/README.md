@@ -35,6 +35,7 @@
 - `for file in assets/*.js tests/*.cjs; do node --check "$file"; done`：通過。
 - `python3 scripts/preview.py /tmp/ai-visitor-workflows-after/ai-agent-use-cases`：靜態預覽成功。
 - `NODE_PATH=/tmp/ai-visitor-browser-tools/node_modules SEARCH_ENTRY_URL=http://127.0.0.1:8087/ai-agent-use-cases/ node tests/home-search-entry-browser.cjs`：三引擎五配置完成；直接查詢、返回、空結果復原、直鏈刷新及 axe 全通過。
+- `NODE_PATH=/tmp/ai-visitor-browser-tools/node_modules SEARCH_ENTRY_URL=https://richardhan.github.io/ai-agent-use-cases/ node tests/home-search-entry-browser.cjs`：正式站 Chromium 1440/390/320、Firefox 390、WebKit 390 全通過；五次 axe 零違規，三任務詞結果為 1/136/51 筆。
 - `git diff --check`：通過。
 - Repository 沒有 `package.json`、lint 或 type-check 指令；不宣稱執行了不存在的檢查。
 - 新連結文字 `#285344` 對首頁紙色 `#f7f8f2` 的對比比為 8.16:1。
@@ -50,7 +51,7 @@
 
 獨立唯讀檢視最新 `main` 30 筆 workflow runs：28 成功、2 失敗，沒有取消或逾時。兩次失敗是 Reader 表格的 QA 完整性檢查假警報，因表格閱讀控制產生的合法 label/focus 屬性被舊測試誤認成原始內容變更。相關基準比較已修正；最新 Pages deploy 40101521723 成功。已把新靜態測試檔加入既有首頁 QA workflow 的 push／PR 路徑篩選，避免未來單獨改測試時漏跑。三個舊開啟 PR 的紅燈與本輪首頁功能無關：#78 因 Playwright 不支援 ubuntu26.04 runner 上的 Chromium；#79/#80 在 baseline assertion 失敗，沒有逾時或 runner 資源問題。本輪不改動那些 PR。
 
-PR #85（[merge commit `ec83a16`](https://github.com/RichardHan/ai-agent-use-cases/pull/85)）已合併。正式 Pages run 40103098298 的 Jekyll build／deploy 成功。首頁 QA 在主線首次 run 40103098797 的 preview 流程通過，但正式資產檢查 180 秒先到期；當時 Pages deploy job 排隊約 6 分鐘，故該次紅燈不能代表網站內容不一致。部署完成後，以正式網址重跑五個瀏覽器配置及五次 Axe，全部通過，截圖如上。主線 QA run 40103098797 正在部署後重跑中。
+PR #85（[merge commit `ec83a16`](https://github.com/RichardHan/ai-agent-use-cases/pull/85)）已合併。正式 Pages run 40103098298 的 Jekyll build／deploy 成功。首頁 QA 主線 run 40103098797 首次執行的 preview 流程通過，但正式資產檢查先於 Pages deploy 到期；當時 deploy job 排隊約 6 分鐘。部署後重跑同一 QA run 成功（五配置 preview、正式資產比對、完整首頁流程皆通過）。另以正式網址再手動跑五個瀏覽器配置及五次 Axe，全部通過，截圖如上。
 
 同批主線 Actions 還有既有檢查失敗：Category finding QA 因 180 秒內尚未取得本次發布資產；Reader controls QA 的舊載入測試在 `tests/load-recovery-browser.cjs:57` 得到 3 次請求而預期 2 次；Partial Load QA 在瀏覽器流程步驟失敗。這些不由本輪首頁連結程式造成，失敗和部署排隊問題已保留，不宣稱全站 Actions 全綠。
 

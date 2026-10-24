@@ -45,7 +45,7 @@ python3 -m http.server 8190 --directory /tmp/ai-bundle-preview
 
 風險與未驗證：整包原文約2.8MB，減少請求不等於減少所有下載bytes，弱網可能進入逐篇回退。未測真實手機／讀屏器，axe只涵蓋可自動偵測的A/AA規則。沒有捏造Lighthouse或留存分數。
 
-Jekyll include_relative會執行Liquid，目前來源無 `{{`／`{%`；未來含這類原文範例可能轉換或建置失敗。保真CI在來源變更觸發並會明確失敗，不能為過檢查改寫研究原文。既有branch Pages部署與QA獨立，這不是自動阻擋部署的required check；本輪未變更倉庫保護設定。依據：[Jekyll includes](https://jekyllrb.com/docs/includes/)。
+Jekyll include_relative會執行Liquid，目前來源無 Liquid變數／標籤起始符號；未來含這類原文範例可能轉換或建置失敗。保真CI在來源變更觸發並會明確失敗，不能為過檢查改寫研究原文。既有branch Pages部署與QA獨立，這不是自動阻擋部署的required check；本輪未變更倉庫保護設定。依據：[Jekyll includes](https://jekyllrb.com/docs/includes/)。
 
 模型：本機config為gpt-6.1-sol／medium，但主對話無可驗證runtime模型與推理設定或切換介面，未宣稱已使用最高檔。獨立架構／審查調度要求gpt-6-astra／ultra，仍無可獨立驗證runtime metadata。只用既有訂閱及已授權GitHub Actions，未購買credits或使用API金鑰。
 
@@ -92,3 +92,6 @@ Jekyll include_relative會執行Liquid，目前來源無 `{{`／`{%`；未來含
 [最終整合40081247218](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40081247218) 全成功，head d63eec1，已完整包含main686b38e的閱讀歷史及其他協作者成果。253/253單元、語法、真正Jekyll與445來源逐byte、三引擎五配置447條完整，所有本輪bundle／早讀／停止／補讀／到達、原reader／arrival原斷言／selection，以及reading-history五配置（段落位置、表格水平位置、相關案例返回與可見焦點）成功；所有相關axe零違規／pageerror空。最新報告、單元輸出與畫面在release/，不將02fc447的舊快照冒充最新。
 
 本輪產品在ad681d5後凍結，後續僅QA與一般整合協作者主線。原工作目錄兩檔SHA仍與開始一致。接著依既有授權一般merge／SSH推main，再核對正式Pages與公開全來源內容；正式成功前不列發布完成。
+
+
+發布建置補正：main首次QA40081730488因本輪新驗收README包含未跳脫Liquid片段而FAIL，源自保存文件而非前述產品程式。已改成安全文字敘述，不改研究來源或產品；後續必須以包含最終文件的真正Jekyll建置及正式站核對通過，不能沿用只有產品分支的成功。

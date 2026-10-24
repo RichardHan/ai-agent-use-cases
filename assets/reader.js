@@ -190,6 +190,12 @@
     if(warning)evidence.append(warning);
     evidence.append(make('p','reader-evidence-footnote','以上沿用原文頁首；後續補充的來源與限制，請依各段文字判讀。'));
     // Put the actual purpose first; retain every original proof row below it.
+    if(headings.length>=12){
+      const open=make('button','reader-original-open',`查看完整原始研究、來源與提示詞（${headings.length} 段） ↓`);
+      open.type='button';
+      open.addEventListener('click',()=>{research.open=true;moveTo(research.querySelector('summary'));});
+      overview.append(open);
+    }
     overview.after(evidence);
     const dialog=body.closest('dialog');
     const nav=make('nav','reader-nav');
@@ -198,6 +204,12 @@
     navTitle.tabIndex=-1;
     navTitle.id='reader-nav-title';
     nav.append(navTitle,make('p','reader-nav-hint','收錄不代表本庫獨立重現。點選段落看原文；流程與提示詞的實測狀態依原標題判讀。'));
+    if(headings.length>=12){
+      const back=make('button','reader-return','↑ 回到閱讀導覽');
+      back.type='button';
+      back.addEventListener('click',()=>moveTo(navTitle));
+      research.querySelector('summary').after(back);
+    }
     const moveTo=target=>{
       // scrollIntoView may also scroll the inert page behind a modal.
       const toolbar=dialog.querySelector('.detail-toolbar');

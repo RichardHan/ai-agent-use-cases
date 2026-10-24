@@ -1,0 +1,50 @@
+name: Facet integrity QA
+on:
+  push:
+    branches: [improve/visitor-round-20261024-b]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
+          mkdir -p /usr/local/share/fonts qa-artifacts
+          for weight in Regular Bold; do curl -fL --retry 2 --max-time 90 "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-$weight.otf" -o "/usr/local/share/fonts/NotoSansCJKtc-$weight.otf"; done
+          fc-cache -f
+          chown -R pwuser:pwuser qa-artifacts
+      - name: Baseline tests and syntax
+        run: |
+          node --test tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+      - name: Actual Pages build
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Cloud published desktop and mobile walkthrough
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: QA_OUT=qa-artifacts/published-before runuser -u pwuser -- node tests/reliability-observe.cjs
+      - name: Reproduce current facet regression
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          mkdir -p "$RUNNER_TEMP/served/ai-agent-use-cases"
+          cp -R _site/. "$RUNNER_TEMP/served/ai-agent-use-cases/"
+          python3 -m http.server 8096 --directory "$RUNNER_TEMP/served" > /tmp/facet.log 2>&1 &
+          runuser -u pwuser -- node tests/facet-counts-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: facet-integrity-qa
+          path: qa-artifacts/

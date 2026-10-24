@@ -1,0 +1,100 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "total": 443,
+    "layout": {
+      "columns": "364.656px 364.672px 364.656px",
+      "controls": [
+        {
+          "tag": "LABEL",
+          "font": 14,
+          "height": 75.796875,
+          "width": 364.65625
+        },
+        {
+          "tag": "SELECT",
+          "font": 16,
+          "height": 44,
+          "width": 364.65625
+        },
+        {
+          "tag": "LABEL",
+          "font": 14,
+          "height": 75.796875,
+          "width": 364.671875
+        },
+        {
+          "tag": "SELECT",
+          "font": 16,
+          "height": 44,
+          "width": 364.671875
+        },
+        {
+          "tag": "LABEL",
+          "font": 14,
+          "height": 75.796875,
+          "width": 364.65625
+        },
+        {
+          "tag": "SELECT",
+          "font": 16,
+          "height": 44,
+          "width": 364.65625
+        },
+        {
+          "tag": "LABEL",
+          "font": 14,
+          "height": 75.796875,
+          "width": 364.65625
+        },
+        {
+          "tag": "SELECT",
+          "font": 16,
+          "height": 44,
+          "width": 364.65625
+        },
+        {
+          "tag": "LABEL",
+          "font": 14,
+          "height": 75.796875,
+          "width": 364.671875
+        },
+        {
+          "tag": "SELECT",
+          "font": 16,
+          "height": 44,
+          "width": 364.671875
+        },
+        {
+          "tag": "LABEL",
+          "font": 14,
+          "height": 75.796875,
+          "width": 364.65625
+        },
+        {
+          "tag": "SELECT",
+          "font": 16,
+          "height": 44,
+          "width": 364.65625
+        },
+        {
+          "tag": "BUTTON",
+          "font": 14,
+          "height": 44,
+          "width": 102.203125
+        }
+      ],
+      "overflow": false
+    },
+    "focus": {
+      "active": true,
+      "style": "solid",
+      "width": 3
+    },
+    "results": "顯示 15 / 443 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longCategory": "中小企業內容營運／多 Bot 編輯分工／每日下書與人工核准",
+    "failure": "Error: Please use browser.newContext()\n Please check out https://github.com/dequelabs/axe-core-npm/blob/develop/packages/playwright/error-handling.md\n    at AxeBuilder.analyze (/__w/_temp/tools/node_modules/@axe-core/playwright/dist/index.js:253:13)\n    at async /__w/ai-agent-use-cases/ai-agent-use-cases/tests/filter-reading-browser.cjs:33:18"
+  }
+]

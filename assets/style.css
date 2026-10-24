@@ -295,3 +295,12 @@
 #recovery-progress{display:block;width:100%;height:10px;margin-top:12px;accent-color:#94632b}
 #recovery-progress[hidden]{display:none}
 @media(max-width:760px){.partial-load .recovery-actions{flex:auto}}
+
+/* Give native filters room to read both their label and current selection. */
+.filter-panel .filter-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:end}
+.filter-panel .filter-row label{font-size:14px;line-height:1.7;gap:8px;color:var(--green)}
+.filter-panel .filter-row select{font-size:16px;min-height:44px;height:44px;padding-inline:12px}
+.filter-panel .filter-row .reset{grid-column:1/-1;justify-self:end;min-height:44px;height:auto;max-width:100%;padding:9px 14px;font-size:14px;line-height:1.7;white-space:normal;text-align:center;border:1px solid var(--line);border-radius:7px;color:var(--green)}
+.filter-panel .filter-row select:focus-visible,.filter-panel .filter-row .reset:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+@media(max-width:1000px){.filter-panel .filter-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.filter-panel .filter-row{grid-template-columns:minmax(0,1fr)}}

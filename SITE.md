@@ -3047,6 +3047,8 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 
 發布前補記：整合版40098879308雲端preview成功（13分9秒），三引擎五配置、447目錄條目／3451閱讀段落、三條走查、部分載入後單次恢復及10次主要axe均通過（0違規）。來源連結正確指向GitHub案例，但該次HTTP429，未冒稱已取得來源內容。公開Pages與HTTPS驗收待main部署後補記。
 
+發布補記：主線source guide 40099920658的preview及正式HTTPS job均成功。第一筆main合併後Reader context round 40099920633揭露另一份完整性測試有相同表格標籤誤報；補修review-sections基準並由獨立review通過後，以一般快轉推送b7dfe58。Pages 40100885634及最終Reader context round 40100886377（五瀏覽器配置、正式資產與HTTPS走查）全成功；同批Website、Round 23、Card refinement、Corpus loading、Evidence round、Corpus bundle亦全成功。產品UI與案例未變；完整指令與截圖見[本輪QA](docs/qa/2026-10-24-actions-reliability/README.md)。
+
 
 ## 2026-10-24 組合篩選與來源說明驗收可靠性
 

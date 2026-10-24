@@ -42,3 +42,16 @@ Shunta Furukawa於2026-09-18回顧約兩週運行：Grok Bot各角色監測並�
 - [日文原作者全文](https://zenn.dev/shunta_furukawa/articles/4451bd396caf59)：Shunta Furukawa，2026-09-18，回顧約2026-09-03至09-18（Asia/Tokyo）；全文已讀，原始日誌、設定與帳簿未公開。
 - [bitbank官方發布](https://corporate.bitbank.cc/news/20260710_01)：2026-07-10，實驗性beta及風險界線；沒有認證作者實驗。
 - [官方私人API限制文件](https://github.com/bitbankinc/bitbank-lab-mcp/blob/main/docs/private-api.md)：查證2026-10-16，現行權限與確認限制；不回推作者當時版本。
+
+
+## 2026-10-25 03:50補充：指派事件存在，仍須另驗 routine 是否起跑
+
+ziemovit 在 [Cursor 社群原報告](https://forum.cursor.com/t/grok-bot-github-issue-assigned-routine-never-fires-5-attempts-recreated-routine-app-has-repo-access/171791)（英文，2026-09-15；本輪讀主文與可見 staff 回覆）記下五次 GitHub issue 指派測試均沒有 routine run。安裝 App、重建 routine、收到 GitHub 通知後仍未起跑；在聊天要求 Bot 處理同一 issue 則可行。這是作者失敗自述，未讀私人 repo 或獨立重現。
+
+deanrie 於 09-16 回覆稱是當時服務端已知問題，並說明 by-user 比對「指派的人」，不是 issue 作者或受派者。此為官方社群人員說明，不證明今日仍故障或已修復；每十五分鐘掃未處理 issue 是其建議，沒有作者採用成功的證據。本庫不把手動成功、通知到達、事件觸發成功混成同一狀態。
+
+合併本頁未觸發複盤，不另計：原主案是條件交集阻擋；此版本則提醒先區分外部事件存在、產品收到事件、條件匹配、建立 run 與產物完成，不能在缺接收紀錄時擅判「被規則擋下」。與 UC041 的跨排程巡檢、UC074 的喚醒後讀回、UC344 的完成通知分開。
+
+[官方 routines 說明](https://docs.x.ai/grok-bot/skills-routines-and-automations)（本輪核讀，頁面更新2026-10-22）區分 Cursor 事件整合與一般 GitHub／Slack App，要求窄條件及實際結果驗收；沒有替此歷史故障背書。作者版本0.51.0與當時方案不能推為現行所有帳戶；單次費用、目前可用性及修復版本未知。不能因故障自行改成高頻輪詢、重建或擴權，Test 也會執行真實工作。
+
+可貼指令（本庫原創／未實測）：只讀提供的合成指派事件、routine 條件及執行紀錄，分列建立者、指派者、受派者、外部事件時間、產品接收證據、匹配結果、run 與產物。缺接收證據標未知；手動可處理不當成自動觸發通過。保留每次設定版本與觀察截止時間，不以最新狀態覆蓋歷史失敗。不建立或測跑 routine、不重新指派、不改通知、不擴權或發訊。

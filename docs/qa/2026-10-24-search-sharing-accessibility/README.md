@@ -1,8 +1,10 @@
 # 2026-10-24 搜尋分享可讀性與無障礙狀態補強
 
+已完成：450cc1b一般merge推送main，Pages40078989333的Jekyll build／deploy／report全部成功；正式40079856168五公開資產逐字一致、222單元通過、五配置分享＋兩個精簡旅程成功，7次axe零違規。以下保留所有階段與原始失敗，未宣稱全部背景CI全綠。
+
 主角色是唯一整合者；獨立角色只讀審查。原工作目錄 `assets/app.js`、`tests/search.test.cjs` 的未提交修改保留，從 `origin/main` 的 `bd9dfbe` 建立隔離分支，後續一般 merge 納入研究者更新。無 AGENTS.md；依 README、SITE.md、preview.py 與既有 Pages／QA 規範執行。原先三個開放 PR #78、#79、#80 不在本輪處理。
 
-主對話未提供可驗證的實際模型／推理設定讀取或切換介面，沒有宣稱已啟用帳號最強主模型。依使用者要求，獨立審查調度指定可用 `gpt-6-astra / max`，不把調度參數當作可獨立驗證的執行 metadata。僅使用既有授權、訂閱與 GitHub Actions；沒有付費 API、購買額度或本機瀏覽器／桌面操作。
+主對話未提供可驗證的實際模型／推理設定讀取或切換介面，沒有宣稱已啟用帳號最強主模型。依使用者要求，先前獨立審查調度指定 `gpt-6-astra / max`，最終發布唯讀審查另指定工具可要求的最高檔 `gpt-6-astra / ultra`；不把調度參數當作可獨立驗證的執行 metadata。僅使用既有授權、訂閱與 GitHub Actions；沒有付費 API、購買額度或本機瀏覽器／桌面操作。
 
 ## 證據、方案與範圍
 
@@ -20,6 +22,10 @@
 只改分享行為、14px操作字級及ARIA描述。全文打包方案因目前legacy Pages分支建置無安全的產物自動生成及同路徑更新一致性保障而暫緩；沒有更改案例、證據、搜尋語意、合格計數或部署方式。首次441請求成本仍在，無新增追蹤、cookies、登入或第三方分享服務。
 
 另一個既有隔離工作樹 `improve/reading-round-20261024` 後續也出現相同焦點修正；與本輪 `assets/app.js` 變更逐字相同。本輪未修改或合併該工作樹，另用獨立QA目錄保留證據，停止擴充相同邏輯；額外交付分享14px字級、狀態描述關聯及完整順序還原驗收。
+
+## 變更檔案
+
+相對協作者已合併焦點修正後的main：`index.html`補ARIA關聯與atomic status；`assets/style.css`分享操作14px；`tests/search-sharing.test.cjs`及`tests/search-sharing-browser.cjs`驗收等待、焦點、過時回應與完整還原；`tests/source-guide-share-layout.cjs`等待終態；`.github/workflows/search-sharing-qa.yml`提供雲端與正式驗收；`SITE.md`與本QA目錄保存維護證據。`assets/app.js`的相同修正已由協作者先合併，最終整合沒有再更改該分享邏輯。
 
 ## 可重現指令
 
@@ -58,3 +64,22 @@ repo沒有獨立lint／TypeScript設定，JS語法檢查不冒稱lint或type che
 另一工作樹的同一焦點修正已由協作者合併到main `95e89cd`；本輪保留該實作、原測試與完整證據，新增差異集中在14px分享操作、ARIA狀態關聯與獨立完整還原驗收，避免重複改產品邏輯。
 
 下一輪優先降低首次全文請求量，先確保每次公開來源變動都可產生一致且可驗證的新資料產物，再評估打包；保留直鏈早讀與失敗補讀。
+
+
+最終整合補記：本輪450cc1b已一般merge推送main，保留研究至e1e19db。協作者後續151a432的篩選樣式與dbcda8d的原文選取方向鍵保護亦已同步，沒有覆蓋。整合211單元通過是導航選取測試加入前的快照，後續222項應以最新正式驗收輸出為準，不混算。最終獨立ultra唯讀審查在dbcda8d批准，另22項相關單元與syntax通過，未啟動本機瀏覽器；只對程式與既有預覽證據批准，不提前宣稱部署成功。
+
+正式首驗40078998175的222/222單元、syntax及preview build已通過；Pages仍排隊，公開index尚為舊版，五資產比對在第一個index失敗而停止，沒有執行正式瀏覽，不能計通過。原始失敗保留於[雲端run](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40078998175)，[222單元輸出](checks/integrated-222.tap)另存。450cc1b及151a432的Pages因新提交被取消；dbcda8d的build成功但deploy被6d2a71b文件提交取代，均不計部署成功。
+
+## 正式發布驗收與停止點
+
+[Pages40078989333](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40078989333)在6d2a71b完成Jekyll build、deploy及report。本輪產品透過450cc1b合併，後續協作者CSS／選取保護／維護紀錄完整保留；正式五資產與驗收081f950逐字相同。
+
+[正式驗收40079856168](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40079856168)全成功：222/222單元、syntax、preview build、五資產逐字比對；Chromium1440／390／320、Firefox390、WebKit390五配置分享均447條目無缺項、44px／14px操作與5次axe零違規。另Chromium1440／390精簡閱讀旅程各447條、來源新頁／返回焦點／空結果與2次axe零違規，來源說明分享6版面配置通過。主角色已目視正式桌面與手機。
+
+正式是五配置分享＋兩個精簡旅程、7次axe；沒有重跑預覽五套完整歷史旅程與3種載入復原，兩者不混稱。預覽20次＋正式7次主要axe合計27次零違規，不是完整讀屏器或真人驗證。沒有宣稱其他主線QA全部成功。
+
+[正式桌面等待回饋](published/pending-chromium-1440.png)、[正式手機等待](published/pending-chromium-390.png)、[正式手機保留焦點](published/moved-focus-chromium-390.png)、[正式320px手動網址](published/fallback-chromium-320.png)；[正式五配置原始數據](published/report.json)、[兩個精簡旅程](published/journeys.json)、[222項實際輸出](published/unit.tap)、[版面報告](published/share-layout.json)。
+
+可直接預覽[正式網站](https://richardhan.github.io/ai-agent-use-cases/?q=旅遊&scenario=生活&tool=Grok+Bot&sort=reviewed#explore)。剪貼簿延遲／拒絕狀態以雲端測試注入，非宣稱每位訪客皆會遇到。外部來源內容可用性、實體手機縮放／讀屏器及首次全文請求成本仍未完整解決或驗證；沒有捏造成效分數。
+
+原工作目錄仍保留相同兩項未提交修改。本輪達標，最後只補證據，不再新增產品變更；下一輪先核對既有載入優化工作的版本一致性與失敗回退，避免重複開發。

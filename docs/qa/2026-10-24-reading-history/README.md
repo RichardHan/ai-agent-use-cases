@@ -43,7 +43,7 @@
 
 三個具體情境是：①UC-005目錄找獨立審查，切下一則再Back／Forward；②旅遊＋生活＋Grok Bot進UC-001，Back結果再Forward原文；③UC-400右欄閱讀後以方向鍵切案例再Back，另走相關案例返回。都是模擬檢查，不是真人研究。
 
-獨立審查曾指出頁尾相關按鈕會被快照排除，導致回到底部卻聚焦不可見標題；已保留穩定按鈕並在無效時使用可見關閉控制。另補href／related-id辨識及不明確重複錨點的安全fallback。獨立26項相關單元／VM／語法／diff檢查通過，最終圖片與原始報告再交終審。
+獨立審查曾指出頁尾相關按鈕會被快照排除，導致回到底部卻聚焦不可見標題；已保留穩定按鈕並在無效時使用可見關閉控制。另補href／related-id辨識及不明確重複錨點的安全fallback。獨立26項相關單元／VM／語法／diff檢查通過，最終圖片與原始報告完成獨立終審，確認e988d46可合併、沒有剩餘阻擋；另目視390／320表格及WebKit相關案例畫面。
 
 過程限制如實保留：補測時一次測試檔引號編輯錯誤造成223 tests／222 pass／1 fail，修正後228全過，[原輸出](checks/test-edit-error.tap)。初版及補修版雲端皆success，但表格測試的Playwright locator.focus未真正套用preventScroll，數據顯示table在視窗外，[舊報告](checks/superseded-table-check.json)不算完整表格驗收；改DOM focus並加嚴可見／右欄斷言後才以上述最終run認定通過。
 

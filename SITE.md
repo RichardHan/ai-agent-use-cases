@@ -1,3 +1,7 @@
+## 2026-10-25 GitHub Actions Ubuntu runner drift prevention
+
+Based on confirmed failure `39937977898` (`Playwright does not support chromium on ubuntu26.04-x64`), pinned all 50 workflows using floating `ubuntu-latest` to the repository's established `ubuntu-24.04` runner; added a regression assertion that prevents reintroducing floating Ubuntu images. No site UI, corpus, permissions, browser assertions, or dependencies changed. Red/green check, YAML parse, screenshots, and current Actions limitations are recorded in [runner stability QA](docs/qa/2026-10-25-runner-stability/README.md).
+
 ## 2026-10-25 詳情頁目標讀者與結構化指引、語意化憑據解讀與行動步驟閱讀層級升級
 
 為案例詳情頁面建立「目標讀者與適用對象」結構化解析（從頁首提取「目標使用者」與「核心目標」），讓新訪客一秒辨識是否契合自身需求；新增 `PROOF_DEFINITIONS` 全套語意字典，並於詳情警語下方提供誠實白話的 `.detail-proof-note` 憑據解讀卡（如「社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證」），兼具桌面 hover tooltip 與輔助科技可訪問性；將原本隱蔽折疊的入門建議升級為 `.guidance-grid` 結構化雙卡片（「🚀 怎麼開始」與「⚠️ 要注意什麼」），標註「整理者設計，非實測結果」誠實引導；手機端優化 `.detail-toolbar` 內邊距與間距，按鈕維持 >= 44px 觸控無障礙標準，並以 `minmax(min(240px,100%),1fr)` 與單欄排版消除 320px/390px 視口水平溢出。經獨立審查反饋修正模板定義、移除通用 span 上不合規之 `aria-label`。全套測試擴充至 295 項全數通過，Axe-core 4.13.0 掃描 0 違規。兩案取捨、前後截圖、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-visitor-orientation-and-evidence-clarity/README.md)。

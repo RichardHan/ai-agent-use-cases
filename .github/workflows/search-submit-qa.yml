@@ -61,7 +61,7 @@ jobs:
           if result.returncode == 42:
               print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
               raise SystemExit(0)
-          for attempt in range(60):
+          for attempt in range(140):
               try:
                   matches=[]
                   for name in ('assets/app.js','assets/style.css','index.html'):

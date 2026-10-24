@@ -9,11 +9,17 @@ if(process.env.LOAD_DEPLOYED==='1'&&skipIfSupersededPublishedUrl(origin)){consol
  const browser=await chromium.launch();
  const records=[];
  if(process.env.LOAD_DEPLOYED==='1'){
-  const deadline=Date.now()+300000;
+  const deadline=Date.now()+480000;
+  const files=['assets/app.js','assets/style.css','index.html'];
   while(true){
-   const text=await (await fetch(origin+'assets/app.js?deploy-check='+Date.now(),{signal:AbortSignal.timeout(10000)})).text();
-   if(text===fs.readFileSync('assets/app.js','utf8'))break;
-   if(Date.now()>deadline)throw Error('Deployment did not match within five minutes');
+   const matches=await Promise.all(files.map(async file=>{
+    try{
+     const r=await fetch(origin+(file==='index.html'?'':file)+'?deploy-check='+Date.now(),{signal:AbortSignal.timeout(10000),cache:'no-store'});
+     return r.ok&&(await r.text())===fs.readFileSync(file,'utf8');
+    }catch{return false;}
+   }));
+   if(matches.every(Boolean))break;
+   if(Date.now()>deadline)throw Error('Deployment did not match within eight minutes');
    await new Promise(resolve=>setTimeout(resolve,5000));
   }
  }

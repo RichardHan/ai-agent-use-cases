@@ -1379,6 +1379,37 @@ function renderSearchFeedback(terms, filters) {
       button.addEventListener('click',()=>removeConditions(conditions));
       suggestions.append(button);
     });
+    if(!options.length && !combined.length && terms.length){
+      const problemContainer = el('div','empty-problem-suggestions');
+      problemContainer.setAttribute('role','group');
+      problemContainer.setAttribute('aria-label','推薦常見痛點關鍵字');
+      const intro = el('p','empty-problem-intro','你可以從常見痛點重新探索：');
+      problemContainer.append(intro);
+      const chipsWrap = el('div','empty-problem-chips');
+      const problemTags = [
+        {label:'☀️ 搜尋「日報」', term:'日報'},
+        {label:'🧾 搜尋「發票」', term:'發票'},
+        {label:'🔍 搜尋「PR」', term:'PR'},
+        {label:'🛠️ 搜尋「除錯」', term:'除錯'},
+        {label:'🏖️ 搜尋「旅遊」', term:'旅遊'},
+        {label:'🏷️ 搜尋「比價」', term:'比價'}
+      ];
+      problemTags.forEach(({label, term})=>{
+        const btn = el('button','recovery-option recovery-problem-tag',label);
+        btn.type = 'button';
+        btn.dataset.problemTag = term;
+        btn.setAttribute('data-problem-tag', term);
+        btn.setAttribute('aria-label', label);
+        btn.addEventListener('click',()=>{
+          $('query').value = term;
+          render();
+          focusResults();
+        });
+        chipsWrap.append(btn);
+      });
+      problemContainer.append(chipsWrap);
+      suggestions.append(problemContainer);
+    }
     $('empty-hint').textContent=combined.length
       ? '至少要一起移除 '+combined[0].conditions.length+' 項篩選才有結果。以下調整會保留關鍵字與其餘條件。'
       : options.length

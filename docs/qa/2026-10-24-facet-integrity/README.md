@@ -61,7 +61,7 @@ SITE_URL=http://127.0.0.1:8096/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_
 | Pages建置 | 真正Jekyll成功；445來源原文與preview逐byte一致 |
 | 篩選筆數及空結果 | Chromium1440／390／320、Firefox390、WebKit390全過 |
 | 舊假設驗證 | 旅遊＋開發實為1筆；改採旅遊＋學習0筆，解除後保留查詢 |
-| 來源判讀與AX | 同五配置全過；原CDP描述斷言保留，GitHub原始來源HTTP200 |
+| 來源判讀與AX | 同五配置全過；原CDP描述斷言保留；首次GitHub來源探測200，最終429（URL正確） |
 | 完整閱讀及狀態 | 同五配置447條目完整、直鏈／reload／返回全過；早讀／錯誤／部分補讀三情境皆成功 |
 | 主要axe掃描 | 篩選5＋來源10＋完整旅程15＝30次，全部0違規 |
 
@@ -72,3 +72,5 @@ SITE_URL=http://127.0.0.1:8096/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_
 [最終候選驗收40093265372](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40093265372) 已全部成功：260單元、真正Jekyll與preview逐byte、三引擎五配置篩選／來源／完整閱讀及3種載入復原、30次主要axe零違規。此目錄的preview-*、unit.tap及修改後截圖以本次最終run為準；首次256單元另存first-preview-unit.tap，首次run亦可在GitHub追溯。
 
 發布gate在分支先實際通過：本次Jekyll revision為20261024121757067612080，正式為20261024115929411927543，五產品資產與445份來源原文字節一致。這證明可正確區分建置時間差與內容差，未放寬原文驗證。正式站修改前流程已通過，但合併後完整正式流程與Pages結果仍須補記。
+
+獨立終審確認可合併。最終來源直接HTTP探測遇GitHub429限流，未將來源可讀當成已驗證；popup目的URL正確，且首輪曾回200。不反覆刷外部來源，正式結果另記。

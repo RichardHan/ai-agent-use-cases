@@ -64,7 +64,7 @@ jobs:
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const base='https://richardhan.github.io/ai-agent-use-cases/';
             const files=['assets/app.js','assets/style.css'];
-            for(let i=0;i<90;i++){
+            for(let i=0;i<180;i++){
               const actual=await Promise.all(files.map(async file=>{
                 const r=await fetch(base+file+'?refine='+process.env.GITHUB_SHA,{cache:'no-store'});
                 return r.ok?await r.text():'';

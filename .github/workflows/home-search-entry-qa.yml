@@ -2,9 +2,9 @@ name: Home search entry QA
 on:
   push:
     branches: [main]
-    paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', '.github/workflows/home-search-entry-qa.yml']
+    paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', 'tests/home-task-entry.test.cjs', '.github/workflows/home-search-entry-qa.yml']
   pull_request:
-    paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', '.github/workflows/home-search-entry-qa.yml']
+    paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', 'tests/home-task-entry.test.cjs', '.github/workflows/home-search-entry-qa.yml']
 permissions:
   contents: read
 jobs:

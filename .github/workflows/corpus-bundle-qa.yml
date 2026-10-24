@@ -53,6 +53,8 @@ jobs:
           QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/corpus-bundle-browser.cjs
           QA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs
           QA_OUT=qa-artifacts/recovery runuser -u pwuser -- node tests/recovery-progress-browser.cjs
+          READER_URL="$SITE_URL" READER_ENGINE=chromium runuser -u pwuser -- node tests/reader-browser.cjs
+          QA_CHROMIUM=1 QA_OUT=qa-artifacts/selection runuser -u pwuser -- node tests/reading-selection-browser.cjs
       - name: Published assets and focused visitor journeys
         if: github.ref == 'refs/heads/verify/catalog-bundle-20261024'
         env:

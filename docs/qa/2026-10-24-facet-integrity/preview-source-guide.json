@@ -12,14 +12,14 @@
         "violations": []
       }
     ],
-    "readyMs": 234,
+    "readyMs": 235,
     "entries": 447,
     "failed": [],
     "hasGuide": 1,
     "sourceSelectDescription": "選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。 來源標籤怎麼看 · 未獨立重現",
     "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
     "openedSource": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md",
-    "sourceStatus": 200,
+    "sourceStatus": 429,
     "journeys": [
       "author source and keyboard return",
       "official origin and empty/reset",
@@ -41,7 +41,7 @@
         "violations": []
       }
     ],
-    "readyMs": 218,
+    "readyMs": 202,
     "entries": 447,
     "failed": [],
     "hasGuide": 1,
@@ -67,7 +67,7 @@
         "violations": []
       }
     ],
-    "readyMs": 221,
+    "readyMs": 203,
     "entries": 447,
     "failed": [],
     "hasGuide": 1,
@@ -93,7 +93,7 @@
         "violations": []
       }
     ],
-    "readyMs": 449,
+    "readyMs": 437,
     "entries": 447,
     "failed": [],
     "hasGuide": 1,
@@ -119,7 +119,7 @@
         "violations": []
       }
     ],
-    "readyMs": 349,
+    "readyMs": 301,
     "entries": 447,
     "failed": [],
     "hasGuide": 1,

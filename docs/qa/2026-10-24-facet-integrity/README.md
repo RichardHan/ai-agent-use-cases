@@ -15,16 +15,17 @@
 - 方案A（採用）：讓零筆測試使用當下真正零筆選項，AX檢查前以使用者操作展開控制項；保留原斷言。修改少、可精確驗收，但不解決其他舊CI問題。
 - 方案B：整併所有QA與全部歷史資料假設，長期較容易維護，但涉及數十套流程及更大驗收成本，本輪不做。
 
-驗收標準：每個實際選項的數字吻合顯示卡片；零筆可解除條件且保留查詢；其他引擎抽樣覆蓋全部／正數／零／目前；來源select可見時原AX描述完整；詳情直鏈、reload、返回、來源、鍵盤、長文、載入及復原維持正常；256單元、真正Jekyll、三引擎五配置與獨立review通過。產品沒有證據支持需要修改，依使用者「沒有有價值的改動時交付檢查結果並停止」保留既有UI。
+驗收標準：每個實際選項的數字吻合顯示卡片；零筆可解除條件且保留查詢；其他引擎抽樣覆蓋全部／正數／零／目前；來源select可見時原AX描述完整；詳情直鏈、reload、返回、來源、鍵盤、長文、載入及復原維持正常；最終260單元、真正Jekyll、三引擎五配置與獨立review通過。產品沒有證據支持需要修改，依使用者「沒有有價值的改動時交付檢查結果並停止」保留既有UI。
 
 ## 變更
 
 - tests/facet-counts-browser.cjs：以當前option選真零筆，沒有真零筆則用未知情境直鏈測回復；每個瀏覽器讀取正數與零筆樣本；補讀精確驗failedPaths；保存數據與空結果截圖。
 - tests/facet-fixture.cjs、tests/facet-fixture.test.cjs：隔離取樣規則，覆蓋舊零筆組合已成正數、全部正數及去重邊界；新增測試先紅再綠。
+- tests/published-version.cjs、tests/published-version.test.cjs：發布gate與4項建置時間差／混版／改文／缺文／重複／順序回歸。
 - tests/source-guide-browser.cjs：只增加展開篩選與可見斷言，原CDP AX文字斷言保留。
-- .github/workflows/facet-counts-qa.yml：固定ubuntu24.04、匹配Playwright1.64.0官方容器與套件，使用pwuser；真正Jekyll與預覽原文逐byte檢查；執行兩套修復驗收及完整旅程；維持contents:read與正式資產版本核對，paths涵蓋相關helper及資料。紅燈重現只在本輪分支跑，主線持續驗現版本。
+- .github/workflows/facet-counts-qa.yml：固定ubuntu24.04、匹配Playwright1.64.0官方容器與套件，使用pwuser；真正Jekyll與預覽原文逐byte檢查；執行兩套修復驗收及完整旅程；維持contents:read與正式資產／來源版本核對，paths涵蓋相關helper及資料。紅燈重現只在本輪分支跑，主線持續驗現版本。
 
-獨立審查發現首版workflow誤移除正式資產版本核對；已恢復並擴至五產品資產＋catalog/corpus對照本次Jekyll輸出，也補執行腳本paths。沒有將首版當成正式版本驗收。其餘UI、分類、合格計數、原始內容、來源限制均無diff。
+獨立審查發現首版workflow誤移除正式資產版本核對；已恢復五產品資產對照本次Jekyll輸出，也補執行腳本paths。終審再抓到catalog/corpus的revision為各次建置時間，跨build比revision會製造假失敗；另加4項單元先紅再綠，改核對五資產逐byte、正式catalog/corpus內部revision一致、來源集合及全部原文字節相同，並在分支預先執行正式gate。沒有將首版當成正式版本驗收。其餘UI、分類、合格計數、原始內容、來源限制均無diff。
 
 ## 截圖與預覽
 
@@ -49,9 +50,9 @@ SITE_URL=http://127.0.0.1:8096/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_
 
 專案無獨立lint或TypeScript設定，不冒稱這兩項通過。workflow使用actions/jekyll-build-pages驗真正Pages輸出；preview.py另外驗靜態預覽。
 
-## 最終結果與限制
+## 預覽結果與限制
 
-[最終預覽40092715713](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40092715713) 全部成功：
+[首次預覽40092715713](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40092715713) 全部成功：
 
 | 項目 | 實際結果 |
 | --- | --- |
@@ -64,6 +65,10 @@ SITE_URL=http://127.0.0.1:8096/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_
 | 完整閱讀及狀態 | 同五配置447條目完整、直鏈／reload／返回全過；早讀／錯誤／部分補讀三情境皆成功 |
 | 主要axe掃描 | 篩選5＋來源10＋完整旅程15＝30次，全部0違規 |
 
-主角色目視桌面／手機前後結果與手機來源長文，未見裁切或重疊；產品零diff，沒有宣稱UI或效能提升。原始數據、單元TAP與完整run.log已保存在本目錄。40092537285／40092605289因本輪容器git safe.directory缺漏停在紅燈重現前，不能計為瀏覽器成功；已在a17491f修正，未放寬產品斷言。兩失敗run可透過GitHub永久追溯。本輪不修所有主線舊QA、不新增難度推測、不做資料去重或案例合格數變動。三種模擬走查：旅遊＋生活找案例及核對來源；組合條件零筆後保留關鍵字解除條件；分享詳情reload、長文閱讀及返回，另測慢載入／錯誤／補讀。這些是模擬檢查，不是真人研究。
+主角色目視桌面／手機前後結果與手機來源長文，未見裁切或重疊；產品零diff，沒有宣稱UI或效能提升。原始數據、單元TAP與完整run.log已保存在本目錄；log僅去除行尾空白，未改失敗或輸出內容，未處理原log仍可在GitHub下載。40092537285／40092605289因本輪容器git safe.directory缺漏停在紅燈重現前，不能計為瀏覽器成功；已在a17491f修正，未放寬產品斷言。兩失敗run可透過GitHub永久追溯。本輪不修所有主線舊QA、不新增難度推測、不做資料去重或案例合格數變動。三種模擬走查：旅遊＋生活找案例及核對來源；組合條件零筆後保留關鍵字解除條件；分享詳情reload、長文閱讀及返回，另測慢載入／錯誤／補讀。這些是模擬檢查，不是真人研究。
 
 未使用實體手機或真人螢幕閱讀器，axe不等於完整無障礙認證；未測Lighthouse、弱網留存或轉換率。其他Actions可能仍有不同的舊假設或相容問題，不能稱main全綠。下一輪建議按失敗logs修復下一個確定失效的QA前提，優先跨套件共用的可見控制項操作，保留真失敗與斷言。
+
+[最終候選驗收40093265372](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40093265372) 已全部成功：260單元、真正Jekyll與preview逐byte、三引擎五配置篩選／來源／完整閱讀及3種載入復原、30次主要axe零違規。此目錄的preview-*、unit.tap及修改後截圖以本次最終run為準；首次256單元另存first-preview-unit.tap，首次run亦可在GitHub追溯。
+
+發布gate在分支先實際通過：本次Jekyll revision為20261024121757067612080，正式為20261024115929411927543，五產品資產與445份來源原文字節一致。這證明可正確區分建置時間差與內容差，未放寬原文驗證。正式站修改前流程已通過，但合併後完整正式流程與Pages結果仍須補記。

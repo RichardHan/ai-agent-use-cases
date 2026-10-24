@@ -13,8 +13,26 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  await p.locator('.reader-outline>summary').click();await p.locator('#reader-outline-query').fill('獨立審查');await p.locator('#reader-outline-query').press('Enter');
  const state=()=>p.evaluate(()=>({id:currentDetailItem.id,top:document.querySelector('#detail').scrollTop,open:document.querySelector('.research-details').open,query:document.querySelector('#reader-outline-query').value,focus:document.activeElement.id,anchor:document.querySelector('#reader-section-32').getBoundingClientRect().top,overflow:document.documentElement.scrollWidth>innerWidth}));
  row.before=await state();assert(row.before.open&&row.before.top>500);await p.screenshot({path:`${out}/reading-${row.label}.png`});
- await p.locator('#nav-next-case').click();await p.goBack();await p.waitForFunction(()=>currentDetailItem.id==='UC-005');row.returned=await state();await p.screenshot({path:`${out}/returned-${row.label}.png`});
- if(!observe){assert(row.returned.open,'History must restore expanded original research');assert.equal(row.returned.query,row.before.query);assert(Math.abs(row.returned.anchor-row.before.anchor)<3,'History must restore reading anchor');assert.equal(row.returned.overflow,false);row.violations=(await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id);assert.deepEqual(row.violations,[]);}
+ await p.locator('#nav-next-case').click();
+ row.nextID=await p.locator('#detail-toolbar-id').innerText();
+ if(!observe){assert.equal(await p.locator('#detail').evaluate(n=>n.scrollTop),0);await p.locator('.reader-jump').first().click();row.nextTop=await p.locator('#detail').evaluate(n=>n.scrollTop);}
+ await p.goBack();await p.waitForFunction(()=>currentDetailItem.id==='UC-005');row.returned=await state();await p.screenshot({path:`${out}/returned-${row.label}.png`});
+ if(!observe){assert(row.returned.open,'History must restore expanded original research');assert.equal(row.returned.query,row.before.query);assert(Math.abs(row.returned.anchor-row.before.anchor)<3,'History must restore reading anchor');assert.equal(row.returned.overflow,false);row.violations=(await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id);assert.deepEqual(row.violations,[]);
+ // History visits are distinct: a newly opened copy of A starts at its top.
+ await p.goForward();await p.waitForFunction(id=>currentDetailItem.id===id,row.nextID);
+ assert(Math.abs(await p.locator('#detail').evaluate(n=>n.scrollTop)-row.nextTop)<3);
+ await p.locator('#nav-prev-case').click();assert.equal(await p.locator('#detail-toolbar-id').innerText(),'UC-005');assert.equal(await p.locator('#detail').evaluate(n=>n.scrollTop),0);assert.equal(await p.locator('.research-details').evaluate(n=>n.open),false);
+ await p.goBack();await p.waitForFunction(id=>currentDetailItem.id===id,row.nextID);await p.goBack();await p.waitForFunction(()=>currentDetailItem.id==='UC-005');
+ assert(Math.abs((await state()).anchor-row.before.anchor)<3,'Each history entry keeps its own reading location');
+ // A reload is a fresh reading session, not persisted browsing history.
+ await p.reload();await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);assert.equal(await p.locator('#detail').evaluate(n=>n.scrollTop),0);assert.equal(await p.locator('.research-details').evaluate(n=>n.open),false);
+ // A search visitor can Back to results and Forward to the original passage.
+ await p.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot');await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);
+ const read=p.locator('#results .card[data-case-id="UC-001"] .card-bottom button');await read.click();await p.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();
+ const sourceTop=await p.locator('#detail').evaluate(n=>n.scrollTop);await p.goBack();await p.waitForFunction(()=>!document.querySelector('#detail').open);assert(await read.evaluate(n=>n===document.activeElement));assert.equal(await p.locator('#query').inputValue(),'旅遊');
+ await p.goForward();await p.locator('#detail[open]').waitFor();assert(await p.locator('.research-details').evaluate(n=>n.open));assert(Math.abs(await p.locator('#detail').evaluate(n=>n.scrollTop)-sourceTop)<3);await p.keyboard.press('Escape');assert(await read.evaluate(n=>n===document.activeElement));
+ row.scenarios=['long reading Back and Forward','distinct visits and reload','filtered results Back and Forward'];
+ }
  assert.deepEqual(row.errors,[]);
  }catch(e){row.failure=e.stack;throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await b.close();}
 }

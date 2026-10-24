@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-10-24T08:39:40.117843+00:00",
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "dbd4babac2979f288cdb857bc7c750415494c40a8f7622fcddebe781f6ac8175",
+      "bytes": 16713,
+      "matchesRoundRelease95e89cd": true,
+      "matchesLatestCheckout151a432": false
+    },
+    {
+      "file": "assets/app.js",
+      "status": 200,
+      "sha256": "71103f5d2e77a437ccde40a3aa2491686d634260b605a8a8bfe893b9b9f813c1",
+      "bytes": 174133,
+      "matchesRoundRelease95e89cd": true,
+      "matchesLatestCheckout151a432": true
+    },
+    {
+      "file": "assets/style.css",
+      "status": 200,
+      "sha256": "222db3c3dcb16997f909d27da8217911b7112bfc7b46c5ee04787b6e37ebb44d",
+      "bytes": 33730,
+      "matchesRoundRelease95e89cd": true,
+      "matchesLatestCheckout151a432": false
+    },
+    {
+      "file": "assets/reader.js",
+      "status": 200,
+      "sha256": "b8a2c03580248d4c1f6c3e1af520a76960cc2422ff4b08c68c2b967b6a8b511c",
+      "bytes": 26661,
+      "matchesRoundRelease95e89cd": true,
+      "matchesLatestCheckout151a432": true
+    },
+    {
+      "file": "assets/reader.css",
+      "status": 200,
+      "sha256": "cce3346d75b5e6de54ec92581c5e7e8245d157aeb8089e9d3a312cd6786f9a69",
+      "bytes": 15959,
+      "matchesRoundRelease95e89cd": true,
+      "matchesLatestCheckout151a432": true
+    }
+  ]
+}

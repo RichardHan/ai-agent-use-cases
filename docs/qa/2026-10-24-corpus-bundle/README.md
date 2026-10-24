@@ -112,3 +112,5 @@ Jekyll include_relative會執行Liquid，目前來源無 Liquid變數／標籤�
 外部來源僅抽查連結及新頁開啟，未重新研究全庫來源或獨立重現作者成果；真實手機、讀屏器及弱網仍未驗。Liquid原文限制、2.8MB整包與回退門檻仍列於上文；下一輪優先量測弱網，不能將請求數減少當成所有情境都更快。
 
 原工作樹未提交兩檔SHA-256仍相同：app.js為6e70c1c846de9eea49839382b74c84819a23ac9368851d505556f164b41dba23，search.test.cjs為3313f45de597da1113165e153ff59f78a04715bc650de923395a611b50271821。未reset、未強推、未改個人桌面／憑證或另購額度。最後僅保存文件及正式圖，產品不再變更；本輪達標並停止。
+
+最後狀態補記：main自身全套[40082246260](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40082246260)亦已全部成功，包含文件修正後253單元、真Jekyll／原文核對及完整旅程／reader／history；[結構化結果](published/main-bundle-qa.json)。上文「仍執行」是先前快照，現已完成。本輪專項與正式發布皆成功；其他歷史或非本輪main CI仍不冒稱全綠。最後文件提交相對正式部署之產品／資料零diff，不追加功能。

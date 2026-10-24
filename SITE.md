@@ -1,3 +1,7 @@
+## 2026-10-25 詳情頁目標讀者與結構化指引、語意化憑據解讀與行動步驟閱讀層級升級
+
+為案例詳情頁面建立「目標讀者與適用對象」結構化解析（從頁首提取「目標使用者」與「核心目標」），讓新訪客一秒辨識是否契合自身需求；新增 `PROOF_DEFINITIONS` 全套語意字典，並於詳情警語下方提供誠實白話的 `.detail-proof-note` 憑據解讀卡（如「社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證」），兼具桌面 hover tooltip 與輔助科技可訪問性；將原本隱蔽折疊的入門建議升級為 `.guidance-grid` 結構化雙卡片（「🚀 怎麼開始」與「⚠️ 要注意什麼」），標註「整理者設計，非實測結果」誠實引導；手機端優化 `.detail-toolbar` 內邊距與間距，按鈕維持 >= 44px 觸控無障礙標準，並以 `minmax(min(240px,100%),1fr)` 與單欄排版消除 320px/390px 視口水平溢出。經獨立審查反饋修正模板定義、移除通用 span 上不合規之 `aria-label`。全套測試擴充至 295 項全數通過，Axe-core 4.13.0 掃描 0 違規。兩案取捨、前後截圖、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-visitor-orientation-and-evidence-clarity/README.md)。
+
 ## 2026-10-25 GitHub Pages 發布時差造成的 Actions 假性失敗
 
 針對 `main @ 7737128` 最新批次六條公開站資產驗收失敗（Search relevance、Partial Load、Corpus loading、Print reading、Missing shared case、Return visibility），保留 freshness guard 與逐檔相等斷言，將已確認的輪詢窗口統一延至15分鐘、相關工作時限調為25分鐘；新增回歸測試覆蓋六個窗口。既錄 Pages 部署耗時11分38秒，原有2.5–8分鐘窗口不足。新增測試修改前先紅，修改後全套290項通過，57份workflow YAML解析成功，445個來源逐byte一致。網站 UI／案例資料不變；正式站桌機1440與手機390完成三情境走查。剩餘非部署型失敗不宣稱已修。[前後截圖、Actions 證據、方案與限制](docs/qa/2026-10-25-pages-publication-window/README.md)。

@@ -2,6 +2,13 @@
 'use strict';
 const REPO = 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/';
 const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
+const PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {
+  '官方自報': '官方團隊第一手發布的自述或示範，未經第三方獨立驗證。',
+  '作者報告／示範': '社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證。',
+  '公開資料核讀': '依公開貼文、文章或報告核讀整理，本庫未重現完整流程。',
+  '模板／文件核讀': '基於開源模板、規格書或文件梳理，文件列出功能不代表已實測完成。',
+  '尚待查證': '社群線索或待辦想法，證據尚不充分，請勿直接照做。'
+};
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
 let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {}, failedPaths = [];
 let allowAutomaticArrival=true, searchShareRequest=0;
@@ -423,8 +430,10 @@ function metadata(markdown, path, kind, suffix='') {
   const copy=displayCopy[id]||{};
   const displayTitle=clean(lead.match(/^-\s*網站標題\s*[：:]\s*(.+)$/m)?.[1]||copy.title||heading);
   const what=clean(lead.match(/^-\s*一句話用途\s*[：:]\s*(.+)$/m)?.[1]||copy.what||summary);
+  const targetUser=clean(lead.match(/^-\s*目標使用者\s*[：:]\s*(.+)$/m)?.[1]||'');
+  const coreGoal=clean(lead.match(/^-\s*核心目標\s*[：:]\s*(.+)$/m)?.[1]||'');
   const reviewedDate=reviewDate(markdown);
-  return {id,title:displayTitle,originalTitle:heading,what,how:copy.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',caution:copy.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,search:norm(markdown+' '+displayTitle+' '+what+' '+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+idVariants(id))};
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:copy.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',caution:copy.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+idVariants(id))};
 }
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>metadata(part,path,'pending',String(i)));
@@ -746,7 +755,7 @@ function showDetail(item, trigger, updateURL=true) {
   metaBar.append(
     el('span', 'detail-id-badge', item.id),
     el('span', 'detail-badge kind-' + item.kind, KIND[item.kind]),
-    (()=>{ const b = el('span', 'detail-badge proof-badge', item.proof); b.dataset.proof = item.proof; return b; })(),
+    (()=>{ const b = el('span', 'detail-badge proof-badge', item.proof); b.dataset.proof = item.proof; b.title = PROOF_DEFINITIONS[item.proof] || item.proof; return b; })(),
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
   metaBar.append(el('span','detail-badge',item.reviewedDate?'頁首核對 '+item.reviewedDate:'頁首未提供核對日'));
@@ -820,12 +829,30 @@ function showDetail(item, trigger, updateURL=true) {
 
   body.append(el('p', 'detail-warning', warningText));
 
+  const proofNote = el('div', 'detail-proof-note');
+  proofNote.setAttribute('role', 'note');
+  const proofTag = el('span', 'proof-note-tag', item.proof);
+  proofTag.dataset.proof = item.proof;
+  const proofDesc = el('span', 'proof-note-desc', PROOF_DEFINITIONS[item.proof] || '本庫未獨立重現，請核對原始報告與限制。');
+  proofNote.append(proofTag, proofDesc);
+  body.append(proofNote);
+
   const overview = el('div', 'plain-overview');
   [['可以幫你做什麼', item.what]].forEach(([label, text]) => {
     const section = el('section');
     section.append(el('h2', '', label), el('p', '', text));
     overview.append(section);
   });
+  if (item.targetUser) {
+    const userSection = el('section', 'detail-target-user');
+    userSection.append(el('h2', '', '適合對象'), el('p', '', item.targetUser));
+    overview.append(userSection);
+  }
+  if (item.coreGoal && item.coreGoal !== item.what) {
+    const goalSection = el('section', 'detail-core-goal');
+    goalSection.append(el('h2', '', '核心目標'), el('p', '', item.coreGoal));
+    overview.append(goalSection);
+  }
   if (!discoveryReady) {
     const status=el('p','detail-load-status','這篇已可閱讀。其他案例仍在載入，完成後會提供切換與延伸閱讀。');
     status.setAttribute('role','status');
@@ -835,13 +862,14 @@ function showDetail(item, trigger, updateURL=true) {
 
   const guidance = el('details', 'reader-guidance');
   guidance.append(el('summary', '', '本庫的入門建議（非實測結果）'));
-  [['怎麼開始', item.how], ['要注意什麼', item.caution]].forEach(([label, text]) => {
-    const section = el('section');
-    section.append(el('h2', '', label), el('p', '', text));
-    guidance.append(section);
+  const guidanceGrid = el('div', 'guidance-grid');
+  [['怎麼開始', item.how, 'guidance-how'], ['要注意什麼', item.caution, 'guidance-caution']].forEach(([label, text, cls]) => {
+    const section = el('section', 'guidance-card ' + cls);
+    section.append(el('h2', '', (label === '怎麼開始' ? '🚀 ' : '⚠️ ') + label), el('p', '', text));
+    guidanceGrid.append(section);
   });
+  guidance.append(guidanceGrid);
   body.append(guidance);
-
   const research = el('details', 'research-details');
   const toggle = el('summary', '', '查看原始研究、來源與完整提示詞');
   research.append(toggle, el('p', 'research-title', item.id + ' · ' + item.originalTitle), renderMarkdown(item.markdown, item.path));
@@ -1001,6 +1029,7 @@ function card(item, terms=[]) {
   read.setAttribute('aria-label', '閱讀 ' + item.id + ' ' + item.title);
   read.addEventListener('click', () => showDetail(item, read));
   const proofBadge = el('span', 'proof', item.proof);proofBadge.dataset.proof = item.proof;
+  proofBadge.title = PROOF_DEFINITIONS[item.proof] || item.proof;
   bottom.append(proofBadge, read);
   node.append(bottom);
   return node;

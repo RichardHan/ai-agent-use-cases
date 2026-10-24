@@ -103,11 +103,36 @@
 .detail-toolbar-actions{flex-shrink:0}
 .detail-toolbar-actions button{min-width:44px;min-height:44px;font-size:14px;line-height:1.5;padding:10px 12px;white-space:nowrap}
 @media(max-width:640px){
- .detail-toolbar{flex-direction:column;align-items:stretch;gap:8px;padding:10px 14px}
- .detail-toolbar-left{justify-content:space-between}
- .detail-toolbar-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
- .detail-toolbar-actions button{padding:10px 4px}
+ .detail-toolbar{flex-direction:column;align-items:stretch;gap:6px;padding:8px 12px}
+ .detail-toolbar-left{justify-content:space-between;gap:6px}
+ .detail-toolbar-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+ .detail-toolbar-actions button{min-height:44px;padding:8px 4px;font-size:13px}
 }
+
+/* Semantic proof badge explanation and structured guidance cards. */
+.detail-proof-note{display:flex;align-items:baseline;gap:8px;padding:8px 12px;background:#f3f6ee;border:1px solid #d4dfce;border-radius:6px;font-size:13px;line-height:1.6;color:#283528;margin:10px 0 14px}
+.proof-note-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--green);color:white}
+.proof-note-tag[data-proof="官方自報"]{background:#1d6645;color:white}
+.proof-note-tag[data-proof="作者報告／示範"]{background:#235878;color:white}
+.proof-note-tag[data-proof="公開資料核讀"]{background:#355328;color:white}
+.proof-note-tag[data-proof="模板／文件核讀"]{background:#584a26;color:white}
+.proof-note-tag[data-proof="尚待查證"]{background:#773532;color:white}
+.proof-note-desc{flex:1;min-width:0;color:#2e3c2e}
+
+.detail-target-user{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.detail-core-goal{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.detail-target-user h2,.detail-core-goal h2{font-size:14px;font-weight:600;color:var(--green);margin:0 0 4px}
+.detail-target-user p,.detail-core-goal p{font-size:14px;line-height:1.6;color:var(--fg);margin:0}
+
+.guidance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px;margin:12px 0 6px}
+@media(max-width:640px){
+ .guidance-grid{grid-template-columns:1fr}
+}
+.guidance-card{padding:14px 16px;background:#f8faf6;border:1px solid var(--line);border-radius:6px}
+.guidance-card h2{font-size:15px;margin:0 0 6px;color:var(--green)}
+.guidance-card p{font-size:14px;line-height:1.65;margin:0;color:var(--fg)}
+.guidance-how{border-left:4px solid var(--green)}
+.guidance-caution{border-left:4px solid #b86214}
 /* Keep the search question beside a route to its original, qualified context. */
 .reader-search{margin:20px 0;padding:16px 20px;border:1px solid var(--line);border-radius:8px;background:#f1f6ec;overflow-wrap:anywhere}
 .reader-search h2{font-size:16px;line-height:1.7;margin:0 0 6px;letter-spacing:0;color:var(--green)}

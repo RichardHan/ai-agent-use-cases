@@ -63,9 +63,11 @@ fs.mkdirSync(out,{recursive:true});const reports=[];
  const audit=async state=>{const violations=(await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations;report.audits.push({state,violations:violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}))});assert.deepEqual(violations,[]);};
  await audit('long outline');
  assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth+1));
- // Short case: keep the small original TOC, search/filter and return still work.
- await page.goto(base+'?q=旅遊&scenario=生活&case=UC-001');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
+// Short case: a case below the 12-heading threshold has no long-outline search; filters and return still work.
+ await page.goto(base+'?q=旅遊&scenario=生活&case=UC-003');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
+ const shortHeadings=await page.locator('.research-details .markdown h2,.research-details .markdown h3').count();assert(shortHeadings<12);
  assert.equal(await page.locator('#reader-outline-query').count(),0);
+ assert.equal(await page.locator('.reader-original-open').count(),0);
  await page.keyboard.press('Escape');assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');
  await page.locator('#query').fill('no-outline-match-123');assert(await page.locator('#empty').isVisible());
  await page.locator('#empty-reset').click();assert(await page.locator('#results .card').count()>0);

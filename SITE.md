@@ -2,6 +2,8 @@
 
 12 段以上案例在用途摘要旁新增「查看完整原始研究、來源與提示詞（N 段）」入口；原文仍預設收合，鍵盤 Enter 開啟後焦點到原文摘要、Tab／Enter 返回閱讀導覽。Actions 修正有實測依據：正式站 320／390px 首筆結果距搜尋框 277px，將共用瀏覽器驗收由不符現況的 240px 改為 300px 並保留 viewport 可見檢查；Source guide 發布輪詢改為15分鐘、job 25分鐘，覆蓋既錄11分38秒 Pages 部署。基準285、修改後286項單元測試全通過；瀏覽器桌機1440／手機390及320px零水平溢出，axe 4.13.0 27項通過、0違規，入口文字對比8.06:1；445來源逐byte一致。三種流程走查、前後截圖、獨立審查及待補正式部署結果見[本輪 QA](docs/qa/2026-10-25-original-research-entry/README.md)。
 
+PR 的實際 browser run 另抓到舊短文 fixture 不符資料：UC-001 有13個標題，已跨過12段目錄門檻；改用 UC-003 的11段真短例，仍檢查短文無目錄搜尋，未降低產品門檻。
+
 ## 2026-10-25 搜尋心智模型導引、無障礙錯誤播報與 GitHub Actions 發布逾時韌性加固
 
 首頁搜尋表單新增白話提示「支援多詞同時符合（AND）；可搜尋想解決的問題、提及工具、實作作法與限制」，建立清晰檢索心智模型；為 `#error` 狀態補充 `role="alert"` 與 `aria-live="assertive"` 強化輔助科技播報；提升 `.active-filter:focus-visible` 焦點可見性與卡片摘要閱讀節奏；系統性解決 GitHub Actions 頻繁失敗根因：將 `tests/published-version.cjs` 輪詢嘗試次數放寬至 300 次（15 分鐘），同步將 `facet-counts-qa.yml`、`reader-controls-qa.yml`、`round-qa.yml` 工作逾時提升至 25 分鐘，為 `scripts/published-check.cjs` 補齊 10 秒執行逾時保護，建立 `.gitignore` 與 `_config.yml` 排除暫存目錄。全套單元測試增至 285 項全數通過，語法檢查 0 錯誤，桌面與手機 360px 視口零水平溢出。前後截圖、兩案取捨、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-visitor-quality-and-ci-stability/README.md)。

@@ -58,7 +58,7 @@ jobs:
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const base=process.env.CASE_URL,files=['index.html','assets/app.js','assets/style.css'];
-            for(let i=0;i<180;i++){
+            for(let i=0;i<451;i++){
               const texts=await Promise.all(files.map(async file=>{
                 const r=await fetch(base+(file==='index.html'?'':file)+'?caseqa='+process.env.GITHUB_SHA,{cache:'no-store'});return r.ok?r.text():'';
               }));

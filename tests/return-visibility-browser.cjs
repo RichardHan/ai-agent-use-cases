@@ -8,10 +8,10 @@ if(published&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});const reports=[];
  if(published){
-  for(let attempt=0;attempt<30;attempt++){
+  for(let attempt=0;attempt<181;attempt++){
    const response=await fetch(origin+'assets/app.js?return-qa='+Date.now(),{cache:'no-store'});
    if(response.ok&&await response.text()===fs.readFileSync('assets/app.js','utf8'))break;
-   if(attempt===29)throw Error('Published return asset does not match checkout');
+   if(attempt===180)throw Error('Published return asset does not match checkout');
    await new Promise(resolve=>setTimeout(resolve,5000));
   }
  }

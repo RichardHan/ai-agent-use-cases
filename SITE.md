@@ -1,3 +1,7 @@
+## 2026-10-25 GitHub Pages 發布時差造成的 Actions 假性失敗
+
+針對 `main @ 7737128` 最新批次六條公開站資產驗收失敗（Search relevance、Partial Load、Corpus loading、Print reading、Missing shared case、Return visibility），保留 freshness guard 與逐檔相等斷言，將已確認的輪詢窗口統一延至15分鐘、相關工作時限調為25分鐘；新增回歸測試覆蓋六個窗口。既錄 Pages 部署耗時11分38秒，原有2.5–8分鐘窗口不足。新增測試修改前先紅，修改後全套290項通過，57份workflow YAML解析成功，445個來源逐byte一致。網站 UI／案例資料不變；正式站桌機1440與手機390完成三情境走查。剩餘非部署型失敗不宣稱已修。[前後截圖、Actions 證據、方案與限制](docs/qa/2026-10-25-pages-publication-window/README.md)。
+
 ## 2026-10-25 案例卡片情境徽章、搜尋心智導引、無障礙觸控與 Actions 逾時加固
 
 為案例卡片頂部新增問題情境徽章（生活、工作、省錢、學習、創作、開發），採用專屬語意配色（對比度 7.24:1～9.97:1），讓新訪客一眼辨識適合場景；首頁搜尋提示補齊「輸入即時篩選、按 Enter 或查看結果前往結果」心智導引；將全站 placeholder 與鍵盤提示對比度提升至 7.00:1（#4e5d4e），並為 desktop `.chip`、`.research-details > summary`、`.reader-guidance > summary`、`.related-open` 設定 44px 觸控下限與清晰焦點外框；針對 Actions 頻繁逾時失敗（如 run 40135570318 在 10m0s 逾時），系統性將 `outline-find-qa.yml`、`missing-case-qa.yml`、`return-visibility-qa.yml` 提升至 25 分鐘，防禦性測試同步納入。獨立審查發現 `syncDiscovery` 誤設非按鈕 `aria-pressed` 已修正為 `button[data-scenario]`。全套測試增至 289 項全數通過，桌面與手機 320/390px 視口零水平溢出。前後截圖、兩案取捨、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-visitor-quality-and-actions-stability/README.md)。

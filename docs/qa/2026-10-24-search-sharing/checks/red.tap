@@ -9,7 +9,7 @@ not ok 1 - delayed denial reveals the manual search URL without stealing a reade
   error: |-
     Expected "actual" to be reference-equal to "expected":
     + actual - expected
-    
+
       {
     +   focus: [Function: focus],
     +   hidden: false,
@@ -20,7 +20,7 @@ not ok 1 - delayed denial reveals the manual search URL without stealing a reade
     +   value: 'https://example.org/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A#explore'
     -   id: 'source-guide-summary'
       }
-    
+
   code: 'ERR_TEST_FAILURE'
   ...
 # Subtest: a reader still waiting at the copy trigger gets the selected manual fallback
@@ -32,9 +32,9 @@ not ok 2 - a reader still waiting at the copy trigger gets the selected manual f
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /正在複製/. Input:
-    
+
     ''
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:

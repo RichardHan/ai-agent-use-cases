@@ -27,7 +27,7 @@ async function fixture(page){
  };
  await page.route('**/catalog.json',r=>r.fulfill({json:{builtAt:'fixture',files:Object.keys(docs)}}));
  await page.route('**/assets/copy.json',r=>r.fulfill({json:{}}));
- for(const [path,body] of Object.entries(docs))await page.route('**/'+path,async r=>{
+ for(const [path,body] of Object.entries(docs))await sourceRoute(page,'**/'+path,async r=>{
   counts[path]=(counts[path]||0)+1;
   const fail=blocked.has(path);
   if(delay)await new Promise(resolve=>setTimeout(resolve,delay));

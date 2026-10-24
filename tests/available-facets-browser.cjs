@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs');
@@ -56,7 +57,7 @@ const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(reports,null,2
  if(!observe&&!live){
   const browser=await chromium.launch(),page=await browser.newPage();let release;const gate=new Promise(r=>release=r);
   await page.route('**/catalog.json',async route=>{await gate;await route.continue();});await page.goto(base,{waitUntil:'domcontentloaded'});assert.equal(await page.locator('#category optgroup').count(),0);release();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
-  await page.route('**/cases/001-*',r=>r.fulfill({status:503,body:'unavailable'}));await page.reload();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert(await page.locator('#partial-load').isVisible());
+  await sourceRoute(page,'**/cases/001-*',r=>r.fulfill({status:503,body:'unavailable'}));await page.reload();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert(await page.locator('#partial-load').isVisible());
   await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#category').selectOption({index:1});const selected=await page.locator('#category').inputValue();await page.unroute('**/cases/001-*');await page.locator('#retry-failed').click();await page.waitForFunction(()=>!recoveringSources);assert(await page.locator('#partial-load').isHidden());assert.equal(await page.locator('#category').inputValue(),selected);assert.equal(await page.locator('#category optgroup optgroup').count(),0);
   await page.route('**/catalog.json',r=>r.fulfill({status:503,body:'unavailable'}));await page.goto(base);await page.locator('#error').waitFor();assert.equal(await page.locator('#category optgroup').count(),0);await page.unroute('**/catalog.json');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert((await page.locator('#category optgroup').count())>0);
   reports.push({states:'loading, partial failure, recovery retains selection, total failure, retry',passed:true});save();await browser.close();

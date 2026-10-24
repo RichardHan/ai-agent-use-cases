@@ -42,3 +42,15 @@ test('old catalogs keep the existing per-file loader and pending one-file/multip
  const calls=[];const result=await load(paths,{parseFile:(path,text)=>path===paths[2]?[{path,id:'P-1'},{path,id:'P-2'}]:parse(path,text),fetch:async path=>{calls.push(path);return response('original');}});
  assert.deepEqual(calls,paths);assert.equal(result.entries.length,4);
 });
+test('fallback progress includes source failures and counts an empty but successfully fetched source',async()=>{
+ const progress=[];const result=await load(paths,options({sharedPath:paths[0],parseFile:(path,text)=>path===paths[2]?[]:parse(path,text),fetch:async path=>path==='corpus.json'||path===paths[1]?{ok:false,status:404}:response('original'),onProgress:p=>progress.push({...p})}));
+ assert.deepEqual(Array.from(result.failed),[paths[1]]);assert.equal(result.entries.length,1);assert.deepEqual(progress.at(-1),{completed:3,succeeded:2,entryCount:1,total:3});for(const p of progress){assert(p.succeeded<=p.completed);assert(p.completed<=p.total);}
+});
+test('whole-load deadline bounds bundle plus fallback, keeping every completed source exactly once',async()=>{
+ const progress=[];const result=await load(paths,options({budget:30,bundleTimeout:10,timeout:100,sharedPath:paths[0],fetch:async(path,opt)=>path===paths[0]?response('one'):stalled(opt.signal),onProgress:p=>progress.push({...p})}));
+ assert.deepEqual(Array.from(result.entries,e=>e.text),['one']);assert.deepEqual(Array.from(result.failed),paths.slice(1));assert.equal(progress.at(-1).succeeded,1);
+});
+test('a bundled pending source keeps all entries and fires one source callback for the whole file',async()=>{
+ const calls=[];const result=await load(paths,options({parseFile:(path,text)=>path===paths[2]?[{path,id:'P-001'},{path,id:'P-002'}]:parse(path,text),fetch:async()=>response(json()),onSource:items=>calls.push(items)}));
+ assert.equal(result.entries.length,4);assert.equal(calls.length,3);assert.equal(calls[2].length,2);
+});

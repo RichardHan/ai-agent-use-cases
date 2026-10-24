@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {ensureFiltersVisible}=require('./filter-controls.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
@@ -217,7 +218,7 @@ async function jump(page,button){
    console.log('PASS: a missing optional reader script preserves original detail reading');
    await fallback.close();
    const resilient=await browser.newPage();
-   await resilient.route('**/cases/001-travel-checkout.md',route=>route.fulfill({status:404,body:'Not found'}));
+   await sourceRoute(resilient,'**/cases/001-travel-checkout.md',route=>route.fulfill({status:404,body:'Not found'}));
    await resilient.goto(origin,{waitUntil:'networkidle'});
    await resilient.locator('#results .card').first().waitFor();
    assert.equal(await resilient.locator('#error').isVisible(),false);

@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright'),{AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.SORT_URL||'http://127.0.0.1:8124/ai-agent-use-cases/',out=process.env.SORT_OUTPUT||'qa-artifacts/sort-reset',observe=process.env.SORT_OBSERVE==='1';
@@ -56,7 +57,7 @@ const reports=[];fs.mkdirSync(out,{recursive:true});const save=()=>fs.writeFileS
  const browser=await chromium.launch(),page=await browser.newPage({viewport:{width:390,height:844}});
  let release;const gate=new Promise(r=>release=r);await page.route('**/catalog.json',async r=>{await gate;await r.continue();});
  await page.goto(base+'?sort=reviewed',{waitUntil:'domcontentloaded'});assert(await page.locator('#reset-sort').isHidden());release();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert(await page.locator('#reset-sort').isVisible());
- await page.route('**/cases/001-*',r=>r.fulfill({status:503,body:'unavailable'}));await page.reload();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert(await page.locator('#partial-load').isVisible());
+ await sourceRoute(page,'**/cases/001-*',r=>r.fulfill({status:503,body:'unavailable'}));await page.reload();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert(await page.locator('#partial-load').isVisible());
  await page.locator('#reset-sort').click();assert(await page.locator('#partial-load').isVisible());await page.unroute('**/cases/001-*');await page.locator('#retry-failed').click();await page.waitForFunction(()=>!recoveringSources);assert(await page.locator('#partial-load').isHidden());
  await page.route('**/catalog.json',r=>r.fulfill({status:503,body:'unavailable'}));await page.goto(base+'?sort=reviewed');await page.locator('#error').waitFor();assert(await page.locator('#reset-sort').isHidden());await page.unroute('**/catalog.json');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert(await page.locator('#reset-sort').isVisible());
  reports.push({states:'loading/partial failure/retry/total failure/retry',complete:true});save();await browser.close();

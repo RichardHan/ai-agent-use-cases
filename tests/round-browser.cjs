@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
@@ -9,7 +10,7 @@ const report={base,observe,checks:[]};fs.mkdirSync(output,{recursive:true});
 const save=()=>fs.writeFileSync(output+'/verification.json',JSON.stringify(report,null,2));
 async function audit(page,check,state){const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();check.audits.push({state,violations:result.violations.map(v=>v.id)});save();assert.equal(result.violations.length,0,JSON.stringify(result.violations));}
 async function settledScroll(page){await page.evaluate(()=>new Promise((resolve,reject)=>{const dialog=document.getElementById('detail');let previous=dialog.scrollTop,stable=0,frames=0;const tick=()=>{const current=dialog.scrollTop;stable=Math.abs(current-previous)<0.1?stable+1:0;previous=current;if(stable>=12)return resolve();if(++frames>120)return reject(Error('dialog scrolling did not settle'));requestAnimationFrame(tick);};requestAnimationFrame(tick);}));}
-async function hold(page,path){let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/'+path,async route=>{await gate;await route.continue();});return release;}
+async function hold(page,path){let release;const gate=new Promise(resolve=>release=resolve);await sourceRoute(page,'**/'+path,async route=>{await gate;await route.continue();});return release;}
 (async()=>{
  for(const [engine,launcher] of (process.env.ROUND_ENGINES==='all'?[['chromium',chromium],['firefox',firefox],['webkit',webkit]]:[['chromium',chromium]])){
  const browser=await launcher.launch(),networkDiagnostics=[];
@@ -118,7 +119,7 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   check.statusRemovalReadingDelta=Math.abs((await persistent.boundingBox()).y-persistentTop);assert(check.statusRemovalReadingDelta<=2,'removing completed status preserves the next persistent content');await statusPage.close();
   // Target failure retains the original partial-load/retry path; no missing-case invention.
   const failed=await context.newPage();let fail=true;const failedTarget='cases/005-cloud-pr-review.md';
-  await failed.route('**/'+failedTarget,route=>fail?route.fulfill({status:503,body:'Unavailable'}):route.continue());
+  await sourceRoute(failed,'**/'+failedTarget,route=>fail?route.fulfill({status:503,body:'Unavailable'}):route.continue());
   await failed.goto(base+'?case=UC-005');await failed.locator('#partial-load:not([hidden])').waitFor();assert.equal(await failed.locator('#detail').evaluate(e=>e.open),false);assert.equal(await failed.locator('#missing-case').isVisible(),false);
   fail=false;await failed.locator('#retry-failed').click();await failed.locator('#detail[open]').waitFor();assert.equal(await failed.locator('#detail-toolbar-id').innerText(),'UC-005');await failed.close();
   // Pending aliases use the same original source without invented successful results.

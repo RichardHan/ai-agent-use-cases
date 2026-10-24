@@ -1,10 +1,10 @@
 name: Source guide QA
 on:
   pull_request:
-    paths: ['assets/**', 'index.html', 'tests/source-guide*', 'tests/reader-context-round.cjs', '.github/workflows/source-guide-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'scripts/preview.py', 'tests/source-guide*', 'tests/reader-context-round.cjs', '.github/workflows/source-guide-qa.yml']
   push:
     branches: ['main', 'improve/evidence-discovery-20261020', 'fix/source-guide-mobile-density', 'fix/**']
-    paths: ['assets/**', 'index.html', 'tests/source-guide*', 'tests/reader-context-round.cjs', '.github/workflows/source-guide-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'scripts/preview.py', 'tests/source-guide*', 'tests/reader-context-round.cjs', '.github/workflows/source-guide-qa.yml']
   workflow_dispatch:
 permissions:
   contents: read

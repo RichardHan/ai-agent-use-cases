@@ -945,8 +945,15 @@ function card(item, terms=[]) {
   node.dataset.kind = item.kind;node.dataset.caseId=item.id;node.dataset.proof=item.proof;
   const top = el('div', 'card-top');
   const topInfo = el('span', 'card-id-tool', item.id + (item.tools.length ? ' · ' + item.tools.slice(0, 2).join(' / ') : ''));
+  const badgesWrap = el('div', 'card-top-badges');
+  if(item.scenario){
+    const scenarioBadge = el('span', 'card-scenario', item.scenario);
+    scenarioBadge.dataset.scenario = item.scenario;
+    badgesWrap.append(scenarioBadge);
+  }
   const kindBadge = el('span', 'kind', KIND[item.kind]);
-  top.append(topInfo, kindBadge);
+  badgesWrap.append(kindBadge);
+  top.append(topInfo, badgesWrap);
   node.append(top);
 
   const h = el('h3');
@@ -1965,7 +1972,7 @@ function drawNext(){
   $('draw-case').textContent=next.total===1?'只有這一張，重新看看':'再抽一張 ↻';
 }
 function syncDiscovery(filtered){
-  document.querySelectorAll('[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
+  document.querySelectorAll('button[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
   if(!discoveryReady)return;
   const pool=Discovery.discoveryPool(filtered);
   const key=$('scenario').value+'|'+pool.map(item=>item.id).join(',');

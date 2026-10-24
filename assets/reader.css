@@ -49,8 +49,9 @@
 .related-note,.related-meta,.related-proof{font-size:12px;line-height:1.8;color:var(--muted);margin:0 0 8px}
 .related-list{list-style:none;padding:0;margin:18px 0}
 .related-list li{padding:18px 0;border-bottom:1px solid var(--line)}
-.related-open{display:block;text-align:left;font-size:17px;font-weight:650;line-height:1.7;padding:6px 0;border:0;border-radius:2px;background:transparent;color:var(--green);text-decoration:underline;text-underline-offset:4px;overflow-wrap:anywhere;max-width:100%}
+.related-open{display:inline-flex;align-items:center;min-height:44px;text-align:left;font-size:17px;font-weight:650;line-height:1.7;padding:6px 0;border:0;border-radius:2px;background:transparent;color:var(--green);text-decoration:underline;text-underline-offset:4px;overflow-wrap:anywhere;max-width:100%}
 .related-open:hover{text-decoration-thickness:2px}
+.related-open:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 .related-summary{font-size:14px;line-height:1.9;margin:8px 0 10px}
 .related-empty{font-size:14px;line-height:1.9;margin:18px 0}
 .related-back{font-size:14px;min-height:44px;margin-top:4px}
@@ -66,7 +67,8 @@
 .reader-report-content> :last-child{margin-bottom:14px}
 .reader-report-open{font-size:13px;min-height:44px;margin:8px 10px 0 0;padding:9px 12px;text-align:left;text-decoration:underline;text-underline-offset:3px}
 .reader-guidance{margin:20px 0;padding:16px 20px;border:1px solid var(--line);border-radius:8px}
-.reader-guidance>summary{cursor:pointer;color:var(--green);font-size:14px;font-weight:600;line-height:1.8}
+.reader-guidance>summary{cursor:pointer;color:var(--green);font-size:14px;font-weight:600;line-height:1.8;min-height:44px;display:flex;align-items:center;box-sizing:border-box}
+.reader-guidance>summary:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 .reader-guidance h2{font-size:15px;margin:20px 0 6px;letter-spacing:0}
 .reader-guidance p{font-size:14px;line-height:1.9;margin:0 0 8px}
 @media(max-width:640px){

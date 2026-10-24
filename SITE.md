@@ -1,3 +1,7 @@
+## 2026-10-25 案例卡片情境徽章、搜尋心智導引、無障礙觸控與 Actions 逾時加固
+
+為案例卡片頂部新增問題情境徽章（生活、工作、省錢、學習、創作、開發），採用專屬語意配色（對比度 7.24:1～9.97:1），讓新訪客一眼辨識適合場景；首頁搜尋提示補齊「輸入即時篩選、按 Enter 或查看結果前往結果」心智導引；將全站 placeholder 與鍵盤提示對比度提升至 7.00:1（#4e5d4e），並為 desktop `.chip`、`.research-details > summary`、`.reader-guidance > summary`、`.related-open` 設定 44px 觸控下限與清晰焦點外框；針對 Actions 頻繁逾時失敗（如 run 40135570318 在 10m0s 逾時），系統性將 `outline-find-qa.yml`、`missing-case-qa.yml`、`return-visibility-qa.yml` 提升至 25 分鐘，防禦性測試同步納入。獨立審查發現 `syncDiscovery` 誤設非按鈕 `aria-pressed` 已修正為 `button[data-scenario]`。全套測試增至 289 項全數通過，桌面與手機 320/390px 視口零水平溢出。前後截圖、兩案取捨、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-visitor-quality-and-actions-stability/README.md)。
+
 ## 2026-10-25 長篇案例原始研究入口與 Actions 驗收回歸修正
 
 12 段以上案例在用途摘要旁新增「查看完整原始研究、來源與提示詞（N 段）」入口；原文仍預設收合，鍵盤 Enter 開啟後焦點到原文摘要、Tab／Enter 返回閱讀導覽。Actions 修正有實測依據：正式站 320／390px 首筆結果距搜尋框 277px，將共用瀏覽器驗收由不符現況的 240px 改為 300px 並保留 viewport 可見檢查；Source guide 發布輪詢改為15分鐘、job 25分鐘，覆蓋既錄11分38秒 Pages 部署。基準285、修改後286項單元測試全通過；瀏覽器桌機1440／手機390及320px零水平溢出，axe 4.13.0 27項通過、0違規，入口文字對比8.06:1；445來源逐byte一致。三種流程走查、前後截圖、獨立審查及待補正式部署結果見[本輪 QA](docs/qa/2026-10-25-original-research-entry/README.md)。

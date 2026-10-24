@@ -27,6 +27,8 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   assert.equal(row.hasGuide,1,'readers can inspect what source labels mean next to the results');
   assert(await page.locator('#source-type-note').isHidden(),'long explanations stay optional before reading results');
   if(engine===chromium&&width===1440){
+   await require('./filter-controls.cjs').ensureFiltersVisible(page);
+   assert(await page.locator('#proof').isVisible(),'the source filter is exposed before inspecting its accessibility description');
    const cdp=await context.newCDPSession(page);
    const {root}=await cdp.send('DOM.getDocument');
    const {nodeId}=await cdp.send('DOM.querySelector',{nodeId:root.nodeId,selector:'#proof'});

@@ -1,0 +1,19 @@
+browser	Reproduce current facet regression	﻿2026-10-24T12:04:43.9723097Z ##[group]Run mkdir -p "$RUNNER_TEMP/served/ai-agent-use-cases"
+browser	Reproduce current facet regression	2026-10-24T12:04:43.9724062Z ^[[36;1mmkdir -p "$RUNNER_TEMP/served/ai-agent-use-cases"^[[0m
+browser	Reproduce current facet regression	2026-10-24T12:04:43.9724677Z ^[[36;1mcp -R _site/. "$RUNNER_TEMP/served/ai-agent-use-cases/"^[[0m
+browser	Reproduce current facet regression	2026-10-24T12:04:43.9725472Z ^[[36;1mpython3 -m http.server 8096 --directory "$RUNNER_TEMP/served" > /tmp/facet.log 2>&1 &^[[0m
+browser	Reproduce current facet regression	2026-10-24T12:04:43.9726308Z ^[[36;1mrunuser -u pwuser -- node tests/facet-counts-browser.cjs^[[0m
+browser	Reproduce current facet regression	2026-10-24T12:04:43.9726957Z shell: sh -e {0}
+browser	Reproduce current facet regression	2026-10-24T12:04:43.9727271Z env:
+browser	Reproduce current facet regression	2026-10-24T12:04:43.9727655Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Reproduce current facet regression	2026-10-24T12:04:43.9728125Z ##[endgroup]
+browser	Reproduce current facet regression	2026-10-24T12:04:47.0387378Z AssertionError [ERR_ASSERTION]: incompatible combination still allowed, with honest empty state
+browser	Reproduce current facet regression	2026-10-24T12:04:47.0388115Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/facet-counts-browser.cjs:58:3 {
+browser	Reproduce current facet regression	2026-10-24T12:04:47.0390130Z   generatedMessage: false,
+browser	Reproduce current facet regression	2026-10-24T12:04:47.0390518Z   code: 'ERR_ASSERTION',
+browser	Reproduce current facet regression	2026-10-24T12:04:47.0390924Z   actual: false,
+browser	Reproduce current facet regression	2026-10-24T12:04:47.0391241Z   expected: true,
+browser	Reproduce current facet regression	2026-10-24T12:04:47.0391519Z   operator: '==',
+browser	Reproduce current facet regression	2026-10-24T12:04:47.0391841Z   diff: 'simple'
+browser	Reproduce current facet regression	2026-10-24T12:04:47.0392175Z }
+browser	Reproduce current facet regression	2026-10-24T12:04:47.0577974Z ##[error]Process completed with exit code 1.

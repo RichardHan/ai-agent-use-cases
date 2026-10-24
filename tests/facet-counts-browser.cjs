@@ -1,5 +1,7 @@
 'use strict';
 const sourceRoute=require('./source-route.cjs');
+const {zeroChoice,representativeChoices}=require('./facet-fixture.cjs');
+const {ensureFiltersVisible}=require('./filter-controls.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs');
@@ -16,7 +18,8 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'?q=旅遊#explore',{waitUntil:'networkidle'});
   await page.waitForFunction(()=>!document.getElementById('copy-search-link').disabled);
-  if(!(await page.locator('#filter-options').evaluate(n=>n.open)))await page.locator('#filter-summary').click();
+  await ensureFiltersVisible(page);
+  assert.deepEqual(await page.evaluate(()=>failedPaths),[],'facet counts require the complete corpus');
   const inputTiming=await page.evaluate(()=>{
    const input=document.getElementById('query'),times=[];
    for(let i=0;i<5;i++){const start=performance.now();input.dispatchEvent(new Event('input',{bubbles:true}));times.push(performance.now()-start);}
@@ -34,37 +37,37 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    await page.screenshot({path:'qa-artifacts/after-320-long-option.png'});
    await page.locator('#reset').click();await page.locator('#query').fill('旅遊');
   }
+  // Travel + development is a legitimate growing collection, not a zero fixture.
   await page.locator('#scenario').selectOption('開發');
-  if(!observe&&engine===chromium&&width===320){
-   await page.locator('.filter-row').scrollIntoViewIfNeeded();
-   await page.screenshot({path:'qa-artifacts/after-320-zero.png'});
-  }
-  const empty=await page.locator('#empty').isVisible();
-  const row={engine:engine.name(),width,options,inputTimingMs:inputTiming,travelDevelopmentEmpty:empty};
-  if(engine===chromium&&width===1440){
-   await page.locator('#scenario').selectOption('');
-   await page.locator('#results .card .card-bottom button').first().click();
-   await page.locator('.research-details summary').click();
-   const sourceLink=page.locator('.markdown a[href^="https:"]').first();
-   const sourceURL=await sourceLink.getAttribute('href');
-   const popupPromise=page.waitForEvent('popup');await sourceLink.click();const popup=await popupPromise;
-   try{await popup.waitForLoadState('domcontentloaded',{timeout:10000});row.source={requested:sourceURL,opened:popup.url()};}
-   catch{row.source={requested:sourceURL,opened:popup.url(),note:'external destination did not finish within 10s'};}
-   await popup.close();await page.locator('#close-detail').click();
-   await page.locator('#scenario').selectOption('開發');
-  }
-  if(observe){report.push(row);save();await browser.close();continue;}
+  const row={engine:engine.name(),width,options,inputTimingMs:inputTiming,travelDevelopmentCount:await page.locator('#results .card').count()};
+  report.push(row);save();
+  if(observe){await browser.close();continue;}
   assert(options.every(x=>/^\d+ · /.test(x)),'every scenario option previews its actual count');
-  assert(empty,'incompatible combination still allowed, with honest empty state');
-  await page.locator('#empty-suggestions [data-remove-filter="scenario"]').click();
+  await page.locator('#scenario').selectOption('');
+  const groups={};
+  for(const key of keys)groups[key]=await page.locator('#'+key+' option').evaluateAll(nodes=>nodes.map(n=>({value:n.value,text:n.textContent})));
+  let zero=zeroChoice(groups);
+  if(zero){await page.locator('#'+zero.key).selectOption(zero.value);}
+  else{
+   // Shared unknown values must also produce an honest, recoverable empty state.
+   zero={key:'scenario',value:'QA-unknown-scenario-987654'};
+   await page.goto(base+'?q=旅遊&scenario='+zero.value+'#explore');
+   await page.waitForFunction(()=>discoveryReady);
+  }
+  row.emptyFixture=zero;save();
+  assert(await page.locator('#empty').isVisible(),'a real zero option remains selectable and reports no matches');
+  assert.equal(await page.locator('#'+zero.key).inputValue(),zero.value);
+  await page.screenshot({path:`qa-artifacts/empty-${engine.name()}-${width}.png`});
+  await page.locator('#empty-suggestions [data-remove-filter="'+zero.key+'"]').click();
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
-  assert.equal(await page.locator('#scenario').inputValue(),'');
+  assert.equal(await page.locator('#'+zero.key).inputValue(),'');
   assert((await page.locator('#results .card').count())>0);
+  await ensureFiltersVisible(page);
   // Every displayed count equals selecting that option, retaining every other condition.
   for(const key of keys){
    const before=await page.locator('#'+key).inputValue();
    const choices=await page.locator('#'+key+' option').evaluateAll(nodes=>nodes.map(n=>({value:n.value,text:n.textContent,disabled:n.disabled})));
-   for(const choice of (engine===chromium&&width===1440 ? choices : choices.filter((_,i)=>i<3))){
+   for(const choice of (engine===chromium&&width===1440 ? choices : representativeChoices(choices,before))){
     assert.equal(choice.disabled,false,'zero counts stay available');
     await page.locator('#'+key).selectOption(choice.value);
     assert.equal(await page.locator('#results .card').count(),Number(choice.text.match(/^(\d+) · /)[1]),key+' '+choice.value);
@@ -112,7 +115,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.goto(base+'?q=旅遊&scenario=生活&case=UC-001#explore',{waitUntil:'networkidle'});
   await page.locator('#detail[open]').waitFor();await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();await page.locator('#close-detail').click();
   assert.equal(await page.locator('#scenario').inputValue(),'生活');
-  assert.deepEqual(errors,[]);report.push(row);save();console.log('FACET_CONFIG_PASS '+engine.name()+' '+width);await browser.close();
+  assert.deepEqual(errors,[]);save();console.log('FACET_CONFIG_PASS '+engine.name()+' '+width);await browser.close();
  }
  if(!observe){
   const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();
@@ -128,11 +131,13 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.waitForFunction(()=>!document.getElementById('copy-search-link').disabled);
   await page.locator('#partial-load').waitFor({state:'visible'});
   assert.match(await page.locator('#facet-count-hint').textContent(),/只計已載入/);
+  assert.deepEqual(await page.evaluate(()=>failedPaths),['cases/001-travel-checkout.md']);
   const countBefore=await page.locator('#results .card').count(),urlBefore=page.url();
   const optionBefore=await page.locator('#scenario option[value="生活"]').textContent();
   await page.unroute('**/cases/001-travel-checkout.md');
   await page.locator('#retry-failed').click();
   await page.locator('#partial-load').waitFor({state:'hidden'});
+  assert.deepEqual(await page.evaluate(()=>failedPaths),[]);
   assert.equal(await page.locator('#results .card').count(),countBefore+1);
   const optionAfter=await page.locator('#scenario option[value="生活"]').textContent();
   assert.equal(Number(optionAfter.match(/^(\d+) · /)[1]),Number(optionBefore.match(/^(\d+) · /)[1])+1);

@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: one bundle replaces every source request without altering source text or order
+ok 1 - one bundle replaces every source request without altering source text or order
+  ---
+  duration_ms: 1.3705
+  type: 'test'
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: http
+ok 2 - unusable bundle falls back without publishing untrusted content: http
+  ---
+  duration_ms: 0.50775
+  type: 'test'
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: bad-json
+ok 3 - unusable bundle falls back without publishing untrusted content: bad-json
+  ---
+  duration_ms: 0.539
+  type: 'test'
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: revision
+ok 4 - unusable bundle falls back without publishing untrusted content: revision
+  ---
+  duration_ms: 0.403167
+  type: 'test'
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: missing
+ok 5 - unusable bundle falls back without publishing untrusted content: missing
+  ---
+  duration_ms: 0.17175
+  type: 'test'
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: duplicate
+ok 6 - unusable bundle falls back without publishing untrusted content: duplicate
+  ---
+  duration_ms: 0.138834
+  type: 'test'
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: unsafe
+ok 7 - unusable bundle falls back without publishing untrusted content: unsafe
+  ---
+  duration_ms: 0.143959
+  type: 'test'
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: bad-text
+ok 8 - unusable bundle falls back without publishing untrusted content: bad-text
+  ---
+  duration_ms: 0.63325
+  type: 'test'
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: parse
+ok 9 - unusable bundle falls back without publishing untrusted content: parse
+  ---
+  duration_ms: 0.265
+  type: 'test'
+  ...
+# Subtest: shared source opens before a delayed bundle and successful source is not fetched again on fallback
+ok 10 - shared source opens before a delayed bundle and successful source is not fetched again on fallback
+  ---
+  duration_ms: 0.482041
+  type: 'test'
+  ...
+# Subtest: bundle completion cancels a stalled shared request without waiting for its source timeout
+ok 11 - bundle completion cancels a stalled shared request without waiting for its source timeout
+  ---
+  duration_ms: 0.216167
+  type: 'test'
+  ...
+# Subtest: bundle timeout leaves a budget for fallback, individual failures stay retryable
+ok 12 - bundle timeout leaves a budget for fallback, individual failures stay retryable
+  ---
+  duration_ms: 11.489083
+  type: 'test'
+  ...
+# Subtest: stopping while bundle waits retains the already readable shared source and exact missing paths
+ok 13 - stopping while bundle waits retains the already readable shared source and exact missing paths
+  ---
+  duration_ms: 0.216541
+  type: 'test'
+  ...
+# Subtest: old catalogs keep the existing per-file loader and pending one-file/multiple-entry behavior
+ok 14 - old catalogs keep the existing per-file loader and pending one-file/multiple-entry behavior
+  ---
+  duration_ms: 0.075792
+  type: 'test'
+  ...
+# Subtest: fallback progress includes source failures and counts an empty but successfully fetched source
+ok 15 - fallback progress includes source failures and counts an empty but successfully fetched source
+  ---
+  duration_ms: 0.207125
+  type: 'test'
+  ...
+# Subtest: whole-load deadline bounds bundle plus fallback, keeping every completed source exactly once
+ok 16 - whole-load deadline bounds bundle plus fallback, keeping every completed source exactly once
+  ---
+  duration_ms: 31.587625
+  type: 'test'
+  ...
+# Subtest: a bundled pending source keeps all entries and fires one source callback for the whole file
+ok 17 - a bundled pending source keeps all entries and fires one source callback for the whole file
+  ---
+  duration_ms: 0.213292
+  type: 'test'
+  ...
+# Subtest: simultaneous shared and fallback sources never report more successes than completions
+not ok 18 - simultaneous shared and fallback sources never report more successes than completions
+  ---
+  duration_ms: 0.7205
+  type: 'test'
+  location: '/private/tmp/ai-bundle-race-before/tests/corpus-bundle.test.cjs:57:1'
+  failureType: 'testCodeFailure'
+  error: '{"completed":1,"succeeded":2,"entryCount":2,"total":2}'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-bundle-race-before/tests/corpus-bundle.test.cjs:66:38)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 17
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 98.620959

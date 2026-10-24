@@ -1,0 +1,353 @@
+[
+  {
+    "label": "chromium-1440",
+    "states": [
+      {
+        "name": "home",
+        "title": "AI 用法實驗室 · 案例庫",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/",
+        "heading": "顯示 447 / 447 筆收錄"
+      },
+      {
+        "name": "search",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 16 / 447 筆收錄"
+      },
+      {
+        "name": "detail",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "source",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "returned",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 16 / 447 筆收錄"
+      },
+      {
+        "name": "empty",
+        "title": "沒有符合結果 · 搜尋「no-page-context-qa-result」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=no-page-context-qa-result&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 0 / 447 筆收錄"
+      },
+      {
+        "name": "bookmark",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "missing",
+        "title": "找不到分享案例 · 搜尋「旅遊」｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A",
+        "heading": "顯示 33 / 447 筆收錄"
+      }
+    ],
+    "errors": [],
+    "total": 447,
+    "case": "UC-001",
+    "stateAudits": [
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "empty",
+        "violations": []
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "openedSource": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "nextCase": "UC-139",
+    "historyAndBookmarks": true,
+    "violations": []
+  },
+  {
+    "label": "chromium-390",
+    "states": [
+      {
+        "name": "home",
+        "title": "AI 用法實驗室 · 案例庫",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/",
+        "heading": "顯示 447 / 447 筆收錄"
+      },
+      {
+        "name": "search",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 16 / 447 筆收錄"
+      },
+      {
+        "name": "detail",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "source",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "returned",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 16 / 447 筆收錄"
+      },
+      {
+        "name": "empty",
+        "title": "沒有符合結果 · 搜尋「no-page-context-qa-result」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=no-page-context-qa-result&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 0 / 447 筆收錄"
+      },
+      {
+        "name": "bookmark",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "missing",
+        "title": "找不到分享案例 · 搜尋「旅遊」｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A",
+        "heading": "顯示 33 / 447 筆收錄"
+      }
+    ],
+    "errors": [],
+    "total": 447,
+    "case": "UC-001",
+    "stateAudits": [
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "empty",
+        "violations": []
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "nextCase": "UC-139",
+    "historyAndBookmarks": true,
+    "violations": []
+  },
+  {
+    "label": "chromium-320",
+    "states": [
+      {
+        "name": "home",
+        "title": "AI 用法實驗室 · 案例庫",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/",
+        "heading": "顯示 447 / 447 筆收錄"
+      },
+      {
+        "name": "search",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 16 / 447 筆收錄"
+      },
+      {
+        "name": "detail",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "source",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "returned",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 16 / 447 筆收錄"
+      },
+      {
+        "name": "empty",
+        "title": "沒有符合結果 · 搜尋「no-page-context-qa-result」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=no-page-context-qa-result&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 0 / 447 筆收錄"
+      },
+      {
+        "name": "bookmark",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "missing",
+        "title": "找不到分享案例 · 搜尋「旅遊」｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A",
+        "heading": "顯示 33 / 447 筆收錄"
+      }
+    ],
+    "errors": [],
+    "total": 447,
+    "case": "UC-001",
+    "stateAudits": [
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "empty",
+        "violations": []
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "nextCase": "UC-139",
+    "historyAndBookmarks": true,
+    "violations": []
+  },
+  {
+    "label": "firefox-390",
+    "states": [
+      {
+        "name": "home",
+        "title": "AI 用法實驗室 · 案例庫",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/",
+        "heading": "顯示 447 / 447 筆收錄"
+      },
+      {
+        "name": "search",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 16 / 447 筆收錄"
+      },
+      {
+        "name": "detail",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "source",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "returned",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 16 / 447 筆收錄"
+      },
+      {
+        "name": "empty",
+        "title": "沒有符合結果 · 搜尋「no-page-context-qa-result」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=no-page-context-qa-result&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 0 / 447 筆收錄"
+      },
+      {
+        "name": "bookmark",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "missing",
+        "title": "找不到分享案例 · 搜尋「旅遊」｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A",
+        "heading": "顯示 33 / 447 筆收錄"
+      }
+    ],
+    "errors": [],
+    "total": 447,
+    "case": "UC-001",
+    "stateAudits": [
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "empty",
+        "violations": []
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "nextCase": "UC-139",
+    "historyAndBookmarks": true,
+    "violations": []
+  },
+  {
+    "label": "webkit-390",
+    "states": [
+      {
+        "name": "home",
+        "title": "AI 用法實驗室 · 案例庫",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/",
+        "heading": "顯示 447 / 447 筆收錄"
+      },
+      {
+        "name": "search",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 16 / 447 筆收錄"
+      },
+      {
+        "name": "detail",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "source",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "returned",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 16 / 447 筆收錄"
+      },
+      {
+        "name": "empty",
+        "title": "沒有符合結果 · 搜尋「no-page-context-qa-result」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=no-page-context-qa-result&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 0 / 447 筆收錄"
+      },
+      {
+        "name": "bookmark",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "missing",
+        "title": "找不到分享案例 · 搜尋「旅遊」｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8190/ai-agent-use-cases/?case=UC-999999&q=%E6%97%85%E9%81%8A",
+        "heading": "顯示 33 / 447 筆收錄"
+      }
+    ],
+    "errors": [],
+    "total": 447,
+    "case": "UC-001",
+    "stateAudits": [
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "empty",
+        "violations": []
+      }
+    ],
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "nextCase": "UC-139",
+    "historyAndBookmarks": true,
+    "violations": []
+  }
+]

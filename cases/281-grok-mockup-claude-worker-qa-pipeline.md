@@ -67,3 +67,14 @@
 
 - 2026-10-17 首次收錄。不與 UC-005、UC-061、UC-273 合併計數：交接產物與 QA 截圖對照是不同核心工作。
 - 2026-10-24：併入 S-281B（@neil160289），同屬「Bot 當專案經理開 issue、程式代理實作開 PR」的交接流程，屬精簡工具變體，不另計新案；新增「在聊天核准合併」的人工關卡。
+
+
+## 2026-10-25 02:10補充：人工 push 通過，不代表代理交接鏈通過
+
+- 來源：mathew-builds 的 [Handoff README](https://github.com/mathew-builds/Handoff)及[實作證據](https://github.com/mathew-builds/Handoff/blob/main/docs/07-evidence.md)，英文；實驗2026-09-05至09-06，09-08補記證據限制。本輪只讀公開文件，未執行或獨立重現。
+- 作者的 Grok Bot → GitHub issue → Claude Code → PR → 群聊回報，屬本案既有交接流程，不另計案例。作者先以另一個 on:push workflow 開 PR，人工 push 測試成功，實際代理使用 GITHUB_TOKEN 推送卻未觸發；之後把開 PR 步驟放回同一次 workflow。這提醒驗收必須使用真正的觸發者，不能以人工替代控制測試宣稱全鏈成功。
+- 作者另分別測人與 github-actions 建 PR，兩次都由內建 GitHub 事件觸發 Bot 回報「tests pending」。PR 已回報不是 CI 已完成；未測的 webhook 不能當作已證實。原私有測試庫刪除再還原後 Actions 歷史消失，公開 run ID 已不可重查；PR及評論仍在的說法也只由作者自述，不宣稱本庫讀過私有產物。
+- [GitHub 官方目前說明](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow)本輪核讀：GITHUB_TOKEN 的 push 不啟動後續 workflow；但特定 pull_request 事件現在可建立需人工批准的工作流程。這與作者舊文件的「PR不跑CI」概括不同，應保留歷史條件，不套成現況永久限制。
+- 權限／費用：Bot、程式代理訂閱及 Actions 用量分開；未核本流程總費用。不要為了讓 CI 自動跑就擅自新增 PAT、擴權或改 repo 安全設定。本補充不授權安裝、開 PR、傳 webhook 或合併。
+
+可貼指令（本庫自設／未實測）：只讀合成 issue、PR 與 CI 事件表，逐段列觸發者、事件、工作識別與結果。把人工 push 和代理 push 分開，把已建 PR、待批准 CI、CI 已通過分開。缺少原始紀錄保持未驗證，不以另一條路徑成功代替；只輸出待驗清單，不改設定或新增憑證。

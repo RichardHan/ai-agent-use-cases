@@ -19,3 +19,5 @@
 ad681d5到達補修覆核：5行產品修改符合設計，無新增阻擋；僅初次自動到達且結果放不下才收合，保留控制尺寸、篩選與返回。原arrival兩個require與幾何assert均未改。另指出高視窗截圖同名覆蓋與gate可能已完成的證據缺口；已在診斷檔名加height，並於載入中互動前／釋放前明確assert !discoveryReady。這兩項為QA修正，非改產品斷言。
 
 d63eec1整合覆核：最新main（686b38e）已完整納入，閱讀歷史程式未被覆寫；早讀以showDetail(false)建立訪次，同案例背景完成仍保留DOM／焦點／訪次，關閉後回呼重新比對網址避免重開。Back／Forward狀態及revealSearch(true)維持。研究資料、首頁、CSS與reader相對主線零diff，diff --check通過；無新增整合阻擋，最終雲端／正式發布另驗。
+
+最終發布獨立核對：Pages40082246570 head3dc623f的build／report／deploy全成功；正式40082434605成功，3dc623f..29151e4產品無差異。已自行讀五資產、445完整來源byte parity、447條完整、兩尺寸到達／直鏈與四次axe0證據，文件修復由後續成功部署證實有效。無最終阻擋。40082246260仍在跑旅程，不宣稱main全綠。

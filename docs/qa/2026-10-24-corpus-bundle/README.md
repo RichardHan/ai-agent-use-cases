@@ -1,5 +1,7 @@
 # 首次載入全文整包，保留分享早讀與逐篇復原
 
+已一般merge至main（a2d34f2），文件建置修正後以3dc623f完成Pages正式部署；公開驗收40082434605成功。正常首頁全文請求445→1，分享搜尋結果在首屏可見；253單元與三引擎整合、正式桌面／手機及獨立審查通過。前後圖、指令、原始失敗與限制均保留於本文。
+
 本輪將搜尋全文的正常傳輸由四百多個 Markdown 請求改為同站整包；仍用同一 parseFile、搜尋、篩選、閱讀及補讀管線，不重做內容 schema。整包失敗、過期、缺漏、格式錯誤或等待超過 2.5 秒，於原 20 秒總期限內回退逐篇載入。分享單篇與整包平行讀取，可先看成功的指定案例；整包成功後取消多餘的單篇等待。
 
 ## 問題證據、使用者與決策
@@ -53,7 +55,7 @@ Jekyll include_relative會執行Liquid，目前來源無 Liquid變數／標籤�
 
 ## 最新整合、畫面與發布
 
-最新雲端、正式Pages部署及前後圖待完成後在此補記；不把前版成功或排隊中列為通過。
+完整預覽、整合與正式發布結果分列如下，保留每個版本的驗收範圍及中間失敗。
 
 權限紀錄：已實際嘗試建立可審閱PR，GitHub回報Enterprise Managed User的createPullRequest Unauthorized；未改權限或存取私人憑證。依使用者既有push／merge授權，驗收後改採已授權SSH一般merge。試圖取消本輪被取代的排隊run亦因非admin而403，未再嘗試提權，未取消協作者工作；排隊／舊run不計為最終成功。
 
@@ -95,3 +97,18 @@ Jekyll include_relative會執行Liquid，目前來源無 Liquid變數／標籤�
 
 
 發布建置補正：main首次QA40081730488因本輪新驗收README包含未跳脫Liquid片段而FAIL，源自保存文件而非前述產品程式。已改成安全文字敘述，不改研究來源或產品；後續必須以包含最終文件的真正Jekyll建置及正式站核對通過，不能沿用只有產品分支的成功。
+
+
+## 正式發布完成與停止
+
+[Pages40082246570](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40082246570) 的build、report、deploy全部成功，部署3dc623f。初次a2d34f2的Pages40081729847及mainQA40081730488因新QA文件Liquid語法而失敗，已修安全文字；沒有將這兩次算成功。
+
+[正式驗收40082434605](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40082434605) 全成功：253單元、包含最終驗收文件的真Jekyll、五公開產品檔逐byte一致、catalog／bundle完整445來源集合與revision／version／重複檢查、所有原文UTF-8 bytes吻合。1440／390各447條完整、正常首頁0個Markdown＋1個整包請求；旅遊＋生活＋工具同16結果，來源閱讀、返回焦點、空結果編輯、分享搜尋首屏及直接案例重整均通過，pageerror空、4次正式axe零違規。正式單次可搜尋845／300ms，只是雲端觀測，不當成普遍速度。
+
+正式分享結果數top為483.438／509.75px，查詢及條件仍可見。主角色已目視[正式桌面](published/shared-search-chromium-1440.png)、[手機](published/shared-search-chromium-390.png)、[來源閱讀](published/reader-chromium-390.png)，與本文修前圖比較。原始[正式報告](published/report.json)、[資產與原文核對](published/asset-and-source-matches.log)、[單元](published/unit.tap)與[常態補查](published/observation.json)保留。
+
+公開驗收29151e4相對部署3dc623f僅QA註解與發布證據，產品零差異；實際產品碼在ad681d5後未再修改，另完整保留協作者閱讀歷史。獨立角色已自行讀取Pages／正式run及證據，確認無最終阻擋。main完整重跑40082246260於紀錄時仍執行旅程（單元／Jekyll／原文檢查已過）；[其他main CI快照](published/main-ci-snapshot.json)亦非全綠，沒有宣稱全庫CI全綠。完整整合矩陣已有40081247218成功，正式公開驗收亦成功，範圍不混稱。
+
+外部來源僅抽查連結及新頁開啟，未重新研究全庫來源或獨立重現作者成果；真實手機、讀屏器及弱網仍未驗。Liquid原文限制、2.8MB整包與回退門檻仍列於上文；下一輪優先量測弱網，不能將請求數減少當成所有情境都更快。
+
+原工作樹未提交兩檔SHA-256仍相同：app.js為6e70c1c846de9eea49839382b74c84819a23ac9368851d505556f164b41dba23，search.test.cjs為3313f45de597da1113165e153ff59f78a04715bc650de923395a611b50271821。未reset、未強推、未改個人桌面／憑證或另購額度。最後僅保存文件及正式圖，產品不再變更；本輪達標並停止。

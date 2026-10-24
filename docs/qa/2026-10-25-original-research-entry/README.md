@@ -50,7 +50,7 @@
 
 - 盤點 `main @ 726713d` 同批有 7 個 workflow 失敗；可讀取的 Reader log 明確指出共用 `mobile-search-browser.cjs` 斷言閾值不符合正式站 277px 實測。其餘失敗根因未全部由現有 log 證實，不宣稱已一併修好。
 - PR #90 的 outline QA 在 UC-001 上失敗：來源已有13個標題，測試仍把它當成小案例並期望沒有目錄搜尋。改用核實為11段的 UC-003，明確檢查少於12段且兩個長文控制都不出現；保留篩選、Escape 與回復驗收。修改後 `node --check tests/outline-find-browser.cjs` 通過，管理式瀏覽器重現 UC-003 為11段、無目錄搜尋／原文入口。
-- 同一 PR 的兩次後續 browser 工作取消於安裝 Chromium／Firefox／WebKit 工具階段（分別約10與18分鐘；正式瀏覽器測試尚未執行）。這是尚待最新雲端執行確認的外部依賴風險，不當成網站測試通過，也未擅自拉長 timeout。
-- 目前本地測試／瀏覽器驗收完成；GitHub PR、合併、正式 Pages 部署及部署後 Actions 結果須以後續 GitHub 回報補記，不能以本機預覽代替。
+- 合併 PR #90（`7737128`）後，Pages build #1311786304 對該 SHA 花 934,641ms（15m34s，status `built`）。停用瀏覽器快取後正式桌機 1440×1000 與手機390×844 直鏈均載入 42 段 UC-005，顯示原文入口、預設收合、零水平溢出；鍵盤 Enter／Tab／Enter 展開及返回均通過。
+- Source guide run #40137809047 的 browser-tool 安裝在原20分鐘 job limit 被取消；先前成功 run #40135570405 全流程13m22（瀏覽器流程12m14）。因此預覽預算設35分鐘；合併發布曾用15分鐘不及15m34，published gate 設20分鐘、job 30分鐘；資產比對與 freshness guard 完全保留。PR後續 Actions 尚待複核。
 - 本地沒有專案定義的 lint／type-check 命令，也未安裝 Playwright 套件；完整 Chromium／Firefox／WebKit 長流程由既有雲端 workflow 驗收。
 - 下一輪優先逐一分類合併後 Actions 的剩餘失敗；不再盲目放寬其他斷言或部署等待時間。

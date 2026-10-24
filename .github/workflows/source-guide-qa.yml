@@ -11,7 +11,7 @@ permissions:
 jobs:
   preview:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -54,7 +54,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: preview
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -72,7 +72,7 @@ jobs:
           (async()=>{
             const base='https://richardhan.github.io/ai-agent-use-cases/';
             const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let attempt=0;attempt<180;attempt++){
+            for(let attempt=0;attempt<240;attempt++){
               const matches=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async file=>{
                 const response=await fetch(base+file+'?guide='+Date.now(),{cache:'no-store'});
                 return response.ok&&await response.text()===fs.readFileSync(file,'utf8');

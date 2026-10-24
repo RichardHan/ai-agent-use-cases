@@ -21,9 +21,12 @@
 
 ## 基準與檢查
 
-- 基準 `node --test tests/*.test.cjs`：271 通過、0 失敗。
-- 基準 Actions run 確認四個工作流程失敗；Pages 部署比失敗步驟晚約 21–112 秒建立。
+- 基準 `node --test tests/*.test.cjs`：271 通過、0 失敗；修改後重跑亦為 271 通過、0 失敗。
+- 四份修改後 workflow 的 YAML 解析通過；`git diff --check` 通過。`actionlint` 未安裝。
+- 合併 PR #86 至 `main`（commit `6899e6f`）後，四個受影響工作流程皆通過：Category finding QA [40118048793](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40118048793)（1m30s）、Available facet options QA [40118048804](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40118048804)（4m04s）、Reading anchor QA [40118048852](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40118048852)（7m50s）、Card refinement QA [40118048789](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40118048789)（6m41s）。
+- 網站 UI 未改；桌面 1440px 與手機 390px 實際走查搜尋、組合篩選、詳情直鏈、返回結果、零筆結果、鍵盤焦點和來源連結。手機 `scrollWidth` 為 390px，無橫向溢出；X 來源連結實際開啟成功。畫面不變，不存在有意義的前後 UI 差異。
+- 三個可手動觸發的分支 QA 中，Available facet options 與 Card refinement 成功；Category finding 分支 run 曾在 15 分鐘 setup timeout 且沒有產生 artifact，隨後 main 上同一 workflow 成功 1m30s。這是獨立 runner/排程失敗，不是資產斷言失敗。
 
 ## 風險與後續
 
-等待窗口仍是固定上限；若 Pages 排隊超過 6–7 分鐘，精確核對仍會失敗。失敗工作流程大多已耗用數分鐘於安裝與瀏覽器驗收，增加等待也會提高超時風險，需以後續 Actions 執行確認。本機無法模擬 GitHub Pages 的部署排程；尚未取得修改後雲端 Actions 結果。若延遲超出窗口反覆發生，下一步應改為以成功的 `github-pages` 部署狀態作為公開網站驗收的開始條件，而非無限增加輪詢時間。
+- 固定窗口仍不能覆蓋更長的 Pages 排程；本次受影響四條 main 工作流程皆在 merge 後成功。Category finding 的獨立分支 run 曾遇 runner setup 15 分鐘逾時，但相同 main run 成功；Actionlint 不可用。不同流程仍可能有各自未修的部署時差，後續以成功的 `github-pages` 部署狀態作為公開網站驗收開始條件，是比無限增加輪詢時間更穩健的下一步。

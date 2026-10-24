@@ -1,7 +1,9 @@
 'use strict';
 const fs=require('node:fs'),{createHash}=require('node:crypto');
+const origin=process.env.TRUST_URL;
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
- const origin=process.env.TRUST_URL;
  const paths=['index.html','assets/audit.js','assets/style.css'];
  const latest=fs.readFileSync('sources/qualification-audit-2026-10-16.md','utf8').split(/^## /m)[1];
  for(let attempt=0;attempt<90;attempt++){

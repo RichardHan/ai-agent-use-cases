@@ -4,6 +4,8 @@ const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.READING_URL||'http://127.0.0.1:8086/ai-agent-use-cases/';
 const observe=!!process.env.READING_OBSERVE,live=!!process.env.READING_LIVE;
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 const prefix=observe?'before':live?'live':'after';
 async function publishedVersion(){
  for(let attempt=0;attempt<30;attempt++){

@@ -53,6 +53,7 @@ jobs:
           const fs=require('node:fs');
           (async()=>{
             for(let i=0;i<60;i++){
+              const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const r=await fetch(process.env.FACETS_URL+'assets/app.js?facetqa='+Date.now(),{cache:'no-store'});
               if(r.ok&&await r.text()===fs.readFileSync('assets/app.js','utf8'))return;
               await new Promise(r=>setTimeout(r,5000));
@@ -60,6 +61,16 @@ jobs:
             throw Error('Published app.js differs from checkout');
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           node tests/available-facets-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

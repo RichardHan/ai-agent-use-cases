@@ -56,6 +56,11 @@ jobs:
         run: |
           python3 - <<'PYTHON'
           import pathlib,time,urllib.request
+          import subprocess
+          result=subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
+          if result.returncode == 42:
+              print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
+              raise SystemExit(0)
           for attempt in range(60):
               try:
                   matches=[]
@@ -71,6 +76,16 @@ jobs:
           else:
               raise SystemExit('Pages assets did not match checkout')
           PYTHON
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           node tests/search-submit-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

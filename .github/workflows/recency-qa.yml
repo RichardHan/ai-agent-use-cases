@@ -74,6 +74,7 @@ jobs:
           const fs=require('node:fs');
           const expected=['cases','evidence'].flatMap(dir=>fs.readdirSync(dir,{recursive:true}).filter(file=>file.endsWith('.md')).map(file=>dir+'/'+file)).concat('sources/pending.md').sort();
           (async()=>{
+            const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             for(let i=0;i<96;i++){
               const matched=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async file=>{
                 const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/'+file+'?review='+Date.now());

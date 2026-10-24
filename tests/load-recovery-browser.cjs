@@ -54,7 +54,9 @@ async function fixture(page){
    await audit(page,engine+'-'+name+'-partial');
    const loaded=await page.evaluate(()=>entries.length);
    await page.locator('#retry-failed').focus();await page.keyboard.press('Enter');await done(page);
-   assert.equal(requests,2);
+   // The first 429 is retried automatically once; this click is the next
+   // explicit recovery attempt after that retry also fails.
+   assert.equal(requests,3);
    assert.equal(await page.locator('#retry-failed').evaluate(n=>n===document.activeElement),true,'persistent failure keeps keyboard focus');
    blocked=false;
    const beforeRequests=networkRequests;

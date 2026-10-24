@@ -2,6 +2,8 @@
 const {chromium}=require('playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.MATCH_LIVE_URL||'https://richardhan.github.io/ai-agent-use-cases/';
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  for(const path of ['assets/app.js','assets/style.css']){
   const expected=fs.readFileSync(path,'utf8');

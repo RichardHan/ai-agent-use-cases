@@ -3,6 +3,8 @@ const {chromium}=require('playwright');
 const fs=require('node:fs');
 const assert=require('node:assert/strict');
 const origin='https://richardhan.github.io/ai-agent-use-cases/';
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(process.env.LOAD_DEPLOYED==='1'&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  const browser=await chromium.launch();
  const records=[];

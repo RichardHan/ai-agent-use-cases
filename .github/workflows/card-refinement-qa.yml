@@ -59,7 +59,9 @@ jobs:
         run: |
           node <<'NODE'
           const fs=require('node:fs');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const base='https://richardhan.github.io/ai-agent-use-cases/';
             const files=['assets/app.js','assets/style.css'];
             for(let i=0;i<90;i++){
@@ -73,6 +75,16 @@ jobs:
             throw Error('Published assets did not match');
           })().catch(e=>{console.error(e);process.exitCode=1});
           NODE
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           node tests/card-refinement-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

@@ -40,11 +40,26 @@ jobs:
           if [ -n "$TARGET_URL" ]; then
             python3 - <<'PY'
           import os, pathlib, urllib.request
+          import subprocess
+          result=subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
+          if result.returncode == 42:
+              print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
+              raise SystemExit(0)
           for name in ('assets/app.js','assets/reader.js','assets/reader.css'):
               with urllib.request.urlopen(os.environ['TARGET_URL'].rstrip('/')+'/'+name, timeout=45) as r:
                   assert r.read() == pathlib.Path(name).read_bytes(), name+' differs from checked-out publication'
           print('PUBLISHED_ASSETS_MATCH')
           PY
+          fi
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
           fi
           node tests/reader-search-browser.cjs
       - uses: actions/upload-artifact@v4

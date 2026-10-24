@@ -4,6 +4,8 @@ const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.REFINE_URL||'http://127.0.0.1:8093/ai-agent-use-cases/';
 const observe=process.env.OBSERVE==='1',label=observe?'before':process.env.REFINE_LABEL||'after';
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(label==='published'&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];

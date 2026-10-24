@@ -2,6 +2,8 @@
 const {chromium,firefox,webkit}=require('playwright');
 const AxeBuilder=require('@axe-core/playwright').default;
 const fs=require('node:fs'),assert=require('node:assert/strict');
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS_URL)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});const reports=[];
  const views=[['chromium',1440],['chromium',390],['chromium',320],['chromium',360],['firefox',390],['webkit',390]];

@@ -1,6 +1,8 @@
 'use strict';
 const {chromium}=require('playwright'),{AxeBuilder}=require('@axe-core/playwright'),fs=require('node:fs'),assert=require('node:assert/strict');
 const base='https://richardhan.github.io/ai-agent-use-cases/',out='qa-artifacts/published';fs.mkdirSync(out,{recursive:true});
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(skipIfSupersededPublishedUrl(base)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  const expected=fs.readFileSync('assets/app.js','utf8');let matched=false;
  for(let i=0;i<100;i++){const r=await fetch(base+'assets/app.js?retry-qa='+process.env.GITHUB_SHA);if(r.ok&&await r.text()===expected){matched=true;break;}await new Promise(r=>setTimeout(r,3000));}assert(matched,'Published app.js must match checkout');

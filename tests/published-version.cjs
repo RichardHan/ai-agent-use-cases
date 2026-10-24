@@ -15,6 +15,8 @@ exports.sameContent=sameContent;
 if(require.main===module){
  const fs=require('node:fs'),path=require('node:path');
  const base=process.env.FACET_URL||'https://richardhan.github.io/ai-agent-use-cases/';
+ const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+ if(skipIfSupersededPublishedUrl(base)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
  const built=process.env.BUILT_SITE||'_site',output=process.env.PUBLISHED_BUILD||'/tmp/facet-published';
  const assets=['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css'];
  const local={catalog:JSON.parse(fs.readFileSync(path.join(built,'catalog.json'),'utf8')),corpus:JSON.parse(fs.readFileSync(path.join(built,'corpus.json'),'utf8'))};

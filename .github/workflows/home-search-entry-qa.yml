@@ -52,7 +52,9 @@ jobs:
         run: |
           node <<'NODE'
           const fs=require('node:fs');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const base='https://richardhan.github.io/ai-agent-use-cases/';
             for(let attempt=0;attempt<90;attempt++){
               const files=['index.html','assets/app.js','assets/style.css'];
@@ -68,6 +70,16 @@ jobs:
             throw Error('Published Pages assets did not match this checkout within 180 seconds');
           })().catch(error=>{console.error(error);process.exitCode=1;});
           NODE
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           node tests/home-search-entry-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

@@ -6,6 +6,8 @@ const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.READER_URL||'http://127.0.0.1:8082/ai-agent-use-cases/';
 const deployed=!!process.env.READER_DEPLOYED;
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(deployed&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 const requestedEngine=process.env.READER_ENGINE||'';
 if(requestedEngine&&!['chromium','firefox','webkit'].includes(requestedEngine))throw Error('Unknown READER_ENGINE: '+requestedEngine);
 const audits=[],timings=[];

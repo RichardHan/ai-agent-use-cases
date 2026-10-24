@@ -3,6 +3,8 @@ const {chromium}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const origin=process.env.CORPUS_URL||'https://richardhan.github.io/ai-agent-use-cases/';
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(process.env.CORPUS_VERIFY&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 const label=process.env.CORPUS_LABEL||'before',reports=[];
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});

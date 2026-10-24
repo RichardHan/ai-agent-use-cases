@@ -79,7 +79,9 @@ jobs:
         run: |
           node - <<'JS'
           const fs=require('node:fs');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             for(let i=0;i<36;i++){
               const matches=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async path=>{const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/'+path+'?return='+Date.now(),{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}));
               if(matches.every(Boolean)){console.log('Published assets match '+process.env.GITHUB_SHA);return;}

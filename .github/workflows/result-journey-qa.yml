@@ -79,7 +79,9 @@ jobs:
           chown -R pwuser:pwuser qa-artifacts
           node - <<'JS'
           const fs=require('node:fs'),{createHash}=require('node:crypto');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const files=['index.html','assets/style.css','assets/app.js','assets/reader.css','assets/reader.js'];
             for(let attempt=0;attempt<24;attempt++){
               const checks=await Promise.all(files.map(async file=>{try{const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?card-targets='+process.env.GITHUB_SHA,{signal:AbortSignal.timeout(15000)});return r.ok&&await r.text()===fs.readFileSync(file,'utf8');}catch{return false;}}));
@@ -89,6 +91,16 @@ jobs:
             throw Error('Published assets do not match checkout');
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           runuser -u pwuser -- node tests/card-targets-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

@@ -5,6 +5,8 @@ const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.RELATED_URL||'http://127.0.0.1:8088/ai-agent-use-cases/';
 const live=process.env.RELATED_LIVE==='1';
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  if(live){
   for(const path of ['assets/app.js','assets/reader.css']){

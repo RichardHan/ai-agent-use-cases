@@ -3,6 +3,8 @@ const {webkit,chromium,firefox}=require('playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.RETURN_URL||'http://127.0.0.1:8087/ai-agent-use-cases/';
 const published=!!process.env.RETURN_NATIVE;
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(published&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});const reports=[];
  if(published){

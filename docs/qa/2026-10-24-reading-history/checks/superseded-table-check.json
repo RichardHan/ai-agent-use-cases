@@ -1,0 +1,232 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "before": {
+      "id": "UC-005",
+      "top": 12170,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "reader-section-32",
+      "anchor": 137.859375,
+      "overflow": false
+    },
+    "nextID": "UC-006",
+    "nextTop": 2350,
+    "returned": {
+      "id": "UC-005",
+      "top": 12170,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "nav-next-case",
+      "anchor": 137.859375,
+      "overflow": false
+    },
+    "violations": [],
+    "tableBefore": {
+      "top": 2832.109375,
+      "left": 0
+    },
+    "tableReturned": {
+      "top": 2832.109375,
+      "left": 0
+    },
+    "returnedFocus": {
+      "tag": "H1",
+      "top": 180.796875,
+      "bottom": 264.796875,
+      "visible": true
+    },
+    "tableViolations": [],
+    "scenarios": [
+      "long reading Back and Forward",
+      "distinct visits and reload",
+      "filtered results Back and Forward",
+      "offscreen focus and horizontal table"
+    ]
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "before": {
+      "id": "UC-005",
+      "top": 19897,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "reader-section-32",
+      "anchor": 160.25,
+      "overflow": false
+    },
+    "nextID": "UC-006",
+    "nextTop": 3278,
+    "returned": {
+      "id": "UC-005",
+      "top": 19897,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "nav-next-case",
+      "anchor": 160.25,
+      "overflow": false
+    },
+    "violations": [],
+    "tableBefore": {
+      "top": 4174.625,
+      "left": 160
+    },
+    "tableReturned": {
+      "top": 4174.625,
+      "left": 160
+    },
+    "returnedFocus": {
+      "tag": "H1",
+      "top": 228.734375,
+      "bottom": 366.734375,
+      "visible": true
+    },
+    "tableViolations": [],
+    "scenarios": [
+      "long reading Back and Forward",
+      "distinct visits and reload",
+      "filtered results Back and Forward",
+      "offscreen focus and horizontal table"
+    ]
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "before": {
+      "id": "UC-005",
+      "top": 24590,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "reader-section-32",
+      "anchor": 159.328125,
+      "overflow": false
+    },
+    "nextID": "UC-006",
+    "nextTop": 3734,
+    "returned": {
+      "id": "UC-005",
+      "top": 24590,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "nav-next-case",
+      "anchor": 159.328125,
+      "overflow": false
+    },
+    "violations": [],
+    "tableBefore": {
+      "top": 4997.4375,
+      "left": 160
+    },
+    "tableReturned": {
+      "top": 4997.4375,
+      "left": 160
+    },
+    "returnedFocus": {
+      "tag": "H1",
+      "top": 228.734375,
+      "bottom": 401.234375,
+      "visible": true
+    },
+    "tableViolations": [],
+    "scenarios": [
+      "long reading Back and Forward",
+      "distinct visits and reload",
+      "filtered results Back and Forward",
+      "offscreen focus and horizontal table"
+    ]
+  },
+  {
+    "label": "firefox-390",
+    "errors": [],
+    "before": {
+      "id": "UC-005",
+      "top": 19978,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "reader-section-32",
+      "anchor": 159.5,
+      "overflow": false
+    },
+    "nextID": "UC-006",
+    "nextTop": 3271,
+    "returned": {
+      "id": "UC-005",
+      "top": 19978,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "nav-next-case",
+      "anchor": 159.5,
+      "overflow": false
+    },
+    "violations": [],
+    "tableBefore": {
+      "top": 4196.25,
+      "left": 160
+    },
+    "tableReturned": {
+      "top": 4196.25,
+      "left": 160
+    },
+    "returnedFocus": {
+      "tag": "H1",
+      "top": 228.75,
+      "bottom": 366.75,
+      "visible": true
+    },
+    "tableViolations": [],
+    "scenarios": [
+      "long reading Back and Forward",
+      "distinct visits and reload",
+      "filtered results Back and Forward",
+      "offscreen focus and horizontal table"
+    ]
+  },
+  {
+    "label": "webkit-390",
+    "errors": [],
+    "before": {
+      "id": "UC-005",
+      "top": 19897,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "reader-section-32",
+      "anchor": 160.25,
+      "overflow": false
+    },
+    "nextID": "UC-006",
+    "nextTop": 3278,
+    "returned": {
+      "id": "UC-005",
+      "top": 19897,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "nav-next-case",
+      "anchor": 160.25,
+      "overflow": false
+    },
+    "violations": [],
+    "tableBefore": {
+      "top": 4174.625,
+      "left": 160
+    },
+    "tableReturned": {
+      "top": 4174.625,
+      "left": 160
+    },
+    "returnedFocus": {
+      "tag": "H1",
+      "top": 228.734375,
+      "bottom": 366.734375,
+      "visible": true
+    },
+    "tableViolations": [],
+    "scenarios": [
+      "long reading Back and Forward",
+      "distinct visits and reload",
+      "filtered results Back and Forward",
+      "offscreen focus and horizontal table"
+    ]
+  }
+]

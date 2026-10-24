@@ -646,8 +646,90 @@ function navStep(delta) {
   const target = delta === -1 ? neighbours.prev : delta === 1 ? neighbours.next : null;
   if (target) showDetail(target, null, true);
 }
+// Reading positions belong to a history visit, not a case or permanent storage.
+function createReadingHistory(limit=12) {
+  const views=new Map();
+  return {
+    save(key,item,query,view){
+      views.delete(key);views.set(key,{id:item.id,markdown:item.markdown,query,view});
+      if(views.size>limit)views.delete(views.keys().next().value);
+    },
+    read(key,item,query){
+      const saved=views.get(key);
+      return saved&&saved.id===item.id&&saved.markdown===item.markdown&&saved.query===query?saved.view:null;
+    }
+  };
+}
+const readingHistory=createReadingHistory();
+let currentReadingVisit=null,currentReadingQuery='';
+const readingDisclosures=['.reader-guidance','.research-details','.reader-review','.reader-outline'];
+function readingNodes(selector) {
+  return [...$('detail-body').querySelectorAll(selector)].filter(node=>
+    !node.closest('.detail-load-status,.related-cases,.case-share-feedback,.reader-copy'));
+}
+function readingFocusNodes() {
+  return [...$('detail-body').querySelectorAll(readingFocusSelector)].filter(node=>
+    !node.closest('.detail-load-status,.case-share-feedback,.reader-copy-status,.reader-copy-manual'));
+}
+function readingNodeRef(node,nodes) {
+  return node?{index:nodes.indexOf(node),id:node.id,relatedId:node.dataset.relatedId,href:node.tagName==='A'?node.href:null,tag:node.tagName,text:node.textContent}:null;
+}
+function resolveReadingNode(ref,nodes) {
+  if(!ref)return null;
+  const same=node=>node&&node.tagName===ref.tag&&node.textContent===ref.text&&(!ref.id||node.id===ref.id)&&(!ref.relatedId||node.dataset.relatedId===ref.relatedId)&&(!ref.href||node.href===ref.href);
+  if(same(nodes[ref.index]))return nodes[ref.index];
+  const matches=nodes.filter(same);
+  return matches.length===1?matches[0]:null;
+}
+const readingBlockSelector='h2,h3,p,li,pre,summary,.markdown-table';
+const readingFocusSelector='button,a,input,textarea,select,summary,[tabindex]';
+function rememberReadingView() {
+  const dialog=$('detail');
+  if(!dialog.open||!currentReadingVisit||!currentDetailItem)return;
+  const edge=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
+  const blocks=readingNodes(readingBlockSelector);
+  const anchor=selectReadingAnchor(blocks,edge+8,dialog.getBoundingClientRect().bottom-8);
+  const active=document.activeElement,rect=active.getBoundingClientRect();
+  const focusVisible=rect.height>0&&rect.top>=dialog.getBoundingClientRect().top&&rect.bottom<=dialog.getBoundingClientRect().bottom;
+  readingHistory.save(currentReadingVisit,currentDetailItem,currentReadingQuery,{
+    scrollTop:dialog.scrollTop,
+    open:readingDisclosures.map(selector=>!!$('detail-body').querySelector(selector)?.open),
+    outlineQuery:$('reader-outline-query')?.value||'',
+    anchor:readingNodeRef(anchor,blocks),offset:anchor?anchor.getBoundingClientRect().top-edge:0,
+    focus:focusVisible?readingNodeRef(active,readingFocusNodes()):null,
+    toolbarFocus:focusVisible&&active.closest('.detail-toolbar')?active.id:null,
+    tables:[...$('detail-body').querySelectorAll('.markdown-table')].map(node=>node.scrollLeft)
+  });
+}
+function restoreReadingView(view) {
+  const dialog=$('detail'),body=$('detail-body');
+  const query=$('reader-outline-query');
+  if(query){query.value=view.outlineQuery;query.dispatchEvent(new Event('input'));}
+  readingDisclosures.forEach((selector,index)=>{const node=body.querySelector(selector);if(node)node.open=view.open[index];});
+  body.querySelectorAll('.markdown-table').forEach((node,index)=>node.scrollLeft=view.tables[index]||0);
+  dialog.scrollTop=view.scrollTop;
+  const anchor=resolveReadingNode(view.anchor,readingNodes(readingBlockSelector));
+  if(anchor?.getBoundingClientRect().height){
+    dialog.scrollTop+=anchor.getBoundingClientRect().top-dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom-view.offset;
+  }
+  const focus=$(view.toolbarFocus)||resolveReadingNode(view.focus,readingFocusNodes());
+  const visible=node=>{
+    if(!node||node.disabled)return false;
+    const rect=node.getBoundingClientRect();
+    const top=node.closest('.detail-toolbar')?dialog.getBoundingClientRect().top:dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
+    return rect.height>0&&rect.bottom>top&&rect.top<dialog.getBoundingClientRect().bottom;
+  };
+  const target=visible(focus)?focus:visible(anchor)?anchor:$('close-detail');
+  if(!target.matches('button,a,input,textarea,select,summary,[tabindex]'))target.tabIndex=-1;
+  target.focus({preventScroll:true});
+}
 function showDetail(item, trigger, updateURL=true) {
   if (!item) return;
+  rememberReadingView();
+  const visit=updateURL?null:history.state?.readerVisit;
+  const readingView=readingHistory.read(visit,item,$('query').value);
+  currentReadingVisit=readingView?visit:crypto.randomUUID();
+  currentReadingQuery=$('query').value;
   if(trigger){
     lastTrigger=trigger;
     lastTriggerContext={id:item.id,area:trigger.closest('#drawn-case')?'drawn-case':'results',read:!!trigger.closest('.card-bottom')};
@@ -778,8 +860,9 @@ function showDetail(item, trigger, updateURL=true) {
   if (updateURL) {
     const url = new URL(location.href);
     url.searchParams.set('case', item.id);
-    history.pushState({...history.state, caseReturn:lastTriggerContext}, '', url);
-  }
+    history.pushState({...history.state, caseReturn:lastTriggerContext,readerVisit:currentReadingVisit}, '', url);
+  }else history.replaceState({...history.state,readerVisit:currentReadingVisit},'',location.href);
+  if(readingView)restoreReadingView(readingView);
 }
 function restoreDetailFocus(){
   if(lastTrigger?.isConnected){lastTrigger.focus({preventScroll:true});return;}
@@ -791,6 +874,7 @@ function restoreDetailFocus(){
   revealSearch(true);
 }
 function closeDetail() {
+  currentReadingVisit=null;
   if ($('detail').open) $('detail').close();
   const url = new URL(location.href);
   url.searchParams.delete('case');
@@ -1936,6 +2020,7 @@ document.addEventListener('keydown', e => {
   }
 });
 window.addEventListener('popstate', event => {
+  rememberReadingView();
   const params = new URLSearchParams(location.search);
   const id = params.get('case');
   const item = matchCase(id);
@@ -1949,7 +2034,7 @@ window.addEventListener('popstate', event => {
     lastTrigger = null;
     lastTriggerContext = event.state?.caseReturn || null;
     showDetail(item, null, false);
-  } else if (wasOpen) $('detail').close();
+  } else if (wasOpen) {currentReadingVisit=null;$('detail').close();}
   syncPageContext();
   if(!wasOpen&&missingHadFocus){
     if($('missing-case')&&!$('missing-case').hidden)focusMissingCase();else revealSearch(true);

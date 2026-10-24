@@ -120,6 +120,24 @@ async function jump(page,button){
    // Journey 2: a shared long article, sources, refresh and keyboard outline.
    await ready(page,'?q=PR&case=UC-005');
    await page.locator('.reader-nav').waitFor();
+   assert.equal(await page.locator('.research-details').evaluate(el=>el.open),false,'original research stays collapsed before the reader chooses it');
+   const originalEntry=page.locator('.reader-original-open');
+   assert.equal(await originalEntry.count(),1,'long cases have a stable route to the complete original');
+   assert.match(await originalEntry.innerText(),/查看完整原始研究、來源與提示詞/);
+   assert.equal(await originalEntry.evaluate(el=>!!el.closest('.plain-overview')),true,'the route is near the case purpose, not buried in the outline');
+   await visibleBelowToolbar(page,'.reader-original-open');
+   await originalEntry.focus();await page.keyboard.press('Enter');
+   assert.equal(await page.locator('.research-details').evaluate(el=>el.open),true);
+   assert.equal(await page.evaluate(()=>document.activeElement===document.querySelector('.research-details > summary')),true,'opening original research moves focus to its summary');
+   await visibleBelowToolbar(page,'.research-details > summary');
+   await page.keyboard.press('Tab');
+   assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('reader-return')),true,'keyboard focus moves from the summary to a return control');
+   await page.keyboard.press('Enter');
+   assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title','the original has a direct keyboard-operable return to its reader navigation');
+   await visibleBelowToolbar(page,'#reader-nav-title');
+   await page.locator('.research-details > summary').focus();await page.keyboard.press('Enter');
+   assert.equal(await page.locator('.research-details').evaluate(el=>el.open),false,'the original can be collapsed again without losing its reader route');
+   await page.locator('#reader-nav-title').scrollIntoViewIfNeeded();
    assert.equal(await page.locator('.detail-toolbar').evaluate(toolbar=>toolbar.scrollWidth<=toolbar.clientWidth),true,'toolbar fits narrow screens');
    assert.equal(await page.locator('.detail-toolbar-id').evaluate(id=>id.getBoundingClientRect().height<30),true,'case ID stays on one line');
    assert.equal(await page.locator('.detail-toolbar-actions button').evaluateAll(buttons=>buttons.every(button=>button.getBoundingClientRect().height>=26)),true,'toolbar controls retain usable target height');

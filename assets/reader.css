@@ -90,6 +90,10 @@
 .reader-method-shortcut strong{font-size:14px;line-height:1.7;color:var(--green)}
 .reader-method-shortcut:hover{background:#e9eee0;border-color:var(--green)}
 
+.reader-original-open{display:block;width:100%;min-height:44px;margin:8px 0 14px;padding:10px 14px;text-align:left;background:#f5f7ef;color:var(--green);font-size:14px;line-height:1.7;overflow-wrap:anywhere}
+.reader-original-open:hover{background:#e9eee0;border-color:var(--green)}
+.reader-original-open:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+
 /* Keep reading controls legible and easy to tap, including narrow phones. */
 .detail-toolbar{gap:12px}
 .detail-toolbar-left{min-width:0}

@@ -82,3 +82,4 @@ jobs:
         with:
           name: corpus-bundle-qa
           path: qa-artifacts/
+# Published verification reuses deployed product files; only QA metadata differs.

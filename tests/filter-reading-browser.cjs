@@ -3,10 +3,10 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const base=process.env.SITE_URL||'http://127.0.0.1:8187/ai-agent-use-cases/';
-const out=process.env.QA_OUT||'qa-artifacts/filter-after',observe=process.env.QA_OBSERVE==='1';
+const out=process.env.QA_OUT||'qa-artifacts/filter-after',observe=process.env.QA_OBSERVE==='1'&&process.env.QA_PUBLIC!=='1';
 fs.mkdirSync(out,{recursive:true});
 (async()=>{const rows=[];
-for(const [engine,width] of (observe?[[chromium,1440],[chromium,390],[chromium,320]]:[[chromium,1440],[chromium,1001],[chromium,1000],[chromium,768],[chromium,601],[chromium,600],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
+for(const [engine,width] of (process.env.QA_PUBLIC==='1'?[[chromium,1440],[chromium,390]]:observe?[[chromium,1440],[chromium,390],[chromium,320]]:[[chromium,1440],[chromium,1001],[chromium,1000],[chromium,768],[chromium,601],[chromium,600],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
  const b=await engine.launch(),context=await b.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),p=await context.newPage(),row={label:engine.name()+'-'+width,errors:[]};rows.push(row);p.on('pageerror',e=>row.errors.push(e.message));
  try{
  await p.goto(base);await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);row.total=await p.evaluate(()=>entries.length);

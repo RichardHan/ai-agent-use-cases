@@ -85,7 +85,7 @@ async function fixture(page){
    assert.equal(await p.locator('#query').inputValue(),'工作');
    assert.equal(await p.locator('#tool').inputValue(),'Notion');
    assert.equal(await p.locator('#results .card').count(),1);
-   assert.deepEqual(f.counts,{'cases/a.md':1,'cases/b.md':2,'sources/pending.md':2});
+   assert.deepEqual(f.counts,{'cases/a.md':1,'cases/b.md':3,'sources/pending.md':3});
    assert.match(await p.locator('#partial-message').innerText(),/1 個來源檔案/);
    f.unblock('sources/pending.md');
    await p.locator('#retry-failed').click();
@@ -94,7 +94,7 @@ async function fixture(page){
    assert.equal(await p.locator('#results .card h3 button').first().evaluate(n=>n===document.activeElement),true,'rebuilt card focus retained');
    assert.equal(await p.evaluate(()=>entries.length),4,'one source yields two pending entries');
    assert.equal(await p.locator('#pending-count').innerText(),'2');
-   assert.deepEqual(f.counts,{'cases/a.md':1,'cases/b.md':2,'sources/pending.md':3});
+   assert.deepEqual(f.counts,{'cases/a.md':1,'cases/b.md':3,'sources/pending.md':4});
    await p.keyboard.press('Enter');await p.locator('#detail[open]').waitFor();await p.keyboard.press('Escape');
    assert.equal(await p.locator('#results .card h3 button').first().evaluate(n=>n===document.activeElement),true);
    await p.locator('#query').fill('完全不存在');

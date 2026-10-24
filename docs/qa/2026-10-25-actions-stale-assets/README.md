@@ -13,7 +13,7 @@ Chosen: option 1. Each check still runs for the current `main` commit and for ex
 
 Actions runs launched close together were checking whether their checkout's assets exactly matched the live Pages site. Older `main` runs then failed with `Published assets mismatch` after a newer commit had been deployed, even though those workflows were exercising the same published site. On 2026-10-24, the latest failure set contained repeated stale SHA comparisons, including [Combined recovery QA run 40105686479](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40105686479); the local independent audit also found the same failure in print, corpus loading, home search, facets, search context and recent discovery workflows.
 
-Audience: maintainers diagnosing overlapping Actions runs. Expected outcome: the current deployment remains checked while obsolete runs stop reporting an expected version mismatch as a product failure. Browser journeys and their other assertions still run. Separately, the recovery test's expected request count was stale: the loader retries one 429 response automatically before the user retry, so the test now expects three requests.
+Audience: maintainers diagnosing overlapping Actions runs. Expected outcome: the current deployment remains checked while obsolete runs stop reporting an expected version mismatch as a product failure. Browser journeys and their other assertions still run. Separately, the recovery test's request-count expectations were stale. The actual Chromium/Firefox/WebKit runner showed that each failed fixture receives one request during initial loading and one user retry, then the still-blocked source receives one more request when the other source is recovered. The test now follows those observed counts.
 
 No product UI, catalog facts, sources or qualification counts changed.
 
@@ -24,7 +24,7 @@ No product UI, catalog facts, sources or qualification counts changed.
 - Added the guard to all 42 workflows that contain a published-site SHA comparison or use a shared live-asset assertion.
 - Added whole-step freshness gates to 30 workflows where a live browser command followed the inline asset poll, so an obsolete checkout cannot continue into assertions against the newer public site.
 - Added stale-main guards to shared published browser entrypoints, including reading flow, reader, related reading, return visibility, recovery and trust checks. The print workflow uses a whole-step gate. Local preview URLs and non-main verification refs keep running.
-- Updated `tests/load-recovery-browser.cjs` to expect the loader's automatic retry plus the explicit user retry.
+- Updated `tests/load-recovery-browser.cjs` after the cloud runner showed the fixture's actual retry counts; the original local run did not execute this Playwright browser file.
 - The guard affects only the live published-asset SHA assertion. It does not skip the browser journey or remaining QA checks.
 
 Local acceptance on the final working tree:

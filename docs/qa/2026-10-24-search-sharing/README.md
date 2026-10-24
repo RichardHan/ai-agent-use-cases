@@ -65,3 +65,15 @@ SITE_URL=http://127.0.0.1:8170/ai-agent-use-cases/ NODE_PATH=<cloud-tools>/node_
 獨立角色唯讀審查6行產品diff，另跑16項相關單元及diff check全過；核對三份原始報告、25次主要axe、15筆有序分享結果及3復原，目視1440／390保留來源焦點與320長Unicode備援，結論可合併、沒有產品或視覺阻擋。其要求的ID集合／重整零缺載與TAP尾空白已修正。
 
 建立PR遭GitHub GraphQL拒絕（Enterprise Managed User不能createPullRequest），沒有PR編號；依使用者直接push與merged授權，沿用個人repo已可用SSH remote一般merge，不強推、不更改權限。合併前又同步協作者UC449與來源補充，無衝突；[最新整合206項](checks/release-unit.tap)全過。此輪產品仍只修改app.js，協作者案例完整保留。
+
+## 合併發布與可交付範圍
+
+一般merge並push main為`95e89cd`，無強推。[Pages40062745137](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40062745137)正式Jekyll build／report-build-status／deploy全成功：[jobs](checks/pages-release.json)。[公開資產核對](checks/public-assets.json)五個HTML／JS／CSS皆HTTP200、SHA-256及逐byte符合95e89cd，確定本輪產品已上線。
+
+第二整合預覽[40062671872](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40062671872)也完整成功：446條目、新分享與完整旅程各三引擎五配置、3種復原成功：[分享](checks/integrated-preview/sharing.json)／[旅程](checks/integrated-preview/journey.json)／[復原](checks/integrated-preview/lifecycle.json)。兩次完整預覽合計50次主要axe零違規。正式站的最新條目數未經完整browser驗證，不把預覽446或預期447當成已驗正式數。
+
+協作者後續合併151a432的篩選版面、分享字級與文件，沒有改本輪app.js；快轉同步、[211項單元](checks/latest-unit.tap)全過。其Pages40078381702遭後續dbcda8d取代取消，不列成功；最新Pages40078452838與正式verifier40078392386（95e89cd）、40078471779（151a432）截至交付仍排隊。取消舊verifier的API被403拒絕（需管理權限），未換帳號或修改權限。公開站此時五資產仍完整符合本輪95e89cd，後續新版HTML／CSS不在此次正式驗證範圍。
+
+主線95e89cd自動啟動的31項歷史工作流為13成功、18失敗：[狀態快照](checks/main-ci-status.json)。Corpus loading QA40062745676的正式步驟可見`published assets match checkout`斷言失敗；其他失敗未逐一定位，不能通稱同一根因，也不能宣稱main全綠。本輪首版工具失敗、既有CI失敗、後續排隊與取消均不計成功。
+
+獨立終審核對本輪預覽證據、畫面與公開app.js，結論本輪可交付、沒有產品阻擋；同時明列正式完整browser及協作者新版CSS尚未驗證。本輪停止於已完成的產品修正、跨瀏覽器預覽、獨立review與公開資產核對，不繼續修改他人工作或為等待重啟產品迭代。原工作目錄仍維持兩項未提交搜尋修改。

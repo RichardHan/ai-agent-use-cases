@@ -1,0 +1,26 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "checks": [
+      {
+        "flow": "selected-title",
+        "before": "UC-001",
+        "after": "UC-139"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "checks": [
+      {
+        "flow": "selected-title",
+        "before": "UC-001",
+        "after": "UC-139"
+      }
+    ],
+    "errors": []
+  }
+]

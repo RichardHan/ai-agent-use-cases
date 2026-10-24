@@ -45,7 +45,18 @@ jobs:
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         env:
           NODE_PATH: ${{ runner.temp }}/match-tools/node_modules
-        run: node tests/search-context-live.cjs
+        run: |
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
+          node tests/search-context-live.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

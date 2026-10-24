@@ -2,9 +2,9 @@ name: Home search entry QA
 on:
   push:
     branches: [main]
-    paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', 'tests/home-task-entry.test.cjs', '.github/workflows/home-search-entry-qa.yml']
+    paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', 'tests/home-task-entry.test.cjs', 'tests/hero-value*', '.github/workflows/home-search-entry-qa.yml']
   pull_request:
-    paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', 'tests/home-task-entry.test.cjs', '.github/workflows/home-search-entry-qa.yml']
+    paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', 'tests/home-task-entry.test.cjs', 'tests/hero-value*', '.github/workflows/home-search-entry-qa.yml']
 permissions:
   contents: read
 jobs:
@@ -44,6 +44,7 @@ jobs:
         run: |
           python3 -m http.server 8087 --directory "$RUNNER_TEMP/entry-preview" > /tmp/entry-preview.log 2>&1 &
           node tests/home-search-entry-browser.cjs
+          HERO_VALUE_URL=http://127.0.0.1:8087/ai-agent-use-cases/ node tests/hero-value-browser.cjs
       - name: Wait for and verify published Pages assets
         if: ${{ github.ref == 'refs/heads/main' }}
         env:
@@ -56,7 +57,7 @@ jobs:
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const base='https://richardhan.github.io/ai-agent-use-cases/';
-            for(let attempt=0;attempt<90;attempt++){
+            for(let attempt=0;attempt<180;attempt++){
               const files=['index.html','assets/app.js','assets/style.css'];
               const actual=await Promise.all(files.map(async file=>{
                 const response=await fetch(base+(file==='index.html'?'':file)+'?qa='+process.env.GITHUB_SHA,{cache:'no-store'});
@@ -67,7 +68,7 @@ jobs:
               }
               await new Promise(resolve=>setTimeout(resolve,2000));
             }
-            throw Error('Published Pages assets did not match this checkout within 180 seconds');
+            throw Error('Published Pages assets did not match this checkout within 360 seconds');
           })().catch(error=>{console.error(error);process.exitCode=1;});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
@@ -81,6 +82,7 @@ jobs:
             exit "$freshness_status"
           fi
           node tests/home-search-entry-browser.cjs
+          HERO_VALUE_URL=https://richardhan.github.io/ai-agent-use-cases/ node tests/hero-value-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

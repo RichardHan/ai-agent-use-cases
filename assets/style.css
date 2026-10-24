@@ -113,7 +113,7 @@
 .compact-stats{margin-bottom:24px}
 .card-bottom button{min-height:36px}
 @media(max-width:1000px){.discovery-layout{gap:28px}.discovery-stage{padding:22px}.guide-options button{padding:11px}.draw-actions{flex-wrap:wrap}.filter-row label{flex-basis:28%}}
-@media(max-width:760px){.discovery-layout{grid-template-columns:1fr;gap:26px;padding:30px 0 34px}.discovery-hero h1{font-size:36px}.discovery-hero .intro{font-size:15px;margin-bottom:20px}.guide-options{gap:8px}.guide-options button{min-height:66px;padding:10px 12px}.guide-options button strong{font-size:14px}.guide-options button span{font-size:11px}.discovery-stage{padding:22px;margin-top:0}.drawn-case .card{min-height:260px;padding:22px}.drawn-case .card h3{font-size:23px}.draw-status{min-height:0}.draw-actions{flex-wrap:nowrap;gap:12px}.primary-button{padding:12px 18px}.draw-actions a{font-size:12px}.compact-stats{margin-bottom:20px}.filter-row label{flex-basis:calc(50% - 6px)}}
+@media(max-width:760px){.discovery-layout{grid-template-columns:1fr;gap:26px;padding:30px 0 34px}.discovery-hero h1{font-size:36px}.discovery-hero .intro{font-size:15px;margin-bottom:20px}.hero-value-props{grid-template-columns:1fr;gap:8px;padding:12px}.hero-guide-steps{gap:4px 8px}.guide-options{gap:8px}.guide-options button{min-height:66px;padding:10px 12px}.guide-options button strong{font-size:14px}.guide-options button span{font-size:11px}.discovery-stage{padding:22px;margin-top:0}.drawn-case .card{min-height:260px;padding:22px}.drawn-case .card h3{font-size:23px}.draw-status{min-height:0}.draw-actions{flex-wrap:nowrap;gap:12px}.primary-button{padding:12px 18px}.draw-actions a{font-size:12px}.compact-stats{margin-bottom:20px}.filter-row label{flex-basis:calc(50% - 6px)}}
 @media(prefers-reduced-motion:reduce){.guide-options button{transition:none}}
 
 /* Keep small reading-note text above WCAG AA contrast on its tinted panel. */
@@ -210,6 +210,24 @@
 .hero-task-examples>a{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:650;text-underline-offset:4px}
 .hero-task-examples>a:hover{color:#172b27}
 .hero-task-examples>a:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
+
+/* First-time visitor value proposition and audience guidance */
+.hero-value-props{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 20px;padding:12px 14px;background:#f3f6ee;border:1px solid #d4ded0;border-radius:10px}
+.value-prop-item{display:flex;flex-direction:column;gap:3px}
+.value-prop-title{font-size:13px;font-weight:750;color:#1e4537;line-height:1.4}
+.value-prop-desc{font-size:12px;line-height:1.55;color:#3d5449}
+
+/* Simple 3-step visitor guide */
+.hero-guide-steps{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin:0 0 20px;font-size:12px;color:#4c6258}
+.guide-step{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.guide-step .step-num{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--green);color:white;border-radius:50%;font-size:11px;font-weight:700}
+.guide-step-arrow{color:#8aa196;font-size:12px}
+
+/* High-frequency problem tags */
+.hero-problem-tags{display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px;margin:-10px 0 18px;color:#4c6258;font-size:13px;line-height:1.5}
+.problem-tag{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:650;text-underline-offset:4px}
+.problem-tag:hover{color:#172b27}
+.problem-tag:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
 
 /* Explain query order without adding another control to the mobile filter panel. */
 .search-order-note{margin:0;font-size:13px;line-height:1.7;color:var(--green);max-width:65ch;overflow-wrap:anywhere}

@@ -72,7 +72,7 @@ jobs:
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const paths=['assets/app.js','assets/reader.js','assets/reader.css'];
-            for(let i=0;i<60;i++){
+            for(let i=0;i<120;i++){
               const states=await Promise.all(paths.map(async path=>{
                 const r=await fetch(process.env.PRINT_URL+path+'?print='+process.env.GITHUB_SHA,{cache:'no-store'});
                 return r.ok&&await r.text()===fs.readFileSync(path,'utf8');

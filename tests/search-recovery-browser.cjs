@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {ensureFiltersVisible}=require('./filter-controls.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -123,7 +124,7 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     await page.locator('#active-filters [data-remove-filter="scenario"]').click();
     assert.equal(await page.locator('#query').inputValue(),'旅遊');
     assert((await page.locator('#results .card').count())>0);
-    await page.route('**/cases/001-travel-checkout.md',route=>route.fulfill({status:404,body:'not found'}));
+    await sourceRoute(page,'**/cases/001-travel-checkout.md',route=>route.fulfill({status:404,body:'not found'}));
     await page.goto(origin+'?q=旅遊&tool=Grok%20Bot&category='+encodeURIComponent('旅遊／消費研究')+'&proof='+encodeURIComponent('作者報告／示範'),{waitUntil:'networkidle'});
     const loadedMatches=await page.locator('#results .card').count();
     assert(loadedMatches>0);

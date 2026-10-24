@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright'),{AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.SITE_URL||'http://127.0.0.1:8178/ai-agent-use-cases/',out=process.env.QA_OUT||'qa-artifacts/after',before=process.env.QA_BEFORE==='1';fs.mkdirSync(out,{recursive:true});
@@ -6,7 +7,7 @@ const base=process.env.SITE_URL||'http://127.0.0.1:8178/ai-agent-use-cases/',out
  const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),page=await context.newPage(),row={label:engine.name()+'-'+width,errors:[],requests:{}};rows.push(row);page.on('pageerror',e=>row.errors.push(e.message));
  if(before)await page.route('**/assets/app.js',r=>r.fulfill({path:process.env.BEFORE_APP,contentType:'text/javascript'}));
  const path='cases/001-travel-checkout.md';
- await page.route('**/'+path,async r=>{row.requests[path]=(row.requests[path]||0)+1;if(row.requests[path]===1)await r.fulfill({status:503,headers:{'Retry-After':'0'},body:'Temporary failure'});else await r.continue();});
+ await sourceRoute(page,'**/'+path,async r=>{row.requests[path]=(row.requests[path]||0)+1;if(row.requests[path]===1)await r.fulfill({status:503,headers:{'Retry-After':'0'},body:'Temporary failure'});else await r.continue();});
  try{
  const start=Date.now();await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok%20Bot');await page.waitForFunction(()=>discoveryReady,null,{timeout:30000});row.elapsedMs=Date.now()-start;row.corpus=await page.evaluate(()=>({total:entries.length,failed:[...failedPaths]}));row.resultText=await page.locator('#results-count').innerText();row.initialRequests={...row.requests};
  if(before){assert.deepEqual(row.corpus.failed,[path]);assert.equal(row.requests[path],1);await page.locator('#partial-load').scrollIntoViewIfNeeded();}else {assert.deepEqual(row.corpus.failed,[]);assert.equal(row.requests[path],2);assert(await page.locator('#partial-load').isHidden());await page.locator('#results-count').scrollIntoViewIfNeeded();}
@@ -23,7 +24,7 @@ if(!before){
  for(const mode of ['shared-early','persistent','permanent','cancel','long-server-wait']){
   const context=await browser.newContext({viewport:{width:390,height:900}}),page=await context.newPage(),row={mode,calls:0};lifecycle.push(row);let release;const gate=new Promise(r=>release=r);
   try{
-  await page.route('**/*.md',async route=>{const url=route.request().url();if(url.endsWith('/001-travel-checkout.md')){row.calls++;if(mode==='shared-early'&&row.calls>1){await route.continue();return;}await route.fulfill({status:mode==='permanent'?404:503,headers:{'Retry-After':mode==='long-server-wait'?'120':mode==='cancel'?'2':'0'},body:'QA source unavailable'});return;}if(mode==='shared-early')await gate;await route.continue();});
+  await sourceRoute(page,'**/*.md',async route=>{const url=route.request().url();if(url.endsWith('/001-travel-checkout.md')){row.calls++;if(mode==='shared-early'&&row.calls>1){await route.continue();return;}await route.fulfill({status:mode==='permanent'?404:503,headers:{'Retry-After':mode==='long-server-wait'?'120':mode==='cancel'?'2':'0'},body:'QA source unavailable'});return;}if(mode==='shared-early')await gate;await route.continue();});
   await page.goto(base+(mode==='shared-early'?'?case=UC-001&q=旅遊':'?q=旅遊&scenario=生活'));
   if(mode==='shared-early'){await page.locator('#detail[open]').waitFor();row.early=await page.evaluate(()=>!discoveryReady);assert(row.early);assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-001');await page.locator('.research-details summary').click();await page.locator('.research-details h2').first().focus();const focused=await page.evaluate(()=>document.activeElement.id);release();await page.waitForFunction(()=>discoveryReady);assert.equal(await page.evaluate(()=>document.activeElement.id),focused);assert.equal(row.calls,2);}
   else {

@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs');
@@ -13,7 +14,7 @@ async function settle(page){await page.evaluate(()=>new Promise((resolve,reject)
  for(const [size,width,height] of (engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['narrow',320,740],['short',390,480]]:[['mobile',390,844],['short',390,480]])){
  const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage(),errors=[];
  page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(30000);
- let release;const gate=new Promise(r=>release=r);await page.route('**/cases/001-travel-checkout.md',async route=>{await gate;await route.continue();});
+ let release;const gate=new Promise(r=>release=r);await sourceRoute(page,'**/cases/001-travel-checkout.md',async route=>{await gate;await route.continue();});
  const check={engine,size};report.push(check);save();
  await page.goto(base+'?case=UC-400');await page.locator('#detail[open]').waitFor();
  assert.equal(await page.evaluate(()=>discoveryReady),false);

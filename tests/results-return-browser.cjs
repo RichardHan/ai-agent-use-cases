@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
@@ -73,12 +74,12 @@ const report=[];const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringif
  if(!observe){
   const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();
   for(const position of ['first','last']){
-   await page.route('**/cases/001-*.md',route=>route.fulfill({status:503,body:'unavailable'}));
+   await sourceRoute(page,'**/cases/001-*.md',route=>route.fulfill({status:503,body:'unavailable'}));
    await page.goto(base);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.evaluate(()=>failedPaths.length),1);
    const before=await page.locator('#results .card').count(),links=page.locator('#results [data-results-return]'),link=position==='first'?links.first():links.last();
    await page.unroute('**/cases/001-*.md');
    let release;const gate=new Promise(resolve=>release=resolve);
-   await page.route('**/cases/001-*.md',async route=>{await gate;await route.continue();});
+   await sourceRoute(page,'**/cases/001-*.md',async route=>{await gate;await route.continue();});
    // Start a real retry, then continue browsing while its source is still in flight.
    await page.locator('#retry-failed').click();await page.waitForFunction(()=>recoveringSources);await link.focus();
    const expectedBefore=position==='first'?'6':String(before);assert.equal(await page.evaluate(()=>document.activeElement.dataset.resultsReturn),expectedBefore);

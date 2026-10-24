@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
@@ -112,8 +113,8 @@ const live=process.env.RELATED_LIVE==='1';
   const waiting=new Promise(resolve=>release=resolve);
   await page.route('**/catalog.json',r=>r.fulfill({json:{files:['cases/a.md','cases/b.md']}}));
   const fixture=id=>'# UC-'+id+'：測試用案例（合成資料）\n\n- 分類：測試主題\n- 情境：生活\n- 標籤：測試\n- 來源證據：自設未測\n\n## 方法\n\n僅供自動驗收。';
-  await page.route('**/cases/a.md',r=>r.fulfill({body:fixture('991')}));
-  await page.route('**/cases/b.md',async r=>{
+  await sourceRoute(page,'**/cases/a.md',r=>r.fulfill({body:fixture('991')}));
+  await sourceRoute(page,'**/cases/b.md',async r=>{
    if(!recovered)return r.fulfill({status:503,body:'test unavailable'});
    await waiting;await r.fulfill({body:fixture('992')});
   });

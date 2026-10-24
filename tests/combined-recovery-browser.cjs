@@ -1,3 +1,4 @@
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
@@ -47,7 +48,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   // Source loading, partial recovery and focus retention during background refresh.
   let release;const gate=new Promise(r=>release=r);
   await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
-  await page.route('**/cases/001-travel-checkout.md',route=>route.fulfill({status:503,body:'Unavailable'}));
+  await sourceRoute(page,'**/cases/001-travel-checkout.md',route=>route.fulfill({status:503,body:'Unavailable'}));
   await page.goto(base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'domcontentloaded'});
   assert(await page.locator('#empty').isHidden());release();
   await page.locator('#partial-load').waitFor({state:'visible'});assert.match(await page.locator('#empty-hint').innerText(),/部分條目載入失敗/);const partialCount=Number((await page.locator('#empty-suggestions button').innerText()).match(/查看 (\d+) 筆/)[1]);

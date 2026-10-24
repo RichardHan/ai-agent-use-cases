@@ -1,0 +1,264 @@
+TAP version 13
+# Subtest: one bundle replaces every source request without altering source text or order
+not ok 1 - one bundle replaces every source request without altering source text or order
+  ---
+  duration_ms: 16.522333
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+    +   'cases/001-one.md',
+    +   'cases/002-two.md',
+    +   'sources/pending.md'
+    -   'corpus.json'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'corpus.json'
+  actual:
+    0: 'cases/001-one.md'
+    1: 'cases/002-two.md'
+    2: 'sources/pending.md'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:16:9)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3)
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: http
+not ok 2 - unusable bundle falls back without publishing untrusted content: http
+  ---
+  duration_ms: 4.869875
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:18:100'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    3 !== 4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 4
+  actual: 3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:22:75)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: bad-json
+not ok 3 - unusable bundle falls back without publishing untrusted content: bad-json
+  ---
+  duration_ms: 3.376125
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:18:100'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    3 !== 4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 4
+  actual: 3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:22:75)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: revision
+not ok 4 - unusable bundle falls back without publishing untrusted content: revision
+  ---
+  duration_ms: 1.140083
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:18:100'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    3 !== 4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 4
+  actual: 3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:22:75)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: missing
+not ok 5 - unusable bundle falls back without publishing untrusted content: missing
+  ---
+  duration_ms: 3.810333
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:18:100'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    3 !== 4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 4
+  actual: 3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:22:75)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: duplicate
+not ok 6 - unusable bundle falls back without publishing untrusted content: duplicate
+  ---
+  duration_ms: 0.97125
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:18:100'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    3 !== 4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 4
+  actual: 3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:22:75)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: unsafe
+not ok 7 - unusable bundle falls back without publishing untrusted content: unsafe
+  ---
+  duration_ms: 0.649667
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:18:100'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    3 !== 4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 4
+  actual: 3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:22:75)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: bad-text
+not ok 8 - unusable bundle falls back without publishing untrusted content: bad-text
+  ---
+  duration_ms: 0.779834
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:18:100'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    3 !== 4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 4
+  actual: 3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:22:75)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: unusable bundle falls back without publishing untrusted content: parse
+not ok 9 - unusable bundle falls back without publishing untrusted content: parse
+  ---
+  duration_ms: 1.715542
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:18:100'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    3 !== 4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 4
+  actual: 3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:22:75)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: shared source opens before a delayed bundle and successful source is not fetched again on fallback
+ok 10 - shared source opens before a delayed bundle and successful source is not fetched again on fallback
+  ---
+  duration_ms: 1.545125
+  type: 'test'
+  ...
+# Subtest: bundle completion cancels a stalled shared request without waiting for its source timeout
+not ok 11 - bundle completion cancels a stalled shared request without waiting for its source timeout
+  ---
+  duration_ms: 1041.810083
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:29:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 3
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 3
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/corpus-bundle.test.cjs:31:32)
+    async Test.run (node:internal/test_runner/test:981:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: bundle timeout leaves a budget for fallback, individual failures stay retryable
+ok 12 - bundle timeout leaves a budget for fallback, individual failures stay retryable
+  ---
+  duration_ms: 17.164833
+  type: 'test'
+  ...
+# Subtest: stopping while bundle waits retains the already readable shared source and exact missing paths
+ok 13 - stopping while bundle waits retains the already readable shared source and exact missing paths
+  ---
+  duration_ms: 1.501375
+  type: 'test'
+  ...
+# Subtest: old catalogs keep the existing per-file loader and pending one-file/multiple-entry behavior
+ok 14 - old catalogs keep the existing per-file loader and pending one-file/multiple-entry behavior
+  ---
+  duration_ms: 1.808167
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 4
+# fail 10
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1805.971125

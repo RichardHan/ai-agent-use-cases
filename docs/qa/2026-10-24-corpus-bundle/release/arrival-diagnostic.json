@@ -1,0 +1,227 @@
+[
+  {
+    "mode": "baseline",
+    "width": 1440,
+    "height": 1000,
+    "immediate": {
+      "queryTop": 159.15625,
+      "resultsTop": 1050.90625,
+      "focus": "search-title",
+      "scrollY": 914,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": true,
+      "filtersHeight": 617.46875,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "settled": {
+      "queryTop": 159.15625,
+      "resultsTop": 1050.90625,
+      "focus": "search-title",
+      "scrollY": 914,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": true,
+      "filtersHeight": 617.46875,
+      "label": "顯示 26 / 447 筆收錄"
+    }
+  },
+  {
+    "mode": "baseline",
+    "width": 1440,
+    "height": 1600,
+    "immediate": {
+      "queryTop": 158.921875,
+      "resultsTop": 1050.671875,
+      "focus": "search-title",
+      "scrollY": 1003,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": true,
+      "filtersHeight": 617.46875,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "settled": {
+      "queryTop": 158.921875,
+      "resultsTop": 1050.671875,
+      "focus": "search-title",
+      "scrollY": 1003,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": true,
+      "filtersHeight": 617.46875,
+      "label": "顯示 26 / 447 筆收錄"
+    }
+  },
+  {
+    "mode": "baseline",
+    "width": 390,
+    "height": 844,
+    "immediate": {
+      "queryTop": 181.78125,
+      "resultsTop": 509.5,
+      "focus": "search-title",
+      "scrollY": 1674,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": false,
+      "filtersHeight": 50,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "settled": {
+      "queryTop": 181.78125,
+      "resultsTop": 509.5,
+      "focus": "search-title",
+      "scrollY": 1674,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": false,
+      "filtersHeight": 50,
+      "label": "顯示 26 / 447 筆收錄"
+    }
+  },
+  {
+    "mode": "baseline",
+    "width": 320,
+    "height": 740,
+    "immediate": {
+      "queryTop": 182.515625,
+      "resultsTop": 562.234375,
+      "focus": "search-title",
+      "scrollY": 1622,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": false,
+      "filtersHeight": 50,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "settled": {
+      "queryTop": 182.515625,
+      "resultsTop": 562.234375,
+      "focus": "search-title",
+      "scrollY": 1622,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": false,
+      "filtersHeight": 50,
+      "label": "顯示 26 / 447 筆收錄"
+    }
+  },
+  {
+    "mode": "bundle",
+    "width": 1440,
+    "height": 1000,
+    "immediate": {
+      "queryTop": 158.96875,
+      "resultsTop": 483.25,
+      "focus": "search-title",
+      "scrollY": 889,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": false,
+      "filtersHeight": 50,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "settled": {
+      "queryTop": 158.96875,
+      "resultsTop": 483.25,
+      "focus": "search-title",
+      "scrollY": 889,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": false,
+      "filtersHeight": 50,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "reopenedPreserved": true
+  },
+  {
+    "mode": "bundle",
+    "width": 1440,
+    "height": 1600,
+    "immediate": {
+      "queryTop": 159.15625,
+      "resultsTop": 1050.90625,
+      "focus": "search-title",
+      "scrollY": 914,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": true,
+      "filtersHeight": 617.46875,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "settled": {
+      "queryTop": 159.15625,
+      "resultsTop": 1050.90625,
+      "focus": "search-title",
+      "scrollY": 914,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": true,
+      "filtersHeight": 617.46875,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "reopenedPreserved": true
+  },
+  {
+    "mode": "bundle",
+    "width": 390,
+    "height": 844,
+    "immediate": {
+      "queryTop": 182.234375,
+      "resultsTop": 509.953125,
+      "focus": "search-title",
+      "scrollY": 1472,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": false,
+      "filtersHeight": 50,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "settled": {
+      "queryTop": 182.234375,
+      "resultsTop": 509.953125,
+      "focus": "search-title",
+      "scrollY": 1472,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": false,
+      "filtersHeight": 50,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "reopenedPreserved": true
+  },
+  {
+    "mode": "bundle",
+    "width": 320,
+    "height": 740,
+    "immediate": {
+      "queryTop": 182.203125,
+      "resultsTop": 561.921875,
+      "focus": "search-title",
+      "scrollY": 1599,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": false,
+      "filtersHeight": 50,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "settled": {
+      "queryTop": 182.203125,
+      "resultsTop": 561.921875,
+      "focus": "search-title",
+      "scrollY": 1599,
+      "ready": true,
+      "failed": [],
+      "filtersOpen": false,
+      "filtersHeight": 50,
+      "label": "顯示 26 / 447 筆收錄"
+    },
+    "reopenedPreserved": true
+  },
+  {
+    "mode": "interacted-during-load",
+    "panelOpen": true,
+    "focus": "filter-summary"
+  }
+]

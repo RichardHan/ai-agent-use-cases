@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const AxeBuilder=require('@axe-core/playwright').default;
 const assert=require('node:assert/strict');
@@ -26,7 +27,7 @@ async function fixture(page){
  };
  await page.route('**/catalog.json',r=>r.fulfill({json:{builtAt:'fixture',files:Object.keys(docs)}}));
  await page.route('**/assets/copy.json',r=>r.fulfill({json:{}}));
- for(const [path,body] of Object.entries(docs))await page.route('**/'+path,async r=>{
+ for(const [path,body] of Object.entries(docs))await sourceRoute(page,'**/'+path,async r=>{
   counts[path]=(counts[path]||0)+1;
   const fail=blocked.has(path);
   if(delay)await new Promise(resolve=>setTimeout(resolve,delay));
@@ -44,7 +45,7 @@ async function fixture(page){
    const page=await (await browser.newContext({viewport:{width,height}})).newPage();
    let blocked=true;let requests=0;let networkRequests=0;
    page.on('request',()=>networkRequests++);
-   await page.route('**/cases/001-travel-checkout.md',async route=>{requests++;if(blocked)await route.fulfill({status:429,body:'Rate limited'});else await route.continue();});
+   await sourceRoute(page,'**/cases/001-travel-checkout.md',async route=>{requests++;if(blocked)await route.fulfill({status:429,body:'Rate limited'});else await route.continue();});
    await ready(page,'?q=UC-001#explore');
    assert.equal(await page.locator('#partial-load').isVisible(),true);
    assert.equal(await page.locator('#error').isVisible(),false);

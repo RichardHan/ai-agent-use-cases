@@ -667,13 +667,19 @@ function readingNodes(selector) {
   return [...$('detail-body').querySelectorAll(selector)].filter(node=>
     !node.closest('.detail-load-status,.related-cases,.case-share-feedback,.reader-copy'));
 }
+function readingFocusNodes() {
+  return [...$('detail-body').querySelectorAll(readingFocusSelector)].filter(node=>
+    !node.closest('.detail-load-status,.case-share-feedback,.reader-copy-status,.reader-copy-manual'));
+}
 function readingNodeRef(node,nodes) {
-  return node?{index:nodes.indexOf(node),id:node.id,tag:node.tagName,text:node.textContent}:null;
+  return node?{index:nodes.indexOf(node),id:node.id,relatedId:node.dataset.relatedId,href:node.tagName==='A'?node.href:null,tag:node.tagName,text:node.textContent}:null;
 }
 function resolveReadingNode(ref,nodes) {
   if(!ref)return null;
-  const same=node=>node&&node.tagName===ref.tag&&node.textContent===ref.text&&(!ref.id||node.id===ref.id);
-  return same(nodes[ref.index])?nodes[ref.index]:nodes.find(same)||null;
+  const same=node=>node&&node.tagName===ref.tag&&node.textContent===ref.text&&(!ref.id||node.id===ref.id)&&(!ref.relatedId||node.dataset.relatedId===ref.relatedId)&&(!ref.href||node.href===ref.href);
+  if(same(nodes[ref.index]))return nodes[ref.index];
+  const matches=nodes.filter(same);
+  return matches.length===1?matches[0]:null;
 }
 const readingBlockSelector='h2,h3,p,li,pre,summary,.markdown-table';
 const readingFocusSelector='button,a,input,textarea,select,summary,[tabindex]';
@@ -690,7 +696,7 @@ function rememberReadingView() {
     open:readingDisclosures.map(selector=>!!$('detail-body').querySelector(selector)?.open),
     outlineQuery:$('reader-outline-query')?.value||'',
     anchor:readingNodeRef(anchor,blocks),offset:anchor?anchor.getBoundingClientRect().top-edge:0,
-    focus:focusVisible?readingNodeRef(active,readingNodes(readingFocusSelector)):null,
+    focus:focusVisible?readingNodeRef(active,readingFocusNodes()):null,
     toolbarFocus:focusVisible&&active.closest('.detail-toolbar')?active.id:null,
     tables:[...$('detail-body').querySelectorAll('.markdown-table')].map(node=>node.scrollLeft)
   });
@@ -706,14 +712,14 @@ function restoreReadingView(view) {
   if(anchor?.getBoundingClientRect().height){
     dialog.scrollTop+=anchor.getBoundingClientRect().top-dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom-view.offset;
   }
-  const focus=$(view.toolbarFocus)||resolveReadingNode(view.focus,readingNodes(readingFocusSelector));
+  const focus=$(view.toolbarFocus)||resolveReadingNode(view.focus,readingFocusNodes());
   const visible=node=>{
     if(!node||node.disabled)return false;
     const rect=node.getBoundingClientRect();
     const top=node.closest('.detail-toolbar')?dialog.getBoundingClientRect().top:dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
     return rect.height>0&&rect.bottom>top&&rect.top<dialog.getBoundingClientRect().bottom;
   };
-  const target=visible(focus)?focus:visible(anchor)?anchor:$('detail-title');
+  const target=visible(focus)?focus:visible(anchor)?anchor:$('close-detail');
   if(!target.matches('button,a,input,textarea,select,summary,[tabindex]'))target.tabIndex=-1;
   target.focus({preventScroll:true});
 }

@@ -41,6 +41,11 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  row.returnedFocus=await p.evaluate(()=>{const r=document.activeElement.getBoundingClientRect(),d=document.querySelector('#detail').getBoundingClientRect();return {tag:document.activeElement.tagName,top:r.top,bottom:r.bottom,visible:r.bottom>d.top&&r.top<d.bottom};});assert(row.returnedFocus.visible,'Return focus stays in the visible reading area');
  await p.screenshot({path:`${out}/table-returned-${row.label}.png`});
  row.tableViolations=(await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id);assert.deepEqual(row.tableViolations,[]);
+ // Related-case browsing returns to its original, visible button rather than the offscreen title.
+ const relatedCaseID=await p.evaluate(()=>entries.find(item=>relatedEntries(item,entries).length).id);await p.goto(base+'?case='+relatedCaseID);await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);
+ const related=p.locator('.related-cases [data-related-id]').first();const relatedID=await related.getAttribute('data-related-id');await related.scrollIntoViewIfNeeded();await related.click();await p.waitForFunction(id=>currentDetailItem.id===id,relatedID);await p.goBack();await p.waitForFunction(id=>currentDetailItem.id===id,relatedCaseID);
+ assert(await related.evaluate(n=>n===document.activeElement),'Related case return restores its visible trigger');
+ const relatedRect=await related.boundingBox();assert(relatedRect.y>=0&&relatedRect.y+relatedRect.height<=900);await p.screenshot({path:`${out}/related-returned-${row.label}.png`});
  row.scenarios=['long reading Back and Forward','distinct visits and reload','filtered results Back and Forward','offscreen focus and horizontal table'];
  }
  assert.deepEqual(row.errors,[]);

@@ -1,0 +1,32 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "total": 443,
+    "before": {
+      "focus": "source-guide-summary",
+      "y": 1070
+    },
+    "after": {
+      "focus": "search-share-url",
+      "y": 1103,
+      "selected": 119
+    },
+    "reproduced": true
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "total": 443,
+    "before": {
+      "focus": "source-guide-summary",
+      "y": 1460
+    },
+    "after": {
+      "focus": "search-share-url",
+      "y": 1460,
+      "selected": 119
+    },
+    "reproduced": true
+  }
+]

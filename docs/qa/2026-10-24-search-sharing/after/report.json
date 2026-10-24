@@ -1,0 +1,192 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "total": 443,
+    "before": {
+      "focus": "source-guide-summary",
+      "y": 1431
+    },
+    "after": {
+      "focus": "source-guide-summary",
+      "y": 1431,
+      "selected": 0
+    },
+    "reproduced": false,
+    "axe": [
+      [],
+      []
+    ],
+    "sharedCount": 15,
+    "sharedIDs": [
+      "UC-001",
+      "UC-139",
+      "UC-040",
+      "UC-279",
+      "UC-286",
+      "UC-343",
+      "UC-422",
+      "UC-076",
+      "UC-272",
+      "UC-308",
+      "UC-319",
+      "UC-331",
+      "UC-373",
+      "UC-402",
+      "UC-434"
+    ],
+    "passed": true
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "total": 443,
+    "before": {
+      "focus": "source-guide-summary",
+      "y": 1497
+    },
+    "after": {
+      "focus": "source-guide-summary",
+      "y": 1497,
+      "selected": 0
+    },
+    "reproduced": false,
+    "axe": [
+      [],
+      []
+    ],
+    "sharedCount": 15,
+    "sharedIDs": [
+      "UC-001",
+      "UC-139",
+      "UC-040",
+      "UC-279",
+      "UC-286",
+      "UC-343",
+      "UC-422",
+      "UC-076",
+      "UC-272",
+      "UC-308",
+      "UC-319",
+      "UC-331",
+      "UC-373",
+      "UC-402",
+      "UC-434"
+    ],
+    "passed": true
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "total": 443,
+    "before": {
+      "focus": "source-guide-summary",
+      "y": 1709
+    },
+    "after": {
+      "focus": "source-guide-summary",
+      "y": 1709,
+      "selected": 0
+    },
+    "reproduced": false,
+    "axe": [
+      [],
+      []
+    ],
+    "sharedCount": 15,
+    "sharedIDs": [
+      "UC-001",
+      "UC-139",
+      "UC-040",
+      "UC-279",
+      "UC-286",
+      "UC-343",
+      "UC-422",
+      "UC-076",
+      "UC-272",
+      "UC-308",
+      "UC-319",
+      "UC-331",
+      "UC-373",
+      "UC-402",
+      "UC-434"
+    ],
+    "passed": true
+  },
+  {
+    "label": "firefox-390",
+    "errors": [],
+    "total": 443,
+    "before": {
+      "focus": "source-guide-summary",
+      "y": 1522.550048828125
+    },
+    "after": {
+      "focus": "source-guide-summary",
+      "y": 1522.550048828125,
+      "selected": 0
+    },
+    "reproduced": false,
+    "axe": [
+      [],
+      []
+    ],
+    "sharedCount": 15,
+    "sharedIDs": [
+      "UC-001",
+      "UC-139",
+      "UC-040",
+      "UC-279",
+      "UC-286",
+      "UC-343",
+      "UC-422",
+      "UC-076",
+      "UC-272",
+      "UC-308",
+      "UC-319",
+      "UC-331",
+      "UC-373",
+      "UC-402",
+      "UC-434"
+    ],
+    "passed": true
+  },
+  {
+    "label": "webkit-390",
+    "errors": [],
+    "total": 443,
+    "before": {
+      "focus": "source-guide-summary",
+      "y": 1435
+    },
+    "after": {
+      "focus": "source-guide-summary",
+      "y": 1435,
+      "selected": 0
+    },
+    "reproduced": false,
+    "axe": [
+      [],
+      []
+    ],
+    "sharedCount": 15,
+    "sharedIDs": [
+      "UC-001",
+      "UC-139",
+      "UC-040",
+      "UC-279",
+      "UC-286",
+      "UC-343",
+      "UC-422",
+      "UC-076",
+      "UC-272",
+      "UC-308",
+      "UC-319",
+      "UC-331",
+      "UC-373",
+      "UC-402",
+      "UC-434"
+    ],
+    "passed": true
+  }
+]

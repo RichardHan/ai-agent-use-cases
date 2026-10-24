@@ -1,0 +1,46 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "before": {
+      "id": "UC-005",
+      "top": 12170,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "reader-section-32",
+      "anchor": 137.859375,
+      "overflow": false
+    },
+    "returned": {
+      "id": "UC-005",
+      "top": 0,
+      "open": false,
+      "query": "",
+      "focus": "detail-title",
+      "anchor": 12051.984375,
+      "overflow": false
+    }
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "before": {
+      "id": "UC-005",
+      "top": 19897,
+      "open": true,
+      "query": "獨立審查",
+      "focus": "reader-section-32",
+      "anchor": 160.25,
+      "overflow": false
+    },
+    "returned": {
+      "id": "UC-005",
+      "top": 0,
+      "open": false,
+      "query": "",
+      "focus": "detail-title",
+      "anchor": 19761.609375,
+      "overflow": false
+    }
+  }
+]

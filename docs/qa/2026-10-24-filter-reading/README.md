@@ -50,4 +50,14 @@
 
 ## 發布
 
-待驗收通過與獨立審查結論後正常合併，並用verify分支實測公開資產與桌面／手機流程；此段會補實際結果，不預先宣稱正式通過。
+已正常合併main，Pages與正式站驗收成功，詳細版本與驗收範圍如下。
+
+補充最終整合驗收：[40062879922](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40062879922)在3e4b0e7成功，已保留主線搜尋分享修正與新增研究：206／206單元、三引擎10版面＋5完整流程、25次axe零違規、447條目完整及3復原全過。[最終原始報告](final-preview/filter-after/report.json)。獨立審查無阻擋，指出的中寬度與公開QA斷言跳過問題已修正。後續450cc1b僅再整合協作者搜尋分享按鈕12→14px與其兩套測試；產品filter CSS無衝突，以151a432一般merge提交push main，並觸發verify分支正式驗收。PR建立遭EMU限制，取消被取代驗收工作API亦403；未繞過權限或強推，原run結果保留。
+
+發布過程補記：Pages151a432與dbcda8d的工作被後續協作者文件提交取代，不計為部署成功；最終[Pages40078989333](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40078989333)於6d2a71b的build／deploy／report全成功，保留本輪CSS。正式首兩驗40078385067／40078578289均在舊公開資產閘門失敗，未執行瀏覽、不列通過；[原失敗](public-before-deploy/failure.log)與當時222／222單元結果保存。新增2行協作者選字保護已獨立複核，無filter交互阻擋。CSS增加973個未壓縮bytes、資產請求增加0；[大小原始紀錄](asset-size.json)，非載入時間分數。
+
+最終正式驗收：[40079874801](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40079874801)成功，五產品資產HTTP200且逐byte一致，222／222單元全過。Chromium1440／390的filter版面、字級／44px、focus／Tab及三情境全過，447條完整；既有page-context以observe模式走兩尺寸首頁／搜尋／組合篩選／詳情／來源新頁／返回／空結果，447條完整。正式主要4次axe零違規；observe模式不執行page-context的title、detail／empty axe及完整直鏈／復原，這些在最終預覽的五配置與3復原已驗，不混稱正式也跑過。source-guide-share-layout的1440／390／320 × copied／manual六情境通過，無來源說明重疊。主角色已目視正式桌面、手機及320手動複製圖。
+
+[正式桌面](published/filter-after/controls-chromium-1440.png) · [正式手機](published/filter-after/controls-chromium-390.png) · [320手動複製](published/source-guide-share/320-manual.png) · [filter原始結果](published/filter-after/report.json) · [閱讀原始結果](published/regression/report.json) · [分享6情境](published/source-guide-share/report.json) · [完整原輸出](published/run.log)。最終預覽25＋正式4次主要axe，共29次零違規；前次重跑不重複加總。
+
+獨立唯讀review已核對產品CSS、10配置資料與四張圖，修正中寬度及公開斷言後無阻擋；另覆核最新分享14px與兩行選字保護，沒有filter交互退化。[審查記錄](review.md)。其他既有背景CI不在本輪全綠宣稱範圍，保留快照。原工作目錄兩項修改仍保留。最後僅補發布證據與已驗證的workflow，不改產品資產；本輪達標後停止。

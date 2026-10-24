@@ -55,6 +55,7 @@ jobs:
           fi
           runuser -u pwuser -- node tests/filter-reading-browser.cjs
           QA_OUT=qa-artifacts/regression runuser -u pwuser -- node tests/page-context-browser.cjs
+          GUIDE_URL="$SITE_URL" runuser -u pwuser -- node tests/source-guide-share-layout.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

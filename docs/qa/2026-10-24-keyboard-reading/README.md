@@ -63,3 +63,7 @@ WebKit 對照：攔截 app.js 並換成未含本輪兩行修正的 `origin/main`
 將既有 page-context 腳本的畫面配置列表設為空、其餘 lifecycle 斷言不動，獨立執行 loading-early／error／partial 與重試，三項全過、447條目零缺項：[生命週期原報告](lifecycle/lifecycle.json)。
 
 獨立唯讀審查以自寫probe在 Chromium／Firefox／WebKit各驗7項，全部通過、pageErrors皆空；包含事件不被 preventDefault、URL／history不變、Enter／click、保留選取Escape／原卡重開、輸入游標。[獨立原始JSON](checks/independent-review.json)、[probe](checks/independent-review.cjs)。沒有發現產品阻擋；本機Home鍵差異及Firefox focus會清選取都改成明確測試前置條件，不當作產品問題。
+
+最後主線450cc1b新增研究與篩選排版已無衝突合併為06c2ad8，產品app.js相對先前審查版不變。最終完整單元222／222，[release輸出](checks/release.tap)；更新預覽後，修正Firefox前置條件的新流程五配置全部通過、五次axe零違規：[release報告](release/report.json)。相同掃描不同版本不合併宣稱真人樣本或認證。維護摘要同步SITE.md。
+
+獨立終審已核對程式差異、五配置報告、1440／390／320畫面與WebKit對照，結論可發布，無本輪產品阻擋；已知WebKit舊崩潰保留。

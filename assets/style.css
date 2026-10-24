@@ -303,4 +303,4 @@
 .filter-panel .filter-row .reset{grid-column:1/-1;justify-self:end;min-height:44px;height:auto;max-width:100%;padding:9px 14px;font-size:14px;line-height:1.7;white-space:normal;text-align:center;border:1px solid var(--line);border-radius:7px;color:var(--green)}
 .filter-panel .filter-row select:focus-visible,.filter-panel .filter-row .reset:focus-visible{outline:3px solid var(--green);outline-offset:3px}
 @media(max-width:1000px){.filter-panel .filter-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:480px){.filter-panel .filter-row{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.filter-panel .filter-row{grid-template-columns:minmax(0,1fr)}}

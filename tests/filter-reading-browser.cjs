@@ -6,7 +6,7 @@ const base=process.env.SITE_URL||'http://127.0.0.1:8187/ai-agent-use-cases/';
 const out=process.env.QA_OUT||'qa-artifacts/filter-after',observe=process.env.QA_OBSERVE==='1';
 fs.mkdirSync(out,{recursive:true});
 (async()=>{const rows=[];
-for(const [engine,width] of (observe?[[chromium,1440],[chromium,390],[chromium,320]]:[[chromium,1440],[chromium,768],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
+for(const [engine,width] of (observe?[[chromium,1440],[chromium,390],[chromium,320]]:[[chromium,1440],[chromium,1001],[chromium,1000],[chromium,768],[chromium,601],[chromium,600],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
  const b=await engine.launch(),p=await b.newPage({viewport:{width,height:900},reducedMotion:'reduce'}),row={label:engine.name()+'-'+width,errors:[]};rows.push(row);p.on('pageerror',e=>row.errors.push(e.message));
  try{
  await p.goto(base);await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);row.total=await p.evaluate(()=>entries.length);
@@ -16,7 +16,7 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390],[chromium,3
  if(!observe){
   assert.equal(row.layout.overflow,false);
   for(const c of row.layout.controls){assert(c.font>=14,'labels and reset must remain legible');if(c.tag!=='LABEL'){assert(c.height>=44);assert(c.width>=44);}if(c.tag==='SELECT'){assert(c.font>=16);assert(c.width>=220,'room for selected values');}}
-  const cols=row.layout.columns.split(' ').length;assert.equal(cols,width<=480?1:width<=1000?2:3);
+  const cols=row.layout.columns.split(' ').length;assert.equal(cols,width<=600?1:width<=1000?2:3);
   // Native controls retain normal keyboard order and a visible focus indicator.
   await p.locator('#scenario').focus();row.focus=await p.locator('#scenario').evaluate(n=>({active:n===document.activeElement,style:getComputedStyle(n).outlineStyle,width:parseFloat(getComputedStyle(n).outlineWidth)}));assert(row.focus.active);assert.notEqual(row.focus.style,'none');assert(row.focus.width>=2);
   await p.keyboard.press('Tab');assert(await p.locator('#kind').evaluate(n=>n===document.activeElement));

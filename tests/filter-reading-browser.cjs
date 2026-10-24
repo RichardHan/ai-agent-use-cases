@@ -7,7 +7,7 @@ const out=process.env.QA_OUT||'qa-artifacts/filter-after',observe=process.env.QA
 fs.mkdirSync(out,{recursive:true});
 (async()=>{const rows=[];
 for(const [engine,width] of (observe?[[chromium,1440],[chromium,390],[chromium,320]]:[[chromium,1440],[chromium,1001],[chromium,1000],[chromium,768],[chromium,601],[chromium,600],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
- const b=await engine.launch(),p=await b.newPage({viewport:{width,height:900},reducedMotion:'reduce'}),row={label:engine.name()+'-'+width,errors:[]};rows.push(row);p.on('pageerror',e=>row.errors.push(e.message));
+ const b=await engine.launch(),context=await b.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),p=await context.newPage(),row={label:engine.name()+'-'+width,errors:[]};rows.push(row);p.on('pageerror',e=>row.errors.push(e.message));
  try{
  await p.goto(base);await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);row.total=await p.evaluate(()=>entries.length);
  await p.locator('#filter-options').evaluate(n=>n.open=true);await p.locator('.filter-row').scrollIntoViewIfNeeded();

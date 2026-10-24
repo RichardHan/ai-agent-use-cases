@@ -1,4 +1,4 @@
-name: Corpus delivery QA
+name: Search sharing QA
 on:
   push:
     branches: [improve/reader-source-access-20261024]
@@ -29,7 +29,7 @@ jobs:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           QA_OUT: qa-artifacts/before
         run: |
-          runuser -u pwuser -- node tests/reliability-observe.cjs
+          QA_BEFORE=1 runuser -u pwuser -- node tests/search-sharing-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

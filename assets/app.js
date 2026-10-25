@@ -385,6 +385,11 @@ const DIFFICULTY_LABELS = {
   '工具串接': '工具串接（需帳號或外掛）',
   '進階開發': '進階開發（需本機環境或代碼）'
 };
+const DIFFICULTY_NOTES = {
+  '入門對話': '免寫程式',
+  '工具串接': '需外掛/帳號',
+  '進階開發': '需代碼/環境'
+};
 function extractDifficulty(markdown, tools = [], scenario = '', category = '') {
   const lead = markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
   const declaredTools = clean(lead.match(/^-\s*工具\s*[：:]\s*(.+)$/m)?.[1] || '');
@@ -1149,6 +1154,12 @@ function card(item, terms=[]) {
     diffBadge.title = DIFFICULTY_LABELS[item.difficulty] || item.difficulty;
     diffBadge.setAttribute('aria-label', '實作門檻：' + (DIFFICULTY_LABELS[item.difficulty] || item.difficulty));
     badgesWrap.append(diffBadge);
+    if(DIFFICULTY_NOTES[item.difficulty]){
+      const diffNote = el('span', 'card-difficulty-note', DIFFICULTY_NOTES[item.difficulty]);
+      diffNote.dataset.difficulty = item.difficulty;
+      diffNote.setAttribute('aria-hidden', 'true');
+      badgesWrap.append(diffNote);
+    }
   }
   const kindBadge = el('span', 'kind', KIND[item.kind]);
   badgesWrap.append(kindBadge);

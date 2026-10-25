@@ -95,3 +95,108 @@ test('reading anchor and round browser tests have resilient scroll settling', ()
   const roundBrowser = fs.readFileSync(path.join(root, 'tests/round-browser.cjs'), 'utf8');
   assert.match(roundBrowser, /d\.scrollTop\s*=\s*expected/, 'round-browser must have resilient scroll fallback');
 });
+
+test('card renders .card-difficulty-note companion badge with plain-language explanation', () => {
+  const vm = require('node:vm');
+  function createElement(tag, className = '') {
+    const el = {
+      tagName: tag.toUpperCase(),
+      className,
+      dataset: {},
+      attributes: {},
+      children: [],
+      textContent: '',
+      setAttribute(k, v) { el.attributes[k] = String(v); },
+      getAttribute(k) { return el.attributes[k] ?? null; },
+      append(...nodes) {
+        for (const n of nodes) {
+          if (typeof n === 'string' || typeof n === 'number') {
+            el.children.push({ tagName: '#text', textContent: String(n) });
+          } else if (n) {
+            el.children.push(n);
+          }
+        }
+      },
+      querySelectorAll(sel) {
+        const res = [];
+        function walk(node) {
+          if (!node) return;
+          if (sel.startsWith('.') && node.className && node.className.split(' ').includes(sel.slice(1))) {
+            res.push(node);
+          }
+          if (node.children) {
+            for (const c of node.children) walk(c);
+          }
+        }
+        walk(el);
+        return res;
+      },
+      querySelector(sel) {
+        return this.querySelectorAll(sel)[0] || null;
+      },
+      addEventListener() {}
+    };
+    return el;
+  }
+
+  const documentMock = {
+    createElement,
+    createTextNode(t) { return { tagName: '#text', textContent: String(t) }; },
+    getElementById(id) { return createElement('div', id); }
+  };
+
+  const context = vm.createContext({
+    document: documentMock,
+    window: { document: documentMock },
+    console,
+    activeScenario: '',
+    crypto: { randomUUID: () => 'test-uuid' },
+    location: { href: 'http://localhost/ai-agent-use-cases/' },
+    history: { pushState() {}, replaceState() {}, state: null }
+  });
+
+  const appSource = appJs.split('/* Browser event bindings. */')[0];
+  vm.runInContext(appSource, context);
+
+  const tiers = [
+    { diff: '入門對話', expectedNote: '免寫程式' },
+    { diff: '工具串接', expectedNote: '需外掛/帳號' },
+    { diff: '進階開發', expectedNote: '需代碼/環境' }
+  ];
+
+  for (const { diff, expectedNote } of tiers) {
+    const sample = {
+      id: 'UC-TEST',
+      title: '測試卡片門檻',
+      summary: '測試用途說明',
+      kind: 'case',
+      scenario: '工作',
+      difficulty: diff,
+      proof: '公開資料核讀',
+      tools: ['測試工具'],
+      tags: ['測試'],
+      reviewedDate: '2026-10-25'
+    };
+
+    const cardNode = context.card(sample);
+    const diffBadge = cardNode.querySelector('.card-difficulty');
+    assert.ok(diffBadge, 'card must contain .card-difficulty');
+    assert.equal(diffBadge.textContent, diff);
+
+    const diffNote = cardNode.querySelector('.card-difficulty-note');
+    assert.ok(diffNote, `card must contain .card-difficulty-note for ${diff}`);
+    assert.equal(diffNote.textContent, expectedNote);
+    assert.equal(diffNote.dataset.difficulty, diff);
+  }
+
+  assert.match(styleCss, /\.card-difficulty-note\s*\{/, 'style.css must define .card-difficulty-note');
+  assert.match(styleCss, /\.card-difficulty-note\[data-difficulty="入門對話"\]/, 'style.css must style 入門對話 note');
+  assert.match(styleCss, /\.card-difficulty-note\[data-difficulty="工具串接"\]/, 'style.css must style 工具串接 note');
+  assert.match(styleCss, /\.card-difficulty-note\[data-difficulty="進階開發"\]/, 'style.css must style 進階開發 note');
+});
+
+test('home-search-entry-qa.yml error message accurately reports 15 minutes polling budget', () => {
+  const homeSearchWf = fs.readFileSync(path.join(root, '.github/workflows/home-search-entry-qa.yml'), 'utf8');
+  assert.doesNotMatch(homeSearchWf, /within 360 seconds/, 'must not claim 360 seconds when polling for 15 minutes');
+  assert.match(homeSearchWf, /within 15 minutes/, 'must explicitly state 15 minutes polling budget');
+});

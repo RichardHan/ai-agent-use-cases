@@ -68,7 +68,7 @@ jobs:
               }
               await new Promise(resolve=>setTimeout(resolve,2000));
             }
-            throw Error('Published Pages assets did not match this checkout within 360 seconds');
+            throw Error('Published Pages assets did not match this checkout within 15 minutes (451 attempts)');
           })().catch(error=>{console.error(error);process.exitCode=1;});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then

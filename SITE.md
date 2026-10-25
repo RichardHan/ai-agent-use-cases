@@ -1,3 +1,7 @@
+## 2026-10-25 多詞搜尋空結果逐詞復原
+
+正式站手機搜尋「旅遊 xyz987」沒有結果，原本只能改搜常見痛點；現在空狀態依已載入案例計算刪除單一詞後的真實筆數，一鍵保留情境及其他篩選、更新分享 URL 並聚焦結果摘要。既有 AND 搜尋、來源及案例資料不變。350 項 Node 測試通過；靜態預覽 448 個來源逐 byte 相同；桌面、390px 與 320px 實際瀏覽檢查。取捨、前後截圖、三情境及環境限制見[本輪 QA](docs/qa/2026-10-25-multiterm-empty-search/README.md)。下一輪優先核對 WebKit 詳情工具列 Shift+Tab 焦點。
+
 ## 2026-10-25 案例詳情手機閱讀層級重整、來源憑據語意統整與 Actions 跨輪部署防護
 
 針對上輪紀錄指定之優先項「詳情手機重複導覽與來源入口」以及 GitHub Actions 跨輪部署假性紅燈問題進行系統性優化：(1) 在案例詳情頁面建立清晰的捷徑視覺層級，為 `.reader-guidance-shortcut`、`.reader-method-shortcut` 與 `.reader-original-open` 賦予專屬語意色彩邊框與背景，消除多個同質按鈕互相競爭的視覺混亂；(2) 手機端將隱晦的「Markdown ↗」升級為直觀的「原始 Markdown ↗」，並為桌面與手機來源連結補齊符合 WCAG 2.5.3 的無障礙名稱與 `rel="noopener noreferrer"`；(3) 頂部 `.proof-badge` 補充 `role="note"` 與完整來源定義播報，為 `.detail-proof-note` 加上自動換行與 320px 極窄適配；(4) 將底部離開動作分層為「關閉並返回結果」與「探索更多『情境』案例 →」，消除重複關閉語意；(5) 系統性加固 `recency-qa.yml`、`combined-recovery-qa.yml`、`round-qa.yml`、`card-refinement-qa.yml`、`reader-controls-qa.yml` 5 個工作流程，實作輪詢迴圈內即時 superseded check（每 15 次重核 origin/main）、逾時錯誤訊息精確化與 live 步驟 freshness 閘門，徹底消除 Pages 部署時差假警報。全套單元測試擴充至 349 項全數通過，JS 語法檢查 0 錯誤。桌面 1440px、手機 390px 與極窄 320px 水平溢出檢查皆為 0，按鈕維持 >= 44px 觸控標準。經獨立審查修復 WCAG 2.5.3 可見文字對齊與 recency live 閘門。兩案取捨、前後高解析截圖、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-detail-mobile-navigation-and-ci-stability/README.md)。下一輪優先檢視搜尋多詞空結果時的逐詞拆解與一鍵刪除建議。

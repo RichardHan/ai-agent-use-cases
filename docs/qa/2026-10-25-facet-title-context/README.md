@@ -43,7 +43,8 @@ python3 -m http.server 8130 --directory /tmp/ai-usecase-title-preview
 - `PR` + `開發` + `進階開發`：54 筆；標題完整列出三項搜尋條件。
 - 直鏈 `?q=PR&scenario=開發&difficulty=進階開發&case=UC-324`：詳情標題仍優先顯示 UC-324 標題；Escape 返回後恢復完整搜尋標題，焦點回到結果計數。
 - 手機 390px：同一多條件搜尋標題正確；文件寬度等於視口，無水平溢出。
-- 修改前基準：`node --test tests/*.test.cjs` — 324/324 通過。Pages 相容預覽與 `scripts/check_corpus_bundle.py` 通過，447 sources byte-for-byte identical。正式 Jekyll CLI 不存在於此環境（Ruby 2.6.10，`jekyll: command not found`）。
+- 修改前基準與修改後回歸：`node --test tests/*.test.cjs` 前後均 324/324 通過；`node --check assets/app.js`、`tests/page-context.test.cjs`、`tests/page-context-browser.cjs` 通過。Pages 相容預覽與 `scripts/check_corpus_bundle.py` 通過，447 sources byte-for-byte identical。正式 Jekyll CLI 不存在於此環境（Ruby 2.6.10，`jekyll: command not found`）；repo 無專用 lint/type-check 命令。
+- Chromium 手動走查：桌面／手機多條件篩選、零結果、鍵盤 focus-visible、UC-324 直鏈、Escape 返回與來源連結。標題涵蓋完整條件、焦點回到結果計數、手機無水平溢出。
 - Actions：前版 `c4db9d8` 的 Round 23 與 Reading anchor workflow 曾失敗，但完整失敗 log 不可讀，未推測根因；其後 `9a13b24` 的 Round 23 acceptance QA 為成功。這一輪沒有修改 workflow，新增 browser test 會於既有 CI Playwright job 執行。
 - 來源走查：UC-324 原始 X 貼文可正常開啟；同頁列出的 `tomoyk/failure-reports` GitHub 連結回傳 GitHub 404，未改動原始案例資料，留待來源維護時核查。
 

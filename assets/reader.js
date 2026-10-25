@@ -299,9 +299,14 @@
     if(method){
       const shortcut=jumpButton(method.index,'reader-method-shortcut');
       shortcut.replaceChildren(make('strong','','前往方法與步驟 ↓'),make('span','reader-target',method.title));
-      // Preserve the original qualification beside the action, including untested designs.
-      const targetUser=overview.querySelector('.detail-target-user');
-      if(targetUser)targetUser.before(shortcut);else overview.append(shortcut);
+      // On real details, expose the qualified original method before secondary
+      // sharing actions and the potentially long purpose text.
+      const actions=body.querySelector('.detail-actions');
+      if(actions)actions.before(shortcut);
+      else{
+        const targetUser=overview.querySelector('.detail-target-user');
+        if(targetUser)targetUser.before(shortcut);else overview.append(shortcut);
+      }
     }
     const guidanceSection=body.querySelector('.reader-guidance');
     if(guidanceSection&&(item.how||item.caution)){

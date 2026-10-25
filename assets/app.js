@@ -2477,8 +2477,10 @@ $('detail').addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if ($('detail').open) {
     // WebKit may move backward from the first body control to the dialog
-    // itself instead of the last toolbar control.
-    if (e.key === 'Tab' && e.shiftKey && document.activeElement.id === 'copy-case-link') {
+    // itself instead of the last toolbar control. The original-method route,
+    // when present, precedes sharing actions.
+    if (e.key === 'Tab' && e.shiftKey &&
+        document.activeElement === ($('detail-body').querySelector('.reader-method-shortcut')||$('copy-case-link'))) {
       e.preventDefault();
       $('close-detail').focus();
       return;

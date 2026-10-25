@@ -133,6 +133,14 @@ async function jump(page,button){
    // Journey 2: a shared long article, sources, refresh and keyboard outline.
    await ready(page,'?q=PR&case=UC-005');
    await page.locator('.reader-nav').waitFor();
+   if(size!=='desktop'){
+     const earlyMethod=page.locator('.reader-method-shortcut');
+     assert.equal(await earlyMethod.count(),1,'long shared case has a direct original-method route');
+     assert.equal(await earlyMethod.evaluate(el=>!!(el.compareDocumentPosition(document.querySelector('.detail-actions'))&Node.DOCUMENT_POSITION_FOLLOWING)),true,'original-method route precedes secondary share actions on mobile');
+     await earlyMethod.focus();
+     await page.keyboard.press('Shift+Tab');
+     assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail','reverse Tab from the first method control returns to the toolbar close button');
+   }
   const placement=await page.evaluate(()=>{
    const dialog=document.createElement('dialog');dialog.open=true;
    dialog.style.cssText='position:fixed;left:-1600px;top:0;width:320px;height:620px';
@@ -189,6 +197,7 @@ async function jump(page,button){
    assert.equal(await originalEntry.count(),1,'long cases have a stable route to the complete original');
    assert.match(await originalEntry.innerText(),/查看完整原始研究、來源與提示詞/);
    assert.equal(await originalEntry.evaluate(el=>!!el.closest('.plain-overview')),true,'the route is near the case purpose, not buried in the outline');
+   await originalEntry.scrollIntoViewIfNeeded();
    await visibleBelowToolbar(page,'.reader-original-open');
    await originalEntry.focus();await page.keyboard.press('Enter');
    assert.equal(await page.locator('.research-details').evaluate(el=>el.open),true);

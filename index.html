@@ -46,6 +46,15 @@
 </section>
 <section id="discover" class="discovery-stage" aria-labelledby="draw-title">
   <div class="draw-heading"><div><p class="eyebrow">一張卡，一個可以深入的想法</p><h2 id="draw-title">先看看這個用法</h2></div><span class="draw-symbol" aria-hidden="true">✳</span></div>
+  <div class="draw-difficulty-bar" id="draw-difficulty-options" role="group" aria-label="依實作門檻抽卡">
+    <span class="draw-difficulty-label">實作門檻：</span>
+    <div class="draw-difficulty-buttons">
+      <button type="button" class="draw-diff-btn" data-difficulty="" aria-pressed="true">全部門檻</button>
+      <button type="button" class="draw-diff-btn" data-difficulty="入門對話" aria-pressed="false">免寫程式</button>
+      <button type="button" class="draw-diff-btn" data-difficulty="工具串接" aria-pressed="false">需帳號/外掛</button>
+      <button type="button" class="draw-diff-btn" data-difficulty="進階開發" aria-pressed="false">需代碼環境</button>
+    </div>
+  </div>
   <div class="draw-actions"><button id="draw-case" class="primary-button" type="button" disabled>抽一張靈感</button><a href="#explore" data-search-entry>我想自己找 →</a></div>
   <p id="draw-status" class="draw-status" role="status" aria-live="polite">正在準備案例卡…</p>
   <div id="loading-progress" class="loading-progress" hidden>

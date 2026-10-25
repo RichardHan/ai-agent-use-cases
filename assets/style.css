@@ -121,6 +121,13 @@
 .draw-heading .eyebrow{font-size:10px;letter-spacing:.5px;margin-bottom:8px}
 .draw-heading h2{font-size:23px;letter-spacing:-.7px;line-height:1.5;margin:0}
 .draw-symbol{font-size:40px;line-height:1;color:var(--green)}
+.draw-difficulty-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 10px;padding:12px 14px;background:#f3f6ee;border:1px solid #cbd6bf;border-radius:10px}
+.draw-difficulty-label{font-size:13px;font-weight:650;color:#1e4537;white-space:nowrap}
+.draw-difficulty-buttons{display:flex;gap:6px;flex-wrap:wrap;min-width:0}
+.draw-diff-btn{min-height:44px;min-width:44px;padding:8px 12px;font-size:13px;font-weight:600;background:var(--white);border:1px solid #b9c5b7;border-radius:6px;color:#22332a;cursor:pointer;transition:background .15s}
+.draw-diff-btn:hover:not([aria-pressed=true]){background:#edf2e7;border-color:#9caa8d}
+.draw-diff-btn[aria-pressed=true]{background:var(--green);border-color:var(--green);color:white}
+.draw-diff-btn:focus-visible{outline:3px solid #799f27;outline-offset:2px}
 .draw-status{min-height:40px;font-size:12px;line-height:1.7;color:#4c6258;margin:18px 0 12px}
 .drawn-case .card{min-height:295px;box-shadow:0 5px 0 #ccd7bf;padding:25px}
 .drawn-case .card:hover{transform:none;box-shadow:0 5px 0 #ccd7bf}
@@ -138,7 +145,7 @@
 .compact-stats{margin-bottom:24px}
 .card-bottom button{min-height:36px}
 @media(max-width:1000px){.discovery-layout{gap:28px}.discovery-stage{padding:22px}.guide-options button{padding:11px}.draw-actions{flex-wrap:wrap}.filter-row label{flex-basis:28%}}
-@media(max-width:760px){.discovery-layout{grid-template-columns:1fr;gap:26px;padding:30px 0 34px}.discovery-hero h1{font-size:36px}.discovery-hero .intro{font-size:15px;margin-bottom:20px}.hero-value-props{grid-template-columns:1fr;gap:8px;padding:12px}.hero-guide-steps{gap:4px 8px}.guide-options{gap:8px}.guide-options button{min-height:66px;padding:10px 12px}.guide-options button strong{font-size:14px}.guide-options button span{font-size:11px}.discovery-stage{padding:22px;margin-top:0}.drawn-case .card{min-height:260px;padding:22px}.drawn-case .card h3{font-size:23px}.draw-status{min-height:0}.draw-actions{flex-wrap:nowrap;gap:12px}.primary-button{padding:12px 18px}.draw-actions a{font-size:12px}.compact-stats{margin-bottom:20px}.filter-row label{flex-basis:calc(50% - 6px)}}
+@media(max-width:760px){.discovery-layout{grid-template-columns:1fr;gap:26px;padding:30px 0 34px}.discovery-hero h1{font-size:36px}.discovery-hero .intro{font-size:15px;margin-bottom:20px}.hero-value-props{grid-template-columns:1fr;gap:8px;padding:12px}.hero-guide-steps{gap:4px 8px}.guide-options{gap:8px}.guide-options button{min-height:66px;padding:10px 12px}.guide-options button strong{font-size:14px}.guide-options button span{font-size:11px}.discovery-stage{padding:22px;margin-top:0}.draw-difficulty-bar{padding:10px 12px;gap:8px;margin:12px 0 8px}.draw-difficulty-label{width:100%}.draw-difficulty-buttons{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.draw-diff-btn{width:100%;text-align:center;padding:8px 4px;font-size:12px}.drawn-case .card{min-height:260px;padding:22px}.drawn-case .card h3{font-size:23px}.draw-status{min-height:0}.draw-actions{flex-wrap:nowrap;gap:12px}.primary-button{padding:12px 18px}.draw-actions a{font-size:12px}.compact-stats{margin-bottom:20px}.filter-row label{flex-basis:calc(50% - 6px)}}
 @media(prefers-reduced-motion:reduce){.guide-options button{transition:none}}
 
 /* Keep small reading-note text above WCAG AA contrast on its tinted panel. */
@@ -265,7 +272,7 @@
 .problem-tag{display:inline-flex;align-items:center;min-height:44px;min-width:44px;max-width:100%;overflow-wrap:anywhere;color:var(--green);font-weight:650;text-underline-offset:4px}
 .problem-tag:hover{color:#172b27}
 .problem-tag:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
-@media(max-width:360px){.discovery-layout{padding:14px 0 22px;gap:18px}.discovery-hero h1{font-size:32px;margin-bottom:10px}.discovery-hero .intro{font-size:14px;margin-bottom:12px}.hero-value-props{padding:8px 10px;margin-bottom:10px;gap:6px}.hero-guide-steps{margin-bottom:10px}.hero-search-link{margin:0 0 10px}.recent-entry{margin-bottom:10px}.hero-task-examples{margin:-6px 0 12px}}
+@media(max-width:360px){.discovery-layout{padding:14px 0 22px;gap:18px}.discovery-hero h1{font-size:32px;margin-bottom:10px}.discovery-hero .intro{font-size:14px;margin-bottom:12px}.hero-value-props{padding:8px 10px;margin-bottom:10px;gap:6px}.hero-guide-steps{margin-bottom:10px}.hero-search-link{margin:0 0 10px}.recent-entry{margin-bottom:10px}.hero-task-examples{margin:-6px 0 12px}.draw-difficulty-buttons{grid-template-columns:1fr}}
 
 /* Explain query order without adding another control to the mobile filter panel. */
 .search-order-note{margin:0;font-size:13px;line-height:1.7;color:var(--green);max-width:65ch;overflow-wrap:anywhere}

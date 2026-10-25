@@ -19,7 +19,17 @@ if(process.env.LOAD_DEPLOYED==='1'&&skipIfSupersededPublishedUrl(origin)){consol
     }catch{return false;}
    }));
    if(matches.every(Boolean))break;
-   if(Date.now()>deadline)throw Error('Deployment did not match within fifteen minutes');
+   if(skipIfSupersededPublishedUrl(origin)){
+    console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
+    process.exit(0);
+   }
+   if(Date.now()>deadline){
+    if(skipIfSupersededPublishedUrl(origin)){
+     console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
+     process.exit(0);
+    }
+    throw Error('Deployment did not match within fifteen minutes');
+   }
    await new Promise(resolve=>setTimeout(resolve,5000));
   }
  }

@@ -28,6 +28,10 @@ if(require.main===module){
  (async()=>{
   let diagnostic='';
   for(let attempt=0;attempt<360;attempt++){
+   if(attempt>0&&attempt%10===0&&skipIfSupersededPublishedUrl(base)){
+    console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
+    process.exit(0);
+   }
    try{
     const responses=await Promise.all([...assets,'catalog.json','corpus.json'].map(async file=>{
      const response=await fetch(base+(file==='index.html'?'':file)+'?facet-release='+process.env.GITHUB_SHA,{cache:'no-store',signal:AbortSignal.timeout(15000)});
@@ -43,6 +47,10 @@ if(require.main===module){
     console.log('PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH '+process.env.GITHUB_SHA);return;
    }catch(error){diagnostic=error.message;}
    await new Promise(resolve=>setTimeout(resolve,3000));
+  }
+  if(skipIfSupersededPublishedUrl(base)){
+   console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
+   process.exit(0);
   }
   throw Error('Published release mismatch: '+diagnostic);
  })().catch(error=>{console.error(error);process.exitCode=1});

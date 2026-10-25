@@ -67,8 +67,10 @@ jobs:
                 return r.ok?await r.text():'';
               }));
               if(actual.every((content,i)=>content===fs.readFileSync(files[i],'utf8'))){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
+              if(attempt>0&&attempt%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               await new Promise(resolve=>setTimeout(resolve,2000));
             }
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             throw Error('Published assets do not match this commit');
           })().catch(error=>{console.error(error);process.exitCode=1});
           NODE

@@ -169,12 +169,15 @@
 .filter-panel .scenario-chips{padding:14px 0;margin:0;border:0;border-top:1px solid var(--line);border-radius:0}
 .filter-panel .filter-row{margin-top:6px}
 @media(max-width:760px){
- .filter-options>summary{padding:12px 14px}
+ .filter-options{margin-top:6px}
+ .filter-options>summary{padding:10px 14px;min-height:44px}
  #filter-count{font-size:11px;margin-left:8px}
  .filter-panel{padding:0 14px 14px}
  .filter-panel select{font-size:14px;min-height:44px}
  .filter-panel .reset{min-height:44px}
  .filter-panel .chip{min-height:44px;font-size:12px}
+ .results-heading{margin-top:8px}
+ .source-guidance{margin:0 0 2px}
 }
 
 /* Share the collection's current question, and keep copy feedback beside results. */
@@ -372,6 +375,11 @@
 .search-hint{font-size:13px;line-height:1.6;color:#4c6258;margin:8px 0 14px;padding:0 2px}
 .active-filter:focus-visible{outline:3px solid var(--green);outline-offset:2px}
 .card .summary{color:#2a3a34;letter-spacing:-.1px}
-@media(max-width:640px){
-  .search-hint{font-size:12px;margin:6px 0 12px}
+@media(max-width:760px){
+  .search-hint{font-size:11.5px;margin:3px 0 4px;line-height:1.4}
+}
+@media(max-width:360px){
+  .search-hint{font-size:11px;margin:2px 0 2px;line-height:1.35}
+  .filter-options{margin-top:4px}
+  .results-heading{margin-top:4px}
 }

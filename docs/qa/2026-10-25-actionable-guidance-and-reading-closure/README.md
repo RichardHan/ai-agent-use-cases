@@ -96,6 +96,8 @@ python3 -m http.server 8288 --directory /tmp/ai-usecase-preview-20261025
 
 PR #101 已合併至 `main`，merge commit `1dbf3af`。合併後 Pages build/deploy run `40160388037` 成功，但從主線推送到部署完成約 12 分鐘。Reader QA run `40160388670` 在 `Verify published reader` 階段被 GitHub runner 的 12 分鐘 job 上限終止；這是超時，不是功能斷言失敗。Reader QA 同時安裝瀏覽器、跑本機 preview 並驗證實際發布頁，12 分鐘上限無法涵蓋已觀察到的發布等待加完整走查。
 
-本輪後續在獨立 worktree 將 `.github/workflows/reader-qa.yml` 的 job timeout 由 12 分鐘提高至 30 分鐘，並將正式站資產比對改為 60 次輪詢，每次請求最多 5 秒、間隔 10 秒（最長約 15 分鐘）。仍逐 byte 比對正式站資產；沒有略過正式站檢查、降低重試頻率或調整訪客頁面行為。30 分鐘上限保留部署等待後完整瀏覽器走查的執行空間；需以 follow-up PR 的 Reader QA 與合併後 run 確認。
+follow-up PR #102 將 `.github/workflows/reader-qa.yml` 的 job timeout 由 12 分鐘提高至 30 分鐘，並把正式站資產比對改為 60 次輪詢，每次請求最多 5 秒、間隔 10 秒（最長約 15 分鐘）。正式站仍需逐 byte 符合六項資產；未跳過檢查、降低斷言或更動訪客頁面。
 
-主線 Corpus bundle QA run `40160388684` 的 Jekyll build、447 份來源 byte 等同性與 bundle 檢查成功（8m26s）。Actions 同時附帶 Node.js 20 deprecation warning；`actions/checkout@v4`、`actions/setup-node@v4`、`actions/upload-artifact@v4` 目前被強制以 Node.js 24 執行。未擴大成 57 個工作流程的 action 升版，列為下一輪風險。
+PR #102 已合併（`9a13b24`）；合併後 Pages build/deploy run `40161989188` 成功、Reader QA run `40161989178` 全部通過（8m54s，含 published reader）、Corpus bundle run `40161989162` 通過（9m22s）。最新正式站 Reader QA 成功，驗證此 job 預算可完成部署檢查與瀏覽器走查。
+
+Actions 的 Node.js 20 deprecation warning 仍存在：`actions/checkout@v4`、`actions/setup-node@v4`、`actions/upload-artifact@v4` 被 runner 強制以 Node.js 24 執行。未擴大成 57 個工作流程的 action 升版，列為下一輪維護風險。

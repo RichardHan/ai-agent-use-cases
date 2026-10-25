@@ -1630,6 +1630,24 @@ function prioritizeProblemTags(tags, query) {
     .map(({tag})=>tag);
 }
 
+// Offer only literal task tags already present in loaded entries. A suggestion
+// changes the query on selection; a substring alone does not establish relevance.
+function phraseRecoveryOptions(items, query, filters, limit=3) {
+  const text=norm(query);
+  const candidates=new Set();
+  items.forEach(item=>(item.tags||[]).forEach(tag=>{
+    const phrase=norm(tag).trim();
+    if(/^[\u3400-\u9fff]{2,6}$/.test(phrase) && text.includes(phrase) && text!==phrase)candidates.add(phrase);
+  }));
+  return [...candidates].map(phrase=>({
+    query:phrase,
+    count:filterEntries(items,tokenize(phrase),filters).length
+  })).filter(option=>option.count>0 && option.count<=Math.max(3,Math.floor(items.length/10)))
+    .sort((a,b)=>text.indexOf(a.query)-text.indexOf(b.query) || b.query.length-a.query.length)
+    .slice(0,limit);
+}
+
+
 function renderSearchFeedback(terms, filters) {
   const conditions=activeConditions($('query').value,filters);
   const active=$('active-filters');
@@ -1666,10 +1684,23 @@ function renderSearchFeedback(terms, filters) {
       button.addEventListener('click',()=>removeConditions(conditions));
       suggestions.append(button);
     });
-    queryRelaxationOptions(entries,$('query').value,filters).slice(0,3).forEach(({query,removed,count})=>{
+    const queryOptions=queryRelaxationOptions(entries,$('query').value,filters).slice(0,3);
+    queryOptions.forEach(({query,removed,count})=>{
       const button=el('button','recovery-option','只移除關鍵字「'+removed+'」 → 查看 '+count+' 筆');
       button.type='button';
       button.dataset.queryRecovery=query;
+      button.addEventListener('click',()=>{
+        $('query').value=query;
+        render();
+        focusResults();
+      });
+      suggestions.append(button);
+    });
+    const phraseOptions=queryOptions.length ? [] : phraseRecoveryOptions(entries,$('query').value,filters);
+    phraseOptions.forEach(({query,count})=>{
+      if(suggestions.querySelector('[data-query-recovery="'+query+'"]'))return;
+      const button=el('button','recovery-option','原問題提到「'+query+'」 → 搜尋 '+count+' 筆文字命中');
+      button.type='button';button.dataset.queryRecovery=query;
       button.addEventListener('click',()=>{
         $('query').value=query;
         render();
@@ -1688,7 +1719,7 @@ function renderSearchFeedback(terms, filters) {
         {label:'🛠️ 搜尋「除錯」', term:'除錯'},
         {label:'🏖️ 搜尋「旅遊」', term:'旅遊'},
         {label:'🏷️ 搜尋「比價」', term:'比價'}
-      ].filter(({term})=>filterEntries(entries,tokenize(term),filters).length>0);
+      ].filter(({term})=>!phraseOptions.some(option=>option.query===term) && filterEntries(entries,tokenize(term),filters).length>0);
       const prioritizedTags=prioritizeProblemTags(problemTags,$('query').value);
       if(problemTags.length){
         const problemContainer = el('div','empty-problem-suggestions');

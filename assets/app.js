@@ -1839,13 +1839,14 @@ function focusLoadedResults(block='center') {
 // Prefer a block starting inside the reading area. A clipped overview can
 // straddle the toolbar while a later source report is already being read;
 // anchoring that overview would miss layout changes between the two blocks.
-function selectReadingAnchor(nodes, top, bottom) {
+function selectReadingAnchor(nodes, top, bottom, after) {
   const visible=nodes.filter(node=>{
     if(node.classList.contains('detail-load-status') || node.closest('.related-cases'))return false;
     const rect=node.getBoundingClientRect();
     return rect.height>0 && rect.bottom>top && rect.top<bottom;
   });
-  return visible.find(node=>node.getBoundingClientRect().top>=top) || visible[0] || null;
+  const downstream=after==null?visible:visible.filter(node=>node.getBoundingClientRect().top>=after);
+  return downstream.find(node=>node.getBoundingClientRect().top>=top) || downstream[0] || null;
 }
 
 async function load() {
@@ -1936,9 +1937,11 @@ async function load() {
     // Wheel/touch readers may still have an offscreen title focused. Preserve
     // visible reading content rather than pulling the viewport toward that title.
     const relatedHasFocus=dialog.querySelector('.related-cases')?.contains(document.activeElement);
+    const status=dialog.querySelector('.detail-load-status');
+    const statusBottom=status?.getBoundingClientRect().bottom;
     const readingAnchor=dialog.open && !relatedHasFocus ? selectReadingAnchor(
       [...dialog.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')],
-      readingEdge,dialog.getBoundingClientRect().bottom
+      readingEdge,dialog.getBoundingClientRect().bottom,statusBottom
     ) : null;
     const readingTop=readingAnchor?.getBoundingClientRect().top;
     entries = mergeCorpus([],loaded);
@@ -1963,7 +1966,6 @@ async function load() {
       // Keep the exact research DOM, reading position and focused control.
       updateModalNav();
       refreshRelated();
-      const status=$('detail-body').querySelector('.detail-load-status');
       if(status){
         status.textContent=failedPaths.length ? '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。' : '其他案例已載入，可依目前搜尋條件切換與探索。';
         status.hidden=!failedPaths.length;

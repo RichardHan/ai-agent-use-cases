@@ -375,6 +375,3 @@
 @media(max-width:640px){
   .search-hint{font-size:12px;margin:6px 0 12px}
 }
-
-/* The reader restores its own visible anchor when asynchronous detail content changes. */
-#detail{overflow-anchor:none}

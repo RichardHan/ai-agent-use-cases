@@ -8,9 +8,14 @@ test('a clipped overview above the disappearing status must not displace the vis
  const overview=node(-189,267),label=node(495.6,515.4),heading=node(523.4,552.2);
  assert.equal(context.choose([overview,label,heading],140,800),label);
 });
+test('a visible overview paragraph before the disappearing status cannot anchor the later report',()=>{
+ const overview=node(160,267),status=node(400,470,true),label=node(495.6,515.4),heading=node(523.4,552.2);
+ assert.equal(context.choose([overview,status,label,heading],140,800,470),label);
+});
 test('one long paragraph filling the reading viewport retains its position',()=>{
  const paragraph=node(-200,1500);
  assert.equal(context.choose([node(-400,-300),paragraph,node(1520,1550)],140,800),paragraph);
+ assert.equal(context.choose([paragraph],140,800,-300),paragraph,'keep a clipped block when it is downstream of the disappearing status');
 });
 test('hidden blocks, the temporary status, and offscreen starts are excluded',()=>{
  const source=node(160,190);

@@ -26,6 +26,10 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
+function abbreviatedQuery(query, limit=40) {
+  const chars=Array.from(query.trim());
+  return chars.slice(0,limit).join('')+(chars.length>limit?'…':'');
+}
 // Titles describe the visible page, not an unopened case requested in the URL.
 // Keep source display titles intact; only bound user-entered search text.
 function pageContextTitle({item,query='',facets=[],difficulty='',reviewed=false,loading=false,error=false,missing=false,partial=false,empty=false}={}) {
@@ -1635,8 +1639,7 @@ function renderSearchFeedback(terms, filters) {
       const problemContainer = el('div','empty-problem-suggestions');
       problemContainer.setAttribute('role','group');
       problemContainer.setAttribute('aria-label','推薦常見痛點關鍵字');
-      const rawQ = $('query').value.trim();
-      const displayQ = rawQ.length > 40 ? rawQ.slice(0, 40) + '…' : rawQ;
+      const displayQ = abbreviatedQuery($('query').value);
       const intro = el('p','empty-problem-intro',displayQ ? `目前沒有符合「${displayQ}」的案例，你可以從常見問題與真實案例開始：` : '你可以從常見痛點重新探索：');
       problemContainer.append(intro);
       const chipsWrap = el('div','empty-problem-chips');
@@ -1703,8 +1706,7 @@ function render(updateURL=true, preserveShare=false) {
   // Sorting is a reading preference; keep the current discovery deck intact.
   syncDiscovery(rankEntries(matches,q));
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
-  const rawQ = $('query').value.trim();
-  const displayQ = rawQ.length > 40 ? rawQ.slice(0, 40) + '…' : rawQ;
+  const displayQ = abbreviatedQuery($('query').value);
   $('empty').querySelector('h3').textContent=failedPaths.length
     ?(displayQ?`已載入內容中目前沒有符合「${displayQ}」的案例`:'已載入內容中沒有符合的案例')
     :(displayQ?`目前沒有符合「${displayQ}」的案例`:'目前沒有符合的案例');

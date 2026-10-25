@@ -9,7 +9,7 @@ if(process.env.LOAD_DEPLOYED==='1'&&skipIfSupersededPublishedUrl(origin)){consol
  const browser=await chromium.launch();
  const records=[];
  if(process.env.LOAD_DEPLOYED==='1'){
-  const deadline=Date.now()+900000;
+  const deadline=Date.now()+1500000;
   const files=['assets/app.js','assets/style.css','index.html'];
   while(true){
    const matches=await Promise.all(files.map(async file=>{
@@ -28,7 +28,7 @@ if(process.env.LOAD_DEPLOYED==='1'&&skipIfSupersededPublishedUrl(origin)){consol
      console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
      process.exit(0);
     }
-    throw Error('Deployment did not match within fifteen minutes');
+    throw Error('Deployment did not match within 25 minutes');
    }
    await new Promise(resolve=>setTimeout(resolve,5000));
   }

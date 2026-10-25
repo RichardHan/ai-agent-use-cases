@@ -8,13 +8,15 @@ const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
 if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 const prefix=observe?'before':live?'live':'after';
 async function publishedVersion(){
- for(let attempt=0;attempt<181;attempt++){
+ for(let attempt=0;attempt<301;attempt++){
+  if(attempt>0&&attempt%15===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
   const files=['assets/app.js','assets/reader.js','assets/reader.css'];
   const states=await Promise.all(files.map(async file=>{const response=await fetch(origin+file+'?reading-qa='+Date.now(),{cache:'no-store'});return response.ok&&await response.text()===fs.readFileSync(file,'utf8');}));
   if(states.every(Boolean))return;
   await new Promise(resolve=>setTimeout(resolve,5000));
  }
- throw Error('Published reading assets do not match this checkout');
+ if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+ throw Error('Published reading assets do not match this checkout within 25 minutes (301 attempts)');
 }
 async function focusedBelowToolbar(page,id){
  const bounds=await page.locator('#'+id).boundingBox(),toolbar=await page.locator('.detail-toolbar').boundingBox(),dialog=await page.locator('#detail').boundingBox();

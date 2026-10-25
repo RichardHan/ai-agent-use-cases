@@ -125,7 +125,7 @@ test('hero problem tags navigate to verified high-intent queries targeting #expl
   const prTag = problemLinks.find(([, , label]) => label.includes('代碼審查') || label.includes('PR'));
   assert.ok(prTag, 'hero must include PR / 代碼審查 problem tag');
   const prUrl = new URL(prTag[1], 'https://example.test/ai-agent-use-cases/');
-  assert.equal(prUrl.searchParams.get('q'), 'PR', 'PR tag query must match browser suite contract');
+  assert.equal(prUrl.searchParams.get('q'), '代碼審查', 'PR tag query must match canonical 代碼審查 search query');
 });
 test('code review query matches targeted cases while noisy PR query is avoided', () => {
   const { api } = setupEnvironment();

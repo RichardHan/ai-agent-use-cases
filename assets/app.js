@@ -508,7 +508,7 @@ function metadata(markdown, path, kind, suffix='') {
   }
   const tags = rawTags ? rawTags.split(/[、,，\s/]+/).map(t=>t.trim()).filter(Boolean) : [];
   const proofLine = clean(lead.match(/^-\s*(?:來源證據|證據狀態|證據等級|證據)\s*[：:]\s*(.+)$/m)?.[1] || '');
-  const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*(?:自報|第一手.*自述)|official/.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
+  const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*(?:展示|示例|範例|發布|自報|第一手.*自述)|official/i.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})/)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
   const copy=(globalThis.displayCopy?.[id])||displayCopy[id]||{};
@@ -1180,12 +1180,11 @@ function card(item, terms=[]) {
   if(item.coreGoal && item.coreGoal !== item.summary && item.coreGoal !== item.title){
     const goalP = el('p', 'card-goal', '🎯 解決痛點：' + item.coreGoal);
     node.append(goalP);
-  } else {
-    const targetUser = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
-    if(targetUser){
-      const userP = el('p', 'card-target-user', '👤 適合對象：' + targetUser);
-      node.append(userP);
-    }
+  }
+  const targetUser = item.targetUser || (!item.coreGoal ? SCENARIO_TARGET_USERS[item.scenario] : '');
+  if(targetUser){
+    const userP = el('p', 'card-target-user', '👤 適合對象：' + targetUser);
+    node.append(userP);
   }
   node.append(el('p', 'summary', item.summary));
   const reviewed=el('p','review-date');

@@ -3,6 +3,12 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+test('GitHub Actions avoid floating Ubuntu runner images', () => {
+  const workflowDir = path.join(__dirname, '../.github/workflows');
+  const workflows = fs.readdirSync(workflowDir).filter(file => /\.(?:yml|yaml)$/.test(file));
+  const floating = workflows.filter(file => /runs-on:\s*['"]?ubuntu-latest\b/.test(fs.readFileSync(path.join(workflowDir, file), 'utf8')));
+  assert.deepEqual(floating, [], `workflows must pin a supported Ubuntu runner instead of ubuntu-latest: ${floating.join(', ')}`);
+});
 
 const css = fs.readFileSync(path.join(__dirname, '../assets/style.css'), 'utf8');
 const appJs = fs.readFileSync(path.join(__dirname, '../assets/app.js'), 'utf8');

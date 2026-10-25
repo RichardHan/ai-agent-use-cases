@@ -250,6 +250,9 @@
 .value-prop-item{display:flex;flex-direction:column;gap:3px}
 .value-prop-title{font-size:13px;font-weight:750;color:#1e4537;line-height:1.4}
 .value-prop-desc{font-size:12px;line-height:1.55;color:#3d5449}
+.value-prop-desc a{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:650;text-underline-offset:3px}
+.value-prop-desc a:hover{color:#172b27}
+.value-prop-desc a:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
 
 /* Simple 3-step visitor guide */
 .hero-guide-steps{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin:0 0 20px;font-size:12px;color:#4c6258}

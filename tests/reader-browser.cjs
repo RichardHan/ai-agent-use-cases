@@ -120,6 +120,41 @@ async function jump(page,button){
    // Journey 2: a shared long article, sources, refresh and keyboard outline.
    await ready(page,'?q=PR&case=UC-005');
    await page.locator('.reader-nav').waitFor();
+  const placement=await page.evaluate(()=>{
+   const dialog=document.createElement('dialog');dialog.open=true;
+   dialog.style.cssText='position:fixed;left:-1600px;top:0;width:320px;height:620px';
+   const toolbar=document.createElement('header');toolbar.className='detail-toolbar';dialog.append(toolbar);
+   const body=document.createElement('div');body.className='detail-body';dialog.append(body);
+   const proof=document.createElement('p');proof.className='detail-proof-note';proof.textContent='作者自述，未獨立重現';
+   const overview=document.createElement('section');overview.className='plain-overview';
+   const purpose=document.createElement('section');purpose.textContent='實際用途';
+   const targetUser=document.createElement('section');targetUser.className='detail-target-user';targetUser.textContent='適合對象';
+   overview.append(purpose,targetUser);body.append(proof,overview);
+   const research=document.createElement('details');research.className='research-details';
+   const summary=document.createElement('summary');summary.textContent='完整研究';
+   const markdown=document.createElement('div');markdown.className='markdown';
+   for(let i=0;i<12;i++){
+    const heading=document.createElement('h2');heading.textContent=i===0?'建議操作流程（本庫設計，未實測）':`來源段落 ${i+1}`;
+    const paragraph=document.createElement('p');paragraph.textContent=`來源內容 ${i+1}`;
+    markdown.append(heading,paragraph);
+   }
+   research.append(summary,markdown);body.append(research);document.body.append(dialog);
+   window.CaseReader.enhance(body,{kind:'case',proof:'author-demo'});
+   const evidence=body.querySelector('.reader-evidence');
+   const original=overview.querySelector('.reader-original-open');
+   const method=overview.querySelector('.reader-method-shortcut');
+   const targetIndex=[...overview.children].indexOf(targetUser);
+   const result={
+    proofInEvidence:evidence.contains(proof)&&proof.parentElement===evidence,
+    proofRemovedFromOriginalPosition:body.firstElementChild===overview,
+    originalBeforeTarget:[...overview.children].indexOf(original)<targetIndex,
+    methodBeforeTarget:[...overview.children].indexOf(method)<targetIndex
+   };
+   original.click();result.originalOpensResearch=research.open;
+   research.open=false;method.click();const methodTarget=body.querySelector('#'+method.getAttribute('aria-controls'));result.methodOpensHeading=research.open&&methodTarget?.textContent==='建議操作流程（本庫設計，未實測）';
+   dialog.remove();return result;
+  });
+  assert.deepEqual(placement,{proofInEvidence:true,proofRemovedFromOriginalPosition:true,originalBeforeTarget:true,methodBeforeTarget:true,originalOpensResearch:true,methodOpensHeading:true},'reader enhancements must update real DOM nodes and keep both shortcuts usable');
    assert.equal(await page.locator('.research-details').evaluate(el=>el.open),false,'original research stays collapsed before the reader chooses it');
    const originalEntry=page.locator('.reader-original-open');
    assert.equal(await originalEntry.count(),1,'long cases have a stable route to the complete original');

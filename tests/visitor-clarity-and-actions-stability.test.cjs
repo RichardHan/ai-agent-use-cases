@@ -52,7 +52,11 @@ test('critical GitHub Actions workflows feature in-loop superseded checks and pr
     'filter-entry-qa.yml',
     'source-links-qa.yml',
     'source-guide-qa.yml',
-    'discovery-round-qa.yml'
+    'discovery-round-qa.yml',
+    'emphasis-qa.yml',
+    'filter-reading-qa.yml',
+    'reading-anchor-qa.yml',
+    'result-journey-qa.yml'
   ];
 
   for (const file of hardenedWorkflows) {
@@ -70,4 +74,80 @@ test('critical GitHub Actions workflows feature in-loop superseded checks and pr
       `${file} must verify freshness before throwing timeout/mismatch error`
     );
   }
+});
+
+test('card renders .card-target-user when coreGoal is not provided', () => {
+  const vm = require('node:vm');
+  const source = appJs.split('/* Browser event bindings. */')[0];
+  const context = vm.createContext({
+    URL,
+    Discovery: require('../assets/discovery.js'),
+    document: {
+      createElement(tag, className = '', textContent = '') {
+        return {
+          tagName: tag.toUpperCase(),
+          className,
+          textContent,
+          children: [],
+          dataset: {},
+          attributes: {},
+          append(...nodes) {
+            for (const n of nodes) {
+              if (typeof n === 'string') this.children.push({ textContent: n });
+              else if (n) this.children.push(n);
+            }
+          },
+          setAttribute(k, v) { this.attributes[k] = String(v); },
+          addEventListener() {},
+          replaceChildren(...nodes) { this.children = []; this.append(...nodes); },
+          querySelector(sel) {
+            const queue = [...this.children];
+            while (queue.length) {
+              const node = queue.shift();
+              if (sel.startsWith('.') && node.className?.split(/\s+/).includes(sel.slice(1))) return node;
+              if (node.children) queue.push(...node.children);
+            }
+            return null;
+          }
+        };
+      },
+      createTextNode(t) { return { textContent: String(t) }; }
+    }
+  });
+  vm.runInContext(source + '\nthis.api={card,SCENARIO_TARGET_USERS};', context);
+  const sampleNoGoal = {
+    id: 'UC-999',
+    title: '自學測試案例',
+    scenario: '學習',
+    kind: 'case',
+    proof: '作者報告／示範',
+    summary: '自學測試摘要說明',
+    tools: ['Claude']
+  };
+  const node = context.api.card(sampleNoGoal);
+  const targetUserEl = node.querySelector('.card-target-user');
+  assert.ok(targetUserEl, 'card must render .card-target-user when coreGoal is missing');
+  assert.ok((targetUserEl.textContent || '').includes('👤 適合對象：進行自主學習'), 'card-target-user must show scenario audience default');
+});
+
+test('results-return-browser.cjs preserves 300px mobile first-result budget', () => {
+  const returnCjs = fs.readFileSync(path.join(root, 'tests/results-return-browser.cjs'), 'utf8');
+  assert.match(
+    returnCjs,
+    /if\(width<=760\)assert\(row\.firstResultFromSearch<300,\s*'original mobile first-result budget is preserved'\);/,
+    'results-return-browser.cjs must align with mobile-search-browser 300px budget'
+  );
+});
+
+test('evidence-round-qa.yml includes in-loop and terminal isCurrentMainCommit checks', () => {
+  const evidenceYml = fs.readFileSync(path.join(workflowsDir, 'evidence-round-qa.yml'), 'utf8');
+  assert.ok(
+    evidenceYml.includes('attempt % 15 == 0') && evidenceYml.includes('!isCurrentMainCommit'),
+    'evidence-round-qa.yml must perform in-loop freshness check'
+  );
+  assert.ok(
+    evidenceYml.includes("if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)") &&
+    evidenceYml.includes("raise SystemExit('Pages assets did not match')"),
+    'evidence-round-qa.yml must verify freshness before exiting with failure'
+  );
 });

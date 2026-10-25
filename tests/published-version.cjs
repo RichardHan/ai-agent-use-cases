@@ -27,7 +27,7 @@ if(require.main===module){
  const local={catalog:JSON.parse(fs.readFileSync(path.join(built,'catalog.json'),'utf8')),corpus:JSON.parse(fs.readFileSync(path.join(built,'corpus.json'),'utf8'))};
  (async()=>{
   let diagnostic='';
-  for(let attempt=0;attempt<360;attempt++){
+  for(let attempt=0;attempt<500;attempt++){
    if(attempt>0&&attempt%10===0&&skipIfSupersededPublishedUrl(base)){
     console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
     process.exit(0);

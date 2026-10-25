@@ -694,11 +694,12 @@ function renderRelated(item) {
   } else {
     section.append(el('p', 'related-empty', discoveryReady ? '目前條件下，沒有其他相同主題的主要案例。可關閉閱讀後調整搜尋條件。' : '其他案例仍在載入，完成後會依目前搜尋條件提供延伸閱讀。'));
   }
-  const back = el('button', 'related-back', '關閉閱讀');back.type = 'button';
+  const back = el('button', 'related-back', '關閉並返回結果');back.type = 'button';
+  back.setAttribute('aria-label', '關閉並返回結果');
   back.addEventListener('click', closeDetail);section.append(back);
   const nextActions = el('div', 'detail-next-actions');
   if (item.scenario) {
-    const exploreScenarioBtn = el('button', 'detail-action-scenario', `關閉並探索更多「${item.scenario}」案例 →`);
+    const exploreScenarioBtn = el('button', 'detail-action-scenario', `探索更多「${item.scenario}」案例 →`);
     exploreScenarioBtn.type = 'button';
     exploreScenarioBtn.setAttribute('aria-label', `探索更多「${item.scenario}」案例`);
     exploreScenarioBtn.addEventListener('click', () => {
@@ -918,7 +919,7 @@ function showDetail(item, trigger, updateURL=true) {
   metaBar.append(
     el('span', 'detail-id-badge', item.id),
     el('span', 'detail-badge kind-' + item.kind, KIND[item.kind]),
-    (()=>{ const b = el('span', 'detail-badge proof-badge', item.proof); b.dataset.proof = item.proof; b.title = PROOF_DEFINITIONS[item.proof] || item.proof; return b; })(),
+    (()=>{ const b = el('span', 'detail-badge proof-badge', item.proof); b.dataset.proof = item.proof; const desc = PROOF_DEFINITIONS[item.proof] || item.proof; b.title = desc; b.setAttribute('role', 'note'); b.setAttribute('aria-label', '來源憑據：' + item.proof + '。' + desc); return b; })(),
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
   metaBar.append(el('span','detail-badge',item.reviewedDate?'頁首核對 '+item.reviewedDate:'頁首未提供核對日'));
@@ -962,9 +963,9 @@ function showDetail(item, trigger, updateURL=true) {
       if(document.activeElement===focusAtRequest){manual.focus();manual.select();}
     }
   });
-  const source = el('a', 'detail-source', '查看 Markdown 原文 ↗');
-  source.replaceChildren(el('span','print-action-long','查看 Markdown 原文 ↗'),el('span','print-action-short','Markdown ↗'));
-  source.setAttribute('aria-label','查看 Markdown 原文 ↗');
+  const source = el('a', 'detail-source', '查看 GitHub 原始 Markdown ↗');
+  source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown ↗'),el('span','print-action-short','原始 Markdown ↗'));
+  source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown ↗');
   source.href = REPO + item.path;
   source.target = '_blank';
   source.rel = 'noopener noreferrer';

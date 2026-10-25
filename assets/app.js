@@ -1646,7 +1646,7 @@ function renderSearchFeedback(terms, filters) {
       problemContainer.setAttribute('role','group');
       problemContainer.setAttribute('aria-label','推薦常見痛點關鍵字');
       const displayQ = abbreviatedQuery($('query').value);
-      const intro = el('p','empty-problem-intro',displayQ ? `目前沒有符合「${displayQ}」的案例，你可以從常見問題與真實案例開始：` : '你可以從常見痛點重新探索：');
+      const intro = el('p','empty-problem-intro',displayQ ? '建議直接從常見痛點或真實案例開始探索：' : '你可以從常見問題與真實案例開始：');
       problemContainer.append(intro);
       const chipsWrap = el('div','empty-problem-chips');
       const problemTags = [

@@ -31,8 +31,8 @@ test('empty search state echoes query safely, wraps long tokens, and guides visi
   );
   assert.match(
     appJs,
-    /目前沒有符合「\$\{displayQ\}」的案例，你可以從常見問題與真實案例開始：/,
-    'problem suggestion intro must connect with the searched query'
+    /建議直接從常見痛點或真實案例開始探索：/,
+    'problem suggestion intro must guide visitors to problem use-cases without duplicating the heading'
   );
   const css = fs.readFileSync(path.join(root, 'assets/style.css'), 'utf8');
   assert.match(css, /#empty h3\{[^}]*overflow-wrap:\s*anywhere/, '#empty h3 must wrap long text tokens');
@@ -150,4 +150,30 @@ test('evidence-round-qa.yml includes in-loop and terminal isCurrentMainCommit ch
     evidenceYml.includes("raise SystemExit('Pages assets did not match')"),
     'evidence-round-qa.yml must verify freshness before exiting with failure'
   );
+});
+
+test('related published browser polling tolerates 25-minute deployments and skips superseded commits', () => {
+  const relatedBrowser = fs.readFileSync(path.join(root, 'tests/related-browser.cjs'), 'utf8');
+  assert.match(relatedBrowser, /for\(let i=0;i<300;i\+\+\)\{/, 'live assets must have 300 polling attempts');
+  assert.match(
+    relatedBrowser,
+    /for\(let i=0;i<300;i\+\+\)\{\s*if\(i>0&&i%6===0&&skipIfSupersededPublishedUrl\(origin\)\)\{console\.log\('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '\+process\.env\.GITHUB_SHA\);process\.exit\(0\);\}/,
+    'polling must skip superseded commits every six attempts'
+  );
+  assert.match(relatedBrowser, /await new Promise\(r=>setTimeout\(r,5000\)\)/, 'polling must wait five seconds per attempt');
+  assert.match(
+    relatedBrowser,
+    /if\(skipIfSupersededPublishedUrl\(origin\)\)\{console\.log\('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '\+process\.env\.GITHUB_SHA\);process\.exit\(0\);\}\s*assert\(matched,/,
+    'asset mismatch must verify freshness before failing'
+  );
+  const relatedWorkflow = fs.readFileSync(path.join(workflowsDir, 'related-qa.yml'), 'utf8');
+  assert.match(relatedWorkflow, /timeout-minutes: 30/, 'job timeout must accommodate the polling budget');
+});
+
+test('category-find published polling allows 25 minutes within its job timeout', () => {
+  const categoryWorkflow = fs.readFileSync(path.join(workflowsDir, 'category-find-qa.yml'), 'utf8');
+  assert.match(categoryWorkflow, /for\(let i=0;i<750;i\+\+\)\{/, 'published assets must have 750 polling attempts');
+  assert.match(categoryWorkflow, /await new Promise\(resolve=>setTimeout\(resolve,2000\)\)/, 'polling must wait two seconds per attempt');
+  assert.match(categoryWorkflow, /within 25 minutes \(750 attempts\)/, 'timeout error must describe the expanded budget');
+  assert.match(categoryWorkflow, /timeout-minutes: 30/, 'job timeout must accommodate the polling budget');
 });

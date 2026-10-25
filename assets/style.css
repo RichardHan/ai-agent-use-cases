@@ -421,3 +421,12 @@
   .filter-options{margin-top:4px}
   .results-heading{margin-top:4px}
 }
+
+/* Keep navigation links touch-friendly without widening narrow layouts. */
+.repo-link,.stat-link,footer a,.hero-search-link,.recent-entry,.discovery-stage .draw-actions a,.reading-note a{display:inline-flex;align-items:center;min-height:44px;min-width:0;max-width:100%;box-sizing:border-box;white-space:normal;overflow-wrap:anywhere}
+.repo-link{padding:0.5rem 0.75rem}
+.stat-link{padding:0.5rem 0}
+footer a,.reading-note a{padding:0.5rem 0.5rem}
+.hero-search-link{min-height:48px}
+.discovery-stage .draw-actions{flex-wrap:wrap}
+.repo-link:focus-visible,.stat-link:focus-visible,footer a:focus-visible,.hero-search-link:focus-visible,.recent-entry:focus-visible,.discovery-stage .draw-actions a:focus-visible,.reading-note a:focus-visible{outline:2px solid var(--green);outline-offset:2px}

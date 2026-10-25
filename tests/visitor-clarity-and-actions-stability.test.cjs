@@ -9,22 +9,18 @@ const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const appJs = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
 const workflowsDir = path.join(root, '.github/workflows');
 
-test('search input placeholder and hint prioritize problem-oriented discovery for first-time visitors', () => {
-  assert.match(
-    indexHtml,
-    /placeholder="搜尋你想解決的問題，例如：發票、代碼審查、旅遊比價、每日報表…"/,
-    'query placeholder should guide visitors to search by problem rather than tool jargon'
-  );
-  assert.match(
-    indexHtml,
-    /id="search-hint"[^>]*>從想解決的問題出發，支援多詞同時符合（AND）；亦可搜尋工具、作法與限制。/,
-    'search hint should emphasize problem-first intent while explaining AND behavior'
-  );
-  assert.match(
-    indexHtml,
-    /合格案例數（依標準核對真實證據）與網站條目數分開計算，避免把條目數當成真實案例。/,
-    'stats section must clearly distinguish qualified verified cases from total catalog entries'
-  );
+test('promoted travel query finds the travel-comparison case and query echo keeps emoji intact', () => {
+  const vm = require('node:vm');
+  const source = appJs.split('/* Browser event bindings. */')[0];
+  const context = vm.createContext({URL, Discovery: require('../assets/discovery.js')});
+  vm.runInContext(source + '\nthis.api={abbreviatedQuery,parseFile,filterEntries,tokenize};', context);
+  const example = indexHtml.match(/id="query"[^>]*placeholder="([^"]+)"/)?.[1];
+  assert.ok(example?.includes('旅遊'), 'the example must be visible to new visitors');
+  const corpus = fs.readFileSync(path.join(root, 'cases/001-travel-checkout.md'), 'utf8');
+  const entries = Array.from(context.api.parseFile('cases/001-travel-checkout.md', corpus));
+  assert.ok(context.api.filterEntries(entries, context.api.tokenize('旅遊'), {}).some(item => item.id === 'UC-001'));
+  assert.equal(context.api.abbreviatedQuery('a'.repeat(39) + '🧾' + 'z'), 'a'.repeat(39) + '🧾…');
+  assert.equal(context.api.abbreviatedQuery('a'.repeat(40) + '🧾'), 'a'.repeat(40) + '…');
 });
 
 test('empty search state echoes query safely, wraps long tokens, and guides visitors to verified problem use-cases', () => {

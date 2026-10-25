@@ -110,3 +110,9 @@
 - **未解決風險**：極少數 Python 專用 workflow（如 `evidence-round-qa.yml`）採用 Python 腳本輪詢，若未來部署延遲持續攀升，建議將其改寫為 Node 統一樣式。
 - **未能驗證項目**：真實 GitHub Actions 與 Pages 部署需待 push 至遠端後由 GitHub runner 執行。
 - **下一輪最值得做的一件事**：針對進階篩選中的「提及工具（tool）」選單，在手機端加入搜尋過濾或依熱門工具折疊，進一步降低在行動裝置上滾動過多工具名稱的負擔。
+
+## 獨立審查後修正
+
+審查指出 placeholder 的「旅遊比價」作為單一詞無法找到 UC-001，且 40 個 UTF-16 單元截斷會拆開 emoji。改用可命中旅遊規劃案例的「旅遊」，空結果回顯改按 Unicode code point 截斷；回歸測試覆蓋 UC-001 與截斷邊界。先前「發票」136 筆包含同義詞「憑證」結果，不能視為 136 篇發票案例；本輪不調整既有同義詞排序。前述截圖與首次走查屬審查前版本，最終版本另以瀏覽器確認。
+
+最終版預覽圖：[手機](final-mobile.png) · [桌面](final-desktop.png)；審查前對照圖：[手機](before-mobile.png) · [桌面](before-desktop.png)。預覽：`python3 scripts/preview.py /tmp/ai-usecase-preview && python3 -m http.server 8765 --directory /tmp/ai-usecase-preview`。最終版 346 項 Node 測試通過、448 份來源逐 byte 相同；390px 搜尋「旅遊 xyz987」＋生活為 0 筆，去掉無效詞可回到 20 筆，UC-001 直鏈刷新、來源及 Escape 返回焦點通過；桌面 1440px 與手機 390px 無水平溢出。未量測 Lighthouse 或完整 axe 分數，不宣稱該項通過。

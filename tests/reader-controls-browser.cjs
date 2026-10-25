@@ -29,7 +29,10 @@ if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS
  await page.locator('.reader-nav').scrollIntoViewIfNeeded();
  const toolbarVisible=await page.locator('#close-detail').evaluate(n=>{const r=n.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight});assert.ok(toolbarVisible);
  await page.locator('.detail-source').click({trial:true});const source=await page.locator('.detail-source').getAttribute('href');
- assert.equal(source,'https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md','source entry keeps the public original path');
+ const catalog=await(await page.request.get(base+'catalog.json')).json();
+ const bundle=await(await page.request.get(base+'corpus.json')).json();
+ const revision=/^[a-f0-9]{40}$/i.test(catalog.sourceRevision||'') && catalog.bundleRevision===bundle.revision && catalog.sourceRevision===bundle.sourceRevision ? catalog.sourceRevision.toLowerCase() : 'main';
+ assert.equal(source,`https://github.com/RichardHan/ai-agent-use-cases/blob/${revision}/cases/001-travel-checkout.md`,'source entry matches the loaded publication or explicitly falls back to main');
  // Remote availability is recorded separately from UI correctness (GitHub can return 429).
  const sourceStatus=width===1440?(await page.request.get(source)).status():null;
  await page.keyboard.press('Escape');assert.equal(await page.locator('#detail').evaluate(n=>n.open),false);

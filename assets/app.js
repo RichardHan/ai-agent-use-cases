@@ -1,6 +1,25 @@
 /* No external scripts, analytics, API tokens, or build dependencies. */
 'use strict';
-const REPO = 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/';
+const REPO_ROOT = 'https://github.com/RichardHan/ai-agent-use-cases/blob/';
+const pinnedSources = new Map();
+function sourceRevisionFor(path) { return pinnedSources.get(path) || ''; }
+function pinSourcePaths(paths, revision) {
+  if(typeof revision !== 'string' || !/^[a-f0-9]{40}$/i.test(revision))return;
+  for(const path of paths)pinnedSources.set(path,revision.toLowerCase());
+}
+function sourceMarkdownUrl(path) { return REPO_ROOT + (sourceRevisionFor(path) || 'main') + '/' + path; }
+function sourceVersionNote(path) {
+  const revision=sourceRevisionFor(path);
+  return revision ? 'GitHub 原始 Markdown 固定於本站發布版本 '+revision.slice(0,7)+'；外部來源仍須另行核對。' : 'GitHub 原始 Markdown 指向 main；更新後可能與本站收錄內容不同。';
+}
+function refreshCurrentSourceLinks(path) {
+  if(!globalThis.document || !currentDetailItem || currentDetailItem.path!==path || !document.querySelector('#detail[open]'))return;
+  const body=document.querySelector('#detail-body');
+  const source=body?.querySelector('.detail-source'),note=body?.querySelector('.detail-source-version');
+  if(source)source.href=sourceMarkdownUrl(path);
+  if(note)note.textContent=sourceVersionNote(path);
+  for(const link of body?.querySelectorAll('a')||[])if(link.sourceRelative)link.href=safeLink(link.sourceRelative,path);
+}
 const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
 const PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {
   '官方自報': '官方團隊第一手發布的自述或示範，未經第三方獨立驗證。',
@@ -529,7 +548,7 @@ function parseFile(path, markdown) {
 }
 function el(tag,cls,text) { const node=document.createElement(tag); if(cls)node.className=cls; if(text!==undefined)node.textContent=text;return node; }
 function safeLink(target,path) {
-  try { const url = new URL(target, REPO+path); return ['https:','http:'].includes(url.protocol) ? url.href : null; } catch { return null; }
+  try { const url = new URL(target, sourceMarkdownUrl(path)); return ['https:','http:'].includes(url.protocol) ? url.href : null; } catch { return null; }
 }
 // Read one destination without confusing a URL's own parentheses with Markdown's
 // closing delimiter. Unsupported whitespace or an unmatched delimiter stays text.
@@ -590,7 +609,7 @@ function inline(node,text,path) {
       if(match[1]&&!destination){node.append(document.createTextNode(match[0]));last=regex.lastIndex;continue;}
       if(destination)regex.lastIndex=destination.end;
       const target=destination?destination.target:match[0],href=safeLink(target,path),label=match[1]||target;
-      if(href){const a=el('a','',label);a.href=href;a.target='_blank';a.rel='noopener noreferrer';node.append(a);}else node.append(document.createTextNode(label));
+      if(href){const a=el('a','',label);a.href=href;if(!/^[a-z][a-z0-9+.-]*:|^\/\//i.test(target))a.sourceRelative=target;a.target='_blank';a.rel='noopener noreferrer';node.append(a);}else node.append(document.createTextNode(label));
     }
     last=regex.lastIndex;
   }
@@ -970,7 +989,7 @@ function showDetail(item, trigger, updateURL=true) {
   const source = el('a', 'detail-source', '查看 GitHub 原始 Markdown ↗');
   source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown ↗'),el('span','print-action-short','原始 Markdown ↗'));
   source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown ↗');
-  source.href = REPO + item.path;
+  source.href = sourceMarkdownUrl(item.path);
   source.target = '_blank';
   source.rel = 'noopener noreferrer';
   const printBtn=el('button','btn-copy-link','列印／存成 PDF');
@@ -1011,7 +1030,7 @@ function showDetail(item, trigger, updateURL=true) {
     section.append(el('h2', '', label), el('p', '', text));
     overview.append(section);
   });
-  overview.append(el('p','detail-source-version','GitHub 原始 Markdown 指向 main；更新後可能與本站收錄內容不同。'));
+  overview.append(el('p','detail-source-version',sourceVersionNote(item.path)));
   const queryCautions=searchContext(item,tokenize($('query').value)).matches.filter(match=>match.caution);
   if(queryCautions.length)overview.append(el('p','detail-search-caution','這次搜尋顯示的「'+queryCautions.map(match=>match.term).join('、')+'」命中限制或來源段落；請核對用途與原文，不要把文字提及當成可採用的做法。'));
   const targetUserText = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
@@ -1939,6 +1958,14 @@ async function loadInitialCorpus(paths, options = {}) {
       const data=await response.json();
       if(bundleController.signal.aborted)throw Error('全文整包讀取已停止');
       const parsed=parseCorpusBundle(data,paths,options.bundleRevision,parseFn);
+      if(data.sourceRevision && data.sourceRevision===options.sourceRevision) {
+        const verified=[...parsed.keys()].filter(path=>{
+          const early=successful.get(path),bundled=parsed.get(path);
+          return !early || (early.length===bundled.length && early.every((item,i)=>typeof item.markdown==='string' && item.markdown===bundled[i].markdown));
+        });
+        pinSourcePaths(verified,data.sourceRevision);
+        for(const path of verified)if(successful.has(path))refreshCurrentSourceLinks(path);
+      }
       if(controller.signal.aborted)throw Error('讀取已停止');
       for(const path of paths){remember(path,parsed.get(path));progress();}
       bundled=true;
@@ -1949,7 +1976,7 @@ async function loadInitialCorpus(paths, options = {}) {
     else if(!controller.signal.aborted){
       const pending=paths.filter(path=>!successful.has(path)&&path!==sharedPath);
       inFallback=true;
-      await loadCorpus(pending,{...perFileOptions,signal:controller.signal,budget:Math.max(1,deadline-Date.now()),onSource:(items,path)=>remember(path,items),onProgress:status=>{completedFallback=status.completed;progress();}});
+      await loadCorpus(pending,{...perFileOptions,signal:controller.signal,budget:Math.max(1,deadline-Date.now()),onSource:(items,path)=>{pinnedSources.delete(path);remember(path,items);},onProgress:status=>{completedFallback=status.completed;progress();}});
     }
     await shared;
     options.onProgress?.({completed:paths.length,succeeded:successful.size,entryCount:[...successful.values()].reduce((n,items)=>n+items.length,0),total:paths.length});
@@ -2163,6 +2190,7 @@ async function load() {
     syncPageContext();
     const catalog = await readJSON('catalog.json', Math.min(8000,remaining()));
     if (!Array.isArray(catalog.files) || !catalog.files.length) throw Error('索引沒有案例。');
+    pinnedSources.clear();
     const paths = catalog.files.filter(p => typeof p === 'string' && /^(cases|evidence)\/[a-zA-Z0-9_/-]+\.md$/.test(p) || p === 'sources/pending.md');
     try {
       displayCopy = await readJSON('assets/copy.json', Math.min(2500,remaining()));
@@ -2174,6 +2202,7 @@ async function load() {
     const orderedPaths=prioritizeSharedSource(paths,new URLSearchParams(location.search).get('case'));
     const { entries: loaded, failed } = await loadInitialCorpus(orderedPaths, {
       bundleRevision:catalog.bundleRevision,
+      sourceRevision:catalog.sourceRevision,
       sharedPath:new URLSearchParams(location.search).has('case') && orderedPaths!==paths ? orderedPaths[0] : null,
       fetch,parseFile,concurrency:16,timeout:12000,budget:remaining(),signal:initialLoadController.signal,retryTransient:true,
       onSource:items=>{

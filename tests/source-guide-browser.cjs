@@ -57,7 +57,7 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   // 1. Find an author's account, verify the full original label and source, return to the same card.
   const read=page.locator('#results .card[data-case-id="UC-001"] .card-bottom button');await read.focus();await page.keyboard.press('Enter');await page.locator('#detail[open]').waitFor();
   await page.locator('.research-details').evaluate(e=>e.open=true);
-  row.source=await page.locator('.detail-source').getAttribute('href');assert.match(row.source,/github.com\/RichardHan\/ai-agent-use-cases\/blob\/main\/cases\/001-/);
+  row.source=await page.locator('.detail-source').getAttribute('href');assert.match(row.source,/github.com\/RichardHan\/ai-agent-use-cases\/blob\/(?:main|[a-f0-9]{40})\/cases\/001-/);
   if(engine===chromium&&width===1440){const pending=page.waitForEvent('popup');await page.locator('.detail-source').click();const popup=await pending;await popup.waitForLoadState('domcontentloaded');row.openedSource=popup.url();await popup.close();const response=await context.request.get(row.source);row.sourceStatus=response.status();}
   await page.keyboard.press('Escape');assert(await read.evaluate(e=>e===document.activeElement));
   // 2. Official origin is explained even with zero matching results; reset updates the message.

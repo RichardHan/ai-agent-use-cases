@@ -4,6 +4,7 @@ layout: null
 {
   "version": 1,
   "revision": {{ site.time | date: '%Y%m%d%H%M%S%N' | jsonify }},
+  "sourceRevision": {{ site.github.build_revision | default: "" | jsonify }},
   "sources": [
   {%- assign emitted = false -%}
   {%- for file in site.static_files -%}

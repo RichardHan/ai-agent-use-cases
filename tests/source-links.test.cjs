@@ -1,12 +1,22 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
-class Node{constructor(tag,text=''){this.tagName=tag.toUpperCase();this.children=[];this.textContent=text;}append(...nodes){this.children.push(...nodes);}}
+class Node{constructor(tag,text=''){this.tagName=tag.toUpperCase();this.children=[];this.textContent=text;this.dataset={};}append(...nodes){this.children.push(...nodes);}}
 const context=vm.createContext({URL,document:{createElement:tag=>new Node(tag),createTextNode:text=>new Node('#text',text)}});
 vm.runInContext(fs.readFileSync(path.join(__dirname,'../assets/app.js'),'utf8').split('/* Browser event bindings. */')[0]+'\nthis.render=renderMarkdown;',context);
 const render=text=>context.render('# heading\n'+text,'cases/161-cross-model-response-dataset-audit.md');
 const walk=node=>[node,...node.children.flatMap(walk)];
 const text=node=>node.textContent+node.children.map(text).join('');
 const links=node=>walk(node).filter(n=>n.tagName==='A');
+test('published revision pins repository Markdown and relative links to the same commit',()=>{
+ const sha='a'.repeat(40);
+ context.pinSourcePaths(['cases/161-cross-model-response-dataset-audit.md','cases/001-travel-checkout.md'],sha);
+ assert.equal(links(render('[source](../sources/README.md#s-001)'))[0].href,`https://github.com/RichardHan/ai-agent-use-cases/blob/${sha}/sources/README.md#s-001`);
+ assert.equal(context.sourceMarkdownUrl('cases/001-travel-checkout.md'),`https://github.com/RichardHan/ai-agent-use-cases/blob/${sha}/cases/001-travel-checkout.md`);
+ assert.equal(context.sourceMarkdownUrl('cases/unverified.md'),'https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/unverified.md');
+ vm.runInContext('pinnedSources.clear()',context);
+ context.pinSourcePaths(['cases/001-travel-checkout.md'],'main');
+ assert.equal(context.sourceMarkdownUrl('cases/001-travel-checkout.md'),'https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md');
+});
 test('real UC-161 evidence links keep the full distinct filenames and no destination residue',()=>{
  const source=fs.readFileSync(path.join(__dirname,'../cases/161-cross-model-response-dataset-audit.md'),'utf8');
  const row=source.split('\n').find(l=>l.includes('[公開CSV]'));

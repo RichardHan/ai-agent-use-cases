@@ -11,9 +11,14 @@ function sameContent(local,remote){
   return true;
  }catch{return false;}
 }
+function reportWorkflowResult(verified,output=process.env.GITHUB_OUTPUT){
+ if(output)require('node:fs').appendFileSync(output,`verified=${verified}\n`);
+}
 exports.sameContent=sameContent;
+exports.reportWorkflowResult=reportWorkflowResult;
 if(require.main===module){
  const fs=require('node:fs'),path=require('node:path');
+ reportWorkflowResult(false);
  const base=process.env.FACET_URL||'https://richardhan.github.io/ai-agent-use-cases/';
  const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
  if(skipIfSupersededPublishedUrl(base)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
@@ -34,6 +39,7 @@ if(require.main===module){
     fs.mkdirSync(output,{recursive:true});
     fs.writeFileSync(path.join(output,'catalog.json'),responses[assets.length]);fs.writeFileSync(path.join(output,'corpus.json'),responses[assets.length+1]);
     fs.writeFileSync('qa-artifacts/published-version.json',JSON.stringify({base,assets,sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision,verifiedAt:new Date().toISOString()},null,2));
+    reportWorkflowResult(true);
     console.log('PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH '+process.env.GITHUB_SHA);return;
    }catch(error){diagnostic=error.message;}
    await new Promise(resolve=>setTimeout(resolve,3000));

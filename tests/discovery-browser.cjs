@@ -72,6 +72,21 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   // Journey 2: combine search and filters, recover from no results.
   await ensureFiltersVisible(page);
   await page.locator('#reset').click();
+  if(name!=='desktop'){
+    await page.locator('#query').fill('規劃旅行');
+    await page.locator('#scenario').selectOption('工作');
+    assert.match(await page.locator('#filter-outcome-count').innerText(),/沒有符合結果/);
+    const outcome=await page.locator('.filter-outcome').boundingBox();
+    const scenario=await page.locator('#scenario').boundingBox();
+    assert(outcome.y>=0&&outcome.y+outcome.height<scenario.y,'outcome remains visible above the active facet');
+    await page.locator('#filter-view-results').click();
+    assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
+    assert.equal(await page.locator('#empty').isVisible(),true);
+    await page.locator('#empty-suggestions .recovery-option').first().click();
+    assert((await page.locator('#results .card').count())>0);
+    await ensureFiltersVisible(page);
+    await page.locator('#reset').click();
+  }
   await page.locator('#query').fill('旅遊');
   await ensureFiltersVisible(page);
   await page.locator('#scenario').selectOption('生活');

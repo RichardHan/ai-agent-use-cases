@@ -192,6 +192,13 @@
 .filter-panel{padding:0 16px 18px}
 .filter-panel .scenario-chips{padding:14px 0;margin:0;border:0;border-top:1px solid var(--line);border-radius:0}
 .filter-panel .filter-row{margin-top:6px}
+.filter-outcome{display:none}
+@media(max-width:760px){
+  .filter-outcome{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 -14px;padding:8px 14px;background:#eef2e7;border-block:1px solid #cbd6bf;box-shadow:0 2px 5px #172b2714}
+  .filter-outcome span{font-size:13px;font-weight:650;line-height:1.4;color:#244237}
+  .filter-outcome button{min-height:44px;flex-shrink:0;padding:8px 10px;font-size:12px;font-weight:650;background:var(--green);border-color:var(--green);color:white}
+  .filter-outcome button:disabled{opacity:.6}
+}
 @media(max-width:760px){
  .filter-options{margin-top:6px}
  .filter-options>summary{padding:10px 14px;min-height:44px}

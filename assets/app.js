@@ -1679,6 +1679,10 @@ function render(updateURL=true, preserveShare=false) {
   updatePartialLoad();
   const skipNote = failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入）` : '';
   $('results-count').textContent = discoveryReady ? `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}` : initialLoading ? '正在讀取案例，完成後會套用目前條件…' : '載入未完成';
+  $('filter-outcome-count').textContent = discoveryReady
+    ? currentFiltered.length ? `目前條件有 ${currentFiltered.length} 筆結果` : failedPaths.length ? '已載入內容中沒有符合結果' : '目前條件沒有符合結果'
+    : initialLoading ? '正在讀取案例…' : '載入未完成';
+  $('filter-view-results').disabled = !discoveryReady;
 
   document.querySelectorAll('.chip[data-scenario]').forEach(btn => {
     const isActive = btn.dataset.scenario === activeScenario;
@@ -2065,6 +2069,8 @@ async function load() {
   $('reset-sort').hidden = true;
   $('empty-suggestions').replaceChildren();
   $('results-count').textContent = '正在讀取案例…';
+  $('filter-outcome-count').textContent = '正在讀取案例…';
+  $('filter-view-results').disabled = true;
   renderCategoryFinder();
   failedPaths = [];
   try {
@@ -2185,6 +2191,8 @@ async function load() {
     discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();
     $('results-count').textContent = '載入未完成';
+    $('filter-outcome-count').textContent = '載入未完成，請到結果區重新載入';
+    $('filter-view-results').disabled = false;
     $('error-message').textContent = '請稍後重試，或先閱讀 GitHub 原始資料。';
     $('error').hidden = false;
     finishArrival(new URLSearchParams(location.search),true);
@@ -2314,6 +2322,7 @@ $('recent-entry').addEventListener('click', event => {
   $('sort').value='reviewed';render();enterSearch(event);
 });
 ['kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => $(id)?.addEventListener('change', () => render()));
+$('filter-view-results').addEventListener('click', focusResults);
 $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
 $('clear-facets').addEventListener('click', clearFacets);

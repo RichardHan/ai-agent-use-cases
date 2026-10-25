@@ -390,15 +390,15 @@ function reviewDate(markdown) {
 }
 function extractActionableGuidance(markdown) {
   let how = '';
-  let howMatch = markdown.match(/^##\s+(?:.*(?:建議操作流程|建議流程|操作步驟|可參考步驟|怎麼開始).*)$/m);
+  let howMatch = markdown.match(/^#{2,3}\s+(?:.*(?:建議操作流程|建議流程|建議操作步驟|操作步驟|可參考步驟|怎麼開始|可借用的驗收步驟|可借用的只讀驗收步驟|實作流程與核對邊界).*)$/m);
   if (!howMatch) {
-    howMatch = markdown.match(/^##\s+(?:.*(?:流程|輸入與預期輸出).*)$/m);
+    howMatch = markdown.match(/^#{2,3}\s+(?:.*(?:流程|輸入與預期輸出|實作步驟|作者做過的流程|作者報告的流程|作者實作).*)$/m);
   }
   if (howMatch) {
     const start = howMatch.index + howMatch[0].length;
     const rest = markdown.slice(start);
-    const nextH2 = rest.search(/\n^##\s+/m);
-    const section = nextH2 !== -1 ? rest.slice(0, nextH2) : rest;
+    const nextH = rest.search(/\n^#{2,3}\s+/m);
+    const section = nextH !== -1 ? rest.slice(0, nextH) : rest;
     const lines = section.split('\n')
       .map(l => l.trim())
       .filter(l => l && !l.startsWith('<!--') && !l.startsWith('>') && !l.startsWith('#') && !l.startsWith('```'));
@@ -411,12 +411,12 @@ function extractActionableGuidance(markdown) {
     }
   }
   let caution = '';
-  const cautionMatch = markdown.match(/^##\s+(?:.*(?:所需連接、權限與限制|權限、費用與限制|權限、費用與可用性|權限、費用及限制|權限與驗收|證據與查閱缺口|來源報告與限制|限制與驗收|要注意什麼|權限、成本及可用性|權限、限制與驗收).*)$/m);
+  const cautionMatch = markdown.match(/^#{2,3}\s+(?:.*(?:所需連接、權限與限制|權限、費用與限制|權限、費用與可用性|權限、費用及限制|權限與驗收|證據與查閱缺口|來源報告與限制|限制與驗收|要注意什麼|權限、成本及可用性|權限、限制與驗收|限制、權限與費用|官方限制、費用與可用性|官方限制、費用與權限|官方限制、費用及可用性).*)$/m);
   if (cautionMatch) {
     const start = cautionMatch.index + cautionMatch[0].length;
     const rest = markdown.slice(start);
-    const nextH2 = rest.search(/\n^##\s+/m);
-    const section = nextH2 !== -1 ? rest.slice(0, nextH2) : rest;
+    const nextH = rest.search(/\n^#{2,3}\s+/m);
+    const section = nextH !== -1 ? rest.slice(0, nextH) : rest;
     const lines = section.split('\n')
       .map(l => l.trim())
       .filter(l => l && !l.startsWith('<!--') && !l.startsWith('>') && !l.startsWith('#') && !l.startsWith('```'));
@@ -1893,8 +1893,9 @@ function selectReadingAnchor(nodes, top, bottom, after) {
     const rect=node.getBoundingClientRect();
     return rect.height>0 && rect.bottom>top && rect.top<bottom;
   });
-  const downstream=after==null?visible:visible.filter(node=>node.getBoundingClientRect().top>=after);
-  return downstream.find(node=>node.getBoundingClientRect().top>=top) || downstream[0] || null;
+  const downstream=after==null?visible:visible.filter(node=>node.getBoundingClientRect().top>=after-4);
+  const candidates=downstream.length?downstream:visible;
+  return candidates.find(node=>node.getBoundingClientRect().top>=top) || candidates[0] || null;
 }
 
 async function load() {
@@ -1987,11 +1988,14 @@ async function load() {
     const relatedHasFocus=dialog.querySelector('.related-cases')?.contains(document.activeElement);
     const status=dialog.querySelector('.detail-load-status');
     const statusBottom=status?.getBoundingClientRect().bottom;
+    const statusHeight=status&&!status.hidden?status.getBoundingClientRect().height:0;
+    const statusWasAbove=status&&status.getBoundingClientRect().bottom<=readingEdge;
     const readingAnchor=dialog.open && !relatedHasFocus ? selectReadingAnchor(
-      [...dialog.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')],
+      [...dialog.querySelectorAll('#detail-body h2,#detail-body h3,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary,#detail-body .markdown-table,#detail-body tr')],
       readingEdge,dialog.getBoundingClientRect().bottom,statusBottom
     ) : null;
     const readingTop=readingAnchor?.getBoundingClientRect().top;
+    const readingOffset=readingAnchor&&readingTop!=null?readingTop-readingEdge:0;
     entries = mergeCorpus([],loaded);
     refreshCorpusMetadata();
     $('updated').textContent = '索引更新 ' + catalog.builtAt;
@@ -2018,8 +2022,12 @@ async function load() {
         status.textContent=failedPaths.length ? '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。' : '其他案例已載入，可依目前搜尋條件切換與探索。';
         status.hidden=!failedPaths.length;
       }
+      const statusAfter=status&&!status.hidden?status.getBoundingClientRect().height:0;
+      const statusDiff=statusHeight-statusAfter;
       if(readingAnchor?.isConnected && readingAnchor.getBoundingClientRect().height>0){
         dialog.scrollTop+=readingAnchor.getBoundingClientRect().top-readingTop;
+      } else if (!relatedHasFocus && statusWasAbove && statusDiff > 0) {
+        dialog.scrollTop-=statusDiff;
       }
     }
     else if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }

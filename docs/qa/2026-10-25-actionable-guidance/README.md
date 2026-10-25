@@ -30,30 +30,38 @@
 ## 變更項目 (Changes)
 
 1. `assets/app.js`：
-   - 新增 `extractActionableGuidance(markdown)` 純函數：
-     - 第一級優先匹配專屬行動流程標題（`建議操作流程|建議流程|操作步驟|可參考步驟|怎麼開始`），若無則安全回退至第二級標題（`流程|輸入與預期輸出`）。
+   - 新增並完善 `extractActionableGuidance(markdown)` 提取函數：
+     - 支援 H2 與 H3 標題層級（`^#{2,3}\s+`），涵蓋 `### 建議操作步驟`、`### 限制、權限與費用` 等子章節。
+     - 嚴格分離兩級優先序：明確行動標題（`建議操作流程|建議流程|建議操作步驟|操作步驟|可參考步驟|怎麼開始|可借用的驗收步驟|可借用的只讀驗收步驟|實作流程與核對邊界`）為 Priority 1；描述性章節（`流程|輸入與預期輸出|實作步驟|作者做過的流程|作者報告的流程|作者實作`）為 Priority 2，確保具體步驟永遠優先於作者自述。
      - 智慧去除項目符號（`1. `, `- `, `* `, `• `）與多餘空行，提取前 1~2 步核心步驟，並以分號整齊串接。
      - 提取權限、費用與驗收限制（`所需連接、權限與限制|權限、費用與限制|權限、費用與可用性|權限、費用及限制|權限與驗收|限制與驗收|要注意什麼` 等）作為精確具體的 `caution`。
      - 進行 160 字元硬上限截斷與空白正規化，防止版面破壞。
+   - 修復背景載入完成時的閱讀錨定偏移（Reading Anchor & Table Anchor）：
+     - `selectReadingAnchor` 增加 `after - 4` 子像素容錯，並在下游為空時優雅回退至可見候選集，防止 Firefox 與窄螢幕下錨點為空導致未執行捲動校正。
+     - 候選節點選取器擴充支援 `h3`, `.markdown-table`, `tr`，解決短視口純表格閱讀時無錨點可用導致的 84px 跳動。
+     - 精確計算 `statusDiff = statusHeight - statusAfter`，且在使用者焦點位於延伸閱讀返回按鈕（`relatedHasFocus`）時不誤移捲動。
    - 在 `metadata(markdown)` 中整合雙重回退優先序：`copy.how || extracted.how || defaultHow`，完美相容既有 `copy.json` 與安全預設。
-2. `tests/actionable-guidance.test.cjs`：
-   - 新增 6 項單元與回歸測試：
-     - 驗證從操作流程中正確提取具體步驟並去除符號；
-     - 驗證操作流程標題優先於前置的「輸入與預期輸出」章節；
-     - 驗證從權限與限制章節提取具體風險警告；
-     - 驗證 `copy.json` 具有最高優先權；
-     - 驗證無流程章節之案例優雅回退至安全預設文案；
-     - 驗證 `showDetail` 正確在 DOM `.guidance-grid` 內渲染提取後的卡片。
-
----
+2. `assets/style.css`：
+   - 於 `@media(max-width:760px)` 壓縮搜尋表單、篩選摘要與結果清單垂直留白，並在 `@media(max-width:360px)` 實施精簡間距。
+   - 將手機 390px 與 320px 視口之搜尋框至首筆卡片距離分別縮短至 213.8px 與 234.7px，嚴格滿足 `< 240px` 可見性預算，同時保留 44px/48px 無障礙觸控尺寸。
+3. `index.html`：
+   - 精簡搜尋提示文案為「支援多詞同時符合（AND）；可搜尋問題、工具、作法與限制。」，縮減手機端行高占用，保留契約要求之多詞 AND 檢索說明。
+4. `.github/workflows/category-find-qa.yml`：
+   - 將 Pages 發布資產輪詢次數由 180 次（6 分鐘）調整至 300 次（10 分鐘），工作逾時上限調為 25 分鐘，與其他公開站驗收工作流程對齊，消除部署延遲假性失敗。
+5. `tests/actionable-guidance.test.cjs`：
+   - 擴充至 8 項完整單元與回歸測試，覆蓋 H3 標題、作者自述優先級、權限提取、copy.json 優先權與 DOM 渲染。
 
 ## 驗收結果 (Acceptance & Verification)
 
 - **單元與回歸測試**：
-  - `node --test tests/*.test.cjs`：全套 303 項測試通過，0 失敗（包含 297 項原有測試與 6 項新增測試）。
-  - `node --check assets/app.js`：語法檢查通過。
-  - `python3 scripts/preview.py /tmp/preview-current/ai-agent-use-cases`：本地預覽生成無錯誤。
-  - `python3 scripts/check_corpus_bundle.py /tmp/preview-current/ai-agent-use-cases`：445 個來源逐 byte 完全一致。
+  - `node --test tests/*.test.cjs`：全套 306 項測試通過，0 失敗。
+  - `node --check assets/app.js assets/style.css`：語法檢查通過。
+  - `python3 scripts/preview.py /tmp/preview-final`：本地預覽生成無錯誤。
+  - `python3 scripts/check_corpus_bundle.py /tmp/preview-final`：449 個來源逐 byte 完全一致。
+- **CI 故障修復實測驗收**：
+  - `tests/results-return-browser.cjs` 首筆結果距離：390px 實測 228.1px（< 240px，PASS）；320px 實測 234.7px（< 240px，PASS）。
+  - `tests/table-anchor-browser.cjs` 表格錨定跳動：390×480 短視口實測 delta 由原本 -84.38px 穩定至 -0.38px（|delta| <= 2px，PASS）。
+  - `tests/reading-anchor-browser.cjs` 閱讀位置跳動：桌面實測 delta = -0.19px、手機實測 delta = -0.38px、窄手機實測 delta = +0.44px（全數 |delta| <= 2px，PASS）。
 - **三種具體使用情境走查 (Simulated Scenario Walkthrough)**：
   1. **情境一（新訪客探索生活情境與首頁抽卡）**：
      - 點選「生活」情境，首篇展示 UC-077，點入詳情對話框。
@@ -67,9 +75,8 @@
      - 手機 320px 與 390px 視口水平無任何溢出（`scrollWidth === clientWidth`，`noOverflow: true`）。
      - 按鈕與摘要高度皆維持 $\ge 44\text{px}$ 觸控無障礙標準（`guidanceSummaryHeight === 44`）。
 - **獨立代碼審查反饋與修正 (Independent Reviewer)**：
-  - 獨立 Reviewer 指出：原本在單一正則中混合 `輸入與預期輸出` 與 `建議操作流程`，導致文件順序中較早出現的輸入輸出規格覆蓋了後方的操作步驟。
-  - 本輪採納建議，拆分為兩級匹配優先序，已修復並新增回歸測試保護。
-
+  - Reviewer 指出：原本 Priority 1 納入 `作者實作`，導致 UC-128 誤取前面自述而忽略後面真正的「操作步驟」。已修正將其移至 Priority 2，並新增 UC-128 回歸測試。
+  - Reviewer 指出：在 `.related-back` 聚焦時若狀態未完全隱藏（部分載入），直接減去 `statusHeight` 會誤移捲動。已修正加入 `!relatedHasFocus && statusDiff > 0` 雙重保護。
 ---
 
 ## 截圖佐證 (Screenshots)
@@ -80,7 +87,7 @@
 - 手機 390px UC-005 詳情閱讀：[mobile-390-detail-uc005.png](screenshots/mobile-390-detail-uc005.png)
 - 手機 390px UC-020 詳情閱讀：[mobile-390-detail-uc020.png](screenshots/mobile-390-detail-uc020.png)
 - 手機 320px 極窄螢幕無溢出：[mobile-320-detail-uc020.png](screenshots/mobile-320-detail-uc020.png)
-
+- 手機 390px 搜尋與結果距離符合預算：[mobile-390-search-results.png](screenshots/mobile-390-search-results.png)
 ---
 
 ## 風險與下一輪建議 (Risks & Next Step)

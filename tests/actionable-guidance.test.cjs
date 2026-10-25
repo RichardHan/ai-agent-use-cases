@@ -238,3 +238,49 @@ test('showDetail renders extracted how and caution in .guidance-grid cards', () 
   assert.ok(cautionCard, 'showDetail must render .guidance-caution');
   assert.match(cautionCard.children.find(c => c.tagName === 'P')?.textContent || '', /正式送出報銷前需本人簽核/);
 });
+
+test('metadata extracts guidance from H3 subsections and varied acceptance headings', () => {
+  const { context } = setupEnvironment();
+  const sampleMarkdown = `# UC-162：網格攝影機狀態審查
+- 情境：開發
+- 標籤：3D、審查
+- 網站標題：網格簡化檢視
+
+### 可借用的驗收步驟
+1. 先以固定視角的低多邊形網格模型執行乾跑。
+2. 比對攝影機軌跡與投影矩陣。
+
+### 限制、權限與費用
+- 需本地離線執行，不可上傳未授權的 3D 原始資產。
+`;
+
+  const meta = context.metadata(sampleMarkdown, 'cases/162-mesh.md', 'case', 'UC-162');
+  assert.ok(meta.how, 'meta.how should extract from H3');
+  assert.match(meta.how, /先以固定視角的低多邊形/);
+  assert.match(meta.how, /比對攝影機軌跡/);
+  assert.ok(meta.caution, 'meta.caution should extract from H3 limits');
+  assert.match(meta.caution, /需本地離線執行/);
+});
+
+test('metadata prioritizes actionable step headings over descriptive author reports', () => {
+  const { context } = setupEnvironment();
+  const sampleMarkdown = `# UC-128：測試資料庫收入查詢審查
+- 情境：開發
+- 標籤：資料庫、權限
+- 網站標題：測試資料庫收入查詢
+
+## 作者實作
+作者自述在私人專案中建立一套包含多個資料表的測試環境並進行手動分析。
+
+## 操作步驟
+1. 使用合成、去識別且隔離的測試資料，不直接連正式商業資料庫。
+2. 由管理者以資料庫權限實作只讀與欄位範圍限制。
+
+## 限制與驗收
+- 嚴格禁止以生產憑證連線。
+`;
+
+  const meta = context.metadata(sampleMarkdown, 'cases/128-test.md', 'case', 'UC-128');
+  assert.match(meta.how, /使用合成、去識別且隔離/);
+  assert.doesNotMatch(meta.how, /作者自述在私人專案中/);
+});

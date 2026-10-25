@@ -9,7 +9,7 @@
 - 分類／標籤：公開事件資料庫的每日維護與來源核對
 - 目標使用者：維護公開資料集、知識庫或事件時間線的開發者與 SRE
 - 首次收錄／最近查證：2026-10-18（台灣時間）
-- 證據狀態：author-demo＋公開產物。Grok Bot 負責收集是前批記錄的作者自述，本輪原X 403後停止；PR內容、提交者與合併紀錄已重核。未獨立重現、未逐筆核對資料。嚴格去重視為UC-212的公共資料更新版本，本頁保留但不另計。
+- 證據狀態：author-demo＋公開產物。Grok Bot 負責收集是作者自述；未獨立重現、未逐筆核對資料。來源 B 原始 GitHub URL 本輪無法開啟，既有 repo／PR 細節只代表 2026-10-18 的歷史查讀，不代表目前仍可公開查證。嚴格去重視為 UC-212 的公共資料更新版本，本頁保留但不另計。
 - 是否獨立重現：否
 
 ## 輸入與預期輸出
@@ -27,10 +27,11 @@
 - 取得內容：以 X API 讀到全文。作者說正在用生成式 AI 做一個收集並分類事後檢討（postmortem）與障礙資訊的網站 [failover.run](https://www.failover.run/)；用 Grok Bot 每天收集障礙新聞，再呼叫 Cursor Cloud Agent 讓它在 GitHub 開 PR。
 - 失敗點／缺口：沒有公開 Grok Bot 的 routine、收集來源或交辦訊息；PR 中看不到 Grok Bot 的名字，Grok Bot 與 Cloud Agent 之間怎麼交接只有作者一句說明。
 
-### 來源B：公開程式庫與 PR（GitHub，日文）
+### 來源B：先前查讀的程式庫與 PR（GitHub，日文；目前無法重開）
 
-- 原始網址：[tomoyk/failure-reports](https://github.com/tomoyk/failure-reports)；網站 [failover.run](https://www.failover.run/) 首頁已讀到標題與「根本原因」篩選說明。
+- 原始網址：[tomoyk/failure-reports（目前 GitHub 顯示 Page not found）](https://github.com/tomoyk/failure-reports)；網站 [failover.run](https://www.failover.run/) 首頁曾讀到標題與「根本原因」篩選說明。
 - 查證：2026-10-18 以 GitHub API／gh 讀取。repo 建於 2026-10-12 UTC；README 說明資料存於 SQLite、以 `export_site_data.py` 產生網站資料、原始資料來自一份公開試算表。
+- 目前可用性（2026-10-25）：直接開啟原始 repository URL 時，GitHub 顯示「Page not found」。本輪無法重新讀取 repo；以下 PR 與 repo 細節保留為 2026-10-18 的歷史紀錄，不應視為目前仍可公開核驗的內容。
 - [PR #40](https://github.com/tomoyk/failure-reports/pull/40)：「2026-10-18 朝ダイジェストの公式確認済み障害を追加する」，PR 以作者帳號 tomoyk 開出、提交者顯示為 Cursor Agent、說明欄帶 Cursor Agent 產生標記；2026-10-17 22:55 UTC 開（台灣時間 10-18 06:55），作者於 10-18 00:08 UTC（台灣時間 08:08）合併。說明寫：對象期間為 10-17 07:50～10-18 07:50 JST；把能在官方狀態頁對上的 4 件（Tenable、NTT ドコモビジネス、Twilio、Supabase）加入資料庫，附官方網址；國際服務用 UTC、國內用 JST；官方沒寫明的技術原因留空；另 1 件（1Password）與既有 id 421 相同而排除；`PRAGMA integrity_check` 為 ok，三個回歸測試通過。
 - [PR #36](https://github.com/tomoyk/failure-reports/pull/36)（10-17 08:27 UTC 開、08:40 UTC 合併）：一次新增 17 件，另說明先前 PR #11 合併時 SQLite 被舊快照覆蓋、id 386–420 消失，這次先復原再新增。#38 則是移除未解決的合併衝突標記、修好網站語法錯誤。
 - 同類「新增障礙」PR 在 10-13～10-18 間另有 #14、#17、#21、#23，均由作者帳號開出並合併；另有多個 GitHub Actions 自動重建資料的 PR 仍開著或被關閉。

@@ -8,6 +8,17 @@ const html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 const css = fs.readFileSync(path.join(__dirname, '../assets/style.css'), 'utf8');
 
 
+test('homepage hero exposes clear value proposition cards for first-time visitors', () => {
+  const hero = html.match(/<section class="discovery-hero"[\s\S]*?<\/section>/)?.[0] || '';
+  assert.ok(hero, 'discovery hero section must exist');
+  
+  // Value props container
+  assert.match(hero, /<div class="hero-value-props"/, 'hero should contain value props container');
+  assert.match(hero, /公開案例與研究筆記/);
+  assert.match(hero, /清楚標記憑據/);
+  assert.match(hero, /依痛點找解法/);
+});
+
 test('homepage hero offers beginner three-step guidance', () => {
   const hero = html.match(/<section class="discovery-hero"[\s\S]*?<\/section>/)?.[0] || '';
   assert.match(hero, /<div class="hero-guide-steps"/, 'hero should contain guide steps');

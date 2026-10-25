@@ -9,7 +9,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -61,14 +61,14 @@ jobs:
           const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let i=0;i<301;i++){
+            for(let i=0;i<501;i++){
               if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const r=await fetch(process.env.RECOVERY_URL+'assets/app.js?recovery='+process.env.GITHUB_SHA,{cache:'no-store'});
               if(r.ok&&await r.text()===fs.readFileSync('assets/app.js','utf8')){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
               await new Promise(r=>setTimeout(r,3000));
             }
             if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published assets mismatch after 301 attempts at three-second intervals');
+            throw Error('Published assets mismatch after 501 attempts at three-second intervals');
           })().catch(e=>{console.error(e);process.exitCode=1});
           NODE
           mkdir -p qa-artifacts/preview

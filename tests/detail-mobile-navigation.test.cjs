@@ -246,8 +246,8 @@ test('hardened GitHub Actions workflows feature in-loop superseded-main checks a
   }
 
   // Verify accurate timeout messages
-  assert.match(recencyYml, /within 15 minutes \(180 attempts\)/, 'recency-qa.yml must report 15 minutes / 180 attempts');
+  assert.match(recencyYml, /within 25 minutes \(301 attempts\)/, 'recency-qa.yml must report 25 minutes / 301 attempts');
   assert.doesNotMatch(recencyYml, /within eight minutes/, 'recency-qa.yml must not contain obsolete eight minutes text');
-  assert.match(combinedYml, /after 301 attempts/, 'combined-recovery-qa.yml must report 301 attempts');
+  assert.match(combinedYml, /after 501 attempts/, 'combined-recovery-qa.yml must report 501 attempts');
   assert.match(recencyYml, /SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit/, 'recency-qa.yml must gate live browser step with freshness check');
 });

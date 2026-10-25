@@ -9,7 +9,7 @@ permissions:
 jobs:
   baseline:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -63,7 +63,12 @@ jobs:
               print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
               raise SystemExit(0)
           files=('assets/reader.js','assets/reader.css')
-          for attempt in range(301):
+          for attempt in range(501):
+              if attempt > 0 and attempt % 15 == 0:
+                  res = subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
+                  if res.returncode == 42:
+                      print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
+                      raise SystemExit(0)
               try:
                   matches=[]
                   for name in files:
@@ -76,7 +81,11 @@ jobs:
                   print(type(error).__name__)
               time.sleep(3)
           else:
-              raise SystemExit('Pages assets did not match')
+              res = subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
+              if res.returncode == 42:
+                  print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
+                  raise SystemExit(0)
+              raise SystemExit('Pages assets did not match within 25 minutes (501 attempts)')
           PYTHON
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
             :

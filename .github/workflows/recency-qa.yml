@@ -9,7 +9,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -75,7 +75,7 @@ jobs:
           const expected=['cases','evidence'].flatMap(dir=>fs.readdirSync(dir,{recursive:true}).filter(file=>file.endsWith('.md')).map(file=>dir+'/'+file)).concat('sources/pending.md').sort();
           (async()=>{
             const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let i=0;i<180;i++){
+            for(let i=0;i<301;i++){
               if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const matched=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async file=>{
                 const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/'+file+'?review='+Date.now());
@@ -87,7 +87,7 @@ jobs:
               await new Promise(resolve=>setTimeout(resolve,5000));
             }
             if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published assets and catalog did not match checkout within 15 minutes (180 attempts)');
+            throw Error('Published assets and catalog did not match checkout within 25 minutes (301 attempts)');
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
       - name: Verify real HTTPS desktop and mobile journeys

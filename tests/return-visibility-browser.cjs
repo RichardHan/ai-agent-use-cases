@@ -8,10 +8,12 @@ if(published&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});const reports=[];
  if(published){
-  for(let attempt=0;attempt<181;attempt++){
+  for(let attempt=0;attempt<301;attempt++){
+   if(attempt>0&&attempt%15===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
    const response=await fetch(origin+'assets/app.js?return-qa='+Date.now(),{cache:'no-store'});
    if(response.ok&&await response.text()===fs.readFileSync('assets/app.js','utf8'))break;
-   if(attempt===180)throw Error('Published return asset does not match checkout');
+   if(attempt===300&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+   if(attempt===300)throw Error('Published return asset does not match checkout within 25 minutes (301 attempts)');
    await new Promise(resolve=>setTimeout(resolve,5000));
   }
  }

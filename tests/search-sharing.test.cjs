@@ -2,7 +2,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 function fixture(){
  const nodes={};let context;
- for(const id of ['search-share-status','search-share-url','copy-search-link','query','kind','tool','category','proof','sort','detail'])nodes[id]={id,value:'',hidden:true,textContent:'',open:false,focus(){context.document.activeElement=this;},select(){this.selected=true;}};
+ for(const id of ['search-share-status','search-share-url','copy-search-link','query','kind','tool','category','proof','sort','detail','overview-only'])nodes[id]={id,value:'',checked:false,hidden:true,textContent:'',open:false,focus(){context.document.activeElement=this;},select(){this.selected=true;}};
  nodes.query.value='旅遊';nodes.tool.value='Grok Bot';nodes.sort.value='reviewed';nodes['search-share-url'].hidden=true;
  context=vm.createContext({URL,URLSearchParams,location:{href:'https://example.org/ai-agent-use-cases/?case=UC-001&secret=synthetic#other'},document:{getElementById:id=>nodes[id],activeElement:nodes['copy-search-link']},navigator:{clipboard:{writeText:()=>new Promise((resolve,reject)=>pending.push({resolve,reject}))}}});
  const pending=[];

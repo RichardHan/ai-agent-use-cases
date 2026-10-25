@@ -4,7 +4,7 @@ const source=fs.readFileSync(process.env.SHARE_SOURCE||'assets/app.js','utf8').s
 function setup(){
  let resolve,reject;const pending=new Promise((a,b)=>{resolve=a;reject=b;});
  const document={activeElement:null,getElementById:id=>nodes[id]};
- const nodes=Object.fromEntries(['query','kind','tool','category','proof','sort','search-share-status','search-share-url','copy-search-link'].map(id=>[id,{id,value:'',hidden:true,textContent:'',focus(){document.activeElement=this;},select(){this.selected=true;}}]));
+ const nodes=Object.fromEntries(['query','kind','tool','category','proof','sort','overview-only','search-share-status','search-share-url','copy-search-link'].map(id=>[id,{id,value:'',checked:false,hidden:true,textContent:'',focus(){document.activeElement=this;},select(){this.selected=true;}}]));
  nodes.query.value='旅遊';document.activeElement=nodes['copy-search-link'];
  const context=vm.createContext({document,URL,URLSearchParams,location:{href:'https://example.org/ai-agent-use-cases/?token=private#other'},navigator:{clipboard:{writeText:url=>{context.copied=url;return pending;}}}});
  vm.runInContext(source+'\ndiscoveryReady=true;this.api={copySearchLink,clearSearchShare};',context);

@@ -1,3 +1,7 @@
+## 2026-10-25 詳情 WebKit 反向鍵盤焦點修復
+
+正式站與本機 WebKit 390px 重現從「複製案例連結」Shift+Tab 後焦點落在 dialog 而非關閉鈕；明確交接該段焦點，並確保 WebKit 即使未套用 `:focus-visible` 仍有可見輪廓。Chromium、Firefox、WebKit 六組閱讀控制流程、349 單元、450 來源逐 byte 核對通過；正式部署仍須觀察。兩案、前後截圖與三情境驗收見[本輪 QA](docs/qa/2026-10-25-webkit-reader-focus/README.md)。下一輪優先抽樣 Safari 其他動態控制回工具列的焦點路徑。
+
 獨立審查補記：搜尋範例「旅遊比價」無法命中旅遊規劃 UC-001，已改為「旅遊」；空結果 40 字回顯改依 Unicode code point 截斷，避免拆開 emoji。「發票」136 筆包含「憑證」同義詞，不代表 136 篇發票案例。
 
 ## 2026-10-25 首次訪客問題導向卡片受眾直觀呈現、行動預算對齊與 GitHub Actions 部署逾時全面加固

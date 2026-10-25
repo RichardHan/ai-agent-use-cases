@@ -63,7 +63,7 @@ if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS
   await page.locator('#detail-toolbar-id').evaluate((n,id)=>n.textContent=id,'UC-313');
  }
  await page.locator('#copy-case-link').focus();await page.keyboard.press('Shift+Tab');
- assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail');assert.equal(await page.locator('#close-detail').evaluate(n=>n.matches(':focus-visible')),true);
+ assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail');assert.ok(await page.locator('#close-detail').evaluate(n=>{const style=getComputedStyle(n);return parseFloat(style.outlineWidth)>=2&&style.outlineStyle!=='none';}),'reverse keyboard handoff has a visible focus outline');
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
  reports.push({engine,width,controls,toolbarVisible,source,sourceStatus,axe:axe.violations.map(v=>v.id),errors});
  fs.writeFileSync(`qa-artifacts/${process.env.LABEL}-report.json`,JSON.stringify(reports,null,2));

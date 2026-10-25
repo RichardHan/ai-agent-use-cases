@@ -45,7 +45,7 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   assert.match(await page.locator('#nav-next-case').getAttribute('aria-label'),/載入/);
   assert.equal(await page.evaluate(()=>document.activeElement.id),'detail-title');
   assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth+1));
-  check.purposeBounds=await page.locator('.plain-overview section p').evaluate(e=>({top:e.getBoundingClientRect().top,lineHeight:parseFloat(getComputedStyle(e).lineHeight)}));
+  check.purposeBounds=await page.locator('.plain-overview > section:first-child > p').evaluate(e=>({top:e.getBoundingClientRect().top,lineHeight:parseFloat(getComputedStyle(e).lineHeight)}));
   const purposeViewportBottom=await page.locator('#detail').evaluate(e=>e.getBoundingClientRect().bottom);
   assert(check.purposeBounds.top+check.purposeBounds.lineHeight*2<purposeViewportBottom,'two lines of purpose fit in the dialog even with the long title');
   await page.screenshot({path:`${output}/after-${engine}-${size}.png`});

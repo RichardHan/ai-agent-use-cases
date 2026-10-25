@@ -388,6 +388,51 @@ function reviewDate(markdown) {
   }
   return dates.sort().pop()||'';
 }
+function extractActionableGuidance(markdown) {
+  let how = '';
+  let howMatch = markdown.match(/^##\s+(?:.*(?:建議操作流程|建議流程|操作步驟|可參考步驟|怎麼開始).*)$/m);
+  if (!howMatch) {
+    howMatch = markdown.match(/^##\s+(?:.*(?:流程|輸入與預期輸出).*)$/m);
+  }
+  if (howMatch) {
+    const start = howMatch.index + howMatch[0].length;
+    const rest = markdown.slice(start);
+    const nextH2 = rest.search(/\n^##\s+/m);
+    const section = nextH2 !== -1 ? rest.slice(0, nextH2) : rest;
+    const lines = section.split('\n')
+      .map(l => l.trim())
+      .filter(l => l && !l.startsWith('<!--') && !l.startsWith('>') && !l.startsWith('#') && !l.startsWith('```'));
+    const listItems = lines.filter(l => /^(\d+\.|\*|-|•)\s+/.test(l))
+      .map(l => l.replace(/^(\d+\.|\*|-|•)\s+/, '').trim());
+    if (listItems.length > 0) {
+      how = listItems.slice(0, 2).join('；');
+    } else if (lines.length > 0) {
+      how = lines[0];
+    }
+  }
+  let caution = '';
+  const cautionMatch = markdown.match(/^##\s+(?:.*(?:所需連接、權限與限制|權限、費用與限制|權限、費用與可用性|權限、費用及限制|權限與驗收|證據與查閱缺口|來源報告與限制|限制與驗收|要注意什麼|權限、成本及可用性|權限、限制與驗收).*)$/m);
+  if (cautionMatch) {
+    const start = cautionMatch.index + cautionMatch[0].length;
+    const rest = markdown.slice(start);
+    const nextH2 = rest.search(/\n^##\s+/m);
+    const section = nextH2 !== -1 ? rest.slice(0, nextH2) : rest;
+    const lines = section.split('\n')
+      .map(l => l.trim())
+      .filter(l => l && !l.startsWith('<!--') && !l.startsWith('>') && !l.startsWith('#') && !l.startsWith('```'));
+    const listItems = lines.filter(l => /^(\d+\.|\*|-|•)\s+/.test(l))
+      .map(l => l.replace(/^(\d+\.|\*|-|•)\s+/, '').trim());
+    if (listItems.length > 0) {
+      caution = listItems[0];
+    } else if (lines.length > 0) {
+      caution = lines[0];
+    }
+  }
+  return {
+    how: how ? how.replace(/\s+/g, ' ').slice(0, 160) : '',
+    caution: caution ? caution.replace(/\s+/g, ' ').slice(0, 160) : ''
+  };
+}
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);
   const id = title.match(/(?:UC|P)-\d+/)?.[0] || path.split('/').pop().replace(/\.md$/,'') + suffix;
@@ -427,13 +472,16 @@ function metadata(markdown, path, kind, suffix='') {
   const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*(?:自報|第一手.*自述)|official/.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})/)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
-  const copy=displayCopy[id]||{};
+  const copy=(globalThis.displayCopy?.[id])||displayCopy[id]||{};
   const displayTitle=clean(lead.match(/^-\s*網站標題\s*[：:]\s*(.+)$/m)?.[1]||copy.title||heading);
   const what=clean(lead.match(/^-\s*一句話用途\s*[：:]\s*(.+)$/m)?.[1]||copy.what||summary);
   const targetUser=clean(lead.match(/^-\s*目標使用者\s*[：:]\s*(.+)$/m)?.[1]||'');
   const coreGoal=clean(lead.match(/^-\s*核心目標\s*[：:]\s*(.+)$/m)?.[1]||'');
   const reviewedDate=reviewDate(markdown);
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:copy.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',caution:copy.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+idVariants(id))};
+  const extracted=extractActionableGuidance(markdown);
+  const howText=copy.how||extracted.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。';
+  const cautionText=copy.caution||extracted.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。';
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+idVariants(id))};
 }
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>metadata(part,path,'pending',String(i)));

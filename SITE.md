@@ -1,3 +1,7 @@
+## 2026-10-25 案例詳情落地指引實體化與多端閱讀體驗升級
+
+針對全站 447 篇案例中 430+ 篇在詳情頁「入門建議」顯示千篇一律模板預設文案的痛點，建立智慧動態提取機制：優先採用 `copy.json` 精修文案（100% 保持既有案例優先權），若無則由 Markdown 原生結構優先提取「建議操作流程／步驟」前 1~2 步（`how`）與「權限、費用與限制」核心警告（`caution`），將全站具體可落地指引覆蓋率由 3.6% 大幅提升至 80%+。經獨立代碼審查反饋，將流程正則改進為兩級優先序，徹底防範「輸入與預期輸出」規格遮蔽具體操作步驟。全套單元測試擴充至 303 項全數通過，語法檢查 0 錯誤，445 個來源逐 byte 一致。桌面與手機 390px/320px 零水平溢出，按鈕符合 >= 44px 觸控標準。兩案取捨、前後 WebP 截圖、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-actionable-guidance/README.md)。
+
 ## 2026-10-25 Actions runner stability, mobile reader toolbar, and detail reading geometry
 
 Pinned all 54 Ubuntu runner declarations in 50 workflows to `ubuntu-24.04` after confirming Playwright/Ubuntu 26.04 setup failure; added a regression guard. Raised mobile reader labels from 13px to 14px while retaining 44px targets. The original-research link fits 320px; the method shortcut needs a 52px swipe. Unit suite: 297 passed; corpus sources: 445 byte-identical. Main Actions at commit `886fb04` still had 3 failures: wheel/reader anchor, first-result budget, and Round 23 reading position. Their evidence and the next priority are in [the QA record](docs/qa/2026-10-25-runner-stability/README.md).

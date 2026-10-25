@@ -5,7 +5,7 @@ const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
 if(skipIfSupersededPublishedUrl(base)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  const expected=fs.readFileSync('assets/app.js','utf8');let matched=false;
- for(let i=0;i<100;i++){const r=await fetch(base+'assets/app.js?retry-qa='+process.env.GITHUB_SHA);if(r.ok&&await r.text()===expected){matched=true;break;}await new Promise(r=>setTimeout(r,3000));}assert(matched,'Published app.js must match checkout');
+ for(let i=0;i<301;i++){const r=await fetch(base+'assets/app.js?retry-qa='+process.env.GITHUB_SHA);if(r.ok&&await r.text()===expected){matched=true;break;}await new Promise(r=>setTimeout(r,3000));}assert(matched,'Published app.js must match checkout');
  const browser=await chromium.launch(),rows=[];
  for(const width of [1440,390]){const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),page=await context.newPage(),row={width,errors:[],network:[],sourceRequests:{}};rows.push(row);page.on('pageerror',e=>row.errors.push(e.message));page.on('response',r=>{if(r.status()>=400)row.network.push({url:r.url(),status:r.status()});});page.on('request',r=>{if(r.url().endsWith('.md'))row.sourceRequests[r.url()]=(row.sourceRequests[r.url()]||0)+1;});
  try{

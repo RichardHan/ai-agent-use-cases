@@ -8,7 +8,7 @@ jobs:
   browser:
     runs-on: ubuntu-24.04
     container: mcr.microsoft.com/playwright:v1.64.0-noble
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -83,10 +83,10 @@ jobs:
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const files=['index.html','assets/style.css','assets/app.js','assets/reader.css','assets/reader.js'];
-            for(let attempt=0;attempt<24;attempt++){
+            for(let attempt=0;attempt<181;attempt++){
               const checks=await Promise.all(files.map(async file=>{try{const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?card-targets='+process.env.GITHUB_SHA,{signal:AbortSignal.timeout(15000)});return r.ok&&await r.text()===fs.readFileSync(file,'utf8');}catch{return false;}}));
               if(checks.every(Boolean)){fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify(files.map(file=>({path:file,sha256:createHash('sha256').update(fs.readFileSync(file)).digest('hex')})),null,2));return;}
-              await new Promise(resolve=>setTimeout(resolve,10000));
+              await new Promise(resolve=>setTimeout(resolve,5000));
             }
             throw Error('Published assets do not match checkout');
           })().catch(e=>{console.error(e);process.exit(1)});

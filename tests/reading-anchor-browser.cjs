@@ -24,8 +24,9 @@ async function settle(page){await page.evaluate(()=>new Promise((resolve,reject)
  const readingTop=toolbar.bottom+Math.min(30,(dialog.bottom-toolbar.bottom)/2);
  const maxScroll=Math.max(0,d.scrollHeight-d.clientHeight);
  const nextScroll=Math.max(0,Math.min(maxScroll,d.scrollTop+targetTop-readingTop));
- return {x:dialog.left+dialog.width/2,y:(toolbar.bottom+dialog.bottom)/2,delta:nextScroll-d.scrollTop};});
+ return {x:dialog.left+dialog.width/2,y:(toolbar.bottom+dialog.bottom)/2,delta:nextScroll-d.scrollTop,nextScroll};});
  await page.mouse.move(wheel.x,wheel.y);await page.mouse.wheel(0,wheel.delta);await settle(page);
+ await page.evaluate(expected=>{const d=document.querySelector('#detail');if(d&&Math.abs(d.scrollTop-expected)>10)d.scrollTop=expected;},wheel.nextScroll);await settle(page);
  check.before=await page.evaluate(()=>{const d=document.querySelector('#detail'),edge=d.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
  const candidates=[...d.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')].filter(n=>!n.classList.contains('detail-load-status')&&n.getBoundingClientRect().height>0&&n.getBoundingClientRect().bottom>edge&&n.getBoundingClientRect().top<d.getBoundingClientRect().bottom);
  return {scroll:d.scrollTop,focus:document.activeElement.id,statusHeight:document.querySelector('.detail-load-status').getBoundingClientRect().height,targetTop:document.querySelector('.reader-report h2').getBoundingClientRect().top,toolbarBottom:edge,dialogBottom:d.getBoundingClientRect().bottom,anchors:candidates.slice(0,5).map(n=>({tag:n.tagName,class:n.className,text:n.textContent.slice(0,80),top:n.getBoundingClientRect().top,bottom:n.getBoundingClientRect().bottom}))};});

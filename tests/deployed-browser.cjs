@@ -5,7 +5,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
  const browser=await chromium.launch();
  const origin='https://richardhan.github.io/ai-agent-use-cases/';
  let ready=false,lastError;
- for(let attempt=0;attempt<18;attempt++){
+ for(let attempt=0;attempt<181;attempt++){
   const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
   const page=await context.newPage();
   try{

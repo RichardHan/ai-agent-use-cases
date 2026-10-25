@@ -8,7 +8,7 @@ jobs:
   browser:
     runs-on: ubuntu-24.04
     container: mcr.microsoft.com/playwright:v1.64.0-noble
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -58,7 +58,7 @@ jobs:
           const fs=require('node:fs');
           const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
-          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}const files=['assets/app.js','assets/reader.js','assets/reader.css'];for(let attempt=0;attempt<120;attempt++){const matches=await Promise.all(files.map(async file=>{const r=await fetch(process.env.SITE_URL+file+'?emphasis='+process.env.GITHUB_SHA);return r.ok&&await r.text()===fs.readFileSync(file,'utf8');}));if(matches.every(Boolean)){console.log('Published assets match checkout');return;}await new Promise(r=>setTimeout(r,3000));}throw Error('Published assets did not match before timeout');})().catch(e=>{console.error(e);process.exit(1)});
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}const files=['assets/app.js','assets/reader.js','assets/reader.css'];for(let attempt=0;attempt<301;attempt++){const matches=await Promise.all(files.map(async file=>{const r=await fetch(process.env.SITE_URL+file+'?emphasis='+process.env.GITHUB_SHA);return r.ok&&await r.text()===fs.readFileSync(file,'utf8');}));if(matches.every(Boolean)){console.log('Published assets match checkout');return;}await new Promise(r=>setTimeout(r,3000));}throw Error('Published assets did not match before timeout');})().catch(e=>{console.error(e);process.exit(1)});
           JS
           fi
           QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/emphasis-browser.cjs

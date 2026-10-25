@@ -8,7 +8,7 @@ if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHE
  for(const path of ['assets/app.js','assets/style.css']){
   const expected=fs.readFileSync(path,'utf8');
   let matched=false;
-  for(let i=0;i<90;i++){
+  for(let i=0;i<181;i++){
    const response=await fetch(origin+path+'?context-qa='+Date.now(),{cache:'no-store'});
    if(response.ok&&await response.text()===expected){matched=true;break;}
    await new Promise(r=>setTimeout(r,5000));

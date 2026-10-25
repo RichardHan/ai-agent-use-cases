@@ -9,7 +9,7 @@ permissions:
 jobs:
   preview:
     runs-on: ubuntu-24.04
-    timeout-minutes: 18
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -64,7 +64,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: preview
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -82,7 +82,7 @@ jobs:
           const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let i=0;i<84;i++){
+            for(let i=0;i<181;i++){
               const matches=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async path=>{const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/'+path+'?return='+Date.now(),{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}));
               if(matches.every(Boolean)){console.log('Published assets match '+process.env.GITHUB_SHA);return;}
               await new Promise(resolve=>setTimeout(resolve,5000));

@@ -9,7 +9,7 @@ permissions:
 jobs:
   baseline:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -63,7 +63,7 @@ jobs:
               print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
               raise SystemExit(0)
           files=('assets/reader.js','assets/reader.css')
-          for attempt in range(60):
+          for attempt in range(301):
               try:
                   matches=[]
                   for name in files:

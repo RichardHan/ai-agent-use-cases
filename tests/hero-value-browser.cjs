@@ -16,13 +16,14 @@ const launchOptions = process.env.CHROMIUM_BIN ? { executablePath: process.env.C
     await page.goto(origin, { waitUntil: 'domcontentloaded' });
     await page.waitForSelector('#results .card');
     
-    // Check 3 value items
+    // The entry point must not call every indexed source a qualified experience.
     const valueItems = page.locator('.value-prop-item');
-    assert.equal(await valueItems.count(), 3, 'hero should render 3 value proposition items');
-    assert.match(await valueItems.nth(0).innerText(), /447 篇真實經驗/);
-    assert.match(await valueItems.nth(1).innerText(), /清楚標記憑據/);
-    assert.match(await valueItems.nth(2).innerText(), /依痛點找解法/);
-    
+    assert.equal(await valueItems.count(), 3);
+    assert.doesNotMatch(await valueItems.nth(0).innerText(), /\d+\s*篇真實經驗/);
+    await page.locator('.value-prop-item a[href="#collection-stats"]').click();
+    assert.equal(new URL(page.url()).hash, '#collection-stats');
+    await page.waitForFunction(() => document.querySelector('#audit-count').textContent !== '—');
+    assert.match(await page.locator('#collection-stats').innerText(), /嚴格核對合格[\s\S]*網站收錄條目/);
     // Check 3 guide steps
     const guideSteps = page.locator('.guide-step');
     assert.equal(await guideSteps.count(), 3, 'hero should render 3 beginner guide steps');

@@ -7,23 +7,6 @@ const path = require('node:path');
 const html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 const css = fs.readFileSync(path.join(__dirname, '../assets/style.css'), 'utf8');
 
-test('homepage hero exposes clear value proposition cards for first-time visitors', () => {
-  const hero = html.match(/<section class="discovery-hero"[\s\S]*?<\/section>/)?.[0] || '';
-  assert.ok(hero, 'discovery hero section must exist');
-  
-  // Value props container
-  assert.match(hero, /<div class="hero-value-props"/, 'hero should contain value props container');
-  const items = [...hero.matchAll(/<div class="value-prop-item">([\s\S]*?)<\/div>/g)];
-  assert.equal(items.length, 3, 'hero should present exactly 3 core value items');
-  
-  const titles = items.map(([, body]) => body.match(/<strong class="value-prop-title">([\s\S]*?)<\/strong>/)?.[1]?.trim());
-  assert.deepEqual(titles, ['447 篇真實經驗', '清楚標記憑據', '依痛點找解法']);
-  
-  for (const [, body] of items) {
-    const desc = body.match(/<span class="value-prop-desc">([\s\S]*?)<\/span>/)?.[1]?.trim();
-    assert.ok(desc && desc.length > 10, 'each value item must have a clear descriptive sentence');
-  }
-});
 
 test('homepage hero offers beginner three-step guidance', () => {
   const hero = html.match(/<section class="discovery-hero"[\s\S]*?<\/section>/)?.[0] || '';

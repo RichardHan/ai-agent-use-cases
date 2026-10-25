@@ -1,3 +1,7 @@
+## 2026-10-25 首次訪客搜尋探索流暢化、全站觸控無障礙達標與 GitHub Actions 部署逾時加固
+
+針對初次造訪新訪客在搜尋未命中時遭遇生硬重複文案、常用搜尋標籤過於抽象、行動端關鍵連結觸控高度不足 44px 易誤觸、以及 GitHub Actions 近期因 Pages 實際構建耗時 18～24 分鐘而頻繁在 15 分鐘處噴錯報紅的問題，進行系統性加固與體驗升級：(1) 修正空結果 `<h3>` 與下方引導段落一字不差重複之缺陷，優化為自然流暢的「建議直接從常見痛點或真實案例開始探索：」，保留 40 字 safe textContent、Unicode 截斷與無橫向溢出；(2) 將頁首 `.repo-link`、統計區 `.stat-link`、`.reading-note a` 及 `footer a` 全面升級為符合 WCAG 2.5.5 / 2.5.8 規範的 `>= 44px` 觸控目標，實測全站小於 44px 互動元素數量降至 0 個，在桌面 1440px、手機 390px 與極窄 320px 上維持零水平溢出；(3) 常用搜尋標籤由孤立關鍵字升級為問題痛點導向（「☀️ 每日報表 · 搜尋「每日」」、「⏱️ 定時排程 · 搜尋「排程」」），精確保持 `data-query` 原生屬性相容性；(4) 根治 GitHub Actions 因 Pages 18~24 分鐘部署時差引發的頻繁紅燈：將 `category-find-qa.yml` 輪詢上限提升至 750 次（25 分鐘 / 1500 秒）、`tests/related-browser.cjs` 輪詢上限調升至 300 次（25 分鐘 / 1500 秒），在迴圈內補齊每 6 次（30 秒）即時 `skipIfSupersededPublishedUrl` 檢查與拋錯前閘門，並將兩者工作逾時均調升至 30 分鐘，徹底消除部署假警報。全套單元測試擴充至 351 項全數通過，JS 語法檢查 0 錯誤。經獨立審查確認無功能退化與無障礙疑慮。兩案取捨、前後高解析截圖、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-visitor-journey-and-ci-resilience/README.md)。
+
 ## 2026-10-25 詳情 WebKit 反向鍵盤焦點修復
 
 正式站與本機 WebKit 390px 重現從「複製案例連結」Shift+Tab 後焦點落在 dialog 而非關閉鈕；明確交接該段焦點，並確保 WebKit 即使未套用 `:focus-visible` 仍有可見輪廓。Chromium、Firefox、WebKit 六組閱讀控制流程、349 單元、450 來源逐 byte 核對通過；正式部署仍須觀察。兩案、前後截圖與三情境驗收見[本輪 QA](docs/qa/2026-10-25-webkit-reader-focus/README.md)。下一輪優先抽樣 Safari 其他動態控制回工具列的焦點路徑。

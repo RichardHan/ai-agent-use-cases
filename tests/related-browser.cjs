@@ -11,11 +11,13 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
  if(live){
   for(const path of ['assets/app.js','assets/reader.css']){
    let matched=false;
-   for(let i=0;i<180;i++){
+   for(let i=0;i<300;i++){
+    if(i>0&&i%6===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
     const response=await fetch(origin+path+'?related-qa='+Date.now(),{cache:'no-store'});
     if(response.ok&&await response.text()===fs.readFileSync(path,'utf8')){matched=true;break;}
     await new Promise(r=>setTimeout(r,5000));
    }
+   if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
    assert(matched,'Published asset matches commit: '+path);
   }
  }

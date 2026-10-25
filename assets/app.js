@@ -1030,7 +1030,7 @@ function showDetail(item, trigger, updateURL=true) {
   body.append(overview);
 
   const guidance = el('details', 'reader-guidance');
-  guidance.append(el('summary', '', '本庫的入門建議（非實測結果）'));
+  guidance.append(el('summary', '', '💡 本庫入門建議：怎麼開始與注意事項（非實測結果）'));
   const guidanceGrid = el('div', 'guidance-grid');
   [['怎麼開始', item.how, 'guidance-how'], ['要注意什麼', item.caution, 'guidance-caution']].forEach(([label, text, cls]) => {
     const section = el('section', 'guidance-card ' + cls);

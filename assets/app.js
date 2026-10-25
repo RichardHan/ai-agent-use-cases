@@ -1260,7 +1260,9 @@ function enterSearch(event) {
   $('query').focus({preventScroll:true});
 }
 function filterEntries(items, terms, filters) {
-  return items.filter(item => terms.every(term => termVariants(term).some(v => item.search.includes(v))) && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
+  return items.filter(item => terms.every(term => termVariants(term).some(v => (filters.scope==='overview'
+    ? norm(item.title+' '+item.summary).includes(v) : item.search.includes(v))))
+    && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
 }
 
 /* Rank only existing matches; evidence status, popularity and frequency are not scores. */
@@ -1317,10 +1319,10 @@ function sourceTypeMessage(type) {
   const description=Object.hasOwn(SOURCE_TYPES,type)?SOURCE_TYPES[type]:'此類型未列入說明，請核對原文與限制。';
   return type+'：'+description+' 本庫未獨立重現。';
 }
-const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',difficulty:'實作門檻',tool:'提及工具',category:'主題分類',proof:'來源類型'};
+const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',difficulty:'實作門檻',tool:'提及工具',category:'主題分類',proof:'來源類型',scope:'命中範圍'};
 function activeConditions(query, filters) {
   return Object.entries({query, ...filters}).filter(([,value]) => value)
-    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : value}));
+    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : key==='scope' ? '標題與用途' : value}));
 }
 function relaxationOptions(items, terms, filters) {
   return Object.entries(filters).filter(([,value])=>value).map(([key,value]) => ({
@@ -1345,7 +1347,7 @@ function queryRelaxationOptions(items, query, filters) {
 // At most five facets: search smallest removal sets first, preserving the query.
 function combinedRelaxationOptions(items, terms, filters) {
   const matches=filterEntries(items,terms,{});
-  if(!matches.length || filterEntries(matches,[],filters).length || relaxationOptions(matches,[],filters).length)return [];
+  if(!matches.length || filterEntries(matches,terms,filters).length || relaxationOptions(matches,terms,filters).length)return [];
   const conditions=Object.entries(filters).filter(([key,value])=>key!=='query' && Object.hasOwn(FILTER_LABELS,key) && value)
     .map(([key,value])=>({key,value}));
   for(let size=2;size<=conditions.length;size++){
@@ -1354,7 +1356,7 @@ function combinedRelaxationOptions(items, terms, filters) {
       if(removed.length===size){
         const remaining={...filters};
         removed.forEach(({key})=>remaining[key]='');
-        const count=filterEntries(matches,[],remaining).length;
+        const count=filterEntries(matches,terms,remaining).length;
         if(count)options.push({conditions:removed,count});
         return;
       }
@@ -1461,12 +1463,12 @@ function groupFacetOptions(select,counts) {
   select.replaceChildren(...children);
   select.value=selected;
 }
-const SEARCH_KEYS=['q','scenario','kind','difficulty','tool','category','proof'];
+const SEARCH_KEYS=['q','scenario','kind','difficulty','tool','category','proof','scope'];
 function searchLink(href,query,filters,sort='') {
   const current=new URL(href);
   const url=new URL(current.pathname,current.origin);
   if(query)url.searchParams.set('q',query);
-  SEARCH_KEYS.slice(1).forEach(key=>{if(filters[key])url.searchParams.set(key,filters[key]);});
+  SEARCH_KEYS.slice(1).forEach(key=>{if(filters[key] && (key!=='scope'||filters[key]==='overview'))url.searchParams.set(key,filters[key]);});
   if(reviewSort(sort))url.searchParams.set('sort',sort);
   url.hash='explore';
   return url.href;
@@ -1486,6 +1488,7 @@ function hasSearchArrival(params,hash) {
 function currentSearchLink() {
   const filters=Object.fromEntries(['kind','difficulty','tool','category','proof'].map(id=>[id,$(id)?.value||'']));
   filters.scenario=activeScenario;
+  filters.scope=$('overview-only').checked?'overview':'';
   return searchLink(location.href,$('query').value,filters,$('sort').value);
 }
 let searchComposing = false, categoryComposing = false;
@@ -1575,6 +1578,7 @@ function refineFromCard(key, value) {
 }
 function removeCondition(key) {
   if(key==='scenario')activeScenario='';
+  else if(key==='scope')$('overview-only').checked=false;
   else if(Object.hasOwn(FILTER_LABELS,key))$(key).value='';
   render();
   focusResults();
@@ -1582,6 +1586,7 @@ function removeCondition(key) {
 function removeConditions(conditions) {
   conditions.forEach(({key})=>{
     if(key==='scenario')activeScenario='';
+    else if(key==='scope')$('overview-only').checked=false;
     else if(['kind','difficulty','tool','category','proof'].includes(key))$(key).value='';
   });
   render();
@@ -1589,6 +1594,7 @@ function removeConditions(conditions) {
 }
 function clearFacets() {
   activeScenario='';
+  $('overview-only').checked=false;
   ['kind','difficulty','tool','category','proof'].forEach(id=>{ if($(id)) $(id).value=''; });
   render();
   focusResults();
@@ -1623,14 +1629,14 @@ function renderSearchFeedback(terms, filters) {
   if(!currentFiltered.length&&discoveryReady){
     const options=relaxationOptions(entries,terms,filters).slice(0,3);
     options.forEach(({key,value,count})=>{
-      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:value)+'」 → 查看 '+count+' 筆');
+      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題與用途':value)+'」 → 查看 '+count+' 筆');
       button.type='button';button.dataset.removeFilter=key;
       button.addEventListener('click',()=>removeCondition(key));
       suggestions.append(button);
     });
     const combined=options.length ? [] : combinedRelaxationOptions(entries,terms,filters).slice(0,3);
     combined.forEach(({conditions,count})=>{
-      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:value)+'」');
+      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題與用途':value)+'」');
       const button=el('button','recovery-option','一起移除'+labels.join('、')+' → 查看 '+count+' 筆');
       button.type='button';button.dataset.removeFilters=conditions.map(({key})=>key).join(',');
       button.addEventListener('click',()=>removeConditions(conditions));
@@ -1704,7 +1710,10 @@ function render(updateURL=true, preserveShare=false) {
   $('search-submit').disabled=!discoveryReady;
   $('scenario').value=activeScenario;
   const q = tokenize($('query').value);
+  if(!q.length)$('overview-only').checked=false;
   const filters = Object.fromEntries(['kind', 'difficulty', 'tool', 'category', 'proof'].map(id => [id, $(id)?.value || '']));
+  filters.scope=$('overview-only').checked?'overview':'';
+  $('overview-only').disabled=!q.length;
   if (activeScenario) filters.scenario = activeScenario;
   const sourceNote=sourceTypeMessage(filters.proof);
   if($('source-type-note').textContent!==sourceNote)$('source-type-note').textContent=sourceNote;
@@ -1760,6 +1769,7 @@ function render(updateURL=true, preserveShare=false) {
       if ($(id)?.value) url.searchParams.set(key, $(id).value); else url.searchParams.delete(key);
     });
     if (activeScenario) url.searchParams.set('scenario', activeScenario); else url.searchParams.delete('scenario');
+    if(filters.scope)url.searchParams.set('scope',filters.scope);else url.searchParams.delete('scope');
     if(reviewSort($('sort').value))url.searchParams.set('sort','reviewed');else url.searchParams.delete('sort');
     history.replaceState(null, '', url);
   }
@@ -1768,6 +1778,7 @@ function render(updateURL=true, preserveShare=false) {
 function reset() {
   activeScenario = '';
   $('sort').value='';
+  $('overview-only').checked=false;
   ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => { if($(id)) $(id).value = ''; });
   render();
 }
@@ -2135,6 +2146,7 @@ async function load() {
     $('sort').value=reviewSort(initialParams.get('sort'));
     activeScenario=initialParams.get('scenario')||'';
     $('scenario').value=activeScenario;
+    $('overview-only').checked=initialParams.get('scope')==='overview';
     ['query','kind','difficulty','tool','category','proof'].forEach(id=>{
       const value=initialParams.get(id==='query'?'q':id)||'';
       if(value&&['difficulty','tool','category','proof'].includes(id)&&$(id)&&![...$(id).options].some(o=>o.value===value)){
@@ -2210,6 +2222,7 @@ async function load() {
     const params = new URLSearchParams(location.search);
     $('sort').value=reviewSort(params.get('sort'));
     activeScenario = params.get('scenario') || '';
+    $('overview-only').checked=params.get('scope')==='overview';
     ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => {
       const value = params.get(id === 'query' ? 'q' : id) || '';
       if(failedPaths.length && value && ['difficulty','tool','category','proof'].includes(id) && $(id) && ![...$(id).options].some(o=>o.value===value)){
@@ -2367,12 +2380,14 @@ $('clear-category-query').addEventListener('click',()=>{
   $('category-query').value='';renderCategoryFinder();$('category-query').focus();
 });
 $('query').addEventListener('input', () => render());
+$('overview-only').addEventListener('change',()=>render());
 $('sort').addEventListener('change', () => render());
 $('reset-sort').addEventListener('click', resetSort);
 $('recent-entry').addEventListener('click', event => {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   history.replaceState(null,'',event.currentTarget.href);
   activeScenario='';
+  $('overview-only').checked=false;
   ['query','kind','difficulty','tool','category','proof'].forEach(id => { if($(id)) $(id).value = ''; });
   $('sort').value='reviewed';render();enterSearch(event);
 });
@@ -2454,6 +2469,7 @@ window.addEventListener('popstate', event => {
   const missingHadFocus=$('missing-case')?.contains(document.activeElement);
   $('sort').value=reviewSort(params.get('sort'));
   activeScenario = params.get('scenario') || '';
+  $('overview-only').checked=params.get('scope')==='overview';
   ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(key => { if($(key)) $(key).value = params.get(key === 'query' ? 'q' : key) || ''; });
   render(false);
   if (item) {

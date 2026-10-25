@@ -153,14 +153,6 @@ test('detail view renders qualified action cards within accessible guidance deta
   assert.deepEqual(cards.map(card => card.querySelector('p').textContent), ['先提供一封去識別化郵件。', '寄出前由本人核對。']);
 });
 
-test('hero and search shortcuts expose the same high-intent pain points', () => {
-  const hero = htmlSource.match(/<section class="discovery-hero"[\s\S]*?<\/section>/)[0];
-  const chips = [...htmlSource.matchAll(/<button\b[^>]*class="chip chip-task"[^>]*data-query="([^"]+)"[^>]*>([^<]+)<\/button>/g)];
-  for (const label of ['收件匣與郵件', '日報與會議', '自動客服', '代碼審查', '比價省錢', '旅遊規劃']) {
-    assert.ok(hero.includes(label), 'hero shortcut: ' + label);
-    assert.ok(chips.some(([, query, text]) => text.includes(label) && text.includes('搜尋「' + query + '」')), 'search shortcut: ' + label);
-  }
-});
 
 test('empty recovery offers only queries that match retained facets', () => {
   const api = setupEnvironment(), calls = [];

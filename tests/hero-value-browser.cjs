@@ -38,6 +38,13 @@ const launchOptions = process.env.CHROMIUM_BIN ? { executablePath: process.env.C
     const countText = await page.locator('#results-count').innerText();
     assert.match(countText, /顯示 \d+ \/ \d+ 筆收錄/);
     
+    // A meeting shortcut must not silently substitute daily-report results.
+    await page.goto(origin, { waitUntil: 'domcontentloaded' });
+    await page.locator('.hero-problem-tags a').filter({ hasText: '會議' }).click();
+    await page.waitForSelector('#results .card');
+    assert.equal(await page.locator('#query').inputValue(), '會議');
+    assert.ok((await page.locator('#results .card').count()) > 0);
+    assert.equal(new URL(page.url()).searchParams.get('q'), '會議');
     await page.close();
     console.log('PASS Scenario 1: Desktop value props and problem tag navigation');
   }
@@ -62,6 +69,15 @@ const launchOptions = process.env.CHROMIUM_BIN ? { executablePath: process.env.C
     // Escape closes modal and returns focus
     await page.keyboard.press('Escape');
     assert.equal(await page.locator('#detail').getAttribute('open'), null);
+    // The matching filter-panel shortcut replaces only the task query.
+    await require('./filter-controls.cjs').ensureFiltersVisible(page);
+    await page.locator('#scenario').selectOption('工作');
+    await page.locator('.chip-task[data-query="會議"]').click();
+    assert.equal(await page.locator('#query').inputValue(), '會議');
+    assert.equal(await page.locator('#scenario').inputValue(), '工作');
+    assert.ok((await page.locator('#results .card').count()) > 0);
+    assert.equal(new URL(page.url()).searchParams.get('q'), '會議');
+    assert.equal(new URL(page.url()).searchParams.get('scenario'), '工作');
     
     await page.close();
     console.log('PASS Scenario 2: Knowledge worker problem search, detail reading, and modal return');

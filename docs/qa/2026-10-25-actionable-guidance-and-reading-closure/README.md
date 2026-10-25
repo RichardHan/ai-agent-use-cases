@@ -89,5 +89,13 @@ python3 -m http.server 8288 --directory /tmp/ai-usecase-preview-20261025
 - `refreshRelated()` 沿用既有操作區 DOM，並在刷新時恢復唯讀回退欄位的鍵盤焦點；以本機 Chromium 實際重現修正前焦點落到「關閉閱讀」，修正後仍留在筆記欄位。
 - `node --test tests/detail-reading-and-evidence.test.cjs`：14/14 通過；`node --test tests/*.test.cjs`：317/317 通過。
 - `node --check assets/app.js`、`node --check assets/reader.js`、`node --check tests/detail-reading-and-evidence.test.cjs`、`node --check tests/reader-browser.cjs` 通過；Pages 相容 preview 與 `check_corpus_bundle.py` 通過，447 份來源逐 byte 一致。
-- 本機 Ruby 2.6.10 沒有 `jekyll` executable，無法執行正式 Jekyll build。main 最新已核對的 Pages build run `40157648647` 成功；PR #101 新 commit 的 Reader QA / Reading flow / preview checks 尚待完成，本輪未宣稱新改動已正式部署。
-- PR #101 原本已有協作者提交。本輪在該分支新增 fast-forward commit `2bfdee3` 並推送；未 force push。合併等待此 commit 的 GitHub Actions 與獨立終審完成。
+- 本機 Ruby 2.6.10 沒有 `jekyll` executable，無法執行本機正式 build。PR #101 最新 head 的 Reader QA、Reading flow、preview 與其他必需 checks 在合併前全數通過；合併後主線發布狀態與 Reader QA timeout 另記於下節。
+- PR #101 原有協作者提交；本輪新增 fast-forward 修正並推送，未 force push。合併為 `1dbf3af`；後續 Reader QA 發布等待修正見下節。
+
+## 合併後 Pages 與 Reader QA 超時追蹤
+
+PR #101 已合併至 `main`，merge commit `1dbf3af`。合併後 Pages build/deploy run `40160388037` 成功，但從主線推送到部署完成約 12 分鐘。Reader QA run `40160388670` 在 `Verify published reader` 階段被 GitHub runner 的 12 分鐘 job 上限終止；這是超時，不是功能斷言失敗。Reader QA 同時安裝瀏覽器、跑本機 preview 並驗證實際發布頁，12 分鐘上限無法涵蓋已觀察到的發布等待加完整走查。
+
+本輪後續在獨立 worktree 將 `.github/workflows/reader-qa.yml` 的 job timeout 由 12 分鐘提高至 30 分鐘，並將正式站資產比對改為 60 次輪詢，每次請求最多 5 秒、間隔 10 秒（最長約 15 分鐘）。仍逐 byte 比對正式站資產；沒有略過正式站檢查、降低重試頻率或調整訪客頁面行為。30 分鐘上限保留部署等待後完整瀏覽器走查的執行空間；需以 follow-up PR 的 Reader QA 與合併後 run 確認。
+
+主線 Corpus bundle QA run `40160388684` 的 Jekyll build、447 份來源 byte 等同性與 bundle 檢查成功（8m26s）。Actions 同時附帶 Node.js 20 deprecation warning；`actions/checkout@v4`、`actions/setup-node@v4`、`actions/upload-artifact@v4` 目前被強制以 Node.js 24 執行。未擴大成 57 個工作流程的 action 升版，列為下一輪風險。

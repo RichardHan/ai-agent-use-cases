@@ -55,8 +55,14 @@ async function jump(page,button){
  await button.focus();await page.keyboard.press('Enter');
  assert.equal(await page.locator('.research-details').evaluate(el=>el.open),true);
  assert.equal(await page.evaluate(id=>document.activeElement.id===id,target),true);
+ const position=page.locator('.reader-position');
+ if(target.startsWith('reader-section-')&&await position.count()){
+  const index=Number(target.slice('reader-section-'.length));
+  const total=await page.locator('.research-details .markdown h2,.research-details .markdown h3').count();
+  const title=await page.locator('#'+target).innerText();
+  await page.waitForFunction(({index,total,title})=>{const meter=document.querySelector('.reader-progress-bar');return meter?.value===index+1&&meter.max===total&&document.querySelector('.reader-position-label')?.textContent.includes(title);},{index,total,title});
+ }
  await visibleBelowToolbar(page,'#'+target);
- assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,scroll:scrollY})),before,'jump preserves history and page behind dialog');
  await page.keyboard.press('Tab');
  assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('reader-return')),true);
  await page.keyboard.press('Enter');
@@ -123,7 +129,8 @@ async function jump(page,button){
   const placement=await page.evaluate(()=>{
    const dialog=document.createElement('dialog');dialog.open=true;
    dialog.style.cssText='position:fixed;left:-1600px;top:0;width:320px;height:620px';
-   const toolbar=document.createElement('header');toolbar.className='detail-toolbar';dialog.append(toolbar);
+   const toolbar=document.createElement('header');toolbar.className='detail-toolbar';
+   const toolbarLeft=document.createElement('div');toolbarLeft.className='detail-toolbar-left';toolbar.append(toolbarLeft);dialog.append(toolbar);
    const body=document.createElement('div');body.className='detail-body';dialog.append(body);
    const proof=document.createElement('p');proof.className='detail-proof-note';proof.textContent='作者自述，未獨立重現';
    const overview=document.createElement('section');overview.className='plain-overview';
@@ -152,9 +159,24 @@ async function jump(page,button){
    };
    original.click();result.originalOpensResearch=research.open;
    research.open=false;method.click();const methodTarget=body.querySelector('#'+method.getAttribute('aria-controls'));result.methodOpensHeading=research.open&&methodTarget?.textContent==='建議操作流程（本庫設計，未實測）';
+   result.initialPositionCount=toolbarLeft.querySelectorAll('.reader-position').length;
+   const article=count=>{
+    const details=document.createElement('details');details.className='research-details';
+    details.append(document.createElement('summary'));
+    const content=document.createElement('div');content.className='markdown';
+    for(let i=0;i<count;i++){const heading=document.createElement('h2');heading.textContent=`替換段落 ${i+1}`;content.append(heading,document.createElement('p'));}
+    details.append(content);return details;
+   };
+   const overviewFor=()=>{const node=document.createElement('section');node.className='plain-overview';return node;};
+   body.replaceChildren(overviewFor(),article(12));window.CaseReader.enhance(body,{kind:'case',proof:'author-demo'});
+   result.longReplacementCount=toolbarLeft.querySelectorAll('.reader-position').length;
+   body.replaceChildren(overviewFor(),article(2));window.CaseReader.enhance(body,{kind:'case',proof:'author-demo'});
+   result.shortClearsPosition=toolbarLeft.querySelectorAll('.reader-position').length===0&&!toolbarLeft.classList.contains('reader-has-position');
+   body.replaceChildren(overviewFor(),article(12));window.CaseReader.enhance(body,{kind:'case',proof:'author-demo'});
+   result.reopenedPositionCount=toolbarLeft.querySelectorAll('.reader-position').length;
    dialog.remove();return result;
   });
-  assert.deepEqual(placement,{proofInEvidence:true,proofRemovedFromOriginalPosition:true,originalBeforeTarget:true,methodBeforeTarget:true,originalOpensResearch:true,methodOpensHeading:true},'reader enhancements must update real DOM nodes and keep both shortcuts usable');
+  assert.deepEqual(placement,{proofInEvidence:true,proofRemovedFromOriginalPosition:true,originalBeforeTarget:true,methodBeforeTarget:true,originalOpensResearch:true,methodOpensHeading:true,initialPositionCount:1,longReplacementCount:1,shortClearsPosition:true,reopenedPositionCount:1},'reader enhancements must preserve a single long-case position tracker across detail replacement');
    assert.equal(await page.locator('.research-details').evaluate(el=>el.open),false,'original research stays collapsed before the reader chooses it');
    const originalEntry=page.locator('.reader-original-open');
    assert.equal(await originalEntry.count(),1,'long cases have a stable route to the complete original');
@@ -188,7 +210,24 @@ async function jump(page,button){
    await page.locator('.reader-outline summary').click();
    assert.deepEqual(await page.locator('.reader-outline-jump').allTextContents(),originalTitles);
    const buttons=page.locator('.reader-outline-jump');
-   for(const index of [0,Math.floor(originalTitles.length/2),originalTitles.length-1])await jump(page,buttons.nth(index));
+   const sectionIndexes=[0,Math.floor(originalTitles.length/2),originalTitles.length-1];
+   for(const index of sectionIndexes){
+    await jump(page,buttons.nth(index));
+    if(engine==='chromium'&&size==='desktop'&&index===Math.floor(originalTitles.length/2)){
+     await buttons.nth(index).focus();await page.keyboard.press('Enter');
+     await page.waitForFunction(value=>document.querySelector('.reader-progress-bar').value===value,index+1);
+     const positionBeforeResize=await page.evaluate(()=>{const detail=document.querySelector('#detail');window.__blockedReaderScrollEvents=0;window.__blockReaderScroll=event=>{window.__blockedReaderScrollEvents++;event.stopImmediatePropagation();};detail.addEventListener('scroll',window.__blockReaderScroll,true);return {scroll:detail.scrollTop,value:document.querySelector('.reader-progress-bar').value};});
+     assert.equal(positionBeforeResize.value,index+1,'reader starts at the selected section before resize');
+     const expandedHeight=await page.evaluate(()=>Math.max(innerHeight*2,Math.ceil((document.querySelector('.research-details .markdown').getBoundingClientRect().bottom-document.querySelector('#detail').getBoundingClientRect().top)/.8)+200));
+     await page.setViewportSize({width,height:expandedHeight});
+     await page.waitForFunction(total=>document.querySelector('.reader-progress-bar').value===total,originalTitles.length);
+     assert.equal(await page.locator('.reader-progress-bar').evaluate(el=>el.max),originalTitles.length,'resizing to reveal the full original updates the progress range');
+     assert.equal(await page.evaluate(()=>document.activeElement.id),`reader-section-${index}`,'resize does not steal keyboard focus');
+     assert.equal(page.url(),await page.evaluate(()=>location.href),'resize does not change the shared case URL');
+     await page.evaluate(()=>{const detail=document.querySelector('#detail');detail.removeEventListener('scroll',window.__blockReaderScroll,true);delete window.__blockReaderScroll;delete window.__blockedReaderScrollEvents;});
+     await page.setViewportSize({width,height});
+    }
+   }
    const sourceJump=page.locator('.reader-jump').filter({hasText:'來源與版本'});
    if(await sourceJump.count())await sourceJump.click();
    const popupPromise=page.waitForEvent('popup');

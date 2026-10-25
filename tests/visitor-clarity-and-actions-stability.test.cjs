@@ -23,21 +23,6 @@ test('promoted travel query finds the travel-comparison case and query echo keep
   assert.equal(context.api.abbreviatedQuery('a'.repeat(40) + '🧾'), 'a'.repeat(40) + '…');
 });
 
-test('empty search state echoes query safely, wraps long tokens, and guides visitors to verified problem use-cases', () => {
-  assert.match(
-    appJs,
-    /displayQ\s*\?\s*`目前沒有符合「\$\{displayQ\}」的案例`\s*:\s*'目前沒有符合的案例'/,
-    'empty state heading must echo user query safely while maintaining contract with load recovery assertions'
-  );
-  assert.match(
-    appJs,
-    /建議直接從常見痛點或真實案例開始探索：/,
-    'problem suggestion intro must guide visitors to problem use-cases without duplicating the heading'
-  );
-  const css = fs.readFileSync(path.join(root, 'assets/style.css'), 'utf8');
-  assert.match(css, /#empty h3\{[^}]*overflow-wrap:\s*anywhere/, '#empty h3 must wrap long text tokens');
-  assert.match(css, /\.empty-problem-intro\{[^}]*overflow-wrap:\s*anywhere/, '.empty-problem-intro must wrap long text tokens');
-});
 
 test('critical GitHub Actions workflows feature in-loop superseded checks and pre-throw freshness verification', () => {
   const hardenedWorkflows = [

@@ -1642,13 +1642,6 @@ function renderSearchFeedback(terms, filters) {
       suggestions.append(button);
     });
     if(!options.length && !combined.length && terms.length){
-      const problemContainer = el('div','empty-problem-suggestions');
-      problemContainer.setAttribute('role','group');
-      problemContainer.setAttribute('aria-label','推薦常見痛點關鍵字');
-      const displayQ = abbreviatedQuery($('query').value);
-      const intro = el('p','empty-problem-intro',displayQ ? '建議直接從常見痛點或真實案例開始探索：' : '你可以從常見問題與真實案例開始：');
-      problemContainer.append(intro);
-      const chipsWrap = el('div','empty-problem-chips');
       const problemTags = [
         {label:'郵件摘要 · 搜尋「郵件」', term:'郵件'},
         {label:'會議日報 · 搜尋「日報」', term:'日報'},
@@ -1658,30 +1651,39 @@ function renderSearchFeedback(terms, filters) {
         {label:'🛠️ 搜尋「除錯」', term:'除錯'},
         {label:'🏖️ 搜尋「旅遊」', term:'旅遊'},
         {label:'🏷️ 搜尋「比價」', term:'比價'}
-      ];
-      problemTags.forEach(({label, term})=>{
-        const btn = el('button','recovery-option recovery-problem-tag',label);
-        btn.type = 'button';
-        btn.dataset.problemTag = term;
-        btn.setAttribute('data-problem-tag', term);
-        btn.setAttribute('aria-label', label);
-        btn.addEventListener('click',()=>{
-          $('query').value = term;
-          render();
-          focusResults();
+      ].filter(({term})=>filterEntries(entries,tokenize(term),filters).length>0);
+      if(problemTags.length){
+        const problemContainer = el('div','empty-problem-suggestions');
+        problemContainer.setAttribute('role','group');
+        problemContainer.setAttribute('aria-label','推薦常見痛點關鍵字');
+        const intro = el('p','empty-problem-intro','以下搜尋在目前篩選下有結果，可保留其他條件繼續探索：');
+        problemContainer.append(intro);
+        const chipsWrap = el('div','empty-problem-chips');
+        problemTags.forEach(({label, term})=>{
+          const btn = el('button','recovery-option recovery-problem-tag',label);
+          btn.type = 'button';
+          btn.dataset.problemTag = term;
+          btn.setAttribute('data-problem-tag', term);
+          btn.setAttribute('aria-label', label);
+          btn.addEventListener('click',()=>{
+            $('query').value = term;
+            render();
+            focusResults();
+          });
+          chipsWrap.append(btn);
         });
-        chipsWrap.append(btn);
-      });
-      problemContainer.append(chipsWrap);
-      suggestions.append(problemContainer);
+        problemContainer.append(chipsWrap);
+        suggestions.append(problemContainer);
+      }
     }
-    $('empty-hint').textContent=suggestions.children.length && terms.length>1
+    $('empty-hint').textContent=suggestions.children.length && terms.length>1 && !suggestions.querySelector('.empty-problem-suggestions')
       ? '關鍵字須同時符合；以下建議只調整指定條件，並保留其餘條件。'
       : combined.length
       ? '至少要一起移除 '+combined[0].conditions.length+' 項篩選才有結果。以下調整會保留關鍵字與其餘條件。'
       : options.length
       ? '每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。'
-      : hasFacets ? '目前條件沒有交集。可逐項移除上方條件，或清除篩選後保留關鍵字再找。'
+      : suggestions.querySelector('.empty-problem-suggestions') ? '下方建議可調整關鍵字；任務捷徑在目前篩選下有結果，其餘條件不變。'
+      : hasFacets ? '目前條件沒有交集。請調整篩選或清除篩選後保留關鍵字再找。'
       : '試著用更短的任務關鍵字，例如「旅遊」或「收件匣」。';
     if(failedPaths.length)$('empty-hint').textContent+=' 部分條目載入失敗，以下數量只計算已載入內容。';
   }

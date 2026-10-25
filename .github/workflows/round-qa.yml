@@ -61,6 +61,7 @@ jobs:
           NODE_PATH: ${{ runner.temp }}/round-tools/node_modules
           ROUND_URL: https://richardhan.github.io/ai-agent-use-cases/
           ROUND_OUTPUT: qa-artifacts/round-published
+          ROUND_PUBLISHED: '1'
         run: |
           node <<'NODE'
           const fs=require('node:fs');

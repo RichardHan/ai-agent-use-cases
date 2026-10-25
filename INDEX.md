@@ -632,6 +632,7 @@
 | UC-449 | CRM人物紀錄去重：備份後逐組核准欄位取捨，衝突留待人工 | Meta Muse／Nimble CRM | [B作者實作自述；無原始日誌、未重現](cases/449-crm-contact-merge-conflict-review.md) | 工作｜CRM、去重、人工核准、驗收 |
 | UC-450 | 雲端資料庫降回免費方案前，先查已付帳單、分檔備份並在隔離環境試還原 | ChatGPT dots／Supabase | [作者自述；整包還原失敗、部分成功，未重現](cases/450-dots-supabase-pro-to-free-backup-restore-check.md) | 省錢｜訂閱、雲端費用、備份、驗收 |
 | UC-451 | 一份Skills原本放GitHub，用唯讀MCP讓Grok Bot、dots、ChatGPT、Claude共用 | Grok Bot／ChatGPT dots／ChatGPT／Claude | [作者自述實測；付費套件未讀、未重現](cases/451-single-source-skills-readonly-mcp-across-agents.md) | 開發｜技能、MCP、跨代理、用量 |
+| UC-452 | 跨語言購屋行政協調，從看屋行程追到申請階段 | ChatGPT dots | [B級作者階段結果自述；非成交、未重現](cases/452-cross-language-home-purchase-admin-handoffs.md) | 生活｜購屋、跨語言、行程、核准 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 

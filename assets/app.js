@@ -2416,6 +2416,13 @@ $('detail').addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if ($('detail').open) {
+    // WebKit may move backward from the first body control to the dialog
+    // itself instead of the last toolbar control.
+    if (e.key === 'Tab' && e.shiftKey && document.activeElement.id === 'copy-case-link') {
+      e.preventDefault();
+      $('close-detail').focus();
+      return;
+    }
     // Arrow keys belong to the browser while readers select or copy passage text.
     if (document.getSelection()?.isCollapsed === false) return;
     if (e.defaultPrevented || e.isComposing || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || document.activeElement.closest('.markdown-table,input,textarea,select,[contenteditable]:not([contenteditable="false"])')) return;

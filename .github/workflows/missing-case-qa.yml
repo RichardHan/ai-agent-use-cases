@@ -59,13 +59,15 @@ jobs:
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const base=process.env.CASE_URL,files=['index.html','assets/app.js','assets/style.css'];
             for(let i=0;i<451;i++){
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const texts=await Promise.all(files.map(async file=>{
                 const r=await fetch(base+(file==='index.html'?'':file)+'?caseqa='+process.env.GITHUB_SHA,{cache:'no-store'});return r.ok?r.text():'';
               }));
               if(texts.every((s,j)=>s===fs.readFileSync(files[j],'utf8'))){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
               await new Promise(r=>setTimeout(r,2000));
             }
-            throw Error('Published assets mismatch');
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published assets mismatch after 451 attempts at two-second intervals');
           })().catch(e=>{console.error(e);process.exitCode=1;});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then

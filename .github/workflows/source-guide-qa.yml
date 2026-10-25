@@ -73,6 +73,7 @@ jobs:
             const base='https://richardhan.github.io/ai-agent-use-cases/';
             const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             for(let attempt=0;attempt<240;attempt++){
+              if(attempt>0&&attempt%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const matches=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async file=>{
                 const response=await fetch(base+file+'?guide='+Date.now(),{cache:'no-store'});
                 return response.ok&&await response.text()===fs.readFileSync(file,'utf8');
@@ -80,16 +81,38 @@ jobs:
               if(matches.every(Boolean)){console.log('Published HTML, JS and CSS match checkout byte for byte');return;}
               await new Promise(resolve=>setTimeout(resolve,5000));
             }
-            throw Error('Published assets did not match checkout');
-          })().catch(e=>{console.error(e);process.exit(1)});
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published assets did not match checkout within 20 minutes (240 attempts)');
+          })().catch(e=>{console.error(e);process.exitCode=1});
           JS
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
       - name: Verify the real HTTPS site on desktop and mobile
         env:
           NODE_PATH: ${{ runner.temp }}/guide-tools/node_modules
           GUIDE_URL: https://richardhan.github.io/ai-agent-use-cases/
           GUIDE_PUBLISHED: '1'
           GUIDE_OUTPUT: qa-artifacts/published-source-guide
-        run: node tests/source-guide-browser.cjs
+        run: |
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
+          node tests/source-guide-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

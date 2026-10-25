@@ -83,20 +83,43 @@ jobs:
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             for(let i=0;i<181;i++){
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const matches=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async path=>{const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/'+path+'?return='+Date.now(),{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}));
               if(matches.every(Boolean)){console.log('Published assets match '+process.env.GITHUB_SHA);return;}
               await new Promise(resolve=>setTimeout(resolve,5000));
             }
-            throw Error('Published asset mismatch');
-          })().catch(e=>{console.error(e);process.exit(1)});
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published asset mismatch within 15 minutes (181 attempts)');
+          })().catch(e=>{console.error(e);process.exitCode=1});
           JS
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
       - name: Verify HTTPS desktop and mobile
         env:
           NODE_PATH: ${{ runner.temp }}/return-tools/node_modules
           RETURN_URL: https://richardhan.github.io/ai-agent-use-cases/
           RETURN_OUTPUT: qa-artifacts/results-published
           RETURN_PUBLISHED: '1'
-        run: node tests/results-return-browser.cjs
+        run: |
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
+          node tests/results-return-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

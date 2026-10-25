@@ -58,8 +58,9 @@ jobs:
               if(r.ok&&await r.text()===fs.readFileSync('assets/app.js','utf8'))return;
               await new Promise(r=>setTimeout(r,5000));
             }
-            throw Error('Published app.js differs from checkout');
-          })().catch(e=>{console.error(e);process.exit(1)});
+            const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published app.js differs from checkout within 15 minutes (181 attempts)');
+          })().catch(e=>{console.error(e);process.exitCode=1});
           JS
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
             :

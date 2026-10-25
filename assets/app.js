@@ -1635,7 +1635,9 @@ function renderSearchFeedback(terms, filters) {
       const problemContainer = el('div','empty-problem-suggestions');
       problemContainer.setAttribute('role','group');
       problemContainer.setAttribute('aria-label','推薦常見痛點關鍵字');
-      const intro = el('p','empty-problem-intro','你可以從常見痛點重新探索：');
+      const rawQ = $('query').value.trim();
+      const displayQ = rawQ.length > 40 ? rawQ.slice(0, 40) + '…' : rawQ;
+      const intro = el('p','empty-problem-intro',displayQ ? `目前沒有符合「${displayQ}」的案例，你可以從常見問題與真實案例開始：` : '你可以從常見痛點重新探索：');
       problemContainer.append(intro);
       const chipsWrap = el('div','empty-problem-chips');
       const problemTags = [
@@ -1701,7 +1703,11 @@ function render(updateURL=true, preserveShare=false) {
   // Sorting is a reading preference; keep the current discovery deck intact.
   syncDiscovery(rankEntries(matches,q));
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
-  $('empty').querySelector('h3').textContent=failedPaths.length?'已載入內容中沒有符合的案例':'目前沒有符合的案例';
+  const rawQ = $('query').value.trim();
+  const displayQ = rawQ.length > 40 ? rawQ.slice(0, 40) + '…' : rawQ;
+  $('empty').querySelector('h3').textContent=failedPaths.length
+    ?(displayQ?`已載入內容中目前沒有符合「${displayQ}」的案例`:'已載入內容中沒有符合的案例')
+    :(displayQ?`目前沒有符合「${displayQ}」的案例`:'目前沒有符合的案例');
   renderSearchFeedback(q, filters);
   renderFacetCounts(q, filters);
   updatePartialLoad();

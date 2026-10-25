@@ -55,6 +55,7 @@ jobs:
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             for(let i=0;i<301;i++){
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const files=['assets/reader.js','assets/reader.css'];
               const matches=await Promise.all(files.map(async file=>{
                 const r=await fetch(process.env.METHOD_URL+file+'?method='+process.env.GITHUB_SHA,{cache:'no-store'});
@@ -63,7 +64,8 @@ jobs:
               if(matches.every(Boolean)){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
               await new Promise(r=>setTimeout(r,3000));
             }
-            throw Error('Published reader assets mismatch');
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published reader assets mismatch after 301 attempts at three-second intervals');
           })().catch(e=>{console.error(e);process.exitCode=1});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then

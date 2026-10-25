@@ -74,12 +74,14 @@ jobs:
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const files=['assets/app.js','assets/style.css'];
             for(let i=0;i<181;i++){
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const matches=await Promise.all(files.map(async file=>{const r=await fetch(process.env.SHARE_URL+file+'?shareqa='+Date.now(),{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(file,'utf8');}));
               if(matches.every(Boolean)){fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify({sha:process.env.GITHUB_SHA,files,matched:true}));return;}
               await new Promise(r=>setTimeout(r,5000));
             }
-            throw Error('Published assets differ from checkout');
-          })().catch(e=>{console.error(e);process.exit(1)});
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published assets did not match checkout within 15 minutes (181 attempts)');
+          })().catch(e=>{console.error(e);process.exitCode=1});
           JS
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
             :

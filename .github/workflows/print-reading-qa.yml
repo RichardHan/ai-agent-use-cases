@@ -73,6 +73,7 @@ jobs:
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const paths=['assets/app.js','assets/reader.js','assets/reader.css'];
             for(let i=0;i<301;i++){
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const states=await Promise.all(paths.map(async path=>{
                 const r=await fetch(process.env.PRINT_URL+path+'?print='+process.env.GITHUB_SHA,{cache:'no-store'});
                 return r.ok&&await r.text()===fs.readFileSync(path,'utf8');
@@ -80,8 +81,9 @@ jobs:
               if(states.every(Boolean))return;
               await new Promise(resolve=>setTimeout(resolve,3000));
             }
-            throw Error('Published print assets do not match');
-          })().catch(e=>{console.error(e);process.exit(1)});
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published print assets do not match after 301 attempts at three-second intervals');
+          })().catch(e=>{console.error(e);process.exitCode=1});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
             :

@@ -66,11 +66,13 @@ jobs:
           (async()=>{
             const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             for(let i=0;i<181;i++){
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const response=await fetch('https://richardhan.github.io/ai-agent-use-cases/assets/app.js?sourceqa='+Date.now());
               if(response.ok&&await response.text()===fs.readFileSync('assets/app.js','utf8'))return;
               await new Promise(resolve=>setTimeout(resolve,5000));
             }
-            throw Error('Published app.js differs from checkout');
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published app.js differs from checkout within 15 minutes (181 attempts)');
           })().catch(error=>{console.error(error);process.exitCode=1});
           JS
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then

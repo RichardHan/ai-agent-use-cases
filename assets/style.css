@@ -173,11 +173,11 @@
 .empty-actions button{min-height:44px;font-size:13px}
 #empty{padding:30px 20px}
 #empty>span{font-size:28px}
-#empty h3{margin:10px 0}
-#empty p{color:#4c6258;max-width:600px;margin:12px auto}
+#empty h3{margin:10px 0;overflow-wrap:anywhere;word-break:break-word}
+#empty p{color:#4c6258;max-width:600px;margin:12px auto;overflow-wrap:anywhere;word-break:break-word}
 @media(max-width:640px){.search-feedback{padding:14px}.search-feedback-heading{align-items:flex-start;flex-direction:column;gap:2px}.active-filter{font-size:12px}.empty-actions{flex-direction:column}.recovery-option{width:100%}}
 .empty-problem-suggestions{width:100%;max-width:620px;margin:10px auto;display:flex;flex-direction:column;align-items:center;gap:10px}
-.empty-problem-intro{font-size:14px;color:var(--muted);margin:0 0 4px}
+.empty-problem-intro{font-size:14px;color:var(--muted);margin:0 0 4px;overflow-wrap:anywhere;word-break:break-word}
 .empty-problem-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:100%}
 .recovery-problem-tag{min-height:44px;min-width:44px;max-width:100%;white-space:normal;overflow-wrap:anywhere;display:inline-flex;align-items:center;padding:8px 14px;font-size:13px;border-radius:20px;border:1px solid #c2d1bd;background:#fff;color:var(--green);font-weight:600;cursor:pointer}
 .recovery-problem-tag:hover{background:#eef4ea;border-color:var(--green)}

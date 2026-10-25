@@ -186,6 +186,8 @@
     }else{
       evidence.append(make('p','',item.kind==='pending'?'原文未列統一證據欄位；這是待查線索，請核對原文的狀態與缺漏。':'原文未列統一證據欄位，請核對全文中的來源與限制。'));
     }
+    const proofNote=body.querySelector('.detail-proof-note');
+    if(proofNote)evidence.prepend(proofNote);
     const warning=body.querySelector('.detail-warning');
     if(warning)evidence.append(warning);
     evidence.append(make('p','reader-evidence-footnote','以上沿用原文頁首；後續補充的來源與限制，請依各段文字判讀。'));
@@ -194,7 +196,8 @@
       const open=make('button','reader-original-open',`查看完整原始研究、來源與提示詞（${headings.length} 段） ↓`);
       open.type='button';
       open.addEventListener('click',()=>{research.open=true;moveTo(research.querySelector('summary'));});
-      overview.append(open);
+      const targetUser=overview.querySelector('.detail-target-user');
+      if(targetUser)targetUser.before(open);else overview.append(open);
     }
     overview.after(evidence);
     const dialog=body.closest('dialog');
@@ -272,7 +275,8 @@
       const shortcut=jumpButton(method.index,'reader-method-shortcut');
       shortcut.replaceChildren(make('strong','','前往方法與步驟 ↓'),make('span','reader-target',method.title));
       // Preserve the original qualification beside the action, including untested designs.
-      overview.append(shortcut);
+      const targetUser=overview.querySelector('.detail-target-user');
+      if(targetUser)targetUser.before(shortcut);else overview.append(shortcut);
     }
     // Collect before inserting reader controls so their labels cannot become hits.
     const sourceSummary=research.querySelector('summary');

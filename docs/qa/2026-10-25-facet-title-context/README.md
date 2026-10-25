@@ -45,7 +45,7 @@ python3 -m http.server 8130 --directory /tmp/ai-usecase-title-preview
 - 手機 390px：同一多條件搜尋標題正確；文件寬度等於視口，無水平溢出。
 - 修改前基準與修改後回歸：`node --test tests/*.test.cjs` 前後均 324/324 通過；`node --check assets/app.js`、`tests/page-context.test.cjs`、`tests/page-context-browser.cjs` 通過。Pages 相容預覽與 `scripts/check_corpus_bundle.py` 通過，447 sources byte-for-byte identical。正式 Jekyll CLI 不存在於此環境（Ruby 2.6.10，`jekyll: command not found`）；repo 無專用 lint/type-check 命令。
 - Chromium 手動走查：桌面／手機多條件篩選、零結果、鍵盤 focus-visible、UC-324 直鏈、Escape 返回與來源連結。標題涵蓋完整條件、焦點回到結果計數、手機無水平溢出。
-- Actions：前版 `c4db9d8` 的 Round 23 與 Reading anchor workflow 曾失敗，但完整失敗 log 不可讀，未推測根因；其後 `9a13b24` 的 Round 23 acceptance QA 為成功。這一輪沒有修改 workflow，新增 browser test 會於既有 CI Playwright job 執行。
+- CI／部署：PR [#103](https://github.com/RichardHan/ai-agent-use-cases/pull/103) 已 squash merge；12 個 PR 檢查通過，2 個只適用已發布站的檢查在 PR 階段略過。主線 commit `b3f5c0a` 的 Corpus bundle QA（`40163749930`，9m06s）通過，包含 Jekyll Pages build、447 份來源相容性、完整瀏覽流程與 page-context browser test；Round 23 acceptance QA `40163749936` 通過；Pages deployment `40163749383` 成功。發布後正式站以停用瀏覽器快取重新載入，標題、UC-324 直鏈與返回流程皆通過。
 - 來源走查：UC-324 原始 X 貼文可正常開啟；同頁列出的 `tomoyk/failure-reports` GitHub 連結回傳 GitHub 404，未改動原始案例資料，留待來源維護時核查。
 
 瀏覽器走查是自動化檢查，不代表真人偏好或轉換率改善。
@@ -56,4 +56,4 @@ python3 -m http.server 8130 --directory /tmp/ai-usecase-title-preview
 
 ## 風險與下一步
 
-本機環境沒有 Playwright／axe 套件，無法在此直接執行 `tests/page-context-browser.cjs`；已用實際 Chromium browser 工具走查修改前正式站與本機 Pages 預覽。需由本輪 Actions 確認永久 browser test。正式 Jekyll build 亦未能在本機執行。下一輪優先查明 Actions workflow 對主線新提交的失敗日誌，僅在可證實根因後修正，不把部署延遲或未知錯誤當作已解決。
+本機環境沒有 Playwright／axe 套件或 Jekyll CLI，但已由 GitHub Actions 雲端建置與 Chromium browser test 驗證；正式站部署後亦實際走查。已發現 UC-324 的次要 GitHub repository 來源連結回 404，主原始 X 貼文仍可讀；下一輪先核查此來源問題，保留原始案例資料直到確認可更新的可靠來源。

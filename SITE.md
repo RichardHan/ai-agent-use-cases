@@ -1,3 +1,7 @@
+## 2026-10-25 Facet QA 過期主分支跳過後仍執行 corpus 驗證
+
+根據 [Facet counts QA #40149517989](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40149517989) 的實際失敗，讓 `published-version.cjs` 明確輸出 `verified=true|false`，只有已核實的目前發布版本才執行後續來源 byte 驗證；過期 commit 僅跳過依賴檢查，真正發布失敗仍保持失敗。新增輸出契約回歸測試；完整測試、Pages 靜態預覽與來源 byte 比對紀錄見[本輪 QA](docs/qa/2026-10-25-facet-stale-run/README.md)。
+
 ## 2026-10-25 長篇案例閱讀位置提示
 
 針對 UC-005 等 12 段以上詳情在手動續讀時無法確認原文位置的問題，於固定工具列顯示目前 H2/H3 段落、`N／總段數` 及原生進度條；同步鍵盤跳段、捲動與視窗尺寸變動，不播報每次位置更新，窄螢幕段名單行省略且 row-gap 歸零以消除工具列撐高遮擋，完整標題仍供輔助技術讀取，並在切換長篇／短篇時清除舊狀態。正式站基準搜尋「旅遊」＋「生活」20 筆、UC-001 來源與返回正常；修改前正式 UC-005 有 42 段、沒有閱讀進度。修改後本機 Pages 相容預覽在 1440／390／320px 皆無水平溢出，段落鍵盤跳轉錨點穩定低於工具列 17.5px～18.2px，三視口 Axe 皆 0 violations，11 段 UC-003 不顯示提示；全套 308 項測試通過。獨立審查提出的長短篇生命週期、無 dialog fixture、自動化測試參數、viewport resize 更新與 toolbar 遮擋消除均已修正。正式 Pages 部署後檢查仍待 Actions；最新 main Round QA #40150712715 的 reload 後 `#detail[open]` 逾時另列為下一輪待查，不混稱本輪已解。[兩案、前後截圖、走查與驗收限制](docs/qa/2026-10-25-long-reading-progress/README.md)。

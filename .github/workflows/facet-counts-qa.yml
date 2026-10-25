@@ -68,12 +68,16 @@ jobs:
           QA_OUT=qa-artifacts/preview-walk runuser -u pwuser -- node tests/reliability-observe.cjs
           runuser -u pwuser -- node tests/source-guide-browser.cjs
           QA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs
-      - name: Verify published assets and original source bytes
+      - name: Verify published release matches this commit
+        id: published-version
         env:
           PUBLISHED_BUILD: ${{ runner.temp }}/facet-published
-        run: |
-          node tests/published-version.cjs
-          python3 scripts/check_corpus_bundle.py "$PUBLISHED_BUILD"
+        run: node tests/published-version.cjs
+      - name: Verify published source bytes
+        if: steps.published-version.outputs.verified == 'true'
+        env:
+          PUBLISHED_BUILD: ${{ runner.temp }}/facet-published
+        run: python3 scripts/check_corpus_bundle.py "$PUBLISHED_BUILD"
       - name: Verify the published site
         if: github.ref == 'refs/heads/main'
         env:

@@ -688,7 +688,16 @@ function renderRelated(item) {
   const copyStatus = el('span', 'detail-action-status', '');
   copyStatus.setAttribute('role', 'status');
   copyStatus.setAttribute('aria-live', 'polite');
+  const manualCopy = el('textarea', 'detail-action-manual-copy');
+  manualCopy.readOnly = true;
+  manualCopy.hidden = true;
+  manualCopy.setAttribute('aria-label', '案例筆記，請手動複製');
+  let copyRequest = 0;
+  let copyTimer;
   copyTakeawayBtn.addEventListener('click', async () => {
+    const request = ++copyRequest;
+    const focusAtRequest = document.activeElement;
+    const isCurrent = () => request === copyRequest && copyStatus.isConnected !== false;
     const caseUrl = new URL(location.href);
     caseUrl.search = '?case=' + encodeURIComponent(item.id);
     caseUrl.hash = '';
@@ -697,21 +706,33 @@ function renderRelated(item) {
       `📌 用途：${item.what || item.summary}`,
       item.how ? `🚀 怎麼開始：${item.how}` : '',
       item.caution ? `⚠️ 注意事項：${item.caution}` : '',
+      item.proof ? `📎 來源證據：${item.proof}` : '',
       `🔗 詳情與來源：${caseUrl.href}`
     ].filter(Boolean).join('\n');
+    clearTimeout(copyTimer);
+    manualCopy.value = '';
+    manualCopy.hidden = true;
+    copyStatus.textContent = '正在複製案例筆記…';
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(text);
-        copyStatus.textContent = '已複製案例筆記！';
-        setTimeout(() => { if (copyStatus.textContent === '已複製案例筆記！') copyStatus.textContent = ''; }, 3000);
-      } else {
-        copyStatus.textContent = '無法自動複製，請手動複製網址。';
-      }
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(text);
+      if (!isCurrent()) return;
+      copyStatus.textContent = '已複製案例筆記！';
+      copyTimer = setTimeout(() => {
+        if (isCurrent()) copyStatus.textContent = '';
+      }, 3000);
     } catch {
-      copyStatus.textContent = '複製未成功，請手動複製網址。';
+      if (!isCurrent()) return;
+      manualCopy.value = text;
+      manualCopy.hidden = false;
+      copyStatus.textContent = '無法自動複製，請手動複製下方完整筆記。';
+      if (document.activeElement === focusAtRequest) {
+        manualCopy.focus();
+        manualCopy.select();
+      }
     }
   });
-  nextActions.append(copyTakeawayBtn, copyStatus);
+  nextActions.append(copyTakeawayBtn, copyStatus, manualCopy);
   section.append(nextActions);
   return section;
 }
@@ -720,7 +741,10 @@ function refreshRelated() {
   if (!$('detail').open || !previous || !currentDetailItem) return;
   const active = document.activeElement;
   const hadFocus = previous.contains(active);
+  const previousActions = previous.querySelector('.detail-next-actions');
   const next = renderRelated(currentDetailItem);
+  const nextActions = next.querySelector('.detail-next-actions');
+  if (previousActions && nextActions) nextActions.replaceWith(previousActions);
   previous.replaceWith(next);
   if (hadFocus) {
     let target = null;

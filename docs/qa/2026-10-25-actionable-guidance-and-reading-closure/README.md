@@ -79,3 +79,15 @@ python3 -m http.server 8288 --directory /tmp/ai-usecase-preview-20261025
 - **獨立代碼審查：** 由獨立 reviewer 審查提出 4 項 P2 建議（refreshRelated 焦點保持、URL hash 剝除、W3C 語意標註、WebKit 測試範圍收斂），均已全數修正並驗證通過。
 - **未能驗證與外部風險：** 本專案部署於 GitHub Pages，Actions 與 CDN 部署存在 10~15 分鐘之發布時差；本輪已確保本機 preview 與 CI 測試契約一致。
 - **下一輪最值得做的一件事：** 為搜尋結果卡片提供依問題情境的折疊展開摘要或「快速預覽」浮層，讓桌面端使用者不用每次點進彈窗即可快速掃描 3 步操作重點。
+
+## 後續獨立審查與複製可靠性修正
+
+另一位獨立 reviewer 針對複製筆記操作發現三個可重現缺口：剪貼簿拒絕時筆記內容無法取回；背景來源載入重繪相關區後，非同步回饋可能寫入 detached 節點；重複點擊時較早失敗或舊計時器可能覆蓋較新的成功狀態。新增回歸測試覆蓋回退內容、焦點保留、請求順序與計時器；初始兩項測試在修正前失敗，修正後通過。
+
+- 剪貼簿不可用／遭拒時改提供完整唯讀筆記欄位；讀者焦點仍在複製按鈕時才自動選取回退內容，避免搶走已移動的焦點。
+- 筆記另保留來源證據狀態；同一操作的較舊請求不再覆蓋最新回饋，重試會取消舊回饋計時器。
+- `refreshRelated()` 重新產生延伸閱讀時沿用既有操作區 DOM，讓待完成的複製狀態仍連結到畫面上的控制項。
+- `node --test tests/detail-reading-and-evidence.test.cjs`：14/14 通過；`node --test tests/*.test.cjs`：317/317 通過。
+- `node --check assets/app.js`、`node --check assets/reader.js`、`node --check tests/detail-reading-and-evidence.test.cjs` 通過；Pages 相容 preview 與 `check_corpus_bundle.py` 通過，447 份來源逐 byte 一致。
+- 本機 Ruby 2.6.10 環境沒有 `jekyll` executable，未能本機執行正式 Jekyll build。GitHub Pages Actions build 成功，但 PR #101 仍有 Reader QA / Reading flow / preview checks 執行中；不得視為已通過或已部署。
+- PR #101 建立時已存在同名分支與協作者提交。本次只在本機整合 reviewer 修正，未改寫案例資料、未 force push、未合併；後續 push 前須確認 PR 分支仍未被協作者更新。

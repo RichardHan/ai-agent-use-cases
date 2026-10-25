@@ -71,9 +71,13 @@ function setupDom() {
         walk(el);
         return matches;
       },
-      addEventListener() {},
-      focus() {}
+      listeners: {},
+      addEventListener(type, handler) { (el.listeners[type] ||= []).push(handler); },
+      async click() { for (const handler of el.listeners.click || []) await handler(); },
+      focus() { documentMock.activeElement = el; },
+      select() { el.selected = true; }
     };
+
     return el;
   }
 
@@ -97,6 +101,9 @@ function setupDom() {
     }
   };
 
+  const timers = [];
+  const clearedTimers = new Set();
+
   const context = vm.createContext({
     document: documentMock,
     window: { document: documentMock },
@@ -108,11 +115,14 @@ function setupDom() {
     location: { href: 'http://localhost/ai-agent-use-cases/' },
     history: { pushState() {}, replaceState() {}, state: null },
     displayCopy: {},
-    discoveryReady: true
+    discoveryReady: true,
+    navigator: { clipboard: undefined },
+    setTimeout(callback) { timers.push(callback); return timers.length; },
+    clearTimeout(id) { clearedTimers.add(id); }
   });
 
   vm.runInContext(appSource, context);
-  return { context, detailBody, detailModal, createElement };
+  return { context, detailBody, detailModal, createElement, timers, clearedTimers };
 }
 
 test('metadata extracts targetUser and coreGoal when declared in markdown lead', () => {
@@ -271,6 +281,89 @@ test('renderRelated includes next-step actions: scenario exploration and note co
   const copyBtn = relatedEl.querySelector('.detail-action-copy');
   assert.ok(copyBtn, 'renderRelated must include copy note button');
   assert.match(copyBtn.textContent, /複製本篇筆記與連結/);
+});
+
+test('note-copy failure exposes the complete note in a selectable manual fallback', async () => {
+  const { context } = setupDom();
+  const sample = {
+    id: 'UC-001',
+    title: '旅行規劃比價',
+    what: '整理可比較的旅行方案。',
+    how: '第一步先比交通',
+    caution: '注意訂房退改政策',
+    kind: 'case',
+    scenario: '生活',
+    proof: '作者報告／示範',
+    category: '旅遊'
+  };
+  context.navigator.clipboard = { writeText: async () => { throw new Error('denied'); } };
+
+  const related = context.renderRelated(sample);
+  await related.querySelector('.detail-action-copy').click();
+
+  const status = related.querySelector('.detail-action-status');
+  const manual = related.querySelector('.detail-action-manual-copy');
+  assert.match(status.textContent, /手動複製下方完整筆記/);
+  assert.equal(manual.hidden, false);
+  assert.equal(manual.readOnly, true);
+  assert.match(manual.value, /UC-001 · 旅行規劃比價/);
+  assert.match(manual.value, /第一步先比交通/);
+  assert.match(manual.value, /注意訂房退改政策/);
+  assert.match(manual.value, /case=UC-001/);
+});
+
+test('only the latest note-copy request can replace feedback', async () => {
+  const { context } = setupDom();
+  const pending = [];
+  context.navigator.clipboard = {
+    writeText: () => new Promise((resolve, reject) => pending.push({ resolve, reject }))
+  };
+  const related = context.renderRelated({
+    id: 'UC-001', title: '旅行規劃比價', what: '用途', kind: 'case', scenario: '生活'
+  });
+  const copy = related.querySelector('.detail-action-copy');
+  const first = copy.click();
+  const second = copy.click();
+  pending[1].resolve();
+  await second;
+  pending[0].reject(new Error('late denial'));
+  await first;
+  assert.equal(related.querySelector('.detail-action-status').textContent, '已複製案例筆記！');
+});
+
+test('a previous success timeout cannot erase newer copy feedback', async () => {
+  const { context, timers, clearedTimers } = setupDom();
+  context.navigator.clipboard = { writeText: async () => {} };
+  const related = context.renderRelated({
+    id: 'UC-001', title: '旅行規劃比價', what: '用途', kind: 'case', scenario: '生活'
+  });
+  const copy = related.querySelector('.detail-action-copy');
+  await copy.click();
+  const firstTimeout = timers[0];
+  await copy.click();
+  firstTimeout();
+  assert.ok(clearedTimers.has(1));
+  assert.equal(related.querySelector('.detail-action-status').textContent, '已複製案例筆記！');
+});
+
+test('copy denial does not steal focus after the reader moved away', async () => {
+  const { context } = setupDom();
+  let rejectClipboard;
+  context.navigator.clipboard = {
+    writeText: () => new Promise((resolve, reject) => { rejectClipboard = reject; })
+  };
+  const related = context.renderRelated({
+    id: 'UC-001', title: '旅行規劃比價', what: '用途', kind: 'case', scenario: '生活'
+  });
+  const copy = related.querySelector('.detail-action-copy');
+  copy.focus();
+  const pendingCopy = copy.click();
+  const nextControl = {};
+  context.document.activeElement = nextControl;
+  rejectClipboard(new Error('denied'));
+  await pendingCopy;
+  assert.equal(context.document.activeElement, nextControl);
+  assert.equal(related.querySelector('.detail-action-manual-copy').hidden, false);
 });
 
 test('card proof badge includes accessible aria-label with explanation', () => {

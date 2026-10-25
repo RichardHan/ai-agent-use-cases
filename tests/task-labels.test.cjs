@@ -3,7 +3,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 const html=fs.readFileSync(process.env.TASK_LABEL_HTML||'index.html','utf8');
 test('keyword shortcuts name the exact search term rather than promise an automated outcome',()=>{
  const chips=[...html.matchAll(/<button\b([^>]*\bdata-query="([^"]+)"[^>]*)>([^<]+)<\/button>/g)].filter(m=>m[1].includes('chip-task'));
- assert.deepEqual(chips.map(m=>m[2]),['每日','收件匣','比價','排程']);
+ assert.deepEqual(chips.map(m=>m[2]),['每日','收件匣','比價','排程','日報','客服','代碼審查','旅遊']);
  for(const chip of chips){assert(chip[3].includes('搜尋「'+chip[2]+'」'),chip[3]);assert.match(chip[1],/aria-describedby="task-shortcuts-hint"/);}
  assert.match(html,/常用搜尋：/);
  assert.match(html,/依情境或常用搜尋快速探索/);

@@ -633,6 +633,8 @@
 | UC-450 | 雲端資料庫降回免費方案前，先查已付帳單、分檔備份並在隔離環境試還原 | ChatGPT dots／Supabase | [作者自述；整包還原失敗、部分成功，未重現](cases/450-dots-supabase-pro-to-free-backup-restore-check.md) | 省錢｜訂閱、雲端費用、備份、驗收 |
 | UC-451 | 一份Skills原本放GitHub，用唯讀MCP讓Grok Bot、dots、ChatGPT、Claude共用 | Grok Bot／ChatGPT dots／ChatGPT／Claude | [作者自述實測；付費套件未讀、未重現](cases/451-single-source-skills-readonly-mcp-across-agents.md) | 開發｜技能、MCP、跨代理、用量 |
 | UC-452 | 跨語言購屋行政協調，從看屋行程追到申請階段 | ChatGPT dots | [B級作者階段結果自述；非成交、未重現](cases/452-cross-language-home-purchase-admin-handoffs.md) | 生活｜購屋、跨語言、行程、核准 |
+| UC-453 | 五玩家Bot與主持人的狼人殺：私人行動、回合憑證與唯一結算 | Grok Bot | [B級作者測試＋結局圖；未重現](cases/453-werewolf-private-actions-token-gated-turns.md) | 創作｜桌遊、多代理、狀態機、驗收 |
+| UC-454 | 訂單費用整理成Notion日結，缺成本保留待確認並核對寫回 | Grok Bot／Notion | [B級示範與兩圖一致；非獨立重算](cases/454-notion-daily-settlement-writeback-cost-gap-check.md) | 工作｜日結、Notion、缺值、寫回驗收 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 
@@ -880,3 +882,7 @@
 ## 2026-10-25 17:10：跨語言行政與裝置接入驗收
 
 [10組候選與查閱界線](sources/research-2026-10-25-1710.md)：新增合格1（UC452，作者自述僅到購買申請、非成交）、合併1（UC010，Muse Linux雙向接入與sudo邊界）；既有3、證據不足5。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000計數口徑仍待確認。
+
+## 2026-10-25 18:10：回合與日結的狀態驗收
+
+[16組候選與查閱範圍](sources/research-2026-10-25-1810.md)：新增合格2（UC453狼人殺結局展示、UC454示範日結寫回圖），合併1（UC013文件理解不等於stdio工具可呼叫）；既有7、不足6。作者自述／示範，未獨立重現。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000口徑待確認。

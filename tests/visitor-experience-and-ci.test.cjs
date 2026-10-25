@@ -169,6 +169,23 @@ test('published-version.cjs covers observed Pages deployment latency (>= 300 att
   assert.ok(Number(pollMatch[1]) >= 300, 'published-version.cjs should poll at least 300 attempts');
 });
 
+test('related reading published verification allows at least 180 five-second polls', () => {
+  const source = fs.readFileSync(path.join(__dirname, 'related-browser.cjs'), 'utf8');
+  const pollMatch = source.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
+  const intervalMatch = source.match(/setTimeout\(\s*r\s*,\s*(\d+)\s*\)/);
+  assert.ok(pollMatch, 'related-browser.cjs must contain a bounded published-asset poll');
+  assert.ok(Number(pollMatch[1]) >= 180, 'related reading must poll at least 180 times');
+  assert.ok(intervalMatch, 'related reading must define its polling interval');
+  assert.ok(Number(pollMatch[1]) * Number(intervalMatch[1]) >= 900000, 'related reading must allow at least 15 minutes for Pages assets');
+});
+
+test('related-qa.yml allows at least 25 minutes for setup and published verification', () => {
+  const workflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/related-qa.yml'), 'utf8');
+  const timeoutMatch = workflow.match(/timeout-minutes:\s*(\d+)/);
+  assert.ok(timeoutMatch, 'related-qa.yml must bound its job duration');
+  assert.ok(Number(timeoutMatch[1]) >= 25, 'related reading timeout must cover setup plus its published-asset poll');
+});
+
 test('facet-counts-qa.yml bounds job duration to cover published-version poll (>= 25 minutes)', () => {
   const facetWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/facet-counts-qa.yml'), 'utf8');
   const timeoutMatch = facetWorkflow.match(/timeout-minutes:\s*(\d+)/);

@@ -11,7 +11,7 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
  if(live){
   for(const path of ['assets/app.js','assets/reader.css']){
    let matched=false;
-   for(let i=0;i<60;i++){
+   for(let i=0;i<180;i++){
     const response=await fetch(origin+path+'?related-qa='+Date.now(),{cache:'no-store'});
     if(response.ok&&await response.text()===fs.readFileSync(path,'utf8')){matched=true;break;}
     await new Promise(r=>setTimeout(r,5000));

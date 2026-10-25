@@ -1602,9 +1602,11 @@ function renderSearchFeedback(terms, filters) {
       problemContainer.append(intro);
       const chipsWrap = el('div','empty-problem-chips');
       const problemTags = [
-        {label:'☀️ 搜尋「日報」', term:'日報'},
+        {label:'郵件摘要 · 搜尋「郵件」', term:'郵件'},
+        {label:'會議日報 · 搜尋「日報」', term:'日報'},
+        {label:'自動客服 · 搜尋「客服」', term:'客服'},
+        {label:'代碼審查 · 搜尋「代碼審查」', term:'代碼審查'},
         {label:'🧾 搜尋「發票」', term:'發票'},
-        {label:'🔍 搜尋「PR」', term:'PR'},
         {label:'🛠️ 搜尋「除錯」', term:'除錯'},
         {label:'🏖️ 搜尋「旅遊」', term:'旅遊'},
         {label:'🏷️ 搜尋「比價」', term:'比價'}
@@ -2221,7 +2223,7 @@ function revealDiscovery(){
   target.focus({preventScroll:true});
 }
 function chooseScenario(value){
-  ['query','scenario','kind','tool','category','proof'].forEach(id=>$(id).value='');
+  ['query','scenario','kind','difficulty','tool','category','proof'].forEach(id=>$(id).value='');
   activeScenario=value;render();revealDiscovery();
 }
 

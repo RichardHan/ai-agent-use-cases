@@ -108,11 +108,20 @@ async function hold(page,path){if(published)return ()=>{};let release;const gate
   // Touch/wheel readers do not move keyboard focus to their current paragraph.
   const wheelPage=await context.newPage();const releaseWheel=await hold(wheelPage,'cases/001-travel-checkout.md');
   await wheelPage.goto(base+'?case=UC-359');await wheelPage.locator('#detail[open]').waitFor();
-  const wheelTarget=wheelPage.locator('.reader-report h2');const targetBox=await wheelTarget.boundingBox();const wheelToolbar=await wheelPage.locator('.detail-toolbar').boundingBox();
-  await wheelPage.mouse.move(width/2,height/2);await wheelPage.mouse.wheel(0,targetBox.y-wheelToolbar.y-wheelToolbar.height-30);await settledScroll(wheelPage);
+  const wheelTarget=wheelPage.locator('.reader-report h2');
+  const wheel=await wheelPage.locator('#detail').evaluate(d=>{
+   const dialog=d.getBoundingClientRect(),toolbar=d.querySelector('.detail-toolbar').getBoundingClientRect();
+   const targetTop=d.querySelector('.reader-report h2').getBoundingClientRect().top;
+   const readingTop=toolbar.bottom+Math.min(30,(dialog.bottom-toolbar.bottom)/2);
+   const maxScroll=Math.max(0,d.scrollHeight-d.clientHeight);
+   const nextScroll=Math.max(0,Math.min(maxScroll,d.scrollTop+targetTop-readingTop));
+   return {x:dialog.left+dialog.width/2,y:(toolbar.bottom+dialog.bottom)/2,delta:nextScroll-d.scrollTop};});
+  await wheelPage.mouse.move(wheel.x,wheel.y);await wheelPage.mouse.wheel(0,wheel.delta);await settledScroll(wheelPage);
   assert.equal(await wheelPage.evaluate(()=>document.activeElement.id),'detail-title');
   check.wheelStatusHeightBefore=await wheelPage.locator('.detail-load-status').evaluate(e=>e.getBoundingClientRect().height);
-  const wheelBefore=(await wheelTarget.boundingBox()).y;assert(wheelBefore>=wheelToolbar.y+wheelToolbar.height-1&&wheelBefore<height,'wheel reader reached the source section');
+  const wheelBefore=(await wheelTarget.boundingBox()).y;
+  const wheelBounds=await wheelPage.locator('#detail').evaluate(d=>({top:d.querySelector('.detail-toolbar').getBoundingClientRect().bottom,bottom:d.getBoundingClientRect().bottom}));
+  assert(wheelBefore>=wheelBounds.top-1&&wheelBefore<wheelBounds.bottom,'wheel reader reached the source section inside the dialog');
   releaseWheel();await wheelPage.waitForFunction(()=>discoveryReady);await settledScroll(wheelPage);
   check.wheelStatusHeightAfter=await wheelPage.locator('.detail-load-status').evaluate(e=>e.getBoundingClientRect().height);
   check.wheelReadingDelta=Math.abs((await wheelTarget.boundingBox()).y-wheelBefore);assert(check.wheelReadingDelta<=2,'wheel reading stays anchored even with title focus outside the viewport');await wheelPage.close();

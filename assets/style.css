@@ -24,7 +24,7 @@
 .scenario-chips{margin:0 0 24px;display:flex;flex-direction:column;gap:12px;background:#fff;padding:16px 20px;border:1px solid var(--line);border-radius:10px}
 .chips-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .chips-title{font-size:12px;font-weight:700;color:var(--muted);min-width:80px}
-.chip{background:#fafbf8;border:1px solid #cad2c6;border-radius:20px;padding:6px 13px;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;min-height:44px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;transition:box-shadow .15s ease}
+.chip{background:#fafbf8;border:1px solid #cad2c6;border-radius:20px;padding:6px 13px;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;min-height:44px;min-width:44px;max-width:100%;white-space:normal;overflow-wrap:anywhere;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;transition:box-shadow .15s ease}
 .chip:hover{border-color:var(--green);background:#edf3ea}
 .chip.active{background:var(--green);border-color:var(--green);color:white;box-shadow:0 2px 6px #28534426}
 .chip-task{background:#f8f9f5;border-style:dashed}
@@ -100,7 +100,8 @@
 
 /* Guided exploration: one question, one case, then the full collection. */
 .sr-only{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden;white-space:nowrap}
-.discovery-layout{display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:start;padding:56px 0 48px}
+.discovery-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:56px;align-items:start;padding:56px 0 48px}
+.discovery-hero{min-width:0}
 .discovery-hero h1{font-size:clamp(34px,3.7vw,48px);letter-spacing:-1.6px;margin-bottom:16px}
 .discovery-hero .intro{margin:0 0 26px;color:#4c6258;font-size:16px;max-width:480px}
 .guide-options{border:0;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -167,7 +168,7 @@
 .empty-problem-suggestions{width:100%;max-width:620px;margin:10px auto;display:flex;flex-direction:column;align-items:center;gap:10px}
 .empty-problem-intro{font-size:14px;color:var(--muted);margin:0 0 4px}
 .empty-problem-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:100%}
-.recovery-problem-tag{min-height:44px;display:inline-flex;align-items:center;padding:8px 14px;font-size:13px;border-radius:20px;border:1px solid #c2d1bd;background:#fff;color:var(--green);font-weight:600;cursor:pointer}
+.recovery-problem-tag{min-height:44px;min-width:44px;max-width:100%;white-space:normal;overflow-wrap:anywhere;display:inline-flex;align-items:center;padding:8px 14px;font-size:13px;border-radius:20px;border:1px solid #c2d1bd;background:#fff;color:var(--green);font-weight:600;cursor:pointer}
 .recovery-problem-tag:hover{background:#eef4ea;border-color:var(--green)}
 .recovery-problem-tag:focus-visible{outline:3px solid #799f27;outline-offset:3px}
 
@@ -236,7 +237,7 @@
 .hero-search-link{display:inline-flex;align-items:center;gap:20px;min-height:48px;padding:9px 16px;margin:0 0 20px;border:1px solid var(--green);border-radius:8px;color:var(--green);background:var(--white);font-size:15px;font-weight:650;text-decoration:none}
 .hero-search-link:hover{background:#e9eee0}
 .hero-task-examples{display:flex;align-items:center;flex-wrap:wrap;gap:4px 14px;margin:-9px 0 18px;color:#4c6258;font-size:13px;line-height:1.5}
-.hero-task-examples>a{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:650;text-underline-offset:4px}
+.hero-task-examples>a{display:inline-flex;align-items:center;min-height:44px;min-width:44px;max-width:100%;overflow-wrap:anywhere;color:var(--green);font-weight:650;text-underline-offset:4px}
 .hero-task-examples>a:hover{color:#172b27}
 .hero-task-examples>a:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
 
@@ -254,7 +255,7 @@
 
 /* High-frequency problem tags */
 .hero-problem-tags{display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px;margin:-10px 0 18px;color:#4c6258;font-size:13px;line-height:1.5}
-.problem-tag{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:650;text-underline-offset:4px}
+.problem-tag{display:inline-flex;align-items:center;min-height:44px;min-width:44px;max-width:100%;overflow-wrap:anywhere;color:var(--green);font-weight:650;text-underline-offset:4px}
 .problem-tag:hover{color:#172b27}
 .problem-tag:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
 @media(max-width:360px){.hero-value-props{padding:8px 10px;margin-bottom:12px}.hero-guide-steps{margin-bottom:12px}}
@@ -357,7 +358,7 @@
 /* Give native filters room to read both their label and current selection. */
 .filter-panel .filter-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:end}
 .filter-panel .filter-row label{font-size:14px;line-height:1.7;gap:8px;color:var(--green)}
-.filter-panel .filter-row select{font-size:16px;min-height:44px;height:44px;padding-inline:12px}
+.filter-panel .filter-row select{font-size:16px;min-height:44px;height:44px;min-width:0;max-width:100%;padding-inline:12px}
 .filter-panel .filter-row .reset{grid-column:1/-1;justify-self:end;min-height:44px;height:auto;max-width:100%;padding:9px 14px;font-size:14px;line-height:1.7;white-space:normal;text-align:center;border:1px solid var(--line);border-radius:7px;color:var(--green)}
 .filter-panel .filter-row select:focus-visible,.filter-panel .filter-row .reset:focus-visible{outline:3px solid var(--green);outline-offset:3px}
 @media(max-width:1000px){.filter-panel .filter-row{grid-template-columns:repeat(2,minmax(0,1fr))}}

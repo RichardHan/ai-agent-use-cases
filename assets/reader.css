@@ -88,8 +88,10 @@
 .reader-report-content> :first-child{margin-top:0}
 .reader-report-content> :last-child{margin-bottom:14px}
 .reader-report-open{font-size:13px;min-height:44px;margin:8px 10px 0 0;padding:9px 12px;text-align:left;text-decoration:underline;text-underline-offset:3px}
-.reader-guidance{margin:20px 0;padding:16px 20px;border:1px solid var(--line);border-radius:8px}
-.reader-guidance>summary{cursor:pointer;color:var(--green);font-size:14px;font-weight:600;line-height:1.8;min-height:44px;display:flex;align-items:center;box-sizing:border-box}
+.reader-guidance{margin:20px 0;padding:16px 20px;border:1px solid var(--line);border-radius:8px;min-width:0;max-width:100%;overflow-wrap:anywhere}
+.reader-guidance[open]{background:var(--white);border-color:#c2d1bd}
+.reader-guidance[open]>summary{padding-bottom:12px;border-bottom:1px solid var(--line)}
+.reader-guidance>summary{cursor:pointer;color:var(--green);font-size:14px;font-weight:600;line-height:1.8;min-height:44px;min-width:44px;display:flex;align-items:center;box-sizing:border-box}
 .reader-guidance>summary:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 .reader-guidance h2{font-size:15px;margin:20px 0 6px;letter-spacing:0}
 .reader-guidance p{font-size:14px;line-height:1.9;margin:0 0 8px}
@@ -150,15 +152,15 @@
 .detail-target-user h2,.detail-core-goal h2{font-size:14px;font-weight:600;color:var(--green);margin:0 0 4px}
 .detail-target-user p,.detail-core-goal p{font-size:14px;line-height:1.6;color:var(--ink);margin:0}
 
-.guidance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px;margin:12px 0 6px}
+.guidance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px;margin:16px 0 0;min-width:0}
 @media(max-width:640px){
  .guidance-grid{grid-template-columns:1fr}
 }
-.guidance-card{padding:14px 16px;background:#f8faf6;border:1px solid var(--line);border-radius:6px}
+.guidance-card{min-width:0;padding:14px 16px;background:#f8faf6;border:1px solid var(--line);border-radius:6px;overflow-wrap:anywhere}
 .guidance-card h2{font-size:15px;margin:0 0 6px;color:var(--green)}
 .guidance-card p{font-size:14px;line-height:1.65;margin:0;color:var(--ink)}
 .guidance-how{border-left:4px solid var(--green)}
-.guidance-caution{border-left:4px solid #b86214}
+.guidance-caution{border-left:4px solid #b86214;background:#fff8ef}
 /* Keep the search question beside a route to its original, qualified context. */
 .reader-search{margin:20px 0;padding:16px 20px;border:1px solid var(--line);border-radius:8px;background:#f1f6ec;overflow-wrap:anywhere}
 .reader-search h2{font-size:16px;line-height:1.7;margin:0 0 6px;letter-spacing:0;color:var(--green)}

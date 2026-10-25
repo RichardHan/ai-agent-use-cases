@@ -5,12 +5,13 @@ const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.ROUND_URL||'http://127.0.0.1:8100/ai-agent-use-cases/';
 const observe=process.env.ROUND_OBSERVE==='1';
+const published=process.env.ROUND_PUBLISHED==='1';
 const output=process.env.ROUND_OUTPUT||'qa-artifacts/round';
 const report={base,observe,checks:[]};fs.mkdirSync(output,{recursive:true});
 const save=()=>fs.writeFileSync(output+'/verification.json',JSON.stringify(report,null,2));
 async function audit(page,check,state){const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();check.audits.push({state,violations:result.violations.map(v=>v.id)});save();assert.equal(result.violations.length,0,JSON.stringify(result.violations));}
 async function settledScroll(page){await page.evaluate(()=>new Promise((resolve,reject)=>{const dialog=document.getElementById('detail');let previous=dialog.scrollTop,stable=0,frames=0;const tick=()=>{const current=dialog.scrollTop;stable=Math.abs(current-previous)<0.1?stable+1:0;previous=current;if(stable>=12)return resolve();if(++frames>120)return reject(Error('dialog scrolling did not settle'));requestAnimationFrame(tick);};requestAnimationFrame(tick);}));}
-async function hold(page,path){let release;const gate=new Promise(resolve=>release=resolve);await sourceRoute(page,'**/'+path,async route=>{await gate;await route.continue();});return release;}
+async function hold(page,path){if(published)return ()=>{};let release;const gate=new Promise(resolve=>release=resolve);await sourceRoute(page,'**/'+path,async route=>{await gate;await route.continue();});return release;}
 (async()=>{
  for(const [engine,launcher] of (process.env.ROUND_ENGINES==='all'?[['chromium',chromium],['firefox',firefox],['webkit',webkit]]:[['chromium',chromium]])){
  const browser=await launcher.launch(),networkDiagnostics=[];
@@ -35,7 +36,9 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   await page.goto(base+'?case=UC-359');check.sourceReadyMs=await sourceReady;
   if(observe){await page.waitForTimeout(600);check.earlyOpen=await page.locator('#detail').evaluate(e=>e.open);assert.equal(check.earlyOpen,false,'original code waits for the unrelated source');await page.screenshot({path:`${output}/before-${engine}-${size}.png`});release();await page.locator('#detail[open]').waitFor();check.openAfterReleaseMs=Date.now()-start;save();await context.close();continue;}
   await page.locator('#detail[open]').waitFor();check.detailOpenMs=Date.now()-start;
+  if(published)await page.waitForFunction(()=>discoveryReady);
   const received=await Promise.all(assets);assert.equal(received.length,2);for(const {path,text} of received)assert.equal(text,fs.readFileSync(path,'utf8'),'browser received current '+path);check.actualAssets=received.map(({path,text})=>({path,sha256:require('node:crypto').createHash('sha256').update(text).digest('hex')}));
+  if(!published){
   assert.equal(await page.evaluate(()=>discoveryReady),false,'the unrelated source must still be waiting');
   assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-359');
   assert.equal(requested[0].endsWith('/'+targetPath),true,'shared source gets the first worker');
@@ -44,12 +47,13 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   assert(await page.locator('#nav-next-case').isDisabled());
   assert.match(await page.locator('#nav-next-case').getAttribute('aria-label'),/載入/);
   assert.equal(await page.evaluate(()=>document.activeElement.id),'detail-title');
+  }
   assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth+1));
   check.purposeBounds=await page.locator('.plain-overview > section:first-child > p').evaluate(e=>({top:e.getBoundingClientRect().top,lineHeight:parseFloat(getComputedStyle(e).lineHeight)}));
   const purposeViewportBottom=await page.locator('#detail').evaluate(e=>e.getBoundingClientRect().bottom);
   assert(check.purposeBounds.top+check.purposeBounds.lineHeight*2<purposeViewportBottom,'two lines of purpose fit in the dialog even with the long title');
   await page.screenshot({path:`${output}/after-${engine}-${size}.png`});
-  await audit(page,check,'early case');
+  if(!published)await audit(page,check,'early case');
   // Complete the corpus while reading an original section. The original DOM and focus survive.
   await page.locator('.reader-jump').first().focus();await page.keyboard.press('Enter');
   const reading=await page.evaluate(()=>{window.savedMarkdown=document.querySelector('.research-details .markdown');window.savedFocus=document.activeElement;return {scroll:document.getElementById('detail').scrollTop,top:document.activeElement.getBoundingClientRect().top,focus:document.activeElement.id,url:location.href};});
@@ -73,6 +77,9 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   await page.goto(direct);await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await page.reload();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
   await page.locator('#close-detail').click();assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#scenario').inputValue(),'生活');
   await page.locator('#query').fill('no-round-match-987654');assert(await page.locator('#empty').isVisible());await page.locator('#edit-query').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
+  // Forced per-file fallback and mid-load states run against the local preview only.
+  // The published journey uses the real corpus bundle to avoid rate-limiting GitHub Pages.
+  if(!published){
   // A reader who closes early stays in search after the background loader completes.
   const closePage=await context.newPage();const releaseClose=await hold(closePage,'cases/001-travel-checkout.md');
   await closePage.goto(base+'?q=PR&scenario=開發&case=UC-005');await closePage.locator('#detail[open]').waitFor();
@@ -130,11 +137,14 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   // reload separately; require every new-page source to load successfully.
   const reloadPage=await context.newPage();const releaseReload=await hold(reloadPage,'cases/001-travel-checkout.md');
   await reloadPage.goto(base+'?q=PR&scenario=開發&case=UC-005');await reloadPage.locator('#detail[open]').waitFor();assert.equal(await reloadPage.evaluate(()=>discoveryReady),false);
-  reloadingPage=reloadPage;await reloadPage.reload();await reloadPage.locator('#detail[open]').waitFor();assert.equal(await reloadPage.evaluate(()=>discoveryReady),false);
+  reloadingPage=reloadPage;
+  await reloadPage.reload();
+  await reloadPage.locator('#detail[open]').waitFor();assert.equal(await reloadPage.evaluate(()=>discoveryReady),false);
   assert.equal(await reloadPage.locator('#detail-toolbar-id').innerText(),'UC-005');releaseReload();await reloadPage.waitForFunction(()=>discoveryReady);
   assert.equal(await reloadPage.evaluate(()=>failedPaths.length),0,'new page must load every source after mid-load reload');
   assert.equal(await reloadPage.locator('#query').inputValue(),'PR');assert.equal(await reloadPage.locator('#scenario').inputValue(),'開發');
   reloadingPage=null;await reloadPage.close();check.midLoadReload=true;
+  }
   // Open an actual external source once; its availability is not evidence of case accuracy.
   if(engine==='chromium'&&size==='desktop'){
    await page.goto(base+'?case=UC-005');await page.locator('#detail[open]').waitFor();await page.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();
@@ -154,6 +164,6 @@ async function hold(page,path){let release;const gate=new Promise(resolve=>relea
   }
   save();throw error;
  }finally{await browser.close();}}
- if(!observe)assert(report.checks.some(c=>Math.abs(c.wheelStatusHeightBefore-c.wheelStatusHeightAfter)>2),'at least one viewport must exercise an actual status height change');
+ if(!observe&&!published)assert(report.checks.some(c=>Math.abs(c.wheelStatusHeightBefore-c.wheelStatusHeightAfter)>2),'at least one viewport must exercise an actual status height change');
  save();console.log(JSON.stringify(report,null,2));
 })().catch(e=>{report.error=e.stack;save();console.error(e);process.exit(1);});

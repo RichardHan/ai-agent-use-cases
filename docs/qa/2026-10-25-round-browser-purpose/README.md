@@ -20,18 +20,18 @@ Non-goals: changing case data, sources, evidence claims, or weakening the two-li
 - `tests/round-browser.cjs`: target the purpose paragraph only when measuring the two-line viewport contract; this retains strict locator behavior.
 - `assets/app.js`: capture the loading-status bottom and pass it to `selectReadingAnchor` during load completion. Select a visible block downstream of the removed status; if none exists, do not anchor to an unaffected upstream paragraph.
 - `tests/reading-anchor.test.cjs`: add upstream-paragraph and clipped-downstream regressions. Each new assertion failed before its fix; the 6/6 anchor tests now pass.
-- `.github/workflows/round-qa.yml`: add a manual `workflow_dispatch` trigger so this multi-engine acceptance can be rerun on the current main commit without another code push.
-- No case text, source URLs, or evidence claims changed.
+- `.github/workflows/round-qa.yml`: add manual `workflow_dispatch` for current-main acceptance. `tests/round-browser.cjs` keeps all deterministic loading/fallback/reload fixtures for local multi-engine runs; the published step exercises the normal corpus bundle and end-user journeys without synthetic source interception.
 
 ## Verification
 
 - Baseline `node --test --test-reporter=tap tests/*.test.cjs`: **299 passed, 0 failed** (5.09s).
-- After latest main `072ae76` added all-case actionable guidance and two entries, clean-worktree suite: **304 passed, 0 failed** (4.89s). Syntax checks passed for all `assets/*.js`, `tests/*.cjs`, and `scripts/*.cjs`; static preview built; corpus bundle check confirms **447 sources byte-for-byte identical**; `git diff --check` passed.
+- After integrating latest main `d03c557` (PR #98), clean-worktree suite: **306 passed, 0 failed** (5.28s). Syntax checks passed for all `assets/*.js`, `tests/*.cjs`, and `scripts/*.cjs`; static preview built; corpus bundle check confirms **447 sources byte-for-byte identical**; `git diff --check` passed.
 - `npm test` is unavailable because this static site has no `package.json` (npm `ENOENT`). There is no repository lint/type-check script.
 - Re-ran `gh run view 40146594835 --log-failed`; it reproduces the exact strict-mode selector error above. Run 40146594854 independently reports the same locator and three matching paragraphs.
 - Built a local Pages-compatible preview with `python3 scripts/preview.py /tmp/ai-agent-round/ai-agent-use-cases` and served its parent at `http://127.0.0.1:8100/ai-agent-use-cases/`.
 - Actual browser smoke: published and local preview opened at desktop 1440×1000 and mobile 390×844; local preview loaded; direct `?case=UC-359` opened with one purpose paragraph, one target-user paragraph and one core-goal paragraph. The updated selector matched exactly the one purpose paragraph. On the published mobile site, search `旅行` returned 33 results; adding `生活` returned 20; a deliberately unmatched query showed the empty state; restoring `旅行` returned results. Opened UC-001 detail, confirmed its Markdown source target is `https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md`, and Escape closed the detail and returned to the same query/filter URL.
-Independent review found a clipped downstream-block fallback edge; the helper now retains the first intersecting downstream block while excluding upstream-only candidates. A second independent review approved the repair. The first cloud run was cancelled by a concurrent main push; manual round-QA dispatch is now available for the current commit.
+- The first current-main manual run [40149678519](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40149678519) passed local Chromium/Firefox/WebKit journeys, axe audits, and published asset matching. Its published reload test failed after the test helper deliberately aborted `corpus.json`: GitHub Pages returned HTTP 429 for 27 late case/evidence files; the report showed 449 entries and 27 `failedPaths`. Keeping the real published bundle avoids testing a load pattern that ordinary visitors do not use.
+Independent review rejected holding the real bundle past its 2.5s loader deadline. The published check now uses an ordinary bundle load; deterministic in-flight, per-file fallback, failure and reload scenarios remain in the complete local Chromium/Firefox/WebKit run. A second review caught an unconditional local-only status-transition assertion; it now runs only in local mode. Reviewer confirmed no other synthetic assertions remain on the published path.
 
 ## Simulated journeys
 
@@ -43,4 +43,4 @@ These are scripted checks, not user research. The round repairs test accuracy an
 
 ## Remaining risk and next priority
 
-Run [40149285704](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40149285704) was cancelled when a concurrent main push superseded it, not due to a test result. Main `072ae76` added later reader guidance and two cases; the full unit suite still passes. The new manual trigger will exercise current-main Chromium/Firefox/WebKit and published Pages checks. Next: complete that run and record its screenshots/artifacts.
+The new published test split is pending verification. Existing [40149678519](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40149678519) evidence confirms the reading-position fix on Pages (`readingTargetDelta: 0.1875px`, `wheelReadingDelta: 0.1875px`, status height 45.1875px → 0), but its forced per-file reload produced 27 HTTP 429s. Next: rerun current-main bundle-backed desktop/mobile journeys, preserve the local multi-engine fallback tests, and archive before/after case screenshots.

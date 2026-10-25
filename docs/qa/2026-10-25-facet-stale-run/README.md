@@ -21,7 +21,7 @@ Audience: maintainers running concurrent main commits while Pages publishes asyn
 
 ## Site inspection and screenshots
 
-The UI and case corpus are unchanged. The screenshot pair compares the deployed baseline with the branch's Pages-compatible preview; it is evidence of the unchanged visitor surface, not a claimed redesign. Viewports: desktop 1440×1000 and mobile 390×844.
+The UI and case corpus are unchanged by this CI-only fix. The screenshot pair compares the deployed baseline with the branch preview; it documents the visitor surface, not a redesign. Viewports: desktop 1440×1000 and mobile 390×844. Pixel comparison: desktop 0.00% changed; mobile 4.08% changed. The reason for the mobile pixel variance was not established, so it is not attributed to this fix.
 
 | View | Published baseline | Branch preview |
 |---|---|---|

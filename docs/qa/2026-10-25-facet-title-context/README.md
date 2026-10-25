@@ -51,7 +51,7 @@ python3 -m http.server 8130 --directory /tmp/ai-usecase-title-preview
 
 ## 獨立審查
 
-初審發現並修正 3 個問題：加入難度時遺漏舊有情境／狀態／工具／分類 facets；browser test 使用結果有資料時隱藏的 empty-state reset；手機頁面新載入後篩選 `<details>` 可能收合。修正為保留原 facets、用 base URL 重設，並在手機驗收前展開篩選面板。最終複核待完成。
+初審發現並修正 3 個問題：加入難度時遺漏舊有情境／狀態／工具／分類 facets；browser test 使用結果有資料時隱藏的 empty-state reset；手機頁面新載入後篩選 `<details>` 可能收合。修正為保留原 facets、回 base URL 重設，並在手機驗收前展開篩選面板。獨立複核確認三項修正完整，無剩餘 P0–P2 阻擋（靜態審查）。
 
 ## 風險與下一步
 

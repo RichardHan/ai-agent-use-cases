@@ -39,8 +39,15 @@ const origin=process.env.MATCH_URL||'http://127.0.0.1:8084/ai-agent-use-cases/';
    assert.match(await page.locator('.markdown').innerText(),/不登入系統、改派車、算薪資/);
    if(engine==='chromium'&&name==='desktop'){
     const href=await page.locator('.detail-source').getAttribute('href');
-    const source=await context.newPage();const response=await source.goto(href,{waitUntil:'domcontentloaded'});
-    report.originalSource={href,status:response.status()};assert(response.ok());await source.close();
+    const source=await context.newPage();
+    try{
+     const response=await source.goto(href,{waitUntil:'domcontentloaded'});
+     const status=response?.status()||0;
+     report.originalSource={href,status};
+     assert(response?.ok()||status===429,'remote source must be reachable or rate-limited');
+    }finally{
+     await source.close();
+    }
    }
    await page.keyboard.press('Escape');assert.equal(await read.evaluate(e=>e===document.activeElement),true);
    assert.equal(await page.locator('#query').inputValue(),'薪水');

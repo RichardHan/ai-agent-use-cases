@@ -30,3 +30,10 @@ test('duplicate and unsafe-looking heading text stays literal and keeps its inde
  assert.equal(jumps.find(x=>x.index===2).title,headings[2]);
  assert.equal(jumps.filter(x=>x.title===headings[0]).length,1);
 });
+test('reader.css defines compact single-line position indicator rules without layout shifts',()=>{
+ const fs=require('node:fs'),path=require('node:path');
+ const css=fs.readFileSync(path.join(__dirname,'../assets/reader.css'),'utf-8');
+ assert.match(css,/\.reader-position\s*\{[^}]*height:\s*1\.4em/,'position bar must have fixed height');
+ assert.match(css,/\.reader-position-label\s*\{[^}]*text-overflow:\s*ellipsis/,'label must ellipsize without wrapping');
+ assert.match(css,/\.detail-toolbar-left\.reader-has-position\s*\{[^}]*row-gap:\s*0/,'toolbar left must eliminate row-gap to prevent ballooning');
+});

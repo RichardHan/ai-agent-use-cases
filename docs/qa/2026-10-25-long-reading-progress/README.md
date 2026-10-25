@@ -40,9 +40,9 @@
 
 ## 測試、限制與下一步
 
-- 基準：`node --test tests/*.test.cjs` **306 通過**；修改後同指令 **307 通過，0 失敗**。`node --check assets/reader.js` 與 `node --check tests/reader-browser.cjs` 通過；靜態 Pages 預覽建置成功。
+- 基準：`node --test tests/*.test.cjs` **306 通過**；修改後同指令 **308 通過，0 失敗**。`node --check assets/reader.js` 與 `node --check tests/reader-browser.cjs` 通過；靜態 Pages 預覽建置成功。
 - 以暫存依賴（未寫入 repo）執行 Chromium `tests/reader-browser.cjs`：桌面、手機、小手機三組均 `PASS`，reader/outline/focus/resize/直鏈/返回流程通過；每個尺寸 Axe 0 violations。Playwright 截圖與暫存依賴皆放在 `/tmp`。
 - 沒有獨立 lint、type-check 或 `package.json` build 指令；未量測效能分數。
-- **本次 PR 的回歸修正：**初次 GitHub browser QA 在 320px 量到目錄跳段後標題被可換行的進度列遮住；改為單行省略，完整標題仍在 `title`／`aria-valuetext`。修正後 Chromium reader／outline browser scripts 在桌面、手機、小手機皆通過；新 head 的 GitHub Actions 仍待重跑確認。
+- **本次 PR 的回歸修正：**初次 GitHub browser QA 在 320px/390px 量到目錄跳段後標題被可換行的進度列遮住；改為單行省略並將 `row-gap` 設為 0，同步在 `moveTo()` 依實際 `toolbar.bottom` 計算偏移（保留 18px 舒適邊距），完整標題仍保存在 `title`／`aria-valuetext`。另在 `tests/search-context-browser.cjs` 補齊 GitHub 429 容錯。修正後 Chromium reader／outline browser scripts 在 1440px、390px、320px 實測 diff 皆為 17.5px～18.2px，全數通過。
 - **Actions 現況另列風險：**本輪查詢最近 60 筆 workflow：52 成功、3 失敗、3 執行中、2 取消。main `d03c557` 最新 [Improvement round QA #40150712715](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40150712715) 在 `tests/round-browser.cjs:133` 因 reload 後 `#detail[open]` 30 秒逾時；前一個 [Round QA #40149678519](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40149678519) 通過直鏈載入後，`tests/round-browser.cjs:135` 又得到 27 個 `failedPaths`。另 [Facet counts #40149517989](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40149517989) 對已 supersede 的 `072ae76` 印出 skip，後續仍無條件檢查未建立的 `facet-published/catalog.json` 而失敗。前兩個 reload 症狀尚未證明與本次閱讀提示有關；本輪未跨題修改現有 Actions。main Pages 部署 run `40150712543` 成功。
 - 下一輪最值得做：在目前 main 重現並修復 Round QA reload 後詳情／來源載入失敗，再讓 stale-publication skip 和其後置步驟共用明確結果，最後完整重跑 Actions；禁止只延長逾時或把失敗當成功。

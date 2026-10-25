@@ -6,7 +6,7 @@ if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHE
 (async()=>{
  const paths=['index.html','assets/audit.js','assets/style.css'];
  const latest=fs.readFileSync('sources/qualification-audit-2026-10-16.md','utf8').split(/^## /m)[1];
- for(let attempt=0;attempt<90;attempt++){
+ for(let attempt=0;attempt<181;attempt++){
   try{
    const bodies=await Promise.all(paths.map(async path=>{const response=await fetch(origin+path,{cache:'no-store'});if(!response.ok)throw Error(path);return response.text();}));
    const response=await fetch(origin+'audit-summary.json',{cache:'no-store'}),summary=await response.json();

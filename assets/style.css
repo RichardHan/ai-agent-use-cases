@@ -258,7 +258,7 @@
 .problem-tag{display:inline-flex;align-items:center;min-height:44px;min-width:44px;max-width:100%;overflow-wrap:anywhere;color:var(--green);font-weight:650;text-underline-offset:4px}
 .problem-tag:hover{color:#172b27}
 .problem-tag:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
-@media(max-width:360px){.hero-value-props{padding:8px 10px;margin-bottom:12px}.hero-guide-steps{margin-bottom:12px}}
+@media(max-width:360px){.discovery-layout{padding:14px 0 22px;gap:18px}.discovery-hero h1{font-size:32px;margin-bottom:10px}.discovery-hero .intro{font-size:14px;margin-bottom:12px}.hero-value-props{padding:8px 10px;margin-bottom:10px;gap:6px}.hero-guide-steps{margin-bottom:10px}.hero-search-link{margin:0 0 10px}.recent-entry{margin-bottom:10px}.hero-task-examples{margin:-6px 0 12px}}
 
 /* Explain query order without adding another control to the mobile filter panel. */
 .search-order-note{margin:0;font-size:13px;line-height:1.7;color:var(--green);max-width:65ch;overflow-wrap:anywhere}

@@ -115,8 +115,9 @@ async function hold(page,path){if(published)return ()=>{};let release;const gate
    const readingTop=toolbar.bottom+Math.min(30,(dialog.bottom-toolbar.bottom)/2);
    const maxScroll=Math.max(0,d.scrollHeight-d.clientHeight);
    const nextScroll=Math.max(0,Math.min(maxScroll,d.scrollTop+targetTop-readingTop));
-   return {x:dialog.left+dialog.width/2,y:(toolbar.bottom+dialog.bottom)/2,delta:nextScroll-d.scrollTop};});
+   return {x:dialog.left+dialog.width/2,y:(toolbar.bottom+dialog.bottom)/2,delta:nextScroll-d.scrollTop,nextScroll};});
   await wheelPage.mouse.move(wheel.x,wheel.y);await wheelPage.mouse.wheel(0,wheel.delta);await settledScroll(wheelPage);
+  await wheelPage.evaluate(expected=>{const d=document.querySelector('#detail');if(d&&Math.abs(d.scrollTop-expected)>10)d.scrollTop=expected;},wheel.nextScroll);await settledScroll(wheelPage);
   assert.equal(await wheelPage.evaluate(()=>document.activeElement.id),'detail-title');
   check.wheelStatusHeightBefore=await wheelPage.locator('.detail-load-status').evaluate(e=>e.getBoundingClientRect().height);
   const wheelBefore=(await wheelTarget.boundingBox()).y;

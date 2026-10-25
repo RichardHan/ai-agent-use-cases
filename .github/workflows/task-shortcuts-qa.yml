@@ -7,7 +7,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -59,11 +59,11 @@ jobs:
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const files=['index.html','assets/app.js'];
-            for(let attempt=0;attempt<60;attempt++){
+            for(let attempt=0;attempt<181;attempt++){
               const matches=await Promise.all(files.map(async f=>{try{const r=await fetch(process.env.SITE_URL+(f==='index.html'?'':f)+'?shortcuts='+process.env.GITHUB_SHA,{signal:AbortSignal.timeout(15000)});return r.ok&&await r.text()===fs.readFileSync(f,'utf8');}catch{return false;}}));
               if(matches.every(Boolean)){console.log('Published HTML and app.js match checkout');return;}
               console.log('Waiting for Pages assets, attempt '+(attempt+1));
-              await new Promise(resolve=>setTimeout(resolve,10000));
+              await new Promise(resolve=>setTimeout(resolve,5000));
             }
             throw Error('Published assets did not match checkout within the deployment wait');
           })().catch(e=>{console.error(e);process.exit(1)});

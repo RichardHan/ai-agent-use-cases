@@ -8,7 +8,7 @@ const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
 if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 const prefix=observe?'before':live?'live':'after';
 async function publishedVersion(){
- for(let attempt=0;attempt<30;attempt++){
+ for(let attempt=0;attempt<181;attempt++){
   const files=['assets/app.js','assets/reader.js','assets/reader.css'];
   const states=await Promise.all(files.map(async file=>{const response=await fetch(origin+file+'?reading-qa='+Date.now(),{cache:'no-store'});return response.ok&&await response.text()===fs.readFileSync(file,'utf8');}));
   if(states.every(Boolean))return;

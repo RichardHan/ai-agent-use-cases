@@ -15,7 +15,7 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function deployedVersion(page){
  const paths=['assets/reader.js','assets/reader.css','assets/app.js','assets/style.css','assets/discovery.js','index.html'];
  const expected=paths.map(path=>fs.readFileSync(path,'utf8'));
- for(let attempt=0;attempt<60;attempt++){
+ for(let attempt=0;attempt<91;attempt++){
   const responses=await Promise.all(paths.map(path=>page.request.get(origin+path,{headers:{'Cache-Control':'no-cache'},timeout:5000}).catch(()=>null)));
   const observed=await Promise.all(responses.map(response=>response?response.text():''));
   if(responses.every(Boolean)&&responses.every(response=>response.ok())&&observed.every((text,i)=>text===expected[i])){
@@ -35,7 +35,7 @@ async function visibleBelowToolbar(page,selector){
  assert(rect.y+rect.height<=dialog.y+dialog.height,'target must be visible inside the dialog');
 }
 async function ready(page,suffix=''){
- for(let attempt=0;attempt<(deployed?30:1);attempt++){
+ for(let attempt=0;attempt<(deployed?91:1);attempt++){
   await page.goto(origin+suffix,{waitUntil:'networkidle'});
   await page.locator('#results .card').first().waitFor();
   if(await page.evaluate(()=>typeof CaseReader!=='undefined'))return;

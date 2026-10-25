@@ -303,6 +303,22 @@
       const targetUser=overview.querySelector('.detail-target-user');
       if(targetUser)targetUser.before(shortcut);else overview.append(shortcut);
     }
+    const guidanceSection=body.querySelector('.reader-guidance');
+    if(guidanceSection&&(item.how||item.caution)){
+      const guidanceShortcut=make('button','reader-guidance-shortcut','');
+      guidanceShortcut.type='button';
+      guidanceShortcut.replaceChildren(
+        make('strong','','建議操作流程與注意事項 ↓'),
+        make('span','reader-target','本庫整理步驟與限制（非實測結果）')
+      );
+      guidanceShortcut.addEventListener('click',()=>{
+        guidanceSection.open=true;
+        const s=guidanceSection.querySelector('summary');
+        if(s)moveTo(s);
+      });
+      const targetUser=overview.querySelector('.detail-target-user');
+      if(targetUser)targetUser.before(guidanceShortcut);else overview.append(guidanceShortcut);
+    }
     // Collect before inserting reader controls so their labels cannot become hits.
     const sourceSummary=research.querySelector('summary');
     const sourceSections=[{title:'',text:'',isMetadata:true,target:sourceSummary,links:new Set(),passages:[]}];

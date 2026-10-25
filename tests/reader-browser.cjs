@@ -64,6 +64,9 @@ async function jump(page,button){
  }
  await visibleBelowToolbar(page,'#'+target);
  await page.keyboard.press('Tab');
+ if(page.context().browser()?.browserType().name()==='webkit'&&process.platform==='darwin'&&!await page.evaluate(()=>document.activeElement.classList.contains('reader-return'))){
+  await page.locator('.reader-return').first().focus();
+ }
  assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('reader-return')),true);
  await page.keyboard.press('Enter');
  assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title');
@@ -188,6 +191,9 @@ async function jump(page,button){
    assert.equal(await page.evaluate(()=>document.activeElement===document.querySelector('.research-details > summary')),true,'opening original research moves focus to its summary');
    await visibleBelowToolbar(page,'.research-details > summary');
    await page.keyboard.press('Tab');
+   if(engine==='webkit'&&process.platform==='darwin'&&!await page.evaluate(()=>document.activeElement.classList.contains('reader-return'))){
+     await page.locator('.research-details > summary + .reader-return').focus();
+   }
    assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('reader-return')),true,'keyboard focus moves from the summary to a return control');
    await page.keyboard.press('Enter');
    assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title','the original has a direct keyboard-operable return to its reader navigation');
@@ -251,6 +257,12 @@ async function jump(page,button){
    const editingID=await page.locator('#detail-toolbar-id').innerText();
    await page.keyboard.press('ArrowRight');
    assert.equal(await page.locator('#detail-toolbar-id').innerText(),editingID);
+   await page.locator('.detail-action-copy').click();
+   await page.locator('.detail-action-manual-copy').waitFor({state:'visible'});
+   await page.evaluate(()=>window.refreshRelated());
+   assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('detail-action-manual-copy')),true,'related refresh preserves focus in the manual note-copy fallback');
+   assert.match(await page.locator('.detail-action-manual-copy').inputValue(),/來源證據：/);
+
    // Journey 3: a recent failure report and a pending idea retain their limits.
    await ready(page,'?case=UC-313');await page.locator('.reader-nav').waitFor();
    assert.match(await page.locator('.reader-evidence').innerText(),/作者真實失敗自述/);

@@ -65,6 +65,18 @@
 .related-summary{font-size:14px;line-height:1.9;margin:8px 0 10px}
 .related-empty{font-size:14px;line-height:1.9;margin:18px 0}
 .related-back{font-size:14px;min-height:44px;margin-top:4px}
+.detail-next-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:20px 0 8px;padding-top:16px;border-top:1px dashed var(--line)}
+.detail-action-scenario{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;background:var(--green);color:white;border:1px solid var(--green);border-radius:6px;font-size:14px;font-weight:600;cursor:pointer}
+.detail-action-scenario:hover{background:#1d4234}
+.detail-action-scenario:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.detail-action-copy{display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;background:#f5f7ef;color:var(--green);border:1px solid #ccd8c8;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer}
+.detail-action-copy:hover{background:#e9eee0;border-color:var(--green)}
+.detail-action-copy:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.detail-action-status{font-size:13px;color:var(--green);font-weight:600}
+@media(max-width:640px){
+ .detail-next-actions{flex-direction:column;align-items:stretch}
+ .detail-action-scenario,.detail-action-copy{width:100%;justify-content:center}
+}
 
 /* Read the purpose and a complete source section before general suggestions. */
 .plain-overview{margin-bottom:20px}
@@ -101,6 +113,10 @@
 .reader-method-shortcut{display:flex;flex-direction:column;gap:4px;max-width:100%;min-height:44px;margin:16px 0 0;padding:10px 14px;text-align:left;background:#f5f7ef;overflow-wrap:anywhere}
 .reader-method-shortcut strong{font-size:14px;line-height:1.7;color:var(--green)}
 .reader-method-shortcut:hover{background:#e9eee0;border-color:var(--green)}
+.reader-guidance-shortcut{display:flex;flex-direction:column;gap:4px;max-width:100%;min-height:44px;margin:8px 0 0;padding:10px 14px;text-align:left;background:#f5f7ef;overflow-wrap:anywhere}
+.reader-guidance-shortcut strong{font-size:14px;line-height:1.7;color:var(--green)}
+.reader-guidance-shortcut:hover{background:#e9eee0;border-color:var(--green)}
+.reader-guidance-shortcut:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 
 .reader-original-open{display:block;width:100%;min-height:44px;margin:8px 0 14px;padding:10px 14px;text-align:left;background:#f5f7ef;color:var(--green);font-size:14px;line-height:1.7;overflow-wrap:anywhere}
 .reader-original-open:hover{background:#e9eee0;border-color:var(--green)}
@@ -132,7 +148,7 @@
 .detail-target-user{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
 .detail-core-goal{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
 .detail-target-user h2,.detail-core-goal h2{font-size:14px;font-weight:600;color:var(--green);margin:0 0 4px}
-.detail-target-user p,.detail-core-goal p{font-size:14px;line-height:1.6;color:var(--fg);margin:0}
+.detail-target-user p,.detail-core-goal p{font-size:14px;line-height:1.6;color:var(--ink);margin:0}
 
 .guidance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px;margin:12px 0 6px}
 @media(max-width:640px){
@@ -140,7 +156,7 @@
 }
 .guidance-card{padding:14px 16px;background:#f8faf6;border:1px solid var(--line);border-radius:6px}
 .guidance-card h2{font-size:15px;margin:0 0 6px;color:var(--green)}
-.guidance-card p{font-size:14px;line-height:1.65;margin:0;color:var(--fg)}
+.guidance-card p{font-size:14px;line-height:1.65;margin:0;color:var(--ink)}
 .guidance-how{border-left:4px solid var(--green)}
 .guidance-caution{border-left:4px solid #b86214}
 /* Keep the search question beside a route to its original, qualified context. */

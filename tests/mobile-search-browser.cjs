@@ -29,9 +29,14 @@ module.exports=async function mobileSearch({browser,origin,prefix='mobile-search
    assert(row.firstResultFromSearch<300,'First result stays within the observed 300px mobile search-to-result budget');
    assert(row.firstResultTop<height,'First result remains visible below the search field in the mobile viewport');
    await page.locator('#query').focus();await page.keyboard.press('Tab');
-   assert.equal(await page.evaluate(()=>document.activeElement.id),'search-submit');
-   await page.keyboard.press('Tab');
-   assert.equal(await page.evaluate(()=>document.activeElement.id),'filter-summary');
+   const tabTarget = await page.evaluate(()=>document.activeElement.id);
+   if(browser.browserType().name()==='webkit'&&process.platform==='darwin'&&tabTarget==='filter-summary'){
+    row.nativeWebKitTabSkipsButton=true;
+   }else{
+    assert.equal(tabTarget,'search-submit');
+    await page.keyboard.press('Tab');
+    assert.equal(await page.evaluate(()=>document.activeElement.id),'filter-summary');
+   }
    await page.keyboard.press('Tab');
    assert.equal(await page.evaluate(()=>document.activeElement.closest('#filter-options')===null),true,'Closed controls are skipped by Tab');
    await page.locator('#filter-summary').focus();

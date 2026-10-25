@@ -59,4 +59,4 @@
 
 ## 風險與下一輪
 
-本輪窄手機修正已整合 main；`Home search entry QA` 的雲端驗收成功。main 同批仍有獨立的 Results return、Reading anchor、Category finding、Round 23 workflows 報紅，本輪未診斷或修復，不以本項綠燈代表 Actions 全綠。使用本機 Chromium 預覽，不代表真人偏好或效能改善。下一輪先定位仍有效的其他 Actions 失敗。
+本輪窄手機修正已整合 main；`Home search entry QA` 的雲端驗收成功。main `886fb04` 同批另有五個工作流程報紅： [Improvement round](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40147923912)、[Results return](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40147923908)、[Reading anchor](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40147923876)、[Category finding](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40147923858)、[Round 23](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40147923847)；本輪未診斷或修復，不以本項綠燈代表 Actions 全綠。使用本機 Chromium 預覽，不代表真人偏好或效能改善。下一輪先定位仍有效的其他 Actions 失敗。

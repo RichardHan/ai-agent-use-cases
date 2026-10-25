@@ -53,8 +53,10 @@ jobs:
             for(let i=0;i<451;i++){
               const r=await fetch(process.env.ANCHOR_URL+'assets/app.js?anchor='+process.env.GITHUB_SHA,{cache:'no-store'});
               if(r.ok&&await r.text()===fs.readFileSync('assets/app.js','utf8'))return;
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               await new Promise(r=>setTimeout(r,2000));
             }
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             throw Error('Published assets mismatch');
           })().catch(e=>{console.error(e);process.exitCode=1});
           NODE

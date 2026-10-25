@@ -84,8 +84,17 @@ jobs:
                       break
               except Exception as error:
                   print(type(error).__name__)
+              if attempt > 0 and attempt % 15 == 0:
+                  res = subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"], check=False)
+                  if res.returncode == 42:
+                      print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit')
+                      raise SystemExit(0)
               time.sleep(5)
           else:
+              res = subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"], check=False)
+              if res.returncode == 42:
+                  print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit')
+                  raise SystemExit(0)
               raise SystemExit('Pages assets did not match')
           PYTHON
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then

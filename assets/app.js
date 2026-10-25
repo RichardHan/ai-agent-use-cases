@@ -1180,6 +1180,12 @@ function card(item, terms=[]) {
   if(item.coreGoal && item.coreGoal !== item.summary && item.coreGoal !== item.title){
     const goalP = el('p', 'card-goal', '🎯 解決痛點：' + item.coreGoal);
     node.append(goalP);
+  } else {
+    const targetUser = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
+    if(targetUser){
+      const userP = el('p', 'card-target-user', '👤 適合對象：' + targetUser);
+      node.append(userP);
+    }
   }
   node.append(el('p', 'summary', item.summary));
   const reviewed=el('p','review-date');

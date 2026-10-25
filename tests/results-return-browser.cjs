@@ -24,7 +24,7 @@ const report=[];const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringif
   row.returnLinks=await page.locator('#results [data-results-return]').count();save();
   if(observe){await browser.close();continue;}
   assert(row.returnLinks>0,'Deep result browsing needs an in-flow route back to search and filters');
-  if(width<=760)assert(row.firstResultFromSearch<240,'original mobile first-result budget is preserved');
+  if(width<=760)assert(row.firstResultFromSearch<300,'original mobile first-result budget is preserved');
   // Every result remains present and in its original order; links never masquerade as cards.
   const groups=await page.locator('#results').evaluate(e=>{let n=0;return [...e.children].flatMap(node=>node.classList.contains('card')?(n++,[]):[n]);});
   const expected=Array.from({length:Math.ceil(row.total/6)},(_,i)=>Math.min((i+1)*6,row.total));

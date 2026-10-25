@@ -754,6 +754,8 @@ function refreshRelated() {
       target = next.querySelector('.detail-action-scenario');
     } else if (active.classList.contains('detail-action-copy')) {
       target = next.querySelector('.detail-action-copy');
+    } else if (active.classList.contains('detail-action-manual-copy')) {
+      target = next.querySelector('.detail-action-manual-copy');
     }
     if (!target) target = next.querySelector('.related-back');
     target.focus({preventScroll:true});

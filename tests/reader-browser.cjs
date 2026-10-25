@@ -257,6 +257,12 @@ async function jump(page,button){
    const editingID=await page.locator('#detail-toolbar-id').innerText();
    await page.keyboard.press('ArrowRight');
    assert.equal(await page.locator('#detail-toolbar-id').innerText(),editingID);
+   await page.locator('.detail-action-copy').click();
+   await page.locator('.detail-action-manual-copy').waitFor({state:'visible'});
+   await page.evaluate(()=>window.refreshRelated());
+   assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('detail-action-manual-copy')),true,'related refresh preserves focus in the manual note-copy fallback');
+   assert.match(await page.locator('.detail-action-manual-copy').inputValue(),/來源證據：/);
+
    // Journey 3: a recent failure report and a pending idea retain their limits.
    await ready(page,'?case=UC-313');await page.locator('.reader-nav').waitFor();
    assert.match(await page.locator('.reader-evidence').innerText(),/作者真實失敗自述/);

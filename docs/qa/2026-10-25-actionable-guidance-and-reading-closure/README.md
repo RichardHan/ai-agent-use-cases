@@ -82,12 +82,12 @@ python3 -m http.server 8288 --directory /tmp/ai-usecase-preview-20261025
 
 ## 後續獨立審查與複製可靠性修正
 
-另一位獨立 reviewer 針對複製筆記操作發現三個可重現缺口：剪貼簿拒絕時筆記內容無法取回；背景來源載入重繪相關區後，非同步回饋可能寫入 detached 節點；重複點擊時較早失敗或舊計時器可能覆蓋較新的成功狀態。新增回歸測試覆蓋回退內容、焦點保留、請求順序與計時器；初始兩項測試在修正前失敗，修正後通過。
+獨立 reviewer 的初審找到複製筆記回退內容、非同步請求與計時器三個缺口。修正後的再次審查又發現一項：手動回退欄位在背景載入刷新後會失焦。新增 regression coverage；修改前筆記回退與最新請求測試先失敗，依次修正後通過。
 
 - 剪貼簿不可用／遭拒時改提供完整唯讀筆記欄位；讀者焦點仍在複製按鈕時才自動選取回退內容，避免搶走已移動的焦點。
 - 筆記另保留來源證據狀態；同一操作的較舊請求不再覆蓋最新回饋，重試會取消舊回饋計時器。
-- `refreshRelated()` 重新產生延伸閱讀時沿用既有操作區 DOM，讓待完成的複製狀態仍連結到畫面上的控制項。
+- `refreshRelated()` 沿用既有操作區 DOM，並在刷新時恢復唯讀回退欄位的鍵盤焦點；以本機 Chromium 實際重現修正前焦點落到「關閉閱讀」，修正後仍留在筆記欄位。
 - `node --test tests/detail-reading-and-evidence.test.cjs`：14/14 通過；`node --test tests/*.test.cjs`：317/317 通過。
-- `node --check assets/app.js`、`node --check assets/reader.js`、`node --check tests/detail-reading-and-evidence.test.cjs` 通過；Pages 相容 preview 與 `check_corpus_bundle.py` 通過，447 份來源逐 byte 一致。
-- 本機 Ruby 2.6.10 環境沒有 `jekyll` executable，未能本機執行正式 Jekyll build。GitHub Pages Actions build 成功，但 PR #101 仍有 Reader QA / Reading flow / preview checks 執行中；不得視為已通過或已部署。
-- PR #101 建立時已存在同名分支與協作者提交。本次只在本機整合 reviewer 修正，未改寫案例資料、未 force push、未合併；後續 push 前須確認 PR 分支仍未被協作者更新。
+- `node --check assets/app.js`、`node --check assets/reader.js`、`node --check tests/detail-reading-and-evidence.test.cjs`、`node --check tests/reader-browser.cjs` 通過；Pages 相容 preview 與 `check_corpus_bundle.py` 通過，447 份來源逐 byte 一致。
+- 本機 Ruby 2.6.10 沒有 `jekyll` executable，無法執行正式 Jekyll build。main 最新已核對的 Pages build run `40157648647` 成功；PR #101 新 commit 的 Reader QA / Reading flow / preview checks 尚待完成，本輪未宣稱新改動已正式部署。
+- PR #101 原本已有協作者提交。本輪在該分支新增 fast-forward commit `2bfdee3` 並推送；未 force push。合併等待此 commit 的 GitHub Actions 與獨立終審完成。

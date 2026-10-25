@@ -708,8 +708,7 @@ function renderRelated(item) {
     exploreScenarioBtn.setAttribute('aria-label', `探索更多「${item.scenario}」案例`);
     exploreScenarioBtn.addEventListener('click', () => {
       closeDetail();
-      activeScenario = item.scenario;
-      render();
+      chooseScenario(item.scenario);
       $('results-count').focus({preventScroll:true});
       $('results-count').scrollIntoView({block:'start',behavior:'instant'});
     });
@@ -740,6 +739,7 @@ function renderRelated(item) {
       item.how ? `🚀 怎麼開始：${item.how}` : '',
       item.caution ? `⚠️ 注意事項：${item.caution}` : '',
       item.proof ? `📎 來源證據：${item.proof}` : '',
+      `💡 說明：本庫入門建議為整理者設計，非實測結果；未獨立重現，請核對原始報告與限制。`,
       `🔗 詳情與來源：${caseUrl.href}`
     ].filter(Boolean).join('\n');
     clearTimeout(copyTimer);

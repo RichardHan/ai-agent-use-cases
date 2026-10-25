@@ -75,6 +75,8 @@
 .detail-action-copy:hover{background:#e9eee0;border-color:var(--green)}
 .detail-action-copy:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 .detail-action-status{font-size:13px;color:var(--green);font-weight:600}
+.detail-action-manual-copy{box-sizing:border-box;width:100%;min-height:160px;margin-top:10px;padding:12px;border:1px solid var(--green);border-radius:6px;background:var(--white);color:var(--ink);font:inherit;font-size:14px;line-height:1.7;resize:vertical}
+.detail-action-manual-copy:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 @media(max-width:640px){
  .detail-next-actions{flex-direction:column;align-items:stretch}
  .detail-action-scenario,.detail-action-copy{width:100%;justify-content:center}

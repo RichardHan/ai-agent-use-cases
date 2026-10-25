@@ -10,7 +10,7 @@ const launchOptions = process.env.CHROMIUM_BIN ? { executablePath: process.env.C
 (async () => {
   const browser = await chromium.launch(launchOptions);
   
-  // Scenario 1: Desktop visitor reads value props and navigates to "PR 審查"
+  // Scenario 1: Desktop visitor reads value props and navigates to "代碼審查"
   {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
     await page.goto(origin, { waitUntil: 'domcontentloaded' });
@@ -28,13 +28,13 @@ const launchOptions = process.env.CHROMIUM_BIN ? { executablePath: process.env.C
     const guideSteps = page.locator('.guide-step');
     assert.equal(await guideSteps.count(), 3, 'hero should render 3 beginner guide steps');
     
-    // Click problem tag "PR 審查"
-    const prTag = page.locator('a.problem-tag[href*="PR"]');
-    assert.ok(await prTag.isVisible(), 'PR problem tag must be visible');
+    // Click problem tag "代碼審查"
+    const prTag = page.locator('a.problem-tag[href*="代碼審查"]');
+    assert.ok(await prTag.isVisible(), 'Code review problem tag must be visible');
     await prTag.click();
     
     await page.waitForSelector('#results .card');
-    assert.equal(await page.locator('#query').inputValue(), 'PR');
+    assert.equal(await page.locator('#query').inputValue(), '代碼審查');
     const countText = await page.locator('#results-count').innerText();
     assert.match(countText, /顯示 \d+ \/ \d+ 筆收錄/);
     

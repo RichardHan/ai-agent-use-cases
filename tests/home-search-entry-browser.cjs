@@ -31,7 +31,6 @@ async function capture(page,name){
    assert(rect.height>=44,'task examples have a 44px touch target');
   }
   const taskExamples=await taskLinks.evaluateAll(nodes=>nodes.map(node=>({label:node.innerText.trim(),href:node.getAttribute('href')})));
-  assert.deepEqual(taskExamples.map(item=>new URL(item.href,origin).searchParams.get('q')),['規劃旅行','收件匣','比價']);
   if(engine===webkit){
    await taskLinks.first().focus();
    assert(await taskLinks.first().evaluate(node=>node.tagName==='A'&&node.tabIndex>=0&&node.matches(':focus-visible')&&getComputedStyle(node).outlineWidth==='3px'),'task links expose a visible focus style ('+engine.name()+' '+width+'px)');
@@ -53,6 +52,12 @@ async function capture(page,name){
     await taskPage.locator('#results .card').first().waitFor();
     assert.equal(await taskPage.locator('#query').inputValue(),new URL(example.href,origin).searchParams.get('q'));
     assert((await taskPage.locator('#results .card').count())>0,example.label+' must open matching results');
+    if(index===0){
+     const matchingChip=page.locator('.chip-task').filter({hasText:example.label});
+     const chipQuery=await matchingChip.getAttribute('data-query');
+     assert.equal(await taskPage.locator('#query').inputValue(),chipQuery,'hero and search shortcut for the same task must show the same results');
+     assert((await taskPage.locator('#results .card').count())>1,'travel shortcut must expose more than the single exact-title match');
+    }
     row.taskSearches??=[];row.taskSearches.push({label:example.label,count:await taskPage.locator('#results .card').count(),first:await taskPage.locator('#results .card h3').first().innerText()});
     if(index===0){
      await taskPage.screenshot({path:'qa-artifacts/task-entry-results.png'});
@@ -61,7 +66,7 @@ async function capture(page,name){
      await taskPage.locator('.research-details summary').click();
      assert.match(await taskPage.locator('.markdown a[href^="https:"]').first().getAttribute('href'),/^https:/);
      await taskPage.goBack();await taskPage.waitForFunction(()=>!document.getElementById('detail').open);
-     assert.equal(await taskPage.locator('#query').inputValue(),'規劃旅行','return from a case keeps the task query');
+     assert.equal(await taskPage.locator('#query').inputValue(),new URL(example.href,origin).searchParams.get('q'),'return from a case keeps the task query');
     }
    }
    await taskPage.close();

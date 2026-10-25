@@ -65,6 +65,7 @@ jobs:
             const base='https://richardhan.github.io/ai-agent-use-cases/';
             const files=['assets/app.js','assets/style.css'];
             for(let i=0;i<450;i++){
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const actual=await Promise.all(files.map(async file=>{
                 const r=await fetch(base+file+'?refine='+process.env.GITHUB_SHA,{cache:'no-store'});
                 return r.ok?await r.text():'';
@@ -72,7 +73,8 @@ jobs:
               if(actual.every((text,i)=>text===fs.readFileSync(files[i],'utf8'))){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
               await new Promise(resolve=>setTimeout(resolve,2000));
             }
-            throw Error('Published assets did not match');
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published assets did not match after 450 attempts at two-second intervals');
           })().catch(e=>{console.error(e);process.exitCode=1});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then

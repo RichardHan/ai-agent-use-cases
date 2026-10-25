@@ -64,7 +64,9 @@
 .related-open:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 .related-summary{font-size:14px;line-height:1.9;margin:8px 0 10px}
 .related-empty{font-size:14px;line-height:1.9;margin:18px 0}
-.related-back{font-size:14px;min-height:44px;margin-top:4px}
+.related-back{font-size:14px;min-height:44px;margin-top:4px;padding:8px 14px;border:1px solid #ccd8c8;border-radius:6px;background:transparent;color:var(--green);font-weight:600;cursor:pointer}
+.related-back:hover{background:#e9eee0;border-color:var(--green)}
+.related-back:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 .detail-next-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:20px 0 8px;padding-top:16px;border-top:1px dashed var(--line)}
 .detail-action-scenario{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;background:var(--green);color:white;border:1px solid var(--green);border-radius:6px;font-size:14px;font-weight:600;cursor:pointer}
 .detail-action-scenario:hover{background:#1d4234}
@@ -76,6 +78,7 @@
 @media(max-width:640px){
  .detail-next-actions{flex-direction:column;align-items:stretch}
  .detail-action-scenario,.detail-action-copy{width:100%;justify-content:center}
+ .related-back{width:100%;justify-content:center;box-sizing:border-box}
 }
 
 /* Read the purpose and a complete source section before general suggestions. */
@@ -112,15 +115,15 @@
 .reader-report-content blockquote{border-left:3px solid #acbf8b;margin-left:0;padding-left:15px;color:var(--muted)}
 
 /* A small route to the original method, with its unabridged evidence label. */
-.reader-method-shortcut{display:flex;flex-direction:column;gap:4px;max-width:100%;min-height:44px;margin:16px 0 0;padding:10px 14px;text-align:left;background:#f5f7ef;overflow-wrap:anywhere}
+.reader-method-shortcut{display:flex;flex-direction:column;gap:4px;max-width:100%;min-height:44px;margin:14px 0 0;padding:10px 14px;text-align:left;background:#f5f7ef;border-left:3px solid #7d9678;border-radius:6px;overflow-wrap:anywhere}
 .reader-method-shortcut strong{font-size:14px;line-height:1.7;color:var(--green)}
 .reader-method-shortcut:hover{background:#e9eee0;border-color:var(--green)}
-.reader-guidance-shortcut{display:flex;flex-direction:column;gap:4px;max-width:100%;min-height:44px;margin:8px 0 0;padding:10px 14px;text-align:left;background:#f5f7ef;overflow-wrap:anywhere}
+.reader-guidance-shortcut{display:flex;flex-direction:column;gap:4px;max-width:100%;min-height:44px;margin:8px 0 0;padding:10px 14px;text-align:left;background:#f0f5eb;border-left:3px solid var(--green);border-radius:6px;overflow-wrap:anywhere}
 .reader-guidance-shortcut strong{font-size:14px;line-height:1.7;color:var(--green)}
-.reader-guidance-shortcut:hover{background:#e9eee0;border-color:var(--green)}
+.reader-guidance-shortcut:hover{background:#e5edd9;border-color:var(--green)}
 .reader-guidance-shortcut:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 
-.reader-original-open{display:block;width:100%;min-height:44px;margin:8px 0 14px;padding:10px 14px;text-align:left;background:#f5f7ef;color:var(--green);font-size:14px;line-height:1.7;overflow-wrap:anywhere}
+.reader-original-open{display:block;width:100%;min-height:44px;margin:8px 0 14px;padding:10px 14px;text-align:left;background:#f5f7ef;border-left:3px solid #a8b8a0;border-radius:6px;color:var(--green);font-size:14px;line-height:1.7;overflow-wrap:anywhere}
 .reader-original-open:hover{background:#e9eee0;border-color:var(--green)}
 .reader-original-open:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 
@@ -138,7 +141,8 @@
 }
 
 /* Semantic proof badge explanation and structured guidance cards. */
-.detail-proof-note{display:flex;align-items:baseline;gap:8px;padding:8px 12px;background:#f3f6ee;border:1px solid #d4dfce;border-radius:6px;font-size:13px;line-height:1.6;color:#283528;margin:10px 0 14px}
+.detail-proof-note{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:8px 12px;background:#f3f6ee;border:1px solid #d4dfce;border-radius:6px;font-size:13px;line-height:1.6;color:#283528;margin:10px 0 14px}
+@media(max-width:360px){.detail-proof-note{flex-direction:column;gap:4px}}
 .proof-note-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--green);color:white}
 .proof-note-tag[data-proof="官方自報"]{background:#1d6645;color:white}
 .proof-note-tag[data-proof="作者報告／示範"]{background:#235878;color:white}

@@ -162,25 +162,25 @@ test('hero and search shortcuts expose the same high-intent pain points', () => 
   }
 });
 
-test('empty recovery chips offer concrete pain points and apply their stated query', () => {
+test('empty recovery offers only queries that match retained facets', () => {
   const api = setupEnvironment(), calls = [];
-  vm.runInContext('discoveryReady = true;', api.context);
+  vm.runInContext(`discoveryReady = true; entries = [
+    {search:'日報', scenario:'生活', kind:'case', difficulty:'入門對話', tools:[], category:'日常', proof:'作者報告／示範'},
+    {search:'代碼審查', scenario:'開發', kind:'case', difficulty:'進階開發', tools:[], category:'開發', proof:'作者報告／示範'}
+  ];`, api.context);
   api.document.getElementById('query').value = 'unmatched-intent';
-  api.document.getElementById('difficulty').value = '工具串接';
   api.context.render = () => calls.push('render');
   api.context.focusResults = () => calls.push('focus');
-  api.renderSearchFeedback(['unmatched-intent'], { difficulty: '工具串接' });
-  const chips = api.document.getElementById('empty-suggestions').querySelectorAll('.recovery-problem-tag');
-  for (const [label, query] of [['郵件摘要', '郵件'], ['會議日報', '日報'], ['自動客服', '客服'], ['代碼審查', '代碼審查']]) {
-    const chip = chips.find(chip => chip.textContent.startsWith(label));
-    assert.ok(chip, label);
-    assert.equal(chip.dataset.problemTag, query);
-    assert.ok(chip.textContent.includes('搜尋「' + query + '」'));
-    chip.click();
-    assert.equal(api.document.getElementById('query').value, query);
-    assert.equal(api.document.getElementById('difficulty').value, '工具串接', 'recovery preserves explicitly chosen facets');
-  }
-  assert.deepEqual(calls, Array(4).fill(['render', 'focus']).flat());
+  api.renderSearchFeedback(['unmatched-intent'], { scenario: '生活' });
+  const suggestions = api.document.getElementById('empty-suggestions');
+  const chips = suggestions.querySelectorAll('.recovery-problem-tag');
+  assert.deepEqual(chips.map(chip => chip.dataset.problemTag), ['日報']);
+  chips[0].click();
+  assert.equal(api.document.getElementById('query').value, '日報');
+  assert.deepEqual(calls, ['render', 'focus']);
+  api.renderSearchFeedback(['unmatched-intent'], { scenario: '省錢' });
+  assert.equal(suggestions.querySelectorAll('.recovery-problem-tag').length, 0);
+  assert.match(api.document.getElementById('empty-hint').textContent, /調整篩選/);
 });
 
 test('expanded discovery and guidance styles wrap within narrow containers with touch-sized controls', () => {

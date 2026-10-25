@@ -1,3 +1,7 @@
+## 2026-10-26 詳情方法入口提早顯示
+
+正式站 390px 的 UC-402 原始方法入口位於首屏外 y=973.6；本輪把保留原文限定語的入口移至標題與分享動作之間，手機預覽提前到 y=412.8，並同步修正 WebKit 反向 Tab 首控制攔截。獨立審查發現鍵盤退化後已補修；Chromium 桌面／390／320px reader 流程、axe 零違規、356 單元與 450 來源逐 byte 一致。既有 Actions localhost 原文入口斷言先捲入視窗再檢查，不混同 Pages 發布失敗。[兩案、前後截圖與驗收限制](docs/qa/2026-10-26-early-method/README.md)。下一輪優先分別定位 Reader QA 與 Corpus bundle QA 其餘本地預覽錯誤。
+
 ## 2026-10-26 原始 Markdown 固定於發布 commit
 
 正式站詳情仍連 `blob/main`，可能與本站發布時收錄文字不同。本輪由 Pages `site.github.build_revision` 提供 commit SHA，只有 catalog、整包來源版本一致且原文相符，才把原始 Markdown 與正文相對連結固定到該版本；逐篇讀取或版本不符仍明示 main 漂移。先紅後綠回歸、356 項單元測試、450 來源逐 byte 核對、桌面及手機預覽與三情境走查見[本輪 QA](docs/qa/2026-10-26-pinned-source/README.md)。獨立審查指出跨發布復原錯誤憑據及舊瀏覽器斷言，已修正。正式 Pages 產出仍須合併後核實；主分支既有瀏覽器 Actions 失敗待定位。

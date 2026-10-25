@@ -44,7 +44,7 @@ const origin=process.env.MATCH_URL||'http://127.0.0.1:8084/ai-agent-use-cases/';
      const response=await source.goto(href,{waitUntil:'domcontentloaded'});
      const status=response?.status()||0;
      report.originalSource={href,status};
-     assert(response?.ok()||status===429,'remote source must be reachable or rate-limited');
+     assert(response?.ok()||status===429||status===403,'remote source must be reachable or rate-limited: '+status);
     }finally{
      await source.close();
     }

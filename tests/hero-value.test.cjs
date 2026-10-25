@@ -54,4 +54,11 @@ test('assets/style.css defines responsive and touch-accessible rules for hero va
   assert.match(css, /\.hero-problem-tags\s*\{/, 'style.css must define .hero-problem-tags');
   assert.match(css, /\.problem-tag\s*\{[^}]*min-height:\s*44px/, '.problem-tag must have at least 44px touch target');
   assert.match(css, /\.problem-tag:focus-visible\s*\{/, '.problem-tag must have focus-visible styling');
+  assert.match(css, /@media\(max-width:760px\)\{\.hero-value-props\{grid-template-columns:1fr/, 'hero-value-props must stack to 1 column on <=760px screens');
+});
+
+test('hero-value-browser targets canonical 代碼審查 problem tag and query', () => {
+  const browserTest = fs.readFileSync(path.resolve(__dirname, 'hero-value-browser.cjs'), 'utf8');
+  assert.match(browserTest, /a\.problem-tag\[href\*="代碼審查"\]/, 'hero-value-browser must target canonical 代碼審查 tag');
+  assert.doesNotMatch(browserTest, /a\.problem-tag\[href\*="PR"\]/, 'hero-value-browser must not expect stale PR href');
 });

@@ -269,6 +269,7 @@
 .value-prop-desc a{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:650;text-underline-offset:3px}
 .value-prop-desc a:hover{color:#172b27}
 .value-prop-desc a:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
+@media(max-width:760px){.hero-value-props{grid-template-columns:1fr;gap:8px;padding:12px}}
 
 /* Simple 3-step visitor guide */
 .hero-guide-steps{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin:0 0 20px;font-size:12px;color:#4c6258}
@@ -281,7 +282,7 @@
 .problem-tag{display:inline-flex;align-items:center;min-height:44px;min-width:44px;max-width:100%;overflow-wrap:anywhere;color:var(--green);font-weight:650;text-underline-offset:4px}
 .problem-tag:hover{color:#172b27}
 .problem-tag:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
-@media(max-width:360px){.discovery-layout{padding:14px 0 22px;gap:18px}.discovery-hero h1{font-size:32px;margin-bottom:10px}.discovery-hero .intro{font-size:14px;margin-bottom:12px}.hero-value-props{padding:8px 10px;margin-bottom:10px;gap:6px}.hero-guide-steps{margin-bottom:10px}.hero-search-link{margin:0 0 10px}.recent-entry{margin-bottom:10px}.hero-task-examples{margin:-6px 0 12px}.draw-difficulty-buttons{grid-template-columns:1fr}}
+@media(max-width:360px){.discovery-layout{padding:10px 0 16px;gap:14px}.discovery-hero h1{font-size:28px;line-height:1.25;margin-bottom:8px}.discovery-hero .intro{font-size:13px;margin-bottom:8px}.hero-value-props{padding:6px 8px;margin-bottom:8px;gap:4px}.value-prop-desc{font-size:11px;line-height:1.45}.hero-guide-steps{margin-bottom:8px}.hero-search-link{margin:0 0 8px}.recent-entry{margin-bottom:8px}.hero-task-examples{margin:-8px 0 10px}.draw-difficulty-buttons{grid-template-columns:1fr}}
 
 /* Explain query order without adding another control to the mobile filter panel. */
 .search-order-note{margin:0;font-size:13px;line-height:1.7;color:var(--green);max-width:65ch;overflow-wrap:anywhere}

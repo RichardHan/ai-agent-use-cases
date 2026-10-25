@@ -310,6 +310,7 @@ test('note-copy failure exposes the complete note in a selectable manual fallbac
   assert.match(manual.value, /第一步先比交通/);
   assert.match(manual.value, /注意訂房退改政策/);
   assert.match(manual.value, /case=UC-001/);
+  assert.match(manual.value, /本庫入門建議為整理者設計，非實測結果；未獨立重現/);
 });
 
 test('only the latest note-copy request can replace feedback', async () => {
@@ -392,4 +393,5 @@ test('reader.css uses valid color variable var(--ink) and defines next-step and 
   assert.match(readerCss, /\.detail-action-scenario\s*\{/, 'reader.css must define .detail-action-scenario');
   assert.match(readerCss, /\.detail-action-copy\s*\{/, 'reader.css must define .detail-action-copy');
   assert.match(readerCss, /\.reader-guidance-shortcut\s*\{/, 'reader.css must define .reader-guidance-shortcut');
+  assert.match(readerCss, /\.detail-action-manual-copy\s*\{/, 'reader.css must define .detail-action-manual-copy');
 });

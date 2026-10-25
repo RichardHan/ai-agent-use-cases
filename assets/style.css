@@ -38,6 +38,11 @@
 .card-scenario[data-scenario="學習"]{background:#f3eef8;color:#492c68;border-color:#dfd2ee}
 .card-scenario[data-scenario="創作"]{background:#fcf0f2;color:#6e2534;border-color:#f1cfd6}
 .card-scenario[data-scenario="開發"]{background:#edf2f7;color:#243c5a;border-color:#cbd7e6}
+.card-difficulty{font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;letter-spacing:0;background:#f3f4f6;color:#374151;border:1px solid #e5e7eb}
+.card-difficulty[data-difficulty="入門對話"]{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}
+.card-difficulty[data-difficulty="工具串接"]{background:#eff6ff;color:#1e40af;border-color:#bfdbfe}
+.card-difficulty[data-difficulty="進階開發"]{background:#faf5ff;color:#6b21a8;border-color:#e9d5ff}
+.card-goal{font-size:13px;color:#1e3a2f;font-weight:600;margin:4px 0 6px;line-height:1.5;background:#f8faf8;padding:6px 10px;border-radius:6px;border-left:3px solid var(--green)}
 .card-id-tool{font-size:11px;font-weight:700;color:var(--green);letter-spacing:0}
 .tag-scenario{background:#e2ebdc;color:var(--green);font-weight:650;cursor:pointer}
 .tag-scenario:hover{background:var(--green);color:white}
@@ -64,6 +69,13 @@
 .detail-badge.kind-pending{background:#fdf2e2;color:#875b1d;font-weight:600}
 .detail-badge.kind-case{background:#e8f4ec;color:var(--green);font-weight:600}
 .detail-badge.kind-evidence{background:#edf2f7;color:#2b4365;font-weight:600}
+.detail-badge.difficulty-badge{background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;font-weight:600}
+.detail-badge.difficulty-badge[data-difficulty="入門對話"]{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}
+.detail-badge.difficulty-badge[data-difficulty="工具串接"]{background:#eff6ff;color:#1e40af;border-color:#bfdbfe}
+.detail-badge.difficulty-badge[data-difficulty="進階開發"]{background:#faf5ff;color:#6b21a8;border-color:#e9d5ff}
+.detail-difficulty{margin-bottom:18px;padding:12px 14px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb}
+.detail-difficulty h2{font-size:14px;font-weight:700;color:var(--text);margin:0 0 4px}
+.detail-difficulty p{font-size:14px;color:var(--muted);margin:0;line-height:1.5}
 .detail-actions{display:flex;gap:14px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
 .btn-copy-link{min-height:44px;font-size:14px;padding:9px 12px;background:white;border:1px solid var(--green);color:var(--green);border-radius:6px;font-weight:600;cursor:pointer}
 .btn-copy-link:hover{background:var(--green);color:white}

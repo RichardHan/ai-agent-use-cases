@@ -379,6 +379,27 @@ for (const group of SYNONYM_GROUPS) {
     }
   }
 };
+const DIFFICULTY_LABELS = {
+  '入門對話': '入門對話（免寫程式）',
+  '工具串接': '工具串接（需帳號或外掛）',
+  '進階開發': '進階開發（需本機環境或代碼）'
+};
+function extractDifficulty(markdown, tools = [], scenario = '', category = '') {
+  const lead = markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
+  const declaredTools = clean(lead.match(/^-\s*工具\s*[：:]\s*(.+)$/m)?.[1] || '');
+  const allToolText = tools.join(' ') + ' ' + declaredTools;
+  const devTools = /Claude Code|OpenDevin|Devin|AutoGPT|Codex|Cline|Roo Code|Aider|Cursor|Docker|GitHub Actions|Kubernetes|Playwright|Puppeteer/i;
+  const devPatterns = /本機\s*CLI|指令列|終端機|本機執行|本機環境|自建腳本|自架伺服器|腳本撰寫|環境變數|npm\s+run|git\s+clone|docker\s+compose|開發者模式|程式碼實作|自寫代碼|腳本|CLI\b/i;
+  if (devTools.test(allToolText) || devPatterns.test(markdown) || (scenario === '開發' && /程式|CLI|終端|代碼|代碼庫|git/i.test(markdown))) {
+    return '進階開發';
+  }
+  const connectorTools = /\bMCP\b|Slack Bot|Discord Bot|Stripe|Zapier|Make|Notion API|Airtable|OAuth|Webhook/i;
+  const connectorPatterns = /\bMCP\b|API\s*Key|API\s*金鑰|金鑰|Webhook|OAuth|第三方授權|串接服務|外掛安裝|資料庫連線|連線授權/i;
+  if (connectorTools.test(allToolText) || connectorPatterns.test(markdown)) {
+    return '工具串接';
+  }
+  return '入門對話';
+}
 function idVariants(id) { const normId = id.toUpperCase(); const unhyphenated = normId.replace(/[-_]/g, ''); return normId !== unhyphenated ? `${normId} ${unhyphenated}` : normId; }
 function termVariants(term) { const t = norm(term).replace(/^#/, ''); const m = t.match(/^([a-z]+)[\s-]*(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } if (/^\d+$/.test(t)) { const padded = t.padStart(3, '0'); return [t, `uc-${padded}`, `uc${padded}`]; } return SYNONYM_MAP[t] || [t]; }
 const matchCase = (target, list = entries) => { if (!target) return null; const t = norm(target).trim().replace(/^#/, ''); const m = t.match(/^(?:([a-z]+)[\s-：:#.]*)?(\d+)$/); const variants = m && (!m[1] || m[1] === 'uc' || m[1] === 'p') ? [`${m[1] || 'uc'}-${m[2].padStart(3, '0')}`, `${m[1] || 'uc'}${m[2].padStart(3, '0')}`] : termVariants(t); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
@@ -489,7 +510,8 @@ function metadata(markdown, path, kind, suffix='') {
   const extracted=extractActionableGuidance(markdown);
   const howText=copy.how||extracted.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。';
   const cautionText=copy.caution||extracted.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。';
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+idVariants(id))};
+  const difficulty = extractDifficulty(markdown, tools, scenario, category);
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
 }
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>metadata(part,path,'pending',String(i)));
@@ -989,6 +1011,11 @@ function showDetail(item, trigger, updateURL=true) {
     goalSection.append(el('h2', '', '核心目標'), el('p', '', item.coreGoal));
     overview.append(goalSection);
   }
+  if (item.difficulty) {
+    const diffSection = el('section', 'detail-difficulty');
+    diffSection.append(el('h2', '', '實作門檻'), el('p', '', DIFFICULTY_LABELS[item.difficulty] || item.difficulty));
+    overview.append(diffSection);
+  }
   if (!discoveryReady) {
     const status=el('p','detail-load-status','這篇已可閱讀。其他案例仍在載入，完成後會提供切換與延伸閱讀。');
     status.setAttribute('role','status');
@@ -1115,6 +1142,13 @@ function card(item, terms=[]) {
     scenarioBadge.dataset.scenario = item.scenario;
     badgesWrap.append(scenarioBadge);
   }
+  if(item.difficulty){
+    const diffBadge = el('span', 'card-difficulty', item.difficulty);
+    diffBadge.dataset.difficulty = item.difficulty;
+    diffBadge.title = DIFFICULTY_LABELS[item.difficulty] || item.difficulty;
+    diffBadge.setAttribute('aria-label', '實作門檻：' + (DIFFICULTY_LABELS[item.difficulty] || item.difficulty));
+    badgesWrap.append(diffBadge);
+  }
   const kindBadge = el('span', 'kind', KIND[item.kind]);
   badgesWrap.append(kindBadge);
   top.append(topInfo, badgesWrap);
@@ -1125,7 +1159,12 @@ function card(item, terms=[]) {
   title.type = 'button';
   title.addEventListener('click', () => showDetail(item, title));
   h.append(title);
-  node.append(h, el('p', 'summary', item.summary));
+  node.append(h);
+  if(item.coreGoal && item.coreGoal !== item.summary && item.coreGoal !== item.title){
+    const goalP = el('p', 'card-goal', '🎯 解決痛點：' + item.coreGoal);
+    node.append(goalP);
+  }
+  node.append(el('p', 'summary', item.summary));
   const reviewed=el('p','review-date');
   if(item.reviewedDate){const time=el('time','',item.reviewedDate);time.dateTime=item.reviewedDate;reviewed.append(document.createTextNode('頁首核對 '),time);}
   else reviewed.textContent='頁首未提供核對日';
@@ -1199,7 +1238,7 @@ function enterSearch(event) {
   $('query').focus({preventScroll:true});
 }
 function filterEntries(items, terms, filters) {
-  return items.filter(item => terms.every(term => termVariants(term).some(v => item.search.includes(v))) && (!filters.kind || item.kind === filters.kind) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
+  return items.filter(item => terms.every(term => termVariants(term).some(v => item.search.includes(v))) && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
 }
 
 /* Rank only existing matches; evidence status, popularity and frequency are not scores. */
@@ -1256,7 +1295,7 @@ function sourceTypeMessage(type) {
   const description=Object.hasOwn(SOURCE_TYPES,type)?SOURCE_TYPES[type]:'此類型未列入說明，請核對原文與限制。';
   return type+'：'+description+' 本庫未獨立重現。';
 }
-const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',tool:'提及工具',category:'主題分類',proof:'來源類型'};
+const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',difficulty:'實作門檻',tool:'提及工具',category:'主題分類',proof:'來源類型'};
 function activeConditions(query, filters) {
   return Object.entries({query, ...filters}).filter(([,value]) => value)
     .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : value}));
@@ -1346,8 +1385,9 @@ function renderFacetCounts(terms, filters) {
     : failedPaths.length
       ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
       : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。';
-  for(const key of ['scenario','kind','tool','category','proof']){
+  for(const key of ['scenario','kind','difficulty','tool','category','proof']){
     const select=$(key);
+    if(!select) continue;
     // Keep unfamiliar shared scenarios visible, rather than showing an empty field.
     if(key==='scenario' && activeScenario && ![...select.options].some(o=>o.value===activeScenario)){
       const option=el('option','',activeScenario);option.value=activeScenario;select.append(option);
@@ -1385,7 +1425,7 @@ function groupFacetOptions(select,counts) {
   select.replaceChildren(...children);
   select.value=selected;
 }
-const SEARCH_KEYS=['q','scenario','kind','tool','category','proof'];
+const SEARCH_KEYS=['q','scenario','kind','difficulty','tool','category','proof'];
 function searchLink(href,query,filters,sort='') {
   const current=new URL(href);
   const url=new URL(current.pathname,current.origin);
@@ -1408,7 +1448,7 @@ function hasSearchArrival(params,hash) {
   return SEARCH_KEYS.some(key=>(params.get(key)||'').trim())||params.get('sort')==='reviewed';
 }
 function currentSearchLink() {
-  const filters=Object.fromEntries(['kind','tool','category','proof'].map(id=>[id,$(id).value]));
+  const filters=Object.fromEntries(['kind','difficulty','tool','category','proof'].map(id=>[id,$(id)?.value||'']));
   filters.scenario=activeScenario;
   return searchLink(location.href,$('query').value,filters,$('sort').value);
 }
@@ -1506,14 +1546,14 @@ function removeCondition(key) {
 function removeConditions(conditions) {
   conditions.forEach(({key})=>{
     if(key==='scenario')activeScenario='';
-    else if(['kind','tool','category','proof'].includes(key))$(key).value='';
+    else if(['kind','difficulty','tool','category','proof'].includes(key))$(key).value='';
   });
   render();
   focusResults();
 }
 function clearFacets() {
   activeScenario='';
-  ['kind','tool','category','proof'].forEach(id=>$(id).value='');
+  ['kind','difficulty','tool','category','proof'].forEach(id=>{ if($(id)) $(id).value=''; });
   render();
   focusResults();
 }
@@ -1601,7 +1641,7 @@ function render(updateURL=true, preserveShare=false) {
   $('search-submit').disabled=!discoveryReady;
   $('scenario').value=activeScenario;
   const q = tokenize($('query').value);
-  const filters = Object.fromEntries(['kind', 'tool', 'category', 'proof'].map(id => [id, $(id).value]));
+  const filters = Object.fromEntries(['kind', 'difficulty', 'tool', 'category', 'proof'].map(id => [id, $(id)?.value || '']));
   if (activeScenario) filters.scenario = activeScenario;
   const sourceNote=sourceTypeMessage(filters.proof);
   if($('source-type-note').textContent!==sourceNote)$('source-type-note').textContent=sourceNote;
@@ -1645,9 +1685,9 @@ function render(updateURL=true, preserveShare=false) {
 
   if (updateURL) {
     const url = new URL(location.href);
-    ['query', 'kind', 'tool', 'category', 'proof'].forEach(id => {
+    ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => {
       const key = id === 'query' ? 'q' : id;
-      if ($(id).value) url.searchParams.set(key, $(id).value); else url.searchParams.delete(key);
+      if ($(id)?.value) url.searchParams.set(key, $(id).value); else url.searchParams.delete(key);
     });
     if (activeScenario) url.searchParams.set('scenario', activeScenario); else url.searchParams.delete('scenario');
     if(reviewSort($('sort').value))url.searchParams.set('sort','reviewed');else url.searchParams.delete('sort');
@@ -1658,7 +1698,7 @@ function render(updateURL=true, preserveShare=false) {
 function reset() {
   activeScenario = '';
   $('sort').value='';
-  ['query', 'kind', 'tool', 'category', 'proof'].forEach(id => $(id).value = '');
+  ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => { if($(id)) $(id).value = ''; });
   render();
 }
 function populate(id, values) {
@@ -2020,12 +2060,12 @@ async function load() {
     $('sort').value=reviewSort(initialParams.get('sort'));
     activeScenario=initialParams.get('scenario')||'';
     $('scenario').value=activeScenario;
-    ['query','kind','tool','category','proof'].forEach(id=>{
+    ['query','kind','difficulty','tool','category','proof'].forEach(id=>{
       const value=initialParams.get(id==='query'?'q':id)||'';
-      if(value&&['tool','category','proof'].includes(id)&&![...$(id).options].some(o=>o.value===value)){
+      if(value&&['difficulty','tool','category','proof'].includes(id)&&$(id)&&![...$(id).options].some(o=>o.value===value)){
         const option=el('option','',value);option.value=value;$(id).append(option);
       }
-      $(id).value=value;
+      if($(id)) $(id).value=value;
     });
     syncPageContext();
     const catalog = await readJSON('catalog.json', Math.min(8000,remaining()));
@@ -2095,12 +2135,12 @@ async function load() {
     const params = new URLSearchParams(location.search);
     $('sort').value=reviewSort(params.get('sort'));
     activeScenario = params.get('scenario') || '';
-    ['query', 'kind', 'tool', 'category', 'proof'].forEach(id => {
+    ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => {
       const value = params.get(id === 'query' ? 'q' : id) || '';
-      if(failedPaths.length && value && ['tool','category','proof'].includes(id) && ![...$(id).options].some(o=>o.value===value)){
+      if(failedPaths.length && value && ['difficulty','tool','category','proof'].includes(id) && $(id) && ![...$(id).options].some(o=>o.value===value)){
         const option=el('option','',value);option.value=value;$(id).append(option);
       }
-      if (id === 'query' || [...$(id).options].some(o => o.value === value)) $(id).value = value;
+      if ($(id) && (id === 'query' || [...$(id).options].some(o => o.value === value))) $(id).value = value;
     });
     const skippedFromButton=document.activeElement===$('use-loaded');
     $('loading-progress').hidden=true;
@@ -2247,10 +2287,10 @@ $('recent-entry').addEventListener('click', event => {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   history.replaceState(null,'',event.currentTarget.href);
   activeScenario='';
-  ['query','kind','tool','category','proof'].forEach(id=>$(id).value='');
+  ['query','kind','difficulty','tool','category','proof'].forEach(id => { if($(id)) $(id).value = ''; });
   $('sort').value='reviewed';render();enterSearch(event);
 });
-['kind', 'tool', 'category', 'proof'].forEach(id => $(id).addEventListener('change', () => render()));
+['kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => $(id)?.addEventListener('change', () => render()));
 $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
 $('clear-facets').addEventListener('click', clearFacets);
@@ -2320,7 +2360,7 @@ window.addEventListener('popstate', event => {
   const missingHadFocus=$('missing-case')?.contains(document.activeElement);
   $('sort').value=reviewSort(params.get('sort'));
   activeScenario = params.get('scenario') || '';
-  ['query', 'kind', 'tool', 'category', 'proof'].forEach(key => $(key).value = params.get(key === 'query' ? 'q' : key) || '');
+  ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(key => { if($(key)) $(key).value = params.get(key === 'query' ? 'q' : key) || ''; });
   render(false);
   if (item) {
     lastTrigger = null;

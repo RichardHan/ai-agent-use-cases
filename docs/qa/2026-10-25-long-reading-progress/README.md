@@ -14,8 +14,8 @@
 ## 實作與驗收
 
 - `assets/reader.js`：12 段以上文章在詳情固定工具列顯示當前段標題、`N/總段數` 和原生 `<progress>`；讀者捲動、視窗尺寸變動、開啟全文及鍵盤跳段時更新；使用 `aria-valuetext` 說明目前段落，沒有逐次捲動的 live-region 播報。長文間切換、短文切換、再開長文時清除舊進度節點、事件監聽器與排程的畫面更新；不在詳情對話框中的閱讀器呼叫不新增工具列狀態。
-- `assets/reader.css`：沿用既有色彩與工具列樣式，手機和 320px 視口不增加水平溢出。
-- `tests/reader.test.cjs`、`tests/reader-browser.cjs`：涵蓋目前段落選擇、邊界、鍵盤跳段同步、擴大視窗而不捲動時的結尾位置更新，以及長→長→短→長的清理生命週期。
+- `assets/reader.css`：沿用既有色彩與工具列樣式，手機和 320px 視口不增加水平溢出；段名維持單行省略，避免文字換行改變 sticky 工具列高度、遮住剛跳到的標題，完整標題保存在 `title` 與進度條 `aria-valuetext`。
+- `tests/reader.test.cjs`、`tests/reader-browser.cjs`：涵蓋目前段落選擇、邊界、鍵盤跳段同步、阻止 scroll handler 時擴大視窗仍能更新全文結尾位置，以及長→長→短→長的清理生命週期。
 - 桌面／手機直鏈、搜尋與返回流程仍保留原 URL、焦點和來源連結；案例內容與來源未改動。
 
 ## 修改前後截圖
@@ -41,7 +41,8 @@
 ## 測試、限制與下一步
 
 - 基準：`node --test tests/*.test.cjs` **306 通過**；修改後同指令 **307 通過，0 失敗**。`node --check assets/reader.js` 與 `node --check tests/reader-browser.cjs` 通過；靜態 Pages 預覽建置成功。
-- 瀏覽器工具直接開啟正式站與本機預覽，完成上述桌面／手機路徑。`READER_URL=http://127.0.0.1:8100/ai-agent-use-cases/ READER_ENGINE=chromium node tests/reader-browser.cjs` 因工作目錄沒有 `playwright` npm 套件而無法執行；沒有在本機安裝依賴。完整 Playwright／Axe 驗收仍待 Actions。
-- 沒有獨立 lint、type-check 或 `package.json` build 指令；這次未量測 Axe 或效能分數。
+- 以暫存依賴（未寫入 repo）執行 Chromium `tests/reader-browser.cjs`：桌面、手機、小手機三組均 `PASS`，reader/outline/focus/resize/直鏈/返回流程通過；每個尺寸 Axe 0 violations。Playwright 截圖與暫存依賴皆放在 `/tmp`。
+- 沒有獨立 lint、type-check 或 `package.json` build 指令；未量測效能分數。
+- **本次 PR 的回歸修正：**初次 GitHub browser QA 在 320px 量到目錄跳段後標題被可換行的進度列遮住；改為單行省略，完整標題仍在 `title`／`aria-valuetext`。修正後 Chromium reader／outline browser scripts 在桌面、手機、小手機皆通過；新 head 的 GitHub Actions 仍待重跑確認。
 - **Actions 現況另列風險：**本輪查詢最近 60 筆 workflow：52 成功、3 失敗、3 執行中、2 取消。main `d03c557` 最新 [Improvement round QA #40150712715](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40150712715) 在 `tests/round-browser.cjs:133` 因 reload 後 `#detail[open]` 30 秒逾時；前一個 [Round QA #40149678519](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40149678519) 通過直鏈載入後，`tests/round-browser.cjs:135` 又得到 27 個 `failedPaths`。另 [Facet counts #40149517989](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40149517989) 對已 supersede 的 `072ae76` 印出 skip，後續仍無條件檢查未建立的 `facet-published/catalog.json` 而失敗。前兩個 reload 症狀尚未證明與本次閱讀提示有關；本輪未跨題修改現有 Actions。main Pages 部署 run `40150712543` 成功。
 - 下一輪最值得做：在目前 main 重現並修復 Round QA reload 後詳情／來源載入失敗，再讓 stale-publication skip 和其後置步驟共用明確結果，最後完整重跑 Actions；禁止只延長逾時或把失敗當成功。

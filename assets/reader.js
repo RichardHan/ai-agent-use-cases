@@ -225,10 +225,19 @@
       back.addEventListener('click',()=>moveTo(navTitle));
       research.querySelector('summary').after(back);
     }
+    let syncPosition=null;
     const moveTo=target=>{
       // scrollIntoView may also scroll the inert page behind a modal.
       const toolbar=dialog.querySelector('.detail-toolbar');
-      dialog.scrollTo({top:dialog.scrollTop+target.getBoundingClientRect().top-dialog.getBoundingClientRect().top-toolbar.getBoundingClientRect().height-18,behavior:'instant'});
+      const align=()=>{
+        const targetRect=target.getBoundingClientRect();
+        const toolbarRect=toolbar.getBoundingClientRect();
+        dialog.scrollTo({top:dialog.scrollTop+targetRect.top-toolbarRect.bottom-18,behavior:'instant'});
+      };
+      if(syncPosition)syncPosition();
+      align();
+      if(syncPosition)syncPosition();
+      align();
       const table=target.closest('.markdown-table');
       if(table){
         const cell=target.getBoundingClientRect(),viewport=table.getBoundingClientRect();
@@ -236,7 +245,11 @@
       }
       target.focus({preventScroll:true});
     };
-    const jump=index=>{research.open=true;moveTo(headings[index]);};
+    const jump=index=>{
+      research.open=true;
+      if(syncPosition)syncPosition();
+      moveTo(headings[index]);
+    };
     const jumpButton=(index,cls)=>{
       const button=make('button',cls,titles[index]);
       button.type='button';
@@ -459,6 +472,7 @@
       const toolbarLeft=dialog.querySelector('.detail-toolbar-left');
       const position=make('div','reader-position');
       const label=make('span','reader-position-label','原文尚未展開');
+      label.title='原文尚未展開';
       const progress=make('progress','reader-progress-bar');
       progress.max=headings.length;progress.value=0;
       progress.setAttribute('aria-label','原文閱讀位置');
@@ -469,6 +483,7 @@
       const updatePosition=()=>{
         if(!research.open){
           label.textContent='原文尚未展開';
+          label.title='原文尚未展開';
           progress.value=0;
           progress.setAttribute('aria-valuetext',`原文尚未展開，共 ${headings.length} 段`);
           return;
@@ -478,6 +493,7 @@
         const index=selectReadingPosition(headings,toolbarBottom+24,viewportBottom,markdown.getBoundingClientRect().bottom);
         if(index<0)return;
         label.textContent=`原文第 ${index+1}/${headings.length} 段 · ${titles[index]}`;
+        label.title=titles[index];
         progress.value=index+1;
         progress.setAttribute('aria-valuetext',`原文第 ${index+1} 段，共 ${headings.length} 段：${titles[index]}`);
       };
@@ -486,18 +502,22 @@
         if(frame)return;
         frame=requestAnimationFrame(()=>{frame=0;updatePosition();});
       };
+      syncPosition=updatePosition;
       const dispose=()=>{
         dialog.removeEventListener('scroll',schedulePosition);
         research.removeEventListener('toggle',schedulePosition);
+        dialog.removeEventListener('close',dispose);
         root.removeEventListener('resize',schedulePosition);
         if(frame)cancelAnimationFrame(frame);
         position.remove();
         toolbarLeft.classList.remove('reader-has-position');
         readingPositionTrackers.delete(dialog);
+        syncPosition=null;
       };
       readingPositionTrackers.set(dialog,dispose);
       dialog.addEventListener('scroll',schedulePosition,{passive:true});
       research.addEventListener('toggle',schedulePosition);
+      dialog.addEventListener('close',dispose);
       root.addEventListener('resize',schedulePosition);
       schedulePosition();
     }

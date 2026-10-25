@@ -7,12 +7,12 @@
 .reader-jump strong{font-size:14px;font-weight:650;color:var(--green)}
 .reader-target{font-size:12px;line-height:1.7;color:#526057}
 /* Long original research retains a quiet, non-announcing position in the sticky toolbar. */
-.detail-toolbar-left.reader-has-position{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px}
-.reader-position{grid-column:1/-1;display:flex;align-items:center;gap:8px;min-width:0;font-size:11px;line-height:1.4;color:var(--muted)}
-.reader-position-label{min-width:0;overflow-wrap:anywhere}
+.detail-toolbar-left.reader-has-position{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto 1.4em;column-gap:12px;row-gap:0;min-width:0;align-content:start}
+.reader-position{grid-column:1/-1;display:flex;align-items:center;gap:8px;min-width:0;height:1.4em;overflow:hidden;font-size:11px;line-height:1.4;color:var(--muted)}
+.reader-position-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .reader-progress-bar{flex:none;width:64px;height:4px;accent-color:var(--green)}
 @media(max-width:640px){
- .detail-toolbar-left.reader-has-position{column-gap:6px}
+ .detail-toolbar-left.reader-has-position{column-gap:6px;row-gap:0}
  .reader-progress-bar{width:48px}
 }
 .reader-jump:hover,.reader-outline-jump:hover{background:#e9eee0;border-color:var(--green)}

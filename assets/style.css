@@ -163,6 +163,7 @@
 .search-scope input:focus-visible{outline:3px solid var(--green);outline-offset:3px}
 .search-scope label:has(input:disabled){opacity:.55;cursor:not-allowed}
 .search-scope p{flex:1 1 290px;margin:0;color:#4c6258;font-size:12px;line-height:1.5}
+.search-scope[hidden]{display:none}
 /* Keep the current search intent visible beside its results. */
 .search-feedback{margin-top:24px;padding:16px 18px;border:1px solid #cbd6bf;border-radius:10px;background:#eef2e7}
 .search-feedback-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}

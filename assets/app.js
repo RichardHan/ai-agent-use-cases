@@ -1715,6 +1715,7 @@ function render(updateURL=true, preserveShare=false) {
   const filters = Object.fromEntries(['kind', 'difficulty', 'tool', 'category', 'proof'].map(id => [id, $(id)?.value || '']));
   filters.scope=$('overview-only').checked?'overview':'';
   $('overview-only').disabled=!q.length;
+  $('overview-only').closest('.search-scope').hidden=!q.length;
   if (activeScenario) filters.scenario = activeScenario;
   const sourceNote=sourceTypeMessage(filters.proof);
   if($('source-type-note').textContent!==sourceNote)$('source-type-note').textContent=sourceNote;

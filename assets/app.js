@@ -28,12 +28,12 @@ const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
 // Titles describe the visible page, not an unopened case requested in the URL.
 // Keep source display titles intact; only bound user-entered search text.
-function pageContextTitle({item,query='',facets=[],reviewed=false,loading=false,error=false,missing=false,partial=false,empty=false}={}) {
+function pageContextTitle({item,query='',facets=[],difficulty='',reviewed=false,loading=false,error=false,missing=false,partial=false,empty=false}={}) {
   const brand='AI 用法實驗室';
   if(item)return `${item.id} · ${item.title}｜${brand}`;
   const label=String(query).replace(/\s+/g,' ').trim();
   const chars=Array.from(label),short=chars.slice(0,80).join('')+(chars.length>80?'…':'');
-  const conditions=facets.filter(Boolean);
+  const conditions=[...facets,difficulty].filter(Boolean);
   const parts=[short?`搜尋「${short}」`:conditions.length?'篩選案例':reviewed?'最近核對的內容':'案例庫',...conditions];
   if(reviewed&&(short||conditions.length))parts.push('最近核對');
   const status=missing?'找不到分享案例':error?'載入失敗':loading?'載入中':partial?(empty?'已載入內容無符合結果':'已載入內容'):empty?'沒有符合結果':'';
@@ -44,8 +44,9 @@ function syncPageContext() {
   const title=pageContextTitle({
     item:$('detail').open?currentDetailItem:null,
     query:$('query').value,
-    facets:[activeScenario,KIND[$('kind').value],...['tool','category','proof'].map(id=>$(id).value)],
     reviewed:$('sort').value==='reviewed',
+    facets:[activeScenario,KIND[$('kind').value],...['tool','category','proof'].map(id=>$(id).value)],
+    difficulty:$('difficulty').value,
     loading:initialLoading&&!discoveryReady,
     error:!$('error').hidden,
     missing:!$('missing-case').hidden,

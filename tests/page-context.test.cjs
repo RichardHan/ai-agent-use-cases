@@ -5,10 +5,12 @@ const context=vm.createContext({URL,URLSearchParams,Discovery:require('../assets
 vm.runInContext(source+'\nthis.format=typeof pageContextTitle==="function"?pageContextTitle:null;',context);
 const title=state=>{assert.equal(typeof context.format,'function','browser titles must follow the visible reading/search state');return context.format(state);};
 const brand='AI 用法實驗室';
-test('home, keyword, facet-only and review sort give distinguishable bookmark titles',()=>{
+test('home, keyword, facet-only, difficulty and review sort describe every active condition',()=>{
  assert.equal(title({}),'AI 用法實驗室 · 案例庫');
  assert.equal(title({query:'旅遊',facets:['生活','Grok Bot']}),'搜尋「旅遊」 · 生活 · Grok Bot｜'+brand);
  assert.equal(title({facets:['工作','經驗與踩坑','作者報告／示範']}),'篩選案例 · 工作 · 經驗與踩坑 · 作者報告／示範｜'+brand);
+ assert.equal(title({difficulty:'進階開發'}),'篩選案例 · 進階開發｜'+brand);
+ assert.equal(title({query:'PR',facets:['開發'],difficulty:'進階開發'}),'搜尋「PR」 · 開發 · 進階開發｜'+brand);
  assert.equal(title({reviewed:true}),'最近核對的內容｜'+brand);
  assert.equal(title({query:'旅遊',reviewed:true}),'搜尋「旅遊」 · 最近核對｜'+brand);
 });

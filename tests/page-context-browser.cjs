@@ -36,9 +36,17 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  // A missing shared case is not a successful detail; dismissal restores search.
  await page.goto(base+'?case=UC-999999&q=旅遊');await page.locator('#missing-case').waitFor({state:'visible'});assert.equal(await page.title(),'找不到分享案例 · 搜尋「旅遊」｜AI 用法實驗室');await state('missing');
  await page.locator('#dismiss-missing-case').click();assert.equal(await page.title(),'搜尋「旅遊」｜AI 用法實驗室');
- // A literal long input cannot create markup and still keeps a useful title.
+ // Difficulty is a bookmark-visible search condition, including detail return and direct-link restoration.
+ await page.goto(base);await page.waitForFunction(()=>discoveryReady);await page.locator('#filter-options').evaluate(n=>n.open=true);
+ await page.locator('#query').fill('PR');await page.locator('#scenario').selectOption('開發');await page.locator('#difficulty').selectOption('進階開發');
+ assert.equal(await page.title(),'搜尋「PR」 · 開發 · 進階開發｜AI 用法實驗室');row.difficultyTitle=await page.title();await state('difficulty-search');
+ const difficultyUrl=base+'?q=PR&scenario=開發&difficulty='+encodeURIComponent('進階開發');
+ await page.goto(difficultyUrl+'&case=UC-324');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await caseTitle();
+ await page.keyboard.press('Escape');assert.equal(await page.title(),'搜尋「PR」 · 開發 · 進階開發｜AI 用法實驗室');
+ await page.goto(difficultyUrl);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.title(),'搜尋「PR」 · 開發 · 進階開發｜AI 用法實驗室');
+ await page.goto(base);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');
  await page.locator('#query').fill('<script>👩🏽‍💻</script>'+ '旅'.repeat(150));assert((await page.title()).includes('…'));assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
- await page.locator('#empty-reset').click();assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');
+ await page.goto(base);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');
  row.historyAndBookmarks=true;
  }
  row.violations=(await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}));assert.deepEqual(row.violations,[]);assert.deepEqual(row.errors,[]);console.log('PASS '+label);

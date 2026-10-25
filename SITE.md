@@ -1,3 +1,7 @@
+## 2026-10-25 白話問句空結果的相關任務復原
+
+正式站搜尋「我想整理會議記錄」為 0／452，原空結果沒有會議入口；本輪在已載入且符合保留篩選的任務捷徑中加入「會議」，並將原查詢包含的任務詞優先顯示。點擊前不改寫查詢；點擊後保留情境與其他篩選。基準 355、修改後 356 項 Node 測試通過，450 個來源逐 byte 一致；390px／1440px 預覽、前後截圖及流程見[本輪 QA](docs/qa/2026-10-25-natural-query-recovery/README.md)。未做分詞或語意搜尋；獨立審查另指出 UC-277 的難度可能被否定式「腳本」免責語誤判，留待下一輪以來源前置條件核對。
+
 ## 2026-10-25 首次訪客問題導向探索、行動版排版修復、筆記誠實聲明與 Actions 綠燈加固
 
 針對 GitHub Actions `Home search entry QA`（Run 40198383586）在主分支合併後 100% 失敗、行動端（390px / 320px）Hero 特色卡被擠壓成 3 欄窄欄（100px / 82px）、筆記複製遺漏未獨立重現聲明與手動 fallback 焦點外框對比度不足的問題，進行系統性加固與體驗優化：(1) 修復 `tests/hero-value-browser.cjs:32-38` 過期選擇器 `a.problem-tag[href*="PR"]` 為規範查詢 `代碼審查`，徹底消除 CI 本地 preview 斷言崩潰，並在 `tests/search-context-browser.cjs` 納入 403 速率限制防護；(2) 根除 `assets/style.css` 媒體查詢被後續同權重基礎宣告覆蓋的 CSS 缺陷，在基礎宣告後補齊 `@media(max-width:760px)` 單欄規則，使手機端恢復寬敞舒適的單欄排版，並微調 320px 極窄手機邊距，確保首頁任務入口在 320×740 首屏中完全可見（底部 713.8px，富餘 26.2px）；(3) 在案例筆記複製文字結尾補充「💡 說明：本庫入門建議為整理者設計，非實測結果；未獨立重現，請核對原始報告與限制。」誠實聲明，並在 `assets/reader.css` 為 `.detail-action-manual-copy` 補上完整響應式尺寸與符合 WCAG AAA 的高對比外框（`outline: 2px solid var(--green); outline-offset: 3px`）；(4) 讓詳情底部「探索更多『情境』案例」調用 `chooseScenario(item.scenario)`，乾淨清除其他窄化限制，真正拓寬該情境案例探索。全套單元測試擴充至 355 項全數通過，JS 語法檢查 0 錯誤，450 份來源逐 byte 一致。經獨立審查員反饋修復焦點外框對比度與視口邊界。兩案取捨、前後截圖、驗收指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-first-visit-discovery-and-ci-stability/README.md)。

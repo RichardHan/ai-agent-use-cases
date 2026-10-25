@@ -1593,6 +1593,13 @@ function clearFacets() {
   render();
   focusResults();
 }
+function prioritizeProblemTags(tags, query) {
+  const text=norm(query);
+  return tags.map((tag,index)=>({tag,index}))
+    .sort((a,b)=>Number(text.includes(b.tag.term))-Number(text.includes(a.tag.term)) || a.index-b.index)
+    .map(({tag})=>tag);
+}
+
 function renderSearchFeedback(terms, filters) {
   const conditions=activeConditions($('query').value,filters);
   const active=$('active-filters');
@@ -1643,6 +1650,7 @@ function renderSearchFeedback(terms, filters) {
     if(!options.length && !combined.length && terms.length){
       const problemTags = [
         {label:'郵件摘要 · 搜尋「郵件」', term:'郵件'},
+        {label:'會議整理 · 搜尋「會議」', term:'會議'},
         {label:'會議日報 · 搜尋「日報」', term:'日報'},
         {label:'自動客服 · 搜尋「客服」', term:'客服'},
         {label:'代碼審查 · 搜尋「代碼審查」', term:'代碼審查'},
@@ -1651,6 +1659,7 @@ function renderSearchFeedback(terms, filters) {
         {label:'🏖️ 搜尋「旅遊」', term:'旅遊'},
         {label:'🏷️ 搜尋「比價」', term:'比價'}
       ].filter(({term})=>filterEntries(entries,tokenize(term),filters).length>0);
+      const prioritizedTags=prioritizeProblemTags(problemTags,$('query').value);
       if(problemTags.length){
         const problemContainer = el('div','empty-problem-suggestions');
         problemContainer.setAttribute('role','group');
@@ -1658,7 +1667,7 @@ function renderSearchFeedback(terms, filters) {
         const intro = el('p','empty-problem-intro','以下搜尋在目前篩選下有結果，可保留其他條件繼續探索：');
         problemContainer.append(intro);
         const chipsWrap = el('div','empty-problem-chips');
-        problemTags.forEach(({label, term})=>{
+        prioritizedTags.forEach(({label, term})=>{
           const btn = el('button','recovery-option recovery-problem-tag',label);
           btn.type = 'button';
           btn.dataset.problemTag = term;

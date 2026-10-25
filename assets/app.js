@@ -1012,6 +1012,8 @@ function showDetail(item, trigger, updateURL=true) {
     overview.append(section);
   });
   overview.append(el('p','detail-source-version','GitHub 原始 Markdown 指向 main；更新後可能與本站收錄內容不同。'));
+  const queryCautions=searchContext(item,tokenize($('query').value)).matches.filter(match=>match.caution);
+  if(queryCautions.length)overview.append(el('p','detail-search-caution','這次搜尋顯示的「'+queryCautions.map(match=>match.term).join('、')+'」命中限制或來源段落；請核對用途與原文，不要把文字提及當成可採用的做法。'));
   const targetUserText = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
   if (targetUserText) {
     const userSection = el('section', 'detail-target-user');
@@ -1121,7 +1123,8 @@ function searchContext(item, terms) {
     for(const field of fields){
       const text=norm(field.text),variant=variants.find(v=>text.includes(v));
       if(!variant)continue;
-      matches.push({term,variant,label:field.label,excerpt:field.original?contextExcerpt(field.text,variant):''});
+      const caution=field.original&&/限制|風險|注意|缺口|權限/.test(field.label)?'限制':field.original&&/來源|參考|連結/.test(field.label)?'來源':'';
+      matches.push({term,variant,label:field.label,excerpt:field.original?contextExcerpt(field.text,variant):'',caution});
       break;
     }
   }
@@ -1137,6 +1140,7 @@ function renderSearchContext(item, terms) {
     const relation=match.term===match.variant?'「'+match.term+'」':'「'+match.term+'」→「'+match.variant+'」';
     row.append(el('p','search-context-label',relation+' · '+match.label));
     if(match.excerpt)row.append(el('p','search-context-excerpt',match.excerpt));
+    if(match.caution)row.append(el('p','search-context-caution',match.caution==='限制'?'此詞出現在限制／注意段落；命中不代表案例能完成這項任務。':'此詞出現在來源／參考段落；命中不代表案例用途包含這項任務。'));
     box.append(row);
   });
   if(context.remaining)box.append(el('p','search-context-more','另有 '+context.remaining+' 個關鍵字符合；可開啟原文核對。'));

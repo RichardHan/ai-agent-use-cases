@@ -1,7 +1,15 @@
 'use strict';
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const {selectJumps}=require('../assets/reader.js');
+const {selectJumps,selectReadingPosition}=require('../assets/reader.js');
+test('reader position follows the last heading above its marker and handles boundaries',()=>{
+ const headings=[100,220,410].map(top=>({getBoundingClientRect:()=>({top})}));
+ assert.equal(selectReadingPosition(headings,80,800,2000),0,'before the first heading, show the first section');
+ assert.equal(selectReadingPosition(headings,220,800,2000),1,'an exact heading boundary selects that section');
+ assert.equal(selectReadingPosition(headings,390,800,2000),1,'between headings, retain the section currently being read');
+ assert.equal(selectReadingPosition(headings,200,800,790),2,'at the end of a document, select its final section');
+ assert.equal(selectReadingPosition([],80,800,0),-1,'headings are not fabricated');
+});
 test('jump choices point to existing result, method, limits and source headings',()=>{
  const headings=['來源','來源報告與限制','建議操作流程（整理者設計，未實跑）','可複製提示詞（自設未測，非作者原文）','權限、費用與可用性','驗收'];
  const jumps=selectJumps(headings);

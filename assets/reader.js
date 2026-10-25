@@ -1,6 +1,7 @@
 /* Source DOM has already passed through the text-only Markdown renderer. */
 (function(root){
   'use strict';
+  const readingPositionTrackers=new WeakMap();
   // Only promote a complete primary section. Unknown or long structures stay in
   // the original research; never truncate away a later caveat or infer success.
   function selectReadingSection(sections,kind){
@@ -155,7 +156,19 @@
     }
     return passages;
   }
+  function selectReadingPosition(headings,marker,viewportBottom,contentBottom){
+    if(!headings.length)return -1;
+    if(contentBottom<=viewportBottom+1)return headings.length-1;
+    let index=-1;
+    for(let i=0;i<headings.length;i++){
+      if(headings[i].getBoundingClientRect().top<=marker)index=i;
+      else break;
+    }
+    return index<0?0:index;
+  }
   function enhance(body,item,searchTerms=[]){
+    const dialog=body.closest('dialog');
+    if(dialog)readingPositionTrackers.get(dialog)?.();
     const research=body.querySelector('.research-details');
     const markdown=research?.querySelector('.markdown');
     if(!markdown)return;
@@ -200,7 +213,6 @@
       if(targetUser)targetUser.before(open);else overview.append(open);
     }
     overview.after(evidence);
-    const dialog=body.closest('dialog');
     const nav=make('nav','reader-nav');
     nav.setAttribute('aria-label','案例閱讀導覽');
     const navTitle=make('h2','','你想先了解哪一段？');
@@ -443,6 +455,51 @@
       update();finder.append(label,controls,hint,status);list.before(finder);
     }
     nav.append(full);
+    if(headings.length>=12&&dialog){
+      const toolbarLeft=dialog.querySelector('.detail-toolbar-left');
+      const position=make('div','reader-position');
+      const label=make('span','reader-position-label','原文尚未展開');
+      const progress=make('progress','reader-progress-bar');
+      progress.max=headings.length;progress.value=0;
+      progress.setAttribute('aria-label','原文閱讀位置');
+      progress.setAttribute('aria-valuetext',`原文尚未展開，共 ${headings.length} 段`);
+      position.append(label,progress);
+      toolbarLeft.classList.add('reader-has-position');
+      toolbarLeft.append(position);
+      const updatePosition=()=>{
+        if(!research.open){
+          label.textContent='原文尚未展開';
+          progress.value=0;
+          progress.setAttribute('aria-valuetext',`原文尚未展開，共 ${headings.length} 段`);
+          return;
+        }
+        const toolbarBottom=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
+        const viewportBottom=dialog.getBoundingClientRect().bottom;
+        const index=selectReadingPosition(headings,toolbarBottom+24,viewportBottom,markdown.getBoundingClientRect().bottom);
+        if(index<0)return;
+        label.textContent=`原文第 ${index+1}/${headings.length} 段 · ${titles[index]}`;
+        progress.value=index+1;
+        progress.setAttribute('aria-valuetext',`原文第 ${index+1} 段，共 ${headings.length} 段：${titles[index]}`);
+      };
+      let frame=0;
+      const schedulePosition=()=>{
+        if(frame)return;
+        frame=requestAnimationFrame(()=>{frame=0;updatePosition();});
+      };
+      const dispose=()=>{
+        dialog.removeEventListener('scroll',schedulePosition);
+        research.removeEventListener('toggle',schedulePosition);
+        if(frame)cancelAnimationFrame(frame);
+        position.remove();
+        toolbarLeft.classList.remove('reader-has-position');
+        readingPositionTrackers.delete(dialog);
+      };
+      readingPositionTrackers.set(dialog,dispose);
+      dialog.addEventListener('scroll',schedulePosition,{passive:true});
+      research.addEventListener('toggle',schedulePosition);
+      schedulePosition();
+    }
+    nav.append(full);
     evidence.after(nav);
   }
   // A native print/cancel cycle must not change the reader's disclosure or place.
@@ -471,7 +528,7 @@
     root.addEventListener('beforeprint',()=>session.before());
     root.addEventListener('afterprint',()=>session.after());
   }
-  const api={readingPassages,findOutlineSections,promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
+  const api={readingPassages,findOutlineSections,promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingPosition,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

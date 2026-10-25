@@ -104,7 +104,7 @@ function setupEnvironment() {
     activeScenario: ''
   });
 
-  vm.runInContext(appSource + '\nthis.api = { metadata, parseFile, filterEntries, tokenize, card, extractDifficulty, DIFFICULTY_LABELS, FILTER_LABELS, chooseScenario, showDetail, renderSearchFeedback };', context);
+  vm.runInContext(appSource + '\nthis.api = { metadata, parseFile, filterEntries, tokenize, card, extractDifficulty, DIFFICULTY_LABELS, FILTER_LABELS, chooseScenario, chooseDifficulty, showDetail, renderSearchFeedback };', context);
   return { ...context.api, context, document: documentMock };
 }
 
@@ -274,4 +274,27 @@ test('app.js includes difficulty in clearFacets and removeConditions', () => {
   const fullSource = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
   assert.match(fullSource, /function clearFacets\(\)[\s\S]*?difficulty/, 'clearFacets must include difficulty');
   assert.match(fullSource, /function removeConditions\(conditions\)[\s\S]*?difficulty/, 'removeConditions must include difficulty');
+});
+
+test('index.html provides direct hero difficulty options for first-time visitors', () => {
+  const drawOptions = htmlSource.match(/id="draw-difficulty-options"[\s\S]*?<\/div>\s*<\/div>/);
+  assert.ok(drawOptions, 'index.html must include #draw-difficulty-options');
+  const buttons = [...drawOptions[0].matchAll(/data-difficulty="([^"]*)"/g)].map(m => m[1]);
+  assert.deepEqual(buttons, ['', '入門對話', '工具串接', '進階開發']);
+});
+
+test('chooseDifficulty updates difficulty facet, triggers render, and reveals discovery', () => {
+  const api = setupEnvironment(), calls = [];
+  api.context.render = () => calls.push('render');
+  api.context.revealDiscovery = () => calls.push('reveal');
+  api.chooseDifficulty('入門對話');
+  assert.equal(api.document.getElementById('difficulty').value, '入門對話');
+  assert.deepEqual(calls, ['render', 'reveal']);
+});
+
+test('assets/style.css defines responsive and accessible styling for hero difficulty options', () => {
+  assert.match(cssSource, /\.draw-difficulty-bar\s*\{/, 'style.css must style .draw-difficulty-bar');
+  assert.match(cssSource, /\.draw-diff-btn\s*\{[^}]*min-height:\s*44px/, 'draw-diff-btn must have at least 44px touch target');
+  assert.match(cssSource, /\.draw-diff-btn\[aria-pressed=true\]/, 'draw-diff-btn must style active pressed state');
+  assert.match(cssSource, /\.draw-difficulty-buttons\s*\{[^}]*grid-template-columns:\s*1fr/, 'draw-difficulty-buttons must stack on 360px viewport');
 });

@@ -1,11 +1,17 @@
 'use strict';
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs');
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(skipIfSupersededPublishedUrl('https://richardhan.github.io/ai-agent-use-cases/')){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  const browser=await chromium.launch();
  const origin='https://richardhan.github.io/ai-agent-use-cases/';
  let ready=false,lastError;
  for(let attempt=0;attempt<181;attempt++){
+  if(attempt>0&&attempt%10===0&&skipIfSupersededPublishedUrl(origin)){
+   console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
+   process.exit(0);
+  }
   const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
   const page=await context.newPage();
   try{
@@ -28,7 +34,13 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
   if(ready)break;
   await new Promise(resolve=>setTimeout(resolve,5000));
  }
- assert(ready,String(lastError));
+ if(!ready){
+  if(skipIfSupersededPublishedUrl(origin)){
+   console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
+   process.exit(0);
+  }
+  assert(ready,String(lastError));
+ }
  const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});
  const page=await context.newPage();
  await page.goto(origin+'?scenario=生活&case=UC-001',{waitUntil:'networkidle'});

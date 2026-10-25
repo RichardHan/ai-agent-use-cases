@@ -2201,22 +2201,25 @@ function drawNext(){
   const next=discoveryDeck.next();
   if(!next)return;
   $('drawn-case').replaceChildren(card(next.item));
-  const scope=$('scenario').value||'全部情境';
+  const diffLabel=$('difficulty')?.value?($('difficulty').value==='入門對話'?'免寫程式':$('difficulty').value==='工具串接'?'需帳號外掛':'需代碼環境'):'';
+  const scope=($('scenario').value||'全部情境')+(diffLabel?' · '+diffLabel:'');
   $('draw-status').textContent=scope+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
   $('draw-case').textContent=next.total===1?'只有這一張，重新看看':'再抽一張 ↻';
 }
 function syncDiscovery(filtered){
   document.querySelectorAll('button[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
+  document.querySelectorAll('button[data-difficulty]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.difficulty===($('difficulty')?.value||''))));
   if(!discoveryReady)return;
   const pool=Discovery.discoveryPool(filtered);
-  const key=$('scenario').value+'|'+pool.map(item=>item.id).join(',');
+  const key=$('scenario').value+'|'+($('difficulty')?.value||'')+'|'+pool.map(item=>item.id).join(',');
   if(key===discoveryKey)return;
   discoveryKey=key;discoveryDeck=Discovery.createDeck(pool);
   $('draw-case').disabled=!pool.length;
   if(pool.length)drawNext();
   else{
-    $('drawn-case').replaceChildren(el('p','draw-placeholder','試試其他情境，或在下方調整篩選。待查線索與模板補充保留在搜尋結果中。'));
-    $('draw-status').textContent='這組條件目前沒有可抽的案例卡。';
+    const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
+    $('drawn-case').replaceChildren(el('p','draw-placeholder',`${diffText}目前沒有可抽的案例卡。試試「全部門檻」或其他情境，或在下方調整篩選。`));
+    $('draw-status').textContent=($('scenario').value||'全部情境')+($('difficulty')?.value?' · '+$('difficulty').value:'')+' 目前沒有可抽的案例卡。';
     $('draw-case').textContent='沒有可抽的案例';
   }
 }
@@ -2236,6 +2239,11 @@ function revealDiscovery(){
 function chooseScenario(value){
   ['query','scenario','kind','difficulty','tool','category','proof'].forEach(id=>$(id).value='');
   activeScenario=value;render();revealDiscovery();
+}
+function chooseDifficulty(value){
+  $('difficulty').value=value;
+  render();
+  revealDiscovery();
 }
 
 /* Browser event bindings. */
@@ -2274,6 +2282,7 @@ $('copy-search-link').addEventListener('click',copySearchLink);
 $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
 $('draw-case').addEventListener('click',()=>{drawNext();revealDiscovery();});
 document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
+document.querySelectorAll('#draw-difficulty-options [data-difficulty]').forEach(button=>button.addEventListener('click',()=>chooseDifficulty(button.dataset.difficulty)));
 $('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;render();});
 $('filters').addEventListener('submit', submitSearch);
 $('query').addEventListener('compositionstart', () => { searchComposing = true; });

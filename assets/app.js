@@ -1318,6 +1318,20 @@ function relaxationOptions(items, terms, filters) {
     key, value, count:filterEntries(items,terms,{...filters,[key]:''}).length
   })).filter(option=>option.count>0).sort((a,b)=>a.count-b.count);
 }
+function queryRelaxationOptions(items, query, filters) {
+  const words=tokenize(query);
+  if(words.length<2)return [];
+  const seen=new Set();
+  return words.map((removed,index)=>{
+    const candidate=words.filter((_,i)=>i!==index).join(' ');
+    if(seen.has(candidate))return null;
+    seen.add(candidate);
+    const terms=tokenize(candidate);
+    if(!terms.length)return null;
+    const count=filterEntries(items,terms,filters).length;
+    return count ? {query:candidate,removed,count} : null;
+  }).filter(Boolean).sort((a,b)=>b.count-a.count);
+}
 // Only broaden an empty intersection when no single removal can recover it.
 // At most five facets: search smallest removal sets first, preserving the query.
 function combinedRelaxationOptions(items, terms, filters) {
@@ -1606,6 +1620,17 @@ function renderSearchFeedback(terms, filters) {
       button.addEventListener('click',()=>removeConditions(conditions));
       suggestions.append(button);
     });
+    queryRelaxationOptions(entries,$('query').value,filters).slice(0,3).forEach(({query,removed,count})=>{
+      const button=el('button','recovery-option','只移除關鍵字「'+removed+'」 → 查看 '+count+' 筆');
+      button.type='button';
+      button.dataset.queryRecovery=query;
+      button.addEventListener('click',()=>{
+        $('query').value=query;
+        render();
+        focusResults();
+      });
+      suggestions.append(button);
+    });
     if(!options.length && !combined.length && terms.length){
       const problemContainer = el('div','empty-problem-suggestions');
       problemContainer.setAttribute('role','group');
@@ -1639,7 +1664,9 @@ function renderSearchFeedback(terms, filters) {
       problemContainer.append(chipsWrap);
       suggestions.append(problemContainer);
     }
-    $('empty-hint').textContent=combined.length
+    $('empty-hint').textContent=suggestions.children.length && terms.length>1
+      ? '關鍵字須同時符合；以下建議只調整指定條件，並保留其餘條件。'
+      : combined.length
       ? '至少要一起移除 '+combined[0].conditions.length+' 項篩選才有結果。以下調整會保留關鍵字與其餘條件。'
       : options.length
       ? '每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。'
@@ -1941,6 +1968,7 @@ function preserveRecoveryFocus() {
   const buttonIndex=cardNode?[...cardNode.querySelectorAll('button')].indexOf(active):-1;
   const filterKey=active.dataset.removeFilter;
   const filterKeys=active.dataset.removeFilters;
+  const queryRecovery=active.dataset.queryRecovery;
   const resultsReturn=active.dataset.resultsReturn;
   const categoryValue=active.dataset.categoryValue;
   const parentId=active.parentElement?.id;
@@ -1956,6 +1984,8 @@ function preserveRecoveryFocus() {
     }else if(resultsReturn){
       const links=[...$('results').querySelectorAll('[data-results-return]')];
       replacement=links.find(link=>link.dataset.resultsReturn===resultsReturn)||links.at(-1);
+    }else if(queryRecovery && parentId){
+      replacement=[...$(parentId).querySelectorAll('[data-query-recovery]')].find(b=>b.dataset.queryRecovery===queryRecovery);
     }else if(filterKeys && parentId){
       replacement=[...$(parentId).querySelectorAll('[data-remove-filters]')].find(b=>b.dataset.removeFilters===filterKeys);
     }else if(filterKey && parentId){

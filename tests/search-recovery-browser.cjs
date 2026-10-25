@@ -74,6 +74,23 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
     row.axeViolations=audit.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}));
     assert.deepEqual(row.axeViolations,[]);
+    // A failed AND query can retain the original task and all selected facets.
+    await page.locator('#query').fill('旅遊 xyz987');
+    assert.equal(await page.locator('#empty').isVisible(),true);
+    const shorter=page.locator('#empty-suggestions button').filter({hasText:'只移除關鍵字「xyz987」'});
+    assert.equal(await shorter.count(),1);
+    const recoveredCount=Number((await shorter.innerText()).match(/查看 (\d+) 筆/)[1]);
+    assert(recoveredCount>0);
+    const remainingCategory=await page.locator('#category').inputValue();
+    await shorter.focus();await page.keyboard.press('Enter');
+    assert.equal(await page.locator('#query').inputValue(),'旅遊');
+    assert.equal(await page.locator('#category').inputValue(),remainingCategory);
+    assert.equal(new URL(page.url()).searchParams.get('q'),'旅遊');
+    assert.equal(await page.locator('#results .card').count(),recoveredCount);
+    assert.equal(await page.locator('#results-count').evaluate(n=>document.activeElement===n),true);
+    await page.locator('#query').fill('xyz987');
+    assert.equal(await page.locator('#empty-suggestions button').filter({hasText:'只移除關鍵字'}).count(),0);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
     // Journey 3: a genuinely unknown query is preserved when clearing only facets.
     await page.locator('#query').fill('找不到的任務xyz987');
     assert.equal(await page.locator('#empty').isVisible(),true);
@@ -136,6 +153,19 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     assert.match(await page.locator('#empty-hint').innerText(),/部分條目載入失敗/);
     await suggestion.click();
     assert.equal(await page.locator('#results .card').count(),loadedMatches);
+    await page.locator('#query').fill('旅遊 xyz987');
+    const queryOption=page.locator('#empty-suggestions [data-query-recovery="旅遊"]');
+    let releaseRetry;
+    const retryGate=new Promise(resolve=>{releaseRetry=resolve;});
+    await page.route('**/cases/001-travel-checkout.md',async route=>{
+      await retryGate;
+      await route.fulfill({status:404,body:'not found'});
+    });
+    await page.locator('#retry-failed').click();
+    await queryOption.focus();
+    releaseRetry();
+    await page.waitForFunction(()=>document.querySelector('#retry-failed').getAttribute('aria-disabled')==='false');
+    assert.equal(await queryOption.evaluate(n=>document.activeElement===n),true,'retry preserves the surviving query suggestion focus');
     await context.close();
     console.log('PASS SEARCH STATES: loading, error/retry, unknown scenario, partial corpus counts');
   }

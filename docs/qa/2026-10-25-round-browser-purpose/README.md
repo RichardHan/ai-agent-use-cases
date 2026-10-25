@@ -9,15 +9,16 @@ Two options:
 
 Selected option 1: `.plain-overview > section:first-child > p` identifies the purpose paragraph in the existing rendering order and leaves the two-lines-visible requirement unchanged.
 
-The latest `main` commit (`109873d`) produced four browser-step failures in Actions. The same-commit [Improvement round run 40146594835](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40146594835) and [Print reading run 40146594854](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40146594854) both fail at `tests/round-browser.cjs:48`: `.plain-overview section p` matches three paragraphs (purpose, target user, core goal), so Playwright rejects the strict locator. The current case `UC-359` now has a separately rendered core-goal section; that addition invalidated the old broad selector. This is a deterministic test-selector regression, not a runner setup failure or a reason to relax the visibility assertion.
+The first fix exposed a second issue that had been hidden behind the strict locator: after commit `4d08880`, [Improvement round run 40147451384](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40147451384) passed all Chromium sizes but Firefox mobile failed the same scenario later at `round-browser.cjs:111`. The visible `.reader-report h2` moved **84.400px** when `.detail-load-status` (70.400px tall) disappeared. `assets/app.js:1936-1973` already compensates `#detail.scrollTop` using the visible reading anchor; native scroll anchoring on that same dialog competed with the manual restoration. The follow-up sets `overflow-anchor:none` on `#detail`, leaving manual restoration in control. This is a reader-position defect, not a reason to relax the 2px assertion.
 
 Audience: maintainers whose repeated browser workflows currently stop before their intended responsive, focus, reading-continuity and accessibility checks.
 
-Non-goals: production UI changes, data changes, runner/action upgrades, changing assertions, or fixing unrelated red workflows.
+Non-goals: changing case data, sources, evidence claims, workflow definitions, or the two-line/2px acceptance assertions.
 
 ## Change
 
 - `tests/round-browser.cjs`: target the purpose paragraph only when measuring the two-line viewport contract. Target-user and core-goal copy no longer create strict-mode ambiguity.
+- `assets/style.css`: disable native scroll anchoring on the detail dialog, whose async corpus-completion code already restores its visible reading anchor explicitly.
 - No product markup, case text, source URLs, evidence claims, or workflows changed.
 
 ## Verification
@@ -28,8 +29,7 @@ Non-goals: production UI changes, data changes, runner/action upgrades, changing
 - Re-ran `gh run view 40146594835 --log-failed`; it reproduces the exact strict-mode selector error above. Run 40146594854 independently reports the same locator and three matching paragraphs.
 - Built a local Pages-compatible preview with `python3 scripts/preview.py /tmp/ai-agent-round/ai-agent-use-cases` and served its parent at `http://127.0.0.1:8100/ai-agent-use-cases/`.
 - Actual browser smoke: published and local preview opened at desktop 1440×1000 and mobile 390×844; local preview loaded; direct `?case=UC-359` opened with one purpose paragraph, one target-user paragraph and one core-goal paragraph. The updated selector matched exactly the one purpose paragraph. On the published mobile site, search `旅行` returned 33 results; adding `生活` returned 20; a deliberately unmatched query showed the empty state; restoring `旅行` returned results. Opened UC-001 detail, confirmed its Markdown source target is `https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md`, and Escape closed the detail and returned to the same query/filter URL.
-- Browser comparison captures: [before desktop](screenshots/before-desktop.png), [after desktop](screenshots/after-desktop.png), [before mobile](screenshots/before-mobile.png), [after mobile](screenshots/after-mobile.png). UI code was not changed; these are captures, not a claimed visual redesign. Published and local preview can differ in dynamic load timing/content.
-- Full `tests/round-browser.cjs` execution is not available in this environment: its declared Playwright and axe dependencies are not installed (`require.resolve` reported missing). GitHub Actions installs them on its runner. The accessible browser smoke above exercised the updated DOM selector but does not replace the multi-engine workflow.
+- Independent code review approved both the purpose-selector repair and scoped dialog anchoring; it notes that native anchoring is disabled for all dialog content, so unrelated late reflows rely on explicit component behavior. The browser acceptance run is pending after the follow-up CSS fix.
 
 ## Simulated journeys
 

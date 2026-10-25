@@ -1011,6 +1011,7 @@ function showDetail(item, trigger, updateURL=true) {
     section.append(el('h2', '', label), el('p', '', text));
     overview.append(section);
   });
+  overview.append(el('p','detail-source-version','GitHub 原始 Markdown 指向 main；更新後可能與本站收錄內容不同。'));
   const targetUserText = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
   if (targetUserText) {
     const userSection = el('section', 'detail-target-user');

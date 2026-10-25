@@ -201,6 +201,7 @@
  .detail-actions .print-action-long{display:none}
  .detail-actions .print-action-short{display:inline}
 }
+.detail-source-version{margin:0 0 16px;color:#526057;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
 .reader-print-meta{display:none}
 @media print{
  @page{margin:16mm}

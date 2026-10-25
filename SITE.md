@@ -1,3 +1,7 @@
+## 2026-10-25 案例詳情受眾指引覆蓋、落地流程直達、閱讀閉環探索與 Actions 錨定加固
+
+針對全站 294 篇案例未標明受眾導致新訪客難以迅速評估契合度的問題，建立 `SCENARIO_TARGET_USERS` 字典，為六大情境（生活、工作、省錢、學習、創作、開發）提供誠實白話的推薦受眾，使全站案例 100% 具備清晰對象說明；於詳情「可以幫你做什麼」下方新增 `.reader-guidance-shortcut`「建議操作流程與注意事項 ↓」直達按鈕，一鍵展開並平滑錨定至入門雙卡片；在文末（延伸閱讀後）新增 `.detail-next-actions` 操作區，提供「關閉並探索更多『情境』案例 →」（自動套用篩選並移至結果）與「複製本篇筆記與連結 📋」（乾淨提取標題、用途、開始步驟、注意事項與永久直鏈，嚴格移除多餘 hash 避免洩漏敏感參數），並於 `refreshRelated()` 背景加載完成時精確保留按鈕焦點；卡片來源憑據標籤新增 W3C 符合的 `role="note"` 與詳細說明 `aria-label`；系統性修復 `selectReadingAnchor` 在焦點位於 status 之上時的滾動補償誤判，將手機端 84px 突兀跳動徹底穩定至 0px；修復 macOS WebKit 按鈕 Tab 限制。全套單元測試擴充至 313 項全數通過，Chromium、Firefox、WebKit 跨三引擎端到端走查與 Axe 掃描 0 違規，桌面 1440px 與手機 390px/320px 零水平溢出，按鈕維持 >= 44px 觸控無障礙標準。兩案取捨、前後高解析截圖、指令與三情境走查見[本輪 QA](docs/qa/2026-10-25-actionable-guidance-and-reading-closure/README.md)。
+
 ## 2026-10-25 Facet QA 過期主分支跳過後仍執行 corpus 驗證
 
 根據 [Facet counts QA #40149517989](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40149517989) 的實際失敗，讓 `published-version.cjs` 明確輸出 `verified=true|false`，只有已核實的目前發布版本才執行後續來源 byte 驗證；過期 commit 僅跳過依賴檢查，真正發布失敗仍保持失敗。新增輸出契約回歸測試；完整測試、Pages 靜態預覽與來源 byte 比對紀錄見[本輪 QA](docs/qa/2026-10-25-facet-stale-run/README.md)。

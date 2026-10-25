@@ -9,6 +9,14 @@ const PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {
   '模板／文件核讀': '基於開源模板、規格書或文件梳理，文件列出功能不代表已實測完成。',
   '尚待查證': '社群線索或待辦想法，證據尚不充分，請勿直接照做。'
 };
+const SCENARIO_TARGET_USERS = globalThis.SCENARIO_TARGET_USERS = {
+  '生活': '想用 AI 簡化日常生活瑣事、旅行規劃或家庭事項安排的讀者',
+  '工作': '想藉助 AI 提升日常行政、客服、行銷或營運效率的職場工作者',
+  '省錢': '關注訂閱管理、帳單核對、比價採購與成本節省的精打細算者',
+  '學習': '進行自主學習、文獻整理、研究探索或跨領域吸收的求知者',
+  '創作': '從事文案撰寫、內容產出、視覺設計或影音製作的創作者',
+  '開發': '工程師、程式開發者、技術架構師或自動化流程建構者'
+};
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
 let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {}, failedPaths = [];
 let allowAutomaticArrival=true, searchShareRequest=0;
@@ -660,6 +668,51 @@ function renderRelated(item) {
   }
   const back = el('button', 'related-back', '關閉閱讀');back.type = 'button';
   back.addEventListener('click', closeDetail);section.append(back);
+  const nextActions = el('div', 'detail-next-actions');
+  if (item.scenario) {
+    const exploreScenarioBtn = el('button', 'detail-action-scenario', `關閉並探索更多「${item.scenario}」案例 →`);
+    exploreScenarioBtn.type = 'button';
+    exploreScenarioBtn.setAttribute('aria-label', `探索更多「${item.scenario}」案例`);
+    exploreScenarioBtn.addEventListener('click', () => {
+      closeDetail();
+      activeScenario = item.scenario;
+      render();
+      $('results-count').focus({preventScroll:true});
+      $('results-count').scrollIntoView({block:'start',behavior:'instant'});
+    });
+    nextActions.append(exploreScenarioBtn);
+  }
+  const copyTakeawayBtn = el('button', 'detail-action-copy', '複製本篇筆記與連結 📋');
+  copyTakeawayBtn.type = 'button';
+  copyTakeawayBtn.setAttribute('aria-label', '複製本篇案例摘要、指引與連結');
+  const copyStatus = el('span', 'detail-action-status', '');
+  copyStatus.setAttribute('role', 'status');
+  copyStatus.setAttribute('aria-live', 'polite');
+  copyTakeawayBtn.addEventListener('click', async () => {
+    const caseUrl = new URL(location.href);
+    caseUrl.search = '?case=' + encodeURIComponent(item.id);
+    caseUrl.hash = '';
+    const text = [
+      `【AI 案例筆記】${item.id} · ${item.title}`,
+      `📌 用途：${item.what || item.summary}`,
+      item.how ? `🚀 怎麼開始：${item.how}` : '',
+      item.caution ? `⚠️ 注意事項：${item.caution}` : '',
+      `🔗 詳情與來源：${caseUrl.href}`
+    ].filter(Boolean).join('\n');
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        copyStatus.textContent = '已複製案例筆記！';
+        setTimeout(() => { if (copyStatus.textContent === '已複製案例筆記！') copyStatus.textContent = ''; }, 3000);
+      } else {
+        copyStatus.textContent = '無法自動複製，請手動複製網址。';
+      }
+    } catch {
+      copyStatus.textContent = '複製未成功，請手動複製網址。';
+    }
+  });
+  nextActions.append(copyTakeawayBtn, copyStatus);
+  section.append(nextActions);
   return section;
 }
 function refreshRelated() {
@@ -670,7 +723,15 @@ function refreshRelated() {
   const next = renderRelated(currentDetailItem);
   previous.replaceWith(next);
   if (hadFocus) {
-    const target = [...next.querySelectorAll('[data-related-id]')].find(button => button.dataset.relatedId === active.dataset.relatedId) || next.querySelector('.related-back');
+    let target = null;
+    if (active.dataset?.relatedId) {
+      target = [...next.querySelectorAll('[data-related-id]')].find(b => b.dataset.relatedId === active.dataset.relatedId);
+    } else if (active.classList.contains('detail-action-scenario')) {
+      target = next.querySelector('.detail-action-scenario');
+    } else if (active.classList.contains('detail-action-copy')) {
+      target = next.querySelector('.detail-action-copy');
+    }
+    if (!target) target = next.querySelector('.related-back');
     target.focus({preventScroll:true});
     // New related links can move the returned control below the modal viewport.
     // Scroll this dialog only, leaving the search page behind it untouched.
@@ -891,9 +952,10 @@ function showDetail(item, trigger, updateURL=true) {
     section.append(el('h2', '', label), el('p', '', text));
     overview.append(section);
   });
-  if (item.targetUser) {
+  const targetUserText = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
+  if (targetUserText) {
     const userSection = el('section', 'detail-target-user');
-    userSection.append(el('h2', '', '適合對象'), el('p', '', item.targetUser));
+    userSection.append(el('h2', '', '適合對象'), el('p', '', targetUserText));
     overview.append(userSection);
   }
   if (item.coreGoal && item.coreGoal !== item.what) {
@@ -1077,7 +1139,9 @@ function card(item, terms=[]) {
   read.setAttribute('aria-label', '閱讀 ' + item.id + ' ' + item.title);
   read.addEventListener('click', () => showDetail(item, read));
   const proofBadge = el('span', 'proof', item.proof);proofBadge.dataset.proof = item.proof;
+  proofBadge.setAttribute('role', 'note');
   proofBadge.title = PROOF_DEFINITIONS[item.proof] || item.proof;
+  proofBadge.setAttribute('aria-label', '來源憑據：' + item.proof + '。' + (PROOF_DEFINITIONS[item.proof] || ''));
   bottom.append(proofBadge, read);
   node.append(bottom);
   return node;
@@ -1990,7 +2054,10 @@ async function load() {
     const statusBottom=status?.getBoundingClientRect().bottom;
     const statusHeight=status&&!status.hidden?status.getBoundingClientRect().height:0;
     const statusWasAbove=status&&status.getBoundingClientRect().bottom<=readingEdge;
-    const readingAnchor=dialog.open && !relatedHasFocus ? selectReadingAnchor(
+    const activeEl = document.activeElement && dialog.contains(document.activeElement) ? document.activeElement : null;
+    const activeRect = activeEl?.getBoundingClientRect();
+    const focusAboveStatus = activeRect && status && activeRect.top < status.getBoundingClientRect().top && activeRect.bottom > readingEdge;
+    const readingAnchor=dialog.open && !relatedHasFocus && !focusAboveStatus ? selectReadingAnchor(
       [...dialog.querySelectorAll('#detail-body h2,#detail-body h3,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary,#detail-body .markdown-table,#detail-body tr')],
       readingEdge,dialog.getBoundingClientRect().bottom,statusBottom
     ) : null;

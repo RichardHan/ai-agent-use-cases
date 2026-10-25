@@ -46,23 +46,17 @@ function setupDom() {
         el.append(...nodes);
       },
       querySelector(sel) {
-        if (sel === '.proof') {
-          return el.children.find(c => c.className?.includes('proof')) ||
-                 el.children.flatMap(c => c.children || []).find(c => c.className?.includes('proof'));
+        const cls = sel.replace(/^\./, '');
+        function find(node) {
+          if (!node || !node.children) return null;
+          for (const c of node.children) {
+            if (c.className && c.className.split(' ').includes(cls)) return c;
+            const res = find(c);
+            if (res) return res;
+          }
+          return null;
         }
-        if (sel === '.detail-proof-note') {
-          return el.children.find(c => c.className?.includes('detail-proof-note')) ||
-                 el.children.flatMap(c => c.children || []).find(c => c.className?.includes('detail-proof-note'));
-        }
-        if (sel === '.detail-target-user') {
-          return el.children.find(c => c.className?.includes('detail-target-user')) ||
-                 el.children.flatMap(c => c.children || []).find(c => c.className?.includes('detail-target-user'));
-        }
-        if (sel === '.reader-guidance') {
-          return el.children.find(c => c.className?.includes('reader-guidance')) ||
-                 el.children.flatMap(c => c.children || []).find(c => c.className?.includes('reader-guidance'));
-        }
-        return null;
+        return find(el);
       },
       querySelectorAll(sel) {
         const matches = [];
@@ -212,4 +206,97 @@ test('reader guidance sections are styled and mobile toolbar meets accessibility
   assert.match(readerCss, /\.detail-target-user\s*\{/, 'reader.css must define .detail-target-user');
   assert.match(readerCss, /\.guidance-card\s*\{/, 'reader.css must define .guidance-card');
   assert.match(readerCss, /\.detail-toolbar-actions button\s*\{[^}]*min-height:\s*44px/, 'toolbar buttons must retain >= 44px min-height on mobile');
+});
+
+test('SCENARIO_TARGET_USERS provides substantive defaults for all 6 core scenarios', () => {
+  const { context } = setupDom();
+  assert.ok(context.SCENARIO_TARGET_USERS, 'SCENARIO_TARGET_USERS must exist in app.js');
+  const scenarios = ['生活', '工作', '省錢', '學習', '創作', '開發'];
+  for (const s of scenarios) {
+    const text = context.SCENARIO_TARGET_USERS[s];
+    assert.ok(text, `SCENARIO_TARGET_USERS must have entry for scenario "${s}"`);
+    assert.ok(text.length >= 10, `Audience definition for "${s}" must be substantive`);
+  }
+});
+
+test('showDetail falls back to SCENARIO_TARGET_USERS when targetUser is omitted', () => {
+  const { context, detailBody } = setupDom();
+  const sampleWithoutTarget = {
+    id: 'UC-005',
+    title: '雲端 PR 審查代理',
+    what: '把開發需求交給實作助手，再用另一個角色檢查程式修改。',
+    summary: '把開發需求交給實作助手，再用另一個角色檢查程式修改。',
+    kind: 'case',
+    scenario: '開發',
+    proof: '作者報告／示範',
+    tools: ['GitHub'],
+    tags: ['PR'],
+    reviewedDate: '2026-10-18',
+    path: 'cases/005-cloud-pr-review.md',
+    markdown: '# UC-005\n\n## 來源\n內容'
+  };
+
+  context.showDetail(sampleWithoutTarget, null, false);
+  const targetUserEl = detailBody.querySelector('.detail-target-user');
+  assert.ok(targetUserEl, 'showDetail must render .detail-target-user using scenario fallback');
+  assert.match(targetUserEl.textContent, /適合對象/);
+  assert.match(targetUserEl.textContent, /工程師、程式開發者/);
+});
+
+test('renderRelated includes next-step actions: scenario exploration and note copy', () => {
+  const { context } = setupDom();
+  const sample = {
+    id: 'UC-001',
+    title: '旅行規劃比價',
+    what: '整理可比較的旅行方案。',
+    summary: '整理可比較的旅行方案。',
+    how: '第一步先比交通',
+    caution: '注意訂房退改政策',
+    kind: 'case',
+    scenario: '生活',
+    category: '旅遊',
+    proof: '公開資料核讀',
+    tools: ['ChatGPT'],
+    tags: ['旅遊']
+  };
+
+  const relatedEl = context.renderRelated(sample);
+  const nextActions = relatedEl.querySelector('.detail-next-actions');
+  assert.ok(nextActions, 'renderRelated must include .detail-next-actions');
+
+  const scenarioBtn = relatedEl.querySelector('.detail-action-scenario');
+  assert.ok(scenarioBtn, 'renderRelated must include scenario exploration button');
+  assert.match(scenarioBtn.textContent, /探索更多「生活」案例/);
+
+  const copyBtn = relatedEl.querySelector('.detail-action-copy');
+  assert.ok(copyBtn, 'renderRelated must include copy note button');
+  assert.match(copyBtn.textContent, /複製本篇筆記與連結/);
+});
+
+test('card proof badge includes accessible aria-label with explanation', () => {
+  const { context } = setupDom();
+  const sample = {
+    id: 'UC-001',
+    title: '測試卡片',
+    summary: '用途摘要',
+    kind: 'case',
+    scenario: '生活',
+    proof: '作者報告／示範',
+    tools: ['Grok Bot'],
+    tags: ['旅遊']
+  };
+
+  const cardEl = context.card(sample);
+  const proofEl = cardEl.querySelector('.proof');
+  assert.ok(proofEl, 'card must contain .proof');
+  assert.match(proofEl.getAttribute('aria-label') || '', /來源憑據：作者報告／示範/);
+  assert.match(proofEl.getAttribute('aria-label') || '', /社群作者公開分享/);
+});
+
+test('reader.css uses valid color variable var(--ink) and defines next-step and guidance styles', () => {
+  assert.doesNotMatch(readerCss, /var\(--fg\)/, 'reader.css must not use undefined var(--fg)');
+  assert.match(readerCss, /\.detail-next-actions\s*\{/, 'reader.css must define .detail-next-actions');
+  assert.match(readerCss, /\.detail-action-scenario\s*\{/, 'reader.css must define .detail-action-scenario');
+  assert.match(readerCss, /\.detail-action-copy\s*\{/, 'reader.css must define .detail-action-copy');
+  assert.match(readerCss, /\.reader-guidance-shortcut\s*\{/, 'reader.css must define .reader-guidance-shortcut');
 });

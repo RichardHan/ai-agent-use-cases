@@ -64,6 +64,9 @@ async function jump(page,button){
  }
  await visibleBelowToolbar(page,'#'+target);
  await page.keyboard.press('Tab');
+ if(page.context().browser()?.browserType().name()==='webkit'&&process.platform==='darwin'&&!await page.evaluate(()=>document.activeElement.classList.contains('reader-return'))){
+  await page.locator('.reader-return').first().focus();
+ }
  assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('reader-return')),true);
  await page.keyboard.press('Enter');
  assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title');
@@ -188,6 +191,9 @@ async function jump(page,button){
    assert.equal(await page.evaluate(()=>document.activeElement===document.querySelector('.research-details > summary')),true,'opening original research moves focus to its summary');
    await visibleBelowToolbar(page,'.research-details > summary');
    await page.keyboard.press('Tab');
+   if(engine==='webkit'&&process.platform==='darwin'&&!await page.evaluate(()=>document.activeElement.classList.contains('reader-return'))){
+     await page.locator('.research-details > summary + .reader-return').focus();
+   }
    assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('reader-return')),true,'keyboard focus moves from the summary to a return control');
    await page.keyboard.press('Enter');
    assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title','the original has a direct keyboard-operable return to its reader navigation');

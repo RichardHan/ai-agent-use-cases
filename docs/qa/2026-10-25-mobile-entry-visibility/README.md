@@ -35,8 +35,9 @@
 | 桌面 1440×1000 | [首頁](screenshots/before-desktop.webp) | [首頁](screenshots/after-desktop.webp) |
 | 手機 390×844 | [首頁](screenshots/before-mobile.webp) | [首頁](screenshots/after-mobile.webp) |
 | 窄手機 320×740 | [首頁](screenshots/before-narrow.webp) | [首頁](screenshots/after-narrow.webp) |
+| 同一預覽、同一 320×740 viewport／瀏覽器 | [原 CSS 間距](screenshots/before-narrow-controlled.webp) | [修正後 CSS](screenshots/after-narrow-controlled.webp) |
 
-修改前首屏任務連結底端 **740.625px**；本機修改後 **698.4375px**（上移 42.19px，落在首屏內）。修改後三個連結均為 **44px** 高，`scrollWidth=320`。390px／1440px修改後任務連結亦均在首屏且各 44px 高；水平寬度分別 390px／1440px。連結前景與頁面底色實測對比 **8.16:1**；鍵盤聚焦外框 **3px**。
+正式站修改前入口底端 **740.625px**，本機修改後 **698.4375px**；這兩張正式站／本機截圖不是完全控制變因的比較。另以同一份本機預覽和 320×740 瀏覽器上下文，注入舊間距值作修改前：底端 **722.4375px**；移除覆寫後為 **698.4375px**，CSS 間距修正的受控差值為 **24px**。三個連結均 **44px** 高，`scrollWidth=320`。390px／1440px修改後任務連結亦均在首屏且各 44px 高；水平寬度分別 390px／1440px。連結前景與頁面底色實測對比 **8.16:1**；鍵盤聚焦外框 **3px**。
 
 ## 走查與指令
 
@@ -52,10 +53,10 @@
 - `for file in assets/*.js; do node --check "$file"; done`：通過；`python3 scripts/preview.py /tmp/visitor-qa-final`：成功建立 Pages 靜態預覽。
 - 管理瀏覽器實機走查修改前正式站與修改後本機預覽，覆蓋 1440×1000、390×844、320×740；搜尋、組合篩選、結果摘要焦點、UC-001 詳情／證據、Escape 返回、空結果、UC-005 直鏈及來源頁均成功。
 - 修改後 320×740 任務入口底端 **698.4375px**，觸控目標 **44px**，水平寬度 320px。
-- 本機未安裝 Playwright／axe 套件，故無法直接執行 `tests/home-search-entry-browser.cjs` 或 Axe；不聲稱全套瀏覽器自動化或 Axe 通過。既有 Actions 的首屏斷言是失敗前回歸證據；需在 PR Actions 重跑完整瀏覽器驗收。
+- 本機未安裝 Playwright／axe，故不能本地執行瀏覽器自動化或 Axe。GitHub Actions `Home search entry QA` 已在 main `886fb04` 的 [run 40147923790](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40147923790) **成功**，包含修改後首頁搜尋旅程驗收；修改前對應失敗為 [run 40124636707](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40124636707)。不聲稱 Axe 通過。
 
 本機預覽方式：`python3 scripts/preview.py /tmp/visitor-qa-20261025`，再以靜態伺服器從該目錄提供 `index.html`。截圖為可直接開啟的 WebP 檔。
 
 ## 風險與下一輪
 
-本輪是小幅窄版面間距修正；GitHub Pages 實際部署後的 320px 截圖及 PR Actions 尚待雲端驗證。使用本機 Chromium 預覽，不代表真人偏好或效能改善。下一輪先依這批 main Actions 失敗逐一區分並修復仍有效的回歸；本輪不放寬其他失敗斷言，也不改 CI。
+本輪窄手機修正已整合 main；`Home search entry QA` 的雲端驗收成功。main 同批仍有獨立的 Results return、Reading anchor、Category finding、Round 23 workflows 報紅，本輪未診斷或修復，不以本項綠燈代表 Actions 全綠。使用本機 Chromium 預覽，不代表真人偏好或效能改善。下一輪先定位仍有效的其他 Actions 失敗。

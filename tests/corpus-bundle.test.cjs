@@ -15,6 +15,27 @@ test('one bundle replaces every source request without altering source text or o
  const calls=[],progress=[];const result=await load(paths,options({fetch:async path=>{calls.push(path);return response(json());},onProgress:p=>progress.push({...p})}));
  assert.deepEqual(calls,['corpus.json']);assert.deepEqual(Array.from(result.entries,e=>[e.path,e.text]),paths.map((p,i)=>[p,texts[i]]));assert.deepEqual(Array.from(result.failed),[]);assert.equal(progress.at(-1).succeeded,3);
 });
+test('only version-matched bundled sources claim the publication commit',async()=>{
+ const sha='a'.repeat(40);
+ for(const bundleSha of [sha,'b'.repeat(40),'']){
+  vm.runInContext('pinnedSources.clear()',context);
+  await load(paths,options({sourceRevision:sha,fetch:async()=>response({...json(),sourceRevision:bundleSha})}));
+  assert.equal(context.sourceRevisionFor(paths[0]),bundleSha===sha?sha:'');
+ }
+ vm.runInContext('pinnedSources.clear()',context);
+ let release;const gate=new Promise(resolve=>release=resolve);
+ await load(paths,options({sourceRevision:sha,sharedPath:paths[0],fetch:async path=>path==='corpus.json'?(await gate,response({...json(),sourceRevision:sha})):response('newer text'),onSource:items=>{if(items[0].path===paths[0])release();}}));
+ assert.equal(context.sourceRevisionFor(paths[0]),'','early independent source cannot claim the bundle revision');
+ assert.equal(context.sourceRevisionFor(paths[1]),sha);
+ vm.runInContext('pinnedSources.clear()',context);
+ let finish;const waiting=new Promise(resolve=>finish=resolve);
+ const same=await load(paths,options({sourceRevision:sha,sharedPath:paths[0],parseFile:(path,text)=>[{path,markdown:text}],fetch:async path=>path==='corpus.json'?(await waiting,response({...json(),sourceRevision:sha})):response(texts[0]),onSource:items=>{if(items[0].path===paths[0])finish();}}));
+ assert.equal(same.entries[0].markdown,texts[0]);
+ assert.equal(context.sourceRevisionFor(paths[0]),sha,'same early source can be pinned once bundle confirms its bytes');
+ vm.runInContext('pinnedSources.clear()',context);
+ await load(paths,options({sourceRevision:sha,fetch:async path=>path==='corpus.json'?{ok:false,status:503}:response('later deployment')}));
+ assert.equal(context.sourceRevisionFor(paths[1]),'','per-file recovery cannot claim an older commit');
+});
 for(const mode of ['http','bad-json','revision','missing','duplicate','unsafe','bad-text','parse'])test('unusable bundle falls back without publishing untrusted content: '+mode,async()=>{
  const calls=[];const result=await load(paths,options({parseFile:(path,text)=>{if(text==='bad-parse')throw Error('parse');return parse(path,text);},fetch:async path=>{calls.push(path);if(path!=='corpus.json')return response(texts[paths.indexOf(path)]);
  if(mode==='http')return {ok:false,status:404};if(mode==='bad-json')return {ok:true,json:async()=>{throw Error('json');}};

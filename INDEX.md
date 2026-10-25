@@ -372,7 +372,7 @@
 | UC-180 | 相片庫標題與描述性中繼資料補齊 | Meta Muse／iCloud Photos | [作者部分處理自述；無寫回與恢復結果](cases/180-photo-library-descriptive-metadata.md) | 生活｜相片、描述、無障礙 |
 | UC-181 | 出貨標籤與訂單履約準備 | Grok Bot／TikTok Shop；dots／Woo／Pirate Ship | [作者使用及後續失效自述；無寄件與交付紀錄](cases/181-shipping-label-fulfillment-preparation.md) | 工作｜電商、物流、標籤 |
 | UC-182 | 依閱讀需求選書與圖書館預約；Grok Bot 從想讀清單挑可借書 | Meta Muse／未具名圖書館；Grok Bot／ブクログ | [作者預約及可取通知自述＋Grok Bot 選書截圖；預約與期限管理未見畫面](cases/182-library-book-selection-holds.md) | 生活｜閱讀、圖書館、預約 |
-| UC-183 | 廣告活動設定到待發布，再交人檢查 | Meta Muse／Google Ads | [作者已配置自述；未核投放](cases/183-ad-campaign-configuration-review.md) | 工作｜廣告、設定、核准、驗收 |
+| UC-183 | 廣告活動設定到待發布，再交人檢查 | Meta Muse／Google Ads；Grok Bot／Meta Ads | [作者已配置自述＋Grok Bot暫停建立後核准上線自述；未核投放成效](cases/183-ad-campaign-configuration-review.md) | 工作｜廣告、設定、核准、驗收 |
 | UC-184 | 大量郵件先篩出相關候選，別把它當最終證據審查 | Grok Bot／mbox | [作者已初篩自述；雲端上傳更正、完整性未核](cases/184-mail-archive-relevance-prescreen.md) | 工作｜郵件封存、初篩、隱私、驗收 |
 | UC-185 | 活動資料到排行榜與人工核獎草稿 | Grok Bot／Canva | [作者使用自述；未核原始成績與獎狀](cases/185-event-results-leaderboard-awards.md) | 工作｜活動、排行榜、核准 |
 | UC-186 | 假註冊造成寄信健康事故的核對 | Grok Bot／HubSpot | [作者事件及修復自述；恢復投遞未核](cases/186-registration-pollution-mail-health.md) | 工作｜退信、資料污染、事故 |
@@ -630,6 +630,8 @@
 | UC-447 | 依睡眠資料與身體時鐘安排時差照光、睡眠與咖啡提醒 | Grok Bot | [待驗證：作者已設定，首次實測12月](cases/447-jet-lag-light-sleep-coach.md) | 生活｜旅遊、睡眠、穿戴裝置、每日 |
 | UC-448 | 只限Access權限的連接，讓Bot確認並修改Cloudflare存取名單 | Grok Bot／Cloudflare | [作者自述使用；無設定紀錄、未重現](cases/448-scoped-cloudflare-access-policy-bot.md) | 開發｜權限、雲端設定、最小權限 |
 | UC-449 | CRM人物紀錄去重：備份後逐組核准欄位取捨，衝突留待人工 | Meta Muse／Nimble CRM | [B作者實作自述；無原始日誌、未重現](cases/449-crm-contact-merge-conflict-review.md) | 工作｜CRM、去重、人工核准、驗收 |
+| UC-450 | 雲端資料庫降回免費方案前，先查已付帳單、分檔備份並在隔離環境試還原 | ChatGPT dots／Supabase | [作者自述；整包還原失敗、部分成功，未重現](cases/450-dots-supabase-pro-to-free-backup-restore-check.md) | 省錢｜訂閱、雲端費用、備份、驗收 |
+| UC-451 | 一份Skills原本放GitHub，用唯讀MCP讓Grok Bot、dots、ChatGPT、Claude共用 | Grok Bot／ChatGPT dots／ChatGPT／Claude | [作者自述實測；付費套件未讀、未重現](cases/451-single-source-skills-readonly-mcp-across-agents.md) | 開發｜技能、MCP、跨代理、用量 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 
@@ -868,3 +870,7 @@
 ## 2026-10-25 06:40：排程逐時槽驗收與前批接續
 
 [13組新候選與查閱界線](sources/research-2026-10-25-0640.md)：新增合格0、UC006補1項Pinterest每小時任務只跑數小時的作者後續自述。接續05:00的12候選不重算；本輪既有2、範圍或門檻排除3、證據／全文去重不足8。來源待補及AI構想獨立新增各0；全庫三類累計未知、未重驗，2000計數口徑仍待確認。
+
+## 2026-10-25 08:51：每日多語研究
+
+[來源與範圍](sources/research-2026-10-25-0851.md)：新增2（UC450 dots協助Supabase降回Free前的帳單盤點與備份還原驗收、UC451單一Skills原本經唯讀MCP供多家AI共用）、合併1（UC183補Grok Bot暫停建立Meta廣告、核准後上線與每日報告）。既有2、證據不足或宣傳9；全為作者自述、未重現。

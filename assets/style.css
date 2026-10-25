@@ -239,6 +239,8 @@
 .search-context-match{margin-top:7px}
 .search-context-label{font-size:12px;line-height:1.7;color:#4c6258}
 .search-context-excerpt{font-size:13px;line-height:1.85;margin-top:4px!important}
+.search-context-caution{font-size:12px;line-height:1.7;color:#69471e;margin-top:4px!important}
+.detail-search-caution{border-left:3px solid #94632b;padding:8px 12px;background:#fff5e6;color:#513b20}
 .search-context-more{font-size:12px;line-height:1.7;margin-top:8px!important;color:#4c6258}
 
 /* Keep incomplete search results and their recovery action visible together. */

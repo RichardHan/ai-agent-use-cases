@@ -210,7 +210,24 @@ async function jump(page,button){
    await page.locator('.reader-outline summary').click();
    assert.deepEqual(await page.locator('.reader-outline-jump').allTextContents(),originalTitles);
    const buttons=page.locator('.reader-outline-jump');
-   for(const index of [0,Math.floor(originalTitles.length/2),originalTitles.length-1])await jump(page,buttons.nth(index));
+   const sectionIndexes=[0,Math.floor(originalTitles.length/2),originalTitles.length-1];
+   for(const index of sectionIndexes){
+    await jump(page,buttons.nth(index));
+    if(engine==='chromium'&&size==='desktop'&&index===Math.floor(originalTitles.length/2)){
+     await buttons.nth(index).focus();await page.keyboard.press('Enter');
+     await page.waitForFunction(value=>document.querySelector('.reader-progress-bar').value===value,index+1);
+     const positionBeforeResize=await page.evaluate(()=>{const detail=document.querySelector('#detail');window.__blockedReaderScrollEvents=0;window.__blockReaderScroll=event=>{window.__blockedReaderScrollEvents++;event.stopImmediatePropagation();};detail.addEventListener('scroll',window.__blockReaderScroll,true);return {scroll:detail.scrollTop,value:document.querySelector('.reader-progress-bar').value};});
+     assert.equal(positionBeforeResize.value,index+1,'reader starts at the selected section before resize');
+     const expandedHeight=await page.evaluate(()=>Math.max(innerHeight*2,Math.ceil((document.querySelector('.research-details .markdown').getBoundingClientRect().bottom-document.querySelector('#detail').getBoundingClientRect().top)/.8)+200));
+     await page.setViewportSize({width,height:expandedHeight});
+     await page.waitForFunction(total=>document.querySelector('.reader-progress-bar').value===total,originalTitles.length);
+     assert.equal(await page.locator('.reader-progress-bar').evaluate(el=>el.max),originalTitles.length,'resizing to reveal the full original updates the progress range');
+     assert.equal(await page.evaluate(()=>document.activeElement.id),`reader-section-${index}`,'resize does not steal keyboard focus');
+     assert.equal(page.url(),await page.evaluate(()=>location.href),'resize does not change the shared case URL');
+     await page.evaluate(()=>{const detail=document.querySelector('#detail');detail.removeEventListener('scroll',window.__blockReaderScroll,true);delete window.__blockReaderScroll;delete window.__blockedReaderScrollEvents;});
+     await page.setViewportSize({width,height});
+    }
+   }
    const sourceJump=page.locator('.reader-jump').filter({hasText:'來源與版本'});
    if(await sourceJump.count())await sourceJump.click();
    const popupPromise=page.waitForEvent('popup');

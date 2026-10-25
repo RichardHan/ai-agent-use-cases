@@ -489,6 +489,7 @@
       const dispose=()=>{
         dialog.removeEventListener('scroll',schedulePosition);
         research.removeEventListener('toggle',schedulePosition);
+        root.removeEventListener('resize',schedulePosition);
         if(frame)cancelAnimationFrame(frame);
         position.remove();
         toolbarLeft.classList.remove('reader-has-position');
@@ -497,6 +498,7 @@
       readingPositionTrackers.set(dialog,dispose);
       dialog.addEventListener('scroll',schedulePosition,{passive:true});
       research.addEventListener('toggle',schedulePosition);
+      root.addEventListener('resize',schedulePosition);
       schedulePosition();
     }
     nav.append(full);

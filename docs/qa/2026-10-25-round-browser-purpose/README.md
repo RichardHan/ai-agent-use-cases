@@ -13,24 +13,25 @@ Commit `4d08880` fixed the selector and let the round workflow advance: Chromium
 
 Audience: maintainers whose repeated browser workflows currently stop before their intended responsive, focus, reading-continuity and accessibility checks.
 
-Non-goals: changing case data, sources, evidence claims, workflow definitions, or weakening the two-line/2px acceptance assertions.
+Non-goals: changing case data, sources, evidence claims, or weakening the two-line/2px acceptance assertions.
 
 ## Change
 
 - `tests/round-browser.cjs`: target the purpose paragraph only when measuring the two-line viewport contract; this retains strict locator behavior.
 - `assets/app.js`: capture the loading-status bottom and pass it to `selectReadingAnchor` during load completion. Select a visible block downstream of the removed status; if none exists, do not anchor to an unaffected upstream paragraph.
 - `tests/reading-anchor.test.cjs`: add upstream-paragraph and clipped-downstream regressions. Each new assertion failed before its fix; the 6/6 anchor tests now pass.
-- No case text, source URLs, evidence claims, or workflow definitions changed.
+- `.github/workflows/round-qa.yml`: add a manual `workflow_dispatch` trigger so this multi-engine acceptance can be rerun on the current main commit without another code push.
+- No case text, source URLs, or evidence claims changed.
 
 ## Verification
 
 - Baseline `node --test --test-reporter=tap tests/*.test.cjs`: **299 passed, 0 failed** (5.09s).
-- After integrating latest main `b5eac24`, clean-worktree suite: **298 passed, 0 failed** (4.98s). Syntax checks passed for all `assets/*.js`, `tests/*.cjs`, and `scripts/*.cjs`; static preview built; corpus bundle check confirms **445 sources byte-for-byte identical**; `git diff --check` passed.
+- After latest main `072ae76` added all-case actionable guidance and two entries, clean-worktree suite: **304 passed, 0 failed** (4.89s). Syntax checks passed for all `assets/*.js`, `tests/*.cjs`, and `scripts/*.cjs`; static preview built; corpus bundle check confirms **447 sources byte-for-byte identical**; `git diff --check` passed.
 - `npm test` is unavailable because this static site has no `package.json` (npm `ENOENT`). There is no repository lint/type-check script.
 - Re-ran `gh run view 40146594835 --log-failed`; it reproduces the exact strict-mode selector error above. Run 40146594854 independently reports the same locator and three matching paragraphs.
 - Built a local Pages-compatible preview with `python3 scripts/preview.py /tmp/ai-agent-round/ai-agent-use-cases` and served its parent at `http://127.0.0.1:8100/ai-agent-use-cases/`.
 - Actual browser smoke: published and local preview opened at desktop 1440×1000 and mobile 390×844; local preview loaded; direct `?case=UC-359` opened with one purpose paragraph, one target-user paragraph and one core-goal paragraph. The updated selector matched exactly the one purpose paragraph. On the published mobile site, search `旅行` returned 33 results; adding `生活` returned 20; a deliberately unmatched query showed the empty state; restoring `旅行` returned results. Opened UC-001 detail, confirmed its Markdown source target is `https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md`, and Escape closed the detail and returned to the same query/filter URL.
-Independent review found a clipped downstream-block fallback edge; the helper now retains the first intersecting downstream block while excluding upstream-only candidates. A second independent review approved the repair. The full Chromium/Firefox/WebKit Actions run is pending.
+Independent review found a clipped downstream-block fallback edge; the helper now retains the first intersecting downstream block while excluding upstream-only candidates. A second independent review approved the repair. The first cloud run was cancelled by a concurrent main push; manual round-QA dispatch is now available for the current commit.
 
 ## Simulated journeys
 
@@ -42,4 +43,4 @@ These are scripted checks, not user research. The round repairs test accuracy an
 
 ## Remaining risk and next priority
 
-The current main Actions check [40147923912](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40147923912) still failed at Firefox mobile after the first selector repair; the follow-up anchor-boundary change awaits a fresh cloud run. Next: confirm multi-engine reader continuity and verify published Pages assets before another topic.
+Run [40149285704](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40149285704) was cancelled when a concurrent main push superseded it, not due to a test result. Main `072ae76` added later reader guidance and two cases; the full unit suite still passes. The new manual trigger will exercise current-main Chromium/Firefox/WebKit and published Pages checks. Next: complete that run and record its screenshots/artifacts.

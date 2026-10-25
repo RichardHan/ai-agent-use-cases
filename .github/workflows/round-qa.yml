@@ -3,6 +3,7 @@ on:
   push:
     branches: [improve/reader-source-context, fix/shared-reading-complete-layout, main]
     paths: ['tests/round*', '.github/workflows/round-qa.yml', 'assets/**', 'index.html']
+  workflow_dispatch:
 concurrency:
   group: improvement-round-${{ github.ref }}
   cancel-in-progress: true

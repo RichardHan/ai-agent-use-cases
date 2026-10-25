@@ -25,6 +25,7 @@
 .reader-evidence ul{padding-left:20px;margin:8px 0}
 .reader-evidence li,.reader-evidence>p{font-size:13px;line-height:1.9;margin:6px 0}
 .reader-evidence .detail-warning{padding:0;border-radius:0;background:transparent;margin:12px 0 0}
+.reader-evidence .detail-proof-note{margin:0 0 12px;background:#ffffff;border:1px solid #d4dfce}
 .reader-evidence .reader-evidence-footnote{font-size:12px;color:var(--muted)}
 .reader-evidence a{color:var(--green)}
 .reader-return{display:block;max-width:100%;min-height:44px;padding:10px 8px;margin:0 0 12px;border:0;background:transparent;font-size:14px;line-height:1.7;color:var(--green);text-align:left;overflow-wrap:anywhere;text-decoration:underline;text-underline-offset:3px}

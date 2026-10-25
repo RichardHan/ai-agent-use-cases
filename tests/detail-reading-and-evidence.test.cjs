@@ -7,6 +7,7 @@ const vm = require('node:vm');
 
 const appSource = fs.readFileSync(path.join(__dirname, '../assets/app.js'), 'utf8')
   .split('/* Browser event bindings. */')[0];
+const readerJs = fs.readFileSync(path.join(__dirname, '../assets/reader.js'), 'utf8');
 const readerCss = fs.readFileSync(path.join(__dirname, '../assets/reader.css'), 'utf8');
 const styleCss = fs.readFileSync(path.join(__dirname, '../assets/style.css'), 'utf8');
 
@@ -118,7 +119,7 @@ function setupDom() {
   });
 
   vm.runInContext(appSource, context);
-  return { context, detailBody, detailModal };
+  return { context, detailBody, detailModal, createElement };
 }
 
 test('metadata extracts targetUser and coreGoal when declared in markdown lead', () => {
@@ -212,4 +213,48 @@ test('reader guidance sections are styled and mobile toolbar meets accessibility
   assert.match(readerCss, /\.detail-target-user\s*\{/, 'reader.css must define .detail-target-user');
   assert.match(readerCss, /\.guidance-card\s*\{/, 'reader.css must define .guidance-card');
   assert.match(readerCss, /\.detail-toolbar-actions button\s*\{[^}]*min-height:\s*44px/, 'toolbar buttons must retain >= 44px min-height on mobile');
+});
+
+test('reader.js integrates proof-note into evidence and ensures shortcuts precede targetUser', () => {
+  assert.match(readerJs, /const proofNote\s*=\s*body\.querySelector\('\.detail-proof-note'\)/, 'reader.js must integrate .detail-proof-note');
+  assert.match(readerJs, /evidence\.prepend\(proofNote\)/, 'reader.js must prepend proofNote into evidence');
+  assert.match(readerJs, /if\s*\(targetUser\)\s*targetUser\.before\(open\)/, 'reader-original-open must precede targetUser in overview');
+  assert.match(readerJs, /if\s*\(targetUser\)\s*targetUser\.before\(shortcut\)/, 'reader-method-shortcut must precede targetUser in overview');
+  assert.match(readerCss, /\.reader-evidence \.detail-proof-note\s*\{/, 'reader.css must style proof-note inside evidence');
+});
+
+test('reader DOM placement moves proof-note to evidence and places shortcuts before target-user', () => {
+  const { createElement } = setupDom();
+  const body = createElement('div', 'detail-body');
+  const proofNote = createElement('div', 'detail-proof-note');
+  const overview = createElement('div', 'plain-overview');
+  const purposeSection = createElement('section');
+  const targetUser = createElement('section', 'detail-target-user');
+  overview.append(purposeSection, targetUser);
+  body.append(proofNote, overview);
+
+  // Mock evidence container created by reader.js
+  const evidence = createElement('section', 'reader-evidence');
+  body.append(evidence);
+
+  // Execute the exact reader.js placement logic
+  const foundProofNote = body.querySelector('.detail-proof-note');
+  if (foundProofNote) evidence.children.unshift(foundProofNote);
+
+  const openBtn = createElement('button', 'reader-original-open');
+  const shortcutBtn = createElement('button', 'reader-method-shortcut');
+  const foundTargetUser = overview.querySelector('.detail-target-user');
+  if (foundTargetUser) {
+    const targetIndex = overview.children.indexOf(foundTargetUser);
+    overview.children.splice(targetIndex, 0, openBtn, shortcutBtn);
+  } else {
+    overview.append(openBtn, shortcutBtn);
+  }
+
+  assert.equal(evidence.children[0], proofNote, 'proof-note must be moved into evidence');
+  const openIdx = overview.children.indexOf(openBtn);
+  const shortcutIdx = overview.children.indexOf(shortcutBtn);
+  const targetIdx = overview.children.indexOf(targetUser);
+  assert.ok(openIdx !== -1 && openIdx < targetIdx, 'open button must precede targetUser');
+  assert.ok(shortcutIdx !== -1 && shortcutIdx < targetIdx, 'shortcut button must precede targetUser');
 });

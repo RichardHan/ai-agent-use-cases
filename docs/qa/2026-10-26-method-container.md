@@ -18,4 +18,6 @@
 
 [第四次 workflow_dispatch](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40297981710) 成功：容器、362 項單元、語法、預覽、公開站基準、Method shortcut／Reading flow／Reader browser 三引擎 preview 及 artifact 上傳均通過；job 4 分 52 秒，沒有縮減 Firefox／WebKit。公開站驗收步驟在非 main dispatch 正常跳過，合併後的新 SHA 正式站仍需重新發布與驗證。獨立 reviewer 審核容器版本、Node 22、Python、Git、三引擎涵蓋與權限，未指出原方案的其他可證實 blocker；後續 Git 安全目錄與來源斷言由本次紅綠雲端執行驗證。root/no-sandbox、映像拉取和 CJK 字型差異仍是風險。
 
+合併後核對：PR [#141](https://github.com/RichardHan/ai-agent-use-cases/pull/141) 併入 `main@c010992`；同一 SHA 的 [Pages build/deployment](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40299820285) 成功，[Method shortcut QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40299820625) 5 分 9 秒成功，包含三引擎 preview 與正式站資產／閱讀流程。最終合併基準在分支的 [dispatch](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40299128849) 亦通過（4 分 46 秒）；PR Reader QA、Website QA 通過。這些是自動化模擬與公開資產核對，沒有量測真實訪客回訪或實機 Safari。
+
 下一輪優先：檢查其他仍以三引擎 `--with-deps` 安裝的 Actions，依實際超時證據逐一遷移，而非盲目改寫所有 workflow。

@@ -14,4 +14,6 @@
 
 `ROUND_URL=http://127.0.0.1:8766/ai-agent-use-cases/ ROUND_OUTPUT=/tmp/early-source-round NODE_PATH=/tmp/visitor-method-deps/node_modules node tests/round-browser.cjs` exit 0：Chromium 1440／390／320／480px 四種檢查皆 complete，頁面錯誤為空；桌面 UC-005 實際開啟 Zenn 來源連結。此 suite 包含載入、組合篩選、空結果、直鏈重載、返回、鍵盤與兩個 axe 狀態。
 
+PR #133 首次 Source guide preview CI 在 `reader-context-round.cjs` 的空 overview 合成情境失敗：新捷徑對不存在的 `firstElementChild` 呼叫 `after`。實站 overview 永有用途區塊，但既有 reader API 可接受空容器；已補空容器時 append 的保守分支，並以該原有瀏覽器情境重驗。其餘當次 PR browser/context/entry/reading/relevance checks 通過，失敗並非 Pages 等待競速。
+
 三種模擬走查（不是用戶研究）：① 長篇 UC-359 直鏈看用途再核對來源；② 搜尋旅遊＋工具篩選、讀 UC-001 並返回；③ 空結果改詞、直鏈重新整理。下一輪優先處理原文來源段落內的連結性質辨識；不可把工具文件誤稱案例結果來源。

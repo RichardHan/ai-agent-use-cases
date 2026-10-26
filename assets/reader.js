@@ -292,7 +292,8 @@
     if(sourceIndex!==-1){
       const sources=jumpButton(sourceIndex,'reader-report-open reader-source-shortcut');
       sources.textContent='核對來源與版本 ↓';
-      overview.firstElementChild.after(sources);
+      if(overview.firstElementChild)overview.firstElementChild.after(sources);
+      else overview.append(sources);
     }
     const actions=body.querySelector('.detail-actions');
     if(actions)actions.after(report,evidence);else overview.after(report,evidence);

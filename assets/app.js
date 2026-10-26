@@ -21,7 +21,10 @@ function refreshCurrentSourceLinks(path) {
     else { source.removeAttribute('href'); source.setAttribute('aria-disabled','true'); source.tabIndex=0; }
   }
   if(note)note.textContent=sourceVersionNote(path);
-  for(const link of body?.querySelectorAll('a')||[])if(link.sourceRelative)link.href=safeLink(link.sourceRelative,path);
+  for(const link of body?.querySelectorAll('a[data-source-relative]')||[]) {
+    const href=safeLink(link.getAttribute('data-source-relative'),path);
+    if(href) { link.href=href; link.removeAttribute('aria-disabled'); link.removeAttribute('tabindex'); }
+  }
 }
 const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
 const PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {
@@ -553,7 +556,14 @@ function parseFile(path, markdown) {
 }
 function el(tag,cls,text) { const node=document.createElement(tag); if(cls)node.className=cls; if(text!==undefined)node.textContent=text;return node; }
 function safeLink(target,path) {
-  try { const url = new URL(target, sourceMarkdownUrl(path)); return ['https:','http:'].includes(url.protocol) ? url.href : null; } catch { return null; }
+  try {
+    const scheme=/^[a-z][a-z0-9+.-]*:/i.test(target);
+    if(scheme && !/^https?:\/\/[^/]/i.test(target))return null;
+    const absolute=scheme || /^\/\/[^/]/.test(target);
+    if(!absolute && !sourceRevisionFor(path))return null;
+    const url = new URL(target, sourceMarkdownUrl(path));
+    return ['https:','http:'].includes(url.protocol) ? url.href : null;
+  } catch { return null; }
 }
 // Read one destination without confusing a URL's own parentheses with Markdown's
 // closing delimiter. Unsupported whitespace or an unmatched delimiter stays text.
@@ -613,8 +623,14 @@ function inline(node,text,path) {
       const destination=match[1]?markdownDestination(text,regex.lastIndex):null;
       if(match[1]&&!destination){node.append(document.createTextNode(match[0]));last=regex.lastIndex;continue;}
       if(destination)regex.lastIndex=destination.end;
-      const target=destination?destination.target:match[0],href=safeLink(target,path),label=match[1]||target;
-      if(href){const a=el('a','',label);a.href=href;if(!/^[a-z][a-z0-9+.-]*:|^\/\//i.test(target))a.sourceRelative=target;a.target='_blank';a.rel='noopener noreferrer';node.append(a);}else node.append(document.createTextNode(label));
+      const target=destination?destination.target:match[0],relative=!/^[a-z][a-z0-9+.-]*:|^\/\//i.test(target),href=safeLink(target,path),label=match[1]||target;
+      if(href || (relative && !sourceRevisionFor(path))) {
+        const a=el('a','',label);
+        if(href)a.href=href;
+        else { a.setAttribute('aria-disabled','true'); a.tabIndex=0; }
+        if(relative)a.setAttribute('data-source-relative',target);
+        a.target='_blank';a.rel='noopener noreferrer';node.append(a);
+      } else node.append(document.createTextNode(label));
     }
     last=regex.lastIndex;
   }

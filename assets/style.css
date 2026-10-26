@@ -334,6 +334,13 @@
 .results-return a{display:inline-flex;align-items:center;min-height:44px;scroll-margin-block:12px;padding:8px 6px;font-size:14px;font-weight:650;color:var(--green);text-decoration:underline;text-underline-offset:4px}
 .results-return a:hover{text-decoration-thickness:2px}
 
+/* Bound the initial collection without concealing the total or keyboard route onward. */
+.result-batch-actions{display:flex;justify-content:center;margin:24px 0 8px}
+.result-batch-actions button{min-height:44px;padding:10px 22px;border:1px solid var(--green);border-radius:8px;background:var(--paper);color:var(--green);font-size:14px;font-weight:700;cursor:pointer}
+.result-batch-actions button:hover{background:#f5f7ef}
+.result-batch-actions button:focus-visible{outline:3px solid #799f27;outline-offset:3px}
+.result-batch-actions button[hidden]{display:none}
+
 /* Audit status remains separate from live catalog totals. */
 #audit-status{display:block;margin:0;width:100%;max-width:52ch;font-size:13px;line-height:1.7;overflow-wrap:anywhere}
 .audit-retry{align-self:flex-start;min-height:44px;padding:8px 14px;border:1px solid var(--green);border-radius:6px;background:#fff;color:var(--green);font:inherit;cursor:pointer}

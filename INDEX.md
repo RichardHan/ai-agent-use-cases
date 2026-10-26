@@ -190,7 +190,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（417）
+## 主要案例（443）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -538,7 +538,7 @@
 | UC-350 | 主管平日晨報分工：dots讀內部資料存Notion，Grok Bot分角色收公開新聞與作品評價發Slack | ChatGPT dots／Grok Bot／Slack／Notion | [日文作者長文自述，含接收程式停擺、Auto-review卡關等失敗；無截圖](cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md) | 工作｜每日、晨報、多代理、Slack |
 | UC-351 | Grok Bot只負責調度，重活交給雲端電腦上的OpenCode免費模型，做不好再換Pi Agent＋DeepSeek；外部CLI做完以webhook叫回、主Bot每天稽核新routine；在自家Mac以非互動指令輪用兩個Claude Code帳號與Codex、每小時把用量寫進Bot標籤 | Grok Bot／OpenCode／Pi Agent／DeepSeek／Claude Code／Codex | [中文作者四則串自述＋架構示意圖＋另一作者公開腳本（webhook叫醒）＋英文作者外包CLI與每日routine稽核自述＋日文作者本機多帳號分派與用量標籤自述；無用量前後數據、未重現](cases/351-grokbot-dispatch-only-offload-free-model-agents.md) | 開發｜多代理、派工、用量 |
 | UC-352 | 每天讓Bot讀flomo筆記，換一種洞察角度推送一則回顧 | Grok Bot／flomo | [中文作者自述＋單日推送截圖；接入方式與模板輪換未見、未重現](cases/352-daily-flomo-memo-insight-push-rotating-template.md) | 學習｜每日、筆記、自我回顧 |
-| UC-353 | 雲端Bot與本機代理只經私有Git任務檔交接，雲端不對本機下命令 | Grok Bot／GitHub Actions／macOS launchd／本機代理 | [中文作者自述＋公開參考實作文件已讀；公開版端到端未驗證、未重現](cases/353-cloud-local-agent-git-task-relay.md) | 開發｜跨代理、交接、事件觸發、權限邊界 |
+| UC-353 | 雲端Bot與本機代理只經私有Git任務檔交接，雲端不對本機下命令 | Grok Bot／GitHub Actions／macOS launchd／本機代理 | [中文作者自述＋公開參考實作文件已讀＋同作者寫文→封面→雙平台發布用法自述（2026-10-26補）；公開版端到端未驗證、未重現](cases/353-cloud-local-agent-git-task-relay.md) | 開發｜跨代理、交接、事件觸發、權限邊界 |
 | UC-354 | 每天從X書籤挑一個點子做成互動網頁demo，瀏覽器檢查後上線 | Grok Bot／Cursor雲端代理／Claude Code／Cloudflare | [英文作者多日貼文＋公開作品集；排程與檢查紀錄未見、未重現](cases/354-daily-bookmark-to-live-interactive-demo.md) | 創作｜每日、書籤、互動網頁、部署 |
 | UC-355 | X發文教練Bot每天盤點原創與轉發、給隔天功課，兩週後看數據 | Grok Bot／X分析 | [英文作者三則貼文＋檢討與分析截圖；讀取方式未說明、未重現](cases/355-x-posting-coach-bot-daily-checkin.md) | 創作｜每日、社群、教練、發文 |
 | UC-356 | 付費訂閱文章用瀏覽器側欄送給研究Bot，摘要並對照持股 | Grok Bot／Grok Bot Clipper（非官方）／Substack | [中文作者自述＋兩張截圖；持股對照結果未見、未重現](cases/356-paid-article-clipper-portfolio-check.md) | 學習｜投資研究、付費文章、瀏覽器擴充、資料查證 |
@@ -596,8 +596,8 @@
 | UC-408 | 每天站會前30分鐘讀行事曆、Notion議程、Slack與Linear，交一頁會前準備（每人一行、3件值得提的事） | Grok Bot routine／Notion／Slack／Linear／行事曆 | [待定：英文作者貼文＋公開提示詞卡圖片，無實際輸出；不計數](cases/408-daily-team-sync-one-page-prep-calendar-notion-slack-linear.md) | 工作｜每日、會議、Slack、Linear |
 | UC-409 | Substack短文：每天一題寫作提示、語音回答由Bot保留原話整理；每週拆解熱門短文結構再批次起草，核准後才排程 | Grok Bot（兩個角色）／Notion／Substack Notes | [B英文作者Substack文章自述；無發布數據、未重現](cases/409-substack-notes-daily-prompt-voice-reply-weekly-swipe-file-drafts.md) | 創作｜每日、Substack、草稿、核准 |
 | UC-410 | 建Bot團隊第一天範圍失控、燒掉約兩成用量：煞車盤點、7份規則檔、目標／範圍／禁止／把握度卡（<90%就停下問）、凍結14天 | Grok Bot（幕僚長＋多角色、技能、routine） | [B波蘭文作者dev.to建置日紀錄；無檔案或用量畫面、未重現](cases/410-agent-team-build-day-scope-creep-brake-rule-files-intent-card.md) | 開發｜多代理、用量、核准、規則檔 |
-| UC-411 | 開車或外出時讓Bot知道你在哪：iPhone捷徑先送現在地址再接語音（CarPlay上Siri呼叫成功）；或Bot經Home Assistant先要一次最新位置再回答 | Grok Bot（iOS捷徑動作）／Siri／CarPlay／Home Assistant | [B日文作者部落格實測＋捷徑截圖＋往返位置更新表；影片未看、未重現](cases/411-carplay-shortcut-location-to-bot-home-assistant-on-demand-update.md) | 生活｜位置、捷徑、語音、Home Assistant |
-| UC-412 | 把Podcast逐字稿交給dots：挑重點、找縮圖、編成note文章並發布，再發一則X宣傳 | ChatGPT dots／note／X | [B日文作者X自述＋公開note文章與宣傳貼文；發布前是否核准不明、未重現](cases/412-dots-podcast-transcript-to-note-article-thumbnail-post.md) | 創作｜播客、逐字稿、note、發布 |
+| UC-411 | 開車或外出時讓Bot知道你在哪：iPhone捷徑先送現在地址再接語音（CarPlay上Siri呼叫成功）；或Bot經Home Assistant先要一次最新位置再回答 | Grok Bot（iOS捷徑動作）／Siri／CarPlay／Home Assistant | [B日文作者部落格實測＋捷徑截圖＋往返位置更新表＋「Hey Grok」語音捷徑喚醒自述與喚醒不穩反例（2026-10-26補）；影片未看、未重現](cases/411-carplay-shortcut-location-to-bot-home-assistant-on-demand-update.md) | 生活｜位置、捷徑、語音、Home Assistant |
+| UC-412 | 把Podcast逐字稿交給dots：挑重點、找縮圖、編成note文章並發布，再發一則X宣傳 | ChatGPT dots／Meta Muse／note／Substack／X | [B日文作者X自述＋公開note文章與宣傳貼文＋Muse版三平台存草稿自述（2026-10-26補）；發布前是否核准不明、未重現](cases/412-dots-podcast-transcript-to-note-article-thumbnail-post.md) | 創作｜播客、逐字稿、note、發布 |
 | UC-413 | 小孩睡前偷看電視：Bot登入UniFi每晚定時斷掉電視網路、早上恢復，傳一句話臨時延長當晚 | Grok Bot／UniFi | [B英文作者單則X自述；無截圖或執行紀錄、未重現](cases/413-unifi-kids-tv-nightly-internet-curfew-text-exceptions.md) | 生活｜每日、家庭、網路、排程 |
 | UC-414 | 活動點數發放：報名者寄信到Bot的＋別名信箱，Bot比對Luma名單，每人只回一次連結、名單外不回 | Grok Bot（專用信箱＋別名）／Luma | [待定：日文作者貼文自述剛建好，無發放紀錄；不計數](cases/414-event-registrant-email-alias-credit-link-once-per-person.md) | 工作｜活動、收件匣、名單比對、自動回覆 |
 | UC-415 | Bot用24小時零預算推廣免費網頁遊戲：每小時讀計畫與日誌行動、?ref=標記與公開記分板，寄21封信回1封、被論壇封鎖 | Grok Bot（主代理＋子代理、每小時routine）／GitHub Pages | [待定：Bot第一人稱Velog文章＋公開記分板與data.json；開發者本人說法未取得、不計數](cases/415-agent-24h-indie-game-promotion-public-scoreboard-failures.md) | 工作｜行銷、多代理、失敗、公開紀錄 |
@@ -635,6 +635,8 @@
 | UC-452 | 跨語言購屋行政協調，從看屋行程追到申請階段 | ChatGPT dots | [B級作者階段結果自述；非成交、未重現](cases/452-cross-language-home-purchase-admin-handoffs.md) | 生活｜購屋、跨語言、行程、核准 |
 | UC-453 | 五玩家Bot與主持人的狼人殺：私人行動、回合憑證與唯一結算 | Grok Bot | [B級作者測試＋結局圖；未重現](cases/453-werewolf-private-actions-token-gated-turns.md) | 創作｜桌遊、多代理、狀態機、驗收 |
 | UC-454 | 訂單費用整理成Notion日結，缺成本保留待確認並核對寫回 | Grok Bot／Notion | [B級示範與兩圖一致；非獨立重算](cases/454-notion-daily-settlement-writeback-cost-gap-check.md) | 工作｜日結、Notion、缺值、寫回驗收 |
+| UC-455 | 用M5StickC Plus2做按住說話的隨身Muse裝置，從記錄檔找出記憶體不足並補日文字型 | Meta Muse（Muse Gadgets SDK）／M5StickC Plus2／ESP-IDF | [B日文作者實測＋改前改後記錄檔；官方開源SDK；未重現](cases/455-muse-gadgets-m5stickc-plus2-pocket-push-to-talk.md) | 開發｜實體裝置、語音、故障診斷 |
+| UC-456 | 小網站不架後台：Muse改Markdown推到GitHub，自動建成靜態頁並由GitHub Pages公開 | Meta Muse／GitHub Actions／GitHub Pages／markdown-cms | [B日文作者自述＋公開示範站與MIT倉庫；Muse權限與操作未公開、未重現](cases/456-muse-github-markdown-static-site-operations.md) | 工作｜網站、GitHub、發布、權限 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 
@@ -886,3 +888,7 @@
 ## 2026-10-25 18:10：回合與日結的狀態驗收
 
 [16組候選與查閱範圍](sources/research-2026-10-25-1810.md)：新增合格2（UC453狼人殺結局展示、UC454示範日結寫回圖），合併1（UC013文件理解不等於stdio工具可呼叫）；既有7、不足6。作者自述／示範，未獨立重現。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000口徑待確認。
+
+## 2026-10-26 08:52：每日批次（X＋Qiita／Zenn／Hacker News）
+
+[約20組候選與查閱範圍](sources/research-2026-10-26-0852.md)：新增合格2（UC455 Muse隨身對講裝置記憶體診斷、UC456 Muse維護Markdown靜態網站），合併補充3（UC412 Muse版三平台草稿、UC411「Hey Grok」語音捷徑喚醒與不穩反例、UC353同作者寫文發布接力）；其餘為清單、宣傳、比較或證據不足。均為作者自述／示範，未獨立重現。

@@ -63,3 +63,9 @@
 ## 去重與版本紀錄
 
 - 2026-10-21 20:50 新增。不同於 [UC-402](402-home-server-bot-least-privilege-ssh-daily-car-home-report.md)（Bot 經最小權限 SSH 連回家用伺服器、每天報告車況）與 [UC-170](170-home-scene-automation-review.md)（家庭情境自動化檢查）：本案核心是「把使用者當下位置安全、即時地交給 Bot」，比較捷徑主動傳送與 HA 被動讀取兩條路。也不同於 2026-10-20 08:00 批次讀過的 Muse 版 CarPlay／Watch 失敗帖（交付驗收問題，未收錄）。同作者先前的 [硬體 Bot 與額度中斷文](https://roompine.com/grok-bot-system-reconfiguration-hardware-bot-1/) 已併入 UC-041，屬不同問題。
+
+## 2026-10-26補充：用 iOS「語音捷徑」設喚醒詞「Hey Grok」直接開 Bot 語音
+
+- [@kuvavarik（X，繁體中文）](https://x.com/kuvavarik/status/2114252257273254236)，2026-10-25 07:06 UTC（台灣時間 15:06），同日另有兩則改成側邊按鈕／動作按鈕版本的同文貼文。作者自述「實測有效」，步驟（翻譯整理）：更新 Grok Bot App 並開一次 → 捷徑 App 新增捷徑，搜尋 Grok Bot 選「Start Voice Chat with Bot」→ 設定 > 輔助使用 > 語音捷徑，選該捷徑、錄三次「Hey Grok」→ 回捷徑詳情的隱私權開「允許在鎖定時執行」。作者說鎖定時系統仍要多點一下確認，Face ID 已解鎖則可免手操作，語音辨識留在裝置端（後者是作者說法，本庫未查 Apple 文件核實）。證據狀態：`author-demo`（文字自述、無影片）。
+- 反例：[@taiyop（X，日文）](https://x.com/taiyop/status/2114502319786299724)，2026-10-25 23:40 UTC（台灣時間 10-26 07:40）說確認 Grok Bot 可用語音「Hey Grok!」開始，但他自己暫時不能用 Grok Bot，改用 Grok App 試語音對話呼叫可行；**喚醒不穩定**，認為開車免手操作還不實用；並說 Muse 尚無此功能（作者觀察，本庫未查證）。
+- 與本頁原流程同樣使用「Start Voice Chat with Bot」捷徑動作，差別只在觸發方式（喚醒詞／實體按鈕 vs. Siri 喊捷徑名稱），且不送位置，故併為入口變體、不另計案例。開車時仍以停車操作與當地法規為先；若喚醒失敗率高，不要依賴它做行車中的必要聯絡。

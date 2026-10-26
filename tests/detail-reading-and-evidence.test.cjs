@@ -210,6 +210,33 @@ test('showDetail renders detail-proof-note and targetUser section when present',
   assert.match(targetUserEl.textContent, /同時維護多個網站/);
 });
 
+test('long case description leads with its stated goal and preserves the full account on demand', () => {
+  const { context, detailBody, detailModal } = setupDom();
+  const full = '作者逐一核對候選名單、人工決定是否採用；'.repeat(12);
+  const item = {
+    id: 'UC-359', title: '長標題案例', what: full,
+    coreGoal: '先篩選候選，再由本人決定。',
+    kind: 'case', scenario: '工作', proof: '作者報告／示範',
+    tools: [], tags: [], path: 'cases/359.md', markdown: '# UC-359\n\n## 來源\n內容'
+  };
+  context.showDetail(item, null, false);
+  const overview = detailBody.querySelector('.plain-overview');
+  assert.equal(overview.children[0].children[1].textContent, item.coreGoal);
+  const fullAccount = overview.querySelector('.detail-full-account');
+  assert.equal(fullAccount.tagName, 'DETAILS');
+  assert.match(fullAccount.children[0].textContent, /完整用途/);
+  assert.equal(fullAccount.children[1].textContent, full);
+  assert.equal(overview.querySelector('.detail-core-goal'), null, 'do not repeat the same goal');
+  detailModal.close();
+  context.showDetail({...item, what: '短用途', coreGoal: '另一句核心目標'}, null, false);
+  assert.equal(detailBody.querySelector('.plain-overview').children[0].children[1].textContent, '短用途');
+  assert.equal(detailBody.querySelector('.detail-full-account'), null);
+  detailModal.close();
+  context.showDetail({...item, coreGoal: ''}, null, false);
+  assert.equal(detailBody.querySelector('.plain-overview').children[0].children[1].textContent, full);
+  assert.equal(detailBody.querySelector('.detail-full-account'), null);
+});
+
 test('reader guidance sections are styled and mobile toolbar meets accessibility guidelines', () => {
   assert.match(readerCss, /\.detail-proof-note\s*\{/, 'reader.css must define .detail-proof-note');
   assert.match(readerCss, /\.proof-note-tag\s*\{/, 'reader.css must define .proof-note-tag');

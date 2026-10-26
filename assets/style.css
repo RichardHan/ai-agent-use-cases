@@ -82,6 +82,10 @@
 .detail-difficulty{margin-bottom:18px;padding:12px 14px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb}
 .detail-difficulty h2{font-size:14px;font-weight:700;color:var(--text);margin:0 0 4px}
 .detail-difficulty p{font-size:14px;color:var(--muted);margin:0;line-height:1.5}
+.detail-full-account{border-bottom:1px solid var(--line);padding:2px 0 14px;margin:0 0 14px}
+.detail-full-account summary{display:list-item;cursor:pointer;color:var(--green);font-size:14px;font-weight:650;line-height:1.6;padding:8px 4px;min-height:44px;box-sizing:border-box}
+.detail-full-account summary:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.detail-full-account p{font-size:15px;line-height:1.8;margin:8px 0 0;overflow-wrap:anywhere}
 .detail-actions{display:flex;gap:14px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
 .btn-copy-link{min-height:44px;font-size:14px;padding:9px 12px;background:white;border:1px solid var(--green);color:var(--green);border-radius:6px;font-weight:600;cursor:pointer}
 .btn-copy-link:hover{background:var(--green);color:white}

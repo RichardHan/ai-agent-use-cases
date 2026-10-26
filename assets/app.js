@@ -859,7 +859,7 @@ function createReadingHistory(limit=12) {
 }
 const readingHistory=createReadingHistory();
 let currentReadingVisit=null,currentReadingQuery='';
-const readingDisclosures=['.reader-guidance','.research-details','.reader-review','.reader-outline'];
+const readingDisclosures=['.detail-full-account','.reader-guidance','.research-details','.reader-review','.reader-outline'];
 function readingNodes(selector) {
   return [...$('detail-body').querySelectorAll(selector)].filter(node=>
     !node.closest('.detail-load-status,.related-cases,.case-share-feedback,.reader-copy'));
@@ -953,11 +953,15 @@ function showDetail(item, trigger, updateURL=true) {
   title.tabIndex = -1;
   body.append(title);
   const overview = el('div', 'plain-overview');
-  [['可以幫你做什麼', item.what]].forEach(([label, text]) => {
-    const section = el('section');
-    section.append(el('h2', '', label), el('p', '', text));
-    overview.append(section);
-  });
+  const compactPurpose = item.coreGoal && item.coreGoal !== item.what && item.what.length > 180;
+  const purpose = el('section');
+  purpose.append(el('h2', '', '可以幫你做什麼'), el('p', '', compactPurpose ? item.coreGoal : item.what));
+  overview.append(purpose);
+  if (compactPurpose) {
+    const fullAccount = el('details', 'detail-full-account');
+    fullAccount.append(el('summary', '', '展開完整用途與案例描述'), el('p', '', item.what));
+    overview.append(fullAccount);
+  }
   overview.append(el('p','detail-source-version',sourceVersionNote(item.path)));
   const queryCautions=searchContext(item,tokenize($('query').value)).matches.filter(match=>match.caution);
   if(queryCautions.length)overview.append(el('p','detail-search-caution','這次搜尋顯示的「'+queryCautions.map(match=>match.term).join('、')+'」命中限制或來源段落；請核對用途與原文，不要把文字提及當成可採用的做法。'));
@@ -967,7 +971,7 @@ function showDetail(item, trigger, updateURL=true) {
     userSection.append(el('h2', '', '適合對象'), el('p', '', targetUserText));
     overview.append(userSection);
   }
-  if (item.coreGoal && item.coreGoal !== item.what) {
+  if (item.coreGoal && item.coreGoal !== item.what && !compactPurpose) {
     const goalSection = el('section', 'detail-core-goal');
     goalSection.append(el('h2', '', '核心目標'), el('p', '', item.coreGoal));
     overview.append(goalSection);

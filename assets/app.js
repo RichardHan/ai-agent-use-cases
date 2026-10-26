@@ -1584,9 +1584,9 @@ function currentSearchLink() {
   filters.scope=$('overview-only').checked?'overview':'';
   return searchLink(location.href,$('query').value,filters,$('sort').value);
 }
-// Live typing updates the shareable URL, but submitting starts a navigation.
-// VM-based metadata tests load this section without a browser location.
-let committedSearchURL=typeof location==='undefined'?'':location.href, queryDirty=false;
+// Live edits keep the URL shareable; only an explicit submit commits the draft
+// as a separate Back/Forward stop (including combined facet and sort changes).
+let committedSearchURL=typeof location==='undefined'?'':location.href, queryDirty=false, facetDraftDirty=false;
 let searchComposing = false, categoryComposing = false;
 function submitSearch(event) {
   event.preventDefault();
@@ -1594,7 +1594,7 @@ function submitSearch(event) {
   allowAutomaticArrival = false;
   const url = new URL(location.href);
   url.hash = 'explore';
-  if(queryDirty && committedSearchURL!==url.href){
+  if((queryDirty||facetDraftDirty) && committedSearchURL!==url.href){
     const previous=new URL(committedSearchURL||location.href);
     previous.searchParams.delete('case');
     history.replaceState(history.state,'',previous);
@@ -1602,6 +1602,7 @@ function submitSearch(event) {
   }else history.replaceState(history.state,'',url);
   committedSearchURL=url.href;
   queryDirty=false;
+  facetDraftDirty=false;
   focusLoadedResults('start');
 }
 function revealSearch(resultsOnly=false) {
@@ -1909,8 +1910,8 @@ function render(updateURL=true, preserveShare=false) {
     if (activeScenario) url.searchParams.set('scenario', activeScenario); else url.searchParams.delete('scenario');
     if(filters.scope)url.searchParams.set('scope',filters.scope);else url.searchParams.delete('scope');
     if(reviewSort($('sort').value))url.searchParams.set('sort','reviewed');else url.searchParams.delete('sort');
+    if(discoveryReady && url.search!==location.search)facetDraftDirty=true;
     history.replaceState(null, '', url);
-    if(!queryDirty)committedSearchURL=location.href;
   }
   syncPageContext();
 }
@@ -2554,7 +2555,7 @@ $('recent-entry').addEventListener('click', event => {
   activeScenario='';
   $('overview-only').checked=false;
   ['query','kind','difficulty','tool','category','proof'].forEach(id => { if($(id)) $(id).value = ''; });
-  $('sort').value='reviewed';render();enterSearch(event);
+  $('sort').value='reviewed';render();committedSearchURL=location.href;queryDirty=false;facetDraftDirty=false;enterSearch(event);
 });
 ['kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => $(id)?.addEventListener('change', () => render()));
 $('filter-view-results').addEventListener('click', focusResults);
@@ -2651,6 +2652,7 @@ window.addEventListener('popstate', event => {
   ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(key => { if($(key)) $(key).value = params.get(key === 'query' ? 'q' : key) || ''; });
   committedSearchURL=location.href;
   queryDirty=false;
+  facetDraftDirty=false;
   render(false);
   if(item && event.state?.caseReturn?.area==='results')ensureVisibleResult(event.state.caseReturn.id);
   if (item) {

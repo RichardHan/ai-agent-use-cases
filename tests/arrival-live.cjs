@@ -51,6 +51,7 @@ module.exports=async function publishedArrival({browser,origin,engine,prefix='li
   const jump=page.locator('.reader-jump').first(),target=await jump.getAttribute('aria-controls');
   await jump.focus();await page.keyboard.press('Enter');
   assert.equal(await page.evaluate(id=>document.activeElement.id===id,target),true);
+  await page.locator('.detail-source[href]').waitFor();
   assert.match(await page.locator('.detail-source').getAttribute('href'),/^https:\/\/github\.com\//);
   await capture('reading');await audit('reading');
   await page.goBack();

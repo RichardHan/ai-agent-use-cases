@@ -48,6 +48,7 @@ async function hold(page,path){if(published)return ()=>{};let release;const gate
   assert.match(await page.locator('#nav-next-case').getAttribute('aria-label'),/載入/);
   assert.equal(await page.evaluate(()=>document.activeElement.id),'detail-title');
   }
+  assert(await page.locator('.plain-overview').evaluate(e=>!!(e.compareDocumentPosition(document.querySelector('.detail-actions'))&Node.DOCUMENT_POSITION_FOLLOWING)),'purpose precedes sharing and source actions');
   assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth+1));
   check.purposeBounds=await page.locator('.plain-overview > section:first-child > p').evaluate(e=>({top:e.getBoundingClientRect().top,lineHeight:parseFloat(getComputedStyle(e).lineHeight)}));
   const purposeViewportBottom=await page.locator('#detail').evaluate(e=>e.getBoundingClientRect().bottom);

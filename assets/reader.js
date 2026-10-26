@@ -212,7 +212,6 @@
       const targetUser=overview.querySelector('.detail-target-user');
       if(targetUser)targetUser.before(open);else overview.append(open);
     }
-    overview.after(evidence);
     const nav=make('nav','reader-nav');
     nav.setAttribute('aria-label','案例閱讀導覽');
     const navTitle=make('h2','','你想先了解哪一段？');
@@ -294,15 +293,14 @@
       const sources=jumpButton(sourceIndex,'reader-report-open');
       sources.textContent='核對來源與版本 ↓';report.append(sources);
     }
-    overview.after(report);
+    const actions=body.querySelector('.detail-actions');
+    if(actions)actions.after(report,evidence);else overview.after(report,evidence);
     const method=selectMethodShortcut(titles,item.kind);
     if(method){
       const shortcut=jumpButton(method.index,'reader-method-shortcut');
       shortcut.replaceChildren(make('strong','','前往方法與步驟 ↓'),make('span','reader-target',method.title));
-      // On real details, expose the qualified original method before secondary
-      // sharing actions and the potentially long purpose text.
-      const actions=body.querySelector('.detail-actions');
-      if(actions)actions.before(shortcut);
+      // Keep the original method near the title, ahead of the purpose and secondary actions.
+      if(actions)overview.before(shortcut);
       else{
         const targetUser=overview.querySelector('.detail-target-user');
         if(targetUser)targetUser.before(shortcut);else overview.append(shortcut);

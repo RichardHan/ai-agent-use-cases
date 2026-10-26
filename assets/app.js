@@ -952,6 +952,38 @@ function showDetail(item, trigger, updateURL=true) {
   title.id = 'detail-title';
   title.tabIndex = -1;
   body.append(title);
+  const overview = el('div', 'plain-overview');
+  [['可以幫你做什麼', item.what]].forEach(([label, text]) => {
+    const section = el('section');
+    section.append(el('h2', '', label), el('p', '', text));
+    overview.append(section);
+  });
+  overview.append(el('p','detail-source-version',sourceVersionNote(item.path)));
+  const queryCautions=searchContext(item,tokenize($('query').value)).matches.filter(match=>match.caution);
+  if(queryCautions.length)overview.append(el('p','detail-search-caution','這次搜尋顯示的「'+queryCautions.map(match=>match.term).join('、')+'」命中限制或來源段落；請核對用途與原文，不要把文字提及當成可採用的做法。'));
+  const targetUserText = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
+  if (targetUserText) {
+    const userSection = el('section', 'detail-target-user');
+    userSection.append(el('h2', '', '適合對象'), el('p', '', targetUserText));
+    overview.append(userSection);
+  }
+  if (item.coreGoal && item.coreGoal !== item.what) {
+    const goalSection = el('section', 'detail-core-goal');
+    goalSection.append(el('h2', '', '核心目標'), el('p', '', item.coreGoal));
+    overview.append(goalSection);
+  }
+  if (item.difficulty) {
+    const diffSection = el('section', 'detail-difficulty');
+    diffSection.append(el('h2', '', '實作門檻'), el('p', '', DIFFICULTY_LABELS[item.difficulty] || item.difficulty));
+    overview.append(diffSection);
+  }
+  if (!discoveryReady) {
+    const status=el('p','detail-load-status','這篇已可閱讀。其他案例仍在載入，完成後會提供切換與延伸閱讀。');
+    status.setAttribute('role','status');
+    overview.append(status);
+  }
+  // Let readers judge the purpose before choosing sharing or source actions.
+  body.append(overview);
 
   const actionRow = el('div', 'detail-actions');
   const copyBtn = el('button', 'btn-copy-link', '📋 複製案例連結');
@@ -1024,37 +1056,6 @@ function showDetail(item, trigger, updateURL=true) {
   proofNote.append(proofTag, proofDesc);
   body.append(proofNote);
 
-  const overview = el('div', 'plain-overview');
-  [['可以幫你做什麼', item.what]].forEach(([label, text]) => {
-    const section = el('section');
-    section.append(el('h2', '', label), el('p', '', text));
-    overview.append(section);
-  });
-  overview.append(el('p','detail-source-version',sourceVersionNote(item.path)));
-  const queryCautions=searchContext(item,tokenize($('query').value)).matches.filter(match=>match.caution);
-  if(queryCautions.length)overview.append(el('p','detail-search-caution','這次搜尋顯示的「'+queryCautions.map(match=>match.term).join('、')+'」命中限制或來源段落；請核對用途與原文，不要把文字提及當成可採用的做法。'));
-  const targetUserText = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
-  if (targetUserText) {
-    const userSection = el('section', 'detail-target-user');
-    userSection.append(el('h2', '', '適合對象'), el('p', '', targetUserText));
-    overview.append(userSection);
-  }
-  if (item.coreGoal && item.coreGoal !== item.what) {
-    const goalSection = el('section', 'detail-core-goal');
-    goalSection.append(el('h2', '', '核心目標'), el('p', '', item.coreGoal));
-    overview.append(goalSection);
-  }
-  if (item.difficulty) {
-    const diffSection = el('section', 'detail-difficulty');
-    diffSection.append(el('h2', '', '實作門檻'), el('p', '', DIFFICULTY_LABELS[item.difficulty] || item.difficulty));
-    overview.append(diffSection);
-  }
-  if (!discoveryReady) {
-    const status=el('p','detail-load-status','這篇已可閱讀。其他案例仍在載入，完成後會提供切換與延伸閱讀。');
-    status.setAttribute('role','status');
-    overview.append(status);
-  }
-  body.append(overview);
 
   const guidance = el('details', 'reader-guidance');
   guidance.append(el('summary', '', '💡 本庫入門建議：怎麼開始與注意事項（非實測結果）'));
@@ -2508,10 +2509,10 @@ $('detail').addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if ($('detail').open) {
     // WebKit may move backward from the first body control to the dialog
-    // itself instead of the last toolbar control. The original-method route,
-    // when present, precedes sharing actions.
+    // instead of the last toolbar control. Follow the rendered order, including
+    // controls introduced inside the overview by the reader enhancement.
     if (e.key === 'Tab' && e.shiftKey &&
-        document.activeElement === ($('detail-body').querySelector('.reader-method-shortcut')||$('copy-case-link'))) {
+        document.activeElement === $('detail-body').querySelector('button:not([disabled]),a[href],summary,input:not([hidden])')) {
       e.preventDefault();
       $('close-detail').focus();
       return;

@@ -42,6 +42,8 @@ let allowAutomaticArrival=true, searchShareRequest=0;
 let recoveringSources=false, recoveryNotice='', recoveryController=null, recoveryProgress=null;
 let initialLoading=false, initialLoadController=null;
 let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
+const RESULT_BATCH_SIZE=24;
+let visibleResults=RESULT_BATCH_SIZE, resultQueryKey='';
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
@@ -1263,20 +1265,44 @@ function card(item, terms=[]) {
   return node;
 }
 // Keep a nearby route back to refinement without hiding or reordering results.
-function resultCards(items, terms) {
+function resultCards(items, terms, offset=0, total=items.length) {
   const nodes=[];
   items.forEach((item,index)=>{
     nodes.push(card(item,terms));
-    if((index+1)%6===0||index===items.length-1){
+    const position=offset+index+1;
+    if(position%6===0||position===total){
       const row=el('div','results-return');
       const link=el('a','','回到搜尋與篩選 ↑');
       link.href='#explore';
-      link.dataset.resultsReturn=String(index+1);
+      link.dataset.resultsReturn=String(position);
       link.addEventListener('click',enterSearch);
       row.append(link);nodes.push(row);
     }
   });
   return nodes;
+}
+function showMoreResults() {
+  const start=Math.min(visibleResults,currentFiltered.length);
+  visibleResults=Math.min(start+RESULT_BATCH_SIZE,currentFiltered.length);
+  const nodes=resultCards(currentFiltered.slice(start,visibleResults),tokenize($('query').value),start,currentFiltered.length);
+  $('results').append(...nodes);
+  if(visibleResults===currentFiltered.length && document.activeElement===$('load-more-results')){
+    nodes[0]?.querySelector('h3 button')?.focus({preventScroll:true});
+  }
+  updateResultBatch();
+}
+function ensureVisibleResult(id) {
+  const index=currentFiltered.findIndex(item=>item.id===id);
+  if(index<visibleResults)return;
+  const start=visibleResults;
+  visibleResults=Math.min(currentFiltered.length,Math.ceil((index+1)/RESULT_BATCH_SIZE)*RESULT_BATCH_SIZE);
+  $('results').append(...resultCards(currentFiltered.slice(start,visibleResults),tokenize($('query').value),start,currentFiltered.length));
+  updateResultBatch();
+}
+function updateResultBatch() {
+  const remaining=currentFiltered.length-visibleResults;
+  $('load-more-results').hidden=remaining<=0;
+  $('load-more-results').textContent=`再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）`;
 }
 function enterSearch(event) {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
@@ -1788,7 +1814,10 @@ function render(updateURL=true, preserveShare=false) {
   $('search-order-note').textContent=$('sort').value==='reviewed'
     ? '依頁首核對日由新到舊；不是發布日，也不代表新增或獨立驗證。正文補充不計；未提供者置後，同日保留原本的符合順序。'
     : '標題與用途優先；全文仍納入搜尋。排序不代表成果或證據可靠度。';
-  $('results').replaceChildren(...resultCards(currentFiltered,q));
+  const resultKey=JSON.stringify([$('query').value,filters,$('sort').value]);
+  if(resultKey!==resultQueryKey){visibleResults=RESULT_BATCH_SIZE;resultQueryKey=resultKey;}
+  $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),q,0,currentFiltered.length));
+  updateResultBatch();
   // Sorting is a reading preference; keep the current discovery deck intact.
   syncDiscovery(rankEntries(matches,q));
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
@@ -2480,6 +2509,7 @@ $('recent-entry').addEventListener('click', event => {
 });
 ['kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => $(id)?.addEventListener('change', () => render()));
 $('filter-view-results').addEventListener('click', focusResults);
+$('load-more-results').addEventListener('click',showMoreResults);
 $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
 $('clear-facets').addEventListener('click', clearFacets);
@@ -2561,6 +2591,7 @@ window.addEventListener('popstate', event => {
   $('overview-only').checked=params.get('scope')==='overview';
   ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(key => { if($(key)) $(key).value = params.get(key === 'query' ? 'q' : key) || ''; });
   render(false);
+  if(item && event.state?.caseReturn?.area==='results')ensureVisibleResult(event.state.caseReturn.id);
   if (item) {
     lastTrigger = null;
     lastTriggerContext = event.state?.caseReturn || null;

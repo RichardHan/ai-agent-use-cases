@@ -19,9 +19,12 @@ const origin=process.env.MATCH_URL||'http://127.0.0.1:8084/ai-agent-use-cases/';
    // Journey 1: use everyday wording, inspect why a result matched, read and return.
    for(const q of ['薪水','收件匣','會議記錄']){
     const start=Date.now();await page.locator('#query').fill(q);
-    report.queries.push(await page.evaluate(q=>({q,total:currentFiltered.length,explained:document.querySelectorAll('#results .search-context').length,ids:currentFiltered.map(e=>e.id)}),q));
+    report.queries.push(await page.evaluate(q=>({q,total:currentFiltered.length,rendered:document.querySelectorAll('#results .card').length,explained:document.querySelectorAll('#results .search-context').length,ids:currentFiltered.map(e=>e.id)}),q));
     report.queries.at(-1).fillAndRenderMs=Date.now()-start;
-    assert.equal(report.queries.at(-1).explained,report.queries.at(-1).total);
+    const result=report.queries.at(-1);
+    assert(result.rendered>0,'matching queries render a readable first batch');
+    assert.equal(result.explained,result.rendered,'every rendered result explains its match');
+    assert.match(await page.locator('#results-count').innerText(),new RegExp(`^顯示 ${result.total} / \\d+ 筆收錄`));
     assert.equal(await page.locator('#drawn-case .search-context').count(),0);
    }
    await page.locator('#query').fill('薪水');

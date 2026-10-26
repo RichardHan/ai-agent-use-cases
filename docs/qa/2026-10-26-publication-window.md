@@ -18,4 +18,8 @@
 
 三種模擬走查（非真人偏好）：① 手機選生活後搜旅遊，UC-001 可開啟；詳情直鏈重載仍保留 `case=UC-001`，原始 Markdown 指向 `b28d661` 的 GitHub commit；關閉返回保留生活與旅遊。② 生活篩選下輸入 `zzzx-no-match-987`，顯示無結果。③ 桌面 1440px 首頁載入 24 筆分批結果；手機亦為 24 筆。這些是未改 UI 的回歸煙測，組合門檻、WebKit/Firefox、焦點、對比、長篇內文及正式發布新 SHA 尚未完整覆蓋，不宣稱已通過。
 
-下一輪：將散落於各 workflow 的發布等待改成可觀測且共用的 Pages SHA gate，先查明其餘紅燈而不是再全面放寬上限。
+下一輪：先查 `Method shortcut QA` 雲端安裝停滯，再考慮將各 workflow 的發布等待改成可觀測且共用的 Pages SHA gate。
+
+## 合併後發布核對
+
+PR #138 已合併為 `3b72f86`。該 SHA 的 Pages build/deployment、Home search entry QA、Evidence round QA、Card refinement QA、Filter entry QA 均成功，公開站資產與流程由這四項 QA 核對。Method shortcut QA 在 35 分鐘 job 上限時取消，停在 `Cloud browser tools` 安裝步驟，尚未進入本輪延長的發布 gate；這不是來源或閱讀流程驗收通過的證據，也不能歸因於本輪輪詢修改。下一輪先查 cloud runner 的 npm／Playwright 安裝停滯，再決定是否共用安裝或縮限所需引擎。獨立 reviewer 已審查本輪五個 gate 的輪詢算術、timeout 餘裕與過期 SHA 條件。

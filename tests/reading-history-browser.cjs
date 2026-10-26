@@ -46,6 +46,13 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  const related=p.locator('.related-cases [data-related-id]').first();const relatedID=await related.getAttribute('data-related-id');await related.scrollIntoViewIfNeeded();await related.click();await p.waitForFunction(id=>currentDetailItem.id===id,relatedID);await p.goBack();await p.waitForFunction(id=>currentDetailItem.id===id,relatedCaseID);
  assert(await related.evaluate(n=>n===document.activeElement),'Related case return restores its visible trigger');
  const relatedRect=await related.boundingBox(),bounds=await p.evaluate(()=>({top:document.querySelector('.detail-toolbar').getBoundingClientRect().bottom,bottom:document.querySelector('#detail').getBoundingClientRect().bottom}));assert(relatedRect.y>=bounds.top&&relatedRect.y+relatedRect.height<=bounds.bottom);await p.screenshot({path:`${out}/related-returned-${row.label}.png`});
+ // A compacted long case keeps its complete description open on Back.
+ await p.goto(base+'?case=UC-359');await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});
+ const fullAccount=p.locator('.detail-full-account');assert.equal(await fullAccount.count(),1);
+ await fullAccount.locator('summary').click();assert.equal(await fullAccount.evaluate(n=>n.open),true);
+ await p.locator('#nav-next-case').click();assert.notEqual(await p.locator('#detail-toolbar-id').innerText(),'UC-359');
+ await p.goBack();await p.waitForFunction(()=>currentDetailItem.id==='UC-359');
+ assert.equal(await fullAccount.evaluate(n=>n.open),true,'Back restores the expanded case description');
  row.scenarios=['long reading Back and Forward','distinct visits and reload','filtered results Back and Forward','offscreen focus and horizontal table'];
  }
  assert.deepEqual(row.errors,[]);

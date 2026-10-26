@@ -1,0 +1,25 @@
+browser	Verify new layout and complete visitor journeys	﻿2026-10-24T08:37:37.5244581Z ##[group]Run node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5245285Z ^[[36;1mnode --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5245839Z ^[[36;1mfor f in assets/*.js tests/filter-reading*.cjs; do node --check "$f"; done^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5246376Z ^[[36;1mpython3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5247369Z ^[[36;1mpython3 -m http.server 8187 --directory "$RUNNER_TEMP/preview" > /tmp/filter-after.log 2>&1 &^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5247946Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8187/ai-agent-use-cases/^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5248409Z ^[[36;1mif [ "$GITHUB_REF_NAME" = verify/filter-reading-20261024 ]; then^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5248895Z ^[[36;1m  export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5249298Z ^[[36;1m  export QA_PUBLIC=1 QA_OBSERVE=1^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5249573Z ^[[36;1m  node - <<'JS'^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5249853Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5251806Z ^[[36;1m(async()=>{const files=['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css'];for(let i=0;i<90;i++){const matches=await Promise.all(files.map(async file=>{const r=await fetch(process.env.SITE_URL+file+'?filter='+process.env.GITHUB_SHA,{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(file,'utf8');}));if(matches.every(Boolean)){console.log('PUBLIC_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}await new Promise(r=>setTimeout(r,2000));}throw Error('Published assets mismatch');})().catch(e=>{console.error(e);process.exit(1)});^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5253764Z ^[[36;1mJS^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5253948Z ^[[36;1mfi^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5254232Z ^[[36;1mrunuser -u pwuser -- node tests/filter-reading-browser.cjs^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5254776Z ^[[36;1mQA_OUT=qa-artifacts/regression runuser -u pwuser -- node tests/page-context-browser.cjs^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5255398Z ^[[36;1mGUIDE_URL="$SITE_URL" runuser -u pwuser -- node tests/source-guide-share-layout.cjs^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5256114Z shell: sh -e {0}
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5256312Z env:
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5256549Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:37.5257224Z ##[endgroup]
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:37:44.6950128Z /__w/_temp/preview/ai-agent-use-cases
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:40:46.2171237Z Error: Published assets mismatch
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:40:46.2171854Z     at [stdin]:2:495
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:40:46.2275353Z ##[error]Process completed with exit code 1.

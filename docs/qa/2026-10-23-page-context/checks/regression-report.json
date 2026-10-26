@@ -1,0 +1,398 @@
+[
+  {
+    "label": "chromium-1440",
+    "tasks": [
+      {
+        "q": "每日",
+        "count": 107,
+        "focus": "results-count",
+        "top": 24.078125,
+        "card": {
+          "x": 165,
+          "y": 216.390625,
+          "width": 323.328125,
+          "height": 65.09375,
+          "top": 216.390625,
+          "right": 488.328125,
+          "bottom": 281.484375,
+          "left": 165
+        },
+        "panel": true
+      },
+      {
+        "q": "收件匣",
+        "count": 132,
+        "focus": "results-count",
+        "top": 23.890625,
+        "card": {
+          "x": 165,
+          "y": 216.203125,
+          "width": 323.328125,
+          "height": 97.640625,
+          "top": 216.203125,
+          "right": 488.328125,
+          "bottom": 313.84375,
+          "left": 165
+        },
+        "panel": true
+      },
+      {
+        "q": "比價",
+        "count": 48,
+        "focus": "results-count",
+        "top": 23.890625,
+        "card": {
+          "x": 165,
+          "y": 216.203125,
+          "width": 323.328125,
+          "height": 65.09375,
+          "top": 216.203125,
+          "right": 488.328125,
+          "bottom": 281.296875,
+          "left": 165
+        },
+        "panel": true
+      },
+      {
+        "q": "排程",
+        "count": 213,
+        "focus": "results-count",
+        "top": 23.890625,
+        "card": {
+          "x": 165,
+          "y": 216.203125,
+          "width": 323.328125,
+          "height": 65.09375,
+          "top": 216.203125,
+          "right": 488.328125,
+          "bottom": 281.296875,
+          "left": 165
+        },
+        "panel": true
+      }
+    ],
+    "errors": [],
+    "network": [],
+    "total": 433,
+    "resultAxe": 0,
+    "source": "https://dee-solutions.com/articles/case-manufacturing",
+    "openedSource": "https://dee-solutions.com/articles/case-manufacturing",
+    "emptyAxe": 0
+  },
+  {
+    "label": "chromium-390",
+    "tasks": [
+      {
+        "q": "每日",
+        "count": 107,
+        "focus": "results-count",
+        "top": 23.71875,
+        "card": {
+          "x": 43,
+          "y": 236.125,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.125,
+          "right": 347,
+          "bottom": 304.3125,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "收件匣",
+        "count": 132,
+        "focus": "results-count",
+        "top": 24.28125,
+        "card": {
+          "x": 43,
+          "y": 236.6875,
+          "width": 304,
+          "height": 102.28125,
+          "top": 236.6875,
+          "right": 347,
+          "bottom": 338.96875,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "比價",
+        "count": 48,
+        "focus": "results-count",
+        "top": 24.09375,
+        "card": {
+          "x": 43,
+          "y": 236.5,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.5,
+          "right": 347,
+          "bottom": 304.6875,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "排程",
+        "count": 213,
+        "focus": "results-count",
+        "top": 24.09375,
+        "card": {
+          "x": 43,
+          "y": 236.5,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.5,
+          "right": 347,
+          "bottom": 304.6875,
+          "left": 43
+        },
+        "panel": true
+      }
+    ],
+    "errors": [],
+    "network": [],
+    "total": 433,
+    "resultAxe": 0,
+    "source": "https://dee-solutions.com/articles/case-manufacturing",
+    "emptyAxe": 0
+  },
+  {
+    "label": "chromium-320",
+    "tasks": [
+      {
+        "q": "每日",
+        "count": 107,
+        "focus": "results-count",
+        "top": 24.0625,
+        "card": {
+          "x": 43,
+          "y": 236.46875,
+          "width": 234,
+          "height": 102.28125,
+          "top": 236.46875,
+          "right": 277,
+          "bottom": 338.75,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "收件匣",
+        "count": 132,
+        "focus": "results-count",
+        "top": 24.40625,
+        "card": {
+          "x": 43,
+          "y": 236.8125,
+          "width": 234,
+          "height": 136.375,
+          "top": 236.8125,
+          "right": 277,
+          "bottom": 373.1875,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "比價",
+        "count": 48,
+        "focus": "results-count",
+        "top": 23.765625,
+        "card": {
+          "x": 43,
+          "y": 236.171875,
+          "width": 234,
+          "height": 68.1875,
+          "top": 236.171875,
+          "right": 277,
+          "bottom": 304.359375,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "排程",
+        "count": 213,
+        "focus": "results-count",
+        "top": 24.0625,
+        "card": {
+          "x": 43,
+          "y": 236.46875,
+          "width": 234,
+          "height": 102.28125,
+          "top": 236.46875,
+          "right": 277,
+          "bottom": 338.75,
+          "left": 43
+        },
+        "panel": true
+      }
+    ],
+    "errors": [],
+    "network": [],
+    "total": 433,
+    "resultAxe": 0,
+    "source": "https://dee-solutions.com/articles/case-manufacturing",
+    "emptyAxe": 0
+  },
+  {
+    "label": "firefox-390",
+    "tasks": [
+      {
+        "q": "每日",
+        "count": 107,
+        "focus": "results-count",
+        "top": 24.366668701171875,
+        "card": {
+          "x": 43,
+          "y": 237,
+          "width": 304,
+          "height": 68.19999694824219,
+          "top": 237,
+          "right": 347,
+          "bottom": 305.1999969482422,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "收件匣",
+        "count": 132,
+        "focus": "results-count",
+        "top": 24.366668701171875,
+        "card": {
+          "x": 43,
+          "y": 237,
+          "width": 304,
+          "height": 102.30000305175781,
+          "top": 237,
+          "right": 347,
+          "bottom": 339.3000030517578,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "比價",
+        "count": 48,
+        "focus": "results-count",
+        "top": 24.366668701171875,
+        "card": {
+          "x": 43,
+          "y": 237,
+          "width": 304,
+          "height": 68.19999694824219,
+          "top": 237,
+          "right": 347,
+          "bottom": 305.1999969482422,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "排程",
+        "count": 213,
+        "focus": "results-count",
+        "top": 24.366668701171875,
+        "card": {
+          "x": 43,
+          "y": 237,
+          "width": 304,
+          "height": 68.19999694824219,
+          "top": 237,
+          "right": 347,
+          "bottom": 305.1999969482422,
+          "left": 43
+        },
+        "panel": true
+      }
+    ],
+    "errors": [],
+    "network": [],
+    "total": 433,
+    "resultAxe": 0,
+    "source": "https://dee-solutions.com/articles/case-manufacturing",
+    "emptyAxe": 0
+  },
+  {
+    "label": "webkit-390",
+    "tasks": [
+      {
+        "q": "每日",
+        "count": 107,
+        "focus": "results-count",
+        "top": 24.0625,
+        "card": {
+          "x": 43,
+          "y": 236.46875,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.46875,
+          "right": 347,
+          "bottom": 304.65625,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "收件匣",
+        "count": 132,
+        "focus": "results-count",
+        "top": 24.484375,
+        "card": {
+          "x": 43,
+          "y": 236.890625,
+          "width": 304,
+          "height": 102.28125,
+          "top": 236.890625,
+          "right": 347,
+          "bottom": 339.171875,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "比價",
+        "count": 48,
+        "focus": "results-count",
+        "top": 23.921875,
+        "card": {
+          "x": 43,
+          "y": 236.328125,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.328125,
+          "right": 347,
+          "bottom": 304.515625,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "排程",
+        "count": 213,
+        "focus": "results-count",
+        "top": 24.078125,
+        "card": {
+          "x": 43,
+          "y": 236.484375,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.484375,
+          "right": 347,
+          "bottom": 304.671875,
+          "left": 43
+        },
+        "panel": true
+      }
+    ],
+    "errors": [],
+    "network": [],
+    "total": 433,
+    "resultAxe": 0,
+    "source": "https://dee-solutions.com/articles/case-manufacturing",
+    "emptyAxe": 0
+  }
+]

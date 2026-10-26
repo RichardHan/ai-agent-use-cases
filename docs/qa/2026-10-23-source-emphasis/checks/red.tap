@@ -1,0 +1,180 @@
+TAP version 13
+# Subtest: source emphasis conveys the original action and evidence boundaries
+not ok 1 - source emphasis conveys the original action and evidence boundaries
+  ---
+  duration_ms: 2.393583
+  type: 'test'
+  location: '/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:7:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    cases/089-digital-declutter-approval-plan.md
+    + actual - expected
+
+    + []
+    - [
+    -   '未經核准不得移動、刪除、退訂或取消任何東西'
+    - ]
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: '未經核准不得移動、刪除、退訂或取消任何東西'
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:11:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.start (node:internal/test_runner/test:878:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17)
+  ...
+# Subtest: strong spans keep surrounding text and permit existing safe inline code and links
+not ok 2 - strong spans keep surrounding text and permit existing safe inline code and links
+  ---
+  duration_ms: 0.181459
+  type: 'test'
+  location: '/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + '前 **不得 delete，先核對**；**未驗證** 後'
+    - '前 不得 delete，先核對；未驗證 後'
+         ^
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '前 不得 delete，先核對；未驗證 後'
+  actual: '前 **不得 delete，先核對**；**未驗證** 後'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:16:9)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3)
+  ...
+# Subtest: code blocks, inline code and URL destinations retain literal asterisks
+ok 3 - code blocks, inline code and URL destinations retain literal asterisks
+  ---
+  duration_ms: 0.101125
+  type: 'test'
+  ...
+# Subtest: unsupported or incomplete emphasis remains literal and source HTML stays inert
+ok 4 - unsupported or incomplete emphasis remains literal and source HTML stays inert
+  ---
+  duration_ms: 0.11125
+  type: 'test'
+  ...
+# Subtest: headings, nested lists, quotes and tables share the safe emphasis rendering
+not ok 5 - headings, nested lists, quotes and tables share the safe emphasis rendering
+  ---
+  duration_ms: 0.392625
+  type: 'test'
+  location: '/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:33:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+
+    + []
+    - [
+    -   '限制',
+    -   '先核准',
+    -   '再執行',
+    -   '未驗證',
+    -   '欄位',
+    -   '約數'
+    - ]
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: '限制'
+    1: '先核准'
+    2: '再執行'
+    3: '未驗證'
+    4: '欄位'
+    5: '約數'
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:35:9)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: nested code and destinations cannot terminate source emphasis or truncate links
+not ok 6 - nested code and destinations cannot terminate source emphasis or truncate links
+  ---
+  duration_ms: 0.112375
+  type: 'test'
+  location: '/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:38:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+
+    + []
+    - [
+    -   '含 a**b 程式碼',
+    -   '來源'
+    - ]
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: '含 a**b 程式碼'
+    1: '來源'
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:42:9)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: incomplete URLs never crash and code scanning matches the existing inline token grammar
+not ok 7 - incomplete URLs never crash and code scanning matches the existing inline token grammar
+  ---
+  duration_ms: 0.174166
+  type: 'test'
+  location: '/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:47:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    0 !== 1
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-source-20261023/tests/emphasis.test.cjs:51:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 2
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 52.099

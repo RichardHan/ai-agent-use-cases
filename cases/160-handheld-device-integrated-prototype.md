@@ -54,3 +54,14 @@ u/brainlessziggy自述親自列印外殼、組裝電子件及試玩，再回饋�
 - 可貼指令（本庫原創／未實測）：請以虛構掌機移植專案建立證據表，逐項記原碼版本、二進位版本、硬體、模擬器、實測方法、來源與未測項。遇到同一數字被說成不同平台時保留兩說並標待核，不替作者選答案。只產生計畫，不下載、編譯、刷機或操作外部裝置。
 - 權限／費用／可用性：需要相容硬體及具能力者另行驗收；材料、訂閱與加工費用未核。公開程式不保證所有素材權利或安全性，也不代表 Grok Bot 官方支持上述硬體。
 - 直接來源：[作者 Reddit 主文](https://www.reddit.com/r/GrokBot/comments/1x9cm8d/i_built_an_isometric_spy_hunterstyle_game_for_the/)；[AGENT RUN 公開專案與 README](https://github.com/williammorgansgrokbot/agent-run)。
+
+
+## 2026-10-23 補充：Somnium 相機的傳輸成功不等於照片已保存
+
+- 作者與工具：Chaeyun Kim、Milan Nair，英文；Devpost 標開始 2026-10-18 11:35 EDT。作者以 Grok Bot 與 Cursor 協作 ESP32-S3 相機及影像處理流程，Bot 是開發協作者；影像處理使用 Grok API，不是 Bot 原生控制相機保證。
+- 作者示範：拍攝 JPEG、送電腦處理、回傳相機顯示，並保留原圖與編修圖。現場 Wi-Fi、USB 線材／埠與畫面方向造成失敗；Devpost 仍列無線與電池工作待完成。較新 README 的無線流程不能倒填成舊展示已成功。
+- 公開設計的驗收價值：固定提交文件把標頭、READY、負載與 ACK 分開，核長度、CRC 與 JPEG 結尾；斷線中止而非盲目重播。SD 寫入失敗仍可用 RAM 顯示，因此「畫面看到」不等於「檔案已落盤」。這些是文件／原碼設計敘述，本庫未實測線材、韌體或照片保存。
+- 操作步驟與可貼指令（本庫原創／未實測）：請為虛構相機建立拍攝、傳送、接收校驗、顯示、原圖保存與編修圖保存的分階段驗收表，分開標 ACK、螢幕可見與持久保存。模擬斷線、資料損壞、SD 滿與 API 失敗；禁止重播可能重複計費的動作。只出計畫，不下載、刷機、連裝置或呼叫 API。
+- 費用與限制：硬體、材料及模型 API 成本未核；不宣稱免成本或官方硬體支持。未核電氣安全、耐久性與素材商用權。
+- 來源：[作者 Devpost](https://devpost.com/software/somnium-m7zels)；[固定提交 README](https://github.com/mm-nair/Somnium/blob/c76b1a36f8d4bcf6de6e8080d75df97f05cd0e36/README.md)；[傳輸管線文件](https://github.com/mm-nair/Somnium/blob/c76b1a36f8d4bcf6de6e8080d75df97f05cd0e36/PIPELINE.md)。
+- 已讀 UC010、050、140、160、216、336 全文比對。此處保守併入軟硬體整合原型，新增失敗與驗收細節，不把相機或工具變體算另一新案例。

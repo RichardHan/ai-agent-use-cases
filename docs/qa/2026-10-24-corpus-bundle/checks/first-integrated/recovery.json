@@ -1,0 +1,190 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "mode": "stop",
+    "errors": [],
+    "initial": {
+      "count": 445,
+      "failed": [
+        "cases/001-travel-checkout.md",
+        "cases/002-video-production.md"
+      ]
+    },
+    "waiting": "部分來源尚未載入\n\n還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。已處理 1 / 2 個來源，成功讀取 1 個。不想等待時，可停止並使用已補回內容。\n\n正在重試…\n停止等待，使用已補回內容",
+    "waitingAxe": [],
+    "stopSize": {
+      "width": 198,
+      "height": 44
+    },
+    "after": {
+      "count": 446,
+      "failed": [
+        "cases/002-video-production.md"
+      ],
+      "focus": "retry-failed"
+    },
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "mode": "stop",
+    "errors": [],
+    "initial": {
+      "count": 445,
+      "failed": [
+        "cases/001-travel-checkout.md",
+        "cases/002-video-production.md"
+      ]
+    },
+    "waiting": "部分來源尚未載入\n\n還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。已處理 1 / 2 個來源，成功讀取 1 個。不想等待時，可停止並使用已補回內容。\n\n正在重試…\n停止等待，使用已補回內容",
+    "waitingAxe": [],
+    "stopSize": {
+      "width": 198,
+      "height": 44
+    },
+    "after": {
+      "count": 446,
+      "failed": [
+        "cases/002-video-production.md"
+      ],
+      "focus": "retry-failed"
+    },
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "mode": "stop",
+    "errors": [],
+    "initial": {
+      "count": 445,
+      "failed": [
+        "cases/001-travel-checkout.md",
+        "cases/002-video-production.md"
+      ]
+    },
+    "waiting": "部分來源尚未載入\n\n還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。已處理 1 / 2 個來源，成功讀取 1 個。不想等待時，可停止並使用已補回內容。\n\n正在重試…\n停止等待，使用已補回內容",
+    "waitingAxe": [],
+    "stopSize": {
+      "width": 198,
+      "height": 44
+    },
+    "after": {
+      "count": 446,
+      "failed": [
+        "cases/002-video-production.md"
+      ],
+      "focus": "retry-failed"
+    },
+    "axe": []
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "mode": "stop",
+    "errors": [],
+    "initial": {
+      "count": 445,
+      "failed": [
+        "cases/001-travel-checkout.md",
+        "cases/002-video-production.md"
+      ]
+    },
+    "waiting": "部分來源尚未載入\n\n還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。已處理 1 / 2 個來源，成功讀取 1 個。不想等待時，可停止並使用已補回內容。\n\n正在重試…\n停止等待，使用已補回內容",
+    "waitingAxe": [],
+    "stopSize": {
+      "width": 201.39999389648438,
+      "height": 44
+    },
+    "after": {
+      "count": 446,
+      "failed": [
+        "cases/002-video-production.md"
+      ],
+      "focus": "retry-failed"
+    },
+    "axe": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "mode": "stop",
+    "errors": [],
+    "initial": {
+      "count": 445,
+      "failed": [
+        "cases/001-travel-checkout.md",
+        "cases/002-video-production.md"
+      ]
+    },
+    "waiting": "部分來源尚未載入\n\n還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。已處理 1 / 2 個來源，成功讀取 1 個。不想等待時，可停止並使用已補回內容。\n\n正在重試…\n停止等待，使用已補回內容",
+    "waitingAxe": [],
+    "stopSize": {
+      "width": 198,
+      "height": 44
+    },
+    "after": {
+      "count": 446,
+      "failed": [
+        "cases/002-video-production.md"
+      ],
+      "focus": "retry-failed"
+    },
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "mode": "zero",
+    "errors": [],
+    "initial": {
+      "count": 445,
+      "failed": [
+        "cases/001-travel-checkout.md",
+        "cases/002-video-production.md"
+      ]
+    },
+    "waiting": "部分來源尚未載入\n\n還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。已處理 0 / 2 個來源，成功讀取 0 個。不想等待時，可停止並使用已補回內容。\n\n正在重試…\n停止等待，使用已補回內容",
+    "waitingAxe": [],
+    "stopSize": {
+      "width": 198,
+      "height": 44
+    },
+    "after": {
+      "count": 445,
+      "failed": [
+        "cases/001-travel-checkout.md",
+        "cases/002-video-production.md"
+      ],
+      "focus": "retry-failed"
+    },
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "mode": "reader",
+    "errors": [],
+    "initial": {
+      "count": 445,
+      "failed": [
+        "cases/001-travel-checkout.md",
+        "cases/002-video-production.md"
+      ]
+    },
+    "waiting": "部分來源尚未載入\n\n還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。已處理 1 / 2 個來源，成功讀取 1 個。不想等待時，可停止並使用已補回內容。\n\n正在重試…\n停止等待，使用已補回內容",
+    "waitingAxe": [],
+    "stopSize": {
+      "width": 198,
+      "height": 44
+    },
+    "readerPreserved": true,
+    "after": {
+      "count": 447,
+      "failed": [],
+      "focus": ""
+    }
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "total": 443,
+    "before": {
+      "focus": "source-guide-summary",
+      "y": 1431
+    },
+    "after": {
+      "focus": "source-guide-summary",
+      "y": 1431,
+      "selected": 0
+    },
+    "reproduced": false,
+    "axe": [],
+    "failure": "Error: Please use browser.newContext()\n Please check out https://github.com/dequelabs/axe-core-npm/blob/develop/packages/playwright/error-handling.md\n    at AxeBuilder.analyze (/__w/_temp/tools/node_modules/@axe-core/playwright/dist/index.js:253:13)\n    at async /__w/ai-agent-use-cases/ai-agent-use-cases/tests/search-share-focus-browser.cjs:22:22"
+  }
+]

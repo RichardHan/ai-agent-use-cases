@@ -1,0 +1,54 @@
+browser	Verify implementation when ready	﻿2026-10-23T04:27:17.5382816Z ##[group]Run node --test tests/facet-counts.test.cjs
+browser	Verify implementation when ready	2026-10-23T04:27:17.5383289Z ^[[36;1mnode --test tests/facet-counts.test.cjs^[[0m
+browser	Verify implementation when ready	2026-10-23T04:27:17.5383868Z ^[[36;1mpython3 -m http.server 8096 --directory "$RUNNER_TEMP/facet-preview" > /tmp/facet-preview.log 2>&1 &^[[0m
+browser	Verify implementation when ready	2026-10-23T04:27:17.5384944Z ^[[36;1mif [ "refs/heads/main" = refs/heads/fix/facet-acceptance ]; then FACET_BASELINE_SOURCE="$RUNNER_TEMP/facet-before.js" node tests/facet-rate-diagnostic.cjs; fi^[[0m
+browser	Verify implementation when ready	2026-10-23T04:27:17.5385711Z ^[[36;1mnode tests/facet-counts-browser.cjs^[[0m
+browser	Verify implementation when ready	2026-10-23T04:27:17.5386584Z ^[[36;1mREADING_URL=http://127.0.0.1:8096/ai-agent-use-cases/ node tests/reading-flow-browser.cjs^[[0m
+browser	Verify implementation when ready	2026-10-23T04:27:17.5448061Z shell: /usr/bin/bash -e {0}
+browser	Verify implementation when ready	2026-10-23T04:27:17.5448345Z env:
+browser	Verify implementation when ready	2026-10-23T04:27:17.5448663Z   NODE_PATH: /home/runner/work/_temp/facet-tools/node_modules
+browser	Verify implementation when ready	2026-10-23T04:27:17.5449069Z ##[endgroup]
+browser	Verify implementation when ready	2026-10-23T04:27:17.5941668Z TAP version 13
+browser	Verify implementation when ready	2026-10-23T04:27:17.6696536Z # Subtest: facet alternatives ignore only their own current selection and retain query and all other filters
+browser	Verify implementation when ready	2026-10-23T04:27:17.6704856Z ok 1 - facet alternatives ignore only their own current selection and retain query and all other filters
+browser	Verify implementation when ready	2026-10-23T04:27:17.6706391Z   ---
+browser	Verify implementation when ready	2026-10-23T04:27:17.6716983Z   duration_ms: 23.061448
+browser	Verify implementation when ready	2026-10-23T04:27:17.6717496Z   type: 'test'
+browser	Verify implementation when ready	2026-10-23T04:27:17.6717875Z   ...
+browser	Verify implementation when ready	2026-10-23T04:27:17.6718747Z # Subtest: tool membership, all-option and missing values count real entries exactly once
+browser	Verify implementation when ready	2026-10-23T04:27:17.6720071Z ok 2 - tool membership, all-option and missing values count real entries exactly once
+browser	Verify implementation when ready	2026-10-23T04:27:17.6720879Z   ---
+browser	Verify implementation when ready	2026-10-23T04:27:17.6721275Z   duration_ms: 0.361857
+browser	Verify implementation when ready	2026-10-23T04:27:17.6721691Z   type: 'test'
+browser	Verify implementation when ready	2026-10-23T04:27:17.6722065Z   ...
+browser	Verify implementation when ready	2026-10-23T04:27:17.6722980Z # Subtest: empty query results, empty corpus and partial corpus do not invent available entries
+browser	Verify implementation when ready	2026-10-23T04:27:17.6724407Z ok 3 - empty query results, empty corpus and partial corpus do not invent available entries
+browser	Verify implementation when ready	2026-10-23T04:27:17.6725280Z   ---
+browser	Verify implementation when ready	2026-10-23T04:27:17.6725656Z   duration_ms: 5.63598
+browser	Verify implementation when ready	2026-10-23T04:27:17.6726380Z   type: 'test'
+browser	Verify implementation when ready	2026-10-23T04:27:17.6726756Z   ...
+browser	Verify implementation when ready	2026-10-23T04:27:17.6727593Z # Subtest: synonym-expanded counts use the same search semantics as result filtering
+browser	Verify implementation when ready	2026-10-23T04:27:17.6728864Z ok 4 - synonym-expanded counts use the same search semantics as result filtering
+browser	Verify implementation when ready	2026-10-23T04:27:17.6729664Z   ---
+browser	Verify implementation when ready	2026-10-23T04:27:17.6730042Z   duration_ms: 0.64683
+browser	Verify implementation when ready	2026-10-23T04:27:17.6730459Z   type: 'test'
+browser	Verify implementation when ready	2026-10-23T04:27:17.6730829Z   ...
+browser	Verify implementation when ready	2026-10-23T04:27:17.6811030Z 1..4
+browser	Verify implementation when ready	2026-10-23T04:27:17.6811749Z # tests 4
+browser	Verify implementation when ready	2026-10-23T04:27:17.6812170Z # suites 0
+browser	Verify implementation when ready	2026-10-23T04:27:17.6812767Z # pass 4
+browser	Verify implementation when ready	2026-10-23T04:27:17.6813442Z # fail 0
+browser	Verify implementation when ready	2026-10-23T04:27:17.6814059Z # cancelled 0
+browser	Verify implementation when ready	2026-10-23T04:27:17.6814672Z # skipped 0
+browser	Verify implementation when ready	2026-10-23T04:27:17.6815247Z # todo 0
+browser	Verify implementation when ready	2026-10-23T04:27:17.6816123Z # duration_ms 99.210466
+browser	Verify implementation when ready	2026-10-23T04:27:21.4336165Z AssertionError [ERR_ASSERTION]: incompatible combination still allowed, with honest empty state
+browser	Verify implementation when ready	2026-10-23T04:27:21.4337903Z     at /home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/facet-counts-browser.cjs:57:3 {
+browser	Verify implementation when ready	2026-10-23T04:27:21.4339615Z   generatedMessage: false,
+browser	Verify implementation when ready	2026-10-23T04:27:21.4340152Z   code: 'ERR_ASSERTION',
+browser	Verify implementation when ready	2026-10-23T04:27:21.4340599Z   actual: false,
+browser	Verify implementation when ready	2026-10-23T04:27:21.4341003Z   expected: true,
+browser	Verify implementation when ready	2026-10-23T04:27:21.4341406Z   operator: '==',
+browser	Verify implementation when ready	2026-10-23T04:27:21.4341803Z   diff: 'simple'
+browser	Verify implementation when ready	2026-10-23T04:27:21.4342231Z }
+browser	Verify implementation when ready	2026-10-23T04:27:21.4612417Z ##[error]Process completed with exit code 1.

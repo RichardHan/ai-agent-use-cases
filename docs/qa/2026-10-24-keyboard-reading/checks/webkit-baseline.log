@@ -1,0 +1,7 @@
+page.reload: Page crashed
+Call log:
+[2m  - waiting for navigation until "load"[22m
+
+    at /private/tmp/navigation-webkit-baseline.cjs:31:13 {
+  name: 'Error'
+}

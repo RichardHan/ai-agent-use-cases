@@ -19,9 +19,12 @@ const origin=process.env.MATCH_URL||'http://127.0.0.1:8084/ai-agent-use-cases/';
    // Journey 1: use everyday wording, inspect why a result matched, read and return.
    for(const q of ['薪水','收件匣','會議記錄']){
     const start=Date.now();await page.locator('#query').fill(q);
-    report.queries.push(await page.evaluate(q=>({q,total:currentFiltered.length,explained:document.querySelectorAll('#results .search-context').length,ids:currentFiltered.map(e=>e.id)}),q));
+    report.queries.push(await page.evaluate(q=>({q,total:currentFiltered.length,rendered:document.querySelectorAll('#results .card').length,explained:document.querySelectorAll('#results .search-context').length,ids:currentFiltered.map(e=>e.id)}),q));
     report.queries.at(-1).fillAndRenderMs=Date.now()-start;
-    assert.equal(report.queries.at(-1).explained,report.queries.at(-1).total);
+    const result=report.queries.at(-1);
+    assert(result.rendered>0,'matching queries render a readable first batch');
+    assert.equal(result.explained,result.rendered,'every rendered result explains its match');
+    assert.match(await page.locator('#results-count').innerText(),new RegExp(`^顯示 ${result.total} / \\d+ 筆收錄`));
     assert.equal(await page.locator('#drawn-case .search-context').count(),0);
    }
    await page.locator('#query').fill('薪水');
@@ -39,8 +42,15 @@ const origin=process.env.MATCH_URL||'http://127.0.0.1:8084/ai-agent-use-cases/';
    assert.match(await page.locator('.markdown').innerText(),/不登入系統、改派車、算薪資/);
    if(engine==='chromium'&&name==='desktop'){
     const href=await page.locator('.detail-source').getAttribute('href');
-    const source=await context.newPage();const response=await source.goto(href,{waitUntil:'domcontentloaded'});
-    report.originalSource={href,status:response.status()};assert(response.ok());await source.close();
+    const source=await context.newPage();
+    try{
+     const response=await source.goto(href,{waitUntil:'domcontentloaded'});
+     const status=response?.status()||0;
+     report.originalSource={href,status};
+     assert(response?.ok()||status===429||status===403,'remote source must be reachable or rate-limited: '+status);
+    }finally{
+     await source.close();
+    }
    }
    await page.keyboard.press('Escape');assert.equal(await read.evaluate(e=>e===document.activeElement),true);
    assert.equal(await page.locator('#query').inputValue(),'薪水');

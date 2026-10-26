@@ -95,3 +95,36 @@ Sid Dani（sidart10）的英文 [muse-glasses](https://github.com/sidart10/muse-
 可貼指令（本庫自行設計／未實測）：只讀我提供的合成會話事件，按request、parent message與session逐筆對帳。插入一則手機別題回覆、側執行緒回覆、completed但無答案與晚到答案，標哪些可顯示給眼鏡、哪些需隔離或報錯。將腳本測試與真機證據分欄，核准卡只記待本人處理，不代為批准、不連裝置或啟動服務。
 
 併入UC-239的跨端會話交付驗收，不因Muse或新眼鏡另增案例。
+
+
+## 2026-10-23 06:20補充：語音入口格式轉換成功，不代表身分驗證或任務完成
+
+u/riceman2000 在[Reddit 原帖](https://www.reddit.com/r/GrokBot/comments/1wpgvhr/grok_bot_from_pebble_index_01_smart_ring/)自述正在使用 Pebble Index 01→Cloudflare Worker→Grok Bot。其 [README](https://github.com/Riceman2000/pebble-bounce/blob/main/README.md)及 [Rust 實作](https://github.com/Riceman2000/pebble-bounce/blob/main/src/lib.rs)將 multipart 轉 JSON，保留時間、轉錄及可選音訊，傳回下游狀態、不自動跟隨重新導向。只要求 Authorization 標頭存在，真正有效性由下游判定，不是已完成驗證。英文、原帖絕對日期未核；已讀公開正文、README與原碼，未執行、無送達日誌。
+
+[裝置官方文件](https://help.repebble.com/en/articles/15724406-index-advanced-features-mcp-webhook)說 webhook 是原裝置動作之外的附加動作，不表示原本行動停止。官方只核裝置格式，不替第三方橋接背書。作者稱免費額度可容納，不代表硬體與Bot訂閱零成本；聲音、轉錄會經外部服務，需限定資料及授權，金鑰不公開。本輪沒有部署或建立存取。
+
+沿用跨端交付驗收，合併本頁而非換硬體另計。本庫自設／未實測提示：只對合成 payload 列格式、時間、空值、標頭存在／有效驗證、下游受理、代理完成及原裝置平行動作。缺驗證、下游401、重新導向與重複事件各別標記，HTTP成功不當任務完成。不發送、不連裝置、不部署、不輸入真實憑證。
+
+
+## 2026-10-23 07:00補充：微信入口要分清已排隊、過時答案與真正送達
+
+psylch的[固定版本README](https://github.com/psylch/grokbot-wechat/blob/9dfedc97064c09f999771cf777877511a630b80d/README.md)（簡中／英文；提交2026-10-05 16:16:31 UTC）公開Grok Bot↔微信ClawBot中繼。作者列出實用失敗：連發消息導致多輪回答、補充後仍答舊問題、久未發言被拒推送、重啟後接收器消失。原始聊天與服務日誌未公開，本庫只讀README、send.py及提交資訊，未執行；不能把搜尋索引日期當首次發布。
+
+作者用批次收件及觸發時間識別處理過時回覆。[send.py](https://github.com/psylch/grokbot-wechat/blob/9dfedc97064c09f999771cf777877511a630b80d/send.py)可見：最新入站比觸發時間晚超過500毫秒便退出4、不送舊答；排隊退出3與已送退出0分開。這只核靜態分支，不證明真實服務每次執行。README自述11小時可推、35小時失敗，約24小時只是作者採用的處理界線，不是本輪核實的官方精確期限；HTTP200亦不應單獨視為成功。
+
+同屬跨端會話交付與歷史／晚回驗收，併入UC239，不因微信另增案例。與UC325日記確認後存檔不同，此處不證明日記流程。第三方橋並非官方整合背書；近期對話會隨請求傳給Grok Bot，平台資格、持續存取、資料接收方與推送授權須分別確認。禁止以續期提示規避平台限制；不公開憑證、真實訊息或媒體。費用與長期可靠性未知，本研究未綁定帳號、啟服務或傳訊。
+
+可貼指令（本庫原創／未實測）：只用合成事件做交付驗收，列原訊息ID、觸發時間、補充訊息、產生答案、排隊及實際送達證據。測補充晚400與600毫秒、HTTP200但業務拒絕、進程重啟與重複事件；按所提供規格判讀，不把排隊或重試當成功。過時答案不送，未知送達不盲重送。只交差異表，不連微信、不建webhook、不讀真實歷史、不安裝或執行程式。
+
+
+## 2026-10-25 02:40補充：轉錄、答案與播放分開驗收，忙碌不是已交付
+
+Muse官方公開SDK的[Issue6](https://github.com/facebookincubator/muse-gadget-sdk/issues/6)由HammerAce42於2026-10-02提出，其他板使用者也回報配對及轉錄成功卻無答案。[anantn的PR12](https://github.com/facebookincubator/muse-gadget-sdk/pull/12)於10-03合併，將輸出改成文字並移除原伺服器TTS請求；作者自述VM上的語音轉文字回答成功、主機測試及韌體建置通過，但PR當時明說尚未上實體板測試。保留播放程式不等於現成語音回覆已恢復，外接TTS另有資料與費用條件。
+
+[simonmesmith的Issue87](https://github.com/facebookincubator/muse-gadget-sdk/issues/87)於10-04仍記錄：含PR12的板上語音已轉錄，但答案零字元；同板文字提問可成功。10-09作者說似乎已修好後關閉，僅是恢復自述，伺服器根因仍是推測。中間留言提出dictation替代路徑，後來明說未實測，不能把建議當已驗修法。
+
+[ramanxg的PR110](https://github.com/facebookincubator/muse-gadget-sdk/pull/110)（英文，10-05建立、10-08合併；[固定差異](https://github.com/facebookincubator/muse-gadget-sdk/commit/cafaad480410ee1b1b336f4abe07d69aec5a7b48)）處理另一交付缺口：舊語音回合60秒無答案就失敗，即使代理仍忙。作者自述改後同一款Waveshare板五題收到並顯示答案，其中一題104秒；差異讓忙碌回合持續等待，仍保留總時限，無答案到上限則報錯。作者說語音總上限三分鐘，不是無限等待或延遲保證。本庫讀PR說明及程式差異，未執行、未獨立重現板上結果。亂序事件可能漏答的備註仍是風險推論，不能寫成已修復。
+
+這組不同作者、英文的故障／修正紀錄合併UC239，不因SDK、板型或三個故障階段另計新案例。官方[SDK README](https://github.com/facebookincubator/muse-gadget-sdk)要求相容硬體、SDK token、Developer mode與配對；開源不等於硬體、代理方案及外部TTS免費。本輪沒有刷韌體、建立token、配對、啟麥克風或呼叫服務。
+
+可貼指令（本庫原創／未實測）：只分析合成事件，分開列上傳、轉錄、產生非空答案、顯示與實際播放。比較文字／語音輸入、代理忙碌、超時及空答案，依給定版本規格判斷，不自行延長期限。VM、主機測試與實體板結果分欄；保留修前失敗、修後有限樣本及未驗根因，不把完成事件、PR合併或有聲音當整輪成功。只交驗收表，不連裝置或服務。

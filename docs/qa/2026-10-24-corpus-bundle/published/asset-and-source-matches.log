@@ -1,0 +1,9 @@
+browser	Original bytes and preview compatibility	2026-10-24T09:35:08.3766469Z PASS: 445 sources byte-for-byte identical; revision 20261024093456435417467
+browser	Original bytes and preview compatibility	2026-10-24T09:35:08.7003971Z PASS: 445 sources byte-for-byte identical; revision preview-f9293eee3916b149a159530488246d9f1a841d85773cc087e4451c8a15cdfcc8
+browser	Published assets and focused visitor journeys	2026-10-24T09:35:08.8841365Z ^[[36;1m(async()=>{for(const file of ['index.html','assets/app.js','assets/reader.js','assets/reader.css','assets/style.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file));if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published mismatch '+file);console.log('MATCH '+file);}^[[0m
+browser	Published assets and focused visitor journeys	2026-10-24T09:35:09.2909167Z MATCH index.html
+browser	Published assets and focused visitor journeys	2026-10-24T09:35:09.5415638Z MATCH assets/app.js
+browser	Published assets and focused visitor journeys	2026-10-24T09:35:09.7669867Z MATCH assets/reader.js
+browser	Published assets and focused visitor journeys	2026-10-24T09:35:09.9919187Z MATCH assets/reader.css
+browser	Published assets and focused visitor journeys	2026-10-24T09:35:10.2228362Z MATCH assets/style.css
+browser	Published assets and focused visitor journeys	2026-10-24T09:35:11.0809250Z PASS: 445 sources byte-for-byte identical; revision 20261024093111302951798

@@ -1,0 +1,75 @@
+browser	Verify preview journeys and existing regression	﻿2026-10-22T13:09:17.0993137Z ##[group]Run python3 -m http.server 8140 --directory "$RUNNER_TEMP/after" > /tmp/card-after.log 2>&1 &
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:17.0993843Z ^[[36;1mpython3 -m http.server 8140 --directory "$RUNNER_TEMP/after" > /tmp/card-after.log 2>&1 &^[[0m
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:17.0994391Z ^[[36;1mQA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/card-targets-browser.cjs^[[0m
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:17.0995006Z ^[[36;1mrunuser -u pwuser -- node tests/card-refinement-browser.cjs > qa-artifacts/refinement.log^[[0m
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:17.0995741Z ^[[36;1mQA_OUT=qa-artifacts/inspiration runuser -u pwuser -- node tests/inspiration-handoff-browser.cjs > qa-artifacts/inspiration.log^[[0m
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:17.0996494Z shell: sh -e {0}
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:17.0996742Z env:
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:17.0997048Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:17.0997452Z   SITE_URL: http://127.0.0.1:8140/ai-agent-use-cases/
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:17.0997808Z   REFINE_URL: http://127.0.0.1:8140/ai-agent-use-cases/
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:17.0998548Z ##[endgroup]
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6194436Z AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6199487Z + actual - expected
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6200276Z
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6200490Z + [
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6201362Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/043-public-events-calendar.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6202693Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/044-household-shared-dashboard.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6203993Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/045-cross-agent-research-handoff.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6205115Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6206370Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/047-portfolio-provenance-catalog.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6207544Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/048-daily-price-rank-tracking.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6209018Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/049-daily-inbox-report-graduated-trust.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6210187Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/050-daily-eink-mood-illustration.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6211277Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/051-tax-return-cpa-double-check.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6212458Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/052-cloud-overcharge-refund-root-cause.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6213657Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/053-ecommerce-replenishment-refund-profit.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6214876Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/054-music-video-multi-tool-pipeline.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6216120Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/055-tweet-project-intake-research-monitor.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6217289Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/056-agent-built-microbusiness-site.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6218659Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/057-self-hosted-ci-runner-on-laptop.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6219915Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/058-tennis-match-dead-time-editing.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6221077Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/059-home-service-quote-handoff.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6222223Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/060-x-mention-sourced-answer-bot.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6223572Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/061-dispatcher-bot-typed-commands-ledger.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6224964Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/062-figma-android-implementation-audit.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6226741Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/063-plex-media-library-housekeeping.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6228006Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/064-math-proof-review-formalization.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6231547Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/065-suspicious-email-security-review.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6232702Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/066-agent-token-usage-self-audit.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6233896Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/067-agent-app-rebuild-manual.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6235091Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/068-mac-local-helper-away-diagnosis.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6236184Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/069-task-migration-reconciliation.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6237530Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/070-github-outage-mac-cloudflare-publish.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6238950Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/071-obsidian-dots-visible-memory.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6240173Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/072-phone-task-disclosure-handoff.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6241368Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/073-customer-journey-content-audit.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6242489Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/074-event-trigger-readback.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6243642Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/075-health-appointment-briefing-coach.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6244762Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/076-spam-call-data-broker-optout.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6246154Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/077-cloud-draft-local-script-wechat-publish.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6247303Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/078-rental-listing-scam-check.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6248608Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/079-business-email-alias-diagnosis.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6249749Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/080-email-license-keys-to-password-vault.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6250870Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/081-todoist-scheduled-headstart.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6251933Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/082-multi-bot-fitness-coach-group.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6253044Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/083-printable-grade1-math-worksheet.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6254210Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/084-botops-tiered-fleet-notion-tickets.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6255460Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/085-slack-bug-triage-product-preread.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6256836Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/086-muse-concert-video-scraping-pipeline.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6288850Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/087-voice-walk-intake-codex-morning-call.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6290610Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/088-unrefunded-returns-inbox-chase.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6291999Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/089-digital-declutter-approval-plan.md due to access control checks.',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6293129Z +   '/127.0.0.1:8140/ai-agent-use-cases/cases/090-daily-prediction-market-evidence-read.md due to access control checks.'
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6294349Z + ]
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6294722Z - []
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6294889Z
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6295318Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/card-targets-browser.cjs:42:38 {
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6296046Z   generatedMessage: true,
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6296477Z   code: 'ERR_ASSERTION',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6296888Z   actual: [Array],
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6297334Z   expected: [],
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6297727Z   operator: 'deepStrictEqual',
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6298340Z   diff: 'simple'
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6298705Z }
+browser	Verify preview journeys and existing regression	2026-10-22T13:09:50.6562462Z ##[error]Process completed with exit code 1.

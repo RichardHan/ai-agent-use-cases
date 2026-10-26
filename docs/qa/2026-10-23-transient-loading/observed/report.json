@@ -1,0 +1,96 @@
+[
+  {
+    "width": 1440,
+    "network": [
+      {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/cases/031-spending-dashboard.md",
+        "status": 503,
+        "retryAfter": "0"
+      },
+      {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/cases/090-daily-prediction-market-evidence-read.md",
+        "status": 503,
+        "retryAfter": "0"
+      },
+      {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/cases/165-offline-network-control-evidence-review.md",
+        "status": 503,
+        "retryAfter": "0"
+      },
+      {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/cases/275-personal-phone-ai-receptionist-anti-scam.md",
+        "status": 503,
+        "retryAfter": "0"
+      },
+      {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/cases/323-daily-ai-news-one-tap-feedback-preference-loop.md",
+        "status": 503,
+        "retryAfter": "0"
+      },
+      {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/cases/317-nightly-explorer-builder-critic-prototype.md",
+        "status": 503,
+        "retryAfter": "0"
+      },
+      {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/cases/425-cancelled-trip-forgotten-credits-refund-insurance-claim.md",
+        "status": 503,
+        "retryAfter": "0"
+      },
+      {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/cases/439-morning-multibot-draft-desk-review-approval-ledger.md",
+        "status": 503,
+        "retryAfter": "0"
+      }
+    ],
+    "initialLoadMs": 5662,
+    "initial": {
+      "total": 434,
+      "failed": [
+        "cases/031-spending-dashboard.md",
+        "cases/090-daily-prediction-market-evidence-read.md",
+        "cases/165-offline-network-control-evidence-review.md",
+        "cases/275-personal-phone-ai-receptionist-anti-scam.md",
+        "cases/317-nightly-explorer-builder-critic-prototype.md",
+        "cases/323-daily-ai-news-one-tap-feedback-preference-loop.md",
+        "cases/425-cancelled-trip-forgotten-credits-refund-insurance-claim.md",
+        "cases/439-morning-multibot-draft-desk-review-approval-ledger.md"
+      ]
+    },
+    "results": "顯示 19 / 434 筆收錄（8 個來源檔案未載入）",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "returnQuery": "旅遊",
+    "block": {
+      "text": "我想把 [開源專案] 對 [我的裝置型號] 的控制協定，移植成 [目標軟體] 的外掛。請先不要寫程式：\n1. 列出開源實作的指令／暫存器與目標外掛介面的對照表，標出對不上的功能。\n2. 說明授權限制，以及成品能不能公開。\n3. 設計交付清單：硬體 ID 不符就完全不動作的閘門、只讀的探測工具、dry-run、需要我輸入確認的單次寫入、移除腳本、日誌位置。\n4. 只能用模擬介面測試；回報時把「模擬通過」與「實機未測」分開寫。\n5. 任何需要自簽章、關閉安全功能或修改系統設定的步驟，只列出風險與替代方案，由我決定。\n停止條件：找不到可靠的協定來源、或硬體 ID 無法確認時，停下來回報，不要猜。\n",
+      "tabindex": null,
+      "whiteSpace": "pre-wrap",
+      "width": 726,
+      "scrollWidth": 726
+    },
+    "direct": "UC-366",
+    "empty": true
+  },
+  {
+    "width": 390,
+    "network": [],
+    "initialLoadMs": 730,
+    "initial": {
+      "total": 442,
+      "failed": []
+    },
+    "results": "顯示 19 / 442 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "returnQuery": "旅遊",
+    "block": {
+      "text": "我想把 [開源專案] 對 [我的裝置型號] 的控制協定，移植成 [目標軟體] 的外掛。請先不要寫程式：\n1. 列出開源實作的指令／暫存器與目標外掛介面的對照表，標出對不上的功能。\n2. 說明授權限制，以及成品能不能公開。\n3. 設計交付清單：硬體 ID 不符就完全不動作的閘門、只讀的探測工具、dry-run、需要我輸入確認的單次寫入、移除腳本、日誌位置。\n4. 只能用模擬介面測試；回報時把「模擬通過」與「實機未測」分開寫。\n5. 任何需要自簽章、關閉安全功能或修改系統設定的步驟，只列出風險與替代方案，由我決定。\n停止條件：找不到可靠的協定來源、或硬體 ID 無法確認時，停下來回報，不要猜。\n",
+      "tabindex": null,
+      "whiteSpace": "pre-wrap",
+      "width": 282,
+      "scrollWidth": 282
+    },
+    "direct": "UC-366",
+    "empty": true
+  }
+]

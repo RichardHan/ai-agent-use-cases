@@ -1,0 +1,23 @@
+browser	Verify published assets and journeys	﻿2026-10-23T07:22:29.1580283Z ##[group]Run node <<'NODE'
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1580635Z ^[[36;1mnode <<'NODE'^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1580887Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1581160Z ^[[36;1m(async()=>{^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1581391Z ^[[36;1m  for(let i=0;i<90;i++){^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1581951Z ^[[36;1m    const r=await fetch(process.env.RECOVERY_URL+'assets/app.js?recovery='+process.env.GITHUB_SHA,{cache:'no-store'});^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1582831Z ^[[36;1m    if(r.ok&&await r.text()===fs.readFileSync('assets/app.js','utf8')){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1583490Z ^[[36;1m    await new Promise(r=>setTimeout(r,3000));^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1583785Z ^[[36;1m  }^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1584024Z ^[[36;1m  throw Error('Published assets mismatch');^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1584414Z ^[[36;1m})().catch(e=>{console.error(e);process.exitCode=1});^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1584728Z ^[[36;1mNODE^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1584951Z ^[[36;1mmkdir -p qa-artifacts/preview^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1585316Z ^[[36;1mmv qa-artifacts/after-* qa-artifacts/preview/^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1585661Z ^[[36;1mnode tests/combined-recovery-browser.cjs^[[0m
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1648140Z shell: /usr/bin/bash -e {0}
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1648399Z env:
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1648683Z   NODE_PATH: /home/runner/work/_temp/recovery-tools/node_modules
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1649146Z   RECOVERY_URL: https://richardhan.github.io/ai-agent-use-cases/
+browser	Verify published assets and journeys	2026-10-23T07:22:29.1649698Z ##[endgroup]
+browser	Verify published assets and journeys	2026-10-23T07:27:01.5541025Z Error: Published assets mismatch
+browser	Verify published assets and journeys	2026-10-23T07:27:01.5541754Z     at [stdin]:8:9
+browser	Verify published assets and journeys	2026-10-23T07:27:01.5635679Z ##[error]Process completed with exit code 1.

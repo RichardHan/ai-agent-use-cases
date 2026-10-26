@@ -1,0 +1,38 @@
+browser	Verify repaired focus and full journeys	﻿2026-10-22T22:07:23.4294506Z ##[group]Run python3 -m http.server 8134 --directory "$RUNNER_TEMP/preview" > /tmp/focus-preview.log 2>&1 &
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4295362Z ^[[36;1mpython3 -m http.server 8134 --directory "$RUNNER_TEMP/preview" > /tmp/focus-preview.log 2>&1 &^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4295948Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8134/ai-agent-use-cases/^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4296487Z ^[[36;1mif [ "refs/heads/improve/task-search-20261023" = refs/heads/verify/search-focus-20261023 ]; then^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4297120Z ^[[36;1m  export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4297528Z ^[[36;1m  node - <<'JS'^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4297799Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4299105Z ^[[36;1m(async()=>{for(const file of ['index.html','assets/style.css','assets/reader.css','assets/app.js','assets/reader.js']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?focus='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);}console.log('Published product assets match checkout');})().catch(e=>{console.error(e);process.exit(1)});^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4300470Z ^[[36;1mJS^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4300769Z ^[[36;1mfi^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4301051Z ^[[36;1mchown -R pwuser:pwuser qa-artifacts^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4301563Z ^[[36;1mQA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/search-focus-browser.cjs^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4302160Z ^[[36;1mQA_OUT=qa-artifacts/regression runuser -u pwuser -- node tests/task-shortcuts-browser.cjs^[[0m
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4302758Z shell: sh -e {0}
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4303050Z env:
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4303812Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:23.4304177Z ##[endgroup]
+browser	Verify repaired focus and full journeys	2026-10-22T22:07:43.8483837Z PASS chromium-1440
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:02.3347051Z PASS chromium-390
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:20.9475545Z PASS chromium-320
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:47.7400701Z PASS firefox-390
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4829626Z AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4830316Z
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4927865Z   assert(state.top>=state.toolbarBottom&&state.bottom<=900)
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4928637Z
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4937431Z     at style (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/search-focus-browser.cjs:19:216)
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4938227Z     at runNextTicks (node:internal/process/task_queues:64:5)
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4938899Z     at process.processImmediate (node:internal/timers:452:9)
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4939581Z     at process.callbackTrampoline (node:internal/async_hooks:130:17)
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4940660Z     at async /__w/ai-agent-use-cases/ai-agent-use-cases/tests/search-focus-browser.cjs:41:204 {
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4941331Z   generatedMessage: true,
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4941853Z   code: 'ERR_ASSERTION',
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4942262Z   actual: false,
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4960850Z   expected: true,
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4961446Z   operator: '==',
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4961912Z   diff: 'simple'
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.4962379Z }
+browser	Verify repaired focus and full journeys	2026-10-22T22:08:56.5406968Z ##[error]Process completed with exit code 1.

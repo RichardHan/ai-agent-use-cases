@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const {chromium,firefox,webkit}=require('playwright'),{AxeBuilder}=require('@axe-core/playwright');
 const base=process.env.SITE_URL||'http://127.0.0.1:8136/ai-agent-use-cases/';
@@ -50,7 +51,7 @@ for(const mode of ['loading','error','partial','empty']){
  const context=await browser.newContext({viewport:{width:390,height:900}}),page=await context.newPage();let release;const gate=new Promise(r=>release=r);
  if(mode==='loading')await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
  if(mode==='error')await page.route('**/catalog.json',route=>route.abort());
- if(mode==='partial')await page.route('**/cases/001-travel-checkout.md',route=>route.abort());
+ if(mode==='partial')await sourceRoute(page,'**/cases/001-travel-checkout.md',route=>route.abort());
  if(mode==='empty')await page.route('**/catalog.json',route=>route.fulfill({json:{files:['cases/005-cloud-pr-review.md']}}));
  await page.goto(base);if(mode==='empty'){await page.waitForFunction(()=>discoveryReady);await page.locator('#guide-options [data-scenario="生活"]').click();assert(await page.locator('#draw-status').evaluate(n=>n===document.activeElement));assert(await page.locator('#draw-case').isDisabled());await page.screenshot({path:out+'/empty-guide.png'});lifecycle.push({mode,passed:true,focus:'draw-status'});await context.close();continue;}if(mode==='error')await page.locator('#error').waitFor({state:'visible'});if(mode==='partial')await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
  await page.locator('#query').click();await page.locator('#query').fill('旅遊');const before=await page.evaluate(()=>document.activeElement.id);await page.evaluate(()=>revealDiscovery());

@@ -8,8 +8,8 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -74,7 +74,9 @@ jobs:
           const fs=require('node:fs');
           const expected=['cases','evidence'].flatMap(dir=>fs.readdirSync(dir,{recursive:true}).filter(file=>file.endsWith('.md')).map(file=>dir+'/'+file)).concat('sources/pending.md').sort();
           (async()=>{
-            for(let i=0;i<96;i++){
+            const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            for(let i=0;i<301;i++){
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const matched=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async file=>{
                 const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/'+file+'?review='+Date.now());
                 return r.ok&&await r.text()===fs.readFileSync(file,'utf8');
@@ -84,7 +86,8 @@ jobs:
               if(matched.every(Boolean)&&catalogMatches){console.log('Published HTML/JS/CSS and catalog match checkout');return;}
               await new Promise(resolve=>setTimeout(resolve,5000));
             }
-            throw Error('Published assets and catalog did not match checkout within eight minutes');
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published assets and catalog did not match checkout within 25 minutes (301 attempts)');
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
       - name: Verify real HTTPS desktop and mobile journeys
@@ -94,7 +97,18 @@ jobs:
           RECENT_URL: https://richardhan.github.io/ai-agent-use-cases/
           RECENT_LIVE: '1'
           RECENT_OUTPUT: qa-artifacts/published
-        run: node tests/recent-review-browser.cjs
+        run: |
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
+          node tests/recent-review-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

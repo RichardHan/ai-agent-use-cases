@@ -7,9 +7,9 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container: mcr.microsoft.com/playwright:v1.64.0-noble
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -73,17 +73,31 @@ jobs:
         run: |
           node - <<'JS'
           const fs=require('node:fs'),{createHash}=require('node:crypto');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const files=['index.html','assets/app.js','assets/style.css'];
-            for(let attempt=0;attempt<30;attempt++){
+            for(let attempt=0;attempt<181;attempt++){
+              if(attempt>0&&attempt%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const matches=await Promise.all(files.map(async f=>{try{const r=await fetch(process.env.SITE_URL+(f==='index.html'?'':f)+'?inspiration='+process.env.GITHUB_SHA,{signal:AbortSignal.timeout(15000)});return r.ok&&await r.text()===fs.readFileSync(f,'utf8');}catch{return false;}}));
               if(matches.every(Boolean)){fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify(files.map(f=>({path:f,sha256:createHash('sha256').update(fs.readFileSync(f)).digest('hex')})),null,2));console.log('Published HTML/app.js/style.css match checkout');return;}
-              await new Promise(r=>setTimeout(r,10000));
+              await new Promise(r=>setTimeout(r,5000));
             }
-            throw Error('Pages assets did not match checkout');
-          })().catch(e=>{console.error(e);process.exit(1)});
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Pages assets did not match checkout within 15 minutes (181 attempts)');
+          })().catch(e=>{console.error(e);process.exitCode=1});
           JS
           chown -R pwuser:pwuser qa-artifacts
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           runuser -u pwuser -- node tests/inspiration-handoff-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

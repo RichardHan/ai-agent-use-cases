@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
 const {ensureFiltersVisible}=require('./filter-controls.cjs');
 const origin=process.env.RECENT_URL||'http://127.0.0.1:8131/ai-agent-use-cases/';
@@ -19,7 +20,7 @@ const origin=process.env.RECENT_URL||'http://127.0.0.1:8131/ai-agent-use-cases/'
   // A missing source rejoins the correct order without losing card focus.
   const partial=await browser.newPage({viewport:{width:390,height:844}});
   let failing=true;
-  await partial.route('**/cases/363-*.md',route=>failing?route.fulfill({status:503,body:'test unavailable'}):route.continue());
+  await sourceRoute(partial,'**/cases/363-*.md',route=>failing?route.fulfill({status:503,body:'test unavailable'}):route.continue());
   await partial.goto(origin+'?sort=reviewed');await partial.waitForFunction(()=>discoveryReady);
   assert.equal(await partial.evaluate(()=>failedPaths.length),1);assert(await partial.locator('#partial-load').isVisible());
   failing=false;

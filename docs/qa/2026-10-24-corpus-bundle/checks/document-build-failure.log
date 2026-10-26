@@ -1,0 +1,2 @@
+browser	Build actual GitHub Pages Jekyll output	2026-10-24T09:27:46.5273371Z ^[[31m  Liquid Exception: Liquid syntax error (line 48): Variable '{{' was not properly terminated with regexp: /\}\}/ in docs/qa/2026-10-24-corpus-bundle/README.md^[[0m
+browser	Build actual GitHub Pages Jekyll output	2026-10-24T09:27:46.5275499Z /usr/local/bundle/gems/liquid-4.0.4/lib/liquid/block_body.rb:136:in `raise_missing_variable_terminator': Liquid syntax error (line 48): Variable '{{' was not properly terminated with regexp: /\}\}/ (Liquid::SyntaxError)

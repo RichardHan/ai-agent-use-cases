@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: received search collapses an overflowing disclosure without changing its focus destination
+not ok 1 - received search collapses an overflowing disclosure without changing its focus destination
+  ---
+  duration_ms: 9.256542
+  type: 'test'
+  location: '/private/tmp/ai-catalog-bundle-20261024/tests/search-arrival-space.test.cjs:13:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/ai-catalog-bundle-20261024/tests/search-arrival-space.test.cjs:14:46)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.start (node:internal/test_runner/test:878:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17)
+  ...
+# Subtest: arrival preserves disclosure when fits exactly
+ok 2 - arrival preserves disclosure when fits exactly
+  ---
+  duration_ms: 2.737333
+  type: 'test'
+  ...
+# Subtest: arrival preserves disclosure when tall viewport
+ok 3 - arrival preserves disclosure when tall viewport
+  ---
+  duration_ms: 4.412041
+  type: 'test'
+  ...
+# Subtest: arrival preserves disclosure when already closed
+ok 4 - arrival preserves disclosure when already closed
+  ---
+  duration_ms: 2.545125
+  type: 'test'
+  ...
+# Subtest: reader return never changes an open disclosure
+ok 5 - reader return never changes an open disclosure
+  ---
+  duration_ms: 3.403417
+  type: 'test'
+  ...
+# Subtest: interaction during loading prevents late disclosure changes and focus movement
+ok 6 - interaction during loading prevents late disclosure changes and focus movement
+  ---
+  duration_ms: 2.449042
+  type: 'test'
+  ...
+# Subtest: an already focused filter is never hidden by automatic compaction
+ok 7 - an already focused filter is never hidden by automatic compaction
+  ---
+  duration_ms: 2.834709
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 6
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 82.294167

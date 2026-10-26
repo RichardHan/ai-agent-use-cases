@@ -70,21 +70,41 @@ const save=()=>fs.writeFileSync(output+'/report.json',JSON.stringify(reports,nul
  if(engine==='chromium'&&size==='desktop'){
  report.corpus=await page.evaluate(()=>{
   let passages=0;const terms=[{term:'未',variants:['未']},{term:'來源',variants:['來源']}];
-  for(const item of entries){
+   for(const item of entries){
+   const targetTags=[];
    const body=document.createElement('div');body.innerHTML='<section class="plain-overview"></section><details class="research-details"><summary>完整研究</summary></details>';
-   const markdown=renderMarkdown(item.markdown,item.path);body.querySelector('details').append(markdown);const original=markdown.innerHTML;
+   const markdown=renderMarkdown(item.markdown,item.path);body.querySelector('details').append(markdown);const original=markdown.cloneNode(true);
    CaseReader.enhance(body,item,terms);
    for(const group of body.querySelectorAll('.reader-search-match')){
     const locate=group.querySelector('.reader-search-locate'),quote=group.querySelector('.reader-search-excerpt');if(!locate)continue;
     const target=body.querySelector('#'+locate.getAttribute('aria-controls'));{
-     if(!target||!['P','LI','PRE','BLOCKQUOTE'].includes(target.tagName))throw Error(item.id+' bad original block');
+     if(!target||!['P','LI','PRE','BLOCKQUOTE','TD','TH'].includes(target.tagName))throw Error(item.id+' bad original block: '+(target?.tagName||'missing'));
+     targetTags.push(target.tagName);
      if(quote&&!target.textContent.includes(quote.textContent.replace(/^…|…$/g,'')))throw Error(item.id+' nonliteral excerpt');
     }passages++;
    }
    const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return,.reader-copy').forEach(n=>n.remove());
-   clean.querySelectorAll('h2,h3,[id^="reader-passage-"]').forEach(n=>{n.removeAttribute('id');n.removeAttribute('tabindex');});
-   if(clean.innerHTML!==original)throw Error(item.id+' original research changed');
-  }return {entries:entries.length,passages};
+   const originalNodes=[...original.querySelectorAll('*')],cleanNodes=[...clean.querySelectorAll('*')];
+   cleanNodes.forEach((node,index)=>{
+    const baseline=originalNodes[index];
+    for(const attribute of ['id','tabindex']){
+     if(baseline?.hasAttribute(attribute))node.setAttribute(attribute,baseline.getAttribute(attribute));
+     else node.removeAttribute(attribute);
+    }
+   });
+   const originalTables=[...original.querySelectorAll('.markdown-table')];
+   clean.querySelectorAll('.markdown-table').forEach((table,index)=>{
+    const originalTable=originalTables[index],originalInner=originalTable?.querySelector('table'),inner=table.querySelector('table');
+    for(const [target,baseline] of [[table,originalTable],[inner,originalInner]]){
+     if(!target||!baseline)continue;
+     if(baseline.hasAttribute('aria-label'))target.setAttribute('aria-label',baseline.getAttribute('aria-label'));
+     else target.removeAttribute('aria-label');
+    }
+   });
+   if(clean.innerHTML!==original.innerHTML)throw Error(item.id+' original research changed');
+   if(item.id==='UC-400'&&!targetTags.some(tag=>tag==='TD'||tag==='TH'))throw Error('UC-400 table matches must locate their original cell');
+   }
+  return {entries:entries.length,passages};
  });save();
  await page.evaluate(()=>{globalThis.savedSegmenter=Intl.Segmenter;Intl.Segmenter=undefined;});
  await fixture('# Test\n## 長文\n'+long,'長段落命中');assert.equal(await page.locator('.reader-search-excerpt').count(),0);await page.locator('.reader-search-locate').click();assert.equal(await page.locator(':focus').textContent(),long);

@@ -1,0 +1,137 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "options": [
+      "33 · 全部情境",
+      "20 · 生活",
+      "5 · 工作",
+      "1 · 省錢",
+      "0 · 學習",
+      "6 · 創作",
+      "1 · 開發"
+    ],
+    "inputTimingMs": [
+      14.900000000023283,
+      12.899999999965075,
+      12.800000000046566,
+      11.199999999953434,
+      11.300000000046566
+    ],
+    "travelDevelopmentCount": 1,
+    "emptyFixture": {
+      "key": "scenario",
+      "value": "學習"
+    },
+    "axeViolations": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "options": [
+      "33 · 全部情境",
+      "20 · 生活",
+      "5 · 工作",
+      "1 · 省錢",
+      "0 · 學習",
+      "6 · 創作",
+      "1 · 開發"
+    ],
+    "inputTimingMs": [
+      16.599999999976717,
+      12.800000000046566,
+      12.699999999953434,
+      11.400000000023283,
+      11.400000000023283
+    ],
+    "travelDevelopmentCount": 1,
+    "emptyFixture": {
+      "key": "scenario",
+      "value": "學習"
+    },
+    "axeViolations": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "options": [
+      "33 · 全部情境",
+      "20 · 生活",
+      "5 · 工作",
+      "1 · 省錢",
+      "0 · 學習",
+      "6 · 創作",
+      "1 · 開發"
+    ],
+    "inputTimingMs": [
+      16.899999999965075,
+      12.900000000023283,
+      13.200000000011642,
+      11.5,
+      12
+    ],
+    "travelDevelopmentCount": 1,
+    "emptyFixture": {
+      "key": "scenario",
+      "value": "學習"
+    },
+    "axeViolations": []
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "options": [
+      "33 · 全部情境",
+      "20 · 生活",
+      "5 · 工作",
+      "1 · 省錢",
+      "0 · 學習",
+      "6 · 創作",
+      "1 · 開發"
+    ],
+    "inputTimingMs": [
+      17,
+      17,
+      18,
+      16,
+      17
+    ],
+    "travelDevelopmentCount": 1,
+    "emptyFixture": {
+      "key": "scenario",
+      "value": "學習"
+    },
+    "axeViolations": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "options": [
+      "33 · 全部情境",
+      "20 · 生活",
+      "5 · 工作",
+      "1 · 省錢",
+      "0 · 學習",
+      "6 · 創作",
+      "1 · 開發"
+    ],
+    "inputTimingMs": [
+      18,
+      16,
+      15,
+      15,
+      12
+    ],
+    "travelDevelopmentCount": 1,
+    "emptyFixture": {
+      "key": "scenario",
+      "value": "學習"
+    },
+    "axeViolations": []
+  },
+  {
+    "journey": "loading-partial-retry",
+    "countBefore": 19,
+    "countAfter": 20
+  }
+]

@@ -1,0 +1,403 @@
+[
+  {
+    "label": "chromium-1440",
+    "tasks": [
+      {
+        "q": "每日",
+        "count": 106,
+        "focus": "results-count",
+        "top": 23.703125,
+        "card": {
+          "x": 165,
+          "y": 216.015625,
+          "width": 323.328125,
+          "height": 65.09375,
+          "top": 216.015625,
+          "right": 488.328125,
+          "bottom": 281.109375,
+          "left": 165
+        },
+        "panel": true
+      },
+      {
+        "q": "收件匣",
+        "count": 127,
+        "focus": "results-count",
+        "top": 23.65625,
+        "card": {
+          "x": 165,
+          "y": 215.96875,
+          "width": 323.328125,
+          "height": 97.640625,
+          "top": 215.96875,
+          "right": 488.328125,
+          "bottom": 313.609375,
+          "left": 165
+        },
+        "panel": true
+      },
+      {
+        "q": "比價",
+        "count": 47,
+        "focus": "results-count",
+        "top": 23.890625,
+        "card": {
+          "x": 165,
+          "y": 216.203125,
+          "width": 323.328125,
+          "height": 65.09375,
+          "top": 216.203125,
+          "right": 488.328125,
+          "bottom": 281.296875,
+          "left": 165
+        },
+        "panel": true
+      },
+      {
+        "q": "排程",
+        "count": 208,
+        "focus": "results-count",
+        "top": 24.265625,
+        "card": {
+          "x": 165,
+          "y": 216.578125,
+          "width": 323.328125,
+          "height": 65.09375,
+          "top": 216.578125,
+          "right": 488.328125,
+          "bottom": 281.671875,
+          "left": 165
+        },
+        "panel": true
+      }
+    ],
+    "errors": [],
+    "network": [
+      {
+        "url": "https://www.reddit.com/r/buhaydigital/comments/1x1dcdo/for_those_guys_na_exhausted_na_maghanap_ng_work/",
+        "status": 403
+      }
+    ],
+    "total": 423,
+    "resultAxe": 0,
+    "source": "https://www.reddit.com/r/buhaydigital/comments/1x1dcdo/for_those_guys_na_exhausted_na_maghanap_ng_work/",
+    "openedSource": "https://www.reddit.com/r/buhaydigital/comments/1x1dcdo/for_those_guys_na_exhausted_na_maghanap_ng_work/",
+    "emptyAxe": 0
+  },
+  {
+    "label": "chromium-390",
+    "tasks": [
+      {
+        "q": "每日",
+        "count": 106,
+        "focus": "results-count",
+        "top": 24.484375,
+        "card": {
+          "x": 43,
+          "y": 236.890625,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.890625,
+          "right": 347,
+          "bottom": 305.078125,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "收件匣",
+        "count": 127,
+        "focus": "results-count",
+        "top": 24.09375,
+        "card": {
+          "x": 43,
+          "y": 236.5,
+          "width": 304,
+          "height": 102.28125,
+          "top": 236.5,
+          "right": 347,
+          "bottom": 338.78125,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "比價",
+        "count": 47,
+        "focus": "results-count",
+        "top": 24.484375,
+        "card": {
+          "x": 43,
+          "y": 236.890625,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.890625,
+          "right": 347,
+          "bottom": 305.078125,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "排程",
+        "count": 208,
+        "focus": "results-count",
+        "top": 23.921875,
+        "card": {
+          "x": 43,
+          "y": 236.328125,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.328125,
+          "right": 347,
+          "bottom": 304.515625,
+          "left": 43
+        },
+        "panel": true
+      }
+    ],
+    "errors": [],
+    "network": [],
+    "total": 423,
+    "resultAxe": 0,
+    "source": "https://www.reddit.com/r/buhaydigital/comments/1x1dcdo/for_those_guys_na_exhausted_na_maghanap_ng_work/",
+    "emptyAxe": 0
+  },
+  {
+    "label": "chromium-320",
+    "tasks": [
+      {
+        "q": "每日",
+        "count": 106,
+        "focus": "results-count",
+        "top": 23.953125,
+        "card": {
+          "x": 43,
+          "y": 236.359375,
+          "width": 234,
+          "height": 102.28125,
+          "top": 236.359375,
+          "right": 277,
+          "bottom": 338.640625,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "收件匣",
+        "count": 127,
+        "focus": "results-count",
+        "top": 23.96875,
+        "card": {
+          "x": 43,
+          "y": 236.375,
+          "width": 234,
+          "height": 136.375,
+          "top": 236.375,
+          "right": 277,
+          "bottom": 372.75,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "比價",
+        "count": 47,
+        "focus": "results-count",
+        "top": 23.546875,
+        "card": {
+          "x": 43,
+          "y": 235.953125,
+          "width": 234,
+          "height": 68.1875,
+          "top": 235.953125,
+          "right": 277,
+          "bottom": 304.140625,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "排程",
+        "count": 208,
+        "focus": "results-count",
+        "top": 24.046875,
+        "card": {
+          "x": 43,
+          "y": 236.453125,
+          "width": 234,
+          "height": 102.28125,
+          "top": 236.453125,
+          "right": 277,
+          "bottom": 338.734375,
+          "left": 43
+        },
+        "panel": true
+      }
+    ],
+    "errors": [],
+    "network": [],
+    "total": 423,
+    "resultAxe": 0,
+    "source": "https://www.reddit.com/r/buhaydigital/comments/1x1dcdo/for_those_guys_na_exhausted_na_maghanap_ng_work/",
+    "emptyAxe": 0
+  },
+  {
+    "label": "firefox-390",
+    "tasks": [
+      {
+        "q": "每日",
+        "count": 106,
+        "focus": "results-count",
+        "top": 23.566665649414062,
+        "card": {
+          "x": 43,
+          "y": 236.1999969482422,
+          "width": 304,
+          "height": 68.19999694824219,
+          "top": 236.1999969482422,
+          "right": 347,
+          "bottom": 304.3999938964844,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "收件匣",
+        "count": 127,
+        "focus": "results-count",
+        "top": 23.566665649414062,
+        "card": {
+          "x": 43,
+          "y": 236.1999969482422,
+          "width": 304,
+          "height": 102.30000305175781,
+          "top": 236.1999969482422,
+          "right": 347,
+          "bottom": 338.5,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "比價",
+        "count": 47,
+        "focus": "results-count",
+        "top": 23.566665649414062,
+        "card": {
+          "x": 43,
+          "y": 236.1999969482422,
+          "width": 304,
+          "height": 68.19999694824219,
+          "top": 236.1999969482422,
+          "right": 347,
+          "bottom": 304.3999938964844,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "排程",
+        "count": 208,
+        "focus": "results-count",
+        "top": 23.566665649414062,
+        "card": {
+          "x": 43,
+          "y": 236.1999969482422,
+          "width": 304,
+          "height": 68.19999694824219,
+          "top": 236.1999969482422,
+          "right": 347,
+          "bottom": 304.3999938964844,
+          "left": 43
+        },
+        "panel": true
+      }
+    ],
+    "errors": [],
+    "network": [],
+    "total": 423,
+    "resultAxe": 0,
+    "source": "https://www.reddit.com/r/buhaydigital/comments/1x1dcdo/for_those_guys_na_exhausted_na_maghanap_ng_work/",
+    "emptyAxe": 0
+  },
+  {
+    "label": "webkit-390",
+    "tasks": [
+      {
+        "q": "每日",
+        "count": 106,
+        "focus": "results-count",
+        "top": 23.921875,
+        "card": {
+          "x": 43,
+          "y": 236.328125,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.328125,
+          "right": 347,
+          "bottom": 304.515625,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "收件匣",
+        "count": 127,
+        "focus": "results-count",
+        "top": 24.109375,
+        "card": {
+          "x": 43,
+          "y": 236.515625,
+          "width": 304,
+          "height": 102.28125,
+          "top": 236.515625,
+          "right": 347,
+          "bottom": 338.796875,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "比價",
+        "count": 47,
+        "focus": "results-count",
+        "top": 24.078125,
+        "card": {
+          "x": 43,
+          "y": 236.484375,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.484375,
+          "right": 347,
+          "bottom": 304.671875,
+          "left": 43
+        },
+        "panel": true
+      },
+      {
+        "q": "排程",
+        "count": 208,
+        "focus": "results-count",
+        "top": 24.28125,
+        "card": {
+          "x": 43,
+          "y": 236.6875,
+          "width": 304,
+          "height": 68.1875,
+          "top": 236.6875,
+          "right": 347,
+          "bottom": 304.875,
+          "left": 43
+        },
+        "panel": true
+      }
+    ],
+    "errors": [],
+    "network": [],
+    "total": 423,
+    "resultAxe": 0,
+    "source": "https://www.reddit.com/r/buhaydigital/comments/1x1dcdo/for_those_guys_na_exhausted_na_maghanap_ng_work/",
+    "emptyAxe": 0
+  }
+]

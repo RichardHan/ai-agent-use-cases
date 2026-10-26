@@ -1,8 +1,10 @@
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.RECOVERY_URL||'http://127.0.0.1:8099/ai-agent-use-cases/';
 const observe=process.env.OBSERVE==='1',prefix=observe?'before':'after';
+const totalMatches=async page=>Number((await page.locator('#results-count').innerText()).match(/^顯示 (\d+) \//)[1]);
 fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];
@@ -31,11 +33,18 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
  await page.locator('#empty').scrollIntoViewIfNeeded();await page.screenshot({path:`qa-artifacts/${prefix}-empty-${engine.name()}-${width}.png`});
  if(!observe){
   const recovery=page.locator('#empty-suggestions button');assert.equal(await recovery.count(),1);assert.match(await recovery.innerText(),/使用情境/);assert.match(await recovery.innerText(),/收錄狀態/);const recoveredCount=Number((await recovery.innerText()).match(/查看 (\d+) 筆/)[1]);assert(recoveredCount>0);row.recoveredCount=recoveredCount;
-  await recovery.focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#query').inputValue(),'UC001');assert.equal(await page.locator('#scenario').inputValue(),'');assert.equal(await page.locator('#kind').inputValue(),'');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');assert.equal(new URL(page.url()).searchParams.get('tool'),'Grok Bot');assert.equal(await page.locator('#results .card').count(),recoveredCount);assert(await page.locator('#results-count').evaluate(e=>e===document.activeElement));assert(!new URL(page.url()).searchParams.has('scenario'));
+  await recovery.focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#query').inputValue(),'UC001');assert.equal(await page.locator('#scenario').inputValue(),'');assert.equal(await page.locator('#kind').inputValue(),'');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');assert.equal(new URL(page.url()).searchParams.get('tool'),'Grok Bot');assert.equal(await totalMatches(page),recoveredCount);assert(await page.locator('#results-count').evaluate(e=>e===document.activeElement));assert(!new URL(page.url()).searchParams.has('scenario'));
   await page.locator('#results .card[data-case-id="UC-001"] .card-bottom button').click();await page.locator('#detail[open]').waitFor();await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();await page.locator('#close-detail').click();assert.equal(await page.locator('#query').inputValue(),'UC001');
-  // No query matches: no invented recovery; query editor keeps facets.
-  await page.locator('#query').fill('no-task-987654');await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');assert.equal(await page.locator('#empty-suggestions button').count(),0);await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(e=>e===document.activeElement));assert.equal(await page.locator('#scenario').inputValue(),'生活');
-  await page.locator('#empty-reset').click();assert(await page.locator('#results .card').count()>300);
+  // Only shortcuts with results under the retained facet are offered.
+  await page.locator('#query').fill('no-task-987654');await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');assert(await page.locator('#empty-suggestions [data-problem-tag]').count()>0);assert.equal(await page.locator('#empty-suggestions [data-problem-tag="代碼審查"]').count(),0);assert.match(await page.locator('#empty-suggestions').innerText(),/日報/);await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(e=>e===document.activeElement));assert.equal(await page.locator('#scenario').inputValue(),'生活');
+  await page.locator('#empty-reset').click();const resetCount=await totalMatches(page);assert(resetCount>300);
+  assert.equal(await page.locator('#results .card').count(),24,'reset renders only the first batch');
+  assert.deepEqual(await page.locator('#results .card').evaluateAll(nodes=>nodes.map(n=>n.dataset.caseId)),await page.evaluate(()=>currentFiltered.slice(0,24).map(item=>item.id)));
+  await page.locator('#load-more-results').focus();await page.keyboard.press('Enter');
+  assert.equal(await page.locator('#results .card').count(),48,'loading more appends a second batch');
+  assert.deepEqual(await page.locator('#results .card').evaluateAll(nodes=>nodes.map(n=>n.dataset.caseId)),await page.evaluate(()=>currentFiltered.slice(0,48).map(item=>item.id)));
+  assert.equal(await totalMatches(page),resetCount,'loading more does not change the complete result count');
+  await page.locator('#query').fill('no-task-987654');await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');await page.locator('#empty-suggestions [data-problem-tag="日報"]').focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#query').inputValue(),'日報');assert.equal(await page.locator('#scenario').inputValue(),'生活');assert(await page.locator('#results .card').count()>0);
   await page.goto(base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});await waitEmpty();
   row.recoveryRenderMs=await page.evaluate(()=>{const t=performance.now();document.getElementById('query').dispatchEvent(new Event('input',{bubbles:true}));return performance.now()-t;});
   const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();row.axe=audit.violations.map(v=>v.id);assert.deepEqual(row.axe,[]);
@@ -47,7 +56,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   // Source loading, partial recovery and focus retention during background refresh.
   let release;const gate=new Promise(r=>release=r);
   await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
-  await page.route('**/cases/001-travel-checkout.md',route=>route.fulfill({status:503,body:'Unavailable'}));
+  await sourceRoute(page,'**/cases/001-travel-checkout.md',route=>route.fulfill({status:503,body:'Unavailable'}));
   await page.goto(base+'?q=UC001&scenario=開發&kind=pending&tool=Grok%20Bot#explore',{waitUntil:'domcontentloaded'});
   assert(await page.locator('#empty').isHidden());release();
   await page.locator('#partial-load').waitFor({state:'visible'});assert.match(await page.locator('#empty-hint').innerText(),/部分條目載入失敗/);const partialCount=Number((await page.locator('#empty-suggestions button').innerText()).match(/查看 (\d+) 筆/)[1]);
@@ -61,7 +70,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.goto(base+'?'+params+'#explore',{waitUntil:'networkidle'});await page.locator('#empty-suggestions button').waitFor();
   assert.match(await page.locator('#empty-hint').innerText(),/2 項/);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.locator('#empty').scrollIntoViewIfNeeded();await page.screenshot({path:'qa-artifacts/after-long-390.png'});
-  const longCount=Number((await page.locator('#empty-suggestions button').innerText()).match(/查看 (\d+) 筆/)[1]);await page.locator('#empty-suggestions button').click();assert.equal(await page.locator('#results .card').count(),longCount);
+  const longCount=Number((await page.locator('#empty-suggestions button').innerText()).match(/查看 (\d+) 筆/)[1]);await page.locator('#empty-suggestions button').click();assert.equal(await totalMatches(page),longCount);
   // Fully unavailable catalog: retain the existing honest error/retry flow.
   await page.route('**/catalog.json',route=>route.fulfill({status:503,body:'Unavailable'}));await page.reload({waitUntil:'networkidle'});await page.locator('#error').waitFor({state:'visible'});assert(await page.locator('#empty').isHidden());await page.unroute('**/catalog.json');await page.locator('#retry').click();await page.locator('#results .card').first().waitFor();
   report.push({journey:'loading-partial-retry-focus-long-error',passed:true});await browser.close();

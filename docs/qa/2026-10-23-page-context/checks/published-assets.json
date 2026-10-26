@@ -1,0 +1,42 @@
+[
+  {
+    "path": "index.html",
+    "status": 200,
+    "publishedSHA256": "8f260f7d0ac18776af706278bac8c9104d1349ec356a83f1878f213f17037651",
+    "checkoutSHA256": "8f260f7d0ac18776af706278bac8c9104d1349ec356a83f1878f213f17037651",
+    "bytes": 16483,
+    "equal": true
+  },
+  {
+    "path": "assets/app.js",
+    "status": 200,
+    "publishedSHA256": "3b7218009514470623b5dbd21d6c035eb67b80f5236ed6136c01db9fbe54f853",
+    "checkoutSHA256": "3b7218009514470623b5dbd21d6c035eb67b80f5236ed6136c01db9fbe54f853",
+    "bytes": 169594,
+    "equal": true
+  },
+  {
+    "path": "assets/style.css",
+    "status": 200,
+    "publishedSHA256": "038b6038af8a958a028adc83ebe48609d4561dd99aee6f2ececa40efd1456e1d",
+    "checkoutSHA256": "038b6038af8a958a028adc83ebe48609d4561dd99aee6f2ececa40efd1456e1d",
+    "bytes": 33209,
+    "equal": true
+  },
+  {
+    "path": "assets/reader.js",
+    "status": 200,
+    "publishedSHA256": "b8a2c03580248d4c1f6c3e1af520a76960cc2422ff4b08c68c2b967b6a8b511c",
+    "checkoutSHA256": "b8a2c03580248d4c1f6c3e1af520a76960cc2422ff4b08c68c2b967b6a8b511c",
+    "bytes": 26661,
+    "equal": true
+  },
+  {
+    "path": "assets/reader.css",
+    "status": 200,
+    "publishedSHA256": "cce3346d75b5e6de54ec92581c5e7e8245d157aeb8089e9d3a312cd6786f9a69",
+    "checkoutSHA256": "cce3346d75b5e6de54ec92581c5e7e8245d157aeb8089e9d3a312cd6786f9a69",
+    "bytes": 15959,
+    "equal": true
+  }
+]

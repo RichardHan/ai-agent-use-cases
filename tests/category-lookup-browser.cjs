@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright'),{AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.LOOKUP_URL||'http://127.0.0.1:8160/ai-agent-use-cases/';
@@ -67,7 +68,7 @@ const live=process.env.LOOKUP_LIVE==='1';
  if(!live){
  // Long labels wrap; partial-source retry preserves the focused category button.
  let attempts=0,release;const gate=new Promise(resolve=>release=resolve);
- await context.route('**/cases/001-travel-checkout.md',async route=>{attempts++;if(attempts===1)return route.fulfill({status:503,body:'missing'});await gate;await route.continue();});
+ await sourceRoute(context,'**/cases/001-travel-checkout.md',async route=>{attempts++;if(attempts===1)return route.fulfill({status:503,body:'missing'});await gate;await route.continue();});
  await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert.equal(await page.evaluate(()=>failedPaths.length),1);
  await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#category-finder').evaluate(e=>e.open=true);
  await input.fill('省錢 開戶');await page.locator('#category-finder').scrollIntoViewIfNeeded();

@@ -1,0 +1,152 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "checks": [
+      {
+        "flow": "selected-title",
+        "before": "UC-001",
+        "after": "UC-001"
+      },
+      {
+        "flow": "unselected-navigation",
+        "next": "UC-139",
+        "returned": "UC-001"
+      },
+      {
+        "flow": "source-passage",
+        "bothDirections": true
+      },
+      {
+        "flow": "selected-explicit-navigation",
+        "passed": true
+      },
+      {
+        "flow": "return-and-empty-recovery",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "checks": [
+      {
+        "flow": "selected-title",
+        "before": "UC-001",
+        "after": "UC-001"
+      },
+      {
+        "flow": "unselected-navigation",
+        "next": "UC-139",
+        "returned": "UC-001"
+      },
+      {
+        "flow": "source-passage",
+        "bothDirections": true
+      },
+      {
+        "flow": "selected-explicit-navigation",
+        "passed": true
+      },
+      {
+        "flow": "return-and-empty-recovery",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "axe": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "checks": [
+      {
+        "flow": "selected-title",
+        "before": "UC-001",
+        "after": "UC-001"
+      },
+      {
+        "flow": "unselected-navigation",
+        "next": "UC-139",
+        "returned": "UC-001"
+      },
+      {
+        "flow": "source-passage",
+        "bothDirections": true
+      },
+      {
+        "flow": "selected-explicit-navigation",
+        "passed": true
+      },
+      {
+        "flow": "return-and-empty-recovery",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "axe": []
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "checks": [
+      {
+        "flow": "selected-title",
+        "before": "UC-001",
+        "after": "UC-001"
+      },
+      {
+        "flow": "unselected-navigation",
+        "next": "UC-139",
+        "returned": "UC-001"
+      },
+      {
+        "flow": "source-passage",
+        "bothDirections": true
+      },
+      {
+        "flow": "selected-explicit-navigation",
+        "passed": true
+      },
+      {
+        "flow": "return-and-empty-recovery",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "axe": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "checks": [
+      {
+        "flow": "selected-title",
+        "before": "UC-001",
+        "after": "UC-001"
+      },
+      {
+        "flow": "unselected-navigation",
+        "next": "UC-139",
+        "returned": "UC-001"
+      },
+      {
+        "flow": "source-passage",
+        "bothDirections": true
+      },
+      {
+        "flow": "selected-explicit-navigation",
+        "passed": true
+      },
+      {
+        "flow": "return-and-empty-recovery",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "axe": []
+  }
+]

@@ -1,0 +1,9 @@
+AssertionError [ERR_ASSERTION]: closed guidance still describes the source filter in the real accessibility tree
+    at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/source-guide-before.cjs:35:11 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '',
+  expected: /未獨立重現/,
+  operator: 'match',
+  diff: 'simple'
+}

@@ -39,3 +39,14 @@ Tom Robinson 自述把 Grok Bot 接到既有 Home Assistant 後，透過對話�
 - Tom Robinson，英文，[原LinkedIn使用報告](https://www.linkedin.com/posts/t-rob_we-experiment-with-ai-constantly-at-jack-activity-7500505869403512832-oRmz)。原正文已讀；同頁SocialMediaPosting發布中繼資料2026-09-01 10:52:31.909 UTC。
 - Home Assistant，英文，[Model Context Protocol Server官方文件](https://www.home-assistant.io/integrations/mcp_server/)，查閱2026-10-16；權限預設、功能及遠端存取條件已讀。
 - 未取得作者設定／執行紀錄，未控制設備或建立帳號連線。與UC-010實體顯示、UC-122音樂燈光秀、UC-141車輛讀值不同，這裡是居家場景觸發與狀態驗收。
+
+
+## 2026-10-22補充：開窗期間暫停調溫，明確關窗後才重新評估
+
+- Reddit u/svcsouth，英文，[原串可見留言](https://www.reddit.com/r/GrokBot/comments/1xbyspq/what_are_regular_people_actually_using_grokbot_for/)，本輪22:21（台灣）查閱；頁面只示相對時間，精確發文時間未核。
+- 作者自述有一個comfort Bot控制兩個ecobee恆溫器，每週一讀預報，視需要調整，並顧及在家工作時的辦公室感測器。作者說目前開窗，Bot知道在本人告知關窗前不要動作。這是場景例外與人工解除條件的具體變體，不是新增案例。
+- 沒有實體狀態、暫停持續時間、規則檔或耗電量可核；不能宣稱已驗證安全聯鎖或節能。原文未說經Home Assistant串接，不把本頁原案例的MCP架構套用給這位作者。
+- [Home Assistant官方ecobee文件](https://www.home-assistant.io/integrations/ecobee/)本輪讀概念、屬性與限制：目標值、目前模式及equipment_running是不同狀態，暫時hold可能在下一個排程階段到期。這只支持區分『代理暫停調整』與『設備本身排程／運行』的驗收需要，不證明作者使用此整合或開窗時設備已停止。
+- 權限與費用：需要合法的設備控制授權；作者的連線方式、方案、費用與共同居住者同意未公開。不新增連線、變更HVAC模式或停用設備保護；既有設備手動控制及安全機制不應交由此文字示例取代。
+
+可貼指令（本庫設計／未實測）：只用虛構居家情境寫驗收表，不連設備。分列『代理是否允許提出變更』『目前設備模式／實際運行』『既有排程是否仍會生效』。對開窗、窗況未知、本人明確告知關窗、舊通知重播、設備離線逐項列預期處理；未知時保留待人工核對，不猜已關窗，也不把週一預報更新當解除暫停。重新允許評估不等於直接恢復舊設定。不要產生可執行設備命令、登入或新增授權。

@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs');
@@ -42,7 +43,7 @@ const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(reports,null,2
   assert.equal(await page.locator('#category').inputValue(),category);await page.locator('#kind').selectOption('case');await page.locator('#sort').selectOption('reviewed');
   await verify();await audit('combined filters');
   await page.locator('#results .card h3 button').first().click();await page.locator('#detail[open]').waitFor();const shared=page.url();
-  row.source=await page.locator('.detail-source').getAttribute('href');assert.match(row.source,/^https:\/\/github\.com\/RichardHan\/ai-agent-use-cases\/blob\/main\//);if(width===1440)row.sourceStatus=(await page.request.get(row.source)).status();const popupWait=page.waitForEvent('popup');await page.locator('.detail-source').click();const popup=await popupWait;row.openedSource=popup.url();assert.equal(row.openedSource,row.source);await popup.close();
+  row.source=await page.locator('.detail-source').getAttribute('href');assert.match(row.source,/^https:\/\/github\.com\/RichardHan\/ai-agent-use-cases\/blob\/(?:main|[a-f0-9]{40})\/(?:cases|evidence)\//);if(width===1440)row.sourceStatus=(await page.request.get(row.source)).status();const popupWait=page.waitForEvent('popup');await page.locator('.detail-source').click();const popup=await popupWait;row.openedSource=popup.url();assert.equal(row.openedSource,row.source);await popup.close();
   await page.reload();await page.locator('#detail[open]').waitFor();await ready();await page.locator('#close-detail').click();await open();
   assert.equal(await page.locator('#category').inputValue(),category);assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#sort').inputValue(),'reviewed');await verify();
   await page.locator('#results .card h3 button').first().click();await page.goBack();assert.equal(await page.locator('#detail').evaluate(e=>e.open),false);
@@ -56,7 +57,7 @@ const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(reports,null,2
  if(!observe&&!live){
   const browser=await chromium.launch(),page=await browser.newPage();let release;const gate=new Promise(r=>release=r);
   await page.route('**/catalog.json',async route=>{await gate;await route.continue();});await page.goto(base,{waitUntil:'domcontentloaded'});assert.equal(await page.locator('#category optgroup').count(),0);release();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});
-  await page.route('**/cases/001-*',r=>r.fulfill({status:503,body:'unavailable'}));await page.reload();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert(await page.locator('#partial-load').isVisible());
+  await sourceRoute(page,'**/cases/001-*',r=>r.fulfill({status:503,body:'unavailable'}));await page.reload();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert(await page.locator('#partial-load').isVisible());
   await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#category').selectOption({index:1});const selected=await page.locator('#category').inputValue();await page.unroute('**/cases/001-*');await page.locator('#retry-failed').click();await page.waitForFunction(()=>!recoveringSources);assert(await page.locator('#partial-load').isHidden());assert.equal(await page.locator('#category').inputValue(),selected);assert.equal(await page.locator('#category optgroup optgroup').count(),0);
   await page.route('**/catalog.json',r=>r.fulfill({status:503,body:'unavailable'}));await page.goto(base);await page.locator('#error').waitFor();assert.equal(await page.locator('#category optgroup').count(),0);await page.unroute('**/catalog.json');await page.locator('#retry').click();await page.waitForFunction(()=>discoveryReady,null,{timeout:90000});assert((await page.locator('#category optgroup').count())>0);
   reports.push({states:'loading, partial failure, recovery retains selection, total failure, retry',passed:true});save();await browser.close();

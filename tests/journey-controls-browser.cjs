@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs');
@@ -49,7 +50,7 @@ async function jumpAndReturn(page,button){
  await page.keyboard.press('Escape');await page.locator('#query').fill('journey-no-match-20261021');assert(await page.locator('#empty').isVisible());await page.locator('#edit-query').click();assert.equal(await page.evaluate(()=>document.activeElement.id),'query');await page.locator('#query').fill('旅遊');assert(await page.locator('#results .card').count()>0);row.journeys.push('direct link, reload, H3, empty results and recovery');
  // Completing other sources must preserve the actual original-section return control.
  if(!process.env.JOURNEY_LIVE){const late=await context.newPage();late.on('pageerror',e=>row.errors.push(e.message));let release;const gate=new Promise(resolve=>release=resolve);
- await late.route('**/cases/001-travel-checkout.md',async route=>{await gate;await route.continue();});
+ await sourceRoute(late,'**/cases/001-travel-checkout.md',async route=>{await gate;await route.continue();});
  await late.goto(base+'?case=UC-359');await late.locator('#detail[open]').waitFor();assert.equal(await late.evaluate(()=>discoveryReady),false);
  await late.locator('.reader-method-shortcut').click();await late.keyboard.press('Tab');
  const reading=await late.evaluate(()=>{window.savedReturn=document.activeElement;return {text:savedReturn.textContent,top:savedReturn.getBoundingClientRect().top};});assert.match(reading.text,/回到閱讀導覽/);

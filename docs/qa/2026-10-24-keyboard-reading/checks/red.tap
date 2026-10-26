@@ -1,0 +1,75 @@
+✖ ArrowLeft leaves selected reading text and browser default intact (3.761541ms)
+✔ ArrowLeft keeps normal case navigation when selection is collapsed (0.559ms)
+✖ ArrowRight leaves selected reading text and browser default intact (0.806125ms)
+✔ ArrowRight keeps normal case navigation when selection is collapsed (0.94325ms)
+✔ reading shortcut respects editable (0.555541ms)
+✔ reading shortcut respects isComposing (0.427375ms)
+✔ reading shortcut respects defaultPrevented (0.468917ms)
+✔ reading shortcut respects shiftKey (0.422542ms)
+✔ reading shortcut respects metaKey (0.74875ms)
+✔ reading shortcut respects ctrlKey (0.700334ms)
+✔ reading shortcut respects altKey (0.431584ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 91.014042
+
+✖ failing tests:
+
+test at tests/reading-selection.test.cjs:12:2
+✖ ArrowLeft leaves selected reading text and browser default intact (3.761541ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   prevented: true,
+  +   steps: [
+  +     -1
+  +   ]
+  -   prevented: false,
+  -   steps: []
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/ai-round-20261024-navigation/tests/reading-selection.test.cjs:12:83)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { steps: [ -1 ], prevented: true },
+    expected: { steps: [], prevented: false },
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/reading-selection.test.cjs:12:2
+✖ ArrowRight leaves selected reading text and browser default intact (0.806125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   prevented: true,
+  +   steps: [
+  +     1
+  +   ]
+  -   prevented: false,
+  -   steps: []
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/ai-round-20261024-navigation/tests/reading-selection.test.cjs:12:83)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { steps: [ 1 ], prevented: true },
+    expected: { steps: [], prevented: false },
+    operator: 'deepStrictEqual'
+  }

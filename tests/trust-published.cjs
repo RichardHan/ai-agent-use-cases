@@ -1,10 +1,13 @@
 'use strict';
 const fs=require('node:fs'),{createHash}=require('node:crypto');
+const origin=process.env.TRUST_URL;
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
- const origin=process.env.TRUST_URL;
  const paths=['index.html','assets/audit.js','assets/style.css'];
  const latest=fs.readFileSync('sources/qualification-audit-2026-10-16.md','utf8').split(/^## /m)[1];
- for(let attempt=0;attempt<90;attempt++){
+ for(let attempt=0;attempt<301;attempt++){
+  if(attempt>0&&attempt%15===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
   try{
    const bodies=await Promise.all(paths.map(async path=>{const response=await fetch(origin+path,{cache:'no-store'});if(!response.ok)throw Error(path);return response.text();}));
    const response=await fetch(origin+'audit-summary.json',{cache:'no-store'}),summary=await response.json();
@@ -15,5 +18,6 @@ const fs=require('node:fs'),{createHash}=require('node:crypto');
   }catch{}
   await new Promise(r=>setTimeout(r,5000));
  }
- throw Error('Published assets and current audit batch do not match checkout');
+ if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+ throw Error('Published assets and current audit batch do not match checkout within 25 minutes (301 attempts)');
 })().catch(e=>{console.error(e);process.exit(1)});

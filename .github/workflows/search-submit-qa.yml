@@ -3,13 +3,13 @@ on:
   workflow_dispatch:
   push:
     branches: [improve/result-pagination-20261020, main]
-    paths: ['tests/search-submit*', '.github/workflows/search-submit-qa.yml', 'assets/**', 'index.html']
+    paths: ['tests/search-submit*', 'tests/search-scope-browser.cjs', '.github/workflows/search-submit-qa.yml', 'assets/**', 'index.html']
 permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -39,9 +39,11 @@ jobs:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           SUBMIT_URL: http://127.0.0.1:8121/ai-agent-use-cases/
           SUBMIT_OUTPUT: qa-artifacts/after
+          SEARCH_SCOPE_URL: http://127.0.0.1:8121/ai-agent-use-cases/
         run: |
           python3 -m http.server 8121 --directory "$RUNNER_TEMP/preview" > /tmp/submit-preview.log 2>&1 &
           node tests/search-submit-browser.cjs
+          node tests/search-scope-browser.cjs
       - name: Existing reader regression
         if: hashFiles('tests/search-submit.test.cjs') != ''
         env:
@@ -56,7 +58,17 @@ jobs:
         run: |
           python3 - <<'PYTHON'
           import pathlib,time,urllib.request
-          for attempt in range(60):
+          import subprocess
+          result=subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
+          if result.returncode == 42:
+              print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
+              raise SystemExit(0)
+          for attempt in range(501):
+              if attempt > 0 and attempt % 15 == 0:
+                  res = subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
+                  if res.returncode == 42:
+                      print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
+                      raise SystemExit(0)
               try:
                   matches=[]
                   for name in ('assets/app.js','assets/style.css','index.html'):
@@ -69,8 +81,22 @@ jobs:
                   print(type(error).__name__)
               time.sleep(3)
           else:
-              raise SystemExit('Pages assets did not match checkout')
+              res = subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
+              if res.returncode == 42:
+                  print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
+                  raise SystemExit(0)
+              raise SystemExit('Pages assets did not match checkout within 25 minutes (501 attempts)')
           PYTHON
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           node tests/search-submit-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

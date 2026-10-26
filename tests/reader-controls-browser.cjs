@@ -2,6 +2,8 @@
 const {chromium,firefox,webkit}=require('playwright');
 const AxeBuilder=require('@axe-core/playwright').default;
 const fs=require('node:fs'),assert=require('node:assert/strict');
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS_URL)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});const reports=[];
  const views=[['chromium',1440],['chromium',390],['chromium',320],['chromium',360],['firefox',390],['webkit',390]];
@@ -10,7 +12,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  try {
  const context=await browser.newContext({viewport:{width,height:width===1440?1000:844}});
  page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
- let loadedCSS;page.on('response',response=>{if(new URL(response.url()).pathname.endsWith('/assets/reader.css'))loadedCSS=response.text();});
+ let loadedCSS;page.on('response',response=>{const url=response.url();if(url.startsWith(process.env.CONTROLS_URL||'http://127.0.0.1:8100/ai-agent-use-cases/')&&new URL(url).pathname.endsWith('/assets/reader.css')&&response.status()===200)loadedCSS=response.text();});
  const base=process.env.CONTROLS_URL||'http://127.0.0.1:8100/ai-agent-use-cases/';
  await page.goto(base);await page.locator('#results .card').first().waitFor();
  if(process.env.LABEL==='live')assert.equal(await loadedCSS,fs.readFileSync('assets/reader.css','utf8'),'actual page-loaded reader.css matches checkout');
@@ -19,15 +21,23 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
  await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');
  const trigger=page.locator('#results .card h3 button').first();await trigger.click();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
  const url=page.url(),initialId=await page.locator('#detail-toolbar-id').innerText();await page.screenshot({path:`qa-artifacts/${process.env.LABEL}-reader-${engine}-${width}.png`});
+ const sourceBeforeActions=await page.locator('.detail-source').evaluate(n=>!!(n.compareDocumentPosition(document.querySelector('.detail-actions'))&Node.DOCUMENT_POSITION_FOLLOWING));
  const controls=await page.locator('.detail-toolbar-actions button').evaluateAll(ns=>ns.map(n=>{const r=n.getBoundingClientRect();return {id:n.id,width:r.width,height:r.height,font:getComputedStyle(n).fontSize}}));
  console.log('CONTROL_MEASUREMENTS '+JSON.stringify({engine,width,controls}));
  if(!process.env.OBSERVE)for(const c of controls){assert.ok(c.width>=44&&c.height>=44,'TOUCH_TARGET_SIZE '+JSON.stringify(c));assert.ok(parseFloat(c.font)>=14,JSON.stringify(c));}
+ if(!process.env.OBSERVE)assert.ok(sourceBeforeActions,'the original Markdown route follows the purpose before sharing and print actions');
  await page.locator('#nav-next-case').click();assert.notEqual(await page.locator('#detail-toolbar-id').innerText(),initialId);
  await page.locator('#nav-prev-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),initialId);
  await page.locator('.reader-nav').scrollIntoViewIfNeeded();
  const toolbarVisible=await page.locator('#close-detail').evaluate(n=>{const r=n.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight});assert.ok(toolbarVisible);
  await page.locator('.detail-source').click({trial:true});const source=await page.locator('.detail-source').getAttribute('href');
- assert.equal(source,'https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md','source entry keeps the public original path');
+ if(process.env.OBSERVE)assert.equal(source,'https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel-checkout.md','historical baseline source path');
+ else {
+  const catalog=await(await page.request.get(base+'catalog.json')).json();
+  const bundle=await(await page.request.get(base+'corpus.json')).json();
+  const revision=/^[a-f0-9]{40}$/i.test(catalog.sourceRevision||'') && catalog.bundleRevision===bundle.revision && catalog.sourceRevision===bundle.sourceRevision ? catalog.sourceRevision.toLowerCase() : 'main';
+  assert.equal(source,`https://github.com/RichardHan/ai-agent-use-cases/blob/${revision}/cases/001-travel-checkout.md`,'source entry matches the loaded publication or explicitly falls back to main');
+ }
  // Remote availability is recorded separately from UI correctness (GitHub can return 429).
  const sourceStatus=width===1440?(await page.request.get(source)).status():null;
  await page.keyboard.press('Escape');assert.equal(await page.locator('#detail').evaluate(n=>n.open),false);
@@ -60,8 +70,30 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
   assert.equal(await page.locator('#detail').evaluate(n=>n.scrollWidth>n.clientWidth),false);
   await page.locator('#detail-toolbar-id').evaluate((n,id)=>n.textContent=id,'UC-313');
  }
- await page.locator('#copy-case-link').focus();await page.keyboard.press('Shift+Tab');
- assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail');assert.equal(await page.locator('#close-detail').evaluate(n=>n.matches(':focus-visible')),true);
+ if(!process.env.OBSERVE){
+ // Reader shortcuts precede sharing, so Tab must visit them in rendered order
+ // rather than jump directly between the toolbar and the copy-link button.
+ const earlyControls=page.locator('#detail-body .reader-method-shortcut,#detail-body .plain-overview button,#detail-body .plain-overview a[href],#copy-case-link');
+ const earlyCount=await earlyControls.count();
+ assert.ok(earlyCount>=3,'method and overview shortcuts precede sharing');
+ assert.ok(await earlyControls.first().evaluate(n=>n.matches('.reader-method-shortcut')),'the original-method shortcut is the first body control');
+ assert.equal(await earlyControls.last().getAttribute('id'),'copy-case-link');
+ // WebKit's default Tab skips buttons; Option/Alt+Tab includes every control.
+ const tab=engine==='webkit'?'Alt+Tab':'Tab',reverseTab=engine==='webkit'?'Alt+Shift+Tab':'Shift+Tab';
+ await page.locator('#close-detail').focus();
+ for(let i=0;i<earlyCount;i++){
+  await page.keyboard.press(tab);
+  assert.ok(await earlyControls.nth(i).evaluate(n=>n===document.activeElement),`forward Tab visits reader control ${i+1} in rendered order`);
+ }
+ for(let i=earlyCount-2;i>=0;i--){
+  await page.keyboard.press(reverseTab);
+  assert.ok(await earlyControls.nth(i).evaluate(n=>n===document.activeElement),`reverse Tab visits reader control ${i+1} without skipping shortcuts`);
+  if(i===earlyCount-2)assert.ok(await earlyControls.nth(i).evaluate(n=>{const r=n.getBoundingClientRect(),toolbar=document.querySelector('.detail-toolbar').getBoundingClientRect(),dialog=document.querySelector('#detail').getBoundingClientRect(),style=getComputedStyle(n);return n.classList.contains('reader-guidance-shortcut')&&r.top>=toolbar.bottom&&r.bottom<=dialog.bottom&&parseFloat(style.outlineWidth)>=2&&style.outlineStyle!=='none';}),'reverse Tab reveals the preceding guidance control below the toolbar with a visible outline');
+ }
+ await page.keyboard.press(reverseTab);
+ assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail','reverse Tab from the first body control returns to the toolbar');
+ assert.ok(await page.locator('#close-detail').evaluate(n=>{const style=getComputedStyle(n);return parseFloat(style.outlineWidth)>=2&&style.outlineStyle!=='none';}),'reverse keyboard handoff has a visible focus outline');
+ }
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
  reports.push({engine,width,controls,toolbarVisible,source,sourceStatus,axe:axe.violations.map(v=>v.id),errors});
  fs.writeFileSync(`qa-artifacts/${process.env.LABEL}-report.json`,JSON.stringify(reports,null,2));

@@ -1,0 +1,25 @@
+browser	Reproduce baseline and verify preview	﻿2026-10-23T04:28:03.8604245Z ##[group]Run git show 9ebbcb2:assets/app.js > "$RUNNER_TEMP/before-app.js"
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8604837Z ^[[36;1mgit show 9ebbcb2:assets/app.js > "$RUNNER_TEMP/before-app.js"^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8605582Z ^[[36;1mif EMPHASIS_SOURCE="$RUNNER_TEMP/before-app.js" node --test --test-reporter=tap tests/emphasis.test.cjs > qa-artifacts/red.tap 2>&1; then^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8606320Z ^[[36;1m  echo 'Expected baseline emphasis regression'; exit 1^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8606656Z ^[[36;1mfi^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8607385Z ^[[36;1mnode -e "const fs=require('node:fs'),a=require('node:assert/strict'),s=fs.readFileSync('qa-artifacts/red.tap','utf8');a.match(s,/# fail 5/);a.equal([...s.matchAll(/code: 'ERR_ASSERTION'/g)].length,5)"^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8608436Z ^[[36;1mpython3 -m http.server 8174 --directory "$RUNNER_TEMP/preview" > /tmp/emphasis-preview.log 2>&1 &^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8608970Z ^[[36;1mchown -R pwuser:pwuser qa-artifacts^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8609363Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8174/ai-agent-use-cases/^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8609878Z ^[[36;1mif [ "$GITHUB_REF" = refs/heads/verify/source-emphasis-20261023 ]; then^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8610386Z ^[[36;1m  export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8610773Z ^[[36;1m  node - <<'JS'^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8611014Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8612653Z ^[[36;1m(async()=>{for(const file of ['assets/app.js','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+file+'?emphasis='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);}console.log('Published assets match checkout');})().catch(e=>{console.error(e);process.exit(1)});^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8614008Z ^[[36;1mJS^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8614192Z ^[[36;1mfi^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8614544Z ^[[36;1mQA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/emphasis-browser.cjs^[[0m
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8615067Z shell: sh -e {0}
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8615272Z env:
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8615509Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:03.8615827Z ##[endgroup]
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:04.2023801Z Error: Published asset mismatch assets/app.js
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:04.2044104Z     at [stdin]:2:233
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:04.2082770Z     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+browser	Reproduce baseline and verify preview	2026-10-23T04:28:04.2704594Z ##[error]Process completed with exit code 1.

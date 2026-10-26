@@ -1,0 +1,55 @@
+name: Reliable corpus round QA
+on:
+  push:
+    branches: [improve/reliable-corpus-20261023, verify/reliable-corpus-20261023]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud tools
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
+          mkdir -p /usr/local/share/fonts qa-artifacts
+          curl -fL --max-time 90 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
+          fc-cache -f
+          chown -R pwuser:pwuser qa-artifacts
+      - name: Unit, syntax and preview
+        run: |
+          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+          for f in assets/*.js tests/recovery-progress*.cjs tests/reliability-observe.cjs; do node --check "$f"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Cloud recovery and visitor journeys
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          python3 -m http.server 8184 --directory "$RUNNER_TEMP/preview" > /tmp/reliability-preview.log 2>&1 &
+          export SITE_URL=http://127.0.0.1:8184/ai-agent-use-cases/
+          if [ "$GITHUB_REF_NAME" = verify/reliable-corpus-20261023 ]; then
+            export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/
+            export QA_PUBLIC=1 QA_OBSERVE=1
+            node - <<'JS'
+          const fs=require('node:fs');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
+          (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}for(const file of ['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?recovery='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);console.log('MATCH '+file);}})().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          fi
+          chown -R pwuser:pwuser qa-artifacts
+          QA_OUT=qa-artifacts/recovery runuser -u pwuser -- node tests/recovery-progress-browser.cjs
+          QA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reliability-qa
+          path: qa-artifacts/

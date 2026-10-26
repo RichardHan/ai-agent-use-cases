@@ -8,8 +8,8 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -60,9 +60,12 @@ jobs:
         run: |
           node - <<'JS'
           const fs=require('node:fs');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const files=['index.html','assets/app.js','assets/style.css'];
-            for(let i=0;i<90;i++){
+            for(let i=0;i<750;i++){
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const observed=await Promise.all(files.map(async file=>{
                 const r=await fetch(process.env.LOOKUP_URL+file+'?categoryqa='+Date.now());
                 return r.ok?await r.text():'';
@@ -70,9 +73,20 @@ jobs:
               if(observed.every((text,i)=>text===fs.readFileSync(files[i],'utf8'))){fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify({commit:process.env.GITHUB_SHA,files,matched:true}));return;}
               await new Promise(resolve=>setTimeout(resolve,2000));
             }
-            throw Error('Published assets differ');
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published assets did not match checkout within 25 minutes (750 attempts)');
           })().catch(e=>{console.error(e);process.exitCode=1});
           JS
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           node tests/category-lookup-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

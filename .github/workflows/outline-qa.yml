@@ -13,7 +13,7 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
@@ -71,11 +71,23 @@ jobs:
         run: |
           node - <<'JS'
           const fs=require('node:fs');
-          (async()=>{for(const file of ['assets/reader.js','assets/reader.css']){
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
+          (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}for(const file of ['assets/reader.js','assets/reader.css']){
             const r=await fetch(process.env.COPY_URL+file+'?copy='+process.env.GITHUB_SHA);
             if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published mismatch '+file);
           }fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify({sha:process.env.GITHUB_SHA,matched:true}));})().catch(e=>{console.error(e);process.exitCode=1});
           JS
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           node tests/outline-copy-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

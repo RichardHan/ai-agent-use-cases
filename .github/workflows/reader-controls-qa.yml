@@ -7,8 +7,8 @@ permissions:
   contents: read
 jobs:
   controls:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,13 +55,17 @@ jobs:
         run: |
           node <<'NODE'
           const fs=require('node:fs');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
-            for(let i=0;i<90;i++){
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            for(let i=0;i<450;i++){
+              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/assets/reader.css?qa='+process.env.GITHUB_SHA);
               if(r.ok&&await r.text()===fs.readFileSync('assets/reader.css','utf8'))return;
               await new Promise(r=>setTimeout(r,2000));
             }
-            throw Error('Published CSS mismatch');
+            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            throw Error('Published CSS mismatch after 450 attempts at two-second intervals');
           })().catch(e=>{console.error(e);process.exitCode=1});
           NODE
           LABEL=live CONTROLS_URL=https://richardhan.github.io/ai-agent-use-cases/ node tests/reader-controls-browser.cjs

@@ -41,3 +41,19 @@ AI試作室Ryo以文章發布包任務展示自建Dot Face：工作中轉成待�
 - 作者：AI試作室Ryo。平台：note。語言：日文。
 - [公開原文](https://note.com/ai_shisakushitsu/n/n72380f9ef07a)：頁面2026-10-04 23:13，時區未另核；全文已讀，動畫及完整27分鐘錄影未獨立驗證。
 - 不同UC-061派工台帳、UC-310錯誤歸因、UC-341封存狀態矛盾；本例聚焦人工決策接力與外部顯示一致性。不同外觀與QA修復不各算案例。
+
+
+## 2026-10-24 補充：舊畫面的「正在工作」不是即時進度
+
+GitHub 作者 djui 的 [Grokbot Monitor](https://github.com/djui/grokbot) 是第三方 macOS 狀態顯示程式，不是官方 Grok Bot 功能。[0.1.1 更新紀錄](https://github.com/djui/grokbot/blob/b349269414906b77921749ea79274ff825a6ebb8/CHANGELOG.md) 標示 2026-10-03：排除舊對話文字造成的工作中誤判，並加入資料新鮮度及系統喚醒後的冷卻。這是作者修訂紀錄，不是本庫量測的改善率。
+
+2026-10-24 18:53 台灣時間靜態核讀該版 [分類器](https://github.com/djui/grokbot/blob/b349269414906b77921749ea79274ff825a6ebb8/Sources/GrokbotMonitor/AccessibilityReader.swift)、[應用狀態](https://github.com/djui/grokbot/blob/b349269414906b77921749ea79274ff825a6ebb8/Sources/GrokbotMonitor/AppModel.swift) 與 [測試原碼](https://github.com/djui/grokbot/blob/b349269414906b77921749ea79274ff825a6ebb8/Tests/GrokbotMonitorTests/GrokbotMonitorTests.swift)：有八小時前文字不應被當作活躍的合成測試；更新間隔超過10秒後，暫緩活躍推斷12秒。未編譯、未執行測試、未核實真機結果。等待／失敗文字判定不經同一活躍新鮮度閘門，因此不能說所有舊狀態誤判均已解決。
+
+本例併入外部顯示與真實任務狀態核對，不另計新案例；不同於UC-391私人團隊總覽的建置與敏感資料掃描。原碼與作者自述只支持此第三方版本，不能泛化到 dots 或 Muse。作者列 macOS 14、Xcode 16 及輔助使用權限；當前相容性、費用及長期準確率未核。研究不安裝、不開權限、不讀使用者裝置或內部紀錄。
+
+官方 [電腦與應用說明](https://docs.x.ai/grok-bot/computer-and-apps)（頁示10月22日更新、本次核讀）區分雲端工作與本機，並說明關閉本機應用不會停止雲端工作；本機指示燈不應單獨作為雲端停止或完成證據。官方頁未背書上述監看程式。
+
+可貼指令（本庫自設，未實測）：只用合成事件做外部狀態驗收表，測試舊文字殘留、喚醒後暫時舊畫面、無新時間戳、待人工回答與失敗訊號。逐項記觀察時間、來源時間、推斷狀態及未知；工作中、待人與失敗都要檢查新鮮度。沒有新事件不直接標閒置或完成，最後仍核對可開啟產物。不要讀裝置、登入、安裝或啟用服務。
+
+[本輪候選審查與覆蓋限制](../sources/research-2026-10-24-1850.md)。
+

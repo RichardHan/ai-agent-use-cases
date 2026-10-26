@@ -1,0 +1,9 @@
+AssertionError [ERR_ASSERTION]: History must restore expanded original research
+    at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/reading-history-browser.cjs:20:15 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

@@ -14,8 +14,9 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: ubuntu-24.04
+    container: mcr.microsoft.com/playwright:v1.56.1-noble
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,8 +27,10 @@ jobs:
       - name: Install browser QA tools on the GitHub runner
         run: |
           npm install --prefix "$RUNNER_TEMP/browser-tools" playwright@1.56.1 @axe-core/playwright@4.10.2
-          "$RUNNER_TEMP/browser-tools/node_modules/.bin/playwright" install --with-deps chromium
-          sudo apt-get install -y fonts-noto-cjk
+          mkdir -p /usr/local/share/fonts
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
+          fc-cache -f
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Capture the original site
         env:
           NODE_PATH: ${{ runner.temp }}/browser-tools/node_modules
@@ -50,6 +53,7 @@ jobs:
           python3 scripts/preview.py "$RUNNER_TEMP/preview-after/ai-agent-use-cases"
           python3 -m http.server 8081 --directory "$RUNNER_TEMP/preview-after" > /tmp/site-after.log 2>&1 &
           node tests/discovery-browser.cjs
+          ROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/results-batching-browser.cjs
       - name: Verify the published GitHub Pages site
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         env:

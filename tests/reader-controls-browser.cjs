@@ -68,8 +68,29 @@ if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS
   assert.equal(await page.locator('#detail').evaluate(n=>n.scrollWidth>n.clientWidth),false);
   await page.locator('#detail-toolbar-id').evaluate((n,id)=>n.textContent=id,'UC-313');
  }
- await page.locator('#copy-case-link').focus();await page.keyboard.press('Shift+Tab');
- assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail');assert.ok(await page.locator('#close-detail').evaluate(n=>{const style=getComputedStyle(n);return parseFloat(style.outlineWidth)>=2&&style.outlineStyle!=='none';}),'reverse keyboard handoff has a visible focus outline');
+ if(!process.env.OBSERVE){
+ // Reader shortcuts precede sharing, so Tab must visit them in rendered order
+ // rather than jump directly between the toolbar and the copy-link button.
+ const earlyControls=page.locator('#detail-body .reader-method-shortcut,#detail-body .plain-overview button,#copy-case-link');
+ const earlyCount=await earlyControls.count();
+ assert.ok(earlyCount>=3,'method and overview shortcuts precede sharing');
+ assert.ok(await earlyControls.first().evaluate(n=>n.matches('.reader-method-shortcut')),'the original-method shortcut is the first body control');
+ assert.equal(await earlyControls.last().getAttribute('id'),'copy-case-link');
+ // WebKit's default Tab skips buttons; Option/Alt+Tab includes every control.
+ const tab=engine==='webkit'?'Alt+Tab':'Tab',reverseTab=engine==='webkit'?'Alt+Shift+Tab':'Shift+Tab';
+ await page.locator('#close-detail').focus();
+ for(let i=0;i<earlyCount;i++){
+  await page.keyboard.press(tab);
+  assert.ok(await earlyControls.nth(i).evaluate(n=>n===document.activeElement),`forward Tab visits reader control ${i+1} in rendered order`);
+ }
+ for(let i=earlyCount-2;i>=0;i--){
+  await page.keyboard.press(reverseTab);
+  assert.ok(await earlyControls.nth(i).evaluate(n=>n===document.activeElement),`reverse Tab visits reader control ${i+1} without skipping shortcuts`);
+ }
+ await page.keyboard.press(reverseTab);
+ assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail','reverse Tab from the first body control returns to the toolbar');
+ assert.ok(await page.locator('#close-detail').evaluate(n=>{const style=getComputedStyle(n);return parseFloat(style.outlineWidth)>=2&&style.outlineStyle!=='none';}),'reverse keyboard handoff has a visible focus outline');
+ }
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
  reports.push({engine,width,controls,toolbarVisible,source,sourceStatus,axe:axe.violations.map(v=>v.id),errors});
  fs.writeFileSync(`qa-artifacts/${process.env.LABEL}-report.json`,JSON.stringify(reports,null,2));

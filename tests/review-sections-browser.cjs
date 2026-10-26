@@ -92,6 +92,12 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
   assert(r.reviewCount>1);assert(!(await page.locator('.reader-review').evaluate(e=>e.open)));
   const summary=page.locator('.reader-review > summary');await summary.focus();await page.keyboard.press('Enter');assert(await page.locator('.reader-review').evaluate(e=>e.open));await frame(summary);await shot('expanded');
   assert.match(await page.locator('.reader-review').innerText(),/不是獨立驗證/);
+  const indexed=page.locator('.reader-review-link').filter({hasText:'Reddit'}).first();
+  assert.match(await indexed.innerText(),/reddit\.com/);
+  assert.match(await indexed.getAttribute('href'),/^https:\/\/www\.reddit\.com\//);
+  assert.equal(await indexed.getAttribute('target'),'_blank');
+  assert.equal(await indexed.getAttribute('rel'),'noopener noreferrer');
+  assert.match(await page.locator('.reader-review-note').innerText(),/性質未判定/);
   const later=page.locator('.reader-review-jump').filter({hasText:'Grok Bot貨運版本'});assert.equal(await later.count(),1);await frame(later);await shot('later-index');
   const target=await later.getAttribute('aria-controls'),url=page.url();await later.focus();await page.keyboard.press('Enter');assert.equal(page.url(),url);assert.equal(await page.evaluate(()=>document.activeElement.id),target);
   const bounds=await page.evaluate(id=>({top:document.getElementById(id).getBoundingClientRect().top,toolbarBottom:document.querySelector('.detail-toolbar').getBoundingClientRect().bottom}),target);assert(bounds.top>=bounds.toolbarBottom);assert(bounds.top<height);
@@ -128,6 +134,7 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
    assert.equal(await page.locator('.reader-review').count(),fixture.count?1:0,fixture.name);
    assert.equal(await page.locator('.reader-review-jump').count(),fixture.count,fixture.name);
    assert.equal(await page.locator('.reader-review-jump img,.reader-review-jump script').count(),0);
+   assert.equal(await page.locator('.reader-review-link').count(),fixture.name==='headingless plain'?0:1);
    if(fixture.target){
     await page.locator('.reader-review > summary').click();const button=page.locator('.reader-review-jump').last();
     assert.equal(await button.getAttribute('aria-controls'),fixture.target);

@@ -188,6 +188,9 @@
 .reader-review-list li{min-width:0}
 .reader-review-jump{display:flex;flex-direction:column;gap:4px;width:100%;min-height:44px;padding:10px 12px;text-align:left;font-size:14px;line-height:1.8;overflow-wrap:anywhere;background:#f5f7ef}
 .reader-review-jump:hover{background:#e9eee0;border-color:var(--green)}
+.reader-review-link{display:flex;flex-direction:column;gap:2px;min-height:44px;box-sizing:border-box;margin:2px 0 8px 12px;padding:7px 10px;border-left:2px solid var(--line);font-size:13px;line-height:1.6;color:var(--green);overflow-wrap:anywhere}
+.reader-review-host{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.reader-review-link:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 .reader-review>summary:focus-visible,.reader-review-jump:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 
 /* Literal search context uses the same paper and ink as the original research. */

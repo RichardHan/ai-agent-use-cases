@@ -18,4 +18,8 @@
 
 實際 Chromium 預覽：390px 直鏈先顯示主案例未載入，全庫 459 筆完成後入口出現；按下跳到 UC-156，URL 保留收件匣／工作／入門對話，Back 回 UC-250 且焦點回入口。入口手機高度約 98.7px、桌面 44px；詳情兩視口 scrollWidth 等於 clientWidth。桌面切到 UC-156 的固定版來源，再返回；無結果 0／459，改搜旅遊恢復 3／459。手機 UC-005 長文原文展開有 42 個可導覽連結，直鏈重整仍開啟；上述頁面 `errors()` 均為空。三種模擬情境：① 郵件補充→主案→Back；② 旅遊＋生活＋門檻→UC-001／來源／返回；③ 空結果→調整查詢恢復。②③ 基準正式站由獨立瀏覽走查，非真人偏好。螢幕截圖已擷取，但目前影像讀取工具停用，不能聲稱完成目視前後審核；未執行 axe 或量測網路效能，無分數。
 
-獨立 reviewer 發現補讀完成未刷新主案例入口；已在 `retryFailedSources` 修正並重跑單元／預覽。正式部署與 Actions 結果待合併後核對。近期 100 個 Actions run 中 8 failure、19 cancelled；已讀三筆是公開資產與 checkout 不符，不能推論功能回歸。下一輪優先補齊合併關係的結構化資料與受控補讀瀏覽器驗收，不從任意原文提及猜主案。
+獨立 reviewer 發現補讀完成未刷新主案例入口；已在 `retryFailedSources` 修正、重跑單元／預覽並完成複審。合併前近期 100 個 Actions run 中 8 failure、19 cancelled；已讀三筆是公開資產與 checkout 不符，不能推論功能回歸。下一輪優先補齊合併關係的結構化資料與受控補讀瀏覽器驗收，不從任意原文提及猜主案。
+
+## 合併後發布核對
+
+[PR #148](https://github.com/RichardHan/ai-agent-use-cases/pull/148) 一般 merge 為 `bca5286`。[Pages 40380424166](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40380424166) build／report／deploy 全成功；公開 `index.html`、`assets/app.js`、`assets/reader.css` 均 HTTP 200 且逐 byte 與合併版本一致。該 PR 的 13 個專項 Actions 均成功（含 Related reading QA）；本地仍未執行 Playwright，不把 CI 結果冒稱本機驗證。正式 Chromium 390／1440px 直鏈 UC-250 顯示唯一站內入口，分別高 98.67／44px、41／459 筆、詳情零水平溢出；到 UC-156 的原始 Markdown 固定於 `bca5286`，Back 返回 UC-250 且焦點回入口，兩視口 page errors 皆零。原未追蹤 `docs/qa/2026-10-26-linked-pr-review/` 保持未動。影像目視及實機、axe、效能仍未驗，不能宣稱它們通過。

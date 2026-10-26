@@ -1101,6 +1101,19 @@ function showDetail(item, trigger, updateURL=true) {
   if(readingView)restoreReadingView(readingView);
 }
 function restoreDetailFocus(){
+  if(lastTriggerContext?.area==='results' && currentDetailItem?.id!==lastTriggerContext.id){
+    const index=currentFiltered.findIndex(item=>item.id===currentDetailItem.id);
+    if(index>=0){
+      ensureVisibleResult(currentDetailItem.id);
+      const card=[...$('results').querySelectorAll('.card')].find(node=>node.dataset.caseId===currentDetailItem.id);
+      const target=card?.querySelector(lastTriggerContext.read?'.card-bottom button':'h3 button');
+      if(target){
+        target.focus({preventScroll:true});
+        target.scrollIntoView({block:'nearest',behavior:'instant'});
+        return;
+      }
+    }
+  }
   if(lastTrigger?.isConnected){lastTrigger.focus({preventScroll:true});return;}
   if(lastTriggerContext){
     const node=[...$(lastTriggerContext.area).querySelectorAll('.card')].find(card=>card.dataset.caseId===lastTriggerContext.id);

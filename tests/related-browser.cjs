@@ -66,7 +66,8 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
   await page.locator('.related-open').first().click();await page.keyboard.press('Escape');
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
   assert.deepEqual(await page.locator('#results .card').evaluateAll(es=>es.map(e=>e.dataset.caseId)),resultIDs);
-  assert(await page.locator('#results .card .card-bottom button').first().evaluate(n=>n===document.activeElement));
+  assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),suggestions[0],
+    'closing a related case returns to its result card');
   // Live smoke uses two corpus loads per viewport; boundary repetitions stay on preview.
   if(live){
    await page.goto(origin+'?case=UC-005',{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();

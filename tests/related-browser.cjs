@@ -91,6 +91,18 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
    await page.locator('#query').fill('no-matching-case-123');assert(await page.locator('#empty').isVisible());
    await audit('live-empty');assert.deepEqual(errors,[]);await context.close();continue;
   }
+  // A merged supplement must hand off to its canonical case without dropping the search.
+  await page.goto(origin+'?q=收件匣&scenario=工作&difficulty=入門對話&case=UC-250',{waitUntil:'networkidle'});
+  await page.locator('.detail-merged-open').waitFor();
+  assert.equal(await page.locator('.detail-merged-open').count(),1);
+  assert.match(await page.locator('.detail-merged-handoff').innerText(),/不另計一案/);
+  await page.locator('.detail-merged-open').focus();await page.keyboard.press('Enter');
+  assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-156');
+  assert.equal(new URL(page.url()).searchParams.get('q'),'收件匣');
+  assert.equal(new URL(page.url()).searchParams.get('scenario'),'工作');
+  await page.goBack();await page.waitForFunction(()=>document.querySelector('#detail-toolbar-id')?.textContent==='UC-250');
+  assert(await page.locator('.detail-merged-open').evaluate(node=>node===document.activeElement));
+  await audit('merged-handoff');
   // Scenario 2: a shared long article, reload, source inspection, and a deliberately sparse search.
   await page.goto(origin+'?case=UC-005',{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
   await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();

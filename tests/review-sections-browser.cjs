@@ -111,6 +111,33 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
   const controls=await page.locator('.reader-review-jump').evaluateAll(es=>es.map(e=>({id:e.getAttribute('aria-controls'),height:e.getBoundingClientRect().height,exists:!!document.getElementById(e.getAttribute('aria-controls'))})));assert(controls.every(e=>e.exists&&e.height>=44));r.controls=controls;
   await page.reload();await page.locator('#detail[open]').waitFor();await ready();assert.equal(page.url(),url);await page.locator('#close-detail').click();assert.equal(new URL(page.url()).searchParams.has('case'),false);
  }
+ // Long source index: find by original title, link text, or domain without losing any links.
+ await page.goto(origin+'?case=UC-054');await page.locator('#detail[open]').waitFor();await ready();
+ if(!observe){
+  await page.locator('.reader-review > summary').click();
+  const rows=page.locator('.reader-review-list > li'),originalCount=await rows.count();
+  assert(originalCount>=12);
+  const urls=await page.locator('.reader-review-link').evaluateAll(es=>es.map(e=>e.href));
+  const find=page.locator('.reader-review-find');await find.fill('youtube.com');
+  assert(await rows.filter({visible:true}).count()>0);
+  assert(await rows.filter({visible:true}).count()<originalCount);
+  assert((await page.locator('.reader-review-status').innerText()).includes('段'));
+  await find.fill('nothing-matches-98765');
+  assert.equal(await rows.filter({visible:true}).count(),0);
+  assert.match(await page.locator('.reader-review-status').innerText(),/找不到/);
+  await page.locator('.reader-review-clear').click();
+  assert.equal(await rows.filter({visible:true}).count(),originalCount);
+  assert.deepEqual(await page.locator('.reader-review-link').evaluateAll(es=>es.map(e=>e.href)),urls);
+  assert(await find.evaluate(e=>e===document.activeElement));
+  await find.fill('github.com');
+  await page.locator('#nav-next-case').click();await page.goBack();
+  await page.locator('#detail[open] .reader-review-find').waitFor();
+  assert.equal(await page.locator('.reader-review-find').inputValue(),'github.com');
+  assert(await page.locator('.reader-review').evaluate(e=>e.open));
+  assert(await page.locator('.reader-review-list > li').filter({visible:true}).count()<await page.locator('.reader-review-list > li').count());
+  assert(await page.locator('.reader-review-list > li').filter({visible:true}).evaluateAll(es=>es.every(e=>e.textContent.toLowerCase().includes('github.com'))));
+  await audit('long source lookup');
+ }
  // 3. Unlinked evidence gap, long research, and literal unsafe-looking heading rendering.
  await page.goto(origin+'?case=UC-338');await page.locator('#detail[open]').waitFor();await ready();
  if(!observe){

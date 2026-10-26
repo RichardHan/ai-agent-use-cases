@@ -414,6 +414,26 @@
         }
         reviewList.append(row);
       }
+      if(reviewSections.length>=8){
+        const finder=make('div','reader-review-finder');
+        const label=make('label','','在本篇連結與限制中找段落');
+        const input=make('input','reader-review-find');input.type='search';input.placeholder='輸入段落、連結名稱或網域';input.autocomplete='off';
+        const clear=make('button','reader-review-clear','清除');clear.type='button';clear.hidden=true;
+        const status=make('p','reader-review-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+        label.append(input);finder.append(label,clear,status);
+        const rows=[...reviewList.children];
+        const searchable=rows.map(row=>row.textContent.normalize('NFKC').toLocaleLowerCase());
+        const update=()=>{
+          const query=input.value.trim().normalize('NFKC').toLocaleLowerCase();
+          let visible=0;
+          rows.forEach((row,index)=>{row.hidden=!!query&&!searchable[index].includes(query);if(!row.hidden)visible++;});
+          clear.hidden=!query;
+          status.textContent=query?(visible?`找到 ${visible}／${rows.length} 段；清除可看全部。`:'找不到符合的段落；請換字詞或清除。'):'';
+        };
+        input.addEventListener('input',update);
+        clear.addEventListener('click',()=>{input.value='';update();input.focus();});
+        review.append(finder);
+      }
       review.append(reviewList);nav.append(review);
     }
     if(!headings.length){if(reviewSections.length)evidence.after(nav);return;}

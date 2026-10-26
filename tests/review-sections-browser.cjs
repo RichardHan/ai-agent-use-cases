@@ -117,6 +117,20 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
   await page.locator('.reader-review > summary').click();
   const rows=page.locator('.reader-review-list > li'),originalCount=await rows.count();
   assert(originalCount>=12);
+  assert.equal(await page.locator('.reader-review-list > li > details').count(),originalCount);
+  assert.equal(await page.locator('.reader-review-list > li > details[open]').count(),0);
+  const firstSummary=page.locator('.reader-review-list > li > details > summary').first();
+  assert.match(await firstSummary.innerText(),/原文連結/);
+  await firstSummary.click();
+  assert.equal(await page.locator('.reader-review-list > li > details[open]').count(),1);
+  assert(await page.locator('.reader-review-jump').first().isVisible());
+  await firstSummary.click();
+  await firstSummary.click();
+  await page.locator('#nav-next-case').click();await page.goBack();
+  await page.locator('#detail[open] .reader-review-row[open]').waitFor();
+  assert.equal(await page.locator('.reader-review-find').inputValue(),'');
+  assert.equal(await page.locator('.reader-review-row[open]').count(),1);
+  assert(await page.locator('.reader-review-row[open] .reader-review-link').first().isVisible());
   const urls=await page.locator('.reader-review-link').evaluateAll(es=>es.map(e=>e.href));
   const find=page.locator('.reader-review-find');await find.fill('youtube.com');
   assert(await rows.filter({visible:true}).count()>0);
@@ -146,6 +160,8 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
   for(const id of ['UC-005','UC-067']){
    await page.evaluate(id=>showDetail(matchCase(id),null,false),id);
    await page.locator('.reader-review > summary').click();
+   const lastRow=page.locator('.reader-review-list > li').last();
+   if(await lastRow.locator('details').count())await lastRow.locator('summary').click();
    if(id==='UC-005'){await frame(page.locator('.reader-review-jump').nth((await page.locator('.reader-review-jump').count())-4));await shot('long-index');}
    const last=page.locator('.reader-review-jump').last(),destination=await last.getAttribute('aria-controls');
    await last.focus();await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),destination);

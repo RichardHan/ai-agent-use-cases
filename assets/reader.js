@@ -404,14 +404,23 @@
         const basis=[section.linkCount?'含網頁連結':'',section.caution?'限制相關標題':''].filter(Boolean).join(' · ');
         button.append(make('span','',section.title||'頁首資料'),make('span','reader-target',position+' · '+basis+' ↓'));
         button.addEventListener('click',()=>{research.open=true;moveTo(target);});
-        const row=make('li');row.append(button);
+        const row=make('li');
+        const compact=reviewSections.length>=8;
+        const content=compact?make('details','reader-review-row'):row;
+        if(compact){
+          const summary=make('summary','reader-review-row-summary');
+          summary.append(make('span','',section.title||'頁首資料'),make('span','reader-review-row-count',`${section.linkCount} 個原文連結 · 展開核對`));
+          content.append(summary);
+        }
+        content.append(button);
         for(const [href,label] of sourceSections[section.index].links){
           const link=make('a','reader-review-link');
           link.href=href;link.target='_blank';link.rel='noopener noreferrer';
           let host;try{host=new URL(href).hostname;}catch{host=href;}
           link.append(make('span','',label||host),make('span','reader-review-host',host+' ↗'));
-          row.append(link);
+          content.append(link);
         }
+        if(compact)row.append(content);
         reviewList.append(row);
       }
       if(reviewSections.length>=8){
@@ -426,7 +435,12 @@
         const update=()=>{
           const query=input.value.trim().normalize('NFKC').toLocaleLowerCase();
           let visible=0;
-          rows.forEach((row,index)=>{row.hidden=!!query&&!searchable[index].includes(query);if(!row.hidden)visible++;});
+          rows.forEach((row,index)=>{
+            row.hidden=!!query&&!searchable[index].includes(query);
+            const detail=row.querySelector('.reader-review-row');
+            if(detail)detail.open=!!query&&!row.hidden;
+            if(!row.hidden)visible++;
+          });
           clear.hidden=!query;
           status.textContent=query?(visible?`找到 ${visible}／${rows.length} 段；清除可看全部。`:'找不到符合的段落；請換字詞或清除。'):'';
         };

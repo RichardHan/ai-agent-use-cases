@@ -15,6 +15,7 @@
 
 這是瀏覽器歷史行為改善，畫面本身不預期改變；截圖只記錄實際檢查的搜尋表面，不能證明返回行為。可預覽：`python3 scripts/preview.py /tmp/visitor-history-preview/ai-agent-use-cases`，`python3 -m http.server 18998 --directory /tmp/visitor-history-preview`，開啟 `http://127.0.0.1:18998/ai-agent-use-cases/?q=旅遊#explore`。本地預覽的來源版本與正式 Pages 發布 SHA 不同，不能把預覽原始 Markdown 版本宣稱為正式版本。
 
+PR #145 的 Return visibility QA 在瀏覽器下載／系統依賴安裝步驟耗盡 25 分鐘後取消，測試未啟動；同 PR 的 Website QA 等已通過。將此工作流的兩個 job 改用 repo 既有的 Playwright 1.64.1 容器，保留獨立暫存套件與 Git safe-directory 設定；重跑結果以 GitHub Actions 為準。
 正式站修改前瀏覽器重現：旅遊 → 郵件提交 → Back 離開搜尋狀態。修改後本地 390／1440px：旅遊＋生活 → 郵件提交 → Back 還原旅遊、生活、結果 → Forward 還原郵件；郵件詳情 → Back 回郵件；UC-001 直鏈關閉後提交新搜尋，Back 不會重新開啟已關閉的詳情；不存在字串有空結果且無水平溢出。鍵盤 Enter、來源連結與跨瀏覽器 QA 仍須以 CI 回歸核對。獨立審查指出 VM 無 `location` 與詳情關閉後舊 `case` 參數兩項風險，已修正並針對直鏈實際走查。
 
 回歸命令：`node --test tests/*.test.cjs`、`node --check assets/app.js`、`python3 scripts/check_corpus_bundle.py /tmp/visitor-history-preview/ai-agent-use-cases`；CI 的 Website QA 在 Chromium 390／1440px 執行 `tests/search-submit-history-browser.cjs`。下一輪優先讓搜尋篩選與排序可分階段返回，但需先定義何者算明確提交，避免 Back 堆滿操作碎片。

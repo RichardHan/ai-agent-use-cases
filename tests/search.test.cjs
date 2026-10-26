@@ -23,6 +23,10 @@ assert.equal(api.filterEntries(entries,['ＧＲＯＫ'],{}).length,api.filterEnt
 assert.equal(entries.find(x=>x.id==='UC-007').proof,'官方自報');
 assert.equal(entries.find(x=>x.id==='UC-007').title,'找出可能白花的軟體訂閱費');
 assert.equal(entries.find(x=>x.id==='P-003').title,'AI 做完後，能自己檢查並修好嗎？');
+const merged=entries.find(x=>x.id==='UC-250');
+assert.equal(merged.mergedInto,'UC-156','explicitly merged source retains its canonical reading destination');
+assert(entries.some(x=>x.id===merged.mergedInto),'canonical case exists in the catalog');
+assert.equal(api.parseFile('cases/999-reference.md','# UC-999：比較 UC-156\n\n- 證據狀態：待查；參考UC-156。')[0].mergedInto,null,'mere references do not become merged cases');
 assert.equal(entries.find(x=>x.id==='P-003').kind,'pending');
 assert.equal(api.filterEntries(entries,['CUA'],{kind:'pending'}).length>=1,true,'original terminology remains searchable');
 assert.equal(entries.find(x=>x.id==='UC-009').proof,'模板／文件核讀');

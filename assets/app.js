@@ -535,6 +535,7 @@ function metadata(markdown, path, kind, suffix='') {
   }
   const tags = rawTags ? rawTags.split(/[、,，\s/]+/).map(t=>t.trim()).filter(Boolean) : [];
   const proofLine = clean(lead.match(/^-\s*(?:來源證據|證據狀態|證據等級|證據)\s*[：:]\s*(.+)$/m)?.[1] || '');
+  const mergedInto=kind==='case' ? (heading.match(/已合併\s*(UC-\d{3})/)?.[1] || proofLine.match(/合併\s*(UC-\d{3})/)?.[1] || null) : null;
   const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*(?:展示|示例|範例|發布|自報|第一手.*自述)|official/i.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})/)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
@@ -548,7 +549,7 @@ function metadata(markdown, path, kind, suffix='') {
   const howText=copy.how||extracted.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。';
   const cautionText=copy.caution||extracted.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。';
   const difficulty = extractDifficulty(markdown, tools, scenario, category);
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,mergedInto,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
 }
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>metadata(part,path,'pending',String(i)));
@@ -946,6 +947,19 @@ function restoreReadingView(view) {
   if(!target.matches('button,a,input,textarea,select,summary,[tabindex]'))target.tabIndex=-1;
   target.focus({preventScroll:true});
 }
+function mergedDestination(item) {
+  const canonical=entries.find(entry=>entry.kind==='case'&&entry.id===item.mergedInto);
+  if(!canonical)return el('p','detail-merged-pending',`主案例 ${item.mergedInto} 尚未載入；可稍後重試，或在原始研究中核對來源。`);
+  const open=el('button','detail-merged-open',`站內閱讀主案例 ${canonical.id}：${canonical.title} →`);
+  open.type='button';
+  open.addEventListener('click',()=>showDetail(canonical,null));
+  return open;
+}
+function refreshMergedDestination() {
+  const pending=$('detail-body').querySelector('.detail-merged-pending');
+  if(pending&&currentDetailItem?.mergedInto&&entries.some(entry=>entry.kind==='case'&&entry.id===currentDetailItem.mergedInto))
+    pending.replaceWith(mergedDestination(currentDetailItem));
+}
 function showDetail(item, trigger, updateURL=true) {
   if (!item) return;
   rememberReadingView();
@@ -990,6 +1004,12 @@ function showDetail(item, trigger, updateURL=true) {
   const purpose = el('section');
   purpose.append(el('h2', '', '可以幫你做什麼'), el('p', '', compactPurpose ? item.coreGoal : item.what));
   overview.append(purpose,source);
+  if (item.mergedInto) {
+    const handoff=el('section','detail-merged-handoff');
+    handoff.append(el('h2','','這篇是主案例的來源補充'),el('p','',`本頁已合併至 ${item.mergedInto}，不另計一案；保留這篇的原始來源與限制。`));
+    handoff.append(mergedDestination(item));
+    overview.append(handoff);
+  }
   if (item.scenario) overview.append(scenarioExploreAction(item));
   if (compactPurpose) {
     const fullAccount = el('details', 'detail-full-account');
@@ -2212,6 +2232,7 @@ async function retryFailedSources() {
       target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
     }else restoreFocus();
     refreshRelated();
+    refreshMergedDestination();
     const target=new URLSearchParams(location.search).get('case');
     if(recoverRequested && requestedCase!==null && target===requestedCase && !$('detail').open){
       const item=matchCase(target);
@@ -2390,6 +2411,7 @@ async function load() {
       // Keep the exact research DOM, reading position and focused control.
       updateModalNav();
       refreshRelated();
+      refreshMergedDestination();
       if(status){
         status.textContent=failedPaths.length ? '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。' : '其他案例已載入，可依目前搜尋條件切換與探索。';
         status.hidden=!failedPaths.length;

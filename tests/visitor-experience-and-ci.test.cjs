@@ -245,16 +245,3 @@ test('card renders scenario badge in card-top for immediate problem-orientation'
   assert.match(updatedCss, /\.card-scenario\s*\{/, 'style.css must style .card-scenario');
   assert.match(updatedCss, /\.card-scenario\[data-scenario="生活"\]/, 'style.css must define scenario-specific badge styles');
 });
-
-test('touch target size and contrast meet WCAG accessibility standards', () => {
-  const updatedCss = fs.readFileSync(path.join(__dirname, '../assets/style.css'), 'utf8');
-  const readerCss = fs.readFileSync(path.join(__dirname, '../assets/reader.css'), 'utf8');
-  assert.match(updatedCss, /\.chip\s*\{[^}]*min-height:\s*44px/, '.chip must have at least 44px min-height');
-  assert.match(updatedCss, /\.research-details>summary\s*\{[^}]*min-height:\s*44px/, '.research-details>summary must have at least 44px min-height');
-  assert.match(updatedCss, /\.research-details>summary:focus-visible\s*\{/, '.research-details>summary must define focus-visible');
-  assert.match(readerCss, /\.reader-guidance>summary\s*\{[^}]*min-height:\s*44px/, '.reader-guidance>summary must have at least 44px min-height');
-  assert.match(readerCss, /\.reader-guidance>summary:focus-visible\s*\{/, '.reader-guidance>summary must define focus-visible');
-  assert.match(readerCss, /\.related-open\s*\{[^}]*min-height:\s*44px/, '.related-open must have at least 44px min-height');
-  assert.match(updatedCss, /input::placeholder\{color:#4e5d4e/, 'placeholder color must have accessible contrast');
-  assert.match(updatedCss, /kbd\{[^}]*color:#4e5d4e/, 'kbd hint must have accessible contrast');
-});

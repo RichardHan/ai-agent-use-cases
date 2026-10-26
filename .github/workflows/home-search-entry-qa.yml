@@ -10,7 +10,7 @@ permissions:
 jobs:
   entry:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
         with:
@@ -57,7 +57,7 @@ jobs:
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const base='https://richardhan.github.io/ai-agent-use-cases/';
-            for(let attempt=0;attempt<451;attempt++){
+            for(let attempt=0;attempt<751;attempt++){
               const files=['index.html','assets/app.js','assets/style.css'];
               const actual=await Promise.all(files.map(async file=>{
                 const response=await fetch(base+(file==='index.html'?'':file)+'?qa='+process.env.GITHUB_SHA,{cache:'no-store'});
@@ -70,7 +70,7 @@ jobs:
               await new Promise(resolve=>setTimeout(resolve,2000));
             }
             if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published Pages assets did not match this checkout within 15 minutes (451 attempts)');
+            throw Error('Published Pages assets did not match this checkout within 25 minutes (751 attempts)');
           })().catch(error=>{console.error(error);process.exitCode=1;});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then

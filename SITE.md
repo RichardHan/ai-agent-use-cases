@@ -2,6 +2,24 @@
 
 正式站 UC-001 手機原始 Markdown 入口 y=1141.5，低於詳情視口；本輪移至用途後、次要分享動作前，預覽 y=520.4，保留版本提示與外部作者來源的區別。反向 Tab 到概覽控制時固定工具列遮擋及 WebKit 焦點輪廓一併修正。362 單元、Chromium／Firefox／WebKit 六組控制流程與四視口長文流程通過，452 個來源逐 byte 相同；正式發布仍待核實。[方案、前後截圖與驗收](docs/qa/2026-10-26-source-entry.md)。下一輪優先定位剩餘 Actions 本地 reader anchor 失敗。
 
+## 2026-10-26 分批結果與詳情捷徑的 QA 契約修復
+
+目標：首次訪客在 24 筆分批列表搜尋、篩選、返回詳情時，發布檢查能辨識真正退化，而非因測試仍要求 454 張卡同時存在而報錯。主分支 `76417df` 的 Results return、Filter entry、Improvement round、Reader controls 瀏覽器工作失敗；實際錯誤分別為 `454 !== 24`、完整結果排序假設及從分享按鈕反向跳至關閉鈕的過期焦點假設。另 Available facet options 在發布資產尚未更新的 15 分鐘後失敗。目標讀者是依搜尋和來源閱讀案例的桌面、手機及鍵盤訪客。
+
+- 方案 A：恢復一次渲染全部案例以讓舊檢查通過。無需修測試，但重新引入超長列表與大量焦點，故不採用。
+- 方案 B（採用）：保留分批與讀者捷徑，更新瀏覽器回歸以逐批核對順序、返回、部分來源恢復、跨瀏覽器焦點；把已觀察到不足的 facet 發布等待上限延至 25 分鐘。成本是排序全量測試會逐批載入，執行較久。
+
+驗收：初批 24／總數仍完整；再看後順序、搜尋＋生活、空結果、UC-001 直鏈重載、來源、返回與鍵盤焦點正常；近期排序全量無遺漏；桌面 1440、手機 390／320 及 Firefox/WebKit 走查。無前端或資料變更，本輪不改善自然問句相關性、其他工作流發布輪詢或 Pages 部署速度。
+
+| 尺寸 | 修改前正式站 | 修改後本地預覽 |
+| --- | --- | --- |
+| 390px | [正式站截圖](docs/qa/2026-10-26-ci-contract-published-390.png) | [預覽截圖](docs/qa/2026-10-26-ci-contract-preview-390.png) |
+| 1440px | [正式站截圖](docs/qa/2026-10-26-ci-contract-published-1440.png) | [預覽截圖](docs/qa/2026-10-26-ci-contract-preview-1440.png) |
+
+兩側皆已顯示 24 張，畫面預期相同；這是 QA 契約修復，不能稱作新視覺改善。預覽：`python3 scripts/preview.py /tmp/visitor-next-preview/ai-agent-use-cases`，`python3 -m http.server 8130 --directory /tmp/visitor-next-preview`，開啟 `http://127.0.0.1:8130/ai-agent-use-cases/`。正式站的 Pages 資產是否與本分支一致，須合併後核對。
+
+基準 `node --test tests/*.test.cjs` 362 通過；`node --check` 全 JS 通過；預覽 452 來源 byte-for-byte 相同。修改前 Results return 回歸在 CI `454 !== 24`，本機首輪後在來源恢復 `24 !== 25`；修正後 `tests/results-return-browser.cjs` 五組尺寸／引擎、三情境與部分載入、axe 違規 0。`tests/recent-review-browser.cjs` 本機完整多引擎走查通過；`tests/reader-controls-browser.cjs` 六組通過，WebKit 以 Option+Tab 完整遍歷；獨立審查指出歷史觀察模式不應套新排序斷言，已隔離。正式 Actions 仍須新 SHA 重新執行；Print reading 等其他 15 分鐘發布閘門曾失敗，不推定全站工作流已綠。下一輪優先集中統一發布等待與 freshness 檢查，避免逐個工作流漂移。
+
 ## 2026-10-26 長案例詳情先讀用途
 
 正式站 320px 的 UC-359 長用途說明高約 645px，核心目標被推到下一屏。本輪有既存核心目標且用途超過 180 字時，先顯示核心目標並將完整描述保留於原生展開區；短用途與缺少核心目標的案例不變。獨立審查指出返回時展開狀態可能消失，已納入閱讀歷史保存。來源資料未改。[兩案、前後截圖、測試與部署限制](docs/qa/2026-10-26-purpose-scan/README.md)。下一輪優先定位主分支 Reader／Improvement QA 的可重現本地預覽失敗，避免把舊紅燈誤當發布退化。

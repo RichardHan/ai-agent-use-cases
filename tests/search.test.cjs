@@ -476,6 +476,11 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('billing')), {}).some(
 // Search quality: Invoices and receipts
 assert(api.filterEntries(entries, Array.from(api.tokenize('invoices')), {}).some(x => x.id === 'UC-024'), 'invoices matches UC-024 via 發票 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('receipts')), {}).some(x => x.id === 'UC-225'), 'receipts matches UC-225 via 收據 synonym');
+const invoiceResults=api.filterEntries(entries,Array.from(api.tokenize('發票')),{});
+assert(invoiceResults.some(x=>x.id==='UC-190'),'invoice search retains the service invoice reconciliation case');
+assert(!invoiceResults.some(x=>x.id==='UC-042'),'invoice search must not expand to login credentials');
+assert(!api.filterEntries(entries,Array.from(api.tokenize('invoice')),{})
+  .some(x=>x.id==='UC-042'),'English invoice search must not expand to login credentials');
 
 // Search quality: Marketing & advertising synonyms
 assert(api.filterEntries(entries, Array.from(api.tokenize('marketing')), {}).some(x => x.id === 'UC-022'), 'marketing matches UC-022 via 行銷/廣告 synonym');

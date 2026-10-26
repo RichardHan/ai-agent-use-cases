@@ -2,6 +2,8 @@
 
 UC-001 內文相對研究連結在原始 Markdown 入口停用時仍可開啟 `blob/main`。本輪讓兩種入口共用版本核對：未核對時保留文字但不導覽，核對後一起固定於發布 SHA；外部絕對連結不變。回歸先紅後綠、362 單元及 452 來源完整性通過；390／1440px 預覽狀態截圖與正式發布限制見[本輪 QA](docs/qa/2026-10-26-relative-source-gate.md)。下一輪優先處理混版整包的安全回退。
 
+發布補記：PR #143 一般合併 `17f9afb`；[Pages 40301678643](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40301678643) 的 Jekyll build／report／deploy 成功。正式站 `assets/app.js` SHA-256 與本輪檔案相同，390px UC-001 直鏈兩份相對來源與原始 Markdown 均指向 `17f9afb`；既有本地 Playwright 模組未安裝與其他 Actions 狀態不冒稱全綠。
+
 ## 2026-10-26 Pages 發布等待與公開站驗收
 
 主分支 `b28d661` 的 Pages 發布耗時 22 分 29 秒，五個公開資產驗收在約 15 分鐘先報錯。本輪把這五個工作流程的等待窗口擴至約 25 分鐘，保留逐檔比對及過期 SHA 跳過；未改網站畫面或資料。362 項單元測試及 452 個來源完整性檢查通過，獨立審查未見問題。合併後 `3b72f86` 的 Pages 及四項公開站 QA 成功；Method shortcut QA 卡在雲端工具安裝，未進入發布檢查。[時間證據、方案、截圖及合併後結果](docs/qa/2026-10-26-publication-window.md)。

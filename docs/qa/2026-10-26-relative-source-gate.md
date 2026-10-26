@@ -18,4 +18,4 @@
 獨立 reviewer 找到 `https:../sources/...` 可借同源 base 繞過版本核對；已要求 HTTP(S) 明確 authority，補未核對／核對後及 renderer 回歸，覆核無剩餘 blocker。既有 `source-guide-browser.cjs` 在本環境因缺少 `playwright` 模組未啟動，不能列為通過；上述桌面／手機由受管理 Chromium 預覽實走，非 Firefox／WebKit 或實機。
 三種模擬走查：① 桌面搜尋「旅遊」＋生活得到 20／454，打開 UC-001 後來源與內文相對連結固定同一 SHA，Escape 返回保留搜尋與情境且焦點回閱讀卡；② 同篩選輸入不存在的任務詞得到 0／454；③ 390px UC-001 直鏈模擬版本未核對，兩個複製呈現的 S-001 連結均無 href，核對後均恢復固定版。這些是功能檢查，不是真人轉換率或喜好研究。
 
-風險：正式 Pages 新 SHA 仍須合併後部署驗證；混版時停用相對研究連結是保守選擇，與目前停用原始 Markdown 一致。下一輪最值得調查混合 catalog/corpus 版本時，能否安全回退逐篇讀取，而非永久停用來源。
+發布結果：PR #143 合併為 `17f9afbe1297099ba8cdd53d184830d855d158f0`；[Pages 40301678643](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40301678643) build／report／deploy 全成功。公開 `assets/app.js` 與本輪版本 SHA-256 同為 `842b251335c3f56c3c00a92211c336aab47c543d57fffbe1b07f0d1f233360f4`；正式 390px UC-001 直鏈顯示 454 條目、原始 Markdown 與兩份 S-001 相對連結均固定到 `17f9afb`。其他 Actions 未逐一核對，不宣稱全綠。混版時停用相對研究連結是保守選擇，下一輪最值得調查混合 catalog/corpus 版本能否安全回退逐篇讀取。

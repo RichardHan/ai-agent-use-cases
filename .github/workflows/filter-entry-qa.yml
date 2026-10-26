@@ -9,7 +9,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
@@ -64,7 +64,7 @@ jobs:
           const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let i=0;i<181;i++){
+            for(let i=0;i<301;i++){
               if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
               const files=['index.html','assets/app.js','assets/style.css'];
               const matches=await Promise.all(files.map(async file=>{const r=await fetch(process.env.SORT_URL+file+'?sortqa='+Date.now(),{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(file,'utf8');}));
@@ -72,7 +72,7 @@ jobs:
               await new Promise(r=>setTimeout(r,5000));
             }
             if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published assets differ from checkout within 15 minutes (181 attempts)');
+            throw Error('Published assets differ from checkout within 25 minutes (301 attempts)');
           })().catch(e=>{console.error(e);process.exitCode=1});
           JS
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then

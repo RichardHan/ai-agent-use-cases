@@ -328,9 +328,9 @@
     }
     // Collect before inserting reader controls so their labels cannot become hits.
     const sourceSummary=research.querySelector('summary');
-    const sourceSections=[{title:'',text:'',isMetadata:true,target:sourceSummary,links:new Set(),passages:[]}];
+    const sourceSections=[{title:'',text:'',isMetadata:true,target:sourceSummary,links:new Map(),passages:[]}];
     for(const block of markdown.children){
-      if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Set(),passages:[]});
+      if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Map(),passages:[]});
       const section=sourceSections[sourceSections.length-1];
       const passages=readingPassages(block);
       if(block.className==='markdown-table'){
@@ -342,7 +342,7 @@
       for(const link of block.querySelectorAll('a')){
         const href=link.getAttribute('href')||'';
         section.text+='\n'+href;
-        if(/^https?:\/\//i.test(href))section.links.add(href);
+        if(/^https?:\/\//i.test(href)&&!section.links.has(href))section.links.set(href,link.textContent.trim());
       }
     }
     const searchMatches=selectSearchSections(sourceSections,searchTerms);
@@ -393,7 +393,7 @@
     if(reviewSections.length){
       const review=make('details','reader-review');
       review.append(make('summary','',`逐段核對連結與限制（${reviewSections.length}）`),
-        make('p','reader-review-note','依含網頁連結的段落與限制相關標題整理，不是獨立驗證，也不保證列出所有限制。連結可能是工具文件或延伸閱讀，請連同上下文判讀。'));
+        make('p','reader-review-note','依原文連結與限制相關標題整理，不是獨立驗證，也不保證列出所有限制。下列連結性質未判定，可能是工具文件或延伸閱讀；請連同原文上下文判讀。'));
       const reviewList=make('ol','reader-review-list');
       for(const section of reviewSections){
         const target=sourceSections[section.index].target;
@@ -404,7 +404,49 @@
         const basis=[section.linkCount?'含網頁連結':'',section.caution?'限制相關標題':''].filter(Boolean).join(' · ');
         button.append(make('span','',section.title||'頁首資料'),make('span','reader-target',position+' · '+basis+' ↓'));
         button.addEventListener('click',()=>{research.open=true;moveTo(target);});
-        const row=make('li');row.append(button);reviewList.append(row);
+        const row=make('li');
+        const compact=reviewSections.length>=8;
+        const content=compact?make('details','reader-review-row'):row;
+        if(compact){
+          const summary=make('summary','reader-review-row-summary');
+          summary.append(make('span','',section.title||'頁首資料'),make('span','reader-review-row-count',`${section.linkCount} 個原文連結 · 展開核對`));
+          content.append(summary);
+        }
+        content.append(button);
+        for(const [href,label] of sourceSections[section.index].links){
+          const link=make('a','reader-review-link');
+          link.href=href;link.target='_blank';link.rel='noopener noreferrer';
+          let host;try{host=new URL(href).hostname;}catch{host=href;}
+          link.append(make('span','',label||host),make('span','reader-review-host',host+' ↗'));
+          content.append(link);
+        }
+        if(compact)row.append(content);
+        reviewList.append(row);
+      }
+      if(reviewSections.length>=8){
+        const finder=make('div','reader-review-finder');
+        const label=make('label','','在本篇連結與限制中找段落');
+        const input=make('input','reader-review-find');input.type='search';input.placeholder='輸入段落、連結名稱或網域';input.autocomplete='off';
+        const clear=make('button','reader-review-clear','清除');clear.type='button';clear.hidden=true;
+        const status=make('p','reader-review-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+        label.append(input);finder.append(label,clear,status);
+        const rows=[...reviewList.children];
+        const searchable=rows.map(row=>row.textContent.normalize('NFKC').toLocaleLowerCase());
+        const update=()=>{
+          const query=input.value.trim().normalize('NFKC').toLocaleLowerCase();
+          let visible=0;
+          rows.forEach((row,index)=>{
+            row.hidden=!!query&&!searchable[index].includes(query);
+            const detail=row.querySelector('.reader-review-row');
+            if(detail)detail.open=!!query&&!row.hidden;
+            if(!row.hidden)visible++;
+          });
+          clear.hidden=!query;
+          status.textContent=query?(visible?`找到 ${visible}／${rows.length} 段；清除可看全部。`:'找不到符合的段落；請換字詞或清除。'):'';
+        };
+        input.addEventListener('input',update);
+        clear.addEventListener('click',()=>{input.value='';update();input.focus();});
+        review.append(finder);
       }
       review.append(reviewList);nav.append(review);
     }

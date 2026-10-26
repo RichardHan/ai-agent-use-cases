@@ -913,6 +913,8 @@ function rememberReadingView() {
     scrollTop:dialog.scrollTop,
     open:readingDisclosures.map(selector=>!!$('detail-body').querySelector(selector)?.open),
     outlineQuery:$('reader-outline-query')?.value||'',
+    reviewQuery:$('detail-body').querySelector('.reader-review-find')?.value||'',
+    reviewRows:[...$('detail-body').querySelectorAll('.reader-review-row')].map(node=>node.open),
     anchor:readingNodeRef(anchor,blocks),offset:anchor?anchor.getBoundingClientRect().top-edge:0,
     focus:focusVisible?readingNodeRef(active,readingFocusNodes()):null,
     toolbarFocus:focusVisible&&active.closest('.detail-toolbar')?active.id:null,
@@ -923,7 +925,10 @@ function restoreReadingView(view) {
   const dialog=$('detail'),body=$('detail-body');
   const query=$('reader-outline-query');
   if(query){query.value=view.outlineQuery;query.dispatchEvent(new Event('input'));}
+  const reviewQuery=body.querySelector('.reader-review-find');
+  if(reviewQuery){reviewQuery.value=view.reviewQuery||'';reviewQuery.dispatchEvent(new Event('input'));}
   readingDisclosures.forEach((selector,index)=>{const node=body.querySelector(selector);if(node)node.open=view.open[index];});
+  body.querySelectorAll('.reader-review-row').forEach((node,index)=>{if(view.reviewRows&&index<view.reviewRows.length)node.open=view.reviewRows[index];});
   body.querySelectorAll('.markdown-table').forEach((node,index)=>node.scrollLeft=view.tables[index]||0);
   dialog.scrollTop=view.scrollTop;
   const anchor=resolveReadingNode(view.anchor,readingNodes(readingBlockSelector));

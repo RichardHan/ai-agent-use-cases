@@ -2379,6 +2379,22 @@ function revealDiscovery(){
   if(titleRect.top<16||titleRect.bottom>window.innerHeight-16)target.scrollIntoView({block:'start',behavior:'instant'});
   target.focus({preventScroll:true});
 }
+function drawFromButton(){
+  // Re-drawing must not move the page: on phones the stage is taller than the
+  // viewport, so revealDiscovery() would scroll back to the stage top on every
+  // tap. Keep the tapped button at the same viewport offset instead, so the new
+  // card starts right below it, and only scroll down if its title is cut off.
+  const button=$('draw-case'),before=button.getBoundingClientRect().top;
+  if(!discoveryReady||before<0||before>window.innerHeight){drawNext();revealDiscovery();return;}
+  drawNext();
+  const shift=button.getBoundingClientRect().top-before;
+  if(Math.abs(shift)>0.5)window.scrollBy({top:shift,behavior:'instant'});
+  const target=$('drawn-case').querySelector('h3 button')||$('draw-status');
+  if(target===$('draw-status'))target.tabIndex=-1;
+  const rect=target.getBoundingClientRect(),limit=window.innerHeight-16;
+  if(rect.bottom>limit)window.scrollBy({top:Math.max(0,Math.min(rect.bottom-limit,rect.top-16)),behavior:'instant'});
+  target.focus({preventScroll:true});
+}
 function chooseScenario(value){
   ['query','scenario','kind','difficulty','tool','category','proof'].forEach(id=>$(id).value='');
   activeScenario=value;render();revealDiscovery();
@@ -2423,7 +2439,7 @@ $('copy-search-link').addEventListener('click',copySearchLink);
 // Choose the initial disclosure state once; typing, navigation and resizing
 // preserve the reader's choice and never hide a currently focused control.
 $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
-$('draw-case').addEventListener('click',()=>{drawNext();revealDiscovery();});
+$('draw-case').addEventListener('click',drawFromButton);
 document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
 document.querySelectorAll('#draw-difficulty-options [data-difficulty]').forEach(button=>button.addEventListener('click',()=>chooseDifficulty(button.dataset.difficulty)));
 $('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;render();});

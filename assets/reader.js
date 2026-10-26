@@ -49,7 +49,7 @@
     return method?{index:method.index,title:method.title}:null;
   }
   // Route only to actual rendered source sections; matching never qualifies evidence.
-  function selectSearchSections(sections,terms){
+  function selectSearchSections(sections,terms,matchIndex=(text,value)=>text.indexOf(value)){
     const normalize=text=>text.normalize('NFKC').toLocaleLowerCase();
     const used=new Set(),matches=[];
     // Leading tags already appear on cards. Prefer an original body section,
@@ -59,7 +59,7 @@
     for(const {term,variants} of terms){
       for(const index of readingOrder){
         const section=sections[index],text=normalize(section.title+'\n'+section.text);
-        const variant=variants.find(value=>value&&text.includes(normalize(value)));
+        const variant=variants.find(value=>value&&matchIndex(text,normalize(value))!==-1);
         if(!variant)continue;
         if(!used.has(index)){
           used.add(index);matches.push({index,term,variant,title:section.title});
@@ -72,11 +72,11 @@
   }
   // Keep quotes within one original block. Normalization is for matching only;
   // grapheme offsets map the excerpt back to the unchanged source characters.
-  function selectSearchPassage(blocks,variant){
+  function selectSearchPassage(blocks,variant,matchIndex=(text,value)=>text.indexOf(value)){
     const normalize=text=>text.normalize('NFKC').toLocaleLowerCase();
     const needle=normalize(variant);
     if(!needle)return null;
-    const index=blocks.findIndex(text=>normalize(text).includes(needle));
+    const index=blocks.findIndex(text=>matchIndex(normalize(text),needle)!==-1);
     if(index===-1)return null;
     const text=blocks[index],limit=240;
     if(Array.from(text).length<=limit)return {index,excerpt:text,partial:false};
@@ -90,7 +90,7 @@
     }
     // Context-sensitive casing may differ across a grapheme boundary. Keep the
     // real passage destination, but omit a quote if it cannot be mapped exactly.
-    const at=projected.indexOf(needle);
+    const at=matchIndex(projected,needle);
     if(projected!==normalize(text)||at===-1||Array.from(variant).length>limit)return {index,excerpt:null,partial:true};
     const first=offsets[at].start,last=offsets[at+needle.length-1].end;
     const hitStart=segments.findIndex(s=>s.index===first);
@@ -166,7 +166,7 @@
     }
     return index<0?0:index;
   }
-  function enhance(body,item,searchTerms=[]){
+  function enhance(body,item,searchTerms=[],matchIndex=(text,value)=>text.indexOf(value)){
     const dialog=body.closest('dialog');
     if(dialog)readingPositionTrackers.get(dialog)?.();
     const research=body.querySelector('.research-details');
@@ -345,7 +345,7 @@
         if(/^https?:\/\//i.test(href)&&!section.links.has(href))section.links.set(href,link.textContent.trim());
       }
     }
-    const searchMatches=selectSearchSections(sourceSections,searchTerms);
+    const searchMatches=selectSearchSections(sourceSections,searchTerms,matchIndex);
     if(searchMatches.length){
       const search=make('section','reader-search');
       search.setAttribute('aria-labelledby','reader-search-title');
@@ -362,8 +362,8 @@
         const group=make('div','reader-search-match');
         group.append(button);
         const section=sourceSections[match.index];
-        const titleHit=section.title.normalize('NFKC').toLocaleLowerCase().includes(match.variant.normalize('NFKC').toLocaleLowerCase());
-        const passage=titleHit?null:selectSearchPassage(section.passages.map(passage=>passage.text),match.variant);
+        const titleHit=matchIndex(section.title.normalize('NFKC').toLocaleLowerCase(),match.variant.normalize('NFKC').toLocaleLowerCase())!==-1;
+        const passage=titleHit?null:selectSearchPassage(section.passages.map(passage=>passage.text),match.variant,matchIndex);
         if(passage){
           if(passage.excerpt){
             group.append(make('p','reader-search-excerpt-label',passage.partial?'命中附近原文 · 節錄，非完整段落':'命中這段原文 · 限制請連同全文核對'),

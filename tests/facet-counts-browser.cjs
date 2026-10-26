@@ -8,6 +8,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
 const observe=process.env.OBSERVE==='1';
 const base=process.env.FACET_URL||'http://127.0.0.1:8096/ai-agent-use-cases/';
 const keys=['scenario','kind','tool','category','proof'];
+const totalMatches=async page=>Number((await page.locator('#results-count').innerText()).match(/^顯示 (\d+) \//)[1]);
 fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];
@@ -39,7 +40,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   }
   // Travel + development is a legitimate growing collection, not a zero fixture.
   await page.locator('#scenario').selectOption('開發');
-  const row={engine:engine.name(),width,options,inputTimingMs:inputTiming,travelDevelopmentCount:await page.locator('#results .card').count()};
+  const row={engine:engine.name(),width,options,inputTimingMs:inputTiming,travelDevelopmentCount:await totalMatches(page)};
   report.push(row);save();
   if(observe){await browser.close();continue;}
   assert(options.every(x=>/^\d+ · /.test(x)),'every scenario option previews its actual count');
@@ -70,7 +71,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    for(const choice of (engine===chromium&&width===1440 ? choices : representativeChoices(choices,before))){
     assert.equal(choice.disabled,false,'zero counts stay available');
     await page.locator('#'+key).selectOption(choice.value);
-    assert.equal(await page.locator('#results .card').count(),Number(choice.text.match(/^(\d+) · /)[1]),key+' '+choice.value);
+    assert.equal(await totalMatches(page),Number(choice.text.match(/^(\d+) · /)[1]),key+' '+choice.value);
    }
    await page.locator('#'+key).selectOption(before);
   }
@@ -79,7 +80,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   const combined=await page.locator('#tool option').evaluateAll(nodes=>nodes.map(n=>({value:n.value,text:n.textContent})));
   for(const choice of combined){
    await page.locator('#tool').selectOption(choice.value);
-   assert.equal(await page.locator('#results .card').count(),Number(choice.text.match(/^(\d+) · /)[1]),'query + scenario + kind, changing tool');
+   assert.equal(await totalMatches(page),Number(choice.text.match(/^(\d+) · /)[1]),'query + scenario + kind, changing tool');
   }
   await page.locator('#tool').selectOption('Grok Bot');
   const values=await page.locator('#filters select').evaluateAll(nodes=>nodes.map(n=>n.value));
@@ -132,13 +133,13 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
   await page.locator('#partial-load').waitFor({state:'visible'});
   assert.match(await page.locator('#facet-count-hint').textContent(),/只計已載入/);
   assert.deepEqual(await page.evaluate(()=>failedPaths),['cases/001-travel-checkout.md']);
-  const countBefore=await page.locator('#results .card').count(),urlBefore=page.url();
+  const countBefore=await totalMatches(page),urlBefore=page.url();
   const optionBefore=await page.locator('#scenario option[value="生活"]').textContent();
   await page.unroute('**/cases/001-travel-checkout.md');
   await page.locator('#retry-failed').click();
   await page.locator('#partial-load').waitFor({state:'hidden'});
   assert.deepEqual(await page.evaluate(()=>failedPaths),[]);
-  assert.equal(await page.locator('#results .card').count(),countBefore+1);
+  assert.equal(await totalMatches(page),countBefore+1);
   const optionAfter=await page.locator('#scenario option[value="生活"]').textContent();
   assert.equal(Number(optionAfter.match(/^(\d+) · /)[1]),Number(optionBefore.match(/^(\d+) · /)[1])+1);
   assert.equal(page.url(),urlBefore);

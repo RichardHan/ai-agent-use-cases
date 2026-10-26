@@ -71,6 +71,7 @@
 .detail-action-scenario{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;background:var(--green);color:white;border:1px solid var(--green);border-radius:6px;font-size:14px;font-weight:600;cursor:pointer}
 .detail-action-scenario:hover{background:#1d4234}
 .detail-action-scenario:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.plain-overview .detail-action-scenario{margin:12px 0 4px;text-align:left;line-height:1.6}
 .detail-action-copy{display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;background:#f5f7ef;color:var(--green);border:1px solid #ccd8c8;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer}
 .detail-action-copy:hover{background:#e9eee0;border-color:var(--green)}
 .detail-action-copy:focus-visible{outline:2px solid var(--green);outline-offset:3px}

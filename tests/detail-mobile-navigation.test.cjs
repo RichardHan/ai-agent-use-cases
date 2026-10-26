@@ -204,7 +204,7 @@ test('detail header meta proof badge includes semantic role note and descriptive
   assert.match(proofBadge.getAttribute('aria-label'), /尚未取得獨立代碼庫驗證/, 'aria-label must include proof definition warning');
 });
 
-test('related-back and detail-action-scenario provide distinct, unambiguous return actions', () => {
+test('related return remains distinct from the early scenario exploration action', () => {
   const { context } = setupDom();
   const sample = {
     id: 'UC-005',
@@ -215,17 +215,14 @@ test('related-back and detail-action-scenario provide distinct, unambiguous retu
     category: '行政',
     proof: '官方自報'
   };
-
   const relatedEl = context.renderRelated(sample);
   const backBtn = relatedEl.querySelector('.related-back');
-  const scenarioBtn = relatedEl.querySelector('.detail-action-scenario');
-
-  assert.ok(backBtn, 'renderRelated must include .related-back');
-  assert.ok(scenarioBtn, 'renderRelated must include .detail-action-scenario');
-
-  assert.equal(backBtn.textContent, '關閉並返回結果', 'back button must clearly indicate returning to current results');
-  assert.match(scenarioBtn.textContent, /探索更多「工作」案例/, 'scenario button must indicate exploring this scenario');
-  assert.notEqual(backBtn.textContent, scenarioBtn.textContent, 'return and scenario buttons must not have duplicate labels');
+  const scenarioBtn = context.scenarioExploreAction(sample);
+  assert.ok(backBtn);
+  assert.equal(relatedEl.querySelector('.detail-action-scenario'), null, 'bottom section does not repeat the action');
+  assert.match(scenarioBtn.textContent, /探索更多「工作」案例/);
+  assert.equal(backBtn.textContent, '關閉並返回結果');
+  assert.notEqual(backBtn.textContent, scenarioBtn.textContent);
 });
 
 test('reader.css provides distinct left border accents and responsive wrapping for detail navigation', () => {

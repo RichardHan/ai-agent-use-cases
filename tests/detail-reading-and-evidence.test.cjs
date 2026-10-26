@@ -280,10 +280,12 @@ test('showDetail falls back to SCENARIO_TARGET_USERS when targetUser is omitted'
   assert.match(targetUserEl.textContent, /工程師、程式開發者/);
 });
 
-test('renderRelated includes next-step actions: scenario exploration and note copy', () => {
-  const { context } = setupDom();
+test('scenario exploration is available before research while note copy remains after related cases', () => {
+  const { context, detailBody } = setupDom();
   const sample = {
     id: 'UC-001',
+    path: 'cases/001-travel.md',
+    markdown: '# 旅行規劃比價\n\n## 方法\n比較交通。',
     title: '旅行規劃比價',
     what: '整理可比較的旅行方案。',
     summary: '整理可比較的旅行方案。',
@@ -297,13 +299,15 @@ test('renderRelated includes next-step actions: scenario exploration and note co
     tags: ['旅遊']
   };
 
-  const relatedEl = context.renderRelated(sample);
-  const nextActions = relatedEl.querySelector('.detail-next-actions');
-  assert.ok(nextActions, 'renderRelated must include .detail-next-actions');
-
-  const scenarioBtn = relatedEl.querySelector('.detail-action-scenario');
-  assert.ok(scenarioBtn, 'renderRelated must include scenario exploration button');
+  context.showDetail(sample, null, false);
+  const overview = detailBody.querySelector('.plain-overview');
+  const scenarioBtn = overview.querySelector('.detail-action-scenario');
+  assert.ok(scenarioBtn, 'scenario exploration follows the purpose');
   assert.match(scenarioBtn.textContent, /探索更多「生活」案例/);
+  const relatedEl = detailBody.querySelector('.related-cases');
+  assert.equal(relatedEl.querySelector('.detail-action-scenario'), null);
+  const nextActions = relatedEl.querySelector('.detail-next-actions');
+  assert.ok(nextActions);
 
   const copyBtn = relatedEl.querySelector('.detail-action-copy');
   assert.ok(copyBtn, 'renderRelated must include copy note button');

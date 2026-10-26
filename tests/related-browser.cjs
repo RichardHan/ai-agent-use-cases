@@ -55,6 +55,10 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
   await page.locator('#results .card .card-bottom button').first().click();
   await page.screenshot({path:`qa-artifacts/related-after-top-${name}.png`});
   const firstID=await page.locator('#detail-toolbar-id').innerText();
+  const scenarioAction=page.locator('.plain-overview .detail-action-scenario');
+  assert.equal(await scenarioAction.count(),1,'scenario exploration belongs near the purpose');
+  assert.equal(await page.locator('.related-cases .detail-action-scenario').count(),0,'no duplicate action at the bottom');
+  assert((await scenarioAction.boundingBox()).y < (await page.locator('.research-details').boundingBox()).y);
   const suggestions=await checkRelated();assert(suggestions.length>0);
   await page.locator('.related-cases').scrollIntoViewIfNeeded();await audit('travel-related');
   await page.screenshot({path:`qa-artifacts/related-after-detail-${name}.png`});

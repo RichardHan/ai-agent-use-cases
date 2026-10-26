@@ -716,6 +716,18 @@ function detailNeighbours(item, items) {
   const index = items.findIndex(other => other.id === item?.id);
   return index < 0 ? {prev:null,next:null} : {prev:items[index - 1] || null,next:items[index + 1] || null};
 }
+function scenarioExploreAction(item) {
+  const button = el('button', 'detail-action-scenario', `探索更多「${item.scenario}」案例 →`);
+  button.type = 'button';
+  button.setAttribute('aria-label', `探索更多「${item.scenario}」案例`);
+  button.addEventListener('click', () => {
+    closeDetail();
+    chooseScenario(item.scenario);
+    $('results-count').focus({preventScroll:true});
+    $('results-count').scrollIntoView({block:'start',behavior:'instant'});
+  });
+  return button;
+}
 function renderRelated(item) {
   const related = relatedEntries(item, currentFiltered);
   const section = el('section', 'related-cases');
@@ -742,18 +754,6 @@ function renderRelated(item) {
   back.setAttribute('aria-label', '關閉並返回結果');
   back.addEventListener('click', closeDetail);section.append(back);
   const nextActions = el('div', 'detail-next-actions');
-  if (item.scenario) {
-    const exploreScenarioBtn = el('button', 'detail-action-scenario', `探索更多「${item.scenario}」案例 →`);
-    exploreScenarioBtn.type = 'button';
-    exploreScenarioBtn.setAttribute('aria-label', `探索更多「${item.scenario}」案例`);
-    exploreScenarioBtn.addEventListener('click', () => {
-      closeDetail();
-      chooseScenario(item.scenario);
-      $('results-count').focus({preventScroll:true});
-      $('results-count').scrollIntoView({block:'start',behavior:'instant'});
-    });
-    nextActions.append(exploreScenarioBtn);
-  }
   const copyTakeawayBtn = el('button', 'detail-action-copy', '複製本篇筆記與連結 📋');
   copyTakeawayBtn.type = 'button';
   copyTakeawayBtn.setAttribute('aria-label', '複製本篇案例摘要、指引與連結');
@@ -990,6 +990,7 @@ function showDetail(item, trigger, updateURL=true) {
   const purpose = el('section');
   purpose.append(el('h2', '', '可以幫你做什麼'), el('p', '', compactPurpose ? item.coreGoal : item.what));
   overview.append(purpose,source);
+  if (item.scenario) overview.append(scenarioExploreAction(item));
   if (compactPurpose) {
     const fullAccount = el('details', 'detail-full-account');
     fullAccount.append(el('summary', '', '展開完整用途與案例描述'), el('p', '', item.what));

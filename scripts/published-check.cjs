@@ -13,12 +13,10 @@ function isCurrentMainCommit(checkoutSha,getMainSha=getRemoteMainSha){
  try{
   mainSha=getMainSha();
  }catch(error){
-  console.warn('Could not confirm the main tip; skipping the published asset check. '+error.message);
-  return false;
+  throw Error('Cannot confirm the main tip for published verification: '+error.message,{cause:error});
  }
  if(!mainSha){
-  console.warn('Could not read the current main commit from origin; skipping the published asset check.');
-  return false;
+  throw Error('Cannot confirm the main tip for published verification: origin returned no commit');
  }
  return shouldCheckPublishedSha(process.env.GITHUB_REF,checkoutSha,mainSha);
 }

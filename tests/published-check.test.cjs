@@ -17,12 +17,12 @@ test('published asset check remains enabled for explicit non-main verification b
  assert.equal(shouldCheckPublishedSha('refs/heads/verify/site','branch','current'),true);
 });
 
-test('published asset check skips safely when the main tip cannot be read',()=>{
+test('published asset check fails closed when the main tip cannot be read',()=>{
  const previous=process.env.GITHUB_REF;
  process.env.GITHUB_REF='refs/heads/main';
  try{
-  assert.equal(isCurrentMainCommit('current',()=>''),false);
-  assert.equal(isCurrentMainCommit('current',()=>{throw Error('network unavailable');}),false);
+  assert.throws(()=>isCurrentMainCommit('current',()=>''),/Cannot confirm the main tip/);
+  assert.throws(()=>isCurrentMainCommit('current',()=>{throw Error('network unavailable');}),/Cannot confirm the main tip.*network unavailable/);
  }finally{
   if(previous===undefined)delete process.env.GITHUB_REF;
   else process.env.GITHUB_REF=previous;

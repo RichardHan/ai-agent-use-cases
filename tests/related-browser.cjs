@@ -72,6 +72,15 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
   assert.deepEqual(await page.locator('#results .card').evaluateAll(es=>es.map(e=>e.dataset.caseId)),resultIDs);
   assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),suggestions[0],
     'closing a related case returns to its result card');
+  await page.locator('#results .card .card-bottom button').first().click();
+  const chosenScenario=await page.locator('.plain-overview .detail-action-scenario').getAttribute('aria-label');
+  await page.locator('.plain-overview .detail-action-scenario').focus();
+  await page.keyboard.press('Enter');
+  assert(!await page.locator('#detail').evaluate(n=>n.open),'scenario handoff closes the reader');
+  assert.equal(await page.locator('#scenario').inputValue(),chosenScenario.match(/「(.+)」/)[1]);
+  assert(await page.locator('#results-count').evaluate(n=>n===document.activeElement),'scenario handoff focuses the result count');
+  assert.equal(new URL(page.url()).searchParams.get('q'),null,'scenario handoff clears the earlier search');
+  await audit('scenario-handoff');
   // Live smoke uses two corpus loads per viewport; boundary repetitions stay on preview.
   if(live){
    await page.goto(origin+'?case=UC-005',{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();

@@ -133,6 +133,9 @@ async function jump(page,button){
    // Journey 2: a shared long article, sources, refresh and keyboard outline.
    await ready(page,'?q=PR&case=UC-005');
    await page.locator('.reader-nav').waitFor();
+   const earlySource=page.locator('.reader-source-shortcut');
+   assert.equal(await earlySource.count(),1,'shared case offers a source-and-version route near its purpose');
+   assert.equal(await earlySource.evaluate(el=>!!(el.compareDocumentPosition(document.querySelector('.detail-actions'))&Node.DOCUMENT_POSITION_FOLLOWING)),true,'source route precedes secondary actions');
    if(size!=='desktop'){
      const earlyMethod=page.locator('.reader-method-shortcut');
      assert.equal(await earlyMethod.count(),1,'long shared case has a direct original-method route');

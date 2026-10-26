@@ -120,6 +120,9 @@
 .reader-method-shortcut{display:flex;flex-direction:column;gap:4px;max-width:100%;min-height:44px;margin:14px 0 0;padding:10px 14px;text-align:left;background:#f5f7ef;border-left:3px solid #7d9678;border-radius:6px;overflow-wrap:anywhere}
 .reader-method-shortcut strong{font-size:14px;line-height:1.7;color:var(--green)}
 .reader-method-shortcut:hover{background:#e9eee0;border-color:var(--green)}
+.reader-source-shortcut{display:block;min-height:44px;margin:10px 0 0;padding:9px 12px;text-align:left;color:var(--green);background:#f5f7ef;border:1px solid #a8b8a0;border-radius:6px;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.reader-source-shortcut:hover{background:#e9eee0;border-color:var(--green)}
+.reader-source-shortcut:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 .reader-guidance-shortcut{display:flex;flex-direction:column;gap:4px;max-width:100%;min-height:44px;margin:8px 0 0;padding:10px 14px;text-align:left;background:#f0f5eb;border-left:3px solid var(--green);border-radius:6px;overflow-wrap:anywhere}
 .reader-guidance-shortcut strong{font-size:14px;line-height:1.7;color:var(--green)}
 .reader-guidance-shortcut:hover{background:#e5edd9;border-color:var(--green)}

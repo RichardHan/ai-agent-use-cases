@@ -290,8 +290,10 @@
       return {title:heading.textContent,hasLinks};
     }));
     if(sourceIndex!==-1){
-      const sources=jumpButton(sourceIndex,'reader-report-open');
-      sources.textContent='核對來源與版本 ↓';report.append(sources);
+      const sources=jumpButton(sourceIndex,'reader-report-open reader-source-shortcut');
+      sources.textContent='核對來源與版本 ↓';
+      if(overview.firstElementChild)overview.firstElementChild.after(sources);
+      else overview.append(sources);
     }
     const actions=body.querySelector('.detail-actions');
     if(actions)actions.after(report,evidence);else overview.after(report,evidence);

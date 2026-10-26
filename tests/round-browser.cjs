@@ -158,7 +158,7 @@ async function hold(page,path){if(published)return ()=>{};let release;const gate
   }
   // Open an actual external source once; its availability is not evidence of case accuracy.
   if(engine==='chromium'&&size==='desktop'){
-   await page.goto(base+'?case=UC-005');await page.locator('#detail[open]').waitFor();await page.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();
+   await page.goto(base+'?case=UC-005');await page.locator('#detail[open]').waitFor();await page.locator('.reader-source-shortcut').click();
    const link=page.locator('.markdown a[href^="https://zenn.dev/"]').first();const popupReady=page.waitForEvent('popup');check.sourceHref=await link.getAttribute('href');await link.click();const popup=await popupReady;await popup.waitForLoadState('domcontentloaded').catch(()=>{});check.openedSource=popup.url();await popup.close();
   }
   assert.deepEqual(errors,[]);check.pageErrors=errors;check.complete=true;save();await context.close();

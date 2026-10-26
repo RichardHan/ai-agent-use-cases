@@ -3,9 +3,9 @@ const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),asse
 const root=path.resolve(__dirname,'..');
 const source=fs.readFileSync(path.join(root,'assets/app.js'),'utf8').split("/* Browser event bindings. */")[0];
 // Minimal text-node DOM: tests safe rendering without an installed browser.
-class Node {constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.textContent='';} append(...children){this.children.push(...children);} }
+class Node {constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.textContent='';} append(...children){this.children.push(...children);} setAttribute(name,value){this[name]=value;} }
 const context=vm.createContext({URL,Discovery:require('../assets/discovery.js'),document:{createElement:tag=>new Node(tag),createTextNode:text=>({textContent:text})}});
-vm.runInContext(source+'\nthis.api={metadata,parseFile,filterEntries,norm,safeLink,renderMarkdown,tokenize,idVariants,termVariants,matchCase,mapConcurrent,loadCorpus,SYNONYM_MAP};',context);
+vm.runInContext(source+'\nthis.api={metadata,parseFile,filterEntries,norm,safeLink,renderMarkdown,tokenize,idVariants,termVariants,matchCase,mapConcurrent,loadCorpus,SYNONYM_MAP,pinSourcePaths};',context);
 const api=context.api;
 vm.runInContext('displayCopy='+fs.readFileSync(path.join(root,'assets/copy.json'),'utf8'),context);
 const files=['cases','evidence'].flatMap(dir=>fs.readdirSync(path.join(root,dir)).filter(x=>x.endsWith('.md')).map(x=>dir+'/'+x)).concat('sources/pending.md');
@@ -108,8 +108,12 @@ assert.deepEqual(Array.from(api.filterEntries(entries,Array.from(api.tokenize('#
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('P 003')),{}).length,1,'filters space-separated pending ID');
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('p 3')),{}).length,1,'filters space-separated unpadded pending ID');
 assert.equal(api.safeLink('javascript:alert(1)','cases/test.md'),null);
-assert.equal(api.safeLink('../sources/README.md#s-001','cases/test.md'),'https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001');
+assert.equal(api.safeLink('../sources/README.md#s-001','cases/test.md'),null,'unverified relative sources cannot navigate to mutable main');
+assert.equal(api.safeLink('https:../sources/README.md','cases/test.md'),null,'base-dependent pseudo-absolute URL cannot bypass source revision');
+api.pinSourcePaths(['cases/test.md'],'a'.repeat(40));
+assert.equal(api.safeLink('../sources/README.md#s-001','cases/test.md'),'https://github.com/RichardHan/ai-agent-use-cases/blob/'+'a'.repeat(40)+'/sources/README.md#s-001');
 
+assert.equal(api.safeLink('https:../sources/README.md','cases/test.md'),null,'malformed scheme cannot resolve against a pinned base');
 // Search quality: punctuation tolerance (quotes, brackets, semicolons, pipes)
 assert.deepEqual(Array.from(api.tokenize('「旅遊」')), ['旅遊'], 'strips corner brackets/quotes');
 assert.deepEqual(Array.from(api.tokenize('“收件匣”')), ['收件匣'], 'strips curly double quotes');

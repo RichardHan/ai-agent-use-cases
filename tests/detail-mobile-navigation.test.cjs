@@ -177,8 +177,9 @@ test('detail source link has descriptive desktop and mobile labels, target _blan
   const sourceVersionNote = detailBody.querySelector('.detail-source-version');
   assert.ok(sourceVersionNote, 'reader must explain the version of the external source');
   assert.equal(sourceVersionNote.hidden, false);
-  assert.match(sourceVersionNote.textContent, /main.*更新.*本站/, 'reader must disclose that the mutable source may differ from this page');
-  assert.match(sourceLink.href, /\/blob\/main\/cases\/001-travel\.md$/, 'source still opens the original Markdown');
+  assert.match(sourceVersionNote.textContent, /尚未核對.*發布版本/, 'unverified source explains why external navigation is unavailable');
+  assert.equal(sourceLink.getAttribute('href'), null, 'unverified source must not navigate to mutable main');
+  assert.equal(sourceLink.getAttribute('aria-disabled'), 'true');
 });
 
 test('detail header meta proof badge includes semantic role note and descriptive aria-label', () => {

@@ -10,13 +10,16 @@ function pinSourcePaths(paths, revision) {
 function sourceMarkdownUrl(path) { return REPO_ROOT + (sourceRevisionFor(path) || 'main') + '/' + path; }
 function sourceVersionNote(path) {
   const revision=sourceRevisionFor(path);
-  return revision ? 'GitHub 原始 Markdown 固定於本站發布版本 '+revision.slice(0,7)+'；外部來源仍須另行核對。' : 'GitHub 原始 Markdown 指向 main；更新後可能與本站收錄內容不同。';
+  return revision ? 'GitHub 原始 Markdown 固定於本站發布版本 '+revision.slice(0,7)+'；外部來源仍須另行核對。' : '尚未核對本站發布版本，暫不開啟 GitHub 原始 Markdown；可先閱讀下方保留的原文。';
 }
 function refreshCurrentSourceLinks(path) {
   if(!globalThis.document || !currentDetailItem || currentDetailItem.path!==path || !document.querySelector('#detail[open]'))return;
   const body=document.querySelector('#detail-body');
   const source=body?.querySelector('.detail-source'),note=body?.querySelector('.detail-source-version');
-  if(source)source.href=sourceMarkdownUrl(path);
+  if(source) {
+    if(sourceRevisionFor(path)) { source.href=sourceMarkdownUrl(path); source.removeAttribute('aria-disabled'); source.removeAttribute('tabindex'); }
+    else { source.removeAttribute('href'); source.setAttribute('aria-disabled','true'); source.tabIndex=0; }
+  }
   if(note)note.textContent=sourceVersionNote(path);
   for(const link of body?.querySelectorAll('a')||[])if(link.sourceRelative)link.href=safeLink(link.sourceRelative,path);
 }
@@ -957,7 +960,8 @@ function showDetail(item, trigger, updateURL=true) {
   const source = el('a', 'detail-source', '查看 GitHub 原始 Markdown ↗');
   source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown ↗'),el('span','print-action-short','原始 Markdown ↗'));
   source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown ↗');
-  source.href = sourceMarkdownUrl(item.path);
+  if(sourceRevisionFor(item.path))source.href=sourceMarkdownUrl(item.path);
+  else { source.setAttribute('aria-disabled','true'); source.tabIndex=0; }
   source.target = '_blank';
   source.rel = 'noopener noreferrer';
   const overview = el('div', 'plain-overview');

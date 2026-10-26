@@ -1,0 +1,8 @@
+{
+  "beforeBytes": 33121,
+  "afterBytes": 33209,
+  "deltaBytes": 88,
+  "beforeGzipBytes": 7635,
+  "afterGzipBytes": 7682,
+  "note": "gzip size estimate only; no browser transfer or speed claim"
+}

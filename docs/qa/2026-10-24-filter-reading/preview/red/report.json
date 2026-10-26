@@ -1,0 +1,92 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "total": 443,
+    "layout": {
+      "columns": "none",
+      "controls": [
+        {
+          "tag": "LABEL",
+          "font": 11,
+          "height": 67.140625,
+          "width": 159.609375
+        },
+        {
+          "tag": "SELECT",
+          "font": 12,
+          "height": 42,
+          "width": 159.609375
+        },
+        {
+          "tag": "LABEL",
+          "font": 11,
+          "height": 67.140625,
+          "width": 159.625
+        },
+        {
+          "tag": "SELECT",
+          "font": 12,
+          "height": 42,
+          "width": 159.625
+        },
+        {
+          "tag": "LABEL",
+          "font": 11,
+          "height": 67.140625,
+          "width": 159.609375
+        },
+        {
+          "tag": "SELECT",
+          "font": 12,
+          "height": 42,
+          "width": 159.609375
+        },
+        {
+          "tag": "LABEL",
+          "font": 11,
+          "height": 67.140625,
+          "width": 159.625
+        },
+        {
+          "tag": "SELECT",
+          "font": 12,
+          "height": 42,
+          "width": 159.625
+        },
+        {
+          "tag": "LABEL",
+          "font": 11,
+          "height": 67.140625,
+          "width": 159.609375
+        },
+        {
+          "tag": "SELECT",
+          "font": 12,
+          "height": 42,
+          "width": 159.609375
+        },
+        {
+          "tag": "LABEL",
+          "font": 11,
+          "height": 67.140625,
+          "width": 159.609375
+        },
+        {
+          "tag": "SELECT",
+          "font": 12,
+          "height": 42,
+          "width": 159.609375
+        },
+        {
+          "tag": "BUTTON",
+          "font": 11,
+          "height": 42,
+          "width": 84.3125
+        }
+      ],
+      "overflow": false
+    },
+    "failure": "AssertionError [ERR_ASSERTION]: labels and reset must remain legible\n    at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/filter-reading-browser.cjs:18:39"
+  }
+]

@@ -1,0 +1,149 @@
+[
+  {
+    "width": 1440,
+    "errors": [],
+    "chips": [
+      {
+        "q": "每日",
+        "left": 245,
+        "right": 363.609375,
+        "height": 33.796875,
+        "scroll": 117,
+        "client": 117,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      },
+      {
+        "q": "收件匣",
+        "left": 371.609375,
+        "right": 502.21875,
+        "height": 33.796875,
+        "scroll": 129,
+        "client": 129,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      },
+      {
+        "q": "比價",
+        "left": 510.21875,
+        "right": 628.828125,
+        "height": 33.796875,
+        "scroll": 117,
+        "client": 117,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      },
+      {
+        "q": "排程",
+        "left": 636.828125,
+        "right": 755.4375,
+        "height": 33.796875,
+        "scroll": 117,
+        "client": 117,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      }
+    ],
+    "total": 423,
+    "hint": "前四個按鈕會搜尋全文及相關詞，包含來源與限制；命中不代表已實作或驗證。會取代搜尋字詞、保留其他篩選，並帶你看結果；再按一次可取消。載入中會先保留選擇。",
+    "violations": []
+  },
+  {
+    "width": 390,
+    "errors": [],
+    "chips": [
+      {
+        "q": "每日",
+        "left": 35,
+        "right": 147.609375,
+        "height": 44,
+        "scroll": 111,
+        "client": 111,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      },
+      {
+        "q": "收件匣",
+        "left": 153.609375,
+        "right": 278.21875,
+        "height": 44,
+        "scroll": 123,
+        "client": 123,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      },
+      {
+        "q": "比價",
+        "left": 35,
+        "right": 147.609375,
+        "height": 44,
+        "scroll": 111,
+        "client": 111,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      },
+      {
+        "q": "排程",
+        "left": 153.609375,
+        "right": 266.21875,
+        "height": 44,
+        "scroll": 111,
+        "client": 111,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      }
+    ],
+    "total": 423,
+    "hint": "前四個按鈕會搜尋全文及相關詞，包含來源與限制；命中不代表已實作或驗證。會取代搜尋字詞、保留其他篩選，並帶你看結果；再按一次可取消。載入中會先保留選擇。",
+    "violations": []
+  },
+  {
+    "width": 320,
+    "errors": [],
+    "chips": [
+      {
+        "q": "每日",
+        "left": 35,
+        "right": 147.609375,
+        "height": 44,
+        "scroll": 111,
+        "client": 111,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      },
+      {
+        "q": "收件匣",
+        "left": 153.609375,
+        "right": 278.21875,
+        "height": 44,
+        "scroll": 123,
+        "client": 123,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      },
+      {
+        "q": "比價",
+        "left": 35,
+        "right": 147.609375,
+        "height": 44,
+        "scroll": 111,
+        "client": 111,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      },
+      {
+        "q": "排程",
+        "left": 153.609375,
+        "right": 266.21875,
+        "height": 44,
+        "scroll": 111,
+        "client": 111,
+        "font": "12px",
+        "description": "task-shortcuts-hint"
+      }
+    ],
+    "total": 423,
+    "hint": "前四個按鈕會搜尋全文及相關詞，包含來源與限制；命中不代表已實作或驗證。會取代搜尋字詞、保留其他篩選，並帶你看結果；再按一次可取消。載入中會先保留選擇。",
+    "violations": []
+  }
+]

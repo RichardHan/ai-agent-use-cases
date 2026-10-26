@@ -1,0 +1,61 @@
+✖ search sharing announces pending, then success with only supported search conditions (27.338084ms)
+✖ delayed denied clipboard preserves a reader who moved to another control (10.456042ms)
+✔ denied or missing clipboard focuses and selects fallback when the requester still has focus (17.896542ms)
+✔ superseded and cleared requests cannot replace the newest feedback or fallback (12.344166ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 265.912042
+
+✖ failing tests:
+
+test at tests/search-sharing.test.cjs:12:1
+✖ search sharing announces pending, then success with only supported search conditions (27.338084ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '' !== '正在複製搜尋連結…'
+  
+      at TestContext.<anonymous> (/private/tmp/ai-source-access-20261024/tests/search-sharing.test.cjs:13:48)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: '正在複製搜尋連結…',
+    operator: 'strictEqual'
+  }
+
+test at tests/search-sharing.test.cjs:16:1
+✖ delayed denied clipboard preserves a reader who moved to another control (10.456042ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  
+    {
+      focus: [Function: focus],
+  +   hidden: false,
+  +   id: 'search-share-url',
+  -   hidden: true,
+  -   id: 'query',
+      open: false,
+      select: [Function: select],
+  +   selected: true,
+      textContent: '',
+  +   value: 'https://example.org/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&sort=reviewed#explore'
+  -   value: '旅遊'
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/ai-source-access-20261024/tests/search-sharing.test.cjs:18:9)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: [Object],
+    operator: 'strictEqual'
+  }

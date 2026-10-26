@@ -1,0 +1,57 @@
+name: Round 23 acceptance QA
+on:
+  push:
+    branches: [main, improve/reader-tables-20261023, verify/round23-published]
+    paths: ['assets/**', 'index.html', 'scripts/preview.py', 'tests/**', '.github/workflows/round23-qa.yml']
+  pull_request:
+    paths: ['assets/**', 'index.html', 'scripts/preview.py', 'tests/table-anchor-browser.cjs', 'tests/round23-observe.cjs', '.github/workflows/round23-qa.yml']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
+          mkdir -p /usr/local/share/fonts qa-artifacts
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
+          fc-cache -f
+          chown -R pwuser:pwuser qa-artifacts
+      - name: Unit, syntax and static preview
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+          for f in assets/*.js tests/round23-observe.cjs tests/table-anchor-browser.cjs; do node --check "$f"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Cloud visitor journeys and early table regression
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          python3 -m http.server 8180 --directory "$RUNNER_TEMP/preview" > /tmp/round23-preview.log 2>&1 &
+          export SITE_URL=http://127.0.0.1:8180/ai-agent-use-cases/
+          if [ "$GITHUB_REF_NAME" = verify/round23-published ]; then
+            export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/
+            node - <<'JS'
+          const fs=require('node:fs');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
+          (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}for(const file of ['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?round23='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);console.log('MATCH '+file);}})().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          fi
+          QA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/round23-observe.cjs
+          QA_OUT=qa-artifacts/early-table runuser -u pwuser -- node tests/table-anchor-browser.cjs
+          QA_OUT=qa-artifacts/table SITE_URL="$SITE_URL" runuser -u pwuser -- node tests/table-reading-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: round23-qa
+          path: qa-artifacts/

@@ -1,0 +1,41 @@
+[
+  {
+    "viewport": "desktop",
+    "queryTop": 160,
+    "resultsTop": 484,
+    "focus": "search-title",
+    "scrollY": 880,
+    "loadMs": 48,
+    "domContentLoadedMs": 47,
+    "matches": 26,
+    "axeScans": 2,
+    "axeViolations": 0,
+    "passed": true
+  },
+  {
+    "viewport": "mobile",
+    "queryTop": 182,
+    "resultsTop": 510,
+    "focus": "search-title",
+    "scrollY": 1472,
+    "loadMs": 42,
+    "domContentLoadedMs": 31,
+    "matches": 26,
+    "axeScans": 2,
+    "axeViolations": 0,
+    "passed": true
+  },
+  {
+    "viewport": "small-mobile",
+    "queryTop": 183,
+    "resultsTop": 562,
+    "focus": "search-title",
+    "scrollY": 1709,
+    "loadMs": 46,
+    "domContentLoadedMs": 35,
+    "matches": 26,
+    "axeScans": 2,
+    "axeViolations": 0,
+    "passed": true
+  }
+]

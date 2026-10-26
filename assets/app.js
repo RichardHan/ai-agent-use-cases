@@ -1,17 +1,92 @@
 /* No external scripts, analytics, API tokens, or build dependencies. */
 'use strict';
-const REPO = 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/';
+const REPO_ROOT = 'https://github.com/RichardHan/ai-agent-use-cases/blob/';
+const pinnedSources = new Map();
+function sourceRevisionFor(path) { return pinnedSources.get(path) || ''; }
+function pinSourcePaths(paths, revision) {
+  if(typeof revision !== 'string' || !/^[a-f0-9]{40}$/i.test(revision))return;
+  for(const path of paths)pinnedSources.set(path,revision.toLowerCase());
+}
+function sourceMarkdownUrl(path) { return REPO_ROOT + (sourceRevisionFor(path) || 'main') + '/' + path; }
+function sourceVersionNote(path) {
+  const revision=sourceRevisionFor(path);
+  return revision ? 'GitHub 原始 Markdown 固定於本站發布版本 '+revision.slice(0,7)+'；外部來源仍須另行核對。' : '尚未核對本站發布版本，暫不開啟 GitHub 原始 Markdown；可先閱讀下方保留的原文。';
+}
+function refreshCurrentSourceLinks(path) {
+  if(!globalThis.document || !currentDetailItem || currentDetailItem.path!==path || !document.querySelector('#detail[open]'))return;
+  const body=document.querySelector('#detail-body');
+  const source=body?.querySelector('.detail-source'),note=body?.querySelector('.detail-source-version');
+  if(source) {
+    if(sourceRevisionFor(path)) { source.href=sourceMarkdownUrl(path); source.removeAttribute('aria-disabled'); source.removeAttribute('tabindex'); }
+    else { source.removeAttribute('href'); source.setAttribute('aria-disabled','true'); source.tabIndex=0; }
+  }
+  if(note)note.textContent=sourceVersionNote(path);
+  for(const link of body?.querySelectorAll('a[data-source-relative]')||[]) {
+    const href=safeLink(link.getAttribute('data-source-relative'),path);
+    if(href) { link.href=href; link.removeAttribute('aria-disabled'); link.removeAttribute('tabindex'); }
+  }
+}
 const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
+const PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {
+  '官方自報': '官方團隊第一手發布的自述或示範，未經第三方獨立驗證。',
+  '作者報告／示範': '社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證。',
+  '公開資料核讀': '依公開貼文、文章或報告核讀整理，本庫未重現完整流程。',
+  '模板／文件核讀': '基於開源模板、規格書或文件梳理，文件列出功能不代表已實測完成。',
+  '尚待查證': '社群線索或待辦想法，證據尚不充分，請勿直接照做。'
+};
+const SCENARIO_TARGET_USERS = globalThis.SCENARIO_TARGET_USERS = {
+  '生活': '想用 AI 簡化日常生活瑣事、旅行規劃或家庭事項安排的讀者',
+  '工作': '想藉助 AI 提升日常行政、客服、行銷或營運效率的職場工作者',
+  '省錢': '關注訂閱管理、帳單核對、比價採購與成本節省的精打細算者',
+  '學習': '進行自主學習、文獻整理、研究探索或跨領域吸收的求知者',
+  '創作': '從事文案撰寫、內容產出、視覺設計或影音製作的創作者',
+  '開發': '工程師、程式開發者、技術架構師或自動化流程建構者'
+};
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
 let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {}, failedPaths = [];
 let allowAutomaticArrival=true, searchShareRequest=0;
-let recoveringSources=false, recoveryNotice='';
+let recoveringSources=false, recoveryNotice='', recoveryController=null, recoveryProgress=null;
 let initialLoading=false, initialLoadController=null;
 let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
+const RESULT_BATCH_SIZE=24;
+let visibleResults=RESULT_BATCH_SIZE, resultQueryKey='';
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
-const tokenize = text => norm(text || '').trim().replace(/健身\s*教練/g, ' 健身 教練 ').replace(/(?:每天|每日)?\s*(?:早上|早晨)?\s*(?:5\s*點|五點)\s*(?:語音)?\s*(?:喚醒|叫醒)(?:\s*(?:教練|bot))?/g, ' 每天 5點 喚醒 教練 ').replace(/(?:5k\s*)?跑走\s*(?:交替)?\s*(?:的)?\s*(?:5k)?\s*(?:計畫|計劃)?/g, ' 5k 跑走 計畫 ').replace(/掃描\s*(?:版)?\s*(?:pdf)?\s*(?:轉|轉成|轉為)\s*epub/g, ' 掃描 pdf epub ').replace(/epub\s*(?:目錄)?\s*(?:重排|可重排)/g, ' epub 目錄 重排 ').replace(/(?:重排|可重排)\s*epub(?:\s*目錄)?/g, ' epub 目錄 重排 ').replace(/快照\s*(?:自行重啟)?\s*(?:回到|回滾到?)\s*(?:數週前|幾週前)/g, ' 快照 重啟 數週前 ').replace(/雲端電腦\s*快照(?:\s*(?:失效|失敗|重啟))?/g, ' 雲端電腦 快照 失效 ').replace(/(?:單一職責|專門負責|專門)?\s*備份\s*bot/g, ' 備份 bot ').replace(/(?:比特幣|虛擬貨幣|加密貨幣|加密)\s*(?:晨報|早報)/g, ' 加密 晨報 ').replace(/(?:(?:加密|幣圈)\s*)?(?:新聞\s*)?一手來源\s*(?:確認|查證|查核)/g, ' 一手來源 確認 ').replace(/(?:dots)?\s*(?:先把)?\s*訂閱\s*(?:頻道)?\s*(?:整理成|做成)?\s*試算表/g, ' dots 訂閱 頻道 試算表 ').replace(/(?:youtube\s*)?(?:專用)?\s*非公開\s*(?:影片)?\s*(?:播放)?\s*清單/g, ' youtube 非公開 播放清單 ').replace(/(?:ai\s*)?(?:自動)?\s*(?:發)?\s*水文\s*(?:帳號)?\s*(?:取關)?/g, ' 水文 帳號 取關 ').replace(/(?:每天|每日)?\s*(?:盤點|檢討)?\s*原創\s*(?:與|和)?\s*轉發(?:\s*(?:檢討|分析|復盤))?/g, ' 原創 轉發 ').replace(/(?:每天|每日)\s*(?:早上|早晨)?\s*(?:自動)?\s*(?:印出|列印|印)?\s*(?:一頁)?\s*(?:加密)?\s*(?:貨幣)?\s*(?:晨報|早報)/g, ' 每天 列印 加密 晨報 ').replace(/(?:加密|幣圈)?\s*新聞\s*(?:一手來源)?\s*(?:確認|查證|查核)/g, ' 加密 新聞 一手來源 確認 ').replace(/(?:點名)?\s*(?:舊聞|翻炒|炒冷飯)\s*(?:重發)?\s*(?:點名)?/g, ' 舊聞 重發 點名 ').replace(/(?:dots)?\s*(?:先把)?\s*訂閱\s*(?:頻道)?\s*(?:整理成|做成)\s*試算表/g, ' dots 訂閱 頻道 試算表 ').replace(/(?:每天|每日)?\s*(?:傍晚)?\s*(?:挑|選)?\s*(?:\d+\s*支)?\s*(?:影片)?\s*(?:放進)?\s*(?:專用)?\s*(?:非公開)?\s*播放清單/g, ' 挑選 影片 非公開 播放清單 ').replace(/(?:不想)?\s*(?:被)?\s*(?:首頁)?\s*演算法\s*(?:牽著走|推薦)/g, ' 演算法 牽著走 ').replace(/(?:依|按)?\s*(?:你訂的)?\s*條件\s*篩\s*粉絲\s*(?:該不該)?\s*回關/g, ' 條件 篩選 粉絲 回關 ').replace(/(?:檢查|分析)?\s*關注\s*名單\s*(?:哪些)?\s*(?:可以)?\s*取關/g, ' 關注名單 取關 ').replace(/(?:強烈)?\s*建議\s*取關/g, ' 建議 取關 ').replace(/(?:粉絲|關注名單)?\s*條件\s*(?:初篩|篩選)\s*(?:與|和)?\s*人工\s*(?:確認|決定)/g, ' 條件 篩選 人工 決定 ').replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/([a-z]+)([\u4e00-\u9fa5])/g, '$1 $2').replace(/([\u4e00-\u9fa5])([a-z]+)/g, '$1 $2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s*[- ]\s*limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s*[- ]\s*orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/\bscreen\s+shots?\b/g, ' screenshot ').replace(/\btime\s+sheets?\b/g, ' timesheet ').replace(/\bpay\s+checks?\b/g, ' paycheck ').replace(/\brun\s+times?\b/g, ' runtime ').replace(/\bhand\s*[- ]\s*offs?\b/g, ' handoff ').replace(/\bdry\s*[- ]\s*runs?\b/g, ' dryrun ').replace(/\bguard\s*[- ]\s*rails?\b/g, ' guardrail ').replace(/\bhuman\s*[- ]\s*in\s*[- ]\s*the\s*[- ]\s*loop\b/g, ' hitl ').replace(/\bmodel\s*[- ]\s*context\s*[- ]\s*protocols?\b/g, ' mcp ').replace(/\bcommand\s*[- ]\s*lines?\b/g, ' cli ').replace(/\bapi\s*[- ]\s*keys?\b/g, ' apikey ').replace(/\bgrokbot\b/g, ' grok bot ').replace(/\bmetamuse\b/g, ' meta muse ').replace(/\bprs\b/g, ' pr ').replace(/\bmulti\s*[- ]\s*agents?\b/g, ' multi-agent ').replace(/\bmultiagents?\b/g, ' multi-agent ').replace(/\bretrieval\s*[- ]\s*augmented\s*[- ]\s*generations?\b/g, ' rag ').replace(/\bvector\s*[- ]\s*(?:dbs?|databases?)\b/g, ' vectordb ').replace(/\bcode\s*[- ]\s*reviews?\b/g, ' codereview ').replace(/\bcodereviews?\b/g, ' codereview ').replace(/\bmerge\s+requests?\b/g, ' mr ').replace(/\bweb\s*[- ]\s*hooks?\b/g, ' webhook ').replace(/\bcron\s*[- ]\s*jobs?\b/g, ' cron ').replace(/\bcronjobs?\b/g, ' cron ').replace(/\bcrontabs?\b/g, ' cron ').replace(/\b(?:tool|function)\s*[- ]\s*calls?(?:ing)?\b/g, ' toolcall ').replace(/\btool\s*[- ]\s*us(?:e|ed|es|ing)\b/g, ' toolcall ').replace(/\btext\s*[- ]\s*to\s*[- ]\s*speech\b/g, ' tts ').replace(/\bspeech\s*[- ]\s*to\s*[- ]\s*text\b/g, ' stt ').replace(/\bci\s*[/_-]?\s*cd\b/g, ' cicd ').replace(/\bcontinuous\s+integration\b/g, ' cicd ').replace(/\bself\s*[- ]\s*hosted\b/g, ' self-hosted ').replace(/\b(?:prompt|instruction)\s*[- ]\s*injections?\b/g, ' prompt-injection ').replace(/\bstructured\s*[- ]\s*outputs?\b/g, ' structured-output ').replace(/\bjson\s*[- ]\s*schemas?\b/g, ' json-schema ').replace(/\bserver\s*[- ]\s*sent\s*[- ]\s*events?\b/g, ' sse ').replace(/\bheadless\s*[- ]\s*browsers?\b/g, ' headless-browser ').replace(/\bsub\s*[- ]\s*agents?\b/g, ' subagent ').replace(/\bsubagents?\b/g, ' subagent ').replace(/\bworker\s*[- ]\s*agents?\b/g, ' worker-agent ').replace(/\bdata\s*[- ]\s*(?:exfiltration|leakage|leaks?)\b/g, ' data-leak ').replace(/\bexfiltration\b/g, ' data-leak ').replace(/\bcomputer\s*[- ]\s*use\b/g, ' computer-use ').replace(/\bgui\s*[- ]\s*agents?\b/g, ' gui-agent ').replace(/\bcontext\s*[- ]\s*(?:windows?|lengths?)\b/g, ' context-window ').replace(/\blong\s*[- ]\s*contexts?\b/g, ' context-window ').replace(/\bcontext\s*[- ]\s*compactions?\b/g, ' context-compaction ').replace(/\bhybrid\s*[- ]\s*search(?:es)?\b/g, ' hybrid-search ').replace(/\bsynthetic\s*[- ]\s*data\b/g, ' synthetic-data ').replace(/\bautonomous\s*[- ]\s*agents?\b/g, ' autonomous-agent ').replace(/\bkeep\s*[- ]\s*alives?\b/g, ' keepalive ').replace(/\bredirects?(?:ion)?\b/g, ' redirect ').replace(/\bcanary\s*[- ]\s*(?:releases?|deployments?)?\b/g, ' canary ').replace(/\bblue\s*[- ]\s*green(?:\s*[- ]\s*(?:releases?|deployments?))?\b/g, ' blue-green ').replace(/\borchestrat(?:e|ed|es|ing|or|ors|ion|ions)\b/g, ' orchestration ').replace(/\bcoordinat(?:e|ed|es|ing|or|ors|ion|ions)\b/g, ' coordination ').replace(/\bsupervisors?\b/g, ' supervisor ').replace(/\baccess\s*[- ]\s*controls?\b/g, ' access-control ').replace(/\brole\s*[- ]\s*based\s*[- ]\s*access\s*[- ]\s*controls?\b/g, ' rbac ').replace(/\bevent\s*[- ]\s*driven\b/g, ' event-driven ').replace(/\bsemantic\s*[- ]\s*search(?:es)?\b/g, ' semantic-search ').replace(/\bvector\s*[- ]\s*search(?:es)?\b/g, ' vector-search ').replace(/\bchain\s*[- ]\s*of\s*[- ]\s*thoughts?\b/g, ' cot ').replace(/\bair\s*[- ]\s*gaps?\b/g, ' airgap ').replace(/\bagentic\s*[- ]\s*workflows?\b/g, ' agentic-workflow ').replace(/\bre\s*[- ]*rank(?:ing|s|er|ers)?\b/g, ' rerank ').replace(/\bde\s*[- ]*dup(?:lication)?s?\b/g, ' dedup ').replace(/\bdelegat(?:e|es|ed|ing|ion|ions)\b/g, ' delegate ').replace(/\baudit\s*[- ]\s*trails?\b/g, ' audit-trail ').replace(/\baudit\s*[- ]\s*logs?\b/g, ' audit-log ').replace(/\bexponential\s*[- ]\s*backoffs?\b/g, ' backoff ').replace(/\bbackoffs?\b/g, ' backoff ').replace(/\bmulti\s*[- ]\s*modals?\b/g, ' multimodal ').replace(/\bvision\s*[- ]\s*language\s*[- ]\s*models?\b/g, ' vlm ').replace(/\bsystem\s*[- ]\s*(?:prompts?|instructions?)\b/g, ' system-prompt ').replace(/\bleast\s*[- ]\s*privileges?\b/g, ' least-privilege ').replace(/\bwhite\s*[- ]\s*lists?(?:ing)?\b/g, ' whitelist ').replace(/\ballow\s*[- ]\s*lists?(?:ing)?\b/g, ' allowlist ').replace(/\bblack\s*[- ]\s*lists?(?:ing)?\b/g, ' blacklist ').replace(/\bdeny\s*[- ]\s*lists?(?:ing)?\b/g, ' denylist ').replace(/\bblock\s*[- ]\s*lists?(?:ing)?\b/g, ' blocklist ').replace(/\bsensitive\s*[- ]\s*(?:data|info|information)\b/g, ' sensitive-data ').replace(/\brouters?\b/g, ' router ').replace(/\bkill\s*[- ]\s*switch(?:es)?\b/g, ' kill-switch ').replace(/\bemergency\s*[- ]\s*stops?\b/g, ' emergency-stop ').replace(/\bcircuit\s*[- ]\s*breakers?\b/g, ' circuit-breaker ').replace(/\bcheck\s*[- ]\s*points?(?:ing)?\b/g, ' checkpoint ').replace(/\bcheckpoint(?:ing|s)?\b/g, ' checkpoint ').replace(/\bsandbox(?:ing|es)?\b/g, ' sandbox ').replace(/\boutbox\s*[- ]\s*(?:patterns?)?\b/g, ' outbox ').replace(/\b(?:long|short)\s*[- ]\s*term\s*[- ]\s*memory\b/g, ' memory ').replace(/\b(?:working|shared|external|visible|persistent)\s*[- ]\s*memory\b/g, ' memory ').replace(/\bgithub\s+actions\b/g, ' cicd ').replace(/\bpr\s*審查/g, ' codereview ').replace(/\bidempotenc(?:e|y)\b/g, ' idempotent ').replace(/\b(?:task|work|job)\s*[- ]\s*plannings?\b/g, ' planning ').replace(/\bplannings?\b/g, ' planning ').replace(/\breproducib(?:ility|le)\b/g, ' reproducibility ').replace(/\breproduc(?:e|ed|es|ing)\b/g, ' reproducibility ').replace(/\bcitat(?:ion|ions|e|ed|es|ing)\b/g, ' citation ').replace(/\bfail\s*[- ]\s*overs?\b/g, ' failover ').replace(/\bacceptance\s*[- ]\s*(?:criteri(?:a|on)|tests?|testing)?\b/g, ' acceptance ').replace(/\bacceptances?\b/g, ' acceptance ').replace(/\bparallel(?:ism)?\b/g, ' parallel ').replace(/\bconcurr(?:ency|ent)\b/g, ' concurrency ').replace(/\bgraceful\s*[- ]\s*degradations?\b/g, ' fallback ').replace(/\bcach(?:e|es|ed|ing)\b/g, ' cache ').replace(/\bschedul(?:e|es|ed|ing|er|ers)\b/g, ' schedule ').replace(/\banomaly\s*[- ]\s*detections?\b/g, ' anomaly ').replace(/\breview(?:s|ed|ing|er|ers)?\b/g, ' review ').replace(/\bbenchmark(?:ing|s)?\b/g, ' benchmark ').replace(/\bevaluat(?:e|es|ed|ing|ion|ions)\b/g, ' evaluation ').replace(/\bsafety\s*[- ]\s*rails?\b/g, ' guardrail ').replace(/\bcolor(?:ing)?\s*[- ]\s*pages?\b/g, ' coloring ').replace(/\bprint(?:er|ers|ing|s)?\b/g, ' print ').replace(/\broad\s*[- ]?\s*side(?:\s*[- ]\s*assistance)?\b/g, ' roadside ').replace(/\bbreak\s*[- ]?\s*downs?\b/g, ' breakdown ').replace(/\bstall(?:s|ed|ing)?\b/g, ' stall ').replace(/\bgrades?\b/g, ' grade ').replace(/\bhome\s*[- ]?\s*works?\b/g, ' homework ').replace(/\bassign(?:ment|ments)?\b/g, ' assignment ').replace(/\bsmart\s*[- ]\s*tvs?\b/g, ' tv ').replace(/\bambient(?:\s*[- ]\s*(?:boards?|displays?))?\b/g, ' ambient ').replace(/\bprompt\s*[- ]\s*attacks?\b/g, ' prompt-injection ').replace(/\breservations?\b/g, ' reservation ').replace(/\bbookings?\b/g, ' booking ').replace(/\bcolor(?:ing)?\s*[- ]\s*(?:books?|sheets?)\b/g, ' coloring ').replace(/\btow(?:ing)?(?:\s*[- ]\s*trucks?)?\b/g, ' towing ').replace(/\bself\s*[- ]\s*reflect(?:ion|ive)?\b/g, ' reflection ').replace(/\breflections?\b/g, ' reflection ').replace(/\bself\s*[- ]\s*(?:correct(?:ion|ing|s)?|heal(?:ing|s)?)\b/g, ' self-correction ').replace(/\btoken\s*(?:用量|消耗)\b/g, ' token 用量 ').replace(/\bwebhook\s*通知/g, ' webhook 通知 ').replace(/\btv\s*看板/g, ' tv 看板 ').replace(/電視\s*看板/g, ' 電視 看板 ').replace(/\bmcp\s*(?:伺服器|服務器)/g, ' mcp 伺服器 ').replace(/\bmcp\s*工具/g, ' mcp 工具 ').replace(/\bbot\s*模板/g, ' bot 模板 ').replace(/\bbot\s*通知/g, ' bot 通知 ').replace(/\bapi\s*金鑰/g, ' api 金鑰 ').replace(/保險\s*表單/g, ' 保險 表單 ').replace(/救援\s*表單/g, ' 救援 表單 ').replace(/\bwake\s*[- ]\s*ups?\b/g, ' wakeup ').replace(/\bwakeups?\b/g, ' wakeup ').replace(/\bclaudecodes?\b/g, ' claude code ').replace(/\bt3\s*[- ]\s*codes?\b/g, ' t3 code ').replace(/\bt3codes?\b/g, ' t3 code ').replace(/\bcoding\s*[- ]\s*agents?\b/g, ' coding-agent ').replace(/\b(?:car\s*[- ]\s*rentals?|rental\s*[- ]\s*cars?)\b/g, ' car-rental ').replace(/\binsurance\s*[- ]\s*claims?\b/g, ' insurance-claim ').replace(/\b(?:auto|car)\s*[- ]\s*insurances?\b/g, ' car-insurance ').replace(/\bauto\s*[- ]\s*prints?\b/g, ' auto-print ').replace(/\bautoprints?\b/g, ' auto-print ').replace(/\bopen\s*[- ]\s*sources?\b/g, ' open-source ').replace(/\bchat\s*[- ]\s*negotiations?\b/g, ' chat-negotiation ').replace(/\bmcp\s*[- ]\s*servers?\b/g, ' mcp server ').replace(/\bads\s*[- ]?\s*b\b/g, ' ads-b ').replace(/\bautobahns?\b/g, ' autobahn ').replace(/\b(?:smart|android|google|apple)\s*[- ]\s*tvs?\b/g, ' tv ').replace(/\bandroid-tv\b/g, ' tv ').replace(/\bgoogle-tv\b/g, ' tv ').replace(/\bcloudflare\s*[- ]\s*workers?\b/g, ' cloudflare-worker ').replace(/\bcf\s*[- ]\s*workers?\b/g, ' cloudflare-worker ').replace(/(?:卡車|貨車|長途)?\s*(?:駕駛|司機)\s*工時(?:表|紀錄)?/g, ' 司機 工時 ').replace(/工時\s*(?:核對|查核|對帳|稽核)/g, ' 工時 對帳 ').replace(/(?:出勤|打卡)\s*紀錄/g, ' 打卡 紀錄 ').replace(/超時\s*(?:工作|工時)/g, ' 超時 工時 ').replace(/(?:任務|工作)\s*封存/g, ' 任務 封存 ').replace(/封存\s*(?:任務|工作)/g, ' 封存 任務 ').replace(/家用\s*印表機/g, ' 家用 印表機 ').replace(/\b1090\s*mhz\b/g, ' 1090mhz ').replace(/\b1090\s*兆赫\b/g, ' 1090mhz ').replace(/\b(?:hand\s*[- ]\s*held|palm\s*[- ]\s*top)s?\b/g, ' handheld ').replace(/\bface\s*[- ]\s*swaps?\b/g, ' face-swap ').replace(/(?:每日|每天)\s*(?:隨機)?\s*(?:不重複)?\s*(?:參考照|照片|相片)\s*(?:換臉|替換臉)/g, ' 每日 隨機 參考照 換臉 ').replace(/(?:人臉|面部|臉部|照片)\s*替換/g, ' 換臉 ').replace(/(?:人臉|面部|臉部|照片)\s*換臉/g, ' 換臉 ').replace(/每日\s*換臉/g, ' 每日 換臉 ').replace(/(?:薪資|工資|薪水|薪酬)\s*單?\s*(?:核對|查核|對帳|對賬|稽核|核算)/g, ' 薪資單 核對 ').replace(/工時\s*核算/g, ' 工時 核對 ').replace(/(?:幼兒|幼童|小童|兒童|孩子|小孩)\s*著色(?:頁|本|畫)?/g, ' 兒童著色 ').replace(/著色\s*(?:線稿|圖|頁|本|畫)/g, ' 著色 ').replace(/每日\s*著色/g, ' 每日 著色 ').replace(/(?:電話\s*代撥|代撥\s*電話|電話\s*代打)/g, ' 代打電話 ').replace(/(?:國外|海外|境外|自駕|租車)\s*(?:拋錨|故障|車輛故障)/g, ' 拋錨 ').replace(/(?:帳單|帳戶|費用)\s*抵免/g, ' 帳單 抵免 ').replace(/(?:爭取|降費)\s*抵免/g, ' 抵免 ').replace(/(?:電視|tv)\s*(?:去廣告|免廣告)/g, ' 電視 去廣告 ').replace(/(?:電視|tv)\s*待機/g, ' 電視 待機 ').replace(/(?:電視|tv)\s*(?:看|查|顯示)?\s*(?:女兒|孩子|小孩|學生)?\s*成績/g, ' 電視 成績 ').replace(/(?:客廳)?\s*(?:電視|tv)\s*成績\s*(?:看板)?/g, ' 電視 成績 看板 ').replace(/(?:智慧|智能)?\s*電視\s*(?:常亮|待機)\s*(?:看板|螢幕|顯示)?/g, ' 電視 常亮 看板 ').replace(/(?:自製|客廳)\s*電視\s*首頁/g, ' 自製首頁 電視 ').replace(/(?:常亮|待機)\s*(?:螢幕|看板|顯示)?\s*(?:看|查|顯示)?\s*(?:女兒|孩子|小孩)?\s*成績/g, ' 電視 常亮 看板 成績 ').replace(/(?:常亮|待機)\s*(?:螢幕|看板|顯示)?\s*(?:作業缺交|缺交作業|作業)/g, ' 電視 常亮 看板 缺交作業 ').replace(/(?:電視|tv)\s*(?:顯示|看|查)\s*(?:缺交)?\s*作業/g, ' 電視 缺交作業 ').replace(/(?:電視|tv)\s*(?:常亮|待機)\s*(?:看板|螢幕)?\s*(?:看|查|顯示)?\s*成績/g, ' 電視 常亮 看板 成績 ').replace(/(?:待機|自製)\s*首頁/g, ' 待機 首頁 ').replace(/webhook\s*(?:叫醒|喚醒)/g, ' webhook 叫醒 ').replace(/程式代理\s*通知/g, ' 程式代理 通知 ').replace(/(?:叫醒|喚醒)\s*grok(?:\s*bot)?/g, ' 叫醒 grok bot ').replace(/(?:叫醒|喚醒)\s*bot/g, ' 叫醒 bot ').replace(/(?:工作階段|工作會話|作業階段)\s*(?:結束|完畢|跑完|完成|停滯|卡住|卡死)(?:\s*(?:webhook|通知))?/g, ' 程式代理 工作階段 webhook ').replace(/(?:工作階段|工作會話|作業階段)\s*(?:停滯|卡住|卡死)/g, ' 工作階段 停滯 ').replace(/(?:代訂|預約)\s*餐廳/g, ' 餐廳訂位 ').replace(/(?:代訂|代預約)\s*位/g, ' 訂位 ').replace(/(?:電話|語音)?\s*訂位\s*代理/g, ' 電話訂位 ').replace(/餐廳\s*代訂/g, ' 餐廳訂位 ').replace(/(?:智慧|智能)?\s*開關\s*(?:排障|除錯|故障)/g, ' 開關 排障 ').replace(/(?:家電|設備|裝置)\s*(?:導入|導入排障)/g, ' 設備 導入 ').replace(/(?:未支援|不支援)\s*(?:設備|裝置|家電|硬體)/g, ' 未支援 設備 ').replace(/sdr\s*(?:接收站|接收機|接收器)/g, ' sdr 接收站 ').replace(/sdr\s*解碼/g, ' sdr 解碼 ').replace(/ads-b\s*(?:接收機|接收器)/g, ' ads-b 接收站 ').replace(/(?:分存|封存)\s*(?:驗收|查驗)/g, ' 封存 驗收 ').replace(/(?:實際)?\s*工具\s*(?:實際)?\s*回應/g, ' 工具 回應 ').replace(/(?:工具回應|模型輸出)\s*分存/g, ' 工具 回應 封存 ').replace(/模型\s*輸出/g, ' 模型 輸出 ').replace(/(?:(?:舊|新)\s*交辦|交辦\s*(?:任務|工作))/g, ' 交辦 任務 ').replace(/(?:高速公路|公路)\s*(?:拋錨|故障|壞掉)/g, ' 公路 拋錨 ').replace(/(?:隨機)?\s*參考照\s*換臉/g, ' 參考照 換臉 ').replace(/隨機\s*參考照/g, ' 隨機 參考照 ').replace(/(?:排程|例行任務)\s*(?:關掉|關回|停用)/g, ' 排程 關掉 ').replace(/執行\s*狀態\s*(?:矛盾|不一致|衝突)/g, ' 執行 狀態 矛盾 ').replace(/(?:任務|狀態|執行)\s*(?:矛盾|衝突|不一致)/g, ' 狀態 矛盾 ').replace(/(?:(?:掌上型|手持)\s*圓屏|圓屏\s*(?:裝置|螢幕))/g, ' 掌上型 圓屏 裝置 ').replace(/\bteslascope\s*(?:長途)?\s*(?:出發)?\s*(?:準備)?\s*(?:技能|排程)?/g, ' teslascope 特斯拉 長途 技能 ').replace(/(?:(?:特斯拉|\btesla\b)\s*(?:長途)?\s*(?:出發|出門)?\s*(?:前)?|(?:長途)?\s*(?:出發|出門)\s*(?:前)?)\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充)?\s*(?:技能)?\s*(?:自動)?\s*還原/g, ' 特斯拉 出發 充電 自動還原 ').replace(/(?:特斯拉|\btesla\b)\s*(?:長途)?\s*(?:出發|出門)?\s*(?:前)?\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充|充到\s*100%|充電到\s*100%)\s*(?:技能)?/g, ' 特斯拉 出發 充電 ').replace(/(?:出發|出門)\s*(?:前)?\s*(?:電動車|電車|特斯拉)?\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充|充到\s*100%)/g, ' 出發 充電 ').replace(/(?:特斯拉|\btesla\b|teslascope)\s*(?:長途)?\s*(?:出發)?\s*準備\s*(?:技能)?/g, ' teslascope 特斯拉 長途 技能 ').replace(/(?:長途)?\s*(?:出發|出門)\s*(?:前)?\s*(?:要)?\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充)(?:\s*(?:100%|到滿))?/g, ' 出發 充電 ').replace(/(?:充電\s*(?:排程)?)\s*(?:自動)?\s*還原/g, ' 充電 排程 自動還原 ').replace(/(?:特斯拉|\btesla\b)\s*(?:長途)?\s*(?:出發)?\s*準備\s*(?:技能)?/g, ' 特斯拉 長途 技能 ').replace(/(?:特斯拉|\btesla\b)\s*長途(?:\s*出發)?/g, ' 特斯拉 長途 出發 ').replace(/(?:特斯拉|\btesla\b)\s*出發/g, ' 特斯拉 出發 ').replace(/(?:電動車|電車)\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充)?\s*(?:排程)?/g, ' 電動車 充電 排程 ').replace(/出門前\s*充電/g, ' 出發 充電 ').replace(/(?:清理|過濾|巡檢|審查|檢查)?\s*youtube\s*(?:頻道)?\s*(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)?\s*留言\s*(?:過濾|巡檢|清理|審查)?/g, ' youtube 留言 巡檢 ').replace(/(?:小孩|兒童|孩子)\s*頻道\s*(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)?\s*留言(?:\s*(?:過濾|巡檢|審查|檢查|清理))?/g, ' youtube 留言 巡檢 ').replace(/(?:檢查|審查|巡檢|看)?\s*(?:小孩|孩子|兒童)\s*(?:頻道)?\s*(?:留言|評論)/g, ' 孩子 留言 審查 ').replace(/(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)\s*留言\s*(?:過濾|巡檢|清理|審查)?/g, ' 留言 審查 ').replace(/(?:可疑|惡意|不當|不良|垃圾|詐騙)\s*留言\s*(?:過濾|巡檢|清理|審查)?/g, ' 留言 審查 ').replace(/留言\s*(?:安全)?\s*(?:審查|巡檢|過濾)/g, ' 留言 審查 ').replace(/zillow\s*(?:買房|看房|找房)?\s*(?:過濾|篩選)?/g, ' zillow 買房 篩選 ').replace(/(?:兩關)\s*(?:過濾|篩選)/g, ' 篩選 ').replace(/買房\s*(?:兩關)?\s*(?:過濾|篩選)/g, ' 買房 篩選 ').replace(/(?:房源|看房|房屋)\s*(?:篩選|過濾)/g, ' 買房 篩選 ').replace(/(?:房源|看房|房屋|找房|買房)\s*(?:篩選|過濾|交接)?\s*(?:給)?\s*房仲/g, ' 買房 篩選 房仲 ').replace(/(?:買房|看房|找房)\s*(?:下班|尖峰)?\s*通勤(?:\s*時間)?(?:\s*(?:與|和|及)\s*學區)?/g, ' 買房 通勤時間 學區 ').replace(/(?:下班|尖峰)\s*通勤(?:\s*時間)?\s*(?:與|和|及)\s*學區/g, ' 通勤時間 學區 ').replace(/(?:下班|尖峰)\s*通勤(?:\s*時間)?/g, ' 通勤時間 ').replace(/通勤(?:\s*時間)?\s*(?:與|和|及)\s*學區/g, ' 通勤時間 學區 ').replace(/(?:買房|看房|找房)\s*學區(?:\s*(?:篩選|過濾))?/g, ' 買房 學區 篩選 ').replace(/(?:交屋)?\s*(?:前後)?\s*(?:整修|修繕|維護)\s*(?:成本|費用|費)(?:\s*(?:預估|估算|評估|預計))?/g, ' 整修 費用 ').replace(/(?:買房|看房|找房)\s*(?:依|按)?\s*(?:預算|價格)(?:\s*上限)?(?:\s*(?:下班|尖峰)?\s*(?:通勤|通勤時間))?(?:\s*(?:與|和|及)?\s*學區)?(?:\s*(?:過濾|篩選))?/g, ' 買房 預算 學區 篩選 ').replace(/dots\s*(?:官網)?\s*詢問信/g, ' dots 詢問信 ').replace(/(?:詢問信|諮詢信|客戶信件|來信)\s*(?:寫入|記進|記錄|登記|登錄|整理)?\s*(?:notion\s*)?(?:台帳|清單|表格|表|受理表)\s*(?:與|和|及)?\s*(?:回信)?\s*(?:草稿|回覆)/g, ' 詢問信 notion 台帳 草稿 ').replace(/詢問信\s*(?:草稿|回覆|回信)/g, ' 詢問信 草稿 ').replace(/(?:dots)?\s*(?:google)?\s*(?:行事曆|日曆)\s*(?:找|查)\s*(?:空檔|候選日)?(?:\s*(?:擬|寫|存)?\s*(?:回信|草稿|回覆)+)?/g, ' dots 日曆 找空檔 草稿 ').replace(/(?:notion\s*)?(?:受理表|台帳)\s*(?:找|查)?\s*(?:google)?\s*(?:行事曆|日曆|空檔|候選日)(?:\s*(?:找|查)?\s*(?:空檔|候選日))?(?:\s*(?:存|寫|擬|儲存)?\s*(?:回信)?\s*(?:草稿|回覆))?/g, ' notion 台帳 行事曆 空檔 草稿 ').replace(/(?:notion)?\s*(?:受理表|台帳)\s*(?:回信)?\s*(?:草稿|回覆)/g, ' notion 台帳 草稿 ').replace(/(?:找|查)?\s*(?:google)?\s*(?:行事曆|日曆)\s*(?:找|查)?\s*(?:空檔|候選日|時間)/g, ' 行事曆 找空檔 ').replace(/(?:客戶\s*來信|客戶|來信)\s*(?:想約|約)\s*(?:時間|會面|會議)(?:\s*(?:存|寫|擬)?\s*(?:gmail)?\s*(?:回信|草稿|回覆)+)?/g, ' 客戶 來信 約時間 草稿 ').replace(/主管\s*(?:平日|工作日)?\s*(?:晨報|日報)\s*(?:公開)?\s*(?:新聞|情報|資訊)\s*(?:分流|分工|分派)/g, ' 主管 晨報 公開 新聞 分流 ').replace(/主管\s*(?:平日|工作日)?\s*(?:晨報|日報)\s*(?:分工)?/g, ' 主管 晨報 分工 ').replace(/(?:內網|內部)\s*(?:信件|郵件|公文|資料)?\s*(?:與|和)?\s*(?:外部|公開)\s*(?:新聞|情報|資訊|資料)?\s*(?:分流|分工|分派)?/g, ' 晨報 內部 郵件 公開 新聞 分流 ').replace(/晨報\s*分工(?:\s*(?:與|和|及)?\s*notion\s*(?:日報|台帳)?)?/g, ' 晨報 分工 notion ').replace(/dots\s*(?:讀|看)?\s*內部\s*(?:信件|郵件|行程)?/g, ' dots 內部 郵件 ').replace(/(?:grok\s*bot|bot)\s*(?:收|抓|整理)?\s*公開\s*(?:新聞|情報|訊息)?/g, ' grok bot 公開 新聞 ').replace(/hetzner\s*(?:雲主機|主機|伺服器)?\s*(?:補貨|查貨|有貨|候補)?/g, ' hetzner 補貨 ').replace(/(?:雲主機|主機|伺服器)\s*(?:售完|缺貨)?\s*(?:補貨|查貨|候補)\s*(?:下單|購買)?/g, ' 主機 補貨 ').replace(/售完\s*(?:候補|查貨|監看)/g, ' 售完 候補 ').replace(/(?:雲主機|主機|伺服器)?\s*售完\s*(?:每\s*\d+\s*分鐘)?\s*(?:查貨|候補|監看)/g, ' 主機 售完 候補 ').replace(/(?:hetzner)?\s*(?:雲主機|主機|伺服器)?\s*(?:售完|缺貨)\s*(?:候補|補貨|查貨)?\s*(?:自動)?\s*(?:下單|下訂|購買|自動購買)/g, ' hetzner 主機 售完 候補 購買 ').replace(/(?:clawcall|claw call)\s*(?:電話|語音)?\s*(?:訂位|預約)?/g, ' clawcall 電話訂位 ').replace(/(?:電話|語音)\s*(?:訂位|預約)\s*(?:bot|機器人|代理)?/g, ' 電話訂位 bot ').replace(/(?:電話|語音)\s*(?:代訂|訂位|預約)/g, ' 電話訂位 ').replace(/t-mobile\s*(?:悄悄)?\s*(?:漲價|調高|調漲|加價)/g, ' t-mobile 漲價 ').replace(/t-mobile\s*(?:帳單|帳戶)?\s*(?:抵免|減免)/g, ' t-mobile 抵免 ').replace(/siriusxm\s*(?:線上|聊天)?\s*(?:議價|降費|協商|談判)?/g, ' siriusxm 議價 ').replace(/(?:線上|即時)?\s*聊天\s*(?:客服)?\s*議價/g, ' 聊天 議價 ').replace(/(?:帳單|月費|費用)\s*(?:漲價|調高|調漲|加價)/g, ' 帳單 漲價 ').replace(/(?:司機|駕駛)\s*(?:對|核對|核算)?\s*(?:薪資單|薪水|薪資)/g, ' 司機 薪資單 核對 ').replace(/(?:月底|發薪|發薪日)?\s*(?:核對|對|算)\s*(?:薪水|薪資|薪酬)/g, ' 薪資 核對 ').replace(/工時\s*(?:核算|算|計算)?\s*(?:薪水|薪資)/g, ' 工時 薪資 ').replace(/(?:過期|過時|逾期|失效)\s*(?:任務|工作|指示|待辦)\s*(?:重送|重新發送|補發)?/g, ' 過期 任務 重送 ').replace(/(?:待辦|交辦)\s*(?:任務|工作)?\s*(?:過期|逾期|失效)/g, ' 過期 任務 ').replace(/(?:重新|補)\s*發送/g, ' 重送 ').replace(/(?:工具呼叫|工具調用|工具使用)?\s*(?:實際)?\s*回應\s*(?:分存)?\s*(?:隔離|檢疫|封裝)/g, ' 工具 回應 隔離 ').replace(/回應\s*隔離/g, ' 回應 隔離 ').replace(/(?:已)?\s*封存\s*(?:任務|工作)?\s*(?:狀態)?\s*(?:矛盾|衝突|不一致)/g, ' 封存 任務 狀態 矛盾 ').replace(/(?:任務|狀態|執行)\s*(?:矛盾|衝突|不一致)/g, ' 狀態 矛盾 ').replace(/(?:每天|每日)\s*(?:早上|早晨|清晨)?\s*(?:自動)?\s*(?:各)?\s*(?:列印|印出|打印|印)/g, ' 每天 早上 列印 ').replace(/(?:每天)?\s*(?:早上|早晨|清晨)\s*(?:自動)?\s*(?:列印|印出|打印)/g, ' 早上 列印 ').replace(/(?:每天)?\s*早上\s*(?:吐出)?\s*(?:今天的)?\s*著色(?:頁|本|畫)?/g, ' 早上 著色頁 ').replace(/(?:(?:家用|家裡|家中)\s*印表機|印表機\s*著色)/g, ' 家用 印表機 著色 ').replace(/印表機\s*(?:列印|印出|打印)/g, ' 印表機 列印 ').replace(/(?:印表機|印機)\s*(?:列印|印出|印)?\s*(?:黑白|粗線條)?\s*線稿/g, ' 家用 印表機 線稿 ').replace(/(?:(?:黑白|粗線條)\s*線稿|線稿\s*(?:著色|列印))/g, ' 黑白 線稿 著色 ').replace(/(?:獨角獸|小仙子|城堡)\s*(?:線稿|著色)/g, ' 獨角獸 線稿 ').replace(/(?:國外|海外)?\s*(?:車輛|汽車)?\s*(?:拋錨|故障)\s*(?:求援|求助|救援)/g, ' 拋錨 救援 ').replace(/(?:高速公路|公路)\s*(?:車子|車輛|汽車)\s*(?:拋錨|故障|壞掉)(?:\s*(?:找)?\s*(?:拖吊|拖車|救援))?/g, ' 高速公路 車子 拋錨 拖吊 ').replace(/(?:看不懂|聽不懂)\s*(?:德文|德語|當地語言|外語)(?:\s*(?:填|寫)?\s*(?:找)?\s*(?:救援|求助|申請表|表單))?/g, ' 德文 語言 救援 表單 ').replace(/(?:國外|海外|境外|自駕|租車|車輛|汽車|車子)\s*(?:車輛|汽車|車子)?\s*(?:拋錨|故障|壞掉)(?:\s*(?:找)?\s*(?:拖吊|拖車|求援|求助|救援))*/g, ' 拋錨 救援 拖吊 ').replace(/(?:國外|海外|境外)?\s*(?:自駕)?\s*道路\s*救援/g, ' 道路救援 ').replace(/(?:國外|海外)?\s*(?:修車|車輛救援|保險救援)\s*(?:申請表|表單)/g, ' 救援 表單 ').replace(/(?:德文|德語)\s*(?:語音\s*(?:聽不懂|不通)?|(?:聽不懂|不通))/g, ' 德文 語言 ').replace(/道路\s*救援\s*(?:申請表|申請|表單)/g, ' 道路救援 救援 表單 ').replace(/(?:救援|求援|求助)\s*(?:申請表|表單)/g, ' 救援 表單 ').replace(/(?:45\s*分鐘|長\s*時間|超時|逾時|很久|遲遲)\s*(?:沒更新|未更新|停滯|卡住)/g, ' 停滯 ').replace(/(?:程式代理|代碼代理|編程代理)\s*(?:跑完|做完|結束|卡住|停滯)(?:\s*(?:沒|了沒))?/g, ' 程式代理 工作階段 ').replace(/(?:claude\s*code|codex|t3\s*code)\s*(?:跑完|做完|結束)/g, ' claude code 工作階段 ').replace(/(?:客廳|電視|tv)?\s*(?:自製)?\s*(?:常亮|待機)\s*(?:螢幕|看板|顯示|首頁)/g, ' 電視 常亮 看板 ').replace(/(?:抓|查詢|抓取|看|查|查看|顯示|追蹤)\s*(?:女兒|孩子|小孩|學生)?\s*(?:各科)?\s*成績/g, ' 成績 ').replace(/(?:成績|各科成績)\s*(?:與|和|及)\s*(?:缺交作業|缺交|作業)/g, ' 成績 缺交作業 ').replace(/(?:學校)?\s*缺交\s*(?:作業|功課|課業)/g, ' 缺交作業 ').replace(/(?:電視\s*(?:去廣告|免廣告|關掉廣告|去除廣告)|(?:關掉|去除|去|免)\s*(?:電視)?\s*廣告)/g, ' 電視 去廣告 ').replace(/\besp(?:\s*系列)?\s*(?:圓形(?:\s*(?:螢幕|裝置|終端))?|(?:螢幕|裝置|終端))/g, ' esp 圓形 螢幕 ').replace(/語音\s*終端\s*(?:中繼)?/g, ' 語音 終端 中繼 ').replace(/(?:(?:過濾|巡檢|審查|檢查|清理)\s*(?:小孩|孩子|兒童)\s*(?:的)?\s*(?:youtube)?\s*(?:頻道)?\s*(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)?\s*(?:留言|評論)?|(?:小孩|孩子|兒童)\s*(?:的)?\s*(?:youtube)?\s*頻道\s*(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)\s*(?:留言|評論)?)/g, ' 孩子 youtube 留言 審查 ').replace(/(?:交給|交|轉交|轉給)\s*(?:房仲|仲介|經紀人)/g, ' 房仲 ').replace(/(?:交|留|寄|存|送|印|推|寫|分|賣)?\s*給\s*(小孩|孩子|兒童|幼兒|小童|幼童)/g, ' $1 ').replace(/(?:每天|每日)\s*(?:自動)?\s*(?:列印|印出|打印|印)\s*(?:著色頁|著色本|著色畫|線稿)/g, ' 每天 著色頁 列印 ').replace(/(?:調閱|申請|調|取得|索取)?\s*(?:房屋|屋況)\s*揭露\s*(?:文件|資料|報告|表)?/g, ' 揭露文件 ').replace(/(?:調閱|申請|調|取得|索取)\s*揭露\s*(?:文件|資料|報告|表)?/g, ' 揭露文件 ').replace(/(?:幼兒|幼童|小童|兒童|孩子|小孩)\s*(?:著色|塗色|填色)(?:頁|本|畫)?(?:\s*線稿)?/g, ' 兒童著色 線稿 ').replace(/(?:詢問信|諮詢信|客戶信件|來信)\s*(?:寫入|記進|記錄|登記|整理)?\s*(?:notion)?\s*(?:台帳|清單|表格|表)/g, ' 詢問信 notion 台帳 ').replace(/(?:查|找)\s*(?:google)?\s*(?:行事曆|日曆)?\s*(?:候選)?\s*(?:空檔|時間)\s*(?:回信)?\s*(?:草稿|回覆)/g, ' 行事曆 找空檔 草稿 ').replace(/(?:內網|內部)\s*(?:信件|郵件|公文)\s*(?:交|給)?\s*dots/g, ' dots 內部 郵件 ').replace(/(?:公開)?\s*(?:新聞|情報|資訊)\s*(?:交|給)\s*(?:grok(?:\s*bot)?)/g, ' grok bot 公開 新聞 ').replace(/(?:claude\s*code|t3\s*code|codex|程式代理|代碼代理)\s*(?:停滯|卡住|卡死|超時|逾時)\s*(?:webhook)?/g, ' 程式代理 停滯 webhook ').replace(/ads\s*[- ]?\s*b\s*(?:接收站|接收機)?\s*雙頻\s*(?:輪收)?/g, ' ads-b 接收站 雙頻 ').replace(/(?:1090\s*mhz|978\s*mhz)\s*(?:天線)?\s*(?:量測|量度|測試|對照|量測前後)/g, ' 1090mhz 天線 量測 ').replace(/手動\s*(?:重新)?\s*(?:開啟|啟用)\s*(?:的)?\s*排程\s*(?:被)?\s*(?:關掉|關回|停用)/g, ' 手動 排程 關掉 ').replace(/(?:掌上型|手持)\s*(?:圓屏)?\s*(?:裝置)?\s*(?:經|用)?\s*語音\s*(?:入口|終端)/g, ' 掌上型 語音 終端 ').replace(/(?:跨產品|跨系統)\s*(?:舊|過期|失效)\s*交辦\s*(?:重送|重新發送)?/g, ' 跨產品 過期 任務 重送 ').replace(/(?:智慧|智能)\s*開關\s*(?:分層)?\s*排障/g, ' 開關 排障 ').replace(/(?:未支援|不支援)\s*(?:設備|裝置|家電)\s*(?:配對成功)?\s*(?:不能動|無法動作|無法控制)/g, ' 未支援 設備 排障 ').replace(/網購\s*(?:未送達|沒收到)\s*(?:催退|追查退款|催促退款)\s*(?:入帳)?/g, ' 網購 退款 物流 ').replace(/(?:x|twitter|推特)\s*(?:營運)?\s*(?:發文|貼文)\s*(?:前)?\s*(?:人工)?\s*(?:關卡|閘門|核准)/g, ' x 發文 核准 ').replace(/notion\s*跨代理\s*(?:外聯)?\s*(?:記憶|外部記憶)/g, ' notion 跨代理 外聯 記憶 ').replace(/(?:額度|token)\s*(?:燒太快|不夠用?|用太兇|不夠|消耗過快)/g, ' 額度 用量 ').replace(/分層\s*派工/g, ' 分層 派工 ').replace(/(?:只負責|只做|負責)?\s*(?:調度|派工)\s*(?:重活|繁重工作|執行層)?/g, ' 調度 重活 ').replace(/(?:重活|繁重工作)\s*(?:交給|外置|外包)?\s*(?:雲端電腦|外部代理|免費模型)?/g, ' 重活 雲端電腦 ').replace(/(?:免費|低價|開源|付費|外部)\s*模型\s*(?:代理|保底)?/g, ' 免費模型 代理 ').replace(/外部\s*代理\s*(?:保底|備援)?/g, ' 外部代理 保底 ').replace(/(?:讀|看)\s*(?:你的|我的|自己的)?\s*flomo/g, ' 讀 flomo ').replace(/(?:舊|歷史|過去)\s*筆記\s*(?:回顧|復盤|反思)?/g, ' 舊筆記 回顧 ').replace(/洞察\s*(?:角度|觀點|視角)\s*(?:推送|推播|發送)?/g, ' 洞察角度 推送 ').replace(/(?:推送|推播|發送)\s*(?:一則\s*)?(?:舊筆記|筆記)?\s*(?:回顧|反思)/g, ' 推送 回顧 ').replace(/洞察\s*(?:模板|範本)\s*(?:輪換|輪流|更換)?/g, ' 洞察 模板 輪換 ').replace(/(?:通勤|上下班)?\s*(?:地鐵|捷運|公車|電車)\s*(?:上)?\s*(?:讀|看)(?:筆記)?/g, ' 地鐵 筆記 ').replace(/(?:義大利|歐洲|海外)?\s*(?:網站|電商)?\s*(?:特價|折扣)?\s*攀岩鞋(?:\s*(?:比價|特價|折扣|進口稅|關稅))?(?:\s*(?:省(?:了|約)?\s*(?:[\$\d]+|幾十|數十)?\s*(?:美元|美金|元|塊)?))?/g, ' 義大利 攀岩鞋 特價 比價 ').replace(/攀岩鞋\s*(?:特價|折扣|便宜)/g, ' 攀岩鞋 特價 ').replace(/攀岩鞋\s*(?:進口稅|關稅|稅費|運費)/g, ' 攀岩鞋 進口稅 ').replace(/(?:饒舌|rap|說唱)\s*(?:講解|說明|教學)?\s*(?:影片|視頻)/g, ' 饒舌 講解 影片 ').replace(/(?:押韻|押韻的)?\s*歌詞\s*(?:樣片|demo)?/g, ' 押韻 歌詞 樣片 ').replace(/(?:vpn)?\s*tun\s*模式/g, ' vpn tun 模式 ').replace(/用量\s*(?:csv|報表|數據)\s*(?:分析|匯出)?/g, ' 用量 csv 分析 ').replace(/用量\s*(?:事件|明細)\s*表/g, ' 用量 事件表 ').replace(/收尾\s*(?:回報|總結|報告)\s*(?:用量)?/g, ' 收尾 回報 用量 ').replace(/(?:回收|二手|循環)\s*門號(?:\s*(?:前持有人|前主人|原持有人))?/g, ' 回收門號 前持有人 ').replace(/(?:收到|接到)?\s*前持有人\s*(?:的)?\s*(?:簡訊|訊息|電話|通知)/g, ' 前持有人 訊息 ').replace(/(?:門號|號碼)\s*(?:仲介站|資料仲介|經紀站)\s*(?:列名|資料)?/g, ' 門號 仲介站 列名 ').replace(/(?:門號|電信)?\s*客服\s*(?:聊天|對話)\s*(?:送不出|發不出|卡住)/g, ' 門號 客服聊天 送不出 ').replace(/([\u4e00-\u9fa5]{2,})(?:與|和|及|跟)([\u4e00-\u9fa5]{2,})/g, ' $1 $2 ').replace(/(?:^|\s+)(?:與|和|及|跟)(?:\s+|$)/g, ' ').replace(/(?:^|\s+)(?:與|和|及|跟)(?=[\u4e00-\u9fa5]{2,})/g, ' ').replace(/([\u4e00-\u9fa5]{2,})(?:與|和|及|跟)(?:\s+|$)/g, '$1 ').replace(/\ba\s*[/_-]?\s*b\s*[- ]\s*tests?(?:ing)?\b/gi, ' ab-test ').replace(/\ba\s*[/_-]?\s*b\s*(?:測試|試驗|檢定)/g, ' ab-test ').replace(/\bab\s*(?:測試|試驗)/g, ' ab-test ').replace(/前後\s*(?:對照|比較)/g, ' ab-test ').replace(/\bre\s*[- ]\s*(?:starts?|boots?)(?:ing)?\b/gi, ' restart ').replace(/(?:已)?\s*封存\s*(?:任務|工作)?\s*(?:收到新交辦後)?\s*(?:被)?\s*(?:重新)?\s*啟動/g, ' 封存 任務 啟動 ').replace(/(?:被)?\s*重新\s*(?:啟動|開啟|拉起)/g, ' 重新啟動 ').replace(/多代理\s*(?:對話鏈)?\s*重啟/g, ' 多代理 重啟 ').replace(/對話鏈\s*重啟/g, ' 對話鏈 重啟 ').replace(/排程\s*(?:被)?\s*(?:舊|過時|過期)\s*(?:指示|約定|規則)\s*(?:關掉|關閉|停用)/g, ' 手動 排程 關掉 過期 指示 ').replace(/(?:舊|過時|過期)\s*(?:指示|約定|規則)\s*(?:關掉|關閉|停用)/g, ' 過期 指示 關掉 ').replace(/(模型輸出|工具回應|工具實際回應|分開儲存|分存)\s*(?:驗收|查驗)/g, ' $1 驗收 ').replace(/分開\s*儲存/g, ' 分開儲存 ').replace(/(?:客廳|常亮|待機)?\s*螢幕\s*(?:顯示|查看|看|查)\s*(?:女兒|孩子|小孩|學生)?\s*成績/g, ' 客廳 電視 常亮 看板 成績 ').replace(/客廳\s*(?:常亮)?\s*螢幕/g, ' 客廳 電視 常亮 看板 ').replace(/(?:兒童|小孩|孩子)\s*(?:影片|視頻)/g, ' 兒童 影片 ').replace(/(?:詢問信|諮詢信|客戶信件)\s*(?:受理表|台帳|清單)/g, ' 詢問信 台帳 ').replace(/(?:客戶\s*來信|客戶|來信)\s*(?:想約|約)?\s*(?:時間|會面|會議)?\s*(?:存|寫|擬)?\s*(?:gmail)?\s*(?:回信|草稿|回覆)+/g, ' 客戶 來信 草稿 ').replace(/分流\s*(?:處理|機制)/g, ' 分流 ').replace(/雲端電腦\s*(?:跑|執行|運行)/g, ' 雲端電腦 ').replace(/(?:每日|每天)\s*筆記\s*(?:回顧|反思)?/g, ' 每日 筆記 回顧 ').replace(/筆記\s*洞察/g, ' 筆記 洞察 ').replace(/筆記\s*回顧/g, ' 筆記 回顧 ').replace(/模板\s*輪換/g, ' 模板 輪換 ').replace(/vpn\s*(?:tun\s*模式)?\s*(?:連線排障|連線錯誤|連線|排障|除錯)/g, ' vpn 連線錯誤 ').replace(/(?:連線|網絡連線|網路連線)\s*(?:被關閉|中斷|被拒|失敗|排障|錯誤)/g, ' 連線錯誤 ').replace(/(?:義大利|歐洲|海外)\s*(?:網站|電商)?\s*(?:特價|折扣|比價)/g, ' 義大利 特價 比價 ').replace(/進口\s*關稅/g, ' 進口關稅 ').replace(/(?:前號主|原號主|舊號主|前持有人|原持有人)\s*(?:的)?\s*(?:簡訊|短信|訊息|通知)/g, ' 前持有人 簡訊 ').replace(/(?:主\s*bot|主代理)\s*(?:分析|核算)\s*(?:用量|消耗|額度)/g, ' 主 bot 分析 用量 ').replace(/分析\s*(?:用量|消耗|額度)/g, ' 分析 用量 ').replace(/(?:長工作|長對話)\s*(?:撞到?|碰|達到)?\s*(?:上下文)?\s*上限/g, ' 長工作 context-window ').replace(/(?:精簡|簡化)\s*(?:排程|例行任務)/g, ' 精簡 排程 ').replace(/(?:沒變化|無變化|無變動|沒變動)\s*(?:就)?\s*(?:不送|不發|不通知|不推送|不回報)/g, ' 沒變化 不送 ').replace(/flomo\s*(?:每日|每天)?\s*(?:兩次)?\s*(?:ai)?\s*洞察/g, ' flomo 每日 洞察 ').replace(/flomo\s*筆記\s*(?:模板)?\s*輪換/g, ' flomo 筆記 模板 輪換 ').replace(/(?:道路)?\s*救援\s*(?:德文|德語)\s*(?:申請表|表單)/g, ' 德文 救援 表單 ').replace(/(?:德文|德語)\s*(?:道路)?\s*救援(?:\s*(?:申請表|表單))?/g, ' 德文 救援 表單 ').replace(/(?:常亮|待機)?\s*螢幕\s*(?:顯示|看|查)\s*(?:女兒|孩子|小孩)?\s*(?:缺交)?\s*作業/g, ' 電視 常亮 看板 缺交作業 ').replace(/電視\s*首頁\s*(?:看|查|顯示)?\s*(?:女兒|孩子)?\s*成績/g, ' 電視 常亮 看板 成績 ').replace(/(?:買房|看房|找房)\s*(?:找)?\s*房仲\s*(?:調|調閱|取得)?\s*揭露(?:\s*文件)?/g, ' 買房 房仲 揭露文件 ').replace(/notion\s*(?:受理表|台帳)\s*(?:存|寫|擬)?\s*(?:回信)?\s*(?:草稿|回覆)/g, ' notion 台帳 草稿 ').replace(/詢問信\s*(?:找|查)?\s*(?:空檔|時間)\s*(?:回信|回覆)?/g, ' 詢問信 行事曆 找空檔 草稿 ').replace(/內外\s*(?:情報|資訊|新聞)?\s*(?:分流|分工|分派)?/g, ' 內部 公開 分流 ').replace(/(?:反爬蟲|爬蟲被擋|防爬|反爬|擋爬蟲|擋代理|擋機器人)/g, ' 反爬蟲 ').replace(/(?:suno|ai)?\s*(?:生成音樂|音樂生成|配樂生成|自動配樂)/g, ' suno 音樂生成 ').replace(/(俄文|俄語|日文|日語|中文|英文|德文|德語|西文|法文|韓文)\s*作者/g, ' $1 作者 ').replace(/(?:啟動|重新啟動)\s*(?:已)?\s*封存(?:\s*(?:任務|工作))?/g, ' 啟動 封存 任務 ').replace(/(?:小孩|孩子|兒童)\s*(?:早上|早晨|清晨)/g, ' 孩子 早上 ').replace(/(?:早上|早晨|清晨)\s*(?:自動)?\s*(?:各)?\s*(?:列印|印出|打印|印)/g, ' 早上 列印 ').replace(/(?:列印|印出|打印|印)\s*(?:著色頁|著色本|著色畫|線稿)/g, ' 列印 著色頁 ').replace(/(?:德文|德語)\s*保險/g, ' 德文 保險 ').replace(/(?:德文|德語)\s*(?:保險)?\s*(?:救援)?\s*(?:申請表|表單)/g, ' 德文 保險 救援 表單 ').replace(/保險\s*(?:道路)?\s*救援/g, ' 保險 道路救援 ').replace(/(?:找|叫|聯絡)?\s*(?:拖吊|拖車)/g, ' 拖吊 ').replace(/(?:修車|車輛救援|保險救援)\s*(?:申請表|表單)/g, ' 救援 表單 ').replace(/(?:自製)?\s*(?:電視|tv)\s*(?:首頁|待機首頁)/g, ' 電視 首頁 ').replace(/(?:首頁|看板)\s*(?:查|看|顯示)?\s*(?:缺交)?\s*作業/g, ' 首頁 缺交作業 ').replace(/(?:女兒|孩子|小孩)?\s*(?:各科)?\s*成績\s*(?:看板|顯示)/g, ' 成績 看板 ').replace(/(?:各科)?\s*成績/g, ' 成績 ').replace(/(?:出發|出門)\s*(?:前)?\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充|充飽)/g, ' 出發 充電 ').replace(/(?:出發|出門)\s*前/g, ' 出發 ').replace(/(?:充飽電|充滿電|充滿|充到滿|滿充|充飽)/g, ' 充電 ').replace(/安全性?\s*(?:審查|巡檢|審核|檢查)/g, ' 安全 審查 ').replace(/(?:房屋|買房|交屋)?\s*(?:前後)?\s*(?:整修|修繕|維護)\s*(?:費用|成本|費)(?:\s*(?:預估|估算|評估|預計))?/g, ' 買房 整修 費用 ').replace(/買房\s*(?:找)?\s*物件/g, ' 買房 找房 ').replace(/(?:詢問信|諮詢信|客戶信件|來信)\s*(?:記進|寫入|登記|登錄|記錄|存入)/g, ' 詢問信 ').replace(/notion\s*(?:受理表|台帳|表格|清單|表)/g, ' notion 受理表 ').replace(/(?:資料|資訊)\s*分級(?:\s*(?:晨報|日報|報告))?/g, ' 資料分級 晨報 ').replace(/(?:備援|備用|付費)?\s*保底/g, ' 保底 ').replace(/分層\s*派工(?:\s*省額度)?/g, ' 分層 派工 額度 ').replace(/筆記\s*反思(?:\s*對話)?/g, ' 筆記 反思 對話 ').replace(/(?:含|加上|計入|算入)?\s*(?:進口關稅|進口稅|關稅|稅費)/g, ' 進口關稅 ').replace(/連線錯誤\s*(?:排障|除錯|排錯|修復)/g, ' 連線錯誤 排障 ').replace(/(?:小朋友|小孩|孩子|兒童)\s*(?:頻道)?\s*(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)?\s*留言(?:\s*安全性?)?/g, ' 孩子 youtube 留言 審查 安全 ').replace(/(?:每天|每日)\s*定時\s*(?:列印|印出|打印|印)/g, ' 每天 定時 列印 ').replace(/(?:交給|交|轉交|轉給|交接給)\s*(?:房仲|仲介|經紀人)/g, ' 交接 房仲 ').replace(/(?:詢問信|諮詢信|客戶信件|來信)\s*(?:自動)?\s*(?:記進|寫入|登記|登錄|記錄|存入)/g, ' 詢問信 ').replace(/(?:notion\s*)?(?:受理表|台帳)\s*(?:擬|寫|存|儲存)?\s*(?:回信)?\s*(?:草稿|回覆)/g, ' notion 台帳 草稿 ').replace(/(?:行事曆|日曆)\s*(?:回信)?\s*(?:草稿|回覆)/g, ' 日曆 草稿 ').replace(/(?:grok\s*bot|bot)?\s*(?:抓|收)\s*新聞/g, ' grok bot 新聞 ').replace(/(?:每天|每日)\s*(?:早上|早晨)?\s*(?:推|發送|推送)(?:一則)?/g, ' 每天 早上 推送 ').replace(/雙頻\s*(?:輪收)?\s*(?:天線)?\s*(?:量測|測量)/g, ' 雙頻 天線 量測 ').replace(/雙頻\s*解碼/g, ' 雙頻 解碼 ').replace(/手動\s*(?:重新)?\s*(?:重開|啟動|開啟|啟用)\s*(?:的)?\s*排程\s*(?:被)?\s*(?:關閉|關掉|關回|停用)/g, ' 手動 排程 關掉 ').replace(/(?:掌上型|手持)\s*(?:終端)?\s*語音\s*(?:助手|終端)/g, ' 掌上型 語音 終端 助手 ').replace(/(?:每日|每天)\s*隨機\s*(?:挑|選)?\s*(?:不重複)?\s*(?:參考照|照片|相片)?\s*(?:換臉|替換臉)/g, ' 每日 隨機 參考照 換臉 ').replace(/工時表\s*(?:對帳|核帳|核算)/g, ' 工時 對帳 ').replace(/對發薪日薪水/g, ' 發薪 薪水 ').replace(/(?:跨產品|跨系統)\s*(?:舊|過時|過期|失效)\s*交辦/g, ' 跨產品 過期 任務 重送 ').replace(/(?:新|舊)?\s*(?:新有授權|新授權|有授權)\s*交辦/g, ' 交辦 任務 ').replace(/(?:找|聯絡)?\s*房仲\s*(?:調|調閱)?\s*(?:屋況說明書|屋況|不動產說明書)/g, ' 房仲 揭露文件 ').replace(/翻新\s*費用\s*預算(?:\s*上限)?/g, ' 翻新 費用 預算 ').replace(/(?:兩張|一張|一份)\s*(?:填色本|著色頁|著色本|著色畫|線稿)/g, ' 著色頁 ').replace(/(?:優質|好)?\s*學區/g, ' 學區 ').replace(/小朋友/g, ' 小孩 ').replace(/粗線條/g, ' 粗線條 ').replace(/(?:匯出|導出)(?:\s*給)?/g, ' 匯出 ').replace(/(?:仲介站|資料仲介|經紀站)\s*(?:列名|資料)?(?:\s*(?:被擋|被封|被拒))?/g, ' 仲介站 列名 反爬蟲 ').replace(/(?:私有)?\s*git\s*(?:任務檔|任務單|任務)?\s*(?:交接|交辦)/g, ' 私有 git 任務 交接 ').replace(/(?:雲端)?\s*(?:不對|不讓|禁止|不傳|不能)\s*(?:本機|本地|自己電腦|你的電腦)?\s*(?:下|直接下|傳|發)?\s*(?:命令|指令)/g, ' 雲端 本機 命令 ').replace(/(?:私有)?\s*(?:git)?\s*倉庫\s*(?:放|存|列|管)?\s*(?:任務單|任務檔|任務)/g, ' 私有 倉庫 任務 ').replace(/(?:不讓|禁止|避免)\s*雲端\s*(?:直接)?\s*(?:控制|遠端控制|操作)\s*(?:電腦|本機|本地)/g, ' 雲端 控制 電腦 ').replace(/(?:mac)?\s*launchd\s*(?:計時器)?\s*(?:拉取|拉檔|抓取)?\s*(?:任務)?/g, ' mac launchd 計時器 拉取 任務 ').replace(/跨代理\s*(?:任務)?\s*(?:交接|交辦)\s*(?:權限)?\s*(?:隔離|邊界)/g, ' 跨代理 任務 交接 權限 隔離 ').replace(/agent\s*relay\s*(?:私有)?\s*(?:倉庫|repo)?/g, ' agent relay 私有 倉庫 ').replace(/任務檔\s*(?:交接|交辦)/g, ' 任務 交接 ').replace(/(?:每天|每日)\s*(?:早上|早晨)?\s*(?:從)?\s*書籤\s*(?:挑|選)?\s*(?:一個)?\s*(?:點子)?\s*(?:做|做成|製作)?\s*demo/g, ' 每天 書籤 點子 demo ').replace(/書籤\s*(?:做成|轉成|做)?\s*(?:可)?\s*互動\s*(?:網頁)?\s*(?:小實驗|demo)?/g, ' 書籤 互動 網頁 小實驗 ').replace(/(?:每日|每天)\s*書籤\s*(?:可)?\s*互動\s*demo/g, ' 每日 書籤 互動 demo ').replace(/量子漣漪槽\s*(?:小實驗|demo)?/g, ' 量子漣漪槽 小實驗 ').replace(/瀏覽器\s*(?:實測|測試|檢查)\s*(?:後)?\s*(?:部署|發布|上線)\s*cloudflare/g, ' 瀏覽器 實測 部署 cloudflare ').replace(/(?:每天|每日)\s*(?:挑|選)\s*(?:一則|一個)\s*書籤\s*(?:做)?\s*(?:小實驗|demo)/g, ' 每天 書籤 小實驗 ').replace(/(?:x|推特|twitter)\s*發文\s*教練\s*bot/g, ' x 發文 教練 bot ').replace(/(?:督促|督導)\s*(?:在\s*x\s*)?(?:發|寫)?\s*原創\s*(?:內容)?\s*(?:的)?\s*教練/g, ' 督促 原創 教練 ').replace(/(?:每天|每日)\s*(?:盤點)?\s*原創\s*(?:與|和)?\s*轉發/g, ' 每天 盤點 原創 轉發 ').replace(/bot\s*(?:當|做)?\s*教練\s*(?:給)?\s*(?:明天|隔天)?\s*(?:的)?\s*(?:具體)?\s*功課/g, ' bot 教練 功課 ').replace(/轉發機器\s*(?:社群)?\s*教練/g, ' 轉發機器 社群 教練 ').replace(/(?:兩週|2週)\s*(?:社群)?\s*(?:發文)?\s*數據\s*(?:檢討|分析|復盤)/g, ' 兩週 數據 檢討 ').replace(/付費\s*(?:訂閱)?\s*文章\s*(?:用)?\s*瀏覽器\s*(?:側欄|側邊欄)\s*(?:送給|交給)?\s*bot/g, ' 付費 文章 瀏覽器 側欄 bot ').replace(/付費\s*訂閱\s*文章\s*(?:對照|比對)\s*(?:自己的)?\s*持股\s*(?:清單)?/g, ' 付費 訂閱 文章 對照 持股 清單 ').replace(/grok\s*bot\s*clipper\s*(?:剪藏)?/g, ' grok bot clipper 剪藏 ').replace(/付費\s*(?:投資)?\s*電子報\s*(?:投資組合|持股)?\s*(?:對照|比對)/g, ' 付費 電子報 投資組合 對照 ').replace(/瀏覽器\s*(?:擴充|外掛)\s*(?:剪藏|擷取)\s*付費\s*文章/g, ' 瀏覽器 擴充 剪藏 付費 文章 ').replace(/substack\s*付費\s*文章\s*(?:摘要|研究)?/g, ' substack 付費 文章 摘要 ').replace(/獨角獸/g, ' 獨角獸 ').replace(/小仙子/g, ' 小仙子 ').replace(/城堡/g, ' 城堡 ').replace(/滿充電/g, ' 充電 ').replace(/(?:出發|出門)?\s*(?:後)?\s*(?:自動)?\s*(?:改回|還原|復原)/g, ' 自動還原 ').replace(/(?:旅行|出遊|出差)\s*充電\s*(?:排程)?/g, ' 長途 充電 排程 ').replace(/充電\s*排程/g, ' 充電 排程 ').replace(/(?:coding[- ]agent|程式代理|代碼代理|編程代理)\s*(?:逾時|超時)/g, ' coding-agent 停滯 ').replace(/(?:未回報|沒回報)\s*(?:通知)?/g, ' 通知 ').replace(/(?:顯示|查看|看|查)?\s*(?:孩子|小孩|女兒|學生)?\s*(?:各科)?\s*(?:成績|分數|等第)/g, ' 成績 ').replace(/各科分數/g, ' 成績 ').replace(/(?:缺交)?\s*(?:功課|作業)/g, ' 缺交作業 ').replace(/(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)\s*(?:留言|評論|內容)?/g, ' 留言 審查 ').replace(/不良評論/g, ' 留言 審查 ').replace(/自動巡檢/g, ' 巡檢 ').replace(/房仲\s*(?:揭露文件|揭露|文件)/g, ' 房仲 揭露文件 ').replace(/(?:房屋|交屋)?\s*(?:翻新|整修|裝修)\s*(?:費用|成本)?/g, ' 整修 費用 ').replace(/(?:估算|預估|評估)\s*上限/g, ' 預算 上限 ').replace(/官網\s*(?:詢問信|諮詢信|客戶信件|來信)?/g, ' 詢問信 ').replace(/記進\s*(?:notion)?\s*(?:受理表|台帳)?/g, ' notion 受理表 ').replace(/擬\s*(?:回信)?\s*(?:草稿|回覆)/g, ' 草稿 ').replace(/內網穿透/g, ' 內網穿透 ').replace(/(?:dots|grok\s*bot|bot)?\s*(?:讀|看|查|收|抓)?\s*(?:內網|內部\s*(?:信件|郵件|公文|行程|資料))(?!穿透)/g, ' dots 內部 郵件 ').replace(/(?:grok\s*bot|bot|dots)?\s*(?:讀|看|查|收|抓|整理)?\s*(?:外網|外部\s*(?:新聞|情報|資訊|貼文|資料)|公開\s*(?:新聞|情報|資訊|貼文|資料))/g, ' grok bot 公開 新聞 ').replace(/(?:重活|繁重工作)\s*(?:交給|交|外置|外包)?\s*(?:雲端電腦|外部代理|免費模型)?/g, ' 重活 雲端電腦 ').replace(/(?:交給|交|外置|外包)\s*(?:雲端電腦|外部代理|免費模型)/g, ' 雲端電腦 ').replace(/(?:做不好|搞不定|失敗)\s*(?:再)?\s*(?:降級|改用|換成)?/g, ' 做不好 降級 ').replace(/(?:地鐵|捷運|公車|電車)\s*(?:通勤)?\s*(?:上)?\s*(?:讀|看)?/g, ' 地鐵 ').replace(/(?:通勤)?\s*(?:地鐵|捷運|公車|電車)\s*(?:上)?\s*(?:讀|看)?/g, ' 地鐵 ').replace(/捷運/g, ' 地鐵 ').replace(/(?:塗色|著色|線稿)\s*(?:自動)?\s*(?:印出|印製|列印|打印|印出來|印(?!表[機台器]))/g, " 著色 線稿 列印 ").replace(/(?:黑白)?\s*(?:塗色頁|著色頁|線稿)\s*印表機/g, " 著色 線稿 印表機 ").replace(/(?:黑白)?\s*(?:塗色頁|著色頁|線稿)\s*(?:印出|列印)/g, " 著色 線稿 列印 ").replace(/(?:卡住|停滯|未回報|超時|逾時)\s*(?:提醒|通知|告警)/g, " 卡住 通知 ").replace(/(?:找房|買房|看房)\s*(?:估算|預估|評估)/g, " 買房 預估 ").replace(/(?:預算|費用|金額)\s*(?:上限|封頂)/g, " 預算 上限 ").replace(/(?:官網|網站)\s*(?:詢問信|諮詢信|來信|客戶來信)/g, " 詢問信 ").replace(/受理\s*(?:登記|記錄|記進|登錄)/g, " 受理 登記 ").replace(/(?:受理|接單|登記|記進)\s*(?:台帳|登記表|受理表|表格|清單|notion)/g, " 受理 台帳 ").replace(/(?:內外|內部外部|內外部)\s*(?:資料|情報|資訊)/g, " 內網 外網 ").replace(/資料\s*(?:分工|分派|分流)/g, " 資料 分工 ").replace(/(?:舊筆記|flomo筆記|筆記)\s*(?:輪換|不同)\s*(?:角度|視角)?/g, " 舊筆記 輪換 角度 ").replace(/(?:輪換|不同)\s*(?:角度|視角)\s*(?:推送|回顧|推播|反思)?/g, " 輪換 角度 推送 ").replace(/(?:防|防止|避免|不讓)\s*(?:遠端)?\s*控制/g, " 避免 控制 ").replace(/(?:可)?\s*互動\s*(?:展示|demo|網頁)/g, " 互動 demo 網頁 ").replace(/(?:展示|demo)\s*(?:網頁|頁面|作品)/g, " demo 網頁 ").replace(/(?:x|推特|社群)\s*發文\s*教練/g, " 發文 教練 ").replace(/發文\s*教練/g, " 發文 教練 ").replace(/(?:社群)?\s*發文\s*數據\s*(?:檢討|分析|復盤)?\s*(?:教練)?/g, " 發文 數據 檢討 教練 ").replace(/(?:每日|每天)\s*盤點/g, " 每日 盤點 ").replace(/(?:付費|訂閱)\s*文章\s*(?:剪藏|擷取)/g, " 付費 文章 剪藏 ").replace(/(?:瀏覽器)?\s*側欄\s*(?:剪藏|擷取)/g, " 側欄 剪藏 ").replace(/(?:文章|內容)?\s*(?:對照|比對)\s*(?:自己的)?\s*持股\s*(?:清單|組合)?/g, " 對照 持股 ").replace(/(?:剪藏|正文|文章)\s*(?:送給|交給|丟給|傳給)\s*bot/g, " 剪藏 bot ").replace(/(?:substack|電子報)\s*文章/g, " substack 文章 ").replace(/(?:跑完|做完|結束|完畢|停滯|卡住)\s*(?:通知|提醒|webhook)/g, " 程式代理 工作階段 webhook 通知 ").replace(/(?:特斯拉|tesla)?\s*(?:出遠門|長途旅行|遠門)\s*(?:前)?\s*(?:充電|充飽電|充飽|充滿)/g, " 特斯拉 出發 充電 ").replace(/(?:客戶\s*來信|客戶|來信)\s*(?:查|找)?\s*(?:日曆|行事曆)\s*(?:擬|寫|存)?\s*(?:草稿|回覆|回信)/g, " 詢問信 行事曆 草稿 ").replace(/(?:節省|省|省下)\s*(?:額度|token|費用|成本)/g, " 節省 額度 ").replace(/(?:私有)?\s*(?:git)?\s*倉庫\s*(?:交接|交辦)/g, " 私有倉庫 任務交接 ").replace(/(?:x|推特|twitter)?\s*(?:收藏|書籤)\s*(?:做成?|轉成?|做)?\s*(?:可)?\s*互動\s*(?:網頁)?/g, " 書籤 互動 網頁 ").replace(/(?:做|製作)?\s*小\s*demo/g, " demo ").replace(/(?:每天|每日)\s*(?:一則|一個)\s*(?:小實驗|demo)/g, " 每天 demo ").replace(/(?:x|推特|twitter|社群)\s*發文\s*(?:復盤|檢討|分析)/g, " 發文 數據 檢討 ").replace(/(?:社群|發文)\s*教練/g, " 發文 教練 ").replace(/(?:每日|每天)\s*(?:檢討|盤點)\s*原創/g, " 每天 盤點 原創 ").replace(/(?:持股清單|投資組合|持股)\s*(?:對照|比對|查核)/g, " 持股清單 對照 ").replace(/(?:側邊欄|側欄)\s*(?:剪藏|擷取)/g, " 側欄 剪藏 ").replace(/(?:瀏覽器)?\s*(?:外掛|擴充)\s*(?:剪藏|擷取)/g, " 外掛 剪藏 ").replace(/投資組合\s*(?:對照|比對)/g, " 持股清單 對照 ").replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').replace(/(?:^|\s)-+|-+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
+function abbreviatedQuery(query, limit=40) {
+  const chars=Array.from(query.trim());
+  return chars.slice(0,limit).join('')+(chars.length>limit?'…':'');
+}
+// Titles describe the visible page, not an unopened case requested in the URL.
+// Keep source display titles intact; only bound user-entered search text.
+function pageContextTitle({item,query='',facets=[],difficulty='',reviewed=false,loading=false,error=false,missing=false,partial=false,empty=false}={}) {
+  const brand='AI 用法實驗室';
+  if(item)return `${item.id} · ${item.title}｜${brand}`;
+  const label=String(query).replace(/\s+/g,' ').trim();
+  const chars=Array.from(label),short=chars.slice(0,80).join('')+(chars.length>80?'…':'');
+  const conditions=[...facets,difficulty].filter(Boolean);
+  const parts=[short?`搜尋「${short}」`:conditions.length?'篩選案例':reviewed?'最近核對的內容':'案例庫',...conditions];
+  if(reviewed&&(short||conditions.length))parts.push('最近核對');
+  const status=missing?'找不到分享案例':error?'載入失敗':loading?'載入中':partial?(empty?'已載入內容無符合結果':'已載入內容'):empty?'沒有符合結果':'';
+  if(!status&&!short&&!conditions.length&&!reviewed)return brand+' · 案例庫';
+  return [status,...parts].filter(Boolean).join(' · ')+'｜'+brand;
+}
+function syncPageContext() {
+  const title=pageContextTitle({
+    item:$('detail').open?currentDetailItem:null,
+    query:$('query').value,
+    reviewed:$('sort').value==='reviewed',
+    facets:[activeScenario,KIND[$('kind').value],...['tool','category','proof'].map(id=>$(id).value)],
+    difficulty:$('difficulty').value,
+    loading:initialLoading&&!discoveryReady,
+    error:!$('error').hidden,
+    missing:!$('missing-case').hidden,
+    partial:discoveryReady&&failedPaths.length>0,
+    empty:discoveryReady&&currentFiltered.length===0
+  });
+  if(document.title!==title)document.title=title;
+}
+const tokenize = text => norm(text || '').trim().replace(/(?:智慧|智能)?\s*開關\s*(?:未支援|不支援)/g, ' 未支援 設備 排障 ').replace(/未支援\s*(?:的)?\s*(?:智慧|智能)?\s*開關/g, ' 未支援 設備 排障 ').replace(/開關\s*(?:看似)?\s*配對\s*(?:好|成功)?\s*(?:了)?\s*(?:卻|為什麼)?\s*(?:無法控制|不能動|燈還是不動|不動)/g, ' 開關 配對 排障 ').replace(/(?:航空|航班|飛機)?\s*追蹤\s*天線\s*量測/g, ' 航空追蹤 天線 量測 ').replace(/(?:掌上型|手持)?\s*圓形\s*螢幕(?:\s*mcp)?/g, ' 掌上型 圓屏 裝置 mcp ').replace(/司機\s*每日/g, ' 司機 每日 ').replace(/代填\s*(?:保險)?\s*(?:救援)?\s*表單/g, ' 代填 救援 表單 ').replace(/(?:日常|平常)?\s*(?:充電)?\s*上限/g, ' 上限 ').replace(/(?:兒少|兒童|孩子)\s*頻道/g, ' 孩子 頻道 ').replace(/(?:每天|每日)?\s*(?:x|推特|twitter)?\s*書籤\s*點子\s*(?:做)?\s*(?:可)?\s*互動/g, ' 每日 書籤 互動 demo 網頁 ').replace(/(?:youtube\s*)?(?:非公開)?\s*(?:播放)?\s*清單\s*(?:每日|每天)?\s*推薦/g, ' youtube 非公開 播放清單 推薦 ').replace(/(?:非公開)?\s*播放清單\s*(?:每日|每天)?\s*推薦/g, ' youtube 非公開 播放清單 推薦 ').replace(/(?:粉絲|關注)\s*名單/g, ' 粉絲 關注名單 ').replace(/(?:是否)?\s*回關/g, ' 回關 ').replace(/條件\s*篩選/g, ' 條件 篩選 ').replace(/健身\s*教練/g, ' 健身 教練 ').replace(/(?:每天|每日)?\s*(?:早上|早晨)?\s*(?:5\s*點|五點)\s*(?:語音)?\s*(?:喚醒|叫醒)(?:\s*(?:教練|bot))?/g, ' 每天 5點 喚醒 教練 ').replace(/(?:5k\s*)?跑走\s*(?:交替)?\s*(?:的)?\s*(?:5k)?\s*(?:計畫|計劃)?/g, ' 5k 跑走 計畫 ').replace(/掃描\s*(?:版)?\s*(?:pdf)?\s*(?:轉|轉成|轉為)\s*epub/g, ' 掃描 pdf epub ').replace(/epub\s*(?:目錄)?\s*(?:重排|可重排)/g, ' epub 目錄 重排 ').replace(/(?:重排|可重排)\s*epub(?:\s*目錄)?/g, ' epub 目錄 重排 ').replace(/快照\s*(?:自行重啟)?\s*(?:回到|回滾到?)\s*(?:數週前|幾週前)/g, ' 快照 重啟 數週前 ').replace(/雲端電腦\s*快照(?:\s*(?:失效|失敗|重啟))?/g, ' 雲端電腦 快照 失效 ').replace(/(?:單一職責|專門負責|專門)?\s*備份\s*bot/g, ' 備份 bot ').replace(/(?:比特幣|虛擬貨幣|加密貨幣|加密)\s*(?:晨報|早報)/g, ' 加密 晨報 ').replace(/(?:(?:加密|幣圈)\s*)?(?:新聞\s*)?一手來源\s*(?:確認|查證|查核)/g, ' 一手來源 確認 ').replace(/(?:dots)?\s*(?:先把)?\s*訂閱\s*(?:頻道)?\s*(?:整理成|做成)?\s*試算表/g, ' dots 訂閱 頻道 試算表 ').replace(/(?:youtube\s*)?(?:專用)?\s*非公開\s*(?:影片)?\s*(?:播放)?\s*清單/g, ' youtube 非公開 播放清單 ').replace(/(?:ai\s*)?(?:自動)?\s*(?:發)?\s*水文\s*(?:帳號)?\s*(?:取關)?/g, ' 水文 帳號 取關 ').replace(/(?:每天|每日)?\s*(?:盤點|檢討)?\s*原創\s*(?:與|和)?\s*轉發(?:\s*(?:檢討|分析|復盤))?/g, ' 原創 轉發 ').replace(/(?:每天|每日)\s*(?:早上|早晨)?\s*(?:自動)?\s*(?:印出|列印|印)?\s*(?:一頁)?\s*(?:加密)?\s*(?:貨幣)?\s*(?:晨報|早報)/g, ' 每天 列印 加密 晨報 ').replace(/(?:加密|幣圈)?\s*新聞\s*(?:一手來源)?\s*(?:確認|查證|查核)/g, ' 加密 新聞 一手來源 確認 ').replace(/(?:點名)?\s*(?:舊聞|翻炒|炒冷飯)\s*(?:重發)?\s*(?:點名)?/g, ' 舊聞 重發 點名 ').replace(/(?:dots)?\s*(?:先把)?\s*訂閱\s*(?:頻道)?\s*(?:整理成|做成)\s*試算表/g, ' dots 訂閱 頻道 試算表 ').replace(/(?:每天|每日)?\s*(?:傍晚)?\s*(?:挑|選)?\s*(?:\d+\s*支)?\s*(?:影片)?\s*(?:放進)?\s*(?:專用)?\s*(?:非公開)?\s*播放清單/g, ' 挑選 影片 非公開 播放清單 ').replace(/(?:不想)?\s*(?:被)?\s*(?:首頁)?\s*演算法\s*(?:牽著走|推薦)/g, ' 演算法 牽著走 ').replace(/(?:依|按)?\s*(?:你訂的)?\s*條件\s*篩\s*粉絲\s*(?:該不該)?\s*回關/g, ' 條件 篩選 粉絲 回關 ').replace(/(?:檢查|分析)?\s*關注\s*名單\s*(?:哪些)?\s*(?:可以)?\s*取關/g, ' 關注名單 取關 ').replace(/(?:強烈)?\s*建議\s*取關/g, ' 建議 取關 ').replace(/(?:粉絲|關注名單)?\s*條件\s*(?:初篩|篩選)\s*(?:與|和)?\s*人工\s*(?:確認|決定)/g, ' 條件 篩選 人工 決定 ').replace(/\b(uc|p)\s*[-_：:#.]?\s*(\d+)\b/g, '$1-$2').replace(/([a-z]+)([\u4e00-\u9fa5])/g, '$1 $2').replace(/([\u4e00-\u9fa5])([a-z]+)/g, '$1 $2').replace(/(?:^|\s)#(\d+)\b/g, ' uc-$1').replace(/\bpull\s+requests?\b/g, ' pr ').replace(/\brate\s*[- ]\s*limits?(?:ing)?\b/g, ' ratelimit ').replace(/\bhealth\s+checks?\b/g, ' healthcheck ').replace(/\bstate\s+machines?\b/g, ' statemachine ').replace(/\bknowledge\s+bases?\b/g, ' knowledgebase ').replace(/\bwork\s*[- ]\s*orders?\b/g, ' workorder ').replace(/\bfine\s*[- ]\s*tun(?:ing|e|ed|es)?\b/g, ' finetune ').replace(/\bcold\s+outreach\b/g, ' outreach ').replace(/\bpost\s*[- ]\s*mortems?\b/g, ' postmortem ').replace(/\bend\s*[- ]\s*to\s*[- ]\s*end\b/g, ' e2e ').replace(/\blife\s+cycles?\b/g, ' lifecycle ').replace(/\bcross\s*[- ]\s*agents?\b/g, ' cross-agent ').replace(/\bheart\s+beats?\b/g, ' heartbeat ').replace(/\bscreen\s+shots?\b/g, ' screenshot ').replace(/\btime\s+sheets?\b/g, ' timesheet ').replace(/\bpay\s+checks?\b/g, ' paycheck ').replace(/\brun\s+times?\b/g, ' runtime ').replace(/\bhand\s*[- ]\s*offs?\b/g, ' handoff ').replace(/\bdry\s*[- ]\s*runs?\b/g, ' dryrun ').replace(/\bguard\s*[- ]\s*rails?\b/g, ' guardrail ').replace(/\bhuman\s*[- ]\s*in\s*[- ]\s*the\s*[- ]\s*loop\b/g, ' hitl ').replace(/\bmodel\s*[- ]\s*context\s*[- ]\s*protocols?\b/g, ' mcp ').replace(/\bcommand\s*[- ]\s*lines?\b/g, ' cli ').replace(/\bapi\s*[- ]\s*keys?\b/g, ' apikey ').replace(/\bgrokbot\b/g, ' grok bot ').replace(/\bmetamuse\b/g, ' meta muse ').replace(/\bprs\b/g, ' pr ').replace(/\bmulti\s*[- ]\s*agents?\b/g, ' multi-agent ').replace(/\bmultiagents?\b/g, ' multi-agent ').replace(/\bretrieval\s*[- ]\s*augmented\s*[- ]\s*generations?\b/g, ' rag ').replace(/\bvector\s*[- ]\s*(?:dbs?|databases?)\b/g, ' vectordb ').replace(/\bcode\s*[- ]\s*reviews?\b/g, ' codereview ').replace(/\bcodereviews?\b/g, ' codereview ').replace(/\bmerge\s+requests?\b/g, ' mr ').replace(/\bweb\s*[- ]\s*hooks?\b/g, ' webhook ').replace(/\bcron\s*[- ]\s*jobs?\b/g, ' cron ').replace(/\bcronjobs?\b/g, ' cron ').replace(/\bcrontabs?\b/g, ' cron ').replace(/\b(?:tool|function)\s*[- ]\s*calls?(?:ing)?\b/g, ' toolcall ').replace(/\btool\s*[- ]\s*us(?:e|ed|es|ing)\b/g, ' toolcall ').replace(/\btext\s*[- ]\s*to\s*[- ]\s*speech\b/g, ' tts ').replace(/\bspeech\s*[- ]\s*to\s*[- ]\s*text\b/g, ' stt ').replace(/\bci\s*[/_-]?\s*cd\b/g, ' cicd ').replace(/\bcontinuous\s+integration\b/g, ' cicd ').replace(/\bself\s*[- ]\s*hosted\b/g, ' self-hosted ').replace(/\b(?:prompt|instruction)\s*[- ]\s*injections?\b/g, ' prompt-injection ').replace(/\bstructured\s*[- ]\s*outputs?\b/g, ' structured-output ').replace(/\bjson\s*[- ]\s*schemas?\b/g, ' json-schema ').replace(/\bserver\s*[- ]\s*sent\s*[- ]\s*events?\b/g, ' sse ').replace(/\bheadless\s*[- ]\s*browsers?\b/g, ' headless-browser ').replace(/\bsub\s*[- ]\s*agents?\b/g, ' subagent ').replace(/\bsubagents?\b/g, ' subagent ').replace(/\bworker\s*[- ]\s*agents?\b/g, ' worker-agent ').replace(/\bdata\s*[- ]\s*(?:exfiltration|leakage|leaks?)\b/g, ' data-leak ').replace(/\bexfiltration\b/g, ' data-leak ').replace(/\bcomputer\s*[- ]\s*use\b/g, ' computer-use ').replace(/\bgui\s*[- ]\s*agents?\b/g, ' gui-agent ').replace(/\bcontext\s*[- ]\s*(?:windows?|lengths?)\b/g, ' context-window ').replace(/\blong\s*[- ]\s*contexts?\b/g, ' context-window ').replace(/\bcontext\s*[- ]\s*compactions?\b/g, ' context-compaction ').replace(/\bhybrid\s*[- ]\s*search(?:es)?\b/g, ' hybrid-search ').replace(/\bsynthetic\s*[- ]\s*data\b/g, ' synthetic-data ').replace(/\bautonomous\s*[- ]\s*agents?\b/g, ' autonomous-agent ').replace(/\bkeep\s*[- ]\s*alives?\b/g, ' keepalive ').replace(/\bredirects?(?:ion)?\b/g, ' redirect ').replace(/\bcanary\s*[- ]\s*(?:releases?|deployments?)?\b/g, ' canary ').replace(/\bblue\s*[- ]\s*green(?:\s*[- ]\s*(?:releases?|deployments?))?\b/g, ' blue-green ').replace(/\borchestrat(?:e|ed|es|ing|or|ors|ion|ions)\b/g, ' orchestration ').replace(/\bcoordinat(?:e|ed|es|ing|or|ors|ion|ions)\b/g, ' coordination ').replace(/\bsupervisors?\b/g, ' supervisor ').replace(/\baccess\s*[- ]\s*controls?\b/g, ' access-control ').replace(/\brole\s*[- ]\s*based\s*[- ]\s*access\s*[- ]\s*controls?\b/g, ' rbac ').replace(/\bevent\s*[- ]\s*driven\b/g, ' event-driven ').replace(/\bsemantic\s*[- ]\s*search(?:es)?\b/g, ' semantic-search ').replace(/\bvector\s*[- ]\s*search(?:es)?\b/g, ' vector-search ').replace(/\bchain\s*[- ]\s*of\s*[- ]\s*thoughts?\b/g, ' cot ').replace(/\bair\s*[- ]\s*gaps?\b/g, ' airgap ').replace(/\bagentic\s*[- ]\s*workflows?\b/g, ' agentic-workflow ').replace(/\bre\s*[- ]*rank(?:ing|s|er|ers)?\b/g, ' rerank ').replace(/\bde\s*[- ]*dup(?:lication)?s?\b/g, ' dedup ').replace(/\bdelegat(?:e|es|ed|ing|ion|ions)\b/g, ' delegate ').replace(/\baudit\s*[- ]\s*trails?\b/g, ' audit-trail ').replace(/\baudit\s*[- ]\s*logs?\b/g, ' audit-log ').replace(/\bexponential\s*[- ]\s*backoffs?\b/g, ' backoff ').replace(/\bbackoffs?\b/g, ' backoff ').replace(/\bmulti\s*[- ]\s*modals?\b/g, ' multimodal ').replace(/\bvision\s*[- ]\s*language\s*[- ]\s*models?\b/g, ' vlm ').replace(/\bsystem\s*[- ]\s*(?:prompts?|instructions?)\b/g, ' system-prompt ').replace(/\bleast\s*[- ]\s*privileges?\b/g, ' least-privilege ').replace(/\bwhite\s*[- ]\s*lists?(?:ing)?\b/g, ' whitelist ').replace(/\ballow\s*[- ]\s*lists?(?:ing)?\b/g, ' allowlist ').replace(/\bblack\s*[- ]\s*lists?(?:ing)?\b/g, ' blacklist ').replace(/\bdeny\s*[- ]\s*lists?(?:ing)?\b/g, ' denylist ').replace(/\bblock\s*[- ]\s*lists?(?:ing)?\b/g, ' blocklist ').replace(/\bsensitive\s*[- ]\s*(?:data|info|information)\b/g, ' sensitive-data ').replace(/\brouters?\b/g, ' router ').replace(/\bkill\s*[- ]\s*switch(?:es)?\b/g, ' kill-switch ').replace(/\bemergency\s*[- ]\s*stops?\b/g, ' emergency-stop ').replace(/\bcircuit\s*[- ]\s*breakers?\b/g, ' circuit-breaker ').replace(/\bcheck\s*[- ]\s*points?(?:ing)?\b/g, ' checkpoint ').replace(/\bcheckpoint(?:ing|s)?\b/g, ' checkpoint ').replace(/\bsandbox(?:ing|es)?\b/g, ' sandbox ').replace(/\boutbox\s*[- ]\s*(?:patterns?)?\b/g, ' outbox ').replace(/\b(?:long|short)\s*[- ]\s*term\s*[- ]\s*memory\b/g, ' memory ').replace(/\b(?:working|shared|external|visible|persistent)\s*[- ]\s*memory\b/g, ' memory ').replace(/\bgithub\s+actions\b/g, ' cicd ').replace(/\bpr\s*審查/g, ' codereview ').replace(/\bidempotenc(?:e|y)\b/g, ' idempotent ').replace(/\b(?:task|work|job)\s*[- ]\s*plannings?\b/g, ' planning ').replace(/\bplannings?\b/g, ' planning ').replace(/\breproducib(?:ility|le)\b/g, ' reproducibility ').replace(/\breproduc(?:e|ed|es|ing)\b/g, ' reproducibility ').replace(/\bcitat(?:ion|ions|e|ed|es|ing)\b/g, ' citation ').replace(/\bfail\s*[- ]\s*overs?\b/g, ' failover ').replace(/\bacceptance\s*[- ]\s*(?:criteri(?:a|on)|tests?|testing)?\b/g, ' acceptance ').replace(/\bacceptances?\b/g, ' acceptance ').replace(/\bparallel(?:ism)?\b/g, ' parallel ').replace(/\bconcurr(?:ency|ent)\b/g, ' concurrency ').replace(/\bgraceful\s*[- ]\s*degradations?\b/g, ' fallback ').replace(/\bcach(?:e|es|ed|ing)\b/g, ' cache ').replace(/\bschedul(?:e|es|ed|ing|er|ers)\b/g, ' schedule ').replace(/\banomaly\s*[- ]\s*detections?\b/g, ' anomaly ').replace(/\breview(?:s|ed|ing|er|ers)?\b/g, ' review ').replace(/\bbenchmark(?:ing|s)?\b/g, ' benchmark ').replace(/\bevaluat(?:e|es|ed|ing|ion|ions)\b/g, ' evaluation ').replace(/\bsafety\s*[- ]\s*rails?\b/g, ' guardrail ').replace(/\bcolor(?:ing)?\s*[- ]\s*pages?\b/g, ' coloring ').replace(/\bprint(?:er|ers|ing|s)?\b/g, ' print ').replace(/\broad\s*[- ]?\s*side(?:\s*[- ]\s*assistance)?\b/g, ' roadside ').replace(/\bbreak\s*[- ]?\s*downs?\b/g, ' breakdown ').replace(/\bstall(?:s|ed|ing)?\b/g, ' stall ').replace(/\bgrades?\b/g, ' grade ').replace(/\bhome\s*[- ]?\s*works?\b/g, ' homework ').replace(/\bassign(?:ment|ments)?\b/g, ' assignment ').replace(/\bsmart\s*[- ]\s*tvs?\b/g, ' tv ').replace(/\bambient(?:\s*[- ]\s*(?:boards?|displays?))?\b/g, ' ambient ').replace(/\bprompt\s*[- ]\s*attacks?\b/g, ' prompt-injection ').replace(/\breservations?\b/g, ' reservation ').replace(/\bbookings?\b/g, ' booking ').replace(/\bcolor(?:ing)?\s*[- ]\s*(?:books?|sheets?)\b/g, ' coloring ').replace(/\btow(?:ing)?(?:\s*[- ]\s*trucks?)?\b/g, ' towing ').replace(/\bself\s*[- ]\s*reflect(?:ion|ive)?\b/g, ' reflection ').replace(/\breflections?\b/g, ' reflection ').replace(/\bself\s*[- ]\s*(?:correct(?:ion|ing|s)?|heal(?:ing|s)?)\b/g, ' self-correction ').replace(/\btoken\s*(?:用量|消耗)\b/g, ' token 用量 ').replace(/\bwebhook\s*通知/g, ' webhook 通知 ').replace(/\btv\s*看板/g, ' tv 看板 ').replace(/電視\s*看板/g, ' 電視 看板 ').replace(/\bmcp\s*(?:伺服器|服務器)/g, ' mcp 伺服器 ').replace(/\bmcp\s*工具/g, ' mcp 工具 ').replace(/\bbot\s*模板/g, ' bot 模板 ').replace(/\bbot\s*通知/g, ' bot 通知 ').replace(/\bapi\s*金鑰/g, ' api 金鑰 ').replace(/保險\s*表單/g, ' 保險 表單 ').replace(/救援\s*表單/g, ' 救援 表單 ').replace(/\bwake\s*[- ]\s*ups?\b/g, ' wakeup ').replace(/\bwakeups?\b/g, ' wakeup ').replace(/\bclaudecodes?\b/g, ' claude code ').replace(/\bt3\s*[- ]\s*codes?\b/g, ' t3 code ').replace(/\bt3codes?\b/g, ' t3 code ').replace(/\bcoding\s*[- ]\s*agents?\b/g, ' coding-agent ').replace(/\b(?:car\s*[- ]\s*rentals?|rental\s*[- ]\s*cars?)\b/g, ' car-rental ').replace(/\binsurance\s*[- ]\s*claims?\b/g, ' insurance-claim ').replace(/\b(?:auto|car)\s*[- ]\s*insurances?\b/g, ' car-insurance ').replace(/\bauto\s*[- ]\s*prints?\b/g, ' auto-print ').replace(/\bautoprints?\b/g, ' auto-print ').replace(/\bopen\s*[- ]\s*sources?\b/g, ' open-source ').replace(/\bchat\s*[- ]\s*negotiations?\b/g, ' chat-negotiation ').replace(/\bmcp\s*[- ]\s*servers?\b/g, ' mcp server ').replace(/\bads\s*[- ]?\s*b\b/g, ' ads-b ').replace(/\bautobahns?\b/g, ' autobahn ').replace(/\b(?:smart|android|google|apple)\s*[- ]\s*tvs?\b/g, ' tv ').replace(/\bandroid-tv\b/g, ' tv ').replace(/\bgoogle-tv\b/g, ' tv ').replace(/\bcloudflare\s*[- ]\s*workers?\b/g, ' cloudflare-worker ').replace(/\bcf\s*[- ]\s*workers?\b/g, ' cloudflare-worker ').replace(/(?:卡車|貨車|長途)?\s*(?:駕駛|司機)\s*工時(?:表|紀錄)?/g, ' 司機 工時 ').replace(/工時\s*(?:核對|查核|對帳|稽核)/g, ' 工時 對帳 ').replace(/(?:出勤|打卡)\s*紀錄/g, ' 打卡 紀錄 ').replace(/超時\s*(?:工作|工時)/g, ' 超時 工時 ').replace(/(?:任務|工作)\s*封存/g, ' 任務 封存 ').replace(/封存\s*(?:任務|工作)/g, ' 封存 任務 ').replace(/家用\s*印表機/g, ' 家用 印表機 ').replace(/\b1090\s*mhz\b/g, ' 1090mhz ').replace(/\b1090\s*兆赫\b/g, ' 1090mhz ').replace(/\b(?:hand\s*[- ]\s*held|palm\s*[- ]\s*top)s?\b/g, ' handheld ').replace(/\bface\s*[- ]\s*swaps?\b/g, ' face-swap ').replace(/(?:每日|每天)\s*(?:隨機)?\s*(?:不重複)?\s*(?:參考照|照片|相片)\s*(?:換臉|替換臉)/g, ' 每日 隨機 參考照 換臉 ').replace(/(?:人臉|面部|臉部|照片)\s*替換/g, ' 換臉 ').replace(/(?:人臉|面部|臉部|照片)\s*換臉/g, ' 換臉 ').replace(/每日\s*換臉/g, ' 每日 換臉 ').replace(/(?:薪資|工資|薪水|薪酬)\s*單?\s*(?:核對|查核|對帳|對賬|稽核|核算)/g, ' 薪資單 核對 ').replace(/工時\s*核算/g, ' 工時 核對 ').replace(/(?:幼兒|幼童|小童|兒童|孩子|小孩)\s*著色(?:頁|本|畫)?/g, ' 兒童著色 ').replace(/著色\s*(?:線稿|圖|頁|本|畫)/g, ' 著色 ').replace(/每日\s*著色/g, ' 每日 著色 ').replace(/(?:電話\s*代撥|代撥\s*電話|電話\s*代打)/g, ' 代打電話 ').replace(/(?:國外|海外|境外|自駕|租車)\s*(?:拋錨|故障|車輛故障)/g, ' 拋錨 ').replace(/(?:帳單|帳戶|費用)\s*抵免/g, ' 帳單 抵免 ').replace(/(?:爭取|降費)\s*抵免/g, ' 抵免 ').replace(/(?:電視|tv)\s*(?:去廣告|免廣告)/g, ' 電視 去廣告 ').replace(/(?:電視|tv)\s*待機/g, ' 電視 待機 ').replace(/(?:電視|tv)\s*(?:看|查|顯示)?\s*(?:女兒|孩子|小孩|學生)?\s*成績/g, ' 電視 成績 ').replace(/(?:客廳)?\s*(?:電視|tv)\s*成績\s*(?:看板)?/g, ' 電視 成績 看板 ').replace(/(?:智慧|智能)?\s*電視\s*(?:常亮|待機)\s*(?:看板|螢幕|顯示)?/g, ' 電視 常亮 看板 ').replace(/(?:自製|客廳)\s*電視\s*首頁/g, ' 自製首頁 電視 ').replace(/(?:常亮|待機)\s*(?:螢幕|看板|顯示)?\s*(?:看|查|顯示)?\s*(?:女兒|孩子|小孩)?\s*成績/g, ' 電視 常亮 看板 成績 ').replace(/(?:常亮|待機)\s*(?:螢幕|看板|顯示)?\s*(?:作業缺交|缺交作業|作業)/g, ' 電視 常亮 看板 缺交作業 ').replace(/(?:電視|tv)\s*(?:顯示|看|查)\s*(?:缺交)?\s*作業/g, ' 電視 缺交作業 ').replace(/(?:電視|tv)\s*(?:常亮|待機)\s*(?:看板|螢幕)?\s*(?:看|查|顯示)?\s*成績/g, ' 電視 常亮 看板 成績 ').replace(/(?:待機|自製)\s*首頁/g, ' 待機 首頁 ').replace(/webhook\s*(?:叫醒|喚醒)/g, ' webhook 叫醒 ').replace(/程式代理\s*通知/g, ' 程式代理 通知 ').replace(/(?:叫醒|喚醒)\s*grok(?:\s*bot)?/g, ' 叫醒 grok bot ').replace(/(?:叫醒|喚醒)\s*bot/g, ' 叫醒 bot ').replace(/(?:工作階段|工作會話|作業階段)\s*(?:結束|完畢|跑完|完成|停滯|卡住|卡死)(?:\s*(?:webhook|通知))?/g, ' 程式代理 工作階段 webhook ').replace(/(?:工作階段|工作會話|作業階段)\s*(?:停滯|卡住|卡死)/g, ' 工作階段 停滯 ').replace(/(?:代訂|預約)\s*餐廳/g, ' 餐廳訂位 ').replace(/(?:代訂|代預約)\s*位/g, ' 訂位 ').replace(/(?:電話|語音)?\s*訂位\s*代理/g, ' 電話訂位 ').replace(/餐廳\s*代訂/g, ' 餐廳訂位 ').replace(/(?:智慧|智能)?\s*開關\s*(?:排障|除錯|故障)/g, ' 開關 排障 ').replace(/(?:家電|設備|裝置)\s*(?:導入|導入排障)/g, ' 設備 導入 ').replace(/(?:未支援|不支援)\s*(?:設備|裝置|家電|硬體)/g, ' 未支援 設備 ').replace(/sdr\s*(?:接收站|接收機|接收器)/g, ' sdr 接收站 ').replace(/sdr\s*解碼/g, ' sdr 解碼 ').replace(/ads-b\s*(?:接收機|接收器)/g, ' ads-b 接收站 ').replace(/(?:分存|封存)\s*(?:驗收|查驗)/g, ' 封存 驗收 ').replace(/(?:實際)?\s*工具\s*(?:實際)?\s*回應/g, ' 工具 回應 ').replace(/(?:工具回應|模型輸出)\s*分存/g, ' 工具 回應 封存 ').replace(/模型\s*輸出/g, ' 模型 輸出 ').replace(/(?:(?:舊|新)\s*交辦|交辦\s*(?:任務|工作))/g, ' 交辦 任務 ').replace(/(?:高速公路|公路)\s*(?:拋錨|故障|壞掉)/g, ' 公路 拋錨 ').replace(/(?:隨機)?\s*參考照\s*換臉/g, ' 參考照 換臉 ').replace(/隨機\s*參考照/g, ' 隨機 參考照 ').replace(/(?:排程|例行任務)\s*(?:關掉|關回|停用)/g, ' 排程 關掉 ').replace(/執行\s*狀態\s*(?:矛盾|不一致|衝突)/g, ' 執行 狀態 矛盾 ').replace(/(?:任務|狀態|執行)\s*(?:矛盾|衝突|不一致)/g, ' 狀態 矛盾 ').replace(/(?:(?:掌上型|手持)\s*圓屏|圓屏\s*(?:裝置|螢幕))/g, ' 掌上型 圓屏 裝置 ').replace(/\bteslascope\s*(?:長途)?\s*(?:出發)?\s*(?:準備)?\s*(?:技能|排程)?/g, ' teslascope 特斯拉 長途 技能 ').replace(/(?:(?:特斯拉|\btesla\b)\s*(?:長途)?\s*(?:出發|出門)?\s*(?:前)?|(?:長途)?\s*(?:出發|出門)\s*(?:前)?)\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充)?\s*(?:技能)?\s*(?:自動)?\s*還原/g, ' 特斯拉 出發 充電 自動還原 ').replace(/(?:特斯拉|\btesla\b)\s*(?:長途)?\s*(?:出發|出門)?\s*(?:前)?\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充|充到\s*100%|充電到\s*100%)\s*(?:技能)?/g, ' 特斯拉 出發 充電 ').replace(/(?:出發|出門)\s*(?:前)?\s*(?:電動車|電車|特斯拉)?\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充|充到\s*100%)/g, ' 出發 充電 ').replace(/(?:特斯拉|\btesla\b|teslascope)\s*(?:長途)?\s*(?:出發)?\s*準備\s*(?:技能)?/g, ' teslascope 特斯拉 長途 技能 ').replace(/(?:長途)?\s*(?:出發|出門)\s*(?:前)?\s*(?:要)?\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充)(?:\s*(?:100%|到滿))?/g, ' 出發 充電 ').replace(/(?:充電\s*(?:排程)?)\s*(?:自動)?\s*還原/g, ' 充電 排程 自動還原 ').replace(/(?:特斯拉|\btesla\b)\s*(?:長途)?\s*(?:出發)?\s*準備\s*(?:技能)?/g, ' 特斯拉 長途 技能 ').replace(/(?:特斯拉|\btesla\b)\s*長途(?:\s*出發)?/g, ' 特斯拉 長途 出發 ').replace(/(?:特斯拉|\btesla\b)\s*出發/g, ' 特斯拉 出發 ').replace(/(?:電動車|電車)\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充)?\s*(?:排程)?/g, ' 電動車 充電 排程 ').replace(/出門前\s*充電/g, ' 出發 充電 ').replace(/(?:清理|過濾|巡檢|審查|檢查)?\s*youtube\s*(?:頻道)?\s*(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)?\s*留言\s*(?:過濾|巡檢|清理|審查)?/g, ' youtube 留言 巡檢 ').replace(/(?:小孩|兒童|孩子)\s*頻道\s*(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)?\s*留言(?:\s*(?:過濾|巡檢|審查|檢查|清理))?/g, ' youtube 留言 巡檢 ').replace(/(?:檢查|審查|巡檢|看)?\s*(?:小孩|孩子|兒童)\s*(?:頻道)?\s*(?:留言|評論)/g, ' 孩子 留言 審查 ').replace(/(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)\s*留言\s*(?:過濾|巡檢|清理|審查)?/g, ' 留言 審查 ').replace(/(?:可疑|惡意|不當|不良|垃圾|詐騙)\s*留言\s*(?:過濾|巡檢|清理|審查)?/g, ' 留言 審查 ').replace(/留言\s*(?:安全)?\s*(?:審查|巡檢|過濾)/g, ' 留言 審查 ').replace(/zillow\s*(?:買房|看房|找房)?\s*(?:過濾|篩選)?/g, ' zillow 買房 篩選 ').replace(/(?:兩關)\s*(?:過濾|篩選)/g, ' 篩選 ').replace(/買房\s*(?:兩關)?\s*(?:過濾|篩選)/g, ' 買房 篩選 ').replace(/(?:房源|看房|房屋)\s*(?:篩選|過濾)/g, ' 買房 篩選 ').replace(/(?:房源|看房|房屋|找房|買房)\s*(?:篩選|過濾|交接)?\s*(?:給)?\s*房仲/g, ' 買房 篩選 房仲 ').replace(/(?:買房|看房|找房)\s*(?:下班|尖峰)?\s*通勤(?:\s*時間)?(?:\s*(?:與|和|及)\s*學區)?/g, ' 買房 通勤時間 學區 ').replace(/(?:下班|尖峰)\s*通勤(?:\s*時間)?\s*(?:與|和|及)\s*學區/g, ' 通勤時間 學區 ').replace(/(?:下班|尖峰)\s*通勤(?:\s*時間)?/g, ' 通勤時間 ').replace(/通勤(?:\s*時間)?\s*(?:與|和|及)\s*學區/g, ' 通勤時間 學區 ').replace(/(?:買房|看房|找房)\s*學區(?:\s*(?:篩選|過濾))?/g, ' 買房 學區 篩選 ').replace(/(?:交屋)?\s*(?:前後)?\s*(?:整修|修繕|維護)\s*(?:成本|費用|費)(?:\s*(?:預估|估算|評估|預計))?/g, ' 整修 費用 ').replace(/(?:買房|看房|找房)\s*(?:依|按)?\s*(?:預算|價格)(?:\s*上限)?(?:\s*(?:下班|尖峰)?\s*(?:通勤|通勤時間))?(?:\s*(?:與|和|及)?\s*學區)?(?:\s*(?:過濾|篩選))?/g, ' 買房 預算 學區 篩選 ').replace(/dots\s*(?:官網)?\s*詢問信/g, ' dots 詢問信 ').replace(/(?:詢問信|諮詢信|客戶信件|來信)\s*(?:寫入|記進|記錄|登記|登錄|整理)?\s*(?:notion\s*)?(?:台帳|清單|表格|表|受理表)\s*(?:與|和|及)?\s*(?:回信)?\s*(?:草稿|回覆)/g, ' 詢問信 notion 台帳 草稿 ').replace(/詢問信\s*(?:草稿|回覆|回信)/g, ' 詢問信 草稿 ').replace(/(?:dots)?\s*(?:google)?\s*(?:行事曆|日曆)\s*(?:找|查)\s*(?:空檔|候選日)?(?:\s*(?:擬|寫|存)?\s*(?:回信|草稿|回覆)+)?/g, ' dots 日曆 找空檔 草稿 ').replace(/(?:notion\s*)?(?:受理表|台帳)\s*(?:找|查)?\s*(?:google)?\s*(?:行事曆|日曆|空檔|候選日)(?:\s*(?:找|查)?\s*(?:空檔|候選日))?(?:\s*(?:存|寫|擬|儲存)?\s*(?:回信)?\s*(?:草稿|回覆))?/g, ' notion 台帳 行事曆 空檔 草稿 ').replace(/(?:notion)?\s*(?:受理表|台帳)\s*(?:回信)?\s*(?:草稿|回覆)/g, ' notion 台帳 草稿 ').replace(/(?:找|查)?\s*(?:google)?\s*(?:行事曆|日曆)\s*(?:找|查)?\s*(?:空檔|候選日|時間)/g, ' 行事曆 找空檔 ').replace(/(?:客戶\s*來信|客戶|來信)\s*(?:想約|約)\s*(?:時間|會面|會議)(?:\s*(?:存|寫|擬)?\s*(?:gmail)?\s*(?:回信|草稿|回覆)+)?/g, ' 客戶 來信 約時間 草稿 ').replace(/主管\s*(?:平日|工作日)?\s*(?:晨報|日報)\s*(?:公開)?\s*(?:新聞|情報|資訊)\s*(?:分流|分工|分派)/g, ' 主管 晨報 公開 新聞 分流 ').replace(/主管\s*(?:平日|工作日)?\s*(?:晨報|日報)\s*(?:分工)?/g, ' 主管 晨報 分工 ').replace(/(?:內網|內部)\s*(?:信件|郵件|公文|資料)?\s*(?:與|和)?\s*(?:外部|公開)\s*(?:新聞|情報|資訊|資料)?\s*(?:分流|分工|分派)?/g, ' 晨報 內部 郵件 公開 新聞 分流 ').replace(/晨報\s*分工(?:\s*(?:與|和|及)?\s*notion\s*(?:日報|台帳)?)?/g, ' 晨報 分工 notion ').replace(/dots\s*(?:讀|看)?\s*內部\s*(?:信件|郵件|行程)?/g, ' dots 內部 郵件 ').replace(/(?:grok\s*bot|bot)\s*(?:收|抓|整理)?\s*公開\s*(?:新聞|情報|訊息)?/g, ' grok bot 公開 新聞 ').replace(/hetzner\s*(?:雲主機|主機|伺服器)?\s*(?:補貨|查貨|有貨|候補)?/g, ' hetzner 補貨 ').replace(/(?:雲主機|主機|伺服器)\s*(?:售完|缺貨)?\s*(?:補貨|查貨|候補)\s*(?:下單|購買)?/g, ' 主機 補貨 ').replace(/售完\s*(?:候補|查貨|監看)/g, ' 售完 候補 ').replace(/(?:雲主機|主機|伺服器)?\s*售完\s*(?:每\s*\d+\s*分鐘)?\s*(?:查貨|候補|監看)/g, ' 主機 售完 候補 ').replace(/(?:hetzner)?\s*(?:雲主機|主機|伺服器)?\s*(?:售完|缺貨)\s*(?:候補|補貨|查貨)?\s*(?:自動)?\s*(?:下單|下訂|購買|自動購買)/g, ' hetzner 主機 售完 候補 購買 ').replace(/(?:clawcall|claw call)\s*(?:電話|語音)?\s*(?:訂位|預約)?/g, ' clawcall 電話訂位 ').replace(/(?:電話|語音)\s*(?:訂位|預約)\s*(?:bot|機器人|代理)?/g, ' 電話訂位 bot ').replace(/(?:電話|語音)\s*(?:代訂|訂位|預約)/g, ' 電話訂位 ').replace(/t-mobile\s*(?:悄悄)?\s*(?:漲價|調高|調漲|加價)/g, ' t-mobile 漲價 ').replace(/t-mobile\s*(?:帳單|帳戶)?\s*(?:抵免|減免)/g, ' t-mobile 抵免 ').replace(/siriusxm\s*(?:線上|聊天)?\s*(?:議價|降費|協商|談判)?/g, ' siriusxm 議價 ').replace(/(?:線上|即時)?\s*聊天\s*(?:客服)?\s*議價/g, ' 聊天 議價 ').replace(/(?:帳單|月費|費用)\s*(?:漲價|調高|調漲|加價)/g, ' 帳單 漲價 ').replace(/(?:司機|駕駛)\s*(?:對|核對|核算)?\s*(?:薪資單|薪水|薪資)/g, ' 司機 薪資單 核對 ').replace(/(?:月底|發薪|發薪日)?\s*(?:核對|對|算)\s*(?:薪水|薪資|薪酬)/g, ' 薪資 核對 ').replace(/工時\s*(?:核算|算|計算)?\s*(?:薪水|薪資)/g, ' 工時 薪資 ').replace(/(?:過期|過時|逾期|失效)\s*(?:任務|工作|指示|待辦)\s*(?:重送|重新發送|補發)?/g, ' 過期 任務 重送 ').replace(/(?:待辦|交辦)\s*(?:任務|工作)?\s*(?:過期|逾期|失效)/g, ' 過期 任務 ').replace(/(?:重新|補)\s*發送/g, ' 重送 ').replace(/(?:工具呼叫|工具調用|工具使用)?\s*(?:實際)?\s*回應\s*(?:分存)?\s*(?:隔離|檢疫|封裝)/g, ' 工具 回應 隔離 ').replace(/回應\s*隔離/g, ' 回應 隔離 ').replace(/(?:已)?\s*封存\s*(?:任務|工作)?\s*(?:狀態)?\s*(?:矛盾|衝突|不一致)/g, ' 封存 任務 狀態 矛盾 ').replace(/(?:任務|狀態|執行)\s*(?:矛盾|衝突|不一致)/g, ' 狀態 矛盾 ').replace(/(?:每天|每日)\s*(?:早上|早晨|清晨)?\s*(?:自動)?\s*(?:各)?\s*(?:列印|印出|打印|印)/g, ' 每天 早上 列印 ').replace(/(?:每天)?\s*(?:早上|早晨|清晨)\s*(?:自動)?\s*(?:列印|印出|打印)/g, ' 早上 列印 ').replace(/(?:每天)?\s*早上\s*(?:吐出)?\s*(?:今天的)?\s*著色(?:頁|本|畫)?/g, ' 早上 著色頁 ').replace(/(?:(?:家用|家裡|家中)\s*印表機|印表機\s*著色)/g, ' 家用 印表機 著色 ').replace(/印表機\s*(?:列印|印出|打印)/g, ' 印表機 列印 ').replace(/(?:印表機|印機)\s*(?:列印|印出|印)?\s*(?:黑白|粗線條)?\s*線稿/g, ' 家用 印表機 線稿 ').replace(/(?:(?:黑白|粗線條)\s*線稿|線稿\s*(?:著色|列印))/g, ' 黑白 線稿 著色 ').replace(/(?:獨角獸|小仙子|城堡)\s*(?:線稿|著色)/g, ' 獨角獸 線稿 ').replace(/(?:國外|海外)?\s*(?:車輛|汽車)?\s*(?:拋錨|故障)\s*(?:求援|求助|救援)/g, ' 拋錨 救援 ').replace(/(?:高速公路|公路)\s*(?:車子|車輛|汽車)\s*(?:拋錨|故障|壞掉)(?:\s*(?:找)?\s*(?:拖吊|拖車|救援))?/g, ' 高速公路 車子 拋錨 拖吊 ').replace(/(?:看不懂|聽不懂)\s*(?:德文|德語|當地語言|外語)(?:\s*(?:填|寫)?\s*(?:找)?\s*(?:救援|求助|申請表|表單))?/g, ' 德文 語言 救援 表單 ').replace(/(?:國外|海外|境外|自駕|租車|車輛|汽車|車子)\s*(?:車輛|汽車|車子)?\s*(?:拋錨|故障|壞掉)(?:\s*(?:找)?\s*(?:拖吊|拖車|求援|求助|救援))*/g, ' 拋錨 救援 拖吊 ').replace(/(?:國外|海外|境外)?\s*(?:自駕)?\s*道路\s*救援/g, ' 道路救援 ').replace(/(?:國外|海外)?\s*(?:修車|車輛救援|保險救援)\s*(?:申請表|表單)/g, ' 救援 表單 ').replace(/(?:德文|德語)\s*(?:語音\s*(?:聽不懂|不通)?|(?:聽不懂|不通))/g, ' 德文 語言 ').replace(/道路\s*救援\s*(?:申請表|申請|表單)/g, ' 道路救援 救援 表單 ').replace(/(?:救援|求援|求助)\s*(?:申請表|表單)/g, ' 救援 表單 ').replace(/(?:45\s*分鐘|長\s*時間|超時|逾時|很久|遲遲)\s*(?:沒更新|未更新|停滯|卡住)/g, ' 停滯 ').replace(/(?:程式代理|代碼代理|編程代理)\s*(?:跑完|做完|結束|卡住|停滯)(?:\s*(?:沒|了沒))?/g, ' 程式代理 工作階段 ').replace(/(?:claude\s*code|codex|t3\s*code)\s*(?:跑完|做完|結束)/g, ' claude code 工作階段 ').replace(/(?:客廳|電視|tv)?\s*(?:自製)?\s*(?:常亮|待機)\s*(?:螢幕|看板|顯示|首頁)/g, ' 電視 常亮 看板 ').replace(/(?:抓|查詢|抓取|看|查|查看|顯示|追蹤)\s*(?:女兒|孩子|小孩|學生)?\s*(?:各科)?\s*成績/g, ' 成績 ').replace(/(?:成績|各科成績)\s*(?:與|和|及)\s*(?:缺交作業|缺交|作業)/g, ' 成績 缺交作業 ').replace(/(?:學校)?\s*缺交\s*(?:作業|功課|課業)/g, ' 缺交作業 ').replace(/(?:電視\s*(?:去廣告|免廣告|關掉廣告|去除廣告)|(?:關掉|去除|去|免)\s*(?:電視)?\s*廣告)/g, ' 電視 去廣告 ').replace(/\besp(?:\s*系列)?\s*(?:圓形(?:\s*(?:螢幕|裝置|終端))?|(?:螢幕|裝置|終端))/g, ' esp 圓形 螢幕 ').replace(/語音\s*終端\s*(?:中繼)?/g, ' 語音 終端 中繼 ').replace(/(?:(?:過濾|巡檢|審查|檢查|清理)\s*(?:小孩|孩子|兒童)\s*(?:的)?\s*(?:youtube)?\s*(?:頻道)?\s*(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)?\s*(?:留言|評論)?|(?:小孩|孩子|兒童)\s*(?:的)?\s*(?:youtube)?\s*頻道\s*(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)\s*(?:留言|評論)?)/g, ' 孩子 youtube 留言 審查 ').replace(/(?:交給|交|轉交|轉給)\s*(?:房仲|仲介|經紀人)/g, ' 房仲 ').replace(/(?:交|留|寄|存|送|印|推|寫|分|賣)?\s*給\s*(小孩|孩子|兒童|幼兒|小童|幼童)/g, ' $1 ').replace(/(?:每天|每日)\s*(?:自動)?\s*(?:列印|印出|打印|印)\s*(?:著色頁|著色本|著色畫|線稿)/g, ' 每天 著色頁 列印 ').replace(/(?:調閱|申請|調|取得|索取)?\s*(?:房屋|屋況)\s*揭露\s*(?:文件|資料|報告|表)?/g, ' 揭露文件 ').replace(/(?:調閱|申請|調|取得|索取)\s*揭露\s*(?:文件|資料|報告|表)?/g, ' 揭露文件 ').replace(/(?:幼兒|幼童|小童|兒童|孩子|小孩)\s*(?:著色|塗色|填色)(?:頁|本|畫)?(?:\s*線稿)?/g, ' 兒童著色 線稿 ').replace(/(?:詢問信|諮詢信|客戶信件|來信)\s*(?:寫入|記進|記錄|登記|整理)?\s*(?:notion)?\s*(?:台帳|清單|表格|表)/g, ' 詢問信 notion 台帳 ').replace(/(?:查|找)\s*(?:google)?\s*(?:行事曆|日曆)?\s*(?:候選)?\s*(?:空檔|時間)\s*(?:回信)?\s*(?:草稿|回覆)/g, ' 行事曆 找空檔 草稿 ').replace(/(?:內網|內部)\s*(?:信件|郵件|公文)\s*(?:交|給)?\s*dots/g, ' dots 內部 郵件 ').replace(/(?:公開)?\s*(?:新聞|情報|資訊)\s*(?:交|給)\s*(?:grok(?:\s*bot)?)/g, ' grok bot 公開 新聞 ').replace(/(?:claude\s*code|t3\s*code|codex|程式代理|代碼代理)\s*(?:停滯|卡住|卡死|超時|逾時)\s*(?:webhook)?/g, ' 程式代理 停滯 webhook ').replace(/ads\s*[- ]?\s*b\s*(?:接收站|接收機)?\s*雙頻\s*(?:輪收)?/g, ' ads-b 接收站 雙頻 ').replace(/(?:1090\s*mhz|978\s*mhz)\s*(?:天線)?\s*(?:量測|量度|測試|對照|量測前後)/g, ' 1090mhz 天線 量測 ').replace(/手動\s*(?:重新)?\s*(?:開啟|啟用)\s*(?:的)?\s*排程\s*(?:被)?\s*(?:關掉|關回|停用)/g, ' 手動 排程 關掉 ').replace(/(?:掌上型|手持)\s*(?:圓屏)?\s*(?:裝置)?\s*(?:經|用)?\s*語音\s*(?:入口|終端)/g, ' 掌上型 語音 終端 ').replace(/(?:跨產品|跨系統)\s*(?:舊|過期|失效)\s*交辦\s*(?:重送|重新發送)?/g, ' 跨產品 過期 任務 重送 ').replace(/(?:智慧|智能)\s*開關\s*(?:分層)?\s*排障/g, ' 開關 排障 ').replace(/(?:未支援|不支援)\s*(?:設備|裝置|家電)\s*(?:配對成功)?\s*(?:不能動|無法動作|無法控制)/g, ' 未支援 設備 排障 ').replace(/網購\s*(?:未送達|沒收到)\s*(?:催退|追查退款|催促退款)\s*(?:入帳)?/g, ' 網購 退款 物流 ').replace(/(?:x|twitter|推特)\s*(?:營運)?\s*(?:發文|貼文)\s*(?:前)?\s*(?:人工)?\s*(?:關卡|閘門|核准)/g, ' x 發文 核准 ').replace(/notion\s*跨代理\s*(?:外聯)?\s*(?:記憶|外部記憶)/g, ' notion 跨代理 外聯 記憶 ').replace(/(?:額度|token)\s*(?:燒太快|不夠用?|用太兇|不夠|消耗過快)/g, ' 額度 用量 ').replace(/分層\s*派工/g, ' 分層 派工 ').replace(/(?:只負責|只做|負責)?\s*(?:調度|派工)\s*(?:重活|繁重工作|執行層)?/g, ' 調度 重活 ').replace(/(?:重活|繁重工作)\s*(?:交給|外置|外包)?\s*(?:雲端電腦|外部代理|免費模型)?/g, ' 重活 雲端電腦 ').replace(/(?:免費|低價|開源|付費|外部)\s*模型\s*(?:代理|保底)?/g, ' 免費模型 代理 ').replace(/外部\s*代理\s*(?:保底|備援)?/g, ' 外部代理 保底 ').replace(/(?:讀|看)\s*(?:你的|我的|自己的)?\s*flomo/g, ' 讀 flomo ').replace(/(?:舊|歷史|過去)\s*筆記\s*(?:回顧|復盤|反思)?/g, ' 舊筆記 回顧 ').replace(/洞察\s*(?:角度|觀點|視角)\s*(?:推送|推播|發送)?/g, ' 洞察角度 推送 ').replace(/(?:推送|推播|發送)\s*(?:一則\s*)?(?:舊筆記|筆記)?\s*(?:回顧|反思)/g, ' 推送 回顧 ').replace(/洞察\s*(?:模板|範本)\s*(?:輪換|輪流|更換)?/g, ' 洞察 模板 輪換 ').replace(/(?:通勤|上下班)?\s*(?:地鐵|捷運|公車|電車)\s*(?:上)?\s*(?:讀|看)(?:筆記)?/g, ' 地鐵 筆記 ').replace(/(?:義大利|歐洲|海外)?\s*(?:網站|電商)?\s*(?:特價|折扣)?\s*攀岩鞋(?:\s*(?:比價|特價|折扣|進口稅|關稅))?(?:\s*(?:省(?:了|約)?\s*(?:[\$\d]+|幾十|數十)?\s*(?:美元|美金|元|塊)?))?/g, ' 義大利 攀岩鞋 特價 比價 ').replace(/攀岩鞋\s*(?:特價|折扣|便宜)/g, ' 攀岩鞋 特價 ').replace(/攀岩鞋\s*(?:進口稅|關稅|稅費|運費)/g, ' 攀岩鞋 進口稅 ').replace(/(?:饒舌|rap|說唱)\s*(?:講解|說明|教學)?\s*(?:影片|視頻)/g, ' 饒舌 講解 影片 ').replace(/(?:押韻|押韻的)?\s*歌詞\s*(?:樣片|demo)?/g, ' 押韻 歌詞 樣片 ').replace(/(?:vpn)?\s*tun\s*模式/g, ' vpn tun 模式 ').replace(/用量\s*(?:csv|報表|數據)\s*(?:分析|匯出)?/g, ' 用量 csv 分析 ').replace(/用量\s*(?:事件|明細)\s*表/g, ' 用量 事件表 ').replace(/收尾\s*(?:回報|總結|報告)\s*(?:用量)?/g, ' 收尾 回報 用量 ').replace(/(?:回收|二手|循環)\s*門號(?:\s*(?:前持有人|前主人|原持有人))?/g, ' 回收門號 前持有人 ').replace(/(?:收到|接到)?\s*前持有人\s*(?:的)?\s*(?:簡訊|訊息|電話|通知)/g, ' 前持有人 訊息 ').replace(/(?:門號|號碼)\s*(?:仲介站|資料仲介|經紀站)\s*(?:列名|資料)?/g, ' 門號 仲介站 列名 ').replace(/(?:門號|電信)?\s*客服\s*(?:聊天|對話)\s*(?:送不出|發不出|卡住)/g, ' 門號 客服聊天 送不出 ').replace(/([\u4e00-\u9fa5]{2,})(?:與|和|及|跟)([\u4e00-\u9fa5]{2,})/g, ' $1 $2 ').replace(/(?:^|\s+)(?:與|和|及|跟)(?:\s+|$)/g, ' ').replace(/(?:^|\s+)(?:與|和|及|跟)(?=[\u4e00-\u9fa5]{2,})/g, ' ').replace(/([\u4e00-\u9fa5]{2,})(?:與|和|及|跟)(?:\s+|$)/g, '$1 ').replace(/\ba\s*[/_-]?\s*b\s*[- ]\s*tests?(?:ing)?\b/gi, ' ab-test ').replace(/\ba\s*[/_-]?\s*b\s*(?:測試|試驗|檢定)/g, ' ab-test ').replace(/\bab\s*(?:測試|試驗)/g, ' ab-test ').replace(/前後\s*(?:對照|比較)/g, ' ab-test ').replace(/\bre\s*[- ]\s*(?:starts?|boots?)(?:ing)?\b/gi, ' restart ').replace(/(?:已)?\s*封存\s*(?:任務|工作)?\s*(?:收到新交辦後)?\s*(?:被)?\s*(?:重新)?\s*啟動/g, ' 封存 任務 啟動 ').replace(/(?:被)?\s*重新\s*(?:啟動|開啟|拉起)/g, ' 重新啟動 ').replace(/多代理\s*(?:對話鏈)?\s*重啟/g, ' 多代理 重啟 ').replace(/對話鏈\s*重啟/g, ' 對話鏈 重啟 ').replace(/排程\s*(?:被)?\s*(?:舊|過時|過期)\s*(?:指示|約定|規則)\s*(?:關掉|關閉|停用)/g, ' 手動 排程 關掉 過期 指示 ').replace(/(?:舊|過時|過期)\s*(?:指示|約定|規則)\s*(?:關掉|關閉|停用)/g, ' 過期 指示 關掉 ').replace(/(模型輸出|工具回應|工具實際回應|分開儲存|分存)\s*(?:驗收|查驗)/g, ' $1 驗收 ').replace(/分開\s*儲存/g, ' 分開儲存 ').replace(/(?:客廳|常亮|待機)?\s*螢幕\s*(?:顯示|查看|看|查)\s*(?:女兒|孩子|小孩|學生)?\s*成績/g, ' 客廳 電視 常亮 看板 成績 ').replace(/客廳\s*(?:常亮)?\s*螢幕/g, ' 客廳 電視 常亮 看板 ').replace(/(?:兒童|小孩|孩子)\s*(?:影片|視頻)/g, ' 兒童 影片 ').replace(/(?:詢問信|諮詢信|客戶信件)\s*(?:受理表|台帳|清單)/g, ' 詢問信 台帳 ').replace(/(?:客戶\s*來信|客戶|來信)\s*(?:想約|約)?\s*(?:時間|會面|會議)?\s*(?:存|寫|擬)?\s*(?:gmail)?\s*(?:回信|草稿|回覆)+/g, ' 客戶 來信 草稿 ').replace(/分流\s*(?:處理|機制)/g, ' 分流 ').replace(/雲端電腦\s*(?:跑|執行|運行)/g, ' 雲端電腦 ').replace(/(?:每日|每天)\s*筆記\s*(?:回顧|反思)?/g, ' 每日 筆記 回顧 ').replace(/筆記\s*洞察/g, ' 筆記 洞察 ').replace(/筆記\s*回顧/g, ' 筆記 回顧 ').replace(/模板\s*輪換/g, ' 模板 輪換 ').replace(/vpn\s*(?:tun\s*模式)?\s*(?:連線排障|連線錯誤|連線|排障|除錯)/g, ' vpn 連線錯誤 ').replace(/(?:連線|網絡連線|網路連線)\s*(?:被關閉|中斷|被拒|失敗|排障|錯誤)/g, ' 連線錯誤 ').replace(/(?:義大利|歐洲|海外)\s*(?:網站|電商)?\s*(?:特價|折扣|比價)/g, ' 義大利 特價 比價 ').replace(/進口\s*關稅/g, ' 進口關稅 ').replace(/(?:前號主|原號主|舊號主|前持有人|原持有人)\s*(?:的)?\s*(?:簡訊|短信|訊息|通知)/g, ' 前持有人 簡訊 ').replace(/(?:主\s*bot|主代理)\s*(?:分析|核算)\s*(?:用量|消耗|額度)/g, ' 主 bot 分析 用量 ').replace(/分析\s*(?:用量|消耗|額度)/g, ' 分析 用量 ').replace(/(?:長工作|長對話)\s*(?:撞到?|碰|達到)?\s*(?:上下文)?\s*上限/g, ' 長工作 context-window ').replace(/(?:精簡|簡化)\s*(?:排程|例行任務)/g, ' 精簡 排程 ').replace(/(?:沒變化|無變化|無變動|沒變動)\s*(?:就)?\s*(?:不送|不發|不通知|不推送|不回報)/g, ' 沒變化 不送 ').replace(/flomo\s*(?:每日|每天)?\s*(?:兩次)?\s*(?:ai)?\s*洞察/g, ' flomo 每日 洞察 ').replace(/flomo\s*筆記\s*(?:模板)?\s*輪換/g, ' flomo 筆記 模板 輪換 ').replace(/(?:道路)?\s*救援\s*(?:德文|德語)\s*(?:申請表|表單)/g, ' 德文 救援 表單 ').replace(/(?:德文|德語)\s*(?:道路)?\s*救援(?:\s*(?:申請表|表單))?/g, ' 德文 救援 表單 ').replace(/(?:常亮|待機)?\s*螢幕\s*(?:顯示|看|查)\s*(?:女兒|孩子|小孩)?\s*(?:缺交)?\s*作業/g, ' 電視 常亮 看板 缺交作業 ').replace(/電視\s*首頁\s*(?:看|查|顯示)?\s*(?:女兒|孩子)?\s*成績/g, ' 電視 常亮 看板 成績 ').replace(/(?:買房|看房|找房)\s*(?:找)?\s*房仲\s*(?:調|調閱|取得)?\s*揭露(?:\s*文件)?/g, ' 買房 房仲 揭露文件 ').replace(/notion\s*(?:受理表|台帳)\s*(?:存|寫|擬)?\s*(?:回信)?\s*(?:草稿|回覆)/g, ' notion 台帳 草稿 ').replace(/詢問信\s*(?:找|查)?\s*(?:空檔|時間)\s*(?:回信|回覆)?/g, ' 詢問信 行事曆 找空檔 草稿 ').replace(/內外\s*(?:情報|資訊|新聞)?\s*(?:分流|分工|分派)?/g, ' 內部 公開 分流 ').replace(/(?:反爬蟲|爬蟲被擋|防爬|反爬|擋爬蟲|擋代理|擋機器人)/g, ' 反爬蟲 ').replace(/(?:suno|ai)?\s*(?:生成音樂|音樂生成|配樂生成|自動配樂)/g, ' suno 音樂生成 ').replace(/(俄文|俄語|日文|日語|中文|英文|德文|德語|西文|法文|韓文)\s*作者/g, ' $1 作者 ').replace(/(?:啟動|重新啟動)\s*(?:已)?\s*封存(?:\s*(?:任務|工作))?/g, ' 啟動 封存 任務 ').replace(/(?:小孩|孩子|兒童)\s*(?:早上|早晨|清晨)/g, ' 孩子 早上 ').replace(/(?:早上|早晨|清晨)\s*(?:自動)?\s*(?:各)?\s*(?:列印|印出|打印|印)/g, ' 早上 列印 ').replace(/(?:列印|印出|打印|印)\s*(?:著色頁|著色本|著色畫|線稿)/g, ' 列印 著色頁 ').replace(/(?:德文|德語)\s*保險/g, ' 德文 保險 ').replace(/(?:德文|德語)\s*(?:保險)?\s*(?:救援)?\s*(?:申請表|表單)/g, ' 德文 保險 救援 表單 ').replace(/保險\s*(?:道路)?\s*救援/g, ' 保險 道路救援 ').replace(/(?:找|叫|聯絡)?\s*(?:拖吊|拖車)/g, ' 拖吊 ').replace(/(?:修車|車輛救援|保險救援)\s*(?:申請表|表單)/g, ' 救援 表單 ').replace(/(?:自製)?\s*(?:電視|tv)\s*(?:首頁|待機首頁)/g, ' 電視 首頁 ').replace(/(?:首頁|看板)\s*(?:查|看|顯示)?\s*(?:缺交)?\s*作業/g, ' 首頁 缺交作業 ').replace(/(?:女兒|孩子|小孩)?\s*(?:各科)?\s*成績\s*(?:看板|顯示)/g, ' 成績 看板 ').replace(/(?:各科)?\s*成績/g, ' 成績 ').replace(/(?:出發|出門)\s*(?:前)?\s*(?:充電|充飽電|充滿電|充滿|充到滿|滿充|充飽)/g, ' 出發 充電 ').replace(/(?:出發|出門)\s*前/g, ' 出發 ').replace(/(?:充飽電|充滿電|充滿|充到滿|滿充|充飽)/g, ' 充電 ').replace(/安全性?\s*(?:審查|巡檢|審核|檢查)/g, ' 安全 審查 ').replace(/(?:房屋|買房|交屋)?\s*(?:前後)?\s*(?:整修|修繕|維護)\s*(?:費用|成本|費)(?:\s*(?:預估|估算|評估|預計))?/g, ' 買房 整修 費用 ').replace(/買房\s*(?:找)?\s*物件/g, ' 買房 找房 ').replace(/(?:詢問信|諮詢信|客戶信件|來信)\s*(?:記進|寫入|登記|登錄|記錄|存入)/g, ' 詢問信 ').replace(/notion\s*(?:受理表|台帳|表格|清單|表)/g, ' notion 受理表 ').replace(/(?:資料|資訊)\s*分級(?:\s*(?:晨報|日報|報告))?/g, ' 資料分級 晨報 ').replace(/(?:備援|備用|付費)?\s*保底/g, ' 保底 ').replace(/分層\s*派工(?:\s*省額度)?/g, ' 分層 派工 額度 ').replace(/筆記\s*反思(?:\s*對話)?/g, ' 筆記 反思 對話 ').replace(/(?:含|加上|計入|算入)?\s*(?:進口關稅|進口稅|關稅|稅費)/g, ' 進口關稅 ').replace(/連線錯誤\s*(?:排障|除錯|排錯|修復)/g, ' 連線錯誤 排障 ').replace(/(?:小朋友|小孩|孩子|兒童)\s*(?:頻道)?\s*(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)?\s*留言(?:\s*安全性?)?/g, ' 孩子 youtube 留言 審查 安全 ').replace(/(?:每天|每日)\s*定時\s*(?:列印|印出|打印|印)/g, ' 每天 定時 列印 ').replace(/(?:交給|交|轉交|轉給|交接給)\s*(?:房仲|仲介|經紀人)/g, ' 交接 房仲 ').replace(/(?:詢問信|諮詢信|客戶信件|來信)\s*(?:自動)?\s*(?:記進|寫入|登記|登錄|記錄|存入)/g, ' 詢問信 ').replace(/(?:notion\s*)?(?:受理表|台帳)\s*(?:擬|寫|存|儲存)?\s*(?:回信)?\s*(?:草稿|回覆)/g, ' notion 台帳 草稿 ').replace(/(?:行事曆|日曆)\s*(?:回信)?\s*(?:草稿|回覆)/g, ' 日曆 草稿 ').replace(/(?:grok\s*bot|bot)?\s*(?:抓|收)\s*新聞/g, ' grok bot 新聞 ').replace(/(?:每天|每日)\s*(?:早上|早晨)?\s*(?:推(?!薦)|發送|推送)(?:一則)?/g, ' 每天 早上 推送 ').replace(/雙頻\s*(?:輪收)?\s*(?:天線)?\s*(?:量測|測量)/g, ' 雙頻 天線 量測 ').replace(/雙頻\s*解碼/g, ' 雙頻 解碼 ').replace(/手動\s*(?:重新)?\s*(?:重開|啟動|開啟|啟用)\s*(?:的)?\s*排程\s*(?:被)?\s*(?:關閉|關掉|關回|停用)/g, ' 手動 排程 關掉 ').replace(/(?:掌上型|手持)\s*(?:終端)?\s*語音\s*(?:助手|終端)/g, ' 掌上型 語音 終端 助手 ').replace(/(?:每日|每天)\s*隨機\s*(?:挑|選)?\s*(?:不重複)?\s*(?:參考照|照片|相片)?\s*(?:換臉|替換臉)/g, ' 每日 隨機 參考照 換臉 ').replace(/工時表\s*(?:對帳|核帳|核算)/g, ' 工時 對帳 ').replace(/對發薪日薪水/g, ' 發薪 薪水 ').replace(/(?:跨產品|跨系統)\s*(?:舊|過時|過期|失效)\s*交辦/g, ' 跨產品 過期 任務 重送 ').replace(/(?:新|舊)?\s*(?:新有授權|新授權|有授權)\s*交辦/g, ' 交辦 任務 ').replace(/(?:找|聯絡)?\s*房仲\s*(?:調|調閱)?\s*(?:屋況說明書|屋況|不動產說明書)/g, ' 房仲 揭露文件 ').replace(/翻新\s*費用\s*預算(?:\s*上限)?/g, ' 翻新 費用 預算 ').replace(/(?:兩張|一張|一份)\s*(?:填色本|著色頁|著色本|著色畫|線稿)/g, ' 著色頁 ').replace(/(?:優質|好)?\s*學區/g, ' 學區 ').replace(/小朋友/g, ' 小孩 ').replace(/粗線條/g, ' 粗線條 ').replace(/(?:匯出|導出)(?:\s*給)?/g, ' 匯出 ').replace(/(?:仲介站|資料仲介|經紀站)\s*(?:列名|資料)?(?:\s*(?:被擋|被封|被拒))?/g, ' 仲介站 列名 反爬蟲 ').replace(/(?:私有)?\s*git\s*(?:任務檔|任務單|任務)?\s*(?:交接|交辦)/g, ' 私有 git 任務 交接 ').replace(/(?:雲端)?\s*(?:不對|不讓|禁止|不傳|不能)\s*(?:本機|本地|自己電腦|你的電腦)?\s*(?:下|直接下|傳|發)?\s*(?:命令|指令)/g, ' 雲端 本機 命令 ').replace(/(?:私有)?\s*(?:git)?\s*倉庫\s*(?:放|存|列|管)?\s*(?:任務單|任務檔|任務)/g, ' 私有 倉庫 任務 ').replace(/(?:不讓|禁止|避免)\s*雲端\s*(?:直接)?\s*(?:控制|遠端控制|操作)\s*(?:電腦|本機|本地)/g, ' 雲端 控制 電腦 ').replace(/(?:mac)?\s*launchd\s*(?:計時器)?\s*(?:拉取|拉檔|抓取)?\s*(?:任務)?/g, ' mac launchd 計時器 拉取 任務 ').replace(/跨代理\s*(?:任務)?\s*(?:交接|交辦)\s*(?:權限)?\s*(?:隔離|邊界)/g, ' 跨代理 任務 交接 權限 隔離 ').replace(/agent\s*relay\s*(?:私有)?\s*(?:倉庫|repo)?/g, ' agent relay 私有 倉庫 ').replace(/任務檔\s*(?:交接|交辦)/g, ' 任務 交接 ').replace(/(?:每天|每日)\s*(?:早上|早晨)?\s*(?:從)?\s*書籤\s*(?:挑|選)?\s*(?:一個)?\s*(?:點子)?\s*(?:做|做成|製作)?\s*demo/g, ' 每天 書籤 點子 demo ').replace(/書籤\s*(?:做成|轉成|做)?\s*(?:可)?\s*互動\s*(?:網頁)?\s*(?:小實驗|demo)?/g, ' 書籤 互動 網頁 小實驗 ').replace(/(?:每日|每天)\s*書籤\s*(?:可)?\s*互動\s*demo/g, ' 每日 書籤 互動 demo ').replace(/量子漣漪槽\s*(?:小實驗|demo)?/g, ' 量子漣漪槽 小實驗 ').replace(/瀏覽器\s*(?:實測|測試|檢查)\s*(?:後)?\s*(?:部署|發布|上線)\s*cloudflare/g, ' 瀏覽器 實測 部署 cloudflare ').replace(/(?:每天|每日)\s*(?:挑|選)\s*(?:一則|一個)\s*書籤\s*(?:做)?\s*(?:小實驗|demo)/g, ' 每天 書籤 小實驗 ').replace(/(?:x|推特|twitter)\s*發文\s*教練\s*bot/g, ' x 發文 教練 bot ').replace(/(?:督促|督導)\s*(?:在\s*x\s*)?(?:發|寫)?\s*原創\s*(?:內容)?\s*(?:的)?\s*教練/g, ' 督促 原創 教練 ').replace(/(?:每天|每日)\s*(?:盤點)?\s*原創\s*(?:與|和)?\s*轉發/g, ' 每天 盤點 原創 轉發 ').replace(/bot\s*(?:當|做)?\s*教練\s*(?:給)?\s*(?:明天|隔天)?\s*(?:的)?\s*(?:具體)?\s*功課/g, ' bot 教練 功課 ').replace(/轉發機器\s*(?:社群)?\s*教練/g, ' 轉發機器 社群 教練 ').replace(/(?:兩週|2週)\s*(?:社群)?\s*(?:發文)?\s*數據\s*(?:檢討|分析|復盤)/g, ' 兩週 數據 檢討 ').replace(/付費\s*(?:訂閱)?\s*文章\s*(?:用)?\s*瀏覽器\s*(?:側欄|側邊欄)\s*(?:送給|交給)?\s*bot/g, ' 付費 文章 瀏覽器 側欄 bot ').replace(/付費\s*訂閱\s*文章\s*(?:對照|比對)\s*(?:自己的)?\s*持股\s*(?:清單)?/g, ' 付費 訂閱 文章 對照 持股 清單 ').replace(/grok\s*bot\s*clipper\s*(?:剪藏)?/g, ' grok bot clipper 剪藏 ').replace(/付費\s*(?:投資)?\s*電子報\s*(?:投資組合|持股)?\s*(?:對照|比對)/g, ' 付費 電子報 投資組合 對照 ').replace(/瀏覽器\s*(?:擴充|外掛)\s*(?:剪藏|擷取)\s*付費\s*文章/g, ' 瀏覽器 擴充 剪藏 付費 文章 ').replace(/substack\s*付費\s*文章\s*(?:摘要|研究)?/g, ' substack 付費 文章 摘要 ').replace(/獨角獸/g, ' 獨角獸 ').replace(/小仙子/g, ' 小仙子 ').replace(/城堡/g, ' 城堡 ').replace(/滿充電/g, ' 充電 ').replace(/(?:出發|出門)?\s*(?:後)?\s*(?:自動)?\s*(?:改回|還原|復原)/g, ' 自動還原 ').replace(/(?:旅行|出遊|出差)\s*充電\s*(?:排程)?/g, ' 長途 充電 排程 ').replace(/充電\s*排程/g, ' 充電 排程 ').replace(/(?:coding[- ]agent|程式代理|代碼代理|編程代理)\s*(?:逾時|超時)/g, ' coding-agent 停滯 ').replace(/(?:未回報|沒回報)\s*(?:通知)?/g, ' 通知 ').replace(/(?:顯示|查看|看|查)?\s*(?:孩子|小孩|女兒|學生)?\s*(?:各科)?\s*(?:成績|分數|等第)/g, ' 成績 ').replace(/各科分數/g, ' 成績 ').replace(/(?:缺交)?\s*(?:功課|作業)/g, ' 缺交作業 ').replace(/(?:怪人|怪異|陌生人|可疑|惡意|不當|不良|垃圾|詐騙)\s*(?:留言|評論|內容)?/g, ' 留言 審查 ').replace(/不良評論/g, ' 留言 審查 ').replace(/自動巡檢/g, ' 巡檢 ').replace(/房仲\s*(?:揭露文件|揭露|文件)/g, ' 房仲 揭露文件 ').replace(/(?:房屋|交屋)?\s*(?:翻新|整修|裝修)\s*(?:費用|成本)?/g, ' 整修 費用 ').replace(/(?:估算|預估|評估)\s*上限/g, ' 預算 上限 ').replace(/官網\s*(?:詢問信|諮詢信|客戶信件|來信)?/g, ' 詢問信 ').replace(/記進\s*(?:notion)?\s*(?:受理表|台帳)?/g, ' notion 受理表 ').replace(/擬\s*(?:回信)?\s*(?:草稿|回覆)/g, ' 草稿 ').replace(/內網穿透/g, ' 內網穿透 ').replace(/(?:dots|grok\s*bot|bot)?\s*(?:讀|看|查|收|抓)?\s*(?:內網|內部\s*(?:信件|郵件|公文|行程|資料))(?!穿透)/g, ' dots 內部 郵件 ').replace(/(?:grok\s*bot|bot|dots)?\s*(?:讀|看|查|收|抓|整理)?\s*(?:外網|外部\s*(?:新聞|情報|資訊|貼文|資料)|公開\s*(?:新聞|情報|資訊|貼文|資料))/g, ' grok bot 公開 新聞 ').replace(/(?:重活|繁重工作)\s*(?:交給|交|外置|外包)?\s*(?:雲端電腦|外部代理|免費模型)?/g, ' 重活 雲端電腦 ').replace(/(?:交給|交|外置|外包)\s*(?:雲端電腦|外部代理|免費模型)/g, ' 雲端電腦 ').replace(/(?:做不好|搞不定|失敗)\s*(?:再)?\s*(?:降級|改用|換成)?/g, ' 做不好 降級 ').replace(/(?:地鐵|捷運|公車|電車)\s*(?:通勤)?\s*(?:上)?\s*(?:讀|看)?/g, ' 地鐵 ').replace(/(?:通勤)?\s*(?:地鐵|捷運|公車|電車)\s*(?:上)?\s*(?:讀|看)?/g, ' 地鐵 ').replace(/捷運/g, ' 地鐵 ').replace(/(?:塗色|著色|線稿)\s*(?:自動)?\s*(?:印出|印製|列印|打印|印出來|印(?!表[機台器]))/g, " 著色 線稿 列印 ").replace(/(?:黑白)?\s*(?:塗色頁|著色頁|線稿)\s*印表機/g, " 著色 線稿 印表機 ").replace(/(?:黑白)?\s*(?:塗色頁|著色頁|線稿)\s*(?:印出|列印)/g, " 著色 線稿 列印 ").replace(/(?:卡住|停滯|未回報|超時|逾時)\s*(?:提醒|通知|告警)/g, " 卡住 通知 ").replace(/(?:找房|買房|看房)\s*(?:估算|預估|評估)/g, " 買房 預估 ").replace(/(?:預算|費用|金額)\s*(?:上限|封頂)/g, " 預算 上限 ").replace(/(?:官網|網站)\s*(?:詢問信|諮詢信|來信|客戶來信)/g, " 詢問信 ").replace(/受理\s*(?:登記|記錄|記進|登錄)/g, " 受理 登記 ").replace(/(?:受理|接單|登記|記進)\s*(?:台帳|登記表|受理表|表格|清單|notion)/g, " 受理 台帳 ").replace(/(?:內外|內部外部|內外部)\s*(?:資料|情報|資訊)/g, " 內網 外網 ").replace(/資料\s*(?:分工|分派|分流)/g, " 資料 分工 ").replace(/(?:舊筆記|flomo筆記|筆記)\s*(?:輪換|不同)\s*(?:角度|視角)?/g, " 舊筆記 輪換 角度 ").replace(/(?:輪換|不同)\s*(?:角度|視角)\s*(?:推送|回顧|推播|反思)?/g, " 輪換 角度 推送 ").replace(/(?:防|防止|避免|不讓)\s*(?:遠端)?\s*控制/g, " 避免 控制 ").replace(/(?:可)?\s*互動\s*(?:展示|demo|網頁)/g, " 互動 demo 網頁 ").replace(/(?:展示|demo)\s*(?:網頁|頁面|作品)/g, " demo 網頁 ").replace(/(?:x|推特|社群)\s*發文\s*教練/g, " 發文 教練 ").replace(/發文\s*教練/g, " 發文 教練 ").replace(/(?:社群)?\s*發文\s*數據\s*(?:檢討|分析|復盤)?\s*(?:教練)?/g, " 發文 數據 檢討 教練 ").replace(/(?:每日|每天)\s*盤點/g, " 每日 盤點 ").replace(/(?:付費|訂閱)\s*文章\s*(?:剪藏|擷取)/g, " 付費 文章 剪藏 ").replace(/(?:瀏覽器)?\s*側欄\s*(?:剪藏|擷取)/g, " 側欄 剪藏 ").replace(/(?:文章|內容)?\s*(?:對照|比對)\s*(?:自己的)?\s*持股\s*(?:清單|組合)?/g, " 對照 持股 ").replace(/(?:剪藏|正文|文章)\s*(?:送給|交給|丟給|傳給)\s*bot/g, " 剪藏 bot ").replace(/(?:substack|電子報)\s*文章/g, " substack 文章 ").replace(/(?:跑完|做完|結束|完畢|停滯|卡住)\s*(?:通知|提醒|webhook)/g, " 程式代理 工作階段 webhook 通知 ").replace(/(?:特斯拉|tesla)?\s*(?:出遠門|長途旅行|遠門)\s*(?:前)?\s*(?:充電|充飽電|充飽|充滿)/g, " 特斯拉 出發 充電 ").replace(/(?:客戶\s*來信|客戶|來信)\s*(?:查|找)?\s*(?:日曆|行事曆)\s*(?:擬|寫|存)?\s*(?:草稿|回覆|回信)/g, " 詢問信 行事曆 草稿 ").replace(/(?:節省|省|省下)\s*(?:額度|token|費用|成本)/g, " 節省 額度 ").replace(/(?:私有)?\s*(?:git)?\s*倉庫\s*(?:交接|交辦)/g, " 私有倉庫 任務交接 ").replace(/(?:x|推特|twitter)?\s*(?:收藏|書籤)\s*(?:做成?|轉成?|做)?\s*(?:可)?\s*互動\s*(?:網頁)?/g, " 書籤 互動 網頁 ").replace(/(?:做|製作)?\s*小\s*demo/g, " demo ").replace(/(?:每天|每日)\s*(?:一則|一個)\s*(?:小實驗|demo)/g, " 每天 demo ").replace(/(?:x|推特|twitter|社群)\s*發文\s*(?:復盤|檢討|分析)/g, " 發文 數據 檢討 ").replace(/(?:社群|發文)\s*教練/g, " 發文 教練 ").replace(/(?:每日|每天)\s*(?:檢討|盤點)\s*原創/g, " 每天 盤點 原創 ").replace(/(?:持股清單|投資組合|持股)\s*(?:對照|比對|查核)/g, " 持股清單 對照 ").replace(/(?:側邊欄|側欄)\s*(?:剪藏|擷取)/g, " 側欄 剪藏 ").replace(/(?:瀏覽器)?\s*(?:外掛|擴充)\s*(?:剪藏|擷取)/g, " 外掛 剪藏 ").replace(/投資組合\s*(?:對照|比對)/g, " 持股清單 對照 ").replace(/[「」『』“”"'《》〈〉【】〔〕［］\[\]()（）?？!！~～:：·•…#。]+/g, ' ').replace(/(?:^|\s)\.+|\.+(?:\s|$)/g, ' ').replace(/(?:^|\s)-+|-+(?:\s|$)/g, ' ').split(/[\s,、，/／;；|｜+＋&＆]+/).filter(Boolean);
 const SYNONYM_GROUPS = [
   ['矛盾', '衝突', '不一致', 'contradiction', 'contradictions', 'conflict', 'conflicts', 'inconsistent', 'inconsistency'],
   ['acceptance', 'acceptance-criteria', 'acceptance-test', '驗收', '驗收標準', '驗收條件', '驗收測試', '驗收規範'],
@@ -243,7 +318,7 @@ const SYNONYM_GROUPS = [
   ['outbox', 'outbox-pattern', 'outbox pattern', '發件匣', '發件箱', '發件匣模式', '發件箱模式'],
   ['access-control', 'access control', 'rbac', '存取控制', '訪問控制', '存取權限', '權限控制'],
   ['event-driven', 'event driven', '事件驅動', '事件驅動架構', '事件觸發'],
-  ['回滾', '回退', '倒退', 'rollback', 'rollbacks', 'revert', 'reverting', '復原'],
+  ['回滾', '回退', '倒退', 'rollback', 'rollbacks', 'revert', 'reverting', '復原', '還原', '恢復', '自動還原', '自動恢復'],
   ['planning', 'plan', 'plans', '規劃', '任務規劃', '計畫', '計劃', '籌劃'],
   ['reproducibility', 'reproducible', 'reproduce', '重現', '可重現', '重現性', '獨立重現', '復現', '復現性'],
   ['failover', 'fail-over', '故障轉移', '容災', '備援切換'],
@@ -275,7 +350,8 @@ const SYNONYM_GROUPS = [
   ['face-swap', 'face swap', 'faceswap', '換臉', '人臉替換', '面部替換', '臉部替換', '照片換臉', '人臉抽換'],
   ['credit', 'credits', '抵免', '帳單抵免', '費用抵免', '退費抵免', '帳戶抵免', '減免', '爭取抵免'],
   ['代打電話', '代撥電話', '電話代撥', '電話代打', '代撥', '電話代理'],
-  ['kids', 'kid', 'child', 'children', '孩子', '小孩', '幼兒', '幼童', '小童', '兒童', '小朋友'],
+  ['kids', 'kid', 'child', 'children', '孩子', '小孩', '幼兒', '幼童', '小童', '兒童', '小朋友', '兒少'],
+  ['recommend', 'recommendation', 'recommendations', '推薦', '每日推薦', '推薦清單'],
   ['electric-vehicle', 'electric-vehicles', 'ev', 'evs', '電動車', '電車', 'electric vehicle', 'electric vehicles'],
   ['commute', 'commuting', '通勤', '通勤時間', '上班通勤', '下班通勤', '塞車通勤'],
   ['renovation', 'renovations', 'remodel', 'remodeling', '整修', '修繕', '裝修', '翻新', '房屋整修', '整修費用'],
@@ -335,6 +411,32 @@ for (const group of SYNONYM_GROUPS) {
     }
   }
 };
+const DIFFICULTY_LABELS = {
+  '入門對話': '入門對話（免寫程式）',
+  '工具串接': '工具串接（需帳號或外掛）',
+  '進階開發': '進階開發（需本機環境或代碼）'
+};
+const DIFFICULTY_NOTES = {
+  '入門對話': '免寫程式',
+  '工具串接': '需外掛/帳號',
+  '進階開發': '需代碼/環境'
+};
+function extractDifficulty(markdown, tools = [], scenario = '', category = '') {
+  const lead = markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
+  const declaredTools = clean(lead.match(/^-\s*工具\s*[：:]\s*(.+)$/m)?.[1] || '');
+  const allToolText = tools.join(' ') + ' ' + declaredTools;
+  const devTools = /Claude Code|OpenDevin|Devin|AutoGPT|Codex|Cline|Roo Code|Aider|Cursor|Docker|GitHub Actions|Kubernetes|Playwright|Puppeteer/i;
+  const devPatterns = /本機\s*CLI|指令列|終端機|本機執行|本機環境|自建腳本|自架伺服器|腳本撰寫|環境變數|npm\s+run|git\s+clone|docker\s+compose|開發者模式|程式碼實作|自寫代碼|腳本|CLI\b/i;
+  if (devTools.test(allToolText) || devPatterns.test(markdown) || (scenario === '開發' && /程式|CLI|終端|代碼|代碼庫|git/i.test(markdown))) {
+    return '進階開發';
+  }
+  const connectorTools = /\bMCP\b|Slack Bot|Discord Bot|Stripe|Zapier|Make|Notion API|Airtable|OAuth|Webhook/i;
+  const connectorPatterns = /\bMCP\b|API\s*Key|API\s*金鑰|金鑰|Webhook|OAuth|第三方授權|串接服務|外掛安裝|資料庫連線|連線授權/i;
+  if (connectorTools.test(allToolText) || connectorPatterns.test(markdown)) {
+    return '工具串接';
+  }
+  return '入門對話';
+}
 function idVariants(id) { const normId = id.toUpperCase(); const unhyphenated = normId.replace(/[-_]/g, ''); return normId !== unhyphenated ? `${normId} ${unhyphenated}` : normId; }
 function termVariants(term) { const t = norm(term).replace(/^#/, ''); const m = t.match(/^([a-z]+)[\s-]*(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } if (/^\d+$/.test(t)) { const padded = t.padStart(3, '0'); return [t, `uc-${padded}`, `uc${padded}`]; } return SYNONYM_MAP[t] || [t]; }
 const matchCase = (target, list = entries) => { if (!target) return null; const t = norm(target).trim().replace(/^#/, ''); const m = t.match(/^(?:([a-z]+)[\s-：:#.]*)?(\d+)$/); const variants = m && (!m[1] || m[1] === 'uc' || m[1] === 'p') ? [`${m[1] || 'uc'}-${m[2].padStart(3, '0')}`, `${m[1] || 'uc'}${m[2].padStart(3, '0')}`] : termVariants(t); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
@@ -351,6 +453,51 @@ function reviewDate(markdown) {
     }
   }
   return dates.sort().pop()||'';
+}
+function extractActionableGuidance(markdown) {
+  let how = '';
+  let howMatch = markdown.match(/^#{2,3}\s+(?:.*(?:建議操作流程|建議流程|建議操作步驟|操作步驟|可參考步驟|怎麼開始|可借用的驗收步驟|可借用的只讀驗收步驟|實作流程與核對邊界).*)$/m);
+  if (!howMatch) {
+    howMatch = markdown.match(/^#{2,3}\s+(?:.*(?:流程|輸入與預期輸出|實作步驟|作者做過的流程|作者報告的流程|作者實作).*)$/m);
+  }
+  if (howMatch) {
+    const start = howMatch.index + howMatch[0].length;
+    const rest = markdown.slice(start);
+    const nextH = rest.search(/\n^#{2,3}\s+/m);
+    const section = nextH !== -1 ? rest.slice(0, nextH) : rest;
+    const lines = section.split('\n')
+      .map(l => l.trim())
+      .filter(l => l && !l.startsWith('<!--') && !l.startsWith('>') && !l.startsWith('#') && !l.startsWith('```'));
+    const listItems = lines.filter(l => /^(\d+\.|\*|-|•)\s+/.test(l))
+      .map(l => l.replace(/^(\d+\.|\*|-|•)\s+/, '').trim());
+    if (listItems.length > 0) {
+      how = listItems.slice(0, 2).join('；');
+    } else if (lines.length > 0) {
+      how = lines[0];
+    }
+  }
+  let caution = '';
+  const cautionMatch = markdown.match(/^#{2,3}\s+(?:.*(?:所需連接、權限與限制|權限、費用與限制|權限、費用與可用性|權限、費用及限制|權限與驗收|證據與查閱缺口|來源報告與限制|限制與驗收|要注意什麼|權限、成本及可用性|權限、限制與驗收|限制、權限與費用|官方限制、費用與可用性|官方限制、費用與權限|官方限制、費用及可用性).*)$/m);
+  if (cautionMatch) {
+    const start = cautionMatch.index + cautionMatch[0].length;
+    const rest = markdown.slice(start);
+    const nextH = rest.search(/\n^#{2,3}\s+/m);
+    const section = nextH !== -1 ? rest.slice(0, nextH) : rest;
+    const lines = section.split('\n')
+      .map(l => l.trim())
+      .filter(l => l && !l.startsWith('<!--') && !l.startsWith('>') && !l.startsWith('#') && !l.startsWith('```'));
+    const listItems = lines.filter(l => /^(\d+\.|\*|-|•)\s+/.test(l))
+      .map(l => l.replace(/^(\d+\.|\*|-|•)\s+/, '').trim());
+    if (listItems.length > 0) {
+      caution = listItems[0];
+    } else if (lines.length > 0) {
+      caution = lines[0];
+    }
+  }
+  return {
+    how: how ? how.replace(/\s+/g, ' ').slice(0, 160) : '',
+    caution: caution ? caution.replace(/\s+/g, ' ').slice(0, 160) : ''
+  };
 }
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);
@@ -388,14 +535,20 @@ function metadata(markdown, path, kind, suffix='') {
   }
   const tags = rawTags ? rawTags.split(/[、,，\s/]+/).map(t=>t.trim()).filter(Boolean) : [];
   const proofLine = clean(lead.match(/^-\s*(?:來源證據|證據狀態|證據等級|證據)\s*[：:]\s*(.+)$/m)?.[1] || '');
-  const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*(?:自報|第一手.*自述)|official/.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
+  const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /官方.*(?:展示|示例|範例|發布|自報|第一手.*自述)|official/i.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})/)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
-  const copy=displayCopy[id]||{};
+  const copy=(globalThis.displayCopy?.[id])||displayCopy[id]||{};
   const displayTitle=clean(lead.match(/^-\s*網站標題\s*[：:]\s*(.+)$/m)?.[1]||copy.title||heading);
   const what=clean(lead.match(/^-\s*一句話用途\s*[：:]\s*(.+)$/m)?.[1]||copy.what||summary);
+  const targetUser=clean(lead.match(/^-\s*目標使用者\s*[：:]\s*(.+)$/m)?.[1]||'');
+  const coreGoal=clean(lead.match(/^-\s*核心目標\s*[：:]\s*(.+)$/m)?.[1]||'');
   const reviewedDate=reviewDate(markdown);
-  return {id,title:displayTitle,originalTitle:heading,what,how:copy.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',caution:copy.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,search:norm(markdown+' '+displayTitle+' '+what+' '+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+idVariants(id))};
+  const extracted=extractActionableGuidance(markdown);
+  const howText=copy.how||extracted.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。';
+  const cautionText=copy.caution||extracted.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。';
+  const difficulty = extractDifficulty(markdown, tools, scenario, category);
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
 }
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>metadata(part,path,'pending',String(i)));
@@ -403,7 +556,14 @@ function parseFile(path, markdown) {
 }
 function el(tag,cls,text) { const node=document.createElement(tag); if(cls)node.className=cls; if(text!==undefined)node.textContent=text;return node; }
 function safeLink(target,path) {
-  try { const url = new URL(target, REPO+path); return ['https:','http:'].includes(url.protocol) ? url.href : null; } catch { return null; }
+  try {
+    const scheme=/^[a-z][a-z0-9+.-]*:/i.test(target);
+    if(scheme && !/^https?:\/\/[^/]/i.test(target))return null;
+    const absolute=scheme || /^\/\/[^/]/.test(target);
+    if(!absolute && !sourceRevisionFor(path))return null;
+    const url = new URL(target, sourceMarkdownUrl(path));
+    return ['https:','http:'].includes(url.protocol) ? url.href : null;
+  } catch { return null; }
 }
 // Read one destination without confusing a URL's own parentheses with Markdown's
 // closing delimiter. Unsupported whitespace or an unmatched delimiter stays text.
@@ -419,30 +579,109 @@ function markdownDestination(text,start) {
   }
   return null;
 }
+// Find a closing strong delimiter without consuming code or link destinations.
+// Ambiguous star runs and unsupported markup stay literal.
+function markdownStrong(text,start) {
+  for(let i=start;i<text.length;i++) {
+    const char=text[i];
+    if(char==='\n')return null;
+    if(char==='\\'&&text[i+1]==='*')return null;
+    if(char==='`') {
+      const code=text.slice(i).match(/^`([^`]+)`/);
+      if(code){i+=code[0].length-1;continue;}
+    }
+    if(char==='[') {
+      const label=text.slice(i).match(/^\[[^\]]+\]\(/);
+      if(label) {
+        const destination=markdownDestination(text,i+label[0].length);
+        if(!destination)return null;
+        i=destination.end-1;continue;
+      }
+    }
+    // A bare URL is one opaque existing token; never infer its ending.
+    const url=text.slice(i).match(/^https?:\/\/[^\s<>]+/);
+    if(url){i+=url[0].length-1;continue;}
+    if(char==='*') {
+      if(text.slice(i,i+2)==='**'&&text[i+2]!=='*'&&!/\s/.test(text[i-1]))return {text:text.slice(start,i),end:i+2};
+      return null;
+    }
+  }
+  return null;
+}
 function inline(node,text,path) {
   // All source text is inserted as text nodes; source HTML can never execute.
-  const regex=/\[([^\]]+)\]\(|https?:\/\/[^\s<>]+|`([^`]+)`/g; let last=0,match;
+  const regex=/\[([^\]]+)\]\(|https?:\/\/[^\s<>]+|`([^`]+)`|(?<![\\*])\*\*(?![\s*])/g; let last=0,match;
   while((match=regex.exec(text))) {
     node.append(document.createTextNode(text.slice(last,match.index)));
-    if(match[2]) node.append(el('code','',match[2]));
+    if(match[0]==='**') {
+      const span=markdownStrong(text,regex.lastIndex);
+      if(span){const strong=el('strong');inline(strong,span.text,path);node.append(strong);regex.lastIndex=span.end;}
+      else node.append(document.createTextNode(match[0]));
+    }
+    else if(match[2]) node.append(el('code','',match[2]));
     else {
       const destination=match[1]?markdownDestination(text,regex.lastIndex):null;
       if(match[1]&&!destination){node.append(document.createTextNode(match[0]));last=regex.lastIndex;continue;}
       if(destination)regex.lastIndex=destination.end;
-      const target=destination?destination.target:match[0],href=safeLink(target,path),label=match[1]||target;
-      if(href){const a=el('a','',label);a.href=href;a.target='_blank';a.rel='noopener noreferrer';node.append(a);}else node.append(document.createTextNode(label));
+      const target=destination?destination.target:match[0],relative=!/^[a-z][a-z0-9+.-]*:|^\/\//i.test(target),href=safeLink(target,path),label=match[1]||target;
+      if(href || (relative && !sourceRevisionFor(path))) {
+        const a=el('a','',label);
+        if(href)a.href=href;
+        else { a.setAttribute('aria-disabled','true'); a.tabIndex=0; }
+        if(relative)a.setAttribute('data-source-relative',target);
+        a.target='_blank';a.rel='noopener noreferrer';node.append(a);
+      } else node.append(document.createTextNode(label));
     }
     last=regex.lastIndex;
   }
   node.append(document.createTextNode(text.slice(last)));
 }
+// Recognize only complete pipe tables. Unsupported rows stay literal rather
+// than silently discarding source cells or guessing missing values.
+function tableCells(line) {
+  let value=line.trim();
+  if(!value.includes('|'))return null;
+  if(value.startsWith('|'))value=value.slice(1);
+  if(/(?<!\\)\|$/.test(value))value=value.slice(0,-1);
+  const cells=[];let cell='';
+  for(let i=0;i<value.length;i++){
+    if(value[i]==='\\'&&value[i+1]==='|'){cell+='|';i++;continue;}
+    if(value[i]==='`'){
+      const fence=value.slice(i).match(/^`+/)[0],end=value.indexOf(fence,i+fence.length);
+      if(end!==-1){cell+=value.slice(i,end+fence.length).replace(/\\\|/g,'|');i=end+fence.length-1;continue;}
+    }
+    if(value[i]==='|'){cells.push(cell.trim());cell='';}else cell+=value[i];
+  }
+  cells.push(cell.trim());return cells;
+}
+function sourceTable(lines,start,path) {
+  const header=tableCells(lines[start]),divider=tableCells(lines[start+1]||'');
+  if(!header||header.length<2||!divider||divider.length!==header.length||!divider.every(cell=>/^:?-{3,}:?$/.test(cell)))return null;
+  const rows=[];let end=start+2;
+  for(;end<lines.length&&lines[end].trim()&&lines[end].includes('|');end++){
+    const cells=tableCells(lines[end]);
+    if(!cells||cells.length!==header.length)return null;
+    rows.push(cells);
+  }
+  const wrap=el('div','markdown-table');wrap.tabIndex=0;
+  wrap.setAttribute('role','region');wrap.setAttribute('aria-label','原文表格；可左右捲動，鍵盤聚焦後可用左右方向鍵');
+  const table=el('table'),head=el('thead'),body=el('tbody'),tr=el('tr');
+  header.forEach(text=>{const th=el('th');th.scope='col';inline(th,text,path);tr.append(th);});
+  head.append(tr);
+  rows.forEach(cells=>{const row=el('tr');cells.forEach(text=>{const td=el('td');inline(td,text,path);row.append(td);});body.append(row);});
+  table.append(head,body);wrap.append(table);return {node:wrap,end};
+}
 function renderMarkdown(markdown,path) {
   const out=el('div','markdown'); let paragraph=[],lists=[],code=null;
   const flush=()=>{if(paragraph.length){const p=el('p');inline(p,paragraph.join(' '),path);out.append(p);paragraph=[];}lists=[];};
-  for(const line of markdown.split('\n').slice(1)) {
+  const lines=markdown.split('\n').slice(1);
+  for(let i=0;i<lines.length;i++) {
+    const line=lines[i];
     if(/^```/.test(line)){flush();if(code){out.append(code);code=null;}else code=el('pre');continue;}
     if(code){code.textContent+=line+'\n';continue;}
     if(!line.trim()){flush();continue;}
+    const table=sourceTable(lines,i,path);
+    if(table){flush();out.append(table.node);i=table.end-1;continue;}
     const head=line.match(/^(#{2,6})\s+(.+)/),item=line.match(/^(\s*)([-*]|\d+\.)\s+(.+)/);
     if(head){flush();const h=el(head[1].length===2?'h2':'h3');inline(h,head[2],path);out.append(h);}
     else if(item){
@@ -499,8 +738,75 @@ function renderRelated(item) {
   } else {
     section.append(el('p', 'related-empty', discoveryReady ? '目前條件下，沒有其他相同主題的主要案例。可關閉閱讀後調整搜尋條件。' : '其他案例仍在載入，完成後會依目前搜尋條件提供延伸閱讀。'));
   }
-  const back = el('button', 'related-back', '關閉閱讀');back.type = 'button';
+  const back = el('button', 'related-back', '關閉並返回結果');back.type = 'button';
+  back.setAttribute('aria-label', '關閉並返回結果');
   back.addEventListener('click', closeDetail);section.append(back);
+  const nextActions = el('div', 'detail-next-actions');
+  if (item.scenario) {
+    const exploreScenarioBtn = el('button', 'detail-action-scenario', `探索更多「${item.scenario}」案例 →`);
+    exploreScenarioBtn.type = 'button';
+    exploreScenarioBtn.setAttribute('aria-label', `探索更多「${item.scenario}」案例`);
+    exploreScenarioBtn.addEventListener('click', () => {
+      closeDetail();
+      chooseScenario(item.scenario);
+      $('results-count').focus({preventScroll:true});
+      $('results-count').scrollIntoView({block:'start',behavior:'instant'});
+    });
+    nextActions.append(exploreScenarioBtn);
+  }
+  const copyTakeawayBtn = el('button', 'detail-action-copy', '複製本篇筆記與連結 📋');
+  copyTakeawayBtn.type = 'button';
+  copyTakeawayBtn.setAttribute('aria-label', '複製本篇案例摘要、指引與連結');
+  const copyStatus = el('span', 'detail-action-status', '');
+  copyStatus.setAttribute('role', 'status');
+  copyStatus.setAttribute('aria-live', 'polite');
+  const manualCopy = el('textarea', 'detail-action-manual-copy');
+  manualCopy.readOnly = true;
+  manualCopy.hidden = true;
+  manualCopy.setAttribute('aria-label', '案例筆記，請手動複製');
+  let copyRequest = 0;
+  let copyTimer;
+  copyTakeawayBtn.addEventListener('click', async () => {
+    const request = ++copyRequest;
+    const focusAtRequest = document.activeElement;
+    const isCurrent = () => request === copyRequest && copyStatus.isConnected !== false;
+    const caseUrl = new URL(location.href);
+    caseUrl.search = '?case=' + encodeURIComponent(item.id);
+    caseUrl.hash = '';
+    const text = [
+      `【AI 案例筆記】${item.id} · ${item.title}`,
+      `📌 用途：${item.what || item.summary}`,
+      item.how ? `🚀 怎麼開始：${item.how}` : '',
+      item.caution ? `⚠️ 注意事項：${item.caution}` : '',
+      item.proof ? `📎 來源證據：${item.proof}` : '',
+      `💡 說明：本庫入門建議為整理者設計，非實測結果；未獨立重現，請核對原始報告與限制。`,
+      `🔗 詳情與來源：${caseUrl.href}`
+    ].filter(Boolean).join('\n');
+    clearTimeout(copyTimer);
+    manualCopy.value = '';
+    manualCopy.hidden = true;
+    copyStatus.textContent = '正在複製案例筆記…';
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(text);
+      if (!isCurrent()) return;
+      copyStatus.textContent = '已複製案例筆記！';
+      copyTimer = setTimeout(() => {
+        if (isCurrent()) copyStatus.textContent = '';
+      }, 3000);
+    } catch {
+      if (!isCurrent()) return;
+      manualCopy.value = text;
+      manualCopy.hidden = false;
+      copyStatus.textContent = '無法自動複製，請手動複製下方完整筆記。';
+      if (document.activeElement === focusAtRequest) {
+        manualCopy.focus();
+        manualCopy.select();
+      }
+    }
+  });
+  nextActions.append(copyTakeawayBtn, copyStatus, manualCopy);
+  section.append(nextActions);
   return section;
 }
 function refreshRelated() {
@@ -508,10 +814,23 @@ function refreshRelated() {
   if (!$('detail').open || !previous || !currentDetailItem) return;
   const active = document.activeElement;
   const hadFocus = previous.contains(active);
+  const previousActions = previous.querySelector('.detail-next-actions');
   const next = renderRelated(currentDetailItem);
+  const nextActions = next.querySelector('.detail-next-actions');
+  if (previousActions && nextActions) nextActions.replaceWith(previousActions);
   previous.replaceWith(next);
   if (hadFocus) {
-    const target = [...next.querySelectorAll('[data-related-id]')].find(button => button.dataset.relatedId === active.dataset.relatedId) || next.querySelector('.related-back');
+    let target = null;
+    if (active.dataset?.relatedId) {
+      target = [...next.querySelectorAll('[data-related-id]')].find(b => b.dataset.relatedId === active.dataset.relatedId);
+    } else if (active.classList.contains('detail-action-scenario')) {
+      target = next.querySelector('.detail-action-scenario');
+    } else if (active.classList.contains('detail-action-copy')) {
+      target = next.querySelector('.detail-action-copy');
+    } else if (active.classList.contains('detail-action-manual-copy')) {
+      target = next.querySelector('.detail-action-manual-copy');
+    }
+    if (!target) target = next.querySelector('.related-back');
     target.focus({preventScroll:true});
     // New related links can move the returned control below the modal viewport.
     // Scroll this dialog only, leaving the search page behind it untouched.
@@ -545,8 +864,95 @@ function navStep(delta) {
   const target = delta === -1 ? neighbours.prev : delta === 1 ? neighbours.next : null;
   if (target) showDetail(target, null, true);
 }
+// Reading positions belong to a history visit, not a case or permanent storage.
+function createReadingHistory(limit=12) {
+  const views=new Map();
+  return {
+    save(key,item,query,view){
+      views.delete(key);views.set(key,{id:item.id,markdown:item.markdown,query,view});
+      if(views.size>limit)views.delete(views.keys().next().value);
+    },
+    read(key,item,query){
+      const saved=views.get(key);
+      return saved&&saved.id===item.id&&saved.markdown===item.markdown&&saved.query===query?saved.view:null;
+    }
+  };
+}
+const readingHistory=createReadingHistory();
+let currentReadingVisit=null,currentReadingQuery='';
+const readingDisclosures=['.detail-full-account','.reader-guidance','.research-details','.reader-review','.reader-outline'];
+function readingNodes(selector) {
+  return [...$('detail-body').querySelectorAll(selector)].filter(node=>
+    !node.closest('.detail-load-status,.related-cases,.case-share-feedback,.reader-copy'));
+}
+function readingFocusNodes() {
+  return [...$('detail-body').querySelectorAll(readingFocusSelector)].filter(node=>
+    !node.closest('.detail-load-status,.case-share-feedback,.reader-copy-status,.reader-copy-manual'));
+}
+function readingNodeRef(node,nodes) {
+  return node?{index:nodes.indexOf(node),id:node.id,relatedId:node.dataset.relatedId,href:node.tagName==='A'?node.href:null,tag:node.tagName,text:node.textContent}:null;
+}
+function resolveReadingNode(ref,nodes) {
+  if(!ref)return null;
+  const same=node=>node&&node.tagName===ref.tag&&node.textContent===ref.text&&(!ref.id||node.id===ref.id)&&(!ref.relatedId||node.dataset.relatedId===ref.relatedId)&&(!ref.href||node.href===ref.href);
+  if(same(nodes[ref.index]))return nodes[ref.index];
+  const matches=nodes.filter(same);
+  return matches.length===1?matches[0]:null;
+}
+const readingBlockSelector='h2,h3,p,li,pre,summary,.markdown-table';
+const readingFocusSelector='button,a,input,textarea,select,summary,[tabindex]';
+function rememberReadingView() {
+  const dialog=$('detail');
+  if(!dialog.open||!currentReadingVisit||!currentDetailItem)return;
+  const edge=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
+  const blocks=readingNodes(readingBlockSelector);
+  const anchor=selectReadingAnchor(blocks,edge+8,dialog.getBoundingClientRect().bottom-8);
+  const active=document.activeElement,rect=active.getBoundingClientRect();
+  const focusVisible=rect.height>0&&rect.top>=dialog.getBoundingClientRect().top&&rect.bottom<=dialog.getBoundingClientRect().bottom;
+  readingHistory.save(currentReadingVisit,currentDetailItem,currentReadingQuery,{
+    scrollTop:dialog.scrollTop,
+    open:readingDisclosures.map(selector=>!!$('detail-body').querySelector(selector)?.open),
+    outlineQuery:$('reader-outline-query')?.value||'',
+    reviewQuery:$('detail-body').querySelector('.reader-review-find')?.value||'',
+    reviewRows:[...$('detail-body').querySelectorAll('.reader-review-row')].map(node=>node.open),
+    anchor:readingNodeRef(anchor,blocks),offset:anchor?anchor.getBoundingClientRect().top-edge:0,
+    focus:focusVisible?readingNodeRef(active,readingFocusNodes()):null,
+    toolbarFocus:focusVisible&&active.closest('.detail-toolbar')?active.id:null,
+    tables:[...$('detail-body').querySelectorAll('.markdown-table')].map(node=>node.scrollLeft)
+  });
+}
+function restoreReadingView(view) {
+  const dialog=$('detail'),body=$('detail-body');
+  const query=$('reader-outline-query');
+  if(query){query.value=view.outlineQuery;query.dispatchEvent(new Event('input'));}
+  const reviewQuery=body.querySelector('.reader-review-find');
+  if(reviewQuery){reviewQuery.value=view.reviewQuery||'';reviewQuery.dispatchEvent(new Event('input'));}
+  readingDisclosures.forEach((selector,index)=>{const node=body.querySelector(selector);if(node)node.open=view.open[index];});
+  body.querySelectorAll('.reader-review-row').forEach((node,index)=>{if(view.reviewRows&&index<view.reviewRows.length)node.open=view.reviewRows[index];});
+  body.querySelectorAll('.markdown-table').forEach((node,index)=>node.scrollLeft=view.tables[index]||0);
+  dialog.scrollTop=view.scrollTop;
+  const anchor=resolveReadingNode(view.anchor,readingNodes(readingBlockSelector));
+  if(anchor?.getBoundingClientRect().height){
+    dialog.scrollTop+=anchor.getBoundingClientRect().top-dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom-view.offset;
+  }
+  const focus=$(view.toolbarFocus)||resolveReadingNode(view.focus,readingFocusNodes());
+  const visible=node=>{
+    if(!node||node.disabled)return false;
+    const rect=node.getBoundingClientRect();
+    const top=node.closest('.detail-toolbar')?dialog.getBoundingClientRect().top:dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
+    return rect.height>0&&rect.bottom>top&&rect.top<dialog.getBoundingClientRect().bottom;
+  };
+  const target=visible(focus)?focus:visible(anchor)?anchor:$('close-detail');
+  if(!target.matches('button,a,input,textarea,select,summary,[tabindex]'))target.tabIndex=-1;
+  target.focus({preventScroll:true});
+}
 function showDetail(item, trigger, updateURL=true) {
   if (!item) return;
+  rememberReadingView();
+  const visit=updateURL?null:history.state?.readerVisit;
+  const readingView=readingHistory.read(visit,item,$('query').value);
+  currentReadingVisit=readingView?visit:crypto.randomUUID();
+  currentReadingQuery=$('query').value;
   if(trigger){
     lastTrigger=trigger;
     lastTriggerContext={id:item.id,area:trigger.closest('#drawn-case')?'drawn-case':'results',read:!!trigger.closest('.card-bottom')};
@@ -562,7 +968,7 @@ function showDetail(item, trigger, updateURL=true) {
   metaBar.append(
     el('span', 'detail-id-badge', item.id),
     el('span', 'detail-badge kind-' + item.kind, KIND[item.kind]),
-    el('span', 'detail-badge proof-badge', item.proof),
+    (()=>{ const b = el('span', 'detail-badge proof-badge', item.proof); b.dataset.proof = item.proof; const desc = PROOF_DEFINITIONS[item.proof] || item.proof; b.title = desc; b.setAttribute('role', 'note'); b.setAttribute('aria-label', '來源憑據：' + item.proof + '。' + desc); return b; })(),
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
   metaBar.append(el('span','detail-badge',item.reviewedDate?'頁首核對 '+item.reviewedDate:'頁首未提供核對日'));
@@ -572,6 +978,49 @@ function showDetail(item, trigger, updateURL=true) {
   title.id = 'detail-title';
   title.tabIndex = -1;
   body.append(title);
+  const source = el('a', 'detail-source', '查看 GitHub 原始 Markdown ↗');
+  source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown ↗'),el('span','print-action-short','原始 Markdown ↗'));
+  source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown ↗');
+  if(sourceRevisionFor(item.path))source.href=sourceMarkdownUrl(item.path);
+  else { source.setAttribute('aria-disabled','true'); source.tabIndex=0; }
+  source.target = '_blank';
+  source.rel = 'noopener noreferrer';
+  const overview = el('div', 'plain-overview');
+  const compactPurpose = item.coreGoal && item.coreGoal !== item.what && item.what.length > 180;
+  const purpose = el('section');
+  purpose.append(el('h2', '', '可以幫你做什麼'), el('p', '', compactPurpose ? item.coreGoal : item.what));
+  overview.append(purpose,source);
+  if (compactPurpose) {
+    const fullAccount = el('details', 'detail-full-account');
+    fullAccount.append(el('summary', '', '展開完整用途與案例描述'), el('p', '', item.what));
+    overview.append(fullAccount);
+  }
+  overview.append(el('p','detail-source-version',sourceVersionNote(item.path)));
+  const queryCautions=searchContext(item,tokenize($('query').value)).matches.filter(match=>match.caution);
+  if(queryCautions.length)overview.append(el('p','detail-search-caution','這次搜尋顯示的「'+queryCautions.map(match=>match.term).join('、')+'」命中限制或來源段落；請核對用途與原文，不要把文字提及當成可採用的做法。'));
+  const targetUserText = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
+  if (targetUserText) {
+    const userSection = el('section', 'detail-target-user');
+    userSection.append(el('h2', '', '適合對象'), el('p', '', targetUserText));
+    overview.append(userSection);
+  }
+  if (item.coreGoal && item.coreGoal !== item.what && !compactPurpose) {
+    const goalSection = el('section', 'detail-core-goal');
+    goalSection.append(el('h2', '', '核心目標'), el('p', '', item.coreGoal));
+    overview.append(goalSection);
+  }
+  if (item.difficulty) {
+    const diffSection = el('section', 'detail-difficulty');
+    diffSection.append(el('h2', '', '實作門檻'), el('p', '', DIFFICULTY_LABELS[item.difficulty] || item.difficulty));
+    overview.append(diffSection);
+  }
+  if (!discoveryReady) {
+    const status=el('p','detail-load-status','這篇已可閱讀。其他案例仍在載入，完成後會提供切換與延伸閱讀。');
+    status.setAttribute('role','status');
+    overview.append(status);
+  }
+  // Let readers judge the purpose before choosing sharing or source actions.
+  body.append(overview);
 
   const actionRow = el('div', 'detail-actions');
   const copyBtn = el('button', 'btn-copy-link', '📋 複製案例連結');
@@ -606,18 +1055,12 @@ function showDetail(item, trigger, updateURL=true) {
       if(document.activeElement===focusAtRequest){manual.focus();manual.select();}
     }
   });
-  const source = el('a', 'detail-source', '查看 Markdown 原文 ↗');
-  source.replaceChildren(el('span','print-action-long','查看 Markdown 原文 ↗'),el('span','print-action-short','Markdown ↗'));
-  source.setAttribute('aria-label','查看 Markdown 原文 ↗');
-  source.href = REPO + item.path;
-  source.target = '_blank';
-  source.rel = 'noopener noreferrer';
   const printBtn=el('button','btn-copy-link','列印／存成 PDF');
   printBtn.replaceChildren(el('span','print-action-long','列印／存成 PDF'),el('span','print-action-short','列印／PDF'));
   printBtn.id='print-case';printBtn.type='button';
   printBtn.setAttribute('aria-describedby','print-case-hint');
   printBtn.addEventListener('click',()=>window.print());
-  actionRow.append(copyBtn,printBtn,source);
+  actionRow.append(copyBtn,printBtn);
   if (item.tags && item.tags.length) {
     const tagsRow = el('span', 'detail-tags-text', '標籤：' + item.tags.join('、'));
     actionRow.append(tagsRow);
@@ -636,28 +1079,25 @@ function showDetail(item, trigger, updateURL=true) {
 
   body.append(el('p', 'detail-warning', warningText));
 
-  const overview = el('div', 'plain-overview');
-  [['可以幫你做什麼', item.what]].forEach(([label, text]) => {
-    const section = el('section');
-    section.append(el('h2', '', label), el('p', '', text));
-    overview.append(section);
-  });
-  if (!discoveryReady) {
-    const status=el('p','detail-load-status','這篇已可閱讀。其他案例仍在載入，完成後會提供切換與延伸閱讀。');
-    status.setAttribute('role','status');
-    overview.append(status);
-  }
-  body.append(overview);
+  const proofNote = el('div', 'detail-proof-note');
+  proofNote.setAttribute('role', 'note');
+  const proofTag = el('span', 'proof-note-tag', item.proof);
+  proofTag.dataset.proof = item.proof;
+  const proofDesc = el('span', 'proof-note-desc', PROOF_DEFINITIONS[item.proof] || '本庫未獨立重現，請核對原始報告與限制。');
+  proofNote.append(proofTag, proofDesc);
+  body.append(proofNote);
+
 
   const guidance = el('details', 'reader-guidance');
-  guidance.append(el('summary', '', '本庫的入門建議（非實測結果）'));
-  [['怎麼開始', item.how], ['要注意什麼', item.caution]].forEach(([label, text]) => {
-    const section = el('section');
-    section.append(el('h2', '', label), el('p', '', text));
-    guidance.append(section);
+  guidance.append(el('summary', '', '💡 本庫入門建議：怎麼開始與注意事項（非實測結果）'));
+  const guidanceGrid = el('div', 'guidance-grid');
+  [['怎麼開始', item.how, 'guidance-how'], ['要注意什麼', item.caution, 'guidance-caution']].forEach(([label, text, cls]) => {
+    const section = el('section', 'guidance-card ' + cls);
+    section.append(el('h2', '', (label === '怎麼開始' ? '🚀 ' : '⚠️ ') + label), el('p', '', text));
+    guidanceGrid.append(section);
   });
+  guidance.append(guidanceGrid);
   body.append(guidance);
-
   const research = el('details', 'research-details');
   const toggle = el('summary', '', '查看原始研究、來源與完整提示詞');
   research.append(toggle, el('p', 'research-title', item.id + ' · ' + item.originalTitle), renderMarkdown(item.markdown, item.path));
@@ -671,15 +1111,30 @@ function showDetail(item, trigger, updateURL=true) {
   updateModalNav();
 
   if (!$('detail').open) $('detail').showModal();
+  syncPageContext();
   $('detail').scrollTop = 0;
   title.focus({preventScroll:true});
   if (updateURL) {
     const url = new URL(location.href);
     url.searchParams.set('case', item.id);
-    history.pushState({...history.state, caseReturn:lastTriggerContext}, '', url);
-  }
+    history.pushState({...history.state, caseReturn:lastTriggerContext,readerVisit:currentReadingVisit}, '', url);
+  }else history.replaceState({...history.state,readerVisit:currentReadingVisit},'',location.href);
+  if(readingView)restoreReadingView(readingView);
 }
 function restoreDetailFocus(){
+  if(lastTriggerContext?.area==='results' && currentDetailItem?.id!==lastTriggerContext.id){
+    const index=currentFiltered.findIndex(item=>item.id===currentDetailItem.id);
+    if(index>=0){
+      ensureVisibleResult(currentDetailItem.id);
+      const card=[...$('results').querySelectorAll('.card')].find(node=>node.dataset.caseId===currentDetailItem.id);
+      const target=card?.querySelector(lastTriggerContext.read?'.card-bottom button':'h3 button');
+      if(target){
+        target.focus({preventScroll:true});
+        target.scrollIntoView({block:'nearest',behavior:'instant'});
+        return;
+      }
+    }
+  }
   if(lastTrigger?.isConnected){lastTrigger.focus({preventScroll:true});return;}
   if(lastTriggerContext){
     const node=[...$(lastTriggerContext.area).querySelectorAll('.card')].find(card=>card.dataset.caseId===lastTriggerContext.id);
@@ -689,11 +1144,13 @@ function restoreDetailFocus(){
   revealSearch(true);
 }
 function closeDetail() {
+  currentReadingVisit=null;
   if ($('detail').open) $('detail').close();
   const url = new URL(location.href);
   url.searchParams.delete('case');
   history.replaceState(null, '', url);
   updateMissingCase();
+  syncPageContext();
   restoreDetailFocus();
 }
 // Explanations use the existing matching rules; they never rank or qualify evidence.
@@ -730,7 +1187,8 @@ function searchContext(item, terms) {
     for(const field of fields){
       const text=norm(field.text),variant=variants.find(v=>text.includes(v));
       if(!variant)continue;
-      matches.push({term,variant,label:field.label,excerpt:field.original?contextExcerpt(field.text,variant):''});
+      const caution=field.original&&/限制|風險|注意|缺口|權限/.test(field.label)?'限制':field.original&&/來源|參考|連結/.test(field.label)?'來源':'';
+      matches.push({term,variant,label:field.label,excerpt:field.original?contextExcerpt(field.text,variant):'',caution});
       break;
     }
   }
@@ -746,6 +1204,7 @@ function renderSearchContext(item, terms) {
     const relation=match.term===match.variant?'「'+match.term+'」':'「'+match.term+'」→「'+match.variant+'」';
     row.append(el('p','search-context-label',relation+' · '+match.label));
     if(match.excerpt)row.append(el('p','search-context-excerpt',match.excerpt));
+    if(match.caution)row.append(el('p','search-context-caution',match.caution==='限制'?'此詞出現在限制／注意段落；命中不代表案例能完成這項任務。':'此詞出現在來源／參考段落；命中不代表案例用途包含這項任務。'));
     box.append(row);
   });
   if(context.remaining)box.append(el('p','search-context-more','另有 '+context.remaining+' 個關鍵字符合；可開啟原文核對。'));
@@ -754,11 +1213,31 @@ function renderSearchContext(item, terms) {
 
 function card(item, terms=[]) {
   const node = el('article', 'card');
-  node.dataset.kind = item.kind;node.dataset.caseId=item.id;
+  node.dataset.kind = item.kind;node.dataset.caseId=item.id;node.dataset.proof=item.proof;
   const top = el('div', 'card-top');
   const topInfo = el('span', 'card-id-tool', item.id + (item.tools.length ? ' · ' + item.tools.slice(0, 2).join(' / ') : ''));
+  const badgesWrap = el('div', 'card-top-badges');
+  if(item.scenario){
+    const scenarioBadge = el('span', 'card-scenario', item.scenario);
+    scenarioBadge.dataset.scenario = item.scenario;
+    badgesWrap.append(scenarioBadge);
+  }
+  if(item.difficulty){
+    const diffBadge = el('span', 'card-difficulty', item.difficulty);
+    diffBadge.dataset.difficulty = item.difficulty;
+    diffBadge.title = DIFFICULTY_LABELS[item.difficulty] || item.difficulty;
+    diffBadge.setAttribute('aria-label', '實作門檻：' + (DIFFICULTY_LABELS[item.difficulty] || item.difficulty));
+    badgesWrap.append(diffBadge);
+    if(DIFFICULTY_NOTES[item.difficulty]){
+      const diffNote = el('span', 'card-difficulty-note', DIFFICULTY_NOTES[item.difficulty]);
+      diffNote.dataset.difficulty = item.difficulty;
+      diffNote.setAttribute('aria-hidden', 'true');
+      badgesWrap.append(diffNote);
+    }
+  }
   const kindBadge = el('span', 'kind', KIND[item.kind]);
-  top.append(topInfo, kindBadge);
+  badgesWrap.append(kindBadge);
+  top.append(topInfo, badgesWrap);
   node.append(top);
 
   const h = el('h3');
@@ -766,7 +1245,17 @@ function card(item, terms=[]) {
   title.type = 'button';
   title.addEventListener('click', () => showDetail(item, title));
   h.append(title);
-  node.append(h, el('p', 'summary', item.summary));
+  node.append(h);
+  if(item.coreGoal && item.coreGoal !== item.summary && item.coreGoal !== item.title){
+    const goalP = el('p', 'card-goal', '🎯 解決痛點：' + item.coreGoal);
+    node.append(goalP);
+  }
+  const targetUser = item.targetUser || (!item.coreGoal ? SCENARIO_TARGET_USERS[item.scenario] : '');
+  if(targetUser){
+    const userP = el('p', 'card-target-user', '👤 適合對象：' + targetUser);
+    node.append(userP);
+  }
+  node.append(el('p', 'summary', item.summary));
   const reviewed=el('p','review-date');
   if(item.reviewedDate){const time=el('time','',item.reviewedDate);time.dateTime=item.reviewedDate;reviewed.append(document.createTextNode('頁首核對 '),time);}
   else reviewed.textContent='頁首未提供核對日';
@@ -805,25 +1294,53 @@ function card(item, terms=[]) {
   read.type = 'button';
   read.setAttribute('aria-label', '閱讀 ' + item.id + ' ' + item.title);
   read.addEventListener('click', () => showDetail(item, read));
-  bottom.append(el('span', 'proof', item.proof), read);
+  const proofBadge = el('span', 'proof', item.proof);proofBadge.dataset.proof = item.proof;
+  proofBadge.setAttribute('role', 'note');
+  proofBadge.title = PROOF_DEFINITIONS[item.proof] || item.proof;
+  proofBadge.setAttribute('aria-label', '來源憑據：' + item.proof + '。' + (PROOF_DEFINITIONS[item.proof] || ''));
+  bottom.append(proofBadge, read);
   node.append(bottom);
   return node;
 }
 // Keep a nearby route back to refinement without hiding or reordering results.
-function resultCards(items, terms) {
+function resultCards(items, terms, offset=0, total=items.length) {
   const nodes=[];
   items.forEach((item,index)=>{
     nodes.push(card(item,terms));
-    if((index+1)%6===0||index===items.length-1){
+    const position=offset+index+1;
+    if(position%6===0||position===total){
       const row=el('div','results-return');
       const link=el('a','','回到搜尋與篩選 ↑');
       link.href='#explore';
-      link.dataset.resultsReturn=String(index+1);
+      link.dataset.resultsReturn=String(position);
       link.addEventListener('click',enterSearch);
       row.append(link);nodes.push(row);
     }
   });
   return nodes;
+}
+function showMoreResults() {
+  const start=Math.min(visibleResults,currentFiltered.length);
+  visibleResults=Math.min(start+RESULT_BATCH_SIZE,currentFiltered.length);
+  const nodes=resultCards(currentFiltered.slice(start,visibleResults),tokenize($('query').value),start,currentFiltered.length);
+  $('results').append(...nodes);
+  if(visibleResults===currentFiltered.length && document.activeElement===$('load-more-results')){
+    nodes[0]?.querySelector('h3 button')?.focus({preventScroll:true});
+  }
+  updateResultBatch();
+}
+function ensureVisibleResult(id) {
+  const index=currentFiltered.findIndex(item=>item.id===id);
+  if(index<visibleResults)return;
+  const start=visibleResults;
+  visibleResults=Math.min(currentFiltered.length,Math.ceil((index+1)/RESULT_BATCH_SIZE)*RESULT_BATCH_SIZE);
+  $('results').append(...resultCards(currentFiltered.slice(start,visibleResults),tokenize($('query').value),start,currentFiltered.length));
+  updateResultBatch();
+}
+function updateResultBatch() {
+  const remaining=currentFiltered.length-visibleResults;
+  $('load-more-results').hidden=remaining<=0;
+  $('load-more-results').textContent=`再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）`;
 }
 function enterSearch(event) {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
@@ -836,7 +1353,9 @@ function enterSearch(event) {
   $('query').focus({preventScroll:true});
 }
 function filterEntries(items, terms, filters) {
-  return items.filter(item => terms.every(term => termVariants(term).some(v => item.search.includes(v))) && (!filters.kind || item.kind === filters.kind) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
+  return items.filter(item => terms.every(term => termVariants(term).some(v => (filters.scope==='overview'
+    ? norm(item.title+' '+item.summary).includes(v) : item.search.includes(v))))
+    && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
 }
 
 /* Rank only existing matches; evidence status, popularity and frequency are not scores. */
@@ -893,21 +1412,35 @@ function sourceTypeMessage(type) {
   const description=Object.hasOwn(SOURCE_TYPES,type)?SOURCE_TYPES[type]:'此類型未列入說明，請核對原文與限制。';
   return type+'：'+description+' 本庫未獨立重現。';
 }
-const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',tool:'提及工具',category:'主題分類',proof:'來源類型'};
+const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',difficulty:'實作門檻',tool:'提及工具',category:'主題分類',proof:'來源類型',scope:'命中範圍'};
 function activeConditions(query, filters) {
   return Object.entries({query, ...filters}).filter(([,value]) => value)
-    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : value}));
+    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : key==='scope' ? '標題與用途' : value}));
 }
 function relaxationOptions(items, terms, filters) {
   return Object.entries(filters).filter(([,value])=>value).map(([key,value]) => ({
     key, value, count:filterEntries(items,terms,{...filters,[key]:''}).length
   })).filter(option=>option.count>0).sort((a,b)=>a.count-b.count);
 }
+function queryRelaxationOptions(items, query, filters) {
+  const words=tokenize(query);
+  if(words.length<2)return [];
+  const seen=new Set();
+  return words.map((removed,index)=>{
+    const candidate=words.filter((_,i)=>i!==index).join(' ');
+    if(seen.has(candidate))return null;
+    seen.add(candidate);
+    const terms=tokenize(candidate);
+    if(!terms.length)return null;
+    const count=filterEntries(items,terms,filters).length;
+    return count ? {query:candidate,removed,count} : null;
+  }).filter(Boolean).sort((a,b)=>b.count-a.count);
+}
 // Only broaden an empty intersection when no single removal can recover it.
 // At most five facets: search smallest removal sets first, preserving the query.
 function combinedRelaxationOptions(items, terms, filters) {
   const matches=filterEntries(items,terms,{});
-  if(!matches.length || filterEntries(matches,[],filters).length || relaxationOptions(matches,[],filters).length)return [];
+  if(!matches.length || filterEntries(matches,terms,filters).length || relaxationOptions(matches,terms,filters).length)return [];
   const conditions=Object.entries(filters).filter(([key,value])=>key!=='query' && Object.hasOwn(FILTER_LABELS,key) && value)
     .map(([key,value])=>({key,value}));
   for(let size=2;size<=conditions.length;size++){
@@ -916,7 +1449,7 @@ function combinedRelaxationOptions(items, terms, filters) {
       if(removed.length===size){
         const remaining={...filters};
         removed.forEach(({key})=>remaining[key]='');
-        const count=filterEntries(matches,[],remaining).length;
+        const count=filterEntries(matches,terms,remaining).length;
         if(count)options.push({conditions:removed,count});
         return;
       }
@@ -983,8 +1516,9 @@ function renderFacetCounts(terms, filters) {
     : failedPaths.length
       ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
       : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。';
-  for(const key of ['scenario','kind','tool','category','proof']){
+  for(const key of ['scenario','kind','difficulty','tool','category','proof']){
     const select=$(key);
+    if(!select) continue;
     // Keep unfamiliar shared scenarios visible, rather than showing an empty field.
     if(key==='scenario' && activeScenario && ![...select.options].some(o=>o.value===activeScenario)){
       const option=el('option','',activeScenario);option.value=activeScenario;select.append(option);
@@ -1022,12 +1556,12 @@ function groupFacetOptions(select,counts) {
   select.replaceChildren(...children);
   select.value=selected;
 }
-const SEARCH_KEYS=['q','scenario','kind','tool','category','proof'];
+const SEARCH_KEYS=['q','scenario','kind','difficulty','tool','category','proof','scope'];
 function searchLink(href,query,filters,sort='') {
   const current=new URL(href);
   const url=new URL(current.pathname,current.origin);
   if(query)url.searchParams.set('q',query);
-  SEARCH_KEYS.slice(1).forEach(key=>{if(filters[key])url.searchParams.set(key,filters[key]);});
+  SEARCH_KEYS.slice(1).forEach(key=>{if(filters[key] && (key!=='scope'||filters[key]==='overview'))url.searchParams.set(key,filters[key]);});
   if(reviewSort(sort))url.searchParams.set('sort',sort);
   url.hash='explore';
   return url.href;
@@ -1045,8 +1579,9 @@ function hasSearchArrival(params,hash) {
   return SEARCH_KEYS.some(key=>(params.get(key)||'').trim())||params.get('sort')==='reviewed';
 }
 function currentSearchLink() {
-  const filters=Object.fromEntries(['kind','tool','category','proof'].map(id=>[id,$(id).value]));
+  const filters=Object.fromEntries(['kind','difficulty','tool','category','proof'].map(id=>[id,$(id)?.value||'']));
   filters.scenario=activeScenario;
+  filters.scope=$('overview-only').checked?'overview':'';
   return searchLink(location.href,$('query').value,filters,$('sort').value);
 }
 let searchComposing = false, categoryComposing = false;
@@ -1060,6 +1595,11 @@ function submitSearch(event) {
   focusLoadedResults('start');
 }
 function revealSearch(resultsOnly=false) {
+  // Compact only an initial, untouched arrival that cannot show its results.
+  // Keep readable controls and their values; explicit returns preserve choices.
+  const panel=$('filter-options');
+  if(!resultsOnly && panel.open && !panel.contains(document.activeElement) &&
+    $('results-count').getBoundingClientRect().bottom-$('explore').getBoundingClientRect().top>innerHeight-24)panel.open=false;
   const target=$(resultsOnly?'results-count':'search-title');
   (resultsOnly?$('results-count'):$('explore')).scrollIntoView({block:'start',behavior:'instant'});
   target.focus({preventScroll:true});
@@ -1098,8 +1638,9 @@ function clearSearchShare() {
 async function copySearchLink() {
   if(!discoveryReady)return;
   clearSearchShare();
-  const request=searchShareRequest;
+  const request=searchShareRequest,focusAtRequest=document.activeElement;
   const url=currentSearchLink();
+  $('search-share-status').textContent='正在複製搜尋連結…';
   try {
     if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');
     await navigator.clipboard.writeText(url);
@@ -1109,7 +1650,8 @@ async function copySearchLink() {
     if(request!==searchShareRequest)return;
     $('search-share-status').textContent='無法自動複製，請手動複製下方搜尋網址。';
     const manual=$('search-share-url');
-    manual.value=url;manual.hidden=false;manual.focus();manual.select();
+    manual.value=url;manual.hidden=false;
+    if(document.activeElement===focusAtRequest){manual.focus();manual.select();}
   }
 }
 
@@ -1129,6 +1671,7 @@ function refineFromCard(key, value) {
 }
 function removeCondition(key) {
   if(key==='scenario')activeScenario='';
+  else if(key==='scope')$('overview-only').checked=false;
   else if(Object.hasOwn(FILTER_LABELS,key))$(key).value='';
   render();
   focusResults();
@@ -1136,17 +1679,44 @@ function removeCondition(key) {
 function removeConditions(conditions) {
   conditions.forEach(({key})=>{
     if(key==='scenario')activeScenario='';
-    else if(['kind','tool','category','proof'].includes(key))$(key).value='';
+    else if(key==='scope')$('overview-only').checked=false;
+    else if(['kind','difficulty','tool','category','proof'].includes(key))$(key).value='';
   });
   render();
   focusResults();
 }
 function clearFacets() {
   activeScenario='';
-  ['kind','tool','category','proof'].forEach(id=>$(id).value='');
+  $('overview-only').checked=false;
+  ['kind','difficulty','tool','category','proof'].forEach(id=>{ if($(id)) $(id).value=''; });
   render();
   focusResults();
 }
+function prioritizeProblemTags(tags, query) {
+  const text=norm(query);
+  return tags.map((tag,index)=>({tag,index}))
+    .sort((a,b)=>Number(text.includes(b.tag.term))-Number(text.includes(a.tag.term)) || a.index-b.index)
+    .map(({tag})=>tag);
+}
+
+// Offer only literal task tags already present in loaded entries. A suggestion
+// changes the query on selection; a substring alone does not establish relevance.
+function phraseRecoveryOptions(items, query, filters, limit=3) {
+  const text=norm(query);
+  const candidates=new Set();
+  items.forEach(item=>(item.tags||[]).forEach(tag=>{
+    const phrase=norm(tag).trim();
+    if(/^[\u3400-\u9fff]{2,6}$/.test(phrase) && text.includes(phrase) && text!==phrase)candidates.add(phrase);
+  }));
+  return [...candidates].map(phrase=>({
+    query:phrase,
+    count:filterEntries(items,tokenize(phrase),filters).length
+  })).filter(option=>option.count>0 && option.count<=Math.max(3,Math.floor(items.length/10)))
+    .sort((a,b)=>text.indexOf(a.query)-text.indexOf(b.query) || b.query.length-a.query.length)
+    .slice(0,limit);
+}
+
+
 function renderSearchFeedback(terms, filters) {
   const conditions=activeConditions($('query').value,filters);
   const active=$('active-filters');
@@ -1170,24 +1740,88 @@ function renderSearchFeedback(terms, filters) {
   if(!currentFiltered.length&&discoveryReady){
     const options=relaxationOptions(entries,terms,filters).slice(0,3);
     options.forEach(({key,value,count})=>{
-      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:value)+'」 → 查看 '+count+' 筆');
+      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題與用途':value)+'」 → 查看 '+count+' 筆');
       button.type='button';button.dataset.removeFilter=key;
       button.addEventListener('click',()=>removeCondition(key));
       suggestions.append(button);
     });
     const combined=options.length ? [] : combinedRelaxationOptions(entries,terms,filters).slice(0,3);
     combined.forEach(({conditions,count})=>{
-      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:value)+'」');
+      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題與用途':value)+'」');
       const button=el('button','recovery-option','一起移除'+labels.join('、')+' → 查看 '+count+' 筆');
       button.type='button';button.dataset.removeFilters=conditions.map(({key})=>key).join(',');
       button.addEventListener('click',()=>removeConditions(conditions));
       suggestions.append(button);
     });
-    $('empty-hint').textContent=combined.length
+    const queryOptions=queryRelaxationOptions(entries,$('query').value,filters).slice(0,3);
+    queryOptions.forEach(({query,removed,count})=>{
+      const button=el('button','recovery-option','只移除關鍵字「'+removed+'」 → 查看 '+count+' 筆');
+      button.type='button';
+      button.dataset.queryRecovery=query;
+      button.addEventListener('click',()=>{
+        $('query').value=query;
+        render();
+        focusResults();
+      });
+      suggestions.append(button);
+    });
+    const phraseOptions=queryOptions.length ? [] : phraseRecoveryOptions(entries,$('query').value,filters);
+    phraseOptions.forEach(({query,count})=>{
+      if(suggestions.querySelector('[data-query-recovery="'+query+'"]'))return;
+      const button=el('button','recovery-option','原問題提到「'+query+'」 → 搜尋 '+count+' 筆文字命中');
+      button.type='button';button.dataset.queryRecovery=query;
+      button.addEventListener('click',()=>{
+        $('query').value=query;
+        render();
+        focusResults();
+      });
+      suggestions.append(button);
+    });
+    if(!options.length && !combined.length && terms.length){
+      const problemTags = [
+        {label:'郵件摘要 · 搜尋「郵件」', term:'郵件'},
+        {label:'會議整理 · 搜尋「會議」', term:'會議'},
+        {label:'會議日報 · 搜尋「日報」', term:'日報'},
+        {label:'自動客服 · 搜尋「客服」', term:'客服'},
+        {label:'代碼審查 · 搜尋「代碼審查」', term:'代碼審查'},
+        {label:'🧾 搜尋「發票」', term:'發票'},
+        {label:'🛠️ 搜尋「除錯」', term:'除錯'},
+        {label:'🏖️ 搜尋「旅遊」', term:'旅遊'},
+        {label:'🏷️ 搜尋「比價」', term:'比價'}
+      ].filter(({term})=>!phraseOptions.some(option=>option.query===term) && filterEntries(entries,tokenize(term),filters).length>0);
+      const prioritizedTags=prioritizeProblemTags(problemTags,$('query').value);
+      if(problemTags.length){
+        const problemContainer = el('div','empty-problem-suggestions');
+        problemContainer.setAttribute('role','group');
+        problemContainer.setAttribute('aria-label','推薦常見痛點關鍵字');
+        const intro = el('p','empty-problem-intro','以下搜尋在目前篩選下有結果，可保留其他條件繼續探索：');
+        problemContainer.append(intro);
+        const chipsWrap = el('div','empty-problem-chips');
+        prioritizedTags.forEach(({label, term})=>{
+          const btn = el('button','recovery-option recovery-problem-tag',label);
+          btn.type = 'button';
+          btn.dataset.problemTag = term;
+          btn.setAttribute('data-problem-tag', term);
+          btn.setAttribute('aria-label', label);
+          btn.addEventListener('click',()=>{
+            $('query').value = term;
+            render();
+            focusResults();
+          });
+          chipsWrap.append(btn);
+        });
+        problemContainer.append(chipsWrap);
+        suggestions.append(problemContainer);
+      }
+    }
+    $('empty-hint').textContent=suggestions.children.length && terms.length>1 && !suggestions.querySelector('.empty-problem-suggestions')
+      ? '關鍵字須同時符合；以下建議只調整指定條件，並保留其餘條件。'
+      : combined.length
       ? '至少要一起移除 '+combined[0].conditions.length+' 項篩選才有結果。以下調整會保留關鍵字與其餘條件。'
       : options.length
       ? '每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。'
-      : hasFacets ? '目前條件沒有交集。可逐項移除上方條件，或清除篩選後保留關鍵字再找。'
+      : suggestions.querySelector('.empty-problem-suggestions') ? '下方建議可調整關鍵字；任務捷徑在目前篩選下有結果，其餘條件不變。'
+      : hasFacets ? '目前條件沒有交集。請調整篩選或清除篩選後保留關鍵字再找。'
       : '試著用更短的任務關鍵字，例如「旅遊」或「收件匣」。';
     if(failedPaths.length)$('empty-hint').textContent+=' 部分條目載入失敗，以下數量只計算已載入內容。';
   }
@@ -1200,7 +1834,11 @@ function render(updateURL=true, preserveShare=false) {
   $('search-submit').disabled=!discoveryReady;
   $('scenario').value=activeScenario;
   const q = tokenize($('query').value);
-  const filters = Object.fromEntries(['kind', 'tool', 'category', 'proof'].map(id => [id, $(id).value]));
+  if(!q.length)$('overview-only').checked=false;
+  const filters = Object.fromEntries(['kind', 'difficulty', 'tool', 'category', 'proof'].map(id => [id, $(id)?.value || '']));
+  filters.scope=$('overview-only').checked?'overview':'';
+  $('overview-only').disabled=!q.length;
+  $('overview-only').closest('.search-scope').hidden=!q.length;
   if (activeScenario) filters.scenario = activeScenario;
   const sourceNote=sourceTypeMessage(filters.proof);
   if($('source-type-note').textContent!==sourceNote)$('source-type-note').textContent=sourceNote;
@@ -1214,16 +1852,26 @@ function render(updateURL=true, preserveShare=false) {
   $('search-order-note').textContent=$('sort').value==='reviewed'
     ? '依頁首核對日由新到舊；不是發布日，也不代表新增或獨立驗證。正文補充不計；未提供者置後，同日保留原本的符合順序。'
     : '標題與用途優先；全文仍納入搜尋。排序不代表成果或證據可靠度。';
-  $('results').replaceChildren(...resultCards(currentFiltered,q));
+  const resultKey=JSON.stringify([$('query').value,filters,$('sort').value]);
+  if(resultKey!==resultQueryKey){visibleResults=RESULT_BATCH_SIZE;resultQueryKey=resultKey;}
+  $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),q,0,currentFiltered.length));
+  updateResultBatch();
   // Sorting is a reading preference; keep the current discovery deck intact.
   syncDiscovery(rankEntries(matches,q));
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
-  $('empty').querySelector('h3').textContent=failedPaths.length?'已載入內容中沒有符合的案例':'目前沒有符合的案例';
+  const displayQ = abbreviatedQuery($('query').value);
+  $('empty').querySelector('h3').textContent=failedPaths.length
+    ?(displayQ?`已載入內容中目前沒有符合「${displayQ}」的案例`:'已載入內容中沒有符合的案例')
+    :(displayQ?`目前沒有符合「${displayQ}」的案例`:'目前沒有符合的案例');
   renderSearchFeedback(q, filters);
   renderFacetCounts(q, filters);
   updatePartialLoad();
   const skipNote = failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入）` : '';
   $('results-count').textContent = discoveryReady ? `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}` : initialLoading ? '正在讀取案例，完成後會套用目前條件…' : '載入未完成';
+  $('filter-outcome-count').textContent = discoveryReady
+    ? currentFiltered.length ? `目前條件有 ${currentFiltered.length} 筆結果` : failedPaths.length ? '已載入內容中沒有符合結果' : '目前條件沒有符合結果'
+    : initialLoading ? '正在讀取案例…' : '載入未完成';
+  $('filter-view-results').disabled = !discoveryReady;
 
   document.querySelectorAll('.chip[data-scenario]').forEach(btn => {
     const isActive = btn.dataset.scenario === activeScenario;
@@ -1244,19 +1892,22 @@ function render(updateURL=true, preserveShare=false) {
 
   if (updateURL) {
     const url = new URL(location.href);
-    ['query', 'kind', 'tool', 'category', 'proof'].forEach(id => {
+    ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => {
       const key = id === 'query' ? 'q' : id;
-      if ($(id).value) url.searchParams.set(key, $(id).value); else url.searchParams.delete(key);
+      if ($(id)?.value) url.searchParams.set(key, $(id).value); else url.searchParams.delete(key);
     });
     if (activeScenario) url.searchParams.set('scenario', activeScenario); else url.searchParams.delete('scenario');
+    if(filters.scope)url.searchParams.set('scope',filters.scope);else url.searchParams.delete('scope');
     if(reviewSort($('sort').value))url.searchParams.set('sort','reviewed');else url.searchParams.delete('sort');
     history.replaceState(null, '', url);
   }
+  syncPageContext();
 }
 function reset() {
   activeScenario = '';
   $('sort').value='';
-  ['query', 'kind', 'tool', 'category', 'proof'].forEach(id => $(id).value = '');
+  $('overview-only').checked=false;
+  ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => { if($(id)) $(id).value = ''; });
   render();
 }
 function populate(id, values) {
@@ -1288,6 +1939,21 @@ function prioritizeSharedSource(paths,target) {
   const first=id[1]==='p' ? 'sources/pending.md' : paths.find(path=>new RegExp('^(?:cases|evidence)/'+id[2].padStart(3,'0')+'-').test(path));
   return first && paths.includes(first) ? [first,...paths.filter(path=>path!==first)] : paths;
 }
+// Server waiting instructions are a minimum, never a suggestion to retry sooner.
+function sourceRetryDelay(value, minimum=500, now=Date.now()) {
+  if(!value)return minimum;
+  const delay=/^\d+$/.test(value.trim()) ? Number(value)*1000 : Date.parse(value)-now;
+  return Number.isNaN(delay)?minimum:Math.max(minimum,delay);
+}
+function waitForSourceRetry(delay,signal) {
+  if(signal?.aborted)return Promise.resolve(false);
+  return new Promise(resolve=>{
+    const finish=value=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);resolve(value);};
+    const abort=()=>finish(false);
+    const timer=setTimeout(()=>finish(true),delay);
+    signal?.addEventListener('abort',abort,{once:true});
+  });
+}
 async function loadCorpus(paths, options = {}) {
   const fetchFn = options.fetch || fetch;
   const parseFn = options.parseFile || parseFile;
@@ -1307,10 +1973,27 @@ async function loadCorpus(paths, options = {}) {
         batch?.signal.addEventListener('abort',abortSource,{once:true});
         const timer=options.timeout ? setTimeout(abortSource,options.timeout) : null;
         try {
-          const response=await fetchFn(path,{cache:'no-cache',...(controller?{signal:controller.signal}:{})});
-          if (!response.ok) throw Error('HTTP '+response.status);
-          const text=await response.text();
-          if (controller?.signal.aborted) throw Error('讀取已停止');
+          let text;
+          for(let attempt=0;attempt<2;attempt++) {
+            let retryable=true,delay=options.retryDelay??500;
+            try {
+              const response=await fetchFn(path,{cache:'no-cache',...(controller?{signal:controller.signal}:{})});
+              if(!response.ok){
+                retryable=[408,429,500,502,503,504].includes(response.status);
+                delay=sourceRetryDelay(response.headers?.get('Retry-After'),delay);
+                throw Error('HTTP '+response.status);
+              }
+              text=await response.text();
+              if(controller?.signal.aborted)throw Error('讀取已停止');
+              break;
+            } catch(error) {
+              // One opt-in retry, within the original source and whole-load
+              // deadlines. Longer server waits remain available for manual retry.
+              if(!options.retryTransient||attempt||!retryable||controller?.signal.aborted||delay>2000)throw error;
+              if(!await waitForSourceRetry(delay,controller?.signal))throw error;
+            }
+          }
+          // A parse error is a content problem, never a transient network error.
           result={ok:true,path,entries:parseFn(path,text)};
         } catch(error) {
           if (!controller?.signal.aborted) console.warn(`無法讀取 ${path}：`,error);
@@ -1321,7 +2004,7 @@ async function loadCorpus(paths, options = {}) {
         }
       }
       completed++;
-      if (result.ok) { succeeded++; entryCount+=result.entries.length; options.onSource?.(result.entries); }
+      if (result.ok) { succeeded++; entryCount+=result.entries.length; options.onSource?.(result.entries,result.path); }
       options.onProgress?.({completed,succeeded,entryCount,total:paths.length});
       return result;
     });
@@ -1331,6 +2014,79 @@ async function loadCorpus(paths, options = {}) {
     options.signal?.removeEventListener('abort',abortBatch);
   }
 }
+// The bundle is only a transport: every original Markdown still goes through
+// parseFile. An older/mixed deployment or a failed bundle uses the per-file path.
+function parseCorpusBundle(bundle, paths, revision, parseFn) {
+  if(bundle?.version!==1 || bundle.revision!==revision || !Array.isArray(bundle.sources) || bundle.sources.length!==paths.length)throw Error('全文整包版本不符');
+  const allowed=new Set(paths),seen=new Set();
+  const parsed=new Map();
+  for(const source of bundle.sources){
+    if(!allowed.has(source?.path)||seen.has(source.path)||typeof source.markdown!=='string')throw Error('全文整包來源不符');
+    seen.add(source.path);
+    parsed.set(source.path,parseFn(source.path,source.markdown));
+  }
+  return parsed;
+}
+async function loadInitialCorpus(paths, options = {}) {
+  if(typeof options.bundleRevision!=='string'||!options.bundleRevision)return loadCorpus(paths,options);
+  const fetchFn=options.fetch||fetch,parseFn=options.parseFile||parseFile;
+  const controller=new AbortController(),sharedController=new AbortController();
+  const abort=()=>{controller.abort();sharedController.abort();};
+  const deadline=Date.now()+(options.budget||20000);
+  const timer=setTimeout(abort,Math.max(1,deadline-Date.now()));
+  if(options.signal?.aborted)abort();else options.signal?.addEventListener('abort',abort,{once:true});
+  const successful=new Map();
+  let completedFallback=0,sharedFinished=false,inFallback=false,lastCompleted=0;
+  const progress=()=>{
+    lastCompleted=Math.max(lastCompleted,successful.size,inFallback?completedFallback+Number(sharedFinished):0);
+    options.onProgress?.({completed:lastCompleted,succeeded:successful.size,entryCount:[...successful.values()].reduce((n,items)=>n+items.length,0),total:paths.length});
+  };
+  const remember=(path,items)=>{
+    if(successful.has(path))return;
+    successful.set(path,items);options.onSource?.(items);
+  };
+  const perFileOptions={...options,fetch:fetchFn,parseFile:parseFn};
+  const sharedPath=paths.includes(options.sharedPath)?options.sharedPath:null;
+  const shared=sharedPath ? loadCorpus([sharedPath],{...perFileOptions,signal:sharedController.signal,budget:Math.max(1,deadline-Date.now()),onSource:items=>remember(sharedPath,items),onProgress:undefined}).then(()=>{sharedFinished=true;progress();}) : Promise.resolve();
+  try {
+    const bundleController=new AbortController();
+    const abortBundle=()=>bundleController.abort();
+    controller.signal.addEventListener('abort',abortBundle,{once:true});
+    if(controller.signal.aborted)abortBundle();
+    const bundleTimer=setTimeout(abortBundle,Math.min(options.bundleTimeout||2500,Math.max(1,deadline-Date.now())));
+    let bundled=false;
+    try {
+      const response=await fetchFn('corpus.json',{cache:'no-cache',signal:bundleController.signal});
+      if(!response.ok)throw Error('HTTP '+response.status);
+      const data=await response.json();
+      if(bundleController.signal.aborted)throw Error('全文整包讀取已停止');
+      const parsed=parseCorpusBundle(data,paths,options.bundleRevision,parseFn);
+      if(data.sourceRevision && data.sourceRevision===options.sourceRevision) {
+        const verified=[...parsed.keys()].filter(path=>{
+          const early=successful.get(path),bundled=parsed.get(path);
+          return !early || (early.length===bundled.length && early.every((item,i)=>typeof item.markdown==='string' && item.markdown===bundled[i].markdown));
+        });
+        pinSourcePaths(verified,data.sourceRevision);
+        for(const path of verified)if(successful.has(path))refreshCurrentSourceLinks(path);
+      }
+      if(controller.signal.aborted)throw Error('讀取已停止');
+      for(const path of paths){remember(path,parsed.get(path));progress();}
+      bundled=true;
+    }catch(error){
+      if(!controller.signal.aborted)console.warn('全文整包未能使用，改為逐篇讀取：',error);
+    }finally{clearTimeout(bundleTimer);controller.signal.removeEventListener('abort',abortBundle);}
+    if(bundled)sharedController.abort();
+    else if(!controller.signal.aborted){
+      const pending=paths.filter(path=>!successful.has(path)&&path!==sharedPath);
+      inFallback=true;
+      await loadCorpus(pending,{...perFileOptions,signal:controller.signal,budget:Math.max(1,deadline-Date.now()),onSource:(items,path)=>{pinnedSources.delete(path);remember(path,items);},onProgress:status=>{completedFallback=status.completed;progress();}});
+    }
+    await shared;
+    options.onProgress?.({completed:paths.length,succeeded:successful.size,entryCount:[...successful.values()].reduce((n,items)=>n+items.length,0),total:paths.length});
+    return {entries:paths.flatMap(path=>successful.get(path)||[]),failed:paths.filter(path=>!successful.has(path))};
+  }finally{clearTimeout(timer);abort();options.signal?.removeEventListener('abort',abort);}
+}
+
 async function readJSON(path, timeout) {
   const controller=new AbortController();
   const timer=setTimeout(()=>controller.abort(),timeout);
@@ -1359,11 +2115,20 @@ function updatePartialLoad() {
   $('partial-load').hidden=!discoveryReady||!failedPaths.length;
   $('retry-failed').setAttribute('aria-disabled',String(recoveringSources));
   $('retry-failed').textContent=recoveringSources?'正在重試…':'重試未載入來源';
+  $('recovery-progress').hidden=!recoveringSources;
+  $('stop-recovery').hidden=!recoveringSources;
+  $('stop-recovery').setAttribute('aria-disabled',String(!!recoveryController?.signal.aborted));
+  if(recoveryProgress){
+    $('recovery-progress').max=recoveryProgress.total;
+    $('recovery-progress').value=recoveryProgress.completed;
+  }
   const target=new URLSearchParams(location.search).get('case');
   const missingTarget=target&&!matchCase(target);
   $('partial-message').textContent=(missingTarget?'分享的案例目前無法開啟，可能仍在未載入的來源中。':'')+
     '還有 '+failedPaths.length+' 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。'+
-    (recoveringSources?'正在補讀，你可以繼續搜尋或閱讀。':'可稍後重試，已載入內容會保留。');
+    (recoveringSources?'正在補讀，你可以繼續搜尋或閱讀。'+
+      (recoveryProgress?'已處理 '+recoveryProgress.completed+' / '+recoveryProgress.total+' 個來源，成功讀取 '+recoveryProgress.succeeded+' 個。':'')+
+      '不想等待時，可停止並使用已補回內容。':'可稍後重試，已載入內容會保留。');
   $('load-status').textContent=recoveryNotice;
 }
 function preserveRecoveryFocus() {
@@ -1374,6 +2139,7 @@ function preserveRecoveryFocus() {
   const buttonIndex=cardNode?[...cardNode.querySelectorAll('button')].indexOf(active):-1;
   const filterKey=active.dataset.removeFilter;
   const filterKeys=active.dataset.removeFilters;
+  const queryRecovery=active.dataset.queryRecovery;
   const resultsReturn=active.dataset.resultsReturn;
   const categoryValue=active.dataset.categoryValue;
   const parentId=active.parentElement?.id;
@@ -1389,6 +2155,8 @@ function preserveRecoveryFocus() {
     }else if(resultsReturn){
       const links=[...$('results').querySelectorAll('[data-results-return]')];
       replacement=links.find(link=>link.dataset.resultsReturn===resultsReturn)||links.at(-1);
+    }else if(queryRecovery && parentId){
+      replacement=[...$(parentId).querySelectorAll('[data-query-recovery]')].find(b=>b.dataset.queryRecovery===queryRecovery);
     }else if(filterKeys && parentId){
       replacement=[...$(parentId).querySelectorAll('[data-remove-filters]')].find(b=>b.dataset.removeFilters===filterKeys);
     }else if(filterKey && parentId){
@@ -1399,25 +2167,37 @@ function preserveRecoveryFocus() {
     target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
   };
 }
+function stopSourceRecovery() {
+  if(recoveringSources)recoveryController?.abort();
+}
 async function retryFailedSources() {
   if(!discoveryReady||recoveringSources||!failedPaths.length)return;
   const paths=[...failedPaths];
   const requestedCase=new URLSearchParams(location.search).get('case');
+  recoveryController=new AbortController();
+  recoveryProgress={completed:0,succeeded:0,total:paths.length};
   recoveringSources=true;recoveryNotice='正在重試 '+paths.length+' 個來源檔案，已載入內容仍可使用。';
   updatePartialLoad();
   try {
-    const result=await loadCorpus(paths,{concurrency:4,timeout:15000,budget:20000});
+    const result=await loadCorpus(paths,{concurrency:4,timeout:15000,budget:20000,signal:recoveryController.signal,
+      onProgress:progress=>{recoveryProgress=progress;updatePartialLoad();}
+    });
     const restoreFocus=preserveRecoveryFocus();
-    const recoverRequested=document.activeElement===$('retry-failed');
+    const recoveryControlFocused=[$('retry-failed'),$('stop-recovery')].includes(document.activeElement);
+    const recoverRequested=recoveryControlFocused;
     entries=mergeCorpus(entries,result.entries);
     failedPaths=result.failed;
     recoveringSources=false;
-    recoveryNotice='已補回 '+result.entries.length+' 筆收錄。'+(failedPaths.length?
+    recoveryNotice=(recoveryController.signal.aborted?'已停止等待。':'')+'已補回 '+result.entries.length+' 筆收錄。'+(failedPaths.length?
       '仍有 '+failedPaths.length+' 個來源檔案未載入，請稍後再試。':'所有來源皆已載入。');
     refreshCorpusMetadata();
     render(false,true);
     updateModalNav();
-    restoreFocus();
+    if(recoveryControlFocused){
+      const target=failedPaths.length?$('retry-failed'):$('results-count');
+      target.focus({preventScroll:true});
+      target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+    }else restoreFocus();
     refreshRelated();
     const target=new URLSearchParams(location.search).get('case');
     if(recoverRequested && requestedCase!==null && target===requestedCase && !$('detail').open){
@@ -1430,6 +2210,7 @@ async function retryFailedSources() {
     console.error(error);
   } finally {
     recoveringSources=false;
+    recoveryController=null;recoveryProgress=null;
     updatePartialLoad();
   }
 }
@@ -1456,13 +2237,15 @@ function focusLoadedResults(block='center') {
 // Prefer a block starting inside the reading area. A clipped overview can
 // straddle the toolbar while a later source report is already being read;
 // anchoring that overview would miss layout changes between the two blocks.
-function selectReadingAnchor(nodes, top, bottom) {
+function selectReadingAnchor(nodes, top, bottom, after) {
   const visible=nodes.filter(node=>{
     if(node.classList.contains('detail-load-status') || node.closest('.related-cases'))return false;
     const rect=node.getBoundingClientRect();
     return rect.height>0 && rect.bottom>top && rect.top<bottom;
   });
-  return visible.find(node=>node.getBoundingClientRect().top>=top) || visible[0] || null;
+  const downstream=after==null?visible:visible.filter(node=>node.getBoundingClientRect().top>=after-4);
+  const candidates=downstream.length?downstream:visible;
+  return candidates.find(node=>node.getBoundingClientRect().top>=top) || candidates[0] || null;
 }
 
 async function load() {
@@ -1488,6 +2271,8 @@ async function load() {
   $('reset-sort').hidden = true;
   $('empty-suggestions').replaceChildren();
   $('results-count').textContent = '正在讀取案例…';
+  $('filter-outcome-count').textContent = '正在讀取案例…';
+  $('filter-view-results').disabled = true;
   renderCategoryFinder();
   failedPaths = [];
   try {
@@ -1497,15 +2282,18 @@ async function load() {
     $('sort').value=reviewSort(initialParams.get('sort'));
     activeScenario=initialParams.get('scenario')||'';
     $('scenario').value=activeScenario;
-    ['query','kind','tool','category','proof'].forEach(id=>{
+    $('overview-only').checked=initialParams.get('scope')==='overview';
+    ['query','kind','difficulty','tool','category','proof'].forEach(id=>{
       const value=initialParams.get(id==='query'?'q':id)||'';
-      if(value&&['tool','category','proof'].includes(id)&&![...$(id).options].some(o=>o.value===value)){
+      if(value&&['difficulty','tool','category','proof'].includes(id)&&$(id)&&![...$(id).options].some(o=>o.value===value)){
         const option=el('option','',value);option.value=value;$(id).append(option);
       }
-      $(id).value=value;
+      if($(id)) $(id).value=value;
     });
+    syncPageContext();
     const catalog = await readJSON('catalog.json', Math.min(8000,remaining()));
     if (!Array.isArray(catalog.files) || !catalog.files.length) throw Error('索引沒有案例。');
+    pinnedSources.clear();
     const paths = catalog.files.filter(p => typeof p === 'string' && /^(cases|evidence)\/[a-zA-Z0-9_/-]+\.md$/.test(p) || p === 'sources/pending.md');
     try {
       displayCopy = await readJSON('assets/copy.json', Math.min(2500,remaining()));
@@ -1515,8 +2303,11 @@ async function load() {
     }
     let announced=-1;
     const orderedPaths=prioritizeSharedSource(paths,new URLSearchParams(location.search).get('case'));
-    const { entries: loaded, failed } = await loadCorpus(orderedPaths, {
-      fetch,parseFile,concurrency:16,timeout:12000,budget:remaining(),signal:initialLoadController.signal,
+    const { entries: loaded, failed } = await loadInitialCorpus(orderedPaths, {
+      bundleRevision:catalog.bundleRevision,
+      sourceRevision:catalog.sourceRevision,
+      sharedPath:new URLSearchParams(location.search).has('case') && orderedPaths!==paths ? orderedPaths[0] : null,
+      fetch,parseFile,concurrency:16,timeout:12000,budget:remaining(),signal:initialLoadController.signal,retryTransient:true,
       onSource:items=>{
         // Read only a successfully parsed source whose actual ID still matches
         // the current URL. Do not reopen a case after close or history traversal.
@@ -1550,23 +2341,32 @@ async function load() {
     // Wheel/touch readers may still have an offscreen title focused. Preserve
     // visible reading content rather than pulling the viewport toward that title.
     const relatedHasFocus=dialog.querySelector('.related-cases')?.contains(document.activeElement);
-    const readingAnchor=dialog.open && !relatedHasFocus ? selectReadingAnchor(
-      [...dialog.querySelectorAll('#detail-body h2,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary')],
-      readingEdge,dialog.getBoundingClientRect().bottom
+    const status=dialog.querySelector('.detail-load-status');
+    const statusBottom=status?.getBoundingClientRect().bottom;
+    const statusHeight=status&&!status.hidden?status.getBoundingClientRect().height:0;
+    const statusWasAbove=status&&status.getBoundingClientRect().bottom<=readingEdge;
+    const activeEl = document.activeElement && dialog.contains(document.activeElement) ? document.activeElement : null;
+    const activeRect = activeEl?.getBoundingClientRect();
+    const focusAboveStatus = activeRect && status && activeRect.top < status.getBoundingClientRect().top && activeRect.bottom > readingEdge;
+    const readingAnchor=dialog.open && !relatedHasFocus && !focusAboveStatus ? selectReadingAnchor(
+      [...dialog.querySelectorAll('#detail-body h2,#detail-body h3,#detail-body p,#detail-body li,#detail-body pre,#detail-body summary,#detail-body .markdown-table,#detail-body tr')],
+      readingEdge,dialog.getBoundingClientRect().bottom,statusBottom
     ) : null;
     const readingTop=readingAnchor?.getBoundingClientRect().top;
+    const readingOffset=readingAnchor&&readingTop!=null?readingTop-readingEdge:0;
     entries = mergeCorpus([],loaded);
     refreshCorpusMetadata();
     $('updated').textContent = '索引更新 ' + catalog.builtAt;
     const params = new URLSearchParams(location.search);
     $('sort').value=reviewSort(params.get('sort'));
     activeScenario = params.get('scenario') || '';
-    ['query', 'kind', 'tool', 'category', 'proof'].forEach(id => {
+    $('overview-only').checked=params.get('scope')==='overview';
+    ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => {
       const value = params.get(id === 'query' ? 'q' : id) || '';
-      if(failedPaths.length && value && ['tool','category','proof'].includes(id) && ![...$(id).options].some(o=>o.value===value)){
+      if(failedPaths.length && value && ['difficulty','tool','category','proof'].includes(id) && $(id) && ![...$(id).options].some(o=>o.value===value)){
         const option=el('option','',value);option.value=value;$(id).append(option);
       }
-      if (id === 'query' || [...$(id).options].some(o => o.value === value)) $(id).value = value;
+      if ($(id) && (id === 'query' || [...$(id).options].some(o => o.value === value))) $(id).value = value;
     });
     const skippedFromButton=document.activeElement===$('use-loaded');
     $('loading-progress').hidden=true;
@@ -1577,13 +2377,16 @@ async function load() {
       // Keep the exact research DOM, reading position and focused control.
       updateModalNav();
       refreshRelated();
-      const status=$('detail-body').querySelector('.detail-load-status');
       if(status){
         status.textContent=failedPaths.length ? '這篇已可閱讀；部分其他來源尚未載入。關閉閱讀後可重試未載入來源。' : '其他案例已載入，可依目前搜尋條件切換與探索。';
         status.hidden=!failedPaths.length;
       }
+      const statusAfter=status&&!status.hidden?status.getBoundingClientRect().height:0;
+      const statusDiff=statusHeight-statusAfter;
       if(readingAnchor?.isConnected && readingAnchor.getBoundingClientRect().height>0){
         dialog.scrollTop+=readingAnchor.getBoundingClientRect().top-readingTop;
+      } else if (!relatedHasFocus && statusWasAbove && statusDiff > 0) {
+        dialog.scrollTop-=statusDiff;
       }
     }
     else if (current) { showDetail(current, null, false); allowAutomaticArrival=false; }
@@ -1594,12 +2397,15 @@ async function load() {
     discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();
     $('results-count').textContent = '載入未完成';
+    $('filter-outcome-count').textContent = '載入未完成，請到結果區重新載入';
+    $('filter-view-results').disabled = false;
     $('error-message').textContent = '請稍後重試，或先閱讀 GitHub 原始資料。';
     $('error').hidden = false;
     finishArrival(new URLSearchParams(location.search),true);
     console.error(error);
   } finally {
     initialLoading=false;initialLoadController=null;
+    syncPageContext();
     renderCategoryFinder();
     $('loading-progress').hidden=true;
   }
@@ -1609,33 +2415,65 @@ function drawNext(){
   const next=discoveryDeck.next();
   if(!next)return;
   $('drawn-case').replaceChildren(card(next.item));
-  const scope=$('scenario').value||'全部情境';
+  const diffLabel=$('difficulty')?.value?($('difficulty').value==='入門對話'?'免寫程式':$('difficulty').value==='工具串接'?'需帳號外掛':'需代碼環境'):'';
+  const scope=($('scenario').value||'全部情境')+(diffLabel?' · '+diffLabel:'');
   $('draw-status').textContent=scope+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
   $('draw-case').textContent=next.total===1?'只有這一張，重新看看':'再抽一張 ↻';
 }
 function syncDiscovery(filtered){
-  document.querySelectorAll('[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
+  document.querySelectorAll('button[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
+  document.querySelectorAll('button[data-difficulty]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.difficulty===($('difficulty')?.value||''))));
   if(!discoveryReady)return;
   const pool=Discovery.discoveryPool(filtered);
-  const key=$('scenario').value+'|'+pool.map(item=>item.id).join(',');
+  const key=$('scenario').value+'|'+($('difficulty')?.value||'')+'|'+pool.map(item=>item.id).join(',');
   if(key===discoveryKey)return;
   discoveryKey=key;discoveryDeck=Discovery.createDeck(pool);
   $('draw-case').disabled=!pool.length;
   if(pool.length)drawNext();
   else{
-    $('drawn-case').replaceChildren(el('p','draw-placeholder','試試其他情境，或在下方調整篩選。待查線索與模板補充保留在搜尋結果中。'));
-    $('draw-status').textContent='這組條件目前沒有可抽的案例卡。';
+    const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
+    $('drawn-case').replaceChildren(el('p','draw-placeholder',`${diffText}目前沒有可抽的案例卡。試試「全部門檻」或其他情境，或在下方調整篩選。`));
+    $('draw-status').textContent=($('scenario').value||'全部情境')+($('difficulty')?.value?' · '+$('difficulty').value:'')+' 目前沒有可抽的案例卡。';
     $('draw-case').textContent='沒有可抽的案例';
   }
 }
 function revealDiscovery(){
-  if(!window.matchMedia('(max-width:760px)').matches)return;
-  const rect=$('discover').getBoundingClientRect();
-  if(rect.top<0||rect.bottom>window.innerHeight)$('discover').scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  // Only explicit scenario/draw actions call this helper. Automatic deck updates
+  // must leave the reader's current input and focus untouched.
+  if(!discoveryReady)return;
+  const target=$('drawn-case').querySelector('h3 button')||$('draw-status');
+  if(target===$('draw-status'))target.tabIndex=-1;
+  const stage=$('discover'),rect=stage.getBoundingClientRect();
+  if(rect.top<0||rect.bottom>window.innerHeight)stage.scrollIntoView({block:'start',behavior:'instant'});
+  // A long status or title can extend past the stage's initial landing.
+  const titleRect=target.getBoundingClientRect();
+  if(titleRect.top<16||titleRect.bottom>window.innerHeight-16)target.scrollIntoView({block:'start',behavior:'instant'});
+  target.focus({preventScroll:true});
+}
+function drawFromButton(){
+  // Re-drawing must not move the page: on phones the stage is taller than the
+  // viewport, so revealDiscovery() would scroll back to the stage top on every
+  // tap. Keep the tapped button at the same viewport offset instead, so the new
+  // card starts right below it, and only scroll down if its title is cut off.
+  const button=$('draw-case'),before=button.getBoundingClientRect().top;
+  if(!discoveryReady||before<0||before>window.innerHeight){drawNext();revealDiscovery();return;}
+  drawNext();
+  const shift=button.getBoundingClientRect().top-before;
+  if(Math.abs(shift)>0.5)window.scrollBy({top:shift,behavior:'instant'});
+  const target=$('drawn-case').querySelector('h3 button')||$('draw-status');
+  if(target===$('draw-status'))target.tabIndex=-1;
+  const rect=target.getBoundingClientRect(),limit=window.innerHeight-16;
+  if(rect.bottom>limit)window.scrollBy({top:Math.max(0,Math.min(rect.bottom-limit,rect.top-16)),behavior:'instant'});
+  target.focus({preventScroll:true});
 }
 function chooseScenario(value){
-  ['query','scenario','kind','tool','category','proof'].forEach(id=>$(id).value='');
+  ['query','scenario','kind','difficulty','tool','category','proof'].forEach(id=>$(id).value='');
   activeScenario=value;render();revealDiscovery();
+}
+function chooseDifficulty(value){
+  $('difficulty').value=value;
+  render();
+  revealDiscovery();
 }
 
 /* Browser event bindings. */
@@ -1664,6 +2502,7 @@ $('dismiss-missing-case').addEventListener('click',()=>{
   url.hash='explore';
   history.replaceState(history.state,'',url);
   updateMissingCase();
+  syncPageContext();
   $('explore').scrollIntoView({block:'start',behavior:'instant'});
   $('query').focus({preventScroll:true});
 });
@@ -1671,8 +2510,9 @@ $('copy-search-link').addEventListener('click',copySearchLink);
 // Choose the initial disclosure state once; typing, navigation and resizing
 // preserve the reader's choice and never hide a currently focused control.
 $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
-$('draw-case').addEventListener('click',()=>{drawNext();revealDiscovery();});
+$('draw-case').addEventListener('click',drawFromButton);
 document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
+document.querySelectorAll('#draw-difficulty-options [data-difficulty]').forEach(button=>button.addEventListener('click',()=>chooseDifficulty(button.dataset.difficulty)));
 $('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;render();});
 $('filters').addEventListener('submit', submitSearch);
 $('query').addEventListener('compositionstart', () => { searchComposing = true; });
@@ -1694,20 +2534,31 @@ $('clear-category-query').addEventListener('click',()=>{
   $('category-query').value='';renderCategoryFinder();$('category-query').focus();
 });
 $('query').addEventListener('input', () => render());
+$('overview-only').addEventListener('change',()=>render());
 $('sort').addEventListener('change', () => render());
 $('reset-sort').addEventListener('click', resetSort);
 $('recent-entry').addEventListener('click', event => {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   history.replaceState(null,'',event.currentTarget.href);
   activeScenario='';
-  ['query','kind','tool','category','proof'].forEach(id=>$(id).value='');
+  $('overview-only').checked=false;
+  ['query','kind','difficulty','tool','category','proof'].forEach(id => { if($(id)) $(id).value = ''; });
   $('sort').value='reviewed';render();enterSearch(event);
 });
-['kind', 'tool', 'category', 'proof'].forEach(id => $(id).addEventListener('change', () => render()));
+['kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => $(id)?.addEventListener('change', () => render()));
+$('filter-view-results').addEventListener('click', focusResults);
+$('load-more-results').addEventListener('click',showMoreResults);
 $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
 $('clear-facets').addEventListener('click', clearFacets);
-$('edit-query').addEventListener('click', () => { $('query').focus(); $('query').select(); });
+$('edit-query').addEventListener('click', () => {
+  const query=$('query');
+  query.focus({preventScroll:true});
+  query.select();
+  // Keep this explicit recovery visible even when native focus does not scroll.
+  query.scrollIntoView({block:'center',behavior:'instant'});
+});
+$('stop-recovery').addEventListener('click',stopSourceRecovery);
 $('retry-failed').addEventListener('click',()=>{
   if(recoveringSources)return;
   $('retry-failed').focus({preventScroll:true});
@@ -1745,7 +2596,28 @@ $('detail').addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if ($('detail').open) {
-    if (e.defaultPrevented || e.isComposing || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || document.activeElement.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"])')) return;
+    if(e.key==='Tab'&&e.shiftKey&&document.activeElement===$('copy-case-link')){
+      const dialog=$('detail'),controls=[...$('detail-body').querySelectorAll('button:not([disabled]),a[href],summary,input:not([hidden])')];
+      const previous=controls[controls.indexOf(document.activeElement)-1];
+      if(previous){
+        e.preventDefault();
+        previous.focus({preventScroll:true});
+        dialog.scrollTop+=previous.getBoundingClientRect().top-dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom-12;
+        return;
+      }
+    }
+    // WebKit may move backward from the first body control to the dialog
+    // instead of the last toolbar control. Follow the rendered order, including
+    // controls introduced inside the overview by the reader enhancement.
+    if (e.key === 'Tab' && e.shiftKey &&
+        document.activeElement === $('detail-body').querySelector('button:not([disabled]),a[href],summary,input:not([hidden])')) {
+      e.preventDefault();
+      $('close-detail').focus();
+      return;
+    }
+    // Arrow keys belong to the browser while readers select or copy passage text.
+    if (document.getSelection()?.isCollapsed === false) return;
+    if (e.defaultPrevented || e.isComposing || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || document.activeElement.closest('.markdown-table,input,textarea,select,[contenteditable]:not([contenteditable="false"])')) return;
     if (e.key === 'ArrowLeft') { e.preventDefault(); navStep(-1); }
     else if (e.key === 'ArrowRight') { e.preventDefault(); navStep(1); }
     return;
@@ -1756,6 +2628,7 @@ document.addEventListener('keydown', e => {
   }
 });
 window.addEventListener('popstate', event => {
+  rememberReadingView();
   const params = new URLSearchParams(location.search);
   const id = params.get('case');
   const item = matchCase(id);
@@ -1763,13 +2636,16 @@ window.addEventListener('popstate', event => {
   const missingHadFocus=$('missing-case')?.contains(document.activeElement);
   $('sort').value=reviewSort(params.get('sort'));
   activeScenario = params.get('scenario') || '';
-  ['query', 'kind', 'tool', 'category', 'proof'].forEach(key => $(key).value = params.get(key === 'query' ? 'q' : key) || '');
+  $('overview-only').checked=params.get('scope')==='overview';
+  ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(key => { if($(key)) $(key).value = params.get(key === 'query' ? 'q' : key) || ''; });
   render(false);
+  if(item && event.state?.caseReturn?.area==='results')ensureVisibleResult(event.state.caseReturn.id);
   if (item) {
     lastTrigger = null;
     lastTriggerContext = event.state?.caseReturn || null;
     showDetail(item, null, false);
-  } else if (wasOpen) $('detail').close();
+  } else if (wasOpen) {currentReadingVisit=null;$('detail').close();}
+  syncPageContext();
   if(!wasOpen&&missingHadFocus){
     if($('missing-case')&&!$('missing-case').hidden)focusMissingCase();else revealSearch(true);
   }

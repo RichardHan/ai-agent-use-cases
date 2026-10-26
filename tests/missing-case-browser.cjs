@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
@@ -109,7 +110,7 @@ if(!observe){
  await page.unroute('**/catalog.json');await page.locator('#retry').click();await page.locator('#detail[open]').waitFor();
  await page.close();
  const partial=await browser.newPage({viewport:{width:390,height:844}});partial.setDefaultTimeout(10000);
- await partial.route('**/cases/001-*.md',r=>r.fulfill({status:503,body:'unavailable'}));
+ await sourceRoute(partial,'**/cases/001-*.md',r=>r.fulfill({status:503,body:'unavailable'}));
  await partial.goto(origin+'?case=UC-001',{waitUntil:'networkidle'});
  await partial.locator('#partial-load').waitFor({state:'visible'});
  assert.equal(await partial.locator('#missing-case').isVisible(),false);
@@ -119,7 +120,7 @@ if(!observe){
  await partial.close();
  for(const missingId of ['UC-999999','']){
  const unknown=await browser.newPage({viewport:{width:390,height:844}});unknown.setDefaultTimeout(10000);
- await unknown.route('**/cases/001-*.md',r=>r.fulfill({status:503,body:'unavailable'}));
+ await sourceRoute(unknown,'**/cases/001-*.md',r=>r.fulfill({status:503,body:'unavailable'}));
  await unknown.goto(origin+'?case='+encodeURIComponent(missingId),{waitUntil:'networkidle'});
  await unknown.locator('#partial-load').waitFor({state:'visible'});
  assert.equal(await unknown.locator('#missing-case').isVisible(),false);

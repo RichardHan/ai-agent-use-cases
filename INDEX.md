@@ -1,6 +1,46 @@
 # 完整案例索引
 
-2026-10-22 17:45批次：X（英、中、日、韓；Grok Bot流程關鍵詞、Muse／dots各一輪）＋Hacker News（Algolia，Claude Duet討論串）、note（公開API）、Qiita與Zenn（API，窗口內無新實作文）集中核對，並接手14:40／11:45批次排隊的三條線索。新增UC-426日文作者かし子讓dots連續約30小時蓋可走動的3D霓虹巷弄：每次先讀同一頁規則、一棟＝3小時、定時點檢與交接備忘、截圖交另一個AI檢查、只在付費／公開／刪除時問人（B，附公開成品）、UC-427簡中作者@mspd4100把Grok Bot每天的X讀取額度拿來建自有貼文庫（一週3萬多則），替帳號分角色、算話題熱度並做成頁面看板（B，3張截圖）；001併入@EndicottInvests讓Muse比多個機場的機票＋Uber總成本並配合送狗時間，049併入HN使用者Muse把金鑰外洩通知埋在50封例行信底下的反例，076併入@Texas_Twins_Dad拒接來電登記確認信由Bot專屬信箱代點，401併入HN使用者讓Muse在雲端電腦架選菜網頁收家人回饋，均不另計。皆未重現。承接367，嚴格合格369／1000，尚差631；主要頁419。[逐組判斷與實閱範圍](sources/research-2026-10-22-1745.md)。
+2026-10-22 17:45批次：X（英、中、日、韓；Grok Bot流程關鍵詞、Muse／dots各一輪）＋Hacker News（Algolia，Claude Duet討論串）、note（公開API）、Qiita與Zenn（API，窗口內無新實作文）集中核對，並接手14:40／11:45批次排隊的三條線索。新增UC-457日文作者かし子讓dots連續約30小時蓋可走動的3D霓虹巷弄：每次先讀同一頁規則、一棟＝3小時、定時點檢與交接備忘、截圖交另一個AI檢查、只在付費／公開／刪除時問人（B，附公開成品）、UC-458簡中作者@mspd4100把Grok Bot每天的X讀取額度拿來建自有貼文庫（一週3萬多則），替帳號分角色、算話題熱度並做成頁面看板（B，3張截圖）；001併入@EndicottInvests讓Muse比多個機場的機票＋Uber總成本並配合送狗時間，049併入HN使用者Muse把金鑰外洩通知埋在50封例行信底下的反例，076併入@Texas_Twins_Dad拒接來電登記確認信由Bot專屬信箱代點，401併入HN使用者讓Muse在雲端電腦架選菜網頁收家人回饋，均不另計。皆未重現。承接367，嚴格合格369／1000，尚差631；主要頁419。[逐組判斷與實閱範圍](sources/research-2026-10-22-1745.md)。
+
+2026-10-24 16:20台灣時間批次：13組候選，新增合格0、合併補充1（UC276先驗發送者再派工，未證隔離及修後成功率）。既有3、不足5、排除4；三類累計未知／未重驗，2000口徑待確認。[來源與範圍](sources/research-2026-10-24-1620.md)。
+
+2026-10-24 15:40台灣時間批次：12組候選，新增合格0、合併補充1（UC061規則存在不等於具名受理）。既有1、不足7、排除3；三類累計未知／未重驗，2000口徑待確認。[來源與範圍](sources/research-2026-10-24-1540.md)。
+
+2026-10-24 15:00台灣時間批次：14組候選，新增合格0、合併補充1（UC054 Muse動畫短片首尾關鍵格、物理動作與音軌驗收）。既有4、不足6、排除3；三類累計未知／未重驗，2000口徑待確認。[來源與範圍](sources/research-2026-10-24-1500.md)。
+
+2026-10-24 13:20台灣時間：13組候選，新增合格0、合併1（013密碼登入／passkey本人操作／未測業務分層及1Password資格限制）。既有6、不足3、排除3；全庫三類累計未核，2000口徑待確認。[來源與範圍](sources/research-2026-10-24-1320.md)。
+
+2026-10-24 12:30台灣時間批次：12組候選，新增合格0、合併補充1。UC344補listener誤把daemon錯誤當郵件而空喚醒的反例；exec仍是提案，不當已修復。既有2、證據或相關全文去重不足7、排除2；三類累計未核。[來源與範圍](sources/research-2026-10-24-1230.md)。
+
+2026-10-24 10:20台灣時間批次：12組候選，新增合格0、合併補充1。UC013補AWS MCP恢復但未採建議修正的反證，原因仍未知；既有3、證據或相關全文去重不足5、排除3。三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-24-1020.md)。
+
+2026-10-24 09:10台灣時間批次：12組候選，新增合格0、合併補充1。UC379補「對話ID送達不等於正文可讀」及缺必要輸入仍開工的反例；精確既有1、排除3、證據或全文去重不足7。三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-24-0910.md)。
+
+2026-10-24 09:00台灣時間批次：X＋Zenn／note／Hacker News共11組候選，新增3（UC446業配品牌開發追蹤表、UC447時差教練〔待驗證〕、UC448限縮權限的Cloudflare存取名單Bot）、合併1（UC281併入PM Bot開issue→程式代理開PR→聊天核准合併的精簡變體）。其餘既有或證據不足；三類累計未重驗。[來源與範圍](sources/research-2026-10-24-0900.md)。
+
+2026-10-24 08:40台灣時間批次：12組候選、新增合格0、合併補充2。UC071補外部記憶分階段失敗與冪等檢查；UC072補新會話驗證與通話逐題驗收。精確既有2、未達進階門檻2、證據或全文去重不足6；三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-24-0840.md)。
+
+2026-10-24 07:10台灣時間批次：15組候選，新增合格0；UC369補作者撤回推測、追出持久設定並報告復原，UC037補預售配件排除與正文矛盾。3組精確既有、10組證據或全文去重不足；三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-24-0710.md)。
+
+2026-10-24 06:40台灣時間批次：12組候選，新增合格0；UC001補電影偏好推測與付款接手失敗、UC055補CSV研究佇列回存版本。3組既有／重疊、5組證據或全文去重不足、2組排除；三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-24-0640.md)。
+
+2026-10-24 06:10台灣時間批次：11組候選，新增合格0；UC023補替換要求與網站局部漏改對照、UC073補驗證失敗停止發布、UC293補引文可開不等於主張查證。2組既有或重疊、6組證據或全文去重未完，三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-24-0610.md)。
+
+2026-10-24 05:40台灣時間批次：17組候選，新增合格0；UC071補首次六筆交接匯入的作者自述，UC237補胚料核准後的成形模塊版本交接。4組既有、11組證據或相關全文去重未完，均不另加數；三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-24-0540.md)。
+
+2026-10-24 02:50台灣時間批次：8組候選，新增合格0、UC006補1組15社團只發4卻回報全成的作者失敗自述；2組既有、4組證據或全文去重不足、1組宣傳排除。三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-24-0250.md)。
+
+2026-10-23 23:30台灣時間批次：12組候選，新增合格0；UC056補聯盟影片發布、申請核准與收入分層，UC020補模板文件增頁後的目次／頁碼／輸出同步。6組證據或全文去重不足、4組排除；三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-23-2330.md)。
+
+2026-10-23 22:50台灣時間批次：7組候選，新增合格0；2組作者版本合併UC143，補「官方收件／等支票不等於入帳」與驗證卡關。另5組證據或全文去重不足，不入庫計數；三類累計未知／未重驗。[來源與範圍](sources/research-2026-10-23-2250.md)。
+
+2026-10-23 17:10台灣時間批次：11組候選，新增合格0、UC041補充1組Muse跨代理晨報發現未升級同步故障的作者自述；1組既有、7組證據或去重不足、2組排除。未驗安全詞與修後狀態，不加數；三類累計未重驗。[來源與範圍](sources/research-2026-10-23-1710.md)。
+
+2026-10-23 15:10台灣時間批次：15組候選，新增合格0、合併補充2（379同一原對話讀取路徑對照、368結構與視覺驗收分離），2組已收錄、11組證據或全文去重不足。三類累計未重驗，補充不加數。[來源與範圍](sources/research-2026-10-23-1510.md)。
+
+2026-10-23 10:40台灣時間批次：16組候選，新增合格0、UC030合併1組日文實作，補標準答案／AI解析分離與跨裝置錯題紀錄驗收；7組已收錄、8組證據或全文去重不足。三類累計未重驗，不以網站條目數替代2000目標。[來源與範圍](sources/research-2026-10-23-1040.md)。
+
+2026-10-23 10:10台灣時間批次：16組候選審查，新增合格0、UC208補1組分享模板漏帶技能的作者故障陳述；7組已有、8組證據或去重不足。未重驗全庫累計，不沿用歷史數當現況。[來源與範圍](sources/research-2026-10-23-1010.md)。
 
 2026-10-22 14:40批次：X（英、中、日、韓；Grok Bot流程關鍵詞、Muse／dots各一輪）＋Hacker News（Algolia）、官方說明（Muse通話、x.ai Bot模板頁）集中核對。新增UC-422英文作者@DBurkland讓Bot每班起飛前一小時依航線抓SIGMET／AIRMET／PIREP與Turbli，寄分段亂流表與地圖、飛行中可再問（B，附真實報告截圖與公開模板）、UC-423英文作者@Anniliese_ETH五角色交易小組：各角色只寫自己的檔案交接、只有執行Bot能下單、風控上限寫死、每晚分角色檢討，並記下停損過近被掃的教訓（B，非投資建議）、UC-424英文作者@YifeiZhou讓Bot讀網頁原始碼拆解喜歡的橫幅構成與寓意，Bot提醒館藏畫作商用授權後改用NASA公有領域影像重做（B，附成品圖）、UC-425英文作者@SravanVadige讓Muse清點取消行程後閒置的航空抵用金、部分退款與忘了買過的保險並代申請理賠（B，單則自述）；072併入@kylemissionai讓Muse代打停車退款電話、第一通資料不足失敗後問本人再打成功，391併入@emilyntech用官方頁面功能做16個Bot總覽、抓到重複Bot、每Bot用量拿不到，均不另計。皆未重現。承接363，嚴格合格367／1000，尚差633；主要頁417。[逐組判斷與實閱範圍](sources/research-2026-10-22-1443.md)。
 
@@ -152,7 +192,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（417）
+## 主要案例（443）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -167,7 +207,7 @@
 | UC-011 | 商機與回饋交叉分析、批准後修訂材料 | ChatGPT dots／Drive／Sheets | [作者樣本測試，無營收成效驗證](cases/011-sales-feedback-approved-revision.md) | 工作｜業務、簡報、客戶回饋 |
 | UC-012 | 科研評估來源稽核、領域批判與圖稿整合 | Grok Bot／Jupyter／LaTeX | [作者回溯性科研案例，原始紀錄不完整](cases/012-research-evaluation-provenance.md) | 學習｜科研、資料稽核、多代理 |
 | UC-014 | 客服收件匣巡檢與人核准退款 | Grok Bot／Intercom／Stripe；dots 垃圾箱分診＋影片待看 | [作者自述＋dots 垃圾箱年付求助分診截圖；影片僅讀描述](cases/014-support-inbox-approval-refund.md) | 工作｜客服、收件匣、核准 |
-| UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine（含 KEV、官方更新紀錄） | [dots 結構化測試＋Grok Bot 官方文件＋KEV 監看自述＋每日看更新紀錄轉個人建議自述；未重現](cases/015-public-page-change-watch.md) | 工作｜每日、監看、排程、驗收 |
+| UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine（含 KEV、公告覆蓋驗收） | [dots 結構化測試＋Grok Bot 官方文件＋KEV 監看自述＋每日看更新紀錄轉個人建議自述；未重現](cases/015-public-page-change-watch.md) | 工作｜每日、監看、排程、驗收 |
 | UC-016 | 二手刊登與買家對話代管 | Meta Muse／Facebook Marketplace；dots 多平台 | [Muse 地址外洩事件（媒體轉述）＋官方權限文件＋作者自述；未重現](cases/016-marketplace-selling-buyer-messages.md) | 生活｜二手、買家訊息、隱私 |
 | UC-017 | 先研究潛在客戶，再準備有根據的聯絡草稿；繁中作者把n8n客戶開發搬到多Bot分工並實際寄信 | Grok Bot／公開公司來源／草稿；Apify Google Maps Scraper／Gmail／Routines | [官方展示／署名作者自報＋繁中作者實測自述（寄出14封、回覆未公開）；未獨立重現](cases/017-prospect-research-drafts.md) | 工作｜業務開發、草稿 |
 | UC-018 | 正式展示前，先檢查示範環境能不能跑 | Grok Bot／授權測試環境 | [官方展示／署名作者自報；未獨立重現](cases/018-demo-readiness.md) | 工作｜展示、驗收 |
@@ -182,7 +222,7 @@
 | UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse；Grok Bot 網購下單失敗回報 | [Muse 官方自述＋Grok Bot 作者失敗自述；原創流程未實測](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買、網購 |
 | UC-028 | 先做帳單降費比較，再決定怎麼談；Muse 代查帳戶與客服議價；Grok Bot 訂閱線上議價與漲價抵免；Grok Bot 讀 PDF 帳單、本人登入後代談並先確認新總額 | Meta Muse／Grok Bot | [原作者帳單檢查與本人通話準備自述＋P-002 三則原帖（一則附業者確認簡訊）＋Grok Bot 兩則自述（一則附Bot回報截圖）＋Grok Bot 同業者現價比對與優惠到期提醒自述；節省未核](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商、訂閱 |
 | UC-029 | 刪掉12堂新排課，別動原本的2堂 | Meta Muse／Peloton | [作者實測報告；未獨立重現](cases/029-exercise-time-replan.md) | 生活｜運動、行程 |
-| UC-030 | 把筆記做成互動複習工具 | Meta Muse；ChatGPT dots／Sites（Kindle 生字字卡） | [官方自述＋作者自建字卡 App 自述；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具、語言學習 |
+| UC-030 | 把筆記做成互動複習工具 | Meta Muse；ChatGPT dots／Sites；Grok Bot（題庫與共享作答紀錄） | [官方自述＋作者自建字卡 App 自述；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具、語言學習 |
 | UC-031 | 用匿名消費明細建立支出看板 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/031-spending-dashboard.md) | 省錢｜記帳、看板 |
 | UC-032 | 把虛構睡眠紀錄整理成趨勢圖 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/032-sleep-record-chart.md) | 生活｜睡眠、健康 |
 | UC-033 | 從年度營運數據排出下一季實驗 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/033-business-experiment-plan.md) | 工作｜營運、實驗規劃 |
@@ -267,7 +307,7 @@
 | UC-113 | 建築模型的外牆與內裝方案比較 | Grok Bot／Sunburst | [作者實作自述；未重現](cases/113-architecture-material-visual-comparison.md) | 創作｜建築、材質、驗收 |
 | UC-114 | 既有教材保留內容的省紙重排 | Grok Bot／PDF | [作者實作自述；未重現](cases/114-existing-worksheet-print-layout.md) | 學習｜教材、排版、列印 |
 | UC-115 | 帶骨架與動畫的可重用角色資產 | Grok Bot／Three.js | [作者實作自述；未重現](cases/115-rigged-character-asset-export.md) | 創作｜3D角色、骨架、匯出 |
-| UC-116 | Slack需求轉品牌一致的報價草稿 | Grok Bot／Slack／Notion／PDF | [西文作者實作自述；價格與對外交付未核](cases/116-slack-branded-quote-draft.md) | 工作｜報價、草稿、審核 |
+| UC-116 | Slack需求轉品牌一致的報價草稿 | Grok Bot／ChatGPT dots／Slack／文件 | [西文、日文作者實作自述；補跨檔條件同步反例，價格與對外交付未核](cases/116-slack-branded-quote-draft.md) | 工作｜報價、草稿、審核 |
 | UC-117 | 故障產品保固換貨與到貨追蹤 | Grok Bot | [作者評論自述；品牌訂單未核](cases/117-warranty-replacement-tracking.md) | 生活｜保固、換貨、追蹤 |
 | UC-118 | 代理郵件改收件者前的核准分流測試 | Grok Bot／Meta Muse | [作者虛構商家測試；未重現](cases/118-agent-email-rerouting-consent-test.md) | 開發｜收件匣、核准、測試 |
 | UC-119 | 夢幻球隊先發建議與核准後調整 | Meta Muse | [作者實作自述；得分未獨立核](cases/119-fantasy-lineup-approval-review.md) | 生活｜運動、名單、核准 |
@@ -294,7 +334,7 @@
 | UC-140 | 機器人只看到平面影像？先驗證估距，再談移動 | Meta Muse／Depth Anything V2 | [作者實作自述；未重現](cases/140-monocular-depth-robot-offline-review.md) | 開發｜視覺、機器人、估距、驗收 |
 | UC-141 | 停車時掉了多少電？把車輛讀值和資料中斷一起看 | Meta Muse／Rivian | [作者實作自述；未重現](cases/141-vehicle-telemetry-gap-dashboard.md) | 生活｜車輛、遙測、看板、資料缺口 |
 | UC-142 | 以前分享給某人的資料夾，現在還有哪些能被打開？ | Grok Bot／Google Drive | [作者自述；未重現](cases/142-historical-folder-access-revocation.md) | 工作｜共享權限、資料夾、核對、核准 |
-| UC-143 | 可能有遺忘的款項？先查官方條目，別把找到當領到 | Grok Bot／MissingMoney | [作者自述；未重現](cases/143-unclaimed-property-candidate-handoff.md) | 省錢｜公開查詢、候選核對、認領、交接 |
+| UC-143 | 可能有遺忘的款項？先查官方條目，別把找到當領到 | Grok Bot／Meta Muse／MissingMoney | [作者自述；未重現](cases/143-unclaimed-property-candidate-handoff.md) | 省錢｜公開查詢、候選核對、認領、交接 |
 | UC-144 | 把古籍變成可對照原文的譯作，疑義別藏起來 | Grok Bot／Via Patrum／多提供者AI | [作者自述＋公開譯作；未重現](cases/144-classical-translation-source-review.md) | 學習｜翻譯、古籍、來源查證、驗收 |
 | UC-145 | 同一份調查表一直重抄？用假資料先驗證每個欄位有沒有漏 | Grok Bot／ChatGPT／Claude | [作者實驗／使用報告；未重現](cases/145-offline-standard-form-field-validation.md) | 工作｜表單、離線工具、欄位核對、驗收 |
 | UC-146 | 補助文件看似齊了？先核每一項要求有沒有證據 | ChatGPT dots／Google帳號資料 | [作者實驗／使用報告；未重現](cases/146-grant-supporting-document-gap-check.md) | 生活｜補助、文件核對、缺漏、交接 |
@@ -334,7 +374,7 @@
 | UC-180 | 相片庫標題與描述性中繼資料補齊 | Meta Muse／iCloud Photos | [作者部分處理自述；無寫回與恢復結果](cases/180-photo-library-descriptive-metadata.md) | 生活｜相片、描述、無障礙 |
 | UC-181 | 出貨標籤與訂單履約準備 | Grok Bot／TikTok Shop；dots／Woo／Pirate Ship | [作者使用及後續失效自述；無寄件與交付紀錄](cases/181-shipping-label-fulfillment-preparation.md) | 工作｜電商、物流、標籤 |
 | UC-182 | 依閱讀需求選書與圖書館預約；Grok Bot 從想讀清單挑可借書 | Meta Muse／未具名圖書館；Grok Bot／ブクログ | [作者預約及可取通知自述＋Grok Bot 選書截圖；預約與期限管理未見畫面](cases/182-library-book-selection-holds.md) | 生活｜閱讀、圖書館、預約 |
-| UC-183 | 廣告活動設定到待發布，再交人檢查 | Meta Muse／Google Ads | [作者已配置自述；未核投放](cases/183-ad-campaign-configuration-review.md) | 工作｜廣告、設定、核准、驗收 |
+| UC-183 | 廣告活動設定到待發布，再交人檢查 | Meta Muse／Google Ads；Grok Bot／Meta Ads | [作者已配置自述＋Grok Bot暫停建立後核准上線自述；未核投放成效](cases/183-ad-campaign-configuration-review.md) | 工作｜廣告、設定、核准、驗收 |
 | UC-184 | 大量郵件先篩出相關候選，別把它當最終證據審查 | Grok Bot／mbox | [作者已初篩自述；雲端上傳更正、完整性未核](cases/184-mail-archive-relevance-prescreen.md) | 工作｜郵件封存、初篩、隱私、驗收 |
 | UC-185 | 活動資料到排行榜與人工核獎草稿 | Grok Bot／Canva | [作者使用自述；未核原始成績與獎狀](cases/185-event-results-leaderboard-awards.md) | 工作｜活動、排行榜、核准 |
 | UC-186 | 假註冊造成寄信健康事故的核對 | Grok Bot／HubSpot | [作者事件及修復自述；恢復投遞未核](cases/186-registration-pollution-mail-health.md) | 工作｜退信、資料污染、事故 |
@@ -428,7 +468,7 @@
 | UC-278 | 加工中心軸與結構配置的3D概念比較 | Grok Bot／自建網頁 | [日文作者實作＋公開原碼；未執行、工程性能未驗](cases/278-machining-center-configuration-concept.md) | 開發｜機械、3D、參數、驗收 |
 | UC-279 | 電話以韓語向航空公司改票，因非本人被拒 | Grok Bot | [作者自述成功通話與拒絕原因；無錄音](cases/279-airline-phone-rebook-identity-refusal.md) | 生活｜旅遊、電話、核准、驗收 |
 | UC-280 | Notion 日報接 Slack，dots 落成任務並記工時 | ChatGPT dots／Notion／Slack／日曆 | [日文作者自述；無設定截圖](cases/280-notion-daily-slack-dots-hours.md) | 工作｜日誌、排程、工時、驗收 |
-| UC-281 | Grok Bot 出 mockup，Claude 工人實作，截圖 QA | Grok Bot／Claude Opus／GitHub | [作者長文自述＋附圖；專案未核](cases/281-grok-mockup-claude-worker-qa-pipeline.md) | 開發｜多代理、驗收、設計、程式 |
+| UC-281 | Grok Bot 出 mockup，Claude 工人實作，截圖 QA | Grok Bot／Claude Opus／GitHub | [作者長文自述＋附圖；10-24併入PM Bot→PR精簡變體；專案未核](cases/281-grok-mockup-claude-worker-qa-pipeline.md) | 開發｜多代理、驗收、設計、程式 |
 | UC-282 | 語音交給 dots，代登病患入口傳訊給醫師 | ChatGPT dots | [Pro 社群訪談自述；無操作錄影](cases/282-patient-portal-voice-to-message.md) | 生活｜健康、收件匣、核准、語音 |
 | UC-283 | dots 接工作 App 實測 17 項與核准陷阱 | ChatGPT dots／多種外掛 | [作者對照畫面與 git log；未重跑](cases/283-dots-connected-apps-permission-pitfalls.md) | 工作｜驗收、權限、排程、故障診斷 |
 | UC-284 | 延誤行李到達後的補購用品費用申請 | Meta Muse | [作者實際使用自述；無受理回條與付款證明](cases/284-delayed-baggage-status-expense-claim.md) | 生活｜旅遊、行李、報銷、核准 |
@@ -500,7 +540,7 @@
 | UC-350 | 主管平日晨報分工：dots讀內部資料存Notion，Grok Bot分角色收公開新聞與作品評價發Slack | ChatGPT dots／Grok Bot／Slack／Notion | [日文作者長文自述，含接收程式停擺、Auto-review卡關等失敗；無截圖](cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md) | 工作｜每日、晨報、多代理、Slack |
 | UC-351 | Grok Bot只負責調度，重活交給雲端電腦上的OpenCode免費模型，做不好再換Pi Agent＋DeepSeek；外部CLI做完以webhook叫回、主Bot每天稽核新routine；在自家Mac以非互動指令輪用兩個Claude Code帳號與Codex、每小時把用量寫進Bot標籤 | Grok Bot／OpenCode／Pi Agent／DeepSeek／Claude Code／Codex | [中文作者四則串自述＋架構示意圖＋另一作者公開腳本（webhook叫醒）＋英文作者外包CLI與每日routine稽核自述＋日文作者本機多帳號分派與用量標籤自述；無用量前後數據、未重現](cases/351-grokbot-dispatch-only-offload-free-model-agents.md) | 開發｜多代理、派工、用量 |
 | UC-352 | 每天讓Bot讀flomo筆記，換一種洞察角度推送一則回顧 | Grok Bot／flomo | [中文作者自述＋單日推送截圖；接入方式與模板輪換未見、未重現](cases/352-daily-flomo-memo-insight-push-rotating-template.md) | 學習｜每日、筆記、自我回顧 |
-| UC-353 | 雲端Bot與本機代理只經私有Git任務檔交接，雲端不對本機下命令 | Grok Bot／GitHub Actions／macOS launchd／本機代理 | [中文作者自述＋公開參考實作文件已讀；公開版端到端未驗證、未重現](cases/353-cloud-local-agent-git-task-relay.md) | 開發｜跨代理、交接、事件觸發、權限邊界 |
+| UC-353 | 雲端Bot與本機代理只經私有Git任務檔交接，雲端不對本機下命令 | Grok Bot／GitHub Actions／macOS launchd／本機代理 | [中文作者自述＋公開參考實作文件已讀＋同作者寫文→封面→雙平台發布用法自述（2026-10-26補）；公開版端到端未驗證、未重現](cases/353-cloud-local-agent-git-task-relay.md) | 開發｜跨代理、交接、事件觸發、權限邊界 |
 | UC-354 | 每天從X書籤挑一個點子做成互動網頁demo，瀏覽器檢查後上線 | Grok Bot／Cursor雲端代理／Claude Code／Cloudflare | [英文作者多日貼文＋公開作品集；排程與檢查紀錄未見、未重現](cases/354-daily-bookmark-to-live-interactive-demo.md) | 創作｜每日、書籤、互動網頁、部署 |
 | UC-355 | X發文教練Bot每天盤點原創與轉發、給隔天功課，兩週後看數據 | Grok Bot／X分析 | [英文作者三則貼文＋檢討與分析截圖；讀取方式未說明、未重現](cases/355-x-posting-coach-bot-daily-checkin.md) | 創作｜每日、社群、教練、發文 |
 | UC-356 | 付費訂閱文章用瀏覽器側欄送給研究Bot，摘要並對照持股 | Grok Bot／Grok Bot Clipper（非官方）／Substack | [中文作者自述＋兩張截圖；持股對照結果未見、未重現](cases/356-paid-article-clipper-portfolio-check.md) | 學習｜投資研究、付費文章、瀏覽器擴充、資料查證 |
@@ -558,8 +598,8 @@
 | UC-408 | 每天站會前30分鐘讀行事曆、Notion議程、Slack與Linear，交一頁會前準備（每人一行、3件值得提的事） | Grok Bot routine／Notion／Slack／Linear／行事曆 | [待定：英文作者貼文＋公開提示詞卡圖片，無實際輸出；不計數](cases/408-daily-team-sync-one-page-prep-calendar-notion-slack-linear.md) | 工作｜每日、會議、Slack、Linear |
 | UC-409 | Substack短文：每天一題寫作提示、語音回答由Bot保留原話整理；每週拆解熱門短文結構再批次起草，核准後才排程 | Grok Bot（兩個角色）／Notion／Substack Notes | [B英文作者Substack文章自述；無發布數據、未重現](cases/409-substack-notes-daily-prompt-voice-reply-weekly-swipe-file-drafts.md) | 創作｜每日、Substack、草稿、核准 |
 | UC-410 | 建Bot團隊第一天範圍失控、燒掉約兩成用量：煞車盤點、7份規則檔、目標／範圍／禁止／把握度卡（<90%就停下問）、凍結14天 | Grok Bot（幕僚長＋多角色、技能、routine） | [B波蘭文作者dev.to建置日紀錄；無檔案或用量畫面、未重現](cases/410-agent-team-build-day-scope-creep-brake-rule-files-intent-card.md) | 開發｜多代理、用量、核准、規則檔 |
-| UC-411 | 開車或外出時讓Bot知道你在哪：iPhone捷徑先送現在地址再接語音（CarPlay上Siri呼叫成功）；或Bot經Home Assistant先要一次最新位置再回答 | Grok Bot（iOS捷徑動作）／Siri／CarPlay／Home Assistant | [B日文作者部落格實測＋捷徑截圖＋往返位置更新表；影片未看、未重現](cases/411-carplay-shortcut-location-to-bot-home-assistant-on-demand-update.md) | 生活｜位置、捷徑、語音、Home Assistant |
-| UC-412 | 把Podcast逐字稿交給dots：挑重點、找縮圖、編成note文章並發布，再發一則X宣傳 | ChatGPT dots／note／X | [B日文作者X自述＋公開note文章與宣傳貼文；發布前是否核准不明、未重現](cases/412-dots-podcast-transcript-to-note-article-thumbnail-post.md) | 創作｜播客、逐字稿、note、發布 |
+| UC-411 | 開車或外出時讓Bot知道你在哪：iPhone捷徑先送現在地址再接語音（CarPlay上Siri呼叫成功）；或Bot經Home Assistant先要一次最新位置再回答 | Grok Bot（iOS捷徑動作）／Siri／CarPlay／Home Assistant | [B日文作者部落格實測＋捷徑截圖＋往返位置更新表＋「Hey Grok」語音捷徑喚醒自述與喚醒不穩反例（2026-10-26補）；影片未看、未重現](cases/411-carplay-shortcut-location-to-bot-home-assistant-on-demand-update.md) | 生活｜位置、捷徑、語音、Home Assistant |
+| UC-412 | 把Podcast逐字稿交給dots：挑重點、找縮圖、編成note文章並發布，再發一則X宣傳 | ChatGPT dots／Meta Muse／note／Substack／X | [B日文作者X自述＋公開note文章與宣傳貼文＋Muse版三平台存草稿自述（2026-10-26補）；發布前是否核准不明、未重現](cases/412-dots-podcast-transcript-to-note-article-thumbnail-post.md) | 創作｜播客、逐字稿、note、發布 |
 | UC-413 | 小孩睡前偷看電視：Bot登入UniFi每晚定時斷掉電視網路、早上恢復，傳一句話臨時延長當晚 | Grok Bot／UniFi | [B英文作者單則X自述；無截圖或執行紀錄、未重現](cases/413-unifi-kids-tv-nightly-internet-curfew-text-exceptions.md) | 生活｜每日、家庭、網路、排程 |
 | UC-414 | 活動點數發放：報名者寄信到Bot的＋別名信箱，Bot比對Luma名單，每人只回一次連結、名單外不回 | Grok Bot（專用信箱＋別名）／Luma | [待定：日文作者貼文自述剛建好，無發放紀錄；不計數](cases/414-event-registrant-email-alias-credit-link-once-per-person.md) | 工作｜活動、收件匣、名單比對、自動回覆 |
 | UC-415 | Bot用24小時零預算推廣免費網頁遊戲：每小時讀計畫與日誌行動、?ref=標記與公開記分板，寄21封信回1封、被論壇封鎖 | Grok Bot（主代理＋子代理、每小時routine）／GitHub Pages | [待定：Bot第一人稱Velog文章＋公開記分板與data.json；開發者本人說法未取得、不計數](cases/415-agent-24h-indie-game-promotion-public-scoreboard-failures.md) | 工作｜行銷、多代理、失敗、公開紀錄 |
@@ -573,8 +613,35 @@
 | UC-423 | 五角色交易小組：研究／題材／訊號／風控各寫檔案交接，只有一個Bot能下單，風控上限寫死，每晚分角色檢討 | Grok Bot（多Bot＋共用檔案＋routine）／Hyperliquid API錢包（不可提領）／X API | [B英文作者長文全文＋影片貼文（未看）；無成交紀錄、未重現；非投資建議](cases/423-five-role-trading-desk-single-executor-hard-risk-caps.md) | 工作｜多代理、交易、風控、排程 |
 | UC-424 | 拆解喜歡的網站主視覺構成與寓意，再換成可商用的公有領域素材重做品牌橫幅 | Grok Bot／NASA公有領域衛星影像 | [B英文作者貼文＋兩張成品圖；拆解對話未公開、未重現](cases/424-reference-banner-deconstruct-public-domain-remake.md) | 創作｜設計、主視覺、授權、品牌 |
 | UC-425 | 取消後忘掉的旅行：Muse清點閒置航空抵用金、部分退款與附帶旅遊保險，代為申請理賠 | Meta Muse | [B英文作者單則自述（核准1,445.52美元）；無截圖、未重現](cases/425-cancelled-trip-forgotten-credits-refund-insurance-claim.md) | 省錢｜旅遊、退款、保險理賠、抵用金 |
-| UC-426 | 讓dots連續約30小時蓋3D街景：每次先讀同一頁Notion規則、一棟＝3小時工作格、定時點檢與交接備忘、截圖交另一個AI每小時檢查、只在付費／公開／刪除時問人 | ChatGPT dots（排程）／Claude Opus 5.5（設計）／Notion／Blender／Vercel | [B日文作者note長文＋X作法串＋可走動的公開成品網頁（三件連續作品）；規則頁與紀錄未公開、未重現](cases/426-dots-30-hour-unattended-3d-street-build-rulebook-checkins.md) | 創作｜3D、長時間任務、規則檔、排程 |
-| UC-427 | 把每天的X讀取額度拿來建自己的貼文資料庫：一週3萬多則，替90個帳號分角色、算近3天話題熱度、記每日額度，做成頁面看板 | Grok Bot（每日排程、X讀取、頁面Pages） | [B簡中作者貼文＋3張看板截圖；抓取方式與資料庫未公開、未重現](cases/427-daily-x-read-quota-personal-corpus-role-tags-topic-radar-page.md) | 創作｜每日、X、資料庫、看板 |
+| UC-457 | 讓dots連續約30小時蓋3D街景：每次先讀同一頁Notion規則、一棟＝3小時工作格、定時點檢與交接備忘、截圖交另一個AI每小時檢查、只在付費／公開／刪除時問人 | ChatGPT dots（排程）／Claude Opus 5.5（設計）／Notion／Blender／Vercel | [B日文作者note長文＋X作法串＋可走動的公開成品網頁（三件連續作品）；規則頁與紀錄未公開、未重現](cases/457-dots-30-hour-unattended-3d-street-build-rulebook-checkins.md) | 創作｜3D、長時間任務、規則檔、排程 |
+| UC-458 | 把每天的X讀取額度拿來建自己的貼文資料庫：一週3萬多則，替90個帳號分角色、算近3天話題熱度、記每日額度，做成頁面看板 | Grok Bot（每日排程、X讀取、頁面Pages） | [B簡中作者貼文＋3張看板截圖；抓取方式與資料庫未公開、未重現](cases/458-daily-x-read-quota-personal-corpus-role-tags-topic-radar-page.md) | 創作｜每日、X、資料庫、看板 |
+
+| UC-426 | 讓DNA結構轉成短片，但不要把鏡頭旋轉說成分子模擬 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/426-fixed-molecular-coordinates-camera-storytelling.md) | 創作｜3D、來源、驗收 |
+| UC-427 | 機構說不清？用同一模型的外觀、斷面、分解與狀態圖檢查 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/427-invention-prose-coherent-mechanism-explanation-views.md) | 創作｜3D、來源、驗收 |
+| UC-428 | 檔案做好卻拿不到？用固定版本的接收站分清保存、收件和匯入 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/428-version-fixed-artifact-receipt-hub.md) | 開發｜交付、版本、驗收 |
+| UC-429 | 可編輯商品多格式用途一致、填寫後再驗匯出版面 | ChatGPT dots／PDF／Word／TXT／Google Docs | [B作者實作自述；未獨立重現](cases/429-editable-digital-product-multiformat-filled-state-validation.md) | 創作｜數位商品、工作紙、多格式、驗收 |
+| UC-430 | 隨太陽出力調整車輛充電，分清發電與可用餘電 | Grok Bot／未指明光電與車輛系統 | [B作者使用自述；無量測，未獨立重現](cases/430-solar-surplus-ev-charge-rate-evidence.md) | 生活｜太陽能、充電、量測、驗收 |
+| UC-431 | 公開事件日報按街區篩選，以案號去重並追蹤紀錄申請回執 | Grok Bot／公開PDF／未具名紀錄入口 | [B作者實作自述；無回執、未獨立重現](cases/431-public-incident-geofence-record-request-ledger.md) | 生活｜公開資料、地理篩選、去重、回執 |
+| UC-432 | 公開網站證據分級原型，區分確定、推測與看不到 | ChatGPT dots／作者自建API應用 | [B作者建置自述＋公開repo；未獨立重現](cases/432-public-site-evidence-triage-prototype.md) | 開發｜公開證據、原型、限制 |
+| UC-433 | 郵件更新商機，但不推翻正式系統已確認狀態 | Grok Bot／ERP匯入資料／業務應用 | [B實施供應商自述；未獨立重現](cases/433-email-opportunity-erp-authoritative-state-guard.md) | 工作｜製造業、郵件、狀態、驗收 |
+| UC-434 | 物品售出後，核對保單狀態並找出售證明供本人審信 | Grok Bot | [B作者實作自述；退款同意非入帳、未重現](cases/434-sold-asset-policy-status-proof-refund.md) | 省錢｜保險、售出證明、狀態、退款 |
+| UC-435 | 跨年度公開統計，先核對學校／學科身分與統計口徑再銜接趨勢 | ChatGPT dots／作者另用Claude覆核 | [B作者實作自述；兩個官方局部值文字對照，未重現](cases/435-longitudinal-public-statistics-comparability.md) | 學習｜公開統計、時間序列、母體、驗收 |
+| UC-436 | 舊變頻器換成不同品牌新機，依兩台型號與現場接線照片排出新端子對照，卡關後補原廠接線圖 | Grok Bot | [B作者單則自述；無對照表、未重現](cases/436-hvac-vfd-cross-brand-replacement-wiring-map.md) | 工作｜現場維修、接線對照、設備更換、驗收 |
+| UC-437 | 跑步破PB目標：連Strava與報名信做成訓練、賽季、目標三個頁面，每晚自動更新並說有沒有跟上計畫 | Grok Bot Pages／Strava／郵件 | [B作者單則自述；頁面未公開、未重現](cases/437-strava-race-goal-pages-nightly-refresh.md) | 生活｜每日、運動、儀表板、目標追蹤 |
+| UC-438 | 投資研究試算表：重建全市場權證清單並填Google Finance公式，依SEC資料更新企業價值並提醒幣別混用 | Meta Muse／Google試算表 | [B論壇作者自述；表格未公開、未重現](cases/438-muse-warrant-sheet-sec-ev-currency-check.md) | 學習｜投資研究、試算表、資料查證、監看 |
+| UC-439 | 每天清晨的多Bot編輯部：統括派稿、寫手交檔、品管依清單退回附改法、只存下書並登核准台帳 | Grok Bot（多Bot）／ChatGPT作圖／note／X | [B公司note自述時間紀錄；台帳未公開、未重現](cases/439-morning-multibot-draft-desk-review-approval-ledger.md) | 工作｜每日、多代理、內容發布、核准 |
+| UC-440 | 常用SaaS的AI改點數制：依官方說明算自己的影響，再只在已訂閱工具裡找備援 | Grok Bot／Notion AI | [B作者note自述；備援仍在調查、未重現](cases/440-saas-ai-credit-change-impact-backup-check.md) | 省錢｜訂閱、方案變更、用量、備援 |
+| UC-446 | 從公開業配貼文反查品牌合作計畫，整理證據追蹤表與待批提案 | Grok Bot | [作者自述實測；名單未公開、未重現](cases/446-creator-sponsor-program-tracker.md) | 工作｜創作者、贊助、追蹤表、人工核准 |
+| UC-447 | 依睡眠資料與身體時鐘安排時差照光、睡眠與咖啡提醒 | Grok Bot | [待驗證：作者已設定，首次實測12月](cases/447-jet-lag-light-sleep-coach.md) | 生活｜旅遊、睡眠、穿戴裝置、每日 |
+| UC-448 | 只限Access權限的連接，讓Bot確認並修改Cloudflare存取名單 | Grok Bot／Cloudflare | [作者自述使用；無設定紀錄、未重現](cases/448-scoped-cloudflare-access-policy-bot.md) | 開發｜權限、雲端設定、最小權限 |
+| UC-449 | CRM人物紀錄去重：備份後逐組核准欄位取捨，衝突留待人工 | Meta Muse／Nimble CRM | [B作者實作自述；無原始日誌、未重現](cases/449-crm-contact-merge-conflict-review.md) | 工作｜CRM、去重、人工核准、驗收 |
+| UC-450 | 雲端資料庫降回免費方案前，先查已付帳單、分檔備份並在隔離環境試還原 | ChatGPT dots／Supabase | [作者自述；整包還原失敗、部分成功，未重現](cases/450-dots-supabase-pro-to-free-backup-restore-check.md) | 省錢｜訂閱、雲端費用、備份、驗收 |
+| UC-451 | 一份Skills原本放GitHub，用唯讀MCP讓Grok Bot、dots、ChatGPT、Claude共用 | Grok Bot／ChatGPT dots／ChatGPT／Claude | [作者自述實測；付費套件未讀、未重現](cases/451-single-source-skills-readonly-mcp-across-agents.md) | 開發｜技能、MCP、跨代理、用量 |
+| UC-452 | 跨語言購屋行政協調，從看屋行程追到申請階段 | ChatGPT dots | [B級作者階段結果自述；非成交、未重現](cases/452-cross-language-home-purchase-admin-handoffs.md) | 生活｜購屋、跨語言、行程、核准 |
+| UC-453 | 五玩家Bot與主持人的狼人殺：私人行動、回合憑證與唯一結算 | Grok Bot | [B級作者測試＋結局圖；未重現](cases/453-werewolf-private-actions-token-gated-turns.md) | 創作｜桌遊、多代理、狀態機、驗收 |
+| UC-454 | 訂單費用整理成Notion日結，缺成本保留待確認並核對寫回 | Grok Bot／Notion | [B級示範與兩圖一致；非獨立重算](cases/454-notion-daily-settlement-writeback-cost-gap-check.md) | 工作｜日結、Notion、缺值、寫回驗收 |
+| UC-455 | 用M5StickC Plus2做按住說話的隨身Muse裝置，從記錄檔找出記憶體不足並補日文字型 | Meta Muse（Muse Gadgets SDK）／M5StickC Plus2／ESP-IDF | [B日文作者實測＋改前改後記錄檔；官方開源SDK；未重現](cases/455-muse-gadgets-m5stickc-plus2-pocket-push-to-talk.md) | 開發｜實體裝置、語音、故障診斷 |
+| UC-456 | 小網站不架後台：Muse改Markdown推到GitHub，自動建成靜態頁並由GitHub Pages公開 | Meta Muse／GitHub Actions／GitHub Pages／markdown-cms | [B日文作者自述＋公開示範站與MIT倉庫；Muse權限與操作未公開、未重現](cases/456-muse-github-markdown-static-site-operations.md) | 工作｜網站、GitHub、發布、權限 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 
@@ -600,3 +667,233 @@
 [官方發布與早期教學覆蓋盤點](sources/launch-coverage-2026-10-13.md)
 
 
+
+
+## 2026-10-23 04:40研究補充
+
+[本輪14候選審查與三個待完整去重流程](sources/research-2026-10-23-0440.md)：UC127事件類型／重建讀回，UC382選題與稿件品質關卡。2項補充，不新增合格數；成果物hub、機構解釋圖與固定DNA座標動畫保留候選，不因跨工具或題材改寫湊數。現有累計未重驗，2000目標計數口徑仍待確認。
+
+
+## 2026-10-23 04:50研究批次
+
+[6候選審查與三個承接流程去重結論](sources/research-2026-10-23-0450.md)：首次收錄UC426固定科學座標鏡頭敘事、UC427機構說明場景、UC428固定版成果接收。新增B級作者實作3，非獨立重現；補充0、證據不足2、既有同源1。承接三候選不重算新發現；現全庫三類累計未知，歷史357@2026-10-21 20:50未重驗，2000口徑待確認。
+
+
+## 2026-10-23 05:20研究批次
+
+[14候選審查與證據界線](sources/research-2026-10-23-0520.md)：新增合格0、合併3（UC045觀察污染與hook、UC083迷宮返工、UC216挑片交接）、既有不再改8、證據不足2、另1待完整去重。全庫三類累計未重驗，不將工具變體或補充計入2000。
+
+
+## 2026-10-23 05:40研究批次
+
+[13候選審查與流程去重](sources/research-2026-10-23-0540.md)：新增合格1（UC429，B作者自述，未重現）；合併3（UC043邀請預覽、UC045連接與會話界線、UC002付費媒體選版與續跑）；既有不改5、證據不足3、純比較宣傳排除1。前批暫定日曆候選已併043、不重算新發現。新增來源待補0、獨立AI構想0；全庫三類累計未知，歷史357@2026-10-21 20:50未重驗，2000計數口徑待確認。
+
+
+## 2026-10-23 06:00研究批次
+
+[22候選審查與來源界線](sources/research-2026-10-23-0600.md)：新增合格1（UC430，B作者自述，未重現）；合併2（006草稿保存與本人發布、013 MCP會話復用）；既有同流程10、證據不足／去重未完成6、基本摘要草稿3。新增來源待補及AI構想獨立條目各0。三類全庫累計未重驗；歷史357@2026-10-21 20:50未重驗，2000計數口徑待確認。
+
+
+## 2026-10-23 06:20研究批次
+
+[20候選審查（含8項延伸初篩）](sources/research-2026-10-23-0620.md)：新增合格1（UC431，公開事件地理篩選與紀錄申請台帳，B作者自述未重現）；合併3（113模型渲染與背景合成、239語音格式橋接、389列檔恢復的界線）、既有9、證據／完整去重不足6、基本用途1。新增來源待補及AI構想獨立條目各0。三類全庫累計未知；歷史357@2026-10-21 20:50未重驗，2000計數口徑待確認。
+
+
+## 2026-10-23 06:40研究批次
+
+[19候選審查與閱讀界線](sources/research-2026-10-23-0640.md)：新增B級作者實作1（UC432，公開網站有限證據分級原型）；合併5（049合成郵件狀態、060文件問答LINE、110遊戲雙時鐘、276訊息路由、368模型交付清單）、既有4、證據／範圍不足6、基本用途或未實作3。未獨立重現；新增來源待補與AI構想獨立條目各0。全庫三類累計未重驗；歷史357@2026-10-21 20:50未重驗，2000計數口徑待確認。
+
+
+## 2026-10-23 07:20研究批次
+
+[本輪候選審查與來源界線](sources/research-2026-10-23-0720.md)：新增合格1（UC433，供應商自述已實施的郵件／ERP狀態約束流程，未獨立重現）；合併1（UC056建站與收入分階段）。新增來源待補與AI構想獨立條目各0；全庫三類累計未知，歷史357@2026-10-21 20:50未重驗，2000計數口徑仍待確認。
+
+
+## 2026-10-23 08:00研究批次
+
+[14候選與證據界線](sources/research-2026-10-23-0800.md)：新增1（UC434，售出物品與保單狀態核對，B作者自述未重現）；合併2（034人工對帳、005實際diff審查）、既有／變體3、證據／去重不足6、排除2。新增來源待補及AI構想獨立條目各0；三類全庫累計未知，歷史357@2026-10-21 20:50未重驗，2000口徑待確認。
+
+
+## 2026-10-23 08:45研究批次
+
+[候選審查與來源界線](sources/research-2026-10-23-0845.md)：X（英、中日韓）＋Hacker News（Algolia）、價值投資論壇、note、Zenn／Qiita集中核對。新增5（皆B作者自述、未重現）：UC436英文空調技師把舊Schneider變頻器換成ABB新機，Bot依型號序號與接線照片排出端子對照、補原廠圖後對上；UC437英文跑者連Strava與報名信做三個Pages頁面每晚更新；UC438論壇會員讓Muse重建權證試算表、依SEC資料更新企業價值並提醒幣別混用；UC439宮崎公司每天清晨多Bot編輯部（品管抓舊文重複18字、只存下書、核准台帳）；UC440日文作者依官方說明評估Notion AI點數制影響並在既有訂閱找備援。合併0。全庫累計未重驗。
+
+
+## 2026-10-23 08:50研究批次
+
+[13候選與閱讀界線](sources/research-2026-10-23-0850.md)：新增合格1（UC435，跨年度公開統計可比性，B作者自述未重現）；合併0、已收錄3、證據／去重不足8、排除1。新增來源待補與AI構想獨立條目各0；全庫三類累計未知，歷史357@2026-10-21 20:50未重驗，2000計數口徑待確認。
+
+
+## 2026-10-23 09:10研究批次
+
+[19組候選與實閱範圍](sources/research-2026-10-23-0910.md)：新增合格1（UC441，合成GIS轉檔識別欄位保真，B作者自述未重現）、合併1（037報價與接手購物車）、既有8、證據／去重不足7、排除2。來源待補及AI構想新增各0。全庫三類累計未重驗；歷史357@2026-10-21 20:50未重驗，2000口徑待確認。
+
+| 編號 | 案例 | 工具 | 證據 | 分類 |
+|---|---|---|---|---|
+| UC-441 | GIS往返轉檔後核對識別欄位與座標，不以命令成功當完整 | ChatGPT dots／GDAL | [B合成試驗自述；未重現](cases/441-gis-roundtrip-identifier-attribute-fidelity.md) | 開發｜GIS、轉檔、識別碼、驗收 |
+
+
+## 2026-10-23 09:40研究批次
+
+[20組候選與閱讀界線](sources/research-2026-10-23-0940.md)：新增合格0；1組來源合併補充2頁（396保存與啟動、421派工與產物回寫），既有7、證據／去重不足9、排除3。來源待補及AI構想獨立條目新增各0。全庫三類累計未重驗；歷史357@2026-10-21 20:50未重驗，2000計數口徑待確認。
+
+
+## 2026-10-23 11:20研究批次
+
+[12組候選與閱讀界線](sources/research-2026-10-23-1120.md)：新增合格0，合併1（067備份完成標籤與失敗計數分開驗收）、既有同源1、證據／全文去重不足9、排除1。來源待補與AI構想獨立條目新增各0。僅靜態讀原碼，未實跑；全庫三類累計未重驗，歷史357＠2026-10-21 20:50未重驗，2000口徑待確認。
+
+
+## 2026-10-23 11:50 台灣時間補充
+
+[8組候選與查閱範圍](sources/research-2026-10-23-1150.md)：新增合格0、UC015補1組第三方once轉年度cron的停止語意限制；既有2、證據／範圍或去重不足5。文件風險不是已發生事故，未執行SDK。新增來源待補及AI構想獨立條目各0；全庫累計未重驗，2000計數口徑待確認。
+
+
+## 2026-10-23 12:10 台灣時間研究批次
+
+[10組核心候選與實閱範圍](sources/research-2026-10-23-1210.md)：新增合格1（UC442，B作者合成聊天與金流沙盒實作、未重現），合併1（160相機傳輸／顯示／保存分開驗收）、既有4、證據／全文去重不足4。來源待補及AI構想獨立條目新增各0；全庫三類累計未重驗，2000口徑待確認。
+
+| 編號 | 案例 | 工具 | 證據 | 分類 |
+|---|---|---|---|---|
+| UC-442 | 團購意向不當授權份數，成團後核准同版沙盒結算 | Grok Bot／Gemini／PayPal Sandbox | [B作者沙盒實作；未重現](cases/442-group-buy-authorized-quorum-settlement-plan.md) | 開發｜團購、狀態機、核准、冪等 |
+
+
+## 2026-10-23 13:10 台灣時間研究補充
+
+[13組候選與閱讀界線](sources/research-2026-10-23-1310.md)：新增合格0、合併1（013客戶端註冊、授權與實際小工具呼叫分開驗收）、既有同源2、證據／全文去重不足6、排除4。來源待補與AI構想獨立新增各0；全庫累計未重驗，2000計數口徑待確認。
+
+
+## 2026-10-23 13:50 台灣時間研究批次
+
+[12組候選與實閱範圍](sources/research-2026-10-23-1350.md)：新增合格1（UC443，B作者研究實作自述、未重現），合併0、既有3、證據／全文去重不足6、排除2。來源待補與AI構想獨立新增各0；全庫三類累計未知，歷史357＠2026-10-21 20:50未重驗，2000口徑待確認。
+
+| 編號 | 案例 | 工具 | 證據 | 分類 |
+|---|---|---|---|---|
+| UC-443 | 科學模型評估先綁定訓練權重與前處理，再解讀誤差改善 | Grok Bot／Python／Jupyter | [B作者研究實作；未重現](cases/443-training-evaluation-preprocessor-pairing-audit.md) | 學習｜科研、模型評估、前處理、驗收 |
+
+
+## 2026-10-23 14:20 台灣時間研究補充
+
+[11組候選與實閱範圍](sources/research-2026-10-23-1420.md)：新增合格0、合併1（067內建自檢與實際命令／備份分開驗收）、既有流程3、證據／全文去重不足6、範圍排除1。來源待補與AI構想獨立新增各0；全庫累計未重驗，2000計數口徑待確認。
+
+
+## 2026-10-23 14:50 台灣時間研究批次
+
+[12組候選與實閱範圍](sources/research-2026-10-23-1450.md)：新增B級作者實作1（UC444，歷史功能需求配對已發布版本、人工核准個別通知，未重現）；合併1（005空摘要與工作成功分開驗收）、既有3、證據／全文去重不足4、排除3。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000計數口徑待確認。
+
+| 編號 | 案例 | 工具 | 證據 | 分類 |
+|---|---|---|---|---|
+| UC-444 | 新版本完成後找回原功能提問者，逐筆核准通知 | Grok Bot | [B作者使用自述；未重現](cases/444-feature-request-release-notification-loop.md) | 工作｜產品回饋、版本更新、需求追蹤、人工核准 |
+
+
+### 2026-10-23 15:50 批次
+
+[12組候選與證據界線](sources/research-2026-10-23-1550.md)：新增合格0、合併1（UC376雲端終端誤診訂正）、既有4、不足6、排除1。日文作者以原始輸出對比顯示路徑撤回舊原因，未獨立重現；不把工具變體另計。來源待補與AI構想獨立新增各0，全庫三類累計未重驗，2000計數口徑仍待確認。
+
+
+[16:40多語11候選核對](sources/research-2026-10-23-1640.md)：新增合格0、合併1（UC013郵件標籤操作與篩選規則scope分層）、既有3、證據不足5、排除2。新增來源待補及AI構想獨立條目各0；三類全庫累計未知，歷史核實時間保留未重驗，2000計數口徑待確認。
+
+
+## 2026-10-23 17:30 台灣時間研究批次
+
+[18組候選與閱讀界線](sources/research-2026-10-23-1730.md)：新增合格1（UC445，B具名操作者訪談自述、未重現），合併0、已有流程5、證據／全文去重不足9、排除3。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000計數口徑仍待確認。
+
+| 編號 | 案例 | 工具 | 證據 | 分類 |
+|---|---|---|---|---|
+| UC-445 | 外聯實驗先鎖商業目標，再比較每日版本結果 | Grok Bot／Grok Build／Clay | [B具名操作者訪談；原始分組未公開、未重現](cases/445-campaign-experiment-goal-guard.md) | 工作｜每日、實驗、目標約束、成效核對 |
+
+
+## 2026-10-23 17:50 台灣時間研究補充
+
+[12組候選與查閱界線](sources/research-2026-10-23-1750.md)：新增合格0、UC045合併1（共同終稿、舊送達不確定與隔離測試分層），已有2、證據／全文去重不足7、排除2。新增來源待補及AI構想獨立條目各0；三類全庫累計未重驗，2000計數口徑仍待確認。
+
+
+## 2026-10-23 18:30 台灣時間研究候選
+
+[15組候選與查閱界線](sources/research-2026-10-23-1830.md)：新增合格0、合併0、既有5、證據／全文去重不足7、排除3。保留Luci螢幕歷史回查的作者成功與Muse無可見畫面反例，全文去重未完成，不計合格、不誤標來源待補或AI構想。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000計數口徑仍待確認。
+
+
+## 2026-10-23 19:00 台灣時間研究補充
+
+[15組候選與閱讀界線](sources/research-2026-10-23-1900.md)：新增合格0、合併2（214 Published與released引用版本、351故障分流與修碼後測試回報）、既有／承接2、證據／全文去重不足8、排除3。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000計數口徑仍待確認。
+
+
+## 2026-10-23 20:00 台灣時間研究補充
+
+[13組候選與實閱範圍](sources/research-2026-10-23-2000.md)：新增合格0、合併2（008郵件資料新鮮度、041等待決策與故障恢復分離）、既有／重疊4、證據或完整去重不足4、排除3。來源待補及AI構想獨立新增各0；全庫三類累計未知，2000計數口徑仍待確認。
+
+
+## 2026-10-23 20:50 台灣時間研究補充
+
+[12組候選與實閱範圍](sources/research-2026-10-23-2050.md)：新增合格0、合併1（243字幕時間碼解析與文字驗收）、既有2、證據或全文去重不足6、排除3。來源待補及AI構想獨立新增各0；全庫三類累計未知，2000計數口徑仍待確認。
+
+
+## 2026-10-23 21:20 台灣時間研究補充
+
+[10組候選與閱讀界線](sources/research-2026-10-23-2120.md)：新增合格0、合併1（067保存的啟動設定與重置後復發）、已有1、證據或全文去重不足6、排除2。支援複測不等於作者恢復成功；來源待補及AI構想獨立新增各0，全庫三類累計未知，2000計數口徑仍待確認。
+
+
+2026-10-23 21:50台灣時間批次：12組候選，新增合格0、合併補充1組（045主案及344交叉更新）：Reason喚醒由提案到維護者實測，命名匣需要逐次指定。已有3、證據／去重不足5、排除3；累計未重驗。[來源與限制](sources/research-2026-10-23-2150.md)。
+
+
+## 2026-10-24 01:50多語補證
+
+[14組候選與查閱限制](sources/research-2026-10-24-0150.md)：新增合格0，合併2（283新Canvas可建可定位但不可修改；349泰文作者全年會期逐筆核對後交回信草稿）。既有3、證據或去重不足7、排除2；來源待補及AI構想獨立新增各0，全庫三類累計未重驗，2000計數口徑仍待確認。
+
+
+## 2026-10-24 05:10 批次
+
+多平台、多語言候選核對後，UC319補衣物盤點的品號／材質證據與缺圖留白；同流程變體不另算。新增合格0、合併補充1、來源待補及AI構想新增各0。全庫三類累計未重驗，2000目標計數口徑仍待確認。[實閱範圍與去重判斷](sources/research-2026-10-24-0510.md)。
+
+
+## 2026-10-24 08:00 多語補證
+
+[12組候選與閱讀界線](sources/research-2026-10-24-0800.md)：新增合格0、合併2（042韓文HTML交接包與設定復原限制；073日文草稿保存不等於QA通過），其餘8組保留證據／去重限制、2組排除。來源待補及AI構想獨立新增各0；三類全庫累計未重驗，2000目標計數口徑仍待確認。
+
+
+## 2026-10-24 10:40 多語補證
+
+[12組候選與查閱限制](sources/research-2026-10-24-1040.md)：新增合格0、合併2（015大批次公開公告的正文覆蓋；116報價條件跨檔不同步）。既有2、證據或去重不足6、排除2；來源待補及AI構想獨立新增各0，三類全庫累計未重驗，2000計數口徑仍待確認。
+
+
+[2026-10-24 11:30多平台研究](sources/research-2026-10-24-1130.md)：14組候選，新增合格1（UC449，B作者自述未重現）、補充0、既有2、不足8、排除3。來源待補與AI構想獨立新增各0；全庫三類累計未知／未重驗，2000口徑仍待確認。
+
+
+[2026-10-24 12:00多語研究](sources/research-2026-10-24-1200.md)：12組候選，新增合格0、合併1（041六條工作原指示／過程／結果對照，預約不當生效）、既有1、不足6、排除4。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000計數口徑仍待確認。
+
+
+[2026-10-24 14:00多平台研究](sources/research-2026-10-24-1400.md)：12組候選，新增合格0、合併1（059車商庫存到詢問單，提交不當成交）；已有1、不足6、排除4。來源待補與AI構想獨立新增各0；全庫三類累計未知／未重驗，2000口徑仍待確認。
+
+
+[2026-10-24 14:40 多平台補證](sources/research-2026-10-24-1440.md)：11組候選，新增合格0、合併1（012實驗紀錄轉文章的人類檢查點與代理歸屬），不足6、排除4。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000計數口徑仍待確認。
+
+
+2026-10-25 02:40台灣時間批次：8組候選（含1組接續），新增合格0、UC239補充1：Muse SDK分清轉錄／非空答案／播放與忙碌晚答，PR110有有限板上測試自述，不泛化已修復。既有3、證據不足2、排除2；來源待補及AI構想獨立新增0，全庫三類累計未知、2000計數口徑仍待確認。[實閱來源與範圍](sources/research-2026-10-25-0240.md)。
+
+
+### 2026-10-25 03:50 多平台增量審查
+
+- [本輪來源與審查範圍](sources/research-2026-10-25-0350.md)：14組（含2組承接），新增合格0、合併補充1、已收錄重複3、證據不足／全文去重未完成7、範圍外或模板3。
+- [UC207](cases/207-trigger-gate-nonexecution-retrospective.md)補充GitHub指派存在但routine無run的失敗反例，區分事件接收、by-user、匹配與起跑；不是新案例或已修復證明。
+- 本輪來源待補及AI構想新增各0；歷史累計未重驗，不以網站條目數代替真實案例數。2000目標計數口徑仍待確認。
+
+
+## 2026-10-25 06:40：排程逐時槽驗收與前批接續
+
+[13組新候選與查閱界線](sources/research-2026-10-25-0640.md)：新增合格0、UC006補1項Pinterest每小時任務只跑數小時的作者後續自述。接續05:00的12候選不重算；本輪既有2、範圍或門檻排除3、證據／全文去重不足8。來源待補及AI構想獨立新增各0；全庫三類累計未知、未重驗，2000計數口徑仍待確認。
+
+## 2026-10-25 08:51：每日多語研究
+
+[來源與範圍](sources/research-2026-10-25-0851.md)：新增2（UC450 dots協助Supabase降回Free前的帳單盤點與備份還原驗收、UC451單一Skills原本經唯讀MCP供多家AI共用）、合併1（UC183補Grok Bot暫停建立Meta廣告、核准後上線與每日報告）。既有2、證據不足或宣傳9；全為作者自述、未重現。
+
+
+## 2026-10-25 17:10：跨語言行政與裝置接入驗收
+
+[10組候選與查閱界線](sources/research-2026-10-25-1710.md)：新增合格1（UC452，作者自述僅到購買申請、非成交）、合併1（UC010，Muse Linux雙向接入與sudo邊界）；既有3、證據不足5。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000計數口徑仍待確認。
+
+## 2026-10-25 18:10：回合與日結的狀態驗收
+
+[16組候選與查閱範圍](sources/research-2026-10-25-1810.md)：新增合格2（UC453狼人殺結局展示、UC454示範日結寫回圖），合併1（UC013文件理解不等於stdio工具可呼叫）；既有7、不足6。作者自述／示範，未獨立重現。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000口徑待確認。
+
+## 2026-10-26 08:52：每日批次（X＋Qiita／Zenn／Hacker News）
+
+[約20組候選與查閱範圍](sources/research-2026-10-26-0852.md)：新增合格2（UC455 Muse隨身對講裝置記憶體診斷、UC456 Muse維護Markdown靜態網站），合併補充3（UC412 Muse版三平台草稿、UC411「Hey Grok」語音捷徑喚醒與不穩反例、UC353同作者寫文發布接力）；其餘為清單、宣傳、比較或證據不足。均為作者自述／示範，未獨立重現。

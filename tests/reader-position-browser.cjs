@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
@@ -60,14 +61,14 @@ async function measure(page){return page.evaluate(()=>{
  if(!observe&&process.env.POSITION_LIFECYCLE!=='0'){
   const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();
   const errors=[];page.on('pageerror',e=>errors.push(e.message));let release;const gate=new Promise(r=>release=r);
-  await page.route('**/cases/*.md',async route=>{if(!route.request().url().includes('/008-'))await gate;await route.continue();});
+  await sourceRoute(page,'**/cases/*.md',async route=>{if(!route.request().url().includes('/008-'))await gate;await route.continue();});
   await page.goto(base+'?kind=evidence&case=UC-008');await page.locator('#detail[open]').waitFor();assert.equal(await position(page),'其他案例載入中');
   await page.locator('#detail-title').focus();const title=await page.locator('#detail-title').innerText();
   await page.evaluate(()=>window.positionTitle=document.getElementById('detail-title'));release();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
   await position(page);assert(await page.evaluate(()=>window.positionTitle===document.getElementById('detail-title')));assert.equal(await page.locator('#detail-title').innerText(),title);assert.equal(await page.evaluate(()=>document.activeElement.id),'detail-title');
   await page.screenshot({path:out+'/loaded-mobile.png'});await context.close();
   const partial=await browser.newContext({viewport:{width:390,height:844}}),p=await partial.newPage();
-  p.on('pageerror',e=>errors.push(e.message));await p.route('**/cases/001-*.md',route=>route.abort());await ready(p,'?kind=evidence&case=UC-008');await p.locator('#detail[open]').waitFor();assert.match(await position(p),/^已載入結果 /);
+  p.on('pageerror',e=>errors.push(e.message));await sourceRoute(p,'**/cases/001-*.md',route=>route.abort());await ready(p,'?kind=evidence&case=UC-008');await p.locator('#detail[open]').waitFor();assert.match(await position(p),/^已載入結果 /);
   await p.screenshot({path:out+'/partial-mobile.png'});await p.keyboard.press('Escape');
   await p.unroute('**/cases/001-*.md');await p.locator('#retry-failed').click();await p.waitForFunction(()=>!recoveringSources&&failedPaths.length===0,null,{timeout:120000});
   await p.locator('#results .card[data-case-id="UC-008"] .card-bottom button').click();assert.match(await position(p),/^目前結果 /);

@@ -1,0 +1,203 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "requests": [
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/corpus.json"
+    ],
+    "errors": [],
+    "readyMs": 308,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "sourceRequests": [],
+    "fidelity": {
+      "same": true,
+      "files": 445,
+      "bytes": 2832322
+    },
+    "results": "顯示 16 / 447 筆收錄",
+    "axeReader": [],
+    "axeEmpty": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "requests": [
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/corpus.json"
+    ],
+    "errors": [],
+    "readyMs": 243,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "sourceRequests": [],
+    "fidelity": {
+      "same": true,
+      "files": 445,
+      "bytes": 2832322
+    },
+    "results": "顯示 16 / 447 筆收錄",
+    "axeReader": [],
+    "axeEmpty": []
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "requests": [
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/corpus.json"
+    ],
+    "errors": [],
+    "readyMs": 256,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "sourceRequests": [],
+    "fidelity": {
+      "same": true,
+      "files": 445,
+      "bytes": 2832322
+    },
+    "results": "顯示 16 / 447 筆收錄",
+    "axeReader": [],
+    "axeEmpty": []
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "requests": [
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/corpus.json"
+    ],
+    "errors": [],
+    "readyMs": 421,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "sourceRequests": [],
+    "fidelity": {
+      "same": true,
+      "files": 445,
+      "bytes": 2832322
+    },
+    "results": "顯示 16 / 447 筆收錄",
+    "axeReader": [],
+    "axeEmpty": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "requests": [
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/corpus.json"
+    ],
+    "errors": [],
+    "readyMs": 452,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "sourceRequests": [],
+    "fidelity": {
+      "same": true,
+      "files": 445,
+      "bytes": 2832322
+    },
+    "results": "顯示 16 / 447 筆收錄",
+    "axeReader": [],
+    "axeEmpty": []
+  },
+  {
+    "mode": "bundle-http",
+    "errors": [],
+    "readyMs": 697,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "axe": []
+  },
+  {
+    "mode": "bundle-invalid",
+    "errors": [],
+    "readyMs": 570,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "axe": []
+  },
+  {
+    "mode": "bundle-stall",
+    "errors": [],
+    "readyMs": 3060,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "axe": []
+  },
+  {
+    "mode": "shared-early",
+    "errors": [],
+    "early": true,
+    "readyMs": 260,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "axe": []
+  },
+  {
+    "mode": "shared-cancel",
+    "errors": [],
+    "early": true,
+    "partial": {
+      "count": 1,
+      "failed": 444
+    },
+    "readyMs": 882,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "axe": []
+  },
+  {
+    "mode": "bundle-wins",
+    "errors": [],
+    "readyMs": 162,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "axe": []
+  }
+]

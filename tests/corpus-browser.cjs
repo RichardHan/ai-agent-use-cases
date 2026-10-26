@@ -3,18 +3,22 @@ const {chromium}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const origin=process.env.CORPUS_URL||'https://richardhan.github.io/ai-agent-use-cases/';
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(process.env.CORPUS_VERIFY&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 const label=process.env.CORPUS_LABEL||'before',reports=[];
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});
  if(process.env.CORPUS_VERIFY){
   const files=['assets/app.js','assets/style.css','assets/reader.js','assets/reader.css','index.html'];
   let matched=false;
-  for(let attempt=0;attempt<60;attempt++){
+  for(let attempt=0;attempt<301;attempt++){
+   if(attempt>0&&attempt%15===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
    const checks=await Promise.all(files.map(async path=>{try{const r=await fetch(origin+path+'?budget-qa='+Date.now(),{signal:AbortSignal.timeout(10000)});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}catch{return false;}}));
    if(checks.every(Boolean)){matched=true;break;}
    await new Promise(resolve=>setTimeout(resolve,5000));
   }
-  assert(matched,'published assets match checkout');
+  if(!matched&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+  assert(matched,'published assets match checkout within 25 minutes (301 attempts)');
  }
  const browser=await chromium.launch();
  for(const [size,width,height] of [['desktop',1440,1000],['mobile',390,844]]){

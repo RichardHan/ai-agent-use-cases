@@ -1,0 +1,30 @@
+browser	Bundle, full visitor journeys and source recovery	﻿2026-10-24T08:49:18.6499080Z ##[group]Run python3 -m http.server 8190 --directory "$RUNNER_TEMP/served" > /tmp/bundle-preview.log 2>&1 &
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6499534Z ^[[36;1mpython3 -m http.server 8190 --directory "$RUNNER_TEMP/served" > /tmp/bundle-preview.log 2>&1 &^[[0m
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6499862Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8190/ai-agent-use-cases/^[[0m
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6500207Z ^[[36;1mQA_LEGACY=1 QA_OUT=qa-artifacts/controlled-before runuser -u pwuser -- node tests/corpus-bundle-browser.cjs^[[0m
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6500590Z ^[[36;1mQA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/corpus-bundle-browser.cjs^[[0m
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6500929Z ^[[36;1mQA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs^[[0m
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6501278Z ^[[36;1mQA_OUT=qa-artifacts/recovery runuser -u pwuser -- node tests/recovery-progress-browser.cjs^[[0m
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6501789Z ^[[36;1mREADER_URL="$SITE_URL" READER_ENGINE=chromium runuser -u pwuser -- node tests/reader-browser.cjs^[[0m
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6502205Z ^[[36;1mQA_CHROMIUM=1 QA_OUT=qa-artifacts/selection runuser -u pwuser -- node tests/reading-selection-browser.cjs^[[0m
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6502576Z shell: sh -e {0}
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6502694Z env:
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6502835Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:49:18.6503009Z ##[endgroup]
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:50:34.9505075Z PASS chromium-1440
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:50:48.6391286Z PASS chromium-390
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:51:01.8543821Z PASS chromium-320
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:51:20.9871188Z PASS firefox-390
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:51:33.9916244Z PASS webkit-390
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:12.4511507Z MOBILE_SEARCH_RESULTS chromium-mobile-search [{"viewport":"mobile","readyMs":631,"searchFromHeading":158,"firstResultFromSearch":233,"axeScans":2,"axeViolations":0,"passed":true}]
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.0961288Z AssertionError [ERR_ASSERTION]: Shared search should show the result count
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.0961931Z     at arrival (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/arrival-browser.cjs:42:3)
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.0962503Z     at async /__w/ai-agent-use-cases/ai-agent-use-cases/tests/reader-browser.cjs:78:3 {
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.0963297Z   generatedMessage: false,
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.0963521Z   code: 'ERR_ASSERTION',
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.0963716Z   actual: false,
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.0963896Z   expected: true,
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.0964074Z   operator: '==',
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.0964247Z   diff: 'simple'
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.0964418Z }
+browser	Bundle, full visitor journeys and source recovery	2026-10-24T08:52:13.1514352Z ##[error]Process completed with exit code 1.

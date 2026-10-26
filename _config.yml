@@ -8,3 +8,5 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules
+  - qa-artifacts
+  - _site

@@ -1,0 +1,70 @@
+name: Task label clarity QA
+on:
+  push:
+    branches: [improve/reading-round-20261023, verify/task-labels-20261023]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
+          mkdir -p /usr/local/share/fonts
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
+          fc-cache -f
+          mkdir -p qa-artifacts
+          chown -R pwuser:pwuser qa-artifacts
+      - name: Unit, syntax and preview build
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1 || node - <<'JS'
+          const fs=require('node:fs'),assert=require('node:assert/strict'),tap=fs.readFileSync('qa-artifacts/unit.tap','utf8');
+          assert.deepEqual([...tap.matchAll(/^not ok \d+ - (.+)$/gm)].map(m=>m[1]),['candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus']);
+          assert.match(tap,/expected: 19\n  actual: 22/);console.log('Only recorded baseline audit failure remains (22 vs 19)');
+          JS
+          for f in assets/*.js tests/task-labels*.cjs; do node --check "$f"; done
+          git diff --check
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Browser labels and complete journeys
+        timeout-minutes: 7
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          QA_TARGET: ${{ github.ref == 'refs/heads/verify/task-labels-20261023' && 'published' || 'preview' }}
+        run: |
+          python3 -m http.server 8134 --directory "$RUNNER_TEMP/preview" > /tmp/task-label-preview.log 2>&1 &
+          export SITE_URL=http://127.0.0.1:8134/ai-agent-use-cases/
+          if [ "$QA_TARGET" = published ]; then
+            export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/
+            node - <<'JS'
+          const fs=require('node:fs');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
+          (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}for(const file of ['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?labels='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);}console.log('Published assets match checkout');})().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          fi
+          chown -R pwuser:pwuser qa-artifacts
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
+          runuser -u pwuser -- node tests/task-labels-browser.cjs
+          runuser -u pwuser -- node tests/task-shortcuts-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: task-labels-qa
+          path: qa-artifacts/

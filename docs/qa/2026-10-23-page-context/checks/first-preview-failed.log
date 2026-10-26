@@ -1,0 +1,36 @@
+browser	Browser titles, complete journeys and recovery	﻿2026-10-23T01:08:00.3475501Z ##[group]Run python3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/page-context-preview.log 2>&1 &
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3476134Z ^[[36;1mpython3 -m http.server 8170 --directory "$RUNNER_TEMP/preview" > /tmp/page-context-preview.log 2>&1 &^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3476652Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8170/ai-agent-use-cases/^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3477025Z ^[[36;1mif [ "$QA_TARGET" = published ]; then^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3477372Z ^[[36;1m  export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3477716Z ^[[36;1m  node - <<'JS'^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3477953Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3478972Z ^[[36;1m(async()=>{for(const file of ['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?context='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);}console.log('Published assets match checkout');})().catch(e=>{console.error(e);process.exit(1)});^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3480136Z ^[[36;1mJS^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3480465Z ^[[36;1mfi^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3480695Z ^[[36;1mchown -R pwuser:pwuser qa-artifacts^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3481095Z ^[[36;1mQA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/page-context-browser.cjs^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3481599Z ^[[36;1mQA_OUT=qa-artifacts/regression runuser -u pwuser -- node tests/task-shortcuts-browser.cjs^[[0m
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3482083Z shell: sh -e {0}
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3482542Z env:
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3482912Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3483227Z   QA_TARGET: preview
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:00.3483821Z ##[endgroup]
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:20.4566772Z PASS chromium-1440
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:35.8085834Z PASS chromium-390
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:08:51.1402999Z PASS chromium-320
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:09:12.7340957Z PASS firefox-390
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:09:32.0317215Z PASS webkit-390
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:09:34.6303554Z START chromium-1440
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:09:48.5473229Z TASKS chromium-1440
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:18.9903820Z locator.click: Timeout 30000ms exceeded.
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:18.9904479Z Call log:
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:18.9905538Z   - waiting for locator('.reader-report-open').filter({ hasText: '來源與版本' })
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:18.9905848Z
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:18.9906184Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/task-shortcuts-browser.cjs:34:71 {
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:18.9906680Z   log: [
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:18.9907138Z     "  - waiting for locator('.reader-report-open').filter({ hasText: '來源與版本' })"
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:18.9907591Z   ],
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:18.9907924Z   name: 'TimeoutError'
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:18.9908234Z }
+browser	Browser titles, complete journeys and recovery	2026-10-23T01:10:19.0199793Z ##[error]Process completed with exit code 1.

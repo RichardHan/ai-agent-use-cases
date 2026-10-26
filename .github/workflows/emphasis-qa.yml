@@ -1,0 +1,76 @@
+name: Source emphasis QA
+on:
+  push:
+    branches: [improve/reading-source-links-20261023, verify/source-emphasis-20261023, verify/source-fonts-20261023]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cloud tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
+          mkdir -p /usr/local/share/fonts qa-artifacts
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Bold.otf -o /usr/local/share/fonts/NotoSansCJKtc-Bold.otf
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/Variable/TTF/Subset/NotoSansTC-VF.ttf -o /usr/local/share/fonts/NotoSansTC-VF.ttf
+          rm -f /usr/share/fonts/truetype/wqy/wqy-zenhei.ttc
+          fc-cache -f
+          fc-match -f '%{family} %{style}\n' 'Noto Sans TC:weight=bold'
+          fc-match -f '%{family} %{style}\n' 'system-ui:lang=zh-tw:weight=bold'
+          chown -R pwuser:pwuser qa-artifacts
+      - name: Baseline checks
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+          for f in assets/*.js tests/emphasis*.cjs; do node --check "$f"; done
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+      - name: Observe published site
+        if: github.ref != 'refs/heads/verify/source-emphasis-20261023'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          QA_OBSERVE: '1'
+        run: runuser -u pwuser -- node tests/emphasis-browser.cjs
+      - name: Reproduce baseline and verify preview
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+        run: |
+          git show 9ebbcb2:assets/app.js > "$RUNNER_TEMP/before-app.js"
+          if EMPHASIS_SOURCE="$RUNNER_TEMP/before-app.js" node --test --test-reporter=tap tests/emphasis.test.cjs > qa-artifacts/red.tap 2>&1; then
+            echo 'Expected baseline emphasis regression'; exit 1
+          fi
+          node -e "const fs=require('node:fs'),a=require('node:assert/strict'),s=fs.readFileSync('qa-artifacts/red.tap','utf8');a.match(s,/# fail 5/);a.equal([...s.matchAll(/code: 'ERR_ASSERTION'/g)].length,5)"
+          python3 -m http.server 8174 --directory "$RUNNER_TEMP/preview" > /tmp/emphasis-preview.log 2>&1 &
+          chown -R pwuser:pwuser qa-artifacts
+          export SITE_URL=http://127.0.0.1:8174/ai-agent-use-cases/
+          if [ "$GITHUB_REF" = refs/heads/verify/source-emphasis-20261023 ]; then
+            export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/
+            node - <<'JS'
+          const fs=require('node:fs');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
+          (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}const files=['assets/app.js','assets/reader.js','assets/reader.css'];for(let attempt=0;attempt<301;attempt++){const matches=await Promise.all(files.map(async file=>{const r=await fetch(process.env.SITE_URL+file+'?emphasis='+process.env.GITHUB_SHA);return r.ok&&await r.text()===fs.readFileSync(file,'utf8');}));if(matches.every(Boolean)){console.log('Published assets match checkout');return;}if(attempt>0&&attempt%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}await new Promise(r=>setTimeout(r,3000));}if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}throw Error('Published assets did not match before timeout');})().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          fi
+          QA_OUT=qa-artifacts/after runuser -u pwuser -- node tests/emphasis-browser.cjs
+      - name: Existing full reading and lifecycle regressions
+        if: github.ref != 'refs/heads/verify/source-emphasis-20261023' && github.ref != 'refs/heads/verify/source-fonts-20261023'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          SITE_URL: http://127.0.0.1:8174/ai-agent-use-cases/
+          QA_OUT: qa-artifacts/regression
+        run: runuser -u pwuser -- node tests/page-context-browser.cjs > qa-artifacts/regression.log 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-emphasis-qa
+          path: qa-artifacts/

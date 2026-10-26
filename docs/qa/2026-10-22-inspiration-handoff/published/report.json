@@ -1,0 +1,218 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "報價需求一來，先做好品牌一致、價格待核的文件",
+      "rect": {
+        "x": 841.5,
+        "y": 385.28125,
+        "width": 403.484375,
+        "height": 76.78125
+      }
+    },
+    "readID": "UC-116",
+    "draw": {
+      "focus": "帳搬過去了，借貸餘額也真的對得上嗎？",
+      "rect": {
+        "x": 841.5,
+        "y": 384.5,
+        "width": 403.484375,
+        "height": 76.78125
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "sourceOpened": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 841.5,
+      "y": 314.453125,
+      "width": 403.484375,
+      "height": 383.90625
+    },
+    "oversizedTitle": {
+      "x": 841.5,
+      "y": 48.09375,
+      "width": 403.484375,
+      "height": 1842.75
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 19.19999999999709,
+      "load": 24.60000000000582
+    }
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "新網站設計看好了，再逐區塊搬進真正後台",
+      "rect": {
+        "x": 66,
+        "y": 243.90625,
+        "width": 258,
+        "height": 73.59375
+      }
+    },
+    "readID": "UC-204",
+    "draw": {
+      "focus": "語音說完行程別急著放心，確認存對日曆、沒有多寄邀請",
+      "rect": {
+        "x": 66,
+        "y": 243.90625,
+        "width": 258,
+        "height": 110.390625
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 345.859375,
+      "width": 258,
+      "height": 515.15625
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48.015625,
+      "width": 258,
+      "height": 2612.578125
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 19.89999999999418,
+      "load": 23.39999999999418
+    }
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "拿模擬商店，練習處理營運突發狀況",
+      "rect": {
+        "x": 66,
+        "y": 260.40625,
+        "width": 188,
+        "height": 73.59375
+      }
+    },
+    "readID": "UC-003",
+    "draw": {
+      "focus": "PDF上傳完成後，還要核對內容完整",
+      "rect": {
+        "x": 66,
+        "y": 260.40625,
+        "width": 188,
+        "height": 73.59375
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 47.53125,
+      "width": 188,
+      "height": 699.140625
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48.03125,
+      "width": 188,
+      "height": 3532.5
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 18.59999999999127,
+      "load": 21.5
+    }
+  },
+  {
+    "label": "firefox-390",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "帳搬過去了，借貸餘額也真的對得上嗎？",
+      "rect": {
+        "x": 66,
+        "y": 244,
+        "width": 258,
+        "height": 73.60000610351562
+      }
+    },
+    "readID": "UC-263",
+    "draw": {
+      "focus": "把剛談到的客戶需求，變成下一版簡報",
+      "rect": {
+        "x": 66,
+        "y": 244,
+        "width": 258,
+        "height": 73.60000610351562
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 48.29999923706055,
+      "width": 258,
+      "height": 588.799976348877
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48,
+      "width": 258,
+      "height": 2833.60009765625
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 48,
+      "load": 51
+    }
+  },
+  {
+    "label": "webkit-390",
+    "errors": [],
+    "total": 423,
+    "guide": {
+      "focus": "讓 dots 定時看 Todoist，先幫你想好下一則跟催怎麼寫",
+      "rect": {
+        "x": 66,
+        "y": 243.90625,
+        "width": 258,
+        "height": 110.390625
+      }
+    },
+    "readID": "UC-081",
+    "draw": {
+      "focus": "把幾個AI拉進同一群後，私人背景也被傳出去？先縮小交接內容",
+      "rect": {
+        "x": 66,
+        "y": 243.90625,
+        "width": 258,
+        "height": 110.390625
+      }
+    },
+    "filtered": "顯示 14 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "longTitle": {
+      "x": 66,
+      "y": 345.859375,
+      "width": 258,
+      "height": 515.15625
+    },
+    "oversizedTitle": {
+      "x": 66,
+      "y": 48.015625,
+      "width": 258,
+      "height": 2612.578125
+    },
+    "axe": [],
+    "timing": {
+      "domContentLoaded": 20,
+      "load": 26
+    }
+  }
+]

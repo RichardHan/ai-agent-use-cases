@@ -1,0 +1,1106 @@
+browser	Baseline tests, syntax and static preview	﻿2026-10-22T22:21:46.3868737Z ##[group]Run node --test tests/*.test.cjs
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.3869185Z ^[[36;1mnode --test tests/*.test.cjs^[[0m
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.3869567Z ^[[36;1mfor file in assets/*.js; do node --check "$file"; done^[[0m
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.3870085Z ^[[36;1mpython3 scripts/preview.py "$RUNNER_TEMP/recovery-preview/ai-agent-use-cases"^[[0m
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.4136835Z shell: /usr/bin/bash -e {0}
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.4137180Z ##[endgroup]
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.5644829Z TAP version 13
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6393188Z # Subtest: search links preserve exact terms and all facets under the Pages base path
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6432307Z ok 1 - search links preserve exact terms and all facets under the Pages base path
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6433716Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6434731Z   duration_ms: 16.915379
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6435710Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6436421Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6437699Z # Subtest: unfiltered links still target the collection and never leak unrelated URL state
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6439687Z ok 2 - unfiltered links still target the collection and never leak unrelated URL state
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6441389Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6442780Z   duration_ms: 7.954664
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6443686Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6444383Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6445669Z # Subtest: arrival distinguishes search intent from the homepage and explicit other anchors
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6448275Z ok 3 - arrival distinguishes search intent from the homepage and explicit other anchors
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6449478Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6450275Z   duration_ms: 11.133992
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6451432Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.6452136Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9422557Z # Subtest: all cases and evidence files have valid scenario, non-empty tags, and verification date
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9471972Z ok 4 - all cases and evidence files have valid scenario, non-empty tags, and verification date
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9491629Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9492517Z   duration_ms: 26.626519
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9493357Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9494063Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9495475Z # Subtest: all cases, evidence files, and pending leads contain verified external source URLs without placeholders
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9499170Z ok 5 - all cases, evidence files, and pending leads contain verified external source URLs without placeholders
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9500270Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9500940Z   duration_ms: 72.43437
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9501416Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9502012Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9503217Z # Subtest: candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9505136Z not ok 6 - candidate duplicate detection normalizes URLs and identifies shared external sources without modifying corpus
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9506207Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9506629Z   duration_ms: 69.271294
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9507104Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9508010Z   location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/audit.test.cjs:145:1'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9509050Z   failureType: 'testCodeFailure'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9509556Z   error: |-
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9510022Z     Expected values to be strictly equal:
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9510543Z
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9511162Z     23 !== 19
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9511516Z
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9511905Z   code: 'ERR_ASSERTION'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9512367Z   name: 'AssertionError'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9512802Z   expected: 19
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9513193Z   actual: 23
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9513612Z   operator: 'strictEqual'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9514050Z   stack: |-
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9515079Z     TestContext.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/audit.test.cjs:382:10)
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9516333Z     Test.runInAsyncScope (node:async_hooks:214:14)
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9517118Z     Test.run (node:internal/test_runner/test:1047:25)
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9518052Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9519696Z     Test.postRun (node:internal/test_runner/test:1173:19)
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9520475Z     Test.run (node:internal/test_runner/test:1101:12)
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9525938Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9526757Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9527704Z # Subtest: qualification audit maintains strict separation between catalog entries and verified cases
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9528575Z ok 7 - qualification audit maintains strict separation between catalog entries and verified cases
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9529208Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9529573Z   duration_ms: 3.873451
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9529927Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9530142Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9531072Z # Subtest: INDEX.md maintains scenario consistency, complete case rows and canonical current-audit link
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9532648Z ok 8 - INDEX.md maintains scenario consistency, complete case rows and canonical current-audit link
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9533500Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9533865Z   duration_ms: 6.512654
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9534268Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9534628Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9536990Z # Subtest: all cases and evidence files have plain-language title and purpose either in markdown or copy.json
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9537927Z ok 9 - all cases and evidence files have plain-language title and purpose either in markdown or copy.json
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9539047Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9539388Z   duration_ms: 33.760852
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9539771Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9540103Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9541110Z # Subtest: app.js metadata extraction gracefully falls back to extract tags from category lines
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9542318Z ok 10 - app.js metadata extraction gracefully falls back to extract tags from category lines
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9543035Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9543352Z   duration_ms: 21.627411
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9543718Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9544027Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9544923Z # Subtest: app.js metadata accurately extracts verification date rather than historical publication date
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9546274Z ok 11 - app.js metadata accurately extracts verification date rather than historical publication date
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9547031Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9547355Z   duration_ms: 107.335327
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9547730Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9548045Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9828693Z # Subtest: tag exploration replaces only the query, preserving every active facet
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9830242Z ok 12 - tag exploration replaces only the query, preserving every active facet
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9831512Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9831968Z   duration_ms: 15.207232
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9832530Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9833057Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9834000Z # Subtest: scenario toggles off and on without throwing away the task or other facets
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9848006Z ok 13 - scenario toggles off and on without throwing away the task or other facets
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9848631Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9848988Z   duration_ms: 5.066453
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9849360Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9849700Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9850248Z # Subtest: unrecognized card action cannot mutate controls or move the reader
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9851528Z ok 14 - unrecognized card action cannot mutate controls or move the reader
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9852359Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9852864Z   duration_ms: 7.222749
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9853447Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9853803Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9854542Z # Subtest: case sharing includes only reading conditions and current case, preserving Pages base path
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9873824Z ok 15 - case sharing includes only reading conditions and current case, preserving Pages base path
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9887067Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9889495Z   duration_ms: 12.028618
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9890318Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9891542Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9892704Z # Subtest: case sharing drops empty and unsupported sorting state, preserves unknown user-selected facets as text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9894831Z ok 16 - case sharing drops empty and unsupported sorting state, preserves unknown user-selected facets as text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9895768Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9896126Z   duration_ms: 5.960757
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9896539Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:46.9896913Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1223879Z # Subtest: find category names without inventing new labels or searching case content
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1225854Z ok 17 - find category names without inventing new labels or searching case content
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1227371Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1228130Z   duration_ms: 18.442394
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1228645Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1229034Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1262116Z # Subtest: normalize full-width Latin and case, retain zero-result alternatives and limit previews
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1281816Z ok 18 - normalize full-width Latin and case, retain zero-result alternatives and limit previews
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1291674Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1292117Z   duration_ms: 358.836266
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1292651Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1293118Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1294192Z # Subtest: implicit form submission from category lookup never changes case search or focus
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1295682Z ok 19 - implicit form submission from category lookup never changes case search or focus
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1297269Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1297658Z   duration_ms: 12.740628
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1298157Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1298508Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1299461Z # Subtest: composition guard allows explicit case-search submit after category composition ends
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1301098Z ok 20 - composition guard allows explicit case-search submit after category composition ends
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1301960Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1302312Z   duration_ms: 12.783421
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1302815Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1303221Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1362205Z # Subtest: two conflicting facets recover real query matches while retaining the other facets
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1382024Z ok 21 - two conflicting facets recover real query matches while retaining the other facets
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1406333Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1406948Z   duration_ms: 11.573716
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1407573Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1408071Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1409128Z # Subtest: never replace an existing result or a single-facet recovery, and never weaken the query
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1411076Z ok 22 - never replace an existing result or a single-facet recovery, and never weaken the query
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1411998Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1412364Z   duration_ms: 6.362268
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1412766Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1413113Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1413894Z # Subtest: offer only the smallest removals and report all matching loaded entries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1415056Z ok 23 - offer only the smallest removals and report all matching loaded entries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1415788Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1416152Z   duration_ms: 11.616527
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1416590Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1416956Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1418064Z # Subtest: multiple alternatives stay independent, ignore empty values and use the normal multi-tool matching
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1419791Z ok 24 - multiple alternatives stay independent, ignore empty values and use the normal multi-tool matching
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1421119Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1421569Z   duration_ms: 1.852812
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1422031Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1422424Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1423309Z # Subtest: five conflicting facets recover without mutating any supplied data
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1424480Z ok 25 - five conflicting facets recover without mutating any supplied data
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1425229Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1425632Z   duration_ms: 0.903412
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1426088Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1426467Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1427332Z # Subtest: scenario comes from the declared lead metadata, never from later source prose
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1428997Z ok 26 - scenario comes from the declared lead metadata, never from later source prose
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1429824Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1430216Z   duration_ms: 1.248888
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1438253Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1438790Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1439733Z # Subtest: discovery excludes pending leads, evidence supplements and untested templates
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1441945Z ok 27 - discovery excludes pending leads, evidence supplements and untested templates
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1442816Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1443266Z   duration_ms: 0.766262
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1443734Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1444130Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1445328Z # Subtest: a deck visits every case once, avoids immediate repeats across rounds, and preserves input
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1446843Z ok 28 - a deck visits every case once, avoids immediate repeats across rounds, and preserves input
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1447745Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1448117Z   duration_ms: 0.393997
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1448504Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1448834Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1449530Z # Subtest: empty and single-item decks have explicit states
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1450381Z ok 29 - empty and single-item decks have explicit states
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1451433Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1451779Z   duration_ms: 0.155094
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1452163Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1452494Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1453479Z # Subtest: facet alternatives ignore only their own current selection and retain query and all other filters
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1455011Z ok 30 - facet alternatives ignore only their own current selection and retain query and all other filters
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1455862Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1456195Z   duration_ms: 37.133468
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1456589Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1456920Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1457742Z # Subtest: tool membership, all-option and missing values count real entries exactly once
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1458981Z ok 31 - tool membership, all-option and missing values count real entries exactly once
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1459698Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1460025Z   duration_ms: 0.391382
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1460396Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1460998Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1461936Z # Subtest: empty query results, empty corpus and partial corpus do not invent available entries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1468503Z ok 32 - empty query results, empty corpus and partial corpus do not invent available entries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1469464Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1469857Z   duration_ms: 6.397024
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1470282Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1471035Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1471998Z # Subtest: synonym-expanded counts use the same search semantics as result filtering
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1473346Z ok 33 - synonym-expanded counts use the same search semantics as result filtering
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1473994Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1474496Z   duration_ms: 0.784958
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1475041Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1475533Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1476508Z # Subtest: explicit mobile inspiration handoff focuses the new readable card, with bounded instant scrolling
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1477703Z ok 34 - explicit mobile inspiration handoff focuses the new readable card, with bounded instant scrolling
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1478389Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1478890Z   duration_ms: 10.212666
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1479406Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1499740Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1501352Z # Subtest: desktop inspiration handoff also reaches the card without scrolling an already visible stage
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1502965Z ok 35 - desktop inspiration handoff also reaches the card without scrolling an already visible stage
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1503866Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1504252Z   duration_ms: 5.279165
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1504687Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1505057Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1505922Z # Subtest: empty deck focuses its explanation instead of a disabled draw button
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1507398Z ok 36 - empty deck focuses its explanation instead of a disabled draw button
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1508119Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1508507Z   duration_ms: 4.889924
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1508939Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1509309Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1510080Z # Subtest: loading or failure never moves focus or schedules a late handoff
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1511417Z ok 37 - loading or failure never moves focus or schedules a late handoff
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1512106Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1512487Z   duration_ms: 10.359417
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1512928Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1513296Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1514172Z # Subtest: long original titles bring the focus target into view even after a tall status
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1515556Z ok 38 - long original titles bring the focus target into view even after a tall status
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1516333Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1516712Z   duration_ms: 8.717132
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1517145Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1517496Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1518245Z # Subtest: late return at 80ms becomes visible and releases the bounded guard
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1519360Z ok 39 - late return at 80ms becomes visible and releases the bounded guard
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1520056Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1521089Z   duration_ms: 2.749702
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1521542Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1521910Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1522727Z # Subtest: late return at 180ms becomes visible and releases the bounded guard
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1523826Z ok 40 - late return at 180ms becomes visible and releases the bounded guard
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1524514Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1524856Z   duration_ms: 1.44566
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1525240Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1525645Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1526337Z # Subtest: new pointerdown permanently cancels late scroll correction
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1527308Z ok 41 - new pointerdown permanently cancels late scroll correction
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1527944Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1528299Z   duration_ms: 0.880238
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1528694Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1529051Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1529691Z # Subtest: new keydown permanently cancels late scroll correction
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1530600Z ok 42 - new keydown permanently cancels late scroll correction
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1531399Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1531787Z   duration_ms: 0.805006
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1532214Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1532588Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1533254Z # Subtest: new wheel permanently cancels late scroll correction
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1534193Z ok 43 - new wheel permanently cancels late scroll correction
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1534807Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1535195Z   duration_ms: 0.782413
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1535685Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1536044Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1536726Z # Subtest: new touchstart permanently cancels late scroll correction
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1537723Z ok 44 - new touchstart permanently cancels late scroll correction
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1538377Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1538734Z   duration_ms: 0.698834
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1539135Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1539485Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1540106Z # Subtest: new focus wins and return monitoring is cleaned up
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1541202Z ok 45 - new focus wins and return monitoring is cleaned up
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1541776Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1542115Z   duration_ms: 0.753649
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1542519Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1542859Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1543451Z # Subtest: new url wins and return monitoring is cleaned up
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1544387Z ok 46 - new url wins and return monitoring is cleaned up
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1544972Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1545317Z   duration_ms: 2.161907
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1545733Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1546093Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1546713Z # Subtest: new modal wins and return monitoring is cleaned up
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1547948Z ok 47 - new modal wins and return monitoring is cleaned up
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1548537Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1548894Z   duration_ms: 1.040161
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1549416Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1549781Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1550418Z # Subtest: new removed wins and return monitoring is cleaned up
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1551634Z ok 48 - new removed wins and return monitoring is cleaned up
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1552260Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1552627Z   duration_ms: 0.925565
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1553048Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1553407Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1554040Z # Subtest: scroll after the 300ms deadline is never pulled back
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1554974Z ok 49 - scroll after the 300ms deadline is never pulled back
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1555585Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1555948Z   duration_ms: 0.693455
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1556374Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1556743Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1557572Z # Subtest: background resume after deadline: frame runs first without late scrolling
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1558763Z ok 50 - background resume after deadline: frame runs first without late scrolling
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1559512Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1559881Z   duration_ms: 0.604736
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1560276Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1560602Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1561624Z # Subtest: background resume after deadline: timer runs first without late scrolling
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1563288Z ok 51 - background resume after deadline: timer runs first without late scrolling
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1564038Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1564403Z   duration_ms: 0.568027
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1564829Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1565190Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1566026Z # Subtest: recovery merges by source path and retains all pending items in stable order
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1567295Z ok 52 - recovery merges by source path and retains all pending items in stable order
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1568064Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1568440Z   duration_ms: 11.24589
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1568889Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1569268Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1570079Z # Subtest: timed-out source fails independently without losing completed content
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1571547Z ok 53 - timed-out source fails independently without losing completed content
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1572318Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1572700Z   duration_ms: 11.478117
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1573162Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1573532Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1802554Z # Subtest: mapConcurrent respects concurrency limit and preserves ordering
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1814046Z ok 54 - mapConcurrent respects concurrency limit and preserves ordering
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1832996Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1841959Z   duration_ms: 43.358612
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1842715Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1843406Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1844337Z # Subtest: mapConcurrent handles empty arrays and boundary limits
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1845440Z ok 55 - mapConcurrent handles empty arrays and boundary limits
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1846228Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1846748Z   duration_ms: 0.69137
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1847330Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1847834Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1848729Z # Subtest: loadCorpus isolates single-file failure and preserves remaining cases
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1850090Z ok 56 - loadCorpus isolates single-file failure and preserves remaining cases
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1851195Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1851727Z   duration_ms: 12.904247
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1852283Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1852777Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1853560Z # Subtest: loadCorpus reports zero entries when all files fail
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1854628Z ok 57 - loadCorpus reports zero entries when all files fail
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1855395Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1855923Z   duration_ms: 0.560051
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1856485Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.1857009Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2292587Z # Subtest: whole-corpus budget keeps completed content and marks active plus queued paths for retry
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2321977Z ok 58 - whole-corpus budget keeps completed content and marks active plus queued paths for retry
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2323099Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2323936Z   duration_ms: 23.283892
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2324463Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2324879Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2325867Z # Subtest: choosing available content cancels in-flight work without dropping successful sources
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2327381Z ok 59 - choosing available content cancels in-flight work without dropping successful sources
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2328263Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2328663Z   duration_ms: 0.881291
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2329108Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2329547Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2456371Z # Subtest: deadline includes reading the body after HTTP headers
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2457354Z ok 60 - deadline includes reading the body after HTTP headers
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2457902Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2458127Z   duration_ms: 16.144876
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2458382Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2458618Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2565846Z # Subtest: per-source timeout frees a worker so later sources can finish before whole budget
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2572478Z ok 61 - per-source timeout frees a worker so later sources can finish before whole budget
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2591466Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2591932Z   duration_ms: 10.951789
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2597091Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2597617Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2675214Z # Subtest: nested methods stay under their parent and return to the correct sibling
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2705580Z ok 62 - nested methods stay under their parent and return to the correct sibling
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2706775Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2707436Z   duration_ms: 1.89429
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2708155Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2708783Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2709913Z # Subtest: explicit numbering, mixed sibling list types and paragraph boundaries remain faithful
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2711986Z ok 63 - explicit numbering, mixed sibling list types and paragraph boundaries remain faithful
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2713110Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2713716Z   duration_ms: 0.926826
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2714320Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2714842Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2715999Z # Subtest: real UC-001 interpretation keeps four numbered requirements inside the author limitation
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2717642Z ok 64 - real UC-001 interpretation keeps four numbered requirements inside the author limitation
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2718656Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2719223Z   duration_ms: 2.308746
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2719868Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2720394Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2721725Z # Subtest: continuations keep source text and safe links without treating fenced lists as markup
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2723398Z ok 65 - continuations keep source text and safe links without treating fenced lists as markup
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2724512Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2725090Z   duration_ms: 0.705967
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2725719Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2726249Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2727310Z # Subtest: nested list search targets each own row without joining parent and child text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2728868Z ok 66 - nested list search targets each own row without joining parent and child text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2729863Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2730470Z   duration_ms: 0.842056
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2731922Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2732499Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2733752Z # Subtest: an initially indented list has no fabricated parent; boundaries do not swallow following prose
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2735544Z ok 67 - an initially indented list has no fabricated parent; boundaries do not swallow following prose
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2736648Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2737244Z   duration_ms: 0.428091
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2737878Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2738444Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2739507Z # Subtest: parent continuation after a child list cannot fabricate a contiguous quote
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2741361Z ok 68 - parent continuation after a child list cannot fabricate a contiguous quote
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2742776Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2743396Z   duration_ms: 0.429204
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2744054Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2744669Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2745707Z # Subtest: method shortcut preserves the full untested heading and original index
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2747166Z ok 69 - method shortcut preserves the full untested heading and original index
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2748145Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2748760Z   duration_ms: 2.727048
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2749416Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2749992Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2751354Z # Subtest: pending, sparse and missing methods do not fabricate an actionable workflow
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2752931Z ok 70 - pending, sparse and missing methods do not fabricate an actionable workflow
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2753977Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2754630Z   duration_ms: 0.684072
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2755324Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2755932Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2756930Z # Subtest: prompt fallback and evidence methods keep literal source labels
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2758348Z ok 71 - prompt fallback and evidence methods keep literal source labels
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2759337Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2759917Z   duration_ms: 0.213585
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2760562Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2761805Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2904624Z # Subtest: find a later supplement without hiding qualifiers or merging repeated headings
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2929947Z ok 72 - find a later supplement without hiding qualifiers or merging repeated headings
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2931418Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2932079Z   duration_ms: 1.648013
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2932797Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2933445Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2934719Z # Subtest: title matching normalizes width/case, handles empty and literal unsafe-looking queries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2936563Z ok 73 - title matching normalizes width/case, handles empty and literal unsafe-looking queries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2937797Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2938347Z   duration_ms: 0.330236
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2938967Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.2939590Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3126520Z # Subtest: printing expands closed original research and restores position, state and focus after cancel
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3128322Z ok 74 - printing expands closed original research and restores position, state and focus after cancel
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3129302Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3129785Z   duration_ms: 2.172999
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3130275Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3131397Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3132514Z # Subtest: already expanded research stays expanded and repeated print captures the new reading position
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3134050Z ok 75 - already expanded research stays expanded and repeated print captures the new reading position
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3134962Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3135398Z   duration_ms: 0.264312
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3135876Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3136316Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3137272Z # Subtest: closed dialog does not change state; replaced research never receives stale restoration
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3138661Z ok 76 - closed dialog does not change state; replaced research never receives stale restoration
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3139511Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3139940Z   duration_ms: 0.284399
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3140424Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3141080Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3222153Z # Subtest: copy candidates retain their full qualified headings and original section indices
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3241957Z ok 77 - copy candidates retain their full qualified headings and original section indices
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3251871Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3252489Z   duration_ms: 2.099108
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3253010Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3253459Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3254514Z # Subtest: pending, empty, descriptive references and unrelated sections do not become copy actions
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3256091Z ok 78 - pending, empty, descriptive references and unrelated sections do not become copy actions
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3257788Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3258383Z   duration_ms: 0.262608
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3259000Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3259578Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3260987Z # Subtest: source copy keeps links, code, list boundaries and nested qualifications without UI text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3262733Z ok 79 - source copy keeps links, code, list boundaries and nested qualifications without UI text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3291893Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3321637Z   duration_ms: 0.685149
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3322134Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3322519Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3323207Z # Subtest: nested subsections stay with their parent and peer subsections end the copied range
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3324008Z ok 80 - nested subsections stay with their parent and peer subsections end the copied range
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3324455Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3324662Z   duration_ms: 0.315558
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3324897Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3325119Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3325593Z # Subtest: deeper Markdown headings keep their restrictions inside the copied chapter
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3326275Z ok 81 - deeper Markdown headings keep their restrictions inside the copied chapter
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3326684Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3326885Z   duration_ms: 0.320497
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3327332Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.3327533Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4504455Z # Subtest: visible reader position follows the current result order and preserves navigation boundaries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4541828Z ok 82 - visible reader position follows the current result order and preserves navigation boundaries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4542903Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4557309Z   duration_ms: 38.756656
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4558062Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4558727Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4559893Z # Subtest: single and outside-filter direct links never invent a result position
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4591858Z ok 83 - single and outside-filter direct links never invent a result position
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4623577Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4624439Z   duration_ms: 27.865243
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4642347Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4653667Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4654809Z # Subtest: loading and partial-source states distinguish available results from a complete collection
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4656441Z ok 84 - loading and partial-source states distinguish available results from a complete collection
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4657415Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4657913Z   duration_ms: 24.583533
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4658467Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4658956Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4798039Z # Subtest: search route preserves a negative source section and the matched synonym
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4841540Z ok 85 - search route preserves a negative source section and the matched synonym
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4861412Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4871811Z   duration_ms: 2.167358
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4881657Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4882236Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4883077Z # Subtest: routes use section indices even when original headings repeat
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4884301Z ok 86 - routes use section indices even when original headings repeat
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4885128Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4885659Z   duration_ms: 0.343301
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4886203Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4886721Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4887766Z # Subtest: literal Unicode and href matches use the same normalized variants without regex
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4889163Z ok 87 - literal Unicode and href matches use the same normalized variants without regex
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4890062Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4890563Z   duration_ms: 0.391772
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4891503Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4892020Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4892858Z # Subtest: routes are bounded, deduplicate sections and keep term order
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4894006Z ok 88 - routes are bounded, deduplicate sections and keep term order
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4894799Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4895693Z   duration_ms: 0.361374
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4896283Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4896788Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4897678Z # Subtest: empty, missing and metadata-only terms never invent original matches
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4898934Z ok 89 - empty, missing and metadata-only terms never invent original matches
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4899828Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4900357Z   duration_ms: 1.163515
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4901192Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4901774Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4902851Z # Subtest: body matches take readers beyond repeated leading tags, retaining original section indices
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4904417Z ok 90 - body matches take readers beyond repeated leading tags, retaining original section indices
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4905420Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4905917Z   duration_ms: 0.309857
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4906472Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4906967Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4908016Z # Subtest: metadata-only terms still route to original metadata, while synonyms prefer a body section
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4909578Z ok 91 - metadata-only terms still route to original metadata, while synonyms prefer a body section
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4910594Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4911343Z   duration_ms: 0.385029
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4911894Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4912395Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4913560Z # Subtest: jump choices point to existing result, method, limits and source headings
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4914859Z ok 92 - jump choices point to existing result, method, limits and source headings
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4915752Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4916274Z   duration_ms: 2.08957
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4916880Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4917384Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4918320Z # Subtest: sparse, pending and unknown structures do not invent sections or evidence
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4919626Z ok 93 - sparse, pending and unknown structures do not invent sections or evidence
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4920480Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4921206Z   duration_ms: 0.691851
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4921759Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4922271Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4923268Z # Subtest: duplicate and unsafe-looking heading text stays literal and keeps its index
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4924671Z ok 94 - duplicate and unsafe-looking heading text stays literal and keeps its index
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4925576Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4926071Z   duration_ms: 0.195451
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4926609Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4927096Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4928163Z # Subtest: a clipped overview above the disappearing status must not displace the visible source report
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4929762Z ok 95 - a clipped overview above the disappearing status must not displace the visible source report
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4931022Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4931551Z   duration_ms: 1.581157
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4932102Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4932591Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4933481Z # Subtest: one long paragraph filling the reading viewport retains its position
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4934754Z ok 96 - one long paragraph filling the reading viewport retains its position
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4935627Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4936136Z   duration_ms: 0.230818
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4936679Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4937162Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4938028Z # Subtest: hidden blocks, the temporary status, and offscreen starts are excluded
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4939365Z ok 97 - hidden blocks, the temporary status, and offscreen starts are excluded
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4940216Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4940930Z   duration_ms: 0.341467
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4941507Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4941978Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4942606Z # Subtest: normal visible section order is retained
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4943434Z ok 98 - normal visible section order is retained
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4944082Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4944549Z   duration_ms: 0.211371
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4945073Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4945544Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4946796Z # Subtest: a related section replaced on completion cannot displace the persistent research anchor
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4948681Z ok 99 - a related section replaced on completion cannot displace the persistent research anchor
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4949705Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4950220Z   duration_ms: 0.219125
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4951004Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4951542Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4952553Z # Subtest: UC-313 promotes the entire report including uncertainty and unexecuted proposal
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4954115Z ok 100 - UC-313 promotes the entire report including uncertainty and unexecuted proposal
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4955079Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4955570Z   duration_ms: 2.383006
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4956118Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4956622Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4957583Z # Subtest: source versions retain every list item and are not called verified results
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4958912Z ok 101 - source versions retain every list item and are not called verified results
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4959805Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4960298Z   duration_ms: 1.215032
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4961082Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4961586Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4962801Z # Subtest: report takes precedence over source directory and excludes designed, expected and supplementary outcomes
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4964580Z ok 102 - report takes precedence over source directory and excludes designed, expected and supplementary outcomes
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4965969Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4966513Z   duration_ms: 0.320348
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4967072Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4967640Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4968769Z # Subtest: long and unknown original sections remain available through research, never silently truncated
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4970397Z ok 103 - long and unknown original sections remain available through research, never silently truncated
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4971637Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4972167Z   duration_ms: 0.4325
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4972729Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4973237Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4974261Z # Subtest: source jumps include author/date and deduplication headings and prefer a linked source
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4975791Z ok 104 - source jumps include author/date and deduplication headings and prefer a linked source
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4976775Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4977275Z   duration_ms: 0.471203
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4977830Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.4978384Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5325758Z # Subtest: served corpus validation accepts the complete source set in any reading order
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5352008Z ok 105 - served corpus validation accepts the complete source set in any reading order
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5381419Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5393401Z   duration_ms: 2.830754
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5411454Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5431780Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5433067Z # Subtest: served corpus validation rejects a duplicated pending ID replacing another, even with equal counts and paths
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5434954Z ok 106 - served corpus validation rejects a duplicated pending ID replacing another, even with equal counts and paths
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5436028Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5436485Z   duration_ms: 2.721328
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5436980Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5437419Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5438348Z # Subtest: served corpus validation rejects stale original text and missing sources
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5440129Z ok 107 - served corpus validation rejects stale original text and missing sources
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5441260Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5469296Z   duration_ms: 1.029549
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5491702Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.5492311Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6162715Z # Subtest: review date uses explicit lead verification fields, takes latest valid date and never borrows source dates
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6192018Z ok 108 - review date uses explicit lead verification fields, takes latest valid date and never borrows source dates
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6193267Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6221594Z   duration_ms: 20.770458
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6222272Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6222829Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6224245Z # Subtest: recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6226476Z ok 109 - recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6227817Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6228296Z   duration_ms: 26.011247
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6228804Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6229341Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6230490Z # Subtest: review sorting survives shared search URLs and is search arrival, without sharing unrelated or invalid state
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6232475Z ok 110 - review sorting survives shared search URLs and is search arrival, without sharing unrelated or invalid state
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6233477Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6233922Z   duration_ms: 11.082496
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6234439Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6234883Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6235765Z # Subtest: real records preserve paired dates and leave undocumented review dates unknown
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6237056Z ok 111 - real records preserve paired dates and leave undocumented review dates unknown
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6237892Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6238634Z   duration_ms: 19.219081
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6239150Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6239585Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6308559Z # Subtest: reading suggestions exist and use only other main cases in the same topic and current results
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6310283Z ok 112 - reading suggestions exist and use only other main cases in the same topic and current results
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6311925Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6312440Z   duration_ms: 2.206795
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6313007Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6313606Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6314740Z # Subtest: at most three suggestions, deterministic order, no invented fallback for sparse or unknown topics
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6316330Z ok 113 - at most three suggestions, deterministic order, no invented fallback for sparse or unknown topics
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6317301Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6317789Z   duration_ms: 0.422812
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6318326Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6318846Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6319756Z # Subtest: keyboard neighbours never escape an empty or unrelated search result
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6321150Z ok 114 - keyboard neighbours never escape an empty or unrelated search result
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6321949Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6322420Z   duration_ms: 0.372668
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6322964Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.6323478Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9212989Z # Subtest: purpose coverage precedes incidental matches; ties and empty queries preserve source order
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9218167Z ok 115 - purpose coverage precedes incidental matches; ties and empty queries preserve source order
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9219457Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9220124Z   duration_ms: 53.911694
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9221118Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9221732Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9223031Z # Subtest: exact ID precedes references; metadata matches precede body-only matches; optional fields are safe
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9224988Z ok 116 - exact ID precedes references; metadata matches precede body-only matches; optional fields are safe
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9226208Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9226817Z   duration_ms: 21.609209
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9227471Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9228051Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9233932Z # Subtest: real corpus: salary purpose precedes prohibition while recall and all filters stay unchanged
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9242059Z ok 117 - real corpus: salary purpose precedes prohibition while recall and all filters stay unchanged
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9243231Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9243846Z   duration_ms: 234.728709
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9244494Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9245078Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9246208Z # Subtest: distinct purpose terms beat metadata coverage; repeats and frequency do not boost rank
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9248263Z ok 118 - distinct purpose terms beat metadata coverage; repeats and frequency do not boost rank
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9249188Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9249655Z   duration_ms: 4.652096
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9250171Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9281104Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9286891Z # Subtest: short and numeric IDs remain exact even when a reference title would otherwise win
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9288388Z ok 119 - short and numeric IDs remain exact even when a reference title would otherwise win
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9289359Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9289896Z   duration_ms: 6.349026
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9290481Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9291260Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9482358Z # Subtest: result return preserves filters and history state, focuses search, and cancels late arrival
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9502068Z ok 120 - result return preserves filters and history state, focuses search, and cancels late arrival
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9503157Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9503661Z   duration_ms: 19.011983
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9504179Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9504654Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9505534Z # Subtest: modified, middle and cancelled result links retain their native behavior
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9506821Z ok 121 - modified, middle and cancelled result links retain their native behavior
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9508021Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9508469Z   duration_ms: 59.18808
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9508954Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9509389Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9510977Z # Subtest: source recovery keeps an active return route near its original result position, including a changed tail
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9512755Z ok 122 - source recovery keeps an active return route near its original result position, including a changed tail
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9513681Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9514127Z   duration_ms: 48.120647
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9514611Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9515057Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9516043Z # Subtest: later versions with links and unlinked limitations remain discoverable in original order
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9517555Z ok 123 - later versions with links and unlinked limitations remain discoverable in original order
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9518511Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9519020Z   duration_ms: 1.52638
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9519580Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9520062Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9521437Z # Subtest: duplicates preserve separate destinations, raw qualification and unsafe-looking literal titles
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9523283Z ok 124 - duplicates preserve separate destinations, raw qualification and unsafe-looking literal titles
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9524373Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9524890Z   duration_ms: 0.237736
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9525580Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9526087Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9527083Z # Subtest: sparse and unknown structures do not invent verification or source destinations
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9528544Z ok 125 - sparse and unknown structures do not invent verification or source destinations
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9529462Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9529941Z   duration_ms: 0.246461
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9530502Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9531679Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9532666Z # Subtest: a successful shared source is published before an unrelated request finishes
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9534121Z ok 126 - a successful shared source is published before an unrelated request finishes
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9535135Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9535625Z   duration_ms: 7.540579
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9536158Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9536638Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9537514Z # Subtest: failed and aborted sources never publish invented or duplicate entries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9538855Z ok 127 - failed and aborted sources never publish invented or duplicate entries
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9539983Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9541306Z   duration_ms: 0.954929
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9550061Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9551102Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9552211Z # Subtest: share scheduling supports existing ID aliases without treating filenames as evidence
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9553698Z ok 128 - share scheduling supports existing ID aliases without treating filenames as evidence
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9556309Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9556796Z   duration_ms: 1.115911
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9557591Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9558056Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9559010Z # Subtest: source failures do not publish a row and later successful sources still arrive once
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9560430Z ok 129 - source failures do not publish a row and later successful sources still arrive once
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9562164Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9562618Z   duration_ms: 0.632976
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9563095Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9563505Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9564427Z # Subtest: context explains deep synonym matches without turning a prohibition into a claim
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9565809Z ok 130 - context explains deep synonym matches without turning a prohibition into a claim
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9566693Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9567121Z   duration_ms: 16.852627
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9567618Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9568048Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9568967Z # Subtest: context distinguishes visible fields, source URLs, original titles and ID aliases
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9570614Z ok 131 - context distinguishes visible fields, source URLs, original titles and ID aliases
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9571776Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9572220Z   duration_ms: 8.633023
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9572700Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9573129Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9574028Z # Subtest: context explains separate query terms, bounds density, and omits empty searches
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9575353Z ok 132 - context explains separate query terms, bounds density, and omits empty searches
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9576191Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9576606Z   duration_ms: 9.445048
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9577076Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9577535Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9578569Z # Subtest: excerpt preserves original Unicode, markup as text, and a bounded window around a late match
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9580105Z ok 133 - excerpt preserves original Unicode, markup as text, and a bounded window around a late match
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9581253Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9581699Z   duration_ms: 7.01834
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9582205Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9582639Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9583583Z # Subtest: passage points to the actual late block, preserving its negative source text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9584983Z ok 134 - passage points to the actual late block, preserving its negative source text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9585900Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9586406Z   duration_ms: 1.785325
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9586945Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9587510Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9588406Z # Subtest: passage never joins list rows, invents href quotes, or matches empty input
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9589369Z ok 135 - passage never joins list rows, invents href quotes, or matches empty input
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9589797Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9589998Z   duration_ms: 0.197751
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9590225Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9590420Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9620906Z # Subtest: literal excerpts retain original Unicode, punctuation and unsafe-looking text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9621948Z ok 136 - literal excerpts retain original Unicode, punctuation and unsafe-looking text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9622688Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9623101Z   duration_ms: 0.256681
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9623625Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9623991Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9624716Z # Subtest: long excerpts are continuous original text around the match with explicit omission
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9625561Z ok 137 - long excerpts are continuous original text around the match with explicit omission
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9626332Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9626632Z   duration_ms: 95.024918
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9627190Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9627545Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9639357Z # Subtest: normalization length changes near a distant hit keep the matching original letters
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9640340Z ok 138 - normalization length changes near a distant hit keep the matching original letters
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9641367Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9641767Z   duration_ms: 2.506767
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9642030Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9642256Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9642828Z # Subtest: first actual text match wins, and an oversized keyword is never falsely excerpted
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9643610Z ok 139 - first actual text match wins, and an oversized keyword is never falsely excerpted
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9644169Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9644376Z   duration_ms: 0.831538
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9644724Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9645116Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9645923Z # Subtest: context-sensitive casing and expanding keywords cannot quote a different occurrence
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9647084Z ok 140 - context-sensitive casing and expanding keywords cannot quote a different occurrence
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9647779Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9648203Z   duration_ms: 1.497886
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9648651Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9649017Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9649875Z # Subtest: whole graphemes can be retained without falsely calling a complete quote partial
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9681859Z ok 141 - whole graphemes can be retained without falsely calling a complete quote partial
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9682680Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9683031Z   duration_ms: 0.454843
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9683425Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9683700Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9684224Z # Subtest: active conditions preserve the original query, all facets and unfamiliar scenario URLs
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9685350Z ok 142 - active conditions preserve the original query, all facets and unfamiliar scenario URLs
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9686215Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9686598Z   duration_ms: 1.632539
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9687044Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9687427Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9688274Z # Subtest: a relaxation changes exactly one facet, preserves input and reports the real count
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9689140Z ok 143 - a relaxation changes exactly one facet, preserves input and reports the real count
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9689575Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9689772Z   duration_ms: 30.08015
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9690018Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9690215Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9690644Z # Subtest: never propose a single change that still returns zero, or discard the query
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9692137Z ok 144 - never propose a single change that still returns zero, or discard the query
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9692919Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9693279Z   duration_ms: 27.680078
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9693682Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9693995Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9695005Z # Subtest: suggestion counts use the supplied loaded corpus, including pending entries without inventing evidence
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9696585Z ok 145 - suggestion counts use the supplied loaded corpus, including pending entries without inventing evidence
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9697488Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9697823Z   duration_ms: 1.666583
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9698211Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:47.9698539Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0638624Z # Subtest: explicit submission preserves URL filters and history, reveals results and moves keyboard focus
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0640239Z ok 146 - explicit submission preserves URL filters and history, reveals results and moves keyboard focus
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0641304Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0641537Z   duration_ms: 10.535951
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0641791Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0642006Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0642540Z # Subtest: submission while loading or composing does not steal focus or schedule delayed arrival
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0643353Z ok 147 - submission while loading or composing does not steal focus or schedule delayed arrival
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0643836Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0644041Z   duration_ms: 13.17015
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0644660Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0644864Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0645768Z # Subtest: search action remains outside the collapsible filters and is initially unavailable
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0646871Z ok 148 - search action remains outside the collapsible filters and is initially unavailable
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0647519Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0647995Z   duration_ms: 1.194117
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0648467Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0648905Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0649685Z # Subtest: composition state also guards native SubmitEvent without isComposing
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0651149Z ok 149 - composition state also guards native SubmitEvent without isComposing
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0652740Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0653339Z   duration_ms: 3.913262
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0653809Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0654169Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0719030Z # Subtest: result settling is bounded and yields to new interaction, URL, focus or dialog changes
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0723076Z ok 150 - result settling is bounded and yields to new interaction, URL, focus or dialog changes
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0724220Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0724768Z   duration_ms: 33.085973
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0725417Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:48.0725973Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6201540Z # PASS: 428 source entries; full-text, Unicode, combined filters, evidence, empty/reset matching, future entries, safe rendering and links.
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6335612Z # Subtest: tests/search.test.cjs
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6336439Z ok 35 - tests/search.test.cjs
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6337038Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6337534Z   duration_ms: 4682.132506
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6338088Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6338595Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6339837Z # Subtest: collapsed controls disclose recent-review sorting without counting it as a filter
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6341753Z ok 152 - collapsed controls disclose recent-review sorting without counting it as a filter
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6342812Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6349402Z   duration_ms: 14.666601
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6350037Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6350655Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6351860Z # Subtest: restoring default order retains the query, all five facets and the discovery deck
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6353244Z ok 153 - restoring default order retains the query, all five facets and the discovery deck
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6354205Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6354760Z   duration_ms: 5.449501
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6355346Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6355940Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6357115Z # Subtest: source guide distinguishes all current origin labels without claiming independent verification
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6358912Z ok 154 - source guide distinguishes all current origin labels without claiming independent verification
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6360023Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6360537Z   duration_ms: 2.304598
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6361704Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6362207Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6363265Z # Subtest: default and unfamiliar source types remain honest instead of silently assigning evidence
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6364912Z ok 155 - default and unfamiliar source types remain honest instead of silently assigning evidence
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6365616Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6365939Z   duration_ms: 0.285505
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6366282Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6366598Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6367213Z # Subtest: real UC-161 evidence links keep the full distinct filenames and no destination residue
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6368084Z ok 156 - real UC-161 evidence links keep the full distinct filenames and no destination residue
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6368641Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6368952Z   duration_ms: 2.148074
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6369294Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6369600Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6370176Z # Subtest: nested, encoded and escaped parentheses keep adjacent text and independent links
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6371602Z ok 157 - nested, encoded and escaped parentheses keep adjacent text and independent links
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6372760Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6373234Z   duration_ms: 0.93349
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6373751Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6374100Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6374976Z # Subtest: unsafe schemes stay text, code stays literal, malformed destinations preserve source text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6375866Z ok 158 - unsafe schemes stay text, code stays literal, malformed destinations preserve source text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6376322Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6376517Z   duration_ms: 0.658223
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6376737Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6376930Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6377340Z # Subtest: ordinary relative and bare sources retain their existing destinations
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6377959Z ok 159 - ordinary relative and bare sources retain their existing destinations
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6378349Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6378538Z   duration_ms: 0.310141
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6378754Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6378945Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6379337Z # Subtest: empty destinations stay literal instead of inventing a self-link
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6380056Z ok 160 - empty destinations stay literal instead of inventing a self-link
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6380655Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6381148Z   duration_ms: 0.353181
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6381570Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6381872Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6382531Z # Subtest: source table keeps real column headers, row boundaries and qualified costs
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6383627Z ok 161 - source table keeps real column headers, row boundaries and qualified costs
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6384088Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6384377Z   duration_ms: 2.794025
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6384599Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6384792Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6385170Z # Subtest: real UC-400 preserves all six bots and every literal source cell
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6385770Z ok 162 - real UC-400 preserves all six bots and every literal source cell
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6386127Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6386314Z   duration_ms: 1.956836
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6386536Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6386724Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6387141Z # Subtest: pipes in escaped cells and inline code remain content; links stay text-safe
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6387817Z ok 163 - pipes in escaped cells and inline code remain content; links stay text-safe
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6388212Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6388406Z   duration_ms: 0.616245
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6388620Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6388809Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6389194Z # Subtest: literal pipes and malformed or fenced tables keep the original text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6389781Z ok 164 - literal pipes and malformed or fenced tables keep the original text
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6390148Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6390330Z   duration_ms: 0.470352
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6390541Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6390981Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6391445Z # Subtest: optional edge pipes render; inconsistent rows stay literal without dropping cells
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6392156Z ok 165 - optional edge pipes render; inconsistent rows stay literal without dropping cells
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6392578Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6392766Z   duration_ms: 0.476293
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6392986Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6393176Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6393607Z # Subtest: search passages target literal table cells without joining different columns
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6394349Z ok 166 - search passages target literal table cells without joining different columns
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6394797Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6395017Z   duration_ms: 0.716262
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6395261Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6395452Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6395962Z # Subtest: experience entry applies the explicit status without replacing a task or other facets
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6396752Z ok 167 - experience entry applies the explicit status without replacing a task or other facets
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6397223Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6397428Z   duration_ms: 4.181535
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6397662Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6398049Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6398554Z # Subtest: second click removes only the experience status, including under an empty intersection
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6399321Z ok 168 - second click removes only the experience status, including under an empty intersection
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6399792Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6399993Z   duration_ms: 0.942646
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6400231Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6400436Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6401177Z # Subtest: existing query and scenario entries retain their independent toggle behavior
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6401903Z ok 169 - existing query and scenario entries retain their independent toggle behavior
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6402362Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6402554Z   duration_ms: 1.080765
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6402790Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6403001Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6403523Z # Subtest: keyword shortcuts name the exact search term rather than promise an automated outcome
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6404302Z ok 170 - keyword shortcuts name the exact search term rather than promise an automated outcome
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6404759Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6404967Z   duration_ms: 1.747655
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6405204Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6405411Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6405904Z # Subtest: search scope and evidence caveats are visible alongside independent status filtering
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6406941Z ok 171 - search scope and evidence caveats are visible alongside independent status filtering
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6407405Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6407613Z   duration_ms: 0.293821
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6407846Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6408057Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6408594Z # Subtest: each task shortcut applies only its query and hands off to visible results after render
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6409448Z ok 172 - each task shortcut applies only its query and hands off to visible results after render
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6409902Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6410090Z   duration_ms: 4.962929
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6410313Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6410522Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6411259Z # Subtest: second activation clears the task and still hands off, including an empty intersection
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6412380Z ok 173 - second activation clears the task and still hands off, including an empty intersection
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6412912Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6413115Z   duration_ms: 0.683411
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6413324Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6413519Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6413932Z # Subtest: loading or failed corpus preserves task intent without a late focus handoff
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6414558Z ok 174 - loading or failed corpus preserves task intent without a late focus handoff
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6414950Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6415135Z   duration_ms: 1.940817
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6415345Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6415533Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6415949Z # Subtest: scenario and experience chips retain their existing filter editing behavior
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6416578Z ok 175 - scenario and experience chips retain their existing filter editing behavior
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6416973Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6417157Z   duration_ms: 0.764252
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6417365Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6417554Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6418038Z # Subtest: current batch supplies counts and its own timestamp without equating catalog size or success
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6418804Z ok 176 - current batch supplies counts and its own timestamp without equating catalog size or success
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6419255Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6419439Z   duration_ms: 2.036535
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6419651Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6419849Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6420303Z # Subtest: malformed current batch never borrows a historical count or coerces invalid values
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6422357Z ok 177 - malformed current batch never borrows a historical count or coerces invalid values
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6423006Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6423214Z   duration_ms: 0.529031
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6423970Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6424312Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6425231Z # Subtest: current repository batch parses without consulting INDEX or hardcoding a historical minimum
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6426702Z ok 178 - current repository batch parses without consulting INDEX or hardcoding a historical minimum
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6427496Z   ---
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6427718Z   duration_ms: 1.753505
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6427948Z   type: 'test'
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6428153Z   ...
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6428344Z 1..178
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6428531Z # tests 178
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6428719Z # suites 0
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6428905Z # pass 177
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6429089Z # fail 1
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6429275Z # cancelled 0
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6429482Z # skipped 0
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6429666Z # todo 0
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6429877Z # duration_ms 6135.609536
+browser	Baseline tests, syntax and static preview	2026-10-22T22:21:52.6464069Z ##[error]Process completed with exit code 1.

@@ -4,8 +4,8 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
 const source=fs.readFileSync(path.join(__dirname,'../assets/app.js'),'utf8').split('/* Browser event bindings. */')[0];
 const context=vm.createContext({});
-vm.runInContext(source+'\nthis.api={activeConditions,relaxationOptions,filterEntries,tokenize};',context);
-const {activeConditions,relaxationOptions,filterEntries,tokenize}=context.api;
+vm.runInContext(source+'\nthis.api={activeConditions,relaxationOptions,queryRelaxationOptions,filterEntries,tokenize};',context);
+const {activeConditions,relaxationOptions,queryRelaxationOptions,filterEntries,tokenize}=context.api;
 const plain=value=>JSON.parse(JSON.stringify(value));
 const items=[
  {search:'旅遊 旅行 travel',scenario:'生活',kind:'case',tools:['Grok Bot'],category:'旅遊',proof:'作者報告／示範'},
@@ -41,4 +41,15 @@ test('suggestion counts use the supplied loaded corpus, including pending entrie
  const result=plain(relaxationOptions(corpus,tokenize('旅遊'),filters));
  assert.deepEqual(result,[{key:'kind',value:'pending',count:1},{key:'proof',value:'作者報告／示範',count:1}]);
  assert.deepEqual(plain(relaxationOptions([],tokenize('旅遊'),filters)),[]);
+});
+test('empty multi-word search offers only real shorter queries while preserving facets',()=>{
+ const filters={scenario:'生活',kind:'case'};
+ const original=JSON.stringify(filters);
+ assert.deepEqual(plain(queryRelaxationOptions(items,'旅遊 API',filters)),[{query:'旅遊',removed:'api',count:2}]);
+ assert.deepEqual(plain(queryRelaxationOptions(items,'API 旅遊',filters)),[{query:'旅遊',removed:'api',count:2}]);
+ assert.deepEqual(plain(queryRelaxationOptions(items,'旅遊,xyz987',filters)),[{query:'旅遊',removed:'xyz987',count:2}]);
+ assert.deepEqual(plain(queryRelaxationOptions(items,'xyz987 ,',filters)),[]);
+ assert.deepEqual(plain(queryRelaxationOptions(items,'旅遊 xyz', {...filters,scenario:'開發'})),[]);
+ assert.deepEqual(plain(queryRelaxationOptions(items,'xyz987',filters)),[]);
+ assert.equal(JSON.stringify(filters),original);
 });

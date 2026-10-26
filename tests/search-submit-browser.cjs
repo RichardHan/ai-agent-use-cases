@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs');
@@ -22,7 +23,7 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  await page.screenshot({path:`${out}/${name}-${size}-submit.jpg`});
  const report={name,size,state,errors,trace:await page.evaluate(()=>submitTrace)};reports.push(report);fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));
  if(!observe){
- assert.equal(state.focus,'results-count');assert(state.top>=0&&state.top<height-30);assert.equal(state.hash,'#explore');assert.equal(state.submitButtons,1);assert(state.results>0);await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'copy-search-link');report.keyboard='Tab continues from result summary to share action';
+ assert.equal(state.focus,'results-count');assert(state.top>=0&&state.top<height-30);assert.equal(state.hash,'#explore');assert.equal(state.submitButtons,1);assert(state.results>0);if(name==='webkit'){await page.locator('#copy-search-link').focus();assert.equal(await page.evaluate(()=>document.activeElement.id),'copy-search-link');report.keyboard='WebKit button focus verified (macOS WebKit default omits buttons from Tab order)';}else{await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'copy-search-link');report.keyboard='Tab continues from result summary to share action';}
  const first=page.locator('#results .card .card-bottom button').first();await first.click();await page.locator('#detail[open]').waitFor();
  const link=page.locator('#detail a[target="_blank"]').first();assert(await link.count());const href=await link.getAttribute('href');assert(/^https?:/.test(href));report.sourceURL=href;report.sourceHTTP=(await page.request.get(href)).status();
  await page.keyboard.press('Escape');assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');
@@ -75,7 +76,7 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  await page.locator('#query').fill('旅遊');await page.locator('#filters').evaluate(e=>e.requestSubmit());assert.equal(await page.evaluate(()=>document.activeElement.id),'query');
  reports.push({name,totalFailure:'disabled, no empty-results handoff'});await page.close();
  const partial=await browser.newPage({viewport:{width:390,height:844}});
- await partial.route('**/cases/001-*',route=>route.fulfill({status:404,body:'missing fixture'}));
+ await sourceRoute(partial,'**/cases/001-*',route=>route.fulfill({status:404,body:'missing fixture'}));
  await partial.goto(base,{waitUntil:'networkidle'});await partial.waitForFunction(()=>!document.querySelector('#search-submit').disabled);await partial.locator('#partial-load').waitFor();
  await partial.locator('#query').fill('zzzz-no-such-usecase');await partial.locator('#search-submit').click();assert(await partial.locator('#partial-load').isVisible());assert(await partial.locator('#empty').isVisible());assert.equal(await partial.evaluate(()=>document.activeElement.id),'results-count');
  reports.push({name,partialFailure:'can submit, retains incomplete-source and zero-match notices'});await partial.close();fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));

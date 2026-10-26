@@ -54,3 +54,18 @@ GalleonLabs維護者的[公開發布紀錄](https://github.com/galleonlabs/hyper
 作者同時記錄兩個限制：原生技能會重建YAML外框，所以正文相符不等於整份來源檔逐位元相同；舊分享連結仍保留舊版，刪掉發布Bot後無法從現有介面原地更新／下架，需要支援處理。這是作者當時觀察，不當現行通用規格。
 
 本輪已讀文件，沒有匯入模板、建立Bot或執行其工作。新版沒有完成新的公開匯入→啟動全流程；舊版驗收不能轉移成新版已通過。文件內的「獨立讀回」是作者流程內的比對，不是本庫獨立重現。未核完整私有回執、實際費用或目前分享狀態。公開分享須有指定內容與受眾授權，不得夾帶對話、私人檔案或憑證。此為UC-214格式轉換與分享殘留的補證，不新增案例。
+
+## 2026-10-23 補證：Published 不等於消費端可引用的 released 版本
+
+- 作者／日期／語言：[AyumeroのAgenticな日常](https://note.com/ayumero123/n/na198b4d1f6ff)，2026-10-11，日文；本輪 2026-10-23 台灣時間查閱原文。
+- 工具變體：Grok Bot／OutSystems ODC MCP／Portal。作者在個人 Development 租戶製作 C# TextAnalyzer；library 已 publish，引用仍報需要 version tag。經 Portal release 1.0.0 後重試引用成功。這是作者實測自述，未獨立重現，不代表 Production 發布成功。
+- 官方支持範圍：[External libraries SDK](https://success.outsystems.com/documentation/outsystems_developer_cloud/building_apps/extend_your_apps_with_custom_code/external_libraries_sdk_readme/)與[Libraries](https://success.outsystems.com/documentation/outsystems_developer_cloud/building_apps/libraries/)區分 upload、publish 與 release；一般消費端需已 released 版本。官方文件支持狀態區分，不能替作者的執行紀錄背書。
+- 限制：作者當時需人工操作 Portal；「MCP 沒有 release 工具」僅屬該次觀察，未核目前完整工具列表。個人租戶、角色權限及外部服務可用性另限；費用未提供可核總額。本文未連線租戶、上傳、發布或授權。
+
+### 只讀步驟與可貼指令（整理者自設，未實跑）
+
+先用合成清單分列上傳檔、published revision、released tag、消費端實際引用版本，再比對錯誤；不可只見 publish 成功就宣告交付。
+
+只分析我提供的虛構 library 狀態與引用錯誤，不操作任何平台。逐列核對 upload、publish、release、consumer reference，缺 tag 就標待 release，不自行建立版本。最後分開「可引用」「成功呼叫」「正式環境驗收」，未提供結果寫未驗證。
+
+本補充併入發布版本與實際消費狀態驗收主案，不新增合格案例數，也不把此 ODC 機制泛化成 Muse、Codex 或所有 MCP 的功能。

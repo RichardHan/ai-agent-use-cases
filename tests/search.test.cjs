@@ -3,9 +3,9 @@ const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),asse
 const root=path.resolve(__dirname,'..');
 const source=fs.readFileSync(path.join(root,'assets/app.js'),'utf8').split("/* Browser event bindings. */")[0];
 // Minimal text-node DOM: tests safe rendering without an installed browser.
-class Node {constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.textContent='';} append(...children){this.children.push(...children);} }
+class Node {constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.textContent='';} append(...children){this.children.push(...children);} setAttribute(name,value){this[name]=value;} }
 const context=vm.createContext({URL,Discovery:require('../assets/discovery.js'),document:{createElement:tag=>new Node(tag),createTextNode:text=>({textContent:text})}});
-vm.runInContext(source+'\nthis.api={metadata,parseFile,filterEntries,norm,safeLink,renderMarkdown,tokenize,idVariants,termVariants,matchCase,mapConcurrent,loadCorpus,SYNONYM_MAP};',context);
+vm.runInContext(source+'\nthis.api={metadata,parseFile,filterEntries,norm,safeLink,renderMarkdown,tokenize,idVariants,termVariants,matchCase,mapConcurrent,loadCorpus,SYNONYM_MAP,pinSourcePaths};',context);
 const api=context.api;
 vm.runInContext('displayCopy='+fs.readFileSync(path.join(root,'assets/copy.json'),'utf8'),context);
 const files=['cases','evidence'].flatMap(dir=>fs.readdirSync(path.join(root,dir)).filter(x=>x.endsWith('.md')).map(x=>dir+'/'+x)).concat('sources/pending.md');
@@ -108,8 +108,12 @@ assert.deepEqual(Array.from(api.filterEntries(entries,Array.from(api.tokenize('#
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('P 003')),{}).length,1,'filters space-separated pending ID');
 assert.equal(api.filterEntries(entries,Array.from(api.tokenize('p 3')),{}).length,1,'filters space-separated unpadded pending ID');
 assert.equal(api.safeLink('javascript:alert(1)','cases/test.md'),null);
-assert.equal(api.safeLink('../sources/README.md#s-001','cases/test.md'),'https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001');
+assert.equal(api.safeLink('../sources/README.md#s-001','cases/test.md'),null,'unverified relative sources cannot navigate to mutable main');
+assert.equal(api.safeLink('https:../sources/README.md','cases/test.md'),null,'base-dependent pseudo-absolute URL cannot bypass source revision');
+api.pinSourcePaths(['cases/test.md'],'a'.repeat(40));
+assert.equal(api.safeLink('../sources/README.md#s-001','cases/test.md'),'https://github.com/RichardHan/ai-agent-use-cases/blob/'+'a'.repeat(40)+'/sources/README.md#s-001');
 
+assert.equal(api.safeLink('https:../sources/README.md','cases/test.md'),null,'malformed scheme cannot resolve against a pinned base');
 // Search quality: punctuation tolerance (quotes, brackets, semicolons, pipes)
 assert.deepEqual(Array.from(api.tokenize('「旅遊」')), ['旅遊'], 'strips corner brackets/quotes');
 assert.deepEqual(Array.from(api.tokenize('“收件匣”')), ['收件匣'], 'strips curly double quotes');
@@ -2555,6 +2559,22 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('YouTube非公開清�
 assert(api.filterEntries(entries, Array.from(api.tokenize('水文帳號取關')), {}).some(x => x.id === 'UC-359'), '水文帳號取關 matches UC-359 via spam account unfollow tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('AI發水文帳號取關')), {}).some(x => x.id === 'UC-359'), 'AI發水文帳號取關 matches UC-359 via ai spam account unfollow tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('原創與轉發檢討')), {}).some(x => x.id === 'UC-355'), '原創與轉發檢討 matches UC-355 via original repost review tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('非公開播放清單每日推薦')), {}).some(x => x.id === 'UC-358'), '非公開播放清單每日推薦 matches UC-358 via private playlist daily recommendation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('YouTube非公開播放清單每日推薦')), {}).some(x => x.id === 'UC-358'), 'YouTube非公開播放清單每日推薦 matches UC-358 via youtube unlisted playlist recommendation tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('兒少頻道可疑留言過濾')), {}).some(x => x.id === 'UC-347'), '兒少頻道可疑留言過濾 matches UC-347 via children channel comment sweep tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('兒少頻道留言安全巡檢')), {}).some(x => x.id === 'UC-347'), '兒少頻道留言安全巡檢 matches UC-347 via children channel safety sweep tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('智慧開關未支援')), {}).some(x => x.id === 'UC-330'), '智慧開關未支援 matches UC-330 via unsupported switch tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('開關配對成功卻無法控制')), {}).some(x => x.id === 'UC-330'), '開關配對成功卻無法控制 matches UC-330 via switch pairing without control tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('航空追蹤天線量測')), {}).some(x => x.id === 'UC-334'), '航空追蹤天線量測 matches UC-334 via flight tracking antenna measurement tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('掌上型圓形螢幕MCP')), {}).some(x => x.id === 'UC-336'), '掌上型圓形螢幕MCP matches UC-336 via circular screen mcp tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('司機每日工時薪資單')), {}).some(x => x.id === 'UC-338'), '司機每日工時薪資單 matches UC-338 via driver daily hours paycheck tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('德國自駕車輛故障代填表單')), {}).some(x => x.id === 'UC-343'), '德國自駕車輛故障代填表單 matches UC-343 via breakdown form filling tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('特斯拉出發後自動還原日常上限')), {}).some(x => x.id === 'UC-346'), '特斯拉出發後自動還原日常上限 matches UC-346 via tesla automatic restore limit tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('每日書籤點子做可互動demo')), {}).some(x => x.id === 'UC-354'), '每日書籤點子做可互動demo matches UC-354 via bookmark interactive demo tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('每日X書籤點子做可互動網頁demo')), {}).some(x => x.id === 'UC-354'), '每日X書籤點子做可互動網頁demo matches UC-354 via x bookmark interactive web demo tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('粉絲名單條件篩選回關')), {}).some(x => x.id === 'UC-359'), '粉絲名單條件篩選回關 matches UC-359 via follower criteria follow back tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('關注名單分析建議取關')), {}).some(x => x.id === 'UC-359'), '關注名單分析建議取關 matches UC-359 via following audit unfollow suggestion tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('X粉絲是否回關')), {}).some(x => x.id === 'UC-359'), 'X粉絲是否回關 matches UC-359 via x follower follow back decision tokenization');
 const uc330 = entries.find(x => x.id === 'UC-330');
 assert.equal(uc330.date, '2026-10-18', 'UC-330 date must be verification date 2026-10-18, not post date 2026-08-31');
 const uc101 = entries.find(x => x.id === 'UC-101');

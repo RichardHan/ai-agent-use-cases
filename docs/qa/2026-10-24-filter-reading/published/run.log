@@ -1,0 +1,518 @@
+browser	Set up job	﻿2026-10-24T08:54:47.3434547Z Current runner version: '2.338.0'
+browser	Set up job	2026-10-24T08:54:47.3462944Z ##[group]Runner Image Provisioner
+browser	Set up job	2026-10-24T08:54:47.3464157Z Hosted Compute Agent
+browser	Set up job	2026-10-24T08:54:47.3464877Z Version: 20261012.601
+browser	Set up job	2026-10-24T08:54:47.3465777Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+browser	Set up job	2026-10-24T08:54:47.3466773Z Build Date: 2026-10-12T17:48:21Z
+browser	Set up job	2026-10-24T08:54:47.3467735Z Worker ID: {02b96d56-6ada-45ff-8976-80bf47c439ee}
+browser	Set up job	2026-10-24T08:54:47.3468724Z Region: eastus
+browser	Set up job	2026-10-24T08:54:47.3469414Z Cloud: Azure
+browser	Set up job	2026-10-24T08:54:47.3470204Z ##[endgroup]
+browser	Set up job	2026-10-24T08:54:47.3472050Z ##[group]Operating System
+browser	Set up job	2026-10-24T08:54:47.3472978Z Ubuntu
+browser	Set up job	2026-10-24T08:54:47.3473870Z 24.04.5
+browser	Set up job	2026-10-24T08:54:47.3474544Z LTS
+browser	Set up job	2026-10-24T08:54:47.3475275Z ##[endgroup]
+browser	Set up job	2026-10-24T08:54:47.3476036Z ##[group]Runner Image
+browser	Set up job	2026-10-24T08:54:47.3477327Z Image: ubuntu-24.04
+browser	Set up job	2026-10-24T08:54:47.3478235Z Version: 20261012.334.1
+browser	Set up job	2026-10-24T08:54:47.3479640Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+browser	Set up job	2026-10-24T08:54:47.3481940Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+browser	Set up job	2026-10-24T08:54:47.3483528Z ##[endgroup]
+browser	Set up job	2026-10-24T08:54:47.3484968Z ##[group]GITHUB_TOKEN Permissions
+browser	Set up job	2026-10-24T08:54:47.3487267Z Contents: read
+browser	Set up job	2026-10-24T08:54:47.3488088Z Metadata: read
+browser	Set up job	2026-10-24T08:54:47.3488795Z ##[endgroup]
+browser	Set up job	2026-10-24T08:54:47.3491034Z Secret source: Actions
+browser	Set up job	2026-10-24T08:54:47.3492185Z Cache mode: write
+browser	Set up job	2026-10-24T08:54:47.3493449Z Prepare workflow directory
+browser	Set up job	2026-10-24T08:54:47.3830023Z Prepare all required actions
+browser	Set up job	2026-10-24T08:54:47.3868018Z Getting action download info
+browser	Set up job	2026-10-24T08:54:47.5463352Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+browser	Set up job	2026-10-24T08:54:47.8154056Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+browser	Set up job	2026-10-24T08:54:48.1949872Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+browser	Set up job	2026-10-24T08:54:48.4350295Z Complete job name: browser
+browser	Initialize containers	﻿2026-10-24T08:54:48.4768529Z ##[group]Checking docker version
+browser	Initialize containers	2026-10-24T08:54:48.4779038Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+browser	Initialize containers	2026-10-24T08:54:48.5365030Z '1.48'
+browser	Initialize containers	2026-10-24T08:54:48.5374319Z Docker daemon API version: '1.48'
+browser	Initialize containers	2026-10-24T08:54:48.5375012Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+browser	Initialize containers	2026-10-24T08:54:48.5550399Z '1.48'
+browser	Initialize containers	2026-10-24T08:54:48.5561477Z Docker client API version: '1.48'
+browser	Initialize containers	2026-10-24T08:54:48.5566242Z ##[endgroup]
+browser	Initialize containers	2026-10-24T08:54:48.5568225Z ##[group]Clean up resources from previous jobs
+browser	Initialize containers	2026-10-24T08:54:48.5572944Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=664bd0"
+browser	Initialize containers	2026-10-24T08:54:48.5695138Z ##[command]/usr/bin/docker network prune --force --filter "label=664bd0"
+browser	Initialize containers	2026-10-24T08:54:48.5800890Z ##[endgroup]
+browser	Initialize containers	2026-10-24T08:54:48.5801403Z ##[group]Create local container network
+browser	Initialize containers	2026-10-24T08:54:48.5809967Z ##[command]/usr/bin/docker network create --label 664bd0 github_network_131ea6ef10bf4467a2bc23b97570f33f
+browser	Initialize containers	2026-10-24T08:54:48.6623252Z c0b1d4d787b354fda511e4da19b145618b32d96cd951c311284cbfc3934e7371
+browser	Initialize containers	2026-10-24T08:54:48.6642518Z ##[endgroup]
+browser	Initialize containers	2026-10-24T08:54:48.6662825Z ##[group]Starting job container
+browser	Initialize containers	2026-10-24T08:54:48.6680784Z ##[command]/usr/bin/docker pull mcr.microsoft.com/playwright:v1.64.0-noble
+browser	Initialize containers	2026-10-24T08:54:48.7931631Z v1.64.0-noble: Pulling from playwright
+browser	Initialize containers	2026-10-24T08:54:48.8286695Z a60ef8ec184e: Already exists
+browser	Initialize containers	2026-10-24T08:54:48.8309421Z 9a29e489bcc7: Pulling fs layer
+browser	Initialize containers	2026-10-24T08:54:48.8310553Z ffa10a63dd93: Pulling fs layer
+browser	Initialize containers	2026-10-24T08:54:48.8311511Z dbe9e6168a20: Pulling fs layer
+browser	Initialize containers	2026-10-24T08:54:48.8312942Z aaf28652d7b7: Pulling fs layer
+browser	Initialize containers	2026-10-24T08:54:48.8314290Z 071058c704d1: Pulling fs layer
+browser	Initialize containers	2026-10-24T08:54:48.8315188Z 46a6c541a51c: Pulling fs layer
+browser	Initialize containers	2026-10-24T08:54:48.8316148Z aaf28652d7b7: Waiting
+browser	Initialize containers	2026-10-24T08:54:48.8316763Z 071058c704d1: Waiting
+browser	Initialize containers	2026-10-24T08:54:48.8317177Z 46a6c541a51c: Waiting
+browser	Initialize containers	2026-10-24T08:54:48.9049162Z ffa10a63dd93: Verifying Checksum
+browser	Initialize containers	2026-10-24T08:54:48.9050427Z ffa10a63dd93: Download complete
+browser	Initialize containers	2026-10-24T08:54:49.3117422Z 9a29e489bcc7: Download complete
+browser	Initialize containers	2026-10-24T08:54:49.9034709Z 071058c704d1: Verifying Checksum
+browser	Initialize containers	2026-10-24T08:54:49.9036201Z 071058c704d1: Download complete
+browser	Initialize containers	2026-10-24T08:54:50.0686341Z dbe9e6168a20: Verifying Checksum
+browser	Initialize containers	2026-10-24T08:54:50.0688260Z dbe9e6168a20: Download complete
+browser	Initialize containers	2026-10-24T08:54:50.2580455Z aaf28652d7b7: Verifying Checksum
+browser	Initialize containers	2026-10-24T08:54:50.2582054Z aaf28652d7b7: Download complete
+browser	Initialize containers	2026-10-24T08:54:50.3807146Z 46a6c541a51c: Verifying Checksum
+browser	Initialize containers	2026-10-24T08:54:50.3808432Z 46a6c541a51c: Download complete
+browser	Initialize containers	2026-10-24T08:55:02.1395933Z 9a29e489bcc7: Pull complete
+browser	Initialize containers	2026-10-24T08:55:02.1828020Z ffa10a63dd93: Pull complete
+browser	Initialize containers	2026-10-24T08:55:11.7457640Z dbe9e6168a20: Pull complete
+browser	Initialize containers	2026-10-24T08:55:18.1068159Z aaf28652d7b7: Pull complete
+browser	Initialize containers	2026-10-24T08:55:20.7212941Z 071058c704d1: Pull complete
+browser	Initialize containers	2026-10-24T08:55:23.4223381Z 46a6c541a51c: Pull complete
+browser	Initialize containers	2026-10-24T08:55:23.4255164Z Digest: sha256:06a9939e57531807f8d5fd76ce44b53165ffb7d7501d87ab10e285c20b1e971f
+browser	Initialize containers	2026-10-24T08:55:23.4265534Z Status: Downloaded newer image for mcr.microsoft.com/playwright:v1.64.0-noble
+browser	Initialize containers	2026-10-24T08:55:23.4271179Z mcr.microsoft.com/playwright:v1.64.0-noble
+browser	Initialize containers	2026-10-24T08:55:23.4345976Z ##[command]/usr/bin/docker create --name ecbeaeb124914bd582af5344bc44d65a_mcrmicrosoftcomplaywrightv1640noble_4fe649 --label 664bd0 --workdir /__w/ai-agent-use-cases/ai-agent-use-cases --network github_network_131ea6ef10bf4467a2bc23b97570f33f  -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/cached/2.338.0/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" mcr.microsoft.com/playwright:v1.64.0-noble "-f" "/dev/null"
+browser	Initialize containers	2026-10-24T08:55:23.4581325Z daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de
+browser	Initialize containers	2026-10-24T08:55:23.4600536Z ##[command]/usr/bin/docker start daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de
+browser	Initialize containers	2026-10-24T08:55:23.6237866Z daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de
+browser	Initialize containers	2026-10-24T08:55:23.6255384Z ##[command]/usr/bin/docker ps --all --filter id=daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+browser	Initialize containers	2026-10-24T08:55:23.6352534Z daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de Up Less than a second
+browser	Initialize containers	2026-10-24T08:55:23.6367661Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de
+browser	Initialize containers	2026-10-24T08:55:23.6467863Z GITHUB_ACTIONS=true
+browser	Initialize containers	2026-10-24T08:55:23.6468211Z CI=true
+browser	Initialize containers	2026-10-24T08:55:23.6468457Z HOME=/github/home
+browser	Initialize containers	2026-10-24T08:55:23.6468856Z PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+browser	Initialize containers	2026-10-24T08:55:23.6469303Z LANG=C.UTF-8
+browser	Initialize containers	2026-10-24T08:55:23.6469487Z LC_ALL=C.UTF-8
+browser	Initialize containers	2026-10-24T08:55:23.6469696Z PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+browser	Initialize containers	2026-10-24T08:55:23.6485072Z ##[endgroup]
+browser	Initialize containers	2026-10-24T08:55:23.6492539Z ##[group]Waiting for all services to be ready
+browser	Initialize containers	2026-10-24T08:55:23.6494165Z ##[endgroup]
+browser	Run actions/checkout@v4	﻿2026-10-24T08:55:23.6732548Z ##[group]Run actions/checkout@v4
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6733008Z with:
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6733375Z   fetch-depth: 0
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6733593Z   repository: RichardHan/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6735887Z   token: ***
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6736070Z   ssh-strict: true
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6736244Z   ssh-user: git
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6791962Z   persist-credentials: true
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6792253Z   clean: true
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6792458Z   sparse-checkout-cone-mode: true
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6792671Z   fetch-tags: false
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6792854Z   show-progress: true
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6793301Z   lfs: false
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6793459Z   submodules: false
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6793639Z   set-safe-directory: true
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6793850Z   allow-unsafe-pr-checkout: false
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6794406Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-24T08:55:23.6843975Z ##[command]/usr/bin/docker exec  daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de sh -c "cat /etc/*release | grep ^ID"
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0370169Z Syncing repository: RichardHan/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0371401Z ##[group]Getting Git version info
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0371741Z Working directory is '/__w/ai-agent-use-cases/ai-agent-use-cases'
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0372263Z [command]/usr/bin/git version
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0447773Z git version 2.43.0
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0468975Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0486682Z Temporarily overriding HOME='/__w/_temp/36a92d10-f372-43a4-91a2-4f2836859c69' before making global git config changes
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0487852Z Adding repository directory to the temporary git global config as a safe directory
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0492580Z [command]/usr/bin/git config --global --add safe.directory /__w/ai-agent-use-cases/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0526241Z Deleting the contents of '/__w/ai-agent-use-cases/ai-agent-use-cases'
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0529901Z ##[group]Initializing the repository
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0533481Z [command]/usr/bin/git init /__w/ai-agent-use-cases/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0575540Z hint: Using 'master' as the name for the initial branch. This default branch name
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0576385Z hint: is subject to change. To configure the initial branch name to use in all
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0577008Z hint: of your new repositories, which will suppress this warning, call:
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0581340Z hint: 
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0581853Z hint: 	git config --global init.defaultBranch <name>
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0582317Z hint: 
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0582743Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0583897Z hint: 'development'. The just-created branch can be renamed via this command:
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0584570Z hint: 
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0584841Z hint: 	git branch -m <name>
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0587831Z Initialized empty Git repository in /__w/ai-agent-use-cases/ai-agent-use-cases/.git/
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0598492Z [command]/usr/bin/git remote add origin https://github.com/RichardHan/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0640896Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0641415Z ##[group]Disabling automatic garbage collection
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0646040Z [command]/usr/bin/git config --local gc.auto 0
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0672461Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0672927Z ##[group]Setting up auth
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0677790Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.0706935Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.1270388Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.1299247Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.1543462Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.1565889Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.1776300Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.1811631Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.1812160Z ##[group]Fetching the repository
+browser	Run actions/checkout@v4	2026-10-24T08:55:24.1820165Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.5987845Z From https://github.com/RichardHan/ai-agent-use-cases
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.5988578Z  * [new branch]      chore/remove-stray-help -> origin/chore/remove-stray-help
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.5989218Z  * [new branch]      docs/home-search-entry-acceptance -> origin/docs/home-search-entry-acceptance
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.5989744Z  * [new branch]      docs/search-relevance-acceptance -> origin/docs/search-relevance-acceptance
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.5990326Z  * [new branch]      feat/corpus-loading     -> origin/feat/corpus-loading
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6006536Z  * [new branch]      feat/guided-card-integration -> origin/feat/guided-card-integration
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6007384Z  * [new branch]      feat/guided-case-discovery -> origin/feat/guided-case-discovery
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6008105Z  * [new branch]      feat/home-search-entry  -> origin/feat/home-search-entry
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6008857Z  * [new branch]      feat/metadata-normalization-and-audit -> origin/feat/metadata-normalization-and-audit
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6010080Z  * [new branch]      feat/mobile-search-disclosure -> origin/feat/mobile-search-disclosure
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6010789Z  * [new branch]      feat/partial-load-recovery -> origin/feat/partial-load-recovery
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6011402Z  * [new branch]      feat/qualification-audit-uc342-356 -> origin/feat/qualification-audit-uc342-356
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6011923Z  * [new branch]      feat/qualification-audit-uc357-359 -> origin/feat/qualification-audit-uc357-359
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6012432Z  * [new branch]      feat/reader-evidence-journey -> origin/feat/reader-evidence-journey
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6012862Z  * [new branch]      feat/reader-method-shortcut -> origin/feat/reader-method-shortcut
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6013537Z  * [new branch]      feat/reader-navigation  -> origin/feat/reader-navigation
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6015058Z  * [new branch]      feat/reader-related-exploration -> origin/feat/reader-related-exploration
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6015815Z  * [new branch]      feat/resilient-corpus-loader -> origin/feat/resilient-corpus-loader
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6016411Z  * [new branch]      feat/scenario-tags      -> origin/feat/scenario-tags
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6016918Z  * [new branch]      feat/search-connectors-synonyms-and-full-audit -> origin/feat/search-connectors-synonyms-and-full-audit
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6017504Z  * [new branch]      feat/search-match-context-20261018 -> origin/feat/search-match-context-20261018
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6018127Z  * [new branch]      feat/search-punctuation-synonyms-and-audit-coverage -> origin/feat/search-punctuation-synonyms-and-audit-coverage
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6018706Z  * [new branch]      feat/search-purpose-order -> origin/feat/search-purpose-order
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6046107Z  * [new branch]      feat/search-quality-2fa-cot-isolation-throttle-and-hitl -> origin/feat/search-quality-2fa-cot-isolation-throttle-and-hitl
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6047808Z  * [new branch]      feat/search-quality-acceptance-criteria-parallelism-and-graceful-degradation -> origin/feat/search-quality-acceptance-criteria-parallelism-and-graceful-degradation
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6049542Z  * [new branch]      feat/search-quality-adsb-flight-germany-tv-worker-and-timesheet -> origin/feat/search-quality-adsb-flight-germany-tv-worker-and-timesheet
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6050742Z  * [new branch]      feat/search-quality-and-source-audit -> origin/feat/search-quality-and-source-audit
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6052104Z  * [new branch]      feat/search-quality-archive-failure-response-and-provenance -> origin/feat/search-quality-archive-failure-response-and-provenance
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6053655Z  * [new branch]      feat/search-quality-batch-snapshot-tracing-and-audit -> origin/feat/search-quality-batch-snapshot-tracing-and-audit
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6055211Z  * [new branch]      feat/search-quality-booking-reflection-coloring-towing-and-duplicates -> origin/feat/search-quality-booking-reflection-coloring-towing-and-duplicates
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6056756Z  * [new branch]      feat/search-quality-cjk-latin-boundary-and-uc351-352-recall -> origin/feat/search-quality-cjk-latin-boundary-and-uc351-352-recall
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6058467Z  * [new branch]      feat/search-quality-conjunction-spaces-synonyms-and-recent-cases-recall -> origin/feat/search-quality-conjunction-spaces-synonyms-and-recent-cases-recall
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6059885Z  * [new branch]      feat/search-quality-connectors-and-latest-cases -> origin/feat/search-quality-connectors-and-latest-cases
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6061292Z  * [new branch]      feat/search-quality-container-endpoint-quota-and-duplicate-clusters -> origin/feat/search-quality-container-endpoint-quota-and-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6063305Z  * [new branch]      feat/search-quality-database-login-synonyms-and-candidate-duplicate-clusters -> origin/feat/search-quality-database-login-synonyms-and-candidate-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6065770Z  * [new branch]      feat/search-quality-date-audit-and-duplicate-clusters -> origin/feat/search-quality-date-audit-and-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6067274Z  * [new branch]      feat/search-quality-domain-synonyms-and-duplicate-clusters -> origin/feat/search-quality-domain-synonyms-and-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6069236Z  * [new branch]      feat/search-quality-draft-handoff-dryrun-and-plural-symmetry -> origin/feat/search-quality-draft-handoff-dryrun-and-plural-symmetry
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6071452Z  * [new branch]      feat/search-quality-evidence-synonyms-and-url-audit -> origin/feat/search-quality-evidence-synonyms-and-url-audit
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6072900Z  * [new branch]      feat/search-quality-handheld-faceswap-paycheck-and-adsb-frequency -> origin/feat/search-quality-handheld-faceswap-paycheck-and-adsb-frequency
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6074746Z  * [new branch]      feat/search-quality-least-privilege-allowlist-sensitive-data-and-killswitch -> origin/feat/search-quality-least-privilege-allowlist-sensitive-data-and-killswitch
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6076686Z  * [new branch]      feat/search-quality-marketing-procurement-forms-and-canonical-duplicate-detection -> origin/feat/search-quality-marketing-procurement-forms-and-canonical-duplicate-detection
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6078364Z  * [new branch]      feat/search-quality-mcp-connector-skills-and-token-usage -> origin/feat/search-quality-mcp-connector-skills-and-token-usage
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6079668Z  * [new branch]      feat/search-quality-multiagent-cost-codereview-and-rag -> origin/feat/search-quality-multiagent-cost-codereview-and-rag
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6081051Z  * [new branch]      feat/search-quality-offline-baseline-leak-and-synonym-symmetry -> origin/feat/search-quality-offline-baseline-leak-and-synonym-symmetry
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6082519Z  * [new branch]      feat/search-quality-orchestration-access-control-and-date-audit -> origin/feat/search-quality-orchestration-access-control-and-date-audit
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6084347Z  * [new branch]      feat/search-quality-outbox-memory-checkpoint-sandbox-idempotence -> origin/feat/search-quality-outbox-memory-checkpoint-sandbox-idempotence
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6085720Z  * [new branch]      feat/search-quality-over-eager-tokenization-fix -> origin/feat/search-quality-over-eager-tokenization-fix
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6087288Z  * [new branch]      feat/search-quality-permission-inventory-synonyms-and-candidate-duplicate-clusters -> origin/feat/search-quality-permission-inventory-synonyms-and-candidate-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6089257Z  * [new branch]      feat/search-quality-phrase-tokenization-and-candidate-duplicates -> origin/feat/search-quality-phrase-tokenization-and-candidate-duplicates
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6090803Z  * [new branch]      feat/search-quality-planning-reproducibility-and-source-url-audit -> origin/feat/search-quality-planning-reproducibility-and-source-url-audit
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6092554Z  * [new branch]      feat/search-quality-printing-coloring-breakdown-stalled-grades-and-context-window -> origin/feat/search-quality-printing-coloring-breakdown-stalled-grades-and-context-window
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6094984Z  * [new branch]      feat/search-quality-prompt-injection-streaming-structured-output-and-duplicate-clusters -> origin/feat/search-quality-prompt-injection-streaming-structured-output-and-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6096765Z  * [new branch]      feat/search-quality-rerank-dedup-delegate-and-firewall -> origin/feat/search-quality-rerank-dedup-delegate-and-firewall
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6098193Z  * [new branch]      feat/search-quality-session-stall-sdr-coloring-and-tool-response -> origin/feat/search-quality-session-stall-sdr-coloring-and-tool-response
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6099764Z  * [new branch]      feat/search-quality-subagent-exfiltration-computer-use-and-reasoning -> origin/feat/search-quality-subagent-exfiltration-computer-use-and-reasoning
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6101519Z  * [new branch]      feat/search-quality-synonyms-and-candidate-duplicate-clusters -> origin/feat/search-quality-synonyms-and-candidate-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6103193Z  * [new branch]      feat/search-quality-synthetic-autonomous-keepalive-ratelimit -> origin/feat/search-quality-synthetic-autonomous-keepalive-ratelimit
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6104810Z  * [new branch]      feat/search-quality-teslascope-comment-sweep-screening-and-inquiry-ledger -> origin/feat/search-quality-teslascope-comment-sweep-screening-and-inquiry-ledger
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6106417Z  * [new branch]      feat/search-quality-timeout-queue-dependency-and-audit -> origin/feat/search-quality-timeout-queue-dependency-and-audit
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6107716Z  * [new branch]      feat/search-quality-tokenization-and-synonyms-uc330-350 -> origin/feat/search-quality-tokenization-and-synonyms-uc330-350
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6109012Z  * [new branch]      feat/search-quality-tokenization-boundary-hardening -> origin/feat/search-quality-tokenization-boundary-hardening
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6110381Z  * [new branch]      feat/search-quality-toolcall-speech-cicd-and-duplicate-clusters -> origin/feat/search-quality-toolcall-speech-cicd-and-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6111846Z  * [new branch]      feat/search-quality-uc342-352-compound-splitting-and-synonyms -> origin/feat/search-quality-uc342-352-compound-splitting-and-synonyms
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6113566Z  * [new branch]      feat/search-quality-uc342-356-compound-tokenization-and-synonyms -> origin/feat/search-quality-uc342-356-compound-tokenization-and-synonyms
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6114911Z  * [new branch]      feat/search-quality-uc353-356-synonyms-and-recall -> origin/feat/search-quality-uc353-356-synonyms-and-recall
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6116353Z  * [new branch]      feat/search-quality-validation-synonyms-and-candidate-duplicate-clusters -> origin/feat/search-quality-validation-synonyms-and-candidate-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6118013Z  * [new branch]      feat/search-quality-wakeup-coding-agent-car-rental-and-negotiation -> origin/feat/search-quality-wakeup-coding-agent-car-rental-and-negotiation
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6119162Z  * [new branch]      feat/search-recovery-20261018 -> origin/feat/search-recovery-20261018
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6120319Z  * [new branch]      feat/search-synonym-symmetry-and-candidate-duplicate-clusters -> origin/feat/search-synonym-symmetry-and-candidate-duplicate-clusters
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6121468Z  * [new branch]      feat/search-synonyms-and-audit-sync -> origin/feat/search-synonyms-and-audit-sync
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6122673Z  * [new branch]      feat/search-synonyms-candidate-duplicates-and-evidence-metadata -> origin/feat/search-synonyms-candidate-duplicates-and-evidence-metadata
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6124188Z  * [new branch]      feat/shared-search-arrival-20261018 -> origin/feat/shared-search-arrival-20261018
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6124945Z  * [new branch]      feat/source-aware-reading -> origin/feat/source-aware-reading
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6125572Z  * [new branch]      fix/audit-count-bounds  -> origin/fix/audit-count-bounds
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6126164Z  * [new branch]      fix/audit-entries       -> origin/fix/audit-entries
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6126945Z  * [new branch]      fix/count-sync-20261020-2040 -> origin/fix/count-sync-20261020-2040
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6127558Z  * [new branch]      fix/dup-groups          -> origin/fix/dup-groups
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6128085Z  * [new branch]      fix/dup-groups-lb       -> origin/fix/dup-groups-lb
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6128640Z  * [new branch]      fix/facet-acceptance    -> origin/fix/facet-acceptance
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6129266Z  * [new branch]      fix/index-table-blank-lines -> origin/fix/index-table-blank-lines
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6129909Z  * [new branch]      fix/late-native-return  -> origin/fix/late-native-return
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6130563Z  * [new branch]      fix/loading-acceptance-final -> origin/fix/loading-acceptance-final
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6131232Z  * [new branch]      fix/missing-shared-case -> origin/fix/missing-shared-case
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6131935Z  * [new branch]      fix/print-mobile-reading-density -> origin/fix/print-mobile-reading-density
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6132699Z  * [new branch]      fix/reading-return-visibility -> origin/fix/reading-return-visibility
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6133590Z  * [new branch]      fix/results-return-recovery -> origin/fix/results-return-recovery
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6134306Z  * [new branch]      fix/search-state-transition-qa -> origin/fix/search-state-transition-qa
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6135087Z  * [new branch]      fix/shared-reading-complete-layout -> origin/fix/shared-reading-complete-layout
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6135909Z  * [new branch]      fix/shared-search-visible-return -> origin/fix/shared-search-visible-return
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6136715Z  * [new branch]      fix/source-guide-mobile-density -> origin/fix/source-guide-mobile-density
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6137506Z  * [new branch]      improve/accessible-search-20261021 -> origin/improve/accessible-search-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6138368Z  * [new branch]      improve/actionable-discovery-20261022 -> origin/improve/actionable-discovery-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6139205Z  * [new branch]      improve/available-facets-20261021 -> origin/improve/available-facets-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6139988Z  * [new branch]      improve/catalog-bundle-20261024 -> origin/improve/catalog-bundle-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6140795Z  * [new branch]      improve/clear-filter-context-20261022 -> origin/improve/clear-filter-context-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6141647Z  * [new branch]      improve/evidence-discovery-20261020 -> origin/improve/evidence-discovery-20261020
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6142383Z  * [new branch]      improve/filter-recovery -> origin/improve/filter-recovery
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6144012Z  * [new branch]      improve/filter-summary-20261020 -> origin/improve/filter-summary-20261020
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6144791Z  * [new branch]      improve/navigation-20261024 -> origin/improve/navigation-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6145545Z  * [new branch]      improve/reader-code-blocks-20261023 -> origin/improve/reader-code-blocks-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6146313Z  * [new branch]      improve/reader-context-search -> origin/improve/reader-context-search
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6156010Z  * [new branch]      improve/reader-evidence-navigation -> origin/improve/reader-evidence-navigation
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6156844Z  * [new branch]      improve/reader-find-in-case -> origin/improve/reader-find-in-case
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6157630Z  * [new branch]      improve/reader-findability-20261020 -> origin/improve/reader-findability-20261020
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6158595Z  * [new branch]      improve/reader-journey-20261021 -> origin/improve/reader-journey-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6159366Z  * [new branch]      improve/reader-next-step-20261021 -> origin/improve/reader-next-step-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6160133Z  * [new branch]      improve/reader-outline-20261021 -> origin/improve/reader-outline-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6160833Z  * [new branch]      improve/reader-position -> origin/improve/reader-position
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6161433Z  * [new branch]      improve/reader-print    -> origin/improve/reader-print
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6162251Z  * [new branch]      improve/reader-print-20261021-v2 -> origin/improve/reader-print-20261021-v2
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6163202Z  * [new branch]      improve/reader-round-20261024-next -> origin/improve/reader-round-20261024-next
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6164092Z  * [new branch]      improve/reader-section-outline-20261021 -> origin/improve/reader-section-outline-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6164997Z  * [new branch]      improve/reader-source-access-20261024 -> origin/improve/reader-source-access-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6165806Z  * [new branch]      improve/reader-source-context -> origin/improve/reader-source-context
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6166650Z  * [new branch]      improve/reader-source-disclosure-20261022 -> origin/improve/reader-source-disclosure-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6167561Z  * [new branch]      improve/reader-source-links-20261021 -> origin/improve/reader-source-links-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6168428Z  * [new branch]      improve/reader-source-return-20261022 -> origin/improve/reader-source-return-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6169233Z  * [new branch]      improve/reader-tables-20261023 -> origin/improve/reader-tables-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6170014Z  * [new branch]      improve/reader-task-flow-20261021 -> origin/improve/reader-task-flow-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6170821Z  * [new branch]      improve/reading-access-20261023 -> origin/improve/reading-access-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6171550Z  * [new branch]      improve/reading-find-20261020 -> origin/improve/reading-find-20261020
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6172298Z  * [new branch]      improve/reading-round-20261022 -> origin/improve/reading-round-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6173007Z  * [new branch]      improve/reading-round-20261023 -> origin/improve/reading-round-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6185810Z  * [new branch]      improve/reading-round-20261023-r2 -> origin/improve/reading-round-20261023-r2
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6186945Z  * [new branch]      improve/reading-round-20261024 -> origin/improve/reading-round-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6188195Z  * [new branch]      improve/reading-round-20261024-final -> origin/improve/reading-round-20261024-final
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6188981Z  * [new branch]      improve/reading-source-links-20261023 -> origin/improve/reading-source-links-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6189525Z  * [new branch]      improve/reliable-corpus-20261023 -> origin/improve/reliable-corpus-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6190087Z  * [new branch]      improve/result-link-semantics-20261022 -> origin/improve/result-link-semantics-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6190611Z  * [new branch]      improve/result-pagination-20261020 -> origin/improve/result-pagination-20261020
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6191121Z  * [new branch]      improve/returning-discovery-20261022 -> origin/improve/returning-discovery-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6191665Z  * [new branch]      improve/search-catalog-loading-20261020 -> origin/improve/search-catalog-loading-20261020
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6192182Z  * [new branch]      improve/search-clear-control -> origin/improve/search-clear-control
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6192644Z  * [new branch]      improve/search-reading-context -> origin/improve/search-reading-context
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6193442Z  * [new branch]      improve/search-recall-supplements-and-cases -> origin/improve/search-recall-supplements-and-cases
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6194337Z  * [new branch]      improve/task-discovery-20261020 -> origin/improve/task-discovery-20261020
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6195582Z  * [new branch]      improve/task-search-20261023 -> origin/improve/task-search-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6196348Z  * [new branch]      improve/task-shortcuts-20261022 -> origin/improve/task-shortcuts-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6197146Z  * [new branch]      integrate/search-sharing-accessibility-20261024 -> origin/integrate/search-sharing-accessibility-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6197717Z  * [new branch]      main                    -> origin/main
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6198433Z  * [new branch]      maint/audit-computers-apps-lower-bound -> origin/maint/audit-computers-apps-lower-bound
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6199358Z  * [new branch]      maint/stale-count-20261023-0845 -> origin/maint/stale-count-20261023-0845
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6199770Z  * [new branch]      research/2026-10-18-1445 -> origin/research/2026-10-18-1445
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6200176Z  * [new branch]      research/2026-10-19-1146-scan -> origin/research/2026-10-19-1146-scan
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6200576Z  * [new branch]      research/2026-10-19-1440-scan -> origin/research/2026-10-19-1440-scan
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6200967Z  * [new branch]      research/2026-10-21-0843 -> origin/research/2026-10-21-0843
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6201323Z  * [new branch]      research/2026-10-21-1147 -> origin/research/2026-10-21-1147
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6201674Z  * [new branch]      research/2026-10-21-1440 -> origin/research/2026-10-21-1440
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6202016Z  * [new branch]      research/2026-10-21-1745 -> origin/research/2026-10-21-1745
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6202363Z  * [new branch]      research/2026-10-22-0846 -> origin/research/2026-10-22-0846
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6202710Z  * [new branch]      research/2026-10-22-1145 -> origin/research/2026-10-22-1145
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6204846Z  * [new branch]      research/2026-10-22-1440 -> origin/research/2026-10-22-1440
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6205403Z  * [new branch]      research/2026-10-22-1745 -> origin/research/2026-10-22-1745
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6205772Z  * [new branch]      research/2026-10-22-2050 -> origin/research/2026-10-22-2050
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6206140Z  * [new branch]      research/2026-10-23-0845 -> origin/research/2026-10-23-0845
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6206492Z  * [new branch]      research/2026-10-24-0900 -> origin/research/2026-10-24-0900
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6215319Z  * [new branch]      research/daily-routines -> origin/research/daily-routines
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6215982Z  * [new branch]      research/large-crawl-1  -> origin/research/large-crawl-1
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6216607Z  * [new branch]      research/large-crawl-2  -> origin/research/large-crawl-2
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6217269Z  * [new branch]      research/scan-2026-10-19-1740 -> origin/research/scan-2026-10-19-1740
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6217919Z  * [new branch]      research/scan-2026-10-19-2040 -> origin/research/scan-2026-10-19-2040
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6218627Z  * [new branch]      research/scan-2026-10-20-0848-r2 -> origin/research/scan-2026-10-20-0848-r2
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6219359Z  * [new branch]      research/scan-20261018-2043 -> origin/research/scan-20261018-2043
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6220136Z  * [new branch]      research/uc-014-015-support-page-watch -> origin/research/uc-014-015-support-page-watch
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6220669Z  * [new branch]      research/x-round        -> origin/research/x-round
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6221075Z  * [new branch]      research/x-scan-2026-10-14-1143 -> origin/research/x-scan-2026-10-14-1143
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6221503Z  * [new branch]      research/x-scan-20261014-1745 -> origin/research/x-scan-20261014-1745
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6225699Z  * [new branch]      research/x-scan-20261014-2045 -> origin/research/x-scan-20261014-2045
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6226423Z  * [new branch]      research/x-scan-20261015-0845 -> origin/research/x-scan-20261015-0845
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6226839Z  * [new branch]      research/x-scan-20261015-1140 -> origin/research/x-scan-20261015-1140
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6227413Z  * [new branch]      research/x-scan-20261015-1440 -> origin/research/x-scan-20261015-1440
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6228337Z  * [new branch]      research/x-scan-20261015-1745 -> origin/research/x-scan-20261015-1745
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6229042Z  * [new branch]      research/x-scan-20261016-1147 -> origin/research/x-scan-20261016-1147
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6229716Z  * [new branch]      research/x-scan-20261016-1749 -> origin/research/x-scan-20261016-1749
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6231704Z  * [new branch]      scan/2026-10-17-1142    -> origin/scan/2026-10-17-1142
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6245568Z  * [new branch]      scan/2026-10-17-1745    -> origin/scan/2026-10-17-1745
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6246268Z  * [new branch]      scan/2026-10-17-2040    -> origin/scan/2026-10-17-2040
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6247171Z  * [new branch]      scan/2026-10-17-am      -> origin/scan/2026-10-17-am
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6247853Z  * [new branch]      scan/2026-10-17-am-fix  -> origin/scan/2026-10-17-am-fix
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6249141Z  * [new branch]      scan/2026-10-18-0846    -> origin/scan/2026-10-18-0846
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6249677Z  * [new branch]      scan/2026-10-18-1150    -> origin/scan/2026-10-18-1150
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6250303Z  * [new branch]      scan/2026-10-20-1148    -> origin/scan/2026-10-20-1148
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6250957Z  * [new branch]      scan/2026-10-20-1444    -> origin/scan/2026-10-20-1444
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6251354Z  * [new branch]      scan/2026-10-20-1740    -> origin/scan/2026-10-20-1740
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6251740Z  * [new branch]      scan/2026-10-20-2040    -> origin/scan/2026-10-20-2040
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6252084Z  * [new branch]      scan/x-ai-20261014-1450 -> origin/scan/x-ai-20261014-1450
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6252515Z  * [new branch]      test/arrival-scroll-diagnostics -> origin/test/arrival-scroll-diagnostics
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6252973Z  * [new branch]      test/ordered-late-return -> origin/test/ordered-late-return
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6253502Z  * [new branch]      test/search-return-diagnostic -> origin/test/search-return-diagnostic
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6254473Z  * [new branch]      test/settle-keyboard-scroll-before-arrival-check -> origin/test/settle-keyboard-scroll-before-arrival-check
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6255593Z  * [new branch]      test/shared-search-live-diagnostics -> origin/test/shared-search-live-diagnostics
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6256320Z  * [new branch]      verify/actionable-discovery-20261022 -> origin/verify/actionable-discovery-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6265595Z  * [new branch]      verify/case-share-published-20261021 -> origin/verify/case-share-published-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6266843Z  * [new branch]      verify/combined-recovery-document -> origin/verify/combined-recovery-document
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6267794Z  * [new branch]      verify/filter-reading-20261024 -> origin/verify/filter-reading-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6268909Z  * [new branch]      verify/inline-reading-published-20261021 -> origin/verify/inline-reading-published-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6269937Z  * [new branch]      verify/page-context-20261023 -> origin/verify/page-context-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6270850Z  * [new branch]      verify/prompt-copy-published-20261021 -> origin/verify/prompt-copy-published-20261021
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6271652Z  * [new branch]      verify/reader-body-published-20261022 -> origin/verify/reader-body-published-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6272478Z  * [new branch]      verify/reader-context-ready -> origin/verify/reader-context-ready
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6273148Z  * [new branch]      verify/reader-round-20261022 -> origin/verify/reader-round-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6273902Z  * [new branch]      verify/reading-round-20261024 -> origin/verify/reading-round-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6274655Z  * [new branch]      verify/reliable-corpus-20261023 -> origin/verify/reliable-corpus-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6275369Z  * [new branch]      verify/result-link-semantics-20261022 -> origin/verify/result-link-semantics-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6276158Z  * [new branch]      verify/returning-discovery-20261022 -> origin/verify/returning-discovery-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6276887Z  * [new branch]      verify/round23-published -> origin/verify/round23-published
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6277782Z  * [new branch]      verify/search-focus-20261023 -> origin/verify/search-focus-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6278510Z  * [new branch]      verify/search-passage-release -> origin/verify/search-passage-release
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6279891Z  * [new branch]      verify/search-sharing-accessibility-20261024 -> origin/verify/search-sharing-accessibility-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6286187Z  * [new branch]      verify/shared-reading-published-related -> origin/verify/shared-reading-published-related
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6287239Z  * [new branch]      verify/sort-release-20261020 -> origin/verify/sort-release-20261020
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6287988Z  * [new branch]      verify/source-emphasis-20261023 -> origin/verify/source-emphasis-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6288708Z  * [new branch]      verify/source-fonts-20261023 -> origin/verify/source-fonts-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6289399Z  * [new branch]      verify/table-reading-20261023 -> origin/verify/table-reading-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6290198Z  * [new branch]      verify/task-entry-published-20261022 -> origin/verify/task-entry-published-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6295395Z  * [new branch]      verify/task-labels-20261023 -> origin/verify/task-labels-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6296140Z  * [new branch]      verify/task-shortcuts-20261022 -> origin/verify/task-shortcuts-20261022
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6296624Z  * [new branch]      verify/transient-loading-20261023 -> origin/verify/transient-loading-20261023
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6349926Z [command]/usr/bin/git branch --list --remote origin/verify/filter-reading-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6396165Z   origin/verify/filter-reading-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6402409Z [command]/usr/bin/git rev-parse refs/remotes/origin/verify/filter-reading-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6424960Z 50b750f2240a8ffb58a8013907e7d80e4b355b5a
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6427714Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6428134Z ##[group]Determining the checkout info
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6429381Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6433308Z [command]/usr/bin/git sparse-checkout disable
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6469556Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6496754Z ##[group]Checking out the ref
+browser	Run actions/checkout@v4	2026-10-24T08:55:26.6500690Z [command]/usr/bin/git checkout --progress --force -B verify/filter-reading-20261024 refs/remotes/origin/verify/filter-reading-20261024
+browser	Run actions/checkout@v4	2026-10-24T08:55:27.1704331Z Switched to a new branch 'verify/filter-reading-20261024'
+browser	Run actions/checkout@v4	2026-10-24T08:55:27.1704905Z branch 'verify/filter-reading-20261024' set up to track 'origin/verify/filter-reading-20261024'.
+browser	Run actions/checkout@v4	2026-10-24T08:55:27.1740951Z ##[endgroup]
+browser	Run actions/checkout@v4	2026-10-24T08:55:27.1784262Z [command]/usr/bin/git log -1 --format=%H
+browser	Run actions/checkout@v4	2026-10-24T08:55:27.1808174Z 50b750f2240a8ffb58a8013907e7d80e4b355b5a
+browser	Run actions/setup-node@v4	﻿2026-10-24T08:55:27.2192478Z ##[group]Run actions/setup-node@v4
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.2192711Z with:
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.2192869Z   node-version: 22
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.2193187Z   always-auth: false
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.2193365Z   check-latest: false
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.2195509Z   token: ***
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.2195684Z ##[endgroup]
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.2201387Z ##[command]/usr/bin/docker exec  daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de sh -c "cat /etc/*release | grep ^ID"
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.4137646Z Found in cache @ /__t/node/22.23.3/x64
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.4140495Z (node:148) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.4141516Z (Use `node --trace-deprecation ...` to show where the warning was created)
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.4143673Z ##[group]Environment details
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.7082763Z node: v22.23.3
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.7083231Z npm: 10.9.9
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.7084043Z yarn: 1.22.22
+browser	Run actions/setup-node@v4	2026-10-24T08:55:27.7085464Z ##[endgroup]
+browser	Cloud tools	﻿2026-10-24T08:55:27.7232598Z ##[group]Run npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
+browser	Cloud tools	2026-10-24T08:55:27.7233547Z ^[[36;1mnpm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2^[[0m
+browser	Cloud tools	2026-10-24T08:55:27.7234090Z ^[[36;1mmkdir -p /usr/local/share/fonts qa-artifacts^[[0m
+browser	Cloud tools	2026-10-24T08:55:27.7234786Z ^[[36;1mcurl -fL --max-time 90 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf^[[0m
+browser	Cloud tools	2026-10-24T08:55:27.7235442Z ^[[36;1mfc-cache -f^[[0m
+browser	Cloud tools	2026-10-24T08:55:27.7235662Z ^[[36;1mchown -R pwuser:pwuser qa-artifacts^[[0m
+browser	Cloud tools	2026-10-24T08:55:27.7238422Z shell: sh -e {0}
+browser	Cloud tools	2026-10-24T08:55:27.7238627Z ##[endgroup]
+browser	Cloud tools	2026-10-24T08:55:29.6911117Z 
+browser	Cloud tools	2026-10-24T08:55:29.6919111Z added 5 packages in 2s
+browser	Cloud tools	2026-10-24T08:55:29.7570085Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+browser	Cloud tools	2026-10-24T08:55:29.7575004Z                                  Dload  Upload   Total   Spent    Left  Speed
+browser	Cloud tools	2026-10-24T08:55:29.7575436Z 
+browser	Cloud tools	2026-10-24T08:55:29.8608028Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+browser	Cloud tools	2026-10-24T08:55:29.8608757Z 100 15.6M  100 15.6M    0     0   150M      0 --:--:-- --:--:-- --:--:--  152M
+browser	Reproduce readability regression on the original preview	﻿2026-10-24T08:55:31.9692108Z ##[group]Run git config --global --add safe.directory "$GITHUB_WORKSPACE"
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9692557Z ^[[36;1mgit config --global --add safe.directory "$GITHUB_WORKSPACE"^[[0m
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9692869Z ^[[36;1mmkdir -p "$RUNNER_TEMP/before"^[[0m
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9693568Z ^[[36;1mgit archive 5876d13 | tar -x -C "$RUNNER_TEMP/before"^[[0m
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9694088Z ^[[36;1mpython3 "$RUNNER_TEMP/before/scripts/preview.py" "$RUNNER_TEMP/before-preview/ai-agent-use-cases"^[[0m
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9694662Z ^[[36;1mpython3 -m http.server 8186 --directory "$RUNNER_TEMP/before-preview" > /tmp/filter-before.log 2>&1 &^[[0m
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9695411Z ^[[36;1mif SITE_URL=http://127.0.0.1:8186/ai-agent-use-cases/ QA_OUT=qa-artifacts/red runuser -u pwuser -- node tests/filter-reading-browser.cjs > qa-artifacts/red.log 2>&1; then^[[0m
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9695980Z ^[[36;1m  echo 'Expected old layout to fail'; exit 1^[[0m
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9696228Z ^[[36;1mfi^[[0m
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9696671Z ^[[36;1mnode -e "require('node:assert/strict').match(require('node:fs').readFileSync('qa-artifacts/red.log','utf8'),/labels and reset must remain legible/)"^[[0m
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9697292Z shell: sh -e {0}
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9697461Z env:
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9697664Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:31.9697913Z ##[endgroup]
+browser	Reproduce readability regression on the original preview	2026-10-24T08:55:32.8304232Z /__w/_temp/before-preview/ai-agent-use-cases
+browser	Verify new layout and complete visitor journeys	﻿2026-10-24T08:55:34.3574316Z ##[group]Run node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3574896Z ^[[36;1mnode --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3575344Z ^[[36;1mfor f in assets/*.js tests/filter-reading*.cjs; do node --check "$f"; done^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3575759Z ^[[36;1mpython3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3576221Z ^[[36;1mpython3 -m http.server 8187 --directory "$RUNNER_TEMP/preview" > /tmp/filter-after.log 2>&1 &^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3576671Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8187/ai-agent-use-cases/^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3577024Z ^[[36;1mif [ "$GITHUB_REF_NAME" = verify/filter-reading-20261024 ]; then^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3577400Z ^[[36;1m  export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3577712Z ^[[36;1m  export QA_PUBLIC=1 QA_OBSERVE=1^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3577934Z ^[[36;1m  node - <<'JS'^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3578192Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3579696Z ^[[36;1m(async()=>{const files=['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css'];for(let i=0;i<90;i++){const matches=await Promise.all(files.map(async file=>{const r=await fetch(process.env.SITE_URL+file+'?filter='+process.env.GITHUB_SHA,{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(file,'utf8');}));if(matches.every(Boolean)){console.log('PUBLIC_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}await new Promise(r=>setTimeout(r,2000));}throw Error('Published assets mismatch');})().catch(e=>{console.error(e);process.exit(1)});^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3581115Z ^[[36;1mJS^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3581281Z ^[[36;1mfi^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3581513Z ^[[36;1mrunuser -u pwuser -- node tests/filter-reading-browser.cjs^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3581944Z ^[[36;1mQA_OUT=qa-artifacts/regression runuser -u pwuser -- node tests/page-context-browser.cjs^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3582430Z ^[[36;1mGUIDE_URL="$SITE_URL" runuser -u pwuser -- node tests/source-guide-share-layout.cjs^[[0m
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3583436Z shell: sh -e {0}
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3583664Z env:
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3583875Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:34.3584127Z ##[endgroup]
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:40.0469500Z /__w/_temp/preview/ai-agent-use-cases
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:40.1757399Z PUBLIC_ASSETS_MATCH 50b750f2240a8ffb58a8013907e7d80e4b355b5a
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:55:55.8767571Z PASS chromium-1440
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:56:10.3246745Z PASS chromium-390
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:56:13.7474440Z PASS chromium-1440
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:56:15.7245261Z PASS chromium-390
+browser	Verify new layout and complete visitor journeys	2026-10-24T08:56:19.6885784Z [{"status":{"top":533.828125,"bottom":555.265625},"input":{"top":0,"bottom":0},"summary":{"top":567.265625,"bottom":611.265625},"focused":"copy-search-link","width":1440,"reject":false},{"status":{"top":533.609375,"bottom":555.046875},"input":{"top":567.046875,"bottom":611.046875},"summary":{"top":629.046875,"bottom":673.046875},"focused":"search-share-url","width":1440,"reject":true},{"status":{"top":497.0625,"bottom":518.5},"input":{"top":0,"bottom":0},"summary":{"top":530.5,"bottom":574.5},"focused":"copy-search-link","width":390,"reject":false},{"status":{"top":496.234375,"bottom":517.671875},"input":{"top":529.671875,"bottom":573.671875},"summary":{"top":591.671875,"bottom":635.671875},"focused":"search-share-url","width":390,"reject":true},{"status":{"top":496.328125,"bottom":517.765625},"input":{"top":0,"bottom":0},"summary":{"top":529.765625,"bottom":573.765625},"focused":"copy-search-link","width":320,"reject":false},{"status":{"top":496.765625,"bottom":518.203125},"input":{"top":530.203125,"bottom":574.203125},"summary":{"top":592.203125,"bottom":636.203125},"focused":"search-share-url","width":320,"reject":true}]
+browser	Run actions/upload-artifact@v4	﻿2026-10-24T08:56:19.7121397Z ##[group]Run actions/upload-artifact@v4
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.7121657Z with:
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.7121831Z   name: filter-reading-qa
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.7122029Z   path: qa-artifacts/
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.7122209Z   if-no-files-found: warn
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.7122411Z   compression-level: 6
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.7122593Z   overwrite: false
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.7122769Z   include-hidden-files: false
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.7122968Z ##[endgroup]
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.7126129Z ##[command]/usr/bin/docker exec  daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de sh -c "cat /etc/*release | grep ^ID"
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.9254491Z (node:1709) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.9255614Z (Use `node --trace-deprecation ...` to show where the warning was created)
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.9400069Z With the provided path, there will be 29 files uploaded
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.9400848Z Artifact name is valid!
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:19.9401231Z Root directory input is valid!
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:20.1553888Z Beginning upload of artifact content to blob storage
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:20.2619086Z (node:1709) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:20.4134374Z Uploaded bytes 2591024
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:20.4276790Z Finished uploading artifact content to blob storage!
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:20.4278099Z SHA256 digest of uploaded artifact zip is bcf95c343a290b9b7e07d9c4b072bf1f910db7c1a3c53a742b4c12d79397f60c
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:20.4278826Z Finalizing artifact upload
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:20.8411086Z Artifact filter-reading-qa.zip successfully finalized. Artifact ID 12554732802
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:20.8412157Z Artifact filter-reading-qa has been successfully uploaded! Final size is 2591024 bytes. Artifact ID is 12554732802
+browser	Run actions/upload-artifact@v4	2026-10-24T08:56:20.8417565Z Artifact download URL: https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40079874801/artifacts/12554732802
+browser	Post Run actions/setup-node@v4	﻿2026-10-24T08:56:20.8624742Z Post job cleanup.
+browser	Post Run actions/setup-node@v4	2026-10-24T08:56:20.8630208Z ##[command]/usr/bin/docker exec  daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de sh -c "cat /etc/*release | grep ^ID"
+browser	Post Run actions/setup-node@v4	2026-10-24T08:56:21.0415796Z (node:1734) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+browser	Post Run actions/setup-node@v4	2026-10-24T08:56:21.0416841Z (Use `node --trace-deprecation ...` to show where the warning was created)
+browser	Post Run actions/checkout@v4	﻿2026-10-24T08:56:21.0655207Z Post job cleanup.
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.0665307Z ##[command]/usr/bin/docker exec  daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de sh -c "cat /etc/*release | grep ^ID"
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2235397Z [command]/usr/bin/git version
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2294669Z git version 2.43.0
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2327062Z Copying '/github/home/.gitconfig' to '/__w/_temp/1858d4f2-d69a-4bbf-9cf5-b0a70c04cd37/.gitconfig'
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2337244Z Temporarily overriding HOME='/__w/_temp/1858d4f2-d69a-4bbf-9cf5-b0a70c04cd37' before making global git config changes
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2338336Z Adding repository directory to the temporary git global config as a safe directory
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2341351Z [command]/usr/bin/git config --global --add safe.directory /__w/ai-agent-use-cases/ai-agent-use-cases
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2380553Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2428918Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2664868Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2684367Z http.https://github.com/.extraheader
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2693011Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2721904Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2954042Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+browser	Post Run actions/checkout@v4	2026-10-24T08:56:21.2987756Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+browser	Stop containers	﻿2026-10-24T08:56:21.3340595Z Stop and remove container: ecbeaeb124914bd582af5344bc44d65a_mcrmicrosoftcomplaywrightv1640noble_4fe649
+browser	Stop containers	2026-10-24T08:56:21.3344791Z ##[command]/usr/bin/docker rm --force daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de
+browser	Stop containers	2026-10-24T08:56:21.5387744Z daa617553582d1f5d16ad4586933f82a994685a469bcecaa86064ef4401ee5de
+browser	Stop containers	2026-10-24T08:56:21.5416731Z Remove container network: github_network_131ea6ef10bf4467a2bc23b97570f33f
+browser	Stop containers	2026-10-24T08:56:21.5420131Z ##[command]/usr/bin/docker network rm github_network_131ea6ef10bf4467a2bc23b97570f33f
+browser	Stop containers	2026-10-24T08:56:21.6461936Z github_network_131ea6ef10bf4467a2bc23b97570f33f
+browser	Complete job	﻿2026-10-24T08:56:21.6523917Z Cleaning up orphan processes
+browser	Complete job	2026-10-24T08:56:21.6831252Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

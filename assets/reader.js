@@ -1,6 +1,7 @@
 /* Source DOM has already passed through the text-only Markdown renderer. */
 (function(root){
   'use strict';
+  const readingPositionTrackers=new WeakMap();
   // Only promote a complete primary section. Unknown or long structures stay in
   // the original research; never truncate away a later caveat or infer success.
   function selectReadingSection(sections,kind){
@@ -140,6 +141,8 @@
   // Keep each list item's own words separate from its descendants. A match
   // must not be fabricated by concatenating the end of a parent and a child.
   function readingPassages(block){
+    if(block.tagName==='TABLE')return [...block.children].flatMap(group=>[...group.children].flatMap(row=>[...row.children].map(cell=>({node:cell,text:cell.textContent}))));
+    if(block.tagName==='DIV'&&block.className==='markdown-table')return [...block.children].flatMap(readingPassages);
     if(!/^[UO]L$/.test(block.tagName))return /^(P|PRE|BLOCKQUOTE)$/.test(block.tagName)?[{node:block,text:block.textContent}]:[];
     const passages=[];
     for(const row of block.children){
@@ -153,7 +156,19 @@
     }
     return passages;
   }
+  function selectReadingPosition(headings,marker,viewportBottom,contentBottom){
+    if(!headings.length)return -1;
+    if(contentBottom<=viewportBottom+1)return headings.length-1;
+    let index=-1;
+    for(let i=0;i<headings.length;i++){
+      if(headings[i].getBoundingClientRect().top<=marker)index=i;
+      else break;
+    }
+    return index<0?0:index;
+  }
   function enhance(body,item,searchTerms=[]){
+    const dialog=body.closest('dialog');
+    if(dialog)readingPositionTrackers.get(dialog)?.();
     const research=body.querySelector('.research-details');
     const markdown=research?.querySelector('.markdown');
     if(!markdown)return;
@@ -184,25 +199,56 @@
     }else{
       evidence.append(make('p','',item.kind==='pending'?'原文未列統一證據欄位；這是待查線索，請核對原文的狀態與缺漏。':'原文未列統一證據欄位，請核對全文中的來源與限制。'));
     }
+    const proofNote=body.querySelector('.detail-proof-note');
+    if(proofNote)evidence.prepend(proofNote);
     const warning=body.querySelector('.detail-warning');
     if(warning)evidence.append(warning);
     evidence.append(make('p','reader-evidence-footnote','以上沿用原文頁首；後續補充的來源與限制，請依各段文字判讀。'));
     // Put the actual purpose first; retain every original proof row below it.
-    overview.after(evidence);
-    const dialog=body.closest('dialog');
+    if(headings.length>=12){
+      const open=make('button','reader-original-open',`查看完整原始研究、來源與提示詞（${headings.length} 段） ↓`);
+      open.type='button';
+      open.addEventListener('click',()=>{research.open=true;moveTo(research.querySelector('summary'));});
+      const targetUser=overview.querySelector('.detail-target-user');
+      if(targetUser)targetUser.before(open);else overview.append(open);
+    }
     const nav=make('nav','reader-nav');
     nav.setAttribute('aria-label','案例閱讀導覽');
     const navTitle=make('h2','','你想先了解哪一段？');
     navTitle.tabIndex=-1;
     navTitle.id='reader-nav-title';
     nav.append(navTitle,make('p','reader-nav-hint','收錄不代表本庫獨立重現。點選段落看原文；流程與提示詞的實測狀態依原標題判讀。'));
+    if(headings.length>=12){
+      const back=make('button','reader-return','↑ 回到閱讀導覽');
+      back.type='button';
+      back.addEventListener('click',()=>moveTo(navTitle));
+      research.querySelector('summary').after(back);
+    }
+    let syncPosition=null;
     const moveTo=target=>{
       // scrollIntoView may also scroll the inert page behind a modal.
       const toolbar=dialog.querySelector('.detail-toolbar');
-      dialog.scrollTo({top:dialog.scrollTop+target.getBoundingClientRect().top-dialog.getBoundingClientRect().top-toolbar.getBoundingClientRect().height-18,behavior:'instant'});
+      const align=()=>{
+        const targetRect=target.getBoundingClientRect();
+        const toolbarRect=toolbar.getBoundingClientRect();
+        dialog.scrollTo({top:dialog.scrollTop+targetRect.top-toolbarRect.bottom-18,behavior:'instant'});
+      };
+      if(syncPosition)syncPosition();
+      align();
+      if(syncPosition)syncPosition();
+      align();
+      const table=target.closest('.markdown-table');
+      if(table){
+        const cell=target.getBoundingClientRect(),viewport=table.getBoundingClientRect();
+        if(cell.left<viewport.left||cell.right>viewport.right)table.scrollLeft+=cell.left-viewport.left;
+      }
       target.focus({preventScroll:true});
     };
-    const jump=index=>{research.open=true;moveTo(headings[index]);};
+    const jump=index=>{
+      research.open=true;
+      if(syncPosition)syncPosition();
+      moveTo(headings[index]);
+    };
     const jumpButton=(index,cls)=>{
       const button=make('button',cls,titles[index]);
       button.type='button';
@@ -244,30 +290,59 @@
       return {title:heading.textContent,hasLinks};
     }));
     if(sourceIndex!==-1){
-      const sources=jumpButton(sourceIndex,'reader-report-open');
-      sources.textContent='核對來源與版本 ↓';report.append(sources);
+      const sources=jumpButton(sourceIndex,'reader-report-open reader-source-shortcut');
+      sources.textContent='核對來源與版本 ↓';
+      const sourceLink=overview.querySelector('.detail-source');
+      if(sourceLink)sourceLink.after(sources);
+      else if(overview.firstElementChild)overview.firstElementChild.after(sources);
+      else overview.append(sources);
     }
-    overview.after(report);
+    const actions=body.querySelector('.detail-actions');
+    if(actions)actions.after(report,evidence);else overview.after(report,evidence);
     const method=selectMethodShortcut(titles,item.kind);
     if(method){
       const shortcut=jumpButton(method.index,'reader-method-shortcut');
       shortcut.replaceChildren(make('strong','','前往方法與步驟 ↓'),make('span','reader-target',method.title));
-      // Preserve the original qualification beside the action, including untested designs.
-      overview.append(shortcut);
+      // Keep the original method near the title, ahead of the purpose and secondary actions.
+      if(actions)overview.before(shortcut);
+      else{
+        const targetUser=overview.querySelector('.detail-target-user');
+        if(targetUser)targetUser.before(shortcut);else overview.append(shortcut);
+      }
+    }
+    const guidanceSection=body.querySelector('.reader-guidance');
+    if(guidanceSection&&(item.how||item.caution)){
+      const guidanceShortcut=make('button','reader-guidance-shortcut','');
+      guidanceShortcut.type='button';
+      guidanceShortcut.replaceChildren(
+        make('strong','','建議操作流程與注意事項 ↓'),
+        make('span','reader-target','本庫整理步驟與限制（非實測結果）')
+      );
+      guidanceShortcut.addEventListener('click',()=>{
+        guidanceSection.open=true;
+        const s=guidanceSection.querySelector('summary');
+        if(s)moveTo(s);
+      });
+      const targetUser=overview.querySelector('.detail-target-user');
+      if(targetUser)targetUser.before(guidanceShortcut);else overview.append(guidanceShortcut);
     }
     // Collect before inserting reader controls so their labels cannot become hits.
     const sourceSummary=research.querySelector('summary');
-    const sourceSections=[{title:'',text:'',isMetadata:true,target:sourceSummary,links:new Set(),passages:[]}];
+    const sourceSections=[{title:'',text:'',isMetadata:true,target:sourceSummary,links:new Map(),passages:[]}];
     for(const block of markdown.children){
-      if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Set(),passages:[]});
+      if(/^H[23]$/.test(block.tagName))sourceSections.push({title:block.textContent,text:'',target:block,links:new Map(),passages:[]});
       const section=sourceSections[sourceSections.length-1];
       const passages=readingPassages(block);
-      section.text+='\n'+(/^[UO]L$/.test(block.tagName)?passages.map(passage=>passage.text).join('\n'):block.textContent);
+      if(block.className==='markdown-table'){
+        block.setAttribute('aria-label',`${section.title||'原文'}：表格；可左右捲動，鍵盤聚焦後可用左右方向鍵`);
+        block.querySelector('table').setAttribute('aria-label',section.title||'原文表格');
+      }
+      section.text+='\n'+(/^[UO]L$/.test(block.tagName)||block.className==='markdown-table'?passages.map(passage=>passage.text).join('\n'):block.textContent);
       section.passages.push(...passages);
       for(const link of block.querySelectorAll('a')){
         const href=link.getAttribute('href')||'';
         section.text+='\n'+href;
-        if(/^https?:\/\//i.test(href))section.links.add(href);
+        if(/^https?:\/\//i.test(href)&&!section.links.has(href))section.links.set(href,link.textContent.trim());
       }
     }
     const searchMatches=selectSearchSections(sourceSections,searchTerms);
@@ -318,7 +393,7 @@
     if(reviewSections.length){
       const review=make('details','reader-review');
       review.append(make('summary','',`逐段核對連結與限制（${reviewSections.length}）`),
-        make('p','reader-review-note','依含網頁連結的段落與限制相關標題整理，不是獨立驗證，也不保證列出所有限制。連結可能是工具文件或延伸閱讀，請連同上下文判讀。'));
+        make('p','reader-review-note','依原文連結與限制相關標題整理，不是獨立驗證，也不保證列出所有限制。下列連結性質未判定，可能是工具文件或延伸閱讀；請連同原文上下文判讀。'));
       const reviewList=make('ol','reader-review-list');
       for(const section of reviewSections){
         const target=sourceSections[section.index].target;
@@ -329,7 +404,49 @@
         const basis=[section.linkCount?'含網頁連結':'',section.caution?'限制相關標題':''].filter(Boolean).join(' · ');
         button.append(make('span','',section.title||'頁首資料'),make('span','reader-target',position+' · '+basis+' ↓'));
         button.addEventListener('click',()=>{research.open=true;moveTo(target);});
-        const row=make('li');row.append(button);reviewList.append(row);
+        const row=make('li');
+        const compact=reviewSections.length>=8;
+        const content=compact?make('details','reader-review-row'):row;
+        if(compact){
+          const summary=make('summary','reader-review-row-summary');
+          summary.append(make('span','',section.title||'頁首資料'),make('span','reader-review-row-count',`${section.linkCount} 個原文連結 · 展開核對`));
+          content.append(summary);
+        }
+        content.append(button);
+        for(const [href,label] of sourceSections[section.index].links){
+          const link=make('a','reader-review-link');
+          link.href=href;link.target='_blank';link.rel='noopener noreferrer';
+          let host;try{host=new URL(href).hostname;}catch{host=href;}
+          link.append(make('span','',label||host),make('span','reader-review-host',host+' ↗'));
+          content.append(link);
+        }
+        if(compact)row.append(content);
+        reviewList.append(row);
+      }
+      if(reviewSections.length>=8){
+        const finder=make('div','reader-review-finder');
+        const label=make('label','','在本篇連結與限制中找段落');
+        const input=make('input','reader-review-find');input.type='search';input.placeholder='輸入段落、連結名稱或網域';input.autocomplete='off';
+        const clear=make('button','reader-review-clear','清除');clear.type='button';clear.hidden=true;
+        const status=make('p','reader-review-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+        label.append(input);finder.append(label,clear,status);
+        const rows=[...reviewList.children];
+        const searchable=rows.map(row=>row.textContent.normalize('NFKC').toLocaleLowerCase());
+        const update=()=>{
+          const query=input.value.trim().normalize('NFKC').toLocaleLowerCase();
+          let visible=0;
+          rows.forEach((row,index)=>{
+            row.hidden=!!query&&!searchable[index].includes(query);
+            const detail=row.querySelector('.reader-review-row');
+            if(detail)detail.open=!!query&&!row.hidden;
+            if(!row.hidden)visible++;
+          });
+          clear.hidden=!query;
+          status.textContent=query?(visible?`找到 ${visible}／${rows.length} 段；清除可看全部。`:'找不到符合的段落；請換字詞或清除。'):'';
+        };
+        input.addEventListener('input',update);
+        clear.addEventListener('click',()=>{input.value='';update();input.focus();});
+        review.append(finder);
       }
       review.append(reviewList);nav.append(review);
     }
@@ -416,6 +533,60 @@
       update();finder.append(label,controls,hint,status);list.before(finder);
     }
     nav.append(full);
+    if(headings.length>=12&&dialog){
+      const toolbarLeft=dialog.querySelector('.detail-toolbar-left');
+      const position=make('div','reader-position');
+      const label=make('span','reader-position-label','原文尚未展開');
+      label.title='原文尚未展開';
+      const progress=make('progress','reader-progress-bar');
+      progress.max=headings.length;progress.value=0;
+      progress.setAttribute('aria-label','原文閱讀位置');
+      progress.setAttribute('aria-valuetext',`原文尚未展開，共 ${headings.length} 段`);
+      position.append(label,progress);
+      toolbarLeft.classList.add('reader-has-position');
+      toolbarLeft.append(position);
+      const updatePosition=()=>{
+        if(!research.open){
+          label.textContent='原文尚未展開';
+          label.title='原文尚未展開';
+          progress.value=0;
+          progress.setAttribute('aria-valuetext',`原文尚未展開，共 ${headings.length} 段`);
+          return;
+        }
+        const toolbarBottom=dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom;
+        const viewportBottom=dialog.getBoundingClientRect().bottom;
+        const index=selectReadingPosition(headings,toolbarBottom+24,viewportBottom,markdown.getBoundingClientRect().bottom);
+        if(index<0)return;
+        label.textContent=`原文第 ${index+1}/${headings.length} 段 · ${titles[index]}`;
+        label.title=titles[index];
+        progress.value=index+1;
+        progress.setAttribute('aria-valuetext',`原文第 ${index+1} 段，共 ${headings.length} 段：${titles[index]}`);
+      };
+      let frame=0;
+      const schedulePosition=()=>{
+        if(frame)return;
+        frame=requestAnimationFrame(()=>{frame=0;updatePosition();});
+      };
+      syncPosition=updatePosition;
+      const dispose=()=>{
+        dialog.removeEventListener('scroll',schedulePosition);
+        research.removeEventListener('toggle',schedulePosition);
+        dialog.removeEventListener('close',dispose);
+        root.removeEventListener('resize',schedulePosition);
+        if(frame)cancelAnimationFrame(frame);
+        position.remove();
+        toolbarLeft.classList.remove('reader-has-position');
+        readingPositionTrackers.delete(dialog);
+        syncPosition=null;
+      };
+      readingPositionTrackers.set(dialog,dispose);
+      dialog.addEventListener('scroll',schedulePosition,{passive:true});
+      research.addEventListener('toggle',schedulePosition);
+      dialog.addEventListener('close',dispose);
+      root.addEventListener('resize',schedulePosition);
+      schedulePosition();
+    }
+    nav.append(full);
     evidence.after(nav);
   }
   // A native print/cancel cycle must not change the reader's disclosure or place.
@@ -444,7 +615,7 @@
     root.addEventListener('beforeprint',()=>session.before());
     root.addEventListener('afterprint',()=>session.after());
   }
-  const api={readingPassages,findOutlineSections,promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
+  const api={readingPassages,findOutlineSections,promptSections,selectCopySections,createPrintSession,selectJumps,selectReadingPosition,selectReadingSection,selectSourceSection,selectMethodShortcut,selectSearchSections,selectSearchPassage,selectReviewSections,enhance};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CaseReader=api;
 })(globalThis);

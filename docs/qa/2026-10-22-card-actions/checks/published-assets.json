@@ -1,0 +1,22 @@
+[
+  {
+    "path": "index.html",
+    "sha256": "20df68c19e486aeeb7a89777c4449429796bb8b19304815c0edfc89b5a613185"
+  },
+  {
+    "path": "assets/style.css",
+    "sha256": "f3d625fd842d513f5142acfa1627d61ef7e3ad92867dbaecca7b373673ba89cd"
+  },
+  {
+    "path": "assets/app.js",
+    "sha256": "54b47582897fd9ece42939c32d28aa735997f67ed2a0b61bf96812e5643df91f"
+  },
+  {
+    "path": "assets/reader.css",
+    "sha256": "81a77fdc44c4ffcefe36b66f65172173e373fd897d47b1544007f75389080ce0"
+  },
+  {
+    "path": "assets/reader.js",
+    "sha256": "d77b41f50c8652f0be2d2f872792ad79212881fbbb29913263ca429f6a0354b4"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "corpus": {
+      "total": 439,
+      "failed": []
+    },
+    "results": "顯示 15 / 439 筆收錄",
+    "emphasis": {
+      "text": "作者比對接收與完成紀錄，確認新工作在舊工作停止未確定前啟動；未證實實際重複寄送，也未重新核對外部服務狀態。因此只計一次外部操作移交失敗，不稱資料已重複送出、產品違反規格或問題已修好。",
+      "strong": [
+        "未證實實際重複寄送，也未重新核對外部服務狀態"
+      ]
+    },
+    "source": "https://github.com/openai/codex/issues/52208",
+    "sourceOpened": "https://github.com/openai/codex/issues/52208",
+    "failure": "Error: Please use browser.newContext()\n Please check out https://github.com/dequelabs/axe-core-npm/blob/develop/packages/playwright/error-handling.md\n    at AxeBuilder.analyze (/__w/_temp/tools/node_modules/@axe-core/playwright/dist/index.js:253:13)\n    at runNextTicks (node:internal/process/task_queues:64:5)\n    at process.processImmediate (node:internal/timers:452:9)\n    at process.callbackTrampoline (node:internal/async_hooks:130:17)\n    at async /__w/ai-agent-use-cases/ai-agent-use-cases/tests/emphasis-browser.cjs:17:302"
+  }
+]

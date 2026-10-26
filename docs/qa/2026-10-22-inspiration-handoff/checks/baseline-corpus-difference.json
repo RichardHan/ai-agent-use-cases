@@ -1,0 +1,19 @@
+{
+  "baseline": "1693505",
+  "currentCorpus": "05577e2",
+  "sourceFileCounts": {
+    "1693505": 421,
+    "05577e2": 421
+  },
+  "changedSources": [
+    {
+      "path": "cases/362-muse-spawn-delivery-reconciliation.md",
+      "beforeBlob": "27ad2cfad2c4e032f8d3b4aa533d5996a943deb2",
+      "afterBlob": "45b209360f30b2fa0e03f347a712280844e230f3"
+    }
+  ],
+  "uc005SHA256": {
+    "1693505": "566b3310106dac27737fe6c9b99896773baffa943c141e3d4edabdb20aa7f96b",
+    "05577e2": "566b3310106dac27737fe6c9b99896773baffa943c141e3d4edabdb20aa7f96b"
+  }
+}

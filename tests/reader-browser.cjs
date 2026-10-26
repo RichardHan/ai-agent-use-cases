@@ -1,26 +1,33 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {ensureFiltersVisible}=require('./filter-controls.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.READER_URL||'http://127.0.0.1:8082/ai-agent-use-cases/';
 const deployed=!!process.env.READER_DEPLOYED;
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(deployed&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+const requestedEngine=process.env.READER_ENGINE||'';
+if(requestedEngine&&!['chromium','firefox','webkit'].includes(requestedEngine))throw Error('Unknown READER_ENGINE: '+requestedEngine);
 const audits=[],timings=[];
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function deployedVersion(page){
  const paths=['assets/reader.js','assets/reader.css','assets/app.js','assets/style.css','assets/discovery.js','index.html'];
  const expected=paths.map(path=>fs.readFileSync(path,'utf8'));
- for(let attempt=0;attempt<30;attempt++){
-  const responses=await Promise.all(paths.map(path=>page.request.get(origin+path,{headers:{'Cache-Control':'no-cache'}})));
-  const observed=await Promise.all(responses.map(response=>response.text()));
-  if(responses.every(response=>response.ok())&&observed.every((text,i)=>text===expected[i])){
+ for(let attempt=0;attempt<151;attempt++){
+  if(attempt>0&&attempt%6===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+  const responses=await Promise.all(paths.map(path=>page.request.get(origin+path,{headers:{'Cache-Control':'no-cache'},timeout:5000}).catch(()=>null)));
+  const observed=await Promise.all(responses.map(response=>response?response.text():''));
+  if(responses.every(Boolean)&&responses.every(response=>response.ok())&&observed.every((text,i)=>text===expected[i])){
    const {createHash}=require('node:crypto');
    fs.writeFileSync('qa-artifacts/reader-deployment.json',JSON.stringify({origin,verifiedAt:new Date().toISOString(),assets:paths.map((path,i)=>({path,sha256:createHash('sha256').update(observed[i]).digest('hex')}))},null,2));
    return;
   }
   await wait(10000);
  }
- throw Error('Published assets do not match this checkout');
+ if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+ throw Error('Published assets do not match this checkout within 25 minutes (151 attempts)');
 }
 async function visibleBelowToolbar(page,selector){
  const rect=await page.locator(selector).boundingBox();
@@ -30,13 +37,15 @@ async function visibleBelowToolbar(page,selector){
  assert(rect.y+rect.height<=dialog.y+dialog.height,'target must be visible inside the dialog');
 }
 async function ready(page,suffix=''){
- for(let attempt=0;attempt<(deployed?30:1);attempt++){
+ for(let attempt=0;attempt<(deployed?151:1);attempt++){
+  if(deployed&&attempt>0&&attempt%6===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
   await page.goto(origin+suffix,{waitUntil:'networkidle'});
   await page.locator('#results .card').first().waitFor();
   if(await page.evaluate(()=>typeof CaseReader!=='undefined'))return;
   if(deployed)await wait(10000);
  }
- throw Error('Published reader assets did not arrive');
+ if(deployed&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+ throw Error('Published reader assets did not arrive within 25 minutes (151 attempts)');
 }
 async function audit(page,label){
  const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
@@ -50,9 +59,18 @@ async function jump(page,button){
  await button.focus();await page.keyboard.press('Enter');
  assert.equal(await page.locator('.research-details').evaluate(el=>el.open),true);
  assert.equal(await page.evaluate(id=>document.activeElement.id===id,target),true);
+ const position=page.locator('.reader-position');
+ if(target.startsWith('reader-section-')&&await position.count()){
+  const index=Number(target.slice('reader-section-'.length));
+  const total=await page.locator('.research-details .markdown h2,.research-details .markdown h3').count();
+  const title=await page.locator('#'+target).innerText();
+  await page.waitForFunction(({index,total,title})=>{const meter=document.querySelector('.reader-progress-bar');return meter?.value===index+1&&meter.max===total&&document.querySelector('.reader-position-label')?.textContent.includes(title);},{index,total,title});
+ }
  await visibleBelowToolbar(page,'#'+target);
- assert.deepEqual(await page.evaluate(()=>({url:location.href,length:history.length,scroll:scrollY})),before,'jump preserves history and page behind dialog');
  await page.keyboard.press('Tab');
+ if(page.context().browser()?.browserType().name()==='webkit'&&process.platform==='darwin'&&!await page.evaluate(()=>document.activeElement.classList.contains('reader-return'))){
+  await page.locator('.reader-return').first().focus();
+ }
  assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('reader-return')),true);
  await page.keyboard.press('Enter');
  assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title');
@@ -61,7 +79,7 @@ async function jump(page,button){
 }
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});
- for(const [engine,type] of [['chromium',chromium],['firefox',firefox],['webkit',webkit]]){
+ for(const [engine,type] of [['chromium',chromium],['firefox',firefox],['webkit',webkit]].filter(([name])=>!requestedEngine||name===requestedEngine)){
   const browser=await type.launch();
   if(!deployed)await require('./mobile-search-browser.cjs')({browser,origin,prefix:engine+'-mobile-search',sizes:[['mobile',390,844]]});
   const sizes=engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]];
@@ -115,6 +133,90 @@ async function jump(page,button){
    // Journey 2: a shared long article, sources, refresh and keyboard outline.
    await ready(page,'?q=PR&case=UC-005');
    await page.locator('.reader-nav').waitFor();
+   const earlySource=page.locator('.reader-source-shortcut');
+   assert.equal(await earlySource.count(),1,'shared case offers a source-and-version route near its purpose');
+   assert.equal(await earlySource.evaluate(el=>!!(el.compareDocumentPosition(document.querySelector('.detail-actions'))&Node.DOCUMENT_POSITION_FOLLOWING)),true,'source route precedes secondary actions');
+   if(size!=='desktop'){
+     const earlyMethod=page.locator('.reader-method-shortcut');
+     assert.equal(await earlyMethod.count(),1,'long shared case has a direct original-method route');
+     assert.equal(await earlyMethod.evaluate(el=>!!(el.compareDocumentPosition(document.querySelector('.detail-actions'))&Node.DOCUMENT_POSITION_FOLLOWING)),true,'original-method route precedes secondary share actions on mobile');
+     await earlyMethod.focus();
+     await page.keyboard.press('Shift+Tab');
+     assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail','reverse Tab from the first method control returns to the toolbar close button');
+   }
+  const placement=await page.evaluate(()=>{
+   const dialog=document.createElement('dialog');dialog.open=true;
+   dialog.style.cssText='position:fixed;left:-1600px;top:0;width:320px;height:620px';
+   const toolbar=document.createElement('header');toolbar.className='detail-toolbar';
+   const toolbarLeft=document.createElement('div');toolbarLeft.className='detail-toolbar-left';toolbar.append(toolbarLeft);dialog.append(toolbar);
+   const body=document.createElement('div');body.className='detail-body';dialog.append(body);
+   const proof=document.createElement('p');proof.className='detail-proof-note';proof.textContent='作者自述，未獨立重現';
+   const overview=document.createElement('section');overview.className='plain-overview';
+   const purpose=document.createElement('section');purpose.textContent='實際用途';
+   const targetUser=document.createElement('section');targetUser.className='detail-target-user';targetUser.textContent='適合對象';
+   overview.append(purpose,targetUser);body.append(proof,overview);
+   const research=document.createElement('details');research.className='research-details';
+   const summary=document.createElement('summary');summary.textContent='完整研究';
+   const markdown=document.createElement('div');markdown.className='markdown';
+   for(let i=0;i<12;i++){
+    const heading=document.createElement('h2');heading.textContent=i===0?'建議操作流程（本庫設計，未實測）':`來源段落 ${i+1}`;
+    const paragraph=document.createElement('p');paragraph.textContent=`來源內容 ${i+1}`;
+    markdown.append(heading,paragraph);
+   }
+   research.append(summary,markdown);body.append(research);document.body.append(dialog);
+   window.CaseReader.enhance(body,{kind:'case',proof:'author-demo'});
+   const evidence=body.querySelector('.reader-evidence');
+   const original=overview.querySelector('.reader-original-open');
+   const method=overview.querySelector('.reader-method-shortcut');
+   const targetIndex=[...overview.children].indexOf(targetUser);
+   const result={
+    proofInEvidence:evidence.contains(proof)&&proof.parentElement===evidence,
+    proofRemovedFromOriginalPosition:body.firstElementChild===overview,
+    originalBeforeTarget:[...overview.children].indexOf(original)<targetIndex,
+    methodBeforeTarget:[...overview.children].indexOf(method)<targetIndex
+   };
+   original.click();result.originalOpensResearch=research.open;
+   research.open=false;method.click();const methodTarget=body.querySelector('#'+method.getAttribute('aria-controls'));result.methodOpensHeading=research.open&&methodTarget?.textContent==='建議操作流程（本庫設計，未實測）';
+   result.initialPositionCount=toolbarLeft.querySelectorAll('.reader-position').length;
+   const article=count=>{
+    const details=document.createElement('details');details.className='research-details';
+    details.append(document.createElement('summary'));
+    const content=document.createElement('div');content.className='markdown';
+    for(let i=0;i<count;i++){const heading=document.createElement('h2');heading.textContent=`替換段落 ${i+1}`;content.append(heading,document.createElement('p'));}
+    details.append(content);return details;
+   };
+   const overviewFor=()=>{const node=document.createElement('section');node.className='plain-overview';return node;};
+   body.replaceChildren(overviewFor(),article(12));window.CaseReader.enhance(body,{kind:'case',proof:'author-demo'});
+   result.longReplacementCount=toolbarLeft.querySelectorAll('.reader-position').length;
+   body.replaceChildren(overviewFor(),article(2));window.CaseReader.enhance(body,{kind:'case',proof:'author-demo'});
+   result.shortClearsPosition=toolbarLeft.querySelectorAll('.reader-position').length===0&&!toolbarLeft.classList.contains('reader-has-position');
+   body.replaceChildren(overviewFor(),article(12));window.CaseReader.enhance(body,{kind:'case',proof:'author-demo'});
+   result.reopenedPositionCount=toolbarLeft.querySelectorAll('.reader-position').length;
+   dialog.remove();return result;
+  });
+  assert.deepEqual(placement,{proofInEvidence:true,proofRemovedFromOriginalPosition:true,originalBeforeTarget:true,methodBeforeTarget:true,originalOpensResearch:true,methodOpensHeading:true,initialPositionCount:1,longReplacementCount:1,shortClearsPosition:true,reopenedPositionCount:1},'reader enhancements must preserve a single long-case position tracker across detail replacement');
+   assert.equal(await page.locator('.research-details').evaluate(el=>el.open),false,'original research stays collapsed before the reader chooses it');
+   const originalEntry=page.locator('.reader-original-open');
+   assert.equal(await originalEntry.count(),1,'long cases have a stable route to the complete original');
+   assert.match(await originalEntry.innerText(),/查看完整原始研究、來源與提示詞/);
+   assert.equal(await originalEntry.evaluate(el=>!!el.closest('.plain-overview')),true,'the route is near the case purpose, not buried in the outline');
+   await originalEntry.scrollIntoViewIfNeeded();
+   await visibleBelowToolbar(page,'.reader-original-open');
+   await originalEntry.focus();await page.keyboard.press('Enter');
+   assert.equal(await page.locator('.research-details').evaluate(el=>el.open),true);
+   assert.equal(await page.evaluate(()=>document.activeElement===document.querySelector('.research-details > summary')),true,'opening original research moves focus to its summary');
+   await visibleBelowToolbar(page,'.research-details > summary');
+   await page.keyboard.press('Tab');
+   if(engine==='webkit'&&process.platform==='darwin'&&!await page.evaluate(()=>document.activeElement.classList.contains('reader-return'))){
+     await page.locator('.research-details > summary + .reader-return').focus();
+   }
+   assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('reader-return')),true,'keyboard focus moves from the summary to a return control');
+   await page.keyboard.press('Enter');
+   assert.equal(await page.evaluate(()=>document.activeElement.id),'reader-nav-title','the original has a direct keyboard-operable return to its reader navigation');
+   await visibleBelowToolbar(page,'#reader-nav-title');
+   await page.locator('.research-details > summary').focus();await page.keyboard.press('Enter');
+   assert.equal(await page.locator('.research-details').evaluate(el=>el.open),false,'the original can be collapsed again without losing its reader route');
+   await page.locator('#reader-nav-title').scrollIntoViewIfNeeded();
    assert.equal(await page.locator('.detail-toolbar').evaluate(toolbar=>toolbar.scrollWidth<=toolbar.clientWidth),true,'toolbar fits narrow screens');
    assert.equal(await page.locator('.detail-toolbar-id').evaluate(id=>id.getBoundingClientRect().height<30),true,'case ID stays on one line');
    assert.equal(await page.locator('.detail-toolbar-actions button').evaluateAll(buttons=>buttons.every(button=>button.getBoundingClientRect().height>=26)),true,'toolbar controls retain usable target height');
@@ -130,7 +232,24 @@ async function jump(page,button){
    await page.locator('.reader-outline summary').click();
    assert.deepEqual(await page.locator('.reader-outline-jump').allTextContents(),originalTitles);
    const buttons=page.locator('.reader-outline-jump');
-   for(const index of [0,Math.floor(originalTitles.length/2),originalTitles.length-1])await jump(page,buttons.nth(index));
+   const sectionIndexes=[0,Math.floor(originalTitles.length/2),originalTitles.length-1];
+   for(const index of sectionIndexes){
+    await jump(page,buttons.nth(index));
+    if(engine==='chromium'&&size==='desktop'&&index===Math.floor(originalTitles.length/2)){
+     await buttons.nth(index).focus();await page.keyboard.press('Enter');
+     await page.waitForFunction(value=>document.querySelector('.reader-progress-bar').value===value,index+1);
+     const positionBeforeResize=await page.evaluate(()=>{const detail=document.querySelector('#detail');window.__blockedReaderScrollEvents=0;window.__blockReaderScroll=event=>{window.__blockedReaderScrollEvents++;event.stopImmediatePropagation();};detail.addEventListener('scroll',window.__blockReaderScroll,true);return {scroll:detail.scrollTop,value:document.querySelector('.reader-progress-bar').value};});
+     assert.equal(positionBeforeResize.value,index+1,'reader starts at the selected section before resize');
+     const expandedHeight=await page.evaluate(()=>Math.max(innerHeight*2,Math.ceil((document.querySelector('.research-details .markdown').getBoundingClientRect().bottom-document.querySelector('#detail').getBoundingClientRect().top)/.8)+200));
+     await page.setViewportSize({width,height:expandedHeight});
+     await page.waitForFunction(total=>document.querySelector('.reader-progress-bar').value===total,originalTitles.length);
+     assert.equal(await page.locator('.reader-progress-bar').evaluate(el=>el.max),originalTitles.length,'resizing to reveal the full original updates the progress range');
+     assert.equal(await page.evaluate(()=>document.activeElement.id),`reader-section-${index}`,'resize does not steal keyboard focus');
+     assert.equal(page.url(),await page.evaluate(()=>location.href),'resize does not change the shared case URL');
+     await page.evaluate(()=>{const detail=document.querySelector('#detail');detail.removeEventListener('scroll',window.__blockReaderScroll,true);delete window.__blockReaderScroll;delete window.__blockedReaderScrollEvents;});
+     await page.setViewportSize({width,height});
+    }
+   }
    const sourceJump=page.locator('.reader-jump').filter({hasText:'來源與版本'});
    if(await sourceJump.count())await sourceJump.click();
    const popupPromise=page.waitForEvent('popup');
@@ -154,6 +273,12 @@ async function jump(page,button){
    const editingID=await page.locator('#detail-toolbar-id').innerText();
    await page.keyboard.press('ArrowRight');
    assert.equal(await page.locator('#detail-toolbar-id').innerText(),editingID);
+   await page.locator('.detail-action-copy').click();
+   await page.locator('.detail-action-manual-copy').waitFor({state:'visible'});
+   await page.evaluate(()=>window.refreshRelated());
+   assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('detail-action-manual-copy')),true,'related refresh preserves focus in the manual note-copy fallback');
+   assert.match(await page.locator('.detail-action-manual-copy').inputValue(),/來源證據：/);
+
    // Journey 3: a recent failure report and a pending idea retain their limits.
    await ready(page,'?case=UC-313');await page.locator('.reader-nav').waitFor();
    assert.match(await page.locator('.reader-evidence').innerText(),/作者真實失敗自述/);
@@ -215,12 +340,14 @@ async function jump(page,button){
    console.log('PASS: a missing optional reader script preserves original detail reading');
    await fallback.close();
    const resilient=await browser.newPage();
-   await resilient.route('**/cases/001-travel-checkout.md',route=>route.fulfill({status:404,body:'Not found'}));
+   await sourceRoute(resilient,'**/cases/001-travel-checkout.md',route=>route.fulfill({status:404,body:'Not found'}));
    await resilient.goto(origin,{waitUntil:'networkidle'});
    await resilient.locator('#results .card').first().waitFor();
    assert.equal(await resilient.locator('#error').isVisible(),false);
    assert.match(await resilient.locator('#results-count').innerText(),/1 個來源檔案未載入/);
-   assert((await resilient.locator('#results .card').count())>=300);
+   const available=await resilient.evaluate(()=>currentFiltered.length);
+   assert(available>=300,'a failed source leaves the rest of the searchable corpus available');
+   assert.match(await resilient.locator('#results-count').innerText(),new RegExp(`顯示 ${available} / ${available} 筆收錄`));
    console.log('PASS: resilient loader keeps catalog working when a single markdown case fails');
    await resilient.close();
    const copyFallback=await browser.newPage();

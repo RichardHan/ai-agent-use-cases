@@ -1,0 +1,104 @@
+[
+  {
+    "status": {
+      "top": 533.828125,
+      "bottom": 555.265625
+    },
+    "input": {
+      "top": 0,
+      "bottom": 0
+    },
+    "summary": {
+      "top": 567.265625,
+      "bottom": 611.265625
+    },
+    "focused": "copy-search-link",
+    "width": 1440,
+    "reject": false
+  },
+  {
+    "status": {
+      "top": 533.609375,
+      "bottom": 555.046875
+    },
+    "input": {
+      "top": 567.046875,
+      "bottom": 611.046875
+    },
+    "summary": {
+      "top": 629.046875,
+      "bottom": 673.046875
+    },
+    "focused": "search-share-url",
+    "width": 1440,
+    "reject": true
+  },
+  {
+    "status": {
+      "top": 497.0625,
+      "bottom": 518.5
+    },
+    "input": {
+      "top": 0,
+      "bottom": 0
+    },
+    "summary": {
+      "top": 530.5,
+      "bottom": 574.5
+    },
+    "focused": "copy-search-link",
+    "width": 390,
+    "reject": false
+  },
+  {
+    "status": {
+      "top": 496.234375,
+      "bottom": 517.671875
+    },
+    "input": {
+      "top": 529.671875,
+      "bottom": 573.671875
+    },
+    "summary": {
+      "top": 591.671875,
+      "bottom": 635.671875
+    },
+    "focused": "search-share-url",
+    "width": 390,
+    "reject": true
+  },
+  {
+    "status": {
+      "top": 496.328125,
+      "bottom": 517.765625
+    },
+    "input": {
+      "top": 0,
+      "bottom": 0
+    },
+    "summary": {
+      "top": 529.765625,
+      "bottom": 573.765625
+    },
+    "focused": "copy-search-link",
+    "width": 320,
+    "reject": false
+  },
+  {
+    "status": {
+      "top": 496.765625,
+      "bottom": 518.203125
+    },
+    "input": {
+      "top": 530.203125,
+      "bottom": 574.203125
+    },
+    "summary": {
+      "top": 592.203125,
+      "bottom": 636.203125
+    },
+    "focused": "search-share-url",
+    "width": 320,
+    "reject": true
+  }
+]

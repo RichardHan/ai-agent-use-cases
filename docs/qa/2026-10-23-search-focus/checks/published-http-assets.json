@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-22T22:22:59.906972+00:00",
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "match": true,
+      "sha256": "8f260f7d0ac18776af706278bac8c9104d1349ec356a83f1878f213f17037651"
+    },
+    {
+      "file": "assets/app.js",
+      "status": 200,
+      "match": true,
+      "sha256": "9f5375712133d2254a20ec6f9d8ff88e02a10d8204976e5926b1b99f0014528b"
+    },
+    {
+      "file": "assets/style.css",
+      "status": 200,
+      "match": true,
+      "sha256": "038b6038af8a958a028adc83ebe48609d4561dd99aee6f2ececa40efd1456e1d"
+    },
+    {
+      "file": "assets/reader.js",
+      "status": 200,
+      "match": true,
+      "sha256": "b8a2c03580248d4c1f6c3e1af520a76960cc2422ff4b08c68c2b967b6a8b511c"
+    },
+    {
+      "file": "assets/reader.css",
+      "status": 200,
+      "match": true,
+      "sha256": "cce3346d75b5e6de54ec92581c5e7e8245d157aeb8089e9d3a312cd6786f9a69"
+    }
+  ]
+}

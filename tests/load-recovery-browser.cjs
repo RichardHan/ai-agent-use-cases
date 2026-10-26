@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const AxeBuilder=require('@axe-core/playwright').default;
 const assert=require('node:assert/strict');
@@ -26,7 +27,7 @@ async function fixture(page){
  };
  await page.route('**/catalog.json',r=>r.fulfill({json:{builtAt:'fixture',files:Object.keys(docs)}}));
  await page.route('**/assets/copy.json',r=>r.fulfill({json:{}}));
- for(const [path,body] of Object.entries(docs))await page.route('**/'+path,async r=>{
+ for(const [path,body] of Object.entries(docs))await sourceRoute(page,'**/'+path,async r=>{
   counts[path]=(counts[path]||0)+1;
   const fail=blocked.has(path);
   if(delay)await new Promise(resolve=>setTimeout(resolve,delay));
@@ -44,7 +45,7 @@ async function fixture(page){
    const page=await (await browser.newContext({viewport:{width,height}})).newPage();
    let blocked=true;let requests=0;let networkRequests=0;
    page.on('request',()=>networkRequests++);
-   await page.route('**/cases/001-travel-checkout.md',async route=>{requests++;if(blocked)await route.fulfill({status:429,body:'Rate limited'});else await route.continue();});
+   await sourceRoute(page,'**/cases/001-travel-checkout.md',async route=>{requests++;if(blocked)await route.fulfill({status:429,body:'Rate limited'});else await route.continue();});
    await ready(page,'?q=UC-001#explore');
    assert.equal(await page.locator('#partial-load').isVisible(),true);
    assert.equal(await page.locator('#error').isVisible(),false);
@@ -53,7 +54,9 @@ async function fixture(page){
    await audit(page,engine+'-'+name+'-partial');
    const loaded=await page.evaluate(()=>entries.length);
    await page.locator('#retry-failed').focus();await page.keyboard.press('Enter');await done(page);
-   assert.equal(requests,2);
+   // The first 429 is retried automatically once; this click is the next
+   // explicit recovery attempt after that retry also fails.
+   assert.equal(requests,3);
    assert.equal(await page.locator('#retry-failed').evaluate(n=>n===document.activeElement),true,'persistent failure keeps keyboard focus');
    blocked=false;
    const beforeRequests=networkRequests;
@@ -82,7 +85,7 @@ async function fixture(page){
    assert.equal(await p.locator('#query').inputValue(),'工作');
    assert.equal(await p.locator('#tool').inputValue(),'Notion');
    assert.equal(await p.locator('#results .card').count(),1);
-   assert.deepEqual(f.counts,{'cases/a.md':1,'cases/b.md':2,'sources/pending.md':2});
+   assert.deepEqual(f.counts,{'cases/a.md':1,'cases/b.md':3,'sources/pending.md':3});
    assert.match(await p.locator('#partial-message').innerText(),/1 個來源檔案/);
    f.unblock('sources/pending.md');
    await p.locator('#retry-failed').click();
@@ -91,7 +94,7 @@ async function fixture(page){
    assert.equal(await p.locator('#results .card h3 button').first().evaluate(n=>n===document.activeElement),true,'rebuilt card focus retained');
    assert.equal(await p.evaluate(()=>entries.length),4,'one source yields two pending entries');
    assert.equal(await p.locator('#pending-count').innerText(),'2');
-   assert.deepEqual(f.counts,{'cases/a.md':1,'cases/b.md':2,'sources/pending.md':3});
+   assert.deepEqual(f.counts,{'cases/a.md':1,'cases/b.md':3,'sources/pending.md':4});
    await p.keyboard.press('Enter');await p.locator('#detail[open]').waitFor();await p.keyboard.press('Escape');
    assert.equal(await p.locator('#results .card h3 button').first().evaluate(n=>n===document.activeElement),true);
    await p.locator('#query').fill('完全不存在');

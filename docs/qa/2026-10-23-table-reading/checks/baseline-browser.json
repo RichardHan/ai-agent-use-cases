@@ -1,0 +1,28 @@
+[
+  {
+    "width": 1440,
+    "errors": [],
+    "results": "顯示 18 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "openedSource": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "back": true,
+    "query": "旅遊",
+    "tableText": "| Bot（作者命名） | 頻率（作者自述） | 產出 | 作者報的每次成本 | | --- | --- | --- | --- | | Mention Radar | 每天2次 | 尚未回覆的回覆與引用，已認證互追者優先 | 約0.20美元 | | Creator Scout | 每天早上 | 規模相近、尚未追蹤的已認證AI藝術家 | 約0.45美元 | | Warm Leads | 週一、週四 | 常互動但沒追蹤自己的已認證帳號 | 0（重用Mention Radar資料） | | Shoutout Desk | 每週一 | 10位從未被自己推薦過的小型互追創作者，保留完整歷史避免重複 | 約0.20美元 | | Rerun Picker | 每週一 | 適合引用重發的舊佳作，附新切角 | 約0.02美元 | | Headcount | 每季手動 | 掃描粉絲與追蹤，標出假帳號／不活躍、記錄取消追蹤與等待回追時間 | 約6.50美元 |",
+    "tables": 0,
+    "direct": "UC-400",
+    "empty": true
+  },
+  {
+    "width": 390,
+    "errors": [],
+    "results": "顯示 18 / 423 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "openedSource": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "back": true,
+    "query": "旅遊",
+    "tableText": "| Bot（作者命名） | 頻率（作者自述） | 產出 | 作者報的每次成本 | | --- | --- | --- | --- | | Mention Radar | 每天2次 | 尚未回覆的回覆與引用，已認證互追者優先 | 約0.20美元 | | Creator Scout | 每天早上 | 規模相近、尚未追蹤的已認證AI藝術家 | 約0.45美元 | | Warm Leads | 週一、週四 | 常互動但沒追蹤自己的已認證帳號 | 0（重用Mention Radar資料） | | Shoutout Desk | 每週一 | 10位從未被自己推薦過的小型互追創作者，保留完整歷史避免重複 | 約0.20美元 | | Rerun Picker | 每週一 | 適合引用重發的舊佳作，附新切角 | 約0.02美元 | | Headcount | 每季手動 | 掃描粉絲與追蹤，標出假帳號／不活躍、記錄取消追蹤與等待回追時間 | 約6.50美元 |",
+    "tables": 0,
+    "direct": "UC-400",
+    "empty": true
+  }
+]

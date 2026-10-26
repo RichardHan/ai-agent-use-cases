@@ -1,14 +1,16 @@
 name: Facet counts QA
 on:
   push:
-    branches: [improve/filter-recovery, fix/facet-acceptance, main]
-    paths: ['assets/**', 'index.html', 'tests/facet-counts*', 'tests/facet-rate*', '.github/workflows/facet-counts-qa.yml']
+    branches: [improve/visitor-round-20261024-b, main]
+    paths: ['assets/**', 'index.html', 'catalog.json', 'corpus.json', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/**', 'tests/facet-*', 'tests/published-version*', 'tests/filter-controls.cjs', 'tests/source-route.cjs', 'tests/reliability-observe.cjs', 'tests/page-context-browser.cjs', 'tests/source-guide*', '.github/workflows/facet-counts-qa.yml']
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: ubuntu-24.04
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -16,69 +18,79 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Baseline tests syntax and build
+      - name: Cloud browser tools
         run: |
-          node --test $(find tests -name '*.test.cjs' ! -name 'facet-counts.test.cjs')
-          for file in assets/*.js; do node --check "$file"; done
-          python3 scripts/preview.py "$RUNNER_TEMP/facet-preview/ai-agent-use-cases"
-      - name: Cloud browsers only
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2
+          mkdir -p /usr/local/share/fonts qa-artifacts
+          for weight in Regular Bold; do curl -fL --retry 2 --max-time 90 "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-$weight.otf" -o "/usr/local/share/fonts/NotoSansCJKtc-$weight.otf"; done
+          fc-cache -f
+          chown -R pwuser:pwuser qa-artifacts
+      - name: Baseline tests and syntax
         run: |
-          npm install --prefix "$RUNNER_TEMP/facet-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
-          "$RUNNER_TEMP/facet-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
-          sudo apt-get install -y fonts-noto-cjk
-      - name: Observe published baseline
-        if: ${{ github.ref != 'refs/heads/main' }}
+          node --test tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
+          for file in assets/*.js tests/*.cjs; do node --check "$file"; done
+      - name: Actual Pages build
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Verify actual Pages corpus and preview compatibility
+        run: |
+          python3 scripts/check_corpus_bundle.py _site
+          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          python3 scripts/check_corpus_bundle.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
+          mkdir -p "$RUNNER_TEMP/served/ai-agent-use-cases"
+          cp -R _site/. "$RUNNER_TEMP/served/ai-agent-use-cases/"
+      - name: Prove original hidden-filter AX failure on the same corpus
+        if: github.ref == 'refs/heads/improve/visitor-round-20261024-b'
         env:
-          NODE_PATH: ${{ runner.temp }}/facet-tools/node_modules
-          FACET_URL: https://richardhan.github.io/ai-agent-use-cases/
-          OBSERVE: '1'
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          GUIDE_URL: http://127.0.0.1:8096/ai-agent-use-cases/
+          GUIDE_OUTPUT: qa-artifacts/source-guide-before
         run: |
-          node tests/facet-counts-browser.cjs
-          READING_URL=https://richardhan.github.io/ai-agent-use-cases/ READING_OBSERVE=1 node tests/reading-flow-browser.cjs
-      - name: Verify red baseline for the new tests
-        if: ${{ hashFiles('tests/facet-counts.test.cjs') != '' }}
-        run: |
-          mkdir -p qa-artifacts
-          git show 1317a5e:assets/app.js > "$RUNNER_TEMP/facet-before.js"
-          if FACET_SOURCE="$RUNNER_TEMP/facet-before.js" node --test tests/facet-counts.test.cjs > qa-artifacts/red-baseline.tap 2>&1; then
-            echo 'Expected missing facetCounts to fail'
+          python3 -m http.server 8096 --directory "$RUNNER_TEMP/served" > /tmp/facet-before.log 2>&1 &
+          git show c989742:tests/source-guide-browser.cjs > tests/source-guide-before.cjs
+          if runuser -u pwuser -- node tests/source-guide-before.cjs > qa-artifacts/source-guide-red.log 2>&1; then
+            echo 'Expected original hidden-filter assertion to fail'
             exit 1
           fi
-          grep -q 'facetCounts is not defined' qa-artifacts/red-baseline.tap
-      - name: Verify implementation when ready
-        if: ${{ hashFiles('tests/facet-counts.test.cjs') != '' }}
+          grep -q 'closed guidance still describes the source filter' qa-artifacts/source-guide-red.log
+          kill $!
+      - name: Verify counts, empty recovery, source descriptions and reading journeys
         env:
-          NODE_PATH: ${{ runner.temp }}/facet-tools/node_modules
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
+          GUIDE_URL: http://127.0.0.1:8096/ai-agent-use-cases/
+          SITE_URL: http://127.0.0.1:8096/ai-agent-use-cases/
         run: |
-          node --test tests/facet-counts.test.cjs
-          python3 -m http.server 8096 --directory "$RUNNER_TEMP/facet-preview" > /tmp/facet-preview.log 2>&1 &
-          if [ "${{ github.ref }}" = refs/heads/fix/facet-acceptance ]; then FACET_BASELINE_SOURCE="$RUNNER_TEMP/facet-before.js" node tests/facet-rate-diagnostic.cjs; fi
-          node tests/facet-counts-browser.cjs
-          READING_URL=http://127.0.0.1:8096/ai-agent-use-cases/ node tests/reading-flow-browser.cjs
-      - name: Verify published assets and journey
-        if: ${{ github.ref == 'refs/heads/main' }}
+          python3 -m http.server 8096 --directory "$RUNNER_TEMP/served" > /tmp/facet.log 2>&1 &
+          runuser -u pwuser -- node tests/facet-counts-browser.cjs
+          QA_OUT=qa-artifacts/preview-walk runuser -u pwuser -- node tests/reliability-observe.cjs
+          runuser -u pwuser -- node tests/source-guide-browser.cjs
+          QA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs
+      - name: Verify published release matches this commit
+        id: published-version
         env:
-          NODE_PATH: ${{ runner.temp }}/facet-tools/node_modules
+          PUBLISHED_BUILD: ${{ runner.temp }}/facet-published
+        run: node tests/published-version.cjs
+      - name: Verify published source bytes
+        if: steps.published-version.outputs.verified == 'true'
+        env:
+          PUBLISHED_BUILD: ${{ runner.temp }}/facet-published
+        run: python3 scripts/check_corpus_bundle.py "$PUBLISHED_BUILD"
+      - name: Verify the published site
+        if: github.ref == 'refs/heads/main'
+        env:
+          NODE_PATH: ${{ runner.temp }}/tools/node_modules
           FACET_URL: https://richardhan.github.io/ai-agent-use-cases/
+          GUIDE_URL: https://richardhan.github.io/ai-agent-use-cases/
+          GUIDE_OUTPUT: qa-artifacts/published-source-guide
+          GUIDE_PUBLISHED: '1'
         run: |
-          node <<'NODE'
-          const fs=require('node:fs');
-          (async()=>{
-            const files=['assets/app.js','assets/style.css','index.html'];
-            for(let i=0;i<90;i++){
-              const matches=await Promise.all(files.map(async file=>{
-                const r=await fetch(process.env.FACET_URL+(file==='index.html'?'':file)+'?facets='+process.env.GITHUB_SHA,{cache:'no-store'});
-                return r.ok&&await r.text()===fs.readFileSync(file,'utf8');
-              }));
-              if(matches.every(Boolean)){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
-              await new Promise(r=>setTimeout(r,3000));
-            }
-            throw Error('Published assets mismatch');
-          })().catch(e=>{console.error(e);process.exitCode=1});
-          NODE
           mkdir -p qa-artifacts/preview
-          mv qa-artifacts/after-* qa-artifacts/verification.json qa-artifacts/preview/
-          node tests/facet-counts-browser.cjs
+          mv qa-artifacts/after-* qa-artifacts/empty-* qa-artifacts/verification.json qa-artifacts/preview/
+          runuser -u pwuser -- node tests/facet-counts-browser.cjs
+          runuser -u pwuser -- node tests/source-guide-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

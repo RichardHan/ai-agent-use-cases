@@ -1,18 +1,23 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.RELATED_URL||'http://127.0.0.1:8088/ai-agent-use-cases/';
 const live=process.env.RELATED_LIVE==='1';
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  if(live){
   for(const path of ['assets/app.js','assets/reader.css']){
    let matched=false;
-   for(let i=0;i<60;i++){
+   for(let i=0;i<300;i++){
+    if(i>0&&i%6===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
     const response=await fetch(origin+path+'?related-qa='+Date.now(),{cache:'no-store'});
     if(response.ok&&await response.text()===fs.readFileSync(path,'utf8')){matched=true;break;}
     await new Promise(r=>setTimeout(r,5000));
    }
+   if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
    assert(matched,'Published asset matches commit: '+path);
   }
  }
@@ -61,7 +66,8 @@ const live=process.env.RELATED_LIVE==='1';
   await page.locator('.related-open').first().click();await page.keyboard.press('Escape');
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
   assert.deepEqual(await page.locator('#results .card').evaluateAll(es=>es.map(e=>e.dataset.caseId)),resultIDs);
-  assert(await page.locator('#results .card .card-bottom button').first().evaluate(n=>n===document.activeElement));
+  assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),suggestions[0],
+    'closing a related case returns to its result card');
   // Live smoke uses two corpus loads per viewport; boundary repetitions stay on preview.
   if(live){
    await page.goto(origin+'?case=UC-005',{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();
@@ -112,8 +118,8 @@ const live=process.env.RELATED_LIVE==='1';
   const waiting=new Promise(resolve=>release=resolve);
   await page.route('**/catalog.json',r=>r.fulfill({json:{files:['cases/a.md','cases/b.md']}}));
   const fixture=id=>'# UC-'+id+'：測試用案例（合成資料）\n\n- 分類：測試主題\n- 情境：生活\n- 標籤：測試\n- 來源證據：自設未測\n\n## 方法\n\n僅供自動驗收。';
-  await page.route('**/cases/a.md',r=>r.fulfill({body:fixture('991')}));
-  await page.route('**/cases/b.md',async r=>{
+  await sourceRoute(page,'**/cases/a.md',r=>r.fulfill({body:fixture('991')}));
+  await sourceRoute(page,'**/cases/b.md',async r=>{
    if(!recovered)return r.fulfill({status:503,body:'test unavailable'});
    await waiting;await r.fulfill({body:fixture('992')});
   });

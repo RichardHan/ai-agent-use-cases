@@ -1,0 +1,14 @@
+[
+  {
+    "mode": "loading",
+    "passed": true
+  },
+  {
+    "mode": "error",
+    "passed": true
+  },
+  {
+    "mode": "partial",
+    "passed": true
+  }
+]

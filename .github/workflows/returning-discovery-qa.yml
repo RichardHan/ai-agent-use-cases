@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
@@ -60,8 +60,20 @@ jobs:
         run: |
           node - <<'JS'
           const fs=require('node:fs');
-          (async()=>{for(const file of ['index.html','assets/app.js','assets/reader.css']){const response=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?position='+process.env.GITHUB_SHA);if(!response.ok||await response.text()!==fs.readFileSync(file,'utf8'))throw Error('Published mismatch: '+file);}})().catch(e=>{console.error(e);process.exit(1)});
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
+          (async()=>{
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}for(const file of ['index.html','assets/app.js','assets/reader.css']){const response=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?position='+process.env.GITHUB_SHA);if(!response.ok||await response.text()!==fs.readFileSync(file,'utf8'))throw Error('Published mismatch: '+file);}})().catch(e=>{console.error(e);process.exit(1)});
           JS
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           node tests/reader-position-browser.cjs
       - name: Existing reader regression
         if: github.ref != 'refs/heads/verify/returning-discovery-20261022'

@@ -33,7 +33,7 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
    for(const item of cases){
     const body=document.createElement('div');body.innerHTML='<section class="plain-overview"></section><details class="research-details"><summary>完整研究</summary></details>';
     const markdown=renderMarkdown(item.markdown,item.path);body.querySelector('details').append(markdown);
-    const original=markdown.innerHTML,headings=[...markdown.querySelectorAll('h2,h3')];
+    const original=markdown.cloneNode(true),headings=[...markdown.querySelectorAll('h2,h3')];
     const expected=new Set();let target='reader-source-meta';
     for(const block of markdown.children){
      if(/^H[23]$/.test(block.tagName)){
@@ -52,8 +52,25 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
      if(id!=='reader-source-meta'&&button.firstChild.textContent!==node.textContent)throw Error(item.id+' changed title');
      if(button.querySelector('img,script'))throw Error(item.id+' unsafe title');
     }
-    const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return,.reader-copy').forEach(n=>n.remove());clean.querySelectorAll('h2,h3').forEach(n=>{n.removeAttribute('id');n.removeAttribute('tabindex');});
-    if(clean.innerHTML!==original)throw Error(item.id+' original research changed');
+    const clean=markdown.cloneNode(true);clean.querySelectorAll('.reader-return,.reader-copy').forEach(n=>n.remove());
+    const originalNodes=[...original.querySelectorAll('*')],cleanNodes=[...clean.querySelectorAll('*')];
+    cleanNodes.forEach((node,index)=>{
+     const baseline=originalNodes[index];
+     for(const attribute of ['id','tabindex']){
+      if(baseline?.hasAttribute(attribute))node.setAttribute(attribute,baseline.getAttribute(attribute));
+      else node.removeAttribute(attribute);
+     }
+    });
+    const originalTables=[...original.querySelectorAll('.markdown-table')];
+    clean.querySelectorAll('.markdown-table').forEach((table,index)=>{
+     const originalTable=originalTables[index],originalInner=originalTable?.querySelector('table'),inner=table.querySelector('table');
+     for(const [target,baseline] of [[table,originalTable],[inner,originalInner]]){
+      if(!target||!baseline)continue;
+      if(baseline.hasAttribute('aria-label'))target.setAttribute('aria-label',baseline.getAttribute('aria-label'));
+      else target.removeAttribute('aria-label');
+     }
+    });
+    if(clean.innerHTML!==original.innerHTML)throw Error(item.id+' original research changed');
     if(!expected.size&&body.querySelector('.reader-review'))throw Error(item.id+' empty index visible');
     totalCandidates+=buttons.length;
     if(['UC-005','UC-067','UC-024','UC-338','no-headings','literal-duplicate'].includes(item.id))examples.push({id:item.id,candidates:buttons.length,titles:buttons.map(b=>b.textContent)});
@@ -75,6 +92,12 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
   assert(r.reviewCount>1);assert(!(await page.locator('.reader-review').evaluate(e=>e.open)));
   const summary=page.locator('.reader-review > summary');await summary.focus();await page.keyboard.press('Enter');assert(await page.locator('.reader-review').evaluate(e=>e.open));await frame(summary);await shot('expanded');
   assert.match(await page.locator('.reader-review').innerText(),/不是獨立驗證/);
+  const indexed=page.locator('.reader-review-link').filter({hasText:'Reddit'}).first();
+  assert.match(await indexed.innerText(),/reddit\.com/);
+  assert.match(await indexed.getAttribute('href'),/^https:\/\/www\.reddit\.com\//);
+  assert.equal(await indexed.getAttribute('target'),'_blank');
+  assert.equal(await indexed.getAttribute('rel'),'noopener noreferrer');
+  assert.match(await page.locator('.reader-review-note').innerText(),/性質未判定/);
   const later=page.locator('.reader-review-jump').filter({hasText:'Grok Bot貨運版本'});assert.equal(await later.count(),1);await frame(later);await shot('later-index');
   const target=await later.getAttribute('aria-controls'),url=page.url();await later.focus();await page.keyboard.press('Enter');assert.equal(page.url(),url);assert.equal(await page.evaluate(()=>document.activeElement.id),target);
   const bounds=await page.evaluate(id=>({top:document.getElementById(id).getBoundingClientRect().top,toolbarBottom:document.querySelector('.detail-toolbar').getBoundingClientRect().bottom}),target);assert(bounds.top>=bounds.toolbarBottom);assert(bounds.top<height);
@@ -88,6 +111,47 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
   const controls=await page.locator('.reader-review-jump').evaluateAll(es=>es.map(e=>({id:e.getAttribute('aria-controls'),height:e.getBoundingClientRect().height,exists:!!document.getElementById(e.getAttribute('aria-controls'))})));assert(controls.every(e=>e.exists&&e.height>=44));r.controls=controls;
   await page.reload();await page.locator('#detail[open]').waitFor();await ready();assert.equal(page.url(),url);await page.locator('#close-detail').click();assert.equal(new URL(page.url()).searchParams.has('case'),false);
  }
+ // Long source index: find by original title, link text, or domain without losing any links.
+ await page.goto(origin+'?case=UC-054');await page.locator('#detail[open]').waitFor();await ready();
+ if(!observe){
+  await page.locator('.reader-review > summary').click();
+  const rows=page.locator('.reader-review-list > li'),originalCount=await rows.count();
+  assert(originalCount>=12);
+  assert.equal(await page.locator('.reader-review-list > li > details').count(),originalCount);
+  assert.equal(await page.locator('.reader-review-list > li > details[open]').count(),0);
+  const firstSummary=page.locator('.reader-review-list > li > details > summary').first();
+  assert.match(await firstSummary.innerText(),/原文連結/);
+  await firstSummary.click();
+  assert.equal(await page.locator('.reader-review-list > li > details[open]').count(),1);
+  assert(await page.locator('.reader-review-jump').first().isVisible());
+  await firstSummary.click();
+  await firstSummary.click();
+  await page.locator('#nav-next-case').click();await page.goBack();
+  await page.locator('#detail[open] .reader-review-row[open]').waitFor();
+  assert.equal(await page.locator('.reader-review-find').inputValue(),'');
+  assert.equal(await page.locator('.reader-review-row[open]').count(),1);
+  assert(await page.locator('.reader-review-row[open] .reader-review-link').first().isVisible());
+  const urls=await page.locator('.reader-review-link').evaluateAll(es=>es.map(e=>e.href));
+  const find=page.locator('.reader-review-find');await find.fill('youtube.com');
+  assert(await rows.filter({visible:true}).count()>0);
+  assert(await rows.filter({visible:true}).count()<originalCount);
+  assert((await page.locator('.reader-review-status').innerText()).includes('段'));
+  await find.fill('nothing-matches-98765');
+  assert.equal(await rows.filter({visible:true}).count(),0);
+  assert.match(await page.locator('.reader-review-status').innerText(),/找不到/);
+  await page.locator('.reader-review-clear').click();
+  assert.equal(await rows.filter({visible:true}).count(),originalCount);
+  assert.deepEqual(await page.locator('.reader-review-link').evaluateAll(es=>es.map(e=>e.href)),urls);
+  assert(await find.evaluate(e=>e===document.activeElement));
+  await find.fill('github.com');
+  await page.locator('#nav-next-case').click();await page.goBack();
+  await page.locator('#detail[open] .reader-review-find').waitFor();
+  assert.equal(await page.locator('.reader-review-find').inputValue(),'github.com');
+  assert(await page.locator('.reader-review').evaluate(e=>e.open));
+  assert(await page.locator('.reader-review-list > li').filter({visible:true}).count()<await page.locator('.reader-review-list > li').count());
+  assert(await page.locator('.reader-review-list > li').filter({visible:true}).evaluateAll(es=>es.every(e=>e.textContent.toLowerCase().includes('github.com'))));
+  await audit('long source lookup');
+ }
  // 3. Unlinked evidence gap, long research, and literal unsafe-looking heading rendering.
  await page.goto(origin+'?case=UC-338');await page.locator('#detail[open]').waitFor();await ready();
  if(!observe){
@@ -96,6 +160,8 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
   for(const id of ['UC-005','UC-067']){
    await page.evaluate(id=>showDetail(matchCase(id),null,false),id);
    await page.locator('.reader-review > summary').click();
+   const lastRow=page.locator('.reader-review-list > li').last();
+   if(await lastRow.locator('details').count())await lastRow.locator('summary').click();
    if(id==='UC-005'){await frame(page.locator('.reader-review-jump').nth((await page.locator('.reader-review-jump').count())-4));await shot('long-index');}
    const last=page.locator('.reader-review-jump').last(),destination=await last.getAttribute('aria-controls');
    await last.focus();await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),destination);
@@ -111,6 +177,7 @@ const save=()=>fs.writeFileSync(`${output}/${observe?'before':'verification'}.js
    assert.equal(await page.locator('.reader-review').count(),fixture.count?1:0,fixture.name);
    assert.equal(await page.locator('.reader-review-jump').count(),fixture.count,fixture.name);
    assert.equal(await page.locator('.reader-review-jump img,.reader-review-jump script').count(),0);
+   assert.equal(await page.locator('.reader-review-link').count(),fixture.name==='headingless plain'?0:1);
    if(fixture.target){
     await page.locator('.reader-review > summary').click();const button=page.locator('.reader-review-jump').last();
     assert.equal(await button.getAttribute('aria-controls'),fixture.target);

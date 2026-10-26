@@ -3,6 +3,7 @@ on:
   push:
     branches: [improve/reader-source-context, fix/shared-reading-complete-layout, main]
     paths: ['tests/round*', '.github/workflows/round-qa.yml', 'assets/**', 'index.html']
+  workflow_dispatch:
 concurrency:
   group: improvement-round-${{ github.ref }}
   cancel-in-progress: true
@@ -10,8 +11,8 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
-    timeout-minutes: 18
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -60,19 +61,34 @@ jobs:
           NODE_PATH: ${{ runner.temp }}/round-tools/node_modules
           ROUND_URL: https://richardhan.github.io/ai-agent-use-cases/
           ROUND_OUTPUT: qa-artifacts/round-published
+          ROUND_PUBLISHED: '1'
         run: |
           node <<'NODE'
           const fs=require('node:fs');
+          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
           (async()=>{
-           for(let i=0;i<90;i++){
+          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+           for(let attempt=0;attempt<300;attempt++){
+            if(attempt > 0 && attempt % 15 === 0 && !isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
             const paths=['assets/app.js','assets/reader.css'];
             const matches=await Promise.all(paths.map(async path=>{const r=await fetch(process.env.ROUND_URL+path+'?round='+process.env.GITHUB_SHA,{cache:'no-store'});return r.ok&&await r.text()===fs.readFileSync(path,'utf8');}));
             if(matches.every(Boolean)){fs.writeFileSync('qa-artifacts/round-published-assets.json',JSON.stringify({sha:process.env.GITHUB_SHA,paths,matched:true}));return;}
             await new Promise(resolve=>setTimeout(resolve,3000));
            }
-           throw Error('Published assets differ');
+           if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+           throw Error('Published assets differ after 300 attempts at three-second intervals');
           })().catch(e=>{console.error(e);process.exitCode=1});
           NODE
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           node tests/round-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

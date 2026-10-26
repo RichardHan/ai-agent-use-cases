@@ -1,0 +1,13 @@
+AssertionError [ERR_ASSERTION]: 44px target: {"text":"生活","width":36,"height":24.5,"font":10}
+    at check (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/card-targets-browser.cjs:13:73)
+    at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/card-targets-browser.cjs:19:3
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at process.processImmediate (node:internal/timers:452:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

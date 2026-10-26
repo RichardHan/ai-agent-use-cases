@@ -1,0 +1,77 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "requests": {
+      "cases/001-travel-checkout.md": 4
+    },
+    "elapsedMs": 974,
+    "corpus": {
+      "total": 441,
+      "failed": []
+    },
+    "resultText": "顯示 15 / 441 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "axe": []
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "requests": {
+      "cases/001-travel-checkout.md": 4
+    },
+    "elapsedMs": 882,
+    "corpus": {
+      "total": 441,
+      "failed": []
+    },
+    "resultText": "顯示 15 / 441 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "axe": []
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "requests": {
+      "cases/001-travel-checkout.md": 4
+    },
+    "elapsedMs": 846,
+    "corpus": {
+      "total": 441,
+      "failed": []
+    },
+    "resultText": "顯示 15 / 441 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "axe": []
+  },
+  {
+    "label": "firefox-390",
+    "errors": [],
+    "requests": {
+      "cases/001-travel-checkout.md": 4
+    },
+    "elapsedMs": 1579,
+    "corpus": {
+      "total": 441,
+      "failed": []
+    },
+    "resultText": "顯示 15 / 441 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "axe": []
+  },
+  {
+    "label": "webkit-390",
+    "errors": [],
+    "requests": {
+      "cases/001-travel-checkout.md": 4
+    },
+    "elapsedMs": 1971,
+    "corpus": {
+      "total": 441,
+      "failed": []
+    },
+    "resultText": "顯示 15 / 441 筆收錄",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "axe": []
+  }
+]

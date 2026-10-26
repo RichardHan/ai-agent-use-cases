@@ -1,0 +1,14 @@
+{
+  "assets/style.css": {
+    "beforeBytes": 33121,
+    "afterBytes": 33209,
+    "deltaBytes": 88,
+    "gzipDeltaBytes": 47
+  },
+  "assets/app.js": {
+    "beforeBytes": 167572,
+    "afterBytes": 167754,
+    "deltaBytes": 182,
+    "gzipDeltaBytes": 44
+  }
+}

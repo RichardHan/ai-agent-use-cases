@@ -1,0 +1,59 @@
+✖ slow recovery reports successful progress while keeping existing results usable (28.221291ms)
+✖ stop keeps completed recovery and exact failed paths, then permits another retry (4.770667ms)
+✖ completion and stop do not steal focus from a reader who moved elsewhere (3.489416ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15079.966667
+
+✖ failing tests:
+
+test at tests/recovery-progress.test.cjs:16:1
+✖ slow recovery reports successful progress while keeping existing results usable (28.221291ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /已處理 1 \/ 2 個來源，成功讀取 1 個/. Input:
+  
+  '還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。'
+  
+      at TestContext.<anonymous> (/private/tmp/ai-reliable-corpus-20261023/tests/recovery-progress.test.cjs:17:59)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。',
+    expected: /已處理 1 \/ 2 個來源，成功讀取 1 個/,
+    operator: 'match'
+  }
+
+test at tests/recovery-progress.test.cjs:20:1
+✖ stop keeps completed recovery and exact failed paths, then permits another retry (4.770667ms)
+  evalmachine.<anonymous>:1
+  stopSourceRecovery()
+  ^
+  
+  ReferenceError: stopSourceRecovery is not defined
+      at evalmachine.<anonymous>:1:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at Object.stop (/private/tmp/ai-reliable-corpus-20261023/tests/recovery-progress.test.cjs:13:167)
+      at TestContext.<anonymous> (/private/tmp/ai-reliable-corpus-20261023/tests/recovery-progress.test.cjs:21:99)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+
+test at tests/recovery-progress.test.cjs:25:1
+✖ completion and stop do not steal focus from a reader who moved elsewhere (3.489416ms)
+  evalmachine.<anonymous>:1
+  stopSourceRecovery()
+  ^
+  
+  ReferenceError: stopSourceRecovery is not defined
+      at evalmachine.<anonymous>:1:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at Object.stop (/private/tmp/ai-reliable-corpus-20261023/tests/recovery-progress.test.cjs:13:167)
+      at TestContext.<anonymous> (/private/tmp/ai-reliable-corpus-20261023/tests/recovery-progress.test.cjs:26:91)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7)

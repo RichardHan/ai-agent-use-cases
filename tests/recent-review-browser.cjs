@@ -30,10 +30,21 @@ async function audit(page,report,label){
  report.audits.push({label,violations:scan.violations});assert.equal(scan.violations.length,0);
 }
 async function order(page){
- const actual=await page.locator('#results .card').evaluateAll(cards=>cards.map(c=>c.dataset.caseId));
+ let actual=await page.locator('#results .card').evaluateAll(cards=>cards.map(c=>c.dataset.caseId));
  const matchingIDs=await page.evaluate(()=>filterEntries(entries,tokenize($('query').value),Object.fromEntries(['kind','tool','category','proof','scenario'].map(id=>[id,$(id).value]))).map(e=>e.id).sort());
- assert.deepEqual([...actual].sort(),matchingIDs,'sorting preserves every matching ID exactly once');
  const expected=await page.evaluate(()=>orderEntries(filterEntries(entries,tokenize($('query').value),Object.fromEntries(['kind','tool','category','proof','scenario'].map(id=>[id,$(id).value]))),tokenize($('query').value),'reviewed').map(e=>e.id));
+ // Results mount in batches. Exercise the reader's load-more action before
+ // checking the complete corpus, and verify ordering at every batch boundary.
+ const more=page.locator('#load-more-results');
+ assert.deepEqual(actual,expected.slice(0,actual.length),'the visible batch follows reviewed order');
+ while(await more.isVisible()){
+  const previousCount=actual.length;
+  await more.click();
+  actual=await page.locator('#results .card').evaluateAll(cards=>cards.map(c=>c.dataset.caseId));
+  assert(actual.length>previousCount,'load more appends results');
+  assert.deepEqual(actual,expected.slice(0,actual.length),'each appended batch preserves reviewed order');
+ }
+ assert.deepEqual([...actual].sort(),matchingIDs,'sorting preserves every matching ID exactly once');
  assert.deepEqual(actual,expected);
  // Independently check dates descend, including unknown dates at the end.
  const dates=await page.locator('#results .review-date').evaluateAll(nodes=>nodes.map(n=>n.querySelector('time')?.dateTime||''));
@@ -85,6 +96,11 @@ async function order(page){
      await read.click();
      const secondID=await page.locator('#results .card').nth(1).getAttribute('data-case-id');
      await page.locator('#nav-next-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),secondID);
+     await page.keyboard.press('Escape');
+     assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),secondID,
+       'closing after next returns to the case currently read');
+     await read.click();
+     await page.locator('#nav-next-case').click();
      await page.locator('#nav-prev-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),firstID);
      await page.keyboard.press('Escape');
      assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),firstID);

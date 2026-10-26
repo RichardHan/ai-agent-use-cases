@@ -1,0 +1,245 @@
+[
+  {
+    "engine": "chromium",
+    "checks": [
+      {
+        "flow": "selected-passage",
+        "event": {
+          "key": "ArrowLeft",
+          "prevented": false
+        },
+        "selectionAfter": {
+          "collapsed": false,
+          "text": "把日期、預算與需求交給 AI，整理幾組可比較的旅行方案。",
+          "rangeCount": 1
+        }
+      },
+      {
+        "flow": "selected-passage",
+        "event": {
+          "key": "ArrowRight",
+          "prevented": false
+        },
+        "selectionAfter": {
+          "collapsed": false,
+          "text": "把日期、預算與需求交給 AI，整理幾組可比較的旅行方案。",
+          "rangeCount": 1
+        }
+      },
+      {
+        "flow": "normal-arrow-navigation",
+        "next": "UC-139",
+        "returned": "UC-001"
+      },
+      {
+        "flow": "selected-enter-button",
+        "selectedAtEnter": {
+          "collapsed": false,
+          "text": "規劃旅行，先把交通和住宿比清楚",
+          "rangeCount": 1
+        },
+        "afterEnter": {
+          "collapsed": true,
+          "text": "",
+          "rangeCount": 1
+        },
+        "arrowRestored": true
+      },
+      {
+        "flow": "selected-pointer-button",
+        "afterPointer": {
+          "collapsed": true,
+          "text": "",
+          "rangeCount": 1
+        },
+        "arrowRestored": true
+      },
+      {
+        "flow": "selected-escape-reopen",
+        "afterEscape": {
+          "selection": {
+            "collapsed": false,
+            "text": "",
+            "rangeCount": 1
+          },
+          "focus": "results-count"
+        },
+        "reopenedSelection": {
+          "collapsed": true,
+          "text": "",
+          "rangeCount": 1
+        },
+        "arrowRestored": true
+      },
+      {
+        "flow": "search-caret",
+        "position": 1
+      }
+    ],
+    "pageErrors": [],
+    "passed": true,
+    "elapsedMs": 1162
+  },
+  {
+    "engine": "firefox",
+    "checks": [
+      {
+        "flow": "selected-passage",
+        "event": {
+          "key": "ArrowLeft",
+          "prevented": false
+        },
+        "selectionAfter": {
+          "collapsed": false,
+          "text": "把日期、預算與需求交給 AI，整理幾組可比較的旅行方案。",
+          "rangeCount": 1
+        }
+      },
+      {
+        "flow": "selected-passage",
+        "event": {
+          "key": "ArrowRight",
+          "prevented": false
+        },
+        "selectionAfter": {
+          "collapsed": false,
+          "text": "把日期、預算與需求交給 AI，整理幾組可比較的旅行方案。",
+          "rangeCount": 1
+        }
+      },
+      {
+        "flow": "normal-arrow-navigation",
+        "next": "UC-139",
+        "returned": "UC-001"
+      },
+      {
+        "flow": "selected-enter-button",
+        "selectedAtEnter": {
+          "collapsed": false,
+          "text": "規劃旅行，先把交通和住宿比清楚",
+          "rangeCount": 1
+        },
+        "afterEnter": {
+          "collapsed": true,
+          "text": "",
+          "rangeCount": 1
+        },
+        "arrowRestored": true
+      },
+      {
+        "flow": "selected-pointer-button",
+        "afterPointer": {
+          "collapsed": true,
+          "text": "",
+          "rangeCount": 1
+        },
+        "arrowRestored": true
+      },
+      {
+        "flow": "selected-escape-reopen",
+        "afterEscape": {
+          "selection": {
+            "collapsed": true,
+            "text": "",
+            "rangeCount": 1
+          },
+          "focus": "results-count"
+        },
+        "reopenedSelection": {
+          "collapsed": true,
+          "text": "",
+          "rangeCount": 1
+        },
+        "arrowRestored": true
+      },
+      {
+        "flow": "search-caret",
+        "position": 1
+      }
+    ],
+    "pageErrors": [],
+    "passed": true,
+    "elapsedMs": 5025
+  },
+  {
+    "engine": "webkit",
+    "checks": [
+      {
+        "flow": "selected-passage",
+        "event": {
+          "key": "ArrowLeft",
+          "prevented": false
+        },
+        "selectionAfter": {
+          "collapsed": false,
+          "text": "把日期、預算與需求交給 AI，整理幾組可比較的旅行方案。",
+          "rangeCount": 1
+        }
+      },
+      {
+        "flow": "selected-passage",
+        "event": {
+          "key": "ArrowRight",
+          "prevented": false
+        },
+        "selectionAfter": {
+          "collapsed": false,
+          "text": "把日期、預算與需求交給 AI，整理幾組可比較的旅行方案。",
+          "rangeCount": 1
+        }
+      },
+      {
+        "flow": "normal-arrow-navigation",
+        "next": "UC-139",
+        "returned": "UC-001"
+      },
+      {
+        "flow": "selected-enter-button",
+        "selectedAtEnter": {
+          "collapsed": false,
+          "text": "規劃旅行，先把交通和住宿比清楚",
+          "rangeCount": 1
+        },
+        "afterEnter": {
+          "collapsed": true,
+          "text": "",
+          "rangeCount": 0
+        },
+        "arrowRestored": true
+      },
+      {
+        "flow": "selected-pointer-button",
+        "afterPointer": {
+          "collapsed": true,
+          "text": "",
+          "rangeCount": 1
+        },
+        "arrowRestored": true
+      },
+      {
+        "flow": "selected-escape-reopen",
+        "afterEscape": {
+          "selection": {
+            "collapsed": false,
+            "text": "",
+            "rangeCount": 1
+          },
+          "focus": "results-count"
+        },
+        "reopenedSelection": {
+          "collapsed": true,
+          "text": "",
+          "rangeCount": 1
+        },
+        "arrowRestored": true
+      },
+      {
+        "flow": "search-caret",
+        "position": 1
+      }
+    ],
+    "pageErrors": [],
+    "passed": true,
+    "elapsedMs": 2785
+  }
+]

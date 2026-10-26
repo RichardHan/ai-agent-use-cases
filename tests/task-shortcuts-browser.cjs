@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
@@ -31,7 +32,8 @@ const out=process.env.QA_OUT||'qa-artifacts/after';fs.mkdirSync(out,{recursive:t
   for(const [id,value] of Object.entries({scenario:'工作',tool:'Grok Bot',sort:'reviewed'}))assert.equal(await page.locator('#'+id).inputValue(),value);
   const filtered=await page.evaluate(()=>currentFiltered.map(x=>x.id)),url=page.url();assert(filtered.length>0);assert.equal(new URL(url).searchParams.get('q'),'收件匣');
   const trigger=page.locator('#results .card .card-bottom button').first();const id=await trigger.evaluate(n=>n.closest('.card').dataset.caseId);await trigger.click();await page.locator('#detail[open]').waitFor();const direct=page.url();await shot('detail');
-  await page.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();const source=page.locator('.markdown a[href^="https:"]').first();row.source=(await source.getAttribute('href')).split('?')[0];
+  // Every entry has the complete research disclosure; the source-section shortcut is optional.
+  await page.locator('.research-details > summary').click();const source=page.locator('.research-details .markdown a[href^="https:"]').first();row.source=(await source.getAttribute('href')).split('?')[0];
   if(engine===chromium&&width===1440){const pending=page.waitForEvent('popup');await source.click();const popup=await pending;await popup.waitForLoadState('domcontentloaded',{timeout:15000}).catch(()=>{row.sourceTimedOut=true;});row.openedSource=popup.url().split('?')[0];await popup.close();}
   await page.keyboard.press('Escape');assert(await page.locator(`#results .card[data-case-id="${id}"] .card-bottom button`).evaluate(n=>n===document.activeElement));
   assert.deepEqual(await page.evaluate(()=>currentFiltered.map(x=>x.id)),filtered);
@@ -51,7 +53,7 @@ const out=process.env.QA_OUT||'qa-artifacts/after';fs.mkdirSync(out,{recursive:t
   const context=await browser.newContext({viewport:{width:390,height:900}}),page=await context.newPage();let release;const gate=new Promise(r=>release=r);
   if(mode==='loading')await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
   if(mode==='error')await page.route('**/catalog.json',route=>route.abort());
-  if(mode==='partial')await page.route('**/cases/001-travel-checkout.md',route=>route.abort());
+  if(mode==='partial')await sourceRoute(page,'**/cases/001-travel-checkout.md',route=>route.abort());
   await page.goto(base);if(mode==='error')await page.locator('#error').waitFor({state:'visible'});if(mode==='partial')await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
   await page.locator('#filter-options').evaluate(n=>n.open=true);const chip=page.locator('.chip[data-query="每日"]');await chip.click();
   if(mode==='partial'){await page.waitForFunction(()=>document.activeElement.id==='results-count');assert(await page.locator('#partial-load').isVisible());}

@@ -1,0 +1,21 @@
+[
+  {
+    "mode": "loading-early",
+    "loadingTitle": "載入中 · 搜尋「旅遊」｜AI 用法實驗室",
+    "earlyTitle": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+    "finalTitle": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+    "passed": true
+  },
+  {
+    "mode": "error",
+    "errorTitle": "載入失敗 · 搜尋「旅遊」｜AI 用法實驗室",
+    "finalTitle": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+    "passed": true
+  },
+  {
+    "mode": "partial",
+    "partialTitle": "已載入內容 · 搜尋「旅遊」｜AI 用法實驗室",
+    "finalTitle": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+    "passed": true
+  }
+]

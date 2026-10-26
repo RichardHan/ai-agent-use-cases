@@ -3,13 +3,17 @@ const {webkit,chromium,firefox}=require('playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.RETURN_URL||'http://127.0.0.1:8087/ai-agent-use-cases/';
 const published=!!process.env.RETURN_NATIVE;
+const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+if(published&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  fs.mkdirSync('qa-artifacts',{recursive:true});const reports=[];
  if(published){
-  for(let attempt=0;attempt<30;attempt++){
+  for(let attempt=0;attempt<301;attempt++){
+   if(attempt>0&&attempt%15===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
    const response=await fetch(origin+'assets/app.js?return-qa='+Date.now(),{cache:'no-store'});
    if(response.ok&&await response.text()===fs.readFileSync('assets/app.js','utf8'))break;
-   if(attempt===29)throw Error('Published return asset does not match checkout');
+   if(attempt===300&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+   if(attempt===300)throw Error('Published return asset does not match checkout within 25 minutes (301 attempts)');
    await new Promise(resolve=>setTimeout(resolve,5000));
   }
  }

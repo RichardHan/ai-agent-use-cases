@@ -1,6 +1,6 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-class Node{constructor(tag,text=''){this.tagName=tag.toUpperCase();this.children=[];this.textContent=text;}append(...nodes){this.children.push(...nodes);}}
+class Node{constructor(tag,text=''){this.tagName=tag.toUpperCase();this.children=[];this.textContent=text;}append(...nodes){this.children.push(...nodes);}setAttribute(name,value){this[name]=value;}}
 const context=vm.createContext({URL,document:{createElement:tag=>new Node(tag),createTextNode:text=>new Node('#text',text)}});
 vm.runInContext(fs.readFileSync(process.env.LIST_SOURCE||'assets/app.js','utf8').split('/* Browser event bindings. */')[0]+'\nthis.render=renderMarkdown;',context);
 const render=text=>context.render('# heading\n'+text,'cases/001-travel.md');

@@ -1,0 +1,88 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "requests": [
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/cases/001-travel-checkout.md",
+      "/ai-agent-use-cases/corpus.json"
+    ],
+    "errors": [],
+    "readyMs": 845,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "sourceRequests": [],
+    "fidelity": {
+      "same": true,
+      "files": 445,
+      "bytes": 2832322
+    },
+    "results": "顯示 16 / 447 筆收錄",
+    "axeReader": [],
+    "axeEmpty": [],
+    "arrival": {
+      "queryTop": 159.15625,
+      "resultsTop": 483.4375,
+      "focus": "search-title",
+      "filtersOpen": false
+    },
+    "directReloadPassed": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "requests": [
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/corpus.json",
+      "/ai-agent-use-cases/audit-summary.json",
+      "/ai-agent-use-cases/catalog.json",
+      "/ai-agent-use-cases/assets/copy.json",
+      "/ai-agent-use-cases/cases/001-travel-checkout.md",
+      "/ai-agent-use-cases/corpus.json"
+    ],
+    "errors": [],
+    "readyMs": 300,
+    "corpus": {
+      "total": 447,
+      "failed": []
+    },
+    "sourceRequests": [],
+    "fidelity": {
+      "same": true,
+      "files": 445,
+      "bytes": 2832322
+    },
+    "results": "顯示 16 / 447 筆收錄",
+    "axeReader": [],
+    "axeEmpty": [],
+    "arrival": {
+      "queryTop": 182.03125,
+      "resultsTop": 509.75,
+      "focus": "search-title",
+      "filtersOpen": false
+    },
+    "directReloadPassed": true
+  }
+]

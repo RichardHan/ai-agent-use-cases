@@ -32,6 +32,13 @@ test('context explains separate query terms, bounds density, and omits empty sea
  assert.equal(searchContext(e,[]).matches.length,0);
  assert.equal(searchContext(e,['不存在']).matches.length,0);
 });
+test('limitations and source-only excerpts carry a precise caution without claiming relevance',()=>{
+ const {searchContext}=api();
+ assert.equal(searchContext(entry('# 標題\n## 限制與權限\n不使用薪資資料'),['薪水']).matches[0].caution,'限制');
+ assert.equal(searchContext(entry('# 標題\n## 來源\nhttps://example.org/payroll-guide'),['薪水']).matches[0].caution,'來源');
+ assert.equal(searchContext(entry('# 標題\n## 方法\n整理薪資資料'),['薪水']).matches[0].caution,'');
+ assert.equal(searchContext(entry('',{title:'薪資整理'}),['薪水']).matches[0].caution,'');
+});
 test('excerpt preserves original Unicode, markup as text, and a bounded window around a late match',()=>{
  const {contextExcerpt}=api();
  const input='🙂'.repeat(300)+'不要把ＡＰＩ或ﬃ當成果。<img src=x onerror=alert(1)>'+'尾'.repeat(200);

@@ -1,0 +1,64 @@
+[
+  {
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "documentWidth": 1440,
+    "heroHeight": 841.765625,
+    "taskLinks": [
+      {
+        "label": "規劃旅行",
+        "top": 448.125,
+        "bottom": 492.125,
+        "height": 44,
+        "contrast": "8.16:1 computed from #285344 on #f7f8f2"
+      },
+      {
+        "label": "收件匣",
+        "top": 448.125,
+        "bottom": 492.125,
+        "height": 44,
+        "contrast": "8.16:1 computed from #285344 on #f7f8f2"
+      },
+      {
+        "label": "比價",
+        "top": 448.125,
+        "bottom": 492.125,
+        "height": 44,
+        "contrast": "8.16:1 computed from #285344 on #f7f8f2"
+      }
+    ],
+    "allTaskLinksVisibleInViewport": true
+  },
+  {
+    "viewport": "mobile",
+    "width": 390,
+    "height": 844,
+    "documentWidth": 390,
+    "heroHeight": 1461.390625,
+    "taskLinks": [
+      {
+        "label": "規劃旅行",
+        "top": 388.6875,
+        "bottom": 432.6875,
+        "height": 44,
+        "contrast": "8.16:1 computed from #285344 on #f7f8f2"
+      },
+      {
+        "label": "收件匣",
+        "top": 388.6875,
+        "bottom": 432.6875,
+        "height": 44,
+        "contrast": "8.16:1 computed from #285344 on #f7f8f2"
+      },
+      {
+        "label": "比價",
+        "top": 388.6875,
+        "bottom": 432.6875,
+        "height": 44,
+        "contrast": "8.16:1 computed from #285344 on #f7f8f2"
+      }
+    ],
+    "allTaskLinksVisibleInViewport": true
+  }
+]

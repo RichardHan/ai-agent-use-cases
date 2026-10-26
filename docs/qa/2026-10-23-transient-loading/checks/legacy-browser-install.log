@@ -1,0 +1,13 @@
+browser	Install browser QA tools on the GitHub runner	﻿2026-10-23T07:25:59.7984868Z ##[group]Run npm install --prefix "$RUNNER_TEMP/browser-tools" playwright@1.56.1 @axe-core/playwright@4.10.2
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:25:59.7985744Z ^[[36;1mnpm install --prefix "$RUNNER_TEMP/browser-tools" playwright@1.56.1 @axe-core/playwright@4.10.2^[[0m
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:25:59.7986441Z ^[[36;1m"$RUNNER_TEMP/browser-tools/node_modules/.bin/playwright" install --with-deps chromium^[[0m
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:25:59.7986940Z ^[[36;1msudo apt-get install -y fonts-noto-cjk^[[0m
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:25:59.8218045Z shell: /usr/bin/bash -e {0}
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:25:59.8218357Z ##[endgroup]
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:26:03.4732977Z
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:26:03.4740707Z added 5 packages in 4s
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:26:04.0682349Z BEWARE: your OS is not officially supported by Playwright; installing dependencies for ubuntu26.04-x64 as a fallback.
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:26:04.0684549Z Cannot install dependencies for ubuntu26.04-x64 with Playwright 1.56.1!
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:26:04.0749786Z Failed to install browsers
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:26:04.0750335Z Error: ERROR: Playwright does not support chromium on ubuntu26.04-x64
+browser	Install browser QA tools on the GitHub runner	2026-10-23T07:26:04.0876869Z ##[error]Process completed with exit code 1.

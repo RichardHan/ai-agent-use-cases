@@ -21,12 +21,23 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   if(name!=='small-mobile')console.log('VISUAL:after-'+name+':'+fs.readFileSync('qa-artifacts/after-'+name+'.jpg').toString('base64'));
   // Journey 1: choose a need, draw without repeats, read and return using the keyboard.
   await page.locator('#guide-options [data-scenario="省錢"]').click();
-  if(width<=760)await page.waitForFunction(()=>{const r=document.getElementById('draw-title').getBoundingClientRect();return r.top>=0&&r.bottom<innerHeight;});
+  const drawnTitle=page.locator('#drawn-case h3 button');
+  assert(await drawnTitle.evaluate(node=>node===document.activeElement),'explicit scenario hands off to the readable card');
+  const titleRect=await drawnTitle.boundingBox();
+  assert(titleRect.y>=0&&(titleRect.height<=height-48?titleRect.y+titleRect.height<=height:titleRect.y+80<=height));
   assert.equal(await page.locator('#scenario').inputValue(),'省錢');
   assert.equal(await page.locator('#guide-options [data-scenario="省錢"]').getAttribute('aria-pressed'),'true');
   const first=await page.locator('#drawn-case h3').innerText();
   await page.locator('#draw-case').click();
   assert.notEqual(await page.locator('#drawn-case h3').innerText(),first);
+  const diffBtn=page.locator('#draw-difficulty-options [data-difficulty="入門對話"]');
+  await diffBtn.click();
+  assert.equal(await page.locator('#difficulty').inputValue(),'入門對話');
+  assert.equal(await diffBtn.getAttribute('aria-pressed'),'true');
+  assert.match(await page.locator('#draw-status').innerText(),/免寫程式/);
+  assert.equal(await page.locator('#drawn-case .card-difficulty').innerText(),'入門對話');
+  await page.locator('#draw-difficulty-options [data-difficulty=""]').click();
+  assert.equal(await page.locator('#difficulty').inputValue(),'');
   const read=page.locator('#drawn-case .card-bottom button');
   await read.focus();await page.keyboard.press('Enter');
   await page.locator('#detail[open]').waitFor();
@@ -61,6 +72,21 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   // Journey 2: combine search and filters, recover from no results.
   await ensureFiltersVisible(page);
   await page.locator('#reset').click();
+  if(name!=='desktop'){
+    await page.locator('#query').fill('規劃旅行');
+    await page.locator('#scenario').selectOption('工作');
+    assert.match(await page.locator('#filter-outcome-count').innerText(),/沒有符合結果/);
+    const outcome=await page.locator('.filter-outcome').boundingBox();
+    const scenario=await page.locator('#scenario').boundingBox();
+    assert(outcome.y>=0&&outcome.y+outcome.height<scenario.y,'outcome remains visible above the active facet');
+    await page.locator('#filter-view-results').click();
+    assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
+    assert.equal(await page.locator('#empty').isVisible(),true);
+    await page.locator('#empty-suggestions .recovery-option').first().click();
+    assert((await page.locator('#results .card').count())>0);
+    await ensureFiltersVisible(page);
+    await page.locator('#reset').click();
+  }
   await page.locator('#query').fill('旅遊');
   await ensureFiltersVisible(page);
   await page.locator('#scenario').selectOption('生活');

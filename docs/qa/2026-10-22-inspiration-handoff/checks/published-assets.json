@@ -1,0 +1,14 @@
+[
+  {
+    "path": "index.html",
+    "sha256": "20df68c19e486aeeb7a89777c4449429796bb8b19304815c0edfc89b5a613185"
+  },
+  {
+    "path": "assets/app.js",
+    "sha256": "54b47582897fd9ece42939c32d28aa735997f67ed2a0b61bf96812e5643df91f"
+  },
+  {
+    "path": "assets/style.css",
+    "sha256": "79a63ad11b202fbe7a4304364c65141c03a0b695256c1fa9b0d94c66ede5507d"
+  }
+]

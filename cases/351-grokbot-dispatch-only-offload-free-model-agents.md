@@ -114,3 +114,16 @@
 - 2026-10-19 17:40 批次併入來源B（@fankaishuoai／robbin/grokbot-local-agent）：同樣是「Bot 只調度、重活交給雲端電腦上的另一個代理」以省額度，差別是補上工作編號、webhook 叫醒與漏通知補報的機制；核心目標相同，不另立案。同作者另一個 agent-relay（雲端 Bot ↔ 使用者本機代理經私有 Git 交接）目標不同，另立[UC-353](353-cloud-local-agent-git-task-relay.md)。
 - 2026-10-21 11:47 批次併入來源C（@_ketsana）：同為「Grok Bot 只調度、重活外包」以省額度，補上外部 CLI 以 webhook 回報及每日／每週 routine 稽核；不另立案。
 - 2026-10-21 14:40 批次併入來源D（PaiOurs，note）：同為「Grok Bot 當窗口、重活交 Claude Code／Codex」，補上本機非互動呼叫、雙帳號輪替與用量常駐顯示；不另立案。
+
+## 2026-10-23 來源E：先分暫時故障與需修碼，再把測試報告送回調度者
+
+- 作者／日期／語言：Reddit u/Arrival117，2026-10-23，英文；[可讀討論串](https://www.reddit.com/r/GrokBot/comments/1xd7kj0/grokbot_claude_code/)。本輪讀到該作者留言；[個別留言定位](https://www.reddit.com/r/GrokBot/comments/1xd7kj0/comment/19rj0lwfyr1fn/)另開未成功，因此以討論串為已讀依據，不宣稱獨立定位已核。
+- 作者自述日常使用：scraper 完成後以 webhook 交報告給 Grok Bot；Bot 先判斷暫時錯誤或需要改碼，後者交 Claude Code。修碼者認為完成後再試跑，測試報告返回 Bot 判斷是否繼續修復。這補足來源A–D未具體列明的「故障分流→外部修碼→測試回報」迴圈，仍併 UC351。
+- 證據限制：沒有公開逐次執行日誌、修復率、成本或前後用量，不能聲稱所有 scraper 已修好或節省多少。這是作者使用自述，不是本庫獨立驗證。
+- [Grok Bot 官方 routines 文件](https://docs.x.ai/grok-bot/skills-routines-and-automations)支持事件觸發與測試時應注意真實副作用；[核准與安全文件](https://docs.x.ai/grok-bot/approvals-security-and-privacy)支持敏感動作的核准界線。它們不證明此作者的 Claude 整合、webhook 接線或修復結果。各工具帳號、額度與費用分開，來源未提供可核總額。
+
+### 可貼的離線驗收指令（整理者自設，未實跑）
+
+只讀以下合成 scraper 報告、修碼摘要與測試輸出，不連網、不執行、不安裝工具。先區分暫時故障、需改碼、證據不足；改碼聲稱完成仍需對應同一工作ID的測試結果。列出是否通過既定驗收，缺結果時保持未完成，不無限重試。涉及外部資料傳送、正式環境變更或新增費用只列待核准事項。
+
+本補充不提供實際自動修碼或部署授權，不新增案例數。

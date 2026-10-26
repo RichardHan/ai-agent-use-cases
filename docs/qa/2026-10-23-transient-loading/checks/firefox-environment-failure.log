@@ -1,0 +1,6 @@
+2026-10-23T07:11:01.5528438Z browserType.launch: Failed to launch the browser process.
+2026-10-23T07:11:01.5538743Z   - [pid=4849][err] [4849] Sandbox: CanCreateUserNamespace() clone() failure: EPERM
+2026-10-23T07:11:01.5539621Z   - [pid=4849][err] Running Nightly as root in a regular user's session is not supported.  ($HOME is /github/home which is owned by pwuser.)
+2026-10-23T07:11:01.5564352Z     '  - [pid=4849][err] [4849] Sandbox: CanCreateUserNamespace() clone() failure: EPERM',
+2026-10-23T07:11:01.5573430Z     "  - [pid=4849][err] Running Nightly as root in a regular user's session is not supported.  ($HOME is /github/home which is owned by pwuser.)",
+2026-10-23T07:11:01.5848069Z ##[error]Process completed with exit code 1.

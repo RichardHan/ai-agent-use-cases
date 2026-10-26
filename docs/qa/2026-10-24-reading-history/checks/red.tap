@@ -1,0 +1,124 @@
+TAP version 13
+# Subtest: separate history visits to the same case never overwrite one another
+not ok 1 - separate history visits to the same case never overwrite one another
+  ---
+  duration_ms: 0.659167
+  type: 'test'
+  location: '/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Reading history must retain separate bounded visits
+    + actual - expected
+    
+    + 'object'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'object'
+  operator: 'strictEqual'
+  stack: |-
+    create (/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:6:29)
+    TestContext.<anonymous> (/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:9:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.start (node:internal/test_runner/test:878:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17)
+  ...
+# Subtest: changed source, query or case cannot restore a stale reading anchor
+not ok 2 - changed source, query or case cannot restore a stale reading anchor
+  ---
+  duration_ms: 0.091333
+  type: 'test'
+  location: '/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Reading history must retain separate bounded visits
+    + actual - expected
+    
+    + 'object'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'object'
+  operator: 'strictEqual'
+  stack: |-
+    create (/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:6:29)
+    TestContext.<anonymous> (/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:13:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3)
+  ...
+# Subtest: history stays bounded and a revisited snapshot stays among recent entries
+not ok 3 - history stays bounded and a revisited snapshot stays among recent entries
+  ---
+  duration_ms: 0.068291
+  type: 'test'
+  location: '/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:16:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Reading history must retain separate bounded visits
+    + actual - expected
+    
+    + 'object'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'object'
+  operator: 'strictEqual'
+  stack: |-
+    create (/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:6:29)
+    TestContext.<anonymous> (/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:17:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+# Subtest: a new page session has no stored reading state
+not ok 4 - a new page session has no stored reading state
+  ---
+  duration_ms: 0.054708
+  type: 'test'
+  location: '/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:20:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Reading history must retain separate bounded visits
+    + actual - expected
+    
+    + 'object'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'object'
+  operator: 'strictEqual'
+  stack: |-
+    create (/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:6:29)
+    TestContext.<anonymous> (/private/tmp/ai-reading-round-20261024-final/tests/reading-history.test.cjs:21:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:980:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+    Test.postRun (node:internal/test_runner/test:1091:19)
+    Test.run (node:internal/test_runner/test:1019:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:678:7)
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 0
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 49.516458

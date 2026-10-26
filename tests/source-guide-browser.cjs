@@ -1,4 +1,5 @@
 'use strict';
+const sourceRoute=require('./source-route.cjs');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
@@ -26,6 +27,8 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   assert.equal(row.hasGuide,1,'readers can inspect what source labels mean next to the results');
   assert(await page.locator('#source-type-note').isHidden(),'long explanations stay optional before reading results');
   if(engine===chromium&&width===1440){
+   await require('./filter-controls.cjs').ensureFiltersVisible(page);
+   assert(await page.locator('#proof').isVisible(),'the source filter is exposed before inspecting its accessibility description');
    const cdp=await context.newCDPSession(page);
    const {root}=await cdp.send('DOM.getDocument');
    const {nodeId}=await cdp.send('DOM.querySelector',{nodeId:root.nodeId,selector:'#proof'});
@@ -54,7 +57,7 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   // 1. Find an author's account, verify the full original label and source, return to the same card.
   const read=page.locator('#results .card[data-case-id="UC-001"] .card-bottom button');await read.focus();await page.keyboard.press('Enter');await page.locator('#detail[open]').waitFor();
   await page.locator('.research-details').evaluate(e=>e.open=true);
-  row.source=await page.locator('.detail-source').getAttribute('href');assert.match(row.source,/github.com\/RichardHan\/ai-agent-use-cases\/blob\/main\/cases\/001-/);
+  row.source=await page.locator('.detail-source').getAttribute('href');assert.match(row.source,/github.com\/RichardHan\/ai-agent-use-cases\/blob\/(?:main|[a-f0-9]{40})\/cases\/001-/);
   if(engine===chromium&&width===1440){const pending=page.waitForEvent('popup');await page.locator('.detail-source').click();const popup=await pending;await popup.waitForLoadState('domcontentloaded');row.openedSource=popup.url();await popup.close();const response=await context.request.get(row.source);row.sourceStatus=response.status();}
   await page.keyboard.press('Escape');assert(await read.evaluate(e=>e===document.activeElement));
   // 2. Official origin is explained even with zero matching results; reset updates the message.
@@ -63,7 +66,7 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   assert.match(await page.locator('#source-type-note').textContent(),/官方.*本庫未獨立重現/);assert(await page.locator('#empty').isVisible());
   await page.locator('#query').fill('no-source-guide-results-987654');assert(await page.locator('#empty').isVisible());await scan('empty');
   await page.locator('#empty-reset').click();assert.match(await page.locator('#source-type-note').textContent(),/不是.*驗證/);
-  assert.equal(await page.locator('#results .card').count(),expectedEntries);
+  assert.equal(await page.locator('#results-count').innerText(),`顯示 ${expectedEntries} / ${expectedEntries} 筆收錄`);
   // 3. Shared combined conditions and a long case survive reload and browser Back.
   await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot&proof='+encodeURIComponent('作者報告／示範')+'&case=UC-001');await ready();await page.locator('#detail[open]').waitFor();await page.reload();await ready();await page.locator('#detail[open]').waitFor();await page.locator('#close-detail').click();
   assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#proof').inputValue(),'作者報告／示範');assert.equal(await page.locator('#scenario').inputValue(),'生活');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');
@@ -79,7 +82,7 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   await page.route('**/catalog.json',async r=>{await gate;await r.continue();});
   await page.goto(base+'?proof='+encodeURIComponent('官方自報'),{waitUntil:'domcontentloaded'});
   await page.locator('#source-guide summary').click();assert(await page.locator('#source-guide').evaluate(e=>e.open));release();await page.waitForFunction(()=>discoveryReady);assert(await page.locator('#source-guide').evaluate(e=>e.open));
-  await page.route('**/cases/001-travel-checkout.md',r=>r.fulfill({status:503,body:'Unavailable'}));await page.reload();await page.waitForFunction(()=>discoveryReady);assert(await page.locator('#partial-load').isVisible());assert.match(await page.locator('#source-type-note').textContent(),/官方/);
+  await sourceRoute(page,'**/cases/001-travel-checkout.md',r=>r.fulfill({status:503,body:'Unavailable'}));await page.reload();await page.waitForFunction(()=>discoveryReady);assert(await page.locator('#partial-load').isVisible());assert.match(await page.locator('#source-type-note').textContent(),/官方/);
   await page.unroute('**/cases/001-travel-checkout.md');await page.locator('#retry-failed').click();await page.waitForFunction(()=>!recoveringSources);assert(await page.locator('#partial-load').isHidden());
   await page.evaluate(()=>{const value='未知來源 <img src=x onerror=alert(1)> '+ '長文字'.repeat(30);const option=document.createElement('option');option.value=value;option.textContent=value;document.getElementById('proof').append(option);document.getElementById('proof').value=value;render();});
   await page.locator('#source-guide').evaluate(e=>e.open=true);

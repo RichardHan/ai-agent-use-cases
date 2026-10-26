@@ -9,7 +9,7 @@ const report=[];
 async function capture(page,name){
  const path='qa-artifacts/'+name+'.jpg';
  await page.screenshot({path,type:'jpeg',quality:75});
- console.log('VISUAL:'+name+':'+fs.readFileSync(path).toString('base64'));
+ console.log('CAPTURED:'+name+':'+path);
 }
 (async()=>{
  for(const [engine,width,height] of [[chromium,1440,1000],[chromium,390,844],[chromium,320,740],[firefox,390,844],[webkit,390,844]]){
@@ -23,6 +23,54 @@ async function capture(page,name){
   const row={engine:engine.name(),width,height,entry:rect,queryBefore:await page.locator('#query').boundingBox()};
   if(engine===chromium&&width!==320)await capture(page,'entry-'+(observe?'before':'after')+'-'+width);
   if(observe){report.push(row);await browser.close();continue;}
+  const taskLinks=page.locator('.hero-task-examples [data-task-entry]');
+  assert.equal(await taskLinks.count(),3,'homepage exposes three evidence-backed task searches');
+  for(const link of await taskLinks.all()){
+   const rect=await link.boundingBox();
+   assert(rect&&rect.y>=0&&rect.y+rect.height<=height,'task examples stay in the initial viewport');
+   assert(rect.height>=44,'task examples have a 44px touch target');
+  }
+  const taskExamples=await taskLinks.evaluateAll(nodes=>nodes.map(node=>({label:node.innerText.trim(),href:node.getAttribute('href')})));
+  if(engine===webkit){
+   await taskLinks.first().focus();
+   assert(await taskLinks.first().evaluate(node=>node.tagName==='A'&&node.tabIndex>=0&&node.matches(':focus-visible')&&getComputedStyle(node).outlineWidth==='3px'),'task links expose a visible focus style ('+engine.name()+' '+width+'px)');
+  }else{
+   for(let step=0;step<32;step++){
+    if(await taskLinks.first().evaluate(node=>node===document.activeElement))break;
+    await page.keyboard.press('Tab');
+   }
+   assert(await taskLinks.first().evaluate(node=>node===document.activeElement&&node.matches(':focus-visible')),'task examples are reachable with a visible keyboard focus ('+engine.name()+' '+width+'px)');
+  }
+  if(engine===chromium&&width===1440){
+   const taskPage=await context.newPage();
+   for(let index=0;index<taskExamples.length;index++){
+    const example=taskExamples[index];
+    if(index===0){
+     await taskPage.goto(origin,{waitUntil:'networkidle'});
+     await taskPage.locator('.hero-task-examples [data-task-entry]').nth(index).click();
+    }else await taskPage.goto(new URL(example.href,origin).href,{waitUntil:'networkidle'});
+    await taskPage.locator('#results .card').first().waitFor();
+    assert.equal(await taskPage.locator('#query').inputValue(),new URL(example.href,origin).searchParams.get('q'));
+    assert((await taskPage.locator('#results .card').count())>0,example.label+' must open matching results');
+    if(index===0){
+     const matchingChip=page.locator('.chip-task').filter({hasText:example.label});
+     const chipQuery=await matchingChip.getAttribute('data-query');
+     assert.equal(await taskPage.locator('#query').inputValue(),chipQuery,'hero and search shortcut for the same task must show the same results');
+     assert((await taskPage.locator('#results .card').count())>1,'travel shortcut must expose more than the single exact-title match');
+    }
+    row.taskSearches??=[];row.taskSearches.push({label:example.label,count:await taskPage.locator('#results .card').count(),first:await taskPage.locator('#results .card h3').first().innerText()});
+    if(index===0){
+     await taskPage.screenshot({path:'qa-artifacts/task-entry-results.png'});
+     const read=taskPage.locator('#results .card .card-bottom button').first();
+     await read.click();await taskPage.locator('#detail[open]').waitFor();
+     await taskPage.locator('.research-details summary').click();
+     assert.match(await taskPage.locator('.markdown a[href^="https:"]').first().getAttribute('href'),/^https:/);
+     await taskPage.goBack();await taskPage.waitForFunction(()=>!document.getElementById('detail').open);
+     assert.equal(await taskPage.locator('#query').inputValue(),new URL(example.href,origin).searchParams.get('q'),'return from a case keeps the task query');
+    }
+   }
+   await taskPage.close();
+  }
   assert(rect&&rect.y>=0&&rect.y+rect.height<=height,'direct search entry must be in the initial viewport');
   assert(rect.height>=44,'search entry must have a 44px target');
   assert.equal(await entry.getAttribute('href'),'#explore','native fallback stays on the static page');

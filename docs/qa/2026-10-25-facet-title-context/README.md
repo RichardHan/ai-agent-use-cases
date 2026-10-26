@@ -1,0 +1,59 @@
+# 2026-10-25 搜尋頁籤標題納入實作門檻
+
+## 問題、對象與決策
+
+新訪客或回訪讀者以「PR + 開發 + 進階開發」搜尋時，結果與 URL 已正確套用所有條件，但瀏覽器頁籤標題漏掉「進階開發」。書籤、歷史紀錄與多分頁中因此無法辨認目前門檻條件。正式站重現：篩選 `PR`、`開發`、`進階開發` 後，標題是 `搜尋「PR」 · 開發｜AI 用法實驗室`，而非完整條件。
+
+目標使用者：會同時開啟多個案例搜尋、分享或稍後返回的訪客。預期改善：頁籤、書籤、瀏覽歷史準確描述目前可見的搜尋條件；不改變結果、篩選 URL 或案例內容。
+
+方案：
+1. **採用：**把實作門檻納入既有頁面標題情境組合。低成本，與現有情境／工具／狀態條件一致；詳情標題仍由案例標題優先。
+2. **不採用：**新增頁籤 UI 的條件摘要／麵包屑。視覺改動更大，重複現有篩選條件 chips，卻無法修正書籤與瀏覽歷史標題。
+
+不處理：Actions 流程、案例資料、搜尋排序、視覺重設或其他標題條件。本輪僅修正頁面標題描述已存在的難度篩選。
+
+## 修改
+
+- `assets/app.js`：`syncPageContext()` 將 `difficulty` 傳入 `pageContextTitle()`；標題組合將其列為活動條件。
+- `tests/page-context.test.cjs`：驗證單獨難度與關鍵字＋情境＋難度的標題。
+- `tests/page-context-browser.cjs`：驗證真實篩選、難度直接連結還原、標題正確性。
+
+## 截圖與預覽
+
+截圖：
+
+| 視口 | 修改前 | 修改後 |
+|---|---|---|
+| 桌面 1440×1000 | ![修改前桌面](screenshots/before-desktop.webp) | ![修改後桌面](screenshots/after-desktop.webp) |
+| 手機 390×844 | ![修改前手機](screenshots/before-mobile.webp) | ![修改後手機](screenshots/after-mobile.webp) |
+
+畫面本身不變，改進在瀏覽器標題列與歷史／書籤標籤（自動化瀏覽器截圖不包含瀏覽器原生標題列）。正式站修改前搜尋標題為 `搜尋「PR」 · 開發｜AI 用法實驗室`；分支預覽修改後為 `搜尋「PR」 · 開發 · 進階開發｜AI 用法實驗室`。桌面與手機分支驗證均無水平溢出。詳情返回截圖見 `screenshots/after-detail-return.webp`。
+
+本機預覽：
+
+```sh
+python3 scripts/preview.py /tmp/ai-usecase-title-preview/ai-agent-use-cases
+python3 -m http.server 8130 --directory /tmp/ai-usecase-title-preview
+```
+
+網址：`http://127.0.0.1:8130/ai-agent-use-cases/?q=PR&scenario=開發&difficulty=進階開發`。GitHub Pages 靜態 base path 保留。
+
+## 驗收與三種情境
+
+- `PR` + `開發` + `進階開發`：54 筆；標題完整列出三項搜尋條件。
+- 直鏈 `?q=PR&scenario=開發&difficulty=進階開發&case=UC-324`：詳情標題仍優先顯示 UC-324 標題；Escape 返回後恢復完整搜尋標題，焦點回到結果計數。
+- 手機 390px：同一多條件搜尋標題正確；文件寬度等於視口，無水平溢出。
+- 修改前基準與修改後回歸：`node --test tests/*.test.cjs` 前後均 324/324 通過；`node --check assets/app.js`、`tests/page-context.test.cjs`、`tests/page-context-browser.cjs` 通過。Pages 相容預覽與 `scripts/check_corpus_bundle.py` 通過，447 sources byte-for-byte identical。正式 Jekyll CLI 不存在於此環境（Ruby 2.6.10，`jekyll: command not found`）；repo 無專用 lint/type-check 命令。
+- Chromium 手動走查：桌面／手機多條件篩選、零結果、鍵盤 focus-visible、UC-324 直鏈、Escape 返回與來源連結。標題涵蓋完整條件、焦點回到結果計數、手機無水平溢出。
+- CI／部署：PR [#103](https://github.com/RichardHan/ai-agent-use-cases/pull/103) 已 squash merge；12 個 PR 檢查通過，2 個只適用已發布站的檢查在 PR 階段略過。主線 commit `b3f5c0a` 的 Corpus bundle QA（`40163749930`，9m06s）通過，包含 Jekyll Pages build、447 份來源相容性、完整瀏覽流程與 page-context browser test；Round 23 acceptance QA `40163749936` 通過；Pages deployment `40163749383` 成功。發布後正式站以停用瀏覽器快取重新載入，標題、UC-324 直鏈與返回流程皆通過。
+- 來源走查：UC-324 原始 X 貼文可正常開啟；同頁列出的 `tomoyk/failure-reports` GitHub 連結回傳 GitHub 404，未改動原始案例資料，留待來源維護時核查。
+
+瀏覽器走查是自動化檢查，不代表真人偏好或轉換率改善。
+
+## 獨立審查
+
+初審發現並修正 3 個問題：加入難度時遺漏舊有情境／狀態／工具／分類 facets；browser test 使用結果有資料時隱藏的 empty-state reset；手機頁面新載入後篩選 `<details>` 可能收合。修正為保留原 facets、回 base URL 重設，並在手機驗收前展開篩選面板。獨立複核確認三項修正完整，無剩餘 P0–P2 阻擋（靜態審查）。
+
+## 風險與下一步
+
+本機環境沒有 Playwright／axe 套件或 Jekyll CLI，但已由 GitHub Actions 雲端建置與 Chromium browser test 驗證；正式站部署後亦實際走查。已發現 UC-324 的次要 GitHub repository 來源連結回 404，主原始 X 貼文仍可讀；下一輪先核查此來源問題，保留原始案例資料直到確認可更新的可靠來源。

@@ -54,3 +54,15 @@
 ## 去重與版本紀錄
 
 - 2026-10-22 11:45 新增。不同於 [UC-391](391-bot-fleet-private-dashboard-sensitive-scan-before-push.md)（Bot 團隊總覽，只讀、每天重建、推送前掃描敏感資料）：本案的重點是**雙向**——看板上的待決卡片可直接把決定回傳給幕僚長。不同於 [UC-420](420-grok-bot-pages-metrics-dashboard-morning-refresh-public-snapshot.md)（官方頁面功能做數字儀表板）與 [UC-364](364-human-agent-handoff-state-display.md)（dots 自建看板顯示「等人判斷」等狀態並驗收是否對得上實際事件；不涉及從看板回傳決定）。
+
+
+## 2026-10-23 09:40補充：看板派工與成果回寫的另一作者版本
+
+- 來源：[rerofumi，note](https://note.com/hesufumi_kouboh/n/nfaa649310fb8)，日文，2026-10-18 22:20（來源時區未標）；搜尋回傳全文，直接開啟cache miss。作者自述、未重現。
+- 作者以Grok Build看板的webhook啟動Grok Bot，統籌Bot派給工作Bot；文章任務完成後，工作Bot把Markdown路徑寫回卡片並移至Done。這補足另一作者的操作自述，不是前述X看板已修通的證明。
+- MCP讀寫與啟動入口分開驗收。應用未公開，未讀回產物、驗證認證或長期可靠性；不能只憑Done或檔案路徑認定可交付。dots版本見[UC396](396-page-mention-persistence-dispatch-verification.md)，不泛化跨工具啟動能力。
+- 不採用文章放寬分享即可安全的推論；本庫未確認安全性或費用。不得為重現而擴權、公開私人卡片或啟用服務。
+
+### 補充驗收提示（本庫原創／未實測）
+
+> 用已授權的測試環境處理卡片{ID}，只建立無敏感內容的測試稿。不發文、不寄信。分開留下觸發收到、派工接受、成果保存、本人可讀回的證據；缺任一步就標待驗證，不把Done當成功。不要建立新的憑證或變更分享範圍。

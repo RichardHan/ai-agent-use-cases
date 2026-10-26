@@ -1,0 +1,41 @@
+browser	Browser labels and complete journeys	﻿2026-10-22T19:11:44.8240726Z ##[group]Run python3 -m http.server 8134 --directory "$RUNNER_TEMP/preview" > /tmp/task-label-preview.log 2>&1 &
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8241551Z ^[[36;1mpython3 -m http.server 8134 --directory "$RUNNER_TEMP/preview" > /tmp/task-label-preview.log 2>&1 &^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8242233Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8134/ai-agent-use-cases/^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8242626Z ^[[36;1mif [ "$QA_TARGET" = published ]; then^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8243029Z ^[[36;1m  export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8243425Z ^[[36;1m  node - <<'JS'^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8243661Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8245134Z ^[[36;1m(async()=>{for(const file of ['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?labels='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);}console.log('Published assets match checkout');})().catch(e=>{console.error(e);process.exit(1)});^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8246985Z ^[[36;1mJS^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8247172Z ^[[36;1mfi^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8247391Z ^[[36;1mchown -R pwuser:pwuser qa-artifacts^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8247767Z ^[[36;1mrunuser -u pwuser -- node tests/task-labels-browser.cjs^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8248199Z ^[[36;1mrunuser -u pwuser -- node tests/task-shortcuts-browser.cjs^[[0m
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8248672Z shell: sh -e {0}
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8248865Z env:
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8249097Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8249406Z   QA_TARGET: preview
+browser	Browser labels and complete journeys	2026-10-22T19:11:44.8249613Z ##[endgroup]
+browser	Browser labels and complete journeys	2026-10-22T19:11:46.4283954Z LABELS START 1440
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9659294Z locator.waitFor: Error: strict mode violation: getByRole('button', { name: /搜尋「每日」/ }) resolved to 51 elements:
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9661691Z     1) <button type="button" data-query="每日" aria-pressed="false" class="chip chip-task" aria-describedby="task-shortcuts-hint">☀️ 搜尋「每日」</button> aka getByRole('button', { name: '☀️ 搜尋「每日」' })
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9663659Z     2) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka getByRole('article').filter({ hasText: 'UC-015 · Grok Bot / Meta Muse' }).getByLabel('搜尋「每日」，保留其他篩選')
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9665732Z     3) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka getByRole('article').filter({ hasText: 'UC-036 · Grok Bot' }).getByLabel('搜尋「每日」，保留其他篩選')
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9668673Z     4) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka getByRole('article').filter({ hasText: 'UC-041 · Grok Bot / ChatGPT' }).getByLabel('搜尋「每日」，保留其他篩選')
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9670579Z     5) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka getByRole('article').filter({ hasText: 'UC-044 · Meta Muse' }).getByLabel('搜尋「每日」，保留其他篩選')
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9672386Z     6) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka getByRole('article').filter({ hasText: 'UC-046 · Grok Bot / Meta Muse' }).getByLabel('搜尋「每日」，保留其他篩選')
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9673987Z     7) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka getByRole('article').filter({ hasText: 'UC-048 · Grok Bot / Meta Muse' }).getByLabel('搜尋「每日」，保留其他篩選')
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9676255Z     8) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka locator('article:nth-child(53) > .tags > button:nth-child(2)')
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9677688Z     9) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka locator('article:nth-child(54) > .tags > button:nth-child(2)')
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9679341Z     10) <button type="button" title="搜尋「每日」，保留其他篩選" aria-label="搜尋「每日」，保留其他篩選" class="tag tag-interactive">每日</button> aka locator('article:nth-child(66) > .tags > button:nth-child(2)')
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680021Z     ...
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680135Z
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680278Z Call log:
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680676Z   - waiting for getByRole('button', { name: /搜尋「每日」/ }) to be visible
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9680954Z
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9681259Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/task-labels-browser.cjs:9:118 {
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9681706Z   log: [
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9682100Z     "  - waiting for getByRole('button', { name: /搜尋「每日」/ }) to be visible"
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9682479Z   ]
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9682656Z }
+browser	Browser labels and complete journeys	2026-10-22T19:11:47.9878129Z ##[error]Process completed with exit code 1.

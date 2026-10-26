@@ -1,0 +1,7 @@
+PASS MOBILE SEARCH: 760/761px initial disclosure boundary
+PASS BROWSER desktop: guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations=0
+PASS BROWSER mobile: guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations=0
+PASS BROWSER small-mobile: guided discovery, shuffle, keyboard, combined filters, empty recovery, pending exclusion, direct links, refresh, back, overflow; axe violations=0
+PASS BROWSER: clipboard permission failure exposes a manual share URL
+PASS BROWSER: network failure, retry recovery and empty catalog
+PASS SEARCH STATES: loading, error/retry, unknown scenario, partial corpus counts

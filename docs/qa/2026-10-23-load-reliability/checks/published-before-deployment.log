@@ -1,0 +1,22 @@
+browser	Cloud recovery and visitor journeys	﻿2026-10-23T13:20:28.2797701Z ##[group]Run python3 -m http.server 8184 --directory "$RUNNER_TEMP/preview" > /tmp/reliability-preview.log 2>&1 &
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2798739Z ^[[36;1mpython3 -m http.server 8184 --directory "$RUNNER_TEMP/preview" > /tmp/reliability-preview.log 2>&1 &^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2799899Z ^[[36;1mexport SITE_URL=http://127.0.0.1:8184/ai-agent-use-cases/^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2800432Z ^[[36;1mif [ "$GITHUB_REF_NAME" = verify/reliable-corpus-20261023 ]; then^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2800985Z ^[[36;1m  export SITE_URL=https://richardhan.github.io/ai-agent-use-cases/^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2801523Z ^[[36;1m  export QA_PUBLIC=1 QA_OBSERVE=1^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2801871Z ^[[36;1m  node - <<'JS'^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2802271Z ^[[36;1mconst fs=require('node:fs');^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2803612Z ^[[36;1m(async()=>{for(const file of ['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']){const r=await fetch(process.env.SITE_URL+(file==='index.html'?'':file)+'?recovery='+process.env.GITHUB_SHA);if(!r.ok||await r.text()!==fs.readFileSync(file,'utf8'))throw Error('Published asset mismatch '+file);console.log('MATCH '+file);}})().catch(e=>{console.error(e);process.exit(1)});^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2805514Z ^[[36;1mJS^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2806128Z ^[[36;1mfi^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2806501Z ^[[36;1mchown -R pwuser:pwuser qa-artifacts^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2807070Z ^[[36;1mQA_OUT=qa-artifacts/recovery runuser -u pwuser -- node tests/recovery-progress-browser.cjs^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2807743Z ^[[36;1mQA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs^[[0m
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2808441Z shell: sh -e {0}
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2808744Z env:
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2809169Z   NODE_PATH: /home/runner/work/_temp/tools/node_modules
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.2809563Z ##[endgroup]
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.5186961Z Error: Published asset mismatch index.html
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.5187748Z     at [stdin]:2:290
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.5188558Z     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+browser	Cloud recovery and visitor journeys	2026-10-23T13:20:28.5712907Z ##[error]Process completed with exit code 1.

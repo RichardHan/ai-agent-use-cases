@@ -8,8 +8,8 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
@@ -67,8 +67,13 @@ jobs:
         run: |
           python3 - <<'PYTHON'
           import pathlib, time, urllib.request
+          import subprocess
+          result=subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
+          if result.returncode == 42:
+              print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
+              raise SystemExit(0)
           files=('assets/app.js','assets/reader.js','assets/reader.css','index.html')
-          for attempt in range(60):
+          for attempt in range(301):
               try:
                   matches=[]
                   for name in files:
@@ -79,10 +84,29 @@ jobs:
                       break
               except Exception as error:
                   print(type(error).__name__)
+              if attempt > 0 and attempt % 15 == 0:
+                  res = subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"], check=False)
+                  if res.returncode == 42:
+                      print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit')
+                      raise SystemExit(0)
               time.sleep(5)
           else:
+              res = subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"], check=False)
+              if res.returncode == 42:
+                  print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit')
+                  raise SystemExit(0)
               raise SystemExit('Pages assets did not match')
           PYTHON
+          if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
+            :
+          else
+            freshness_status=$?
+            if [ "$freshness_status" -eq 42 ]; then
+              echo "SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit $GITHUB_SHA"
+              exit 0
+            fi
+            exit "$freshness_status"
+          fi
           node tests/review-sections-browser.cjs
           node tests/reader-search-browser.cjs
       - uses: actions/upload-artifact@v4

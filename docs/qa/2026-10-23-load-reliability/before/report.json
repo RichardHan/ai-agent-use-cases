@@ -1,0 +1,40 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "initial": {
+      "count": 441,
+      "failed": [
+        "cases/001-travel-checkout.md",
+        "cases/002-video-production.md"
+      ]
+    },
+    "waiting": "部分來源尚未載入\n\n還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。\n\n正在重試…",
+    "stopAvailable": 0,
+    "after": {
+      "count": 443,
+      "failed": [],
+      "focus": "results-count"
+    }
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "initial": {
+      "count": 441,
+      "failed": [
+        "cases/001-travel-checkout.md",
+        "cases/002-video-production.md"
+      ]
+    },
+    "waiting": "部分來源尚未載入\n\n還有 2 個來源檔案未載入；搜尋、篩選與統計只涵蓋已載入內容。正在補讀，你可以繼續搜尋或閱讀。\n\n正在重試…",
+    "stopAvailable": 0,
+    "after": {
+      "count": 443,
+      "failed": [],
+      "focus": "results-count"
+    }
+  }
+]

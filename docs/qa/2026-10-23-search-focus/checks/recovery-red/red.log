@@ -1,0 +1,10 @@
+AssertionError [ERR_ASSERTION]: Focused control must be visible: #query
+    at style (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/search-focus-browser.cjs:21:357)
+    at async /__w/ai-agent-use-cases/ai-agent-use-cases/tests/search-focus-browser.cjs:43:204 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

@@ -16,4 +16,6 @@
 
 基準：362 個單元測試通過、JS 語法通過、452 個來源 bundle byte 一致。修正後 `RECENT_LIVE=1` 的 recent-review Chromium 手機/桌面回歸通過；related-browser Chromium 桌面、手機、小手機流程通過（各頁 axe 零違規，詳見執行輸出）。獨立審查發現舊 related 測試期待原入口 A，已改成 B 並重驗。三種模擬情境：① 旅遊搜尋→UC-001→下一則 UC-099→關閉，焦點落 UC-099；② 最近核對排序→Next→Escape、Previous→Escape，分別返回目前案例；③ 相關案例→Back→再開相關案例→Escape，維持查詢/結果順序並聚焦該案例。這不是使用者喜好或轉換率證據。
 
-未驗證：本輪新 SHA 的正式 Pages 發布、實際長期回訪效能與文字對比定量。`Method shortcut QA` 在先前 main 的 cloud browser tools 安裝階段被取消，無法歸因於此改動；下一輪優先取得雲端安裝步驟的可觀測錯誤與耗時，再處理根因，避免盲目延長等待。
+PR #140 雲端 Related reading QA 於安裝階段 30 分鐘取消，尚未跑瀏覽器；日誌顯示 Chromium 的 `--with-deps` 已裝入 `fonts-wqy-zenhei`，但額外 `fonts-noto-cjk` 61.2 MB 下載從 07:46:47 到 08:04:43 未成功，重試後到 08:10:12 被取消。本輪移除該 workflow 重複且慢的額外字型安裝，保留 Playwright 所需 CJK 字型與原測試；需以重跑 PR check 證實。Method shortcut QA 的歷史取消則是三引擎 `--with-deps` 的 119 MB apt 依賴下載途中，並非額外字型階段，本輪不盲目縮減其引擎。
+
+未驗證：本輪新 SHA 的正式 Pages 發布、實際長期回訪效能與文字對比定量。Method shortcut QA 三引擎依賴下載於雲端鏡像極慢，下一輪最值得做的是隔離必要系統依賴並保留 Chromium／Firefox／WebKit 覆蓋，再以雲端跑完整閱讀驗收。

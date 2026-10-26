@@ -10,6 +10,10 @@ jobs:
   journey:
     runs-on: ubuntu-24.04
     timeout-minutes: 35
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+    env:
+      HOME: /root
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -17,14 +21,13 @@ jobs:
           node-version: '22'
       - name: Baseline unit tests, syntax and static build
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           node --test tests/*.test.cjs
           for file in assets/*.js; do node --check "$file"; done
           python3 scripts/preview.py "$RUNNER_TEMP/method-preview/ai-agent-use-cases"
+          node -e "const c=require(process.env.RUNNER_TEMP+'/method-preview/ai-agent-use-cases/catalog.json'); if(c.sourceRevision!==process.env.GITHUB_SHA) throw Error('Preview source revision does not match checked-out commit')"
       - name: Cloud browser tools
-        run: |
-          npm install --prefix "$RUNNER_TEMP/method-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
-          "$RUNNER_TEMP/method-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
-          sudo apt-get install -y fonts-noto-cjk
+        run: npm install --prefix "$RUNNER_TEMP/method-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
       - name: Observe published baseline
         if: ${{ github.ref != 'refs/heads/main' }}
         env:

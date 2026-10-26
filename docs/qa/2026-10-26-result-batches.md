@@ -16,4 +16,4 @@
 
 基準 `node --test tests/*.test.cjs` 為 362 pass／0 fail。新增瀏覽器回歸在修改前以 `454 !== 24` 失敗；首輪修改後獨立審查指出末批隱藏按鈕及跨歷史返回焦點兩項缺陷，歷史缺陷回歸先以焦點 `undefined` 失敗，修正後 390/1440px 瀏覽器情境通過。`node --test tests/*.test.cjs` 修改後 362 pass／0 fail；`node --check` 全部 assets JS 與 tests CJS 通過；預覽的 452 來源檔逐 byte 一致。無獨立 lint/typecheck 或本機 Jekyll Gemfile。
 
-模擬走查（非真人評價）：① 無條件首頁 24 筆→鍵盤逐批至末筆；② 第 31 筆詳情→Back→換搜尋→Forward→關閉回原卡；③「旅遊」＋「生活」→UC-001 直鏈重載→來源仍可開→返回搜尋→無結果。預覽 390px 高約 15,899px、1440px 高約 6,733px，皆無水平溢出；這些是 DOM/頁面高度，非效能分數。近期 `78c7cef` 的 Actions 有既有 published gate 與 browser gate 紅燈，不能由本地通過推定發布成功；合併後須檢查 Pages 工作流及正式站資產。下一輪優先處理自然問句與搜尋相關性的可解釋性，而非再改配色。
+模擬走查（非真人評價）：① 無條件首頁 24 筆→鍵盤逐批至末筆；② 第 31 筆詳情→Back→換搜尋→Forward→關閉回原卡；③「旅遊」＋「生活」→UC-001 直鏈重載→來源仍可開→返回搜尋→無結果。預覽 390px 高約 15,899px、1440px 高約 6,733px，皆無水平溢出；這些是 DOM/頁面高度，非效能分數。Chromium 390px axe-core WCAG 2/2.1 A/AA 掃描：0 violations、24 passes、2 incomplete（須人工確認，非零風險）。近期 `78c7cef` 的 Actions 有既有 published gate 與 browser gate 紅燈，不能由本地通過推定發布成功；合併後須檢查 Pages 工作流及正式站資產。下一輪優先處理自然問句與搜尋相關性的可解釋性，而非再改配色。

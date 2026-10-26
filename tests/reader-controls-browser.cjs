@@ -12,7 +12,7 @@ if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS
  try {
  const context=await browser.newContext({viewport:{width,height:width===1440?1000:844}});
  page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
- let loadedCSS;page.on('response',response=>{if(new URL(response.url()).pathname.endsWith('/assets/reader.css'))loadedCSS=response.text();});
+ let loadedCSS;page.on('response',response=>{const url=response.url();if(url.startsWith(process.env.CONTROLS_URL||'http://127.0.0.1:8100/ai-agent-use-cases/')&&new URL(url).pathname.endsWith('/assets/reader.css')&&response.status()===200)loadedCSS=response.text();});
  const base=process.env.CONTROLS_URL||'http://127.0.0.1:8100/ai-agent-use-cases/';
  await page.goto(base);await page.locator('#results .card').first().waitFor();
  if(process.env.LABEL==='live')assert.equal(await loadedCSS,fs.readFileSync('assets/reader.css','utf8'),'actual page-loaded reader.css matches checkout');
@@ -21,9 +21,11 @@ if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS
  await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#scenario').selectOption('生活');
  const trigger=page.locator('#results .card h3 button').first();await trigger.click();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
  const url=page.url(),initialId=await page.locator('#detail-toolbar-id').innerText();await page.screenshot({path:`qa-artifacts/${process.env.LABEL}-reader-${engine}-${width}.png`});
+ const sourceBeforeActions=await page.locator('.detail-source').evaluate(n=>!!(n.compareDocumentPosition(document.querySelector('.detail-actions'))&Node.DOCUMENT_POSITION_FOLLOWING));
  const controls=await page.locator('.detail-toolbar-actions button').evaluateAll(ns=>ns.map(n=>{const r=n.getBoundingClientRect();return {id:n.id,width:r.width,height:r.height,font:getComputedStyle(n).fontSize}}));
  console.log('CONTROL_MEASUREMENTS '+JSON.stringify({engine,width,controls}));
  if(!process.env.OBSERVE)for(const c of controls){assert.ok(c.width>=44&&c.height>=44,'TOUCH_TARGET_SIZE '+JSON.stringify(c));assert.ok(parseFloat(c.font)>=14,JSON.stringify(c));}
+ if(!process.env.OBSERVE)assert.ok(sourceBeforeActions,'the original Markdown route follows the purpose before sharing and print actions');
  await page.locator('#nav-next-case').click();assert.notEqual(await page.locator('#detail-toolbar-id').innerText(),initialId);
  await page.locator('#nav-prev-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),initialId);
  await page.locator('.reader-nav').scrollIntoViewIfNeeded();
@@ -69,7 +71,8 @@ if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS
   await page.locator('#detail-toolbar-id').evaluate((n,id)=>n.textContent=id,'UC-313');
  }
  await page.locator('#copy-case-link').focus();await page.keyboard.press('Shift+Tab');
- assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail');assert.ok(await page.locator('#close-detail').evaluate(n=>{const style=getComputedStyle(n);return parseFloat(style.outlineWidth)>=2&&style.outlineStyle!=='none';}),'reverse keyboard handoff has a visible focus outline');
+ if(process.env.OBSERVE)assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail');
+ else {const reverse=await page.locator('.reader-guidance-shortcut').evaluate(n=>{const r=n.getBoundingClientRect(),toolbar=document.querySelector('.detail-toolbar').getBoundingClientRect(),dialog=document.querySelector('#detail').getBoundingClientRect(),style=getComputedStyle(n);return {focused:document.activeElement===n,active:document.activeElement.className,top:r.top,toolbarBottom:toolbar.bottom,bottom:r.bottom,dialogBottom:dialog.bottom,outline:style.outlineWidth,outlineStyle:style.outlineStyle};});assert.ok(reverse.focused&&reverse.top>=reverse.toolbarBottom&&reverse.bottom<=reverse.dialogBottom&&parseFloat(reverse.outline)>=2&&reverse.outlineStyle!=='none','reverse Tab reaches preceding guidance visibly '+JSON.stringify(reverse));}
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
  reports.push({engine,width,controls,toolbarVisible,source,sourceStatus,axe:axe.violations.map(v=>v.id),errors});
  fs.writeFileSync(`qa-artifacts/${process.env.LABEL}-report.json`,JSON.stringify(reports,null,2));

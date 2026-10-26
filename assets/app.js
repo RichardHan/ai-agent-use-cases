@@ -954,11 +954,17 @@ function showDetail(item, trigger, updateURL=true) {
   title.id = 'detail-title';
   title.tabIndex = -1;
   body.append(title);
+  const source = el('a', 'detail-source', '查看 GitHub 原始 Markdown ↗');
+  source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown ↗'),el('span','print-action-short','原始 Markdown ↗'));
+  source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown ↗');
+  source.href = sourceMarkdownUrl(item.path);
+  source.target = '_blank';
+  source.rel = 'noopener noreferrer';
   const overview = el('div', 'plain-overview');
   const compactPurpose = item.coreGoal && item.coreGoal !== item.what && item.what.length > 180;
   const purpose = el('section');
   purpose.append(el('h2', '', '可以幫你做什麼'), el('p', '', compactPurpose ? item.coreGoal : item.what));
-  overview.append(purpose);
+  overview.append(purpose,source);
   if (compactPurpose) {
     const fullAccount = el('details', 'detail-full-account');
     fullAccount.append(el('summary', '', '展開完整用途與案例描述'), el('p', '', item.what));
@@ -1024,18 +1030,12 @@ function showDetail(item, trigger, updateURL=true) {
       if(document.activeElement===focusAtRequest){manual.focus();manual.select();}
     }
   });
-  const source = el('a', 'detail-source', '查看 GitHub 原始 Markdown ↗');
-  source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown ↗'),el('span','print-action-short','原始 Markdown ↗'));
-  source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown ↗');
-  source.href = sourceMarkdownUrl(item.path);
-  source.target = '_blank';
-  source.rel = 'noopener noreferrer';
   const printBtn=el('button','btn-copy-link','列印／存成 PDF');
   printBtn.replaceChildren(el('span','print-action-long','列印／存成 PDF'),el('span','print-action-short','列印／PDF'));
   printBtn.id='print-case';printBtn.type='button';
   printBtn.setAttribute('aria-describedby','print-case-hint');
   printBtn.addEventListener('click',()=>window.print());
-  actionRow.append(copyBtn,printBtn,source);
+  actionRow.append(copyBtn,printBtn);
   if (item.tags && item.tags.length) {
     const tagsRow = el('span', 'detail-tags-text', '標籤：' + item.tags.join('、'));
     actionRow.append(tagsRow);
@@ -2558,6 +2558,16 @@ $('detail').addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if ($('detail').open) {
+    if(e.key==='Tab'&&e.shiftKey&&document.activeElement===$('copy-case-link')){
+      const dialog=$('detail'),controls=[...$('detail-body').querySelectorAll('button:not([disabled]),a[href],summary,input:not([hidden])')];
+      const previous=controls[controls.indexOf(document.activeElement)-1];
+      if(previous){
+        e.preventDefault();
+        previous.focus({preventScroll:true});
+        dialog.scrollTop+=previous.getBoundingClientRect().top-dialog.querySelector('.detail-toolbar').getBoundingClientRect().bottom-12;
+        return;
+      }
+    }
     // WebKit may move backward from the first body control to the dialog
     // instead of the last toolbar control. Follow the rendered order, including
     // controls introduced inside the overview by the reader enhancement.

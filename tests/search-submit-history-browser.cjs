@@ -1,0 +1,37 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {chromium}=require('playwright');
+const origin=process.env.ROUND_URL||'http://127.0.0.1:8081/ai-agent-use-cases/';
+(async()=>{
+  const browser=await chromium.launch();
+  try{
+    for(const width of [390,1440]){
+      const page=await browser.newPage({viewport:{width,height:844}});
+      try{
+        await page.goto(new URL('?q=旅遊&scenario=生活#explore',origin).href,{waitUntil:'networkidle'});
+        await page.locator('#results .card').first().waitFor();
+        const before=await page.locator('#results .card').evaluateAll(nodes=>nodes.map(node=>node.dataset.caseId));
+        await page.locator('#query').fill('郵件');
+        await page.locator('#search-submit').click();
+        const submitted=page.url();
+        assert.equal(new URL(submitted).searchParams.get('q'),'郵件');
+        await page.goBack();
+        assert.equal(await page.locator('#query').inputValue(),'旅遊');
+        assert.equal(await page.locator('#scenario').inputValue(),'生活');
+        assert.deepEqual(await page.locator('#results .card').evaluateAll(nodes=>nodes.map(node=>node.dataset.caseId)),before);
+        await page.goForward();
+        assert.equal(page.url(),submitted);
+        assert.equal(await page.locator('#query').inputValue(),'郵件');
+        await page.locator('#results .card h3 button').first().click();
+        assert(await page.locator('#detail').evaluate(node=>node.open));
+        await page.goBack();
+        assert.equal(await page.locator('#detail').evaluate(node=>node.open),false);
+        assert.equal(page.url(),submitted);
+        await page.locator('#query').fill('不存在xyz987');
+        assert(await page.locator('#empty').isVisible());
+        assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+        console.log(`SEARCH_HISTORY_PASS width=${width}`);
+      }finally{await page.close();}
+    }
+  }finally{await browser.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});

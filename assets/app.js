@@ -1126,7 +1126,7 @@ function showDetail(item, trigger, updateURL=true) {
     if(link.textContent.trim()===link.getAttribute('href'))link.classList.add('reader-visible-url');
   }
   body.append(research);
-  globalThis.CaseReader?.enhance(body, item, tokenize($('query').value).map(term=>({term,variants:termVariants(term)})));
+  globalThis.CaseReader?.enhance(body, item, tokenize($('query').value).map(term=>({term,variants:termVariants(term)})),searchVariantIndex);
   body.append(renderRelated(item));
 
   updateModalNav();
@@ -1176,7 +1176,7 @@ function closeDetail() {
 }
 // Explanations use the existing matching rules; they never rank or qualify evidence.
 function contextExcerpt(text, variant, limit=96) {
-  const chars=Array.from(text), index=norm(text).indexOf(variant);
+  const chars=Array.from(text), index=searchVariantIndex(norm(text),variant);
   if(chars.length<=limit)return text;
   // Map the normalized offset back to original code points (NFKC can change length).
   let low=0,high=chars.length;
@@ -1206,7 +1206,7 @@ function searchContext(item, terms) {
   for(const term of [...new Set(terms)]){
     const variants=termVariants(term);
     for(const field of fields){
-      const text=norm(field.text),variant=variants.find(v=>text.includes(v));
+      const text=norm(field.text),variant=variants.find(v=>searchVariantIndex(text,v)!==-1);
       if(!variant)continue;
       const caution=field.original&&/限制|風險|注意|缺口|權限/.test(field.label)?'限制':field.original&&/來源|參考|連結/.test(field.label)?'來源':'';
       matches.push({term,variant,label:field.label,excerpt:field.original?contextExcerpt(field.text,variant):'',caution});
@@ -1373,9 +1373,21 @@ function enterSearch(event) {
   $('explore').scrollIntoView({block:'start',behavior:'instant'});
   $('query').focus({preventScroll:true});
 }
+const PULL_REQUEST_ABBREVIATIONS=new Set(['pr','prs','mr','mrs']);
+function searchVariantIndex(text,variant) {
+  let index=text.indexOf(variant);
+  if(!PULL_REQUEST_ABBREVIATIONS.has(variant))return index;
+  while(index!==-1){
+    const before=text[index-1]||'',after=text[index+variant.length]||'';
+    if(!/[a-z0-9]/.test(before)&&(!/[a-z0-9]/.test(after)||/^\d+(?![a-z0-9])/.test(text.slice(index+variant.length))))return index;
+    index=text.indexOf(variant,index+1);
+  }
+  return -1;
+}
+function matchesSearchVariant(text,variant) { return searchVariantIndex(text,variant)!==-1; }
 function filterEntries(items, terms, filters) {
-  return items.filter(item => terms.every(term => termVariants(term).some(v => (filters.scope==='overview'
-    ? norm(item.title+' '+item.summary).includes(v) : item.search.includes(v))))
+  return items.filter(item => terms.every(term => termVariants(term).some(v => matchesSearchVariant(filters.scope==='overview'
+    ? norm(item.title+' '+item.summary) : item.search,v)))
     && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
 }
 
@@ -1391,11 +1403,11 @@ function rankEntries(items, terms) {
     const score = [0, 0, 0, 0];
     queries.forEach(({term, variants}) => {
       if (variants.includes(id)) score[0]++;
-      const inTitle = variants.some(variant => title.includes(variant));
-      const inSummary = variants.some(variant => summary.includes(variant));
+      const inTitle = variants.some(variant => matchesSearchVariant(title,variant));
+      const inSummary = variants.some(variant => matchesSearchVariant(summary,variant));
       if (inTitle || inSummary) score[1]++;
       if (inTitle) score[2]++;
-      if (variants.some(variant => fields.some(field => field.includes(variant)))) score[3]++;
+      if (variants.some(variant => fields.some(field => matchesSearchVariant(field,variant)))) score[3]++;
     });
     return {item, index, score};
   }).sort((a, b) => {

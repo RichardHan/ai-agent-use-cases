@@ -5,7 +5,7 @@ const source=fs.readFileSync(path.join(root,'assets/app.js'),'utf8').split("/* B
 // Minimal text-node DOM: tests safe rendering without an installed browser.
 class Node {constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.textContent='';} append(...children){this.children.push(...children);} setAttribute(name,value){this[name]=value;} }
 const context=vm.createContext({URL,Discovery:require('../assets/discovery.js'),document:{createElement:tag=>new Node(tag),createTextNode:text=>({textContent:text})}});
-vm.runInContext(source+'\nthis.api={metadata,parseFile,filterEntries,norm,safeLink,renderMarkdown,tokenize,idVariants,termVariants,matchCase,mapConcurrent,loadCorpus,SYNONYM_MAP,pinSourcePaths};',context);
+vm.runInContext(source+'\nthis.api={metadata,parseFile,filterEntries,norm,safeLink,renderMarkdown,tokenize,idVariants,termVariants,matchCase,mapConcurrent,loadCorpus,SYNONYM_MAP,pinSourcePaths,searchVariantIndex,rankEntries,searchContext};',context);
 const api=context.api;
 vm.runInContext('displayCopy='+fs.readFileSync(path.join(root,'assets/copy.json'),'utf8'),context);
 const files=['cases','evidence'].flatMap(dir=>fs.readdirSync(path.join(root,dir)).filter(x=>x.endsWith('.md')).map(x=>dir+'/'+x)).concat('sources/pending.md');
@@ -215,6 +215,33 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('health')), {}).some(x
 assert(api.filterEntries(entries, Array.from(api.tokenize('call')), {}).some(x => x.id === 'UC-257'), 'call matches UC-257 via 電話/通話 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('security')), {}).some(x => x.id === 'UC-009'), 'security matches UC-009 via 資安/安全性 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('privacy')), {}).some(x => x.id === 'UC-009'), 'privacy matches UC-009 via 隱私 synonym');
+
+// Pull-request abbreviations must not match incidental fragments of product names or privacy.
+const prFixture=[
+  {search:'review a pr before merge',title:'PR review',summary:'',kind:'case'},
+  {search:'處理pr審查',title:'PR 審查',summary:'',kind:'case'},
+  {search:'privacy and 1password improve a project',title:'Privacy',summary:'',kind:'case'},
+  {search:'pull request review',title:'Pull request',summary:'',kind:'case'},
+  {search:'merge pr149 after review',title:'PR149',summary:'',kind:'case'},
+  {search:'pr1password integration',title:'Password integration',summary:'',kind:'case'}
+];
+assert.deepEqual(Array.from(api.filterEntries(prFixture,['PR'],{}),item=>item.title),['PR review','PR 審查','Pull request','PR149']);
+assert.deepEqual(Array.from(api.filterEntries(prFixture,['PR'],{scope:'overview'}),item=>item.title),['PR review','PR 審查','Pull request','PR149']);
+const prMatch=api.searchVariantIndex;
+const prSections=[
+  {title:'來源',text:'Probé 的來源限制',passages:[]},
+  {title:'PR 實作',text:'合併 PR149 後核對',passages:[]}
+];
+const reader=require('../assets/reader.js');
+assert.equal(reader.selectSearchSections(prSections,[{term:'pr',variants:['pr']}],prMatch)[0].index,1);
+assert.equal(reader.selectSearchPassage(['先談 privacy','合併 PR149 後核對'],'pr',prMatch)?.index,1);
+assert.equal(prMatch('pr1password','pr'),-1);
+assert.equal(prMatch('pr149','pr'),0);
+const contextItem={id:'UC-999',title:'Privacy',summary:'PR 審查',kind:'case',category:'',scenario:'',tags:[],tools:[],markdown:'## 限制\nProbé 的來源\n## 方法\nPR149 已合併'};
+assert.equal(api.searchContext(contextItem,['pr']).matches[0].label,'用途');
+assert.equal(api.searchContext({...contextItem,summary:''},['pr']).matches[0].excerpt,'PR149 已合併');
+const ranked=api.rankEntries([contextItem,{...contextItem,id:'UC-998',title:'PR 審查',summary:''}],['pr']);
+assert.equal(ranked[0].id,'UC-998');
 
 // Validate 100% mathematical symmetry and reflexivity of SYNONYM_MAP
 for (const [key, variants] of Object.entries(api.SYNONYM_MAP)) {

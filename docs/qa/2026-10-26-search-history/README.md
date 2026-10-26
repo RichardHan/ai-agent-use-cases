@@ -21,3 +21,5 @@ PR #145 的 Return visibility QA 在瀏覽器下載／系統依賴安裝步驟�
 正式站修改前瀏覽器重現：旅遊 → 郵件提交 → Back 離開搜尋狀態。修改後本地 390／1440px：旅遊＋生活 → 郵件提交 → Back 還原旅遊、生活、結果 → Forward 還原郵件；郵件詳情 → Back 回郵件；UC-001 直鏈關閉後提交新搜尋，Back 不會重新開啟已關閉的詳情；不存在字串有空結果且無水平溢出。鍵盤 Enter、來源連結與跨瀏覽器 QA 仍須以 CI 回歸核對。獨立審查指出 VM 無 `location` 與詳情關閉後舊 `case` 參數兩項風險，已修正並針對直鏈實際走查。
 
 回歸命令：`node --test tests/*.test.cjs`、`node --check assets/app.js`、`python3 scripts/check_corpus_bundle.py /tmp/visitor-history-preview/ai-agent-use-cases`；CI 的 Website QA 在 Chromium 390／1440px 執行 `tests/search-submit-history-browser.cjs`。下一輪優先讓搜尋篩選與排序可分階段返回，但需先定義何者算明確提交，避免 Back 堆滿操作碎片。
+
+2026-10-26 PR整合驗證：合併最新main後362/362測試通過；Chromium 390/1440搜尋Back/Forward通過；搜尋提交完整回歸在Chromium（320/390/1440）、Firefox與WebKit（390）通過，含鍵盤、空結果、載入失敗及axe檢查。舊來源驗收改為明確選HTTP(S)連結，避免第一個開新分頁連結為非網頁scheme時誤報。預覽457份來源逐位元一致；正式發布以CI為準。

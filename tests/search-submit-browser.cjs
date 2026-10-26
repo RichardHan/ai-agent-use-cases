@@ -25,7 +25,7 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  if(!observe){
  assert.equal(state.focus,'results-count');assert(state.top>=0&&state.top<height-30);assert.equal(state.hash,'#explore');assert.equal(state.submitButtons,1);assert(state.results>0);if(name==='webkit'){await page.locator('#copy-search-link').focus();assert.equal(await page.evaluate(()=>document.activeElement.id),'copy-search-link');report.keyboard='WebKit button focus verified (macOS WebKit default omits buttons from Tab order)';}else{await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'copy-search-link');report.keyboard='Tab continues from result summary to share action';}
  const first=page.locator('#results .card .card-bottom button').first();await first.click();await page.locator('#detail[open]').waitFor();
- const link=page.locator('#detail a[target="_blank"]').first();assert(await link.count());const href=await link.getAttribute('href');assert(/^https?:/.test(href));report.sourceURL=href;report.sourceHTTP=(await page.request.get(href)).status();
+ const link=page.locator('#detail a[target="_blank"][href^="https://"], #detail a[target="_blank"][href^="http://"]').first();assert(await link.count());const href=await link.evaluate(node=>node.href);assert(/^https?:/.test(href));report.sourceURL=href;report.sourceHTTP=(await page.request.get(href)).status();
  await page.keyboard.press('Escape');assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');
  const detailURL=await first.evaluate(el=>{el.click();return location.href;});await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();assert.equal(page.url(),detailURL);await page.keyboard.press('Escape');
  await page.locator('#query').fill('zzzz-no-such-usecase');await page.locator('#search-submit').click();assert(await page.locator('#empty').isVisible());assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
@@ -35,7 +35,7 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  }
  if(observe){
  const first=page.locator('#results .card .card-bottom button').first();await first.click();await page.locator('#detail[open]').waitFor();
- const source=page.locator('#detail a[target="_blank"]').first();report.sourceURL=await source.getAttribute('href');report.sourceHTTP=(await page.request.get(report.sourceURL)).status();
+ const source=page.locator('#detail a[target="_blank"][href^="https://"], #detail a[target="_blank"][href^="http://"]').first();report.sourceURL=await source.evaluate(node=>node.href);report.sourceHTTP=(await page.request.get(report.sourceURL)).status();
  const shared=page.url();await page.reload({waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();assert.equal(page.url(),shared);await page.keyboard.press('Escape');
  await page.locator('#query').fill('zzzz-no-such-usecase');assert(await page.locator('#empty').isVisible());await page.locator('#empty-reset').click();
  report.baselineWalk=['home','search + scenario + tool','detail','source HTTP','direct link reload','return','empty recovery'];

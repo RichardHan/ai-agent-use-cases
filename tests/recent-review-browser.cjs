@@ -96,6 +96,11 @@ async function order(page){
      await read.click();
      const secondID=await page.locator('#results .card').nth(1).getAttribute('data-case-id');
      await page.locator('#nav-next-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),secondID);
+     await page.keyboard.press('Escape');
+     assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),secondID,
+       'closing after next returns to the case currently read');
+     await read.click();
+     await page.locator('#nav-next-case').click();
      await page.locator('#nav-prev-case').click();assert.equal(await page.locator('#detail-toolbar-id').innerText(),firstID);
      await page.keyboard.press('Escape');
      assert.equal(await page.evaluate(()=>document.activeElement.closest('.card')?.dataset.caseId),firstID);

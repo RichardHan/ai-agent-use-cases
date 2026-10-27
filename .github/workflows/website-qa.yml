@@ -55,6 +55,7 @@ jobs:
           node tests/discovery-browser.cjs
           ROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/results-batching-browser.cjs
           ROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/search-submit-history-browser.cjs
+          SITE_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/guide-history-browser.cjs
       - name: Verify the published GitHub Pages site
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         env:

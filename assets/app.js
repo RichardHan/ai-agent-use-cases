@@ -723,7 +723,7 @@ function scenarioExploreAction(item) {
   button.setAttribute('aria-label', `探索更多「${item.scenario}」案例`);
   button.addEventListener('click', () => {
     closeDetail();
-    chooseScenario(item.scenario);
+    chooseScenario(item.scenario,false);
     $('results-count').focus({preventScroll:true});
     $('results-count').scrollIntoView({block:'start',behavior:'instant'});
   });
@@ -2513,13 +2513,25 @@ function drawFromButton(){
   if(rect.bottom>limit)window.scrollBy({top:Math.max(0,Math.min(rect.bottom-limit,rect.top-16)),behavior:'instant'});
   target.focus({preventScroll:true});
 }
-function chooseScenario(value){
+function chooseScenario(value,recordHistory=true){
+  const previous=location.href,previousState=history.state;
   ['query','scenario','kind','difficulty','tool','category','proof'].forEach(id=>$(id).value='');
-  activeScenario=value;render();revealDiscovery();
+  activeScenario=value;render();
+  if(recordHistory && location.href!==previous){
+    const selected=location.href;
+    history.replaceState({...previousState,guideReturn:true},'',previous);
+    history.pushState({guideSelection:true},'',selected);
+    committedSearchURL=selected;
+    queryDirty=false;
+    facetDraftDirty=false;
+  } else if(recordHistory)history.replaceState(previousState,'',location.href);
+  revealDiscovery();
 }
 function chooseDifficulty(value){
+  const guideState=history.state?.guideSelection?history.state:null;
   $('difficulty').value=value;
   render();
+  if(guideState)history.replaceState(guideState,'',location.href);
   revealDiscovery();
 }
 
@@ -2689,6 +2701,7 @@ window.addEventListener('popstate', event => {
   queryDirty=false;
   facetDraftDirty=false;
   render(false);
+  if(!item && (event.state?.guideReturn || event.state?.guideSelection))revealDiscovery();
   if(item && event.state?.caseReturn?.area==='results')ensureVisibleResult(event.state.caseReturn.id);
   if (item) {
     lastTrigger = null;

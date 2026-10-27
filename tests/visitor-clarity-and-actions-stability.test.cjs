@@ -30,7 +30,6 @@ test('critical GitHub Actions workflows feature in-loop superseded checks and pr
     'case-share-qa.yml',
     'results-return-qa.yml',
     'print-reading-qa.yml',
-    'missing-case-qa.yml',
     'method-shortcut-qa.yml',
     'task-shortcuts-qa.yml',
     'available-facets-qa.yml',

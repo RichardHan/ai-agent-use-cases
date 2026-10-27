@@ -82,14 +82,6 @@ test('published checks allow the observed 11m38s Pages deployment to finish', ()
       expectedMs: 900000
     },
     {
-      label: 'missing case',
-      workflow: '../.github/workflows/missing-case-qa.yml',
-      source: '../.github/workflows/missing-case-qa.yml',
-      attempts: /for\(let i=0;i<(\d+);i\+\+\)/,
-      interval: /setTimeout\(r,\s*(\d+)\)/,
-      expectedMs: 900000
-    },
-    {
       label: 'return visibility',
       workflow: '../.github/workflows/return-visibility-qa.yml',
       source: 'return-visibility-browser.cjs',

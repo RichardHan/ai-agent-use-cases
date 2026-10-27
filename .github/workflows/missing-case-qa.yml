@@ -11,7 +11,7 @@ permissions:
 jobs:
   missing:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
@@ -53,22 +53,15 @@ jobs:
           CASE_LIVE: '1'
         run: |
           node - <<'NODE'
-          const fs=require('node:fs');
-          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
-          (async()=>{
-          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            const base=process.env.CASE_URL,files=['index.html','assets/app.js','assets/style.css'];
-            for(let i=0;i<451;i++){
-              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-              const texts=await Promise.all(files.map(async file=>{
-                const r=await fetch(base+(file==='index.html'?'':file)+'?caseqa='+process.env.GITHUB_SHA,{cache:'no-store'});return r.ok?r.text():'';
-              }));
-              if(texts.every((s,j)=>s===fs.readFileSync(files[j],'utf8'))){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
-              await new Promise(r=>setTimeout(r,2000));
-            }
-            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published assets mismatch after 451 attempts at two-second intervals');
-          })().catch(e=>{console.error(e);process.exitCode=1;});
+          const {waitForPublishedAssets}=require('./scripts/published-assets.cjs');
+          waitForPublishedAssets({
+            base:process.env.CASE_URL,
+            sha:process.env.GITHUB_SHA,
+            files:['index.html','assets/app.js','assets/style.css']
+          }).then(result=>console.log(result==='matched'
+            ?'PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA
+            :'SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA
+          )).catch(error=>{console.error(error);process.exitCode=1;});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
             :

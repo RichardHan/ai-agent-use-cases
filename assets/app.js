@@ -1324,7 +1324,7 @@ function card(item, terms=[]) {
   const bottom = el('div', 'card-bottom');
   const read = el('button', '', item.kind === 'pending' ? '查看這個想法 →' : '看看怎麼用 →');
   read.type = 'button';
-  read.setAttribute('aria-label', '閱讀 ' + item.id + ' ' + item.title);
+  read.setAttribute('aria-label', read.textContent + ' 閱讀 ' + item.id + ' ' + item.title);
   read.addEventListener('click', () => showDetail(item, read));
   const proofBadge = el('span', 'proof', item.proof);proofBadge.dataset.proof = item.proof;
   proofBadge.setAttribute('role', 'note');

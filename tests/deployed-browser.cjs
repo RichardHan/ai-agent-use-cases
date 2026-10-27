@@ -1,19 +1,20 @@
 'use strict';
 const {chromium}=require('playwright');
-const assert=require('node:assert/strict'),fs=require('node:fs');
-const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
-if(skipIfSupersededPublishedUrl('https://richardhan.github.io/ai-agent-use-cases/')){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+const assert=require('node:assert/strict');
+const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
 (async()=>{
- const browser=await chromium.launch();
  const origin='https://richardhan.github.io/ai-agent-use-cases/';
- let ready=false,lastError;
- for(let attempt=0;attempt<181;attempt++){
-  if(attempt>0&&attempt%10===0&&skipIfSupersededPublishedUrl(origin)){
-   console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
-   process.exit(0);
-  }
-  const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
-  const page=await context.newPage();
+ const publication=await waitForPublishedAssets({base:origin,sha:process.env.GITHUB_SHA,files:['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']});
+ if(publication==='superseded'){
+  console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
+  return;
+ }
+ console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);
+ const browser=await chromium.launch();
+ try{
+ {
+  const desktop=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
+  const page=await desktop.newPage();
   try{
    const response=await page.goto(origin+'?deploy-check='+Date.now(),{waitUntil:'networkidle',timeout:30000});
    assert(response.ok(),'Pages response '+response.status());
@@ -28,21 +29,10 @@ if(skipIfSupersededPublishedUrl('https://richardhan.github.io/ai-agent-use-cases
    await page.evaluate(()=>scrollTo(0,0));
    await page.screenshot({path:'qa-artifacts/live-desktop.png'});
    console.log('PASS LIVE: Pages HTTPS, real generated catalog, scenario discovery and detail');
-   ready=true;
-  }catch(e){lastError=e;console.log('Waiting for Pages update, attempt '+(attempt+1));}
-  await context.close();
-  if(ready)break;
-  await new Promise(resolve=>setTimeout(resolve,5000));
+  }finally{await desktop.close();}
  }
- if(!ready){
-  if(skipIfSupersededPublishedUrl(origin)){
-   console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
-   process.exit(0);
-  }
-  assert(ready,String(lastError));
- }
- const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});
- const page=await context.newPage();
+  const mobile=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});
+  const page=await mobile.newPage();
  await page.goto(origin+'?scenario=生活&case=UC-001',{waitUntil:'networkidle'});
  await page.locator('#detail[open]').waitFor();
  await page.reload({waitUntil:'networkidle'});
@@ -55,5 +45,6 @@ if(skipIfSupersededPublishedUrl('https://richardhan.github.io/ai-agent-use-cases
  console.log('PASS LIVE: mobile direct link, refresh, close, scenario selection and no horizontal overflow');
  await require('./mobile-search-browser.cjs')({browser,origin,prefix:'live-mobile-search',sizes:[['desktop',1440,1000],['mobile',390,844]]});
  await require('./search-recovery-browser.cjs')({browser,origin,prefix:'live-search',sizes:[['desktop',1440,1000],['mobile',390,844]]});
- await browser.close();
+ await mobile.close();
+ }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});

@@ -2218,6 +2218,7 @@ function stopSourceRecovery() {
 async function retryFailedSources() {
   if(!discoveryReady||recoveringSources||!failedPaths.length)return;
   const paths=[...failedPaths];
+  let recoveryFocusTarget=null;
   const requestedCase=new URLSearchParams(location.search).get('case');
   recoveryController=new AbortController();
   recoveryProgress={completed:0,succeeded:0,total:paths.length};
@@ -2239,9 +2240,8 @@ async function retryFailedSources() {
     render(false,true);
     updateModalNav();
     if(recoveryControlFocused){
-      const target=failedPaths.length?$('retry-failed'):$('results-count');
-      target.focus({preventScroll:true});
-      target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+      recoveryFocusTarget=failedPaths.length?$('retry-failed'):$('results-count');
+      recoveryFocusTarget.focus({preventScroll:true});
     }else restoreFocus();
     refreshRelated();
     refreshMergedDestination();
@@ -2258,6 +2258,8 @@ async function retryFailedSources() {
     recoveringSources=false;
     recoveryController=null;recoveryProgress=null;
     updatePartialLoad();
+    if(document.activeElement===recoveryFocusTarget)
+      recoveryFocusTarget.scrollIntoView({block:failedPaths.length?'center':'nearest',inline:'nearest',behavior:'instant'});
   }
 }
 

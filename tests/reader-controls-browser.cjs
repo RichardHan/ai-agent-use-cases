@@ -73,7 +73,7 @@ if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS
  if(!process.env.OBSERVE){
  // Reader shortcuts precede sharing, so Tab must visit them in rendered order
  // rather than jump directly between the toolbar and the copy-link button.
- const earlyControls=page.locator('#detail-body .reader-method-shortcut,#detail-body .plain-overview button,#detail-body .plain-overview a[href],#copy-case-link');
+ const earlyControls=page.locator('#detail-body .reader-method-shortcut,#detail-body .plain-overview button,#detail-body .plain-overview a[href]:visible,#copy-case-link');
  const earlyCount=await earlyControls.count();
  assert.ok(earlyCount>=3,'method and overview shortcuts precede sharing');
  assert.ok(await earlyControls.first().evaluate(n=>n.matches('.reader-method-shortcut')),'the original-method shortcut is the first body control');

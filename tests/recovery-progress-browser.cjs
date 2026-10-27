@@ -29,6 +29,10 @@ for(const [engine,width,mode='stop'] of (before?[[chromium,1440],[chromium,390]]
  }else {await p.locator('#stop-recovery').focus();await p.keyboard.press('Enter');}
  }
  await p.waitForFunction(()=>!recoveringSources);r.after=await p.evaluate(()=>({count:entries.length,failed:[...failedPaths],focus:document.activeElement.id}));
+ if(!before&&mode==='stop')assert(await p.locator('#retry-failed').evaluate(n=>{
+  const rect=n.getBoundingClientRect();
+  return rect.top>=innerHeight*.2&&rect.bottom<=innerHeight*.8;
+ }), 'Stopped recovery must center the retry action after progress controls collapse');
  if(!before&&mode!=='reader'){assert.deepEqual(r.after.failed,mode==='zero'?paths:[paths[1]]);assert.equal(r.after.count,r.initial.count+(mode==='zero'?0:1));assert.equal(r.after.focus,'retry-failed');assert(await p.locator('#retry-failed').evaluate(n=>{const r=n.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight;}));assert.match(await p.locator('#load-status').innerText(),/已停止等待/);assert.equal(await p.locator('#query').inputValue(),'旅遊');assert.equal(await p.locator('#scenario').inputValue(),'生活');await p.screenshot({path:`${out}/stopped-${engine.name()}-${width}-${mode}.png`});release();phase='finish';await p.locator('#retry-failed').click();await p.waitForFunction(()=>!recoveringSources);assert.equal(await p.evaluate(()=>failedPaths.length),0);assert.equal(await p.evaluate(()=>entries.length),r.initial.count+2);assert(await p.locator('#partial-load').isHidden());r.axe=(await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations;assert.deepEqual(r.axe,[]);}
  if(mode==='reader'){assert.deepEqual(r.after.failed,[]);assert.equal(r.after.count,r.initial.count+2);assert.equal(await p.locator('#query').inputValue(),'旅遊');assert.equal(await p.locator('#scenario').inputValue(),'生活');}assert.deepEqual(r.errors,[]);
  }finally{release();fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await b.close();}

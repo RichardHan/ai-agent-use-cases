@@ -2373,6 +2373,7 @@ async function load() {
   const remaining=()=>Math.max(1,deadline-Date.now());
   initialLoadController=new AbortController();
   $('loading-progress').hidden=false;
+  $('search-loading-fallback').hidden=false;
   $('source-progress').removeAttribute('value');
   $('loading-summary').textContent='正在讀取目錄，接著會讀取案例全文。';
   $('use-loaded').disabled=true;
@@ -2526,6 +2527,8 @@ async function load() {
     syncPageContext();
     renderCategoryFinder();
     $('loading-progress').hidden=true;
+    if($('search-loading-fallback').contains(document.activeElement))$('query').focus({preventScroll:true});
+    $('search-loading-fallback').hidden=true;
   }
 }
 function drawNext(){

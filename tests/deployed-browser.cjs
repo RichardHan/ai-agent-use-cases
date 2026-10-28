@@ -46,5 +46,6 @@ const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
  await require('./mobile-search-browser.cjs')({browser,origin,prefix:'live-mobile-search',sizes:[['desktop',1440,1000],['mobile',390,844]]});
  await require('./search-recovery-browser.cjs')({browser,origin,prefix:'live-search',sizes:[['desktop',1440,1000],['mobile',390,844]]});
  await mobile.close();
+ await require('./initial-index-fallback-browser.cjs')({browser,origin});
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});

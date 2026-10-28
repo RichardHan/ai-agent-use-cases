@@ -81,6 +81,25 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
   assert(await page.locator('#results-count').evaluate(n=>n===document.activeElement),'scenario handoff focuses the result count');
   assert.equal(new URL(page.url()).searchParams.get('q'),null,'scenario handoff clears the earlier search');
   await audit('scenario-handoff');
+  await page.goBack();
+  await page.locator('#detail[open]').waitFor();
+  assert.equal(await page.locator('#detail-toolbar-id').innerText(),firstID,'Back restores the case before scenario exploration');
+  assert.equal(new URL(page.url()).searchParams.get('q'),'旅遊','Back restores the previous search');
+  assert.equal(new URL(page.url()).searchParams.get('tool'),'Grok Bot','Back restores the previous filter');
+  await page.goForward();
+  await page.waitForFunction(()=>!document.getElementById('detail').open);
+  assert.equal(await page.locator('#scenario').inputValue(),chosenScenario.match(/「(.+)」/)[1],'Forward restores scenario results');
+  if(!live){
+   await page.goto(origin+'?case=UC-001',{waitUntil:'networkidle'});
+   await page.locator('#detail[open]').waitFor();
+   await page.locator('.plain-overview .detail-action-scenario').click();
+   await page.goBack();
+   await page.locator('#detail[open]').waitFor();
+   assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-001','Back restores a directly shared case');
+   await page.goForward();
+   await page.waitForFunction(()=>!document.getElementById('detail').open);
+   assert.equal(await page.locator('#scenario').inputValue(),'生活');
+  }
   // Live smoke uses two corpus loads per viewport; boundary repetitions stay on preview.
   if(live){
    await page.goto(origin+'?case=UC-005',{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();

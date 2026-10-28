@@ -727,6 +727,8 @@ function scenarioExploreAction(item) {
   button.type = 'button';
   button.setAttribute('aria-label', `探索更多「${item.scenario}」案例`);
   button.addEventListener('click', () => {
+    rememberReadingView();
+    history.pushState(history.state, '', location.href);
     closeDetail();
     chooseScenario(item.scenario);
     $('results-count').focus({preventScroll:true});

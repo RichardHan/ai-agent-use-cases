@@ -2548,7 +2548,7 @@ function syncDiscovery(filtered){
   if(pool.length)drawNext();
   else{
     const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
-    $('drawn-case').replaceChildren(el('p','draw-placeholder',`${diffText}目前沒有可抽的案例卡。試試「全部門檻」或其他情境，或在下方調整篩選。`));
+    $('drawn-case').replaceChildren(el('p','draw-placeholder',`${diffText}目前沒有可抽的案例卡。抽卡也受下方搜尋與篩選影響；試試修改搜尋字詞或調整篩選。`));
     $('draw-status').textContent=($('scenario').value||'全部情境')+($('difficulty')?.value?' · '+$('difficulty').value:'')+' 目前沒有可抽的案例卡。';
     $('draw-case').textContent='沒有可抽的案例';
   }

@@ -2083,6 +2083,35 @@ function parseCorpusBundle(bundle, paths, revision, parseFn) {
   }
   return parsed;
 }
+// Cache Storage has no AbortSignal; bound its reads without delaying the
+// network bundle or the existing whole-load cancellation.
+function boundedCacheRead(operation,signal,deadline) {
+  if(signal.aborted||Date.now()>=deadline)return Promise.reject(Error('快取讀取已停止'));
+  let timer,stop;
+  const cancelled=new Promise((_,reject)=>{
+    stop=()=>reject(Error('快取讀取已停止'));
+    signal.addEventListener('abort',stop,{once:true});
+    timer=setTimeout(stop,Math.min(100,Math.max(1,deadline-Date.now())));
+  });
+  return Promise.race([operation,cancelled]).finally(()=>{
+    clearTimeout(timer);
+    signal.removeEventListener('abort',stop);
+  });
+}
+async function persistCorpus(cache,key,response) {
+  try {
+    await cache.put(key,response.clone());
+  } catch(error) {
+    // A previous version may fill the quota. Reclaim it and try once more.
+    const old=(await cache.keys()).filter(request=>request.url!==new URL(key,location.href).href);
+    await Promise.all(old.map(request=>cache.delete(request)));
+    await cache.put(key,response.clone());
+  }
+  // Cache keys are insertion ordered. Retain the two newest revisions so
+  // concurrent tabs cannot prune each other's just-published entry.
+  const keys=await cache.keys();
+  await Promise.all(keys.slice(0,-2).map(request=>cache.delete(request)));
+}
 async function loadInitialCorpus(paths, options = {}) {
   if(typeof options.bundleRevision!=='string'||!options.bundleRevision)return loadCorpus(paths,options);
   const fetchFn=options.fetch||fetch,parseFn=options.parseFile||parseFile;
@@ -2111,12 +2140,39 @@ async function loadInitialCorpus(paths, options = {}) {
     if(controller.signal.aborted)abortBundle();
     const bundleTimer=setTimeout(abortBundle,Math.min(options.bundleTimeout||2500,Math.max(1,deadline-Date.now())));
     let bundled=false;
+    const cacheKey='corpus.json?bundleRevision='+encodeURIComponent(options.bundleRevision)+'&sourceRevision='+encodeURIComponent(options.sourceRevision||'');
+    let cache;
+    try { if(typeof caches!=='undefined')cache=await boundedCacheRead(caches.open('ai-agent-use-cases-corpus-v1'),bundleController.signal,deadline); }
+    catch(error) { console.warn('全文快取不可用，改用網路讀取：',error); }
     try {
-      const response=await fetchFn('corpus.json',{cache:'no-cache',signal:bundleController.signal});
-      if(!response.ok)throw Error('HTTP '+response.status);
-      const data=await response.json();
+      let response,parsed,data;
+      if(cache) {
+        try {
+          response=await boundedCacheRead(cache.match(cacheKey),bundleController.signal,deadline);
+          if(response) {
+            data=await boundedCacheRead(response.json(),bundleController.signal,deadline);
+            if(data.sourceRevision!==options.sourceRevision)throw Error('全文快取來源版本不符');
+            parsed=parseCorpusBundle(data,paths,options.bundleRevision,parseFn);
+          }
+        } catch(error) {
+          console.warn('全文快取無法使用，改用網路讀取：',error);
+          response=null;parsed=null;
+          cache.delete(cacheKey).catch(()=>{});
+        }
+      }
+      if(!parsed) {
+        response=await fetchFn('corpus.json',{cache:'no-cache',signal:bundleController.signal});
+        if(!response.ok)throw Error('HTTP '+response.status);
+        const copy=cache&&response.clone?response.clone():null;
+        data=await response.json();
+        if(bundleController.signal.aborted)throw Error('全文整包讀取已停止');
+        parsed=parseCorpusBundle(data,paths,options.bundleRevision,parseFn);
+        if(copy&&data.sourceRevision&&data.sourceRevision===options.sourceRevision) {
+          // Persistence is best-effort and must not delay a readable result.
+          persistCorpus(cache,cacheKey,copy).catch(error=>console.warn('全文快取寫入或整理失敗：',error));
+        }
+      }
       if(bundleController.signal.aborted)throw Error('全文整包讀取已停止');
-      const parsed=parseCorpusBundle(data,paths,options.bundleRevision,parseFn);
       if(data.sourceRevision && data.sourceRevision===options.sourceRevision) {
         const verified=[...parsed.keys()].filter(path=>{
           const early=successful.get(path),bundled=parsed.get(path);

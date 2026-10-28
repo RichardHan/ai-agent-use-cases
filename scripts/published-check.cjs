@@ -10,10 +10,17 @@ function isCurrentMainCommit(checkoutSha,getMainSha=getRemoteMainSha){
  if(process.env.GITHUB_REF!=='refs/heads/main')return true;
  if(!checkoutSha)throw Error('GITHUB_SHA is required for a published asset check');
  let mainSha;
- try{
-  mainSha=getMainSha();
- }catch(error){
-  throw Error('Cannot confirm the main tip for published verification: '+error.message,{cause:error});
+ for(let attempt=1;attempt<=3;attempt++){
+  try{
+   mainSha=getMainSha();
+   break;
+  }catch(error){
+   if(error.code==='ETIMEDOUT'&&attempt<3){
+    console.warn(`Main tip lookup timed out (attempt ${attempt}/3); retrying`);
+    continue;
+   }
+   throw Error('Cannot confirm the main tip for published verification: '+error.message,{cause:error});
+  }
  }
  if(!mainSha){
   throw Error('Cannot confirm the main tip for published verification: origin returned no commit');

@@ -4,12 +4,20 @@ on:
     paths:
       - 'assets/**'
       - 'index.html'
+      - 'INDEX.md'
+      - 'catalog.json'
+      - 'corpus.json'
+      - 'audit-summary.json'
+      - 'cases/**'
+      - 'evidence/**'
+      - 'sources/**'
+      - '_config.yml'
       - 'tests/**'
       - 'scripts/**'
       - '.github/workflows/website-qa.yml'
   push:
     branches: ['main']
-    paths: ['assets/**', 'index.html', 'catalog.json', 'tests/**', 'scripts/**', '.github/workflows/website-qa.yml']
+    paths: ['assets/**', 'index.html', 'INDEX.md', 'catalog.json', 'corpus.json', 'audit-summary.json', 'cases/**', 'evidence/**', 'sources/**', '_config.yml', 'tests/**', 'scripts/**', '.github/workflows/website-qa.yml']
 permissions:
   contents: read
 jobs:

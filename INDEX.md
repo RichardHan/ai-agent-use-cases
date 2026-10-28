@@ -194,7 +194,7 @@
 
 歷史發布快照（2026-10-17 14:43 台灣時間，計數已由上方補核取代）：**266／500 個保守核對案例，另 2 個暫保留待定（UC-272、275）**。上方 268 是沿用已發布總數加本次 UC-279–283；本批新增 5 個不同實作流程，並補充 UC-067 備份變體（不另計數）。兩種口徑不可相加。
 
-## 主要案例（443）
+## 主要案例（452）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -270,7 +270,7 @@
 | UC-073 | 網站顧客路徑、頁面盤點與表格讀回驗收 | ChatGPT dots／Grok Bot／公開網站／Sheets | [作者使用、核對及漏頁反例；完整產物未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
 | UC-074 | 裝置事件喚醒後重新讀取資料並驗收 | ChatGPT dots／MCP Events／自建 MCP | [作者建置自述＋官方文件；未重現](cases/074-event-trigger-readback.md) | 開發｜實體裝置、事件觸發、驗收 |
 | UC-075 | 就醫前整理健康摘要，診後追蹤建議與後續問題 | Muse／Grok Bot／ChatGPT dots | [作者長文自述；未重現](cases/075-health-appointment-briefing-coach.md) | 生活｜健康、門診、保險、驗收 |
-| UC-076 | 從資料仲介站找出電話號碼並申請退出垃圾來電名單；回收門號找電信客服被擋；Bot專屬信箱自行退出；選舉季政治郵件／簡訊／來電模板 | Grok Bot／Spam-Call Scrubber（含 DNCR 確認信、西班牙 Lista Robinson＋Gmail 退訂自述）；Meta Muse 回收門號實測（失敗） | [技能頁＋負責人轉貼＋使用者自述＋DNCR 確認信提示＋Lista Robinson 官方說明已讀＋CNET Muse客服機器人與仲介站表單皆被擋實測＋政治垃圾訊息模板頁與使用者貼標籤、退訂、每天8點複查自述＋使用者DNCR確認信由Bot專屬信箱代點自述；未重現](cases/076-spam-call-data-broker-optout.md) | 生活｜隱私、電話、排程、核准 |
+| UC-076 | 從資料仲介站找出電話號碼並申請退出垃圾來電名單；回收門號找電信客服被擋；Bot專屬信箱自行退出；選舉季政治郵件／簡訊／來電模板；先唯讀盤點收件匣、核准清單後批次退訂，再由兩個Bot分工填仲介站表單與代點驗證信 | Grok Bot／Spam-Call Scrubber（含 DNCR 確認信、西班牙 Lista Robinson＋Gmail 退訂自述）；Meta Muse 回收門號實測（失敗） | [技能頁＋負責人轉貼＋使用者自述＋DNCR 確認信提示＋Lista Robinson 官方說明已讀＋CNET Muse客服機器人與仲介站表單皆被擋實測＋政治垃圾訊息模板頁與使用者貼標籤、退訂、每天8點複查自述＋使用者DNCR確認信由Bot專屬信箱代點自述＋收件匣盤點到雙Bot退出的使用者自述（2026-10-28補）；未重現](cases/076-spam-call-data-broker-optout.md) | 生活｜隱私、電話、排程、核准 |
 | UC-077 | 雲端寫稿排版，再呼叫本機 Mac 發布腳本推到公眾號草稿箱並同步知識庫 | Grok Bot（雲端電腦＋本機 Mac）／公眾號腳本／飛書 lark-cli | [作者自述＋官方雲端與本機電腦文件；無截圖、未重現](cases/077-cloud-draft-local-script-wechat-publish.md) | 創作｜社群、發文、本機執行、核准 |
 | UC-078 | 社群廣告租屋物件付訂金前，查產權、紀錄與仲介再檢舉 | Grok Bot | [作者單次自述；報告未取得、未重現](cases/078-rental-listing-scam-check.md) | 生活｜詐騙、租屋、資料查證、檢舉 |
 | UC-079 | 業務信箱失效：測寄找退信、修別名、起草請重寄 | Grok Bot | [作者自述凌晨修復別名；無設定截圖、未重現](cases/079-business-email-alias-diagnosis.md) | 工作｜收件匣、故障診斷、核准、驗收 |
@@ -540,7 +540,7 @@
 | UC-348 | 買房物件先由Bot依預算、學區、尖峰通勤過濾，通過才交房仲調揭露文件再估整修費；租屋版由Muse每天搜分類廣告、只在符合時通知 | Grok Bot／Zillow／Slack；Meta Muse／Craigslist、Facebook Marketplace | [作者單則文字自述；無截圖、篩選準確度未核；2026-10-22補HN租屋變體，不加數](cases/348-home-search-screening-realtor-disclosure-handoff.md) | 生活｜買房、篩選、交接、Slack |
 | UC-349 | dots主動提醒詢問信，登錄Notion受理表、查行事曆空檔、存附候選日的回信草稿 | ChatGPT dots／Gmail／Notion／Google行事曆 | [日文作者自述＋流程示意圖；無實際畫面、未重現](cases/349-dots-inquiry-ledger-calendar-reply-draft.md) | 工作｜收件匣、Notion、日曆、草稿 |
 | UC-350 | 主管平日晨報分工：dots讀內部資料存Notion，Grok Bot分角色收公開新聞與作品評價發Slack | ChatGPT dots／Grok Bot／Slack／Notion | [日文作者長文自述，含接收程式停擺、Auto-review卡關等失敗；無截圖](cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md) | 工作｜每日、晨報、多代理、Slack |
-| UC-351 | Grok Bot只負責調度，重活交給雲端電腦上的OpenCode免費模型，做不好再換Pi Agent＋DeepSeek；外部CLI做完以webhook叫回、主Bot每天稽核新routine；在自家Mac以非互動指令輪用兩個Claude Code帳號與Codex、每小時把用量寫進Bot標籤 | Grok Bot／OpenCode／Pi Agent／DeepSeek／Claude Code／Codex | [中文作者四則串自述＋架構示意圖＋另一作者公開腳本（webhook叫醒）＋英文作者外包CLI與每日routine稽核自述＋日文作者本機多帳號分派與用量標籤自述；無用量前後數據、未重現](cases/351-grokbot-dispatch-only-offload-free-model-agents.md) | 開發｜多代理、派工、用量 |
+| UC-351 | Grok Bot只負責調度，重活交給雲端電腦上的OpenCode免費模型，做不好再換Pi Agent＋DeepSeek；外部CLI做完以webhook叫回、主Bot每天稽核新routine；在自家Mac以非互動指令輪用兩個Claude Code帳號與Codex、每小時把用量寫進Bot標籤；Grok Bot只抓X寫JSON、整理寫報告交本機Codex，多個routine錯開共用讀取上限 | Grok Bot／OpenCode／Pi Agent／DeepSeek／Claude Code／Codex | [中文作者四則串自述＋架構示意圖＋另一作者公開腳本（webhook叫醒）＋英文作者外包CLI與每日routine稽核自述＋日文作者本機多帳號分派與用量標籤自述＋簡中作者只抓取寫JSON自述與設定回覆截圖（2026-10-28補）；無用量前後數據、未重現](cases/351-grokbot-dispatch-only-offload-free-model-agents.md) | 開發｜多代理、派工、用量 |
 | UC-352 | 每天讓Bot讀flomo筆記，換一種洞察角度推送一則回顧 | Grok Bot／flomo | [中文作者自述＋單日推送截圖；接入方式與模板輪換未見、未重現](cases/352-daily-flomo-memo-insight-push-rotating-template.md) | 學習｜每日、筆記、自我回顧 |
 | UC-353 | 雲端Bot與本機代理只經私有Git任務檔交接，雲端不對本機下命令 | Grok Bot／GitHub Actions／macOS launchd／本機代理 | [中文作者自述＋公開參考實作文件已讀＋同作者寫文→封面→雙平台發布用法自述（2026-10-26補）；公開版端到端未驗證、未重現](cases/353-cloud-local-agent-git-task-relay.md) | 開發｜跨代理、交接、事件觸發、權限邊界 |
 | UC-354 | 每天從X書籤挑一個點子做成互動網頁demo，瀏覽器檢查後上線 | Grok Bot／Cursor雲端代理／Claude Code／Cloudflare | [英文作者多日貼文＋公開作品集；排程與檢查紀錄未見、未重現](cases/354-daily-bookmark-to-live-interactive-demo.md) | 創作｜每日、書籤、互動網頁、部署 |
@@ -618,10 +618,8 @@
 | UC-459 | 自己的X成效儀表板：帳號變動在圖上標記、另設「觀看÷前一天追蹤者」指標，分析數據每週手動匯出CSV交Bot | Grok Bot（頁面功能＋X外掛）／X Analytics CSV | [B作者貼文＋自回覆＋英文重製影片縮圖（數字隱藏）；未重現](cases/459-x-own-analytics-dashboard-change-markers-normalized-kpi.md) | 創作｜社群、數據儀表板、Pages、每週 |
 | UC-460 | 在家自學備課：Bot用指定教材編單元，再做一頁總表列課數、來源與上課前待查證事實 | Grok Bot（多Bot＋頁面功能） | [B英文作者單則自述＋插畫風附圖；單元內容未公開、未重現](cases/460-homeschool-lesson-units-tracker-facts-to-verify.md) | 學習｜教學、家庭、數據儀表板、查證 |
 | UC-461 | 測試商店用測試卡實際走一次結帳並錄影，剪成遮掉姓名電郵地址的示範影片 | Grok Bot（雲端電腦與瀏覽器）／WooCommerce測試站 | [B英文作者貼文＋Bot回覆截圖（訂單#277、錄4.5分）；影片未看、未重現](cases/461-staging-store-test-checkout-recorded-demo-video.md) | 工作｜電商、測試、影片、隱私 |
-
 | UC-457 | 讓dots連續約30小時蓋3D街景：每次先讀同一頁Notion規則、一棟＝3小時工作格、定時點檢與交接備忘、截圖交另一個AI每小時檢查、只在付費／公開／刪除時問人 | ChatGPT dots（排程）／Claude Opus 5.5（設計）／Notion／Blender／Vercel | [B日文作者note長文＋X作法串＋可走動的公開成品網頁（三件連續作品）；規則頁與紀錄未公開、未重現](cases/457-dots-30-hour-unattended-3d-street-build-rulebook-checkins.md) | 創作｜3D、長時間任務、規則檔、排程 |
 | UC-458 | 把每天的X讀取額度拿來建自己的貼文資料庫：一週3萬多則，替90個帳號分角色、算近3天話題熱度、記每日額度，做成頁面看板 | Grok Bot（每日排程、X讀取、頁面Pages） | [B簡中作者貼文＋3張看板截圖；抓取方式與資料庫未公開、未重現](cases/458-daily-x-read-quota-personal-corpus-role-tags-topic-radar-page.md) | 創作｜每日、X、資料庫、看板 |
-
 | UC-426 | 讓DNA結構轉成短片，但不要把鏡頭旋轉說成分子模擬 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/426-fixed-molecular-coordinates-camera-storytelling.md) | 創作｜3D、來源、驗收 |
 | UC-427 | 機構說不清？用同一模型的外觀、斷面、分解與狀態圖檢查 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/427-invention-prose-coherent-mechanism-explanation-views.md) | 創作｜3D、來源、驗收 |
 | UC-428 | 檔案做好卻拿不到？用固定版本的接收站分清保存、收件和匯入 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/428-version-fixed-artifact-receipt-hub.md) | 開發｜交付、版本、驗收 |
@@ -648,6 +646,10 @@
 | UC-454 | 訂單費用整理成Notion日結，缺成本保留待確認並核對寫回 | Grok Bot／Notion | [B級示範與兩圖一致；非獨立重算](cases/454-notion-daily-settlement-writeback-cost-gap-check.md) | 工作｜日結、Notion、缺值、寫回驗收 |
 | UC-455 | 用M5StickC Plus2做按住說話的隨身Muse裝置，從記錄檔找出記憶體不足並補日文字型 | Meta Muse（Muse Gadgets SDK）／M5StickC Plus2／ESP-IDF | [B日文作者實測＋改前改後記錄檔；官方開源SDK；未重現](cases/455-muse-gadgets-m5stickc-plus2-pocket-push-to-talk.md) | 開發｜實體裝置、語音、故障診斷 |
 | UC-456 | 小網站不架後台：Muse改Markdown推到GitHub，自動建成靜態頁並由GitHub Pages公開 | Meta Muse／GitHub Actions／GitHub Pages／markdown-cms | [B日文作者自述＋公開示範站與MIT倉庫；Muse權限與操作未公開、未重現](cases/456-muse-github-markdown-static-site-operations.md) | 工作｜網站、GitHub、發布、權限 |
+| UC-465 | 每週請主Bot對照官方文件與更新日誌，盤點自己的Bot、routine、技能與連接器，只對真實繞路提出替換提案：附影響、風險與撤回法，先並行試跑、本人同意才換 | Grok Bot（主Bot／幕僚長＋每週routine） | [英文作者分享提示詞（全文未取得）＋簡中作者七步改寫版；無執行結果，屬未測提示詞](cases/465-weekly-official-update-review-routine-upgrade-proposals.md) | 開發｜排程、巡檢、核准、多代理 |
+| UC-466 | 終端機的Claude Code／Codex查不到X最新消息：一個指令開GitHub issue再指派給自己，觸發Grok Bot調查、留言回答並關閉，本機每20秒查狀態後印出 | Grok Bot（GitHub指派事件routine）／GitHub CLI／Claude Code／Codex CLI | [B日文作者Qiita全文＋流程圖與一次約2分鐘的執行截圖；腳本未公開、未重現](cases/466-cli-agent-ask-grok-bot-research-via-github-issue-assign.md) | 開發｜跨代理、事件觸發、GitHub、研究 |
+| UC-467 | LINE、WeChat沒有給AI的接口：在Muse雲端Linux電腦裝聚合App與官方桌面版，讓它讀群組整理點歌清單、看畫面收發訊息；登入掃碼與付款留給本人 | Meta Muse（雲端電腦）／Beeper／WeChat Linux版／Android模擬器 | [B日文作者Qiita自述（Muse代寫）；無截圖，點餐部分未下單、未重現](cases/467-muse-cloud-desktop-messaging-apps-screen-operation.md) | 開發｜瀏覽器自動化、雲端電腦、通訊、人工確認 |
+| UC-468 | 家庭行政交給dots：看郵局信封預覽濾掉廣告與前住戶信、標出稅務保險監理信；托育帳單PDF按月改名存Dropbox並關閉Todoist任務；托育日誌照片缺漏回補並確認顯示 | ChatGPT dots／USPS信封預覽／Dropbox／Todoist／Craft | [B英文作者13項長文自述；無截圖、連接方式未說明、未重現](cases/468-dots-household-admin-mail-preview-filter-bill-filing.md) | 生活｜家庭、帳單、文件歸檔、待辦 |
 
 ## 驗證與模板補充（3，不列新增成功案例）
 
@@ -903,3 +905,7 @@
 ## 2026-10-26 08:52：每日批次（X＋Qiita／Zenn／Hacker News）
 
 [約20組候選與查閱範圍](sources/research-2026-10-26-0852.md)：新增合格2（UC455 Muse隨身對講裝置記憶體診斷、UC456 Muse維護Markdown靜態網站），合併補充3（UC412 Muse版三平台草稿、UC411「Hey Grok」語音捷徑喚醒與不穩反例、UC353同作者寫文發布接力）；其餘為清單、宣傳、比較或證據不足。均為作者自述／示範，未獨立重現。
+
+## 2026-10-28 08:40：每日批次（X＋Qiita／Zenn／Hacker News）
+
+[約60組候選與查閱範圍](sources/research-2026-10-28-0840.md)：新增4（UC465每週對照官方更新提出routine替換提案〔未測提示詞〕、UC466本機程式代理經GitHub issue指派請Grok Bot查X、UC467 Muse雲端電腦以畫面操作讀LINE與收發WeChat、UC468 dots信封預覽篩信與托育帳單歸檔），合併補充2（UC351 Grok Bot只抓取寫JSON、整理交本機代理；UC076唯讀盤點收件匣到雙Bot退出仲介站）；其餘為宣傳、清單、比較或證據不足。除UC465為未測提示詞外均為作者自述，未獨立重現。

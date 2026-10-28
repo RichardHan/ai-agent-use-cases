@@ -257,6 +257,11 @@
 .load-status:empty{display:none}
 @media(max-width:760px){.partial-load{align-items:stretch;flex-direction:column;gap:12px;padding:16px}.partial-load button{align-self:flex-start}}
 
+/* A static escape route remains available even if the application script never starts. */
+.hero-index-fallback{font-size:13px;line-height:1.7;color:#4c6258;margin:-12px 0 16px;overflow-wrap:anywhere}
+.hero-index-fallback a{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:650;text-underline-offset:3px}
+.hero-index-fallback a:focus-visible{outline:3px solid #799f27;outline-offset:2px}
+
 /* Make source loading observable without presenting incomplete coverage as complete. */
 .loading-progress{padding:18px;border:1px solid #a4b8aa;border-radius:10px;background:#f7faf7;margin:12px 0 18px;color:#294b3b}
 .loading-progress label{display:block;font-size:15px;font-weight:650;line-height:1.6}

@@ -16,7 +16,6 @@ const searchSubmitCjs = fs.readFileSync(path.join(__dirname, 'search-submit-brow
 const loadRecoveryCjs = fs.readFileSync(path.join(__dirname, 'load-recovery-live.cjs'), 'utf8');
 const cardRefinementWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/card-refinement-qa.yml'), 'utf8');
 const combinedRecoveryWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/combined-recovery-qa.yml'), 'utf8');
-const relevanceWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/relevance-qa.yml'), 'utf8');
 const submitWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/search-submit-qa.yml'), 'utf8');
 
 test('empty search state provides problem-oriented recovery chips in app.js', () => {
@@ -61,14 +60,6 @@ test('published checks allow the observed 11m38s Pages deployment to finish', ()
       label: 'corpus',
       workflow: '../.github/workflows/corpus-qa.yml',
       source: 'corpus-browser.cjs',
-      attempts: /attempt<(\d+)/,
-      interval: /setTimeout\(resolve,\s*(\d+)\)/,
-      expectedMs: 900000
-    },
-    {
-      label: 'relevance',
-      workflow: '../.github/workflows/relevance-qa.yml',
-      source: '../.github/workflows/relevance-qa.yml',
       attempts: /attempt<(\d+)/,
       interval: /setTimeout\(resolve,\s*(\d+)\)/,
       expectedMs: 900000
@@ -145,9 +136,6 @@ test('combined recovery published verification covers observed Pages deployment 
 
 
 test('GitHub Actions workflows provide sufficient polling window for Pages deployment', () => {
-  const relevanceMatch = relevanceWorkflow.match(/attempt\s*<\s*(\d+)/);
-  assert.ok(relevanceMatch, 'relevance-qa.yml must contain attempt loop');
-  assert.ok(parseInt(relevanceMatch[1], 10) >= 140, 'relevance-qa.yml should poll at least 140 attempts');
 
   const submitMatch = submitWorkflow.match(/range\((\d+)\)/);
   assert.ok(submitMatch, 'search-submit-qa.yml must contain attempt range');

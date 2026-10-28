@@ -1,6 +1,6 @@
 ## 2026-10-28 首頁載入停滯的靜態案例入口
 
-app.js 未執行時原本只顯示準備中，完整索引藏在 noscript 或失敗區塊。首頁搜尋入口旁新增不依賴腳本的 GitHub Markdown 索引連結；390px 停滯模擬首屏 y=682.8px、44.4px 高，正常搜尋、篩選、空結果、UC-001 直鏈與返回不變。GitHub main 內容可能較本站新；正式發布待核對。[兩案、前後截圖及驗收](docs/qa/2026-10-28-stalled-index.md)。下一輪優先處理 Reader source links／Print reading QA 仍約 15 分鐘的發布等待窗口。
+app.js 未執行時原本只顯示準備中，完整索引藏在 noscript 或失敗區塊。首頁任務入口後新增不依賴腳本的 GitHub Markdown 索引連結；390px 停滯模擬首屏 y=703.8px、44px 高，320px 保留原任務首屏而索引需稍捲動。正常搜尋、篩選、空結果、UC-001 直鏈與返回不變。GitHub main 內容可能較本站新；正式發布待核對。[兩案、前後截圖及驗收](docs/qa/2026-10-28-stalled-index.md)。下一輪優先處理 Reader source links／Print reading QA 仍約 15 分鐘的發布等待窗口。
 
 ## 2026-10-28 共享案例公開站 QA 等待同版發布
 

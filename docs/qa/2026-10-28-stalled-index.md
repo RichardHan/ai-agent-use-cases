@@ -16,6 +16,6 @@
 
 預覽：`python3 scripts/preview.py /tmp/visitor-quality-20261028-preview/ai-agent-use-cases`，再用 `python3 -m http.server 8138 --directory /tmp/visitor-quality-20261028-preview` 開啟 `http://127.0.0.1:8138/ai-agent-use-cases/`。手機停滯截圖使用相同預覽 HTML、僅移除 app.js script 標籤以模擬腳本未執行；不是網路實測斷線。桌面修改前截圖由相同預覽移除新入口對照，非正式站截圖。
 
-基準 `node --test tests/*.test.cjs`：364 通過、0 失敗；`scripts/preview.py` 成功。修改後瀏覽器 390px：連結 y=682.8px、高 44.4px、聚焦輪廓 solid、水平溢出 0；正常搜尋「旅遊」33／459，生活組合 20／459，無效詞 0／459，UC-001 直鏈重載與關閉返回成功。正式 Pages 尚未發布，不將本機結果當成正式站驗收。
+基準及修改後 `node --test tests/*.test.cjs`：364 通過、0 失敗；`scripts/preview.py` 成功，457 來源逐 byte 一致。修改後瀏覽器 390px：連結 y=703.8px、高 44px、聚焦輪廓 solid、水平溢出 0；320×740px 原有任務入口仍在首屏，索引入口 y=733.9px、需稍向下捲動。正常搜尋「旅遊」33／459，生活組合 20／459，無效詞 0／459，UC-001 直鏈重載與關閉返回成功。PR #156 的 Home search entry QA 初次因索引插在任務入口前、擠出 320px 首屏而失敗；已將索引移至任務入口後，需重跑 Actions。正式 Pages 尚未發布，不將本機結果當成正式站驗收。
 
 下一輪：針對主分支 Reader source links／Print reading QA 的公開資產等待窗口（仍約 15 分鐘）與曾觀察到 22 分 29 秒的 Pages 發布時差統一處理。

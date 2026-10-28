@@ -255,6 +255,8 @@
 .partial-load button[aria-disabled=true]{cursor:wait}
 .load-status{font-size:14px;line-height:1.8;color:#4c6258;margin:12px 0 0}
 .load-status:empty{display:none}
+.search-loading-fallback a{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:650;text-underline-offset:3px}
+.search-loading-fallback a:focus-visible{outline:3px solid #799f27;outline-offset:2px}
 @media(max-width:760px){.partial-load{align-items:stretch;flex-direction:column;gap:12px;padding:16px}.partial-load button{align-self:flex-start}}
 
 /* A static escape route remains available even if the application script never starts. */

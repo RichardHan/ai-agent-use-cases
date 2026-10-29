@@ -1634,10 +1634,7 @@ function currentSearchLink() {
 // as a separate Back/Forward stop (including combined facet and sort changes).
 let committedSearchURL=typeof location==='undefined'?'':location.href, queryDirty=false, facetDraftDirty=false;
 let searchComposing = false, categoryComposing = false;
-function submitSearch(event) {
-  event.preventDefault();
-  if (!discoveryReady || searchComposing || event.isComposing || categoryComposing || (document.activeElement?.id==='category-query' && event.submitter?.id!=='search-submit')) return;
-  allowAutomaticArrival = false;
+function commitSearchHistory() {
   const url = new URL(location.href);
   url.hash = 'explore';
   if((queryDirty||facetDraftDirty) && committedSearchURL!==url.href){
@@ -1649,6 +1646,12 @@ function submitSearch(event) {
   committedSearchURL=url.href;
   queryDirty=false;
   facetDraftDirty=false;
+}
+function submitSearch(event) {
+  event.preventDefault();
+  if (!discoveryReady || searchComposing || event.isComposing || categoryComposing || (document.activeElement?.id==='category-query' && event.submitter?.id!=='search-submit')) return;
+  allowAutomaticArrival = false;
+  commitSearchHistory();
   focusLoadedResults('start');
 }
 function revealSearch(resultsOnly=false) {
@@ -2700,8 +2703,10 @@ $('scenario-chips')?.addEventListener('click', e => {
   } else if (chip.dataset.query) {
     const q = chip.dataset.query;
     $('query').value = $('query').value.trim() === q ? '' : q;
+    queryDirty = true;
     allowAutomaticArrival = false;
     render();
+    commitSearchHistory();
     // Task shortcuts are explicit searches. Reuse the bounded result handoff,
     // but keep loading/error intent in place without a delayed focus jump.
     if (discoveryReady) focusLoadedResults('start');

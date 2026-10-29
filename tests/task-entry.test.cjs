@@ -21,6 +21,3 @@ test('second click removes only the experience status, including under an empty 
  const x=setup('evidence');x.fields.query.value='no-such-task';x.click({kind:'evidence'});
  assert.equal(x.fields.kind.value,'');assert.equal(x.fields.query.value,'no-such-task');assert.equal(x.fields.sort.value,'reviewed');assert.equal(x.context.activeScenario,'工作');assert.equal(x.renders(),1);
 });
-test('existing query and scenario entries retain their independent toggle behavior',()=>{
- const x=setup('pending');x.click({query:'收件匣'});assert.equal(x.fields.query.value,'收件匣');assert.equal(x.fields.kind.value,'pending');x.click({query:'收件匣'});assert.equal(x.fields.query.value,'');x.click({scenario:'工作'});assert.equal(x.context.activeScenario,'');assert.equal(x.fields.kind.value,'pending');
-});

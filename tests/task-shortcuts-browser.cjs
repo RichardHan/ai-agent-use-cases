@@ -17,6 +17,12 @@ const out=process.env.QA_OUT||'qa-artifacts/after';fs.mkdirSync(out,{recursive:t
   const audit=async()=>{const r=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(r.violations.map(v=>v.id),[]);return r.violations.length;};
   const shot=async name=>page.screenshot({path:`${out}/${name}-${label}.png`});
   await ready();row.total=await page.evaluate(()=>entries.length);await shot('home');await panel();await page.locator('#task-shortcuts-hint').scrollIntoViewIfNeeded();await shot('task-hint');
+  // Explicit task searches must remain navigable with browser Back and Forward.
+  await page.locator('.chip[data-query="日報"]').click();await settled();
+  await page.locator('.chip[data-query="會議"]').click();await settled();
+  await page.goBack();assert.equal(await page.locator('#query').inputValue(),'日報');
+  await page.goForward();assert.equal(await page.locator('#query').inputValue(),'會議');
+  await ready();await panel();
   // Journey 1: one explicit task action leads to visible results, and can be undone.
   for(const q of ['每日','收件匣','比價','排程']){
    await panel();const task=page.locator(`.chip[data-query="${q}"]`);await task.focus();await page.keyboard.press(q==='比價'?'Space':'Enter');await settled();

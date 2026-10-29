@@ -74,6 +74,8 @@ async function fixture(page){
    // Journey 1: two sources fail, recovery is incremental, current filters win.
    const p=await (await browser.newContext({viewport:{width,height}})).newPage();const f=await fixture(p);
    await ready(p,'?q=郵件&tool=Notion#explore');
+   assert.match(await p.locator('#catalog-status').innerText(),/僅計已載入.*2 個來源檔案未載入/);
+   assert.equal(await p.locator('#catalog-status').isVisible(),true,'partial statistics warning is visible');
    assert.equal(await p.locator('#tool').inputValue(),'Notion','unloaded facet from URL retained');
    assert.match(await p.locator('#empty h3').innerText(),/已載入內容/);
    f.unblock('cases/b.md');f.delay(350);
@@ -87,6 +89,8 @@ async function fixture(page){
    assert.equal(await p.locator('#results .card').count(),1);
    assert.deepEqual(f.counts,{'cases/a.md':1,'cases/b.md':3,'sources/pending.md':3});
    assert.match(await p.locator('#partial-message').innerText(),/1 個來源檔案/);
+   assert.match(await p.locator('#catalog-status').innerText(),/僅計已載入.*1 個來源檔案未載入/);
+   assert.equal(await p.locator('#catalog-status').isVisible(),true,'incremental recovery keeps the warning visible');
    f.unblock('sources/pending.md');
    await p.locator('#retry-failed').click();
    const target=p.locator('#results .card h3 button').first();await target.focus();
@@ -94,6 +98,7 @@ async function fixture(page){
    assert.equal(await p.locator('#results .card h3 button').first().evaluate(n=>n===document.activeElement),true,'rebuilt card focus retained');
    assert.equal(await p.evaluate(()=>entries.length),4,'one source yields two pending entries');
    assert.equal(await p.locator('#pending-count').innerText(),'2');
+   assert.equal(await p.locator('#catalog-status').isHidden(),true,'complete statistics have no partial warning');
    assert.deepEqual(f.counts,{'cases/a.md':1,'cases/b.md':3,'sources/pending.md':4});
    await p.keyboard.press('Enter');await p.locator('#detail[open]').waitFor();await p.keyboard.press('Escape');
    assert.equal(await p.locator('#results .card h3 button').first().evaluate(n=>n===document.activeElement),true);

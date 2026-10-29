@@ -1838,7 +1838,7 @@ function renderSearchFeedback(terms, filters) {
       const problemTags = [
         {label:'郵件摘要 · 搜尋「郵件」', term:'郵件'},
         {label:'會議整理 · 搜尋「會議」', term:'會議'},
-        {label:'會議日報 · 搜尋「日報」', term:'日報'},
+        {label:'日報整理 · 搜尋「日報」', term:'日報'},
         {label:'自動客服 · 搜尋「客服」', term:'客服'},
         {label:'代碼審查 · 搜尋「代碼審查」', term:'代碼審查'},
         {label:'🧾 搜尋「發票」', term:'發票'},

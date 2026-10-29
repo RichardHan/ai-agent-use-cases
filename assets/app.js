@@ -1756,14 +1756,18 @@ function prioritizeProblemTags(tags, query) {
     .map(({tag})=>tag);
 }
 
-// Offer only literal task tags already present in loaded entries. A suggestion
-// changes the query on selection; a substring alone does not establish relevance.
+// Offer only literal tags already present in loaded entries. Latin names must
+// match a whole word, including beside Chinese text, never part of another name.
+// Suggestions change the query only on selection; a mention is not relevance.
 function phraseRecoveryOptions(items, query, filters, limit=3) {
   const text=norm(query);
+  const names=new Set(text.match(/[\p{Script=Latin}\p{M}0-9_]+/gu)||[]);
   const candidates=new Set();
   items.forEach(item=>(item.tags||[]).forEach(tag=>{
     const phrase=norm(tag).trim();
-    if(/^[\u3400-\u9fff]{2,6}$/.test(phrase) && text.includes(phrase) && text!==phrase)candidates.add(phrase);
+    const mentioned=/^[\u3400-\u9fff]{2,6}$/.test(phrase) ? text.includes(phrase)
+      : /^[a-z][a-z0-9]+$/.test(phrase) && names.has(phrase);
+    if(mentioned && text!==phrase)candidates.add(phrase);
   }));
   return [...candidates].map(phrase=>({
     query:phrase,

@@ -1,0 +1,67 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 125.109375,
+      "bottom": 169.109375,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 112.625,
+      "bottom": 178.625,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 120.125,
+      "bottom": 183.125,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 124,
+      "bottom": 190,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 124.234375,
+      "bottom": 190.234375,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  }
+]

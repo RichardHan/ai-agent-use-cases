@@ -1,0 +1,112 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "order": [
+      "draw-heading",
+      "drawn-case",
+      "draw-actions",
+      "draw-status",
+      "loading-progress",
+      "draw-difficulty-options",
+      "draw-note",
+      "guide-options"
+    ],
+    "print": {
+      "toolbar": "none",
+      "body": "0px",
+      "title": "29.3333px",
+      "original": "block"
+    },
+    "pass": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "order": [
+      "draw-heading",
+      "drawn-case",
+      "draw-actions",
+      "draw-status",
+      "loading-progress",
+      "draw-difficulty-options",
+      "draw-note",
+      "guide-options"
+    ],
+    "print": {
+      "toolbar": "none",
+      "body": "0px",
+      "title": "29.3333px",
+      "original": "block"
+    },
+    "pass": true
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "order": [
+      "draw-heading",
+      "drawn-case",
+      "draw-actions",
+      "draw-status",
+      "loading-progress",
+      "draw-difficulty-options",
+      "draw-note",
+      "guide-options"
+    ],
+    "print": {
+      "toolbar": "none",
+      "body": "0px",
+      "title": "29.3333px",
+      "original": "block"
+    },
+    "pass": true
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "order": [
+      "draw-heading",
+      "drawn-case",
+      "draw-actions",
+      "draw-status",
+      "loading-progress",
+      "draw-difficulty-options",
+      "draw-note",
+      "guide-options"
+    ],
+    "print": {
+      "toolbar": "none",
+      "body": "0px",
+      "title": "29.3438px",
+      "original": "block"
+    },
+    "pass": true
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "errors": [],
+    "order": [
+      "draw-heading",
+      "drawn-case",
+      "draw-actions",
+      "draw-status",
+      "loading-progress",
+      "draw-difficulty-options",
+      "draw-note",
+      "guide-options"
+    ],
+    "print": {
+      "toolbar": "none",
+      "body": "0px",
+      "title": "29.333334px",
+      "original": "block"
+    },
+    "pass": true
+  }
+]

@@ -1,0 +1,423 @@
+{
+  "observe": true,
+  "base": "http://127.0.0.1:8130/ai-agent-use-cases/",
+  "report": [
+    {
+      "width": 1440,
+      "height": 900,
+      "states": {
+        "home": {
+          "overflow": {
+            "document": {
+              "scroll": 1440,
+              "client": 1440
+            },
+            "detail": null
+          },
+          "violations": []
+        },
+        "results": {
+          "overflow": {
+            "document": {
+              "scroll": 1440,
+              "client": 1440
+            },
+            "detail": null
+          },
+          "violations": []
+        },
+        "detail": {
+          "overflow": {
+            "document": {
+              "scroll": 1440,
+              "client": 1440
+            },
+            "detail": {
+              "scroll": 848,
+              "client": 848
+            }
+          },
+          "violations": []
+        }
+      },
+      "hero": {
+        "cta": {
+          "x": 140,
+          "y": 558.703125,
+          "width": 157.828125,
+          "height": 48
+        },
+        "panel": {
+          "x": 140,
+          "y": 389.125,
+          "width": 590.5,
+          "height": 109.78125
+        },
+        "domOrder": false,
+        "taskBoxes": [
+          {
+            "label": "旅遊規劃",
+            "box": {
+              "x": 271,
+              "y": 617.703125,
+              "width": 52,
+              "height": 44
+            }
+          },
+          {
+            "label": "收件匣與郵件",
+            "box": {
+              "x": 337,
+              "y": 617.703125,
+              "width": 78,
+              "height": 44
+            }
+          },
+          {
+            "label": "比價省錢",
+            "box": {
+              "x": 429,
+              "y": 617.703125,
+              "width": 52,
+              "height": 44
+            }
+          }
+        ],
+        "featureShadows": [
+          {
+            "className": "hero-value-props",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          }
+        ]
+      },
+      "detailId": "UC-001",
+      "returnedFocus": true,
+      "errors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "states": {
+        "home": {
+          "overflow": {
+            "document": {
+              "scroll": 768,
+              "client": 768
+            },
+            "detail": null
+          },
+          "violations": []
+        },
+        "results": {
+          "overflow": {
+            "document": {
+              "scroll": 768,
+              "client": 768
+            },
+            "detail": null
+          },
+          "violations": []
+        },
+        "detail": {
+          "overflow": {
+            "document": {
+              "scroll": 768,
+              "client": 768
+            },
+            "detail": {
+              "scroll": 734,
+              "client": 734
+            }
+          },
+          "violations": []
+        }
+      },
+      "hero": {
+        "cta": {
+          "x": 40,
+          "y": 588.0625,
+          "width": 157.828125,
+          "height": 48
+        },
+        "panel": {
+          "x": 40,
+          "y": 381.703125,
+          "width": 353.015625,
+          "height": 146.5625
+        },
+        "domOrder": false,
+        "taskBoxes": [
+          {
+            "label": "旅遊規劃",
+            "box": {
+              "x": 171,
+              "y": 647.0625,
+              "width": 52,
+              "height": 44
+            }
+          },
+          {
+            "label": "收件匣與郵件",
+            "box": {
+              "x": 237,
+              "y": 647.0625,
+              "width": 78,
+              "height": 44
+            }
+          },
+          {
+            "label": "比價省錢",
+            "box": {
+              "x": 329,
+              "y": 647.0625,
+              "width": 52,
+              "height": 44
+            }
+          }
+        ],
+        "featureShadows": [
+          {
+            "className": "hero-value-props",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          }
+        ]
+      },
+      "detailId": "UC-001",
+      "returnedFocus": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "states": {
+        "home": {
+          "overflow": {
+            "document": {
+              "scroll": 390,
+              "client": 390
+            },
+            "detail": null
+          },
+          "violations": []
+        },
+        "results": {
+          "overflow": {
+            "document": {
+              "scroll": 390,
+              "client": 390
+            },
+            "detail": null
+          },
+          "violations": []
+        },
+        "detail": {
+          "overflow": {
+            "document": {
+              "scroll": 390,
+              "client": 390
+            },
+            "detail": {
+              "scroll": 356,
+              "client": 356
+            }
+          },
+          "violations": []
+        }
+      },
+      "hero": {
+        "cta": {
+          "x": 20,
+          "y": 594.828125,
+          "width": 157.828125,
+          "height": 48
+        },
+        "panel": {
+          "x": 20,
+          "y": 329.6875,
+          "width": 350,
+          "height": 205.34375
+        },
+        "domOrder": false,
+        "taskBoxes": [
+          {
+            "label": "旅遊規劃",
+            "box": {
+              "x": 151,
+              "y": 653.828125,
+              "width": 52,
+              "height": 44
+            }
+          },
+          {
+            "label": "收件匣與郵件",
+            "box": {
+              "x": 217,
+              "y": 653.828125,
+              "width": 78,
+              "height": 44
+            }
+          },
+          {
+            "label": "比價省錢",
+            "box": {
+              "x": 309,
+              "y": 653.828125,
+              "width": 52,
+              "height": 44
+            }
+          }
+        ],
+        "featureShadows": [
+          {
+            "className": "hero-value-props",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          }
+        ]
+      },
+      "detailId": "UC-001",
+      "returnedFocus": true,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "states": {
+        "home": {
+          "overflow": {
+            "document": {
+              "scroll": 320,
+              "client": 320
+            },
+            "detail": null
+          },
+          "violations": []
+        },
+        "results": {
+          "overflow": {
+            "document": {
+              "scroll": 320,
+              "client": 320
+            },
+            "detail": null
+          },
+          "violations": []
+        },
+        "detail": {
+          "overflow": {
+            "document": {
+              "scroll": 320,
+              "client": 320
+            },
+            "detail": {
+              "scroll": 286,
+              "client": 286
+            }
+          },
+          "violations": []
+        }
+      },
+      "hero": {
+        "cta": {
+          "x": 20,
+          "y": 509.78125,
+          "width": 157.828125,
+          "height": 48
+        },
+        "panel": {
+          "x": 20,
+          "y": 254.875,
+          "width": 280,
+          "height": 193.3125
+        },
+        "domOrder": false,
+        "taskBoxes": [
+          {
+            "label": "旅遊規劃",
+            "box": {
+              "x": 151,
+              "y": 621.78125,
+              "width": 52,
+              "height": 44
+            }
+          },
+          {
+            "label": "收件匣與郵件",
+            "box": {
+              "x": 217,
+              "y": 621.78125,
+              "width": 78,
+              "height": 44
+            }
+          },
+          {
+            "label": "比價省錢",
+            "box": {
+              "x": 20,
+              "y": 669.78125,
+              "width": 52,
+              "height": 44
+            }
+          }
+        ],
+        "featureShadows": [
+          {
+            "className": "hero-value-props",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          }
+        ]
+      },
+      "detailId": "UC-001",
+      "returnedFocus": true,
+      "errors": []
+    }
+  ],
+  "failures": []
+}

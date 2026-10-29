@@ -1,0 +1,1157 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "height": 900,
+    "errors": [],
+    "audits": [
+      {
+        "name": "home",
+        "violations": []
+      },
+      {
+        "name": "results",
+        "violations": []
+      },
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "long-source",
+        "violations": []
+      },
+      {
+        "name": "empty",
+        "violations": []
+      }
+    ],
+    "measurements": {
+      "home": [
+        {
+          "tag": "A",
+          "id": "",
+          "text": "直接搜尋案例 →",
+          "width": 177.828125,
+          "height": 52,
+          "x": 100,
+          "y": 459.265625,
+          "fontSize": "15px",
+          "color": "rgb(255, 255, 255)",
+          "background": "rgb(40, 83, 68)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "旅遊規劃",
+          "width": 78,
+          "height": 44,
+          "x": 100,
+          "y": 571.265625,
+          "fontSize": "13px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "收件匣與郵件",
+          "width": 104,
+          "height": 44,
+          "x": 186,
+          "y": 571.265625,
+          "fontSize": "13px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "比價省錢",
+          "width": 78,
+          "height": 44,
+          "x": 298,
+          "y": 571.265625,
+          "fontSize": "13px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "日報整理",
+          "width": 78,
+          "height": 44,
+          "x": 100,
+          "y": 623.265625,
+          "fontSize": "13px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "會議整理",
+          "width": 78,
+          "height": 44,
+          "x": 186,
+          "y": 623.265625,
+          "fontSize": "13px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "自動客服",
+          "width": 78,
+          "height": 44,
+          "x": 272,
+          "y": 623.265625,
+          "fontSize": "13px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "代碼審查（PR）",
+          "width": 121.125,
+          "height": 44,
+          "x": 358,
+          "y": 623.265625,
+          "fontSize": "13px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "發票對帳",
+          "width": 78,
+          "height": 44,
+          "x": 487.125,
+          "y": 623.265625,
+          "fontSize": "13px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "除錯修復",
+          "width": 78,
+          "height": 44,
+          "x": 573.125,
+          "y": 623.265625,
+          "fontSize": "13px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "論文資料",
+          "width": 78,
+          "height": 44,
+          "x": 100,
+          "y": 675.265625,
+          "fontSize": "13px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "heroHeight": 858.453125,
+      "cards": [
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "text": "規劃旅行，先把交通和住宿比清楚",
+          "width": 330,
+          "height": 44,
+          "x": 127,
+          "y": 253.59375,
+          "fontSize": "22px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "text": "看看怎麼用 →",
+          "width": 80.4375,
+          "height": 44,
+          "x": 389.890625,
+          "y": 660.328125,
+          "fontSize": "13px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "toolbar": [
+        {
+          "tag": "BUTTON",
+          "id": "nav-prev-case",
+          "text": "← 上一則",
+          "width": 84.453125,
+          "height": 44,
+          "x": 897.625,
+          "y": 62.09375,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "nav-next-case",
+          "text": "下一則 →",
+          "width": 84.453125,
+          "height": 44,
+          "x": 990.078125,
+          "y": 62.09375,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "close-detail",
+          "text": "關閉 ✕",
+          "width": 68.46875,
+          "height": 44,
+          "x": 1082.53125,
+          "y": 62.09375,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ]
+    },
+    "hero": "從一件你想做的事開始\n\n今天，想讓 AI\n幫你哪件事？\n\n從工作到生活，找到可以參考的 AI 做法。\n先看能解決什麼，再讀方法、限制與來源。\n\n直接搜尋案例\n→\n最近核對的內容 →\n從一個任務開始\n旅遊規劃\n收件匣與郵件\n比價省錢\n更多工作任務：\n日報整理\n會議整理\n自動客服\n代碼審查（PR）\n發票對帳\n除錯修復\n論文資料\n\n載入較慢時，可先在本站閱讀完整案例索引 →；需要原始 Markdown 時再前往 GitHub ↗。索引不提供本站的全文搜尋與篩選。\n\n公開案例與研究筆記\n收錄案例、經驗與待查想法；合格數與網站條目分開看 →\n清楚標記憑據\n官方報告、作者示範、公開核讀與未實測嚴格分離。\n依痛點找解法\n適合工程師與知識工作者：依想解決的問題出發，不必懂術語。\n1\n依情境選方向\n→\n2\n抽卡或搜任務\n→\n3\n看做法與限制",
+    "pass": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "audits": [
+      {
+        "name": "home",
+        "violations": []
+      },
+      {
+        "name": "results",
+        "violations": []
+      },
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "long-source",
+        "violations": []
+      },
+      {
+        "name": "empty",
+        "violations": []
+      }
+    ],
+    "measurements": {
+      "home": [
+        {
+          "tag": "A",
+          "id": "",
+          "text": "直接搜尋案例 →",
+          "width": 154.96875,
+          "height": 48,
+          "x": 20,
+          "y": 335.640625,
+          "fontSize": "14px",
+          "color": "rgb(255, 255, 255)",
+          "background": "rgb(40, 83, 68)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "旅遊規劃",
+          "width": 72,
+          "height": 44,
+          "x": 20,
+          "y": 437.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "收件匣與郵件",
+          "width": 96,
+          "height": 44,
+          "x": 100,
+          "y": 437.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "比價省錢",
+          "width": 72,
+          "height": 44,
+          "x": 204,
+          "y": 437.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "日報整理",
+          "width": 72,
+          "height": 44,
+          "x": 20,
+          "y": 489.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "會議整理",
+          "width": 72,
+          "height": 44,
+          "x": 100,
+          "y": 489.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "自動客服",
+          "width": 72,
+          "height": 44,
+          "x": 180,
+          "y": 489.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "代碼審查（PR）",
+          "width": 111.9375,
+          "height": 44,
+          "x": 20,
+          "y": 541.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "發票對帳",
+          "width": 72,
+          "height": 44,
+          "x": 139.9375,
+          "y": 541.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "除錯修復",
+          "width": 72,
+          "height": 44,
+          "x": 219.9375,
+          "y": 541.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "論文資料",
+          "width": 72,
+          "height": 44,
+          "x": 20,
+          "y": 593.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "heroHeight": 941.03125,
+      "cards": [
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "text": "規劃旅行，先把交通和住宿比清楚",
+          "width": 300,
+          "height": 66,
+          "x": 45,
+          "y": 274.109375,
+          "fontSize": "22px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "text": "看看怎麼用 →",
+          "width": 80.4375,
+          "height": 44,
+          "x": 264.5625,
+          "y": 654.953125,
+          "fontSize": "13px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "toolbar": [
+        {
+          "tag": "BUTTON",
+          "id": "nav-prev-case",
+          "text": "← 上一則",
+          "width": 110.65625,
+          "height": 44,
+          "x": 23,
+          "y": 86.5,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "nav-next-case",
+          "text": "下一則 →",
+          "width": 110.671875,
+          "height": 44,
+          "x": 139.65625,
+          "y": 86.5,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "close-detail",
+          "text": "關閉 ✕",
+          "width": 110.65625,
+          "height": 44,
+          "x": 256.328125,
+          "y": 86.5,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ]
+    },
+    "hero": "從一件你想做的事開始\n\n今天，想讓 AI\n幫你哪件事？\n\n從工作到生活，找到可以參考的 AI 做法。\n先看能解決什麼，再讀方法、限制與來源。\n\n直接搜尋案例\n→\n最近核對的內容 →\n從一個任務開始\n旅遊規劃\n收件匣與郵件\n比價省錢\n更多工作任務：\n日報整理\n會議整理\n自動客服\n代碼審查（PR）\n發票對帳\n除錯修復\n論文資料\n\n載入較慢時，可先在本站閱讀完整案例索引 →；需要原始 Markdown 時再前往 GitHub ↗。索引不提供本站的全文搜尋與篩選。\n\n公開案例與研究筆記\n收錄案例、經驗與待查想法；合格數與網站條目分開看 →\n清楚標記憑據\n官方報告、作者示範、公開核讀與未實測嚴格分離。\n依痛點找解法\n適合工程師與知識工作者：依想解決的問題出發，不必懂術語。\n1\n依情境選方向\n→\n2\n抽卡或搜任務\n→\n3\n看做法與限制",
+    "pass": true
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "audits": [
+      {
+        "name": "home",
+        "violations": []
+      },
+      {
+        "name": "results",
+        "violations": []
+      },
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "long-source",
+        "violations": []
+      },
+      {
+        "name": "empty",
+        "violations": []
+      }
+    ],
+    "measurements": {
+      "home": [
+        {
+          "tag": "A",
+          "id": "",
+          "text": "直接搜尋案例 →",
+          "width": 138.96875,
+          "height": 48,
+          "x": 16,
+          "y": 317.515625,
+          "fontSize": "14px",
+          "color": "rgb(255, 255, 255)",
+          "background": "rgb(40, 83, 68)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "旅遊規劃",
+          "width": 72,
+          "height": 44,
+          "x": 16,
+          "y": 419.515625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "收件匣與郵件",
+          "width": 96,
+          "height": 44,
+          "x": 96,
+          "y": 419.515625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "比價省錢",
+          "width": 72,
+          "height": 44,
+          "x": 200,
+          "y": 419.515625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "日報整理",
+          "width": 72,
+          "height": 44,
+          "x": 16,
+          "y": 471.515625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "會議整理",
+          "width": 72,
+          "height": 44,
+          "x": 96,
+          "y": 471.515625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "自動客服",
+          "width": 72,
+          "height": 44,
+          "x": 176,
+          "y": 471.515625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "代碼審查（PR）",
+          "width": 111.9375,
+          "height": 44,
+          "x": 16,
+          "y": 523.515625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "發票對帳",
+          "width": 72,
+          "height": 44,
+          "x": 135.9375,
+          "y": 523.515625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "除錯修復",
+          "width": 72,
+          "height": 44,
+          "x": 215.9375,
+          "y": 523.515625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "論文資料",
+          "width": 72,
+          "height": 44,
+          "x": 16,
+          "y": 575.515625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "heroHeight": 993.046875,
+      "cards": [
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "text": "規劃旅行，先把交通和住宿比清楚",
+          "width": 246,
+          "height": 63,
+          "x": 37,
+          "y": 270,
+          "fontSize": "21px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "text": "看看怎麼用 →",
+          "width": 80.4375,
+          "height": 44,
+          "x": 202.5625,
+          "y": 647.84375,
+          "fontSize": "13px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "toolbar": [
+        {
+          "tag": "BUTTON",
+          "id": "nav-prev-case",
+          "text": "← 上一則",
+          "width": 87.328125,
+          "height": 44,
+          "x": 23,
+          "y": 83.390625,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "nav-next-case",
+          "text": "下一則 →",
+          "width": 87.328125,
+          "height": 44,
+          "x": 116.328125,
+          "y": 83.390625,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "close-detail",
+          "text": "關閉 ✕",
+          "width": 87.34375,
+          "height": 44,
+          "x": 209.65625,
+          "y": 83.390625,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ]
+    },
+    "hero": "從一件你想做的事開始\n\n今天，想讓 AI\n幫你哪件事？\n\n從工作到生活，找到可以參考的 AI 做法。\n先看能解決什麼，再讀方法、限制與來源。\n\n直接搜尋案例\n→\n最近核對的內容 →\n從一個任務開始\n旅遊規劃\n收件匣與郵件\n比價省錢\n更多工作任務：\n日報整理\n會議整理\n自動客服\n代碼審查（PR）\n發票對帳\n除錯修復\n論文資料\n\n載入較慢時，可先在本站閱讀完整案例索引 →；需要原始 Markdown 時再前往 GitHub ↗。索引不提供本站的全文搜尋與篩選。\n\n公開案例與研究筆記\n收錄案例、經驗與待查想法；合格數與網站條目分開看 →\n清楚標記憑據\n官方報告、作者示範、公開核讀與未實測嚴格分離。\n依痛點找解法\n適合工程師與知識工作者：依想解決的問題出發，不必懂術語。\n1\n依情境選方向\n→\n2\n抽卡或搜任務\n→\n3\n看做法與限制",
+    "pass": true
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "audits": [
+      {
+        "name": "home",
+        "violations": []
+      },
+      {
+        "name": "results",
+        "violations": []
+      },
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "long-source",
+        "violations": []
+      },
+      {
+        "name": "empty",
+        "violations": []
+      }
+    ],
+    "measurements": {
+      "home": [
+        {
+          "tag": "A",
+          "id": "",
+          "text": "直接搜尋案例 →",
+          "width": 154.96665954589844,
+          "height": 48,
+          "x": 20,
+          "y": 335.6499938964844,
+          "fontSize": "14px",
+          "color": "rgb(255, 255, 255)",
+          "background": "rgb(40, 83, 68)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "旅遊規劃",
+          "width": 72,
+          "height": 44,
+          "x": 20,
+          "y": 437.6499938964844,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "收件匣與郵件",
+          "width": 96,
+          "height": 44,
+          "x": 100,
+          "y": 437.6499938964844,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "比價省錢",
+          "width": 72,
+          "height": 44,
+          "x": 204,
+          "y": 437.6499938964844,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "日報整理",
+          "width": 72,
+          "height": 44,
+          "x": 20,
+          "y": 489.6499938964844,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "會議整理",
+          "width": 72,
+          "height": 44,
+          "x": 100,
+          "y": 489.6499938964844,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "自動客服",
+          "width": 72,
+          "height": 44,
+          "x": 180,
+          "y": 489.6499938964844,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "代碼審查（PR）",
+          "width": 111.93333435058594,
+          "height": 44,
+          "x": 20,
+          "y": 541.6500244140625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "發票對帳",
+          "width": 72,
+          "height": 44,
+          "x": 139.93333435058594,
+          "y": 541.6500244140625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "除錯修復",
+          "width": 72,
+          "height": 44,
+          "x": 219.93333435058594,
+          "y": 541.6500244140625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "論文資料",
+          "width": 72,
+          "height": 44,
+          "x": 20,
+          "y": 593.6500244140625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "heroHeight": 941.050048828125,
+      "cards": [
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "text": "規劃旅行，先把交通和住宿比清楚",
+          "width": 300,
+          "height": 66,
+          "x": 45,
+          "y": 274.1000061035156,
+          "fontSize": "22px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "text": "看看怎麼用 →",
+          "width": 80.5,
+          "height": 44,
+          "x": 264.5,
+          "y": 655,
+          "fontSize": "13px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "toolbar": [
+        {
+          "tag": "BUTTON",
+          "id": "nav-prev-case",
+          "text": "← 上一則",
+          "width": 110.66667175292969,
+          "height": 44,
+          "x": 23,
+          "y": 86.51666259765625,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "nav-next-case",
+          "text": "下一則 →",
+          "width": 110.66665649414062,
+          "height": 44,
+          "x": 139.6666717529297,
+          "y": 86.51666259765625,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "close-detail",
+          "text": "關閉 ✕",
+          "width": 110.66667175292969,
+          "height": 44,
+          "x": 256.33331298828125,
+          "y": 86.51666259765625,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ]
+    },
+    "hero": "從一件你想做的事開始\n\n今天，想讓 AI\n幫你哪件事？\n\n從工作到生活，找到可以參考的 AI 做法。\n先看能解決什麼，再讀方法、限制與來源。\n\n直接搜尋案例\n→\n最近核對的內容 →\n從一個任務開始\n旅遊規劃\n收件匣與郵件\n比價省錢\n更多工作任務：\n日報整理\n會議整理\n自動客服\n代碼審查（PR）\n發票對帳\n除錯修復\n論文資料\n\n載入較慢時，可先在本站閱讀完整案例索引 →；需要原始 Markdown 時再前往 GitHub ↗。索引不提供本站的全文搜尋與篩選。\n\n公開案例與研究筆記\n收錄案例、經驗與待查想法；合格數與網站條目分開看 →\n清楚標記憑據\n官方報告、作者示範、公開核讀與未實測嚴格分離。\n依痛點找解法\n適合工程師與知識工作者：依想解決的問題出發，不必懂術語。\n1\n依情境選方向\n→\n2\n抽卡或搜任務\n→\n3\n看做法與限制",
+    "pass": true
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "audits": [
+      {
+        "name": "home",
+        "violations": []
+      },
+      {
+        "name": "results",
+        "violations": []
+      },
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "long-source",
+        "violations": []
+      },
+      {
+        "name": "empty",
+        "violations": []
+      }
+    ],
+    "measurements": {
+      "home": [
+        {
+          "tag": "A",
+          "id": "",
+          "text": "直接搜尋案例 →",
+          "width": 154.34375,
+          "height": 48,
+          "x": 20,
+          "y": 335.640625,
+          "fontSize": "14px",
+          "color": "rgb(255, 255, 255)",
+          "background": "rgb(40, 83, 68)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "旅遊規劃",
+          "width": 71.6875,
+          "height": 44,
+          "x": 20,
+          "y": 437.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "收件匣與郵件",
+          "width": 95.515625,
+          "height": 44,
+          "x": 99.6875,
+          "y": 437.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "比價省錢",
+          "width": 71.6875,
+          "height": 44,
+          "x": 203.203125,
+          "y": 437.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "日報整理",
+          "width": 71.6875,
+          "height": 44,
+          "x": 20,
+          "y": 489.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "會議整理",
+          "width": 71.6875,
+          "height": 44,
+          "x": 99.6875,
+          "y": 489.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "自動客服",
+          "width": 71.6875,
+          "height": 44,
+          "x": 179.375,
+          "y": 489.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "代碼審查（PR）",
+          "width": 111.453125,
+          "height": 44,
+          "x": 20,
+          "y": 541.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "發票對帳",
+          "width": 71.6875,
+          "height": 44,
+          "x": 139.453125,
+          "y": 541.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "除錯修復",
+          "width": 71.6875,
+          "height": 44,
+          "x": 219.140625,
+          "y": 541.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "論文資料",
+          "width": 71.6875,
+          "height": 44,
+          "x": 20,
+          "y": 593.640625,
+          "fontSize": "12px",
+          "color": "rgb(40, 83, 68)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "heroHeight": 941.03125,
+      "cards": [
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "text": "規劃旅行，先把交通和住宿比清楚",
+          "width": 300,
+          "height": 66,
+          "x": 45,
+          "y": 274.53125,
+          "fontSize": "22px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "text": "看看怎麼用 →",
+          "width": 79.9375,
+          "height": 44,
+          "x": 265.0625,
+          "y": 655.375,
+          "fontSize": "13px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "toolbar": [
+        {
+          "tag": "BUTTON",
+          "id": "nav-prev-case",
+          "text": "← 上一則",
+          "width": 110.65625,
+          "height": 44,
+          "x": 23,
+          "y": 86.5,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "nav-next-case",
+          "text": "下一則 →",
+          "width": 110.671875,
+          "height": 44,
+          "x": 139.65625,
+          "y": 86.5,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "BUTTON",
+          "id": "close-detail",
+          "text": "關閉 ✕",
+          "width": 110.671875,
+          "height": 44,
+          "x": 256.328125,
+          "y": 86.5,
+          "fontSize": "14px",
+          "color": "rgb(23, 43, 39)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ]
+    },
+    "hero": "從一件你想做的事開始\n\n今天，想讓 AI\n幫你哪件事？\n\n從工作到生活，找到可以參考的 AI 做法。\n先看能解決什麼，再讀方法、限制與來源。\n\n直接搜尋案例\n→\n最近核對的內容 →\n從一個任務開始\n旅遊規劃\n收件匣與郵件\n比價省錢\n更多工作任務：\n日報整理\n會議整理\n自動客服\n代碼審查（PR）\n發票對帳\n除錯修復\n論文資料\n\n載入較慢時，可先在本站閱讀完整案例索引 →；需要原始 Markdown 時再前往 GitHub ↗。索引不提供本站的全文搜尋與篩選。\n\n公開案例與研究筆記\n收錄案例、經驗與待查想法；合格數與網站條目分開看 →\n清楚標記憑據\n官方報告、作者示範、公開核讀與未實測嚴格分離。\n依痛點找解法\n適合工程師與知識工作者：依想解決的問題出發，不必懂術語。\n1\n依情境選方向\n→\n2\n抽卡或搜任務\n→\n3\n看做法與限制",
+    "pass": true
+  }
+]

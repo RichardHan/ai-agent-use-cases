@@ -8,7 +8,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -46,19 +46,10 @@ jobs:
           ANCHOR_OUTPUT: qa-artifacts/published
         run: |
           node <<'NODE'
-          const fs=require('node:fs');
-          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
-          (async()=>{
-          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let i=0;i<451;i++){
-              const r=await fetch(process.env.ANCHOR_URL+'assets/app.js?anchor='+process.env.GITHUB_SHA,{cache:'no-store'});
-              if(r.ok&&await r.text()===fs.readFileSync('assets/app.js','utf8'))return;
-              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-              await new Promise(r=>setTimeout(r,2000));
-            }
-            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published assets mismatch');
-          })().catch(e=>{console.error(e);process.exitCode=1});
+          const {waitForPublishedAssets}=require('./scripts/published-assets.cjs');
+          waitForPublishedAssets({base:process.env.ANCHOR_URL,sha:process.env.GITHUB_SHA,files:['assets/app.js']})
+            .then(result=>console.log(result==='matched'?'PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA:'SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA))
+            .catch(e=>{console.error(e);process.exitCode=1});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
             :

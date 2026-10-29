@@ -71,6 +71,17 @@ jobs:
           destination: ./_site
       - name: Verify built Pages corpus
         run: python3 scripts/check_corpus_bundle.py _site
+      - name: Verify static index task entry without JavaScript
+        env:
+          NODE_PATH: ${{ runner.temp }}/browser-tools/node_modules
+          INDEX_URL: http://127.0.0.1:8082/ai-agent-use-cases/INDEX.html
+        run: |
+          mkdir -p "$RUNNER_TEMP/site-index"
+          ln -s "$GITHUB_WORKSPACE/_site" "$RUNNER_TEMP/site-index/ai-agent-use-cases"
+          python3 -m http.server 8082 --directory "$RUNNER_TEMP/site-index" > /tmp/site-index.log 2>&1 &
+          server=$!
+          trap 'kill "$server"' EXIT
+          node tests/index-task-entry-browser.cjs
       - name: Wait for published assets and content
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         id: published-version

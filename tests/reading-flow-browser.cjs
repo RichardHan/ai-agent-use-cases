@@ -83,8 +83,10 @@ async function focusedBelowToolbar(page,id){
     await audit('failure report');
     if(engine==='chromium'&&size==='desktop'){
      const popupPromise=page.waitForEvent('popup');await page.locator('.reader-report-content a').first().click();
-     const popup=await popupPromise;const response=await popup.waitForLoadState('domcontentloaded').then(()=>popup.url());
-     report.externalSource={url:response,status:(await popup.request.get(response)).status()};assert.equal(new URL(response).pathname,'/openai/codex/issues/52208');await popup.close();
+     const popup=await popupPromise;await popup.waitForLoadState('domcontentloaded');
+     // Verify the actual navigation without issuing a second external request.
+     const sourceURL=popup.url();report.externalSource={url:sourceURL};
+     assert.equal(sourceURL,'https://github.com/openai/codex/issues/52208');await popup.close();
     }
    }
    if(id==='UC-338')assert.match(await page.locator('.reader-report-content').innerText(),/沒有截圖、紀錄表、班表或薪資單比對結果/);

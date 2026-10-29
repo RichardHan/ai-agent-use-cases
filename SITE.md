@@ -4,6 +4,8 @@
 
 補修：雲端Case sharing揭露操作字級低於既有14px要求，已恢復四處字級並納入主要視覺檢查；Firefox排序重設44px改用DOM直接量測，保留精確門檻；macOS WebKit卡片QA使用Option+Tab。四組專項各五配置、381單元與獨立補審通過，原始失敗及發布狀態保留於上述QA紀錄。
 
+發布補記：`5632ea7` 的Pages、Website、分享、篩選、列印、Combined recovery及Facet counts皆成功。正式五資產與465來源逐byte相同，sourceRevision匹配；公開四尺寸視覺12axe零違規與兩尺寸完整分批流程通過。其他工作流當時仍在執行，完整快照與正式截圖見上方紀錄。本輪停止，最後僅補文件。
+
 ## 2026-10-30 分批結果接續閱讀與失敗診斷
 
 正式站 24→48 筆後，焦點仍停在移至畫面外的「再看」按鈕，Tab 直接跳至頁尾。本輪讓每次明確載入更多後聚焦第一張新卡片，並顯示其標題與用途；保留順序、完整計數、篩選、來源與詳情返回。新瀏覽器回歸先紅後綠，Chromium 1440／390／320、Firefox／WebKit 390 的 Enter、Space、指標、逐批完整性與返回皆通過；381 項單元通過、465 個來源逐 byte 相同。另保留嚴格錯誤斷言並為共享 page-context QA 記錄 stack、URL、操作階段，未宣稱修復未明的 WebKit 根因。[兩案、前後截圖、獨立審查與發布紀錄](docs/qa/2026-10-30-result-batch-continuation/README.md)。下一輪優先依完整 log 釐清 Combined recovery 公開站驗收失敗。

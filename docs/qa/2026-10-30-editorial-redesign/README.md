@@ -66,3 +66,15 @@ Available facet QA [40920056665](https://github.com/RichardHan/ai-agent-use-case
 補修後案例分享、搜尋分享、卡片目標與排序重設各五配置全通過；[卡片](card-targets-corrected.json)／[案例分享](case-sharing-corrected.json)／[搜尋分享](search-sharing-corrected.json)／[排序](sort-reset-corrected.json)。381單元重跑通過；四尺寸視覺12axe再次零違規，截圖已更新。獨立補審檢查390／320及Firefox390，共6axe零違規、所有操作>=14px與44px、無溢出：[補審](readability-independent.json)。前面50次為改版主審查的證據，此處是後續字級修正的驗證，不混稱同一SHA。
 
 首版Pages已完成真正Jekyll build；當時deploy排隊，Website QA已完成本機與Jekyll步驟並等待發布。Category finding的一次TLS ECONNRESET屬網路失敗，未當成產品錯誤修補。最終發布另補記。
+
+## 正式發布完成
+
+產品版本 `5632ea733d81b19aa79eaa7544534b9ceb3a9bcc` 已一般合併／推送main，未強推，原工作目錄的3檔修改與未追蹤內容仍保留。GitHub CLI企業帳號只有讀取權，使用repo既有個人SSH push remote；沒有建立PR。
+
+[Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40921224342)真正Jekyll build、report、deploy成功；[Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40921223588)成功，並在log確認同版產品資產和來源內容。主整合者另核對五個公開核心資產逐byte相同、465來源逐byte相同、catalog／corpus內部版本一致、sourceRevision精確為5632ea7。[發布比對](published-version.json)。
+
+公開站1440／768／390／320視覺、搜尋＋生活篩選、UC-001詳情與Escape返回，全通過且12次axe零違規；公開390／1440分批、空結果、直鏈reload、全部467條目與返回亦通過。[公開視覺結果](published-visual.json)／[公開分批結果](published-batching.json)；主整合者目視[桌面](published-home-1440.png)、[手機](published-home-390.png)及手機詳情。
+
+相關雲端驗收皆成功：[案例分享](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40921223486)、[篩選入口](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40921223589)、[列印](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40921223616)、[Combined recovery](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40921223487)、[Facet counts](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40921223386)。完整當時狀態見[快照](actions-snapshot.json)，部分其他工作流仍執行，不宣稱全庫全綠。Available facet options的路徑未涵蓋共享sort-reset測試，所以這次沒觸發；Filter entry已驗過同一修正。
+
+下一輪最值得做：收斂各專項workflow的依賴路徑與發布等待，避免三十多個工作流競爭runner；不是再換一輪配色。本輪達標停止，最後僅補發布證據與維護文件，不再變更產品。

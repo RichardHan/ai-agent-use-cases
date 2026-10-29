@@ -2,7 +2,7 @@ name: Facet counts QA
 on:
   push:
     branches: [improve/visitor-round-20261024-b, main]
-    paths: ['assets/**', 'index.html', 'catalog.json', 'corpus.json', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/**', 'tests/facet-*', 'tests/published-version*', 'tests/filter-controls.cjs', 'tests/source-route.cjs', 'tests/reliability-observe.cjs', 'tests/page-context-browser.cjs', 'tests/source-guide*', '.github/workflows/facet-counts-qa.yml']
+    paths: ['assets/**', 'index.html', 'catalog.json', 'corpus.json', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/**', 'tests/facet-*', 'tests/published-version*', 'tests/filter-controls.cjs', 'tests/source-route.cjs', 'tests/reliability-observe.cjs', 'tests/page-context*.cjs', 'tests/source-guide*', '.github/workflows/facet-counts-qa.yml']
   workflow_dispatch:
 permissions:
   contents: read

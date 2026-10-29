@@ -1,0 +1,11 @@
+AssertionError [ERR_ASSERTION]: every batch hands focus to the first appended case title
+    at /private/tmp/ai-visitor-20261030/tests/results-batching-browser.cjs:33:7
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:479:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '=='
+}

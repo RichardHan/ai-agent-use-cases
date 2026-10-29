@@ -56,3 +56,13 @@ python3 -m http.server 8131 --directory /tmp/redesign-preview
 實際量測手機主搜尋入口 y595→336px，桌面 y559→459px，320px y510→318px。行動搜尋到首筆結果約 248–252px，未超過既有 300px 門檻。精選區的 Tab 順序為案例閱讀→抽卡→搜尋→門檻→情境，描述與44px觸控尺寸保留，列印仍展開原始研究且隱藏工具列。無頁面錯誤、水平溢出或新資料外傳；主角色與 QA 都已目視最終多尺寸截圖。
 
 三情境為：連續載入與比較案例；工作＋日報組合篩選與空結果復原；旅遊直鏈／重整／固定來源／返回。全467條目逐批完整。報告：[視覺與五狀態](independent-review.json)、[鍵盤與列印](independent-keyboard-print.json)、[三情境](independent-batching.json)。一次 GitHub 原始來源請求為429；只確認固定網址正確，不把這次外部讀取冒稱成功。
+
+## 雲端驗收後補修
+
+首版 merge `7620b90` 的 Case sharing QA [40920056688](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40920056688) 揭露分享文字被改成13px，低於既有14px可讀性契約。恢復案例分享、搜尋分享、卡片標籤與閱讀按鈕四處為14px；主視覺測試也新增14px／44px實際computed-style檢查，保留原有axe與功能斷言。
+
+Available facet QA [40920056665](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40920056665) 與 Filter entry 的排序重設檢查，則是 Firefox protocol boundingBox 回報43.999969482421875，DOMRect及min-height實際均44。改測DOMRect且仍要求精確>=44，沒有縮小門檻。macOS WebKit卡片目標的普通Tab失敗已在未改版8130基準重現，改採與其他repo測試一致的Option+Tab，Linux維持原Tab。
+
+補修後案例分享、搜尋分享、卡片目標與排序重設各五配置全通過；[卡片](card-targets-corrected.json)／[案例分享](case-sharing-corrected.json)／[搜尋分享](search-sharing-corrected.json)／[排序](sort-reset-corrected.json)。381單元重跑通過；四尺寸視覺12axe再次零違規，截圖已更新。獨立補審檢查390／320及Firefox390，共6axe零違規、所有操作>=14px與44px、無溢出：[補審](readability-independent.json)。前面50次為改版主審查的證據，此處是後續字級修正的驗證，不混稱同一SHA。
+
+首版Pages已完成真正Jekyll build；當時deploy排隊，Website QA已完成本機與Jekyll步驟並等待發布。Category finding的一次TLS ECONNRESET屬網路失敗，未當成產品錯誤修補。最終發布另補記。

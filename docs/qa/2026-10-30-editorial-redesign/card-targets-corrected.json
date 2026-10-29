@@ -1,0 +1,1168 @@
+[
+  {
+    "label": "chromium-1440",
+    "errors": [],
+    "measurements": [
+      {
+        "selector": "#drawn-case h3 button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 375,
+            "height": 44,
+            "font": 25
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "旅遊",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "比價",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results .card:first-child h3 button, #results .card:first-child .tag, #results .card:first-child .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 330,
+            "height": 44,
+            "font": 22
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "旅遊",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "比價",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button",
+        "dimensions": [
+          {
+            "text": "任務又開始跑了，為什麼仍被當成已封存？",
+            "width": 343.328125,
+            "height": 66,
+            "font": 22
+          },
+          {
+            "text": "開發",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "任務生命週期",
+            "width": 106,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "封存",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button",
+        "dimensions": [
+          {
+            "text": "AI 做完後，能自己檢查並修好嗎？",
+            "width": 334.109375,
+            "height": 44,
+            "font": 22
+          },
+          {
+            "text": "開發",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "查看這個想法 →",
+            "width": 100.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱",
+            "width": 461.765625,
+            "height": 111.5625,
+            "font": 14
+          },
+          {
+            "text": "UnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabel",
+            "width": 461.765625,
+            "height": 133.953125,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          },
+          {
+            "text": "長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明",
+            "width": 343.328125,
+            "height": 264,
+            "font": 22
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱",
+            "width": 343.328125,
+            "height": 133.953125,
+            "font": 14
+          },
+          {
+            "text": "UnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabel",
+            "width": 343.328125,
+            "height": 178.734375,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "results",
+        "violations": []
+      },
+      {
+        "name": "long labels",
+        "violations": []
+      }
+    ],
+    "entries": 467,
+    "failed": [],
+    "tagStates": {
+      "selected": "rgb(40, 83, 68)",
+      "ordinary": "rgb(248, 250, 244)"
+    },
+    "filtered": "顯示 21 / 467 筆收錄",
+    "hoverBefore": "rgb(248, 250, 244)",
+    "hoverAfter": "rgb(40, 83, 68)",
+    "focus": {
+      "visible": true,
+      "outline": "solid",
+      "width": 3
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "openedSource": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "overflow": {
+      "document": false,
+      "cards": [
+        false,
+        false
+      ]
+    },
+    "navigation": {
+      "domContentLoadedMs": 15.299999998882413,
+      "loadMs": 17.90000000037253
+    }
+  },
+  {
+    "label": "chromium-390",
+    "errors": [],
+    "measurements": [
+      {
+        "selector": "#drawn-case h3 button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 266,
+            "height": 69,
+            "font": 23
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "旅遊",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "比價",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results .card:first-child h3 button, #results .card:first-child .tag, #results .card:first-child .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 300,
+            "height": 66,
+            "font": 22
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "旅遊",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "比價",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button",
+        "dimensions": [
+          {
+            "text": "任務又開始跑了，為什麼仍被當成已封存？",
+            "width": 300,
+            "height": 66,
+            "font": 22
+          },
+          {
+            "text": "開發",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "任務生命週期",
+            "width": 106,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "封存",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button",
+        "dimensions": [
+          {
+            "text": "AI 做完後，能自己檢查並修好嗎？",
+            "width": 300,
+            "height": 66,
+            "font": 22
+          },
+          {
+            "text": "開發",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "查看這個想法 →",
+            "width": 100.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱",
+            "width": 266,
+            "height": 156.34375,
+            "font": 14
+          },
+          {
+            "text": "UnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabel",
+            "width": 266,
+            "height": 223.515625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          },
+          {
+            "text": "長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明",
+            "width": 300,
+            "height": 297,
+            "font": 22
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱",
+            "width": 300,
+            "height": 156.34375,
+            "font": 14
+          },
+          {
+            "text": "UnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabel",
+            "width": 300,
+            "height": 201.125,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "results",
+        "violations": []
+      },
+      {
+        "name": "long labels",
+        "violations": []
+      }
+    ],
+    "entries": 467,
+    "failed": [],
+    "tagStates": {
+      "selected": "rgb(40, 83, 68)",
+      "ordinary": "rgb(248, 250, 244)"
+    },
+    "filtered": "顯示 21 / 467 筆收錄",
+    "hoverBefore": "rgb(248, 250, 244)",
+    "hoverAfter": "rgb(40, 83, 68)",
+    "focus": {
+      "visible": true,
+      "outline": "solid",
+      "width": 3
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "overflow": {
+      "document": false,
+      "cards": [
+        false,
+        false
+      ]
+    },
+    "navigation": {
+      "domContentLoadedMs": 10.400000000372529,
+      "loadMs": 12.900000000372529
+    }
+  },
+  {
+    "label": "chromium-320",
+    "errors": [],
+    "measurements": [
+      {
+        "selector": "#drawn-case h3 button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 220,
+            "height": 69,
+            "font": 23
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "旅遊",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "比價",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results .card:first-child h3 button, #results .card:first-child .tag, #results .card:first-child .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 246,
+            "height": 63,
+            "font": 21
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "旅遊",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "比價",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button",
+        "dimensions": [
+          {
+            "text": "任務又開始跑了，為什麼仍被當成已封存？",
+            "width": 246,
+            "height": 63,
+            "font": 21
+          },
+          {
+            "text": "開發",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "任務生命週期",
+            "width": 106,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "封存",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button",
+        "dimensions": [
+          {
+            "text": "AI 做完後，能自己檢查並修好嗎？",
+            "width": 246,
+            "height": 63,
+            "font": 21
+          },
+          {
+            "text": "開發",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "查看這個想法 →",
+            "width": 100.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱",
+            "width": 220,
+            "height": 178.734375,
+            "font": 14
+          },
+          {
+            "text": "UnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabel",
+            "width": 220,
+            "height": 245.90625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          },
+          {
+            "text": "長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明",
+            "width": 246,
+            "height": 346.5,
+            "font": 21
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱",
+            "width": 246,
+            "height": 156.34375,
+            "font": 14
+          },
+          {
+            "text": "UnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabel",
+            "width": 246,
+            "height": 223.515625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.484375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "results",
+        "violations": []
+      },
+      {
+        "name": "long labels",
+        "violations": []
+      }
+    ],
+    "entries": 467,
+    "failed": [],
+    "tagStates": {
+      "selected": "rgb(40, 83, 68)",
+      "ordinary": "rgb(248, 250, 244)"
+    },
+    "filtered": "顯示 21 / 467 筆收錄",
+    "hoverBefore": "rgb(248, 250, 244)",
+    "hoverAfter": "rgb(40, 83, 68)",
+    "focus": {
+      "visible": true,
+      "outline": "solid",
+      "width": 3
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "overflow": {
+      "document": false,
+      "cards": [
+        false,
+        false
+      ]
+    },
+    "navigation": {
+      "domContentLoadedMs": 13.900000000372529,
+      "loadMs": 14.5
+    }
+  },
+  {
+    "label": "firefox-390",
+    "errors": [],
+    "measurements": [
+      {
+        "selector": "#drawn-case h3 button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 266,
+            "height": 69,
+            "font": 23
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "旅遊",
+            "width": 50,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "比價",
+            "width": 50,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.63333129882812,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results .card:first-child h3 button, #results .card:first-child .tag, #results .card:first-child .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 300,
+            "height": 66,
+            "font": 22
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "旅遊",
+            "width": 50,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "比價",
+            "width": 50,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.63333129882812,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button",
+        "dimensions": [
+          {
+            "text": "任務又開始跑了，為什麼仍被當成已封存？",
+            "width": 300,
+            "height": 66,
+            "font": 22
+          },
+          {
+            "text": "開發",
+            "width": 50,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "任務生命週期",
+            "width": 106,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "封存",
+            "width": 50,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.63333129882812,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button",
+        "dimensions": [
+          {
+            "text": "AI 做完後，能自己檢查並修好嗎？",
+            "width": 300,
+            "height": 66,
+            "font": 22
+          },
+          {
+            "text": "開發",
+            "width": 50,
+            "height": 44.399993896484375,
+            "font": 14
+          },
+          {
+            "text": "查看這個想法 →",
+            "width": 100.63333129882812,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱",
+            "width": 266,
+            "height": 156.39999389648438,
+            "font": 14
+          },
+          {
+            "text": "UnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabel",
+            "width": 266,
+            "height": 223.60000610351562,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.63333129882812,
+            "height": 44,
+            "font": 14
+          },
+          {
+            "text": "長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明",
+            "width": 300,
+            "height": 297,
+            "font": 22
+          },
+          {
+            "text": "生活",
+            "width": 50,
+            "height": 44.40000915527344,
+            "font": 14
+          },
+          {
+            "text": "超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱",
+            "width": 300,
+            "height": 156.39999389648438,
+            "font": 14
+          },
+          {
+            "text": "UnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabel",
+            "width": 300,
+            "height": 201.1999969482422,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 86.63333129882812,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "results",
+        "violations": []
+      },
+      {
+        "name": "long labels",
+        "violations": []
+      }
+    ],
+    "entries": 467,
+    "failed": [],
+    "tagStates": {
+      "selected": "rgb(40, 83, 68)",
+      "ordinary": "rgb(248, 250, 244)"
+    },
+    "filtered": "顯示 21 / 467 筆收錄",
+    "hoverBefore": "rgb(248, 250, 244)",
+    "hoverAfter": "rgb(40, 83, 68)",
+    "focus": {
+      "visible": true,
+      "outline": "solid",
+      "width": 3
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "overflow": {
+      "document": false,
+      "cards": [
+        false,
+        false
+      ]
+    },
+    "navigation": {
+      "domContentLoadedMs": 48,
+      "loadMs": 50
+    }
+  },
+  {
+    "label": "webkit-390",
+    "errors": [],
+    "measurements": [
+      {
+        "selector": "#drawn-case h3 button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 266,
+            "height": 69,
+            "font": 23
+          },
+          {
+            "text": "生活",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "旅遊",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "比價",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 85.953125,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results .card:first-child h3 button, #results .card:first-child .tag, #results .card:first-child .card-bottom button",
+        "dimensions": [
+          {
+            "text": "規劃旅行，先把交通和住宿比清楚",
+            "width": 300,
+            "height": 66,
+            "font": 22
+          },
+          {
+            "text": "生活",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "旅遊",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "比價",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 85.953125,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button",
+        "dimensions": [
+          {
+            "text": "任務又開始跑了，為什麼仍被當成已封存？",
+            "width": 300,
+            "height": 66,
+            "font": 22
+          },
+          {
+            "text": "開發",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "任務生命週期",
+            "width": 105.359375,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "封存",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 85.953125,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button",
+        "dimensions": [
+          {
+            "text": "AI 做完後，能自己檢查並修好嗎？",
+            "width": 300,
+            "height": 66,
+            "font": 22
+          },
+          {
+            "text": "開發",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "查看這個想法 →",
+            "width": 99.84375,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      },
+      {
+        "selector": "#results h3 button, #results .tag, #results .card-bottom button, #drawn-case .tag, #drawn-case .card-bottom button",
+        "dimensions": [
+          {
+            "text": "生活",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱",
+            "width": 266,
+            "height": 156.34375,
+            "font": 14
+          },
+          {
+            "text": "UnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabel",
+            "width": 266,
+            "height": 223.515625,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 85.953125,
+            "height": 44,
+            "font": 14
+          },
+          {
+            "text": "長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明長標題與限制說明",
+            "width": 300,
+            "height": 297,
+            "font": 22
+          },
+          {
+            "text": "生活",
+            "width": 49.796875,
+            "height": 44.390625,
+            "font": 14
+          },
+          {
+            "text": "超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱超長分類名稱",
+            "width": 300,
+            "height": 133.953125,
+            "font": 14
+          },
+          {
+            "text": "UnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabelUnbrokenLabel",
+            "width": 300,
+            "height": 201.125,
+            "font": 14
+          },
+          {
+            "text": "看看怎麼用 →",
+            "width": 85.953125,
+            "height": 44,
+            "font": 14
+          }
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "name": "detail",
+        "violations": []
+      },
+      {
+        "name": "results",
+        "violations": []
+      },
+      {
+        "name": "long labels",
+        "violations": []
+      }
+    ],
+    "entries": 467,
+    "failed": [],
+    "tagStates": {
+      "selected": "rgb(40, 83, 68)",
+      "ordinary": "rgb(248, 250, 244)"
+    },
+    "filtered": "顯示 21 / 467 筆收錄",
+    "hoverBefore": "rgb(248, 250, 244)",
+    "hoverAfter": "rgb(40, 83, 68)",
+    "focus": {
+      "visible": true,
+      "outline": "solid",
+      "width": 3
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "overflow": {
+      "document": false,
+      "cards": [
+        false,
+        false
+      ]
+    },
+    "navigation": {
+      "domContentLoadedMs": 11,
+      "loadMs": 16
+    }
+  }
+]

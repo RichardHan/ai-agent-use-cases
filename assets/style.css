@@ -529,7 +529,7 @@ footer a,.reading-note a{padding:0.5rem 0.5rem}
   .search-feedback{border-radius:6px;background:#eef2e8}
   .results-heading{padding-top:8px}
   #results-count{font-size:15px;font-weight:650;letter-spacing:-.2px}
-  .copy-search-link{font-size:12px;border-color:#c4cfc0;border-radius:5px;background:transparent}
+  .copy-search-link{font-size:14px;border-color:#c4cfc0;border-radius:5px;background:transparent}
   .cards{gap:24px}
   .card{padding:26px;border-radius:6px;border-color:#d5ded0;box-shadow:none;transition:border-color .15s,box-shadow .15s}
   .card:hover{transform:none;border-color:#9cb393;box-shadow:0 6px 18px #1d382007}
@@ -538,12 +538,12 @@ footer a,.reading-note a{padding:0.5rem 0.5rem}
   .card .summary{font-size:14px;line-height:1.85;margin-bottom:20px;color:#3b5146}
   .card .card-goal,.card .card-target-user{border:0;background:transparent;border-radius:0;padding:0;font-size:12px;line-height:1.8;color:#52685a;font-weight:500}
   .card .review-date{font-size:11px;color:#576f60}
-  .card .tag{font-size:12px;border:1px solid #e0e7d8;background:#f8faf4;border-radius:4px;min-height:44px;padding:10px}
+  .card .tag{font-size:14px;border:1px solid #e0e7d8;background:#f8faf4;border-radius:4px;min-height:44px;padding:10px}
   .card .tag-scenario[aria-pressed=true]{color:#fff;background:var(--green);border-color:var(--green)}
   .card .tag:hover{background:#285344;color:white}
   .card-bottom{border-top-color:#e1e7db;padding-top:12px}
   .card-bottom .proof{font-size:11px}
-  .card .card-bottom button{font-size:13px}
+  .card .card-bottom button{font-size:14px}
   .results-return{margin:0;padding:2px 0;border-top-color:#d8dfd2}
   .results-return a{font-size:12px}
   .stats{padding:28px 0;margin-bottom:24px;border-bottom:0}

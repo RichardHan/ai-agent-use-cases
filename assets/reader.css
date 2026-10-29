@@ -314,7 +314,7 @@
   .plain-overview .detail-source,.plain-overview .detail-source-latest{font-size:13px}
   .plain-overview .detail-action-scenario{font-size:13px;background:#eef3e7;color:var(--green);border-color:#bfcfb5;border-radius:4px}
   .detail-actions{gap:10px}
-  .btn-copy-link{font-size:13px;border-color:#b9cbb0;border-radius:4px;background:transparent}
+  .btn-copy-link{font-size:14px;border-color:#b9cbb0;border-radius:4px;background:transparent}
   .reader-report{border:1px solid #d3ddcd;border-top:3px solid var(--green);border-radius:5px;padding:24px;background:#fff}
   .reader-report-label{font-size:11px;letter-spacing:.1em}
   .reader-report h2{font-size:22px;font-weight:650;line-height:1.55}

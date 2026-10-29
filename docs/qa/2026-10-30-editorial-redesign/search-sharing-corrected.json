@@ -1,0 +1,172 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "total": 467,
+    "pending": "正在複製搜尋連結…",
+    "focusAfterDenied": "filter-summary",
+    "fallback": "http://127.0.0.1:8131/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&sort=reviewed#explore",
+    "buttonSize": {
+      "height": 44,
+      "font": "14px"
+    },
+    "axe": [],
+    "resultIds": [
+      "UC-472",
+      "UC-447",
+      "UC-001",
+      "UC-422",
+      "UC-076",
+      "UC-402",
+      "UC-286",
+      "UC-373",
+      "UC-343",
+      "UC-308",
+      "UC-319",
+      "UC-331",
+      "UC-139",
+      "UC-279",
+      "UC-272",
+      "UC-040",
+      "UC-434"
+    ],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "total": 467,
+    "pending": "正在複製搜尋連結…",
+    "focusAfterDenied": "filter-summary",
+    "fallback": "http://127.0.0.1:8131/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&sort=reviewed#explore",
+    "buttonSize": {
+      "height": 44,
+      "font": "14px"
+    },
+    "axe": [],
+    "resultIds": [
+      "UC-472",
+      "UC-447",
+      "UC-001",
+      "UC-422",
+      "UC-076",
+      "UC-402",
+      "UC-286",
+      "UC-373",
+      "UC-343",
+      "UC-308",
+      "UC-319",
+      "UC-331",
+      "UC-139",
+      "UC-279",
+      "UC-272",
+      "UC-040",
+      "UC-434"
+    ],
+    "passed": true
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "total": 467,
+    "pending": "正在複製搜尋連結…",
+    "focusAfterDenied": "filter-summary",
+    "fallback": "http://127.0.0.1:8131/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&sort=reviewed#explore",
+    "buttonSize": {
+      "height": 44,
+      "font": "14px"
+    },
+    "axe": [],
+    "resultIds": [
+      "UC-472",
+      "UC-447",
+      "UC-001",
+      "UC-422",
+      "UC-076",
+      "UC-402",
+      "UC-286",
+      "UC-373",
+      "UC-343",
+      "UC-308",
+      "UC-319",
+      "UC-331",
+      "UC-139",
+      "UC-279",
+      "UC-272",
+      "UC-040",
+      "UC-434"
+    ],
+    "passed": true
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "total": 467,
+    "pending": "正在複製搜尋連結…",
+    "focusAfterDenied": "filter-summary",
+    "fallback": "http://127.0.0.1:8131/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&sort=reviewed#explore",
+    "buttonSize": {
+      "height": 44,
+      "font": "14px"
+    },
+    "axe": [],
+    "resultIds": [
+      "UC-472",
+      "UC-447",
+      "UC-001",
+      "UC-422",
+      "UC-076",
+      "UC-402",
+      "UC-286",
+      "UC-373",
+      "UC-343",
+      "UC-308",
+      "UC-319",
+      "UC-331",
+      "UC-139",
+      "UC-279",
+      "UC-272",
+      "UC-040",
+      "UC-434"
+    ],
+    "passed": true
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "errors": [],
+    "total": 467,
+    "pending": "正在複製搜尋連結…",
+    "focusAfterDenied": "filter-summary",
+    "fallback": "http://127.0.0.1:8131/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&sort=reviewed#explore",
+    "buttonSize": {
+      "height": 44,
+      "font": "14px"
+    },
+    "axe": [],
+    "resultIds": [
+      "UC-472",
+      "UC-447",
+      "UC-001",
+      "UC-422",
+      "UC-076",
+      "UC-402",
+      "UC-286",
+      "UC-373",
+      "UC-343",
+      "UC-308",
+      "UC-319",
+      "UC-331",
+      "UC-139",
+      "UC-279",
+      "UC-272",
+      "UC-040",
+      "UC-434"
+    ],
+    "passed": true
+  }
+]

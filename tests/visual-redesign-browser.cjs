@@ -14,11 +14,14 @@ async function capture(page,row,state){
  const overflow=await page.evaluate(()=>({document:{scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth},detail:document.querySelector('#detail[open]')?{scroll:document.querySelector('#detail').scrollWidth,client:document.querySelector('#detail').clientWidth}:null}));
  const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
  const violations=audit.violations.map(v=>({id:v.id,impact:v.impact,targets:v.nodes.map(n=>n.target)}));
- row.states[state]={overflow,violations};save();
+ const controlSelector=state==='detail'?'#copy-case-link':'.card .tag,.card .card-bottom button,#copy-search-link';
+ const controls=await page.locator(controlSelector).evaluateAll(nodes=>nodes.map(node=>({text:node.textContent,font:parseFloat(getComputedStyle(node).fontSize),height:node.getBoundingClientRect().height})));
+ row.states[state]={overflow,violations,controls};save();
  if(!observe){
   check(overflow.document.scroll<=overflow.document.client+1,`${row.width} ${state}: document overflows horizontally`);
   if(overflow.detail)check(overflow.detail.scroll<=overflow.detail.client+1,`${row.width} ${state}: detail overflows horizontally`);
   check(violations.length===0,`${row.width} ${state}: axe violations ${violations.map(v=>v.id).join(', ')}`);
+  check(controls.length>0&&controls.every(control=>control.font>=14&&control.height>=44),`${row.width} ${state}: card and sharing actions require 14px text and 44px targets`);
  }
 }
 (async()=>{

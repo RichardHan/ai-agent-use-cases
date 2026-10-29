@@ -115,6 +115,32 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     await page.locator('#query').fill('xyz987');
     await page.locator('#empty-reset').click();
     assert.equal(await page.locator('#query').inputValue(),'');
+    // A tool already named in a conversational question is an explicit recovery,
+    // not an automatic query rewrite or a claim that every hit solves the task.
+    for(const question of ['我想用Linear準備每天站會','How can I use Linear to prepare for a team meeting?']){
+      const params=new URLSearchParams({q:question,scenario:'工作',kind:'case',tool:'Grok Bot',scope:'overview'});
+      await page.goto(origin+'?'+params,{waitUntil:'networkidle'});
+      await page.locator('#empty').waitFor();
+      assert.equal(await page.locator('#query').inputValue(),question);
+      const namedTool=page.locator('#empty-suggestions [data-query-recovery="linear"]');
+      await namedTool.waitFor();
+      assert.match(await namedTool.innerText(),/原問題提到「linear」/);
+      const expectedCount=Number((await namedTool.innerText()).match(/搜尋 (\d+) 筆文字命中/)[1]);
+      assert(expectedCount>0);
+      await namedTool.focus();await page.keyboard.press('Enter');
+      assert.equal(await page.locator('#query').inputValue(),'linear');
+      assert.equal(await page.locator('#results .card').count(),expectedCount);
+      assert.equal(await page.locator('#results .card[data-case-id="UC-408"]').count(),1);
+      assert.equal(await page.locator('#results-count').evaluate(n=>document.activeElement===n),true);
+      const recoveredURL=new URL(page.url());
+      for(const key of ['scenario','kind','tool','scope'])assert.equal(recoveredURL.searchParams.get(key),params.get(key));
+      assert.equal(recoveredURL.searchParams.get('q'),'linear');
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+      await page.reload({waitUntil:'networkidle'});
+      await page.locator('#results .card').first().waitFor();
+      assert.equal(await page.locator('#query').inputValue(),'linear');
+      assert.equal(await page.locator('#results .card[data-case-id="UC-408"]').count(),1);
+    }
     row.passed=true;report.push(row);
     await context.close();
   }

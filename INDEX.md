@@ -204,7 +204,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（452）
+## 主要案例（456）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -286,7 +286,7 @@
 | UC-079 | 業務信箱失效：測寄找退信、修別名、起草請重寄 | Grok Bot | [作者自述凌晨修復別名；無設定截圖、未重現](cases/079-business-email-alias-diagnosis.md) | 工作｜收件匣、故障診斷、核准、驗收 |
 | UC-080 | 從多個信箱找出軟體序號，核對後存進密碼管理器 | Grok Bot／1Password CLI | [作者單則自述＋1Password CLI 與 Grok Bot 官方文件；無截圖、未重現](cases/080-email-license-keys-to-password-vault.md) | 生活｜收件匣、備份、資料移轉、權限 |
 | UC-081 | Todoist 定時巡檢，先幫你想好下一步開場草稿 | ChatGPT dots／Todoist | [作者貼文＋任務截圖；未重現](cases/081-todoist-scheduled-headstart.md) | 工作｜待辦、排程、核准 |
-| UC-082 | 管家／教練／營養師多 Bot 群聊管飲食訓練與睡眠；單一教練 Bot 每天5點喚醒、催交訓練截圖；單一飲食教練Bot設每日熱量預算、拍餐點照對照並依術後狀況改護心原則 | Grok Bot（多代理群聊＋技能／捷徑；單 Bot 排程） | [作者自述＋群聊與技能截圖＋另一作者單 Bot 文字自述＋2026-10-22英文作者增重飲食Bot對話截圖；第三方 Key 與端點未核、未重現](cases/082-multi-bot-fitness-coach-group.md) | 生活｜健康、多代理、運動、每日 |
+| UC-082 | 管家／教練／營養師多 Bot 群聊管飲食訓練與睡眠；單一教練 Bot 每天5點喚醒、催交訓練截圖；單一飲食教練Bot設每日熱量預算、拍餐點照對照並依術後狀況改護心原則；dots依課表與動作庫每天寫訓練到Craft、每組記RPE回饋調整 | Grok Bot（多代理群聊＋技能／捷徑；單 Bot 排程）／ChatGPT dots＋Craft | [作者自述＋群聊與技能截圖＋另一作者單 Bot 文字自述＋2026-10-22英文作者增重飲食Bot對話截圖；第三方 Key 與端點未核、未重現](cases/082-multi-bot-fitness-coach-group.md) | 生活｜健康、多代理、運動、每日 |
 | UC-083 | 依年級單元做出加注音可列印數學練習卷 PDF | Grok Bot | [作者貼文＋對話與卷面截圖；答案未逐題核、未重現](cases/083-printable-grade1-math-worksheet.md) | 學習｜出題、教學、驗收 |
 | UC-084 | 依廚房、浴室條件篩選房源照片，交回候選工單 | Grok Bot／Notion | [作者部落格自述；未重現](cases/084-botops-tiered-fleet-notion-tickets.md) | 工作｜多代理、Notion、排程、工單 |
 | UC-085 | Slack bug 回報先分流，雙週彙整產品行銷預讀 | Grok Bot／Slack／GitHub | [作者電子報自述；未重現](cases/085-slack-bug-triage-product-preread.md) | 工作｜Slack、分流、產品行銷、彙整 |
@@ -660,6 +660,10 @@
 | UC-466 | 終端機的Claude Code／Codex查不到X最新消息：一個指令開GitHub issue再指派給自己，觸發Grok Bot調查、留言回答並關閉，本機每20秒查狀態後印出 | Grok Bot（GitHub指派事件routine）／GitHub CLI／Claude Code／Codex CLI | [B日文作者Qiita全文＋流程圖與一次約2分鐘的執行截圖；腳本未公開、未重現](cases/466-cli-agent-ask-grok-bot-research-via-github-issue-assign.md) | 開發｜跨代理、事件觸發、GitHub、研究 |
 | UC-467 | LINE、WeChat沒有給AI的接口：在Muse雲端Linux電腦裝聚合App與官方桌面版，讓它讀群組整理點歌清單、看畫面收發訊息；登入掃碼與付款留給本人 | Meta Muse（雲端電腦）／Beeper／WeChat Linux版／Android模擬器 | [B日文作者Qiita自述（Muse代寫）；無截圖，點餐部分未下單、未重現](cases/467-muse-cloud-desktop-messaging-apps-screen-operation.md) | 開發｜瀏覽器自動化、雲端電腦、通訊、人工確認 |
 | UC-468 | 家庭行政交給dots：看郵局信封預覽濾掉廣告與前住戶信、標出稅務保險監理信；托育帳單PDF按月改名存Dropbox並關閉Todoist任務；托育日誌照片缺漏回補並確認顯示 | ChatGPT dots／USPS信封預覽／Dropbox／Todoist／Craft | [B英文作者13項長文自述；無截圖、連接方式未說明、未重現](cases/468-dots-household-admin-mail-preview-filter-bill-filing.md) | 生活｜家庭、帳單、文件歸檔、待辦 |
+| UC-469 | 記帳App同步不到的支付：Muse讀ANA Pay付款／取消通知做台帳，Playwright逐筆寫入Money Forward手動帳戶，每筆查重、讀回明細與餘額，對不上就停 | Meta Muse（Gmail與Money Forward唯讀連接器＋自訂技能）／Playwright | [B日文作者Qiita全文＋公開倉庫；自述記完10月20筆、餘額一致，未重現](cases/469-muse-skill-ana-pay-to-money-forward-manual-wallet.md) | 省錢｜記帳、收件匣、瀏覽器自動化、驗收 |
+| UC-470 | 多個Bot寫同一套CRM與記帳：自建MCP伺服器內每個業務流程只有一份版本化技能，Bot確認最新版才准寫入，改流程只能交差異、關鍵流程本人核准 | Grok Bot（多Bot）／自建MCP伺服器 | [B英文作者長文自述；程式未公開、未重現](cases/470-bot-team-versioned-process-skill-registry-write-gate.md) | 開發｜多代理、版本、核准、MCP |
+| UC-471 | 沒網路或只有摺疊機時，用Google Voice號碼傳簡訊、留語音加密語指揮Bot；查詢即回、預核准動作執行後確認，花錢刪除聯絡新對象一律回App核准 | Grok Bot（社群範本）／Google Voice／Gmail | [B英文作者長文＋公開範本頁簡介；無執行紀錄、未重現](cases/471-grok-bot-sms-voicemail-command-line-google-voice.md) | 生活｜簡訊、語音、核准、範本 |
+| UC-472 | WHOOP每日身體晨報：恢復分數、HRV、睡眠、昨日負荷加今日安排建議；自建開發者App只讀自己資料、30天自動刪、安裝腳本驗雜湊 | Grok Bot（社群範本＋每日routine）／WHOOP開發者App | [B簡中作者自述自測＋公開範本頁；晨報樣本未公開、未重現](cases/472-wearable-whoop-private-morning-body-brief-template.md) | 生活｜健康、穿戴裝置、晨報、每日 |
 
 <a id="supplement-list"></a>
 
@@ -923,3 +927,7 @@
 ## 2026-10-28 08:40：每日批次（X＋Qiita／Zenn／Hacker News）
 
 [約60組候選與查閱範圍](sources/research-2026-10-28-0840.md)：新增4（UC465每週對照官方更新提出routine替換提案〔未測提示詞〕、UC466本機程式代理經GitHub issue指派請Grok Bot查X、UC467 Muse雲端電腦以畫面操作讀LINE與收發WeChat、UC468 dots信封預覽篩信與托育帳單歸檔），合併補充2（UC351 Grok Bot只抓取寫JSON、整理交本機代理；UC076唯讀盤點收件匣到雙Bot退出仲介站）；其餘為宣傳、清單、比較或證據不足。除UC465為未測提示詞外均為作者自述，未獨立重現。
+
+## 2026-10-29 08:51：每日批次（X＋Qiita／Zenn＋範本頁）
+
+[約90組候選與查閱範圍](sources/research-2026-10-29-0851.md)：新增4（UC469 Muse技能把ANA Pay通知信逐筆記進Money Forward並讀回餘額、UC470多Bot寫入前須確認版本化流程技能、UC471用Google Voice簡訊／語音留言加密語與三級權限指揮Bot、UC472 WHOOP每日身體晨報範本），合併補充1（UC082 dots依課表寫每日訓練到Craft並以RPE回饋調整）；其餘為宣傳、清單、比較或證據不足。均為作者自述，未獨立重現。

@@ -6,6 +6,21 @@
 - [查看驗證與模板補充](#supplement-list)
 - [查看待查來源](#pending-sources)
 
+<div id="task-entry" markdown="1">
+
+### 從想做的事開始
+
+這些是少量閱讀入口，不是完整分類；案例的作者自述與限制仍需逐筆核對。
+
+- [規劃旅行、比較交通與住宿（UC-001）](cases/001-travel-checkout.md)
+- [整理每日收件匣（UC-049）](cases/049-daily-inbox-report-graduated-trust.md)
+- [整理採購合約等待時間（UC-154）](cases/154-contract-review-wait-time-analysis.md)
+- [起草研究報告後逐點查核（UC-293）](cases/293-draft-ai-audit-ai-notion-audit-record.md)
+
+</div>
+
+想找其他主題，可用瀏覽器的「在網頁中尋找」（桌機通常是 Ctrl+F 或 ⌘F；手機通常在瀏覽器選單），輸入例如「旅遊」或案例編號。這會找整頁文字，包括歷史紀錄，並非全文搜尋或篩選；可先跳到案例列表再繼續找。
+
 以下先保留歷次研究紀錄；可用上方連結跳過。
 
 2026-10-22 20:50批次：X（英、中、日；Grok Bot／Muse／dots各一輪＋流程關鍵詞一輪）＋Hacker News（Algolia，窗口內無目標產品實作）、note／Qiita／Zenn（API，多為Claude Duet比較文）、V2EX（sov2ex，窗口內無新帖）、GitHub新倉庫搜尋集中核對。新增UC-459以德語和Bot對話的作者讓X Bot做自己的成效儀表板：帳號變動在圖上標記、「觀看÷前一天追蹤者」校正指標，分析數據每週五手動匯出CSV（B）、UC-460英文作者在家自學，Bot用她的教材編單元後做一頁總表，列課數、來源與上課前待查證事實（B，附圖為插畫風）、UC-461英文作者讓Bot在WooCommerce測試站用測試卡下單並錄影，剪成遮掉個資的示範影片（B，附Bot回覆截圖）；332併入簡中作者六Bot分工X運營流水線、額度三天用完改用Muse頂替、Mac腳本離線導致同一則重複發出，082併入英文作者增重用飲食教練Bot（缺參數先追問、存每日預算、依術後狀況改護心原則），均不另計。皆未重現。承接367，嚴格合格370／1000，尚差630；主要頁420。[逐組判斷與實閱範圍](sources/research-2026-10-22-2050-pr80.md)。

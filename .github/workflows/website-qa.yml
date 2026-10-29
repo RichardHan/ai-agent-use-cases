@@ -64,13 +64,11 @@ jobs:
           ROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/results-batching-browser.cjs
           ROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/search-submit-history-browser.cjs
       - name: Build actual Pages release for published verification
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
       - name: Verify built Pages corpus
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: python3 scripts/check_corpus_bundle.py _site
       - name: Wait for published assets and content
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}

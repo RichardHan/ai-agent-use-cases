@@ -2222,6 +2222,8 @@ function mergeCorpus(current, recovered) {
 }
 function refreshCorpusMetadata() {
   for(const kind of Object.keys(KIND)) $(kind==='case'?'case-count':kind+'-count').textContent=entries.filter(e=>e.kind===kind).length;
+  $('catalog-status').hidden=!failedPaths.length;
+  $('catalog-status').textContent=failedPaths.length?'僅計已載入條目；'+failedPaths.length+' 個來源檔案未載入。':'';
   for(const [id,values] of [['tool',entries.flatMap(e=>e.tools)],['category',entries.map(e=>e.category)],['proof',entries.map(e=>e.proof)]]){
     const selected=$(id).value;
     populate(id,selected?[...values,selected]:values);

@@ -1,0 +1,5 @@
+PASS chromium 1440: batching, keyboard, pointer, details, history, filters, empty, direct link
+PASS chromium 390: batching, keyboard, pointer, details, history, filters, empty, direct link
+PASS chromium 320: batching, keyboard, pointer, details, history, filters, empty, direct link
+PASS firefox 390: batching, keyboard, pointer, details, history, filters, empty, direct link
+PASS webkit 390: batching, keyboard, pointer, details, history, filters, empty, direct link

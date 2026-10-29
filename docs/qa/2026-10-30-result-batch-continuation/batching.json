@@ -1,0 +1,67 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 117.4375,
+      "bottom": 161.4375,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 105.703125,
+      "bottom": 173.890625,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 115.546875,
+      "bottom": 183.734375,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 117.5,
+      "bottom": 185.6999969482422,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 118.046875,
+      "bottom": 186.234375,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  }
+]

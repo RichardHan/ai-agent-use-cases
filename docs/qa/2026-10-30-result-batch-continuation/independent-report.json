@@ -1,0 +1,232 @@
+[
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "height": 900,
+    "errors": [],
+    "audits": [
+      {
+        "name": "new-batch",
+        "violations": []
+      },
+      {
+        "name": "task-recovery",
+        "violations": []
+      },
+      {
+        "name": "shared-detail",
+        "violations": []
+      }
+    ],
+    "journeys": [
+      "Browse another batch, Tab continues inside new case, read and Back retain later-batch focus",
+      "Work/day-report filter, pointer/touch final batch, read/Escape, empty-result recovery preserves work",
+      "Shared case reload and pinned original source; Space reaches every batch without omissions"
+    ],
+    "total": 467,
+    "firstAppend": {
+      "id": "UC-028",
+      "bounds": {
+        "x": 165,
+        "y": 119.4375,
+        "width": 315,
+        "height": 44
+      }
+    },
+    "taskAppend": {
+      "id": "UC-420",
+      "bounds": {
+        "x": 165,
+        "y": 119.1875,
+        "width": 323.328125,
+        "height": 130.1875
+      }
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/cases/001-travel-checkout.md",
+    "pass": true
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "audits": [
+      {
+        "name": "new-batch",
+        "violations": []
+      },
+      {
+        "name": "task-recovery",
+        "violations": []
+      },
+      {
+        "name": "shared-detail",
+        "violations": []
+      }
+    ],
+    "journeys": [
+      "Browse another batch, Tab continues inside new case, read and Back retain later-batch focus",
+      "Work/day-report filter, pointer/touch final batch, read/Escape, empty-result recovery preserves work",
+      "Shared case reload and pinned original source; Space reaches every batch without omissions"
+    ],
+    "total": 467,
+    "firstAppend": {
+      "id": "UC-028",
+      "bounds": {
+        "x": 43,
+        "y": 117.578125,
+        "width": 304,
+        "height": 68.1875
+      }
+    },
+    "taskAppend": {
+      "id": "UC-420",
+      "bounds": {
+        "x": 43,
+        "y": 117.765625,
+        "width": 304,
+        "height": 170.46875
+      }
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/cases/001-travel-checkout.md",
+    "pass": true
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "audits": [
+      {
+        "name": "new-batch",
+        "violations": []
+      },
+      {
+        "name": "task-recovery",
+        "violations": []
+      },
+      {
+        "name": "shared-detail",
+        "violations": []
+      }
+    ],
+    "journeys": [
+      "Browse another batch, Tab continues inside new case, read and Back retain later-batch focus",
+      "Work/day-report filter, pointer/touch final batch, read/Escape, empty-result recovery preserves work",
+      "Shared case reload and pinned original source; Space reaches every batch without omissions"
+    ],
+    "total": 467,
+    "firstAppend": {
+      "id": "UC-028",
+      "bounds": {
+        "x": 43,
+        "y": 119.046875,
+        "width": 234,
+        "height": 68.1875
+      }
+    },
+    "taskAppend": {
+      "id": "UC-420",
+      "bounds": {
+        "x": 43,
+        "y": 118.890625,
+        "width": 234,
+        "height": 204.5625
+      }
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/cases/001-travel-checkout.md",
+    "pass": true
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "audits": [
+      {
+        "name": "new-batch",
+        "violations": []
+      },
+      {
+        "name": "task-recovery",
+        "violations": []
+      },
+      {
+        "name": "shared-detail",
+        "violations": []
+      }
+    ],
+    "journeys": [
+      "Browse another batch, Tab continues inside new case, read and Back retain later-batch focus",
+      "Work/day-report filter, pointer/touch final batch, read/Escape, empty-result recovery preserves work",
+      "Shared case reload and pinned original source; Space reaches every batch without omissions"
+    ],
+    "total": 467,
+    "firstAppend": {
+      "id": "UC-028",
+      "bounds": {
+        "x": 43,
+        "y": 117.5999984741211,
+        "width": 304,
+        "height": 68.19998931884766
+      }
+    },
+    "taskAppend": {
+      "id": "UC-420",
+      "bounds": {
+        "x": 43,
+        "y": 117.6500015258789,
+        "width": 304,
+        "height": 170.49999237060547
+      }
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/cases/001-travel-checkout.md",
+    "pass": true
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "audits": [
+      {
+        "name": "new-batch",
+        "violations": []
+      },
+      {
+        "name": "task-recovery",
+        "violations": []
+      },
+      {
+        "name": "shared-detail",
+        "violations": []
+      }
+    ],
+    "journeys": [
+      "Browse another batch, Tab continues inside new case, read and Back retain later-batch focus",
+      "Work/day-report filter, pointer/touch final batch, read/Escape, empty-result recovery preserves work",
+      "Shared case reload and pinned original source; Space reaches every batch without omissions"
+    ],
+    "total": 467,
+    "firstAppend": {
+      "id": "UC-028",
+      "bounds": {
+        "x": 43,
+        "y": 117.59375,
+        "width": 304,
+        "height": 68.1875
+      }
+    },
+    "taskAppend": {
+      "id": "UC-420",
+      "bounds": {
+        "x": 43,
+        "y": 117.59375,
+        "width": 304,
+        "height": 170.46875
+      }
+    },
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/cases/001-travel-checkout.md",
+    "pass": true
+  }
+]

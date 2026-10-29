@@ -1,0 +1,68 @@
+[
+  {
+    "width": 1440,
+    "errors": [],
+    "before": {
+      "focusId": "load-more-results",
+      "focusText": "再看 24 筆（尚有 419 筆）",
+      "focusTop": 4924.3125,
+      "newTitleTop": 531.4375
+    },
+    "after": {
+      "focusId": "",
+      "focusText": "先做帳單降費比較，再決定怎麼談",
+      "focusTop": 119.4375,
+      "newTitleTop": 119.4375
+    },
+    "errorAxe": [],
+    "loadingErrorRetry": true,
+    "longCaseOverflow": false,
+    "sourcePinned": true,
+    "unsafeLinks": 0,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "errors": [],
+    "before": {
+      "focusId": "load-more-results",
+      "focusText": "再看 24 筆（尚有 419 筆）",
+      "focusTop": 13134.515625,
+      "newTitleTop": 522.890625
+    },
+    "after": {
+      "focusId": "",
+      "focusText": "先做帳單降費比較，再決定怎麼談",
+      "focusTop": 117.71875,
+      "newTitleTop": 117.71875
+    },
+    "errorAxe": [],
+    "loadingErrorRetry": true,
+    "longCaseOverflow": false,
+    "sourcePinned": true,
+    "unsafeLinks": 0,
+    "pass": true
+  },
+  {
+    "width": 320,
+    "errors": [],
+    "before": {
+      "focusId": "load-more-results",
+      "focusText": "再看 24 筆（尚有 419 筆）",
+      "focusTop": 14362.359375,
+      "newTitleTop": 524.984375
+    },
+    "after": {
+      "focusId": "",
+      "focusText": "先做帳單降費比較，再決定怎麼談",
+      "focusTop": 119.015625,
+      "newTitleTop": 119.015625
+    },
+    "errorAxe": [],
+    "loadingErrorRetry": true,
+    "longCaseOverflow": false,
+    "sourcePinned": true,
+    "unsafeLinks": 0,
+    "pass": true
+  }
+]

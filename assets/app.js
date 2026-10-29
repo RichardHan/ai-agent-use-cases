@@ -1358,10 +1358,14 @@ function showMoreResults() {
   visibleResults=Math.min(start+RESULT_BATCH_SIZE,currentFiltered.length);
   const nodes=resultCards(currentFiltered.slice(start,visibleResults),tokenize($('query').value),start,currentFiltered.length);
   $('results').append(...nodes);
-  if(visibleResults===currentFiltered.length && document.activeElement===$('load-more-results')){
-    nodes[0]?.querySelector('h3 button')?.focus({preventScroll:true});
-  }
   updateResultBatch();
+  // Appended cards precede the button in DOM order. Start reading at the new
+  // batch so the next Tab does not skip it, including pointer/AT activation.
+  const firstTitle=nodes[0]?.querySelector('h3 button');
+  if(firstTitle){
+    firstTitle.focus({preventScroll:true});
+    nodes[0].scrollIntoView({block:'start',behavior:'instant'});
+  }
 }
 function ensureVisibleResult(id) {
   const index=currentFiltered.findIndex(item=>item.id===id);

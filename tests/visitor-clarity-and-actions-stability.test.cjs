@@ -101,22 +101,14 @@ test('evidence-round-qa.yml includes in-loop and terminal isCurrentMainCommit ch
   );
 });
 
-test('related published browser polling tolerates 25-minute deployments and skips superseded commits', () => {
+test('related published browser uses bounded shared waiting and preserves supersession', () => {
   const relatedBrowser = fs.readFileSync(path.join(root, 'tests/related-browser.cjs'), 'utf8');
-  assert.match(relatedBrowser, /for\(let i=0;i<300;i\+\+\)\{/, 'live assets must have 300 polling attempts');
-  assert.match(
-    relatedBrowser,
-    /for\(let i=0;i<300;i\+\+\)\{\s*if\(i>0&&i%6===0&&skipIfSupersededPublishedUrl\(origin\)\)\{console\.log\('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '\+process\.env\.GITHUB_SHA\);process\.exit\(0\);\}/,
-    'polling must skip superseded commits every six attempts'
-  );
-  assert.match(relatedBrowser, /await new Promise\(r=>setTimeout\(r,5000\)\)/, 'polling must wait five seconds per attempt');
-  assert.match(
-    relatedBrowser,
-    /if\(skipIfSupersededPublishedUrl\(origin\)\)\{console\.log\('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '\+process\.env\.GITHUB_SHA\);process\.exit\(0\);\}\s*assert\(matched,/,
-    'asset mismatch must verify freshness before failing'
-  );
+  assert.match(relatedBrowser, /await waitForPublishedAssets/, 'live assets must share the bounded publication gate');
+  assert.match(relatedBrowser, /isCurrent:\(\)=>!skipIfSupersededPublishedUrl\(origin\)/, 'polling must retain URL-aware freshness checks');
+  assert.match(relatedBrowser, /if\(result==='superseded'\).*SKIP_PUBLISHED_BROWSER_CHECK/, 'superseded versions must not run browser assertions');
   const relatedWorkflow = fs.readFileSync(path.join(workflowsDir, 'related-qa.yml'), 'utf8');
-  assert.match(relatedWorkflow, /timeout-minutes: 30/, 'job timeout must accommodate the polling budget');
+  const timeout = Number(relatedWorkflow.match(/timeout-minutes:\s*(\d+)/)[1]);
+  assert.ok(timeout >= 55, 'job must cover shared waiting, setup and browser journeys');
 });
 
 test('category-find published polling allows 25 minutes within its job timeout', () => {

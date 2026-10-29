@@ -9,7 +9,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
         with:
@@ -73,22 +73,19 @@ jobs:
           node - <<'JS'
           const fs=require('node:fs');
           const expected=['cases','evidence'].flatMap(dir=>fs.readdirSync(dir,{recursive:true}).filter(file=>file.endsWith('.md')).map(file=>dir+'/'+file)).concat('sources/pending.md').sort();
-          (async()=>{
-            const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let i=0;i<301;i++){
-              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-              const matched=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async file=>{
-                const r=await fetch('https://richardhan.github.io/ai-agent-use-cases/'+file+'?review='+Date.now());
-                return r.ok&&await r.text()===fs.readFileSync(file,'utf8');
-              }));
-              let catalogMatches=false;
-              try{const response=await fetch('https://richardhan.github.io/ai-agent-use-cases/catalog.json?review='+Date.now());const catalog=await response.json();catalogMatches=response.ok&&Array.isArray(catalog.files)&&JSON.stringify(catalog.files.slice().sort())===JSON.stringify(expected);}catch{}
-              if(matched.every(Boolean)&&catalogMatches){console.log('Published HTML/JS/CSS and catalog match checkout');return;}
-              await new Promise(resolve=>setTimeout(resolve,5000));
+          const {waitForPublishedAssets}=require('./scripts/published-assets.cjs');
+          waitForPublishedAssets({
+            base:'https://richardhan.github.io/ai-agent-use-cases/',
+            sha:process.env.GITHUB_SHA,
+            files:['index.html','assets/app.js','assets/style.css'],
+            verify:async({base,sha,attempt,signal,cache})=>{
+              const response=await fetch(base+'catalog.json?publication='+encodeURIComponent(sha)+'-'+attempt,{signal,cache});
+              if(!response.ok){await response.body?.cancel();return false;}
+              const catalog=await response.json();
+              return Array.isArray(catalog.files)&&JSON.stringify(catalog.files.slice().sort())===JSON.stringify(expected);
             }
-            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published assets and catalog did not match checkout within 25 minutes (301 attempts)');
-          })().catch(e=>{console.error(e);process.exit(1)});
+          }).then(result=>console.log(result==='matched'?'Published HTML/JS/CSS and catalog match checkout':'SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA))
+            .catch(e=>{console.error(e);process.exitCode=1});
           JS
       - name: Verify real HTTPS desktop and mobile journeys
         if: github.ref == 'refs/heads/main'

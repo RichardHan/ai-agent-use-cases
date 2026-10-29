@@ -6,20 +6,12 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.RELATED_URL||'http://127.0.0.1:8088/ai-agent-use-cases/';
 const live=process.env.RELATED_LIVE==='1';
 const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
 if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  if(live){
-  for(const path of ['assets/app.js','assets/reader.css']){
-   let matched=false;
-   for(let i=0;i<300;i++){
-    if(i>0&&i%6===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
-    const response=await fetch(origin+path+'?related-qa='+Date.now(),{cache:'no-store'});
-    if(response.ok&&await response.text()===fs.readFileSync(path,'utf8')){matched=true;break;}
-    await new Promise(r=>setTimeout(r,5000));
-   }
-   if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
-   assert(matched,'Published asset matches commit: '+path);
-  }
+  const result=await waitForPublishedAssets({base:origin,sha:process.env.GITHUB_SHA,files:['assets/app.js','assets/reader.css'],isCurrent:()=>!skipIfSupersededPublishedUrl(origin)});
+  if(result==='superseded'){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
  }
  const browser=await chromium.launch();fs.mkdirSync('qa-artifacts',{recursive:true});const report=[];
  for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]){

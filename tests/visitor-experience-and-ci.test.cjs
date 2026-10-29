@@ -66,14 +66,6 @@ test('published checks allow the observed 11m38s Pages deployment to finish', ()
       expectedMs: 900000
     },
     {
-      label: 'relevance',
-      workflow: '../.github/workflows/relevance-qa.yml',
-      source: '../.github/workflows/relevance-qa.yml',
-      attempts: /attempt<(\d+)/,
-      interval: /setTimeout\(resolve,\s*(\d+)\)/,
-      expectedMs: 900000
-    },
-    {
       label: 'return visibility',
       workflow: '../.github/workflows/return-visibility-qa.yml',
       source: 'return-visibility-browser.cjs',
@@ -122,24 +114,15 @@ test('card-refinement published verification covers observed Pages deployment la
 });
 
 
-test('combined recovery published verification covers observed Pages deployment latency', () => {
-  const pollMatch = combinedRecoveryWorkflow.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
-  const delayMatch = combinedRecoveryWorkflow.match(/setTimeout\(\s*(?:resolve|r)\s*,\s*(\d+)\s*\)/);
-  assert.ok(pollMatch, 'combined-recovery-qa.yml must contain a bounded published-asset poll');
-  assert.ok(delayMatch, 'combined-recovery-qa.yml must bound the interval between asset checks');
-  assert.ok(Number(pollMatch[1]) >= 300, 'poll must allow at least 15 minutes for Pages assets');
-  assert.ok(Number(pollMatch[1]) * Number(delayMatch[1]) >= 900000, 'poll attempts and interval together must allow at least 15 minutes');
-
-  const timeoutMatch = combinedRecoveryWorkflow.match(/timeout-minutes:\s*(\d+)/);
-  assert.ok(timeoutMatch, 'combined-recovery-qa.yml must bound its job duration');
-  assert.ok(Number(timeoutMatch[1]) >= 25, 'job timeout must cover setup plus the published-asset poll');
+test('combined recovery published verification reuses the shared bounded gate', () => {
+  assert.match(combinedRecoveryWorkflow, /waitForPublishedAssets/);
+  const timeout = Number(combinedRecoveryWorkflow.match(/timeout-minutes:\s*(\d+)/)[1]);
+  assert.ok(timeout >= 55, 'job must cover publication waiting plus preview and live journeys');
 });
 
 
 test('GitHub Actions workflows provide sufficient polling window for Pages deployment', () => {
-  const relevanceMatch = relevanceWorkflow.match(/attempt\s*<\s*(\d+)/);
-  assert.ok(relevanceMatch, 'relevance-qa.yml must contain attempt loop');
-  assert.ok(parseInt(relevanceMatch[1], 10) >= 140, 'relevance-qa.yml should poll at least 140 attempts');
+  assert.match(relevanceWorkflow, /waitForPublishedAssets/, 'relevance must reuse the shared deadline');
 
   const submitMatch = submitWorkflow.match(/range\((\d+)\)/);
   assert.ok(submitMatch, 'search-submit-qa.yml must contain attempt range');
@@ -153,14 +136,10 @@ test('published-version.cjs covers observed Pages deployment latency (>= 300 att
   assert.ok(Number(pollMatch[1]) >= 300, 'published-version.cjs should poll at least 300 attempts');
 });
 
-test('related reading published verification allows at least 180 five-second polls', () => {
+test('related reading waits for all live assets in one bounded publication round', () => {
   const source = fs.readFileSync(path.join(__dirname, 'related-browser.cjs'), 'utf8');
-  const pollMatch = source.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
-  const intervalMatch = source.match(/setTimeout\(\s*r\s*,\s*(\d+)\s*\)/);
-  assert.ok(pollMatch, 'related-browser.cjs must contain a bounded published-asset poll');
-  assert.ok(Number(pollMatch[1]) >= 180, 'related reading must poll at least 180 times');
-  assert.ok(intervalMatch, 'related reading must define its polling interval');
-  assert.ok(Number(pollMatch[1]) * Number(intervalMatch[1]) >= 900000, 'related reading must allow at least 15 minutes for Pages assets');
+  assert.match(source, /await waitForPublishedAssets/);
+  assert.match(source, /files:\['assets\/app\.js','assets\/reader\.css'\]/);
 });
 
 test('related-qa.yml allows at least 25 minutes for setup and published verification', () => {

@@ -261,7 +261,7 @@ test('reader.css provides distinct left border accents and responsive wrapping f
   assert.match(readerCss, /\.detail-proof-note\s*\{[^}]*flex-wrap:\s*wrap/, 'detail-proof-note must support wrapping');
 });
 
-test('hardened GitHub Actions workflows feature in-loop superseded-main checks and accurate error messages', () => {
+test('published workflows preserve supersession gates when sharing the bounded asset wait', () => {
   const workflowsDir = path.join(__dirname, '../.github/workflows');
   const recencyYml = fs.readFileSync(path.join(workflowsDir, 'recency-qa.yml'), 'utf8');
   const combinedYml = fs.readFileSync(path.join(workflowsDir, 'combined-recovery-qa.yml'), 'utf8');
@@ -269,15 +269,13 @@ test('hardened GitHub Actions workflows feature in-loop superseded-main checks a
   const refinementYml = fs.readFileSync(path.join(workflowsDir, 'card-refinement-qa.yml'), 'utf8');
   const controlsYml = fs.readFileSync(path.join(workflowsDir, 'reader-controls-qa.yml'), 'utf8');
 
-  // Verify in-loop superseded check
-  for (const [name, yml] of Object.entries({ recencyYml, combinedYml, roundYml, refinementYml, controlsYml })) {
+  for (const [name, yml] of Object.entries({ recencyYml, combinedYml, roundYml })) {
+    assert.match(yml, /waitForPublishedAssets/, `${name} must use the shared deadline and supersession checks`);
+    assert.match(yml, /SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit/, `${name} must gate the live browser step`);
+  }
+  for (const [name, yml] of Object.entries({ refinementYml, controlsYml })) {
     assert.match(yml, /isCurrentMainCommit\(process\.env\.GITHUB_SHA\)/, `${name} must include isCurrentMainCommit`);
     assert.match(yml, /(attempt|i)\s*%\s*15\s*===\s*0/, `${name} must check superseded commit inside polling loop`);
   }
-
-  // Verify accurate timeout messages
-  assert.match(recencyYml, /within 25 minutes \(301 attempts\)/, 'recency-qa.yml must report 25 minutes / 301 attempts');
-  assert.doesNotMatch(recencyYml, /within eight minutes/, 'recency-qa.yml must not contain obsolete eight minutes text');
-  assert.match(combinedYml, /after 501 attempts/, 'combined-recovery-qa.yml must report 501 attempts');
-  assert.match(recencyYml, /SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit/, 'recency-qa.yml must gate live browser step with freshness check');
+  assert.match(recencyYml, /Array\.isArray\(catalog\.files\)/, 'recent review must retain semantic catalog verification');
 });

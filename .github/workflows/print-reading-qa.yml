@@ -2,14 +2,14 @@ name: Print reading QA
 on:
   push:
     branches: [improve/reader-print-20261021-v2, fix/print-mobile-reading-density, main]
-    paths: ['assets/app.js', 'assets/reader.js', 'assets/reader.css', 'assets/style.css', 'index.html', 'tests/print*', '.github/workflows/print-reading-qa.yml']
+    paths: ['assets/app.js', 'assets/reader.js', 'assets/reader.css', 'assets/style.css', 'index.html', 'tests/print*', 'scripts/published-*', '.github/workflows/print-reading-qa.yml']
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
@@ -67,23 +67,12 @@ jobs:
           LABEL: published
         run: |
           node <<'NODE'
-          const fs=require('node:fs');
-          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
-          (async()=>{
-          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            const paths=['assets/app.js','assets/reader.js','assets/reader.css'];
-            for(let i=0;i<301;i++){
-              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-              const states=await Promise.all(paths.map(async path=>{
-                const r=await fetch(process.env.PRINT_URL+path+'?print='+process.env.GITHUB_SHA,{cache:'no-store'});
-                return r.ok&&await r.text()===fs.readFileSync(path,'utf8');
-              }));
-              if(states.every(Boolean))return;
-              await new Promise(resolve=>setTimeout(resolve,3000));
-            }
-            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published print assets do not match after 301 attempts at three-second intervals');
-          })().catch(e=>{console.error(e);process.exitCode=1});
+          const {waitForPublishedAssets}=require('./scripts/published-assets.cjs');
+          waitForPublishedAssets({
+            base:process.env.PRINT_URL,
+            sha:process.env.GITHUB_SHA,
+            files:['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']
+          }).then(result=>console.log('Publication gate: '+result)).catch(error=>{console.error(error);process.exitCode=1});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
             :

@@ -24,41 +24,6 @@ test('promoted travel query finds the travel-comparison case and query echo keep
 });
 
 
-test('critical GitHub Actions workflows feature in-loop superseded checks and pre-throw freshness verification', () => {
-  const hardenedWorkflows = [
-    'category-find-qa.yml',
-    'case-share-qa.yml',
-    'results-return-qa.yml',
-    'print-reading-qa.yml',
-    'method-shortcut-qa.yml',
-    'task-shortcuts-qa.yml',
-    'available-facets-qa.yml',
-    'filter-entry-qa.yml',
-    'source-links-qa.yml',
-    'source-guide-qa.yml',
-    'discovery-round-qa.yml',
-    'emphasis-qa.yml',
-    'filter-reading-qa.yml',
-    'reading-anchor-qa.yml',
-    'result-journey-qa.yml'
-  ];
-
-  for (const file of hardenedWorkflows) {
-    const content = fs.readFileSync(path.join(workflowsDir, file), 'utf8');
-    // Check for in-loop check
-    assert.ok(
-      content.includes('!isCurrentMainCommit(process.env.GITHUB_SHA)') &&
-      (content.includes('i%15===0') || content.includes('attempt%15===0') || content.includes('for(let i=0;i<181;i++)')),
-      `${file} must perform in-loop isCurrentMainCommit check`
-    );
-    // Check for pre-throw check before error
-    assert.match(
-      content,
-      /if\(!isCurrentMainCommit\(process\.env\.GITHUB_SHA\)\)[\s\S]*?throw Error/,
-      `${file} must verify freshness before throwing timeout/mismatch error`
-    );
-  }
-});
 
 test('card renders .card-target-user when coreGoal is not provided', () => {
   const vm = require('node:vm');

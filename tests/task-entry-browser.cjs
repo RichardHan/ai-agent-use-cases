@@ -17,6 +17,11 @@ for(const [engine,width] of configs){const browser=await engine.launch();const l
  row.sample=await page.locator('#results .card h3').allTextContents();
  row.kinds=await page.locator('#results .card').evaluateAll(nodes=>nodes.map(n=>n.dataset.kind));
  if(process.env.VERIFY_TASK==='1'){assert.equal(row.kind,'evidence','experience shortcut must filter by collection status');assert.equal(row.query,'');assert(row.results>0&&row.results<row.total);assert(row.kinds.every(k=>k==='evidence'));assert.equal(await task.getAttribute('aria-pressed'),'true');}
+ if(process.env.VERIFY_TASK==='1'){
+   assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count','experience shortcut must focus the results');
+   const bounds=await page.locator('#results-count').boundingBox();
+   assert(bounds&&bounds.y>=0&&bounds.y<page.viewportSize().height,'experience shortcut must bring results into view');
+ }
  await page.locator('#scenario-chips').scrollIntoViewIfNeeded();await page.screenshot({path:out+'/task-'+label+'.png'});
  const initialId=await page.locator('#results .card').first().getAttribute('data-case-id');
  if(process.env.VERIFY_TASK==='1'){row.entryAxe=(await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id);assert.deepEqual(row.entryAxe,[]);}
@@ -52,7 +57,10 @@ for(const [engine,width] of configs){const browser=await engine.launch();const l
 if(process.env.VERIFY_TASK==='1'){
  const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();
  let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/catalog.json',async route=>{await gate;await route.continue();});
- await page.goto(base);await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#query').fill('晨報');await page.locator('.chip[data-kind="evidence"]').click();release();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
+ await page.goto(base);await page.locator('#filter-options').evaluate(e=>e.open=true);await page.locator('#query').fill('晨報');await page.locator('.chip[data-kind="evidence"]').click();
+ assert(await page.locator('.chip[data-kind="evidence"]').evaluate(el=>el===document.activeElement),'loading shortcut must retain focus');
+ release();await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});
+ assert(await page.locator('.chip[data-kind="evidence"]').evaluate(el=>el===document.activeElement),'loading completion must not steal focus');
  assert.equal(await page.locator('#kind').inputValue(),'evidence');assert.equal(await page.locator('#query').inputValue(),'晨報');assert.equal(await page.locator('.chip[data-kind="evidence"]').getAttribute('aria-pressed'),'true');assert(await page.locator('#results .card[data-case-id="UC-008"]').count());
  await context.close();const errorContext=await browser.newContext();const errorPage=await errorContext.newPage();await errorPage.route('**/catalog.json',route=>route.abort());await errorPage.goto(base);await errorPage.locator('#error').waitFor({state:'visible'});await errorPage.locator('#filter-options').evaluate(e=>e.open=true);await errorPage.locator('.chip[data-kind="evidence"]').click();await errorPage.unroute('**/catalog.json');await errorPage.locator('#retry').click();await errorPage.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await errorPage.locator('#kind').inputValue(),'evidence');assert.equal(await errorPage.locator('.chip[data-kind="evidence"]').getAttribute('aria-pressed'),'true');
  fs.writeFileSync(out+'/lifecycle.json',JSON.stringify({loadingIntentPreserved:true,catalogRetryPreserved:true}));await errorContext.close();await browser.close();

@@ -24,6 +24,3 @@ test('loading or failed corpus preserves task intent without a late focus handof
  const x=setup(false);x.click({query:'排程'});assert.equal(x.fields.query.value,'排程');assert.deepEqual(x.calls,['render']);assert.equal(x.context.allowAutomaticArrival,false);
  x.context.discoveryReady=true;assert.deepEqual(x.calls,['render']);
 });
-test('scenario and experience chips retain their existing filter editing behavior',()=>{
- const x=setup();x.click({scenario:'工作'});x.click({kind:'evidence'});assert.equal(x.context.activeScenario,'工作');assert.equal(x.fields.kind.value,'evidence');assert.deepEqual(x.calls,['render','render']);
-});

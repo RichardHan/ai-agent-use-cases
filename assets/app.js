@@ -2695,6 +2695,8 @@ $('scenario-chips')?.addEventListener('click', e => {
   } else if (chip.dataset.kind) {
     $('kind').value = $('kind').value === chip.dataset.kind ? '' : chip.dataset.kind;
     render();
+    // Like task searches, show the outcome without a delayed loading-time jump.
+    if (discoveryReady) focusLoadedResults('start');
   } else if (chip.dataset.query) {
     const q = chip.dataset.query;
     $('query').value = $('query').value.trim() === q ? '' : q;

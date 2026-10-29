@@ -9,3 +9,5 @@
 獨立審查指出 `.html` 直接連結會破壞 GitHub 上的 Markdown 閱讀，已改用現有 `.md` 連結慣例；Pages 實際 build 與發布仍需檢查。桌機與手機的修改前後截圖存於 `/tmp/index-{before,after}-{desktop,mobile}.png`；後者為 Kramdown 模擬並套用正式站樣式，非正式部署，且本環境無法讀取圖像以完成視覺比較。
 
 Actions：PR #167 Reading flow QA 的外部 GitHub 來源在第二次重複 GET 時逾時。本輪移除重複 GET，仍等待實際新視窗載入並核對目的地；初次外部導覽仍依賴網路。不能據此保證該工作流不再逾時。
+
+PR #168 的 Reading flow QA 首次雲端執行通過；Website QA 的 Jekyll build 與語料檢查通過，但新增索引測試因預覽伺服器未掛載 `/ai-agent-use-cases` 而取得 404。已調整測試伺服器以模擬 Pages base path，須等待後續雲端結果，不能把首次失敗歸因於來源案例不存在。

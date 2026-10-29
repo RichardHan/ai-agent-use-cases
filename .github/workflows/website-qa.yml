@@ -73,9 +73,11 @@ jobs:
       - name: Verify static index task entry without JavaScript
         env:
           NODE_PATH: ${{ runner.temp }}/browser-tools/node_modules
-          INDEX_URL: http://127.0.0.1:8082/INDEX.html
+          INDEX_URL: http://127.0.0.1:8082/ai-agent-use-cases/INDEX.html
         run: |
-          python3 -m http.server 8082 --directory _site > /tmp/site-index.log 2>&1 &
+          mkdir -p "$RUNNER_TEMP/site-index"
+          ln -s "$GITHUB_WORKSPACE/_site" "$RUNNER_TEMP/site-index/ai-agent-use-cases"
+          python3 -m http.server 8082 --directory "$RUNNER_TEMP/site-index" > /tmp/site-index.log 2>&1 &
           server=$!
           trap 'kill "$server"' EXIT
           node tests/index-task-entry-browser.cjs

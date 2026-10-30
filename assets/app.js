@@ -1204,7 +1204,7 @@ function contextExcerpt(text, variant, limit=96) {
 function searchContext(item, terms) {
   if(!terms.length)return {matches:[],remaining:0};
   const fields=[
-    ['標題',item.title],['用途',item.summary],['案例編號',idVariants(item.id)],
+    ['標題',item.title],['用途',item.summary],['解決痛點',item.coreGoal],['案例編號',idVariants(item.id)],
     ['分類',item.category],['標籤',(item.tags||[]).join('、')],
     ['提及工具',(item.tools||[]).join('、')],['情境',item.scenario],['收錄狀態',KIND[item.kind]]
   ].map(([label,text])=>({label,text:text||'',original:false}));
@@ -1404,7 +1404,7 @@ function searchVariantIndex(text,variant) {
 function matchesSearchVariant(text,variant) { return searchVariantIndex(text,variant)!==-1; }
 function filterEntries(items, terms, filters) {
   return items.filter(item => terms.every(term => termVariants(term).some(v => matchesSearchVariant(filters.scope==='overview'
-    ? norm(item.title+' '+item.summary) : item.search,v)))
+    ? norm((item.title||'')+' '+(item.summary||'')+' '+(item.coreGoal||'')) : item.search,v)))
     && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
 }
 
@@ -1414,7 +1414,7 @@ function rankEntries(items, terms) {
   const queries = [...new Set(terms)].map(term => ({term, variants:termVariants(term)}));
   return items.map((item, index) => {
     const title = norm(item.title || '');
-    const summary = norm(item.summary || '');
+    const summary = norm((item.summary || '')+' '+(item.coreGoal || ''));
     const fields = [item.category, item.scenario, ...(item.tags || []), ...(item.tools || [])].map(value => norm(value || ''));
     const id = norm(item.id || '');
     const score = [0, 0, 0, 0];
@@ -1465,7 +1465,7 @@ function sourceTypeMessage(type) {
 const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',difficulty:'實作門檻',tool:'提及工具',category:'主題分類',proof:'來源類型',scope:'命中範圍'};
 function activeConditions(query, filters) {
   return Object.entries({query, ...filters}).filter(([,value]) => value)
-    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : key==='scope' ? '標題與用途' : value}));
+    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : key==='scope' ? '標題、用途與痛點' : value}));
 }
 function relaxationOptions(items, terms, filters) {
   return Object.entries(filters).filter(([,value])=>value).map(([key,value]) => ({
@@ -1801,14 +1801,14 @@ function renderSearchFeedback(terms, filters) {
   if(!currentFiltered.length&&discoveryReady){
     const options=relaxationOptions(entries,terms,filters).slice(0,3);
     options.forEach(({key,value,count})=>{
-      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題與用途':value)+'」 → 查看 '+count+' 筆');
+      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題、用途與痛點':value)+'」 → 查看 '+count+' 筆');
       button.type='button';button.dataset.removeFilter=key;
       button.addEventListener('click',()=>removeCondition(key));
       suggestions.append(button);
     });
     const combined=options.length ? [] : combinedRelaxationOptions(entries,terms,filters).slice(0,3);
     combined.forEach(({conditions,count})=>{
-      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題與用途':value)+'」');
+      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題、用途與痛點':value)+'」');
       const button=el('button','recovery-option','一起移除'+labels.join('、')+' → 查看 '+count+' 筆');
       button.type='button';button.dataset.removeFilters=conditions.map(({key})=>key).join(',');
       button.addEventListener('click',()=>removeConditions(conditions));
@@ -1912,7 +1912,7 @@ function render(updateURL=true, preserveShare=false) {
   $('reset-sort').hidden=!discoveryReady||$('sort').value!=='reviewed';
   $('search-order-note').textContent=$('sort').value==='reviewed'
     ? '依頁首核對日由新到舊；不是發布日，也不代表新增或獨立驗證。正文補充不計；未提供者置後，同日保留原本的符合順序。'
-    : '標題與用途優先；全文仍納入搜尋。排序不代表成果或證據可靠度。';
+    : '標題、用途與痛點優先；全文仍納入搜尋。排序不代表成果或證據可靠度。';
   const resultKey=JSON.stringify([$('query').value,filters,$('sort').value]);
   if(resultKey!==resultQueryKey){visibleResults=RESULT_BATCH_SIZE;resultQueryKey=resultKey;}
   $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),q,0,currentFiltered.length));

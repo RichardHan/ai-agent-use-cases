@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm');
 const source=fs.readFileSync('assets/app.js','utf8').split('/* Browser event bindings. */')[0];
-function api(){const c=vm.createContext({URL,URLSearchParams,Discovery:require('../assets/discovery.js')});vm.runInContext(source+';this.api={rankEntries,filterEntries,parseFile,tokenize};',c);vm.runInContext('displayCopy='+fs.readFileSync('assets/copy.json','utf8'),c);return c.api;}
+function api(){const c=vm.createContext({URL,URLSearchParams,Discovery:require('../assets/discovery.js')});vm.runInContext(source+';this.api={rankEntries,filterEntries,parseFile,tokenize,searchContext};',c);vm.runInContext('displayCopy='+fs.readFileSync('assets/copy.json','utf8'),c);return c.api;}
 const ids=items=>Array.from(items,x=>x.id);
 const item=(id,title,summary='',extra={})=>({id,title,summary,category:'',scenario:'',tools:[],tags:[],...extra});
 test('purpose coverage precedes incidental matches; ties and empty queries preserve source order',()=>{
@@ -43,4 +43,15 @@ test('short and numeric IDs remain exact even when a reference title would other
   const input=[item('UC-999','參考 '+queries.join(' ')+' '+target),item(target,'實作紀錄')];
   for(const q of queries)assert.equal(rankEntries(input,tokenize(q))[0].id,target,q);
  }
+});
+
+test('problem goal is included in focused results and ranked ahead of body-only mentions',()=>{
+ const {rankEntries,filterEntries,parseFile,tokenize,searchContext}=api();
+ const [travel]=parseFile('cases/001-travel-checkout.md',fs.readFileSync('cases/001-travel-checkout.md','utf8'));
+ const terms=tokenize('人工購買決策');
+ const incidental=item('UC-999','其他用途','',{search:'人工購買決策',kind:'case'});
+ assert.deepEqual(ids(filterEntries([incidental,travel],terms,{scope:'overview',scenario:'生活'})),['UC-001']);
+ assert.equal(searchContext(travel,terms).matches[0].label,'解決痛點');
+ assert.deepEqual(ids(rankEntries([incidental,travel],terms)),['UC-001','UC-999']);
+ assert.deepEqual(ids(filterEntries([travel],terms,{scope:'overview',scenario:'工作'})),[]);
 });

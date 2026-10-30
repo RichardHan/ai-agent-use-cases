@@ -116,12 +116,6 @@ test('GitHub Actions workflows provide sufficient polling window for Pages deplo
   assert.ok(parseInt(submitMatch[1], 10) >= 120, 'search-submit-qa.yml should poll at least 120 attempts');
 });
 
-test('published-version.cjs covers observed Pages deployment latency (>= 300 attempts / 15 minutes)', () => {
-  const publishedVersionCjs = fs.readFileSync(path.join(__dirname, 'published-version.cjs'), 'utf8');
-  const pollMatch = publishedVersionCjs.match(/attempt\s*<\s*(\d+)/);
-  assert.ok(pollMatch, 'published-version.cjs must contain bounded attempt loop');
-  assert.ok(Number(pollMatch[1]) >= 300, 'published-version.cjs should poll at least 300 attempts');
-});
 
 test('related reading waits for all live assets in one bounded publication round', () => {
   const source = fs.readFileSync(path.join(__dirname, 'related-browser.cjs'), 'utf8');

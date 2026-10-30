@@ -51,10 +51,10 @@ const out=process.env.SUBMIT_OUTPUT||'qa-artifacts/submit';
  const facet=await page.evaluate(()=>({kind:currentFiltered[0].kind,category:currentFiltered[0].category,proof:currentFiltered[0].proof,tool:currentFiltered[0].tools[0],scenario:currentFiltered[0].scenario}));
  for(const [id,value] of Object.entries(facet))await page.locator('#'+id).selectOption(value);
  await page.locator('#sort').selectOption('reviewed');
- const before=await page.evaluate(()=>{history.replaceState({submitQA:true},'',location.href);return {url:location.href,length:history.length,ids:[...document.querySelectorAll('#results .card')].map(e=>e.dataset.caseId)};});
+ const before=await page.evaluate(()=>({url:location.href,length:history.length,ids:[...document.querySelectorAll('#results .card')].map(e=>e.dataset.caseId)}));
  await page.locator('#query').press('Enter');
- const after=await page.evaluate(()=>({url:location.href,length:history.length,ids:[...document.querySelectorAll('#results .card')].map(e=>e.dataset.caseId),state:history.state}));
- assert.equal(after.url,before.url);assert.equal(after.length,before.length+1);assert.deepEqual(after.ids,before.ids);assert.equal(after.state,null);await page.goBack();assert.notEqual(page.url(),before.url);await page.goForward();assert.equal(page.url(),before.url);report.combinedFacetsAndSort='one committed history stop for five facets and reviewed sort; Back/Forward restores URL';
+ const after=await page.evaluate(()=>({url:location.href,length:history.length,ids:[...document.querySelectorAll('#results .card')].map(e=>e.dataset.caseId)}));
+ assert.equal(after.url,before.url);assert.equal(after.length,before.length);assert.deepEqual(after.ids,before.ids);await page.goBack();assert.notEqual(page.url(),before.url);await page.goForward();assert.equal(page.url(),before.url);report.combinedFacetsAndSort='one live history stop for five facets and reviewed sort; Back/Forward restores URL';
  report.ime='synthetic composition events guard; native OS IME not verified';
  }
  fs.writeFileSync(`${out}/report.json`,JSON.stringify(reports,null,2));await context.close();

@@ -730,6 +730,7 @@ function scenarioExploreAction(item) {
     rememberReadingView();
     history.pushState(history.state, '', location.href);
     closeDetail();
+    facetHistoryDraft=true; // Reuse the entry already created for this action.
     chooseScenario(item.scenario);
     $('results-count').focus({preventScroll:true});
     $('results-count').scrollIntoView({block:'start',behavior:'instant'});
@@ -1634,9 +1635,8 @@ function currentSearchLink() {
   filters.scope=$('overview-only').checked?'overview':'';
   return searchLink(location.href,$('query').value,filters,$('sort').value);
 }
-// Live edits keep the URL shareable; only an explicit submit commits the draft
-// as a separate Back/Forward stop (including combined facet and sort changes).
-let committedSearchURL=typeof location==='undefined'?'':location.href, queryDirty=false, facetDraftDirty=false;
+// Live filter edits form one Back/Forward stop; query-only edits commit on submit.
+let committedSearchURL=typeof location==='undefined'?'':location.href, queryDirty=false, facetDraftDirty=false, facetHistoryDraft=false;
 let searchComposing = false, categoryComposing = false;
 function submitSearch(event) {
   event.preventDefault();
@@ -1644,7 +1644,7 @@ function submitSearch(event) {
   allowAutomaticArrival = false;
   const url = new URL(location.href);
   url.hash = 'explore';
-  if((queryDirty||facetDraftDirty) && committedSearchURL!==url.href){
+  if(!facetHistoryDraft && (queryDirty||facetDraftDirty) && committedSearchURL!==url.href){
     const previous=new URL(committedSearchURL||location.href);
     previous.searchParams.delete('case');
     history.replaceState(history.state,'',previous);
@@ -1653,6 +1653,7 @@ function submitSearch(event) {
   committedSearchURL=url.href;
   queryDirty=false;
   facetDraftDirty=false;
+  facetHistoryDraft=false;
   focusLoadedResults('start');
 }
 function revealSearch(resultsOnly=false) {
@@ -1960,8 +1961,19 @@ function render(updateURL=true, preserveShare=false) {
     if (activeScenario) url.searchParams.set('scenario', activeScenario); else url.searchParams.delete('scenario');
     if(filters.scope)url.searchParams.set('scope',filters.scope);else url.searchParams.delete('scope');
     if(reviewSort($('sort').value))url.searchParams.set('sort','reviewed');else url.searchParams.delete('sort');
-    if(discoveryReady && url.search!==location.search)facetDraftDirty=true;
-    history.replaceState(null, '', url);
+    if(discoveryReady && url.search!==location.search){
+      const previousParams=new URLSearchParams(location.search);
+      const nextParams=new URLSearchParams(url.search);
+      previousParams.delete('q');nextParams.delete('q');
+      if(!facetHistoryDraft && previousParams.toString()!==nextParams.toString()){
+        const previous=new URL(committedSearchURL||location.href);
+        previous.searchParams.delete('case');
+        history.replaceState(history.state,'',previous);
+        history.pushState(null,'',url);
+        facetHistoryDraft=true;
+      }else history.replaceState(history.state,'',url);
+      facetDraftDirty=true;
+    }else history.replaceState(history.state,'',url);
   }
   syncPageContext();
 }
@@ -2667,7 +2679,8 @@ $('recent-entry').addEventListener('click', event => {
   activeScenario='';
   $('overview-only').checked=false;
   ['query','kind','difficulty','tool','category','proof'].forEach(id => { if($(id)) $(id).value = ''; });
-  $('sort').value='reviewed';render();committedSearchURL=location.href;queryDirty=false;facetDraftDirty=false;enterSearch(event);
+  facetHistoryDraft=true;
+  $('sort').value='reviewed';render();committedSearchURL=location.href;queryDirty=false;facetDraftDirty=false;facetHistoryDraft=false;enterSearch(event);
 });
 ['kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => $(id)?.addEventListener('change', () => render()));
 $('filter-view-results').addEventListener('click', focusResults);
@@ -2767,6 +2780,7 @@ window.addEventListener('popstate', event => {
   committedSearchURL=location.href;
   queryDirty=false;
   facetDraftDirty=false;
+  facetHistoryDraft=false;
   render(false);
   if(item && event.state?.caseReturn?.area==='results')ensureVisibleResult(event.state.caseReturn.id);
   if (item) {

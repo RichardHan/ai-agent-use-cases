@@ -24,7 +24,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
  const expected=files.map(file=>fs.readFileSync(path.join(built,file)));
  const local={catalog:JSON.parse(expected[assets.length]),corpus:JSON.parse(expected[assets.length+1])};
  let publication;
- // The shared 35-minute deadline covers product bytes and semantic corpus checks together.
+ // The shared 45-minute deadline covers product bytes and semantic corpus checks together.
  const status=await waitForPublishedAssets({
   base,sha,files:[],isCurrent,now,sleep,
   verify:async({signal,cache,attempt})=>{

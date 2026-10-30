@@ -47,10 +47,10 @@ function publicationFixture(t){
  return {options:{base:'https://example.test/project/',built,sha:'current',isCurrent:()=>true},published,respond};
 }
 
-test('facet publication waits through a 34-minute mixed-corpus deployment using the shared window',async t=>{
+test('facet publication waits through a 40-minute mixed-corpus deployment using the shared window',async t=>{
  const {options,published,respond}=publicationFixture(t);
  let clock=0,rounds=0;
- const deployedAt=34*60*1000,ready=published['corpus.json'];
+ const deployedAt=40*60*1000,ready=published['corpus.json'];
  const result=await waitForPublishedVersion({
   ...options,now:()=>clock,sleep:async ms=>{clock+=ms;},
   fetchAsset:async(url,{signal,cache})=>{
@@ -62,7 +62,7 @@ test('facet publication waits through a 34-minute mixed-corpus deployment using 
    return respond(url);
   }
  });
- assert.equal(PUBLICATION_TIMEOUT_MS,35*60*1000);
+ assert.equal(PUBLICATION_TIMEOUT_MS,45*60*1000);
  assert.equal(result.status,'matched');
  assert.equal(result.localRevision,'local');
  assert.equal(result.publishedRevision,'published');
@@ -73,7 +73,7 @@ test('facet publication waits through a 34-minute mixed-corpus deployment using 
  assert.equal(rounds,deployedAt/5000+1);
 });
 
-test('matching assets never accept changed source bytes, and failure stops at 35 minutes',async t=>{
+test('matching assets never accept changed source bytes, and failure stops at 45 minutes',async t=>{
  const {options,published,respond}=publicationFixture(t);
  published['corpus.json']=JSON.stringify(build('published','changed source bytes').corpus);
  let clock=0;

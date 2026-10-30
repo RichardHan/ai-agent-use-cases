@@ -10,8 +10,8 @@ jobs:
   browser:
     runs-on: ubuntu-24.04
     container: mcr.microsoft.com/playwright:v1.64.0-noble
-    # Reserve setup, local browser journeys and published QA beyond the shared 35-minute gate.
-    timeout-minutes: 60
+    # Reserve setup, local browser journeys and published QA beyond the shared 45-minute gate.
+    timeout-minutes: 70
     steps:
       - uses: actions/checkout@v4
         with:

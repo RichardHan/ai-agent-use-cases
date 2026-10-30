@@ -45,7 +45,7 @@ function withAsset(run){
 test('default window covers the observed 27m38s deployment, not just 301 quick polls',()=>withAsset(async options=>{
  let clock=0,polls=0;
  const deployedAt=(27*60+38)*1000;
- assert.ok(PUBLICATION_TIMEOUT_MS>=35*60*1000);
+ assert.ok(PUBLICATION_TIMEOUT_MS>=45*60*1000);
  const result=await waitForPublishedAssets({
   ...options,now:()=>clock,sleep:async ms=>{clock+=ms;},
   fetchAsset:async(url,{cache,signal})=>{
@@ -59,6 +59,22 @@ test('default window covers the observed 27m38s deployment, not just 301 quick p
  assert.equal(result,'matched');
  assert.ok(clock>=deployedAt&&clock<PUBLICATION_TIMEOUT_MS);
  assert.ok(polls>301,'the old attempt cap must not truncate the longer window');
+}));
+
+test('default window accepts a 40-minute publication but still rejects stale bytes at 45 minutes',()=>withAsset(async options=>{
+ const deployedAt=40*60*1000;
+ assert.equal(PUBLICATION_TIMEOUT_MS,45*60*1000);
+ let clock=0;
+ const polling={...options,now:()=>clock,sleep:async ms=>{clock+=ms;}};
+ assert.equal(await waitForPublishedAssets({
+  ...polling,fetchAsset:async()=>({ok:true,arrayBuffer:async()=>Buffer.from(clock>=deployedAt?'current':'stale')})
+ }),'matched');
+ assert.equal(clock,deployedAt);
+ clock=0;
+ await assert.rejects(waitForPublishedAssets({
+  ...polling,fetchAsset:async()=>({ok:true,arrayBuffer:async()=>Buffer.from('stale')})
+ }),/do not match/);
+ assert.equal(clock,PUBLICATION_TIMEOUT_MS);
 }));
 
 test('deadline includes network time and stops without another request',()=>withAsset(async options=>{
@@ -233,3 +249,53 @@ test('unsuccessful responses release their bodies before retrying',()=>withAsset
  assert.equal(result,'matched');
  assert.equal(cancelled,1);
 }));
+
+test('every shared publication caller reserves setup and browser time beyond the full deadline',()=>{
+ const workflows=[
+  'available-facets-qa.yml','card-refinement-qa.yml','case-share-qa.yml',
+  'category-find-qa.yml','combined-recovery-qa.yml','facet-counts-qa.yml',
+  'filter-entry-qa.yml','home-search-entry-qa.yml','missing-case-qa.yml',
+  'print-reading-qa.yml','reader-qa.yml','reading-anchor-qa.yml',
+  'recency-qa.yml','related-qa.yml','relevance-qa.yml','round-qa.yml',
+  'search-context-qa.yml','source-links-qa.yml','website-qa.yml'
+ ];
+ for(const file of workflows){
+  const workflow=fs.readFileSync(path.join(__dirname,'../.github/workflows',file),'utf8');
+  const minutes=Number(workflow.match(/timeout-minutes:\s*(\d+)/)[1]);
+  const sequentialGates=file==='website-qa.yml'?2:1;
+  assert.ok(minutes*60000>=sequentialGates*PUBLICATION_TIMEOUT_MS+20*60000,file+' must reserve every sequential publication gate plus 20 minutes for setup/browser checks');
+  if(sequentialGates===2){
+   assert.match(workflow,/run: node tests\/published-version\.cjs/);
+   assert.match(workflow,/run: node tests\/deployed-browser\.cjs/);
+  }
+ }
+ const corpus=fs.readFileSync(path.join(__dirname,'../.github/workflows/corpus-qa.yml'),'utf8').split('\n  published:')[1];
+ const minutes=Number(corpus.match(/timeout-minutes:\s*(\d+)/)[1]);
+ assert.ok(minutes*60000>=PUBLICATION_TIMEOUT_MS+20*60000,'corpus published job must cover publication and browser checks');
+ const reader=fs.readFileSync(path.join(__dirname,'reader-browser.cjs'),'utf8');
+ assert.match(reader,/if\(deployed\)\{\s*await require\('\.\/arrival-live\.cjs'\)[\s\S]*?await browser\.close\(\);continue;\s*\}/,'live reader must exit its engine iteration before preview-only checkpoints and readiness retries');
+});
+
+test('remaining short publication gates use the shared window without weakening byte checks',()=>{
+ const gates=[
+  ['category-find-qa.yml',null,['index.html','assets/app.js','assets/style.css']],
+  ['filter-entry-qa.yml',null,['index.html','assets/app.js','assets/style.css']],
+  ['home-search-entry-qa.yml',null,['index.html','assets/app.js','assets/style.css']],
+  ['reader-qa.yml','reader-browser.cjs',['assets/reader.js','assets/reader.css','assets/app.js','assets/style.css','assets/discovery.js','index.html']],
+  ['corpus-qa.yml','corpus-browser.cjs',['assets/app.js','assets/style.css','assets/reader.js','assets/reader.css','index.html']]
+ ];
+ for(const [workflow,browser,files] of gates){
+  const yaml=fs.readFileSync(path.join(__dirname,'../.github/workflows',workflow),'utf8');
+  const source=browser?fs.readFileSync(path.join(__dirname,browser),'utf8'):yaml;
+  assert.match(source,/await waitForPublishedAssets\(/,workflow+' must reuse the bounded shared publication gate');
+  assert.doesNotMatch(source,/maxDuration:|attempts:/,workflow+' must not shorten the shared window');
+  for(const file of files)assert.ok(source.includes("'"+file+"'"),workflow+' must still verify '+file);
+  assert.match(source,/superseded/);
+  assert.match(yaml+'\n'+source,/SKIP_PUBLISHED_BROWSER_CHECK/);
+ }
+ const corpus=fs.readFileSync(path.join(__dirname,'corpus-browser.cjs'),'utf8');
+ assert.match(corpus,/assert\.equal\(served\[path\],fs\.readFileSync\(path,'utf8'\)/,'actual-page byte checks must remain enabled');
+ const reader=fs.readFileSync(path.join(__dirname,'reader-browser.cjs'),'utf8');
+ assert.match(reader,/reader-deployment\.json/,'reader deployment evidence must remain');
+ assert.match(reader,/typeof CaseReader!=='undefined'/,'reader readiness must remain');
+});

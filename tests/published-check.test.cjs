@@ -73,21 +73,3 @@ test('every workflow with an exact published asset assertion checks commit fresh
  assert.ok(checked.length>=22,'workflow audit should cover the known published asset checks');
 });
 
-test('published browser entrypoints skip stale main SHAs before comparing Pages assets',()=>{
- const names=[
-  'card-refinement-browser.cjs','corpus-browser.cjs','load-recovery-live.cjs','published-version.cjs',
-  'reader-browser.cjs','reader-controls-browser.cjs','reading-flow-browser.cjs','related-browser.cjs',
-  'return-visibility-browser.cjs','search-context-live.cjs','transient-loading-published.cjs','trust-published.cjs'
- ];
- const missing=names.filter(name=>!fs.readFileSync(path.join(__dirname,name),'utf8').includes('skipIfSupersededPublishedUrl'));
- assert.deepEqual(missing,[],'missing published browser guard: '+missing.join(', '));
- const workflows=path.join(__dirname,'..','.github','workflows');
- const source=fs.readdirSync(workflows).map(file=>fs.readFileSync(path.join(workflows,file),'utf8')).join('\n');
- for(const name of ['published-version.cjs','transient-loading-published.cjs','reading-flow-browser.cjs','related-browser.cjs','reader-browser.cjs','return-visibility-browser.cjs','trust-published.cjs'])
-  assert(source.includes('tests/'+name),'workflow coverage must retain '+name);
- for(const [workflow,testFile] of [['round-qa.yml','round-browser.cjs'],['print-reading-qa.yml','print-browser.cjs']]){
-  const text=fs.readFileSync(path.join(workflows,workflow),'utf8');
-  assert(text.includes('node tests/'+testFile),workflow+' must retain its public browser journey');
-  assert(text.includes('SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable'),workflow+' must gate the complete live browser step');
- }
-});

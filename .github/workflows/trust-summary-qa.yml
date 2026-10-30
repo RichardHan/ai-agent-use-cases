@@ -2,13 +2,13 @@ name: Audit summary round QA
 on:
   push:
     branches: [improve/reading-find-20261020, main]
-    paths: ['.github/workflows/trust-summary-qa.yml', 'tests/trust-*', 'tests/audit.test.cjs', 'scripts/preview.py', 'assets/**', 'index.html', 'audit-summary.json', 'sources/qualification-audit-2026-10-16.md', 'INDEX.md']
+    paths: ['.github/workflows/trust-summary-qa.yml', 'tests/trust-*', 'tests/audit.test.cjs', 'scripts/preview.py', 'scripts/published-assets.cjs', 'scripts/published-check.cjs', 'assets/**', 'index.html', 'audit-summary.json', 'sources/qualification-audit-2026-10-16.md', 'INDEX.md']
 permissions:
   contents: read
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
         with:
@@ -74,16 +74,20 @@ jobs:
           python3 -m http.server 8141 --directory "$RUNNER_TEMP/trust-built" > /tmp/trust-built.log 2>&1 &
           node tests/trust-browser.cjs
           READER_SEARCH_URL=http://127.0.0.1:8141/ai-agent-use-cases/ READER_SEARCH_ENGINES=all node tests/reader-search-browser.cjs > qa-artifacts/reader-regression.log
-      - name: Verify published desktop and mobile
+      - name: Wait for published audit assets
         if: github.ref == 'refs/heads/main'
+        id: published-audit
+        env:
+          TRUST_URL: https://richardhan.github.io/ai-agent-use-cases/
+        run: node tests/trust-published.cjs
+      - name: Verify published desktop and mobile
+        if: github.ref == 'refs/heads/main' && steps.published-audit.outputs.verified == 'true'
         env:
           NODE_PATH: ${{ runner.temp }}/trust-tools/node_modules
           TRUST_URL: https://richardhan.github.io/ai-agent-use-cases/
           TRUST_OUTPUT: qa-artifacts/published
           TRUST_LIVE: '1'
-        run: |
-          node tests/trust-published.cjs
-          node tests/trust-browser.cjs
+        run: node tests/trust-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -23,3 +23,9 @@
 回歸案例新增：模擬 27 分 38 秒後才發布、超過 301 次仍可成功；網路耗時納入截止、最後睡眠裁切；HTTP／網路暫錯、response body 卡住取消、其他請求未結束不得開始下一輪；等待中／資產剛匹配／截止時被取代都跳過；main tip 無法核實仍失敗；catalog 未匹配不可通過；九個 caller 的資產清單與 job 餘裕不縮水。本節僅記錄實作與待執行的驗證項目，不把上方歷史驗證數字當作本輪結果。
 
 範圍與風險：不修改 PR #168 的 `.github/workflows/website-qa.yml` 或 PR #162 的 `tests/deployed-browser.cjs`，不改 UI、案例與瀏覽器功能斷言。共享 helper 的既有 caller 也會取得 35 分鐘預設；Website QA 原有 45 分鐘上限仍須與 PR #168 的最終設計一起評估。35 分鐘不是部署 SLA，Pages 若持續超過此值仍會明確失敗；延長 job 上限增加失敗情況下的 runner 使用時間，其他尚未收斂的公開站 gate 不宣稱已修復。合併前應執行 `node --test tests/*.test.cjs`、JS 語法檢查及 workflow YAML／shell 驗證；新 SHA 的正式 Pages 與公開 browser journeys 仍需合併後 Actions 才能證明。
+
+## 2026-10-30：Audit summary 發布競速
+
+[Audit summary QA 的失敗](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/40934556034)發生在公開站核對逾時；本機建置與跨瀏覽器檢查已通過。改用既有 35 分鐘絕對截止與逐檔比對，並在同一輪核對 audit summary 的最新批次；main 已被取代時不執行公開站瀏覽器驗收。工作上限調為 55 分鐘。頁面與案例不變，無法保證 Pages 在期限內部署；其他 workflow 的獨立等待機制不在本次範圍。
+
+驗證：`node --test tests/trust-publication.test.cjs tests/published-assets.test.cjs` 16 通過；本機 HTTP 預覽執行 `TRUST_URL=http://127.0.0.1:18997/ai-agent-use-cases/ GITHUB_SHA=local node tests/trust-published.cjs` 輸出 `PUBLISHED_AUDIT_MATCH local`。正式 Pages 的新提交仍須合併後驗證。

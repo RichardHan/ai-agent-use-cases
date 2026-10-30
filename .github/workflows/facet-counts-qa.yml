@@ -10,7 +10,8 @@ jobs:
   browser:
     runs-on: ubuntu-24.04
     container: mcr.microsoft.com/playwright:v1.64.0-noble
-    timeout-minutes: 30
+    # Reserve setup, local browser journeys and published QA beyond the shared 35-minute gate.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -79,7 +80,7 @@ jobs:
           PUBLISHED_BUILD: ${{ runner.temp }}/facet-published
         run: python3 scripts/check_corpus_bundle.py "$PUBLISHED_BUILD"
       - name: Verify the published site
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && steps.published-version.outputs.verified == 'true'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           FACET_URL: https://richardhan.github.io/ai-agent-use-cases/

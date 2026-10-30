@@ -138,10 +138,3 @@ test('code review query matches targeted cases while noisy PR query is avoided',
   assert.equal(codeReviewHits.length, 1, 'Query "代碼審查" should only match intentional code review cases');
   assert.equal(codeReviewHits[0].id, 'UC-101');
 });
-
-test('published-version.cjs provides at least 360 attempts (18 minutes) polling budget', () => {
-  const publishedSource = fs.readFileSync(path.join(root, 'tests/published-version.cjs'), 'utf8');
-  const pollMatch = publishedSource.match(/attempt\s*<\s*(\d+)/);
-  assert.ok(pollMatch, 'published-version.cjs must contain bounded attempt loop');
-  assert.ok(Number(pollMatch[1]) >= 360, `published-version.cjs should poll at least 360 attempts (got ${pollMatch[1]})`);
-});

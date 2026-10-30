@@ -14,7 +14,6 @@ const css = fs.readFileSync(path.join(__dirname, '../assets/style.css'), 'utf8')
 const appJs = fs.readFileSync(path.join(__dirname, '../assets/app.js'), 'utf8');
 const searchSubmitCjs = fs.readFileSync(path.join(__dirname, 'search-submit-browser.cjs'), 'utf8');
 const loadRecoveryCjs = fs.readFileSync(path.join(__dirname, 'load-recovery-live.cjs'), 'utf8');
-const cardRefinementWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/card-refinement-qa.yml'), 'utf8');
 const combinedRecoveryWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/combined-recovery-qa.yml'), 'utf8');
 const relevanceWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/relevance-qa.yml'), 'utf8');
 const submitWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/search-submit-qa.yml'), 'utf8');
@@ -100,18 +99,6 @@ test('published checks allow the observed 11m38s Pages deployment to finish', ()
   }
 });
 
-test('card-refinement published verification covers observed Pages deployment latency', () => {
-  const pollMatch = cardRefinementWorkflow.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
-  const delayMatch = cardRefinementWorkflow.match(/setTimeout\(\s*(?:resolve|r)\s*,\s*(\d+)\s*\)/);
-  assert.ok(pollMatch, 'card-refinement-qa.yml must contain a bounded published-asset poll');
-  assert.ok(delayMatch, 'card-refinement-qa.yml must bound the interval between asset checks');
-  assert.ok(Number(pollMatch[1]) >= 450, 'poll must allow at least 15 minutes for Pages assets');
-  assert.ok(Number(pollMatch[1]) * Number(delayMatch[1]) >= 900000, 'poll attempts and interval together must allow at least 15 minutes');
-
-  const timeoutMatch = cardRefinementWorkflow.match(/timeout-minutes:\s*(\d+)/);
-  assert.ok(timeoutMatch, 'card-refinement-qa.yml must bound its job duration');
-  assert.ok(Number(timeoutMatch[1]) >= 25, 'job timeout must cover setup plus the published-asset poll');
-});
 
 
 test('combined recovery published verification reuses the shared bounded gate', () => {

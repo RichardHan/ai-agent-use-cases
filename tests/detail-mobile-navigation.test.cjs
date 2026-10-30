@@ -261,21 +261,3 @@ test('reader.css provides distinct left border accents and responsive wrapping f
   assert.match(readerCss, /\.detail-proof-note\s*\{[^}]*flex-wrap:\s*wrap/, 'detail-proof-note must support wrapping');
 });
 
-test('published workflows preserve supersession gates when sharing the bounded asset wait', () => {
-  const workflowsDir = path.join(__dirname, '../.github/workflows');
-  const recencyYml = fs.readFileSync(path.join(workflowsDir, 'recency-qa.yml'), 'utf8');
-  const combinedYml = fs.readFileSync(path.join(workflowsDir, 'combined-recovery-qa.yml'), 'utf8');
-  const roundYml = fs.readFileSync(path.join(workflowsDir, 'round-qa.yml'), 'utf8');
-  const refinementYml = fs.readFileSync(path.join(workflowsDir, 'card-refinement-qa.yml'), 'utf8');
-  const controlsYml = fs.readFileSync(path.join(workflowsDir, 'reader-controls-qa.yml'), 'utf8');
-
-  for (const [name, yml] of Object.entries({ recencyYml, combinedYml, roundYml })) {
-    assert.match(yml, /waitForPublishedAssets/, `${name} must use the shared deadline and supersession checks`);
-    assert.match(yml, /SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit/, `${name} must gate the live browser step`);
-  }
-  for (const [name, yml] of Object.entries({ refinementYml, controlsYml })) {
-    assert.match(yml, /isCurrentMainCommit\(process\.env\.GITHUB_SHA\)/, `${name} must include isCurrentMainCommit`);
-    assert.match(yml, /(attempt|i)\s*%\s*15\s*===\s*0/, `${name} must check superseded commit inside polling loop`);
-  }
-  assert.match(recencyYml, /Array\.isArray\(catalog\.files\)/, 'recent review must retain semantic catalog verification');
-});

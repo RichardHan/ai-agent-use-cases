@@ -1,3 +1,7 @@
+## 2026-10-30 靜態索引主表補全（未發布）
+
+完整索引主表原有 460 筆，UC-441–445 僅出現在後方歷史研究記錄，讀者從主表瀏覽會漏掉五筆。主表按編號補入既有條目並更新為 465；歷史紀錄、案例內容及合格數不變。新增回歸核對主表標題數與案例檔、主表一對一覆蓋；修改前 460 ≠ 465、修改後通過。`node --test tests/*.test.cjs` 389 通過，JavaScript 語法與 `git diff --check` 通過；預覽來源 469 份逐 byte 一致。獨立靜態審查未發現阻擋問題。本機無 Gemfile，無法執行 Jekyll build，尚未驗證新索引渲染與正式發布；不把預覽當作 Jekyll 建置。最新 main 的 Corpus bundle QA `41043380774` 另在 WebKit 收到 `Context is stopped`，根因未確認。
+
 ## 2026-10-30 Pages 發布等待補強
 
 正式 Pages 部署 [41017319586](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41017319586) 耗時 36 分 49 秒；[Related reading QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41017320834) 在 35 分鐘資產比對期限失敗。共用發布期限調為 45 分鐘，短期限調用者使用共用閘門，相關 job 預留等待及瀏覽器時間；仍必須核對實際資產，逾時仍失敗，被更新的 main 取代時仍停止。受控時鐘測試覆蓋 40 分鐘發布、45 分鐘仍不符與版本取代；本機 HTTP 資產比對成功，完整 Node 測試 388 通過。獨立審查未發現具體新增缺陷；尚未驗證正式部署及 Actions，超過 45 分鐘仍會失敗。本輪沒有變更網站畫面或案例。

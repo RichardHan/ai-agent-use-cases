@@ -579,6 +579,11 @@ test('INDEX.md maintains scenario consistency, complete case rows and canonical 
   // The actual table, checked below, supplies page coverage. Historical batch
   // page totals are deliberately preserved and are not current inventory.
 
+  const mainSection = indexContent.split('## 主要案例（')[1].split('<a id="supplement-list"></a>')[0];
+  const mainRows = mainSection.split('\n').filter(line => line.startsWith('| UC-') && line.includes('(cases/'));
+  const mainPaths = mainRows.map(row => row.match(/\((cases\/[^)]+\.md)\)/)?.[1]);
+  assert.equal(Number(mainSection.match(/^(\d+)）/)[1]), caseFiles.length, 'Main index heading must reflect the case-file count');
+  assert.deepEqual(mainPaths.sort(), caseFiles.map(file => `cases/${file}`).sort(), 'Main index must list each case exactly once');
   // Verify all case and evidence links in INDEX.md exist on disk
   const links = Array.from(indexContent.matchAll(/\[(?:[^\]]*)\]\(((?:cases|evidence)\/[^)]+\.md)\)/g));
   assert(links.length >= 330, `Expected at least 330 links in INDEX.md, found ${links.length}`);
@@ -588,7 +593,7 @@ test('INDEX.md maintains scenario consistency, complete case rows and canonical 
   }
 
   // Verify all case rows in table 1 have valid canonical scenario
-  const caseRows = indexContent.split('\n').filter(l => l.startsWith('| UC-') && l.includes('(cases/'));
+  const caseRows = mainRows;
   assert.equal(caseRows.length, caseFiles.length, `INDEX.md table case rows (${caseRows.length}) must match caseFiles (${caseFiles.length})`);
   for (const row of caseRows) {
     const cols = row.split('|').map(c => c.trim()).filter(Boolean);

@@ -1,3 +1,7 @@
+## 2026-10-31 案例 GitHub 來源的新分頁提示
+
+正式站 UC-001 的「查看 GitHub 原始 Markdown」以新分頁開啟，但可見文字與無障礙名稱未說明；桌面、手機及未核對版本的備援入口現在標示「新分頁」，保留原有版本核對、停用狀態與 `noopener noreferrer`。回歸先失敗後通過，完整 Node 測試 389 項通過。Pages 路徑的本機預覽在 1440／390px 顯示提示、無水平溢出，兩次 axe 各 0 violations；截圖在執行環境 `/tmp/source-{before,after}-{desktop,mobile}.png`，此環境未能目視判讀。獨立程式審查未發現新增缺陷；原文內其他外部連結的提示不在本次範圍。主線 Corpus bundle QA 的 WebKit `Context is stopped` 仍未解，不能視為本次修復。
+
 ## 2026-10-30 Pages 發布等待補強
 
 正式 Pages 部署 [41017319586](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41017319586) 耗時 36 分 49 秒；[Related reading QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41017320834) 在 35 分鐘資產比對期限失敗。共用發布期限調為 45 分鐘，短期限調用者使用共用閘門，相關 job 預留等待及瀏覽器時間；仍必須核對實際資產，逾時仍失敗，被更新的 main 取代時仍停止。受控時鐘測試覆蓋 40 分鐘發布、45 分鐘仍不符與版本取代；本機 HTTP 資產比對成功，完整 Node 測試 388 通過。獨立審查未發現具體新增缺陷；尚未驗證正式部署及 Actions，超過 45 分鐘仍會失敗。本輪沒有變更網站畫面或案例。

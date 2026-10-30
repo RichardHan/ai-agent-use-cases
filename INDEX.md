@@ -204,7 +204,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（456）
+## 主要案例（460）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -212,7 +212,7 @@
 | UC-002 | 影片研究與製作企劃；依產品倉庫做宣傳片並存成Skill | Grok Bot／Muse／dots | [作者測試](cases/002-video-production.md) | 創作｜影片、選題研究 |
 | UC-003 | 模擬商店營運 | Grok Bot／Muse／dots | [作者測試，虛構商店](cases/003-store-operations.md) | 工作｜商店營運、客服、例外處理 |
 | UC-004 | 公開社群資料整理人脈 CRM | Grok Bot／X／Notion | [官方署名教學中的作者使用陳述](cases/004-social-crm.md) | 工作｜人脈、CRM、社群 |
-| UC-005 | 需求、雲端實作、PR 獨立審查 | Grok Bot／Cursor Cloud Agent／GitHub | [作者測試，資料寫入及監看有限制](cases/005-cloud-pr-review.md) | 開發｜PR審查、多代理、雲端開發 |
+| UC-005 | 需求、雲端實作、PR 獨立審查；Sentry錯誤經webhook routine交維運Bot、再由開發Bot產出修正PR | Grok Bot／Cursor Cloud Agent／GitHub | [作者測試，資料寫入及監看有限制](cases/005-cloud-pr-review.md) | 開發｜PR審查、多代理、雲端開發 |
 | UC-006 | 社群成效到受監督發布 | Meta Muse／Facebook；Grok Bot／X 每日復盤短片 | [作者測試，自管公開社團＋Grok Bot 作者自述第 2 天；未重現](cases/006-facebook-publication.md) | 創作｜社群、發文、排程 |
 | UC-007 | SaaS 席次稽核與續約準備 | Grok Bot／Haggle Bot | [官方內部案例自報，非獨立審計](cases/007-saas-renewal-audit.md) | 省錢｜訂閱、續約、帳單 |
 | UC-010 | 實體 OLED 控制與結果驗收 | Grok Bot／Mac gateway／ESP32 | [開源作者自驗，未獨立重現](cases/010-physical-oled-verification.md) | 開發｜實體裝置、驗收 |
@@ -664,6 +664,10 @@
 | UC-470 | 多個Bot寫同一套CRM與記帳：自建MCP伺服器內每個業務流程只有一份版本化技能，Bot確認最新版才准寫入，改流程只能交差異、關鍵流程本人核准 | Grok Bot（多Bot）／自建MCP伺服器 | [B英文作者長文自述；程式未公開、未重現](cases/470-bot-team-versioned-process-skill-registry-write-gate.md) | 開發｜多代理、版本、核准、MCP |
 | UC-471 | 沒網路或只有摺疊機時，用Google Voice號碼傳簡訊、留語音加密語指揮Bot；查詢即回、預核准動作執行後確認，花錢刪除聯絡新對象一律回App核准 | Grok Bot（社群範本）／Google Voice／Gmail | [B英文作者長文＋公開範本頁簡介；無執行紀錄、未重現](cases/471-grok-bot-sms-voicemail-command-line-google-voice.md) | 生活｜簡訊、語音、核准、範本 |
 | UC-472 | WHOOP每日身體晨報：恢復分數、HRV、睡眠、昨日負荷加今日安排建議；自建開發者App只讀自己資料、30天自動刪、安裝腳本驗雜湊 | Grok Bot（社群範本＋每日routine）／WHOOP開發者App | [B簡中作者自述自測＋公開範本頁；晨報樣本未公開、未重現](cases/472-wearable-whoop-private-morning-body-brief-template.md) | 生活｜健康、穿戴裝置、晨報、每日 |
+| UC-473 | 自架服務的安全更新看守：每2小時比對官方X帳號與GitHub發布，高危或緊急修補由家用伺服器Bot先備份、更新、驗健康後回報；一般更新只送摘要等本人決定，兩來源去重 | Grok Bot（routine＋Homelab Bot）／GitHub／BTCPay Server（自架） | [B英文作者自述＋公開提示詞；無執行紀錄、未重現](cases/473-self-hosted-btcpay-security-release-watch-auto-patch.md) | 開發｜資安、監看、伺服器維運、核准 |
+| UC-474 | 歐洲銀行唯讀直連：經Enable Banking授權，金鑰存祕密，每天7點把交易寫進Google試算表並分類，新訂閱或大額才通知；每週一做一頁消費教練Page | Grok Bot（專職Bot＋routine＋Page）／Enable Banking／Google試算表 | [B英文作者X長文教學（自述自身設定）；無報告截圖、未重現](cases/474-eu-open-banking-grok-bot-money-coach-sheet-weekly-page.md) | 省錢｜記帳、銀行、每日、週報 |
+| UC-475 | Gemini做的新聞信自動化（GAS）交dots驗收：dots在雲端瀏覽器直接請Gemini修，以失敗輸入＋預期結果退回重測，只併入驗過部分、本人核准後寫入正式環境並讀回比對 | ChatGPT dots／Gemini定期任務／Google Apps Script／Gmail | [B日文作者Qiita自測紀錄；隔天兩封信送達，程式未公開、未重現](cases/475-dots-reviews-gemini-built-gas-news-mailer-regression-tests.md) | 開發｜跨代理、程式審查、驗收、核准 |
+| UC-476 | Bot的10條routine各寫一套做法、同規則抄4份：請Bot盤點提出17個技能、建10個，routine只留何時跑，通用規則放個人設定；同一任務第二次做就主動提議建技能 | Grok Bot（routine＋技能＋個人設定） | [B英文作者長文自述＋影片（未看）；技能內容未公開、未重現](cases/476-bot-routines-refactored-into-skills-propose-skill-on-repeat.md) | 開發｜技能、排程、維運、重構 |
 
 <a id="supplement-list"></a>
 
@@ -931,3 +935,7 @@
 ## 2026-10-29 08:51：每日批次（X＋Qiita／Zenn＋範本頁）
 
 [約90組候選與查閱範圍](sources/research-2026-10-29-0851.md)：新增4（UC469 Muse技能把ANA Pay通知信逐筆記進Money Forward並讀回餘額、UC470多Bot寫入前須確認版本化流程技能、UC471用Google Voice簡訊／語音留言加密語與三級權限指揮Bot、UC472 WHOOP每日身體晨報範本），合併補充1（UC082 dots依課表寫每日訓練到Craft並以RPE回饋調整）；其餘為宣傳、清單、比較或證據不足。均為作者自述，未獨立重現。
+
+## 2026-10-30 08:52：每日批次（X＋Qiita＋X長文）
+
+[約110組候選與查閱範圍](sources/research-2026-10-30-0852.md)：新增4（UC473自架BTCPay安全更新看守，高危自動備份更新、一般待決定；UC474歐洲銀行經Enable Banking唯讀直連，每日入表＋每週教練頁；UC475 dots以失敗案例回歸測試驗收Gemini寫的GAS新聞信並經核准上線；UC476把10條routine的做法抽成技能、重複第二次就提議技能），合併補充1（UC005 Sentry webhook→維運Bot→開發Bot修正PR）；其餘為宣傳、清單、比較、轉述或證據不足。均為作者自述，未獨立重現。

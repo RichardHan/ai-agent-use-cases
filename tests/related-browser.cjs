@@ -142,6 +142,7 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
   await page.locator('#tool').selectOption('');await page.locator('#query').fill('開發');
   await page.locator('#results .card .card-bottom button').first().click();
   await page.goBack();await page.waitForFunction(()=>!document.getElementById('detail').open);
+  await page.goBack();await page.waitForFunction(()=>!document.getElementById('detail').open && document.getElementById('query').value==='旅遊');
   await page.goBack();await page.waitForFunction(id=>document.getElementById('detail').open&&document.getElementById('detail-toolbar-id').textContent===id,historyID);
   assert.equal(await page.locator('#query').inputValue(),'旅遊');
   assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');assert((await checkRelated()).length);

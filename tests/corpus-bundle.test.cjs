@@ -15,6 +15,21 @@ test('one bundle replaces every source request without altering source text or o
  const calls=[],progress=[];const result=await load(paths,options({fetch:async path=>{calls.push(path);return response(json());},onProgress:p=>progress.push({...p})}));
  assert.deepEqual(calls,['corpus.json']);assert.deepEqual(Array.from(result.entries,e=>[e.path,e.text]),paths.map((p,i)=>[p,texts[i]]));assert.deepEqual(Array.from(result.failed),[]);assert.equal(progress.at(-1).succeeded,3);
 });
+test('a slow but successful bundle avoids a costly per-source fallback',async()=>{
+ const calls=[];
+ const result=await load(paths,{bundleRevision:'r1',parseFile:parse,budget:8000,fetch:async(path,opt)=>{
+  calls.push(path);
+  if(path!=='corpus.json')return response(texts[paths.indexOf(path)]);
+  await new Promise((resolve,reject)=>{
+   const timer=setTimeout(resolve,2700);
+   opt.signal.addEventListener('abort',()=>{clearTimeout(timer);reject(Error('abort'));},{once:true});
+  });
+  return response(json());
+ }});
+ assert.deepEqual(calls,['corpus.json']);
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+ assert.deepEqual(Array.from(result.failed),[]);
+});
 test('validated corpus is reused on same-revision reload and never across revisions',async()=>{
  const stored=new Map(),calls=[];
  context.location={href:'https://example.test/ai-agent-use-cases/'};

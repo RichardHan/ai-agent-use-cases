@@ -2144,7 +2144,7 @@ async function loadInitialCorpus(paths, options = {}) {
     const abortBundle=()=>bundleController.abort();
     controller.signal.addEventListener('abort',abortBundle,{once:true});
     if(controller.signal.aborted)abortBundle();
-    const bundleTimer=setTimeout(abortBundle,Math.min(options.bundleTimeout||2500,Math.max(1,deadline-Date.now())));
+    const bundleTimer=setTimeout(abortBundle,Math.min(options.bundleTimeout||5000,Math.max(1,deadline-Date.now())));
     let bundled=false;
     const cacheKey='corpus.json?bundleRevision='+encodeURIComponent(options.bundleRevision)+'&sourceRevision='+encodeURIComponent(options.sourceRevision||'');
     let cache;

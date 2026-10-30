@@ -60,9 +60,7 @@ test('published checks allow the observed 11m38s Pages deployment to finish', ()
       label: 'corpus',
       workflow: '../.github/workflows/corpus-qa.yml',
       source: 'corpus-browser.cjs',
-      attempts: /attempt<(\d+)/,
-      interval: /setTimeout\(resolve,\s*(\d+)\)/,
-      expectedMs: 900000
+      shared: true
     },
     {
       label: 'return visibility',
@@ -76,18 +74,24 @@ test('published checks allow the observed 11m38s Pages deployment to finish', ()
   ];
   for (const gate of gates) {
     const source = fs.readFileSync(path.join(__dirname, gate.source), 'utf8');
-    const attemptsMatch = source.match(gate.attempts);
-    const intervalMatch = source.match(gate.interval);
-    assert.ok(attemptsMatch, `${gate.label} published check must have a bounded deadline`);
-    assert.ok(intervalMatch, `${gate.label} published check must have a retry interval`);
-    const budgetMs = gate.label === 'partial load'
-      ? Number(attemptsMatch[1])
-      : (Number(attemptsMatch[1]) - 1) * Number(intervalMatch[1]);
-    assert.ok(budgetMs >= gate.expectedMs, `${gate.label} published check must cover 15 minutes`);
-    if (gate.terminalAttempt) {
-      const terminalMatch = source.match(gate.terminalAttempt);
-      assert.ok(terminalMatch, `${gate.label} must fail after its final poll`);
-      assert.equal(Number(terminalMatch[1]), Number(attemptsMatch[1]) - 1, `${gate.label} timeout must not skip the final poll`);
+    if (gate.shared) {
+      assert.match(source, /await waitForPublishedAssets\(/, `${gate.label} must use the shared deadline`);
+      const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+      assert.ok(PUBLICATION_TIMEOUT_MS>=45*60*1000, `${gate.label} must cover delayed publication`);
+    } else {
+      const attemptsMatch = source.match(gate.attempts);
+      const intervalMatch = source.match(gate.interval);
+      assert.ok(attemptsMatch, `${gate.label} published check must have a bounded deadline`);
+      assert.ok(intervalMatch, `${gate.label} published check must have a retry interval`);
+      const budgetMs = gate.label === 'partial load'
+        ? Number(attemptsMatch[1])
+        : (Number(attemptsMatch[1]) - 1) * Number(intervalMatch[1]);
+      assert.ok(budgetMs >= gate.expectedMs, `${gate.label} published check must cover 15 minutes`);
+      if (gate.terminalAttempt) {
+        const terminalMatch = source.match(gate.terminalAttempt);
+        assert.ok(terminalMatch, `${gate.label} must fail after its final poll`);
+        assert.equal(Number(terminalMatch[1]), Number(attemptsMatch[1]) - 1, `${gate.label} timeout must not skip the final poll`);
+      }
     }
     const workflow = fs.readFileSync(path.join(__dirname, gate.workflow), 'utf8');
     const publishedJob = ['corpus', 'return visibility'].includes(gate.label)

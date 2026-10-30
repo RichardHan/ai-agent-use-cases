@@ -151,6 +151,6 @@ test('Recent review and Combined recovery reuse the extended publication deadlin
     const workflow = fs.readFileSync(path.join(workflowsDir, file), 'utf8');
     assert.match(workflow, /waitForPublishedAssets/, `${file} must use the shared publication wait`);
     const timeout = Number(workflow.match(/timeout-minutes:\s*(\d+)/)[1]);
-    assert.ok(timeout >= 55, `${file} must cover the 35-minute wait plus setup and journeys`);
+    assert.ok(timeout >= 65, `${file} must cover the 45-minute wait plus setup and journeys`);
   }
 });

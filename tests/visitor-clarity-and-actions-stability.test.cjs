@@ -111,10 +111,11 @@ test('related published browser uses bounded shared waiting and preserves supers
   assert.ok(timeout >= 55, 'job must cover shared waiting, setup and browser journeys');
 });
 
-test('category-find published polling allows 25 minutes within its job timeout', () => {
+test('category-find published polling shares the full publication deadline within its job timeout', () => {
   const categoryWorkflow = fs.readFileSync(path.join(workflowsDir, 'category-find-qa.yml'), 'utf8');
-  assert.match(categoryWorkflow, /for\(let i=0;i<750;i\+\+\)\{/, 'published assets must have 750 polling attempts');
-  assert.match(categoryWorkflow, /await new Promise\(resolve=>setTimeout\(resolve,2000\)\)/, 'polling must wait two seconds per attempt');
-  assert.match(categoryWorkflow, /within 25 minutes \(750 attempts\)/, 'timeout error must describe the expanded budget');
-  assert.match(categoryWorkflow, /timeout-minutes: 30/, 'job timeout must accommodate the polling budget');
+  assert.match(categoryWorkflow, /await waitForPublishedAssets\(/, 'published assets must use the bounded shared deadline');
+  assert.doesNotMatch(categoryWorkflow, /for\(let i=0;i<750/, 'the old 25-minute cap must not truncate publication waiting');
+  const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+  const timeout=Number(categoryWorkflow.match(/timeout-minutes:\s*(\d+)/)[1]);
+  assert.ok(timeout*60000>=PUBLICATION_TIMEOUT_MS+20*60000, 'job timeout must accommodate publication, setup and browser checks');
 });

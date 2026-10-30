@@ -9,7 +9,7 @@ permissions:
 jobs:
   refinement:
     runs-on: ubuntu-24.04
-    timeout-minutes: 55
+    timeout-minutes: 65
     steps:
       - uses: actions/checkout@v4
         with:

@@ -207,6 +207,9 @@ test('verified source replaces a focused latest-version link without losing keyb
   assert.equal(document.activeElement, source);
   assert.equal(latest.hidden, true);
   assert.match(source.href, /blob\/a{40}\/cases\/001-travel\.md$/);
+  assert.match(source.getAttribute('aria-label'), /新分頁/);
+  assert.match(source.querySelector('.print-action-long').textContent, /新分頁/);
+  assert.match(source.querySelector('.print-action-short').textContent, /新分頁/);
 });
 
 test('detail header meta proof badge includes semantic role note and descriptive aria-label', () => {

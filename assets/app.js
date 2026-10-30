@@ -1000,8 +1000,8 @@ function showDetail(item, trigger, updateURL=true) {
   title.tabIndex = -1;
   body.append(title);
   const source = el('a', 'detail-source', '查看 GitHub 原始 Markdown ↗');
-  source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown ↗'),el('span','print-action-short','原始 Markdown ↗'));
-  source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown ↗');
+  source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown（新分頁） ↗'),el('span','print-action-short','原始 Markdown（新分頁） ↗'));
+  source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown（新分頁）');
   if(sourceRevisionFor(item.path))source.href=sourceMarkdownUrl(item.path);
   else { source.setAttribute('aria-disabled','true'); source.tabIndex=0; }
   source.target = '_blank';
@@ -1024,7 +1024,7 @@ function showDetail(item, trigger, updateURL=true) {
     overview.append(fullAccount);
   }
   overview.append(el('p','detail-source-version',sourceVersionNote(item.path)));
-  const latestSource=el('a','detail-source-latest','在 GitHub 查看最新版本（可能不同） ↗');
+  const latestSource=el('a','detail-source-latest','在 GitHub 查看最新版本（可能不同，新分頁） ↗');
   latestSource.href=sourceMarkdownUrl(item.path);
   latestSource.target='_blank';
   latestSource.rel='noopener noreferrer';

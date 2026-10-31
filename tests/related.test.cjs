@@ -23,6 +23,14 @@ test('at most three suggestions, deterministic order, no invented fallback for s
  assert.deepEqual(plain(context.related({...item,category:'未分類'},all)),[]);
  assert.deepEqual(plain(context.related(item,[item])),[]);
 });
+test('shared task tags surface cross-category cases before broad same-category matches',()=>{
+ const current={...item,tags:['旅遊','比價','付款前確認']};
+ const photo=candidate('UC-099',{tags:['照片','旅遊']});
+ const train=candidate('UC-286',{category:'旅遊預訂',tags:['旅遊','比價','監看']});
+ const single=candidate('UC-140',{category:'其他',tags:['旅遊','旅遊']});
+ const pending=candidate('P-001',{kind:'pending',category:'其他',tags:['旅遊','比價']});
+ assert.deepEqual(plain(context.related(current,[current,photo,single,pending,train])).map(x=>x.id),['UC-286','UC-099']);
+});
 test('keyboard neighbours never escape an empty or unrelated search result',()=>{
  vm.runInContext('this.neighbours=detailNeighbours;',context);
  const ids=x=>({prev:x.prev?.id||null,next:x.next?.id||null});

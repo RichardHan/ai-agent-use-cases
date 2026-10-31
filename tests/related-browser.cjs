@@ -27,11 +27,11 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
   const checkRelated=async()=>{
    const actual=await page.evaluate(()=>({
     ids:[...document.querySelectorAll('.related-open')].map(n=>n.closest('li').querySelector('.related-meta').textContent.split(' · ')[0]),
-    current:currentDetailItem.id,category:currentDetailItem.category,
-    pool:currentFiltered.map(e=>({id:e.id,category:e.category,kind:e.kind}))
+    current:currentDetailItem.id,category:currentDetailItem.category,tags:currentDetailItem.tags,
+    pool:currentFiltered.map(e=>({id:e.id,category:e.category,kind:e.kind,tags:e.tags}))
    }));
    assert(actual.ids.length<=3);assert(!actual.ids.includes(actual.current));
-   for(const id of actual.ids)assert(actual.pool.some(e=>e.id===id&&e.kind==='case'&&e.category===actual.category));
+   for(const id of actual.ids)assert(actual.pool.some(e=>e.id===id&&e.kind==='case'&&(e.category===actual.category||new Set((e.tags||[]).filter(tag=>(actual.tags||[]).includes(tag))).size>=2)));
    return actual.ids;
   };
   // Scenario 1: find a travel method, compare a same-topic method, return to the original results.

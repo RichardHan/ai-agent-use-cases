@@ -38,9 +38,9 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
   // Journey 1: a received search link lands with its query, facets and results.
   await ready('?q=旅遊&tool=Grok%20Bot#explore');
   const metrics=await page.evaluate(()=>({queryTop:Math.round(document.getElementById('query').getBoundingClientRect().top),resultsTop:Math.round(document.getElementById('results-count').getBoundingClientRect().top),focus:document.activeElement.id,scrollY,loadMs:Math.round(performance.getEntriesByType('navigation')[0].loadEventEnd),domContentLoadedMs:Math.round(performance.getEntriesByType('navigation')[0].domContentLoadedEventEnd)}));
-  assert(metrics.queryTop>0&&metrics.queryTop<height/2,'Shared search should show query in the upper half');
-  assert(metrics.resultsTop>0&&metrics.resultsTop<height,'Shared search should show the result count');
-  assert.equal(metrics.focus,'search-title');
+  assert(metrics.resultsTop>=0&&metrics.resultsTop<height,'Shared search should show the result count');
+  assert(['search-title','results-count'].includes(metrics.focus),'Shared search should focus its heading or visible results');
+  if(metrics.focus==='search-title')assert(metrics.queryTop>0&&metrics.queryTop<height/2,'Heading-focused arrival should show the query');
   const count=await page.locator('#results .card').count();assert(count>0);await diagnose(page,'initial');
   await snapshot('search');
   await page.locator('#copy-search-link').focus();await page.keyboard.press('Enter');
@@ -51,7 +51,7 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
   const recipient=await context.newPage();
   await recipient.goto(shared,{waitUntil:'networkidle'});
   await sameResults(recipient,'recipient',count);
-  assert.equal(await recipient.evaluate(()=>document.activeElement.id),'search-title');
+  assert(['search-title','results-count'].includes(await recipient.evaluate(()=>document.activeElement.id)));
   await recipient.reload({waitUntil:'networkidle'});
   await sameResults(recipient,'recipient-reload',count);
   await recipient.close();

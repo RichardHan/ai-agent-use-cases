@@ -1708,7 +1708,18 @@ function finishArrival(params,failed=false) {
   const missing=$('missing-case')&&!$('missing-case').hidden;
   const shouldMove=allowAutomaticArrival&&(missing||hasSearchArrival(params,location.hash)||(failed&&params.has('case')));
   allowAutomaticArrival=false;
-  if(shouldMove){if(missing)focusMissingCase();else revealSearch();}
+  if(shouldMove){
+    if(missing)focusMissingCase();
+    else {
+      revealSearch();
+      const count=$('results-count').getBoundingClientRect();
+      if(!failed && discoveryReady && SEARCH_KEYS.some(key=>(params.get(key)||'').trim()) &&
+        (count.top<0 || count.bottom>innerHeight)){
+        $('results-count').scrollIntoView({block:'center',behavior:'instant'});
+        $('results-count').focus({preventScroll:true});
+      }
+    }
+  }
 }
 function clearSearchShare() {
   searchShareRequest++;

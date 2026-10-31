@@ -1,3 +1,9 @@
+## 2026-10-31 Partial Load QA 發布等待
+
+Partial Load QA 的公開站檢查原本獨立等待 25 分鐘；[歷史失敗 run](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41145539645) 在該檢查失敗，但無可用日誌確認確切原因。考量另一次 Pages 部署曾耗時 46 分 40 秒，改用共用逐 byte 發布閘門並允許 60 分鐘，job 上限 80 分鐘；未匹配、無法確認 main 仍失敗，已被新版 main 取代則跳過。這不能保證一小時內發布，也不解決其他工作流或 WebKit 問題。
+
+基準 Node 測試 390 項通過；移除依賴舊輪詢實作的靜態斷言後，388 項通過。共用閘門既有受控時鐘測試涵蓋 46 分 40 秒後匹配及一小時仍不匹配；預覽 bundle 核對 476 來源逐 byte 相同。正式站桌面與手機的實際搜尋、篩選、UC-001 詳情、來源及返回流程通過，478 條均載入；此輪未改網站畫面或案例。正式 Actions 結果仍需另行確認。
+
 ## 2026-10-31 Return visibility 發布等待
 
 正式主線 [Return visibility QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41145539751) 在 25 分鐘等待後因公開 `app.js` 尚未匹配而失敗；同次 [Pages 部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41145540632) 耗時 46 分 40 秒。此工作流改用既有逐 byte 發布閘門，等待上限 60 分鐘、job 上限 75 分鐘；仍在版本被取代時停止、逾時仍失敗。受控時鐘覆蓋 46 分 40 秒後匹配與一小時仍不匹配；本機 HTTP 核對回傳 matched。這不證明正式部署一定在一小時內完成，也不修復其他工作流的短等待或 WebKit 失敗；正式 Actions 結果待確認。網站畫面與案例沒有改動。

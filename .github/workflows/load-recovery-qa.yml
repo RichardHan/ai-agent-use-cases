@@ -2,15 +2,15 @@ name: Partial Load QA
 on:
   push:
     branches: [main]
-    paths: ['assets/**', 'index.html', 'tests/load-recovery*', '.github/workflows/load-recovery-qa.yml']
+    paths: ['assets/**', 'index.html', 'tests/load-recovery*', 'tests/visitor-experience-and-ci.test.cjs', 'tests/published-assets.test.cjs', 'tests/published-check.test.cjs', 'scripts/published-assets.cjs', 'scripts/published-check.cjs', '.github/workflows/load-recovery-qa.yml']
   pull_request:
-    paths: ['assets/**', 'index.html', 'tests/load-recovery*', '.github/workflows/load-recovery-qa.yml']
+    paths: ['assets/**', 'index.html', 'tests/load-recovery*', 'tests/visitor-experience-and-ci.test.cjs', 'tests/published-assets.test.cjs', 'tests/published-check.test.cjs', 'scripts/published-assets.cjs', 'scripts/published-check.cjs', '.github/workflows/load-recovery-qa.yml']
 permissions:
   contents: read
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 80
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

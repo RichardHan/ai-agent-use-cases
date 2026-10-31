@@ -4,35 +4,15 @@ const fs=require('node:fs');
 const assert=require('node:assert/strict');
 const origin='https://richardhan.github.io/ai-agent-use-cases/';
 const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
 if(process.env.LOAD_DEPLOYED==='1'&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
- const browser=await chromium.launch();
  const records=[];
  if(process.env.LOAD_DEPLOYED==='1'){
-  const deadline=Date.now()+1500000;
-  const files=['assets/app.js','assets/style.css','index.html'];
-  while(true){
-   const matches=await Promise.all(files.map(async file=>{
-    try{
-     const r=await fetch(origin+(file==='index.html'?'':file)+'?deploy-check='+Date.now(),{signal:AbortSignal.timeout(10000),cache:'no-store'});
-     return r.ok&&(await r.text())===fs.readFileSync(file,'utf8');
-    }catch{return false;}
-   }));
-   if(matches.every(Boolean))break;
-   if(skipIfSupersededPublishedUrl(origin)){
-    console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
-    process.exit(0);
-   }
-   if(Date.now()>deadline){
-    if(skipIfSupersededPublishedUrl(origin)){
-     console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
-     process.exit(0);
-    }
-    throw Error('Deployment did not match within 25 minutes');
-   }
-   await new Promise(resolve=>setTimeout(resolve,5000));
-  }
+  const result=await waitForPublishedAssets({base:origin,sha:process.env.GITHUB_SHA,files:['assets/app.js','assets/style.css','index.html'],isCurrent:()=>!skipIfSupersededPublishedUrl(origin),maxDuration:60*60*1000});
+  if(result==='superseded'){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
  }
+ const browser=await chromium.launch();
  for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
   const context=await browser.newContext({viewport:{width,height}});
   const page=await context.newPage();const errors=[],network=[];page.on('pageerror',e=>errors.push(e.message));

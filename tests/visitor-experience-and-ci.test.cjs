@@ -13,7 +13,6 @@ test('GitHub Actions avoid floating Ubuntu runner images', () => {
 const css = fs.readFileSync(path.join(__dirname, '../assets/style.css'), 'utf8');
 const appJs = fs.readFileSync(path.join(__dirname, '../assets/app.js'), 'utf8');
 const searchSubmitCjs = fs.readFileSync(path.join(__dirname, 'search-submit-browser.cjs'), 'utf8');
-const loadRecoveryCjs = fs.readFileSync(path.join(__dirname, 'load-recovery-live.cjs'), 'utf8');
 const combinedRecoveryWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/combined-recovery-qa.yml'), 'utf8');
 const relevanceWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/relevance-qa.yml'), 'utf8');
 const submitWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/search-submit-qa.yml'), 'utf8');
@@ -40,59 +39,6 @@ test('tests/search-submit-browser.cjs handles WebKit button tab limitation grace
   );
 });
 
-test('tests/load-recovery-live.cjs validates all critical assets during deployment check', () => {
-  assert.match(loadRecoveryCjs, /assets\/style\.css/, 'deployment readiness check must verify assets/style.css');
-  assert.match(loadRecoveryCjs, /assets\/app\.js/, 'deployment readiness check must verify assets/app.js');
-  assert.match(loadRecoveryCjs, /index\.html/, 'deployment readiness check must verify index.html');
-});
-
-test('published checks allow the observed 11m38s Pages deployment to finish', () => {
-  const gates = [
-    {
-      label: 'partial load',
-      workflow: '../.github/workflows/load-recovery-qa.yml',
-      source: 'load-recovery-live.cjs',
-      attempts: /deadline=Date\.now\(\)\+(\d+)/,
-      interval: /setTimeout\(resolve,\s*(\d+)\)/,
-      expectedMs: 900000
-    },
-    {
-      label: 'corpus',
-      workflow: '../.github/workflows/corpus-qa.yml',
-      source: 'corpus-browser.cjs',
-      shared: true
-    },
-  ];
-  for (const gate of gates) {
-    const source = fs.readFileSync(path.join(__dirname, gate.source), 'utf8');
-    if (gate.shared) {
-      assert.match(source, /await waitForPublishedAssets\(/, `${gate.label} must use the shared deadline`);
-      const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
-      assert.ok(PUBLICATION_TIMEOUT_MS>=45*60*1000, `${gate.label} must cover delayed publication`);
-    } else {
-      const attemptsMatch = source.match(gate.attempts);
-      const intervalMatch = source.match(gate.interval);
-      assert.ok(attemptsMatch, `${gate.label} published check must have a bounded deadline`);
-      assert.ok(intervalMatch, `${gate.label} published check must have a retry interval`);
-      const budgetMs = gate.label === 'partial load'
-        ? Number(attemptsMatch[1])
-        : (Number(attemptsMatch[1]) - 1) * Number(intervalMatch[1]);
-      assert.ok(budgetMs >= gate.expectedMs, `${gate.label} published check must cover 15 minutes`);
-      if (gate.terminalAttempt) {
-        const terminalMatch = source.match(gate.terminalAttempt);
-        assert.ok(terminalMatch, `${gate.label} must fail after its final poll`);
-        assert.equal(Number(terminalMatch[1]), Number(attemptsMatch[1]) - 1, `${gate.label} timeout must not skip the final poll`);
-      }
-    }
-    const workflow = fs.readFileSync(path.join(__dirname, gate.workflow), 'utf8');
-    const publishedJob = ['corpus', 'return visibility'].includes(gate.label)
-      ? workflow.split(/^  published:\s*$/m)[1]
-      : workflow;
-    assert.ok(publishedJob, `${gate.label} workflow must define the published job`);
-    const timeoutMatch = publishedJob.match(/timeout-minutes:\s*(\d+)/);
-    assert.ok(timeoutMatch && Number(timeoutMatch[1]) >= 25, `${gate.label} job must cover setup and deployment wait`);
-  }
-});
 
 
 

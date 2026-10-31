@@ -53,3 +53,14 @@ test('empty multi-word search offers only real shorter queries while preserving 
  assert.deepEqual(plain(queryRelaxationOptions(items,'xyz987',filters)),[]);
  assert.equal(JSON.stringify(filters),original);
 });
+test('topic scope chips and relaxation retain the selected search semantics',()=>{
+ const corpus=[
+  {id:'UC-901',title:'整理文件',category:'旅遊',tags:[],search:'旅遊',scenario:'生活',tools:[],kind:'case'},
+  {id:'UC-902',title:'整理文件',category:'行政',tags:[],search:'旅遊 作者署名',scenario:'生活',tools:[],kind:'case'}
+ ];
+ const filters={scope:'topic',scenario:'生活'};
+ assert.match(activeConditions('旅遊',filters).find(x=>x.key==='scope').display,/主題.*分類.*標籤.*ID/);
+ assert.deepEqual(plain(relaxationOptions(corpus.slice(1),tokenize('旅遊'),filters)),[{key:'scope',value:'topic',count:1}]);
+ assert.equal(filterEntries(corpus,tokenize('旅遊'),filters).length,1);
+ assert.equal(filterEntries(corpus,tokenize('旅遊'),{...filters,scope:''}).length,2);
+});

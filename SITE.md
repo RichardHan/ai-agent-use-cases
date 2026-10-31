@@ -1,3 +1,9 @@
+## 2026-10-31 Reading flow QA 發布等待
+
+Reading flow QA 的[歷史執行](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41145539810)在公開站驗收時觸及 30 分鐘 job 上限，同版 Pages 部署約 46 分 40 秒完成。原本獨立等待約 25 分鐘，現改用共用逐 byte 閘門核對原有三個閱讀資產，最多等待 60 分鐘；job 上限調為 85 分鐘，版本被取代時仍跳過，未匹配仍失敗。這不核對案例全文，也不保證一小時內部署或修復其他工作流。
+
+既有閘門測試以受控時鐘覆蓋 46 分 40 秒後匹配及一小時逾時；27 項發布相關測試通過。以 Pages 子路徑本機預覽執行 `READING_LIVE=1`，Chromium 1440、390、320px 完成搜尋、組合篩選、空結果、鍵盤返回、詳情直鏈及長文流程，九次 axe 掃描零違規；本機預覽 476 份來源逐 byte 一致。這不是正式 Jekyll 建置或雲端 Actions 驗證，正式結果仍須確認；本輪未變更網站視覺或案例。
+
 ## 2026-10-31 Partial Load QA 發布等待
 
 Partial Load QA 的公開站檢查原本獨立等待 25 分鐘；[歷史失敗 run](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41145539645) 在該檢查失敗，但無可用日誌確認確切原因。考量另一次 Pages 部署曾耗時 46 分 40 秒，改用共用逐 byte 發布閘門並允許 60 分鐘，job 上限 80 分鐘；未匹配、無法確認 main 仍失敗，已被新版 main 取代則跳過。這不能保證一小時內發布，也不解決其他工作流或 WebKit 問題。

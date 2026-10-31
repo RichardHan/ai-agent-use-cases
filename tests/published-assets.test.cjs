@@ -45,7 +45,7 @@ function withAsset(run){
 test('default window covers the observed 27m38s deployment, not just 301 quick polls',()=>withAsset(async options=>{
  let clock=0,polls=0;
  const deployedAt=(27*60+38)*1000;
- assert.ok(PUBLICATION_TIMEOUT_MS>=45*60*1000);
+ assert.equal(PUBLICATION_TIMEOUT_MS,60*60*1000);
  const result=await waitForPublishedAssets({
   ...options,now:()=>clock,sleep:async ms=>{clock+=ms;},
   fetchAsset:async(url,{cache,signal})=>{
@@ -61,9 +61,9 @@ test('default window covers the observed 27m38s deployment, not just 301 quick p
  assert.ok(polls>301,'the old attempt cap must not truncate the longer window');
 }));
 
-test('default window accepts a 40-minute publication but still rejects stale bytes at 45 minutes',()=>withAsset(async options=>{
+test('default window accepts a 40-minute publication but still rejects stale bytes at 60 minutes',()=>withAsset(async options=>{
  const deployedAt=40*60*1000;
- assert.equal(PUBLICATION_TIMEOUT_MS,45*60*1000);
+ assert.equal(PUBLICATION_TIMEOUT_MS,60*60*1000);
  let clock=0;
  const polling={...options,now:()=>clock,sleep:async ms=>{clock+=ms;}};
  assert.equal(await waitForPublishedAssets({
@@ -76,6 +76,63 @@ test('default window accepts a 40-minute publication but still rejects stale byt
  }),/do not match/);
  assert.equal(clock,PUBLICATION_TIMEOUT_MS);
 }));
+
+test('default window accepts the observed 49m09s publication and expires after one hour',()=>withAsset(async options=>{
+ const deployedAt=(49*60+9)*1000;
+ let clock=0;
+ const polling={...options,interval:1000,now:()=>clock,sleep:async ms=>{clock+=ms;}};
+ assert.equal(await waitForPublishedAssets({
+  ...polling,fetchAsset:async()=>({ok:true,arrayBuffer:async()=>Buffer.from(clock>=deployedAt?'current':'stale')})
+ }),'matched');
+ assert.equal(clock,deployedAt);
+ clock=0;
+ await assert.rejects(waitForPublishedAssets({
+  ...polling,fetchAsset:async()=>({ok:true,arrayBuffer:async()=>Buffer.from('stale')})
+ }),/after 3600000ms \(3600 attempts; deadline 3600000ms\)/);
+ assert.equal(clock,60*60*1000);
+ clock=0;
+ await assert.rejects(waitForPublishedAssets({
+  ...polling,fetchAsset:async()=>{
+   clock=60*60*1000;
+   return {ok:true,arrayBuffer:async()=>Buffer.from('current')};
+  }
+ }),/after 3600000ms \(1 attempts; deadline 3600000ms\)/);
+ assert.equal(clock,60*60*1000);
+}));
+
+test('every default-gated workflow preserves setup and browser headroom',()=>{
+ const jobs=[
+  ['available-facets-qa.yml','browser'],
+  ['card-refinement-qa.yml','refinement'],
+  ['case-share-qa.yml','browser'],
+  ['category-find-qa.yml','browser'],
+  ['combined-recovery-qa.yml','browser'],
+  ['corpus-qa.yml','published'],
+  ['filter-entry-qa.yml','browser'],
+  ['home-search-entry-qa.yml','entry'],
+  ['missing-case-qa.yml','missing'],
+  ['print-reading-qa.yml','browser'],
+  ['reader-qa.yml','browser'],
+  ['reading-anchor-qa.yml','browser'],
+  ['recency-qa.yml','browser'],
+  ['related-qa.yml','browser'],
+  ['relevance-qa.yml','relevance'],
+  ['round-qa.yml','browser'],
+  ['search-context-qa.yml','context'],
+  ['source-links-qa.yml','browser'],
+  ['facet-counts-qa.yml','browser',1,25],
+  ['website-qa.yml','browser',2]
+ ];
+ for(const [file,job,gates=1,headroom=20] of jobs){
+  const workflow=fs.readFileSync(path.join(__dirname,'../.github/workflows',file),'utf8');
+  const section=workflow.split(`  ${job}:\n`)[1];
+  assert.ok(section,`${file} must retain its ${job} job`);
+  const body=section.split(/\n  [\w-]+:\n/)[0];
+  const timeout=Number(body.match(/^\s{4}timeout-minutes:\s*(\d+)/m)?.[1]);
+  assert.ok(timeout*60000>=gates*PUBLICATION_TIMEOUT_MS+headroom*60000,
+   `${file} ${job} must reserve ${gates} publication window(s) plus ${headroom} minutes for setup and browser checks`);
+ }
+});
 
 test('one-hour publication window accepts 46m40s and rejects stale assets at expiry',()=>withAsset(async options=>{
  let clock=0;

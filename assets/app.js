@@ -1404,6 +1404,14 @@ function enterSearch(event) {
 const PULL_REQUEST_ABBREVIATIONS=new Set(['pr','prs','mr','mrs']);
 function searchVariantIndex(text,variant) {
   let index=text.indexOf(variant);
+  if(variant==='ci'){
+    while(index!==-1){
+      const before=text[index-1]||'',after=text[index+variant.length]||'';
+      if(!/[a-z0-9]/.test(before)&&!/[a-z0-9]/.test(after))return index;
+      index=text.indexOf(variant,index+1);
+    }
+    return -1;
+  }
   if(!PULL_REQUEST_ABBREVIATIONS.has(variant))return index;
   while(index!==-1){
     const before=text[index-1]||'',after=text[index+variant.length]||'';

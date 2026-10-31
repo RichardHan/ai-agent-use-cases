@@ -1308,6 +1308,13 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('cicd')), {}).some(x =
 assert(api.filterEntries(entries, Array.from(api.tokenize('ci cd')), {}).some(x => x.id === 'UC-005'), 'ci cd matches UC-005 via cicd tokenization');
 assert(api.filterEntries(entries, Array.from(api.tokenize('持續整合')), {}).some(x => x.id === 'UC-005'), '持續整合 matches UC-005 via cicd synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('continuous integration')), {}).some(x => x.id === 'UC-005'), 'continuous integration matches UC-005 via cicd tokenization');
+assert(!api.filterEntries(entries, Array.from(api.tokenize('ci')), {}).some(x => x.id === 'UC-081'), 'CI must not match inside the unrelated incident_io account');
+for (const text of ['ci', '使用ci流程', 'ci/cd', 'ci 的流程']) {
+  assert.notEqual(api.searchVariantIndex(text, 'ci'), -1, `standalone CI remains searchable in ${text}`);
+}
+for (const text of ['incident', 'specific', 'ci123', '123ci']) {
+  assert.equal(api.searchVariantIndex(text, 'ci'), -1, `CI does not match within ${text}`);
+}
 
 // Search quality: 內網穿透, 反向代理隧道
 assert(api.filterEntries(entries, Array.from(api.tokenize('內網穿透')), {}).some(x => x.id === 'UC-074'), '內網穿透 matches UC-074 via tunnel synonym');

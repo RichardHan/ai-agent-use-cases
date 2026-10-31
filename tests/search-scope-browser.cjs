@@ -7,8 +7,8 @@ const base = process.env.SEARCH_SCOPE_URL || 'http://127.0.0.1:8106/';
 (async () => {
   const browser = await chromium.launch();
   try {
-    for (const width of [1440, 390]) {
-      const context = await browser.newContext({viewport:{width,height:844},permissions:['clipboard-read','clipboard-write']});
+    for (const width of [1440, 390, 320]) {
+      const context = await browser.newContext({viewport:{width,height:width===320?740:844},permissions:['clipboard-read','clipboard-write']});
       const page = await context.newPage();
       await page.goto(new URL('?q=會議#explore', base).href);
       await page.locator('#results .card').first().waitFor();
@@ -44,6 +44,7 @@ const base = process.env.SEARCH_SCOPE_URL || 'http://127.0.0.1:8106/';
       assert.equal(await page.locator('#results .card[data-case-id="UC-040"]').count(), 1);
       assert.equal(await page.locator('#results .card[data-case-id="UC-076"]').count(), 0);
       assert.match(await page.locator('#results .card[data-case-id="UC-040"] .search-context-label').first().innerText(), /分類|標籤/);
+      await page.locator('.search-scope summary').click();
       assert.match(await page.locator('#scope-note').innerText(), /不代表.*驗證/);
       await ensureFiltersVisible(page);
       await page.locator('#scenario').selectOption('生活');

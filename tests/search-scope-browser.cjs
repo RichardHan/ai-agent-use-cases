@@ -66,6 +66,12 @@ const base = process.env.SEARCH_SCOPE_URL || 'http://127.0.0.1:8106/';
       await page.locator('#results .card').first().waitFor();
       assert.equal(await scope.inputValue(), 'topic');
       assert.equal(await page.locator('#results .card').count(), combined);
+      if (width === 320) {
+        const position = await page.locator('#results-count').boundingBox();
+        const viewportHeight = await page.evaluate(() => innerHeight);
+        assert(position.y >= 0 && position.y + position.height <= viewportHeight,
+          'shared search result count is fully visible on narrow screens');
+      }
       await page.locator('#query').fill('不存在字串xyz');
       assert.equal(await page.locator('#empty').isVisible(), true);
       assert.equal(new URL(page.url()).searchParams.get('scope'), 'topic');

@@ -77,6 +77,21 @@ test('default window accepts a 40-minute publication but still rejects stale byt
  assert.equal(clock,PUBLICATION_TIMEOUT_MS);
 }));
 
+test('one-hour publication window accepts 46m40s and rejects stale assets at expiry',()=>withAsset(async options=>{
+ let clock=0;
+ const deadline=60*60*1000, deployedAt=(46*60+40)*1000;
+ const polling={...options,maxDuration:deadline,now:()=>clock,sleep:async ms=>{clock+=ms;}};
+ assert.equal(await waitForPublishedAssets({
+  ...polling,fetchAsset:async()=>({ok:true,arrayBuffer:async()=>Buffer.from(clock>=deployedAt?'current':'stale')})
+ }),'matched');
+ assert.equal(clock,deployedAt);
+ clock=0;
+ await assert.rejects(waitForPublishedAssets({
+  ...polling,fetchAsset:async()=>({ok:true,arrayBuffer:async()=>Buffer.from('stale')})
+ }),/do not match/);
+ assert.equal(clock,deadline);
+}));
+
 test('deadline includes network time and stops without another request',()=>withAsset(async options=>{
  let clock=0,polls=0;
  const waits=[];

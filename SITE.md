@@ -1,3 +1,9 @@
+## 2026-10-31 Return visibility 發布等待
+
+正式主線 [Return visibility QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41145539751) 在 25 分鐘等待後因公開 `app.js` 尚未匹配而失敗；同次 [Pages 部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41145540632) 耗時 46 分 40 秒。此工作流改用既有逐 byte 發布閘門，等待上限 60 分鐘、job 上限 75 分鐘；仍在版本被取代時停止、逾時仍失敗。受控時鐘覆蓋 46 分 40 秒後匹配與一小時仍不匹配；本機 HTTP 核對回傳 matched。這不證明正式部署一定在一小時內完成，也不修復其他工作流的短等待或 WebKit 失敗；正式 Actions 結果待確認。網站畫面與案例沒有改動。
+獨立審查指出自訂非 Pages 網址不應因 main 已更新而跳過；已保留原本的網址限定判斷。基準 389 項、修改後 390 項 Node 測試通過；修改後針對發布閘門與版本判斷再跑 27 項通過。
+本機以自訂預覽網址及過期 SHA 執行 `RETURN_NATIVE=1`，WebKit、Chromium、Firefox 各完成 10 次搜尋、詳情及瀏覽器返回，條件保留且無頁面錯誤；這不是正式站或雲端執行證據。
+
 ## 2026-10-31 案例 GitHub 來源的新分頁提示
 
 正式站 UC-001 的「查看 GitHub 原始 Markdown」以新分頁開啟，但可見文字與無障礙名稱未說明；桌面、手機及未核對版本的備援入口現在標示「新分頁」，保留原有版本核對、停用狀態與 `noopener noreferrer`。回歸先失敗後通過，完整 Node 測試 389 項通過。Pages 路徑的本機預覽在 1440／390px 顯示提示、無水平溢出，兩次 axe 各 0 violations；截圖在執行環境 `/tmp/source-{before,after}-{desktop,mobile}.png`，此環境未能目視判讀。獨立程式審查未發現新增缺陷；原文內其他外部連結的提示不在本次範圍。主線 Corpus bundle QA 的 WebKit `Context is stopped` 仍未解，不能視為本次修復。

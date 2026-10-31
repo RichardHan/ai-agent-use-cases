@@ -62,15 +62,6 @@ test('published checks allow the observed 11m38s Pages deployment to finish', ()
       source: 'corpus-browser.cjs',
       shared: true
     },
-    {
-      label: 'return visibility',
-      workflow: '../.github/workflows/return-visibility-qa.yml',
-      source: 'return-visibility-browser.cjs',
-      attempts: /attempt<(\d+)/,
-      interval: /setTimeout\(resolve,\s*(\d+)\)/,
-      expectedMs: 900000,
-      terminalAttempt: /attempt===(\d+)\)throw/
-    }
   ];
   for (const gate of gates) {
     const source = fs.readFileSync(path.join(__dirname, gate.source), 'utf8');

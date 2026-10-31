@@ -29,6 +29,27 @@ test('published asset check fails closed when the main tip cannot be read',()=>{
  }
 });
 
+test('published check retries a timed out main-tip lookup without accepting an unknown revision',()=>{
+ const previous=process.env.GITHUB_REF;
+ process.env.GITHUB_REF='refs/heads/main';
+ try{
+  let attempts=0;
+  assert.equal(isCurrentMainCommit('current',()=>{
+   if(++attempts===1)throw Object.assign(Error('network timeout'),{code:'ETIMEDOUT'});
+   return 'current';
+  }),true);
+  assert.equal(attempts,2);
+  attempts=0;
+  assert.throws(()=>isCurrentMainCommit('current',()=>{
+   attempts++;
+   throw Object.assign(Error('network timeout'),{code:'ETIMEDOUT'});
+  }),/Cannot confirm the main tip.*network timeout/);
+  assert.equal(attempts,3);
+ }finally{
+  if(previous===undefined)delete process.env.GITHUB_REF;else process.env.GITHUB_REF=previous;
+ }
+});
+
 test('published browser runs skip only stale main runs targeting this Pages site',()=>{
  const previous={ref:process.env.GITHUB_REF,sha:process.env.GITHUB_SHA};
  process.env.GITHUB_REF='refs/heads/main';

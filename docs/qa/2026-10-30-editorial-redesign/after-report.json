@@ -1,0 +1,4267 @@
+{
+  "observe": false,
+  "base": "http://127.0.0.1:8131/ai-agent-use-cases/",
+  "report": [
+    {
+      "width": 1440,
+      "height": 900,
+      "states": {
+        "home": {
+          "overflow": {
+            "document": {
+              "scroll": 1440,
+              "client": 1440
+            },
+            "detail": null
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "公告",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "觀測",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "複製搜尋連結 ↗",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "比價",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "影片",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "選題研究",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "商店營運",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "客服",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "人脈",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "CRM",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "PR審查",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "多代理",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "社群",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "發文",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "省錢",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "訂閱",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "續約",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "實體裝置",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗收",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "業務",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "簡報",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "學習",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "科研",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "資料稽核",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "客服",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "收件匣",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "監看",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "二手",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "買家訊息",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "業務開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "草稿",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "展示",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗收",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "簡報",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "會議",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "設計",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "Figma",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "法務",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "待辦",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "廣告",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "數據異常",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行銷素材",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "改版",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "帳單",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "對帳",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "團隊活動",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "追蹤",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "學校",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "期限",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "食譜",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "採買",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        },
+        "results": {
+          "overflow": {
+            "document": {
+              "scroll": 1440,
+              "client": 1440
+            },
+            "detail": null
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "住宿",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "複製搜尋連結 ↗",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "比價",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "失物",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "排程",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "住宿",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行事曆",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "電話",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行李",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "緊急",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "航班",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "睡眠",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "隱私",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "電話",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "分帳",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "代付",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "天氣",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "健康",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "照片",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "盤點",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "退款",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "物流追蹤",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "表單",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗證碼",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "居家",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "保險",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "售出證明",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "健康",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "穿戴裝置",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        },
+        "detail": {
+          "overflow": {
+            "document": {
+              "scroll": 1440,
+              "client": 1440
+            },
+            "detail": {
+              "scroll": 918,
+              "client": 918
+            }
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "📋 複製案例連結複製案例連結",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        }
+      },
+      "hero": {
+        "cta": {
+          "x": 100,
+          "y": 459.265625,
+          "width": 177.828125,
+          "height": 52
+        },
+        "panel": {
+          "x": 100,
+          "y": 836.859375,
+          "width": 598.234375,
+          "height": 111.796875
+        },
+        "domOrder": true,
+        "taskBoxes": [
+          {
+            "label": "旅遊規劃",
+            "box": {
+              "x": 100,
+              "y": 571.265625,
+              "width": 78,
+              "height": 44
+            }
+          },
+          {
+            "label": "收件匣與郵件",
+            "box": {
+              "x": 186,
+              "y": 571.265625,
+              "width": 104,
+              "height": 44
+            }
+          },
+          {
+            "label": "比價省錢",
+            "box": {
+              "x": 298,
+              "y": 571.265625,
+              "width": 78,
+              "height": 44
+            }
+          }
+        ],
+        "featureShadows": [
+          {
+            "className": "hero-value-props",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          }
+        ]
+      },
+      "detailId": "UC-001",
+      "returnedFocus": true,
+      "errors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "states": {
+        "home": {
+          "overflow": {
+            "document": {
+              "scroll": 768,
+              "client": 768
+            },
+            "detail": null
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "X",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "複製搜尋連結 ↗",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "比價",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "影片",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "選題研究",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "商店營運",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "客服",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "人脈",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "CRM",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "PR審查",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "多代理",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "社群",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "發文",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "省錢",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "訂閱",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "續約",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "實體裝置",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗收",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "業務",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "簡報",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "學習",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "科研",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "資料稽核",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "客服",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "收件匣",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "監看",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "二手",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "買家訊息",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "業務開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "草稿",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "展示",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗收",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "簡報",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "會議",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "設計",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "Figma",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "法務",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "待辦",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "廣告",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "數據異常",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行銷素材",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "改版",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "帳單",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "對帳",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "團隊活動",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "追蹤",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "學校",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "期限",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "食譜",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "採買",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        },
+        "results": {
+          "overflow": {
+            "document": {
+              "scroll": 768,
+              "client": 768
+            },
+            "detail": null
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "保險",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "售出證明",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "複製搜尋連結 ↗",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "比價",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "失物",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "排程",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "住宿",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行事曆",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "電話",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行李",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "緊急",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "航班",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "睡眠",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "隱私",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "電話",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "分帳",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "代付",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "天氣",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "健康",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "照片",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "盤點",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "退款",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "物流追蹤",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "表單",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗證碼",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "居家",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "保險",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "售出證明",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "健康",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "穿戴裝置",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        },
+        "detail": {
+          "overflow": {
+            "document": {
+              "scroll": 768,
+              "client": 768
+            },
+            "detail": {
+              "scroll": 734,
+              "client": 734
+            }
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "📋 複製案例連結複製案例連結",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        }
+      },
+      "hero": {
+        "cta": {
+          "x": 40,
+          "y": 420.265625,
+          "width": 177.828125,
+          "height": 52
+        },
+        "panel": {
+          "x": 40,
+          "y": 724.265625,
+          "width": 680,
+          "height": 110.796875
+        },
+        "domOrder": true,
+        "taskBoxes": [
+          {
+            "label": "旅遊規劃",
+            "box": {
+              "x": 40,
+              "y": 532.265625,
+              "width": 78,
+              "height": 44
+            }
+          },
+          {
+            "label": "收件匣與郵件",
+            "box": {
+              "x": 126,
+              "y": 532.265625,
+              "width": 104,
+              "height": 44
+            }
+          },
+          {
+            "label": "比價省錢",
+            "box": {
+              "x": 238,
+              "y": 532.265625,
+              "width": 78,
+              "height": 44
+            }
+          }
+        ],
+        "featureShadows": [
+          {
+            "className": "hero-value-props",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          }
+        ]
+      },
+      "detailId": "UC-001",
+      "returnedFocus": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "states": {
+        "home": {
+          "overflow": {
+            "document": {
+              "scroll": 390,
+              "client": 390
+            },
+            "detail": null
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "家庭",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "複製搜尋連結 ↗",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "比價",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "影片",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "選題研究",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "商店營運",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "客服",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "人脈",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "CRM",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "PR審查",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "多代理",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "社群",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "發文",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "省錢",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "訂閱",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "續約",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "實體裝置",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗收",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "業務",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "簡報",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "學習",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "科研",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "資料稽核",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "客服",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "收件匣",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "監看",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "二手",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "買家訊息",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "業務開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "草稿",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "展示",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗收",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "簡報",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "會議",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "設計",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "Figma",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "法務",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "待辦",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "廣告",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "數據異常",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行銷素材",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "改版",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "帳單",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "對帳",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "團隊活動",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "追蹤",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "學校",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "期限",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "食譜",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "採買",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        },
+        "results": {
+          "overflow": {
+            "document": {
+              "scroll": 390,
+              "client": 390
+            },
+            "detail": null
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "隱私",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "電話",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "複製搜尋連結 ↗",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "比價",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "失物",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "排程",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "住宿",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行事曆",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "電話",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行李",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "緊急",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "航班",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "睡眠",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "隱私",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "電話",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "分帳",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "代付",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "天氣",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "健康",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "照片",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "盤點",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "退款",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "物流追蹤",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "表單",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗證碼",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "居家",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "保險",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "售出證明",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "健康",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "穿戴裝置",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        },
+        "detail": {
+          "overflow": {
+            "document": {
+              "scroll": 390,
+              "client": 390
+            },
+            "detail": {
+              "scroll": 368,
+              "client": 368
+            }
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "📋 複製案例連結複製案例連結",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        }
+      },
+      "hero": {
+        "cta": {
+          "x": 20,
+          "y": 335.640625,
+          "width": 154.96875,
+          "height": 48
+        },
+        "panel": {
+          "x": 20,
+          "y": 795.234375,
+          "width": 350,
+          "height": 192
+        },
+        "domOrder": true,
+        "taskBoxes": [
+          {
+            "label": "旅遊規劃",
+            "box": {
+              "x": 20,
+              "y": 437.640625,
+              "width": 72,
+              "height": 44
+            }
+          },
+          {
+            "label": "收件匣與郵件",
+            "box": {
+              "x": 100,
+              "y": 437.640625,
+              "width": 96,
+              "height": 44
+            }
+          },
+          {
+            "label": "比價省錢",
+            "box": {
+              "x": 204,
+              "y": 437.640625,
+              "width": 72,
+              "height": 44
+            }
+          }
+        ],
+        "featureShadows": [
+          {
+            "className": "hero-value-props",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          }
+        ]
+      },
+      "detailId": "UC-001",
+      "returnedFocus": true,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "states": {
+        "home": {
+          "overflow": {
+            "document": {
+              "scroll": 320,
+              "client": 320
+            },
+            "detail": null
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "照片",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "盤點",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "複製搜尋連結 ↗",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "比價",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "影片",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "選題研究",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "商店營運",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "客服",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "人脈",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "CRM",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "PR審查",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "多代理",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "社群",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "發文",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "省錢",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "訂閱",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "續約",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "實體裝置",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗收",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "業務",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "簡報",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "學習",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "科研",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "資料稽核",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "客服",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "收件匣",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "監看",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "二手",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "買家訊息",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "業務開發",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "草稿",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "展示",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗收",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "簡報",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "會議",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "創作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "設計",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "Figma",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "法務",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "待辦",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "廣告",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "數據異常",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行銷素材",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "改版",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "帳單",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "對帳",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "工作",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "團隊活動",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "追蹤",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "學校",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "期限",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "食譜",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "採買",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        },
+        "results": {
+          "overflow": {
+            "document": {
+              "scroll": 320,
+              "client": 320
+            },
+            "detail": null
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "保險",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "售出證明",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "複製搜尋連結 ↗",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "比價",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "失物",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "排程",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "住宿",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行事曆",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "電話",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "行李",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "緊急",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "航班",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "旅遊",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "睡眠",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "隱私",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "電話",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "分帳",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "代付",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "天氣",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "健康",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "照片",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "盤點",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "退款",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "物流追蹤",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "表單",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "驗證碼",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "每日",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "居家",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "保險",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "售出證明",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            },
+            {
+              "text": "生活",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "健康",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "穿戴裝置",
+              "font": 14,
+              "height": 44.390625
+            },
+            {
+              "text": "看看怎麼用 →",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        },
+        "detail": {
+          "overflow": {
+            "document": {
+              "scroll": 320,
+              "client": 320
+            },
+            "detail": {
+              "scroll": 298,
+              "client": 298
+            }
+          },
+          "violations": [],
+          "controls": [
+            {
+              "text": "📋 複製案例連結複製案例連結",
+              "font": 14,
+              "height": 44
+            }
+          ]
+        }
+      },
+      "hero": {
+        "cta": {
+          "x": 16,
+          "y": 317.515625,
+          "width": 138.96875,
+          "height": 48
+        },
+        "panel": {
+          "x": 16,
+          "y": 777.109375,
+          "width": 288,
+          "height": 240
+        },
+        "domOrder": true,
+        "taskBoxes": [
+          {
+            "label": "旅遊規劃",
+            "box": {
+              "x": 16,
+              "y": 419.515625,
+              "width": 72,
+              "height": 44
+            }
+          },
+          {
+            "label": "收件匣與郵件",
+            "box": {
+              "x": 96,
+              "y": 419.515625,
+              "width": 96,
+              "height": 44
+            }
+          },
+          {
+            "label": "比價省錢",
+            "box": {
+              "x": 200,
+              "y": 419.515625,
+              "width": 72,
+              "height": 44
+            }
+          }
+        ],
+        "featureShadows": [
+          {
+            "className": "hero-value-props",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          },
+          {
+            "className": "value-prop-item",
+            "boxShadow": "none"
+          }
+        ]
+      },
+      "detailId": "UC-001",
+      "returnedFocus": true,
+      "errors": []
+    }
+  ],
+  "failures": []
+}

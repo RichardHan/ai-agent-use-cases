@@ -9,7 +9,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 65
     steps:
       - uses: actions/checkout@v4
         with:
@@ -60,21 +60,13 @@ jobs:
         run: |
           node - <<'JS'
           const fs=require('node:fs');
-          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
+          const {waitForPublishedAssets}=require('./scripts/published-assets.cjs');
           (async()=>{
-          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
+            const sha=process.env.GITHUB_SHA;
             const files=['index.html','assets/app.js','assets/style.css'];
-            for(let i=0;i<750;i++){
-              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-              const observed=await Promise.all(files.map(async file=>{
-                const r=await fetch(process.env.LOOKUP_URL+file+'?categoryqa='+Date.now());
-                return r.ok?await r.text():'';
-              }));
-              if(observed.every((text,i)=>text===fs.readFileSync(files[i],'utf8'))){fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify({commit:process.env.GITHUB_SHA,files,matched:true}));return;}
-              await new Promise(resolve=>setTimeout(resolve,2000));
-            }
-            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published assets did not match checkout within 25 minutes (750 attempts)');
+            const result=await waitForPublishedAssets({base:process.env.LOOKUP_URL,sha,files});
+            if(result==='superseded'){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+sha);return;}
+            fs.writeFileSync('qa-artifacts/published-assets.json',JSON.stringify({commit:sha,files,matched:true}));
           })().catch(e=>{console.error(e);process.exitCode=1});
           JS
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then

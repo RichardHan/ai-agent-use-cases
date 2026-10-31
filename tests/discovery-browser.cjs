@@ -100,6 +100,7 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   await page.locator('#query').fill('no-matching-case-123');
   assert.equal(await page.locator('#empty').isVisible(),true);
   assert.equal(await page.locator('#draw-case').isDisabled(),true);
+  assert.match(await page.locator('#drawn-case').innerText(),/搜尋/,'empty deck explains that the search can restrict the cards');
   await page.locator('#empty-reset').click();
   assert.equal(await page.locator('#draw-case').isEnabled(),true);
   await ensureFiltersVisible(page);

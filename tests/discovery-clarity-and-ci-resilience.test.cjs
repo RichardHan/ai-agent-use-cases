@@ -146,14 +146,11 @@ test('card renders both targetUser and coreGoal when available to orient visitor
   assert.ok(targetUserEl.textContent.includes('資深軟體工程師與技術主管'));
 });
 
-test('Recent review discovery QA and Combined recovery QA workflows allow at least 25 minutes of polling', () => {
-  const recentReviewWorkflow = fs.readFileSync(path.join(workflowsDir, 'recency-qa.yml'), 'utf8');
-  assert.match(recentReviewWorkflow, /for\(let i=0;i<301;i\+\+\)\{/, 'recency-qa must poll at least 301 times at 5s interval (25m)');
-  assert.match(recentReviewWorkflow, /within 25 minutes \(301 attempts\)/, 'recency-qa error message must state 25 minutes');
-  assert.match(recentReviewWorkflow, /timeout-minutes: 30/, 'recency-qa must have 30 minute timeout');
-
-  const combinedRecoveryWorkflow = fs.readFileSync(path.join(workflowsDir, 'combined-recovery-qa.yml'), 'utf8');
-  assert.match(combinedRecoveryWorkflow, /for\(let i=0;i<501;i\+\+\)\{/, 'combined-recovery-qa must poll at least 501 times at 3s interval (25m)');
-  assert.match(combinedRecoveryWorkflow, /after 501 attempts/, 'combined-recovery-qa error message must reflect 501 attempts');
-  assert.match(combinedRecoveryWorkflow, /timeout-minutes: 30/, 'combined-recovery-qa must have 30 minute timeout');
+test('Recent review and Combined recovery reuse the extended publication deadline', () => {
+  for (const file of ['recency-qa.yml', 'combined-recovery-qa.yml']) {
+    const workflow = fs.readFileSync(path.join(workflowsDir, file), 'utf8');
+    assert.match(workflow, /waitForPublishedAssets/, `${file} must use the shared publication wait`);
+    const timeout = Number(workflow.match(/timeout-minutes:\s*(\d+)/)[1]);
+    assert.ok(timeout >= 65, `${file} must cover the 45-minute wait plus setup and journeys`);
+  }
 });

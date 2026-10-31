@@ -2,7 +2,7 @@ name: Facet counts QA
 on:
   push:
     branches: [improve/visitor-round-20261024-b, main]
-    paths: ['assets/**', 'index.html', 'catalog.json', 'corpus.json', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/**', 'tests/facet-*', 'tests/published-version*', 'tests/filter-controls.cjs', 'tests/source-route.cjs', 'tests/reliability-observe.cjs', 'tests/page-context-browser.cjs', 'tests/source-guide*', '.github/workflows/facet-counts-qa.yml']
+    paths: ['assets/**', 'index.html', 'catalog.json', 'corpus.json', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/**', 'tests/facet-*', 'tests/published-version*', 'tests/filter-controls.cjs', 'tests/source-route.cjs', 'tests/reliability-observe.cjs', 'tests/page-context*.cjs', 'tests/source-guide*', '.github/workflows/facet-counts-qa.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -10,7 +10,8 @@ jobs:
   browser:
     runs-on: ubuntu-24.04
     container: mcr.microsoft.com/playwright:v1.64.0-noble
-    timeout-minutes: 30
+    # Reserve setup, local browser journeys and published QA beyond the shared 45-minute gate.
+    timeout-minutes: 70
     steps:
       - uses: actions/checkout@v4
         with:
@@ -79,7 +80,7 @@ jobs:
           PUBLISHED_BUILD: ${{ runner.temp }}/facet-published
         run: python3 scripts/check_corpus_bundle.py "$PUBLISHED_BUILD"
       - name: Verify the published site
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && steps.published-version.outputs.verified == 'true'
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           FACET_URL: https://richardhan.github.io/ai-agent-use-cases/

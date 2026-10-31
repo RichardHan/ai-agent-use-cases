@@ -10,7 +10,7 @@ function pinSourcePaths(paths, revision) {
 function sourceMarkdownUrl(path) { return REPO_ROOT + (sourceRevisionFor(path) || 'main') + '/' + path; }
 function sourceVersionNote(path) {
   const revision=sourceRevisionFor(path);
-  return revision ? 'GitHub 原始 Markdown 固定於本站發布版本 '+revision.slice(0,7)+'；外部來源仍須另行核對。' : '尚未核對本站發布版本，暫不開啟 GitHub 原始 Markdown；可先閱讀下方保留的原文。';
+  return revision ? 'GitHub 原始 Markdown 固定於本站發布版本 '+revision.slice(0,7)+'；外部來源仍須另行核對。' : '尚未核對本站發布版本，無法保證 GitHub 原文與目前閱讀內容相同；可先閱讀下方保留的原文，或自行比對 GitHub 最新版本。';
 }
 function refreshCurrentSourceLinks(path) {
   if(!globalThis.document || !currentDetailItem || currentDetailItem.path!==path || !document.querySelector('#detail[open]'))return;
@@ -21,6 +21,11 @@ function refreshCurrentSourceLinks(path) {
     else { source.removeAttribute('href'); source.setAttribute('aria-disabled','true'); source.tabIndex=0; }
   }
   if(note)note.textContent=sourceVersionNote(path);
+  const latest=body?.querySelector('.detail-source-latest');
+  if(latest) {
+    if(sourceRevisionFor(path) && document.activeElement===latest)source?.focus({preventScroll:true});
+    latest.hidden=!!sourceRevisionFor(path);
+  }
   for(const link of body?.querySelectorAll('a[data-source-relative]')||[]) {
     const href=safeLink(link.getAttribute('data-source-relative'),path);
     if(href) { link.href=href; link.removeAttribute('aria-disabled'); link.removeAttribute('tabindex'); }
@@ -722,6 +727,8 @@ function scenarioExploreAction(item) {
   button.type = 'button';
   button.setAttribute('aria-label', `探索更多「${item.scenario}」案例`);
   button.addEventListener('click', () => {
+    rememberReadingView();
+    history.pushState(history.state, '', location.href);
     closeDetail();
     chooseScenario(item.scenario);
     $('results-count').focus({preventScroll:true});
@@ -993,8 +1000,8 @@ function showDetail(item, trigger, updateURL=true) {
   title.tabIndex = -1;
   body.append(title);
   const source = el('a', 'detail-source', '查看 GitHub 原始 Markdown ↗');
-  source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown ↗'),el('span','print-action-short','原始 Markdown ↗'));
-  source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown ↗');
+  source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown（新分頁） ↗'),el('span','print-action-short','原始 Markdown（新分頁） ↗'));
+  source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown（新分頁）');
   if(sourceRevisionFor(item.path))source.href=sourceMarkdownUrl(item.path);
   else { source.setAttribute('aria-disabled','true'); source.tabIndex=0; }
   source.target = '_blank';
@@ -1017,6 +1024,12 @@ function showDetail(item, trigger, updateURL=true) {
     overview.append(fullAccount);
   }
   overview.append(el('p','detail-source-version',sourceVersionNote(item.path)));
+  const latestSource=el('a','detail-source-latest','在 GitHub 查看最新版本（可能不同，新分頁） ↗');
+  latestSource.href=sourceMarkdownUrl(item.path);
+  latestSource.target='_blank';
+  latestSource.rel='noopener noreferrer';
+  latestSource.hidden=!!sourceRevisionFor(item.path);
+  overview.append(latestSource);
   const queryCautions=searchContext(item,tokenize($('query').value)).matches.filter(match=>match.caution);
   if(queryCautions.length)overview.append(el('p','detail-search-caution','這次搜尋顯示的「'+queryCautions.map(match=>match.term).join('、')+'」命中限制或來源段落；請核對用途與原文，不要把文字提及當成可採用的做法。'));
   const targetUserText = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
@@ -1191,7 +1204,7 @@ function contextExcerpt(text, variant, limit=96) {
 function searchContext(item, terms) {
   if(!terms.length)return {matches:[],remaining:0};
   const fields=[
-    ['標題',item.title],['用途',item.summary],['案例編號',idVariants(item.id)],
+    ['標題',item.title],['用途',item.summary],['解決痛點',item.coreGoal],['案例編號',idVariants(item.id)],
     ['分類',item.category],['標籤',(item.tags||[]).join('、')],
     ['提及工具',(item.tools||[]).join('、')],['情境',item.scenario],['收錄狀態',KIND[item.kind]]
   ].map(([label,text])=>({label,text:text||'',original:false}));
@@ -1313,7 +1326,7 @@ function card(item, terms=[]) {
   const bottom = el('div', 'card-bottom');
   const read = el('button', '', item.kind === 'pending' ? '查看這個想法 →' : '看看怎麼用 →');
   read.type = 'button';
-  read.setAttribute('aria-label', '閱讀 ' + item.id + ' ' + item.title);
+  read.setAttribute('aria-label', read.textContent + ' 閱讀 ' + item.id + ' ' + item.title);
   read.addEventListener('click', () => showDetail(item, read));
   const proofBadge = el('span', 'proof', item.proof);proofBadge.dataset.proof = item.proof;
   proofBadge.setAttribute('role', 'note');
@@ -1345,10 +1358,14 @@ function showMoreResults() {
   visibleResults=Math.min(start+RESULT_BATCH_SIZE,currentFiltered.length);
   const nodes=resultCards(currentFiltered.slice(start,visibleResults),tokenize($('query').value),start,currentFiltered.length);
   $('results').append(...nodes);
-  if(visibleResults===currentFiltered.length && document.activeElement===$('load-more-results')){
-    nodes[0]?.querySelector('h3 button')?.focus({preventScroll:true});
-  }
   updateResultBatch();
+  // Appended cards precede the button in DOM order. Start reading at the new
+  // batch so the next Tab does not skip it, including pointer/AT activation.
+  const firstTitle=nodes[0]?.querySelector('h3 button');
+  if(firstTitle){
+    firstTitle.focus({preventScroll:true});
+    nodes[0].scrollIntoView({block:'start',behavior:'instant'});
+  }
 }
 function ensureVisibleResult(id) {
   const index=currentFiltered.findIndex(item=>item.id===id);
@@ -1387,7 +1404,7 @@ function searchVariantIndex(text,variant) {
 function matchesSearchVariant(text,variant) { return searchVariantIndex(text,variant)!==-1; }
 function filterEntries(items, terms, filters) {
   return items.filter(item => terms.every(term => termVariants(term).some(v => matchesSearchVariant(filters.scope==='overview'
-    ? norm(item.title+' '+item.summary) : item.search,v)))
+    ? norm((item.title||'')+' '+(item.summary||'')+' '+(item.coreGoal||'')) : item.search,v)))
     && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
 }
 
@@ -1397,7 +1414,7 @@ function rankEntries(items, terms) {
   const queries = [...new Set(terms)].map(term => ({term, variants:termVariants(term)}));
   return items.map((item, index) => {
     const title = norm(item.title || '');
-    const summary = norm(item.summary || '');
+    const summary = norm((item.summary || '')+' '+(item.coreGoal || ''));
     const fields = [item.category, item.scenario, ...(item.tags || []), ...(item.tools || [])].map(value => norm(value || ''));
     const id = norm(item.id || '');
     const score = [0, 0, 0, 0];
@@ -1448,7 +1465,7 @@ function sourceTypeMessage(type) {
 const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',difficulty:'實作門檻',tool:'提及工具',category:'主題分類',proof:'來源類型',scope:'命中範圍'};
 function activeConditions(query, filters) {
   return Object.entries({query, ...filters}).filter(([,value]) => value)
-    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : key==='scope' ? '標題與用途' : value}));
+    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : key==='scope' ? '標題、用途與痛點' : value}));
 }
 function relaxationOptions(items, terms, filters) {
   return Object.entries(filters).filter(([,value])=>value).map(([key,value]) => ({
@@ -1784,14 +1801,14 @@ function renderSearchFeedback(terms, filters) {
   if(!currentFiltered.length&&discoveryReady){
     const options=relaxationOptions(entries,terms,filters).slice(0,3);
     options.forEach(({key,value,count})=>{
-      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題與用途':value)+'」 → 查看 '+count+' 筆');
+      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題、用途與痛點':value)+'」 → 查看 '+count+' 筆');
       button.type='button';button.dataset.removeFilter=key;
       button.addEventListener('click',()=>removeCondition(key));
       suggestions.append(button);
     });
     const combined=options.length ? [] : combinedRelaxationOptions(entries,terms,filters).slice(0,3);
     combined.forEach(({conditions,count})=>{
-      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題與用途':value)+'」');
+      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題、用途與痛點':value)+'」');
       const button=el('button','recovery-option','一起移除'+labels.join('、')+' → 查看 '+count+' 筆');
       button.type='button';button.dataset.removeFilters=conditions.map(({key})=>key).join(',');
       button.addEventListener('click',()=>removeConditions(conditions));
@@ -1825,7 +1842,7 @@ function renderSearchFeedback(terms, filters) {
       const problemTags = [
         {label:'郵件摘要 · 搜尋「郵件」', term:'郵件'},
         {label:'會議整理 · 搜尋「會議」', term:'會議'},
-        {label:'會議日報 · 搜尋「日報」', term:'日報'},
+        {label:'日報整理 · 搜尋「日報」', term:'日報'},
         {label:'自動客服 · 搜尋「客服」', term:'客服'},
         {label:'代碼審查 · 搜尋「代碼審查」', term:'代碼審查'},
         {label:'🧾 搜尋「發票」', term:'發票'},
@@ -1895,7 +1912,7 @@ function render(updateURL=true, preserveShare=false) {
   $('reset-sort').hidden=!discoveryReady||$('sort').value!=='reviewed';
   $('search-order-note').textContent=$('sort').value==='reviewed'
     ? '依頁首核對日由新到舊；不是發布日，也不代表新增或獨立驗證。正文補充不計；未提供者置後，同日保留原本的符合順序。'
-    : '標題與用途優先；全文仍納入搜尋。排序不代表成果或證據可靠度。';
+    : '標題、用途與痛點優先；全文仍納入搜尋。排序不代表成果或證據可靠度。';
   const resultKey=JSON.stringify([$('query').value,filters,$('sort').value]);
   if(resultKey!==resultQueryKey){visibleResults=RESULT_BATCH_SIZE;resultQueryKey=resultKey;}
   $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),q,0,currentFiltered.length));
@@ -2072,6 +2089,35 @@ function parseCorpusBundle(bundle, paths, revision, parseFn) {
   }
   return parsed;
 }
+// Cache Storage has no AbortSignal; bound its reads without delaying the
+// network bundle or the existing whole-load cancellation.
+function boundedCacheRead(operation,signal,deadline) {
+  if(signal.aborted||Date.now()>=deadline)return Promise.reject(Error('快取讀取已停止'));
+  let timer,stop;
+  const cancelled=new Promise((_,reject)=>{
+    stop=()=>reject(Error('快取讀取已停止'));
+    signal.addEventListener('abort',stop,{once:true});
+    timer=setTimeout(stop,Math.min(100,Math.max(1,deadline-Date.now())));
+  });
+  return Promise.race([operation,cancelled]).finally(()=>{
+    clearTimeout(timer);
+    signal.removeEventListener('abort',stop);
+  });
+}
+async function persistCorpus(cache,key,response) {
+  try {
+    await cache.put(key,response.clone());
+  } catch(error) {
+    // A previous version may fill the quota. Reclaim it and try once more.
+    const old=(await cache.keys()).filter(request=>request.url!==new URL(key,location.href).href);
+    await Promise.all(old.map(request=>cache.delete(request)));
+    await cache.put(key,response.clone());
+  }
+  // Cache keys are insertion ordered. Retain the two newest revisions so
+  // concurrent tabs cannot prune each other's just-published entry.
+  const keys=await cache.keys();
+  await Promise.all(keys.slice(0,-2).map(request=>cache.delete(request)));
+}
 async function loadInitialCorpus(paths, options = {}) {
   if(typeof options.bundleRevision!=='string'||!options.bundleRevision)return loadCorpus(paths,options);
   const fetchFn=options.fetch||fetch,parseFn=options.parseFile||parseFile;
@@ -2098,14 +2144,41 @@ async function loadInitialCorpus(paths, options = {}) {
     const abortBundle=()=>bundleController.abort();
     controller.signal.addEventListener('abort',abortBundle,{once:true});
     if(controller.signal.aborted)abortBundle();
-    const bundleTimer=setTimeout(abortBundle,Math.min(options.bundleTimeout||2500,Math.max(1,deadline-Date.now())));
+    const bundleTimer=setTimeout(abortBundle,Math.min(options.bundleTimeout||5000,Math.max(1,deadline-Date.now())));
     let bundled=false;
+    const cacheKey='corpus.json?bundleRevision='+encodeURIComponent(options.bundleRevision)+'&sourceRevision='+encodeURIComponent(options.sourceRevision||'');
+    let cache;
+    try { if(typeof caches!=='undefined')cache=await boundedCacheRead(caches.open('ai-agent-use-cases-corpus-v1'),bundleController.signal,deadline); }
+    catch(error) { console.warn('全文快取不可用，改用網路讀取：',error); }
     try {
-      const response=await fetchFn('corpus.json',{cache:'no-cache',signal:bundleController.signal});
-      if(!response.ok)throw Error('HTTP '+response.status);
-      const data=await response.json();
+      let response,parsed,data;
+      if(cache) {
+        try {
+          response=await boundedCacheRead(cache.match(cacheKey),bundleController.signal,deadline);
+          if(response) {
+            data=await boundedCacheRead(response.json(),bundleController.signal,deadline);
+            if(data.sourceRevision!==options.sourceRevision)throw Error('全文快取來源版本不符');
+            parsed=parseCorpusBundle(data,paths,options.bundleRevision,parseFn);
+          }
+        } catch(error) {
+          console.warn('全文快取無法使用，改用網路讀取：',error);
+          response=null;parsed=null;
+          cache.delete(cacheKey).catch(()=>{});
+        }
+      }
+      if(!parsed) {
+        response=await fetchFn('corpus.json',{cache:'no-cache',signal:bundleController.signal});
+        if(!response.ok)throw Error('HTTP '+response.status);
+        const copy=cache&&response.clone?response.clone():null;
+        data=await response.json();
+        if(bundleController.signal.aborted)throw Error('全文整包讀取已停止');
+        parsed=parseCorpusBundle(data,paths,options.bundleRevision,parseFn);
+        if(copy&&data.sourceRevision&&data.sourceRevision===options.sourceRevision) {
+          // Persistence is best-effort and must not delay a readable result.
+          persistCorpus(cache,cacheKey,copy).catch(error=>console.warn('全文快取寫入或整理失敗：',error));
+        }
+      }
       if(bundleController.signal.aborted)throw Error('全文整包讀取已停止');
-      const parsed=parseCorpusBundle(data,paths,options.bundleRevision,parseFn);
       if(data.sourceRevision && data.sourceRevision===options.sourceRevision) {
         const verified=[...parsed.keys()].filter(path=>{
           const early=successful.get(path),bundled=parsed.get(path);
@@ -2149,6 +2222,8 @@ function mergeCorpus(current, recovered) {
 }
 function refreshCorpusMetadata() {
   for(const kind of Object.keys(KIND)) $(kind==='case'?'case-count':kind+'-count').textContent=entries.filter(e=>e.kind===kind).length;
+  $('catalog-status').hidden=!failedPaths.length;
+  $('catalog-status').textContent=failedPaths.length?'僅計已載入條目；'+failedPaths.length+' 個來源檔案未載入。':'';
   for(const [id,values] of [['tool',entries.flatMap(e=>e.tools)],['category',entries.map(e=>e.category)],['proof',entries.map(e=>e.proof)]]){
     const selected=$(id).value;
     populate(id,selected?[...values,selected]:values);
@@ -2218,6 +2293,7 @@ function stopSourceRecovery() {
 async function retryFailedSources() {
   if(!discoveryReady||recoveringSources||!failedPaths.length)return;
   const paths=[...failedPaths];
+  let recoveryFocusTarget=null;
   const requestedCase=new URLSearchParams(location.search).get('case');
   recoveryController=new AbortController();
   recoveryProgress={completed:0,succeeded:0,total:paths.length};
@@ -2239,9 +2315,8 @@ async function retryFailedSources() {
     render(false,true);
     updateModalNav();
     if(recoveryControlFocused){
-      const target=failedPaths.length?$('retry-failed'):$('results-count');
-      target.focus({preventScroll:true});
-      target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+      recoveryFocusTarget=failedPaths.length?$('retry-failed'):$('results-count');
+      recoveryFocusTarget.focus({preventScroll:true});
     }else restoreFocus();
     refreshRelated();
     refreshMergedDestination();
@@ -2258,6 +2333,8 @@ async function retryFailedSources() {
     recoveringSources=false;
     recoveryController=null;recoveryProgress=null;
     updatePartialLoad();
+    if(document.activeElement===recoveryFocusTarget)
+      recoveryFocusTarget.scrollIntoView({block:failedPaths.length?'center':'nearest',inline:'nearest',behavior:'instant'});
   }
 }
 
@@ -2441,12 +2518,12 @@ async function load() {
     else finishArrival(params,failedPaths.length>0);
     restoreFocus();
   } catch (error) {
-    discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀 GitHub 索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
+    discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀案例索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();
     $('results-count').textContent = '載入未完成';
     $('filter-outcome-count').textContent = '載入未完成，請到結果區重新載入';
     $('filter-view-results').disabled = false;
-    $('error-message').textContent = '請稍後重試，或先閱讀 GitHub 原始資料。';
+    $('error-message').textContent = '請稍後重試，或先閱讀案例索引。';
     $('error').hidden = false;
     finishArrival(new URLSearchParams(location.search),true);
     console.error(error);
@@ -2479,7 +2556,7 @@ function syncDiscovery(filtered){
   if(pool.length)drawNext();
   else{
     const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
-    $('drawn-case').replaceChildren(el('p','draw-placeholder',`${diffText}目前沒有可抽的案例卡。試試「全部門檻」或其他情境，或在下方調整篩選。`));
+    $('drawn-case').replaceChildren(el('p','draw-placeholder',`${diffText}目前沒有可抽的案例卡。抽卡也受下方搜尋與篩選影響；試試修改搜尋字詞或調整篩選。`));
     $('draw-status').textContent=($('scenario').value||'全部情境')+($('difficulty')?.value?' · '+$('difficulty').value:'')+' 目前沒有可抽的案例卡。';
     $('draw-case').textContent='沒有可抽的案例';
   }
@@ -2624,6 +2701,8 @@ $('scenario-chips')?.addEventListener('click', e => {
   } else if (chip.dataset.kind) {
     $('kind').value = $('kind').value === chip.dataset.kind ? '' : chip.dataset.kind;
     render();
+    // Like task searches, show the outcome without a delayed loading-time jump.
+    if (discoveryReady) focusLoadedResults('start');
   } else if (chip.dataset.query) {
     const q = chip.dataset.query;
     $('query').value = $('query').value.trim() === q ? '' : q;

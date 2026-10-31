@@ -9,7 +9,7 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 65
     steps:
       - uses: actions/checkout@v4
         with:
@@ -50,18 +50,10 @@ jobs:
           FACETS_LIVE: '1'
         run: |
           node - <<'JS'
-          const fs=require('node:fs');
-          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
-          (async()=>{
-            for(let i=0;i<301;i++){
-              if(i>0&&i%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-              const r=await fetch(process.env.FACETS_URL+'assets/app.js?facetqa='+Date.now(),{cache:'no-store'});
-              if(r.ok&&await r.text()===fs.readFileSync('assets/app.js','utf8'))return;
-              await new Promise(r=>setTimeout(r,5000));
-            }
-            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published app.js differs from checkout within 25 minutes (301 attempts)');
-          })().catch(e=>{console.error(e);process.exitCode=1});
+          const {waitForPublishedAssets}=require('./scripts/published-assets.cjs');
+          waitForPublishedAssets({base:process.env.FACETS_URL,sha:process.env.GITHUB_SHA,files:['assets/app.js']})
+            .then(result=>console.log(result==='matched'?'PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA:'SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA))
+            .catch(e=>{console.error(e);process.exitCode=1});
           JS
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
             :

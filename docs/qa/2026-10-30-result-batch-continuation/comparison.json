@@ -1,0 +1,66 @@
+[
+  {
+    "version": "before",
+    "width": 1440,
+    "afterEnter": {
+      "focusedId": "load-more-results",
+      "focusedCase": null,
+      "top": 4924.3125,
+      "bottom": 4969.40625,
+      "cards": 48
+    },
+    "afterTab": {
+      "text": "逐案核對標準與排除理由 ↗",
+      "focusedCase": null,
+      "top": 507.984375
+    }
+  },
+  {
+    "version": "before",
+    "width": 390,
+    "afterEnter": {
+      "focusedId": "load-more-results",
+      "focusedCase": null,
+      "top": 13135.1875,
+      "bottom": 13180.28125,
+      "cards": 48
+    },
+    "afterTab": {
+      "text": "逐案核對標準與排除理由 ↗",
+      "focusedCase": null,
+      "top": 439.96875
+    }
+  },
+  {
+    "version": "after",
+    "width": 1440,
+    "afterEnter": {
+      "focusedId": "",
+      "focusedCase": "UC-028",
+      "top": 119.4375,
+      "bottom": 163.4375,
+      "cards": 48
+    },
+    "afterTab": {
+      "text": "省錢",
+      "focusedCase": "UC-028",
+      "top": 341.203125
+    }
+  },
+  {
+    "version": "after",
+    "width": 390,
+    "afterEnter": {
+      "focusedId": "",
+      "focusedCase": "UC-028",
+      "top": 117.59375,
+      "bottom": 185.78125,
+      "cards": 48
+    },
+    "afterTab": {
+      "text": "省錢",
+      "focusedCase": "UC-028",
+      "top": 363.546875
+    }
+  }
+]

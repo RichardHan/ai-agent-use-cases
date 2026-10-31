@@ -7,27 +7,18 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.READER_URL||'http://127.0.0.1:8082/ai-agent-use-cases/';
 const deployed=!!process.env.READER_DEPLOYED;
 const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
 if(deployed&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 const requestedEngine=process.env.READER_ENGINE||'';
 if(requestedEngine&&!['chromium','firefox','webkit'].includes(requestedEngine))throw Error('Unknown READER_ENGINE: '+requestedEngine);
 const audits=[],timings=[];
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-async function deployedVersion(page){
+async function deployedVersion(){
  const paths=['assets/reader.js','assets/reader.css','assets/app.js','assets/style.css','assets/discovery.js','index.html'];
- const expected=paths.map(path=>fs.readFileSync(path,'utf8'));
- for(let attempt=0;attempt<151;attempt++){
-  if(attempt>0&&attempt%6===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
-  const responses=await Promise.all(paths.map(path=>page.request.get(origin+path,{headers:{'Cache-Control':'no-cache'},timeout:5000}).catch(()=>null)));
-  const observed=await Promise.all(responses.map(response=>response?response.text():''));
-  if(responses.every(Boolean)&&responses.every(response=>response.ok())&&observed.every((text,i)=>text===expected[i])){
-   const {createHash}=require('node:crypto');
-   fs.writeFileSync('qa-artifacts/reader-deployment.json',JSON.stringify({origin,verifiedAt:new Date().toISOString(),assets:paths.map((path,i)=>({path,sha256:createHash('sha256').update(observed[i]).digest('hex')}))},null,2));
-   return;
-  }
-  await wait(10000);
- }
- if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
- throw Error('Published assets do not match this checkout within 25 minutes (151 attempts)');
+ const result=await waitForPublishedAssets({base:origin,sha:process.env.GITHUB_SHA,files:paths,isCurrent:()=>!skipIfSupersededPublishedUrl(origin)});
+ if(result==='superseded'){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
+ const {createHash}=require('node:crypto');
+ fs.writeFileSync('qa-artifacts/reader-deployment.json',JSON.stringify({origin,verifiedAt:new Date().toISOString(),assets:paths.map(path=>({path,sha256:createHash('sha256').update(fs.readFileSync(path)).digest('hex')}))},null,2));
 }
 async function visibleBelowToolbar(page,selector){
  const rect=await page.locator(selector).boundingBox();
@@ -84,7 +75,7 @@ async function jump(page,button){
   if(!deployed)await require('./mobile-search-browser.cjs')({browser,origin,prefix:engine+'-mobile-search',sizes:[['mobile',390,844]]});
   const sizes=engine==='chromium'?[['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]:[['mobile',390,844]];
   if(deployed&&engine==='chromium'){
-   const versionPage=await browser.newPage();await deployedVersion(versionPage);await versionPage.close();
+   await deployedVersion();
   }
   if(deployed){
    await require('./arrival-live.cjs')({browser,origin,engine});
@@ -96,7 +87,7 @@ async function jump(page,button){
    const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
    const page=await context.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
-   if(deployed&&engine==='chromium'&&size==='desktop')await deployedVersion(page);
+   if(deployed&&engine==='chromium'&&size==='desktop')await deployedVersion();
    await ready(page);
    timings.push(await page.evaluate(({engine,size})=>{
     const navigation=performance.getEntriesByType('navigation')[0];

@@ -3,20 +3,11 @@ const {chromium}=require('playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.MATCH_LIVE_URL||'https://richardhan.github.io/ai-agent-use-cases/';
 const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
 if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
- for(const path of ['assets/app.js','assets/style.css']){
-  const expected=fs.readFileSync(path,'utf8');
-  let matched=false;
-  for(let i=0;i<301;i++){
-   if(i>0&&i%15===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
-   const response=await fetch(origin+path+'?context-qa='+Date.now(),{cache:'no-store'});
-   if(response.ok&&await response.text()===expected){matched=true;break;}
-   await new Promise(r=>setTimeout(r,5000));
-  }
-  if(!matched&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
-  assert(matched,'Published asset must match checked-out commit: '+path+' within 25 minutes (301 attempts)');
- }
+ const result=await waitForPublishedAssets({base:origin,sha:process.env.GITHUB_SHA,files:['assets/app.js','assets/style.css'],isCurrent:()=>!skipIfSupersededPublishedUrl(origin)});
+ if(result==='superseded'){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
  const browser=await chromium.launch();
  for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});

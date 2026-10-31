@@ -1,56 +1,58 @@
 'use strict';
 const sourceRoute=require('./source-route.cjs');
+const {collectPageErrors}=require('./page-context-errors.cjs');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
 const base=process.env.SITE_URL||'http://127.0.0.1:8170/ai-agent-use-cases/';
 const out=process.env.QA_OUT||'qa-artifacts/context',observe=process.env.QA_OBSERVE==='1';fs.mkdirSync(out,{recursive:true});
-(async()=>{const rows=[];
+const rows=[];
+(async()=>{
 for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium,1440],[chromium,390],[chromium,320],[firefox,390],[webkit,390]])){
- const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),page=await context.newPage();const label=engine.name()+'-'+width,row={label,states:[],errors:[]};rows.push(row);page.on('pageerror',e=>row.errors.push(e.message));
+ const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),page=await context.newPage();const label=engine.name()+'-'+width,row={label,states:[],errors:[]};rows.push(row);let phase='initializing';collectPageErrors(page,row,()=>phase);
  const caseTitle=async()=>assert.equal(await page.title(),await page.locator('#detail-toolbar-id').innerText()+' · '+await page.locator('#detail-title').innerText()+'｜AI 用法實驗室');
- const state=async name=>{if(!observe&&['detail','empty'].includes(name)){const scan=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();(row.stateAudits||=[]).push({name,violations:scan.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}))});assert.equal(scan.violations.length,0);}row.states.push({name,title:await page.title(),url:page.url(),heading:await page.locator('#detail').evaluate(n=>n.open)?await page.locator('#detail-title').innerText():await page.locator('#results-count').innerText()});await page.screenshot({path:`${out}/${name}-${label}.png`});fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));};
+ const state=async name=>{phase='state:'+name;if(!observe&&['detail','empty'].includes(name)){const scan=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();(row.stateAudits||=[]).push({name,violations:scan.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}))});assert.equal(scan.violations.length,0);}row.states.push({name,title:await page.title(),url:page.url(),heading:await page.locator('#detail').evaluate(n=>n.open)?await page.locator('#detail-title').innerText():await page.locator('#results-count').innerText()});await page.screenshot({path:`${out}/${name}-${label}.png`});fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));};
  try{
- await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await page.evaluate(()=>failedPaths.length),0);row.total=await page.evaluate(()=>entries.length);if(!observe)assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');await state('home');
- await page.locator('.hero-search-link').click();await page.locator('#query').fill('旅遊');await page.locator('#filter-options').evaluate(n=>n.open=true);await page.locator('#scenario').selectOption('生活');await page.locator('#tool').selectOption('Grok Bot');if(!observe)assert.equal(await page.title(),'搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室');await state('search');
- const read=page.locator('#results .card .card-bottom button').first();await read.focus();await page.keyboard.press('Enter');await page.locator('#detail[open]').waitFor();row.case=await page.locator('#detail-toolbar-id').innerText();if(!observe)await caseTitle();await state('detail');
- await page.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();if(!observe)await caseTitle();await state('source');const source=page.locator('.markdown a[href^="https:"]').first();row.source=await source.getAttribute('href');
- if(width===1440){const popupEvent=page.waitForEvent('popup');await source.click();const popup=await popupEvent;await popup.waitForLoadState('domcontentloaded',{timeout:15000}).catch(()=>{});row.openedSource=popup.url();await popup.close();}
- await page.keyboard.press('Escape');assert(await read.evaluate(n=>n===document.activeElement));if(!observe)assert.equal(await page.title(),'搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室');await state('returned');
- await page.locator('#query').fill('no-page-context-qa-result');await page.locator('#empty').waitFor({state:'visible'});if(!observe)assert((await page.title()).startsWith('沒有符合結果 · 搜尋「no-page-context-qa-result」'));await state('empty');await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(n=>n===document.activeElement));
+ phase='home-load'; await page.goto(base);await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await page.evaluate(()=>failedPaths.length),0);row.total=await page.evaluate(()=>entries.length);if(!observe)assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');await state('home');
+ phase='search-filters'; await page.locator('.hero-search-link').click();await page.locator('#query').fill('旅遊');await page.locator('#filter-options').evaluate(n=>n.open=true);await page.locator('#scenario').selectOption('生活');await page.locator('#tool').selectOption('Grok Bot');if(!observe)assert.equal(await page.title(),'搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室');await state('search');
+ phase='open-detail'; const read=page.locator('#results .card .card-bottom button').first();await read.focus();await page.keyboard.press('Enter');await page.locator('#detail[open]').waitFor();row.case=await page.locator('#detail-toolbar-id').innerText();if(!observe)await caseTitle();await state('detail');
+ phase='source-open'; await page.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();if(!observe)await caseTitle();await state('source');const source=page.locator('.markdown a[href^="https:"]').first();row.source=await source.getAttribute('href');
+ phase='source-popup'; if(width===1440){const popupEvent=page.waitForEvent('popup');await source.click();const popup=await popupEvent;await popup.waitForLoadState('domcontentloaded',{timeout:15000}).catch(()=>{});row.openedSource=popup.url();await popup.close();}
+ phase='return-from-detail'; await page.keyboard.press('Escape');assert(await read.evaluate(n=>n===document.activeElement));if(!observe)assert.equal(await page.title(),'搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室');await state('returned');
+ phase='empty-result'; await page.locator('#query').fill('no-page-context-qa-result');await page.locator('#empty').waitFor({state:'visible'});if(!observe)assert((await page.title()).startsWith('沒有符合結果 · 搜尋「no-page-context-qa-result」'));await state('empty');await page.locator('#edit-query').click();assert(await page.locator('#query').evaluate(n=>n===document.activeElement));
  if(!observe){
  // Scenario 2: bookmarks, history traversal and every close action retain context.
- await page.locator('#empty-reset').click();assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');
- await page.locator('#guide-options [data-scenario="工作"]').click();assert.equal(await page.title(),'篩選案例 · 工作｜AI 用法實驗室');
- await page.locator('#draw-case').click();assert.equal(await page.title(),'篩選案例 · 工作｜AI 用法實驗室');
- await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot&case=UC-001');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await caseTitle();
- await page.locator('#nav-next-case').click();await caseTitle();row.nextCase=await page.locator('#detail-toolbar-id').innerText();assert.notEqual(row.nextCase,'UC-001');
- await page.goBack();await page.waitForFunction(()=>document.querySelector('#detail-toolbar-id').textContent==='UC-001');await caseTitle();
- await page.goForward();await page.waitForFunction(id=>document.querySelector('#detail-toolbar-id').textContent===id,row.nextCase);await caseTitle();
- await page.locator('#nav-prev-case').click();await caseTitle();assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-001');
- await page.reload();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await caseTitle();
- await state('bookmark');await page.locator('#close-detail').click();assert.equal(await page.title(),'搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室');
- await page.locator('#results .card .card-bottom button').first().click();await caseTitle();await page.goBack();await page.waitForFunction(()=>!document.querySelector('#detail').open);assert.equal(await page.title(),'搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室');
- await page.goForward();await page.locator('#detail[open]').waitFor();await caseTitle();
- await page.mouse.click(2,2);await page.waitForFunction(()=>!document.querySelector('#detail').open);assert.equal(await page.title(),'搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室');
+ phase='bookmark-reset'; await page.locator('#empty-reset').click();assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');
+ phase='bookmark-scenario'; await page.locator('#guide-options [data-scenario="工作"]').click();assert.equal(await page.title(),'篩選案例 · 工作｜AI 用法實驗室');
+ phase='bookmark-draw'; await page.locator('#draw-case').click();assert.equal(await page.title(),'篩選案例 · 工作｜AI 用法實驗室');
+ phase='bookmark-direct-link'; await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot&case=UC-001');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await caseTitle();
+ phase='bookmark-next'; await page.locator('#nav-next-case').click();await caseTitle();row.nextCase=await page.locator('#detail-toolbar-id').innerText();assert.notEqual(row.nextCase,'UC-001');
+ phase='bookmark-back'; await page.goBack();await page.waitForFunction(()=>document.querySelector('#detail-toolbar-id').textContent==='UC-001');await caseTitle();
+ phase='bookmark-forward'; await page.goForward();await page.waitForFunction(id=>document.querySelector('#detail-toolbar-id').textContent===id,row.nextCase);await caseTitle();
+ phase='bookmark-previous'; await page.locator('#nav-prev-case').click();await caseTitle();assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-001');
+ phase='bookmark-reload'; await page.reload();await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await caseTitle();
+ await state('bookmark');phase='bookmark-close';await page.locator('#close-detail').click();assert.equal(await page.title(),'搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室');
+ phase='bookmark-reopen-back'; await page.locator('#results .card .card-bottom button').first().click();await caseTitle();await page.goBack();await page.waitForFunction(()=>!document.querySelector('#detail').open);assert.equal(await page.title(),'搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室');
+ phase='bookmark-forward-detail'; await page.goForward();await page.locator('#detail[open]').waitFor();await caseTitle();
+ phase='bookmark-dismiss'; await page.mouse.click(2,2);await page.waitForFunction(()=>!document.querySelector('#detail').open);assert.equal(await page.title(),'搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室');
  // A missing shared case is not a successful detail; dismissal restores search.
- await page.goto(base+'?case=UC-999999&q=旅遊');await page.locator('#missing-case').waitFor({state:'visible'});assert.equal(await page.title(),'找不到分享案例 · 搜尋「旅遊」｜AI 用法實驗室');await state('missing');
- await page.locator('#dismiss-missing-case').click();assert.equal(await page.title(),'搜尋「旅遊」｜AI 用法實驗室');
+ phase='missing-case'; await page.goto(base+'?case=UC-999999&q=旅遊');await page.locator('#missing-case').waitFor({state:'visible'});assert.equal(await page.title(),'找不到分享案例 · 搜尋「旅遊」｜AI 用法實驗室');await state('missing');
+ phase='missing-dismiss'; await page.locator('#dismiss-missing-case').click();assert.equal(await page.title(),'搜尋「旅遊」｜AI 用法實驗室');
  // Difficulty is a bookmark-visible search condition, including detail return and direct-link restoration.
- await page.goto(base);await page.waitForFunction(()=>discoveryReady);await page.locator('#filter-options').evaluate(n=>n.open=true);
- await page.locator('#query').fill('PR');await page.locator('#scenario').selectOption('開發');await page.locator('#difficulty').selectOption('進階開發');
+ phase='difficulty-load'; await page.goto(base);await page.waitForFunction(()=>discoveryReady);await page.locator('#filter-options').evaluate(n=>n.open=true);
+ phase='difficulty-filter'; await page.locator('#query').fill('PR');await page.locator('#scenario').selectOption('開發');await page.locator('#difficulty').selectOption('進階開發');
  assert.equal(await page.title(),'搜尋「PR」 · 開發 · 進階開發｜AI 用法實驗室');row.difficultyTitle=await page.title();await state('difficulty-search');
  const difficultyUrl=base+'?q=PR&scenario=開發&difficulty='+encodeURIComponent('進階開發');
- await page.goto(difficultyUrl+'&case=UC-324');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await caseTitle();
- await page.keyboard.press('Escape');assert.equal(await page.title(),'搜尋「PR」 · 開發 · 進階開發｜AI 用法實驗室');
- await page.goto(difficultyUrl);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.title(),'搜尋「PR」 · 開發 · 進階開發｜AI 用法實驗室');
- await page.goto(base);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');
- await page.locator('#query').fill('<script>👩🏽‍💻</script>'+ '旅'.repeat(150));assert((await page.title()).includes('…'));assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
- await page.goto(base);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');
+ phase='difficulty-detail'; await page.goto(difficultyUrl+'&case=UC-324');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);await caseTitle();
+ phase='difficulty-close'; await page.keyboard.press('Escape');assert.equal(await page.title(),'搜尋「PR」 · 開發 · 進階開發｜AI 用法實驗室');
+ phase='difficulty-direct-link'; await page.goto(difficultyUrl);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.title(),'搜尋「PR」 · 開發 · 進階開發｜AI 用法實驗室');
+ phase='reset-home'; await page.goto(base);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');
+ phase='long-query'; await page.locator('#query').fill('<script>👩🏽‍💻</script>'+ '旅'.repeat(150));assert((await page.title()).includes('…'));assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ phase='long-query-reset'; await page.goto(base);await page.waitForFunction(()=>discoveryReady);assert.equal(await page.title(),'AI 用法實驗室 · 案例庫');
  row.historyAndBookmarks=true;
  }
- row.violations=(await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}));assert.deepEqual(row.violations,[]);assert.deepEqual(row.errors,[]);console.log('PASS '+label);
- }catch(e){row.failure=e.stack;throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await browser.close();}
+ phase='final-audit'; row.violations=(await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}));assert.deepEqual(row.violations,[]);assert.deepEqual(row.errors,[]);console.log('PASS '+label);
+ }catch(e){row.failure=e.stack;row.failurePhase=phase;row.failureUrl=page.url();throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await browser.close();}
 }
 if(!observe){
  const browser=await chromium.launch(),lifecycle=[];
@@ -81,4 +83,4 @@ if(!observe){
  }
  await browser.close();
 }
-})().catch(e=>{console.error(e);process.exit(1)});
+})().catch(e=>{fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));console.error(e);process.exit(1)});

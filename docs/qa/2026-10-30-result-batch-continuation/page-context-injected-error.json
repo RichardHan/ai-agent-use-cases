@@ -1,0 +1,62 @@
+[
+  {
+    "label": "chromium-1440",
+    "states": [
+      {
+        "name": "home",
+        "title": "AI 用法實驗室 · 案例庫",
+        "url": "http://127.0.0.1:8130/ai-agent-use-cases/",
+        "heading": "顯示 467 / 467 筆收錄"
+      },
+      {
+        "name": "search",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8130/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 17 / 467 筆收錄"
+      },
+      {
+        "name": "detail",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8130/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "source",
+        "title": "UC-001 · 規劃旅行，先把交通和住宿比清楚｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8130/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot&case=UC-001#explore",
+        "heading": "規劃旅行，先把交通和住宿比清楚"
+      },
+      {
+        "name": "returned",
+        "title": "搜尋「旅遊」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8130/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 17 / 467 筆收錄"
+      },
+      {
+        "name": "empty",
+        "title": "沒有符合結果 · 搜尋「no-page-context-qa-result」 · 生活 · Grok Bot｜AI 用法實驗室",
+        "url": "http://127.0.0.1:8130/ai-agent-use-cases/?q=no-page-context-qa-result&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore",
+        "heading": "顯示 0 / 467 筆收錄"
+      }
+    ],
+    "errors": [
+      "synthetic diagnostic failure"
+    ],
+    "pageErrors": [
+      {
+        "message": "synthetic diagnostic failure",
+        "stack": "Error: synthetic diagnostic failure\n    at page.on (/private/tmp/inject-page-context-error.cjs:15:39)\n    at collectPageErrors (/private/tmp/ai-visitor-20261030/tests/page-context-errors.cjs:5:7)\n    at /private/tmp/ai-visitor-20261030/tests/page-context-browser.cjs:12:262\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:479:9)\n    at process.callbackTrampoline (node:internal/async_hooks:130:17)",
+        "url": "about:blank",
+        "phase": "initializing"
+      }
+    ],
+    "total": 467,
+    "case": "UC-001",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "openedSource": "https://github.com/RichardHan/ai-agent-use-cases/blob/23949ae1d458924d743889ba9360ef682ff62668/sources/README.md#s-001%E4%B8%89%E6%AC%BE-agent-%E7%9A%84%E5%90%8C%E9%A1%8C%E6%AF%94%E8%BC%83",
+    "violations": [],
+    "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'synthetic diagnostic failure'\n+ ]\n- []\n\n    at /private/tmp/ai-visitor-20261030/tests/page-context-browser.cjs:54:228",
+    "failurePhase": "final-audit",
+    "failureUrl": "http://127.0.0.1:8130/ai-agent-use-cases/?q=no-page-context-qa-result&scenario=%E7%94%9F%E6%B4%BB&tool=Grok+Bot#explore"
+  }
+]

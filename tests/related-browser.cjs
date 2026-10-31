@@ -6,20 +6,12 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
 const origin=process.env.RELATED_URL||'http://127.0.0.1:8088/ai-agent-use-cases/';
 const live=process.env.RELATED_LIVE==='1';
 const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
 if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
 (async()=>{
  if(live){
-  for(const path of ['assets/app.js','assets/reader.css']){
-   let matched=false;
-   for(let i=0;i<300;i++){
-    if(i>0&&i%6===0&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
-    const response=await fetch(origin+path+'?related-qa='+Date.now(),{cache:'no-store'});
-    if(response.ok&&await response.text()===fs.readFileSync(path,'utf8')){matched=true;break;}
-    await new Promise(r=>setTimeout(r,5000));
-   }
-   if(skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);process.exit(0);}
-   assert(matched,'Published asset matches commit: '+path);
-  }
+  const result=await waitForPublishedAssets({base:origin,sha:process.env.GITHUB_SHA,files:['assets/app.js','assets/reader.css'],isCurrent:()=>!skipIfSupersededPublishedUrl(origin)});
+  if(result==='superseded'){console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
  }
  const browser=await chromium.launch();fs.mkdirSync('qa-artifacts',{recursive:true});const report=[];
  for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]){
@@ -81,6 +73,25 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
   assert(await page.locator('#results-count').evaluate(n=>n===document.activeElement),'scenario handoff focuses the result count');
   assert.equal(new URL(page.url()).searchParams.get('q'),null,'scenario handoff clears the earlier search');
   await audit('scenario-handoff');
+  await page.goBack();
+  await page.locator('#detail[open]').waitFor();
+  assert.equal(await page.locator('#detail-toolbar-id').innerText(),firstID,'Back restores the case before scenario exploration');
+  assert.equal(new URL(page.url()).searchParams.get('q'),'旅遊','Back restores the previous search');
+  assert.equal(new URL(page.url()).searchParams.get('tool'),'Grok Bot','Back restores the previous filter');
+  await page.goForward();
+  await page.waitForFunction(()=>!document.getElementById('detail').open);
+  assert.equal(await page.locator('#scenario').inputValue(),chosenScenario.match(/「(.+)」/)[1],'Forward restores scenario results');
+  if(!live){
+   await page.goto(origin+'?case=UC-001',{waitUntil:'networkidle'});
+   await page.locator('#detail[open]').waitFor();
+   await page.locator('.plain-overview .detail-action-scenario').click();
+   await page.goBack();
+   await page.locator('#detail[open]').waitFor();
+   assert.equal(await page.locator('#detail-toolbar-id').innerText(),'UC-001','Back restores a directly shared case');
+   await page.goForward();
+   await page.waitForFunction(()=>!document.getElementById('detail').open);
+   assert.equal(await page.locator('#scenario').inputValue(),'生活');
+  }
   // Live smoke uses two corpus loads per viewport; boundary repetitions stay on preview.
   if(live){
    await page.goto(origin+'?case=UC-005',{waitUntil:'networkidle'});await page.locator('#detail[open]').waitFor();

@@ -228,6 +228,9 @@
  .plain-overview .detail-source .print-action-short{display:inline}
 }
 .detail-source-version{margin:0 0 16px;color:#526057;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+.plain-overview .detail-source-latest{display:inline-flex;align-items:center;min-height:44px;margin:0 0 16px;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.plain-overview .detail-source-latest[hidden]{display:none}
+.plain-overview .detail-source-latest:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 .reader-print-meta{display:none}
 @media print{
  @page{margin:16mm}
@@ -294,4 +297,60 @@
  .markdown-table th,.markdown-table td{padding:6pt;color:#111;background:white;border-color:#888}
  .markdown-table thead{display:table-header-group}
  .markdown-table tr{break-inside:avoid}
+}
+
+/* Match the collection's editorial hierarchy, keeping source text unchanged. */
+@media screen {
+  #detail{max-width:920px;background:#fbfcf8;border-radius:10px;border-color:#ccd7c5;box-shadow:0 24px 80px #10251e29}
+  .detail-toolbar{background:#f3f5ed;border-color:#d5decd}
+  #detail-body{padding:32px 48px 44px}
+  #detail-title{font-size:32px;line-height:1.5;font-weight:680;letter-spacing:-.8px;margin:18px 0 24px}
+  .detail-header-meta{gap:6px 8px;line-height:1.7}
+  .detail-badge{border-radius:3px}
+  .plain-overview{border:0;border-top:1px solid #bdcdb7;border-bottom:1px solid #d5decd;border-radius:0;background:transparent;padding:22px 0;margin:22px 0 24px}
+  .plain-overview h2{font-size:12px;letter-spacing:.08em;color:#4c6258;margin-bottom:10px}
+  .plain-overview p{font-size:17px;line-height:1.85;color:#273e32}
+  .plain-overview .detail-source-version{font-size:12px;line-height:1.75;color:#526057;margin:0 0 14px}
+  .plain-overview .detail-source,.plain-overview .detail-source-latest{font-size:13px}
+  .plain-overview .detail-action-scenario{font-size:13px;background:#eef3e7;color:var(--green);border-color:#bfcfb5;border-radius:4px}
+  .detail-actions{gap:10px}
+  .btn-copy-link{font-size:14px;border-color:#b9cbb0;border-radius:4px;background:transparent}
+  .reader-report{border:1px solid #d3ddcd;border-top:3px solid var(--green);border-radius:5px;padding:24px;background:#fff}
+  .reader-report-label{font-size:11px;letter-spacing:.1em}
+  .reader-report h2{font-size:22px;font-weight:650;line-height:1.55}
+  .reader-report-content p,.reader-report-content li{font-size:16px;line-height:1.9}
+  .reader-report-note{font-size:12px}
+  .reader-report-open{border-radius:4px;font-size:13px;background:#f7f9f3;border-color:#cad7c2}
+  .reader-guidance{padding:16px 20px;border-radius:5px;background:#f6f8f1}
+  .reader-nav,.reader-evidence{border-radius:5px;padding:22px;background:#fff}
+  .reader-evidence{background:#f0f5e9}
+  .reader-evidence .detail-proof-note{border:0;border-left:2px solid #a5bb96;border-radius:0;background:transparent;padding:8px 12px}
+  .reader-jump{border-radius:4px;background:#f7f9f3;border-color:#d4dfca}
+  .reader-jump strong{font-weight:600}
+  .research-details{border-radius:5px;padding:20px 24px}
+  .research-details .markdown p,.research-details .markdown li{font-size:16px;line-height:1.95}
+  .research-details .markdown h2{font-size:24px;font-weight:650;line-height:1.55;margin-top:36px}
+  .research-details .markdown h3{font-size:19px;line-height:1.6}
+  .related-cases h2{font-size:23px;font-weight:650}
+  .related-list li{padding:22px 0}
+  @media(max-width:640px){
+    #detail{width:calc(100% - 20px);max-height:94vh;border-radius:7px}
+    #detail-body{padding:22px 20px 30px}
+    #detail-title{font-size:25px;line-height:1.55;margin:16px 0 20px}
+    .detail-toolbar{padding:8px 12px}
+    .plain-overview{padding:18px 0;margin:18px 0 22px}
+    .plain-overview p{font-size:16px;line-height:1.85}
+    .reader-report{padding:20px 16px}
+    .reader-report h2{font-size:20px}
+    .reader-report-content p,.reader-report-content li{font-size:15px;line-height:1.9}
+    .reader-nav,.reader-evidence{padding:18px 16px}
+    .research-details{padding:16px}
+    .research-details .markdown p,.research-details .markdown li{font-size:15px;line-height:1.9}
+    .research-details .markdown h2{font-size:22px}
+  }
+  @media(max-width:360px){
+    #detail-body{padding:18px 16px 26px}
+    #detail-title{font-size:23px}
+    .reader-report,.research-details{padding:16px 12px}
+  }
 }

@@ -14,7 +14,6 @@ const css = fs.readFileSync(path.join(__dirname, '../assets/style.css'), 'utf8')
 const appJs = fs.readFileSync(path.join(__dirname, '../assets/app.js'), 'utf8');
 const searchSubmitCjs = fs.readFileSync(path.join(__dirname, 'search-submit-browser.cjs'), 'utf8');
 const loadRecoveryCjs = fs.readFileSync(path.join(__dirname, 'load-recovery-live.cjs'), 'utf8');
-const cardRefinementWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/card-refinement-qa.yml'), 'utf8');
 const combinedRecoveryWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/combined-recovery-qa.yml'), 'utf8');
 const relevanceWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/relevance-qa.yml'), 'utf8');
 const submitWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/search-submit-qa.yml'), 'utf8');
@@ -61,58 +60,29 @@ test('published checks allow the observed 11m38s Pages deployment to finish', ()
       label: 'corpus',
       workflow: '../.github/workflows/corpus-qa.yml',
       source: 'corpus-browser.cjs',
-      attempts: /attempt<(\d+)/,
-      interval: /setTimeout\(resolve,\s*(\d+)\)/,
-      expectedMs: 900000
+      shared: true
     },
-    {
-      label: 'relevance',
-      workflow: '../.github/workflows/relevance-qa.yml',
-      source: '../.github/workflows/relevance-qa.yml',
-      attempts: /attempt<(\d+)/,
-      interval: /setTimeout\(resolve,\s*(\d+)\)/,
-      expectedMs: 900000
-    },
-    {
-      label: 'print',
-      workflow: '../.github/workflows/print-reading-qa.yml',
-      source: '../.github/workflows/print-reading-qa.yml',
-      attempts: /for\(let i=0;i<(\d+);i\+\+\)/,
-      interval: /setTimeout\(resolve,\s*(\d+)\)/,
-      expectedMs: 900000
-    },
-    {
-      label: 'missing case',
-      workflow: '../.github/workflows/missing-case-qa.yml',
-      source: '../.github/workflows/missing-case-qa.yml',
-      attempts: /for\(let i=0;i<(\d+);i\+\+\)/,
-      interval: /setTimeout\(r,\s*(\d+)\)/,
-      expectedMs: 900000
-    },
-    {
-      label: 'return visibility',
-      workflow: '../.github/workflows/return-visibility-qa.yml',
-      source: 'return-visibility-browser.cjs',
-      attempts: /attempt<(\d+)/,
-      interval: /setTimeout\(resolve,\s*(\d+)\)/,
-      expectedMs: 900000,
-      terminalAttempt: /attempt===(\d+)\)throw/
-    }
   ];
   for (const gate of gates) {
     const source = fs.readFileSync(path.join(__dirname, gate.source), 'utf8');
-    const attemptsMatch = source.match(gate.attempts);
-    const intervalMatch = source.match(gate.interval);
-    assert.ok(attemptsMatch, `${gate.label} published check must have a bounded deadline`);
-    assert.ok(intervalMatch, `${gate.label} published check must have a retry interval`);
-    const budgetMs = gate.label === 'partial load'
-      ? Number(attemptsMatch[1])
-      : (Number(attemptsMatch[1]) - 1) * Number(intervalMatch[1]);
-    assert.ok(budgetMs >= gate.expectedMs, `${gate.label} published check must cover 15 minutes`);
-    if (gate.terminalAttempt) {
-      const terminalMatch = source.match(gate.terminalAttempt);
-      assert.ok(terminalMatch, `${gate.label} must fail after its final poll`);
-      assert.equal(Number(terminalMatch[1]), Number(attemptsMatch[1]) - 1, `${gate.label} timeout must not skip the final poll`);
+    if (gate.shared) {
+      assert.match(source, /await waitForPublishedAssets\(/, `${gate.label} must use the shared deadline`);
+      const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+      assert.ok(PUBLICATION_TIMEOUT_MS>=45*60*1000, `${gate.label} must cover delayed publication`);
+    } else {
+      const attemptsMatch = source.match(gate.attempts);
+      const intervalMatch = source.match(gate.interval);
+      assert.ok(attemptsMatch, `${gate.label} published check must have a bounded deadline`);
+      assert.ok(intervalMatch, `${gate.label} published check must have a retry interval`);
+      const budgetMs = gate.label === 'partial load'
+        ? Number(attemptsMatch[1])
+        : (Number(attemptsMatch[1]) - 1) * Number(intervalMatch[1]);
+      assert.ok(budgetMs >= gate.expectedMs, `${gate.label} published check must cover 15 minutes`);
+      if (gate.terminalAttempt) {
+        const terminalMatch = source.match(gate.terminalAttempt);
+        assert.ok(terminalMatch, `${gate.label} must fail after its final poll`);
+        assert.equal(Number(terminalMatch[1]), Number(attemptsMatch[1]) - 1, `${gate.label} timeout must not skip the final poll`);
+      }
     }
     const workflow = fs.readFileSync(path.join(__dirname, gate.workflow), 'utf8');
     const publishedJob = ['corpus', 'return visibility'].includes(gate.label)
@@ -124,59 +94,28 @@ test('published checks allow the observed 11m38s Pages deployment to finish', ()
   }
 });
 
-test('card-refinement published verification covers observed Pages deployment latency', () => {
-  const pollMatch = cardRefinementWorkflow.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
-  const delayMatch = cardRefinementWorkflow.match(/setTimeout\(\s*(?:resolve|r)\s*,\s*(\d+)\s*\)/);
-  assert.ok(pollMatch, 'card-refinement-qa.yml must contain a bounded published-asset poll');
-  assert.ok(delayMatch, 'card-refinement-qa.yml must bound the interval between asset checks');
-  assert.ok(Number(pollMatch[1]) >= 450, 'poll must allow at least 15 minutes for Pages assets');
-  assert.ok(Number(pollMatch[1]) * Number(delayMatch[1]) >= 900000, 'poll attempts and interval together must allow at least 15 minutes');
-
-  const timeoutMatch = cardRefinementWorkflow.match(/timeout-minutes:\s*(\d+)/);
-  assert.ok(timeoutMatch, 'card-refinement-qa.yml must bound its job duration');
-  assert.ok(Number(timeoutMatch[1]) >= 25, 'job timeout must cover setup plus the published-asset poll');
-});
 
 
-test('combined recovery published verification covers observed Pages deployment latency', () => {
-  const pollMatch = combinedRecoveryWorkflow.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
-  const delayMatch = combinedRecoveryWorkflow.match(/setTimeout\(\s*(?:resolve|r)\s*,\s*(\d+)\s*\)/);
-  assert.ok(pollMatch, 'combined-recovery-qa.yml must contain a bounded published-asset poll');
-  assert.ok(delayMatch, 'combined-recovery-qa.yml must bound the interval between asset checks');
-  assert.ok(Number(pollMatch[1]) >= 300, 'poll must allow at least 15 minutes for Pages assets');
-  assert.ok(Number(pollMatch[1]) * Number(delayMatch[1]) >= 900000, 'poll attempts and interval together must allow at least 15 minutes');
-
-  const timeoutMatch = combinedRecoveryWorkflow.match(/timeout-minutes:\s*(\d+)/);
-  assert.ok(timeoutMatch, 'combined-recovery-qa.yml must bound its job duration');
-  assert.ok(Number(timeoutMatch[1]) >= 25, 'job timeout must cover setup plus the published-asset poll');
+test('combined recovery published verification reuses the shared bounded gate', () => {
+  assert.match(combinedRecoveryWorkflow, /waitForPublishedAssets/);
+  const timeout = Number(combinedRecoveryWorkflow.match(/timeout-minutes:\s*(\d+)/)[1]);
+  assert.ok(timeout >= 55, 'job must cover publication waiting plus preview and live journeys');
 });
 
 
 test('GitHub Actions workflows provide sufficient polling window for Pages deployment', () => {
-  const relevanceMatch = relevanceWorkflow.match(/attempt\s*<\s*(\d+)/);
-  assert.ok(relevanceMatch, 'relevance-qa.yml must contain attempt loop');
-  assert.ok(parseInt(relevanceMatch[1], 10) >= 140, 'relevance-qa.yml should poll at least 140 attempts');
+  assert.match(relevanceWorkflow, /waitForPublishedAssets/, 'relevance must reuse the shared deadline');
 
   const submitMatch = submitWorkflow.match(/range\((\d+)\)/);
   assert.ok(submitMatch, 'search-submit-qa.yml must contain attempt range');
   assert.ok(parseInt(submitMatch[1], 10) >= 120, 'search-submit-qa.yml should poll at least 120 attempts');
 });
 
-test('published-version.cjs covers observed Pages deployment latency (>= 300 attempts / 15 minutes)', () => {
-  const publishedVersionCjs = fs.readFileSync(path.join(__dirname, 'published-version.cjs'), 'utf8');
-  const pollMatch = publishedVersionCjs.match(/attempt\s*<\s*(\d+)/);
-  assert.ok(pollMatch, 'published-version.cjs must contain bounded attempt loop');
-  assert.ok(Number(pollMatch[1]) >= 300, 'published-version.cjs should poll at least 300 attempts');
-});
 
-test('related reading published verification allows at least 180 five-second polls', () => {
+test('related reading waits for all live assets in one bounded publication round', () => {
   const source = fs.readFileSync(path.join(__dirname, 'related-browser.cjs'), 'utf8');
-  const pollMatch = source.match(/for\s*\(let i=0;i<(\d+);i\+\+\)/);
-  const intervalMatch = source.match(/setTimeout\(\s*r\s*,\s*(\d+)\s*\)/);
-  assert.ok(pollMatch, 'related-browser.cjs must contain a bounded published-asset poll');
-  assert.ok(Number(pollMatch[1]) >= 180, 'related reading must poll at least 180 times');
-  assert.ok(intervalMatch, 'related reading must define its polling interval');
-  assert.ok(Number(pollMatch[1]) * Number(intervalMatch[1]) >= 900000, 'related reading must allow at least 15 minutes for Pages assets');
+  assert.match(source, /await waitForPublishedAssets/);
+  assert.match(source, /files:\['assets\/app\.js','assets\/reader\.css'\]/);
 });
 
 test('related-qa.yml allows at least 25 minutes for setup and published verification', () => {

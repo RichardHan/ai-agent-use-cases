@@ -18,7 +18,10 @@ const reports=[];fs.mkdirSync(out,{recursive:true});const save=()=>fs.writeFileS
  await page.locator('#filter-summary').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/${observe?'before':'after'}-${engine.name()}-${width}.png`});
  row.summary=await page.locator('#filter-summary').innerText();row.resetCount=await resetSort.count();save();
  if(observe){await browser.close();continue;}
- assert.match(row.summary,/未設定篩選.*頁首最近核對/s);assert(await resetSort.isVisible());assert((await resetSort.boundingBox()).height>=44);
+ assert.match(row.summary,/未設定篩選.*頁首最近核對/s);assert(await resetSort.isVisible());
+ // Firefox protocol coordinates can subtract to 43.99997 for a 44px box.
+ // Measure the DOM rectangle directly and retain the exact 44px contract.
+ row.resetSize=await resetSort.evaluate(node=>({height:node.getBoundingClientRect().height,minHeight:getComputedStyle(node).minHeight}));save();assert(row.resetSize.height>=44);
  assert.match(await page.locator('#search-order-note').innerText(),/不是發布日.*不代表新增或獨立驗證/);
  await resetSort.scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/after-action-${engine.name()}-${width}.png`});await audit('reviewed');
  const before=await state();await resetSort.focus();await page.keyboard.press('Enter');assert.deepEqual(await state(),before);

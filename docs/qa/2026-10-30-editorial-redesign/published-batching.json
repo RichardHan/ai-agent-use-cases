@@ -1,0 +1,28 @@
+[
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 119.890625,
+      "bottom": 185.890625,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  },
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "errors": [],
+    "firstBatch": {
+      "focused": true,
+      "top": 122.953125,
+      "bottom": 166.953125,
+      "height": 844
+    },
+    "passed": true,
+    "total": 467
+  }
+]

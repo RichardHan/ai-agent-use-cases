@@ -6,7 +6,7 @@ const load=context.api.loadInitialCorpus;
 const paths=['cases/001-one.md','cases/002-two.md','sources/pending.md'];
 const texts=['one','two','pending'];
 const json=(sources=paths.map((path,i)=>({path,markdown:texts[i]})),revision='r1')=>({version:1,revision,sources});
-const response=value=>({ok:true,json:async()=>value,text:async()=>value});
+const response=value=>({ok:true,json:async()=>value,text:async()=>value,clone(){return response(value);}});
 const parse=(path,text)=>[{path,text,id:text}];
 const options=extra=>({bundleRevision:'r1',parseFile:parse,budget:1000,...extra});
 const stalled=signal=>new Promise((resolve,reject)=>{if(signal.aborted)reject(Error('abort'));else signal.addEventListener('abort',()=>reject(Error('abort')),{once:true});});
@@ -14,6 +14,84 @@ const stalled=signal=>new Promise((resolve,reject)=>{if(signal.aborted)reject(Er
 test('one bundle replaces every source request without altering source text or order',async()=>{
  const calls=[],progress=[];const result=await load(paths,options({fetch:async path=>{calls.push(path);return response(json());},onProgress:p=>progress.push({...p})}));
  assert.deepEqual(calls,['corpus.json']);assert.deepEqual(Array.from(result.entries,e=>[e.path,e.text]),paths.map((p,i)=>[p,texts[i]]));assert.deepEqual(Array.from(result.failed),[]);assert.equal(progress.at(-1).succeeded,3);
+});
+test('a slow but successful bundle avoids a costly per-source fallback',async()=>{
+ const calls=[];
+ const result=await load(paths,{bundleRevision:'r1',parseFile:parse,budget:8000,fetch:async(path,opt)=>{
+  calls.push(path);
+  if(path!=='corpus.json')return response(texts[paths.indexOf(path)]);
+  await new Promise((resolve,reject)=>{
+   const timer=setTimeout(resolve,2700);
+   opt.signal.addEventListener('abort',()=>{clearTimeout(timer);reject(Error('abort'));},{once:true});
+  });
+  return response(json());
+ }});
+ assert.deepEqual(calls,['corpus.json']);
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+ assert.deepEqual(Array.from(result.failed),[]);
+});
+test('validated corpus is reused on same-revision reload and never across revisions',async()=>{
+ const stored=new Map(),calls=[];
+ context.location={href:'https://example.test/ai-agent-use-cases/'};
+ context.caches={open:async()=>({
+  match:async key=>stored.get(key),
+  put:async(key,value)=>{stored.set(key,value);},
+  keys:async()=>[...stored.keys()].map(key=>({url:new URL(key,context.location.href).href,key})),
+  delete:async key=>stored.delete(key.key||key)
+ })};
+ const fetchBundle=async path=>{calls.push(path);return response({...json(undefined,'r1'),sourceRevision:'source-1'});};
+ try {
+  await load(paths,options({sourceRevision:'source-1',fetch:fetchBundle}));
+  await load(paths,options({sourceRevision:'source-1',fetch:fetchBundle}));
+  assert.deepEqual(calls,['corpus.json'],'reload should not request the unchanged bundle');
+  const changed=await load(paths,options({bundleRevision:'r2',sourceRevision:'source-2',fetch:async path=>{calls.push(path);return response({...json(undefined,'r2'),sourceRevision:'source-2'});}}));
+  assert.deepEqual(calls,['corpus.json','corpus.json']);
+  assert.deepEqual(Array.from(changed.entries,e=>e.text),texts);
+  await load(paths,options({bundleRevision:'r3',sourceRevision:'source-3',fetch:async()=>response({...json(undefined,'r3'),sourceRevision:'source-3'})}));
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(stored.size,2,'older revisions must not accumulate without bound');
+ } finally {delete context.caches;delete context.location;}
+});
+test('corrupt cached corpus is discarded and network bundle restores the search corpus',async()=>{
+ const stored=new Map(),calls=[];
+ context.caches={open:async()=>({
+  match:async key=>stored.get(key),
+  put:async(key,value)=>{stored.set(key,value);},
+  delete:async key=>stored.delete(key)
+ })};
+ try {
+  await load(paths,options({sourceRevision:'source-1',fetch:async path=>{calls.push(path);return response({...json(),sourceRevision:'source-1'});}}));
+  const key=[...stored.keys()][0];
+  stored.set(key,response({...json([], 'r1'),sourceRevision:'source-1'}));
+  const result=await load(paths,options({sourceRevision:'source-1',fetch:async path=>{calls.push(path);return response({...json(),sourceRevision:'source-1'});}}));
+  assert.deepEqual(calls,['corpus.json','corpus.json']);
+  assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+ } finally {delete context.caches;}
+});
+test('stalled cache access and persistence cannot delay a readable bundle',async()=>{
+ const never=new Promise(()=>{});
+ for(const mode of ['open','match','put']){
+  context.caches={open:()=>mode==='open'?never:Promise.resolve({
+   match:()=>mode==='match'?never:Promise.resolve(),
+   put:()=>mode==='put'?never:Promise.resolve(),
+   keys:async()=>[],
+   delete:async()=>true
+  })};
+  try {
+   const started=Date.now();
+   const result=await load(paths,options({bundleTimeout:300,budget:500,sourceRevision:'source-1',fetch:async()=>response({...json(),sourceRevision:'source-1'})}));
+   assert.equal(result.entries.length,3,mode);
+   assert(Date.now()-started<450,mode+' delayed the bundle');
+  } finally {delete context.caches;}
+ }
+});
+test('cache wait cannot extend a short whole-load budget',async()=>{
+ context.caches={open:()=>new Promise(()=>{})};
+ try {
+  const started=Date.now();
+  await load(paths,options({budget:30,bundleTimeout:100,fetch:async()=>response(json())}));
+  assert(Date.now()-started<90,'cache read outlived whole-load deadline');
+ } finally {delete context.caches;}
 });
 test('only version-matched bundled sources claim the publication commit',async()=>{
  const sha='a'.repeat(40);

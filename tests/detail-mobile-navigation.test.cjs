@@ -180,6 +180,36 @@ test('detail source link has descriptive desktop and mobile labels, target _blan
   assert.match(sourceVersionNote.textContent, /尚未核對.*發布版本/, 'unverified source explains why external navigation is unavailable');
   assert.equal(sourceLink.getAttribute('href'), null, 'unverified source must not navigate to mutable main');
   assert.equal(sourceLink.getAttribute('aria-disabled'), 'true');
+  const latest = detailBody.querySelector('.detail-source-latest');
+  assert.ok(latest, 'fallback must offer an explicitly unverified source route');
+  assert.equal(latest.href, 'https://github.com/RichardHan/ai-agent-use-cases/blob/main/cases/001-travel.md');
+  assert.match(latest.textContent, /最新版本.*可能不同/);
+  assert.equal(latest.target, '_blank');
+  assert.equal(latest.rel, 'noopener noreferrer');
+});
+
+test('verified source replaces a focused latest-version link without losing keyboard focus', () => {
+  const { context, document } = setupDom();
+  const sample = {
+    id: 'UC-001', title: '旅行比價', path: 'cases/001-travel.md',
+    markdown: '# UC-001\n\n## 介紹\n測試內容。', kind: 'case',
+    scenario: '生活', proof: '公開資料核讀'
+  };
+  context.showDetail(sample, null, false);
+  const body = document.getElementById('detail-body');
+  const latest = body.querySelector('.detail-source-latest');
+  const source = body.querySelector('.detail-source');
+  document.querySelector = selector => selector === '#detail[open]' ? document.getElementById('detail') : selector === '#detail-body' ? body : null;
+  source.focus = () => { document.activeElement = source; };
+  document.activeElement = latest;
+  context.pinSourcePaths([sample.path], 'a'.repeat(40));
+  context.refreshCurrentSourceLinks(sample.path);
+  assert.equal(document.activeElement, source);
+  assert.equal(latest.hidden, true);
+  assert.match(source.href, /blob\/a{40}\/cases\/001-travel\.md$/);
+  assert.match(source.getAttribute('aria-label'), /新分頁/);
+  assert.match(source.querySelector('.print-action-long').textContent, /新分頁/);
+  assert.match(source.querySelector('.print-action-short').textContent, /新分頁/);
 });
 
 test('detail header meta proof badge includes semantic role note and descriptive aria-label', () => {
@@ -234,23 +264,3 @@ test('reader.css provides distinct left border accents and responsive wrapping f
   assert.match(readerCss, /\.detail-proof-note\s*\{[^}]*flex-wrap:\s*wrap/, 'detail-proof-note must support wrapping');
 });
 
-test('hardened GitHub Actions workflows feature in-loop superseded-main checks and accurate error messages', () => {
-  const workflowsDir = path.join(__dirname, '../.github/workflows');
-  const recencyYml = fs.readFileSync(path.join(workflowsDir, 'recency-qa.yml'), 'utf8');
-  const combinedYml = fs.readFileSync(path.join(workflowsDir, 'combined-recovery-qa.yml'), 'utf8');
-  const roundYml = fs.readFileSync(path.join(workflowsDir, 'round-qa.yml'), 'utf8');
-  const refinementYml = fs.readFileSync(path.join(workflowsDir, 'card-refinement-qa.yml'), 'utf8');
-  const controlsYml = fs.readFileSync(path.join(workflowsDir, 'reader-controls-qa.yml'), 'utf8');
-
-  // Verify in-loop superseded check
-  for (const [name, yml] of Object.entries({ recencyYml, combinedYml, roundYml, refinementYml, controlsYml })) {
-    assert.match(yml, /isCurrentMainCommit\(process\.env\.GITHUB_SHA\)/, `${name} must include isCurrentMainCommit`);
-    assert.match(yml, /(attempt|i)\s*%\s*15\s*===\s*0/, `${name} must check superseded commit inside polling loop`);
-  }
-
-  // Verify accurate timeout messages
-  assert.match(recencyYml, /within 25 minutes \(301 attempts\)/, 'recency-qa.yml must report 25 minutes / 301 attempts');
-  assert.doesNotMatch(recencyYml, /within eight minutes/, 'recency-qa.yml must not contain obsolete eight minutes text');
-  assert.match(combinedYml, /after 501 attempts/, 'combined-recovery-qa.yml must report 501 attempts');
-  assert.match(recencyYml, /SKIP_PUBLISHED_BROWSER_CHECK superseded or unverifiable main commit/, 'recency-qa.yml must gate live browser step with freshness check');
-});

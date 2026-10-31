@@ -10,7 +10,7 @@ permissions:
 jobs:
   relevance:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 65
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,24 +55,10 @@ jobs:
           RELEVANCE_LIVE: '1'
         run: |
           node <<'NODE'
-          const fs=require('node:fs');
-          const {isCurrentMainCommit}=require('./scripts/published-check.cjs');
-          (async()=>{
-          if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            const base='https://richardhan.github.io/ai-agent-use-cases/';
-            const files=['index.html','assets/app.js','assets/style.css'];
-            for(let attempt=0;attempt<451;attempt++){
-              const actual=await Promise.all(files.map(async file=>{
-                const r=await fetch(base+(file==='index.html'?'':file)+'?relevance='+process.env.GITHUB_SHA,{cache:'no-store'});
-                return r.ok?await r.text():'';
-              }));
-              if(actual.every((content,i)=>content===fs.readFileSync(files[i],'utf8'))){console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);return;}
-              if(attempt>0&&attempt%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-              await new Promise(resolve=>setTimeout(resolve,2000));
-            }
-            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published assets do not match this commit');
-          })().catch(error=>{console.error(error);process.exitCode=1});
+          const {waitForPublishedAssets}=require('./scripts/published-assets.cjs');
+          waitForPublishedAssets({base:process.env.RELEVANCE_URL,sha:process.env.GITHUB_SHA,files:['index.html','assets/app.js','assets/style.css']})
+            .then(result=>console.log(result==='matched'?'PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA:'SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA))
+            .catch(error=>{console.error(error);process.exitCode=1});
           NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
             :

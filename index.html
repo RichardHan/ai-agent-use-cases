@@ -8,7 +8,13 @@
 <div class="discovery-layout"><section class="discovery-hero" aria-labelledby="welcome-title">
   <p class="eyebrow">從一件你想做的事開始</p>
   <h1 id="welcome-title">今天，想讓 AI<br><em>幫你哪件事？</em></h1>
-  <p class="intro">選個情境，抽一張別人的用法。覺得有意思，再看怎麼做。</p>
+  <p class="intro">從工作到生活，找到可以參考的 AI 做法。<br>先看能解決什麼，再讀方法、限制與來源。</p>
+  <div class="hero-search-actions"><a class="hero-search-link" href="#explore" data-search-entry>直接搜尋案例 <span aria-hidden="true">→</span></a><a id="recent-entry" class="recent-entry" href="?sort=reviewed#explore">最近核對的內容 →</a></div>
+  <div class="hero-task-directory">
+  <nav class="hero-task-examples" aria-label="從任務搜尋案例"><span>從一個任務開始</span><a data-task-entry href="?q=旅遊#explore">旅遊規劃</a><a data-task-entry href="?q=收件匣#explore">收件匣與郵件</a><a data-task-entry href="?q=比價#explore">比價省錢</a></nav>
+  <nav class="hero-problem-tags" aria-label="常見問題快捷探索"><span class="sr-only">更多工作任務：</span><a class="problem-tag" href="?q=日報#explore">日報整理</a><a class="problem-tag" href="?q=會議#explore">會議整理</a><a class="problem-tag" href="?q=客服#explore">自動客服</a><a class="problem-tag" href="?q=代碼審查#explore">代碼審查（PR）</a><a class="problem-tag" href="?q=發票#explore">發票對帳</a><a class="problem-tag" href="?q=除錯#explore">除錯修復</a><a class="problem-tag" href="?q=論文#explore">論文資料</a></nav>
+  </div>
+  <p class="hero-index-fallback">載入較慢時，可先<a href="INDEX.html">在本站閱讀完整案例索引 →</a>；需要原始 Markdown 時再<a href="https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md">前往 GitHub ↗</a>。索引不提供本站的全文搜尋與篩選。</p>
   <div class="hero-value-props" aria-label="本站特色與收錄原則">
     <div class="value-prop-item">
       <strong class="value-prop-title">公開案例與研究筆記</strong>
@@ -30,31 +36,11 @@
     <span class="guide-step-arrow" aria-hidden="true">→</span>
     <span class="guide-step"><span class="step-num">3</span> 看做法與限制</span>
   </div>
-  <div class="hero-search-actions"><a class="hero-search-link" href="#explore" data-search-entry>直接搜尋案例 <span aria-hidden="true">→</span></a><a id="recent-entry" class="recent-entry" href="?sort=reviewed#explore">最近核對的內容 →</a></div>
-  <nav class="hero-task-examples" aria-label="從任務搜尋案例"><span>也可以直接找任務：</span><a data-task-entry href="?q=旅遊#explore">旅遊規劃</a><a data-task-entry href="?q=收件匣#explore">收件匣與郵件</a><a data-task-entry href="?q=比價#explore">比價省錢</a></nav>
-  <nav class="hero-problem-tags" aria-label="常見問題快捷探索"><span>常見痛點：</span><a class="problem-tag" href="?q=日報#explore">日報整理</a><a class="problem-tag" href="?q=會議#explore">會議整理</a><a class="problem-tag" href="?q=客服#explore">自動客服</a><a class="problem-tag" href="?q=代碼審查#explore">代碼審查（PR）</a><a class="problem-tag" href="?q=發票#explore">發票對帳</a><a class="problem-tag" href="?q=除錯#explore">除錯修復</a><a class="problem-tag" href="?q=研究#explore">論文資料</a></nav>
-  <fieldset id="guide-options" class="guide-options" disabled>
-    <legend class="sr-only">第一步：選擇你想探索的情境</legend>
-    <button type="button" data-scenario="" aria-pressed="true"><strong>隨便逛逛</strong><span>給我一點靈感</span></button>
-    <button type="button" data-scenario="生活" aria-pressed="false"><strong>生活大小事</strong><span>旅行、家庭、日常安排</span></button>
-    <button type="button" data-scenario="工作" aria-pressed="false"><strong>工作省點力</strong><span>郵件、客服、營運</span></button>
-    <button type="button" data-scenario="省錢" aria-pressed="false"><strong>精打細算</strong><span>帳單、比價、訂閱</span></button>
-    <button type="button" data-scenario="學習" aria-pressed="false"><strong>學點新東西</strong><span>自學、研究、查資料</span></button>
-    <button type="button" data-scenario="創作" aria-pressed="false"><strong>做出點作品</strong><span>影片、貼文、設計</span></button>
-    <button type="button" data-scenario="開發" aria-pressed="false"><strong>寫程式與修問題</strong><span>開發、測試、代理協作</span></button>
-  </fieldset>
+
 </section>
 <section id="discover" class="discovery-stage" aria-labelledby="draw-title">
-  <div class="draw-heading"><div><p class="eyebrow">一張卡，一個可以深入的想法</p><h2 id="draw-title">先看看這個用法</h2></div><span class="draw-symbol" aria-hidden="true">✳</span></div>
-  <div class="draw-difficulty-bar" id="draw-difficulty-options" role="group" aria-label="依實作門檻抽卡">
-    <span class="draw-difficulty-label">實作門檻：</span>
-    <div class="draw-difficulty-buttons">
-      <button type="button" class="draw-diff-btn" data-difficulty="" aria-pressed="true">全部門檻</button>
-      <button type="button" class="draw-diff-btn" data-difficulty="入門對話" aria-pressed="false">免寫程式</button>
-      <button type="button" class="draw-diff-btn" data-difficulty="工具串接" aria-pressed="false">需帳號/外掛</button>
-      <button type="button" class="draw-diff-btn" data-difficulty="進階開發" aria-pressed="false">需代碼環境</button>
-    </div>
-  </div>
+  <div class="draw-heading"><div><p class="eyebrow">THE OPEN NOTE · 隨機案例</p><h2 id="draw-title">先看看這個用法</h2></div><span class="draw-symbol" aria-hidden="true">✳</span></div>
+  <div id="drawn-case" class="drawn-case" aria-busy="true"><p class="draw-placeholder">讀取完成後，就能開始探索。</p></div>
   <div class="draw-actions"><button id="draw-case" class="primary-button" type="button" disabled>抽一張靈感</button><a href="#explore" data-search-entry>我想自己找 →</a></div>
   <p id="draw-status" class="draw-status" role="status" aria-live="polite">正在準備案例卡…</p>
   <div id="loading-progress" class="loading-progress" hidden>
@@ -64,10 +50,28 @@
     <p class="loading-hint">等候期間可以先輸入搜尋條件。若有來源等待過久，會先顯示已讀取內容，稍後可補讀。</p>
     <button id="use-loaded" type="button" disabled>先看已讀取內容</button>
   </div>
-  <div id="drawn-case" class="drawn-case" aria-busy="true"><p class="draw-placeholder">讀取完成後，就能開始探索。</p></div>
+  <div class="draw-difficulty-bar" id="draw-difficulty-options" role="group" aria-label="依實作門檻抽卡">
+    <span class="draw-difficulty-label">實作門檻：</span>
+    <div class="draw-difficulty-buttons">
+      <button type="button" class="draw-diff-btn" data-difficulty="" aria-pressed="true">全部門檻</button>
+      <button type="button" class="draw-diff-btn" data-difficulty="入門對話" aria-pressed="false">免寫程式</button>
+      <button type="button" class="draw-diff-btn" data-difficulty="工具串接" aria-pressed="false">需帳號/外掛</button>
+      <button type="button" class="draw-diff-btn" data-difficulty="進階開發" aria-pressed="false">需代碼環境</button>
+    </div>
+  </div>
   <p class="draw-note">隨機探索公開案例，並非人氣排名；本庫未獨立重現。待查想法與模板補充可在下方搜尋。</p>
+  <fieldset id="guide-options" class="guide-options" disabled>
+    <legend>換個情境，再找一點靈感</legend>
+    <button type="button" data-scenario="" aria-pressed="true"><strong>隨便逛逛</strong><span>給我一點靈感</span></button>
+    <button type="button" data-scenario="生活" aria-pressed="false"><strong>生活大小事</strong><span>旅行、家庭、日常安排</span></button>
+    <button type="button" data-scenario="工作" aria-pressed="false"><strong>工作省點力</strong><span>郵件、客服、營運</span></button>
+    <button type="button" data-scenario="省錢" aria-pressed="false"><strong>精打細算</strong><span>帳單、比價、訂閱</span></button>
+    <button type="button" data-scenario="學習" aria-pressed="false"><strong>學點新東西</strong><span>自學、研究、查資料</span></button>
+    <button type="button" data-scenario="創作" aria-pressed="false"><strong>做出點作品</strong><span>影片、貼文、設計</span></button>
+    <button type="button" data-scenario="開發" aria-pressed="false"><strong>寫程式與修問題</strong><span>開發、測試、代理協作</span></button>
+  </fieldset>
 </section>
-</div><section id="explore" class="explore"><div class="section-head"><div><p class="eyebrow">EXPLORE THE COLLECTION</p><h2 id="search-title" tabindex="-1">有方向了？自己找找看。</h2></div><span id="updated" class="muted"></span></div>
+</div><section id="explore" class="explore"><div class="section-head"><div><p class="eyebrow">EXPLORE THE COLLECTION</p><h2 id="search-title" tabindex="-1">找到適合你的做法。</h2></div><span id="updated" class="muted"></span></div>
 <section id="missing-case" class="missing-case" aria-labelledby="missing-case-title" hidden><div><p class="eyebrow">分享連結未能開啟</p><h3 id="missing-case-title" tabindex="-1">找不到這個案例</h3><p id="missing-case-message" role="status" aria-live="polite" aria-atomic="true"></p><p>你仍可搜尋其他案例；原有關鍵字與篩選已保留。</p></div><button id="dismiss-missing-case" type="button">回到搜尋</button></section>
 <form id="filters" role="search"><label class="search-label" for="query">搜尋全部案例內容</label><div class="search-wrap"><span aria-hidden="true">⌕</span><input id="query" name="q" type="search" placeholder="搜尋你想解決的問題，例如：旅遊、代碼審查、發票、每日報表…" autocomplete="off" aria-describedby="search-hint search-submit-hint"><kbd aria-hidden="true">/</kbd><button id="search-submit" class="primary-button" type="submit" aria-describedby="search-submit-hint" disabled>查看結果</button></div><p id="search-hint" class="search-hint">從想解決的問題出發，支援多詞同時符合（AND）；亦可搜尋工具、作法與限制。</p><p id="search-submit-hint" class="sr-only">結果會即時更新；按 Enter 或「查看結果」前往閱讀。</p><details id="filter-options" class="filter-options" open><summary id="filter-summary">篩選、排序與常用搜尋 <span id="filter-count">未設定篩選</span></summary><div class="filter-panel"><div class="filter-outcome"><span id="filter-outcome-count" role="status" aria-live="polite">正在讀取案例…</span><button id="filter-view-results" type="button" disabled>查看結果與調整建議 ↓</button></div><div class="scenario-chips" id="scenario-chips" role="toolbar" aria-label="依情境或常用搜尋快速探索">
   <div class="chips-row">
@@ -97,10 +101,10 @@
 </div>
 <p id="facet-count-hint" class="facet-count-hint">案例載入完成後，會顯示各選項的符合筆數。</p>
 <div class="filter-row"><label>使用情境<select id="scenario" name="scenario" aria-describedby="facet-count-hint"><option value="">全部情境</option><option>生活</option><option>工作</option><option>省錢</option><option>學習</option><option>創作</option><option>開發</option></select></label><label>收錄狀態<select id="kind" name="kind" aria-describedby="facet-count-hint"><option value="">全部狀態</option><option value="case">用法靈感</option><option value="evidence">經驗與踩坑</option><option value="pending">還在查證</option></select></label><label>實作門檻<select id="difficulty" name="difficulty" aria-describedby="facet-count-hint"><option value="">全部門檻（難易度）</option><option value="入門對話">入門對話（免寫程式）</option><option value="工具串接">工具串接（需帳號或外掛）</option><option value="進階開發">進階開發（需本機環境或代碼）</option></select></label><label>提及工具<select id="tool" name="tool" aria-describedby="facet-count-hint"><option value="">全部工具</option></select></label><label>主題分類<select id="category" name="category" aria-describedby="facet-count-hint"><option value="">全部分類</option></select></label><label>分享來自哪裡<select id="proof" name="proof" aria-describedby="facet-count-hint source-guide-summary source-type-note"><option value="">全部來源類型</option></select></label><label>結果排序<select id="sort" name="sort" aria-describedby="review-sort-description"><option value="">關鍵字符合優先</option><option value="reviewed">頁首最近核對</option></select></label><span id="review-sort-description" class="sr-only">核對日不是發布日或新增日期，也不代表獨立驗證；正文補充不計，未提供者排在後面。</span><button id="reset" type="button" class="reset">全部重設 ↺</button></div><details id="category-finder" class="category-finder"><summary>分類太多？依名稱找分類</summary><div class="category-finder-body"><label for="category-query">分類名稱包含</label><div class="category-finder-input"><input id="category-query" type="search" placeholder="例如：旅遊、研究、測試" autocomplete="off" aria-describedby="category-find-hint"><button id="clear-category-query" type="button">清空</button></div><p id="category-find-hint">只找分類名稱；點選下方分類才會套用。完整清單仍在上方「主題分類」。</p><p id="category-find-status" role="status" aria-live="polite">輸入字詞，縮小分類選項。</p><div id="category-matches" class="category-matches" role="group" aria-label="符合名稱的分類"></div></div></details></div></details></form>
-<div class="search-scope" hidden><label><input id="overview-only" type="checkbox" aria-describedby="scope-note">只看標題與用途命中</label><p id="scope-note">全文搜尋仍保留；勾選後只顯示搜尋字詞均出現在標題或用途的條目。文字命中不代表已實作或驗證。</p></div>
+<div class="search-scope" hidden><label><input id="overview-only" type="checkbox" aria-describedby="scope-note">只看標題、用途與痛點命中</label><p id="scope-note">全文搜尋仍保留；勾選後只顯示搜尋字詞均出現在標題、用途或解決痛點的條目。文字命中不代表已實作或驗證。</p></div>
 <div id="search-feedback" class="search-feedback" hidden><div class="search-feedback-heading"><p>目前條件 <span>・點選即可移除</span></p><button id="clear-facets" type="button" class="clear-facets">清除篩選，保留關鍵字</button></div><div id="active-filters" class="active-filters" role="group" aria-label="已套用的搜尋條件"></div></div>
 <section id="partial-load" class="partial-load" aria-labelledby="partial-title" hidden><div><h3 id="partial-title">部分來源尚未載入</h3><p id="partial-message"></p><progress id="recovery-progress" aria-label="補讀來源進度" max="1" value="0" hidden></progress></div><div class="recovery-actions"><button id="retry-failed" type="button">重試未載入來源</button><button id="stop-recovery" type="button" hidden>停止等待，使用已補回內容</button></div></section><p id="load-status" class="load-status" role="status" aria-live="polite"></p>
-<div class="results-heading"><p id="results-count" tabindex="-1" role="status" aria-live="polite">正在讀取案例…</p><button id="copy-search-link" class="copy-search-link" type="button" aria-describedby="search-share-status" disabled>複製搜尋連結 ↗</button></div><div class="search-share"><p id="search-share-status" role="status" aria-live="polite" aria-atomic="true"></p><input id="search-share-url" type="text" readonly hidden aria-label="搜尋分享網址，請手動複製" aria-describedby="search-share-status"></div><aside class="source-guidance" aria-label="來源判讀"><details id="source-guide"><summary id="source-guide-summary">來源標籤怎麼看 · 未獨立重現</summary><p id="source-type-note" role="status" aria-live="polite" aria-atomic="true">來源標籤不是獨立驗證。本庫未獨立重現，請核對原始報告與限制。</p><p>標籤依案例頁首文字整理，是來源摘要，不是可靠度排名。同篇後續補充的證據可能不同，請以各段原文與限制為準；本庫設計的流程或提示詞，也不等於作者原做法或實測成果。</p><dl id="source-type-definitions"></dl></details></aside><div id="search-order-controls" class="search-order-controls" hidden><p id="search-order-note" class="search-order-note" hidden>標題與用途優先；全文仍納入搜尋。排序不代表成果或證據可靠度。</p><button id="reset-sort" class="reset-sort" type="button" aria-label="恢復預設排序：關鍵字符合優先" hidden>恢復預設排序</button></div><div id="results" class="cards"></div><div id="empty" class="empty" hidden><span aria-hidden="true">⌕</span><h3>目前沒有符合的案例</h3><p id="empty-hint">試著減少關鍵字，或清除部分篩選條件。</p><div id="empty-suggestions" class="empty-suggestions" role="group" aria-label="保留其他條件的建議調整"></div><div class="empty-actions"><button id="edit-query" type="button">修改關鍵字</button><button id="empty-reset" type="button">清除全部條件，顯示所有條目</button></div></div><div id="error" class="empty" role="alert" aria-live="assertive" hidden><h3>案例暫時無法完整載入</h3><p id="error-message"></p><button type="button" id="retry">重新載入</button> <a href="https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md">先讀 GitHub 索引 ↗</a></div>
+<div class="results-heading"><p id="results-count" tabindex="-1" role="status" aria-live="polite">正在讀取案例…</p><button id="copy-search-link" class="copy-search-link" type="button" aria-describedby="search-share-status" disabled>複製搜尋連結 ↗</button></div><div class="search-share"><p id="search-share-status" role="status" aria-live="polite" aria-atomic="true"></p><input id="search-share-url" type="text" readonly hidden aria-label="搜尋分享網址，請手動複製" aria-describedby="search-share-status"></div><aside class="source-guidance" aria-label="來源判讀"><details id="source-guide"><summary id="source-guide-summary">來源標籤怎麼看 · 未獨立重現</summary><p id="source-type-note" role="status" aria-live="polite" aria-atomic="true">來源標籤不是獨立驗證。本庫未獨立重現，請核對原始報告與限制。</p><p>標籤依案例頁首文字整理，是來源摘要，不是可靠度排名。同篇後續補充的證據可能不同，請以各段原文與限制為準；本庫設計的流程或提示詞，也不等於作者原做法或實測成果。</p><dl id="source-type-definitions"></dl></details></aside><div id="search-order-controls" class="search-order-controls" hidden><p id="search-order-note" class="search-order-note" hidden>標題與用途優先；全文仍納入搜尋。排序不代表成果或證據可靠度。</p><button id="reset-sort" class="reset-sort" type="button" aria-label="恢復預設排序：關鍵字符合優先" hidden>恢復預設排序</button></div><div id="results" class="cards"></div><div id="empty" class="empty" hidden><span aria-hidden="true">⌕</span><h3>目前沒有符合的案例</h3><p id="empty-hint">試著減少關鍵字，或清除部分篩選條件。</p><div id="empty-suggestions" class="empty-suggestions" role="group" aria-label="保留其他條件的建議調整"></div><div class="empty-actions"><button id="edit-query" type="button">修改關鍵字</button><button id="empty-reset" type="button">清除全部條件，顯示所有條目</button></div></div><div id="error" class="empty" role="alert" aria-live="assertive" hidden><h3>案例暫時無法完整載入</h3><p id="error-message"></p><button type="button" id="retry">重新載入</button> <a href="INDEX.html">在本站閱讀完整案例索引 →</a><p>索引不提供全文搜尋與篩選。</p><a href="https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md">先讀 GitHub 索引 ↗</a></div>
 <div class="result-batch-actions"><button id="load-more-results" type="button" hidden>再看更多結果</button></div>
 </section>
 <section id="collection-stats" class="stats" aria-label="收錄與核對統計">
@@ -117,6 +121,7 @@
   </div>
   <div class="stat-card stat-card-catalog">
     <div class="stat-badge stat-badge-outline">網站收錄條目</div>
+    <span id="catalog-status" class="stat-sub" role="status" hidden></span>
     <div class="stat-catalog-row">
       <div><strong id="case-count">—</strong><span>個主要案例頁</span></div>
       <div><strong id="evidence-count">—</strong><span>篇經驗與踩坑</span></div>

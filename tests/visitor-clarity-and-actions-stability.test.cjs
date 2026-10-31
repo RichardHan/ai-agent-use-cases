@@ -24,42 +24,6 @@ test('promoted travel query finds the travel-comparison case and query echo keep
 });
 
 
-test('critical GitHub Actions workflows feature in-loop superseded checks and pre-throw freshness verification', () => {
-  const hardenedWorkflows = [
-    'category-find-qa.yml',
-    'case-share-qa.yml',
-    'results-return-qa.yml',
-    'print-reading-qa.yml',
-    'missing-case-qa.yml',
-    'method-shortcut-qa.yml',
-    'task-shortcuts-qa.yml',
-    'available-facets-qa.yml',
-    'filter-entry-qa.yml',
-    'source-links-qa.yml',
-    'source-guide-qa.yml',
-    'discovery-round-qa.yml',
-    'emphasis-qa.yml',
-    'filter-reading-qa.yml',
-    'reading-anchor-qa.yml',
-    'result-journey-qa.yml'
-  ];
-
-  for (const file of hardenedWorkflows) {
-    const content = fs.readFileSync(path.join(workflowsDir, file), 'utf8');
-    // Check for in-loop check
-    assert.ok(
-      content.includes('!isCurrentMainCommit(process.env.GITHUB_SHA)') &&
-      (content.includes('i%15===0') || content.includes('attempt%15===0') || content.includes('for(let i=0;i<181;i++)')),
-      `${file} must perform in-loop isCurrentMainCommit check`
-    );
-    // Check for pre-throw check before error
-    assert.match(
-      content,
-      /if\(!isCurrentMainCommit\(process\.env\.GITHUB_SHA\)\)[\s\S]*?throw Error/,
-      `${file} must verify freshness before throwing timeout/mismatch error`
-    );
-  }
-});
 
 test('card renders .card-target-user when coreGoal is not provided', () => {
   const vm = require('node:vm');
@@ -137,28 +101,21 @@ test('evidence-round-qa.yml includes in-loop and terminal isCurrentMainCommit ch
   );
 });
 
-test('related published browser polling tolerates 25-minute deployments and skips superseded commits', () => {
+test('related published browser uses bounded shared waiting and preserves supersession', () => {
   const relatedBrowser = fs.readFileSync(path.join(root, 'tests/related-browser.cjs'), 'utf8');
-  assert.match(relatedBrowser, /for\(let i=0;i<300;i\+\+\)\{/, 'live assets must have 300 polling attempts');
-  assert.match(
-    relatedBrowser,
-    /for\(let i=0;i<300;i\+\+\)\{\s*if\(i>0&&i%6===0&&skipIfSupersededPublishedUrl\(origin\)\)\{console\.log\('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '\+process\.env\.GITHUB_SHA\);process\.exit\(0\);\}/,
-    'polling must skip superseded commits every six attempts'
-  );
-  assert.match(relatedBrowser, /await new Promise\(r=>setTimeout\(r,5000\)\)/, 'polling must wait five seconds per attempt');
-  assert.match(
-    relatedBrowser,
-    /if\(skipIfSupersededPublishedUrl\(origin\)\)\{console\.log\('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '\+process\.env\.GITHUB_SHA\);process\.exit\(0\);\}\s*assert\(matched,/,
-    'asset mismatch must verify freshness before failing'
-  );
+  assert.match(relatedBrowser, /await waitForPublishedAssets/, 'live assets must share the bounded publication gate');
+  assert.match(relatedBrowser, /isCurrent:\(\)=>!skipIfSupersededPublishedUrl\(origin\)/, 'polling must retain URL-aware freshness checks');
+  assert.match(relatedBrowser, /if\(result==='superseded'\).*SKIP_PUBLISHED_BROWSER_CHECK/, 'superseded versions must not run browser assertions');
   const relatedWorkflow = fs.readFileSync(path.join(workflowsDir, 'related-qa.yml'), 'utf8');
-  assert.match(relatedWorkflow, /timeout-minutes: 30/, 'job timeout must accommodate the polling budget');
+  const timeout = Number(relatedWorkflow.match(/timeout-minutes:\s*(\d+)/)[1]);
+  assert.ok(timeout >= 55, 'job must cover shared waiting, setup and browser journeys');
 });
 
-test('category-find published polling allows 25 minutes within its job timeout', () => {
+test('category-find published polling shares the full publication deadline within its job timeout', () => {
   const categoryWorkflow = fs.readFileSync(path.join(workflowsDir, 'category-find-qa.yml'), 'utf8');
-  assert.match(categoryWorkflow, /for\(let i=0;i<750;i\+\+\)\{/, 'published assets must have 750 polling attempts');
-  assert.match(categoryWorkflow, /await new Promise\(resolve=>setTimeout\(resolve,2000\)\)/, 'polling must wait two seconds per attempt');
-  assert.match(categoryWorkflow, /within 25 minutes \(750 attempts\)/, 'timeout error must describe the expanded budget');
-  assert.match(categoryWorkflow, /timeout-minutes: 30/, 'job timeout must accommodate the polling budget');
+  assert.match(categoryWorkflow, /await waitForPublishedAssets\(/, 'published assets must use the bounded shared deadline');
+  assert.doesNotMatch(categoryWorkflow, /for\(let i=0;i<750/, 'the old 25-minute cap must not truncate publication waiting');
+  const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+  const timeout=Number(categoryWorkflow.match(/timeout-minutes:\s*(\d+)/)[1]);
+  assert.ok(timeout*60000>=PUBLICATION_TIMEOUT_MS+20*60000, 'job timeout must accommodate publication, setup and browser checks');
 });

@@ -1,0 +1,2636 @@
+[
+  {
+    "engine": "chromium",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      {
+        "state": "cards",
+        "violations": []
+      },
+      {
+        "state": "detail-actions",
+        "violations": []
+      }
+    ],
+    "controls": [
+      {
+        "label": "複製搜尋連結 ↗",
+        "font": 14,
+        "height": 44,
+        "width": 128.34375,
+        "scroll": 126,
+        "client": 126,
+        "left": 241.65625,
+        "right": 370
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "比價",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "失物",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "排程",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "住宿",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "行事曆",
+        "font": 14,
+        "height": 44.390625,
+        "width": 64,
+        "scroll": 62,
+        "client": 62,
+        "left": 161,
+        "right": 225
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "電話",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "行李",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "緊急",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "航班",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "睡眠",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "隱私",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "電話",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "分帳",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "代付",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "天氣",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "健康",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "照片",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "盤點",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "退款",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "物流追蹤",
+        "font": 14,
+        "height": 44.390625,
+        "width": 78,
+        "scroll": 76,
+        "client": 76,
+        "left": 161,
+        "right": 239
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "表單",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "驗證碼",
+        "font": 14,
+        "height": 44.390625,
+        "width": 64,
+        "scroll": 62,
+        "client": 62,
+        "left": 161,
+        "right": 225
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "居家",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "保險",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "售出證明",
+        "font": 14,
+        "height": 44.390625,
+        "width": 78,
+        "scroll": 76,
+        "client": 76,
+        "left": 161,
+        "right": 239
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "健康",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "穿戴裝置",
+        "font": 14,
+        "height": 44.390625,
+        "width": 78,
+        "scroll": 76,
+        "client": 76,
+        "left": 161,
+        "right": 239
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 258.515625,
+        "right": 345
+      }
+    ],
+    "copy": {
+      "label": "📋 複製案例連結複製案例連結",
+      "font": 14,
+      "height": 44,
+      "width": 110,
+      "scroll": 108,
+      "client": 108,
+      "left": 31,
+      "right": 141
+    },
+    "pass": true
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "errors": [],
+    "audits": [
+      {
+        "state": "cards",
+        "violations": []
+      },
+      {
+        "state": "detail-actions",
+        "violations": []
+      }
+    ],
+    "controls": [
+      {
+        "label": "複製搜尋連結 ↗",
+        "font": 14,
+        "height": 44,
+        "width": 128.34375,
+        "scroll": 126,
+        "client": 126,
+        "left": 175.65625,
+        "right": 304
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "比價",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "失物",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "排程",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "住宿",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "行事曆",
+        "font": 14,
+        "height": 44.390625,
+        "width": 64,
+        "scroll": 62,
+        "client": 62,
+        "left": 153,
+        "right": 217
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "電話",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "行李",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "緊急",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "航班",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "睡眠",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "隱私",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "電話",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "分帳",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "代付",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "天氣",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "健康",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "照片",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "盤點",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "退款",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "物流追蹤",
+        "font": 14,
+        "height": 44.390625,
+        "width": 78,
+        "scroll": 76,
+        "client": 76,
+        "left": 153,
+        "right": 231
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "表單",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "驗證碼",
+        "font": 14,
+        "height": 44.390625,
+        "width": 64,
+        "scroll": 62,
+        "client": 62,
+        "left": 153,
+        "right": 217
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "居家",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 153,
+        "right": 203
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "保險",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "售出證明",
+        "font": 14,
+        "height": 44.390625,
+        "width": 78,
+        "scroll": 76,
+        "client": 76,
+        "left": 153,
+        "right": 231
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 37,
+        "right": 87
+      },
+      {
+        "label": "健康",
+        "font": 14,
+        "height": 44.390625,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 95,
+        "right": 145
+      },
+      {
+        "label": "穿戴裝置",
+        "font": 14,
+        "height": 44.390625,
+        "width": 78,
+        "scroll": 76,
+        "client": 76,
+        "left": 153,
+        "right": 231
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.484375,
+        "scroll": 86,
+        "client": 86,
+        "left": 196.515625,
+        "right": 283
+      }
+    ],
+    "copy": {
+      "label": "📋 複製案例連結複製案例連結",
+      "font": 14,
+      "height": 44,
+      "width": 110,
+      "scroll": 108,
+      "client": 108,
+      "left": 27,
+      "right": 137
+    },
+    "pass": true
+  },
+  {
+    "engine": "firefox",
+    "width": 390,
+    "errors": [],
+    "audits": [
+      {
+        "state": "cards",
+        "violations": []
+      },
+      {
+        "state": "detail-actions",
+        "violations": []
+      }
+    ],
+    "controls": [
+      {
+        "label": "複製搜尋連結 ↗",
+        "font": 14,
+        "height": 44,
+        "width": 128.48333740234375,
+        "scroll": 126,
+        "client": 126,
+        "left": 241.51666259765625,
+        "right": 370
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "比價",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "失物",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "排程",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "住宿",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "行事曆",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 64,
+        "scroll": 62,
+        "client": 62,
+        "left": 161,
+        "right": 225
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "電話",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "行李",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "緊急",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "航班",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "旅遊",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "睡眠",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "隱私",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "電話",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "分帳",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "代付",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "天氣",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "健康",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "照片",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "盤點",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "退款",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "物流追蹤",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 78,
+        "scroll": 76,
+        "client": 76,
+        "left": 161,
+        "right": 239
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "表單",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "驗證碼",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 64,
+        "scroll": 62,
+        "client": 62,
+        "left": 161,
+        "right": 225
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "每日",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "居家",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 161,
+        "right": 211
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "保險",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "售出證明",
+        "font": 14,
+        "height": 44.399993896484375,
+        "width": 78,
+        "scroll": 76,
+        "client": 76,
+        "left": 161,
+        "right": 239
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      },
+      {
+        "label": "生活",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 45,
+        "right": 95
+      },
+      {
+        "label": "健康",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 50,
+        "scroll": 48,
+        "client": 48,
+        "left": 103,
+        "right": 153
+      },
+      {
+        "label": "穿戴裝置",
+        "font": 14,
+        "height": 44.40000915527344,
+        "width": 78,
+        "scroll": 76,
+        "client": 76,
+        "left": 161,
+        "right": 239
+      },
+      {
+        "label": "看看怎麼用 →",
+        "font": 14,
+        "height": 44,
+        "width": 86.63333129882812,
+        "scroll": 87,
+        "client": 87,
+        "left": 258.3666687011719,
+        "right": 345
+      }
+    ],
+    "copy": {
+      "label": "📋 複製案例連結複製案例連結",
+      "font": 14,
+      "height": 44,
+      "width": 110,
+      "scroll": 108,
+      "client": 108,
+      "left": 31,
+      "right": 141
+    },
+    "pass": true
+  }
+]

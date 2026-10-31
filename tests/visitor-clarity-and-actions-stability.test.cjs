@@ -108,7 +108,8 @@ test('related published browser uses bounded shared waiting and preserves supers
   assert.match(relatedBrowser, /if\(result==='superseded'\).*SKIP_PUBLISHED_BROWSER_CHECK/, 'superseded versions must not run browser assertions');
   const relatedWorkflow = fs.readFileSync(path.join(workflowsDir, 'related-qa.yml'), 'utf8');
   const timeout = Number(relatedWorkflow.match(/timeout-minutes:\s*(\d+)/)[1]);
-  assert.ok(timeout >= 55, 'job must cover shared waiting, setup and browser journeys');
+  const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+  assert.ok(timeout*60000>=PUBLICATION_TIMEOUT_MS+20*60000, 'job must cover shared waiting, setup and browser journeys');
 });
 
 test('category-find published polling shares the full publication deadline within its job timeout', () => {

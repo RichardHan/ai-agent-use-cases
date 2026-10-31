@@ -1,3 +1,7 @@
+## 2026-10-31 閱讀導覽邊界提示
+
+正式站搜尋「旅遊」並開啟 UC-001 時顯示目前結果 1／34，停用的上一則卻說「目前結果中沒有可切換的案例」，與可用的下一則矛盾。現在停用按鈕依第一則、最後一則、載入中及不在結果中提供對應無障礙名稱；部分載入時明確限定為已載入結果，不改變案例導覽。回歸先失敗後通過；本機 Pages 路徑預覽在手機與桌面核對首筆標籤及可用的下一則。獨立程式審查未發現缺陷。此環境無法目視判讀截圖，未完成正式 Jekyll 建置與完整跨瀏覽器驗收；既有 WebKit `Context is stopped` 與 Actions 發布延遲不在本次修正範圍。
+
 ## 2026-10-31 Return visibility 發布等待
 
 正式主線 [Return visibility QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41145539751) 在 25 分鐘等待後因公開 `app.js` 尚未匹配而失敗；同次 [Pages 部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41145540632) 耗時 46 分 40 秒。此工作流改用既有逐 byte 發布閘門，等待上限 60 分鐘、job 上限 75 分鐘；仍在版本被取代時停止、逾時仍失敗。受控時鐘覆蓋 46 分 40 秒後匹配與一小時仍不匹配；本機 HTTP 核對回傳 matched。這不證明正式部署一定在一小時內完成，也不修復其他工作流的短等待或 WebKit 失敗；正式 Actions 結果待確認。網站畫面與案例沒有改動。

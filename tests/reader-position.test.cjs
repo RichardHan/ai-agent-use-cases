@@ -32,3 +32,11 @@ test('loading and partial-source states distinguish available results from a com
  assert.equal(run(items[1],items,{failed:['cases/unavailable.md']})['detail-result-context'].textContent,'已載入結果 2／3');
  assert.equal(run(items[0],[],{failed:['cases/unavailable.md']})['detail-result-context'].textContent,'不在已載入結果中');
 });
+
+test('disabled navigation explains the actual boundary and incomplete collection',()=>{
+ assert.match(run(items[0],items)['nav-prev-case']['aria-label'],/第一則/);
+ assert.match(run(items[2],items)['nav-next-case']['aria-label'],/最後一則/);
+ assert.match(run(items[0],items,{failed:['missing']})['nav-prev-case']['aria-label'],/已載入/);
+ assert.match(run(items[0],[],{})['nav-prev-case']['aria-label'],/不在目前結果/);
+ assert.match(run(items[0],items,{ready:false})['nav-prev-case']['aria-label'],/載入/);
+});

@@ -853,17 +853,18 @@ function updateModalNav() {
   const prevBtn = $('nav-prev-case'), nextBtn = $('nav-next-case');
   if (!prevBtn || !nextBtn) return;
   const context = $('detail-result-context');
+  const index=currentFiltered.findIndex(item=>item.id===currentDetailItem?.id);
+  const collection=failedPaths.length?'已載入結果':'目前結果';
   if(context){
-    const index=currentFiltered.findIndex(item=>item.id===currentDetailItem?.id);
-    const collection=failedPaths.length?'已載入結果':'目前結果';
     context.textContent=!discoveryReady ? '其他案例載入中'
       : index<0 ? (failedPaths.length?'不在已載入結果中':'不在目前結果中')
       : `${collection} ${index+1}／${currentFiltered.length}`;
   }
   const neighbours = detailNeighbours(currentDetailItem, currentFiltered);
-  [[prevBtn, neighbours.prev, '上一則案例'], [nextBtn, neighbours.next, '下一則案例']].forEach(([button, target, label]) => {
+  [[prevBtn, neighbours.prev, '上一則案例', '第一則'], [nextBtn, neighbours.next, '下一則案例', '最後一則']].forEach(([button, target, label, boundary]) => {
     button.disabled = !target;
-    button.title = target ? label + '：' + target.title : label + (discoveryReady ? '：目前結果中沒有可切換的案例' : '：其他案例仍在載入');
+    const reason = !discoveryReady ? '其他案例仍在載入' : index<0 ? `不在${collection}中` : `已是${collection}的${boundary}`;
+    button.title = target ? label + '：' + target.title : label + '：' + reason;
     button.setAttribute('aria-label', button.title);
   });
 }

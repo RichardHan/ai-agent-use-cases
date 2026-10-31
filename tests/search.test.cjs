@@ -85,6 +85,27 @@ const punctMatches = api.filterEntries(entries, Array.from(api.tokenize('旅遊�
 assert(punctMatches.length >= 5 && punctMatches.length < 50, 'tokenizes punctuation-separated query and filters combined terms');
 assert(punctMatches.some(x => x.id === 'UC-001'), 'punctuation-separated query matches UC-001');
 assert(punctMatches.some(x => x.id === 'UC-040'), 'punctuation-separated query matches UC-040');
+// Topic scope keeps intentional metadata, never incidental source text or generic audiences.
+const topicTravel=api.filterEntries(entries,api.tokenize('旅遊'),{scope:'topic'});
+assert(topicTravel.some(x=>x.id==='UC-040'),'topic travel includes UC-040 classification/tags');
+assert(!topicTravel.some(x=>x.id==='UC-076'),'topic travel excludes UC-076 author byline');
+assert(api.filterEntries(entries,api.tokenize('旅遊'),{}).some(x=>x.id==='UC-076'),'full text still finds incidental author wording');
+const topicFixture=[
+  {id:'UC-901',title:'整理路線',summary:'規劃出門',coreGoal:'安排日程',category:'旅遊規劃',tags:['排程'],search:'旅遊 作者',scenario:'生活',tools:[],kind:'case'},
+  {id:'UC-902',title:'整理文件',summary:'分類備忘錄',coreGoal:'快速歸檔',category:'行政',tags:['文件'],search:'旅遊 作者',scenario:'生活',targetUser:'旅行規劃者',tools:[],kind:'case'}
+];
+for(const query of ['整理路線','規劃出門','安排日程','旅遊','排程','UC901','uc-901','UC-901 排程']){
+  assert.deepEqual(Array.from(api.filterEntries(topicFixture,api.tokenize(query),{scope:'topic'}),x=>x.id),['UC-901'],query+' matches a topic field');
+}
+assert.equal(api.filterEntries(topicFixture,api.tokenize('旅遊'),{scope:'overview'}).length,0,'legacy overview does not gain categories');
+assert.equal(api.filterEntries(topicFixture,api.tokenize('旅遊'),{scope:'unknown'}).length,2,'unknown scope safely falls back to full text');
+assert.equal(api.filterEntries(topicFixture,api.tokenize('旅行規劃者'),{scope:'topic'}).length,0,'target audiences are not topic fields');
+assert.equal(api.filterEntries(topicFixture,api.tokenize('生活'),{scope:'topic'}).length,0,'scenario labels and generic defaults do not pollute topics');
+assert.equal(api.filterEntries(topicFixture,api.tokenize('旅遊'),{scope:'topic',scenario:'工作'}).length,0,'topic scope composes with facets');
+assert.equal(api.filterEntries(topicFixture,api.tokenize('不存在字串xyz'),{scope:'topic'}).length,0,'topic supports empty results');
+assert.equal(api.filterEntries(topicFixture,[],{scope:'topic'}).length,2,'topic without terms does not discard entries');
+assert.equal(api.searchContext(topicFixture[0],api.tokenize('旅遊')).matches[0].label,'分類');
+assert.equal(api.searchContext(topicFixture[0],api.tokenize('排程')).matches[0].label,'標籤');
 assert.equal(api.matchCase('UC313',entries)?.id,'UC-313');
 assert.equal(api.matchCase('uc-313',entries)?.id,'UC-313');
 assert.equal(api.matchCase('UC 314',entries)?.id,'UC-314');

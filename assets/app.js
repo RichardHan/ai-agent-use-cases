@@ -1414,9 +1414,16 @@ function searchVariantIndex(text,variant) {
 }
 function matchesSearchVariant(text,variant) { return searchVariantIndex(text,variant)!==-1; }
 function filterEntries(items, terms, filters) {
-  return items.filter(item => terms.every(term => termVariants(term).some(v => matchesSearchVariant(filters.scope==='overview'
-    ? norm((item.title||'')+' '+(item.summary||'')+' '+(item.coreGoal||'')) : item.search,v)))
-    && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof));
+  const variants=terms.map(term=>termVariants(term));
+  return items.filter(item => {
+    const text=filters.scope==='overview'
+      ? norm((item.title||'')+' '+(item.summary||'')+' '+(item.coreGoal||''))
+      : filters.scope==='topic'
+        ? norm((item.title||'')+' '+(item.summary||'')+' '+(item.coreGoal||'')+' '+(item.category||'')+' '+(item.tags||[]).join(' ')+' '+idVariants(item.id||''))
+        : item.search;
+    return variants.every(values=>values.some(value=>matchesSearchVariant(text,value)))
+      && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof);
+  });
 }
 
 /* Rank only existing matches; evidence status, popularity and frequency are not scores. */
@@ -1474,9 +1481,11 @@ function sourceTypeMessage(type) {
   return type+'：'+description+' 本庫未獨立重現。';
 }
 const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',difficulty:'實作門檻',tool:'提及工具',category:'主題分類',proof:'來源類型',scope:'命中範圍'};
+const SEARCH_SCOPES={topic:'主題：標題、用途、核心目標、分類、標籤與案例 ID',overview:'標題、用途與痛點'};
+function searchScope(value) { return Object.hasOwn(SEARCH_SCOPES,value)?value:''; }
 function activeConditions(query, filters) {
   return Object.entries({query, ...filters}).filter(([,value]) => value)
-    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : key==='scope' ? '標題、用途與痛點' : value}));
+    .map(([key,value]) => ({key,value,label:FILTER_LABELS[key],display:key==='kind' ? KIND[value] || value : key==='scope' ? SEARCH_SCOPES[value] || value : value}));
 }
 function relaxationOptions(items, terms, filters) {
   return Object.entries(filters).filter(([,value])=>value).map(([key,value]) => ({
@@ -1622,7 +1631,7 @@ function searchLink(href,query,filters,sort='') {
   const current=new URL(href);
   const url=new URL(current.pathname,current.origin);
   if(query)url.searchParams.set('q',query);
-  SEARCH_KEYS.slice(1).forEach(key=>{if(filters[key] && (key!=='scope'||filters[key]==='overview'))url.searchParams.set(key,filters[key]);});
+  SEARCH_KEYS.slice(1).forEach(key=>{if(filters[key] && (key!=='scope'||searchScope(filters[key])))url.searchParams.set(key,filters[key]);});
   if(reviewSort(sort))url.searchParams.set('sort',sort);
   url.hash='explore';
   return url.href;
@@ -1642,7 +1651,7 @@ function hasSearchArrival(params,hash) {
 function currentSearchLink() {
   const filters=Object.fromEntries(['kind','difficulty','tool','category','proof'].map(id=>[id,$(id)?.value||'']));
   filters.scenario=activeScenario;
-  filters.scope=$('overview-only').checked?'overview':'';
+  filters.scope=searchScope($('search-scope').value);
   return searchLink(location.href,$('query').value,filters,$('sort').value);
 }
 // Live edits keep the URL shareable; only an explicit submit commits the draft
@@ -1743,7 +1752,7 @@ function refineFromCard(key, value) {
 }
 function removeCondition(key) {
   if(key==='scenario')activeScenario='';
-  else if(key==='scope')$('overview-only').checked=false;
+  else if(key==='scope')$('search-scope').value='';
   else if(Object.hasOwn(FILTER_LABELS,key))$(key).value='';
   render();
   focusResults();
@@ -1751,7 +1760,7 @@ function removeCondition(key) {
 function removeConditions(conditions) {
   conditions.forEach(({key})=>{
     if(key==='scenario')activeScenario='';
-    else if(key==='scope')$('overview-only').checked=false;
+    else if(key==='scope')$('search-scope').value='';
     else if(['kind','difficulty','tool','category','proof'].includes(key))$(key).value='';
   });
   render();
@@ -1759,7 +1768,7 @@ function removeConditions(conditions) {
 }
 function clearFacets() {
   activeScenario='';
-  $('overview-only').checked=false;
+  $('search-scope').value='';
   ['kind','difficulty','tool','category','proof'].forEach(id=>{ if($(id)) $(id).value=''; });
   render();
   focusResults();
@@ -1812,14 +1821,14 @@ function renderSearchFeedback(terms, filters) {
   if(!currentFiltered.length&&discoveryReady){
     const options=relaxationOptions(entries,terms,filters).slice(0,3);
     options.forEach(({key,value,count})=>{
-      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題、用途與痛點':value)+'」 → 查看 '+count+' 筆');
+      const button=el('button','recovery-option','移除'+FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?SEARCH_SCOPES[value]||value:value)+'」 → 查看 '+count+' 筆');
       button.type='button';button.dataset.removeFilter=key;
       button.addEventListener('click',()=>removeCondition(key));
       suggestions.append(button);
     });
     const combined=options.length ? [] : combinedRelaxationOptions(entries,terms,filters).slice(0,3);
     combined.forEach(({conditions,count})=>{
-      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?'標題、用途與痛點':value)+'」');
+      const labels=conditions.map(({key,value})=>FILTER_LABELS[key]+'「'+(key==='kind'?KIND[value]||value:key==='scope'?SEARCH_SCOPES[value]||value:value)+'」');
       const button=el('button','recovery-option','一起移除'+labels.join('、')+' → 查看 '+count+' 筆');
       button.type='button';button.dataset.removeFilters=conditions.map(({key})=>key).join(',');
       button.addEventListener('click',()=>removeConditions(conditions));
@@ -1906,11 +1915,11 @@ function render(updateURL=true, preserveShare=false) {
   $('search-submit').disabled=!discoveryReady;
   $('scenario').value=activeScenario;
   const q = tokenize($('query').value);
-  if(!q.length)$('overview-only').checked=false;
+  if(!q.length)$('search-scope').value='';
   const filters = Object.fromEntries(['kind', 'difficulty', 'tool', 'category', 'proof'].map(id => [id, $(id)?.value || '']));
-  filters.scope=$('overview-only').checked?'overview':'';
-  $('overview-only').disabled=!q.length;
-  $('overview-only').closest('.search-scope').hidden=!q.length;
+  filters.scope=searchScope($('search-scope').value);
+  $('search-scope').disabled=!q.length;
+  $('search-scope').closest('.search-scope').hidden=!q.length;
   if (activeScenario) filters.scenario = activeScenario;
   const sourceNote=sourceTypeMessage(filters.proof);
   if($('source-type-note').textContent!==sourceNote)$('source-type-note').textContent=sourceNote;
@@ -1923,7 +1932,7 @@ function render(updateURL=true, preserveShare=false) {
   $('reset-sort').hidden=!discoveryReady||$('sort').value!=='reviewed';
   $('search-order-note').textContent=$('sort').value==='reviewed'
     ? '依頁首核對日由新到舊；不是發布日，也不代表新增或獨立驗證。正文補充不計；未提供者置後，同日保留原本的符合順序。'
-    : '標題、用途與痛點優先；全文仍納入搜尋。排序不代表成果或證據可靠度。';
+    : '標題、用途與痛點優先；'+(filters.scope?'只在所選命中範圍搜尋。':'全文仍納入搜尋。')+'排序不代表成果或證據可靠度。';
   const resultKey=JSON.stringify([$('query').value,filters,$('sort').value]);
   if(resultKey!==resultQueryKey){visibleResults=RESULT_BATCH_SIZE;resultQueryKey=resultKey;}
   $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),q,0,currentFiltered.length));
@@ -1979,7 +1988,7 @@ function render(updateURL=true, preserveShare=false) {
 function reset() {
   activeScenario = '';
   $('sort').value='';
-  $('overview-only').checked=false;
+  $('search-scope').value='';
   ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => { if($(id)) $(id).value = ''; });
   render();
 }
@@ -2416,7 +2425,7 @@ async function load() {
     $('sort').value=reviewSort(initialParams.get('sort'));
     activeScenario=initialParams.get('scenario')||'';
     $('scenario').value=activeScenario;
-    $('overview-only').checked=initialParams.get('scope')==='overview';
+    $('search-scope').value=searchScope(initialParams.get('scope'));
     ['query','kind','difficulty','tool','category','proof'].forEach(id=>{
       const value=initialParams.get(id==='query'?'q':id)||'';
       if(value&&['difficulty','tool','category','proof'].includes(id)&&$(id)&&![...$(id).options].some(o=>o.value===value)){
@@ -2424,6 +2433,9 @@ async function load() {
       }
       if($(id)) $(id).value=value;
     });
+    const hasQuery=tokenize($('query').value).length>0;
+    $('search-scope').disabled=!hasQuery;
+    $('search-scope').closest('.search-scope').hidden=!hasQuery;
     syncPageContext();
     const catalog = await readJSON('catalog.json', Math.min(8000,remaining()));
     if (!Array.isArray(catalog.files) || !catalog.files.length) throw Error('索引沒有案例。');
@@ -2494,7 +2506,7 @@ async function load() {
     const params = new URLSearchParams(location.search);
     $('sort').value=reviewSort(params.get('sort'));
     activeScenario = params.get('scenario') || '';
-    $('overview-only').checked=params.get('scope')==='overview';
+    $('search-scope').value=searchScope(params.get('scope'));
     ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => {
       const value = params.get(id === 'query' ? 'q' : id) || '';
       if(failedPaths.length && value && ['difficulty','tool','category','proof'].includes(id) && $(id) && ![...$(id).options].some(o=>o.value===value)){
@@ -2669,14 +2681,14 @@ $('clear-category-query').addEventListener('click',()=>{
   $('category-query').value='';renderCategoryFinder();$('category-query').focus();
 });
 $('query').addEventListener('input', () => {queryDirty=true;render();});
-$('overview-only').addEventListener('change',()=>render());
+$('search-scope').addEventListener('change',()=>render());
 $('sort').addEventListener('change', () => render());
 $('reset-sort').addEventListener('click', resetSort);
 $('recent-entry').addEventListener('click', event => {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   history.replaceState(null,'',event.currentTarget.href);
   activeScenario='';
-  $('overview-only').checked=false;
+  $('search-scope').value='';
   ['query','kind','difficulty','tool','category','proof'].forEach(id => { if($(id)) $(id).value = ''; });
   $('sort').value='reviewed';render();committedSearchURL=location.href;queryDirty=false;facetDraftDirty=false;enterSearch(event);
 });
@@ -2773,7 +2785,7 @@ window.addEventListener('popstate', event => {
   const missingHadFocus=$('missing-case')?.contains(document.activeElement);
   $('sort').value=reviewSort(params.get('sort'));
   activeScenario = params.get('scenario') || '';
-  $('overview-only').checked=params.get('scope')==='overview';
+  $('search-scope').value=searchScope(params.get('scope'));
   ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(key => { if($(key)) $(key).value = params.get(key === 'query' ? 'q' : key) || ''; });
   committedSearchURL=location.href;
   queryDirty=false;

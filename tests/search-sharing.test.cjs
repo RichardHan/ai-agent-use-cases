@@ -2,7 +2,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 function fixture(){
  const nodes={};let context;
- for(const id of ['search-share-status','search-share-url','copy-search-link','query','kind','tool','category','proof','sort','detail','overview-only'])nodes[id]={id,value:'',checked:false,hidden:true,textContent:'',open:false,focus(){context.document.activeElement=this;},select(){this.selected=true;}};
+ for(const id of ['search-share-status','search-share-url','copy-search-link','query','kind','tool','category','proof','sort','detail','search-scope'])nodes[id]={id,value:'',hidden:true,textContent:'',open:false,focus(){context.document.activeElement=this;},select(){this.selected=true;}};
  nodes.query.value='旅遊';nodes.tool.value='Grok Bot';nodes.sort.value='reviewed';nodes['search-share-url'].hidden=true;
  context=vm.createContext({URL,URLSearchParams,location:{href:'https://example.org/ai-agent-use-cases/?case=UC-001&secret=synthetic#other'},document:{getElementById:id=>nodes[id],activeElement:nodes['copy-search-link']},navigator:{clipboard:{writeText:()=>new Promise((resolve,reject)=>pending.push({resolve,reject}))}}});
  const pending=[];
@@ -28,4 +28,10 @@ test('superseded and cleared requests cannot replace the newest feedback or fall
 
 test('late success after changed search cannot announce that obsolete conditions were copied',async()=>{
  const f=fixture(),p=f.copySearchLink();f.clearSearchShare();f.nodes.query.value='新的問題';f.pending[0].resolve();await p;assert.equal(f.nodes['search-share-status'].textContent,'');assert.equal(f.nodes['search-share-url'].hidden,true);
+});
+test('sharing preserves topic and legacy overview but drops unknown scopes',async()=>{
+ for(const scope of ['topic','overview','unknown']){
+  const f=fixture();f.nodes['search-scope'].value=scope;f.context.navigator.clipboard=undefined;await f.copySearchLink();
+  assert.equal(new URL(f.nodes['search-share-url'].value).searchParams.get('scope'),scope==='unknown'?null:scope);
+ }
 });

@@ -204,7 +204,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（460）
+## 主要案例（464）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -270,7 +270,7 @@
 | UC-063 | 盤點並整理 Plex 媒體庫命名、海報與備份 | Grok Bot／Plex | [論壇作者自述＋Plex 官方操作限制；未重現](cases/063-plex-media-library-housekeeping.md) | 生活｜影片、檔案整理、備份、驗收 |
 | UC-064 | 核對數學命題、反例搜尋與 Lean 證明檢查 | ChatGPT dots／Lean | [作者自述＋公開程式、CI及登記；未獨立重跑](cases/064-math-proof-review-formalization.md) | 學習｜科研、多代理、形式驗證、驗收 |
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢 | Grok Bot | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
-| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
+| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要；Muse盤點每輪必讀常駐檔並壓縮（安全規則不動） | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁＋日文Muse常駐檔壓縮自述；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
 | UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub；隊長Bot彙整全隊職責與例行任務成復原手冊、每月1日更新；dots 自己定期把 Automation／規則匯出到私有倉庫、對話變亂時開新 dot 讀回；每晚把多Bot共用電腦加密備份到自家Mac mini SSD並抽回逐檔比對 | Meta Muse／Git；Grok Bot／GitHub；ChatGPT dots／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼、重置後 Tailscale 身分恢復、每週三處備份變體）＋官方文件＋快照回滾且備份同時失效的二手轉述（待驗證）＋日文作者復原手冊自述＋日文作者 dots 設定匯出與重建自述＋英文作者每晚加密備份到本機SSD、抽回1,696／1,696檔相符自述；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
@@ -656,7 +656,7 @@
 | UC-454 | 訂單費用整理成Notion日結，缺成本保留待確認並核對寫回 | Grok Bot／Notion | [B級示範與兩圖一致；非獨立重算](cases/454-notion-daily-settlement-writeback-cost-gap-check.md) | 工作｜日結、Notion、缺值、寫回驗收 |
 | UC-455 | 用M5StickC Plus2做按住說話的隨身Muse裝置，從記錄檔找出記憶體不足並補日文字型 | Meta Muse（Muse Gadgets SDK）／M5StickC Plus2／ESP-IDF | [B日文作者實測＋改前改後記錄檔；官方開源SDK；未重現](cases/455-muse-gadgets-m5stickc-plus2-pocket-push-to-talk.md) | 開發｜實體裝置、語音、故障診斷 |
 | UC-456 | 小網站不架後台：Muse改Markdown推到GitHub，自動建成靜態頁並由GitHub Pages公開 | Meta Muse／GitHub Actions／GitHub Pages／markdown-cms | [B日文作者自述＋公開示範站與MIT倉庫；Muse權限與操作未公開、未重現](cases/456-muse-github-markdown-static-site-operations.md) | 工作｜網站、GitHub、發布、權限 |
-| UC-465 | 每週請主Bot對照官方文件與更新日誌，盤點自己的Bot、routine、技能與連接器，只對真實繞路提出替換提案：附影響、風險與撤回法，先並行試跑、本人同意才換 | Grok Bot（主Bot／幕僚長＋每週routine） | [英文作者分享提示詞（全文未取得）＋簡中作者七步改寫版；無執行結果，屬未測提示詞](cases/465-weekly-official-update-review-routine-upgrade-proposals.md) | 開發｜排程、巡檢、核准、多代理 |
+| UC-465 | 每週請主Bot對照官方文件與更新日誌，盤點自己的Bot、routine、技能與連接器，只對真實繞路提出替換提案：附影響、風險與撤回法，先並行試跑、本人同意才換；變體：每月逛Bot市集做保留／裁撤／招募名單 | Grok Bot（主Bot／幕僚長＋每週routine） | [英文作者分享提示詞（全文未取得）＋簡中作者七步改寫版＋簡中Bot市集人事考核提示詞；無執行結果，屬未測提示詞](cases/465-weekly-official-update-review-routine-upgrade-proposals.md) | 開發｜排程、巡檢、核准、多代理 |
 | UC-466 | 終端機的Claude Code／Codex查不到X最新消息：一個指令開GitHub issue再指派給自己，觸發Grok Bot調查、留言回答並關閉，本機每20秒查狀態後印出 | Grok Bot（GitHub指派事件routine）／GitHub CLI／Claude Code／Codex CLI | [B日文作者Qiita全文＋流程圖與一次約2分鐘的執行截圖；腳本未公開、未重現](cases/466-cli-agent-ask-grok-bot-research-via-github-issue-assign.md) | 開發｜跨代理、事件觸發、GitHub、研究 |
 | UC-467 | LINE、WeChat沒有給AI的接口：在Muse雲端Linux電腦裝聚合App與官方桌面版，讓它讀群組整理點歌清單、看畫面收發訊息；登入掃碼與付款留給本人 | Meta Muse（雲端電腦）／Beeper／WeChat Linux版／Android模擬器 | [B日文作者Qiita自述（Muse代寫）；無截圖，點餐部分未下單、未重現](cases/467-muse-cloud-desktop-messaging-apps-screen-operation.md) | 開發｜瀏覽器自動化、雲端電腦、通訊、人工確認 |
 | UC-468 | 家庭行政交給dots：看郵局信封預覽濾掉廣告與前住戶信、標出稅務保險監理信；托育帳單PDF按月改名存Dropbox並關閉Todoist任務；托育日誌照片缺漏回補並確認顯示 | ChatGPT dots／USPS信封預覽／Dropbox／Todoist／Craft | [B英文作者13項長文自述；無截圖、連接方式未說明、未重現](cases/468-dots-household-admin-mail-preview-filter-bill-filing.md) | 生活｜家庭、帳單、文件歸檔、待辦 |
@@ -668,6 +668,10 @@
 | UC-474 | 歐洲銀行唯讀直連：經Enable Banking授權，金鑰存祕密，每天7點把交易寫進Google試算表並分類，新訂閱或大額才通知；每週一做一頁消費教練Page | Grok Bot（專職Bot＋routine＋Page）／Enable Banking／Google試算表 | [B英文作者X長文教學（自述自身設定）；無報告截圖、未重現](cases/474-eu-open-banking-grok-bot-money-coach-sheet-weekly-page.md) | 省錢｜記帳、銀行、每日、週報 |
 | UC-475 | Gemini做的新聞信自動化（GAS）交dots驗收：dots在雲端瀏覽器直接請Gemini修，以失敗輸入＋預期結果退回重測，只併入驗過部分、本人核准後寫入正式環境並讀回比對 | ChatGPT dots／Gemini定期任務／Google Apps Script／Gmail | [B日文作者Qiita自測紀錄；隔天兩封信送達，程式未公開、未重現](cases/475-dots-reviews-gemini-built-gas-news-mailer-regression-tests.md) | 開發｜跨代理、程式審查、驗收、核准 |
 | UC-476 | Bot的10條routine各寫一套做法、同規則抄4份：請Bot盤點提出17個技能、建10個，routine只留何時跑，通用規則放個人設定；同一任務第二次做就主動提議建技能 | Grok Bot（routine＋技能＋個人設定） | [B英文作者長文自述＋影片（未看）；技能內容未公開、未重現](cases/476-bot-routines-refactored-into-skills-propose-skill-on-repeat.md) | 開發｜技能、排程、維運、重構 |
+| UC-477 | Muse的雲端VM沒有對外入口：VM內往外拉反向通道、sshd只聽本機只收公鑰，讓自家電腦SSH進去傳檔、轉發看VM內網頁；附五個踩坑與錯誤訊息 | Meta Muse（雲端VM）／OpenSSH／Pinggy | [B日文作者Qiita自述＋錯誤訊息原文；腳本與位址未公開、未重現](cases/477-muse-vm-reverse-tunnel-ssh-loopback-sshd.md) | 開發｜雲端電腦、遠端連線、資安、故障診斷 |
+| UC-478 | Muse能SSH進Mac卻點不了那台瀏覽器：經codex app-server直接叫用Codex的Computer Use工具，由呼叫方代理讀畫面清單決定點擊，作者稱不耗Codex額度；同法取Meetings紀錄同步到倉庫 | Codex CLI（app-server）／Meta Muse／Claude Code | [B日文作者Qiita全文＋Python範例與截圖；Muse端程式未公開、試驗性介面、未重現](cases/478-muse-claude-code-call-codex-computer-use-via-app-server.md) | 開發｜跨代理、瀏覽器自動化、MCP、用量 |
+| UC-479 | 個人遊戲小額投ChatGPT廣告：Ads Manager外掛以對話設定與UTM、試算CPC×購買率損益兩平；被拒無原因時dots讀信回客服無效，同活動另建廣告即過審 | ChatGPT Work（Ads Manager外掛）／ChatGPT dots／Gmail | [B日文作者Zenn自述＋截圖；成效數字未公開、未重現](cases/479-chatgpt-ads-setup-via-ads-manager-plugin-dots-support-mail.md) | 工作｜廣告、收件匣、試算、人工確認 |
+| UC-480 | 通話後跟進信：先讀過去寄出的信、對上CRM寄信當時的成交階段寫成voice.md；每小時偵測新通話、依逐字稿起草，存草稿並Slack私訊，逐封核准才寄 | Grok Bot／Attio／Granola／Slack | [英文作者原始提示詞＋公開技能檔；無執行輸出，屬未測提示詞](cases/480-grok-bot-post-call-follow-up-drafts-voice-md-slack-approval.md) | 工作｜收件匣、CRM、核准、技能 |
 
 <a id="supplement-list"></a>
 
@@ -939,3 +943,7 @@
 ## 2026-10-30 08:52：每日批次（X＋Qiita＋X長文）
 
 [約110組候選與查閱範圍](sources/research-2026-10-30-0852.md)：新增4（UC473自架BTCPay安全更新看守，高危自動備份更新、一般待決定；UC474歐洲銀行經Enable Banking唯讀直連，每日入表＋每週教練頁；UC475 dots以失敗案例回歸測試驗收Gemini寫的GAS新聞信並經核准上線；UC476把10條routine的做法抽成技能、重複第二次就提議技能），合併補充1（UC005 Sentry webhook→維運Bot→開發Bot修正PR）；其餘為宣傳、清單、比較、轉述或證據不足。均為作者自述，未獨立重現。
+
+## 2026-10-31 08:55：每日批次（X＋Qiita／Zenn＋GitHub技能倉庫）
+
+[約75組候選與查閱範圍](sources/research-2026-10-31-0855.md)：新增4（UC477 Muse雲端VM反向通道SSH、UC478經codex app-server讓Muse／Claude Code借用Codex的Computer Use、UC479 ChatGPT廣告以Ads Manager外掛設定與出價試算及dots回客服、UC480通話後跟進信voice.md＋逐封核准〔未測提示詞〕），合併補充2（UC066 Muse常駐檔壓縮、UC465 Bot市集每月人事考核〔未測提示詞〕）；其餘為宣傳、清單、交易獲利故事、比較或證據不足。除標示未測提示詞者外均為作者自述，未獨立重現。

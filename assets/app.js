@@ -714,9 +714,18 @@ function renderMarkdown(markdown,path) {
   }
   flush();if(code)out.append(code);return out;
 }
+function sharedRelatedTags(item, other) {
+  const tags = new Set((item.tags || []).map(tag => norm(tag).trim()).filter(Boolean));
+  const shared = new Map();
+  (other.tags || []).forEach(tag => { const key = norm(tag).trim(); if (key && tags.has(key) && !shared.has(key)) shared.set(key, tag); });
+  return [...shared.values()];
+}
 function relatedEntries(item, items) {
   if (!item.category || item.category === '未分類') return [];
-  return items.filter(other => other.id !== item.id && other.kind === 'case' && other.category === item.category).slice(0, 3);
+  const cases = items.filter(other => other.id !== item.id && other.kind === 'case');
+  const shared = cases.filter(other => sharedRelatedTags(item, other).length >= 2);
+  const sameCategory = cases.filter(other => other.category === item.category && !shared.includes(other));
+  return shared.concat(sameCategory).slice(0, 3);
 }
 function detailNeighbours(item, items) {
   const index = items.findIndex(other => other.id === item?.id);
@@ -740,8 +749,8 @@ function renderRelated(item) {
   const related = relatedEntries(item, currentFiltered);
   const section = el('section', 'related-cases');
   section.setAttribute('aria-labelledby', 'related-title');
-  const heading = el('h2', '', '同主題延伸閱讀');heading.id = 'related-title';
-  section.append(heading, el('p', 'related-note', '依主題分類整理，限目前搜尋結果；不是成效或證據排名。'));
+  const heading = el('h2', '', '延伸閱讀');heading.id = 'related-title';
+  section.append(heading, el('p', 'related-note', '限目前搜尋結果；先列至少兩個共同標籤的案例，再列相同分類。標籤相同不保證用途或成效相同，請核對內容與來源。'));
   if (related.length) {
     const list = el('ul', 'related-list');
     related.forEach(other => {
@@ -750,13 +759,15 @@ function renderRelated(item) {
       button.dataset.relatedId = other.id;
       // Preserve the original result/discovery trigger for close and Escape.
       button.addEventListener('click', () => showDetail(other, null));
-      row.append(el('p', 'related-meta', other.id + ' · 同主題：' + other.category), button,
+      const sharedTags = sharedRelatedTags(item, other);
+      const reason = sharedTags.length >= 2 ? '共同標籤：' + sharedTags.join('、') : '同分類：' + other.category;
+      row.append(el('p', 'related-meta', other.id + ' · ' + reason), button,
         el('p', 'related-summary', other.summary), el('p', 'related-proof', '來源類型：' + other.proof));
       list.append(row);
     });
     section.append(list);
   } else {
-    section.append(el('p', 'related-empty', discoveryReady ? '目前條件下，沒有其他相同主題的主要案例。可關閉閱讀後調整搜尋條件。' : '其他案例仍在載入，完成後會依目前搜尋條件提供延伸閱讀。'));
+    section.append(el('p', 'related-empty', discoveryReady ? '目前條件下，沒有共同標籤或相同分類的其他主要案例。可關閉閱讀後調整搜尋條件。' : '其他案例仍在載入，完成後會依目前搜尋條件提供延伸閱讀。'));
   }
   const back = el('button', 'related-back', '關閉並返回結果');back.type = 'button';
   back.setAttribute('aria-label', '關閉並返回結果');

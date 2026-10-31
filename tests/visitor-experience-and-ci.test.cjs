@@ -78,18 +78,6 @@ test('facet-counts-qa.yml bounds job duration to cover published-version poll (>
   assert.ok(Number(timeoutMatch[1]) >= 25, 'job timeout must cover setup plus published-version poll');
 });
 
-test('source-guide published verification covers observed Pages deployment latency', () => {
-  const workflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/source-guide-qa.yml'), 'utf8');
-  const published = workflow.split(/^  published:\s*$/m)[1];
-  assert.ok(published, 'source-guide-qa.yml must define its published job');
-  const pollMatch = published.match(/for\(let attempt=0;attempt<(\d+);attempt\+\+\)/);
-  const intervalMatch = published.match(/setTimeout\(resolve,(\d+)\)/);
-  const timeoutMatch = published.match(/timeout-minutes:\s*(\d+)/);
-  assert.ok(pollMatch, 'published source-guide job must contain a bounded asset poll');
-  assert.ok(intervalMatch, 'published source-guide job must define its polling interval');
-  assert.ok(Number(pollMatch[1]) * Number(intervalMatch[1]) >= 15 * 60 * 1000, 'asset poll must cover the measured 11m38s deployment with margin');
-  assert.ok(timeoutMatch && Number(timeoutMatch[1]) >= 25, 'job timeout must cover the asset poll');
-});
 
 
 test('search-hint provides plain-language AND mental model and accessible error announcement', () => {

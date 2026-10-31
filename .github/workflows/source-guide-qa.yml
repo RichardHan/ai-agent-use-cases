@@ -54,7 +54,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: preview
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -68,21 +68,17 @@ jobs:
       - name: Verify published assets match this checkout
         run: |
           node - <<'JS'
-          const fs=require('node:fs');
+          const {waitForPublishedAssets}=require('./scripts/published-assets.cjs');
           (async()=>{
-            const base='https://richardhan.github.io/ai-agent-use-cases/';
-            const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            for(let attempt=0;attempt<240;attempt++){
-              if(attempt>0&&attempt%15===0&&!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-              const matches=await Promise.all(['index.html','assets/app.js','assets/style.css'].map(async file=>{
-                const response=await fetch(base+file+'?guide='+Date.now(),{cache:'no-store'});
-                return response.ok&&await response.text()===fs.readFileSync(file,'utf8');
-              }));
-              if(matches.every(Boolean)){console.log('Published HTML, JS and CSS match checkout byte for byte');return;}
-              await new Promise(resolve=>setTimeout(resolve,5000));
-            }
-            if(!isCurrentMainCommit(process.env.GITHUB_SHA)){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+process.env.GITHUB_SHA);return;}
-            throw Error('Published assets did not match checkout within 20 minutes (240 attempts)');
+            const sha=process.env.GITHUB_SHA;
+            const result=await waitForPublishedAssets({
+              base:'https://richardhan.github.io/ai-agent-use-cases/',
+              sha,
+              files:['index.html','assets/app.js','assets/style.css'],
+              maxDuration:60*60*1000
+            });
+            if(result==='superseded'){console.log('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+sha);return;}
+            console.log('Published HTML, JS and CSS match checkout byte for byte');
           })().catch(e=>{console.error(e);process.exitCode=1});
           JS
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then

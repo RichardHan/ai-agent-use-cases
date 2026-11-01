@@ -15,4 +15,4 @@
 
 三個模擬情境：旅遊搜尋→UC-001→返回保留查詢；UC-372 直鏈→來源入口；不存在的關鍵字→移除關鍵字。這些不是使用者研究。PR #189 的 [Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41253319289) 成功執行 Jekyll 建置及建置後資料包檢查；它基於較早的主線，最新主線整合只做本機預覽。
 
-限制：未完成跨瀏覽器、實體手機及文字對比檢查；PR 上 published job 跳過，60 分鐘閘門的實際部署路徑尚須主線執行確認。歷史 Pages 部署曾耗時 49 分 09 秒，超過原 45 分鐘期限；不將其他未確認的 WebKit 失敗歸因於此。嘗試合併 PR #189 時 GitHub 回應 Enterprise Managed User 無權存取。
+限制：未完成跨瀏覽器、實體手機及文字對比檢查；PR 上 published job 跳過，60 分鐘閘門的實際部署路徑尚須主線執行確認。歷史 Pages 部署曾耗時 49 分 09 秒，超過原 45 分鐘期限；不將其他未確認的 WebKit 失敗歸因於此。Enterprise Managed User 無權合併，後以已授權的 repository 擁有者帳號合併 PR #189。

@@ -112,7 +112,7 @@ const SYNONYM_GROUPS = [
   ['報帳', '核銷', '對帳', '對賬', '核帳', '核賬', '報銷', '報賬', 'reconciliation', 'reconciliations', 'reconcile', 'reconciling', 'reimbursement'],
   ['發票', '收據', 'invoice', 'invoices', 'receipt', 'receipts'],
   ['debug', 'debugging', '除錯', '排錯', '修復', 'bug', 'bugs', '故障', '排障', 'troubleshoot', 'troubleshooting', 'fault', 'faults'],
-  ['workflow', 'workflows', '工作流', '自動化', 'automation', 'automate', 'automations', '排程', '定時', 'cron', 'schedule', 'schedules', 'scheduling', 'scheduler', 'schedulers', '排程器', '定時器', '排班', '流水線', '管線', 'pipeline', 'pipelines'],
+  ['workflow', 'workflows', '工作流', '自動化', 'automation', 'automate', 'automations', '排程', '定時', 'cron', 'schedule', 'schedules', 'scheduling', 'scheduler', 'schedulers', '排程器', '定時器', '流水線', '管線', 'pipeline', 'pipelines'],
   ['求職', '履歷', '面試', '招聘', '招募', 'cv', 'resume', 'resumes', 'job', 'jobs', 'hiring', 'interview', 'interviews'],
   ['email', 'emails', 'mail', 'mailbox', 'mailboxes', '郵件', '信件', '信箱', '收件匣', '收件箱', 'inbox'],
   ['代碼', '程式碼', '程式', 'code', 'codes', 'coding'],

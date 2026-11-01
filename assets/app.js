@@ -2181,7 +2181,10 @@ async function loadInitialCorpus(paths, options = {}) {
     const abortBundle=()=>bundleController.abort();
     controller.signal.addEventListener('abort',abortBundle,{once:true});
     if(controller.signal.aborted)abortBundle();
-    const bundleTimer=setTimeout(abortBundle,Math.min(options.bundleTimeout||5000,Math.max(1,deadline-Date.now())));
+    // Preserve the original fallback time when the budget is already short;
+    // extra bundle time must leave a full source timeout and recovery margin.
+    const bundleWait=options.bundleTimeout||Math.min(7000,Math.max(5000,deadline-Date.now()-13000));
+    const bundleTimer=setTimeout(abortBundle,Math.min(bundleWait,Math.max(1,deadline-Date.now())));
     let bundled=false;
     const cacheKey='corpus.json?bundleRevision='+encodeURIComponent(options.bundleRevision)+'&sourceRevision='+encodeURIComponent(options.sourceRevision||'');
     let cache;

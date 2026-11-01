@@ -30,6 +30,21 @@ test('a slow but successful bundle avoids a costly per-source fallback',async()=
  assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
  assert.deepEqual(Array.from(result.failed),[]);
 });
+test('a bundle taking six seconds does not trigger per-source requests',async()=>{
+ const calls=[];
+ const result=await load(paths,{bundleRevision:'r1',parseFile:parse,budget:20000,fetch:async(path,opt)=>{
+  calls.push(path);
+  if(path!=='corpus.json')return response(texts[paths.indexOf(path)]);
+  await new Promise((resolve,reject)=>{
+   const timer=setTimeout(resolve,6000);
+   opt.signal.addEventListener('abort',()=>{clearTimeout(timer);reject(Error('abort'));},{once:true});
+  });
+  return response(json());
+ }});
+ assert.deepEqual(calls,['corpus.json']);
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+ assert.deepEqual(Array.from(result.failed),[]);
+});
 test('validated corpus is reused on same-revision reload and never across revisions',async()=>{
  const stored=new Map(),calls=[];
  context.location={href:'https://example.test/ai-agent-use-cases/'};
@@ -132,6 +147,11 @@ test('bundle completion cancels a stalled shared request without waiting for its
 test('bundle timeout leaves a budget for fallback, individual failures stay retryable',async()=>{
  const result=await load(paths,options({bundleTimeout:10,timeout:20,fetch:async(path,opt)=>{if(path==='corpus.json')return stalled(opt.signal);if(path===paths[1])return {ok:false,status:404};return response(texts[paths.indexOf(path)]);}}));
  assert.deepEqual(Array.from(result.failed),[paths[1]]);assert.deepEqual(Array.from(result.entries,e=>e.text),['one','pending']);
+});
+test('a stalled bundle leaves time for responsive sources when the remaining budget is short',async()=>{
+ const result=await load(paths,options({budget:7000,fetch:async(path,opt)=>path==='corpus.json'?stalled(opt.signal):response(texts[paths.indexOf(path)])}));
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+ assert.deepEqual(Array.from(result.failed),[]);
 });
 test('stopping while bundle waits retains the already readable shared source and exact missing paths',async()=>{
  const stop=new AbortController();const result=await load(paths,options({signal:stop.signal,sharedPath:paths[0],fetch:async(path,opt)=>path==='corpus.json'?stalled(opt.signal):response('one'),onSource:()=>stop.abort()}));

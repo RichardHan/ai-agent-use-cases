@@ -1808,6 +1808,24 @@ function phraseRecoveryOptions(items, query, filters, limit=3) {
     .slice(0,limit);
 }
 
+// An explicit recovery is a navigation: retain the failed search for Back.
+function recoverSearchQuery(query) {
+  const failedURL=location.href;
+  if((queryDirty||facetDraftDirty) && committedSearchURL!==failedURL){
+    const previous=new URL(committedSearchURL||failedURL);
+    previous.searchParams.delete('case');
+    history.replaceState(history.state,'',previous);
+    history.pushState(null,'',failedURL);
+  }
+  history.pushState(null, '', location.href);
+  $('query').value=query;
+  render();
+  committedSearchURL=location.href;
+  queryDirty=false;
+  facetDraftDirty=false;
+  focusResults();
+}
+
 
 function renderSearchFeedback(terms, filters) {
   const conditions=activeConditions($('query').value,filters);
@@ -1850,11 +1868,7 @@ function renderSearchFeedback(terms, filters) {
       const button=el('button','recovery-option','只移除關鍵字「'+removed+'」 → 查看 '+count+' 筆');
       button.type='button';
       button.dataset.queryRecovery=query;
-      button.addEventListener('click',()=>{
-        $('query').value=query;
-        render();
-        focusResults();
-      });
+      button.addEventListener('click',()=>recoverSearchQuery(query));
       suggestions.append(button);
     });
     const phraseOptions=queryOptions.length ? [] : phraseRecoveryOptions(entries,$('query').value,filters);
@@ -1862,11 +1876,7 @@ function renderSearchFeedback(terms, filters) {
       if(suggestions.querySelector('[data-query-recovery="'+query+'"]'))return;
       const button=el('button','recovery-option','原問題提到「'+query+'」 → 搜尋 '+count+' 筆文字命中');
       button.type='button';button.dataset.queryRecovery=query;
-      button.addEventListener('click',()=>{
-        $('query').value=query;
-        render();
-        focusResults();
-      });
+      button.addEventListener('click',()=>recoverSearchQuery(query));
       suggestions.append(button);
     });
     if(!options.length && !combined.length && terms.length){
@@ -1895,11 +1905,7 @@ function renderSearchFeedback(terms, filters) {
           btn.dataset.problemTag = term;
           btn.setAttribute('data-problem-tag', term);
           btn.setAttribute('aria-label', label);
-          btn.addEventListener('click',()=>{
-            $('query').value = term;
-            render();
-            focusResults();
-          });
+          btn.addEventListener('click',()=>recoverSearchQuery(term));
           chipsWrap.append(btn);
         });
         problemContainer.append(chipsWrap);

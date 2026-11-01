@@ -21,6 +21,30 @@ test('stale but functional Pages assets are not accepted until every file matche
   }finally{process.chdir(previous);}
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
+test('publication timeout identifies failed assets and verification without exposing response bodies',async()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'pages-diagnostics-'));
+ try{
+  const files=['current.js','stale.js','missing.js','network.js'].map(file=>path.join(dir,file));
+  for(const file of files)fs.writeFileSync(file,'current');
+  await assert.rejects(waitForPublishedAssets({
+   base:'https://example.test/',sha:'abc',files,attempts:1,isCurrent:()=>true,
+   fetchAsset:async url=>{
+    if(url.pathname.endsWith('network.js'))throw Error('private network detail');
+    if(url.pathname.endsWith('missing.js'))return {ok:false,status:503};
+    return {ok:true,arrayBuffer:async()=>Buffer.from(url.pathname.endsWith('stale.js')?'stale':'current')};
+   },
+   verify:async()=>false
+  }),error=>{
+   assert.match(error.message,/stale\.js: byte mismatch/);
+   assert.match(error.message,/missing\.js: HTTP 503/);
+   assert.match(error.message,/network\.js: request failed/);
+   assert.match(error.message,/additional verification: mismatch/);
+   assert.doesNotMatch(error.message,/current\.js|private network detail/);
+   return true;
+  });
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});
+
 
 test('never accepts stale assets, and superseded commits skip without a false pass',async()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'pages-assets-'));

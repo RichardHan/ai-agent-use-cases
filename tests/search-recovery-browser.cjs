@@ -14,18 +14,20 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     await page.goto(origin,{waitUntil:'networkidle'});
     await page.locator('#results .card').first().waitFor();
     const navigationAndReadyMs=Date.now()-started;
-    await page.goto(origin+'?q='+encodeURIComponent('郵件')+'#explore',{waitUntil:'networkidle'});
-    await page.locator('#results .card').first().waitFor();
-    await page.locator('#query').fill('旅遊 xyz987');
-    await page.locator('#empty-suggestions [data-query-recovery="旅遊"]').click();
-    await page.goBack();
-    assert.equal(await page.locator('#query').inputValue(),'旅遊 xyz987');
-    await page.goBack();
-    assert.equal(await page.locator('#query').inputValue(),'郵件','Back also retains the prior committed search');
-    await page.goForward();await page.goForward();
-    assert.equal(await page.locator('#query').inputValue(),'旅遊');
-    await page.goto(origin,{waitUntil:'networkidle'});
-    await page.locator('#results .card').first().waitFor();
+    if (!observe) {
+      await page.goto(origin+'?q='+encodeURIComponent('郵件')+'#explore',{waitUntil:'networkidle'});
+      await page.locator('#results .card').first().waitFor();
+      await page.locator('#query').fill('旅遊 xyz987');
+      await page.locator('#empty-suggestions [data-query-recovery="旅遊"]').click();
+      await page.goBack();
+      assert.equal(await page.locator('#query').inputValue(),'旅遊 xyz987');
+      await page.goBack();
+      assert.equal(await page.locator('#query').inputValue(),'郵件','Back also retains the prior committed search');
+      await page.goForward();await page.goForward();
+      assert.equal(await page.locator('#query').inputValue(),'旅遊');
+      await page.goto(origin,{waitUntil:'networkidle'});
+      await page.locator('#results .card').first().waitFor();
+    }
     await page.locator('#query').fill('旅遊');
     await ensureFiltersVisible(page);
     await page.locator('#tool').selectOption('Grok Bot');

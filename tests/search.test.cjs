@@ -219,6 +219,10 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('報帳')), {}).some(x
 assert(api.filterEntries(entries, Array.from(api.tokenize('核銷')), {}).some(x => x.id === 'UC-225'), '核銷 matches UC-225 via 收據/憑證 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('debug')), {}).some(x => x.id === 'UC-316'), 'debug matches UC-316 via 修復/bug synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('排錯')), {}).some(x => x.id === 'UC-005'), '排錯 matches UC-005 via 除錯/修復 synonym');
+// Staff scheduling is not the same intent as automated workflows.
+const shiftResults = api.filterEntries(entries, Array.from(api.tokenize('排班')), {});
+assert(shiftResults.some(x => x.id === 'UC-338'), '排班 finds the driver shift case');
+assert(!shiftResults.some(x => x.id === 'UC-042'), '排班 does not expand to content pipelines');
 assert(api.filterEntries(entries, Array.from(api.tokenize('workflow')), {}).some(x => x.id === 'UC-006'), 'workflow matches UC-006 via 排程/工作流 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('面試')), {}).some(x => x.id === 'UC-035'), '面試 matches UC-035 via 求職/履歷 synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('resume')), {}).some(x => x.id === 'UC-035'), 'resume matches UC-035 via 求職/履歷 synonym');

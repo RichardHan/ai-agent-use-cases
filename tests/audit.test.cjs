@@ -576,6 +576,11 @@ test('INDEX.md maintains scenario consistency, complete case rows and canonical 
 
   // Main cases count in INDEX.md header must match cases/ file count
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
+  const caseHeading = indexContent.match(/^## 主要案例(?:（([^）]+)）)?\s*$/m);
+  assert(caseHeading, 'Primary case list must have a heading');
+  if (caseHeading[1] && /^\d+$/.test(caseHeading[1])) {
+    assert.equal(Number(caseHeading[1]), caseFiles.length, 'Displayed primary case count must match the actual case inventory');
+  }
   // The actual table, checked below, supplies page coverage. Historical batch
   // page totals are deliberately preserved and are not current inventory.
 

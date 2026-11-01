@@ -2,7 +2,7 @@
 const fs=require('node:fs');
 const {isCurrentMainCommit}=require('./published-check.cjs');
 
-const PUBLICATION_TIMEOUT_MS=45*60*1000;
+const PUBLICATION_TIMEOUT_MS=60*60*1000;
 
 async function waitForPublishedAssets({base,sha,files,fetchAsset=fetch,isCurrent=isCurrentMainCommit,sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms)),attempts=Infinity,interval=5000,maxDuration=PUBLICATION_TIMEOUT_MS,now=()=>performance.now(),verify}){
  const started=now(),deadline=started+maxDuration;

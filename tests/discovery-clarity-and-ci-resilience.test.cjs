@@ -61,6 +61,22 @@ test('proof recognition correctly identifies official demonstrations and example
   assert.equal(meta031.proof, '官方自報', 'UC-031 官方 Artifact 用途範例 must be classified as 官方自報');
 });
 
+test('author case is not relabelled as official by supporting documentation', () => {
+  const vm = require('node:vm');
+  const context = vm.createContext({ URL, Discovery: require('../assets/discovery.js') });
+  vm.runInContext(appJs.split('/* Browser event bindings. */')[0] + '\nthis.api={metadata,filterEntries};', context);
+  const markdown = fs.readFileSync(path.join(root, 'cases/372-office-mfp-scan-to-folder-smb-auth-fix.md'), 'utf8');
+  const item = context.api.metadata(markdown, 'cases/372-office-mfp-scan-to-folder-smb-auth-fix.md', 'case');
+  assert.equal(item.proof, '作者報告／示範');
+  assert.equal(context.api.filterEntries([item], [], {proof:'作者報告／示範'}).length, 1);
+  assert.equal(context.api.filterEntries([item], [], {proof:'官方自報'}).length, 0);
+  for (const file of ['352-daily-flomo-memo-insight-push-rotating-template.md', '407-stack-aware-security-watch-exploited-vulns-certs-breaches.md']) {
+    const template = context.api.metadata(fs.readFileSync(path.join(root, 'cases', file), 'utf8'), 'cases/' + file, 'case');
+    assert.equal(template.proof, '模板／文件核讀');
+    assert.equal(require('../assets/discovery.js').discoveryPool([template]).length, 0);
+  }
+});
+
 test('card renders both targetUser and coreGoal when available to orient visitors on problem and audience', () => {
   const vm = require('node:vm');
   const source = appJs.split('/* Browser event bindings. */')[0];
@@ -151,6 +167,7 @@ test('Recent review and Combined recovery reuse the extended publication deadlin
     const workflow = fs.readFileSync(path.join(workflowsDir, file), 'utf8');
     assert.match(workflow, /waitForPublishedAssets/, `${file} must use the shared publication wait`);
     const timeout = Number(workflow.match(/timeout-minutes:\s*(\d+)/)[1]);
-    assert.ok(timeout >= 65, `${file} must cover the 45-minute wait plus setup and journeys`);
+    const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+    assert.ok(timeout*60000>=PUBLICATION_TIMEOUT_MS+20*60000, `${file} must cover the 60-minute wait plus setup and journeys`);
   }
 });

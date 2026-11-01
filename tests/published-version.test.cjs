@@ -62,7 +62,7 @@ test('facet publication waits through a 40-minute mixed-corpus deployment using 
    return respond(url);
   }
  });
- assert.equal(PUBLICATION_TIMEOUT_MS,45*60*1000);
+ assert.equal(PUBLICATION_TIMEOUT_MS,60*60*1000);
  assert.equal(result.status,'matched');
  assert.equal(result.localRevision,'local');
  assert.equal(result.publishedRevision,'published');
@@ -73,7 +73,7 @@ test('facet publication waits through a 40-minute mixed-corpus deployment using 
  assert.equal(rounds,deployedAt/5000+1);
 });
 
-test('matching assets never accept changed source bytes, and failure stops at 45 minutes',async t=>{
+test('matching assets never accept changed source bytes, and failure stops at 60 minutes',async t=>{
  const {options,published,respond}=publicationFixture(t);
  published['corpus.json']=JSON.stringify(build('published','changed source bytes').corpus);
  let clock=0;
@@ -132,7 +132,7 @@ test('unverifiable freshness is an error, not a successful skip',async()=>{
 test('facet workflow reserves publication time and gates every published consumer on verification',()=>{
  const workflow=fs.readFileSync(path.join(__dirname,'../.github/workflows/facet-counts-qa.yml'),'utf8');
  const minutes=Number(workflow.match(/timeout-minutes:\s*(\d+)/)[1]);
- assert.ok(minutes*60000>=PUBLICATION_TIMEOUT_MS+20*60000);
+ assert.ok(minutes*60000>=PUBLICATION_TIMEOUT_MS+25*60000);
  assert.match(workflow,/- name: Verify published source bytes\s+if: steps\.published-version\.outputs\.verified == 'true'/);
  assert.match(workflow,/- name: Verify the published site\s+if: github\.ref == 'refs\/heads\/main' && steps\.published-version\.outputs\.verified == 'true'/);
  assert.match(workflow,/run: node tests\/published-version\.cjs/);

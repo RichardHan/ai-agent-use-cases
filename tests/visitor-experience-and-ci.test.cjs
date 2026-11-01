@@ -45,7 +45,8 @@ test('tests/search-submit-browser.cjs handles WebKit button tab limitation grace
 test('combined recovery published verification reuses the shared bounded gate', () => {
   assert.match(combinedRecoveryWorkflow, /waitForPublishedAssets/);
   const timeout = Number(combinedRecoveryWorkflow.match(/timeout-minutes:\s*(\d+)/)[1]);
-  assert.ok(timeout >= 55, 'job must cover publication waiting plus preview and live journeys');
+  const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+  assert.ok(timeout*60000>=PUBLICATION_TIMEOUT_MS+20*60000, 'job must cover publication waiting plus preview and live journeys');
 });
 
 
@@ -64,18 +65,20 @@ test('related reading waits for all live assets in one bounded publication round
   assert.match(source, /files:\['assets\/app\.js','assets\/reader\.css'\]/);
 });
 
-test('related-qa.yml allows at least 25 minutes for setup and published verification', () => {
+test('related-qa.yml reserves setup and browser time beyond the shared publication deadline', () => {
   const workflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/related-qa.yml'), 'utf8');
   const timeoutMatch = workflow.match(/timeout-minutes:\s*(\d+)/);
   assert.ok(timeoutMatch, 'related-qa.yml must bound its job duration');
-  assert.ok(Number(timeoutMatch[1]) >= 25, 'related reading timeout must cover setup plus its published-asset poll');
+  const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+  assert.ok(Number(timeoutMatch[1])*60000>=PUBLICATION_TIMEOUT_MS+20*60000, 'related reading timeout must cover setup plus its published-asset poll');
 });
 
-test('facet-counts-qa.yml bounds job duration to cover published-version poll (>= 25 minutes)', () => {
+test('facet-counts-qa.yml reserves 25 minutes beyond the shared published-version deadline', () => {
   const facetWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/facet-counts-qa.yml'), 'utf8');
   const timeoutMatch = facetWorkflow.match(/timeout-minutes:\s*(\d+)/);
   assert.ok(timeoutMatch, 'facet-counts-qa.yml must bound its job duration');
-  assert.ok(Number(timeoutMatch[1]) >= 25, 'job timeout must cover setup plus published-version poll');
+  const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+  assert.ok(Number(timeoutMatch[1])*60000>=PUBLICATION_TIMEOUT_MS+25*60000, 'job timeout must cover setup plus published-version poll');
 });
 
 
@@ -101,7 +104,8 @@ test('multi-engine browser workflows provide resilient timeout budget (>= 25 min
 
   const missingTimeout = missingWorkflow.match(/timeout-minutes:\s*(\d+)/);
   assert.ok(missingTimeout, 'missing-case-qa.yml must specify timeout-minutes');
-  assert.ok(Number(missingTimeout[1]) >= 25, 'missing-case-qa.yml must allow at least 25 minutes');
+  const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+  assert.ok(Number(missingTimeout[1])*60000>=PUBLICATION_TIMEOUT_MS+20*60000, 'missing-case-qa.yml must preserve setup and browser time beyond publication waiting');
 
   const returnMatches = [...returnWorkflow.matchAll(/timeout-minutes:\s*(\d+)/g)];
   assert.ok(returnMatches.length >= 2, 'return-visibility-qa.yml must specify timeout-minutes for both jobs');

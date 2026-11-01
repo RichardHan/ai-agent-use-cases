@@ -24,8 +24,8 @@ jobs:
   browser:
     runs-on: ubuntu-24.04
     container: mcr.microsoft.com/playwright:v1.56.1-noble
-    # Both release verification and deployed-browser have an independent 45-minute gate.
-    timeout-minutes: 110
+    # Both release verification and deployed-browser have an independent 60-minute gate.
+    timeout-minutes: 140
     steps:
       - uses: actions/checkout@v4
         with:

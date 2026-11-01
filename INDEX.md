@@ -204,7 +204,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（467）
+## 主要案例（470）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -492,7 +492,7 @@
 | UC-290 | 選舉期間每天中午、晚上兩份附來源的民調與局勢簡報 | Grok Bot（排程） | [作者使用自述＋公開完整提示詞；無報告輸出，保守計數暫待定](cases/290-election-twice-daily-sourced-brief.md) | 學習｜每日、查證、選舉、新聞 |
 | UC-291 | 暫定時間排進日曆的球賽，當天核對正式開球並問要不要改 | Grok Bot | [作者串文自述＋捷克文訊息截圖；日曆修正未見](cases/291-provisional-match-time-calendar-correction.md) | 生活｜日曆、運動、提醒、核准 |
 | UC-292 | 新模型 API 試用：代開帳號、本人輸卡儲值、建金鑰並做手機測試台 | Grok Bot／DeepSeek 平台 | [作者自述＋流程與測試台截圖；扣款與金鑰保存未核、兩則金額不一](cases/292-new-model-api-signup-topup-console.md) | 開發｜API、付款前確認、帳號、驗收 |
-| UC-293 | 一個 AI 起草研究報告、另一個逐點查核，Notion 稽核紀錄為準 | Grok Bot／Kimi／Notion | [作者長文自述；報告與稽核紀錄未公開](cases/293-draft-ai-audit-ai-notion-audit-record.md) | 學習｜查證、多代理、Notion、驗收 |
+| UC-293 | 一個 AI 起草研究報告、另一個逐點查核，Notion 稽核紀錄為準；變體：每天讓Grok Bot查核ChatGPT每日簡報，分開數字、觀點標示與配圖時效 | Grok Bot／Kimi／Notion；ChatGPT＋Grok Bot | [作者長文自述；報告與稽核紀錄未公開＋英文作者單日查核串文自述](cases/293-draft-ai-audit-ai-notion-audit-record.md) | 學習｜查證、多代理、Notion、驗收 |
 | UC-294 | 絕版收藏品每小時巡多家二手店與拍賣，上架即通知、本人下單 | Grok Bot／駿河屋等公開頁面 | [日文作者自述＋監看回報與訂購截圖；設定未公開](cases/294-rare-collectible-multi-shop-hourly-watch.md) | 生活｜二手、監看、收藏、排程 |
 | UC-295 | 家庭共用日曆活動前 30 分鐘投放到廚房智慧螢幕並念出 | Grok Bot／Google Calendar／Nest Hub | [作者LinkedIn步驟自述＋影片（未看）；程式未核](cases/295-family-calendar-kitchen-display-voice-reminder.md) | 生活｜家庭、提醒、日曆、智慧螢幕 |
 | UC-296 | 跨廠牌設備顯示互通 | Grok Bot／ESP32 | [作者完成自述；無原碼與安全驗證](cases/296-cross-vendor-device-display-bridge.md) | 開發｜互通、硬體、顯示、驗收 |
@@ -531,7 +531,7 @@
 | UC-329 | 多段代理對話在重啟後的續跑驗收 | Grok Bot／Cursor／Codex／Grok CLI／SQLite | [公開程式與有限實跑紀錄；假PASS及接力遺失保留](cases/329-durable-agent-chain-restart-recovery.md) | 開發｜多代理、中斷恢復、失敗 |
 | UC-330 | 未支援智慧開關的分層排障與實體驗收 | Grok Bot／Home Assistant／Zigbee2MQTT | [作者完成自述；無原碼日誌，隱藏模式不受原廠支援](cases/330-unsupported-home-device-commissioning-validation.md) | 生活｜智慧家庭、故障診斷、實體驗收 |
 | UC-331 | 網購未送達：代追物流與商家到退款入帳通知 | Grok Bot／商家／DHL | [前批作者自述；本輪原文403、與088重疊待核，不加數](cases/331-undelivered-purchase-carrier-merchant-refund-chase.md) | 生活｜退款、物流追蹤、網購 |
-| UC-332 | X營運半自動：選題到草稿交給Bot，發文前人工核准；高頻routine配錯開的兜底檢查、依每週額度倒推每日用量；六Bot分工流水線與排程端離線導致重複發文的教訓 | Grok Bot／Typefully／Obsidian | [前批作者用法清單；本輪原文403、006流程版本；2026-10-22補兩位簡中作者routine截圖、用量與重複發文失敗自述，不加數](cases/332-x-ops-semiauto-prepost-human-approval.md) | 創作｜每日、社群、發文、核准 |
+| UC-332 | X營運半自動：選題到草稿交給Bot，發文前人工核准；高頻routine配錯開的兜底檢查、依每週額度倒推每日用量；六Bot分工流水線與排程端離線導致重複發文的教訓；四Bot群組由工頭分派、發布Bot存進X草稿箱，六欄選題庫禁止估算 | Grok Bot／Typefully／Obsidian | [前批作者用法清單；本輪原文403、006流程版本；2026-10-22補兩位簡中作者routine截圖、用量與重複發文失敗自述，不加數；2026-11-01補簡中作者X Article自述，不加數](cases/332-x-ops-semiauto-prepost-human-approval.md) | 創作｜每日、社群、發文、核准 |
 | UC-333 | 外聯Notion跨代理記憶：Claude改文、Grok Bot讀流程 | Grok Bot／Claude／Notion | [前批作者自述；本輪原文未取得、071流程版本，不加數](cases/333-notion-cross-agent-outreach-memory.md) | 工作｜外聯、Notion、跨代理、記憶 |
 | UC-334 | 自架ADS-B接收站：雙頻輪收、解碼改寫，再用前後數據比較加裝放大器的效果 | Grok Bot／PlutoSDR／Raspberry Pi 4／SAWbird+ | [原文本輪未取得，待核不加數；前批自述與圖表紀錄保留](cases/334-sdr-adsb-receiver-decoder-range-ab-test.md) | 開發｜硬體、無線電、效能量測、驗收 |
 | UC-335 | 手動重新開啟的排程，又被Bot依舊約定關掉 | Grok Bot routines | [原文本輪未取得，待核不加數；前批失敗自述保留](cases/335-manual-routine-reenable-reverted-by-stale-instruction.md) | 開發｜排程、失敗、狀態同步、核准 |
@@ -675,6 +675,9 @@
 | UC-478 | Muse能SSH進Mac卻點不了那台瀏覽器：經codex app-server直接叫用Codex的Computer Use工具，由呼叫方代理讀畫面清單決定點擊，作者稱不耗Codex額度；同法取Meetings紀錄同步到倉庫 | Codex CLI（app-server）／Meta Muse／Claude Code | [B日文作者Qiita全文＋Python範例與截圖；Muse端程式未公開、試驗性介面、未重現](cases/478-muse-claude-code-call-codex-computer-use-via-app-server.md) | 開發｜跨代理、瀏覽器自動化、MCP、用量 |
 | UC-479 | 個人遊戲小額投ChatGPT廣告：Ads Manager外掛以對話設定與UTM、試算CPC×購買率損益兩平；被拒無原因時dots讀信回客服無效，同活動另建廣告即過審 | ChatGPT Work（Ads Manager外掛）／ChatGPT dots／Gmail | [B日文作者Zenn自述＋截圖；成效數字未公開、未重現](cases/479-chatgpt-ads-setup-via-ads-manager-plugin-dots-support-mail.md) | 工作｜廣告、收件匣、試算、人工確認 |
 | UC-480 | 通話後跟進信：先讀過去寄出的信、對上CRM寄信當時的成交階段寫成voice.md；每小時偵測新通話、依逐字稿起草，存草稿並Slack私訊，逐封核准才寄 | Grok Bot／Attio／Granola／Slack | [英文作者原始提示詞＋公開技能檔；無執行輸出，屬未測提示詞](cases/480-grok-bot-post-call-follow-up-drafts-voice-md-slack-approval.md) | 工作｜收件匣、CRM、核准、技能 |
+| UC-481 | 跨國火車先訂可免費取消的票保底，Bot每天早上比四家鐵路業者同班車「真的訂得到」的價格，捷克鐵路開賣後找到便宜76%並通知改訂 | Grok Bot／ÖBB、MÁV、ČD、RegioJet官網 | [B英文作者X串文自述；無訂單截圖、未重現](cases/481-refundable-train-fare-hold-daily-cross-operator-price-watch.md) | 省錢｜旅遊、每日、比價、監看 |
+| UC-482 | 生活版Bot團隊：只對主Bot說話，由它找健康、家計、家電、帳號安全Bot商量；外送與網購確認後下單、冷氣依不快指數每30分鐘微調、每週一依外出預算排週末、盤點帳號與漏停訂閱 | Grok Bot（多Bot＋routine＋專屬信箱／Webhook）／Nature Remo API／Gmail／Google日曆／Uber Eats | [B日文作者Qiita長文自述；無截圖與設定、未重現](cases/482-grok-bot-household-main-bot-routing-health-money-home-security.md) | 生活｜家庭、多代理、智慧家電、每日 |
+| UC-483 | 在Muse雲端VM做Android錄螢幕送AI解說App：JVM連不上網就用curl種本機Maven倉庫、Gradle離線建置約10輪收斂，模擬器逐路徑驗收並修崩潰，實機另列待測 | Meta Muse（雲端VM）／Gradle／Android模擬器／adb | [B日文作者Qiita自述＋錯誤訊息與模擬器截圖；原始碼私有、未重現](cases/483-muse-vm-android-app-offline-gradle-repo-emulator-verify.md) | 開發｜雲端電腦、行動App、故障診斷、驗收 |
 
 <a id="supplement-list"></a>
 
@@ -954,3 +957,7 @@
 ## 2026-10-31 08:55：每日批次（X＋Qiita／Zenn＋GitHub技能倉庫）
 
 [約75組候選與查閱範圍](sources/research-2026-10-31-0855.md)：新增4（UC477 Muse雲端VM反向通道SSH、UC478經codex app-server讓Muse／Claude Code借用Codex的Computer Use、UC479 ChatGPT廣告以Ads Manager外掛設定與出價試算及dots回客服、UC480通話後跟進信voice.md＋逐封核准〔未測提示詞〕），合併補充2（UC066 Muse常駐檔壓縮、UC465 Bot市集每月人事考核〔未測提示詞〕）；其餘為宣傳、清單、交易獲利故事、比較或證據不足。除標示未測提示詞者外均為作者自述，未獨立重現。
+
+## 2026-11-01 08:51：每日批次（X＋Qiita／Zenn＋Hacker News）
+
+[約90組候選與查閱範圍](sources/research-2026-11-01-0851.md)：新增3（UC481先訂可退火車票再每天跨業者比價改訂、UC482窗口Bot分派五個生活職責Bot、UC483 Muse VM離線Gradle建置Android App並模擬器驗收），合併補充2（UC293每天查核ChatGPT每日簡報的事實與觀點標示、UC332四Bot群組存X草稿＋六欄選題庫）；其餘為宣傳、清單、範本推廣、二手轉述或證據不足。均為作者自述，未獨立重現。

@@ -61,6 +61,16 @@ test('proof recognition correctly identifies official demonstrations and example
   assert.equal(meta031.proof, '官方自報', 'UC-031 官方 Artifact 用途範例 must be classified as 官方自報');
 });
 
+test('official signed author statements remain discoverable as official sources', () => {
+  const vm = require('node:vm');
+  const context = vm.createContext({ URL, Discovery: require('../assets/discovery.js') });
+  vm.runInContext(appJs.split('/* Browser event bindings. */')[0] + '\nthis.api={metadata,filterEntries};', context);
+  const file = 'cases/017-prospect-research-drafts.md';
+  const item = context.api.metadata(fs.readFileSync(path.join(root, file), 'utf8'), file, 'case');
+  assert.equal(item.proof, '官方自報');
+  assert.equal(context.api.filterEntries([item], [], {proof:'官方自報'}).length, 1);
+});
+
 test('author case is not relabelled as official by supporting documentation', () => {
   const vm = require('node:vm');
   const context = vm.createContext({ URL, Discovery: require('../assets/discovery.js') });

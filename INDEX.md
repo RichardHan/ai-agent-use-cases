@@ -204,7 +204,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（470）
+## 主要案例（472）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -678,6 +678,8 @@
 | UC-481 | 跨國火車先訂可免費取消的票保底，Bot每天早上比四家鐵路業者同班車「真的訂得到」的價格，捷克鐵路開賣後找到便宜76%並通知改訂 | Grok Bot／ÖBB、MÁV、ČD、RegioJet官網 | [B英文作者X串文自述；無訂單截圖、未重現](cases/481-refundable-train-fare-hold-daily-cross-operator-price-watch.md) | 省錢｜旅遊、每日、比價、監看 |
 | UC-482 | 生活版Bot團隊：只對主Bot說話，由它找健康、家計、家電、帳號安全Bot商量；外送與網購確認後下單、冷氣依不快指數每30分鐘微調、每週一依外出預算排週末、盤點帳號與漏停訂閱 | Grok Bot（多Bot＋routine＋專屬信箱／Webhook）／Nature Remo API／Gmail／Google日曆／Uber Eats | [B日文作者Qiita長文自述；無截圖與設定、未重現](cases/482-grok-bot-household-main-bot-routing-health-money-home-security.md) | 生活｜家庭、多代理、智慧家電、每日 |
 | UC-483 | 在Muse雲端VM做Android錄螢幕送AI解說App：JVM連不上網就用curl種本機Maven倉庫、Gradle離線建置約10輪收斂，模擬器逐路徑驗收並修崩潰，實機另列待測 | Meta Muse（雲端VM）／Gradle／Android模擬器／adb | [B日文作者Qiita自述＋錯誤訊息與模擬器截圖；原始碼私有、未重現](cases/483-muse-vm-android-app-offline-gradle-repo-emulator-verify.md) | 開發｜雲端電腦、行動App、故障診斷、驗收 |
+| UC-484 | 一週內從1個Bot長到9個、14篇草稿沒一篇合併：約定「同類請求重複兩三次才提議新Bot」、maker與只審不改的checker、固定步驟改用GitHub Action，最後刪掉全隊只留一個工作台Bot並盤點遺留物 | Grok Bot（多Bot、Marketplace範本）／GitHub PR與Action／Astro／Obsidian | [B英文作者dev.to長文自述＋時間線圖；無設定檔、未重現](cases/484-bot-sprawl-nine-bots-back-to-one-evidence-before-new-bot.md) | 開發｜多代理、規則檔、審查、重構 |
+| UC-485 | 美團沒有個人外送下單API：開源技能讓Bot在雲端瀏覽器讀近期訂單出2–3個選項、勾最大紅包（¥41.6→¥24.6）、補齊「再來一單」漏菜、只用地址簿，說「提交」才送出並停在收銀台由本人手機付款 | Grok Bot（雲端瀏覽器、技能、可選routine）／美團外賣H5／美團官方領券skill | [B簡中作者GitHub倉庫（MIT）實測兩單＋16張打碼截圖；一帳號一天、未重現](cases/485-grok-bot-meituan-takeout-skill-max-coupon-stop-at-cashier.md) | 省錢｜外送、優惠券、技能、核准 |
 
 <a id="supplement-list"></a>
 
@@ -961,3 +963,7 @@
 ## 2026-11-01 08:51：每日批次（X＋Qiita／Zenn＋Hacker News）
 
 [約90組候選與查閱範圍](sources/research-2026-11-01-0851.md)：新增3（UC481先訂可退火車票再每天跨業者比價改訂、UC482窗口Bot分派五個生活職責Bot、UC483 Muse VM離線Gradle建置Android App並模擬器驗收），合併補充2（UC293每天查核ChatGPT每日簡報的事實與觀點標示、UC332四Bot群組存X草稿＋六欄選題庫）；其餘為宣傳、清單、範本推廣、二手轉述或證據不足。均為作者自述，未獨立重現。
+
+## 2026-11-02 08:58：每日批次（X＋dev.to＋GitHub新倉庫）
+
+[約75組候選與查閱範圍](sources/research-2026-11-02-0858.md)：新增2（UC484九個Bot一週後收斂回一個並保留「重複請求才開Bot」等七條規則、UC485開源技能讓Bot點美團外送、勾最大券、提交即停由本人付款），合併補充2（UC091每週五件事：Siri共用清單→超市取貨單、自架YNAB連接器逐筆分類核准；UC476跨Bot唯讀稽核重複與過頻routine）；其餘為清單、教學導流、交易宣傳、產業新聞或證據不足。均為作者自述，未獨立重現。

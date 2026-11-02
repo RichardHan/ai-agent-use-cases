@@ -1193,7 +1193,7 @@ function closeDetail() {
   if ($('detail').open) $('detail').close();
   const url = new URL(location.href);
   url.searchParams.delete('case');
-  history.replaceState(null, '', url);
+  history.replaceState(history.state, '', url);
   updateMissingCase();
   syncPageContext();
   restoreDetailFocus();
@@ -1367,6 +1367,8 @@ function resultCards(items, terms, offset=0, total=items.length) {
 function showMoreResults() {
   const start=Math.min(visibleResults,currentFiltered.length);
   visibleResults=Math.min(start+RESULT_BATCH_SIZE,currentFiltered.length);
+  const batch={key:resultQueryKey,count:visibleResults};
+  history.replaceState({...history.state,[queryDirty||facetDraftDirty?'draftResultBatch':'resultBatch']:batch},'',location.href);
   const nodes=resultCards(currentFiltered.slice(start,visibleResults),tokenize($('query').value),start,currentFiltered.length);
   $('results').append(...nodes);
   updateResultBatch();
@@ -1667,9 +1669,13 @@ function submitSearch(event) {
   if((queryDirty||facetDraftDirty) && committedSearchURL!==url.href){
     const previous=new URL(committedSearchURL||location.href);
     previous.searchParams.delete('case');
-    history.replaceState(history.state,'',previous);
-    history.pushState(null,'',url);
-  }else history.replaceState(history.state,'',url);
+    const {draftResultBatch:ignoredDraft,...previousState}=history.state||{};
+    history.replaceState(previousState,'',previous);
+    history.pushState(visibleResults>RESULT_BATCH_SIZE?{resultBatch:{key:resultQueryKey,count:visibleResults}}:null,'',url);
+  }else {
+    const {draftResultBatch:ignoredDraft,...state}=history.state||{};
+    history.replaceState({...state,resultBatch:{key:resultQueryKey,count:visibleResults}},'',url);
+  }
   committedSearchURL=url.href;
   queryDirty=false;
   facetDraftDirty=false;
@@ -1951,7 +1957,8 @@ function render(updateURL=true, preserveShare=false) {
     ? '依頁首核對日由新到舊；不是發布日，也不代表新增或獨立驗證。正文補充不計；未提供者置後，同日保留原本的符合順序。'
     : '標題、用途與痛點優先；'+(filters.scope?'只在所選命中範圍搜尋。':'全文仍納入搜尋。')+'排序不代表成果或證據可靠度。';
   const resultKey=JSON.stringify([$('query').value,filters,$('sort').value]);
-  if(resultKey!==resultQueryKey){visibleResults=RESULT_BATCH_SIZE;resultQueryKey=resultKey;}
+  const changedResultKey=resultKey!==resultQueryKey;
+  if(changedResultKey){visibleResults=RESULT_BATCH_SIZE;resultQueryKey=resultKey;}
   $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),q,0,currentFiltered.length));
   updateResultBatch();
   // Sorting is a reading preference; keep the current discovery deck intact.
@@ -1998,7 +2005,9 @@ function render(updateURL=true, preserveShare=false) {
     if(filters.scope)url.searchParams.set('scope',filters.scope);else url.searchParams.delete('scope');
     if(reviewSort($('sort').value))url.searchParams.set('sort','reviewed');else url.searchParams.delete('sort');
     if(discoveryReady && url.search!==location.search)facetDraftDirty=true;
-    history.replaceState(null, '', url);
+    const state={...history.state};
+    if(changedResultKey && (queryDirty||facetDraftDirty))state.draftResultBatch={key:resultQueryKey,count:visibleResults};
+    history.replaceState(state, '', url);
   }
   syncPageContext();
 }
@@ -2808,6 +2817,16 @@ window.addEventListener('popstate', event => {
   queryDirty=false;
   facetDraftDirty=false;
   render(false);
+  const batch=event.state?.draftResultBatch?.key===resultQueryKey?event.state.draftResultBatch:event.state?.resultBatch;
+  if(batch?.key===resultQueryKey && Number.isSafeInteger(batch.count) && batch.count>=RESULT_BATCH_SIZE){
+    visibleResults=batch.count;
+    $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),tokenize($('query').value),0,currentFiltered.length));
+    updateResultBatch();
+    if(batch===event.state?.draftResultBatch){
+      const {draftResultBatch:ignoredDraft,...state}=event.state;
+      history.replaceState({...state,resultBatch:batch},'',location.href);
+    }
+  }
   if(item && event.state?.caseReturn?.area==='results')ensureVisibleResult(event.state.caseReturn.id);
   if (item) {
     lastTrigger = null;

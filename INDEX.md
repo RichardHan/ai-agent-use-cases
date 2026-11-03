@@ -204,7 +204,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（472）
+## 主要案例（476）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -254,7 +254,7 @@
 | UC-047 | 把作品與製作紀錄整理成可搜尋的作品集 | ChatGPT dots／網站 | [作者自報＋公開介面；作品資料未獨立驗收](cases/047-portfolio-provenance-catalog.md) | 創作｜作品集、來源查證、搜尋、驗收 |
 | UC-048 | 每天查商品排名或價格，有變動才通知；每週找優惠清單看到收據就移出已買品項 | Grok Bot（含限額代理卡下單、結帳失敗回報） | [作者自述＋公開範本頁說明＋Robinhood 代理卡說明已讀＋收據自動移出品項自述；下單無訂單證據、未重現](cases/048-daily-price-rank-tracking.md) | 省錢｜每日、比價、電商、排程 |
 | UC-049 | 每日收件匣報告，從只讀逐步放權 | Grok Bot（含＋別名觸發 routine）；dots／Muse 檢查頻率比較；dots 權限設定未生效反例 | [影片二手轉述＋作者自述＋跨產品觀察＋官方人員別名公告＋dots「每次詢問」仍讀信截圖反例＋日文作者只讀晨報連跑一週自述（漏送0、誤判驗證信、報過的期限消失）＋HN使用者Muse把金鑰外洩通知埋在50封例行信底下反例；說明頁未同步、未重現](cases/049-daily-inbox-report-graduated-trust.md) | 工作｜每日、收件匣、核准、排程 |
-| UC-050 | 每天依筆記與天氣生成圖，推到墨水屏 | Meta Muse／樹莓派／BOOX | [作者自述＋Meta 員工 SDK 公告；未重現](cases/050-daily-eink-mood-illustration.md) | 創作｜每日、實體裝置、生成圖像、筆記 |
+| UC-050 | 每天依筆記與天氣生成圖，推到墨水屏；ESP32螢幕板由Muse推天氣圖並可定時更新 | Meta Muse／樹莓派／BOOX／ESP32螢幕板 | [作者自述＋Meta 員工 SDK 公告＋ESP32實機照片自述；未重現](cases/050-daily-eink-mood-illustration.md) | 創作｜每日、實體裝置、生成圖像、筆記 |
 | UC-051 | 把多年報稅資料交給 Bot，複核會計師的申報 | Grok Bot | [兩位作者自測自述；錯誤與金額未核實](cases/051-tax-return-cpa-double-check.md) | 省錢｜報稅、核對、文件整理、核准 |
 | UC-052 | 雲端用量暴衝多扣錢，申請退款並修根因 | Grok Bot／Railway／Vercel／Neon | [作者自測自述；退款與 PR 未核](cases/052-cloud-overcharge-refund-root-cause.md) | 省錢｜帳單、退款、雲端費用、多代理 |
 | UC-053 | 補貨前先查退貨吃掉多少利潤 | Grok Bot／Amazon 賣家資料／Sellerboard | [作者自述實測；表格與補貨結果未核](cases/053-ecommerce-replenishment-refund-profit.md) | 工作｜電商、補貨、退貨、核對 |
@@ -521,7 +521,7 @@
 | UC-319 | 家居照片逐物盤點與人工認領交接 | Grok Bot／Drive／Excel；本人轉Sheets | [作者完成清單與交接自述；表格、辨識與清空結果未核](cases/319-home-photo-item-inventory-claim-handoff.md) | 生活｜照片、盤點、試算表、人工交接 |
 | UC-320 | 雙向待辦新增、完成與分類狀態同步 | Muse／Apple Reminders／Mac橋接 | [作者運作自述；衝突、離線與成本未驗證](cases/320-bidirectional-reminder-state-sync.md) | 生活｜待辦、雙向同步、狀態核對 |
 | UC-321 | 自有專業內容轉互動決策工具與人工邏輯校正 | Muse／HTML／CSS | [作者交付自述；工具僅核標題，互動與決策品質未核](cases/321-expert-corpus-interactive-decision-tool.md) | 創作｜知識產品、決策分支、人工驗收 |
-| UC-322 | 多平台創作者數據每日採集：固定腳本零 token 抓取，代理只做檢查與彙整 | Grok Bot／web-access Skill／Notion／儀表板 | [前批作者自述；README歸屬已更正，048同流程版本不另計](cases/322-creator-metrics-zero-token-daily-collection.md) | 創作｜每日、數據儀表板、瀏覽器自動化、用量 |
+| UC-322 | 多平台創作者數據每日採集：固定腳本零 token 抓取，代理只做檢查與彙整；或在雲端電腦手動登入後台再交回Bot抓取 | Grok Bot／web-access Skill／Notion／儀表板 | [前批作者自述＋newtype作者文字自述；README歸屬已更正，048同流程版本不另計](cases/322-creator-metrics-zero-token-daily-collection.md) | 創作｜每日、數據儀表板、瀏覽器自動化、用量 |
 | UC-323 | 每日AI新聞個人頁：逐則按有用／沒用，夜間改寫偏好筆記、隔天重選 | Grok Bot routine／Cloudflare Pages／Access／Workers KV | [前批作者自述；原文本輪未取得，暫不併核定數](cases/323-daily-ai-news-one-tap-feedback-preference-loop.md) | 學習｜每日、新聞、回饋學習、個人化 |
 | UC-324 | 每日公開障礙消息→官方狀態頁查核與去重→雲端代理開PR、人合併 | Grok Bot／Cursor Cloud Agent／GitHub／SQLite | [公開PR及合併已核；212同流程版本不另計](cases/324-daily-outage-digest-verified-incident-db-pr.md) | 開發｜每日、資料庫、PR、來源查核 |
 | UC-325 | 每晚通訊軟體提醒寫日記：語音隨口說，確認後同步文件與試算表 | Grok Bot／微信／飛書文件／Excel | [前批作者自述；未見目的檔，本輪原文待核](cases/325-nightly-voice-diary-prompt-confirm-sync.md) | 生活｜每日、日記、語音、人工確認 |
@@ -680,6 +680,10 @@
 | UC-483 | 在Muse雲端VM做Android錄螢幕送AI解說App：JVM連不上網就用curl種本機Maven倉庫、Gradle離線建置約10輪收斂，模擬器逐路徑驗收並修崩潰，實機另列待測 | Meta Muse（雲端VM）／Gradle／Android模擬器／adb | [B日文作者Qiita自述＋錯誤訊息與模擬器截圖；原始碼私有、未重現](cases/483-muse-vm-android-app-offline-gradle-repo-emulator-verify.md) | 開發｜雲端電腦、行動App、故障診斷、驗收 |
 | UC-484 | 一週內從1個Bot長到9個、14篇草稿沒一篇合併：約定「同類請求重複兩三次才提議新Bot」、maker與只審不改的checker、固定步驟改用GitHub Action，最後刪掉全隊只留一個工作台Bot並盤點遺留物 | Grok Bot（多Bot、Marketplace範本）／GitHub PR與Action／Astro／Obsidian | [B英文作者dev.to長文自述＋時間線圖；無設定檔、未重現](cases/484-bot-sprawl-nine-bots-back-to-one-evidence-before-new-bot.md) | 開發｜多代理、規則檔、審查、重構 |
 | UC-485 | 美團沒有個人外送下單API：開源技能讓Bot在雲端瀏覽器讀近期訂單出2–3個選項、勾最大紅包（¥41.6→¥24.6）、補齊「再來一單」漏菜、只用地址簿，說「提交」才送出並停在收銀台由本人手機付款 | Grok Bot（雲端瀏覽器、技能、可選routine）／美團外賣H5／美團官方領券skill | [B簡中作者GitHub倉庫（MIT）實測兩單＋16張打碼截圖；一帳號一天、未重現](cases/485-grok-bot-meituan-takeout-skill-max-coupon-stop-at-cashier.md) | 省錢｜外送、優惠券、技能、核准 |
+| UC-486 | 用官方Gadget SDK Linux版把Ubuntu註冊成Muse裝置，以無sudo專用帳號在本機Blender建機器人並另存舉手版；沒藍牙就經USB/IP＋SSH短暫借用、配對後歸還 | Meta Muse（Gadget SDK）／Ubuntu／Blender／USB/IP | [B日文作者Qiita實測＋配對記錄、算圖與SHA-256核對；官方開源SDK；未重現](cases/486-muse-gadget-sdk-linux-local-blender-robot-model-usbip-bluetooth.md) | 開發｜實體裝置、3D建模、權限隔離、驗收 |
+| UC-487 | Muse雲端VM連不出SSH：官方連接器只收文字，改用限一倉庫的細粒度token存Secure Vault、以Git Data API組commit，每次push本人核准，收進160檔約155MB含圖與影片 | Meta Muse（雲端VM、自訂連接器、Secure Vault）／GitHub Git Data API／Claude Code | [B日文作者Qiita實測，數字對照倉庫歷史；憑證代換機制未外部驗證、未重現](cases/487-muse-vm-artifacts-to-github-via-git-data-api-when-ssh-blocked.md) | 開發｜雲端電腦、GitHub、權限隔離、代理協作 |
+| UC-488 | Muse一天四次收技術新聞：跨回去重、查一手來源、沒大事就說沒有，覆寫Google Drive上的JSON，Scriptable做成iPhone主畫面小工具 | Meta Muse／Google Drive／Scriptable | [B日文作者Qiita自述＋委託全文、程式與截圖；連續運作與誤報未公開、未重現](cases/488-muse-four-times-daily-tech-news-json-drive-scriptable-iphone-widget.md) | 學習｜每日、新聞彙整、事實查核、手機小工具 |
+| UC-489 | 雲端VM與家中DMZ裡的VM對12站實測「到達／登入／自動操作」三層，寫成到達性清單並規定代理開工前先查、新限制即補 | Meta Muse（雲端VM）／Proxmox自架VM／IX2215 ACL／Tailscale | [B日文作者兩篇Qiita自述＋實測表與構成圖；單日單次測試、未重現](cases/489-muse-cloud-vm-vs-home-dmz-vm-site-reachability-list.md) | 開發｜雲端電腦、瀏覽器自動化、資安、規則檔 |
 
 <a id="supplement-list"></a>
 
@@ -967,3 +971,7 @@
 ## 2026-11-02 08:58：每日批次（X＋dev.to＋GitHub新倉庫）
 
 [約75組候選與查閱範圍](sources/research-2026-11-02-0858.md)：新增2（UC484九個Bot一週後收斂回一個並保留「重複請求才開Bot」等七條規則、UC485開源技能讓Bot點美團外送、勾最大券、提交即停由本人付款），合併補充2（UC091每週五件事：Siri共用清單→超市取貨單、自架YNAB連接器逐筆分類核准；UC476跨Bot唯讀稽核重複與過頻routine）；其餘為清單、教學導流、交易宣傳、產業新聞或證據不足。均為作者自述，未獨立重現。
+
+## 2026-11-03 09:00：每日批次（X＋Hacker News＋Qiita／Zenn＋V2EX＋GitHub新倉庫）
+
+[約95組候選與查閱範圍](sources/research-2026-11-03-0900.md)：新增4（UC486 Muse Gadget SDK Linux版以專用帳號操作本機Blender、UC487 Muse VM以Git Data API把含二進位的成果存進GitHub、UC488 Muse一天四次查證去重的新聞JSON接iPhone小工具、UC489雲端與自家DMZ VM逐站三層到達性清單），合併補充2（UC050 ESP32螢幕板由Muse推圖、UC322在雲端電腦手動登入後台再交回Bot抓數據）；其餘為宣傳、比較、清單、範本倉庫或證據不足。均為作者自述，未獨立重現。

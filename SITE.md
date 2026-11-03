@@ -1,3 +1,15 @@
+## 2026-11-04 Results return 發布核對
+
+基準 `413e7e85e701ad070f65a17fec0cf7b12e943af5`。主線 `486eaa6c` 的 [Results return QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530221529) 預覽通過，正式站資產比對在 15 分鐘後失敗；同版 [Pages 部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530219939) 在失敗後才完成。日誌未指出哪個資產不符，不能據此斷定唯一根因。
+
+選擇使用既有共用發布閘門，取代此工作流專用輪詢：仍逐 byte 比對首頁、app.js、style.css，版本被取代才跳過，未知主線或逾時仍失敗；最長等待一小時，工作時間上限 80 分鐘。保留正式站桌面與手機返回檢查。這並未解決超過等待期限的部署或其他工作流。
+
+本機基準 394 個 Node 測試通過；共用閘門及版本判斷 30 個測試通過，對正式站基準三個資產實際比對 matched。本機 Pages 子路徑預覽的返回旅程在 Chromium 1440／390／320、Firefox／WebKit 390 通過，含空結果、直鏈重載與返回、部分載入及錯誤恢復；五次 axe 自動掃描無違規，不代表完整無障礙審計。正式站 `catalog.json` 的 sourceRevision 與基準相符。截圖與報告在本次環境 `/tmp/ai-20261104-independent-qa/`；正式 Jekyll 與本輪雲端 workflow 以 Actions 實際結果為準。
+
+交付：[PR #204](https://github.com/RichardHan/ai-agent-use-cases/pull/204)，功能提交 `68bef8ecce18cb46c9d0cc32b76a9ccdcdfd8b23`；[分支工作流](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41695605429) 的預覽、合併及正式發布狀態以 GitHub 為準。正式站：https://richardhan.github.io/ai-agent-use-cases/。
+
+下一輪優先釐清 Pages 部署超過一小時的排隊與完成依賴；先核對 [Missing shared case QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530221650) 與同版部署的時間線及目前主線，不假設加長等待可根治。
+
 ## 2026-11-01 Pages 發布閘門診斷
 
 [Category finding QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41290598496) 的發布檢查等待 60 分鐘後逾時，但原訊息沒有指出哪個資產或檢查失敗。共用閘門現在在逾時時列出最後一輪不符的檔案及原因（內容不符、HTTP 狀態或請求失敗），也區分額外驗證不符；不輸出回應內容。逐 byte 比對、等待期限與新版 main 取代時的判斷不變。這是診斷改善，並未證明或修復當次部署逾時的根因。

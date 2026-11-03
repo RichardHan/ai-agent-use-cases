@@ -3459,3 +3459,5 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 ## 2026-11-04 Results return 發布網路診斷
 
 main `c701012` 的 [Results return QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41696954884) 在 published 資產比對前，`git ls-remote` 三次逾時；preview 成功，Pages 部署成功。原因尚未確認。[PR #205](https://github.com/RichardHan/ai-agent-use-cases/pull/205) 已記錄阻塞。本輪只在該工作流程失敗後執行有時限的公開 Git／GitHub API 連線診斷，輸出代碼與時間，不輸出回應內容或憑證；不替代原版本核對、不改失敗結果。初步本機正常探測 Git exit 0、API HTTP 200；指定無效代理時分別為 exit 128、exit 7／HTTP 000，不能代表 Actions runner 狀況。基準 `node --test tests/*.test.cjs` 394 通過，預覽建置成功；本輪不改網站內容或視覺。後續先核對此診斷在實際失敗 runner 的輸出，再判定網路、認證或 Git 設定；不得把診斷當成根因或發布成功。
+
+草稿 [PR #206](https://github.com/RichardHan/ai-agent-use-cases/pull/206)，實作提交 `48736db`；[分支執行 41740749887](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41740749887) 已啟動，published job 限 main，分支不能驗證失敗診斷。獨立審查指出 HTTPS 階段失敗會漏診，已將診斷移至其後並複審；30 項發布相關測試通過。本機 Chromium 正式站旅程核對五個資產與 `c701012` 一致，桌面探索／詳情、手機直鏈重整、桌面與手機搜尋及空結果復原通過；非本輪新版本部署驗證。尚未驗證失敗 runner 的診斷及合併後發布，不應宣稱 CI 已修復。

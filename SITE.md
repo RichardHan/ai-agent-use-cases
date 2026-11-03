@@ -3455,3 +3455,7 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 ## 2026-10-29 案例情境探索的瀏覽器返回
 
 正式站直鏈 UC-001 後選「探索更多生活案例」，瀏覽器返回會離開案例，因為探索覆寫了詳情的歷史項目。本輪保留詳情閱讀狀態並新增情境結果歷史項目；返回恢復案例及原搜尋篩選，前進回到情境結果，不改案例資料或搜尋語意。Chromium 1440／390／320 預覽走查、回歸先紅後綠、368 單元及 461 來源逐 byte 檢查通過；獨立審查無發現。截圖及範圍見[驗收紀錄](docs/qa/2026-10-29-scenario-history/README.md)。尚未以實體裝置或螢幕閱讀器驗證；正式部署狀態另核對。
+
+## 2026-11-04 Results return 發布網路診斷
+
+main `c701012` 的 [Results return QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41696954884) 在 published 資產比對前，`git ls-remote` 三次逾時；preview 成功，Pages 部署成功。原因尚未確認。[PR #205](https://github.com/RichardHan/ai-agent-use-cases/pull/205) 已記錄阻塞。本輪只在該工作流程失敗後執行有時限的公開 Git／GitHub API 連線診斷，輸出代碼與時間，不輸出回應內容或憑證；不替代原版本核對、不改失敗結果。初步本機正常探測 Git exit 0、API HTTP 200；指定無效代理時分別為 exit 128、exit 7／HTTP 000，不能代表 Actions runner 狀況。基準 `node --test tests/*.test.cjs` 394 通過，預覽建置成功；本輪不改網站內容或視覺。後續先核對此診斷在實際失敗 runner 的輸出，再判定網路、認證或 Git 設定；不得把診斷當成根因或發布成功。

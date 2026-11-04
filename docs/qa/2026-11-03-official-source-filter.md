@@ -21,3 +21,13 @@ Actions 基準：main `4907800` 的 [Recent review discovery QA](https://github.
 `SITE_URL=http://127.0.0.1:18765/ai-agent-use-cases/ QA_OUT=/tmp/ai-20261104-integrated-qa NODE_PATH=/Users/richard_han/orca/ai-agent-use-cases/node_modules node tests/task-shortcuts-browser.cjs`：Chromium 1440、390、320，Firefox 與 WebKit 390 均通過；另執行 loading、error、partial 情境。此為本機預覽，非正式站結果。
 
 下一輪優先處理 [#208](https://github.com/RichardHan/ai-agent-use-cases/issues/208)：先在正式站重現已併入 UC-028 的 P-002 被列為待查，再確認穩定直鏈、搜尋及載入恢復的狀態準則。另需核對 20:50 段首提及 UC-428–430 與該段列出的 UC-459–461 是否一致，不在本輪推定或改寫。
+
+## 2026-11-04 已併入來源狀態
+
+基準 `22ce9c78bbb1b3a6dc7781450bf9def0b965ce7e`：[#208](https://github.com/RichardHan/ai-agent-use-cases/issues/208) 的 P-002 原始紀錄已併入 UC-028，正式站卻顯示「還在查證」並計入 3 個待查。採保留識別碼與原文的方案，以明確的來源狀態標記判別併入目的地，從待查篩選和數量排除，詳情連往主案例；不更改來源主張或宣稱已獨立重現。
+
+回歸先重現失敗，修正後 `node --test tests/*.test.cjs` 395 通過，`node --check assets/app.js` 通過；預覽 corpus 校驗 489 個來源一致。正式站及預覽各以 Chromium 桌面與 390px 檢查 P-002，待查數由 3 改為 2；預覽測試詳情直鏈、重載與 UC-028 交接。前後截圖暫存 `/tmp/pending-{before,after}-{1440,390}.png`。既有訪客旅程在正式站與預覽均通過 Chromium 1440/390/320、Firefox 390、WebKit 390，以及載入、錯誤與部分載入情境；不等於真人研究。獨立 reviewer 靜態審查未發現阻擋問題。預覽不是 Jekyll 實際建置。
+
+基準 [Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41752393847) 和 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41752393270) 在前一主線版本 `a3fbbe6` 成功；較早 [Results return QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41696954884) 失敗於發布比對，根據 #206 的診斷紀錄為遠端查詢逾時，非已證實的網站回歸。正式站：https://richardhan.github.io/ai-agent-use-cases/。本輪 PR、合併及發布狀態以 GitHub 實際紀錄為準。
+
+下一輪：查明稽核 20:50 段首 UC-428–430 與明細 UC-459–461 的不一致；先核對原始研究批次與來源，不猜哪一組正確。

@@ -13,7 +13,6 @@ const entries=files.flatMap(file=>Array.from(api.parseFile(file,fs.readFileSync(
 assert(entries.filter(x=>x.kind==='case').length>=10);
 assert(entries.filter(x=>x.kind==='evidence').length>=2);
 const pendingCount=entries.filter(x=>x.kind==='pending').length;
-assert(pendingCount>=3);
 assert.equal(api.filterEntries(entries,['路由器斷線'],{}).length,1,'searches deep full content');
 assert.equal(api.filterEntries(entries,['OLED'],{tool:'Grok Bot',category:'實體裝置／驗收'})[0].id,'UC-010');
 assert.equal(api.filterEntries(entries,[],{kind:'pending',proof:'尚待查證'}).length,pendingCount);

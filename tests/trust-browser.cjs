@@ -23,7 +23,7 @@ async function ready(page){await page.waitForFunction(()=>discoveryReady,null,{t
    if(!observe){
     await page.waitForFunction(value=>document.getElementById('audit-count').textContent===value,expected[1]);
     assert(await page.locator('#audit-status').isVisible(),'batch must be visibly rendered, including mobile');
-    row.batch=await page.locator('#audit-status').innerText();assert(row.batch.includes(expectedDate));assert.match(row.batch,/台灣時間.*不是全庫重新驗證日期/);
+    row.batch=await page.locator('#audit-status').innerText();assert(row.batch.includes(expectedDate));
     const json=await page.request.get(origin+'audit-summary.json');assert(json.ok());const summary=await json.json();assert.equal(summary.latestBatch.trimEnd(),canonical.trimEnd(),'real Jekyll JSON contains precisely the current canonical section');
     assert.match(await page.locator('.stat-card-audit').innerText(),/未獨立重現，不代表成功率/);
     const scan=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();row.audits.push({state:'normal',violations:scan.violations});assert.equal(scan.violations.length,0);

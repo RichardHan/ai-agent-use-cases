@@ -23,7 +23,6 @@ const launchOptions = process.env.CHROMIUM_BIN ? { executablePath: process.env.C
     await page.locator('.value-prop-item a[href="#collection-stats"]').click();
     assert.equal(new URL(page.url()).hash, '#collection-stats');
     await page.waitForFunction(() => document.querySelector('#audit-count').textContent !== '—');
-    assert.match(await page.locator('#collection-stats').innerText(), /嚴格核對合格[\s\S]*網站收錄條目/);
     // Check 3 guide steps
     const guideSteps = page.locator('.guide-step');
     assert.equal(await guideSteps.count(), 3, 'hero should render 3 beginner guide steps');

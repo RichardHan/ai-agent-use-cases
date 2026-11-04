@@ -17,7 +17,7 @@ for(const [engine,width,height] of [['chromium',1440,1000],['chromium',390,844],
  const page=await context.newPage();page.setDefaultTimeout(10000);
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const label=engine+'-'+width;
- await page.goto(origin,{waitUntil:'networkidle'});await ready(page);await shot(page,'home-'+label);
+ await page.goto(origin,{waitUntil:'domcontentloaded'});await ready(page);await shot(page,'home-'+label);
  await page.locator('[data-search-entry]').first().click();
  await page.locator('#query').fill('旅遊');
  await page.locator('#filter-options').evaluate(e=>e.open=true);

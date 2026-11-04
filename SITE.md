@@ -8,7 +8,7 @@
 
 截至基準，該版 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787487641)、[Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787488052)、[Audit summary QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787488048) 成功；因路徑過濾，並非全部工作流都有執行。歷史 [Search relevance QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530221592) 在發布比對 60 分鐘逾時，同版 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530219939) 約 63 分鐘才完成；目前綠燈不證明長部署延遲已解決。
 
-下一輪優先釐清發布等待與 Pages 部署依賴：先比對最新失敗 run 的 commit、最後不符資產與對應部署時間，避免只延長期限。正式 Jekyll、PR、合併與發布狀態以 GitHub 實際結果為準。
+交付：[PR #213](https://github.com/RichardHan/ai-agent-use-cases/pull/213)，產品提交 `883ec4db5ce1c5840b2894ad0a798425dd006845`；合併與發布狀態以 GitHub 實際結果為準。下一輪優先釐清發布等待與 Pages 部署依賴：先比對最新失敗 run 的 commit、最後不符資產與對應部署時間，避免只延長期限。
 
 ## 2026-11-04 Results return 發布核對
 

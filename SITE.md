@@ -1,3 +1,13 @@
+## 2026-11-04 首頁證據說明
+
+基準 `45ee335e2c65a69a9c57d657125958e92dcf6073`；[正式站](https://richardhan.github.io/ai-agent-use-cases/) 的 `corpus.json` 當時回報同一 `sourceRevision`。首頁原稱官方報告、作者示範、公開核讀與未實測「嚴格分離」，但同頁可能混合來源，頁首標籤不能代表每項主張。選擇修正文案，提示來源或查證狀態、逐項核對與未獨立重現；不更動分類或案例。替代方案是逐項重做分類，但需要逐案核對，超出本輪。
+
+基準 `node --test tests/*.test.cjs`：394 通過；`node --check assets/app.js` 通過；`scripts/preview.py` 預覽的 489 份來源經 `scripts/check_corpus_bundle.py` 逐 byte 一致。獨立唯讀審查確認文案涵蓋待查狀態，未發現問題；未做外部來源查證。瀏覽器截圖工具逾時，未完成前後視覺核對或三種完整旅程，不能宣稱完整驗收。
+
+近期 [Results return QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41696954884) 的版本檢查因 `git ls-remote` 逾時失敗；[目前 main Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787488052) 與 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787487641) 成功，不能推論其他失敗的根因。既有 [PR #206](https://github.com/RichardHan/ai-agent-use-cases/pull/206) 正處理診斷，未重複修改。
+
+下一輪先恢復可靠的桌面與手機瀏覽器截圖，完成搜尋、空結果恢復、詳情直鏈與返回流程；再核對 PR #206 的實際 runner 診斷。部署、合併與最終版本以 PR 和 Actions 即時狀態為準。
+
 ## 2026-11-04 Results return 發布核對
 
 基準 `413e7e85e701ad070f65a17fec0cf7b12e943af5`。主線 `486eaa6c` 的 [Results return QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530221529) 預覽通過，正式站資產比對在 15 分鐘後失敗；同版 [Pages 部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530219939) 在失敗後才完成。日誌未指出哪個資產不符，不能據此斷定唯一根因。

@@ -39,7 +39,7 @@
       const summary=parseSummary(await response.json());
       if(!summary)throw Error('Audit format unavailable');
       count.textContent=String(summary.count);
-      status.textContent='核對批次：'+summary.date+(summary.time?' '+summary.time:'')+'（台灣時間）。不是全庫重新驗證日期。';
+      status.textContent='歷史批次：'+summary.date+(summary.time?' '+summary.time:'')+'（台灣時間）。這是當時的快照，不是目前全庫累計；目前合格總數未重新統計。';
       // A focused retry remains a stable control after success.
       retry.hidden=document.activeElement!==retry;
     }catch{

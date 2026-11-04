@@ -1,3 +1,15 @@
+## 2026-11-04 核對數歷史快照提示
+
+基準 `45ee335e2c65a69a9c57d657125958e92dcf6073`；[正式站](https://richardhan.github.io/ai-agent-use-cases/)原有 370 數字來自 10 月 22 日歷史批次，報告明確說不是目前全庫累計。將首頁標籤和批次說明改為歷史快照，明示目前合格總數未重新統計；不推算新數字、不改案例或核對標準。另一方案是完整重核全庫，但本輪未取得足夠逐案證據。
+
+基準及修改後 `node --test tests/*.test.cjs` 均 394/394 通過；Node 語法及 Pages 子路徑 Python 預覽成功，預覽不是正式 Jekyll。`JOURNEY_LIVE=1` Chromium 桌面及手機預覽檢查搜尋、詳情、來源、返回與空結果恢復通過；這不是使用者研究。首頁摘要載入前後維持原有失敗及重試機制。
+`tests/trust-browser.cjs` 在 Chromium 桌面、390、320 與 Firefox／WebKit 390 完成摘要與錯誤重試；前後對照截圖分別在 `/tmp/ai-visit-before-unique/` 與 `/tmp/ai-visit-trust-unique/`，為本機暫存。獨立審查指出三處舊文案斷言，已移除措辭綁定；未執行螢幕閱讀器人工驗證。
+
+
+截至基準，該版 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787487641)、[Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787488052)、[Audit summary QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787488048) 成功；因路徑過濾，並非全部工作流都有執行。歷史 [Search relevance QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530221592) 在發布比對 60 分鐘逾時，同版 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530219939) 約 63 分鐘才完成；目前綠燈不證明長部署延遲已解決。
+
+下一輪優先釐清發布等待與 Pages 部署依賴：先比對最新失敗 run 的 commit、最後不符資產與對應部署時間，避免只延長期限。正式 Jekyll、PR、合併與發布狀態以 GitHub 實際結果為準。
+
 ## 2026-11-04 Results return 發布核對
 
 基準 `413e7e85e701ad070f65a17fec0cf7b12e943af5`。主線 `486eaa6c` 的 [Results return QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530221529) 預覽通過，正式站資產比對在 15 分鐘後失敗；同版 [Pages 部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530219939) 在失敗後才完成。日誌未指出哪個資產不符，不能據此斷定唯一根因。

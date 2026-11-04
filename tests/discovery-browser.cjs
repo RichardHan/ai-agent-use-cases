@@ -58,8 +58,6 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   await page.keyboard.press('Escape');
   assert.equal(await read.evaluate(el=>document.activeElement===el),true);
   assert.equal(new URL(page.url()).searchParams.get('scenario'),'省錢');
-  // Keep the collaborator's quick tasks, detail navigation, clipboard and audited stats.
-  assert.equal(await page.locator('.stat-card-audit .stat-badge').innerText(),'嚴格核對合格');
   await ensureFiltersVisible(page);
   await page.locator('#reset').click();
   await ensureFiltersVisible(page);

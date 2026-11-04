@@ -36,3 +36,15 @@
 - 這次修正覆蓋上述六個有明確發布資產失敗證據的 gate；不代表其他本次失敗已修復。Results return 的預覽瀏覽器失敗屬不同步驟，未改其斷言。
 - GitHub Pages 發布本身不由 repo workflow 部署；輪詢仍是有上限的防禦。若之後仍超過 15 分鐘，應考慮以成功部署事件集中觸發公開站驗收，而非無限延長所有工作。
 - 下一輪優先分類 merge 後仍失敗的非部署型 browser regression，不再盲目放寬斷言。
+
+## 2026-11-04：稽核摘要發布閘門
+
+基準 `45ee335e2c65a69a9c57d657125958e92dcf6073`；正式站 `corpus.json` 的 sourceRevision 相同，[Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787487641) 與 [Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787488052) 成功。[舊 Audit summary 執行](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41005292354) 在 25 分鐘後資產與批次不符；[同版部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41005292141) 在其後完成。這支持等待窗口不足，但不證明失敗唯一原因；目前同 workflow [最新執行成功](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41787488048)。
+
+採用共用 60 分鐘絕對期限閘門，保留三個資產逐位元組比對與稽核批次比對，摘要請求也受取消訊號約束；job 上限 90 分鐘。替代方案只延長原迴圈，無法限制卡住的網路請求。未變更其他 workflow 或網站內容。
+
+本機基準 `node --test tests/*.test.cjs` 394 通過，`node --check assets/app.js` 通過。修改後以 `TRUST_URL=https://richardhan.github.io/ai-agent-use-cases/ GITHUB_SHA=45ee335e2c65a69a9c57d657125958e92dcf6073 node tests/trust-published.cjs` 實際核對正式資產及批次成功；`node --test tests/published-assets.test.cjs tests/published-check.test.cjs tests/audit.test.cjs` 38 通過。此本機核對未模擬 GitHub runner，也不證明延遲發布路徑已在 Actions 通過。
+
+獨立審查指出既有缺口：閘門判定 commit 已被取代後，同一步仍會呼叫正式站瀏覽器測試；本次未修復該路徑，不能把已取代版本視作完成正式站驗收。審查未發現本次變更新增的可證實缺陷。
+
+下一輪先確認本次 PR 與 main 對應的 Audit summary workflow 實際結果；main-only 發布路徑未執行前不可宣稱修復已發布。另 [#210](https://github.com/RichardHan/ai-agent-use-cases/pull/210) 仍處理 P-002 狀態，與 main 的維護紀錄衝突；保留雙方記錄後才能驗收整合。

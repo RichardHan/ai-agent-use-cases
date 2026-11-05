@@ -625,11 +625,6 @@
 | UC-423 | 五角色交易小組：研究／題材／訊號／風控各寫檔案交接，只有一個Bot能下單，風控上限寫死，每晚分角色檢討 | Grok Bot（多Bot＋共用檔案＋routine）／Hyperliquid API錢包（不可提領）／X API | [B英文作者長文全文＋影片貼文（未看）；無成交紀錄、未重現；非投資建議](cases/423-five-role-trading-desk-single-executor-hard-risk-caps.md) | 工作｜多代理、交易、風控、排程 |
 | UC-424 | 拆解喜歡的網站主視覺構成與寓意，再換成可商用的公有領域素材重做品牌橫幅 | Grok Bot／NASA公有領域衛星影像 | [B英文作者貼文＋兩張成品圖；拆解對話未公開、未重現](cases/424-reference-banner-deconstruct-public-domain-remake.md) | 創作｜設計、主視覺、授權、品牌 |
 | UC-425 | 取消後忘掉的旅行：Muse清點閒置航空抵用金、部分退款與附帶旅遊保險，代為申請理賠 | Meta Muse | [B英文作者單則自述（核准1,445.52美元）；無截圖、未重現](cases/425-cancelled-trip-forgotten-credits-refund-insurance-claim.md) | 省錢｜旅遊、退款、保險理賠、抵用金 |
-| UC-459 | 自己的X成效儀表板：帳號變動在圖上標記、另設「觀看÷前一天追蹤者」指標，分析數據每週手動匯出CSV交Bot | Grok Bot（頁面功能＋X外掛）／X Analytics CSV | [B作者貼文＋自回覆＋英文重製影片縮圖（數字隱藏）；未重現](cases/459-x-own-analytics-dashboard-change-markers-normalized-kpi.md) | 創作｜社群、數據儀表板、Pages、每週 |
-| UC-460 | 在家自學備課：Bot用指定教材編單元，再做一頁總表列課數、來源與上課前待查證事實 | Grok Bot（多Bot＋頁面功能） | [B英文作者單則自述＋插畫風附圖；單元內容未公開、未重現](cases/460-homeschool-lesson-units-tracker-facts-to-verify.md) | 學習｜教學、家庭、數據儀表板、查證 |
-| UC-461 | 測試商店用測試卡實際走一次結帳並錄影，剪成遮掉姓名電郵地址的示範影片 | Grok Bot（雲端電腦與瀏覽器）／WooCommerce測試站 | [B英文作者貼文＋Bot回覆截圖（訂單#277、錄4.5分）；影片未看、未重現](cases/461-staging-store-test-checkout-recorded-demo-video.md) | 工作｜電商、測試、影片、隱私 |
-| UC-457 | 讓dots連續約30小時蓋3D街景：每次先讀同一頁Notion規則、一棟＝3小時工作格、定時點檢與交接備忘、截圖交另一個AI每小時檢查、只在付費／公開／刪除時問人 | ChatGPT dots（排程）／Claude Opus 5.5（設計）／Notion／Blender／Vercel | [B日文作者note長文＋X作法串＋可走動的公開成品網頁（三件連續作品）；規則頁與紀錄未公開、未重現](cases/457-dots-30-hour-unattended-3d-street-build-rulebook-checkins.md) | 創作｜3D、長時間任務、規則檔、排程 |
-| UC-458 | 把每天的X讀取額度拿來建自己的貼文資料庫：一週3萬多則，替90個帳號分角色、算近3天話題熱度、記每日額度，做成頁面看板 | Grok Bot（每日排程、X讀取、頁面Pages） | [B簡中作者貼文＋3張看板截圖；抓取方式與資料庫未公開、未重現](cases/458-daily-x-read-quota-personal-corpus-role-tags-topic-radar-page.md) | 創作｜每日、X、資料庫、看板 |
 | UC-426 | 讓DNA結構轉成短片，但不要把鏡頭旋轉說成分子模擬 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/426-fixed-molecular-coordinates-camera-storytelling.md) | 創作｜3D、來源、驗收 |
 | UC-427 | 機構說不清？用同一模型的外觀、斷面、分解與狀態圖檢查 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/427-invention-prose-coherent-mechanism-explanation-views.md) | 創作｜3D、來源、驗收 |
 | UC-428 | 檔案做好卻拿不到？用固定版本的接收站分清保存、收件和匯入 | ChatGPT dots | [B作者實作自述；未獨立重現](cases/428-version-fixed-artifact-receipt-hub.md) | 開發｜交付、版本、驗收 |
@@ -656,6 +651,11 @@
 | UC-454 | 訂單費用整理成Notion日結，缺成本保留待確認並核對寫回 | Grok Bot／Notion | [B級示範與兩圖一致；非獨立重算](cases/454-notion-daily-settlement-writeback-cost-gap-check.md) | 工作｜日結、Notion、缺值、寫回驗收 |
 | UC-455 | 用M5StickC Plus2做按住說話的隨身Muse裝置，從記錄檔找出記憶體不足並補日文字型 | Meta Muse（Muse Gadgets SDK）／M5StickC Plus2／ESP-IDF | [B日文作者實測＋改前改後記錄檔；官方開源SDK；未重現](cases/455-muse-gadgets-m5stickc-plus2-pocket-push-to-talk.md) | 開發｜實體裝置、語音、故障診斷 |
 | UC-456 | 小網站不架後台：Muse改Markdown推到GitHub，自動建成靜態頁並由GitHub Pages公開 | Meta Muse／GitHub Actions／GitHub Pages／markdown-cms | [B日文作者自述＋公開示範站與MIT倉庫；Muse權限與操作未公開、未重現](cases/456-muse-github-markdown-static-site-operations.md) | 工作｜網站、GitHub、發布、權限 |
+| UC-457 | 讓dots連續約30小時蓋3D街景：每次先讀同一頁Notion規則、一棟＝3小時工作格、定時點檢與交接備忘、截圖交另一個AI每小時檢查、只在付費／公開／刪除時問人 | ChatGPT dots（排程）／Claude Opus 5.5（設計）／Notion／Blender／Vercel | [B日文作者note長文＋X作法串＋可走動的公開成品網頁（三件連續作品）；規則頁與紀錄未公開、未重現](cases/457-dots-30-hour-unattended-3d-street-build-rulebook-checkins.md) | 創作｜3D、長時間任務、規則檔、排程 |
+| UC-458 | 把每天的X讀取額度拿來建自己的貼文資料庫：一週3萬多則，替90個帳號分角色、算近3天話題熱度、記每日額度，做成頁面看板 | Grok Bot（每日排程、X讀取、頁面Pages） | [B簡中作者貼文＋3張看板截圖；抓取方式與資料庫未公開、未重現](cases/458-daily-x-read-quota-personal-corpus-role-tags-topic-radar-page.md) | 創作｜每日、X、資料庫、看板 |
+| UC-459 | 自己的X成效儀表板：帳號變動在圖上標記、另設「觀看÷前一天追蹤者」指標，分析數據每週手動匯出CSV交Bot | Grok Bot（頁面功能＋X外掛）／X Analytics CSV | [B作者貼文＋自回覆＋英文重製影片縮圖（數字隱藏）；未重現](cases/459-x-own-analytics-dashboard-change-markers-normalized-kpi.md) | 創作｜社群、數據儀表板、Pages、每週 |
+| UC-460 | 在家自學備課：Bot用指定教材編單元，再做一頁總表列課數、來源與上課前待查證事實 | Grok Bot（多Bot＋頁面功能） | [B英文作者單則自述＋插畫風附圖；單元內容未公開、未重現](cases/460-homeschool-lesson-units-tracker-facts-to-verify.md) | 學習｜教學、家庭、數據儀表板、查證 |
+| UC-461 | 測試商店用測試卡實際走一次結帳並錄影，剪成遮掉姓名電郵地址的示範影片 | Grok Bot（雲端電腦與瀏覽器）／WooCommerce測試站 | [B英文作者貼文＋Bot回覆截圖（訂單#277、錄4.5分）；影片未看、未重現](cases/461-staging-store-test-checkout-recorded-demo-video.md) | 工作｜電商、測試、影片、隱私 |
 | UC-462 | 已定好的發版流程交給dots定時跑：CI全綠才合併，發布到GitHub Release與Open VSX後抓回公開檔案比對版本與雜湊，未反映不重發 | ChatGPT dots／GitHub／Open VSX | [B日文作者自述＋對話截圖；排程與權限未公開、未重現](cases/462-dots-scheduled-extension-release-post-publish-hash-check.md) | 開發｜發版、驗收、排程、GitHub |
 | UC-463 | 影片交給Bot整理標題、說明、章節、標籤、縮圖與AI生成標示，先私人上傳，本人說OK才公開 | Grok Bot／YouTube | [B日文作者自述＋公開影片可開；欄位與揭露設定未核、未重現](cases/463-grok-bot-youtube-private-upload-metadata-approval-gate.md) | 創作｜影片、YouTube、發布、核准 |
 | UC-464 | 自己的專欄刊出一兩週後轉進Substack並配圖；Bot用已連接Gmail收驗證碼自行登入的權限警示 | Grok Bot／Gmail／Substack | [B英文作者第一人稱自述（Inc.com，正文僅讀前段）；未重現](cases/464-own-column-delayed-substack-cross-post-passwordless-login-risk.md) | 創作｜發布、電子報、登入、權限 |

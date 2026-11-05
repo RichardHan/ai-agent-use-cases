@@ -204,7 +204,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（480）
+## 主要案例（484）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -230,7 +230,7 @@
 | UC-023 | 產品改了，讓 dots 找出需要更新的上市文案與簡報 | ChatGPT dots | [官方發布情境／教學示例；未獨立實測](cases/023-launch-material-revision.md) | 工作｜行銷素材、改版 |
 | UC-024 | 檢查已交付工作，找出可能漏開的帳單 | ChatGPT dots／Grok Bot | [官方轉述＋貨運作者自報與錯誤；未獨立實測](cases/024-missing-invoice-check.md) | 工作｜帳單、對帳 |
 | UC-025 | 用 dots 追蹤團隊活動的期限、預算問題與待回覆事項 | ChatGPT dots | [官方示例＋作者測試及真實活動提醒；未重現](cases/025-team-event-follow-through.md) | 工作｜團隊活動、追蹤 |
-| UC-026 | 讓 Muse 整理開學通知與截止日 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/026-school-deadline-list.md) | 生活｜學校、期限 |
+| UC-026 | 讓 Muse 整理開學通知與截止日；孩子比賽報名日未定時每天早上檢查、一開放就寄連結 | Meta Muse | [官方自述／用途宣稱；原創流程未實測；英文家長自述補充](cases/026-school-deadline-list.md) | 生活｜學校、期限、每日 |
 | UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse；Grok Bot 網購下單失敗回報 | [Muse 官方自述＋Grok Bot 作者失敗自述；原創流程未實測](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買、網購 |
 | UC-028 | 先做帳單降費比較，再決定怎麼談；Muse 代查帳戶與客服議價；Grok Bot 訂閱線上議價與漲價抵免；Grok Bot 讀 PDF 帳單、本人登入後代談並先確認新總額 | Meta Muse／Grok Bot | [原作者帳單檢查與本人通話準備自述＋P-002 三則原帖（一則附業者確認簡訊）＋Grok Bot 兩則自述（一則附Bot回報截圖）＋Grok Bot 同業者現價比對與優惠到期提醒自述；節省未核](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商、訂閱 |
 | UC-029 | 刪掉12堂新排課，別動原本的2堂 | Meta Muse／Peloton | [作者實測報告；未獨立重現](cases/029-exercise-time-replan.md) | 生活｜運動、行程 |
@@ -270,7 +270,7 @@
 | UC-063 | 盤點並整理 Plex 媒體庫命名、海報與備份 | Grok Bot／Plex | [論壇作者自述＋Plex 官方操作限制；未重現](cases/063-plex-media-library-housekeeping.md) | 生活｜影片、檔案整理、備份、驗收 |
 | UC-064 | 核對數學命題、反例搜尋與 Lean 證明檢查 | ChatGPT dots／Lean | [作者自述＋公開程式、CI及登記；未獨立重跑](cases/064-math-proof-review-formalization.md) | 學習｜科研、多代理、形式驗證、驗收 |
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢 | Grok Bot | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
-| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要；Muse盤點每輪必讀常駐檔並壓縮（安全規則不動）；百分比只到1%時讓Muse唯讀加總內部逐則紀錄、用跳格點校正換算比 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁＋日文Muse常駐檔壓縮自述＋日文Muse內部紀錄逐則加總與跳格校正自述；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
+| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要；Muse盤點每輪必讀常駐檔並壓縮（安全規則不動）；百分比只到1%時讓Muse唯讀加總內部逐則紀錄、用跳格點校正換算比 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁＋日文Muse常駐檔壓縮自述＋日文Muse內部紀錄逐則加總與跳格校正自述＋英文工具選擇稽核自設提示；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
 | UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub；隊長Bot彙整全隊職責與例行任務成復原手冊、每月1日更新；dots 自己定期把 Automation／規則匯出到私有倉庫、對話變亂時開新 dot 讀回；每晚把多Bot共用電腦加密備份到自家Mac mini SSD並抽回逐檔比對；開源腳本從本機唯讀匯出Bot、routine與自建技能成Git純文字（不含記憶，非官方API） | Meta Muse／Git；Grok Bot／GitHub；ChatGPT dots／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼、重置後 Tailscale 身分恢復、每週三處備份變體）＋官方文件＋快照回滾且備份同時失效的二手轉述（待驗證）＋日文作者復原手冊自述＋日文作者 dots 設定匯出與重建自述＋英文作者每晚加密備份到本機SSD、抽回1,696／1,696檔相符自述；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
@@ -688,6 +688,10 @@
 | UC-491 | 兒子出生後自建育兒紀錄App：手機網頁先存本機再同步，資料放自己的Cloudflare與Google免費方案，Bot用同一API整理筆記、定時摘要與回答 | Grok Bot（routine、程式代理協調）／Cloudflare Pages・Functions・D1・KV／Google Drive・Calendar・Apps Script | [B英文作者X自述＋架構圖；App與程式未公開、未重現](cases/491-grok-bot-newborn-log-personal-app-cloudflare-google-free-tier.md) | 生活｜家庭、育兒、個人App、排程 |
 | UC-492 | 不會畫圖也讓App角色眨眼：Muse畫原畫與閉眼差分，Claude Code用開源工具做骨架與輸出，遮罩外0像素差異才收進iOS App | Meta Muse／Claude Code（Claude in Chrome）／Mesh Avatar Studio／SwiftUI | [B日文作者Zenn實作＋指令、檢查程式與過程圖；正式成品未公開、未重現](cases/492-muse-draws-claude-code-rigs-single-image-avatar-ios-app.md) | 創作｜生成圖像、角色動畫、代理協作、驗收 |
 | UC-493 | 同事文件讀不完：技能把文件壓成一個畫面的審閱摘要——決策、否決方案、可查證主張、數字與負責人，作者未決與我的疑慮分區且疑慮指回原文 | Grok Bot（自訂技能） | [B英文作者X串文自述規則與失效情況；技能檔與樣本未公開、未重現](cases/493-grok-bot-review-summary-skill-map-plus-disagreements.md) | 工作｜文件摘要、技能、審查、規則檔 |
+| UC-494 | Vivado用一條網路線燒FPGA：Grok Bot寫無CPU的XVC邏輯、實際合成選便宜FPGA、貝氏最佳化排6層板並自寫審查工具，本人只在節點拍板、量測與下單JLCPCB | Grok Bot（雲端電腦：KiCad／Freerouting／ngspice／Optuna）／JLCPCB／Vivado | [B日文作者Qiita兩篇實作＋實機照片與燒錄量測；RTL未公開、未重現](cases/494-grok-bot-ether-to-jtag-xvc-fpga-rtl-6-layer-pcb-jlcpcb.md) | 開發｜硬體、FPGA、電路板、代理協作、驗收 |
+| UC-495 | 讓Muse實測自己的工作VM：標稱4 vCPU／8GB實際約1.6核、可用記憶體約0.5GB，存CSV並寫成「並行最多2、大資料落地磁碟」等設計規則 | Meta Muse（工作用VM）／Python／dd／curl | [B日文作者Qiita自述實測＋數據表；單一VM單次速報、未重現](cases/495-muse-self-benchmarks-own-vm-cpu-memory-disk-network-design-rules.md) | 開發｜雲端電腦、效能量測、規則檔、驗收 |
+| UC-496 | 存成技能還不夠：幕僚長Bot唯讀用9項檢查所有私人技能（不適用時機、驗證、核准界線、重跑不重複等），出技能健康報告，改寫稿核准後才安全測試 | Grok Bot（技能、幕僚長Bot） | [英文作者X自行設計提示詞；未附執行結果、未實測](cases/496-grok-bot-skill-upgrade-audit-nine-points-health-report.md) | 工作｜技能、稽核、核准、多代理 |
+| UC-497 | 記帳App總放棄：iPhone背面點三下說一句「拉麵1000日圓」，Grok Bot自動分類記進自製記帳App，還依預算與口味推薦沒去過的午餐店 | Grok Bot／iOS捷徑（背面輕點） | [B日文作者X自述＋附加媒體未看；App與設定未公開、未重現](cases/497-grok-bot-iphone-back-tap-voice-expense-log-lunch-suggestions.md) | 省錢｜記帳、手機捷徑、語音、個人工具 |
 
 <a id="supplement-list"></a>
 
@@ -983,3 +987,7 @@
 ## 2026-11-04 08:55：每日批次（X＋Qiita＋Zenn＋Hacker News）
 
 [約60組候選與查閱範圍](sources/research-2026-11-04-0855.md)：新增4（UC490 iOS捷徑每晚把Apple健康資料寄到Grok Bot信箱、UC491自建育兒紀錄App讓Bot經同一API讀寫、UC492 Muse畫圖＋Claude Code做骨架的App角色動畫、UC493閱讀端審閱摘要技能），合併補充2（UC066 Muse內部紀錄逐則加總與百分比跳格校正、UC332素材到審稿後兩道人工閘門）；其餘為宣傳、範本導流、清單、價格討論或證據不足。均為作者自述，未獨立重現。
+
+## 2026-11-05 08:53：每日批次（X＋Qiita＋Zenn）
+
+[約55組候選與查閱範圍](sources/research-2026-11-05-0853.md)：新增4（UC494 Grok Bot從FPGA邏輯到6層板做出XVC轉接板並實機點亮、UC495 Muse實測自己工作VM的CPU／記憶體／磁碟／網路並寫成設計規則、UC496幕僚長Bot用9項唯讀檢查技能〔自設提示〕、UC497 iPhone背面點三下語音記帳），合併補充2（UC066工具選擇稽核與三組同輸入對照〔自設提示〕、UC026孩子比賽報名每天早上檢查一開放就寄連結）；其餘為宣傳、範本導流、比較文、新聞或證據不足。均未獨立重現。

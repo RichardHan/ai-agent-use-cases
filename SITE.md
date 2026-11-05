@@ -6,7 +6,7 @@
 
 基準與修改後 `node --test tests/*.test.cjs` 各 394 通過，`node --check assets/app.js` 通過；預覽的 493 份來源逐 byte 一致。Chromium 預覽 1440／390px 執行搜尋、情境篩選、詳情、來源、返回、直鏈重載及空結果復原；不是使用者研究。獨立審查指出既有稽核瀏覽器驗收仍假設 GitHub 新分頁，已改為鍵盤開啟同分頁並驗證報告內容；稽核 workflow 增加 PR 觸發，實際 Jekyll 與雲端結果以該次 Actions 為準。
 
-正式站：https://richardhan.github.io/ai-agent-use-cases/。下一輪先檢查 [PR #216](https://github.com/RichardHan/ai-agent-use-cases/pull/216) 的來源連結診斷結果與主線 Facet counts QA，避免重複修復；不要假設舊的發布等待失敗仍存在。
+交付：[PR #221](https://github.com/RichardHan/ai-agent-use-cases/pull/221)，實作提交 `3a88774`；[稽核 PR 工作流](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42013681597)及合併、部署狀態以 GitHub 實際結果為準。正式站：https://richardhan.github.io/ai-agent-use-cases/。下一輪先檢查 [PR #216](https://github.com/RichardHan/ai-agent-use-cases/pull/216) 的來源連結診斷結果與主線 Facet counts QA，避免重複修復；不要假設舊的發布等待失敗仍存在。
 
 ## 2026-11-04 核對數歷史快照提示
 

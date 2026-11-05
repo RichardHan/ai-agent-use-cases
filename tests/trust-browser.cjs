@@ -28,7 +28,6 @@ async function ready(page){await page.waitForFunction(()=>discoveryReady,null,{t
     assert.match(await page.locator('.stat-card-audit').innerText(),/未獨立重現，不代表成功率/);
     const scan=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();row.audits.push({state:'normal',violations:scan.violations});assert.equal(scan.violations.length,0);
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
-    assert.equal(await page.locator('.stat-card-audit .stat-link').getAttribute('href'),'https://github.com/RichardHan/ai-agent-use-cases/blob/main/sources/qualification-audit-2026-10-16.md');
    }
    await page.screenshot({path:out+'/'+(observe?'before':'after')+'-'+engine+'-'+size+'.png'});
    if(observe){row.reproduced=row.observedCount!==row.expectedCount;assert(row.reproduced,'baseline must reproduce stale audit count');save();await context.close();continue;}
@@ -61,9 +60,11 @@ async function ready(page){await page.waitForFunction(()=>discoveryReady,null,{t
     }
     await failurePage.close();
    }
-   // Check the accessible report link against real GitHub once.
+   // Keyboard navigation must reach the published report in the same tab.
    if(engine==='chromium'&&size==='desktop'){
-    const popupPromise=page.waitForEvent('popup');await page.locator('.stat-card-audit .stat-link').focus();await page.keyboard.press('Enter');const popup=await popupPromise;await popup.waitForLoadState('domcontentloaded');row.reportURL=popup.url();assert(row.reportURL.includes('qualification-audit-2026-10-16.md'));await popup.close();
+    await page.locator('.stat-card-audit .stat-link').focus();await page.keyboard.press('Enter');
+    await page.waitForURL(new URL('sources/qualification-audit-2026-10-16.html',origin).href);
+    row.reportURL=page.url();assert((await page.locator('body').innerText()).includes(expected[1]+'／1,000'));
    }
    assert.deepEqual(row.errors,[]);row.complete=true;save();await context.close();
   }

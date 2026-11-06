@@ -1,0 +1,15 @@
+# 2026-11-06 Search context QA 安裝診斷
+
+基準 main `fc1b1c5c6da19ed06313e9f186e9258317bc83a6`；[正式站](https://richardhan.github.io/ai-agent-use-cases/)。原工作樹有未提交變更，未修改。
+
+[PR #230 的 Search context run 42183050796](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42183050796) 在觀察時長時間停於 `Install existing cloud browser tools`。此現象不能單獨證明 apt、網路或其他根因。同期 main [Pages deployment 42159134078](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42159134078) 成功，不代表所有 QA 成功。
+
+本輪僅將 Search context QA 改用與現有 npm 版本相同的 Playwright 1.64.1 Noble 容器，沿用 Audit summary QA 的中文字型與 Git safe.directory 作法；保留基準比較、搜尋、正式站檢查及斷言。Microsoft registry 的多架構 manifest 查詢返回 200；本機沒有 Docker，容器的實際相容性須以本輪 PR workflow 驗證。此修改不是已證實根因的宣稱。
+
+基準本機 `node --test tests/*.test.cjs`：394 通過；`node --check assets/app.js`、`node --check assets/reader.js` 與 `python3 scripts/preview.py /tmp/omp-baseline-preview/ai-agent-use-cases` 通過。沒有獨立 lint/typecheck 指令的通過宣稱。
+
+候選 [PR #231](https://github.com/RichardHan/ai-agent-use-cases/pull/231) 首次 [run 42189209262](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42189209262) 容器及安裝成功，但 `Compare baseline and updated preview` 失敗：預覽在 `safe.directory` 設定前執行，缺少來源版本，`page.goto` 收到 null。已把 Git 設定移到預覽前；修正後需以新 run 核實，不能把首次 run 當作通過。本機搜尋情境腳本在 Chromium 桌面／390／320、Firefox 390、WebKit 390 均通過；包含搜尋、空結果復原、直鏈、返回與鍵盤，桌面來源回應 200。
+
+第二次 [run 42189498039](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42189498039) 已通過 Chromium 三種尺寸，但 Firefox 因容器的 `/github/home` 非 root 所有而無法啟動。獨立審查指出瀏覽器需使用 `HOME=/root`，但正式站檢查中的 Git 仍須保留原 HOME；最終只對跨瀏覽器腳本設定該值。正式站 `catalog.json` 的 `sourceRevision` 對應基準 `fc1b1c5`；本輪沒有網站視覺修改。
+
+下一輪：檢查本輪 PR 的 Search context QA 完整步驟及 artifact；若再次停在安裝，讀取當次日誌，區分 npm、字型下載與 runner 問題，不重複盲目重跑。另有 P-003 邊界、靜態索引缺漏與門檻標籤等既有 PR，先核對其進度，避免重複實作。

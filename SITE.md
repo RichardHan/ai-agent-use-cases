@@ -3477,3 +3477,13 @@ PR #51與#52已分別合併；最終15c3dc6的正式原生Back三引擎各10次�
 ## 2026-10-29 案例情境探索的瀏覽器返回
 
 正式站直鏈 UC-001 後選「探索更多生活案例」，瀏覽器返回會離開案例，因為探索覆寫了詳情的歷史項目。本輪保留詳情閱讀狀態並新增情境結果歷史項目；返回恢復案例及原搜尋篩選，前進回到情境結果，不改案例資料或搜尋語意。Chromium 1440／390／320 預覽走查、回歸先紅後綠、368 單元及 461 來源逐 byte 檢查通過；獨立審查無發現。截圖及範圍見[驗收紀錄](docs/qa/2026-10-29-scenario-history/README.md)。尚未以實體裝置或螢幕閱讀器驗證；正式部署狀態另核對。
+
+## 2026-11-05 靜態索引編號順序
+
+基準 [`827b35a`](https://github.com/RichardHan/ai-agent-use-cases/commit/827b35a21c9cc59ab72038e337b03c1cfdc3819f)：完整索引主表在 UC-425 後出現 UC-459–461、457–458，接著才是 UC-426；慢載入時依編號查找會倒退。將五列原文移至 UC-456 之後，不改資料、連結或補充研究批次；增加主表遞增檢查。UC-441–445 目前僅在補充批次，主表缺漏由既有 [PR #179](https://github.com/RichardHan/ai-agent-use-cases/pull/179) 處理，本輪不重複加入。
+
+交付：[草稿 PR #220](https://github.com/RichardHan/ai-agent-use-cases/pull/220)，實作 commit [`ffc5f1b`](https://github.com/RichardHan/ai-agent-use-cases/commit/ffc5f1bf366f045d80631c14014d71851bb345f3)；本輪檢查與正式發布尚未確認，勿將基準綠燈視為本輪通過。
+
+回歸先失敗（461 在 457 前），修正後通過；基準全套 394 項、修正後 395 項通過，索引逐行內容集合與基準完全相同。獨立唯讀審查無發現；未審 Jekyll 渲染。最新基準 [Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41946674624) 及 [Pages 部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41946674184) 成功；正式站為 https://richardhan.github.io/ai-agent-use-cases/ 。先前 [公開站驗收失敗](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41918301367) 無法僅憑 job 狀態判定根因，不將歷史失敗當成本次故障。
+
+限制與接續：Python 預覽不建置 Jekyll 的 `INDEX.html`；需由 Pages 實際建置後核對索引順序與桌面／手機顯示。下一輪先核查 PR #179 的最新狀態與 UC-441–445 主表覆蓋，避免重複修改。

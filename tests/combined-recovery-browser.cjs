@@ -4,7 +4,7 @@ const {AxeBuilder}=require('@axe-core/playwright');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const base=process.env.RECOVERY_URL||'http://127.0.0.1:8099/ai-agent-use-cases/';
 const observe=process.env.OBSERVE==='1',prefix=observe?'before':'after';
-const totalMatches=async page=>Number((await page.locator('#results-count').innerText()).match(/^顯示 (\d+) \//)[1]);
+const totalMatches=async page=>Number((await page.locator('#results-count').innerText()).match(/^符合 (\d+) \//)[1]);
 fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];

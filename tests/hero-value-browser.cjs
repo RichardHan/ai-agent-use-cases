@@ -35,7 +35,7 @@ const launchOptions = process.env.CHROMIUM_BIN ? { executablePath: process.env.C
     await page.waitForSelector('#results .card');
     assert.equal(await page.locator('#query').inputValue(), '代碼審查');
     const countText = await page.locator('#results-count').innerText();
-    assert.match(countText, /顯示 \d+ \/ \d+ 筆收錄/);
+    assert.match(countText, /符合 \d+ \/ \d+ 筆收錄/);
     
     // A meeting shortcut must not silently substitute daily-report results.
     await page.goto(origin, { waitUntil: 'domcontentloaded' });

@@ -8,7 +8,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
 const observe=process.env.OBSERVE==='1';
 const base=process.env.FACET_URL||'http://127.0.0.1:8096/ai-agent-use-cases/';
 const keys=['scenario','kind','tool','category','proof'];
-const totalMatches=async page=>Number((await page.locator('#results-count').innerText()).match(/^顯示 (\d+) \//)[1]);
+const totalMatches=async page=>Number((await page.locator('#results-count').innerText()).match(/^符合 (\d+) \//)[1]);
 fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];

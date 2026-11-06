@@ -338,7 +338,7 @@ async function jump(page,button){
    assert.match(await resilient.locator('#results-count').innerText(),/1 個來源檔案未載入/);
    const available=await resilient.evaluate(()=>currentFiltered.length);
    assert(available>=300,'a failed source leaves the rest of the searchable corpus available');
-   assert.match(await resilient.locator('#results-count').innerText(),new RegExp(`顯示 ${available} / ${available} 筆收錄`));
+   assert.match(await resilient.locator('#results-count').innerText(),new RegExp(`符合 ${available} / ${available} 筆收錄`));
    console.log('PASS: resilient loader keeps catalog working when a single markdown case fails');
    await resilient.close();
    const copyFallback=await browser.newPage();

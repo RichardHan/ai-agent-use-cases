@@ -83,7 +83,7 @@ const base = process.env.SEARCH_SCOPE_URL || 'http://127.0.0.1:8106/';
       assert.equal(new URL(page.url()).searchParams.has('scope'), false);
       if (width === 1440) {
         await page.goto(new URL('?q=UC001&scope=overview&scenario=%E9%96%8B%E7%99%BC&kind=pending&tool=Grok%20Bot#explore',base).href);
-        await page.locator('#results-count').getByText(/顯示 0/).waitFor();
+        await page.locator('#results-count').getByText(/符合 0 \//).waitFor();
         const recovery = page.locator('#empty-suggestions [data-remove-filters]').first();
         await recovery.waitFor();
         const promised = Number((await recovery.innerText()).match(/查看 (\d+) 筆/)[1]);

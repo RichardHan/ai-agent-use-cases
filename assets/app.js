@@ -1392,6 +1392,10 @@ function updateResultBatch() {
   const remaining=currentFiltered.length-visibleResults;
   $('load-more-results').hidden=remaining<=0;
   $('load-more-results').textContent=`再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）`;
+  const skipNote = failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入）` : '';
+  $('results-count').textContent = discoveryReady
+    ? `符合 ${currentFiltered.length} / ${entries.length} 筆收錄；已顯示 ${Math.min(visibleResults,currentFiltered.length)} 筆${skipNote}`
+    : initialLoading ? '正在讀取案例，完成後會套用目前條件…' : '載入未完成';
 }
 function enterSearch(event) {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
@@ -1971,8 +1975,6 @@ function render(updateURL=true, preserveShare=false) {
   renderSearchFeedback(q, filters);
   renderFacetCounts(q, filters);
   updatePartialLoad();
-  const skipNote = failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入）` : '';
-  $('results-count').textContent = discoveryReady ? `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}` : initialLoading ? '正在讀取案例，完成後會套用目前條件…' : '載入未完成';
   $('filter-outcome-count').textContent = discoveryReady
     ? currentFiltered.length ? `目前條件有 ${currentFiltered.length} 筆結果` : failedPaths.length ? '已載入內容中沒有符合結果' : '目前條件沒有符合結果'
     : initialLoading ? '正在讀取案例…' : '載入未完成';

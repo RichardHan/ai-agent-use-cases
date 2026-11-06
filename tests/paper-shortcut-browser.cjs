@@ -28,7 +28,7 @@ const { ensureFiltersVisible } = require('./filter-controls.cjs');
       assert.equal(new URL(page.url()).searchParams.get('q'), '論文');
       await ensureFiltersVisible(page);
       await page.locator('#scenario').selectOption('學習');
-      assert.match(await page.locator('#results-count').innerText(), /顯示 3 \/ 459/);
+      assert.match(await page.locator('#results-count').innerText(), /符合 3 \/ \d+ 筆收錄/);
       await page.locator('#query').fill('不存在的論文詞');
       assert.equal(await page.locator('#empty').isVisible(), true);
       await page.locator('#query').fill('論文');

@@ -10,4 +10,6 @@
 
 Actions：主線 Website QA [42159134078](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42159134078)、Audit summary QA [42159134901](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42159134901) 為成功。先前 Audit summary [42143315388](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42143315388) 在安裝階段取消；WebKit [42158014167](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42158014167) 失敗後由 #226 調整環境，不能推定所有工作流程已修復。開放 PR #162 等已處理其他載入後備，未動其 worktree。
 
+交付：[草稿 PR #230](https://github.com/RichardHan/ai-agent-use-cases/pull/230)，主要程式提交 `e50b1d4`；PR checks 已觸發，狀態以 PR 為準。尚未合併或確認本輪部署。
+
 下一輪優先檢查首頁歷史合格數與目前目錄日期差：先比對正式站 `audit-summary.json`、`catalog.json` 及現有文案；不得推算最新合格總數。

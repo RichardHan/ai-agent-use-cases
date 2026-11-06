@@ -574,10 +574,16 @@ test('INDEX.md maintains scenario consistency, complete case rows and canonical 
   assert(/UC-358[^\n]*納入[^\n]*B/.test(auditContent), 'UC-358 must be audited as B-grade qualified in audit document');
   assert(/UC-359[^\n]*待定/.test(auditContent), 'UC-359 must be audited as pending (待定) in audit document');
 
-  // Main cases count in INDEX.md header must match cases/ file count
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
-  // The actual table, checked below, supplies page coverage. Historical batch
-  // page totals are deliberately preserved and are not current inventory.
+  const inventory = indexContent.match(/全庫共有 (\d+) 個主要案例頁：下表列出 (\d+) 個/);
+  assert(inventory, 'INDEX.md must distinguish the complete inventory from the main table');
+  assert.equal(Number(inventory[1]), caseFiles.length, 'INDEX.md inventory must match cases/ files');
+  const caseHeading = indexContent.match(/^## 主要案例（(\d+)）$/m);
+  assert(caseHeading, 'INDEX.md must declare the main table count');
+  const mainTable = indexContent.split(/^## 主要案例（\d+）$/m)[1].split(/^<a id="supplement-list"><\/a>$/m)[0];
+  const mainRows = mainTable.split('\n').filter(line => line.startsWith('| UC-') && line.includes('(cases/'));
+  assert.equal(Number(caseHeading[1]), mainRows.length, 'Main heading must match the main table rows');
+  assert.equal(Number(inventory[2]), mainRows.length, 'Inventory description must match the main table rows');
 
   // Verify all case and evidence links in INDEX.md exist on disk
   const links = Array.from(indexContent.matchAll(/\[(?:[^\]]*)\]\(((?:cases|evidence)\/[^)]+\.md)\)/g));

@@ -31,7 +31,7 @@ function refreshCurrentSourceLinks(path) {
     if(href) { link.href=href; link.removeAttribute('aria-disabled'); link.removeAttribute('tabindex'); }
   }
 }
-const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
+const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證', merged:'已併入案例'};
 const PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {
   '官方自報': '官方團隊第一手發布的自述或示範，未經第三方獨立驗證。',
   '作者報告／示範': '社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證。',
@@ -540,8 +540,10 @@ function metadata(markdown, path, kind, suffix='') {
   }
   const tags = rawTags ? rawTags.split(/[、,，\s/]+/).map(t=>t.trim()).filter(Boolean) : [];
   const proofLine = clean(lead.match(/^-\s*(?:來源證據|證據狀態|證據等級|證據)\s*[：:]\s*(.+)$/m)?.[1] || '');
-  const mergedInto=kind==='case' ? (heading.match(/已合併\s*(UC-\d{3})/)?.[1] || proofLine.match(/合併\s*(UC-\d{3})/)?.[1] || null) : null;
-  const proof = kind === 'pending' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /^author-(?:demo|self-report)\b/i.test(proofLine) ? '作者報告／示範' : /官方.*(?:展示|示例|範例|發布|自報|第一手.*自述|署名作者使用陳述)|official/i.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
+  const pendingMerge=kind==='pending' ? lead.match(/^-\s*收錄狀態\s*[：:]\s*merged\s+(UC-\d{3})\s*$/mi)?.[1] : null;
+  const mergedInto=pendingMerge || (kind==='case' ? (heading.match(/已合併\s*(UC-\d{3})/)?.[1] || proofLine.match(/合併\s*(UC-\d{3})/)?.[1] || null) : null);
+  if (pendingMerge) kind='merged';
+  const proof = kind === 'pending' || kind === 'merged' ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /^author-(?:demo|self-report)\b/i.test(proofLine) ? '作者報告／示範' : /官方.*(?:展示|示例|範例|發布|自報|第一手.*自述|署名作者使用陳述)|official/i.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})/)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
   const copy=(globalThis.displayCopy?.[id])||displayCopy[id]||{};
@@ -2264,10 +2266,10 @@ async function readJSON(path, timeout) {
 function mergeCorpus(current, recovered) {
   const paths=new Set(recovered.map(item=>item.path));
   return [...current.filter(item=>!paths.has(item.path)),...recovered].sort((a,b)=>
-    ({case:0,evidence:1,pending:2}[a.kind]-{case:0,evidence:1,pending:2}[b.kind])||a.id.localeCompare(b.id));
+    ({case:0,evidence:1,pending:2,merged:3}[a.kind]-{case:0,evidence:1,pending:2,merged:3}[b.kind])||a.id.localeCompare(b.id));
 }
 function refreshCorpusMetadata() {
-  for(const kind of Object.keys(KIND)) $(kind==='case'?'case-count':kind+'-count').textContent=entries.filter(e=>e.kind===kind).length;
+  for(const kind of ['case','evidence','pending']) $(kind==='case'?'case-count':kind+'-count').textContent=entries.filter(e=>e.kind===kind).length;
   $('catalog-status').hidden=!failedPaths.length;
   $('catalog-status').textContent=failedPaths.length?'僅計已載入條目；'+failedPaths.length+' 個來源檔案未載入。':'';
   for(const [id,values] of [['tool',entries.flatMap(e=>e.tools)],['category',entries.map(e=>e.category)],['proof',entries.map(e=>e.proof)]]){

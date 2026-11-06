@@ -1,0 +1,57 @@
+# UC-502：Muse 要叫 Grok Bot 做事？用 Routine webhook 觸發，再用「固定郵件標頭」把結果撈回來（或寫進共用資料庫）
+
+- 情境：開發
+- 標籤：多代理、事件觸發、郵件、每日
+- 網站標題：Grok Bot 的 webhook Routine 當 API：Muse（或其他系統）POST 開工，結果用郵件標頭或資料庫稍後取回
+- 一句話用途：Substack 作者 Alfred Nutile（2026-11-02）說明為何同時留 Grok Bot 與 Muse：喜歡 Grok Bot 的程式／複雜 Linux 與 Cursor 整合，又把生活任務往 Muse 移。關鍵是 Grok Bot Routines 可建多條 webhook，各帶自己的提示；外部系統（含 Muse）POST 即可觸發。任務常需較久，不宜同步等待，因此用 SupaNet、共用資料庫，或在結果信上放一致的標頭，讓另一方幾分鐘後依標頭找到對應郵件。同模式也可寄給真人協作者。作者教學自述；本庫未重現。
+- 核心目標：在兩個常駐代理之間用事件觸發開工、用非同步通道取回結果，而不是複製貼上聊天。
+- 分類／標籤：跨產品觸發／webhook／非同步回傳
+- 目標使用者：同時使用 Muse 與 Grok Bot、需要把重活或特定能力留給其中一方的人
+- 工具：Grok Bot（Routines webhook）／Meta Muse／可選電子郵件、資料庫或作者提到的 SupaNet；作者另提開源 grokked-bot
+- 首次收錄／最近查證：2026-11-06 08:51（台灣時間）
+- 證據狀態：`author-demo`（作者教學文；無設定截圖或實際往返日誌）
+- 是否獨立重現：否
+
+## 輸入與預期輸出
+
+- 輸入：Grok Bot 上帶提示詞的 webhook Routine；Muse 或其他系統發出的 POST；約定好的結果郵件標頭或資料庫鍵。
+- 輸出：被觸發的 Grok Bot 工作；稍後可依標頭／鍵取回的結果；可選寄給真人的核准信。
+
+## 來源版本
+
+### 來源A：Alfred Nutile／Daily AI Studio Substack（英文）
+
+- 原始網址：[Connect Grok Bot and Muse](https://dailyaistudio.substack.com/p/connect-grok-bot-and-muse)，2026-11-02；本庫 2026-11-06 讀公開正文。
+- 取得內容（翻譯摘要）：
+  1. 為何兩套：Grok Bot 擅長程式與較複雜 Linux／Cursor；生活任務漸移 Muse，但仍要 webhook 與開源替代（grokked-bot）。
+  2. 在 Routines 建多條 webhook，每條自己的 prompt；對 Grok Bot POST 即可觸發。
+  3. 結果常不能同步等：用 SupaNet、資料庫輪詢，或郵件——在信上放一致 headers，另一 Bot 稍後搜尋該標頭即可對上同一件任務。
+  4. 郵件也可當人機 API：給協作者帶驗證細節的主旨／內文，請對方做事或回覆；代理之間同理。
+  5. 作者仍偏好 webhook 以便控管存取；留言者 Luis Bolinao 附和「事件驅動才像助理」。
+- 作者報告結果：自述郵件法好用；未附標頭欄位名、延遲分佈或失敗重試設計。
+
+## 建議操作流程（依來源整理）
+
+1. 在 Grok Bot 為「Muse 可呼叫」的工作各建一條 webhook Routine，提示詞寫清輸入欄位與完成定義。
+2. Muse 端只 POST 任務 ID 與必要參數，不要把密碼放進 query string。
+3. 約定結果通道：郵件標頭（例如 X-Task-Id）或資料庫列；完成後寫入，呼叫端稍後讀取。
+4. 對外寄信、改碼、付款仍走本人核准；webhook 金鑰輪替與最小權限。
+
+## 可複製提示詞（本庫原創，未實跑）
+
+> 你是 webhook 觸發的工人。只處理 POST 內的 task_id 與 payload。做完後寄信到［結果信箱］，主旨固定為「TASK task_id DONE」，並加標頭 X-Task-Id: task_id；正文只放結果摘要與產物路徑。不要回呼未列在白名單的網址，不要把 webhook 金鑰寫進信裡。若缺必要欄位，回同一格式的 FAILED 信並停止。
+
+## 所需連接、權限與限制
+
+- Webhook URL／金鑰等同觸發權；外洩等於任人開工。
+- 郵件標頭方案依賴雙方都能讀同一信箱或轉信規則。
+- 不推定 ChatGPT dots 暴露同等 webhook Routine 介面。
+
+## 驗收與可重現性
+
+- 可驗收：測試 POST 能開工；結果信／列在時限內可依 task_id 取回；重放同一 task_id 不重複副作用（或明確拒絕）。
+- 本庫未重現。
+
+## 去重與版本紀錄
+
+- 2026-11-06 08:51 新增。UC-344／UC-351 是本機代理 webhook 叫醒 Grok Bot；本案重點是 **Muse（或其他系統）→ Grok Bot webhook，再用郵件標頭非同步取回**，另立案。

@@ -1,3 +1,15 @@
+## 2026-11-06 搜尋結果分批計數
+
+基準 `a3b71759e7652d346ca026ac69fcdd4c95b29996`。正式站搜尋「旅遊」並選 Grok Bot 時，文字為「顯示 29 / 500 筆收錄」，實際首批只有 24 張。改為分別呈現符合總數與已顯示數，展開及瀏覽器返回時同步更新；不改搜尋、排序或資料。另一方案只改「顯示」為「符合」，但無法辨識已顯示數。
+
+正式站同條件基準與本機子路徑預覽分別為 29／500 與 24 張；預覽顯示「符合 29 / 500 筆收錄；已顯示 24 筆」。Chromium 1440／390 分批、鍵盤、詳情、返回、篩選、空結果及直鏈測試通過；Node 測試 394／394，語法檢查通過，預覽 498 份來源逐 byte 一致。這不是 Jekyll 正式建置或真人研究；截圖在本機 `/tmp/result-count-{before,after}-{desktop,mobile}.png`，無法目視判讀。
+
+補充驗證：搜尋範圍 Chromium 1440／390／320 通過；篩選計數 Chromium 1440／390／320 與 Firefox 390 通過，但本機 macOS WebKit 390 在詳情返回後 Tab 焦點斷言（`tests/facet-counts-browser.cjs:110`）失敗，尚未確認是否與系統鍵盤導覽設定有關；不可宣稱完整跨瀏覽器通過。
+
+獨立審查發現既有篩選與復原測試仍解析舊格式，已遷移；雲端檢查及發布狀態以 PR 和 Actions 實際結果為準。正式站 https://richardhan.github.io/ai-agent-use-cases/；近期 [Pages run](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42190205681) 成功，歷史失敗不等於目前仍失敗。
+
+下一輪先核對 [PR #206](https://github.com/RichardHan/ai-agent-use-cases/pull/206) 的發布網路診斷與最新 main Actions，再決定是否處理部署核對；避免重複進行中的工作。
+
 ## 2026-11-05 稽核報告入口
 
 基準 `827b35a21c9cc59ab72038e337b03c1cfdc3819f`。首頁歷史合格數來自 Pages 的稽核摘要，原報告入口卻指向 GitHub 可變的 `main`；改連同一次 Pages 建置產生的站內報告，在同分頁閱讀。摘要與報告仍可能因部署或快取時差暫時不一致，這不是固定版本的保證；不改計數或案例。另一方案是固定 GitHub SHA，但需另處理版本不可用與載入狀態。

@@ -24,7 +24,7 @@ const origin=process.env.MATCH_URL||'http://127.0.0.1:8084/ai-agent-use-cases/';
     const result=report.queries.at(-1);
     assert(result.rendered>0,'matching queries render a readable first batch');
     assert.equal(result.explained,result.rendered,'every rendered result explains its match');
-    assert.match(await page.locator('#results-count').innerText(),new RegExp(`^顯示 ${result.total} / \\d+ 筆收錄`));
+    assert.match(await page.locator('#results-count').innerText(),new RegExp(`^符合 ${result.total} / \\d+ 筆收錄`));
     assert.equal(await page.locator('#drawn-case .search-context').count(),0);
    }
    await page.locator('#query').fill('薪水');

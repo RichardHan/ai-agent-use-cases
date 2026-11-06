@@ -30,8 +30,11 @@ function publicationFixture(t){
  const built=fs.mkdtempSync(path.join(os.tmpdir(),'published-version-'));
  t.after(()=>fs.rmSync(built,{recursive:true,force:true}));
  const local=build('local'),remote=build('published');
+ remote.catalog.sourceRevision=remote.corpus.sourceRevision='current';
+ const page='<html lang="zh-Hant"><head><meta property="og:locale" content="zh_TW"></head></html>';
  const files={
-  'index.html':'page','assets/app.js':'app','assets/style.css':'style','assets/reader.js':'reader','assets/reader.css':'reader style',
+  'index.html':page,'assets/app.js':'app','assets/style.css':'style','assets/reader.js':'reader','assets/reader.css':'reader style',
+  'INDEX.html':page,'cases/001-travel-checkout.html':page,'sources/qualification-audit-2026-10-16.html':page,
   'catalog.json':JSON.stringify(local.catalog),'corpus.json':JSON.stringify(local.corpus)
  };
  for(const [file,content] of Object.entries(files)){
@@ -44,7 +47,7 @@ function publicationFixture(t){
   assert.ok(Object.hasOwn(published,file),'unexpected publication URL '+url);
   return {ok:true,arrayBuffer:async()=>Buffer.from(published[file])};
  };
- return {options:{base:'https://example.test/project/',built,sha:'current',isCurrent:()=>true},published,respond};
+ return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',isCurrent:()=>true},published,respond};
 }
 
 test('facet publication waits through a 40-minute mixed-corpus deployment using the shared window',async t=>{
@@ -75,7 +78,7 @@ test('facet publication waits through a 40-minute mixed-corpus deployment using 
 
 test('matching assets never accept changed source bytes, and failure stops at 60 minutes',async t=>{
  const {options,published,respond}=publicationFixture(t);
- published['corpus.json']=JSON.stringify(build('published','changed source bytes').corpus);
+ published['corpus.json']=JSON.stringify({...build('published','changed source bytes').corpus,sourceRevision:'current'});
  let clock=0;
  await assert.rejects(waitForPublishedVersion({
   ...options,fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}
@@ -98,6 +101,29 @@ test('a changed product asset cannot pass with an otherwise matching corpus',asy
   return true;
  });
  assert.equal(clock,PUBLICATION_TIMEOUT_MS);
+});
+
+test('publication cannot pass while a static page has stale language or a stale source revision',async t=>{
+ for(const stale of ['language','revision']){
+  const {options,published,respond}=publicationFixture(t);
+  const page='<html lang="zh-Hant"><head><meta property="og:locale" content="zh_TW"></head></html>';
+  published['INDEX.html']=stale==='language'?'<html lang="en"></html>':page;
+  published['cases/001-travel-checkout.html']=page;
+  published['sources/qualification-audit-2026-10-16.html']=page;
+  for(const name of ['catalog.json','corpus.json']){
+   const value=JSON.parse(published[name]);
+   value.sourceRevision=stale==='revision'?'old':'current';
+   published[name]=JSON.stringify(value);
+  }
+  let clock=0;
+  await assert.rejects(waitForPublishedVersion({...options,fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}}),/Published assets do not match checkout/);
+ }
+});
+
+test('non-main content verification does not demand a branch SHA from Pages',async t=>{
+ const {options,respond}=publicationFixture(t);
+ const result=await waitForPublishedVersion({...options,sha:'unpublished-branch',expectedSourceRevision:null,fetchAsset:respond});
+ assert.equal(result.status,'matched');
 });
 
 test('already superseded publication skips without reading builds or fetching Pages',async()=>{

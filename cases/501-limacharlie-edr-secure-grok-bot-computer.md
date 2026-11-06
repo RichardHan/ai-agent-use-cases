@@ -3,7 +3,7 @@
 - 情境：開發
 - 標籤：資安、監看、排程、每日
 - 網站標題：讓 Grok Bot 跟著公開文件把自己的 Linux 電腦與 Chrome 裝上 LimaCharlie，告警送到「Security Manager」Bot
-- 一句話用途：Hacker News 作者 maximelb（Show HN: Securing GrokBot，2026-11-05）自述在朋友公司開始用 Grok Bot 後擔心可見度不足；探到其 Linux VM＋Chrome 後，在免費社群方案裝上 LimaCharlie 主機 EDR、Chrome 擴充與郵件安全，並寫成文件讓 Bot 執行「Secure my Grok Bot with LimaCharlie by following https://docs.limacharlie.io/grok-bot/」。官方文件詳列：本人接管登入、選告警去向、貼 webhook、可選用安全輸入框交郵箱密碼；感測器記錄行程與連線、擴充記錄瀏覽、十條代理導向偵測規則、每 15 分鐘 keep-alive routine 重啟感測器、告警以白話送到 Security Manager Bot。作者自述＋官方文件；本庫未重現。
+- 一句話用途：Hacker News 作者 maximelb（Show HN: Securing GrokBot，2026-11-05）自述在朋友公司開始用 Grok Bot 後擔心可見度不足；探到其 Linux VM＋Chrome 後，在免費社群方案裝上 LimaCharlie 主機 EDR、Chrome 擴充與郵件安全，並寫成文件讓 Bot 執行官方一句安裝指示（見 [LimaCharlie Securing Grok Bot](https://docs.limacharlie.io/grok-bot/)）。官方文件詳列：本人接管登入、選告警去向、貼 webhook、可選用安全輸入框交郵箱密碼；感測器記錄行程與連線、擴充記錄瀏覽、十條代理導向偵測規則、每 15 分鐘 keep-alive routine 重啟感測器、告警以白話送到 Security Manager Bot。作者自述＋官方文件；本庫未重現。
 - 核心目標：在不改 Grok Bot 產品本身的前提下，把「代理電腦上發生什麼」接到自己的資安租戶，並用 webhook 回告警。
 - 分類／標籤：代理電腦可視性／EDR／告警回圈
 - 目標使用者：已把郵件、程式庫或公司流程交给 Grok Bot、需要獨立監看層的人

@@ -2,7 +2,7 @@
 
 基準 `a3b71759e7652d346ca026ac69fcdd4c95b29996`；[正式站](https://richardhan.github.io/ai-agent-use-cases/)。原工作樹有未提交修改，未改動。
 
-[PR #228 Source guide QA run 42169494862](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42169494862)，head `2b19e149d7f807c3ac9acf29ffc1a7f86995ff13`，preview job 的「Install browser testing tools」在 35 分鐘 job 上限後取消；同一步包含 npm、Playwright 系統依賴、瀏覽器下載及中文字型，現有步驟狀態不足以歸因。這不是測試斷言失敗的證據。
+[PR #228 Source guide QA run 42169494862](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42169494862)，head `2b19e149d7f807c3ac9acf29ffc1a7f86995ff13`，preview job 的「Install browser testing tools」在 35 分鐘 job 上限後取消。日誌顯示 npm 後已進入 Playwright 系統依賴的 apt 下載：需要 114 MB，從 Azure Ubuntu mirror 緩慢下載，最後在 `libsamplerate0` 下載期間取消；瀏覽器測試未執行。這不是測試斷言失敗，也不足以判斷下載緩慢的網路根因。
 
 將 preview 與 published job 的安裝分成 npm、系統依賴、瀏覽器下載和字型四步；保留 Playwright 版本、瀏覽器、測試、觸發與發布檢查。這只增加定位能力，不宣稱消除逾時。保留失敗與取消狀態，不降低斷言。
 

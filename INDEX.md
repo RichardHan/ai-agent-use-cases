@@ -270,7 +270,7 @@
 | UC-063 | 盤點並整理 Plex 媒體庫命名、海報與備份 | Grok Bot／Plex | [論壇作者自述＋Plex 官方操作限制；未重現](cases/063-plex-media-library-housekeeping.md) | 生活｜影片、檔案整理、備份、驗收 |
 | UC-064 | 核對數學命題、反例搜尋與 Lean 證明檢查 | ChatGPT dots／Lean | [作者自述＋公開程式、CI及登記；未獨立重跑](cases/064-math-proof-review-formalization.md) | 學習｜科研、多代理、形式驗證、驗收 |
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢 | Grok Bot | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
-| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要；Muse盤點每輪必讀常駐檔並壓縮（安全規則不動）；百分比只到1%時讓Muse唯讀加總內部逐則紀錄、用跳格點校正換算比 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁＋日文Muse常駐檔壓縮自述＋日文Muse內部紀錄逐則加總與跳格校正自述＋英文工具選擇稽核自設提示；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
+| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；每週五覆寫交接筆記並刷新單一用量報告頁（只建議不實作）；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要；Muse盤點每輪必讀常駐檔並壓縮（安全規則不動）；百分比只到1%時讓Muse唯讀加總內部逐則紀錄、用跳格點校正換算比 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁＋日文Muse常駐檔壓縮自述＋日文Muse內部紀錄逐則加總與跳格校正自述＋英文工具選擇稽核自設提示＋英文每週五交接筆記與用量儀表板自述；數據未核、未重現](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
 | UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub；隊長Bot彙整全隊職責與例行任務成復原手冊、每月1日更新；dots 自己定期把 Automation／規則匯出到私有倉庫、對話變亂時開新 dot 讀回；每晚把多Bot共用電腦加密備份到自家Mac mini SSD並抽回逐檔比對；開源腳本從本機唯讀匯出Bot、routine與自建技能成Git純文字（不含記憶，非官方API） | Meta Muse／Git；Grok Bot／GitHub；ChatGPT dots／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼、重置後 Tailscale 身分恢復、每週三處備份變體）＋官方文件＋快照回滾且備份同時失效的二手轉述（待驗證）＋日文作者復原手冊自述＋日文作者 dots 設定匯出與重建自述＋英文作者每晚加密備份到本機SSD、抽回1,696／1,696檔相符自述；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
@@ -692,6 +692,11 @@
 | UC-495 | 讓Muse實測自己的工作VM：標稱4 vCPU／8GB實際約1.6核、可用記憶體約0.5GB，存CSV並寫成「並行最多2、大資料落地磁碟」等設計規則 | Meta Muse（工作用VM）／Python／dd／curl | [B日文作者Qiita自述實測＋數據表；單一VM單次速報、未重現](cases/495-muse-self-benchmarks-own-vm-cpu-memory-disk-network-design-rules.md) | 開發｜雲端電腦、效能量測、規則檔、驗收 |
 | UC-496 | 存成技能還不夠：幕僚長Bot唯讀用9項檢查所有私人技能（不適用時機、驗證、核准界線、重跑不重複等），出技能健康報告，改寫稿核准後才安全測試 | Grok Bot（技能、幕僚長Bot） | [英文作者X自行設計提示詞；未附執行結果、未實測](cases/496-grok-bot-skill-upgrade-audit-nine-points-health-report.md) | 工作｜技能、稽核、核准、多代理 |
 | UC-497 | 記帳App總放棄：iPhone背面點三下說一句「拉麵1000日圓」，Grok Bot自動分類記進自製記帳App，還依預算與口味推薦沒去過的午餐店 | Grok Bot／iOS捷徑（背面輕點） | [B日文作者X自述＋附加媒體未看；App與設定未公開、未重現](cases/497-grok-bot-iphone-back-tap-voice-expense-log-lunch-suggestions.md) | 省錢｜記帳、手機捷徑、語音、個人工具 |
+| UC-498 | 球隊隊表賽前兩天才開印：Muse排程登入聯盟網站抓PDF，對照TeamSnap漏登，再寄超市週刊並標優惠；可巡鄰近新餐廳 | Meta Muse／聯盟網站／TeamSnap／郵件 | [B英文Reddit作者自述四項設定；無截圖與樣本、未重現](cases/498-muse-soccer-team-sheet-teamsnap-grocery-circular.md) | 生活｜排程、家庭、瀏覽器自動化、每日 |
+| UC-499 | ChatGPT與Muse共用Notion任務板：沙盒外整案（VM／Facebook／Home Assistant＋Tailscale）交Muse長期擁有，一天對帳數次 | ChatGPT／Meta Muse／Notion／Home Assistant／Tailscale | [B英文Reddit作者自述；無看板截圖、未重現](cases/499-muse-chatgpt-notion-task-board-subagent.md) | 工作｜多代理、Notion、排程、每日 |
+| UC-500 | 新開Grok Bot貼上長文工程書：先兩輪約8題採訪再一次交標題、≥2000字正文、4圖、封面與5條導流帖，只存草稿不代發 | Grok Bot（記憶、生圖、X草稿） | [B簡中作者X改寫用法＋原作開源宣告；樣本未公開、未重現](cases/500-grok-bot-x-longform-interview-article-pack.md) | 創作｜寫作、技能、社群、每日 |
+| UC-501 | 一句話讓Grok Bot依LimaCharlie文件自裝主機EDR、Chrome擴充與告警webhook，可選郵件防釣魚，告警送Security Manager | Grok Bot／LimaCharlie | [官方文件＋HN作者自述裝過；本庫未安裝](cases/501-limacharlie-edr-secure-grok-bot-computer.md) | 開發｜資安、監看、排程、每日 |
+| UC-502 | Muse或其他系統用webhook觸發Grok Bot Routine，再用固定郵件標頭或資料庫非同步取回結果 | Grok Bot（webhook Routine）／Meta Muse／郵件或資料庫 | [B英文Substack教學自述；無往返日誌、未重現](cases/502-muse-webhook-trigger-grok-bot-email-result-handshake.md) | 開發｜多代理、事件觸發、郵件、每日 |
 
 <a id="supplement-list"></a>
 
@@ -991,3 +996,7 @@
 ## 2026-11-05 08:53：每日批次（X＋Qiita＋Zenn）
 
 [約55組候選與查閱範圍](sources/research-2026-11-05-0853.md)：新增4（UC494 Grok Bot從FPGA邏輯到6層板做出XVC轉接板並實機點亮、UC495 Muse實測自己工作VM的CPU／記憶體／磁碟／網路並寫成設計規則、UC496幕僚長Bot用9項唯讀檢查技能〔自設提示〕、UC497 iPhone背面點三下語音記帳），合併補充2（UC066工具選擇稽核與三組同輸入對照〔自設提示〕、UC026孩子比賽報名每天早上檢查一開放就寄連結）；其餘為宣傳、範本導流、比較文、新聞或證據不足。均未獨立重現。
+
+## 2026-11-06 08:51：每日批次（X＋Reddit＋Hacker News＋Substack）
+
+[約70組候選與查閱範圍](sources/research-2026-11-06-0851.md)：新增5（UC498 Muse排程抓球隊隊表／TeamSnap／超市週刊、UC499 Notion看板讓Muse當ChatGPT沙盒外子代理、UC500 Grok Bot採訪式X長文包、UC501 LimaCharlie EDR保護Grok Bot電腦、UC502 Muse經webhook叫Grok Bot並以郵件標頭取回結果），合併補充1（UC066每週五交接筆記＋單一用量儀表板）；其餘為宣傳、邀請碼、比較文、官方功能廣告、已被官方標假的電話梗、證據不足或與既有案同題。均未獨立重現。

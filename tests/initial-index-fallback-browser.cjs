@@ -7,7 +7,7 @@ async function checkInitialIndexFallback({ browser, origin }) {
     const page = await browser.newPage({ viewport: { width, height: 900 }, javaScriptEnabled: false });
     try {
       await page.goto(origin);
-      const fallback = page.getByRole('link', { name: /在本站閱讀完整案例索引/ });
+      const fallback = page.locator('.hero-index-fallback').getByRole('link', { name: /在本站閱讀完整案例索引/ });
       await fallback.focus();
       assert.equal(await fallback.evaluate(node => document.activeElement === node), true);
       await page.keyboard.press('Enter');
@@ -15,6 +15,13 @@ async function checkInitialIndexFallback({ browser, origin }) {
       assert.equal(await page.getByRole('heading', { name: '完整案例索引', exact: true }).isVisible(), true);
       await page.goBack();
       assert.equal(new URL(page.url()).pathname, new URL(origin).pathname);
+      await page.goto(origin + '?q=旅遊&case=UC-001#explore');
+      const searchFallback = page.locator('#explore noscript').getByRole('link', { name: /在本站閱讀完整案例索引/ });
+      await searchFallback.focus();
+      assert.equal(await searchFallback.evaluate(node => document.activeElement === node), true);
+      await page.keyboard.press('Enter');
+      await page.waitForURL(url => url.pathname.endsWith('/ai-agent-use-cases/INDEX.html'));
+      assert.equal(await page.getByRole('heading', { name: '完整案例索引', exact: true }).isVisible(), true);
     } finally {
       await page.close();
     }

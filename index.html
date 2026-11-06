@@ -53,13 +53,15 @@
   <div class="draw-difficulty-bar" id="draw-difficulty-options" role="group" aria-label="依實作門檻抽卡">
     <span class="draw-difficulty-label">實作門檻：</span>
     <div class="draw-difficulty-buttons">
-      <button type="button" class="draw-diff-btn" data-difficulty="" aria-pressed="true">全部門檻</button>
-      <button type="button" class="draw-diff-btn" data-difficulty="入門對話" aria-pressed="false">免寫程式</button>
-      <button type="button" class="draw-diff-btn" data-difficulty="工具串接" aria-pressed="false">需帳號/外掛</button>
-      <button type="button" class="draw-diff-btn" data-difficulty="進階開發" aria-pressed="false">需代碼環境</button>
+      <button type="button" class="draw-diff-btn" data-difficulty="" aria-pressed="true" aria-describedby="draw-difficulty-hint">全部門檻</button>
+      <button type="button" class="draw-diff-btn" data-difficulty="入門對話" aria-pressed="false" aria-describedby="draw-difficulty-hint">免寫程式</button>
+      <button type="button" class="draw-diff-btn" data-difficulty="工具串接" aria-pressed="false" aria-describedby="draw-difficulty-hint">需帳號/外掛</button>
+      <button type="button" class="draw-diff-btn" data-difficulty="進階開發" aria-pressed="false" aria-describedby="draw-difficulty-hint">需代碼環境</button>
     </div>
   </div>
+  <p id="draw-difficulty-hint" class="draw-note">門檻由文字關鍵字推估，可能不準；「免寫程式」不代表免帳號、設備或授權。請查看案例的操作條件與限制。</p>
   <p class="draw-note">隨機探索公開案例，並非人氣排名；本庫未獨立重現。待查想法與模板補充可在下方搜尋。</p>
+
   <fieldset id="guide-options" class="guide-options" disabled>
     <legend>換個情境，再找一點靈感</legend>
     <button type="button" data-scenario="" aria-pressed="true"><strong>隨便逛逛</strong><span>給我一點靈感</span></button>
@@ -100,6 +102,7 @@
 <p id="experience-entry-hint" class="facet-count-hint">「經驗與踩坑」依收錄狀態篩選，保留關鍵字與其他條件；再按一次可取消。</p>
 </div>
 <p id="facet-count-hint" class="facet-count-hint">案例載入完成後，會顯示各選項的符合筆數。</p>
+<p id="difficulty-hint" class="facet-count-hint">實作門檻由文字關鍵字推估，可能不準；「免寫程式」不代表免帳號、設備或授權。請查看案例的操作條件與限制。</p>
 <div class="filter-row"><label>使用情境<select id="scenario" name="scenario" aria-describedby="facet-count-hint"><option value="">全部情境</option><option>生活</option><option>工作</option><option>省錢</option><option>學習</option><option>創作</option><option>開發</option></select></label><label>收錄狀態<select id="kind" name="kind" aria-describedby="facet-count-hint"><option value="">全部狀態</option><option value="case">用法靈感</option><option value="evidence">經驗與踩坑</option><option value="pending">還在查證</option></select></label><label>實作門檻<select id="difficulty" name="difficulty" aria-describedby="facet-count-hint"><option value="">全部門檻（難易度）</option><option value="入門對話">入門對話（免寫程式）</option><option value="工具串接">工具串接（需帳號或外掛）</option><option value="進階開發">進階開發（需本機環境或代碼）</option></select></label><label>提及工具<select id="tool" name="tool" aria-describedby="facet-count-hint"><option value="">全部工具</option></select></label><label>主題分類<select id="category" name="category" aria-describedby="facet-count-hint"><option value="">全部分類</option></select></label><label>分享來自哪裡<select id="proof" name="proof" aria-describedby="facet-count-hint source-guide-summary source-type-note"><option value="">全部來源類型</option></select></label><label>結果排序<select id="sort" name="sort" aria-describedby="review-sort-description"><option value="">關鍵字符合優先</option><option value="reviewed">頁首最近核對</option></select></label><span id="review-sort-description" class="sr-only">核對日不是發布日或新增日期，也不代表獨立驗證；正文補充不計，未提供者排在後面。</span><button id="reset" type="button" class="reset">全部重設 ↺</button></div><details id="category-finder" class="category-finder"><summary>分類太多？依名稱找分類</summary><div class="category-finder-body"><label for="category-query">分類名稱包含</label><div class="category-finder-input"><input id="category-query" type="search" placeholder="例如：旅遊、研究、測試" autocomplete="off" aria-describedby="category-find-hint"><button id="clear-category-query" type="button">清空</button></div><p id="category-find-hint">只找分類名稱；點選下方分類才會套用。完整清單仍在上方「主題分類」。</p><p id="category-find-status" role="status" aria-live="polite">輸入字詞，縮小分類選項。</p><div id="category-matches" class="category-matches" role="group" aria-label="符合名稱的分類"></div></div></details></div></details></form>
 <div class="search-scope" hidden><label for="search-scope">命中範圍<select id="search-scope" name="scope" aria-describedby="scope-note"><option value="">全文（預設）</option><option value="topic">主題（不搜尋全文）</option><option value="overview">標題、用途與痛點（原範圍）</option></select></label><details><summary>各範圍如何搜尋？</summary><p id="scope-note">主題只搜尋標題、用途、核心目標、分類、標籤與案例 ID，不搜尋原文、作者署名欄位或一般化適合對象；所有字詞仍須符合。主題欄位也可能偶然提及搜尋詞，亦可能漏掉相關案例。文字命中不代表已實作或驗證。</p></details></div>
 <div id="search-feedback" class="search-feedback" hidden><div class="search-feedback-heading"><p>目前條件 <span>・點選即可移除</span></p><button id="clear-facets" type="button" class="clear-facets">清除篩選，保留關鍵字</button></div><div id="active-filters" class="active-filters" role="group" aria-label="已套用的搜尋條件"></div></div>

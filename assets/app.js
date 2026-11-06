@@ -1057,6 +1057,7 @@ function showDetail(item, trigger, updateURL=true) {
   if (item.difficulty) {
     const diffSection = el('section', 'detail-difficulty');
     diffSection.append(el('h2', '', '實作門檻'), el('p', '', DIFFICULTY_LABELS[item.difficulty] || item.difficulty));
+    diffSection.append(el('p', '', '門檻由文字關鍵字推估，可能不準；「免寫程式」不代表免帳號、設備或授權。請查看案例的操作條件與限制。'));
     overview.append(diffSection);
   }
   if (!discoveryReady) {
@@ -2684,6 +2685,7 @@ $('copy-search-link').addEventListener('click',copySearchLink);
 // preserve the reader's choice and never hide a currently focused control.
 $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
 $('draw-case').addEventListener('click',drawFromButton);
+$('difficulty').setAttribute('aria-describedby', 'facet-count-hint difficulty-hint');
 document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
 document.querySelectorAll('#draw-difficulty-options [data-difficulty]').forEach(button=>button.addEventListener('click',()=>chooseDifficulty(button.dataset.difficulty)));
 $('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;render();});

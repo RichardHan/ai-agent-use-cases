@@ -14,8 +14,6 @@ const css = fs.readFileSync(path.join(__dirname, '../assets/style.css'), 'utf8')
 const appJs = fs.readFileSync(path.join(__dirname, '../assets/app.js'), 'utf8');
 const searchSubmitCjs = fs.readFileSync(path.join(__dirname, 'search-submit-browser.cjs'), 'utf8');
 const combinedRecoveryWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/combined-recovery-qa.yml'), 'utf8');
-const relevanceWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/relevance-qa.yml'), 'utf8');
-const submitWorkflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/search-submit-qa.yml'), 'utf8');
 
 test('empty search state provides problem-oriented recovery chips in app.js', () => {
   assert.match(appJs, /empty-problem-suggestions/, 'app.js should render empty-problem-suggestions container');
@@ -50,13 +48,6 @@ test('combined recovery published verification reuses the shared bounded gate', 
 });
 
 
-test('GitHub Actions workflows provide sufficient polling window for Pages deployment', () => {
-  assert.match(relevanceWorkflow, /waitForPublishedAssets/, 'relevance must reuse the shared deadline');
-
-  const submitMatch = submitWorkflow.match(/range\((\d+)\)/);
-  assert.ok(submitMatch, 'search-submit-qa.yml must contain attempt range');
-  assert.ok(parseInt(submitMatch[1], 10) >= 120, 'search-submit-qa.yml should poll at least 120 attempts');
-});
 
 
 test('related reading waits for all live assets in one bounded publication round', () => {

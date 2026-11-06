@@ -9,7 +9,8 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    # Allow the bounded publication gate and the preceding/following browser checks to finish.
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -56,37 +57,17 @@ jobs:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           SUBMIT_OUTPUT: qa-artifacts/published
         run: |
-          python3 - <<'PYTHON'
-          import pathlib,time,urllib.request
-          import subprocess
-          result=subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
-          if result.returncode == 42:
-              print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
-              raise SystemExit(0)
-          for attempt in range(501):
-              if attempt > 0 and attempt % 15 == 0:
-                  res = subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
-                  if res.returncode == 42:
-                      print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
-                      raise SystemExit(0)
-              try:
-                  matches=[]
-                  for name in ('assets/app.js','assets/style.css','index.html'):
-                      with urllib.request.urlopen('https://richardhan.github.io/ai-agent-use-cases/'+name+'?submit='+str(time.time()),timeout=20) as response:
-                          matches.append(response.read()==pathlib.Path(name).read_bytes())
-                  if all(matches):
-                      print('PUBLISHED_ASSETS_MATCH')
-                      break
-              except Exception as error:
-                  print(type(error).__name__)
-              time.sleep(3)
-          else:
-              res = subprocess.run(['node','-e',"const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"],check=False)
-              if res.returncode == 42:
-                  print('SKIP_PUBLISHED_ASSET_CHECK superseded main commit '+__import__('os').environ.get('GITHUB_SHA',''))
-                  raise SystemExit(0)
-              raise SystemExit('Pages assets did not match checkout within 25 minutes (501 attempts)')
-          PYTHON
+          node <<'NODE'
+          const {waitForPublishedAssets} = require('./scripts/published-assets.cjs');
+          (async () => {
+            const result = await waitForPublishedAssets({
+              base: 'https://richardhan.github.io/ai-agent-use-cases/',
+              sha: process.env.GITHUB_SHA,
+              files: ['assets/app.js', 'assets/style.css', 'index.html']
+            });
+            console.log('PUBLISHED_ASSETS_' + result.toUpperCase());
+          })().catch(error => { console.error(error); process.exitCode = 1; });
+          NODE
           if node -e "const {isCurrentMainCommit}=require('./scripts/published-check.cjs'); if(!isCurrentMainCommit(process.env.GITHUB_SHA)) process.exit(42)"; then
             :
           else

@@ -1,3 +1,13 @@
+## 2026-11-06 正式站基準與待查狀態交接
+
+基準 `ddb7e653f48f30978f821478a3a5e729e4c08a02`；[正式站](https://richardhan.github.io/ai-agent-use-cases/) 的 `catalog.json` sourceRevision 相同，[Pages run 42077633931](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42077633931) 成功。本輪沒有修改產品行為或發布修復。
+
+正式站輸入「我想整理會議記錄」顯示 0／495，提供「原問題提到會議」復原入口，該入口顯示 25 筆文字命中；不代表每筆適合會議記錄。修改中文切詞可能改變既有 AND 語意，尚缺足夠相關性樣本，本輪未改。P-002 已併入 UC-028，網站仍標為待查；既有 [PR #210](https://github.com/RichardHan/ai-agent-use-cases/pull/210) 為 draft 且有衝突，避免重複修補。
+
+`node --test tests/*.test.cjs`：394 通過；預覽建置與 `scripts/check_corpus_bundle.py`：493 份來源逐 byte 相同；`node --check assets/app.js` 與 `assets/reader.js` 通過。正式站 `tests/page-context-browser.cjs` 在 Chromium 1440／390／320、Firefox／WebKit 390 通過搜尋、篩選、詳情、來源入口、返回、空結果與直鏈；載入、錯誤及部分載入復原另在 Chromium 390 通過。自動化截圖與報告在本機 `/private/tmp/ai-agent-qa-291117/`，不等同真人研究或完整無障礙審計。
+
+同版 [Corpus bundle QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42077635506) 成功；前版 [42015358407](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42015358407) 的 WebKit `Context is stopped` 根因仍未確認，診斷已由 #222 加入。下一輪優先確認 #210 是否仍由原工作負責人處理，協調衝突後先驗證 P-002 直鏈、返回及 UC-028，並確認待查計數；勿自行刪除原始資料。
+
 ## 2026-11-05 稽核報告入口
 
 基準 `827b35a21c9cc59ab72038e337b03c1cfdc3819f`。首頁歷史合格數來自 Pages 的稽核摘要，原報告入口卻指向 GitHub 可變的 `main`；改連同一次 Pages 建置產生的站內報告，在同分頁閱讀。摘要與報告仍可能因部署或快取時差暫時不一致，這不是固定版本的保證；不改計數或案例。另一方案是固定 GitHub SHA，但需另處理版本不可用與載入狀態。

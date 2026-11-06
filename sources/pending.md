@@ -12,6 +12,7 @@
 
 ## P-002：Muse 電信帳單審核與降費（原帖已讀，已併入 UC-028）
 
+- 收錄狀態：merged UC-028
 - 狀態：2026-10-17 已處理。三則原帖以X API直接讀到，作者自述與一則業者確認簡訊截圖已併入 [UC-028](../cases/028-bill-comparison-preparation.md)，不另立案、不另計數。
 - 二手來源：https://musetaskhub.com/tasks/lower-phone-bill/ （Muse Task Hub，非官方彙整站；英文）
 - 原始來源：

@@ -10,6 +10,7 @@ permissions:
 jobs:
   context:
     runs-on: ubuntu-24.04
+    container: mcr.microsoft.com/playwright:v1.64.1-noble
     timeout-minutes: 80
     steps:
       - uses: actions/checkout@v4
@@ -27,8 +28,10 @@ jobs:
       - name: Install existing cloud browser tools
         run: |
           npm install --prefix "$RUNNER_TEMP/match-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
-          "$RUNNER_TEMP/match-tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
-          sudo apt-get install -y fonts-noto-cjk
+          mkdir -p /usr/local/share/fonts
+          curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
+          fc-cache -f
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Compare baseline and updated preview
         env:
           NODE_PATH: ${{ runner.temp }}/match-tools/node_modules

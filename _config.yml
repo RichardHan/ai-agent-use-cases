@@ -2,6 +2,7 @@ title: AI 用法實驗室
 url: https://richardhan.github.io
 baseurl: /ai-agent-use-cases
 lang: zh-Hant
+locale: zh_TW
 exclude:
   - scripts
   - tests

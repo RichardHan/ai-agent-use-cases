@@ -9,5 +9,8 @@ for (const page of ['index.html', 'INDEX.html', 'cases/001-travel-checkout.html'
   if (!/<html\b[^>]*\blang=["']zh-Hant["']/i.test(html)) {
     throw new Error(`${page}: expected html lang="zh-Hant"`);
   }
+  if (page !== 'index.html' && !/<meta\b[^>]*property=["']og:locale["'][^>]*content=["']zh_TW["']/i.test(html)) {
+    throw new Error(`${page}: expected og:locale="zh_TW"`);
+  }
   console.log(`PASS: ${page} declares zh-Hant`);
 }

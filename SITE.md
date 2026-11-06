@@ -30,7 +30,11 @@
 
 交付：[PR #204](https://github.com/RichardHan/ai-agent-use-cases/pull/204)，功能提交 `68bef8ecce18cb46c9d0cc32b76a9ccdcdfd8b23`；[分支工作流](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41695605429) 的預覽、合併及正式發布狀態以 GitHub 為準。正式站：https://richardhan.github.io/ai-agent-use-cases/。
 
-下一輪優先釐清 Pages 部署超過一小時的排隊與完成依賴；先核對 [Missing shared case QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41530221650) 與同版部署的時間線及目前主線，不假設加長等待可根治。
+合併提交 `c70101231ff567f3eb0d50397de29d8b6d0d5542` 的 [Pages 部署](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41696953724)成功，正式站 `catalog.json` 的 sourceRevision 相符；正式站 Chromium 1440／390 的返回、空結果、直鏈重載與錯誤復原通過，兩次 axe 無違規。原始來源頁亦能開啟。截圖及報告在 `/tmp/ai-20261104-independent-published/`。
+
+但同版 [Results return QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/41696954884) 的 preview 成功，published 兩次均在比對前因 `git ls-remote origin refs/heads/main` 三次 10 秒逾時而失敗；正式站瀏覽器步驟未執行。本機同指令可讀到 main，無法據此判定 runner 的網路、認證或 Git 原因。本輪改動尚未完成雲端驗收，不可宣稱此工作流已修復。
+
+下一輪優先診斷該 runner 的 main-tip 查詢：先比較 checkout 的 Git 設定、非互動認證與 GitHub HTTPS／API 可達性，保留逾時與無法確認時失敗的原則；不要再無限重跑或以舊版本代替 main。
 
 ## 2026-11-01 Pages 發布閘門診斷
 

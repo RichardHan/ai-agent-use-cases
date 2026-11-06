@@ -19,6 +19,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Trust checkout for preview metadata
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Existing baseline tests and build
         run: |
           node --test tests/*.test.cjs
@@ -31,7 +33,6 @@ jobs:
           mkdir -p /usr/local/share/fonts
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Compare baseline and updated preview
         env:
           NODE_PATH: ${{ runner.temp }}/match-tools/node_modules

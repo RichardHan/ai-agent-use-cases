@@ -10,4 +10,6 @@
 
 候選 [PR #231](https://github.com/RichardHan/ai-agent-use-cases/pull/231) 首次 [run 42189209262](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42189209262) 容器及安裝成功，但 `Compare baseline and updated preview` 失敗：預覽在 `safe.directory` 設定前執行，缺少來源版本，`page.goto` 收到 null。已把 Git 設定移到預覽前；修正後需以新 run 核實，不能把首次 run 當作通過。本機搜尋情境腳本在 Chromium 桌面／390／320、Firefox 390、WebKit 390 均通過；包含搜尋、空結果復原、直鏈、返回與鍵盤，桌面來源回應 200。
 
+第二次 [run 42189498039](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42189498039) 已通過 Chromium 三種尺寸，但 Firefox 因容器的 `/github/home` 非 root 所有而無法啟動。獨立審查指出瀏覽器需使用 `HOME=/root`，但正式站檢查中的 Git 仍須保留原 HOME；最終只對跨瀏覽器腳本設定該值。正式站 `catalog.json` 的 `sourceRevision` 對應基準 `fc1b1c5`；本輪沒有網站視覺修改。
+
 下一輪：檢查本輪 PR 的 Search context QA 完整步驟及 artifact；若再次停在安裝，讀取當次日誌，區分 npm、字型下載與 runner 問題，不重複盲目重跑。另有 P-003 邊界、靜態索引缺漏與門檻標籤等既有 PR，先核對其進度，避免重複實作。

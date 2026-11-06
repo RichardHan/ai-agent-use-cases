@@ -68,6 +68,7 @@ jobs:
           node tests/trust-status-baseline.cjs
       - name: Verify built Pages across browsers
         env:
+          HOME: /root
           NODE_PATH: ${{ runner.temp }}/trust-tools/node_modules
           TRUST_URL: http://127.0.0.1:8141/ai-agent-use-cases/
         run: |
@@ -79,6 +80,7 @@ jobs:
       - name: Verify published desktop and mobile
         if: github.ref == 'refs/heads/main'
         env:
+          HOME: /root
           NODE_PATH: ${{ runner.temp }}/trust-tools/node_modules
           TRUST_URL: https://richardhan.github.io/ai-agent-use-cases/
           TRUST_OUTPUT: qa-artifacts/published

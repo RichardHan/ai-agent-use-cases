@@ -3,6 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path');
 const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
 const {skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+const {pages,checkPageLanguage}=require('../scripts/check-page-language.cjs');
 const assets=['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css'];
 function sameContent(local,remote){
  try{
@@ -18,10 +19,10 @@ function sameContent(local,remote){
 function reportWorkflowResult(verified,output=process.env.GITHUB_OUTPUT){
  if(output)require('node:fs').appendFileSync(output,`verified=${verified}\n`);
 }
-async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,fetchAsset=fetch,isCurrent=()=>!skipIfSupersededPublishedUrl(base),now,sleep}){
+async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,fetchAsset=fetch,isCurrent=()=>!skipIfSupersededPublishedUrl(base),now,sleep}){
  if(!isCurrent())return {status:'superseded'};
- const files=[...assets,'catalog.json','corpus.json'];
- const expected=files.map(file=>fs.readFileSync(path.join(built,file)));
+ const files=[...assets,'catalog.json','corpus.json',...pages.filter(page=>page!=='index.html')];
+ const expected=files.slice(0,assets.length+2).map(file=>fs.readFileSync(path.join(built,file)));
  const local={catalog:JSON.parse(expected[assets.length]),corpus:JSON.parse(expected[assets.length+1])};
  let publication;
  // The shared 60-minute deadline covers product bytes and semantic corpus checks together.
@@ -43,6 +44,11 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
    const catalog=buffers[assets.length].toString('utf8'),corpus=buffers[assets.length+1].toString('utf8');
    const remote={catalog:JSON.parse(catalog),corpus:JSON.parse(corpus)};
    assert(assets.every((file,i)=>buffers[i].equals(expected[i])),'Product asset mismatch');
+   for(const [i,page] of pages.entries())checkPageLanguage(page,(i===0?buffers[0]:buffers[assets.length+1+i]).toString('utf8'));
+   if(expectedSourceRevision){
+    assert.equal(remote.catalog.sourceRevision,expectedSourceRevision,'Published catalog source revision mismatch');
+    assert.equal(remote.corpus.sourceRevision,expectedSourceRevision,'Published corpus source revision mismatch');
+   }
    assert(sameContent(local,remote),'Published source content or internal revision mismatch');
    publication={catalog,corpus,sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision};
    return true;

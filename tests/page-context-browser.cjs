@@ -55,6 +55,15 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  }catch(e){row.failure=e.stack;row.failurePhase=phase;row.failureUrl=page.url();throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await browser.close();}
 }
 if(!observe){
+ const nojsBrowser=await chromium.launch(),nojsContext=await nojsBrowser.newContext({javaScriptEnabled:false,viewport:{width:390,height:900}}),nojsPage=await nojsContext.newPage();
+ try{
+  await nojsPage.goto(base+'?q=旅遊&case=UC-001#explore');
+  assert.equal(await nojsPage.locator('#filters').isVisible(),false);
+  assert.equal(await nojsPage.locator('#results-count').isVisible(),false);
+  const index=nojsPage.locator('#explore noscript a');
+  assert(await index.isVisible());
+  assert.equal(new URL(await index.getAttribute('href'),base).pathname,new URL('INDEX.html',base).pathname);
+ }finally{await nojsContext.close();await nojsBrowser.close();}
  const browser=await chromium.launch(),lifecycle=[];
  for(const mode of ['loading-early','error','partial']){
   const context=await browser.newContext({viewport:{width:390,height:900}}),page=await context.newPage();const row={mode,network:[]};lifecycle.push(row);context.on('response',r=>{if(r.status()>=400)row.network.push({url:r.url().split('?')[0],status:r.status()});});context.on('requestfailed',r=>row.network.push({url:r.url().split('?')[0],error:r.failure()?.errorText}));let releaseCatalog,releaseSources;

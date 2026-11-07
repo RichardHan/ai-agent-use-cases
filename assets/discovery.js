@@ -14,7 +14,7 @@
   function discoveryPool(items,scenario=''){
     const seen=new Set();
     return items.filter(item=>{
-      if(item.kind!=='case'||item.proof==='模板／文件核讀'||(scenario&&item.scenario!==scenario)||seen.has(item.id))return false;
+      if(item.kind!=='case'||item.proof==='模板／文件核讀'||item.proof==='尚待查證'||(scenario&&item.scenario!==scenario)||seen.has(item.id))return false;
       seen.add(item.id);return true;
     });
   }

@@ -576,9 +576,9 @@ test('INDEX.md maintains scenario consistency, complete case rows and canonical 
 
   // Main cases count in INDEX.md header must match cases/ file count
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
-  // The actual table, checked below, supplies page coverage. Historical batch
-  // page totals are deliberately preserved and are not current inventory.
-
+  const mainHeading = indexContent.match(/^## 主要案例（(\d+)）$/m);
+  assert(mainHeading, 'INDEX.md must show the current main case count in ## 主要案例（N）');
+  assert.equal(Number(mainHeading[1]), caseFiles.length, `INDEX.md main case count in heading (${mainHeading ? mainHeading[1] : 'none'}) must match case files count (${caseFiles.length})`);
   // Verify all case and evidence links in INDEX.md exist on disk
   const links = Array.from(indexContent.matchAll(/\[(?:[^\]]*)\]\(((?:cases|evidence)\/[^)]+\.md)\)/g));
   assert(links.length >= 330, `Expected at least 330 links in INDEX.md, found ${links.length}`);
@@ -587,9 +587,14 @@ test('INDEX.md maintains scenario consistency, complete case rows and canonical 
     assert(fs.existsSync(path.join(root, relPath)), `Link target does not exist: ${relPath}`);
   }
 
-  // Verify all case rows in table 1 have valid canonical scenario
-  const caseRows = indexContent.split('\n').filter(l => l.startsWith('| UC-') && l.includes('(cases/'));
-  assert.equal(caseRows.length, caseFiles.length, `INDEX.md table case rows (${caseRows.length}) must match caseFiles (${caseFiles.length})`);
+  // Verify all case rows in the primary table (not research notes) match case files
+  const mainSection = indexContent.split(mainHeading[0])[1].split('<a id="supplement-list">')[0];
+  const caseRows = mainSection.split('\n').filter(l => l.startsWith('| UC-') && l.includes('(cases/'));
+  assert.equal(caseRows.length, caseFiles.length, `INDEX.md primary table case rows (${caseRows.length}) must match caseFiles (${caseFiles.length})`);
+  const mainTableCaseRefs = new Set(Array.from(mainSection.matchAll(/\(cases\/([^)]+\.md)\)/g)).map(m => m[1]));
+  for (const caseFile of caseFiles) {
+    assert(mainTableCaseRefs.has(caseFile), `Primary table in INDEX.md must contain case: ${caseFile}`);
+  }
   for (const row of caseRows) {
     const cols = row.split('|').map(c => c.trim()).filter(Boolean);
     const catTag = cols[4];

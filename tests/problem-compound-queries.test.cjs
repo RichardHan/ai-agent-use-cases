@@ -150,3 +150,60 @@ test('hero problem tags expose 出差報銷 and 合約審核 with valid targets 
   const contractHits = api.filterEntries(entries, contractTokens, {});
   assert.ok(contractHits.length >= 10, '合約審核 query must recall at least 10 matching cases');
 });
+test('roster and shift query 排班 isolates from workflow automation noise and ranks genuine shifts cases', () => {
+  const shiftTokens = Array.from(api.tokenize('排班'));
+  assert.deepEqual(shiftTokens, ['排班'], '排班 must tokenize as a dedicated term');
+  const shiftMatches = api.filterEntries(entries, shiftTokens, {});
+  assert.ok(shiftMatches.length >= 1 && shiftMatches.length <= 10, `排班 must return between 1 and 10 cases, got ${shiftMatches.length}`);
+  const shiftRanked = api.rankEntries(shiftMatches, shiftTokens, '排班');
+  assert.ok(shiftRanked.some(r => r.id === 'UC-338'), '排班 must recall driver shift case UC-338');
+  assert.ok(shiftRanked.some(r => r.id === 'UC-155'), '排班 must recall job change shift case UC-155');
+  assert.ok(shiftRanked.some(r => r.id === 'UC-317'), '排班 must recall night shift bot case UC-317');
+  // Workflow automation cases like Facebook poster (UC-006) must NOT match 排班
+  assert.ok(!shiftMatches.some(r => r.id === 'UC-006'), '排班 must not match generic Facebook workflow case UC-006');
+});
+
+test('natural conversational queries for resume, interview, social copywriting, procurement, and database recall targeted cases', () => {
+  const queries = [
+    { raw: '如何準備面試', expectedTokens: ['面試', '準備'], min: 5, targetCase: 'UC-035' },
+    { raw: '我想寫社群文案', expectedTokens: ['社群', '文案'], min: 5, targetCase: 'UC-268' },
+    { raw: '我要審核採購合約', expectedTokens: ['採購', '合約', '審核'], min: 5, targetCase: 'UC-154' },
+    { raw: '我想報銷出差費用', expectedTokens: ['出差', '報銷'], min: 4, targetCase: 'UC-263' },
+    { raw: '資料庫查詢', expectedTokens: ['資料庫', '查詢'], min: 5, targetCase: 'UC-128' },
+    { raw: '履歷健檢', expectedTokens: ['履歷', '修改'], min: 5, targetCase: 'UC-035' }
+  ];
+
+  for (const item of queries) {
+    const tokens = Array.from(api.tokenize(item.raw));
+    assert.deepEqual(tokens, item.expectedTokens, `Tokens for "${item.raw}" must match`);
+    const matched = api.filterEntries(entries, tokens, {});
+    assert.ok(matched.length >= item.min, `Query "${item.raw}" must return >= ${item.min} cases, got ${matched.length}`);
+    const ranked = api.rankEntries(matched, tokens, item.raw);
+    assert.ok(ranked.some(r => r.id === item.targetCase), `Query "${item.raw}" must recall ${item.targetCase}`);
+  }
+});
+test('Reviewer regression: prefix verbs must not strip leading chars of full keywords (請問發票報帳, 如何寫作, 如何審核)', () => {
+  const invoiceTokens = Array.from(api.tokenize('請問發票報帳'));
+  assert.deepEqual(invoiceTokens, ['發票', '報帳'], '請問發票報帳 must preserve 發票 and not truncate to 票');
+  const invoiceMatches = api.filterEntries(entries, invoiceTokens, {});
+  assert.ok(invoiceMatches.length >= 10, `請問發票報帳 must match >= 10 invoice cases, got ${invoiceMatches.length}`);
+
+  const writingTokens = Array.from(api.tokenize('如何寫作'));
+  assert.deepEqual(writingTokens, ['寫作'], '如何寫作 must preserve 寫作 and not truncate to 作');
+
+  const auditTokens = Array.from(api.tokenize('如何審核'));
+  assert.deepEqual(auditTokens, ['審核'], '如何審核 must preserve 審核 and not become empty');
+  const auditMatches = api.filterEntries(entries, auditTokens, {});
+  assert.ok(auditMatches.length >= 10, `如何審核 must match review cases, got ${auditMatches.length}`);
+});
+
+test('hero problem tags and empty state suggestions expose 社群文案 and 員工排班', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=社群文案#explore"'), 'hero-problem-tags must include 社群文案');
+  assert.ok(nav.includes('href="?q=排班#explore"'), 'hero-problem-tags must include 員工排班');
+
+  const appSource = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
+  assert.match(appSource, /term:'社群文案'/, 'app.js problemTags must include 社群文案');
+  assert.match(appSource, /term:'排班'/, 'app.js problemTags must include 排班');
+});

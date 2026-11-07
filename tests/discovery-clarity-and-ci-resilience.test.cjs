@@ -215,3 +215,64 @@ test('Recent review and Combined recovery reuse the extended publication deadlin
     assert.ok(timeout*60000>=PUBLICATION_TIMEOUT_MS+20*60000, `${file} must cover the 60-minute wait plus setup and journeys`);
   }
 });
+
+test('canonical task shortcut 收件匣 prioritizes core inbox triage case UC-014 at rank 1', () => {
+  const vm = require('node:vm');
+  const source = appJs.split('/* Browser event bindings. */')[0];
+  class Node { constructor(tag){ this.tagName=tag.toUpperCase(); this.children=[]; this.textContent=''; } append(...children){ this.children.push(...children); } setAttribute(name,value){ this[name]=value; } }
+  const context = vm.createContext({ URL, Discovery: require('../assets/discovery.js'), document: { createElement: tag => new Node(tag), createTextNode: text => ({ textContent: text }) } });
+  vm.runInContext(source + '\nthis.api={metadata,parseFile,filterEntries,norm,tokenize,termVariants,rankEntries,orderEntries,searchVariantIndex};', context);
+  vm.runInContext('displayCopy=' + fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'), context);
+
+  const files = ['cases', 'evidence'].flatMap(dir => fs.readdirSync(path.join(root, dir)).filter(x => x.endsWith('.md')).map(x => dir + '/' + x)).concat('sources/pending.md');
+  const entries = files.flatMap(file => Array.from(context.api.parseFile(file, fs.readFileSync(path.join(root, file), 'utf8'))));
+
+  const terms = context.api.tokenize('收件匣');
+  const matched = context.api.filterEntries(entries, terms, {});
+  const ranked = context.api.orderEntries(matched, terms, '');
+
+  assert.ok(matched.length > 0, '收件匣 should match inbox cases');
+  assert.equal(ranked[0].id, 'UC-014', 'UC-014 must be rank 1 for canonical task query 收件匣');
+
+  const overviewMatched = context.api.filterEntries(entries, terms, { scope: 'overview' });
+  const overviewRanked = context.api.orderEntries(overviewMatched, terms, '');
+  assert.ok(overviewMatched.some(c => c.id === 'UC-014'), 'UC-014 must match in overview scope for 收件匣');
+  assert.equal(overviewRanked[0].id, 'UC-014', 'UC-014 must be rank 1 in overview scope for 收件匣');
+});
+
+test('natural problem phrases like 我想整理會議 and 整理會議 return genuine meeting cases', () => {
+  const vm = require('node:vm');
+  const source = appJs.split('/* Browser event bindings. */')[0];
+  class Node { constructor(tag){ this.tagName=tag.toUpperCase(); this.children=[]; this.textContent=''; } append(...children){ this.children.push(...children); } setAttribute(name,value){ this[name]=value; } }
+  const context = vm.createContext({ URL, Discovery: require('../assets/discovery.js'), document: { createElement: tag => new Node(tag), createTextNode: text => ({ textContent: text }) } });
+  vm.runInContext(source + '\nthis.api={metadata,parseFile,filterEntries,norm,tokenize,termVariants,rankEntries,orderEntries,searchVariantIndex};', context);
+  vm.runInContext('displayCopy=' + fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'), context);
+
+  const files = ['cases', 'evidence'].flatMap(dir => fs.readdirSync(path.join(root, dir)).filter(x => x.endsWith('.md')).map(x => dir + '/' + x)).concat('sources/pending.md');
+  const entries = files.flatMap(file => Array.from(context.api.parseFile(file, fs.readFileSync(path.join(root, file), 'utf8'))));
+
+  const termsNatural = context.api.tokenize('我想整理會議');
+  const matchedNatural = context.api.filterEntries(entries, termsNatural, {});
+  assert.ok(matchedNatural.length >= 15, `我想整理會議 must return at least 15 meeting cases, got ${matchedNatural.length}`);
+  assert.ok(matchedNatural.some(c => c.id === 'UC-277'), 'UC-277 must match 我想整理會議');
+
+  const termsShort = context.api.tokenize('整理會議');
+  const matchedShort = context.api.filterEntries(entries, termsShort, {});
+  assert.ok(matchedShort.length >= 15, `整理會議 must return at least 15 meeting cases, got ${matchedShort.length}`);
+  assert.ok(matchedShort.some(c => c.id === 'UC-277'), 'UC-277 must match 整理會議');
+
+  // Reviewer regression check: Quoted conversational queries must normalize properly
+  const termsQuoted = context.api.tokenize('「我想整理會議」');
+  const matchedQuoted = context.api.filterEntries(entries, termsQuoted, {});
+  assert.ok(matchedQuoted.length >= 15, `「我想整理會議」 must return >= 15 cases, got ${matchedQuoted.length}`);
+  assert.ok(matchedQuoted.some(c => c.id === 'UC-277'), 'UC-277 must match 「我想整理會議」');
+
+  // Reviewer regression check: Ordinary keywords starting with 想 (like 想法, 想像) must never be truncated to 法 or 像
+  assert.deepEqual(Array.from(context.api.tokenize('想法')), ['想法'], '想法 must not be truncated to 法');
+  assert.deepEqual(Array.from(context.api.tokenize('想像')), ['想像'], '想像 must not be truncated to 像');
+
+  // Reviewer regression check: Meeting queries with specific verbs (like 會議 摘要) must preserve the verb
+  const termsMeetingSummary = Array.from(context.api.tokenize('會議 摘要'));
+  assert.deepEqual(termsMeetingSummary, ['會議', '摘要'], '會議 摘要 must preserve 摘要');
+  assert.ok(context.api.filterEntries(entries, termsMeetingSummary, {}).some(c => c.id === 'UC-094'), '會議 摘要 must match UC-094');
+});

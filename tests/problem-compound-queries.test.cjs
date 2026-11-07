@@ -207,3 +207,59 @@ test('hero problem tags and empty state suggestions expose 社群文案 and 員�
   assert.match(appSource, /term:'社群文案'/, 'app.js problemTags must include 社群文案');
   assert.match(appSource, /term:'排班'/, 'app.js problemTags must include 排班');
 });
+
+test('natural problem queries for contract review, data extraction, invoice processing, podcast summary, price comparison, customer support, and meeting notes recall targeted cases', () => {
+  const problems = [
+    { raw: '契約審查', min: 10, expectedTokens: ['契約', '審查'] },
+    { raw: '審查契約', min: 10, expectedTokens: ['契約', '審查'] },
+    { raw: 'contract review', min: 10, expectedTokens: ['合約', '審核'] },
+    { raw: '發票處理', min: 10, expectedTokens: ['發票', '報帳'] },
+    { raw: 'invoice processing', min: 10, expectedTokens: ['發票', '報帳'] },
+    { raw: '資料擷取', min: 10, expectedTokens: ['文件', '擷取'] },
+    { raw: '資料抽取', min: 10, expectedTokens: ['文件', '擷取'] },
+    { raw: 'data extraction', min: 10, expectedTokens: ['文件', '擷取'] },
+    { raw: '播客摘要', min: 5, expectedTokens: ['播客', '摘要'] },
+    { raw: 'podcast summary', min: 5, expectedTokens: ['播客', '摘要'] },
+    { raw: '價格比較', min: 20, expectedTokens: ['比價'] },
+    { raw: 'price comparison', min: 20, expectedTokens: ['比價'] },
+    { raw: '客戶支援', min: 30, expectedTokens: ['客服'] },
+    { raw: 'customer support', min: 30, expectedTokens: ['客服'] },
+    { raw: '會議筆記', min: 5, expectedTokens: ['會議', '筆記'] },
+    { raw: 'meeting notes', min: 5, expectedTokens: ['會議', '筆記'] },
+    { raw: 'interview prep', min: 5, expectedTokens: ['面試', '準備'] }
+  ];
+
+  for (const p of problems) {
+    const tokens = Array.from(api.tokenize(p.raw));
+    assert.deepEqual(tokens, p.expectedTokens, `Tokens for "${p.raw}" must match`);
+    const matched = api.filterEntries(entries, tokens, {});
+    assert.ok(matched.length >= p.min, `Query "${p.raw}" must return >= ${p.min} cases, got ${matched.length}`);
+  }
+});
+
+test('hero problem tags and empty state suggestions expose 資料擷取, 播客摘要, and 契約審查', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=資料擷取#explore"'), 'hero-problem-tags must include 資料擷取');
+  assert.ok(nav.includes('href="?q=播客摘要#explore"'), 'hero-problem-tags must include 播客摘要');
+  assert.ok(nav.includes('href="?q=契約審查#explore"'), 'hero-problem-tags must include 契約審查');
+
+  const appSource = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
+  assert.match(appSource, /term:'資料擷取'/, 'app.js problemTags must include 資料擷取');
+  assert.match(appSource, /term:'播客摘要'/, 'app.js problemTags must include 播客摘要');
+  assert.match(appSource, /term:'契約審查'/, 'app.js problemTags must include 契約審查');
+});
+
+test('Reviewer regression: preserve bill vs invoice distinction and match complete English inflection phrases', () => {
+  // Finding 1: 帳單核對 must retain 帳單 and 對帳 without converting to 發票
+  const billTokens = Array.from(api.tokenize('帳單核對'));
+  assert.deepEqual(billTokens, ['帳單', '對帳'], '帳單核對 must retain 帳單 and 對帳');
+  const billMatches = api.filterEntries(entries, billTokens, { scope: 'topic' });
+  assert.ok(billMatches.some(e => e.id === 'UC-024'), '帳單核對 in topic scope must match UC-024');
+
+  // Finding 2: contract reviewing must tokenize to 合約 審核 without trailing ing fragment
+  const reviewTokens = Array.from(api.tokenize('contract reviewing'));
+  assert.deepEqual(reviewTokens, ['合約', '審核'], 'contract reviewing must tokenize cleanly without trailing ing');
+  const contractMatches = api.filterEntries(entries, reviewTokens, {});
+  assert.ok(contractMatches.some(e => e.id === 'UC-154'), 'contract reviewing must recall contract review case UC-154');
+});

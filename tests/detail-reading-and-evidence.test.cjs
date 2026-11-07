@@ -460,3 +460,34 @@ test('reader.css defines styling for structured proof note elements', () => {
   assert.match(readerCss, /\.proof-note-claimant\s*\{/, 'reader.css must define .proof-note-claimant');
   assert.match(readerCss, /\.proof-note-status\s*\{/, 'reader.css must define .proof-note-status');
 });
+
+test('PROOF_SAFE_ADOPTION_TIP provides transparent adoption guidance and boundaries', () => {
+  const { context } = setupDom();
+  assert.ok(context.PROOF_SAFE_ADOPTION_TIP, 'PROOF_SAFE_ADOPTION_TIP must exist in app.js');
+  const requiredProofs = ['官方自報', '作者報告／示範', '公開資料核讀', '模板／文件核讀', '尚待查證'];
+  for (const proof of requiredProofs) {
+    const tip = context.PROOF_SAFE_ADOPTION_TIP[proof];
+    assert.ok(tip, `PROOF_SAFE_ADOPTION_TIP must define "${proof}"`);
+    assert.ok(tip.length >= 15, `Adoption tip for "${proof}" should be substantive`);
+  }
+});
+
+test('showDetail renders structured safe adoption tip in detail-proof-note', () => {
+  const { context, detailBody } = setupDom();
+  const sample = {
+    id: 'UC-014', title: '工單處理', what: '工單用途',
+    kind: 'case', scenario: '工作', proof: '作者報告／示範',
+    tools: [], tags: [], path: 'cases/014.md', markdown: '# UC-014\n\n## 來源\n內容'
+  };
+  context.showDetail(sample, null, false);
+  const proofNote = detailBody.querySelector('.detail-proof-note');
+  assert.ok(proofNote, 'must render .detail-proof-note');
+  const safetyEl = proofNote.querySelector('.proof-note-safety');
+  assert.ok(safetyEl, 'must render .proof-note-safety');
+  assert.match(safetyEl.textContent, /安全採用建議/);
+  assert.match(safetyEl.textContent, /資料去敏|人工審批/);
+});
+
+test('reader.css defines styling for proof-note-safety', () => {
+  assert.match(readerCss, /\.proof-note-safety\s*\{/, 'reader.css must define .proof-note-safety');
+});

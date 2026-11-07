@@ -6,7 +6,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cases/';
-const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-problem-intent');
+const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-visitor-clarity');
 fs.mkdirSync(outDir, { recursive: true });
 
 (async () => {
@@ -54,31 +54,51 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.axeChecks.push({ state: 'homepage', violations: 0 });
 
     // SCENARIO 1: Problem-oriented discovery
-    console.log(`[${vp.name}] Testing Scenario 1: 資料擷取 problem tag...`);
-    const extractTag = page.locator('.hero-problem-tags a[href*="資料擷取"]');
-    assert.ok(await extractTag.isVisible(), '資料擷取 tag must be visible in hero');
-    await extractTag.click();
+    console.log(`[${vp.name}] Testing Scenario 1: 問卷調查 problem tag...`);
+    const surveyTag = page.locator('.hero-problem-tags a[href*="問卷調查"]');
+    assert.ok(await surveyTag.isVisible(), '問卷調查 tag must be visible in hero');
+    await surveyTag.click();
     await page.locator('#results .card').first().waitFor({ timeout: 10000 });
-    const extractCount = await page.locator('#results .card').count();
-    assert.ok(extractCount >= 10, `資料擷取 must recall >= 10 cases (found ${extractCount})`);
-    assert.equal(await page.locator('#query').inputValue(), '資料擷取');
-    const extractShot = `${vp.name}-02-scenario1-data-extraction.png`;
-    await page.screenshot({ path: path.join(outDir, extractShot) });
-    vpReport.screenshots.push(extractShot);
-    console.log(`[${vp.name}] Testing Scenario 1: 競品分析 problem tag...`);
-    const compTag = page.locator('.hero-problem-tags a[href*="競品分析"]');
-    assert.ok(await compTag.isVisible(), '競品分析 tag must be visible in hero');
-    await compTag.click();
-    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
-    const compCount = await page.locator('#results .card').count();
-    assert.ok(compCount >= 1, `競品分析 must recall >= 1 case (found ${compCount})`);
-    assert.equal(await page.locator('#query').inputValue(), '競品分析');
-    const firstCompTitle = await page.locator('#results .card h3').first().innerText();
-    assert.ok(firstCompTitle.includes('競品'), `Top result for 競品分析 must be competitor case, got: ${firstCompTitle}`);
-    const compShot = `${vp.name}-02b-scenario1-competitor-analysis.png`;
-    await page.screenshot({ path: path.join(outDir, compShot) });
-    vpReport.screenshots.push(compShot);
+    const surveyCount = await page.locator('#results .card').count();
+    assert.ok(surveyCount >= 10, `問卷調查 must recall >= 10 cases (found ${surveyCount})`);
+    assert.equal(await page.locator('#query').inputValue(), '問卷調查');
+    const surveyShot = `${vp.name}-02-scenario1-survey.png`;
+    await page.screenshot({ path: path.join(outDir, surveyShot) });
+    vpReport.screenshots.push(surveyShot);
 
+    console.log(`[${vp.name}] Testing Scenario 1: 文獻回顧 problem tag...`);
+    const litTag = page.locator('.hero-problem-tags a[href*="文獻回顧"]');
+    assert.ok(await litTag.isVisible(), '文獻回顧 tag must be visible in hero');
+    await litTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const litCount = await page.locator('#results .card').count();
+    assert.ok(litCount >= 2, `文獻回顧 must recall >= 2 cases (found ${litCount})`);
+    assert.equal(await page.locator('#query').inputValue(), '文獻回顧');
+    const firstLitTitle = await page.locator('#results .card h3').first().innerText();
+    assert.ok(firstLitTitle.includes('論文') || firstLitTitle.includes('研究'), `Top result for 文獻回顧 must be research case, got: ${firstLitTitle}`);
+    const litShot = `${vp.name}-02b-scenario1-literature.png`;
+    await page.screenshot({ path: path.join(outDir, litShot) });
+    vpReport.screenshots.push(litShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 機票比價 natural query...`);
+    await page.locator('#query').fill('機票比價');
+    await page.locator('#search-submit').click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const flightCount = await page.locator('#results .card').count();
+    assert.ok(flightCount >= 2, `機票比價 must recall >= 2 cases (found ${flightCount})`);
+    const flightShot = `${vp.name}-02c-scenario1-airfare.png`;
+    await page.screenshot({ path: path.join(outDir, flightShot) });
+    vpReport.screenshots.push(flightShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 費用報銷 natural query...`);
+    await page.locator('#query').fill('費用報銷');
+    await page.locator('#search-submit').click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const expCount = await page.locator('#results .card').count();
+    assert.ok(expCount >= 3, `費用報銷 must recall >= 3 cases (found ${expCount})`);
+    const expShot = `${vp.name}-02d-scenario1-expense.png`;
+    await page.screenshot({ path: path.join(outDir, expShot) });
+    vpReport.screenshots.push(expShot);
     console.log(`[${vp.name}] Testing Scenario 1: 契約審查 natural query...`);
     await page.locator('#query').fill('契約審查');
     await page.locator('#search-submit').click();
@@ -211,11 +231,14 @@ fs.mkdirSync(outDir, { recursive: true });
     const detailTitle = await page.locator('#detail-title').innerText();
     assert.ok(detailTitle.includes('PDF') || detailTitle.includes('Excel'), `Detail title must match UC-098 (got: ${detailTitle})`);
 
-    // Verify detail proof badge and notes
+    // Verify detail proof badge, claimant attribution, and verification status notes
     assert.ok(await page.locator('.detail-header-meta .proof-badge').isVisible(), 'Detail proof badge must be visible');
     const proofText = await page.locator('.proof-note-tag').innerText();
     assert.ok(proofText.includes('作者報告') || proofText.includes('author-demo'), `Proof tag must indicate author-demo (got: ${proofText})`);
-
+    const claimantText = await page.locator('.proof-note-claimant').innerText();
+    assert.match(claimantText, /成果主張來源：社群作者／專案實踐者/, `Claimant attribution must be exact (got: ${claimantText})`);
+    const statusText = await page.locator('.proof-note-status').innerText();
+    assert.match(statusText, /本庫核讀狀態：本庫未於本機獨立重現代碼或流程/, `Verification status must be exact (got: ${statusText})`);
     // Expand guidance using shortcut button
     const guidanceShortcut = page.locator('.reader-guidance-shortcut');
     assert.ok(await guidanceShortcut.isVisible(), 'Guidance shortcut button must be visible');
@@ -235,6 +258,12 @@ fs.mkdirSync(outDir, { recursive: true });
     const detailShot = `${vp.name}-06-scenario3-detail.png`;
     await page.screenshot({ path: path.join(outDir, detailShot) });
     vpReport.screenshots.push(detailShot);
+    // Verify horizontal overflow while modal is open
+    const modalOverflow = await page.evaluate(() => {
+      const modal = document.getElementById('detail');
+      return modal ? modal.scrollWidth > modal.clientWidth : false;
+    });
+    assert.equal(modalOverflow, false, `Modal horizontal overflow detected on ${vp.name}`);
 
     const detailAxe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
     assert.equal(detailAxe.violations.length, 0, `Detail modal accessibility violations on ${vp.name}`);

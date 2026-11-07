@@ -387,3 +387,74 @@ test('Reviewer regressions: standalone modifiers and invoice scanning queries mu
   const ocrMatches = api.filterEntries(entries, ocrTokens, {});
   assert.ok(ocrMatches.length >= 8, '發票 OCR must match at least 8 cases');
 });
+
+test('natural problem queries for surveys, literature review, airfare comparison, and expense reimbursement recall targeted cases', () => {
+  const testCases = [
+    { query: '問卷調查', min: 10, expectedId: 'UC-253' },
+    { query: '設計一份問卷', min: 10, expectedId: 'UC-401' },
+    { query: '問卷分析', min: 10, expectedId: 'UC-253' },
+    { query: '文獻回顧', min: 2, expectedId: 'UC-012' },
+    { query: '文獻整理', min: 2, expectedId: 'UC-012' },
+    { query: '機票比價', min: 2, expectedId: 'UC-001' },
+    { query: '航班比價', min: 2, expectedId: 'UC-001' },
+    { query: '機票價格', min: 2, expectedId: 'UC-001' },
+    { query: '費用報銷', min: 3, expectedId: 'UC-103' },
+    { query: '我想報銷費用', min: 3, expectedId: 'UC-103' },
+    { query: '差旅費用', min: 3, expectedId: 'UC-103' }
+  ];
+
+  for (const tc of testCases) {
+    const tokens = Array.from(api.tokenize(tc.query));
+    const matched = api.filterEntries(entries, tokens, {});
+    assert.ok(
+      matched.length >= tc.min,
+      `Query "${tc.query}" (tokens: [${tokens.join(', ')}]) must return at least ${tc.min} cases, got ${matched.length}`
+    );
+    assert.ok(
+      matched.some(e => e.id === tc.expectedId),
+      `Query "${tc.query}" must recall expected case ${tc.expectedId}`
+    );
+  }
+});
+
+test('hero problem tags and empty state suggestions expose 問卷調查, 文獻回顧, and 機票比價', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=問卷調查#explore"'), 'hero-problem-tags must include 問卷調查');
+  assert.ok(nav.includes('href="?q=文獻回顧#explore"'), 'hero-problem-tags must include 文獻回顧');
+  assert.ok(nav.includes('href="?q=機票比價#explore"'), 'hero-problem-tags must include 機票比價');
+
+  const appJs = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
+  assert.match(appJs, /term:\s*['"]問卷調查['"]/, 'app.js empty state problem tags must include 問卷調查');
+  assert.match(appJs, /term:\s*['"]文獻回顧['"]/, 'app.js empty state problem tags must include 文獻回顧');
+  assert.match(appJs, /term:\s*['"]機票比價['"]/, 'app.js empty state problem tags must include 機票比價');
+});
+
+test('Reviewer regressions: complete airfare phrases and travel vs non-travel reimbursement separation', () => {
+  // Finding 1: generic reimbursement must preserve 費用 報銷 and recall UC-225
+  const expenseTokens = Array.from(api.tokenize('費用報銷'));
+  assert.deepEqual(expenseTokens, ['費用', '報銷'], '費用報銷 must normalize to [費用, 報銷] without false travel constraint');
+  const expenseHits = api.filterEntries(entries, expenseTokens, {});
+  assert.ok(expenseHits.some(e => e.id === 'UC-225'), '費用報銷 must recall generic expense case UC-225');
+
+  const travelExpenseTokens = Array.from(api.tokenize('差旅費用'));
+  assert.deepEqual(travelExpenseTokens, ['差旅', '報銷'], '差旅費用 must normalize to [差旅, 報銷]');
+  const travelExpenseHits = api.filterEntries(entries, travelExpenseTokens, {});
+  assert.ok(travelExpenseHits.some(e => e.id === 'UC-103'), '差旅費用 must recall travel expense case UC-103');
+
+  // Finding 2: airfare compound queries must consume complete compound without trailing words
+  const queryLookup = Array.from(api.tokenize('機票比價查詢'));
+  assert.deepEqual(queryLookup, ['機票', '比價'], '機票比價查詢 must tokenize to [機票, 比價]');
+
+  const querySite = Array.from(api.tokenize('機票比價網'));
+  assert.deepEqual(querySite, ['機票', '比價'], '機票比價網 must tokenize to [機票, 比價]');
+
+  const queryCompare = Array.from(api.tokenize('機票價格比較'));
+  assert.deepEqual(queryCompare, ['機票', '比價'], '機票價格比較 must tokenize to [機票, 比價]');
+
+  // ADS-B flight radar tracking must not be broken by airfare queries
+  const flightRadar = Array.from(api.tokenize('航班追蹤'));
+  assert.deepEqual(flightRadar, ['航班追蹤'], '航班追蹤 must tokenize to [航班追蹤]');
+  const flightHits = api.filterEntries(entries, flightRadar, {});
+  assert.ok(flightHits.some(e => e.id === 'UC-334'), '航班追蹤 must recall flight radar case UC-334');
+});

@@ -175,6 +175,51 @@ test('empty recovery offers only queries that match retained facets', () => {
   assert.match(api.document.getElementById('empty-hint').textContent, /調整篩選/);
 });
 
+test('empty recovery surfaces viable problem suggestions under active scenario and difficulty even when facet relaxation options exist', () => {
+  const api = setupEnvironment(), calls = [];
+  vm.runInContext(`discoveryReady = true; entries = [
+    {search:'旅遊 生活', scenario:'生活', kind:'case', difficulty:'入門對話', tools:[], category:'日常', proof:'作者報告／示範'},
+    {search:'日報 生活', scenario:'生活', kind:'case', difficulty:'入門對話', tools:[], category:'日常', proof:'作者報告／示範'},
+    {search:'代碼審查 開發', scenario:'開發', kind:'case', difficulty:'進階開發', tools:[], category:'開發', proof:'作者報告／示範'},
+    {search:'代碼審查 腳本', scenario:'開發', kind:'case', difficulty:'入門對話', tools:[], category:'開發', proof:'作者報告／示範'}
+  ];`, api.context);
+  api.document.getElementById('query').value = '代碼審查';
+  api.context.render = () => calls.push('render');
+  api.context.focusResults = () => calls.push('focus');
+  api.renderSearchFeedback(api.tokenize('代碼審查'), { scenario: '生活', difficulty: '入門對話' });
+  const suggestions = api.document.getElementById('empty-suggestions');
+  const removeButtons = suggestions.querySelectorAll('.recovery-option').filter(b => b.dataset.removeFilter);
+  assert.ok(removeButtons.length > 0, 'Must offer facet removal option (remove scenario=生活)');
+  const problemContainer = suggestions.querySelector('.empty-problem-suggestions');
+  assert.ok(problemContainer, 'Must render .empty-problem-suggestions even when single facet relaxation exists');
+  const chips = suggestions.querySelectorAll('.recovery-problem-tag');
+  const tags = chips.map(c => c.dataset.problemTag);
+  assert.ok(tags.includes('旅遊'), 'Must include 旅遊 problem tag');
+  assert.ok(tags.includes('日報'), 'Must include 日報 problem tag');
+  assert.ok(!tags.includes('代碼審查'), 'Must not suggest 代碼審查 which produces 0 results under current filters');
+  assert.match(api.document.getElementById('empty-hint').textContent, /可調整指定條件查看更多案例；或直接點選下方推薦問題/);
+  chips[0].click();
+  assert.equal(api.document.getElementById('query').value, tags[0]);
+  assert.deepEqual(calls, ['render', 'focus']);
+});
+
+test('empty recovery explains both combined filter removal and in-facet problem exploration when both exist', () => {
+  const api = setupEnvironment();
+  vm.runInContext(`discoveryReady = true; entries = [
+    {search:'旅遊 生活', scenario:'生活', kind:'case', difficulty:'入門對話', tools:['Grok Bot'], category:'日常', proof:'作者報告／示範'},
+    {search:'代碼審查 開發', scenario:'開發', kind:'case', difficulty:'進階開發', tools:['Cursor'], category:'開發', proof:'作者報告／示範'}
+  ];`, api.context);
+  api.document.getElementById('query').value = '代碼審查';
+  // Under scenario=生活 and difficulty=入門對話, 代碼審查 requires removing BOTH facets to find UC in 開發+進階開發
+  api.renderSearchFeedback(api.tokenize('代碼審查'), { scenario: '生活', difficulty: '入門對話' });
+  const suggestions = api.document.getElementById('empty-suggestions');
+  const combinedButtons = suggestions.querySelectorAll('.recovery-option').filter(b => b.dataset.removeFilters);
+  assert.ok(combinedButtons.length > 0, 'Must offer combined removal option');
+  const problemContainer = suggestions.querySelector('.empty-problem-suggestions');
+  assert.ok(problemContainer, 'Must render .empty-problem-suggestions alongside combined removals');
+  assert.match(api.document.getElementById('empty-hint').textContent, /至少要一起移除 2 項篩選才能保留原關鍵字；或直接點選下方推薦問題/);
+});
+
 test('expanded discovery and guidance styles wrap within narrow containers with touch-sized controls', () => {
   for (const selector of ['.chip', '.recovery-problem-tag', '.hero-task-examples>a', '.problem-tag']) {
     const rule = cssSource.split(selector + '{')[1]?.split('}')[0];

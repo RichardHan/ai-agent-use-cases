@@ -6,7 +6,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cases/';
-const outDir = path.resolve(__dirname, '../docs/qa/2026-11-07-problem-evidence-journey');
+const outDir = path.resolve(__dirname, '../docs/qa/2026-11-07-compound-filter-recovery');
 fs.mkdirSync(outDir, { recursive: true });
 
 (async () => {
@@ -118,6 +118,55 @@ fs.mkdirSync(outDir, { recursive: true });
     const recoveredAxe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
     assert.equal(recoveredAxe.violations.length, 0, `Recovered state accessibility violations on ${vp.name}`);
     vpReport.axeChecks.push({ state: 'recovered_state', violations: 0 });
+
+    // SCENARIO 2b: Compound difficulty + scenario empty recovery via in-facet problem suggestion
+    console.log(`[${vp.name}] Testing Scenario 2b: Compound difficulty (入門對話) + scenario (生活) + query (代碼審查)...`);
+    await page.evaluate(() => {
+      const diff = document.getElementById('difficulty');
+      if (diff) {
+        diff.value = '入門對話';
+        diff.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      const scn = document.getElementById('scenario');
+      if (scn) {
+        scn.value = '生活';
+        scn.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    await page.locator('#query').fill('代碼審查');
+    await page.locator('#search-submit').click();
+    await page.locator('#empty').waitFor({ timeout: 5000 });
+    assert.ok(await page.locator('#empty').isVisible(), 'Empty state must be visible on life + novice + code review');
+    assert.ok(await page.locator('#empty-suggestions .recovery-option').first().isVisible(), 'Facet removal button must be visible');
+    assert.ok(await page.locator('#empty-suggestions .empty-problem-suggestions').isVisible(), 'Problem suggestions container must be visible even with facet removals');
+    const travelTag = page.locator('#empty-suggestions [data-problem-tag="旅遊"]');
+    assert.ok(await travelTag.isVisible(), '旅遊 problem tag must be visible under 生活 + 入門對話');
+    const compoundEmptyShot = `${vp.name}-05b-scenario2-compound-empty.png`;
+    await page.screenshot({ path: path.join(outDir, compoundEmptyShot) });
+    vpReport.screenshots.push(compoundEmptyShot);
+
+    const compoundEmptyAxe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+    assert.equal(compoundEmptyAxe.violations.length, 0, `Compound empty state accessibility violations on ${vp.name}`);
+    vpReport.axeChecks.push({ state: 'compound_empty_state', violations: 0 });
+
+    console.log(`[${vp.name}] Clicking 旅遊 problem suggestion to recover within current scenario...`);
+    await travelTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const inFacetRecoveredCount = await page.locator('#results .card').count();
+    assert.ok(inFacetRecoveredCount >= 10, `In-facet recovered count for 旅遊 must be >= 10 (found ${inFacetRecoveredCount})`);
+    assert.equal(await page.locator('#query').inputValue(), '旅遊');
+    assert.equal(await page.locator('#scenario').inputValue(), '生活', 'Scenario must remain 生活');
+    assert.equal(await page.locator('#difficulty').inputValue(), '入門對話', 'Difficulty must remain 入門對話');
+    assert.match(decodeURIComponent(page.url()), /scenario=生活/, 'URL must preserve scenario=生活');
+    assert.match(decodeURIComponent(page.url()), /difficulty=入門對話/, 'URL must preserve difficulty=入門對話');
+    assert.match(decodeURIComponent(page.url()), /q=旅遊/, 'URL must update to q=旅遊');
+    const inFacetRecoveredShot = `${vp.name}-05c-scenario2-in-facet-recovered.png`;
+    await page.screenshot({ path: path.join(outDir, inFacetRecoveredShot) });
+    vpReport.screenshots.push(inFacetRecoveredShot);
+
+    const inFacetAxe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+    assert.equal(inFacetAxe.violations.length, 0, `In-facet recovered state accessibility violations on ${vp.name}`);
+    vpReport.axeChecks.push({ state: 'in_facet_recovered_state', violations: 0 });
 
     // SCENARIO 3: Deep link, reading details, proof inspection, guidance expansion, external source, return
     console.log(`[${vp.name}] Testing Scenario 3: Deep link to UC-098, inspecting evidence and guidance...`);

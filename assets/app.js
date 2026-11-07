@@ -1897,7 +1897,7 @@ function renderSearchFeedback(terms, filters) {
       button.addEventListener('click',()=>recoverSearchQuery(query));
       suggestions.append(button);
     });
-    if(!options.length && !combined.length && terms.length){
+    if(terms.length){
       const problemTags = [
         {label:'郵件摘要 · 搜尋「郵件」', term:'郵件'},
         {label:'會議整理 · 搜尋「會議」', term:'會議'},
@@ -1921,7 +1921,8 @@ function renderSearchFeedback(terms, filters) {
         const problemContainer = el('div','empty-problem-suggestions');
         problemContainer.setAttribute('role','group');
         problemContainer.setAttribute('aria-label','推薦常見痛點關鍵字');
-        const intro = el('p','empty-problem-intro','以下搜尋在目前篩選下有結果，可保留其他條件繼續探索：');
+        const hasFacetRemovals = Boolean(options.length || combined.length);
+        const intro = el('p','empty-problem-intro', hasFacetRemovals ? '或保留目前篩選，探索此條件下有收錄的常見問題：' : '以下搜尋在目前篩選下有結果，可保留其他條件繼續探索：');
         problemContainer.append(intro);
         const chipsWrap = el('div','empty-problem-chips');
         prioritizedTags.forEach(({label, term})=>{
@@ -1937,10 +1938,15 @@ function renderSearchFeedback(terms, filters) {
         suggestions.append(problemContainer);
       }
     }
-    $('empty-hint').textContent=suggestions.children.length && terms.length>1 && !suggestions.querySelector('.empty-problem-suggestions')
-      ? '關鍵字須同時符合；以下建議只調整指定條件，並保留其餘條件。'
+    $('empty-hint').textContent=
+      combined.length && suggestions.querySelector('.empty-problem-suggestions')
+      ? '至少要一起移除 '+combined[0].conditions.length+' 項篩選才能保留原關鍵字；或直接點選下方推薦問題，保留目前篩選繼續探索。'
       : combined.length
       ? '至少要一起移除 '+combined[0].conditions.length+' 項篩選才有結果。以下調整會保留關鍵字與其餘條件。'
+      : suggestions.querySelector('.empty-problem-suggestions') && (options.length || queryOptions.length)
+      ? '可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。'
+      : suggestions.children.length && terms.length>1 && !suggestions.querySelector('.empty-problem-suggestions')
+      ? '關鍵字須同時符合；以下建議只調整指定條件，並保留其餘條件。'
       : options.length
       ? '每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。'
       : suggestions.querySelector('.empty-problem-suggestions') ? '下方建議可調整關鍵字；任務捷徑在目前篩選下有結果，其餘條件不變。'

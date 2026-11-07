@@ -1,3 +1,9 @@
+## 2026-11-07 進階複合篩選與門檻交集空結果智慧導引、情境問題保留探索與 E2E 瀏覽器回歸健全
+
+基準 main `01e4701264c76b1f2048fbc2e7ca8ffce4c16a69`（PR #250 合併後）；原工作樹存在未提交修改，本輪使用隔離 worktree 操作。訪客依自身實作門檻（如「入門對話（免寫程式）」）或情境（如「生活」）探索時，若搜尋詞在其他領域存在但在目前條件下無結果（例如「生活＋入門對話＋代碼審查」），系統因單一放寬條件（如「移除使用情境『生活』」）使 `options.length > 0`，導致原 `if(!options.length && !combined.length && terms.length)` 將所有痛點問題捷徑全部遮蔽，造成訪客只能被動「放棄目前情境」，無法得知在選定條件下其實有旅遊（18 筆）、比價（16 筆）、發票（10 筆）、日報（10 筆）等豐富案例可做。本輪移除遮蔽門檻，只要在保留目前活躍篩選下存在可行問題捷徑，即在下方清楚呈現「或保留目前篩選，探索此條件下有收錄的常見問題：」；同步優化雙軌提示文案；並在端到端瀏覽器驗收 `tests/visitor-problem-browser.cjs` 擴充複合難度＋情境＋關鍵字之空結果與情境內問題點擊即時復原防線。[方案與驗收紀錄](docs/qa/2026-11-07-compound-filter-recovery/README.md)。
+
+新增防線先紅後綠，全套 416 項 Node 單元測試通過；`node --check` 語法通過；預覽 catalog 與 corpus 建置成功。端到端瀏覽器驗收涵蓋 Chromium 1440 桌面、390 手機與 320 窄螢幕手機三個尺寸，完成問題導向搜尋、單一條件移除復原、複合門檻＋情境空結果與情境內問題點擊復原（旅遊 18 筆）、詳情直鏈與來源查證、入門建議展開直讀，全流程 8 個狀態 axe 零違規（totalViolations: 0）。非真人研究。下一輪優先針對長關鍵字分詞在極端中英夾雜時的意圖邊界持續進行語意精準度審查。
+
 ## 2026-11-07 訪客問題檢索深度拓展（契約／資料擷取／發票處理／播客摘要／價格比較）、詳情指南直讀與 E2E 發布防線健全
 
 基準 main `3eb4f34b1551ee97eb22143f9a75a7c84160772a`（PR #249 合併後）；原工作樹存在未提交修改，本輪使用隔離 worktree 操作。訪客從問題出發尋求案例時，高意圖日常問題如「契約審查」、「資料擷取」、「發票處理」、「播客摘要」、「價格比較」、「客戶支援」、「會議筆記」及對應英文詞彙（contract review, data extraction, invoice processing, podcast summary, price comparison, customer support, meeting notes, interview prep）因同義詞未關聯或未切分而回傳 0 筆或漏召回。本輪在 `SYNONYM_GROUPS` 將「契約」納入合約同義詞組、「抽取」納入擷取同義詞組；於 `tokenize()` 擴充複合詞與中英對照分詞規則；在首頁 `.hero-problem-tags` 與空搜尋建議補齊「資料擷取」、「播客摘要」與「契約審查」一鍵入口；於案例詳情強化「建議操作流程與注意事項」展開直讀；並將全流程訪客端到端驗收腳本 `tests/visitor-problem-browser.cjs` 正式接入主 CI 流水線 `.github/workflows/website-qa.yml`。[方案與驗收紀錄](docs/qa/2026-11-07-problem-evidence-journey/README.md)。

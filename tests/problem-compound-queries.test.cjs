@@ -263,3 +263,73 @@ test('Reviewer regression: preserve bill vs invoice distinction and match comple
   const contractMatches = api.filterEntries(entries, reviewTokens, {});
   assert.ok(contractMatches.some(e => e.id === 'UC-154'), 'contract reviewing must recall contract review case UC-154');
 });
+
+test('natural problem queries for competitor research, code debugging, document translation, resume writing, email reply, web scraping, and mock interview recall targeted cases', () => {
+  const problems = [
+    { raw: '競品分析', min: 5, expectedTokens: ['競品', '分析'], topId: 'UC-039' },
+    { raw: '代碼除錯', min: 100, expectedTokens: ['代碼', '除錯'] },
+    { raw: '文件翻譯', min: 50, expectedTokens: ['文件', '翻譯'] },
+    { raw: '翻譯文件', min: 50, expectedTokens: ['文件', '翻譯'] },
+    { raw: '寫週報', min: 10, expectedTokens: ['週報', '整理'] },
+    { raw: '寫日報', min: 50, expectedTokens: ['日報', '整理'] },
+    { raw: '寫履歷', min: 5, expectedTokens: ['履歷', '修改'], topId: 'UC-035' },
+    { raw: '寫文案', min: 20, expectedTokens: ['文案'] },
+    { raw: '郵件回覆', min: 50, expectedTokens: ['郵件', '回覆'] },
+    { raw: '網頁抓取', min: 25, expectedTokens: ['爬蟲', '抓取'] },
+    { raw: '資料抓取', min: 25, expectedTokens: ['爬蟲', '抓取'] },
+    { raw: '模擬面試', min: 5, expectedTokens: ['面試', '準備'], topId: 'UC-035' },
+    { raw: '面試演練', min: 5, expectedTokens: ['面試', '準備'], topId: 'UC-035' },
+    { raw: '語音逐字稿', min: 50, expectedTokens: ['逐字稿'] }
+  ];
+
+  for (const p of problems) {
+    const tokens = Array.from(api.tokenize(p.raw));
+    assert.deepEqual(tokens, p.expectedTokens, `Tokens for "${p.raw}" must match expected`);
+    const matched = api.filterEntries(entries, tokens, {});
+    assert.ok(matched.length >= p.min, `Query "${p.raw}" must return >= ${p.min} cases, got ${matched.length}`);
+    if (p.topId) {
+      const ranked = api.rankEntries(matched, tokens);
+      assert.equal(ranked[0]?.id, p.topId, `Query "${p.raw}" top case must be ${p.topId}, got ${ranked[0]?.id}`);
+    }
+  }
+});
+
+test('hero problem tags and empty state suggestions expose 競品分析, 代碼除錯, 文件翻譯, 網頁抓取, and 寫履歷', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=競品分析#explore"'), 'hero-problem-tags must include 競品分析');
+  assert.ok(nav.includes('href="?q=代碼除錯#explore"'), 'hero-problem-tags must include 代碼除錯');
+  assert.ok(nav.includes('href="?q=文件翻譯#explore"'), 'hero-problem-tags must include 文件翻譯');
+  assert.ok(nav.includes('href="?q=網頁抓取#explore"'), 'hero-problem-tags must include 網頁抓取');
+  assert.ok(nav.includes('href="?q=寫履歷#explore"'), 'hero-problem-tags must include 寫履歷');
+
+  const appSource = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
+  assert.match(appSource, /term:'競品分析'/, 'app.js problemTags must include 競品分析');
+  assert.match(appSource, /term:'代碼除錯'/, 'app.js problemTags must include 代碼除錯');
+  assert.match(appSource, /term:'文件翻譯'/, 'app.js problemTags must include 文件翻譯');
+  assert.match(appSource, /term:'網頁抓取'/, 'app.js problemTags must include 網頁抓取');
+  assert.match(appSource, /term:'寫履歷'/, 'app.js problemTags must include 寫履歷');
+});
+
+test('Reviewer regressions: complete keyword boundaries and conversational suffix preservation', () => {
+  // Finding 1: code debugging must tokenize cleanly without leaving ging
+  const debugTokens = Array.from(api.tokenize('code debugging'));
+  assert.deepEqual(debugTokens, ['代碼', '除錯'], 'code debugging must tokenize to 代碼 除錯 without trailing ging');
+  const debugMatches = api.filterEntries(entries, debugTokens, {});
+  assert.ok(debugMatches.some(e => e.id === 'UC-068'), 'code debugging must match UC-068');
+
+  // Finding 2: 翻譯document must match full word document without leaving ument
+  const transTokens = Array.from(api.tokenize('翻譯document'));
+  assert.deepEqual(transTokens, ['文件', '翻譯'], '翻譯document must tokenize to 文件 翻譯 without trailing ument');
+  const docTransTokens = Array.from(api.tokenize('document 翻譯'));
+  assert.deepEqual(docTransTokens, ['文件', '翻譯'], 'document 翻譯 must tokenize to 文件 翻譯');
+
+  // Finding 3: 做法 suffix must not be partially consumed as 做 leaving 法
+  const resumeMethodTokens = Array.from(api.tokenize('履歷做法'));
+  assert.deepEqual(resumeMethodTokens, ['履歷'], '履歷做法 must tokenize to 履歷 without leaving 法');
+  const resumeMatches = api.filterEntries(entries, resumeMethodTokens, { scope: 'topic' });
+  assert.ok(resumeMatches.some(e => e.id === 'UC-035'), '履歷做法 must match UC-035');
+
+  const weeklyMethodTokens = Array.from(api.tokenize('週報做法'));
+  assert.deepEqual(weeklyMethodTokens, ['週報'], '週報做法 must tokenize to 週報 without leaving 法');
+});

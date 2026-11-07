@@ -426,3 +426,37 @@ test('reader.css uses valid color variable var(--ink) and defines next-step and 
   assert.match(readerCss, /\.reader-guidance-shortcut\s*\{/, 'reader.css must define .reader-guidance-shortcut');
   assert.match(readerCss, /\.detail-action-manual-copy\s*\{/, 'reader.css must define .detail-action-manual-copy');
 });
+
+test('PROOF_CLAIMANTS and PROOF_VERIFICATION_STATUS provide transparent attribution and boundaries', () => {
+  const { context } = setupDom();
+  assert.ok(context.PROOF_CLAIMANTS, 'PROOF_CLAIMANTS must exist');
+  assert.ok(context.PROOF_VERIFICATION_STATUS, 'PROOF_VERIFICATION_STATUS must exist');
+  const requiredProofs = ['官方自報', '作者報告／示範', '公開資料核讀', '模板／文件核讀', '尚待查證'];
+  for (const proof of requiredProofs) {
+    assert.ok(context.PROOF_CLAIMANTS[proof], `PROOF_CLAIMANTS must define "${proof}"`);
+    assert.ok(context.PROOF_VERIFICATION_STATUS[proof], `PROOF_VERIFICATION_STATUS must define "${proof}"`);
+  }
+});
+
+test('showDetail renders structured claimant and verification status in detail-proof-note', () => {
+  const { context, detailBody } = setupDom();
+  const sampleOfficial = {
+    id: 'UC-010', title: '官方示範', what: '官方用途',
+    kind: 'case', scenario: '工作', proof: '官方自報',
+    tools: [], tags: [], path: 'cases/010.md', markdown: '# UC-010\n\n## 來源\n官方內容'
+  };
+  context.showDetail(sampleOfficial, null, false);
+  const proofNote = detailBody.querySelector('.detail-proof-note');
+  assert.ok(proofNote, 'must render .detail-proof-note');
+  const claimantEl = proofNote.querySelector('.proof-note-claimant');
+  assert.ok(claimantEl, 'must render .proof-note-claimant');
+  assert.match(claimantEl.textContent, /官方團隊／原廠自述/);
+  const statusEl = proofNote.querySelector('.proof-note-status');
+  assert.ok(statusEl, 'must render .proof-note-status');
+  assert.match(statusEl.textContent, /未經第三方獨立實測重現/);
+});
+
+test('reader.css defines styling for structured proof note elements', () => {
+  assert.match(readerCss, /\.proof-note-claimant\s*\{/, 'reader.css must define .proof-note-claimant');
+  assert.match(readerCss, /\.proof-note-status\s*\{/, 'reader.css must define .proof-note-status');
+});

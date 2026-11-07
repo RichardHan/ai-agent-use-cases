@@ -6,7 +6,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cases/';
-const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-problem-discovery');
+const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-problem-intent');
 fs.mkdirSync(outDir, { recursive: true });
 
 (async () => {
@@ -90,6 +90,29 @@ fs.mkdirSync(outDir, { recursive: true });
     const contractShot = `${vp.name}-03-scenario1-contract-review.png`;
     await page.screenshot({ path: path.join(outDir, contractShot) });
     vpReport.screenshots.push(contractShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 做一份競品簡報 natural query with quantifier...`);
+    await page.locator('#query').fill('做一份競品簡報');
+    await page.locator('#search-submit').click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const quantCompCount = await page.locator('#results .card').count();
+    assert.ok(quantCompCount >= 1, `做一份競品簡報 must recall >= 1 case (found ${quantCompCount})`);
+    const quantCompTitle = await page.locator('#results .card h3').first().innerText();
+    assert.ok(quantCompTitle.includes('競品'), `Top result for 做一份競品簡報 must be competitor case, got: ${quantCompTitle}`);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 一次性爬蟲 natural query with modifier...`);
+    await page.locator('#query').fill('一次性爬蟲');
+    await page.locator('#search-submit').click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const scraperCount = await page.locator('#results .card').count();
+    assert.ok(scraperCount >= 20, `一次性爬蟲 must recall >= 20 cases (found ${scraperCount})`);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 整理一份會議記錄 natural query with verb + quantifier...`);
+    await page.locator('#query').fill('整理一份會議記錄');
+    await page.locator('#search-submit').click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const meetingCount = await page.locator('#results .card').count();
+    assert.ok(meetingCount >= 9, `整理一份會議記錄 must recall >= 9 cases (found ${meetingCount})`);
 
     const searchAxe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
     assert.equal(searchAxe.violations.length, 0, `Search results accessibility violations on ${vp.name}`);

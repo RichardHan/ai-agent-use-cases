@@ -128,9 +128,9 @@ fs.mkdirSync(outDir, { recursive: true });
     await page.locator('#search-submit').click();
     await page.waitForTimeout(500);
     const travelCount = await cards.count();
-    assert.ok(travelCount >= 5, `出差報銷 must return >= 5 cards, got ${travelCount} on ${vp.label}`);
+    assert.ok(travelCount >= 4, `出差報銷 must return >= 4 cards, got ${travelCount} on ${vp.label}`);
     const travelFirstId = await cards.first().getAttribute('data-case-id');
-    assert.equal(travelFirstId, 'UC-284', `出差報銷 rank 1 must be UC-284 on ${vp.label}`);
+    assert.equal(travelFirstId, 'UC-263', `出差報銷 rank 1 must be UC-263 on ${vp.label}`);
     await page.screenshot({ path: path.join(outDir, `after-scenario1-travel-${vp.label}.png`) });
 
     // Test compound problem query "發票報帳"

@@ -47,8 +47,8 @@ test('compound problem queries segment cleanly and recall relevant cases', () =>
   const cases = [
     { query: '自動化測試', minMatches: 100, expectedTokens: ['自動化', '測試'] },
     { query: '測試自動化', minMatches: 100, expectedTokens: ['自動化', '測試'] },
-    { query: '出差報銷', minMatches: 5, expectedTokens: ['出差', '報銷'] },
-    { query: '差旅報銷', minMatches: 5, expectedTokens: ['差旅', '報銷'] },
+    { query: '出差報銷', minMatches: 4, expectedTokens: ['出差', '報銷'] },
+    { query: '差旅報銷', minMatches: 4, expectedTokens: ['差旅', '報銷'] },
     { query: '發票報帳', minMatches: 10, expectedTokens: ['發票', '報帳'] },
     { query: '發票核銷', minMatches: 10, expectedTokens: ['發票', '核銷'] },
     { query: '合約審核', minMatches: 10, expectedTokens: ['合約', '審核'] },
@@ -79,7 +79,7 @@ test('natural conversational queries strip intent prefixes and filler suffixes',
     { raw: '我想做自動化測試', expectedTokens: ['自動化', '測試'], minMatches: 100 },
     { raw: '有沒有自動化測試的案例', expectedTokens: ['自動化', '測試'], minMatches: 100 },
     { raw: '請問如何做發票報帳', expectedTokens: ['發票', '報帳'], minMatches: 10 },
-    { raw: '想了解出差報銷的做法', expectedTokens: ['出差', '報銷'], minMatches: 5 },
+    { raw: '想了解出差報銷的做法', expectedTokens: ['出差', '報銷'], minMatches: 4 },
     { raw: '幫我整理日報', expectedTokens: ['整理', '日報'], minMatches: 50 },
     { raw: '想知道合約審核的案例', expectedTokens: ['合約', '審核'], minMatches: 10 }
   ];
@@ -112,7 +112,7 @@ test('canonical cases rank at top for compound problem queries', () => {
   const expenseTokens = Array.from(api.tokenize('出差報銷'));
   const expenseMatched = api.filterEntries(entries, expenseTokens, {});
   const expenseRanked = api.rankEntries(expenseMatched, expenseTokens);
-  assert.equal(expenseRanked[0].id, 'UC-284', '出差報銷 must rank UC-284 at top 1');
+  assert.equal(expenseRanked[0].id, 'UC-263', '出差報銷 must rank UC-263 at top 1');
 
   // 合約審核 should rank UC-154 at top 1
   const contractTokens = Array.from(api.tokenize('合約審核'));

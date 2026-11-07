@@ -574,10 +574,11 @@ test('INDEX.md maintains scenario consistency, complete case rows and canonical 
   assert(/UC-358[^\n]*納入[^\n]*B/.test(auditContent), 'UC-358 must be audited as B-grade qualified in audit document');
   assert(/UC-359[^\n]*待定/.test(auditContent), 'UC-359 must be audited as pending (待定) in audit document');
 
-  // Main cases count in INDEX.md header must match cases/ file count
+  // The current inventory heading must agree with both the table and case files.
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
-  // The actual table, checked below, supplies page coverage. Historical batch
-  // page totals are deliberately preserved and are not current inventory.
+  const mainHeading = indexContent.match(/^## 主要案例（(\d+)）$/m);
+  assert(mainHeading, 'INDEX.md must show the current main case count');
+  assert.equal(Number(mainHeading[1]), caseFiles.length, 'INDEX.md main case count must match case files');
 
   // Verify all case and evidence links in INDEX.md exist on disk
   const links = Array.from(indexContent.matchAll(/\[(?:[^\]]*)\]\(((?:cases|evidence)\/[^)]+\.md)\)/g));
@@ -587,8 +588,9 @@ test('INDEX.md maintains scenario consistency, complete case rows and canonical 
     assert(fs.existsSync(path.join(root, relPath)), `Link target does not exist: ${relPath}`);
   }
 
-  // Verify all case rows in table 1 have valid canonical scenario
-  const caseRows = indexContent.split('\n').filter(l => l.startsWith('| UC-') && l.includes('(cases/'));
+  // All case rows must appear in the primary table, not only in research notes.
+  const mainSection = indexContent.split(mainHeading[0])[1].split('<a id="supplement-list">')[0];
+  const caseRows = mainSection.split('\n').filter(l => l.startsWith('| UC-') && l.includes('(cases/'));
   assert.equal(caseRows.length, caseFiles.length, `INDEX.md table case rows (${caseRows.length}) must match caseFiles (${caseFiles.length})`);
   for (const row of caseRows) {
     const cols = row.split('|').map(c => c.trim()).filter(Boolean);

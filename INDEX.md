@@ -204,7 +204,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（484）
+## 主要案例（494）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -645,6 +645,11 @@
 | UC-438 | 投資研究試算表：重建全市場權證清單並填Google Finance公式，依SEC資料更新企業價值並提醒幣別混用 | Meta Muse／Google試算表 | [B論壇作者自述；表格未公開、未重現](cases/438-muse-warrant-sheet-sec-ev-currency-check.md) | 學習｜投資研究、試算表、資料查證、監看 |
 | UC-439 | 每天清晨的多Bot編輯部：統括派稿、寫手交檔、品管依清單退回附改法、只存下書並登核准台帳 | Grok Bot（多Bot）／ChatGPT作圖／note／X | [B公司note自述時間紀錄；台帳未公開、未重現](cases/439-morning-multibot-draft-desk-review-approval-ledger.md) | 工作｜每日、多代理、內容發布、核准 |
 | UC-440 | 常用SaaS的AI改點數制：依官方說明算自己的影響，再只在已訂閱工具裡找備援 | Grok Bot／Notion AI | [B作者note自述；備援仍在調查、未重現](cases/440-saas-ai-credit-change-impact-backup-check.md) | 省錢｜訂閱、方案變更、用量、備援 |
+| UC-441 | GIS往返轉檔後核對識別欄位與座標，不以命令成功當完整 | ChatGPT dots／GDAL | [B合成試驗自述；未重現](cases/441-gis-roundtrip-identifier-attribute-fidelity.md) | 開發｜GIS、轉檔、識別碼、驗收 |
+| UC-442 | 團購意向不當授權份數，成團後核准同版沙盒結算 | Grok Bot／Gemini／PayPal Sandbox | [B作者沙盒實作；未重現](cases/442-group-buy-authorized-quorum-settlement-plan.md) | 開發｜團購、狀態機、核准、冪等 |
+| UC-443 | 科學模型評估先綁定訓練權重與前處理，再解讀誤差改善 | Grok Bot／Python／Jupyter | [B作者研究實作；未重現](cases/443-training-evaluation-preprocessor-pairing-audit.md) | 學習｜科研、模型評估、前處理、驗收 |
+| UC-444 | 新版本完成後找回原功能提問者，逐筆核准通知 | Grok Bot | [B作者使用自述；未重現](cases/444-feature-request-release-notification-loop.md) | 工作｜產品回饋、版本更新、需求追蹤、人工核准 |
+| UC-445 | 外聯實驗先鎖商業目標，再比較每日版本結果 | Grok Bot／Grok Build／Clay | [B具名操作者訪談；原始分組未公開、未重現](cases/445-campaign-experiment-goal-guard.md) | 工作｜每日、實驗、目標約束、成效核對 |
 | UC-446 | 從公開業配貼文反查品牌合作計畫，整理證據追蹤表與待批提案 | Grok Bot | [作者自述實測；名單未公開、未重現](cases/446-creator-sponsor-program-tracker.md) | 工作｜創作者、贊助、追蹤表、人工核准 |
 | UC-447 | 依睡眠資料與身體時鐘安排時差照光、睡眠與咖啡提醒 | Grok Bot | [待驗證：作者已設定，首次實測12月](cases/447-jet-lag-light-sleep-coach.md) | 生活｜旅遊、睡眠、穿戴裝置、每日 |
 | UC-448 | 只限Access權限的連接，讓Bot確認並修改Cloudflare存取名單 | Grok Bot／Cloudflare | [作者自述使用；無設定紀錄、未重現](cases/448-scoped-cloudflare-access-policy-bot.md) | 開發｜權限、雲端設定、最小權限 |
@@ -787,9 +792,6 @@
 
 [19組候選與實閱範圍](sources/research-2026-10-23-0910.md)：新增合格1（UC441，合成GIS轉檔識別欄位保真，B作者自述未重現）、合併1（037報價與接手購物車）、既有8、證據／去重不足7、排除2。來源待補及AI構想新增各0。全庫三類累計未重驗；歷史357@2026-10-21 20:50未重驗，2000口徑待確認。
 
-| 編號 | 案例 | 工具 | 證據 | 分類 |
-|---|---|---|---|---|
-| UC-441 | GIS往返轉檔後核對識別欄位與座標，不以命令成功當完整 | ChatGPT dots／GDAL | [B合成試驗自述；未重現](cases/441-gis-roundtrip-identifier-attribute-fidelity.md) | 開發｜GIS、轉檔、識別碼、驗收 |
 
 
 ## 2026-10-23 09:40研究批次
@@ -811,9 +813,6 @@
 
 [10組核心候選與實閱範圍](sources/research-2026-10-23-1210.md)：新增合格1（UC442，B作者合成聊天與金流沙盒實作、未重現），合併1（160相機傳輸／顯示／保存分開驗收）、既有4、證據／全文去重不足4。來源待補及AI構想獨立條目新增各0；全庫三類累計未重驗，2000口徑待確認。
 
-| 編號 | 案例 | 工具 | 證據 | 分類 |
-|---|---|---|---|---|
-| UC-442 | 團購意向不當授權份數，成團後核准同版沙盒結算 | Grok Bot／Gemini／PayPal Sandbox | [B作者沙盒實作；未重現](cases/442-group-buy-authorized-quorum-settlement-plan.md) | 開發｜團購、狀態機、核准、冪等 |
 
 
 ## 2026-10-23 13:10 台灣時間研究補充
@@ -825,9 +824,6 @@
 
 [12組候選與實閱範圍](sources/research-2026-10-23-1350.md)：新增合格1（UC443，B作者研究實作自述、未重現），合併0、既有3、證據／全文去重不足6、排除2。來源待補與AI構想獨立新增各0；全庫三類累計未知，歷史357＠2026-10-21 20:50未重驗，2000口徑待確認。
 
-| 編號 | 案例 | 工具 | 證據 | 分類 |
-|---|---|---|---|---|
-| UC-443 | 科學模型評估先綁定訓練權重與前處理，再解讀誤差改善 | Grok Bot／Python／Jupyter | [B作者研究實作；未重現](cases/443-training-evaluation-preprocessor-pairing-audit.md) | 學習｜科研、模型評估、前處理、驗收 |
 
 
 ## 2026-10-23 14:20 台灣時間研究補充
@@ -839,9 +835,6 @@
 
 [12組候選與實閱範圍](sources/research-2026-10-23-1450.md)：新增B級作者實作1（UC444，歷史功能需求配對已發布版本、人工核准個別通知，未重現）；合併1（005空摘要與工作成功分開驗收）、既有3、證據／全文去重不足4、排除3。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000計數口徑待確認。
 
-| 編號 | 案例 | 工具 | 證據 | 分類 |
-|---|---|---|---|---|
-| UC-444 | 新版本完成後找回原功能提問者，逐筆核准通知 | Grok Bot | [B作者使用自述；未重現](cases/444-feature-request-release-notification-loop.md) | 工作｜產品回饋、版本更新、需求追蹤、人工核准 |
 
 
 ### 2026-10-23 15:50 批次
@@ -856,9 +849,6 @@
 
 [18組候選與閱讀界線](sources/research-2026-10-23-1730.md)：新增合格1（UC445，B具名操作者訪談自述、未重現），合併0、已有流程5、證據／全文去重不足9、排除3。來源待補與AI構想獨立新增各0；全庫三類累計未重驗，2000計數口徑仍待確認。
 
-| 編號 | 案例 | 工具 | 證據 | 分類 |
-|---|---|---|---|---|
-| UC-445 | 外聯實驗先鎖商業目標，再比較每日版本結果 | Grok Bot／Grok Build／Clay | [B具名操作者訪談；原始分組未公開、未重現](cases/445-campaign-experiment-goal-guard.md) | 工作｜每日、實驗、目標約束、成效核對 |
 
 
 ## 2026-10-23 17:50 台灣時間研究補充

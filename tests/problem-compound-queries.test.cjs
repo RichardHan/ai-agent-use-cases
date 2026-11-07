@@ -458,3 +458,80 @@ test('Reviewer regressions: complete airfare phrases and travel vs non-travel re
   const flightHits = api.filterEntries(entries, flightRadar, {});
   assert.ok(flightHits.some(e => e.id === 'UC-334'), '航班追蹤 must recall flight radar case UC-334');
 });
+
+test('natural problem queries for data cleaning, log analysis, compliance, and slide presentations recall targeted cases', () => {
+  const testCases = [
+    { query: '資料清理', expectedTokens: ['資料', '整理'], expectedId: 'UC-036', topId: 'UC-036' },
+    { query: '清理資料', expectedTokens: ['資料', '整理'], expectedId: 'UC-036' },
+    { query: '資料清洗', expectedTokens: ['資料', '整理'], expectedId: 'UC-036' },
+    { query: '我想清理資料', expectedTokens: ['資料', '整理'], expectedId: 'UC-036' },
+    { query: '日誌分析', expectedTokens: ['日誌'], expectedId: 'UC-096', topId: 'UC-096' },
+    { query: '分析日誌', expectedTokens: ['日誌'], expectedId: 'UC-096', topId: 'UC-096' },
+    { query: '伺服器日誌', expectedTokens: ['日誌'], expectedId: 'UC-096', topId: 'UC-096' },
+    { query: '我想分析伺服器日誌', expectedTokens: ['日誌'], expectedId: 'UC-096', topId: 'UC-096' },
+    { query: '法規遵循', expectedTokens: ['法規', '審查'], expectedId: 'UC-102', topId: 'UC-102' },
+    { query: '合規審查', expectedTokens: ['法規', '審查'], expectedId: 'UC-102', topId: 'UC-102' },
+    { query: '法規查核', expectedTokens: ['法規', '審查'], expectedId: 'UC-102', topId: 'UC-102' },
+    { query: '合規檢查', expectedTokens: ['法規', '審查'], expectedId: 'UC-102', topId: 'UC-102' },
+    { query: '做簡報', expectedTokens: ['簡報'], expectedId: 'UC-019' },
+    { query: '製作簡報', expectedTokens: ['簡報'], expectedId: 'UC-019' },
+    { query: '做投影片', expectedTokens: ['簡報'], expectedId: 'UC-019' },
+    { query: '投影片製作', expectedTokens: ['簡報'], expectedId: 'UC-019' }
+  ];
+
+  for (const tc of testCases) {
+    const tokens = Array.from(api.tokenize(tc.query));
+    assert.deepEqual(tokens, tc.expectedTokens, `Query "${tc.query}" must tokenize to ${JSON.stringify(tc.expectedTokens)}`);
+    const matched = api.filterEntries(entries, tokens, {});
+    assert.ok(
+      matched.some(e => e.id === tc.expectedId),
+      `Query "${tc.query}" must recall expected case ${tc.expectedId}`
+    );
+    if (tc.topId) {
+      const ranked = api.rankEntries(matched, tokens);
+      assert.equal(
+        ranked[0]?.id,
+        tc.topId,
+        `Query "${tc.query}" top case must be ${tc.topId}, got ${ranked[0]?.id}`
+      );
+    }
+  }
+});
+
+test('hero problem tags and empty state suggestions expose 資料清理, 日誌分析, and 法規遵循', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=資料清理#explore"'), 'hero-problem-tags must include 資料清理');
+  assert.ok(nav.includes('href="?q=日誌分析#explore"'), 'hero-problem-tags must include 日誌分析');
+  assert.ok(nav.includes('href="?q=法規遵循#explore"'), 'hero-problem-tags must include 法規遵循');
+
+  const appJs = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
+  assert.match(appJs, /term:\s*['"]資料清理['"]/, 'app.js empty state problem tags must include 資料清理');
+  assert.match(appJs, /term:\s*['"]日誌分析['"]/, 'app.js empty state problem tags must include 日誌分析');
+  assert.match(appJs, /term:\s*['"]法規遵循['"]/, 'app.js empty state problem tags must include 法規遵循');
+});
+
+test('Reviewer regressions: consume full compound phrases including 日誌記錄, 整理乾淨, and 合規性 without trailing fragments', () => {
+  // Finding 1: 分析 日誌記錄 must tokenize to [日誌] and recall UC-096
+  const logRecordTokens = Array.from(api.tokenize('分析日誌記錄'));
+  assert.deepEqual(logRecordTokens, ['日誌'], '分析日誌記錄 must tokenize to [日誌] without leaving 記錄');
+  const logHits = api.filterEntries(entries, logRecordTokens, {});
+  assert.ok(logHits.some(e => e.id === 'UC-096'), '分析日誌記錄 must recall UC-096');
+
+  // Finding 2: longer alternatives must not leave shadow fragments
+  const cleanTokens = Array.from(api.tokenize('資料整理乾淨'));
+  assert.deepEqual(cleanTokens, ['資料', '整理'], '資料整理乾淨 must tokenize to [資料, 整理] without leaving 乾淨');
+  const cleanHits = api.filterEntries(entries, cleanTokens, {});
+  assert.ok(cleanHits.some(e => e.id === 'UC-036'), '資料整理乾淨 must recall UC-036');
+
+  const logFileTokens = Array.from(api.tokenize('伺服器日誌檔'));
+  assert.deepEqual(logFileTokens, ['日誌'], '伺服器日誌檔 must tokenize to [日誌] without leaving 檔');
+
+  const complianceTokens = Array.from(api.tokenize('檢查合規性'));
+  assert.deepEqual(complianceTokens, ['法規', '審查'], '檢查合規性 must tokenize to [法規, 審查] without leaving 性');
+  const compHits = api.filterEntries(entries, complianceTokens, {});
+  assert.ok(compHits.some(e => e.id === 'UC-102'), '檢查合規性 must recall UC-102');
+
+  const compFollowTokens = Array.from(api.tokenize('法規遵循檢查'));
+  assert.deepEqual(compFollowTokens, ['法規', '審查'], '法規遵循檢查 must tokenize to [法規, 審查]');
+});

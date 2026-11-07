@@ -6,7 +6,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cases/';
-const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-visitor-clarity');
+const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-visitor-trust-flow');
 fs.mkdirSync(outDir, { recursive: true });
 
 (async () => {
@@ -99,6 +99,31 @@ fs.mkdirSync(outDir, { recursive: true });
     const expShot = `${vp.name}-02d-scenario1-expense.png`;
     await page.screenshot({ path: path.join(outDir, expShot) });
     vpReport.screenshots.push(expShot);
+    console.log(`[${vp.name}] Testing Scenario 1: 資料清理 problem tag...`);
+    const dataCleanTag = page.locator('.hero-problem-tags a[href*="資料清理"]');
+    assert.ok(await dataCleanTag.isVisible(), '資料清理 tag must be visible in hero');
+    await dataCleanTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const dataCleanCount = await page.locator('#results .card').count();
+    assert.ok(dataCleanCount >= 10, `資料清理 must recall >= 10 cases (found ${dataCleanCount})`);
+    const dataCleanFirstTitle = await page.locator('#results .card h3').first().innerText();
+    assert.ok(dataCleanFirstTitle.includes('收銀資料') || dataCleanFirstTitle.includes('入帳檔'), `Top case must be UC-036, got: ${dataCleanFirstTitle}`);
+    const dataCleanShot = `${vp.name}-02e-scenario1-dataclean.png`;
+    await page.screenshot({ path: path.join(outDir, dataCleanShot) });
+    vpReport.screenshots.push(dataCleanShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 日誌分析 problem tag...`);
+    const logTag = page.locator('.hero-problem-tags a[href*="日誌分析"]');
+    assert.ok(await logTag.isVisible(), '日誌分析 tag must be visible in hero');
+    await logTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const logCount = await page.locator('#results .card').count();
+    assert.ok(logCount >= 10, `日誌分析 must recall >= 10 cases (found ${logCount})`);
+    const logFirstTitle = await page.locator('#results .card h3').first().innerText();
+    assert.ok(logFirstTitle.includes('錯誤日誌') || logFirstTitle.includes('網站出問題'), `Top case must be UC-096, got: ${logFirstTitle}`);
+    const logShot = `${vp.name}-02f-scenario1-log.png`;
+    await page.screenshot({ path: path.join(outDir, logShot) });
+    vpReport.screenshots.push(logShot);
     console.log(`[${vp.name}] Testing Scenario 1: 契約審查 natural query...`);
     await page.locator('#query').fill('契約審查');
     await page.locator('#search-submit').click();
@@ -239,6 +264,8 @@ fs.mkdirSync(outDir, { recursive: true });
     assert.match(claimantText, /成果主張來源：社群作者／專案實踐者/, `Claimant attribution must be exact (got: ${claimantText})`);
     const statusText = await page.locator('.proof-note-status').innerText();
     assert.match(statusText, /本庫核讀狀態：本庫未於本機獨立重現代碼或流程/, `Verification status must be exact (got: ${statusText})`);
+    const safetyText = await page.locator('.proof-note-safety').innerText();
+    assert.match(safetyText, /安全採用建議：採用前應先做資料去敏/, `Safe adoption tip must be visible (got: ${safetyText})`);
     // Expand guidance using shortcut button
     const guidanceShortcut = page.locator('.reader-guidance-shortcut');
     assert.ok(await guidanceShortcut.isVisible(), 'Guidance shortcut button must be visible');

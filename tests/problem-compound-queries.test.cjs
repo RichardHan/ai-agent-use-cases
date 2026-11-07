@@ -609,3 +609,83 @@ test('Reviewer regressions: complete prefix stripping, compound preservation, cu
   const smartSupportHits = api.filterEntries(entries, smartSupportTokens, {});
   assert.ok(smartSupportHits.some(e => e.id === 'UC-014'), '智能客服工單 must recall UC-014');
 });
+
+test('natural problem queries for marketing copy, performance analysis, expense approval, and slide decks recall targeted cases', () => {
+  const queries = [
+    { raw: '行銷文案', expectedTokens: ['行銷', '文案'], minMatches: 10, canonicalId: 'UC-268' },
+    { raw: '寫行銷文案', expectedTokens: ['行銷', '文案'], minMatches: 10, canonicalId: 'UC-268' },
+    { raw: '撰寫行銷文案', expectedTokens: ['行銷', '文案'], minMatches: 10, canonicalId: 'UC-268' },
+    { raw: 'marketing copy', expectedTokens: ['行銷', '文案'], minMatches: 10, canonicalId: 'UC-268' },
+    { raw: '社群排程', expectedTokens: ['社群', '排程'], minMatches: 50, canonicalId: 'UC-006' },
+    { raw: '社群發文', expectedTokens: ['社群', '發文'], minMatches: 50, canonicalId: 'UC-006' },
+    { raw: '效能分析', expectedTokens: ['效能'], minMatches: 15, canonicalId: 'UC-173' },
+    { raw: '性能分析', expectedTokens: ['效能'], minMatches: 15, canonicalId: 'UC-173' },
+    { raw: 'performance analysis', expectedTokens: ['效能'], minMatches: 15, canonicalId: 'UC-173' },
+    { raw: '前端效能', expectedTokens: ['效能'], minMatches: 15, canonicalId: 'UC-173' },
+    { raw: '報帳審核', expectedTokens: ['報帳', '審核'], minMatches: 30, canonicalId: 'UC-225' },
+    { raw: '審核報帳', expectedTokens: ['報帳', '審核'], minMatches: 30, canonicalId: 'UC-225' },
+    { raw: '費用審查', expectedTokens: ['費用', '審核'], minMatches: 50, canonicalId: 'UC-225' },
+    { raw: '簡報製作', expectedTokens: ['簡報'], minMatches: 40, canonicalId: 'UC-019' },
+    { raw: '投影片大綱', expectedTokens: ['簡報'], minMatches: 40, canonicalId: 'UC-019' },
+    { raw: 'PPT製作', expectedTokens: ['簡報'], minMatches: 40, canonicalId: 'UC-019' }
+  ];
+
+  for (const item of queries) {
+    const tokens = Array.from(api.tokenize(item.raw));
+    assert.deepEqual(tokens, item.expectedTokens, `Tokens for "${item.raw}" must match expected`);
+    const hits = api.filterEntries(entries, tokens, {});
+    assert.ok(
+      hits.length >= item.minMatches,
+      `Query "${item.raw}" must return >= ${item.minMatches} cases, got ${hits.length}`
+    );
+    assert.ok(
+      hits.some(e => e.id === item.canonicalId),
+      `Query "${item.raw}" must recall canonical case ${item.canonicalId}`
+    );
+  }
+});
+
+test('hero problem tags and empty state suggestions expose 行銷文案, 效能分析, 報帳審核, and 簡報製作', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=行銷文案#explore"'), 'hero-problem-tags must include 行銷文案');
+  assert.ok(nav.includes('href="?q=效能分析#explore"'), 'hero-problem-tags must include 效能分析');
+  assert.ok(nav.includes('href="?q=報帳審核#explore"'), 'hero-problem-tags must include 報帳審核');
+  assert.ok(nav.includes('href="?q=簡報製作#explore"'), 'hero-problem-tags must include 簡報製作');
+  assert.ok(nav.includes('href="?q=社群排程#explore"'), 'hero-problem-tags must include 社群排程');
+
+  const appJs = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
+  assert.match(appJs, /term:\s*['"]行銷文案['"]/, 'app.js empty state problem tags must include 行銷文案');
+  assert.match(appJs, /term:\s*['"]效能分析['"]/, 'app.js empty state problem tags must include 效能分析');
+  assert.match(appJs, /term:\s*['"]報帳審核['"]/, 'app.js empty state problem tags must include 報帳審核');
+  assert.match(appJs, /term:\s*['"]簡報製作['"]/, 'app.js empty state problem tags must include 簡報製作');
+  assert.match(appJs, /term:\s*['"]社群排程['"]/, 'app.js empty state problem tags must include 社群排程');
+});
+
+test('Reviewer regressions: marketing copy English phrase, performance analysis decoupling, and approval compound boundaries', () => {
+  // Finding 1: marketing copy must tokenize to [行銷, 文案] and recall UC-268
+  const mktTokens = Array.from(api.tokenize('marketing copy'));
+  assert.deepEqual(mktTokens, ['行銷', '文案'], 'marketing copy must tokenize to [行銷, 文案]');
+  const mktHits = api.filterEntries(entries, mktTokens, {});
+  assert.ok(mktHits.some(e => e.id === 'UC-268'), 'marketing copy must recall UC-268');
+
+  // Finding 2: 效能分析 must not be collapsed into code refactoring and must rank UC-173 at top
+  const perfTokens = Array.from(api.tokenize('效能分析'));
+  assert.deepEqual(perfTokens, ['效能'], '效能分析 must tokenize to [效能]');
+  const perfHits = api.filterEntries(entries, perfTokens, {});
+  assert.ok(perfHits.some(e => e.id === 'UC-173'), '效能分析 must recall UC-173');
+  const perfRanked = api.rankEntries(perfHits, perfTokens);
+  assert.equal(perfRanked[0]?.id, 'UC-173', 'UC-173 must be top hit for 效能分析');
+
+  // Finding 3: 報帳審核 must not leave stray fragments and must recall UC-225
+  const expReviewTokens = Array.from(api.tokenize('報帳審核'));
+  assert.deepEqual(expReviewTokens, ['報帳', '審核'], '報帳審核 must tokenize to [報帳, 審核]');
+  const expHits = api.filterEntries(entries, expReviewTokens, {});
+  assert.ok(expHits.some(e => e.id === 'UC-225'), '報帳審核 must recall UC-225');
+
+  // Finding 4: global 文案 synonym must not include generic 'copy' to prevent matching Spectroscopy (UC-012) or file links (UC-374)
+  const pureCopyTokens = Array.from(api.tokenize('文案'));
+  const pureCopyHits = api.filterEntries(entries, pureCopyTokens, {});
+  assert.ok(!pureCopyHits.some(e => e.id === 'UC-012'), 'Searching 文案 must not match UC-012 Spectroscopy');
+  assert.ok(!pureCopyHits.some(e => e.id === 'UC-374'), 'Searching 文案 must not match UC-374 completed-copy-handoff.md');
+});

@@ -516,3 +516,19 @@ test('PROOF_SAFE_ADOPTION_TIP provides transparent three-layer adoption boundari
   assert.match(safetyEl.textContent, /禁止動作/);
   assert.match(safetyEl.textContent, /必經審核/);
 });
+
+test('showDetail renders three-layer safe adoption tip even for unknown or missing proof types', () => {
+  const { context, detailBody } = setupDom();
+  const sampleUnknown = {
+    id: 'UC-999', title: '未知來源測試', what: '測試用途',
+    kind: 'case', scenario: '工作', proof: '未知來源類型',
+    tools: [], tags: [], path: 'cases/999.md', markdown: '# UC-999\n\n## 來源\n內容'
+  };
+  context.showDetail(sampleUnknown, null, false);
+  const safetyEl = detailBody.querySelector('.proof-note-safety');
+  assert.ok(safetyEl, 'must render .proof-note-safety');
+  assert.match(safetyEl.textContent, /落地三層防護/, 'fallback tip must announce 落地三層防護');
+  assert.match(safetyEl.textContent, /建議試跑/, 'fallback tip must specify 建議試跑');
+  assert.match(safetyEl.textContent, /禁止動作/, 'fallback tip must specify 禁止動作');
+  assert.match(safetyEl.textContent, /必經審核/, 'fallback tip must specify 必經審核');
+});

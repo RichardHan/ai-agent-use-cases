@@ -1215,7 +1215,7 @@ function contextExcerpt(text, variant, limit=96) {
 function searchContext(item, terms) {
   if(!terms.length)return {matches:[],remaining:0};
   const fields=[
-    ['標題',item.title],['用途',item.summary],['解決痛點',item.coreGoal],['案例編號',idVariants(item.id)],
+    ['標題',(item.title||'')+(item.originalTitle&&item.originalTitle!==item.title?' '+item.originalTitle:'')],['用途',item.summary],['解決痛點',item.coreGoal],['案例編號',idVariants(item.id)],
     ['分類',item.category],['標籤',(item.tags||[]).join('、')],
     ['提及工具',(item.tools||[]).join('、')],['情境',item.scenario],['收錄狀態',KIND[item.kind]]
   ].map(([label,text])=>({label,text:text||'',original:false}));

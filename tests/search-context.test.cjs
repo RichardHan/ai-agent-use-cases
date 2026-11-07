@@ -18,6 +18,7 @@ test('context explains deep synonym matches without turning a prohibition into a
 test('context distinguishes visible fields, source URLs, original titles and ID aliases',()=>{
  const {searchContext}=api();
  assert.equal(searchContext(entry('',{title:'整理試算表'}),['spreadsheet']).matches[0].label,'標題');
+ assert.equal(searchContext(entry('',{title:'日常溝通',originalTitle:'會議決議追溯',category:'會議管理'}),['會議']).matches[0].label,'標題');
  const r=searchContext(entry('# 舊標題\n## 來源\n[公開文章](https://example.org/payroll-guide)'),['薪水']).matches[0];
  assert.equal(r.variant,'payroll');assert.match(r.excerpt,/https:\/\/example.org\/payroll-guide/);
  assert.equal(searchContext(entry('# 依薪資找職缺'),['薪水']).matches[0].label,'原文 · 標題');

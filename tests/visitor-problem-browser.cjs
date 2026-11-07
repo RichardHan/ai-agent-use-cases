@@ -6,7 +6,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cases/';
-const outDir = path.resolve(__dirname, '../docs/qa/2026-11-07-compound-filter-recovery');
+const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-problem-discovery');
 fs.mkdirSync(outDir, { recursive: true });
 
 (async () => {
@@ -65,6 +65,19 @@ fs.mkdirSync(outDir, { recursive: true });
     const extractShot = `${vp.name}-02-scenario1-data-extraction.png`;
     await page.screenshot({ path: path.join(outDir, extractShot) });
     vpReport.screenshots.push(extractShot);
+    console.log(`[${vp.name}] Testing Scenario 1: 競品分析 problem tag...`);
+    const compTag = page.locator('.hero-problem-tags a[href*="競品分析"]');
+    assert.ok(await compTag.isVisible(), '競品分析 tag must be visible in hero');
+    await compTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const compCount = await page.locator('#results .card').count();
+    assert.ok(compCount >= 1, `競品分析 must recall >= 1 case (found ${compCount})`);
+    assert.equal(await page.locator('#query').inputValue(), '競品分析');
+    const firstCompTitle = await page.locator('#results .card h3').first().innerText();
+    assert.ok(firstCompTitle.includes('競品'), `Top result for 競品分析 must be competitor case, got: ${firstCompTitle}`);
+    const compShot = `${vp.name}-02b-scenario1-competitor-analysis.png`;
+    await page.screenshot({ path: path.join(outDir, compShot) });
+    vpReport.screenshots.push(compShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 契約審查 natural query...`);
     await page.locator('#query').fill('契約審查');

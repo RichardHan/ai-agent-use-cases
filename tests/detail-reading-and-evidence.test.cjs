@@ -491,3 +491,28 @@ test('showDetail renders structured safe adoption tip in detail-proof-note', () 
 test('reader.css defines styling for proof-note-safety', () => {
   assert.match(readerCss, /\.proof-note-safety\s*\{/, 'reader.css must define .proof-note-safety');
 });
+
+test('PROOF_SAFE_ADOPTION_TIP provides transparent three-layer adoption boundaries (safe scope, forbidden actions, human audit)', () => {
+  const { context, detailBody } = setupDom();
+  const requiredProofs = ['官方自報', '作者報告／示範', '公開資料核讀', '模板／文件核讀', '尚待查證'];
+  for (const proof of requiredProofs) {
+    const tip = context.PROOF_SAFE_ADOPTION_TIP[proof];
+    assert.match(tip, /落地三層防護/, `Adoption tip for "${proof}" must announce 落地三層防護`);
+    assert.match(tip, /建議試跑/, `Adoption tip for "${proof}" must specify 建議試跑`);
+    assert.match(tip, /禁止動作/, `Adoption tip for "${proof}" must specify 禁止動作`);
+    assert.match(tip, /必經審核/, `Adoption tip for "${proof}" must specify 必經審核`);
+  }
+
+  const sample = {
+    id: 'UC-014', title: '工單處理', what: '工單用途',
+    kind: 'case', scenario: '工作', proof: '作者報告／示範',
+    tools: [], tags: [], path: 'cases/014.md', markdown: '# UC-014\n\n## 來源\n內容'
+  };
+  context.showDetail(sample, null, false);
+  const safetyEl = detailBody.querySelector('.proof-note-safety');
+  assert.ok(safetyEl, 'must render .proof-note-safety');
+  assert.match(safetyEl.textContent, /落地三層防護/);
+  assert.match(safetyEl.textContent, /建議試跑/);
+  assert.match(safetyEl.textContent, /禁止動作/);
+  assert.match(safetyEl.textContent, /必經審核/);
+});

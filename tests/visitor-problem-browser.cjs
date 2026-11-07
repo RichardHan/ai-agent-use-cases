@@ -6,7 +6,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cases/';
-const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-visitor-trust-flow');
+const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-adoption-credibility');
 fs.mkdirSync(outDir, { recursive: true });
 
 (async () => {
@@ -124,6 +124,44 @@ fs.mkdirSync(outDir, { recursive: true });
     const logShot = `${vp.name}-02f-scenario1-log.png`;
     await page.screenshot({ path: path.join(outDir, logShot) });
     vpReport.screenshots.push(logShot);
+    console.log(`[${vp.name}] Testing Scenario 1: 筆記整理 problem tag...`);
+    const noteTag = page.locator('.hero-problem-tags a[href*="筆記整理"]');
+    assert.ok(await noteTag.isVisible(), '筆記整理 tag must be visible in hero');
+    await noteTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const noteCount = await page.locator('#results .card').count();
+    assert.ok(noteCount >= 15, `筆記整理 must recall >= 15 cases (found ${noteCount})`);
+    const noteFirstTitle = await page.locator('#results .card h3').first().innerText();
+    assert.ok(noteFirstTitle.includes('筆記') || noteFirstTitle.includes('紀錄'), `Top case must be note related, got: ${noteFirstTitle}`);
+    const noteShot = `${vp.name}-02g-scenario1-note.png`;
+    await page.screenshot({ path: path.join(outDir, noteShot) });
+    vpReport.screenshots.push(noteShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 客戶反饋 problem tag...`);
+    const feedbackTag = page.locator('.hero-problem-tags a[href*="客戶反饋"]');
+    assert.ok(await feedbackTag.isVisible(), '客戶反饋 tag must be visible in hero');
+    await feedbackTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const feedbackCount = await page.locator('#results .card').count();
+    assert.ok(feedbackCount >= 5, `客戶反饋 must recall >= 5 cases (found ${feedbackCount})`);
+    const feedbackFirstTitle = await page.locator('#results .card h3').first().innerText();
+    assert.ok(feedbackFirstTitle.includes('客戶') || feedbackFirstTitle.includes('FAQ'), `Top case must be UC-011, got: ${feedbackFirstTitle}`);
+    const feedbackShot = `${vp.name}-02h-scenario1-feedback.png`;
+    await page.screenshot({ path: path.join(outDir, feedbackShot) });
+    vpReport.screenshots.push(feedbackShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 面試準備 problem tag...`);
+    const interviewTag = page.locator('.hero-problem-tags a[href*="面試準備"]');
+    assert.ok(await interviewTag.isVisible(), '面試準備 tag must be visible in hero');
+    await interviewTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const interviewCount = await page.locator('#results .card').count();
+    assert.ok(interviewCount >= 5, `面試準備 must recall >= 5 cases (found ${interviewCount})`);
+    const interviewFirstTitle = await page.locator('#results .card h3').first().innerText();
+    assert.ok(interviewFirstTitle.includes('職缺') || interviewFirstTitle.includes('履歷') || interviewFirstTitle.includes('面試'), `Top case must be UC-035 or interview, got: ${interviewFirstTitle}`);
+    const interviewShot = `${vp.name}-02i-scenario1-interview.png`;
+    await page.screenshot({ path: path.join(outDir, interviewShot) });
+    vpReport.screenshots.push(interviewShot);
     console.log(`[${vp.name}] Testing Scenario 1: 契約審查 natural query...`);
     await page.locator('#query').fill('契約審查');
     await page.locator('#search-submit').click();
@@ -265,7 +303,10 @@ fs.mkdirSync(outDir, { recursive: true });
     const statusText = await page.locator('.proof-note-status').innerText();
     assert.match(statusText, /本庫核讀狀態：本庫未於本機獨立重現代碼或流程/, `Verification status must be exact (got: ${statusText})`);
     const safetyText = await page.locator('.proof-note-safety').innerText();
-    assert.match(safetyText, /安全採用建議：採用前應先做資料去敏/, `Safe adoption tip must be visible (got: ${safetyText})`);
+    assert.match(safetyText, /安全採用建議（落地三層防護）/, `Safe adoption tip must announce three-layer safety (got: ${safetyText})`);
+    assert.match(safetyText, /資料去敏/, `Safe adoption tip must specify data sanitization (got: ${safetyText})`);
+    assert.match(safetyText, /禁止動作/, `Safe adoption tip must specify forbidden actions (got: ${safetyText})`);
+    assert.match(safetyText, /必經審核/, `Safe adoption tip must specify human audit gate (got: ${safetyText})`);
     // Expand guidance using shortcut button
     const guidanceShortcut = page.locator('.reader-guidance-shortcut');
     assert.ok(await guidanceShortcut.isVisible(), 'Guidance shortcut button must be visible');

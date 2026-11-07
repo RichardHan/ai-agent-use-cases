@@ -535,3 +535,77 @@ test('Reviewer regressions: consume full compound phrases including 日誌記錄
   const compFollowTokens = Array.from(api.tokenize('法規遵循檢查'));
   assert.deepEqual(compFollowTokens, ['法規', '審查'], '法規遵循檢查 must tokenize to [法規, 審查]');
 });
+
+test('natural problem queries for note organization, knowledge bases, customer feedback, and interview preparation recall targeted cases', () => {
+  const queries = [
+    { raw: '筆記整理', expectedTokens: ['筆記', '整理'], minMatches: 40, canonicalId: 'UC-491' },
+    { raw: '整理筆記', expectedTokens: ['筆記', '整理'], minMatches: 40, canonicalId: 'UC-491' },
+    { raw: '幫我整理筆記', expectedTokens: ['筆記', '整理'], minMatches: 40, canonicalId: 'UC-491' },
+    { raw: '個人知識庫', expectedTokens: ['知識庫'], minMatches: 25, canonicalId: 'UC-060' },
+    { raw: '知識庫搭建', expectedTokens: ['知識庫'], minMatches: 25, canonicalId: 'UC-060' },
+    { raw: '建立個人知識庫', expectedTokens: ['知識庫'], minMatches: 25, canonicalId: 'UC-060' },
+    { raw: '知識管理', expectedTokens: ['知識庫'], minMatches: 25, canonicalId: 'UC-060' },
+    { raw: '客戶反饋', expectedTokens: ['客戶', '回饋'], minMatches: 10, canonicalId: 'UC-011' },
+    { raw: '用戶反饋', expectedTokens: ['客戶', '回饋'], minMatches: 10, canonicalId: 'UC-011' },
+    { raw: '客戶意見', expectedTokens: ['客戶', '回饋'], minMatches: 10, canonicalId: 'UC-011' },
+    { raw: '分析用戶反饋', expectedTokens: ['客戶', '回饋'], minMatches: 10, canonicalId: 'UC-011' },
+    { raw: '客訴分析', expectedTokens: ['客訴', '工單'], minMatches: 50, canonicalId: 'UC-014' },
+    { raw: '客訴工單', expectedTokens: ['客訴', '工單'], minMatches: 50, canonicalId: 'UC-014' },
+    { raw: '面試提問', expectedTokens: ['面試', '準備'], minMatches: 5, canonicalId: 'UC-035' },
+    { raw: '面試題目', expectedTokens: ['面試', '準備'], minMatches: 5, canonicalId: 'UC-035' },
+    { raw: '履歷篩選', expectedTokens: ['履歷', '修改'], minMatches: 5, canonicalId: 'UC-035' }
+  ];
+
+  for (const item of queries) {
+    const tokens = Array.from(api.tokenize(item.raw));
+    assert.deepEqual(tokens, item.expectedTokens, `Tokens for "${item.raw}" must match expected`);
+    const hits = api.filterEntries(entries, tokens, {});
+    assert.ok(
+      hits.length >= item.minMatches,
+      `Query "${item.raw}" must return >= ${item.minMatches} cases, got ${hits.length}`
+    );
+    assert.ok(
+      hits.some(e => e.id === item.canonicalId),
+      `Query "${item.raw}" must recall canonical case ${item.canonicalId}`
+    );
+  }
+});
+
+test('hero problem tags and empty state suggestions expose 筆記整理, 客戶反饋, and 面試準備', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=筆記整理#explore"'), 'hero-problem-tags must include 筆記整理');
+  assert.ok(nav.includes('href="?q=客戶反饋#explore"'), 'hero-problem-tags must include 客戶反饋');
+  assert.ok(nav.includes('href="?q=面試準備#explore"'), 'hero-problem-tags must include 面試準備');
+
+  const appJs = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
+  assert.match(appJs, /term:\s*['"]筆記整理['"]/, 'app.js empty state problem tags must include 筆記整理');
+  assert.match(appJs, /term:\s*['"]客戶反饋['"]/, 'app.js empty state problem tags must include 客戶反饋');
+  assert.match(appJs, /term:\s*['"]面試準備['"]/, 'app.js empty state problem tags must include 面試準備');
+});
+
+test('Reviewer regressions: complete prefix stripping, compound preservation, customer demand separation, and smart support preservation', () => {
+  // Finding 1: 請幫我 prefix must be fully consumed without leaving stray 請
+  const pleaseTokens = Array.from(api.tokenize('請幫我整理筆記'));
+  assert.deepEqual(pleaseTokens, ['筆記', '整理'], '請幫我整理筆記 must tokenize to [筆記, 整理] without leaving stray 請');
+  const pleaseHits = api.filterEntries(entries, pleaseTokens, {});
+  assert.ok(pleaseHits.some(e => e.id === 'UC-491'), '請幫我整理筆記 must recall UC-491');
+
+  // Finding 2: 筆記本/筆記軟體 compound must not leave stray 本 or 軟體
+  const notebookTokens = Array.from(api.tokenize('整理筆記本'));
+  assert.deepEqual(notebookTokens, ['筆記', '整理'], '整理筆記本 must tokenize to [筆記, 整理] without leaving stray 本');
+  const notebookHits = api.filterEntries(entries, notebookTokens, {});
+  assert.ok(notebookHits.some(e => e.id === 'UC-491'), '整理筆記本 must recall UC-491');
+
+  // Finding 3: 客戶需求 must not be forcibly rewritten to 回饋 and must recall UC-019
+  const demandTokens = Array.from(api.tokenize('客戶需求'));
+  assert.ok(!demandTokens.includes('回饋'), '客戶需求 must not be rewritten to 回饋');
+  const demandHits = api.filterEntries(entries, demandTokens, {});
+  assert.ok(demandHits.some(e => e.id === 'UC-019'), '客戶需求 must recall UC-019');
+
+  // Finding 4: 智能客服工單 must not leave stray 智能 and must recall UC-014
+  const smartSupportTokens = Array.from(api.tokenize('智能客服工單'));
+  assert.deepEqual(smartSupportTokens, ['客訴', '工單'], '智能客服工單 must tokenize to [客訴, 工單] without leaving stray 智能');
+  const smartSupportHits = api.filterEntries(entries, smartSupportTokens, {});
+  assert.ok(smartSupportHits.some(e => e.id === 'UC-014'), '智能客服工單 must recall UC-014');
+});

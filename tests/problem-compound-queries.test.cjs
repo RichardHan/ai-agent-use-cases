@@ -135,3 +135,18 @@ test('preserves bill terminology and standalone recommendation keywords (Reviewe
   assert.deepEqual(youtubeRec, ['youtube', '推薦'], 'youtube 推薦 must preserve both tokens');
   assert.ok(api.filterEntries(entries, youtubeRec, {}).length > 0, 'youtube 推薦 must return matching cases');
 });
+
+test('hero problem tags expose 出差報銷 and 合約審核 with valid targets and real recall', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=出差報銷#explore"'), 'hero-problem-tags must include 出差報銷');
+  assert.ok(nav.includes('href="?q=合約審核#explore"'), 'hero-problem-tags must include 合約審核');
+
+  const expenseTokens = Array.from(api.tokenize('出差報銷'));
+  const expenseHits = api.filterEntries(entries, expenseTokens, {});
+  assert.ok(expenseHits.length >= 4, '出差報銷 query must recall at least 4 matching cases');
+
+  const contractTokens = Array.from(api.tokenize('合約審核'));
+  const contractHits = api.filterEntries(entries, contractTokens, {});
+  assert.ok(contractHits.length >= 10, '合約審核 query must recall at least 10 matching cases');
+});

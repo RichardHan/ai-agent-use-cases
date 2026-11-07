@@ -1,9 +1,12 @@
 name: Available facet options QA
 on:
   push:
-    branches: ['improve/available-facets-20261021', 'main']
+    branches: ['improve/available-facets-20261021']
     paths: ['assets/app.js', 'tests/available-facets-browser.cjs', '.github/workflows/available-facets-qa.yml']
   workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

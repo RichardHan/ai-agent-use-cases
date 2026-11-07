@@ -1,7 +1,7 @@
 name: Case sharing QA
 on:
   push:
-    branches: ['improve/reader-next-step-20261021', 'verify/case-share-published-20261021', 'main']
+    branches: ['improve/reader-next-step-20261021', 'verify/case-share-published-20261021']
     paths: ['assets/**', 'tests/case-share*', '.github/workflows/case-share-qa.yml']
   workflow_dispatch:
     inputs:
@@ -9,6 +9,9 @@ on:
         description: 'Verify unchanged published assets and journeys without repeating preview suites'
         type: boolean
         default: false
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

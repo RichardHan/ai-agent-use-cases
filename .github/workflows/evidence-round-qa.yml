@@ -1,9 +1,12 @@
 name: Evidence round QA
 on:
   push:
-    branches: [improve/reader-evidence-navigation, main]
+    branches: [improve/reader-evidence-navigation]
     paths: ['assets/reader.*', 'tests/review-sections*', 'tests/reader-browser.cjs', '.github/workflows/evidence-round-qa.yml']
   workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

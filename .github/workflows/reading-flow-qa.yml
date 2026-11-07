@@ -3,8 +3,11 @@ on:
   pull_request:
     paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/reading-flow*', '.github/workflows/reading-flow-qa.yml']
   push:
-    branches: [main, feat/reader-evidence-journey]
+    branches: [feat/reader-evidence-journey]
     paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/reading-flow*', '.github/workflows/reading-flow-qa.yml']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

@@ -2,6 +2,9 @@ name: Filter reading QA
 on:
   push:
     branches: [improve/reader-round-20261024-next, verify/filter-reading-20261024]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

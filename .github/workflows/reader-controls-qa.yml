@@ -1,8 +1,11 @@
 name: Reader controls QA
 on:
   push:
-    branches: [improve/reader-position, improve/search-reading-context, main]
+    branches: [improve/reader-position, improve/search-reading-context]
     paths: ['assets/**', 'index.html', 'tests/reader-controls-browser.cjs', '.github/workflows/reader-controls-qa.yml']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

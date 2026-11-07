@@ -2,8 +2,11 @@ name: Reader context round
 on:
   workflow_dispatch:
   push:
-    branches: [improve/reader-context-search, main, 'fix/**']
+    branches: [improve/reader-context-search, 'fix/**']
     paths: ['assets/reader.*', 'tests/search-passage.test.cjs', '.github/workflows/reader-context-round.yml', 'tests/reader-context-round.cjs', 'tests/review-sections-browser.cjs']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

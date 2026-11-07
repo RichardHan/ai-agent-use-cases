@@ -3,8 +3,11 @@ on:
   pull_request:
     paths: ['assets/reader.*', 'tests/outline-find*', '.github/workflows/outline-find-qa.yml']
   push:
-    branches: [main, improve/reader-task-flow-20261021]
+    branches: [improve/reader-task-flow-20261021]
     paths: ['assets/reader.*', 'tests/outline-find*', '.github/workflows/outline-find-qa.yml']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

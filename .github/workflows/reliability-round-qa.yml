@@ -2,6 +2,9 @@ name: Reliable corpus round QA
 on:
   push:
     branches: [improve/reliable-corpus-20261023, verify/reliable-corpus-20261023]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

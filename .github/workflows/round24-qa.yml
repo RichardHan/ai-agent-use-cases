@@ -2,6 +2,9 @@ name: Round 24 website QA
 on:
   push:
     branches: [improve/reading-round-20261024, verify/reading-round-20261024]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

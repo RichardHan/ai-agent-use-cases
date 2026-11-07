@@ -2,6 +2,9 @@ name: Search sharing QA
 on:
   push:
     branches: [improve/reader-source-access-20261024, verify/search-sharing-accessibility-20261024]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

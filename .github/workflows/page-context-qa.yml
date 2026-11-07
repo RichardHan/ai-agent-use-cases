@@ -2,6 +2,9 @@ name: Browser page context QA
 on:
   push:
     branches: [improve/reading-round-20261023-r2, verify/page-context-20261023]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

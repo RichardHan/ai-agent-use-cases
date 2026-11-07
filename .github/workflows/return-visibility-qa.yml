@@ -1,10 +1,13 @@
 name: Return visibility QA
 on:
   push:
-    branches: [fix/reading-return-visibility, fix/late-native-return, test/ordered-late-return, fix/loading-acceptance-final, main]
+    branches: [fix/reading-return-visibility, fix/late-native-return, test/ordered-late-return, fix/loading-acceptance-final]
     paths: ['assets/app.js', 'tests/return-visibility*', 'tests/late-return.test.cjs', '.github/workflows/return-visibility-qa.yml']
   pull_request:
     paths: ['assets/app.js', 'tests/return-visibility*', 'tests/late-return.test.cjs', '.github/workflows/return-visibility-qa.yml']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

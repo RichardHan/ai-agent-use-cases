@@ -1,9 +1,12 @@
 name: Category finding QA
 on:
   push:
-    branches: [improve/reader-section-outline-20261021, main]
+    branches: [improve/reader-section-outline-20261021]
     paths: [assets/**, index.html, tests/category*, .github/workflows/category-find-qa.yml]
   workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

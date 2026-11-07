@@ -3,8 +3,11 @@ on:
   pull_request:
     paths: ['assets/**', 'tests/related*', '.github/workflows/related-qa.yml']
   push:
-    branches: [main]
+    branches: ['closed-historical']
     paths: ['assets/**', 'tests/related*', '.github/workflows/related-qa.yml']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

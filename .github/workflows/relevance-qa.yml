@@ -1,10 +1,13 @@
 name: Search relevance QA
 on:
   push:
-    branches: [main]
+    branches: ['closed-historical']
     paths: ['assets/**', 'index.html', 'tests/relevance*', '.github/workflows/relevance-qa.yml']
   pull_request:
     paths: ['assets/**', 'index.html', 'tests/relevance*', '.github/workflows/relevance-qa.yml']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

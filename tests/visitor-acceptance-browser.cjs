@@ -115,6 +115,32 @@ fs.mkdirSync(outDir, { recursive: true });
 
     await page.screenshot({ path: path.join(outDir, `after-scenario1-meeting-${vp.label}.png`) });
 
+    // Test compound problem query "自動化測試"
+    await page.locator('#query').fill('自動化測試');
+    await page.locator('#search-submit').click();
+    await page.waitForTimeout(500);
+    const autoTestCount = await cards.count();
+    assert.ok(autoTestCount >= 20, `自動化測試 must return >= 20 cards, got ${autoTestCount} on ${vp.label}`);
+    await page.screenshot({ path: path.join(outDir, `after-scenario1-autotest-${vp.label}.png`) });
+
+    // Test compound problem query "出差報銷"
+    await page.locator('#query').fill('出差報銷');
+    await page.locator('#search-submit').click();
+    await page.waitForTimeout(500);
+    const travelCount = await cards.count();
+    assert.ok(travelCount >= 4, `出差報銷 must return >= 4 cards, got ${travelCount} on ${vp.label}`);
+    const travelFirstId = await cards.first().getAttribute('data-case-id');
+    assert.equal(travelFirstId, 'UC-263', `出差報銷 rank 1 must be UC-263 on ${vp.label}`);
+    await page.screenshot({ path: path.join(outDir, `after-scenario1-travel-${vp.label}.png`) });
+
+    // Test compound problem query "發票報帳"
+    await page.locator('#query').fill('發票報帳');
+    await page.locator('#search-submit').click();
+    await page.waitForTimeout(500);
+    const invoiceCount = await cards.count();
+    assert.ok(invoiceCount >= 10, `發票報帳 must return >= 10 cards, got ${invoiceCount} on ${vp.label}`);
+    await page.screenshot({ path: path.join(outDir, `after-scenario1-invoice-${vp.label}.png`) });
+
     report.previewScenarios.push({
       scenario: 1,
       viewport: vp.label,

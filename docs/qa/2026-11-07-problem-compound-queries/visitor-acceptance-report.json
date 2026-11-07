@@ -1,0 +1,111 @@
+{
+  "timestamp": "2026-11-07T07:00:36.026Z",
+  "liveSiteComparison": {
+    "inbox": {
+      "firstCardId": "UC-014",
+      "uc014Rank": 1
+    },
+    "naturalMeeting": {
+      "query": "我想整理會議",
+      "count": 19,
+      "emptyVisible": false
+    }
+  },
+  "previewScenarios": [
+    {
+      "scenario": 1,
+      "viewport": "desktop-1440",
+      "inboxFirstCard": "UC-014",
+      "inboxTitle": "讓 AI 先整理客服信，退款與承諾由你決定",
+      "inboxProof": "作者報告／示範",
+      "naturalMeetingCards": 19
+    },
+    {
+      "scenario": 2,
+      "viewport": "desktop-1440",
+      "emptyRecovered": true
+    },
+    {
+      "scenario": 3,
+      "viewport": "desktop-1440",
+      "detailId": "UC-014",
+      "proofNote": "作者報告／示範\n社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證。",
+      "targetUser": "適合對象\n\n個人創業者、小型 SaaS 或在地服務業者",
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/c391ae4355c29c31a4c8df0cbfea3e91ac9486b5/cases/014-support-inbox-approval-refund.md",
+      "closeBtnHeight": 44
+    },
+    {
+      "scenario": 1,
+      "viewport": "mobile-390",
+      "inboxFirstCard": "UC-014",
+      "inboxTitle": "讓 AI 先整理客服信，退款與承諾由你決定",
+      "inboxProof": "作者報告／示範",
+      "naturalMeetingCards": 19
+    },
+    {
+      "scenario": 2,
+      "viewport": "mobile-390",
+      "emptyRecovered": true
+    },
+    {
+      "scenario": 3,
+      "viewport": "mobile-390",
+      "detailId": "UC-014",
+      "proofNote": "作者報告／示範\n社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證。",
+      "targetUser": "適合對象\n\n個人創業者、小型 SaaS 或在地服務業者",
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/c391ae4355c29c31a4c8df0cbfea3e91ac9486b5/cases/014-support-inbox-approval-refund.md",
+      "closeBtnHeight": 44
+    },
+    {
+      "scenario": 1,
+      "viewport": "mobile-320",
+      "inboxFirstCard": "UC-014",
+      "inboxTitle": "讓 AI 先整理客服信，退款與承諾由你決定",
+      "inboxProof": "作者報告／示範",
+      "naturalMeetingCards": 19
+    },
+    {
+      "scenario": 2,
+      "viewport": "mobile-320",
+      "emptyRecovered": true
+    },
+    {
+      "scenario": 3,
+      "viewport": "mobile-320",
+      "detailId": "UC-014",
+      "proofNote": "作者報告／示範\n社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證。",
+      "targetUser": "適合對象\n\n個人創業者、小型 SaaS 或在地服務業者",
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/c391ae4355c29c31a4c8df0cbfea3e91ac9486b5/cases/014-support-inbox-approval-refund.md",
+      "closeBtnHeight": 44
+    }
+  ],
+  "axeScans": [
+    {
+      "viewport": "desktop-1440",
+      "violations": 0,
+      "passes": 43
+    },
+    {
+      "viewport": "mobile-390",
+      "violations": 0,
+      "passes": 43
+    }
+  ],
+  "overflowChecks": [
+    {
+      "view": "home",
+      "viewport": "desktop-1440",
+      "noOverflow": true
+    },
+    {
+      "view": "home",
+      "viewport": "mobile-390",
+      "noOverflow": true
+    },
+    {
+      "view": "home",
+      "viewport": "mobile-320",
+      "noOverflow": true
+    }
+  ]
+}

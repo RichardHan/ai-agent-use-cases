@@ -1,3 +1,9 @@
+## 2026-11-07 自然問題導向複合詞檢索、任務意圖切分與核心案例召回排序優化
+
+基準 main `c391ae4355c29c31a4c8df0cbfea3e91ac9486b5`（PR #246 合併後）；原工作樹存在未提交修改，本輪使用隔離 worktree 操作。訪客在首頁依日常問題尋找解法時，高達 18 個核心任務複合詞（包含「自動化測試」、「出差報銷」、「發票報帳」、「合約審核」、「日報整理」、「自動客服」、「信箱清理」、「行程規劃」等）直接回傳 0 筆空結果；且輸入「我想做自動化測試」、「有沒有自動化測試的案例」、「請問如何做發票報帳」等自然問句時，因連鎖意圖前綴與問句尾綴未過濾而全數落空。本輪於 `assets/app.js` 擴充自然問句前綴／尾綴過濾，加入核心任務複合詞無損切分，並將「出差」、「差旅」納入旅遊同義詞群組。經獨立審查回饋，修復詞根名詞保留（如「帳單對帳」保留帳單並精確對應 topic 範圍 UC-024，不轉寫為發票）並精確限制「推薦」前綴範圍，避免吞食「推薦」單獨檢索與「youtube 推薦」關鍵字。[方案與驗收紀錄](docs/qa/2026-11-07-problem-compound-queries/README.md)。
+
+新增防線先紅後綠，全套 405 項 Node 單元測試通過；`node --check` 語法通過；預覽 catalog 與 corpus 建置成功。端到端瀏覽器驗收涵蓋 Chromium 1440 桌面與 390／320 手機尺寸，完成問題導向搜尋、空結果復原、詳情直鏈與來源查證，axe 零違規。非真人研究。下一輪優先針對 Actions 發布管線，梳理 `push: branches: [main]` 佔滿 runner 配額導致 Pages 排隊的資源競爭問題。
+
 ## 2026-11-07 搜尋範圍命中語意一致性、分類標籤外洩排除與 Search submit QA 綠燈修復
 
 基準 main `b60f4fb7101f8827dab0ead1f776a77ff6883053`（PR #245 合併後）；原工作樹存在未提交修改，本輪使用隔離 worktree 操作。正式站與主分支在 PR #245 引入 `originalTitle` 納入 `scope=overview` 比對後，`assets/app.js` 的 `searchContext` 未同步將 `originalTitle` 視為標題，致使 UC-277 在「標題、用途與痛點」範圍搜尋「會議」時標記落入 `['分類', item.category]`，卡片顯示「「會議」 · 分類」造成分類外洩與心智模型衝突，並引發 GitHub Actions `Search submit QA`（Run 42342117690）在 `tests/search-scope-browser.cjs:27` 處嚴格斷言崩潰。本輪於 `assets/app.js` 的 `searchContext` 將 `originalTitle` 納入 `標題` 欄位比對，使原始標題命中者優先標註為「標題」，徹底消除分類標籤外洩。[方案、截圖與驗收紀錄](docs/qa/2026-11-07-search-scope-consistency/README.md)。

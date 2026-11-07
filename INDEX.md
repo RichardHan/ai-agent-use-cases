@@ -276,7 +276,7 @@
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
 | UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian；多家代理共用同一 vault（各Bot資料夾、只追加紀錄、共用收件匣）；dots讀Grok Bot的Notion日報發現行事曆未改先問本人 | ChatGPT dots／Obsidian；Grok Bot／Muse／Hermes 共用 vault；dots／Grok Bot／Notion | [作者教學串＋官方記憶 FAQ＋跨供應商共用 vault 自述與截圖＋日文作者單次衝突確認自述；未重現](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
-| UC-072 | 電話任務的身份揭露、核准與人工交接；Muse代打退款電話，資料不足先回頭問本人再重撥 | Grok Bot／DialBot／Bland AI；ClawCall 自述；電話訂餐自述；ClawCall 訂位模板；Meta Muse（美國商家通話測試功能） | [作者測試自述＋官方模板與費用＋電話訂披薩後自行向店家確認＋Bland 官方 Bot 自行開戶指南＋撥號前複誦核准的訂位模板自述＋Muse停車退款兩通電話自述；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
+| UC-072 | 電話任務的身份揭露、核准與人工交接；Muse代打退款電話，資料不足先回頭問本人再重撥；Grok Bot只問光纖可否與價目、不簽約 | Grok Bot／DialBot／Bland AI；ClawCall 自述；電話訂餐自述；ClawCall 訂位模板；Meta Muse（美國商家通話測試功能） | [作者測試自述＋官方模板與費用＋電話訂披薩後自行向店家確認＋Bland 官方 Bot 自行開戶指南＋撥號前複誦核准的訂位模板自述＋Muse停車退款兩通電話自述＋Grok Bot光纖研究通話自述；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
 | UC-073 | 網站顧客路徑、頁面盤點與表格讀回驗收 | ChatGPT dots／Grok Bot／公開網站／Sheets | [作者使用、核對及漏頁反例；完整產物未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
 | UC-074 | 裝置事件喚醒後重新讀取資料並驗收 | ChatGPT dots／MCP Events／自建 MCP | [作者建置自述＋官方文件；未重現](cases/074-event-trigger-readback.md) | 開發｜實體裝置、事件觸發、驗收 |
 | UC-075 | 就醫前整理健康摘要，診後追蹤建議與後續問題 | Muse／Grok Bot／ChatGPT dots | [作者長文自述；未重現](cases/075-health-appointment-briefing-coach.md) | 生活｜健康、門診、保險、驗收 |
@@ -697,6 +697,11 @@
 | UC-500 | 新開Grok Bot貼上長文工程書：先兩輪約8題採訪再一次交標題、≥2000字正文、4圖、封面與5條導流帖，只存草稿不代發 | Grok Bot（記憶、生圖、X草稿） | [B簡中作者X改寫用法＋原作開源宣告；樣本未公開、未重現](cases/500-grok-bot-x-longform-interview-article-pack.md) | 創作｜寫作、技能、社群、每日 |
 | UC-501 | 一句話讓Grok Bot依LimaCharlie文件自裝主機EDR、Chrome擴充與告警webhook，可選郵件防釣魚，告警送Security Manager | Grok Bot／LimaCharlie | [官方文件＋HN作者自述裝過；本庫未安裝](cases/501-limacharlie-edr-secure-grok-bot-computer.md) | 開發｜資安、監看、排程、每日 |
 | UC-502 | Muse或其他系統用webhook觸發Grok Bot Routine，再用固定郵件標頭或資料庫非同步取回結果 | Grok Bot（webhook Routine）／Meta Muse／郵件或資料庫 | [B英文Substack教學自述；無往返日誌、未重現](cases/502-muse-webhook-trigger-grok-bot-email-result-handshake.md) | 開發｜多代理、事件觸發、郵件、每日 |
+| UC-503 | Muse裝Grok Build搜X找note題材：約60秒出作者／時間／URL／摘要表，5則真實、摘要4則正確，引用前自己開鏈；勿盲按許可 | Meta Muse／Grok Build CLI／X | [B日文作者X文章自述＋指令原文；未重現](cases/503-muse-grok-build-x-search-note-topic-verify.md) | 創作｜寫作、搜尋、事實查核、每日 |
+| UC-504 | X評論私信四類分流（要回／可回／不用回／要小心），寫短草稿並記成回覆規矩，每日未回清單；只寫不發、PIN不進聊天 | Grok Bot（X、記憶、例程） | [B簡中作者X系列教學＋示範數字；未重現](cases/504-grok-bot-x-comment-dm-four-bucket-draft-routine.md) | 工作｜社群、草稿、排程、每日 |
+| UC-505 | Muse讀約56篇既有note建文體指南，搭配NotebookLM日記主檔，在同一初稿檔用語音與手註共編到像你 | Meta Muse／NotebookLM／note | [B日文作者note全文即產出；未重現](cases/505-muse-notebooklm-note-style-guide-coauthor.md) | 創作｜寫作、風格、檔案協作、每日 |
+| UC-506 | 司令塔先讀年／月營收與任務，秘書從研討會日程推出資料／LP／導流並分派創意Bot，製作物經確認才回本人 | Grok Bot（多Bot）／Codex／UTAGE | [B日文作者X長文自述；影片未看、未重現](cases/506-grok-bot-commander-secretary-study-event-pipeline.md) | 工作｜多代理、排程、行銷、每日 |
+| UC-507 | 演講難秀私密脈絡：請Dot重述它幫過你的事（臨時車票、退款、發票高於報價），逐則排進ChatGPT Sites；講前主動提醒備援demo | ChatGPT dots／ChatGPT Sites | [B英文作者X自述＋影片未看；未重現](cases/507-chatgpt-dot-sites-deck-from-chat-history.md) | 工作｜簡報、記憶、Sites、每日 |
 
 <a id="supplement-list"></a>
 
@@ -1000,3 +1005,7 @@
 ## 2026-11-06 08:51：每日批次（X＋Reddit＋Hacker News＋Substack）
 
 [約70組候選與查閱範圍](sources/research-2026-11-06-0851.md)：新增5（UC498 Muse排程抓球隊隊表／TeamSnap／超市週刊、UC499 Notion看板讓Muse當ChatGPT沙盒外子代理、UC500 Grok Bot採訪式X長文包、UC501 LimaCharlie EDR保護Grok Bot電腦、UC502 Muse經webhook叫Grok Bot並以郵件標頭取回結果），合併補充1（UC066每週五交接筆記＋單一用量儀表板）；其餘為宣傳、邀請碼、比較文、官方功能廣告、已被官方標假的電話梗、證據不足或與既有案同題。均未獨立重現。
+
+## 2026-11-07 08:53：每日批次（X＋note＋Zenn／Qiita對照＋V2EX／知乎／PTT／Dcard搜尋）
+
+[約65組候選與查閱範圍](sources/research-2026-11-07-0853.md)：新增5（UC503 Muse裝Grok Build搜X找note題材並人工開鏈驗摘要、UC504 Grok Bot評論四類分流與只寫不發草稿例程、UC505 Muse讀56篇note＋NotebookLM日記單檔共編、UC506司令塔／秘書依研討會目標分派LP與導流、UC507 Dot重述歷史協助做成Sites演講簡報），合併補充1（UC072 Grok Bot光纖研究通話不簽約）；其餘為比較文、邀請碼、產品導流、體感討論、過薄單則或與既有案同題。均未獨立重現。

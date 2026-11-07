@@ -333,3 +333,57 @@ test('Reviewer regressions: complete keyword boundaries and conversational suffi
   const weeklyMethodTokens = Array.from(api.tokenize('週報做法'));
   assert.deepEqual(weeklyMethodTokens, ['週報'], '週報做法 must tokenize to 週報 without leaving 法');
 });
+
+test('natural problem queries with conversational quantifiers and modifiers recall targeted cases', () => {
+  const testCases = [
+    { query: '做一份競品簡報', min: 1, expectedId: 'UC-039' },
+    { query: '兩份競品簡報', min: 1, expectedId: 'UC-039' },
+    { query: '兩份競品分析', min: 5, expectedId: 'UC-039' },
+    { query: '一次性爬蟲', min: 25, expectedId: 'UC-086' },
+    { query: '整理一份會議記錄', min: 9, expectedId: 'UC-071' },
+    { query: '會議總結', min: 9, expectedId: 'UC-071' },
+    { query: '兩週一次日報', min: 50, expectedId: 'UC-049' },
+    { query: '整理每週日報', min: 50, expectedId: 'UC-049' },
+    { query: '審閱合約', min: 15, expectedId: 'UC-007' },
+    { query: '自動寄送郵件', min: 50, expectedId: 'UC-014' },
+    { query: '發票辨識', min: 15, expectedId: 'UC-024' },
+    { query: '代碼重構', min: 2, expectedId: 'UC-484' }
+  ];
+
+  for (const tc of testCases) {
+    const tokens = Array.from(api.tokenize(tc.query));
+    const matched = api.filterEntries(entries, tokens, {});
+    assert.ok(
+      matched.length >= tc.min,
+      `Query "${tc.query}" (tokens: [${tokens.join(', ')}]) must return at least ${tc.min} cases, got ${matched.length}`
+    );
+    assert.ok(
+      matched.some(e => e.id === tc.expectedId),
+      `Query "${tc.query}" must recall expected case ${tc.expectedId}`
+    );
+  }
+});
+
+test('Reviewer regressions: standalone modifiers and invoice scanning queries must be preserved', () => {
+  // Finding 1: Standalone 一次性 and 一次性 密碼 must not be stripped
+  const singleTokens = Array.from(api.tokenize('一次性'));
+  assert.deepEqual(singleTokens, ['一次性'], 'Standalone 一次性 must be preserved as token');
+  const singleMatches = api.filterEntries(entries, singleTokens, {});
+  assert.equal(singleMatches.length, 31, 'Standalone 一次性 must match 31 cases');
+
+  const otpTokens = Array.from(api.tokenize('一次性 密碼'));
+  assert.deepEqual(otpTokens, ['一次性', '密碼'], '一次性 密碼 must preserve both tokens');
+  const otpMatches = api.filterEntries(entries, otpTokens, {});
+  assert.equal(otpMatches.length, 17, '一次性 密碼 must match 17 cases');
+
+  // Finding 2: Invoice scanning/OCR must retain scanning cases (e.g. UC-270)
+  const scanTokens = Array.from(api.tokenize('發票 掃描'));
+  assert.deepEqual(scanTokens, ['發票', '掃描'], '發票 掃描 must not be coerced to 報帳');
+  const scanMatches = api.filterEntries(entries, scanTokens, {});
+  assert.ok(scanMatches.some(e => e.id === 'UC-270'), '發票 掃描 must retain UC-270');
+
+  const ocrTokens = Array.from(api.tokenize('發票 OCR'));
+  assert.deepEqual(ocrTokens, ['發票', 'ocr'], '發票 OCR must not be coerced to 報帳');
+  const ocrMatches = api.filterEntries(entries, ocrTokens, {});
+  assert.ok(ocrMatches.length >= 8, '發票 OCR must match at least 8 cases');
+});

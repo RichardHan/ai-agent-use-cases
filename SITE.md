@@ -1,3 +1,9 @@
+## 2026-11-07 搜尋範圍命中語意一致性、分類標籤外洩排除與 Search submit QA 綠燈修復
+
+基準 main `b60f4fb7101f8827dab0ead1f776a77ff6883053`（PR #245 合併後）；原工作樹存在未提交修改，本輪使用隔離 worktree 操作。正式站與主分支在 PR #245 引入 `originalTitle` 納入 `scope=overview` 比對後，`assets/app.js` 的 `searchContext` 未同步將 `originalTitle` 視為標題，致使 UC-277 在「標題、用途與痛點」範圍搜尋「會議」時標記落入 `['分類', item.category]`，卡片顯示「「會議」 · 分類」造成分類外洩與心智模型衝突，並引發 GitHub Actions `Search submit QA`（Run 42342117690）在 `tests/search-scope-browser.cjs:27` 處嚴格斷言崩潰。本輪於 `assets/app.js` 的 `searchContext` 將 `originalTitle` 納入 `標題` 欄位比對，使原始標題命中者優先標註為「標題」，徹底消除分類標籤外洩。[方案、截圖與驗收紀錄](docs/qa/2026-11-07-search-scope-consistency/README.md)。
+
+新增防線先紅後綠，全套 401 項 Node 單元測試通過；`node --check` 語法通過；預覽 catalog 與 corpus 建置成功。端到端瀏覽器驗收涵蓋 Chromium 1440 桌面與 390／320 手機尺寸，完成問題導向搜尋、空結果復原、詳情直鏈與來源查證，axe 零違規。非真人研究。下一輪優先針對 Actions 發布管線，梳理 `push: branches: [main]` 佔滿 20 runner 配額導致 Pages 排隊 20～60 分鐘的資源競爭問題。
+
 ## 2026-11-07 首次訪客問題導向搜尋精準度、自然問句檢索與核心案例排序優化
 
 基準 main `a8b0e87dcf3201c5b67dbef1bf33d65d91360210`（PR #244 合併後）；原工作樹存在未提交修改，本輪使用隔離 worktree 操作。正式站首頁痛點捷徑「收件匣」（156 筆）中，標竿案例 UC-014 僅排第 20 名，因 `rankEntries` 遺漏正式 Markdown 標題比對且未加權精確搜尋詞；且訪客搜尋「我想整理會議」等白話問句因未做意圖前綴切分而回傳 0 筆空結果；`scope=overview` 亦遺漏原始標題。本輪於 `assets/app.js` 擴充自然語言前綴過濾與任務詞切分，將 `originalTitle` 納入標題比對與 overview 範圍，並優化精確詞匹配維度。預覽實測「收件匣」UC-014 躍升至第 1 名，「我想整理會議」直接召回 19 筆會議案例。[方案、截圖與驗收紀錄](docs/qa/2026-11-07-search-precision/README.md)。

@@ -276,3 +276,20 @@ test('natural problem phrases like 我想整理會議 and 整理會議 return ge
   assert.deepEqual(termsMeetingSummary, ['會議', '摘要'], '會議 摘要 must preserve 摘要');
   assert.ok(context.api.filterEntries(entries, termsMeetingSummary, {}).some(c => c.id === 'UC-094'), '會議 摘要 must match UC-094');
 });
+
+test('overview scope search context labels originalTitle matches as 標題 avoiding category leakage', () => {
+  const vm = require('node:vm');
+  const source = appJs.split('/* Browser event bindings. */')[0];
+  class Node { constructor(tag){ this.tagName=tag.toUpperCase(); this.children=[]; this.textContent=''; } append(...children){ this.children.push(...children); } setAttribute(name,value){ this[name]=value; } }
+  const context = vm.createContext({ URL, Discovery: require('../assets/discovery.js'), document: { createElement: tag => new Node(tag), createTextNode: text => ({ textContent: text }) } });
+  vm.runInContext(source + '\nthis.api={metadata,parseFile,filterEntries,tokenize,searchContext};', context);
+  vm.runInContext('displayCopy=' + fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'), context);
+
+  const file = 'cases/277-meeting-decision-change-audio-trace.md';
+  const [uc277] = context.api.parseFile(file, fs.readFileSync(path.join(root, file), 'utf8'));
+  const terms = context.api.tokenize('會議');
+  const overviewMatched = context.api.filterEntries([uc277], terms, { scope: 'overview' });
+  assert.equal(overviewMatched.length, 1, 'UC-277 must match in overview scope via originalTitle');
+  const ctx = context.api.searchContext(uc277, terms);
+  assert.equal(ctx.matches[0].label, '標題', 'UC-277 must be labeled as 標題, never leak 分類 in overview scope');
+});

@@ -87,6 +87,40 @@ test('author case is not relabelled as official by supporting documentation', ()
   }
 });
 
+test('unverified cases in cases/ are classified as 尚待查證 and discoverable under 尚待查證', () => {
+  const vm = require('node:vm');
+  const context = vm.createContext({ URL, Discovery: require('../assets/discovery.js') });
+  vm.runInContext(appJs.split('/* Browser event bindings. */')[0] + '\nthis.api={metadata,filterEntries};', context);
+  const unverifiedCases = [
+    'cases/447-jet-lag-light-sleep-coach.md',
+    'cases/404-fan-watch-official-news-twice-daily-calendar-dedup.md',
+    'cases/408-daily-team-sync-one-page-prep-calendar-notion-slack-linear.md',
+    'cases/414-event-registrant-email-alias-credit-link-once-per-person.md',
+    'cases/377-calendar-client-code-to-freshbooks-time-entry.md',
+    'cases/384-paid-article-boundary-post-edit-verification.md'
+  ];
+  for (const file of unverifiedCases) {
+    const markdown = fs.readFileSync(path.join(root, file), 'utf8');
+    const item = context.api.metadata(markdown, file, 'case');
+    assert.equal(item.proof, '尚待查證', `${file} must be classified as 尚待查證`);
+    assert.equal(context.api.filterEntries([item], [], {proof: '尚待查證'}).length, 1, `${file} must be discoverable under 尚待查證 facet`);
+    assert.equal(context.api.filterEntries([item], [], {proof: '作者報告／示範'}).length, 0, `${file} must not be labelled 作者報告／示範`);
+    assert.equal(context.api.filterEntries([item], [], {proof: '公開資料核讀'}).length, 0, `${file} must not be labelled 公開資料核讀`);
+  }
+});
+
+test('community author projects utilizing official SDKs are classified as 作者報告／示範 without inflating to 官方自報', () => {
+  const vm = require('node:vm');
+  const context = vm.createContext({ URL, Discovery: require('../assets/discovery.js') });
+  vm.runInContext(appJs.split('/* Browser event bindings. */')[0] + '\nthis.api={metadata,filterEntries};', context);
+  const file = 'cases/455-muse-gadgets-m5stickc-plus2-pocket-push-to-talk.md';
+  const markdown = fs.readFileSync(path.join(root, file), 'utf8');
+  const item = context.api.metadata(markdown, file, 'case');
+  assert.equal(item.proof, '作者報告／示範', 'UC-455 maker project must be 作者報告／示範');
+  assert.equal(context.api.filterEntries([item], [], {proof: '作者報告／示範'}).length, 1);
+  assert.equal(context.api.filterEntries([item], [], {proof: '官方自報'}).length, 0, 'UC-455 must not be inflated to 官方自報');
+});
+
 test('card renders both targetUser and coreGoal when available to orient visitors on problem and audience', () => {
   const vm = require('node:vm');
   const source = appJs.split('/* Browser event bindings. */')[0];

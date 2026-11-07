@@ -1,8 +1,11 @@
 name: Reading anchor QA
 on:
   push:
-    branches: [improve/reader-findability-20261020, main]
+    branches: [improve/reader-findability-20261020]
     paths: ['assets/**', 'tests/reading-anchor*', '.github/workflows/reading-anchor-qa.yml']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

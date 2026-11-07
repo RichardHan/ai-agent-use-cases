@@ -2,6 +2,9 @@ name: Result journey QA
 on:
   push:
     branches: [improve/result-link-semantics-20261022, verify/result-link-semantics-20261022]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

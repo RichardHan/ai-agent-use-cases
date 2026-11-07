@@ -2,6 +2,9 @@ name: Task shortcuts QA
 on:
   push:
     branches: [improve/task-shortcuts-20261022, verify/task-shortcuts-20261022]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

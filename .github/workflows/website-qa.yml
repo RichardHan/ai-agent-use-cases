@@ -18,6 +18,9 @@ on:
   push:
     branches: ['main']
     paths: ['assets/**', 'index.html', 'INDEX.md', 'catalog.json', 'corpus.json', 'audit-summary.json', 'cases/**', 'evidence/**', 'sources/**', '_config.yml', 'tests/**', 'scripts/**', '.github/workflows/website-qa.yml']
+concurrency:
+  group: website-qa-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

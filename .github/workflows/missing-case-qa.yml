@@ -3,7 +3,7 @@ on:
   pull_request:
     paths: ['tests/missing-case-browser.cjs', '.github/workflows/missing-case-qa.yml']
   push:
-    branches: [fix/missing-shared-case, main]
+    branches: [fix/missing-shared-case]
     paths: ['assets/**', 'index.html', 'tests/missing-case-browser.cjs', '.github/workflows/missing-case-qa.yml']
 concurrency:
   group: missing-case-${{ github.ref }}

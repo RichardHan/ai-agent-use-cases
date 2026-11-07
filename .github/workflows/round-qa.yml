@@ -1,7 +1,7 @@
 name: Improvement round QA
 on:
   push:
-    branches: [improve/reader-source-context, fix/shared-reading-complete-layout, main]
+    branches: [improve/reader-source-context, fix/shared-reading-complete-layout]
     paths: ['tests/round*', '.github/workflows/round-qa.yml', 'assets/**', 'index.html']
   workflow_dispatch:
 concurrency:

@@ -2,6 +2,9 @@ name: Source emphasis QA
 on:
   push:
     branches: [improve/reading-source-links-20261023, verify/source-emphasis-20261023, verify/source-fonts-20261023]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

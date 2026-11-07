@@ -1,9 +1,12 @@
 name: Reader source links QA
 on:
   push:
-    branches: [improve/reader-source-links-20261021, main]
+    branches: [improve/reader-source-links-20261021]
     paths: [assets/**, tests/source-links*, scripts/published-*, .github/workflows/source-links-qa.yml]
   workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

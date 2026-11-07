@@ -2,6 +2,9 @@ name: Reader round QA
 on:
   push:
     branches: [improve/reader-source-return-20261022, verify/reader-round-20261022]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

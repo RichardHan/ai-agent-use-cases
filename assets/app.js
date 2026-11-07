@@ -1903,6 +1903,8 @@ function renderSearchFeedback(terms, filters) {
         {label:'自動客服 · 搜尋「客服」', term:'客服'},
         {label:'代碼審查 · 搜尋「代碼審查」', term:'代碼審查'},
         {label:'🧾 搜尋「發票」', term:'發票'},
+        {label:'✈️ 搜尋「出差報銷」', term:'出差報銷'},
+        {label:'📄 搜尋「合約審核」', term:'合約審核'},
         {label:'🛠️ 搜尋「除錯」', term:'除錯'},
         {label:'🏖️ 搜尋「旅遊」', term:'旅遊'},
         {label:'🏷️ 搜尋「比價」', term:'比價'}

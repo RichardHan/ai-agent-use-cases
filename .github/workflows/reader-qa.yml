@@ -1,10 +1,13 @@
 name: Reader QA
 on:
   push:
-    branches: [feat/reader-navigation, main]
+    branches: [feat/reader-navigation]
     paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, tests/arrival*.cjs, tests/mobile-search-browser.cjs, tests/filter-controls.cjs, .github/workflows/reader-qa.yml]
   pull_request:
     paths: [assets/**, index.html, catalog.json, _config.yml, scripts/**, tests/reader*.cjs, tests/arrival*.cjs, tests/mobile-search-browser.cjs, tests/filter-controls.cjs, .github/workflows/reader-qa.yml]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

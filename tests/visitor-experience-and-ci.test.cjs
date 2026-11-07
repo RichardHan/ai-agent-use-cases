@@ -23,6 +23,29 @@ test('empty search state provides problem-oriented recovery chips in app.js', ()
   assert.match(appJs, /日報/, 'problem suggestions should include 日報');
   assert.match(appJs, /發票/, 'problem suggestions should include 發票');
   assert.match(appJs, /PR/, 'problem suggestions should include PR');
+  assert.match(appJs, /出差報銷/, 'problem suggestions should include 出差報銷');
+  assert.match(appJs, /合約審核/, 'problem suggestions should include 合約審核');
+});
+
+test('main push trigger is reserved for canonical release QA to prevent runner queue starvation', () => {
+  const workflowDir = path.join(__dirname, '../.github/workflows');
+  const workflows = fs.readdirSync(workflowDir).filter(file => /\.(?:yml|yaml)$/.test(file));
+  const mainPush = workflows.filter(file => {
+    const text = fs.readFileSync(path.join(workflowDir, file), 'utf8');
+    return /(?:push:\s*\n\s*branches:\s*\[[^\]]*\bmain\b|push:\s*\n\s*branches:\s*\n\s*-\s*main)/.test(text);
+  });
+  assert.ok(mainPush.includes('website-qa.yml'), 'website-qa.yml must remain the canonical release gate on main push');
+  assert.ok(mainPush.length <= 3, `main push triggers must not exhaust 20-runner pool (found ${mainPush.length}: ${mainPush.join(', ')})`);
+});
+
+test('workflows define concurrency groups to prevent orphaned run congestion', () => {
+  const workflowDir = path.join(__dirname, '../.github/workflows');
+  const workflows = fs.readdirSync(workflowDir).filter(file => /\.(?:yml|yaml)$/.test(file));
+  const missingConcurrency = workflows.filter(file => {
+    const text = fs.readFileSync(path.join(workflowDir, file), 'utf8');
+    return !text.includes('concurrency:');
+  });
+  assert.deepEqual(missingConcurrency, [], `all workflows must define concurrency: ${missingConcurrency.join(', ')}`);
 });
 
 test('assets/style.css defines responsive touch-accessible rules for empty problem suggestions', () => {

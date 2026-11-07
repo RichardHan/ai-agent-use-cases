@@ -1,10 +1,13 @@
 name: Round 23 acceptance QA
 on:
   push:
-    branches: [main, improve/reader-tables-20261023, verify/round23-published]
+    branches: [improve/reader-tables-20261023, verify/round23-published]
     paths: ['assets/**', 'index.html', 'scripts/preview.py', 'tests/**', '.github/workflows/round23-qa.yml']
   pull_request:
     paths: ['assets/**', 'index.html', 'scripts/preview.py', 'tests/table-anchor-browser.cjs', 'tests/round23-observe.cjs', '.github/workflows/round23-qa.yml']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

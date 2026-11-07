@@ -1,9 +1,12 @@
 name: Card refinement QA
 on:
   push:
-    branches: [feat/source-aware-reading, main]
+    branches: [feat/source-aware-reading]
     paths: ['assets/**', 'tests/**', '.github/workflows/card-refinement-qa.yml']
   workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

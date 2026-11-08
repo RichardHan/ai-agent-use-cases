@@ -2527,6 +2527,9 @@ async function loadInitialCorpus(paths, options = {}) {
     const armBundleTimer=ms=>{clearTimeout(bundleTimer);bundleTimer=setTimeout(abortBundle,Math.max(1,ms));};
     const bundleFits=(received,total,elapsed)=>{
       if(!received||elapsed<=0)return true;
+      // A single early chunk measures TCP slow start more than the transfer;
+      // hold the decision until 400 ms or 32 KiB of evidence exists.
+      if(elapsed<400&&received<32768)return true;
       // Without a usable expected size the honest proxy is elapsed time: keep at
       // most 60% of the whole-load window so per-source reads can still use the rest.
       if(!total)return bundleStartedAt+(deadline-bundleStartedAt)*0.6>Date.now();

@@ -4,7 +4,32 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const os=require('node:os');
 const path=require('node:path');
-const {waitForPublishedAssets,PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+const {waitForPublishedAssets,pagesDeploymentDiagnostic,PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
+
+test('Pages diagnostics identify only the requested deployment and report its latest status',async()=>{
+ const sha='a'.repeat(40),urls=[];
+ const result=await pagesDeploymentDiagnostic({repository:'owner/repo',sha,fetchApi:async url=>{
+  urls.push(url);
+  return {ok:true,json:async()=>urls.length===1?[{id:1,sha:'b'.repeat(40),environment:'github-pages'},{id:42,sha,environment:'github-pages'}]:[{state:'pending'}]};
+ }});
+ assert.match(result,/deployment 42.*pending/);
+ assert.match(urls[1],/deployments\/42\/statuses/);
+});
+test('Pages diagnostics report absent or unavailable metadata without leaking errors',async()=>{
+ const options={repository:'owner/repo',sha:'a'.repeat(40)};
+ assert.match(await pagesDeploymentDiagnostic({...options,fetchApi:async()=>({ok:true,json:async()=>[]})}),/No Pages deployment/);
+ assert.match(await pagesDeploymentDiagnostic({...options,fetchApi:async()=>({ok:false,status:403})}),/HTTP 403/);
+ const result=await pagesDeploymentDiagnostic({...options,fetchApi:async()=>{throw Error('private detail');}});
+ assert.match(result,/unavailable/);assert.doesNotMatch(result,/private detail/);
+});
+
+test('supersession during deployment diagnostics does not report a stale failure',()=>withAsset(async options=>{
+ let current=true;
+ const result=await waitForPublishedAssets({...options,attempts:1,isCurrent:()=>current,
+  fetchAsset:async()=>({ok:true,arrayBuffer:async()=>Buffer.from('old')}),
+  diagnose:async()=>{current=false;return 'pending';}});
+ assert.equal(result,'superseded');
+}));
 
 test('stale but functional Pages assets are not accepted until every file matches',async()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'pages-assets-'));

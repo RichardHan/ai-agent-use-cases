@@ -297,6 +297,16 @@
       else if(overview.firstElementChild)overview.firstElementChild.after(sources);
       else overview.append(sources);
     }
+    const safetyShortcut=make('button','reader-safety-shortcut','查核依據與安全採用 ↓');
+    safetyShortcut.type='button';
+    safetyShortcut.setAttribute('aria-label','查核依據與安全採用（前往查看頁首證據、主張來源與安全指引）');
+    safetyShortcut.addEventListener('click',()=>{
+      evidence.tabIndex=-1;
+      moveTo(evidence);
+    });
+    const anchor=overview.querySelector('.reader-source-shortcut')||overview.querySelector('.detail-source');
+    if(anchor)anchor.after(safetyShortcut);
+    else overview.append(safetyShortcut);
     const actions=body.querySelector('.detail-actions');
     if(actions)actions.after(report,evidence);else overview.after(report,evidence);
     const method=selectMethodShortcut(titles,item.kind);

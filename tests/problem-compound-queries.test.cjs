@@ -955,3 +955,88 @@ test('Reviewer regressions: product research boundaries, literature study synony
   const spacedReadHits = api.filterEntries(entries, spacedReadTokens, {});
   assert.ok(spacedReadHits.some(e => e.id === 'UC-493'), '閱讀 摘要 must recall UC-493');
 });
+
+test('natural problem queries with conjunctions (且, 並且, 同時, 以及, 和, 與) cleanly segment into AND conditions and recall relevant cases', () => {
+  const conjunctionQueries = [
+    { query: '合約審查且風險', expectedTokens: ['合約', '審查', '風險'], minMatches: 5, expectedId: 'UC-154' },
+    { query: '合約審查 且 風險', expectedTokens: ['合約', '審查', '風險'], minMatches: 5, expectedId: 'UC-154' },
+    { query: '合約審查同時風險', expectedTokens: ['合約', '審查', '風險'], minMatches: 5, expectedId: 'UC-154' },
+    { query: '合約審查以及風險', expectedTokens: ['合約', '審查', '風險'], minMatches: 5, expectedId: 'UC-154' },
+    { query: '客服且人工', expectedTokens: ['客服', '人工'], minMatches: 35, expectedId: 'UC-398' },
+    { query: '客服同時人工', expectedTokens: ['客服', '人工'], minMatches: 35, expectedId: 'UC-398' },
+    { query: '客服以及人工', expectedTokens: ['客服', '人工'], minMatches: 35, expectedId: 'UC-398' },
+    { query: '客服 和 人工', expectedTokens: ['客服', '人工'], minMatches: 35, expectedId: 'UC-398' },
+    { query: '客服 與 人工', expectedTokens: ['客服', '人工'], minMatches: 35, expectedId: 'UC-398' },
+  ];
+
+  for (const item of conjunctionQueries) {
+    const tokens = Array.from(api.tokenize(item.query));
+    assert.deepEqual(tokens, item.expectedTokens, `Query "${item.query}" must tokenize to ${JSON.stringify(item.expectedTokens)} but got ${JSON.stringify(tokens)}`);
+    const hits = api.filterEntries(entries, tokens, {});
+    assert.ok(
+      hits.length >= item.minMatches,
+      `Query "${item.query}" should match at least ${item.minMatches} cases, found ${hits.length}`
+    );
+    if (item.expectedId) {
+      assert.ok(
+        hits.some(e => e.id === item.expectedId),
+        `Query "${item.query}" should recall ${item.expectedId}`
+      );
+    }
+  }
+
+  // Reviewer regression: preserve valid words and standalone conjunctions without corruption
+  assert.deepEqual(Array.from(api.tokenize('尚且')), ['尚且'], '尚且 must not be corrupted to 尚');
+  assert.deepEqual(Array.from(api.tokenize('苟且')), ['苟且'], '苟且 must not be corrupted to 苟');
+  assert.deepEqual(Array.from(api.tokenize('暫且')), ['暫且'], '暫且 must not be corrupted to 暫');
+  assert.deepEqual(Array.from(api.tokenize('同時區')), ['同時區'], '同時區 must not be corrupted to 區');
+  assert.deepEqual(Array.from(api.tokenize('同時')), ['同時'], 'Standalone 同時 must not be emptied');
+  assert.deepEqual(Array.from(api.tokenize('且')), ['且'], 'Standalone 且 must not be emptied');
+  assert.deepEqual(Array.from(api.tokenize('和平')), ['和平'], '和平 must not be corrupted');
+});
+
+test('natural problem queries for contract comparison, legal review, report reconciliation, newsletter creation, and inventory management recall targeted cases', () => {
+  const queries = [
+    { raw: '合約比對', expectedTokens: ['合約', '比對'], minMatches: 25, canonicalId: 'UC-234' },
+    { raw: '比對合約', expectedTokens: ['合約', '比對'], minMatches: 25, canonicalId: 'UC-234' },
+    { raw: '法務審查', expectedTokens: ['法務', '審查'], minMatches: 5, canonicalId: 'UC-154' },
+    { raw: '審查法務', expectedTokens: ['法務', '審查'], minMatches: 5, canonicalId: 'UC-154' },
+    { raw: '報表比對', expectedTokens: ['報表', '比對'], minMatches: 100, canonicalId: 'UC-129' },
+    { raw: '比對報表', expectedTokens: ['報表', '比對'], minMatches: 100, canonicalId: 'UC-129' },
+    { raw: '電子報製作', expectedTokens: ['電子報'], minMatches: 15, canonicalId: 'UC-093' },
+    { raw: '製作電子報', expectedTokens: ['電子報'], minMatches: 15, canonicalId: 'UC-093' },
+    { raw: '庫存管理', expectedTokens: ['庫存'], minMatches: 25, canonicalId: 'UC-129' },
+    { raw: '管理庫存', expectedTokens: ['庫存'], minMatches: 25, canonicalId: 'UC-129' },
+  ];
+
+  for (const item of queries) {
+    const tokens = Array.from(api.tokenize(item.raw));
+    assert.deepEqual(tokens, item.expectedTokens, `Query "${item.raw}" must tokenize to ${JSON.stringify(item.expectedTokens)} but got ${JSON.stringify(tokens)}`);
+    const hits = api.filterEntries(entries, tokens, {});
+    assert.ok(
+      hits.length >= item.minMatches,
+      `Query "${item.raw}" should match at least ${item.minMatches} cases, found ${hits.length}`
+    );
+    if (item.canonicalId) {
+      assert.ok(
+        hits.some(e => e.id === item.canonicalId),
+        `Query "${item.raw}" should recall ${item.canonicalId}`
+      );
+    }
+  }
+});
+
+test('hero problem tags and empty state suggestions expose 合約比對, 報表比對, 電子報, and 庫存管理', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=合約比對#explore"'), 'hero-problem-tags must include 合約比對');
+  assert.ok(nav.includes('href="?q=報表比對#explore"'), 'hero-problem-tags must include 報表比對');
+  assert.ok(nav.includes('href="?q=電子報#explore"'), 'hero-problem-tags must include 電子報');
+  assert.ok(nav.includes('href="?q=庫存#explore"'), 'hero-problem-tags must include 庫存');
+
+  const appJs = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
+  assert.match(appJs, /term:\s*['"]合約比對['"]/, 'app.js empty state problem tags must include 合約比對');
+  assert.match(appJs, /term:\s*['"]報表比對['"]/, 'app.js empty state problem tags must include 報表比對');
+  assert.match(appJs, /term:\s*['"]電子報['"]/, 'app.js empty state problem tags must include 電子報');
+  assert.match(appJs, /term:\s*['"]庫存管理['"]/, 'app.js empty state problem tags must include 庫存管理');
+});

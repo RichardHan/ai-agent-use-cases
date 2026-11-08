@@ -93,3 +93,12 @@
 - 重讀後的情境計數仍以「字面比對」為準，不代表語意相關；`程式碼` 等寬廣同義詞組（447/509）本輪未處理。
 - 其他 11 個 published 瀏覽器腳本仍保留 `skipIfSupersededPublishedUrl` 逃生門（`card-refinement`、`corpus`、`load-recovery-live`、`reader*`、`reading-flow`、`related`、`return-visibility`、`search-context-live`、`transient-loading-published`、`trust-published`），只有 canonical 閘門與 `deployed-browser` 本輪改為 fail-closed。
 - superseded 路徑的本機模擬需要真實後代 commit；若正式站建置落後於本次推送（部署尚未完成），閘門會依共用 60 分鐘視窗等待，逾時才紅燈。
+
+
+## 發布結果（2026-11-08 20:00 UTC）
+
+- PR [#275](https://github.com/RichardHan/ai-agent-use-cases/pull/275) 以一般 merge 合併為 `b83f7828`；合併前 13 個 PR 檢查全數 pass、2 個正式站步驟依設計在 PR 上 skip。
+- `pages build and deployment` [42517832718](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42517832718) success；正式站 `catalog.json` 的 `sourceRevision` = `b83f7828`，`corpus.json` 507 個來源且 catalog／corpus revision 一致。
+- 主分支 `Website QA` [42517834091](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42517834091) **success**：第 14 步「Wait for published assets and content」真的完成比對（1 秒、`verified=true`），第 15 步 fail-closed 守門 skipped（已驗證），第 16 步「Verify the published GitHub Pages site」**執行並通過**。
+- 正式站重走（Chromium 1440×900／390×844）：整句查詢 79 筆結果＋情境計數 79、抽卡 78 張；`kind=pending` 選項「3 · 還在查證（含 1 筆已併入，統計不計）」、統計卡 2；UC-256「頁首核對 2026-10-16」；UC-001 直鏈來源 5 個連結全固定於 `b83f7828`；返回後 509 筆；無 page error。
+- 已知限制：本補記另推一個 docs commit，正式站版本會前進到該 commit；被驗證的產品版本是 `b83f7828`。其他 11 個 published 瀏覽器腳本仍保留 superseded 逃生門。

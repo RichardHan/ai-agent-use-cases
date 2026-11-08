@@ -63,7 +63,7 @@
 - 本機無 Jekyll／Gemfile，`INDEX.md` 等 Markdown 算繪與 `scripts/check-page-language.cjs`、`scripts/check_corpus_bundle.py` 只能在 CI 的 Jekyll build 驗證。
 - 截圖影像無法讀取，視覺結論以 DOM 與量測為準；未做真人使用者研究。
 - 只顯示「檔案層級」日期，未逐條重查 P-001–P-003 的內容，也沒有替任何條目補上逐條核對日。`sources/pending.md` 的 2026-10-17 17:45 補查只點名 P-001 作者資訊與 P-002 原帖，未涵蓋 P-003；因此畫面寫明是檔案層級，不把它當成 P-003 的逐條核對日。
-- 合格總數的真實值仍不可從 repo 推得；本輪只揭露既有批次的母體，沒有重算。
+- 合格總數的真實值仍不可從 repo 推得；本輪只揭露既有批次的母體，沒有重算。母體衝突的偵測只認阿拉伯數字（中文數字「五百頁」不會被辨識）；實際防線是 `tests/evidence-baseline.test.cjs` 把畫面上的母體釘在 `sources/qualification-audit-2026-10-16.md` 的同一句話，來源若被改得不一致，CI 會紅而不是讓讀者看到錯的數字。
 - 未處理：首頁待查說明 `.stats p` 的 11px 字級、`#catalog-status` 在正常狀態沒有資料日期、`1,000 案` 目標的來源未在卡上說明。
 
 ## 獨立審查

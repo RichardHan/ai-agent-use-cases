@@ -2127,11 +2127,15 @@ function compoundQuerySplit(items, terms, filters, limit=24) {
 // 有沒有問題"). tokenize() keeps each CJK run whole and filterEntries() requires
 // every run to appear literally, so a sentence usually matches nothing even when
 // it contains a task the library does cover. When the strict match is empty, the
-// query is long enough to be prose and no facet is narrowing it, look for the
+// query carries more than a keyword and no facet is narrowing it, look for the
 // library's own vocabulary inside the sentence: synonym keys plus indexed tags.
 // Up to two of those words are used together, so the result stays a literal
 // narrowing rather than an inferred interpretation.
-const SENTENCE_QUERY_MIN_CHARS=10;
+// Five Chinese characters is the boundary between a keyword lookup and a task
+// described in the visitor's own words: "比價" or "照片 旅行" (four characters of
+// keywords) must stay exact, while "找便宜的機票" (6) and "整理履歷表" (5) are
+// prose. The gate only decides whether to look, never what to answer.
+const SENTENCE_QUERY_MIN_CHARS=5;
 const SENTENCE_CANDIDATE_LIMIT=5;
 let vocabularyCache={key:'',terms:[]};
 function libraryVocabulary(items) {
@@ -2182,13 +2186,23 @@ function sentenceQueryFallback(items, query, terms, filters) {
   if(/[「」『』"“”]/.test(source))return null;
   const spaced=norm(source);
   const text=spaced.replace(/\s+/g,'');
-  if([...text].length<SENTENCE_QUERY_MIN_CHARS)return null;
+  // Only Chinese characters count toward the boundary: a task described in the
+  // visitor's own words ("每月信用卡帳單整理", 9 characters) is prose, while a
+  // mixed lookup such as "旅遊 xyz987" stays an exact search for what they typed.
+  const cjk=(text.match(/[\u3400-\u9fff]/g)||[]).length;
+  if(cjk<SENTENCE_QUERY_MIN_CHARS)return null;
   // An explicit case or lead number is the most specific thing the visitor typed;
   // answering with a topic word instead would silently answer another question.
   // tokenize() already normalises UC 012, UC_012, UC:012 and #314 to uc-012/uc-314,
   // so reading its tokens covers every separator without a second rule to maintain.
   if(terms.some(term=>/^(?:uc|p)-\d+$/.test(term)))return null;
-  if(!/[\u3400-\u9fff]/.test(text))return null;
+  // In the 5–9 Chinese-character band this change opened, the phrase can still be
+  // a lookup. Any Latin or numeric token the visitor typed themselves (a tool, a
+  // year, a version, an amount) is part of the question, and the re-read only
+  // rewrites Chinese prose: dropping one of those tokens would answer something
+  // else, so that band stays exact. Questions of 10+ characters keep their
+  // existing behaviour rather than change two rules in one step.
+  if(cjk<10 && terms.some(term=>/[a-z0-9]/i.test(term)))return null;
   // A word covering a third of the library is not a narrower question, so it is
   // never used alone; it may still join a second word to form a real narrowing.
   const narrow=option=>option.count>0 && option.count*3<items.length;

@@ -3,7 +3,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const {isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl}=require('../scripts/published-check.cjs');
+const {isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf}=require('../scripts/published-check.cjs');
 
 test('published asset check runs for the current main commit',()=>{
  assert.equal(shouldCheckPublishedSha('refs/heads/main','current','current'),true);
@@ -63,6 +63,71 @@ test('published browser runs skip only stale main runs targeting this Pages site
  }
 });
 
+test('only files a visitor can receive count as published changes',()=>{
+ const before='a'.repeat(40),after='b'.repeat(40);
+ const calls=[];
+ const exec=(command,args)=>{calls.push(args);return [
+  'M\tassets/app.js',
+  'M\tassets/copy.json',
+  'A\tcases/511-grok-bot-zoom-meet-teams-structured-notes.md',
+  'D\tevidence/old-note.md',
+  'M\tINDEX.md',
+  'M\tSITE.md',
+  'M\tdocs/qa/2026-11-09-round/README.md',
+  'M\ttests/published-version.cjs',
+  'R100\tcases/001-travel-checkout.md\tcases/001-travel.md',
+  'M\tindex.html',
+  'M\tsources/pending.md'
+ ].join('\n');};
+ const {known,entries}=publicationChangeList(before,after,exec);
+ assert.equal(known,true);
+ assert.deepEqual(entries,[
+  {status:'M',path:'assets/app.js'},
+  {status:'M',path:'assets/copy.json'},
+  {status:'A',path:'cases/511-grok-bot-zoom-meet-teams-structured-notes.md'},
+  {status:'D',path:'evidence/old-note.md'},
+  // a rename leaves the old path behind as a deletion and adds the new path
+  {status:'D',path:'cases/001-travel-checkout.md'},
+  {status:'R100',path:'cases/001-travel.md'},
+  {status:'M',path:'index.html'},
+  {status:'M',path:'sources/pending.md'}
+ ]);
+ assert.deepEqual(calls,[['diff','--name-status',before,after]]);
+});
+
+test('an unknown push base is reported as unknown, never as an empty diff',()=>{
+ for(const [base,head] of [['', 'b'.repeat(40)],['0'.repeat(40),'b'.repeat(40)],[undefined,'b'.repeat(40)],['not-a-sha','b'.repeat(40)]])
+  assert.deepEqual(publicationChangeList(base,head,()=>assert.fail('no git call without a real base')),{known:false,entries:[]});
+ assert.deepEqual(publicationChangeList('a'.repeat(40),'a'.repeat(40),()=>assert.fail('no diff for an unchanged tip')),{known:true,entries:[]});
+ assert.throws(()=>publicationChangeList('a'.repeat(40),'b'.repeat(40),()=>{throw Error('not a git repository');}),/Cannot list the files this push published.*not a git repository/);
+});
+
+test('a newer published revision must descend from this push',()=>{
+ const calls=[];
+ const exec=(command,args)=>{calls.push(args);return '';};
+ assert.equal(isDescendantOf('a'.repeat(40),'b'.repeat(40),exec),true);
+ assert.deepEqual(calls,[['fetch','--no-tags','origin','b'.repeat(40)],['merge-base','--is-ancestor','a'.repeat(40),'b'.repeat(40)]]);
+ let fetched=0;
+ const notAncestor=(command,args)=>{if(args[0]==='fetch'){fetched++;return '';}throw Object.assign(Error('exit 1'),{status:1});};
+ assert.throws(()=>isDescendantOf('a'.repeat(40),'b'.repeat(40),notAncestor),/does not contain this push/);
+ assert.equal(fetched,1,'the live revision is fetched before the comparison');
+ assert.throws(()=>isDescendantOf('a'.repeat(40),'not-a-sha',exec),/not a commit SHA/);
+ assert.throws(()=>isDescendantOf('a'.repeat(40),'b'.repeat(40),()=>{throw Error('authentication failed');}),/Cannot fetch the published revision.*authentication failed/);
+});
+
+test('the pull-request gate never asserts the published site and no branch trigger duplicates pull requests',()=>{
+ const workflows=path.join(__dirname,'..','.github','workflows');
+ const load=fs.readFileSync(path.join(workflows,'load-recovery-qa.yml'),'utf8');
+ assert.match(load,/on:\s*\n\s*workflow_dispatch:/,'the production walk stays runnable by hand');
+ assert.match(load,/- name: Walk the current published website\s+if: \$\{\{ github\.event_name == 'workflow_dispatch' \}\}/,'production walk must not run from a pull request');
+ // source-guide-qa.yml has a pull_request trigger, so its fix/** push trigger only
+ // ran the same commit twice. reader-context-round.yml has no pull_request trigger
+ // at all, so its fix/** branch stays.
+ const guarded=fs.readFileSync(path.join(workflows,'source-guide-qa.yml'),'utf8');
+ assert.doesNotMatch(guarded,/fix\/\*\*/,'duplicate push trigger removed: source-guide-qa.yml');
+ assert.match(guarded,/pull_request:/,'source-guide-qa.yml still covers pushed commits through its pull request');
+});
+
 test('every workflow with an exact published asset assertion checks commit freshness first',()=>{
  const workflows=path.join(__dirname,'..','.github','workflows');
  const all=fs.readdirSync(workflows).filter(file=>file.endsWith('.yml'));
@@ -75,7 +140,9 @@ test('every workflow with an exact published asset assertion checks commit fresh
 
 test('published browser entrypoints skip stale main SHAs before comparing Pages assets',()=>{
  const names=[
-  'card-refinement-browser.cjs','corpus-browser.cjs','load-recovery-live.cjs','published-version.cjs',
+  // published-version.cjs is deliberately absent: it now verifies a newer build
+  // instead of skipping it, so it no longer carries the stale-SHA escape hatch.
+  'card-refinement-browser.cjs','corpus-browser.cjs','load-recovery-live.cjs',
   'reader-browser.cjs','reader-controls-browser.cjs','reading-flow-browser.cjs','related-browser.cjs',
   'return-visibility-browser.cjs','search-context-live.cjs','transient-loading-published.cjs','trust-published.cjs'
  ];

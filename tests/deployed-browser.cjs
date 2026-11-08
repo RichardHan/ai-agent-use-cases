@@ -4,12 +4,10 @@ const assert=require('node:assert/strict');
 const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
 (async()=>{
  const origin='https://richardhan.github.io/ai-agent-use-cases/';
- const publication=await waitForPublishedAssets({base:origin,sha:process.env.GITHUB_SHA,files:['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css']});
- if(publication==='superseded'){
-  console.log('SKIP_PUBLISHED_BROWSER_CHECK superseded main commit '+process.env.GITHUB_SHA);
-  return;
- }
- console.log('PUBLISHED_ASSETS_MATCH '+process.env.GITHUB_SHA);
+ // A newer main tip no longer skips the walk: the bytes are compared first, and a
+ // newer build is only accepted when it descends from this push (published-version).
+ const publication=await waitForPublishedAssets({base:origin,sha:process.env.GITHUB_SHA,files:['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css'],isCurrent:()=>true});
+ console.log((publication==='matched'?'PUBLISHED_ASSETS_MATCH ':'PUBLISHED_ASSETS_MATCH_SUPERSEDED ')+process.env.GITHUB_SHA);
  const browser=await chromium.launch();
  try{
  {

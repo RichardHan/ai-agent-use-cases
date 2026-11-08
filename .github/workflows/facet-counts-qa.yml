@@ -72,10 +72,14 @@ jobs:
           QA_OUT=qa-artifacts/preview-walk runuser -u pwuser -- node tests/reliability-observe.cjs
           runuser -u pwuser -- node tests/source-guide-browser.cjs
           QA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs
+      # Only a main push can be compared with the published site; a pull request
+      # build is unrelated to whatever build is live.
       - name: Verify published release matches this commit
+        if: github.ref == 'refs/heads/main'
         id: published-version
         env:
           PUBLISHED_BUILD: ${{ runner.temp }}/facet-published
+          PUSH_BASE_SHA: ${{ github.event.before }}
         run: node tests/published-version.cjs
       - name: Verify published source bytes
         if: steps.published-version.outputs.verified == 'true'

@@ -621,12 +621,23 @@ const matchCase = (target, list = entries) => { if (!target) return null; const 
 function reviewDate(markdown) {
   const lead=markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
   const dates=[];
-  for(const line of lead.split('\n')){
-    if(!/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|查證|首次收錄[／、](?:最近查證|查證))\s*[：:]/.test(line))continue;
-    for(const date of line.match(/\b20\d{2}-\d{2}-\d{2}\b/g)||[]){
+  const reviewAction=/(?:查證|查閱|核對|查核)/;
+  // "尚未查證" and "查證尚未完成" name the same words but state the opposite.
+  const notReviewed=/(?:未經?|尚未|尚未經|待)(?:查證|查閱|核對|查核)|(?:查證|查閱|核對|查核)\s*(?:日期|結果)?\s*(?:尚未|未|待|無從|無法|不完整|未完成|不詳|不確定|未知|不明)/;
+  const collect=(clause)=>{
+    for(const date of clause.match(/\b20\d{2}-\d{2}-\d{2}\b/g)||[]){
       const parsed=new Date(date+'T00:00:00Z');
       if(!Number.isNaN(parsed.getTime())&&parsed.toISOString().slice(0,10)===date)dates.push(date);
     }
+  };
+  for(const line of lead.split('\n')){
+    const namedKey=/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|查證|首次收錄[／、](?:最近查證|查證))\s*[：:]/.test(line);
+    if(namedKey){ collect(line); continue; }
+    // Older leads write "- 日期：…；查證 2026-10-16". Only a clause that both names
+    // the action and carries the date is a review; the publication date that shares
+    // the line but not the clause must not become a review date.
+    if(!/^-\s*日期\s*[：:]/.test(line))continue;
+    for(const clause of line.split(/[；;。，,]/))if(reviewAction.test(clause)&&!notReviewed.test(clause))collect(clause);
   }
   return dates.sort().pop()||'';
 }
@@ -1820,6 +1831,10 @@ function renderFacetCounts(terms, filters) {
     : failedPaths.length
       ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
       : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。';
+  // Count merged leads inside the same filtered set the pending option describes,
+  // so a filtered view does not keep a global annotation it cannot show.
+  const pendingBase=discoveryReady?filterEntries(entries,terms,{...filters,kind:''}):[];
+  const resolvedPending=pendingBase.filter(item=>item.kind==='pending'&&item.resolved).length;
   for(const key of ['scenario','kind','difficulty','tool','category','proof']){
     const select=$(key);
     if(!select) continue;
@@ -1836,7 +1851,11 @@ function renderFacetCounts(terms, filters) {
       option.value=option.value;
       if(!option.dataset.label)option.dataset.label=option.textContent;
       option.dataset.count=discoveryReady ? String(counts[index]) : '';
-      option.textContent=(discoveryReady ? counts[index]+' · ' : '')+option.dataset.label;
+      // A merged lead stays selectable but is not counted as an open question in
+      // the statistics card, so the option says so instead of disagreeing with it.
+      const mergedNote=key==='kind'&&option.value==='pending'&&resolvedPending&&counts[index]>=resolvedPending
+        ? `（含 ${resolvedPending} 筆已併入，統計不計）` : '';
+      option.textContent=(discoveryReady ? counts[index]+' · ' : '')+option.dataset.label+mergedNote;
     });
     if(discoveryReady && ['tool','category'].includes(key)) groupFacetOptions(select,counts);
   }
@@ -2443,7 +2462,9 @@ function render(updateURL=true, preserveShare=false) {
   $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),searchTerms,0,currentFiltered.length));
   updateResultBatch();
   // Sorting is a reading preference; keep the current discovery deck intact.
-  syncDiscovery(rankEntries(matches,q));
+  // The deck and the facet counts must describe the same condition set the
+  // results list is showing, so an expanded sentence query uses its terms too.
+  syncDiscovery(rankEntries(shownMatches,searchTerms));
   $('empty').hidden = !!currentFiltered.length || !discoveryReady;
   const displayQ = abbreviatedQuery($('query').value);
   $('empty').querySelector('h3').textContent=failedPaths.length
@@ -2451,7 +2472,7 @@ function render(updateURL=true, preserveShare=false) {
     :(displayQ?`目前沒有符合「${displayQ}」的案例`:'目前沒有符合的案例');
   showSearchSplitNote(possibleSplit, splitSuppressed);
   renderSearchFeedback(q, filters);
-  renderFacetCounts(q, filters);
+  renderFacetCounts(searchTerms, filters);
   updatePartialLoad();
   const skipNote = failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入）` : '';
   $('results-count').textContent = discoveryReady ? `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}` : initialLoading ? '正在讀取案例，完成後會套用目前條件…' : '載入未完成';
@@ -3150,8 +3171,15 @@ function syncDiscovery(filtered){
   if(pool.length)drawNext();
   else{
     const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
-    $('drawn-case').replaceChildren(el('p','draw-placeholder',`${diffText}目前沒有可抽的案例卡。抽卡也受下方搜尋與篩選影響；試試修改搜尋字詞或調整篩選。`));
-    $('draw-status').textContent=($('scenario').value||'全部情境')+($('difficulty')?.value?' · '+$('difficulty').value:'')+' 目前沒有可抽的案例卡。';
+    // Results that are all evidence notes, templates or open leads are readable
+    // but not drawable; saying "no case cards" without the reason reads as an
+    // empty search next to a non-empty result list.
+    $('drawn-case').replaceChildren(el('p','draw-placeholder',filtered.length
+      ? `符合的 ${filtered.length} 筆沒有可抽卡的用法靈感（經驗與踩坑、模板或待查想法不列入抽卡）；可在下方結果直接閱讀。`
+      : `${diffText}目前沒有可抽的案例卡。抽卡也受下方搜尋與篩選影響；試試修改搜尋字詞或調整篩選。`));
+    $('draw-status').textContent=filtered.length
+      ? `${$('scenario').value||'全部情境'}：符合的 ${filtered.length} 筆沒有可抽卡的用法靈感。`
+      : ($('scenario').value||'全部情境')+($('difficulty')?.value?' · '+$('difficulty').value:'')+' 目前沒有可抽的案例卡。';
     $('draw-case').textContent='沒有可抽的案例';
   }
 }

@@ -72,6 +72,7 @@ jobs:
           VERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/mobile-problem-tags-browser.cjs
           ROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/compound-split-browser.cjs
           ROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/sentence-fallback-browser.cjs
+          ROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/search-expansion-consistency-browser.cjs
       - name: Build actual Pages release for published verification
         uses: actions/jekyll-build-pages@v1
         with:
@@ -95,7 +96,14 @@ jobs:
         id: published-version
         env:
           PUBLISHED_BUILD: ${{ runner.temp }}/website-published
+          # The only trustworthy description of what this push published.
+          PUSH_BASE_SHA: ${{ github.event.before }}
         run: node tests/published-version.cjs
+      - name: Fail when the published site cannot be verified
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.published-version.outputs.verified != 'true' }}
+        run: |
+          echo "::error::The published site was not verified against $GITHUB_SHA; a green job here would claim a check that never ran."
+          exit 1
       - name: Verify the published GitHub Pages site
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.published-version.outputs.verified == 'true' }}
         env:

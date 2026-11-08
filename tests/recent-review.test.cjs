@@ -12,6 +12,10 @@ test('review date uses explicit lead verification fields, takes latest valid dat
  for(const label of ['查證日期','查閱日期','核對日期','研究核對日','查證','首次收錄／查證','首次收錄／最近查證'])assert.equal(reviewDate('# 案例\n- '+label+'：2026-10-19（台灣時間）'),'2026-10-19');
  for(const text of ['- 發布日期：2026-10-20','- 日期：2026-10-20','- 核心目標：查證日期：2026-10-20','- 查證日期：2026-02-30','- 查證日期：2026-13-01','## 來源\n- 查證日期：2026-10-20'])assert.equal(reviewDate('# 案例\n'+text),'');
  assert.equal(reviewDate('# 案例\n- 查證日期：2024-02-29'),'2024-02-29');
+ // Older leads record the review inside a dated line; the same line must name it.
+ assert.equal(reviewDate('# 案例\n- 日期：實機紀錄2026-10-16；原貼文時間未取得。查閱2026-10-16 UTC。'),'2026-10-16');
+ assert.equal(reviewDate('# 案例\n- 日期：可核實作紀錄2026-09-26至10-11；查證2026-10-16 UTC'),'2026-10-16');
+ for(const text of ['- 日期：發布2026-10-20','- 日期：2026-10-20','- 日期：原文2026-08-23；作者自記'])assert.equal(reviewDate('# 案例\n'+text),'');
 });
 test('recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries',()=>{
  const {orderEntries}=api();
@@ -36,7 +40,7 @@ test('review sorting survives shared search URLs and is search arrival, without 
 });
 test('real records preserve paired dates and leave undocumented review dates unknown',()=>{
  const {metadata}=api();
- for(const [id,expected] of [['028','2026-10-19'],['074','2026-10-16'],['082','2026-10-19'],['233','2026-10-17'],['239','']]){
+ for(const [id,expected] of [['028','2026-10-19'],['074','2026-10-16'],['082','2026-10-19'],['233','2026-10-17'],['239','2026-10-16']]){
   const file=fs.readdirSync(path.join(__dirname,'../cases')).find(f=>f.startsWith(id+'-'));
   const markdown=fs.readFileSync(path.join(__dirname,'../cases',file),'utf8');
   const item=metadata(markdown,'cases/'+file,'case');

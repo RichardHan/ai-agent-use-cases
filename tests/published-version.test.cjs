@@ -122,37 +122,96 @@ test('publication cannot pass while a static page has stale language or a stale 
 
 test('non-main content verification does not demand a branch SHA from Pages',async t=>{
  const {options,respond}=publicationFixture(t);
- const result=await waitForPublishedVersion({...options,sha:'unpublished-branch',expectedSourceRevision:null,fetchAsset:respond});
+ const result=await waitForPublishedVersion({...options,sha:'unpublished-branch',expectedSourceRevision:null,isDescendant:()=>true,fetchAsset:respond});
  assert.equal(result.status,'matched');
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.supersededBy,'current');
 });
 
-test('already superseded publication skips without reading builds or fetching Pages',async()=>{
- assert.deepEqual(await waitForPublishedVersion({
-  base:'https://example.test/project/',built:'nonexistent-publication-build',isCurrent:()=>false,
-  fetchAsset:async()=>assert.fail('superseded runs must not fetch')
- }),{status:'superseded'});
-});
-
-test('supersession during polling or while matching returns no verified corpus',async t=>{
- for(const matching of [false,true]){
-  const {options,respond}=publicationFixture(t);
-  let current=true;
-  const result=await waitForPublishedVersion({
-   ...options,isCurrent:()=>current,
-   fetchAsset:async url=>{
-    if(matching){current=false;return respond(url);}
-    return {ok:false,status:503};
-   },
-   sleep:async()=>{current=false;}
-  });
-  assert.deepEqual(result,{status:'superseded'});
+// A docs-only commit moves main tip minutes after every merge, so the live build is
+// normally newer than the pushed SHA. That used to skip the gate entirely; it must
+// instead prove the newer build descends from this push and carries its bytes.
+function supersededFixture(t,{markdown='original',changedPath='cases/a.md',deleted=false}={}){
+ const {options,published,respond}=publicationFixture(t);
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'published-changed-'));
+ t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const remote=build('published',markdown);
+ remote.catalog.sourceRevision=remote.corpus.sourceRevision='newer';
+ if(deleted)remote.corpus.sources=remote.corpus.sources.filter(source=>source.path!==changedPath);
+ published['catalog.json']=JSON.stringify(remote.catalog);
+ published['corpus.json']=JSON.stringify(remote.corpus);
+ if(!deleted){
+  fs.mkdirSync(path.dirname(path.join(root,changedPath)),{recursive:true});
+  fs.writeFileSync(path.join(root,changedPath),'original');
  }
+ const changedPaths=[{status:deleted?'D':'M',path:changedPath}];
+ let clock=0;
+ return {
+  run:overrides=>waitForPublishedVersion({
+   ...options,changedPaths,root,publishedSourceRevision:'newer',
+   fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;},...overrides
+  }),
+  clock:()=>clock
+ };
+}
+
+test('a newer published build must carry the sources this push published',async t=>{
+ const {run}=supersededFixture(t);
+ const result=await run({isDescendant:(ancestor,descendant)=>{
+  assert.equal(ancestor,'current');assert.equal(descendant,'newer');return true;
+ }});
+ assert.equal(result.status,'matched');
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.supersededBy,'newer');
+ assert.equal(result.changedVerified,1);
 });
 
-test('unverifiable freshness is an error, not a successful skip',async()=>{
- await assert.rejects(waitForPublishedVersion({
-  base:'https://example.test/project/',isCurrent:()=>{throw Error('Cannot confirm the main tip');}
- }),/Cannot confirm the main tip/);
+test('a newer build that lost this push source bytes never verifies',async t=>{
+ const {run,clock}=supersededFixture(t,{markdown:'published without our fix'});
+ await assert.rejects(run({isDescendant:()=>true}),error=>{
+  assert.match(error.message,/Published assets do not match checkout/);
+  assert.match(error.cause.message,/Published source differs from this push: cases\/a\.md/);
+  return true;
+ });
+ assert.equal(clock(),PUBLICATION_TIMEOUT_MS);
+});
+
+test('a published build that does not descend from this push is rejected',async t=>{
+ const {run}=supersededFixture(t);
+ await assert.rejects(run({isDescendant:()=>{throw Error('Published revision newer does not contain this push current');}}),error=>{
+  assert.match(error.cause.message,/does not contain this push/);
+  return true;
+ });
+});
+
+test('a live build without a source revision is never accepted',async t=>{
+ const {options,published,respond}=publicationFixture(t);
+ for(const name of ['catalog.json','corpus.json']){
+  const value=JSON.parse(published[name]);
+  value.sourceRevision='';
+  published[name]=JSON.stringify(value);
+ }
+ let clock=0;
+ await assert.rejects(waitForPublishedVersion({...options,changedPaths:[],isDescendant:()=>true,fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
+  assert.match(error.cause.message,/has no source revision/i);
+  return true;
+ });
+});
+
+test('a deleted source is verified by its absence from the published corpus',async t=>{
+ const {run}=supersededFixture(t,{deleted:true});
+ const result=await run({isDescendant:()=>true});
+ assert.equal(result.status,'matched');
+ assert.equal(result.changedVerified,1);
+});
+
+test('the gate exports verified only after the published bytes were actually compared',t=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'published-gate-'));
+ t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
+ const source=fs.readFileSync(path.join(__dirname,'published-version.cjs'),'utf8');
+ assert.doesNotMatch(source,/'SKIP_PUBLISHED_BROWSER_CHECK superseded main commit'/,'a superseded build must not end as a green skip');
+ assert.match(source,/reportWorkflowResult\(true\)/);
+ assert.match(source,/reportWorkflowResult\(false\);\n const base/,'the gate starts from verified=false');
 });
 
 test('facet workflow reserves publication time and gates every published consumer on verification',()=>{

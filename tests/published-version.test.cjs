@@ -271,6 +271,17 @@ test('a deleted runtime asset must be gone from the live site',async t=>{
  };
  const ok=await waitForPublishedVersion({...options,changeList,root,fetchAsset:gone,isDescendant:()=>true,sleep:async()=>{}});
  assert.equal(ok.mode,'superseded');
+ // A server error is not proof that the file is gone.
+ const broken=async url=>{
+  const file=url.pathname.slice('/project/'.length)||'index.html';
+  if(file==='assets/old.css')return {ok:false,status:500,body:{cancel:async()=>{}}};
+  return respond(url);
+ };
+ let brokenClock=0;
+ await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:broken,isDescendant:()=>true,now:()=>brokenClock,sleep:async ms=>{brokenClock+=ms;}}),error=>{
+  assert.match(error.cause.message,/Cannot confirm a deleted asset is gone \(HTTP 500\): assets\/old\.css/);
+  return true;
+ });
 });
 
 test('a live build without a source revision is never accepted',async t=>{

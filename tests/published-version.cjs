@@ -136,6 +136,8 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
      url.searchParams.set('publication',sha+'-'+attempt+'-removed');
      const response=await fetchAsset(url,{signal,cache});
      if(response.ok){await response.body?.cancel?.();throw Error('A deleted asset is still published: '+path);}
+     // Only an explicit "not found" proves absence; a server error proves nothing.
+     if(response.status!==404&&response.status!==410)throw Error('Cannot confirm a deleted asset is gone (HTTP '+response.status+'): '+path);
     }}));
    }
    publication={catalog:remoteBuffers.get('catalog.json').toString('utf8'),corpus:remoteBuffers.get('corpus.json').toString('utf8'),sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision,mode,supersededBy,changedVerified};

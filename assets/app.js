@@ -622,8 +622,8 @@ function reviewDate(markdown) {
   const lead=markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
   const dates=[];
   const reviewAction=/(?:查證|查閱|核對|查核)/;
-  // "尚未查證" names the same words but states the opposite.
-  const notReviewed=/(?:未經?|尚未|尚未經|待)(?:查證|查閱|核對|查核)/;
+  // "尚未查證" and "查證尚未完成" name the same words but state the opposite.
+  const notReviewed=/(?:未經?|尚未|尚未經|待)(?:查證|查閱|核對|查核)|(?:查證|查閱|核對|查核)\s*(?:日期|結果)?\s*(?:尚未|未|待|無從|不完整|未完成)/;
   const collect=(clause)=>{
     for(const date of clause.match(/\b20\d{2}-\d{2}-\d{2}\b/g)||[]){
       const parsed=new Date(date+'T00:00:00Z');

@@ -35,6 +35,7 @@ const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在�
 const PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {
   '官方自報': '官方團隊第一手發布的自述或示範，未經第三方獨立驗證。',
   '作者報告／示範': '社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證。',
+  '設計／未實跑': '作者自行設計或分享的提示詞與流程，未附執行結果；本庫未實跑，也沒有成效可核。',
   '公開資料核讀': '依公開貼文、文章或報告核讀整理，本庫未重現完整流程。',
   '模板／文件核讀': '基於開源模板、規格書或文件梳理，文件列出功能不代表已實測完成。',
   '尚待查證': '社群線索或待辦想法，證據尚不充分，請勿直接照做。'
@@ -42,6 +43,7 @@ const PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {
 const PROOF_CLAIMANTS = globalThis.PROOF_CLAIMANTS = {
   '官方自報': '官方團隊／原廠自述',
   '作者報告／示範': '社群作者／專案實踐者',
+  '設計／未實跑': '提示詞設計者（未提供執行結果）',
   '公開資料核讀': '公開文獻／第三方分析',
   '模板／文件核讀': '開源模板／規格文件',
   '尚待查證': '社群線索（尚未證實）'
@@ -49,6 +51,7 @@ const PROOF_CLAIMANTS = globalThis.PROOF_CLAIMANTS = {
 const PROOF_VERIFICATION_STATUS = globalThis.PROOF_VERIFICATION_STATUS = {
   '官方自報': '未經第三方獨立實測重現；請留意原廠展示通常在理想環境下進行。',
   '作者報告／示範': '本庫未於本機獨立重現代碼或流程；請留意作者個人環境與版本差異。',
+  '設計／未實跑': '來源沒有執行結果或操作紀錄可核；只能核對提示詞與流程設計，不能當成已驗證做法。',
   '公開資料核讀': '本庫依公開文件與貼文核讀整理，未取得端對端實跑或成效驗證。',
   '模板／文件核讀': '規格書或開源模板列出功能，不等於已經過完整實跑與邊界驗證。',
   '尚待查證': '證據尚不充分，未列成功案例；請勿在正式工作或金流中直接採用。'
@@ -56,6 +59,7 @@ const PROOF_VERIFICATION_STATUS = globalThis.PROOF_VERIFICATION_STATUS = {
 const PROOF_SAFE_ADOPTION_TIP = globalThis.PROOF_SAFE_ADOPTION_TIP = {
   '官方自報': '安全採用建議（落地三層防護）：① 建議試跑：在官方沙盒或隔離測試環境驗證相容性；② 禁止動作：嚴禁未經確認自動寫入正式生產系統或授權對外操作；③ 必經審核：對關鍵系統狀態變更與權限調整保留人工覆核。',
   '作者報告／示範': '安全採用建議（落地三層防護）：① 建議試跑：使用合成資料或做足資料去敏在受控環境小規模試跑；② 禁止動作：嚴禁未經確認自動對外寄信、扣款付款或直接寫入生產資料庫；③ 必經審核：對重要決策、金流支付、外部發布與招募判定保留人工審批。',
+  '設計／未實跑': '安全採用建議（落地三層防護）：① 建議試跑：只在隔離環境用假資料試提示詞，先確認它真的會停下來問人；② 禁止動作：不要直接接到寄信、扣款、改權限或刪除資料等動作；③ 必經審核：任何要改動正式設定的流程，都由人工逐項核准與回滾演練。',
   '公開資料核讀': '安全採用建議（落地三層防護）：① 建議試跑：先查閱原始出處與最新規格，以草稿或唯讀模式驗證；② 禁止動作：切勿依賴靜態或歷史筆記直接執行未驗證的系統寫入或付款；③ 必經審核：關鍵商務依據與技術版本需由專人核對原始出處後放行。',
   '模板／文件核讀': '安全採用建議（落地三層防護）：① 建議試跑：以小規模非敏感資料驗證提示詞與模型輸出穩定度；② 禁止動作：嚴禁直接把通用模板串接外部寄信、扣款或未經審核的發布流程；③ 必經審核：產出成果必須經人工審批校對後方可採用。',
   '尚待查證': '安全採用建議（落地三層防護）：① 建議試跑：僅供概念構想參考，限於本機離線與虛擬假資料探討；② 禁止動作：切勿用於任何正式環境、金流交易、個資處理或對外自動化；③ 必經審核：未完成獨立查證前禁止進入任何實務評估或部署。'
@@ -708,8 +712,13 @@ function metadata(markdown, path, kind, suffix='') {
   }
   const tags = rawTags ? rawTags.split(/[、,，\s/]+/).map(t=>t.trim()).filter(Boolean) : [];
   const proofLine = clean(lead.match(/^-\s*(?:來源證據|證據狀態|證據等級|證據)\s*[：:]\s*(.+)$/m)?.[1] || '');
-  const mergedInto=kind==='case' ? (heading.match(/已合併\s*(UC-\d{3})/)?.[1] || proofLine.match(/合併\s*(UC-\d{3})/)?.[1] || null) : null;
-  const proof = kind === 'pending' || /^\s*(?:unverified|待驗證|待定|尚待查證)/i.test(proofLine) ? '尚待查證' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /^官方.*(?:署名作者使用陳述|員工自報|產品團隊第一手使用自述|自報內部實作|首發用途展示)/.test(proofLine) ? '官方自報' : /\bauthor-(?:demo|self-report)\b/i.test(proofLine) ? '作者報告／示範' : /官方.*(?:展示|示例|範例|發布|自報|第一手.*自述|署名作者使用陳述)|official/i.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
+  const statusLine = clean(lead.match(/^-\s*狀態\s*[：:]\s*(.+)$/m)?.[1] || '');
+  // A lead the source file marks as handled is not an open question any more.
+  // Require the dated status line ("2026-10-17 已處理") so that prose such as
+  // "未取得…已完成操作流程" is not mistaken for a resolution.
+  const resolved = kind === 'pending' && /^\d{4}-\d{2}-\d{2}[^。；]{0,10}已(?:處理|解決|完成)/.test(statusLine);
+  const mergedInto=kind==='evidence' ? null : kind==='case' ? (heading.match(/已合併\s*(UC-\d{3})/)?.[1] || proofLine.match(/合併\s*(UC-\d{3})/)?.[1] || null) : ((statusLine + ' ' + heading).match(/併入\s*(UC-\d{3})/)?.[1] || null);
+  const proof = kind === 'pending' || /^\s*(?:unverified|待驗證|待定|尚待查證)/i.test(proofLine) ? '尚待查證' : /^\s*`?designed`?/i.test(proofLine) ? '設計／未實跑' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /^官方.*(?:署名作者使用陳述|員工自報|產品團隊第一手使用自述|自報內部實作|首發用途展示)/.test(proofLine) ? '官方自報' : /\bauthor-(?:demo|self-report)\b/i.test(proofLine) ? '作者報告／示範' : /官方.*(?:展示|示例|範例|發布|自報|第一手.*自述|署名作者使用陳述)|official/i.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})/)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
   const copy=(globalThis.displayCopy?.[id])||displayCopy[id]||{};
@@ -722,11 +731,22 @@ function metadata(markdown, path, kind, suffix='') {
   const howText=copy.how||extracted.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。';
   const cautionText=copy.caution||extracted.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。';
   const difficulty = extractDifficulty(markdown, tools, scenario, category);
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,mergedInto,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,mergedInto,resolved,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
 }
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>metadata(part,path,'pending',String(i)));
   return [metadata(markdown,path,path.startsWith('evidence/')?'evidence':'case')];
+}
+// The counters describe the collection: a lead already merged into a case is
+// reported separately instead of inflating the open-question count.
+function catalogCounts(items) {
+  const counts={case:0,evidence:0,pending:0,resolvedPending:0};
+  for(const item of items){
+    if(item.kind==='pending'){ if(item.resolved)counts.resolvedPending++; else counts.pending++; }
+    else if(item.kind==='case')counts.case++;
+    else if(item.kind==='evidence')counts.evidence++;
+  }
+  return counts;
 }
 function el(tag,cls,text) { const node=document.createElement(tag); if(cls)node.className=cls; if(text!==undefined)node.textContent=text;return node; }
 function safeLink(target,path) {
@@ -1167,7 +1187,7 @@ function showDetail(item, trigger, updateURL=true) {
   const metaBar = el('div', 'detail-header-meta');
   metaBar.append(
     el('span', 'detail-id-badge', item.id),
-    el('span', 'detail-badge kind-' + item.kind, KIND[item.kind]),
+    el('span', 'detail-badge kind-' + item.kind, item.resolved ? '待查線索・已併入 ' + item.mergedInto : KIND[item.kind]),
     (()=>{ const b = el('span', 'detail-badge proof-badge', item.proof); b.dataset.proof = item.proof; const desc = PROOF_DEFINITIONS[item.proof] || item.proof; b.title = desc; b.setAttribute('role', 'note'); b.setAttribute('aria-label', '來源憑據：' + item.proof + '。' + desc); return b; })(),
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
@@ -1179,8 +1199,12 @@ function showDetail(item, trigger, updateURL=true) {
   title.tabIndex = -1;
   body.append(title);
   const source = el('a', 'detail-source', '查看 GitHub 原始 Markdown ↗');
-  source.replaceChildren(el('span','print-action-long','查看 GitHub 原始 Markdown（新分頁） ↗'),el('span','print-action-short','原始 Markdown（新分頁） ↗'));
-  source.setAttribute('aria-label','查看 ' + item.id + ' 的 GitHub 原始 Markdown（新分頁）');
+  // The visible text carries the case ID: an aria-label that omitted the visible
+  // wording would break WCAG 2.5.3 (label in name) at desktop width.
+  source.replaceChildren(
+    el('span','print-action-long','查看 '+item.id+' 的 GitHub 原始 Markdown（新分頁） ↗'),
+    el('span','print-action-short',item.id+' 原始 Markdown（新分頁） ↗')
+  );
   if(sourceRevisionFor(item.path))source.href=sourceMarkdownUrl(item.path);
   else { source.setAttribute('aria-disabled','true'); source.tabIndex=0; }
   source.target = '_blank';
@@ -1192,7 +1216,12 @@ function showDetail(item, trigger, updateURL=true) {
   overview.append(purpose,source);
   if (item.mergedInto) {
     const handoff=el('section','detail-merged-handoff');
-    handoff.append(el('h2','','這篇是主案例的來源補充'),el('p','',`本頁已合併至 ${item.mergedInto}，不另計一案；保留這篇的原始來源與限制。`));
+    handoff.append(
+      el('h2','', item.kind==='pending' ? '這條待查線索已併入主案例' : '這篇是主案例的來源補充'),
+      el('p','', item.kind==='pending'
+        ? `來源檔已標示處理完成並併入 ${item.mergedInto}，不另計一案；原帖與仍未核對的項目保留在本頁。`
+        : `本頁已合併至 ${item.mergedInto}，不另計一案；保留這篇的原始來源與限制。`)
+    );
     handoff.append(mergedDestination(item));
     overview.append(handoff);
   }
@@ -1282,7 +1311,9 @@ function showDetail(item, trigger, updateURL=true) {
   const printHint=el('p','print-case-hint sr-only','列印完整原始研究與來源；可在列印視窗選擇存成 PDF。');
   printHint.id='print-case-hint';
   body.append(actionRow,printHint);
-  const warningText=item.kind === 'pending' ? '待查線索：證據尚不足，不列成功或已完成案例。' : '來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。';
+  const warningText=item.kind === 'pending'
+    ? (item.resolved ? `待查線索已處理：已併入 ${item.mergedInto}，不列為獨立案例；原帖與未核對事項仍保留。` : '待查線索：證據尚不足，不列成功或已完成案例。')
+    : '來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。';
   const printMeta=el('div','reader-print-meta');
   const permanent=new URL(location.href);permanent.search='';permanent.hash='';permanent.searchParams.set('case',item.id);
   printMeta.append(el('span','','AI 用法實驗室 · 案例永久連結：'),el('a','',permanent.href));
@@ -1451,7 +1482,9 @@ function card(item, terms=[]) {
       badgesWrap.append(diffNote);
     }
   }
-  const kindBadge = el('span', 'kind', KIND[item.kind]);
+  // The card keeps data-kind="pending" (so the pending styling still applies);
+  // the resolved label replaces the misleading "還在查證" wording.
+  const kindBadge = el('span', 'kind', item.resolved ? '已併入 ' + item.mergedInto + '（不另計數）' : KIND[item.kind]);
   badgesWrap.append(kindBadge);
   top.append(topInfo, badgesWrap);
   node.append(top);
@@ -1652,6 +1685,7 @@ function resetSort() {
 
 const SOURCE_TYPES = Object.freeze({
   '作者報告／示範':'依作者的使用敘述或展示整理；實際產物、完整過程與成效仍須逐案核對。',
+  '設計／未實跑':'作者只分享提示詞或流程設計，沒有執行結果；可參考設計，不能當成已驗證做法。',
   '官方自報':'包含官方的能力說明或案例自報；適用版本、條件與實際成效請看原文。',
   '公開資料核讀':'依可讀的公開資料整理；核讀資料不等於證實成效，請查看原始來源與限制。',
   '模板／文件核讀':'依模板或文件整理可參考的做法；文件列出功能，不代表已完成實作或驗收。',
@@ -2748,7 +2782,15 @@ function mergeCorpus(current, recovered) {
     ({case:0,evidence:1,pending:2}[a.kind]-{case:0,evidence:1,pending:2}[b.kind])||a.id.localeCompare(b.id));
 }
 function refreshCorpusMetadata() {
-  for(const kind of Object.keys(KIND)) $(kind==='case'?'case-count':kind+'-count').textContent=entries.filter(e=>e.kind===kind).length;
+  const counts=catalogCounts(entries);
+  $('case-count').textContent=counts.case;
+  $('evidence-count').textContent=counts.evidence;
+  $('pending-count').textContent=counts.pending;
+  const pendingNote=$('pending-note');
+  if(pendingNote){
+    pendingNote.hidden=!counts.resolvedPending;
+    pendingNote.textContent=counts.resolvedPending?`另有 ${counts.resolvedPending} 個待查線索已處理並併入案例，不列在上述待查數；仍可搜尋或直接開啟。`:'';
+  }
   $('catalog-status').hidden=!failedPaths.length;
   $('catalog-status').textContent=failedPaths.length?'僅計已載入條目；'+failedPaths.length+' 個來源檔案未載入。':'';
   for(const [id,values] of [['tool',entries.flatMap(e=>e.tools)],['category',entries.map(e=>e.category)],['proof',entries.map(e=>e.proof)]]){

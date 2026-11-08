@@ -8,7 +8,9 @@
 
 同資料、同伺服器前後對照（Chromium）：390px hero 1,534→1,020、標籤 720→148、價值主張 1,367→853；搜尋框與第一張結果屬同一次載入樣本，390px 為 3,122→2,634 與 3,374→2,886，但隨機抽卡會使搜尋框在 2,608–2,883px 間變動，不宜當固定值。320px hero 1,794→1,072、標籤 928→148、價值主張 1,557→835、搜尋框 3,430→2,735；1440px 幾何不變。全套 **482 通過、0 失敗**（基準 480），`node --check` 通過；`mobile-problem-tags` 新回歸、`visitor-problem` 三視口三情境、`visual-redesign` 四視口、`hero-value` 三情境、`scenario-verification` 三視口、`discovery`（含載入失敗、空目錄）與 axe 0 全數通過。截圖、完整數值與方案見[本輪 QA](docs/qa/2026-11-08-mobile-problem-disclosure/README.md)。
 
-已知限制：本環境無法檢視截圖影像，視覺判斷以 DOM 幾何、axe、水平溢出與 pageerror 為準；未量測真人、低階手機或螢幕閱讀器；本站無追蹤器，無法取得「多少訪客停在 hero」。下一輪先核對正式站 `sourceRevision` 與本輪 commit，再以 390px 實走「載入→展開全部任務→搜尋晚期任務→返回」；若無回歸，評估在手機把搜尋與結果移到 1,237px 的隨機抽卡區之前。
+已知限制：本環境無法檢視截圖影像，視覺判斷以 DOM 幾何、axe、水平溢出與 pageerror 為準；未量測真人、低階手機或螢幕閱讀器；本站無追蹤器，無法取得「多少訪客停在 hero」。下一輪評估在手機把搜尋與結果移到 1,237px 的隨機抽卡區之前，先量測該區對首次訪客的實際影響。
+
+發布補記：PR [#273](https://github.com/RichardHan/ai-agent-use-cases/pull/273)（head `4e9a86b3`）全部檢查通過（`published` 依規則在 PR 上略過），squash 合併為 `486d3d0f`。`pages build and deployment`（[run 42480521763](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42480521763)）成功；正式站 `catalog.json` 的 `sourceRevision` 已為 `486d3d0f…`，`index.html`、`assets/app.js`、`assets/style.css` 與該 commit 逐 byte 相同。以 Chromium 重走正式站：390／320 預設 9 項、`aria-expanded=false`、展開 53 項、`安全防護` 回 219／509、重新載入回到收合、axe 0；1440 顯示 53 項且按鈕隱藏。`Search context QA`、`Reader QA`、`Search relevance QA` 在本輪 CI 修復後通過；同日 GitHub 事故「Increase in timeouts for some unauthenticated users」期間，`Reading flow QA`、`Partial Load QA`、`Round 23 acceptance QA` 曾因外部 popup 逾時紅燈，事故緩解後於最終 head 重跑通過，未改動其斷言。
 
 ## 2026-11-08 來源憑據標籤依頁首宣告等級，且全站只有一套定義
 

@@ -467,6 +467,35 @@ fs.mkdirSync(outDir, { recursive: true });
     assert.equal(inFacetAxe.violations.length, 0, `In-facet recovered state accessibility violations on ${vp.name}`);
     vpReport.axeChecks.push({ state: 'in_facet_recovered_state', violations: 0 });
 
+    // SCENARIO 2c: A natural question with no literal hit still offers the library
+    // term it contains, so the visitor is never stranded with only generic shortcuts.
+    console.log(`[${vp.name}] Testing Scenario 2c: Natural question recovery via contained library term...`);
+    await page.goto(origin + '?q=' + encodeURIComponent('想省錢') + '#explore', { waitUntil: 'networkidle' });
+    await page.locator('#empty').waitFor({ timeout: 10000 });
+    assert.ok(await page.locator('#empty').isVisible(), 'Natural question 想省錢 must land on the empty state');
+    const containedTerm = page.locator('#empty-suggestions [data-query-recovery="省錢"]');
+    assert.ok(await containedTerm.isVisible(), 'The contained library term 省錢 must be offered before generic shortcuts');
+    const containedLabel = await containedTerm.innerText();
+    const containedCount = Number((containedLabel.match(/搜尋 (\d+) 筆/) || [])[1]);
+    assert.ok(containedCount > 0, `Contained-term suggestion must state a positive count (got: ${containedLabel})`);
+    const firstSuggestion = await page.locator('#empty-suggestions .recovery-option').first().innerText();
+    assert.equal(firstSuggestion, containedLabel, 'Contained-term suggestion must lead the recovery list');
+    const containedShot = `${vp.name}-05d-scenario2c-contained-term.png`;
+    await page.screenshot({ path: path.join(outDir, containedShot) });
+    vpReport.screenshots.push(containedShot);
+    const containedAxe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+    assert.equal(containedAxe.violations.length, 0, `Contained-term recovery accessibility violations on ${vp.name}`);
+    vpReport.axeChecks.push({ state: 'contained_term_recovery', violations: 0 });
+
+    await containedTerm.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    assert.equal(await page.locator('#query').inputValue(), '省錢');
+    const recoveredCards = await page.locator('#results .card').count();
+    assert.ok(recoveredCards > 0 && recoveredCards <= containedCount, `Recovered deck must stay within the promised ${containedCount} results (got ${recoveredCards})`);
+    await page.goBack();
+    await page.locator('#empty').waitFor({ timeout: 10000 });
+    assert.equal(await page.locator('#query').inputValue(), '想省錢', 'Back must restore the original question');
+
     // SCENARIO 3: Deep link, reading details, proof inspection, guidance expansion, external source, return
     console.log(`[${vp.name}] Testing Scenario 3: Deep link to UC-098, inspecting evidence and guidance...`);
     await page.goto(origin + '?scenario=工作&case=UC-098#explore', { waitUntil: 'networkidle' });

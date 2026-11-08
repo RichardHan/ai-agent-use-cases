@@ -78,7 +78,8 @@
 - PR [#266](https://github.com/RichardHan/ai-agent-use-cases/pull/266)（head `97ab2b69`）15 項檢查全部通過（`published` 依規則略過）；合併前 `mergeStateStatus` 為 `CLEAN`。squash 合併為 `5f2943b5faae16f624b6d9c8d8a03cc56a6ed711`（2026-11-08T08:43:21Z）。
 - PR 上的 Website QA 執行了我新增的步驟（`Verify the updated site in Chromium: success`，日誌含 `node tests/compound-split-browser.cjs` 與 `ok 55 - tests/search-compound-split.test.cjs`）。
 - `pages build and deployment`（[run 42464127142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42464127142)）成功。正式站 `catalog.json` 的 `sourceRevision` 已是 `5f2943b5…`，`assets/app.js`、`assets/style.css`、`index.html` 與該 commit 逐 byte 相同。
-- 於正式站以 Chromium 1440／390／320 重走：`?q=客戶抱怨` → `顯示 4 / 509` 並顯示拆詞說明（前三筆 UC-039、UC-056、UC-067），水平溢出 0px；按「只找完整句子」→ `顯示 0 / 509`、按鈕變「改用拆詞結果」、既有救援顯示「原問題包含「客戶」→ 搜尋 100 筆」；`?q=客服` → `顯示 92 / 509`、說明列不出現、首筆 UC-014（與修正前相同）；`?q=員工請假` → 維持 0、不拆、顯示既有救援。三尺寸皆無頁面錯誤。
+- 主分支 Website QA（[run 42464127590](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42464127590)）自身成功，但其 live 瀏覽器步驟被標記為 `SKIP_PUBLISHED_BROWSER_CHECK superseded main commit 5f2943b5…`：等待發布期間主分支已前進到本紀錄的 `4642c7d1`，因此**該 workflow 沒有替本輪跑正式站瀏覽器檢查**。本輪改以自跑正式站三尺寸驗收（下方）與逐 byte 產物比對作為發布證據，並在最終版本 `4642c7d1`（含同一份 `assets/app.js`）上重跑一次確認。
+- 於正式站以 Chromium 1440／390／320 重走（最終 `sourceRevision` `4642c7d1`，`assets/app.js` 與 `5f2943b5` 相同）：`?q=客戶抱怨` → `顯示 4 / 509` 並顯示拆詞說明（前三筆 UC-039、UC-056、UC-067），水平溢出 0px；按「只找完整句子」→ `顯示 0 / 509`、按鈕變「改用拆詞結果」、既有救援顯示「原問題包含「客戶」→ 搜尋 100 筆」；`?q=客服` → `顯示 92 / 509`、說明列不出現、首筆 UC-014（與修正前相同）；`?q=員工請假` → 維持 0、不拆、顯示既有救援。三尺寸皆無頁面錯誤。
 
 ## 已知限制
 

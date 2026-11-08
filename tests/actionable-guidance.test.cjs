@@ -284,3 +284,41 @@ test('metadata prioritizes actionable step headings over descriptive author repo
   assert.match(meta.how, /使用合成、去識別且隔離/);
   assert.doesNotMatch(meta.how, /作者自述在私人專案中/);
 });
+
+test('metadata prioritizes safety boundary list items over generic prerequisites in limits section', () => {
+  const { context } = setupEnvironment();
+  const sampleMarkdown = `# UC-016：二手賣場買家訊息處理
+- 情境：工作
+- 標籤：客服、二手、個資
+- 網站標題：二手賣場自動回覆
+
+## 建議操作流程
+1. 設定只讀授權查看買家問題。
+
+## 所需連接、權限與限制
+- 需要平台帳號的讀取與草稿權限。送出訊息屬寫入動作。
+- 個資：地址和電話不要寫在長期記憶或範本中；未經確認嚴禁自動對外發送。
+- 法律與平台條款：代理代為交易可能違反平台規則。
+`;
+
+  const meta = context.metadata(sampleMarkdown, 'cases/016-market.md', 'case', 'UC-016');
+  assert.ok(meta.caution, 'meta.caution should be extracted');
+  assert.match(meta.caution, /個資：地址和電話不要寫在長期記憶或範本中/);
+  assert.doesNotMatch(meta.caution, /^需要平台帳號的讀取與草稿權限/);
+});
+
+test('Reviewer regressions: incidental mentions of coverage or payment speed must not falsely displace safety warnings (UC-111, UC-143)', () => {
+  const { context } = setupEnvironment();
+
+  // Finding 1: UC-111 has "作者未公開方案、用量費、處理覆蓋率" which should not displace computer environment limit
+  const uc111Markdown = fs.readFileSync('cases/111-engineering-drawing-source-traceability.md', 'utf8');
+  const uc111Meta = context.metadata(uc111Markdown, 'cases/111-engineering.md', 'case', 'UC-111');
+  assert.match(uc111Meta.caution, /原作者使用自己的開發電腦/);
+  assert.doesNotMatch(uc111Meta.caution, /處理覆蓋率/);
+
+  // Finding 2: UC-143 has "不保證找到錢或付款速度" which should not displace privacy and legal risk
+  const uc143Markdown = fs.readFileSync('cases/143-unclaimed-property-candidate-handoff.md', 'utf8');
+  const uc143Meta = context.metadata(uc143Markdown, 'cases/143-unclaimed.md', 'case', 'UC-143');
+  assert.match(uc143Meta.caution, /涉及財產及身份的真實查詢有隱私與法律風險/);
+  assert.doesNotMatch(uc143Meta.caution, /付款速度/);
+});

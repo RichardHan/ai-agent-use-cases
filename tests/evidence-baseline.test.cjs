@@ -49,6 +49,14 @@ test('a batch that states two different corpus sizes does not get to pick one', 
   }
 });
 
+test('a later correction with different punctuation still leaves the corpus unknown', () => {
+  const summary = parseSummary({
+    latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **370／1,000，尚差630**；主要案例頁420不是合格數；更正：主要案例頁 500，不是合格數。'
+  });
+  assert.equal(summary.pageBase, 0, 'the comma variant is still a second corpus claim');
+  assert.doesNotMatch(statusText(summary), /母體/, 'the earlier size must not be published');
+});
+
 test('the repository batch exposes the corpus size it was measured against', () => {
   const source = fs.readFileSync(path.join(root, 'sources/qualification-audit-2026-10-16.md'), 'utf8');
   const latestBatch = source.split(/^## /m)[1];

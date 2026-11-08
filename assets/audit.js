@@ -23,11 +23,13 @@
     if(!Number.isSafeInteger(count)||!Number.isSafeInteger(remaining)||count<0||remaining<0||count+remaining!==1000)return null;
     // The batch states how many main case pages existed when it was measured.
     // Without it, 370 reads as a ratio of today's catalogue, which it never was.
-    // Two different claims in one batch cannot both be its corpus, so neither is shown.
-    const claims=[...new Set([...text.matchAll(/主要案例頁\s*(\d+)\s*不是合格數/g)].map(match=>match[1]))];
+    // Any other numeric mention of 主要案例頁 could be a correction, so the
+    // denominator is used only when the batch mentions exactly one such number
+    // and states that it is not the qualified count.
+    const mentions=[...new Set([...text.matchAll(/主要案例頁\s*(\d+)/g)].map(match=>match[1]))];
     let pageBase=0;
-    if(claims.length===1){
-      const size=Number(claims[0]);
+    if(mentions.length===1&&/主要案例頁\s*\d+\s*不是合格數/.test(text)){
+      const size=Number(mentions[0]);
       if(Number.isSafeInteger(size)&&size>=count&&size<=100000)pageBase=size;
     }
     return {count,remaining,date:date[1],time,pageBase};

@@ -29,16 +29,16 @@
 
 ## 修改內容
 
-- `assets/audit.js`：`parseSummary()` 新增 `pageBase`（只接受唯一一個 `主要案例頁N不是合格數`、整數、`N ≥ 合格數`、`≤ 100000`；同一批次出現兩個不同母體時視為未知，不取第一個）；抽出 `statusText(summary)` 並輸出。狀態句新增「該批次以當時 420 個主要案例頁為母體；」，其餘「快照／非目前累計」字句不變。
+- `assets/audit.js`：`parseSummary()` 新增 `pageBase`（整批只能出現一個 `主要案例頁N`，且其中要有 `不是合格數` 的宣告；整數、`N ≥ 合格數`、`≤ 100000`；任何第二個數字——包括標點不同的「更正」——都視為未知）；抽出 `statusText(summary)` 並輸出。狀態句新增「該批次以當時 420 個主要案例頁為母體；」，其餘「快照／非目前累計」字句不變。
 - `assets/app.js`：新增 `fileReviewDate()`（讀 pending 檔頭 `查證日期`，取有效日期最大值）與 `resolvedPendingNote()`；`parseFile('sources/pending.md')` 為每條目附上 `fileReviewed`。卡片日期列與詳情徽章在無 `reviewedDate` 但有 `fileReviewed` 時顯示「本條未載核對日／來源檔查證 2026-10-17」，並在來源版本句後補「檔案層級紀錄，不代表本條逐項核對」。已併入條目的證據區最前面插入結束說明。
 - `assets/reader.css`：`.proof-note-closure` 樣式（整行、13px、可換行）。
 - `README.md`：補兩句訪客可見行為（批次母體、檔案層級查證日）。
-- `tests/evidence-baseline.test.cjs`（新增，6 個測試）：批次母體揭露、拒絕不存在的母體、同一批次兩個不同母體不得擇一、repo 目前批次的母體與來源檔一致、待查條目帶檔案日（硬釘 2026-10-17）但不冒用為 `reviewedDate`、已併入條目有結束說明（含無目的地時不宣稱）。
+- `tests/evidence-baseline.test.cjs`（新增，7 個測試）：批次母體揭露、拒絕不存在的母體、同一批次兩個不同母體不得擇一、連標點不同的「更正」也不得沿用前一個母體、repo 目前批次的母體與來源檔一致、待查條目帶檔案日（硬釘 2026-10-17）但不冒用為 `reviewedDate`、已併入條目有結束說明（含無目的地時不宣稱）。
 - `tests/trust-summary.test.cjs`：`parseSummary` 形狀新增 `pageBase: 0`。
 
 ## 驗證
 
-先紅後綠（可重現）：把新測試複製到基準 commit 的隔離 checkout 後執行，6 個測試全部失敗——`git worktree add /tmp/aiuc-baseline-3ace15a7 3ace15a7 && cp tests/evidence-baseline.test.cjs /tmp/aiuc-baseline-3ace15a7/tests/ && cd /tmp/aiuc-baseline-3ace15a7 && node --test tests/evidence-baseline.test.cjs` → `pass 0 / fail 6`（`pageBase` 不存在、`fileReviewed` 不存在、`resolvedPendingNote` 未定義）。修正後 `node --test tests/evidence-baseline.test.cjs tests/trust-summary.test.cjs tests/pending-resolution.test.cjs tests/evidence-status-consistency.test.cjs` **21 通過、0 失敗**；全庫 `node --test tests/*.test.cjs` **506 通過、0 失敗**（基準 500，新增 6）。
+先紅後綠（可重現）：把新測試複製到基準 commit 的隔離 checkout 後執行，6 個測試全部失敗——`git worktree add /tmp/aiuc-baseline-3ace15a7 3ace15a7 && cp tests/evidence-baseline.test.cjs /tmp/aiuc-baseline-3ace15a7/tests/ && cd /tmp/aiuc-baseline-3ace15a7 && node --test tests/evidence-baseline.test.cjs` → `pass 0 / fail 6`（`pageBase` 不存在、`fileReviewed` 不存在、`resolvedPendingNote` 未定義）。修正後 `node --test tests/evidence-baseline.test.cjs tests/trust-summary.test.cjs tests/pending-resolution.test.cjs tests/evidence-status-consistency.test.cjs` **21 通過、0 失敗**；全庫 `node --test tests/*.test.cjs` **507 通過、0 失敗**（基準 500，新增 7）。
 
 本機預覽（`scripts/preview.py` → `http://127.0.0.1:8931/`，同 `3ace15a7` 資料）與正式站同條件量測：
 
@@ -68,7 +68,7 @@
 
 ## 獨立審查
 
-獨立 reviewer（不同 context，只讀）以 `git show 6b757466` 檢視並自行執行測試：全庫 **505 通過**、聚焦 20 通過，結論為「approve with fixes」。唯一 P2：`parseSummary` 只取第一個母體宣告，若同一批次同時寫兩種頁數會照第一個宣稱——已改為「必須唯一」，並補測試（同一批次 420＋500 → `pageBase 0`、畫面不出現母體句）；其餘（`fileReviewed` 不進 `reviewedDate`／搜尋／facet／排序、已併入說明的觸發條件、print 隱藏、static hosting）審查無發現。修正後重跑全庫 **506 通過**。
+獨立 reviewer（不同 context，只讀）以 `git show 6b757466` 檢視並自行執行測試：全庫 **505 通過**、聚焦 20 通過，結論為「approve with fixes」。P2：`parseSummary` 只取第一個母體宣告，同一批次寫兩種頁數時會照第一個宣稱。第一版改為「兩個相同 regex 宣告才算衝突」，複審再指出 `更正：主要案例頁 500，不是合格數` 這種標點變體仍會被忽略；最終改為 fail-closed：整批只能存在一個 `主要案例頁N` 數字，否則 `pageBase 0`、畫面不出現母體句，並補兩個測試。其餘（`fileReviewed` 不進 `reviewedDate`／搜尋／facet／排序、已併入說明的觸發條件、print 隱藏、static hosting）審查無發現。最終全庫 **507 通過、0 失敗**。
 
 ## 發布後
 

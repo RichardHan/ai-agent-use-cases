@@ -33,7 +33,7 @@
 
 ## 資料與維護
 
-- [完整案例索引](INDEX.md)
+- [完整案例索引](INDEX.md)：先列全部案例表，開頭標示筆數、最新「頁首核對」日與本頁校對日；歷次研究批次紀錄集中在頁尾。
 - [來源與研究紀錄](sources/README.md) · [待查清單](sources/pending.md)
 - [合格案例計數與排除理由](sources/qualification-audit-2026-10-16.md)：合格案例數與網站總條目數分開計算。
 - [案例範本](templates/case.md) · [歷史批次與維護規則](README-archive-2026-10-18.md)

@@ -1,6 +1,6 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-const context=vm.createContext({URL,URLSearchParams,AbortController,setTimeout,clearTimeout,console:{warn(){}},Discovery:require('../assets/discovery.js')});
+const context=vm.createContext({URL,URLSearchParams,AbortController,setTimeout,clearTimeout,Response,Blob,console:{warn(){}},Discovery:require('../assets/discovery.js')});
 vm.runInContext(fs.readFileSync('assets/app.js','utf8').split('/* Browser event bindings. */')[0]+'\nthis.api={loadInitialCorpus:typeof loadInitialCorpus==="function"?loadInitialCorpus:loadCorpus};',context);
 const load=context.api.loadInitialCorpus;
 const paths=['cases/001-one.md','cases/002-two.md','sources/pending.md'];
@@ -163,4 +163,104 @@ test('simultaneous shared and fallback sources never report more successes than 
  await new Promise(resolve=>setImmediate(resolve));release();
  const result=await pending;assert.equal(result.entries.length,2);assert.equal(result.failed.length,0);
  let last=0;for(const p of progress){assert(p.succeeded<=p.completed,JSON.stringify(p));assert(p.completed>=last);assert(p.completed<=p.total);last=p.completed;}
+});
+
+// Streaming bundles let the loader judge a live download by its measured rate,
+// so a slow-but-finishing bundle is kept and a hopeless one yields early.
+const encoder=new TextEncoder();
+const chunksOf=(value,count)=>{
+ const bytes=encoder.encode(JSON.stringify(value)),size=Math.ceil(bytes.length/count),out=[];
+ for(let i=0;i<bytes.length;i+=size)out.push(bytes.slice(i,i+size));
+ return out;
+};
+const streamResponse=(chunks,{delay=10,total,hangAfter=Infinity,signal}={})=>({
+ ok:true,
+ headers:{get:name=>name==='content-length'?String(total??chunks.reduce((n,c)=>n+c.byteLength,0)):null},
+ body:{getReader(){let index=0;return {read:async()=>{
+  if(signal?.aborted)throw Error('abort');
+  if(index>=chunks.length)return {done:true};
+  if(index>=hangAfter)return new Promise((resolve,reject)=>{signal?.addEventListener('abort',()=>reject(Error('abort')),{once:true});});
+  await new Promise(resolve=>setTimeout(resolve,delay));
+  return {done:false,value:chunks[index++]};
+ }}}},
+ clone(){return this;}
+});
+
+test('a slow bundle the measured rate can finish outlives the first-response guard',async()=>{
+ const calls=[],chunks=chunksOf(json(),8),started=Date.now();
+ const result=await load(paths,options({budget:3000,bundleTimeout:100,fetch:async(path,opt)=>{calls.push(path);return path==='corpus.json'?streamResponse(chunks,{delay:20,signal:opt.signal}):response(texts[paths.indexOf(path)]);}}));
+ assert.deepEqual(calls,['corpus.json'],'a finishing bundle must not fall back to per-source reads');
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+ assert(Date.now()-started>140,'the 100ms guard must not cut a bundle that is still arriving');
+});
+
+test('a bundle whose measured rate cannot finish before the deadline yields early',async()=>{
+ const calls=[],chunks=chunksOf(json(),8),started=Date.now();
+ const result=await load(paths,options({budget:900,bundleTimeout:5000,fetch:async(path,opt)=>{calls.push(path);return path==='corpus.json'?streamResponse(chunks,{delay:200,signal:opt.signal}):response(texts[paths.indexOf(path)]);}}));
+ const elapsed=Date.now()-started;
+ assert(elapsed<800,'hopeless bundle must not consume the whole budget, elapsed='+elapsed);
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+ assert(calls.includes(paths[0]),'per-source reads must start with the remaining budget');
+});
+
+test('a bundle that stops arriving is abandoned after the stall window',async()=>{
+ const calls=[],chunks=chunksOf(json(),8),started=Date.now();
+ const result=await load(paths,options({budget:4000,bundleStall:150,fetch:async(path,opt)=>{calls.push(path);return path==='corpus.json'?streamResponse(chunks,{delay:10,hangAfter:1,signal:opt.signal}):response(texts[paths.indexOf(path)]);}}));
+ const elapsed=Date.now()-started;
+ assert(elapsed<1200,'stalled bundle must be abandoned near its stall window, elapsed='+elapsed);
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+});
+
+test('a chinese bundle split across chunks decodes without corrupting text',async()=>{
+ const shared=json(paths.map((path,i)=>({path,markdown:'中文案例內容測試'.repeat(40)+i})));
+ const calls=[];
+ const result=await load(paths,{bundleRevision:'r1',parseFile:parse,budget:3000,bundleTimeout:200,fetch:async(path,opt)=>{calls.push(path);return path==='corpus.json'?streamResponse(chunksOf(shared,13),{delay:5,signal:opt.signal}):response('fallback');}});
+ assert.deepEqual(calls,['corpus.json']);
+ assert(result.entries[0].text.startsWith('中文案例內容測試'),result.entries[0].text.slice(0,40));
+});
+
+test('a bundle without a declared length keeps the original five-second guard',async()=>{
+ const calls=[],chunks=chunksOf(json(),6),started=Date.now();
+ const result=await load(paths,options({budget:8000,bundleTimeout:5000,fetch:async(path,opt)=>{calls.push(path);return path==='corpus.json'?streamResponse(chunks,{delay:1500,total:0,signal:opt.signal}):response(texts[paths.indexOf(path)]);}}));
+ const elapsed=Date.now()-started;
+ assert(elapsed>=4500&&elapsed<7000,'unknown size must fall back on the five-second guard, elapsed='+elapsed);
+ assert(calls.includes(paths[0]),'per-source reads must start');
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+});
+
+test('a slow-start first chunk alone must not abandon the bundle',async()=>{
+ // A first chunk delayed past the guard carries TCP slow start, not the transfer
+ // rate; comparing against a 60 ms sample would drop a bundle that finishes.
+ const shared=json(paths.map((path,i)=>({path,markdown:'內容'.repeat(600)+i})));
+ const chunks=chunksOf(shared,30),calls=[];
+ const slowStart=(chunkList,{firstDelay=60}={})=>({
+  ok:true,
+  headers:{get:name=>name==='content-length'?String(chunkList.reduce((n,c)=>n+c.byteLength,0)):null},
+  body:{getReader(){let index=0;return {read:async()=>{
+   if(index>=chunkList.length)return {done:true};
+   const first=index===0;
+   await new Promise(resolve=>setTimeout(resolve,first?firstDelay:5));
+   return {done:false,value:chunkList[index++]};
+  }}}},
+  clone(){return this;}
+ });
+ const result=await load(paths,{bundleRevision:'r1',parseFile:parse,budget:3000,bundleTimeout:5000,encodingRatio:1,fetch:async(path,opt)=>{calls.push(path);return path==='corpus.json'?slowStart(chunks,{firstDelay:60}):response('fallback');}});
+ assert.deepEqual(calls,['corpus.json'],'a finishing bundle must survive its first slow chunk');
+ assert.equal(result.entries.length,3);
+});
+
+test('compressed content-length is compared with decoded bytes before yielding',async()=>{
+ // Browsers hand fetch() the decoded body while content-length counts compressed
+ // bytes. Without translating that ratio the projection looks several times
+ // faster than the transfer and a hopeless bundle keeps the whole window.
+ const calls=[],chunks=chunksOf(json(),20),started=Date.now();
+ const decodedBytes=chunks.reduce((n,c)=>n+c.byteLength,0),encodedBytes=Math.round(decodedBytes/4);
+ const result=await load(paths,options({budget:3000,encodingRatio:4,bundleTimeout:5000,fetch:async(path,opt)=>{
+  calls.push(path);
+  return path==='corpus.json'?streamResponse(chunks,{delay:250,total:encodedBytes,signal:opt.signal}):response(texts[paths.indexOf(path)]);
+ }}));
+ const elapsed=Date.now()-started;
+ assert(elapsed<900,'decoded/encoded mismatch must not delay the switch, elapsed='+elapsed);
+ assert(calls.includes(paths[0]),'per-source reads must start before the deadline');
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
 });

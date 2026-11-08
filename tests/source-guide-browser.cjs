@@ -51,7 +51,7 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   const scan=async state=>{const a=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();row.audits.push({state,violations:a.violations.map(v=>v.id)});save();assert.deepEqual(a.violations,[]);};
   await scan('guide-open');
   await page.keyboard.press('Enter');assert(!(await page.locator('#source-guide').evaluate(e=>e.open)));
-  assert(await page.evaluate(()=>entries.every(item=>Object.hasOwn(SOURCE_TYPES,item.proof))),'every source label in the real corpus has a definition');
+  assert(await page.evaluate(()=>entries.every(item=>Object.hasOwn(PROOF_DEFINITIONS,item.proof))),'every source label in the real corpus has a definition');
   // Removing a source condition and clearing facets both restore the default explanation.
   await page.locator('#active-filters [data-remove-filter="proof"]').click();assert.match(await page.locator('#source-type-note').textContent(),/不是.*驗證/);
   await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#proof').selectOption('作者報告／示範');
@@ -73,7 +73,7 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   // 2b. The designed-only label keeps its own explanation and readable cards.
   await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#proof').selectOption('設計／未實跑');
   assert((await page.locator('#results .card').count())>0,'the designed-only filter lists its cases');
-  assert.match(await page.locator('#source-type-note').textContent(),/設計／未實跑.*沒有執行結果/);
+  assert.match(await page.locator('#source-type-note').textContent(),/設計／未實跑.*未附執行結果.*沒有成效可核/,'the designed-only note must state there is no run record and no measured outcome');
   await scan('designed-only');
   // 3. Shared combined conditions and a long case survive reload and browser Back.
   await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot&proof='+encodeURIComponent('作者報告／示範')+'&case=UC-001');await ready();await page.locator('#detail[open]').waitFor();await page.reload();await ready();await page.locator('#detail[open]').waitFor();await page.locator('#close-detail').click();

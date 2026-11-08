@@ -81,10 +81,16 @@ test('author case is not relabelled as official by supporting documentation', ()
   assert.equal(context.api.filterEntries([item], [], {proof:'作者報告／示範'}).length, 1);
   assert.equal(context.api.filterEntries([item], [], {proof:'官方自報'}).length, 0);
   for (const file of ['352-daily-flomo-memo-insight-push-rotating-template.md', '407-stack-aware-security-watch-exploited-vulns-certs-breaches.md']) {
-    const template = context.api.metadata(fs.readFileSync(path.join(root, 'cases', file), 'utf8'), 'cases/' + file, 'case');
-    assert.equal(template.proof, '模板／文件核讀');
-    assert.equal(require('../assets/discovery.js').discoveryPool([template]).length, 0);
+    const authorRun = context.api.metadata(fs.readFileSync(path.join(root, 'cases', file), 'utf8'), 'cases/' + file, 'case');
+    // Both lines declare `author-demo` and only mention a shared template page,
+    // so they are author execution records rather than template material.
+    assert.equal(authorRun.proof, '作者報告／示範');
+    assert.equal(require('../assets/discovery.js').discoveryPool([authorRun]).length, 1);
   }
+  // Template-only and pending material still stays out of the draw pool.
+  const { discoveryPool } = require('../assets/discovery.js');
+  assert.equal(discoveryPool([{ ...item, proof: '模板／文件核讀' }]).length, 0);
+  assert.equal(discoveryPool([{ ...item, proof: '尚待查證' }]).length, 0);
 });
 
 test('unverified cases in cases/ are classified as 尚待查證 and discoverable under 尚待查證', () => {

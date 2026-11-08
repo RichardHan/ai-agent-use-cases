@@ -12,6 +12,10 @@
 
 過程中 `Search context QA` 曾因 github.com 對本 repo blob 頁回 504 而紅燈（`remote source must be reachable or rate-limited: 504`），同一時間基準 `eb155649` 的本機預覽重跑同樣失敗，判定為外部服務而非本分支回歸；稍後重跑通過。下一輪最值得處理那兩句卡在同義詞組廣度的查詢：先逐筆確認「程式碼」「測試」同義詞組實際命中的案例是否真有關係，再決定收斂同義詞組（會同時影響一般關鍵字搜尋）或改由標籤詞優先；也值得把「公開站 blob 讀取遇到 GitHub 5xx」明確歸類為外部不可驗證，而不是讓整個 workflow 紅燈。
 
+發布補記（案例編號守門）：獨立複審指出原本自寫的編號樣式仍漏掉 `UC_012`、`UC:012`、`UC.012` 與多個空白，且會把 `C# 12` 這類版本號誤判；改為直接讀 `tokenize()` 的 token（`uc-<n>`／`p-<n>`）判斷，所有分隔符一次涵蓋。PR [#269](https://github.com/RichardHan/ai-agent-use-cases/pull/269)（head `338f7d40`）所有 PR 檢查通過、`mergeStateStatus` 為 `CLEAN`，squash 合併為 `89852a98680535114aedf50154d7254721f72e7f`；[Pages run 42471945981](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42471945981) 成功，正式站 `catalog.json`／`corpus.json` 的 `sourceRevision` 為 `89852a98`，五個核心資產與該 commit 逐 byte 相同。正式站 390／1440 實測：`UC_012 請幫我檢查合約`、`UC:012 …` 皆為 0 筆且不顯示說明（保留編號）、`C# 12 想找到合約審查的方法` 回到 20 筆並顯示說明、整句合約問題 36 筆、帳單問句 4 筆，page error 皆 0。
+
+CI 觀察（未在本輪修）：`Source guide QA` 對同一 commit 同時被 push（`fix/**`）與 pull_request 觸發，兩個 run（42471119305／42471122982）內容相同、皆成功，屬重複觸發而非失敗；若下一輪處理 CI，先量測重複 run 的比例再調整觸發條件。下一輪的具體線索已量測：`程式碼` 的同義詞組展開為 程式碼／代碼／程式／code／codes／coding，命中 **447／509** 且標題只命中 1 筆；`測試` 273 筆（標題 9 筆）、`分析` 252 筆（標題 3 筆）。下一輪應先逐筆判斷這些結果是否與原意相關，再決定收斂同義詞組（會同時影響一般關鍵字搜尋）或改以標籤詞優先。
+
 ## 2026-11-08 標示與來源文件一致：已併入的待查線索、只有提示詞的證據、來源連結的可讀名稱
 
 基準 main `f10701be028ac600c088987db5da94f620094767`（PR #264 合併後）；送出前 main 已前進到 `5c925161`（同日合併 PR #266 相鄰中文複合詞拆讀），本輪 rebase 後重跑全部驗證。原工作樹落後 main 189 個 commit 且有未提交修改，本輪使用隔離 worktree 操作。網站有三處「頁面說的狀態與原始資料不一致」：① `sources/pending.md` 的 P-002 已寫明「2026-10-17 已處理…已併入 UC-028…不另計數」，`INDEX.md` 也寫「待查來源（2，另 P-002 已處理）」，首頁卻仍顯示 3 個待查想法，卡片與詳情都標「還在查證」，且沒有通往 UC-028 的站內入口；② UC-465／UC-480／UC-496 的證據狀態列以 `designed` 開頭（作者自行設計、未附執行結果），網站卻標成「作者報告／示範」，tooltip 宣稱有「操作紀錄與示範」；③ 詳情頁 `.detail-source` 的 `aria-label` 不含桌機可見文字，axe（`wcag21a`）在 1440px 回報 `label-content-name-mismatch`（WCAG 2.5.3）。

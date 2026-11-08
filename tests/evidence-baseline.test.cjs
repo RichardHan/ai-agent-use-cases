@@ -11,13 +11,14 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const { parseSummary, statusText } = require('../assets/audit.js');
 
-const withBase = (count, remaining, base) => ({
+const batchText = (count, remaining, lines = '') => ({
   latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **' + count + '／1,000，尚差' + remaining +
-    '**，不是目前全庫累計；' + (base === null ? '' : [].concat(base).map(size => '主要案例頁' + size + '不是合格數').join('；')) + '未重驗所有舊案。'
+    '**，不是目前全庫累計。\n' + lines
 });
+const corpusLine = size => '- 批次母體：' + size + ' 個主要案例頁（當時；不是合格數）\n';
 
-test('the batch card names the corpus the batch was measured on', () => {
-  const summary = parseSummary(withBase(370, 630, 420));
+test('the batch card names the corpus from the batch\'s own declared field', () => {
+  const summary = parseSummary(batchText(370, 630, corpusLine(420)));
   assert.equal(summary.pageBase, 420);
 
   const text = statusText(summary);
@@ -27,68 +28,37 @@ test('the batch card names the corpus the batch was measured on', () => {
   assert.doesNotMatch(text, /成功率|重現成功/, 'no success rate may be implied');
 });
 
-test('a missing or impossible corpus size is not invented', () => {
-  const missing = statusText(parseSummary(withBase(370, 630, null)));
-  assert.doesNotMatch(missing, /母體/, 'no denominator is claimed when the batch has none');
-
-  for (const base of [0, -1, 369, 1.5, 100001, '420<script>']) {
-    const summary = parseSummary(withBase(370, 630, base));
-    assert.equal(summary.pageBase, 0, `page base ${base} must be rejected`);
-    assert.doesNotMatch(statusText(summary), /母體/, `page base ${base} must not reach the page`);
-  }
+test('prose alone never becomes a corpus size', () => {
+  const prose = batchText(370, 630, '- 主要案例頁420不是合格數；未重驗所有舊案。\n');
+  const summary = parseSummary(prose);
+  assert.equal(summary.pageBase, 0, 'a sentence is not a declared field');
+  assert.doesNotMatch(statusText(summary), /母體/, 'no denominator is claimed without the field');
 });
 
-test('a batch that mentions more than one corpus size does not get to pick one', () => {
-  const variants = [
-    withBase(370, 630, [420, 500]),
-    withBase(370, 630, [420, 420]),
-    {
-      latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **370／1,000，尚差630**；' +
-        '主要案例頁420不是合格數；實際母體是500個主要案例頁。'
-    }
+test('a missing, repeated or impossible corpus field is not used', () => {
+  const cases = [
+    [batchText(370, 630), 0, 'missing'],
+    [batchText(370, 630, corpusLine(420) + corpusLine(500)), 0, 'two fields'],
+    [batchText(370, 630, corpusLine(420) + corpusLine(420)), 0, 'field repeated'],
+    [batchText(370, 630, corpusLine(0)), 0, 'zero'],
+    [batchText(370, 630, corpusLine(369)), 0, 'smaller than the qualified count'],
+    [batchText(370, 630, corpusLine(100001)), 0, 'implausibly large']
   ];
-  for (const value of variants) {
+  for (const [value, expected, label] of cases) {
     const summary = parseSummary(value);
-    assert.equal(summary.pageBase, 0, 'a second mention leaves the corpus unknown: ' + value.latestBatch.slice(-60));
-    assert.doesNotMatch(statusText(summary), /母體/, 'no conflicting size reaches the page');
+    assert.equal(summary.pageBase, expected, label);
+    if (expected === 0) assert.doesNotMatch(statusText(summary), /母體/, label + ' must not reach the page');
   }
 });
 
-test('a later correction with different punctuation still leaves the corpus unknown', () => {
-  const summary = parseSummary({
-    latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **370／1,000，尚差630**；主要案例頁420不是合格數；更正：主要案例頁 500，不是合格數。'
-  });
-  assert.equal(summary.pageBase, 0, 'the comma variant is still a second corpus claim');
-  assert.doesNotMatch(statusText(summary), /母體/, 'the earlier size must not be published');
-});
-
-test('a conflicting page count written without the phrase 主要案例頁 still suppresses it', () => {
-  const value = {
-    latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **370／1,000，尚差630**；' +
-      '主要案例頁420不是合格數；更正：實際母體是500頁'
-  };
-  const summary = parseSummary(value);
-  assert.equal(summary.pageBase, 0, 'a second page-count assertion is still a conflict');
-  assert.doesNotMatch(statusText(summary), /母體/, 'the earlier size must not be published');
-});
-
-test('a consistent page count elsewhere does not disqualify the claim', () => {
-  const value = {
-    latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **370／1,000，尚差630**；' +
-      '主要案例頁420不是合格數；當時共420頁'
-  };
-  assert.equal(parseSummary(value).pageBase, 420, 'restating the same size is not a conflict');
-});
-
-test('the repository batch exposes the corpus size it was measured against', () => {
+test('the repository batch declares one corpus field that agrees with its prose', () => {
   const source = fs.readFileSync(path.join(root, 'sources/qualification-audit-2026-10-16.md'), 'utf8');
   const latestBatch = source.split(/^## /m)[1];
   const summary = parseSummary({ latestBatch });
   assert.ok(summary, 'the current batch still parses');
-  assert.ok(Number.isInteger(summary.pageBase) && summary.pageBase >= summary.count,
-    `the batch corpus (${summary.pageBase}) must include every qualified case (${summary.count})`);
-  assert.match(latestBatch, new RegExp('主要案例頁' + summary.pageBase + '不是合格數'),
-    'the disclosed corpus size must be the one the source file declares');
+  assert.equal(summary.pageBase, 420, 'the batch declares its 420-page corpus');
+  assert.match(latestBatch, /主要案例頁420不是合格數/,
+    'the declared field and the batch prose must state the same corpus');
 });
 
 class Node {

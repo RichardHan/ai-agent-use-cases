@@ -29,16 +29,16 @@
 
 ## 修改內容
 
-- `assets/audit.js`：`parseSummary()` 新增 `pageBase`（fail-closed：整批只能出現一次「主要案例頁」字樣、該宣告句只能有一個數字，且要是 `N ≥ 合格數`、`≤ 100000` 的整數；宣告句以外任何其他頁數說法——含不重複「主要案例頁」字樣的「更正：實際母體是500頁」——只要數字不同就視為未知，首頁不顯示母體；重述同一個數字則允許）；抽出 `statusText(summary)` 並輸出。狀態句新增「該批次以當時 420 個主要案例頁為母體；」，其餘「快照／非目前累計」字句不變。
+- `assets/audit.js`：`pageBase` 改由批次自己宣告的結構化欄位取得（`sources/qualification-audit-2026-10-16.md` 最新批次新增一行 `- 批次母體：420 個主要案例頁（2026-10-22 20:50 當時；420 不是合格數）`）。`parseSummary()` 只接受整批恰好一行、數字為整數、`N ≥ 合格數`、`≤ 100000` 的欄位；沒有欄位、重複欄位或數值不合理一律視為未知，首頁不顯示母體。散文提到頁數不再被當成資料來源——同一批次可能被更正或重述，只有明確欄位才是可引用的值。另抽出 `statusText(summary)` 並輸出，狀態句新增「該批次以當時 420 個主要案例頁為母體；」，其餘「快照／非目前累計」字句不變。
 - `assets/app.js`：新增 `fileReviewDate()`（讀 pending 檔頭 `查證日期`，取有效日期最大值）與 `resolvedPendingNote()`；`parseFile('sources/pending.md')` 為每條目附上 `fileReviewed`。卡片日期列與詳情徽章在無 `reviewedDate` 但有 `fileReviewed` 時顯示「本條未載核對日／來源檔查證 2026-10-17」，並在來源版本句後補「檔案層級紀錄，不代表本條逐項核對」。已併入條目的證據區最前面插入結束說明。
 - `assets/reader.css`：`.proof-note-closure` 樣式（整行、13px、可換行）。
 - `README.md`：補兩句訪客可見行為（批次母體、檔案層級查證日）。
-- `tests/evidence-baseline.test.cjs`（新增，9 個測試）：批次母體揭露、拒絕不存在的母體、同一批次兩個不同母體不得擇一、標點不同的「更正」不得沿用前一個母體、不重複「主要案例頁」字樣的衝突頁數也不得沿用、重述同一頁數則允許、repo 目前批次的母體與來源檔一致、待查條目帶檔案日（硬釘 2026-10-17）但不冒用為 `reviewedDate`、已併入條目有結束說明（含無目的地時不宣稱）。
+- `tests/evidence-baseline.test.cjs`（新增，6 個測試）：結構化母體欄位揭露、純散文不得變成母體、缺欄位／重複欄位／不合理數值不得使用、repo 目前批次的欄位與散文一致（同為 420）、待查條目帶檔案日（硬釘 2026-10-17）但不冒用為 `reviewedDate`、已併入條目有結束說明（含無目的地時不宣稱）。
 - `tests/trust-summary.test.cjs`：`parseSummary` 形狀新增 `pageBase: 0`。
 
 ## 驗證
 
-先紅後綠（可重現）：把新測試複製到基準 commit 的隔離 checkout 後執行，6 個測試全部失敗——`git worktree add /tmp/aiuc-baseline-3ace15a7 3ace15a7 && cp tests/evidence-baseline.test.cjs /tmp/aiuc-baseline-3ace15a7/tests/ && cd /tmp/aiuc-baseline-3ace15a7 && node --test tests/evidence-baseline.test.cjs` → `pass 0 / fail 6`（`pageBase` 不存在、`fileReviewed` 不存在、`resolvedPendingNote` 未定義）。修正後 `node --test tests/evidence-baseline.test.cjs tests/trust-summary.test.cjs tests/pending-resolution.test.cjs tests/evidence-status-consistency.test.cjs` **21 通過、0 失敗**；全庫 `node --test tests/*.test.cjs` **509 通過、0 失敗**（基準 500，新增 9）。
+先紅後綠（可重現）：把新測試複製到基準 commit 的隔離 checkout 後執行，6 個測試全部失敗——`git worktree add /tmp/aiuc-baseline-3ace15a7 3ace15a7 && cp tests/evidence-baseline.test.cjs /tmp/aiuc-baseline-3ace15a7/tests/ && cd /tmp/aiuc-baseline-3ace15a7 && node --test tests/evidence-baseline.test.cjs` → `pass 0 / fail 6`（`pageBase` 不存在、`fileReviewed` 不存在、`resolvedPendingNote` 未定義）。修正後全庫 `node --test tests/*.test.cjs` **506 通過、0 失敗**（基準 500，新增 6）；聚焦的 `tests/evidence-baseline.test.cjs`、`tests/trust-summary.test.cjs`、`tests/pending-resolution.test.cjs`、`tests/evidence-status-consistency.test.cjs` 一併通過。
 
 本機預覽（`scripts/preview.py` → `http://127.0.0.1:8931/`，同 `3ace15a7` 資料）與正式站同條件量測：
 
@@ -63,12 +63,12 @@
 - 本機無 Jekyll／Gemfile，`INDEX.md` 等 Markdown 算繪與 `scripts/check-page-language.cjs`、`scripts/check_corpus_bundle.py` 只能在 CI 的 Jekyll build 驗證。
 - 截圖影像無法讀取，視覺結論以 DOM 與量測為準；未做真人使用者研究。
 - 只顯示「檔案層級」日期，未逐條重查 P-001–P-003 的內容，也沒有替任何條目補上逐條核對日。`sources/pending.md` 的 2026-10-17 17:45 補查只點名 P-001 作者資訊與 P-002 原帖，未涵蓋 P-003；因此畫面寫明是檔案層級，不把它當成 P-003 的逐條核對日。
-- 合格總數的真實值仍不可從 repo 推得；本輪只揭露既有批次的母體，沒有重算。母體衝突的偵測只認阿拉伯數字（中文數字「五百頁」不會被辨識）；實際防線是 `tests/evidence-baseline.test.cjs` 把畫面上的母體釘在 `sources/qualification-audit-2026-10-16.md` 的同一句話，來源若被改得不一致，CI 會紅而不是讓讀者看到錯的數字。
+- 合格總數的真實值仍不可從 repo 推得；本輪只揭露既有批次的母體，沒有重算。母體數字改由來源檔的結構化欄位提供，不再解析散文，因此「某句話怎麼寫」不會改變畫面上的數字；代價是未來批次必須自己補上 `批次母體` 欄位，否則首頁只顯示沒有母體的原句（不會退回推算）。
 - 未處理：首頁待查說明 `.stats p` 的 11px 字級、`#catalog-status` 在正常狀態沒有資料日期、`1,000 案` 目標的來源未在卡上說明。
 
 ## 獨立審查
 
-獨立 reviewer（不同 context，只讀）以 `git show 6b757466` 檢視並自行執行測試：全庫 **505 通過**、聚焦 20 通過，結論為「approve with fixes」。P2：`parseSummary` 只取第一個母體宣告，同一批次寫兩種頁數時會照第一個宣稱。第一版改為「兩個相同 regex 宣告才算衝突」，複審再指出 `更正：主要案例頁 500，不是合格數` 這種標點變體仍會被忽略，第三輪再指出倒敘 `實際母體是500個主要案例頁`，第四輪指出不重複「主要案例頁」字樣的 `更正：實際母體是500頁`；最終規則：整批只能出現一次「主要案例頁」、宣告句只有一個數字，且宣告句外任何不同頁數說法都視為衝突，否則 `pageBase 0`、畫面不出現母體句。其餘（`fileReviewed` 不進 `reviewedDate`／搜尋／facet／排序、已併入說明的觸發條件、print 隱藏、static hosting）審查無發現。最終全庫 **509 通過、0 失敗**。
+獨立 reviewer（不同 context，只讀）逐輪檢視 `parseSummary` 的母體來源，共四輪：先指出同一批次兩個數字會取第一個，再指出 `更正：主要案例頁 500，不是合格數` 的標點變體、倒敘 `500個主要案例頁`，以及不重複字樣的 `更正：實際母體是500頁`。前三輪以「fail-closed 散文解析」修補，第四輪顯示任何散文式防線都能被新的措辭繞過。最終改為結構化資料：由稽核來源檔的批次自己宣告 `- 批次母體：N 個主要案例頁`，程式只引用這個欄位（唯一、整數、`N ≥ 合格數`），散文不再參與；`tests/evidence-baseline.test.cjs` 另釘住欄位與同一批次的散文同為 420，來源若被改得不一致就紅燈。其餘（`fileReviewed` 不進 `reviewedDate`／搜尋／facet／排序、已併入說明的觸發條件、print 隱藏、static hosting）審查無發現。
 
 ## 發布後
 

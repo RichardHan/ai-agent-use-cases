@@ -21,22 +21,13 @@
     if(matches.length!==1)return null;
     const count=Number(matches[0][1]),remaining=Number(matches[0][2]);
     if(!Number.isSafeInteger(count)||!Number.isSafeInteger(remaining)||count<0||remaining<0||count+remaining!==1000)return null;
-    // The batch states how many main case pages existed when it was measured.
-    // Without it, 370 reads as a ratio of today's catalogue, which it never was.
-    // Fail closed: one claim sentence, one number in it, and no other page-count
-    // assertion anywhere else in the batch (a correction may not repeat 主要案例頁).
-    const claim=/主要案例頁\s*(\d+)\s*不是合格數/;
-    const claimClause=text.split(/[；;。\n]/).find(part=>claim.test(part))||'';
-    const baseNumbers=claimClause.match(/\d+/g)||[];
-    const mentions=text.match(/主要案例頁/g)||[];
-    const claimNumber=claimClause.match(claim)?.[1]||'';
-    const rest=text.replace(claimClause,'');
-    const other=[];
-    for(const match of rest.matchAll(/(\d[\d,]*)\s*(?:個|篇)?\s*(?:主要案例頁|案例頁|頁)/g))other.push(match[1].replace(/,/g,''));
-    for(const match of rest.matchAll(/(?:母體|頁數|總頁數)[^；;。\n\d]{0,8}(\d[\d,]*)/g))other.push(match[1].replace(/,/g,''));
+    // The corpus size comes from the batch's own declared field, not from prose:
+    // a sentence can be corrected or restated in the same batch, while an explicit
+    // 「批次母體：N 個主要案例頁」 line is a single structured value.
+    const bases=[...text.matchAll(/^-[ \t]*批次母體[：:][^\n]*?(\d+)\s*個主要案例頁/mg)].map(match=>match[1]);
     let pageBase=0;
-    if(mentions.length===1&&baseNumbers.length===1&&claimNumber&&other.every(size=>size===claimNumber)){
-      const size=Number(claimNumber);
+    if(bases.length===1){
+      const size=Number(bases[0]);
       if(Number.isSafeInteger(size)&&size>=count&&size<=100000)pageBase=size;
     }
     return {count,remaining,date:date[1],time,pageBase};

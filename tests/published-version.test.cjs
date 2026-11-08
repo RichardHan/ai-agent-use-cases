@@ -214,6 +214,17 @@ test('the gate exports verified only after the published bytes were actually com
  assert.match(source,/reportWorkflowResult\(false\);\n const base/,'the gate starts from verified=false');
 });
 
+test('every workflow that compares the published site runs on a main push with its push base',()=>{
+ const dir=path.join(__dirname,'../.github/workflows');
+ const callers=fs.readdirSync(dir).filter(file=>fs.readFileSync(path.join(dir,file),'utf8').includes('tests/published-version.cjs'));
+ assert.deepEqual(callers.sort(),['facet-counts-qa.yml','website-qa.yml'],'the published comparison is only wired where its inputs exist');
+ for(const file of callers){
+  const text=fs.readFileSync(path.join(dir,file),'utf8');
+  assert.match(text,/PUSH_BASE_SHA: \$\{\{ github\.event\.before \}\}/,file+' must describe what the push published');
+  assert.match(text,/github\.ref == 'refs\/heads\/main'/,file+' must not compare a pull-request build with the live site');
+ }
+});
+
 test('facet workflow reserves publication time and gates every published consumer on verification',()=>{
  const workflow=fs.readFileSync(path.join(__dirname,'../.github/workflows/facet-counts-qa.yml'),'utf8');
  const minutes=Number(workflow.match(/timeout-minutes:\s*(\d+)/)[1]);

@@ -427,6 +427,7 @@
 .card-bottom .proof[data-proof="公開資料核讀"]{background:#f4f3ec;border-color:#e2decb;color:#4b4533}
 .card-bottom .proof[data-proof="尚待查證"]{background:#fcf3e3;border-color:#f0dab0;color:#7c4f10}
 .card-bottom .proof[data-proof="模板／文件核讀"]{background:#f0f1f5;border-color:#d6d9e4;color:#384260}
+.card-bottom .proof[data-proof="設計／未實跑"],.detail-badge.proof-badge[data-proof="設計／未實跑"]{background:#fdf0e9;border-color:#f0d3c2;color:#6d3520}
 
 /* Plain overview enhancement: clear problem focus and comfortable reading rhythm */
 .plain-overview{margin:18px 0 24px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:14px 18px}

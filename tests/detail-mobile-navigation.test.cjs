@@ -167,7 +167,10 @@ test('detail source link has descriptive desktop and mobile labels, target _blan
   assert.ok(sourceLink, 'detail view must render .detail-source');
   assert.equal(sourceLink.target, '_blank', 'source link must open in new tab');
   assert.equal(sourceLink.rel, 'noopener noreferrer', 'source link must have secure rel');
-  assert.match(sourceLink.getAttribute('aria-label'), /GitHub.*Markdown/, 'aria-label must clearly mention GitHub and Markdown');
+  // The accessible name comes from the visible text so WCAG 2.5.3 (label in name)
+  // holds; the visible label itself must say GitHub and Markdown and name the case.
+  assert.equal(sourceLink.getAttribute('aria-label'), null, 'source link must not override its visible text with an aria-label');
+  assert.match(sourceLink.querySelector('.print-action-long').textContent, /UC-001[\s\S]*GitHub 原始 Markdown/, 'visible desktop label must name the case and say GitHub 原始 Markdown');
 
   const longLabel = sourceLink.querySelector('.print-action-long');
   const shortLabel = sourceLink.querySelector('.print-action-short');
@@ -207,7 +210,6 @@ test('verified source replaces a focused latest-version link without losing keyb
   assert.equal(document.activeElement, source);
   assert.equal(latest.hidden, true);
   assert.match(source.href, /blob\/a{40}\/cases\/001-travel\.md$/);
-  assert.match(source.getAttribute('aria-label'), /新分頁/);
   assert.match(source.querySelector('.print-action-long').textContent, /新分頁/);
   assert.match(source.querySelector('.print-action-short').textContent, /新分頁/);
 });

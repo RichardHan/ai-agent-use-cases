@@ -1,0 +1,98 @@
+{
+ "tag": "before2",
+ "base": "http://127.0.0.1:8099/ai-agent-use-cases/",
+ "v": {
+  "stats": {
+   "pending": "3",
+   "cases": "503",
+   "evidence": "3",
+   "note": null,
+   "all": "顯示 509 / 509 筆收錄"
+  },
+  "kindOptions": [
+   "509 · 全部狀態",
+   "503 · 用法靈感",
+   "3 · 經驗與踩坑",
+   "3 · 還在查證"
+  ],
+  "pendingList": {
+   "count": "顯示 3 / 509 筆收錄",
+   "cards": [
+    {
+     "id": "P-001",
+     "kind": "還在查證"
+    },
+    {
+     "id": "P-002",
+     "kind": "還在查證"
+    },
+    {
+     "id": "P-003",
+     "kind": "還在查證"
+    }
+   ]
+  },
+  "p002": {
+   "badges": [
+    "還在查證",
+    "尚待查證",
+    "情境：工作",
+    "頁首未提供核對日"
+   ],
+   "warning": "待查線索：證據尚不足，不列成功或已完成案例。",
+   "sourceName": "查看 GitHub 原始 Markdown（新分頁） ↗",
+   "sourceAria": "查看 P-002 的 GitHub 原始 Markdown（新分頁）"
+  },
+  "uc465": {
+   "badges": [
+    "用法靈感",
+    "作者報告／示範",
+    "情境：開發",
+    "頁首核對 2026-10-28"
+   ],
+   "proof": "作者報告／示範 社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證。 成果主張來源：社群作者／專案實踐者 本庫核讀狀態：本庫未於本機獨立重現代碼或流程；請留意作者個人環境與版本差異。 安全採用建議（落地三層防護）：① 建議試跑：使用合成資料或做足資料去敏在受控環境小規模試跑；② 禁止動作：嚴禁未經確認自動對外寄信、扣款付款或直接寫入生產資料庫；③ 必經審核：對重要決策、金流支付、外部發布與招",
+   "sourceName": "查看 GitHub 原始 Markdown（新分頁） ↗",
+   "sourceAria": "查看 UC-465 的 GitHub 原始 Markdown（新分頁）"
+  },
+  "s1": {
+   "count": "顯示 0 / 509 筆收錄",
+   "recovery": [
+    "原問題包含「客戶」 → 搜尋 100 筆",
+    "郵件摘要 · 搜尋「郵件」"
+   ],
+   "after": {
+    "query": "客戶",
+    "count": "顯示 100 / 509 筆收錄",
+    "first": "把客戶疑慮，變成產品頁與 FAQ 修改建議"
+   }
+  },
+  "s3": {
+   "open": true,
+   "focus": "detail-title",
+   "title": "讓 AI 先整理客服信，退款與承諾由你決定",
+   "afterBack": {
+    "search": "?q=%E5%AE%A2%E6%88%B6",
+    "open": false,
+    "query": "客戶"
+   }
+  },
+  "mobile": {
+   "overflow": false,
+   "pending": "3",
+   "detailOverflow": false,
+   "hScroll": false
+  },
+  "narrow": {
+   "overflow": false,
+   "pending": "3",
+   "detailOverflow": false,
+   "hScroll": false
+  }
+ },
+ "axe": {
+  "homeDesktop": [],
+  "detailP002": [],
+  "detailUC465": []
+ },
+ "errors": []
+}

@@ -102,7 +102,7 @@ test('card renders with proof data-attribute and badge on article and span.proof
 
 test('card handles all 5 proof types consistently without throwing', () => {
   const context = setupDom();
-  const types = ['作者報告／示範', '官方自報', '公開資料核讀', '尚待查證', '模板／文件核讀'];
+  const types = ['作者報告／示範', '官方自報', '公開資料核讀', '尚待查證', '模板／文件核讀', '設計／未實跑'];
 
   for (const proof of types) {
     const item = {
@@ -130,6 +130,7 @@ test('assets/style.css defines evidence proof badge rules for all types and plai
   assert.match(cssSource, /data-proof="公開資料核讀"/, 'style.css must handle 公開資料核讀');
   assert.match(cssSource, /data-proof="尚待查證"/, 'style.css must handle 尚待查證');
   assert.match(cssSource, /data-proof="模板／文件核讀"/, 'style.css must handle 模板／文件核讀');
+  assert.match(cssSource, /data-proof="設計／未實跑"/, 'style.css must handle 設計／未實跑');
   assert.match(cssSource, /\.detail-badge\.proof-badge/, 'style.css must style detail-badge proof-badge');
   assert.match(cssSource, /\.plain-overview/, 'style.css must style plain-overview');
 });

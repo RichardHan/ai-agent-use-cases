@@ -55,3 +55,19 @@ test('problem goal is included in focused results and ranked ahead of body-only 
  assert.deepEqual(ids(rankEntries([incidental,travel],terms)),['UC-001','UC-999']);
  assert.deepEqual(ids(filterEntries([travel],terms,{scope:'overview',scenario:'工作'})),[]);
 });
+
+test('X search respects Latin word boundaries and retains Chinese adjacency and synonyms',()=>{
+ const {filterEntries,rankEntries,tokenize}=api();
+ const entries=[
+  item('UC-001','Plex 影片庫','',{search:'plex 影片庫'}),
+  item('UC-002','Codex 工作','',{search:'codex 工作'}),
+  item('UC-003','X發文','',{search:'x發文'}),
+  item('UC-004','Twitter 貼文','',{search:'twitter 貼文'}),
+  item('UC-005','在 X 上閱讀','',{search:'在 x 上閱讀'})
+ ];
+ for(const query of ['X','推特']){
+  const terms=tokenize(query);
+  assert.deepEqual(ids(filterEntries(entries,terms,{})),['UC-003','UC-004','UC-005']);
+  assert.notEqual(rankEntries(entries,terms)[0].id,'UC-001');
+ }
+});

@@ -19,7 +19,7 @@ test('review date uses explicit lead verification fields, takes latest valid dat
  // A date in a clause without the verification action is not a review date.
  assert.equal(reviewDate('# 案例\n- 日期：2026-10-16（發布日）；查證 2026-10-17 UTC'),'2026-10-17');
  // A clause that names the action but denies it is not a review.
- for(const text of ['- 日期：作者發布2026-10-16，查證日期未取得','- 日期：作者發布2026-10-16（本站尚未查證）','- 日期：作者發布2026-10-16（查證尚未完成）'])assert.equal(reviewDate('# 案例\n'+text),'');
+ for(const text of ['- 日期：作者發布2026-10-16，查證日期未取得','- 日期：作者發布2026-10-16（本站尚未查證）','- 日期：作者發布2026-10-16（查證尚未完成）','- 日期：作者發布2026-10-16（查證日期不詳）','- 日期：作者發布2026-10-16（查證結果不確定）'])assert.equal(reviewDate('# 案例\n'+text),'');
 });
 test('recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries',()=>{
  const {orderEntries}=api();

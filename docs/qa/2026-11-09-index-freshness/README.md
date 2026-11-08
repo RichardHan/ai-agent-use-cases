@@ -66,7 +66,7 @@
 - 內容保全：搬移的研究段落、日期標題、案例列、證據列與來源連結在搬移前後筆數與文字完全相同（54 段批次段落、49 個日期標題、503 列案例、3 列證據、155 個 `sources/` 連結目標）。逐行比對（去空白行）只有 3 行移除、10 行新增：移除的是舊日期句、「以下先保留歷次研究紀錄」提示與改寫前的 1,000 目標句；新增的是 2 個導覽連結、新鮮度句、原日期句後半段獨立成段、改寫後的 1,000 目標句、回首頁指引、`#research-log` 錨點、歸檔標題與 2 行歸檔說明。
 ## 發布後
 
-PR [#278](https://github.com/RichardHan/ai-agent-use-cases/pull/278)（head `007e58f4`）的兩項檢查都通過：`Website QA` 6 分 11 秒、`Audit summary round QA` 2 分 24 秒；squash 合併為 `146f44da`。`pages build and deployment`（[42522331148](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42522331148)）成功；正式站 `catalog.json` 的 `sourceRevision` 已等於 `146f44da149efaef192e532a94543ce20a58d894`。
+PR [#278](https://github.com/RichardHan/ai-agent-use-cases/pull/278)（head `007e58f4`）的兩項檢查都通過：`Website QA` 6 分 11 秒、`Audit summary round QA` 2 分 24 秒；squash 合併為 `146f44da`。`pages build and deployment`（[42522331148](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42522331148)）成功；正式站 `catalog.json` 的 `sourceRevision` 已等於 `146f44da149efaef192e532a94543ce20a58d894`（其後本紀錄 commit `a46fa3ee` 只動 `SITE.md` 與本文件，`sourceRevision` 隨之變為該 commit，`INDEX.md` 與站台內容不變；查核時應對照當下 `catalog.json` 的 `sourceRevision` 與 `INDEX.html` 是否含新段落）。
 
 同一份渲染、同一天量測（Chromium，`INDEX.html` 加上 cache-buster 以避開 CDN 的 `max-age=600`）：
 

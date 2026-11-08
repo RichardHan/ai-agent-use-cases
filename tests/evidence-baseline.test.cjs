@@ -13,7 +13,7 @@ const { parseSummary, statusText } = require('../assets/audit.js');
 
 const withBase = (count, remaining, base) => ({
   latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **' + count + '／1,000，尚差' + remaining +
-    '**，不是目前全庫累計；' + (base === null ? '' : '主要案例頁' + base + '不是合格數；') + '未重驗所有舊案。'
+    '**，不是目前全庫累計；' + (base === null ? '' : [].concat(base).map(size => '主要案例頁' + size + '不是合格數').join('；')) + '未重驗所有舊案。'
 });
 
 test('the batch card names the corpus the batch was measured on', () => {
@@ -38,6 +38,17 @@ test('a missing or impossible corpus size is not invented', () => {
   }
 });
 
+test('a batch that states two different corpus sizes does not get to pick one', () => {
+  for (const claims of [[420, 500], [420, 420]]) {
+    const summary = parseSummary(withBase(370, 630, claims));
+    if (claims[0] === claims[1]) assert.equal(summary.pageBase, 420, 'the same claim twice is one claim');
+    else {
+      assert.equal(summary.pageBase, 0, 'conflicting claims leave the corpus unknown');
+      assert.doesNotMatch(statusText(summary), /母體/, 'no conflicting size reaches the page');
+    }
+  }
+});
+
 test('the repository batch exposes the corpus size it was measured against', () => {
   const source = fs.readFileSync(path.join(root, 'sources/qualification-audit-2026-10-16.md'), 'utf8');
   const latestBatch = source.split(/^## /m)[1];
@@ -59,36 +70,38 @@ class Node {
   setAttribute(name, value) { this[name] = value; }
 }
 
-const source = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8').split('/* Browser event bindings. */')[0];
-const context = vm.createContext({
-  URL,
-  Discovery: require('../assets/discovery.js'),
-  document: {
-    createElement: tag => new Node(tag),
-    createTextNode: text => ({ textContent: text })
-  }
-});
-vm.runInContext(source + '\nthis.api={parseFile,resolvedPendingNote};', context);
-const api = context.api;
+function loadAppApi() {
+  const source = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8').split('/* Browser event bindings. */')[0];
+  const context = vm.createContext({
+    URL,
+    Discovery: require('../assets/discovery.js'),
+    document: {
+      createElement: tag => new Node(tag),
+      createTextNode: text => ({ textContent: text })
+    }
+  });
+  vm.runInContext(source + '\nthis.api={parseFile,resolvedPendingNote};', context);
+  return context.api;
+}
 
 const pendingMarkdown = fs.readFileSync(path.join(root, 'sources/pending.md'), 'utf8');
-const pendingEntries = Array.from(api.parseFile('sources/pending.md', pendingMarkdown));
+const pendingEntries = () => Array.from(loadAppApi().parseFile('sources/pending.md', pendingMarkdown));
 
 test('pending leads carry the file review date without borrowing it as their own', () => {
-  const declared = pendingMarkdown.match(/^(?:-\s*)?查證日期\s*[：:]\s*(.+)$/m)[1];
-  const dates = declared.match(/\b20\d{2}-\d{2}-\d{2}\b/g) || [];
-  const latestFileReview = [...dates].sort().pop();
-  assert.ok(latestFileReview, 'sources/pending.md declares its own review date');
-
-  assert.equal(pendingEntries.length, 3, 'every lead in the file is still listed');
-  for (const entry of pendingEntries) {
-    assert.equal(entry.fileReviewed, latestFileReview, `${entry.id} must expose the file-level review date`);
+  const entries = pendingEntries();
+  // The file declares 2026-10-16 and a 2026-10-17 17:45 supplement; the file-level
+  // date is the last one. Pinned explicitly so a parser that picks the first date,
+  // drops the header, or promotes it to reviewedDate fails here.
+  assert.equal(entries.length, 3, 'every lead in the file is still listed');
+  for (const entry of entries) {
+    assert.equal(entry.fileReviewed, '2026-10-17', `${entry.id} must expose the file-level review date`);
     assert.equal(entry.reviewedDate, '', `${entry.id} has no per-lead review date and must not fake one`);
   }
 });
 
 test('a resolved lead explains its closure before quoting the open-lead warning', () => {
-  const read = id => pendingEntries.find(entry => entry.id === id);
+  const api = loadAppApi();
+  const read = id => pendingEntries().find(entry => entry.id === id);
   const note = api.resolvedPendingNote(read('P-002'));
   assert.match(note, /已結束/, 'a merged lead is stated as finished');
   assert.match(note, /UC-028/, 'the note names the case it was merged into');
@@ -98,4 +111,5 @@ test('a resolved lead explains its closure before quoting the open-lead warning'
     assert.equal(api.resolvedPendingNote(read(id)), '', `${id} is still open and gets no closure note`);
   }
   assert.equal(api.resolvedPendingNote(undefined), '', 'a missing entry is not described as closed');
+  assert.equal(api.resolvedPendingNote({ resolved: true }), '', 'a resolved entry without a destination claims nothing');
 });

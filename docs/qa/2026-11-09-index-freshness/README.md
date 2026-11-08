@@ -77,7 +77,6 @@ PR [#278](https://github.com/RichardHan/ai-agent-use-cases/pull/278)（head `007
 | 新鮮度句位置 1440／390 | y=4,821／10,725（「更新日期：2026-10-20」） | **y=365／389**（筆數＋最新核對日＋校對日） |
 | 研究日誌位置 1440／390 | 頁首（案例表之前） | 45,792／74,364（`#research-log` 之後） |
 | 頁面總高 1440／390 | 62,107／108,157 | 62,417／108,659 |
-| 前後截圖 | `qa-artifacts/before-index-desktop.png`、`before-index-mobile.png` | `qa-artifacts/after-index-desktop.png`、`after-index-mobile.png`、`after-index-mobile-firstscreen.png` |
 
 390×844 第一屏（不捲動）依序可見：頁名、導覽（含「回到案例探索首頁」）、「本頁列出 503 筆案例；頁首核對日期最新為 2026-11-08；本頁於 2026-11-09 校對」、未獨立重現聲明、1,000 目標與批次揭露、「主要案例（503）」。
 
@@ -91,6 +90,6 @@ CDN 快取：部署完成後數分鐘內，未加版本參數的 `INDEX.html` �
 
 ## 已知限制
 
-- 本環境無法檢視截圖影像（`Image reading is disabled`），因此視覺結論以 DOM 文字、幾何量測、錨點解析與鍵盤焦點為準；截圖仍保存供人眼核對。
+- 本輪沒有可留存的截圖：截圖工具無視指定路徑、只寫到暫存目錄，且本環境禁止讀取影像（`Image reading is disabled`）。因此視覺結論全部來自 DOM 文字、幾何量測、錨點解析與鍵盤焦點；修改前的頁面可用 `git show 598ea9b5:INDEX.md` 重新算繪核對，修改後的頁面可直接讀 `146f44da` 之後的正式站。
 - 本機沒有 Jekyll／kramdown（無 Gemfile、無 gem），`INDEX.md` → `INDEX.html` 的實際算繪只能在 Pages 上驗證；因此「案例表在日誌之前」在合併前以原始檔順序與測試保證，合併後以正式站幾何重測。`scripts/check-page-language.cjs` 與 `scripts/check_corpus_bundle.py` 都需要建置後的站台目錄，本機無法執行，只能由 CI 的 Jekyll build 步驟驗證。
 - 合格總數的真實值無法從 repo 推得（只有各批次增量）；本輪只揭露批次基準，未重算。

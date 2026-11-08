@@ -42,7 +42,7 @@ function readChangedBytes(changes,root='.'){
 // Pages keeps building after a merge (a docs-only commit moves main tip), so the
 // live build is often newer than this SHA. That is not a reason to skip the gate:
 // a newer build must be a descendant of this push and must carry these exact bytes.
-function verifySupersededPublication({changed,changeList,remote,local,buffers,assets,sha,isDescendant=isDescendantOf}){
+async function verifySupersededPublication({changed,changeList,remote,local,buffers,assets,sha,isDescendant=isDescendantOf,probeMissing}){
  assert(changeList?.known,'Cannot verify a newer published build without knowing what this push changed');
  assert(remote.catalog.sourceRevision,'Published catalog has no source revision; cannot tell which build is live');
  assert.equal(remote.corpus.sourceRevision,remote.catalog.sourceRevision,'Published corpus and catalog revisions disagree');
@@ -62,10 +62,14 @@ function verifySupersededPublication({changed,changeList,remote,local,buffers,as
    if(entry.deleted){assert.equal(markdown,undefined,'A deleted source is still published: '+entry.path);verified++;continue;}
    assert.notEqual(markdown,undefined,'Published corpus is missing '+entry.path);
    assert(Buffer.from(markdown,'utf8').equals(entry.bytes),'Published source differs from this push: '+entry.path);
+  }else if(entry.deleted){
+   // A deleted asset leaves the build, so it cannot be in servedAssets; ask the
+   // site itself whether the old URL is gone.
+   assert(probeMissing,'Cannot confirm a deleted asset without a live probe: '+entry.path);
+   await probeMissing(entry.path);
   }else{
    const index=assets.indexOf(entry.path);
    assert(index>=0,'Unsupported changed file: '+entry.path);
-   if(entry.deleted){continue;}
    assert(buffers.get(entry.path).equals(entry.bytes),'Published asset differs from this push: '+entry.path);
   }
   verified++;
@@ -77,6 +81,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
  const files=[...assets,'catalog.json','corpus.json',...pages.filter(page=>page!=='index.html')];
  const buffers=new Map();
  for(const file of files)buffers.set(file,fs.readFileSync(path.join(built,file)));
+ // `files` already carries INDEX.html and the sampled pages; index.html comes from assets.
  const local={catalog:JSON.parse(buffers.get('catalog.json').toString('utf8')),corpus:JSON.parse(buffers.get('corpus.json').toString('utf8'))};
  const changed=readChangedBytes(changeList.entries,root);
  // Retries repeat every few seconds; the answer for one revision pair cannot change.
@@ -120,9 +125,18 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
    if(exact){
     assert.equal(remote.corpus.sourceRevision,expectedSourceRevision,'Published corpus source revision mismatch');
     assert(sameContent(local,remote),'Published source content or internal revision mismatch');
+    // A generated page can keep valid language metadata while its body went stale,
+    // so the build that claims to be this SHA is compared byte-for-byte. A newer
+    // build may legitimately render newer pages; there the changed files are checked.
+    for(const page of pages)assert(remoteBuffers.get(page).equals(buffers.get(page)),'Published page differs from this build: '+page);
     mode='exact';
    }else{
-    ({mode,supersededBy,changedVerified}=verifySupersededPublication({changed,changeList,remote,local,buffers:remoteBuffers,assets,sha,isDescendant:assertDescendant}));
+    ({mode,supersededBy,changedVerified}=await verifySupersededPublication({changed,changeList,remote,local,buffers:remoteBuffers,assets,sha,isDescendant:assertDescendant,probeMissing:async path=>{
+     const url=new URL(path,base);
+     url.searchParams.set('publication',sha+'-'+attempt+'-removed');
+     const response=await fetchAsset(url,{signal,cache});
+     if(response.ok){await response.body?.cancel?.();throw Error('A deleted asset is still published: '+path);}
+    }}));
    }
    publication={catalog:remoteBuffers.get('catalog.json').toString('utf8'),corpus:remoteBuffers.get('corpus.json').toString('utf8'),sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision,mode,supersededBy,changedVerified};
    return true;

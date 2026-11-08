@@ -236,6 +236,43 @@ test('a rename is verified as new bytes present and the old path gone',async t=>
  });
 });
 
+test('an exact revision also requires the generated pages to be this build',async t=>{
+ const {options,published,respond}=publicationFixture(t);
+ published['cases/001-travel-checkout.html']='<html lang="zh-Hant"><head><meta property="og:locale" content="zh_TW"></head><body>stale body</body></html>';
+ let clock=0;
+ await assert.rejects(waitForPublishedVersion({...options,changeList:{known:true,entries:[]},fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
+  assert.match(error.cause.message,/Published page differs from this build: cases\/001-travel-checkout\.html/);
+  return true;
+ });
+});
+
+test('a deleted runtime asset must be gone from the live site',async t=>{
+ const {options,published,respond}=publicationFixture(t);
+ const remoteCatalog=JSON.parse(published['catalog.json']);remoteCatalog.sourceRevision='newer';
+ const remoteCorpus=JSON.parse(published['corpus.json']);remoteCorpus.sourceRevision='newer';
+ published['catalog.json']=JSON.stringify(remoteCatalog);published['corpus.json']=JSON.stringify(remoteCorpus);
+ const changeList={known:true,entries:[{status:'D',path:'assets/old.css'}]};
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'published-deleted-'));
+ t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const live=async url=>{
+  const file=url.pathname.slice('/project/'.length)||'index.html';
+  if(file==='assets/old.css')return {ok:true,arrayBuffer:async()=>Buffer.from('still here')};
+  return respond(url);
+ };
+ let clock=0;
+ await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:live,isDescendant:()=>true,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
+  assert.match(error.cause.message,/A deleted asset is still published: assets\/old\.css/);
+  return true;
+ });
+ const gone=async url=>{
+  const file=url.pathname.slice('/project/'.length)||'index.html';
+  if(file==='assets/old.css')return {ok:false,status:404,body:{cancel:async()=>{}}};
+  return respond(url);
+ };
+ const ok=await waitForPublishedVersion({...options,changeList,root,fetchAsset:gone,isDescendant:()=>true,sleep:async()=>{}});
+ assert.equal(ok.mode,'superseded');
+});
+
 test('a live build without a source revision is never accepted',async t=>{
  const {options,published,respond}=publicationFixture(t);
  for(const name of ['catalog.json','corpus.json']){

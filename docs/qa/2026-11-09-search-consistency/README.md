@@ -44,12 +44,15 @@
 | UC-256 核對日 | 頁首未提供核對日 | **頁首核對 2026-10-16** |
 | 新回歸腳本 | 紅燈（`0 !== 79`） | `SEARCH_EXPANSION_CONSISTENCY_OK` |
 
-- `node --test tests/*.test.cjs`：**494 pass / 0 fail**（基準 482；新增／改寫：已併入與日期行規則、變更清單白名單與 rename、未知 base 回報 unknown、後代證明、superseded 逐 byte 驗證、缺 sourceRevision 不得通過、無改動時需內容一致、每個 runtime asset 都要比對、PR 不得走查正式站、重複觸發移除）。
+- `node --test tests/*.test.cjs`：**496 pass / 0 fail**（基準 482；新增／改寫：已併入與日期行規則、變更清單白名單與 rename、未知 base 回報 unknown、後代證明、superseded 逐 byte 驗證、缺 sourceRevision 不得通過、無改動時需內容一致、每個 runtime asset 都要比對、PR 不得走查正式站、重複觸發移除）。
 - `node --check assets/app.js` pass。以本機 gzip 靜態伺服器（與 Pages 相同 gzip）重跑 canonical 瀏覽器腳本：`discovery-browser`、`compound-split-browser`、`sentence-fallback-browser`、`visitor-problem-browser`、`mobile-problem-tags-browser`、`results-batching-browser`、`search-submit-history-browser` 全數 PASS。
 - 發布閘門本機端到端（真實程式碼路徑，非只讀原始碼）：以 `python3 scripts/preview.py` 產出的建置當 `BUILT_SITE`，用自訂 `fetchAsset` 供應同一份位元組（`INDEX.html` 在大小寫不敏感的本機磁碟上無法與 `index.html` 並存，故由記憶體供應）。三種結果：
   - exact（正式站 `sourceRevision` = 本次推送）：`{"status":"matched","mode":"exact","sourceCount":507}`。
   - superseded（以真實後代 commit `f4a7ae92` 模擬 docs commit 推進 main，`assets/app.js` 逐 byte 相同、`git merge-base --is-ancestor` 透過真實 `git fetch` 驗證）：`{"status":"matched","mode":"superseded","supersededBy":"f4a7ae92…","changedVerified":1}`。
   - 反向對照（正式站該案例位元組被改一個字）：閘門拒絕通過並持續重試，逾時才紅燈——不會再有「綠燈但沒驗證」。
+  - 產生頁面（`cases/001-travel-checkout.html`）內容過期但語言正確：exact 版本拒絕（`Published page differs from this build`）。
+  - 未知 push base（`known:false`）：拒絕（`without knowing what this push changed`）。
+  - 為了在大小寫不敏感的 macOS 上忠實重現 `index.html` 與 `INDEX.html` 並存，部分模擬在 case-sensitive APFS 映像上執行。
   - 註：後代證明不可用 `git fetch --depth=1`（會把後代切成 shallow 邊界，真實祖先會被誤判為不相關）；已改為完整 `git fetch`，並更正先前模擬造成的本機 shallow 狀態。
 
 ## 截圖（修正前後同頁面、同尺寸、同資料狀態；webp）
@@ -75,6 +78,12 @@
 5. **CONCERN：已併入標註用全域計數**。`?q=P-002&kind=pending` 只命中已併入線索時沒有標註。改為以同一組篩選後的集合計算已併入筆數，並在新瀏覽器回歸中釘住。
 6. **CONCERN：`tests/recent-review-browser.cjs` 仍期待 UC-239 無核對日**。已更新為 `頁首核對 2026-10-16`，並在分支預覽重跑通過。
 7. **NIT：QA 文件寫錯已併入目標**。P-002 併入 UC-028（非 UC-156），已更正。
+
+第二輪審查再指出一項 BLOCKER、一項 CONCERN 與一項未關閉的日期誤判，同樣已修正：
+
+8. **BLOCKER：只檢查產生頁面的語言，沒比對內容**。exact 版本現在把 `INDEX.html`、`cases/001-travel-checkout.html`、`sources/qualification-audit-2026-10-16.html` 逐 byte 比對本機建置；以「語言中繼資料正確但內容過期」的建置實測會被拒絕（`Published page differs from this build`）。superseded 版本不套用此規則，因為較新的建置本來就會產生較新的頁面。
+9. **CONCERN：刪除的 runtime asset 被判為 unsupported**。刪除／改名後的舊路徑不在本機建置的資產清單內，改為直接向正式站探測舊網址，仍存在就失敗（`A deleted asset is still published`）。
+10. **日期誤判未完全關閉**。`- 日期：作者發布2026-10-16，查證日期未取得` 與 `- 日期：…（本站尚未查證）` 仍會被當成核對日。改為以 `；;。，,` 切分子句，且子句含有「未經／尚未／待 + 查證」等否定說法時不算在內。
 
 ## 已知限制
 

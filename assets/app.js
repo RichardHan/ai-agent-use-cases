@@ -622,6 +622,8 @@ function reviewDate(markdown) {
   const lead=markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
   const dates=[];
   const reviewAction=/(?:查證|查閱|核對|查核)/;
+  // "尚未查證" names the same words but states the opposite.
+  const notReviewed=/(?:未經?|尚未|尚未經|待)(?:查證|查閱|核對|查核)/;
   const collect=(clause)=>{
     for(const date of clause.match(/\b20\d{2}-\d{2}-\d{2}\b/g)||[]){
       const parsed=new Date(date+'T00:00:00Z');
@@ -635,7 +637,7 @@ function reviewDate(markdown) {
     // the action and carries the date is a review; the publication date that shares
     // the line but not the clause must not become a review date.
     if(!/^-\s*日期\s*[：:]/.test(line))continue;
-    for(const clause of line.split(/[；;。]/))if(reviewAction.test(clause))collect(clause);
+    for(const clause of line.split(/[；;。，,]/))if(reviewAction.test(clause)&&!notReviewed.test(clause))collect(clause);
   }
   return dates.sort().pop()||'';
 }

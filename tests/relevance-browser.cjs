@@ -33,7 +33,18 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
  const read=cards.first().locator('.card-bottom button');await read.focus();await page.keyboard.press('Enter');await page.locator('#detail[open]').waitFor();
  await page.locator('.research-details').evaluate(e=>e.open=true);
  const link=page.locator('.markdown a[href^="https:"]').first();assert(await link.count());row.source=await link.getAttribute('href');
- if(width===1440){const pending=page.waitForEvent('popup');await link.click();const popup=await pending;await popup.waitForLoadState('domcontentloaded');row.sourceOpened=popup.url();await popup.close();}
+ if(width===1440){
+  assert.equal(await link.getAttribute('target'),'_blank','source link must open in a new tab');
+  let popup=null;
+  for(let attempt=1;attempt<=2&&!popup;attempt++){
+   const pending=page.waitForEvent('popup',{timeout:15000}).catch(()=>null);
+   await link.click();
+   popup=await pending;
+  }
+  if(popup){await popup.waitForLoadState('domcontentloaded').catch(()=>{});row.sourceOpened=popup.url();await popup.close();}
+  else if(observe){console.log('OBSERVE_SOURCE_POPUP_UNVERIFIED '+id);row.sourceOpened='unverified';}
+  else throw new Error('source link did not open a new tab for '+id);
+ }
  await page.locator('#nav-next-case').click();assert.match(await page.locator('#detail-toolbar-id').innerText(),new RegExp(next));
  await page.locator('#nav-prev-case').click();assert.match(await page.locator('#detail-toolbar-id').innerText(),new RegExp(id));
  await page.keyboard.press('Escape');assert(await read.evaluate(e=>document.activeElement===e));assert.equal(await page.locator('#query').inputValue(),'旅遊');

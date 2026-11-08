@@ -1,0 +1,50 @@
+{
+  "desktop": {
+    "docHeight": 7832,
+    "heroHeight": 1170.5,
+    "tagsTop": 623.3,
+    "tagsHeight": 408,
+    "tagsVisible": 53,
+    "tagsTotal": 53,
+    "toggleVisible": false,
+    "toggleText": null,
+    "valuePropsTop": 1148.9,
+    "guideTop": 1284.7,
+    "discoverTop": 152,
+    "exploreTop": 1378.5,
+    "queryTop": 1527.8,
+    "firstResultTop": 2552.3
+  },
+  "mobile": {
+    "docHeight": 17004,
+    "heroHeight": 1534,
+    "tagsTop": 489.6,
+    "tagsHeight": 720,
+    "tagsVisible": 53,
+    "tagsTotal": 53,
+    "toggleVisible": false,
+    "toggleText": null,
+    "valuePropsTop": 1367.2,
+    "guideTop": 1600.2,
+    "discoverTop": 1666,
+    "exploreTop": 2969.2,
+    "queryTop": 3122,
+    "firstResultTop": 3374.2
+  },
+  "small-mobile": {
+    "docHeight": 17369,
+    "heroHeight": 1794,
+    "tagsTop": 471.5,
+    "tagsHeight": 928,
+    "tagsVisible": 53,
+    "tagsTotal": 53,
+    "toggleVisible": false,
+    "toggleText": null,
+    "valuePropsTop": 1557.1,
+    "guideTop": 1838.1,
+    "discoverTop": 1926,
+    "exploreTop": 3277.4,
+    "queryTop": 3430.2,
+    "firstResultTop": 3678.4
+  }
+}

@@ -8,6 +8,12 @@ const fs = require('node:fs');
 const localChrome = '/Users/richard_han/Library/Caches/ms-playwright/chromium-1228/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing';
 const launchOptions = process.env.CHROMIUM_BIN ? { executablePath: process.env.CHROMIUM_BIN } : (fs.existsSync(localChrome) ? { executablePath: localChrome } : {});
 (async () => {
+
+async function expandProblemTags(page){
+  const toggle=page.locator('#problem-tags-toggle');
+  if(!(await toggle.count())||!(await toggle.isVisible()))return;
+  if((await toggle.getAttribute('aria-expanded'))==='false')await toggle.click();
+}
   const browser = await chromium.launch(launchOptions);
   
   // Scenario 1: Desktop visitor reads value props and navigates to "代碼審查"
@@ -88,6 +94,7 @@ const launchOptions = process.env.CHROMIUM_BIN ? { executablePath: process.env.C
       const page = await browser.newPage({ viewport: { width, height } });
       await page.goto(origin, { waitUntil: 'domcontentloaded' });
       await page.waitForSelector('#results .card');
+      await expandProblemTags(page);
       
       const overflow = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,

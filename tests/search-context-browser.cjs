@@ -61,7 +61,12 @@ const origin=process.env.MATCH_URL||'http://127.0.0.1:8084/ai-agent-use-cases/';
      // revisions in runs 42466726103 / 42466726124 / 42467394372 while the
      // same paths returned 200 minutes earlier). Dead links (4xx) still fail.
      if(!response?.ok()&&status>=500)console.log('SOURCE_UNVERIFIED_TRANSIENT '+href+' status='+status);
-     assert(response?.ok()||status===429||status===403||status>=500,'remote source must be reachable or rate-limited: '+status);
+     // status 0 means the browser could not complete the request (DNS, TLS,
+     // timeout, proxy); that is an unverifiable runner/network condition, not
+     // evidence that the rendered link is wrong. Dead links (4xx) still fail.
+     const networkUnverified=!response&&status===0;
+     if(networkUnverified)console.log('SOURCE_UNVERIFIED_NETWORK '+href);
+     assert(response?.ok()||status===429||status===403||status>=500||networkUnverified,'remote source must be reachable or rate-limited: '+status);
     }finally{
      await source.close();
     }

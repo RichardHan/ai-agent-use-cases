@@ -3229,6 +3229,43 @@ $('copy-search-link').addEventListener('click',copySearchLink);
 // Choose the initial disclosure state once; typing, navigation and resizing
 // preserve the reader's choice and never hide a currently focused control.
 $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
+// On small screens the 53-task directory otherwise pushes the value panel and
+// case cards more than a screen down. Keep every link, but show nine first and
+// let the reader open the rest; wide screens always show the full directory.
+(() => {
+  const nav=$('hero-problem-tags'),toggle=$('problem-tags-toggle');
+  if(!nav||!toggle)return;
+  const links=[...nav.querySelectorAll('a.problem-tag')];
+  const visibleCount=9;
+  const narrow=()=>window.matchMedia('(max-width:760px)').matches;
+  let mobileInitialized=false;
+  const render=()=>{
+    if(!narrow()){
+      if(document.activeElement===toggle&&links[0])links[0].focus({preventScroll:true});
+      nav.removeAttribute('data-collapsed');
+      toggle.hidden=true;
+      toggle.setAttribute('aria-expanded','true');
+      mobileInitialized=false;
+      return;
+    }
+    if(!mobileInitialized){
+      toggle.hidden=false;
+      if(links.slice(visibleCount).includes(document.activeElement))toggle.focus({preventScroll:true});
+      nav.setAttribute('data-collapsed','true');
+      mobileInitialized=true;
+    }
+    const expanded=nav.getAttribute('data-collapsed')!=='true';
+    toggle.setAttribute('aria-expanded',String(expanded));
+    toggle.textContent=expanded?`收合任務清單（先顯示 ${visibleCount} 項）`:`顯示全部 ${links.length} 個任務`;
+  };
+  toggle.addEventListener('click',()=>{
+    if(nav.getAttribute('data-collapsed')==='true')nav.removeAttribute('data-collapsed');
+    else nav.setAttribute('data-collapsed','true');
+    render();
+  });
+  window.addEventListener('resize',render,{passive:true});
+  render();
+})();
 $('draw-case').addEventListener('click',drawFromButton);
 document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
 document.querySelectorAll('#draw-difficulty-options [data-difficulty]').forEach(button=>button.addEventListener('click',()=>chooseDifficulty(button.dataset.difficulty)));

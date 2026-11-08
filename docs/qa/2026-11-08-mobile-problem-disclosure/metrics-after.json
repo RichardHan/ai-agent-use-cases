@@ -1,0 +1,52 @@
+{
+  "desktop": {
+    "docHeight": 7832,
+    "heroHeight": 1170.5,
+    "tagsTop": 623.3,
+    "tagsHeight": 408,
+    "tagsVisible": 53,
+    "tagsTotal": 53,
+    "toggleVisible": false,
+    "toggleText": "顯示全部 53 個任務",
+    "valuePropsTop": 1148.9,
+    "guideTop": 1284.7,
+    "discoverTop": 152,
+    "exploreTop": 1378.6,
+    "queryTop": 1527.9,
+    "firstResultTop": 2552.5
+  },
+  "mobile": {
+    "docHeight": 16516,
+    "heroHeight": 1020,
+    "tagsTop": 489.6,
+    "tagsHeight": 148,
+    "tagsVisible": 9,
+    "tagsTotal": 53,
+    "toggleVisible": true,
+    "toggleText": "顯示全部 53 個任務",
+    "valuePropsTop": 853.2,
+    "guideTop": 1086.2,
+    "discoverTop": 1152,
+    "exploreTop": 2481,
+    "queryTop": 2633.9,
+    "firstResultTop": 2886.1,
+    "expandedTagsVisible": 53
+  },
+  "small-mobile": {
+    "docHeight": 16673,
+    "heroHeight": 1072,
+    "tagsTop": 471.5,
+    "tagsHeight": 148,
+    "tagsVisible": 9,
+    "tagsTotal": 53,
+    "toggleVisible": true,
+    "toggleText": "顯示全部 53 個任務",
+    "valuePropsTop": 835.1,
+    "guideTop": 1116.1,
+    "discoverTop": 1204,
+    "exploreTop": 2581.9,
+    "queryTop": 2734.7,
+    "firstResultTop": 2982.9,
+    "expandedTagsVisible": 53
+  }
+}

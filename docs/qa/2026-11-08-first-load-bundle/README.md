@@ -43,7 +43,7 @@
 
 ## 驗收指令與結果
 
-- `node --test tests/*.test.cjs` → **465 pass / 0 fail**（新增 6 項：速率可完成時不提前放棄、速率不可能完成時提早讓位、停滯時放棄、無 `content-length` 時只保留 60% 視窗、壓縮長度需先換算成解壓位元組、跨 chunk 的中文內容不破字）。
+- `node --test tests/*.test.cjs` → **466 pass / 0 fail**（合併 main 後的總數；本輪新增 6 項：速率可完成時不提前放棄、速率不可能完成時提早讓位、停滯時放棄、無 `content-length` 時只保留 60% 視窗、壓縮長度需先換算成解壓位元組、跨 chunk 的中文內容不破字）。
 - `node --check assets/app.js`（含全部 `assets/*.js`、`tests/*.cjs`）→ pass。
 - `tests/loading-budget-browser.cjs`（Chromium 桌面／390／320、Firefox 390、WebKit 390）→ 通過；全站請求卡住時仍在 20,516–20,577 ms 收斂、佇列請求 32 個上限不變；部分載入 508 → 重試 509；axe 0 違規。
 - `tests/load-recovery-browser.cjs`（Chromium 桌面／390／320）→ PASS：partial／only-failed／zero-success／incremental／pending／filter／empty／focus／direct-link／refresh／reading-return，508 → 509，axe 0 違規。

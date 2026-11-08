@@ -532,3 +532,12 @@ test('showDetail renders three-layer safe adoption tip even for unknown or missi
   assert.match(safetyEl.textContent, /禁止動作/, 'fallback tip must specify 禁止動作');
   assert.match(safetyEl.textContent, /必經審核/, 'fallback tip must specify 必經審核');
 });
+
+test('reader view provides quick safety and credibility shortcut to proof and safe adoption notes', () => {
+  const readerJs = fs.readFileSync(path.join(__dirname, '../assets/reader.js'), 'utf8');
+  assert.match(readerJs, /reader-safety-shortcut/, 'reader.js must create .reader-safety-shortcut');
+  assert.match(readerJs, /查核依據與安全採用/, 'safety shortcut must have clear descriptive label');
+  assert.match(readerJs, /safetyShortcut\.setAttribute\(['"]aria-label['"],\s*['"]查核依據與安全採用/, 'aria-label must begin with visible label for WCAG 2.5.3');
+  assert.match(readerCss, /\.reader-safety-shortcut\s*\{[^}]*min-height:\s*44px/, 'reader.css must give .reader-safety-shortcut at least 44px touch target');
+  assert.match(readerCss, /\.reader-safety-shortcut:focus-visible\s*\{/, 'reader.css must define focus-visible for safety shortcut');
+});

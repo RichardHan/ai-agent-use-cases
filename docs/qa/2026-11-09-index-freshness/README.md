@@ -64,7 +64,30 @@
 - 先紅後綠：新測試在 `origin/main` 的 `INDEX.md` 上 3/3 失敗（缺新鮮度句、缺批次揭露、缺 `#research-log`），修正後全庫 **500 通過、0 失敗**（基準 497）。
 - 錨點自檢：`INDEX.md` 內 4 個 `(#…)` 連結全部解析到 `<a id>`；62 個錨點與標題無重複 id、無重複標題。
 - 內容保全：搬移的研究段落、日期標題、案例列、證據列與來源連結在搬移前後筆數與文字完全相同（54 段批次段落、49 個日期標題、503 列案例、3 列證據、155 個 `sources/` 連結目標）。逐行比對（去空白行）只有 3 行移除、10 行新增：移除的是舊日期句、「以下先保留歷次研究紀錄」提示與改寫前的 1,000 目標句；新增的是 2 個導覽連結、新鮮度句、原日期句後半段獨立成段、改寫後的 1,000 目標句、回首頁指引、`#research-log` 錨點、歸檔標題與 2 行歸檔說明。
-- 正式站驗收與前後對照見下方「發布後」段落（合併、部署完成後補記）。
+## 發布後
+
+PR [#278](https://github.com/RichardHan/ai-agent-use-cases/pull/278)（head `007e58f4`）的兩項檢查都通過：`Website QA` 6 分 11 秒、`Audit summary round QA` 2 分 24 秒；squash 合併為 `146f44da`。`pages build and deployment`（[42522331148](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42522331148)）成功；正式站 `catalog.json` 的 `sourceRevision` 已等於 `146f44da149efaef192e532a94543ce20a58d894`。
+
+同一份渲染、同一天量測（Chromium，`INDEX.html` 加上 cache-buster 以避開 CDN 的 `max-age=600`）：
+
+| 項目 | 修改前正式站 `598ea9b5` | 修改後正式站 `146f44da` |
+| --- | --- | --- |
+| 案例表起點 1440 | y=9,077 | **y=557** |
+| 案例表起點 390 | y=19,853 | **y=797** |
+| 新鮮度句位置 1440／390 | y=4,821／10,725（「更新日期：2026-10-20」） | **y=365／389**（筆數＋最新核對日＋校對日） |
+| 研究日誌位置 1440／390 | 頁首（案例表之前） | 45,792／74,364（`#research-log` 之後） |
+| 頁面總高 1440／390 | 62,107／108,157 | 62,417／108,659 |
+| 前後截圖 | `qa-artifacts/before-index-desktop.png`、`before-index-mobile.png` | `qa-artifacts/after-index-desktop.png`、`after-index-mobile.png`、`after-index-mobile-firstscreen.png` |
+
+390×844 第一屏（不捲動）依序可見：頁名、導覽（含「回到案例探索首頁」）、「本頁列出 503 筆案例；頁首核對日期最新為 2026-11-08；本頁於 2026-11-09 校對」、未獨立重現聲明、1,000 目標與批次揭露、「主要案例（503）」。
+
+四個錨點以 `INDEX.html?cb=…#id` 逐一點擊後都停在目標頂端（`top=0`）：`#case-list` 557、`#supplement-list` 45,132、`#pending-sources` 45,360、`#research-log` 45,792。
+
+走查（正式站）：首頁鍵盤焦點順序 `跳到案例探索 → 品牌 → GitHub 原始資料 → 直接搜尋案例 → 最近核對的內容 → 旅遊規劃…` 不變；「整理家族旅遊行程」14 筆、「小孩的作業檢查」5 筆仍附重讀說明；`q=zzz987&scenario=生活` 0 筆時提供可保留篩選的捷徑，點第一個捷徑復原為 41 筆；分享直鏈 `?case=UC-511` 開啟對話框，顯示「頁首核對 2026-11-08」、來源連結固定在 `146f44da`，並有「上一則／關閉」。
+
+主分支發布閘門 `Website QA`（[42522331822](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42522331822)）7 分 02 秒完成、**success**：Jekyll 建置、`Verify built Pages corpus`、`Verify language of built Pages`、`Wait for published assets and content` 都實際執行並通過（fail-closed 步驟因已驗證而 skipped），最後的 `Verify the published GitHub Pages site` 也通過。
+
+CDN 快取：部署完成後數分鐘內，未加版本參數的 `INDEX.html` 仍回 `max-age=600` 的舊 HTML（age=6、內容仍是 `598ea9b5` 版本），這是 Pages 既有行為、不是本輪造成的；快取到期後重新載入未加參數的 `INDEX.html` 已回新頁（`#case-list` y=557、總高 62,417），`catalog.json` 的 `sourceRevision` 仍為 `146f44da`。
 
 ## 已知限制
 

@@ -3231,13 +3231,14 @@ function syncDiscovery(filtered){
   const pool=Discovery.discoveryPool(filtered);
   const key=$('scenario').value+'|'+($('difficulty')?.value||'')+'|'+pool.map(item=>item.id).join(',');
   if(key===discoveryKey)return;
-  discoveryKey=key;discoveryDeck=Discovery.createDeck(pool);
-  $('draw-case').disabled=!pool.length;
   // Typing a question changes the pool on every keystroke. Replacing the drawn
   // card then reflows everything above the search field, which pushes the results
   // off a phone screen; keep a card that still matches and only redraw when it no
-  // longer qualifies (or when the reader asks for another card).
+  // longer qualifies (or when the reader asks for another card). The deck is
+  // seeded with that card so「再抽一張」still returns a different case.
   const kept=pool.find(item=>item.id===drawnItemId);
+  discoveryDeck=Discovery.createDeck(pool,Math.random,kept?kept.id:null);
+  $('draw-case').disabled=!pool.length;
   if(pool.length&&kept){
     $('draw-status').textContent=drawScope()+' · 這組條件有 '+pool.length+' 張案例卡 · 目前顯示：'+kept.title;
     drawButtonLabel(pool.length);
@@ -3247,6 +3248,7 @@ function syncDiscovery(filtered){
     // Results that are all evidence notes, templates or open leads are readable
     // but not drawable; saying "no case cards" without the reason reads as an
     // empty search next to a non-empty result list.
+    drawnItemId='';
     $('drawn-case').replaceChildren(el('p','draw-placeholder',filtered.length
       ? `符合的 ${filtered.length} 筆沒有可抽卡的用法靈感（經驗與踩坑、模板或待查想法不列入抽卡）；可在下方結果直接閱讀。`
       : `${diffText}目前沒有可抽的案例卡。抽卡也受下方搜尋與篩選影響；試試修改搜尋字詞或調整篩選。`));

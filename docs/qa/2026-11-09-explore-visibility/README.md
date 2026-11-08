@@ -41,13 +41,14 @@
 改法：`syncDiscovery()` 只在新池仍包含目前顯示的案例時保留該卡（記錄 `drawnItemId`），狀態句改說「目前顯示：<標題>」，不再宣稱「第 N 張」；不符合條件或讀者自己按「再抽一張」才重抽。
 
 - `tests/draw-stability-browser.cjs`（新）：把情境篩成卡片自己的情境 → 必須是同一個 DOM 節點、同一個案例、狀態含「目前顯示」；改成排除它的門檻 → 必須換卡且不是原案例。修改前預覽失敗於 `desktop: a filter that still matches the drawn case replaced it (UC-250 -> UC-454)`，修改後桌機與手機皆通過。
-- 單元測試另加「仍符合條件的池保留原卡、不得重繪」。
+- 獨立審查追出兩個邊界並已修正：可抽池變空時要清掉 `drawnItemId`（否則條件恢復後會停在佔位說明，狀態卻說「目前顯示」）；保留卡片時要把該卡種進新牌組（`createDeck(pool, random, seedLastId)`），否則緊接著按「再抽一張」可能又抽到同一張。
+- 單元測試另加「仍符合條件的池保留原卡、不得重繪」與「以目前卡片為種子的新牌組，第一張不得是同一張」。
 - 連續 6 次手機量測：搜尋框視窗 y=177、第一張卡 787–790（視窗 844），不再出現 929–960。
 
 ## 驗收
 
 - 先紅後綠：修改前 `tests/explore-visibility-browser.cjs` 失敗於 `laptop: first matching card is off screen at 1491px (viewport 900px)`；修改後四種視窗連跑 3 次全過：laptop 第一張卡在 760–810px（首頁抽卡高度隨機）、同屏 3 張；1440×2600 維持展開且結果行仍在畫面內。（`EXPLORE_VISIBILITY` 會印在 CI 日誌。）
-- 單元測試 508 項全過（506 + 新增 2），`node --check` 全部通過。
+- 單元測試 509 項全過（506 + 新增 3），`node --check` 全部通過。
 - 受影響瀏覽器流程（本機實際執行）：`discovery-browser`（含 mobile-search，桌面 `firstResultFromSearch` 291，與手機 252、小手機 248 同級）、`results-batching`、`search-submit-history`、`visitor-problem`（axe 0）、`mobile-problem-tags`、`compound-split`、`sentence-fallback`、`search-expansion-consistency`、`short-sentence`、`reader`（含 WebKit）、`related`、`search-context`、`reader-search`、`source-guide` 全數通過；`reading-flow-browser` 在本機 1440 於 `.research-details` 展開斷言失敗，同一支測試對修改前預覽也以相同行號失敗，判定為本機環境既有問題，交由 CI 判定。
 - 三個必要情境重走：首頁任務標籤 → 搜尋（結果卡在 755px 可見）；搜尋＋情境＋門檻＋工具造成 0 筆 → 空結果提供「移除提及工具 → 查看 2 筆」並保留其他條件；手機 `?q=旅遊&scenario=生活&case=UC-001` 直鏈開啟詳情、來源固定於 `e5043ec`、關閉後查詢與情境仍在（22 筆）、焦點回到結果數。
 - 截圖：`before-*`／`after-*` 同尺寸、同資料狀態（皆為輸入「會議」後），另有 landing 狀態與 `*-measurements.json`。

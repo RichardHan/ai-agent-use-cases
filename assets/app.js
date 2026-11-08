@@ -2086,6 +2086,96 @@ function compoundQuerySplit(items, terms, filters, limit=24) {
   return null;
 }
 
+// Most first-time questions are sentences, not keywords ("怎麼讓 AI 幫我檢查合約
+// 有沒有問題"). tokenize() keeps each CJK run whole and filterEntries() requires
+// every run to appear literally, so a sentence usually matches nothing even when
+// it contains a task the library does cover. When the strict match is empty, the
+// query is long enough to be prose and no facet is narrowing it, look for the
+// library's own vocabulary inside the sentence: synonym keys plus indexed tags.
+// Up to two of those words are used together, so the result stays a literal
+// narrowing rather than an inferred interpretation.
+const SENTENCE_QUERY_MIN_CHARS=10;
+const SENTENCE_CANDIDATE_LIMIT=5;
+let vocabularyCache={key:'',terms:[]};
+function libraryVocabulary(items) {
+  const key=String(items.length);
+  if(vocabularyCache.key===key)return vocabularyCache.terms;
+  const terms=new Set();
+  const add=value=>{
+    const term=norm(value||'').trim();
+    if(term.length>=2&&term.length<=12)terms.add(term);
+  };
+  Object.keys(SYNONYM_MAP).forEach(add);
+  items.forEach(item=>(item.tags||[]).forEach(add));
+  vocabularyCache={key,terms:[...terms]};
+  return vocabularyCache.terms;
+}
+// Latin words are matched as whole tokens: "ev" must not be found inside
+// "review", which is the same incidental-fragment rule the PR query follows.
+function latinTokenPattern(term) {
+  const escaped=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return new RegExp('(^|[^a-z0-9])'+escaped+'([^a-z0-9]|$)');
+}
+const termAppearsIn=(term, text, spaced)=>/[a-z0-9]/.test(term)
+  ? latinTokenPattern(term).test(spaced)
+  : text.includes(term);
+// A sentence may carry several library words. Prefer the narrower conjunction,
+// but never one that stands for the same synonym group twice.
+function sentenceCandidates(items, text, spaced, filters) {
+  const seen=new Set(), candidates=[];
+  for(const term of libraryVocabulary(items)){
+    if(term===text || !termAppearsIn(term,text,spaced))continue;
+    const key=termVariants(term).slice().sort().join('|');
+    if(seen.has(key))continue;
+    seen.add(key);
+    const count=filterEntries(items,[term],filters).length;
+    if(count>0)candidates.push({term,count,key});
+  }
+  return candidates
+    .sort((a,b)=>b.term.length-a.term.length || a.count-b.count || text.indexOf(a.term)-text.indexOf(b.term))
+    .slice(0,SENTENCE_CANDIDATE_LIMIT);
+}
+function sentenceQueryFallback(items, query, filters) {
+  if(items.length<40)return null;
+  // A facet that excludes everything is the visitor's own narrowing; the empty
+  // state already names the facet to remove, so the sentence is not the problem.
+  if(Object.values(filters).some(Boolean))return null;
+  const source=(query||'').trim();
+  // Quoted wording asks for that wording, not for the words inside it.
+  if(/[「」『』"“”]/.test(source))return null;
+  const spaced=norm(source);
+  const text=spaced.replace(/\s+/g,'');
+  if([...text].length<SENTENCE_QUERY_MIN_CHARS)return null;
+  // An explicit case or lead number is the most specific thing the visitor typed;
+  // answering with a topic word instead would silently answer another question.
+  if(/(?:^|[^a-z0-9])(?:uc|p)[-\s]?\d+(?![a-z0-9])|#\s*\d+(?![a-z0-9])/.test(spaced))return null;
+  if(!/[\u3400-\u9fff]/.test(text))return null;
+  // A word covering a third of the library is not a narrower question, so it is
+  // never used alone; it may still join a second word to form a real narrowing.
+  const narrow=option=>option.count>0 && option.count*3<items.length;
+  const candidates=sentenceCandidates(items,text,spaced,filters);
+  const single=candidates.find(narrow) || null;
+  let best=single ? {segments:[single.term],terms:[single.term],count:single.count} : null;
+  for(let i=0;i<candidates.length;i++){
+    for(let j=i+1;j<candidates.length;j++){
+      const [first,second]=[candidates[i].term,candidates[j].term];
+      // One word inside the other (pull request / request) adds no new narrowing.
+      if(first.includes(second) || second.includes(first))continue;
+      const terms=[first,second];
+      const option={segments:terms,terms,count:filterEntries(items,terms,filters).length};
+      if(narrow(option) && (!best || option.count<best.count))best=option;
+    }
+  }
+  if(!best)return null;
+  return {...best,source,mode:'words'};
+}
+// One place decides whether an empty strict match may be re-read, so the
+// browser and the unit tests cannot drift apart.
+function searchExpansion(items, query, terms, filters) {
+  if(!terms.length || filterEntries(items,terms,filters).length)return null;
+  return compoundQuerySplit(items,terms,filters) || sentenceQueryFallback(items,query,filters);
+}
+
 // The expansion in force, and the phrase the visitor chose to keep exact.
 // Turning the expansion off never rewrites what they typed.
 let activeSearchSplit=null, splitSuppressedFor='';
@@ -2095,12 +2185,22 @@ function showSearchSplitNote(possibleSplit, suppressed) {
   if(!note)return;
   const split=possibleSplit;
   if(!split){note.hidden=true;note.dataset.mode='';if(message.textContent)message.textContent='';return;}
-  const source=abbreviatedQuery(split.source);
   const segments=split.segments.map(segment=>'「'+segment+'」').join('＋');
-  const text=suppressed
-    ? '目前只找完整包含「'+source+'」的案例，因此沒有結果。改以'+segments+'同時符合可看 '+split.count+' 筆；這是字面拆詞，不是語意理解。'
-    : '沒有完整包含「'+source+'」的案例。改以'+segments+'同時符合，顯示 '+split.count+' 筆；這是字面拆詞，不是語意理解，也不代表已驗證。';
-  const label=suppressed ? '改用拆詞結果' : '只找完整句子';
+  const words=split.mode==='words';
+  let text, label;
+  if(words){
+    const each=split.segments.length>1;
+    text=suppressed
+      ? '目前只找完整包含整句的案例，因此沒有結果。句中包含站上既有的詞'+segments+'，改用'+(each?'這些詞同時符合':'該詞')+'可看 '+split.count+' 筆；這是字面比對，不是語意理解。'
+      : '整句沒有直接命中案例。句中包含站上既有的詞'+segments+'，改以'+(each?'這些詞同時符合':'該詞')+'搜尋，顯示 '+split.count+' 筆；這是字面比對，不是語意理解，也不代表已驗證。';
+    label=suppressed ? '改用句中詞' : '只找完整句子';
+  } else {
+    const source=abbreviatedQuery(split.source);
+    text=suppressed
+      ? '目前只找完整包含「'+source+'」的案例，因此沒有結果。改以'+segments+'同時符合可看 '+split.count+' 筆；這是字面拆詞，不是語意理解。'
+      : '沒有完整包含「'+source+'」的案例。改以'+segments+'同時符合，顯示 '+split.count+' 筆；這是字面拆詞，不是語意理解，也不代表已驗證。';
+    label=suppressed ? '改用拆詞結果' : '只找完整句子';
+  }
   // Keep the live region quiet unless the message actually changed.
   if(message.textContent!==text)message.textContent=text;
   if(action.textContent!==label)action.textContent=label;
@@ -2306,7 +2406,7 @@ function render(updateURL=true, preserveShare=false) {
   if(queryText!==splitSuppressedFor)splitSuppressedFor='';
   const matches=filterEntries(entries,q,filters);
   const splitSuppressed=splitSuppressedFor===queryText;
-  const possibleSplit=matches.length||!q.length ? null : compoundQuerySplit(entries,q,filters);
+  const possibleSplit=matches.length||!q.length ? null : searchExpansion(entries, queryText, q, filters);
   activeSearchSplit=splitSuppressed ? null : possibleSplit;
   const searchTerms=activeSearchSplit ? activeSearchSplit.terms : q;
   const shownMatches=activeSearchSplit ? filterEntries(entries,searchTerms,filters) : matches;

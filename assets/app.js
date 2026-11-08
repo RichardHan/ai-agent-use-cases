@@ -77,7 +77,7 @@ let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem =
 let allowAutomaticArrival=true, searchShareRequest=0;
 let recoveringSources=false, recoveryNotice='', recoveryController=null, recoveryProgress=null;
 let initialLoading=false, initialLoadController=null;
-let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
+let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null,drawnItemId='';
 const RESULT_BATCH_SIZE=24;
 let visibleResults=RESULT_BATCH_SIZE, resultQueryKey='';
 const $ = id => document.getElementById(id);
@@ -3210,15 +3210,19 @@ async function load() {
     $('loading-progress').hidden=true;
   }
 }
+function drawScope(){
+  const diffLabel=$('difficulty')?.value?($('difficulty').value==='入門對話'?'免寫程式':$('difficulty').value==='工具串接'?'需帳號外掛':'需代碼環境'):'';
+  return ($('scenario').value||'全部情境')+(diffLabel?' · '+diffLabel:'');
+}
+function drawButtonLabel(total){$('draw-case').textContent=total===1?'只有這一張，重新看看':'再抽一張 ↻';}
 function drawNext(){
   if(!discoveryReady||!discoveryDeck)return;
   const next=discoveryDeck.next();
   if(!next)return;
   $('drawn-case').replaceChildren(card(next.item));
-  const diffLabel=$('difficulty')?.value?($('difficulty').value==='入門對話'?'免寫程式':$('difficulty').value==='工具串接'?'需帳號外掛':'需代碼環境'):'';
-  const scope=($('scenario').value||'全部情境')+(diffLabel?' · '+diffLabel:'');
-  $('draw-status').textContent=scope+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
-  $('draw-case').textContent=next.total===1?'只有這一張，重新看看':'再抽一張 ↻';
+  drawnItemId=next.item.id;
+  $('draw-status').textContent=drawScope()+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
+  drawButtonLabel(next.total);
 }
 function syncDiscovery(filtered){
   document.querySelectorAll('button[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
@@ -3229,7 +3233,15 @@ function syncDiscovery(filtered){
   if(key===discoveryKey)return;
   discoveryKey=key;discoveryDeck=Discovery.createDeck(pool);
   $('draw-case').disabled=!pool.length;
-  if(pool.length)drawNext();
+  // Typing a question changes the pool on every keystroke. Replacing the drawn
+  // card then reflows everything above the search field, which pushes the results
+  // off a phone screen; keep a card that still matches and only redraw when it no
+  // longer qualifies (or when the reader asks for another card).
+  const kept=pool.find(item=>item.id===drawnItemId);
+  if(pool.length&&kept){
+    $('draw-status').textContent=drawScope()+' · 這組條件有 '+pool.length+' 張案例卡 · 目前顯示：'+kept.title;
+    drawButtonLabel(pool.length);
+  }else if(pool.length)drawNext();
   else{
     const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
     // Results that are all evidence notes, templates or open leads are readable

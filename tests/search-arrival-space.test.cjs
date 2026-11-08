@@ -23,6 +23,21 @@ test('a plain landing compacts an off-screen result line and leaves a visible on
  const visible=fixture({bottom:900,height:1000,hash:''});visible.api.arrive(true,'');
  assert.equal(visible.panel.open,true,'a result line already on screen keeps the facets open');
 });
+test('a drawable pool that still contains the drawn case keeps that card',()=>{
+ const nodes={
+   'filter-options':{open:false,contains:()=>false},'draw-case':{disabled:false,textContent:''},
+   'drawn-case':{replaceChildren:()=>{throw Error('must not redraw a still-matching card');}},
+   'draw-status':{textContent:''},'scenario':{value:'工作'},'difficulty':{value:'入門對話'},
+   'results-count':{getBoundingClientRect:()=>({bottom:0})},'explore':{getBoundingClientRect:()=>({top:0})}
+ };
+ const context=vm.createContext({document:{activeElement:{},getElementById:id=>nodes[id],querySelectorAll:()=>[]},window:{matchMedia:()=>({matches:false}),innerHeight:900},Discovery:require('../assets/discovery.js'),entries:[],innerHeight:900});
+ const kept={id:'UC-1',title:'kept',kind:'case'};
+ vm.runInContext(fs.readFileSync('assets/app.js','utf8').split('/* Browser event bindings. */')[0]+`;this.api={setDrawn(id){drawnItemId=id;},sync(list){discoveryReady=true;discoveryKey='different';syncDiscovery(list);}};`,context);
+ context.api.setDrawn('UC-1');
+ context.api.sync([kept,{id:'UC-2',title:'other',kind:'case'}]);
+ assert.match(nodes['draw-status'].textContent,/目前顯示：kept/,'the status must report the kept card instead of a new draw');
+ assert.equal(nodes['draw-case'].textContent,'再抽一張 ↻');
+});
 test('reader return never changes an open disclosure',()=>{
  const f=fixture();f.api.revealSearch(true);assert.equal(f.panel.open,true);assert.deepEqual(f.calls,['scroll-results','focus-results']);
 });

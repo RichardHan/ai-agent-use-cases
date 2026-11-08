@@ -1,0 +1,43 @@
+{
+  "origin": "http://127.0.0.1:8174/ai-agent-use-cases/ (preview of this branch)",
+  "report": [
+    {
+      "viewport": "desktop",
+      "width": 1440,
+      "splitCount": 4,
+      "withFacet": 4,
+      "exactOnlyCount": "顯示 0 / 509 筆收錄",
+      "axeViolations": 0,
+      "baseline": "顯示 92 / 509 筆收錄"
+    },
+    {
+      "viewport": "mobile",
+      "width": 390,
+      "splitCount": 4,
+      "withFacet": 4,
+      "exactOnlyCount": "顯示 0 / 509 筆收錄",
+      "axeViolations": 0,
+      "baseline": "顯示 92 / 509 筆收錄"
+    },
+    {
+      "viewport": "small",
+      "width": 320,
+      "splitCount": 4,
+      "withFacet": 4,
+      "exactOnlyCount": "顯示 0 / 509 筆收錄",
+      "axeViolations": 0,
+      "baseline": "顯示 92 / 509 筆收錄"
+    }
+  ],
+  "baselineOrigin": "http://127.0.0.1:8170/ai-agent-use-cases/ (preview of origin/main)",
+  "noteHeightPx": {
+    "1440": 70,
+    "390": 146
+  },
+  "horizontalOverflowPx": {
+    "1440": 0,
+    "390": 0,
+    "320": 0
+  },
+  "liveRegionWritesOnUnchangedRender": 0
+}

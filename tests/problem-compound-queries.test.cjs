@@ -1026,17 +1026,69 @@ test('natural problem queries for contract comparison, legal review, report reco
   }
 });
 
-test('hero problem tags and empty state suggestions expose 合約比對, 報表比對, 電子報, and 庫存管理', () => {
+test('hero problem tags and empty state suggestions expose 合約比對, 報表比對, 電子報, 庫存管理, 安全防護, and 人工審批', () => {
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
   assert.ok(nav.includes('href="?q=合約比對#explore"'), 'hero-problem-tags must include 合約比對');
   assert.ok(nav.includes('href="?q=報表比對#explore"'), 'hero-problem-tags must include 報表比對');
   assert.ok(nav.includes('href="?q=電子報#explore"'), 'hero-problem-tags must include 電子報');
   assert.ok(nav.includes('href="?q=庫存#explore"'), 'hero-problem-tags must include 庫存');
+  assert.ok(nav.includes('href="?q=安全防護#explore"'), 'hero-problem-tags must include 安全防護');
+  assert.ok(nav.includes('href="?q=人工審批#explore"'), 'hero-problem-tags must include 人工審批');
 
   const appJs = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
   assert.match(appJs, /term:\s*['"]合約比對['"]/, 'app.js empty state problem tags must include 合約比對');
   assert.match(appJs, /term:\s*['"]報表比對['"]/, 'app.js empty state problem tags must include 報表比對');
   assert.match(appJs, /term:\s*['"]電子報['"]/, 'app.js empty state problem tags must include 電子報');
   assert.match(appJs, /term:\s*['"]庫存管理['"]/, 'app.js empty state problem tags must include 庫存管理');
+  assert.match(appJs, /term:\s*['"]安全防護['"]/, 'app.js empty state problem tags must include 安全防護');
+  assert.match(appJs, /term:\s*['"]人工審批['"]/, 'app.js empty state problem tags must include 人工審批');
+});
+
+test('natural problem queries for security protection, human review, payment approval, and permission management recall targeted cases', () => {
+  const queries = [
+    { raw: '安全防護', expectedTokens: ['安全防護'], minMatches: 50, canonicalId: 'UC-407' },
+    { raw: '安全落地', expectedTokens: ['安全落地'], minMatches: 50, canonicalId: 'UC-407' },
+    { raw: '人工審批', expectedTokens: ['人工審批'], minMatches: 35, canonicalId: 'UC-011' },
+    { raw: '人工審核', expectedTokens: ['人工審核'], minMatches: 35, canonicalId: 'UC-011' },
+    { raw: '付款審核', expectedTokens: ['付款', '審核'], minMatches: 30, canonicalId: 'UC-014' },
+    { raw: '權限管理', expectedTokens: ['權限管理'], minMatches: 15, canonicalId: 'UC-128' },
+  ];
+
+  for (const item of queries) {
+    const tokens = Array.from(api.tokenize(item.raw));
+    assert.deepEqual(tokens, item.expectedTokens, `Query "${item.raw}" must tokenize to ${JSON.stringify(item.expectedTokens)} but got ${JSON.stringify(tokens)}`);
+    const hits = api.filterEntries(entries, tokens, {});
+    assert.ok(
+      hits.length >= item.minMatches,
+      `Query "${item.raw}" should match at least ${item.minMatches} cases, found ${hits.length}`
+    );
+    if (item.canonicalId) {
+      assert.ok(
+        hits.some(e => e.id === item.canonicalId),
+        `Query "${item.raw}" should recall ${item.canonicalId}`
+      );
+    }
+  }
+});
+
+test('Reviewer regressions: payment review aliases (扣款, 審批, 核准付款) must retain UC-052 and UC-091 coverage', () => {
+  // Finding 1: 扣款 審核 must normalize to [付款, 審核] and recall UC-052
+  const debitTokens = Array.from(api.tokenize('扣款 審核'));
+  assert.deepEqual(debitTokens, ['付款', '審核'], '扣款 審核 must tokenize to [付款, 審核]');
+  const debitHits = api.filterEntries(entries, debitTokens, {});
+  assert.ok(debitHits.some(e => e.id === 'UC-052'), '扣款 審核 must recall UC-052');
+
+  // Finding 2: 付款 審批 must normalize to [付款, 審核] and recall UC-091
+  const payApproveTokens = Array.from(api.tokenize('付款 審批'));
+  assert.deepEqual(payApproveTokens, ['付款', '審核'], '付款 審批 must tokenize to [付款, 審核]');
+  const payApproveHits = api.filterEntries(entries, payApproveTokens, {});
+  assert.ok(payApproveHits.some(e => e.id === 'UC-091'), '付款 審批 must recall UC-091');
+
+  // Finding 3: 核准付款 must normalize to [付款, 審核]
+  const approvePayTokens = Array.from(api.tokenize('核准付款'));
+  assert.deepEqual(approvePayTokens, ['付款', '審核'], '核准付款 must tokenize to [付款, 審核]');
+  const approvePayHits = api.filterEntries(entries, approvePayTokens, {});
+  assert.ok(approvePayHits.length >= 30, '核准付款 must recall >= 30 cases');
+  assert.ok(approvePayHits.some(e => e.id === 'UC-014'), '核准付款 must recall UC-014');
 });

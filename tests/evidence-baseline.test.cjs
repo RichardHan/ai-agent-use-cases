@@ -38,14 +38,19 @@ test('a missing or impossible corpus size is not invented', () => {
   }
 });
 
-test('a batch that states two different corpus sizes does not get to pick one', () => {
-  for (const claims of [[420, 500], [420, 420]]) {
-    const summary = parseSummary(withBase(370, 630, claims));
-    if (claims[0] === claims[1]) assert.equal(summary.pageBase, 420, 'the same claim twice is one claim');
-    else {
-      assert.equal(summary.pageBase, 0, 'conflicting claims leave the corpus unknown');
-      assert.doesNotMatch(statusText(summary), /母體/, 'no conflicting size reaches the page');
+test('a batch that mentions more than one corpus size does not get to pick one', () => {
+  const variants = [
+    withBase(370, 630, [420, 500]),
+    withBase(370, 630, [420, 420]),
+    {
+      latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **370／1,000，尚差630**；' +
+        '主要案例頁420不是合格數；實際母體是500個主要案例頁。'
     }
+  ];
+  for (const value of variants) {
+    const summary = parseSummary(value);
+    assert.equal(summary.pageBase, 0, 'a second mention leaves the corpus unknown: ' + value.latestBatch.slice(-60));
+    assert.doesNotMatch(statusText(summary), /母體/, 'no conflicting size reaches the page');
   }
 });
 

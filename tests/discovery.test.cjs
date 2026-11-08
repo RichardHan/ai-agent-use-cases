@@ -32,6 +32,13 @@ test('a deck visits every case once, avoids immediate repeats across rounds, and
   assert.notEqual(next.item.id,first[2].item.id);
   assert.deepEqual(pool,original);
 });
+test('a deck seeded with the card on screen never hands that card back first', () => {
+  const pool = [items[0], items[1], items[2]];
+  for (const random of [() => 0, () => 0.5, () => 0.999]) {
+    const deck = createDeck(pool, random, 'UC-002');
+    assert.notEqual(deck.next().item.id, 'UC-002', 'the reader already sees UC-002');
+  }
+});
 test('empty and single-item decks have explicit states', () => {
   assert.equal(createDeck([]).next(),null);
   const deck=createDeck([items[0]]);

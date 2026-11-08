@@ -18,8 +18,10 @@
       seen.add(item.id);return true;
     });
   }
-  function createDeck(items,random=Math.random){
-    const pool=items.slice();let bag=[],index=0,round=0,lastId=null;
+  // `seedLastId` is the card the reader is already looking at: the first draw
+  // from a new deck must not hand back that same case.
+  function createDeck(items,random=Math.random,seedLastId=null){
+    const pool=items.slice();let bag=[],index=0,round=0,lastId=seedLastId;
     return {next(){
       if(!pool.length)return null;
       if(index===bag.length){

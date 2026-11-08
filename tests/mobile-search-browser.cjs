@@ -14,7 +14,16 @@ module.exports=async function mobileSearch({browser,origin,prefix='mobile-search
   const row={viewport:name,readyMs:Date.now()-started};
   const disclosure=page.locator('#filter-options');
   assert.equal(await disclosure.count(),1,'Search must offer an optional filter panel');
-  assert.equal(await disclosure.evaluate(n=>n.open),width>760);
+  // The panel may only start open when opening it would still leave the result
+  // line on screen; re-derive that from the current layout instead of a width.
+  const disclosureState=await page.evaluate(()=>{
+   const panel=document.getElementById('filter-options'),wasOpen=panel.open;
+   panel.open=true;
+   const resultLineBottom=document.getElementById('results-count').getBoundingClientRect().bottom;
+   panel.open=wasOpen;
+   return {open:wasOpen,fits:resultLineBottom<=innerHeight-24};
+  });
+  assert.equal(disclosureState.open,disclosureState.fits,'An open filter panel must not push the result line off screen');
   await page.evaluate(()=>document.getElementById('explore').scrollIntoView({block:'start'}));
   const shot=await page.screenshot({type:'jpeg',quality:75});
   fs.mkdirSync('qa-artifacts',{recursive:true});
@@ -49,6 +58,10 @@ module.exports=async function mobileSearch({browser,origin,prefix='mobile-search
    console.log('VISUAL:'+prefix+'-expanded-'+name+':'+expanded.toString('base64'));
   }
   // Journey 1: a concrete task plus tool/evidence filters, then read and return.
+  // The settled arrival may start compacted at any width, so open it the way a
+  // reader does before choosing facets.
+  if(!(await disclosure.evaluate(n=>n.open)))await page.locator('#filter-summary').click();
+  assert.equal(await disclosure.evaluate(n=>n.open),true,'Facets stay one click away from the summary');
   await page.locator('#query').fill('旅遊');
   await page.locator('#scenario').selectOption('生活');
   await page.locator('#tool').selectOption('Grok Bot');
@@ -129,11 +142,18 @@ module.exports=async function mobileSearch({browser,origin,prefix='mobile-search
    const page=await browser.newPage({viewport:{width,height:1000}});
    await page.goto(origin,{waitUntil:'networkidle'});
    await page.locator('#results .card').first().waitFor();
-   assert.equal(await page.locator('#filter-options').evaluate(n=>n.open),width>760);
+   const state=await page.evaluate(()=>{
+    const panel=document.querySelector('#filter-options'),wasOpen=panel.open;
+    panel.open=true;
+    const resultLineBottom=document.querySelector('#results-count').getBoundingClientRect().bottom;
+    panel.open=wasOpen;
+    return {open:wasOpen,fits:resultLineBottom<=innerHeight-24};
+   });
+   assert.equal(state.open,state.fits,'An open filter panel must leave the result line on screen');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
    await page.close();
   }
-  console.log('PASS MOBILE SEARCH: 760/761px initial disclosure boundary');
+  console.log('PASS MOBILE SEARCH: 760/761px disclosure follows result visibility');
  }
  fs.writeFileSync('qa-artifacts/'+prefix+'.json',JSON.stringify(report,null,2));
  console.log('MOBILE_SEARCH_RESULTS '+prefix+' '+JSON.stringify(report));

@@ -77,7 +77,7 @@ let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem =
 let allowAutomaticArrival=true, searchShareRequest=0;
 let recoveringSources=false, recoveryNotice='', recoveryController=null, recoveryProgress=null;
 let initialLoading=false, initialLoadController=null;
-let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null;
+let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null,drawnItemId='';
 const RESULT_BATCH_SIZE=24;
 let visibleResults=RESULT_BATCH_SIZE, resultQueryKey='';
 const $ = id => document.getElementById(id);
@@ -1963,12 +1963,24 @@ function submitSearch(event) {
   facetDraftDirty=false;
   focusLoadedResults('start');
 }
-function revealSearch(resultsOnly=false) {
-  // Compact only an initial, untouched arrival that cannot show its results.
-  // Keep readable controls and their values; explicit returns preserve choices.
+// The facet panel is a full screen of options. When it starts open on a viewport
+// that cannot also show the result line, the reader types a question and gets 0
+// cards on screen (1440x900: query at 174px, first card at 1491px). Compact only
+// an untouched arrival, and never while the reader is working inside the panel.
+// `base` is the element the arrival scrolls to the top; without it the check uses
+// the viewport the reader is actually looking at.
+function compactFiltersForResults(base=null) {
   const panel=$('filter-options');
-  if(!resultsOnly && panel.open && !panel.contains(document.activeElement) &&
-    $('results-count').getBoundingClientRect().bottom-$('explore').getBoundingClientRect().top>innerHeight-24)panel.open=false;
+  if(!panel||!panel.open||panel.contains(document.activeElement))return false;
+  const bottom=$('results-count').getBoundingClientRect().bottom;
+  const limit=innerHeight-24+(base?base.getBoundingClientRect().top:0);
+  if(bottom<=limit)return false;
+  panel.open=false;
+  return true;
+}
+function revealSearch(resultsOnly=false) {
+  // Keep readable controls and their values; explicit returns preserve choices.
+  if(!resultsOnly)compactFiltersForResults($('explore'));
   const target=$(resultsOnly?'results-count':'search-title');
   (resultsOnly?$('results-count'):$('explore')).scrollIntoView({block:'start',behavior:'instant'});
   target.focus({preventScroll:true});
@@ -1994,7 +2006,8 @@ function focusMissingCase() {
 }
 function finishArrival(params,failed=false) {
   const missing=$('missing-case')&&!$('missing-case').hidden;
-  const shouldMove=allowAutomaticArrival&&(missing||hasSearchArrival(params,location.hash)||(failed&&params.has('case')));
+  const arrived=allowAutomaticArrival;
+  const shouldMove=arrived&&(missing||hasSearchArrival(params,location.hash)||(failed&&params.has('case')));
   allowAutomaticArrival=false;
   if(shouldMove){
     if(missing)focusMissingCase();
@@ -2008,6 +2021,9 @@ function finishArrival(params,failed=false) {
       }
     }
   }
+  // A plain landing needs the same honesty as a shared search: opening the panel
+  // by default must not be what hides every result.
+  else if(arrived)compactFiltersForResults();
 }
 function clearSearchShare() {
   searchShareRequest++;
@@ -3194,15 +3210,19 @@ async function load() {
     $('loading-progress').hidden=true;
   }
 }
+function drawScope(){
+  const diffLabel=$('difficulty')?.value?($('difficulty').value==='入門對話'?'免寫程式':$('difficulty').value==='工具串接'?'需帳號外掛':'需代碼環境'):'';
+  return ($('scenario').value||'全部情境')+(diffLabel?' · '+diffLabel:'');
+}
+function drawButtonLabel(total){$('draw-case').textContent=total===1?'只有這一張，重新看看':'再抽一張 ↻';}
 function drawNext(){
   if(!discoveryReady||!discoveryDeck)return;
   const next=discoveryDeck.next();
   if(!next)return;
   $('drawn-case').replaceChildren(card(next.item));
-  const diffLabel=$('difficulty')?.value?($('difficulty').value==='入門對話'?'免寫程式':$('difficulty').value==='工具串接'?'需帳號外掛':'需代碼環境'):'';
-  const scope=($('scenario').value||'全部情境')+(diffLabel?' · '+diffLabel:'');
-  $('draw-status').textContent=scope+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
-  $('draw-case').textContent=next.total===1?'只有這一張，重新看看':'再抽一張 ↻';
+  drawnItemId=next.item.id;
+  $('draw-status').textContent=drawScope()+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
+  drawButtonLabel(next.total);
 }
 function syncDiscovery(filtered){
   document.querySelectorAll('button[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
@@ -3211,14 +3231,24 @@ function syncDiscovery(filtered){
   const pool=Discovery.discoveryPool(filtered);
   const key=$('scenario').value+'|'+($('difficulty')?.value||'')+'|'+pool.map(item=>item.id).join(',');
   if(key===discoveryKey)return;
-  discoveryKey=key;discoveryDeck=Discovery.createDeck(pool);
+  // Typing a question changes the pool on every keystroke. Replacing the drawn
+  // card then reflows everything above the search field, which pushes the results
+  // off a phone screen; keep a card that still matches and only redraw when it no
+  // longer qualifies (or when the reader asks for another card). The deck is
+  // seeded with that card so「再抽一張」still returns a different case.
+  const kept=pool.find(item=>item.id===drawnItemId);
+  discoveryDeck=Discovery.createDeck(pool,Math.random,kept?kept.id:null);
   $('draw-case').disabled=!pool.length;
-  if(pool.length)drawNext();
+  if(pool.length&&kept){
+    $('draw-status').textContent=drawScope()+' · 這組條件有 '+pool.length+' 張案例卡 · 目前顯示：'+kept.title;
+    drawButtonLabel(pool.length);
+  }else if(pool.length)drawNext();
   else{
     const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
     // Results that are all evidence notes, templates or open leads are readable
     // but not drawable; saying "no case cards" without the reason reads as an
     // empty search next to a non-empty result list.
+    drawnItemId='';
     $('drawn-case').replaceChildren(el('p','draw-placeholder',filtered.length
       ? `符合的 ${filtered.length} 筆沒有可抽卡的用法靈感（經驗與踩坑、模板或待查想法不列入抽卡）；可在下方結果直接閱讀。`
       : `${diffText}目前沒有可抽的案例卡。抽卡也受下方搜尋與篩選影響；試試修改搜尋字詞或調整篩選。`));
@@ -3301,6 +3331,8 @@ $('dismiss-missing-case').addEventListener('click',()=>{
 $('copy-search-link').addEventListener('click',copySearchLink);
 // Choose the initial disclosure state once; typing, navigation and resizing
 // preserve the reader's choice and never hide a currently focused control.
+// Wide screens start open, then the first settled render compacts the panel when
+// the result line would still be off screen (compactFiltersForResults).
 $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
 // On small screens the 53-task directory otherwise pushes the value panel and
 // case cards more than a screen down. Keep every link, but show nine first and

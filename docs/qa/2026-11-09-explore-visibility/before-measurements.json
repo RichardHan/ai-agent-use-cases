@@ -1,0 +1,44 @@
+{
+  "label": "before",
+  "base": "http://127.0.0.1:8144/ai-agent-use-cases/",
+  "states": {
+    "1440x900": {
+      "landing": {
+        "panelOpen": true,
+        "queryTop": 1528,
+        "firstCardTop": 2552,
+        "resultLineTop": 2470,
+        "tabStopsToQuery": 81,
+        "pageHeight": 7854
+      },
+      "typed": {
+        "focus": "query",
+        "queryViewportTop": 259,
+        "resultLineViewportTop": 1448,
+        "firstCardViewportTop": 1576,
+        "visibleCards": 0,
+        "matches": "目前條件有 26 筆結果",
+        "shown": "顯示 26 / 509 筆收錄"
+      }
+    },
+    "390x844": {
+      "landing": {
+        "panelOpen": false,
+        "queryTop": 2582,
+        "firstCardTop": 2834,
+        "resultLineTop": 2753,
+        "tabStopsToQuery": 38,
+        "pageHeight": 16464
+      },
+      "typed": {
+        "focus": "query",
+        "queryViewportTop": 332,
+        "resultLineViewportTop": 793,
+        "firstCardViewportTop": 943,
+        "visibleCards": 0,
+        "matches": "目前條件有 26 筆結果",
+        "shown": "顯示 26 / 509 筆收錄"
+      }
+    }
+  }
+}

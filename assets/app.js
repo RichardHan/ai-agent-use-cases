@@ -767,8 +767,32 @@ function metadata(markdown, path, kind, suffix='') {
   const difficulty = extractDifficulty(markdown, tools, scenario, category);
   return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,mergedInto,resolved,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
 }
+// sources/pending.md records one review date for the whole file, above the first
+// lead. It says when the file was checked, not when each lead was, so it stays a
+// separate field: reviewedDate is what the reader sees as a page-level review and
+// what ?sort=reviewed orders by.
+function fileReviewDate(markdown) {
+  const header = markdown.split(/^##\s+P-/m)[0];
+  const line = header.match(/^(?:-\s*)?查證日期\s*[：:]\s*(.+)$/m)?.[1] || '';
+  const dates = (line.match(/\b20\d{2}-\d{2}-\d{2}\b/g) || []).filter(date => {
+    const parsed = new Date(date + 'T00:00:00Z');
+    return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date;
+  });
+  return dates.sort().pop() || '';
+}
+function resolvedPendingNote(item) {
+  if (!item || !item.resolved || !item.mergedInto) return '';
+  return '本條目已結束：內容已併入 ' + item.mergedInto + '，不另計一案；以下「尚待查證」描述的是這條線索的原帖，採用請以主案例為準。';
+}
 function parseFile(path, markdown) {
-  if (path === 'sources/pending.md') return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>metadata(part,path,'pending',String(i)));
+  if (path === 'sources/pending.md') {
+    const fileReviewed = fileReviewDate(markdown);
+    return markdown.split(/(?=^##\s+P-)/m).filter(part=>/^##\s+P-/.test(part)).map((part,i)=>{
+      const item = metadata(part,path,'pending',String(i));
+      if (fileReviewed) item.fileReviewed = fileReviewed;
+      return item;
+    });
+  }
   return [metadata(markdown,path,path.startsWith('evidence/')?'evidence':'case')];
 }
 // The counters describe the collection: a lead already merged into a case is
@@ -1225,7 +1249,9 @@ function showDetail(item, trigger, updateURL=true) {
     (()=>{ const b = el('span', 'detail-badge proof-badge', item.proof); b.dataset.proof = item.proof; const desc = PROOF_DEFINITIONS[item.proof] || item.proof; b.title = desc; b.setAttribute('role', 'note'); b.setAttribute('aria-label', '來源憑據：' + item.proof + '。' + desc); return b; })(),
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
-  metaBar.append(el('span','detail-badge',item.reviewedDate?'頁首核對 '+item.reviewedDate:'頁首未提供核對日'));
+  metaBar.append(el('span','detail-badge',item.reviewedDate?'頁首核對 '+item.reviewedDate:(item.fileReviewed?'本條未載核對日':'頁首未提供核對日')));
+  if(!item.reviewedDate && item.fileReviewed)
+    metaBar.append(el('span','detail-badge file-reviewed','來源檔查證 '+item.fileReviewed));
   body.append(metaBar);
 
   const title = el('h1', '', item.title);
@@ -1266,6 +1292,8 @@ function showDetail(item, trigger, updateURL=true) {
     overview.append(fullAccount);
   }
   overview.append(el('p','detail-source-version',sourceVersionNote(item.path)));
+  if(!item.reviewedDate && item.fileReviewed)
+    overview.append(el('p','detail-source-version detail-file-review','來源檔 '+item.path+' 於 '+item.fileReviewed+' 查證；這是檔案層級紀錄，不代表本條逐項核對。'));
   const latestSource=el('a','detail-source-latest','在 GitHub 查看最新版本（可能不同，新分頁） ↗');
   latestSource.href=sourceMarkdownUrl(item.path);
   latestSource.target='_blank';
@@ -1366,6 +1394,8 @@ function showDetail(item, trigger, updateURL=true) {
   const proofStatus = el('span', 'proof-note-status', '本庫核讀狀態：' + (PROOF_VERIFICATION_STATUS[item.proof] || '未獨立重現'));
   const proofSafety = el('span', 'proof-note-safety', PROOF_SAFE_ADOPTION_TIP[item.proof] || '安全採用建議（落地三層防護）：① 建議試跑：先於隔離測試或虛擬資料環境小規模驗證；② 禁止動作：未經確認切勿直接授權對外操作、金流付款或寫入生產系統；③ 必經審核：所有關鍵產出與操作必須經專人覆核後採用。');
   proofNote.append(proofTag, proofDesc, proofClaimant, proofStatus, proofSafety);
+  const closure=resolvedPendingNote(item);
+  if(closure)proofNote.prepend(el('p','proof-note-closure',closure));
   body.append(proofNote);
 
 
@@ -1541,6 +1571,7 @@ function card(item, terms=[]) {
   node.append(el('p', 'summary', item.summary));
   const reviewed=el('p','review-date');
   if(item.reviewedDate){const time=el('time','',item.reviewedDate);time.dateTime=item.reviewedDate;reviewed.append(document.createTextNode('頁首核對 '),time);}
+  else if(item.fileReviewed){reviewed.textContent='本條未載核對日；來源檔查證 '+item.fileReviewed;}
   else reviewed.textContent='頁首未提供核對日';
   node.append(reviewed);
   const context=renderSearchContext(item,terms);

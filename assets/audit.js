@@ -21,9 +21,23 @@
     if(matches.length!==1)return null;
     const count=Number(matches[0][1]),remaining=Number(matches[0][2]);
     if(!Number.isSafeInteger(count)||!Number.isSafeInteger(remaining)||count<0||remaining<0||count+remaining!==1000)return null;
-    return {count,remaining,date:date[1],time};
+    // The corpus size comes from one strict, machine-readable line instead of
+    // prose: any edit to that line (including an inline correction) stops it from
+    // matching, so the batch loses its denominator rather than publishing a guess.
+    const bases=[...text.matchAll(/^-[ \t]*批次母體[：:][ \t]*(\d+)[ \t]*個主要案例頁[ \t]*[。.]?[ \t]*$/mg)].map(match=>match[1]);
+    let pageBase=0;
+    if(bases.length===1){
+      const size=Number(bases[0]);
+      if(Number.isSafeInteger(size)&&size>=count&&size<=100000)pageBase=size;
+    }
+    return {count,remaining,date:date[1],time,pageBase};
   }
-  if(typeof module!=='undefined'&&module.exports)module.exports={parseSummary};
+  function statusText(summary){
+    const when='歷史批次：'+summary.date+(summary.time?' '+summary.time:'')+'（台灣時間）。';
+    const base=summary.pageBase?'該批次以當時 '+summary.pageBase+' 個主要案例頁為母體；':'';
+    return when+base+'這是當時的快照，不是目前全庫累計，目前合格總數未重新統計。';
+  }
+  if(typeof module!=='undefined'&&module.exports)module.exports={parseSummary,statusText};
   if(typeof document==='undefined')return;
   const count=document.getElementById('audit-count'),status=document.getElementById('audit-status'),retry=document.getElementById('audit-retry');
   if(!count||!status||!retry)return;
@@ -39,7 +53,7 @@
       const summary=parseSummary(await response.json());
       if(!summary)throw Error('Audit format unavailable');
       count.textContent=String(summary.count);
-      status.textContent='歷史批次：'+summary.date+(summary.time?' '+summary.time:'')+'（台灣時間）。這是當時的快照，不是目前全庫累計；目前合格總數未重新統計。';
+      status.textContent=statusText(summary);
       // A focused retry remains a stable control after success.
       retry.hidden=document.activeElement!==retry;
     }catch{

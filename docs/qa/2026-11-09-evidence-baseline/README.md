@@ -75,7 +75,7 @@
 - PR [#279](https://github.com/RichardHan/ai-agent-use-cases/pull/279)（head `1bce9d0e`）：合併前 14 項檢查 pass、2 項 `published` 依規則在 PR 上 skipping，`mergeStateStatus` 為 `CLEAN`；以 squash 合併為 `e5043ec0`。
 - `pages build and deployment`（[42530224464](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42530224464)）build／deploy／report 全部成功；正式站 `catalog.json` 的 `sourceRevision` 已為 `e5043ec0af6c2f3b7c155e7ed38e963121b829e8`、`files` 507 筆。
 - 主分支 `Website QA`（[42530225662](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42530225662)）**success**，且不是靜默略過：`Wait for published assets and content` 實際完成、fail-closed 守門因 `verified=true` 而 skipped、`Verify the published GitHub Pages site` 實際執行並通過。
-- 產物比對（加 cache-buster 取得）：`index.html`、`assets/app.js`、`assets/audit.js`、`assets/reader.css` 的 SHA-256 與 `e5043ec0` 完全相同；`catalog.json` 由 Liquid 產生，只比對其中的 `sourceRevision`。
+- 產物比對（加 cache-buster 取得）：`index.html`、`assets/app.js`、`assets/audit.js`、`assets/reader.css` 的 SHA-256 與 `e5043ec0` 完全相同；`catalog.json` 由 Liquid 產生，只比對其中的 `sourceRevision`。部署後查核當時的 `sourceRevision` 為 `e5043ec0`；其後僅動文件的紀錄 commit 會讓 `sourceRevision` 前進（本次最後一次查核時為 `9201c329`），`index.html` 與 `assets` 維持相同位元組，查核時應以當下 `catalog.json` 對照。
 - 正式站 Chromium 重走（1440×900／390×844）：`#audit-status` 為「歷史批次：2026-10-22 20:50（台灣時間）。該批次以當時 420 個主要案例頁為母體；這是當時的快照，不是目前全庫累計，目前合格總數未重新統計。」；三條待查卡片為「本條未載核對日；來源檔查證 2026-10-17」；P-002 徽章含「本條未載核對日／來源檔查證 2026-10-17」，證據區首句為已結束說明，來源連結固定於 `e5043ec0`；UC-511 仍為「作者報告／示範／頁首核對 2026-11-08」。390px `scrollWidth=390`、`#audit-status` 3 行未裁切。
 - 三情境（正式站、1440）：①「我想整理家裡的帳單」37 筆＋重讀說明；② `q=發票&scenario=生活&kind=pending` 0 筆 →「移除收錄狀態『還在查證』→ 查看 10 筆」→ 10 筆且情境保留；③ `?case=P-002&kind=pending` 開啟詳情、Escape 返回後仍為 3 筆待查。
 - `after-*.webp` 已換成部署後正式站同一頁、同一尺寸、同一狀態的截圖；`before-*.webp` 為部署前正式站。

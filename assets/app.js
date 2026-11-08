@@ -2450,7 +2450,20 @@ async function loadInitialCorpus(paths, options = {}) {
     const abortBundle=()=>bundleController.abort();
     controller.signal.addEventListener('abort',abortBundle,{once:true});
     if(controller.signal.aborted)abortBundle();
-    const bundleTimer=setTimeout(abortBundle,Math.min(options.bundleTimeout||5000,Math.max(1,deadline-Date.now())));
+    // The bundle is one request for every source; abandoning it re-downloads
+    // each source separately at several times the bytes. Guard only against a
+    // bundle that never answers, then judge a live download from its measured
+    // rate instead of a fixed clock.
+    let bundleTimer=setTimeout(abortBundle,Math.min(options.bundleTimeout||5000,Math.max(1,deadline-Date.now())));
+    const bundleStall=options.bundleStall||4000,bundleParseReserve=options.bundleParseReserve||1500,bundleStartedAt=Date.now();
+    const armBundleTimer=ms=>{clearTimeout(bundleTimer);bundleTimer=setTimeout(abortBundle,Math.max(1,ms));};
+    const bundleFits=(received,total,elapsed)=>{
+      if(!received||elapsed<=0)return true;
+      // Without a declared length the honest proxy is elapsed time: keep at most
+      // 60% of the whole-load window so per-source reads can still use the rest.
+      if(!total)return bundleStartedAt+(deadline-bundleStartedAt)*0.6>Date.now();
+      return Date.now()+(total-received)/(received/elapsed)+bundleParseReserve<deadline;
+    };
     let bundled=false;
     const cacheKey='corpus.json?bundleRevision='+encodeURIComponent(options.bundleRevision)+'&sourceRevision='+encodeURIComponent(options.sourceRevision||'');
     let cache;
@@ -2475,8 +2488,32 @@ async function loadInitialCorpus(paths, options = {}) {
       if(!parsed) {
         response=await fetchFn('corpus.json',{cache:'no-cache',signal:bundleController.signal});
         if(!response.ok)throw Error('HTTP '+response.status);
-        const copy=cache&&response.clone?response.clone():null;
-        data=await response.json();
+        let copy=null;
+        if(response.body&&typeof response.body.getReader==='function'){
+          const reader=response.body.getReader(),chunks=[],started=Date.now();
+          const total=Number(response.headers?.get?.('content-length'))||0;
+          let received=0;
+          for(;;){
+            const {done,value}=await reader.read();
+            if(done)break;
+            if(!value?.byteLength)continue;
+            chunks.push(value);received+=value.byteLength;
+            // A measured rate that cannot finish before the whole-load deadline
+            // is a reason to switch to per-source reads now, not to wait it out.
+            if(!bundleFits(received,total,Date.now()-started)){abortBundle();break;}
+            armBundleTimer(bundleStall);
+          }
+          if(bundleController.signal.aborted)throw Error('全文整包讀取已停止');
+          // The response is complete; decoding and parsing must not be cut by
+          // the in-flight stall guard.
+          clearTimeout(bundleTimer);
+          const text=await new Response(new Blob(chunks)).text();
+          data=JSON.parse(text);
+          copy=cache?new Response(text):null;
+        }else{
+          copy=cache&&response.clone?response.clone():null;
+          data=await response.json();
+        }
         if(bundleController.signal.aborted)throw Error('全文整包讀取已停止');
         parsed=parseCorpusBundle(data,paths,options.bundleRevision,parseFn);
         if(copy&&data.sourceRevision&&data.sourceRevision===options.sourceRevision) {

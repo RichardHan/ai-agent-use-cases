@@ -62,6 +62,24 @@ test('a later correction with different punctuation still leaves the corpus unkn
   assert.doesNotMatch(statusText(summary), /母體/, 'the earlier size must not be published');
 });
 
+test('a conflicting page count written without the phrase 主要案例頁 still suppresses it', () => {
+  const value = {
+    latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **370／1,000，尚差630**；' +
+      '主要案例頁420不是合格數；更正：實際母體是500頁'
+  };
+  const summary = parseSummary(value);
+  assert.equal(summary.pageBase, 0, 'a second page-count assertion is still a conflict');
+  assert.doesNotMatch(statusText(summary), /母體/, 'the earlier size must not be published');
+});
+
+test('a consistent page count elsewhere does not disqualify the claim', () => {
+  const value = {
+    latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **370／1,000，尚差630**；' +
+      '主要案例頁420不是合格數；當時共420頁'
+  };
+  assert.equal(parseSummary(value).pageBase, 420, 'restating the same size is not a conflict');
+});
+
 test('the repository batch exposes the corpus size it was measured against', () => {
   const source = fs.readFileSync(path.join(root, 'sources/qualification-audit-2026-10-16.md'), 'utf8');
   const latestBatch = source.split(/^## /m)[1];

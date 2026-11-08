@@ -6,7 +6,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cases/';
-const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-workplace-intent-discovery');
+const outDir = process.env.QA_OUT_DIR || path.resolve(__dirname, '../docs/qa/2026-11-08-visitor-adoption');
 fs.mkdirSync(outDir, { recursive: true });
 
 (async () => {
@@ -250,6 +250,98 @@ fs.mkdirSync(outDir, { recursive: true });
     const marketShot = `${vp.name}-02q-scenario1-market-research.png`;
     await page.screenshot({ path: path.join(outDir, marketShot) });
     vpReport.screenshots.push(marketShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 產品調研 problem tag...`);
+    const prodResearchTag = page.locator('.hero-problem-tags a[href*="產品調研"]');
+    assert.ok(await prodResearchTag.isVisible(), '產品調研 tag must be visible in hero');
+    await prodResearchTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const prodResearchCount = await page.locator('#results .card').count();
+    assert.ok(prodResearchCount >= 10, `產品調研 must recall >= 10 cases (found ${prodResearchCount})`);
+    const prodResearchShot = `${vp.name}-02r-scenario1-product-research.png`;
+    await page.screenshot({ path: path.join(outDir, prodResearchShot) });
+    vpReport.screenshots.push(prodResearchShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 讀書筆記 problem tag...`);
+    const readingNotesTag = page.locator('.hero-problem-tags a[href*="讀書筆記"]');
+    assert.ok(await readingNotesTag.isVisible(), '讀書筆記 tag must be visible in hero');
+    await readingNotesTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const readingNotesCount = await page.locator('#results .card').count();
+    assert.ok(readingNotesCount >= 5, `讀書筆記 must recall >= 5 cases (found ${readingNotesCount})`);
+    const readingNotesShot = `${vp.name}-02s-scenario1-reading-notes.png`;
+    await page.screenshot({ path: path.join(outDir, readingNotesShot) });
+    vpReport.screenshots.push(readingNotesShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 英語學習 problem tag...`);
+    const englishTag = page.locator('.hero-problem-tags a[href*="英語學習"]');
+    assert.ok(await englishTag.isVisible(), '英語學習 tag must be visible in hero');
+    await englishTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const englishCount = await page.locator('#results .card').count();
+    assert.ok(englishCount >= 5, `英語學習 must recall >= 5 cases (found ${englishCount})`);
+    const englishShot = `${vp.name}-02t-scenario1-language-learning.png`;
+    await page.screenshot({ path: path.join(outDir, englishShot) });
+    vpReport.screenshots.push(englishShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 漏洞掃描 problem tag...`);
+    const vulnTag = page.locator('.hero-problem-tags a[href*="漏洞掃描"]');
+    assert.ok(await vulnTag.isVisible(), '漏洞掃描 tag must be visible in hero');
+    await vulnTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const vulnCount = await page.locator('#results .card').count();
+    assert.ok(vulnCount >= 10, `漏洞掃描 must recall >= 10 cases (found ${vulnCount})`);
+    const vulnFirstTitle = await page.locator('#results .card h3').first().innerText();
+    assert.ok(vulnFirstTitle.includes('漏洞') || vulnFirstTitle.includes('資安看守'), `Top case must be UC-407, got: ${vulnFirstTitle}`);
+    const vulnShot = `${vp.name}-02u-scenario1-vulnerability-scan.png`;
+    await page.screenshot({ path: path.join(outDir, vulnShot) });
+    vpReport.screenshots.push(vulnShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 隱私審查 problem tag...`);
+    const privacyTag = page.locator('.hero-problem-tags a[href*="隱私審查"]');
+    assert.ok(await privacyTag.isVisible(), '隱私審查 tag must be visible in hero');
+    await privacyTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const privacyCount = await page.locator('#results .card').count();
+    assert.ok(privacyCount >= 10, `隱私審查 must recall >= 10 cases (found ${privacyCount})`);
+    const privacyShot = `${vp.name}-02v-scenario1-privacy-review.png`;
+    await page.screenshot({ path: path.join(outDir, privacyShot) });
+    vpReport.screenshots.push(privacyShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 成本分析 problem tag...`);
+    const costTag = page.locator('.hero-problem-tags a[href*="成本分析"]');
+    assert.ok(await costTag.isVisible(), '成本分析 tag must be visible in hero');
+    await costTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const costCount = await page.locator('#results .card').count();
+    assert.ok(costCount >= 10, `成本分析 must recall >= 10 cases (found ${costCount})`);
+    const costShot = `${vp.name}-02w-scenario1-cost-analysis.png`;
+    await page.screenshot({ path: path.join(outDir, costShot) });
+    vpReport.screenshots.push(costShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 供應商評估 problem tag...`);
+    const vendorTag = page.locator('.hero-problem-tags a[href*="供應商評估"]');
+    assert.ok(await vendorTag.isVisible(), '供應商評估 tag must be visible in hero');
+    await vendorTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const vendorCount = await page.locator('#results .card').count();
+    assert.ok(vendorCount >= 5, `供應商評估 must recall >= 5 cases (found ${vendorCount})`);
+    const vendorShot = `${vp.name}-02x-scenario1-vendor-assessment.png`;
+    await page.screenshot({ path: path.join(outDir, vendorShot) });
+    vpReport.screenshots.push(vendorShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 招募審查 problem tag...`);
+    const recruitTag = page.locator('.hero-problem-tags a[href*="招募審查"]');
+    assert.ok(await recruitTag.isVisible(), '招募審查 tag must be visible in hero');
+    await recruitTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const recruitCount = await page.locator('#results .card').count();
+    assert.ok(recruitCount >= 5, `招募審查 must recall >= 5 cases (found ${recruitCount})`);
+    const recruitFirstTitle = await page.locator('#results .card h3').first().innerText();
+    assert.ok(recruitFirstTitle.includes('面試') || recruitFirstTitle.includes('覆核'), `Top case must be UC-152, got: ${recruitFirstTitle}`);
+    const recruitShot = `${vp.name}-02y-scenario1-hiring-screening.png`;
+    await page.screenshot({ path: path.join(outDir, recruitShot) });
+    vpReport.screenshots.push(recruitShot);
     console.log(`[${vp.name}] Testing Scenario 1: 契約審查 natural query...`);
     await page.locator('#query').fill('契約審查');
     await page.locator('#search-submit').click();

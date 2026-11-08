@@ -793,3 +793,165 @@ test('Reviewer regressions: project progress compounds, data analysis preservati
   const statemachineHits = api.filterEntries(entries, statemachineTokens, {});
   assert.ok(statemachineHits.some(e => e.id === 'UC-453'), '專案狀態機 must recall UC-453');
 });
+
+test('natural problem queries for product research, paper study, reading notes, language learning, security audit, privacy review, cost analysis, vendor assessment, and hiring screening recall targeted cases', () => {
+  const queries = [
+    { raw: '產品調研', expectedTokens: ['產品', '調研'], minMatches: 50, canonicalId: 'UC-011' },
+    { raw: '做產品調研', expectedTokens: ['產品', '調研'], minMatches: 50, canonicalId: 'UC-011' },
+    { raw: '產品研究', expectedTokens: ['產品', '調研'], minMatches: 50, canonicalId: 'UC-039' },
+    { raw: '論文研讀', expectedTokens: ['論文'], minMatches: 10, canonicalId: 'UC-012' },
+    { raw: '研讀論文', expectedTokens: ['論文'], minMatches: 10, canonicalId: 'UC-012' },
+    { raw: '精讀文獻', expectedTokens: ['論文'], minMatches: 10, canonicalId: 'UC-012' },
+    { raw: '讀書筆記', expectedTokens: ['閱讀', '筆記'], minMatches: 8, canonicalId: 'UC-030' },
+    { raw: '做讀書筆記', expectedTokens: ['閱讀', '筆記'], minMatches: 8, canonicalId: 'UC-352' },
+    { raw: '整理讀書筆記', expectedTokens: ['閱讀', '筆記'], minMatches: 8, canonicalId: 'UC-352' },
+    { raw: '英語學習', expectedTokens: ['英語', '學習'], minMatches: 20, canonicalId: 'UC-030' },
+    { raw: '英文學習', expectedTokens: ['英語', '學習'], minMatches: 20, canonicalId: 'UC-460' },
+    { raw: '學英語', expectedTokens: ['英語', '學習'], minMatches: 20, canonicalId: 'UC-030' },
+    { raw: '漏洞掃描', expectedTokens: ['資安', '漏洞'], minMatches: 50, canonicalId: 'UC-407' },
+    { raw: '弱點掃描', expectedTokens: ['資安', '漏洞'], minMatches: 50, canonicalId: 'UC-407' },
+    { raw: '掃描漏洞', expectedTokens: ['資安', '漏洞'], minMatches: 50, canonicalId: 'UC-407' },
+    { raw: '隱私審查', expectedTokens: ['隱私', '審查'], minMatches: 20, canonicalId: 'UC-184' },
+    { raw: '隱私檢查', expectedTokens: ['隱私', '審查'], minMatches: 20, canonicalId: 'UC-391' },
+    { raw: '個資審查', expectedTokens: ['隱私', '審查'], minMatches: 20, canonicalId: 'UC-184' },
+    { raw: '成本分析', expectedTokens: ['成本', '分析'], minMatches: 150, canonicalId: 'UC-066' },
+    { raw: '分析成本', expectedTokens: ['成本', '分析'], minMatches: 150, canonicalId: 'UC-400' },
+    { raw: '雲端成本分析', expectedTokens: ['成本', '分析'], minMatches: 150, canonicalId: 'UC-066' },
+    { raw: '供應商評估', expectedTokens: ['供應商', '評估'], minMatches: 10, canonicalId: 'UC-101' },
+    { raw: '評估供應商', expectedTokens: ['供應商', '評估'], minMatches: 10, canonicalId: 'UC-101' },
+    { raw: '廠商評估', expectedTokens: ['供應商', '評估'], minMatches: 10, canonicalId: 'UC-101' },
+    { raw: '招募審查', expectedTokens: ['招募', '審查'], minMatches: 10, canonicalId: 'UC-152' },
+    { raw: '審查招募', expectedTokens: ['招募', '審查'], minMatches: 10, canonicalId: 'UC-152' },
+    { raw: '招募初篩', expectedTokens: ['招募', '審查'], minMatches: 10, canonicalId: 'UC-152' }
+  ];
+
+  for (const item of queries) {
+    const tokens = Array.from(api.tokenize(item.raw));
+    assert.deepEqual(tokens, item.expectedTokens, `Tokens for "${item.raw}" must match expected`);
+    const hits = api.filterEntries(entries, tokens, {});
+    assert.ok(
+      hits.length >= item.minMatches,
+      `Query "${item.raw}" must return >= ${item.minMatches} cases, got ${hits.length}`
+    );
+    assert.ok(
+      hits.some(e => e.id === item.canonicalId),
+      `Query "${item.raw}" must recall canonical case ${item.canonicalId}`
+    );
+  }
+});
+
+test('hero problem tags and empty state suggestions expose 產品調研, 讀書筆記, 英語學習, 漏洞掃描, 隱私審查, 成本分析, 供應商評估, and 招募審查', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=產品調研#explore"'), 'hero-problem-tags must include 產品調研');
+  assert.ok(nav.includes('href="?q=讀書筆記#explore"'), 'hero-problem-tags must include 讀書筆記');
+  assert.ok(nav.includes('href="?q=英語學習#explore"'), 'hero-problem-tags must include 英語學習');
+  assert.ok(nav.includes('href="?q=漏洞掃描#explore"'), 'hero-problem-tags must include 漏洞掃描');
+  assert.ok(nav.includes('href="?q=隱私審查#explore"'), 'hero-problem-tags must include 隱私審查');
+  assert.ok(nav.includes('href="?q=成本分析#explore"'), 'hero-problem-tags must include 成本分析');
+  assert.ok(nav.includes('href="?q=供應商評估#explore"'), 'hero-problem-tags must include 供應商評估');
+  assert.ok(nav.includes('href="?q=招募審查#explore"'), 'hero-problem-tags must include 招募審查');
+
+  const appJs = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
+  assert.match(appJs, /term:\s*['"]產品調研['"]/, 'app.js empty state problem tags must include 產品調研');
+  assert.match(appJs, /term:\s*['"]讀書筆記['"]/, 'app.js empty state problem tags must include 讀書筆記');
+  assert.match(appJs, /term:\s*['"]英語學習['"]/, 'app.js empty state problem tags must include 英語學習');
+  assert.match(appJs, /term:\s*['"]漏洞掃描['"]/, 'app.js empty state problem tags must include 漏洞掃描');
+  assert.match(appJs, /term:\s*['"]隱私審查['"]/, 'app.js empty state problem tags must include 隱私審查');
+  assert.match(appJs, /term:\s*['"]成本分析['"]/, 'app.js empty state problem tags must include 成本分析');
+  assert.match(appJs, /term:\s*['"]供應商評估['"]/, 'app.js empty state problem tags must include 供應商評估');
+  assert.match(appJs, /term:\s*['"]招募審查['"]/, 'app.js empty state problem tags must include 招募審查');
+});
+
+test('Reviewer regressions: product research boundaries, literature study synonyms, reading note segmentation, language learning preservation, vulnerability scanning to security watch, privacy review recall, cost analysis decoupling, vendor assessment preservation, and recruitment review audit', () => {
+  // Finding 1: 產品調研 must segment to [產品, 調研] and rank UC-011 in top 5
+  const prodTokens = Array.from(api.tokenize('產品調研'));
+  assert.deepEqual(prodTokens, ['產品', '調研'], '產品調研 must tokenize to [產品, 調研]');
+  const prodHits = api.filterEntries(entries, prodTokens, {});
+  const prodRanked = api.rankEntries(prodHits, prodTokens);
+  assert.ok(prodRanked.slice(0, 5).some(e => e.id === 'UC-011'), '產品調研 must rank UC-011 in top 5');
+
+  // Finding 2: 論文研讀 must map to [論文] and recall UC-012
+  const paperTokens = Array.from(api.tokenize('論文研讀'));
+  assert.deepEqual(paperTokens, ['論文'], '論文研讀 must tokenize to [論文]');
+  const paperHits = api.filterEntries(entries, paperTokens, {});
+  assert.ok(paperHits.some(e => e.id === 'UC-012'), '論文研讀 must recall UC-012');
+
+  // Finding 3: 讀書筆記 must segment to [閱讀, 筆記] and recall UC-030 and UC-352
+  const bookTokens = Array.from(api.tokenize('讀書筆記'));
+  assert.deepEqual(bookTokens, ['閱讀', '筆記'], '讀書筆記 must tokenize to [閱讀, 筆記]');
+  const bookHits = api.filterEntries(entries, bookTokens, {});
+  assert.ok(bookHits.some(e => e.id === 'UC-030'), '讀書筆記 must recall UC-030');
+  assert.ok(bookHits.some(e => e.id === 'UC-352'), '讀書筆記 must recall UC-352');
+
+  // Finding 4: 英語學習 must segment to [英語, 學習] and recall UC-030 and UC-460
+  const engTokens = Array.from(api.tokenize('英語學習'));
+  assert.deepEqual(engTokens, ['英語', '學習'], '英語學習 must tokenize to [英語, 學習]');
+  const engHits = api.filterEntries(entries, engTokens, {});
+  assert.ok(engHits.some(e => e.id === 'UC-030'), '英語學習 must recall UC-030');
+  assert.ok(engHits.some(e => e.id === 'UC-460'), '英語學習 must recall UC-460');
+
+  // Finding 5: 漏洞掃描 must map to [資安, 漏洞] and rank UC-407 at #1
+  const vulnTokens = Array.from(api.tokenize('漏洞掃描'));
+  assert.deepEqual(vulnTokens, ['資安', '漏洞'], '漏洞掃描 must tokenize to [資安, 漏洞]');
+  const vulnHits = api.filterEntries(entries, vulnTokens, {});
+  const vulnRanked = api.rankEntries(vulnHits, vulnTokens);
+  assert.equal(vulnRanked[0]?.id, 'UC-407', 'UC-407 must rank #1 for 漏洞掃描');
+
+  // Finding 6: 隱私審查 must segment to [隱私, 審查] and recall UC-184 and UC-391
+  const privTokens = Array.from(api.tokenize('隱私審查'));
+  assert.deepEqual(privTokens, ['隱私', '審查'], '隱私審查 must tokenize to [隱私, 審查]');
+  const privHits = api.filterEntries(entries, privTokens, {});
+  assert.ok(privHits.some(e => e.id === 'UC-184'), '隱私審查 must recall UC-184');
+  assert.ok(privHits.some(e => e.id === 'UC-391'), '隱私審查 must recall UC-391');
+
+  // Finding 7: 成本分析 must segment to [成本, 分析] and recall UC-066 and UC-400
+  const costTokens = Array.from(api.tokenize('成本分析'));
+  assert.deepEqual(costTokens, ['成本', '分析'], '成本分析 must tokenize to [成本, 分析]');
+  const costHits = api.filterEntries(entries, costTokens, {});
+  assert.ok(costHits.some(e => e.id === 'UC-066'), '成本分析 must recall UC-066');
+  assert.ok(costHits.some(e => e.id === 'UC-400'), '成本分析 must recall UC-400');
+
+  // Finding 8: 供應商評估 must segment to [供應商, 評估] and recall UC-101
+  const vendorTokens = Array.from(api.tokenize('供應商評估'));
+  assert.deepEqual(vendorTokens, ['供應商', '評估'], '供應商評估 must tokenize to [供應商, 評估]');
+  const vendorHits = api.filterEntries(entries, vendorTokens, {});
+  assert.ok(vendorHits.some(e => e.id === 'UC-101'), '供應商評估 must recall UC-101');
+
+  // Finding 9: 招募審查 must segment to [招募, 審查] and rank UC-152 at #1
+  const recruitTokens = Array.from(api.tokenize('招募審查'));
+  assert.deepEqual(recruitTokens, ['招募', '審查'], '招募審查 must tokenize to [招募, 審查]');
+  const recruitHits = api.filterEntries(entries, recruitTokens, {});
+  const recruitRanked = api.rankEntries(recruitHits, recruitTokens);
+  assert.equal(recruitRanked[0]?.id, 'UC-152', 'UC-152 must rank #1 for 招募審查');
+
+  // Finding 10: 雲端費用 must not force 分析 and must recall UC-450 and UC-052
+  const cloudFeeTokens = Array.from(api.tokenize('雲端費用'));
+  assert.deepEqual(cloudFeeTokens, ['雲端費用'], '雲端費用 must preserve standalone noun without adding 分析');
+  const cloudFeeHits = api.filterEntries(entries, cloudFeeTokens, {});
+  assert.ok(cloudFeeHits.some(e => e.id === 'UC-450'), '雲端費用 must recall UC-450');
+  assert.ok(cloudFeeHits.some(e => e.id === 'UC-052'), '雲端費用 must recall UC-052');
+
+  // Finding 11: 數學 英文 must not truncate 數學 and must recall UC-354
+  const mathTokens = Array.from(api.tokenize('數學 英文'));
+  assert.deepEqual(mathTokens, ['數學', '英文'], '數學 英文 must not truncate 數學 into 數 英語 學習');
+  const mathHits = api.filterEntries(entries, mathTokens, {});
+  assert.ok(mathHits.some(e => e.id === 'UC-354'), '數學 英文 must recall UC-354');
+
+  // Finding 12: 商品 研究 must preserve 商品 noun and recall UC-037 and UC-326
+  const prodNounTokens = Array.from(api.tokenize('商品 研究'));
+  assert.deepEqual(prodNounTokens, ['商品', '調研'], '商品 研究 must preserve 商品 noun');
+  const prodNounHits = api.filterEntries(entries, prodNounTokens, {});
+  assert.ok(prodNounHits.some(e => e.id === 'UC-037'), '商品 研究 must recall UC-037');
+  assert.ok(prodNounHits.some(e => e.id === 'UC-326'), '商品 研究 must recall UC-326');
+
+  // Finding 13: 閱讀摘要 must remain distinct from note-taking and rank UC-356 at top
+  const readSumTokens = Array.from(api.tokenize('閱讀摘要'));
+  assert.deepEqual(readSumTokens, ['閱讀摘要'], '閱讀摘要 must remain summary intent rather than note-taking');
+  const readSumHits = api.filterEntries(entries, readSumTokens, {});
+  const readSumRanked = api.rankEntries(readSumHits, readSumTokens);
+  assert.equal(readSumRanked[0]?.id, 'UC-356', '閱讀摘要 must rank UC-356 at top');
+  const spacedReadTokens = Array.from(api.tokenize('閱讀 摘要'));
+  const spacedReadHits = api.filterEntries(entries, spacedReadTokens, {});
+  assert.ok(spacedReadHits.some(e => e.id === 'UC-493'), '閱讀 摘要 must recall UC-493');
+});

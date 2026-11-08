@@ -1994,6 +1994,26 @@ function phraseRecoveryOptions(items, query, filters, limit=3) {
     .slice(0,limit);
 }
 
+// A failed question usually still contains a term the library already uses to
+// describe tasks (indexed tags plus the search synonym vocabulary). Offer that term
+// instead of adding another hardcoded phrase rule for every round: the visitor keeps
+// control, and the suggestion is a real substring of what they typed.
+function vocabularyRecoveryOptions(items, query, filters, limit=3) {
+  const text=norm(query).trim();
+  if(!text)return [];
+  const terms=new Set(Object.keys(SYNONYM_MAP));
+  items.forEach(item=>(item.tags||[]).forEach(tag=>{
+    const phrase=norm(tag).trim();
+    if(phrase)terms.add(phrase);
+  }));
+  const matched=[...terms].filter(term=>term!==text && text.includes(term) && /^[\u3400-\u9fff]{2,6}$/.test(term));
+  const scored=matched.map(term=>({query:term,count:filterEntries(items,tokenize(term),filters).length}))
+    .filter(option=>option.count>0);
+  // A term matching half the corpus is not a narrower question, so it stays out.
+  const narrow=scored.filter(option=>option.count*2<items.length);
+  return narrow.sort((a,b)=>b.query.length-a.query.length || a.count-b.count || text.indexOf(a.query)-text.indexOf(b.query)).slice(0,limit);
+}
+
 // An explicit recovery is a navigation: retain the failed search for Back.
 function recoverSearchQuery(query) {
   const failedURL=location.href;
@@ -2058,6 +2078,14 @@ function renderSearchFeedback(terms, filters) {
       suggestions.append(button);
     });
     const phraseOptions=queryOptions.length ? [] : phraseRecoveryOptions(entries,$('query').value,filters);
+    const vocabularyOptions=phraseOptions.length||queryOptions.length ? [] : vocabularyRecoveryOptions(entries,$('query').value,filters);
+    vocabularyOptions.forEach(({query,count})=>{
+      const button=el('button','recovery-option','原問題包含「'+query+'」 → 搜尋 '+count+' 筆');
+      button.type='button';
+      button.dataset.queryRecovery=query;
+      button.addEventListener('click',()=>recoverSearchQuery(query));
+      suggestions.append(button);
+    });
     phraseOptions.forEach(({query,count})=>{
       if(suggestions.querySelector('[data-query-recovery="'+query+'"]'))return;
       const button=el('button','recovery-option','原問題提到「'+query+'」 → 搜尋 '+count+' 筆文字命中');

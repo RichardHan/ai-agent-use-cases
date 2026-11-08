@@ -1,0 +1,70 @@
+{
+  "measuredAt": "2026-11-09",
+  "query": "想學英文",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "measurements": [
+    {
+      "tag": "before",
+      "url": "http://127.0.0.1:8182/ai-agent-use-cases/",
+      "viewport": "desktop",
+      "resultsCount": "顯示 0 / 509 筆收錄",
+      "chipCount": 55,
+      "relevantSuggestionIndex": -1,
+      "relevantSuggestion": null,
+      "derivedSuggestionCount": 0,
+      "emptyBlockHeight": 651,
+      "firstActionTop": 2065,
+      "hasTaskDirectory": true
+    },
+    {
+      "tag": "before",
+      "url": "http://127.0.0.1:8182/ai-agent-use-cases/",
+      "viewport": "mobile",
+      "resultsCount": "顯示 0 / 509 筆收錄",
+      "chipCount": 55,
+      "relevantSuggestionIndex": -1,
+      "relevantSuggestion": null,
+      "derivedSuggestionCount": 0,
+      "emptyBlockHeight": 754,
+      "firstActionTop": 2840,
+      "hasTaskDirectory": true
+    },
+    {
+      "tag": "after",
+      "url": "http://127.0.0.1:8181/ai-agent-use-cases/",
+      "viewport": "desktop",
+      "resultsCount": "顯示 0 / 509 筆收錄",
+      "chipCount": 56,
+      "relevantSuggestionIndex": 0,
+      "relevantSuggestion": "原問題包含「學英文」 → 搜尋 32 筆文字命中",
+      "derivedSuggestionCount": 1,
+      "emptyBlockHeight": 705,
+      "firstActionTop": 2065,
+      "hasTaskDirectory": true
+    },
+    {
+      "tag": "after",
+      "url": "http://127.0.0.1:8181/ai-agent-use-cases/",
+      "viewport": "mobile",
+      "resultsCount": "顯示 0 / 509 筆收錄",
+      "chipCount": 56,
+      "relevantSuggestionIndex": 0,
+      "relevantSuggestion": "原問題包含「學英文」 → 搜尋 32 筆文字命中",
+      "derivedSuggestionCount": 1,
+      "emptyBlockHeight": 830,
+      "firstActionTop": 2840,
+      "hasTaskDirectory": true
+    }
+  ]
+}

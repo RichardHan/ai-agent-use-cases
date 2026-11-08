@@ -2530,9 +2530,9 @@ async function loadInitialCorpus(paths, options = {}) {
       // A single early chunk measures TCP slow start more than the transfer;
       // hold the decision until 400 ms or 32 KiB of evidence exists.
       if(elapsed<400&&received<32768)return true;
-      // Without a usable expected size the honest proxy is elapsed time: keep at
-      // most 60% of the whole-load window so per-source reads can still use the rest.
-      if(!total)return bundleStartedAt+(deadline-bundleStartedAt)*0.6>Date.now();
+      // With no declared size there is nothing to project against, so keep the
+      // original first-response guard instead of holding the whole window.
+      if(!total)return Date.now()<bundleStartedAt+Math.min(options.bundleTimeout||5000,Math.max(1,deadline-bundleStartedAt));
       return Date.now()+(total-received)/(received/elapsed)+bundleParseReserve<deadline;
     };
     const requestedRatio=Number(options.encodingRatio);

@@ -219,13 +219,34 @@ test('a chinese bundle split across chunks decodes without corrupting text',asyn
  assert(result.entries[0].text.startsWith('中文案例內容測試'),result.entries[0].text.slice(0,40));
 });
 
-test('a bundle without a declared length leaves part of the window for per-source reads',async()=>{
+test('a bundle without a declared length keeps the original five-second guard',async()=>{
  const calls=[],chunks=chunksOf(json(),6),started=Date.now();
- const result=await load(paths,options({budget:1000,bundleTimeout:5000,fetch:async(path,opt)=>{calls.push(path);return path==='corpus.json'?streamResponse(chunks,{delay:150,total:0,signal:opt.signal}):response(texts[paths.indexOf(path)]);}}));
+ const result=await load(paths,options({budget:8000,bundleTimeout:5000,fetch:async(path,opt)=>{calls.push(path);return path==='corpus.json'?streamResponse(chunks,{delay:1500,total:0,signal:opt.signal}):response(texts[paths.indexOf(path)]);}}));
  const elapsed=Date.now()-started;
- assert(elapsed<900,'elapsed='+elapsed);
- assert(calls.includes(paths[0]),'per-source reads must start before the whole-load deadline');
+ assert(elapsed>=4500&&elapsed<7000,'unknown size must fall back on the five-second guard, elapsed='+elapsed);
+ assert(calls.includes(paths[0]),'per-source reads must start');
  assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+});
+
+test('a slow-start first chunk alone must not abandon the bundle',async()=>{
+ // A first chunk delayed past the guard carries TCP slow start, not the transfer
+ // rate; comparing against a 60 ms sample would drop a bundle that finishes.
+ const shared=json(paths.map((path,i)=>({path,markdown:'內容'.repeat(600)+i})));
+ const chunks=chunksOf(shared,30),calls=[];
+ const slowStart=(chunkList,{firstDelay=60}={})=>({
+  ok:true,
+  headers:{get:name=>name==='content-length'?String(chunkList.reduce((n,c)=>n+c.byteLength,0)):null},
+  body:{getReader(){let index=0;return {read:async()=>{
+   if(index>=chunkList.length)return {done:true};
+   const first=index===0;
+   await new Promise(resolve=>setTimeout(resolve,first?firstDelay:5));
+   return {done:false,value:chunkList[index++]};
+  }}}},
+  clone(){return this;}
+ });
+ const result=await load(paths,{bundleRevision:'r1',parseFile:parse,budget:3000,bundleTimeout:5000,encodingRatio:1,fetch:async(path,opt)=>{calls.push(path);return path==='corpus.json'?slowStart(chunks,{firstDelay:60}):response('fallback');}});
+ assert.deepEqual(calls,['corpus.json'],'a finishing bundle must survive its first slow chunk');
+ assert.equal(result.entries.length,3);
 });
 
 test('compressed content-length is compared with decoded bytes before yielding',async()=>{

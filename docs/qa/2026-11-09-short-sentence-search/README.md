@@ -83,3 +83,12 @@
 ## 下一輪
 
 先處理索引頁的日期陳述與內容不符：`INDEX.md:99` 與 `INDEX.html:107` 寫「更新日期：2026-10-20」，但同兩份索引已列出 `UC-511`，其頁首為 `首次收錄／最近查證：2026-11-08 08:52`。第一步驗證 `INDEX.html` 是否由 `INDEX.md` 產生（`scripts/` 內未見產生器），再讓該日期由最新收錄日或 `catalog.json` 的 `builtAt` 推導，並加一個「索引日期不得早於所收條目」的回歸檢查。同一輪可一併讓 `assets/audit.js` 顯示批次當時的「主要案例頁420」，使首頁 370／1,000 與 503 個條目有共同基準。
+
+## 發布核對
+
+- PR [#276](https://github.com/RichardHan/ai-agent-use-cases/pull/276)（head `aaeb9b39`）：13 項檢查通過，`published` 與 `pages` 依規則在 PR 上略過；合併前 `mergeStateStatus` 為 `CLEAN`。
+- 合併前 main 已含 #275（`b83f7828`），本分支 rebase 後重跑全套 **497 通過、0 失敗**（該時 main 為 496，新增 1 個測試檔），並重跑 `short-sentence`、`search-expansion-consistency`、`sentence-fallback`、`compound-split`、`visitor-problem` 全數通過。
+- squash 合併為 `27b05875`；`pages build and deployment` [run 42519119276](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42519119276) 成功，正式站 `catalog.json` 的 `sourceRevision` 為 `27b05875…`。
+- 發布資產逐 byte 比對：`assets/app.js`、`assets/style.css`、`assets/reader.css`、`index.html`、`README.md` 與 commit 相同；`SITE.md` 不是發布資產（正式站回 404），不列入比對。
+- 合併後 push 觸發的 `Website QA`（[run 42519119913](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42519119913)）**success**：第 14 步「Wait for published assets and content」成功、第 15 步「Fail when the published site cannot be verified」依規則 skipped（因 `verified == 'true'`）、第 16 步「Verify the published GitHub Pages site」成功，代表這次 push 的正式站版本確實被比對過，而不是靜默略過。
+- 正式站 Chromium 實測（1440／390，`https://richardhan.github.io/ai-agent-use-cases/`）：每月信用卡帳單整理 37、整理家族旅遊行程 14、整理履歷表 15（皆顯示說明列且筆數一致）；`照片 旅行` 13、無說明列；`整理履歷表 GPT` 0；重新載入重現；切回完整句子 0 筆且焦點在 `#results-count`，再切回同一組結果；詳情 Escape 回到原結果；axe 0、水平溢位 0、pageerror 0。

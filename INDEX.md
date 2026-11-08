@@ -204,7 +204,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（499）
+## 主要案例（503）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -707,6 +707,10 @@
 | UC-505 | Muse讀約56篇既有note建文體指南，搭配NotebookLM日記主檔，在同一初稿檔用語音與手註共編到像你 | Meta Muse／NotebookLM／note | [B日文作者note全文即產出；未重現](cases/505-muse-notebooklm-note-style-guide-coauthor.md) | 創作｜寫作、風格、檔案協作、每日 |
 | UC-506 | 司令塔先讀年／月營收與任務，秘書從研討會日程推出資料／LP／導流並分派創意Bot，製作物經確認才回本人 | Grok Bot（多Bot）／Codex／UTAGE | [B日文作者X長文自述；影片未看、未重現](cases/506-grok-bot-commander-secretary-study-event-pipeline.md) | 工作｜多代理、排程、行銷、每日 |
 | UC-507 | 演講難秀私密脈絡：請Dot重述它幫過你的事（臨時車票、退款、發票高於報價），逐則排進ChatGPT Sites；講前主動提醒備援demo | ChatGPT dots／ChatGPT Sites | [B英文作者X自述＋影片未看；未重現](cases/507-chatgpt-dot-sites-deck-from-chat-history.md) | 工作｜簡報、記憶、Sites、每日 |
+| UC-508 | Grok Bot額度用完後，與ChatGPT Dot共用Notion大腦和Slack房間：一方起草、另一方補洞，兩次課堂草稿仍待本人核准才外發 | Grok Bot／ChatGPT dots／Notion／Slack | [B英文作者X長文自述兩次交接與缺工具處理；未重現](cases/508-grok-bot-chatgpt-dot-shared-notion-slack-handoff.md) | 工作｜多代理、Notion、Slack、每日 |
+| UC-509 | 用Grok Bot把「一天一題A/B投票」做成Toss迷你應用：先對照官方文件做計畫，三個畫面先上架，審核因分類被退後改正再送 | Grok Bot／Apps in Toss／Supabase／Toss | [B韓文作者X長文自述＋公開應用連結；未重現](cases/509-grok-bot-toss-miniapp-what-percent-launch.md) | 開發｜產品開發、審核、驗收、每日 |
+| UC-510 | 請Muse對照freee交易與Gmail帳單，列出訂閱金額、週期與下次續約日，並每週一清理未處理明細；X趨勢改API後仍不穩 | Meta Muse／freee／Gmail | [B日文作者X長文自述；對帳表未附、未重現](cases/510-muse-freee-gmail-subscription-renewal-list.md) | 工作｜訂閱、帳單、郵件、每日 |
+| UC-511 | 讓Grok Bot以聽寫參加者加入Zoom／Meet／Teams，會中追未指定負責人，會後交出決定與帶期限的下一步表 | Grok Bot／Zoom或Google Meet或Microsoft Teams／行事曆 | [B英文作者X自述＋官方帳號回覆＋日文note編譯；未重現](cases/511-grok-bot-zoom-meet-teams-structured-notes.md) | 工作｜會議、筆記、排程、每日 |
 
 <a id="supplement-list"></a>
 
@@ -999,3 +1003,7 @@
 ## 2026-11-07 08:53：每日批次（X＋note＋Zenn／Qiita對照＋V2EX／知乎／PTT／Dcard搜尋）
 
 [約65組候選與查閱範圍](sources/research-2026-11-07-0853.md)：新增5（UC503 Muse裝Grok Build搜X找note題材並人工開鏈驗摘要、UC504 Grok Bot評論四類分流與只寫不發草稿例程、UC505 Muse讀56篇note＋NotebookLM日記單檔共編、UC506司令塔／秘書依研討會目標分派LP與導流、UC507 Dot重述歷史協助做成Sites演講簡報），合併補充1（UC072 Grok Bot光纖研究通話不簽約）；其餘為比較文、邀請碼、產品導流、體感討論、過薄單則或與既有案同題。均未獨立重現。
+
+## 2026-11-08 08:52：每日批次（X＋Reddit＋Hacker News＋GitHub／官方模板市集＋Product Hunt）
+
+[約70組候選與查閱範圍](sources/research-2026-11-08-0852.md)：新增4（UC508 Grok Bot額度用完後與ChatGPT Dot共用Notion與Slack交接草稿、UC509用Grok Bot把一日一題投票做成Toss迷你應用並過審上架、UC510 Muse對照freee與Gmail列出訂閱更新日並每週清理未處理明細、UC511 Grok Bot聽寫加入視訊會議並交出決定與下一步表），合併補充1（UC502用Grok Bot加號郵件別名當Muse觸發條件）；其餘為清單、邀請碼、比較文、市集模板、過薄單則或與既有案同題。均未獨立重現。

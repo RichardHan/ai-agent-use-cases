@@ -9,6 +9,14 @@ const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cas
 const outDir = process.env.QA_OUT_DIR || path.resolve(__dirname, '../docs/qa/2026-11-08-visitor-adoption');
 fs.mkdirSync(outDir, { recursive: true });
 
+// On small screens the 53-task directory is disclosed in two steps. Expand it
+// before reaching the less common task links, exactly as a visitor would.
+async function expandProblemTags(page){
+  const toggle=page.locator('#problem-tags-toggle');
+  if(!(await toggle.count())||!(await toggle.isVisible()))return;
+  if((await toggle.getAttribute('aria-expanded'))==='false')await toggle.click();
+}
+
 (async () => {
   const browser = await chromium.launch();
   const viewports = [
@@ -55,6 +63,7 @@ fs.mkdirSync(outDir, { recursive: true });
 
     // SCENARIO 1: Problem-oriented discovery
     console.log(`[${vp.name}] Testing Scenario 1: 問卷調查 problem tag...`);
+    await expandProblemTags(page);
     const surveyTag = page.locator('.hero-problem-tags a[href*="問卷調查"]');
     assert.ok(await surveyTag.isVisible(), '問卷調查 tag must be visible in hero');
     await surveyTag.click();
@@ -67,6 +76,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(surveyShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 文獻回顧 problem tag...`);
+    await expandProblemTags(page);
     const litTag = page.locator('.hero-problem-tags a[href*="文獻回顧"]');
     assert.ok(await litTag.isVisible(), '文獻回顧 tag must be visible in hero');
     await litTag.click();
@@ -100,6 +110,7 @@ fs.mkdirSync(outDir, { recursive: true });
     await page.screenshot({ path: path.join(outDir, expShot) });
     vpReport.screenshots.push(expShot);
     console.log(`[${vp.name}] Testing Scenario 1: 資料清理 problem tag...`);
+    await expandProblemTags(page);
     const dataCleanTag = page.locator('.hero-problem-tags a[href*="資料清理"]');
     assert.ok(await dataCleanTag.isVisible(), '資料清理 tag must be visible in hero');
     await dataCleanTag.click();
@@ -113,6 +124,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(dataCleanShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 日誌分析 problem tag...`);
+    await expandProblemTags(page);
     const logTag = page.locator('.hero-problem-tags a[href*="日誌分析"]');
     assert.ok(await logTag.isVisible(), '日誌分析 tag must be visible in hero');
     await logTag.click();
@@ -125,6 +137,7 @@ fs.mkdirSync(outDir, { recursive: true });
     await page.screenshot({ path: path.join(outDir, logShot) });
     vpReport.screenshots.push(logShot);
     console.log(`[${vp.name}] Testing Scenario 1: 筆記整理 problem tag...`);
+    await expandProblemTags(page);
     const noteTag = page.locator('.hero-problem-tags a[href*="筆記整理"]');
     assert.ok(await noteTag.isVisible(), '筆記整理 tag must be visible in hero');
     await noteTag.click();
@@ -138,6 +151,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(noteShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 客戶反饋 problem tag...`);
+    await expandProblemTags(page);
     const feedbackTag = page.locator('.hero-problem-tags a[href*="客戶反饋"]');
     assert.ok(await feedbackTag.isVisible(), '客戶反饋 tag must be visible in hero');
     await feedbackTag.click();
@@ -151,6 +165,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(feedbackShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 面試準備 problem tag...`);
+    await expandProblemTags(page);
     const interviewTag = page.locator('.hero-problem-tags a[href*="面試準備"]');
     assert.ok(await interviewTag.isVisible(), '面試準備 tag must be visible in hero');
     await interviewTag.click();
@@ -163,6 +178,7 @@ fs.mkdirSync(outDir, { recursive: true });
     await page.screenshot({ path: path.join(outDir, interviewShot) });
     vpReport.screenshots.push(interviewShot);
     console.log(`[${vp.name}] Testing Scenario 1: 行銷文案 problem tag...`);
+    await expandProblemTags(page);
     const mktTag = page.locator('.hero-problem-tags a[href*="行銷文案"]');
     assert.ok(await mktTag.isVisible(), '行銷文案 tag must be visible in hero');
     await mktTag.click();
@@ -174,6 +190,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(mktShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 效能分析 problem tag...`);
+    await expandProblemTags(page);
     const perfTag = page.locator('.hero-problem-tags a[href*="效能分析"]');
     assert.ok(await perfTag.isVisible(), '效能分析 tag must be visible in hero');
     await perfTag.click();
@@ -187,6 +204,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(perfShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 報帳審核 problem tag...`);
+    await expandProblemTags(page);
     const expTag = page.locator('.hero-problem-tags a[href*="報帳審核"]');
     assert.ok(await expTag.isVisible(), '報帳審核 tag must be visible in hero');
     await expTag.click();
@@ -198,6 +216,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(expShot2);
 
     console.log(`[${vp.name}] Testing Scenario 1: 簡報製作 problem tag...`);
+    await expandProblemTags(page);
     const slidesTag = page.locator('.hero-problem-tags a[href*="簡報製作"]');
     assert.ok(await slidesTag.isVisible(), '簡報製作 tag must be visible in hero');
     await slidesTag.click();
@@ -208,6 +227,7 @@ fs.mkdirSync(outDir, { recursive: true });
     await page.screenshot({ path: path.join(outDir, slidesShot) });
     vpReport.screenshots.push(slidesShot);
     console.log(`[${vp.name}] Testing Scenario 1: 專案進度 problem tag...`);
+    await expandProblemTags(page);
     const projTag = page.locator('.hero-problem-tags a[href*="專案進度"]');
     assert.ok(await projTag.isVisible(), '專案進度 tag must be visible in hero');
     await projTag.click();
@@ -219,6 +239,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(projShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 數據分析 problem tag...`);
+    await expandProblemTags(page);
     const dataTag = page.locator('.hero-problem-tags a[href*="數據分析"]');
     assert.ok(await dataTag.isVisible(), '數據分析 tag must be visible in hero');
     await dataTag.click();
@@ -230,6 +251,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(dataShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 音訊轉寫 problem tag...`);
+    await expandProblemTags(page);
     const audioTag = page.locator('.hero-problem-tags a[href*="音訊轉寫"]');
     assert.ok(await audioTag.isVisible(), '音訊轉寫 tag must be visible in hero');
     await audioTag.click();
@@ -241,6 +263,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(audioShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 市場調研 problem tag...`);
+    await expandProblemTags(page);
     const marketTag = page.locator('.hero-problem-tags a[href*="市場調研"]');
     assert.ok(await marketTag.isVisible(), '市場調研 tag must be visible in hero');
     await marketTag.click();
@@ -252,6 +275,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(marketShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 產品調研 problem tag...`);
+    await expandProblemTags(page);
     const prodResearchTag = page.locator('.hero-problem-tags a[href*="產品調研"]');
     assert.ok(await prodResearchTag.isVisible(), '產品調研 tag must be visible in hero');
     await prodResearchTag.click();
@@ -263,6 +287,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(prodResearchShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 讀書筆記 problem tag...`);
+    await expandProblemTags(page);
     const readingNotesTag = page.locator('.hero-problem-tags a[href*="讀書筆記"]');
     assert.ok(await readingNotesTag.isVisible(), '讀書筆記 tag must be visible in hero');
     await readingNotesTag.click();
@@ -274,6 +299,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(readingNotesShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 英語學習 problem tag...`);
+    await expandProblemTags(page);
     const englishTag = page.locator('.hero-problem-tags a[href*="英語學習"]');
     assert.ok(await englishTag.isVisible(), '英語學習 tag must be visible in hero');
     await englishTag.click();
@@ -285,6 +311,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(englishShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 漏洞掃描 problem tag...`);
+    await expandProblemTags(page);
     const vulnTag = page.locator('.hero-problem-tags a[href*="漏洞掃描"]');
     assert.ok(await vulnTag.isVisible(), '漏洞掃描 tag must be visible in hero');
     await vulnTag.click();
@@ -298,6 +325,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(vulnShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 隱私審查 problem tag...`);
+    await expandProblemTags(page);
     const privacyTag = page.locator('.hero-problem-tags a[href*="隱私審查"]');
     assert.ok(await privacyTag.isVisible(), '隱私審查 tag must be visible in hero');
     await privacyTag.click();
@@ -309,6 +337,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(privacyShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 成本分析 problem tag...`);
+    await expandProblemTags(page);
     const costTag = page.locator('.hero-problem-tags a[href*="成本分析"]');
     assert.ok(await costTag.isVisible(), '成本分析 tag must be visible in hero');
     await costTag.click();
@@ -320,6 +349,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(costShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 供應商評估 problem tag...`);
+    await expandProblemTags(page);
     const vendorTag = page.locator('.hero-problem-tags a[href*="供應商評估"]');
     assert.ok(await vendorTag.isVisible(), '供應商評估 tag must be visible in hero');
     await vendorTag.click();
@@ -331,6 +361,7 @@ fs.mkdirSync(outDir, { recursive: true });
     vpReport.screenshots.push(vendorShot);
 
     console.log(`[${vp.name}] Testing Scenario 1: 招募審查 problem tag...`);
+    await expandProblemTags(page);
     const recruitTag = page.locator('.hero-problem-tags a[href*="招募審查"]');
     assert.ok(await recruitTag.isVisible(), '招募審查 tag must be visible in hero');
     await recruitTag.click();

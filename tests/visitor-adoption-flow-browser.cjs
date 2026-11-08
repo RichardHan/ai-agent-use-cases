@@ -1,5 +1,12 @@
 'use strict';
 const { chromium } = require('playwright');
+
+async function expandProblemTags(page){
+  const toggle=page.locator('#problem-tags-toggle');
+  if(!(await toggle.count())||!(await toggle.isVisible()))return;
+  if((await toggle.getAttribute('aria-expanded'))==='false')await toggle.click();
+}
+
 const AxeBuilder = require('@axe-core/playwright').default;
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -33,6 +40,7 @@ async function run() {
       // --- 1. Homepage & Initial Load ---
       await page.goto(BASE_URL);
       await page.waitForFunction(() => typeof discoveryReady !== 'undefined' && discoveryReady, { timeout: 30000 });
+      await expandProblemTags(page);
       console.log('✓ Discovery ready, corpus loaded');
 
       // Verify hero problem tags

@@ -3241,16 +3241,19 @@ $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
   let mobileInitialized=false;
   const render=()=>{
     if(!narrow()){
+      if(document.activeElement===toggle&&links[0])links[0].focus({preventScroll:true});
       nav.removeAttribute('data-collapsed');
       toggle.hidden=true;
+      toggle.setAttribute('aria-expanded','true');
       mobileInitialized=false;
       return;
     }
     if(!mobileInitialized){
+      toggle.hidden=false;
+      if(links.slice(visibleCount).includes(document.activeElement))toggle.focus({preventScroll:true});
       nav.setAttribute('data-collapsed','true');
       mobileInitialized=true;
     }
-    toggle.hidden=false;
     const expanded=nav.getAttribute('data-collapsed')!=='true';
     toggle.setAttribute('aria-expanded',String(expanded));
     toggle.textContent=expanded?`收合任務清單（先顯示 ${visibleCount} 項）`:`顯示全部 ${links.length} 個任務`;

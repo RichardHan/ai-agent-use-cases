@@ -21,7 +21,7 @@ test('hero keeps a labelled disclosure for the long task directory', () => {
 
 test('disclosure does not remove any task link from the hero', () => {
   const links = [...hero.matchAll(/<a class="problem-tag" href="\?q=([^"#]+)#explore">/g)].map(match => match[1]);
-  assert.ok(links.length >= 45, `expected the full task directory, found ${links.length}`);
+  assert.equal(links.length, 53, 'the full 53-task directory must stay in the hero');
   assert.equal(new Set(links).size, links.length, 'task links must not repeat');
   for (const task of ['日報', '會議', '代碼審查', '合約審核', '安全防護', '人工審批']) {
     assert.ok(links.includes(task), `task directory must keep ${task}`);

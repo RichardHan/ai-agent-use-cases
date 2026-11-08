@@ -29,7 +29,7 @@ const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cas
     const nav = page.locator('#hero-problem-tags');
     const toggle = page.locator('#problem-tags-toggle');
     const total = await nav.locator('a.problem-tag').count();
-    assert.ok(total >= 45, `${vp.name}: all task links stay in the DOM (got ${total})`);
+    assert.equal(total, 53, `${vp.name}: all 53 task links stay in the DOM`);
 
     const visibleTasks = () => page.evaluate(() =>
       [...document.querySelectorAll('#hero-problem-tags a.problem-tag')]
@@ -48,6 +48,19 @@ const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cas
       assert.equal(await toggle.isVisible(), false, `${vp.name}: wide screens do not need the disclosure`);
       assert.equal(await visibleTasks(), total, `${vp.name}: wide screens show every task link`);
       report.push({ viewport: vp.name, state: 'wide', total, visible: total, navHeight: Math.round(await navHeight()) });
+
+      // Narrowing the window must not hide the control the reader is on.
+      await nav.locator('a.problem-tag').last().focus();
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.waitForFunction(() => document.querySelector('#hero-problem-tags').getAttribute('data-collapsed') === 'true');
+      const focusAfterNarrowing = await page.evaluate(() => ({
+        id: document.activeElement.id,
+        tag: document.activeElement.tagName,
+        visible: document.activeElement.getClientRects().length > 0
+      }));
+      assert.equal(focusAfterNarrowing.id, 'problem-tags-toggle', `${vp.name}: narrowing moves focus to the visible disclosure, got ${focusAfterNarrowing.tag}#${focusAfterNarrowing.id}`);
+      assert.equal(focusAfterNarrowing.visible, true, `${vp.name}: the focused disclosure stays visible after narrowing`);
+      await page.setViewportSize({ width: vp.width, height: vp.height });
     } else {
       assert.equal(await toggle.isVisible(), true, `${vp.name}: disclosure control is visible`);
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false', `${vp.name}: directory starts collapsed`);
@@ -73,7 +86,7 @@ const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cas
       await axe('expanded');
 
       await page.keyboard.press('Enter');
-      await page.waitForFunction(() => document.querySelector('#problem-tags-toggle').getAttribute('aria-expanded') === 'false');
+      await page.waitForFunction(() => document.querySelector('#hero-problem-tags').getAttribute('data-collapsed') === 'true');
       assert.equal(await visibleTasks(), 9, `${vp.name}: collapsing hides late tasks again`);
       await axe('collapsed-again');
 
@@ -95,5 +108,5 @@ const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cas
   console.log(JSON.stringify(report, null, 2));
 })().catch(error => {
   console.error(error);
-  process.exitCode = 1;
+  process.exit(1);
 });

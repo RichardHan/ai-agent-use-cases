@@ -36,11 +36,11 @@
 | 320px | 1,794 → **1,072** | 928 → **148** | 1,557 → **835** | 3,430 → **2,735** | 3,678 → **2,983** |
 | 1440px | 1,170 → 1,170 | 408 → 408 | 1,149 → 1,149 | 1,528 → 1,528 | 2,552 → 2,552 |
 
-桌機幾何逐項不變。`#explore` 之後的位置包含每次載入隨機抽出的案例卡高度，會有些微變動；hero、任務高度與價值主張段落為固定幾何。完整數值見 `metrics-before.json`／`metrics-after.json`。
+桌機幾何逐項不變。`#explore` 之後的位置包含每次載入隨機抽出的案例卡高度，不是固定值：390px 四次載入的搜尋框 top 分別為 2,608、2,632、2,791、2,883px，差距約 275px；表中的搜尋框與第一張結果是同一次載入的樣本。hero、任務高度與價值主張段落才是固定幾何。完整數值見 `metrics-before.json`／`metrics-after.json`。
 
 ## 驗收
 
-- 新回歸 `tests/mobile-problem-tags-browser.cjs`：1440 顯示 53 項且按鈕隱藏；390／320 預設 9 項、`aria-expanded=false`、Enter 展開 53 項、再 Enter 收合；收合與展開 axe 均 0 違規、無水平溢出、`pageerror` 0。
+- 新回歸 `tests/mobile-problem-tags-browser.cjs`：1440 顯示 53 項且按鈕隱藏；390／320 預設 9 項、`aria-expanded=false`、Enter 展開 53 項、再 Enter 收合；由桌機縮到手機時，若焦點在將被收合的任務連結，焦點移到可見的揭露按鈕；收合與展開 axe 均 0 違規、無水平溢出、`pageerror` 0。
 - 既有 `tests/visitor-problem-browser.cjs`：桌面／390／320 三視口、三個情境全數通過，axe 0。
 - `tests/visual-redesign-browser.cjs` 四視口、`tests/hero-value-browser.cjs` 三情境、`tests/scenario-verification-browser.cjs` 三視口、`tests/discovery-browser.cjs`（含載入失敗、空目錄、剪貼簿失敗）通過。
 - `node --test tests/*.test.cjs`：**482 通過、0 失敗**（基準 480，新增 2 項）。

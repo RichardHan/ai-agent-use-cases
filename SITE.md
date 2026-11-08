@@ -4,9 +4,9 @@
 
 比較兩案：(A) 只把價值主張移到任務清單之前；成本最低，但標籤仍佔 720／928px，搜尋距離幾乎不變，且既有測試要求三個主要任務入口維持在首屏。(B) 手機先顯示前 9 個任務，其餘用「顯示全部 53 個任務」揭露；所有連結仍在 DOM，桌機全顯示，無 JavaScript 時按鈕隱藏、全部連結可見。選 B，風險鎖在視覺收合，不動搜尋語意、案例資料或計數口徑。
 
-`index.html` 的任務 nav 加 `id`，新增 disclosure 按鈕（`aria-controls`、`aria-expanded`、預設 `hidden`）；`assets/app.js` 依 760px 收合並在 resize 重新評估；`assets/style.css` 手機顯示按鈕、`nth-of-type(n+10)` 隱藏其餘；`README.md` 補訪客可見行為；新增 `tests/mobile-problem-tags-browser.cjs`（收合／鍵盤展開收合／axe／溢出／桌機全顯示）與 `tests/mobile-problem-tags.test.cjs`（53 個任務仍在），並讓 `visitor-problem`、`hero-value`、`visitor-adoption` 兩支腳本先展開再點晚期任務。`.github/workflows/website-qa.yml` 在既有 Chromium 步驟加一行，不新增 workflow。
+`index.html` 的任務 nav 加 `id`，新增 disclosure 按鈕（`aria-controls`、`aria-expanded`、預設 `hidden`）；`assets/app.js` 依 760px 收合並在 resize 重新評估；`assets/style.css` 手機顯示按鈕、`nth-of-type(n+10)` 隱藏其餘；`README.md` 補訪客可見行為；新增 `tests/mobile-problem-tags-browser.cjs`（收合／鍵盤展開收合／視窗縮窄時的焦點轉移／axe／溢出／桌機全顯示）與 `tests/mobile-problem-tags.test.cjs`（53 個任務仍在），並讓 `visitor-problem`、`hero-value`、`visitor-adoption` 兩支腳本先展開再點晚期任務。`.github/workflows/website-qa.yml` 在既有 Chromium 步驟加一行，不新增 workflow。
 
-同資料、同伺服器前後對照（Chromium）：390px hero 1,534→1,020、標籤 720→148、價值主張 1,367→853、搜尋框 3,122→2,634、第一張結果 3,374→2,886；320px hero 1,794→1,072、標籤 928→148、價值主張 1,557→835、搜尋框 3,430→2,735；1440px 幾何不變。全套 **482 通過、0 失敗**（基準 480），`node --check` 通過；`mobile-problem-tags` 新回歸、`visitor-problem` 三視口三情境、`visual-redesign` 四視口、`hero-value` 三情境、`scenario-verification` 三視口、`discovery`（含載入失敗、空目錄）與 axe 0 全數通過。截圖、完整數值與方案見[本輪 QA](docs/qa/2026-11-08-mobile-problem-disclosure/README.md)。
+同資料、同伺服器前後對照（Chromium）：390px hero 1,534→1,020、標籤 720→148、價值主張 1,367→853；搜尋框與第一張結果屬同一次載入樣本，390px 為 3,122→2,634 與 3,374→2,886，但隨機抽卡會使搜尋框在 2,608–2,883px 間變動，不宜當固定值。320px hero 1,794→1,072、標籤 928→148、價值主張 1,557→835、搜尋框 3,430→2,735；1440px 幾何不變。全套 **482 通過、0 失敗**（基準 480），`node --check` 通過；`mobile-problem-tags` 新回歸、`visitor-problem` 三視口三情境、`visual-redesign` 四視口、`hero-value` 三情境、`scenario-verification` 三視口、`discovery`（含載入失敗、空目錄）與 axe 0 全數通過。截圖、完整數值與方案見[本輪 QA](docs/qa/2026-11-08-mobile-problem-disclosure/README.md)。
 
 已知限制：本環境無法檢視截圖影像，視覺判斷以 DOM 幾何、axe、水平溢出與 pageerror 為準；未量測真人、低階手機或螢幕閱讀器；本站無追蹤器，無法取得「多少訪客停在 hero」。下一輪先核對正式站 `sourceRevision` 與本輪 commit，再以 390px 實走「載入→展開全部任務→搜尋晚期任務→返回」；若無回歸，評估在手機把搜尋與結果移到 1,237px 的隨機抽卡區之前。
 

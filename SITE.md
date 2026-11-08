@@ -10,6 +10,8 @@
 
 獨立審查由未參與實作的 agent 依需求、完整 diff 與自行重跑結果進行，結論 ship、無需修改的發現；它自選對抗案例（`回覆訊息` 83 筆逐筆同時含兩詞、`想省錢`／`不太懂`／`夢中夢`／12 字重複詞／多詞查詢／`代碼審查`＋生活＋入門對話、Back／Forward 殘留狀態）皆符合規則。審查後另修一項無障礙細節：說明列重複渲染時不再重寫 `role="status"` 文字（同值連送 4 次 0 次 DOM 變更、換查詢才 1 次），修正後重跑單元測試與三尺寸檢查仍全綠。
 
+發布核對：PR [#266](https://github.com/RichardHan/ai-agent-use-cases/pull/266)（head `97ab2b69`）15 項檢查全部通過（`published` 依規則略過），合併前 `mergeStateStatus` 為 `CLEAN`；squash 合併為 `5f2943b5faae16f624b6d9c8d8a03cc56a6ed711`。PR 上的 Website QA 實際執行新增步驟（`Verify the updated site in Chromium: success`，日誌含 `node tests/compound-split-browser.cjs` 與 `ok 55 - tests/search-compound-split.test.cjs`）。`pages build and deployment`（[run 42464127142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42464127142)）成功；正式站 `catalog.json` 的 `sourceRevision` 已是 `5f2943b5…`，`assets/app.js`、`assets/style.css`、`index.html` 與該 commit 逐 byte 相同。於正式站以 Chromium 1440／390／320 重走：`?q=客戶抱怨` → `顯示 4 / 509` 並顯示拆詞說明（前三筆 UC-039、UC-056、UC-067），水平溢出 0px；按「只找完整句子」→ `顯示 0 / 509`、按鈕變「改用拆詞結果」、既有救援為「原問題包含「客戶」→ 搜尋 100 筆」；`?q=客服` → `顯示 92 / 509`、說明列不出現、首筆 UC-014（與修正前相同）；`?q=員工請假` → 維持 0、不拆、顯示既有救援；三尺寸無頁面錯誤。
+
 已知限制：拆詞只是字面、不是語意理解，站上沒有其中一個詞時仍是 0 筆；長句（如「我想要找一個可以幫我整理照片的工具」）仍為 0 筆；「只找完整句子」不寫進網址，重載或分享連結回到預設拆詞狀態；未量測低階手機或正式站效能，也沒有真人使用者研究。下一輪最值得處理長句：先用 20–30 句真實長句建立可重現的零結果清單並確認站上是否已有對應案例，再決定補候選詞抽取或改導向情境探索。
 
 ## 2026-11-08 自然問句零結果的可核對救援（以站上既有任務詞彙取代逐輪新增同義詞）與三尺寸端到端驗收

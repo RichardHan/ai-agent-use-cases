@@ -73,6 +73,13 @@
 - 渲染成本（390px 視窗，Chromium，同一份 corpus）：拆詞查詢 26.8–32.0ms、未拆詞查詢 148.7–157.8ms、修正前同類查詢 141–183ms。拆詞本身沒有可測得的延遲增加，較快是因為不用渲染 55 個捷徑的空狀態。
 - 三種情境實走（皆為工程與瀏覽器驗收，不是真人研究）：① 不知道工具名稱、輸入「客戶抱怨」→ 4 筆含客服／客戶相關案例；② 加上「工作」情境後改由既有救援指出可移除的篩選；③ 直開 `?q=客戶抱怨` 分享連結，說明列與 4 筆結果在重載後一致，開啟詳情與 Escape 返回後仍在。
 
+## 發布核對
+
+- PR [#266](https://github.com/RichardHan/ai-agent-use-cases/pull/266)（head `97ab2b69`）15 項檢查全部通過（`published` 依規則略過）；合併前 `mergeStateStatus` 為 `CLEAN`。squash 合併為 `5f2943b5faae16f624b6d9c8d8a03cc56a6ed711`（2026-11-08T08:43:21Z）。
+- PR 上的 Website QA 執行了我新增的步驟（`Verify the updated site in Chromium: success`，日誌含 `node tests/compound-split-browser.cjs` 與 `ok 55 - tests/search-compound-split.test.cjs`）。
+- `pages build and deployment`（[run 42464127142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42464127142)）成功。正式站 `catalog.json` 的 `sourceRevision` 已是 `5f2943b5…`，`assets/app.js`、`assets/style.css`、`index.html` 與該 commit 逐 byte 相同。
+- 於正式站以 Chromium 1440／390／320 重走：`?q=客戶抱怨` → `顯示 4 / 509` 並顯示拆詞說明（前三筆 UC-039、UC-056、UC-067），水平溢出 0px；按「只找完整句子」→ `顯示 0 / 509`、按鈕變「改用拆詞結果」、既有救援顯示「原問題包含「客戶」→ 搜尋 100 筆」；`?q=客服` → `顯示 92 / 509`、說明列不出現、首筆 UC-014（與修正前相同）；`?q=員工請假` → 維持 0、不拆、顯示既有救援。三尺寸皆無頁面錯誤。
+
 ## 已知限制
 
 - 拆詞不是語意理解：只認字面，且要求整串被既有詞完整覆蓋；`帳單看不懂`、`員工請假` 這類「站上沒有其中一個詞」或「兩個詞從未同篇出現」的說法仍是 0 筆，改由既有救援提供可用詞。

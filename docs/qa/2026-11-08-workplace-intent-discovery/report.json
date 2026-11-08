@@ -1,0 +1,221 @@
+{
+  "timestamp": "2026-11-08T00:15:45.072Z",
+  "verifyUrl": "http://127.0.0.1:8199/ai-agent-use-cases/",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "axeChecks": [
+        {
+          "state": "homepage",
+          "violations": 0
+        },
+        {
+          "state": "search_results",
+          "violations": 0
+        },
+        {
+          "state": "empty_state",
+          "violations": 0
+        },
+        {
+          "state": "recovered_state",
+          "violations": 0
+        },
+        {
+          "state": "compound_empty_state",
+          "violations": 0
+        },
+        {
+          "state": "in_facet_recovered_state",
+          "violations": 0
+        },
+        {
+          "state": "detail_modal",
+          "violations": 0
+        },
+        {
+          "state": "returned_state",
+          "violations": 0
+        }
+      ],
+      "screenshots": [
+        "desktop-01-homepage.png",
+        "desktop-02-scenario1-survey.png",
+        "desktop-02b-scenario1-literature.png",
+        "desktop-02c-scenario1-airfare.png",
+        "desktop-02d-scenario1-expense.png",
+        "desktop-02e-scenario1-dataclean.png",
+        "desktop-02f-scenario1-log.png",
+        "desktop-02g-scenario1-note.png",
+        "desktop-02h-scenario1-feedback.png",
+        "desktop-02i-scenario1-interview.png",
+        "desktop-02j-scenario1-marketing.png",
+        "desktop-02k-scenario1-performance.png",
+        "desktop-02l-scenario1-expense-approval.png",
+        "desktop-02m-scenario1-slides.png",
+        "desktop-02n-scenario1-project-progress.png",
+        "desktop-02o-scenario1-data-analytics.png",
+        "desktop-02p-scenario1-transcription.png",
+        "desktop-02q-scenario1-market-research.png",
+        "desktop-03-scenario1-contract-review.png",
+        "desktop-04-scenario2-empty.png",
+        "desktop-05-scenario2-recovered.png",
+        "desktop-05b-scenario2-compound-empty.png",
+        "desktop-05c-scenario2-in-facet-recovered.png",
+        "desktop-06-scenario3-detail.png",
+        "desktop-07-scenario3-returned.png"
+      ]
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "axeChecks": [
+        {
+          "state": "homepage",
+          "violations": 0
+        },
+        {
+          "state": "search_results",
+          "violations": 0
+        },
+        {
+          "state": "empty_state",
+          "violations": 0
+        },
+        {
+          "state": "recovered_state",
+          "violations": 0
+        },
+        {
+          "state": "compound_empty_state",
+          "violations": 0
+        },
+        {
+          "state": "in_facet_recovered_state",
+          "violations": 0
+        },
+        {
+          "state": "detail_modal",
+          "violations": 0
+        },
+        {
+          "state": "returned_state",
+          "violations": 0
+        }
+      ],
+      "screenshots": [
+        "mobile-01-homepage.png",
+        "mobile-02-scenario1-survey.png",
+        "mobile-02b-scenario1-literature.png",
+        "mobile-02c-scenario1-airfare.png",
+        "mobile-02d-scenario1-expense.png",
+        "mobile-02e-scenario1-dataclean.png",
+        "mobile-02f-scenario1-log.png",
+        "mobile-02g-scenario1-note.png",
+        "mobile-02h-scenario1-feedback.png",
+        "mobile-02i-scenario1-interview.png",
+        "mobile-02j-scenario1-marketing.png",
+        "mobile-02k-scenario1-performance.png",
+        "mobile-02l-scenario1-expense-approval.png",
+        "mobile-02m-scenario1-slides.png",
+        "mobile-02n-scenario1-project-progress.png",
+        "mobile-02o-scenario1-data-analytics.png",
+        "mobile-02p-scenario1-transcription.png",
+        "mobile-02q-scenario1-market-research.png",
+        "mobile-03-scenario1-contract-review.png",
+        "mobile-04-scenario2-empty.png",
+        "mobile-05-scenario2-recovered.png",
+        "mobile-05b-scenario2-compound-empty.png",
+        "mobile-05c-scenario2-in-facet-recovered.png",
+        "mobile-06-scenario3-detail.png",
+        "mobile-07-scenario3-returned.png"
+      ]
+    },
+    {
+      "name": "smallMobile",
+      "width": 320,
+      "height": 740,
+      "axeChecks": [
+        {
+          "state": "homepage",
+          "violations": 0
+        },
+        {
+          "state": "search_results",
+          "violations": 0
+        },
+        {
+          "state": "empty_state",
+          "violations": 0
+        },
+        {
+          "state": "recovered_state",
+          "violations": 0
+        },
+        {
+          "state": "compound_empty_state",
+          "violations": 0
+        },
+        {
+          "state": "in_facet_recovered_state",
+          "violations": 0
+        },
+        {
+          "state": "detail_modal",
+          "violations": 0
+        },
+        {
+          "state": "returned_state",
+          "violations": 0
+        }
+      ],
+      "screenshots": [
+        "smallMobile-01-homepage.png",
+        "smallMobile-02-scenario1-survey.png",
+        "smallMobile-02b-scenario1-literature.png",
+        "smallMobile-02c-scenario1-airfare.png",
+        "smallMobile-02d-scenario1-expense.png",
+        "smallMobile-02e-scenario1-dataclean.png",
+        "smallMobile-02f-scenario1-log.png",
+        "smallMobile-02g-scenario1-note.png",
+        "smallMobile-02h-scenario1-feedback.png",
+        "smallMobile-02i-scenario1-interview.png",
+        "smallMobile-02j-scenario1-marketing.png",
+        "smallMobile-02k-scenario1-performance.png",
+        "smallMobile-02l-scenario1-expense-approval.png",
+        "smallMobile-02m-scenario1-slides.png",
+        "smallMobile-02n-scenario1-project-progress.png",
+        "smallMobile-02o-scenario1-data-analytics.png",
+        "smallMobile-02p-scenario1-transcription.png",
+        "smallMobile-02q-scenario1-market-research.png",
+        "smallMobile-03-scenario1-contract-review.png",
+        "smallMobile-04-scenario2-empty.png",
+        "smallMobile-05-scenario2-recovered.png",
+        "smallMobile-05b-scenario2-compound-empty.png",
+        "smallMobile-05c-scenario2-in-facet-recovered.png",
+        "smallMobile-06-scenario3-detail.png",
+        "smallMobile-07-scenario3-returned.png"
+      ]
+    }
+  ],
+  "scenarios": {
+    "scenario1_problem_discovery": {
+      "passed": true,
+      "checks": []
+    },
+    "scenario2_empty_recovery": {
+      "passed": true,
+      "checks": []
+    },
+    "scenario3_deep_link_evidence_return": {
+      "passed": true,
+      "checks": []
+    }
+  },
+  "axeSummary": {
+    "totalViolations": 0
+  }
+}

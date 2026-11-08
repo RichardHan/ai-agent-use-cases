@@ -321,6 +321,7 @@
 .source-guidance dl>div+div{margin-top:14px}
 .source-guidance dt{font-weight:650;color:var(--ink)}
 .source-guidance dd{margin:2px 0 0}
+.source-guidance dd.proof-legend-claimant{margin-top:4px;font-size:13px;color:var(--green)}
 .search-order-controls{display:flex;align-items:flex-start;gap:12px 20px;flex-wrap:wrap;margin:8px 0 20px}
 .reset-sort{flex-shrink:0;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--green);font:inherit;font-size:13px;cursor:pointer}
 .reset-sort:hover{background:var(--paper)}

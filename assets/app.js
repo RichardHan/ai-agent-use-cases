@@ -33,8 +33,8 @@ function refreshCurrentSourceLinks(path) {
 }
 const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
 const PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {
-  '官方自報': '官方團隊第一手發布的自述或示範，未經第三方獨立驗證。',
-  '作者報告／示範': '社群作者公開分享的操作紀錄與示範，尚未取得獨立代碼庫驗證。',
+  '官方自報': '官方或原廠團隊（含其員工）第一手發布的自述、示範或能力說明，未經第三方獨立驗證；發布者可能有產品推廣利益。',
+  '作者報告／示範': '社群作者公開分享的操作紀錄與示範；實際產物、完整過程與成效仍須逐案核對，本庫未取得獨立代碼庫驗證。',
   '設計／未實跑': '作者自行設計或分享的提示詞與流程，未附執行結果；本庫未實跑，也沒有成效可核。',
   '公開資料核讀': '依公開貼文、文章或報告核讀整理，本庫未重現完整流程。',
   '模板／文件核讀': '基於開源模板、規格書或文件梳理，文件列出功能不代表已實測完成。',
@@ -44,7 +44,7 @@ const PROOF_CLAIMANTS = globalThis.PROOF_CLAIMANTS = {
   '官方自報': '官方團隊／原廠自述',
   '作者報告／示範': '社群作者／專案實踐者',
   '設計／未實跑': '提示詞設計者（未提供執行結果）',
-  '公開資料核讀': '公開文獻／第三方分析',
+  '公開資料核讀': '公開專案／原始文件（作者自行公布）',
   '模板／文件核讀': '開源模板／規格文件',
   '尚待查證': '社群線索（尚未證實）'
 };
@@ -676,6 +676,29 @@ function extractActionableGuidance(markdown) {
     caution: caution ? caution.replace(/\s+/g, ' ').slice(0, 160) : ''
   };
 }
+// A source line often names several evidence classes ("`official`（文件）＋
+// `author-demo`（作者自述）"). The class that governs the case's own reported
+// outcome decides the label:
+//   * an opening 待驗證/designed/模板 declaration wins outright;
+//   * an opening vendor or official statement (V級廠商員工, V＋B，服務商員工,
+//     官方署名…) is first-party evidence, so it must never read as third-party
+//     analysis;
+//   * a declared author execution record (`author-demo`) outranks an `official`
+//     reference listed before it, because the case reports what the author did;
+//   * a passing mention of 模板 or a comparison-only official doc changes nothing.
+const FIRST_PARTY_LEAD = /^(?:[VAB](?:\s*[＋+]\s*[VAB])?級?\s*[，,、:：]?\s*)?(?:(?:廠商|原廠|產品|服務商|公司|官方)?員工|廠商|原廠|官方)/;
+function declaredEvidenceClass(proofLine, kind) {
+  if (kind === 'pending') return '尚待查證';
+  const line = proofLine.replace(/`/g, '');
+  if (/^\s*(?:unverified|待驗證|待定|尚待查證)/i.test(line)) return '尚待查證';
+  if (/^\s*designed\b/i.test(line)) return '設計／未實跑';
+  if (/^(?:原)?模板/.test(line)) return '模板／文件核讀';
+  if (FIRST_PARTY_LEAD.test(line)) return '官方自報';
+  if (/\bauthor-(?:demo|self-report)\b/i.test(line)) return '作者報告／示範';
+  if (/官方.*(?:展示|示例|範例|發布|自報|第一手.*自述|署名作者使用陳述)|official/i.test(line)) return '官方自報';
+  if (/author|作者|自驗|自述/.test(line)) return '作者報告／示範';
+  return '公開資料核讀';
+}
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);
   const id = title.match(/(?:UC|P)-\d+/)?.[0] || path.split('/').pop().replace(/\.md$/,'') + suffix;
@@ -718,7 +741,7 @@ function metadata(markdown, path, kind, suffix='') {
   // "未取得…已完成操作流程" is not mistaken for a resolution.
   const resolved = kind === 'pending' && /^\d{4}-\d{2}-\d{2}[^。；]{0,10}已(?:處理|解決|完成)/.test(statusLine);
   const mergedInto=kind==='evidence' ? null : kind==='case' ? (heading.match(/已合併\s*(UC-\d{3})/)?.[1] || proofLine.match(/合併\s*(UC-\d{3})/)?.[1] || null) : ((statusLine + ' ' + heading).match(/併入\s*(UC-\d{3})/)?.[1] || null);
-  const proof = kind === 'pending' || /^\s*(?:unverified|待驗證|待定|尚待查證)/i.test(proofLine) ? '尚待查證' : /^\s*`?designed`?/i.test(proofLine) ? '設計／未實跑' : /模板/.test(proofLine + heading) ? '模板／文件核讀' : /^官方.*(?:署名作者使用陳述|員工自報|產品團隊第一手使用自述|自報內部實作|首發用途展示)/.test(proofLine) ? '官方自報' : /\bauthor-(?:demo|self-report)\b/i.test(proofLine) ? '作者報告／示範' : /官方.*(?:展示|示例|範例|發布|自報|第一手.*自述|署名作者使用陳述)|official/i.test(proofLine) ? '官方自報' : /author|作者|自驗|自述/.test(proofLine) ? '作者報告／示範' : '公開資料核讀';
+  const proof = declaredEvidenceClass(proofLine, kind);
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})/)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
   const copy=(globalThis.displayCopy?.[id])||displayCopy[id]||{};
@@ -1683,17 +1706,12 @@ function resetSort() {
   focusResults();
 }
 
-const SOURCE_TYPES = Object.freeze({
-  '作者報告／示範':'依作者的使用敘述或展示整理；實際產物、完整過程與成效仍須逐案核對。',
-  '設計／未實跑':'作者只分享提示詞或流程設計，沒有執行結果；可參考設計，不能當成已驗證做法。',
-  '官方自報':'包含官方的能力說明或案例自報；適用版本、條件與實際成效請看原文。',
-  '公開資料核讀':'依可讀的公開資料整理；核讀資料不等於證實成效，請查看原始來源與限制。',
-  '模板／文件核讀':'依模板或文件整理可參考的做法；文件列出功能，不代表已完成實作或驗收。',
-  '尚待查證':'仍有證據缺口，請先看待查事項；不要把想法當成已驗證的做法。'
-});
+// One definition per label: the legend under the filters, the card badge, the
+// detail note and the active-filter sentence all read the same table, so a
+// visitor cannot be told two different things about the same case.
 function sourceTypeMessage(type) {
   if(!type)return '來源標籤不是獨立驗證。本庫未獨立重現，請核對原始報告與限制。';
-  const description=Object.hasOwn(SOURCE_TYPES,type)?SOURCE_TYPES[type]:'此類型未列入說明，請核對原文與限制。';
+  const description=Object.hasOwn(PROOF_DEFINITIONS,type)?PROOF_DEFINITIONS[type]:'此類型未列入說明，請核對原文與限制。';
   return type+'：'+description+' 本庫未獨立重現。';
 }
 const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',difficulty:'實作門檻',tool:'提及工具',category:'主題分類',proof:'來源類型',scope:'命中範圍'};
@@ -3177,9 +3195,10 @@ function chooseDifficulty(value){
 }
 
 /* Browser event bindings. */
-for(const [type,description] of Object.entries(SOURCE_TYPES)){
+for(const [type,description] of Object.entries(PROOF_DEFINITIONS)){
   const definition=el('div');
-  definition.append(el('dt','',type),el('dd','',description));
+  definition.append(el('dt','',type),el('dd','',description),
+    el('dd','proof-legend-claimant','成果主張來源：'+(PROOF_CLAIMANTS[type]||'原文作者')));
   $('source-type-definitions').append(definition);
 }
 // An arriving reader may start using the page while the corpus is loading.

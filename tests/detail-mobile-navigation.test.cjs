@@ -233,7 +233,10 @@ test('detail header meta proof badge includes semantic role note and descriptive
   assert.ok(proofBadge, 'metaBar must include .proof-badge');
   assert.equal(proofBadge.getAttribute('role'), 'note', 'proof badge must have role note');
   assert.match(proofBadge.getAttribute('aria-label'), /來源憑據：作者報告／示範/, 'aria-label must include proof type and definition');
-  assert.match(proofBadge.getAttribute('aria-label'), /尚未取得獨立代碼庫驗證/, 'aria-label must include proof definition warning');
+  const definition = context.PROOF_DEFINITIONS['作者報告／示範'];
+  assert.ok(definition.includes('尚未取得獨立代碼庫驗證') || definition.includes('本庫未取得獨立代碼庫驗證'),
+    'the author definition must still state that independent code verification is missing');
+  assert.ok(proofBadge.getAttribute('aria-label').includes(definition), 'aria-label must quote the shared proof definition verbatim');
 });
 
 test('related return remains distinct from the early scenario exploration action', () => {

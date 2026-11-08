@@ -1963,12 +1963,24 @@ function submitSearch(event) {
   facetDraftDirty=false;
   focusLoadedResults('start');
 }
-function revealSearch(resultsOnly=false) {
-  // Compact only an initial, untouched arrival that cannot show its results.
-  // Keep readable controls and their values; explicit returns preserve choices.
+// The facet panel is a full screen of options. When it starts open on a viewport
+// that cannot also show the result line, the reader types a question and gets 0
+// cards on screen (1440x900: query at 174px, first card at 1491px). Compact only
+// an untouched arrival, and never while the reader is working inside the panel.
+// `base` is the element the arrival scrolls to the top; without it the check uses
+// the viewport the reader is actually looking at.
+function compactFiltersForResults(base=null) {
   const panel=$('filter-options');
-  if(!resultsOnly && panel.open && !panel.contains(document.activeElement) &&
-    $('results-count').getBoundingClientRect().bottom-$('explore').getBoundingClientRect().top>innerHeight-24)panel.open=false;
+  if(!panel||!panel.open||panel.contains(document.activeElement))return false;
+  const bottom=$('results-count').getBoundingClientRect().bottom;
+  const limit=innerHeight-24+(base?base.getBoundingClientRect().top:0);
+  if(bottom<=limit)return false;
+  panel.open=false;
+  return true;
+}
+function revealSearch(resultsOnly=false) {
+  // Keep readable controls and their values; explicit returns preserve choices.
+  if(!resultsOnly)compactFiltersForResults($('explore'));
   const target=$(resultsOnly?'results-count':'search-title');
   (resultsOnly?$('results-count'):$('explore')).scrollIntoView({block:'start',behavior:'instant'});
   target.focus({preventScroll:true});
@@ -1994,7 +2006,8 @@ function focusMissingCase() {
 }
 function finishArrival(params,failed=false) {
   const missing=$('missing-case')&&!$('missing-case').hidden;
-  const shouldMove=allowAutomaticArrival&&(missing||hasSearchArrival(params,location.hash)||(failed&&params.has('case')));
+  const arrived=allowAutomaticArrival;
+  const shouldMove=arrived&&(missing||hasSearchArrival(params,location.hash)||(failed&&params.has('case')));
   allowAutomaticArrival=false;
   if(shouldMove){
     if(missing)focusMissingCase();
@@ -2008,6 +2021,9 @@ function finishArrival(params,failed=false) {
       }
     }
   }
+  // A plain landing needs the same honesty as a shared search: opening the panel
+  // by default must not be what hides every result.
+  else if(arrived)compactFiltersForResults();
 }
 function clearSearchShare() {
   searchShareRequest++;
@@ -3301,6 +3317,8 @@ $('dismiss-missing-case').addEventListener('click',()=>{
 $('copy-search-link').addEventListener('click',copySearchLink);
 // Choose the initial disclosure state once; typing, navigation and resizing
 // preserve the reader's choice and never hide a currently focused control.
+// Wide screens start open, then the first settled render compacts the panel when
+// the result line would still be off screen (compactFiltersForResults).
 $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
 // On small screens the 53-task directory otherwise pushes the value panel and
 // case cards more than a screen down. Keep every link, but show nine first and

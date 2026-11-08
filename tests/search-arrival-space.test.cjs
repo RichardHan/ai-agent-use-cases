@@ -1,13 +1,13 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-function fixture({bottom=1075,height=1000,open=true,focusedInside=false}={}){
+function fixture({bottom=1075,height=1000,open=true,focusedInside=false,hash='#explore'}={}){
  const calls=[],panel={open,contains:()=>focusedInside},nodes={
   'filter-options':panel,'explore':{getBoundingClientRect:()=>({top:24}),scrollIntoView:()=>calls.push('scroll-search')},
   'results-count':{getBoundingClientRect:()=>({bottom}),scrollIntoView:()=>calls.push('scroll-results'),focus:()=>calls.push('focus-results')},
   'search-title':{focus:()=>calls.push('focus-search')},'missing-case':{hidden:true}
  };
- const context=vm.createContext({URL,URLSearchParams,innerHeight:height,document:{activeElement:{},getElementById:id=>nodes[id]},location:{hash:'#explore'},Discovery:require('../assets/discovery.js')});
- vm.runInContext(fs.readFileSync('assets/app.js','utf8').split('/* Browser event bindings. */')[0]+'\nthis.api={revealSearch,arrive(move){allowAutomaticArrival=move;finishArrival(new URLSearchParams("q=旅遊&tool=Grok+Bot"));}};',context);
+ const context=vm.createContext({URL,URLSearchParams,innerHeight:height,document:{activeElement:{},getElementById:id=>nodes[id]},location:{hash},Discovery:require('../assets/discovery.js')});
+ vm.runInContext(fs.readFileSync('assets/app.js','utf8').split('/* Browser event bindings. */')[0]+'\nthis.api={revealSearch,arrive(move,query){allowAutomaticArrival=move;finishArrival(new URLSearchParams(query===undefined?"q=旅遊&tool=Grok+Bot":query));}};',context);
  return {api:context.api,panel,calls};
 }
 test('received search collapses an overflowing disclosure without changing its focus destination',()=>{
@@ -15,6 +15,13 @@ test('received search collapses an overflowing disclosure without changing its f
 });
 for(const [label,options] of [['fits exactly',{bottom:1000}],['tall viewport',{height:1600}],['already closed',{open:false}]])test('arrival preserves disclosure when '+label,()=>{
  const f=fixture(options);f.api.arrive(true);assert.equal(f.panel.open,options.open??true);
+});
+test('a plain landing compacts an off-screen result line and leaves a visible one alone',()=>{
+ const overflowing=fixture({bottom:1075,height:1000,hash:''});overflowing.api.arrive(true,'');
+ assert.equal(overflowing.panel.open,false,'a panel that hides every result must start compact');
+ assert.deepEqual(overflowing.calls,[],'a plain landing must not move focus or scroll the reader');
+ const visible=fixture({bottom:900,height:1000,hash:''});visible.api.arrive(true,'');
+ assert.equal(visible.panel.open,true,'a result line already on screen keeps the facets open');
 });
 test('reader return never changes an open disclosure',()=>{
  const f=fixture();f.api.revealSearch(true);assert.equal(f.panel.open,true);assert.deepEqual(f.calls,['scroll-results','focus-results']);

@@ -21,7 +21,7 @@ assert(api.tokenize(sentence).length>1,'a sentence splits into several tokens');
 assert.equal(api.filterEntries(entries,api.tokenize(sentence),{}).length,0,'the literal conjunction finds nothing');
 assert(api.filterEntries(entries,['合約'],{}).length>0,'the task word itself is in the library');
 
-const fallback=api.sentenceQueryFallback(entries,sentence,{});
+const fallback=api.sentenceQueryFallback(entries,sentence,api.tokenize(sentence),{});
 assert.ok(fallback,'a prose query is re-read with library vocabulary');
 assert.equal(fallback.mode,'words');
 assert.equal(fallback.terms.join('|'),'合約');
@@ -33,7 +33,7 @@ for(const term of fallback.terms){
 }
 
 // A sentence usually carries a second useful word; the narrower conjunction wins.
-const bills=api.sentenceQueryFallback(entries,'我想把家裡的帳單自動記帳',{});
+const bills=api.sentenceQueryFallback(entries,'我想把家裡的帳單自動記帳',api.tokenize('我想把家裡的帳單自動記帳'),{});
 assert.equal(bills.terms.length,2,'two library words form a narrower answer');
 assert.equal([...bills.terms].sort().join('|'),'帳單|記帳');
 assert.equal(bills.count,api.filterEntries(entries,bills.terms,{}).length);
@@ -42,7 +42,7 @@ assert(bills.count<api.filterEntries(entries,['記帳'],{}).length,'the pair is 
 // Only a stricter narrowing decides which words are usable: a word that covers a
 // third of the library never answers alone, but may help a pair.
 for(const query of ['我想自動追蹤專案進度並提醒同事','我想讓 AI 幫我分析銷售報表','我想要找一個可以幫我整理照片的工具']){
-  const option=api.sentenceQueryFallback(entries,query,{});
+  const option=api.sentenceQueryFallback(entries,query,api.tokenize(query),{});
   assert.ok(option,query+' is still re-read');
   assert(option.count*3<total,query+' stays a real narrowing ('+option.count+'/'+total+')');
 }
@@ -52,7 +52,7 @@ for(const query of ['我想自動追蹤專案進度並提醒同事','我想讓 A
 const sameGroup='我想用 AI 幫忙做市場研究與分析報告';
 assert(api.filterEntries(entries,['分析'],{}).length>0&&api.filterEntries(entries,['研究'],{}).length>0,'both words exist on their own');
 assert.equal(api.termVariants('分析').includes('研究'),true,'the two words really share one synonym group');
-const grouped=api.sentenceQueryFallback(entries,sameGroup,{});
+const grouped=api.sentenceQueryFallback(entries,sameGroup,api.tokenize(sameGroup),{});
 if(grouped){
   const keys=grouped.terms.map(term=>api.termVariants(term).slice().sort().join('|'));
   assert.equal(new Set(keys).size,keys.length,'a pair never repeats one synonym group');
@@ -62,7 +62,7 @@ if(grouped){
 // Latin vocabulary matches whole words only: "ev" (電動車) must not be found
 // inside "review", and whatever is chosen must be a token the visitor typed.
 const mixed='我想用 AI 幫我 review pull request 並留下註解';
-const mixedOption=api.sentenceQueryFallback(entries,mixed,{});
+const mixedOption=api.sentenceQueryFallback(entries,mixed,api.tokenize(mixed),{});
 if(mixedOption){
   const spaced=api.norm(mixed);
   for(const term of mixedOption.terms){
@@ -74,27 +74,31 @@ if(mixedOption){
 }
 
 // A pair never restates one word inside another: that narrowing is the word itself.
-const overlaps=api.sentenceQueryFallback(entries,mixed,{});
+const overlaps=api.sentenceQueryFallback(entries,mixed,api.tokenize(mixed),{});
 if(overlaps&&overlaps.terms.length===2){
   assert(!overlaps.terms[0].includes(overlaps.terms[1])&&!overlaps.terms[1].includes(overlaps.terms[0]),'a pair does not repeat a contained word: '+overlaps.terms.join('+'));
 }
 
 // Stays silent when the visitor's own narrowing, or their literal wording, is the cause.
-assert.equal(api.sentenceQueryFallback(entries,sentence,{scenario:'生活'}),null,'a selected facet is the visitor\'s own narrowing');
-assert.equal(api.sentenceQueryFallback(entries,sentence,{kind:'case'}),null,'facet filtering disables the re-read');
-assert.equal(api.sentenceQueryFallback(entries,'「怎麼讓 AI 幫我檢查合約有沒有問題」',{}),null,'quoted wording stays exact');
+assert.equal(api.sentenceQueryFallback(entries,sentence,api.tokenize(sentence),{scenario:'生活'}),null,'a selected facet is the visitor\'s own narrowing');
+assert.equal(api.sentenceQueryFallback(entries,sentence,api.tokenize(sentence),{kind:'case'}),null,'facet filtering disables the re-read');
+assert.equal(api.sentenceQueryFallback(entries,'「怎麼讓 AI 幫我檢查合約有沒有問題」',api.tokenize('「怎麼讓 AI 幫我檢查合約有沒有問題」'),{}),null,'quoted wording stays exact');
 // An explicit case number is never traded for a topic word.
-for(const query of ['UC-012 請幫我檢查合約','UC 012 請幫我檢查合約','P 002 的合約','我想看 uc-012 這篇關於合約的案例','請幫我看 #314 的合約審查案例']){
-  assert.equal(api.sentenceQueryFallback(entries,query,{}),null,query+' keeps its explicit case number');
+for(const query of ['UC-012 請幫我檢查合約','UC 012 請幫我檢查合約','UC_012 請幫我檢查合約','UC:012 請幫我檢查合約','UC.012 請幫我檢查合約','UC  012 請幫我檢查合約','P 002 的合約','我想看 uc-012 這篇關於合約的案例','請幫我看 #314 的合約審查案例']){
+  assert.equal(api.sentenceQueryFallback(entries,query,api.tokenize(query),{}),null,query+' keeps its explicit case number');
 }
-assert.equal(api.sentenceQueryFallback(entries,'照片 旅行',{}),null,'a short multi-keyword lookup is not prose');
-assert.equal(api.sentenceQueryFallback(entries,'客戶抱怨',{}),null,'a short everyday phrase is handled by the adjacent-term split instead');
-assert.equal(api.sentenceQueryFallback(entries,'我想要幫阿嬤把菜園的圍籬修好',{}),null,'a sentence with no library word is not invented into one');
+// A version number is not a case number: C# 12 must still be able to fall back.
+const csharp='C# 12 想找到合約審查的方法';
+assert.equal(api.tokenize(csharp).some(term=>/^(?:uc|p)-\d+$/.test(term)),false,'C# 12 is not tokenized as a case number');
+assert.ok(api.sentenceQueryFallback(entries,csharp,api.tokenize(csharp),{}),'a language version does not disable the fallback');
+assert.equal(api.sentenceQueryFallback(entries,'照片 旅行',api.tokenize('照片 旅行'),{}),null,'a short multi-keyword lookup is not prose');
+assert.equal(api.sentenceQueryFallback(entries,'客戶抱怨',api.tokenize('客戶抱怨'),{}),null,'a short everyday phrase is handled by the adjacent-term split instead');
+assert.equal(api.sentenceQueryFallback(entries,'我想要幫阿嬤把菜園的圍籬修好',api.tokenize('我想要幫阿嬤把菜園的圍籬修好'),{}),null,'a sentence with no library word is not invented into one');
 
 // A sentence whose only words cover half the library keeps the empty state instead
 // of presenting a near全庫 result as an answer.
 for(const query of ['有沒有 AI 可以幫我檢查程式碼有沒有問題','有沒有 AI 工具可以幫我寫測試']){
-  const option=api.sentenceQueryFallback(entries,query,{});
+  const option=api.sentenceQueryFallback(entries,query,api.tokenize(query),{});
   assert(option===null||option.count*3<total,query+' never answers with a half-library result');
 }
 

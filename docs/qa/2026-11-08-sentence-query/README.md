@@ -28,6 +28,7 @@
 - `libraryVocabulary(items)`：同義詞鍵＋案例標籤（2–12 字），依 `items.length` 快取。
 - `sentenceCandidates(items, text, spaced, filters)`：句中出現、且站上有結果的詞；以 `termVariants` 去重（同一同義詞組只留一個），排序為詞長→結果少→出現位置，取前 5。英數字詞必須是完整 token（`ev` 不得在 `review` 內命中，沿用 PR 查詢既有的字詞邊界規則）；中文詞比對字面子字串。
 - 配對時略過彼此包含的詞（`pull request`＋`request` 只是同一個詞），避免說明列重複同一概念。
+- `sentenceQueryFallback(items, query, terms, filters)`：沿用 `tokenize()` 的 token 判斷是否含案例／線索編號（`uc-012`、`uc-314`、`p-002`），因此 `UC 012`、`UC_012`、`UC:012`、`UC.012`、`#314` 都會停用退回；`C# 12` 這類版本號不會被誤判（tokenizer 只在 `#` 開頭成 token 時視為編號）。
 - `sentenceQueryFallback(items, query, filters)`：守門條件（≥40 筆已載入、無任何篩選、無引號、去空白後 ≥10 字、含中文）；單詞需窄於全庫 1/3 才可單獨作答，過寬的詞只能與另一個詞組成更窄的交集；回傳 `{source, segments, terms, count, mode:'words'}`。
 - `searchExpansion(items, query, terms, filters)`：唯一決定點，整句已命中就回 `null`，否則依序嘗試既有 `compoundQuerySplit`（相鄰拆詞）與新退回。
 - `showSearchSplitNote()`：`mode:'words'` 使用「句中包含站上既有的詞…這是字面比對，不是語意理解」文案，按鈕在展開時為「只找完整句子」、抑制時為「改用句中詞」。
@@ -82,9 +83,9 @@
 
 ## 驗收
 
-- `node --test tests/*.test.cjs`：**468 通過、0 失敗**（基準 467，新增 1 檔）。
+- `node --test tests/*.test.cjs`：**476 通過、0 失敗**（基準 467；併入 #267 後 475，本分支新增 1 個測試檔）。
 - `node --check assets/app.js` 通過。
-- 新增 `tests/sentence-search-fallback.test.cjs`：整句零結果的缺陷、採用詞必須字面出現在輸入且站上存在、回報筆數等於實際交集、單詞須窄於全庫 1/3、同義詞組不得自我配對、英數詞必須是完整 token、配對不得包含彼此、已選篩選／引號／案例編號／短查詢／站上無此詞皆不觸發、已命中查詢不被覆寫、既有拆詞仍優先。
+- 新增 `tests/sentence-search-fallback.test.cjs`：整句零結果的缺陷、採用詞必須字面出現在輸入且站上存在、回報筆數等於實際交集、單詞須窄於全庫 1/3、同義詞組不得自我配對、英數詞必須是完整 token、配對不得包含彼此、已選篩選／引號／案例編號（各種分隔符）／短查詢／站上無此詞皆不觸發，且 `C# 12` 版本號不誤判、已命中查詢不被覆寫、既有拆詞仍優先。
 - 新增 `tests/sentence-fallback-browser.cjs`（Chromium 1440／390／320）：說明列文字與筆數一致、切回「只找完整句子」得到誠實 0 筆並回到空結果、再切回、兩詞交集文案、已命中的查詢不顯示說明、加篩選後改由空結果說明、切換後改字即恢復預設、網址保留原句且重載重現、詳情開啟與 Escape 返回、axe 三個尺寸 0 違規、無 page error、無水平溢出。
 - 打字延遲（1440px Chromium，逐字輸入同一句，`requestAnimationFrame` 兩帧後量測）：修正前平均 70.0ms／最差 153.4ms，修正後平均 32.3ms／最差 37.3ms。單次量測，不代表低階裝置。
 

@@ -2135,7 +2135,7 @@ function sentenceCandidates(items, text, spaced, filters) {
     .sort((a,b)=>b.term.length-a.term.length || a.count-b.count || text.indexOf(a.term)-text.indexOf(b.term))
     .slice(0,SENTENCE_CANDIDATE_LIMIT);
 }
-function sentenceQueryFallback(items, query, filters) {
+function sentenceQueryFallback(items, query, terms, filters) {
   if(items.length<40)return null;
   // A facet that excludes everything is the visitor's own narrowing; the empty
   // state already names the facet to remove, so the sentence is not the problem.
@@ -2148,7 +2148,9 @@ function sentenceQueryFallback(items, query, filters) {
   if([...text].length<SENTENCE_QUERY_MIN_CHARS)return null;
   // An explicit case or lead number is the most specific thing the visitor typed;
   // answering with a topic word instead would silently answer another question.
-  if(/(?:^|[^a-z0-9])(?:uc|p)[-\s]?\d+(?![a-z0-9])|#\s*\d+(?![a-z0-9])/.test(spaced))return null;
+  // tokenize() already normalises UC 012, UC_012, UC:012 and #314 to uc-012/uc-314,
+  // so reading its tokens covers every separator without a second rule to maintain.
+  if(terms.some(term=>/^(?:uc|p)-\d+$/.test(term)))return null;
   if(!/[\u3400-\u9fff]/.test(text))return null;
   // A word covering a third of the library is not a narrower question, so it is
   // never used alone; it may still join a second word to form a real narrowing.
@@ -2173,7 +2175,7 @@ function sentenceQueryFallback(items, query, filters) {
 // browser and the unit tests cannot drift apart.
 function searchExpansion(items, query, terms, filters) {
   if(!terms.length || filterEntries(items,terms,filters).length)return null;
-  return compoundQuerySplit(items,terms,filters) || sentenceQueryFallback(items,query,filters);
+  return compoundQuerySplit(items,terms,filters) || sentenceQueryFallback(items,query,terms,filters);
 }
 
 // The expansion in force, and the phrase the visitor chose to keep exact.

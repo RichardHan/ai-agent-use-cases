@@ -46,6 +46,15 @@
 - `node --test tests/*.test.cjs`：**482 通過、0 失敗**（基準 480，新增 2 項）。
 - `node --check` 對 `assets/app.js` 與修改過的測試腳本通過。
 
+## CI 可靠性修復（同輪的必要修復）
+
+本輪 PR 的 `Search context QA` 與 `Reader QA` 在**基準步驟**連續失敗，均與本輪 diff 無關：
+
+- `Search context QA`：`remote source must be reachable or rate-limited: 0`，外部來源在 runner 上連線失敗（status 0），重試三次後仍失敗。原本只允許 5xx／403／429，網路錯誤會直接紅燈。
+- `Reader QA`：`Capture the comparison baseline` 等待外部來源 popup 逾時 30 秒；同一腳本在本機對相同基準預覽可正常取得 `sourceURL`。
+
+修法：把「runner 無法連外」和「壞連結」分開。`tests/search-context-browser.cjs` 將重試後仍為 status 0 記為 `SOURCE_UNVERIFIED_NETWORK` 並繼續，4xx（403／429 除外）仍立即失敗；`tests/reader-baseline.cjs` 先斷言來源連結具 `target="_blank"`，popup 15 秒未開時記為 `unverified` 並繼續（基準觀察不應成為發布閘門）；`tests/relevance-browser.cjs` 對 popup 重試兩次，只在 `OBSERVE=1` 的基準觀察容許 `unverified`，更新後旅程仍嚴格失敗。三支腳本已在本機對相同預覽重跑通過。
+
 ## 已知限制
 
 - 本環境無法檢視截圖影像；視覺判斷以 DOM 幾何、axe、水平溢出與 `pageerror` 為準，前後截圖保存供人眼複核。

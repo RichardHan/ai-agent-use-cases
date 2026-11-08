@@ -1,6 +1,7 @@
 'use strict';
 const {chromium}=require('playwright');
 const fs=require('node:fs');
+const assert=require('node:assert/strict');
 const origin=process.env.READER_BASELINE_URL||'https://richardhan.github.io/ai-agent-use-cases/';
 (async()=>{
  const browser=await chromium.launch();
@@ -34,12 +35,14 @@ const origin=process.env.READER_BASELINE_URL||'https://richardhan.github.io/ai-a
    await page.locator('.research-details summary').click();
    const headings=await page.locator('.research-details .markdown h2').allTextContents();
    const links=await page.locator('.research-details .markdown a').count();
-   const popupPromise=page.waitForEvent('popup');
-   await page.locator('.research-details .markdown a').first().click();
+   const link=page.locator('.research-details .markdown a').first();
+   assert.equal(await link.getAttribute('target'),'_blank','baseline source link must open in a new tab');
+   const popupPromise=page.waitForEvent('popup',{timeout:15000}).catch(()=>null);
+   await link.click();
    const popup=await popupPromise;
-   await popup.waitForLoadState('domcontentloaded').catch(()=>{});
-   const sourceURL=popup.url();
-   await popup.close();
+   let sourceURL='unverified';
+   if(popup){await popup.waitForLoadState('domcontentloaded').catch(()=>{});sourceURL=popup.url();await popup.close();}
+   else console.log('BASELINE_SOURCE_POPUP_UNVERIFIED '+id);
    report.push({viewport:name,id,results,searchPreserved:preserved==='旅遊',empty,collapsed,generic,headingCount:headings.length,headings:headings.slice(0,8),links,sourceURL,readerNav:await page.locator('.reader-nav').count()});
   }
   await page.close();

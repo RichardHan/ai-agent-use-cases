@@ -8,6 +8,8 @@
 
 已知限制：本機無 Playwright 與 Jekyll，`tests/*-browser.cjs`、axe 與 Markdown 算繪只能在 CI 驗證；截圖影像無法讀取，視覺結論以 DOM 與幾何為準；只揭露檔案層級日期，未逐條重查待查內容，也未重算合格總數。[方案、前後證據與截圖](docs/qa/2026-11-09-evidence-baseline/README.md)。下一輪先處理首頁正常狀態下的資料日期與字級：`#catalog-status`（503／3／2 的日期只在另一區的「索引更新」）與 `.stats p` 的 11px 說明文字，驗證先跑 `tests/trust-summary.test.cjs` 與首頁 390px 計算字級、再補一支「統計卡說明文字不得小於 12px」的回歸。
 
+發布補記：PR [#279](https://github.com/RichardHan/ai-agent-use-cases/pull/279)（head `1bce9d0e`）合併前 14 項檢查通過、2 項 `published` 在 PR 上 skipping，squash 合併為 `e5043ec0`。`pages build and deployment`（[42530224464](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42530224464)）成功；主分支 `Website QA`（[42530225662](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42530225662)）success，且 `Wait for published assets and content` 與 `Verify the published GitHub Pages site` 都實際執行（fail-closed 守門因已驗證而 skipped）。正式站 `catalog.json` 的 `sourceRevision` 為 `e5043ec0`；`index.html`、`assets/app.js`、`assets/audit.js`、`assets/reader.css` 與該 commit 逐 byte 相同。正式站重走：首頁狀態句出現「420 個主要案例頁為母體」、三條待查卡片顯示「來源檔查證 2026-10-17」、P-002 先說已結束、UC-511 不變、390px 無溢出；三情境（問題查詢、組合篩選空結果復原、`?case=P-002` 直鏈與返回）通過。
+
 ## 2026-11-09 索引頁先給案例；新鮮度與計數口徑取自資料
 
 正式站 `/INDEX.html` 是首頁「載入較慢時」送訪客去的備援頁（`index.html:18`），但案例表在 1440px 於 y=9,077、390px 於 y=19,853，前面是 79 段研究日誌（手機 14,160px）；同頁「更新日期：2026-10-20」比頁面自己列出的 `UC-511`（2026-11-08 收錄）舊 19 天，而「請以當前批次為準」沒說該批次是 2026-10-22 20:50、以 420 頁量得，索引卻列 503 筆；整頁只有頂端品牌連結可回搜尋。

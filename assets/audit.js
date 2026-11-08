@@ -21,10 +21,10 @@
     if(matches.length!==1)return null;
     const count=Number(matches[0][1]),remaining=Number(matches[0][2]);
     if(!Number.isSafeInteger(count)||!Number.isSafeInteger(remaining)||count<0||remaining<0||count+remaining!==1000)return null;
-    // The corpus size comes from the batch's own declared field, not from prose:
-    // a sentence can be corrected or restated in the same batch, while an explicit
-    // 「批次母體：N 個主要案例頁」 line is a single structured value.
-    const bases=[...text.matchAll(/^-[ \t]*批次母體[：:][^\n]*?(\d+)\s*個主要案例頁/mg)].map(match=>match[1]);
+    // The corpus size comes from one strict, machine-readable line instead of
+    // prose: any edit to that line (including an inline correction) stops it from
+    // matching, so the batch loses its denominator rather than publishing a guess.
+    const bases=[...text.matchAll(/^-[ \t]*批次母體[：:][ \t]*(\d+)[ \t]*個主要案例頁[ \t]*[。.]?[ \t]*$/mg)].map(match=>match[1]);
     let pageBase=0;
     if(bases.length===1){
       const size=Number(bases[0]);

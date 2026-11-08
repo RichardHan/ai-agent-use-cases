@@ -15,7 +15,7 @@ const batchText = (count, remaining, lines = '') => ({
   latestBatch: '2026-10-22 20:50 台灣時間增量核對\n\n- 嚴格合格 **' + count + '／1,000，尚差' + remaining +
     '**，不是目前全庫累計。\n' + lines
 });
-const corpusLine = size => '- 批次母體：' + size + ' 個主要案例頁（當時；不是合格數）\n';
+const corpusLine = size => '- 批次母體：' + size + ' 個主要案例頁\n';
 
 test('the batch card names the corpus from the batch\'s own declared field', () => {
   const summary = parseSummary(batchText(370, 630, corpusLine(420)));
@@ -42,7 +42,8 @@ test('a missing, repeated or impossible corpus field is not used', () => {
     [batchText(370, 630, corpusLine(420) + corpusLine(420)), 0, 'field repeated'],
     [batchText(370, 630, corpusLine(0)), 0, 'zero'],
     [batchText(370, 630, corpusLine(369)), 0, 'smaller than the qualified count'],
-    [batchText(370, 630, corpusLine(100001)), 0, 'implausibly large']
+    [batchText(370, 630, corpusLine(100001)), 0, 'implausibly large'],
+    [batchText(370, 630, '- 批次母體：420 個主要案例頁；更正：實際母體是500頁\n'), 0, 'correction on the field line']
   ];
   for (const [value, expected, label] of cases) {
     const summary = parseSummary(value);

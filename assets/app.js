@@ -2459,11 +2459,13 @@ async function loadInitialCorpus(paths, options = {}) {
     const armBundleTimer=ms=>{clearTimeout(bundleTimer);bundleTimer=setTimeout(abortBundle,Math.max(1,ms));};
     const bundleFits=(received,total,elapsed)=>{
       if(!received||elapsed<=0)return true;
-      // Without a declared length the honest proxy is elapsed time: keep at most
-      // 60% of the whole-load window so per-source reads can still use the rest.
+      // Without a usable expected size the honest proxy is elapsed time: keep at
+      // most 60% of the whole-load window so per-source reads can still use the rest.
       if(!total)return bundleStartedAt+(deadline-bundleStartedAt)*0.6>Date.now();
       return Date.now()+(total-received)/(received/elapsed)+bundleParseReserve<deadline;
     };
+    const requestedRatio=Number(options.encodingRatio);
+    const encodingRatio=requestedRatio>1?Math.min(8,requestedRatio):1;
     let bundled=false;
     const cacheKey='corpus.json?bundleRevision='+encodeURIComponent(options.bundleRevision)+'&sourceRevision='+encodeURIComponent(options.sourceRevision||'');
     let cache;
@@ -2491,7 +2493,11 @@ async function loadInitialCorpus(paths, options = {}) {
         let copy=null;
         if(response.body&&typeof response.body.getReader==='function'){
           const reader=response.body.getReader(),chunks=[],started=Date.now();
-          const total=Number(response.headers?.get?.('content-length'))||0;
+          // fetch() yields the decoded body while content-length counts compressed
+          // bytes, so translate the declared size with the catalogue's same-server
+          // compression ratio before comparing it with received bytes.
+          const encoded=Number(response.headers?.get?.('content-length'))||0;
+          const total=encoded?Math.round(encoded*encodingRatio):0;
           let received=0;
           for(;;){
             const {done,value}=await reader.read();
@@ -2548,13 +2554,20 @@ async function loadInitialCorpus(paths, options = {}) {
   }finally{clearTimeout(timer);abort();options.signal?.removeEventListener('abort',abort);}
 }
 
-async function readJSON(path, timeout) {
+async function readJSON(path, timeout, meta) {
   const controller=new AbortController();
   const timer=setTimeout(()=>controller.abort(),timeout);
   try {
     const response=await fetch(path,{cache:'no-cache',signal:controller.signal});
     if (!response.ok) throw Error('HTTP '+response.status);
-    return await response.json();
+    const data=await response.json();
+    if(meta){
+      // Browsers hand the decoded body to fetch while content-length counts the
+      // compressed bytes; the catalogue gives a same-server ratio to translate.
+      meta.encoded=Number(response.headers?.get?.('content-length'))||0;
+      meta.decoded=JSON.stringify(data).length;
+    }
+    return data;
   } finally { clearTimeout(timer); }
 }
 
@@ -2760,7 +2773,8 @@ async function load() {
     $('search-scope').disabled=!hasQuery;
     $('search-scope').closest('.search-scope').hidden=!hasQuery;
     syncPageContext();
-    const catalog = await readJSON('catalog.json', Math.min(8000,remaining()));
+    const catalogMeta={};
+    const catalog = await readJSON('catalog.json', Math.min(8000,remaining()), catalogMeta);
     if (!Array.isArray(catalog.files) || !catalog.files.length) throw Error('索引沒有案例。');
     pinnedSources.clear();
     const paths = catalog.files.filter(p => typeof p === 'string' && /^(cases|evidence)\/[a-zA-Z0-9_/-]+\.md$/.test(p) || p === 'sources/pending.md');
@@ -2774,6 +2788,7 @@ async function load() {
     const orderedPaths=prioritizeSharedSource(paths,new URLSearchParams(location.search).get('case'));
     const { entries: loaded, failed } = await loadInitialCorpus(orderedPaths, {
       bundleRevision:catalog.bundleRevision,
+      encodingRatio:catalogMeta.encoded>0&&catalogMeta.decoded>0?catalogMeta.decoded/catalogMeta.encoded:1,
       sourceRevision:catalog.sourceRevision,
       sharedPath:new URLSearchParams(location.search).has('case') && orderedPaths!==paths ? orderedPaths[0] : null,
       fetch,parseFile,concurrency:16,timeout:12000,budget:remaining(),signal:initialLoadController.signal,retryTransient:true,

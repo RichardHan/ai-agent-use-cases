@@ -227,3 +227,19 @@ test('a bundle without a declared length leaves part of the window for per-sourc
  assert(calls.includes(paths[0]),'per-source reads must start before the whole-load deadline');
  assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
 });
+
+test('compressed content-length is compared with decoded bytes before yielding',async()=>{
+ // Browsers hand fetch() the decoded body while content-length counts compressed
+ // bytes. Without translating that ratio the projection looks several times
+ // faster than the transfer and a hopeless bundle keeps the whole window.
+ const calls=[],chunks=chunksOf(json(),20),started=Date.now();
+ const decodedBytes=chunks.reduce((n,c)=>n+c.byteLength,0),encodedBytes=Math.round(decodedBytes/4);
+ const result=await load(paths,options({budget:3000,encodingRatio:4,bundleTimeout:5000,fetch:async(path,opt)=>{
+  calls.push(path);
+  return path==='corpus.json'?streamResponse(chunks,{delay:250,total:encodedBytes,signal:opt.signal}):response(texts[paths.indexOf(path)]);
+ }}));
+ const elapsed=Date.now()-started;
+ assert(elapsed<900,'decoded/encoded mismatch must not delay the switch, elapsed='+elapsed);
+ assert(calls.includes(paths[0]),'per-source reads must start before the deadline');
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+});

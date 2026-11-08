@@ -1209,7 +1209,7 @@ function showDetail(item, trigger, updateURL=true) {
   latestSource.rel='noopener noreferrer';
   latestSource.hidden=!!sourceRevisionFor(item.path);
   overview.append(latestSource);
-  const queryCautions=searchContext(item,tokenize($('query').value)).matches.filter(match=>match.caution);
+  const queryCautions=searchContext(item,queryTerms()).matches.filter(match=>match.caution);
   if(queryCautions.length)overview.append(el('p','detail-search-caution','這次搜尋顯示的「'+queryCautions.map(match=>match.term).join('、')+'」命中限制或來源段落；請核對用途與原文，不要把文字提及當成可採用的做法。'));
   const targetUserText = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
   if (targetUserText) {
@@ -1321,7 +1321,7 @@ function showDetail(item, trigger, updateURL=true) {
     if(link.textContent.trim()===link.getAttribute('href'))link.classList.add('reader-visible-url');
   }
   body.append(research);
-  globalThis.CaseReader?.enhance(body, item, tokenize($('query').value).map(term=>({term,variants:termVariants(term)})),searchVariantIndex);
+  globalThis.CaseReader?.enhance(body, item, queryTerms().map(term=>({term,variants:termVariants(term)})),searchVariantIndex);
   body.append(renderRelated(item));
 
   updateModalNav();
@@ -1540,7 +1540,7 @@ function showMoreResults() {
   visibleResults=Math.min(start+RESULT_BATCH_SIZE,currentFiltered.length);
   const batch={key:resultQueryKey,count:visibleResults};
   history.replaceState({...history.state,[queryDirty||facetDraftDirty?'draftResultBatch':'resultBatch']:batch},'',location.href);
-  const nodes=resultCards(currentFiltered.slice(start,visibleResults),tokenize($('query').value),start,currentFiltered.length);
+  const nodes=resultCards(currentFiltered.slice(start,visibleResults),queryTerms(),start,currentFiltered.length);
   $('results').append(...nodes);
   updateResultBatch();
   // Appended cards precede the button in DOM order. Start reading at the new
@@ -1556,7 +1556,7 @@ function ensureVisibleResult(id) {
   if(index<visibleResults)return;
   const start=visibleResults;
   visibleResults=Math.min(currentFiltered.length,Math.ceil((index+1)/RESULT_BATCH_SIZE)*RESULT_BATCH_SIZE);
-  $('results').append(...resultCards(currentFiltered.slice(start,visibleResults),tokenize($('query').value),start,currentFiltered.length));
+  $('results').append(...resultCards(currentFiltered.slice(start,visibleResults),queryTerms(),start,currentFiltered.length));
   updateResultBatch();
 }
 function updateResultBatch() {
@@ -2014,6 +2014,66 @@ function vocabularyRecoveryOptions(items, query, filters, limit=3) {
   return narrow.sort((a,b)=>b.query.length-a.query.length || a.count-b.count || text.indexOf(a.query)-text.indexOf(b.query)).slice(0,limit);
 }
 
+// A visitor's everyday phrase often fuses two library terms into one CJK run
+// ("客戶抱怨", "合約到期提醒"). tokenize() keeps the run whole, so an exact
+// substring match finds nothing even though each term exists on its own. Only
+// when the strict match is empty, read the run as adjacent terms that cover
+// every character, and only when their conjunction is a real narrowing.
+function compoundQuerySplit(items, terms, filters, limit=24) {
+  if(terms.length!==1 || items.length<4)return null;
+  // A facet that excludes everything is the visitor's own narrowing; the empty
+  // state already names the facet to remove, so the wording is not the problem.
+  if(Object.values(filters).some(Boolean))return null;
+  const run=terms[0];
+  if(run.length<4 || run.length>10 || !/^[\u3400-\u9fff]+$/.test(run))return null;
+  if(filterEntries(items,terms,filters).length)return null;
+  const present=new Map();
+  const known=segment=>{
+    if(!present.has(segment))present.set(segment,filterEntries(items,[segment],filters).length>0);
+    return present.get(segment);
+  };
+  const segmentations=[];
+  const walk=(start,parts)=>{
+    if(segmentations.length>=limit)return;
+    if(start===run.length){segmentations.push(parts.slice());return;}
+    for(let size=run.length-start;size>=2;size--){
+      const segment=run.slice(start,start+size);
+      if(!known(segment))continue;
+      parts.push(segment);walk(start+size,parts);parts.pop();
+      if(segmentations.length>=limit)return;
+    }
+  };
+  walk(0,[]);
+  segmentations.sort((a,b)=>a.length-b.length || b[0].length-a[0].length);
+  for(const segments of segmentations){
+    const count=filterEntries(items,segments,filters).length;
+    if(count>0 && count*2<items.length)return {source:run,segments,terms:segments,count};
+  }
+  return null;
+}
+
+// The expansion in force, and the phrase the visitor chose to keep exact.
+// Turning the expansion off never rewrites what they typed.
+let activeSearchSplit=null, splitSuppressedFor='';
+const queryTerms=()=>activeSearchSplit ? activeSearchSplit.terms : tokenize($('query').value);
+function showSearchSplitNote(possibleSplit, suppressed) {
+  const note=$('search-split'), message=$('search-split-message'), action=$('search-split-exact');
+  if(!note)return;
+  const split=possibleSplit;
+  if(!split){note.hidden=true;note.dataset.mode='';if(message.textContent)message.textContent='';return;}
+  const source=abbreviatedQuery(split.source);
+  const segments=split.segments.map(segment=>'「'+segment+'」').join('＋');
+  const text=suppressed
+    ? '目前只找完整包含「'+source+'」的案例，因此沒有結果。改以'+segments+'同時符合可看 '+split.count+' 筆；這是字面拆詞，不是語意理解。'
+    : '沒有完整包含「'+source+'」的案例。改以'+segments+'同時符合，顯示 '+split.count+' 筆；這是字面拆詞，不是語意理解，也不代表已驗證。';
+  const label=suppressed ? '改用拆詞結果' : '只找完整句子';
+  // Keep the live region quiet unless the message actually changed.
+  if(message.textContent!==text)message.textContent=text;
+  if(action.textContent!==label)action.textContent=label;
+  note.dataset.mode=suppressed ? 'suppressed' : 'expanded';
+  note.hidden=false;
+}
+
 // An explicit recovery is a navigation: retain the failed search for Back.
 function recoverSearchQuery(query) {
   const failedURL=location.href;
@@ -2208,8 +2268,15 @@ function render(updateURL=true, preserveShare=false) {
   if($('source-type-note').textContent!==sourceNote)$('source-type-note').textContent=sourceNote;
   const facetCount = Object.values(filters).filter(Boolean).length;
   $('filter-count').textContent = filterSummary(facetCount, $('sort').value);
+  const queryText=$('query').value.trim();
+  if(queryText!==splitSuppressedFor)splitSuppressedFor='';
   const matches=filterEntries(entries,q,filters);
-  currentFiltered = orderEntries(matches, q, $('sort').value);
+  const splitSuppressed=splitSuppressedFor===queryText;
+  const possibleSplit=matches.length||!q.length ? null : compoundQuerySplit(entries,q,filters);
+  activeSearchSplit=splitSuppressed ? null : possibleSplit;
+  const searchTerms=activeSearchSplit ? activeSearchSplit.terms : q;
+  const shownMatches=activeSearchSplit ? filterEntries(entries,searchTerms,filters) : matches;
+  currentFiltered = orderEntries(shownMatches, searchTerms, $('sort').value);
   $('search-order-note').hidden = !discoveryReady || ($('sort').value!=='reviewed'&&(!q.length||!currentFiltered.length));
   $('search-order-controls').hidden=$('search-order-note').hidden;
   $('reset-sort').hidden=!discoveryReady||$('sort').value!=='reviewed';
@@ -2219,7 +2286,7 @@ function render(updateURL=true, preserveShare=false) {
   const resultKey=JSON.stringify([$('query').value,filters,$('sort').value]);
   const changedResultKey=resultKey!==resultQueryKey;
   if(changedResultKey){visibleResults=RESULT_BATCH_SIZE;resultQueryKey=resultKey;}
-  $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),q,0,currentFiltered.length));
+  $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),searchTerms,0,currentFiltered.length));
   updateResultBatch();
   // Sorting is a reading preference; keep the current discovery deck intact.
   syncDiscovery(rankEntries(matches,q));
@@ -2228,6 +2295,7 @@ function render(updateURL=true, preserveShare=false) {
   $('empty').querySelector('h3').textContent=failedPaths.length
     ?(displayQ?`已載入內容中目前沒有符合「${displayQ}」的案例`:'已載入內容中沒有符合的案例')
     :(displayQ?`目前沒有符合「${displayQ}」的案例`:'目前沒有符合的案例');
+  showSearchSplitNote(possibleSplit, splitSuppressed);
   renderSearchFeedback(q, filters);
   renderFacetCounts(q, filters);
   updatePartialLoad();
@@ -2984,6 +3052,13 @@ $('load-more-results').addEventListener('click',showMoreResults);
 $('reset').addEventListener('click', reset);
 $('empty-reset').addEventListener('click', () => { reset(); focusResults(); });
 $('clear-facets').addEventListener('click', clearFacets);
+// The visitor decides whether the phrase may be read as adjacent library terms.
+$('search-split-exact').addEventListener('click',()=>{
+  const note=$('search-split');
+  splitSuppressedFor=note.dataset.mode==='suppressed' ? '' : $('query').value.trim();
+  render();
+  focusResults();
+});
 $('edit-query').addEventListener('click', () => {
   const query=$('query');
   query.focus({preventScroll:true});
@@ -3080,7 +3155,7 @@ window.addEventListener('popstate', event => {
   const batch=event.state?.draftResultBatch?.key===resultQueryKey?event.state.draftResultBatch:event.state?.resultBatch;
   if(batch?.key===resultQueryKey && Number.isSafeInteger(batch.count) && batch.count>=RESULT_BATCH_SIZE){
     visibleResults=batch.count;
-    $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),tokenize($('query').value),0,currentFiltered.length));
+    $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),queryTerms(),0,currentFiltered.length));
     updateResultBatch();
     if(batch===event.state?.draftResultBatch){
       const {draftResultBatch:ignoredDraft,...state}=event.state;

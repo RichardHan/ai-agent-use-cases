@@ -37,7 +37,7 @@
   - 新增 `tests/evidence-status-consistency.test.cjs`（4 項）：`designed` 開頭不得標成作者實作、該桶四個文案齊備、`unverified` 不得標成作者實作、每個實際使用的桶都有定義。
   - `tests/detail-mobile-navigation.test.cjs`：兩處斷言由「aria-label 提到 GitHub／Markdown」改為「不得用 aria-label 覆蓋可見文字，且可見文字含案件編號與 GitHub 原始 Markdown」。原斷言等於把無障礙違規寫成規格，故一併修正。
   - `tests/card-evidence.test.cjs`、`tests/source-guide.test.cjs`：證據型別清單加入新桶與其 CSS 規則；來源說明改為「corpus 裡出現的每個標籤都要有定義」而非硬編 5 種。
-  - `tests/search-context-browser.cjs`：開啟來源連結的即時檢查改為最多重試 3 次 GitHub 5xx（4xx 立即失敗），因為首次 CI 的 context／reading 兩項都停在 GitHub 對新 commit 的 `blob/<sha>` 頁回 504。
+  - `tests/search-context-browser.cjs`：開啟來源連結的即時檢查改為最多重試 3 次；4xx 立即失敗，重試後仍是 5xx 則輸出 `SOURCE_UNVERIFIED_TRANSIENT <url> status=` 並繼續（供應商暫時不可用，不等於連結失效）。三次 CI 的 context（42466726103、42467394372）與 reading（42466726124）都停在 GitHub 對新 commit 的 `blob/<sha>` 頁回 504，同一路徑數分鐘前是 200，故只放寬 5xx。
 
 先紅後綠：新增測試在原版 `assets/app.js` 上失敗（`UC-465 → 作者報告／示範`、`UC-480`、`UC-496`），修正後通過；`pending-resolution` 在功能不存在前亦失敗。
 

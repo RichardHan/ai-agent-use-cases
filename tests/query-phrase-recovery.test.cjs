@@ -45,11 +45,11 @@ test('a term covering half the loaded corpus is not offered as a narrower questi
   assert.deepEqual(plain(context.recoverVocabulary([],'我要發票',{})),[]);
 });
 
-test('recovery stays bounded to three suggestions ranked by specificity',()=>{
-  const entries=[item('UC-001',['發票'],'發票'),item('UC-002',['報帳'],'報帳'),item('UC-003',['對帳'],'對帳')]
-    .concat(Array.from({length:9},(_,index)=>item('UC-1'+index,['旅遊'],'旅遊')));
-  const result=context.recoverVocabulary(entries,'我要發票報帳對帳',{});
-  assert.equal(result.length,3,'at most three suggestions are offered');
-  assert.deepEqual(Array.from(result,({count})=>count).every(count=>count>0),true);
-  assert.deepEqual(Array.from(result,({query})=>query).sort(),['報帳','對帳','發票']);
+test('recovery keeps the three longest contained terms in question order',()=>{
+  const entries=[item('UC-001',['合約審核'],'合約審核'),item('UC-002',['報表比對'],'報表比對'),item('UC-003',['客戶反饋'],'客戶反饋'),item('UC-004',['發票'],'發票')]
+    .concat(Array.from({length:16},(_,index)=>item('UC-1'+index,['旅遊'],'旅遊')));
+  const result=context.recoverVocabulary(entries,'合約審核 報表比對 客戶反饋 發票',{});
+  // Ranked by term length, then fewer hits, then where the visitor wrote it; the
+  // shorter 發票 falls outside a three-suggestion cap.
+  assert.deepEqual(Array.from(result,({query,count})=>[query,count]),[['合約審核',1],['報表比對',1],['客戶反饋',1]]);
 });

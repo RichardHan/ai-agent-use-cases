@@ -490,6 +490,8 @@ fs.mkdirSync(outDir, { recursive: true });
     await containedTerm.click();
     await page.locator('#results .card').first().waitFor({ timeout: 10000 });
     assert.equal(await page.locator('#query').inputValue(), '省錢');
+    const recoveredTotal = Number(((await page.locator('#results-count').innerText()).match(/顯示 (\d+) \//) || [])[1]);
+    assert.equal(recoveredTotal, containedCount, `Recovered total must match the promised ${containedCount} (got ${recoveredTotal})`);
     const recoveredCards = await page.locator('#results .card').count();
     assert.ok(recoveredCards > 0 && recoveredCards <= containedCount, `Recovered deck must stay within the promised ${containedCount} results (got ${recoveredCards})`);
     await page.goBack();

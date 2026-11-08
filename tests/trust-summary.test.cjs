@@ -3,7 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const {parseSummary}=require('../assets/audit.js');
 const batch=(count=336,remaining=664,heading='2026-10-20 20:00 台灣時間增量核對')=>({latestBatch:heading+'\n\n- 承接335，嚴格合格 **'+count+'／1,000，尚差'+remaining+'**。未獨立重現。'});
 test('current batch supplies counts and its own timestamp without equating catalog size or success',()=>{
- assert.deepEqual(parseSummary(batch()),{count:336,remaining:664,date:'2026-10-20',time:'20:00'});
+ assert.deepEqual(parseSummary(batch()),{count:336,remaining:664,date:'2026-10-20',time:'20:00',pageBase:0});
  assert.equal(parseSummary(batch(0,1000)).count,0);
  assert.equal(parseSummary(batch(1000,0)).count,1000);
  assert.equal(parseSummary(batch(300,700,'2026-10-19 台灣時間核對')).time,'');

@@ -21,9 +21,22 @@
     if(matches.length!==1)return null;
     const count=Number(matches[0][1]),remaining=Number(matches[0][2]);
     if(!Number.isSafeInteger(count)||!Number.isSafeInteger(remaining)||count<0||remaining<0||count+remaining!==1000)return null;
-    return {count,remaining,date:date[1],time};
+    // The batch states how many main case pages existed when it was measured.
+    // Without it, 370 reads as a ratio of today's catalogue, which it never was.
+    const base=text.match(/主要案例頁\s*(\d+)\s*不是合格數/);
+    let pageBase=0;
+    if(base){
+      const size=Number(base[1]);
+      if(Number.isSafeInteger(size)&&size>=count&&size<=100000)pageBase=size;
+    }
+    return {count,remaining,date:date[1],time,pageBase};
   }
-  if(typeof module!=='undefined'&&module.exports)module.exports={parseSummary};
+  function statusText(summary){
+    const when='歷史批次：'+summary.date+(summary.time?' '+summary.time:'')+'（台灣時間）。';
+    const base=summary.pageBase?'該批次以當時 '+summary.pageBase+' 個主要案例頁為母體；':'';
+    return when+base+'這是當時的快照，不是目前全庫累計，目前合格總數未重新統計。';
+  }
+  if(typeof module!=='undefined'&&module.exports)module.exports={parseSummary,statusText};
   if(typeof document==='undefined')return;
   const count=document.getElementById('audit-count'),status=document.getElementById('audit-status'),retry=document.getElementById('audit-retry');
   if(!count||!status||!retry)return;
@@ -39,7 +52,7 @@
       const summary=parseSummary(await response.json());
       if(!summary)throw Error('Audit format unavailable');
       count.textContent=String(summary.count);
-      status.textContent='歷史批次：'+summary.date+(summary.time?' '+summary.time:'')+'（台灣時間）。這是當時的快照，不是目前全庫累計；目前合格總數未重新統計。';
+      status.textContent=statusText(summary);
       // A focused retry remains a stable control after success.
       retry.hidden=document.activeElement!==retry;
     }catch{

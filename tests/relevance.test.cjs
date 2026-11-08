@@ -4,6 +4,14 @@ const source=fs.readFileSync('assets/app.js','utf8').split('/* Browser event bin
 function api(){const c=vm.createContext({URL,URLSearchParams,Discovery:require('../assets/discovery.js')});vm.runInContext(source+';this.api={rankEntries,filterEntries,parseFile,tokenize,searchContext};',c);vm.runInContext('displayCopy='+fs.readFileSync('assets/copy.json','utf8'),c);return c.api;}
 const ids=items=>Array.from(items,x=>x.id);
 const item=(id,title,summary='',extra={})=>({id,title,summary,category:'',scenario:'',tools:[],tags:[],...extra});
+test('archived P-004 does not contaminate P-003 search or reading',()=>{
+ const {parseFile,filterEntries,tokenize}=api();
+ const pending=Array.from(parseFile('sources/pending.md',fs.readFileSync('sources/pending.md','utf8')));
+ const p3=pending.find(entry=>entry.id==='P-003');
+ assert(p3);
+ assert(!p3.markdown.includes('P-004'));
+ assert(!ids(filterEntries(pending,tokenize('招標機會篩選'),{})).includes('P-003'));
+});
 test('purpose coverage precedes incidental matches; ties and empty queries preserve source order',()=>{
  const {rankEntries,tokenize}=api();
  const input=[item('UC-001','其他用途'),item('UC-002','薪資報表'),item('UC-003','薪資報表'),item('UC-004','報表','薪資整理')];

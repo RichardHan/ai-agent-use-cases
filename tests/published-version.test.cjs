@@ -34,6 +34,7 @@ function publicationFixture(t){
  const page='<html lang="zh-Hant"><head><meta property="og:locale" content="zh_TW"></head></html>';
  const files={
   'index.html':page,'assets/app.js':'app','assets/style.css':'style','assets/reader.js':'reader','assets/reader.css':'reader style',
+  'assets/copy.json':'{}','assets/discovery.js':'discovery','assets/audit.js':'audit',
   'INDEX.html':page,'cases/001-travel-checkout.html':page,'sources/qualification-audit-2026-10-16.html':page,
   'catalog.json':JSON.stringify(local.catalog),'corpus.json':JSON.stringify(local.corpus)
  };
@@ -144,14 +145,16 @@ function supersededFixture(t,{markdown='original',changedPath='cases/a.md',delet
   fs.mkdirSync(path.dirname(path.join(root,changedPath)),{recursive:true});
   fs.writeFileSync(path.join(root,changedPath),'original');
  }
- const changedPaths=[{status:deleted?'D':'M',path:changedPath}];
+ const changeList={known:true,entries:[{status:deleted?'D':'M',path:changedPath}]};
  let clock=0;
  return {
+  options,
   run:overrides=>waitForPublishedVersion({
-   ...options,changedPaths,root,publishedSourceRevision:'newer',
+   ...options,changeList,root,
    fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;},...overrides
   }),
-  clock:()=>clock
+  clock:()=>clock,
+  published
  };
 }
 
@@ -184,6 +187,55 @@ test('a published build that does not descend from this push is rejected',async 
  });
 });
 
+test('a newer build cannot be verified when the push base is unknown',async t=>{
+ const {run}=supersededFixture(t);
+ await assert.rejects(run({isDescendant:()=>true,changeList:{known:false,entries:[]}}),error=>{
+  assert.match(error.cause.message,/without knowing what this push changed/);
+  return true;
+ });
+});
+
+test('a push that published no changed file still needs identical live content',async t=>{
+ const {run}=supersededFixture(t);
+ const result=await run({isDescendant:()=>true,changeList:{known:true,entries:[]}});
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.changedVerified,0);
+ const stale=supersededFixture(t,{markdown:'a later commit rewrote this case'});
+ await assert.rejects(stale.run({isDescendant:()=>true,changeList:{known:true,entries:[]}}),error=>{
+  assert.match(error.cause.message,/published no changed files and the live content is not identical/);
+  return true;
+ });
+});
+
+test('every served asset is compared, including copy.json',async t=>{
+ const {options,published,respond}=publicationFixture(t);
+ published['assets/copy.json']='{"stale":true}';
+ let clock=0;
+ await assert.rejects(waitForPublishedVersion({...options,changeList:{known:true,entries:[]},fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}}),/Published assets do not match checkout/);
+});
+
+test('a rename is verified as new bytes present and the old path gone',async t=>{
+ const {options,published,respond}=publicationFixture(t);
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'published-rename-'));
+ t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ fs.mkdirSync(path.join(root,'cases'),{recursive:true});
+ fs.writeFileSync(path.join(root,'cases/new.md'),'renamed bytes');
+ const remoteCatalog=JSON.parse(published['catalog.json']);
+ const remoteCorpus=JSON.parse(published['corpus.json']);
+ remoteCatalog.files=['cases/new.md'];
+ remoteCatalog.sourceRevision='newer';
+ remoteCorpus.sources=[{path:'cases/new.md',markdown:'renamed bytes'},{path:'cases/a.md',markdown:'original'}];
+ remoteCorpus.sourceRevision='newer';
+ published['catalog.json']=JSON.stringify(remoteCatalog);
+ published['corpus.json']=JSON.stringify(remoteCorpus);
+ const changeList={known:true,entries:[{status:'D',path:'cases/a.md'},{status:'R100',path:'cases/new.md'}]};
+ let clock=0;
+ await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:respond,isDescendant:()=>true,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
+  assert.match(error.cause.message,/A deleted source is still published: cases\/a\.md/);
+  return true;
+ });
+});
+
 test('a live build without a source revision is never accepted',async t=>{
  const {options,published,respond}=publicationFixture(t);
  for(const name of ['catalog.json','corpus.json']){
@@ -192,7 +244,7 @@ test('a live build without a source revision is never accepted',async t=>{
   published[name]=JSON.stringify(value);
  }
  let clock=0;
- await assert.rejects(waitForPublishedVersion({...options,changedPaths:[],isDescendant:()=>true,fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
+ await assert.rejects(waitForPublishedVersion({...options,changeList:{known:true,entries:[]},isDescendant:()=>true,fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
   assert.match(error.cause.message,/has no source revision/i);
   return true;
  });

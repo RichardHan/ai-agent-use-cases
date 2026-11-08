@@ -43,28 +43,37 @@ function skipIfSupersededPublishedUrl(url,isCurrent=isCurrentMainCommit){
 
 // Files whose exact bytes a visitor can receive. When main has already moved on
 // to a newer commit, these are the only bytes this push can still be judged on.
-const PUBLISHABLE_FILE=/^(?:assets\/[A-Za-z0-9._-]+\.(?:js|css)|index\.html|cases\/[A-Za-z0-9_-]+\.md|evidence\/[A-Za-z0-9_-]+\.md|sources\/pending\.md)$/;
+const PUBLISHABLE_FILE=/^(?:assets\/[A-Za-z0-9._-]+\.(?:js|css|json)|index\.html|cases\/[A-Za-z0-9_-]+\.md|evidence\/[A-Za-z0-9_-]+\.md|sources\/pending\.md)$/;
 
+// `git diff --name-status` uses tabs and prints two paths for copies and renames.
+// The old path left the site, so a rename is verified as "new bytes present, old
+// bytes gone" rather than only checking the destination.
 function parseNameStatus(output){
- return output.split('\n').map(line=>line.trim()).filter(Boolean).map(line=>{
-  const [status,...paths]=line.split(/\s+/);
-  return {status,path:paths[paths.length-1]};
- });
+ const entries=[];
+ for(const line of output.split('\n')){
+  const parts=line.split('\t').map(part=>part.trim()).filter(Boolean);
+  if(parts.length<2)continue;
+  const status=parts[0];
+  if(/^[RC]/.test(status)&&parts.length>=3){entries.push({status:'D',path:parts[1]});entries.push({status,path:parts[2]});continue;}
+  entries.push({status,path:parts[parts.length-1]});
+ }
+ return entries;
 }
 
 // A push event's `before` SHA is the only reliable description of what this push
-// published. Renames and deletions count as changed because the old bytes leaving
-// the site is also something the visitor will see.
-function changedPublicationPaths(baseSha,headSha,exec=execFileSync){
+// published. `known:false` means the gate cannot tell whether anything published
+// changed, which must never be treated as "nothing changed".
+function publicationChangeList(baseSha,headSha,exec=execFileSync){
  const valid=sha=>typeof sha==='string'&&/^[0-9a-f]{40}$/.test(sha)&&!/^0+$/.test(sha);
- if(!valid(baseSha)||!valid(headSha)||baseSha===headSha)return [];
+ if(!valid(baseSha)||!valid(headSha))return {known:false,entries:[]};
+ if(baseSha===headSha)return {known:true,entries:[]};
  let output;
  try{
   output=exec('git',['diff','--name-status',baseSha,headSha],{encoding:'utf8',stdio:['ignore','pipe','pipe'],timeout:20000});
  }catch(error){
   throw Error('Cannot list the files this push published: '+error.message,{cause:error});
  }
- return parseNameStatus(String(output)).filter(entry=>PUBLISHABLE_FILE.test(entry.path));
+ return {known:true,entries:parseNameStatus(String(output)).filter(entry=>PUBLISHABLE_FILE.test(entry.path))};
 }
 
 // A newer published build only speaks for this push if it descends from it.
@@ -88,4 +97,4 @@ function isDescendantOf(ancestor,descendant,exec=execFileSync){
  return true;
 }
 
-module.exports={isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,changedPublicationPaths,isDescendantOf,PUBLISHABLE_FILE};
+module.exports={isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf,PUBLISHABLE_FILE};

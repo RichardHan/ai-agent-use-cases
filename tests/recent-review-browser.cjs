@@ -126,8 +126,8 @@ async function order(page){
      await page.locator('#recent-entry').click();assert.equal(await page.locator('#query').inputValue(),'');assert.equal(await page.locator('#tool').inputValue(),'');
      assert.equal(await page.evaluate(()=>location.href),new URL('?sort=reviewed#explore',origin).href);
      // 3. Unknown dates, no matches and reset never imply verification or new cases.
-     await page.locator('#query').fill('UC-239');assert.match(await page.locator('#results .card[data-case-id="UC-239"] .review-date').innerText(),/未提供/);
-     await page.locator('#results .card[data-case-id="UC-239"] .card-bottom button').click();assert.match(await page.locator('.detail-header-meta').innerText(),/頁首未提供/);await page.keyboard.press('Escape');
+     await page.locator('#query').fill('UC-239');assert.match(await page.locator('#results .card[data-case-id="UC-239"] .review-date').innerText(),/頁首核對 2026-10-16/);
+     await page.locator('#results .card[data-case-id="UC-239"] .card-bottom button').click();assert.match(await page.locator('.detail-header-meta').innerText(),/頁首核對 2026-10-16/);await page.keyboard.press('Escape');
      await page.locator('#query').fill('no-such-case-98182');assert(await page.locator('#empty').isVisible());assert.equal(await page.locator('#sort').inputValue(),'reviewed');
      await page.locator('#empty-reset').click();assert.equal(await page.locator('#sort').inputValue(),'');
      await page.goto(origin+'?sort=reviewed&case=UC-313');await page.locator('#detail[open]').waitFor({timeout:90000});

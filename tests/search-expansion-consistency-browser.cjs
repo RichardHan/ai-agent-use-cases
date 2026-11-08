@@ -69,6 +69,13 @@ const facetCounts = page => page.evaluate(() => {
         const pending = await shownCount(page);
         assert.equal(pending.shown, 3, 'the pending filter keeps the merged lead reachable');
 
+        // The annotation is computed from the same filtered set as the count, so a
+        // query that matches only the merged lead still discloses it.
+        await page.goto(origin + '?q=P-002&kind=pending', { waitUntil: 'domcontentloaded' });
+        await page.locator('#results .card').first().waitFor();
+        const filteredOption = await page.locator('#kind option[value="pending"]').textContent();
+        assert.match(filteredOption, /含 1 筆已併入/, 'filtered pending count still discloses the merged lead: ' + filteredOption);
+
         // Dated leads are review dates; the card may not claim the date is missing.
         await page.goto(origin + '?q=UC-256', { waitUntil: 'domcontentloaded' });
         await page.locator('#results .card').first().waitFor();

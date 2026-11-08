@@ -10,7 +10,7 @@
 | --- | --- |
 | `?q=我想要找一個可以幫我整理照片的工具` | 結果 79 筆；情境篩選「全部情境 **0** · 生活 0 · 工作 0」；抽卡面板「這組條件目前沒有可抽的案例卡」 |
 | `?q=客戶抱怨` | 結果 4 筆；情境篩選全部為 **0**；抽卡面板同樣宣稱沒有案例卡 |
-| `?kind=pending` | 篩選顯示 **3 · 還在查證**，同一頁統計卡寫 **2 個待查想法**（其中 1 筆是「已併入 UC-156、不另計數」） |
+| `?kind=pending` | 篩選顯示 **3 · 還在查證**，同一頁統計卡寫 **2 個待查想法**（其中 1 筆是「已併入 UC-028、不另計數」） |
 | `?q=UC-256` | 卡片「頁首未提供核對日」，但 `cases/256-…md` 頁首寫「日期：…查證2026-10-16 UTC」 |
 
 根因（`assets/app.js`）：`render()` 以 `matches`（原句）餵 `syncDiscovery()` 與 `renderFacetCounts()`，只有 `currentFiltered` 使用重讀後的 `searchTerms`；`reviewDate()` 只接受「查證日期／查閱日期…」等固定鍵，不認舊版頁首的 `- 日期：…查證 2026-10-16`；`facetCounts()` 以待查狀態計數，統計卡則排除已併入線索，兩者沒有互相揭露。
@@ -44,7 +44,7 @@
 | UC-256 核對日 | 頁首未提供核對日 | **頁首核對 2026-10-16** |
 | 新回歸腳本 | 紅燈（`0 !== 79`） | `SEARCH_EXPANSION_CONSISTENCY_OK` |
 
-- `node --test tests/*.test.cjs`：**489 pass / 0 fail**（基準 482；新增／改寫 7 項：已併入與日期行規則、變更清單白名單、後代證明、superseded 逐 byte 驗證、缺 sourceRevision 不得通過、PR 不得走查正式站、重複觸發移除）。
+- `node --test tests/*.test.cjs`：**494 pass / 0 fail**（基準 482；新增／改寫：已併入與日期行規則、變更清單白名單與 rename、未知 base 回報 unknown、後代證明、superseded 逐 byte 驗證、缺 sourceRevision 不得通過、無改動時需內容一致、每個 runtime asset 都要比對、PR 不得走查正式站、重複觸發移除）。
 - `node --check assets/app.js` pass。以本機 gzip 靜態伺服器（與 Pages 相同 gzip）重跑 canonical 瀏覽器腳本：`discovery-browser`、`compound-split-browser`、`sentence-fallback-browser`、`visitor-problem-browser`、`mobile-problem-tags-browser`、`results-batching-browser`、`search-submit-history-browser` 全數 PASS。
 - 發布閘門本機端到端（真實程式碼路徑，非只讀原始碼）：以 `python3 scripts/preview.py` 產出的建置當 `BUILT_SITE`，用自訂 `fetchAsset` 供應同一份位元組（`INDEX.html` 在大小寫不敏感的本機磁碟上無法與 `index.html` 並存，故由記憶體供應）。三種結果：
   - exact（正式站 `sourceRevision` = 本次推送）：`{"status":"matched","mode":"exact","sourceCount":507}`。
@@ -63,6 +63,18 @@
 | UC-256 核對日 | [前](before-desktop-review-date-results.webp)／[後](after-desktop-review-date-results.webp) | [前](before-mobile-review-date-results.webp)／[後](after-mobile-review-date-results.webp) |
 
 （另有 `*-draw.webp` 為各狀態的抽卡面板。）
+
+## 獨立審查與修正
+
+未參與實作的 reviewer 依需求、最終 diff 與自行重跑審查，指出兩項 BLOCKER、四項 CONCERN、一項 NIT，全部已修正並補上釘住測試：
+
+1. **BLOCKER：未知的 push base 被當成「沒有改動」**。`github.event.before` 空值／全零時變更清單為空，superseded 仍可能通過。改為 `publicationChangeList()` 回傳 `{known, entries}`；`known:false` 時 superseded 一律拒絕（`Cannot verify a newer published build without knowing what this push changed`）。
+2. **BLOCKER：閘門只比對 5 個固定資產**。`assets/copy.json`、`assets/discovery.js`、`assets/audit.js` 會被頁面載入卻不在比對範圍。改為從建置目錄列舉 `assets/*.{js,css,json}`，新增資產自動納入；`PUBLISHABLE_FILE` 同步接受 `assets/*.json`。
+3. **CONCERN：rename 只驗新路徑**。`parseNameStatus()` 現在把 rename／copy 拆成「舊路徑刪除 + 新路徑」兩筆，舊路徑必須從正式站消失。
+4. **CONCERN：日期行只看整行有無查證動詞**。`- 日期：2026-10-16（發布日）；查證日期未取得` 會被誤認為核對日。改為以 `；;。` 切分子句，只取同時含動作與日期的子句。
+5. **CONCERN：已併入標註用全域計數**。`?q=P-002&kind=pending` 只命中已併入線索時沒有標註。改為以同一組篩選後的集合計算已併入筆數，並在新瀏覽器回歸中釘住。
+6. **CONCERN：`tests/recent-review-browser.cjs` 仍期待 UC-239 無核對日**。已更新為 `頁首核對 2026-10-16`，並在分支預覽重跑通過。
+7. **NIT：QA 文件寫錯已併入目標**。P-002 併入 UC-028（非 UC-156），已更正。
 
 ## 已知限制
 

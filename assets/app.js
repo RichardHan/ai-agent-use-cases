@@ -621,16 +621,21 @@ const matchCase = (target, list = entries) => { if (!target) return null; const 
 function reviewDate(markdown) {
   const lead=markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
   const dates=[];
-  for(const line of lead.split('\n')){
-    const namedKey=/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|查證|首次收錄[／、](?:最近查證|查證))\s*[：:]/.test(line);
-    // Older leads write "- 日期：…；查證 2026-10-16 UTC". A bare "- 日期：" is a
-    // publication date, not a review, so the line must also name the action.
-    const datedLead=/^-\s*日期\s*[：:]/.test(line) && /(?:查證|查閱|核對|查核)/.test(line);
-    if(!namedKey && !datedLead)continue;
-    for(const date of line.match(/\b20\d{2}-\d{2}-\d{2}\b/g)||[]){
+  const reviewAction=/(?:查證|查閱|核對|查核)/;
+  const collect=(clause)=>{
+    for(const date of clause.match(/\b20\d{2}-\d{2}-\d{2}\b/g)||[]){
       const parsed=new Date(date+'T00:00:00Z');
       if(!Number.isNaN(parsed.getTime())&&parsed.toISOString().slice(0,10)===date)dates.push(date);
     }
+  };
+  for(const line of lead.split('\n')){
+    const namedKey=/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|查證|首次收錄[／、](?:最近查證|查證))\s*[：:]/.test(line);
+    if(namedKey){ collect(line); continue; }
+    // Older leads write "- 日期：…；查證 2026-10-16". Only a clause that both names
+    // the action and carries the date is a review; the publication date that shares
+    // the line but not the clause must not become a review date.
+    if(!/^-\s*日期\s*[：:]/.test(line))continue;
+    for(const clause of line.split(/[；;。]/))if(reviewAction.test(clause))collect(clause);
   }
   return dates.sort().pop()||'';
 }
@@ -1824,7 +1829,10 @@ function renderFacetCounts(terms, filters) {
     : failedPaths.length
       ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
       : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。';
-  const resolvedPending=discoveryReady?entries.filter(item=>item.kind==='pending'&&item.resolved).length:0;
+  // Count merged leads inside the same filtered set the pending option describes,
+  // so a filtered view does not keep a global annotation it cannot show.
+  const pendingBase=discoveryReady?filterEntries(entries,terms,{...filters,kind:''}):[];
+  const resolvedPending=pendingBase.filter(item=>item.kind==='pending'&&item.resolved).length;
   for(const key of ['scenario','kind','difficulty','tool','category','proof']){
     const select=$(key);
     if(!select) continue;
@@ -1843,7 +1851,7 @@ function renderFacetCounts(terms, filters) {
       option.dataset.count=discoveryReady ? String(counts[index]) : '';
       // A merged lead stays selectable but is not counted as an open question in
       // the statistics card, so the option says so instead of disagreeing with it.
-      const mergedNote=key==='kind'&&option.value==='pending'&&counts[index]>resolvedPending&&resolvedPending
+      const mergedNote=key==='kind'&&option.value==='pending'&&resolvedPending&&counts[index]>=resolvedPending
         ? `（含 ${resolvedPending} 筆已併入，統計不計）` : '';
       option.textContent=(discoveryReady ? counts[index]+' · ' : '')+option.dataset.label+mergedNote;
     });

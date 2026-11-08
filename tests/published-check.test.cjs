@@ -3,7 +3,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const {isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,changedPublicationPaths,isDescendantOf}=require('../scripts/published-check.cjs');
+const {isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf}=require('../scripts/published-check.cjs');
 
 test('published asset check runs for the current main commit',()=>{
  assert.equal(shouldCheckPublishedSha('refs/heads/main','current','current'),true);
@@ -68,6 +68,7 @@ test('only files a visitor can receive count as published changes',()=>{
  const calls=[];
  const exec=(command,args)=>{calls.push(args);return [
   'M\tassets/app.js',
+  'M\tassets/copy.json',
   'A\tcases/511-grok-bot-zoom-meet-teams-structured-notes.md',
   'D\tevidence/old-note.md',
   'M\tINDEX.md',
@@ -78,11 +79,15 @@ test('only files a visitor can receive count as published changes',()=>{
   'M\tindex.html',
   'M\tsources/pending.md'
  ].join('\n');};
- const changed=changedPublicationPaths(before,after,exec);
- assert.deepEqual(changed,[
+ const {known,entries}=publicationChangeList(before,after,exec);
+ assert.equal(known,true);
+ assert.deepEqual(entries,[
   {status:'M',path:'assets/app.js'},
+  {status:'M',path:'assets/copy.json'},
   {status:'A',path:'cases/511-grok-bot-zoom-meet-teams-structured-notes.md'},
   {status:'D',path:'evidence/old-note.md'},
+  // a rename leaves the old path behind as a deletion and adds the new path
+  {status:'D',path:'cases/001-travel-checkout.md'},
   {status:'R100',path:'cases/001-travel.md'},
   {status:'M',path:'index.html'},
   {status:'M',path:'sources/pending.md'}
@@ -90,10 +95,11 @@ test('only files a visitor can receive count as published changes',()=>{
  assert.deepEqual(calls,[['diff','--name-status',before,after]]);
 });
 
-test('an unknown push base is not treated as a published diff',()=>{
- for(const [base,head] of [['', 'b'.repeat(40)],['0'.repeat(40),'b'.repeat(40)],[undefined,'b'.repeat(40)],['not-a-sha','b'.repeat(40)],['a'.repeat(40),'a'.repeat(40)]])
-  assert.deepEqual(changedPublicationPaths(base,head,()=>assert.fail('no git call without a real base')),[]);
- assert.throws(()=>changedPublicationPaths('a'.repeat(40),'b'.repeat(40),()=>{throw Error('not a git repository');}),/Cannot list the files this push published.*not a git repository/);
+test('an unknown push base is reported as unknown, never as an empty diff',()=>{
+ for(const [base,head] of [['', 'b'.repeat(40)],['0'.repeat(40),'b'.repeat(40)],[undefined,'b'.repeat(40)],['not-a-sha','b'.repeat(40)]])
+  assert.deepEqual(publicationChangeList(base,head,()=>assert.fail('no git call without a real base')),{known:false,entries:[]});
+ assert.deepEqual(publicationChangeList('a'.repeat(40),'a'.repeat(40),()=>assert.fail('no diff for an unchanged tip')),{known:true,entries:[]});
+ assert.throws(()=>publicationChangeList('a'.repeat(40),'b'.repeat(40),()=>{throw Error('not a git repository');}),/Cannot list the files this push published.*not a git repository/);
 });
 
 test('a newer published revision must descend from this push',()=>{

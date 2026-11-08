@@ -1,0 +1,128 @@
+{
+  "before": {
+    "desktop-nine": {
+      "count": "顯示 0 / 509 筆收錄",
+      "noteVisible": false,
+      "note": "",
+      "emptyVisible": true,
+      "firstCard": null
+    },
+    "desktop-eight": {
+      "count": "顯示 0 / 509 筆收錄",
+      "noteVisible": false,
+      "note": "",
+      "emptyVisible": true,
+      "firstCard": null
+    },
+    "desktop-five": {
+      "count": "顯示 0 / 509 筆收錄",
+      "noteVisible": false,
+      "note": "",
+      "emptyVisible": true,
+      "firstCard": null
+    },
+    "desktop-keywords": {
+      "count": "顯示 13 / 509 筆收錄",
+      "noteVisible": false,
+      "note": "",
+      "emptyVisible": false,
+      "firstCard": "每天放入旅行照片，回來就有按天編好的紀念冊"
+    },
+    "mobile-nine": {
+      "count": "顯示 0 / 509 筆收錄",
+      "noteVisible": false,
+      "note": "",
+      "emptyVisible": true,
+      "firstCard": null
+    },
+    "mobile-eight": {
+      "count": "顯示 0 / 509 筆收錄",
+      "noteVisible": false,
+      "note": "",
+      "emptyVisible": true,
+      "firstCard": null
+    },
+    "mobile-five": {
+      "count": "顯示 0 / 509 筆收錄",
+      "noteVisible": false,
+      "note": "",
+      "emptyVisible": true,
+      "firstCard": null
+    },
+    "mobile-keywords": {
+      "count": "顯示 13 / 509 筆收錄",
+      "noteVisible": false,
+      "note": "",
+      "emptyVisible": false,
+      "firstCard": "每天放入旅行照片，回來就有按天編好的紀念冊"
+    }
+  },
+  "after": {
+    "desktop-nine": {
+      "count": "顯示 37 / 509 筆收錄",
+      "noteVisible": true,
+      "note": "整句沒有直接命中案例。句中包含站上既有的詞「帳單」＋「整理」，改以這些詞同時符合搜尋，顯示 37 筆；這是字面比對，不是語意理解，也不代表已驗證。",
+      "emptyVisible": false,
+      "firstCard": "讓Bot每天幫你整理X上的未回留言、可互動創作者與該重發的舊文，一個月約30美元，而且它一則都不替你發"
+    },
+    "desktop-eight": {
+      "count": "顯示 14 / 509 筆收錄",
+      "noteVisible": true,
+      "note": "整句沒有直接命中案例。句中包含站上既有的詞「旅遊」＋「行程」，改以這些詞同時符合搜尋，顯示 14 筆；這是字面比對，不是語意理解，也不代表已驗證。",
+      "emptyVisible": false,
+      "firstCard": "幾個月前取消的行程，錢真的都拿回來了嗎？讓Muse翻出閒置的機票抵用金、可退款項與當初附帶的保險"
+    },
+    "desktop-five": {
+      "count": "顯示 15 / 509 筆收錄",
+      "noteVisible": true,
+      "note": "整句沒有直接命中案例。句中包含站上既有的詞「履歷」＋「整理」，改以這些詞同時符合搜尋，顯示 15 筆；這是字面比對，不是語意理解，也不代表已驗證。",
+      "emptyVisible": false,
+      "firstCard": "面試後記錄堆著？先把證據整理好，再由面試官判斷"
+    },
+    "desktop-keywords": {
+      "count": "顯示 13 / 509 筆收錄",
+      "noteVisible": false,
+      "note": "",
+      "emptyVisible": false,
+      "firstCard": "每天放入旅行照片，回來就有按天編好的紀念冊"
+    },
+    "desktop-nine-exact": {
+      "count": "顯示 0 / 509 筆收錄",
+      "note": "目前只找完整包含整句的案例，因此沒有結果。句中包含站上既有的詞「帳單」＋「整理」，改用這些詞同時符合可看 37 筆；這是字面比對，不是語意理解。",
+      "emptyVisible": true
+    },
+    "mobile-nine": {
+      "count": "顯示 37 / 509 筆收錄",
+      "noteVisible": true,
+      "note": "整句沒有直接命中案例。句中包含站上既有的詞「帳單」＋「整理」，改以這些詞同時符合搜尋，顯示 37 筆；這是字面比對，不是語意理解，也不代表已驗證。",
+      "emptyVisible": false,
+      "firstCard": "讓Bot每天幫你整理X上的未回留言、可互動創作者與該重發的舊文，一個月約30美元，而且它一則都不替你發"
+    },
+    "mobile-eight": {
+      "count": "顯示 14 / 509 筆收錄",
+      "noteVisible": true,
+      "note": "整句沒有直接命中案例。句中包含站上既有的詞「旅遊」＋「行程」，改以這些詞同時符合搜尋，顯示 14 筆；這是字面比對，不是語意理解，也不代表已驗證。",
+      "emptyVisible": false,
+      "firstCard": "幾個月前取消的行程，錢真的都拿回來了嗎？讓Muse翻出閒置的機票抵用金、可退款項與當初附帶的保險"
+    },
+    "mobile-five": {
+      "count": "顯示 15 / 509 筆收錄",
+      "noteVisible": true,
+      "note": "整句沒有直接命中案例。句中包含站上既有的詞「履歷」＋「整理」，改以這些詞同時符合搜尋，顯示 15 筆；這是字面比對，不是語意理解，也不代表已驗證。",
+      "emptyVisible": false,
+      "firstCard": "面試後記錄堆著？先把證據整理好，再由面試官判斷"
+    },
+    "mobile-keywords": {
+      "count": "顯示 13 / 509 筆收錄",
+      "noteVisible": false,
+      "note": "",
+      "emptyVisible": false,
+      "firstCard": "每天放入旅行照片，回來就有按天編好的紀念冊"
+    },
+    "mobile-nine-exact": {
+      "count": "顯示 0 / 509 筆收錄",
+      "note": "目前只找完整包含整句的案例，因此沒有結果。句中包含站上既有的詞「帳單」＋「整理」，改用這些詞同時符合可看 37 筆；這是字面比對，不是語意理解。",
+      "emptyVisible": true
+    }
+  }
+}

@@ -689,3 +689,107 @@ test('Reviewer regressions: marketing copy English phrase, performance analysis 
   assert.ok(!pureCopyHits.some(e => e.id === 'UC-012'), 'Searching 文案 must not match UC-012 Spectroscopy');
   assert.ok(!pureCopyHits.some(e => e.id === 'UC-374'), 'Searching 文案 must not match UC-374 completed-copy-handoff.md');
 });
+
+test('natural problem queries for project progress, data analytics, audio transcription, meeting records, and market research recall targeted cases', () => {
+  const queries = [
+    { raw: '專案進度', expectedTokens: ['專案', '進度'], minMatches: 15, canonicalId: 'UC-408' },
+    { raw: '我想管理專案進度', expectedTokens: ['專案', '進度'], minMatches: 15, canonicalId: 'UC-408' },
+    { raw: '追蹤專案進度', expectedTokens: ['專案', '進度'], minMatches: 15, canonicalId: 'UC-408' },
+    { raw: '專案管理', expectedTokens: ['專案', '管理'], minMatches: 20, canonicalId: 'UC-379' },
+    { raw: '音訊轉寫', expectedTokens: ['逐字稿'], minMatches: 50, canonicalId: 'UC-132' },
+    { raw: '錄音轉逐字稿', expectedTokens: ['逐字稿'], minMatches: 50, canonicalId: 'UC-412' },
+    { raw: '錄音整理', expectedTokens: ['逐字稿'], minMatches: 50, canonicalId: 'UC-480' },
+    { raw: '數據分析', expectedTokens: ['數據', '分析'], minMatches: 30, canonicalId: 'UC-459' },
+    { raw: '做數據分析', expectedTokens: ['數據', '分析'], minMatches: 30, canonicalId: 'UC-095' },
+    { raw: '報表分析', expectedTokens: ['數據', '分析'], minMatches: 30, canonicalId: 'UC-459' },
+    { raw: '開會記錄', expectedTokens: ['會議', '筆記'], minMatches: 8, canonicalId: 'UC-094' },
+    { raw: '我想整理開會記錄', expectedTokens: ['整理', '會議', '筆記'], minMatches: 6, canonicalId: 'UC-071' },
+    { raw: '市場調研', expectedTokens: ['市場', '調研'], minMatches: 6, canonicalId: 'UC-090' },
+    { raw: '市場分析', expectedTokens: ['市場', '調研'], minMatches: 6, canonicalId: 'UC-438' }
+  ];
+
+  for (const item of queries) {
+    const tokens = Array.from(api.tokenize(item.raw));
+    assert.deepEqual(tokens, item.expectedTokens, `Tokens for "${item.raw}" must match expected`);
+    const hits = api.filterEntries(entries, tokens, {});
+    assert.ok(
+      hits.length >= item.minMatches,
+      `Query "${item.raw}" must return >= ${item.minMatches} cases, got ${hits.length}`
+    );
+    assert.ok(
+      hits.some(e => e.id === item.canonicalId),
+      `Query "${item.raw}" must recall canonical case ${item.canonicalId}`
+    );
+  }
+});
+
+test('hero problem tags and empty state suggestions expose 專案進度, 數據分析, 音訊轉寫, and 市場調研', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const nav = html.match(/<nav class="hero-problem-tags"[\s\S]*?<\/nav>/)?.[0] || '';
+  assert.ok(nav.includes('href="?q=專案進度#explore"'), 'hero-problem-tags must include 專案進度');
+  assert.ok(nav.includes('href="?q=數據分析#explore"'), 'hero-problem-tags must include 數據分析');
+  assert.ok(nav.includes('href="?q=音訊轉寫#explore"'), 'hero-problem-tags must include 音訊轉寫');
+  assert.ok(nav.includes('href="?q=市場調研#explore"'), 'hero-problem-tags must include 市場調研');
+
+  const appJs = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
+  assert.match(appJs, /term:\s*['"]專案進度['"]/, 'app.js empty state problem tags must include 專案進度');
+  assert.match(appJs, /term:\s*['"]數據分析['"]/, 'app.js empty state problem tags must include 數據分析');
+  assert.match(appJs, /term:\s*['"]音訊轉寫['"]/, 'app.js empty state problem tags must include 音訊轉寫');
+  assert.match(appJs, /term:\s*['"]市場調研['"]/, 'app.js empty state problem tags must include 市場調研');
+});
+
+test('Reviewer regressions: project progress compounds, data analysis preservation, and audio transcription phrase boundaries', () => {
+  // Finding 1: 專案進度 must segment to [專案, 進度] and rank UC-408 in top 5
+  const projTokens = Array.from(api.tokenize('專案進度'));
+  assert.deepEqual(projTokens, ['專案', '進度'], '專案進度 must tokenize to [專案, 進度]');
+  const projHits = api.filterEntries(entries, projTokens, {});
+  const projRanked = api.rankEntries(projHits, projTokens);
+  assert.ok(projRanked.slice(0, 5).some(e => e.id === 'UC-408'), '專案進度 must rank UC-408 in top 5');
+
+  // Finding 2: 音訊轉寫 must map to [逐字稿] and recall UC-132
+  const audioTokens = Array.from(api.tokenize('音訊轉寫'));
+  assert.deepEqual(audioTokens, ['逐字稿'], '音訊轉寫 must tokenize to [逐字稿]');
+  const audioHits = api.filterEntries(entries, audioTokens, {});
+  assert.ok(audioHits.some(e => e.id === 'UC-132'), '音訊轉寫 must recall UC-132');
+
+  // Finding 3: 開會記錄 without counter quantifier must tokenize to [會議, 筆記] and recall UC-094
+  const meetingTokens = Array.from(api.tokenize('開會記錄'));
+  assert.deepEqual(meetingTokens, ['會議', '筆記'], '開會記錄 must tokenize to [會議, 筆記]');
+  const meetingHits = api.filterEntries(entries, meetingTokens, {});
+  assert.ok(meetingHits.some(e => e.id === 'UC-094'), '開會記錄 must recall UC-094');
+
+  // Finding 4: 數據分析 must segment to [數據, 分析] and recall UC-459
+  const dataTokens = Array.from(api.tokenize('數據分析'));
+  assert.deepEqual(dataTokens, ['數據', '分析'], '數據分析 must tokenize to [數據, 分析]');
+  const dataHits = api.filterEntries(entries, dataTokens, {});
+  assert.ok(dataHits.some(e => e.id === 'UC-459'), '數據分析 must recall UC-459');
+
+  // Finding 5: 統計分析 & 資料分析 must preserve their respective nouns and recall UC-200 and UC-259
+  const statTokens = Array.from(api.tokenize('統計分析'));
+  assert.deepEqual(statTokens, ['統計', '分析'], '統計分析 must tokenize to [統計, 分析]');
+  const statHits = api.filterEntries(entries, statTokens, {});
+  assert.ok(statHits.some(e => e.id === 'UC-200'), '統計分析 must recall UC-200');
+
+  const dataNounTokens = Array.from(api.tokenize('資料分析'));
+  assert.deepEqual(dataNounTokens, ['資料', '分析'], '資料分析 must tokenize to [資料, 分析]');
+  const dataNounHits = api.filterEntries(entries, dataNounTokens, {});
+  assert.ok(dataNounHits.some(e => e.id === 'UC-259'), '資料分析 must recall UC-259');
+
+  // Finding 6: Generic 進度追蹤 must not forcibly inject 專案 and must recall UC-425
+  const genericProgressTokens = Array.from(api.tokenize('進度追蹤'));
+  assert.ok(!genericProgressTokens.includes('專案'), 'Generic 進度追蹤 must not inject 專案');
+  const progressHits = api.filterEntries(entries, genericProgressTokens, {});
+  assert.ok(progressHits.some(e => e.id === 'UC-425'), '進度追蹤 must recall UC-425');
+
+  // Finding 7: 漏轉寫欄位 must not map to 逐字稿 without audio context and must recall UC-145
+  const transcribeColTokens = Array.from(api.tokenize('漏轉寫欄位'));
+  assert.ok(!transcribeColTokens.includes('逐字稿'), '漏轉寫欄位 must not be rewritten to 逐字稿');
+  const transcribeColHits = api.filterEntries(entries, transcribeColTokens, {});
+  assert.ok(transcribeColHits.some(e => e.id === 'UC-145'), '漏轉寫欄位 must recall UC-145');
+
+  // Finding 8: 專案狀態機 must protect 狀態機 and not collapse to 進度, recalling UC-453
+  const statemachineTokens = Array.from(api.tokenize('專案狀態機'));
+  assert.ok(!statemachineTokens.includes('進度'), '專案狀態機 must not collapse to 進度');
+  const statemachineHits = api.filterEntries(entries, statemachineTokens, {});
+  assert.ok(statemachineHits.some(e => e.id === 'UC-453'), '專案狀態機 must recall UC-453');
+});

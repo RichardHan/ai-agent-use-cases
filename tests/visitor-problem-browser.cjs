@@ -6,7 +6,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cases/';
-const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-problem-journey-governance');
+const outDir = path.resolve(__dirname, '../docs/qa/2026-11-08-workplace-intent-discovery');
 fs.mkdirSync(outDir, { recursive: true });
 
 (async () => {
@@ -207,6 +207,49 @@ fs.mkdirSync(outDir, { recursive: true });
     const slidesShot = `${vp.name}-02m-scenario1-slides.png`;
     await page.screenshot({ path: path.join(outDir, slidesShot) });
     vpReport.screenshots.push(slidesShot);
+    console.log(`[${vp.name}] Testing Scenario 1: 專案進度 problem tag...`);
+    const projTag = page.locator('.hero-problem-tags a[href*="專案進度"]');
+    assert.ok(await projTag.isVisible(), '專案進度 tag must be visible in hero');
+    await projTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const projCount = await page.locator('#results .card').count();
+    assert.ok(projCount >= 10, `專案進度 must recall >= 10 cases (found ${projCount})`);
+    const projShot = `${vp.name}-02n-scenario1-project-progress.png`;
+    await page.screenshot({ path: path.join(outDir, projShot) });
+    vpReport.screenshots.push(projShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 數據分析 problem tag...`);
+    const dataTag = page.locator('.hero-problem-tags a[href*="數據分析"]');
+    assert.ok(await dataTag.isVisible(), '數據分析 tag must be visible in hero');
+    await dataTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const dataCount = await page.locator('#results .card').count();
+    assert.ok(dataCount >= 10, `數據分析 must recall >= 10 cases (found ${dataCount})`);
+    const dataShot = `${vp.name}-02o-scenario1-data-analytics.png`;
+    await page.screenshot({ path: path.join(outDir, dataShot) });
+    vpReport.screenshots.push(dataShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 音訊轉寫 problem tag...`);
+    const audioTag = page.locator('.hero-problem-tags a[href*="音訊轉寫"]');
+    assert.ok(await audioTag.isVisible(), '音訊轉寫 tag must be visible in hero');
+    await audioTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const audioCount = await page.locator('#results .card').count();
+    assert.ok(audioCount >= 10, `音訊轉寫 must recall >= 10 cases (found ${audioCount})`);
+    const audioShot = `${vp.name}-02p-scenario1-transcription.png`;
+    await page.screenshot({ path: path.join(outDir, audioShot) });
+    vpReport.screenshots.push(audioShot);
+
+    console.log(`[${vp.name}] Testing Scenario 1: 市場調研 problem tag...`);
+    const marketTag = page.locator('.hero-problem-tags a[href*="市場調研"]');
+    assert.ok(await marketTag.isVisible(), '市場調研 tag must be visible in hero');
+    await marketTag.click();
+    await page.locator('#results .card').first().waitFor({ timeout: 10000 });
+    const marketCount = await page.locator('#results .card').count();
+    assert.ok(marketCount >= 3, `市場調研 must recall >= 3 cases (found ${marketCount})`);
+    const marketShot = `${vp.name}-02q-scenario1-market-research.png`;
+    await page.screenshot({ path: path.join(outDir, marketShot) });
+    vpReport.screenshots.push(marketShot);
     console.log(`[${vp.name}] Testing Scenario 1: 契約審查 natural query...`);
     await page.locator('#query').fill('契約審查');
     await page.locator('#search-submit').click();

@@ -39,7 +39,10 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   }
   assert.match(await page.locator('#source-type-note').textContent(),/作者報告／示範.*本庫未獨立重現/);
   const summary=page.locator('#source-guide summary');await summary.focus();await page.keyboard.press('Enter');
-  assert(await page.locator('#source-guide').evaluate(e=>e.open));assert.equal(await page.locator('#source-guide dt').count(),5);
+  assert(await page.locator('#source-guide').evaluate(e=>e.open));const corpusProofs=[...new Set(await page.evaluate(()=>entries.map(item=>item.proof)))];
+  const guideTypes=await page.locator('#source-guide dt').allInnerTexts();
+  for(const proof of corpusProofs)assert(guideTypes.includes(proof),`source guide must define the corpus label 「${proof}」`);
+  assert.equal(new Set(guideTypes).size,guideTypes.length,'the guide lists each label once');
   assert(await page.locator('#source-type-note').isVisible());
   assert((await summary.boundingBox()).height>=44);
   await page.locator('#source-guide').scrollIntoViewIfNeeded();

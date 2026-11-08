@@ -30,13 +30,14 @@
   - 卡片 kind 徽章、詳情徽章／警示／合併區塊：已併入的線索顯示「已併入 UC-028（不另計數）」，並以既有 `mergedDestination()` 產生「站內閱讀主案例 UC-028」按鈕。
   - 證據分類鏈：在 `unverified` 守衛之後、官方／作者規則之前，加入 `/^\s*`?designed`?/i → `設計／未實跑`；補齊該桶的說明、成果主張者、核讀狀態與安全採用建議。
   - `.detail-source`：移除 `aria-label`，可見文字改為「查看 UC-014 的 GitHub 原始 Markdown（新分頁） ↗」／手機「UC-014 原始 Markdown（新分頁） ↗」，名稱即為可見文字。
-- `assets/style.css`、`assets/reader.css`：新增 `[data-proof="設計／未實跑"]` 徽章顏色（淺色與深色各一），沿用既有色票與對比。
+- `assets/style.css`、`assets/reader.css`：新增 `設計／未實跑` 徽章顏色（卡片與詳情淺色、原文深色各一），選擇器**限定在徽章元素**（`.card-bottom .proof`、`.detail-badge.proof-badge`、`.proof-note-tag`）。第一版用裸屬性選擇器，會命中 `article.card[data-proof]` 造成整張卡變深色、對比 1.02:1，由獨立審查發現後修正。
 - `index.html`：統計卡新增 `<p id="pending-note" class="stat-sub" hidden>`。
 - 測試：
   - 新增 `tests/pending-resolution.test.cjs`（4 項）：已處理線索的解析、計數與 INDEX 準則一致、篩選仍可達且標示已併入、`catalogCounts` 分類。
   - 新增 `tests/evidence-status-consistency.test.cjs`（4 項）：`designed` 開頭不得標成作者實作、該桶四個文案齊備、`unverified` 不得標成作者實作、每個實際使用的桶都有定義。
   - `tests/detail-mobile-navigation.test.cjs`：兩處斷言由「aria-label 提到 GitHub／Markdown」改為「不得用 aria-label 覆蓋可見文字，且可見文字含案件編號與 GitHub 原始 Markdown」。原斷言等於把無障礙違規寫成規格，故一併修正。
   - `tests/card-evidence.test.cjs`、`tests/source-guide.test.cjs`：證據型別清單加入新桶與其 CSS 規則；來源說明改為「corpus 裡出現的每個標籤都要有定義」而非硬編 5 種。
+  - `tests/source-guide-browser.cjs`：選 `設計／未實跑` 篩選後做一次 axe 掃描（`designed-only` 狀態），直接守住第一版的對比回歸。
   - `tests/search-context-browser.cjs`：開啟來源連結的即時檢查改為最多重試 3 次；4xx 立即失敗，重試後仍是 5xx 則輸出 `SOURCE_UNVERIFIED_TRANSIENT <url> status=` 並繼續（供應商暫時不可用，不等於連結失效）。三次 CI 的 context（42466726103、42467394372）與 reading（42466726124）都停在 GitHub 對新 commit 的 `blob/<sha>` 頁回 504，同一路徑數分鐘前是 200，故只放寬 5xx。
 
 先紅後綠：新增測試在原版 `assets/app.js` 上失敗（`UC-465 → 作者報告／示範`、`UC-480`、`UC-496`），修正後通過；`pending-resolution` 在功能不存在前亦失敗。
@@ -55,6 +56,14 @@
   - 無水平溢出（首頁與詳情，390／320），詳情 dialog `scrollWidth == clientWidth`，`pageerror` 皆為 0。
 - axe（`wcag2a`、`wcag2aa`、`wcag21a`、`wcag21aa`，base 與分支同頁對照）：桌機 `.detail-source` 的 `label-content-name-mismatch` 由 1 → 0（UC-465、P-002 兩頁），手機前後皆 0；首頁、結果、空結果皆 0 違規，未新增其他違規。
 - 截圖（before／after 同頁、同尺寸、同資料狀態）：`before-*`／`after-*` 的 stats、P-002 卡片、P-002 詳情頁首、UC-465 證據區塊，桌面與手機各一組。
+
+## 獨立審查
+
+由未參與實作的 agent 依需求、完整 diff 與自行重跑結果審查，結論 **CHANGES-REQUIRED**，一項 major：
+
+- **F1（major）**：新增的 `[data-proof="設計／未實跑"]` 用了未加範圍的屬性選擇器，`card()` 會把 `data-proof` 設在整個 `article.card` 上，於是整張卡被套上深色背景，`.card-id-tool` 對比只有 1.02:1，Chromium axe 在 1440 與 390 都回報 `color-contrast`。審查也指出 QA 紀錄「其餘狀態 0 違規」因此不成立。
+
+已修正：三條規則都限定在徽章元素（`.card-bottom .proof`、`.detail-badge.proof-badge`、`.proof-note-tag`）；修正後重測卡片背景為白色、徽章用自己的色票、1440 與 390 的結果頁 axe 皆 0 違規，並在 `source-guide-browser.cjs` 加上 `designed-only` 的 axe 狀態防回歸。審查另確認：509 筆中只有 UC-465／UC-480／UC-496 的 `proof` 改變、只有 P-002 的 `mergedInto` 改變，其他欄位不變；計數、文案與測試改動都合理。
 
 ## 限制
 

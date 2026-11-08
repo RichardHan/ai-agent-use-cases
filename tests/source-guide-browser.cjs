@@ -70,6 +70,11 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   await page.locator('#query').fill('no-source-guide-results-987654');assert(await page.locator('#empty').isVisible());await scan('empty');
   await page.locator('#empty-reset').click();assert.match(await page.locator('#source-type-note').textContent(),/不是.*驗證/);
   assert.equal(await page.locator('#results-count').innerText(),`顯示 ${expectedEntries} / ${expectedEntries} 筆收錄`);
+  // 2b. The designed-only label keeps its own explanation and readable cards.
+  await require('./filter-controls.cjs').ensureFiltersVisible(page);await page.locator('#proof').selectOption('設計／未實跑');
+  assert((await page.locator('#results .card').count())>0,'the designed-only filter lists its cases');
+  assert.match(await page.locator('#source-type-note').textContent(),/設計／未實跑.*沒有執行結果/);
+  await scan('designed-only');
   // 3. Shared combined conditions and a long case survive reload and browser Back.
   await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot&proof='+encodeURIComponent('作者報告／示範')+'&case=UC-001');await ready();await page.locator('#detail[open]').waitFor();await page.reload();await ready();await page.locator('#detail[open]').waitFor();await page.locator('#close-detail').click();
   assert.equal(await page.locator('#query').inputValue(),'旅遊');assert.equal(await page.locator('#proof').inputValue(),'作者報告／示範');assert.equal(await page.locator('#scenario').inputValue(),'生活');assert.equal(await page.locator('#tool').inputValue(),'Grok Bot');

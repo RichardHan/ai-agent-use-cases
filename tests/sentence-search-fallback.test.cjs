@@ -84,7 +84,7 @@ assert.equal(api.sentenceQueryFallback(entries,sentence,{scenario:'生活'}),nul
 assert.equal(api.sentenceQueryFallback(entries,sentence,{kind:'case'}),null,'facet filtering disables the re-read');
 assert.equal(api.sentenceQueryFallback(entries,'「怎麼讓 AI 幫我檢查合約有沒有問題」',{}),null,'quoted wording stays exact');
 // An explicit case number is never traded for a topic word.
-for(const query of ['UC-012 請幫我檢查合約','我想看 uc-012 這篇關於合約的案例','請幫我看 #314 的合約審查案例']){
+for(const query of ['UC-012 請幫我檢查合約','UC 012 請幫我檢查合約','P 002 的合約','我想看 uc-012 這篇關於合約的案例','請幫我看 #314 的合約審查案例']){
   assert.equal(api.sentenceQueryFallback(entries,query,{}),null,query+' keeps its explicit case number');
 }
 assert.equal(api.sentenceQueryFallback(entries,'照片 旅行',{}),null,'a short multi-keyword lookup is not prose');

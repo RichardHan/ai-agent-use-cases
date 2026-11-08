@@ -2148,7 +2148,7 @@ function sentenceQueryFallback(items, query, filters) {
   if([...text].length<SENTENCE_QUERY_MIN_CHARS)return null;
   // An explicit case or lead number is the most specific thing the visitor typed;
   // answering with a topic word instead would silently answer another question.
-  if(/(?:^|[^a-z0-9])(?:uc|p)-?\d+(?![a-z0-9])|#\d+/.test(spaced))return null;
+  if(/(?:^|[^a-z0-9])(?:uc|p)[-\s]?\d+(?![a-z0-9])|#\s*\d+(?![a-z0-9])/.test(spaced))return null;
   if(!/[\u3400-\u9fff]/.test(text))return null;
   // A word covering a third of the library is not a narrower question, so it is
   // never used alone; it may still join a second word to form a real narrowing.

@@ -87,6 +87,7 @@ const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cas
 
       await page.keyboard.press('Enter');
       await page.waitForFunction(() => document.querySelector('#hero-problem-tags').getAttribute('data-collapsed') === 'true');
+      assert.equal(await toggle.getAttribute('aria-expanded'), 'false', `${vp.name}: accessible state returns to collapsed`);
       assert.equal(await visibleTasks(), 9, `${vp.name}: collapsing hides late tasks again`);
       await axe('collapsed-again');
 

@@ -89,6 +89,6 @@ Reviewer 未重跑測試與瀏覽器套件，因此測試、axe、pageerror、�
 
 ## 下一輪
 
-先做**詳情關閉後第一次 Back 沒有反應**（`assets/app.js` `showDetail()` `pushState` 推入帶 `?case` 的歷史項，`closeDetail()` 以 `replaceState` 把同一項改成與下一項相同的網址，於是第一次 Back 是同網址、畫面不變，第二次 Back 直接離開站）。這是上一輪 `docs/qa/2026-11-10-merged-destinations/README.md` 已記錄但未修的項目，本輪再次確認仍在 `c4bef514`。
+先做**詳情關閉後第一次 Back 沒有反應**。本輪自行重現（本機 preview，Chromium 390×844，`c4bef514`）：`?q=會議`（`history.length` 2、24 張卡片）→ 點第一張卡 UC-094（`?q=會議&case=UC-094`、`history.length` 3、dialog 開啟）→ 按「關閉 ✕」→ 網址回到 `?q=會議`、`history.length` 仍是 3、dialog 關閉 → **Back #1：網址、卡片數、dialog 狀態全部不變（沒有任何反應）** → Back #2：離開本站（`about:blank`）。成因在 `assets/app.js`：`showDetail()` 以 `pushState` 推入帶 `?case` 的歷史項，`closeDetail()`（:1784-1793）以 `replaceState` 把同一項改成與下一項完全相同的網址。上一輪 `docs/qa/2026-11-10-merged-destinations/README.md` 已記錄但未修。
 
 驗證先做兩件事，再改程式：(1) 在正式站以 `?q=會議` → 開 UC-094 → 按關閉 → Back，記錄 `history.length` 與畫面是否改變；(2) 盤點 `tests/*-browser.cjs` 中在 `press('Escape')` 同一 tick 斷言 `document.activeElement`／URL 的檔案（上一輪因此讓三個 workflow 轉紅）。先建立 `await closeDetail(page)` 共用 helper 讓既有測試接受非同步關閉，再改 `closeDetail()`。

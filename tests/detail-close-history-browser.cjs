@@ -16,7 +16,7 @@ const report=[];const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringif
   page.on('pageerror',e=>errors.push(e.message));
   const row={width,height};report.push(row);save();
   const ready=()=>page.waitForFunction(()=>discoveryReady);
-  const state=()=>page.evaluate(()=>({url:location.href,search:location.search,open:document.getElementById('detail').open,length:history.length,count:(document.getElementById('results-count')?.textContent||'').trim(),focus:document.activeElement?.id||document.activeElement?.closest('.card')?.dataset.caseId||document.activeElement?.tagName,scrollY:Math.round(scrollY)}));
+  const state=()=>page.evaluate(()=>({url:location.href,search:location.search,open:document.getElementById('detail')?.open??null,length:history.length,count:(document.getElementById('results-count')?.textContent||'').trim(),focus:document.activeElement?.id||document.activeElement?.closest('.card')?.dataset.caseId||document.activeElement?.tagName,scrollY:Math.round(scrollY)}));
   const openFirst=async()=>{
    const card=page.locator('#results .card').first();
    const id=await card.getAttribute('data-case-id');
@@ -83,28 +83,52 @@ const report=[];const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringif
   assert.notEqual(afterStepped.focus,'BODY','leaving the reopened case still leaves an operable focus');
   row.steppedBackUrl=afterStepped.search;
 
-  // 4. A shared deep link must not navigate away when it is closed: there is no
-  // in-page entry to pop, so closing keeps the page and Back still leaves once.
-  await page.goto(base+'?case=UC-001');await page.locator('#detail[open]').waitFor();await ready();
-  const shared=await state();
+  // 4. A shared deep link in a fresh tab must not navigate away when it is closed:
+  // there is no in-page stop behind it, so closing keeps the page.
+  const sharedContext=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
+  const sharedPage=await sharedContext.newPage();
+  await sharedPage.goto(base+'?case=UC-001');await sharedPage.locator('#detail[open]').waitFor();
+  await sharedPage.waitForFunction(()=>discoveryReady);
+  const shared=await sharedPage.evaluate(()=>({url:location.href,length:history.length,open:document.getElementById('detail').open}));
   assert.equal(shared.open,true);
-  await page.locator('#close-detail').click();
-  await page.waitForFunction(()=>!document.getElementById('detail').open);
-  const sharedClosed=await state();
+  await sharedPage.locator('#close-detail').click();
+  await sharedPage.waitForFunction(()=>!document.getElementById('detail').open);
+  const sharedClosed=await sharedPage.evaluate(()=>({url:location.href,length:history.length}));
   row.sharedClosedUrl=sharedClosed.url;
   assert.equal(sharedClosed.url,shared.url.replace(/[?&]case=[^&]*/,'').replace(/\?$/,''),'closing a shared link stays on the page');
   assert.equal(sharedClosed.length,shared.length,'closing a shared link adds no history step');
+  await sharedPage.goBack();
+  await sharedPage.waitForFunction(expected=>location.href!==expected,sharedClosed.url,{timeout:5000}).catch(()=>{});
+  row.sharedBackUrl=await sharedPage.evaluate(()=>location.href);
+  assert.notEqual(row.sharedBackUrl,sharedClosed.url,'after closing a shared link one Back returns the page before it');
+  await sharedContext.close();
+
+  // 5. Widening the result batch after a close is a real destination, not an echo:
+  // Back must restore the narrower batch instead of being skipped.
+  await page.goto(base);await ready();
+  await page.locator('#search-submit').click();
+  await page.waitForFunction(()=>history.state?.resultBatch?.count===24);
+  await openFirst();
+  await page.locator('#close-detail').click();
+  await page.waitForFunction(()=>!document.getElementById('detail').open);
+  assert.equal(await page.locator('#results .card').count(),24);
+  await page.locator('#load-more-results').click();
+  await page.waitForFunction(()=>history.state?.resultBatch?.count===48);
+  assert.equal(await page.locator('#results .card').count(),48);
   await page.goBack();
-  await page.waitForFunction(expected=>location.href!==expected,sharedClosed.url,{timeout:5000}).catch(()=>{});
-  const afterShared=await state();
-  row.sharedBackUrl=afterShared.url;
-  assert.notEqual(afterShared.url,sharedClosed.url,'after closing a shared link one Back returns to the page before it');
+  await page.waitForFunction(()=>history.state?.resultBatch?.count===24,null,{timeout:5000}).catch(()=>{});
+  const narrowed=await state();
+  row.batchBackCards=await page.locator('#results .card').count();
+  assert.equal(await page.evaluate(()=>history.state?.resultBatch?.count??null),24,'Back after widening a batch restores the narrower batch');
+  assert.equal(row.batchBackCards,24,'Back after widening a batch shows the narrower batch of cards');
+  assert.equal(narrowed.open,false,'the case stays closed on that Back');
+  assert.equal(narrowed.search,'','Back stays on the same unfiltered list URL');
 
   // 5. Nothing else may regress.
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
   row.axe=audit.violations.map(v=>v.id);assert.deepEqual(row.axe,[]);
-  assert.deepEqual(errors,[]);row.journeys=4;save();await browser.close();
+  assert.deepEqual(errors,[]);row.journeys=5;save();await browser.close();
  }
  console.log(JSON.stringify(report,null,2));
 })().catch(e=>{save();console.error(e);process.exit(1)});

@@ -154,7 +154,7 @@ let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=n
 // of the entry the reader is actually on, so the one no-op pop a close creates
 // can be recognised and skipped — without removing the stops that hold the
 // reader's reading trail (a case reached from another case must stay reachable).
-let liveHistoryURL=typeof location==='undefined'?'':location.href, liveHistoryLength=typeof history==='undefined'?0:history.length, spentDetailStop=null;
+let liveHistoryURL=typeof location==='undefined'?'':location.href, liveHistoryLength=typeof history==='undefined'?0:history.length, liveHistoryWrites=0, spentDetailStop=null;
 if(typeof history!=='undefined'){
   for(const method of ['pushState','replaceState']){
     const write=history[method];
@@ -162,7 +162,7 @@ if(typeof history!=='undefined'){
     const bound=write.bind(history);
     history[method]=function(state,title,url){
       const result=bound(state,title,url);
-      liveHistoryURL=location.href;liveHistoryLength=history.length;
+      liveHistoryURL=location.href;liveHistoryLength=history.length;liveHistoryWrites++;
       return result;
     };
   }
@@ -1905,7 +1905,7 @@ function closeDetail() {
   history.replaceState(history.state, '', url);
   // This entry now repeats the list stop behind it; the next Back press is only
   // the echo of this close, not a request to leave the results.
-  spentDetailStop = {url:liveHistoryURL, length:liveHistoryLength};
+  spentDetailStop = {url:liveHistoryURL, length:liveHistoryLength, writes:liveHistoryWrites};
   updateMissingCase();
   syncPageContext();
   restoreDetailFocus();
@@ -4326,7 +4326,9 @@ window.addEventListener('popstate', event => {
   // The close rewrote the case entry into the list URL, so the first Back press
   // arrives at a stop that is identical to the one the reader is already on.
   // Skip that echo once: the press should move the reader, not do nothing.
-  if(spent&&history.length===spent.length&&liveHistoryURL===spent.url&&location.href===spent.url){
+  // Any later write (a wider result batch, a filter) makes the next stop a real
+  // destination again, so only an untouched stop counts as the close's echo.
+  if(spent&&history.length===spent.length&&liveHistoryWrites===spent.writes&&liveHistoryURL===spent.url&&location.href===spent.url){
     liveHistoryURL=location.href;liveHistoryLength=history.length;
     history.back();
     return;

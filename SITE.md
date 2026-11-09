@@ -4,7 +4,9 @@
 
 選擇 (A) 保留關閉後的那一筆，只讓它造成的「空轉」透明：以包裝 `history.pushState`／`replaceState` 追蹤目前網址與 `history.length`，`closeDetail()` 改寫後記下這一筆，`popstate` 若判定到達的正是它（同網址、筆數未變、無 `case`）就再退一筆並直接返回。曾實作「關閉時退回這次閱讀建立的全部歷史」（`history.go(-N)`），量測後 `tests/related-browser.cjs` 立刻失敗——從清單開 A、對話框內切到 B、關閉後上一頁不再回到 A，2026-10-29 建立的閱讀軌跡被刪掉；「一律 `history.back()`」則會讓分享直鏈一關閉就離開本站。兩案都放棄。
 
-改動：`assets/app.js` 3 處（歷史追蹤、`spentDetailStop`、`popstate` 跳過回音）、`.github/workflows/website-qa.yml` 加入新測試一行、新增 `tests/detail-close-history-browser.cjs`（4 條情境 × 1440×900／390×844，含焦點、`history.length`、axe、溢出與 pageerror 斷言）。`node --test tests/*.test.cjs` 基準與本輪皆 594 通過、0 失敗（`node:vm` 沙箱沒有 `history`，追蹤碼以 `typeof` 防護）。新測試在基準預覽**紅**、本輪預覽**綠**；`related`／`return-visibility`／`results-return`／`search-submit`／`home-search-entry`／`missing-case`／`reader`／`search-context`／`page-context`／`discovery`／`mobile-search` 全通過；`table-reading` 的 webkit-390 鍵盤捲動在基準預覽同樣逾時，判為本機既有環境限制。未跑完整 78 支瀏覽器測試、未跑 Firefox／WebKit（除上列）、未在實機或螢幕閱讀器驗證。
+獨立審查提出 1 項確認缺陷並已修正：「回音」判斷原本只比對網址與 `history.length`，會吞掉「同網址但 state 不同」的真正目的地（清單批次 24→48 後上一頁應還原 24 筆，卻直接離開頁面）。改為包裝層另計寫入次數，只有關閉後沒有任何後續歷史寫入才算回音；並補上批次還原的迴歸斷言與乾淨分頁的分享直鏈情境。
+
+改動：`assets/app.js` 3 處（歷史追蹤、`spentDetailStop`、`popstate` 跳過回音）、`.github/workflows/website-qa.yml` 加入新測試一行、新增 `tests/detail-close-history-browser.cjs`（5 條情境 × 1440×900／390×844，含焦點、`history.length`、結果批次還原、axe、溢出與 pageerror 斷言）。`node --test tests/*.test.cjs` 基準與本輪皆 594 通過、0 失敗（`node:vm` 沙箱沒有 `history`，追蹤碼以 `typeof` 防護）。新測試在基準預覽**紅**、本輪預覽**綠**；`related`／`return-visibility`／`results-return`／`search-submit`／`home-search-entry`／`missing-case`／`reader`／`search-context`／`page-context`／`discovery`／`mobile-search` 全通過；`table-reading` 的 webkit-390 鍵盤捲動在基準預覽同樣逾時，判為本機既有環境限制。未跑完整 78 支瀏覽器測試、未跑 Firefox／WebKit（除上列）、未在實機或螢幕閱讀器驗證。
 
 CI 現況重新確認（不沿用歷史故障）：main 上 `Website QA` `42692519441` 與 `pages build and deployment` 全 success；近 300 次 run 的失敗都在已放棄的 feature 分支，14 次 cancelled 全是 `cancel-in-progress` 的取代。獨立 CI 調查另留下三項未處理的證據：發布沒有被驗證把關（`7e70b5f5` 發布完成 20:25:13、QA 20:33:00 才結束）、57 支 workflow 只有 16 支跑得起來（41 支的 `branches:` 指向已結束的分支或 `closed-historical`）、6 支 PR workflow 的 path filter 少了測試實際讀的資料檔。
 

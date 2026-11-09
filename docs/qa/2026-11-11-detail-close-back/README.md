@@ -37,14 +37,15 @@
   - `popstate`：在既有邏輯之前判斷「這次 pop 是否只是關閉動作的回音」，是則 `history.back()` 後直接返回，不重繪、不動焦點。
 - `.github/workflows/website-qa.yml`：在 `Verify the updated site in Chromium` 步驟加入
   `DETAIL_HISTORY_URL=… DETAIL_HISTORY_OUTPUT=qa-artifacts/detail-close-history node tests/detail-close-history-browser.cjs`（`tests/**` 本來就在 path filter 內，不需改觸發條件）。
-- 新增 `tests/detail-close-history-browser.cjs`：4 條情境 × 1440×900／390×844，含焦點、history.length、axe、水平溢出與 pageerror 斷言。
+- 新增 `tests/detail-close-history-browser.cjs`：5 條情境 × 1440×900／390×844，含焦點、history.length、axe、水平溢出與 pageerror 斷言。第 4 條另開新 context（乾淨分頁）測分享直鏈；第 5 條測「關閉後把結果批次從 24 擴到 48 再上一頁」必須還原較窄批次。
 
 ## 測試
 
 - `node --test tests/*.test.cjs`：基準 **594 通過／0 失敗** → 本輪 **594 通過／0 失敗**。`node --check assets/app.js` 通過。
 - 新測試的紅綠證明（同一支腳本、同一份資料）：
-  - 基準預覽（`origin/main` 建置，`127.0.0.1:8141`）：**失敗**，`the first Back after closing leaves the searched results`（`search` 仍含 `q=`）。
-  - 本輪預覽（`127.0.0.1:8081`）：**通過**，兩種寬度、4 條情境。
+  - 基準預覽（`origin/main` `b04f4fe4` 建置，`127.0.0.1:8171`）：**失敗**，`the first Back after closing leaves the searched results`（`search` 仍含 `q=`）。
+  - 本輪預覽（`127.0.0.1:8081`）：**通過**，兩種寬度、5 條情境。
+  - 只把「回音」判斷放寬成「同網址＋history.length 未變」（拿掉寫入次數條件）的對照建置（`127.0.0.1:8172`）：**失敗**，`Back after widening a batch restores the narrower batch` → 第 5 條情境確實釘住獨立審查指出的缺陷。
 - 既有瀏覽器回歸（本機 preview，Chromium 為主）：`related-browser`、`return-visibility-browser`、`results-return-browser`（3 條旅程 + 部分載入／錯誤／重試）、`search-submit-browser`、`home-search-entry-browser`、`missing-case-browser`、`reader-browser`、`search-context-browser`、`page-context-browser`、`discovery-browser`（loading／error／未知情境／部分語料）、`mobile-search-browser` 全數通過。
 - `table-reading-browser.cjs` 在 **webkit-390** 的 `waitForFunction`（表格鍵盤左右捲動）在本機 30 秒逾時；**基準預覽同樣逾時**，chromium 1440／390／320 與 firefox-390 兩邊都通過 → 判為本機既有環境限制，不是本輪回歸。
 - 本輪未跑完整 78 支瀏覽器測試；未跑 firefox／webkit（除上列 table-reading），也未在實機或螢幕閱讀器驗證。
@@ -59,7 +60,8 @@
 | 關閉後結果數 | 顯示 26 / 513 筆收錄 | 顯示 26 / 513 筆收錄（不變） |
 | **第一次「上一頁」** | 網址與畫面完全不變（26／513） | 離開搜尋結果，回到上一頁 |
 | 讀 A→下一則 B→關閉→上一頁 | 空轉一次後才回到 A | 直接回到 A（UC-094） |
-| 分享直鏈 `?case=UC-001` 關閉 | 留在本站、不多一筆 | 留在本站、不多一筆（不變） |
+| 分享直鏈 `?case=UC-001`（乾淨分頁）關閉 | 留在本站、不多一筆 | 留在本站、不多一筆（不變） |
+| 關閉後把結果批次 24→48 再上一頁 | 還原 24 筆（`resultBatch` 24） | 還原 24 筆（`resultBatch` 24，與基準相同） |
 | axe／水平溢出／pageerror | 0／0／0 | 0／0／0 |
 
 截圖（同頁、尺寸、資料狀態；關閉後與第一次上一頁之後）：
@@ -72,13 +74,18 @@
 
 ## 已知限制
 
-- 「空轉一次」是以「到達網址＝被改寫的那一筆、history.length 未變」辨識。若讀者在關閉後先改篩選（`replaceState` 會更新追蹤網址）再按上一頁，追蹤值已不同，因此不會被誤吞（已納入測試設計，見下）；但**沒有**涵蓋「關閉後按上一頁兩次」的每一次 intermediate 狀態。
+- 「空轉一次」的判斷是「到達網址＝被改寫的那一筆、`history.length` 未變、且關閉後**沒有任何後續歷史寫入**」。任何後續寫入（改篩選、擴大結果批次、`readerVisit` 更新）都會讓下一次上一頁回到真正的目的地，不會被吞；代價是若真有背景寫入插在關閉與上一頁之間，那一次上一頁會退回舊行為（停在同網址），屬於安全方向的退化。已用「24→48 批次」與「關閉後改關鍵字」兩條路徑雙向量測。
 - 首頁即第一個歷史項目時，跳過空轉後的那次上一頁會直接離開本站；這是「上一頁＝離開」的預期行為，但本輪沒有為它寫自動斷言。
 - 未在真實慢網路、Firefox／WebKit（除 table-reading）、實機觸控或螢幕閱讀器上驗證。
 
 ## 獨立審查（未參與實作）
 
-見本文件末尾的審查結果段落（由獨立 subagent 依需求、diff 與本機預覽重新量測；不以實作者的敘述為依據）。
+獨立審查者在自己的腳本上對前後兩種建置重測 4 條情境、Escape／背景點擊、A→B 軌跡、關閉後改篩選、另開案例、分享直鏈、Forward、根歷史項目，並確認新測試在基準建置上因正確的原因失敗、在本輪建置上通過。結論 **BLOCK**，1 項確認缺陷：
+
+- **（已修）「回音」判斷太寬，會吞掉真正的結果批次目的地**：原本只比對「到達網址＋`history.length`」，但同網址的停靠點仍可能帶著不同的 `event.state`。重現：清單在 `resultBatch` 24、開案例、關閉、按「再看更多結果」（`replaceState` 只改 state 不改網址）到 48，上一頁應還原 24 筆；舊版會直接跳到 `history.back()` 並離開頁面。修法：包裝層多記一個 `liveHistoryWrites` 寫入次數，`closeDetail()` 記下當下的次數，`popstate` 必須「次數未變」才視為回音。驗證：用審查者自己的 `batch-after-close.cjs` 重跑，前後建置現在都在四種組合下還原 `resultBatch` 24／24 張卡；新測試第 5 條情境在放寬版建置上失敗、在修好的版本上通過。
+- 另採納兩項測試改進：分享直鏈改用全新 context（乾淨分頁，前面沒有站內停靠點）；補上上述批次還原的迴歸斷言。
+
+審查未能驗證：同一 tick 內 Escape＋背景點擊的競態、GitHub Actions 實際執行與 artifact 上傳、Chromium 以外的引擎、正式站、以及新分頁真實網址列的行為。
 
 ## 本輪順帶確認、但未處理的 CI 事實
 

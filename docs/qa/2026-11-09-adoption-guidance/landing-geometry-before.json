@@ -1,0 +1,118 @@
+{
+  "desktop": {
+    "docHeight": 7120,
+    "hero": {
+      "top": 152,
+      "h": 1170
+    },
+    "draw": {
+      "top": 152,
+      "h": 1119
+    },
+    "explore": {
+      "top": 1378,
+      "h": 5067
+    },
+    "taskNav": {
+      "top": 541,
+      "h": 74
+    },
+    "problemTags": {
+      "top": 623,
+      "h": 408
+    },
+    "guideOptions": {
+      "top": 956,
+      "h": 287
+    },
+    "heroSearch": {
+      "top": 459,
+      "h": 52
+    },
+    "valueProps": {
+      "top": 1149,
+      "h": 112
+    },
+    "guideSteps": {
+      "top": 1285,
+      "h": 20
+    },
+    "query": {
+      "top": 1528,
+      "h": 64
+    },
+    "resultsHeading": {
+      "top": 1719,
+      "h": 52
+    },
+    "firstCard": {
+      "top": 281,
+      "h": 440
+    },
+    "cardCount": 25,
+    "cardsInViewport": 1,
+    "tabStopsBeforeQuery": 82,
+    "totalFocusables": 239,
+    "taskLinks": 3,
+    "problemTagLinks": 53,
+    "facetsOpen": true
+  },
+  "mobile": {
+    "docHeight": 16580,
+    "hero": {
+      "top": 104,
+      "h": 1020
+    },
+    "draw": {
+      "top": 1152,
+      "h": 1353
+    },
+    "explore": {
+      "top": 2545,
+      "h": 13087
+    },
+    "taskNav": {
+      "top": 408,
+      "h": 74
+    },
+    "problemTags": {
+      "top": 490,
+      "h": 148
+    },
+    "guideOptions": {
+      "top": 2198,
+      "h": 287
+    },
+    "heroSearch": {
+      "top": 336,
+      "h": 48
+    },
+    "valueProps": {
+      "top": 853,
+      "h": 213
+    },
+    "guideSteps": {
+      "top": 1086,
+      "h": 20
+    },
+    "query": {
+      "top": 2698,
+      "h": 56
+    },
+    "resultsHeading": {
+      "top": 2858,
+      "h": 44
+    },
+    "firstCard": {
+      "top": 1270,
+      "h": 573
+    },
+    "cardCount": 25,
+    "cardsInViewport": 0,
+    "tabStopsBeforeQuery": 39,
+    "totalFocusables": 197,
+    "taskLinks": 3,
+    "problemTagLinks": 53,
+    "facetsOpen": true
+  }
+}

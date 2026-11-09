@@ -408,7 +408,9 @@ async function expandProblemTags(page){
     await page.locator('#search-submit').click();
     await page.locator('#results .card').first().waitFor({ timeout: 10000 });
     const meetingCount = await page.locator('#results .card').count();
-    assert.ok(meetingCount >= 9, `整理一份會議記錄 must recall >= 9 cases (found ${meetingCount})`);
+    // 8, not 9: the ninth card was UC-349, whose only 筆記 hit was `memo` inside the
+    // X handle of a source URL (x.com/tetumemo). Source links are not case content.
+    assert.ok(meetingCount >= 8, `整理一份會議記錄 must recall >= 8 cases (found ${meetingCount})`);
 
     const searchAxe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
     assert.equal(searchAxe.violations.length, 0, `Search results accessibility violations on ${vp.name}`);

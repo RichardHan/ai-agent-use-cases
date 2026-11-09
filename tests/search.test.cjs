@@ -89,7 +89,12 @@ assert(punctMatches.some(x => x.id === 'UC-040'), 'punctuation-separated query m
 const topicTravel=api.filterEntries(entries,api.tokenize('旅遊'),{scope:'topic'});
 assert(topicTravel.some(x=>x.id==='UC-040'),'topic travel includes UC-040 classification/tags');
 assert(!topicTravel.some(x=>x.id==='UC-076'),'topic travel excludes UC-076 author byline');
-assert(api.filterEntries(entries,api.tokenize('旅遊'),{}).some(x=>x.id==='UC-076'),'full text still finds incidental author wording');
+// UC-076 used to stand in here because the author line said "Travis Heinze travels":
+// `travel` inside `travels` is an inflected author word, not a travel case, so the
+// synonym now matches the word only. UC-015 mentions 旅遊 incidentally in a
+// limitation note, which is what full-text scope is for.
+assert(!api.filterEntries(entries,api.tokenize('旅遊'),{}).some(x=>x.id==='UC-076'),'an inflected byline word is not a travel hit');
+assert(api.filterEntries(entries,api.tokenize('旅遊'),{}).some(x=>x.id==='UC-015'),'full text still finds incidental prose wording');
 const topicFixture=[
   {id:'UC-901',title:'整理路線',summary:'規劃出門',coreGoal:'安排日程',category:'旅遊規劃',tags:['排程'],search:'旅遊 作者',scenario:'生活',tools:[],kind:'case'},
   {id:'UC-902',title:'整理文件',summary:'分類備忘錄',coreGoal:'快速歸檔',category:'行政',tags:['文件'],search:'旅遊 作者',scenario:'生活',targetUser:'旅行規劃者',tools:[],kind:'case'}
@@ -548,8 +553,14 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('會議紀要')), {}).
 assert(api.filterEntries(entries, Array.from(api.tokenize('minutes')), {}).some(x => x.id === 'UC-094'), 'minutes matches UC-094 via 會議紀錄/會議 synonym');
 
 // Search quality: Large language model synonyms
-assert(api.filterEntries(entries, Array.from(api.tokenize('大型語言模型')), {}).some(x => x.id === 'UC-161'), '大型語言模型 matches UC-161 via llm/模型 synonym');
-assert(api.filterEntries(entries, Array.from(api.tokenize('大模型')), {}).some(x => x.id === 'UC-161'), '大模型 matches UC-161 via llm/模型 synonym');
+// UC-161's only `llm` was inside GitHub URLs (LLM-Alignment-Atlas). Reading it as a
+// synonym hit meant a source repository name counted as case content; UC-016 writes
+// `LLM 驅動 Bot` in its own text, so the expansion now points there instead. Typing
+// `llm` still finds UC-161, because the reader's own word may match a URL.
+assert(api.filterEntries(entries, Array.from(api.tokenize('大型語言模型')), {}).some(x => x.id === 'UC-016'), '大型語言模型 matches UC-016 via llm/模型 synonym');
+assert(!api.filterEntries(entries, Array.from(api.tokenize('大型語言模型')), {}).some(x => x.id === 'UC-161'), 'a repository name is not a language-model case');
+assert(api.filterEntries(entries, Array.from(api.tokenize('llm')), {}).some(x => x.id === 'UC-161'), 'typing llm still matches the URL the reader aimed at');
+assert(api.filterEntries(entries, Array.from(api.tokenize('大模型')), {}).some(x => x.id === 'UC-016'), '大模型 matches UC-016 via llm/模型 synonym');
 
 // Search quality: Scraping (爬取) verb
 assert(api.filterEntries(entries, Array.from(api.tokenize('爬取')), {}).some(x => x.id === 'UC-060'), '爬取 matches UC-060 via 爬蟲/抓取 synonym');
@@ -722,8 +733,11 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('concurrency')), {}).s
 assert(api.filterEntries(entries, Array.from(api.tokenize('concurrent')), {}).some(x => x.id === 'UC-005'), 'concurrent matches UC-005 via 並行/並發 synonym');
 
 // Search quality: Stream, streaming, 串流, 流式 synonyms
-assert(api.filterEntries(entries, Array.from(api.tokenize('streaming')), {}).some(x => x.id === 'UC-217'), 'streaming matches UC-217 via 串流 synonym');
-assert(api.filterEntries(entries, Array.from(api.tokenize('流式')), {}).some(x => x.id === 'UC-217'), '流式 matches UC-217 via 串流 synonym');
+// UC-217 used to stand in here, but its only `stream` was `bitstream` (an FPGA
+// artifact). UC-292 streams model output line by line, which is what the synonym is for.
+assert(api.filterEntries(entries, Array.from(api.tokenize('streaming')), {}).some(x => x.id === 'UC-292'), 'streaming matches UC-292 via 串流 synonym');
+assert(!api.filterEntries(entries, Array.from(api.tokenize('streaming')), {}).some(x => x.id === 'UC-217'), 'bitstream is not streaming');
+assert(api.filterEntries(entries, Array.from(api.tokenize('流式')), {}).some(x => x.id === 'UC-292'), '流式 matches UC-292 via 串流 synonym');
 
 // Search quality: Terminal, console, 終端, 命令列, 命令行 synonyms
 assert(api.filterEntries(entries, Array.from(api.tokenize('terminal')), {}).some(x => x.id === 'UC-061'), 'terminal matches UC-061 via 命令列/cli synonym');
@@ -965,7 +979,7 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('idempotency')), {}).s
 assert(api.filterEntries(entries, Array.from(api.tokenize('環境變量')), {}).some(x => x.id === 'UC-061'), '環境變量 matches UC-061 via 環境變數 synonym');
 
 // Search quality: plurals symmetry
-assert(api.filterEntries(entries, Array.from(api.tokenize('llms')), {}).some(x => x.id === 'UC-161'), 'llms matches UC-161 via llm synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('llms')), {}).some(x => x.id === 'UC-016'), 'llms matches UC-016 through its own LLM wording');
 assert(api.filterEntries(entries, Array.from(api.tokenize('diffs')), {}).some(x => x.id === 'UC-005'), 'diffs matches UC-005 via diff synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('browsers')), {}).some(x => x.id === 'UC-005'), 'browsers matches UC-005 via browser synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('webpages')), {}).some(x => x.id === 'UC-015'), 'webpages matches UC-015 via webpage synonym');
@@ -1360,10 +1374,13 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('json-schema')), {}).s
 assert(api.filterEntries(entries, Array.from(api.tokenize('json schema')), {}).some(x => x.id === 'UC-062'), 'json schema matches UC-062 via json-schema tokenization');
 
 // Search quality: sse, server sent events, server-sent events, 流式輸出, 流式傳輸
-assert(api.filterEntries(entries, Array.from(api.tokenize('流式輸出')), {}).some(x => x.id === 'UC-030'), '流式輸出 matches UC-030 via stream/sse synonym');
-assert(api.filterEntries(entries, Array.from(api.tokenize('流式傳輸')), {}).some(x => x.id === 'UC-030'), '流式傳輸 matches UC-030 via stream/sse synonym');
-assert(api.filterEntries(entries, Array.from(api.tokenize('server sent events')), {}).some(x => x.id === 'UC-030'), 'server sent events matches UC-030 via sse tokenization');
-assert(api.filterEntries(entries, Array.from(api.tokenize('server-sent events')), {}).some(x => x.id === 'UC-030'), 'server-sent events matches UC-030 via sse tokenization');
+// UC-030 used to stand in here because its media file lives under `/assets/`, which
+// contains the letters sse. UC-292 streams model output, which is the real answer.
+assert(api.filterEntries(entries, Array.from(api.tokenize('流式輸出')), {}).some(x => x.id === 'UC-292'), '流式輸出 matches UC-292 via stream/sse synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('流式傳輸')), {}).some(x => x.id === 'UC-292'), '流式傳輸 matches UC-292 via stream/sse synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('server sent events')), {}).some(x => x.id === 'UC-292'), 'server sent events matches UC-292 via sse tokenization');
+assert(api.filterEntries(entries, Array.from(api.tokenize('server-sent events')), {}).some(x => x.id === 'UC-292'), 'server-sent events matches UC-292 via sse tokenization');
+assert(!api.filterEntries(entries, Array.from(api.tokenize('server sent events')), {}).some(x => x.id === 'UC-030'), 'an /assets/ path is not an SSE hit');
 
 // Search quality: jira, zendesk, 工單, ticket
 assert(api.filterEntries(entries, Array.from(api.tokenize('jira')), {}).some(x => x.id === 'UC-164'), 'jira matches UC-164 via ticket synonym');
@@ -1461,17 +1478,22 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('vector search')), {})
 assert(api.filterEntries(entries, Array.from(api.tokenize('向量檢索')), {}).some(x => x.id === 'UC-060'), '向量檢索 matches UC-060 via vector-search synonym');
 
 // Search quality: 2fa, mfa, 雙重驗證, 二步驟驗證, 兩步驟驗證
+// UC-259 and UC-219 used to stand in here because `2fa` appeared inside a commit
+// hash (`...ae85ea1a5ee2fab...`) in a source URL. UC-092 refuses to hand over a
+// 雙重驗證碼, which is the real second-factor hit.
 assert(api.filterEntries(entries, Array.from(api.tokenize('2fa')), {}).some(x => x.id === 'UC-092'), '2fa matches UC-092 via 2fa synonym');
-assert(api.filterEntries(entries, Array.from(api.tokenize('mfa')), {}).some(x => x.id === 'UC-219'), 'mfa matches UC-219 via 2fa synonym');
-assert(api.filterEntries(entries, Array.from(api.tokenize('二步驟驗證')), {}).some(x => x.id === 'UC-259'), '二步驟驗證 matches UC-259 via 2fa synonym');
-assert(api.filterEntries(entries, Array.from(api.tokenize('兩步驟驗證')), {}).some(x => x.id === 'UC-259'), '兩步驟驗證 matches UC-259 via 2fa synonym');
-assert(api.filterEntries(entries, Array.from(api.tokenize('雙重驗證')), {}).some(x => x.id === 'UC-219'), '雙重驗證 matches UC-219 via 2fa synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('mfa')), {}).some(x => x.id === 'UC-092'), 'mfa matches UC-092 via 2fa synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('二步驟驗證')), {}).some(x => x.id === 'UC-092'), '二步驟驗證 matches UC-092 via 2fa synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('兩步驟驗證')), {}).some(x => x.id === 'UC-092'), '兩步驟驗證 matches UC-092 via 2fa synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('雙重驗證')), {}).some(x => x.id === 'UC-092'), '雙重驗證 matches UC-092 via 2fa synonym');
+assert(!api.filterEntries(entries, Array.from(api.tokenize('2fa')), {}).some(x => x.id === 'UC-259'), 'a hex commit hash is not a second factor');
 
 // Search quality: cot, chain of thought, chain-of-thought, 思維鏈, 思考鏈
-assert(api.filterEntries(entries, Array.from(api.tokenize('chain of thought')), {}).some(x => x.id === 'UC-086'), 'chain of thought matches UC-086 via cot tokenization');
-assert(api.filterEntries(entries, Array.from(api.tokenize('chain-of-thought')), {}).some(x => x.id === 'UC-086'), 'chain-of-thought matches UC-086 via cot tokenization');
-assert(api.filterEntries(entries, Array.from(api.tokenize('思維鏈')), {}).some(x => x.id === 'UC-086'), '思維鏈 matches UC-086 via cot synonym');
-assert(api.filterEntries(entries, Array.from(api.tokenize('思考鏈')), {}).some(x => x.id === 'UC-086'), '思考鏈 matches UC-086 via cot synonym');
+// No case in this library documents chain-of-thought prompting. UC-086 used to be
+// returned because `cot` sat inside another word; that is a substring, not a case.
+for (const query of ['cot', 'chain of thought', 'chain-of-thought', '思維鏈', '思考鏈']) {
+  assert(!api.filterEntries(entries, Array.from(api.tokenize(query)), {}).some(x => x.id === 'UC-086'), `${query} must not match cot inside a longer word`);
+}
 
 // Search quality: isolation, airgap, air-gap, 網路隔離
 assert(api.filterEntries(entries, Array.from(api.tokenize('isolation')), {}).some(x => x.id === 'UC-005'), 'isolation matches UC-005 via 隔離 synonym');

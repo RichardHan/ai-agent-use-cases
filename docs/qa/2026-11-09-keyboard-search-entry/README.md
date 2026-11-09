@@ -86,6 +86,7 @@
 - 沒有真人使用研究；本輪量的是焦點位置、live region 寫入次數與 axe 結果。
 - `#results-count` 仍逐字更新並播報（搜尋即時回饋的主要通道），本輪只移除另外兩個重複／高頻的 live region。
 - 「改篩選換卡要播報」的判定靠比對上一次繪製時的關鍵字：若同一次操作同時改關鍵字與篩選（例如任務捷徑自帶 `q=`），換卡仍視為打字情境而不播報，只由結果筆數發聲。
+- 同一頁內重試補讀（`#retry-failed` 或整頁載入失敗後按「重新載入」）時，若搜尋字詞沒變，會把卡片變更視為篩選造成的換卡並播報一則「已換一張」；這是重試後的額外播報，不算錯誤，但屬噪音。
 - `/` 快捷鍵在輸入框、下拉選單、文字區或案例視窗內不作用；頁面上只以輸入框旁的 `/` 與 `aria-keyshortcuts` 揭露，沒有額外文案（會佔掉 320px 的搜尋框到結果預算）。
 - CI 診斷：本輪第一次推送時 `Source guide QA` 的 preview job 失敗，日誌截斷在 `source-guide-browser` 的報告之後。由 artifact 檔案清單確認：`source-guide-chromium-expanded-small-mobile.jpg` 與 `source-guide-chromium.json` 未產生，失敗點在 `mobile-search-browser.cjs` 的 320px `firstResultFromSearch<300` 斷言；同一份 artifact 在 main 的 CI 量到 283px。原因就是上面那句追加文案，已改為不佔版面的做法。
 
@@ -97,3 +98,29 @@
 2. 空牌組去重只看文字，離開後再回來不會重播。已改成以狀態鍵去重，並補測試。
 3. `/` 提示寫成「頁面任何位置」，但輸入框與案例視窗內實際無效。已改為「不在輸入框或案例視窗內時」。
 4. 紀錄原本把量測寫成「正式站實測」，但 JSON 記錄的是本機預覽、且數字是另一次執行。已改寫來源與數字（本節開頭）。
+
+## 發布
+
+| 狀態 | 內容 |
+| --- | --- |
+| 已提交 | `2c7e5e3f`（主要改動）、`3251158c`（review 修正）、`6c5debce`（320px 預算修正），分支 `improve/20261109-keyboard-search-entry` |
+| 已推送 | `origin/improve/20261109-keyboard-search-entry` → PR [#282](https://github.com/RichardHan/ai-agent-use-cases/pull/282) |
+| PR 檢查 | 13 個 check 全部 pass；2 個 `published` job 依設計在 PR 上 skip。失敗過的 `Source guide QA`（run [42544474594](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42544474594)／[42543141698](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42543141698)）在 `6c5debce` 的 run [42545547754](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42545547754) 通過 |
+| 已合併 | `32e3a7a6` Merge pull request #282（base `37090a56`，合併前 main 為 `37090a56`） |
+| 合併後 CI | `pages-build-deployment` run [42546597665](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42546597665)；`Website QA` run [42546598982](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42546598982)（含 published 階段） |
+| 部署 | **尚未確認**。run [42546597665](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42546597665) 的 build 成功；`Deploy to GitHub Pages` 兩次都在 `syncing_files` 停留到 600 秒上限後失敗（01:49:23、02:00:53），狀態為 `failure` 且無描述。第一次失敗後以「GitHub 端部署逾時、非程式或檢查問題」為由只重跑失敗 job 一次，得到相同結果，不再無限重試。同時 `gh api repos/…/pages` 回報 `status: errored`；GitHub 狀態頁當時為 operational。正式站 `catalog.json` 的 `sourceRevision` 在兩次嘗試後仍是 `37090a56`，即**本輪改動尚未上線** |
+
+### 部署阻塞的後續處理
+
+- [ ] 等 GitHub Pages 佇列恢復後，再以新的 push（例如本紀錄的更新）觸發一次部署；不要只按重跑。
+- [ ] 部署成功後以 `sourceRevision` 與 `assets/app.js`／`index.html` 的 sha256 核對（合併版 `app.js` sha256 前 16 碼 `0fa69d912f6cf13c`、`index.html` `95b5933e4d5fb3e8`；兩次嘗試後正式站仍是舊值 `b473a8be254a0191`／`fa7a52744407a2f9`，屬預期，因為部署沒完成）。
+- [ ] 正式站更新後跑本輪的鍵盤／播報檢查：Tab→Enter 焦點在 `#query`、輸入 4 個字只寫 `#results-count`、`#draw-announcer` 在打字時為空、axe 0。
+- 這與 2026-11-07 的 Pages `syncing_files` 逾時同型；那次重跑一次即成功，這次沒有。兩次失敗的狀態紀錄都沒有描述，**不能**斷定根因，也不宜把重跑成功當成修復。
+
+## 下一輪最值得處理的一件事
+
+**「實作門檻」目前是關鍵字推測，卻以案例事實呈現。** 證據：`grep '實作門檻|難度：|入門對話|進階開發' cases/*.md` 在 503 個案例頁中 0 命中，值全部由 `assets/app.js` 的 `extractDifficulty()` 以整頁關鍵字推導；`cases/099-travel-photo-scrapbook.md:39`（照片紀念冊，工具是 Grok Bot／照片資料夾）只因為「原始照片、腳本、完整影片未公開」這句話裡的「腳本」就被標成「進階開發（需本機環境或代碼）」，於是被「免寫程式」篩選排除。
+
+先在下一輪做的驗證：用 `extractDifficulty()` 跑全庫（可重用 `tests/difficulty-and-problem-discovery.test.cjs` 的 vm harness），列出每個案例的觸發詞；再人工核對「只由 `腳本` 觸發」的那批。**不要**直接把 `腳本` 從規則移除：同一批裡 `cases/368-dots-3d-scene-assets-to-local-agent-unreal-import.md` 確實需要本機引擎，移除後會變成「入門對話」，反而誤導非工程師。可走的方向是「案例可宣告 `- 實作門檻：`，未宣告才推測，且推測在 UI 標明」，並對已確認誤判的案例補宣告。
+
+另一個候選（較小、但屬同一類「數字要說出基準」）：首頁 `index.html:116` 寫 `/ 1,000 案`，而 `sources/research-2026-10-22-0840.md:10` 記「總目標2000；1000只是中途里程碑」，`INDEX.md` 的批次紀錄也反覆寫「2000口徑待確認」。這需要 owner 決定目標口徑，再改成由來源檔宣告、UI 讀取，不宜由本輪自行選一個數字。

@@ -10,6 +10,8 @@
 
 已知限制：UC-181 的步驟只寫在 H3 子標題下、UC-072／430 的限制段落整段是引用行、UC-278 的 `實作與限制` 混寫步驟與限制，這四篇維持通用句，屬下一輪候選。詞彙表仍是字面比對，新寫法會再落回通用句；全語料掃描測試只覆蓋目前已出現的寫法。本輪環境無法顯示圖片，前後截圖只存檔（`/tmp/r6shots/`），判斷依據是 DOM 文字與幾何量測，未以肉眼比對。[資料、方案、前後數據與限制](docs/qa/2026-11-09-detail-guidance-fidelity/README.md)。
 
+發布補記：PR [#297](https://github.com/RichardHan/ai-agent-use-cases/pull/297)（head `fa896c8d`）13 項 PR 檢查全 pass、`published` 依設計 skipping，squash 合併為 `24c6c376`。`pages build and deployment`（[42595110288](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42595110288)）與 main 的 `Website QA`（[42595110739](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42595110739)）皆 success（含 published-version 與 deployed-browser 兩段）。正式站 `catalog.json` 的 `sourceRevision` 已等於 `24c6c376…`、510 個來源檔，`assets/app.js` 與合併版本逐 byte 相同（`tests/` 依 `_config.yml` 不發布，故不比對）。正式站 1440／390／320 重走 13 篇：11 篇顯示自己的「怎麼開始」、UC-185 顯示 `官方背景與界線` 的限制、UC-195 的「要注意什麼」與 UC-181 的「怎麼開始」仍為通用句（已知限制），水平溢出與 pageerror 皆 0；三情境（`發票對帳`→44 筆→詳情、`契約審查＋創作` 0 筆→20 筆、`?scenario=工作&case=UC-192` 直鏈→Escape 返回 161 筆）通過。正式站總條目數在本輪之後為 513（506 案例頁＋3 經驗＋4 待查），與本輪改動無關，來自 PR #295 的待查計數調整。
+
 下一輪先做 **main 發布驗證的可靠性**：57 個 workflow 全部 `cancel-in-progress: true`，而只有 `website-qa.yml` 在 `refs/heads/main` 上觸發並做已發布版本核對（`tests/published-version.cjs`）；main 連續合併時，後一次 push 會取消前一次的發布驗證，取消不顯示紅燈，部署就變成「沒被驗證過」。同批證據：一次 PR push 觸發 14 個 run、其中 12 個重跑同一套 552 項單元測試，近 100 個 run 有 30 個被取消、`Source guide QA` 在視窗內 0/7 完成。先驗證的是 `gh run list --workflow=website-qa.yml --branch main` 是否真的沒有 main 上的 cancelled，再改 `concurrency` 與重複的單元測試步驟。
 
 ## 2026-11-10 「實作門檻」是關鍵字猜的，卻長得像案例事實

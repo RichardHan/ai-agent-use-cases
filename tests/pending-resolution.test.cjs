@@ -67,7 +67,7 @@ test('the pending counter counts open leads, matching the source document and th
   assert.equal(Number(indexLine[1]), counts.pending, 'the site counter and INDEX.md must use the same rule');
 });
 
-test('the 還在查證 filter keeps every lead reachable while marking the resolved one', () => {
+test('the 待查線索 filter keeps every lead reachable while marking the resolved one', () => {
   // Hiding the merged lead would break the facet total (503 + 3 + 2 ≠ 509) and
   // make it unreachable from the filter, so it stays listed with its state.
   const listed = api.filterEntries(pendingEntries, [], { kind: 'pending' });
@@ -78,6 +78,13 @@ test('the 還在查證 filter keeps every lead reachable while marking the resol
   const terms = Array.from(api.tokenize('電信帳單'));
   const found = api.filterEntries(pendingEntries, terms, {});
   assert.ok(found.some(entry => entry.id === 'P-002'), 'the merged lead must remain findable by its own text');
+});
+
+test('the old pending terms still find every pending record through the search index', () => {
+  for (const term of ['還在查證', '待查想法', '待查線索']) {
+    const found = api.filterEntries(pendingEntries, Array.from(api.tokenize(term)), {});
+    assert.deepEqual(found.map(entry => entry.id).sort(), ['P-001', 'P-002', 'P-003'], `${term} must still find all pending records`);
+  }
 });
 
 test('catalog counts separate case, evidence and pending entries', () => {

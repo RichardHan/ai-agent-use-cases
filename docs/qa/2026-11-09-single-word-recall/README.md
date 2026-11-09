@@ -124,8 +124,21 @@
 
 | 狀態 | 內容 |
 | --- | --- |
-| 已提交 | 見 PR 內 commit（`fix(search)` 主要改動＋紀錄） |
-| 已推送 | 分支 `improve/20261109-r7` |
-| PR | 待補（合併後回填 squash commit 與 run URL） |
-| 部署 | 待補 |
-| 正式站已驗證 | 待補 |
+| 已提交 | `5f15aa52`（六條規則＋測試＋紀錄）、`4abe5f40`（獨立審查修正：撤回 README 過度概括的句子、修正 38 筆的組成、rebase 後數字） |
+| 已推送 | `origin/improve/20261109-single-word-recall`（rebase 到 `ccdac4ea` 後 force-with-lease） |
+| PR | [#303](https://github.com/RichardHan/ai-agent-use-cases/pull/303)，head `4abe5f40`：13 項非略過檢查全 pass、2 項 `published` 依設計在 PR 上 skipping |
+| 已合併 | squash `f96d882f50a3774743633b56bbf6039c4d4bb958`（base `ccdac4ea`） |
+| 部署 | `pages build and deployment` [42618331074](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42618331074) build／report／deploy 全 success |
+| 正式站已驗證 | 是：`catalog.json.sourceRevision` = `f96d882f…`、510 個來源檔；`assets/app.js` 與合併版本逐 byte 相同（SHA-256 `7d3ae0b8…`） |
+
+### 正式站核對（`f96d882f`，Chromium 1440×900／390×844／320×740）
+
+| 檢查 | 結果 |
+| --- | --- |
+| `?q=失敗` | **285 / 513**，前三張 UC-159／UC-169／UC-362（三個視窗一致） |
+| `?q=詐騙` | **11 / 513**，第一張 UC-275 |
+| `?q=派工` | **81 / 513**，第一張 UC-061 |
+| `?q=數據儀表板` | **11 / 513**，第一張 UC-459 |
+| 手機 `/` → 輸入「失敗」→ Enter | 285 筆、第一張卡在 289px（視窗 844）、焦點在結果摘要 |
+| `?case=UC-514` → Escape | 詳情開啟、來源連結固定到 `blob/f96d882f…`、Escape 回探索 513 筆 |
+| pageerror／水平溢出 | 三種寬度皆 0 |

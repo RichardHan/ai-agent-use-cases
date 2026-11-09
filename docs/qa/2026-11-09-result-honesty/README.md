@@ -84,3 +84,22 @@
 
 ## 下一輪建議
 先做「跨任務同義詞」決策：以本輪量到的 `報帳審核 66→2`、`出差報銷 4→0` 為基礎，逐條確認 11 支 recall 測試的期望是否仍是產品想要的語彙，再決定收斂同義詞或改由標籤詞優先。驗證先跑 `tests/search.test.cjs`、`tests/problem-compound-queries.test.cjs` 與 `tests/relevance.test.cjs`。
+
+## 發布
+
+| 狀態 | 內容 |
+| --- | --- |
+| 已提交 | `ecb00197`（主要改動）、`600c2c42`（池鍵過期修正）、`fd725a76`（還原被本機測試覆寫的 103 張證據圖）、`c202d7ee`（獨立審查四項修正）、`8c0df8b7`（SITE.md 紀錄）、`1c2c12cc`（最終前後截圖） |
+| 已推送 | `origin/improve/20261109-round-sources` → PR [#284](https://github.com/RichardHan/ai-agent-use-cases/pull/284) |
+| PR 檢查 | 13 個 check pass；2 個 `published` job 依設計在 PR 上 skip（`gh pr checks 284`） |
+| 已合併 | `010a9704` Merge pull request #284（base `f71bbe5f`） |
+| 合併後 CI | `pages-build-deployment` run [42554902585](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42554902585)：build 與 deploy 均 success；`Website QA` run [42554903192](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42554903192) |
+| 部署 | 成功；正式站 `catalog.json` 的 `sourceRevision` 為 `010a9704…`、`builtAt` 2026-11-09、510 個來源檔 |
+| 正式站已驗證 | 是（見下節） |
+
+### 正式站核對（`010a9704`）
+- `index.html` 含 `#purpose-gap`；`員工排班` 顯示 5 筆、面板「4 張可抽案例卡（另有 1 筆不是可抽案例，仍列在結果）」、批次文字為空；`契約審查` 19＋1＝20；`會議` 24＋2＝26。
+- `播客摘要`：提示「在所選條件下，沒有案例的標題、用途或痛點同時包含「播客」「摘要」…」＋「改搜「摘要」→ 25 筆（標題、用途與痛點）」；點擊後顯示 25 筆、URL `?q=摘要&scope=overview`。
+- 對正式站直接重跑 `VERIFY_URL=https://richardhan.github.io/ai-agent-use-cases/ node tests/result-count-honesty-browser.cjs`：桌面與手機皆通過。
+- `?scenario=工作&case=UC-098#explore` 在 1440×900 與 390×844 都自動開啟詳情（`<dialog>`），證據字樣 22 處，`.detail-source` 指向 `blob/010a9704…/cases/098-…md`；Escape 後 URL 保留 `?scenario=工作`、24 張卡；pageerror 0。
+- 需要說明：本紀錄 commit 之後會再觸發一次 Pages 建置，屆時 `sourceRevision` 會前進到紀錄 commit，但 `index.html`、`assets/app.js`、`assets/style.css` 與 `tests/**` 不會改變（只有文件）。

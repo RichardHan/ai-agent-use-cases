@@ -8,7 +8,9 @@
 
 獨立審查（未參與實作）另抓到四項並已修：空牌組的 `discoveryKey` 恆為 `"||"`，換字詞時面板會停在上一組的「符合的 N 筆」（改由 `emptyPoolText()` 依目前筆數重建，測試補「模板來源＋摘要→會議」）；「只在正文出現」在有篩選時改用全站用途欄位計數判斷；所選條件下所有字詞都是 0 時，動作退回全站最佳字詞並明寫「（清除目前篩選）」；按鈕的 `aria-describedby` 由「主題」範圍說明改指自己的說明段落。同輪也把 `tests/visitor-problem-browser.cjs` 的預設輸出從 `docs/qa/2026-11-08-visitor-adoption` 改到 `qa-artifacts/visitor-problem`，避免本機跑測試覆寫上一輪的證據圖，並還原被覆寫的 103 張截圖。
 
-已知限制：提示只判斷字詞是否同時出現在標題／用途／痛點，不是語意理解；同義詞仍會讓無關案例通過（`員工排班` 經「輪班」同義詞命中 UC-317 標題，因此不觸發提示）。抽卡差額只說筆數，未逐一列出哪一筆不可抽。提示不是 live region，讀屏要靠閱讀順序發現。本輪未處理手機首頁到第一個案例的行動成本、詳情頁核讀狀態在第一屏之外、`512 筆收錄` 與 `506 案例頁` 的口徑說明。CI 另行確認：57 個 workflow 全部已有 concurrency，近 200 筆 run 為 159 成功／5 失敗（皆為真回歸）／33 取消，main 部署不受 Website QA 節制（pages 先完成、QA 事後稽核）。[方案、前後截圖與限制](docs/qa/2026-11-09-result-honesty/README.md)。下一輪先決定跨任務同義詞要不要收斂：以 `報帳審核 66→2`、`出差報銷 4→0` 為基礎，先跑 `tests/search.test.cjs`、`tests/problem-compound-queries.test.cjs`、`tests/relevance.test.cjs` 逐條確認 11 支 recall 期望是否仍是產品要的語彙。
+已知限制：提示只判斷字詞是否同時出現在標題／用途／痛點，不是語意理解；同義詞仍會讓無關案例通過（`員工排班` 經「輪班」同義詞命中 UC-317 標題，因此不觸發提示）。抽卡差額只說筆數，未逐一列出哪一筆不可抽。提示不是 live region，讀屏要靠閱讀順序發現。本輪未處理手機首頁到第一個案例的行動成本、詳情頁核讀狀態在第一屏之外、`512 筆收錄` 與 `506 案例頁` 的口徑說明。CI 另行確認：57 個 workflow 全部已有 concurrency，近 200 筆 run 為 159 成功／5 失敗（皆為真回歸）／33 取消，main 部署不受 Website QA 節制（pages 先完成、QA 事後稽核）。[方案、前後截圖與限制](docs/qa/2026-11-09-result-honesty/README.md)。發布補記：PR [#284](https://github.com/RichardHan/ai-agent-use-cases/pull/284)（13 個 check pass、2 個 `published` 依設計 skip）合併為 `010a9704`；[Pages 42554902585](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42554902585) 成功、[Website QA 42554903192](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42554903192) 於主分支執行。正式站 `catalog.json` 的 `sourceRevision` 為 `010a9704…`，`員工排班` 面板「4 張可抽案例卡（另有 1 筆…）」、批次文字為空；`播客摘要` 顯示提示與「改搜「摘要」→ 25 筆」，點擊後 25 筆、URL `?q=摘要&scope=overview`；對正式站重跑新測試（桌面／手機）通過；`?scenario=工作&case=UC-098#explore` 兩尺寸都自動開詳情、來源固定於 `010a9704…`、Escape 後情境保留。
+
+下一輪先決定跨任務同義詞要不要收斂：以 `報帳審核 66→2`、`出差報銷 4→0` 為基礎，先跑 `tests/search.test.cjs`、`tests/problem-compound-queries.test.cjs`、`tests/relevance.test.cjs` 逐條確認 11 支 recall 期望是否仍是產品要的語彙。
 
 ## 2026-11-09 桌面版輸入問題後，第一張卡留在同一畫面
 

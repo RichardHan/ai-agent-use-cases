@@ -148,6 +148,25 @@ let allowAutomaticArrival=true, searchShareRequest=0;
 let recoveringSources=false, recoveryNotice='', recoveryController=null, recoveryProgress=null;
 let initialLoading=false, initialLoadController=null;
 let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null,drawnItemId='',drawPoolQuery=null,announcedDrawKey='',drawPoolMatches=0,drawPoolTotal=0,drawStatusSuffix=null,drawStatusPrefix='',drawStatusMode='other';
+// Closing a case rewrites the entry that reading it created into the list URL.
+// Two adjacent identical history stops then remain, so the reader's next Back
+// press lands on the same screen and looks like nothing happened. Track the URL
+// of the entry the reader is actually on, so the one no-op pop a close creates
+// can be recognised and skipped — without removing the stops that hold the
+// reader's reading trail (a case reached from another case must stay reachable).
+let liveHistoryURL=typeof location==='undefined'?'':location.href, liveHistoryLength=typeof history==='undefined'?0:history.length, spentDetailStop=null;
+if(typeof history!=='undefined'){
+  for(const method of ['pushState','replaceState']){
+    const write=history[method];
+    if(typeof write!=='function')continue;
+    const bound=write.bind(history);
+    history[method]=function(state,title,url){
+      const result=bound(state,title,url);
+      liveHistoryURL=location.href;liveHistoryLength=history.length;
+      return result;
+    };
+  }
+}
 const RESULT_BATCH_SIZE=24;
 let visibleResults=RESULT_BATCH_SIZE, resultQueryKey='';
 const $ = id => document.getElementById(id);
@@ -1884,6 +1903,9 @@ function closeDetail() {
   const url = new URL(location.href);
   url.searchParams.delete('case');
   history.replaceState(history.state, '', url);
+  // This entry now repeats the list stop behind it; the next Back press is only
+  // the echo of this close, not a request to leave the results.
+  spentDetailStop = {url:liveHistoryURL, length:liveHistoryLength};
   updateMissingCase();
   syncPageContext();
   restoreDetailFocus();
@@ -4299,6 +4321,17 @@ document.addEventListener('keydown', e => {
 });
 window.addEventListener('popstate', event => {
   rememberReadingView();
+  const spent=spentDetailStop;
+  spentDetailStop=null;
+  // The close rewrote the case entry into the list URL, so the first Back press
+  // arrives at a stop that is identical to the one the reader is already on.
+  // Skip that echo once: the press should move the reader, not do nothing.
+  if(spent&&history.length===spent.length&&liveHistoryURL===spent.url&&location.href===spent.url){
+    liveHistoryURL=location.href;liveHistoryLength=history.length;
+    history.back();
+    return;
+  }
+  liveHistoryURL=location.href;liveHistoryLength=history.length;
   const params = new URLSearchParams(location.search);
   const id = params.get('case');
   const item = matchCase(id);

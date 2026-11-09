@@ -998,7 +998,17 @@ function metadata(markdown, path, kind, suffix='') {
   // Require the dated status line ("2026-10-17 已處理") so that prose such as
   // "未取得…已完成操作流程" is not mistaken for a resolution.
   const resolved = kind === 'pending' && /^\d{4}-\d{2}-\d{2}[^。；]{0,10}已(?:處理|解決|完成)/.test(statusLine);
-  const mergedInto=kind==='evidence' ? null : kind==='case' ? (heading.match(/已合併\s*(UC-\d{3})/)?.[1] || proofLine.match(/合併\s*(UC-\d{3})/)?.[1] || null) : ((statusLine + ' ' + heading).match(/併入\s*(UC-\d{3})/)?.[1] || null);
+  const mergedInto = kind === 'evidence' ? [] : [...new Set(
+    kind === 'pending'
+      ? parseMergedDestinations(statusLine + ' ' + heading, id)
+      // A title only declares a merge with 已合併; the evidence line may also say 合併,
+      // as UC-250 does. Reading both through one loose pattern would let a title like
+      // "合併 UC-123 重複資料" become a merge it never declared.
+      : [
+          ...parseMergedDestinations(heading, id, '已合併'),
+          ...parseMergedDestinations(proofLine, id)
+        ]
+  )];
   const proofClasses = declaredEvidenceClasses(proofLine, kind);
   const proof = proofClasses[0];
   const relayedProof = proofLine ? relayedEvidenceClasses(proofLine) : [];
@@ -1031,10 +1041,63 @@ function fileReviewDate(markdown) {
   });
   return dates.sort().pop() || '';
 }
-function resolvedPendingNote(item) {
-  if (!item || !item.resolved || !item.mergedInto) return '';
-  return '本條目已結束：內容已併入 ' + item.mergedInto + '，不另計一案；以下「尚待查證」描述的是這條線索的原帖，採用請以主案例為準。';
+// A resolution clause can name more than one destination: P-004 reads
+// "已併入 UC-101…，另記 UC-102…" and INDEX.md lists both. Reading only the first
+// match made the badge, the copy note and the in-site handoff claim the lead had
+// one home. Only ids attached to a merge verb inside the resolution clause count,
+// so an unrelated "參考 UC-103" on the same page never becomes a destination.
+function parseMergedDestinations(clause, selfId, verbs = '已合併|合併|併入|另記|並記') {
+  const ids = [];
+  const pattern = new RegExp('(?:' + verbs + ')\\s*\\[?(UC-\\d{3})', 'g');
+  for (const match of (clause || '').matchAll(pattern)) {
+    const id = match[1];
+    if (id !== selfId && !ids.includes(id)) ids.push(id);
+  }
+  return ids;
 }
+// The label is the single place that decides how destinations are written, so the
+// badge, the card, the copy note and the handoff paragraph cannot drift apart.
+function mergedLabel(item) {
+  return (item?.mergedInto || []).join('、');
+}
+// A lead can be marked handled without naming a case (a source-file edit, a
+// duplicate note). Saying "已併入 null" or inventing a destination would be worse
+// than saying the destination is not recorded.
+const UNRECORDED_MERGE = '已處理（來源檔未記錄併入案例）';
+function pendingStateBadge(item) {
+  if (!item || item.kind !== 'pending' || !item.resolved) return KIND[item?.kind] || '';
+  const label = mergedLabel(item);
+  return label ? '待查線索・已併入 ' + label : '待查線索・' + UNRECORDED_MERGE;
+}
+function cardKindBadge(item) {
+  if (!item || item.kind !== 'pending' || !item.resolved) return KIND[item?.kind] || '';
+  const label = mergedLabel(item);
+  // The card has one badge slot: keep the count semantics, and let the detail
+  // badge name the missing destination instead of stacking two parentheses.
+  return label ? '已併入 ' + label + '（不另計數）' : '已處理（不另計數）';
+}
+function resolvedPendingNote(item) {
+  if (!item || !item.resolved) return '';
+  const label = mergedLabel(item);
+  return label
+    ? '本條目已結束：內容已併入 ' + label + '，不另計一案；以下「尚待查證」描述的是這條線索的原帖，採用請以主案例為準。'
+    : '本條目已結束：來源檔標示已處理但未記錄併入的主案例，因此不另計一案；原帖與未核對事項仍保留在本頁。';
+}
+function mergeHandoffSentence(item) {
+  const label = mergedLabel(item);
+  if (!label) return '來源檔已標示處理完成，但未記錄併入的主案例；不另計一案，原帖與仍未核對的項目保留在本頁。';
+  return item.kind === 'pending'
+    ? `來源檔已標示處理完成並併入 ${label}，不另計一案；原帖與仍未核對的項目保留在本頁。`
+    : `本頁已合併至 ${label}，不另計一案；保留這篇的原始來源與限制。`;
+}
+// Resolved leads the catalog knows about, split by whether a destination is
+// recorded, so the statistics card never counts an unrecorded merge as a merge.
+function resolvedPendingTally(items) {
+  const resolved = (items || []).filter(item => item.kind === 'pending' && item.resolved);
+  const merged = resolved.filter(item => (item.mergedInto || []).length).length;
+  return { resolved: resolved.length, merged, unrecorded: resolved.length - merged };
+}
+
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') {
     const fileReviewed = fileReviewDate(markdown);
@@ -1296,6 +1359,11 @@ function renderRelated(item) {
       item.how ? `🚀 怎麼開始：${item.how}` : '',
       item.caution ? `⚠️ 注意事項：${item.caution}` : '',
       item.proof ? `📎 來源證據：${item.proof}${caseHasRelayedProof(item) ? '（' + PROOF_PROVENANCE.relayed.badge + '）' : ''}` : '',
+      item.resolved
+        ? (mergedLabel(item)
+            ? `🔁 狀態：已併入 ${mergedLabel(item)}，不另計一案`
+            : '🔁 狀態：已處理，來源檔未記錄併入案例')
+        : '',
       `💡 說明：本庫入門建議為整理者設計，非實測結果；未獨立重現，請核對原始報告與限制。`,
       `🔗 詳情與來源：${caseUrl.href}`
     ].filter(Boolean).join('\n');
@@ -1464,17 +1532,38 @@ function restoreReadingView(view) {
   target.focus({preventScroll:true});
 }
 function mergedDestination(item) {
-  const canonical=entries.find(entry=>entry.kind==='case'&&entry.id===item.mergedInto);
-  if(!canonical)return el('p','detail-merged-pending',`主案例 ${item.mergedInto} 尚未載入；可稍後重試，或在原始研究中核對來源。`);
-  const open=el('button','detail-merged-open',`站內閱讀主案例 ${canonical.id}：${canonical.title} →`);
-  open.type='button';
-  open.addEventListener('click',()=>showDetail(canonical,null));
-  return open;
+  const ids = item.mergedInto || [];
+  const box = el('div', 'detail-merged-destinations');
+  if (!ids.length) {
+    box.append(el('p', 'detail-merged-unrecorded', '來源檔沒有寫出併入的案例編號，因此這裡沒有站內入口；請以原始研究與來源索引核對去向。'));
+    return box;
+  }
+  for (const id of ids) {
+    const canonical = entries.find(entry => entry.kind === 'case' && entry.id === id);
+    if (!canonical) {
+      const pending = el('p', 'detail-merged-pending', `主案例 ${id} 尚未載入；可稍後重試，或在原始研究中核對來源。`);
+      pending.setAttribute('data-merged-missing', id);
+      box.append(pending);
+      continue;
+    }
+    const open = el('button', 'detail-merged-open', `站內閱讀主案例 ${canonical.id}：${canonical.title} →`);
+    open.type = 'button';
+    open.setAttribute('data-merged-target', canonical.id);
+    open.addEventListener('click', () => showDetail(canonical, null));
+    box.append(open);
+  }
+  return box;
 }
 function refreshMergedDestination() {
-  const pending=$('detail-body').querySelector('.detail-merged-pending');
-  if(pending&&currentDetailItem?.mergedInto&&entries.some(entry=>entry.kind==='case'&&entry.id===currentDetailItem.mergedInto))
-    pending.replaceWith(mergedDestination(currentDetailItem));
+  const box = $('detail-body').querySelector('.detail-merged-destinations');
+  if (!box) return;
+  // Only re-render when a destination that was missing has now loaded: the handoff
+  // must update after a late bundle without replacing buttons the reader may be on.
+  const nowAvailable = [...box.querySelectorAll('[data-merged-missing]')]
+    .map(node => node.getAttribute('data-merged-missing'))
+    .some(id => entries.some(entry => entry.kind === 'case' && entry.id === id));
+  if (!nowAvailable) return;
+  box.replaceWith(mergedDestination(currentDetailItem));
 }
 function showDetail(item, trigger, updateURL=true) {
   if (!item) return;
@@ -1497,7 +1586,7 @@ function showDetail(item, trigger, updateURL=true) {
   const metaBar = el('div', 'detail-header-meta');
   metaBar.append(
     el('span', 'detail-id-badge', item.id),
-    el('span', 'detail-badge kind-' + item.kind, item.resolved ? '待查線索・已併入 ' + item.mergedInto : KIND[item.kind]),
+    el('span', 'detail-badge kind-' + item.kind, item.kind === 'pending' ? pendingStateBadge(item) : KIND[item.kind]),
     ...proofBadges(item),
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
@@ -1554,13 +1643,14 @@ function showDetail(item, trigger, updateURL=true) {
   const purpose = el('section');
   purpose.append(el('h2', '', '可以幫你做什麼'), el('p', '', compactPurpose ? item.coreGoal : item.what));
   overview.append(purpose,source);
-  if (item.mergedInto) {
+  if ((item.mergedInto || []).length || item.resolved) {
     const handoff=el('section','detail-merged-handoff');
+    const recorded = (item.mergedInto || []).length > 0;
     handoff.append(
-      el('h2','', item.kind==='pending' ? '這條待查線索已併入主案例' : '這篇是主案例的來源補充'),
-      el('p','', item.kind==='pending'
-        ? `來源檔已標示處理完成並併入 ${item.mergedInto}，不另計一案；原帖與仍未核對的項目保留在本頁。`
-        : `本頁已合併至 ${item.mergedInto}，不另計一案；保留這篇的原始來源與限制。`)
+      el('h2','', item.kind==='pending'
+        ? (recorded ? '這條待查線索已併入主案例' : '這條待查線索已處理，未記錄併入的主案例')
+        : '這篇是主案例的來源補充'),
+      el('p','', mergeHandoffSentence(item))
     );
     handoff.append(mergedDestination(item));
     overview.append(handoff);
@@ -1657,7 +1747,11 @@ function showDetail(item, trigger, updateURL=true) {
   printHint.id='print-case-hint';
   body.append(actionRow,printHint);
   const warningText=item.kind === 'pending'
-    ? (item.resolved ? `待查線索已處理：已併入 ${item.mergedInto}，不列為獨立案例；原帖與未核對事項仍保留。` : '待查線索：證據尚不足，不列成功或已完成案例。')
+    ? (item.resolved
+        ? (mergedLabel(item)
+            ? `待查線索已處理：已併入 ${mergedLabel(item)}，不列為獨立案例；原帖與未核對事項仍保留。`
+            : '待查線索已處理：來源檔未記錄併入的主案例，因此不列為獨立案例；原帖與未核對事項仍保留。')
+        : '待查線索：證據尚不足，不列成功或已完成案例。')
     : '來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。';
   const printMeta=el('div','reader-print-meta');
   const permanent=new URL(location.href);permanent.search='';permanent.hash='';permanent.searchParams.set('case',item.id);
@@ -1840,7 +1934,7 @@ function card(item, terms=[]) {
   }
   // The card keeps data-kind="pending" (so the pending styling still applies);
   // the resolved label replaces the misleading "還在查證" wording.
-  const kindBadge = el('span', 'kind', item.resolved ? '已併入 ' + item.mergedInto + '（不另計數）' : KIND[item.kind]);
+  const kindBadge = el('span', 'kind', item.kind === 'pending' ? cardKindBadge(item) : KIND[item.kind]);
   badgesWrap.append(kindBadge);
   top.append(topInfo, badgesWrap);
   node.append(top);
@@ -2231,6 +2325,7 @@ function renderFacetCounts(terms, filters) {
   // so a filtered view does not keep a global annotation it cannot show.
   const pendingBase=discoveryReady?filterEntries(entries,terms,{...filters,kind:''}):[];
   const resolvedPending=pendingBase.filter(item=>item.kind==='pending'&&item.resolved).length;
+  const mergedPending=pendingBase.filter(item=>item.kind==='pending'&&item.resolved&&(item.mergedInto||[]).length).length;
   for(const key of ['scenario','kind','difficulty','tool','category','proof']){
     const select=$(key);
     if(!select) continue;
@@ -2249,8 +2344,12 @@ function renderFacetCounts(terms, filters) {
       option.dataset.count=discoveryReady ? String(counts[index]) : '';
       // A merged lead stays selectable but is not counted as an open question in
       // the statistics card, so the option says so instead of disagreeing with it.
+      // A handled lead with no recorded destination is called 已處理, never 已併入.
       const mergedNote=key==='kind'&&option.value==='pending'&&resolvedPending&&counts[index]>=resolvedPending
-        ? `（含 ${resolvedPending} 筆已併入，統計不計）` : '';
+        ? (mergedPending===resolvedPending
+            ? `（含 ${resolvedPending} 筆已併入，統計不計）`
+            : `（含 ${mergedPending} 筆已併入、${resolvedPending-mergedPending} 筆已處理未記錄去向，統計不計）`)
+        : '';
       option.textContent=(discoveryReady ? counts[index]+' · ' : '')+option.dataset.label+mergedNote;
     });
     if(discoveryReady && ['tool','category'].includes(key)) groupFacetOptions(select,counts);
@@ -3431,8 +3530,11 @@ function refreshCorpusMetadata() {
   $('pending-count').textContent=counts.pending;
   const pendingNote=$('pending-note');
   if(pendingNote){
-    pendingNote.hidden=!counts.resolvedPending;
-    pendingNote.textContent=counts.resolvedPending?`另有 ${counts.resolvedPending} 個待查線索已處理並併入案例，不列在上述待查數；仍可搜尋或直接開啟。`:'';
+    const tally=resolvedPendingTally(entries);
+    pendingNote.hidden=!tally.resolved;
+    pendingNote.textContent=!tally.resolved?'' : tally.unrecorded
+      ? `另有 ${tally.resolved} 個待查線索已處理（${tally.merged} 筆已併入案例、${tally.unrecorded} 筆未記錄去向），不列在上述待查數；仍可搜尋或直接開啟。`
+      : `另有 ${tally.resolved} 個待查線索已處理並併入案例，不列在上述待查數；仍可搜尋或直接開啟。`;
   }
   $('catalog-status').hidden=!failedPaths.length;
   $('catalog-status').textContent=failedPaths.length?'僅計已載入條目；'+failedPaths.length+' 個來源檔案未載入。':'';

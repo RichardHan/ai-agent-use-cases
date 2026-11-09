@@ -304,7 +304,11 @@
 
 .plain-overview .detail-merged-handoff{margin:14px 0;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .plain-overview .detail-merged-handoff p{font-size:14px;line-height:1.8}
+/* A lead can be merged into more than one case; stack the entries so a long title
+   wraps inside the reading column instead of pushing the second one off-screen. */
+.detail-merged-destinations{display:flex;flex-direction:column;align-items:flex-start;gap:2px;max-width:100%}
 .plain-overview .detail-merged-open{margin-top:8px;cursor:pointer}
+.plain-overview .detail-merged-pending,.detail-merged-unrecorded{margin:8px 0 0;font-size:13px;line-height:1.8;color:var(--muted);overflow-wrap:anywhere}
 /* Result position shares the existing ID row, including on narrow screens. */
 .detail-result-context{font-size:12px;line-height:1.5;color:var(--green);font-weight:650;letter-spacing:0;white-space:nowrap}
 

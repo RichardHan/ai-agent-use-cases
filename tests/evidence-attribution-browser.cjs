@@ -186,9 +186,10 @@ const read = page => page.evaluate(() => {
       badge: [...document.querySelectorAll('#detail-body .detail-badge')].map(node => node.textContent.trim()).join(' '),
       text: document.querySelector('#detail-body')?.innerText.replace(/\s+/g, ' ').slice(0, 400) ?? ''
     }));
-    assert.match(merged.badge, /已併入 UC-101/, 'P-004 states the case it was merged into');
-    assert.match(merged.text, /已併入 UC-101/, 'P-004 explains that it was merged instead of staying open');
-    assert.match(merged.text, /站內閱讀主案例 UC-101/, 'P-004 keeps a route to the case that carries it');
+    assert.match(merged.badge, /已併入 UC-101、UC-102/, 'P-004 states every case it was merged into');
+    assert.match(merged.text, /已併入 UC-101、UC-102/, 'P-004 explains that it was merged instead of staying open');
+    assert.match(merged.text, /站內閱讀主案例 UC-101/, 'P-004 keeps a route to the first case that carries it');
+    assert.match(merged.text, /站內閱讀主案例 UC-102/, 'P-004 keeps a route to the second case that carries it');
 
     await page.goto(caseUrl('P-003'), { waitUntil: 'networkidle' });
     await page.waitForSelector('#detail[open]', { timeout: 90000 });

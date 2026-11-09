@@ -45,18 +45,18 @@ test('a pending lead resolved into a case is parsed as resolved with its destina
   const p002 = pendingEntries.find(entry => entry.id === 'P-002');
   assert.ok(p002, 'P-002 must be parsed from sources/pending.md');
   assert.equal(p002.resolved, true, 'P-002 states 已處理 and 已併入 UC-028, so it must be resolved');
-  assert.equal(p002.mergedInto, 'UC-028', 'P-002 must point at the case it was merged into');
+  assert.deepEqual(Array.from(p002.mergedInto), ['UC-028'], 'P-002 must point at the case it was merged into');
 
   const p004 = pendingEntries.find(entry => entry.id === 'P-004');
   assert.ok(p004, 'P-004 must be parsed as its own lead, not as a paragraph inside P-003');
   assert.equal(p004.resolved, true, 'P-004 states 已處理 and 已併入 UC-101, so it must be resolved');
-  assert.equal(p004.mergedInto, 'UC-101', 'P-004 must point at the case it was merged into');
+  assert.deepEqual(Array.from(p004.mergedInto), ['UC-101', 'UC-102'], 'P-004 names two destinations in its own status line, so the site must carry both');
 
   for (const id of ['P-001', 'P-003']) {
     const entry = pendingEntries.find(item => item.id === id);
     assert.ok(entry, `${id} must be parsed`);
     assert.notEqual(entry.resolved, true, `${id} is still an open lead and must stay unresolved`);
-    assert.equal(entry.mergedInto, null, `${id} has no merged destination`);
+    assert.deepEqual(Array.from(entry.mergedInto), [], `${id} has no merged destination`);
   }
 });
 
@@ -78,7 +78,7 @@ test('the 待查線索 filter keeps every lead reachable while marking the resol
   const listed = api.filterEntries(pendingEntries, [], { kind: 'pending' });
   assert.deepEqual(listed.map(entry => entry.id), ['P-001', 'P-002', 'P-003', 'P-004']);
   assert.deepEqual(listed.filter(entry => entry.resolved).map(entry => entry.id), ['P-002', 'P-004']);
-  assert.equal(listed.find(entry => entry.id === 'P-002').mergedInto, 'UC-028');
+  assert.deepEqual(Array.from(listed.find(entry => entry.id === 'P-002').mergedInto), ['UC-028']);
 
   const terms = Array.from(api.tokenize('電信帳單'));
   const found = api.filterEntries(pendingEntries, terms, {});

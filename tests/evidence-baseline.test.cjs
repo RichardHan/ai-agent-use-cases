@@ -82,7 +82,7 @@ function loadAppApi() {
       createTextNode: text => ({ textContent: text })
     }
   });
-  vm.runInContext(source + '\nthis.api={parseFile,resolvedPendingNote};', context);
+  vm.runInContext(source + '\nthis.api={parseFile,resolvedPendingNote,pendingStateBadge,cardKindBadge};', context);
   return context.api;
 }
 
@@ -113,5 +113,11 @@ test('a resolved lead explains its closure before quoting the open-lead warning'
     assert.equal(api.resolvedPendingNote(read(id)), '', `${id} is still open and gets no closure note`);
   }
   assert.equal(api.resolvedPendingNote(undefined), '', 'a missing entry is not described as closed');
-  assert.equal(api.resolvedPendingNote({ resolved: true }), '', 'a resolved entry without a destination claims nothing');
+  // A resolved lead whose status line never named a case is still finished; it must
+  // say the destination is not recorded rather than print "已併入 null" or drop the
+  // closure note and leave the badge contradicting the page.
+  const unrecorded = api.resolvedPendingNote({ resolved: true, mergedInto: [] });
+  assert.match(unrecorded, /已結束/);
+  assert.match(unrecorded, /未記錄併入的主案例/, 'the note names the missing destination instead of inventing one');
+  assert.doesNotMatch(unrecorded + api.pendingStateBadge({ kind: 'pending', resolved: true, mergedInto: [] }), /null|undefined/);
 });

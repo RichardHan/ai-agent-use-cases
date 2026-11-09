@@ -502,3 +502,168 @@ test('published guidance never carries markdown link syntax or a bare URL', () =
   }
   assert.deepEqual(offenders, [], 'guidance must read as prose, not as a link: ' + offenders.join(', '));
 });
+
+test('a designed-procedure heading is read even when the corpus does not call it 流程', () => {
+  const { context } = setupEnvironment();
+  // Shape of cases/195: the author record comes first, the library's own procedure
+  // second. Publishing the record as "怎麼開始" states who wrote the case, not what
+  // the reader should do.
+  const markdown = `# UC-683：測試設計流程
+- 情境：工作
+- 網站標題：測試
+
+## 原作者實作
+- 作者／語言：測試作者，英文。
+- 原發布日期：2026-10-01T12:02:43.664Z；頁面顯示已編輯，修改時間未知。
+
+## 離線練習（本庫設計，未執行）
+- 用合成事件紀錄先寫明完成條件。
+- 對照每一步預期與實際時間。
+
+## 可貼指令（自設、未測）
+- 請幫我整理這份紀錄。
+`;
+  const meta = context.metadata(markdown, 'cases/683-designed-step.md', 'case', 'UC-683');
+  assert.match(meta.how, /用合成事件紀錄先寫明完成條件/, 'the designed procedure must win over the author record');
+  assert.doesNotMatch(meta.how, /作者／語言|原發布日期/);
+});
+
+test('a prompt block is never published as 怎麼開始', () => {
+  const { context } = setupEnvironment();
+  // The second heading is the overlap that matters: the old workflow tier would
+  // publish it (it contains 流程), and only the reject rule keeps a block of text
+  // to paste out of "怎麼開始".
+  const markdown = `# UC-684：測試提示詞
+- 情境：工作
+- 網站標題：測試
+
+## 可貼指令（自行設計，未測）
+- 請先讀取附件，再輸出三欄表格。
+
+## 可複製提示詞（本庫自行設計，未實測）
+- 先整理來源，再比對欄位。
+
+## 可貼提示詞（含執行流程）
+- 你是一位助理；第一步先讀取附件，第二步輸出三欄表格。
+`;
+  const meta = context.metadata(markdown, 'cases/684-prompt.md', 'case', 'UC-684');
+  assert.equal(meta.how, GENERIC_HOW, 'a block of text to paste is not an order of steps');
+});
+
+test('every case that writes a designed procedure keeps its own steps on the detail page', () => {
+  const { context } = setupEnvironment();
+  // The corpus writes the library's own procedure as 練習, 試做, 試法, 自設只讀驗收,
+  // 可借鑑的交接 and similar. A prompt block or a printable worksheet is excluded
+  // above, so headings that carry it are not part of this promise.
+  const stepHeading = /^#{2,3}\s+.*(?:離線練習|離線試做|只讀練習|自設只讀驗收|自設只讀練習|自設離線練習|安全試做|安全試法|試法與停止條件|防覆蓋試法|(?:可借用|可借鑑|可參考)(?:的)?(?:交接|預覽與停止設計|只讀驗收))(?:（[^）\n]*(?:未實|未執|設計|自設)[^）\n]*）)?\s*$/;
+  const excluded = /指令|提示詞|練習卷|可貼|可複製/;
+  const missing = [];
+  for (const file of fs.readdirSync('cases').filter(name => name.endsWith('.md'))) {
+    const markdown = fs.readFileSync(path.join('cases', file), 'utf8');
+    const match = markdown.match(new RegExp(stepHeading.source, 'm'));
+    if (!match || excluded.test(match[0])) continue;
+    const section = markdown.slice(match.index + match[0].length).split(/\n#{2,3}\s/)[0];
+    if (!/\S/.test(section.replace(/<!--[\s\S]*?-->/g, ''))) continue;
+    const meta = context.metadata(markdown, `cases/${file}`, 'case');
+    if (meta.how === GENERIC_HOW) missing.push(file);
+  }
+  assert.deepEqual(missing, [], 'these cases write steps the reader cannot see: ' + missing.join(', '));
+});
+
+test('界線 names limits when the case wrote no other limits heading', () => {
+  const { context } = setupEnvironment();
+  const markdown = `# UC-685：測試界線
+- 情境：工作
+- 網站標題：測試
+
+## 作者實際使用
+作者描述了一次查詢。
+
+## 官方背景與界線
+- 沒有公開帳號權限、接收信箱或單次成本；採用前須核對資格、用量與資料處理範圍。
+
+## 可試流程（本庫設計，未執行）
+1. 先用合成資料。
+`;
+  const meta = context.metadata(markdown, 'cases/685-boundary.md', 'case', 'UC-685');
+  assert.match(meta.caution, /沒有公開帳號權限/, '界線 must be published as the case limits');
+});
+
+test('a stronger limits heading still outranks a 界線 heading later in the file', () => {
+  const { context } = setupEnvironment();
+  const markdown = `# UC-686：測試界線優先序
+- 情境：工作
+- 網站標題：測試
+
+## 權限、費用與限制
+- 送出前須本人確認；憑證不得貼進公開指令。
+
+## 去重與界線
+已讀相關主案例全文：UC-188 是依費率選時窗。
+`;
+  const meta = context.metadata(markdown, 'cases/686-boundary-order.md', 'case', 'UC-686');
+  assert.match(meta.caution, /送出前須本人確認/);
+  assert.doesNotMatch(meta.caution, /已讀相關主案例全文/);
+});
+
+test('every case that writes only a 界線 limits heading keeps its own limits', () => {
+  const { context } = setupEnvironment();
+  const limitsHeading = /^#{2,3}\s+.*(?:官方|來源|平台|權限|費用|工具|服務)[^。\n]{0,10}界線.*$/m;
+  const otherLimits = /^#{2,3}\s+.*(?:限制|權限|費用|成本|可用性|不適合|適用|風險|注意|安全|邊界).*$/m;
+  const missing = [];
+  for (const file of fs.readdirSync('cases').filter(name => name.endsWith('.md'))) {
+    const markdown = fs.readFileSync(path.join('cases', file), 'utf8');
+    if (!limitsHeading.test(markdown)) continue;
+    if (otherLimits.test(markdown)) continue;
+    const meta = context.metadata(markdown, `cases/${file}`, 'case');
+    if (meta.caution === GENERIC_CAUTION) missing.push(file);
+  }
+  assert.deepEqual(missing, [], 'these cases write limits the reader cannot see: ' + missing.join(', '));
+});
+
+test('a heading that only mentions a procedure is not a procedure', () => {
+  const { context } = setupEnvironment();
+  // Two shapes the tier-2 vocabulary must not swallow: an author result that
+  // happens to contain the phrase, and a prompt block named after the procedure.
+  const authorResult = `# UC-687：測試作者結果
+- 情境：工作
+- 網站標題：測試
+
+## 作者離線試做結果
+- 作者回報已完成並達成目標。
+`;
+  const promptNamed = `# UC-688：測試提示詞命名
+- 情境：工作
+- 網站標題：測試
+
+## 自設離線練習提示詞
+- 你是一位助理，請依序輸出三步驟。
+`;
+  // A parenthetical only counts when it says the procedure was designed or not run;
+  // (結果) and (提示詞) name someone else's output.
+  const labelledResult = `# UC-689：測試括號標籤
+- 情境：工作
+- 網站標題：測試
+
+## 作者離線試做（結果）
+- 作者回報已完成並達成目標。
+`;
+  // An unclosed parenthesis must not let the match run into the section body.
+  const unclosed = `# UC-690：測試未閉合括號
+- 情境：工作
+- 網站標題：測試
+
+## 離線練習（本庫設計
+1. 匯入合成資料並檢查結果（不要寫入正式系統）
+`;
+  const fixtures = [
+    [authorResult, 'cases/687-author-result.md'],
+    [promptNamed, 'cases/688-prompt-named.md'],
+    [labelledResult, 'cases/689-labelled-result.md'],
+    [unclosed, 'cases/690-unclosed.md']
+  ];
+  for (const [markdown, path] of fixtures) {
+    const meta = context.metadata(markdown, path, 'case');
+    assert.equal(meta.how, GENERIC_HOW, `${path}: a section that is not the procedure must not become 怎麼開始`);
+  }
+});

@@ -27,7 +27,7 @@ const base=process.env.DRAW_URL||process.env.SITE_URL||'http://127.0.0.1:8081/ai
     sameNode:document.querySelector('#drawn-case .card')===window.__drawnNode,
     id:document.querySelector('#drawn-case .card').dataset.caseId,
     status:document.querySelector('#draw-status').textContent.trim(),
-    total:document.querySelector('#draw-status').textContent.match(/這組條件有 (\d+) 張案例卡/)?.[1]
+    total:document.querySelector('#draw-status').textContent.match(/這組條件有 (\d+) 張可抽案例卡/)?.[1]
   }));
   assert.equal(kept.sameNode,true,`${name}: a filter that still matches the drawn case replaced it (${drawn.id} -> ${kept.id})`);
   assert.equal(kept.id,drawn.id,`${name}: the kept card must stay the same case`);

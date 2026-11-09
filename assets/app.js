@@ -77,7 +77,7 @@ let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem =
 let allowAutomaticArrival=true, searchShareRequest=0;
 let recoveringSources=false, recoveryNotice='', recoveryController=null, recoveryProgress=null;
 let initialLoading=false, initialLoadController=null;
-let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null,drawnItemId='',drawPoolQuery=null,announcedDrawKey='';
+let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null,drawnItemId='',drawPoolQuery=null,announcedDrawKey='',drawPoolMatches=0;
 const RESULT_BATCH_SIZE=24;
 let visibleResults=RESULT_BATCH_SIZE, resultQueryKey='';
 const $ = id => document.getElementById(id);
@@ -1658,9 +1658,12 @@ function ensureVisibleResult(id) {
   updateResultBatch();
 }
 function updateResultBatch() {
-  const remaining=currentFiltered.length-visibleResults;
-  $('load-more-results').hidden=remaining<=0;
-  $('load-more-results').textContent=`再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）`;
+  // A shorter condition can leave visibleResults ahead of the matches (typing a
+  // narrower word after a 24+ result query). The control is hidden then, so the
+  // leftover text must not claim a negative number of remaining cases.
+  const remaining=Math.max(0,currentFiltered.length-visibleResults);
+  $('load-more-results').hidden=remaining===0;
+  $('load-more-results').textContent=remaining ? `再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）` : '';
 }
 // The sample card above the search is drawn from the corpus, so its height keeps
 // changing after this scroll (measured 478→715px on a 390x844 phone) and pushes
@@ -2645,6 +2648,37 @@ function render(updateURL=true, preserveShare=false) {
     ? currentFiltered.length ? `目前條件有 ${currentFiltered.length} 筆結果` : failedPaths.length ? '已載入內容中沒有符合結果' : '目前條件沒有符合結果'
     : initialLoading ? '正在讀取案例…' : '載入未完成';
   $('filter-view-results').disabled = !discoveryReady;
+  // Some conditions only ever match body text: no case's title, purpose or goal
+  // holds every word, so the first card can look unrelated. Say that, name the
+  // word that never reaches a purpose field, and offer the strongest single word
+  // that does — instead of leaving the reader to guess which term to drop.
+  const purposeOf = (base, terms) => discoveryReady && terms.length
+    ? filterEntries(base, terms, { ...filters, scope: 'overview' })
+    : [];
+  const directMatches = purposeOf(shownMatches, searchTerms);
+  const purposeGap = discoveryReady && searchTerms.length > 0 && currentFiltered.length > 0 && directMatches.length === 0;
+  $('purpose-gap').hidden = !purposeGap;
+  if (purposeGap) {
+    // The action replaces the query, so its promise counts every entry, not just
+    // the ones the current condition already kept.
+    const perTerm = searchTerms.map(term => ({ term, count: purposeOf(entries, [term]).length }));
+    const bodyOnly = perTerm.filter(row => row.count === 0).map(row => `「${row.term}」`);
+    const best = perTerm.slice().sort((a, b) => b.count - a.count)[0];
+    const label = searchTerms.map(term => `「${term}」`).join('');
+    $('purpose-gap-message').textContent = `沒有案例的標題、用途或痛點同時包含${label}`
+      + (bodyOnly.length ? `；${bodyOnly.join('、')}只在正文出現` : '')
+      + `。下列 ${currentFiltered.length} 筆是字面命中，不代表案例在做這件事。`;
+    const action = $('purpose-gap-scope');
+    action.hidden = !best || best.count === 0;
+    if (!action.hidden) {
+      action.textContent = `改搜「${best.term}」→ ${best.count} 筆（標題、用途與痛點）`;
+      action.dataset.term = best.term;
+    }
+  } else {
+    $('purpose-gap-message').textContent = '';
+    $('purpose-gap-scope').hidden = true;
+    delete $('purpose-gap-scope').dataset.term;
+  }
 
   document.querySelectorAll('.chip[data-scenario]').forEach(btn => {
     const isActive = btn.dataset.scenario === activeScenario;
@@ -3339,15 +3373,23 @@ function drawNext(announce=false){
   const previous=drawnItemId;
   $('drawn-case').replaceChildren(card(next.item));
   drawnItemId=next.item.id;
-  $('draw-status').textContent=drawScope()+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
+  $('draw-status').textContent=drawPoolStatus(next.total)+' · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
   drawButtonLabel(next.total);
   // Only the reader's own request is news. An automatic redraw happens while the
   // reader is typing a query; announcing it would interrupt the search itself.
   if(announce&&previous!==drawnItemId)announceDraw('已換一張：'+next.item.title,'card:'+next.item.id);
 }
+// The draw pool is smaller than the result list: evidence notes, open leads,
+// templates and duplicate ids never become cards. The line has to say which
+// number it is, otherwise the same condition shows two different totals.
+function drawPoolStatus(total){
+  const matched=Number.isFinite(drawPoolMatches)&&drawPoolMatches>total ? drawPoolMatches : 0;
+  return drawScope()+' · 這組條件有 '+total+' 張可抽案例卡'+(matched?'（另有 '+(matched-total)+' 筆不是可抽案例，仍列在結果）':'');
+}
 function syncDiscovery(filtered){
   document.querySelectorAll('button[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
   document.querySelectorAll('button[data-difficulty]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.difficulty===($('difficulty')?.value||''))));
+  drawPoolMatches=filtered.length;
   if(!discoveryReady)return;
   const pool=Discovery.discoveryPool(filtered);
   const key=$('scenario').value+'|'+($('difficulty')?.value||'')+'|'+pool.map(item=>item.id).join(',');
@@ -3369,7 +3411,7 @@ function syncDiscovery(filtered){
   discoveryDeck=Discovery.createDeck(pool,Math.random,kept?kept.id:null);
   $('draw-case').disabled=!pool.length;
   if(pool.length&&kept){
-    $('draw-status').textContent=drawScope()+' · 這組條件有 '+pool.length+' 張案例卡 · 目前顯示：'+kept.title;
+    $('draw-status').textContent=drawPoolStatus(pool.length)+' · 目前顯示：'+kept.title;
     drawButtonLabel(pool.length);
   }else if(pool.length)drawNext(announceReplacement);
   else{
@@ -3535,6 +3577,19 @@ $('clear-category-query').addEventListener('click',()=>{
 });
 $('query').addEventListener('input', () => {queryDirty=true;render();});
 $('search-scope').addEventListener('change',()=>render());
+// The honest answer to a body-only match set is a word the corpus can answer:
+// the notice offers the single word with the most title/purpose matches, and the
+// action keeps that same scope so the promised count is the count on screen.
+$('purpose-gap-scope').addEventListener('click',event=>{
+  const term=event.currentTarget.dataset.term;
+  if(!term)return;
+  const input=$('query');
+  input.value=term;
+  queryDirty=true;
+  $('search-scope').value='overview';
+  render();
+  input.focus({preventScroll:true});
+});
 $('sort').addEventListener('change', () => render());
 $('reset-sort').addEventListener('click', resetSort);
 $('recent-entry').addEventListener('click', event => {

@@ -108,14 +108,29 @@
 | PR 檢查 | 13 個 check 全部 pass；2 個 `published` job 依設計在 PR 上 skip。失敗過的 `Source guide QA`（run [42544474594](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42544474594)／[42543141698](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42543141698)）在 `6c5debce` 的 run [42545547754](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42545547754) 通過 |
 | 已合併 | `32e3a7a6` Merge pull request #282（base `37090a56`，合併前 main 為 `37090a56`） |
 | 合併後 CI | `pages-build-deployment` run [42546597665](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42546597665)；`Website QA` run [42546598982](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42546598982)（含 published 階段） |
-| 部署 | **尚未確認**。run [42546597665](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42546597665) 的 build 成功；`Deploy to GitHub Pages` 兩次都在 `syncing_files` 停留到 600 秒上限後失敗（01:49:23、02:00:53），狀態為 `failure` 且無描述。第一次失敗後以「GitHub 端部署逾時、非程式或檢查問題」為由只重跑失敗 job 一次，得到相同結果，不再無限重試。同時 `gh api repos/…/pages` 回報 `status: errored`；GitHub 狀態頁當時為 operational。正式站 `catalog.json` 的 `sourceRevision` 在兩次嘗試後仍是 `37090a56`，即**本輪改動尚未上線** |
+| 部署 | 兩次失敗後由紀錄 commit `9418869a` 的新 push 觸發，run [42548701031](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42548701031) 的 build 與 deploy 均成功；正式站 `sourceRevision` 為 `9418869a`（含 `32e3a7a6` 的內容）。`Website QA`（含 published 階段，run [42546598982](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42546598982)）success |
+| 正式站已驗證 | 是，見下節「正式站核對」 |
 
-### 部署阻塞的後續處理
+### 部署逾時的經過（未修根因）
 
-- [ ] 等 GitHub Pages 佇列恢復後，再以新的 push（例如本紀錄的更新）觸發一次部署；不要只按重跑。
-- [ ] 部署成功後以 `sourceRevision` 與 `assets/app.js`／`index.html` 的 sha256 核對（合併版 `app.js` sha256 前 16 碼 `0fa69d912f6cf13c`、`index.html` `95b5933e4d5fb3e8`；兩次嘗試後正式站仍是舊值 `b473a8be254a0191`／`fa7a52744407a2f9`，屬預期，因為部署沒完成）。
-- [ ] 正式站更新後跑本輪的鍵盤／播報檢查：Tab→Enter 焦點在 `#query`、輸入 4 個字只寫 `#results-count`、`#draw-announcer` 在打字時為空、axe 0。
-- 這與 2026-11-07 的 Pages `syncing_files` 逾時同型；那次重跑一次即成功，這次沒有。兩次失敗的狀態紀錄都沒有描述，**不能**斷定根因，也不宜把重跑成功當成修復。
+run [42546597665](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42546597665) 的 build 成功，但 `Deploy to GitHub Pages` 兩次都在 `syncing_files` 停留到 600 秒上限後失敗（01:49:23、02:00:53），狀態為 `failure` 且無描述；同時 `gh api repos/…/pages` 回報 `status: errored`，GitHub 狀態頁當時為 operational。第一次失敗後以「GitHub 端部署逾時、非程式或檢查問題」為由只重跑失敗 job 一次，得到相同結果，不再無限重試。第三次改由紀錄 commit `9418869a` 的新 push 觸發（同時要留下本紀錄），build 與 deploy 皆成功。
+
+這與 2026-11-07 的 Pages `syncing_files` 逾時同型（`docs/qa/2026-11-07-pages-recovery.md`）；那次重跑一次即成功，這次沒有。兩次失敗的部署狀態都沒有描述，**不能**斷定根因，也不把第三次成功當成修復。若再遇到，先看 `deploy` job 的 `syncing_files` 停留時間與 `repos/…/pages` 的 `status`，再決定是否重跑。
+
+## 正式站核對（`9418869a`）
+
+| 項目 | 結果 |
+| --- | --- |
+| `catalog.json` `sourceRevision` | `9418869ac9f7cca651c1a199837786306d24fdd6`（含 `32e3a7a6` 的內容；後續純紀錄 commit 只推進 revision） |
+| `assets/app.js` sha256 前 16 碼 | 正式站 `0fa69d912f6cf13c` ＝ main（`32e3a7a6`）`0fa69d912f6cf13c` |
+| `index.html` sha256 前 16 碼 | 正式站 `95b5933e4d5fb3e8` ＝ main `95b5933e4d5fb3e8`（部署前的舊值為 `b473a8be254a0191`／`fa7a52744407a2f9`） |
+| Tab→Enter（1440×900） | `activeElement` = `#query`，`queryTop` 430px（視窗 900） |
+| Tab→Enter（390×844） | `activeElement` = `#query`，`queryTop` 406px（視窗 844） |
+| 輸入「會議」的 live 寫入 | 桌機 2 次、手機 2 次，全部落在 `results-count`；`#draw-announcer` 在打字期間保持空字串 |
+| axe WCAG 2.1 AA（更新後首頁） | 桌機與手機皆 0 violations；無 page error |
+| 既有發布閘門 | `Website QA` 的 published 階段（`tests/deployed-browser.cjs`）success |
+
+量測腳本為一次性 `/tmp/lv2.mjs`（Chromium、`reducedMotion: reduce`、等 `discoveryReady` 與載入進度隱藏後才開始打字，避免把載入里程播報計入）。
 
 ## 下一輪最值得處理的一件事
 

@@ -1,3 +1,17 @@
+## 2026-11-10 主題分類與「同分類」只認案例頁宣告的分類
+
+正式站 `0ece4ceb`（1440×900 與 390×844 相同）：`?case=UC-012`（科研評估與稿件整合的人機分工）的延伸閱讀列出 `UC-023 · 同分類：個人生產力`（產品改版素材）與 `UC-025 · 同分類：個人生產力`（offsite 待決事項），但 UC-012 的原文從未出現「個人生產力」。來源是 `metadata()` 對 506 頁中 159 個沒有 `- 分類` 行的頁面依標題補值、最後落到字面預設 `個人生產力`（145 頁）。全庫 329 筆 `同分類` 理由有 310 筆指向對方從未宣告的分類、289 筆是這個預設桶互配，77 頁的整份延伸閱讀只有它；`#category` 的 348 個選項也包含這個沒有人宣告過的 145 筆分類。
+
+選擇 (A) 分類只認宣告：刪掉標題推測與預設桶，`同分類` 因此只連到真的宣告同一分類的案例；同時移除「沒有分類就不給任何延伸閱讀」的提前返回，未宣告分類的頁面仍保留共同標籤建議。未採 (B) 保留推測再加「（本庫推測）」標示：289 筆配對之所以存在，正是因為 145 個彼此無關的案例共用同一個預設桶，標示只把錯誤寫得更清楚，成本還更高。
+
+改動：`assets/app.js` 4 處（分類只取宣告、`同分類` 條件、未宣告分類的空狀態說明、篩選說明句「N 個未宣告分類的條目不在選項內」、空分類不產生選項）、`.github/workflows/website-qa.yml` 一行、新增 `tests/declared-category.test.cjs`（6 項，含全庫「顯示的分類都是自己宣告的」與「沒有 `同分類` 指向未宣告分類」）與 `tests/declared-category-browser.cjs`（1440／390）。`tests/search.test.cjs` 原本用被刪掉的推測值當篩選條件（UC-010 未宣告分類），改為只驗搜尋與工具；分類篩選只認宣告值的契約移到新測試。
+
+量測：`node --test tests/*.test.cjs` 基準 594 → 600 通過、0 失敗；新 unit test 對基準 `app.js` 5／6 紅、本輪全綠；新瀏覽器測試對基準預覽在第一個缺陷斷言就紅、本輪 1440／390 全綠。全庫 `同分類` 329 → 17 筆、延伸閱讀 1036 → 724 筆、沒有延伸閱讀的案例頁 122 → 205（83 頁原本只有虛構配對，改為如實空狀態）、有分類的案例頁 506 → 347（全部宣告）。`related-browser` 三種寬度、`evidence-attribution-browser`、`facet-counts-browser` 的 Chromium 1440／390／320 與 Firefox 390 通過；WebKit 390 在 `facet-counts-browser.cjs:110` 的 Tab 焦點斷言失敗，**基準預覽同樣失敗於同一行**，判為既有 WebKit 限制。舊分享連結 `?category=個人生產力` 顯示 0 筆並保留可移除條件，不靜默改寫網址。
+
+CI 現況重新確認（獨立調查，未沿用歷史）：近三次 `pages build and deployment` 失敗都是 deploy 階段撞 600s 上限（`Timeout reached, aborting!`），`build` 全部成功，不是 build 迴歸也不是被新 commit 取代；正式站目前就是 main head `0ece4ceb` 的建置（510 個來源檔）。**main 沒有 branch protection、沒有 required check**。57 支 workflow 只有 16 支會觸發，多數 live workflow 的 `paths` 不含測試實際讀的 `cases/**`／`sources/**`，因此本輪新增的 corpus 契約測試目前在內容 PR 上不會執行。
+
+驗收紀錄、前後截圖與限制：[docs/qa/2026-11-10-declared-category](docs/qa/2026-11-10-declared-category/README.md)。下一輪先做 **讓內容 PR 至少跑一次 unit 契約測試**：先確認只改 `cases/**` 的 PR 目前 0 個 job 被觸發，再以最小改動讓 `node --test tests/*.test.cjs` 在該 PR 執行，且不影響 20 支瀏覽器 job 的排隊。
+
 ## 2026-11-11 關掉案例後，第一次「上一頁」沒有反應
 
 正式站 `7e70b5f5`（390×844、Chromium）：`?q=會議` → 開啟第一張卡（UC-127，`history.length` 3）→ 關閉 ✕ → 網址回到 `?q=會議`、對話框關閉、焦點回到原卡片，但**第一次「上一頁」網址與畫面都不變**（仍是 26／513 筆），要按第二次才離開網站。原因在 `closeDetail()` 用 `history.replaceState` 把正在讀的那一筆改寫成清單網址，歷史中留下兩筆相鄰且同網址的停靠點；關閉鈕、Escape 與點擊背景三條路徑都一樣。

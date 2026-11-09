@@ -991,8 +991,12 @@ function metadata(markdown, path, kind, suffix='') {
   const heading = title.replace(/^(?:UC|P)-\d+[\s:：|｜]*/, '');
   const lead = markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
   const summary = clean(lead.match(/^-\s*(?:核心目標|問題|目標|已知標題|狀態)\s*[：:]\s*(.+)$/m)?.[1] || lead.split('\n').find(line => line.trim() && !/^#|^-/.test(line)) || '閱讀公開來源、建議流程與驗收限制。');
-  let category = clean(lead.match(/^-\s*分類(?:／標籤)?\s*[：:]\s*(.+)$/m)?.[1] || '');
-  if (!category) category = /旅遊|旅行/.test(heading) ? '旅遊／消費研究' : /OLED|裝置/.test(heading) ? '實體裝置／驗收' : /銷售|商機|商店|SaaS|帳單/.test(heading) ? '商業／營運' : /研究|PR|CUA/.test(heading) ? '研究／開發' : /影片|社群|Facebook|CRM/.test(heading) ? '內容／社群' : '個人生產力';
+  // A theme is what the case page declares. 159 pages declare none, and a title
+  // keyword (or a catch-all default) is not a classification the library can
+  // stand behind: it used to put 145 unrelated cases in one `個人生產力` bucket,
+  // which then appeared as a filter option and as `同分類` reasoning. Such a page
+  // now carries no category, and the filter hint says how many that is.
+  const category = clean(lead.match(/^-\s*分類(?:／標籤)?\s*[：:]\s*(.+)$/m)?.[1] || '');
   let scenario = Discovery.scenarioOf(markdown) || clean(lead.match(/^-\s*情境\s*[：:]\s*(.+)$/m)?.[1] || '');
   if (!scenario) {
     if (/旅遊|旅行|消費/.test(heading + category)) scenario = '生活';
@@ -1327,10 +1331,13 @@ function sharedRelatedTags(item, other) {
   return [...shared.values()];
 }
 function relatedEntries(item, items) {
-  if (!item.category || item.category === '未分類') return [];
   const cases = items.filter(other => other.id !== item.id && other.kind === 'case');
   const shared = cases.filter(other => sharedRelatedTags(item, other).length >= 2);
-  const sameCategory = cases.filter(other => other.category === item.category && !shared.includes(other));
+  // Only a category the page declares can group it with another case; a page that
+  // declares none still deserves its shared-tag suggestions.
+  const sameCategory = item.category && item.category !== '未分類'
+    ? cases.filter(other => other.category === item.category && !shared.includes(other))
+    : [];
   return shared.concat(sameCategory).slice(0, 3);
 }
 function detailNeighbours(item, items) {
@@ -1374,7 +1381,11 @@ function renderRelated(item) {
     });
     section.append(list);
   } else {
-    section.append(el('p', 'related-empty', discoveryReady ? '目前條件下，沒有共同標籤或相同分類的其他主要案例。可關閉閱讀後調整搜尋條件。' : '其他案例仍在載入，完成後會依目前搜尋條件提供延伸閱讀。'));
+    section.append(el('p', 'related-empty', discoveryReady
+      ? (item.category
+        ? '目前條件下，沒有共同標籤或相同分類的其他主要案例。可關閉閱讀後調整搜尋條件。'
+        : '這篇案例頁沒有宣告分類，因此只會列出共同標籤的案例；目前結果中沒有符合的。可關閉閱讀後調整搜尋條件。')
+      : '其他案例仍在載入，完成後會依目前搜尋條件提供延伸閱讀。'));
   }
   const back = el('button', 'related-back', '關閉並返回結果');back.type = 'button';
   back.setAttribute('aria-label', '關閉並返回結果');
@@ -2378,11 +2389,18 @@ function renderFacetCounts(terms, filters) {
   const difficultyHint = '實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。';
   const statusHint = '收錄狀態的「待查線索」是還沒列成案例的線索；來源類型的「尚待查證」是證據等級，兩者不同。';
   const proofCountHint = '來源類型依案例頁首宣告的主要類別計一次；同一案例宣告的其他類別，列在卡片與詳情的提示中。';
+  // A page that declares no theme is not given one, so it cannot appear under any
+  // 主題分類 option. Say how many those are instead of letting the filter look
+  // like it covers the whole catalogue.
+  const unclassified = discoveryReady ? entries.filter(item => !item.category).length : 0;
+  const categoryHint = unclassified
+    ? '主題分類只列案例頁首宣告的分類；' + unclassified + ' 個未宣告分類的條目不在選項內，仍可用關鍵字、使用情境與其他篩選找到。'
+    : '';
   hint.textContent=(!discoveryReady
     ? '案例載入完成後，會顯示各選項的符合筆數。'
     : failedPaths.length
       ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
-      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。') + statusHint + difficultyHint + proofCountHint;
+      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。') + statusHint + difficultyHint + proofCountHint + categoryHint;
   // Count merged leads inside the same filtered set the pending option describes,
   // so a filtered view does not keep a global annotation it cannot show.
   const pendingBase=discoveryReady?filterEntries(entries,terms,{...filters,kind:''}):[];
@@ -3599,9 +3617,11 @@ function refreshCorpusMetadata() {
   }
   $('catalog-status').hidden=!failedPaths.length;
   $('catalog-status').textContent=failedPaths.length?'僅計已載入條目；'+failedPaths.length+' 個來源檔案未載入。':'';
-  for(const [id,values] of [['tool',entries.flatMap(e=>e.tools)],['category',entries.map(e=>e.category)],['proof',entries.map(e=>e.proof)]]){
+  // A page without a declared theme has an empty category; an empty option would
+  // be indistinguishable from the 全部分類 option, so it is left out.
+  for(const [id,values] of [['tool',entries.flatMap(e=>e.tools)],['category',entries.map(e=>e.category).filter(Boolean)],['proof',entries.map(e=>e.proof)]]){
     const selected=$(id).value;
-    populate(id,selected?[...values,selected]:values);
+    populate(id,selected?[...values.filter(value=>value!==selected),selected]:values);
     $(id).value=selected;
   }
 }

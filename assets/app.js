@@ -172,6 +172,9 @@ let visibleResults=RESULT_BATCH_SIZE, resultQueryKey='';
 const $ = id => document.getElementById(id);
 const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]/g,'').trim();
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
+// Source links are evidence, not content. A reader who searches a task must not
+// match a case because a footnote points at `support.google.com` or `x.com`.
+const SOURCE_URL_PATTERN=/https?:\/\/[^\s)\]|>"']+/gi;
 function abbreviatedQuery(query, limit=40) {
   const chars=Array.from(query.trim());
   return chars.slice(0,limit).join('')+(chars.length>limit?'…':'');
@@ -1046,7 +1049,8 @@ function metadata(markdown, path, kind, suffix='') {
   const declaredTier = declaredDifficulty(lead);
   const difficulty = declaredTier || extractDifficulty(markdown, tools, scenario, category);
   const difficultySource = declaredTier ? 'declared' : 'inferred';
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
+  const searchText=markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id);
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:norm(searchText),searchProse:norm(searchText.replace(SOURCE_URL_PATTERN,' '))};
 }
 // sources/pending.md records one review date for the whole file, above the first
 // lead. It says when the file was checked, not when each lead was, so it stays a
@@ -2160,10 +2164,16 @@ function enterSearch(event) {
   $('query').focus({preventScroll:true});
   keepSearchRevealed();
 }
-const PULL_REQUEST_ABBREVIATIONS=new Set(['pr','prs','mr','mrs']);
+// Latin characters inside a longer Latin word are not a hit: `auth` is not
+// `author`, `ci` is not `specific`, `ev` is not `every`, `repo` is not `report`.
+// The rule covers every all-latin variant, including the request abbreviations
+// (`pr` in `privacy`) that used to be the only exception. A trailing run of
+// digits still counts as a boundary so `uc101` and `pr149` keep matching, and
+// Chinese neighbours are boundaries because they are not [a-z0-9].
+const ASCII_VARIANT=/^[a-z0-9][a-z0-9 ._\/-]*$/;
 function searchVariantIndex(text,variant) {
   let index=text.indexOf(variant);
-  if(!PULL_REQUEST_ABBREVIATIONS.has(variant))return index;
+  if(index===-1||!ASCII_VARIANT.test(variant))return index;
   while(index!==-1){
     const before=text[index-1]||'',after=text[index+variant.length]||'';
     if(!/[a-z0-9]/.test(before)&&(!/[a-z0-9]/.test(after)||/^\d+(?![a-z0-9])/.test(text.slice(index+variant.length))))return index;
@@ -2173,14 +2183,17 @@ function searchVariantIndex(text,variant) {
 }
 function matchesSearchVariant(text,variant) { return searchVariantIndex(text,variant)!==-1; }
 function filterEntries(items, terms, filters) {
-  const variants=terms.map(term=>termVariants(term));
+  const queries=terms.map(term=>{const literal=norm(term).replace(/^#/,'');return {literal,variants:termVariants(term)};});
   return items.filter(item => {
     const text=filters.scope==='overview'
       ? norm((item.title||'')+' '+(item.originalTitle||'')+' '+(item.summary||'')+' '+(item.coreGoal||''))
       : filters.scope==='topic'
         ? norm((item.title||'')+' '+(item.originalTitle||'')+' '+(item.summary||'')+' '+(item.coreGoal||'')+' '+(item.category||'')+' '+(item.tags||[]).join(' ')+' '+idVariants(item.id||''))
         : item.search;
-    return variants.every(values=>values.some(value=>matchesSearchVariant(text,value)))
+    // A word the reader did not type is a synonym this library added, so it only
+    // counts inside the case's prose; the reader's own words still match URLs.
+    const prose=filters.scope?text:(item.searchProse||text);
+    return queries.every(({literal,variants})=>variants.some(value=>matchesSearchVariant(value===literal?text:prose,value)))
       && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof);
   });
 }

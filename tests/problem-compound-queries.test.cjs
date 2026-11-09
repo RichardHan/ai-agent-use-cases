@@ -54,8 +54,11 @@ test('compound problem queries segment cleanly and recall relevant cases', () =>
     { query: '合約審核', minMatches: 10, expectedTokens: ['合約', '審核'] },
     { query: '合約審查', minMatches: 10, expectedTokens: ['合約', '審查'] },
     { query: '日報整理', minMatches: 50, expectedTokens: ['日報', '整理'] },
-    { query: '自動客服', minMatches: 80, expectedTokens: ['客服'] },
-    { query: '客服機器人', minMatches: 80, expectedTokens: ['客服'] },
+    // 客服 used to reach 93 cases: 32 of them only linked to a vendor help centre
+    // (`support.google.com`, `support.plex.tv`). Source URLs are not content, so
+    // the recall floor is the 61 cases that actually mention customer service.
+    { query: '自動客服', minMatches: 61, expectedTokens: ['客服'] },
+    { query: '客服機器人', minMatches: 61, expectedTokens: ['客服'] },
     { query: '信箱清理', minMatches: 50, expectedTokens: ['信箱', '清理'] },
     { query: '行程規劃', minMatches: 20, expectedTokens: ['行程', '規劃'] },
     { query: '比價省錢', minMatches: 40, expectedTokens: ['比價', '省錢'] },
@@ -340,8 +343,10 @@ test('natural problem queries with conversational quantifiers and modifiers reca
     { query: '兩份競品簡報', min: 1, expectedId: 'UC-039' },
     { query: '兩份競品分析', min: 5, expectedId: 'UC-039' },
     { query: '一次性爬蟲', min: 25, expectedId: 'UC-086' },
-    { query: '整理一份會議記錄', min: 9, expectedId: 'UC-071' },
-    { query: '會議總結', min: 9, expectedId: 'UC-071' },
+    // UC-349 dropped out: its only 筆記 hit was `memo` inside the X handle in the
+    // source URL (x.com/tetumemo), which is a link, not a note.
+    { query: '整理一份會議記錄', min: 8, expectedId: 'UC-071' },
+    { query: '會議總結', min: 8, expectedId: 'UC-071' },
     { query: '兩週一次日報', min: 50, expectedId: 'UC-049' },
     { query: '整理每週日報', min: 50, expectedId: 'UC-049' },
     { query: '審閱合約', min: 15, expectedId: 'UC-007' },
@@ -799,9 +804,10 @@ test('natural problem queries for product research, paper study, reading notes, 
     { raw: '產品調研', expectedTokens: ['產品', '調研'], minMatches: 50, canonicalId: 'UC-011' },
     { raw: '做產品調研', expectedTokens: ['產品', '調研'], minMatches: 50, canonicalId: 'UC-011' },
     { raw: '產品研究', expectedTokens: ['產品', '調研'], minMatches: 50, canonicalId: 'UC-039' },
-    { raw: '論文研讀', expectedTokens: ['論文'], minMatches: 10, canonicalId: 'UC-012' },
-    { raw: '研讀論文', expectedTokens: ['論文'], minMatches: 10, canonicalId: 'UC-012' },
-    { raw: '精讀文獻', expectedTokens: ['論文'], minMatches: 10, canonicalId: 'UC-012' },
+    // 9, not 10: UC-362 matched `paper` inside the GitHub URL `paperclipai/paperclip`.
+    { raw: '論文研讀', expectedTokens: ['論文'], minMatches: 9, canonicalId: 'UC-012' },
+    { raw: '研讀論文', expectedTokens: ['論文'], minMatches: 9, canonicalId: 'UC-012' },
+    { raw: '精讀文獻', expectedTokens: ['論文'], minMatches: 9, canonicalId: 'UC-012' },
     { raw: '讀書筆記', expectedTokens: ['閱讀', '筆記'], minMatches: 8, canonicalId: 'UC-030' },
     { raw: '做讀書筆記', expectedTokens: ['閱讀', '筆記'], minMatches: 8, canonicalId: 'UC-352' },
     { raw: '整理讀書筆記', expectedTokens: ['閱讀', '筆記'], minMatches: 8, canonicalId: 'UC-352' },
@@ -962,11 +968,12 @@ test('natural problem queries with conjunctions (且, 並且, 同時, 以及, �
     { query: '合約審查 且 風險', expectedTokens: ['合約', '審查', '風險'], minMatches: 5, expectedId: 'UC-154' },
     { query: '合約審查同時風險', expectedTokens: ['合約', '審查', '風險'], minMatches: 5, expectedId: 'UC-154' },
     { query: '合約審查以及風險', expectedTokens: ['合約', '審查', '風險'], minMatches: 5, expectedId: 'UC-154' },
-    { query: '客服且人工', expectedTokens: ['客服', '人工'], minMatches: 35, expectedId: 'UC-398' },
-    { query: '客服同時人工', expectedTokens: ['客服', '人工'], minMatches: 35, expectedId: 'UC-398' },
-    { query: '客服以及人工', expectedTokens: ['客服', '人工'], minMatches: 35, expectedId: 'UC-398' },
-    { query: '客服 和 人工', expectedTokens: ['客服', '人工'], minMatches: 35, expectedId: 'UC-398' },
-    { query: '客服 與 人工', expectedTokens: ['客服', '人工'], minMatches: 35, expectedId: 'UC-398' },
+    // 32, not 35: the three missing cases were vendor help-centre URLs, not support work.
+    { query: '客服且人工', expectedTokens: ['客服', '人工'], minMatches: 32, expectedId: 'UC-398' },
+    { query: '客服同時人工', expectedTokens: ['客服', '人工'], minMatches: 32, expectedId: 'UC-398' },
+    { query: '客服以及人工', expectedTokens: ['客服', '人工'], minMatches: 32, expectedId: 'UC-398' },
+    { query: '客服 和 人工', expectedTokens: ['客服', '人工'], minMatches: 32, expectedId: 'UC-398' },
+    { query: '客服 與 人工', expectedTokens: ['客服', '人工'], minMatches: 32, expectedId: 'UC-398' },
   ];
 
   for (const item of conjunctionQueries) {

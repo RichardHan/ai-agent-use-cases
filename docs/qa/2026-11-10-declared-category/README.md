@@ -49,8 +49,8 @@
 ## 測試
 
 - `node --test tests/*.test.cjs`：基準 **594** → 本輪 **600 通過、0 失敗**（新增 6 項）；`node --check assets/app.js` 通過。
-- 新 unit test 的紅綠（同一支腳本、同一份語料）：`CATEGORY_SOURCE=/tmp/aiuc-1110-r10/assets/app.js`（基準 `0ece4ceb` 的 `app.js`）→ **5／6 失敗**（標題推測、全庫宣告契約、分類配對、共同標籤保留、`同分類` 指向未宣告頁面）；本輪 → **6／6 通過**。
-- 新瀏覽器測試的紅綠（重測於重新建置、sha256 核對過的預覽）：基準 `0ece4ceb` → 第一個缺陷斷言就紅 `a theme no page declares is not offered`（`個人生產力` 選項存在）；本輪 → Chromium／Firefox／WebKit × 1440×900／390×844 **六個配置全數通過**（`facet` 343 個選項、`unclassified` 165、最大選項 6 筆、`related`／`empty`／`declared` 三條情境、axe 0）。
+- 新 unit test 的紅綠（同一支腳本、同一份語料）：`CATEGORY_SOURCE=/tmp/aiuc-1110-r10/assets/app.js`（基準 `0ece4ceb` 的 `app.js`）→ **5／6 失敗**（標題推測、全庫宣告契約、分類配對、共同標籤保留、`同分類` 指向未宣告頁面），本輪 → **6／6 通過**。獨立審查指出配對那項原本是「空陣列跨 realm 比較」造成的假失敗，已改為 `Array.from` 正規化並補上「宣告分類仍成組、未宣告頁面仍靠共同標籤成組」兩條有意義的斷言；重跑後基準仍 5 紅、本輪全綠。
+- 新瀏覽器測試的紅綠（重測於重新建置、sha256 核對過的預覽）：基準 `0ece4ceb` → 第一個缺陷斷言就紅 `a page that declares no theme carries none`（頁面沒有 `- 分類` 行卻帶著推測的 `個人生產力`）。獨立審查指出原本的判定把 `entries[].category` 當成「已宣告」來源，推測值因此混進宣告集合；已改為從每筆 `markdown` 的頁首重新解析，並以「選項值集合＝宣告值集合」逐項比對（本輪 343＝343）。本輪 → Chromium／Firefox／WebKit × 1440×900／390×844 **六個配置全數通過**（`facet` 343 個選項、`unclassified` 165、最大選項 6 筆、`related`／`empty`／`declared` 三條情境、axe 0）。
 - 量測環境：本機 8080／8081 已被前一個 session 的 `python3 -m http.server` 佔用（cwd 分別是 `/private/tmp/prev-before`、`/private/tmp/prev-after3`），曾造成同一網址兩次讀到不同建置。本輪全部證據改在重新建置的 `/tmp/ver-before`、`/tmp/ver-after` 上取得（`http.server` 8180／8181），並先以 `shasum -a 256` 核對 `assets/app.js` 與 worktree 相同（本輪 `082d4374…`、基準 `7624b344…`）。
 - 既有瀏覽器回歸（本機預覽，修正版）：`related-browser.cjs`（1440／390／320，8 條情境含載入、跨搜尋歷史、合併交接、恢復後焦點）通過；`evidence-attribution-browser.cjs`（1440／390）通過；`facet-counts-browser.cjs`：Chromium 1440／390／320 與 Firefox 390 通過，**WebKit 390 在 `facet-counts-browser.cjs:110` 失敗**——`#query` 按 Tab 後焦點落在 `#filter-summary` 而非 `#search-submit`，以同一腳本、同一份資料對重建的基準預覽（8180）跑一次，**同一行、同一個焦點結果**，屬既有 WebKit 焦點限制，不是本輪回歸。
 - 三條訪客情境（重建預覽 8180／8181 各跑一次，前後結果相同；1440×900／390×844）：不知道工具名輸入「整理會議記錄」→ 8／513 筆、8 張卡、開啟詳情 UC-071；「規劃旅行」＋使用情境「工作」→ 0 筆並提供「移除使用情境「工作」→ 查看 1 筆」，恢復後 1 筆且網址只留 `q`；分享直鏈 `?case=UC-514` → 詳情、12 個來源連結、Escape 返回；三情境 axe 0、水平溢出 0、pageerror 0。
@@ -96,7 +96,7 @@
 
 以下由獨立調查（未參與實作）以 API／workflow 檔案重新確認，不是沿用歷史結論：
 
-1. 近三次 `pages build and deployment` 失敗（`42709949822`／`42697783315`／`42546597665`）都是 `deploy` 的 `Deploy to GitHub Pages` 撞 600s 上限（`Timeout reached, aborting!`），`build` 全部成功；同版本重跑在 7–9 秒被 `Deployment cancelled.` 拒絕。真正的 supersede 在 API 上是 `conclusion=cancelled` 且 deploy job `steps: []`（對照 `42342116785`）。這是平台端問題，本輪未改任何部署設定。
+1. 近三次 `pages build and deployment` 失敗（`42709949822`／`42697783315`／`42546597665`）都是 `deploy` 的 `Deploy to GitHub Pages` 撞 600s 上限（`Timeout reached, aborting!`），`build` 全部成功。重跑結果不一致：`42709949822` 與 `42697783315` 的 attempt 2 在 7–9 秒以 `Deployment cancelled.` 結束，`42546597665` 的 attempt 2 則再次逾時（01:50:21→02:00:50Z，629s）。真正的 supersede 在 API 上是 `conclusion=cancelled` 且 deploy job `steps: []`（對照 `42342116785`）。這是平台端問題，本輪未改任何部署設定。
 2. `main` **沒有 branch protection、沒有 required status checks**（`/branches/main` → `protected:false`、`required_status_checks.enforcement_level:"off"`、`/rulesets` 空）。紀錄型 commit 直接 push 到 main 是現行做法。
 3. 57 支 workflow 只有 **16 支**會在 PR／main 觸發；41 支的 `branches:` 指向已結束的 feature 分支或 `closed-historical` 哨兵。16 支都會跑 `node --test tests/*.test.cjs`，但多數 `paths` filter 沒有涵蓋測試實際讀的 `cases/**`、`sources/**`、`tests/**`（例如 `corpus-bundle-qa.yml`、`missing-case-qa.yml`、`related-qa.yml`），內容或排序回歸可能在綠燈下合併。這是本輪新增的 corpus-level 契約測試**目前不會在內容 PR 上執行**的原因。
 4. 發布沒有被驗證把關：`pages build and deployment` 在 push 後立即發布，`Website QA`（含正式站檢查）在數分鐘後才結束。

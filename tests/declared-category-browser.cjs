@@ -23,22 +23,27 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    // The filter offers exactly the themes the pages declare, and says how many
    // pages it therefore cannot offer.
    const facet=await page.evaluate(()=>{
-    const declared=[...new Set(entries.filter(entry=>entry.category).map(entry=>entry.category))];
-    const unclassified=entries.filter(entry=>!entry.category);
+    // Read the declaration from the page header, not from the value the app
+    // produced: otherwise a built-in guess would count as a declaration.
+    const leadOf=markdown=>(markdown||'').replace(/^#{1,3}[^\n]*\n/,'').split(/^## /m)[0];
+    const declares=entry=>/^-\s*分類(?:／標籤)?\s*[：:]/m.test(leadOf(entry.markdown));
+    const declaredValues=[...new Set(entries.filter(declares).map(entry=>entry.category))].sort();
+    const undeclared=entries.filter(entry=>!declares(entry));
     const options=[...document.querySelectorAll('#category option')];
     return {
-     declaredCount:declared.length,
-     unclassified:unclassified.length,
-     optionValues:options.map(option=>option.value).filter(Boolean),
+     declaredCount:declaredValues.length,
+     declaredValues,
+     unclassified:undeclared.length,
+     undeclaredMismatch:undeclared.filter(entry=>entry.category).map(entry=>entry.id),
+     optionValues:options.map(option=>option.value).filter(Boolean).sort(),
      blankOptions:options.filter(option=>!option.textContent.trim()).length,
-     invented:declared.some(value=>value==='個人生產力')?[]:['個人生產力'].filter(value=>options.some(option=>option.value===value)),
      hint:document.getElementById('facet-count-hint').textContent
     };
    });
-   row.facet={declared:await page.evaluate(()=>entries.filter(entry=>entry.category).length),unclassified:facet.unclassified,options:facet.optionValues.length};
+   row.facet={declared:facet.declaredCount,unclassified:facet.unclassified,options:facet.optionValues.length};
    assert.equal(facet.blankOptions,0,'no blank category option');
-   assert.deepEqual(facet.invented,[],'a theme no page declares is not offered');
-   assert.equal(facet.optionValues.length,facet.declaredCount,'every option is a declared theme');
+   assert.deepEqual(facet.undeclaredMismatch,[],'a page that declares no theme carries none');
+   assert.deepEqual(facet.optionValues,facet.declaredValues,'the filter offers exactly the declared themes');
    assert(facet.unclassified>0,'the corpus still contains pages that declare no theme');
    assert.ok(facet.hint.includes(facet.unclassified+' 個未宣告分類的條目不在選項內'),'the filter says how many pages it cannot list');
 

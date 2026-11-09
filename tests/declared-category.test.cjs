@@ -18,7 +18,9 @@ const corpus=corpusFiles.map(file=>{
   return {...api.metadata(markdown,'cases/'+file,'case'),declared:declaresCategory(markdown)};
 });
 const caseItem=(id,extra={})=>({id,kind:'case',category:'',scenario:'生活',tags:[],...extra});
-const ids=list=>list.map(item=>item.id);
+// Results come from the vm realm; Array.from keeps the comparison in this realm
+// so an empty result cannot fail merely on a prototype mismatch.
+const ids=list=>Array.from(list,item=>item.id);
 
 test('a page that declares no theme is not given one, even when its title hints at a topic', () => {
   for (const heading of ['規劃一趟日本旅行與比價','用 OLED 小螢幕核對裝置','SaaS 帳單與商店營運檢查','研究與 PR 審查流程']) {
@@ -41,11 +43,15 @@ test('the corpus carries only categories its pages declare', () => {
 });
 
 test('same-category suggestions only join pages that declare the same theme', () => {
-  const current=caseItem('UC-920');
   const declared=caseItem('UC-921',{category:'旅遊／消費研究'});
   const otherDeclared=caseItem('UC-922',{category:'旅遊／消費研究'});
-  assert.deepEqual(ids(api.relatedEntries(current,[current,declared,otherDeclared])),[],'an unclassified page invents no same-category match');
-  assert.deepEqual(ids(api.relatedEntries(declared,[current,declared,otherDeclared])),['UC-922']);
+  const otherCategory=caseItem('UC-923',{category:'商業／營運'});
+  assert.deepEqual(ids(api.relatedEntries(declared,[declared,otherDeclared,otherCategory])),['UC-922'],'a declared theme groups its own pages only');
+  // A page with no theme is not paired by a theme it never declared, but a shared
+  // tag still counts: the category only decides the reason, not the membership.
+  const unclassified=caseItem('UC-924',{tags:['旅遊','比價']});
+  const shared=caseItem('UC-925',{tags:['旅遊','比價'],category:'旅遊／消費研究'});
+  assert.deepEqual(ids(api.relatedEntries(unclassified,[unclassified,shared])),['UC-925']);
 });
 
 test('an unclassified page keeps its shared-tag suggestions', () => {

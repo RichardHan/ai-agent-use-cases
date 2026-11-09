@@ -87,6 +87,14 @@
 
 審查未能驗證：同一 tick 內 Escape＋背景點擊的競態、GitHub Actions 實際執行與 artifact 上傳、Chromium 以外的引擎、正式站、以及新分頁真實網址列的行為。
 
+## 發布核對
+
+- PR [#315](https://github.com/RichardHan/ai-agent-use-cases/pull/315)（head `728b9761`，13 項檢查全 success、`published` 依設計 skip）squash 合併為 `f07f72d5`。
+- `pages build and deployment` [42708370217](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42708370217) success；正式站 `catalog.json.sourceRevision` = `f07f72d5…`、`corpus.json.sourceRevision` 同值、510 個來源檔。
+- 正式站 `assets/app.js` sha256 與本機建置逐 byte 相同（`7624b344b3e22084d13b67719a4c22b25d4e579ef5012ad4f3bd643da1fc8788`）。
+- 正式站實測（`docs/qa/2026-11-11-detail-close-back/live/`，1440×900 與 390×844）：新測試 5 條情境全通過；三條指定情境——(1) 不知道工具名，輸入「整理會議記錄」→ 8／513 筆、8 張卡；(2) 「規劃旅行」＋使用情境「工作」→ 0 筆並提供「移除使用情境「工作」→ 查看 1 筆」，恢復後 1 筆、網址只留 `q`；(3) 分享直鏈 `?case=UC-514` → 憑據徽章 `官方自報`＋`設計／未實跑`、來源連結固定在本版 commit、Escape 關閉後第一次上一頁即離開，不再空轉。axe 0、水平溢出 0、pageerror 0。
+- 合併後 main 的 `Website QA` [42708373335](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42708373335) success（含新增的 `detail-close-history-browser.cjs` 與 `Verify the published GitHub Pages site`）。
+
 ## 本輪順帶確認、但未處理的 CI 事實
 
 獨立 CI 調查（以 main 版 workflow 與近 300 次 run 為準）留下三項有證據、但與本輪主題無關的問題，供下一輪排序：

@@ -10,6 +10,8 @@
 
 CI 現況重新確認（不沿用歷史故障）：main 上 `Website QA` `42692519441` 與 `pages build and deployment` 全 success；近 300 次 run 的失敗都在已放棄的 feature 分支，14 次 cancelled 全是 `cancel-in-progress` 的取代。獨立 CI 調查另留下三項未處理的證據：發布沒有被驗證把關（`7e70b5f5` 發布完成 20:25:13、QA 20:33:00 才結束）、57 支 workflow 只有 16 支跑得起來（41 支的 `branches:` 指向已結束的分支或 `closed-historical`）、6 支 PR workflow 的 path filter 少了測試實際讀的資料檔。
 
+發布補記：PR [#315](https://github.com/RichardHan/ai-agent-use-cases/pull/315)（head `728b9761`，13 項檢查全 success）squash 合併為 `f07f72d5`；`pages build and deployment` [42708370217](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42708370217) 成功，正式站 `catalog.json`／`corpus.json` 的 `sourceRevision` 皆為 `f07f72d5…`、510 個來源檔，正式站 `assets/app.js` 與本機建置 sha256 相同；main 的 `Website QA` [42708373335](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42708373335) success。正式站三條情境（問題搜尋 8 筆、組合篩選 0 筆後以建議恢復、分享直鏈 UC-514 的憑據與固定版本來源）與新測試 5 條情境在 1440／390 皆通過，axe 0、溢出 0、pageerror 0。
+
 驗收紀錄、前後截圖與限制：[docs/qa/2026-11-11-detail-close-back](docs/qa/2026-11-11-detail-close-back/README.md)。下一輪先做 **`主題分類` 對 159 個沒有宣告分類的案例頁是依標題猜的，卻以「同分類」與篩選選項呈現**：先以 `metadata()` 對 506 頁列出推測分類清單與顯示字串，再決定標示推測或收斂規則。
 
 ## 2026-11-10 已處理但沒寫併入對象：徽章說「已併入」，後面是空的

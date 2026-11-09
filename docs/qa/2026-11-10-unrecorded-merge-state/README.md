@@ -123,7 +123,7 @@ P-004 的「怎麼開始／要注意什麼」前後（1440×900，同一頁）�
 | PR 檢查 | 功能 head `958df12f` 13 項非略過檢查全 success（`published` 依設計在 PR 上 skipping）；`ea50ae95` 只改 `SITE.md` 且標記 `[skip ci]`，因此沒有新 run |
 | 已合併 | squash `7e70b5f5`（base `c4bef514`） |
 | 部署 | `pages build and deployment` [42692517936](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42692517936) success（build／report／deploy） |
-| 正式站已驗證 | 是：`7e70b5f5` 部署後 `catalog.json.sourceRevision` = `7e70b5f5…`；紀錄合併（`13a82948`）後為 `13a82948…`（僅文件變更），`assets/app.js` 、`assets/copy.json` 與合併版本 sha256 逐 byte 相同，510 個來源檔不變 |
+| 正式站已驗證 | 是：`7e70b5f5` 部署後 `catalog.json.sourceRevision` = `7e70b5f5…`；之後每次僅文件的紀錄合併都會把 revision 再推進一個 commit（本次已核對到 `fdcd60f8`），`assets/app.js`、`assets/copy.json`、`assets/reader.css` 與合併版本 sha256 逐 byte 相同，510 個來源檔不變 |
 
 ### 正式站核對（`7e70b5f5`，Chromium 1440×900／390×844／320×740）
 

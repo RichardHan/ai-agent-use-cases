@@ -80,6 +80,7 @@ jobs:
           EXPLORE_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/search-reveal-settle-browser.cjs
           KEYBOARD_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/keyboard-search-entry-browser.cjs
           VERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/result-count-honesty-browser.cjs
+          VERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/match-scope-note-browser.cjs
       - name: Build actual Pages release for published verification
         uses: actions/jekyll-build-pages@v1
         with:

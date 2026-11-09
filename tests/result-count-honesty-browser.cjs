@@ -23,8 +23,8 @@ const read = page => page.evaluate(() => ({
   drawStatus: document.getElementById('draw-status').textContent,
   batchHidden: document.getElementById('load-more-results').hidden,
   batchText: document.getElementById('load-more-results').textContent,
-  gapHidden: document.getElementById('purpose-gap')?.hidden ?? null,
-  gapText: document.getElementById('purpose-gap-message')?.textContent ?? '',
+  gapHidden: document.getElementById('match-scope')?.hidden ?? null,
+  gapText: document.getElementById('match-scope-message')?.textContent ?? '',
   scope: document.getElementById('search-scope').value,
   emptyShown: !document.getElementById('empty').hidden,
   cards: document.querySelectorAll('#results .card').length
@@ -41,7 +41,7 @@ const read = page => page.evaluate(() => ({
       page.on('pageerror', error => errors.push(String(error)));
       await page.goto(origin, { waitUntil: 'networkidle' });
       await page.locator('#results .card').first().waitFor({ timeout: 60000 });
-      assert.equal(await page.locator('#purpose-gap').count(), 1, `${name}: the results screen offers a match-scope notice`);
+      assert.equal(await page.locator('#match-scope').count(), 1, `${name}: the results screen offers a match-scope notice`);
 
       // A batch is on screen first, so visibleResults sits at 24.
       await setQuery(page, '整理');
@@ -122,14 +122,14 @@ const read = page => page.evaluate(() => ({
       const gap = await read(page);
       assert.equal(gap.gapHidden, false, `${name}: 播客摘要 has no case whose title/purpose holds both words`);
       assert.match(gap.gapText, /「播客」「摘要」/, `${name}: the notice names both words: ${gap.gapText}`);
-      assert.match(gap.gapText, /字面命中/, `${name}: the notice says the hits are literal: ${gap.gapText}`);
-      assert.equal(await page.locator('#results .card').count() > 0, true, `${name}: the literal matches stay listed`);
+      assert.match(gap.gapText, /全文或同義詞命中/, `${name}: the notice says the hits came from the full text or a synonym, not from a literal match: ${gap.gapText}`);
+      assert.equal(await page.locator('#results .card').count() > 0, true, `${name}: the body/synonym matches stay listed`);
 
       // The offered word must be real: clicking it has to show the promised count.
-      const action = await page.locator('#purpose-gap-scope').innerText();
+      const action = await page.locator('#match-scope-action').innerText();
       const promised = Number((action.match(/→\s*(\d+)\s*筆/) || [])[1]);
       assert.ok(Number.isFinite(promised) && promised > 0, `${name}: the notice offers a reachable single word: ${action}`);
-      await page.locator('#purpose-gap-scope').click();
+      await page.locator('#match-scope-action').click();
       await page.waitForTimeout(250);
       const retargeted = await read(page);
       const shown = Number((retargeted.resultsCount.match(/顯示\s*(\d+)/) || [])[1]);
@@ -152,7 +152,7 @@ const read = page => page.evaluate(() => ({
       await setQuery(page, '會議');
       await page.waitForTimeout(250);
       const direct = await read(page);
-      assert.equal(direct.gapHidden, true, `${name}: 會議 keeps a direct title/purpose match, so no notice`);
+      assert.equal(direct.gapHidden, true, `${name}: 會議 answers 13 of 26 results in title/purpose, under the tail share, so no notice`);
 
       assert.deepEqual(errors, [], `${name}: no page errors`);
       report.push({ name, wide: wide.resultsCount, narrow: narrow.resultsCount, drawable, explained, gap: gap.gapText });

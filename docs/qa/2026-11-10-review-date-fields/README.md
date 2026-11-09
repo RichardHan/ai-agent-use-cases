@@ -97,21 +97,37 @@ Reviewer 未重跑測試與瀏覽器套件，因此測試、axe、pageerror、�
 - 只修正「讀不到日期」與其排序後果；沒有量測「核對日顯示正確」是否改變讀者採用率，也沒有真人使用者研究。
 - 7 個案例檔的頁首欄位維持原寫法（未改寫研究紀錄）。
 
-## 下一輪
-
-先做**詳情關閉後第一次 Back 沒有反應**。本輪自行重現（本機 preview，Chromium 390×844，`c4bef514`）：`?q=會議`（`history.length` 2、24 張卡片）→ 點第一張卡 UC-094（`?q=會議&case=UC-094`、`history.length` 3、dialog 開啟）→ 按「關閉 ✕」→ 網址回到 `?q=會議`、`history.length` 仍是 3、dialog 關閉 → **Back #1：網址、卡片數、dialog 狀態全部不變（沒有任何反應）** → Back #2：離開本站（`about:blank`）。成因在 `assets/app.js`：`showDetail()` 以 `pushState` 推入帶 `?case` 的歷史項，`closeDetail()`（:1784-1793）以 `replaceState` 把同一項改成與下一項完全相同的網址。上一輪 `docs/qa/2026-11-10-merged-destinations/README.md` 已記錄但未修。
-
-驗證先做兩件事，再改程式：(1) 在正式站以 `?q=會議` → 開 UC-094 → 按關閉 → Back，記錄 `history.length` 與畫面是否改變；(2) 盤點 `tests/*-browser.cjs` 中在 `press('Escape')` 同一 tick 斷言 `document.activeElement`／URL 的檔案（上一輪因此讓三個 workflow 轉紅）。先建立 `await closeDetail(page)` 共用 helper 讓既有測試接受非同步關閉，再改 `closeDetail()`。
-
 ## 發布
 
 | 狀態 | 內容 |
 | --- | --- |
 | 已提交 | `f38279a3`（修正）→ `8fed75a4`（review 修正）→ `72ec880e`（CI 預算）→ `c38c14a2`（合併 main `7e70b5f5`，README 兩段都保留） |
 | 已推送 | `origin/improve/20261110-visitor-round9` → PR [#309](https://github.com/RichardHan/ai-agent-use-cases/pull/309) |
-| PR 檢查 | head `c38c14a2`：**13 項 pass、2 項 skipping**（`published` 依設計在 PR 上跳過）；`Reader search QA` 2m2s pass |
+| PR 檢查 | head `c38c14a2`：**13 項 pass、2 項 skipping**（`published` 依設計在 PR 上跳過） |
 | 已合併 | squash **`7377831b`**（2026-11-09T20:56:54Z） |
-| 部署 | **第一次失敗（外部 Pages 服務）**：`pages build and deployment` [42697783315](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42697783315) build success、deploy failure——`Deploy to GitHub Pages` 連續 10 分鐘讀到 `Current status: syncing_files`，21:08:22 出現 `Timeout reached, aborting!` 並 `Canceled deployment with ID 7377831b…`；重跑同一個 run 立即得到 `Deployment cancelled.`（同一個 `pages_build_version` 已被取消，重試被拒） |
-| 正式站已驗證 | **尚未**：合併後正式站仍服務 `8100024f`（`catalog.json.sourceRevision`），`assets/app.js` sha256 `238d64d4…` ＝合併前版本；合併版本為 `fbe93519…`。`Website QA` [42697785268](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42697785268) 停在 `Wait for published assets and content`，接下來會走 fail-closed 步驟（不會謊報通過） |
+| 部署（第一次） | **失敗，外部 Pages 服務**：`pages build and deployment` [42697783315](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42697783315) build success、deploy failure。`Deploy to GitHub Pages` 連續 10 分鐘讀到 `Current status: syncing_files`，21:08:22 `Timeout reached, aborting!` → `Canceled deployment with ID 7377831b…`；重跑同一 run 立刻 `Deployment cancelled.`（同一個 `pages_build_version` 已被取消，重試被拒） |
+| 部署（第二次） | **成功**：以紀錄 commit `b04f4fe4`（新的 `pages_build_version`）觸發 `pages build and deployment` [42701181658](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42701181658)，build 與 deploy 皆 success |
+| 合併後 main QA | `Website QA` [42697785268](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42697785268) 對 `7377831b` **success**：`Wait for published assets and content` success、fail-closed 步驟因已驗證而 skipped、`Verify the published GitHub Pages site` success |
+| 正式站已驗證 | **是**：`catalog.json.sourceRevision` = `b04f4fe4`（含合併版本內容）、`builtAt` 2026-11-09、510 個來源檔；正式站 `assets/app.js` sha256 `fbe93519…` 與 main 的 `assets/app.js` 逐 byte 相同 |
 
-處理方式：本紀錄的更新本身會產生新的 main commit（新的 `pages_build_version`），用它觸發新的 Pages 建置並重新部署，再以 `assets/app.js` sha256 與 `catalog.json.sourceRevision` 核對正式站；若新版本仍無法部署，本輪就以「已合併、未發布」結案並保留上述證據。
+### 正式站核對（Chromium 1440×900／390×844／320×740）
+
+| 檢查 | 正式站結果 |
+| --- | --- |
+| `?case=UC-222` 詳情徽章 | `頁首核對 2026-10-16`（三種寬度一致），原始 Markdown 固定到 `b04f4fe4…` |
+| `?case=P-001` | `本條未載核對日`＋`來源檔查證 2026-10-17`（未受影響） |
+| `?sort=reviewed`（展開全部 513 筆） | 標示「未提供核對日」**0 筆**；UC-434 第 **76** 名，UC-218 435、UC-220 437、UC-221 438、UC-222 439、UC-223 440、UC-224 441 |
+| 情境 1（首頁問題標籤「會議整理」） | 26／513 筆，第一張卡 UC-094 |
+| 情境 2（`?q=規劃旅行&scenario=工作`） | 0 筆 →「移除使用情境「工作」」→ 1 筆 |
+| 情境 3（`?case=UC-222` → Escape） | 詳情顯示核對日；Escape 回到搜尋、24 張卡片 |
+| pageerror／水平溢出 | 三種寬度皆 0 |
+
+限制：本輪執行環境無法檢視截圖，正式站結論全來自 DOM 文字與幾何量測、sha256 與 JSON 比對；axe 只在合併前的本機 preview 量測（Chromium／Firefox／WebKit 皆 0 violations），未在正式站重跑。
+
+## 下一輪
+
+先做**詳情關閉後第一次 Back 沒有反應**。本輪自行重現（本機 preview，Chromium 390×844，`c4bef514`）：`?q=會議`（`history.length` 2、24 張卡片）→ 點第一張卡 UC-094（`?q=會議&case=UC-094`、`history.length` 3、dialog 開啟）→ 按「關閉 ✕」→ 網址回到 `?q=會議`、`history.length` 仍是 3、dialog 關閉 → **Back #1：網址、卡片數、dialog 狀態全部不變（沒有任何反應）** → Back #2：離開本站（`about:blank`）。成因在 `assets/app.js`：`showDetail()` 以 `pushState` 推入帶 `?case` 的歷史項，`closeDetail()`（:1784-1793）以 `replaceState` 把同一項改成與下一項完全相同的網址。上一輪 `docs/qa/2026-11-10-merged-destinations/README.md` 已記錄但未修。
+
+驗證先做兩件事，再改程式：(1) 在正式站以 `?q=會議` → 開 UC-094 → 按關閉 → Back，記錄 `history.length` 與畫面是否改變；(2) 盤點 `tests/*-browser.cjs` 中在 `press('Escape')` 同一 tick 斷言 `document.activeElement`／URL 的檔案（上一輪因此讓三個 workflow 轉紅）。先建立 `await closeDetail(page)` 共用 helper 讓既有測試接受非同步關閉，再改 `closeDetail()`。
+
+次順位（本輪調查到、尚未處理）：全文索引把出處描述也當成主題內容——`?q=英文` 在 506 個案例中有 383 筆命中，其中 57 筆的「英文」只出現在頁首的語言／作者欄位，而 `metadata()` 的 `search:` 串接整份 Markdown（量測方式：`grep -l 英文 cases/*.md` = 383；只出現在頁首、正文無「英文」= 57）。修法要先量測再改（首頁 53 個任務入口與既有搜尋計數斷言都會受影響）。

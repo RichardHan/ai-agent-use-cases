@@ -1575,13 +1575,19 @@ function refreshMergedDestination() {
   const active=document.activeElement;
   const withFocus=wrap.contains(active);
   const focusedTarget=withFocus?active.getAttribute?.('data-merged-target'):null;
-  const anchor=wrap.querySelector('.detail-merged-open');
+  // Measure the destination the reader is on, not simply the first entry: a
+  // destination that loads above the current one (UC-101 arriving after UC-102)
+  // moves the block down, and aligning to a different id would shift the page.
+  const anchor=(focusedTarget&&wrap.querySelector(`.detail-merged-open[data-merged-target="${focusedTarget}"]`))
+    ||wrap.querySelector('.detail-merged-open');
+  const anchorId=anchor?.getAttribute('data-merged-target')||null;
   const beforeTop=anchor?anchor.getBoundingClientRect().top:null;
   const replacement=mergedDestination(currentDetailItem);
   wrap.replaceWith(replacement);
-  // The added entry makes the block taller: keep the reader's position, then put
-  // focus back on the same destination (or the first entry) instead of BODY.
-  const afterAnchor=replacement.querySelector('.detail-merged-open');
+  // The added entry makes the block taller: keep the reader's position on the same
+  // destination, then put focus back on it (or on the first entry) instead of BODY.
+  const afterAnchor=(anchorId&&replacement.querySelector(`.detail-merged-open[data-merged-target="${anchorId}"]`))
+    ||replacement.querySelector('.detail-merged-open');
   if(beforeTop!==null&&afterAnchor&&dialog)
     dialog.scrollTop+=afterAnchor.getBoundingClientRect().top-beforeTop;
   if(withFocus){

@@ -161,7 +161,7 @@
 | 已合併 | squash `fcd53e010a8f9b9343d988006414a0353ef2e0d3`（base `2a498daa`，PR #287 的結果筆數輪之後） |
 | 部署 | `pages build and deployment` [42568326336](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42568326336) build／report／deploy 全 success |
 | 正式站已驗證 | 是：`catalog.json` 的 `sourceRevision` 為 `fcd53e01…`、`builtAt` 2026-11-09、510 個來源檔；`assets/app.js` 與合併後版本逐 byte 相同 |
-| 合併後 main QA | `Website QA` [42568326905](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42568326905) 於紀錄時仍在執行（見下方補記）；不把它算成通過 |
+| 合併後 main QA | `Website QA` [42568326905](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42568326905) **success**：第 14 步「Wait for published assets and content」通過、第 15 步 fail-closed 因已驗證而 skipped、第 16 步正式站瀏覽器走查 success |
 
 ### 正式站核對（`fcd53e01`）
 

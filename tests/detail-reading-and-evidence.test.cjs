@@ -541,3 +541,27 @@ test('reader view provides quick safety and credibility shortcut to proof and sa
   assert.match(readerCss, /\.reader-safety-shortcut\s*\{[^}]*min-height:\s*44px/, 'reader.css must give .reader-safety-shortcut at least 44px touch target');
   assert.match(readerCss, /\.reader-safety-shortcut:focus-visible\s*\{/, 'reader.css must define focus-visible for safety shortcut');
 });
+
+test('detail view says whether the 實作門檻 was declared or guessed', () => {
+  const { context, detailBody, detailModal } = setupDom();
+  const item = {
+    id: 'UC-063', title: 'Plex 媒體庫整理', what: '先列整理草案。',
+    kind: 'case', scenario: '生活', proof: '作者報告／示範',
+    difficulty: '入門對話', difficultySource: 'inferred',
+    tools: ['Grok Bot'], tags: [], path: 'cases/063.md', markdown: '# UC-063\n\n## 來源\n內容'
+  };
+  context.showDetail(item, null, false);
+  const inferred = detailBody.querySelector('.detail-difficulty');
+  assert.ok(inferred, 'detail must render .detail-difficulty');
+  const inferredNote = inferred.querySelector('.detail-difficulty-source');
+  assert.ok(inferredNote, 'detail must say where the tier came from');
+  assert.match(inferredNote.textContent, /未宣告/);
+  assert.match(inferredNote.textContent, /推測/);
+  detailModal.close();
+
+  context.showDetail({ ...item, difficulty: '工具串接', difficultySource: 'declared' }, null, false);
+  const declaredNote = detailBody.querySelector('.detail-difficulty').querySelector('.detail-difficulty-source');
+  assert.match(declaredNote.textContent, /案例頁自行宣告/);
+  assert.doesNotMatch(declaredNote.textContent, /推測/);
+  detailModal.close();
+});

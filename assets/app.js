@@ -597,6 +597,17 @@ const DIFFICULTY_NOTES = {
   '工具串接': '需外掛/帳號',
   '進階開發': '需代碼/環境'
 };
+// The tiers are ids, not prose: they are facet values, share-link values and
+// test expectations, so a declaration must use one of these exact strings.
+const DIFFICULTY_TIERS = ['入門對話', '工具串接', '進階開發'];
+// A case may state what a reader needs; keyword inference cannot know whether
+// "腳本" was the author's product or the prerequisite for reproducing the case.
+function declaredDifficulty(lead) {
+  const raw = clean(lead.match(/^-\s*實作門檻\s*[：:]\s*(.+)$/m)?.[1] || '');
+  // Exact match only: a value like "入門對話（需本機環境）" is malformed, and
+  // accepting its prefix would publish a tier the case did not declare.
+  return DIFFICULTY_TIERS.includes(raw) ? raw : '';
+}
 function extractDifficulty(markdown, tools = [], scenario = '', category = '') {
   const lead = markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
   const declaredTools = clean(lead.match(/^-\s*工具\s*[：:]\s*(.+)$/m)?.[1] || '');
@@ -805,8 +816,10 @@ function metadata(markdown, path, kind, suffix='') {
   const extracted=extractActionableGuidance(markdown);
   const howText=copy.how||extracted.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。';
   const cautionText=copy.caution||extracted.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。';
-  const difficulty = extractDifficulty(markdown, tools, scenario, category);
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,mergedInto,resolved,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
+  const declaredTier = declaredDifficulty(lead);
+  const difficulty = declaredTier || extractDifficulty(markdown, tools, scenario, category);
+  const difficultySource = declaredTier ? 'declared' : 'inferred';
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,mergedInto,resolved,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
 }
 // sources/pending.md records one review date for the whole file, above the first
 // lead. It says when the file was checked, not when each lead was, so it stays a
@@ -1356,7 +1369,10 @@ function showDetail(item, trigger, updateURL=true) {
   }
   if (item.difficulty) {
     const diffSection = el('section', 'detail-difficulty');
-    diffSection.append(el('h2', '', '實作門檻'), el('p', '', DIFFICULTY_LABELS[item.difficulty] || item.difficulty));
+    diffSection.append(el('h2', '', '實作門檻'), el('p', '', DIFFICULTY_LABELS[item.difficulty] || item.difficulty),
+      el('p', 'detail-difficulty-source', item.difficultySource === 'declared'
+        ? '案例頁自行宣告這個門檻；本庫未另外驗證。'
+        : '案例頁未宣告門檻，這是由本庫依內文關鍵字推測；請以案例的工具與步驟核對。'));
     overview.append(diffSection);
   }
   if (!discoveryReady) {
@@ -1577,8 +1593,10 @@ function card(item, terms=[]) {
   if(item.difficulty){
     const diffBadge = el('span', 'card-difficulty', item.difficulty);
     diffBadge.dataset.difficulty = item.difficulty;
-    diffBadge.title = DIFFICULTY_LABELS[item.difficulty] || item.difficulty;
-    diffBadge.setAttribute('aria-label', '實作門檻：' + (DIFFICULTY_LABELS[item.difficulty] || item.difficulty));
+    diffBadge.dataset.difficultySource = item.difficultySource || 'inferred';
+    const diffLabel = DIFFICULTY_LABELS[item.difficulty] || item.difficulty;
+    diffBadge.title = diffLabel + (item.difficultySource === 'declared' ? '（案例頁宣告）' : '（本庫依內文推測）');
+    diffBadge.setAttribute('aria-label', '實作門檻：' + diffLabel + (item.difficultySource === 'declared' ? '，案例頁宣告' : '，本庫依內文推測，案例未宣告'));
     badgesWrap.append(diffBadge);
     if(DIFFICULTY_NOTES[item.difficulty]){
       const diffNote = el('span', 'card-difficulty-note', DIFFICULTY_NOTES[item.difficulty]);
@@ -1962,11 +1980,12 @@ function renderCategoryFinder() {
 }
 function renderFacetCounts(terms, filters) {
   const hint=$('facet-count-hint');
+  const difficultyHint = '實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。';
   hint.textContent=!discoveryReady
-    ? '案例載入完成後，會顯示各選項的符合筆數。'
+    ? '案例載入完成後，會顯示各選項的符合筆數。' + difficultyHint
     : failedPaths.length
-      ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
-      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。';
+      ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。' + difficultyHint
+      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。' + difficultyHint;
   // Count merged leads inside the same filtered set the pending option describes,
   // so a filtered view does not keep a global annotation it cannot show.
   const pendingBase=discoveryReady?filterEntries(entries,terms,{...filters,kind:''}):[];

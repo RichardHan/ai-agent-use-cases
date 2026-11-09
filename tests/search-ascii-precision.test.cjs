@@ -83,7 +83,7 @@ function setupEnvironment() {
     navigator: {},
     fetch: () => {}
   });
-  vm.runInContext(appSource + '\nthis.api = { metadata, parseFile, filterEntries, rankEntries, tokenize, termVariants, matchesSearchVariant, SYNONYM_GROUPS };', context);
+  vm.runInContext(appSource + '\nthis.api = { metadata, parseFile, filterEntries, rankEntries, tokenize, termVariants, matchesSearchVariant, searchContext, SYNONYM_GROUPS };', context);
   return context.api;
 }
 
@@ -219,4 +219,20 @@ test('author never becomes the reason a case answers 權限', () => {
     .filter(item => !variants.some(variant => api.matchesSearchVariant(item.searchProse || '', variant)))
     .map(item => item.id);
   assert.deepEqual(bylineOnly, [], 'an English byline must not answer a permission question');
+});
+
+test('the explanation chip prefers prose evidence over a source URL', () => {
+  // A case that mentions support.google.com above the sentence that really answers
+  // 客服 must point the reader at that sentence, not at the vendor link.
+  const item = fixture('UC-925', '整理信件', '');
+  item.markdown = '# UC-925：整理信件\n\n## 來源\n\n[官方說明](https://support.google.com/youtube/answer/1)\n\n## 方法\n\n客服信先分成退款與技術問題。';
+  const explained = api.searchContext(item, ['客服']).matches[0];
+  assert.equal(explained.label, '原文 · 方法', 'the chip must name the prose line, not the source line');
+  assert.match(explained.excerpt, /客服信先分成退款/, 'the excerpt must be the sentence that answers the query');
+  // When the only evidence is the source URL, the chip still says so and marks it 來源.
+  const urlOnly = fixture('UC-926', '影音整理', '');
+  urlOnly.markdown = '# UC-926：影音整理\n\n## 來源\n\n[官方說明](https://support.google.com/youtube/answer/1)';
+  const fallback = api.searchContext(urlOnly, ['客服']).matches[0];
+  assert.equal(fallback.label, '原文 · 來源');
+  assert.equal(fallback.caution, '來源');
 });

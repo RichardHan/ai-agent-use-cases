@@ -1945,12 +1945,20 @@ function searchContext(item, terms) {
   const matches=[];
   for(const term of [...new Set(terms)]){
     const variants=termVariants(term);
-    for(const field of fields){
-      const text=norm(field.text),variant=variants.find(v=>searchVariantIndex(text,v)!==-1);
-      if(!variant)continue;
-      const caution=field.original&&/限制|風險|注意|缺口|權限/.test(field.label)?'限制':field.original&&/來源|參考|連結/.test(field.label)?'來源':'';
-      matches.push({term,variant,label:field.label,excerpt:field.original?contextExcerpt(field.text,variant):'',caution});
-      break;
+    // A source URL is the weakest reason a case matched, so it is only reported when
+    // no prose field explains the hit. The caution rule below then marks it 來源.
+    for(const allowUrl of [false,true]){
+      let found=false;
+      for(const field of fields){
+        const text=norm(allowUrl||!field.original?field.text:field.text.replace(SOURCE_URL_PATTERN,' '));
+        const variant=variants.find(v=>searchVariantIndex(text,v)!==-1);
+        if(!variant)continue;
+        const caution=field.original&&/限制|風險|注意|缺口|權限/.test(field.label)?'限制':field.original&&/來源|參考|連結/.test(field.label)?'來源':'';
+        matches.push({term,variant,label:field.label,excerpt:field.original?contextExcerpt(field.text,variant):'',caution});
+        found=true;
+        break;
+      }
+      if(found)break;
     }
   }
   return {matches:matches.slice(0,2),remaining:Math.max(0,matches.length-2)};

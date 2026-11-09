@@ -41,8 +41,8 @@
 
 ## 改動
 
-- `assets/app.js`：`SOURCE_URL_PATTERN`；`metadata()` 產生 `searchProse`；`searchVariantIndex()` 的拉丁字母邊界規則（移除 `PULL_REQUEST_ABBREVIATIONS` 特例，改為通則）；`filterEntries()` 只讓字面詞比對含網址全文。
-- `tests/search-ascii-precision.test.cjs`（新，10 項）：供應商網址不等於客服、讀者打的英文詞仍可比對網址、`author` 不等於權限、`specific` 不等於 CI、`text` 不等於推特、`every`／`report`／`login`／`memory`／`latest` 不算命中、案例 ID 與 `PR149` 與中英相鄰仍可命中，以及兩條全語料不變量：任何回傳案例都必須以「完整的相關詞」出現在正文，且 `客服` 的每一筆都真的提到客服（不是供應商網址）。
+- `assets/app.js`：`SOURCE_URL_PATTERN`；`metadata()` 產生 `searchProse`；`searchVariantIndex()` 的拉丁字母邊界規則（移除 `PULL_REQUEST_ABBREVIATIONS` 特例，改為通則）；`filterEntries()` 只讓字面詞比對含網址全文；`searchContext()` 先比對去掉網址的正文，只有正文找不到原因時才退回網址並標 `來源`。
+- `tests/search-ascii-precision.test.cjs`（新，11 項）：供應商網址不等於客服、讀者打的英文詞仍可比對網址、`author` 不等於權限、`specific` 不等於 CI、`text` 不等於推特、`every`／`report`／`login`／`memory`／`latest` 不算命中、案例 ID 與 `PR149` 與中英相鄰仍可命中，兩條全語料不變量（任何回傳案例都必須以完整的相關詞出現在正文；`客服` 的每一筆都真的提到客服），以及「命中原因」chip 必須先找正文、只有正文找不到時才報來源網址並標 `來源`。
 - 既有斷言修正（皆為原本釘住誤命中的值，逐項附上原因）：
   - `tests/search.test.cjs`：`旅遊` 的「偶然作者用語」例子由 UC-076（作者行 `Travis Heinze travels`，`travels` 不是 `travel`）改為 UC-015（限制段落偶然提到旅遊）；`streaming`／`流式` 由 UC-217（`bitstream`）改為 UC-292（逐行串流模型輸出）；`2fa`／`mfa`／`雙重驗證` 由 UC-219／UC-259（commit hash `…e2fab…`）改為 UC-092（拒絕交出雙重驗證碼）；`sse`／`流式輸出` 由 UC-030（媒體檔在 `/assets/` 路徑）改為 UC-292；`cot`／思維鏈四條改為「不得因 `cot` 出現在更長的單字裡而命中 UC-086」（全庫沒有任何案例在談 chain-of-thought）。
   - `tests/problem-compound-queries.test.cjs`：`自動客服`／`客服機器人` 召回下限 80→61、`整理一份會議記錄`／`會議總結` 9→8、`論文研讀`／`研讀論文`／`精讀文獻` 10→9、`客服且人工` 系列 35→32；每一處都保留原本的 canonical 案例斷言，只把「混進供應商網址與 commit hash 的下限」改成真實覆蓋。
@@ -50,8 +50,8 @@
 
 ## 先紅後綠
 
-- 新測試在未改動的基準（`/tmp/aiuc-315`，main + `#315`）上 **10 項中 8 項失敗**；另外 2 項是「必須仍然命中」的護欄，修改前後都通過。
-- 修改後：`node --test tests/*.test.cjs` **604 通過、0 失敗**（基準 594＋新增 10）；`node --check assets/app.js` 通過。
+- 新測試在未改動的基準（`/tmp/aiuc-main`，`origin/main`）上 **11 項中 9 項失敗**；另外 2 項是「必須仍然命中」的護欄，修改前後都通過。
+- 修改後：`node --test tests/*.test.cjs` **605 通過、0 失敗**（基準 594＋新增 11）；`node --check assets/app.js` 通過。
 
 ## 量測（同一份 513 筆語料，修改前／後）
 

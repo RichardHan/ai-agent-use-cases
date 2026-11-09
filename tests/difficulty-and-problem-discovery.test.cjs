@@ -335,3 +335,79 @@ test('assets/style.css defines responsive and accessible styling for hero diffic
   assert.match(cssSource, /\.draw-diff-btn\[aria-pressed=true\]/, 'draw-diff-btn must style active pressed state');
   assert.match(cssSource, /\.draw-difficulty-buttons\s*\{[^}]*grid-template-columns:\s*1fr/, 'draw-difficulty-buttons must stack on 360px viewport');
 });
+
+test('a declared tier wins over keyword inference and says so', () => {
+  const api = setupEnvironment();
+  const declared = `# UC-900：測試宣告
+
+- 情境：工作
+- 工具：Grok Bot
+- 實作門檻：入門對話
+- 網站標題：宣告式門檻
+
+正文提到作者自己的腳本與 CLI，但那不是讀者要跟著做的環境。
+
+## 來源
+`;
+  const meta = api.metadata(declared, 'cases/900-test.md', 'case');
+  assert.equal(meta.difficulty, '入門對話', 'declared tier must win over the 腳本/CLI keyword');
+  assert.equal(meta.difficultySource, 'declared');
+
+  const inferred = api.metadata(declared.replace('- 實作門檻：入門對話\n', ''), 'cases/900-test.md', 'case');
+  assert.equal(inferred.difficulty, '進階開發', 'without a declaration the keyword rule still decides');
+  assert.equal(inferred.difficultySource, 'inferred');
+});
+
+test('an unknown declared value is ignored instead of turning into a facet value', () => {
+  const api = setupEnvironment();
+  const markdown = `# UC-901：錯誤宣告
+
+- 情境：生活
+- 實作門檻：很簡單
+- 網站標題：錯誤宣告
+
+## 來源
+`;
+  const meta = api.metadata(markdown, 'cases/901-test.md', 'case');
+  assert.equal(meta.difficultySource, 'inferred', 'unparseable declarations must fall back to inference');
+  assert.ok(['入門對話', '工具串接', '進階開發'].includes(meta.difficulty));
+});
+
+test('every case that declares a tier uses a valid tier and is honoured by metadata', () => {
+  const api = setupEnvironment();
+  const files = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
+  const declared = [];
+  for (const file of files) {
+    const markdown = fs.readFileSync(path.join(root, 'cases', file), 'utf8');
+    const lead = markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
+    if (!/^-\s*實作門檻\s*[：:]/m.test(lead)) continue;
+    const meta = api.metadata(markdown, 'cases/' + file, 'case');
+    assert.equal(meta.difficultySource, 'declared', `${file} declares a tier, so metadata must report it as declared`);
+    assert.ok(['入門對話', '工具串接', '進階開發'].includes(meta.difficulty), `${file} declares "${meta.difficulty}"`);
+    assert.equal(meta.difficulty, lead.match(/^-\s*實作門檻\s*[：:]\s*(入門對話|工具串接|進階開發)/m)[1], `${file} keeps its declared tier`);
+    declared.push(file);
+  }
+  assert.ok(declared.length >= 8, `expected the corrected cases to declare their tier, found ${declared.length}`);
+});
+
+test('card badge distinguishes a declared tier from an inferred one', () => {
+  const api = setupEnvironment();
+  const uc001 = fs.readFileSync(path.join(root, 'cases/001-travel-checkout.md'), 'utf8');
+  const inferredCard = api.card(api.metadata(uc001, 'cases/001-travel-checkout.md', 'case'));
+  const inferredBadge = inferredCard.querySelector('.card-difficulty');
+  assert.equal(inferredBadge.dataset.difficultySource, 'inferred');
+  assert.equal(inferredBadge.textContent, '入門對話', 'the visible chip keeps the short tier id');
+  assert.match(inferredBadge.getAttribute('aria-label'), /本庫依內文推測/);
+
+  const declaredMarkdown = uc001.replace(/- 情境：/, '- 實作門檻：入門對話\n- 情境：');
+  const declaredCard = api.card(api.metadata(declaredMarkdown, 'cases/001-travel-checkout.md', 'case'));
+  const declaredBadge = declaredCard.querySelector('.card-difficulty');
+  assert.equal(declaredBadge.dataset.difficultySource, 'declared');
+  assert.match(declaredBadge.getAttribute('aria-label'), /案例頁宣告/);
+  assert.doesNotMatch(declaredBadge.getAttribute('aria-label'), /本庫依內文推測/);
+});
+
+test('the filter hint tells visitors how the difficulty facet is produced', () => {
+  assert.match(fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8'),
+    /實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測/);
+});

@@ -1563,7 +1563,28 @@ function refreshMergedDestination() {
     .map(node => node.getAttribute('data-merged-missing'))
     .some(id => entries.some(entry => entry.kind === 'case' && entry.id === id));
   if (!nowAvailable) return;
-  box.replaceWith(mergedDestination(currentDetailItem));
+  const dialog = $('detail');
+  const active = document.activeElement;
+  const withFocus = box.contains(active);
+  const focusedTarget = withFocus ? active.getAttribute?.('data-merged-target') : null;
+  const anchor = box.querySelector('.detail-merged-open');
+  const beforeTop = anchor ? anchor.getBoundingClientRect().top : null;
+  const replacement = mergedDestination(currentDetailItem);
+  box.replaceWith(replacement);
+  // The new entry adds height: keep the handoff block where the reader was reading
+  // instead of shifting the page by the inserted button.
+  const afterAnchor = replacement.querySelector('.detail-merged-open');
+  if (beforeTop !== null && afterAnchor && dialog) {
+    dialog.scrollTop += afterAnchor.getBoundingClientRect().top - beforeTop;
+  }
+  // Replacing a container drops focus to BODY and throws a keyboard reader out of the
+  // dialog. Put focus back on the same destination, or on the first entry when the
+  // focused node was the pending note that just turned into a button.
+  if (withFocus) {
+    const next = (focusedTarget && replacement.querySelector(`.detail-merged-open[data-merged-target="${focusedTarget}"]`))
+      || replacement.querySelector('.detail-merged-open');
+    if (next) next.focus({preventScroll:true});
+  }
 }
 function showDetail(item, trigger, updateURL=true) {
   if (!item) return;

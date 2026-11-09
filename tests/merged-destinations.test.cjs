@@ -50,12 +50,12 @@ const pending = id => pendingEntries.find(entry => entry.id === id);
 // Case ids come from the files themselves, so a destination that points at nothing
 // fails here instead of becoming a handoff button that opens an empty dialog.
 function caseIdsOnDisk() {
+  // Only cases/ can carry an in-site handoff button (the reader looks for kind==='case');
+  // evidence pages share the UC- prefix but are never a merge destination.
   const ids = new Set();
-  for (const folder of ['cases', 'evidence']) {
-    for (const file of fs.readdirSync(path.join(root, folder))) {
-      const match = file.match(/^(\d{3})-/);
-      if (match) ids.add('UC-' + match[1]);
-    }
+  for (const file of fs.readdirSync(path.join(root, 'cases'))) {
+    const match = file.match(/^(\d{3})-/);
+    if (match) ids.add('UC-' + match[1]);
   }
   return ids;
 }
@@ -84,13 +84,17 @@ test('each destination resolves to a case page the site can actually open', () =
   assert.match(index, /P-004）已併入 UC-101／UC-102/, 'INDEX.md still lists both destinations for P-004');
 });
 
-test('the source prose and the parsed destinations never drift apart', () => {
-  for (const entry of pendingEntries.filter(item => item.mergedInto.length)) {
-    const clause = entry.markdown.split(/\n##\s/)[0];
-    for (const id of entry.mergedInto) {
+test('no case id in the resolution clause is silently dropped', () => {
+  // The other direction of the check above: an id the file mentions inside its own
+  // status line must either be a destination or be this lead itself. A parser that
+  // quietly keeps only the first match fails here even if the kept id is right.
+  for (const entry of pendingEntries.filter(item => item.resolved)) {
+    const statusLine = entry.markdown.match(/^-\s*狀態\s*[：:]\s*(.+)$/m)?.[1] || '';
+    const mentioned = statusLine.match(/UC-\d{3}/g) || [];
+    for (const id of mentioned) {
       assert.ok(
-        clause.includes(id),
-        `${entry.id} hands the reader to ${id}, so its own resolution clause must name ${id}`
+        Array.from(entry.mergedInto).includes(id),
+        `${entry.id} names ${id} in its status line, so the handoff must carry it`
       );
     }
   }

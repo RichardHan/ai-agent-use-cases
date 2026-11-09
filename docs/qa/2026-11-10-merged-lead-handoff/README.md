@@ -57,7 +57,7 @@
 - `node --test tests/*.test.cjs`：基準 **583 通過／0 失敗** → 本輪 **590 通過／0 失敗**（新增 7 項）。`node --check assets/app.js` 通過；`assets/copy.json` JSON 解析通過。
 - 全庫逐檔比對：同一支腳本在 `origin/main:assets/app.js` 與本輪版本各解析 510 個來源檔（513 筆條目），併入目的地只有 **P-004** 變動（`UC-101` → `UC-101`、`UC-102`）；其餘 512 筆（含 UC-250「已合併 UC-156」）完全相同。標題只用 `已合併` 認宣告、證據行保留 `合併UC-nnn`，避免「合併 UC-nnn 重複資料」這種標題變成併入宣告（已加回歸）。
 - 相關瀏覽器回歸（本機 preview，Chromium）：`tests/evidence-attribution-browser.cjs`（含 P-004 兩個站內入口、axe 0）、`tests/search-expansion-consistency-browser.cjs`（`ROUND_URL`）、`tests/print-browser.cjs` 全通過。
-- 未能在本機完成：`tests/reader-browser.cjs` 的正式站 arrival 段落（`arrival-live.cjs` 針對已發布站台，需等部署後）；WebKit／Firefox 未跑（本機只有 Chromium 相符版本）。
+- `tests/reader-browser.cjs`：Chromium 三種寬度全通過（search／filter／empty／back／focus、原文目錄、固定位移、來源、直鏈重整、待查線索、axe 0）。同一支測試在 macOS WebKit 走到 `?q=PR&case=UC-005` 時 page crash——同一支測試對未修改的基準預覽（`origin/main`，`:8144`）也在同一步 crash，因此是本機 WebKit 環境問題，不是本輪回歸；CI 的容器 WebKit 另行驗證。Firefox 未在本機跑（快取版本與可用套件不符）。
 
 ## 前後數據（Chromium，同 base path，1440×900／390×844／320×740）
 
@@ -92,6 +92,14 @@
 - 尚未在瀏覽器實際走過「詳情開啟後才補讀到缺的目的地」的真實晚載路徑；本輪以 `entries` 暫時移除／還原來驗證 `refreshMergedDestination()` 只在缺項補上時重繪（移除後只剩 UC-101 按鈕＋`UC-102 尚未載入`，還原後兩個按鈕）。
 - 沒有真人使用者研究；「讀者因此更知道該讀哪一篇」未量測。
 
-## 獨立審查
+## 獨立審查（未參與實作）
 
-（發布前補記）
+獨立審查者在自己的 vm 腳本上把 `origin/main:assets/app.js` 與本輪版本各跑 510 個來源檔：509 個既有案例／證據頁的目的地清單語意相同，四條待查線索只有 P-004 新增 UC-102；`sources/pending.md` 檔頭更動後四條線索逐欄解析（日期、resolved、目的地、搜尋文字）皆未改變。它另外確認 `mergedInto` 沒有殘留字串式操作、新增文案都經 `textContent` 輸出、P-004 的徽章／卡片／結案註記／交接／列印／複製筆記都含兩個目的地，並在 320×740 確認兩個入口可捲到、不被工具列遮住、無水平溢出。
+
+提出 1 項阻擋與 2 項測試品質問題：
+
+1. **（已修，阻擋）晚載補上目的地時焦點掉到 `BODY`**：`refreshMergedDestination()` 以 `replaceWith()` 重建整個入口區，若讀者正聚焦在 UC-101 入口，重建後焦點離開對話框，鍵盤讀者失去位置。修法：重建前記住聚焦的目的地與入口區在視窗中的位置，重建後把焦點放回同一個目的地（找不到時放第一個入口），並依新舊位置差補償 `dialog.scrollTop`，讓閱讀位置不因新增按鈕而跳動。驗證（390×844，把 UC-102 從 `entries` 暫時移除再補回）：焦點仍在 `UC-101`、`document.activeElement` 仍在 `#detail` 內、`scrollTop` 576 不變、入口區位移 0px、Tab 下一站是 UC-102、入口數 1→2。
+2. **（已修）目的地存在性測試把 `evidence/` 的 UC 編號當成主案例**：站內入口只查 `kind === 'case'`，測試改為只看 `cases/`。
+3. **（已修）來源與解析的比對是單向的**：原本只驗證「解析出的 ID 在來源文字中」。改成反向檢查「狀態行提到的每個 `UC-nnn` 都必須在目的地清單裡」，只保留第一個符合的解析器會在這裡失敗。
+
+審查未能驗證：正式站部署、WebKit／Firefox、截圖影像內容（工具無法讀圖），以及合成「未記錄去向」線索的卡片定位（該文案由單元測試覆蓋）。

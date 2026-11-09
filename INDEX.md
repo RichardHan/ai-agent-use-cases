@@ -8,7 +8,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 503 筆案例；頁首核對日期最新為 2026-11-08；本頁於 2026-11-09 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 506 筆案例；頁首核對日期最新為 2026-11-09；本頁於 2026-11-09 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -16,7 +16,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（503）
+## 主要案例（506）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -149,7 +149,7 @@
 | UC-131 | 學生示範影片與程式作品教師預審 | ChatGPT dots／Whisper／GitHub | [原作者已用自述；回饋正確性未核](cases/131-student-demo-code-prereview.md) | 學習｜教學、作品、影片、覆核 |
 | UC-132 | 播客逐字稿分說話者與檢索前處理 | Grok Bot／Foundry | [原作者部分完成自述；RAG未完成](cases/132-podcast-transcript-retrieval-preparation.md) | 學習｜播客、逐字稿、資料整理、檢索 |
 | UC-133 | 餐廳菜單轉螢幕閱讀器標題式網頁 | Meta Muse | [原作者實用自述；成品及現版未驗](cases/133-screen-reader-menu-reformat.md) | 生活｜無障礙、菜單、螢幕閱讀器、網頁 |
-| UC-134 | 手寫廚房訂貨單到供應商購物車 | Grok Bot／TEACH | [原作者失敗後示範重跑；仍有錯誤](cases/134-handwritten-kitchen-order-cart.md) | 工作｜餐飲、訂貨單、示範、驗收 |
+| UC-134 | 手寫廚房訂貨單（或估料表）到供應商購物車 | Grok Bot／TEACH／ChatGPT dots | [原作者失敗後示範重跑；仍有錯誤＋11-09併入ChatGPT dot依估料表建燈具供應商購物車變體（自述2小時→30分）](cases/134-handwritten-kitchen-order-cart.md) | 工作｜餐飲、訂貨單、示範、驗收 |
 | UC-135 | 課間空檔與步行時間的校園餐次安排 | Grok Bot／Calendar | [原作者已建日曆自述；路線營養未驗](cases/135-campus-meal-window-planning.md) | 生活｜校園、用餐、行程、步行 |
 | UC-136 | 社區公園需求、造價與資金途徑提案 | Meta Muse | [作者已備提案自述；無核准或募資結果](cases/136-community-park-feasibility-proposal.md) | 工作｜社區、公共空間、提案、證據 |
 | UC-137 | 到圖書館才發現還沒設定列印？先把PDF排進佇列 | Meta Muse／Stanford Cardinal Print | [作者實作自述；未重現](cases/137-visitor-print-queue-handoff.md) | 生活｜列印、文件、交接、驗收 |
@@ -513,7 +513,7 @@
 | UC-499 | ChatGPT與Muse共用Notion任務板：沙盒外整案（VM／Facebook／Home Assistant＋Tailscale）交Muse長期擁有，一天對帳數次 | ChatGPT／Meta Muse／Notion／Home Assistant／Tailscale | [B英文Reddit作者自述；無看板截圖、未重現](cases/499-muse-chatgpt-notion-task-board-subagent.md) | 工作｜多代理、Notion、排程、每日 |
 | UC-500 | 新開Grok Bot貼上長文工程書：先兩輪約8題採訪再一次交標題、≥2000字正文、4圖、封面與5條導流帖，只存草稿不代發 | Grok Bot（記憶、生圖、X草稿） | [B簡中作者X改寫用法＋原作開源宣告；樣本未公開、未重現](cases/500-grok-bot-x-longform-interview-article-pack.md) | 創作｜寫作、技能、社群、每日 |
 | UC-501 | 一句話讓Grok Bot依LimaCharlie文件自裝主機EDR、Chrome擴充與告警webhook，可選郵件防釣魚，告警送Security Manager | Grok Bot／LimaCharlie | [官方文件＋HN作者自述裝過；本庫未安裝](cases/501-limacharlie-edr-secure-grok-bot-computer.md) | 開發｜資安、監看、排程、每日 |
-| UC-502 | Muse或其他系統用webhook觸發Grok Bot Routine，再用固定郵件標頭或資料庫非同步取回結果 | Grok Bot（webhook Routine）／Meta Muse／郵件或資料庫 | [B英文Substack教學自述；無往返日誌、未重現](cases/502-muse-webhook-trigger-grok-bot-email-result-handshake.md) | 開發｜多代理、事件觸發、郵件、每日 |
+| UC-502 | Muse或其他系統用webhook觸發Grok Bot Routine，再用固定郵件標頭或資料庫非同步取回結果 | Grok Bot（webhook Routine）／Meta Muse／郵件或資料庫 | [B英文Substack教學自述＋11-09併入繁中作者Grok Bot統籌／Muse發布的郵件交接三狀態；發布端未驗證、未重現](cases/502-muse-webhook-trigger-grok-bot-email-result-handshake.md) | 開發｜多代理、事件觸發、郵件、每日 |
 | UC-503 | Muse裝Grok Build搜X找note題材：約60秒出作者／時間／URL／摘要表，5則真實、摘要4則正確，引用前自己開鏈；勿盲按許可 | Meta Muse／Grok Build CLI／X | [B日文作者X文章自述＋指令原文；未重現](cases/503-muse-grok-build-x-search-note-topic-verify.md) | 創作｜寫作、搜尋、事實查核、每日 |
 | UC-504 | X評論私信四類分流（要回／可回／不用回／要小心），寫短草稿並記成回覆規矩，每日未回清單；只寫不發、PIN不進聊天 | Grok Bot（X、記憶、例程） | [B簡中作者X系列教學＋示範數字；未重現](cases/504-grok-bot-x-comment-dm-four-bucket-draft-routine.md) | 工作｜社群、草稿、排程、每日 |
 | UC-505 | Muse讀約56篇既有note建文體指南，搭配NotebookLM日記主檔，在同一初稿檔用語音與手註共編到像你 | Meta Muse／NotebookLM／note | [B日文作者note全文即產出；未重現](cases/505-muse-notebooklm-note-style-guide-coauthor.md) | 創作｜寫作、風格、檔案協作、每日 |
@@ -523,6 +523,9 @@
 | UC-509 | 用Grok Bot把「一天一題A/B投票」做成Toss迷你應用：先對照官方文件做計畫，三個畫面先上架，審核因分類被退後改正再送 | Grok Bot／Apps in Toss／Supabase／Toss | [B韓文作者X長文自述＋公開應用連結；未重現](cases/509-grok-bot-toss-miniapp-what-percent-launch.md) | 開發｜產品開發、審核、驗收、每日 |
 | UC-510 | 請Muse對照freee交易與Gmail帳單，列出訂閱金額、週期與下次續約日，並每週一清理未處理明細；X趨勢改API後仍不穩 | Meta Muse／freee／Gmail | [B日文作者X長文自述；對帳表未附、未重現](cases/510-muse-freee-gmail-subscription-renewal-list.md) | 工作｜訂閱、帳單、郵件、每日 |
 | UC-511 | 讓Grok Bot以聽寫參加者加入Zoom／Meet／Teams，會中追未指定負責人，會後交出決定與帶期限的下一步表 | Grok Bot／Zoom或Google Meet或Microsoft Teams／行事曆 | [B英文作者X自述＋官方帳號回覆＋日文note編譯；未重現](cases/511-grok-bot-zoom-meet-teams-structured-notes.md) | 工作｜會議、筆記、排程、每日 |
+| UC-512 | 每天早上讓Grok Bot依最新版本說明挑真實使用者情境，新做一個Pixeltable應用、本機與雲端各跑一次，新故障開GitHub重現與Jira單、Slack只發摘要；連續多日未復發才算修好 | Grok Bot（Routine、Skills）／Slack／Jira／GitHub | [B英文作者X文章自述＋當日三個實例故障；重現庫與工單未核](cases/512-grok-bot-daily-pixeltable-app-qa-routine.md) | 開發｜測試、排程、Slack、每日 |
+| UC-513 | 讓Grok Bot讀平台273位創作者的X追蹤與互動數字、寫API規格交Claude Code接進資料庫與創作者頁；另分角色拆爆款、讀本人貼文學語氣並標出無法佐證的主張 | Grok Bot／Claude Code／自家資料庫／X | [B英文作者X長文自述＋日文note編譯與規約提醒；規模未核、未重現](cases/513-grok-bot-creator-platform-x-metrics-feed.md) | 工作｜社群、數據、多代理、寫作 |
+| UC-514 | 用Muse Spaces做年末送禮畫面：依對象記候選、預算、實付與是否已買，可帶入Instagram收藏，剩餘預算與未買篩選；購買仍由本人確認 | Meta Muse（Spaces）／Instagram | [A官方功能（經轉述）＋日文note與英文X自擬請求；未附成品、未重現](cases/514-muse-spaces-holiday-gift-tracker.md) | 生活｜購物、預算、送禮、儀表板 |
 
 <a id="supplement-list"></a>
 
@@ -1016,3 +1019,7 @@
 ## 2026-11-08 08:52：每日批次（X＋Reddit＋Hacker News＋GitHub／官方模板市集＋Product Hunt）
 
 [約70組候選與查閱範圍](sources/research-2026-11-08-0852.md)：新增4（UC508 Grok Bot額度用完後與ChatGPT Dot共用Notion與Slack交接草稿、UC509用Grok Bot把一日一題投票做成Toss迷你應用並過審上架、UC510 Muse對照freee與Gmail列出訂閱更新日並每週清理未處理明細、UC511 Grok Bot聽寫加入視訊會議並交出決定與下一步表），合併補充1（UC502用Grok Bot加號郵件別名當Muse觸發條件）；其餘為清單、邀請碼、比較文、市集模板、過薄單則或與既有案同題。均未獨立重現。
+
+## 2026-11-09 08:53：每日批次（X＋Reddit＋note／Zenn＋X文章）
+
+[約45組候選與查閱範圍](sources/research-2026-11-09-0853.md)：新增3（UC512 Grok Bot每天自建Pixeltable應用做探索式QA並開單、UC513 Grok Bot讀273位創作者X數據交Claude Code接進頁面並分角色寫稿、UC514 Muse Spaces年末送禮預算畫面），合併補充2（UC502繁中作者以郵件做Grok Bot統籌／Muse社群發布交接、UC134 ChatGPT dot依估料表建供應商購物車）；其餘為比較文、行銷導流、邀請碼、清單或過薄單則。均未獨立重現。

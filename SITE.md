@@ -19,6 +19,21 @@
 改動：`assets/app.js` 三處（＋17／−9 行）、新增 `tests/search-ascii-precision.test.cjs` 13 項（含兩條全語料不變量：回傳案例必須以完整相關詞出現在正文、`客服` 每筆都真的提到客服）、`README.md` 搜尋段落。既有斷言只修被誤命中釘住的值並附原因：`旅遊` 的偶然用語例子改 UC-015（原 UC-076 是作者行 `travels`）、`streaming`／`流式`／`sse` 改 UC-292（原為 `bitstream` 與 `/assets/` 路徑）、`2fa` 改 UC-092（原為 commit hash）、`cot` 四條改為「不得因片段命中 UC-086」（全庫沒有 chain-of-thought 案例）、召回下限 80→61／9→8／10→9／35→32。先紅後綠：新測試在基準 `f3e4bbfa` 上 10/13 失敗，改後 **607 通過、0 失敗**（基準 594）。獨立 reviewer 抓到的兩項 P2 已修：來源移除補上無 scheme `www.`、Markdown 連結標題與括號網址且不再吃掉網址後的中文；命中原因摘要改用去網址文字，避免指向連結。
 
 量測（513 筆同一份語料）：客服 93→**61**、推特 417→**205**、CI 131→**23**、日誌 174→**110**、儲存庫 76→**33**、搜尋 143→**119**、筆記 69→**56**、發文 258→**229**、測試 274→**266**、電動車 2→**1**；首頁 56 個任務入口 26 個筆數改變、**0 個第一張卡改變**。三情境（1440／390）、axe 0、水平溢出 0、pageerror 0，七支既有搜尋瀏覽器回歸通過。已知限制：`權限` 仍 505 筆（`權限`／`授權` 本來就出現在 491 個檔案正文的共用「權限與驗收」段落）、只以 x.com 當出處而內文從未寫 X 的 27 案不再回答「推特」、`x` 的獨立用法無法從字面區分、未做實機與螢幕閱讀器實測。[資料、方案、前後數據與限制](docs/qa/2026-11-10-search-ascii-precision/README.md)。下一輪先做**共用小節標題讓「權限」「驗收」這類查詢命中 95% 以上案例**：先對照 `?q=權限` 的「只看標題與用途命中」筆數，再離線試算把 `^#{1,6}` 標題行排除後的變化（`權限` 491→294、`驗收` 471→367）。
+## 2026-11-10 主題分類與「同分類」只認案例頁宣告的分類
+
+正式站 `0ece4ceb`（1440×900 與 390×844 相同）：`?case=UC-012`（科研評估與稿件整合的人機分工）的延伸閱讀列出 `UC-023 · 同分類：個人生產力`（產品改版素材）與 `UC-025 · 同分類：個人生產力`（offsite 待決事項），但 UC-012 的原文從未出現「個人生產力」。來源是 `metadata()` 對 506 頁中 159 個沒有 `- 分類` 行的頁面依標題補值、最後落到字面預設 `個人生產力`（145 頁）。全庫 329 筆 `同分類` 理由有 310 筆指向對方從未宣告的分類、289 筆是這個預設桶互配，77 頁的整份延伸閱讀只有它；`#category` 的 348 個選項也包含這個沒有人宣告過的 145 筆分類。
+
+選擇 (A) 分類只認宣告：刪掉標題推測與預設桶，`同分類` 因此只連到真的宣告同一分類的案例；同時移除「沒有分類就不給任何延伸閱讀」的提前返回，未宣告分類的頁面仍保留共同標籤建議。未採 (B) 保留推測再加「（本庫推測）」標示：289 筆配對之所以存在，正是因為 145 個彼此無關的案例共用同一個預設桶，標示只把錯誤寫得更清楚，成本還更高。
+
+改動：`assets/app.js` 4 處（分類只取宣告、`同分類` 條件、未宣告分類的空狀態說明、篩選說明句「N 個未宣告分類的條目不在選項內」、空分類不產生選項）、`.github/workflows/website-qa.yml` 一行、新增 `tests/declared-category.test.cjs`（6 項，含全庫「顯示的分類都是自己宣告的」與「沒有 `同分類` 指向未宣告分類」）與 `tests/declared-category-browser.cjs`（1440／390）。`tests/search.test.cjs` 原本用被刪掉的推測值當篩選條件（UC-010 未宣告分類），改為只驗搜尋與工具；分類篩選只認宣告值的契約移到新測試。
+
+量測：`node --test tests/*.test.cjs` 基準 594 → 600 通過、0 失敗；新 unit test 對基準 `app.js` 5／6 紅、本輪全綠；新瀏覽器測試對基準預覽在第一個缺陷斷言就紅、本輪 1440／390 全綠。全庫 `同分類` 329 → 17 筆、延伸閱讀 1036 → 724 筆、沒有延伸閱讀的案例頁 122 → 205（83 頁原本只有虛構配對，改為如實空狀態）、有分類的案例頁 506 → 347（全部宣告）。`related-browser` 三種寬度、`evidence-attribution-browser`、`facet-counts-browser` 的 Chromium 1440／390／320 與 Firefox 390 通過；WebKit 390 在 `facet-counts-browser.cjs:110` 的 Tab 焦點斷言失敗，**基準預覽同樣失敗於同一行**，判為既有 WebKit 限制。舊分享連結 `?category=個人生產力` 顯示 0 筆並保留可移除條件，不靜默改寫網址。
+
+CI 現況重新確認（獨立調查，未沿用歷史）：近三次 `pages build and deployment` 失敗都是 deploy 階段撞 600s 上限（`Timeout reached, aborting!`），`build` 全部成功，不是 build 迴歸也不是被新 commit 取代；正式站目前就是 main head `0ece4ceb` 的建置（510 個來源檔）。**main 沒有 branch protection、沒有 required check**。57 支 workflow 只有 16 支會觸發，多數 live workflow 的 `paths` 不含測試實際讀的 `cases/**`／`sources/**`，因此本輪新增的 corpus 契約測試目前在內容 PR 上不會執行。
+
+驗收紀錄、前後截圖與限制：[docs/qa/2026-11-10-declared-category](docs/qa/2026-11-10-declared-category/README.md)。下一輪先做 **讓內容 PR 至少跑一次 unit 契約測試**：先確認只改 `cases/**` 的 PR 目前 0 個 job 被觸發，再以最小改動讓 `node --test tests/*.test.cjs` 在該 PR 執行，且不影響 20 支瀏覽器 job 的排隊。
+
+發布補記：PR [#317](https://github.com/RichardHan/ai-agent-use-cases/pull/317)（head `58356424`）13 項非略過檢查全 pass、`published` 依設計在 PR 上 skipping，squash 合併為 `210f980d`。`pages build and deployment` [42721736571](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42721736571) build／report／deploy 全 success；正式站 `catalog.json.sourceRevision` = `210f980d…`、510 個來源檔，`assets/app.js`（SHA-256 `5ce8ac1f…`）、`copy.json`、`index.html` 與合併版本逐 byte 相同。正式站 1440／390 重走：`客服` 93→**61**（UC-014 不變）、`CI` 131→**23**（UC-462）、`推特` 417→**205**（UC-046），axe 0、水平溢出 0、pageerror 0；首頁→任務入口→詳情、組合篩選→0 筆→復原、直鏈 `?q=會議&case=UC-094`→Escape 回 26 筆皆通過；關閉詳情後第一次「上一頁」在正式站確實離開搜尋結果（`#315` 的修正已在本版）。CI 上唯一因本輪而紅的是 `Website QA` 的 `visitor-problem-browser` 召回下限（會議記錄 9→8，第 9 張是來源帳號 `tetumemo` 的 `memo`），修正後該 workflow 於同一 head 全綠。
 
 ## 2026-11-11 關掉案例後，第一次「上一頁」沒有反應
 

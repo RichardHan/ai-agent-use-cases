@@ -67,7 +67,7 @@ test('the pending counter counts open leads, matching the source document and th
   assert.equal(Number(indexLine[1]), counts.pending, 'the site counter and INDEX.md must use the same rule');
 });
 
-test('the 還在查證 filter keeps every lead reachable while marking the resolved one', () => {
+test('the 待查線索 filter keeps every lead reachable while marking the resolved one', () => {
   // Hiding the merged lead would break the facet total (503 + 3 + 2 ≠ 509) and
   // make it unreachable from the filter, so it stays listed with its state.
   const listed = api.filterEntries(pendingEntries, [], { kind: 'pending' });

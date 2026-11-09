@@ -3126,10 +3126,22 @@ async function loadCorpus(paths, options = {}) {
     options.signal?.removeEventListener('abort',abortBatch);
   }
 }
+// `catalog.json` and `corpus.json` are separate files, so Pages can expose them
+// from different builds for a few seconds around a deploy: a visitor then reads a
+// catalogue from build N and a corpus from build N+1. Both ids are `site.time`
+// stamps, so the newer one still names exactly the collection the catalogue just
+// listed; discarding it would throw away ~1.3 MB and request every source again.
+// An older corpus can be missing a source the catalogue already knows, so it
+// falls back, as does any pair whose order cannot be compared.
+function bundleRevisionAtLeast(bundleRevision, catalogRevision) {
+  if (typeof bundleRevision !== 'string' || !bundleRevision) return false;
+  if (bundleRevision === catalogRevision) return true;
+  return /^\d{14,}$/.test(bundleRevision) && /^\d{14,}$/.test(catalogRevision) && bundleRevision > catalogRevision;
+}
 // The bundle is only a transport: every original Markdown still goes through
 // parseFile. An older/mixed deployment or a failed bundle uses the per-file path.
 function parseCorpusBundle(bundle, paths, revision, parseFn) {
-  if(bundle?.version!==1 || bundle.revision!==revision || !Array.isArray(bundle.sources) || bundle.sources.length!==paths.length)throw Error('全文整包版本不符');
+  if(bundle?.version!==1 || !bundleRevisionAtLeast(bundle.revision, revision) || !Array.isArray(bundle.sources) || bundle.sources.length!==paths.length)throw Error('全文整包版本不符');
   const allowed=new Set(paths),seen=new Set();
   const parsed=new Map();
   for(const source of bundle.sources){
@@ -3275,7 +3287,10 @@ async function loadInitialCorpus(paths, options = {}) {
         }
       }
       if(bundleController.signal.aborted)throw Error('全文整包讀取已停止');
-      if(data.sourceRevision && data.sourceRevision===options.sourceRevision) {
+      if(data.sourceRevision) {
+        // The corpus is self-describing: its markdown was generated from the
+        // build it names, so a corpus accepted from a newer publish must pin to
+        // that build, not to the catalogue's older one.
         const verified=[...parsed.keys()].filter(path=>{
           const early=successful.get(path),bundled=parsed.get(path);
           return !early || (early.length===bundled.length && early.every((item,i)=>typeof item.markdown==='string' && item.markdown===bundled[i].markdown));

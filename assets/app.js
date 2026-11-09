@@ -2015,11 +2015,12 @@ function renderCategoryFinder() {
 function renderFacetCounts(terms, filters) {
   const hint=$('facet-count-hint');
   const difficultyHint = '實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。';
-  hint.textContent=!discoveryReady
-    ? '案例載入完成後，會顯示各選項的符合筆數。' + difficultyHint
+  const statusHint = '收錄狀態的「待查線索」是還沒列成案例的線索；來源類型的「尚待查證」是證據等級，兩者不同。';
+  hint.textContent=(!discoveryReady
+    ? '案例載入完成後，會顯示各選項的符合筆數。'
     : failedPaths.length
-      ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。' + difficultyHint
-      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。' + difficultyHint;
+      ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
+      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。') + statusHint + difficultyHint;
   // Count merged leads inside the same filtered set the pending option describes,
   // so a filtered view does not keep a global annotation it cannot show.
   const pendingBase=discoveryReady?filterEntries(entries,terms,{...filters,kind:''}):[];

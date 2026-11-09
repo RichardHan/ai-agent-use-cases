@@ -27,6 +27,8 @@ const read = page => page.evaluate(() => {
     open: document.querySelector('#detail')?.open ?? false,
     title: document.querySelector('#detail-title')?.textContent.trim() ?? '',
     proof: document.querySelector('.detail-badge.proof-badge')?.textContent.trim() ?? '',
+    badges: [...document.querySelectorAll('.detail-badge.proof-badge')].map(node => node.textContent.trim()),
+    badgeLabels: [...document.querySelectorAll('.detail-badge.proof-badge')].map(node => node.getAttribute('aria-label') || ''),
     summaryText: summary?.innerText.replace(/\s+/g, ' ').trim() ?? '',
     summaryNull: summary === null,
     summaryBox: rect(summary),
@@ -122,8 +124,18 @@ const read = page => page.evaluate(() => {
       const row = await read(page);
       assert.equal(row.proof, proof, `${proof}: the opened case carries the filtered class`);
       assert.equal(row.summaryNull, false, `${proof}: summary renders`);
-      assert.ok(row.summaryText.includes('成果主張：' + row.dictionaries.claimants[proof]), `${proof}: claimant is named`);
-      assert.ok(row.summaryText.includes('核讀：' + row.dictionaries.short[proof]), `${proof}: boundary is stated`);
+      if (row.badges.length === 1) {
+        assert.ok(row.summaryText.includes('成果主張：' + row.dictionaries.claimants[proof]), `${proof}: claimant is named`);
+        assert.ok(row.summaryText.includes('核讀：' + row.dictionaries.short[proof]), `${proof}: boundary is stated`);
+      } else {
+        // A case whose header names more than one class states the primary one
+        // and lists the rest; it must not present one claimant for the whole page.
+        assert.equal(row.badges[0], proof, `${proof}: the first chip is the primary class`);
+        assert.ok(row.summaryText.includes('成果主張：主要 ' + row.dictionaries.claimants[proof]), `${proof}: primary claimant is named as primary (${row.summaryText})`);
+        assert.ok(row.summaryText.includes('另宣告 ' + row.badges.slice(1).join('、')), `${proof}: the other declared classes are named`);
+        assert.ok(row.summaryText.includes('核讀：主要 ' + row.dictionaries.short[proof]), `${proof}: the primary boundary is stated`);
+        assert.ok(row.badgeLabels.every((label, index) => label.includes(row.badges[index])), `${proof}: every chip names its own class`);
+      }
       assert.ok(row.summaryBox.bottom < 900, `${proof}: summary stays on the first screen`);
       assert.equal((await axe(page)).violations.length, 0, `${proof}: axe violations`);
       rows.push({ name: 'class-' + proof, case: id, proof, summary: row.summaryText, summaryBottom: row.summaryBox.bottom, axe: 0 });

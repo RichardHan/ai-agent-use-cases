@@ -94,7 +94,7 @@ test('pending leads carry the file review date without borrowing it as their own
   // The file declares 2026-10-16 and a 2026-10-17 17:45 supplement; the file-level
   // date is the last one. Pinned explicitly so a parser that picks the first date,
   // drops the header, or promotes it to reviewedDate fails here.
-  assert.equal(entries.length, 3, 'every lead in the file is still listed');
+  assert.equal(entries.length, 4, 'every lead in the file is still listed');
   for (const entry of entries) {
     assert.equal(entry.fileReviewed, '2026-10-17', `${entry.id} must expose the file-level review date`);
     assert.equal(entry.reviewedDate, '', `${entry.id} has no per-lead review date and must not fake one`);

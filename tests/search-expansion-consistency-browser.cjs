@@ -63,11 +63,11 @@ const facetCounts = page => page.evaluate(() => {
         await page.goto(origin + '?kind=pending', { waitUntil: 'domcontentloaded' });
         await page.locator('#results .card').first().waitFor();
         const pendingOption = await page.locator('#kind option[value="pending"]').textContent();
-        assert.match(pendingOption, /含 1 筆已併入/, 'merged lead is disclosed in the facet option: ' + pendingOption);
+        assert.match(pendingOption, /含 2 筆已併入/, 'every merged lead is disclosed in the facet option: ' + pendingOption);
         assert.match(pendingOption, /統計不計/, 'facet option names the statistics rule');
         assert.equal(await page.locator('#pending-count').innerText(), '2', 'statistics still counts open leads only');
         const pending = await shownCount(page);
-        assert.equal(pending.shown, 3, 'the pending filter keeps the merged lead reachable');
+        assert.equal(pending.shown, 4, 'the pending filter keeps both merged leads reachable');
 
         // The annotation is computed from the same filtered set as the count, so a
         // query that matches only the merged lead still discloses it.

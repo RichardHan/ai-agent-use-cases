@@ -60,11 +60,14 @@ function setupDom() {
       },
       querySelectorAll(sel) {
         const matches = [];
+        const wanted = sel.startsWith('.') ? sel.slice(1) : '';
+        const match = c => sel === 'button'
+          ? c.tagName === 'BUTTON'
+          : !!wanted && (c.className || '').split(' ').includes(wanted);
         function walk(node) {
           if (!node || !node.children) return;
           for (const c of node.children) {
-            if (sel === '.guidance-card' && c.className?.includes('guidance-card')) matches.push(c);
-            if (sel === 'button' && c.tagName === 'BUTTON') matches.push(c);
+            if (match(c)) matches.push(c);
             walk(c);
           }
         }
@@ -624,4 +627,63 @@ test('reader.css keeps the trust summary legible and the jump operable', () => {
   assert.match(readerCss, /\.detail-trust-jump\s*\{[^}]*min-height:\s*44px/);
   assert.match(readerCss, /\.detail-trust-jump:focus-visible\s*\{/);
   assert.match(readerCss, /\.detail-proof-note\s*\{[^}]*scroll-margin-top:/);
+});
+
+test('a case that declares two evidence classes shows both chips and keeps the primary one named', () => {
+  const { context, detailBody } = setupDom();
+  const item = {
+    id: 'UC-514', title: '年末送禮追蹤畫面', what: '用一句話請 Muse 做一個會留下來的送禮畫面。',
+    summary: '用一句話請 Muse 做一個會留下來的送禮畫面。',
+    kind: 'case', scenario: '生活', proof: '官方自報',
+    proofClasses: ['官方自報', '設計／未實跑'],
+    tools: ['Meta Muse'], tags: ['送禮'], reviewedDate: '2026-11-09',
+    path: 'cases/514.md', markdown: '# UC-514\n\n## 來源\n內容'
+  };
+  context.showDetail(item, null, false);
+
+  const chips = [...detailBody.querySelector('.detail-header-meta').querySelectorAll('.proof-badge')];
+  assert.deepEqual(chips.map(chip => chip.textContent), ['官方自報', '設計／未實跑'],
+    'every declared class is a visible chip, not only the class that won precedence');
+  assert.match(chips[0].getAttribute('aria-label'), /來源憑據（主要）：官方自報/,
+    'the first chip is marked as the primary class in its accessible name');
+  assert.match(chips[1].getAttribute('aria-label'), /來源憑據（同案宣告）：設計／未實跑/);
+
+  const summary = detailBody.querySelector('.detail-trust-summary').textContent;
+  assert.match(summary, /成果主張：主要 官方團隊／原廠自述/, summary);
+  assert.match(summary, /另宣告 設計／未實跑/, summary);
+  assert.doesNotMatch(summary, /成果主張：官方團隊／原廠自述核讀/,
+    'a single claimant must not be stated as if it covered the whole page');
+
+  const list = detailBody.querySelector('.proof-note-classes');
+  assert.ok(list, 'the full note lists the declared classes');
+  assert.match(list.textContent, /本案例頁首宣告 2 類來源/);
+  assert.match(list.textContent, /主要：成果主張 官方團隊／原廠自述/);
+  assert.match(list.textContent, /同案宣告：成果主張 提示詞設計者（未提供執行結果）/);
+  assert.match(detailBody.querySelector('.proof-note-claimant').textContent, /成果主張來源（主要：官方自報）/);
+});
+
+test('a single-class case keeps exactly one chip and the wording the round-3 summary shipped', () => {
+  const { context, detailBody } = setupDom();
+  const item = {
+    id: 'UC-098', title: '單一來源案例', what: '作者公開的實作紀錄。',
+    summary: '作者公開的實作紀錄。',
+    kind: 'case', scenario: '工作', proof: '作者報告／示範',
+    proofClasses: ['作者報告／示範'],
+    tools: [], tags: [], reviewedDate: '2026-11-09',
+    path: 'cases/098.md', markdown: '# UC-098\n\n## 來源\n內容'
+  };
+  context.showDetail(item, null, false);
+  const chips = [...detailBody.querySelector('.detail-header-meta').querySelectorAll('.proof-badge')];
+  assert.equal(chips.length, 1);
+  assert.equal(chips[0].getAttribute('aria-label'), '來源憑據：作者報告／示範。' + context.PROOF_DEFINITIONS['作者報告／示範']);
+  const summary = detailBody.querySelector('.detail-trust-summary').textContent;
+  assert.match(summary, /成果主張：社群作者／專案實踐者核讀：本庫未獨立重現/);
+  assert.equal(detailBody.querySelector('.proof-note-classes'), null, 'no class list when there is nothing to list');
+});
+
+test('multi-class styles are defined and keep the tags legible on a phone', () => {
+  assert.match(readerCss, /\.proof-note-class-list\s*\{[^}]*flex-direction:\s*column/);
+  for (const label of ['官方自報', '作者報告／示範', '公開資料核讀', '模板／文件核讀', '尚待查證', '設計／未實跑']) {
+    assert.ok(readerCss.includes(`.proof-note-class-tag[data-proof="${label}"]`), `reader.css must colour ${label}`);
+  }
 });

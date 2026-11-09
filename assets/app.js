@@ -75,6 +75,41 @@ const PROOF_SAFE_ADOPTION_TIP = globalThis.PROOF_SAFE_ADOPTION_TIP = {
   '模板／文件核讀': '安全採用建議（落地三層防護）：① 建議試跑：以小規模非敏感資料驗證提示詞與模型輸出穩定度；② 禁止動作：嚴禁直接把通用模板串接外部寄信、扣款或未經審核的發布流程；③ 必經審核：產出成果必須經人工審批校對後方可採用。',
   '尚待查證': '安全採用建議（落地三層防護）：① 建議試跑：僅供概念構想參考，限於本機離線與虛擬假資料探討；② 禁止動作：切勿用於任何正式環境、金流交易、個資處理或對外自動化；③ 必經審核：未完成獨立查證前禁止進入任何實務評估或部署。'
 };
+// A case can declare more than one evidence class. Show every chip the page
+// header names, and keep the primary chip's visible text identical to the
+// filter value so colour, wording and counts stay the same vocabulary.
+function proofBadges(item) {
+  const classes = item.proofClasses && item.proofClasses.length ? item.proofClasses : [item.proof];
+  return classes.map((label, index) => {
+    const badge = el('span', 'detail-badge proof-badge', label);
+    badge.dataset.proof = label;
+    const desc = PROOF_DEFINITIONS[label] || label;
+    badge.title = desc;
+    badge.setAttribute('role', 'note');
+    const prefix = classes.length > 1 ? (index === 0 ? '來源憑據（主要）：' : '來源憑據（同案宣告）：') : '來源憑據：';
+    badge.setAttribute('aria-label', prefix + label + '。' + desc);
+    return badge;
+  });
+}
+// The reader needs the whole declaration, not only the class that won the
+// precedence rule. Each line quotes the same dictionaries as the rest of the page.
+function declaredClassList(item) {
+  const wrap = el('div', 'proof-note-classes');
+  wrap.append(el('p', 'proof-note-classes-title', '本案例頁首宣告 ' + item.proofClasses.length + ' 類來源：'));
+  const list = el('ul', 'proof-note-class-list');
+  item.proofClasses.forEach((label, index) => {
+    const entry = el('li', 'proof-note-class');
+    const tag = el('span', 'proof-note-class-tag', label);
+    tag.dataset.proof = label;
+    entry.append(
+      tag,
+      el('span', 'proof-note-class-detail', (index === 0 ? '主要' : '同案宣告') + '：成果主張 ' + (PROOF_CLAIMANTS[label] || '來源未明') + '；核讀 ' + (PROOF_STATUS_SHORT[label] || '未獨立重現'))
+    );
+    list.append(entry);
+  });
+  wrap.append(list);
+  return wrap;
+}
 const SCENARIO_TARGET_USERS = globalThis.SCENARIO_TARGET_USERS = {
   '生活': '想用 AI 簡化日常生活瑣事、旅行規劃或家庭事項安排的讀者',
   '工作': '想藉助 AI 提升日常行政、客服、行銷或營運效率的職場工作者',
@@ -766,6 +801,56 @@ function extractActionableGuidance(markdown) {
 //     reference listed before it, because the case reports what the author did;
 //   * a passing mention of 模板 or a comparison-only official doc changes nothing.
 const FIRST_PARTY_LEAD = /^(?:[VAB](?:\s*[＋+]\s*[VAB])?級?\s*[，,、:：]?\s*)?(?:(?:廠商|原廠|產品|服務商|公司|官方)?員工|廠商|原廠|官方)/;
+// A case page may declare several evidence classes in one line
+// (`official` ＋ `designed`, `author-demo` ＋ `designed`, …). The primary class
+// still decides the filter and the counts, but the page must not present the
+// primary claimant as if it were the only one. The declaration is written as
+// clauses joined by ＋/；, so classify each clause with the same rules and list
+// every class the page actually names.
+function declaredEvidenceClassesOfClause(clause) {
+  const text = clause.replace(/`/g, '').trim();
+  if (!text) return [];
+  const found = [];
+  const add = label => { if (!found.includes(label)) found.push(label); };
+  // Backticked machine tokens are explicit declarations wherever they appear.
+  const officialToken = /\bofficial\b/i.test(text);
+  const designedToken = /\bdesigned\b/i.test(text);
+  const firstParty = officialToken && !/^\s*designed\b/i.test(text)
+    ? true
+    : FIRST_PARTY_LEAD.test(text) || /^官方/.test(text)
+      || /官方(?:署名|自報|展示|示例|範例|發布|轉述|第一手)/.test(text);
+  const leadingUnverified = /^\s*(?:unverified|待驗證|待定|尚待查證)/i.test(text);
+  if (firstParty) add('官方自報');
+  // `unverified` as a claim ends the clause or is followed by punctuation; a
+  // field name such as "unverified 欄位" is not a declaration of that class.
+  const unverifiedToken = /(?:^|[\s（(＋+、,，；;])unverified(?:$|[（(），,。；;:：、\s]*[）)，,。；;])/i.test(text);
+  if (leadingUnverified || unverifiedToken) add('尚待查證');
+  if (designedToken) add('設計／未實跑');
+  // An explicit token is a declaration on its own.
+  if (/\bauthor-(?:demo|self-report)\b/i.test(text)) add('作者報告／示範');
+  // Prose about an author counts only when the clause reports that author's own
+  // work. The same words inside a vendor clause, an unverified lead or a designed
+  // prompt must not create a second claimant.
+  if (!firstParty && !leadingUnverified && !designedToken
+    && /作者[^。；]{0,30}(?:自述|自報|實測|自測|自建|實作|分享|貼文|長文|報告|示範)/.test(text)) add('作者報告／示範');
+  if (/^模板/.test(text)) add('模板／文件核讀');
+  if (/^公開資料/.test(text)) add('公開資料核讀');
+  return found;
+}
+function declaredEvidenceClasses(proofLine, kind) {
+  if (kind === 'pending') return ['尚待查證'];
+  const primary = declaredEvidenceClass(proofLine, kind);
+  const clauses = proofLine.split(/[＋+;；]/);
+  const classes = [];
+  for (const clause of clauses) {
+    for (const label of declaredEvidenceClassesOfClause(clause)) {
+      if (!classes.includes(label)) classes.push(label);
+    }
+  }
+  return [primary, ...classes.filter(label => label !== primary)];
+}
+// The single label the corpus has always used. Keep it verbatim so the filter,
+// the counts and the sort order do not move when the clause list is added.
 function declaredEvidenceClass(proofLine, kind) {
   if (kind === 'pending') return '尚待查證';
   const line = proofLine.replace(/`/g, '');
@@ -820,7 +905,8 @@ function metadata(markdown, path, kind, suffix='') {
   // "未取得…已完成操作流程" is not mistaken for a resolution.
   const resolved = kind === 'pending' && /^\d{4}-\d{2}-\d{2}[^。；]{0,10}已(?:處理|解決|完成)/.test(statusLine);
   const mergedInto=kind==='evidence' ? null : kind==='case' ? (heading.match(/已合併\s*(UC-\d{3})/)?.[1] || proofLine.match(/合併\s*(UC-\d{3})/)?.[1] || null) : ((statusLine + ' ' + heading).match(/併入\s*(UC-\d{3})/)?.[1] || null);
-  const proof = declaredEvidenceClass(proofLine, kind);
+  const proofClasses = declaredEvidenceClasses(proofLine, kind);
+  const proof = proofClasses[0];
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})/)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
   const copy=(globalThis.displayCopy?.[id])||displayCopy[id]||{};
@@ -835,7 +921,7 @@ function metadata(markdown, path, kind, suffix='') {
   const declaredTier = declaredDifficulty(lead);
   const difficulty = declaredTier || extractDifficulty(markdown, tools, scenario, category);
   const difficultySource = declaredTier ? 'declared' : 'inferred';
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,tools,date,reviewedDate,mergedInto,resolved,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,tools,date,reviewedDate,mergedInto,resolved,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
 }
 // sources/pending.md records one review date for the whole file, above the first
 // lead. It says when the file was checked, not when each lead was, so it stays a
@@ -1316,7 +1402,7 @@ function showDetail(item, trigger, updateURL=true) {
   metaBar.append(
     el('span', 'detail-id-badge', item.id),
     el('span', 'detail-badge kind-' + item.kind, item.resolved ? '待查線索・已併入 ' + item.mergedInto : KIND[item.kind]),
-    (()=>{ const b = el('span', 'detail-badge proof-badge', item.proof); b.dataset.proof = item.proof; const desc = PROOF_DEFINITIONS[item.proof] || item.proof; b.title = desc; b.setAttribute('role', 'note'); b.setAttribute('aria-label', '來源憑據：' + item.proof + '。' + desc); return b; })(),
+    ...proofBadges(item),
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
   metaBar.append(el('span','detail-badge',item.reviewedDate?'頁首核對 '+item.reviewedDate:(item.fileReviewed?'本條未載核對日':'頁首未提供核對日')));
@@ -1332,9 +1418,14 @@ function showDetail(item, trigger, updateURL=true) {
   // first screen on both desktop and mobile. State them beside the title and
   // keep the long explanation as the place the reader can jump to.
   const trust = el('p', 'detail-trust-summary');
+  const otherClasses = (item.proofClasses || [item.proof]).filter(label => label !== item.proof);
   trust.append(
-    el('span', 'detail-trust-item', '成果主張：' + (PROOF_CLAIMANTS[item.proof] || '來源未明')),
-    el('span', 'detail-trust-item', '核讀：' + (PROOF_STATUS_SHORT[item.proof] || '未獨立重現'))
+    el('span', 'detail-trust-item', otherClasses.length
+      ? '成果主張：主要 ' + (PROOF_CLAIMANTS[item.proof] || '來源未明') + '；另宣告 ' + otherClasses.join('、')
+      : '成果主張：' + (PROOF_CLAIMANTS[item.proof] || '來源未明')),
+    el('span', 'detail-trust-item', otherClasses.length
+      ? '核讀：主要 ' + (PROOF_STATUS_SHORT[item.proof] || '未獨立重現') + '；其他類別見下方'
+      : '核讀：' + (PROOF_STATUS_SHORT[item.proof] || '未獨立重現'))
   );
   const trustJump = el('button', 'detail-trust-jump', '核讀與安全建議 ↓');
   trustJump.type = 'button';
@@ -1482,9 +1573,13 @@ function showDetail(item, trigger, updateURL=true) {
   const proofTag = el('span', 'proof-note-tag', item.proof);
   proofTag.dataset.proof = item.proof;
   const proofDesc = el('span', 'proof-note-desc', PROOF_DEFINITIONS[item.proof] || '本庫未獨立重現，請核對原始報告與限制。');
-  const proofClaimant = el('span', 'proof-note-claimant', '成果主張來源：' + (PROOF_CLAIMANTS[item.proof] || '來源未明'));
-  const proofStatus = el('span', 'proof-note-status', '本庫核讀狀態：' + (PROOF_VERIFICATION_STATUS[item.proof] || '未獨立重現'));
+  const multiClass = otherClasses.length > 0;
+  const proofClaimant = el('span', 'proof-note-claimant', (multiClass ? '成果主張來源（主要：' + item.proof + '）：' : '成果主張來源：') + (PROOF_CLAIMANTS[item.proof] || '來源未明'));
+  const proofStatus = el('span', 'proof-note-status', (multiClass ? '本庫核讀狀態（主要：' + item.proof + '）：' : '本庫核讀狀態：') + (PROOF_VERIFICATION_STATUS[item.proof] || '未獨立重現'));
   const proofSafety = el('span', 'proof-note-safety', PROOF_SAFE_ADOPTION_TIP[item.proof] || '安全採用建議（落地三層防護）：① 建議試跑：先於隔離測試或虛擬資料環境小規模驗證；② 禁止動作：未經確認切勿直接授權對外操作、金流付款或寫入生產系統；③ 必經審核：所有關鍵產出與操作必須經專人覆核後採用。');
+  // The header can declare several classes; say so here instead of letting the
+  // primary class speak for the whole page.
+  if (multiClass) proofNote.append(declaredClassList(item));
   proofNote.append(proofTag, proofDesc, proofClaimant, proofStatus, proofSafety);
   const closure=resolvedPendingNote(item);
   if(closure)proofNote.prepend(el('p','proof-note-closure',closure));
@@ -1704,8 +1799,11 @@ function card(item, terms=[]) {
   read.addEventListener('click', () => showDetail(item, read));
   const proofBadge = el('span', 'proof', item.proof);proofBadge.dataset.proof = item.proof;
   proofBadge.setAttribute('role', 'note');
-  proofBadge.title = PROOF_DEFINITIONS[item.proof] || item.proof;
-  proofBadge.setAttribute('aria-label', '來源憑據：' + item.proof + '。' + (PROOF_DEFINITIONS[item.proof] || ''));
+  const cardOthers = (item.proofClasses || [item.proof]).filter(label => label !== item.proof);
+  proofBadge.title = (PROOF_DEFINITIONS[item.proof] || item.proof)
+    + (cardOthers.length ? ' 本案例另宣告：' + cardOthers.join('、') + '（詳見案例）' : '');
+  proofBadge.setAttribute('aria-label', '來源憑據：' + item.proof + '。' + (PROOF_DEFINITIONS[item.proof] || '')
+    + (cardOthers.length ? ' 本案例另宣告 ' + cardOthers.length + ' 類來源：' + cardOthers.join('、') + '。' : ''));
   bottom.append(proofBadge, read);
   node.append(bottom);
   return node;
@@ -2017,11 +2115,12 @@ function renderFacetCounts(terms, filters) {
   const hint=$('facet-count-hint');
   const difficultyHint = '實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。';
   const statusHint = '收錄狀態的「待查線索」是還沒列成案例的線索；來源類型的「尚待查證」是證據等級，兩者不同。';
+  const proofCountHint = '來源類型依案例頁首宣告的主要類別計一次；同一案例宣告的其他類別，列在卡片與詳情的提示中。';
   hint.textContent=(!discoveryReady
     ? '案例載入完成後，會顯示各選項的符合筆數。'
     : failedPaths.length
       ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
-      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。') + statusHint + difficultyHint;
+      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。') + statusHint + difficultyHint + proofCountHint;
   // Count merged leads inside the same filtered set the pending option describes,
   // so a filtered view does not keep a global annotation it cannot show.
   const pendingBase=discoveryReady?filterEntries(entries,terms,{...filters,kind:''}):[];

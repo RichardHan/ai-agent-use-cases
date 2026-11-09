@@ -88,9 +88,11 @@ async function run() {
       const firstReviewId = await page.locator('#results .card').first().getAttribute('data-case-id');
       console.log(`✓ Query "人工審批" returned "${reviewCountText}", top: ${firstReviewId}`);
 
-      // Verify card target-user is present to orient visitors
+      // Verify card target-user is present to orient visitors, labelled with its source
       const firstCardTarget = await page.locator('#results .card .card-target-user').first().innerText();
-      assert.ok(firstCardTarget.includes('👤 適合對象：'), 'Card must render target audience for orientation');
+      const firstCardTargetSource = await page.locator('#results .card .card-target-user').first().getAttribute('data-target-user-source');
+      const expectedLabel = firstCardTargetSource === 'declared' ? '👤 適合對象：' : '👤 情境常見讀者：';
+      assert.ok(firstCardTarget.includes(expectedLabel), `Card audience must carry its provenance label (${expectedLabel})`);
       console.log(`✓ Card audience orientation verified: "${firstCardTarget.slice(0, 30)}..."`);
 
       if (vp.name !== 'small-mobile') {

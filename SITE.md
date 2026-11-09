@@ -1,3 +1,15 @@
+## 2026-11-11 「適合對象」把本庫寫的情境通用句說成這篇案例的對象
+
+513 個條目只有 209 個案例頁在頁首寫 `- 目標使用者：`；其餘 304 個沒有這個欄位，卡片與詳情的「適合對象」卻由 `SCENARIO_TARGET_USERS` 的六句情境人物填滿（`assets/app.js:137-145`、`1734-1738`、`2014-2018`），沒有任何標記，長得和真正宣告的句子一樣。正式站 `?case=UC-005`（390×844）寫「適合對象｜工程師、程式開發者…」，但 `cases/005-cloud-pr-review.md` 只有 `- 目標：`；`?case=UC-270` 是真的有宣告，畫面完全相同。同一頁的「實作門檻」卻寫明「案例頁未宣告門檻，這是由本庫依內文關鍵字推測」——同一份資料、兩種誠實標準。舊測試還把這個行為釘住（`tests/visitor-clarity-and-actions-stability.test.cjs:79` 要求卡片出現「👤 適合對象：進行自主學習」）。
+
+選擇 (A) 把兩種主張分開：新增 `targetUserView(item)` 統一決定標題、標籤、正文與註記，詳情與卡片都只從它取字。宣告頁維持「適合對象」＋「案例頁自行宣告適合對象；本庫未另外驗證。」；未宣告頁改成「情境常見讀者」＋「案例頁未宣告適合對象；以上是本庫依「開發」情境整理的常見讀者，不是這篇案例作者的說法。」，卡片用「👤 情境常見讀者：」並在 `data-target-user-source`、`title`、`aria-label` 標來源。(B) 未宣告就整段不顯示會讓 304 個條目失去唯一受眾線索、卡片高度大幅變動；(C) 從正文抽取等於由本庫代寫新主張，都不採用。
+
+改動：`assets/app.js`（helper ＋ 兩個渲染點）、`assets/style.css` 一行（`.detail-target-user-source` 12.5px／muted，與難度註記同級）、`README.md` 與 `templates/case.md` 說明 209／304 的分野、`.github/workflows/website-qa.yml` 一行。新增 `tests/target-user-provenance.test.cjs`（4 項，掃 513 條目：宣告頁必須是宣告句、未宣告頁不得出現「適合對象」標題、0 條目靜默消失、半形冒號不得被誤判）與 `tests/target-user-provenance-browser.cjs`（1440／390／320，含 axe、溢出、pageerror）。兩個舊測試改成「印出通用句並標明來源」，不是放寬。
+
+先紅後綠：新瀏覽器測試在基準預覽（`210f980d`）失敗於 `UC-270 declares its audience`（`'' !== 'declared'`），本輪預覽三種寬度全過、axe 0、水平溢出 0、pageerror 0；`node --test tests/*.test.cjs` 基準 **607** → 本輪 **611 通過、0 失敗**，`node --check` 通過，`tests/related-browser.cjs` 14 組通過。量測：UC-005 詳情區塊 62→88px（1440）、90→136px（390）、90→156px（320），UC-270 62→88px；`?q=會議` 前 8 張卡高度完全相同、26／513 筆不變；註記 12.5px、對比實測 5.82:1。三情境（問題搜尋、組合篩選空結果復原、分享直鏈）在 390px 重走。[證據、前後截圖與限制](docs/qa/2026-11-11-target-user-provenance/README.md)。
+
+已知限制：本環境無法讀取截圖影像，視覺結論來自 DOM、幾何、computed style 與 axe；只驗 Chromium；`tests/reader-browser.cjs` 在本機基準與本輪都停在 `?q=PR&case=UC-005` 的 `networkidle`（既有環境限制，非本輪回歸）；209 篇宣告句的內容品質未逐篇重審，304 個通用句仍是情境級描述。下一輪先做 `- 核心目標` 缺漏：287／506 篇沒有這個欄位、卡片直接不顯示 🎯 行，而不少頁面寫了 `- 目標：`／`- 問題：` 只是沒被讀取（`assets/app.js:1041`），先列出三種寫法的實際分布再決定擴充解析或明示缺漏。
+
 ## 2026-11-10 搜尋把供應商網址與英文字片段當成內容命中
 
 首頁按「自動客服」得到 `顯示 93／513`，其中 32 筆只因為原文附了 `support.google.com`、`support.plex.tv`、`support.zendesk.com` 連結——第八張卡是 UC-063「讓 Grok Bot 整理 Plex 影片庫」，同批還有太陽能帳單、3D 掃描與表格靠右的案例。同一類誤命中：`推特` 417 筆（130 筆是 `text`／`example` 的字母 x）、`CI` 131（`specific`、`decision`）、`儲存庫` 76（`report`）、`日誌` 174（`login`）、`搜尋` 143（`research`）、`筆記` 69（`memory`、X 帳號 `tetumemo`）、`權限` 502（`auth` 在 251 筆只是 `author` 的一部分）。根因是英文相關詞以純子字串比對，且 `item.search` 把整份 Markdown 的來源網址一起索引。

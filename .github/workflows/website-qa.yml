@@ -83,6 +83,7 @@ jobs:
           VERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/match-scope-note-browser.cjs
           DETAIL_TRUST_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/detail-trust-summary-browser.cjs
           ATTRIBUTION_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/evidence-attribution-browser.cjs
+          SITE_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/publish-window-browser.cjs
       - name: Build actual Pages release for published verification
         uses: actions/jekyll-build-pages@v1
         with:

@@ -15,6 +15,42 @@ test('one bundle replaces every source request without altering source text or o
  const calls=[],progress=[];const result=await load(paths,options({fetch:async path=>{calls.push(path);return response(json());},onProgress:p=>progress.push({...p})}));
  assert.deepEqual(calls,['corpus.json']);assert.deepEqual(Array.from(result.entries,e=>[e.path,e.text]),paths.map((p,i)=>[p,texts[i]]));assert.deepEqual(Array.from(result.failed),[]);assert.equal(progress.at(-1).succeeded,3);
 });
+test('a corpus published after the catalogue still replaces every source request',async()=>{
+ // Pages can expose the two manifests from different builds for a few seconds.
+ // A newer corpus still names exactly the paths the catalogue lists, so the
+ // whole collection must load as one request and pin to the build it came from.
+ const catalogRevision='20261109091843207251205',corpusRevision='20261109094004465420250';
+ const calls=[],corpusSha='c'.repeat(40);
+ const result=await load(paths,{bundleRevision:catalogRevision,sourceRevision:'d'.repeat(40),parseFile:parse,budget:2000,fetch:async path=>{
+  calls.push(path);
+  return path==='corpus.json'?response({...json(undefined,corpusRevision),sourceRevision:corpusSha}):response(texts[paths.indexOf(path)]);
+ }});
+ assert.deepEqual(calls,['corpus.json'],'a newer bundle must not be discarded for a build-id difference');
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+ assert.deepEqual(Array.from(result.failed),[]);
+ assert.equal(context.sourceRevisionFor(paths[1]),corpusSha,'delivered text pins to the build it came from');
+});
+test('a malformed build stamp cannot outrank the catalogue',async()=>{
+ // Both generated manifests use %Y%m%d%H%M%S%N. A numeric string of another
+ // length has no known order, so it must not be treated as "newer".
+ const calls=[];
+ const result=await load(paths,{bundleRevision:'20261109094004465420250',sourceRevision:'d'.repeat(40),parseFile:parse,budget:2000,fetch:async path=>{
+  calls.push(path);
+  return path==='corpus.json'?response({...json(undefined,'99999999999999'),sourceRevision:'c'.repeat(40)}):response(texts[paths.indexOf(path)]);
+ }});
+ assert.equal(calls.length,4,'an unordered stamp keeps the strict contract');
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+});
+test('a corpus older than the catalogue still falls back to per-source reads',async()=>{
+ const calls=[];
+ const result=await load(paths,{bundleRevision:'20261109094004465420250',sourceRevision:'d'.repeat(40),parseFile:parse,budget:2000,fetch:async path=>{
+  calls.push(path);
+  return path==='corpus.json'?response({...json(undefined,'20261109091843207251205'),sourceRevision:'c'.repeat(40)}):response(texts[paths.indexOf(path)]);
+ }});
+ assert.equal(calls.length,4,'an older corpus may miss a source the catalogue lists');
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+ assert.equal(context.sourceRevisionFor(paths[1]),'');
+});
 test('a slow but successful bundle avoids a costly per-source fallback',async()=>{
  const calls=[];
  const result=await load(paths,{bundleRevision:'r1',parseFile:parse,budget:8000,fetch:async(path,opt)=>{
@@ -93,12 +129,14 @@ test('cache wait cannot extend a short whole-load budget',async()=>{
   assert(Date.now()-started<90,'cache read outlived whole-load deadline');
  } finally {delete context.caches;}
 });
-test('only version-matched bundled sources claim the publication commit',async()=>{
+test('a bundled source pins to the build its corpus names',async()=>{
  const sha='a'.repeat(40);
  for(const bundleSha of [sha,'b'.repeat(40),'']){
   vm.runInContext('pinnedSources.clear()',context);
   await load(paths,options({sourceRevision:sha,fetch:async()=>response({...json(),sourceRevision:bundleSha})}));
-  assert.equal(context.sourceRevisionFor(paths[0]),bundleSha===sha?sha:'');
+  // A newer corpus is accepted and must pin to its own build, not the older
+  // catalogue's; without a declared build there is nothing to pin to.
+  assert.equal(context.sourceRevisionFor(paths[0]),bundleSha||'');
  }
  vm.runInContext('pinnedSources.clear()',context);
  let release;const gate=new Promise(resolve=>release=resolve);

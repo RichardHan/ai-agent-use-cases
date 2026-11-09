@@ -73,10 +73,10 @@ if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS
  if(!process.env.OBSERVE){
  // Reader shortcuts precede sharing, so Tab must visit them in rendered order
  // rather than jump directly between the toolbar and the copy-link button.
- const earlyControls=page.locator('#detail-body .reader-method-shortcut,#detail-body .plain-overview button,#detail-body .plain-overview a[href]:visible,#copy-case-link');
+ const earlyControls=page.locator('#detail-body .detail-trust-jump,#detail-body .reader-method-shortcut,#detail-body .plain-overview button,#detail-body .plain-overview a[href]:visible,#copy-case-link');
  const earlyCount=await earlyControls.count();
  assert.ok(earlyCount>=3,'method and overview shortcuts precede sharing');
- assert.ok(await earlyControls.first().evaluate(n=>n.matches('.reader-method-shortcut')),'the original-method shortcut is the first body control');
+ assert.ok(await earlyControls.first().evaluate(n=>n.matches('.detail-trust-jump')),'the trust summary is the first body control, before the method shortcut');
  assert.equal(await earlyControls.last().getAttribute('id'),'copy-case-link');
  // WebKit's default Tab skips buttons; Option/Alt+Tab includes every control.
  const tab=engine==='webkit'?'Alt+Tab':'Tab',reverseTab=engine==='webkit'?'Alt+Shift+Tab':'Shift+Tab';
@@ -88,7 +88,7 @@ if(process.env.LABEL==='live'&&skipIfSupersededPublishedUrl(process.env.CONTROLS
  for(let i=earlyCount-2;i>=0;i--){
   await page.keyboard.press(reverseTab);
   assert.ok(await earlyControls.nth(i).evaluate(n=>n===document.activeElement),`reverse Tab visits reader control ${i+1} without skipping shortcuts`);
-  if(i===earlyCount-2)assert.ok(await earlyControls.nth(i).evaluate(n=>{const r=n.getBoundingClientRect(),toolbar=document.querySelector('.detail-toolbar').getBoundingClientRect(),dialog=document.querySelector('#detail').getBoundingClientRect(),style=getComputedStyle(n);return n.classList.contains('reader-guidance-shortcut')&&r.top>=toolbar.bottom&&r.bottom<=dialog.bottom&&parseFloat(style.outlineWidth)>=2&&style.outlineStyle!=='none';}),'reverse Tab reveals the preceding guidance control below the toolbar with a visible outline');
+  if(await earlyControls.nth(i).evaluate(n=>n.classList.contains('reader-guidance-shortcut')))assert.ok(await earlyControls.nth(i).evaluate(n=>{const r=n.getBoundingClientRect(),toolbar=document.querySelector('.detail-toolbar').getBoundingClientRect(),dialog=document.querySelector('#detail').getBoundingClientRect(),style=getComputedStyle(n);return r.top>=toolbar.bottom&&r.bottom<=dialog.bottom&&parseFloat(style.outlineWidth)>=2&&style.outlineStyle!=='none';}),'reverse Tab reveals the guidance control below the toolbar with a visible outline');
  }
  await page.keyboard.press(reverseTab);
  assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail','reverse Tab from the first body control returns to the toolbar');

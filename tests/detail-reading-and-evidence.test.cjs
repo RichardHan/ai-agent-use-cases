@@ -565,3 +565,63 @@ test('detail view says whether the 實作門檻 was declared or guessed', () => 
   assert.doesNotMatch(declaredNote.textContent, /推測/);
   detailModal.close();
 });
+
+test('every verification class has a faithful short form for the first-screen trust summary', () => {
+  const { context } = setupDom();
+  assert.deepEqual(
+    Object.keys(context.PROOF_STATUS_SHORT).sort(),
+    Object.keys(context.PROOF_VERIFICATION_STATUS).sort(),
+    'PROOF_STATUS_SHORT must cover exactly the classes the full note explains'
+  );
+  for (const [proof, short] of Object.entries(context.PROOF_STATUS_SHORT)) {
+    assert.ok(short.length > 0 && short.length <= 20, `short status for "${proof}" must stay compact`);
+    assert.doesNotMatch(short, /https?:|\[|\]/, `short status for "${proof}" must be plain text`);
+  }
+});
+
+test('showDetail renders claimant and verification beside the title, not only far down the page', async () => {
+  const { context, detailBody } = setupDom();
+  const item = {
+    id: 'UC-098', title: '工程 PDF 轉 Excel', what: '整理多份 PDF。',
+    kind: 'case', scenario: '工作', proof: '作者報告／示範',
+    tools: [], tags: [], path: 'cases/098.md', markdown: '# UC-098\n\n## 來源\n內容'
+  };
+  context.showDetail(item, null, false);
+  const summary = detailBody.querySelector('.detail-trust-summary');
+  assert.ok(summary, 'detail must render .detail-trust-summary');
+  assert.match(summary.textContent, /成果主張：社群作者／專案實踐者/);
+  assert.match(summary.textContent, /核讀：本庫未獨立重現/);
+  const jump = summary.querySelectorAll('button').find(button => button.textContent.includes('核讀與安全建議'));
+  assert.ok(jump, 'summary must offer a jump to the full proof note');
+  const note = detailBody.querySelector('.detail-proof-note');
+  assert.ok(note, 'detail must still render the full proof note');
+  await jump.click();
+  assert.equal(context.document.activeElement, note, 'jump must move focus to the proof note');
+  assert.equal(String(note.tabIndex), '-1', 'focused proof note must be programmatically focusable');
+});
+
+test('trust summary follows each proof class and falls back without inventing attribution', () => {
+  const { context, detailBody, detailModal } = setupDom();
+  const base = {
+    id: 'UC-020', title: '樣本', what: '用途', kind: 'case', scenario: '工作',
+    tools: [], tags: [], path: 'cases/020.md', markdown: '# UC-020\n\n## 來源\n內容'
+  };
+  for (const [proof, claimant] of Object.entries(context.PROOF_CLAIMANTS)) {
+    context.showDetail({ ...base, proof }, null, false);
+    const text = detailBody.querySelector('.detail-trust-summary').textContent;
+    assert.ok(text.includes('成果主張：' + claimant), `summary must name the claimant for "${proof}"`);
+    assert.ok(text.includes('核讀：' + context.PROOF_STATUS_SHORT[proof]), `summary must carry the short status for "${proof}"`);
+    detailModal.close();
+  }
+  context.showDetail({ ...base, proof: '未知等級' }, null, false);
+  const fallback = detailBody.querySelector('.detail-trust-summary').textContent;
+  assert.match(fallback, /成果主張：來源未明/);
+  assert.match(fallback, /核讀：未獨立重現/);
+});
+
+test('reader.css keeps the trust summary legible and the jump operable', () => {
+  assert.match(readerCss, /\.detail-trust-summary\s*\{[^}]*flex-wrap:\s*wrap/);
+  assert.match(readerCss, /\.detail-trust-jump\s*\{[^}]*min-height:\s*44px/);
+  assert.match(readerCss, /\.detail-trust-jump:focus-visible\s*\{/);
+  assert.match(readerCss, /\.detail-proof-note\s*\{[^}]*scroll-margin-top:/);
+});

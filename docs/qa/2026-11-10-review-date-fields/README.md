@@ -5,7 +5,7 @@
 - 開發基準 `origin/main` `c4bef514`（正式站 `catalog.json.sourceRevision` 同值）。隔離 worktree `/private/tmp/aiuc-1110-round9`（分支 `improve/20261110-visitor-round9`），另有唯讀對照 worktree `/private/tmp/aiuc-1110-before`（detached 於 `origin/main`）。
 - 原工作樹 `/Users/richard_han/orca/ai-agent-use-cases` 停在 `90093d7b`、落後 main 277 個 commit，另有 159 個未追蹤的他人研究檔與 QA 產物；本輪未觸碰。
 - 基準 `node --test tests/*.test.cjs`：**588 通過、0 失敗**；`node --check assets/app.js` 通過。
-- Actions 現況重新確認（不沿用歷史故障）：最近 60 次 run 為 55 success／4 failure／1 當時進行中；4 次 failure 全在同一個已被取代的 commit `98712c4`（`improve/20261110-detail-exit`，PR #305），下一個 commit `a2bf89d6` 14 項檢查全綠並已合併；`main` 的 `pages build and deployment` 與 `Website QA` 的 published 驗證皆 success。**本輪 CI 不是障礙**，未修改任何 workflow。
+- Actions 現況重新確認（不沿用歷史故障）：`gh run list --limit 100` 為 89 success／4 failure／2 cancelled（`cancel-in-progress` 設計行為）／5 執行中；4 次 failure 全在同一個已被取代的 commit `98712c4`（`improve/20261110-detail-exit`，PR #305），下一個 commit `a2bf89d6` 14 項檢查全綠並已合併；`main` 的 `pages build and deployment` 與 `Website QA` 的 published 驗證皆 success。**本輪 CI 不是障礙**，未修改任何 workflow。
 
 ## 問題證據
 
@@ -42,9 +42,9 @@
 
 ## 改動
 
-- `assets/app.js`：`reviewDate()` 的欄位判斷由 `^-\s*日期\s*[：:]` 改為 `^-\s*[^：:\n]{0,24}(?:日期|時間)[^：:\n]{0,24}\s*[：:]`，子句規則（`查證|查閱|核對|查核`，並排除「尚未查證」等否定句）與「取最新有效日期」不變；註解記下三種實際寫法與「來源補充行不算頁首核對」的界線。
+- `assets/app.js`：`reviewDate()` 的欄位判斷由 `^-\s*日期\s*[：:]` 改為 `^-\s*[^：:\n]{0,24}(?:日期|時間)[^：:\n]{0,24}\s*[：:]`，子句規則（`查證|查閱|核對|查核`，並排除「尚未查證」等否定句）與「取最新有效日期」不變；另排除子句主體是別的來源（`補充來源`／`其他來源`／`增補來源`），避免把別人的查核算成本頁核對。註解記下三種實際寫法與兩條界線。
 - `tests/recent-review.test.cjs`
-  - 新增 `a review written inside another dated lead field is still that page's review`：6 種正向寫法、作者發布日不算核對、5 種只寫日期或否定句的寫法仍不算、來源補充行的「查核」不算。
+  - 新增 `a review written inside another dated lead field is still that page's review`：6 種正向寫法、作者發布日不算核對、5 種只寫日期或否定句的寫法仍不算、來源補充行（含寫在同一行日期欄位裡）的「查核」不算，以及以查核命名的時間欄位算本頁核對。
   - 新增 `every published case states a lead review date the site can read`：讀 506 個真實案例檔，要求 `metadata().reviewedDate` 全部非空，並逐一釘住上述 7 筆的日期。
 - `README.md`：說明「頁首核對」讀哪些寫法、何時會標示未提供，以及不借用來源日期。
 - `templates/case.md`：`首次收錄／最近查證` 欄位補上可接受的舊寫法。
@@ -61,7 +61,7 @@
 | UC-222 詳情徽章 | `頁首未提供核對日` | `頁首核對 2026-10-16`（三種寬度一致） |
 | UC-222 卡片 `.review-date` | `頁首未提供核對日` | `頁首核對 2026-10-16` |
 | 全部 513 張卡片中標示「未提供核對日」 | 7 張 | **0 張** |
-| `?sort=reviewed` 這 7 筆的位置 | 503–509／513 | UC-434 **76**、其餘 435–441／513（依各自日期落點） |
+| `?sort=reviewed` 這 7 筆的位置 | 503–509／513 | UC-434 **76**；UC-218 435、UC-220 437、UC-221 438、UC-222 439、UC-223 440、UC-224 441（依各自日期落點） |
 | P-001 待查線索 | `本條未載核對日`＋`來源檔查證 2026-10-17` | 不變 |
 | 水平溢出／pageerror | 0／0 | 0／0 |
 
@@ -71,6 +71,15 @@
   - `tests/search-expansion-consistency-browser.cjs`：`SEARCH_EXPANSION_CONSISTENCY_OK`
   - `tests/evidence-attribution-browser.cjs`、`tests/detail-trust-summary-browser.cjs`、`tests/result-count-honesty-browser.cjs`：axe 0、pageErrors 0、overflow false
 - 截圖（同頁、同尺寸、同資料狀態）：`before-desktop-uc222-detail.png`／`after-desktop-uc222-detail.png`、`before-desktop-uc222-card.png`／`after-desktop-uc222-card.png`、`before-mobile-uc222-badges.png`／`after-mobile-uc222-badges.png`。手機徽章由 104px 變 125.5px 寬、高度與位置不變（24.69px／y=171.8）。**限制：本輪執行環境無法檢視圖片內容**，視覺結論以上述 DOM 幾何與文字量測為準，截圖僅供人工複核。
+
+## 獨立審查
+
+獨立 reviewer（未參與實作，另開任務上下文）核對 `f38279a3` 的 diff、程式與語料，未發現阻斷性缺陷，並自行重跑逐檔比對確認：506 個案例只有 7 筆變動、4 筆待查線索維持 `reviewedDate: ''`／`fileReviewed: '2026-10-17'`、`item.date` 不受影響、`INDEX.md` 的最新核對日仍是 2026-11-09、9 個 `本次增補查證` 案例的解析結果不變。它指出兩點並已修正：
+
+1. 本紀錄原本寫「其餘 435–441」，其中 436 由別筆佔用；已改成逐筆位置（435、437–441）。
+2. 殘留邊界：同一行日期欄位若寫別人的查核（`- 發布日期：…；補充來源 2026-10-23 查核`）會被算成本頁核對。已加上子句主體排除，並補測試（含 `- 查閱時間：2026-10-16` 這種以查核命名的欄位仍算本頁核對）。目前語料沒有這種寫法，修正後 7 筆變動集合不變。
+
+Reviewer 未重跑測試與瀏覽器套件，因此測試、axe、pageerror、溢出的數字來自主 agent 的實測，不由該次審查背書。
 
 ## 已知限制
 

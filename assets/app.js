@@ -733,7 +733,10 @@ function reviewDate(markdown) {
     // about a date ("- 補充來源：…；2026-10-13 查核") stays a source note, not a
     // page-level review.
     if(!/^-\s*[^：:\n]{0,24}(?:日期|時間)[^：:\n]{0,24}\s*[：:]/.test(line))continue;
-    for(const clause of line.split(/[；;。，,]/))if(reviewAction.test(clause)&&!notReviewed.test(clause))collect(clause);
+    // A clause that belongs to another source ("- 發布日期：…；補充來源 2026-10-23
+    // 查核") records that source's check, not this page's. 「查閱原貼」 is not
+    // matched, because the original post is what a page-level review reads.
+    for(const clause of line.split(/[；;。，,]/))if(reviewAction.test(clause)&&!notReviewed.test(clause)&&!/^\s*(?:補充|其他|另一|增補)?來源|^\s*補充資料/.test(clause))collect(clause);
   }
   return dates.sort().pop()||'';
 }

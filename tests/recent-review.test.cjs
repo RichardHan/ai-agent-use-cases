@@ -39,6 +39,11 @@ test('a review written inside another dated lead field is still that page’s re
  for(const text of ['- 發布日期：2026-10-20','- 原文日期：2026-10-10 發表及更新','- 發文日期：2026-10-08 03:28','- 原文日期：2026-10-10；未查證','- 發布日期：2026-10-20（查證日期不詳）'])assert.equal(reviewDate('# 案例\n'+text),'',text);
  // A source line records when that source was checked, not when the page was reviewed.
  assert.equal(reviewDate('# 案例\n- 補充來源：[Meet dots](https://learn.chatgpt.com/docs/dots)，OpenAI；未標發布日；2026-10-13 查核；英文'),'');
+ // …and the same rule holds when that source's check shares a dated field line.
+ assert.equal(reviewDate('# 案例\n- 發布日期：2026-10-10 發表；補充來源 2026-10-23 查核'),'');
+ assert.equal(reviewDate('# 案例\n- 發布日期：2026-10-10；查證2026-10-20 UTC；其他來源 2026-10-23 查核'),'2026-10-20');
+ // A field named after the check time is a page-level review.
+ assert.equal(reviewDate('# 案例\n- 查閱時間：2026-10-16 UTC'),'2026-10-16');
 });
 test('every published case states a lead review date the site can read',()=>{
  // Seven pages wrote it under 發布日期／實作日期／開始日期／作者／日期／語言 while the

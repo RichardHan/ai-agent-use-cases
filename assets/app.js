@@ -1662,6 +1662,36 @@ function updateResultBatch() {
   $('load-more-results').hidden=remaining<=0;
   $('load-more-results').textContent=`再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）`;
 }
+// The sample card above the search is drawn from the corpus, so its height keeps
+// changing after this scroll (measured 478→715px on a 390x844 phone) and pushes
+// the field and the first result below the fold: the same click landed the first
+// card at 788px or at 986px in an 844px viewport, depending on which case was
+// drawn. Hold the search section in place until the layout settles, and give up
+// the moment the reader deliberately scrolls somewhere themselves.
+function keepSearchRevealed(){
+  const results=$('results'), page=$('explore');
+  // Result links are also exercised in a DOM-less unit context, where there is
+  // no layout to align.
+  if(!results||typeof results.querySelector!=='function'||!page||
+    typeof document.addEventListener!=='function'||typeof requestAnimationFrame!=='function'||
+    typeof setTimeout!=='function')return;
+  let abandoned=false;
+  const abandon=()=>{abandoned=true;};
+  const events=['pointerdown','wheel','touchstart'];
+  events.forEach(type=>document.addEventListener(type,abandon,{passive:true}));
+  const align=()=>{
+    if(abandoned)return;
+    const card=results.querySelector('.card');
+    if(card&&card.getBoundingClientRect().top>=innerHeight){
+      page.scrollIntoView({block:'start',behavior:'instant'});
+    }
+  };
+  // The corpus and the drawn card arrive at their own pace; three checks cover a
+  // slow first paint without fighting a reader who is already reading.
+  [70,240,600].forEach(delay=>setTimeout(align,delay));
+  requestAnimationFrame(align);
+  setTimeout(()=>events.forEach(type=>document.removeEventListener(type,abandon)),700);
+}
 function enterSearch(event) {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   event.preventDefault();
@@ -1671,6 +1701,7 @@ function enterSearch(event) {
   history.replaceState(history.state,'',url);
   $('explore').scrollIntoView({block:'start',behavior:'instant'});
   $('query').focus({preventScroll:true});
+  keepSearchRevealed();
 }
 const PULL_REQUEST_ABBREVIATIONS=new Set(['pr','prs','mr','mrs']);
 function searchVariantIndex(text,variant) {
@@ -2132,6 +2163,66 @@ function vocabularyRecoveryOptions(items, query, filters, limit=3) {
   return narrow.sort((a,b)=>b.query.length-a.query.length || a.count-b.count || text.indexOf(a.query)-text.indexOf(b.query)).slice(0,limit);
 }
 
+// A question keeps everyday words the library never indexes ("想", "沒時間"), and
+// filterEntries() ANDs every token, so "想學英文" finds nothing while "學英文"
+// finds 32 entries. The helpers above read whole library terms; this one reads the
+// visitor's own characters: every contiguous CJK run they typed, put back through
+// tokenize() so the site's rewrite rules still apply.
+//
+// Raw substrings are mostly fragments ("件匣", "人記"), so a run has to look like a
+// word before its count is even considered:
+//   - every word it tokenizes to is a library term, or it starts with one and is
+//     short enough to be that term plus a suffix ("學英文" → 英語 + 學習);
+//   - it does not start or end on a grammatical particle;
+//   - between 3 and a tenth of the library match it — one or two hits are
+//     accidents, and a run that matches a tenth of the library is not a next step.
+// The label quotes the run verbatim and the count is measured before any click.
+const SUBSTRING_QUERY_MIN=2, SUBSTRING_QUERY_MAX=6, SUBSTRING_QUERY_MIN_HITS=3;
+const SUBSTRING_PARTICLE=/[的了嗎呢吧啊但而就都也又還很太不沒有是在和與或及把被讓給對從到想要會能可我你他她它們這那個些什怎樣為一]/;
+function substringRecoveryOptions(items, query, filters, limit=3) {
+  // Runs are read inside each whitespace-separated segment, never across it: the
+  // label says "原問題包含「X」", so X has to be contiguous in what was typed.
+  const segments=norm(query).split(/\s+/).filter(Boolean);
+  if(!segments.length)return [];
+  const echoed=norm(query).trim();
+  const vocabulary=new Set(libraryVocabulary(items));
+  const wordLike=part=>{
+    if(SUBSTRING_PARTICLE.test(part[0])||SUBSTRING_PARTICLE.test(part[part.length-1]))return false;
+    const read=tokenize(part);
+    return read.every(term=>vocabulary.has(term))
+      || (part.length<=4 && vocabulary.has(read[0]));
+  };
+  const counts=new Map();
+  const count=part=>{
+    if(!counts.has(part))counts.set(part,filterEntries(items,tokenize(part),filters).length);
+    return counts.get(part);
+  };
+  const band=Math.max(3,Math.floor(items.length/10));
+  const found=[];
+  for(const text of segments){
+    for(let start=0;start<text.length;start++){
+      for(let size=SUBSTRING_QUERY_MIN;size<=SUBSTRING_QUERY_MAX&&start+size<=text.length;size++){
+        const part=text.slice(start,start+size);
+        // Never echo the whole question back as its own recovery.
+        if(part===echoed||!/^[\u3400-\u9fff]+$/.test(part)||!wordLike(part))continue;
+        const matches=count(part);
+        if(matches>=SUBSTRING_QUERY_MIN_HITS&&matches<=band)found.push({query:part,count:matches,start,size});
+      }
+    }
+  }
+  const accepted=[];
+  found
+    // Narrowest first: a run that still covers a tenth of the library is the
+    // weaker next step, however long it is.
+    .sort((a,b)=>a.count-b.count||b.size-a.size||a.start-b.start)
+    .forEach(option=>{
+      // "英文" adds nothing once "學英文" is on offer.
+      if(accepted.some(chosen=>chosen.query.includes(option.query)))return;
+      accepted.push(option);
+    });
+  return accepted.slice(0,limit).map(option=>({query:option.query,count:option.count}));
+}
+
 // A visitor's everyday phrase often fuses two library terms into one CJK run
 // ("客戶抱怨", "合約到期提醒"). tokenize() keeps the run whole, so an exact
 // substring match finds nothing even though each term exists on its own. Only
@@ -2383,6 +2474,19 @@ function renderSearchFeedback(terms, filters) {
     phraseOptions.forEach(({query,count})=>{
       if(suggestions.querySelector('[data-query-recovery="'+query+'"]'))return;
       const button=el('button','recovery-option','原問題提到「'+query+'」 → 搜尋 '+count+' 筆文字命中');
+      button.type='button';button.dataset.queryRecovery=query;
+      button.addEventListener('click',()=>recoverSearchQuery(query));
+      suggestions.append(button);
+    });
+    // Only when nothing above could be said about this question: the task list
+    // below is the same for everyone, so anything the visitor's own words can
+    // reach belongs in front of it.
+    const substringOptions=queryOptions.length||phraseOptions.length||vocabularyOptions.length
+      ? []
+      : substringRecoveryOptions(entries,$('query').value,filters);
+    substringOptions.forEach(({query,count})=>{
+      if(suggestions.querySelector('[data-query-recovery="'+query+'"]'))return;
+      const button=el('button','recovery-option','原問題包含「'+query+'」 → 搜尋 '+count+' 筆文字命中');
       button.type='button';button.dataset.queryRecovery=query;
       button.addEventListener('click',()=>recoverSearchQuery(query));
       suggestions.append(button);

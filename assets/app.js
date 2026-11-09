@@ -1767,6 +1767,36 @@ function rankEntries(items, terms) {
   }).map(result => result.item);
 }
 
+// A result count answers two questions: how many cases mention the words
+// somewhere, and how many describe themselves with them. When the body-only tail
+// dominates, the count alone reads as "N cases about this", so the results screen
+// says the split and offers the narrower set. Two thirds is the point where the
+// headline number stops describing the deck; below it the note would be noise on
+// queries the corpus does answer directly (e.g. 會議: 13 of 26).
+const BODY_ONLY_NOTICE_SHARE = 2 / 3;
+function matchScopeNotice(overviewCount, totalCount) {
+  if (!(totalCount > 0) || !(overviewCount >= 0)) return '';
+  const bodyOnly = totalCount - overviewCount;
+  if (bodyOnly <= 0) return '';
+  if (overviewCount === 0) return 'none';
+  return bodyOnly >= totalCount * BODY_ONLY_NOTICE_SHARE ? 'body' : '';
+}
+
+// Narrowing re-types the query it searched, so tokenisation must give the same
+// words back: "庫存 追蹤" becomes ["庫存"] through the phrase rewrites above and
+// the promised count would then describe a different condition. Join with a
+// separator that survives the rewrite chain, and verify the round trip.
+function joinSearchTerms(terms) {
+  for (const separator of ['、', ' ']) {
+    const candidate = terms.join(separator);
+    if (sameSearchTerms(tokenize(candidate), terms)) return candidate;
+  }
+  return null;
+}
+function sameSearchTerms(left, right) {
+  return left.length === right.length && left.every((token, index) => token === right[index]);
+}
+
 function orderEntries(items, terms, sort) {
   const ranked=rankEntries(items,terms);
   return sort==='reviewed' ? ranked.sort((a,b)=>(b.reviewedDate||'').localeCompare(a.reviewedDate||'')) : ranked;
@@ -2648,17 +2678,42 @@ function render(updateURL=true, preserveShare=false) {
     ? currentFiltered.length ? `目前條件有 ${currentFiltered.length} 筆結果` : failedPaths.length ? '已載入內容中沒有符合結果' : '目前條件沒有符合結果'
     : initialLoading ? '正在讀取案例…' : '載入未完成';
   $('filter-view-results').disabled = !discoveryReady;
-  // Some conditions only ever match body text: no case's title, purpose or goal
-  // holds every word, so the first card can look unrelated. Say that, name the
-  // word that never reaches a purpose field, and offer the strongest single word
-  // that does — instead of leaving the reader to guess which term to drop.
+  // The count above says how many cases mention these words anywhere. A full-text
+  // search legitimately matches body text, so the split only appears when that tail
+  // is most of the set: then the reader gets both numbers and one click to the
+  // cases that describe themselves with the words. When no case holds every word in
+  // its title/purpose/pain, keep the older exit: name the word that never reaches
+  // there and offer the strongest single word that does.
   const purposeOf = (base, terms) => discoveryReady && terms.length
     ? filterEntries(base, terms, { ...filters, scope: 'overview' })
     : [];
-  const directMatches = purposeOf(shownMatches, searchTerms);
-  const purposeGap = discoveryReady && searchTerms.length > 0 && currentFiltered.length > 0 && directMatches.length === 0;
-  $('purpose-gap').hidden = !purposeGap;
-  if (purposeGap) {
+  const purposeMatches = purposeOf(shownMatches, searchTerms);
+  const matchScope = discoveryReady && searchTerms.length
+    ? matchScopeNotice(purposeMatches.length, currentFiltered.length)
+    : '';
+  $('match-scope').hidden = !matchScope;
+  $('match-scope').dataset.mode = matchScope;
+  const matchScopeAction = $('match-scope-action');
+  if (matchScope === 'body') {
+    const purposeCount = purposeMatches.length;
+    // The action re-types the words it searched, so only offer it when the typed
+    // query tokenises back to the same terms; otherwise the promise and the screen
+    // would describe different conditions.
+    const narrowQuery = joinSearchTerms(searchTerms);
+    // A partial load is not a census of the library; say so in the same sentence.
+    const partial = failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入，只算已載入內容）` : '';
+    // "You searched for" includes the library's related words: matching in the
+    // title/purpose scope still expands synonyms, so the sentence must not imply
+    // that the words appear verbatim.
+    $('match-scope-message').textContent = `這 ${currentFiltered.length} 筆裡，${purposeCount} 筆的標題、用途或痛點提到你搜的字或相關詞；`
+      + `其餘 ${currentFiltered.length - purposeCount} 筆只在正文或其他欄位提到。${partial}`;
+    matchScopeAction.hidden = !narrowQuery;
+    matchScopeAction.textContent = narrowQuery ? `只看那 ${purposeCount} 筆` : '';
+    matchScopeAction.dataset.mode = narrowQuery ? 'scope' : '';
+    if (narrowQuery) matchScopeAction.dataset.query = narrowQuery; else delete matchScopeAction.dataset.query;
+    delete matchScopeAction.dataset.term;
+    delete matchScopeAction.dataset.resetFilters;
+  } else if (matchScope === 'none') {
     // The action replaces the query, so its promise counts every entry, not just
     // the ones the current condition already kept.
     // Two counts per word: within the reader's filters (what the action can show
@@ -2668,7 +2723,7 @@ function render(updateURL=true, preserveShare=false) {
       scoped: purposeOf(entries, [term]).length,
       library: filterEntries(entries, [term], { scope: 'overview' }).length
     }));
-    const bodyOnly = perTerm.filter(row => row.library === 0).map(row => `「${row.term}」`);
+    const unseen = perTerm.filter(row => row.library === 0).map(row => `「${row.term}」`);
     const scopedBest = perTerm.slice().sort((a, b) => b.scoped - a.scoped)[0];
     const libraryBest = perTerm.slice().sort((a, b) => b.library - a.library)[0];
     // Filters can exclude every word's cases; falling back to the library-wide
@@ -2676,24 +2731,36 @@ function render(updateURL=true, preserveShare=false) {
     const resetFilters = !scopedBest || scopedBest.scoped === 0;
     const best = resetFilters ? libraryBest : scopedBest;
     const label = searchTerms.map(term => `「${term}」`).join('');
-    $('purpose-gap-message').textContent = `在所選條件下，沒有案例的標題、用途或痛點同時包含${label}`
-      + (bodyOnly.length ? `；${bodyOnly.join('、')}只在正文出現` : '')
-      + `。下列 ${currentFiltered.length} 筆是字面命中，不代表案例在做這件事。`;
-    const action = $('purpose-gap-scope');
+    // The listed cases matched somewhere in the full text; some of those matches
+    // are synonyms of the word the reader typed, so do not call them literal.
+    $('match-scope-message').textContent = `在所選條件下，沒有案例的標題、用途或痛點同時包含${label}`
+      + (unseen.length ? `；${unseen.join('、')}只在正文或其他欄位出現` : '')
+      + `。下列 ${currentFiltered.length} 筆是全文或同義詞命中，不代表案例在做這件事。`
+      + (failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入，只算已載入內容）` : '');
     const count = best ? (resetFilters ? best.library : best.scoped) : 0;
-    action.hidden = !count;
-    if (!action.hidden) {
-      action.textContent = resetFilters
+    matchScopeAction.hidden = !count;
+    matchScopeAction.dataset.mode = count ? 'term' : '';
+    delete matchScopeAction.dataset.query;
+    if (!matchScopeAction.hidden) {
+      matchScopeAction.textContent = resetFilters
         ? `改搜「${best.term}」→ ${count} 筆（清除目前篩選）`
         : `改搜「${best.term}」→ ${count} 筆（標題、用途與痛點）`;
-      action.dataset.term = best.term;
-      action.dataset.resetFilters = resetFilters ? 'true' : 'false';
+      matchScopeAction.dataset.term = best.term;
+      matchScopeAction.dataset.resetFilters = resetFilters ? 'true' : 'false';
+    } else {
+      delete matchScopeAction.dataset.term;
+      delete matchScopeAction.dataset.resetFilters;
     }
   } else {
-    $('purpose-gap-message').textContent = '';
-    $('purpose-gap-scope').hidden = true;
-    delete $('purpose-gap-scope').dataset.term;
-    delete $('purpose-gap-scope').dataset.resetFilters;
+    // Leaving an old promise on a hidden control is how the batch button once kept
+    // "再看 -19 筆": clear the label with the state, not just the visibility.
+    $('match-scope-message').textContent = '';
+    matchScopeAction.textContent = '';
+    matchScopeAction.hidden = true;
+    matchScopeAction.dataset.mode = '';
+    delete matchScopeAction.dataset.term;
+    delete matchScopeAction.dataset.resetFilters;
+    delete matchScopeAction.dataset.query;
   }
 
   document.querySelectorAll('.chip[data-scenario]').forEach(btn => {
@@ -3629,14 +3696,35 @@ $('clear-category-query').addEventListener('click',()=>{
 });
 $('query').addEventListener('input', () => {queryDirty=true;render();});
 $('search-scope').addEventListener('change',()=>render());
-// The honest answer to a body-only match set is a word the corpus can answer:
-// the notice offers the single word with the most title/purpose matches, and the
-// action keeps that same scope so the promised count is the count on screen.
-$('purpose-gap-scope').addEventListener('click',event=>{
-  const term=event.currentTarget.dataset.term;
+// Two exits from a body-only match set. Narrowing reuses the reader's own query
+// and filters in the title/purpose scope, so the promise beside the button is the
+// count that appears. Replacing the query with one word the corpus can answer
+// keeps that same scope, as before. Focus moves to the result summary because
+// both actions hide the control that was just pressed.
+$('match-scope-action').addEventListener('click',event=>{
+  const button=event.currentTarget;
+  if(button.dataset.mode==='scope'){
+    // The button carries the exact words it searched (verified to tokenise back to
+    // themselves), so narrowing applies the same condition the promise described.
+    // A split sentence therefore replaces the field with those words.
+    const narrowQuery=button.dataset.query;
+    if(!narrowQuery)return;
+    // Only rewrite the field when the typed words do not already tokenise to the
+    // same terms; a plain multi-word query keeps exactly what the reader typed.
+    const typed=$('query').value;
+    if(!sameSearchTerms(tokenize(typed),tokenize(narrowQuery))){
+      $('query').value=narrowQuery;
+      queryDirty=true;
+    }
+    $('search-scope').value='overview';
+    render();
+    $('results-count').focus({preventScroll:true});
+    return;
+  }
+  const term=button.dataset.term;
   if(!term)return;
   const input=$('query');
-  const clearFilters=event.currentTarget.dataset.resetFilters==='true';
+  const clearFilters=button.dataset.resetFilters==='true';
   input.value=term;
   queryDirty=true;
   if(clearFilters){

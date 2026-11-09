@@ -1,3 +1,15 @@
+## 2026-11-10 已併入的待查線索只交出一個主案例
+
+目標使用者是從分享連結或搜尋結果讀到一條待查線索、想知道它被併到哪裡的人。`sources/pending.md:34` 對 P-004 記了兩個目的地（`已併入 UC-101`、`另記 UC-102`），`INDEX.md:544` 也寫「已併入 UC-101／UC-102」，但 `assets/app.js:1001` 只取第一個 `併入\s*(UC-\d{3})`。正式站 `7abbfc36` 的 `?case=P-004`（390×844）因此只給一個站內入口：徽章 `待查線索・已併入 UC-101`、交接句 `…並併入 UC-101`、唯一的「站內閱讀主案例 UC-101」按鈕，`?q=標案` 結果卡也只寫 `已併入 UC-101（不另計數）`；UC-102 只剩 GitHub 外鏈，同頁文字與來源檔互相矛盾。
+
+選擇 (A)：把 `併入／另記／另見／合併` 後面接的 `UC-nnn` 全部收成**有序陣列**（只為比較而提到的編號不算），徽章、交接標題與說明、站內入口（一個目的地一顆按鈕）、列印註記與結果卡徽章都吃同一份清單；沒有記錄目的地時不再印出「已併入 undefined」。(B) 改寫 `sources/pending.md` 拿掉 UC-102 讓畫面與來源一致，等於刪掉協作者的研究紀錄（UC-102 是補讀後另記的產物，稽核檔也引用）；(C) 只加一行「另有 UC-102」讀者仍點不進去。刻意不動排序、搜尋與計數口徑。
+
+改動：`assets/app.js` 的 `mergedDestinations()`／`mergedDestinationText()`，`parseFile()` 的 `mergedInto` 由字串改有序陣列，`resolvedPendingNote()`、`mergedDestination()`、`refreshMergedDestination()` 與四處文字改用清單；`assets/reader.css` 讓多個入口直向排列。新增 `tests/merged-destinations.test.cjs`（5 項），同步更新 `tests/pending-resolution.test.cjs`、`tests/search.test.cjs` 的陣列契約，`README.md` 補上「記了兩個案例就給兩個站內入口」。沒有新增 workflow。
+
+先紅後綠：新測試在未改動的基準 `7abbfc36` 上 5 項全失敗（P-004 只解析出 `UC-101`、卡片徽章只寫 UC-101），改動後全過。`node --test tests/*.test.cjs` 基準 583 → **588 通過、0 失敗**；`node --check` 通過；`check_corpus_bundle.py` 回報 510 個來源逐 byte 相同；`?case=P-004` 與 `?q=標案` 在三種寬度 axe 0、pageerror 0、水平溢出 0；`Website QA` 瀏覽器步驟的 17 支腳本在本機以同一份清單跑過，17 支全過。P-002（UC-028）與 UC-250（UC-156）仍只有單一目的地。前後截圖與三種訪客情境見[本輪 QA](docs/qa/2026-11-10-merged-destinations/README.md)。
+
+本輪另確認但**未修**：關閉詳情後第一次「上一頁」沒有反應（開詳情 `pushState`、關閉 `replaceState`，兩筆相鄰歷史同址）。試過的 `history.go(-1)` 修法會讓關閉從同步變非同步，repo 內約 40 處在 `press('Escape')` 同一 tick 檢查焦點與網址的斷言會轉紅（本輪在 CI 上實測 `Round 23 acceptance QA`、`Search context QA`、`Partial Load QA` 三個 workflow 因此失敗，已撤回該修法），且一律彈回清單會刪掉閱讀痕跡、推翻 `tests/related-browser.cjs:141-146`。下一輪先建立共用的「關閉後焦點與網址何時成立」等待 helper，把那些斷言改成等待它，再改 `closeDetail()`；驗證先跑 `related`、`table-reading`、`search-context-live`、`load-recovery`、`results-batching` 五支瀏覽器回歸。
+
 ## 2026-11-09 單詞搜尋被改寫成別的字：失敗、詐騙、派工找不到自己的案例
 
 `assets/app.js` 的片語改寫有几條的後半是選用的，所以**單獨一個詞**也會命中，並被換成兩三個別的字再做 AND 比對：`失敗`→`做不好`＋`降級`、`詐騙`→`留言`＋`審查`、`派工`→`調度`＋`重活`、`公開資料`→`grok`＋`bot`＋`公開`＋`新聞`、`重活`→`重活`＋`雲端電腦`，報表動詞一律變成`分析`。正式站 `8acec384` 實測：`?q=失敗` 只有 1/513，而 285 個來源檔出現「失敗」、34 個案例的標籤就是它；首頁統計卡卻寫「含失敗案例」。`?q=派工` 3/513（38 檔出現）、`?q=詐騙` 86/513 且第一張卡與詐騙無關。全庫 1,963 個案例標籤中，38 個找不到自己所屬的案例。

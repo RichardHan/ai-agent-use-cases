@@ -998,7 +998,9 @@ function metadata(markdown, path, kind, suffix='') {
   // Require the dated status line ("2026-10-17 已處理") so that prose such as
   // "未取得…已完成操作流程" is not mistaken for a resolution.
   const resolved = kind === 'pending' && /^\d{4}-\d{2}-\d{2}[^。；]{0,10}已(?:處理|解決|完成)/.test(statusLine);
-  const mergedInto=kind==='evidence' ? null : kind==='case' ? (heading.match(/已合併\s*(UC-\d{3})/)?.[1] || proofLine.match(/合併\s*(UC-\d{3})/)?.[1] || null) : ((statusLine + ' ' + heading).match(/併入\s*(UC-\d{3})/)?.[1] || null);
+  const mergedInto = kind === 'evidence' ? [] : kind === 'case'
+    ? mergedDestinations(heading, proofLine)
+    : mergedDestinations(statusLine, heading);
   const proofClasses = declaredEvidenceClasses(proofLine, kind);
   const proof = proofClasses[0];
   const relayedProof = proofLine ? relayedEvidenceClasses(proofLine) : [];
@@ -1031,9 +1033,26 @@ function fileReviewDate(markdown) {
   });
   return dates.sort().pop() || '';
 }
+// A resolved lead or a merged supplement can name more than one home: P-004's
+// 狀態 line merges the original posts into UC-101 and separately records UC-102.
+// Keep every id the source records, in the order it writes them. An id that is
+// only compared against (「與 UC-005 的分工差異」) carries no merge verb, so it is
+// not a destination.
+const MERGE_DESTINATION = /(?:併入|另記|另見|合併)\s*[\[（(]?\s*(UC-\d{3})/g;
+function mergedDestinations(...texts) {
+  const ids = [];
+  for (const text of texts) {
+    if (!text) continue;
+    for (const match of String(text).matchAll(MERGE_DESTINATION)) if (!ids.includes(match[1])) ids.push(match[1]);
+  }
+  return ids;
+}
+function mergedDestinationText(item) {
+  return (item?.mergedInto || []).join('、');
+}
 function resolvedPendingNote(item) {
-  if (!item || !item.resolved || !item.mergedInto) return '';
-  return '本條目已結束：內容已併入 ' + item.mergedInto + '，不另計一案；以下「尚待查證」描述的是這條線索的原帖，採用請以主案例為準。';
+  if (!item || !item.resolved || !item.mergedInto?.length) return '';
+  return '本條目已結束：內容已併入 ' + mergedDestinationText(item) + '，不另計一案；以下「尚待查證」描述的是這條線索的原帖，採用請以主案例為準。';
 }
 function parseFile(path, markdown) {
   if (path === 'sources/pending.md') {
@@ -1464,17 +1483,26 @@ function restoreReadingView(view) {
   target.focus({preventScroll:true});
 }
 function mergedDestination(item) {
-  const canonical=entries.find(entry=>entry.kind==='case'&&entry.id===item.mergedInto);
-  if(!canonical)return el('p','detail-merged-pending',`主案例 ${item.mergedInto} 尚未載入；可稍後重試，或在原始研究中核對來源。`);
-  const open=el('button','detail-merged-open',`站內閱讀主案例 ${canonical.id}：${canonical.title} →`);
-  open.type='button';
-  open.addEventListener('click',()=>showDetail(canonical,null));
-  return open;
+  // Every recorded destination gets its own in-site entry. Offering only the
+  // first left the second case reachable only by leaving the site for GitHub.
+  const wrap=el('div','detail-merged-actions');
+  const missing=[];
+  for(const id of item.mergedInto || []){
+    const canonical=entries.find(entry=>entry.kind==='case'&&entry.id===id);
+    if(!canonical){missing.push(id);continue;}
+    const open=el('button','detail-merged-open',`站內閱讀主案例 ${canonical.id}：${canonical.title} →`);
+    open.type='button';
+    open.addEventListener('click',()=>showDetail(canonical,null));
+    wrap.append(open);
+  }
+  if(missing.length)wrap.append(el('p','detail-merged-pending',`主案例 ${missing.join('、')} 尚未載入；可稍後重試，或在原始研究中核對來源。`));
+  return wrap;
 }
 function refreshMergedDestination() {
-  const pending=$('detail-body').querySelector('.detail-merged-pending');
-  if(pending&&currentDetailItem?.mergedInto&&entries.some(entry=>entry.kind==='case'&&entry.id===currentDetailItem.mergedInto))
-    pending.replaceWith(mergedDestination(currentDetailItem));
+  const body=$('detail-body');
+  const wrap=body.querySelector('.detail-merged-actions');
+  if(wrap&&currentDetailItem?.mergedInto?.length&&currentDetailItem.mergedInto.some(id=>entries.some(entry=>entry.kind==='case'&&entry.id===id)))
+    wrap.replaceWith(mergedDestination(currentDetailItem));
 }
 function showDetail(item, trigger, updateURL=true) {
   if (!item) return;
@@ -1497,7 +1525,7 @@ function showDetail(item, trigger, updateURL=true) {
   const metaBar = el('div', 'detail-header-meta');
   metaBar.append(
     el('span', 'detail-id-badge', item.id),
-    el('span', 'detail-badge kind-' + item.kind, item.resolved ? '待查線索・已併入 ' + item.mergedInto : KIND[item.kind]),
+    el('span', 'detail-badge kind-' + item.kind, item.resolved ? '待查線索・已併入 ' + mergedDestinationText(item) : KIND[item.kind]),
     ...proofBadges(item),
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
@@ -1554,13 +1582,13 @@ function showDetail(item, trigger, updateURL=true) {
   const purpose = el('section');
   purpose.append(el('h2', '', '可以幫你做什麼'), el('p', '', compactPurpose ? item.coreGoal : item.what));
   overview.append(purpose,source);
-  if (item.mergedInto) {
+  if (item.mergedInto?.length) {
     const handoff=el('section','detail-merged-handoff');
     handoff.append(
-      el('h2','', item.kind==='pending' ? '這條待查線索已併入主案例' : '這篇是主案例的來源補充'),
+      el('h2','', item.kind==='pending' ? (item.mergedInto.length>1 ? '這條待查線索已併入下列主案例' : '這條待查線索已併入主案例') : '這篇是主案例的來源補充'),
       el('p','', item.kind==='pending'
-        ? `來源檔已標示處理完成並併入 ${item.mergedInto}，不另計一案；原帖與仍未核對的項目保留在本頁。`
-        : `本頁已合併至 ${item.mergedInto}，不另計一案；保留這篇的原始來源與限制。`)
+        ? `來源檔已標示處理完成並併入 ${mergedDestinationText(item)}，不另計一案；原帖與仍未核對的項目保留在本頁。`
+        : `本頁已合併至 ${mergedDestinationText(item)}，不另計一案；保留這篇的原始來源與限制。`)
     );
     handoff.append(mergedDestination(item));
     overview.append(handoff);
@@ -1657,7 +1685,7 @@ function showDetail(item, trigger, updateURL=true) {
   printHint.id='print-case-hint';
   body.append(actionRow,printHint);
   const warningText=item.kind === 'pending'
-    ? (item.resolved ? `待查線索已處理：已併入 ${item.mergedInto}，不列為獨立案例；原帖與未核對事項仍保留。` : '待查線索：證據尚不足，不列成功或已完成案例。')
+    ? (item.resolved ? `待查線索已處理：已併入 ${mergedDestinationText(item)}，不列為獨立案例；原帖與未核對事項仍保留。` : '待查線索：證據尚不足，不列成功或已完成案例。')
     : '來源報告與本庫建議流程請分開閱讀；收錄不代表獨立重現或取得執行授權。';
   const printMeta=el('div','reader-print-meta');
   const permanent=new URL(location.href);permanent.search='';permanent.hash='';permanent.searchParams.set('case',item.id);
@@ -1840,7 +1868,7 @@ function card(item, terms=[]) {
   }
   // The card keeps data-kind="pending" (so the pending styling still applies);
   // the resolved label replaces the misleading "還在查證" wording.
-  const kindBadge = el('span', 'kind', item.resolved ? '已併入 ' + item.mergedInto + '（不另計數）' : KIND[item.kind]);
+  const kindBadge = el('span', 'kind', item.resolved ? '已併入 ' + mergedDestinationText(item) + '（不另計數）' : KIND[item.kind]);
   badgesWrap.append(kindBadge);
   top.append(topInfo, badgesWrap);
   node.append(top);

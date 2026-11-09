@@ -674,18 +674,42 @@ function reviewDate(markdown) {
 // not know silently drops the case's own steps, and the detail page falls back to a
 // generic library sentence that reads like the case's guidance but is not.
 //   tier 1 - the phrasings the detail page promises ("怎麼開始", "建議操作流程");
-//   tier 2 - the step and limit vocabulary the corpus also uses, including
+//   tier 2 - the same promise in the corpus's own words for a designed procedure
+//            ("離線練習（本庫設計，未執行）", "自設只讀驗收", "可借鑑的交接").
+//            It sits above the workflow tier on purpose: a case that writes both
+//            has said which one is the library's designed procedure, and the tier
+//            below would otherwise publish an author record instead;
+//   tier 3 - the step and limit vocabulary the corpus also uses, including
 //            "怎麼試（本庫設計，未測）" and "權限、費用與驗收";
-//   tier 3 - the older fallback, where a workflow section is the closest thing.
+//   tier 4 - the older fallback, where a workflow section is the closest thing.
 // An author-result heading ("問題、實作與實際結果") is not a step section and is in
 // none of the lists, so it can never be published as "怎麼開始".
 const HOW_HEADINGS = [
   /(?:建議操作流程|建議流程|建議操作步驟|操作步驟|可參考步驟|可參考的操作順序|操作順序|可借用的驗收步驟|可借用的只讀驗收步驟|可借鑑步驟|練習步驟|怎麼開始|怎麼試|可以怎麼試|怎麼用|小範圍試法|實作流程與核對邊界|操作與驗收|(?:可借用|可參考|可借鑑|可重用|建議|小範圍|試作).*(?:步驟|流程|驗收|操作|順序|試法))/,
+  // Every entry names who designed the procedure, the phrase has to end the
+  // heading, and a trailing parenthetical has to say the procedure was designed or
+  // not run yet ("（本庫設計，未執行）", "（自設、未測）"). A bare 「練習」 or 「試做」
+  // could be the author's own practice — "作者離線試做結果" is a report, not an
+  // instruction — and "作者離線試做（結果）" or "自設離線練習（提示詞）" name
+  // someone else's output. The parenthetical never spans a line break, so an
+  // unclosed 「（」 cannot swallow the section body.
+  /(?:離線練習|離線試做|只讀練習|自設只讀驗收|自設只讀練習|自設離線練習|安全試做|安全試法|試法與停止條件|防覆蓋試法|(?:可借用|可借鑑|可參考)(?:的)?(?:交接|預覽與停止設計|只讀驗收))(?:（[^）\n]*(?:未實|未執|設計|自設)[^）\n]*）)?\s*$/,
   /(?:流程|輸入與預期輸出|實作步驟|作者做過的流程|作者報告的流程|作者實作)/
 ];
+// A prompt block ("可貼指令（自行設計，未測）", "可複製提示詞") carries the text to
+// paste, not the order to do things in, and a printable worksheet is a deliverable.
+// Only the heading's subject decides: 「建議試法與可貼指令」 still names a trial
+// method, so its steps are kept and the prompt part is simply not selected.
+const HOW_HEADING_REJECT = /^#{2,3}\s*(?:可貼|可複製|指令|提示詞)|練習卷/;
 const LIMIT_HEADINGS = [
   /(?:所需連接、權限與限制|權限、費用與限制|權限、費用與可用性|權限、費用及限制|權限與驗收|證據與查閱缺口|來源報告與限制|限制與驗收|要注意什麼|權限、成本及可用性|權限、限制與驗收|限制、權限與費用|官方限制、費用與可用性|官方限制、費用與權限|官方限制、費用及可用性)/,
-  /(?:限制|權限|費用|成本|可用性|不適合|適用|風險|注意|安全|邊界)/
+  /(?:限制|權限|費用|成本|可用性|不適合|適用|風險|注意|安全|邊界)/,
+  // "官方背景與界線" and "來源與界線" write the same limits as the vocabulary
+  // above in a word it does not carry. It has to name what the boundary belongs to:
+  // "去重與界線" is a scoping note about how the case was counted, and publishing
+  // it as 「要注意什麼」 would tell the reader nothing about adopting the case.
+  // This tier runs last so it only answers for cases with no other limits heading.
+  /(?:官方|來源|平台|權限|費用|工具|服務)[^。\n]{0,10}界線/
 ];
 // A source line ("[Meet dots](https://…)…2026-10-16 查閱", "ElevenLabs的[說明](…)")
 // is a citation, not a limit or a step; publishing it under 「要注意什麼」 would read
@@ -736,7 +760,7 @@ function pickGuidance(tiers, read) {
   return '';
 }
 function extractActionableGuidance(markdown) {
-  const how = pickGuidance(guidanceTiers(markdown, HOW_HEADINGS), section =>
+  const how = pickGuidance(guidanceTiers(markdown, HOW_HEADINGS, heading => HOW_HEADING_REJECT.test(heading)), section =>
     section.items.length > 0 ? section.items.slice(0, 2).join('；') : (section.lines[0] || ''));
   // A heading that names a procedure ("實作流程與核對邊界") owns steps, not limits:
   // the reader would otherwise see the first step under 「要注意什麼」.

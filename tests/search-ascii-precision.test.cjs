@@ -236,3 +236,31 @@ test('the explanation chip prefers prose evidence over a source URL', () => {
   assert.equal(fallback.label, '原文 · 來源');
   assert.equal(fallback.caution, '來源');
 });
+
+test('source-link removal covers the shapes that appear in the corpus', () => {
+  // Reported by the independent review: a scheme-less host, a Markdown title and a
+  // balanced-parenthesis destination all still leaked the synonym, while a raw URL
+  // followed by Chinese prose swallowed the prose.
+  const cases = [
+    ['bare www host', '請看 www.support.google.com/help 的說明。'],
+    ['markdown title', '[指南](https://support.google.com/x "支援") 之後說明。'],
+    ['balanced parentheses', '[指南](https://example.test/a(b)/support) 之後說明。'],
+    ['trailing path', '原貼在 https://x.com/someone/status/1 上。']
+  ];
+  for (const [name, body] of cases) {
+    const item = fixture('UC-927', '整理資料', body);
+    assert.equal(matches(item, '客服'), false, `${name}: a source link must not answer 客服`);
+  }
+  const proseAfterUrl = fixture('UC-928', '整理信件', '見 https://example.test/article，客服信先分成退款與技術問題。');
+  assert.equal(matches(proseAfterUrl, '客服'), true, 'Chinese prose written right after a raw URL must stay searchable');
+  assert.match(proseAfterUrl.searchProse, /客服信先分成退款/, 'the prose after a raw URL must survive URL removal');
+});
+
+test('the excerpt is taken from the sentence that matched, not from a link above it', () => {
+  const item = fixture('UC-929', '整理信件', '');
+  item.markdown = '# UC-929：整理信件\n\n## 方法\n\n[官方說明](https://support.google.com/x) 先看規格，support 這一步要人工確認。';
+  const explained = api.searchContext(item, ['客服']).matches[0];
+  assert.equal(explained.label, '原文 · 方法');
+  assert.match(explained.excerpt, /這一步要人工確認/, 'the excerpt must centre on the phrase that matched');
+  assert.doesNotMatch(explained.excerpt, /^\s*support\.google\.com/, 'the excerpt must not start inside the source URL');
+});

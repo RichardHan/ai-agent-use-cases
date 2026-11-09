@@ -553,8 +553,14 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('會議紀要')), {}).
 assert(api.filterEntries(entries, Array.from(api.tokenize('minutes')), {}).some(x => x.id === 'UC-094'), 'minutes matches UC-094 via 會議紀錄/會議 synonym');
 
 // Search quality: Large language model synonyms
-assert(api.filterEntries(entries, Array.from(api.tokenize('大型語言模型')), {}).some(x => x.id === 'UC-161'), '大型語言模型 matches UC-161 via llm/模型 synonym');
-assert(api.filterEntries(entries, Array.from(api.tokenize('大模型')), {}).some(x => x.id === 'UC-161'), '大模型 matches UC-161 via llm/模型 synonym');
+// UC-161's only `llm` was inside GitHub URLs (LLM-Alignment-Atlas). Reading it as a
+// synonym hit meant a source repository name counted as case content; UC-016 writes
+// `LLM 驅動 Bot` in its own text, so the expansion now points there instead. Typing
+// `llm` still finds UC-161, because the reader's own word may match a URL.
+assert(api.filterEntries(entries, Array.from(api.tokenize('大型語言模型')), {}).some(x => x.id === 'UC-016'), '大型語言模型 matches UC-016 via llm/模型 synonym');
+assert(!api.filterEntries(entries, Array.from(api.tokenize('大型語言模型')), {}).some(x => x.id === 'UC-161'), 'a repository name is not a language-model case');
+assert(api.filterEntries(entries, Array.from(api.tokenize('llm')), {}).some(x => x.id === 'UC-161'), 'typing llm still matches the URL the reader aimed at');
+assert(api.filterEntries(entries, Array.from(api.tokenize('大模型')), {}).some(x => x.id === 'UC-016'), '大模型 matches UC-016 via llm/模型 synonym');
 
 // Search quality: Scraping (爬取) verb
 assert(api.filterEntries(entries, Array.from(api.tokenize('爬取')), {}).some(x => x.id === 'UC-060'), '爬取 matches UC-060 via 爬蟲/抓取 synonym');
@@ -973,7 +979,7 @@ assert(api.filterEntries(entries, Array.from(api.tokenize('idempotency')), {}).s
 assert(api.filterEntries(entries, Array.from(api.tokenize('環境變量')), {}).some(x => x.id === 'UC-061'), '環境變量 matches UC-061 via 環境變數 synonym');
 
 // Search quality: plurals symmetry
-assert(api.filterEntries(entries, Array.from(api.tokenize('llms')), {}).some(x => x.id === 'UC-161'), 'llms matches UC-161 via llm synonym');
+assert(api.filterEntries(entries, Array.from(api.tokenize('llms')), {}).some(x => x.id === 'UC-016'), 'llms matches UC-016 through its own LLM wording');
 assert(api.filterEntries(entries, Array.from(api.tokenize('diffs')), {}).some(x => x.id === 'UC-005'), 'diffs matches UC-005 via diff synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('browsers')), {}).some(x => x.id === 'UC-005'), 'browsers matches UC-005 via browser synonym');
 assert(api.filterEntries(entries, Array.from(api.tokenize('webpages')), {}).some(x => x.id === 'UC-015'), 'webpages matches UC-015 via webpage synonym');

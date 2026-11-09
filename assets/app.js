@@ -174,7 +174,12 @@ const clean = text => text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/[`*_]
 const norm = text => text.normalize('NFKC').toLocaleLowerCase();
 // Source links are evidence, not content. A reader who searches a task must not
 // match a case because a footnote points at `support.google.com` or `x.com`.
-const SOURCE_URL_PATTERN=/https?:\/\/[^\s)\]|>"']+/gi;
+// A Markdown destination is removed whole (it may hold balanced parentheses and a
+// quoted title); a bare URL stops at the first ASCII character that cannot be part
+// of one, so Chinese prose written right after a raw URL is still searched.
+const MARKDOWN_LINK_DESTINATION=/\]\(\s*<?(?:https?:\/\/|www\.)[^()\s<>]*(?:\([^()\s]*\)[^()\s<>]*)*>?(?:\s+"[^"]*")?\s*\)/gi;
+const BARE_SOURCE_URL=/(?:https?:\/\/|www\.)[A-Za-z0-9\-._~:\/?#\[\]@!$&'*+,;=%]+/gi;
+function withoutSourceUrls(text){ return text.replace(MARKDOWN_LINK_DESTINATION,' ] ').replace(BARE_SOURCE_URL,' '); }
 function abbreviatedQuery(query, limit=40) {
   const chars=Array.from(query.trim());
   return chars.slice(0,limit).join('')+(chars.length>limit?'…':'');
@@ -1049,8 +1054,8 @@ function metadata(markdown, path, kind, suffix='') {
   const declaredTier = declaredDifficulty(lead);
   const difficulty = declaredTier || extractDifficulty(markdown, tools, scenario, category);
   const difficultySource = declaredTier ? 'declared' : 'inferred';
-  const searchText=markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id);
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:norm(searchText),searchProse:norm(searchText.replace(SOURCE_URL_PATTERN,' '))};
+  const searchText=norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id));
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:searchText,searchProse:withoutSourceUrls(searchText)};
 }
 // sources/pending.md records one review date for the whole file, above the first
 // lead. It says when the file was checked, not when each lead was, so it stays a
@@ -1950,11 +1955,11 @@ function searchContext(item, terms) {
     for(const allowUrl of [false,true]){
       let found=false;
       for(const field of fields){
-        const text=norm(allowUrl||!field.original?field.text:field.text.replace(SOURCE_URL_PATTERN,' '));
-        const variant=variants.find(v=>searchVariantIndex(text,v)!==-1);
+        const prose=allowUrl||!field.original?field.text:withoutSourceUrls(field.text);
+        const variant=variants.find(v=>searchVariantIndex(norm(prose),v)!==-1);
         if(!variant)continue;
         const caution=field.original&&/限制|風險|注意|缺口|權限/.test(field.label)?'限制':field.original&&/來源|參考|連結/.test(field.label)?'來源':'';
-        matches.push({term,variant,label:field.label,excerpt:field.original?contextExcerpt(field.text,variant):'',caution});
+        matches.push({term,variant,label:field.label,excerpt:field.original?contextExcerpt(prose,variant):'',caution});
         found=true;
         break;
       }

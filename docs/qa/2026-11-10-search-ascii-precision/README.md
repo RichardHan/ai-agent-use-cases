@@ -42,7 +42,7 @@
 ## 改動
 
 - `assets/app.js`：`SOURCE_URL_PATTERN`；`metadata()` 產生 `searchProse`；`searchVariantIndex()` 的拉丁字母邊界規則（移除 `PULL_REQUEST_ABBREVIATIONS` 特例，改為通則）；`filterEntries()` 只讓字面詞比對含網址全文；`searchContext()` 先比對去掉網址的正文，只有正文找不到原因時才退回網址並標 `來源`。
-- `tests/search-ascii-precision.test.cjs`（新，11 項）：供應商網址不等於客服、讀者打的英文詞仍可比對網址、`author` 不等於權限、`specific` 不等於 CI、`text` 不等於推特、`every`／`report`／`login`／`memory`／`latest` 不算命中、案例 ID 與 `PR149` 與中英相鄰仍可命中，兩條全語料不變量（任何回傳案例都必須以完整的相關詞出現在正文；`客服` 的每一筆都真的提到客服），以及「命中原因」chip 必須先找正文、只有正文找不到時才報來源網址並標 `來源`。
+- `tests/search-ascii-precision.test.cjs`（新，13 項）：供應商網址不等於客服、讀者打的英文詞仍可比對網址、`author` 不等於權限、`specific` 不等於 CI、`text` 不等於推特、`every`／`report`／`login`／`memory`／`latest` 不算命中、案例 ID 與 `PR149` 與中英相鄰仍可命中，兩條全語料不變量（任何回傳案例都必須以完整的相關詞出現在正文；`客服` 的每一筆都真的提到客服），「命中原因」chip 必須先找正文、只有正文找不到時才報來源網址並標 `來源`，以及來源移除要涵蓋無 scheme 的 `www.`、Markdown 連結標題與含括號網址、但不得吃掉緊接在網址後的中文句子。
 - 既有斷言修正（皆為原本釘住誤命中的值，逐項附上原因）：
   - `tests/search.test.cjs`：`旅遊` 的「偶然作者用語」例子由 UC-076（作者行 `Travis Heinze travels`，`travels` 不是 `travel`）改為 UC-015（限制段落偶然提到旅遊）；`streaming`／`流式` 由 UC-217（`bitstream`）改為 UC-292（逐行串流模型輸出）；`2fa`／`mfa`／`雙重驗證` 由 UC-219／UC-259（commit hash `…e2fab…`）改為 UC-092（拒絕交出雙重驗證碼）；`sse`／`流式輸出` 由 UC-030（媒體檔在 `/assets/` 路徑）改為 UC-292；`cot`／思維鏈四條改為「不得因 `cot` 出現在更長的單字裡而命中 UC-086」（全庫沒有任何案例在談 chain-of-thought）。
   - `tests/problem-compound-queries.test.cjs`：`自動客服`／`客服機器人` 召回下限 80→61、`整理一份會議記錄`／`會議總結` 9→8、`論文研讀`／`研讀論文`／`精讀文獻` 10→9、`客服且人工` 系列 35→32；每一處都保留原本的 canonical 案例斷言，只把「混進供應商網址與 commit hash 的下限」改成真實覆蓋。
@@ -50,8 +50,8 @@
 
 ## 先紅後綠
 
-- 新測試在未改動的基準（`/tmp/aiuc-main`，`origin/main`）上 **11 項中 9 項失敗**；另外 2 項是「必須仍然命中」的護欄，修改前後都通過。
-- 修改後：`node --test tests/*.test.cjs` **605 通過、0 失敗**（基準 594＋新增 11）；`node --check assets/app.js` 通過。
+- 新測試在未改動的基準（`/tmp/aiuc-main`，`origin/main`）上 **13 項中 10 項失敗**；另外 3 項是「必須仍然命中」的護欄，修改前後都通過。
+- 修改後：`node --test tests/*.test.cjs` **607 通過、0 失敗**（基準 594＋新增 13）；`node --check assets/app.js` 通過。
 
 ## 量測（同一份 513 筆語料，修改前／後）
 
@@ -90,6 +90,16 @@
 - `ci-before-1440.png` ↔ `ci-after-1440.png`：`顯示 131` → `顯示 23`
 - `twitter-before-390.png` ↔ `twitter-after-390.png`：`顯示 417` → `顯示 205`
 - `scenario1-*`／`scenario2-*`／`scenario3-*`：三情境的結果、空結果、詳情。
+
+## 獨立審查
+
+未參與實作的 reviewer（獨立 context）對最終 diff 逐項檢查邊界規則、字面／擴充判定、URL 移除、其他取用 `searchProse` 的路徑、測試能否失敗、既有斷言修正是否削弱召回、文件數字是否成立。結論「approve with fixes」，兩項 P2 已修正並補回歸：
+
+1. 來源移除原本用一條 `https?:\/\/[^\s)\]|>"']+`：漏掉無 scheme 的 `www.`、Markdown 連結標題、含括號的網址；而網址後面直接接中文（`https://…，客服信…`）時會把中文一起吃進網址。改為先移除整段 Markdown 連結目的地（允許括號與引號標題），再移除 ASCII 字元集內的裸網址，中文因此留在可搜尋文字裡。
+2. 命中原因 chip 的摘要原本取原文行，會在 URL 上落點。改為 prose pass 的比對與摘要都用同一份去網址文字，只有退回網址 pass 時才用原文。
+3. 順帶修掉 reviewer 量到的成本：`metadata()` 原本對整份文字做兩次 `norm()`（NFKC＋小寫），改為只做一次再從結果移除網址。這也解釋了 CI 上 `search-recovery-browser.cjs` 於「部分來源失敗」情境間歇取得 0 張卡：per-file 備援 510 個檔案各多一次正規化，讓 `networkidle` 後的第一次計數偶爾早於算繪。修正後同一支腳本連跑兩次通過。
+
+reviewer 另確認：`PR149`／`privacy`／`grok bot`／`multi-agent`／`ci/cd`／大小寫與全形皆如預期；`rankEntries`、空結果建議、抽卡、分享直鏈不受影響；`searchProse` 沒有寫入任何持久化或序列化路徑；量測 客服 93→61、推特 417→205、CI 131→23、26 個入口改變、0 個第一張卡改變，與本紀錄一致。
 
 ## 已知限制
 

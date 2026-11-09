@@ -133,6 +133,8 @@ CI 方面目前沒有紅燈；另有一個已量到的潛在風險可排入後�
 | PR 檢查 | 15 個 check pass；2 個 `published` job 依設計在 PR 上 skip；`Website QA` run [42565181974](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42565181974) 的 updated-site 階段含 `match-scope-note-browser.cjs` 並成功 |
 | 已合併 | `1ff06de2` Merge pull request #287（base `bdb926ba`） |
 | 部署 | [pages build and deployment 42566165977](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42566165977) success；正式站 `catalog.json` `sourceRevision` `1ff06de28c21d876205688215c1b6d2b3258f480`、`builtAt` 2026-11-09、510 個來源檔 |
+| 紀錄 commit | `528ed80b`（合併後補記 SITE.md 與本紀錄；只動文件） |
+| 紀錄 commit 部署 | [pages 42566692001](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42566692001) success；正式站 `sourceRevision` 前進至 `528ed80b`、`builtAt` 2026-11-09、510 個來源檔 |
 | 正式站已驗證 | 是（見下節） |
 
 ### 正式站核對（`1ff06de2`）
@@ -141,4 +143,5 @@ CI 方面目前沒有紅燈；另有一個已量到的潛在風險可排入後�
 - 1440／390／320：`安全防護` 顯示 220／512，提示「這 220 筆裡，24 筆…；其餘 196 筆只在正文或其他欄位提到。」；按下後顯示 24／512、`?q=安全防護&scope=overview`、首卡「官方寄件、SPF／DKIM 全通過的信也可能是釣魚」；pageerror 0。
 - 對正式站直接重跑 `VERIFY_URL=https://richardhan.github.io/ai-agent-use-cases/ node tests/match-scope-note-browser.cjs`：三個視口全過。
 - `?scenario=工作&case=UC-098#explore` 在三個視口都自動開啟詳情，來源固定於 `blob/1ff06de2…/cases/098-engineering-pdf-excel-extraction.md`。
-- 需要說明：本紀錄 commit 之後會再觸發一次 Pages 建置，`sourceRevision` 會前進到紀錄 commit；`index.html`、`assets/app.js`、`assets/style.css` 與 `tests/**` 不會改變（只有文件）。
+- 合併後補記 commit `528ed80b` 觸發的 Pages 建置已成功，正式站 `sourceRevision` 現為 `528ed80b`；同一組比對在該版本重跑，`index.html`（`7935e6f8…`）、`assets/app.js`（`4ee8a875…`）、`assets/style.css`（`75e8e2c2…`）的 SHA-256 與 `origin/main` 對應檔案相同，即紀錄 commit 沒有改動產品位元組。
+- main 上的 `Website QA` run [42566167180](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42566167180) 完成：單元測試、含新瀏覽器測試的 updated-site 階段、Pages 建置、語系檢查、發布版本核對（`Wait for published assets and content`）與正式站驗證全部 success。

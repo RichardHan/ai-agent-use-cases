@@ -94,6 +94,7 @@
 - 正式站 `assets/app.js` sha256 與本機建置逐 byte 相同（`7624b344b3e22084d13b67719a4c22b25d4e579ef5012ad4f3bd643da1fc8788`）。
 - 正式站實測（`docs/qa/2026-11-11-detail-close-back/live/`，1440×900 與 390×844）：新測試 5 條情境全通過；三條指定情境——(1) 不知道工具名，輸入「整理會議記錄」→ 8／513 筆、8 張卡；(2) 「規劃旅行」＋使用情境「工作」→ 0 筆並提供「移除使用情境「工作」→ 查看 1 筆」，恢復後 1 筆、網址只留 `q`；(3) 分享直鏈 `?case=UC-514` → 憑據徽章 `官方自報`＋`設計／未實跑`、來源連結固定在本版 commit、Escape 關閉後第一次上一頁即離開，不再空轉。axe 0、水平溢出 0、pageerror 0。
 - 合併後 main 的 `Website QA` [42708373335](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42708373335) success（含新增的 `detail-close-history-browser.cjs` 與 `Verify the published GitHub Pages site`）。
+- 紀錄提交 `d805fd1f`（僅 `SITE.md` 與本目錄）的 Pages 發布失敗，與程式無關：`build` success，`deploy` 的 `Deploy to GitHub Pages` 先 10m07s 逾時（`22:14:59→22:25:06`），重跑後 10 秒以 `##[error]Deployment cancelled.` 結束（run [42709949822](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42709949822) attempt 2）。同類平台端逾時在 2026-11-09 已發生過一次（`42546597665`，10m29s）。**正式站仍供應已驗證的 `f07f72d5` 建置**（`catalog.json` 510 檔、`assets/app.js` sha256 相同），只有文件與截圖尚未上站；下一次 push 到 main 會自然重建。
 
 ## 本輪順帶確認、但未處理的 CI 事實
 

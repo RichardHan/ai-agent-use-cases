@@ -12,6 +12,8 @@ CI 現況重新確認（不沿用歷史故障）：main 上 `Website QA` `426925
 
 發布補記：PR [#315](https://github.com/RichardHan/ai-agent-use-cases/pull/315)（head `728b9761`，13 項檢查全 success）squash 合併為 `f07f72d5`；`pages build and deployment` [42708370217](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42708370217) 成功，正式站 `catalog.json`／`corpus.json` 的 `sourceRevision` 皆為 `f07f72d5…`、510 個來源檔，正式站 `assets/app.js` 與本機建置 sha256 相同；main 的 `Website QA` [42708373335](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42708373335) success。正式站三條情境（問題搜尋 8 筆、組合篩選 0 筆後以建議恢復、分享直鏈 UC-514 的憑據與固定版本來源）與新測試 5 條情境在 1440／390 皆通過，axe 0、溢出 0、pageerror 0。
 
+紀錄提交 `d805fd1f`（僅文件）的 Pages 發布失敗：`build` success，`deploy` 的 `Deploy to GitHub Pages` 逾時 10m07s 後失敗，重跑 10 秒以 `Deployment cancelled.` 結束（[42709949822](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42709949822)）；同類平台端逾時此前發生過一次（`42546597665`）。正式站仍供應已驗證的 `f07f72d5` 建置，只有文件與截圖未上站，下一次 push 會自然重建。
+
 驗收紀錄、前後截圖與限制：[docs/qa/2026-11-11-detail-close-back](docs/qa/2026-11-11-detail-close-back/README.md)。下一輪先做 **`主題分類` 對 159 個沒有宣告分類的案例頁是依標題猜的，卻以「同分類」與篩選選項呈現**：先以 `metadata()` 對 506 頁列出推測分類清單與顯示字串，再決定標示推測或收斂規則。
 
 ## 2026-11-10 已處理但沒寫併入對象：徽章說「已併入」，後面是空的

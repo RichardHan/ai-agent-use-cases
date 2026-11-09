@@ -22,6 +22,8 @@
 
 同時記錄上一輪留下的待辦已量測、結論是不做：桌機把 53 個任務連結收合成 disclosure 只省約 51px 頁長（hero 1,170px、任務目錄 490px，但右側抽卡欄 1,119px 才是列高來源），搜尋框只從 y≈1,528 移到約 1,477，因此本輪不動它。
 
+發布補記：PR [#285](https://github.com/RichardHan/ai-agent-use-cases/pull/285)（head `f1f2d43e`）13 項 PR 檢查 12 通過、`published` 依設計在 PR 上 skipping；squash 合併為 `12bc35d6`。`pages build and deployment`（[42559710749](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42559710749)）成功，正式站 `catalog.json` 的 `sourceRevision` 為 `12bc35d6`、510 個來源；`assets/app.js` 與 `index.html` 對正式站與合併 commit 逐 byte 相同。正式站重走：390／1440 的 `?case=UC-043|073|111|208` 都顯示該案自己的步驟（修正前都是通用句），`UC-181` 維持通用句（其步驟在 H3 子節，本輪不支援）；痛點入口「合約審核」28 筆→UC-007 詳情（該案步驟、2 個來源連結）→返回後條件與焦點保留；`?q=區塊鏈` 0 筆→移除關鍵字復原 512 筆。四頁建議卡皆無 Markdown 連結或裸網址。
+
 ## 建議步驟（本庫設計，未實測）` 五步）；反向的錯誤也有：少數頁面把來源引用行（`[Meet dots](https://…)…2026-10-16 查閱`、`SemicolonExpected，英文，2026-09-22：…`）當成「要注意什麼」印出。比較兩案：（A）把標題整理成有順序的詞彙表（一級＝詳情頁承諾的字、二級＝語料實際用的同義字、三級＝原流程節後援）＋兩個守門——行首引用不當建議、同時寫「流程／步驟／實作」的節不當限制節；（B）逐一改 57 個以上案例的標題。選 A：寫法會繼續長，該由程式吸收；B 會改寫研究批次留下的原始標題，且下批新案例仍會重犯。
 
 改動集中在 `assets/app.js`：`HOW_HEADINGS`／`LIMIT_HEADINGS` 分層詞彙、`guidanceSections()`（先看層級再看位置）、`pickGuidance()`（逐節取第一個可用文字）、`GUIDANCE_CITATION`（只錨定行首，句尾附連結的敘述不受影響）、限制節排除程序標題、160 字截斷補 `…`。另加 6 支測試到 `tests/actionable-guidance.test.cjs`，其中兩支直接讀 `cases/*.md` 做全語料守門：「寫了步驟節的案例不得退回通用句」「寫了限制節的案例不得退回通用句」，新案例用新寫法時會直接失敗。

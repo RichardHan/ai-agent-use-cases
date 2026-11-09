@@ -135,6 +135,26 @@ test('multi-engine browser workflows provide resilient timeout budget (>= 25 min
   for (const match of returnMatches) {
     assert.ok(Number(match[1]) >= 25, 'return-visibility-qa.yml jobs must allow at least 25 minutes');
   }
+
+  // The rule above has to hold for every workflow a pull request or a main push can
+  // actually reach, not only for the three files named here. On 2026-11-10
+  // reader-search-qa.yml spent its whole 15-minute budget in "Install browser tools"
+  // (npm + three engines + CJK fonts) and the job was cancelled before a single
+  // browser assertion ran, so the check reported a result that verified nothing.
+  const workflowsDir = path.join(__dirname, '../.github/workflows');
+  const liveMultiEngine = fs.readdirSync(workflowsDir)
+    .filter(file => file.endsWith('.yml'))
+    .map(file => [file, fs.readFileSync(path.join(workflowsDir, file), 'utf8')])
+    .filter(([, text]) => /\bpull_request:|\n\s{2}push:\s*(?:\n\s{4}branches:\s*(?:\[[^\]]*'main'|'main'))/.test(text)
+      && /playwright[^\n]*install[^\n]*(?:chromium|firefox|webkit)[^\n]*(?:chromium|firefox|webkit)/.test(text));
+  assert.ok(liveMultiEngine.length >= 5, 'the live multi-engine workflow scan must keep finding the known suites');
+  for (const [file, text] of liveMultiEngine) {
+    const budgets = [...text.matchAll(/timeout-minutes:\s*(\d+)/g)].map(match => Number(match[1]));
+    assert.ok(budgets.length, `${file} must bound its job duration`);
+    for (const budget of budgets) {
+      assert.ok(budget >= 25, `${file} budgets ${budget} minutes for an install that fetches several browser engines; a cancelled job verifies nothing`);
+    }
+  }
 });
 
 test('card renders scenario badge in card-top for immediate problem-orientation', () => {

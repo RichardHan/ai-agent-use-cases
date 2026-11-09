@@ -72,6 +72,16 @@
   - `tests/evidence-attribution-browser.cjs`、`tests/detail-trust-summary-browser.cjs`、`tests/result-count-honesty-browser.cjs`：axe 0、pageErrors 0、overflow false
 - 截圖（同頁、同尺寸、同資料狀態）：`before-desktop-uc222-detail.png`／`after-desktop-uc222-detail.png`、`before-desktop-uc222-card.png`／`after-desktop-uc222-card.png`、`before-mobile-uc222-badges.png`／`after-mobile-uc222-badges.png`。手機徽章由 104px 變 125.5px 寬、高度與位置不變（24.69px／y=171.8）。**限制：本輪執行環境無法檢視圖片內容**，視覺結論以上述 DOM 幾何與文字量測為準，截圖僅供人工複核。
 
+## 附帶 CI 修復：15 分鐘預算用光在安裝瀏覽器，檢查回報 cancelled
+
+本輪驗收時，PR #309 的 `Reader search QA` 檢查在 **2026-11-09T20:10:37Z** 的 run [42690412988](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42690412988) 停在 `Install browser tools`，於 **20:25:56Z** 被取消（15 分 19 秒，正好是 `timeout-minutes: 15`）；`Verify desktop, mobile, keyboard, sources and accessibility` 一步從未執行，**這個檢查回報了結果，卻什麼都沒驗證**。同一個 workflow 在前一個 commit（`8fed75a4`）的 run 42689291394 是 success，完整流程約 5 分鐘——慢的是安裝（`npm install playwright@1.64.1` ＋ `playwright install --with-deps chromium firefox webkit` ＋ `apt-get install fonts-noto-cjk`），不是測試。
+
+`tests/visitor-experience-and-ci.test.cjs` 本來就有一條「多引擎瀏覽器 workflow 至少 25 分鐘」的規則，但只點名三個檔案，抓不到 `reader-search-qa.yml`。修改：
+
+- `.github/workflows/reader-search-qa.yml`：`timeout-minutes: 15` → **30**（與同樣安裝三引擎的 `trust-summary` 30／`outline-find` 25／`source-guide` 35 一致）。
+- `tests/visitor-experience-and-ci.test.cjs`：把規則改成掃描所有「PR 或 main push 到得了、且安裝 2 個以上瀏覽器引擎」的 workflow，逐一要求每個 `timeout-minutes` ≥ 25。實測把 `reader-search-qa.yml` 調回 15 時測試會失敗（`reader-search-qa.yml budgets 15 minutes…`），改回 30 才通過，確認這條測試抓得到原本的缺陷。
+- 未改任何測試斷言、未刪除檢查、未關閉任何 workflow；其餘 8 個 live 多引擎 workflow 本來就 ≥ 25（80／80／80／25／85／80／35／75）。
+
 ## 獨立審查
 
 獨立 reviewer（未參與實作，另開任務上下文）核對 `f38279a3` 的 diff、程式與語料，未發現阻斷性缺陷，並自行重跑逐檔比對確認：506 個案例只有 7 筆變動、4 筆待查線索維持 `reviewedDate: ''`／`fileReviewed: '2026-10-17'`、`item.date` 不受影響、`INDEX.md` 的最新核對日仍是 2026-11-09、9 個 `本次增補查證` 案例的解析結果不變。它指出兩點並已修正：

@@ -18,7 +18,7 @@ test('active conditions preserve the original query, all facets and unfamiliar s
  const conditions=plain(activeConditions(query,filters));
  assert.equal(conditions.length,6);
  assert.equal(conditions[0].value,query);
- assert.equal(conditions.find(x=>x.key==='kind').display,'還在查證');
+ assert.equal(conditions.find(x=>x.key==='kind').display,'待查線索');
  assert.equal(conditions.find(x=>x.key==='scenario').display,'未知情境');
  assert.deepEqual(plain(activeConditions('',{kind:'',tool:''})),[]);
 });

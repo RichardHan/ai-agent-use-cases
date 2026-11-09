@@ -31,7 +31,7 @@ function refreshCurrentSourceLinks(path) {
     if(href) { link.href=href; link.removeAttribute('aria-disabled'); link.removeAttribute('tabindex'); }
   }
 }
-const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'還在查證'};
+const KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'待查線索'};
 const PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {
   '官方自報': '官方或原廠團隊（含其員工）第一手發布的自述、示範或能力說明，未經第三方獨立驗證；發布者可能有產品推廣利益。',
   '作者報告／示範': '社群作者公開分享的操作紀錄與示範；實際產物、完整過程與成效仍須逐案核對，本庫未取得獨立代碼庫驗證。',
@@ -623,6 +623,11 @@ const SYNONYM_GROUPS = [
   ['followers', 'following', '粉絲', '關注名單', '互粉', '互關', '回關'],
   ['健身', 'workout', '運動', '重訓', '健身房'],
   ['epub', '電子書'],
+  // The collection-status label used to share a near-identical wording with the
+  // evidence-level label (還在查證 vs 尚待查證). Keep the old terms searchable so
+  // existing links and queries still find the same pending records, including
+  // the one already merged into a case.
+  ['待查線索', '還在查證', '待查想法'],
 ];
 const SYNONYM_MAP = {};
 for (const group of SYNONYM_GROUPS) {
@@ -2108,13 +2113,14 @@ function renderCategoryFinder() {
 }
 function renderFacetCounts(terms, filters) {
   const hint=$('facet-count-hint');
-  const difficultyHint = '實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。'
-    + '來源類型依案例頁首宣告的主要類別計一次；同一案例宣告的其他類別，列在卡片與詳情的提示中。';
-  hint.textContent=!discoveryReady
-    ? '案例載入完成後，會顯示各選項的符合筆數。' + difficultyHint
+  const difficultyHint = '實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。';
+  const statusHint = '收錄狀態的「待查線索」是還沒列成案例的線索；來源類型的「尚待查證」是證據等級，兩者不同。';
+  const proofCountHint = '來源類型依案例頁首宣告的主要類別計一次；同一案例宣告的其他類別，列在卡片與詳情的提示中。';
+  hint.textContent=(!discoveryReady
+    ? '案例載入完成後，會顯示各選項的符合筆數。'
     : failedPaths.length
-      ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。' + difficultyHint
-      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。' + difficultyHint;
+      ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
+      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。') + statusHint + difficultyHint + proofCountHint;
   // Count merged leads inside the same filtered set the pending option describes,
   // so a filtered view does not keep a global annotation it cannot show.
   const pendingBase=discoveryReady?filterEntries(entries,terms,{...filters,kind:''}):[];
@@ -3674,7 +3680,7 @@ function emptyPoolText(){
   const scope=$('scenario').value||'全部情境';
   const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
   return drawPoolMatches
-    ? {card:`符合的 ${drawPoolMatches} 筆沒有可抽卡的用法靈感（經驗與踩坑、模板或待查想法不列入抽卡）；可在下方結果直接閱讀。`,
+    ? {card:`符合的 ${drawPoolMatches} 筆沒有可抽卡的用法靈感（經驗與踩坑、模板或待查線索不列入抽卡）；可在下方結果直接閱讀。`,
        status:`${scope}：符合的 ${drawPoolMatches} 筆沒有可抽卡的用法靈感。`}
     : {card:`${diffText}目前沒有可抽的案例卡。抽卡也受下方搜尋與篩選影響；試試修改搜尋字詞或調整篩選。`,
        status:`${scope}${$('difficulty')?.value?' · '+$('difficulty').value:''} 目前沒有可抽的案例卡。`};

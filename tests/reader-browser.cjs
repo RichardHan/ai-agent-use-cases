@@ -132,8 +132,8 @@ async function jump(page,button){
      assert.equal(await earlyMethod.count(),1,'long shared case has a direct original-method route');
      assert.equal(await earlyMethod.evaluate(el=>!!(el.compareDocumentPosition(document.querySelector('.detail-actions'))&Node.DOCUMENT_POSITION_FOLLOWING)),true,'original-method route precedes secondary share actions on mobile');
      await earlyMethod.focus();
-     await page.keyboard.press('Shift+Tab');
-     assert.equal(await page.evaluate(()=>document.activeElement.id),'close-detail','reverse Tab from the first method control returns to the toolbar close button');
+     await page.keyboard.press(engine === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab');
+     assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('detail-trust-jump')),true,'reverse Tab from the first method control reaches the trust summary, not the toolbar');
    }
   const placement=await page.evaluate(()=>{
    const dialog=document.createElement('dialog');dialog.open=true;

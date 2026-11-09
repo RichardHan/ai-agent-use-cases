@@ -9,7 +9,7 @@
 - 目標使用者：用記帳 App，但有支付服務、電子錢包不在自動同步清單、只能手動記帳的人
 - 工具：Meta Muse（Gmail 連接器、Money Forward ME 唯讀連接器、自訂技能）／Playwright 腳本／Money Forward ME 手動帳戶
 - 首次收錄／最近查證：2026-10-29 08:51（台灣時間）
-- 證據狀態：`author-demo`（作者 Qiita 全文＋公開 GitHub 倉庫；實際記帳結果為作者自述，無截圖）
+- 證據狀態：`author-demo`（作者 Qiita 全文；引用的 GitHub 倉庫於 2026-11-09 查核回 404，可能已刪除或轉私人，保留歷史連結。實際記帳結果為作者自述，無截圖）
 - 是否獨立重現：否
 
 ## 輸入與預期輸出
@@ -22,7 +22,7 @@
 ### 來源A：AidaShika（Qiita＋GitHub，日文／英文）
 
 - 文章：[ANA Pay の支出を Money Forward に自動で記帳する Muse スキルを作った](https://qiita.com/AidaShika/items/7f889f55dc1f089d171e)，2026-10-28 18:09 JST（台灣時間 17:09）；日文。以 Qiita 公開 API 讀全文。
-- 倉庫：[AidaShika/anapay-moneyforward-skill](https://github.com/AidaShika/anapay-moneyforward-skill)（建立於 2026-10-28 16:28 台灣時間；說明為英文）。
+- 倉庫：[AidaShika/anapay-moneyforward-skill](https://github.com/AidaShika/anapay-moneyforward-skill)（建立於 2026-10-28 16:28 台灣時間；說明為英文）。2026-11-09 查核時連結回 404，無法再核對程式與說明；保留原網址，不推定下架原因。
 - 取得內容（翻譯摘要）：
   1. 背景：ANA Pay 不在 Money Forward ME 的自動同步範圍，作者原本每月手動記帳，常漏記、分類錯、月底餘額對不上。既有開源做法要把 Money Forward 密碼明文存在 .env，作者不接受。
   2. 讀取交給 Muse 連接器：Gmail 連接器搜尋 ANA Pay 通知信；Money Forward ME 連接器只讀，用來核對餘額與明細。

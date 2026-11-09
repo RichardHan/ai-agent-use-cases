@@ -56,6 +56,17 @@ const PROOF_VERIFICATION_STATUS = globalThis.PROOF_VERIFICATION_STATUS = {
   '模板／文件核讀': '規格書或開源模板列出功能，不等於已經過完整實跑與邊界驗證。',
   '尚待查證': '證據尚不充分，未列成功案例；請勿在正式工作或金流中直接採用。'
 };
+// The detail header states the same attribution and verification boundary as
+// the full proof note further down, so a shared link can be judged without a
+// scroll. Keep these short forms faithful to PROOF_VERIFICATION_STATUS.
+const PROOF_STATUS_SHORT = globalThis.PROOF_STATUS_SHORT = {
+  '官方自報': '未經第三方獨立重現',
+  '作者報告／示範': '本庫未獨立重現',
+  '設計／未實跑': '未實跑，無成效可核',
+  '公開資料核讀': '未端對端驗證',
+  '模板／文件核讀': '文件功能未實測',
+  '尚待查證': '證據不足，未列成功案例'
+};
 const PROOF_SAFE_ADOPTION_TIP = globalThis.PROOF_SAFE_ADOPTION_TIP = {
   '官方自報': '安全採用建議（落地三層防護）：① 建議試跑：在官方沙盒或隔離測試環境驗證相容性；② 禁止動作：嚴禁未經確認自動寫入正式生產系統或授權對外操作；③ 必經審核：對關鍵系統狀態變更與權限調整保留人工覆核。',
   '作者報告／示範': '安全採用建議（落地三層防護）：① 建議試跑：使用合成資料或做足資料去敏在受控環境小規模試跑；② 禁止動作：嚴禁未經確認自動對外寄信、扣款付款或直接寫入生產資料庫；③ 必經審核：對重要決策、金流支付、外部發布與招募判定保留人工審批。',
@@ -1312,6 +1323,25 @@ function showDetail(item, trigger, updateURL=true) {
   title.id = 'detail-title';
   title.tabIndex = -1;
   body.append(title);
+  // Attribution and verification used to sit ~1200px below the title, below the
+  // first screen on both desktop and mobile. State them beside the title and
+  // keep the long explanation as the place the reader can jump to.
+  const trust = el('p', 'detail-trust-summary');
+  trust.append(
+    el('span', 'detail-trust-item', '成果主張：' + (PROOF_CLAIMANTS[item.proof] || '來源未明')),
+    el('span', 'detail-trust-item', '核讀：' + (PROOF_STATUS_SHORT[item.proof] || '未獨立重現'))
+  );
+  const trustJump = el('button', 'detail-trust-jump', '核讀與安全建議 ↓');
+  trustJump.type = 'button';
+  trustJump.addEventListener('click', () => {
+    const note = $('detail-body').querySelector('.detail-proof-note');
+    if (!note) return;
+    note.tabIndex = -1;
+    if (typeof note.focus === 'function') note.focus({ preventScroll: true });
+    if (typeof note.scrollIntoView === 'function') note.scrollIntoView({ block: 'start' });
+  });
+  trust.append(trustJump);
+  body.append(trust);
   const source = el('a', 'detail-source', '查看 GitHub 原始 Markdown ↗');
   // The visible text carries the case ID: an aria-label that omitted the visible
   // wording would break WCAG 2.5.3 (label in name) at desktop width.
@@ -1447,7 +1477,7 @@ function showDetail(item, trigger, updateURL=true) {
   const proofTag = el('span', 'proof-note-tag', item.proof);
   proofTag.dataset.proof = item.proof;
   const proofDesc = el('span', 'proof-note-desc', PROOF_DEFINITIONS[item.proof] || '本庫未獨立重現，請核對原始報告與限制。');
-  const proofClaimant = el('span', 'proof-note-claimant', '成果主張來源：' + (PROOF_CLAIMANTS[item.proof] || '原文作者'));
+  const proofClaimant = el('span', 'proof-note-claimant', '成果主張來源：' + (PROOF_CLAIMANTS[item.proof] || '來源未明'));
   const proofStatus = el('span', 'proof-note-status', '本庫核讀狀態：' + (PROOF_VERIFICATION_STATUS[item.proof] || '未獨立重現'));
   const proofSafety = el('span', 'proof-note-safety', PROOF_SAFE_ADOPTION_TIP[item.proof] || '安全採用建議（落地三層防護）：① 建議試跑：先於隔離測試或虛擬資料環境小規模驗證；② 禁止動作：未經確認切勿直接授權對外操作、金流付款或寫入生產系統；③ 必經審核：所有關鍵產出與操作必須經專人覆核後採用。');
   proofNote.append(proofTag, proofDesc, proofClaimant, proofStatus, proofSafety);

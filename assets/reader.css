@@ -150,7 +150,17 @@
 }
 
 /* Semantic proof badge explanation and structured guidance cards. */
-.detail-proof-note{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:8px 12px;background:#f3f6ee;border:1px solid #d4dfce;border-radius:6px;font-size:13px;line-height:1.6;color:#283528;margin:10px 0 14px}
+.detail-proof-note{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:8px 12px;background:#f3f6ee;border:1px solid #d4dfce;border-radius:6px;font-size:13px;line-height:1.6;color:#283528;margin:10px 0 14px;scroll-margin-top:124px}
+.detail-trust-summary{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:10px 0 4px;font-size:13px;line-height:1.7;color:#3c4a3f}
+.detail-trust-item{padding:2px 8px;border-left:3px solid #c9d9c4;background:#f3f7ef;border-radius:3px;overflow-wrap:anywhere}
+.detail-trust-jump{min-height:44px;padding:8px 12px;font-size:13px;font-weight:600;border:1px solid #ccd8c8;border-radius:6px;background:var(--white);color:var(--green)}
+.detail-trust-jump:hover{background:#e9eee0;border-color:var(--green)}
+.detail-trust-jump:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+#detail-body .detail-proof-note:focus{outline:2px solid var(--green);outline-offset:4px;border-radius:6px}
+@media(max-width:640px){
+ .detail-trust-summary{font-size:13px;gap:6px}
+ .detail-trust-jump{width:100%}
+}
 @media(max-width:360px){.detail-proof-note{flex-direction:column;gap:4px}}
 .proof-note-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--green);color:white}
 .proof-note-tag[data-proof="官方自報"]{background:#1d6645;color:white}

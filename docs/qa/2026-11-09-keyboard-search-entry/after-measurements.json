@@ -1,0 +1,250 @@
+{
+  "url": "http://127.0.0.1:8097/ai-agent-use-cases/",
+  "prefix": "after",
+  "viewports": {
+    "desktop": {
+      "viewport": "1440x900",
+      "structure": {
+        "focusablesBeforeQuery": 82,
+        "skipHref": "#query",
+        "skipText": "跳到案例搜尋",
+        "chipsRole": "group",
+        "liveRegions": [
+          {
+            "id": "draw-announcer",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "missing-case-message",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "category-find-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "load-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "results-count",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "search-split-message",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "search-share-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "source-type-note",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "error",
+            "role": "alert",
+            "live": "assertive"
+          },
+          {
+            "id": "audit-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "catalog-status",
+            "role": "status",
+            "live": null
+          }
+        ]
+      },
+      "firstStop": {
+        "cls": "skip",
+        "text": "跳到案例搜尋"
+      },
+      "afterSkip": {
+        "active": "INPUT#query",
+        "y": 1098,
+        "queryTop": 430,
+        "viewport": 900,
+        "hash": ""
+      },
+      "churn": {
+        "mutations": 12,
+        "byId": {
+          "draw-status": 4,
+          "results-count": 4,
+          "filter-outcome-count": 4
+        },
+        "liveWrites": 4,
+        "liveById": {
+          "results-count": 4
+        },
+        "samples": [
+          {
+            "id": "draw-status",
+            "live": false,
+            "text": "全部情境 · 這組條件有 289 張案例卡 · 第 1 張：找房找到眼花？讓 Bot 先依預算、學區、下班尖峰通勤時間刷掉不合的，只把值得看的交給你和房仲"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": false,
+            "text": "目前條件有 300 筆結果"
+          },
+          {
+            "id": "draw-status",
+            "live": false,
+            "text": "全部情境 · 這組條件有 24 張案例卡 · 第 1 張：一個家庭用 13 個各管一條車道的 Bot 跑家務，而不是一個萬能助理"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": false,
+            "text": "目前條件有 26 筆結果"
+          },
+          {
+            "id": "draw-status",
+            "live": false,
+            "text": "全部情境 · 這組條件有 1 張案例卡 · 第 1 張：Notion AI改成點數制會不會不夠用？讓Bot查官方說明、照自己的用法算一遍，再找現有訂閱裡的替代方"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": false,
+            "text": "目前條件有 1 筆結果"
+          }
+        ],
+        "announcer": []
+      }
+    },
+    "phone": {
+      "viewport": "390x844",
+      "structure": {
+        "focusablesBeforeQuery": 39,
+        "skipHref": "#query",
+        "skipText": "跳到案例搜尋",
+        "chipsRole": "group",
+        "liveRegions": [
+          {
+            "id": "draw-announcer",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "missing-case-message",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "category-find-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "load-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "results-count",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "search-split-message",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "search-share-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "source-type-note",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "error",
+            "role": "alert",
+            "live": "assertive"
+          },
+          {
+            "id": "audit-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "catalog-status",
+            "role": "status",
+            "live": null
+          }
+        ]
+      },
+      "firstStop": {
+        "cls": "skip",
+        "text": "跳到案例搜尋"
+      },
+      "afterSkip": {
+        "active": "INPUT#query",
+        "y": 2202,
+        "queryTop": 406,
+        "viewport": 844,
+        "hash": ""
+      },
+      "churn": {
+        "mutations": 12,
+        "byId": {
+          "draw-status": 4,
+          "results-count": 4,
+          "filter-outcome-count": 4
+        },
+        "liveWrites": 4,
+        "liveById": {
+          "results-count": 4
+        },
+        "samples": [
+          {
+            "id": "draw-status",
+            "live": false,
+            "text": "全部情境 · 這組條件有 289 張案例卡 · 目前顯示：代理做到一半重啟，下一棒真的接得上嗎？"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": false,
+            "text": "目前條件有 300 筆結果"
+          },
+          {
+            "id": "draw-status",
+            "live": false,
+            "text": "全部情境 · 這組條件有 24 張案例卡 · 第 1 張：報價需求一來，先做好品牌一致、價格待核的文件"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": false,
+            "text": "目前條件有 26 筆結果"
+          },
+          {
+            "id": "draw-status",
+            "live": false,
+            "text": "全部情境 · 這組條件有 1 張案例卡 · 第 1 張：Notion AI改成點數制會不會不夠用？讓Bot查官方說明、照自己的用法算一遍，再找現有訂閱裡的替代方"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": false,
+            "text": "目前條件有 1 筆結果"
+          }
+        ],
+        "announcer": []
+      }
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "url": "http://127.0.0.1:8097/ai-agent-use-cases/",
+  "prefix": "after",
+  "scenarios": [
+    {
+      "name": "problem-first",
+      "viewport": "desktop",
+      "s1": {
+        "count": "顯示 37 / 509 筆收錄"
+      },
+      "s1detail": {
+        "title": "讓Bot每天幫你整理X上的未回留言、可互動創作者與該重發的舊文，一個月約30美元，而且它一則都不替你",
+        "badge": "作者報告／示範",
+        "claimant": "成果主張來源：社群作者／專案實踐者",
+        "status": "本庫核讀狀態：本庫未於本機獨立重現代碼或流程；請留意作者個人環境與版本差異。",
+        "safety": true,
+        "sourceLinks": 10
+      },
+      "s1back": {
+        "q": "我想整理家裡的帳單",
+        "count": "顯示 37 / 509 筆收錄",
+        "focus": "BUTTON#"
+      }
+    },
+    {
+      "name": "empty-recovery",
+      "viewport": "desktop",
+      "s2empty": {
+        "count": "顯示 0 / 509 筆收錄",
+        "suggestions": [
+          "移除收錄狀態「還在查證」 → 查看 10 筆"
+        ],
+        "active": "關鍵字：發票×收錄狀態：還在查證×使用情境：生活×"
+      },
+      "s2recovered": {
+        "count": "顯示 10 / 509 筆收錄",
+        "scenario": "生活",
+        "q": "發票",
+        "focus": "results-count"
+      }
+    },
+    {
+      "name": "shared-deep-link",
+      "viewport": "desktop",
+      "s3": {
+        "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下",
+        "badge": "作者報告／示範",
+        "claimant": "成果主張來源：社群作者／專案實踐者",
+        "status": "本庫核讀狀態：本庫未於本機獨立重現代碼或流程；請留意作者個人環境與版本差異。",
+        "sourceFixed": true,
+        "external": 12
+      },
+      "s3reload": {
+        "open": true,
+        "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負"
+      },
+      "s3back": {
+        "open": false,
+        "focus": "P#results-count",
+        "hash": "#explore"
+      }
+    },
+    {
+      "name": "problem-first",
+      "viewport": "phone",
+      "s1": {
+        "count": "顯示 37 / 509 筆收錄"
+      },
+      "s1detail": {
+        "title": "讓Bot每天幫你整理X上的未回留言、可互動創作者與該重發的舊文，一個月約30美元，而且它一則都不替你",
+        "badge": "作者報告／示範",
+        "claimant": "成果主張來源：社群作者／專案實踐者",
+        "status": "本庫核讀狀態：本庫未於本機獨立重現代碼或流程；請留意作者個人環境與版本差異。",
+        "safety": true,
+        "sourceLinks": 10
+      },
+      "s1back": {
+        "q": "我想整理家裡的帳單",
+        "count": "顯示 37 / 509 筆收錄",
+        "focus": "BUTTON#"
+      }
+    },
+    {
+      "name": "empty-recovery",
+      "viewport": "phone",
+      "s2empty": {
+        "count": "顯示 0 / 509 筆收錄",
+        "suggestions": [
+          "移除收錄狀態「還在查證」 → 查看 10 筆"
+        ],
+        "active": "關鍵字：發票×收錄狀態：還在查證×使用情境：生活×"
+      },
+      "s2recovered": {
+        "count": "顯示 10 / 509 筆收錄",
+        "scenario": "生活",
+        "q": "發票",
+        "focus": "results-count"
+      }
+    },
+    {
+      "name": "shared-deep-link",
+      "viewport": "phone",
+      "s3": {
+        "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下",
+        "badge": "作者報告／示範",
+        "claimant": "成果主張來源：社群作者／專案實踐者",
+        "status": "本庫核讀狀態：本庫未於本機獨立重現代碼或流程；請留意作者個人環境與版本差異。",
+        "sourceFixed": true,
+        "external": 12
+      },
+      "s3reload": {
+        "open": true,
+        "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負"
+      },
+      "s3back": {
+        "open": false,
+        "focus": "P#results-count",
+        "hash": "#explore"
+      }
+    }
+  ],
+  "errors": []
+}

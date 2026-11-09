@@ -3233,6 +3233,7 @@ async function load() {
           announced=milestone;
           const stages=['正在讀取來源全文。','已處理至少四分之一的來源。','已處理至少一半的來源。','已處理至少四分之三的來源。','來源讀取已結束。'];
           $('draw-status').textContent=stages[milestone]+' 等待過久會先顯示已讀取內容。';
+          announceDraw(stages[milestone]);
         }
       }
     });
@@ -3298,7 +3299,7 @@ async function load() {
     else finishArrival(params,failedPaths.length>0);
     restoreFocus();
   } catch (error) {
-    discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀案例索引。';$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
+    discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀案例索引。';announceDraw('案例卡暫時無法載入；下方可重新載入或閱讀案例索引。');$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();
     $('results-count').textContent = '載入未完成';
     $('filter-outcome-count').textContent = '載入未完成，請到結果區重新載入';
@@ -3319,14 +3320,27 @@ function drawScope(){
   return ($('scenario').value||'全部情境')+(diffLabel?' · '+diffLabel:'');
 }
 function drawButtonLabel(total){$('draw-case').textContent=total===1?'只有這一張，重新看看':'再抽一張 ↻';}
-function drawNext(){
+// #draw-status is a visible, high-frequency line: the pool count changes on every
+// keystroke. Announcements therefore go through a separate live region, which only
+// speaks when the drawn case itself changes. Otherwise a screen reader would read
+// the pool count (and the same case again) for every character typed in the search.
+function announceDraw(text){
+  const node=$('draw-announcer');
+  if(!node||node.textContent===text)return;
+  node.textContent=text;
+}
+function drawNext(announce=false){
   if(!discoveryReady||!discoveryDeck)return;
   const next=discoveryDeck.next();
   if(!next)return;
+  const previous=drawnItemId;
   $('drawn-case').replaceChildren(card(next.item));
   drawnItemId=next.item.id;
   $('draw-status').textContent=drawScope()+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
   drawButtonLabel(next.total);
+  // Only the reader's own request is news. An automatic redraw happens while the
+  // reader is typing a query; announcing it would interrupt the search itself.
+  if(announce&&previous!==drawnItemId)announceDraw('已換一張：'+next.item.title);
 }
 function syncDiscovery(filtered){
   document.querySelectorAll('button[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
@@ -3335,6 +3349,9 @@ function syncDiscovery(filtered){
   const pool=Discovery.discoveryPool(filtered);
   const key=$('scenario').value+'|'+($('difficulty')?.value||'')+'|'+pool.map(item=>item.id).join(',');
   if(key===discoveryKey)return;
+  // Remember the key that produced the current deck, so a re-render with the same
+  // pool (sort changes, unrelated refreshes) stops rebuilding it.
+  discoveryKey=key;
   // Typing a question changes the pool on every keystroke. Replacing the drawn
   // card then reflows everything above the search field, which pushes the results
   // off a phone screen; keep a card that still matches and only redraw when it no
@@ -3360,6 +3377,7 @@ function syncDiscovery(filtered){
       ? `${$('scenario').value||'全部情境'}：符合的 ${filtered.length} 筆沒有可抽卡的用法靈感。`
       : ($('scenario').value||'全部情境')+($('difficulty')?.value?' · '+$('difficulty').value:'')+' 目前沒有可抽的案例卡。';
     $('draw-case').textContent='沒有可抽的案例';
+    announceDraw('目前沒有可抽的案例卡；下方搜尋結果仍可閱讀。');
   }
 }
 function revealDiscovery(){
@@ -3381,8 +3399,8 @@ function drawFromButton(){
   // tap. Keep the tapped button at the same viewport offset instead, so the new
   // card starts right below it, and only scroll down if its title is cut off.
   const button=$('draw-case'),before=button.getBoundingClientRect().top;
-  if(!discoveryReady||before<0||before>window.innerHeight){drawNext();revealDiscovery();return;}
-  drawNext();
+  if(!discoveryReady||before<0||before>window.innerHeight){drawNext(true);revealDiscovery();return;}
+  drawNext(true);
   const shift=button.getBoundingClientRect().top-before;
   if(Math.abs(shift)>0.5)window.scrollBy({top:shift,behavior:'instant'});
   const target=$('drawn-case').querySelector('h3 button')||$('draw-status');
@@ -3421,6 +3439,15 @@ $('use-loaded').addEventListener('click',()=>{
 });
 // Keep explicit task search available before the corpus is ready.
 document.querySelectorAll('[data-search-entry]').forEach(link=>link.addEventListener('click',enterSearch));
+// The skip link has to land *in* the search field, not just near it: focusing the
+// input lets a keyboard reader type immediately. Without JavaScript the plain
+// #query anchor still scrolls to the same place.
+document.querySelector('.skip')?.addEventListener('click',event=>{
+  const input=$('query');
+  if(!input)return;
+  event.preventDefault();
+  input.focus();
+});
 $('dismiss-missing-case').addEventListener('click',()=>{
   allowAutomaticArrival=false;
   const url=new URL(location.href);

@@ -43,7 +43,7 @@ const context = vm.createContext({
     getElementById: () => createElement('div')
   }
 });
-vm.runInContext(source + '\nthis.api={parseFile,resolvedPendingNote,mergedDestinations,mergedDestinationText,card};', context);
+vm.runInContext(source + '\nthis.api={parseFile,resolvedPendingNote,mergedDestinations,mergedDestinationText,card,pendingStateBadge,cardKindBadge,resolvedPendingTally,copyNoteText,mergeHandoffSentence};', context);
 const api = context.api;
 vm.runInContext('displayCopy=' + fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'), context);
 
@@ -76,8 +76,10 @@ test('a comparison to another case is not a destination', () => {
   const [lead] = api.parseFile('sources/pending.md', markdown);
   assert.equal(lead.resolved, true, 'the dated 已處理 status is what marks a lead resolved');
   assert.deepEqual([...lead.mergedInto], [], 'naming UC-005 for comparison must not become a destination');
-  assert.equal(api.resolvedPendingNote(lead), '',
-    'a resolved lead with no recorded destination must not claim it was merged somewhere');
+  const note = api.resolvedPendingNote(lead);
+  assert.match(note, /已結束/, 'the closure is still stated');
+  assert.match(note, /未記錄併入的主案例/, 'the note names the missing destination');
+  assert.doesNotMatch(note, /已併入\s*(?:（|$|[，。、])/, 'it must not claim a merge with no destination');
 });
 
 test('the status sentence names every destination and stays silent when there is none', () => {
@@ -104,4 +106,63 @@ test('the result card lists every destination', () => {
   assert.ok(badge, 'the pending card keeps a kind badge');
   assert.match(badge.textContent, /UC-101、UC-102/, 'both destinations must be readable on the card');
   assert.doesNotMatch(badge.textContent, /undefined|null/);
+});
+
+// The merged round (#305) kept the destination list, but a lead marked handled
+// without naming a case still printed "已併入 " with nothing after it, lost its
+// closure note, and let the statistics call it a merge. These pin the honest state.
+test('a handled lead with no recorded destination says so instead of printing an empty list', () => {
+  const markdown = [
+    '# 待查來源',
+    '',
+    '## P-901：已處理但沒有編號的線索',
+    '',
+    '- 狀態：2026-11-10 已處理。內容重複，已整理不再重查。',
+    '- 缺漏：原帖沒有保留併入的案例編號。'
+  ].join('\n');
+  const [lead] = api.parseFile('sources/pending.md', markdown);
+  assert.equal(lead.resolved, true);
+  assert.deepEqual([...lead.mergedInto], []);
+
+  const badge = api.pendingStateBadge(lead);
+  const card = api.card(lead).children.flatMap(node => node.children || []).flatMap(node => node.children || [])
+    .find(node => node.className === 'kind');
+  const note = api.resolvedPendingNote(lead);
+  for (const [surface, text] of [['detail badge', badge], ['card badge', card.textContent], ['closure note', note]]) {
+    assert.doesNotMatch(text, /null|undefined|NaN/, `${surface} must not print a placeholder: ${text}`);
+    assert.doesNotMatch(text, /已併入\s*(?:（|$|[，。、])/, `${surface} must not claim a merge with no destination: ${text}`);
+  }
+  assert.match(badge, /已處理/);
+  assert.match(badge, /未記錄併入案例/, 'the detail badge names the missing destination');
+  assert.match(card.textContent, /不另計數/, 'the card still explains why the entry is not counted');
+  assert.match(note, /已結束/);
+  assert.match(note, /未記錄併入的主案例/);
+});
+
+test('the statistics only count recorded merges as merges', () => {
+  const tally = api.resolvedPendingTally(pendingEntries);
+  assert.deepEqual({ ...tally }, { resolved: 2, merged: 2, unrecorded: 0 });
+  const mixed = api.resolvedPendingTally([
+    ...pendingEntries,
+    { kind: 'pending', resolved: true, mergedInto: [] }
+  ]);
+  assert.deepEqual({ ...mixed }, { resolved: 3, merged: 2, unrecorded: 1 });
+});
+
+test('a copied note carries the closure state instead of reading like an open lead', () => {
+  const merged = api.copyNoteText(pending('P-004'), 'https://example.test/?case=P-004');
+  assert.match(merged, /🔁 狀態：已併入 UC-101、UC-102，不另計一案/);
+  const open = api.copyNoteText(pending('P-001'), 'https://example.test/?case=P-001');
+  assert.doesNotMatch(open, /🔁 狀態/, 'an open lead has no closure state to report');
+  const unrecorded = api.copyNoteText({ id: 'P-901', title: 'x', what: 'y', resolved: true, mergedInto: [] }, 'u');
+  assert.match(unrecorded, /🔁 狀態：已處理，來源檔未記錄併入案例/);
+});
+
+test('a title that only describes merging records is not a merge declaration', () => {
+  const titleOnly = '# UC-994：合併 UC-993 重複資料的檢查\n\n- 情境：工作\n- 來源證據：`author-demo`。\n';
+  assert.deepEqual([...api.parseFile('cases/994-test.md', titleOnly)[0].mergedInto], [],
+    'the 已合併 form is the only title wording that declares a destination');
+  const evidenceLine = '# UC-995：來源補充\n\n- 情境：工作\n- 來源證據：重複流程；合併UC-993，不另計。\n';
+  assert.deepEqual([...api.parseFile('cases/995-test.md', evidenceLine)[0].mergedInto], ['UC-993'],
+    'the evidence line keeps its loose 合併 form, as UC-250 writes it');
 });

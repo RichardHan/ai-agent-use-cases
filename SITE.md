@@ -1,3 +1,17 @@
+## 2026-11-11 關掉案例後，第一次「上一頁」沒有反應
+
+正式站 `7e70b5f5`（390×844、Chromium）：`?q=會議` → 開啟第一張卡（UC-127，`history.length` 3）→ 關閉 ✕ → 網址回到 `?q=會議`、對話框關閉、焦點回到原卡片，但**第一次「上一頁」網址與畫面都不變**（仍是 26／513 筆），要按第二次才離開網站。原因在 `closeDetail()` 用 `history.replaceState` 把正在讀的那一筆改寫成清單網址，歷史中留下兩筆相鄰且同網址的停靠點；關閉鈕、Escape 與點擊背景三條路徑都一樣。
+
+選擇 (A) 保留關閉後的那一筆，只讓它造成的「空轉」透明：以包裝 `history.pushState`／`replaceState` 追蹤目前網址與 `history.length`，`closeDetail()` 改寫後記下這一筆，`popstate` 若判定到達的正是它（同網址、筆數未變、無 `case`）就再退一筆並直接返回。曾實作「關閉時退回這次閱讀建立的全部歷史」（`history.go(-N)`），量測後 `tests/related-browser.cjs` 立刻失敗——從清單開 A、對話框內切到 B、關閉後上一頁不再回到 A，2026-10-29 建立的閱讀軌跡被刪掉；「一律 `history.back()`」則會讓分享直鏈一關閉就離開本站。兩案都放棄。
+
+獨立審查提出 1 項確認缺陷並已修正：「回音」判斷原本只比對網址與 `history.length`，會吞掉「同網址但 state 不同」的真正目的地（清單批次 24→48 後上一頁應還原 24 筆，卻直接離開頁面）。改為包裝層另計寫入次數，只有關閉後沒有任何後續歷史寫入才算回音；並補上批次還原的迴歸斷言與乾淨分頁的分享直鏈情境。
+
+改動：`assets/app.js` 3 處（歷史追蹤、`spentDetailStop`、`popstate` 跳過回音）、`.github/workflows/website-qa.yml` 加入新測試一行、新增 `tests/detail-close-history-browser.cjs`（5 條情境 × 1440×900／390×844，含焦點、`history.length`、結果批次還原、axe、溢出與 pageerror 斷言）。`node --test tests/*.test.cjs` 基準與本輪皆 594 通過、0 失敗（`node:vm` 沙箱沒有 `history`，追蹤碼以 `typeof` 防護）。新測試在基準預覽**紅**、本輪預覽**綠**；`related`／`return-visibility`／`results-return`／`search-submit`／`home-search-entry`／`missing-case`／`reader`／`search-context`／`page-context`／`discovery`／`mobile-search` 全通過；`table-reading` 的 webkit-390 鍵盤捲動在基準預覽同樣逾時，判為本機既有環境限制。未跑完整 78 支瀏覽器測試、未跑 Firefox／WebKit（除上列）、未在實機或螢幕閱讀器驗證。
+
+CI 現況重新確認（不沿用歷史故障）：main 上 `Website QA` `42692519441` 與 `pages build and deployment` 全 success；近 300 次 run 的失敗都在已放棄的 feature 分支，14 次 cancelled 全是 `cancel-in-progress` 的取代。獨立 CI 調查另留下三項未處理的證據：發布沒有被驗證把關（`7e70b5f5` 發布完成 20:25:13、QA 20:33:00 才結束）、57 支 workflow 只有 16 支跑得起來（41 支的 `branches:` 指向已結束的分支或 `closed-historical`）、6 支 PR workflow 的 path filter 少了測試實際讀的資料檔。
+
+驗收紀錄、前後截圖與限制：[docs/qa/2026-11-11-detail-close-back](docs/qa/2026-11-11-detail-close-back/README.md)。下一輪先做 **`主題分類` 對 159 個沒有宣告分類的案例頁是依標題猜的，卻以「同分類」與篩選選項呈現**：先以 `metadata()` 對 506 頁列出推測分類清單與顯示字串，再決定標示推測或收斂規則。
+
 ## 2026-11-10 已處理但沒寫併入對象：徽章說「已併入」，後面是空的
 
 同日 #305／`5de8fa98` 已讓待查線索列出全部併入目的地，但「已處理」與「已併入」仍是同一個狀態：`resolved` 只看狀態行的日期。來源檔若只寫 `狀態：2026-11-10 已處理` 而沒有 `併入 UC-nnn`，詳情徽章印成 `待查線索・已併入`、卡片印成 `已併入 （不另計數）`、列印頁尾印成 `已併入 ，不列為獨立案例`，交接區與結案註記整段消失，統計與篩選選項仍把它算成已併入。同一版還有一個鍵盤缺陷：`refreshMergedDestination()` 只要任何目的地已載入就重建入口區，而它在每次語料刷新後都會被呼叫；390×844 聚焦 UC-101 後呼叫一次沒有新目的地的刷新，焦點掉到 `BODY` 並離開對話框。`assets/copy.json` 的 P-004 文案也還是舊句（「先以少量公開公告…主案例」），與畫面的兩個目的地不一致。

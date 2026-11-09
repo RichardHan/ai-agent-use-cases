@@ -145,7 +145,7 @@ UC-514 分享直鏈（本機預覽 `060e76e2`）：
 - UC-316 的頁首寫「本庫未觀看影片，細節來自第三方文字整理」，仍只有 `official` 一類；解析器沒有「第三方轉述」這個類別，該差異仍只存在於原文段落。
 - 主觀測得的一項限制：`evidence-attribution.test.cjs` 的「主要類別不移動」是用同一份程式碼的 `proof` 與 `proofClasses[0]` 互比，屬結構不變量，不是與基準語料比對；本輪另以獨立腳本把 `origin/main` 與本輪的 512 筆主要類別逐一比對，結果完全相同，但該比對沒有寫成常駐測試。
 - 230 筆案例沒有證據說明行，沿用既有「公開資料核讀」後備；本輪未改這個後備，也未逐筆補宣告。
-- `還在查證`（收錄狀態）與 `尚待查證`（來源類型）兩個近義標籤仍未統一命名。
+- 合併前 `origin/main` 已由 PR #294 把收錄狀態改名為「待查線索」，並在篩選提示說明它與來源類型「尚待查證」的差別；本輪沿用該命名，P-004 的四筆／另有 2 筆已處理計數與它一致。
 - P-004 的「2026-10-16 已處理」取自 `sources/pending.md` 記錄該段文字的日期（`git log -S` 顯示 2026-10-16 引入），不是獨立事件紀錄；原線索的貼文日期與產品版本仍缺，已在該條目註明。
 - 本機 WebKit 的 `facet-counts-browser.cjs` 在 `:110`（搜尋框 Tab 後焦點順序）失敗；同一腳本對基準預覽 `origin/main` 也在同一行失敗，屬既有本地環境問題，未在本輪修改，將以 PR 的雲端結果為準。
 
@@ -155,4 +155,4 @@ UC-514 分享直鏈（本機預覽 `060e76e2`）：
 
 ## 下一輪建議
 
-先處理「來源類型／收錄狀態」兩個近義標籤的命名與說明（`還在查證` 只涵蓋 2 筆待查想法，`尚待查證` 有 12 筆），並以本輪的 `declaredEvidenceClasses()` 為輸入檢查：先跑 `node --test tests/evidence-attribution.test.cjs tests/pending-resolution.test.cjs`，再在預覽比對 `?kind=pending` 與 `?proof=尚待查證` 的筆數是否仍可解釋，才動文案。
+先處理 **PR 觸發的 workflow 扇出**：目前一個 PR push 會觸發最多 13 個 workflow（本輪 push 觀測到 14 個檢查、其中 7 個同名 `browser` job），GitHub 記錄有 1,084 次 cancel-in-progress 取消與多次「同一 commit 先失敗、下一個 commit 同一步驟通過」的瞬時失敗，`pages build and deployment` 也曾出現 `Timeout reached, aborting!`（run 42546597665）。這些是設定與扇出問題，不是本輪的產品回歸。驗證順序：先在同一分支量一次 push 觸發的 workflow 數與 job 秒數（`gh run list --branch <branch>` 加各 run 的 `run_started_at`／`updated_at`），確認哪些套件只是重複覆蓋同一批頁面，再決定合併檢查或加 path 篩選；合併後必須用一個真實 PR push 與 main 的 Pages 部署核對，不以 YAML 語法通過代替。

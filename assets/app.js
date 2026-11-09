@@ -726,7 +726,13 @@ function reviewDate(markdown) {
     // Older leads write "- 日期：…；查證 2026-10-16". Only a clause that both names
     // the action and carries the date is a review; the publication date that shares
     // the line but not the clause must not become a review date.
-    if(!/^-\s*日期\s*[：:]/.test(line))continue;
+    // The same sentence shape arrives under other dated keys ("- 發布日期：原文精確
+    // 時間未核；查閱2026-10-16 UTC", "- 實作日期：2026-09-24；查證2026-10-16 UTC",
+    // "- 作者／日期／語言：…；2026-10-16 UTC查閱原貼及附圖"), so the key only has to
+    // name a date; the clause still has to name the action. A line whose key is not
+    // about a date ("- 補充來源：…；2026-10-13 查核") stays a source note, not a
+    // page-level review.
+    if(!/^-\s*[^：:\n]{0,24}(?:日期|時間)[^：:\n]{0,24}\s*[：:]/.test(line))continue;
     for(const clause of line.split(/[；;。，,]/))if(reviewAction.test(clause)&&!notReviewed.test(clause))collect(clause);
   }
   return dates.sort().pop()||'';

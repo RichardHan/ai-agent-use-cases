@@ -21,6 +21,45 @@ test('review date uses explicit lead verification fields, takes latest valid dat
  // A clause that names the action but denies it is not a review.
  for(const text of ['- 日期：作者發布2026-10-16，查證日期未取得','- 日期：作者發布2026-10-16（本站尚未查證）','- 日期：作者發布2026-10-16（查證尚未完成）','- 日期：作者發布2026-10-16（查證日期不詳）','- 日期：作者發布2026-10-16（查證結果不確定）'])assert.equal(reviewDate('# 案例\n'+text),'');
 });
+test('a review written inside another dated lead field is still that page’s review',()=>{
+ const {reviewDate}=api();
+ // The corpus writes the same sentence shape under keys other than 日期. The key
+ // only says which date the line is about; the review clause still decides.
+ for(const [text,expected] of [
+  ['- 發布日期：原文精確時間未核；查閱2026-10-16 UTC','2026-10-16'],
+  ['- 發布日期：精確日期未核；查閱2026-10-16 UTC','2026-10-16'],
+  ['- 實作日期：2026-09-24；查證2026-10-16 UTC','2026-10-16'],
+  ['- 開始日期：2026-10-08，根README採台北時間；查證2026-10-16 UTC','2026-10-16'],
+  ['- 作者／日期／語言：George Liu（@george_sl_liu），英文。發布日未核；2026-10-16 UTC查閱原貼及附圖。','2026-10-16'],
+  ['- 發文日期：頁面只呈現相對時間，絕對發文時間未核；查閱2026-10-23 Asia/Taipei。','2026-10-23']
+ ])assert.equal(reviewDate('# 案例\n'+text),expected,text);
+ // The author's own post date in the same field is not a review.
+ assert.equal(reviewDate('# 案例\n- 作者／日期／語言：Ben Newton；2026-09-02T02:54:00Z；英文'),'');
+ // A dated key whose clause only says the date is still not a review.
+ for(const text of ['- 發布日期：2026-10-20','- 原文日期：2026-10-10 發表及更新','- 發文日期：2026-10-08 03:28','- 原文日期：2026-10-10；未查證','- 發布日期：2026-10-20（查證日期不詳）'])assert.equal(reviewDate('# 案例\n'+text),'',text);
+ // A source line records when that source was checked, not when the page was reviewed.
+ assert.equal(reviewDate('# 案例\n- 補充來源：[Meet dots](https://learn.chatgpt.com/docs/dots)，OpenAI；未標發布日；2026-10-13 查核；英文'),'');
+});
+test('every published case states a lead review date the site can read',()=>{
+ // Seven pages wrote it under 發布日期／實作日期／開始日期／作者／日期／語言 while the
+ // card and detail still printed 「頁首未提供核對日」 and ?sort=reviewed pushed them
+ // to the end. Read the real corpus so the parser cannot silently lose them again.
+ const {reviewDate,metadata}=api();
+ const dir=path.join(__dirname,'../cases');
+ const files=fs.readdirSync(dir).filter(f=>f.endsWith('.md'));
+ const undated=[];
+ for(const file of files){
+  const markdown=fs.readFileSync(path.join(dir,file),'utf8');
+  const item=metadata(markdown,'cases/'+file,'case');
+  if(!item.reviewedDate)undated.push(item.id||file);
+ }
+ assert.deepEqual(undated,[],'every case page must state a review date the site reads');
+ for(const [id,expected] of [['218','2026-10-16'],['220','2026-10-16'],['221','2026-10-16'],['222','2026-10-16'],['223','2026-10-16'],['224','2026-10-16'],['434','2026-10-23']]){
+  const file=files.find(f=>f.startsWith(id+'-'));
+  const item=metadata(fs.readFileSync(path.join(dir,file),'utf8'),'cases/'+file,'case');
+  assert.equal(item.reviewedDate,expected,file);
+ }
+});
 test('recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries',()=>{
  const {orderEntries}=api();
  const entries=[{id:'UC-001',title:'旅遊',summary:'',reviewedDate:'2026-10-13'},{id:'UC-002',title:'旅遊',summary:'',reviewedDate:'2026-10-20'},{id:'UC-003',title:'其他',summary:'旅遊',reviewedDate:'2026-10-20'},{id:'UC-004',title:'旅遊',summary:'',reviewedDate:''}];

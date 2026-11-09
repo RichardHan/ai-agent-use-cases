@@ -96,6 +96,8 @@
 
 審查另指出 QA 文件原本把「修改前 UC-063 的官方舊標籤」與「修改後推測型卡片的標籤」併成同一列 before/after，已拆成 UC-063 與 UC-014 兩列（見上表）。審查也確認：三種載入狀態的篩選說明都出現新句、鍵盤 tab 順序前後相同（scenario→kind→difficulty→tool→category→proof→sort）、320／390 詳情頁無水平溢出、`favicon.ico` 的 404 在前後兩個版本都存在（非本輪引入）。
 
+合併前 main 前進到 `2a498daa`（PR #287 的結果筆數說明），本輪 rebase 後在新基準重跑：全套 548 項單元測試通過、三個門檻計數仍為基準 289／37／186 → 295／39／178、`?q=Plex&difficulty=入門對話` 仍由不含 UC-063 變成含。
+
 ## 前後數據（Chromium，本機 preview 與正式站同 base path）
 
 | 量測 | 修改前 | 修改後 |

@@ -103,7 +103,7 @@
   1. 首頁「會議整理」→ 26 筆 → UC-094 詳情第一屏顯示證據摘要，原始 Markdown 固定於 `9ba4a3ea…`；Escape 返回保留 `?q=會議`。
   2. 390px `旅遊`＋情境「生活」→ 22 筆；改 `xyz987` → 0 筆，空狀態列出在目前篩選下有結果的任務，點「會議整理」→ 2 筆、情境保留、URL `?scenario=生活&q=會議`。
   3. `?scenario=工作&case=UC-098` 直鏈：第一屏摘要、「核讀與安全建議 ↓」焦點落在完整說明（150 > 工具列 117）、來源連結 200 且固定於 `9ba4a3ea…`、Escape 後返回 160 筆並保留情境，axe 0。
-- 合併後 `Website QA`（main `9ba4a3ea`）[42574283535](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42574283535) 於本紀錄完成時仍在執行；不以排程中狀態宣稱通過，結果另行補記。
+- 合併後 `Website QA`（main `9ba4a3ea`）[42574283535](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42574283535) 成功，含新增的 `detail-trust-summary-browser.cjs`、Pages 產物語系／corpus／復原檢查與正式站瀏覽器驗證。
 
 ## 下一輪建議
 

@@ -106,3 +106,11 @@ AssertionError: phone: first matching card is off screen at 909px (viewport 844p
 ## 下一輪最值得做的一件事
 
 修 `搜尋` 的相關性噪音來源：`原文語言：英文` 這類頁首欄位被算進 `search`，讓 `英文` 命中 380/503、`英語` 387 筆、`會話` 396 筆，且分數相同時退回語料順序。先做一個驗證：把頁首的語言／來源欄位從 `search` 排除後，重跑 `?q=英文`、`?q=英語`、`?q=學英文` 的筆數與前三名，確認噪音下降且既有 518 條斷言仍過，再動排序。
+
+## 發布與正式站核對
+
+- 合併：PR [#281](https://github.com/RichardHan/ai-agent-use-cases/pull/281) → squash commit `61225e78`（前一個已驗證的 head 為 `3d264969`；PR 的 13 項檢查全綠，2 項 skipping）。
+- 部署：`pages build and deployment` [42540960433](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42540960433) 成功；main 的 `Website QA` [42540960925](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42540960925) 成功（含 published-version 等待與 `tests/deployed-browser.cjs`）。
+- 產物比對：正式站 `catalog.json` 的 `sourceRevision` 為 `61225e78848fe6b861190b1b5de85b3ada3aca79`；`assets/app.js` 的 sha256（`b473a8be…a9f52`）與 `origin/main` 相同。
+- 正式站重走（Chromium，1440×900 與 390×844，需繞過 CDN 快取才拿到新 `app.js`）：`想學英文` → 0 筆並出現「原問題包含「學英文」 → 搜尋 32 筆文字命中」→ 點擊後 32 筆、第一張卡在 309px／268px（視窗 900／844）、焦點在結果摘要。
+- 注意：第一次以一般載入開啟正式站時，瀏覽器仍拿到上一版 `app.js`（頁面內沒有 `substringRecoveryOptions`），繞過快取重載後才正確。這是 Pages 邊緣快取的既有行為，不是本次發布失敗。

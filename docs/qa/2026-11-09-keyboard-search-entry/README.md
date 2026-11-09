@@ -38,7 +38,7 @@
   - `#draw-status` 移除 `role="status" aria-live="polite"`（保留可見文字與既有措辭）；新增 `#draw-announcer`（`sr-only`、`role="status"`、`aria-live="polite"`）。
   - `#filter-outcome-count` 移除 `role="status" aria-live="polite"`（`#results-count` 已在播同一件事）。
   - `#scenario-chips` 由 `role="toolbar"` 改為 `role="group"`（內容是 16 個一般按鈕加兩段說明，沒有方向鍵行為）。
-  - `#search-hint` 補一句「頁面任何位置按 / 鍵可跳到這裡」，讓既有的 `/` 快捷鍵可以被發現（原本 `<kbd>` 是 `aria-hidden`）。
+  - `/` 快捷鍵的揭露改成不佔版面：`#query` 加 `aria-keyshortcuts="/"`，輸入框旁的 `<kbd>` 由 `aria-hidden` 改為有可讀標籤（`按斜線鍵跳到這裡`），`title` 說明「按 / 跳到搜尋框」。原本要在 `#search-hint` 追加一句話，實測會讓 320px 的「搜尋框到第一張卡」距離增加約 20px（CI 基準 283px、上限 300px），因此不採用。
 - `assets/app.js`
   - 新增 `announceDraw(text)`：只在文字真的改變時寫入 `#draw-announcer`。
   - `drawNext(announce=false)`：只有讀者自己按「抽一張／再抽一張」（`drawFromButton` 傳 `true`）才播報「已換一張：<標題>」；輸入關鍵字造成的自動換卡不播報，因為讀者正在打字。
@@ -86,7 +86,8 @@
 - 沒有真人使用研究；本輪量的是焦點位置、live region 寫入次數與 axe 結果。
 - `#results-count` 仍逐字更新並播報（搜尋即時回饋的主要通道），本輪只移除另外兩個重複／高頻的 live region。
 - 「改篩選換卡要播報」的判定靠比對上一次繪製時的關鍵字：若同一次操作同時改關鍵字與篩選（例如任務捷徑自帶 `q=`），換卡仍視為打字情境而不播報，只由結果筆數發聲。
-- `/` 快捷鍵在輸入框、下拉選單、文字區或案例視窗內不作用，提示文字已照此寫明。
+- `/` 快捷鍵在輸入框、下拉選單、文字區或案例視窗內不作用；頁面上只以輸入框旁的 `/` 與 `aria-keyshortcuts` 揭露，沒有額外文案（會佔掉 320px 的搜尋框到結果預算）。
+- CI 診斷：本輪第一次推送時 `Source guide QA` 的 preview job 失敗，日誌截斷在 `source-guide-browser` 的報告之後。由 artifact 檔案清單確認：`source-guide-chromium-expanded-small-mobile.jpg` 與 `source-guide-chromium.json` 未產生，失敗點在 `mobile-search-browser.cjs` 的 320px `firstResultFromSearch<300` 斷言；同一份 artifact 在 main 的 CI 量到 283px。原因就是上面那句追加文案，已改為不佔版面的做法。
 
 ## 獨立審查與後續修正
 

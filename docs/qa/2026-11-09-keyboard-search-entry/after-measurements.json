@@ -73,7 +73,7 @@
       },
       "afterSkip": {
         "active": "INPUT#query",
-        "y": 1120,
+        "y": 1098,
         "queryTop": 430,
         "viewport": 900,
         "hash": ""
@@ -93,7 +93,7 @@
           {
             "id": "draw-status",
             "live": false,
-            "text": "全部情境 · 這組條件有 289 張案例卡 · 目前顯示：同一個故障湧進幾百張客服單？一隻Bot盯尖峰、一隻Bot在人核准後批次結案"
+            "text": "全部情境 · 這組條件有 289 張案例卡 · 第 1 張：請 Bot 到人肉搜尋站申請退出，並依排程再檢查"
           },
           {
             "id": "filter-outcome-count",
@@ -103,7 +103,7 @@
           {
             "id": "draw-status",
             "live": false,
-            "text": "全部情境 · 這組條件有 24 張案例卡 · 第 1 張：Notion AI改成點數制會不會不夠用？讓Bot查官方說明、照自己的用法算一遍，再找現有訂閱裡的替代"
+            "text": "全部情境 · 這組條件有 24 張案例卡 · 第 1 張：補齊提案材料，保留同一案的會前會後脈絡"
           },
           {
             "id": "filter-outcome-count",
@@ -113,7 +113,7 @@
           {
             "id": "draw-status",
             "live": false,
-            "text": "全部情境 · 這組條件有 1 張案例卡 · 目前顯示：Notion AI改成點數制會不會不夠用？讓Bot查官方說明、照自己的用法算一遍，再找現有訂閱裡的替代方案"
+            "text": "全部情境 · 這組條件有 1 張案例卡 · 第 1 張：Notion AI改成點數制會不會不夠用？讓Bot查官方說明、照自己的用法算一遍，再找現有訂閱裡的替代方"
           },
           {
             "id": "filter-outcome-count",
@@ -195,7 +195,7 @@
       },
       "afterSkip": {
         "active": "INPUT#query",
-        "y": 2176,
+        "y": 2443,
         "queryTop": 406,
         "viewport": 844,
         "hash": ""
@@ -215,7 +215,7 @@
           {
             "id": "draw-status",
             "live": false,
-            "text": "全部情境 · 這組條件有 289 張案例卡 · 第 1 張：先篩掉不合資格的招標，再把值得投的機會交給你"
+            "text": "全部情境 · 這組條件有 289 張案例卡 · 目前顯示：讓好幾個Bot一起看盤，怎麼避免它們互相打架、亂下單？分角色各寫一個檔案，只准一個Bot碰錢，風控上限"
           },
           {
             "id": "filter-outcome-count",
@@ -225,7 +225,7 @@
           {
             "id": "draw-status",
             "live": false,
-            "text": "全部情境 · 這組條件有 24 張案例卡 · 第 1 張：別讓更多回覆掩蓋真正目標，限定外聯實驗可改範圍"
+            "text": "全部情境 · 這組條件有 24 張案例卡 · 第 1 張：把每個 Bot 當成有職務說明的員工：能做、不能做、每次完成都留一張收據"
           },
           {
             "id": "filter-outcome-count",

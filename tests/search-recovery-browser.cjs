@@ -161,8 +161,12 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     await page.locator('#active-filters [data-remove-filter="scenario"]').click();
     assert.equal(await page.locator('#query').inputValue(),'旅遊');
     assert((await page.locator('#results .card').count())>0);
-    await sourceRoute(page,'**/cases/001-travel-checkout.md',route=>route.fulfill({status:404,body:'not found'}));
-    await page.goto(origin+'?q=旅遊&tool=Grok%20Bot&category='+encodeURIComponent('旅遊／消費研究')+'&proof='+encodeURIComponent('作者報告／示範'),{waitUntil:'networkidle'});
+    // The filtered set must survive one missing source using only declared fields:
+    // 工作流程／發布期用途 is the only theme more than one page declares, so a blocked
+    // member still leaves loaded matches. A theme the library used to infer would
+    // leave none, and the suggestion count below would have nothing to quote.
+    await sourceRoute(page,'**/cases/017-prospect-research-drafts.md',route=>route.fulfill({status:404,body:'not found'}));
+    await page.goto(origin+'?q='+encodeURIComponent('排程')+'&tool=Grok%20Bot&category='+encodeURIComponent('工作流程／發布期用途')+'&proof='+encodeURIComponent('官方自報'),{waitUntil:'networkidle'});
     const loadedMatches=await page.locator('#results .card').count();
     assert(loadedMatches>0);
     assert.match(await page.locator('#results-count').innerText(),/1 個來源檔案未載入/);
@@ -173,11 +177,11 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     assert.match(await page.locator('#empty-hint').innerText(),/部分條目載入失敗/);
     await suggestion.click();
     assert.equal(await page.locator('#results .card').count(),loadedMatches);
-    await page.locator('#query').fill('旅遊 xyz987');
-    const queryOption=page.locator('#empty-suggestions [data-query-recovery="旅遊"]');
+    await page.locator('#query').fill('排程 xyz987');
+    const queryOption=page.locator('#empty-suggestions [data-query-recovery="排程"]');
     let releaseRetry;
     const retryGate=new Promise(resolve=>{releaseRetry=resolve;});
-    await page.route('**/cases/001-travel-checkout.md',async route=>{
+    await page.route('**/cases/017-prospect-research-drafts.md',async route=>{
       await retryGate;
       await route.fulfill({status:404,body:'not found'});
     });

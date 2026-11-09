@@ -77,7 +77,7 @@ let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem =
 let allowAutomaticArrival=true, searchShareRequest=0;
 let recoveringSources=false, recoveryNotice='', recoveryController=null, recoveryProgress=null;
 let initialLoading=false, initialLoadController=null;
-let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null,drawnItemId='';
+let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null,drawnItemId='',drawPoolQuery=null,announcedDrawKey='';
 const RESULT_BATCH_SIZE=24;
 let visibleResults=RESULT_BATCH_SIZE, resultQueryKey='';
 const $ = id => document.getElementById(id);
@@ -3233,7 +3233,7 @@ async function load() {
           announced=milestone;
           const stages=['正在讀取來源全文。','已處理至少四分之一的來源。','已處理至少一半的來源。','已處理至少四分之三的來源。','來源讀取已結束。'];
           $('draw-status').textContent=stages[milestone]+' 等待過久會先顯示已讀取內容。';
-          announceDraw(stages[milestone]);
+          announceDraw(stages[milestone],'milestone:'+milestone);
         }
       }
     });
@@ -3299,7 +3299,7 @@ async function load() {
     else finishArrival(params,failedPaths.length>0);
     restoreFocus();
   } catch (error) {
-    discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀案例索引。';announceDraw('案例卡暫時無法載入；下方可重新載入或閱讀案例索引。');$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
+    discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀案例索引。';announceDraw('案例卡暫時無法載入；下方可重新載入或閱讀案例索引。','failure');$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();
     $('results-count').textContent = '載入未完成';
     $('filter-outcome-count').textContent = '載入未完成，請到結果區重新載入';
@@ -3324,9 +3324,12 @@ function drawButtonLabel(total){$('draw-case').textContent=total===1?'只有這�
 // keystroke. Announcements therefore go through a separate live region, which only
 // speaks when the drawn case itself changes. Otherwise a screen reader would read
 // the pool count (and the same case again) for every character typed in the search.
-function announceDraw(text){
+// The key, not the text, decides whether this is news: an empty state that is left
+// and entered again has to be announced twice.
+function announceDraw(text,key=text){
   const node=$('draw-announcer');
-  if(!node||node.textContent===text)return;
+  if(!node||key===announcedDrawKey)return;
+  announcedDrawKey=key;
   node.textContent=text;
 }
 function drawNext(announce=false){
@@ -3340,7 +3343,7 @@ function drawNext(announce=false){
   drawButtonLabel(next.total);
   // Only the reader's own request is news. An automatic redraw happens while the
   // reader is typing a query; announcing it would interrupt the search itself.
-  if(announce&&previous!==drawnItemId)announceDraw('已換一張：'+next.item.title);
+  if(announce&&previous!==drawnItemId)announceDraw('已換一張：'+next.item.title,'card:'+next.item.id);
 }
 function syncDiscovery(filtered){
   document.querySelectorAll('button[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
@@ -3352,6 +3355,11 @@ function syncDiscovery(filtered){
   // Remember the key that produced the current deck, so a re-render with the same
   // pool (sort changes, unrelated refreshes) stops rebuilding it.
   discoveryKey=key;
+  // A pool change with the same query came from a facet the reader just touched;
+  // that replacement is news. Typing changes the query, so keep those redraws quiet.
+  const query=$('query')?.value||'';
+  const announceReplacement=drawPoolQuery!==null&&query===drawPoolQuery;
+  drawPoolQuery=query;
   // Typing a question changes the pool on every keystroke. Replacing the drawn
   // card then reflows everything above the search field, which pushes the results
   // off a phone screen; keep a card that still matches and only redraw when it no
@@ -3363,7 +3371,7 @@ function syncDiscovery(filtered){
   if(pool.length&&kept){
     $('draw-status').textContent=drawScope()+' · 這組條件有 '+pool.length+' 張案例卡 · 目前顯示：'+kept.title;
     drawButtonLabel(pool.length);
-  }else if(pool.length)drawNext();
+  }else if(pool.length)drawNext(announceReplacement);
   else{
     const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
     // Results that are all evidence notes, templates or open leads are readable
@@ -3377,7 +3385,7 @@ function syncDiscovery(filtered){
       ? `${$('scenario').value||'全部情境'}：符合的 ${filtered.length} 筆沒有可抽卡的用法靈感。`
       : ($('scenario').value||'全部情境')+($('difficulty')?.value?' · '+$('difficulty').value:'')+' 目前沒有可抽的案例卡。';
     $('draw-case').textContent='沒有可抽的案例';
-    announceDraw('目前沒有可抽的案例卡；下方搜尋結果仍可閱讀。');
+    announceDraw('目前沒有可抽的案例卡；下方搜尋結果仍可閱讀。','empty');
   }
 }
 function revealDiscovery(){

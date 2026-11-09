@@ -72,7 +72,44 @@ const base = process.env.KEYBOARD_URL || process.env.SITE_URL || 'http://127.0.0
       }
       assert.doesNotMatch(typed.status, /^$/);
 
-      // 3) An explicit redraw speaks exactly one sentence, naming the new case.
+      // 3) A facet the reader chose that excludes the drawn card replaces it, and
+      //    that replacement is announced exactly once.
+      const facet = await page.evaluate(() => {
+        const badge = document.querySelector('#drawn-case .card-difficulty');
+        return badge ? badge.dataset.difficulty : null;
+      });
+      let facetAnnouncement = null;
+      if (facet) {
+        const options = await page.locator('#difficulty option').evaluateAll(nodes => nodes.map(n => n.value).filter(Boolean));
+        const other = options.find(value => value !== facet);
+        if (other) {
+          await page.evaluate(() => {
+            const input = document.querySelector('#query');
+            input.value = '';
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+          });
+          await page.evaluate(() => window.__watch(['draw-announcer'], (id, node) => (node.textContent || '').trim()));
+          await page.evaluate(value => {
+            const select = document.querySelector('#difficulty');
+            select.value = value;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+          }, other);
+          await page.waitForFunction(() => document.querySelector('#draw-announcer').textContent.trim().length > 0, null, { timeout: 5000 }).catch(() => {});
+          facetAnnouncement = await page.evaluate(() => window.__spoken.slice());
+          // Exactly one sentence, and it names a case rather than the pool count.
+          assert.equal(facetAnnouncement.length, 1, `${name}: choosing a facet that drops the card must announce once (got ${facetAnnouncement.length})`);
+          assert.match(facetAnnouncement[0], /^已換一張：/);
+          // Restore the unfiltered pool for the redraw check.
+          await page.evaluate(() => {
+            const select = document.querySelector('#difficulty');
+            select.value = '';
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+          });
+          await page.waitForTimeout(200);
+        }
+      }
+
+      // 4) An explicit redraw speaks exactly one sentence, naming the new case.
       let drawn = null;
       if (!typed.drawDisabled) {
         await page.evaluate(() => window.__watch(['draw-announcer'], (id, node) => (node.textContent || '').trim()));
@@ -86,7 +123,7 @@ const base = process.env.KEYBOARD_URL || process.env.SITE_URL || 'http://127.0.0
         if (drawn.title) assert.ok(drawn.spoken[0].includes(drawn.title.trim()), `${name}: the announcement must name the drawn case`);
       }
 
-      // 4) The rewritten announcement plumbing must not add axe violations.
+      // 5) The rewritten announcement plumbing must not add axe violations.
       const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
       assert.equal(axe.violations.length, 0, `${name}: axe ${JSON.stringify(axe.violations.map(v => v.id))}`);
 
@@ -95,6 +132,7 @@ const base = process.env.KEYBOARD_URL || process.env.SITE_URL || 'http://127.0.0
         skipTop: landed.top, countWrites, statusWrites,
         announcementsWhileTyping: announced.length,
         redrawAnnouncements: drawn ? drawn.spoken.length : null,
+        facetAnnouncement: facetAnnouncement ? facetAnnouncement[0] : null,
         resultLine: typed.count, cards: typed.cards,
         axeViolations: axe.violations.length
       });

@@ -1,9 +1,10 @@
 'use strict';
 // The homepage is a long editorial page: the search field sits under the hero, the
-// task directory and the random-draw stage. Two things therefore have to hold for
+// task directory and the random-draw stage. Three things therefore have to hold for
 // a keyboard or screen-reader visitor:
-//   1. the bypass link must land in the search field, not in the draw stage, and
-//   2. typing must not speak the draw status (pool count) on every keystroke.
+//   1. the bypass link must land in the search field, not in the draw stage,
+//   2. typing must not speak the draw status (pool count) on every keystroke, and
+//   3. a card the reader replaced by choosing a facet must still be announced.
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -29,7 +30,8 @@ function fixture(){
     'draw-status':{textContent:''},
     'draw-announcer':{textContent:''},
     scenario:{value:''},
-    difficulty:{value:''}
+    difficulty:{value:''},
+    query:{value:''}
   };
   const spy=discoverySpy();
   const context=vm.createContext({
@@ -39,11 +41,14 @@ function fixture(){
   });
   vm.runInContext(appSource+`
     card=()=>({tagName:'ARTICLE'});
+    const realAnnounce=announceDraw;
+    const writes=[];
+    announceDraw=(text,key)=>{writes.push(text);return realAnnounce(text,key);};
     this.api={
-      sync(list){discoveryReady=true;syncDiscovery(list);},
+      sync(list,query){if(query!==undefined)document.getElementById('query').value=query;discoveryReady=true;syncDiscovery(list);},
       setDrawn(id){drawnItemId=id;},
       drawWith(deck){discoveryReady=true;discoveryDeck=deck;drawNext(true);},
-      reset(){discoveryReady=false;discoveryKey='';drawnItemId='';}
+      writes(){return [...writes];}
     };`,context);
   return {api:context.api,nodes,spy};
 }
@@ -84,47 +89,64 @@ test('the chip wall is announced as a group, not as a single-stop toolbar',()=>{
 test('an unchanged pool neither rebuilds the deck nor rewrites the status',()=>{
   const {api,nodes,spy}=fixture();
   const pool=[caseItem('UC-1','one'),caseItem('UC-2','two')];
-  api.sync(pool);
+  api.sync(pool,'會議');
   const built=spy.built;
   assert.equal(built,1,'the first render must build a deck');
   nodes['draw-status'].textContent='sentinel';
-  api.sync(pool);
+  api.sync(pool,'會議');
   assert.equal(spy.built,built,'an identical pool must not rebuild the deck');
   assert.equal(nodes['draw-status'].textContent,'sentinel','an identical pool must not rewrite the status line');
 });
 
 test('keeping the drawn card speaks nothing; the visible status still reports it',()=>{
-  const {api,nodes}=fixture();
+  const {api,nodes,spy}=fixture();
   api.setDrawn('UC-1');
-  api.sync([caseItem('UC-1','kept'),caseItem('UC-2','other')]);
+  api.sync([caseItem('UC-1','kept'),caseItem('UC-2','other')],'會議');
   assert.match(nodes['draw-status'].textContent,/目前顯示：kept/);
-  assert.equal(nodes['draw-announcer'].textContent,'','a card that stays on screen is not news');
+  assert.equal(JSON.stringify(api.writes()),'[]','a card that stays on screen is not news');
+  assert.equal(spy.built,1);
 });
 
-test('an automatic redraw while typing speaks nothing',()=>{
+test('typing that replaces the card speaks nothing',()=>{
   const {api,nodes}=fixture();
+  api.sync([caseItem('UC-1','one'),caseItem('UC-2','two')],'會');
+  api.setDrawn('UC-9'); // the next keystroke narrows the pool past the drawn card
+  api.sync([caseItem('UC-1','one')],'會議');
+  assert.match(nodes['draw-status'].textContent,/第 1 張：one/,'the visible line still reports the new card');
+  assert.equal(JSON.stringify(api.writes()),'[]','typing must not announce the card it replaced');
+});
+
+test('choosing a facet that replaces the card speaks the new title',()=>{
+  const {api}=fixture();
+  api.sync([caseItem('UC-1','one'),caseItem('UC-2','two')],'會議');
   api.setDrawn('UC-9');
-  api.sync([caseItem('UC-1','one'),caseItem('UC-2','two')]);
-  assert.equal(nodes['draw-announcer'].textContent,'','typing must not announce the card it replaced');
-  assert.match(nodes['draw-status'].textContent,/第 1 張：/,'the visible line still reports the new card');
+  api.sync([caseItem('UC-2','two')],'會議');
+  assert.equal(JSON.stringify(api.writes()),JSON.stringify(['已換一張：two']),'a replacement caused by a facet change is news');
 });
 
-test('an empty pool announces one stable sentence even as the result count changes',()=>{
-  const {api,nodes}=fixture();
-  api.sync([{id:'UC-1',title:'one',kind:'evidence'}]);
-  const first=nodes['draw-announcer'].textContent;
-  assert.match(first,/沒有可抽的案例卡/);
-  api.sync([{id:'UC-1',title:'one',kind:'evidence'},{id:'UC-2',title:'two',kind:'pending'}]);
-  assert.equal(nodes['draw-announcer'].textContent,first,'the same empty state must not be announced again');
-});
-
-test('the redraw announcement is written only when the case identity changes',()=>{
+test('a reader-requested redraw announces once and names the new case',()=>{
   const {api,nodes}=fixture();
   const deck={next:()=>({item:caseItem('UC-1','one'),total:2,round:1,position:1})};
   api.drawWith(deck);
-  assert.match(nodes['draw-announcer'].textContent,/已換一張：one/);
-  nodes['draw-announcer'].textContent='sentinel';
-  api.setDrawn('UC-1');
+  assert.equal(JSON.stringify(api.writes()),JSON.stringify(['已換一張：one']));
   api.drawWith(deck);
-  assert.equal(nodes['draw-announcer'].textContent,'sentinel','drawing the same card again is not an announcement');
+  assert.equal(nodes['draw-announcer'].textContent,'已換一張：one');
+  assert.equal(JSON.stringify(api.writes()),JSON.stringify(['已換一張：one']),'drawing the same card again is not an announcement');
+});
+
+test('an empty pool announces once, and again after the reader leaves and returns',()=>{
+  const {api}=fixture();
+  const evidenceOnly=[{id:'UC-1',title:'one',kind:'evidence'}];
+  api.sync(evidenceOnly,'發票');
+  assert.equal(JSON.stringify(api.writes()),JSON.stringify(['目前沒有可抽的案例卡；下方搜尋結果仍可閱讀。']));
+  api.sync(evidenceOnly,'發票');
+  assert.equal(api.writes().length,1,'the same empty state is not repeated while it lasts');
+  api.sync([caseItem('UC-2','two')],'發票');
+  api.setDrawn('UC-2');
+  api.sync(evidenceOnly,'發票');
+  assert.equal(JSON.stringify(api.writes()),JSON.stringify([
+    '目前沒有可抽的案例卡；下方搜尋結果仍可閱讀。',
+    '已換一張：two',
+    '目前沒有可抽的案例卡；下方搜尋結果仍可閱讀。'
+  ]),'leaving and re-entering the empty state must be announced again');
 });

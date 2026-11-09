@@ -57,6 +57,30 @@ const read = page => page.evaluate(() => ({
       assert.equal(narrow.batchHidden, true, `${name}: no batch control when every match fits`);
       assert.doesNotMatch(narrow.batchText, /-\d/, `${name}: hidden batch text must not count negative cases: ${narrow.batchText}`);
 
+      // A filter that removes only non-drawable entries keeps the deck but changes
+      // the total printed beside it; the line has to follow the new count.
+      await setQuery(page, '會議');
+      await page.waitForTimeout(250);
+      const beforeKind = await read(page);
+      await page.evaluate(() => {
+        const kind = document.getElementById('kind');
+        kind.value = 'case';
+        kind.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      await page.waitForTimeout(300);
+      const afterKind = await read(page);
+      const kindResults = Number((afterKind.resultsCount.match(/顯示\s*(\d+)/) || [])[1]);
+      const kindDrawable = Number((afterKind.drawStatus.match(/(\d+)\s*張可抽案例卡/) || [])[1]);
+      const kindExplained = Number((afterKind.drawStatus.match(/另有\s*(\d+)\s*筆不是可抽案例/) || [])[1] || 0);
+      assert.equal(kindDrawable + kindExplained, kindResults,
+        `${name}: after the 收錄狀態 filter the printed totals must add up (${beforeKind.resultsCount} -> ${afterKind.resultsCount})`);
+      await page.evaluate(() => {
+        const kind = document.getElementById('kind');
+        kind.value = '';
+        kind.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      await page.waitForTimeout(200);
+
       // Both totals describe the same condition, and the panel says which it counts.
       const resultsTotal = Number((narrow.resultsCount.match(/顯示\s*(\d+)/) || [])[1]);
       const drawable = Number((narrow.drawStatus.match(/(\d+)\s*張可抽案例卡/) || [])[1]);

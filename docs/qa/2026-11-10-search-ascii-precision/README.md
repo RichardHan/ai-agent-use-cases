@@ -45,6 +45,7 @@
 - `tests/search-ascii-precision.test.cjs`（新，13 項）：供應商網址不等於客服、讀者打的英文詞仍可比對網址、`author` 不等於權限、`specific` 不等於 CI、`text` 不等於推特、`every`／`report`／`login`／`memory`／`latest` 不算命中、案例 ID 與 `PR149` 與中英相鄰仍可命中，兩條全語料不變量（任何回傳案例都必須以完整的相關詞出現在正文；`客服` 的每一筆都真的提到客服），「命中原因」chip 必須先找正文、只有正文找不到時才報來源網址並標 `來源`，以及來源移除要涵蓋無 scheme 的 `www.`、Markdown 連結標題與含括號網址、但不得吃掉緊接在網址後的中文句子。
 - 既有斷言修正（皆為原本釘住誤命中的值，逐項附上原因）：
   - `tests/search.test.cjs`：`旅遊` 的「偶然作者用語」例子由 UC-076（作者行 `Travis Heinze travels`，`travels` 不是 `travel`）改為 UC-015（限制段落偶然提到旅遊）；`streaming`／`流式` 由 UC-217（`bitstream`）改為 UC-292（逐行串流模型輸出）；`2fa`／`mfa`／`雙重驗證` 由 UC-219／UC-259（commit hash `…e2fab…`）改為 UC-092（拒絕交出雙重驗證碼）；`sse`／`流式輸出` 由 UC-030（媒體檔在 `/assets/` 路徑）改為 UC-292；`cot`／思維鏈四條改為「不得因 `cot` 出現在更長的單字裡而命中 UC-086」（全庫沒有任何案例在談 chain-of-thought）。
+  - `tests/visitor-problem-browser.cjs`：`整理一份會議記錄` 的已渲染卡片下限 9→8（第 9 張是 UC-349，唯一線索是來源帳號 `tetumemo` 裡的 `memo`）。這是 `Website QA` 上唯一因本輪而失敗的檢查，修正後同一支腳本在預覽上全數通過。
   - `tests/problem-compound-queries.test.cjs`：`自動客服`／`客服機器人` 召回下限 80→61、`整理一份會議記錄`／`會議總結` 9→8、`論文研讀`／`研讀論文`／`精讀文獻` 10→9、`客服且人工` 系列 35→32；每一處都保留原本的 canonical 案例斷言，只把「混進供應商網址與 commit hash 的下限」改成真實覆蓋。
 - `README.md`：搜尋段落補一句英文相關詞的比對規則與來源網址不算內容。
 

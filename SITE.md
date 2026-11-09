@@ -1,6 +1,6 @@
 ## 2026-11-10 搜尋把供應商網址與英文字片段當成內容命中
 
-首頁按「自動客服」得到 `顯示 93／513`，其中 32 筆只因為原文附了 `support.google.com`、`support.plex.tv`、`support.zendesk.com` 連結——第八張卡是 UC-063「讓 Grok Bot 整理 Plex 影片庫」，同批還有太陽能帳單、3D 掃描與表格靠右的案例。同一類誤命中：`推特` 414 筆（130 筆是 `text`／`example` 的字母 x）、`CI` 130（`specific`、`decision`）、`儲存庫` 76（`report`）、`日誌` 172（`login`）、`搜尋` 142（`research`）、`筆記` 69（`memory`、X 帳號 `tetumemo`）、`權限` 502（`auth` 在 251 筆只是 `author` 的一部分）。根因是英文相關詞以純子字串比對，且 `item.search` 把整份 Markdown 的來源網址一起索引。
+首頁按「自動客服」得到 `顯示 93／513`，其中 32 筆只因為原文附了 `support.google.com`、`support.plex.tv`、`support.zendesk.com` 連結——第八張卡是 UC-063「讓 Grok Bot 整理 Plex 影片庫」，同批還有太陽能帳單、3D 掃描與表格靠右的案例。同一類誤命中：`推特` 417 筆（130 筆是 `text`／`example` 的字母 x）、`CI` 131（`specific`、`decision`）、`儲存庫` 76（`report`）、`日誌` 174（`login`）、`搜尋` 143（`research`）、`筆記` 69（`memory`、X 帳號 `tetumemo`）、`權限` 502（`auth` 在 251 筆只是 `author` 的一部分）。根因是英文相關詞以純子字串比對，且 `item.search` 把整份 Markdown 的來源網址一起索引。
 
 選擇 (A) 把比對單位改成「詞」：`searchVariantIndex()` 的拉丁字母邊界規則從只保護 PR／MR 擴大到所有純英數相關詞（左側不得是 `[a-z0-9]`，右側保留數字串以維持 `uc101`／`pr149`），並讓 `metadata()` 另存一份去掉 `http(s)://…` 的 `searchProse`；`filterEntries()` 只讓**讀者自己打的字**比對含網址的全文，站方擴充的相關詞一律比對 `searchProse`，所以貼網域（打 `support`）仍照舊命中。(B) 逐詞刪掉 `support`／`x`／`auth`／`ci` 成本最低，但會弄丟真正寫「customer support」「X 上的貼文」「OAuth authorization」的案例，且同樣問題會在下一個新相關詞重演。
 

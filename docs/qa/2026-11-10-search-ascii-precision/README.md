@@ -16,11 +16,11 @@
 | 查詢（正式站 `f3e4bbfa`） | 修改前 | 其中哪些是誤命中 |
 | --- | --- | --- |
 | 客服／自動客服 | 93 | 32 筆只因為來源連結指向 `support.google.com`、`support.plex.tv`、`support.zendesk.com` |
-| 推特 | 414 | 130 筆是 `text`、`example`、`context` 裡的字母 `x`；另有 27 筆只把 `x.com` 當來源出處 |
-| CI | 130 | 107 筆是 `specific`、`decision`、`efficiency` 裡的 `ci` |
+| 推特 | 417 | 130 筆是 `text`、`example`、`context` 裡的字母 `x`；另有 27 筆只把 `x.com` 當來源出處 |
+| CI | 131 | 107 筆是 `specific`、`decision`、`efficiency` 裡的 `ci` |
 | 儲存庫 | 76 | 43 筆是 `report` 裡的 `repo` |
-| 日誌 | 172 | 62 筆是 `login`、`blogs` 裡的 `log` |
-| 搜尋 | 142 | 24 筆是 `research` 裡的 `search` |
+| 日誌 | 174 | 62 筆是 `login`、`blogs` 裡的 `log` |
+| 搜尋 | 143 | 24 筆是 `research` 裡的 `search` |
 | 筆記 | 69 | 13 筆是 `memory`／X 帳號 `tetumemo` 裡的 `memo` |
 | 權限 | 502 | `auth` 在 251 筆只是 `author` 的一部分（`權限`／`授權` 本身仍命中 491 筆，屬共用段落用語，見限制） |
 | 電動車 | 2 | 2 筆都是 `every`／`level` 裡的 `ev` |

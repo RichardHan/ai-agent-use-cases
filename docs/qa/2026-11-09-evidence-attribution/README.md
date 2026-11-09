@@ -151,7 +151,13 @@ UC-514 分享直鏈（本機預覽 `060e76e2`）：
 
 ## 發布核對
 
-（合併與部署後補記）
+- PR [#295](https://github.com/RichardHan/ai-agent-use-cases/pull/295)：head `74b25e27` 的 14 項非略過檢查全 success（7 個 `browser`、`context`、`entry`、`preview`、`reader-search`、`reading`、`relevance`、`return`），`published` 依設計 skipped，`mergeStateStatus` 為 `CLEAN`；以 squash 合併為 `40cf9ca9`。
+- 合併前 `origin/main` 已被 PR #294／#296 推進（`a3106928` → `d540417c`，收錄狀態改名「待查線索」與其發布補記）。本輪兩次 merge 該主線，只衝突在 `SITE.md` 的相鄰段落與 `assets/app.js` 的 `#facet-count-hint` 字串；解法是保留兩邊內容（提示同時有狀態／證據區分句與來源類型主要類別句），並把 `tests/pending-resolution.test.cjs` 的同義詞測試清單由 3 筆更新為 4 筆。合併後單元測試 **562 項全過**。
+- `pages build and deployment` [42590975570](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42590975570) 成功；正式站 `catalog.json` 的 `sourceRevision` 為 `40cf9ca9…`、`builtAt` 2026-11-09、510 個來源檔。
+- 逐 byte 核對（`curl` 正式站 vs `git show 40cf9ca9:`）：`index.html`、`assets/app.js`、`assets/reader.css`、`cases/514-…md`、`sources/pending.md` 全部相同。
+- 對正式站重跑 `evidence-attribution-browser.cjs`：1440／390／320 徽章「官方自報＋設計／未實跑」、摘要底端 394／518／589、來源連結 592／766、逐類清單 2 列、reload 後不變、axe 0、無溢出、page error 0；`detail-trust-summary-browser.cjs` 亦通過。
+- 正式站重走三個情境（390×844）：首頁「會議整理」→ 26 / 513 筆 → UC-094 兩個徽章、來源連結 200 且固定在 `40cf9ca9`、Escape 保留 `?q=會議`；`旅遊`＋情境「生活」→ 22 筆 → `xyz987` 空狀態 → 點「會議整理」→ 2 筆、情境保留；`?case=UC-514` 直鏈摘要 387–518、兩列類別、來源連結 200。
+- 合併後 `Website QA`（main `40cf9ca9`）[42590976282](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42590976282) 成功，含 `Verify the updated site in Chromium` 階段新增的 `evidence-attribution-browser.cjs`。
 
 ## 下一輪建議
 

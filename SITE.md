@@ -8,6 +8,8 @@
 
 先紅後綠：新測試在未改動的基準 `7abbfc36` 上 5 項全失敗（P-004 只解析出 `UC-101`、卡片徽章只寫 UC-101），改動後全過。`node --test tests/*.test.cjs` 基準 583 → **588 通過、0 失敗**；`node --check` 通過；`check_corpus_bundle.py` 回報 510 個來源逐 byte 相同；`?case=P-004` 與 `?q=標案` 在三種寬度 axe 0、pageerror 0、水平溢出 0；`Website QA` 瀏覽器步驟的 17 支腳本在本機以同一份清單跑過，17 支全過。P-002（UC-028）與 UC-250（UC-156）仍只有單一目的地。前後截圖與三種訪客情境見[本輪 QA](docs/qa/2026-11-10-merged-destinations/README.md)。
 
+發布補記：PR [#305](https://github.com/RichardHan/ai-agent-use-cases/pull/305)（head `a2bf89d6`）14 項非略過檢查全 pass、`published` 依設計在 PR 上 skipping，squash 合併為 `5de8fa98`。`pages build and deployment` [42682123442](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42682123442) success；正式站 `catalog.json.sourceRevision` = `5de8fa98…`、510 個來源檔，`assets/app.js`／`reader.css`／`copy.json` 與合併版本 sha256 逐 byte 相同。正式站三種寬度重走：`?case=P-004` 徽章與交接句列出 UC-101、UC-102，兩顆站內入口都能進（UC-102 標題「法規改了，先找出公司哪張安全表單需要修」，Back 回 P-004），`?q=標案` 結果卡列出兩個目的地，P-002 仍只有 UC-028；情境一 8／513（UC-071 在 300px）、情境二 0→1／513、pageerror 0。
+
 本輪另確認但**未修**：關閉詳情後第一次「上一頁」沒有反應（開詳情 `pushState`、關閉 `replaceState`，兩筆相鄰歷史同址）。試過的 `history.go(-1)` 修法會讓關閉從同步變非同步，repo 內約 40 處在 `press('Escape')` 同一 tick 檢查焦點與網址的斷言會轉紅（本輪在 CI 上實測 `Round 23 acceptance QA`、`Search context QA`、`Partial Load QA` 三個 workflow 因此失敗，已撤回該修法），且一律彈回清單會刪掉閱讀痕跡、推翻 `tests/related-browser.cjs:141-146`。下一輪先建立共用的「關閉後焦點與網址何時成立」等待 helper，把那些斷言改成等待它，再改 `closeDetail()`；驗證先跑 `related`、`table-reading`、`search-context-live`、`load-recovery`、`results-batching` 五支瀏覽器回歸。
 
 ## 2026-11-09 單詞搜尋被改寫成別的字：失敗、詐騙、派工找不到自己的案例

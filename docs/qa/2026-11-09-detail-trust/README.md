@@ -94,6 +94,17 @@
 - 未處理 `還在查證`（收錄狀態）與 `尚待查證`（來源類型）兩個近義標籤的命名；摘要讓兩者在詳情同時可見，但篩選名稱仍未統一。
 - 未量測正式站效能、真人理解或轉換；不得把本輪幾何改善當成已觀測成效。
 
+## 發布核對
+
+- PR [#291](https://github.com/RichardHan/ai-agent-use-cases/pull/291)（head `ae03db23`）所有必要檢查通過（`published` 依規則在 PR 上略過），`mergeStateStatus` 為 `CLEAN`；squash 合併為 `9ba4a3ea`。
+- `pages build and deployment` [42574282405](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42574282405) 成功；正式站 `catalog.json` 的 `sourceRevision` 為 `9ba4a3ea…`、`builtAt` 2026-11-09。`index.html`、`assets/app.js`、`assets/reader.css` 對正式站與合併 commit 逐 byte 相同。
+- 對正式站重跑 `detail-trust-summary-browser.cjs`：1440／390／320 摘要底端 314／418／405、跳轉落點 170／150／147（工具列底端 121／117／114）、axe 0、無溢出。
+- 正式站重走三個情境：
+  1. 首頁「會議整理」→ 26 筆 → UC-094 詳情第一屏顯示證據摘要，原始 Markdown 固定於 `9ba4a3ea…`；Escape 返回保留 `?q=會議`。
+  2. 390px `旅遊`＋情境「生活」→ 22 筆；改 `xyz987` → 0 筆，空狀態列出在目前篩選下有結果的任務，點「會議整理」→ 2 筆、情境保留、URL `?scenario=生活&q=會議`。
+  3. `?scenario=工作&case=UC-098` 直鏈：第一屏摘要、「核讀與安全建議 ↓」焦點落在完整說明（150 > 工具列 117）、來源連結 200 且固定於 `9ba4a3ea…`、Escape 後返回 160 筆並保留情境，axe 0。
+- 合併後 `Website QA`（main `9ba4a3ea`）[42574283535](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42574283535) 於本紀錄完成時仍在執行；不以排程中狀態宣稱通過，結果另行補記。
+
 ## 下一輪建議
 
 先處理「收錄狀態／來源類型」兩個近義標籤的命名與說明（`還在查證` 只涵蓋 2 筆待查想法，`尚待查證` 有 11 筆），以 `/private/tmp/aiuc-20261109-round3` 或新 worktree 重跑 `node --test tests/search-recovery.test.cjs tests/pending-resolution.test.cjs` 與首頁篩選走查，確認改字後召回與計數不變，再決定是否合併兩個概念或改名。

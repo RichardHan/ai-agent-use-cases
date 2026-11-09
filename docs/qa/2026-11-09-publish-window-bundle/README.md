@@ -20,7 +20,7 @@
 
 數分鐘後重抓，兩者都是 `20261109094004465420250`／`24c6c376…`，視窗已關閉。兩個檔案是 Jekyll 分別產生的樣板（`catalog.json` 用 `site.time`、`corpus.json` 用 `site.time`），部署期間只要邊緣快取或發佈順序讓它們落後一次建置，訪客就會同時讀到兩個版本。
 
-`assets/app.js` 的 `parseCorpusBundle()` 原本要求 `bundle.revision===catalog.bundleRevision`，不符就丟棄 1.29 MB（gzip）的整包，改走 `loadCorpus()` 逐一抓 510 個來源檔，且仍在同一個 20 秒預算內。本機以同一份資料、把兩個 manifest 改成上表編號重現（Chromium；限速 1.6 Mbps／150 ms RTT，與前幾輪相同的 CDP 參數）：
+`assets/app.js` 的 `parseCorpusBundle()` 原本要求 `bundle.revision===catalog.bundleRevision`，不符就丟棄整包（正式站當日未壓縮 3,337,669 bytes、gzip 傳輸 1,316,516 bytes），改走 `loadCorpus()` 逐一抓 510 個來源檔，且仍在同一個 20 秒預算內。本機以同一份資料、把兩個 manifest 改成上表編號重現（Chromium；限速 1.6 Mbps／150 ms RTT，與前幾輪相同的 CDP 參數）：
 
 | 情境 | 請求數 | `.md` 請求 | 第 9 秒的畫面 | 來源連結 |
 | --- | --- | --- | --- | --- |
@@ -69,5 +69,14 @@
 - 本環境無法檢視截圖影像，畫面上的結論以 DOM 文字、請求數與幾何量測為準。
 - 只放寬「較新」方向；`corpus.json` 較舊時仍退回逐篇，因此發布層的原子性未改善。
 - 獨立審查（未參與實作）提出兩項 P2 並已修正：`bundleRevisionAtLeast()` 原本接受 14 位以上的數字字串，已收緊為 `^\d{23}$`（新增 1 項回歸）；瀏覽器回歸原本只斷言內部筆數與請求數，已補上訪客可見的結果行、卡片、統計與 20 秒載入預算。審查另確認快取鍵、`published-version`、重試／合併路徑無回歸（67 項相關測試通過）。
-- 未處理：整包 1.29 MB 的首次載入成本、分享連結缺少 `og:` 中繼資料與 favicon 404、孤兒 workflow 扇出、`SITE.md` 最新一則紀錄的日期標記。
+- 未處理：整包（未壓縮 3.34 MB／gzip 約 1.26 MB）的首次載入成本、分享連結缺少 `og:` 中繼資料與 favicon 404、孤兒 workflow 扇出、`SITE.md` 最新一則紀錄的日期標記。
 - 串流讀取的速率判斷、快取鍵與逐篇備援的併發數都未改動。
+
+## 發布核對（2026-11-09）
+
+- PR #299（head `9aa0c5be`）：13 項非略過檢查 pass、`published` 依設計 skipping；squash 合併 `53ae66f1`。
+- CI 內的這支回歸（Website QA [42599855647](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42599855647)，artifact `publish-window/report.json`）：`newer` → 1 個整包、0 個 `.md`、513 筆；`older` → 510 個 `.md`。
+- `pages build and deployment` [42601266956](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42601266956) 成功；正式站 `catalog.json.sourceRevision` = `53ae66f1`、510 個來源檔，`assets/app.js` 與合併版本逐 byte 相同（SHA-256 `cd0fe87c…`）。
+- 正式站重跑這支回歸（改寫 manifest 建置編號）：`newer` → 1 個整包、0 個 `.md`；`older` → 510 個 `.md`。
+- 正式站三情境（390／1440）：會議 26 筆並開詳情；`?q=調酒&scenario=生活` 0 筆 →「清除全部條件」→ 513 筆；`?case=UC-514&scenario=生活` 來源固定 `53ae66f1` → Escape 回 100 筆且情境保留；水平溢出 0。[發布後手機畫面](published-mobile.png)
+- 合併後 Website QA [42601267856](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42601267856) 的發布比對與正式站瀏覽器檢查都 success。

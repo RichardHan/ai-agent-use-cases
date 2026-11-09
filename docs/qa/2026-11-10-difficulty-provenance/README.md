@@ -151,7 +151,38 @@
 - 本機沒有 `@axe-core/playwright`，無障礙只驗到 DOM 與 `aria` 措辭；axe 由 CI 的既有 gates 執行。
 - 沒有真人使用者研究；「讀者會不會因此選對案例」未量測。
 
+## 發布
+
+| 狀態 | 內容 |
+| --- | --- |
+| 已提交 | `37dfafa0`（主要改動）、`25fbf66e`（審查修正）、`42c5532d`（紀錄數字）、`da6dbf46`（原文檢視註記）、`e53be882`（rebase 後在新 main 重新驗證） |
+| 已推送 | `origin/improve/20261110-round` → PR [#286](https://github.com/RichardHan/ai-agent-use-cases/pull/286)（rebase 後 force-with-lease 更新，head `e53be882`） |
+| PR 檢查 | head `e53be882` 13 項全 pass；`published` 2 項依設計在 PR 上 skipping（`gh pr checks 286`） |
+| 已合併 | squash `fcd53e010a8f9b9343d988006414a0353ef2e0d3`（base `2a498daa`，PR #287 的結果筆數輪之後） |
+| 部署 | `pages build and deployment` [42568326336](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42568326336) build／report／deploy 全 success |
+| 正式站已驗證 | 是：`catalog.json` 的 `sourceRevision` 為 `fcd53e01…`、`builtAt` 2026-11-09、510 個來源檔；`assets/app.js` 與合併後版本逐 byte 相同 |
+| 合併後 main QA | `Website QA` [42568326905](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42568326905) 於紀錄時仍在執行（見下方補記）；不把它算成通過 |
+
+### 正式站核對（`fcd53e01`）
+
+Chromium 1440×900／390×844／320×740，正式站 `https://richardhan.github.io/ai-agent-use-cases/`：
+
+| 檢查 | 結果 |
+| --- | --- |
+| 三個門檻計數 | 入門對話 **295／512**、工具串接 **39／512**、進階開發 **178／512**（與本機預覽一致） |
+| `?q=Plex&difficulty=入門對話` | 含 UC-063 |
+| UC-063 詳情 | `入門對話（免寫程式）` ＋「案例頁自行宣告這個門檻；本庫未另外驗證。」 |
+| UC-001 詳情 | `入門對話（免寫程式）` ＋「案例頁未宣告門檻…推測…」 |
+| 卡片 `aria-label` | UC-014（推測）：`實作門檻：工具串接（需帳號或外掛），本庫依內文推測，案例未宣告` |
+| 原始 Markdown 連結 | 固定到 `blob/fcd53e010a8f…/cases/063-…md`，未 disabled |
+| 篩選說明 | 含「以案例頁宣告為準…未宣告的案例由本庫依內文關鍵字推測」 |
+| 情境 1（`/` → 「發票要報帳」→ Enter） | 17／512 筆，第一張卡在視窗內（322／466／509px） |
+| 情境 2（`?q=規劃旅行&scenario=工作`） | 0 筆 →「移除使用情境「工作」→ 查看 1 筆」→ 1 筆 |
+| 情境 3（`?case=UC-063` → Escape） | 詳情顯示宣告來源；回到探索 512／512 |
+| pageerror／水平溢出 | 三個寬度皆 0 |
+
 ## 下一輪
+
 
 先做**來源歸屬**（本輪獨立內容審查已留下可重現證據，優先於其他候選）：
 

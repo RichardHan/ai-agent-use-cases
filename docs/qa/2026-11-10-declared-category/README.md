@@ -50,10 +50,19 @@
 
 - `node --test tests/*.test.cjs`：基準 **594** → 本輪 **600 通過、0 失敗**（新增 6 項）；`node --check assets/app.js` 通過。
 - 新 unit test 的紅綠（同一支腳本、同一份語料）：`CATEGORY_SOURCE=/tmp/aiuc-1110-r10/assets/app.js`（基準 `0ece4ceb` 的 `app.js`）→ **5／6 失敗**（標題推測、全庫宣告契約、分類配對、共同標籤保留、`同分類` 指向未宣告頁面）；本輪 → **6／6 通過**。
-- 新瀏覽器測試的紅綠：基準預覽（`0ece4ceb` 建置，`127.0.0.1:8080`）→ 第一個缺陷斷言就紅 `a theme no page declares is not offered`（`個人生產力` 選項存在）；本輪預覽（`127.0.0.1:8081`）→ 1440／390 皆通過（`facet` 343 個選項、`unclassified` 165、`filter` 最大選項 6 筆、`related`／`empty`／`declared` 三條情境、axe 0）。
+- 新瀏覽器測試的紅綠（重測於重新建置、sha256 核對過的預覽）：基準 `0ece4ceb` → 第一個缺陷斷言就紅 `a theme no page declares is not offered`（`個人生產力` 選項存在）；本輪 → Chromium／Firefox／WebKit × 1440×900／390×844 **六個配置全數通過**（`facet` 343 個選項、`unclassified` 165、最大選項 6 筆、`related`／`empty`／`declared` 三條情境、axe 0）。
+- 量測環境：本機 8080／8081 已被前一個 session 的 `python3 -m http.server` 佔用（cwd 分別是 `/private/tmp/prev-before`、`/private/tmp/prev-after3`），曾造成同一網址兩次讀到不同建置。本輪全部證據改在重新建置的 `/tmp/ver-before`、`/tmp/ver-after` 上取得（`http.server` 8180／8181），並先以 `shasum -a 256` 核對 `assets/app.js` 與 worktree 相同（本輪 `082d4374…`、基準 `7624b344…`）。
 - 既有瀏覽器回歸（本機預覽，修正版）：`related-browser.cjs`（1440／390／320，8 條情境含載入、跨搜尋歷史、合併交接、恢復後焦點）通過；`evidence-attribution-browser.cjs`（1440／390）通過；`facet-counts-browser.cjs`：Chromium 1440／390／320 與 Firefox 390 通過，**WebKit 390 在 `facet-counts-browser.cjs:110` 失敗**——`#query` 按 Tab 後焦點落在 `#filter-summary` 而非 `#search-submit`，**基準預覽同樣是 `#filter-summary`**（同一腳本對兩個建置各跑一次），屬既有 WebKit 焦點限制，不是本輪回歸。
-- 三條訪客情境（本輪預覽，1440×900／390×844）：不知道工具名輸入「整理會議記錄」→ 8／513 筆、8 張卡、開啟詳情 UC-071；「規劃旅行」＋使用情境「工作」→ 0 筆並提供「移除使用情境「工作」→ 查看 1 筆」，恢復後 1 筆且網址只留 `q`；分享直鏈 `?case=UC-514` → 詳情、12 個來源連結、Escape 返回；三情境 axe 0、水平溢出 0、pageerror 0。
+- 三條訪客情境（重建預覽 8180／8181 各跑一次，前後結果相同；1440×900／390×844）：不知道工具名輸入「整理會議記錄」→ 8／513 筆、8 張卡、開啟詳情 UC-071；「規劃旅行」＋使用情境「工作」→ 0 筆並提供「移除使用情境「工作」→ 查看 1 筆」，恢復後 1 筆且網址只留 `q`；分享直鏈 `?case=UC-514` → 詳情、12 個來源連結、Escape 返回；三情境 axe 0、水平溢出 0、pageerror 0。
 - 舊分享連結相容：`?category=個人生產力`（本輪之後不再存在的值）載入後顯示 0／513 筆、空結果可復原，移除條件 chip 仍在，無 pageerror；不會靜默改寫讀者的分享網址。
+
+## CI 暴露的既有測試耦合（同一輪修正）
+
+第一次 push（`ca596dd2`）後，PR 的 `Website QA` [`42716394888`](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42716394888) 在 `Verify the updated site in Chromium` 失敗：`tests/search-recovery-browser.cjs:167` 的 `assert(loadedMatches>0)`。原因不是產品碼：該 fixture 先讓 `cases/001-travel-checkout.md` 回 404，再要求 `category=旅遊／消費研究`，而它先前之所以還有結果，是因為 UC-099／UC-139 這兩個從未宣告該分類的頁面靠推測拿到同一個值。UC-001 是唯一宣告者、又正好是被封鎖的檔案，所以載入後為 0。
+
+修正（`0f0a194e`）：fixture 改用全庫唯一由多頁宣告的分類 `工作流程／發布期用途`（UC-017…022），封鎖其中一員 `cases/017-prospect-research-drafts.md`，查詢改為 `排程`。四項斷言（載入筆數 > 0、`1 個來源檔案未載入`、建議按鈕引用載入筆數、重試後焦點留在建議上）一字未改，部分載入的語意反而更強：現在被封鎖的檔案確實屬於被篩選的集合。本機以 `discovery-browser.cjs` 重跑（含 `PASS SEARCH STATES`）通過。
+
+這也說明本輪新增的全庫契約測試有其必要：**只要有一個測試靠「推測值」才成立，移除推測時它就會紅**。
 
 ## 前後數據（同一頁、同尺寸、同資料狀態）
 

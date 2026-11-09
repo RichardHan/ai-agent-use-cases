@@ -6,7 +6,9 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cases/';
-const outDir = process.env.QA_OUT_DIR || path.resolve(__dirname, '../docs/qa/2026-11-08-visitor-adoption');
+// Screenshots belong to the run, not to a finished round's record: writing them
+// into docs/qa/<past round> replaced that round's evidence on every local run.
+const outDir = process.env.QA_OUT_DIR || path.resolve(__dirname, '../qa-artifacts/visitor-problem');
 fs.mkdirSync(outDir, { recursive: true });
 
 // On small screens the 53-task directory is disclosed in two steps. Expand it

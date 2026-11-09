@@ -77,7 +77,7 @@ let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem =
 let allowAutomaticArrival=true, searchShareRequest=0;
 let recoveringSources=false, recoveryNotice='', recoveryController=null, recoveryProgress=null;
 let initialLoading=false, initialLoadController=null;
-let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null,drawnItemId='',drawPoolQuery=null,announcedDrawKey='';
+let discoveryDeck=null,discoveryKey='',discoveryReady=false,lastTriggerContext=null,drawnItemId='',drawPoolQuery=null,announcedDrawKey='',drawPoolMatches=0,drawPoolTotal=0,drawStatusSuffix=null,drawStatusPrefix='',drawStatusMode='other';
 const RESULT_BATCH_SIZE=24;
 let visibleResults=RESULT_BATCH_SIZE, resultQueryKey='';
 const $ = id => document.getElementById(id);
@@ -1658,9 +1658,12 @@ function ensureVisibleResult(id) {
   updateResultBatch();
 }
 function updateResultBatch() {
-  const remaining=currentFiltered.length-visibleResults;
-  $('load-more-results').hidden=remaining<=0;
-  $('load-more-results').textContent=`再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）`;
+  // A shorter condition can leave visibleResults ahead of the matches (typing a
+  // narrower word after a 24+ result query). The control is hidden then, so the
+  // leftover text must not claim a negative number of remaining cases.
+  const remaining=Math.max(0,currentFiltered.length-visibleResults);
+  $('load-more-results').hidden=remaining===0;
+  $('load-more-results').textContent=remaining ? `再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）` : '';
 }
 // The sample card above the search is drawn from the corpus, so its height keeps
 // changing after this scroll (measured 478→715px on a 390x844 phone) and pushes
@@ -2645,6 +2648,53 @@ function render(updateURL=true, preserveShare=false) {
     ? currentFiltered.length ? `目前條件有 ${currentFiltered.length} 筆結果` : failedPaths.length ? '已載入內容中沒有符合結果' : '目前條件沒有符合結果'
     : initialLoading ? '正在讀取案例…' : '載入未完成';
   $('filter-view-results').disabled = !discoveryReady;
+  // Some conditions only ever match body text: no case's title, purpose or goal
+  // holds every word, so the first card can look unrelated. Say that, name the
+  // word that never reaches a purpose field, and offer the strongest single word
+  // that does — instead of leaving the reader to guess which term to drop.
+  const purposeOf = (base, terms) => discoveryReady && terms.length
+    ? filterEntries(base, terms, { ...filters, scope: 'overview' })
+    : [];
+  const directMatches = purposeOf(shownMatches, searchTerms);
+  const purposeGap = discoveryReady && searchTerms.length > 0 && currentFiltered.length > 0 && directMatches.length === 0;
+  $('purpose-gap').hidden = !purposeGap;
+  if (purposeGap) {
+    // The action replaces the query, so its promise counts every entry, not just
+    // the ones the current condition already kept.
+    // Two counts per word: within the reader's filters (what the action can show
+    // without surprising them) and library-wide (what the sentence may claim).
+    const perTerm = searchTerms.map(term => ({
+      term,
+      scoped: purposeOf(entries, [term]).length,
+      library: filterEntries(entries, [term], { scope: 'overview' }).length
+    }));
+    const bodyOnly = perTerm.filter(row => row.library === 0).map(row => `「${row.term}」`);
+    const scopedBest = perTerm.slice().sort((a, b) => b.scoped - a.scoped)[0];
+    const libraryBest = perTerm.slice().sort((a, b) => b.library - a.library)[0];
+    // Filters can exclude every word's cases; falling back to the library-wide
+    // word keeps an exit, and the label then says the filters will be cleared.
+    const resetFilters = !scopedBest || scopedBest.scoped === 0;
+    const best = resetFilters ? libraryBest : scopedBest;
+    const label = searchTerms.map(term => `「${term}」`).join('');
+    $('purpose-gap-message').textContent = `在所選條件下，沒有案例的標題、用途或痛點同時包含${label}`
+      + (bodyOnly.length ? `；${bodyOnly.join('、')}只在正文出現` : '')
+      + `。下列 ${currentFiltered.length} 筆是字面命中，不代表案例在做這件事。`;
+    const action = $('purpose-gap-scope');
+    const count = best ? (resetFilters ? best.library : best.scoped) : 0;
+    action.hidden = !count;
+    if (!action.hidden) {
+      action.textContent = resetFilters
+        ? `改搜「${best.term}」→ ${count} 筆（清除目前篩選）`
+        : `改搜「${best.term}」→ ${count} 筆（標題、用途與痛點）`;
+      action.dataset.term = best.term;
+      action.dataset.resetFilters = resetFilters ? 'true' : 'false';
+    }
+  } else {
+    $('purpose-gap-message').textContent = '';
+    $('purpose-gap-scope').hidden = true;
+    delete $('purpose-gap-scope').dataset.term;
+    delete $('purpose-gap-scope').dataset.resetFilters;
+  }
 
   document.querySelectorAll('.chip[data-scenario]').forEach(btn => {
     const isActive = btn.dataset.scenario === activeScenario;
@@ -3160,7 +3210,7 @@ async function load() {
   $('use-loaded').removeAttribute('aria-disabled');
   recoveryNotice='';$('load-status').textContent='';$('partial-load').hidden=true;
   clearSearchShare();$('copy-search-link').disabled=true;$('search-submit').disabled=true;
-  discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('drawn-case').setAttribute('aria-busy','true');$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
+  discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('drawn-case').setAttribute('aria-busy','true');drawStatusSuffix=null;drawStatusMode='other';$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
   $('error').hidden = true;
   $('empty').hidden = true;
   $('search-feedback').hidden = true;
@@ -3232,7 +3282,7 @@ async function load() {
         if(milestone!==announced){
           announced=milestone;
           const stages=['正在讀取來源全文。','已處理至少四分之一的來源。','已處理至少一半的來源。','已處理至少四分之三的來源。','來源讀取已結束。'];
-          $('draw-status').textContent=stages[milestone]+' 等待過久會先顯示已讀取內容。';
+          drawStatusSuffix=null;drawStatusMode='other';$('draw-status').textContent=stages[milestone]+' 等待過久會先顯示已讀取內容。';
           announceDraw(stages[milestone],'milestone:'+milestone);
         }
       }
@@ -3299,7 +3349,7 @@ async function load() {
     else finishArrival(params,failedPaths.length>0);
     restoreFocus();
   } catch (error) {
-    discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀案例索引。';announceDraw('案例卡暫時無法載入；下方可重新載入或閱讀案例索引。','failure');$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
+    discoveryReady=false;$('drawn-case').setAttribute('aria-busy','false');drawStatusSuffix=null;drawStatusMode='other';$('draw-status').textContent='案例卡暫時無法載入，請到下方重新載入或閱讀案例索引。';announceDraw('案例卡暫時無法載入；下方可重新載入或閱讀案例索引。','failure');$('drawn-case').replaceChildren();$('draw-case').disabled=true;$('guide-options').disabled=true;
     $('results').replaceChildren();
     $('results-count').textContent = '載入未完成';
     $('filter-outcome-count').textContent = '載入未完成，請到結果區重新載入';
@@ -3339,19 +3389,67 @@ function drawNext(announce=false){
   const previous=drawnItemId;
   $('drawn-case').replaceChildren(card(next.item));
   drawnItemId=next.item.id;
-  $('draw-status').textContent=drawScope()+' · 這組條件有 '+next.total+' 張案例卡 · '+(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title;
+  writeDrawStatus(next.total,(next.round>1?'已重新洗牌 · ':'')+'第 '+next.position+' 張：'+next.item.title);
   drawButtonLabel(next.total);
   // Only the reader's own request is news. An automatic redraw happens while the
   // reader is typing a query; announcing it would interrupt the search itself.
   if(announce&&previous!==drawnItemId)announceDraw('已換一張：'+next.item.title,'card:'+next.item.id);
 }
+// The draw pool is smaller than the result list: evidence notes, open leads,
+// templates and duplicate ids never become cards. The line has to say which
+// number it is, otherwise the same condition shows two different totals.
+function drawPoolStatus(total){
+  const matched=Number.isFinite(drawPoolMatches)&&drawPoolMatches>total ? drawPoolMatches : 0;
+  return drawScope()+' · 這組條件有 '+total+' 張可抽案例卡'+(matched?'（另有 '+(matched-total)+' 筆不是可抽案例，仍列在結果）':'');
+}
+// The line prints two numbers from different sets, so it is rebuilt from its parts
+// whenever either side moves; `drawStatusSuffix` is the part after the counts.
+function writeDrawStatus(total,suffix){
+  drawPoolTotal=total;drawStatusSuffix=suffix;drawStatusPrefix=drawPoolStatus(total);drawStatusMode='count';
+  $('draw-status').textContent=drawStatusPrefix+' · '+suffix;
+}
+// A filter can change how many entries match without changing which of them are
+// drawable (an evidence note or open lead is in the results but never in a card).
+// The deck key then stays the same while the printed total goes stale.
+// The empty-pool branch prints the match count too, so it is rebuilt from the
+// same source: an entry that is not drawable can enter or leave without changing
+// the (always empty) deck key.
+function emptyPoolText(){
+  const scope=$('scenario').value||'全部情境';
+  const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
+  return drawPoolMatches
+    ? {card:`符合的 ${drawPoolMatches} 筆沒有可抽卡的用法靈感（經驗與踩坑、模板或待查想法不列入抽卡）；可在下方結果直接閱讀。`,
+       status:`${scope}：符合的 ${drawPoolMatches} 筆沒有可抽卡的用法靈感。`}
+    : {card:`${diffText}目前沒有可抽的案例卡。抽卡也受下方搜尋與篩選影響；試試修改搜尋字詞或調整篩選。`,
+       status:`${scope}${$('difficulty')?.value?' · '+$('difficulty').value:''} 目前沒有可抽的案例卡。`};
+}
+function writeEmptyPoolStatus(){
+  const {card,status}=emptyPoolText();
+  const holder=$('drawn-case');
+  const text=holder.textContent||'';
+  if(text!==card)holder.replaceChildren(el('p','draw-placeholder',card));
+  if($('draw-status').textContent!==status)$('draw-status').textContent=status;
+}
+function refreshDrawCount(){
+  if(drawStatusMode==='empty'){writeEmptyPoolStatus();return;}
+  if(drawStatusMode!=='count')return;
+  const prefix=drawPoolStatus(drawPoolTotal);
+  const node=$('draw-status');
+  if(prefix===drawStatusPrefix)return;
+  // Only repair a line this code wrote: loading, failure and empty-pool messages
+  // own the line themselves and must not be overwritten.
+  if(!node.textContent.startsWith(drawStatusPrefix))return;
+  node.textContent=prefix+' · '+drawStatusSuffix;
+  drawStatusPrefix=prefix;
+}
 function syncDiscovery(filtered){
   document.querySelectorAll('button[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===$('scenario').value)));
   document.querySelectorAll('button[data-difficulty]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.difficulty===($('difficulty')?.value||''))));
+  drawPoolMatches=filtered.length;
   if(!discoveryReady)return;
   const pool=Discovery.discoveryPool(filtered);
   const key=$('scenario').value+'|'+($('difficulty')?.value||'')+'|'+pool.map(item=>item.id).join(',');
-  if(key===discoveryKey)return;
+  if(key===discoveryKey){refreshDrawCount();return;}
   // Remember the key that produced the current deck, so a re-render with the same
   // pool (sort changes, unrelated refreshes) stops rebuilding it.
   discoveryKey=key;
@@ -3369,21 +3467,17 @@ function syncDiscovery(filtered){
   discoveryDeck=Discovery.createDeck(pool,Math.random,kept?kept.id:null);
   $('draw-case').disabled=!pool.length;
   if(pool.length&&kept){
-    $('draw-status').textContent=drawScope()+' · 這組條件有 '+pool.length+' 張案例卡 · 目前顯示：'+kept.title;
+    writeDrawStatus(pool.length,'目前顯示：'+kept.title);
     drawButtonLabel(pool.length);
   }else if(pool.length)drawNext(announceReplacement);
   else{
-    const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
     // Results that are all evidence notes, templates or open leads are readable
     // but not drawable; saying "no case cards" without the reason reads as an
     // empty search next to a non-empty result list.
     drawnItemId='';
-    $('drawn-case').replaceChildren(el('p','draw-placeholder',filtered.length
-      ? `符合的 ${filtered.length} 筆沒有可抽卡的用法靈感（經驗與踩坑、模板或待查想法不列入抽卡）；可在下方結果直接閱讀。`
-      : `${diffText}目前沒有可抽的案例卡。抽卡也受下方搜尋與篩選影響；試試修改搜尋字詞或調整篩選。`));
-    $('draw-status').textContent=filtered.length
-      ? `${$('scenario').value||'全部情境'}：符合的 ${filtered.length} 筆沒有可抽卡的用法靈感。`
-      : ($('scenario').value||'全部情境')+($('difficulty')?.value?' · '+$('difficulty').value:'')+' 目前沒有可抽的案例卡。';
+    drawStatusSuffix=null;
+    drawStatusMode='empty';
+    writeEmptyPoolStatus();
     $('draw-case').textContent='沒有可抽的案例';
     announceDraw('目前沒有可抽的案例卡；下方搜尋結果仍可閱讀。','empty');
   }
@@ -3535,6 +3629,24 @@ $('clear-category-query').addEventListener('click',()=>{
 });
 $('query').addEventListener('input', () => {queryDirty=true;render();});
 $('search-scope').addEventListener('change',()=>render());
+// The honest answer to a body-only match set is a word the corpus can answer:
+// the notice offers the single word with the most title/purpose matches, and the
+// action keeps that same scope so the promised count is the count on screen.
+$('purpose-gap-scope').addEventListener('click',event=>{
+  const term=event.currentTarget.dataset.term;
+  if(!term)return;
+  const input=$('query');
+  const clearFilters=event.currentTarget.dataset.resetFilters==='true';
+  input.value=term;
+  queryDirty=true;
+  if(clearFilters){
+    ['scenario','kind','difficulty','tool','category','proof','sort'].forEach(id=>{if($(id))$(id).value='';});
+    activeScenario='';
+  }
+  $('search-scope').value='overview';
+  render();
+  input.focus({preventScroll:true});
+});
 $('sort').addEventListener('change', () => render());
 $('reset-sort').addEventListener('click', resetSort);
 $('recent-entry').addEventListener('click', event => {

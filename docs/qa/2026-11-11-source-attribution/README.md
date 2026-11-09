@@ -130,7 +130,34 @@ P-002 詳情因此同一屏出現「本條目已結束：內容已併入 UC-028�
 
 ## 發布
 
-（待補）
+| 狀態 | 內容 |
+| --- | --- |
+| 已提交 | `4b626f08`（rebase 到 `8acec384` 後） |
+| 已推送 | `origin/improve/20261111-source-attribution` → PR [#301](https://github.com/RichardHan/ai-agent-use-cases/pull/301) |
+| PR 檢查 | head `4b626f08` 14 項非略過檢查全 pass；`published` 依設計在 PR 上 skipping（`gh pr checks 301`） |
+| 已合併 | squash `f679b9c8462afc3e8fb5465c47fe2d37dbe409e4`（base `8acec384`） |
+| 部署 | `pages build and deployment` [42609887367](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42609887367) success（build／report／deploy） |
+| 合併後 main QA | `Website QA` [42609888086](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42609888086) **success**：第 14 步「Wait for published assets and content」通過、第 15 步 fail-closed 因已驗證而 skipped、第 16 步正式站瀏覽器走查 success |
+| 正式站已驗證 | 是：`catalog.json` 的 `sourceRevision` 為 `f679b9c8…`、`builtAt` 2026-11-09、510 個來源檔；`assets/app.js`（`38e20a87…`）、`assets/copy.json`（`266e01bf…`）、`assets/reader.css`（`de668425…`）與合併版本 sha256 逐 byte 相同 |
+
+### 正式站核對（`f679b9c8`）
+
+Chromium 1440×900／390×844／320×740，正式站 `https://richardhan.github.io/ai-agent-use-cases/`：
+
+| 檢查 | 結果 |
+| --- | --- |
+| 來源類型計數 | 官方自報 **28**、作者報告／示範 **463**、公開資料核讀 6、尚待查證 12、設計／未實跑 3、模板／文件核讀 1（合計 513） |
+| 收錄狀態 | 506／3／4（待查 2 筆＋已併入 2 筆），統計卡 2 |
+| UC-514 | 徽章 `官方自報`＋`設計／未實跑`；`aria` 含「官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文」；第一屏有「取得：」列與完整取得方式段落；原始 Markdown 固定到 `blob/f679b9c8…` |
+| UC-316 | 同組取得方式文字，單一 `官方自報` 徽章 |
+| UC-024 | 徽章只有 `作者報告／示範`，第一屏「成果主張：社群作者／專案實踐者」 |
+| UC-007（直接讀官方） | 無取得方式列，`aria` 不含新句 |
+| P-002 | 怎麼開始：「三則原帖與一則業者確認簡訊已讀，內容併入 UC-028…」 |
+| P-004 | 要注意什麼：「未見完整產物或中標證明，提示詞為自設未測…」 |
+| 情境 1（`/` → 「整理會議記錄」→ Enter） | 8／513 筆，第一張卡在視窗內（235／302／322px） |
+| 情境 2（`?q=規劃旅行&scenario=工作`） | 0 筆 →「移除使用情境「工作」→ 查看 1 筆」→ 1 筆 |
+| 情境 3（`?case=UC-514` → Escape） | 詳情顯示取得方式；Escape 後回到探索 513 筆，第一張卡 106px |
+| pageerror／水平溢出／axe | 三個寬度皆 0 |
 
 ## 下一輪
 

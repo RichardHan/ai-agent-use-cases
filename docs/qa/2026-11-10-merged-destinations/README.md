@@ -121,3 +121,27 @@ UC-102 在頁面上只以 GitHub 外鏈出現，站內沒有入口；同一頁�
 - `mergedInto` 由字串改陣列是資料契約變更；已同步 `tests/pending-resolution.test.cjs`、`tests/search.test.cjs`，`assets/` 內沒有其他消費者依賴字串。
 - `node scripts/check-page-language.cjs` 需要 Jekyll 產物（`_site`），本機沒有 Jekyll，未在本機執行；本輪未改 HTML／Liquid。
 - 沒有真人使用者研究；「多一個站內入口是否提高接手率」未量測。
+
+## 發布
+
+| 狀態 | 內容 |
+| --- | --- |
+| 已提交 | `a2bf89d6`（base `7abbfc36`） |
+| 已推送 | `origin/improve/20261110-detail-exit`（PR 內的實作分支；本輪先以 `improve/20261110-detail-exit` 命名，內容已收斂為併入目的地） |
+| PR | [#305](https://github.com/RichardHan/ai-agent-use-cases/pull/305) head `a2bf89d6`，**14 項非略過檢查全 pass**、`published` 依設計在 PR 上 skipping |
+| 已合併 | squash `5de8fa98` |
+| 部署 | `pages build and deployment` [42682123442](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42682123442) success |
+| 正式站已驗證 | 是：`catalog.json.sourceRevision` = `5de8fa98…`、`builtAt` 2026-11-09、510 個來源檔；`assets/app.js`／`reader.css`／`copy.json` 與合併版本 sha256 逐 byte 相同 |
+
+### 正式站核對（`5de8fa98`，Chromium 1440×900／390×844／320×740）
+
+| 檢查 | 結果 |
+| --- | --- |
+| `?case=P-004` 徽章 | `待查線索・已併入 UC-101、UC-102`（三種寬度一致） |
+| 站內入口 | 兩顆：點第二顆進入 `?case=UC-102`「法規改了，先找出公司哪張安全表單需要修」，Back 回到 P-004 |
+| `?q=標案` 結果卡 | `已併入 UC-101、UC-102（不另計數）` |
+| `?case=P-002` | 單一目的地 UC-028，只有一顆站內入口 |
+| 情境 1（`/` →「整理會議記錄」→ Enter） | 8／513 筆，第一張卡 UC-071 在 300px |
+| 情境 2（`?q=規劃旅行&scenario=工作`） | 0／513 → 復原後 1／513 |
+| 情境 3（`?case=P-004`） | 見上；來源仍固定在同一個發布版本 |
+| pageerror | 三種寬度 0 |

@@ -1662,6 +1662,36 @@ function updateResultBatch() {
   $('load-more-results').hidden=remaining<=0;
   $('load-more-results').textContent=`再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）`;
 }
+// The sample card above the search is drawn from the corpus, so its height keeps
+// changing after this scroll (measured 478→715px on a 390x844 phone) and pushes
+// the field and the first result below the fold: the same click landed the first
+// card at 788px or at 986px in an 844px viewport, depending on which case was
+// drawn. Hold the search section in place until the layout settles, and give up
+// the moment the reader deliberately scrolls somewhere themselves.
+function keepSearchRevealed(){
+  const results=$('results'), page=$('explore');
+  // Result links are also exercised in a DOM-less unit context, where there is
+  // no layout to align.
+  if(!results||typeof results.querySelector!=='function'||!page||
+    typeof document.addEventListener!=='function'||typeof requestAnimationFrame!=='function'||
+    typeof setTimeout!=='function')return;
+  let abandoned=false;
+  const abandon=()=>{abandoned=true;};
+  const events=['pointerdown','wheel','touchstart'];
+  events.forEach(type=>document.addEventListener(type,abandon,{passive:true}));
+  const align=()=>{
+    if(abandoned)return;
+    const card=results.querySelector('.card');
+    if(card&&card.getBoundingClientRect().top>=innerHeight){
+      page.scrollIntoView({block:'start',behavior:'instant'});
+    }
+  };
+  // The corpus and the drawn card arrive at their own pace; three checks cover a
+  // slow first paint without fighting a reader who is already reading.
+  [70,240,600].forEach(delay=>setTimeout(align,delay));
+  requestAnimationFrame(align);
+  setTimeout(()=>events.forEach(type=>document.removeEventListener(type,abandon)),700);
+}
 function enterSearch(event) {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   event.preventDefault();
@@ -1671,6 +1701,7 @@ function enterSearch(event) {
   history.replaceState(history.state,'',url);
   $('explore').scrollIntoView({block:'start',behavior:'instant'});
   $('query').focus({preventScroll:true});
+  keepSearchRevealed();
 }
 const PULL_REQUEST_ABBREVIATIONS=new Set(['pr','prs','mr','mrs']);
 function searchVariantIndex(text,variant) {

@@ -3136,7 +3136,11 @@ async function loadCorpus(paths, options = {}) {
 function bundleRevisionAtLeast(bundleRevision, catalogRevision) {
   if (typeof bundleRevision !== 'string' || !bundleRevision) return false;
   if (bundleRevision === catalogRevision) return true;
-  return /^\d{14,}$/.test(bundleRevision) && /^\d{14,}$/.test(catalogRevision) && bundleRevision > catalogRevision;
+  // `catalog.json` and `corpus.json` both emit site.time as
+  // %Y%m%d%H%M%S%N (23 digits). Anything else has no known order, so it keeps
+  // the strict equality contract instead of being compared as a number.
+  const stamp = /^\d{23}$/;
+  return stamp.test(bundleRevision) && stamp.test(catalogRevision) && bundleRevision > catalogRevision;
 }
 // The bundle is only a transport: every original Markdown still goes through
 // parseFile. An older/mixed deployment or a failed bundle uses the per-file path.

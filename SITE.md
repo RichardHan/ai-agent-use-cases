@@ -6,7 +6,7 @@
 
 改動：`assets/app.js` 新增 `bundleRevisionAtLeast()` 並在 `parseCorpusBundle()` 使用；接受整包後以 `data.sourceRevision` 固定來源（原本只在與目錄相同時才固定）。新增 `tests/publish-window-browser.cjs`（Chromium，改寫兩個 manifest 的建置編號）：較新整包 1 個請求、0 個 `.md`、513 筆、連結含語料 SHA；較舊整包仍 510 個 `.md`。`website-qa.yml` 在既有預覽步驟加一行執行它，讓每次動到 assets 的 PR 都實際走過這個空窗。
 
-先紅後綠：新增的「較新整包可用」單元測試在基準 `fe8a5df4` 失敗（多發 3 個 `.md` 請求）；新瀏覽器回歸對修正前的樹執行時，較新情境得到 510 個 `.md` 而失敗。最終 `node --test tests/*.test.cjs` **571 通過、0 失敗**（基準 569），`node --check assets/app.js` 通過；axe 在首頁 390、結果 1440、詳情 390 皆 0 違規，水平溢出 0；三情境（痛點入口→案例、空結果復原、直鏈→來源→返回）通過。本輪沒有親眼再遇到正式站的空窗，該次逐 byte 記錄來自同日的公開站調查，重抓時已一致；本環境無法檢視截圖影像，畫面結論以 DOM 與請求數為準。[方案、前後數據、截圖與限制](docs/qa/2026-11-09-publish-window-bundle/README.md)。
+先紅後綠：新增的「較新整包可用」單元測試在基準 `fe8a5df4` 失敗（多發 3 個 `.md` 請求）；新瀏覽器回歸對修正前的樹執行時，較新情境得到 510 個 `.md` 而失敗。獨立審查提出兩項 P2 已修：建置編號原本接受 14 位以上數字字串，收緊為 23 位（`%Y%m%d%H%M%S%N`），並補一項回歸；瀏覽器回歸改為斷言訪客可見的結果行、卡片、統計與 20 秒載入預算。最終 `node --test tests/*.test.cjs` **572 通過、0 失敗**（基準 569），`node --check assets/app.js` 通過；axe 在首頁 390、結果 1440、詳情 390 皆 0 違規，水平溢出 0；三情境（痛點入口→案例、空結果復原、直鏈→來源→返回）通過。本輪沒有親眼再遇到正式站的空窗，該次逐 byte 記錄來自同日的公開站調查，重抓時已一致；本環境無法檢視截圖影像，畫面結論以 DOM 與請求數為準。[方案、前後數據、截圖與限制](docs/qa/2026-11-09-publish-window-bundle/README.md)。
 
 下一輪先量測整包首次載入的實際等待（同一支 CDP 限速腳本記首張卡時間），再決定是否把目錄／整包改成單一檔案；驗證先跑 `tests/publish-window-browser.cjs` 與 `tests/corpus-bundle.test.cjs`，確認沒有把逐篇備援或快取契約改壞。
 

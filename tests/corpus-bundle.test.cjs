@@ -30,6 +30,17 @@ test('a corpus published after the catalogue still replaces every source request
  assert.deepEqual(Array.from(result.failed),[]);
  assert.equal(context.sourceRevisionFor(paths[1]),corpusSha,'delivered text pins to the build it came from');
 });
+test('a malformed build stamp cannot outrank the catalogue',async()=>{
+ // Both generated manifests use %Y%m%d%H%M%S%N. A numeric string of another
+ // length has no known order, so it must not be treated as "newer".
+ const calls=[];
+ const result=await load(paths,{bundleRevision:'20261109094004465420250',sourceRevision:'d'.repeat(40),parseFile:parse,budget:2000,fetch:async path=>{
+  calls.push(path);
+  return path==='corpus.json'?response({...json(undefined,'99999999999999'),sourceRevision:'c'.repeat(40)}):response(texts[paths.indexOf(path)]);
+ }});
+ assert.equal(calls.length,4,'an unordered stamp keeps the strict contract');
+ assert.deepEqual(Array.from(result.entries,e=>e.text),texts);
+});
 test('a corpus older than the catalogue still falls back to per-source reads',async()=>{
  const calls=[];
  const result=await load(paths,{bundleRevision:'20261109094004465420250',sourceRevision:'d'.repeat(40),parseFile:parse,budget:2000,fetch:async path=>{

@@ -33,18 +33,31 @@ const CORPUS_SHA='b'.repeat(40);
    await route.fulfill({response,json:corpus});
   });
   try{
+   const started=Date.now();
    await page.goto(base);
    await page.waitForFunction(()=>discoveryReady,null,{timeout:60000});
+   const readyMs=Date.now()-started;
    const result=await page.evaluate(()=>({entries:entries.length,failed:failedPaths.length}));
+   // What the visitor can see, not just what the loader kept.
+   const visible=await page.evaluate(()=>({
+    count:document.querySelector('#results-count')?.textContent||'',
+    cards:document.querySelectorAll('#results .card').length,
+    caseCount:document.querySelector('#case-count')?.textContent||''
+   }));
    const bundles=requests.filter(path=>path.endsWith('/corpus.json')).length;
    const sourceFiles=requests.filter(path=>path.endsWith('.md')).length;
    assert.deepEqual(result.failed,0,'a newer corpus must load the whole collection');
    assert(result.entries>400,'the published collection should be fully readable');
+   assert.match(visible.count,/顯示 \d+ \/ \d+ 筆收錄/,'the results line must finish its loading state');
+   assert(visible.cards>=1,'result cards must be rendered');
+   assert.notEqual(visible.caseCount,'—','the collection statistics must be filled in');
+   assert(readyMs<20000,'the collection must arrive inside the page\'s own load budget');
    if(mode==='newer'){
     assert.equal(sourceFiles,0,'a newer corpus must not be replaced by per-source reads');
     assert.equal(bundles,1,'the corpus is still one request');
     await page.goto(`${base}?case=UC-514`);
     await page.locator('#detail[open]').waitFor({timeout:30000});
+    await page.waitForFunction(()=>[...document.querySelectorAll('#detail-body a')].some(anchor=>/GitHub 原始 Markdown/.test(anchor.textContent)),null,{timeout:30000});
     const href=await page.evaluate(()=>{const link=[...document.querySelectorAll('#detail-body a')].find(anchor=>/GitHub 原始 Markdown/.test(anchor.textContent));return link?link.getAttribute('href'):null;});
     assert(href&&href.includes(CORPUS_SHA),'the delivered text must pin to the build its corpus names');
     observations.push({mode,entries:result.entries,bundles,sourceFiles,pinned:href.slice(0,96)});

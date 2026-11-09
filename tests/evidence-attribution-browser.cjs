@@ -89,7 +89,12 @@ const read = page => page.evaluate(() => {
       assert.match(direct.claimant, /成果主張來源（主要：官方自報）/, `${name}: the long note scopes the claimant to the primary class`);
 
       const summary = page.locator('.detail-trust-summary');
-      assert.equal(await summary.locator('.detail-trust-item').count(), 2, `${name}: still two facts, not a blended label`);
+      // Claimant and verification stay separate facts. This case also declares
+      // that the official material was relayed, which is a third fact and keeps
+      // its own line instead of being folded into either of them.
+      assert.equal(await summary.locator('.detail-trust-item').count(), 3, `${name}: relayed acquisition is its own fact, not a blended label`);
+      assert.match(await summary.locator('.detail-trust-provenance').innerText(), /^取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文$/,
+        `${name}: the acquisition line says how the material was obtained`);
       await summary.locator('.detail-trust-jump').focus();
       await page.keyboard.press('Enter');
       await page.waitForTimeout(400);
@@ -124,6 +129,8 @@ const read = page => page.evaluate(() => {
       'a single-class case keeps the plain claimant sentence');
     assert.ok(!single.summaryText.includes('主要 '), 'no primary/co-declared wording when nothing else is declared');
     assert.equal(single.classRows.length, 0, 'no class list when there is only one class');
+    assert.equal(await page.locator('.detail-trust-summary .detail-trust-item').count(), 2,
+      'a directly read case keeps exactly the claimant and verification facts');
 
     // The source-type facet still partitions the corpus: each case counts once,
     // under its primary class, and every declared class is named on the card.

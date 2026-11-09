@@ -641,50 +641,91 @@ function reviewDate(markdown) {
   }
   return dates.sort().pop()||'';
 }
+// Two sections decide whether a reader can try a case. The corpus writes them under
+// many phrasings and keeps adding more, so each is read through a short ordered
+// vocabulary instead of one literal list per section: a heading the extractor does
+// not know silently drops the case's own steps, and the detail page falls back to a
+// generic library sentence that reads like the case's guidance but is not.
+//   tier 1 - the phrasings the detail page promises ("怎麼開始", "建議操作流程");
+//   tier 2 - the step and limit vocabulary the corpus also uses, including
+//            "怎麼試（本庫設計，未測）" and "權限、費用與驗收";
+//   tier 3 - the older fallback, where a workflow section is the closest thing.
+// An author-result heading ("問題、實作與實際結果") is not a step section and is in
+// none of the lists, so it can never be published as "怎麼開始".
+const HOW_HEADINGS = [
+  /(?:建議操作流程|建議流程|建議操作步驟|操作步驟|可參考步驟|可參考的操作順序|操作順序|可借用的驗收步驟|可借用的只讀驗收步驟|可借鑑步驟|練習步驟|怎麼開始|怎麼試|可以怎麼試|怎麼用|小範圍試法|實作流程與核對邊界|操作與驗收|(?:可借用|可參考|可借鑑|可重用|建議|小範圍|試作).*(?:步驟|流程|驗收|操作|順序|試法))/,
+  /(?:流程|輸入與預期輸出|實作步驟|作者做過的流程|作者報告的流程|作者實作)/
+];
+const LIMIT_HEADINGS = [
+  /(?:所需連接、權限與限制|權限、費用與限制|權限、費用與可用性|權限、費用及限制|權限與驗收|證據與查閱缺口|來源報告與限制|限制與驗收|要注意什麼|權限、成本及可用性|權限、限制與驗收|限制、權限與費用|官方限制、費用與可用性|官方限制、費用與權限|官方限制、費用及可用性)/,
+  /(?:限制|權限|費用|成本|可用性|不適合|適用|風險|注意|安全|邊界)/
+];
+// A source line ("[Meet dots](https://…)…2026-10-16 查閱", "ElevenLabs的[說明](…)")
+// is a citation, not a limit or a step; publishing it under 「要注意什麼」 would read
+// as advice. The link may follow a short publisher name, so the check is anchored on
+// the start of the line but allows that prefix.
+const GUIDANCE_CITATION = /^(?:\[[^\]]*\]\(|https?:\/\/|[^，。：\n]{1,24}[，,]\s*(?:[^，。：\n]{1,6}[，,]\s*)?\d{4}-\d{1,2}-\d{1,2}\s*[：:]|[^\[\n]{0,24}\[[^\]]*\]\(https?:\/\/|[^：:\n]{0,12}[：:]\s*https?:\/\/)/;
+// Markdown is not rendered inside the guidance card, so a published link would reach
+// the reader as "[說明](https://…)" — and the 160-character clip can cut it inside the
+// URL. Keep the link text, drop the target.
+const plainGuidance = text => text.replace(/\[([^\]]*)\]\([^)\s]*\)/g, '$1').replace(/\s+/g, ' ').trim();
+// One array of sections per tier, in the order the vocabularies are declared. The
+// heading line ends the match, so a section starts at the newline after it and stops
+// at the next heading of any level.
+function guidanceTiers(markdown, headings, reject) {
+  const tiers = [], seen = new Set();
+  for (const heading of headings) {
+    const sections = [];
+    const pattern = new RegExp('^#{2,3}\\s+.*' + heading.source + '.*$', 'gm');
+    let match;
+    while ((match = pattern.exec(markdown))) {
+      if (seen.has(match.index)) continue;
+      seen.add(match.index);
+      if (reject && reject(match[0])) continue;
+      const rest = markdown.slice(match.index + match[0].length);
+      const next = rest.search(/\n^#{2,3}\s+/m);
+      const section = next !== -1 ? rest.slice(0, next) : rest;
+      const lines = section.split('\n')
+        .map(l => l.trim())
+        .filter(l => l && !l.startsWith('<!--') && !l.startsWith('>') && !l.startsWith('#') && !l.startsWith('```'));
+      sections.push({lines, items: lines.filter(l => /^(\d+\.|\*|-|•)\s+/.test(l)).map(l => l.replace(/^(\d+\.|\*|-|•)\s+/, '').trim())});
+    }
+    tiers.push(sections);
+  }
+  return tiers;
+}
+// Tiers are exclusive: when a case writes a section that names steps, a weaker
+// "作者實作" section must not step in just because that one is empty. A corpus with
+// no step-named heading at all still falls back to the workflow vocabulary.
+function pickGuidance(tiers, read) {
+  for (const sections of tiers) {
+    if (!sections.length) continue;
+    for (const section of sections) {
+      const text = read(section);
+      if (text && !GUIDANCE_CITATION.test(text)) return plainGuidance(text);
+    }
+    return '';
+  }
+  return '';
+}
 function extractActionableGuidance(markdown) {
-  let how = '';
-  let howMatch = markdown.match(/^#{2,3}\s+(?:.*(?:建議操作流程|建議流程|建議操作步驟|操作步驟|可參考步驟|怎麼開始|可借用的驗收步驟|可借用的只讀驗收步驟|實作流程與核對邊界).*)$/m);
-  if (!howMatch) {
-    howMatch = markdown.match(/^#{2,3}\s+(?:.*(?:流程|輸入與預期輸出|實作步驟|作者做過的流程|作者報告的流程|作者實作).*)$/m);
-  }
-  if (howMatch) {
-    const start = howMatch.index + howMatch[0].length;
-    const rest = markdown.slice(start);
-    const nextH = rest.search(/\n^#{2,3}\s+/m);
-    const section = nextH !== -1 ? rest.slice(0, nextH) : rest;
-    const lines = section.split('\n')
-      .map(l => l.trim())
-      .filter(l => l && !l.startsWith('<!--') && !l.startsWith('>') && !l.startsWith('#') && !l.startsWith('```'));
-    const listItems = lines.filter(l => /^(\d+\.|\*|-|•)\s+/.test(l))
-      .map(l => l.replace(/^(\d+\.|\*|-|•)\s+/, '').trim());
-    if (listItems.length > 0) {
-      how = listItems.slice(0, 2).join('；');
-    } else if (lines.length > 0) {
-      how = lines[0];
+  const how = pickGuidance(guidanceTiers(markdown, HOW_HEADINGS), section =>
+    section.items.length > 0 ? section.items.slice(0, 2).join('；') : (section.lines[0] || ''));
+  // A heading that names a procedure ("實作流程與核對邊界") owns steps, not limits:
+  // the reader would otherwise see the first step under 「要注意什麼」.
+  const caution = pickGuidance(guidanceTiers(markdown, LIMIT_HEADINGS, heading => /流程|步驟|操作順序|實作|指令|試法|練習/.test(heading)), section => {
+    if (section.items.length > 0) {
+      const safetyItem = section.items.find(item => /^(?:先停|注意|警告|風險|重要|安全|個資|隱私)[：:]/.test(item) || /(?:禁止|嚴禁|切勿|不得|未經(?:確認|授權|審核)|必經審核|人工審核|人工審批|資料外洩|個資外洩|提示詞注入|提示注入|惡意指示)/.test(item) || /(?:未經(?:確認|授權)|禁止|嚴禁|切勿|不得|人工).*?(?:付款|扣款|改權限|發送|刪除|寫入|覆蓋)|(?:付款|扣款|改權限|發送|刪除|寫入).*?(?:需|必須|要).*?(?:核准|批准|審核|審批|授權)/.test(item));
+      if (safetyItem) return safetyItem;
     }
-  }
-  let caution = '';
-  const cautionMatch = markdown.match(/^#{2,3}\s+(?:.*(?:所需連接、權限與限制|權限、費用與限制|權限、費用與可用性|權限、費用及限制|權限與驗收|證據與查閱缺口|來源報告與限制|限制與驗收|要注意什麼|權限、成本及可用性|權限、限制與驗收|限制、權限與費用|官方限制、費用與可用性|官方限制、費用與權限|官方限制、費用及可用性).*)$/m);
-  if (cautionMatch) {
-    const start = cautionMatch.index + cautionMatch[0].length;
-    const rest = markdown.slice(start);
-    const nextH = rest.search(/\n^#{2,3}\s+/m);
-    const section = nextH !== -1 ? rest.slice(0, nextH) : rest;
-    const lines = section.split('\n')
-      .map(l => l.trim())
-      .filter(l => l && !l.startsWith('<!--') && !l.startsWith('>') && !l.startsWith('#') && !l.startsWith('```'));
-    const listItems = lines.filter(l => /^(\d+\.|\*|-|•)\s+/.test(l))
-      .map(l => l.replace(/^(\d+\.|\*|-|•)\s+/, '').trim());
-    if (listItems.length > 0) {
-      const safetyItem = listItems.find(item => /^(?:先停|注意|警告|風險|重要|安全|個資|隱私)[：:]/.test(item) || /(?:禁止|嚴禁|切勿|不得|未經(?:確認|授權|審核)|必經審核|人工審核|人工審批|資料外洩|個資外洩|提示詞注入|提示注入|惡意指示)/.test(item) || /(?:未經(?:確認|授權)|禁止|嚴禁|切勿|不得|人工).*?(?:付款|扣款|改權限|發送|刪除|寫入|覆蓋)|(?:付款|扣款|改權限|發送|刪除|寫入).*?(?:需|必須|要).*?(?:核准|批准|審核|審批|授權)/.test(item));
-      caution = safetyItem || listItems[0];
-    } else if (lines.length > 0) {
-      caution = lines[0];
-    }
-  }
+    return section.items.find(item => !GUIDANCE_CITATION.test(item)) || section.lines.find(line => !GUIDANCE_CITATION.test(line)) || '';
+  });
+  // 160 characters is what the card face can hold; mark the cut so a reader does not
+  // read a half sentence as the whole advice.
+  const clip = text => { const flat = text.replace(/\s+/g, ' '); return flat.length > 160 ? flat.slice(0, 159).trimEnd() + '…' : flat; };
   return {
-    how: how ? how.replace(/\s+/g, ' ').slice(0, 160) : '',
-    caution: caution ? caution.replace(/\s+/g, ' ').slice(0, 160) : ''
+    how: how ? clip(how) : '',
+    caution: caution ? clip(caution) : ''
   };
 }
 // A source line often names several evidence classes ("`official`（文件）＋

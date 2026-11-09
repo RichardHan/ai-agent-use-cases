@@ -2,6 +2,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const path = require('node:path');
 const vm = require('node:vm');
 
 const appSource = fs.readFileSync('assets/app.js', 'utf8')
@@ -321,4 +322,183 @@ test('Reviewer regressions: incidental mentions of coverage or payment speed mus
   const uc143Meta = context.metadata(uc143Markdown, 'cases/143-unclaimed.md', 'case', 'UC-143');
   assert.match(uc143Meta.caution, /涉及財產及身份的真實查詢有隱私與法律風險/);
   assert.doesNotMatch(uc143Meta.caution, /付款速度/);
+});
+
+// The corpus writes the same two sections under many phrasings ("怎麼試（本庫設計，
+// 未測）", "建議步驟（本庫設計，未實測）", "權限、費用與驗收"). A heading the extractor
+// does not know silently drops the case's own steps and the detail page falls back to
+// the generic library sentence, which reads like the case's guidance but is not.
+test('metadata reads the step headings the corpus actually uses', () => {
+  const { context } = setupEnvironment();
+  const headings = ['怎麼試（本庫設計，未測）', '建議步驟（本庫設計，未實測）', '可參考的操作順序', '可重用驗收步驟（本庫設計，未執行）'];
+  headings.forEach((heading, index) => {
+    const markdown = `# UC-6${index}0：測試步驟標題
+- 情境：工作
+- 網站標題：測試
+
+## ${heading}
+1. 先以去敏資料在隔離環境試跑，確認第一項輸出。
+2. 再逐項核對來源與限制，不直接寫入正式系統。
+
+## 來源版本
+- 作者自述。
+`;
+    const meta = context.metadata(markdown, `cases/6${index}0-heading.md`, 'case', `UC-6${index}0`);
+    assert.match(meta.how, /先以去敏資料在隔離環境試跑/, `"${heading}" must provide the case's own steps`);
+    assert.doesNotMatch(meta.how, /先閱讀原始報告與限制/, `"${heading}" must not fall back to the generic sentence`);
+  });
+});
+
+test('an author-result section is not turned into "how to start"', () => {
+  const { context } = setupEnvironment();
+  const markdown = `# UC-670：測試作者結果
+- 情境：工作
+- 網站標題：測試
+
+## 問題、實作與實際結果
+1. 作者在自己的專案建了一套流程並貼出結果。
+2. 這是作者的成果，不是可照做的步驟。
+
+## 來源版本
+- 作者自述。
+`;
+  const meta = context.metadata(markdown, 'cases/670-result.md', 'case', 'UC-670');
+  assert.equal(meta.how, '先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。');
+});
+
+test('metadata reads the limits headings the corpus actually uses', () => {
+  const { context } = setupEnvironment();
+  ['權限、費用與驗收', '共通方案、可用性與權限', '驗收與限制', '權限、費用與去重'].forEach((heading, index) => {
+    const markdown = `# UC-6${index}1：測試限制標題
+- 情境：工作
+- 網站標題：測試
+
+## 建議操作流程
+1. 先讀取。
+
+## ${heading}
+- 未經本人確認不得送出、付款或改權限；憑證只放在本機。
+
+## 來源版本
+- 作者自述。
+`;
+    const meta = context.metadata(markdown, `cases/6${index}1-limits.md`, 'case', `UC-6${index}1`);
+    assert.match(meta.caution, /未經本人確認不得送出/, `"${heading}" must provide the case's own limits`);
+  });
+});
+
+const GENERIC_HOW = '先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。';
+
+test('every case that writes a step section keeps its own guidance on the detail page', () => {
+  const { context } = setupEnvironment();
+  // Same boundary the reader uses: a step heading owns the text up to the next
+  // heading of any level, so a heading that only introduces subsections is skipped.
+  const stepHeading = /^#{2,3}\s+.*(?:怎麼試|怎麼開始|小範圍試法|建議步驟|操作步驟|操作順序|可參考步驟|可借鑑步驟|可重用.*步驟|練習步驟|建議操作流程|建議流程|驗收步驟).*$/;
+  const missing = [];
+  for (const file of fs.readdirSync('cases').filter(name => name.endsWith('.md'))) {
+    const markdown = fs.readFileSync(path.join('cases', file), 'utf8');
+    const match = markdown.match(new RegExp(stepHeading.source, 'm'));
+    if (!match) continue;
+    const section = markdown.slice(match.index + match[0].length).split(/\n#{2,3}\s/)[0];
+    if (!/\S/.test(section.replace(/<!--[\s\S]*?-->/g, ''))) continue;
+    const meta = context.metadata(markdown, `cases/${file}`, 'case');
+    if (meta.how === GENERIC_HOW) missing.push(file);
+  }
+  assert.deepEqual(missing, [], 'these cases write steps the reader cannot see: ' + missing.join(', '));
+});
+
+const GENERIC_CAUTION = '本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。';
+
+test('every case that names a limits section keeps its own limits on the detail page', () => {
+  const { context } = setupEnvironment();
+  // Headings that can only mean "limits and permissions"; a case that writes one of
+  // these must not be published with the generic library warning instead.
+  const limitsHeading = /^#{2,3}\s+.*(?:所需連接、權限與限制|權限、費用與限制|權限、費用與可用性|權限、費用及限制|證據與查閱缺口|來源報告與限制|要注意什麼|權限、成本及可用性).*$/;
+  const missing = [];
+  for (const file of fs.readdirSync('cases').filter(name => name.endsWith('.md'))) {
+    const markdown = fs.readFileSync(path.join('cases', file), 'utf8');
+    if (!limitsHeading.test(markdown)) continue;
+    const meta = context.metadata(markdown, `cases/${file}`, 'case');
+    if (meta.caution === GENERIC_CAUTION) missing.push(file);
+  }
+  assert.deepEqual(missing, [], 'these cases write limits the reader cannot see: ' + missing.join(', '));
+});
+
+test('a citation line is not published as advice', () => {
+  const { context } = setupEnvironment();
+  const markdown = `# UC-680：測試引用
+- 情境：工作
+- 網站標題：測試
+
+## 建議操作流程
+1. 先以合成資料試跑。
+
+## 權限、費用與限制
+- [Meet dots](https://learn.chatgpt.com/docs/dots)，2026-10-16 查閱：dot 有雲端電腦。
+- 需要讀取授權；送出前須本人確認。
+
+## 來源版本
+- 作者自述。
+`;
+  const meta = context.metadata(markdown, 'cases/680-citation.md', 'case', 'UC-680');
+  assert.equal(meta.caution, '需要讀取授權；送出前須本人確認。');
+  assert.doesNotMatch(meta.caution, /^\[/);
+});
+
+test('a step section that only introduces subsections must not fall through to an author result', () => {
+  const { context } = setupEnvironment();
+  // Shape of cases/181: the step heading owns nothing but an H3, and the next
+  // candidate is the author's own run.
+  const markdown = `# UC-681：測試步驟與作者結果
+- 情境：工作
+- 網站標題：測試
+
+## 原作者實作
+作者描述自己的三人小店試用 Bot 約一個月，並估計每天原需 20–30 分鐘；沒有標籤樣本或狀態回寫。
+
+## 可參考步驟（自行設計，未執行）
+
+### 2026-10-18 補充：先前流程失效
+作者說同一流程後來不能完成；根因未獲獨立確認。
+
+## 權限、費用與可用性
+- 購標可能扣款；列印與通知需各自授權。
+`;
+  const meta = context.metadata(markdown, 'cases/681-steps.md', 'case', 'UC-681');
+  assert.equal(meta.how, GENERIC_HOW, 'an author result must never become "怎麼開始"');
+  assert.match(meta.caution, /購標可能扣款/);
+});
+
+test('a citation that follows a publisher name is not advice', () => {
+  const { context } = setupEnvironment();
+  const markdown = `# UC-682：測試引用前綴
+- 情境：工作
+- 網站標題：測試
+
+## 建議操作流程
+1. 先以合成資料試跑。
+
+## 權限、費用與限制
+- ElevenLabs的[Professional Voice Clone說明](https://elevenlabs.io/docs)：須是本人聲音並通過驗證。
+- 未經本人同意不得複製他人聲音或上傳私人錄音。
+
+## 來源版本
+- 作者自述。
+`;
+  const meta = context.metadata(markdown, 'cases/682-prefix.md', 'case', 'UC-682');
+  assert.equal(meta.caution, '未經本人同意不得複製他人聲音或上傳私人錄音。');
+});
+
+test('published guidance never carries markdown link syntax or a bare URL', () => {
+  const { context } = setupEnvironment();
+  const offenders = [];
+  for (const file of fs.readdirSync('cases').filter(name => name.endsWith('.md'))) {
+    const markdown = fs.readFileSync(path.join('cases', file), 'utf8');
+    const meta = context.metadata(markdown, `cases/${file}`, 'case');
+    for (const [field, value] of [['how', meta.how], ['caution', meta.caution]]) {
+      if (!value) continue;
+      if (/\]\(|https?:\/\//.test(value)) offenders.push(`${file}:${field}`);
+    }
+  }
+  assert.deepEqual(offenders, [], 'guidance must read as prose, not as a link: ' + offenders.join(', '));
 });

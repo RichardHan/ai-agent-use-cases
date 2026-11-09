@@ -121,7 +121,7 @@ run [42546597665](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/
 
 | 項目 | 結果 |
 | --- | --- |
-| `catalog.json` `sourceRevision` | `9418869ac9f7cca651c1a199837786306d24fdd6`（含 `32e3a7a6` 的內容；後續純紀錄 commit 只推進 revision） |
+| `catalog.json` `sourceRevision` | 驗證當時為 `9b660676421c08ffc6cf53e1ecb2aef35b07330e`（本紀錄的 commit），內容 commit 為 `32e3a7a6`；之後的**純紀錄 commit 只推進 `sourceRevision`，不再改變網站行為**，所以這個值會比紀錄新，屬既有行為。run [42549400104](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42549400104) success |
 | `assets/app.js` sha256 前 16 碼 | 正式站 `0fa69d912f6cf13c` ＝ main（`32e3a7a6`）`0fa69d912f6cf13c` |
 | `index.html` sha256 前 16 碼 | 正式站 `95b5933e4d5fb3e8` ＝ main `95b5933e4d5fb3e8`（部署前的舊值為 `b473a8be254a0191`／`fa7a52744407a2f9`） |
 | Tab→Enter（1440×900） | `activeElement` = `#query`，`queryTop` 430px（視窗 900） |

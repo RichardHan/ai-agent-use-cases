@@ -10,6 +10,8 @@ UC-514 的頁首寫 `` `official`（Spaces 功能與官方作例，經來源轉�
 
 已知限制：取得方式只涵蓋 `official` 宣告且只認字面線索；`官方自報` 篩選仍同時包含直接讀官方與經轉述兩類（可見文字只有類別名）；P-004 的第二個併入目的地 UC-102 仍只顯示 UC-101。[方案、前後數據、截圖與限制](docs/qa/2026-11-11-source-attribution/README.md)。
 
+發布補記：PR [#301](https://github.com/RichardHan/ai-agent-use-cases/pull/301)（head `4b626f08`）14 項非略過檢查全 pass、`published` 依設計 skipping，squash 合併為 `f679b9c8`（base `8acec384`）。`pages build and deployment`（[42609887367](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42609887367)）build／report／deploy 全 success；正式站 `catalog.json.sourceRevision` = `f679b9c8…`、510 個來源檔，`assets/app.js`／`copy.json`／`reader.css` 與合併版本 sha256 相同。正式站 1440／390／320 重走：UC-514／UC-316 顯示取得方式、UC-024 只顯示作者報告／示範、UC-007 不受影響、P-002／P-004 文案與來源檔一致，三情境與 axe 0 通過。之後的紀錄類 commit 只會推進 `sourceRevision`，不改變已驗證的產物。
+
 下一輪先做 **待查線索的多個併入目的地**：`app.js:931` 只抓第一個 `UC-\d{3}`，P-004 的 UC-102 因此沒有徽章與站內入口；驗證先讀 `sources/pending.md:34`、`INDEX.md:544`，再開 `?case=P-004` 對照，並補「狀態有日期但沒有 `併入 UC-nnn`」的防護回歸。
 
 ## 2026-11-09 部署換版空窗：兩個 manifest 建置不同，整包語料被丟掉、改抓 510 個檔案

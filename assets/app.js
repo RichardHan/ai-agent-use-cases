@@ -78,16 +78,37 @@ const PROOF_SAFE_ADOPTION_TIP = globalThis.PROOF_SAFE_ADOPTION_TIP = {
 // A case can declare more than one evidence class. Show every chip the page
 // header names, and keep the primary chip's visible text identical to the
 // filter value so colour, wording and counts stay the same vocabulary.
+// A class can be declared while the page also states the library never read the
+// original. The class still names who makes the claim, so the badge keeps the
+// same visible text (and the same filter value), and the acquisition route is
+// stated beside it instead of being implied by the badge alone.
+const PROOF_PROVENANCE = globalThis.PROOF_PROVENANCE = {
+  relayed: {
+    badge: '官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文',
+    claimant: '（官方內容經第三人轉述）',
+    note: '本庫取得方式：案例頁說明官方內容經第三方轉述，或本庫只讀到影片說明與第三人整理（例如未觀看影片、未開啟官方頁面）。來源憑據仍記為官方自報，因為成果主張來自官方團隊；但這不代表本庫完整核讀過官方原文，引用前請自行開啟官方來源核對。'
+  }
+};
+function proofIsRelayed(item, label) {
+  return !!item && Array.isArray(item.relayedProof) && item.relayedProof.includes(label);
+}
+// The first screen and the full note speak for the page, so any relayed
+// declaration has to be visible there, not only when it is the primary class.
+function caseHasRelayedProof(item) {
+  return !!item && Array.isArray(item.relayedProof) && item.relayedProof.length > 0;
+}
 function proofBadges(item) {
   const classes = item.proofClasses && item.proofClasses.length ? item.proofClasses : [item.proof];
   return classes.map((label, index) => {
     const badge = el('span', 'detail-badge proof-badge', label);
     badge.dataset.proof = label;
+    const relayed = proofIsRelayed(item, label);
+    if (relayed) badge.dataset.proofProvenance = 'relayed';
     const desc = PROOF_DEFINITIONS[label] || label;
-    badge.title = desc;
+    badge.title = desc + (relayed ? '（' + PROOF_PROVENANCE.relayed.badge + '）' : '');
     badge.setAttribute('role', 'note');
     const prefix = classes.length > 1 ? (index === 0 ? '來源憑據（主要）：' : '來源憑據（同案宣告）：') : '來源憑據：';
-    badge.setAttribute('aria-label', prefix + label + '。' + desc);
+    badge.setAttribute('aria-label', prefix + label + (relayed ? '，' + PROOF_PROVENANCE.relayed.badge : '') + '。' + desc);
     return badge;
   });
 }
@@ -101,9 +122,12 @@ function declaredClassList(item) {
     const entry = el('li', 'proof-note-class');
     const tag = el('span', 'proof-note-class-tag', label);
     tag.dataset.proof = label;
+    const relayed = proofIsRelayed(item, label);
+    if (relayed) tag.dataset.proofProvenance = 'relayed';
     entry.append(
       tag,
-      el('span', 'proof-note-class-detail', (index === 0 ? '主要' : '同案宣告') + '：成果主張 ' + (PROOF_CLAIMANTS[label] || '來源未明') + '；核讀 ' + (PROOF_STATUS_SHORT[label] || '未獨立重現'))
+      el('span', 'proof-note-class-detail', (index === 0 ? '主要' : '同案宣告') + '：成果主張 ' + (PROOF_CLAIMANTS[label] || '來源未明')
+        + (relayed ? PROOF_PROVENANCE.relayed.claimant : '') + '；核讀 ' + (PROOF_STATUS_SHORT[label] || '未獨立重現'))
     );
     list.append(entry);
   });
@@ -839,10 +863,13 @@ function declaredEvidenceClassesOfClause(clause) {
   // Backticked machine tokens are explicit declarations wherever they appear.
   const officialToken = /\bofficial\b/i.test(text);
   const designedToken = /\bdesigned\b/i.test(text);
+  // 官方轉述 means the official channel relayed someone else's experience, so it
+  // is not a first-party official self-report; the corpus uses it that way in
+  // UC-024 (「官方轉述早期使用者經驗；不是作者本人操作教學」).
   const firstParty = officialToken && !/^\s*designed\b/i.test(text)
     ? true
-    : FIRST_PARTY_LEAD.test(text) || /^官方/.test(text)
-      || /官方(?:署名|自報|展示|示例|範例|發布|轉述|第一手)/.test(text);
+    : FIRST_PARTY_LEAD.test(text) || /^官方(?!轉述)/.test(text)
+      || /官方(?:署名|自報|展示|示例|範例|發布|第一手)/.test(text);
   const leadingUnverified = /^\s*(?:unverified|待驗證|待定|尚待查證)/i.test(text);
   if (firstParty) add('官方自報');
   // `unverified` as a claim ends the clause or is followed by punctuation; a
@@ -875,17 +902,56 @@ function declaredEvidenceClasses(proofLine, kind) {
 }
 // The single label the corpus has always used. Keep it verbatim so the filter,
 // the counts and the sort order do not move when the clause list is added.
+// Each rule is tested inside one declared clause: `dots官方轉述＋Grok Bot作者自報`
+// names two different sources, so the word 官方 in one half must not borrow 自報
+// from the other half to become a first-party official claim. The per-rule order
+// is the existing precedence, so a single-clause line keeps its label exactly.
 function declaredEvidenceClass(proofLine, kind) {
   if (kind === 'pending') return '尚待查證';
   const line = proofLine.replace(/`/g, '');
+  const clauses = line.split(/[＋+;；]/).map(clause => clause.trim()).filter(Boolean);
+  const some = re => clauses.some(clause => re.test(clause));
+  // The anchored rules already cannot read across a clause boundary. They stay on
+  // the whole line so a grade pair such as `V＋B，服務商員工…` is not split.
   if (/^\s*(?:unverified|待驗證|待定|尚待查證)/i.test(line)) return '尚待查證';
   if (/^\s*designed\b/i.test(line)) return '設計／未實跑';
   if (/^(?:原)?模板/.test(line)) return '模板／文件核讀';
   if (FIRST_PARTY_LEAD.test(line)) return '官方自報';
-  if (/\bauthor-(?:demo|self-report)\b/i.test(line)) return '作者報告／示範';
-  if (/官方.*(?:展示|示例|範例|發布|自報|第一手.*自述|署名作者使用陳述)|official/i.test(line)) return '官方自報';
-  if (/author|作者|自驗|自述/.test(line)) return '作者報告／示範';
+  if (some(/\bauthor-(?:demo|self-report)\b/i)) return '作者報告／示範';
+  if (some(/官方.*(?:展示|示例|範例|發布|自報|第一手.*自述|署名作者使用陳述)|official/i)) return '官方自報';
+  if (some(/author|作者|自驗|自述/)) return '作者報告／示範';
   return '公開資料核讀';
+}
+// The class names who makes the claim; it does not say how the library obtained
+// the material. A page can declare an official feature, demo or video while
+// stating that the official original was relayed by someone else or never read
+// (`official`（Spaces 功能與官方作例，經來源轉述）, 本庫未觀看影片，流程細節來自
+// 第三方文字整理). Read that statement from the same clause that declares
+// `official`, so the badge, the claimant line and the detail note cannot present
+// a first-hand reading the case page does not claim.
+const RELAYED_OFFICIAL = /經[^。；，]{0,12}轉述|官方轉述|轉述的官方|二手轉述|未觀看影片|影片未(?:觀看|播放|看)|未看影片|未讀官方|官方[^。；，]{0,6}未(?:讀|開啟)/;
+// Look only where the `official` declaration lives: its own parenthetical group
+// plus the sentence fragment that follows it. A later sentence about a different
+// source (`…快照回滾事件為二手轉述 unverified`, `…通話影片（本庫未看）`) describes
+// that other source, so it must not qualify the official class.
+function relayedEvidenceClasses(proofLine) {
+  // proofLine is already `clean()`ed, so the declaration token arrives unquoted.
+  if (!/\bofficial\b/i.test(proofLine)) return [];
+  const rest = proofLine.slice(proofLine.search(/\bofficial\b/i));
+  const open = rest.indexOf('（');
+  let window;
+  if (open === -1) {
+    window = rest.split(/[。；;＋+]/)[0];
+  } else {
+    const close = rest.indexOf('）', open);
+    const groupEnd = close === -1 ? rest.length : close + 1;
+    // Only a following sentence belongs to this declaration; anything after ＋／；
+    // is a different source (`＋author-demo（…本庫未觀看影片）`).
+    const after = rest.slice(groupEnd);
+    const tail = /^[。\s]/.test(after) ? after.replace(/^[。\s]+/, '').split(/[。；;＋+]/)[0] : '';
+    window = rest.slice(0, groupEnd) + tail;
+  }
+  return RELAYED_OFFICIAL.test(window) ? ['官方自報'] : [];
 }
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);
@@ -931,6 +997,7 @@ function metadata(markdown, path, kind, suffix='') {
   const mergedInto=kind==='evidence' ? null : kind==='case' ? (heading.match(/已合併\s*(UC-\d{3})/)?.[1] || proofLine.match(/合併\s*(UC-\d{3})/)?.[1] || null) : ((statusLine + ' ' + heading).match(/併入\s*(UC-\d{3})/)?.[1] || null);
   const proofClasses = declaredEvidenceClasses(proofLine, kind);
   const proof = proofClasses[0];
+  const relayedProof = proofLine ? relayedEvidenceClasses(proofLine) : [];
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})/)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
   const copy=(globalThis.displayCopy?.[id])||displayCopy[id]||{};
@@ -945,7 +1012,7 @@ function metadata(markdown, path, kind, suffix='') {
   const declaredTier = declaredDifficulty(lead);
   const difficulty = declaredTier || extractDifficulty(markdown, tools, scenario, category);
   const difficultySource = declaredTier ? 'declared' : 'inferred';
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,tools,date,reviewedDate,mergedInto,resolved,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id))};
 }
 // sources/pending.md records one review date for the whole file, above the first
 // lead. It says when the file was checked, not when each lead was, so it stays a
@@ -1188,7 +1255,8 @@ function renderRelated(item) {
       const sharedTags = sharedRelatedTags(item, other);
       const reason = sharedTags.length >= 2 ? '共同標籤：' + sharedTags.join('、') : '同分類：' + other.category;
       row.append(el('p', 'related-meta', other.id + ' · ' + reason), button,
-        el('p', 'related-summary', other.summary), el('p', 'related-proof', '來源類型：' + other.proof));
+        el('p', 'related-summary', other.summary), el('p', 'related-proof', '來源類型：' + other.proof
+          + (caseHasRelayedProof(other) ? '（' + PROOF_PROVENANCE.relayed.badge + '）' : '')));
       list.append(row);
     });
     section.append(list);
@@ -1223,7 +1291,7 @@ function renderRelated(item) {
       `📌 用途：${item.what || item.summary}`,
       item.how ? `🚀 怎麼開始：${item.how}` : '',
       item.caution ? `⚠️ 注意事項：${item.caution}` : '',
-      item.proof ? `📎 來源證據：${item.proof}` : '',
+      item.proof ? `📎 來源證據：${item.proof}${caseHasRelayedProof(item) ? '（' + PROOF_PROVENANCE.relayed.badge + '）' : ''}` : '',
       `💡 說明：本庫入門建議為整理者設計，非實測結果；未獨立重現，請核對原始報告與限制。`,
       `🔗 詳情與來源：${caseUrl.href}`
     ].filter(Boolean).join('\n');
@@ -1445,12 +1513,16 @@ function showDetail(item, trigger, updateURL=true) {
   const otherClasses = (item.proofClasses || [item.proof]).filter(label => label !== item.proof);
   trust.append(
     el('span', 'detail-trust-item', otherClasses.length
-      ? '成果主張：主要 ' + (PROOF_CLAIMANTS[item.proof] || '來源未明') + '；另宣告 ' + otherClasses.join('、')
-      : '成果主張：' + (PROOF_CLAIMANTS[item.proof] || '來源未明')),
+      ? '成果主張：主要 ' + (PROOF_CLAIMANTS[item.proof] || '來源未明') + (proofIsRelayed(item, item.proof) ? PROOF_PROVENANCE.relayed.claimant : '') + '；另宣告 ' + otherClasses.join('、')
+      : '成果主張：' + (PROOF_CLAIMANTS[item.proof] || '來源未明') + (proofIsRelayed(item, item.proof) ? PROOF_PROVENANCE.relayed.claimant : '')),
     el('span', 'detail-trust-item', otherClasses.length
       ? '核讀：主要 ' + (PROOF_STATUS_SHORT[item.proof] || '未獨立重現') + '；其他類別見下方'
       : '核讀：' + (PROOF_STATUS_SHORT[item.proof] || '未獨立重現'))
   );
+  // Who made the claim and how the library obtained it are different facts; say
+  // the acquisition route here instead of letting the class imply a first-hand read.
+  if (caseHasRelayedProof(item))
+    trust.append(el('span', 'detail-trust-item detail-trust-provenance', '取得：' + PROOF_PROVENANCE.relayed.badge));
   const trustJump = el('button', 'detail-trust-jump', '核讀與安全建議 ↓');
   trustJump.type = 'button';
   trustJump.addEventListener('click', () => {
@@ -1604,7 +1676,10 @@ function showDetail(item, trigger, updateURL=true) {
   // The header can declare several classes; say so here instead of letting the
   // primary class speak for the whole page.
   if (multiClass) proofNote.append(declaredClassList(item));
-  proofNote.append(proofTag, proofDesc, proofClaimant, proofStatus, proofSafety);
+  proofNote.append(proofTag, proofDesc);
+  if (caseHasRelayedProof(item))
+    proofNote.append(el('p', 'proof-note-provenance', PROOF_PROVENANCE.relayed.note));
+  proofNote.append(proofClaimant, proofStatus, proofSafety);
   const closure=resolvedPendingNote(item);
   if(closure)proofNote.prepend(el('p','proof-note-closure',closure));
   body.append(proofNote);
@@ -1824,9 +1899,12 @@ function card(item, terms=[]) {
   const proofBadge = el('span', 'proof', item.proof);proofBadge.dataset.proof = item.proof;
   proofBadge.setAttribute('role', 'note');
   const cardOthers = (item.proofClasses || [item.proof]).filter(label => label !== item.proof);
+  const cardRelayed = proofIsRelayed(item, item.proof);
+  if (cardRelayed) proofBadge.dataset.proofProvenance = 'relayed';
   proofBadge.title = (PROOF_DEFINITIONS[item.proof] || item.proof)
+    + (cardRelayed ? '（' + PROOF_PROVENANCE.relayed.badge + '）' : '')
     + (cardOthers.length ? ' 本案例另宣告：' + cardOthers.join('、') + '（詳見案例）' : '');
-  proofBadge.setAttribute('aria-label', '來源憑據：' + item.proof + '。' + (PROOF_DEFINITIONS[item.proof] || '')
+  proofBadge.setAttribute('aria-label', '來源憑據：' + item.proof + (cardRelayed ? '，' + PROOF_PROVENANCE.relayed.badge : '') + '。' + (PROOF_DEFINITIONS[item.proof] || '')
     + (cardOthers.length ? ' 本案例另宣告 ' + cardOthers.length + ' 類來源：' + cardOthers.join('、') + '。' : ''));
   bottom.append(proofBadge, read);
   node.append(bottom);

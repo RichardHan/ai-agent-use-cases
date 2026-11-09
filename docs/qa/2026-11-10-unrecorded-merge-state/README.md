@@ -113,3 +113,29 @@ P-004 的「怎麼開始／要注意什麼」前後（1440×900，同一頁）�
 
 審查未能驗證：真實慢網路下的晚載、正式站、截圖影像內容；它也沒有重跑完整套件（588→592 依本紀錄與環境資訊）。
 
+
+## 發布
+
+| 狀態 | 內容 |
+| --- | --- |
+| 已提交 | `958df12f`（功能與測試）、`ea50ae95`（`SITE.md` 紀錄） |
+| 已推送 | `origin/improve/20261110-unrecorded-merge-state` → PR [#308](https://github.com/RichardHan/ai-agent-use-cases/pull/308) |
+| PR 檢查 | 功能 head `958df12f` 13 項非略過檢查全 success（`published` 依設計在 PR 上 skipping）；`ea50ae95` 只改 `SITE.md` 且標記 `[skip ci]`，因此沒有新 run |
+| 已合併 | squash `7e70b5f5`（base `c4bef514`） |
+| 部署 | `pages build and deployment` [42692517936](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42692517936) success（build／report／deploy） |
+| 正式站已驗證 | 是：`catalog.json.sourceRevision` = `7e70b5f5…`、510 個來源檔；`assets/app.js`、`assets/copy.json` 與合併版本 sha256 逐 byte 相同 |
+
+### 正式站核對（`7e70b5f5`，Chromium 1440×900／390×844／320×740）
+
+| 檢查 | 結果 |
+| --- | --- |
+| 首頁 | 513／513 筆；統計註記仍是「另有 2 個待查線索已處理並併入案例」、篩選「（含 2 筆已併入，統計不計）」（今日語料沒有未記錄去向的條索，文字與基準相同） |
+| `?case=P-004` | 徽章 `待查線索・已併入 UC-101、UC-102`；兩顆站內入口（UC-101、UC-102）；原始 Markdown 固定到 `blob/7e70b5f5…/sources/pending.md` |
+| P-004「怎麼開始／要注意什麼」 | 「原作者的公開結果已補讀，內容分別併入 UC-101 與 UC-102；仍不提供已驗證的操作流程。」／「…先核對 UC-101 與 UC-102 的來源版本。」 |
+| P-004 複製筆記 | 含 `🔁 狀態：已併入 UC-101、UC-102，不另計一案` |
+| `?case=P-002` | 仍是單一目的地 `UC-028`、一顆入口（未受影響） |
+| `?case=P-009` | 不存在於語料 → 顯示缺少案例的頁面，不開詳情（合成資料沒有被發布） |
+| 情境 1（`/` →「整理會議記錄」→ Enter） | 8／513 筆，第一張卡在 211／293／312px |
+| 情境 2（`?q=規劃旅行&scenario=工作`） | 0／513 →「移除使用情境「工作」→ 查看 1 筆」→ 1 筆 |
+| 情境 3（`?case=UC-514` → Escape） | 徽章與取得方式正常；Escape 關閉、回到 513 筆、焦點在結果筆數 |
+| axe（首頁、P-004，三種寬度）／pageerror／水平溢出 | 0 違規／0／0 |

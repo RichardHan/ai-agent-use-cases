@@ -604,7 +604,9 @@ const DIFFICULTY_TIERS = ['入門對話', '工具串接', '進階開發'];
 // "腳本" was the author's product or the prerequisite for reproducing the case.
 function declaredDifficulty(lead) {
   const raw = clean(lead.match(/^-\s*實作門檻\s*[：:]\s*(.+)$/m)?.[1] || '');
-  return DIFFICULTY_TIERS.find(tier => raw.startsWith(tier)) || '';
+  // Exact match only: a value like "入門對話（需本機環境）" is malformed, and
+  // accepting its prefix would publish a tier the case did not declare.
+  return DIFFICULTY_TIERS.includes(raw) ? raw : '';
 }
 function extractDifficulty(markdown, tools = [], scenario = '', category = '') {
   const lead = markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];

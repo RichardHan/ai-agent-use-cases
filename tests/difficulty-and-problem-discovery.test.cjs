@@ -371,6 +371,11 @@ test('an unknown declared value is ignored instead of turning into a facet value
   const meta = api.metadata(markdown, 'cases/901-test.md', 'case');
   assert.equal(meta.difficultySource, 'inferred', 'unparseable declarations must fall back to inference');
   assert.ok(['入門對話', '工具串接', '進階開發'].includes(meta.difficulty));
+
+  // A value that merely starts with a tier name is malformed, not a declaration.
+  const prefixed = api.metadata(markdown.replace('很簡單', '入門對話（需本機環境或代碼）'), 'cases/901-test.md', 'case');
+  assert.equal(prefixed.difficultySource, 'inferred', 'a decorated tier must not be accepted by prefix');
+  assert.notEqual(prefixed.difficulty, '入門對話', 'a malformed declaration must not publish a tier');
 });
 
 test('every case that declares a tier uses a valid tier and is honoured by metadata', () => {

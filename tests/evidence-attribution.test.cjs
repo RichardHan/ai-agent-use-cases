@@ -44,6 +44,26 @@ test('a declaration that joins classes with ＋ or ； keeps every class it name
     'a relayed official video plus a third-party write-up is still one official class, not two');
 });
 
+test('a passing or negated mention of a class does not become an attributed class', () => {
+  const classes = line => [...api.declaredEvidenceClasses(line, 'case')];
+  assert.deepEqual(classes('author-demo（作者實測）＋旁註提及模板，但模板不是本案證據'), ['作者報告／示範'],
+    'a template mentioned as a side note is not a 模板／文件核讀 declaration');
+  assert.deepEqual(classes('author-demo（作者實測）；另註 unverified 欄位尚未填'), ['作者報告／示範'],
+    'an unverified field name is not a 尚待查證 declaration');
+  assert.deepEqual(classes('`designed`（作者自行設計、未附執行結果）；作者稱參考官方文件'), ['設計／未實跑'],
+    'designing a prompt is not an author execution record');
+  assert.deepEqual(classes('unverified（待驗證）。作者已設定並描述行為，但尚未實測'), ['尚待查證'],
+    'an unverified lead is not upgraded to an author report by its prose');
+  assert.deepEqual(classes('author-demo（作者貼文）＋公開資料核讀（官方規格頁）'), ['作者報告／示範', '公開資料核讀'],
+    'an explicitly named 公開資料核讀 clause is kept');
+  assert.deepEqual(classes('`official`（功能文件已讀）＋`author-demo`（作者自述實測）'), ['作者報告／示範', '官方自報'],
+    'explicit tokens are honoured inside a clause, primary first');
+  // Real corpus fixtures: a public template page that the case only inspected
+  // stays auxiliary material, and a designed-only prompt keeps one class.
+  assert.deepEqual([...byId('UC-344').proofClasses], ['作者報告／示範'], 'UC-344 reads a template page as auxiliary');
+  assert.deepEqual([...byId('UC-496').proofClasses], ['設計／未實跑'], 'UC-496 only designed a prompt');
+});
+
 test('a single-clause declaration does not gain invented classes', () => {
   assert.deepEqual([...api.declaredEvidenceClasses('author-demo（作者貼文＋截圖）', 'case')], ['作者報告／示範']);
   assert.deepEqual([...api.declaredEvidenceClasses('unverified', 'case')], ['尚待查證']);

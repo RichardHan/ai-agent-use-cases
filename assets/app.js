@@ -802,29 +802,45 @@ const FIRST_PARTY_LEAD = /^(?:[VAB](?:\s*[＋+]\s*[VAB])?級?\s*[，,、:：]?\s
 // primary claimant as if it were the only one. The declaration is written as
 // clauses joined by ＋/；, so classify each clause with the same rules and list
 // every class the page actually names.
-function declaredEvidenceClassOfClause(clause) {
+function declaredEvidenceClassesOfClause(clause) {
   const text = clause.replace(/`/g, '').trim();
-  if (!text) return '';
-  if (/^(?:unverified|待驗證|待定|尚待查證)/i.test(text)) return '尚待查證';
-  if (/^(?:原)?模板/.test(text)) return '模板／文件核讀';
-  if (/^designed\b/i.test(text)) return '設計／未實跑';
-  if (FIRST_PARTY_LEAD.test(text)) return '官方自報';
-  if (/\bauthor-(?:demo|self-report)\b/i.test(text)) return '作者報告／示範';
-  if (/官方.*(?:展示|示例|範例|發布|自報|第一手.*自述|署名作者使用陳述)|official/i.test(text)) return '官方自報';
-  if (/\bdesigned\b/i.test(text)) return '設計／未實跑';
-  if (/\bauthor\b|作者|自驗|自述/.test(text)) return '作者報告／示範';
-  if (/模板/.test(text)) return '模板／文件核讀';
-  if (/\bunverified\b|待驗證/i.test(text)) return '尚待查證';
-  return '';
+  if (!text) return [];
+  const found = [];
+  const add = label => { if (!found.includes(label)) found.push(label); };
+  // Backticked machine tokens are explicit declarations wherever they appear.
+  const officialToken = /\bofficial\b/i.test(text);
+  const designedToken = /\bdesigned\b/i.test(text);
+  const firstParty = officialToken && !/^\s*designed\b/i.test(text)
+    ? true
+    : FIRST_PARTY_LEAD.test(text) || /^官方/.test(text)
+      || /官方(?:署名|自報|展示|示例|範例|發布|轉述|第一手)/.test(text);
+  const leadingUnverified = /^\s*(?:unverified|待驗證|待定|尚待查證)/i.test(text);
+  if (firstParty) add('官方自報');
+  // `unverified` as a claim ends the clause or is followed by punctuation; a
+  // field name such as "unverified 欄位" is not a declaration of that class.
+  const unverifiedToken = /(?:^|[\s（(＋+、,，；;])unverified(?:$|[（(），,。；;:：、\s]*[）)，,。；;])/i.test(text);
+  if (leadingUnverified || unverifiedToken) add('尚待查證');
+  if (designedToken) add('設計／未實跑');
+  // An explicit token is a declaration on its own.
+  if (/\bauthor-(?:demo|self-report)\b/i.test(text)) add('作者報告／示範');
+  // Prose about an author counts only when the clause reports that author's own
+  // work. The same words inside a vendor clause, an unverified lead or a designed
+  // prompt must not create a second claimant.
+  if (!firstParty && !leadingUnverified && !designedToken
+    && /作者[^。；]{0,30}(?:自述|自報|實測|自測|自建|實作|分享|貼文|長文|報告|示範)/.test(text)) add('作者報告／示範');
+  if (/^模板/.test(text)) add('模板／文件核讀');
+  if (/^公開資料/.test(text)) add('公開資料核讀');
+  return found;
 }
 function declaredEvidenceClasses(proofLine, kind) {
   if (kind === 'pending') return ['尚待查證'];
   const primary = declaredEvidenceClass(proofLine, kind);
-  const clauses = proofLine.replace(/`/g, '').split(/[＋+;；]/);
+  const clauses = proofLine.split(/[＋+;；]/);
   const classes = [];
   for (const clause of clauses) {
-    const label = declaredEvidenceClassOfClause(clause);
-    if (label && !classes.includes(label)) classes.push(label);
+    for (const label of declaredEvidenceClassesOfClause(clause)) {
+      if (!classes.includes(label)) classes.push(label);
+    }
   }
   return [primary, ...classes.filter(label => label !== primary)];
 }

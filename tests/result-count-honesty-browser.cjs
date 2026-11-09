@@ -81,6 +81,31 @@ const read = page => page.evaluate(() => ({
       });
       await page.waitForTimeout(200);
 
+      // An empty draw pool prints its own count; that branch used to keep the
+      // previous condition's number because the empty deck key never changes.
+      await page.evaluate(() => {
+        const proof = document.getElementById('proof');
+        proof.value = '模板／文件核讀';
+        proof.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      await setQuery(page, '摘要');
+      await page.waitForTimeout(300);
+      const emptyOne = await read(page);
+      await setQuery(page, '會議');
+      await page.waitForTimeout(300);
+      const emptyTwo = await read(page);
+      assert.match(emptyTwo.resultsCount, /顯示 0 /, `${name}: the second condition has no result: ${emptyTwo.resultsCount}`);
+      assert.doesNotMatch(emptyTwo.drawStatus, /符合的 \d+ 筆/,
+        `${name}: an empty pool must not keep the previous condition's count: ${emptyTwo.drawStatus}`);
+      assert.match(emptyTwo.drawStatus, /目前沒有可抽的案例卡/, `${name}: the empty pool says so: ${emptyTwo.drawStatus}`);
+      assert.ok(emptyOne.resultsCount.length > 0, `${name}: the first condition loaded: ${emptyOne.resultsCount}`);
+      await page.evaluate(() => {
+        const proof = document.getElementById('proof');
+        proof.value = '';
+        proof.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      await page.waitForTimeout(200);
+
       // Both totals describe the same condition, and the panel says which it counts.
       const resultsTotal = Number((narrow.resultsCount.match(/顯示\s*(\d+)/) || [])[1]);
       const drawable = Number((narrow.drawStatus.match(/(\d+)\s*張可抽案例卡/) || [])[1]);

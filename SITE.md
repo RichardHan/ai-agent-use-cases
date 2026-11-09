@@ -6,7 +6,7 @@
 
 改動：`assets/app.js`（helper ＋ 兩個渲染點）、`assets/style.css` 一行（`.detail-target-user-source` 12.5px／muted，與難度註記同級）、`README.md` 與 `templates/case.md` 說明 209／304 的分野、`.github/workflows/website-qa.yml` 一行。新增 `tests/target-user-provenance.test.cjs`（4 項，掃 513 條目：宣告頁必須是宣告句、未宣告頁不得出現「適合對象」標題、0 條目靜默消失、半形冒號不得被誤判）與 `tests/target-user-provenance-browser.cjs`（1440／390／320，含 axe、溢出、pageerror）。兩個舊測試改成「印出通用句並標明來源」，不是放寬。
 
-先紅後綠：新瀏覽器測試在基準預覽（`210f980d`）失敗於 `UC-270 declares its audience`（`'' !== 'declared'`），本輪預覽三種寬度全過、axe 0、水平溢出 0、pageerror 0；`node --test tests/*.test.cjs` 基準 **607** → 本輪 **611 通過、0 失敗**，`node --check` 通過，`tests/related-browser.cjs` 14 組通過。量測：UC-005 詳情區塊 62→88px（1440）、90→136px（390）、90→156px（320），UC-270 62→88px；`?q=會議` 前 8 張卡高度完全相同、26／513 筆不變；註記 12.5px、對比實測 5.82:1。三情境（問題搜尋、組合篩選空結果復原、分享直鏈）在 390px 重走。[證據、前後截圖與限制](docs/qa/2026-11-11-target-user-provenance/README.md)。
+先紅後綠：新瀏覽器測試在基準預覽（`210f980d`）失敗於 `UC-270 declares its audience`（`'' !== 'declared'`），本輪預覽三種寬度全過、axe 0、水平溢出 0、pageerror 0；`node --test tests/*.test.cjs` 基準 **607** → 本輪單獨 **611**、併回含 #318 的 `8fb95339` 後 **617 通過、0 失敗**，`node --check` 通過，`tests/related-browser.cjs` 14 組通過。獨立審查指出卡片掃描未保證掃到 scenario 卡，已改成先直接斷言 UC-005 的卡片再要求掃描集合含 scenario 樣本（基準仍紅）。量測：UC-005 詳情區塊 62→88px（1440）、90→136px（390）、90→156px（320），UC-270 62→88px；`?q=會議` 前 8 張卡高度完全相同、26／513 筆不變；註記 12.5px、對比實測 5.82:1。三情境（問題搜尋、組合篩選空結果復原、分享直鏈）在 390px 重走。[證據、前後截圖與限制](docs/qa/2026-11-11-target-user-provenance/README.md)。
 
 已知限制：本環境無法讀取截圖影像，視覺結論來自 DOM、幾何、computed style 與 axe；只驗 Chromium；`tests/reader-browser.cjs` 在本機基準與本輪都停在 `?q=PR&case=UC-005` 的 `networkidle`（既有環境限制，非本輪回歸）；209 篇宣告句的內容品質未逐篇重審，304 個通用句仍是情境級描述。下一輪先做 `- 核心目標` 缺漏：287／506 篇沒有這個欄位、卡片直接不顯示 🎯 行，而不少頁面寫了 `- 目標：`／`- 問題：` 只是沒被讀取（`assets/app.js:1041`），先列出三種寫法的實際分布再決定擴充解析或明示缺漏。
 

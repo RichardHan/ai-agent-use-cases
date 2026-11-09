@@ -61,21 +61,33 @@ const openSearch = async (page, query) => {
       page.on('pageerror', error => errors.push(String(error)));
 
       // 1. A page that declares no audience must not claim one on the card.
+      // UC-005 has no - 目標使用者 line, so its own result card is the exact
+      // regression this round is about; check it directly, not just in a sweep.
+      await openSearch(page, 'UC-005');
+      const undeclaredCard = await page.evaluate(() => {
+        const card = document.querySelector('#results .card');
+        const target = card?.querySelector('.card-target-user');
+        return {
+          source: target?.dataset.targetUserSource || '',
+          text: target?.textContent.trim() || '',
+          aria: target?.getAttribute('aria-label') || ''
+        };
+      });
+      assert.equal(undeclaredCard.source, 'scenario', `${name}: UC-005 declares no audience`);
+      assert.ok(undeclaredCard.text.startsWith('👤 情境常見讀者：'), `${name}: the undeclared card is labelled (${undeclaredCard.text})`);
+      assert.ok(!undeclaredCard.text.includes('適合對象：'), `${name}: the library persona is not shown as a declared audience`);
+      assert.ok(undeclaredCard.aria.includes('案例頁未宣告適合對象'), `${name}: the card says so for screen readers too`);
+
       await openSearch(page, '整理');
       const declaredOnCard = await readCard(page);
       assert.ok(declaredOnCard, `${name}: the results list renders a card`);
-      for (let i = 0; i < 24; i += 1) {
-        const row = await page.evaluate(index => {
-          const card = document.querySelectorAll('#results .card')[index];
-          if (!card) return null;
-          const target = card.querySelector('.card-target-user');
-          return { source: target?.dataset.targetUserSource || '', text: target?.textContent.trim() || '', id: card.dataset.caseId || '' };
-        }, i);
-        if (!row) break;
-        if (row.source === 'scenario') {
-          assert.ok(row.text.includes('情境常見讀者：'), `${name}: an undeclared audience is labelled (${row.text})`);
-          assert.ok(!row.text.includes('適合對象：'), `${name}: the library persona is not shown as a declared audience`);
-        }
+      const swept = await page.evaluate(() => [...document.querySelectorAll('#results .card .card-target-user')]
+        .map(node => ({ source: node.dataset.targetUserSource || '', text: node.textContent.trim() })));
+      assert.ok(swept.length > 0, `${name}: the sweep has cards to inspect`);
+      assert.ok(swept.some(row => row.source === 'scenario'), `${name}: the sweep actually contains an undeclared audience`);
+      for (const row of swept.filter(row => row.source === 'scenario')) {
+        assert.ok(row.text.includes('情境常見讀者：'), `${name}: an undeclared audience is labelled (${row.text})`);
+        assert.ok(!row.text.includes('適合對象：'), `${name}: the library persona is not shown as a declared audience`);
       }
 
       // 2. A declared page keeps its own sentence on the card and in the reader.

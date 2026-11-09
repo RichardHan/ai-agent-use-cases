@@ -2,7 +2,8 @@
 
 ## 基準
 
-- 開發基準 `origin/main` `210f980d`（同日稍早併入 PR #317 的拉丁同義詞邊界修正）。隔離 worktree `/tmp/aiuc-target-round`（分支 `improve/20261111-target-user-provenance`）。PR #318（`improve/20261110-declared-category`，只改主題分類）在開工時仍未合併，本輪不重疊其檔案區域。
+- 開發基準 `origin/main` `210f980d`（同日稍早併入 PR #317 的拉丁同義詞邊界修正）。隔離 worktree `/tmp/aiuc-target-round`（分支 `improve/20261111-target-user-provenance`）。
+- 開工時 PR #318（`improve/20261110-declared-category`，只改主題分類）仍未合併；實作完成後 main 前進到 `8fb95339`（#318 併入），本輪已把 main 併回分支並重跑驗收。唯一衝突是 `website-qa.yml` 同一段加上各自的新腳本一行，兩行都保留。
 - 原工作樹 `/Users/richard_han/orca/ai-agent-use-cases` 停在 `90093d7b`，有 159 個未追蹤的他人研究檔與 QA 產物；本輪未觸碰。
 - 基準 `node --test tests/*.test.cjs`：**607 通過、0 失敗**；`node --check assets/app.js` 通過。
 - Actions 現況重新確認（不沿用歷史故障）：main 上 `Website QA` 連續 25 次 success（`42697785268` … `42708373335`），`pages build and deployment` 近 30 次只有 2 次 failure，兩次都是 `Deploy to GitHub Pages` 在 10–12 秒出現平台端 `Deployment cancelled.`（`42709949822`、`42697783315`），build 成功、需人工重跑，與本輪內容無關。**本輪沒有修改任何測試斷言以外的檢查，也沒有關閉任何 workflow。**
@@ -46,12 +47,13 @@
 
 ## 測試
 
-- `node --test tests/*.test.cjs`：基準 **607 通過／0 失敗** → 本輪 **611 通過／0 失敗**；`node --check assets/app.js` 通過。
+- `node --test tests/*.test.cjs`：基準（`210f980d`）**607 通過／0 失敗** → 本輪單獨 **611 通過／0 失敗**（+4）；併回 `8fb95339`（#318 帶來 6 項）後 **617 通過／0 失敗**；`node --check assets/app.js` 通過。
 - 先紅後綠（同一支腳本、同一份 513 條目資料）：
   - 基準預覽（`210f980d` 建置，`127.0.0.1:8191`）：`tests/target-user-provenance-browser.cjs` **失敗**，`desktop: UC-270 declares its audience`（`'' !== 'declared'`，舊版沒有任何來源標記）。
   - 本輪預覽（`127.0.0.1:8192`）：**通過**，1440×900／390×844／320×740 三種寬度、三種情境，axe 0、水平溢出 0、page error 0。
 - 全語料不變量（`tests/target-user-provenance.test.cjs`）：209 個宣告條目全部 `source=declared` 且正文等於頁首原句；304 個未宣告條目全部 `source=scenario`、標題不是「適合對象」、註記含「案例頁未宣告適合對象」與情境名；0 個條目在有人物句時卻整段消失。半形冒號、空白等寫法不會讓宣告被誤判成 fallback。
-- 鄰近回歸：`tests/related-browser.cjs`（desktop／mobile 共 14 組，含 merged-handoff、long-direct、empty-results、recovered-related）通過、axe 0；`tests/reader-browser.cjs` 在本機 `networkidle` 等待逾時（基準預覽同樣逾時，見限制）。
+- 獨立審查（未參與實作的另一個 agent context）指出 1 項 should-fix 並已修正：卡片掃描只在遇到 `scenario` 卡片時才檢查標籤，卻沒有保證掃到過。改為先用 `?q=UC-005` 直接開該卡斷言 `source=scenario`、可見標籤不是「適合對象」、`aria-label` 也說明未宣告，再要求掃描集合至少含一張 scenario 卡。修正後在基準預覽仍**紅**（`desktop: UC-005 declares no audience`／`'' !== 'scenario'`），本輪預覽**綠**。
+- 鄰近回歸：`tests/related-browser.cjs`（desktop／mobile 共 14 組，含 merged-handoff、long-direct、empty-results、recovered-related；併回 #318 後重跑）通過、axe 0；`tests/reader-browser.cjs` 在本機 `networkidle` 等待逾時（基準預覽同樣逾時，見限制）。
 
 ## 前後數據（同頁、同尺寸、同資料狀態）
 

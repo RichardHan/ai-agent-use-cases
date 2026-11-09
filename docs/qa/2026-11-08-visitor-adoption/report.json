@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-11-09T02:30:43.575Z",
-  "verifyUrl": "http://127.0.0.1:8140/ai-agent-use-cases/",
+  "timestamp": "2026-11-08T01:01:34.747Z",
+  "verifyUrl": "http://127.0.0.1:8099/ai-agent-use-cases/",
   "viewports": [
     {
       "name": "desktop",
@@ -29,10 +29,6 @@
         },
         {
           "state": "in_facet_recovered_state",
-          "violations": 0
-        },
-        {
-          "state": "contained_term_recovery",
           "violations": 0
         },
         {
@@ -76,7 +72,6 @@
         "desktop-05-scenario2-recovered.png",
         "desktop-05b-scenario2-compound-empty.png",
         "desktop-05c-scenario2-in-facet-recovered.png",
-        "desktop-05d-scenario2c-contained-term.png",
         "desktop-06-scenario3-detail.png",
         "desktop-07-scenario3-returned.png"
       ]
@@ -108,10 +103,6 @@
         },
         {
           "state": "in_facet_recovered_state",
-          "violations": 0
-        },
-        {
-          "state": "contained_term_recovery",
           "violations": 0
         },
         {
@@ -155,7 +146,6 @@
         "mobile-05-scenario2-recovered.png",
         "mobile-05b-scenario2-compound-empty.png",
         "mobile-05c-scenario2-in-facet-recovered.png",
-        "mobile-05d-scenario2c-contained-term.png",
         "mobile-06-scenario3-detail.png",
         "mobile-07-scenario3-returned.png"
       ]
@@ -187,10 +177,6 @@
         },
         {
           "state": "in_facet_recovered_state",
-          "violations": 0
-        },
-        {
-          "state": "contained_term_recovery",
           "violations": 0
         },
         {
@@ -234,7 +220,6 @@
         "smallMobile-05-scenario2-recovered.png",
         "smallMobile-05b-scenario2-compound-empty.png",
         "smallMobile-05c-scenario2-in-facet-recovered.png",
-        "smallMobile-05d-scenario2c-contained-term.png",
         "smallMobile-06-scenario3-detail.png",
         "smallMobile-07-scenario3-returned.png"
       ]

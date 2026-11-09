@@ -68,6 +68,7 @@
 | 1440×900 篩選列 | [before-desktop.png](before-desktop.png) | [after-desktop.png](after-desktop.png) |
 | 390×844 篩選列 | [before-phone.png](before-phone.png) | [after-phone.png](after-phone.png) |
 | 390×844 P-001 詳情 | [before-phone-detail.png](before-phone-detail.png) | [after-phone-detail.png](after-phone-detail.png) |
+| 1440×900 正式站篩選列 | — | [production-desktop.png](production-desktop.png) |
 
 修改前截圖在相同 URL、相同視口、相同載入完成狀態下取得；畫面差異只有收錄狀態用語、統計卡文字與篩選說明。
 
@@ -79,6 +80,13 @@
 2. `tests/search-recovery.test.cjs` 只驗證篩選標籤，沒有直接驗證舊詞仍能找到 P-001／P-003；已在 `tests/pending-resolution.test.cjs` 新增一項回歸測試，對 `還在查證`／`待查想法`／`待查線索` 各跑一次 `filterEntries`，確認三筆都命中。
 
 修正後 `node --test tests/*.test.cjs` → **553 項全過**（基準 552 + 新增 1）。
+
+## 發布驗證
+
+- PR #294 一般合併，merge commit `a3106928c4f010773acb997ac7cc2ac0871f82d5`。
+- Pages build `42587641176`（success）、deployment `7650420555`（github-pages）；Website QA `42587642321`（success）。
+- 正式站 `catalog.json.sourceRevision` = `a3106928c4f010773acb997ac7cc2ac0871f82d5`，`files` 510。
+- 正式站實測（1440×900、Chromium）：收錄狀態 `3 · 待查線索（含 1 筆已併入，統計不計）`、來源類型 `11 · 尚待查證`、統計 `2`、`#facet-count-hint` 含「待查線索是還沒列成案例的線索；來源類型的尚待查證是證據等級」；截圖 [production-desktop.png](production-desktop.png)。
 
 ## 已知限制
 

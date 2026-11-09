@@ -102,3 +102,16 @@ Reviewer 未重跑測試與瀏覽器套件，因此測試、axe、pageerror、�
 先做**詳情關閉後第一次 Back 沒有反應**。本輪自行重現（本機 preview，Chromium 390×844，`c4bef514`）：`?q=會議`（`history.length` 2、24 張卡片）→ 點第一張卡 UC-094（`?q=會議&case=UC-094`、`history.length` 3、dialog 開啟）→ 按「關閉 ✕」→ 網址回到 `?q=會議`、`history.length` 仍是 3、dialog 關閉 → **Back #1：網址、卡片數、dialog 狀態全部不變（沒有任何反應）** → Back #2：離開本站（`about:blank`）。成因在 `assets/app.js`：`showDetail()` 以 `pushState` 推入帶 `?case` 的歷史項，`closeDetail()`（:1784-1793）以 `replaceState` 把同一項改成與下一項完全相同的網址。上一輪 `docs/qa/2026-11-10-merged-destinations/README.md` 已記錄但未修。
 
 驗證先做兩件事，再改程式：(1) 在正式站以 `?q=會議` → 開 UC-094 → 按關閉 → Back，記錄 `history.length` 與畫面是否改變；(2) 盤點 `tests/*-browser.cjs` 中在 `press('Escape')` 同一 tick 斷言 `document.activeElement`／URL 的檔案（上一輪因此讓三個 workflow 轉紅）。先建立 `await closeDetail(page)` 共用 helper 讓既有測試接受非同步關閉，再改 `closeDetail()`。
+
+## 發布
+
+| 狀態 | 內容 |
+| --- | --- |
+| 已提交 | `f38279a3`（修正）→ `8fed75a4`（review 修正）→ `72ec880e`（CI 預算）→ `c38c14a2`（合併 main `7e70b5f5`，README 兩段都保留） |
+| 已推送 | `origin/improve/20261110-visitor-round9` → PR [#309](https://github.com/RichardHan/ai-agent-use-cases/pull/309) |
+| PR 檢查 | head `c38c14a2`：**13 項 pass、2 項 skipping**（`published` 依設計在 PR 上跳過）；`Reader search QA` 2m2s pass |
+| 已合併 | squash **`7377831b`**（2026-11-09T20:56:54Z） |
+| 部署 | **第一次失敗（外部 Pages 服務）**：`pages build and deployment` [42697783315](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42697783315) build success、deploy failure——`Deploy to GitHub Pages` 連續 10 分鐘讀到 `Current status: syncing_files`，21:08:22 出現 `Timeout reached, aborting!` 並 `Canceled deployment with ID 7377831b…`；重跑同一個 run 立即得到 `Deployment cancelled.`（同一個 `pages_build_version` 已被取消，重試被拒） |
+| 正式站已驗證 | **尚未**：合併後正式站仍服務 `8100024f`（`catalog.json.sourceRevision`），`assets/app.js` sha256 `238d64d4…` ＝合併前版本；合併版本為 `fbe93519…`。`Website QA` [42697785268](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42697785268) 停在 `Wait for published assets and content`，接下來會走 fail-closed 步驟（不會謊報通過） |
+
+處理方式：本紀錄的更新本身會產生新的 main commit（新的 `pages_build_version`），用它觸發新的 Pages 建置並重新部署，再以 `assets/app.js` sha256 與 `catalog.json.sourceRevision` 核對正式站；若新版本仍無法部署，本輪就以「已合併、未發布」結案並保留上述證據。

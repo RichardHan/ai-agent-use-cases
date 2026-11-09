@@ -590,7 +590,8 @@ const SYNONYM_GROUPS = [
   ['epub', '電子書'],
   // The collection-status label used to share a near-identical wording with the
   // evidence-level label (還在查證 vs 尚待查證). Keep the old terms searchable so
-  // existing links and queries still find the same two open leads.
+  // existing links and queries still find the same pending records, including
+  // the one already merged into a case.
   ['待查線索', '還在查證', '待查想法'],
 ];
 const SYNONYM_MAP = {};

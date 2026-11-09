@@ -80,6 +80,13 @@ test('the 待查線索 filter keeps every lead reachable while marking the resol
   assert.ok(found.some(entry => entry.id === 'P-002'), 'the merged lead must remain findable by its own text');
 });
 
+test('the old pending terms still find every pending record through the search index', () => {
+  for (const term of ['還在查證', '待查想法', '待查線索']) {
+    const found = api.filterEntries(pendingEntries, Array.from(api.tokenize(term)), {});
+    assert.deepEqual(found.map(entry => entry.id).sort(), ['P-001', 'P-002', 'P-003'], `${term} must still find all pending records`);
+  }
+});
+
 test('catalog counts separate case, evidence and pending entries', () => {
   const items = [
     { kind: 'case' }, { kind: 'case' },

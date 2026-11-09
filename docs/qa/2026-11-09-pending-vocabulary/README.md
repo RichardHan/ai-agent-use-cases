@@ -58,7 +58,7 @@
   1. 不知道工具名稱的新訪客：搜尋「發票對帳」→ 17 筆，第一筆 UC-399；收錄狀態與來源類型標籤一致。
   2. 組合搜尋與篩選後空結果：`契約審查`＋情境「創作」→ 0 筆；空狀態提供「移除使用情境『創作』→ 查看 20 筆」；按下後 20 筆、只保留關鍵字，情境已移除。
   3. 分享直鏈：`?case=P-001&kind=pending` 第一屏顯示「待查線索」徽章、`尚待查證` 來源徽章與安全建議；Escape 關閉後回到 `kind=pending` 的 3 筆結果。
-- 單元測試：`node --test tests/*.test.cjs` → **552 項全過**。
+- 單元測試：`node --test tests/*.test.cjs` → **553 項全過**（基準 552 + 新增 1 項舊詞搜尋回歸）。
 - 受影響瀏覽器流程：`combined-recovery-browser.cjs` 通過（含「一起移除收錄狀態『待查線索』」的復原建議）；`available-facets-browser.cjs` 五組引擎／寬度通過（Chromium 1440／390／320、Firefox 390、WebKit 390；axe 0、無水平溢出），另加載入／部分失敗／復原保留選擇／完全失敗／重試狀態通過。`facet-counts-browser.cjs` 的 Chromium／Firefox 通過；WebKit 390 在 `#search-submit` 焦點斷言失敗，同一腳本對基準 `66d51754` 也以相同斷言失敗，屬 macOS WebKit 的 Tab 行為限制（Tab 從搜尋框直接跳到 `<summary>`，不經過送出按鈕），不是本輪回歸，未列入本輪修復。
 
 ## 截圖
@@ -70,6 +70,15 @@
 | 390×844 P-001 詳情 | [before-phone-detail.png](before-phone-detail.png) | [after-phone-detail.png](after-phone-detail.png) |
 
 修改前截圖在相同 URL、相同視口、相同載入完成狀態下取得；畫面差異只有收錄狀態用語、統計卡文字與篩選說明。
+
+## 獨立審查
+
+由未參與實作的 reviewer 依完整 diff 與本紀錄檢查，結論「Safe to merge as-is: Yes」，並指出兩項 minor：
+
+1. `assets/app.js` 的同義詞註解原寫「the same two open leads」，但索引也包含已併入的 P-002；已改為「the same pending records, including the one already merged」。
+2. `tests/search-recovery.test.cjs` 只驗證篩選標籤，沒有直接驗證舊詞仍能找到 P-001／P-003；已在 `tests/pending-resolution.test.cjs` 新增一項回歸測試，對 `還在查證`／`待查想法`／`待查線索` 各跑一次 `filterEntries`，確認三筆都命中。
+
+修正後 `node --test tests/*.test.cjs` → **553 項全過**（基準 552 + 新增 1）。
 
 ## 已知限制
 

@@ -1,0 +1,264 @@
+{
+  "url": "http://127.0.0.1:8098/ai-agent-use-cases/",
+  "prefix": "before",
+  "viewports": {
+    "desktop": {
+      "viewport": "1440x900",
+      "structure": {
+        "focusablesBeforeQuery": 82,
+        "skipHref": "#discover",
+        "skipText": "跳到案例探索",
+        "chipsRole": "toolbar",
+        "liveRegions": [
+          {
+            "id": "draw-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "missing-case-message",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "filter-outcome-count",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "category-find-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "load-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "results-count",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "search-split-message",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "search-share-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "source-type-note",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "error",
+            "role": "alert",
+            "live": "assertive"
+          },
+          {
+            "id": "audit-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "catalog-status",
+            "role": "status",
+            "live": null
+          }
+        ]
+      },
+      "firstStop": {
+        "cls": "skip",
+        "text": "跳到案例探索"
+      },
+      "afterSkip": {
+        "active": "BODY#",
+        "y": 128,
+        "queryTop": 1400,
+        "viewport": 900,
+        "hash": "#discover"
+      },
+      "churn": {
+        "mutations": 12,
+        "byId": {
+          "draw-status": 4,
+          "results-count": 4,
+          "filter-outcome-count": 4
+        },
+        "liveWrites": 12,
+        "liveById": {
+          "draw-status": 4,
+          "results-count": 4,
+          "filter-outcome-count": 4
+        },
+        "samples": [
+          {
+            "id": "draw-status",
+            "live": true,
+            "text": "全部情境 · 這組條件有 289 張案例卡 · 第 1 張：自動化跑順了就沒人回頭看？每週請主 Bot 查官方新功能，列出哪個排程可以少幾步，先並行試跑、你點頭"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": true,
+            "text": "目前條件有 300 筆結果"
+          },
+          {
+            "id": "draw-status",
+            "live": true,
+            "text": "全部情境 · 這組條件有 24 張案例卡 · 第 1 張：Notion AI改成點數制會不會不夠用？讓Bot查官方說明、照自己的用法算一遍，再找現有訂閱裡的替代"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": true,
+            "text": "目前條件有 26 筆結果"
+          },
+          {
+            "id": "draw-status",
+            "live": true,
+            "text": "全部情境 · 這組條件有 1 張案例卡 · 目前顯示：Notion AI改成點數制會不會不夠用？讓Bot查官方說明、照自己的用法算一遍，再找現有訂閱裡的替代方案"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": true,
+            "text": "目前條件有 1 筆結果"
+          }
+        ],
+        "announcer": []
+      }
+    },
+    "phone": {
+      "viewport": "390x844",
+      "structure": {
+        "focusablesBeforeQuery": 39,
+        "skipHref": "#discover",
+        "skipText": "跳到案例探索",
+        "chipsRole": "toolbar",
+        "liveRegions": [
+          {
+            "id": "draw-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "missing-case-message",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "filter-outcome-count",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "category-find-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "load-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "results-count",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "search-split-message",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "search-share-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "source-type-note",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "error",
+            "role": "alert",
+            "live": "assertive"
+          },
+          {
+            "id": "audit-status",
+            "role": "status",
+            "live": "polite"
+          },
+          {
+            "id": "catalog-status",
+            "role": "status",
+            "live": null
+          }
+        ]
+      },
+      "firstStop": {
+        "cls": "skip",
+        "text": "跳到案例探索"
+      },
+      "afterSkip": {
+        "active": "BODY#",
+        "y": 1128,
+        "queryTop": 1480,
+        "viewport": 844,
+        "hash": "#discover"
+      },
+      "churn": {
+        "mutations": 12,
+        "byId": {
+          "draw-status": 4,
+          "results-count": 4,
+          "filter-outcome-count": 4
+        },
+        "liveWrites": 12,
+        "liveById": {
+          "draw-status": 4,
+          "results-count": 4,
+          "filter-outcome-count": 4
+        },
+        "samples": [
+          {
+            "id": "draw-status",
+            "live": true,
+            "text": "全部情境 · 這組條件有 289 張案例卡 · 目前顯示：任務又開始跑了，為什麼仍被當成已封存？"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": true,
+            "text": "目前條件有 300 筆結果"
+          },
+          {
+            "id": "draw-status",
+            "live": true,
+            "text": "全部情境 · 這組條件有 24 張案例卡 · 第 1 張：Muse 或 Claude Code 想操作 Mac 上的 App？日文作者用 Codex 的試驗性 "
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": true,
+            "text": "目前條件有 26 筆結果"
+          },
+          {
+            "id": "draw-status",
+            "live": true,
+            "text": "全部情境 · 這組條件有 1 張案例卡 · 第 1 張：Notion AI改成點數制會不會不夠用？讓Bot查官方說明、照自己的用法算一遍，再找現有訂閱裡的替代方"
+          },
+          {
+            "id": "filter-outcome-count",
+            "live": true,
+            "text": "目前條件有 1 筆結果"
+          }
+        ],
+        "announcer": []
+      }
+    }
+  }
+}

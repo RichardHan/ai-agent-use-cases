@@ -47,6 +47,11 @@ test('a pending lead resolved into a case is parsed as resolved with its destina
   assert.equal(p002.resolved, true, 'P-002 states 已處理 and 已併入 UC-028, so it must be resolved');
   assert.equal(p002.mergedInto, 'UC-028', 'P-002 must point at the case it was merged into');
 
+  const p004 = pendingEntries.find(entry => entry.id === 'P-004');
+  assert.ok(p004, 'P-004 must be parsed as its own lead, not as a paragraph inside P-003');
+  assert.equal(p004.resolved, true, 'P-004 states 已處理 and 已併入 UC-101, so it must be resolved');
+  assert.equal(p004.mergedInto, 'UC-101', 'P-004 must point at the case it was merged into');
+
   for (const id of ['P-001', 'P-003']) {
     const entry = pendingEntries.find(item => item.id === id);
     assert.ok(entry, `${id} must be parsed`);
@@ -58,11 +63,11 @@ test('a pending lead resolved into a case is parsed as resolved with its destina
 test('the pending counter counts open leads, matching the source document and the static index', () => {
   const counts = api.catalogCounts(pendingEntries);
   assert.equal(counts.pending, 2, 'only P-001 and P-003 remain open leads');
-  assert.equal(counts.resolvedPending, 1, 'P-002 is reported separately instead of being dropped');
+  assert.equal(counts.resolvedPending, 2, 'P-002 and P-004 are reported separately instead of being dropped');
   assert.equal(counts.pending + counts.resolvedPending, pendingEntries.length, 'every lead is either open or reported as resolved');
 
   const index = fs.readFileSync(path.join(root, 'INDEX.md'), 'utf8');
-  const indexLine = index.match(/## 待查來源（(\d+)，另 P-002 已處理）/);
+  const indexLine = index.match(/## 待查來源（(\d+)，另 P-002、P-004 已處理）/);
   assert.ok(indexLine, 'INDEX.md keeps the pending heading');
   assert.equal(Number(indexLine[1]), counts.pending, 'the site counter and INDEX.md must use the same rule');
 });
@@ -71,8 +76,8 @@ test('the 還在查證 filter keeps every lead reachable while marking the resol
   // Hiding the merged lead would break the facet total (503 + 3 + 2 ≠ 509) and
   // make it unreachable from the filter, so it stays listed with its state.
   const listed = api.filterEntries(pendingEntries, [], { kind: 'pending' });
-  assert.deepEqual(listed.map(entry => entry.id), ['P-001', 'P-002', 'P-003']);
-  assert.deepEqual(listed.filter(entry => entry.resolved).map(entry => entry.id), ['P-002']);
+  assert.deepEqual(listed.map(entry => entry.id), ['P-001', 'P-002', 'P-003', 'P-004']);
+  assert.deepEqual(listed.filter(entry => entry.resolved).map(entry => entry.id), ['P-002', 'P-004']);
   assert.equal(listed.find(entry => entry.id === 'P-002').mergedInto, 'UC-028');
 
   const terms = Array.from(api.tokenize('電信帳單'));

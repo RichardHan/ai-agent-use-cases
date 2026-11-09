@@ -173,6 +173,18 @@
 .proof-note-claimant{display:block;width:100%;font-size:12px;line-height:1.6;color:#234223;margin-top:4px}
 .proof-note-status{display:block;width:100%;font-size:12px;line-height:1.6;color:#445544;margin-top:2px}
 .proof-note-safety{display:block;width:100%;font-size:12px;line-height:1.6;color:#5a4014;margin-top:4px;padding:4px 8px;background:#fbf6ec;border-left:2px solid #b8862d;border-radius:3px;box-sizing:border-box;word-break:break-word}
+.proof-note-classes{display:block;width:100%;font-size:12px;line-height:1.6;color:#2e3c2e;margin:2px 0 4px}
+.proof-note-classes-title{margin:0 0 4px;font-weight:600;color:#283528}
+.proof-note-class-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px}
+.proof-note-class{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline}
+.proof-note-class-tag{display:inline-block;padding:1px 7px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;background:var(--green);color:#fff}
+.proof-note-class-tag[data-proof="官方自報"]{background:#1d6645}
+.proof-note-class-tag[data-proof="作者報告／示範"]{background:#235878}
+.proof-note-class-tag[data-proof="公開資料核讀"]{background:#355328}
+.proof-note-class-tag[data-proof="模板／文件核讀"]{background:#584a26}
+.proof-note-class-tag[data-proof="尚待查證"]{background:#773532}
+.proof-note-class-tag[data-proof="設計／未實跑"]{background:#6d4230}
+.proof-note-class-detail{min-width:0;overflow-wrap:anywhere}
 .proof-note-closure{display:block;width:100%;margin:0 0 4px;font-size:13px;line-height:1.7;color:#283528;font-weight:600;overflow-wrap:anywhere}
 
 .detail-target-user{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}

@@ -1124,29 +1124,52 @@ const RELAYED_OFFICIAL = /經[^。；，]{0,12}轉述|官方轉述|轉述的官�
 // reposted thread, a secondhand infographic. Read that only from the clause that
 // declares the author claim, so a video the library skipped beside a post it did
 // read (`附影片…本庫只看縮圖`) does not turn a first-hand read into a relay.
-const RELAYED_AUTHOR = /經[^。；，]{0,30}轉述|訪談轉述|影片轉述|轉載(?:摘要|整理|頁)|摘要頁|二手(?:轉述|資訊|整理|報導)|作者原(?:文|帖|貼文)[^。；，]{0,6}未(?:取得|找到)|原[^。；，]{0,4}未取得|只讀到[^。；，]{0,10}(?:摘要|轉述|整理)/;
-const AUTHOR_DECLARATION = /\bauthor-(?:demo|self-report)\b|作者(?:自述|實測|實作)/i;
-// A declaration's own parenthetical plus the sentence fragment that follows it. A
-// later sentence about a different source (`…快照回滾事件為二手轉述 unverified`,
-// `…通話影片（本庫未看）`) describes that other source, so it must not qualify
-// the class; `＋` and `；` start another declaration.
+const RELAYED_AUTHOR = /經[^。；，]{0,30}轉述|訪談轉述|影片轉述|轉載(?:摘要|整理|頁)|摘要頁|二手(?:轉述|資訊|整理|報導)|作者原(?:文|帖|貼文)[^。；，]{0,6}未(?:取得|找到)|原[^。；，]{0,4}未取得|只讀到[^。；，]{0,10}(?:摘要|轉述|整理)|interview summary|summary (?:page|of (?:the|an) interview)|retelling|reposted|second[- ]hand|original (?:post|thread|article)[^.;]{0,12}(?:not|never) (?:read|found|available)|via (?:a )?(?:summary|retelling|repost)/i;
+const AUTHOR_DECLARATION = /\bauthor-(?:demo|self-report)\b|作者(?:自述|實測|實作)/gi;
+const OFFICIAL_DECLARATION = /\bofficial\b/gi;
+// A declaration's own parenthetical plus the sentence fragment that follows it.
+// A later sentence about a different source (`…快照回滾事件為二手轉述 unverified`,
+// `…通話影片（本庫未看）`) describes that other source, so it must not qualify the
+// class: a `＋`／`；` at parenthesis depth 0 starts another declaration, and the
+// parenthesis this class owns is the first one before that boundary. Semicolons
+// inside a declaration (`official（…說明；Team Bots 文件已讀）`) stay inside it.
 function declarationWindow(proofLine, index) {
   const rest = proofLine.slice(index);
-  const open = rest.indexOf('（');
-  if (open === -1) return rest.split(/[。；;＋+]/)[0];
-  const close = rest.indexOf('）', open);
-  const groupEnd = close === -1 ? rest.length : close + 1;
-  const after = rest.slice(groupEnd);
-  const tail = /^[。\s]/.test(after) ? after.replace(/^[。\s]+/, '').split(/[。；;＋+]/)[0] : '';
-  return rest.slice(0, groupEnd) + tail;
+  let depth = 0, boundary = rest.length, groupOpen = -1, groupClose = -1;
+  for (let i = 0; i < rest.length; i += 1) {
+    const ch = rest[i];
+    if (ch === '（') {
+      if (depth === 0 && groupOpen === -1) groupOpen = i;
+      depth += 1;
+    } else if (ch === '）') {
+      if (depth > 0) {
+        depth -= 1;
+        if (depth === 0 && groupClose === -1) groupClose = i;
+      }
+    } else if (depth === 0 && /[＋+；;]/.test(ch)) {
+      boundary = i;
+      break;
+    }
+  }
+  const clause = rest.slice(0, boundary);
+  if (groupOpen === -1 || groupClose === -1 || groupClose >= boundary) return clause.split('。')[0];
+  const groupEnd = groupClose + 1;
+  const after = clause.slice(groupEnd);
+  const tail = after.startsWith('。') ? after.replace(/^。+/, '').split('。')[0] : '';
+  return clause.slice(0, groupEnd) + tail;
+}
+function declarationStatesRelay(text, declaration, relayPattern) {
+  const pattern = new RegExp(declaration.source, declaration.flags);
+  for (const match of text.matchAll(pattern)) {
+    if (relayPattern.test(declarationWindow(text, match.index))) return true;
+  }
+  return false;
 }
 function relayedEvidenceClasses(proofLine) {
   const text = String(proofLine || '');
   const labels = [];
-  const official = text.search(/\bofficial\b/i);
-  if (official !== -1 && RELAYED_OFFICIAL.test(declarationWindow(text, official))) labels.push('官方自報');
-  const author = text.search(AUTHOR_DECLARATION);
-  if (author !== -1 && RELAYED_AUTHOR.test(declarationWindow(text, author))) labels.push('作者報告／示範');
+  if (declarationStatesRelay(text, OFFICIAL_DECLARATION, RELAYED_OFFICIAL)) labels.push('官方自報');
+  if (declarationStatesRelay(text, AUTHOR_DECLARATION, RELAYED_AUTHOR)) labels.push('作者報告／示範');
   return labels;
 }
 function metadata(markdown, path, kind, suffix='') {

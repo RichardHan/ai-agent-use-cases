@@ -3,7 +3,7 @@
 ## 基準
 
 - 開發基準 `origin/main` `0f40758b`，隔離 worktree `/private/tmp/aiuc-1111-r20`（分支 `improve/20261111-round20`）。原工作樹停在 `90093d7b`、有 159 個未追蹤檔，本輪未觸碰。
-- 基準 `node --test tests/*.test.cjs`：**718 通過、0 失敗**；`node --check assets/app.js` 通過。
+- 基準 `node --test tests/*.test.cjs`：開工時 `0f40758b` **718 通過、0 失敗**；期間 main 前進到 `98d7e4e6`（#364／#365），rebase 後基準 **721**。`node --check assets/app.js` 通過。
 - 正式站 `catalog.json.sourceRevision` = `0f40758b…`，與開工時 main 相同；`INDEX.md` 511 列、`cases/` 508 頁、`evidence/` 3 篇、`sources/pending.md` 2 條未處理＋2 條已併入，與首頁統計一致。
 - Actions 現況重新確認：main 最近 40 次 run 全 success（含 `pages build and deployment` 與 `Website QA`）；本輪開工時最近 300 次 run 有 0 次 failure、40 次 cancelled（57 支 workflow 皆有 `concurrency:` + `cancel-in-progress`，PR 被下一個 commit 取代屬預期）。本輪不是修 CI。
 
@@ -47,8 +47,8 @@
 
 ## 測試
 
-- `node --test tests/*.test.cjs`：基準 **718** → 本輪 **719 通過、0 失敗**；`node --check assets/app.js`、`node --check tests/evidence-attribution-browser.cjs` 通過。
-- 先紅後綠（單元）：把 `assets/app.js` 換成 `0f40758b` 版本，新的 8 項中 **4 項失敗**（取得方式清單、作者子句、卡片標記、複製筆記），修正後 8 項全過。
+- `node --test tests/*.test.cjs`：rebase 後基準 **721** → 本輪 **723 通過、0 失敗**；`node --check assets/app.js`、`node --check tests/evidence-attribution-browser.cjs` 通過。
+- 先紅後綠（單元）：把 `assets/app.js` 換成 `0f40758b` 版本，新的 8 項中 **4 項失敗**（取得方式清單、作者子句、卡片標記、複製筆記），修正後 8 項全過。獨立審查追加的子句邊界案例（`official＋author-demo（…轉述）`、同一行兩次 `author-demo`、英文 `interview summary`、括號內分號）也一併寫進測試。
 - 先紅後綠（瀏覽器）：`ATTRIBUTION_URL=http://127.0.0.1:8096/… node tests/evidence-attribution-browser.cjs`（基準建置）在第一個新斷言失敗：`the card says the account came through a retelling: null !== '取得：經轉述'`；同一支對本輪預覽 exit 0，`author-relayed` 列 `{card:"取得：經轉述", provenance:"取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文", axe:0}`。
 - 分類器實測（同一語料）：標記由 2 筆變 **5 筆**——`UC-049`、`UC-093`、`UC-282`（作者）、`UC-316`、`UC-514`（官方）。反例輸出皆為空：`author-demo（作者自述＋網站公開頁面已讀）＋第三方看完影片後的評論（本庫未看影片）`、`author-demo（…來源A 貼文各附影片，本庫只看影片縮圖未播放）`、`B，作者實際診斷自述；客服認同亦為作者轉述`、`author-demo（Muse 作者使用自述，貼文由 Muse 協助撰寫）`。
 - `tests/combined-recovery-browser.cjs`（本輪預覽）：chromium 1440／390 通過，exit 0。
@@ -65,9 +65,18 @@
 
 `before-{desktop,phone,small}-{card,detail}-UC282.png` 與 `after-…`（同頁、同尺寸、同語料），量測見 `measurements.json`。本環境無法讀取截圖影像，視覺結論來自有界幾何、computed style 與 axe。
 
+## 獨立審查（未參與實作）
+
+`reviewer`（獨立 context）讀本輪 diff、用 `node:vm` 對分類器做對抗輸入、並在基準與本輪預覽各量一次卡片幾何、facet 計數與 axe。結論 **needs fixes**，兩項都已修：
+
+1. **宣告子句會吃到下一個來源的括號**（例如 `official＋author-demo（作者內容經來源轉述）` 會把作者的轉述算到官方；同一行第二個 `author-demo` 完全沒被檢查）。修法：`declarationWindow()` 改成在括號深度 0 才把 `＋`／`；` 當邊界，括號內的分號不再截斷宣告；`declarationStatesRelay()` 逐一檢查每個 token 出現位置。回歸案例已寫進單元測試。
+2. **只認中文轉述字樣**。修法：`RELAYED_AUTHOR` 增加英文取得方式字樣（`interview summary`、`summary page`、`retelling`、`reposted`、`second-hand`、`original post … not read/found`、`via a summary/retelling`）。目前語料沒有受影響頁面，屬預防性補齊。
+
+審查另確認：五筆被標記頁面的頁首都支持文案（`cases/049…md:11`、`:13`、`cases/282…md:12`、`cases/316…md:12`、`cases/514…md:12`）；預覽與基準的來源類別計數與預設排序相同（515 筆）；320／390／1440 的卡片標記沒有溢出、沒有新增 tab stop、axe 0；正式站相關列的取得方式文字也正確。審查未能驗證：螢幕閱讀器實際朗讀；只有 Chromium 的自動化 axe。
+
 ## 已知限制
 
 - 只處理**頁首宣告子句**裡的轉述。像 UC-332 這種「作者清單已讀、另外用了二手資訊圖」的頁面維持不標記；UC-024「dots 官方轉述＋Grok Bot 作者自報」的官方部分不是宣告類別（既有測試已固定它算作者類別），本輪不動。
 - `作者自述` 等中文 token 只在宣告子句內生效；沒有 token 的散文式頁首（例如 `B，作者實作自述…`）仍不會被自動標記。
-- 卡片標記是新增的可見元素，只在 5 筆出現；沒有做螢幕閱讀器實測，axe 與 aria 文字是目前的證據。
+- 卡片標記是新增的可見元素，只在 5 筆出現；沒有做螢幕閱讀器實測，axe 與 aria 文字是目前的證據；延伸閱讀列沿用同一個 `provenanceText()`，由正式站 UC-049 的相關列人工核對，沒有專屬單元斷言。
 - 本機只跑 Chromium；Firefox／WebKit 交由 PR 上既有 workflow。

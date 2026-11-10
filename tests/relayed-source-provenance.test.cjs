@@ -96,6 +96,16 @@ test('an author claim read through someone else is qualified, a first-hand read 
   for (const id of ['UC-049', 'UC-093', 'UC-282'])
     assert.deepEqual([...byId(id).relayedProof], ['作者報告／示範'], id + ' carries the author relay qualifier');
 
+  // Two declarations in one line: the qualifier belongs to its own clause, and a
+  // repeated token is examined instead of only the first one.
+  assert.deepEqual([...api.relayedEvidenceClasses('official＋author-demo（作者內容經來源轉述）')], ['作者報告／示範'],
+    'a parenthesis that opens the next declaration must not qualify the previous class');
+  assert.deepEqual([...api.relayedEvidenceClasses('author-demo（作者貼文已讀）＋author-demo（訪談摘要頁）')], ['作者報告／示範'],
+    'the second occurrence of the same token is read too');
+  assert.deepEqual([...api.relayedEvidenceClasses('author-demo（作者內容 via interview summary page）')], ['作者報告／示範'],
+    'an English parenthetical states the same acquisition route');
+  assert.deepEqual([...api.relayedEvidenceClasses('official（官方說明；文件已讀）')], [],
+    'a semicolon inside the declaration does not split it');
   // A skipped video beside a post the library did read is a gap, not a relay.
   assert.deepEqual([...api.relayedEvidenceClasses('`author-demo`（兩位作者自述實測；來源A 兩則貼文各附影片，本庫只看影片縮圖未播放；來源B 一則貼文＋一張成品圖）；本庫提示詞為 `designed`')], [],
     'a video the library skipped does not turn its post into a retelling');

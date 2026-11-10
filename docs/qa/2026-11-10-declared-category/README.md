@@ -101,6 +101,14 @@
 3. 57 支 workflow 只有 **16 支**會在 PR／main 觸發；41 支的 `branches:` 指向已結束的 feature 分支或 `closed-historical` 哨兵。16 支都會跑 `node --test tests/*.test.cjs`，但多數 `paths` filter 沒有涵蓋測試實際讀的 `cases/**`、`sources/**`、`tests/**`（例如 `corpus-bundle-qa.yml`、`missing-case-qa.yml`、`related-qa.yml`），內容或排序回歸可能在綠燈下合併。這是本輪新增的 corpus-level 契約測試**目前不會在內容 PR 上執行**的原因。
 4. 發布沒有被驗證把關：`pages build and deployment` 在 push 後立即發布，`Website QA`（含正式站檢查）在數分鐘後才結束。
 
+## 最終整合與發布
+
+- PR [#318](https://github.com/RichardHan/ai-agent-use-cases/pull/318) head `d45dbd89`（先合併 `origin/main` `210f980d`）13 項非略過檢查全 success（`published` 依設計 skip）。驗證期間 main 前進到 `210f980d`（#317 搜尋精確度），只有 `SITE.md` 衝突：兩段新紀錄都保留、main 的段落在前；`assets/app.js` 與 `tests/search.test.cjs` 自動合併。合併後 `node --test tests/*.test.cjs` **613 通過、0 失敗**（594＋本輪 6＋#317 的 13），本輪瀏覽器驗收在 Chromium／Firefox／WebKit × 1440／390 重跑仍全過，`related-browser`、`evidence-attribution-browser`、`search-recovery` 亦重跑通過。
+- #317 改變了搜尋結果，三條情境的第一條在合併後是「整理會議記錄」→ **7／513**（基準 8）。少掉的是 UC-349；直接以 `210f980d` 的 `app.js` 重算同一查詢同樣 7 筆且不含 UC-349，差異來自 #317，不是本輪。
+- squash 合併為 `8fb95339`；`pages build and deployment` [42724023064](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42724023064) success；正式站 `catalog.json` 與 `corpus.json` 的 `sourceRevision` 皆為 `8fb95339…`、510 個來源檔。
+- 正式站實測（1440×900／390×844）：`?case=UC-012` 分類為空、延伸閱讀只剩 `共同標籤：科研、多代理`、`#category` 343 個選項且沒有 `個人生產力`、說明句含未宣告分類筆數；`?category=個人生產力` 0／513 且保留可移除 chip；三條情境 7 筆 → 0 筆 → 恢復 1 筆、直鏈 UC-514 有 12 個來源連結與固定 commit；axe 0、水平溢出 0、pageerror 0。
+- 合併後 main 的 `Website QA` [42724023390](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42724023390) **success**（含新增的 `declared-category-browser.cjs`、`Wait for published assets and content` 與正式站檢查）。
+
 ## 下一輪最值得做的一件事
 
 **讓內容 PR 至少跑一次 unit 契約測試。** 證據：41 支 workflow 無法觸發、16 支 live workflow 中多數 `paths` 不含 `cases/**`／`sources/**`，而 `tests/*.test.cjs` 有 85 支會讀這些檔案；本輪新增的 `declared-category.test.cjs` 正是靠讀 `cases/**` 才能守住「顯示的分類必須是宣告的」。先做的驗證：在一個只改 `cases/**` 的 PR 上觀察目前 0 個 job 被觸發，再以最小改動（例如一支只跑 `node --test tests/*.test.cjs` 的 workflow 或補 `paths`）確認該 PR 會紅／會綠，且不影響 20 支瀏覽器 job 的排隊。

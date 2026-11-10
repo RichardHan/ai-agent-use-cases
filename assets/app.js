@@ -164,6 +164,28 @@ function targetUserView(item) {
     note: '案例頁未宣告適合對象；以上是本庫依「' + scenario + '」情境整理的常見讀者，不是這篇案例作者的說法。'
   };
 }
+// 219 pages declare "- 核心目標" and a few older ones declare the same thing as
+// "- 目標" or "- 問題". The rest declare nothing: 47 of them state the problem
+// under a "## 問題…" section instead. Naming which of the three a page is keeps
+// the card and the reader from implying a goal the page never wrote, and stops
+// the absence from looking like "this case has no problem worth stating".
+const GOAL_SECTION_HEADING = /^##+\s+(問題[^\n]*?)\s*$/m;
+function coreGoalView(item) {
+  if (item.coreGoal) return { source: 'declared', heading: '核心目標', text: item.coreGoal, note: '' };
+  const section = (item.markdown || '').match(GOAL_SECTION_HEADING)?.[1] || '';
+  if (section) return {
+    source: 'section',
+    heading: '核心目標',
+    text: '',
+    note: '案例頁未在頁首宣告核心目標；正文有以「問題」為題的〈' + section + '〉一節，請往下閱讀原文。'
+  };
+  return {
+    source: 'missing',
+    heading: '核心目標',
+    text: '',
+    note: '案例頁未宣告核心目標；可先讀這一段的用途說明與原始來源。'
+  };
+}
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
 let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {}, failedPaths = [];
 let allowAutomaticArrival=true, searchShareRequest=0;
@@ -1072,7 +1094,10 @@ function metadata(markdown, path, kind, suffix='') {
   const displayTitle=clean(lead.match(/^-\s*網站標題\s*[：:]\s*(.+)$/m)?.[1]||copy.title||heading);
   const what=clean(lead.match(/^-\s*一句話用途\s*[：:]\s*(.+)$/m)?.[1]||copy.what||summary);
   const targetUser=clean(lead.match(/^-\s*目標使用者\s*[：:]\s*(.+)$/m)?.[1]||'');
-  const coreGoal=clean(lead.match(/^-\s*核心目標\s*[：:]\s*(.+)$/m)?.[1]||'');
+  // 核心目標 is the template label, but older pages declare the same sentence as
+  // `- 目標` or `- 問題`. All three are the page's own wording, so all three are
+  // read; nothing is written for a page that declares none.
+  const coreGoal=clean(lead.match(/^-\s*(?:核心目標|目標|問題)\s*[：:]\s*(.+)$/m)?.[1]||'');
   const reviewedDate=reviewDate(markdown);
   const extracted=extractActionableGuidance(markdown);
   const howText=copy.how||extracted.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。';
@@ -1740,9 +1765,19 @@ function showDetail(item, trigger, updateURL=true) {
   source.target = '_blank';
   source.rel = 'noopener noreferrer';
   const overview = el('div', 'plain-overview');
-  const compactPurpose = item.coreGoal && item.coreGoal !== item.what && item.what.length > 180;
+  const goalView = coreGoalView(item);
+  const goalDeclared = goalView.source === 'declared';
+  const goalSeparate = goalDeclared && item.coreGoal !== item.what;
+  const compactPurpose = goalSeparate && item.what.length > 180;
   const purpose = el('section');
   purpose.append(el('h2', '', '可以幫你做什麼'), el('p', '', compactPurpose ? item.coreGoal : item.what));
+  if (!goalDeclared) {
+    // The card shows no 🎯 line for these pages, so the reader is where the gap
+    // has to be named: silence here reads as "nothing to solve".
+    const goalGap = el('p', 'detail-core-goal-source', goalView.heading + '｜' + goalView.note);
+    goalGap.dataset.coreGoalSource = goalView.source;
+    purpose.append(goalGap);
+  }
   overview.append(purpose,source);
   if (item.mergedInto?.length || item.resolved) {
     const handoff=el('section','detail-merged-handoff');
@@ -1781,9 +1816,10 @@ function showDetail(item, trigger, updateURL=true) {
       el('p', 'detail-target-user-source', targetUser.note));
     overview.append(userSection);
   }
-  if (item.coreGoal && item.coreGoal !== item.what && !compactPurpose) {
+  if (goalSeparate && !compactPurpose) {
     const goalSection = el('section', 'detail-core-goal');
-    goalSection.append(el('h2', '', '核心目標'), el('p', '', item.coreGoal));
+    goalSection.dataset.coreGoalSource = goalView.source;
+    goalSection.append(el('h2', '', goalView.heading), el('p', '', goalView.text));
     overview.append(goalSection);
   }
   if (item.difficulty) {
@@ -2059,8 +2095,10 @@ function card(item, terms=[]) {
   title.addEventListener('click', () => showDetail(item, title));
   h.append(title);
   node.append(h);
-  if(item.coreGoal && item.coreGoal !== item.summary && item.coreGoal !== item.title){
-    const goalP = el('p', 'card-goal', '🎯 解決痛點：' + item.coreGoal);
+  const cardGoal = coreGoalView(item);
+  if(cardGoal.source === 'declared' && item.coreGoal !== item.summary && item.coreGoal !== item.title){
+    const goalP = el('p', 'card-goal', '🎯 解決痛點：' + cardGoal.text);
+    goalP.dataset.coreGoalSource = cardGoal.source;
     node.append(goalP);
   }
   const cardTargetUser = targetUserView(item);

@@ -1490,17 +1490,78 @@ function detailNeighbours(item, items) {
   const index = items.findIndex(other => other.id === item?.id);
   return index < 0 ? {prev:null,next:null} : {prev:items[index - 1] || null,next:items[index + 1] || null};
 }
+// Leaving a case through 「探索更多「情境」案例」 starts over on purpose: the reader
+// asked for the whole scenario, not for their own words inside it. Dropping those
+// words without a word about it loses the reader's input, so the results screen
+// names what the switch removed and gives one click back to it. Measured on the
+// live site 2026-11-10: ?q=怎麼整理會議記錄 (7 / 515) → 「工作」 162 / 515, the query
+// box empty, and nothing on screen saying a query had been cleared.
+let scenarioReset=null;
+function conditionSignature(conditions){
+  return conditions.map(condition=>condition.key+'='+condition.display).join('|');
+}
+function scenarioResetSnapshot(){
+  const filters=Object.fromEntries(['kind','difficulty','tool','category','proof'].map(id=>[id,$(id)?.value||'']));
+  filters.scenario=activeScenario;
+  filters.scope=searchScope($('search-scope').value);
+  const conditions=activeConditions($('query').value.trim(),filters);
+  if(!conditions.length)return null;
+  return {
+    url:searchLink(location.href,$('query').value,filters,$('sort').value),
+    query:$('query').value,
+    filters:Object.fromEntries(['kind','difficulty','tool','category','proof'].map(id=>[id,$(id)?.value||''])),
+    scenario:activeScenario,
+    scope:searchScope($('search-scope').value),
+    sort:$('sort').value,
+    conditions,
+    count:currentFiltered.length
+  };
+}
+function showScenarioReset(reset,scenario){
+  const notice=$('scenario-reset');
+  if(!notice)return;
+  const filters=Object.fromEntries(['kind','difficulty','tool','category','proof'].map(id=>[id,$(id)?.value||'']));
+  filters.scenario=activeScenario;
+  filters.scope=searchScope($('search-scope').value);
+  if(!reset){scenarioReset=null;notice.hidden=true;return;}
+  // The switch only loses what the new state no longer has. A case whose scenario
+  // is already the active one loses nothing by being explored: name only the
+  // conditions that actually went away, and say nothing when none did.
+  const switched=reset.scenario!==scenario;
+  const dropped=reset.conditions.filter(condition=>!(condition.key==='scenario'&&condition.display===scenario));
+  if(!dropped.length){scenarioReset=null;notice.hidden=true;return;}
+  const list=dropped.map(condition=>condition.label+'「'+condition.display+'」').join('、');
+  scenarioReset={...reset,after:conditionSignature(activeConditions($('query').value.trim(),filters))};
+  $('scenario-reset-message').textContent=switched
+    ? '已切換到「'+scenario+'」情境；原本的'+list+'已清除。'
+    : '已清除原本的'+list+'，改為列出「'+scenario+'」情境的全部條目。';
+  $('scenario-reset-action').textContent='回到原本的搜尋（'+reset.count+' 筆）';
+  notice.hidden=false;
+}
+// The notice explains one switch, so it leaves with the next condition change
+// instead of standing over results it no longer describes.
+function syncScenarioReset(conditions){
+  const notice=$('scenario-reset');
+  if(!notice||!scenarioReset)return;
+  if(conditionSignature(conditions)===scenarioReset.after)return;
+  scenarioReset=null;notice.hidden=true;
+}
 function scenarioExploreAction(item) {
   const button = el('button', 'detail-action-scenario', `探索更多「${item.scenario}」案例 →`);
   button.type = 'button';
   button.setAttribute('aria-label', `探索更多「${item.scenario}」案例`);
   button.addEventListener('click', () => {
+    const reset=scenarioResetSnapshot();
     rememberReadingView();
     history.pushState(history.state, '', location.href);
     closeDetail();
     chooseScenario(item.scenario);
+    showScenarioReset(reset,item.scenario);
+    // The notice is the new information, and it sits directly above the result
+    // line: land on it so the reader sees what the switch took away.
+    const landing=$('scenario-reset').hidden?$('results-count'):$('scenario-reset');
     $('results-count').focus({preventScroll:true});
-    $('results-count').scrollIntoView({block:'start',behavior:'instant'});
+    landing.scrollIntoView({block:'start',behavior:'instant'});
   });
   return button;
 }
@@ -3237,6 +3298,7 @@ function renderSearchFeedback(terms, filters) {
     active.append(button);
   });
   const hasFacets=Object.values(filters).some(Boolean);
+  syncScenarioReset(conditions);
   $('search-feedback').hidden=!discoveryReady||!conditions.length;
   $('clear-facets').hidden=!hasFacets;
   $('clear-facets').textContent=$('query').value ? '清除篩選，保留關鍵字' : '清除所有篩選';
@@ -4455,6 +4517,23 @@ $('dismiss-missing-case').addEventListener('click',()=>{
   $('query').focus({preventScroll:true});
 });
 $('copy-search-link').addEventListener('click',copySearchLink);
+// One click back to the words the scenario handoff cleared. render() rewrites the
+// URL from the restored fields, so the address bar and the results agree again.
+$('scenario-reset-action').addEventListener('click',()=>{
+  const reset=scenarioReset;
+  if(!reset)return;
+  $('query').value=reset.query;
+  ['kind','difficulty','tool','category','proof'].forEach(id=>{if($(id))$(id).value=reset.filters[id]||'';});
+  activeScenario=reset.scenario;
+  $('search-scope').value=reset.scope;
+  $('sort').value=reset.sort;
+  scenarioReset=null;
+  render();
+  $('scenario-reset').hidden=true;
+  history.replaceState(history.state,'',reset.url);
+  $('results-count').focus({preventScroll:true});
+  $('results-count').scrollIntoView({block:'start',behavior:'instant'});
+});
 // Choose the initial disclosure state once; typing, navigation and resizing
 // preserve the reader's choice and never hide a currently focused control.
 // Wide screens start open, then the first settled render compacts the panel when

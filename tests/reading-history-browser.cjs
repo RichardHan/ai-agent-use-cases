@@ -2,6 +2,7 @@
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const {chromium,firefox,webkit}=require('playwright');
 const {AxeBuilder}=require('@axe-core/playwright');
+const {readingPosition,waitReadingPosition}=require('./reading-position.cjs');
 const base=process.env.SITE_URL||'http://127.0.0.1:8190/ai-agent-use-cases/';
 const out=process.env.QA_OUT||'qa-artifacts/history',observe=process.env.QA_OBSERVE==='1';
 fs.mkdirSync(out,{recursive:true});
@@ -15,12 +16,12 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  row.before=await state();assert(row.before.open&&row.before.top>500);await p.screenshot({path:`${out}/reading-${row.label}.png`});
  await p.locator('#nav-next-case').click();
  row.nextID=await p.locator('#detail-toolbar-id').innerText();
- if(!observe){assert.equal(await p.locator('#detail').evaluate(n=>n.scrollTop),0);await p.locator('.reader-jump').first().click();row.nextTop=await p.locator('#detail').evaluate(n=>n.scrollTop);}
+ if(!observe){assert.equal(await p.locator('#detail').evaluate(n=>n.scrollTop),0);await p.locator('.reader-jump').first().click();row.nextPosition=await readingPosition(p);row.nextTop=row.nextPosition.scrollTop;}
  await p.goBack();await p.waitForFunction(()=>currentDetailItem.id==='UC-005');row.returned=await state();await p.screenshot({path:`${out}/returned-${row.label}.png`});
  if(!observe){assert(row.returned.open,'History must restore expanded original research');assert.equal(row.returned.query,row.before.query);assert(Math.abs(row.returned.anchor-row.before.anchor)<3,'History must restore reading anchor');assert.equal(row.returned.overflow,false);row.violations=(await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations.map(v=>v.id);assert.deepEqual(row.violations,[]);
  // History visits are distinct: a newly opened copy of A starts at its top.
  await p.goForward();await p.waitForFunction(id=>currentDetailItem.id===id,row.nextID);
- assert(Math.abs(await p.locator('#detail').evaluate(n=>n.scrollTop)-row.nextTop)<3);
+ row.forwardPosition=await waitReadingPosition(p,row.nextPosition);
  await p.locator('#nav-prev-case').click();assert.equal(await p.locator('#detail-toolbar-id').innerText(),'UC-005');assert.equal(await p.locator('#detail').evaluate(n=>n.scrollTop),0);assert.equal(await p.locator('.research-details').evaluate(n=>n.open),false);
  await p.goBack();await p.waitForFunction(id=>currentDetailItem.id===id,row.nextID);await p.goBack();await p.waitForFunction(()=>currentDetailItem.id==='UC-005');
  assert(Math.abs((await state()).anchor-row.before.anchor)<3,'Each history entry keeps its own reading location');
@@ -29,12 +30,18 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  // A search visitor can Back to results and Forward to the original passage.
  await p.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot');await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);
  const read=p.locator('#results .card[data-case-id="UC-001"] .card-bottom button');await read.click();await p.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();
- const sourceTop=await p.locator('#detail').evaluate(n=>n.scrollTop);await p.goBack();await p.waitForFunction(()=>!document.querySelector('#detail').open);assert(await read.evaluate(n=>n===document.activeElement));assert.equal(await p.locator('#query').inputValue(),'旅遊');
+ const sourcePosition=await readingPosition(p);row.sourcePosition=sourcePosition;await p.goBack();await p.waitForFunction(()=>!document.querySelector('#detail').open);assert(await read.evaluate(n=>n===document.activeElement));assert.equal(await p.locator('#query').inputValue(),'旅遊');
  await p.goForward();await p.locator('#detail[open]').waitFor();assert(await p.locator('.research-details').evaluate(n=>n.open));
  // The restore runs on popstate, and a narrow viewport reflows after it. Wait for
- // the position the reader left rather than reading once and calling it wrong.
- await p.waitForFunction(top=>Math.abs(document.querySelector('#detail').scrollTop-top)<3,sourceTop,{timeout:5000}).catch(()=>assert.fail('Forward must restore the reading location'));
- assert(Math.abs(await p.locator('#detail').evaluate(n=>n.scrollTop)-sourceTop)<3);await p.keyboard.press('Escape');assert(await read.evaluate(n=>n===document.activeElement));
+ // the passage the reader left, not for one scrollTop value: scroll anchoring moves
+ // scrollTop on purpose to keep that passage where the reader can still see it.
+ row.returnedPosition=await waitReadingPosition(p,sourcePosition,{message:'Forward must restore the reading location'});
+ // A relayout that lands after the restore must not move the passage either. CI
+ // installs its own CJK fonts, and this is the shift that read as a lost position
+ // twice on 2026-11-10 (runs 42799277060, 42806867753).
+ await p.evaluate(()=>{const pad=document.createElement('div');pad.id='history-late-relayout';pad.style.height='240px';document.querySelector('#detail-body').prepend(pad);});
+ row.shiftedPosition=await waitReadingPosition(p,sourcePosition,{message:'Forward must keep the reading position when content above it reflows'});
+ await p.keyboard.press('Escape');assert(await read.evaluate(n=>n===document.activeElement));
  // Touch/wheel-style reading keeps a distant title focused; a table keeps its right-side columns.
  await p.goto(base+'?case=UC-400');await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);await p.locator('.research-details>summary').click();
  const table=p.locator('.markdown-table').first();await table.evaluate(n=>{const d=document.querySelector('#detail');d.scrollTop+=n.getBoundingClientRect().top-document.querySelector('.detail-toolbar').getBoundingClientRect().bottom-18;n.scrollLeft=160;});
@@ -63,6 +70,9 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  assert.equal(await fullAccount.evaluate(n=>n.open),true,'Back restores the expanded case description');
  row.scenarios=['long reading Back and Forward','distinct visits and reload','filtered results Back and Forward','offscreen focus and horizontal table'];
  }
+ // The record of where the reader was, so a later disagreement can be read from
+ // the log instead of from a downloaded artifact.
+ if(row.sourcePosition)console.log('READING_POSITION '+row.label+' '+JSON.stringify({source:row.sourcePosition,returned:row.returnedPosition,shifted:row.shiftedPosition}));
  assert.deepEqual(row.errors,[]);
  }catch(e){row.failure=e.stack;throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify(rows,null,2));await b.close();}
 }

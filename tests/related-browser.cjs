@@ -129,6 +129,46 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
    await page.locator('#query').fill('no-matching-case-123');assert(await page.locator('#empty').isVisible());
    await audit('live-empty');assert.deepEqual(errors,[]);await context.close();continue;
   }
+  // A scenario handoff starts over by design, but it has to say what it cleared and
+  // leave one click back to the reader's own words. Every field the handoff empties
+  // is set here, so a restore that silently drops one of them fails this test.
+  const handedOff=new URLSearchParams({q:'旅遊',tool:'Grok Bot',kind:'case',difficulty:'入門對話',category:'旅遊／消費研究',proof:'作者報告／示範',scope:'topic',sort:'reviewed'});
+  await page.goto(origin+'?'+handedOff.toString(),{waitUntil:'networkidle'});
+  await page.locator('#results .card').first().waitFor();
+  const beforeReset=await page.evaluate(()=>currentFiltered.length);
+  for(const [id,expected] of [['query','旅遊'],['tool','Grok Bot'],['kind','case'],['difficulty','入門對話'],['category','旅遊／消費研究'],['proof','作者報告／示範'],['search-scope','topic'],['sort','reviewed']])
+    assert.equal(await page.locator('#'+id).inputValue(),expected,id+' is applied before the handoff');
+  await page.locator('#results .card .card-bottom button').first().click();
+  await page.locator('.plain-overview .detail-action-scenario').click();
+  const resetNotice=page.locator('#scenario-reset');
+  assert(await resetNotice.isVisible(),'scenario handoff says what it cleared');
+  const resetText=await page.locator('#scenario-reset-message').innerText();
+  for(const label of ['關鍵字「旅遊」','提及工具「Grok Bot」','收錄狀態「用法靈感」','實作門檻「入門對話」','來源類型「作者報告／示範」'])
+    assert(resetText.includes(label),'the notice names what it removed: '+label);
+  assert.match(await page.locator('#scenario-reset-action').innerText(),new RegExp('（'+beforeReset+' 筆）'));
+  // The handoff re-presses the difficulty bar (入門對話 → 全部門檻). axe reads computed
+  // colours, and the 150ms background transition in flight is not a surface a reader
+  // sees, so let it settle before scanning.
+  await page.waitForTimeout(250);
+  await audit('scenario-reset');
+  await page.locator('#scenario-reset-action').click();
+  for(const [id,expected] of [['query','旅遊'],['tool','Grok Bot'],['kind','case'],['difficulty','入門對話'],['category','旅遊／消費研究'],['proof','作者報告／示範'],['search-scope','topic'],['sort','reviewed']])
+    assert.equal(await page.locator('#'+id).inputValue(),expected,'the way back restores '+id);
+  assert.equal(await page.evaluate(()=>currentFiltered.length),beforeReset,'the way back restores the same result set');
+  assert(!(await resetNotice.isVisible()),'restoring the search clears the notice');
+  const restored=new URL(page.url()).searchParams;
+  for(const [key,value] of handedOff)assert.equal(restored.get(key),value,'the way back restores '+key+' in the URL');
+  assert.equal(restored.get('scenario'),null);
+  assert(await page.locator('#results-count').evaluate(n=>n===document.activeElement),'the way back lands on the result count');
+  // When the case's scenario is already the active one, the handoff removes
+  // nothing — it must not announce a switch that did not happen.
+  await page.goto(origin+'?scenario=%E7%94%9F%E6%B4%BB',{waitUntil:'networkidle'});
+  await page.locator('#results .card').first().waitFor();
+  const scenarioOnlyBefore=await page.evaluate(()=>currentFiltered.length);
+  await page.locator('#results .card .card-bottom button').first().click();
+  await page.locator('.plain-overview .detail-action-scenario').click();
+  assert(!(await resetNotice.isVisible()),'a handoff that cleared nothing stays silent');
+  assert.equal(await page.evaluate(()=>currentFiltered.length),scenarioOnlyBefore,'the same scenario keeps the same result set');
   // A merged supplement must hand off to its canonical case without dropping the search.
   await page.goto(origin+'?q=收件匣&scenario=工作&difficulty=入門對話&case=UC-250',{waitUntil:'networkidle'});
   await page.locator('.detail-merged-open').waitFor();

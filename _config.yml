@@ -6,6 +6,10 @@ locale: zh_TW
 exclude:
   - scripts
   - tests
+  # QA records and screenshots. They are maintenance evidence, served by GitHub
+  # from the repository; shipping them made the Pages artifact 311 MB (98% of it
+  # images no page links to) and the 2026-11-10 deploy timed out in syncing_files.
+  - docs
   - SITE.md
   - Gemfile
   - Gemfile.lock

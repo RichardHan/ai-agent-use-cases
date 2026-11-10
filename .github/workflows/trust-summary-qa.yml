@@ -1,10 +1,10 @@
 name: Audit summary round QA
 on:
   pull_request:
-    paths: ['.github/workflows/trust-summary-qa.yml', 'tests/trust-*', 'tests/audit.test.cjs', 'scripts/preview.py', 'assets/**', 'index.html', 'audit-summary.json', 'sources/qualification-audit-2026-10-16.md', 'INDEX.md']
+    paths: ['.github/workflows/trust-summary-qa.yml', 'tests/trust-*', 'tests/audit.test.cjs', 'scripts/preview.py', 'assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'audit-summary.json', 'sources/qualification-audit-2026-10-16.md', 'INDEX.md']
   push:
     branches: [improve/reading-find-20261020]
-    paths: ['.github/workflows/trust-summary-qa.yml', 'tests/trust-*', 'tests/audit.test.cjs', 'scripts/preview.py', 'assets/**', 'index.html', 'audit-summary.json', 'sources/qualification-audit-2026-10-16.md', 'INDEX.md']
+    paths: ['.github/workflows/trust-summary-qa.yml', 'tests/trust-*', 'tests/audit.test.cjs', 'scripts/preview.py', 'assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'audit-summary.json', 'sources/qualification-audit-2026-10-16.md', 'INDEX.md']
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

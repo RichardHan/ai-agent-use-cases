@@ -1,3 +1,13 @@
+## 2026-11-14 PR 的綠燈沒有跑它自己的測試
+
+三支 workflow 在任何 pull request 上都不會執行：`corpus-bundle-qa.yml` 的 PR 觸發只列 3 個測試檔，卻跑 8 支測試，其中 `reading-history`／`reading-selection`／`recovery-progress`／`corpus-bundle`／`arrival-geometry`／`reliability-observe` **沒有任何 PR runner 會在它們被改動時啟動並執行它們**（其他 runner 都是 `workflow_dispatch` 或已停用分支）。另外 14 支跑瀏覽器測試的 PR workflow，paths 少了它們斷言的網站或語料（改 `assets/app.js` 只啟動 13 支，改一篇 `cases/*.md` 只啟動 4 支）；改任何 workflow 啟動 0 支，而 `tests/published-check.test.cjs` 會掃過全部 57 支。三支 workflow 的單元測試步驟還是 `node --test … || node -e '<允許一個具名測試失敗>'`，紅了仍綠燈。
+
+選擇 (A) 讓 path filter 等於 workflow 實際讀的檔案，並把不變量寫成測試：14 支補 `assets/**`／`index.html`／`cases/**`／`evidence/**`／`sources/pending.md`；`corpus-bundle-qa.yml` 的 PR 觸發改為鏡射 push 觸發；`website-qa.yml` 改成 `.github/workflows/**`；三支移除逃生口改為 `… || { cat qa-artifacts/unit.tap; exit 1; }`。(B) 只修 `corpus-bundle-qa.yml`、其餘靠人工 dispatch：成本最低，但下一支 workflow 會再犯同一個錯，且沒有任何機制阻止。不採用。
+
+效果：改 `assets/app.js` 從 13 支→16 支、改一篇案例 4 支→16 支、改 `tests/reading-history-browser.cjs` 從「啟動 1 支但不執行它」→「啟動 2 支，其中一支執行它」、改一支沒有 PR 觸發的 workflow 從 0 支→1 支。本輪 PR 上 Corpus bundle QA、Missing shared case QA、Find reader sections QA 三支第一次因 PR 啟動。測試：基準 `180e00ca` 684 通過 → 本輪 689 通過、0 失敗；新測試指向基準 workflow 時 5 項中 4 項失敗。突變檢查抓到第一版 `^on:\s*pull_request` 把換行吃掉、讓所有 workflow 被讀成「無 paths 過濾」而假通過，已改為 `[ \t]*`。
+
+代價：內容 PR 觸發的 workflow 由 4 支增為 16 支（平行執行，wall time 仍由 `Website QA` 決定，機器時間約 +40–60 分鐘／次）。本輪沒有動 `assets/`、`index.html`、`cases/`，網站輸出與正式站不變。[方案、觸發集合與限制](docs/qa/2026-11-14-pr-gate-coverage/README.md)。
+
 ## 2026-11-10 搜尋把本庫自己的編輯註記當成內容
 
 正式站 `3a9ae6d5` 上，`?q=翻譯` 命中 **186 / 515**，但只有 1 筆在標題／用途／痛點提到翻譯；首頁任務入口「文件翻譯」77 筆、`翻譯改寫` 104 筆（真陽性 0）。原因是 `assets/app.js` 把整份 markdown 放進 `searchText`，本庫寫在原文旁的 `（翻譯改寫）`／`（翻譯摘要）`／`（本庫設計，未實測）` 也被索引。結果頁本來就會說「其餘 N 筆只在正文提到」並給「只看那 N 筆」，所以問題不是說謊，是預設結果集本身是噪音。

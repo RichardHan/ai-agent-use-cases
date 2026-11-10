@@ -1,7 +1,7 @@
 name: Find reader sections QA
 on:
   pull_request:
-    paths: ['assets/reader.*', 'tests/outline-find*', '.github/workflows/outline-find-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/outline-find*', '.github/workflows/outline-find-qa.yml']
   push:
     branches: [improve/reader-task-flow-20261021]
     paths: ['assets/reader.*', 'tests/outline-find*', '.github/workflows/outline-find-qa.yml']

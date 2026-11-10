@@ -1,7 +1,7 @@
 name: Related reading QA
 on:
   pull_request:
-    paths: ['assets/**', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/related*', '.github/workflows/related-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/related*', '.github/workflows/related-qa.yml']
   push:
     branches: ['closed-historical']
     paths: ['assets/**', 'tests/related*', '.github/workflows/related-qa.yml']

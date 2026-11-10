@@ -141,9 +141,17 @@ cases/183-ad-campaign-configuration-review.md:11
   - `?sort=reviewed` 全 515 筆中 UC-183 名次 **62**（改前 312）。
   - 三情境：`?q=怎麼整理會議記錄` 7／515、`?q=規劃旅行&scenario=工作` 0／515、`?case=UC-024` 詳情直開且憑據與核對日可見——與改前逐一相同。
 
-## 後續補記
+## 後續補記：發布已完成，但 main 的發布閘門卡在上一支 run 後面
 
-- main 的發布閘門 `Website QA`（`56f7a238`）在寫這一段時仍在排隊，結果見下一次更新；正式站本身已用上面的 `sourceRevision`、逐 byte 比對與實際瀏覽另外核對過，不依賴該 run 的結論。
+**已確認的事**（不依賴 gate）：
+
+- `56f7a238` 的 `pages build and deployment` [42803418342](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42803418342) success，`deploy` 10:58:05→11:02:33。
+- 11:04Z 起連續三次讀正式站：`catalog.json.sourceRevision` 依序為 `56f7a238`（#341）、`5744e48c`（#343 記錄）、`3f0d4760`（#344 記錄），每次都等於當下的 main tip；`assets/app.js` 與本機 checkout 逐 byte 相同（sha256 `8f9fea2655646620…`），515 筆語料、UC-183 徽章 2026-10-25、`?sort=reviewed` 名次 62，1440／390 皆 pageerror 0、水平溢出 0。
+- 也就是說「這次 merge 有沒有發布」有直接證據；只是那支會替它下結論的 workflow 還沒跑。
+
+**未確認的事（阻塞）**：`56f7a238` 的 main `Website QA` [42803419257](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42803419257) 從 10:57:06 起一直是 `pending`，到 11:27Z 仍未開始。原因不是排隊擁擠，而是同一個 concurrency group（`website-qa-refs/heads/main`）被前一個 commit `8fbfe082`（#340）的 run [42803248261](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42803248261) 佔住：那支 `browser` job 從 10:55:50 起、部署早在 10:58 就 success，卻在 `Wait for published assets and content` 停了 30 分鐘以上（視窗上限 60 分鐘）。`cancel-in-progress` 在 push 事件刻意為 false（#331 的設計，避免把已確定失敗的發布抹成灰燈），所以後面的 merge 只能等。
+
+**尚未確認的假設**（點名為假設，未當成根因）：`tests/published-version.cjs:192` 的 `assert(assets.every(file=>remoteBuffers.get(file).equals(buffers.get(file))),'Product asset mismatch')` 在 `exact`／`superseded` 分支**之前**執行，而 superseded 分支的設計是「只驗這支 push 改過的檔案」。若 live 已經前進到改了 `assets/app.js` 的後續 commit（#341 正是），這個前置斷言永遠不會成立，superseded 分支就不可達——與該分支自己的註解（「a newer build must be a descendant of this push and must carry these exact bytes」）不一致。要確認需要那支 run 的日誌（`Product asset mismatch` 是否重複出現）或在本機以 `PUSH_BASE_SHA`／`GITHUB_SHA` 重放，本輪沒有做，因此不寫成結論。
 
 ## 下一輪
 
@@ -152,3 +160,5 @@ cases/183-ad-campaign-configuration-review.md:11
 1. 重現（本機 preview，Chromium 1440×900）：`?q=怎麼整理會議記錄`（7／515，目前條件列顯示「關鍵字：怎麼整理會議記錄」）→ 開第一張卡 UC-071 → 按詳情裡的「探索更多「工作」案例 →」→ 網址變成 `?scenario=工作`、查詢框清空、目前條件只剩「使用情境：工作」、結果變成 162／515，**沒有任何「已清除什麼」的提示**。
 2. 成因：`scenarioExploreAction()`（`assets/app.js:1486-1499`）呼叫 `closeDetail()` 後直接重用首頁情境按鈕的 `chooseScenario()`（`assets/app.js:4400` 起），後者會把 `query`、`scenario`、`kind`、`difficulty`、`tool`、`category`、`proof` 全部清空。首頁那組按鈕的清空行為已在 README 寫明，詳情這顆是借用它的行為卻沒有借用它的說明。
 3. 先做的驗證：在正式站走一次上面三步，確認 `#active-filters` 只剩情境、`#query` 為空；再跑 `tests/visitor-problem-browser.cjs`、`tests/detail-close-history-browser.cjs`、`tests/results-batching-browser.cjs`，確認修改不會動到既有的返回與批次行為。
+
+其次（不與上面綁在一起）：**先診斷 `8fbfe082` 的 main 發布閘門為什麼在 `Wait for published assets and content` 停超過 30 分鐘**（run [42803248261](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42803248261)）。那支 run 的部署 10:58 就 success、live 早已前進，它卻沒有在 superseded 分支下結束；`56f7a238` 的閘門（`42803419257`）因此從 10:57 起一路 `pending`。先做的驗證只有一件：等那支 run 結束（或視窗到期）後讀日誌，確認是否為上面「尚未確認的假設」所述的重複 `Product asset mismatch`；確認後再決定是修前置斷言、還是修 superseded 分支的檔案清單，不要先改程式。

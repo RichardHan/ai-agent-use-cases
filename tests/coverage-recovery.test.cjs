@@ -124,7 +124,13 @@ const CORPUS = `discoveryReady = true; failedPaths = []; entries = [
    difficulty:'入門對話', tools:[], category:'日常', proof:'作者報告／示範'},
   {id:'UC-904', title:'週末打掃', originalTitle:'週末打掃', summary:'把家裡打掃乾淨', coreGoal:'',
    search:'週末 打掃 郵件 收據 整理', searchProse:'週末 打掃 郵件 收據 整理', tags:[], scenario:'生活', kind:'case',
-   difficulty:'入門對話', tools:[], category:'日常', proof:'作者報告／示範'}
+   difficulty:'入門對話', tools:[], category:'日常', proof:'作者報告／示範'},
+  {id:'UC-905', title:'發票對帳', originalTitle:'發票對帳', summary:'每月的發票逐張核對', coreGoal:'',
+   search:'發票 對帳 核對', searchProse:'發票 對帳 核對', tags:[], scenario:'工作', kind:'case',
+   difficulty:'入門對話', tools:[], category:'工作', proof:'作者報告／示範'},
+  {id:'UC-906', title:'每週例行檢查', originalTitle:'每週例行檢查', summary:'把例行檢查做完', coreGoal:'',
+   search:'每週 例行 檢查 播客 摘要 逐字稿', searchProse:'每週 例行 檢查 播客 摘要 逐字稿', tags:[], scenario:'工作', kind:'case',
+   difficulty:'入門對話', tools:[], category:'工作', proof:'作者報告／示範'}
 ];`;
 
 function chipsOf(api) {
@@ -148,7 +154,7 @@ test('dead-end chips mark the tasks no case describes in its own title or purpos
 
   assert.equal(byTag['發票辨識'].dataset.coverage, 'none', 'a task with no self-description is marked');
   assert.equal(byTag['發票辨識'].querySelector('.task-coverage-none').textContent, '僅相關詞', 'the marker is the same word the hero uses');
-  assert.match(byTag['發票辨識'].title, /沒有案例.*自述/, 'the tooltip states the claim boundary');
+  assert.match(byTag['發票辨識'].title, /沒有案例的標題、用途或痛點同時包含「發票」「辨識」/, 'the tooltip names the words it measured');
   assert.match(byTag['發票辨識'].title, /1 筆相關詞命中/, 'the tooltip promises the count the click will show');
   assert.equal(byTag['發票辨識'].getAttribute('aria-describedby'), 'empty-coverage-legend', 'the legend describes the marker');
   assert.equal(byTag['發票辨識'].getAttribute('aria-label'), '🧾 搜尋「發票辨識」僅相關詞', 'the accessible name includes the visible marker');
@@ -177,10 +183,15 @@ test('tasks a case describes come before the ones only related words reach', () 
   vm.runInContext(CORPUS, api.context);
   api.document.getElementById('query').value = '沒有這種任務';
   api.renderSearchFeedback(api.tokenize('沒有這種任務'), { scenario: '工作' });
-  const tags = chipsOf(api).map(chip => chip.dataset.problemTag);
-  const firstMarked = tags.findIndex((_, index) => chipsOf(api)[index].dataset.coverage === 'none');
-  const lastCovered = tags.reduce((last, _, index) => (chipsOf(api)[index].dataset.coverage === 'none' ? last : index), -1);
-  assert.ok(firstMarked > lastCovered, `every unmarked task is ahead of a marked one: ${tags.join(',')}`);
+  const chips = chipsOf(api);
+  const tags = chips.map(chip => chip.dataset.problemTag);
+  const marked = tags.filter((_, index) => chips[index].dataset.coverage === 'none');
+  const covered = tags.filter((_, index) => chips[index].dataset.coverage !== 'none');
+  // 播客摘要 sits at position 8 of the curated list and 發票 at 13, so the curated
+  // order alone would put the uncovered one first: only a real partition moves it.
+  assert.ok(tags.indexOf('播客摘要') > tags.indexOf('發票'), `uncovered 播客摘要 must move behind covered 發票: ${tags.join(',')}`);
+  assert.deepEqual(tags, [...covered, ...marked], 'the list is a stable partition: covered first, curated order kept inside each half');
+  assert.deepEqual(marked, ['播客摘要', '發票辨識', '音訊轉寫'], 'the uncovered tasks keep their relative order');
 });
 
 test('the legend appears only while a marker is on screen', () => {
@@ -191,7 +202,7 @@ test('the legend appears only while a marker is on screen', () => {
   const legend = api.document.getElementById('empty-suggestions').querySelector('.empty-problem-legend');
   assert.ok(legend, 'the legend explains the marker');
   assert.match(legend.textContent, /僅相關詞/, 'the legend names the marker');
-  assert.match(legend.textContent, /沒有案例自述在做這項任務/, 'the legend states what the marker means');
+  assert.match(legend.textContent, /沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞/, 'the legend states what the marker measures');
 
   // A partial load is not a census, and a panel with no marked chip needs no legend.
   vm.runInContext(CORPUS + '\nfailedPaths = ["cases/missing.md"];', api.context);

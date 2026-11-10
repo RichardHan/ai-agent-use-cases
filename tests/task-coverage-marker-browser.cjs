@@ -50,7 +50,7 @@ const markedQueries = page => page.evaluate(() => [...document.querySelectorAll(
     await page.goto(origin, { waitUntil: 'networkidle' });
     await ready(page);
     assert.equal(await page.locator('#task-coverage-note').isVisible(), true, 'legend explains the marker');
-    assert.match(await page.locator('#task-coverage-note').innerText(), /沒有案例自述在做這項任務/, 'legend states the claim boundary');
+    assert.match(await page.locator('#task-coverage-note').innerText(), /沒有案例的標題、用途或痛點同時包含/, 'legend states the claim boundary');
 
     // A covered task keeps its plain link: no badge, no rewritten accessible name.
     const plainTag = page.locator('a.problem-tag[href*="q=發票#explore"]');

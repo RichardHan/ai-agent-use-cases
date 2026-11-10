@@ -52,7 +52,7 @@ const chips = page => page.evaluate(() => [...document.querySelectorAll('#empty-
     const legend = page.locator('#empty-coverage-legend');
     assert.equal(await legend.isVisible(), true, 'the legend explains the marker');
     assert.match(await legend.innerText(), /僅相關詞/, 'the legend names the marker');
-    assert.match(await legend.innerText(), /沒有案例自述在做這項任務/, 'the legend states the claim boundary');
+    assert.match(await legend.innerText(), /沒有案例的標題、用途或痛點同時包含/, 'the legend states the claim boundary');
 
     for (const chip of listed) {
       if (!chip.marked) {
@@ -62,7 +62,7 @@ const chips = page => page.evaluate(() => [...document.querySelectorAll('#empty-
       assert.equal(chip.describedBy, 'empty-coverage-legend', `${chip.term}: the legend describes the marker`);
       assert.ok(chip.text.endsWith('僅相關詞'), `${chip.term}: the marker is part of the visible text`);
       assert.ok(chip.aria && chip.aria.endsWith('僅相關詞'), `${chip.term}: the marker is part of the accessible name`);
-      assert.match(chip.title, /沒有案例.*自述/, `${chip.term}: the tooltip states the claim boundary`);
+      assert.match(chip.title, /沒有案例的標題、用途或痛點同時包含「/, `${chip.term}: the tooltip names the words it measured`);
     }
 
     const mismatches = [];
@@ -117,7 +117,44 @@ const chips = page => page.evaluate(() => [...document.querySelectorAll('#empty-
     await context.close();
   }
 
-  // 3. Phones: no overflow, the marker still readable, the legend still there.
+  // 3. The same contract has to hold under a facet, and a panel with no marked
+  //    task must not render the legend it would explain.
+  for (const [name, query] of [
+    ['scenario=生活', deadEnd + '&scenario=' + encodeURIComponent('生活')],
+    ['scope=overview', deadEnd + '&scope=overview']
+  ]) {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+    const page = await context.newPage();
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(origin + '?' + query, { waitUntil: 'networkidle' });
+    await ready(page);
+    await settled(page);
+    const listed = await chips(page);
+    const marked = listed.filter(chip => chip.marked);
+    const facet = (new URL(origin + '?' + query)).searchParams;
+    const suffix = [...facet.entries()].filter(([key]) => key !== 'q').map(([key, value]) => '&' + key + '=' + encodeURIComponent(value)).join('');
+
+    assert.equal(await page.locator('#empty-coverage-legend').isVisible(), marked.length > 0,
+      `${name}: the legend appears exactly while a marker does (${marked.length} marked)`);
+    if (!marked.length) assert.equal(await page.locator('#empty-suggestions [aria-describedby]').count(), 0, `${name}: no chip points at a legend that was not rendered`);
+
+    const mismatches = [];
+    for (const chip of listed) {
+      await page.goto(origin + '?q=' + encodeURIComponent(chip.term) + suffix, { waitUntil: 'domcontentloaded' });
+      await ready(page);
+      await settled(page);
+      const mode = await page.locator('#match-scope').getAttribute('data-mode');
+      if ((mode === 'none') !== chip.marked) mismatches.push(`${chip.term}: marked=${chip.marked} match-scope=${mode}`);
+      if (chip.marked && !new RegExp(' ' + (await countOf(page)) + ' 筆').test(chip.title)) mismatches.push(`${chip.term}: promised count differs from the screen`);
+    }
+    assert.deepEqual(mismatches, [], `${name}: marker state must equal the results screen it opens`);
+    assert.deepEqual(errors, [], `${name}: page errors ${errors.join(', ')}`);
+    report.push({ viewport: name, chips: listed.length, marked: marked.length });
+    await context.close();
+  }
+
+  // 4. Phones: no overflow, the marker still readable, the legend still there.
   for (const vp of [{ name: '390x844', width: 390, height: 844 }, { name: '320x740', width: 320, height: 740 }]) {
     const context = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, reducedMotion: 'reduce' });
     const page = await context.newPage();

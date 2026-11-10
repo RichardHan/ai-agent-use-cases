@@ -2447,6 +2447,13 @@ function cachedTaskCoverage(items, query, filters = {}) {
   return byFilters.get(entry);
 }
 const TASK_COVERAGE_MARKER = '僅相關詞';
+// The marker says what is measured, word for word: the same sentence the results
+// screen prints. A task whose phrase was rewritten to `履歷 修改` is not "no case
+// describes this" — UC-035's title is a resume rewrite — but no case holds both
+// words in its title/purpose, and that is what the count is.
+function coverageWords(query) {
+  return tokenize(query || '').slice(0, 4).map(term => `「${term}」`).join('');
+}
 function annotateTaskCoverage() {
   if (typeof document.querySelectorAll !== 'function') return 0;
   const links = [...document.querySelectorAll('#hero-problem-tags a.problem-tag, .hero-task-examples a[data-task-entry]')];
@@ -2468,7 +2475,7 @@ function annotateTaskCoverage() {
     link.dataset.coverage = 'none';
     link.append(el('span', 'task-coverage-none', TASK_COVERAGE_MARKER));
     const label = link.firstChild?.textContent?.trim() || query;
-    link.title = `目前沒有案例在標題、用途或痛點自述在做「${label}」；點入會列出 ${coverage.total} 筆提到相關詞的案例，並提供替代搜尋。`;
+    link.title = `目前沒有案例的標題、用途或痛點同時包含${coverageWords(query) || '「'+label+'」'}；點入會列出 ${coverage.total} 筆提到相關詞的案例，並提供替代搜尋。`;
     // The visible text already names the link; a longer aria-label would stop
     // matching it (axe label-content-name-mismatch) and read the marker twice.
     // Point the description at the legend instead.
@@ -3360,7 +3367,7 @@ function renderSearchFeedback(terms, filters) {
         problemContainer.append(intro);
         let legend = null;
         if(uncovered.length){
-          legend = el('p','empty-problem-legend','「'+TASK_COVERAGE_MARKER+'」＝目前條件下沒有案例自述在做這項任務；點入仍會列出相關詞命中與替代搜尋。');
+          legend = el('p','empty-problem-legend','「'+TASK_COVERAGE_MARKER+'」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。');
           legend.id = 'empty-coverage-legend';
           problemContainer.append(legend);
         }
@@ -3376,7 +3383,7 @@ function renderSearchFeedback(terms, filters) {
             btn.append(el('span','task-coverage-none',TASK_COVERAGE_MARKER));
             // The visible text is the accessible name, so the marker belongs in it.
             btn.setAttribute('aria-label', label+TASK_COVERAGE_MARKER);
-            btn.title = `目前條件下沒有案例在標題、用途或痛點自述在做「${term}」；點入會列出 ${coverage.total} 筆相關詞命中，並提供替代搜尋。`;
+            btn.title = `目前條件下，沒有案例的標題、用途或痛點同時包含${coverageWords(term)}；點入會列出 ${coverage.total} 筆相關詞命中，並提供替代搜尋。`;
             btn.setAttribute('aria-describedby', legend.id);
           }
           btn.addEventListener('click',()=>recoverSearchQuery(term));

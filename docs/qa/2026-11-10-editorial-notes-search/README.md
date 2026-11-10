@@ -2,6 +2,8 @@
 
 ## 基準
 
+> 日期說明：`SITE.md` 既有條目使用名目日期（`docs/qa/` 目錄亦同，例如上一輪是 `2026-11-13`），本輪使用實際執行日期 `2026-11-10`，因此條目排在檔案最前但日期較小。排序依「最新一輪在最前」，不是嚴格日期排序。
+
 - 開發基準 `origin/main` `3a9ae6d5`（開工時）。工作期間 main 前進三個 commit（`e22cc4cc`「#333 到站停在第一則案例」、`90197f51`／`ee3dd6d7` 記錄），分支已 rebase 到 `ee3dd6d7`，所有數字以 rebase 後重跑為準。隔離 worktree `/private/tmp/aiuc-1110-r14`（分支 `improve/20261110-round14`）。
 - 原工作樹 `/Users/richard_han/orca/ai-agent-use-cases` 停在 `90093d7b`、落後 main 三百餘個 commit，另有 159 個未追蹤檔（逐一核對全部存在於 `origin/main`，不是待提交內容）；本輪未觸碰。
 - 基準 `node --test tests/*.test.cjs`（rebase 到 `ee3dd6d7` 後）：**669 通過、0 失敗**；`node --check assets/app.js` 通過。
@@ -113,7 +115,7 @@
 | [#337](https://github.com/RichardHan/ai-agent-use-cases/pull/337) 全域正規表達式狀態 | `6b71179a` | 13 項非略過全 success | `10ae513e` | [42784135678](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42784135678) success（08:40:25Z） |
 
 - `#334` 的分支 rebase 到 `ee3dd6d7`、`#335` 與 `#337` 各自 rebase 到當時的 main 後重跑全部單元測試與瀏覽器旅程，數字以 rebase 後為準。
-- 正式站 `catalog.json.sourceRevision` = `10ae513ec3eb7d1646ae02f42e40f800bf8ba11e`（`corpus.json` 同版本）；`assets/app.js`、`assets/style.css`、`index.html`、`README.md`、`INDEX.md` 與本機 `10ae513e` **逐 byte 相同**（sha256 `1940839906cc0712…`）。
+- 正式站 `catalog.json.sourceRevision` = `10ae513ec3eb7d1646ae02f42e40f800bf8ba11e`（`corpus.json` 同版本）；記錄本身以 [#338](https://github.com/RichardHan/ai-agent-use-cases/pull/338) 合併為 `9de2d070` 後，正式站版本前進到 `9de2d070`，但 `assets/app.js` 與 `10ae513e` 逐 byte 相同（sha256 `1940839906cc0712…`），所以站上行為不變；`assets/app.js`、`assets/style.css`、`index.html`、`README.md`、`INDEX.md` 與本機 `10ae513e` **逐 byte 相同**（sha256 `1940839906cc0712…`）。
 - 正式站重走（1440×900／390×844，pageerror 0、水平溢出 0）：`翻譯` 22／515、`文件翻譯` 15／515、`翻譯改寫` 3／515、`摘要` 150／515、`未實測` 48／515、`權限` 507／515（本輪未處理的下一輪題目）、`怎麼整理會議記錄` 7／515；`?q=規劃旅行&scenario=工作` 0／515 並提供「移除使用情境『工作』 → 查看 1 筆」；`?case=UC-001` 詳情直開、來源連結 23 個、`body.textContent` 仍含「（翻譯改寫）」，Escape 關閉後回到 515 筆且網址不再帶 `case=`。
 - 主分支 `Website QA`（`10ae513e`）[42784136601](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42784136601) **success**：`Wait for published assets and content` success（讀到 `10ae513e` 的 Pages run）、`Verify the published GitHub Pages site` success、`Fail when the published site cannot be verified` 依設計 skipped。
 

@@ -65,7 +65,7 @@
 由另一個 agent context（`reviewer`，未參與實作）讀最終 diff、在預覽 `8081` 重跑 `tests/discovery-browser.cjs`／`tests/related-browser.cjs`，並以攔截 response 的方式自造變異。結論 **needs fixes**，兩項：
 
 1. **（不採用，附證據）切換後 `sort=reviewed` 仍留在網址。** 這是既有行為，不是本輪造成：同一支探針對改前建置（預覽 `8403`）與本輪建置各跑一次，兩者都得到 `?sort=reviewed&scenario=工作`、`#sort` 仍為 `reviewed`。`chooseScenario()` 從來不清 `sort`，通知也沒有聲稱清除了它（`activeConditions()` 不含 sort）；`sort` 是閱讀偏好而非內容條件，清掉它等於順手改掉讀者的顯示選擇。因此本輪不動，並在此記錄。
-2. **（已修）空情境文案沒有測試。** 審查者把「隨便逛逛」的文案強制改成 `「」` 後，`discovery-browser` 仍通過，代表我改的那句沒有被任何斷言覆蓋。現在 Journey 1b 多一步：由 `?q=旅遊` 按「隨便逛逛」，斷言訊息含 `不限定情境` 且不含 `「」`。
+2. **（已修）空情境文案沒有測試。** 審查者把「隨便逛逛」的文案強制改成 `「」` 後，`discovery-browser` 仍通過，代表我改的那句沒有被任何斷言覆蓋。現在 Journey 1b 多一步：由 `?q=旅遊` 按「隨便逛逛」，斷言訊息含 `不限定情境` 且不含 `「」`。把文案強制改回 `「」` 的變異建置（預覽 `8404`）實測得到 `RESULT fail: The input did not match the regular expression /不限定情境/`，同一句在本輪建置上通過。
 
 審查同時確認（未改動）：三種尺寸下通知都在視窗內（1440 y=23.9px／390 y=24.4px／320 y=24.0px）、一鍵回復把 9 項欄位與網址逐項還原、只有情境不同的切換不出現通知、無條件時仍把手交給卡片標題、axe 0 違規；焦點停在 `#results-count` 時 `Shift+Tab` 1 次可到動作按鈕（`Tab` 需 218 次／175 次，這是既有焦點契約，見已知限制）。
 

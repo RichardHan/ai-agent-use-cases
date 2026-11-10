@@ -262,6 +262,48 @@ function withoutEditorialNotes(text){
     return rest.length<=12?' ':note;
   });
 }
+// A case page's `##` headings are structure, not prose. The template asks every
+// page to carry the same labels, so `## 所需連接、權限與限制` on 216 pages does not
+// mean each case discusses permissions; before this split, 權限 matched 507 of 515
+// entries and 所需連接 matched 216 while no case's prose uses that phrase. Headings
+// stay searchable — a page whose only mention of 提示詞 is `## 可複製提示詞` usually
+// does ship a prompt — but the index keeps a heading-free copy, the result line
+// counts the two apart, and the card explanation names the label instead of
+// quoting it as if it were the case's own sentence.
+const SECTION_HEADING=/^(#{2,6})\s+(.+?)\s*$/;
+function markdownSections(markdown) {
+  const sections=[];let current=null,fenced=false;
+  for(const line of String(markdown||'').split('\n')){
+    if(/^\s*(?:```|~~~)/.test(line))fenced=!fenced;
+    const heading=fenced?null:line.match(SECTION_HEADING);
+    if(heading){current={name:clean(heading[2]),lines:[]};sections.push(current);continue;}
+    if(current)current.lines.push(line);
+  }
+  return sections;
+}
+function proseWithoutSectionHeadings(markdown) {
+  const lines=[];let fenced=false;
+  for(const line of String(markdown||'').split('\n')){
+    if(/^\s*(?:```|~~~)/.test(line))fenced=!fenced;
+    if(!fenced&&SECTION_HEADING.test(line))continue;
+    lines.push(line);
+  }
+  return lines.join('\n');
+}
+// The first line a reader would see under a heading; a heading with nothing under
+// it is a fact worth stating, not a hit to dress up as content.
+function sectionOpening(sections, name) {
+  const section=sections.find(candidate=>candidate.name===name);
+  if(!section)return '';
+  for(const line of section.lines){
+    const text=clean(line.replace(/^(?:[-*+>]\s+|\d+\.\s+)/,''));
+    if(text)return text;
+  }
+  return '';
+}
+// `（本庫設計，未實測）` says how the page was written, so a label the reader is
+// shown should carry it no more than the index does.
+const sectionLabelName = name => clean(withoutEditorialNotes(name)).replace(/\s+/g, '') || name;
 function abbreviatedQuery(query, limit=40) {
   const chars=Array.from(query.trim());
   return chars.slice(0,limit).join('')+(chars.length>limit?'…':'');
@@ -1154,8 +1196,13 @@ function metadata(markdown, path, kind, suffix='') {
   const declaredTier = declaredDifficulty(lead);
   const difficulty = declaredTier || extractDifficulty(markdown, tools, scenario, category);
   const difficultySource = declaredTier ? 'declared' : 'inferred';
-  const searchText=norm(withoutEditorialNotes(markdown)+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id));
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:searchText,searchProse:withoutSourceUrls(searchText)};
+  const searchFields=' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id);
+  const searchText=norm(withoutEditorialNotes(markdown)+searchFields);
+  // Same tail, different body: `search` keeps section headings so a reader can still
+  // reach a page by its section title, `searchBody` drops them so "matched" and
+  // "this text says it" can be told apart. Both keep every declared field.
+  const searchBodyText=norm(withoutEditorialNotes(proseWithoutSectionHeadings(markdown))+searchFields);
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:searchText,searchProse:withoutSourceUrls(searchText),searchBody:searchBodyText,searchProseBody:withoutSourceUrls(searchBodyText)};
 }
 // sources/pending.md records one review date for the whole file, above the first
 // lead. It says when the file was checked, not when each lead was, so it stays a
@@ -2153,6 +2200,12 @@ function contextExcerpt(text, variant, limit=96) {
   const start=Math.max(0,Math.min(low-32,chars.length-limit));
   return (start?'…':'')+chars.slice(start,start+limit).join('')+(start+limit<chars.length?'…':'');
 }
+const CONTEXT_CAUTION={
+  限制:'此詞出現在限制／注意段落；命中不代表案例能完成這項任務。',
+  來源:'此詞出現在來源／參考段落；命中不代表案例用途包含這項任務。',
+  heading:'這個詞只出現在章節標題；以下是這一節開頭的內容，請開原文核對整節。',
+  headingEmpty:'這個詞只出現在章節標題，而這一節目前沒有內容；命中不代表案例討論這件事。'
+};
 function searchContext(item, terms) {
   if(!terms.length)return {matches:[],remaining:0};
   const fields=[
@@ -2160,13 +2213,22 @@ function searchContext(item, terms) {
     ['分類',item.category],['標籤',(item.tags||[]).join('、')],
     ['提及工具',(item.tools||[]).join('、')],['情境',item.scenario],['收錄狀態',KIND[item.kind]]
   ].map(([label,text])=>({label,text:text||'',original:false}));
-  let section='頁首資料';
+  // Heading lines are kept apart from the prose: a match on one is reported as a
+  // section label with the section's opening line, never as a sentence the case wrote.
+  const headingFields=[];
+  let section='頁首資料',fenced=false;
   for(const line of (item.markdown||'').split('\n')){
+    if(/^\s*(?:```|~~~)/.test(line))fenced=!fenced;
     if(!line.trim())continue;
-    const heading=line.match(/^(#{1,6})\s+(.+)/);
-    if(heading&&heading[1].length>1)section=clean(heading[2]);
+    const heading=fenced?null:line.match(/^(#{1,6})\s+(.+)/);
+    if(heading&&heading[1].length>1){
+      section=clean(heading[2]);
+      headingFields.push({name:section,text:clean(heading[2])});
+      continue;
+    }
     fields.push({label:'原文 · '+(heading?.[1].length===1?'標題':section),text:line.replace(/^(?:#{1,6}\s+|[-*>]\s+|\d+\.\s+)/,'').trim(),original:true});
   }
+  const sections=markdownSections(item.markdown);
   const matches=[];
   for(const term of [...new Set(terms)]){
     const variants=termVariants(term);
@@ -2185,6 +2247,19 @@ function searchContext(item, terms) {
       }
       if(found)break;
     }
+    if(matches.some(match=>match.term===term))continue;
+    for(const heading of headingFields){
+      const variant=variants.find(v=>searchVariantIndex(norm(heading.text),v)!==-1);
+      if(!variant)continue;
+      const opening=sectionOpening(sections,heading.name);
+      matches.push({
+        term,variant,
+        label:'章節標題「'+sectionLabelName(heading.name)+'」',
+        excerpt:opening?contextExcerpt(opening,variant):'',
+        caution:opening?'heading':'headingEmpty'
+      });
+      break;
+    }
   }
   return {matches:matches.slice(0,2),remaining:Math.max(0,matches.length-2)};
 }
@@ -2192,13 +2267,14 @@ function renderSearchContext(item, terms) {
   const context=searchContext(item,terms);
   if(!context.matches.length)return null;
   const box=el('div','search-context');
-  box.append(el('p','search-context-title',context.matches.some(match=>match.excerpt)?'搜尋命中 · 原文節錄':'搜尋命中'));
+  const sectionOnly=context.matches.every(match=>match.caution==='heading'||match.caution==='headingEmpty');
+  box.append(el('p','search-context-title',sectionOnly?'搜尋命中 · 章節標題與該節開頭':context.matches.some(match=>match.excerpt)?'搜尋命中 · 原文節錄':'搜尋命中'));
   context.matches.forEach(match=>{
     const row=el('div','search-context-match');
     const relation=match.term===match.variant?'「'+match.term+'」':'「'+match.term+'」→「'+match.variant+'」';
     row.append(el('p','search-context-label',relation+' · '+match.label));
     if(match.excerpt)row.append(el('p','search-context-excerpt',match.excerpt));
-    if(match.caution)row.append(el('p','search-context-caution',match.caution==='限制'?'此詞出現在限制／注意段落；命中不代表案例能完成這項任務。':'此詞出現在來源／參考段落；命中不代表案例用途包含這項任務。'));
+    if(match.caution)row.append(el('p','search-context-caution',CONTEXT_CAUTION[match.caution]||CONTEXT_CAUTION['來源']));
     box.append(row);
   });
   if(context.remaining)box.append(el('p','search-context-more','另有 '+context.remaining+' 個關鍵字符合；可開啟原文核對。'));
@@ -2427,10 +2503,17 @@ function filterEntries(items, terms, filters) {
       ? norm((item.title||'')+' '+(item.originalTitle||'')+' '+(item.summary||'')+' '+(item.coreGoal||''))
       : filters.scope==='topic'
         ? norm((item.title||'')+' '+(item.originalTitle||'')+' '+(item.summary||'')+' '+(item.coreGoal||'')+' '+(item.category||'')+' '+(item.tags||[]).join(' ')+' '+idVariants(item.id||''))
-        : item.search;
+        : filters.scope==='body'
+          // A fixture that carries only `search` keeps the full-text behaviour rather
+          // than silently matching nothing.
+          ? (item.searchBody||item.search)
+          : item.search;
     // A word the reader did not type is a synonym this library added, so it only
-    // counts inside the case's prose; the reader's own words still match URLs.
-    const prose=filters.scope?text:(item.searchProse||text);
+    // counts inside the case's prose; the reader's own words still match URLs. The
+    // body scope has its own prose copy, because its text already left headings out.
+    const prose=filters.scope==='body'
+      ? (item.searchProseBody||item.searchProse||text)
+      : filters.scope?text:(item.searchProse||text);
     return queries.every(({literal,variants})=>variants.some(value=>matchesSearchVariant(value===literal?text:prose,value)))
       && (!filters.kind || item.kind === filters.kind) && (!filters.difficulty || item.difficulty === filters.difficulty) && (!filters.tool || item.tools.includes(filters.tool)) && (!filters.category || item.category === filters.category) && (!filters.scenario || item.scenario === filters.scenario) && (!filters.proof || item.proof === filters.proof);
   });
@@ -2472,6 +2555,34 @@ function rankEntries(items, terms) {
   }).map(result => result.item);
 }
 
+// Which matches would survive if section headings stopped counting as text. This is
+// a per-case question, not a per-word one: with several words, a case that finds one
+// word in prose and another only in a heading drops out here. The sentence therefore
+// says those cases need the heading to match, not that every word is a label. Kept
+// next to the notice because it must be the same predicate the results list uses.
+function headingOnlyMatches(items, terms, filters) {
+  if (!terms.length || filters.scope) return [];
+  return items.filter(item => filterEntries([item], terms, filters).length
+    && !filterEntries([item], terms, { ...filters, scope: 'body' }).length);
+}
+// The label the reader is most likely looking at, so the sentence can name it
+// instead of describing "a heading" in the abstract.
+function sectionLabelCounts(items, terms) {
+  const counts = new Map();
+  for (const item of items) {
+    for (const section of markdownSections(item.markdown)) {
+      const matches = terms.some(term => termVariants(term).some(variant => matchesSearchVariant(norm(section.name), variant)));
+      if (matches) { const name = sectionLabelName(section.name); counts.set(name, (counts.get(name) || 0) + 1); break; }
+    }
+  }
+  return counts;
+}
+function sectionLabelExample(items, terms) {
+  const counts = sectionLabelCounts(items, terms);
+  let best = '', seen = 0;
+  for (const [name, count] of counts) if (count > seen) { best = name; seen = count; }
+  return best;
+}
 // A result count answers two questions: how many cases mention the words
 // somewhere, and how many describe themselves with them. When the body-only tail
 // dominates, the count alone reads as "N cases about this", so the results screen
@@ -2601,7 +2712,7 @@ function sourceTypeMessage(type) {
   return type+'：'+description+' 本庫未獨立重現。';
 }
 const FILTER_LABELS = {query:'關鍵字',scenario:'使用情境',kind:'收錄狀態',difficulty:'實作門檻',tool:'提及工具',category:'主題分類',proof:'來源類型',scope:'命中範圍'};
-const SEARCH_SCOPES={topic:'主題：標題、用途、核心目標、分類、標籤與案例 ID',overview:'標題、用途與痛點'};
+const SEARCH_SCOPES={topic:'主題：標題、用途、核心目標、分類、標籤與案例 ID',overview:'標題、用途與痛點',body:'全文：不含章節標題'};
 function searchScope(value) { return Object.hasOwn(SEARCH_SCOPES,value)?value:''; }
 function activeConditions(query, filters) {
   return Object.entries({query, ...filters}).filter(([,value]) => value)
@@ -3548,6 +3659,14 @@ function render(updateURL=true, preserveShare=false) {
     ? filterEntries(base, terms, { ...filters, scope: 'overview' })
     : [];
   const purposeMatches = purposeOf(shownMatches, searchTerms);
+  // A full-text match may be nothing but the section label every case carries
+  // (`## 所需連接、權限與限制` is on 216 pages), so the reader is told how much of
+  // the deck is that, and which label it is.
+  const headingOnly = discoveryReady && searchTerms.length && !filters.scope
+    ? headingOnlyMatches(shownMatches, searchTerms, filters)
+    : [];
+  const bodyOnlyCount = Math.max(0, currentFiltered.length - headingOnly.length);
+  const headingLabel = headingOnly.length ? sectionLabelExample(headingOnly, searchTerms) : '';
   const matchScope = discoveryReady && searchTerms.length
     ? matchScopeNotice(purposeMatches.length, currentFiltered.length)
     : '';
@@ -3565,8 +3684,12 @@ function render(updateURL=true, preserveShare=false) {
     // "You searched for" includes the library's related words: matching in the
     // title/purpose scope still expands synonyms, so the sentence must not imply
     // that the words appear verbatim.
+    // Headings are not prose: when the tail is partly section labels, name that part
+    // instead of telling the reader all of it is body text.
     $('match-scope-message').textContent = `這 ${currentFiltered.length} 筆裡，${purposeCount} 筆的標題、用途或痛點提到你搜的字或相關詞；`
-      + `其餘 ${currentFiltered.length - purposeCount} 筆只在正文或其他欄位提到。${partial}`;
+      + (headingOnly.length
+        ? `其餘 ${currentFiltered.length - purposeCount} 筆中，${bodyOnlyCount - purposeCount} 筆在正文或頁首資料提到；另有 ${headingOnly.length} 筆要算上章節標題才符合${headingLabel ? `（例如〈${headingLabel}〉）` : ''}。${partial}`
+        : `其餘 ${currentFiltered.length - purposeCount} 筆只在正文或其他欄位提到。${partial}`);
     matchScopeAction.hidden = !narrowQuery;
     matchScopeAction.textContent = narrowQuery ? `只看那 ${purposeCount} 筆` : '';
     matchScopeAction.dataset.mode = narrowQuery ? 'scope' : '';
@@ -3594,8 +3717,13 @@ function render(updateURL=true, preserveShare=false) {
     // The listed cases matched somewhere in the full text; some of those matches
     // are synonyms of the word the reader typed, so do not call them literal.
     $('match-scope-message').textContent = `在所選條件下，沒有案例的標題、用途或痛點同時包含${label}`
-      + (unseen.length ? `；${unseen.join('、')}只在正文或其他欄位出現` : '')
-      + `。下列 ${currentFiltered.length} 筆是全文或同義詞命中，不代表案例在做這件事。`
+      + (unseen.length ? `；${unseen.join('、')}沒有出現在任何案例的標題、用途或痛點` : '')
+      + (headingOnly.length === currentFiltered.length
+        ? `。下列 ${currentFiltered.length} 筆都要算上章節標題才符合${headingLabel ? `（例如〈${headingLabel}〉）` : ''}，正文未必提到，不代表案例在做這件事。`
+        : `。下列 ${currentFiltered.length} 筆是全文或同義詞命中，不代表案例在做這件事。`
+          + (headingOnly.length
+            ? `其中 ${headingOnly.length} 筆要算上章節標題才符合${headingLabel ? `（例如〈${headingLabel}〉）` : ''}，正文未必提到。`
+            : ''))
       + (failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入，只算已載入內容）` : '');
     const count = best ? (resetFilters ? best.library : best.scoped) : 0;
     matchScopeAction.hidden = !count;

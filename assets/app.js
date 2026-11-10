@@ -817,6 +817,14 @@ function termVariants(term) { const t = norm(term).replace(/^#/, ''); const m = 
 const matchCase = (target, list = entries) => { if (!target) return null; const t = norm(target).trim().replace(/^#/, ''); const m = t.match(/^(?:([a-z]+)[\s-：:#.]*)?(\d+)$/); const variants = m && (!m[1] || m[1] === 'uc' || m[1] === 'p') ? [`${m[1] || 'uc'}-${m[2].padStart(3, '0')}`, `${m[1] || 'uc'}${m[2].padStart(3, '0')}`] : termVariants(t); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
 // Only explicit lead fields describe this library's review date. Source dates
 // and dated supplements are intentionally not evidence of a page-level review.
+// The corpus writes the field under several spellings, and a spelling this
+// vocabulary does not know is dropped in silence: the page then shows an older
+// 「頁首核對」 than the same lead block writes two lines above, and
+// `?sort=reviewed` files it behind cases it is newer than. `本次增補查證` is this
+// library's own wording for "the new sources on this page were checked again";
+// nine pages used it and none was read. A new spelling now fails
+// tests/review-date-keys.test.cjs instead of disappearing.
+const REVIEW_DATE_KEY=/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|(?:本次)?增補查證|查證|首次收錄[／、](?:最近查證|查證))\s*[：:]/;
 function reviewDate(markdown) {
   const lead=markdown.replace(/^#{1,3}[^\n]*\n/, '').split(/^## /m)[0];
   const dates=[];
@@ -830,8 +838,7 @@ function reviewDate(markdown) {
     }
   };
   for(const line of lead.split('\n')){
-    const namedKey=/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|查證|首次收錄[／、](?:最近查證|查證))\s*[：:]/.test(line);
-    if(namedKey){ collect(line); continue; }
+    if(REVIEW_DATE_KEY.test(line)){ collect(line); continue; }
     // Older leads write "- 日期：…；查證 2026-10-16". Only a clause that both names
     // the action and carries the date is a review; the publication date that shares
     // the line but not the clause must not become a review date.

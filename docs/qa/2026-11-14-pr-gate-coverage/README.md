@@ -123,3 +123,20 @@
 審查另確認：三個逃生口的替換沒有弱化任何斷言（`cat` 之後是明確 `exit 1`，左側失敗一定進 fallback）；15 支 PR workflow 的 `on:` 由 GitHub 實際接受（有真實 run 為證）；新增的 glob 與各 workflow 實際執行的命令相符。
 
 **審查未處理、本輪記錄為已知成本：** `corpus-bundle-qa.yml` 的 `tests/**` 比它實際執行的檔案寬（改 `tests/related-browser.cjs` 也會啟動它）；`reader-browser.cjs` 在 Reader QA 與 Source guide QA 各跑一次，`reader-search-browser.cjs` 在 Reader search QA 與 Audit summary round QA 各跑一次。這些是重複執行而不是漏測，收斂它們屬於另一輪（會改變既有 workflow 的分工）。
+
+## 新閘門第一次跑就跑出一個舊問題
+
+`corpus-bundle-qa.yml` 在本輪 PR 上第一次因為 pull request 啟動，第一次執行就失敗：`tests/reading-history-browser.cjs:43`（chromium-320）的 `|scrollTop - sourceTop| < 3`（run 42793635230）。同一支 workflow 在前一個 head（`3659e06a`，程式碼相同）是 success，本機重跑則在 webkit-390 的另一條斷言（`:47`「Related case return restores its visible trigger」）失敗——也就是說這支測試本身就跨引擎不穩定，只是從來沒有在 PR 上跑過。
+
+**根因（量測，不是猜）**：Safari 不會因為滑鼠點擊而把焦點移到 `<button>` 上。實測同一段流程（`?case=UC-xxx` → 點延伸閱讀 → 返回）：
+
+| 引擎 | 用滑鼠點延伸閱讀後返回 | 用鍵盤（focus + Enter）開啟後返回 |
+| --- | --- | --- |
+| Chromium | 焦點回到該按鈕 | 焦點回到該按鈕 |
+| WebKit | 焦點停在 `#detail-title` | 焦點回到該按鈕 |
+
+所以「返回時把焦點還給讀者用的那個按鈕」在 WebKit 用滑鼠操作時不可能成立——不是產品壞了，是斷言的前提只在會 focus 按鈕的引擎上成立。
+
+**處理**：把測試改成用鍵盤啟動（`focus()` + `Enter`），斷言本身一字未改。實測 `assets/app.js` 完全不動的情況下，chromium 1440／390／320、firefox 390、webkit 390 **五種全部通過，連跑兩次**。因此本輪**沒有任何產品程式碼變更**；先前嘗試在 `restoreReadingView()` 加焦點重試的版本已撤回（它在 WebKit 上也修不好，因為前提不成立）。
+
+這是「把休眠的閘門接上」的直接價值，也是它的成本：第一次接上就會看到積壓的失敗，而且必須分清楚是迴歸還是斷言前提過時。本輪判定為後者，並保留原斷言。

@@ -2744,6 +2744,42 @@ function focusMissingCase() {
   title.focus({preventScroll:true});
   $('missing-case').scrollIntoView({block:'start',behavior:'instant'});
 }
+// The result line can be fully on screen while every case is still below the
+// fold: a task entry lands on #explore, and the hit-scope and condition blocks
+// then push the first card 739px past the search box (390×844, 2026-11-10). The
+// count alone is therefore not evidence that the reader can read a result, and a
+// visible card edge is not either — the title is the first line that says what
+// the case is. When nothing matches, the equivalent pair is #empty's heading and
+// the line that says what to try instead.
+function arrivalLines() {
+  const card = document.querySelector('#results .card');
+  if (card) return [card.querySelector('h3') || card];
+  return [document.querySelector('#empty h3'), $('empty-hint')].filter(Boolean);
+}
+function firstResultInView() {
+  const lines = arrivalLines();
+  if (!lines.length) return false;
+  return lines.every(line => {
+    const {top, bottom} = line.getBoundingClientRect();
+    // A hidden block still reports 0,0 — which would otherwise read as "in view".
+    return bottom > top && top >= 0 && bottom <= innerHeight;
+  });
+}
+// A landscape phone or a short window cannot show the result line and the first
+// case together (390px tall: the line fits, the title ends at 401). The reader
+// came for a case, so the case wins; focus follows whatever is still visible.
+function placeArrivalResults() {
+  const count = $('results-count');
+  count.scrollIntoView({block: 'start', behavior: 'instant'});
+  count.focus({preventScroll: true});
+  if (firstResultInView()) return;
+  const line = arrivalLines()[0];
+  if (!line || typeof line.scrollIntoView !== 'function') return;
+  line.scrollIntoView({block: 'start', behavior: 'instant'});
+  if (count.getBoundingClientRect().top >= 0) return;
+  const control = document.querySelector('#results .card h3 button') || $('edit-query');
+  if (control && typeof control.focus === 'function') control.focus({preventScroll: true});
+}
 function finishArrival(params,failed=false) {
   const missing=$('missing-case')&&!$('missing-case').hidden;
   const arrived=allowAutomaticArrival;
@@ -2754,11 +2790,12 @@ function finishArrival(params,failed=false) {
     else {
       revealSearch();
       const count=$('results-count').getBoundingClientRect();
+      // Arrival keeps the promise an explicit submit already makes: the first
+      // case, or the empty state that replaces it, shares the screen with the
+      // reader. The result line is placed like focusLoadedResults() places it, so
+      // the two arrivals cannot disagree.
       if(!failed && discoveryReady && SEARCH_KEYS.some(key=>(params.get(key)||'').trim()) &&
-        (count.top<0 || count.bottom>innerHeight)){
-        $('results-count').scrollIntoView({block:'center',behavior:'instant'});
-        $('results-count').focus({preventScroll:true});
-      }
+        (count.top<0 || count.bottom>innerHeight || !firstResultInView()))placeArrivalResults();
     }
   }
   // A plain landing needs the same honesty as a shared search: opening the panel

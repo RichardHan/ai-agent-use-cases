@@ -32,7 +32,10 @@ const base = process.env.SEARCH_SCOPE_URL || 'http://127.0.0.1:8106/';
       await scope.selectOption('');
       assert.equal(await page.locator('#results .card').count(), full);
       await page.locator('#query').fill('旅遊');
-      assert.equal(await page.locator('#results .card[data-case-id="UC-076"]').count(), 1, 'full text retains incidental author hit');
+      // UC-076 stopped mentioning 旅遊 when the case was rewritten, so the anchor
+      // is the case whose only 旅遊 mention is in its body (checked 2026-11-10:
+      // full text 35 hits, topic scope 15, UC-004 body-only and ranked 15th).
+      assert.equal(await page.locator('#results .card[data-case-id="UC-004"]').count(), 1, 'full text retains incidental author hit');
       await scope.focus();
       // macOS Chromium opens a native popup that Playwright cannot drive with arrow keys.
       if (process.platform === 'darwin') await scope.selectOption('topic');
@@ -42,7 +45,7 @@ const base = process.env.SEARCH_SCOPE_URL || 'http://127.0.0.1:8106/';
       }
       assert.equal(await scope.inputValue(), 'topic', 'topic scope can be selected');
       assert.equal(await page.locator('#results .card[data-case-id="UC-040"]').count(), 1);
-      assert.equal(await page.locator('#results .card[data-case-id="UC-076"]').count(), 0);
+      assert.equal(await page.locator('#results .card[data-case-id="UC-004"]').count(), 0);
       assert.match(await page.locator('#results .card[data-case-id="UC-040"] .search-context-label').first().innerText(), /分類|標籤/);
       await page.locator('.search-scope summary').click();
       assert.match(await page.locator('#scope-note').innerText(), /不代表.*驗證/);
@@ -92,7 +95,7 @@ const base = process.env.SEARCH_SCOPE_URL || 'http://127.0.0.1:8106/';
         await page.goto(new URL('?q=旅遊&scope=unknown#explore',base).href);
         await page.locator('#results .card').first().waitFor();
         assert.equal(await scope.inputValue(), '');
-        assert.equal(await page.locator('#results .card[data-case-id="UC-076"]').count(), 1);
+        assert.equal(await page.locator('#results .card[data-case-id="UC-004"]').count(), 1);
       }
       console.log(`PASS ${width}px: full, legacy overview, topic travel, sharing, Back and empty state`);
       await context.close();
@@ -111,7 +114,7 @@ const base = process.env.SEARCH_SCOPE_URL || 'http://127.0.0.1:8106/';
     await page.locator('#copy-search-link:not([disabled])').waitFor();
     assert.equal(await page.locator('#search-scope').inputValue(), 'topic');
     assert.equal(await page.locator('#results .card[data-case-id="UC-040"]').count(), 1);
-    assert.equal(await page.locator('#results .card[data-case-id="UC-076"]').count(), 0);
+    assert.equal(await page.locator('#results .card[data-case-id="UC-004"]').count(), 0);
     await context.close();
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode=1; });

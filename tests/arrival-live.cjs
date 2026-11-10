@@ -22,7 +22,12 @@ module.exports=async function publishedArrival({browser,origin,engine,prefix='li
   const row=await page.evaluate(()=>({url:location.href,entries:entries.length,failedPaths,ids:currentFiltered.map(x=>x.id),query:document.getElementById('query').value,
    tool:document.getElementById('tool').value,scenario:activeScenario,focus:document.activeElement.id,
    queryTop:Math.round(document.getElementById('query').getBoundingClientRect().top),
-   resultsTop:Math.round(document.getElementById('results-count').getBoundingClientRect().top),viewport:{width:innerWidth,height:innerHeight}}));
+   resultsTop:Math.round(document.getElementById('results-count').getBoundingClientRect().top),
+   // The first case's title is what a reader can actually read; a result line or
+   // a card edge alone does not say what the case is.
+   cardTitleTop:Math.round(document.querySelector('#results .card h3').getBoundingClientRect().top),
+   cardTitleBottom:Math.round(document.querySelector('#results .card h3').getBoundingClientRect().bottom),
+   viewport:{width:innerWidth,height:innerHeight}}));
   report.push({prefix,stage,...row,loads,network:network.splice(0)});
   fs.writeFileSync('qa-artifacts/'+prefix+'-arrival.json',JSON.stringify(report,null,2));
   console.log('LIVE_ARRIVAL_STATE '+JSON.stringify(report.at(-1)));
@@ -39,8 +44,12 @@ module.exports=async function publishedArrival({browser,origin,engine,prefix='li
   await page.goto(origin+'?q=旅遊&tool=Grok%20Bot#explore',{waitUntil:'networkidle'});loads++;
   await page.locator('#results .card').first().waitFor();
   const initial=await state('received-search');
-  assert.equal(initial.focus,'search-title');assert(initial.queryTop>0&&initial.queryTop<initial.viewport.height/2);
-  assert(initial.resultsTop>0&&initial.resultsTop<initial.viewport.height);assert(initial.ids.length>0);
+  // Two arrivals are honest: the query is on screen, or the first case is. The
+  // first case's title must be readable either way (2026-11-10 arrival contract).
+  assert(['search-title','results-count'].includes(initial.focus),'arrival focuses the query heading or the visible results');
+  if(initial.focus==='search-title')assert(initial.queryTop>0&&initial.queryTop<initial.viewport.height/2,'heading-focused arrival shows the query');
+  assert(initial.cardTitleTop>=0&&initial.cardTitleBottom<=initial.viewport.height,'the first case title is readable after arrival');
+  assert(initial.resultsTop>=0&&initial.resultsTop<initial.viewport.height);assert(initial.ids.length>0);
   await capture('search');await audit('search');
   await page.locator('#copy-search-link').focus();await page.keyboard.press('Enter');
   const shared=await page.evaluate(()=>window.copiedSearch),sharedURL=new URL(shared);
@@ -85,9 +94,10 @@ module.exports=async function publishedArrival({browser,origin,engine,prefix='li
   if(engine==='chromium'){
    await page.goto(shared,{waitUntil:'networkidle'});loads++;await page.locator('#results .card').first().waitFor();
    const received=await state('mobile-received-search');
-   assert.equal(received.focus,'search-title');assert.deepEqual(received.ids,initial.ids);assert.equal(received.entries,initial.entries);
-   assert(received.queryTop>0&&received.queryTop<received.viewport.height/2);
-   assert(received.resultsTop>0&&received.resultsTop<received.viewport.height);
+   assert(['search-title','results-count'].includes(received.focus));assert.deepEqual(received.ids,initial.ids);assert.equal(received.entries,initial.entries);
+   if(received.focus==='search-title')assert(received.queryTop>0&&received.queryTop<received.viewport.height/2,'heading-focused arrival shows the query');
+   assert(received.cardTitleTop>=0&&received.cardTitleBottom<=received.viewport.height,'mobile received search shows the first case title');
+   assert(received.resultsTop>=0&&received.resultsTop<received.viewport.height);
    await capture('mobile-search');await audit('mobile-search');
   }
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);

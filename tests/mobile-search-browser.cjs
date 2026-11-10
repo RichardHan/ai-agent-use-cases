@@ -133,6 +133,19 @@ module.exports=async function mobileSearch({browser,origin,prefix='mobile-search
   await page.locator('#filter-summary').click();
   await page.setViewportSize({width,height});
   assert.equal(await disclosure.evaluate(n=>n.open),false);
+  // Arriving with a query — a task entry or a shared search link — adds the scope
+  // and condition blocks between the search field and the list. Measured on the
+  // published site (2026-11-10, 390×844): the result line sat at y=563 and the
+  // first card at y=852, so the reader saw a count and no case at all.
+  await page.goto(origin+'?q='+encodeURIComponent('發票')+'#explore',{waitUntil:'networkidle'});
+  await page.locator('#results .card').first().waitFor();
+  const arrival=await page.evaluate(()=>{
+   const box=selector=>{const r=document.querySelector(selector).getBoundingClientRect();return {top:Math.round(r.top),bottom:Math.round(r.bottom)};};
+   return {count:box('#results-count'),card:box('#results .card'),title:box('#results .card h3'),scope:document.activeElement.id};
+  });
+  assert(arrival.title.top>=0&&arrival.title.bottom<=height,'A searched arrival must show the first case title: '+JSON.stringify(arrival));
+  assert(arrival.count.top>=0&&arrival.count.bottom<=height,'The result line stays with the first case');
+  row.arrivalTitleFromSearch=arrival.title.top;
   assert.deepEqual(errors,[]);
   row.axeScans=2;row.axeViolations=0;row.passed=true;report.push(row);
   await context.close();

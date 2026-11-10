@@ -186,3 +186,16 @@
 | `56f7a238` | 有可發布檔案 | **pending**（被上一支佔住 concurrency group） |
 
 機制待下一輪確認（屬於推論，本輪未證明）：`tests/published-version.cjs` 的 `sameContent()` 會把 live 的 `catalog.json`／`corpus.json` 與 `index.html`／`assets/*.js|css|json` 跟**這次 push 自己的建置**逐項比對；只要後續 merge 動到其中任何一項（#341 動了 `templates/case.md` 與相關檔案），live 就永遠不會等於這次建置，於是等滿 60 分鐘。
+
+## 裁決結果：`8fbfe082` 的發布閘門最後是**紅燈**
+
+本輪先前寫「未能取得裁決」；補記最終結果，因為它把上面那條推論變成已證實的缺陷。
+
+- run 42803248261 在 12:04:33 失敗，滯留 **3,600,002ms、693 次重試**，訊息：`Error: Published assets do not match checkout after 3600002ms (693 attempts; deadline 3600000ms); last attempt: additional verification: request failed (ERR_ASSERTION) [cause]: AssertionError: Product asset mismatch`。同一段 log 的前一行是 `Pages deployment for 8fbfe082…: succeeded (success)`——**部署本身是成功的**。
+- 根因（讀碼確認，不是推測）：`tests/published-version.cjs` 在決定 `exact`／`superseded` **之前**無條件執行
+  `assert(assets.every(file=>remoteBuffers.get(file).equals(buffers.get(file))),'Product asset mismatch')`。
+  live 是後來的 build（`56f7a238` 等），它的 `index.html`／`assets/*` 本來就不等於 `8fbfe082` 的建置，所以每一輪都丟同一個斷言，`verifySupersededPublication()`——那個專門處理「live 已被下一個 build 取代」的分支——永遠走不到。程式碼自己的註解寫著「A newer build may legitimately render newer pages; there the changed files are checked」，但那段嚴格比對擋在它前面。
+- **修正**：把該產品位元斷言移進 `exact` 分支。`exact`（live 就是這個 SHA）行為完全不變；`superseded` 仍由 `verifySupersededPublication()` 逐檔驗證這次 push 改的位元，而「這次什麼都沒發布」的情況仍要求 `sameContent(local, remote)`（檔案清單與每篇來源 markdown 完全相同）。
+- **驗證**：新增 `tests/published-version.test.cjs`「a push that published no file settles on a newer live build instead of a false red」，以真實失敗形狀（live 是後代、產品位元被後續 merge 改寫、change list 為空）注入；對修正前的程式**紅**、修正後**綠**，且第一次輪詢就結束（`clock()===0`）。既有的「a changed product asset cannot pass with an otherwise matching corpus」仍在 `exact` 分支上紅，嚴格度沒有放寬。全套 692 通過／0 失敗。
+- 未處理的相鄰情況（已知、已量測）：如果這次 push **改了產品位元**（例如 `assets/reader.css`）而 live 已被下一個 build 取代，`verifySupersededPublication()` 仍要求「published == 這次的建置」，同樣可能等滿視窗。這與本輪修的空白清單不同，需要另一個判準（誰有權覆寫同一個產品檔案），留給下一輪並先寫測試。
+- 另外：`56f7a238` 的 `Website QA` 被本輪這支 run 佔住 concurrency group，它自己的閘門也是用**修正前**的程式碼執行，因此不預期會被這次修正救回。

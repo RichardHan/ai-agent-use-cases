@@ -207,6 +207,22 @@ test('a push that published no changed file still needs identical live content',
  });
 });
 
+test('a push that published no file settles on a newer live build instead of a false red',async t=>{
+ // main run 42803248261: this merge changed only workflows, tests and the QA
+ // record, so it published no file. The next merge moved the live build minutes
+ // later and rewrote a served asset. The unconditional product comparison ran
+ // before the superseded branch, so every round failed with "Product asset
+ // mismatch" and the gate retried for the whole 60-minute window.
+ const fixture=supersededFixture(t);
+ fixture.published['assets/reader.css']='rewritten by the next merge';
+ const result=await fixture.run({isDescendant:()=>true,changeList:{known:true,entries:[]}});
+ assert.equal(result.status,'matched');
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.supersededBy,'newer');
+ assert.equal(result.changedVerified,0);
+ assert.equal(fixture.clock(),0,'the first round settles it; nothing is left to publish');
+});
+
 test('every served asset is compared, including copy.json',async t=>{
  const {options,published,respond}=publicationFixture(t);
  published['assets/copy.json']='{"stale":true}';

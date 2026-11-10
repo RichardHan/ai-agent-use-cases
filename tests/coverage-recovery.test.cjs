@@ -213,3 +213,21 @@ test('coverage follows the filters the panel is offering tasks under', () => {
   assert.equal(inbox.dataset.coverage, 'none', 'coverage is measured under the same facet the results would use');
   assert.match(inbox.title, /1 筆相關詞命中/, 'the promise is the filtered count');
 });
+
+test('a reloaded corpus invalidates the memoised coverage', () => {
+  const api = setupEnvironment();
+  vm.runInContext(CORPUS, api.context);
+  api.document.getElementById('query').value = '沒有這種任務';
+  api.renderSearchFeedback(api.tokenize('沒有這種任務'), { scenario: '工作' });
+  const before = chipsOf(api).find(chip => chip.dataset.problemTag === '發票辨識');
+  assert.equal(before.dataset.coverage, 'none', 'the task starts uncovered');
+
+  // mergeCorpus() always returns a new array, so a reload must not read the old answer.
+  vm.runInContext(`entries = [...entries, {id:'UC-905', title:'發票辨識歸檔', originalTitle:'發票辨識歸檔',
+     summary:'掃描發票並辨識品項', coreGoal:'', search:'發票 辨識 歸檔 掃描', searchProse:'發票 辨識 歸檔 掃描',
+     tags:[], scenario:'工作', kind:'case', difficulty:'入門對話', tools:[], category:'工作', proof:'作者報告／示範'}];`, api.context);
+  api.renderSearchFeedback(api.tokenize('沒有這種任務'), { scenario: '工作' });
+  const after = chipsOf(api).find(chip => chip.dataset.problemTag === '發票辨識');
+  assert.equal(after.dataset.coverage, undefined, 'a case that now describes the task clears the marker');
+  assert.equal(after.querySelector('.task-coverage-none'), null, 'the marker text is gone too');
+});

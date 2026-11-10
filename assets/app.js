@@ -2433,6 +2433,19 @@ function taskCoverage(items, query, filters = {}) {
   if (claimed) return { claimed, total: null };
   return { claimed, total: filterEntries(items, terms, filters).length };
 }
+// Coverage is a property of the corpus, the task word and the filters — not of the
+// question in the box. The dead-end panel rebuilds 45+ chips on every keystroke,
+// so the answer is kept per corpus+filters; a new corpus (load, retry, merge) is a
+// new array and a new cache, and a filter change is a new key.
+const coverageMemo = new WeakMap();
+function cachedTaskCoverage(items, query, filters = {}) {
+  const key = (items.length + '|' + JSON.stringify(filters || {}));
+  let byFilters = coverageMemo.get(items);
+  if (!byFilters) { byFilters = new Map(); coverageMemo.set(items, byFilters); }
+  const entry = key + '\u0000' + String(query || '');
+  if (!byFilters.has(entry)) byFilters.set(entry, taskCoverage(items, query, filters));
+  return byFilters.get(entry);
+}
 const TASK_COVERAGE_MARKER = '僅相關詞';
 function annotateTaskCoverage() {
   if (typeof document.querySelectorAll !== 'function') return 0;
@@ -2448,7 +2461,7 @@ function annotateTaskCoverage() {
   let marked = 0;
   for (const link of links) {
     const query = new URL(link.href, location.href).searchParams.get('q');
-    const coverage = taskCoverage(entries, query);
+    const coverage = cachedTaskCoverage(entries, query);
     if (!coverage || coverage.claimed) { clearTaskCoverage(link); continue; }
     marked++;
     if (link.dataset.coverage === 'none') continue;
@@ -3331,8 +3344,11 @@ function renderSearchFeedback(terms, filters) {
         // word, same evidence. A partial load is not a census, so nothing is marked
         // then; and because the panel is a scrolled wall, tasks a case actually
         // describes stay in front of the ones only related words reach.
-        const annotated = prioritizedTags.map(tag => ({ ...tag, coverage: failedPaths.length ? null : taskCoverage(entries, tag.term, filters) }));
-        const uncovered = annotated.filter(({ coverage }) => coverage && coverage.claimed === 0);
+        const annotated = prioritizedTags.map(tag => ({ ...tag, coverage: cachedTaskCoverage(entries, tag.term, filters) }));
+        // A partial load is not a census: the counts still decide what is offered,
+        // but nothing is marked while a source file is missing.
+        const canMark = !failedPaths.length;
+        const uncovered = canMark ? annotated.filter(({ coverage }) => coverage && coverage.claimed === 0) : [];
         const orderedTags = uncovered.length
           ? [...annotated.filter(item => !item.coverage || item.coverage.claimed > 0), ...uncovered]
           : annotated;
@@ -3355,7 +3371,7 @@ function renderSearchFeedback(terms, filters) {
           btn.dataset.problemTag = term;
           btn.setAttribute('data-problem-tag', term);
           btn.setAttribute('aria-label', label);
-          if(coverage && coverage.claimed === 0){
+          if(canMark && coverage && coverage.claimed === 0){
             btn.dataset.coverage = 'none';
             btn.append(el('span','task-coverage-none',TASK_COVERAGE_MARKER));
             // The visible text is the accessible name, so the marker belongs in it.

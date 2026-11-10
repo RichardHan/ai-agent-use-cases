@@ -2,11 +2,11 @@
 
 ## 基準
 
-- 開發基準 `origin/main` `ee68c19d`（`docs(qa): note the record's own deployment`）。隔離 worktree `/tmp/aiuc-1110-r17`（detached HEAD，`git worktree add --detach`）。
+- 開發基準 `origin/main` `ee68c19d`（`docs(qa): note the record's own deployment`）。隔離 worktree `/tmp/aiuc-1110-r17`（detached HEAD，`git worktree add --detach`）。開 PR 後 main 前進四個 commit（`8fbfe082` #340 的 PR 閘門覆蓋、`56f7a238` #341 的核對日期、`5744e48c` #343、`3f0d4760` #344），分支已 rebase 到 `5744e48c`（`3f0d4760` 只動 `SITE.md` 與 QA 紀錄，不影響本輪檔案）；`SITE.md` 兩邊都在檔首新增紀錄，衝突以「兩筆都保留、較新的 #340 紀錄在前」解決。rebase 後重跑：`node --test tests/*.test.cjs` 基準（`56f7a238`）**691 通過** → 本輪 **694 通過、0 失敗**。
 - 原工作樹 `/Users/richard_han/orca/ai-agent-use-cases` 停在 `90093d7b`、落後 main 322 個 commit，另有 159 個未追蹤的他人研究檔（`cases/462` 之後）與 QA 產物；本輪未觸碰、未 reset、未清理。
-- 正式站在本輪開始與結束時都是 `ee68c19d`：`catalog.json.sourceRevision` = `ee68c19d94ba17c81be86f4fa7ae621016d06aee`，512 個來源檔、515 筆條目；`index.html`、`assets/app.js`、`assets/style.css`、`assets/reader.js`、`assets/reader.css` 與 checkout 逐 byte 相同。
-- 基準 `node --test tests/*.test.cjs`：**684 通過、0 失敗**。
-- Actions 重新確認，不沿用歷史敘述：main 最近 20 次 run 全 success（14 次 `pages build and deployment`、6 次 `Website QA`）；全部 branch 最近 100 次 run 只有 1 次 failure（PR #340 新開的 `Corpus bundle QA`）與 22 次 superseded 取消。**目前沒有阻擋發布的 CI 問題，本輪不以 CI 為主題。**
+- 正式站開工時是 `ee68c19d`（`catalog.json.sourceRevision` = `ee68c19d94ba17c81be86f4fa7ae621016d06aee`，512 個來源檔、515 筆條目，五個產品資產與 checkout 逐 byte 相同）。本輪期間 main 前進四次（`8fbfe082` #340、`56f7a238` #341、`5744e48c` #343、`3f0d4760` #344），正式站跟著到 `3f0d4760`（`catalog.json.sourceRevision` = `3f0d4760474fb7f92cc7a6d781da95b8d8075851`，2026-11-10T11:20Z 讀取）；缺陷在 `3f0d4760` 重新量測仍然完全相同（345 個分類選項、仍提供分級選項、兩個主題查詢各 1 筆、舊分享連結 1 筆），所以「修正前」不是某個舊版本的偶發現象。
+- 基準 `node --test tests/*.test.cjs`：開工時 `ee68c19d` **684 通過、0 失敗**；rebase 後 `56f7a238` **691 通過、0 失敗**。
+- Actions 重新確認，不沿用歷史敘述：`gh run list --branch main --limit 20`（2026-11-10T11:21Z）= 14 次 `pages build and deployment` success、4 次 `Website QA` success、2 次進行中；開工時同一指令（09:5xZ）為 14＋6 全部 success。全部 branch 最近 100 次 run（09:49Z）只有 1 次 failure（PR #340 剛啟用的 `Corpus bundle QA`）與 22 次 superseded 取消。**目前沒有阻擋發布的 CI 問題，本輪不以 CI 為主題。**
 - 基準無障礙：Chromium 1440×900／390×844 對首頁、結果、UC-001 詳情執行 axe（wcag2a/2aa/21a/21aa）共 6 次，**違規 0**；三視窗（1440／390／320）10 個頁面狀態水平溢出 0、pageerror 0。
 
 ## 問題證據
@@ -48,12 +48,19 @@
 
 `website-qa.yml` 的 `node --test tests/*.test.cjs` 會自動納入新測試，因此本輪沒有改任何 workflow（避免與進行中的 PR #340 衝突）。
 
+## 範圍邊界（量測後刻意不做）
+
+- **`<情境>／<主題>…` 是既有慣例，不動。** 全庫 53 頁用「情境＋／」開頭的分類值，其中 18 頁的尾段剛好等於自己的標籤（例：`省錢／優惠券／重複操作／驗收`），38 頁尾段是另一個主題；`分類／標籤：<標籤清單>`（231 頁）也是既有慣例，`tests/declared-category.test.cjs` 明文允許「宣告值逐字保留」。這些值是慣例，不是分級也不是 INDEX 儲存格，本輪不動；把它們改寫成短主題是真正需要逐頁判讀的內容工程（方案 C），列為下一輪候選。
+- **本輪只處理 `｜` 這種 INDEX 欄位分隔符。** 全庫在分類值裡用 `｜` 的只有 10 頁：7 頁是 INDEX 儲存格（`情境｜標籤、標籤…`）或分級，另外 3 頁（UC-446／447／448）是 `情境｜主題／主題／主題` 的合法寫法。測試因此要求「`情境｜` 且含 `、`」，而不是禁止所有情境前綴。
+- **`一句話用途` 欄位的同類問題不在本輪。** 508 頁有 104 頁在「一句話用途」裡寫了 `本庫未重現` 這類分級句子（另有 75 頁超過 200 字），而這個欄位同時是卡片摘要（3 行截斷）與 `overview`／`topic` 搜尋文字。這是同一類缺陷、約 15 倍規模，需要逐頁改寫句子並重測卡片版面，列為下一輪最值得做的一件事。
+- **`?category=` 的舊連結不會被改寫。** 舊值載入後是 0 筆並可復原，網址保留原值，不靜默替換讀者的分享連結。
+
 ## 測試
 
 - 先紅後綠（同一支測試、同一份語料）：對基準資料（`git stash` 掉 7 個案例檔）**3 項全失敗**，訊息分別列出 `UC-444：B｜作者實作自述，未獨立重現` 與 6 筆 `情境｜標籤、…`；修正後 **3 項全通過**。
-- `node --test tests/*.test.cjs`：基準 **684** → 本輪 **687 通過、0 失敗**（新增 3 項）。
+- `node --test tests/*.test.cjs`：開工基準 `ee68c19d` **684** → 本輪 **687**；rebase 到 `56f7a238` 後基準 **691** → 本輪 **694 通過、0 失敗**（新增 3 項）。
 - 本輪沒有動 `assets/*`、`index.html`、workflow、`INDEX.md`、`README.md`，因此沒有 `node --check` 的新增對象；`scripts/preview.py` 重建預覽為 512 個來源檔。
-- 瀏覽器前後比對（Chromium；before = 未修正預覽 8141，after = 修正後預覽 8142；同尺寸、同語料筆數 515）：
+- 瀏覽器前後比對（Chromium；before = 未修正預覽 8141，after = 修正後預覽 8142；同尺寸、同語料筆數 515；before 的同一組數字也在正式站 `ee68c19d` 與 `3f0d4760` 上取得）：
 
 | 檢查 | 修正前 | 修正後 |
 | --- | --- | --- |
@@ -65,7 +72,12 @@
 | 網站條目數 `#results-count` | 515 / 515 | 515 / 515（未變） |
 
 - 前後截圖（同頁、同尺寸、同資料狀態）：`before-desktop-catfinder.png`／`after-desktop-catfinder.png`、`before-mobile-catfinder.png`／`after-mobile-catfinder.png`、`before-desktop-topicscope.png`／`after-desktop-topicscope.png`、`before-mobile-topicscope.png`／`after-mobile-topicscope.png`、`before-*-uc444.png`／`after-*-uc444.png`。
-- 三個訪客情境在修正後預覽（1440×900、390×844）重走：不知道工具名從首頁痛點入口找到案例；搜尋加兩個篩選得到 0 筆再用「清除篩選」復原；分享直鏈 `?q=會議&case=UC-094` 開詳情、Escape 返回後查詢與筆數保留。
+- 舊分享連結 `?q=機票&category=B｜作者實作自述，未獨立重現` 在修正後是 **0 / 515**、顯示空結果、條件 chip 仍列出該值且可移除、無 pageerror；按「清除篩選」回到 `?q=機票` 的 11 筆。
+- 三個訪客情境在修正後預覽（1440×900、390×844）重走：
+  1. 不知道工具名：首頁痛點入口「會議整理」→ 查詢框 `會議`、27 / 515 筆、第一則 UC-094。
+  2. 組合篩選：`機票` 11 筆 → 實作門檻「進階開發」1 筆 → 再選情境「創作」0 筆，空結果列出「移除實作門檻「進階開發」→ 查看 1 筆」等復原入口；按「清除篩選」回到 11 筆、關鍵字保留。
+  3. 分享直鏈：`?q=會議&case=UC-094` 開詳情 → Escape 關閉後 `dialog#detail.open === false`、查詢框仍 `會議`、筆數仍 27 / 515。
+- 修正後預覽的 axe（首頁／結果 `?category=產品回饋／版本通知`／詳情 UC-444，1440 與 390）**違規 0**、水平溢出 0、pageerror 0。
 - 限制：**本環境無法讀取截圖影像**（`read` 回報 image reading disabled），視覺結論全部來自 DOM 文字、幾何與 axe，沒有目視判讀。只跑 Chromium；Firefox／WebKit 由 PR 上的既有 workflow 覆蓋。
 
 ## 發布

@@ -76,7 +76,9 @@ test('card renders .card-target-user when coreGoal is not provided', () => {
   const node = context.api.card(sampleNoGoal);
   const targetUserEl = node.querySelector('.card-target-user');
   assert.ok(targetUserEl, 'card must render .card-target-user when coreGoal is missing');
-  assert.ok((targetUserEl.textContent || '').includes('👤 適合對象：進行自主學習'), 'card-target-user must show scenario audience default');
+  assert.equal(targetUserEl.dataset.targetUserSource, 'scenario', 'an undeclared audience must say it is the library scenario default');
+  assert.ok((targetUserEl.textContent || '').includes('👤 情境常見讀者：進行自主學習'), 'card must not present the scenario persona as a declared 適合對象');
+  assert.ok(!(targetUserEl.textContent || '').includes('👤 適合對象：'), 'the scenario persona is not the case page claiming an audience');
 });
 
 test('results-return-browser.cjs preserves 300px mobile first-result budget', () => {

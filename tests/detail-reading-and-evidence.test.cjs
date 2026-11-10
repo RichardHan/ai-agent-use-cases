@@ -209,8 +209,10 @@ test('showDetail renders detail-proof-note and targetUser section when present',
 
   const targetUserEl = detailBody.querySelector('.detail-target-user');
   assert.ok(targetUserEl, 'showDetail must render .detail-target-user when item.targetUser exists');
-  assert.match(targetUserEl.textContent, /適合對象/);
+  assert.equal(targetUserEl.dataset.targetUserSource, 'declared');
+  assert.equal(targetUserEl.children[0].textContent, '適合對象');
   assert.match(targetUserEl.textContent, /同時維護多個網站/);
+  assert.match(targetUserEl.textContent, /案例頁自行宣告適合對象/);
 });
 
 test('long case description leads with its stated goal and preserves the full account on demand', () => {
@@ -259,7 +261,7 @@ test('SCENARIO_TARGET_USERS provides substantive defaults for all 6 core scenari
   }
 });
 
-test('showDetail falls back to SCENARIO_TARGET_USERS when targetUser is omitted', () => {
+test('showDetail labels SCENARIO_TARGET_USERS as a library default, not the case page\'s audience', () => {
   const { context, detailBody } = setupDom();
   const sampleWithoutTarget = {
     id: 'UC-005',
@@ -279,8 +281,12 @@ test('showDetail falls back to SCENARIO_TARGET_USERS when targetUser is omitted'
   context.showDetail(sampleWithoutTarget, null, false);
   const targetUserEl = detailBody.querySelector('.detail-target-user');
   assert.ok(targetUserEl, 'showDetail must render .detail-target-user using scenario fallback');
-  assert.match(targetUserEl.textContent, /適合對象/);
-  assert.match(targetUserEl.textContent, /工程師、程式開發者/);
+  assert.equal(targetUserEl.dataset.targetUserSource, 'scenario');
+  assert.equal(targetUserEl.children[0].textContent, '情境常見讀者', 'the heading must not claim the page declared an audience');
+  assert.match(targetUserEl.textContent, /工程師、程式開發者/, 'the scenario persona is still shown to orient the reader');
+  assert.match(targetUserEl.textContent, /案例頁未宣告適合對象/);
+  assert.match(targetUserEl.textContent, /「開發」情境/, 'the note must name which scenario the persona comes from');
+  assert.doesNotMatch(targetUserEl.children[0].textContent, /適合對象/);
 });
 
 test('scenario exploration is available before research while note copy remains after related cases', () => {

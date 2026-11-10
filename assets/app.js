@@ -142,6 +142,28 @@ const SCENARIO_TARGET_USERS = globalThis.SCENARIO_TARGET_USERS = {
   '創作': '從事文案撰寫、內容產出、視覺設計或影音製作的創作者',
   '開發': '工程師、程式開發者、技術架構師或自動化流程建構者'
 };
+// A page's own "- 目標使用者" line and this library's scenario-level persona are
+// different claims by different people. Keep the wording, heading and provenance
+// in one place so a card and the reader cannot disagree about who said it.
+function targetUserView(item) {
+  if (item.targetUser) return {
+    source: 'declared',
+    heading: '適合對象',
+    label: '👤 適合對象：',
+    text: item.targetUser,
+    note: '案例頁自行宣告適合對象；本庫未另外驗證。'
+  };
+  const scenario = item.scenario;
+  const fallback = SCENARIO_TARGET_USERS[scenario];
+  if (!fallback) return null;
+  return {
+    source: 'scenario',
+    heading: '情境常見讀者',
+    label: '👤 情境常見讀者：',
+    text: fallback,
+    note: '案例頁未宣告適合對象；以上是本庫依「' + scenario + '」情境整理的常見讀者，不是這篇案例作者的說法。'
+  };
+}
 const TOOL_PATTERNS = [['Grok Bot',/grok\s*bot/i],['Meta Muse',/\bmuse\b/i],['ChatGPT dots',/\bdots\b/i],['Cursor',/\bcursor\b/i],['GitHub',/\bgithub\b/i],['Notion',/\bnotion\b/i],['Facebook',/\bfacebook\b/i],['Google Drive',/google\s*drive|\bdrive\b/i],['Google Sheets',/google\s*sheets/i],['Haggle Bot',/haggle\s*bot/i]];
 let entries = [], currentFiltered = [], activeScenario = '', currentDetailItem = null, lastTrigger = null, displayCopy = {}, failedPaths = [];
 let allowAutomaticArrival=true, searchShareRequest=0;
@@ -1751,10 +1773,12 @@ function showDetail(item, trigger, updateURL=true) {
   overview.append(latestSource);
   const queryCautions=searchContext(item,queryTerms()).matches.filter(match=>match.caution);
   if(queryCautions.length)overview.append(el('p','detail-search-caution','這次搜尋顯示的「'+queryCautions.map(match=>match.term).join('、')+'」命中限制或來源段落；請核對用途與原文，不要把文字提及當成可採用的做法。'));
-  const targetUserText = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
-  if (targetUserText) {
+  const targetUser = targetUserView(item);
+  if (targetUser) {
     const userSection = el('section', 'detail-target-user');
-    userSection.append(el('h2', '', '適合對象'), el('p', '', targetUserText));
+    userSection.dataset.targetUserSource = targetUser.source;
+    userSection.append(el('h2', '', targetUser.heading), el('p', '', targetUser.text),
+      el('p', 'detail-target-user-source', targetUser.note));
     overview.append(userSection);
   }
   if (item.coreGoal && item.coreGoal !== item.what && !compactPurpose) {
@@ -2039,9 +2063,12 @@ function card(item, terms=[]) {
     const goalP = el('p', 'card-goal', '🎯 解決痛點：' + item.coreGoal);
     node.append(goalP);
   }
-  const targetUser = item.targetUser || SCENARIO_TARGET_USERS[item.scenario];
-  if(targetUser){
-    const userP = el('p', 'card-target-user', '👤 適合對象：' + targetUser);
+  const cardTargetUser = targetUserView(item);
+  if(cardTargetUser){
+    const userP = el('p', 'card-target-user', cardTargetUser.label + cardTargetUser.text);
+    userP.dataset.targetUserSource = cardTargetUser.source;
+    userP.title = cardTargetUser.note;
+    userP.setAttribute('aria-label', (cardTargetUser.source === 'declared' ? '適合對象，案例頁宣告：' : '情境常見讀者，本庫依情境整理，案例頁未宣告適合對象：') + cardTargetUser.text);
     node.append(userP);
   }
   node.append(el('p', 'summary', item.summary));

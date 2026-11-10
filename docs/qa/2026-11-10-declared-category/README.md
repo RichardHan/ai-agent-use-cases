@@ -108,6 +108,7 @@
 - squash 合併為 `8fb95339`；`pages build and deployment` [42724023064](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42724023064) success；正式站 `catalog.json` 與 `corpus.json` 的 `sourceRevision` 皆為 `8fb95339…`、510 個來源檔。
 - 正式站實測（1440×900／390×844）：`?case=UC-012` 分類為空、延伸閱讀只剩 `共同標籤：科研、多代理`、`#category` 343 個選項且沒有 `個人生產力`、說明句含未宣告分類筆數；`?category=個人生產力` 0／513 且保留可移除 chip；三條情境 7 筆 → 0 筆 → 恢復 1 筆、直鏈 UC-514 有 12 個來源連結與固定 commit；axe 0、水平溢出 0、pageerror 0。
 - 合併後 main 的 `Website QA` [42724023390](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42724023390) **success**（含新增的 `declared-category-browser.cjs`、`Wait for published assets and content` 與正式站檢查）。
+- 紀錄提交 `7c4eb861`（僅 `SITE.md` 與本目錄）的 `pages build and deployment` [42725230842](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42725230842) success；正式站 `sourceRevision` = `7c4eb861…`、510 個來源檔，`assets/app.js`／`assets/style.css`／`index.html` 與該提交逐 byte 相同。`SITE.md` 被 `_config.yml` 的 `exclude` 排除，`/SITE.md` 回 404 是設計行為，維護紀錄只存在 repo。
 
 ## 下一輪最值得做的一件事
 

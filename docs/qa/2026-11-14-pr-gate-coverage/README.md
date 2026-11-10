@@ -146,3 +146,9 @@
 - `node --test tests/*.test.cjs`：**689 通過／0 失敗**。
 - 本輪 PR 的 15 支 pull-request workflow：`Corpus bundle QA`（[42797067226](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42797067226)，5m58s）**success**——這是它第一次因為 pull request 而跑，也是第一次綠燈；`Missing shared case QA`、`Find reader sections QA` 同樣只在這一輪才會被 PR 觸發（先前任何 PR 都啟動不了）。
 - 另外 12 支既有的 PR workflow 照舊全綠（`published` 步驟在 PR 上依設計 skipping）。
+
+## 下一輪最值得做的一件事
+
+**內容 PR 現在會啟動 16 支 workflow，而其中 12 支會各自重跑同一套 689 項單元測試**（`node --test tests/*.test.cjs`），`reader-browser.cjs` 在 Reader QA 與 Source guide QA 各跑一次、`reader-search-browser.cjs` 在 Reader search QA 與 Audit summary round QA 各跑一次。本輪把覆蓋率補起來，代價就是重複執行；下一步是把「單元套件」收成一支共用 job（其餘 workflow 只跑自己那 1–2 支瀏覽器測試），並把 `corpus-bundle-qa.yml` 的 `tests/**` 收斂成它實際執行的 8 支。
+
+**先做的驗證**（不要先動 workflow）：用同一份語料改動量測現在的 job-minutes 與 wall time（本輪 PR 的 15 支 run 的 `started_at`→`completed_at` 加總），再比對「如果單元套件只在一支 job 跑」會少多少；同時確認那 12 支 workflow 的單元步驟有沒有任何一支跑的是子集（`tests/relevance.test.cjs`、`tests/table-reading.test.cjs`），避免把唯一的紅燈來源也收掉。

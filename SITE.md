@@ -8,6 +8,13 @@
 
 量測：基準 `node --test tests/*.test.cjs` **636 通過** → 本輪 **646 通過、0 失敗**；Chromium 1440×900／390×844／320×740 六頁共 18 次量測 axe 0、水平溢出 0、pageerror 0；`related-browser` 與 `declared-category-browser` 全數通過。三情境（不知道工具名找案例、組合篩選後空結果復原、分享直鏈讀證據再返回）在兩個尺寸走過。限制：本環境無法讀取截圖影像，視覺結論來自 DOM 與幾何量測；只驗 Chromium；2% 是規則選擇而非研究結果，572 列「單一標籤」的語意品質未逐列人工審查；41 頁仍誠實留白。[前後數據、截圖與完整指令](docs/qa/2026-11-11-related-next-reading/README.md)。
 
+
+發布補記：PR [#327](https://github.com/RichardHan/ai-agent-use-cases/pull/327)（head `e0cb00f3`）13 項非略過檢查全 pass、`published` 依設計在 PR 上 skipping，squash 合併為 `c7acb73f`。`pages build and deployment` [42752588364](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42752588364) 的 `build` 40 秒、`deploy` 157 秒都 success；main 的 `Website QA` [42752589744](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42752589744) success，含第 15 步 `Wait for published assets and content` 與第 17 步 `Verify the published GitHub Pages site`。正式站 `catalog.json.sourceRevision` = `c7acb73f`、512 個來源檔；`assets/app.js`（`439f0058…`）、`style.css`、`reader.css`、`index.html`、`README.md` 與本機 checkout 逐 byte 相同。正式站重走（1440×900／390×844）：`?case=UC-024` 延伸閱讀 3 列 `相關標籤：帳單`（部署前同頁 0 列）、說明換成三層版本；`?case=UC-005` 仍是 0 列但文案改為「沒有宣告分類，也沒有與目前結果中其他案例共用的少見標籤」；`?q=怎麼整理會議記錄` 7／515、`?q=規劃旅行&scenario=工作` 0 筆→移除情境後 1 筆、`?case=UC-514` 直鏈 3 列 `相關標籤：購物` 且來源固定在本版 commit；兩尺寸 axe 0、水平溢出 0、pageerror 0，Escape 關閉後回到 515 筆清單。獨立審查（未參與實作）第一輪提出 1 項 must-fix（2% 門檻誤用目前結果集當分母）與 1 項 should-fix（同頁重複標籤膨脹頻率），兩項已修並新增回歸，第二輪覆核確認 deliverable、0 頁失去既有建議、572 列 `相關標籤` 全部成立。
+
+## 下一輪最值得做的一件事
+
+**`- 本次增補查證：` 這一行沒有被讀成頁首核對日**：9 頁寫了它，其中 5 頁（UC-005、071、183、235、354）畫面上的「頁首核對」比同一個頁首區塊裡最新的一次查證還舊，最多差 8 天，`?sort=reviewed` 因此把這 5 頁排在比實際更舊的位置。修法是在 `assets/app.js` 的 `reviewDate()` 具名欄位清單加 `本次增補查證`（1 行），並在 `tests/recent-review-corpus.test.cjs` 加一條「同一頁首區塊的補充查證不得比頁首核對日新」的斷言；先跑 `?case=UC-183` 與 `?sort=reviewed` 前 10 筆確認現況。這批證據已由本輪的獨立語料審查量測完成，尚未修。
+
 ## 2026-11-10 Pages 產物有 98% 是沒人連得到的驗收截圖
 
 `pages build and deployment` 在 `main@99734627` 失敗：`build` 56 秒成功，`deploy` 的 `Deploy to GitHub Pages` 在 `syncing_files` 用滿 600 秒後 `Timeout reached, aborting!`（run [42733561142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42733561142)）。正式站因此停在 `38a44211`，兩個 commit 前併入的 `cases/515-…md`、`cases/516-…md` 實測 404，main 的 `Website QA` 也卡在「Wait for published assets and content」25 分鐘後才失敗（`42733562130`）。

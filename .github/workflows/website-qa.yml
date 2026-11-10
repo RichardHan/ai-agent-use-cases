@@ -93,6 +93,7 @@ jobs:
           node tests/draw-stability-browser.cjs
           ROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/substring-recovery-browser.cjs
           EXPLORE_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/search-reveal-settle-browser.cjs
+          ARRIVAL_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/arrival-summary-visibility-browser.cjs
           KEYBOARD_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/keyboard-search-entry-browser.cjs
           VERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/result-count-honesty-browser.cjs
           VERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/match-scope-note-browser.cjs

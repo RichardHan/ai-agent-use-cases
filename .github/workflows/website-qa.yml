@@ -39,7 +39,10 @@ jobs:
   browser:
     runs-on: ubuntu-24.04
     container: mcr.microsoft.com/playwright:v1.56.1-noble
-    # Both release verification and deployed-browser have an independent 60-minute gate.
+    # Step 15 may spend the whole 60-minute publication window on a main push. The
+    # walk that follows is now bounded at two minutes (scripts/published-revision.cjs),
+    # but the job keeps the second window as setup/browser headroom: a slow
+    # playwright install or a slow first page load must not run out of job time.
     timeout-minutes: 140
     steps:
       - uses: actions/checkout@v4
@@ -93,6 +96,7 @@ jobs:
           KEYBOARD_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/keyboard-search-entry-browser.cjs
           VERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/result-count-honesty-browser.cjs
           VERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/match-scope-note-browser.cjs
+          VERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/search-heading-scope-browser.cjs
           DETAIL_TRUST_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/detail-trust-summary-browser.cjs
           ATTRIBUTION_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/evidence-attribution-browser.cjs
           SITE_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/publish-window-browser.cjs
@@ -142,6 +146,11 @@ jobs:
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.published-version.outputs.verified == 'true' }}
         env:
           NODE_PATH: ${{ runner.temp }}/browser-tools/node_modules
+          # Step 15 decided whether the live site is this push's build or a newer one
+          # that already contains it. The walk must not re-derive that by waiting on
+          # bytes: a replaced build never becomes equal again (run 42820349847).
+          PUBLICATION_MODE: ${{ steps.published-version.outputs.mode }}
+          PUBLICATION_LIVE_REVISION: ${{ steps.published-version.outputs.liveRevision }}
         run: node tests/deployed-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()

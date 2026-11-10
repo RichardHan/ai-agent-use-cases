@@ -31,6 +31,15 @@ function sameContent(local,remote){
 function reportWorkflowResult(verified,output=process.env.GITHUB_OUTPUT){
  if(output)require('node:fs').appendFileSync(output,`verified=${verified}\n`);
 }
+// `verified` says this push provably published; it does not say the live site still
+// serves this push, and those two questions differ the moment another merge lands.
+// The walk in step 17 asks the second one, so the verdict travels with its own mode
+// and the revision the live catalog names: exact means "this build is live", and
+// superseded means "a newer build that contains this push is live".
+function reportPublicationVerdict({mode,liveRevision}={},output=process.env.GITHUB_OUTPUT){
+ if(!output)return;
+ require('node:fs').appendFileSync(output,`mode=${mode||''}\nliveRevision=${liveRevision||''}\n`);
+}
 // The bytes this push wrote, read once. A deleted file is verified by absence.
 function readChangedBytes(changes,root='.'){
  const entries=[];
@@ -216,7 +225,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
      if(response.status!==404&&response.status!==410)throw Error('Cannot confirm a deleted asset is gone (HTTP '+response.status+'): '+path);
     }}));
    }
-   publication={catalog:remoteBuffers.get('catalog.json').toString('utf8'),corpus:remoteBuffers.get('corpus.json').toString('utf8'),sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision,mode,supersededBy,changedVerified};
+   publication={catalog:remoteBuffers.get('catalog.json').toString('utf8'),corpus:remoteBuffers.get('corpus.json').toString('utf8'),sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision,mode,supersededBy,changedVerified,liveRevision:remote.catalog.sourceRevision};
    return true;
   }
  });
@@ -225,6 +234,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
 exports.sameContent=sameContent;
 exports.servedAssets=servedAssets;
 exports.reportWorkflowResult=reportWorkflowResult;
+exports.reportPublicationVerdict=reportPublicationVerdict;
 exports.waitForPublishedVersion=waitForPublishedVersion;
 exports.verifySupersededPublication=verifySupersededPublication;
 if(require.main===module){
@@ -236,8 +246,11 @@ if(require.main===module){
   const result=await waitForPublishedVersion({base,built,changeList});
   fs.mkdirSync(output,{recursive:true});
   fs.writeFileSync(path.join(output,'catalog.json'),result.catalog);fs.writeFileSync(path.join(output,'corpus.json'),result.corpus);
-  fs.writeFileSync('qa-artifacts/published-version.json',JSON.stringify({base,sourceCount:result.sourceCount,localRevision:result.localRevision,publishedRevision:result.publishedRevision,mode:result.mode,supersededBy:result.supersededBy||null,changedVerified:result.changedVerified||0,verifiedAt:new Date().toISOString()},null,2));
+  fs.writeFileSync('qa-artifacts/published-version.json',JSON.stringify({base,sourceCount:result.sourceCount,localRevision:result.localRevision,publishedRevision:result.publishedRevision,mode:result.mode,supersededBy:result.supersededBy||null,liveRevision:result.liveRevision||null,changedVerified:result.changedVerified||0,verifiedAt:new Date().toISOString()},null,2));
   reportWorkflowResult(true);
+  // The walk step reads these two, not `verified`: a superseded verdict is still a
+  // verified publication, it just is not this push's build that is live any more.
+  reportPublicationVerdict({mode:result.mode,liveRevision:result.liveRevision||result.supersededBy});
   console.log(result.mode==='exact'
    ?'PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH '+process.env.GITHUB_SHA
    :'PUBLISHED_CHANGED_BYTES_MATCH '+process.env.GITHUB_SHA+' superseded by '+result.supersededBy+' ('+result.changedVerified+' files verified)');

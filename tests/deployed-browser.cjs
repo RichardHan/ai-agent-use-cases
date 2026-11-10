@@ -1,13 +1,38 @@
 'use strict';
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
-const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
-(async()=>{
- const origin='https://richardhan.github.io/ai-agent-use-cases/';
- // A newer main tip no longer skips the walk: the bytes are compared first, and a
- // newer build is only accepted when it descends from this push (published-version).
- const publication=await waitForPublishedAssets({base:origin,sha:process.env.GITHUB_SHA,files:['index.html','assets/app.js','assets/style.css','assets/reader.js','assets/reader.css'],isCurrent:()=>true});
- console.log((publication==='matched'?'PUBLISHED_ASSETS_MATCH ':'PUBLISHED_ASSETS_MATCH_SUPERSEDED ')+process.env.GITHUB_SHA);
+const {waitForLiveRevision}=require('../scripts/published-revision.cjs');
+const origin='https://richardhan.github.io/ai-agent-use-cases/';
+// The walk is gated on one question: is the live build this push's build?
+//
+// Step 15 (tests/published-version.cjs) already compared this push's published bytes
+// against the live site and reported the verdict; it owns byte equality. Waiting for
+// the same equality here as well made a replaced build impossible to pass: run
+// 42820349847 polled the whole window (13:09:40 -> 14:09:40, exactly 3600s) and failed
+// on a healthy site whose build the next merge had replaced two minutes earlier.
+// A live build that is a newer descendant of this push is superseded: its walk belongs
+// to that commit's own main run, the same way this repository's other live checks treat
+// a replaced build. A live build that is neither this push nor its descendant still
+// fails — the wait is bounded by scripts/published-revision.cjs, so it fails in
+// minutes with the revision that was observed, not an hour later with no explanation.
+function reportGate(verdict){
+ if(verdict.mode==='superseded'){
+  console.log('PUBLISHED_LIVE_BUILD_SUPERSEDED '+(verdict.liveRevision||'unknown revision')+' (this push\'s files were byte-verified in step 15)');
+  return;
+ }
+ console.log('PUBLISHED_LIVE_BUILD_CURRENT '+(verdict.liveRevision||'')+' (walking the live site)');
+}
+if(require.main===module)(async()=>{
+ // Without a verdict from step 15 (a manual dispatch, or an older caller) the gate
+ // derives one itself from the live revision; either way it is bounded: 120s, 5s apart.
+ const verdict=await waitForLiveRevision({
+  base:origin,sha:process.env.GITHUB_SHA,
+  mode:process.env.PUBLICATION_MODE||'',liveRevision:process.env.PUBLICATION_LIVE_REVISION||''
+ });
+ reportGate(verdict);
+ // A replaced build is verified by the publication gate, not by this browser walk.
+ // Walking it would also assert a layout this checkout never built, so stop cleanly.
+ if(verdict.mode==='superseded')return;
  const browser=await chromium.launch();
  try{
  {

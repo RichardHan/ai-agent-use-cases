@@ -20,7 +20,8 @@ const corpus=corpusFiles.map(file=>{
 const caseItem=(id,extra={})=>({id,kind:'case',category:'',scenario:'生活',tags:[],...extra});
 // Results come from the vm realm; Array.from keeps the comparison in this realm
 // so an empty result cannot fail merely on a prototype mismatch.
-const ids=list=>Array.from(list,item=>item.id);
+const ids=list=>Array.from(list,row=>row.item.id);
+const reasons=list=>Array.from(list,row=>row.reason);
 
 test('a page that declares no theme is not given one, even when its title hints at a topic', () => {
   for (const heading of ['規劃一趟日本旅行與比價','用 OLED 小螢幕核對裝置','SaaS 帳單與商店營運檢查','研究與 PR 審查流程']) {
@@ -65,10 +66,33 @@ test('an unclassified page keeps its shared-tag suggestions', () => {
 test('no corpus suggestion claims 同分類 on a page that declares no category', () => {
   const offenders=[];
   for (const item of corpus) {
-    for (const other of api.relatedEntries(item,corpus)) {
-      if (api.sharedRelatedTags(item,other).length>=2) continue;
-      if (!other.category || !other.declared || other.category!==item.category) offenders.push(item.id+'→'+other.id);
+    const rows=api.relatedEntries(item,corpus);
+    const firstCategory=rows.findIndex(row=>row.reason.startsWith('同分類：'));
+    rows.forEach((row,index)=>{
+      if (row.reason.startsWith('同分類：')&&(!row.item.category || !row.item.declared || row.item.category!==item.category)) offenders.push(item.id+'→'+row.item.id);
+      // A two-tag match always comes first: 同分類 and single-tag rows only follow it.
+      if (firstCategory>=0&&index>firstCategory&&row.reason.startsWith('共同標籤：')) offenders.push(item.id+' strong row after 同分類');
+    });
+  }
+  assert.deepEqual(offenders,[],'a 同分類 row always names a category both pages declare, and only after tag rows');
+});
+
+test('a 相關標籤 row only names a tag few case pages use', () => {
+  const counts=new Map();
+  for (const item of corpus) for (const tag of item.tags||[]) counts.set(tag,(counts.get(tag)||0)+1);
+  const offenders=[];
+  for (const item of corpus) {
+    for (const row of api.relatedEntries(item,corpus)) {
+      if (!row.reason.startsWith('相關標籤：')) continue;
+      const tags=row.reason.replace('相關標籤：','').split('、');
+      for (const tag of tags) {
+        const shared=api.sharedRelatedTags(item,row.item);
+        if (!shared.includes(tag)) offenders.push(item.id+'→'+row.item.id+' tag '+tag+' not shared');
+        if ((counts.get(tag)||0) > corpus.length*0.02) offenders.push(item.id+'→'+row.item.id+' tag '+tag+' used by '+(counts.get(tag)||0));
+      }
+      const strong=api.sharedRelatedTags(item,row.item).length>=2;
+      if (strong) offenders.push(item.id+'→'+row.item.id+' strong pair labelled 相關標籤');
     }
   }
-  assert.deepEqual(offenders,[],'a 同分類 row always names a category both pages declare');
+  assert.deepEqual(offenders,[],'a single tag is only a topic when few pages use it');
 });

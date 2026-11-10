@@ -1401,15 +1401,56 @@ function sharedRelatedTags(item, other) {
   (other.tags || []).forEach(tag => { const key = norm(tag).trim(); if (key && tags.has(key) && !shared.has(key)) shared.set(key, tag); });
   return [...shared.values()];
 }
-function relatedEntries(item, items) {
-  const cases = items.filter(other => other.id !== item.id && other.kind === 'case');
-  const shared = cases.filter(other => sharedRelatedTags(item, other).length >= 2);
+// Two shared tags are a strong sign of the same task. One shared tag only means
+// something when that tag is not one of the template-wide ones (驗收, 每日, 核准…),
+// so a single tag counts only when at most 2% of the case pages use it. Requiring
+// two tags left 40% of pages with no next reading at all; accepting any single tag
+// would have paired 98% of them through a tag that half the library shares.
+const RELATED_SPECIFIC_TAG_SHARE = 0.02;
+function relatedTagCounts(cases) {
+  const counts = new Map();
+  for (const other of cases) {
+    // One page counts once per tag, however often the tag repeats in its lead.
+    const keys = new Set((other.tags || []).map(tag => norm(tag).trim()).filter(Boolean));
+    for (const key of keys) counts.set(key, (counts.get(key) || 0) + 1);
+  }
+  return counts;
+}
+// `items` is what the reader can be sent to (the current results); `library` is what
+// "few pages use this tag" is measured against. A tag does not become rare because
+// the reader narrowed the search, so the two must not be the same list.
+function relatedEntries(item, items, library = items) {
+  const allCases = library.filter(other => other.kind === 'case');
+  const cases = items.filter(other => other.kind === 'case' && other.id !== item.id);
+  const counts = relatedTagCounts(allCases);
+  const specificLimit = Math.max(1, allCases.length * RELATED_SPECIFIC_TAG_SHARE);
+  const frequency = tag => counts.get(norm(tag).trim()) || 0;
+  const shared = cases.map(other => ({ item: other, tags: sharedRelatedTags(item, other) }));
+  // Keep the corpus order inside a tier: the reader's suggestions only grow this
+  // round, they are not re-ranked.
+  const strongest = shared.filter(row => row.tags.length >= 2);
   // Only a category the page declares can group it with another case; a page that
   // declares none still deserves its shared-tag suggestions.
   const sameCategory = item.category && item.category !== '未分類'
-    ? cases.filter(other => other.category === item.category && !shared.includes(other))
+    ? cases.filter(other => other.category === item.category)
     : [];
-  return shared.concat(sameCategory).slice(0, 3);
+  const picks = [];
+  const add = (other, reason) => {
+    if (picks.length < 3 && !picks.some(pick => pick.item === other)) picks.push({ item: other, reason });
+  };
+  strongest.forEach(row => add(row.item, '共同標籤：' + row.tags.join('、')));
+  // A theme the page declares outranks a single shared tag, so every suggestion the
+  // library made before this rule is still made; the single-tag rows only fill the
+  // slots that used to stay empty.
+  sameCategory.forEach(other => add(other, '同分類：' + other.category));
+  if (picks.length < 3) {
+    shared.filter(row => row.tags.length === 1)
+      .map(row => ({ ...row, tags: row.tags.filter(tag => frequency(tag) <= specificLimit) }))
+      .filter(row => row.tags.length)
+      .sort((a, b) => Math.min(...a.tags.map(frequency)) - Math.min(...b.tags.map(frequency)))
+      .forEach(row => add(row.item, '相關標籤：' + row.tags.join('、')));
+  }
+  return picks;
 }
 function detailNeighbours(item, items) {
   const index = items.findIndex(other => other.id === item?.id);
@@ -1430,21 +1471,19 @@ function scenarioExploreAction(item) {
   return button;
 }
 function renderRelated(item) {
-  const related = relatedEntries(item, currentFiltered);
+  const related = relatedEntries(item, currentFiltered, entries);
   const section = el('section', 'related-cases');
   section.setAttribute('aria-labelledby', 'related-title');
   const heading = el('h2', '', '延伸閱讀');heading.id = 'related-title';
-  section.append(heading, el('p', 'related-note', '限目前搜尋結果；先列至少兩個共同標籤的案例，再列相同分類。標籤相同不保證用途或成效相同，請核對內容與來源。'));
+  section.append(heading, el('p', 'related-note', '限目前搜尋結果；先列兩個以上共同標籤的案例，再列相同分類，最後才列只在少數案例共用的單一標籤。標籤相同不保證用途或成效相同，請核對內容與來源。'));
   if (related.length) {
     const list = el('ul', 'related-list');
-    related.forEach(other => {
+    related.forEach(({ item: other, reason }) => {
       const row = el('li');
       const button = el('button', 'related-open', other.title);button.type = 'button';
       button.dataset.relatedId = other.id;
       // Preserve the original result/discovery trigger for close and Escape.
       button.addEventListener('click', () => showDetail(other, null));
-      const sharedTags = sharedRelatedTags(item, other);
-      const reason = sharedTags.length >= 2 ? '共同標籤：' + sharedTags.join('、') : '同分類：' + other.category;
       row.append(el('p', 'related-meta', other.id + ' · ' + reason), button,
         el('p', 'related-summary', other.summary), el('p', 'related-proof', '來源類型：' + other.proof
           + (caseHasRelayedProof(other) ? '（' + PROOF_PROVENANCE.relayed.badge + '）' : '')));
@@ -1454,8 +1493,8 @@ function renderRelated(item) {
   } else {
     section.append(el('p', 'related-empty', discoveryReady
       ? (item.category
-        ? '目前條件下，沒有共同標籤或相同分類的其他主要案例。可關閉閱讀後調整搜尋條件。'
-        : '這篇案例頁沒有宣告分類，因此只會列出共同標籤的案例；目前結果中沒有符合的。可關閉閱讀後調整搜尋條件。')
+        ? '目前搜尋結果中，沒有共同標籤、相同分類或只在少數案例共用的標籤；因此沒有延伸閱讀。可關閉閱讀後調整搜尋條件。'
+        : '這篇案例頁沒有宣告分類，也沒有與目前結果中其他案例共用的少見標籤；因此沒有延伸閱讀。可關閉閱讀後調整搜尋條件。')
       : '其他案例仍在載入，完成後會依目前搜尋條件提供延伸閱讀。'));
   }
   const back = el('button', 'related-back', '關閉並返回結果');back.type = 'button';

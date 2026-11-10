@@ -1629,11 +1629,23 @@ function scenarioSwitchReset(){
   const conditions=reset.conditions.filter(condition=>condition.key!=='scenario');
   return conditions.length?{...reset,conditions}:null;
 }
+// A press that clears nothing of its own (only a scenario is active) is not the end
+// of the story: the conditions an earlier press removed are still gone, and the
+// notice on screen is the only route back to them. render() hides that notice as
+// soon as the conditions signature moves, so the pending snapshot is taken before
+// the switch and re-described for the scenario now chosen.
+function pendingScenarioReset(){
+  if(!scenarioReset)return null;
+  const conditions=scenarioReset.conditions.filter(condition=>condition.key!=='scenario');
+  return conditions.length?{...scenarioReset,conditions}:null;
+}
 function chooseScenarioFromHero(value){
   const reset=scenarioSwitchReset();
+  const pending=reset?null:pendingScenarioReset();
   chooseScenario(value);
-  if(!reset)return;
-  showScenarioReset(reset,value);
+  const notice=reset||pending;
+  if(!notice)return;
+  showScenarioReset(notice,value);
   if(!scenarioReset)return;
   landOnScenarioReset();
 }

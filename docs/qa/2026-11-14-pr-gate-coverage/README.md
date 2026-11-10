@@ -140,3 +140,9 @@
 **處理**：把測試改成用鍵盤啟動（`focus()` + `Enter`），斷言本身一字未改。實測 `assets/app.js` 完全不動的情況下，chromium 1440／390／320、firefox 390、webkit 390 **五種全部通過，連跑兩次**。因此本輪**沒有任何產品程式碼變更**；先前嘗試在 `restoreReadingView()` 加焦點重試的版本已撤回（它在 WebKit 上也修不好，因為前提不成立）。
 
 這是「把休眠的閘門接上」的直接價值，也是它的成本：第一次接上就會看到積壓的失敗，而且必須分清楚是迴歸還是斷言前提過時。本輪判定為後者，並保留原斷言。
+
+## 發布前狀態（head `a5007784`）
+
+- `node --test tests/*.test.cjs`：**689 通過／0 失敗**。
+- 本輪 PR 的 15 支 pull-request workflow：`Corpus bundle QA`（[42797067226](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42797067226)，5m58s）**success**——這是它第一次因為 pull request 而跑，也是第一次綠燈；`Missing shared case QA`、`Find reader sections QA` 同樣只在這一輪才會被 PR 觸發（先前任何 PR 都啟動不了）。
+- 另外 12 支既有的 PR workflow 照舊全綠（`published` 步驟在 PR 上依設計 skipping）。

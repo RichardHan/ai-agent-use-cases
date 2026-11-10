@@ -27,8 +27,11 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
   const checkRelated=async()=>{
    const actual=await page.evaluate(()=>{
     const counts=new Map();
-    currentFiltered.filter(e=>e.kind==='case').forEach(e=>(e.tags||[]).forEach(t=>{const k=norm(t).trim();if(k)counts.set(k,(counts.get(k)||0)+1);}));
-    const limit=Math.max(1,currentFiltered.filter(e=>e.kind==='case').length*RELATED_SPECIFIC_TAG_SHARE);
+    entries.filter(e=>e.kind==='case').forEach(e=>{
+      const keys=new Set((e.tags||[]).map(t=>norm(t).trim()).filter(Boolean));
+      keys.forEach(k=>counts.set(k,(counts.get(k)||0)+1));
+    });
+    const limit=Math.max(1,entries.filter(e=>e.kind==='case').length*RELATED_SPECIFIC_TAG_SHARE);
     const rows=[...document.querySelectorAll('.related-list li')].map(li=>{
       const meta=li.querySelector('.related-meta').textContent.trim();
       const id=meta.split(' · ')[0];

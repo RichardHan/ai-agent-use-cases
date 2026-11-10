@@ -59,6 +59,35 @@ test('a single specific tag fills the list after a two-tag match and never repla
  assert.deepEqual(ids(related),['UC-002','UC-003']);
  assert.deepEqual(reasons(related),['共同標籤：旅遊、比價','相關標籤：記帳']);
 });
+
+test('a tag stays rare when the reader narrows the search, and stays common when it does not',()=>{
+ // The library is what "few pages use this tag" means. A narrowed result list must
+ // not turn a corpus-wide tag (驗收, 150 of 508 pages) into a "rare" relation, nor
+ // hide a genuinely rare one (比價, 5 of 508) because the current results happen to
+ // be small.
+ const library=[candidate('UC-001',{tags:['比價','驗收']}),candidate('UC-037',{tags:['比價'],category:'購物'})];
+ for(let i=0;i<148;i++)library.push(candidate('UC-80'+String(i).padStart(2,'0'),{tags:['驗收'],category:''}));
+ for(let i=0;i<3;i++)library.push(candidate('UC-90'+i,{tags:['比價'],category:''}));
+ for(let i=0;i<355;i++)library.push(candidate('UC-70'+String(i).padStart(3,'0'),{tags:['其他'],category:''}));
+ const current=library[0];
+ // 比價 = 5/509 of the library, so the pair qualifies even though it is 100% of a 2-case result list.
+ const narrow=context.related(current,[current,library[1]],library);
+ assert.deepEqual(ids(narrow),['UC-037'],'a corpus-wide rare tag still counts inside a tiny result list');
+ assert.deepEqual(reasons(narrow),['相關標籤：比價'],'only the rare tag becomes the reason, never 驗收');
+ // 驗收 = 149/509, so it must never stand alone even when it is 100% of the results.
+ const acceptance=candidate('UC-555',{tags:['驗收'],category:''});
+ const onlyAcceptance=context.related(acceptance,[acceptance,candidate('UC-556',{tags:['驗收'],category:''})],library);
+ assert.deepEqual(plain(onlyAcceptance),[],'a template-wide tag stays template-wide inside a narrow filter');
+});
+test('a repeated tag on one page does not inflate its library frequency',()=>{
+ const repeated=candidate('UC-001',{tags:Array(20).fill('rare'),category:''});
+ const partner=candidate('UC-002',{tags:['rare'],category:''});
+ const library=[repeated,partner,...crowd('UC-9',100,['其他'])];
+ const related=context.related(repeated,[repeated,partner],library);
+ assert.deepEqual(ids(related),['UC-002'],'two pages use the tag, so it is rare no matter how often one repeats it');
+ assert.deepEqual(reasons(related),['相關標籤：rare']);
+});
+
 test('keyboard neighbours never escape an empty or unrelated search result',()=>{
  vm.runInContext('this.neighbours=detailNeighbours;',context);
  const ids=x=>({prev:x.prev?.id||null,next:x.next?.id||null});

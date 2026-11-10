@@ -1409,17 +1409,19 @@ function sharedRelatedTags(item, other) {
 const RELATED_SPECIFIC_TAG_SHARE = 0.02;
 function relatedTagCounts(cases) {
   const counts = new Map();
-  for (const other of cases) for (const tag of other.tags || []) {
-    const key = norm(tag).trim();
-    if (key) counts.set(key, (counts.get(key) || 0) + 1);
+  for (const other of cases) {
+    // One page counts once per tag, however often the tag repeats in its lead.
+    const keys = new Set((other.tags || []).map(tag => norm(tag).trim()).filter(Boolean));
+    for (const key of keys) counts.set(key, (counts.get(key) || 0) + 1);
   }
   return counts;
 }
-function relatedEntries(item, items) {
-  // The frequency of a tag is counted over every case page, including this one, so
-  // the rule reads the same from both sides of a pair.
-  const allCases = items.filter(other => other.kind === 'case');
-  const cases = allCases.filter(other => other.id !== item.id);
+// `items` is what the reader can be sent to (the current results); `library` is what
+// "few pages use this tag" is measured against. A tag does not become rare because
+// the reader narrowed the search, so the two must not be the same list.
+function relatedEntries(item, items, library = items) {
+  const allCases = library.filter(other => other.kind === 'case');
+  const cases = items.filter(other => other.kind === 'case' && other.id !== item.id);
   const counts = relatedTagCounts(allCases);
   const specificLimit = Math.max(1, allCases.length * RELATED_SPECIFIC_TAG_SHARE);
   const frequency = tag => counts.get(norm(tag).trim()) || 0;
@@ -1469,7 +1471,7 @@ function scenarioExploreAction(item) {
   return button;
 }
 function renderRelated(item) {
-  const related = relatedEntries(item, currentFiltered);
+  const related = relatedEntries(item, currentFiltered, entries);
   const section = el('section', 'related-cases');
   section.setAttribute('aria-labelledby', 'related-title');
   const heading = el('h2', '', '延伸閱讀');heading.id = 'related-title';

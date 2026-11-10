@@ -114,3 +114,11 @@ README 第 9 行與「查無完全符合的案例時…」段落其實已經承�
 ## 下一輪
 
 最值得做的一件事：**`tests/published-version.cjs` 的「這次 push 沒有發布任何檔案」分支仍可能燒滿 60 分鐘。** `verifySupersededPublication()` 在 `changed.length===0` 時要求線上內容集與本次建置完全相同（`sameContent`）；但該分支只會在**線上已是後續 commit**（`assert.notEqual(live, sha)`）時進入，那時內容集本來就不可能相同。先做的驗證：用注入的 `fetchAsset`／`isDescendant` 造出「本次 push 只改 tests、線上已是下一個內容 commit」的情境，確認現行程式會重試到 60 分鐘才失敗，再改成「後續建置已包含本次 push 即通過，並在 log 說明這次沒有任何可發布變更」。
+
+## 發布
+
+- PR [#364](https://github.com/RichardHan/ai-agent-use-cases/pull/364)（head `c01be476`）：16 項非略過檢查 success，`published` 依設計在 PR 上 skipping；其中 `Website QA` [42907860151](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42907860151) 與新腳本所在的 Chromium 步驟都 success。
+- squash 合併 `a1f5722d61a789e7d790e836ffa974e91bb225c8`；`pages build and deployment` [42909621315](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42909621315)：`build` 21:55:08→21:55:58、`deploy` 21:56:03→21:56:12，兩者 success。
+- main 的 `Website QA` [42909622286](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42909622286)：success（`Verify the updated site in Chromium`、`Wait for published assets and content`、`Verify the published GitHub Pages site` 都是 success）。
+- 正式站 `catalog.json.sourceRevision` = `a1f5722d61a789e7d790e836ffa974e91bb225c8`、512 個來源檔；`assets/app.js`（sha256 `2e035654361f…`）與 `README.md`（sha256 `b3071e594337…`）與 `origin/main` 逐 byte 相同。
+- 正式站重走（390×844）：`?q=想讓 AI 幫我盯機票價格` → 0／515，面板為「原問題包含「機票」 → 搜尋 11 筆」「原問題包含「價格」 → 搜尋 105 筆」；點擊後 11 筆、焦點在結果筆數；`?q=發票&scenario=生活&difficulty=進階開發` → 0 筆 → 移除門檻後 10 筆且情境保留；`?case=UC-190` 直接開在詳情、焦點在標題、來源連結正常。

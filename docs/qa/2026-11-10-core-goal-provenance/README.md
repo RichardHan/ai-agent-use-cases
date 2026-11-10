@@ -98,3 +98,12 @@
 ## 截圖
 
 每組都是 `#detail .plain-overview` 的**元素截圖**（同頁、同尺寸、同資料狀態，桌面 1440×900／手機 390×844），因為核心目標區塊在 UC-005 首屏之外，整頁截圖看不出差異：`before-uc-005-desktop.png`／`before-uc-005-phone.png`、`before-uc-101-*`、`before-uc-017-*` 與對應 `after-*`。
+
+## 發布
+
+- PR [#321](https://github.com/RichardHan/ai-agent-use-cases/pull/321) head `1a89a28a`：12 項非略過檢查全 success（`published` 依設計 skip），含新增的 `core-goal-provenance-browser.cjs`；squash 合併為 `73e282296df48ab974e14f8323c08d3926ebf80e`。
+- `pages build and deployment` [42737641142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42737641142)：build／report／deploy 全 success。
+- 正式站以 25 分鐘上限輪詢（第 19 次、約 2 分半）：`catalog.json` 與 `corpus.json` 的 `sourceRevision` 皆為 `73e28229…`、512 個來源檔且清單與本機預覽相同，`index.html` 與 7 個 `assets/*` **逐 byte 相同**（`assets/app.js` SHA-256 `eb7ea1c2…`）。
+- 正式站重走（1440×900／390×844／320×740，停用瀏覽器快取）：`?case=UC-005` 顯示「核心目標」原句（`declared`）、`?case=UC-101` 顯示章節註記（`section`，指名〈問題與作者實際使用〉）、`?case=UC-017` 顯示缺漏註記（`missing`），水平溢出 0；`tests/core-goal-provenance-browser.cjs` 對正式站三種寬度通過；`tests/detail-trust-summary-browser.cjs` 對正式站 axe 0。
+- 正式站三情境：`?q=會議` 27／515（首批 24 張、13 張有 🎯）、`?q=會議&scenario=生活&difficulty=進階開發` 0／515 → 點「移除實作門檻」回到 3 筆、`?q=會議&case=UC-005` 直鏈核心目標為 `declared`、來源連結固定於 `73e2822`，關閉後回到 `?q=會議` 27 筆。
+- 首次載入的注意事項：直接開分頁時曾拿到快取的舊 `app.js`（畫面像沒變），停用快取後即為新版；`curl` 取得的 `assets/app.js` 與本機逐 byte 相同，因此是本機瀏覽器快取，不是部署問題。

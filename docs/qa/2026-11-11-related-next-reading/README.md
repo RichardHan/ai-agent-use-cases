@@ -115,3 +115,11 @@
 - 第三層的「相關」只代表共用一個少見標籤，不代表任務或成效相同；畫面上以 `相關標籤：` 與既有提醒區分，但本輪沒有逐列人工審查 572 列的語意品質。
 - 2% 門檻以**目前結果集**計算，不是全庫：窄搜尋（例如 `?q=會議` 的 27 筆）門檻只有 0.54，因此單一標籤層在小結果集幾乎不會觸發。這是刻意的——在 27 筆裡共用一個標籤佔 3.7%，不構成關係；本輪的收益集中在「沒有搜尋條件」的完整清單與分享直鏈。
 - 沒有改案例內容、搜尋語意、篩選、計數口徑、來源分類或既有排序。
+
+## 發布
+
+- PR [#327](https://github.com/RichardHan/ai-agent-use-cases/pull/327)（head `e0cb00f3`）：13 項非略過檢查 success（`Website QA` [42750714137](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42750714137)、`Related reading QA` 6 項 browser 之一 [42750714134](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42750714134)、`Reading flow QA` [42750714402](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42750714402) 16m40s 等），`published` 依設計在 PR 上 skipping。
+- squash 合併 `c7acb73f52f13566c51f487e29a322e8bf6d9007`；`pages build and deployment` [42752588364](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42752588364)：`build` 40 秒、`deploy` 157 秒，兩者 success。
+- main 的 `Website QA` [42752589744](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42752589744)：success，第 15 步 `Wait for published assets and content` 與第 17 步 `Verify the published GitHub Pages site` 都 success。
+- 正式站 `catalog.json.sourceRevision` = `c7acb73f`、512 個來源檔；`assets/app.js`（sha256 `439f00582e50…`）、`assets/style.css`、`assets/reader.css`、`index.html`、`README.md` 與本機 checkout 逐 byte 相同。
+- 正式站重走（1440×900／390×844）：`?case=UC-024` 3 列 `相關標籤：帳單`（部署前 0 列）、新說明文字；`?case=UC-005` 仍 0 列、文案為「沒有宣告分類，也沒有與目前結果中其他案例共用的少見標籤」；`?q=怎麼整理會議記錄` 7／515；`?q=規劃旅行&scenario=工作` 0→移除情境後 1 筆；`?case=UC-514` 3 列 `相關標籤：購物`、來源固定於 `c7acb73f`；axe 0、水平溢出 0、pageerror 0，Escape 後回到 515 筆清單。

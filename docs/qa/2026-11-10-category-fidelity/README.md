@@ -91,4 +91,7 @@
 
 ## 發布
 
-（合併與正式站核對後補記）
+- PR [#342](https://github.com/RichardHan/ai-agent-use-cases/pull/342)（head `caba7c73`）：16 項非略過檢查全部 success、2 項（main-only）skipped；squash 合併為 `2b139d9f`（2026-11-10T12:58:46Z）。
+- `pages build and deployment` [42820349429](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42820349429) success（約 30 秒）；正式站 `catalog.json.sourceRevision` = `2b139d9f694bdf2f5e19fa46f156887919f352d9`，512 個來源檔、515 筆條目。
+- 正式站重測（Chromium 1440×900／390×844，與修正前的同一組查詢）：`#category` 選項數 345 但不含分級（`gradeOffered:false`）；`?q=未獨立重現&scope=topic` **0 / 515**、`?q=作者實作自述&scope=topic` **0 / 515**、舊分享連結 `?category=B｜…` **0 / 515**；`?category=產品回饋／版本通知` 1 筆（UC-444）。
+- 正式站三情境（兩個尺寸都走過）：痛點入口「會議整理」27 筆、第一則 UC-094；`機票` 11 筆→加上兩個篩選 0 筆（38 個復原入口）→清除篩選回到 11 筆且關鍵字保留；`?q=會議&case=UC-094` 開詳情、來源固定在 `2b139d9f`、Escape 返回後查詢與 27 筆保留。axe 0 違規、pageerror 0。

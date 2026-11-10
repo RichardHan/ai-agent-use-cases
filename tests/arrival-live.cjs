@@ -72,7 +72,9 @@ module.exports=async function publishedArrival({browser,origin,engine,prefix='li
   const latestLink=page.locator('.detail-source-latest').first();
   const sourceNote=page.locator('.detail-source-version').first();
   await sourceLink.waitFor();
-  const pinnedHref=await sourceLink.getAttribute('href');
+  // `href=""` is still an activatable link that navigates to the current page, so
+  // the pinned branch is decided by the attribute's presence, not its truthiness.
+  const pinnedHref=await sourceLink.evaluate(a=>a.hasAttribute('href')?a.getAttribute('href'):null);
   if(pinnedHref){
    assert.match(pinnedHref,/^https:\/\/github\.com\/RichardHan\/ai-agent-use-cases\/blob\/[a-f0-9]{40}\//,'a pinned source link names the published revision');
    assert.equal(await latestLink.isHidden(),true,'a pinned source hides the 最新版本 fallback');

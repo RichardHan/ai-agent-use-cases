@@ -244,7 +244,11 @@ function withoutSourceUrls(text){ return text.replace(MARKDOWN_LINK_DESTINATION,
 // 整理 is a word readers search for and those notes hold no filler verb of their own.
 const EDITORIAL_NOTE=/[（(][^（()）]{0,30}[）)]/g;
 const EDITORIAL_LABEL=/^(?:翻譯|改寫|未實測|未實跑|未執行|未實作|未測|本庫|本文|原創|自設|自行設計|AI構想|依來源|依作者)/;
-const EDITORIAL_WORD=/翻譯|改寫|未實測|未實跑|未執行|未實作|未測/g;
+// `EDITORIAL_WORD` is used with test(), so it must not carry /g: a global regex
+// keeps lastIndex between calls and a note skipped earlier would make the next one
+// miss. The global copy exists only for the replace() that measures the remainder.
+const EDITORIAL_WORD=/(?:翻譯|改寫|未實測|未實跑|未執行|未實作|未測)/;
+const EDITORIAL_WORD_ALL=/(?:翻譯|改寫|未實測|未實跑|未執行|未實作|未測)/g;
 const EDITORIAL_FILLER=/[\s，,、；;：:／/（）()]/g;
 // A note that reports a number (a date, a price, a count) is saying something about
 // the case, not labelling how the page was written, and it keeps its place in the
@@ -254,7 +258,7 @@ function withoutEditorialNotes(text){
   return text.replace(EDITORIAL_NOTE,note=>{
     const inner=note.slice(1,-1);
     if(!EDITORIAL_LABEL.test(inner)||!EDITORIAL_WORD.test(inner)||EDITORIAL_FACT.test(inner))return note;
-    const rest=inner.replace(EDITORIAL_WORD,'').replace(EDITORIAL_FILLER,'');
+    const rest=inner.replace(EDITORIAL_WORD_ALL,'').replace(EDITORIAL_FILLER,'');
     return rest.length<=12?' ':note;
   });
 }

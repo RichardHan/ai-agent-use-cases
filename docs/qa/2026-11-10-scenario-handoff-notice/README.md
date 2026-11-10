@@ -102,6 +102,7 @@
 - `pages build and deployment` [42821308838](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42821308838) success（53 秒）；正式站 `catalog.json.sourceRevision` = `ab4b51f4`。
 - 正式站重走（同一支探測，1440／390／320）：`?q=怎麼整理會議記錄` 7 → 「工作」 162，通知在 y=24、第一張卡 222／258／258、水平溢出 0；按「回到原本的搜尋（7 筆）」後查詢與結果回到 7 筆、通知消失、焦點在 `#results-count`。三種訪客情境與部署前逐項相同（hero 344／238、j1 78 筆、j2 17→35、UC-005 直鏈）。
 - 正式站資產比對：`assets/app.js` 含 `scenario-reset-action`、`index.html` 含 `id="scenario-reset"`。
+- **main 的 `Website QA` 發布閘門在收工時仍是 `pending`**（[42821309962](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42821309962)，`ab4b51f4`，13:05 建立）：它排在另一個 session 於 12:58 推的 main run（`2b139d9f`）後面，而 main 的裁決刻意不被取消。因此本輪的正式站結論來自上面的逐項實測與 `sourceRevision`，不是來自這支 run；不宣稱它已通過。
 
 ## 已知限制
 

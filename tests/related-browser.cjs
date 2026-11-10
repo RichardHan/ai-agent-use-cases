@@ -25,14 +25,41 @@ if(live&&skipIfSupersededPublishedUrl(origin)){console.log('SKIP_PUBLISHED_BROWS
    report.push({name,label,axeViolations:result.violations.length});
   };
   const checkRelated=async()=>{
-   const actual=await page.evaluate(()=>({
-    ids:[...document.querySelectorAll('.related-open')].map(n=>n.closest('li').querySelector('.related-meta').textContent.split(' · ')[0]),
-    current:currentDetailItem.id,category:currentDetailItem.category,tags:currentDetailItem.tags,
-    pool:currentFiltered.map(e=>({id:e.id,category:e.category,kind:e.kind,tags:e.tags}))
-   }));
-   assert(actual.ids.length<=3);assert(!actual.ids.includes(actual.current));
-   for(const id of actual.ids)assert(actual.pool.some(e=>e.id===id&&e.kind==='case'&&(e.category===actual.category||new Set((e.tags||[]).filter(tag=>(actual.tags||[]).includes(tag))).size>=2)));
-   return actual.ids;
+   const actual=await page.evaluate(()=>{
+    const counts=new Map();
+    entries.filter(e=>e.kind==='case').forEach(e=>{
+      const keys=new Set((e.tags||[]).map(t=>norm(t).trim()).filter(Boolean));
+      keys.forEach(k=>counts.set(k,(counts.get(k)||0)+1));
+    });
+    const limit=Math.max(1,entries.filter(e=>e.kind==='case').length*RELATED_SPECIFIC_TAG_SHARE);
+    const rows=[...document.querySelectorAll('.related-list li')].map(li=>{
+      const meta=li.querySelector('.related-meta').textContent.trim();
+      const id=meta.split(' · ')[0];
+      const target=currentFiltered.find(e=>e.id===id);
+      const shared=target?sharedRelatedTags(currentDetailItem,target):[];
+      return {id,reason:meta.split(' · ').slice(1).join(' · '),kind:target&&target.kind,category:target&&target.category,
+        shared:Array.from(shared),frequency:Array.from(shared,tag=>counts.get(norm(tag).trim())||0),limit};
+    });
+    return {rows,current:currentDetailItem.id,category:currentDetailItem.category||''};
+   });
+   const ids=actual.rows.map(row=>row.id);
+   assert(ids.length<=3,'at most three suggestions');
+   assert(!ids.includes(actual.current),'a page never suggests itself');
+   actual.rows.forEach((row,index)=>{
+    assert.equal(row.kind,'case',row.id+' is a main case in the current results');
+    if(row.reason.startsWith('共同標籤：')){
+     assert(row.shared.length>=2,row.id+' a 共同標籤 row names two shared tags');
+     for(const tag of row.reason.replace('共同標籤：','').split('、'))assert(row.shared.includes(tag),row.id+' names its own shared tag '+tag);
+    }else if(row.reason.startsWith('相關標籤：')){
+     assert.equal(row.shared.length,1,row.id+' a 相關標籤 row names exactly one shared tag');
+     assert(row.frequency.every(count=>count<=row.limit),row.id+' a single tag is only used by few pages');
+    }else{
+     assert(row.reason.startsWith('同分類：'),row.id+' names why it is suggested');
+     assert.equal(row.category,actual.category,row.id+' shares the declared theme');
+     assert(index===actual.rows.length-1||actual.rows.slice(index+1).every(next=>!next.reason.startsWith('共同標籤：')),'a two-tag match never follows 同分類');
+    }
+   });
+   return ids;
   };
   // Scenario 1: find a travel method, compare a same-topic method, return to the original results.
   const started=Date.now();

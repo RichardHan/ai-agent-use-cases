@@ -85,7 +85,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
     }));
     assert.equal(related.note,'','the opened page declares no theme');
     assert(related.reasons.length>0,'shared tags still produce suggestions');
-    for(const reason of related.reasons)assert.match(reason,/共同標籤：/,'an unclassified page never claims 同分類');
+    for(const reason of related.reasons)assert.doesNotMatch(reason,/同分類：/,'an unclassified page never claims 同分類');
     row.related={page:unclassifiedId,rows:related.reasons.length};
    }
    if(emptyId){
@@ -97,7 +97,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
     row.empty={page:emptyId};
    }
    // A page that declares a theme still uses it for 同分類.
-   const declaredId=await page.evaluate(()=>entries.find(entry=>entry.kind==='case'&&entry.category&&relatedEntries(entry,entries).some(other=>sharedRelatedTags(entry,other).length<2))?.id||'');
+   const declaredId=await page.evaluate(()=>entries.find(entry=>entry.kind==='case'&&entry.category&&relatedEntries(entry,entries).some(row=>row.reason.startsWith('同分類：')))?.id||'');
    if(declaredId){
     await page.goto(base+'?case='+declaredId,{waitUntil:'domcontentloaded'});
     await ready();

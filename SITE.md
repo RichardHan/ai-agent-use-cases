@@ -10,6 +10,24 @@
 
 下一輪先量任務入口的語料佔比再決定是否改寫：`資料清理 294／515（57%）`、`報表比對 279（54%）`、`成本分析 218（42%）`、`漏洞掃描 218（42%）`、`安全防護 218（42%）` 都來自泛用同義詞群組，且 AND 可跨欄位成立（`報帳審核` 的 `報帳` 命中正文、`審核` 命中標題 → 66 筆含夢幻球隊排棒次）。動手前先跑 `tests/search.test.cjs`、`tests/problem-compound-queries.test.cjs`、`tests/relevance.test.cjs` 逐條核對 11 支 recall 期望。
 
+## 2026-11-11 讀完一篇案例後，四成頁面沒有下一步可讀
+
+正式站 `63f4f375` 實測：從分享連結開啟 UC-005／UC-024／UC-002／UC-514，詳情最下方只寫「目前條件下，沒有共同標籤或相同分類的其他主要案例」。全庫 508 個案例頁在沒有搜尋條件時，**205 頁（40.4%）**的「延伸閱讀」是空的、共 732 列建議；成因是規則要求**兩個**共同標籤，而第二層的「同分類」幾乎不存在——344 種宣告分類中 343 種只有一頁使用，全庫只有 17 列建議來自同分類。直接把門檻降成一個標籤不可行：`驗收` 150 頁、`每日` 83 頁、`核准` 70 頁共用，實測會讓 498／508（98%）的頁面都有建議，等於用模板標籤湊數。
+
+選擇 (A) 在三層之中插入「單一少見標籤」：第一層 ≥2 共同標籤、第二層頁首宣告的同分類都不動，第三層只收剛好 1 個共同標籤且該標籤全庫 ≤2% 案例頁使用（508 頁時為 10 頁）的案例，只填空位。覆蓋 303 → **467／508（91.9%）**、空白 205 → **41**、建議 732 → **1304** 列（共同標籤 715 與同分類 17 完全沒變，新增相關標籤 572），逐頁比對**沒有任何一頁失去原本的建議**、259 頁變多。(B) 只改空白文案提供情境入口，等於重複上方既有的「探索更多情境」按鈕；(C) 降成任一個標籤會讓半個資料庫互相推薦。兩者不採用。每一列都寫出原因（`共同標籤：`／`同分類：`／`相關標籤：`），說明與空白文案同步改寫成「沒有共同標籤、相同分類或只在少數案例共用的標籤」。
+
+改動：`assets/app.js` 新增 `RELATED_SPECIFIC_TAG_SHARE`、`relatedTagCounts()`，`relatedEntries()` 改三層並回傳 `{item, reason}`，`renderRelated()` 改讀回傳的理由與新文案；`README.md` 補第三層與 2% 門檻；`.github/workflows/related-qa.yml` 的 `pull_request.paths` 補 `cases/**`、`evidence/**`、`sources/pending.md`（這支 workflow 的瀏覽器走查讀真實語料，先前只改內容的 PR 不會觸發它）。測試：新增 `tests/related-coverage.test.cjs`（5 項全語料不變量：≤3 列、不建議自己、只看主要案例、層級順序、`相關標籤` 只列 ≤2% 標籤、有少見共同標籤就不得空白、覆蓋率 ≥90%），並改寫 `tests/related.test.cjs`、`tests/declared-category.test.cjs`、`tests/related-browser.cjs`、`tests/declared-category-browser.cjs` 以驗證新規則（不是放寬：`同分類` 仍須雙方宣告，`共同標籤` 仍須兩個以上）。
+
+量測：基準 `node --test tests/*.test.cjs` **636 通過** → 本輪 **646 通過、0 失敗**；Chromium 1440×900／390×844／320×740 六頁共 18 次量測 axe 0、水平溢出 0、pageerror 0；`related-browser` 與 `declared-category-browser` 全數通過。三情境（不知道工具名找案例、組合篩選後空結果復原、分享直鏈讀證據再返回）在兩個尺寸走過。限制：本環境無法讀取截圖影像，視覺結論來自 DOM 與幾何量測；只驗 Chromium；2% 是規則選擇而非研究結果，572 列「單一標籤」的語意品質未逐列人工審查；41 頁仍誠實留白。[前後數據、截圖與完整指令](docs/qa/2026-11-11-related-next-reading/README.md)。
+
+
+發布補記：PR [#327](https://github.com/RichardHan/ai-agent-use-cases/pull/327)（head `e0cb00f3`）13 項非略過檢查全 pass、`published` 依設計在 PR 上 skipping，squash 合併為 `c7acb73f`。`pages build and deployment` [42752588364](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42752588364) 的 `build` 40 秒、`deploy` 157 秒都 success；main 的 `Website QA` [42752589744](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42752589744) success，含第 15 步 `Wait for published assets and content` 與第 17 步 `Verify the published GitHub Pages site`。正式站 `catalog.json.sourceRevision` = `c7acb73f`、512 個來源檔；`assets/app.js`（`439f0058…`）、`style.css`、`reader.css`、`index.html`、`README.md` 與本機 checkout 逐 byte 相同。正式站重走（1440×900／390×844）：`?case=UC-024` 延伸閱讀 3 列 `相關標籤：帳單`（部署前同頁 0 列）、說明換成三層版本；`?case=UC-005` 仍是 0 列但文案改為「沒有宣告分類，也沒有與目前結果中其他案例共用的少見標籤」；`?q=怎麼整理會議記錄` 7／515、`?q=規劃旅行&scenario=工作` 0 筆→移除情境後 1 筆、`?case=UC-514` 直鏈 3 列 `相關標籤：購物` 且來源固定在本版 commit；兩尺寸 axe 0、水平溢出 0、pageerror 0，Escape 關閉後回到 515 筆清單。獨立審查（未參與實作）第一輪提出 1 項 must-fix（2% 門檻誤用目前結果集當分母）與 1 項 should-fix（同頁重複標籤膨脹頻率），兩項已修並新增回歸，第二輪覆核確認 deliverable、0 頁失去既有建議、572 列 `相關標籤` 全部成立。
+
+## 下一輪最值得做的一件事
+
+**`- 本次增補查證：` 這一行沒有被讀成頁首核對日**：9 頁寫了它，其中 5 頁（UC-005、071、183、235、354）畫面上的「頁首核對」比同一個頁首區塊裡最新的一次查證還舊，最多差 8 天，`?sort=reviewed` 因此把這 5 頁排在比實際更舊的位置。修法是在 `assets/app.js` 的 `reviewDate()` 具名欄位清單加 `本次增補查證`（1 行），並在 `tests/recent-review-corpus.test.cjs` 加一條「同一頁首區塊的補充查證不得比頁首核對日新」的斷言；先跑 `?case=UC-183` 與 `?sort=reviewed` 前 10 筆確認現況。這批證據已由本輪的獨立語料審查量測完成，尚未修。
+
+
 ## 2026-11-10 Pages 產物有 98% 是沒人連得到的驗收截圖
 
 `pages build and deployment` 在 `main@99734627` 失敗：`build` 56 秒成功，`deploy` 的 `Deploy to GitHub Pages` 在 `syncing_files` 用滿 600 秒後 `Timeout reached, aborting!`（run [42733561142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42733561142)）。正式站因此停在 `38a44211`，兩個 commit 前併入的 `cases/515-…md`、`cases/516-…md` 實測 404，main 的 `Website QA` 也卡在「Wait for published assets and content」25 分鐘後才失敗（`42733562130`）。

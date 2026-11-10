@@ -32,6 +32,20 @@ test('a note that holds case content, or a label without an editing word, stays 
   assert.equal(strip('本庫設計的流程尚未實測，翻譯由作者完成'),'本庫設計的流程尚未實測，翻譯由作者完成');
 });
 
+test('a note that reports a fact, or leaves a long tail, is not treated as an editing label',()=>{
+  // A number means the note is reporting something about the case (a date, a price,
+  // a source id), so removing it from the index would hide evidence.
+  for(const note of ['（改寫：張三於 2026 年支付 100 元，翻譯費）','（本庫原創，未測；結構參考 S-061A 公開版本，非逐字翻譯）','（自設未測提示；只有 S-051A 的兩句英文是作者原話）']){
+    assert.equal(strip(`- 作者流程${note}`),`- 作者流程${note}`,`${note} reports a fact`);
+  }
+  // A note whose remainder after the editing words is long is prose, not a label.
+  const prose='（本庫原創，未測；結構參考作者簡化版，非逐字複製）';
+  assert.equal(strip(`## 可貼指令${prose}`),`## 可貼指令${prose}`,'a long remainder is content');
+  // Removal leaves a separator, so two words never fuse into a term nobody wrote.
+  assert.equal(strip('A（未實測）B'),'A B');
+  assert.doesNotMatch(strip('前（翻譯改寫）後'),/前後/,'no new compound term appears');
+});
+
 test('the note stays visible on the page a reader opens; only the index drops it',()=>{
   const item=entries.find(x=>x.id==='UC-001');
   assert.match(item.markdown,/（翻譯改寫）/,'the reading view still shows the note verbatim');

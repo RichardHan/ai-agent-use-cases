@@ -138,7 +138,8 @@ run [42820349847](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/
 - 正式站 `catalog.json` 的 `sourceRevision` = `03acca6857…`（512 個來源檔）；`assets/app.js`、`index.html`、`README.md` 與合併 commit 逐 byte 相同（SHA-256 比對）。
 - 正式站重走（1440／390／320）：`權限` 507 →「30 筆標題/用途/痛點；其餘 477 筆中 402 筆在正文或頁首資料提到；另有 75 筆要算上章節標題才符合（例如〈所需連接、權限與限制〉）」；`提示詞` 313 → 17＋204＋92；`所需連接` 216 全部要算上章節標題；`全文：不含章節標題` 切換後 `提示詞` 為 221、URL 帶 `scope=body`；三情境與 UC-005 直鏈正常，水平溢出 0、pageerror 0。
 - 同一支新增回歸直接對正式站執行（`VERIFY_URL=https://richardhan.github.io/ai-agent-use-cases/`）：1440／390／320 全通過。
-- main 的 `Website QA`（[42881432005](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42881432005)）在收工時仍在執行（步驟 9 `Verify the updated site in Chromium`），未宣稱已通過；本輪的正式站結論來自上面的 `sourceRevision`、逐 byte 比對與實站回歸，不是來自那支 run。
+- main 的 `Website QA`（[42881432005](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42881432005)，`03acca68`）**success**：步驟 15 輸出 `PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH`（exact），步驟 16 依設計 skipped，步驟 17 印出 `PUBLISHED_LIVE_BUILD_CURRENT …（walking the live site）` 並走查成功——新的閘門在 main 上以 exact 路徑實際執行過。
+- 發布紀錄的 docs PR [#356](https://github.com/RichardHan/ai-agent-use-cases/pull/356) 合併為 `93f342e3`，`pages build and deployment` [42883030933](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42883030933) success，正式站 `sourceRevision` = `93f342e3…`；`assets/app.js` 仍與合併 commit 逐 byte 相同，實站回歸再次通過。
 
 ## 已知限制
 

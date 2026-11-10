@@ -8,6 +8,8 @@
 
 先紅後綠：新 node 測試在基準 `assets/app.js` 失敗（`taskCoverage` 不存在）；新瀏覽器測試在基準預覽失敗於「marker state must equal "no case describes this task"」，本輪預覽 1440／390／320 全綠、axe 0、水平溢出 0。`node --test tests/*.test.cjs` 基準 **636** → **642 通過、0 失敗**，`node --check` 通過。幾何（同頁同尺寸）：1440 目錄 408→460px、價值面板 1149→1213px；390 目錄 148px 不變、價值面板 +25px；320 目錄 148→200px、價值面板 835→912px；三者 `#discover` 在 390／320 各 +25／+77px，皆原本就在首屏之外，水平溢出 0。對比：徽章 7.23:1（手機 6.94:1）、說明行 4.81:1。三情境（標記入口→16 筆→改搜 8 筆；旅遊＋學習 0 筆→移除 chip 33 筆且保留情境；`?case=UC-407` 直鏈→來源→關閉回 `#explore`）已走。截圖、方案取捨、量測與限制見[本輪 QA](docs/qa/2026-11-12-task-coverage/README.md)。獨立審查 0 項 must-fix（以基準／本輪兩個預覽實測幾何與 axe，並重跑 53 項 node 測試）。
 
+發布補記：PR [#329](https://github.com/RichardHan/ai-agent-use-cases/pull/329)（head `6a5f93b0`，13 項非略過檢查全 success、`published` 依設計 skip）squash 合併為 `69ae8a21`；`pages build and deployment` [42757788014](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42757788014) 的 build 41 秒、deploy 9 秒 success。正式站 `catalog.json.sourceRevision` = `69ae8a21…`、512 個來源檔、`assets/app.js` 含 `taskCoverage`；390px 實測 7 個入口標記（出差報銷、播客摘要、寫履歷、代碼重構、發票辨識、機票比價、隱私審查）、說明行顯示、53 個連結與手機收合不變、水平溢出 0、axe 0、pageerror 0；點「發票辨識」得 16 筆且 `#match-scope=none`、替代搜尋 8 筆；三情境（含「旅遊＋學習」0 筆→移除情境「學習」→35 筆）於正式站重走通過。已知未處理：空結果推薦的任務仍含自述命中 0 的「寫履歷」「播客摘要」，與首頁標記不一致，列為下一輪第一項。
+
 下一輪先量任務入口的語料佔比再決定是否改寫：`資料清理 294／515（57%）`、`報表比對 279（54%）`、`成本分析 218（42%）`、`漏洞掃描 218（42%）`、`安全防護 218（42%）` 都來自泛用同義詞群組，且 AND 可跨欄位成立（`報帳審核` 的 `報帳` 命中正文、`審核` 命中標題 → 66 筆含夢幻球隊排棒次）。動手前先跑 `tests/search.test.cjs`、`tests/problem-compound-queries.test.cjs`、`tests/relevance.test.cjs` 逐條核對 11 支 recall 期望。
 
 ## 2026-11-11 讀完一篇案例後，四成頁面沒有下一步可讀

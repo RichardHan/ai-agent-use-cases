@@ -38,16 +38,18 @@
 - `assets/app.js`
   - 新增 `scenarioResetCopy(reset,scenario,dropped,{partial})`：切換到具名情境／全部情境／同一個情境三種句子；`partial` 時按鈕不寫筆數（部分來源未載入時不能宣稱原本有幾筆）。
   - 新增 `scenarioResetDropped(reset,scenario,placement)`：首頁路徑不把「被換掉的那個情境」算成損失（按鈕本身就是情境選擇器；否則連續按兩顆情境會每按一次就朗讀一次並搶走焦點），詳情頁 handoff 仍會點名被換掉的情境。其餘條件照舊逐項列出。
+  - 首頁按鈕的處理順序改成「先看這次真的清掉了什麼」：清掉東西 → 用這次的快照顯示；只清掉情境（或什麼都沒清）但**上一個通知還在畫面上** → 沿用上一個快照重新描述，保留那顆「回到原本的搜尋」（條件仍然是移除狀態，回頭路仍然只有這一個）；兩者都沒有 → 完全不動，卡片照舊接手焦點。
   - 新增 `scenarioResetAnchor(placement)`：`discover` → `{host:'discover',anchor:'drawn-case'}`（面板在卡片正上方）；其他 → `{host:'explore',anchor:'partial-load'}`（與改動前同一個位置）。
   - 新增 `placeScenarioReset(placement)`、`alignScenarioReset(notice)`：搬移同一個節點，並只把通知頂端捲進視窗（`scrollY = notice.top - 12`），不搶走卡片。
   - `showScenarioReset()` 改為接受 `placement`，改用 `scenarioResetCopy()`；`scenarioExploreAction()` 不傳 placement，行為與位置不變。
   - 首頁 `#guide-options [data-scenario]` 七顆按鈕：快照 → `chooseScenario()` → 顯示通知 → 對齊 → 焦點移到 `#scenario-reset-action`；沒有清掉任何條件時完全不動（卡片照舊接手焦點）。
 - `tests/scenario-clear-notice.test.cjs`（新，7 項）：句子（切換／全部情境／同一個情境）、`partial` 不報筆數、兩個落點的錨點、首頁不點名被換掉的情境／詳情頁會點名、`FILTER_LABELS` 用詞。
-- `tests/scenario-clear-notice-browser.cjs`（新）：1440／390／320 各走六段——鍵盤 Enter 切換後通知在視窗內且點名兩個條件、一張卡仍在畫面上、焦點落在回頭按鈕；一鍵回頭後查詢與門檻都回來、筆數與網址一致、焦點落在結果筆數；乾淨首頁切換不顯示通知且卡片照舊接手；`隨便逛逛` 不出現「」；詳情頁 handoff 仍把通知留在結果列上方且在視窗內；`sort`／工具與情境一起被清掉時逐項點名，一鍵回頭把 `sort` 與工具一起還原，而「只有情境在作用」時連續按情境按鈕保持安靜、焦點回到卡片。每段都跑 axe（0 違規）。
+- `tests/scenario-clear-notice-browser.cjs`（新）：1440／390／320 各走八段——鍵盤 Enter 切換後通知在視窗內且點名兩個條件、一張卡仍在畫面上、焦點落在回頭按鈕；一鍵回頭後查詢與門檻都回來、筆數與網址一致、焦點落在結果筆數；乾淨首頁切換不顯示通知且卡片照舊接手；`隨便逛逛` 不出現「」；詳情頁 handoff 仍把通知留在結果列上方且在視窗內；工具與情境一起被清掉時逐項點名、且不把被換掉的情境當成損失；切換後再改動排序，一鍵回頭會把排序重設回快照值（這一段才真正測到 `$('sort').value=reset.sort`）；同一個情境連按兩次不會丟掉待還原的查詢；沒有任何通知與可清條件時切換保持安靜、焦點回到卡片。axe 掃描在每個寬度的兩個狀態各跑一次（首頁通知、詳情通知），皆 0 違規。
 - `.github/workflows/website-qa.yml`：PR 閘門加上新回歸（`VERIFY_URL=… node tests/scenario-clear-notice-browser.cjs`）。
 - `README.md`：首頁情境會清除篩選那句補上「先寫出清除了哪些條件、原本有幾筆，附一鍵回頭；沒清掉東西時不多說一句」。
+- `index.html`：`#scenario-reset-action` 加上 `aria-describedby="scenario-reset-message"`，讓焦點落在回頭按鈕時讀屏會唸出「清掉了什麼」。
 
-`index.html`、`assets/style.css`、語料與 `catalog.json` 都沒有改動：面板沿用既有 `.search-split`，沒有新 CSS。
+`assets/style.css`、語料與 `catalog.json` 都沒有改動：面板沿用既有 `.search-split`，沒有新 CSS。
 
 ## 先紅後綠
 
@@ -74,6 +76,25 @@
 - 受影響的既有瀏覽器流程（本機，Chromium，對本輪預覽）：`related-browser.cjs`（含 `scenario-reset`、`merged-handoff` 與手機全部關卡，axe 0）、`page-context-browser.cjs`（1440／390／320／firefox／webkit 全 PASS）、`discovery-browser.cjs`（三種寬度、axe 0）、`results-batching-browser.cjs`、`search-submit-history-browser.cjs`（390／1440 PASS）。
 - `tests/pr-gate-coverage.test.cjs` 5 項通過（新測試被 PR 閘門涵蓋，沒有逃生的 `||` 綠燈）。
 
+## 獨立審查（未參與實作）與修正
+
+由另一個 agent context（`reviewer`，未參與本輪實作）讀 `c9bc5b72..HEAD` 的 diff、在預覽上實測、複製測試與 `app.js` 到 `/tmp` 做變異，並重跑 `node --test tests/*.test.cjs`（721 通過）。結論 **needs fixes**（0 項 must-fix、2 項 should-fix、1 項 nit），三項都已修：
+
+1. **（已修，P2）同一個情境再按一次會丟掉待還原的查詢。** 第一次切換後條件只剩「情境」，第二次快照的 `dropped` 為空，`showScenarioReset()` 會把上一則通知與 `scenarioReset` 一起清掉——讀者因此失去唯一一條回到原本查詢的路。現在的空清空分支改為沿用上一個快照重新描述（見上），並在心動測試第 7 段釘住：連按兩次後通知仍在、承諾的筆數不變、回頭仍取回查詢。
+2. **（已修，P2）排序還原的斷言沒有測到還原。** 切換不會清掉排序，所以「回頭後排序仍是 reviewed」在拿掉 `$('sort').value=reset.sort` 時照樣通過（審查者以變異實測）。現在測試在切換後把排序改成預設值（通知不會因此消失，因為排序不在 `activeConditions()` 的簽章裡），再按回頭，必須回到 `reviewed` 與網址上的 `sort=reviewed`。
+3. **（已修，P3）紀錄與實際不符。** 三處已改正：`index.html` 這輪有改（`aria-describedby`）、axe 只在兩個狀態各跑一次（不是每段）、排序不是被切換清掉而是回程重設；單元測試數也改為 7 項／721 總數。
+
+變異測試（改壞 `assets/app.js` 後重跑同一支瀏覽器回歸，每次都用新的預覽，跑完立即還原）：
+
+| 變異 | 結果 |
+| --- | --- |
+| 通知固定放回結果列（`scenarioResetAnchor` 不分落點） | 紅在「the notice sits with the card the button drew」 |
+| 句子漏掉實作門檻 | 紅在「names the threshold」 |
+| 拿掉 `$('sort').value=reset.sort` | 紅在「the way back restores sort」 |
+| 空清空時不沿用上一個快照（`source=reset`） | 紅在「the pending way back survives a no-op press」 |
+
+審查另有兩項未能驗證、本輪記錄為限制：讀屏實際朗讀順序（`role="status"` 更新與按鈕聚焦是否重複朗讀）沒有真人／讀屏實測；`location.href` 逐字相同不成立——回頭會補上 `#explore` 片段（既有的正規化行為，查詢參數有還原）。
+
 ## 已知限制
 
 - 本環境無法讀取截圖影像（`Image reading is disabled`），視覺結論來自 DOM 幾何、computed style、axe 與對比計算；截圖只存檔供人眼核對。
@@ -82,6 +103,8 @@
 - 首頁通知在卡片上方，窄螢幕會把卡片往下推一個面板高度（見上表），320px 仍可見卡片標題，但整張卡片需要再往下捲。
 - 通知只跟著「首頁情境按鈕」與「詳情頁探索更多」兩個入口移動；探索頁的 `#scenario-chips` 本來就不清關鍵字（交集語意），本輪未改，也沒有為它加說明。
 - 抽取的 `scenarioResetAnchor()` 只認 `discover`／其他；若未來新增第三個落點，要同時更新單元測試的錨點斷言。
+- 還原後的網址會多一個 `#explore` 片段（既有正規化），不是與切換前逐字相同；查詢、篩選、排序都在。
+- 讀屏朗讀行為（`role="status"` 的文字更新，加上焦點移到帶 `aria-describedby` 的按鈕）只做了靜態檢視與 axe，沒有讀屏實測，可能出現重複朗讀。
 
 ## 下一輪最值得做的一件事
 

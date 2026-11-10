@@ -118,9 +118,7 @@ const load = async (page, url) => {
     assert.ok(all.message.includes('全部情境'), all.message);
 
 
-    // 6. The scenario chooser itself is not a loss: sort/tool restore, and a second
-    // scenario press with nothing but a scenario active stays silent and hands the
-    // card back the focus.
+    // 6. The scenario chooser is not a loss, but the way back it leaves behind is.
     await load(page, '?q=' + encodeURIComponent('旅遊') + '&scenario=' + encodeURIComponent('工作') +
       '&tool=' + encodeURIComponent('Grok Bot') + '&sort=reviewed');
     const filtered = await read(page);
@@ -132,6 +130,15 @@ const load = async (page, url) => {
     assert.equal(switched.noticeHidden, false, `${name}: losing the query is still announced`);
     assert.ok(switched.message.includes('提及工具「Grok Bot」'), `${name}: names the tool: ${switched.message}`);
     assert.ok(!switched.message.includes('使用情境「工作」'), `${name}: the chooser itself is not a loss: ${switched.message}`);
+    // The switch leaves sort alone, so the way back can only be shown to restore it
+    // if the reader changes it after the switch.
+    await page.evaluate(() => {
+      const sort = document.getElementById('sort');
+      sort.value = '';
+      sort.dispatchEvent(new Event('change', {bubbles: true}));
+    });
+    await page.waitForTimeout(200);
+    assert.equal((await read(page)).sort, '', 'the sort is now different from the snapshot');
     await page.locator('#scenario-reset-action').click();
     await page.waitForTimeout(400);
     const back = await read(page);
@@ -139,19 +146,26 @@ const load = async (page, url) => {
       assert.equal(back[field], value, `${name}: the way back restores ${field}`);
     }
     assert.equal(back.url.includes('sort=reviewed'), true, 'sort survives in the address bar');
-    await page.locator('#guide-options [data-scenario="創作"]').click();
+
+    // 7. Pressing the scenario that is already active changes no search state, so it
+    // must not throw away the pending way back to the query the first press removed.
+    await load(page, '?q=' + encodeURIComponent('怎麼整理會議記錄'));
+    await page.locator('#guide-options [data-scenario="工作"]').click();
     await page.waitForTimeout(400);
-    const second = await read(page);
-    assert.equal(second.noticeHidden, false, 'the query and tool were cleared again');
-    await page.locator('#scenario-reset-action').click();
-    await page.waitForTimeout(300);
-    await page.locator('#guide-options [data-scenario="創作"]').click();
+    const firstPress = await read(page);
+    assert.equal(firstPress.noticeHidden, false);
+    await page.locator('#guide-options [data-scenario="工作"]').click();
     await page.waitForTimeout(400);
-    const silent = await read(page);
-    assert.equal(silent.noticeHidden, false, 'the restore brought the query back, so this press clears it again');
+    const secondPress = await read(page);
+    assert.equal(secondPress.noticeHidden, false, `${name}: the pending way back survives a no-op press`);
+    assert.equal(secondPress.action, firstPress.action, 'and it still promises the same set');
+    assert.ok(secondPress.message.includes('關鍵字「怎麼整理會議記錄」'), secondPress.message);
     await page.locator('#scenario-reset-action').click();
-    await page.waitForTimeout(300);
-    await page.evaluate(() => { for (const id of ['query', 'tool', 'sort']) { const node = document.getElementById(id); node.value = ''; node.dispatchEvent(new Event('change', { bubbles: true })); } });
+    await page.waitForTimeout(400);
+    assert.equal((await read(page)).query, '怎麼整理會議記錄', 'the query is still recoverable after the repeat press');
+
+    // 8. With nothing pending and nothing to clear, a scenario press is silent.
+    await load(page, '');
     await page.locator('#guide-options [data-scenario="開發"]').click();
     await page.waitForTimeout(400);
     const chooserOnly = await read(page);

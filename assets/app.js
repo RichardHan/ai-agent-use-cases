@@ -4754,9 +4754,19 @@ $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
 })();
 $('draw-case').addEventListener('click',drawFromButton);
 document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>{
+  const scenario=button.dataset.scenario;
   const reset=scenarioResetSnapshot();
-  chooseScenario(button.dataset.scenario);
-  showScenarioReset(reset,button.dataset.scenario,'discover');
+  const pending=scenarioReset;
+  // A press that clears nothing of its own (only a scenario is active) must not
+  // throw away a notice that still describes the state on screen: the conditions
+  // the earlier press removed are still gone, and the way back to them is still
+  // the only one. Re-describe them for the scenario now chosen; with no pending
+  // notice there is nothing to say.
+  const cleared=reset?scenarioResetDropped(reset,scenario,'discover').length:0;
+  chooseScenario(scenario);
+  const source=cleared?reset:pending;
+  if(!source){revealDiscovery();return;}
+  showScenarioReset(source,scenario,'discover');
   revealDiscovery();
   const notice=$('scenario-reset');
   if(notice.hidden)return;

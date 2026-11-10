@@ -6,7 +6,7 @@
 
 效果（同一份語料，preview 與正式站同一套 `app.js` 邏輯）：`翻譯` 186→22、`文件翻譯` 77→15、`翻譯改寫` 104→3、`翻譯摘要` 64 檔→0、`摘要` 194→150、`改寫` 193→80、`未實測` 250→48；873 個查詢（站上精選任務詞＋全庫所有標籤）逐一比對 `overview`／`topic` 兩個頁首範圍，**沒有任何標題／用途／痛點／標籤命中消失**。測試：基準 `ee3dd6d7` 669 通過 → 本輪 677 通過、0 失敗（新增 8 項）；新測試指向基準 `app.js` 時 4 項失敗（另 4 項是保留型守門）。獨立審查另抓到 `EDITORIAL_WORD` 帶 `/g` 造成 `.test()` 跨呼叫殘留 `lastIndex`（同一字串連測得到 true/true/false），已拆成無狀態的判斷式與 `replace` 用的全域版，並補「被保留的註記不得讓下一個註記逃過移除」的回歸測試。瀏覽器 `task-shortcuts-browser.cjs` Chromium 1440／390／320、Firefox 390、WebKit 390 全部 PASS，另含 loading／error／partial。
 
-邊界：8 個案例只因 `（依來源整理；本庫未實測）` 才含 `整理`，`資料清理` 294→286（正文沒用 `整理` 描述自己，判定為預期收斂）；範本章節標題仍進索引（`權限` 507／515、`來源` 506／515），是下一輪題目。發布：PR [#334](https://github.com/RichardHan/ai-agent-use-cases/pull/334)。
+邊界：8 個案例只因 `（依來源整理；本庫未實測）` 才含 `整理`，`資料清理` 294→286（正文沒用 `整理` 描述自己，判定為預期收斂）；範本章節標題仍進索引（`權限` 507／515、`來源` 506／515），是下一輪題目。發布：PR [#334](https://github.com/RichardHan/ai-agent-use-cases/pull/334)（`e7aaabe8`）、[#335](https://github.com/RichardHan/ai-agent-use-cases/pull/335)（`f7364428`）、[#337](https://github.com/RichardHan/ai-agent-use-cases/pull/337)（`10ae513e`），三支都在 13 項非略過檢查 success 後 squash 合併，Pages 部署全部 success；正式站 `sourceRevision` = `10ae513e`，`assets/app.js` 與本機逐 byte 相同。正式站重走：`翻譯` 22、`文件翻譯` 15、`翻譯改寫` 3、`摘要` 150、`未實測` 48、`怎麼整理會議記錄` 7，`?case=UC-001` 仍看得到「（翻譯改寫）」，Escape 回 515 筆。
 
 ## 2026-11-13 部署失敗的那個 merge，發布閘門是灰燈不是紅燈
 

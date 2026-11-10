@@ -104,8 +104,18 @@
 
 ## 發布
 
-- PR [#334](https://github.com/RichardHan/ai-agent-use-cases/pull/334)（head `70ba9ae9`）：13 項非略過檢查全部 success——`Website QA`（`preview` 42773866900）、`Reader QA`（`reading` 42773866566）、`Search relevance QA`（`relevance` 42773866599）、`Search context QA`（`context` 42773866833）、`Reader search QA`（`reader-search` 42773866694）、`Return visibility QA`（`return` 42773866627）、`Home search entry QA`（`entry` 42773866657）與 6 個 `browser` job；`published` 依設計在 PR 上 skipped。
-- 分支 rebase 到 `ee3dd6d7` 後重跑全部單元測試與瀏覽器旅程，數字以 rebase 後為準。
+三支 PR，全部通過必要檢查才合併（`published` 在 PR 上依設計 skipped，主分支的 `Website QA` 才是發布閘門）：
+
+| PR | head | 檢查 | 合併 commit | 部署 |
+| --- | --- | --- | --- | --- |
+| [#334](https://github.com/RichardHan/ai-agent-use-cases/pull/334) 搜尋排除編輯註記 | `70ba9ae9` | 13 項非略過全 success（`preview` 42773866900、`reading` 42773866566、`relevance` 42773866599、`context` 42773866833、`reader-search` 42773866694、`return` 42773866627、`entry` 42773866657、6 個 `browser`） | `e7aaabe8` | `pages build and deployment` [42776471652](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42776471652) success |
+| [#335](https://github.com/RichardHan/ai-agent-use-cases/pull/335) 事實型括註保留 | `fbe1ed96` | 13 項非略過全 success（`preview` 42778068843/job/129701185431 等） | `f7364428` | [42780514083](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42780514083) success |
+| [#337](https://github.com/RichardHan/ai-agent-use-cases/pull/337) 全域正規表達式狀態 | `6b71179a` | 13 項非略過全 success | `10ae513e` | [42784135678](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42784135678) success（08:40:25Z） |
+
+- `#334` 的分支 rebase 到 `ee3dd6d7`、`#335` 與 `#337` 各自 rebase 到當時的 main 後重跑全部單元測試與瀏覽器旅程，數字以 rebase 後為準。
+- 正式站 `catalog.json.sourceRevision` = `10ae513ec3eb7d1646ae02f42e40f800bf8ba11e`（`corpus.json` 同版本）；`assets/app.js`、`assets/style.css`、`index.html`、`README.md`、`INDEX.md` 與本機 `10ae513e` **逐 byte 相同**（sha256 `1940839906cc0712…`）。
+- 正式站重走（1440×900／390×844，pageerror 0、水平溢出 0）：`翻譯` 22／515、`文件翻譯` 15／515、`翻譯改寫` 3／515、`摘要` 150／515、`未實測` 48／515、`權限` 507／515（本輪未處理的下一輪題目）、`怎麼整理會議記錄` 7／515；`?q=規劃旅行&scenario=工作` 0／515 並提供「移除使用情境『工作』 → 查看 1 筆」；`?case=UC-001` 詳情直開、來源連結 23 個、`body.textContent` 仍含「（翻譯改寫）」，Escape 關閉後回到 515 筆且網址不再帶 `case=`。
+- 主分支 `Website QA`（`10ae513e`）[42784136601](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42784136601) **success**：`Wait for published assets and content` success（讀到 `10ae513e` 的 Pages run）、`Verify the published GitHub Pages site` success、`Fail when the published site cannot be verified` 依設計 skipped。
 
 ### 第三個 PR：全域正規表達式的狀態（複審新發現，已修）
 

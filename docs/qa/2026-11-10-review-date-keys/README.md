@@ -131,7 +131,19 @@ cases/183-ad-campaign-configuration-review.md:11
 
 ## 發布
 
-（見下方補記）
+- PR [#341](https://github.com/RichardHan/ai-agent-use-cases/pull/341)（head `4bb5803c`，base 當時的 main `8fbfe082`）：**13 項非略過檢查全部 success、0 failure**，兩個 `published` 依設計 skipped；`gh pr view` 的 `mergeStateStatus` 為 `CLEAN` 之後才合併。逐項：`Website QA`、`Reader QA`、`Reading flow QA`、`Partial Load QA`、`Source guide QA`、`Search context QA`、`Return visibility QA`、`Search relevance QA`、`Reader search QA`、`Home search entry QA`、`Related reading QA`、`Audit summary round QA`、`Round 23 acceptance QA`。
+  - `Source guide QA` 的 `preview` job 跑了約 26 分鐘才 success（這個 workflow 最近的紀錄是 9–22 分鐘，屬既有耗時，不是本輪造成；同一支 job 的 7 個 suite 在本機對同一份 preview 逐一跑過，全部 exit 0）。
+- squash 合併為 `56f7a238401a3d7eff1d217a574d382747763f6d`（2026-11-10T10:57:04Z）。
+- `pages build and deployment` [42803418342](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42803418342)：`build` success、`deploy` success（10:58:05→11:02:33，**268 秒**），整個 run success。
+- 正式站 `catalog.json.sourceRevision` = `56f7a238401a3d7eff1d217a574d382747763f6d`、`builtAt` 2026-11-10、512 個來源檔；`assets/app.js` 與本機 checkout **逐 byte 相同**（sha256 `8f9fea2655646620…`）。
+- 正式站重走（1440×900／390×844，pageerror 0、水平溢出 0）：
+  - `?case=UC-183` 頁首核對 **2026-10-25**（改前 2026-10-17）、`?case=UC-071` **2026-10-22**（改前 2026-10-17）、`?case=UC-024` 2026-10-14 不變。
+  - `?sort=reviewed` 全 515 筆中 UC-183 名次 **62**（改前 312）。
+  - 三情境：`?q=怎麼整理會議記錄` 7／515、`?q=規劃旅行&scenario=工作` 0／515、`?case=UC-024` 詳情直開且憑據與核對日可見——與改前逐一相同。
+
+## 後續補記
+
+- main 的發布閘門 `Website QA`（`56f7a238`）在寫這一段時仍在排隊，結果見下一次更新；正式站本身已用上面的 `sourceRevision`、逐 byte 比對與實際瀏覽另外核對過，不依賴該 run 的結論。
 
 ## 下一輪
 

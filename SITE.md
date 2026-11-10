@@ -1,3 +1,13 @@
+## 2026-11-10 「頁首核對」漏讀本庫自己的第九種寫法，5 頁的核對日比頁面自己寫的還舊
+
+正式站 `180e00ca` 上，`?case=UC-183` 的頁首徽章印 **2026-10-17**，但同一頁第三行寫著 `- 本次增補查證：2026-10-25 09:05（台灣時間）；只核新增來源，未重驗全案。`——同一區塊自相矛盾 8 天。原因是 `reviewDate()` 只認一組固定欄位名，全庫頁首實際有 9 種帶查證動作的寫法，`本次增補查證` 不在清單裡；9 頁寫了它、沒有一頁被讀到。連帶 `?sort=reviewed`（首頁「最近核對的內容 →」）也把這幾頁排得比實際舊。
+
+選擇把寫法登錄進抽出來的常數 `REVIEW_DATE_KEY`，並加一支掃描（`tests/review-date-keys.test.cjs`）：任何「欄位名含 查證／查閱／核對／查核 且該行有日期」的頁首欄位，只要讀不到就失敗並列出檔案、欄位與期待日期。不採泛用規則（欄位名以查證結尾就算），因為那會把「補充來源查證」這類**來源**的查證讀成這一頁的核對日，等於用泛用性換高估；本輪要修的是「無聲」而不是「少一行清單」。
+
+效果（同一份語料）：正好 5 筆改變、0 筆變舊，其餘 510 筆不變——UC-005 2026-10-13→10-20、UC-071 10-17→10-22、UC-183 10-17→**10-25**、UC-235 10-18→10-20、UC-354 10-19→10-20；`?sort=reviewed` 名次 UC-183 312→62、UC-071 255→97、UC-005 494→139。515 筆的搜尋索引字串**逐 byte 相同**（`reviewedDate` 不在 `searchText`），三情境筆數不變。測試：基準 684 通過 → 686 通過、0 失敗；把 `REVIEW_DATE_KEY` 還原成舊清單時新測試 2 項都失敗。詳情頁 1440／390 的 axe 0、水平溢出 0、pageerror 0。
+
+邊界與限制：增補日期比原本的查證日舊時取較新者（UC-066 仍是 2026-11-10，`INDEX.md` 的「最新 2026-11-10」因此不變）；徽章仍只寫「頁首核對 <date>」，沒有區分「全頁重驗」與「只補核新增來源」（既有行為，UC-066 早已如此）。[完整紀錄](docs/qa/2026-11-10-review-date-keys/README.md)。發布：PR [#341](https://github.com/RichardHan/ai-agent-use-cases/pull/341)（13 項非略過檢查全 success）squash 合併為 `56f7a238`；`pages build and deployment` [42803418342](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42803418342) deploy 268 秒 success；正式站 `sourceRevision` = `56f7a238`、`assets/app.js` 與本機逐 byte 相同，實測 UC-183 徽章 2026-10-25、名次 62。
+
 ## 2026-11-14 PR 的綠燈沒有跑它自己的測試
 
 三支 workflow 在任何 pull request 上都不會執行：`corpus-bundle-qa.yml` 的 PR 觸發只列 3 個測試檔，卻跑 8 支測試，其中 `reading-history`／`reading-selection`／`recovery-progress`／`corpus-bundle`／`arrival-geometry`／`reliability-observe` **沒有任何 PR runner 會在它們被改動時啟動並執行它們**（其他 runner 都是 `workflow_dispatch` 或已停用分支）。另外 14 支跑瀏覽器測試的 PR workflow，paths 少了它們斷言的網站或語料（改 `assets/app.js` 只啟動 13 支，改一篇 `cases/*.md` 只啟動 4 支）；改任何 workflow 啟動 0 支，而 `tests/published-check.test.cjs` 會掃過全部 57 支。三支 workflow 的單元測試步驟還是 `node --test … || node -e '<允許一個具名測試失敗>'`，紅了仍綠燈。

@@ -1564,7 +1564,47 @@ function scenarioResetSnapshot(){
     count:currentFiltered.length
   };
 }
-function showScenarioReset(reset,scenario){
+// The sentence names only the conditions that actually went away, and it must read
+// correctly for the 隨便逛逛 button, which switches to all scenarios instead of to a
+// named one. A partial load cannot state a result count it does not have, so the
+// way back drops the number rather than under-reporting the collection.
+function scenarioResetCopy(reset,scenario,dropped,{partial=false}={}){
+  const list=dropped.map(condition=>condition.label+'「'+condition.display+'」').join('、');
+  if(reset.scenario===scenario)return {
+    message:'已清除原本的'+list+'，改為列出'+(scenario?'「'+scenario+'」情境':'全部情境')+'的全部條目。',
+    action:'回到原本的搜尋'+(partial?'':'（'+reset.count+' 筆）')
+  };
+  return {
+    message:'已切換到'+(scenario?'「'+scenario+'」情境':'全部情境')+'；原本的'+list+'已清除。',
+    action:'回到原本的搜尋'+(partial?'':'（'+reset.count+' 筆）')
+  };
+}
+// Both triggers start the search over on purpose, but the reader lands in different
+// places: the homepage buttons hand off to the card they drew, the detail handoff
+// hands off to the result line. The notice is one element moved to the trigger's
+// stage, so the explanation appears where the reader is looking and never speaks
+// twice through two live regions.
+function scenarioResetAnchor(placement){
+  return placement==='discover'
+    ? {host:'discover',anchor:'drawn-case'}
+    : {host:'explore',anchor:'partial-load'};
+}
+function placeScenarioReset(placement){
+  const notice=$('scenario-reset');
+  const {host,anchor}=scenarioResetAnchor(placement);
+  const hostNode=$(host),anchorNode=$(anchor);
+  if(!notice||!hostNode||!anchorNode)return notice;
+  if(notice.parentNode!==hostNode||notice.nextElementSibling!==anchorNode)hostNode.insertBefore(notice,anchorNode);
+  return notice;
+}
+// Landing rule for the homepage handoff. The notice sits directly above the drawn
+// card, so scrolling its top into view keeps the whole explanation readable and
+// leaves the card the button drew immediately below it — on a 390px phone the card
+// is 646px tall and a notice parked under it would land off screen.
+function alignScenarioReset(notice){
+  window.scrollTo({top:Math.max(0,notice.getBoundingClientRect().top+scrollY-12),behavior:'instant'});
+}
+function showScenarioReset(reset,scenario,placement){
   const notice=$('scenario-reset');
   if(!notice)return;
   const filters=Object.fromEntries(['kind','difficulty','tool','category','proof'].map(id=>[id,$(id)?.value||'']));
@@ -1574,15 +1614,13 @@ function showScenarioReset(reset,scenario){
   // The switch only loses what the new state no longer has. A case whose scenario
   // is already the active one loses nothing by being explored: name only the
   // conditions that actually went away, and say nothing when none did.
-  const switched=reset.scenario!==scenario;
   const dropped=reset.conditions.filter(condition=>!(condition.key==='scenario'&&condition.display===scenario));
   if(!dropped.length){scenarioReset=null;notice.hidden=true;return;}
-  const list=dropped.map(condition=>condition.label+'「'+condition.display+'」').join('、');
+  placeScenarioReset(placement);
   scenarioReset={...reset,after:conditionSignature(activeConditions($('query').value.trim(),filters))};
-  $('scenario-reset-message').textContent=switched
-    ? '已切換到「'+scenario+'」情境；原本的'+list+'已清除。'
-    : '已清除原本的'+list+'，改為列出「'+scenario+'」情境的全部條目。';
-  $('scenario-reset-action').textContent='回到原本的搜尋（'+reset.count+' 筆）';
+  const copy=scenarioResetCopy(reset,scenario,dropped,{partial:!!failedPaths.length});
+  $('scenario-reset-message').textContent=copy.message;
+  $('scenario-reset-action').textContent=copy.action;
   notice.hidden=false;
 }
 // The notice explains one switch, so it leaves with the next condition change
@@ -4705,7 +4743,20 @@ $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
   render();
 })();
 $('draw-case').addEventListener('click',drawFromButton);
-document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
+document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>{
+  const reset=scenarioResetSnapshot();
+  chooseScenario(button.dataset.scenario);
+  showScenarioReset(reset,button.dataset.scenario,'discover');
+  revealDiscovery();
+  const notice=$('scenario-reset');
+  if(notice.hidden)return;
+  // The drawn card is still the answer to this button; the notice says what the
+  // switch cost. Land on the notice with the new card right below it, and continue
+  // keyboard focus at the way back, so the switch is never followed by a live
+  // region talking from off screen.
+  alignScenarioReset(notice);
+  $('scenario-reset-action').focus({preventScroll:true});
+}));
 document.querySelectorAll('#draw-difficulty-options [data-difficulty]').forEach(button=>button.addEventListener('click',()=>chooseDifficulty(button.dataset.difficulty)));
 $('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;render();});
 $('filters').addEventListener('submit', submitSearch);

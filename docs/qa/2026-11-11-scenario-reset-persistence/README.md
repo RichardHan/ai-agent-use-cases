@@ -83,6 +83,7 @@
 - **PR**：[#361](https://github.com/RichardHan/ai-agent-use-cases/pull/361)。head `a393bb7f` 上 16 支 pull-request workflow 全部 success、2 支 `published` 依設計 skipped；`pr-gate-coverage` 5 項不變量通過。
 - **已合併**：squash 為 `0601671a618df5e3d571ddcfb7bbec29d66aaac1`（`gh pr merge --squash` 因本機 `main` 被另一個 worktree 佔用而在刪分支步驟失敗，改用 API 刪除分支；未繞過任何保護規則）。
 - **部署成功**：`pages build and deployment` [42902424971](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42902424971) 對 `0601671a` success（21:10:54→21:11:56Z）。
+- **main 的發布閘門 success**：`Website QA` [42902426011](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42902426011)（`0601671a`）21:20:43Z success——步驟 15 `Wait for published assets and content` success、步驟 16「無法驗證就紅」依設計 skipped、步驟 17 `Verify the published GitHub Pages site` success，也就是新的 exact 發布閘門在這一次 merge 上實際走過。
 - **正式站已驗證（live 等於 `0601671a`）**：用 `scripts/published-revision.cjs` 的 `waitForLiveRevision()` 直接查正式站，`{"mode":"exact","liveRevision":"0601671a…","attempts":1}`；`catalog.json.sourceRevision` = `0601671a…`；`index.html`（28,016 bytes）、`assets/app.js`（379,456）、`assets/style.css`（64,668）、`assets/reader.js`（35,416）、`assets/reader.css`（32,696）與合併 commit 逐 byte 相同。
 - **正式站重走（1440×900、390×844，live = `0601671a`）**：
   - 本輪流程：`?q=怎麼整理會議記錄` 7 / 515 → 工作 → 生活 → 通知仍在視窗內、`已切換到「生活」情境；原本的關鍵字「怎麼整理會議記錄」已清除`、按鈕仍寫 `回到原本的搜尋（7 筆）`、焦點 `#results-count`；按下去回到 `7 / 515`、查詢回來、網址 `?q=怎麼整理會議記錄#explore`、通知收起。`SCENARIO_RESET_PERSISTENCE_OK` 三種寬度在正式站直接跑過。

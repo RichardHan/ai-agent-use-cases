@@ -30,7 +30,11 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  await p.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot');await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);
  const read=p.locator('#results .card[data-case-id="UC-001"] .card-bottom button');await read.click();await p.locator('.reader-report-open').filter({hasText:'來源與版本'}).click();
  const sourceTop=await p.locator('#detail').evaluate(n=>n.scrollTop);await p.goBack();await p.waitForFunction(()=>!document.querySelector('#detail').open);assert(await read.evaluate(n=>n===document.activeElement));assert.equal(await p.locator('#query').inputValue(),'旅遊');
- await p.goForward();await p.locator('#detail[open]').waitFor();assert(await p.locator('.research-details').evaluate(n=>n.open));assert(Math.abs(await p.locator('#detail').evaluate(n=>n.scrollTop)-sourceTop)<3);await p.keyboard.press('Escape');assert(await read.evaluate(n=>n===document.activeElement));
+ await p.goForward();await p.locator('#detail[open]').waitFor();assert(await p.locator('.research-details').evaluate(n=>n.open));
+ // The restore runs on popstate, and a narrow viewport reflows after it. Wait for
+ // the position the reader left rather than reading once and calling it wrong.
+ await p.waitForFunction(top=>Math.abs(document.querySelector('#detail').scrollTop-top)<3,sourceTop,{timeout:5000}).catch(()=>assert.fail('Forward must restore the reading location'));
+ assert(Math.abs(await p.locator('#detail').evaluate(n=>n.scrollTop)-sourceTop)<3);await p.keyboard.press('Escape');assert(await read.evaluate(n=>n===document.activeElement));
  // Touch/wheel-style reading keeps a distant title focused; a table keeps its right-side columns.
  await p.goto(base+'?case=UC-400');await p.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.deepEqual(await p.evaluate(()=>failedPaths),[]);await p.locator('.research-details>summary').click();
  const table=p.locator('.markdown-table').first();await table.evaluate(n=>{const d=document.querySelector('#detail');d.scrollTop+=n.getBoundingClientRect().top-document.querySelector('.detail-toolbar').getBoundingClientRect().bottom-18;n.scrollLeft=160;});

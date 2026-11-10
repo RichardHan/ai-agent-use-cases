@@ -189,11 +189,16 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
     remoteBuffers.set(files[index],response.value);
    });
    const remote={catalog:JSON.parse(remoteBuffers.get('catalog.json').toString('utf8')),corpus:JSON.parse(remoteBuffers.get('corpus.json').toString('utf8'))};
-   assert(assets.every(file=>remoteBuffers.get(file).equals(buffers.get(file))),'Product asset mismatch');
    for(const page of pages)checkPageLanguage(page,remoteBuffers.get(page).toString('utf8'));
    const exact=expectedSourceRevision&&remote.catalog.sourceRevision===expectedSourceRevision;
    let mode,supersededBy,changedVerified;
    if(exact){
+    // The live build claims to be this push, so every served product byte must be
+    // this build's byte. A newer live build legitimately renders different product
+    // bytes, so this assertion belongs to the exact branch only: running it first
+    // made the superseded branch unreachable and turned a merge that published
+    // nothing into a red gate after the whole 60-minute window (run 42803248261).
+    assert(assets.every(file=>remoteBuffers.get(file).equals(buffers.get(file))),'Product asset mismatch');
     assert.equal(remote.corpus.sourceRevision,expectedSourceRevision,'Published corpus source revision mismatch');
     assert(sameContent(local,remote),'Published source content or internal revision mismatch');
     // A generated page can keep valid language metadata while its body went stale,

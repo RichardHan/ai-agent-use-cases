@@ -177,4 +177,12 @@
 - 也就是說這次 push 沒有「變更的位元」可驗，而 live 已經是它的後代；最省事的正確結論是「沒有東西要驗，通過」。實際卻是等滿視窗。
 - 影響不只一個 run：`website-qa.yml` 的 `concurrency` 是 `website-qa-${{ github.ref }}` 且 main 上 `cancel-in-progress: false`，所以 `56f7a238` 的 `Website QA` 一直排在這一個後面，main 的發布裁決被一個「什麼都沒發布」的 merge 佔住。
 
+同一個 workflow 的對照（`gh run list --workflow website-qa.yml --branch main`）：
+
+| main commit | 這次 push 改了什麼 | `Website QA` |
+| --- | --- | --- |
+| `180e00ca` | 有可發布檔案（#336 動 `assets/app.js`、`assets/style.css`） | **success** |
+| `8fbfe082`（本輪） | 0 個可發布檔案 | 停在 `Wait for published assets and content`（11:04:33 起） |
+| `56f7a238` | 有可發布檔案 | **pending**（被上一支佔住 concurrency group） |
+
 機制待下一輪確認（屬於推論，本輪未證明）：`tests/published-version.cjs` 的 `sameContent()` 會把 live 的 `catalog.json`／`corpus.json` 與 `index.html`／`assets/*.js|css|json` 跟**這次 push 自己的建置**逐項比對；只要後續 merge 動到其中任何一項（#341 動了 `templates/case.md` 與相關檔案），live 就永遠不會等於這次建置，於是等滿 60 分鐘。

@@ -149,6 +149,10 @@
 
 ## 下一輪最值得做的一件事
 
+**讓「沒有發布任何檔案」的 trunk merge 立即拿到發布裁決，而不是佔住 main 的閘門 60 分鐘。** 本輪的 `8fbfe082` 就是這個情況（`publicationChangeList` 回 `entries: []`，live 已是後代，卻從 11:04 等到視窗結束），而且 `website-qa.yml` 在 main 上不取消、concurrency group 只有一個，下一個 merge（`56f7a238`）的裁決因此被排在後面。
+
+**先做的驗證**：對 `ee68c19d`→`8fbfe082` 用 `waitForPublishedVersion()`（注入假的 `liveRevision`＝`56f7a238`、注入空的 `changeList`）跑一次，確認它是否進入 superseded 分支、以及 `sameContent()` 是否因為 live 的 `assets/app.js` 與本地建置不同而持續重試；把結果寫成測試（空 change list ＋ live 是後代 → 應立即 `matched/superseded`），再談改法。
+
 **內容 PR 現在會啟動 16 支 workflow，而其中 12 支會各自重跑同一套 689 項單元測試**（`node --test tests/*.test.cjs`），`reader-browser.cjs` 在 Reader QA 與 Source guide QA 各跑一次、`reader-search-browser.cjs` 在 Reader search QA 與 Audit summary round QA 各跑一次。本輪把覆蓋率補起來，代價就是重複執行；下一步是把「單元套件」收成一支共用 job（其餘 workflow 只跑自己那 1–2 支瀏覽器測試），並把 `corpus-bundle-qa.yml` 的 `tests/**` 收斂成它實際執行的 8 支。
 
 **先做的驗證**（不要先動 workflow）：用同一份語料改動量測現在的 job-minutes 與 wall time（本輪 PR 的 15 支 run 的 `started_at`→`completed_at` 加總），再比對「如果單元套件只在一支 job 跑」會少多少；同時確認那 12 支 workflow 的單元步驟有沒有任何一支跑的是子集（`tests/relevance.test.cjs`、`tests/table-reading.test.cjs`），避免把唯一的紅燈來源也收掉。
@@ -165,4 +169,12 @@
 - **正式站已驗證（在 live 等於 `8fbfe082` 時）**：`catalog.json.sourceRevision` = `8fbfe082…`、512 個來源檔；`index.html`／`assets/app.js`／`assets/style.css`／`assets/reader.css`／`assets/reader.js` 與合併前的 `180e00ca` 建置**逐 byte 相同**（SHA-256 前 16 碼 `8a73b8207b7ee1df`／`b81b759cd73ec63c`／`de2b8b9d1b986e25`／`04c7d8237d41413f`／`db09f4b97cc6fce9`），符合「本輪不動發布檔案」的預期。
 - **正式站三種情境重走**（1440×900 與 390×844，live = `8fbfe082`）：`?q=怎麼整理會議記錄` 7／515、第一張卡為「用法靈感」；`?q=規劃旅行&scenario=工作` 0／515，空結果提供「移除使用情境「工作」 → 查看 1 筆」，點擊後 1 筆；`?case=UC-024` 詳情直開、憑據「成果主張：社群作者／專案實踐者／核讀：本庫未獨立重現」、來源固定在 `8fbfe082`、延伸閱讀 3 列，Escape 後焦點回到 `results-count`；水平溢出 0。
 
-**未能取得的部分裁決**：本輪 merge 的部署在 10:57:07 完成，下一分鐘（10:57:06 起）另一個 PR #341（`56f7a238`）的部署就接手，正式站很快前進到 `56f7a238`（`catalog.json`／`corpus.json` 都已是後者，`cache-control: max-age=600`）。`8fbfe082` 的 `Website QA`（run 42803248261）因此停在 `Wait for published assets and content`：它等的是「live = 這個 SHA」，而 live 已經是它的後代。這正是 #331 設計要處理的 superseded 情況，本輪觀察到它仍在等而不是立刻改走逐檔比對——屬下一輪要查的項目，本輪不宣稱該 run 已通過。
+**未能取得的裁決（本輪不宣稱通過）**：本輪 merge 的部署在 10:57:07 完成；10:57:06 起另一個 PR #341（`56f7a238`）的部署接手，正式站前進到 `56f7a238`，之後還有 `5744e48c`、`3f0d4760`。`8fbfe082` 的 `Website QA`（run [42803248261](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42803248261)）從 11:04:33 起停在 `Wait for published assets and content`，到本紀錄寫下時（11:20Z）仍在等，沒有裁決。
+
+這個等待本身是一項可重現的新證據，與本輪主題同類：
+
+- 本輪 merge **沒有改動任何會被發布的檔案**。以 `publicationChangeList(<merge 的 base>, 8fbfe082…)` 實算，回傳 `{"known":true,"entries":[]}`——18 支 workflow、`SITE.md`、`docs/qa/…`、2 支測試都不在 `PUBLISHABLE_FILE` 內。
+- 也就是說這次 push 沒有「變更的位元」可驗，而 live 已經是它的後代；最省事的正確結論是「沒有東西要驗，通過」。實際卻是等滿視窗。
+- 影響不只一個 run：`website-qa.yml` 的 `concurrency` 是 `website-qa-${{ github.ref }}` 且 main 上 `cancel-in-progress: false`，所以 `56f7a238` 的 `Website QA` 一直排在這一個後面，main 的發布裁決被一個「什麼都沒發布」的 merge 佔住。
+
+機制待下一輪確認（屬於推論，本輪未證明）：`tests/published-version.cjs` 的 `sameContent()` 會把 live 的 `catalog.json`／`corpus.json` 與 `index.html`／`assets/*.js|css|json` 跟**這次 push 自己的建置**逐項比對；只要後續 merge 動到其中任何一項（#341 動了 `templates/case.md` 與相關檔案），live 就永遠不會等於這次建置，於是等滿 60 分鐘。

@@ -80,6 +80,15 @@
 - 修正後預覽的 axe（首頁／結果 `?category=產品回饋／版本通知`／詳情 UC-444，1440 與 390）**違規 0**、水平溢出 0、pageerror 0。
 - 限制：**本環境無法讀取截圖影像**（`read` 回報 image reading disabled），視覺結論全部來自 DOM 文字、幾何與 axe，沒有目視判讀。只跑 Chromium；Firefox／WebKit 由 PR 上的既有 workflow 覆蓋。
 
+## 同輪 CI 修復：PR 上的 Corpus bundle QA 紅燈不是這次改動造成的
+
+本輪 PR 唯一紅的檢查是 `Corpus bundle QA` 的「Bundle, full visitor journeys and source recovery」（[42806867753](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42806867753)，`28ad2137`，5 分 21 秒），失敗點是 `tests/arrival-live.cjs:63` 等不到 `.detail-source[href]`（30 秒逾時）。
+
+- **不是本輪造成的證據**：本輪 diff 只有 7 行案例分類、1 支新測試與文件，沒有動 `assets/`；同一支測試在本機對「修正前預覽」與「修正後預覽」都通過；同一支 workflow 用 `workflow_dispatch` 在 main 上跑（[42808574329](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42808574329)）**success**。
+- **可重現的條件**：`.detail-source` 只有在整包語料帶著 40 位 revision 時才會有 `href`（`assets/app.js:6-8` 的 `pinSourcePaths`、`:3881` 只在整包路徑呼叫；逐篇備援會 `pinnedSources.delete(path)`）。把同一份預覽的 `catalog.json`／`corpus.json` 的 `sourceRevision` 清空後重跑，得到**完全相同**的 30 秒逾時；帶著 revision 則通過。也就是說，這個斷言實際在測「這次載入有沒有贏得整包下載預算」，而輸掉時讀者看到的是**設計上正確**的降級狀態（連結停用、保留「查看最新版本」、註明尚未核對發布版本）。
+- **修法（測試契約，不是放寬）**：`tests/arrival-live.cjs` 改成依讀者實際所在狀態斷言——有 `href` 時必須是 40 位 revision、且隱藏「最新版本」備援；沒有 `href` 時必須 `aria-disabled="true"`、顯示「在 GitHub 查看最新版本」且說明「尚未核對本站發布版本」，並印出 `LIVE_ARRIVAL_UNPINNED` 讓整包退化留下證據。第三種狀態（既沒有 pin、也沒有備援與說明）仍會失敗。原始碼本身的釘版語意仍由 `tests/source-links.test.cjs`、`tests/corpus-bundle.test.cjs` 單元測試守住。
+- 兩條分支都在本機驗證：帶 revision 的預覽走 pinned 分支（`LIVE_ARRIVAL_PASS`），清空 revision 的預覽走 unpinned 分支（`LIVE_ARRIVAL_UNPINNED` + `PASS chromium desktop`）。
+
 ## 發布
 
 （合併與正式站核對後補記）

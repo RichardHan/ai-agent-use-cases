@@ -2,9 +2,10 @@
 
 ## 基準
 
-- 開發基準 `origin/main` `10ae513e`（開工時），工作期間 main 前進兩個 docs-only commit（`9de2d070`、`e23c1948`），分支已 rebase 到 `e23c1948` 後重跑，所有數字以後者為準。隔離 worktree `/private/tmp/aiuc-1114-round`（分支 `improve/20261114-facets`）。
+- 開發基準 `origin/main` `10ae513e`（開工時），工作期間 main 前進三個 commit：兩個 docs-only（`9de2d070`、`e23c1948`）與 `180e00ca`（#336 任務入口標記，動 `assets/app.js`／`assets/style.css`／`website-qa.yml`）。分支已 rebase 到 `180e00ca` 後重跑，所有數字以後者為準。隔離 worktree `/private/tmp/aiuc-1114-round`（分支 `improve/20261114-facets`）。
 - 原工作樹 `/Users/richard_han/orca/ai-agent-use-cases` 停在 `90093d7b`、落後 main 316 個 commit，另有 159 個未追蹤檔案（皆已存在於 origin/main，非本輪內容）；本輪未觸碰。
-- 基準 `node --test tests/*.test.cjs`（`10ae513e`）：**677 通過、0 失敗**。
+- 基準 `node --test tests/*.test.cjs`（`180e00ca`，實體 worktree）：**684 通過、0 失敗**。
+- 正式站開工時 `sourceRevision` = `10ae513e…`；`180e00ca` 合併後為 `180e00ca…`。
 - main 現況重新確認（`gh run list --branch main`）：最近 12 次 run 全部 success；`pages build and deployment` 與 `Website QA` 在 `10ae513e`、`f7364428`、`e7aaabe8` 都是 success。11-13 修掉的 Pages 600 秒逾時沒有再出現，本輪不是重複修同一件事。
 - 正式站 `catalog.json.sourceRevision` = `10ae513e…`，與 main head 相同。
 
@@ -68,7 +69,7 @@
 
 ## 測試
 
-- `node --test tests/*.test.cjs`：基準 `10ae513e` **677 通過／0 失敗** → 本輪 **682 通過／0 失敗**（+5）。
+- `node --test tests/*.test.cjs`：基準 `180e00ca` **684 通過／0 失敗** → 本輪 **689 通過／0 失敗**（+5）。
 - 新測試對基準 workflow（`git archive origin/main .github/workflows` 解到 `/tmp/gatebase`）**5 項中 4 項失敗**（可達性、語料覆蓋、逃生口、workflow 稽核），對本輪 5 項全過。**不是空轉。**
 - 突變檢查抓到自己的 bug：第一版把 `on: pull_request` 寫成 `^on:\s*pull_request`，`\s` 吃掉換行，於是每一支 `on:` ＋ `  pull_request:` 都被讀成「無 paths 過濾」，不變量全部假通過。改成 `[ \t]*` 後基準才恢復 4 紅。
 - 57 支 workflow 全部通過 YAML 解析（`yaml.safe_load`，`on:` 區塊合法）。

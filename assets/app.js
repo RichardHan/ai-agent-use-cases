@@ -3235,6 +3235,42 @@ function substringRecoveryOptions(items, query, filters, limit=3) {
   return accepted.slice(0,limit).map(option=>({query:option.query,count:option.count}));
 }
 
+// A failed question has two literal next steps: search one of its words on its
+// own, or drop a word and keep the rest. Dropping the word the library can search
+// is the worse of the two — "想讓 AI 幫我盯機票價格" offered "只移除關鍵字「機票」
+// → 查看 1 筆" while searching 「機票」 alone finds 11 — so a word that carries more
+// hits than the removal leaves behind replaces that removal instead of following it.
+function queryRecoveryOptions(items, query, filters, limit=3) {
+  const words=vocabularyRecoveryOptions(items, query, filters, limit);
+  const offered=new Set(words.map(option=>norm(option.query)));
+  const narrowed=[];
+  const removals=[];
+  const candidates=queryRelaxationOptions(items, query, filters);
+  for(const option of candidates){
+    const term=norm(option.removed);
+    // Only a token the visitor could sensibly search again is worth keeping: a
+    // two-to-six character Chinese word, or a Latin word of at least three
+    // characters. One-character runs and crumbs like "ai" stay deletable.
+    const word=/^[\u3400-\u9fff]{2,6}$/.test(term) || /^[a-z][a-z0-9.+#_-]{2,}$/.test(term);
+    const hits=word ? filterEntries(items, tokenize(term), filters).length : 0;
+    if(hits>option.count && !offered.has(term)){
+      // Searching the word finds more than deleting it leaves behind.
+      offered.add(term);
+      narrowed.push({query:option.removed,count:hits});
+    }
+  }
+  const steps=[...words, ...narrowed];
+  for(const option of candidates){
+    const term=norm(option.removed);
+    // A word offered on its own replaces the removal that deletes it, and one
+    // next step per resulting search: the same search is not listed twice.
+    if(offered.has(term))continue;
+    if(steps.some(step=>norm(step.query)===norm(option.query)))continue;
+    removals.push(option);
+  }
+  return {words:steps.slice(0,limit), removals};
+}
+
 // A visitor's everyday phrase often fuses two library terms into one CJK run
 // ("客戶抱怨", "合約到期提醒"). tokenize() keeps the run whole, so an exact
 // substring match finds nothing even though each term exists on its own. Only
@@ -3467,23 +3503,24 @@ function renderSearchFeedback(terms, filters) {
       button.addEventListener('click',()=>removeConditions(conditions));
       suggestions.append(button);
     });
-    const queryOptions=queryRelaxationOptions(entries,$('query').value,filters).slice(0,3);
-    queryOptions.forEach(({query,removed,count})=>{
-      const button=el('button','recovery-option','只移除關鍵字「'+removed+'」 → 查看 '+count+' 筆');
-      button.type='button';
-      button.dataset.queryRecovery=query;
-      button.addEventListener('click',()=>recoverSearchQuery(query));
-      suggestions.append(button);
-    });
-    const phraseOptions=queryOptions.length ? [] : phraseRecoveryOptions(entries,$('query').value,filters);
-    const vocabularyOptions=phraseOptions.length||queryOptions.length ? [] : vocabularyRecoveryOptions(entries,$('query').value,filters);
-    vocabularyOptions.forEach(({query,count})=>{
+    // Search the visitor's own word before offering to delete it: the removal
+    // only stays when the rest of the question still finds at least as much.
+    const recovery=queryRecoveryOptions(entries,$('query').value,filters);
+    recovery.words.forEach(({query,count})=>{
       const button=el('button','recovery-option','原問題包含「'+query+'」 → 搜尋 '+count+' 筆');
       button.type='button';
       button.dataset.queryRecovery=query;
       button.addEventListener('click',()=>recoverSearchQuery(query));
       suggestions.append(button);
     });
+    recovery.removals.slice(0,3).forEach(({query,removed,count})=>{
+      const button=el('button','recovery-option','只移除關鍵字「'+removed+'」 → 查看 '+count+' 筆');
+      button.type='button';
+      button.dataset.queryRecovery=query;
+      button.addEventListener('click',()=>recoverSearchQuery(query));
+      suggestions.append(button);
+    });
+    const phraseOptions=recovery.words.length||recovery.removals.length ? [] : phraseRecoveryOptions(entries,$('query').value,filters);
     phraseOptions.forEach(({query,count})=>{
       if(suggestions.querySelector('[data-query-recovery="'+query+'"]'))return;
       const button=el('button','recovery-option','原問題提到「'+query+'」 → 搜尋 '+count+' 筆文字命中');
@@ -3494,7 +3531,7 @@ function renderSearchFeedback(terms, filters) {
     // Only when nothing above could be said about this question: the task list
     // below is the same for everyone, so anything the visitor's own words can
     // reach belongs in front of it.
-    const substringOptions=queryOptions.length||phraseOptions.length||vocabularyOptions.length
+    const substringOptions=recovery.words.length||recovery.removals.length||phraseOptions.length
       ? []
       : substringRecoveryOptions(entries,$('query').value,filters);
     substringOptions.forEach(({query,count})=>{
@@ -3561,7 +3598,9 @@ function renderSearchFeedback(terms, filters) {
         {label:'📦 搜尋「庫存管理」', term:'庫存管理'},
         {label:'🛡️ 搜尋「安全防護」', term:'安全防護'},
         {label:'🤝 搜尋「人工審批」', term:'人工審批'},
-      ].filter(({term})=>!phraseOptions.some(option=>option.query===term) && filterEntries(entries,tokenize(term),filters).length>0);
+      ].filter(({term})=>!phraseOptions.some(option=>option.query===term)
+        && !recovery.words.some(option=>norm(option.query)===norm(term))
+        && filterEntries(entries,tokenize(term),filters).length>0);
       const prioritizedTags=prioritizeProblemTags(problemTags,$('query').value);
       if(problemTags.length){
         // The hero directory already carries this label; the dead-end panel is the
@@ -3617,7 +3656,7 @@ function renderSearchFeedback(terms, filters) {
       ? '至少要一起移除 '+combined[0].conditions.length+' 項篩選才能保留原關鍵字；或直接點選下方推薦問題，保留目前篩選繼續探索。'
       : combined.length
       ? '至少要一起移除 '+combined[0].conditions.length+' 項篩選才有結果。以下調整會保留關鍵字與其餘條件。'
-      : suggestions.querySelector('.empty-problem-suggestions') && (options.length || queryOptions.length)
+      : suggestions.querySelector('.empty-problem-suggestions') && (options.length || recovery.words.length || recovery.removals.length)
       ? '可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。'
       : suggestions.children.length && terms.length>1 && !suggestions.querySelector('.empty-problem-suggestions')
       ? '關鍵字須同時符合；以下建議只調整指定條件，並保留其餘條件。'

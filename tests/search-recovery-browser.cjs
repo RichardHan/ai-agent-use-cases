@@ -89,12 +89,16 @@ module.exports = async function searchRecovery({browser, origin, observe=false,p
     row.axeViolations=audit.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}));
     assert.deepEqual(row.axeViolations,[]);
     // A failed AND query can retain the original task and all selected facets.
+    // The step offered is now the word the visitor typed ("旅遊"), not a removal
+    // of the meaningless token that would land on the same search.
     await page.locator('#query').fill('旅遊 xyz987');
     assert.equal(await page.locator('#empty').isVisible(),true);
-    const shorter=page.locator('#empty-suggestions button').filter({hasText:'只移除關鍵字「xyz987」'});
+    const shorter=page.locator('#empty-suggestions [data-query-recovery="旅遊"]');
     assert.equal(await shorter.count(),1);
-    const recoveredCount=Number((await shorter.innerText()).match(/查看 (\d+) 筆/)[1]);
+    assert.match(await shorter.innerText(),/原問題包含「旅遊」/);
+    const recoveredCount=Number((await shorter.innerText()).match(/搜尋 (\d+) 筆/)[1]);
     assert(recoveredCount>0);
+    assert.equal(await page.locator('#empty-suggestions button').filter({hasText:'只移除關鍵字'}).count(),0,'one next step per resulting search');
     const remainingCategory=await page.locator('#category').inputValue();
     await shorter.focus();await page.keyboard.press('Enter');
     assert.equal(await page.locator('#query').inputValue(),'旅遊');

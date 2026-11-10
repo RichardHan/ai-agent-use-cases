@@ -61,6 +61,8 @@
 3. 符號連結：`cases/qa.png -> ../docs/qa/big.png` 會被 Jekyll 以連結路徑複製目標位元組，`_site/docs` 仍不存在、也遠低於 40 MiB 上限。改為拒絕解析後落在已發布範圍之外的符號連結。
 4. `website-qa.yml` 的 path filter 少了 `README.md`、`README-archive-2026-10-18.md`、`templates/**` 三個已發布路徑，只改這些檔案的 PR 不會跑新檢查。已補進 `pull_request` 與 `push` 兩處。
 
+複審確認 4 項全部關閉，另指出 1 項 P3：設了 base path 後，根相對路徑 `/docs/x` 其實落在同網域的其他專案，不該當成本站的 `docs/x`。已一併修正（`baseurl` 有值時，沒有該前綴的根相對路徑一律略過），現行語料沒有這種寫法，不影響既有結果。
+
 修正後 `node --test tests/*.test.cjs` **629 通過／0 失敗**（+3）。另以真實檔案驗證新解析：在 `README.md` 加一行 `[驗收紀錄](docs/qa/…)` → `FAIL: README.md 連到已排除的「docs」…（網站上會是 404）`（exit 1）；還原後 PASS。建置產物模式把 `cases/005-cloud-pr-review.md` 移出模擬產物 → `FAIL: 建置產物缺少 1 個來源檔（例：cases/005-cloud-pr-review.md）`。
 
 

@@ -31,7 +31,8 @@ test('a destination resolves the way a browser reading that page would resolve i
   assert.equal(gate.sitePathFor('./cases/005-example.md', 'INDEX.md', SITE), 'cases/005-example.md');
   assert.equal(gate.sitePathFor('research-2026-11-08.md', 'sources/README.md', SITE), 'sources/research-2026-11-08.md');
   assert.equal(gate.sitePathFor('/ai-agent-use-cases/docs/qa/x.png', 'README.md', SITE), 'docs/qa/x.png');
-  assert.equal(gate.sitePathFor('/docs/qa/x.png', 'README.md', SITE), 'docs/qa/x.png');
+  assert.equal(gate.sitePathFor('/docs/qa/x.png', 'README.md', SITE), '', 'root-relative paths outside the base path are another project');
+  assert.equal(gate.sitePathFor('/docs/qa/x.png', 'README.md', {url: SITE.url, baseurl: ''}), 'docs/qa/x.png');
   assert.equal(gate.sitePathFor('https://richardhan.github.io/ai-agent-use-cases/docs/qa/x.png', 'README.md', SITE), 'docs/qa/x.png');
   assert.equal(gate.sitePathFor('https://learn.chatgpt.com/docs/dots/controls', 'cases/005-example.md', SITE), '');
   assert.equal(gate.sitePathFor('https://richardhan.github.io/other-site/docs/x.png', 'README.md', SITE), '');

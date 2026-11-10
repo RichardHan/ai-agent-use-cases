@@ -111,9 +111,11 @@ function sitePathFor(target, pagePath, site = {}) {
   }
   if (clean.startsWith('//')) return '';
   if (clean.startsWith('/')) {
+    // With a base path, `/docs/x` resolves at the origin root — another project
+    // on the same host, not this site's excluded `docs/x`.
     const base = site.baseurl || '';
     if (base && (clean === base || clean.startsWith(base + '/'))) return normaliseSitePath(clean.slice(base.length));
-    return normaliseSitePath(clean);
+    return base ? '' : normaliseSitePath(clean);
   }
   const dir = path.posix.dirname(pagePath);
   return normaliseSitePath((dir === '.' ? '' : dir + '/') + clean);

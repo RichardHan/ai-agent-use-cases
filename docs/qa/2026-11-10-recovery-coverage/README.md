@@ -218,3 +218,4 @@
 - 正式站重跑同一支契約測試（`VERIFY_URL=https://richardhan.github.io/...`）：無篩選 55／7、`scenario=生活` 45／31、`scope=overview` 48／0，點擊承諾 8 = 畫面 8，全部通過。
 - 正式站三情境（1440×900 與 390×844）：首頁 7 個「僅相關詞」入口與新說明行；點「發票辨識」→ 16 筆、`#match-scope=none`、「改搜「發票」→ 8 筆」；`?q=幫我寫遺囑` → 55 個捷徑、7 個標記、說明行、點「發票辨識」→ 16 筆／`none`；`?case=UC-024` 直接開啟、Escape 後 515 筆、焦點在 `#results-count`；pageerror 0。
 - main 的 `Website QA` [42790949128](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42790949128)（`180e00ca`）**success**：`Verify the updated site in Chromium` 內含新增的 `coverage-recovery-browser.cjs`，`Wait for published assets and content` 與 `Verify the published GitHub Pages site` 也都通過。
+- 這份紀錄本身的 commit `06a13b75`（`[skip ci]`）也已部署：`pages build and deployment` [42793266834](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42793266834) success，正式站 `catalog.json.sourceRevision` = `06a13b75ee33…`；`docs/` 不在 Pages 產物內，本紀錄在網站上是 404（實測三次），只存在於 repo。

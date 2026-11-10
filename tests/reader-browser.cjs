@@ -311,7 +311,7 @@ async function jump(page,button){
      // clickable, is what this audit is here to catch.
      for(const anchor of body.querySelectorAll('.reader-evidence a')){
       if(anchor.rel!=='noopener noreferrer')throw Error('Unsafe source '+item.id);
-      if(anchor.hasAttribute('href')){if(!/^https?:/.test(anchor.getAttribute('href')))throw Error('Unsafe source scheme '+item.id);}
+      if(anchor.hasAttribute('href')){if(!/^https?:/.test(anchor.getAttribute('href'))||anchor.getAttribute('aria-disabled')==='true')throw Error('Unsafe source scheme '+item.id);}
       else if(anchor.getAttribute('aria-disabled')!=='true'||!anchor.hasAttribute('data-source-relative'))throw Error('Unsourced link '+item.id);
      }
      count++;sections+=headings.length;proofs+=body.querySelectorAll('.reader-evidence li').length;

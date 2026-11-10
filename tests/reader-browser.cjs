@@ -304,7 +304,16 @@ async function jump(page,button){
      if(headings.length!==links.length)throw Error('Outline mismatch '+item.id);
      if(new Set(headings.map(h=>h.id)).size!==headings.length)throw Error('Duplicate heading id '+item.id);
      for(let i=0;i<headings.length;i++)if(headings[i].textContent!==links[i].textContent)throw Error('Changed heading '+item.id);
-     for(const anchor of body.querySelectorAll('.reader-evidence a'))if(!/^https?:/.test(anchor.href)||anchor.rel!=='noopener noreferrer')throw Error('Unsafe source '+item.id);
+     // Two honest states exist for a source link: pinned to a published revision
+     // (http/https href) or, when the corpus bundle carried no verified revision,
+     // a relative link the reader cannot follow yet. The disabled form must stay
+     // disabled — an href of any other scheme, or a disabled anchor that is still
+     // clickable, is what this audit is here to catch.
+     for(const anchor of body.querySelectorAll('.reader-evidence a')){
+      if(anchor.rel!=='noopener noreferrer')throw Error('Unsafe source '+item.id);
+      if(anchor.hasAttribute('href')){if(!/^https?:/.test(anchor.getAttribute('href'))||anchor.getAttribute('aria-disabled')==='true')throw Error('Unsafe source scheme '+item.id);}
+      else if(anchor.getAttribute('aria-disabled')!=='true'||!anchor.hasAttribute('data-source-relative'))throw Error('Unsourced link '+item.id);
+     }
      count++;sections+=headings.length;proofs+=body.querySelectorAll('.reader-evidence li').length;
     }
     return {entries:count,sections,proofRows:proofs};

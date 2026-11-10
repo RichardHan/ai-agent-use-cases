@@ -60,8 +60,34 @@ module.exports=async function publishedArrival({browser,origin,engine,prefix='li
   const jump=page.locator('.reader-jump').first(),target=await jump.getAttribute('aria-controls');
   await jump.focus();await page.keyboard.press('Enter');
   assert.equal(await page.evaluate(id=>document.activeElement.id===id,target),true);
-  await page.locator('.detail-source[href]').waitFor();
-  assert.match(await page.locator('.detail-source').getAttribute('href'),/^https:\/\/github\.com\//);
+  // A pinned source link exists only when the whole-corpus bundle was used: the
+  // per-article fallback withholds the link and says 「尚未核對本站發布版本」,
+  // because it cannot promise the GitHub bytes match what is on screen. Both are
+  // honest reader states, and which one arrives depends on whether the bundle won
+  // its adaptive download budget (a loaded runner can lose that race). Assert
+  // whichever state the reader is actually in, and never accept a third one: a
+  // pinned link must name a 40-hex revision, an unpinned one must be disabled,
+  // keep the latest-version fallback and say why.
+  const sourceLink=page.locator('.detail-source').first();
+  const latestLink=page.locator('.detail-source-latest').first();
+  const sourceNote=page.locator('.detail-source-version').first();
+  await sourceLink.waitFor();
+  // `href=""` is still an activatable link that navigates to the current page, so
+  // the pinned branch is decided by the attribute's presence, not its truthiness.
+  const pinnedHref=await sourceLink.evaluate(a=>a.hasAttribute('href')?a.getAttribute('href'):null);
+  // An empty string is not "no attribute": it is an activatable href that would
+  // navigate to the current page, so it must fail the revision match below.
+  if(pinnedHref!==null){
+   assert.match(pinnedHref,/^https:\/\/github\.com\/RichardHan\/ai-agent-use-cases\/blob\/[a-f0-9]{40}\//,'a pinned source link names the published revision');
+   assert.equal(await latestLink.isHidden(),true,'a pinned source hides the 最新版本 fallback');
+   assert.doesNotMatch(await sourceNote.textContent(),/尚未核對/);
+  }else{
+   assert.equal(await sourceLink.getAttribute('aria-disabled'),'true','an unpinned source link is not clickable');
+   assert.equal(await latestLink.isHidden(),false,'an unpinned source keeps the 最新版本 fallback');
+   assert.match(await latestLink.getAttribute('href'),/\/blob\/main\//);
+   assert.match(await sourceNote.textContent(),/尚未核對本站發布版本/);
+   console.log('LIVE_ARRIVAL_UNPINNED '+JSON.stringify({prefix,stage:'reading',reason:'no verified corpus revision'}));
+  }
   await capture('reading');await audit('reading');
   await page.goBack();
   await page.waitForFunction(()=>!document.getElementById('detail').open&&document.activeElement.matches('#results .card .card-bottom button'));

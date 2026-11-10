@@ -50,7 +50,7 @@
 
 ## 測試
 
-- `node --test tests/*.test.cjs`：基準 `ee3dd6d7` **669 通過／0 失敗** → 本輪 **676 通過／0 失敗**（+7）。
+- `node --test tests/*.test.cjs`：基準 `ee3dd6d7` **669 通過／0 失敗** → 本輪 **677 通過／0 失敗**（+8，第三個 PR 後）。
 - `node --check assets/app.js` 通過。
 - 新測試的變異驗證：把 `EDITORIAL_SOURCE` 指向基準 `ee3dd6d7` 的 `assets/app.js`（補上同名 identity 函式以載入），**7 項中 4 項失敗**（移除規則、註記不進索引、翻譯查詢收斂、事實型括註保留）；另 3 項是「保留」型守門，基準本來就該通過，如實列出。
 - 瀏覽器：`SITE_URL=http://127.0.0.1:8901/ai-agent-use-cases/ node tests/task-shortcuts-browser.cjs` → Chromium 1440／390／320、Firefox 390、WebKit 390 全部 PASS，另含 loading／error／partial 三態。
@@ -107,13 +107,21 @@
 - PR [#334](https://github.com/RichardHan/ai-agent-use-cases/pull/334)（head `70ba9ae9`）：13 項非略過檢查全部 success——`Website QA`（`preview` 42773866900）、`Reader QA`（`reading` 42773866566）、`Search relevance QA`（`relevance` 42773866599）、`Search context QA`（`context` 42773866833）、`Reader search QA`（`reader-search` 42773866694）、`Return visibility QA`（`return` 42773866627）、`Home search entry QA`（`entry` 42773866657）與 6 個 `browser` job；`published` 依設計在 PR 上 skipped。
 - 分支 rebase 到 `ee3dd6d7` 後重跑全部單元測試與瀏覽器旅程，數字以 rebase 後為準。
 
+### 第三個 PR：全域正規表達式的狀態（複審新發現，已修）
+
+獨立審查在第二個 PR 合併後補上一個新發現，是**真的 bug**：`EDITORIAL_WORD` 帶了 `/g`，而程式用 `.test()` 判斷、再用 `.replace()` 量剩餘長度。全域正規表達式的 `lastIndex` 會跨呼叫保留，同一個字串連呼叫三次得到 `true, true, false`；因此只要有一個「含數字而被保留」的註記先被跳過，**它後面那個註記就不會被移除**，行為隨語料順序漂移。
+
+修法：`test()` 改用沒有 `/g` 的 `EDITORIAL_WORD`，量剩餘長度用另一個 `EDITORIAL_WORD_ALL`（`replace` 會自行歸零 `lastIndex`）。新增回歸測試：`（本庫原創，未測；格式參考 S-061A）` 後面接 `（翻譯改寫）`，前者保留、後者仍移除；同一輸入連跑 6 次結果一致。
+
+修正後的計數：`翻譯` 22、`文件翻譯` 15、`翻譯改寫` 4→**3**、`摘要` 150、`改寫` 81→80、`未實測` 48；873 個查詢的 `overview`／`topic` 命中仍無任何消失。
+
 ### 第二個 PR 的驗收（本機 preview `8903`，同一頁面同一尺寸）
 
 | 頁面 | 改前（正式站 `3a9ae6d5`） | 第一個 PR（正式站 `e7aaabe8`） | 事實型括註修正後 |
 | --- | --- | --- | --- |
 | `?q=翻譯` | 186 | 21 | 22 |
 | `?q=文件翻譯` | 77 | 14 | 15 |
-| `?q=翻譯改寫` | 104 | 3 | 4 |
+| `?q=翻譯改寫` | 104 | 3 | 3 |
 | `?q=翻譯摘要`（瀏覽器，拆詞救援） | 64 檔命中 | 6 | 7，皆附「全文或同義詞命中」說明 |
 | `?q=摘要` | 194 | 150 | 150 |
 | `?q=資料清理` | 294 | 286 | 286 |

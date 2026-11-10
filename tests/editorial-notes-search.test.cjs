@@ -46,6 +46,16 @@ test('a note that reports a fact, or leaves a long tail, is not treated as an ed
   assert.doesNotMatch(strip('前（翻譯改寫）後'),/前後/,'no new compound term appears');
 });
 
+test('a kept note does not stop the next note from being removed',()=>{
+  // The rule tests a pattern and then strips it; a /g pattern would carry lastIndex
+  // between calls, so one skipped note silently unindexed nothing after it.
+  const text='- 補充（本庫原創，未測；格式參考 S-061A）\n- 作者自述（翻譯改寫）：內容';
+  const out=strip(text);
+  assert.match(out,/S-061A/,'the note that reports a source id stays searchable');
+  assert.doesNotMatch(out,/翻譯改寫/,'the note after it is still removed');
+  for(let i=0;i<5;i++)assert.doesNotMatch(strip('（翻譯改寫）'),/翻譯改寫/,`call ${i+1} removes it too`);
+});
+
 test('the note stays visible on the page a reader opens; only the index drops it',()=>{
   const item=entries.find(x=>x.id==='UC-001');
   assert.match(item.markdown,/（翻譯改寫）/,'the reading view still shows the note verbatim');

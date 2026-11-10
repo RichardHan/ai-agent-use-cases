@@ -4,6 +4,18 @@ const {isCurrentMainCommit}=require('./published-check.cjs');
 
 const PUBLICATION_TIMEOUT_MS=60*60*1000;
 
+// A publication verdict that waiting cannot change: the deployment for this push
+// already finished without publishing it. Retrying it for the full window is how
+// a failed deploy used to cost an hour and still end as "timeout". Everything
+// else (a byte that has not arrived yet, a slow CDN, a network error) stays
+// retryable, because those do change.
+function fatalPublicationError(message,{cause,runUrl}={}){
+ const error=Error(message,{cause});
+ error.fatal=true;
+ if(runUrl)error.runUrl=runUrl;
+ return error;
+}
+
 async function waitForPublishedAssets({base,sha,files,fetchAsset=fetch,isCurrent=isCurrentMainCommit,sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms)),attempts=Infinity,interval=5000,maxDuration=PUBLICATION_TIMEOUT_MS,now=()=>performance.now(),verify}){
  const started=now(),deadline=started+maxDuration;
  if(!isCurrent(sha))return 'superseded';
@@ -23,8 +35,14 @@ async function waitForPublishedAssets({base,sha,files,fetchAsset=fetch,isCurrent
     if(failure)failures.push(label+': '+failure);
     return !failure;
    }catch(error){
+    // A written verdict ends the wait here: the deployment this push needed has
+    // already finished without it, so every further poll asks the same question.
+    if(error.fatal)throw error;
     lastError=error;
-    failures.push(label+': request failed');
+    // The timeout message is the only thing a maintainer reads after an hour of
+    // polling, so name the failure instead of collapsing it to one phrase. The
+    // error's own text stays out: it can carry response details we do not print.
+    failures.push(label+': request failed'+(error.code?' ('+error.code+')':''));
     return false;
    }
   };
@@ -51,4 +69,4 @@ async function waitForPublishedAssets({base,sha,files,fetchAsset=fetch,isCurrent
  if(!isCurrent(sha))return 'superseded';
  throw Error('Published assets do not match checkout after '+Math.round(now()-started)+'ms ('+count+' attempts; deadline '+maxDuration+'ms)'+(lastFailures.length?'; last attempt: '+lastFailures.join(', '):''),{cause:lastError});
 }
-module.exports={waitForPublishedAssets,PUBLICATION_TIMEOUT_MS};
+module.exports={waitForPublishedAssets,PUBLICATION_TIMEOUT_MS,fatalPublicationError};

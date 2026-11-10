@@ -67,6 +67,35 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   await ensureFiltersVisible(page);
   await page.locator('.chip[data-query="每日"]').click();
   assert.equal(await page.locator('#query').inputValue(),'');
+  // Journey 1b: the hero buttons used to drop an active search without a word
+  // (live site 2026-11-11: ?q=旅遊 35 → 「工作省點力」 162, query box empty). The
+  // switch has to name what it cleared, land on that notice, and take one click back.
+  await page.goto(origin+'?q=旅遊',{waitUntil:'networkidle'});
+  await page.locator('#results .card').first().waitFor();
+  const heroBefore=await page.evaluate(()=>currentFiltered.length);
+  await page.locator('#guide-options [data-scenario="工作"]').click();
+  const heroNotice=page.locator('#scenario-reset');
+  await heroNotice.waitFor({state:'visible'});
+  assert(await heroNotice.isVisible(),'a hero scenario switch says what it cleared');
+  const heroBox=await heroNotice.boundingBox();
+  assert(heroBox.y>=0&&heroBox.y+heroBox.height<=height,'the notice about the cleared search is where the reader lands');
+  assert.match(await page.locator('#scenario-reset-message').innerText(),/關鍵字「旅遊」/);
+  assert.match(await page.locator('#scenario-reset-action').innerText(),new RegExp('（'+heroBefore+' 筆）'));
+  assert.equal(await page.locator('#query').inputValue(),'');
+  assert.equal(await page.locator('#scenario').inputValue(),'工作');
+  assert.equal(await page.evaluate(()=>document.activeElement.id),'results-count');
+  await page.locator('#scenario-reset-action').click();
+  assert.equal(await page.locator('#query').inputValue(),'旅遊');
+  assert.equal(await page.locator('#scenario').inputValue(),'');
+  assert.equal(await page.evaluate(()=>currentFiltered.length),heroBefore,'the way back restores the same result set');
+  assert(!(await heroNotice.isVisible()),'restoring the search clears the notice');
+  assert.equal(new URL(page.url()).searchParams.get('scenario'),null);
+  // A switch between two scenarios loses none of the reader's own input, so it
+  // must not announce a loss it did not cause.
+  await page.goto(origin+'?scenario=%E7%94%9F%E6%B4%BB',{waitUntil:'networkidle'});
+  await page.locator('#results .card').first().waitFor();
+  await page.locator('#guide-options [data-scenario="工作"]').click();
+  assert(!(await heroNotice.isVisible()),'a scenario-only switch stays silent');
   // Journey 2: combine search and filters, recover from no results.
   await ensureFiltersVisible(page);
   await page.locator('#reset').click();

@@ -91,6 +91,7 @@ jobs:
           CATEGORY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/declared-category-browser.cjs
           TARGET_USER_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/target-user-provenance-browser.cjs
           CORE_GOAL_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/core-goal-provenance-browser.cjs
+          VERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/task-coverage-marker-browser.cjs
       - name: Build actual Pages release for published verification
         uses: actions/jekyll-build-pages@v1
         with:

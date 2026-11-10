@@ -1,3 +1,15 @@
+## 2026-11-12 首頁 53 個任務裡，7 個是「沒有案例自述這項任務」卻長得一樣的入口
+
+正式站 `63f4f375`（512 個來源檔、畫面 `515` 筆）的任務目錄有 53 個連結，其中 7 個的自述命中為 0：出差報銷 4／0、播客摘要 10／0、寫履歷 8／0、代碼重構 6／0、發票辨識 16／0、機票比價 5／0、隱私審查 64／0（全文／標題用途痛點）。點進去結果頁已經誠實：「沒有案例的標題、用途或痛點同時包含…下列 16 筆是全文或同義詞命中」，並給「改搜「發票」→ 8 筆」；但入口本身沒有任何訊號，`16 / 515` 第一眼像「16 篇在做發票辨識」。另有 16 個入口自述命中只有 1 筆。
+
+先量再選：(A) 改寫查詢／預設 scope 皆量測後否決——`漏洞掃描` 被改寫成同群組的 `資安 漏洞`，AND 退化為 218 筆並含「找數學證明，再用另一組檢查找漏洞」；保留動作詞改成 `漏洞 掃描` 反而變成 3D 掃描、印表機掃描、汽車保養 34 筆；預設自述範圍會讓 23 個入口剩 0～2 筆。(B) 採用：只在「自述命中＝0」的連結加行內「僅相關詞」與目錄下一行說明，href、標籤、順序、53 筆總數、手機 9 項揭露全部不動。不標「1」是因為 `代碼審查` 自述 1／全文 19，顯示 1 會讓實際有 18 篇在做 PR 審查的入口看起來沒內容。
+
+改動：`assets/app.js`（`taskCoverage()` 重用 `filterEntries` 的 `overview` 範圍、`annotateTaskCoverage()` 於載入完成與補讀完成後執行、`failedPaths` 時整批跳過、標記失敗不影響補讀結果）、`index.html`（`#task-coverage-note` 說明行）、`assets/style.css`、`README.md`、`.github/workflows/website-qa.yml`；新增 `tests/task-coverage-marker.test.cjs`（6 項）與 `tests/task-coverage-marker-browser.cjs`（三寬度＋56 個入口逐一以 `?q=…&scope=overview` 比對＋點擊契約＋axe）。第一版用 `aria-label` 被既有 `keyboard-search-entry-browser` 的 axe 抓到 `label-content-name-mismatch`，改成可見文字作名稱、`aria-describedby` 指向說明行。
+
+先紅後綠：新 node 測試在基準 `assets/app.js` 失敗（`taskCoverage` 不存在）；新瀏覽器測試在基準預覽失敗於「marker state must equal "no case describes this task"」，本輪預覽 1440／390／320 全綠、axe 0、水平溢出 0。`node --test tests/*.test.cjs` 基準 **636** → **642 通過、0 失敗**，`node --check` 通過。幾何（同頁同尺寸）：1440 目錄 408→460px、價值面板 1149→1213px；390 目錄 148px 不變、價值面板 +25px；320 目錄 148→200px、價值面板 835→912px；三者 `#discover` 在 390／320 各 +25／+77px，皆原本就在首屏之外，水平溢出 0。對比：徽章 7.23:1（手機 6.94:1）、說明行 4.81:1。三情境（標記入口→16 筆→改搜 8 筆；旅遊＋學習 0 筆→移除 chip 33 筆且保留情境；`?case=UC-407` 直鏈→來源→關閉回 `#explore`）已走。截圖、方案取捨、量測與限制見[本輪 QA](docs/qa/2026-11-12-task-coverage/README.md)。獨立審查 0 項 must-fix（以基準／本輪兩個預覽實測幾何與 axe，並重跑 53 項 node 測試）。
+
+下一輪先量任務入口的語料佔比再決定是否改寫：`資料清理 294／515（57%）`、`報表比對 279（54%）`、`成本分析 218（42%）`、`漏洞掃描 218（42%）`、`安全防護 218（42%）` 都來自泛用同義詞群組，且 AND 可跨欄位成立（`報帳審核` 的 `報帳` 命中正文、`審核` 命中標題 → 66 筆含夢幻球隊排棒次）。動手前先跑 `tests/search.test.cjs`、`tests/problem-compound-queries.test.cjs`、`tests/relevance.test.cjs` 逐條核對 11 支 recall 期望。
+
 ## 2026-11-10 Pages 產物有 98% 是沒人連得到的驗收截圖
 
 `pages build and deployment` 在 `main@99734627` 失敗：`build` 56 秒成功，`deploy` 的 `Deploy to GitHub Pages` 在 `syncing_files` 用滿 600 秒後 `Timeout reached, aborting!`（run [42733561142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42733561142)）。正式站因此停在 `38a44211`，兩個 commit 前併入的 `cases/515-…md`、`cases/516-…md` 實測 404，main 的 `Website QA` 也卡在「Wait for published assets and content」25 分鐘後才失敗（`42733562130`）。

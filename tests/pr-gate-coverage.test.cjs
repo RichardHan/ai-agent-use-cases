@@ -29,12 +29,21 @@ const read = file => fs.readFileSync(path.join(workflows, file), 'utf8');
 // What a browser suite can assert about the built site.
 const CORPUS = ['assets/app.js', 'index.html', 'cases/001-travel-checkout.md', 'evidence/008-morning-brief-validation.md', 'sources/pending.md'];
 
+// Returns the pull-request path filters, or null when a pull request cannot start
+// the workflow. `['**']` means "every pull request runs this": a trigger without a
+// `paths` filter covers everything, so it must not be read as covering nothing.
 function pullRequestPaths(source) {
-  const key = source.match(/^ {2}pull_request:[^\n]*$/m);
+  // `on: pull_request` and `on: [push, pull_request]` must be on the `on:` line;
+  // using `\s*` here would swallow the newline and read every filtered
+  // `on:` / `  pull_request:` block as unfiltered.
+  if (/^on:[ \t]*(?:pull_request\b|\[[^\]]*\bpull_request\b)/m.test(source)) return ['**'];
+  // A `- pull_request` list item carries no `paths`, so it runs on every PR.
+  if (/^ {2}- pull_request\b/m.test(source)) return ['**'];
+  const key = source.match(/^ {2}pull_request\b[^\n]*$/m);
   if (!key) return null;
   const body = [];
   for (const line of source.slice(key.index + key[0].length).split('\n').slice(1)) {
-    if (/^ {2}\S/.test(line)) break;
+    if (/^ {2}\S/.test(line) && !/^ {2}- /.test(line)) break;
     body.push(line);
   }
   const text = body.join('\n');
@@ -43,7 +52,7 @@ function pullRequestPaths(source) {
   // Block list: every `- item` after `paths:`, ignoring comment lines (a filter
   // entry may be explained in place) and anything deeper than the list itself.
   const start = text.search(/^\s*paths:\s*$/m);
-  if (start < 0) return [];
+  if (start < 0) return ['**'];
   return text.slice(start).split('\n').slice(1)
     .map(line => line.match(/^[ \t]*-[ \t]*(.+?)\s*$/))
     .filter(Boolean)
@@ -67,7 +76,8 @@ const pr = files
     const source = read(file);
     const runs = [...new Set([...source.matchAll(/node\s+[^\n|&]*(tests\/[\w.-]+\.cjs)/g)].map(match => match[1]))];
     const drivesSite = /playwright|scripts\/preview\.py|http\.server|SITE_URL|--with-deps/.test(source) || runs.some(name => /-browser\.cjs$/.test(name));
-    return { file, source, runs, paths: pullRequestPaths(source), drivesSite };
+    const paths = pullRequestPaths(source);
+    return { file, source, runs, paths: paths === '**' ? ['**'] : paths && (paths.length ? paths : ['**']), drivesSite };
   })
   .filter(entry => entry.paths !== null);
 

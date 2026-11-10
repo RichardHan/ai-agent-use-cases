@@ -26,6 +26,8 @@
 
 限制：本環境無法讀取截圖影像，視覺結論來自 DOM 幾何與 axe；本機只跑 Chromium，Firefox／WebKit 與 `corpus-bundle` 的公開站分支交由 PR Actions。[方案、前後量測、截圖與契約](docs/qa/2026-11-10-arrival-first-case/README.md)。下一輪優先量測抵達後查詢框落在視窗外（390px 按一次 Tab 落在「複製搜尋連結」）是否造成改關鍵字的成本，再決定是否做黏性搜尋列。
 
+發布補記：PR [#333](https://github.com/RichardHan/ai-agent-use-cases/pull/333)（head `b93945d2`）13 項非略過檢查 pass、`published` 依設計 skipping，squash 合併為 `e22cc4cc`。`pages build and deployment` [42771970594](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42771970594) success；正式站 `catalog.json.sourceRevision` = `e22cc4cc`、512 個來源檔，`assets/app.js` 與合併版本逐 byte 相同（SHA-256 `73f83c2d5ca9…`）且含 `placeArrivalResults`。正式站重走（Chromium 1440／390／320）：任務入口「發票對帳」44 筆、焦點 `results-count`、第一則 UC-190 標題 401–467；分享搜尋與 `?q=xyz987` 空結果的標題與說明都在首屏（238–284）；`?q=發票&case=UC-005` 詳情焦點 `detail-title`、來源固定於 `e22cc4cc` 且 `rel="noopener noreferrer"`、Escape 後回 `?q=發票`、第一則標題 401–467；首頁一般載入 `scrollY` 0；六次 axe 0、水平溢出 0、pageerror 0。main 的 Website QA [42771971070](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42771971070) 於本紀錄寫入時仍在 `Verify the updated site in Chromium`，其逐檔發布驗證與 `deployed-browser` 結果未確認。
+
 ## 2026-11-12 首頁 53 個任務裡，7 個是「沒有案例自述這項任務」卻長得一樣的入口
 
 正式站 `63f4f375`（512 個來源檔、畫面 `515` 筆）的任務目錄有 53 個連結，其中 7 個的自述命中為 0：出差報銷 4／0、播客摘要 10／0、寫履歷 8／0、代碼重構 6／0、發票辨識 16／0、機票比價 5／0、隱私審查 64／0（全文／標題用途痛點）。點進去結果頁已經誠實：「沒有案例的標題、用途或痛點同時包含…下列 16 筆是全文或同義詞命中」，並給「改搜「發票」→ 8 筆」；但入口本身沒有任何訊號，`16 / 515` 第一眼像「16 篇在做發票辨識」。另有 16 個入口自述命中只有 1 筆。

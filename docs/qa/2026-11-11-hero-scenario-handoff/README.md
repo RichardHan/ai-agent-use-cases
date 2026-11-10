@@ -60,11 +60,21 @@
 2. **組合搜尋與篩選、遇到空結果再恢復**：`?q=旅遊&scenario=生活&tool=Grok Bot` **17 / 515** → 改成不存在的字串後空結果頁列出 **41** 個恢復選項與 **3** 個可移除條件 → 按第一個恢復選項得 **32 / 515**。本輪新增的同族情境：`?q=旅遊&tool=Grok Bot&kind=case&difficulty=入門對話&category=旅遊／消費研究&proof=作者報告／示範&scope=topic&sort=reviewed` **1 筆** → 按首頁「工作省點力」→ 通知列出 6 項被清除的條件並提供「回到原本的搜尋（1 筆）」→ 一鍵回去 1 筆、8 個網址參數逐項相同。
 3. **分享的詳情直鏈**：`?case=UC-005` 直接開啟，證據徽章（`作者報告／示範` 與其主張者說明）在詳情內；第一個外部連結是 `https://github.com/RichardHan/ai-agent-use-cases/blob/03acca68…/cases/005-cloud-pr-review.md`（`rel="noopener noreferrer"`、新分頁）；`Escape` 後詳情關閉、清單 24 張卡、焦點在 `#results-count`。兩種尺寸結果相同。
 
+## 發布
+
+- PR [#358](https://github.com/RichardHan/ai-agent-use-cases/pull/358)（head `4ce32f5c`）：**12 項非略過檢查 success、2 項 `published` 依設計 skipped**，squash 合併為 **`a5b60cfc`**。
+- `pages build and deployment` [42893523882](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42893523882) success；正式站 `catalog.json.sourceRevision` = `a5b60cfc`，`assets/app.js` 含 `chooseScenarioFromHero`／`landOnScenarioReset`。
+- 正式站重走（同一支探針，1440／390／320）：`?q=旅遊` **35 / 515** → 「工作省點力」 **162 / 515**、通知在 y=24 且在視窗內、`回到原本的搜尋（35 筆）`、焦點在 `#results-count`；一鍵回復 35 筆與 `?q=旅遊`、通知消失；只有情境的切換仍無通知（101 → 162）。三種尺寸相同，pageerror 0。
+- 正式站三種訪客情境與預覽逐項相同（h1 344／238、56 個入口、日報整理 78 筆、旅遊＋生活＋Grok Bot 17 筆、空結果 41 個恢復選項、UC-005 直鏈、Escape 後 24 張卡與焦點），唯一的差別是來源連結指向新的 merge commit `a5b60cfc`。
+- **`Reading flow QA`（[42890023914](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42890023914)）第一次嘗試失敗、同一 SHA 第二次嘗試 success**：失敗點是 `tests/arrival-live.cjs:51`「the first case title is readable after arrival」（webkit-390：`queryTop:177`、`resultsTop:684`、`cardTitleTop:1062`，這次抵達停在查詢標題而沒有捲到結果）。該階段是 `?q=旅遊&tool=Grok Bot#explore` 的初次抵達，與本輪改動無關：同一支探針在改前與改後建置各跑 webkit／firefox 三次，`cardTitleTop` 都是 402–403、`cardTitleBottom` 468–469（皆在 844 內）。因此這是抵達捲動的時序不穩定，本輪只重跑一次並記錄，沒有改斷言。
+- main 的 `Website QA`（`a5b60cfc`）在收工時仍在執行；本輪的部署結論來自上面的部署 run、`sourceRevision` 與逐項實測，不宣稱該 run 已通過。
+
 ## 已知限制
 
 - 本環境無法讀取截圖影像，視覺結論來自 DOM 幾何、computed 樣式與 axe；`docs/qa/2026-11-11-hero-scenario-handoff/` 的 before／after 截圖（1440／390／320、搜尋前、切換後、復原後）只存檔供人眼核對。
 - **`tests/inspiration-handoff-browser.cjs` 在本機不穩定，且與本輪改動無關**：對改前建置失敗在 `drawn title must be visible`（chromium-1440），對本輪建置失敗在 `Tab` 後應落在 `.tag-scenario`（webkit-390，改前建置的同一引擎亦同）。另外以獨立探針在兩個建置上各跑 5 個引擎，`Enter` 後焦點與 `Tab` 後的元素完全相同，因此不是本輪造成的差異；該套件由 `discovery-round-qa.yml` 在 CI 執行，本輪未在 CI 容器內重現。
-- 通知的「一鍵復原」需要一次 `Shift+Tab` 才到得了（焦點依既有設計停在結果筆數）；這是上一輪已記錄、本輪未改的焦點契約。
+- 通知的「一鍵復原」需要一次 `Shift+Tab` 才到得了（焦點依既有設計停在結果筆數；審查者實測反向 `Tab` 需 218 次／175 次）；這是上一輪已記錄、本輪未改的焦點契約。
+- `Reading flow QA` 的抵達捲動在 webkit-390 會偶發停在查詢標題（見「發布」）；本輪未修，它是下一輪可用 `arrival-live.cjs` 同一句斷言重現的候選。
 - 首頁按鈕切換後會在結果區落地，因此該次不會停在抽卡區；沒有條件被清除時仍照原設計停在卡片。兩者都在 README 寫明。
 
 ## 下一輪

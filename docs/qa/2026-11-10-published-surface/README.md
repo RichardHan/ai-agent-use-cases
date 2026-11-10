@@ -88,4 +88,15 @@
 - 正式站路徑核對：`/`、`cases/515-…md`、`cases/516-…md`、`index.html`、`assets/app.js`、`assets/style.css`、`README.md`、`INDEX.md`、`templates/case.md`、`sources/pending.md`、`sources/README.md`、`catalog.json`、`corpus.json`、`audit-summary.json` 全部 200；`docs/qa/2026-11-11-target-user-provenance/README.md` 與同目錄 PNG 由 200 變 **404**；`scripts/preview.py` 仍 404。本輪兩個直接效果都量到：先前 404 的新案例已上線，先前公開的驗收截圖已不再發布。
 - 正式站三情境重走（1440×900／390×844，`sourceRevision` 皆 `fb53428e`）：`?q=收件匣` 155／515、第一張卡不變；`?q=食譜&scenario=工作&difficulty=進階開發` 0／515，空結果列出「移除實作門檻「進階開發」 → 查看 1 筆」，點擊後回到 1／515；`?case=UC-014` 直開詳情、顯示宣告的適合對象與「案例頁自行宣告」註記、關閉後回到 24 張卡；兩尺寸水平溢出 0、站內相對 `docs/` 連結 0。與部署前同一份量測逐項相同，前端沒有變。
 - 紀錄合併後的 `159a3bf0`（僅文件）再部署一次：`pages build and deployment` [42742070211](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42742070211) success，`build` 37 秒、`deploy` 127 秒，artifact 6,440,682 bytes，正式站 `sourceRevision` = `159a3bf0`。兩次部署都成功，但都落在 127–134 秒，**仍慢於同日其他 18–40 秒的成功部署**；因此本輪只主張同步集合從 4,659 檔降到 814 檔、artifact 縮為 1/48，不主張部署時間變快。
+### 部署時序的完整取樣（含一次平台失敗）
+
+| 版本 | run | 結果 | deploy 時間 | artifact |
+| --- | --- | --- | --- | --- |
+| `fb53428e`（本輪程式） | [42740604355](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42740604355) | success | 134 秒 | 6,440,675 |
+| `159a3bf0`（僅文件） | [42742070211](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42742070211) | success | 127 秒 | 6,440,682 |
+| `1deb2c93`（僅文件） | 42742488572 | cancelled | — | — |
+| `3fdf7c80`（僅文件） | [42742548221](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42742548221) | failure → 重跑 success | 69 秒失敗／重跑 156 秒 | 6,441,056 |
+
+- `1deb2c93` 的 deploy 被下一次推送取代而取消；`3fdf7c80` 的 deploy 停在 `deployment_queued` 69 秒後以 `##[error]Deployment failed, try again later.` 失敗，build 本身 41 秒成功。以同一個 6.4 MB artifact 重跑一次即 success，正式站 `sourceRevision` = `3fdf7c80`。
+- **這改變了本輪對成因的主張**：6.4 MB 的產物也會遇到平台端部署失敗（且不是 600 秒逾時，是佇列階段直接報錯），三次成功的 deploy 也都落在 127–156 秒，比改動前同日 18–40 秒的成功部署更慢。因此**不能說「artifact 太大造成逾時」**；artifact 大小隻是「每次部署要同步多少檔案」的可控變數，逾時與佇列失敗屬平台端。本輪真正交付的是發布範圍（3,845 個不需要的檔案不再上 CDN）與防止回彈的守門，加上讓落後的正式站重新對上 main。
 

@@ -30,6 +30,16 @@ const context = vm.createContext({
   }
 });
 
+function loadApp() {
+  const scope = vm.createContext({
+    URL,
+    Discovery: require('../assets/discovery.js'),
+    document: context.document
+  });
+  vm.runInContext(source + '\nthis.api={parseFile,coreGoalView,metadata};', scope);
+  vm.runInContext('displayCopy=' + fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'), scope);
+  return { api: scope.api };
+}
 vm.runInContext(source + '\nthis.api={parseFile,coreGoalView};', context);
 const api = context.api;
 vm.runInContext('displayCopy=' + fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'), context);
@@ -106,6 +116,26 @@ test('a page with neither declaration says so instead of dropping the block', ()
     if (problems.length) offenders.push(`${entry.id} → ${problems.join(', ')}`);
   }
   assert.deepEqual(offenders, [], 'an undeclared goal must be named as a gap');
+});
+
+test('a body bullet under a ### section is not the page lead goal', () => {
+  const { api: parser } = loadApp();
+  // Ten legacy pages open a "### 來源與證據" section right after the fields, so the
+  // old lead slice (up to the first "##") still contains body bullets. A goal line
+  // written there is the section's, not a declaration.
+  const page = '# UC-999：測試\n\n- 情境：工作\n- 一句話用途：一句話。\n\n### 來源與證據\n\n- 目標：這是正文的句子，不是我宣告的目標。\n';
+  assert.equal(parser.metadata(page, 'cases/999.md', 'case').coreGoal, '');
+  // The same bullet before any heading is a declaration.
+  const declared = '# UC-999：測試\n\n- 情境：工作\n- 一句話用途：一句話。\n- 目標：這是我宣告的目標。\n\n## 來源\n內文\n';
+  assert.equal(parser.metadata(declared, 'cases/999.md', 'case').coreGoal, '這是我宣告的目標。');
+});
+
+test('a problem heading inside a fenced example is text, not a section', () => {
+  const { api: parser } = loadApp();
+  const fenced = '# UC-999：測試\n\n- 一句話用途：一句話。\n\n```md\n## 問題範例\n```\n';
+  assert.equal(parser.coreGoalView({ coreGoal: '', markdown: fenced }).source, 'missing');
+  const real = '# UC-999：測試\n\n- 一句話用途：一句話。\n\n## 問題與結果\n\n內文\n';
+  assert.equal(parser.coreGoalView({ coreGoal: '', markdown: real }).source, 'section');
 });
 
 test('the corpus splits cleanly into declared, section and missing', () => {

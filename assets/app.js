@@ -169,10 +169,21 @@ function targetUserView(item) {
 // under a "## 問題…" section instead. Naming which of the three a page is keeps
 // the card and the reader from implying a goal the page never wrote, and stops
 // the absence from looking like "this case has no problem worth stating".
-const GOAL_SECTION_HEADING = /^##+\s+(問題[^\n]*?)\s*$/m;
+function problemSectionHeading(markdown) {
+  // Headings inside fenced examples are text, not sections; walk the lines so a
+  // pasted prompt cannot invent a section the page does not have.
+  let fenced = false;
+  for (const line of (markdown || '').split('\n')) {
+    if (/^\s*```/.test(line)) { fenced = !fenced; continue; }
+    if (fenced) continue;
+    const heading = line.match(/^##+\s+(問題[^\n]*?)\s*$/);
+    if (heading) return heading[1];
+  }
+  return '';
+}
 function coreGoalView(item) {
   if (item.coreGoal) return { source: 'declared', heading: '核心目標', text: item.coreGoal, note: '' };
-  const section = (item.markdown || '').match(GOAL_SECTION_HEADING)?.[1] || '';
+  const section = problemSectionHeading(item.markdown);
   if (section) return {
     source: 'section',
     heading: '核心目標',
@@ -1097,7 +1108,11 @@ function metadata(markdown, path, kind, suffix='') {
   // 核心目標 is the template label, but older pages declare the same sentence as
   // `- 目標` or `- 問題`. All three are the page's own wording, so all three are
   // read; nothing is written for a page that declares none.
-  const coreGoal=clean(lead.match(/^-\s*(?:核心目標|目標|問題)\s*[：:]\s*(.+)$/m)?.[1]||'');
+  // Ten legacy pages open a `###` section right below the fields, so the old lead
+  // slice (`up to the first ##`) still contains body bullets; a body `- 目標：`
+  // must not become the page's declared goal.
+  const frontBlock=lead.split(/^#{2,6}\s/m)[0];
+  const coreGoal=clean(frontBlock.match(/^-\s*(?:核心目標|目標|問題)\s*[：:]\s*(.+)$/m)?.[1]||'');
   const reviewedDate=reviewDate(markdown);
   const extracted=extractActionableGuidance(markdown);
   const howText=copy.how||extracted.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。';

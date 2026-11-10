@@ -2452,7 +2452,9 @@ const TASK_COVERAGE_MARKER = '僅相關詞';
 // describes this" — UC-035's title is a resume rewrite — but no case holds both
 // words in its title/purpose, and that is what the count is.
 function coverageWords(query) {
-  return tokenize(query || '').slice(0, 4).map(term => `「${term}」`).join('');
+  // Every word, never a truncated list: the sentence says 「同時包含」 and a shortened
+  // list would claim more than was measured.
+  return tokenize(query || '').map(term => `「${term}」`).join('');
 }
 function annotateTaskCoverage() {
   if (typeof document.querySelectorAll !== 'function') return 0;

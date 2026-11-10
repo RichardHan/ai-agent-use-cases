@@ -154,3 +154,15 @@
 **先做的驗證**（不要先動 workflow）：用同一份語料改動量測現在的 job-minutes 與 wall time（本輪 PR 的 15 支 run 的 `started_at`→`completed_at` 加總），再比對「如果單元套件只在一支 job 跑」會少多少；同時確認那 12 支 workflow 的單元步驟有沒有任何一支跑的是子集（`tests/relevance.test.cjs`、`tests/table-reading.test.cjs`），避免把唯一的紅燈來源也收掉。
 
 補記（第二次 CI 失敗）：同一支測試在 chromium-320 的 `Forward restores the reading location` 又紅一次（`#detail[open]` 成立早於 popstate 套用捲動位置，窄螢幕還會再回流一次）。改為等待還原完成（`waitForFunction` 比對 3px，逾時就具名失敗），斷言與容差都沒放寬。本機連跑三次、五種引擎／寬度全過。
+
+## 發布
+
+- **已提交**：分支 `improve/20261114-facets`，9 個 commit（`ee472253` → `f7e3e6eb`）。
+- **已推送**：`origin/improve/20261114-facets`。
+- **PR**：[#340](https://github.com/RichardHan/ai-agent-use-cases/pull/340)。最終 head `f7e3e6eb` 上 **15 支 pull-request workflow 全部 success**，`published` 步驟依設計 skipped。
+- **已合併**：squash 成 `8fbfe082229287a23083009238a973147eb0c2a4`（`gh pr merge` 因本機 `main` 被另一個 worktree 佔用而失敗，改用 `PUT /pulls/340/merge`，`sha` 指定 `f7e3e6eb`；未繞過任何保護規則，main 本來就沒有 branch protection）。分支已刪除。
+- **部署成功**：`pages build and deployment` 對 `8fbfe082` **success**（run 42803247422）。
+- **正式站已驗證（在 live 等於 `8fbfe082` 時）**：`catalog.json.sourceRevision` = `8fbfe082…`、512 個來源檔；`index.html`／`assets/app.js`／`assets/style.css`／`assets/reader.css`／`assets/reader.js` 與合併前的 `180e00ca` 建置**逐 byte 相同**（SHA-256 前 16 碼 `8a73b8207b7ee1df`／`b81b759cd73ec63c`／`de2b8b9d1b986e25`／`04c7d8237d41413f`／`db09f4b97cc6fce9`），符合「本輪不動發布檔案」的預期。
+- **正式站三種情境重走**（1440×900 與 390×844，live = `8fbfe082`）：`?q=怎麼整理會議記錄` 7／515、第一張卡為「用法靈感」；`?q=規劃旅行&scenario=工作` 0／515，空結果提供「移除使用情境「工作」 → 查看 1 筆」，點擊後 1 筆；`?case=UC-024` 詳情直開、憑據「成果主張：社群作者／專案實踐者／核讀：本庫未獨立重現」、來源固定在 `8fbfe082`、延伸閱讀 3 列，Escape 後焦點回到 `results-count`；水平溢出 0。
+
+**未能取得的部分裁決**：合併後 3 分鐘另有 #341（`56f7a238`）合併並發布，正式站很快前進到 `56f7a238`（`catalog.json`／`corpus.json` 都已是後者，`cache-control: max-age=600`）。`8fbfe082` 的 `Website QA`（run 42803248261）因此停在 `Wait for published assets and content`：它等的是「live = 這個 SHA」，而 live 已經是它的後代。這正是 #331 設計要處理的 superseded 情況，本輪觀察到它仍在等而不是立刻改走逐檔比對——屬下一輪要查的項目，本輪不宣稱該 run 已通過。

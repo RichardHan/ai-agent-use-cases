@@ -107,3 +107,4 @@
 - 正式站重走（1440×900／390×844／320×740，停用瀏覽器快取）：`?case=UC-005` 顯示「核心目標」原句（`declared`）、`?case=UC-101` 顯示章節註記（`section`，指名〈問題與作者實際使用〉）、`?case=UC-017` 顯示缺漏註記（`missing`），水平溢出 0；`tests/core-goal-provenance-browser.cjs` 對正式站三種寬度通過；`tests/detail-trust-summary-browser.cjs` 對正式站 axe 0。
 - 正式站三情境：`?q=會議` 27／515（首批 24 張、13 張有 🎯）、`?q=會議&scenario=生活&difficulty=進階開發` 0／515 → 點「移除實作門檻」回到 3 筆、`?q=會議&case=UC-005` 直鏈核心目標為 `declared`、來源連結固定於 `73e2822`，關閉後回到 `?q=會議` 27 筆。
 - 首次載入的注意事項：直接開分頁時曾拿到快取的舊 `app.js`（畫面像沒變），停用快取後即為新版；`curl` 取得的 `assets/app.js` 與本機逐 byte 相同，因此是本機瀏覽器快取，不是部署問題。
+- 紀錄提交 `b8fdf2c5`（PR #325）部署後：`pages build and deployment` [42738367332](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42738367332) success，正式站 `sourceRevision` = `b8fdf2c5…`、512 個來源檔；`index.html` 與七個 `assets/*` 仍與 `73e28229` 逐 byte 相同（此提交只改 `SITE.md` 與本紀錄），`?case=UC-005` 與 `?q=會議` 27／515 複核不變。

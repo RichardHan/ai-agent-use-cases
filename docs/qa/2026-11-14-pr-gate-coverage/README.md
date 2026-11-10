@@ -94,14 +94,14 @@
 | 情況 | 結果 |
 | --- | --- |
 | workflow 用 `on: pull_request` 或 `on: [push, pull_request]`（沒有 paths） | 視為涵蓋全部 PR，通過所有覆蓋斷言 |
-| workflow 用 `paths-ignore` | 目前 repo 沒有；parser 不支援，會因為讀不到 `paths` 而當成「無過濾」= 涵蓋全部（保守，不會誤判成有覆蓋） |
+| workflow 用 `paths-ignore`（只有排除、沒有 `paths`） | 目前 repo 沒有；讀不到 `paths` 時視為涵蓋全部，語意正確（它確實會在所有 PR 上跑），不是保守近似 |
 | 同一支測試被多支 PR workflow 執行 | 只要有一支的 paths 涵蓋它就算可達；不要求每支都列 |
 | 該測試檔存在但沒有任何 PR workflow 執行它 | 不算違規（本輪只約束「有執行就要能被觸發」） |
 
 ## 已知限制
 
 - 本輪沒有動 `assets/`、`index.html`、`cases/`：網站輸出不變，因此沒有前後截圖可比較，正式站的視覺與搜尋行為應與基準相同（合併後仍重走三種情境確認）。
-- parser 是針對 repo 現行寫法的簡化版，不是通用 YAML：`pull_request: {paths: [...]}` 這種 flow mapping 會讀不到 paths 而當成無過濾（保守方向）。沒有引入 YAML 依賴是刻意的（repo 沒有 `package.json`）。
+- parser 是針對 repo 現行寫法的簡化版，不是通用 YAML：`pull_request: {paths: [...]}` 這種 flow mapping 讀不到 paths，會被當成「無過濾」而通過覆蓋斷言（方向是誤放，不是誤擋）。目前 57 支 workflow 沒有這種寫法。沒有引入 YAML 依賴是刻意的（repo 沒有 `package.json`）。
 - 新增的觸發只證明「會啟動」，不證明「跑得完且會紅」；三支原本不可達的 workflow 在本輪 PR 上的實際結果見下方發布段。
 
 ## 獨立審查（未參與實作）與修正

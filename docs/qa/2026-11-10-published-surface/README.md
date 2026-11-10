@@ -66,6 +66,7 @@
 修正後 `node --test tests/*.test.cjs` **629 通過／0 失敗**（+3）。另以真實檔案驗證新解析：在 `README.md` 加一行 `[驗收紀錄](docs/qa/…)` → `FAIL: README.md 連到已排除的「docs」…（網站上會是 404）`（exit 1）；還原後 PASS。建置產物模式把 `cases/005-cloud-pr-review.md` 移出模擬產物 → `FAIL: 建置產物缺少 1 個來源檔（例：cases/005-cloud-pr-review.md）`。
 
 
+## 已知限制
 
 - 本機沒有 Jekyll，`_site` 只能在 CI 產生；`scripts/check-page-language.cjs` 需要 Jekyll 產生的 `INDEX.html` 與 `cases/*.html`，本機模擬產物無法重現，因此建置產物模式在 CI 之前只以合成目錄驗證邏輯。
 - 沒有證明 artifact 大小與 `syncing_files` 逾時的因果，只量到相關的成長與移除後的變化。
@@ -76,3 +77,14 @@
 ## 下一輪
 
 先做 **`解決痛點`（`- 核心目標`）的缺漏**，但範圍比上一輪紀錄寫的小：本輪重新量測 508 篇案例頁，**221 篇**有 `- 核心目標：`、**7 篇**用 `- 目標：`／`- 問題：`（UC-004～007、010～012），**280 篇（55.1%）** 完全沒有問題陳述欄位；`- 痛點：` 出現 0 次。那 7 篇的句子其實已被 `assets/app.js:1023` 讀進 `summary`，但因 `what` 優先取全 508 篇都有的 `- 一句話用途：`，卡片與詳情都不會顯示它。驗證第一步：先跑 `tests/detail-reading-and-evidence.test.cjs` 與 `tests/target-user-provenance.test.cjs`，確認把 `目標`／`問題` 併入 `coreGoal`（仍屬宣告）之後，卡片高度與 `?q=` 命中數不變，再決定 280 篇要標示缺漏或維持不顯示。
+
+## 發布
+
+- PR [#323](https://github.com/RichardHan/ai-agent-use-cases/pull/323) head `0e41ffbf`：3 項檢查全 success（`Website QA` [42739621936](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42739621936) 7m44s、`Reader QA` [42739621616](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42739621616) 5m37s、`Search context QA` [42739621747](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42739621747) 1m52s）。`Website QA` 第 13 步 `Verify published surface` 對 `actions/jekyll-build-pages@v1` 的實際 `_site` 輸出 `PASS: 發布面 814 個檔案、5.63 MiB；排除 9 項；建置產物不含已排除的目錄，且來源檔齊全`。
+- squash 合併 `fb53428ee0a90f1b5b150aed59d4deeb8a7b4fde`（2026-11-10T02:07:56Z）。
+- `pages build and deployment` [42740604355](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42740604355)：`build` 02:08:01→02:08:41（40 秒）success、`deploy` 02:08:46→02:11:00（134 秒）success。**artifact 從 311,753,058 bytes 降到 6,440,675 bytes（48.4 倍）**，同步集合少了 3,845 個檔案。
+- main 的 `Website QA` [42740604808](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42740604808)：success，`Verify published surface`、`Wait for published assets and content`、`Verify the published GitHub Pages site` 全部 success——部署與正式站都對同一個版本完成核對。
+- 正式站 `catalog.json.sourceRevision` = `fb53428e…`、`corpus.json` 512 個來源；`index.html`、`assets/app.js`、`assets/style.css`、`assets/reader.css` 與 `origin/main` 逐 byte 相同（`catalog.json`／`corpus.json` 由 Liquid 於建置時產生，`builtAt`／`bundleRevision` 每次不同，屬預期）。
+- 正式站路徑核對：`/`、`cases/515-…md`、`cases/516-…md`、`index.html`、`assets/app.js`、`assets/style.css`、`README.md`、`INDEX.md`、`templates/case.md`、`sources/pending.md`、`sources/README.md`、`catalog.json`、`corpus.json`、`audit-summary.json` 全部 200；`docs/qa/2026-11-11-target-user-provenance/README.md` 與同目錄 PNG 由 200 變 **404**；`scripts/preview.py` 仍 404。本輪兩個直接效果都量到：先前 404 的新案例已上線，先前公開的驗收截圖已不再發布。
+- 正式站三情境重走（1440×900／390×844，`sourceRevision` 皆 `fb53428e`）：`?q=收件匣` 155／515、第一張卡不變；`?q=食譜&scenario=工作&difficulty=進階開發` 0／515，空結果列出「移除實作門檻「進階開發」 → 查看 1 筆」，點擊後回到 1／515；`?case=UC-014` 直開詳情、顯示宣告的適合對象與「案例頁自行宣告」註記、關閉後回到 24 張卡；兩尺寸水平溢出 0、站內相對 `docs/` 連結 0。與部署前同一份量測逐項相同，前端沒有變。
+

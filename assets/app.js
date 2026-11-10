@@ -3241,30 +3241,27 @@ function substringRecoveryOptions(items, query, filters, limit=3) {
 // → 查看 1 筆" while searching 「機票」 alone finds 11 — so a word that carries more
 // hits than the removal leaves behind replaces that removal instead of following it.
 function queryRecoveryOptions(items, query, filters, limit=3) {
-  const removals=queryRelaxationOptions(items, query, filters);
   const words=vocabularyRecoveryOptions(items, query, filters, limit);
   const offered=new Set(words.map(option=>norm(option.query)));
   const narrowed=[];
-  for(const {removed,count} of removals){
-    const term=norm(removed);
-    // Latin tokens and one-character runs are not words the library indexes.
-    if(!/^[\u3400-\u9fff]{2,6}$/.test(term) || offered.has(term))continue;
-    const hits=filterEntries(items, tokenize(term), filters).length;
-    if(hits<=count)continue;
-    offered.add(term);
-    narrowed.push({query:removed,count:hits});
+  const removals=[];
+  for(const option of queryRelaxationOptions(items, query, filters)){
+    const term=norm(option.removed);
+    // Latin tokens and one-character runs are not words this library indexes, so
+    // dropping one never costs a search the visitor could have made instead.
+    const hits=/^[\u3400-\u9fff]{2,6}$/.test(term) ? filterEntries(items, tokenize(term), filters).length : 0;
+    if(hits>option.count){
+      // Searching the word finds more than deleting it leaves behind.
+      if(offered.has(term))continue;
+      offered.add(term);
+      narrowed.push({query:option.removed,count:hits});
+      continue;
+    }
+    // One next step per resulting search, however it is worded.
+    if([...words, ...narrowed].some(word=>norm(word.query)===norm(option.query)))continue;
+    removals.push(option);
   }
-  return {
-    words:[...words, ...narrowed].slice(0,limit),
-    removals:removals.filter(({removed,query,count})=>{
-      const term=norm(removed);
-      // Dropping a word the library can search is only a next step when that word
-      // alone finds no more than the rest of the question does.
-      if(filterEntries(items, tokenize(term), filters).length>count)return false;
-      // One next step per resulting search, however it is worded.
-      return !words.some(option=>norm(option.query)===norm(query)) && !narrowed.some(option=>norm(option.query)===norm(query));
-    })
-  };
+  return {words:[...words, ...narrowed].slice(0,limit), removals};
 }
 
 // A visitor's everyday phrase often fuses two library terms into one CJK run

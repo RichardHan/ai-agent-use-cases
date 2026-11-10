@@ -5,6 +5,9 @@ on:
       - 'assets/**'
       - 'index.html'
       - 'INDEX.md'
+      - 'README.md'
+      - 'README-archive-2026-10-18.md'
+      - 'templates/**'
       - 'catalog.json'
       - 'corpus.json'
       - 'audit-summary.json'
@@ -17,7 +20,7 @@ on:
       - '.github/workflows/website-qa.yml'
   push:
     branches: ['main']
-    paths: ['assets/**', 'index.html', 'INDEX.md', 'catalog.json', 'corpus.json', 'audit-summary.json', 'cases/**', 'evidence/**', 'sources/**', '_config.yml', 'tests/**', 'scripts/**', '.github/workflows/website-qa.yml']
+    paths: ['assets/**', 'index.html', 'INDEX.md', 'README.md', 'README-archive-2026-10-18.md', 'templates/**', 'catalog.json', 'corpus.json', 'audit-summary.json', 'cases/**', 'evidence/**', 'sources/**', '_config.yml', 'tests/**', 'scripts/**', '.github/workflows/website-qa.yml']
 concurrency:
   group: website-qa-${{ github.ref }}
   cancel-in-progress: true

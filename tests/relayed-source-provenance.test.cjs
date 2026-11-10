@@ -43,7 +43,7 @@ const context = vm.createContext({
     getElementById: () => createElement('div')
   }
 });
-vm.runInContext(source + '\nthis.api={parseFile,declaredEvidenceClasses,declaredEvidenceClass,relayedEvidenceClasses,facetCounts,proofBadges,declaredClassList,PROOF_PROVENANCE,card};', context);
+vm.runInContext(source + '\nthis.api={parseFile,declaredEvidenceClasses,declaredEvidenceClass,relayedEvidenceClasses,facetCounts,proofBadges,declaredClassList,PROOF_PROVENANCE,card,copyNoteText};', context);
 const api = context.api;
 
 const files = ['cases', 'evidence']
@@ -67,7 +67,7 @@ test('a class rule must not borrow a word from another declared clause', () => {
   assert.equal(api.declaredEvidenceClass('官方自報內部實作；有操作例與畫面，非第三方審計。本次只核讀，未重現。', 'case'), '官方自報');
 });
 
-test('a relayed official declaration is exposed as data, and a later source is not', () => {
+test('a relayed declaration is exposed as data, and a later source is not', () => {
   assert.deepEqual([...api.relayedEvidenceClasses('official（Spaces 功能與官方作例，經來源轉述）＋designed（兩位作者自擬）')], ['官方自報']);
   assert.deepEqual([...api.relayedEvidenceClasses('official（廠商工作坊示範與官方影片說明；Team Bots 官方文件已讀）。本庫未觀看影片，流程細節來自影片說明欄的官方章節與第三方文字整理；未獨立重現。')], ['官方自報']);
   // The relay note belongs to another source in these pages, so the official
@@ -80,26 +80,75 @@ test('a relayed official declaration is exposed as data, and a later source is n
     'reading the official page directly is not a relayed declaration');
 
   const relayed = entries.filter(entry => entry.relayedProof.length).map(entry => entry.id);
-  assert.deepEqual(relayed.map(id => String(id)).sort(), ['UC-316', 'UC-514'], 'only the pages that state the relay carry the qualifier');
+  assert.deepEqual(relayed.map(id => String(id)).sort(), ['UC-049', 'UC-093', 'UC-282', 'UC-316', 'UC-514'],
+    'the pages that state the relay carry the qualifier, the others do not');
   assert.deepEqual([...byId('UC-316').relayedProof], ['官方自報']);
   assert.deepEqual([...byId('UC-514').relayedProof], ['官方自報']);
   assert.deepEqual([...byId('UC-007').relayedProof], [], 'a directly read official page stays unqualified');
 });
 
+test('an author claim read through someone else is qualified, a first-hand read is not', () => {
+  // The three author pages whose own header says the experience came through an
+  // interview summary or a fan-account retelling of a video.
+  assert.deepEqual([...api.relayedEvidenceClasses('author-demo（經 ChatGPT Pro Community 訪談轉述）。無操作錄影；未核特定診所系統。')], ['作者報告／示範']);
+  assert.deepEqual([...api.relayedEvidenceClasses('`author-demo`（X 上的作者自述、影片轉述與跨產品比較）＋ `designed`（本庫提示詞）')], ['作者報告／示範']);
+  assert.deepEqual([...api.relayedEvidenceClasses('`author-self-report`（Greg Isenberg 訪談影片的轉載摘要頁）；影片逐字稿本庫未看，列為缺口；建議流程為 `designed`')], ['作者報告／示範']);
+  for (const id of ['UC-049', 'UC-093', 'UC-282'])
+    assert.deepEqual([...byId(id).relayedProof], ['作者報告／示範'], id + ' carries the author relay qualifier');
+
+  // Two declarations in one line: the qualifier belongs to its own clause, and a
+  // repeated token is examined instead of only the first one.
+  assert.deepEqual([...api.relayedEvidenceClasses('official＋author-demo（作者內容經來源轉述）')], ['作者報告／示範'],
+    'a parenthesis that opens the next declaration must not qualify the previous class');
+  assert.deepEqual([...api.relayedEvidenceClasses('author-demo（作者貼文已讀）＋author-demo（訪談摘要頁）')], ['作者報告／示範'],
+    'the second occurrence of the same token is read too');
+  assert.deepEqual([...api.relayedEvidenceClasses('author-demo（作者內容 via interview summary page）')], ['作者報告／示範'],
+    'an English parenthetical states the same acquisition route');
+  assert.deepEqual([...api.relayedEvidenceClasses('official（官方說明；文件已讀）')], [],
+    'a semicolon inside the declaration does not split it');
+  // A skipped video beside a post the library did read is a gap, not a relay.
+  assert.deepEqual([...api.relayedEvidenceClasses('`author-demo`（兩位作者自述實測；來源A 兩則貼文各附影片，本庫只看影片縮圖未播放；來源B 一則貼文＋一張成品圖）；本庫提示詞為 `designed`')], [],
+    'a video the library skipped does not turn its post into a retelling');
+  assert.deepEqual([...api.relayedEvidenceClasses('`author-demo`（作者自述實測），原作者貼文＋一張流程示意插圖（非實際畫面）；另一位轉述者明說自己未做再現測試。')], [],
+    'a later sentence about another person must not qualify the author clause');
+  assert.deepEqual([...api.relayedEvidenceClasses('B，作者實際診斷自述；客服認同亦為作者轉述，沒有修後驗收。')], [],
+    'the vendor agreeing through the author is stated inside the claim, not about acquisition');
+  assert.deepEqual([...api.relayedEvidenceClasses('`author-demo`（Muse 作者使用自述，貼文由 Muse 協助撰寫；Grok Bot 作者自述＋對話截圖）＋`official`（Grok Bot 雲端電腦文件）')], [],
+    'writing help is not relayed acquisition');
+  for (const id of ['UC-295', 'UC-368', 'UC-459', 'UC-512'])
+    assert.deepEqual([...byId(id).relayedProof], [], id + ' read the author post itself, so no acquisition qualifier');
+});
+
 test('the card keeps the filter label and states the acquisition route', () => {
   const relayed = api.card(byId('UC-514'), []);
-  const badge = relayed.children.find(child => child.className === 'card-bottom')
-    .children.find(child => child.className === 'proof');
+  const bottom = relayed.children.find(child => child.className === 'card-bottom');
+  const badge = bottom.children.find(child => child.className === 'proof');
   assert.equal(badge.textContent, '官方自報', 'the visible label stays the filter value');
   assert.equal(badge.dataset.proofProvenance, 'relayed');
   assert.match(badge.getAttribute('aria-label'), /官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文/);
   assert.match(badge.title, /官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文/);
+  const officialMark = bottom.children.find(child => child.className === 'proof-relayed');
+  assert.equal(officialMark.textContent, '取得：經轉述');
+  assert.equal(officialMark.getAttribute('aria-label'), '取得方式：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文');
+
+  // An author claim read through a retelling says so too, with its own wording.
+  const author = api.card(byId('UC-282'), []);
+  const authorBottom = author.children.find(child => child.className === 'card-bottom');
+  assert.equal(authorBottom.children.find(child => child.className === 'proof').textContent, '作者報告／示範');
+  const authorMark = authorBottom.children.find(child => child.className === 'proof-relayed');
+  assert.ok(authorMark, 'the author relay gets a visible marker on the card');
+  assert.match(authorMark.getAttribute('aria-label'), /作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文/);
 
   const direct = api.card(byId('UC-007'), []);
-  const directBadge = direct.children.find(child => child.className === 'card-bottom')
-    .children.find(child => child.className === 'proof');
+  const directBottom = direct.children.find(child => child.className === 'card-bottom');
+  const directBadge = directBottom.children.find(child => child.className === 'proof');
   assert.equal(directBadge.dataset.proofProvenance, undefined);
   assert.doesNotMatch(directBadge.getAttribute('aria-label'), /未完整核讀官方原文/);
+  assert.equal(directBottom.children.filter(child => child.className === 'proof-relayed').length, 0,
+    'a first-hand read gets no acquisition marker');
+  assert.equal(api.card(byId('UC-093'), []).children.find(child => child.className === 'card-bottom')
+    .children.find(child => child.className === 'proof-relayed').textContent, '取得：經轉述',
+  'the marker does not claim a class the page did not declare');
 });
 
 test('the detail chips keep the label and add the acquisition route', () => {
@@ -113,6 +162,15 @@ test('the detail chips keep the label and add the acquisition route', () => {
   const classList = api.declaredClassList(item);
   const first = classList.children.find(child => child.className === 'proof-note-class-list').children[0];
   assert.match(first.children[1].textContent, /官方團隊／原廠自述（官方內容經第三人轉述）/);
+});
+
+test('the copied note and the related row repeat the acquisition route', () => {
+  const relayed = api.copyNoteText(byId('UC-282'), 'https://example.test/?case=UC-282');
+  assert.match(relayed, /📎 來源證據：.*（作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文）/);
+  const direct = api.copyNoteText(byId('UC-007'), 'https://example.test/?case=UC-007');
+  assert.doesNotMatch(direct, /經第三人轉述/, 'a first-hand read does not gain a qualifier in the copied note');
+  const official = api.copyNoteText(byId('UC-514'), 'https://example.test/?case=UC-514');
+  assert.match(official, /官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文/);
 });
 
 test('the evidence facet counts one class per entry after the reclassification', () => {

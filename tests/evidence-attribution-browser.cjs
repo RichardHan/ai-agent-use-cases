@@ -6,6 +6,9 @@
 // whose substance is two authors' unrun prompts. This check holds the page to the
 // declaration: every class is visible, the primary one is labelled as primary,
 // the filter still counts each case once, and the pending counter matches the file.
+// It also holds the other half of the same rule: a claim the page itself says came
+// through a retelling carries its acquisition route on the card and the first
+// screen, so an author class is not read as a first-hand account.
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
 const { AxeBuilder } = require('@axe-core/playwright');
@@ -131,6 +134,60 @@ const read = page => page.evaluate(() => {
     assert.equal(single.classRows.length, 0, 'no class list when there is only one class');
     assert.equal(await page.locator('.detail-trust-summary .detail-trust-item').count(), 2,
       'a directly read case keeps exactly the claimant and verification facts');
+
+    // An author claim read through an interview summary says so, on the card and
+    // on the detail's first screen, without changing the class or the facet count.
+    const authorContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+    const authorPage = await authorContext.newPage();
+    const authorErrors = [];
+    authorPage.on('pageerror', error => authorErrors.push(String(error)));
+    await authorPage.goto(origin + '?q=' + encodeURIComponent('診所'), { waitUntil: 'networkidle' });
+    await authorPage.waitForFunction(() => !document.getElementById('copy-search-link').disabled, null, { timeout: 90000 });
+    const relayCard = await authorPage.evaluate(() => {
+      const card = document.querySelector('.card[data-case-id="UC-282"]');
+      if (!card) return null;
+      const mark = card.querySelector('.proof-relayed');
+      const badge = card.querySelector('.proof');
+      const box = mark?.getBoundingClientRect();
+      const bottom = card.querySelector('.card-bottom').getBoundingClientRect();
+      return {
+        label: badge?.textContent ?? '',
+        mark: mark?.textContent ?? null,
+        markLabel: mark?.getAttribute('aria-label') ?? '',
+        markBox: box ? { width: Math.round(box.width), height: Math.round(box.height) } : null,
+        bottomHeight: Math.round(bottom.height),
+        overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
+      };
+    });
+    assert.ok(relayCard, 'the search for 診所 still lists UC-282');
+    assert.equal(relayCard.label, '作者報告／示範', 'the visible label stays the filter value');
+    assert.equal(relayCard.mark, '取得：經轉述', 'the card says the account came through a retelling');
+    assert.match(relayCard.markLabel, /^取得方式：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文$/);
+    assert.ok(relayCard.markBox.height >= 20 && relayCard.markBox.width > 0, 'the marker is rendered, not a zero-size node');
+    assert.equal(relayCard.overflow, 0, 'the extra marker does not overflow the phone width');
+
+    await authorPage.goto(caseUrl('UC-282'), { waitUntil: 'networkidle' });
+    await authorPage.waitForSelector('#detail[open]', { timeout: 90000 });
+    const authorDetail = await authorPage.evaluate(() => {
+      const summary = document.querySelector('.detail-trust-summary');
+      const prov = summary.querySelector('.detail-trust-provenance');
+      const box = prov?.getBoundingClientRect();
+      return {
+        text: summary.innerText.replace(/\s+/g, ' ').trim(),
+        provenance: prov?.textContent.trim() ?? '',
+        visible: !!box && box.top >= 0 && box.bottom <= innerHeight,
+        note: document.querySelector('.proof-note-provenance')?.textContent.trim() ?? ''
+      };
+    });
+    assert.match(authorDetail.text, /成果主張：社群作者／專案實踐者（作者內容經第三人轉述）/,
+      'the first screen says the claimant reached the library through someone else');
+    assert.equal(authorDetail.provenance, '取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文');
+    assert.ok(authorDetail.visible, 'the acquisition line stays on the first screen');
+    assert.match(authorDetail.note, /本庫取得方式：案例頁說明作者的使用經驗是由第三人轉述/);
+    assert.equal((await axe(authorPage)).violations.length, 0, 'axe violations on the relayed author detail');
+    assert.equal(authorErrors.length, 0, `author page errors: ${authorErrors.join(' | ')}`);
+    rows.push({ name: 'author-relayed', width: 390, height: 844, card: relayCard.mark, provenance: authorDetail.provenance, axe: 0 });
+    await authorContext.close();
 
     // The source-type facet still partitions the corpus: each case counts once,
     // under its primary class, and every declared class is named on the card.

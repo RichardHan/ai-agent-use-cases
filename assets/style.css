@@ -457,7 +457,7 @@
 
 /* Evidence proof badge styling: credible, accessible, and responsive. */
 .card-bottom .proof{font-size:12px;line-height:1.5;color:#244237;font-weight:550;background:#edf3ea;border:1px solid #d4e0cf;border-radius:4px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;flex:0 1 auto;max-width:fit-content}
-.card-bottom .proof[data-proof="官方自報"]{background:#ebf5fa;border-color:#cde4f0;color:#1a4f6e}
+.card-bottom .proof[data-proof="官方自報"]{background:#ebf5fa;border-color:#cde4f0;color:#1a4f6e}.card-bottom .proof-relayed{font-size:11px;line-height:1.5;color:#7a4a12;background:#fdf3e3;border:1px dashed #e6c88f;border-radius:4px;padding:3px 8px;flex:0 1 auto;max-width:100%;overflow-wrap:anywhere}
 .card-bottom .proof[data-proof="作者報告／示範"]{background:#edf3ea;border-color:#d4e0cf;color:#244237}
 .card-bottom .proof[data-proof="公開資料核讀"]{background:#f4f3ec;border-color:#e2decb;color:#4b4533}
 .card-bottom .proof[data-proof="尚待查證"]{background:#fcf3e3;border-color:#f0dab0;color:#7c4f10}

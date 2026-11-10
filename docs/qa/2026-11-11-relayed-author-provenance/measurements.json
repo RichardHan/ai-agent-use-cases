@@ -1,0 +1,95 @@
+[
+  {
+    "label": "before",
+    "size": "desktop",
+    "geom": {
+      "mark": null,
+      "bottomHeight": 57,
+      "overflow": 0
+    },
+    "detail": {
+      "provenance": null,
+      "onScreen": false,
+      "top": null
+    }
+  },
+  {
+    "label": "before",
+    "size": "phone",
+    "geom": {
+      "mark": null,
+      "bottomHeight": 57,
+      "overflow": 0
+    },
+    "detail": {
+      "provenance": null,
+      "onScreen": false,
+      "top": null
+    }
+  },
+  {
+    "label": "before",
+    "size": "small",
+    "geom": {
+      "mark": null,
+      "bottomHeight": 57,
+      "overflow": 0
+    },
+    "detail": {
+      "provenance": null,
+      "onScreen": false,
+      "top": null
+    }
+  },
+  {
+    "label": "after",
+    "size": "desktop",
+    "geom": {
+      "mark": {
+        "w": 84,
+        "h": 25
+      },
+      "bottomHeight": 57,
+      "overflow": 0
+    },
+    "detail": {
+      "provenance": "取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文",
+      "onScreen": true,
+      "top": 311
+    }
+  },
+  {
+    "label": "after",
+    "size": "phone",
+    "geom": {
+      "mark": {
+        "w": 84,
+        "h": 25
+      },
+      "bottomHeight": 57,
+      "overflow": 0
+    },
+    "detail": {
+      "provenance": "取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文",
+      "onScreen": true,
+      "top": 396
+    }
+  },
+  {
+    "label": "after",
+    "size": "small",
+    "geom": {
+      "mark": {
+        "w": 84,
+        "h": 25
+      },
+      "bottomHeight": 90,
+      "overflow": 0
+    },
+    "detail": {
+      "provenance": "取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文",
+      "onScreen": true,
+      "top": 419
+    }
+  }
+]

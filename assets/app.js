@@ -82,15 +82,34 @@ const PROOF_SAFE_ADOPTION_TIP = globalThis.PROOF_SAFE_ADOPTION_TIP = {
 // original. The class still names who makes the claim, so the badge keeps the
 // same visible text (and the same filter value), and the acquisition route is
 // stated beside it instead of being implied by the badge alone.
+// Two classes can carry a relayed acquisition route, and each needs its own
+// sentence: an official claim read through someone else's account is a different
+// admission from an author's experience read through an interview summary.
 const PROOF_PROVENANCE = globalThis.PROOF_PROVENANCE = {
-  relayed: {
+  '官方自報': {
     badge: '官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文',
     claimant: '（官方內容經第三人轉述）',
     note: '本庫取得方式：案例頁說明官方內容經第三方轉述，或本庫只讀到影片說明與第三人整理（例如未觀看影片、未開啟官方頁面）。來源憑據仍記為官方自報，因為成果主張來自官方團隊；但這不代表本庫完整核讀過官方原文，引用前請自行開啟官方來源核對。'
+  },
+  '作者報告／示範': {
+    badge: '作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文',
+    claimant: '（作者內容經第三人轉述）',
+    note: '本庫取得方式：案例頁說明作者的使用經驗是由第三人轉述、轉載或摘要整理，或本庫只讀到訪談摘要頁、影片轉述而沒有取得作者原文與原始紀錄。來源憑據仍記為作者報告／示範，因為成果主張來自作者；但這不代表本庫讀過作者的原始紀錄，引用前請自行開啟作者原文核對。'
   }
 };
 function proofIsRelayed(item, label) {
   return !!item && Array.isArray(item.relayedProof) && item.relayedProof.includes(label);
+}
+// The classes whose acquisition route the page itself describes. The card, the
+// first screen and the long note all read this list, so a page can never show the
+// qualifier in one place and a first-hand reading in another.
+function relayedProofLabels(item) {
+  if (!item || !Array.isArray(item.relayedProof) || !item.relayedProof.length) return [];
+  const classes = item.proofClasses && item.proofClasses.length ? item.proofClasses : [item.proof];
+  return classes.filter(label => item.relayedProof.includes(label) && PROOF_PROVENANCE[label]);
+}
+function provenanceText(item, key, separator = '；') {
+  return relayedProofLabels(item).map(label => PROOF_PROVENANCE[label][key]).filter(Boolean).join(separator);
 }
 // The first screen and the full note speak for the page, so any relayed
 // declaration has to be visible there, not only when it is the primary class.
@@ -105,10 +124,10 @@ function proofBadges(item) {
     const relayed = proofIsRelayed(item, label);
     if (relayed) badge.dataset.proofProvenance = 'relayed';
     const desc = PROOF_DEFINITIONS[label] || label;
-    badge.title = desc + (relayed ? '（' + PROOF_PROVENANCE.relayed.badge + '）' : '');
+    badge.title = desc + (relayed ? '（' + PROOF_PROVENANCE[label].badge + '）' : '');
     badge.setAttribute('role', 'note');
     const prefix = classes.length > 1 ? (index === 0 ? '來源憑據（主要）：' : '來源憑據（同案宣告）：') : '來源憑據：';
-    badge.setAttribute('aria-label', prefix + label + (relayed ? '，' + PROOF_PROVENANCE.relayed.badge : '') + '。' + desc);
+    badge.setAttribute('aria-label', prefix + label + (relayed ? '，' + PROOF_PROVENANCE[label].badge : '') + '。' + desc);
     return badge;
   });
 }
@@ -127,7 +146,7 @@ function declaredClassList(item) {
     entry.append(
       tag,
       el('span', 'proof-note-class-detail', (index === 0 ? '主要' : '同案宣告') + '：成果主張 ' + (PROOF_CLAIMANTS[label] || '來源未明')
-        + (relayed ? PROOF_PROVENANCE.relayed.claimant : '') + '；核讀 ' + (PROOF_STATUS_SHORT[label] || '未獨立重現'))
+        + (relayed ? PROOF_PROVENANCE[label].claimant : '') + '；核讀 ' + (PROOF_STATUS_SHORT[label] || '未獨立重現'))
     );
     list.append(entry);
   });
@@ -1101,28 +1120,57 @@ function declaredEvidenceClass(proofLine, kind) {
 // `official`, so the badge, the claimant line and the detail note cannot present
 // a first-hand reading the case page does not claim.
 const RELAYED_OFFICIAL = /經[^。；，]{0,12}轉述|官方轉述|轉述的官方|二手轉述|未觀看影片|影片未(?:觀看|播放|看)|未看影片|未讀官方|官方[^。；，]{0,6}未(?:讀|開啟)/;
-// Look only where the `official` declaration lives: its own parenthetical group
-// plus the sentence fragment that follows it. A later sentence about a different
-// source (`…快照回滾事件為二手轉述 unverified`, `…通話影片（本庫未看）`) describes
-// that other source, so it must not qualify the official class.
-function relayedEvidenceClasses(proofLine) {
-  // proofLine is already `clean()`ed, so the declaration token arrives unquoted.
-  if (!/\bofficial\b/i.test(proofLine)) return [];
-  const rest = proofLine.slice(proofLine.search(/\bofficial\b/i));
-  const open = rest.indexOf('（');
-  let window;
-  if (open === -1) {
-    window = rest.split(/[。；;＋+]/)[0];
-  } else {
-    const close = rest.indexOf('）', open);
-    const groupEnd = close === -1 ? rest.length : close + 1;
-    // Only a following sentence belongs to this declaration; anything after ＋／；
-    // is a different source (`＋author-demo（…本庫未觀看影片）`).
-    const after = rest.slice(groupEnd);
-    const tail = /^[。\s]/.test(after) ? after.replace(/^[。\s]+/, '').split(/[。；;＋+]/)[0] : '';
-    window = rest.slice(0, groupEnd) + tail;
+// An author's account can reach the library the same way: an interview summary, a
+// reposted thread, a secondhand infographic. Read that only from the clause that
+// declares the author claim, so a video the library skipped beside a post it did
+// read (`附影片…本庫只看縮圖`) does not turn a first-hand read into a relay.
+const RELAYED_AUTHOR = /經[^。；，]{0,30}轉述|訪談轉述|影片轉述|轉載(?:摘要|整理|頁)|摘要頁|二手(?:轉述|資訊|整理|報導)|作者原(?:文|帖|貼文)[^。；，]{0,6}未(?:取得|找到)|原[^。；，]{0,4}未取得|只讀到[^。；，]{0,10}(?:摘要|轉述|整理)|interview summary|summary (?:page|of (?:the|an) interview)|retelling|reposted|second[- ]hand|original (?:post|thread|article)[^.;]{0,12}(?:not|never) (?:read|found|available)|via (?:a )?(?:summary|retelling|repost)/i;
+const AUTHOR_DECLARATION = /\bauthor-(?:demo|self-report)\b|作者(?:自述|實測|實作)/gi;
+const OFFICIAL_DECLARATION = /\bofficial\b/gi;
+// A declaration's own parenthetical plus the sentence fragment that follows it.
+// A later sentence about a different source (`…快照回滾事件為二手轉述 unverified`,
+// `…通話影片（本庫未看）`) describes that other source, so it must not qualify the
+// class: a `＋`／`；` at parenthesis depth 0 starts another declaration, and the
+// parenthesis this class owns is the first one before that boundary. Semicolons
+// inside a declaration (`official（…說明；Team Bots 文件已讀）`) stay inside it.
+function declarationWindow(proofLine, index) {
+  const rest = proofLine.slice(index);
+  let depth = 0, boundary = rest.length, groupOpen = -1, groupClose = -1;
+  for (let i = 0; i < rest.length; i += 1) {
+    const ch = rest[i];
+    if (ch === '（') {
+      if (depth === 0 && groupOpen === -1) groupOpen = i;
+      depth += 1;
+    } else if (ch === '）') {
+      if (depth > 0) {
+        depth -= 1;
+        if (depth === 0 && groupClose === -1) groupClose = i;
+      }
+    } else if (depth === 0 && /[＋+；;]/.test(ch)) {
+      boundary = i;
+      break;
+    }
   }
-  return RELAYED_OFFICIAL.test(window) ? ['官方自報'] : [];
+  const clause = rest.slice(0, boundary);
+  if (groupOpen === -1 || groupClose === -1 || groupClose >= boundary) return clause.split('。')[0];
+  const groupEnd = groupClose + 1;
+  const after = clause.slice(groupEnd);
+  const tail = after.startsWith('。') ? after.replace(/^。+/, '').split('。')[0] : '';
+  return clause.slice(0, groupEnd) + tail;
+}
+function declarationStatesRelay(text, declaration, relayPattern) {
+  const pattern = new RegExp(declaration.source, declaration.flags);
+  for (const match of text.matchAll(pattern)) {
+    if (relayPattern.test(declarationWindow(text, match.index))) return true;
+  }
+  return false;
+}
+function relayedEvidenceClasses(proofLine) {
+  const text = String(proofLine || '');
+  const labels = [];
+  if (declarationStatesRelay(text, OFFICIAL_DECLARATION, RELAYED_OFFICIAL)) labels.push('官方自報');
+  if (declarationStatesRelay(text, AUTHOR_DECLARATION, RELAYED_AUTHOR)) labels.push('作者報告／示範');
+  return labels;
 }
 function metadata(markdown, path, kind, suffix='') {
   const title = clean(markdown.match(/^#{1,3}\s+(.+)$/m)?.[1] || path);
@@ -1273,7 +1321,7 @@ function copyNoteText(item, caseUrl) {
     `📌 用途：${item.what || item.summary}`,
     item.how ? `🚀 怎麼開始：${item.how}` : '',
     item.caution ? `⚠️ 注意事項：${item.caution}` : '',
-    item.proof ? `📎 來源證據：${item.proof}${caseHasRelayedProof(item) ? '（' + PROOF_PROVENANCE.relayed.badge + '）' : ''}` : '',
+    item.proof ? `📎 來源證據：${item.proof}${provenanceText(item, 'badge') ? '（' + provenanceText(item, 'badge') + '）' : ''}` : '',
     copyNoteStatus(item),
     `💡 說明：本庫入門建議為整理者設計，非實測結果；未獨立重現，請核對原始報告與限制。`,
     `🔗 詳情與來源：${caseUrl}`
@@ -1665,7 +1713,7 @@ function renderRelated(item) {
       button.addEventListener('click', () => showDetail(other, null));
       row.append(el('p', 'related-meta', other.id + ' · ' + reason), button,
         el('p', 'related-summary', other.summary), el('p', 'related-proof', '來源類型：' + other.proof
-          + (caseHasRelayedProof(other) ? '（' + PROOF_PROVENANCE.relayed.badge + '）' : '')));
+          + (provenanceText(other, 'badge') ? '（' + provenanceText(other, 'badge') + '）' : '')));
       list.append(row);
     });
     section.append(list);
@@ -1965,8 +2013,8 @@ function showDetail(item, trigger, updateURL=true) {
   const otherClasses = (item.proofClasses || [item.proof]).filter(label => label !== item.proof);
   trust.append(
     el('span', 'detail-trust-item', otherClasses.length
-      ? '成果主張：主要 ' + (PROOF_CLAIMANTS[item.proof] || '來源未明') + (proofIsRelayed(item, item.proof) ? PROOF_PROVENANCE.relayed.claimant : '') + '；另宣告 ' + otherClasses.join('、')
-      : '成果主張：' + (PROOF_CLAIMANTS[item.proof] || '來源未明') + (proofIsRelayed(item, item.proof) ? PROOF_PROVENANCE.relayed.claimant : '')),
+      ? '成果主張：主要 ' + (PROOF_CLAIMANTS[item.proof] || '來源未明') + (proofIsRelayed(item, item.proof) ? PROOF_PROVENANCE[item.proof].claimant : '') + '；另宣告 ' + otherClasses.join('、')
+      : '成果主張：' + (PROOF_CLAIMANTS[item.proof] || '來源未明') + (proofIsRelayed(item, item.proof) ? PROOF_PROVENANCE[item.proof].claimant : '')),
     el('span', 'detail-trust-item', otherClasses.length
       ? '核讀：主要 ' + (PROOF_STATUS_SHORT[item.proof] || '未獨立重現') + '；其他類別見下方'
       : '核讀：' + (PROOF_STATUS_SHORT[item.proof] || '未獨立重現'))
@@ -1974,7 +2022,7 @@ function showDetail(item, trigger, updateURL=true) {
   // Who made the claim and how the library obtained it are different facts; say
   // the acquisition route here instead of letting the class imply a first-hand read.
   if (caseHasRelayedProof(item))
-    trust.append(el('span', 'detail-trust-item detail-trust-provenance', '取得：' + PROOF_PROVENANCE.relayed.badge));
+    trust.append(el('span', 'detail-trust-item detail-trust-provenance', '取得：' + provenanceText(item, 'badge')));
   const trustJump = el('button', 'detail-trust-jump', '核讀與安全建議 ↓');
   trustJump.type = 'button';
   trustJump.addEventListener('click', () => {
@@ -2148,7 +2196,7 @@ function showDetail(item, trigger, updateURL=true) {
   if (multiClass) proofNote.append(declaredClassList(item));
   proofNote.append(proofTag, proofDesc);
   if (caseHasRelayedProof(item))
-    proofNote.append(el('p', 'proof-note-provenance', PROOF_PROVENANCE.relayed.note));
+    proofNote.append(el('p', 'proof-note-provenance', provenanceText(item, 'note')));
   proofNote.append(proofClaimant, proofStatus, proofSafety);
   const closure=resolvedPendingNote(item);
   if(closure)proofNote.prepend(el('p','proof-note-closure',closure));
@@ -2417,11 +2465,20 @@ function card(item, terms=[]) {
   const cardRelayed = proofIsRelayed(item, item.proof);
   if (cardRelayed) proofBadge.dataset.proofProvenance = 'relayed';
   proofBadge.title = (PROOF_DEFINITIONS[item.proof] || item.proof)
-    + (cardRelayed ? '（' + PROOF_PROVENANCE.relayed.badge + '）' : '')
+    + (cardRelayed ? '（' + PROOF_PROVENANCE[item.proof].badge + '）' : '')
     + (cardOthers.length ? ' 本案例另宣告：' + cardOthers.join('、') + '（詳見案例）' : '');
-  proofBadge.setAttribute('aria-label', '來源憑據：' + item.proof + (cardRelayed ? '，' + PROOF_PROVENANCE.relayed.badge : '') + '。' + (PROOF_DEFINITIONS[item.proof] || '')
+  proofBadge.setAttribute('aria-label', '來源憑據：' + item.proof + (cardRelayed ? '，' + PROOF_PROVENANCE[item.proof].badge : '') + '。' + (PROOF_DEFINITIONS[item.proof] || '')
     + (cardOthers.length ? ' 本案例另宣告 ' + cardOthers.length + ' 類來源：' + cardOthers.join('、') + '。' : ''));
-  bottom.append(proofBadge, read);
+  // The label stays the filter value; the acquisition route gets its own marker so a
+  // card read on a phone (no hover) still says the library read a retelling.
+  if (cardRelayed) {
+    const relayMark = el('span', 'proof-relayed', '取得：經轉述');
+    relayMark.dataset.proofProvenance = 'relayed';
+    relayMark.setAttribute('role', 'note');
+    relayMark.title = PROOF_PROVENANCE[item.proof].badge;
+    relayMark.setAttribute('aria-label', '取得方式：' + PROOF_PROVENANCE[item.proof].badge);
+    bottom.append(proofBadge, relayMark, read);
+  } else bottom.append(proofBadge, read);
   node.append(bottom);
   return node;
 }

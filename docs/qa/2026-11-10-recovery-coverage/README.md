@@ -209,3 +209,12 @@
 - **「改搜」逃生按鈕可能送錯地方**：`?q=寫履歷` 的結果頁提供「改搜「修改」→ 23 筆」，前四張與履歷無關；逃生按鈕挑的是筆數最多的 token。
 - **空結果面板的任務捷徑是「全站共用同一份清單」**，與訪客問句無關，且放在 300px 的內層捲動框（手機只完整看到 8 個）。
 - **CI 耗時**：8 個常駐 PR workflow 每次在裸 runner 上重裝瀏覽器（install 佔 job 76%／93%）；換成預載 Playwright image 是可量測的窄修補，留給 CI 專輪。
+
+## 發布
+
+- PR [#336](https://github.com/RichardHan/ai-agent-use-cases/pull/336)（head `76d184c8`）：13 項非略過檢查全部 success——`Website QA`、`Reader QA`、`Reading flow QA`、`Source guide QA`、`Search context QA`、`Partial load QA`、`Related reading QA`、`Reader search QA`、`Relevance`、`Return visibility`、`Home search entry`、`Round 23 acceptance`、`Find reader sections`；`published` 依設計 skipped。PR 上的 `Website QA` 也跑過新增的 `coverage-recovery-browser.cjs`。
+- squash 合併為 `180e00ca`；`pages build and deployment` [42790947892](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42790947892) success。
+- 正式站 `catalog.json.sourceRevision` = `180e00ca2d31…`、512 個來源檔；`assets/app.js` 含 `empty-coverage-legend`（改動確實在產物裡）。
+- 正式站重跑同一支契約測試（`VERIFY_URL=https://richardhan.github.io/...`）：無篩選 55／7、`scenario=生活` 45／31、`scope=overview` 48／0，點擊承諾 8 = 畫面 8，全部通過。
+- 正式站三情境（1440×900 與 390×844）：首頁 7 個「僅相關詞」入口與新說明行；點「發票辨識」→ 16 筆、`#match-scope=none`、「改搜「發票」→ 8 筆」；`?q=幫我寫遺囑` → 55 個捷徑、7 個標記、說明行、點「發票辨識」→ 16 筆／`none`；`?case=UC-024` 直接開啟、Escape 後 515 筆、焦點在 `#results-count`；pageerror 0。
+- main 的 `Website QA` [42790949128](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42790949128)（`180e00ca`）**success**：`Verify the updated site in Chromium` 內含新增的 `coverage-recovery-browser.cjs`，`Wait for published assets and content` 與 `Verify the published GitHub Pages site` 也都通過。

@@ -14,7 +14,7 @@
 目標使用者是**第一次讀到某篇案例、正在判斷「這是不是給我的」的人**。
 
 - 全庫 513 個條目只有 **209 個**案例頁在頁首寫 `- 目標使用者：`；其餘 **304 個**（297 篇案例＋3 篇經驗補充＋4 條待查線索）完全沒有這個欄位。
-- 沒有宣告時，卡片與詳情的 `適合對象` 都由 `SCENARIO_TARGET_USERS[item.scenario]`（`assets/app.js:137-145`，六句本庫寫的情境人物）填滿，**而且沒有任何標記**：`assets/app.js:1734-1738`（詳情）、`2014-2018`（卡片）。畫面上它與真正宣告的句子長得一模一樣。
+- 沒有宣告時，卡片與詳情的 `適合對象` 都由 `SCENARIO_TARGET_USERS[item.scenario]`（`assets/app.js:137-145`，六句本庫寫的情境人物）填滿，**而且沒有任何標記**：`assets/app.js:1776-1783`（詳情）、`2066-2072`（卡片）。畫面上它與真正宣告的句子長得一模一樣。
 - 同一頁的隔壁區塊卻有標記：`實作門檻` 會寫「案例頁未宣告門檻，這是由本庫依內文關鍵字推測」（`assets/app.js:1748-1750`）。同一份資料、兩種誠實標準。
 - 正式站實測（`?case=UC-005`，390×844）：詳情寫「適合對象｜工程師、程式開發者、技術架構師或自動化流程建構者」，而 `cases/005-cloud-pr-review.md` 只有 `- 目標：…`，沒有 `- 目標使用者：`。`?case=UC-270` 有宣告，畫面完全相同、無法分辨。
 - 既有測試把這個行為釘住：`tests/visitor-clarity-and-actions-stability.test.cjs:79` 要求卡片出現「👤 適合對象：進行自主學習」；`tests/detail-reading-and-evidence.test.cjs:262-284` 只檢查 fallback 有「適合對象」字樣。也就是說，先前把覆蓋率做到 100% 的做法，是用本庫文案補滿缺漏（`SITE.md` 2026-10-25 該輪自述「使全站案例 100% 具備清晰對象說明」）。
@@ -37,8 +37,8 @@
 
 - `assets/app.js`
   - 新增 `targetUserView(item)`（`146-166`）：唯一決定 heading／label／text／note／source 的地方。
-  - 詳情 `detail-target-user`（`1765-1772`）：改用 helper，加上 `data-target-user-source` 與 `.detail-target-user-source` 註記。
-  - 卡片 `.card-target-user`（`2055-2062`）：改用 helper，`data-target-user-source`、`title`、`aria-label` 都帶來源。
+  - 詳情 `detail-target-user`（`1776-1783`）：改用 helper，加上 `data-target-user-source` 與 `.detail-target-user-source` 註記。
+  - 卡片 `.card-target-user`（`2066-2072`）：改用 helper，`data-target-user-source`、`title`、`aria-label` 都帶來源。
 - `assets/style.css:86`：`.detail-target-user .detail-target-user-source` 12.5px／muted，與 `.detail-difficulty-source` 同級。
 - `README.md`：「適合對象」段落說明 209／304 的分野與卡片標記。
 - `templates/case.md`：`目標使用者` 欄位註明未填時網站顯示情境通用句並標示來源。
@@ -86,3 +86,11 @@
 ## 下一輪
 
 先做 **`解決痛點`（`- 核心目標`）的缺漏**：287／506 篇沒有這個欄位，卡片就直接不顯示 🎯 行，詳情也沒有「未記錄」字樣，而其中不少頁面其實寫了 `- 目標：`／`- 問題：` 只是沒被讀取（`assets/app.js:1041` 只認 `核心目標`）。驗證第一步是把 `- 目標：`／`- 問題：` 與 `核心目標` 的實際分布列出來，再決定是擴充解析（仍屬宣告）或明示缺漏，並先跑 `tests/target-user-provenance.test.cjs`、`tests/search.test.cjs` 確認不影響搜尋索引與卡片高度。
+
+## 發布
+
+- PR [#320](https://github.com/RichardHan/ai-agent-use-cases/pull/320) head `49cceef59c436b7efee8c271b931def88a905d48`：12 項非略過檢查 success（`Website QA` [42725498629](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42725498629) 含新增的 `target-user-provenance-browser.cjs`、`published` 依設計 skip）。
+- squash 合併 `0f9f9c966997dce736204b21ef18e94206b3de92`；`pages build and deployment` [42727014095](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42727014095) success。
+- 正式站 `catalog.json.sourceRevision` = `0f9f9c966997dce736204b21ef18e94206b3de92`、510 個來源檔；`assets/app.js`、`assets/style.css`、`assets/reader.css`、`index.html` 與本機 checkout **逐 byte 相同**。
+- 正式站重走（1440×900／390×844／320×740）：UC-005「情境常見讀者」＋未宣告註記、UC-270 宣告句＋「案例頁自行宣告」、`?q=會議` 26／513 且前四張卡為宣告／情境混合、axe 0、水平溢出 0、pageerror 0；截圖 `live-*`。
+- main 的 `Website QA` [42727014308](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42727014308)：success（第 9 步 Chromium 全套、`Verify built Pages corpus`、`Verify language of built Pages`、`Wait for published assets and content`、`Verify the published GitHub Pages site` 全部通過）。

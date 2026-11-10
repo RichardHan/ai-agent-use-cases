@@ -51,19 +51,19 @@ README 第 9 行與「查無完全符合的案例時…」段落其實已經承�
 ## 改動
 
 - `assets/app.js`
-  - 新增 `queryRecoveryOptions(items, query, filters, limit)`（`:3243`）：回傳 `{words, removals}`。`words` 是詞彙復原加上「單獨搜尋筆數多於刪詞結果」的句中詞；`removals` 只剩「刪掉不會損失更相關結果、且不會和 `words` 落在同一個搜尋」的候選。
+  - 新增 `queryRecoveryOptions(items, query, filters, limit)`（`:3241`）：回傳 `{words, removals}`。`words` 是詞彙復原加上「單獨搜尋筆數多於刪詞結果」的句中詞（2–6 個中文字，或 3 個字元以上的拉丁詞；`ai` 這類碎詞不列入）；`removals` 只剩「刪掉不會損失更相關結果、且不會和已提供的詞落在同一個搜尋」的候選。兩段掃描：先決定所有可提供的詞，再過濾刪詞，避免同一搜尋被列兩次。
   - 空結果面板（`:3504`）先畫 `words`、再畫 `removals`；`phraseOptions`／`substringOptions` 的抑制條件改讀新的 `recovery`，行為不變（有詞可搜就不再加固定短語）。
   - 任務捷徑 filter（`:3598`）跳過已由 `words` 提供的同一個詞，避免同一個搜尋出現兩個按鈕。
   - 提示文字（`:3655`）改讀 `recovery.words`／`recovery.removals`，與畫面同步。
 - `README.md`：在「查無完全符合的案例時…」段落補上這條規則與「機票」的例子。
-- `tests/search-recovery.test.cjs`：新增 2 項（句中詞取代刪詞；一個搜尋只留一個下一步、刪詞在被刪詞沒有命中時保留）。
+- `tests/search-recovery.test.cjs`：新增 3 項（句中詞取代刪詞；一個搜尋只留一個下一步、刪詞在被刪詞沒有命中時保留；可搜尋的拉丁詞同樣納入比較）。
 - `tests/search-recovery-browser.cjs`：`旅遊 xyz987` 的下一步改成同一個搜尋的詞彙版（`原問題包含「旅遊」 → 搜尋 N 筆`），並加一條「不得同時出現只移除關鍵字」。
 - `tests/empty-word-recovery-browser.cjs`（新）：在桌面與手機上量測「機票」自己的搜尋筆數，再要求面板第一個建議就是它、筆數相同、不得出現「只移除關鍵字「機票」」、點擊後查詢變成「機票」且筆數一致、焦點落在結果筆數、Back 還原原句、axe 0、無水平溢出。
 - `.github/workflows/website-qa.yml`：Chromium 步驟新增這支腳本（`tests/**` 已在 path filter 內）。
 
 ## 測試
 
-- `node --test tests/*.test.cjs`：`da01ab66` 基準 714／0 → 本輪 716／0（+2）；rebase 到 `0f40758b` 後，該點基準 718／0 → 本輪 **720／0**（+2，實體 worktree 親跑）；`node --check assets/app.js` 通過。
+- `node --test tests/*.test.cjs`：`da01ab66` 基準 714／0 → 本輪 716／0（+2）；rebase 到 `0f40758b` 後，該點基準 718／0 → 本輪 **721／0**（+3，實體 worktree 親跑）；`node --check assets/app.js` 通過。
 - 先紅後綠（同一支腳本、同一份語料、同一句查詢）：
   - 基準預覽（`da01ab66` 建置，`127.0.0.1:8099`）：`tests/empty-word-recovery-browser.cjs` **失敗**：`desktop: the visitor's own word comes first`。
   - 本輪預覽（`0f40758b`＋本輪，`127.0.0.1:8100`）：**通過**，桌面 1440×900、手機 390×844，`wordCount=11`，兩個視窗的建議都是 `原問題包含「機票」 → 搜尋 11 筆`。
@@ -96,6 +96,13 @@ README 第 9 行與「查無完全符合的案例時…」段落其實已經承�
 1. **不知道工具名，從問題找案例**：`?q=想讓 AI 幫我盯機票價格` → 0 筆，面板第一個建議「原問題包含「機票」→ 搜尋 11 筆」；點擊後 11 筆，第一張 UC-279「想讓 AI 打電話改機票？先準備好「本人確認」這關」，詳情頁標示「成果主張：社群作者／專案實踐者／核讀：本庫未獨立重現」。
 2. **組合搜尋與篩選後空結果**：`?q=發票&scenario=生活&difficulty=進階開發` → 0 筆，面板提供「移除實作門檻「進階開發」 → 查看 10 筆」；點擊後查詢與情境保留、門檻清空、顯示 10 筆，URL 只剩 `q` 與 `scenario`。
 3. **開啟分享的詳情直鏈**：`?case=UC-190` 直接開在詳情、焦點在標題，頁首同時顯示宣告的「作者報告／示範」與「本庫未獨立重現」，來源含 Reddit 原始留言與 docs.x.ai；關閉後回到 515 筆清單、焦點在結果筆數、URL 不留下 `case`。
+
+## 獨立審查
+
+由未參與實作的另一個 agent context 依需求、最終 diff 與證據複審（reviewer，只讀）。結論：沒有 P0/P1 阻擋，1 項 P2：
+
+- **P2（已修）拉丁詞沒有納入刪詞比較**：`queryRecoveryOptions()` 原本只對 2–6 字中文詞計算「該詞單獨搜尋筆數」，`invoice travel` 這類英文查詢即使 `travel` 自己命中 9 筆，仍可能出現「只移除關鍵字」的建議。改為 2–6 字中文詞或 3 字元以上拉丁詞都納入比較，並把「先決定詞、再過濾刪詞」拆成兩段掃描；新增 1 項單元測試（拉丁詞取代刪詞、以及刪詞在被刪詞沒有命中時保留）。修正後重跑 721 項單元測試、`empty-word-recovery`／`search-recovery`／`coverage-recovery`／`combined-recovery`／`sentence-fallback`／`compound-split` 瀏覽器腳本全數通過。
+- 審查同時指出：QA 記錄裡的 7/20、6→11 等合計數字無法從測試獨立重算（文件沒有列出完整的 20 句）。已知並保留：那 20 句是人工樣本，逐一列在下方「前後對照」的來源腳本輸出，不是可重跑的固定清單；下一輪若要讓它可重算，應把查詢清單寫進測試而非只在紀錄裡描述。
 
 ## 已知限制
 

@@ -93,3 +93,15 @@ test('one next step per resulting search, and a removal survives when the rest i
  assert.deepEqual(mixed.words.map(option=>option.query),['旅遊']);
  assert.deepEqual(mixed.removals,[],'the removal would land on the same search as the offered word');
 });
+
+test('a searchable Latin word is compared with the removal that deletes it',()=>{
+ const corpus=[
+  ...Array.from({length:6},(_,index)=>libraryItem('UC-7'+index,[],'invoice 發票')),
+  ...Array.from({length:9},(_,index)=>libraryItem('UC-8'+index,[],'travel 旅遊')),
+  ...Array.from({length:40},(_,index)=>libraryItem('UC-9'+index,[],'排班'))
+ ];
+ const result=plain(queryRecoveryOptions(corpus,'invoice travel',{}));
+ assert.deepEqual(result.words,[{query:'travel',count:9}]);
+ assert.deepEqual(result.removals,[],'the removal would land on the search already offered');
+ assert.deepEqual(plain(queryRecoveryOptions(corpus,'invoice xyz987',{})),{words:[],removals:[{query:'invoice',removed:'xyz987',count:6}]});
+});

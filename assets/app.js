@@ -3245,23 +3245,30 @@ function queryRecoveryOptions(items, query, filters, limit=3) {
   const offered=new Set(words.map(option=>norm(option.query)));
   const narrowed=[];
   const removals=[];
-  for(const option of queryRelaxationOptions(items, query, filters)){
+  const candidates=queryRelaxationOptions(items, query, filters);
+  for(const option of candidates){
     const term=norm(option.removed);
-    // Latin tokens and one-character runs are not words this library indexes, so
-    // dropping one never costs a search the visitor could have made instead.
-    const hits=/^[\u3400-\u9fff]{2,6}$/.test(term) ? filterEntries(items, tokenize(term), filters).length : 0;
-    if(hits>option.count){
+    // Only a token the visitor could sensibly search again is worth keeping: a
+    // two-to-six character Chinese word, or a Latin word of at least three
+    // characters. One-character runs and crumbs like "ai" stay deletable.
+    const word=/^[\u3400-\u9fff]{2,6}$/.test(term) || /^[a-z][a-z0-9.+#_-]{2,}$/.test(term);
+    const hits=word ? filterEntries(items, tokenize(term), filters).length : 0;
+    if(hits>option.count && !offered.has(term)){
       // Searching the word finds more than deleting it leaves behind.
-      if(offered.has(term))continue;
       offered.add(term);
       narrowed.push({query:option.removed,count:hits});
-      continue;
     }
-    // One next step per resulting search, however it is worded.
-    if([...words, ...narrowed].some(word=>norm(word.query)===norm(option.query)))continue;
+  }
+  const steps=[...words, ...narrowed];
+  for(const option of candidates){
+    const term=norm(option.removed);
+    // A word offered on its own replaces the removal that deletes it, and one
+    // next step per resulting search: the same search is not listed twice.
+    if(offered.has(term))continue;
+    if(steps.some(step=>norm(step.query)===norm(option.query)))continue;
     removals.push(option);
   }
-  return {words:[...words, ...narrowed].slice(0,limit), removals};
+  return {words:steps.slice(0,limit), removals};
 }
 
 // A visitor's everyday phrase often fuses two library terms into one CJK run

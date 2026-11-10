@@ -1,3 +1,11 @@
+## 2026-11-11 抵達結果頁後，結果摘要被載入後的版面變動推出視窗
+
+正式站 `5f678d68`（512 個來源檔、畫面 515 筆）的 `?q=旅遊#explore` 在 320×740 穩定把「顯示 35 / 515 筆收錄」放在視窗上方 −18px；390×844 同一支程式連開四次是 −39／−101／−21／−101，另一次工作階段卻是 +24——抵達時序不同，結果摘要是否看得到就跟著不同。`placeArrivalResults()` 只用單次 `scrollIntoView` 放置，之後命中範圍、目前條件等區塊才長出來，原生 scroll anchoring 改 `scrollY` 時留下來的不是讀者聚焦的那一行；站上 live gate 明文要求 `resultsTop >= 0`，所以這條契約在正式站是間歇失效的。
+
+選擇 (B)「保留抵達契約，補有界守衛」：`watchArrivalSummary()` 逐 frame 檢查被聚焦的摘要；被推出視窗、且摘要與第一則案例仍放得進同一畫面（`span <= innerHeight - 24`）時再放一次，讀者一有 pointer／wheel／touch／按鍵輸入、網址改變或焦點離開就停，上限 1.2 秒／4 次。不採 (A) 改成固定捲到第一則案例：那會撤掉 2026-11-10 的判讀資訊（筆數與命中範圍說明）。四種接手事件抽成 `onReaderTakeover()`，`focusLoadedResults()` 共用，行為不變。
+
+先紅後綠：`tests/arrival-summary-guard.test.cjs` 對基準 `assets/app.js` 5 項全紅、本輪全綠；`tests/arrival-summary-visibility-browser.cjs` 在注入 60px 延遲捲動後，基準預覽紅（摘要 −36）、本輪綠（**+24**，三尺寸標題 335–482px、axe 0、溢出 0）。`node --test tests/*.test.cjs` 基準 723 → **728 通過、0 失敗**；`search-reveal-settle`、`explore-visibility`、`result-count-honesty`、`match-scope-note`、`keyboard-search-entry`、`mobile-search`、`arrival`、`arrival-live`（正式站 chromium／firefox）通過。限制：本環境無法讀取截圖影像（幾何與 axe 佐證）；正式站的失效是間歇的，本輪以注入時序在預覽重現，未在 CI 容器重現原生時序；抵達後搜尋框仍在視窗外（改關鍵字要靠 `/` 或捲動）列為下一輪。[方案、量測與前後截圖](docs/qa/2026-11-11-arrival-summary/README.md)。
+
 ## 2026-11-11 空結果先給訪客話裡的詞，不要先叫他刪掉最相關的詞
 
 正式站 `da01ab66` 的 `?q=想讓 AI 幫我盯機票價格` 是 0／515，面板第一個建議卻是「只移除關鍵字「機票」→ 查看 1 筆」；同一句只搜「機票」有 11 筆。成因是 `vocabularyRecoveryOptions()` 只要有任何刪詞候選就被整批跳過，刪詞永遠排在前面，即使它刪掉的正是句中唯一有內容的詞。本輪新增 `queryRecoveryOptions()`：一個結果只留一個下一步，被刪的詞單獨搜尋若比刪詞結果多，就改提供該詞（中英文都納入比較）。20 句日常問題前後對照：0 筆仍 7／20（不改搜尋比對本身）、刪掉句中唯一有內容的詞 1→0、詞彙型下一步 6→11、重複建議 0；721 項單元測試、六支鄰近瀏覽器腳本與正式站 390px 重走通過。獨立審查的 1 項 P2（拉丁詞未納入比較）已修。[方案、前後截圖、獨立審查與發布核對](docs/qa/2026-11-11-empty-word-recovery/README.md)。下一輪優先處理 `tests/published-version.cjs` 在「本次 push 沒有發布任何檔案」時仍可能等滿 60 分鐘的分支。

@@ -3088,6 +3088,60 @@ function firstResultInView() {
     return bottom > top && top >= 0 && bottom <= innerHeight;
   });
 }
+// Would scrolling the result line to the top keep the first case on screen too?
+// The distance between the two only shrinks when a later render removes a block,
+// so measuring it once is enough to decide whether the reader can have both.
+function arrivalSummarySharesScreen() {
+  const count = $('results-count'), line = arrivalLines()[0];
+  if (!count) return false;
+  // Nothing to keep on screen together yet: the results have not been drawn, so
+  // the line may be placed at the top without hiding a case.
+  if (!line) return true;
+  const c = count.getBoundingClientRect(), l = line.getBoundingClientRect();
+  const span = l.bottom - c.top;
+  // 24px is the document's scroll-padding-top (html{scroll-padding-top:24px}).
+  return span > 0 && span <= innerHeight - 24;
+}
+// Scroll, typing or a tap means the reader is driving now; a placement guard
+// must stop instead of fighting them.
+function onReaderTakeover(stop) {
+  const events = ['pointerdown', 'keydown', 'wheel', 'touchstart'];
+  const cleanup = () => events.forEach(type => document.removeEventListener(type, stop, true));
+  events.forEach(type => document.addEventListener(type, stop, {capture: true, passive: true}));
+  return cleanup;
+}
+// The page can still grow above the result line after it was placed: a hit-scope
+// note or the condition chips render later, native scroll anchoring keeps the
+// viewport on the case, and the focused summary ends up clipped above the top
+// edge (measured on the live site 2026-11-11: ?q=旅遊#explore at 390×844 left
+// 顯示 35 / 515 筆收錄 at top −30). An explicit submit already keeps its result
+// line on screen; the arrival path needs the same guard. It never fights the
+// reader: any scroll/typing/pointer input, a URL change or a focus move ends it.
+function watchArrivalSummary(target = $('results-count')) {
+  // Unit fixtures run the placement code without a frame clock.
+  if (typeof requestAnimationFrame !== 'function') return;
+  if (!target || typeof target.scrollIntoView !== 'function') return;
+  const url = location.href, deadline = performance.now() + 1200;
+  let cancelled = false, cleanup = () => {}, placements = 0, stable = 0;
+  cleanup = onReaderTakeover(() => { cancelled = true; cleanup(); });
+  const step = () => {
+    if (cancelled || location.href !== url || document.activeElement !== target) { cleanup(); return; }
+    const rect = target.getBoundingClientRect();
+    const visible = rect.top >= 0 && rect.bottom <= innerHeight;
+    if (visible) {
+      stable += 1;
+    } else {
+      stable = 0;
+      if (placements < 4 && arrivalSummarySharesScreen()) {
+        target.scrollIntoView({block: 'start', behavior: 'instant'});
+        placements += 1;
+      }
+    }
+    if ((visible && stable >= 3) || performance.now() >= deadline) { cleanup(); return; }
+    requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
 // A landscape phone or a short window cannot show the result line and the first
 // case together (390px tall: the line fits, the title ends at 401). The reader
 // came for a case, so the case wins; focus follows whatever is still visible.
@@ -3095,6 +3149,7 @@ function placeArrivalResults() {
   const count = $('results-count');
   count.scrollIntoView({block: 'start', behavior: 'instant'});
   count.focus({preventScroll: true});
+  watchArrivalSummary(count);
   if (firstResultInView()) return;
   const line = arrivalLines()[0];
   if (!line || typeof line.scrollIntoView !== 'function') return;
@@ -4384,16 +4439,13 @@ function focusLoadedResults(block='center') {
   target.scrollIntoView({block,behavior:'instant'});
   // Native anchoring may settle after the newly drawn card changes page height.
   // Keep the requested result visible, unless the reader has already moved on.
-  let cancelled=false;
-  const events=['pointerdown','keydown','wheel','touchstart'];
-  const cancel=()=>{cancelled=true;cleanup();};
-  const cleanup=()=>events.forEach(type=>document.removeEventListener(type,cancel,true));
+  let cancelled=false,cleanup=()=>{};
+  cleanup=onReaderTakeover(()=>{cancelled=true;cleanup();});
   const keepVisible=()=>{
     if(cancelled||location.href!==url||$('detail').open||document.activeElement!==target)return;
     const rect=target.getBoundingClientRect();
     if(rect.top<0||rect.bottom>innerHeight)target.scrollIntoView({block,behavior:'instant'});
   };
-  events.forEach(type=>document.addEventListener(type,cancel,{capture:true,passive:true}));
   requestAnimationFrame(()=>{keepVisible();requestAnimationFrame(()=>{keepVisible();cleanup();});});
 }
 

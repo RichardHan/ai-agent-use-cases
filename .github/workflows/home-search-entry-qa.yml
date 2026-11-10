@@ -2,9 +2,9 @@ name: Home search entry QA
 on:
   push:
     branches: ['closed-historical']
-    paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', 'tests/home-task-entry.test.cjs', 'tests/hero-value*', '.github/workflows/home-search-entry-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/home-search-entry-browser.cjs', 'tests/home-task-entry.test.cjs', 'tests/hero-value*', '.github/workflows/home-search-entry-qa.yml']
   pull_request:
-    paths: ['assets/**', 'index.html', 'tests/home-search-entry-browser.cjs', 'tests/home-task-entry.test.cjs', 'tests/hero-value*', '.github/workflows/home-search-entry-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/home-search-entry-browser.cjs', 'tests/home-task-entry.test.cjs', 'tests/hero-value*', '.github/workflows/home-search-entry-qa.yml']
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

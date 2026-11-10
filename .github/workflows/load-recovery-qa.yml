@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
   push:
     branches: ['closed-historical']
-    paths: ['assets/**', 'index.html', 'tests/load-recovery*', 'tests/visitor-experience-and-ci.test.cjs', 'tests/published-assets.test.cjs', 'tests/published-check.test.cjs', 'scripts/published-assets.cjs', 'scripts/published-check.cjs', '.github/workflows/load-recovery-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/load-recovery*', 'tests/visitor-experience-and-ci.test.cjs', 'tests/published-assets.test.cjs', 'tests/published-check.test.cjs', 'scripts/published-assets.cjs', 'scripts/published-check.cjs', '.github/workflows/load-recovery-qa.yml']
   pull_request:
-    paths: ['assets/**', 'index.html', 'tests/load-recovery*', 'tests/visitor-experience-and-ci.test.cjs', 'tests/published-assets.test.cjs', 'tests/published-check.test.cjs', 'scripts/published-assets.cjs', 'scripts/published-check.cjs', '.github/workflows/load-recovery-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/load-recovery*', 'tests/visitor-experience-and-ci.test.cjs', 'tests/published-assets.test.cjs', 'tests/published-check.test.cjs', 'scripts/published-assets.cjs', 'scripts/published-check.cjs', '.github/workflows/load-recovery-qa.yml']
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

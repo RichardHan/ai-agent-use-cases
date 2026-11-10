@@ -2,9 +2,9 @@ name: Search context QA
 on:
   push:
     branches: ['closed-historical']
-    paths: ['assets/**', 'index.html', 'catalog.json', 'scripts/**', 'tests/search-context*', 'tests/match-baseline.cjs', '.github/workflows/search-context-qa.yml']
+    paths: ['assets/**', 'index.html', 'catalog.json', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/**', 'tests/search-context*', 'tests/match-baseline.cjs', '.github/workflows/search-context-qa.yml']
   pull_request:
-    paths: ['assets/**', 'index.html', 'catalog.json', 'scripts/**', 'tests/search-context*', 'tests/match-baseline.cjs', '.github/workflows/search-context-qa.yml']
+    paths: ['assets/**', 'index.html', 'catalog.json', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/**', 'tests/search-context*', 'tests/match-baseline.cjs', '.github/workflows/search-context-qa.yml']
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

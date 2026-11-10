@@ -1,7 +1,9 @@
 name: Missing shared case QA
 on:
   pull_request:
-    paths: ['tests/missing-case-browser.cjs', '.github/workflows/missing-case-qa.yml']
+    # The suite opens index.html against the built corpus; it must run when the
+    # page shell or the corpus changes, not only when the suite itself is edited.
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/missing-case-browser.cjs', '.github/workflows/missing-case-qa.yml']
   push:
     branches: [fix/missing-shared-case]
     paths: ['assets/**', 'index.html', 'tests/missing-case-browser.cjs', '.github/workflows/missing-case-qa.yml']

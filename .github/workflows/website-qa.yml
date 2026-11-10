@@ -17,10 +17,12 @@ on:
       - '_config.yml'
       - 'tests/**'
       - 'scripts/**'
-      - '.github/workflows/website-qa.yml'
+      # published-check.test.cjs audits every workflow file. Listing only this
+      # file meant editing any other workflow started no run that reads it.
+      - '.github/workflows/**'
   push:
     branches: ['main']
-    paths: ['assets/**', 'index.html', 'INDEX.md', 'README.md', 'README-archive-2026-10-18.md', 'templates/**', 'catalog.json', 'corpus.json', 'audit-summary.json', 'cases/**', 'evidence/**', 'sources/**', '_config.yml', 'tests/**', 'scripts/**', '.github/workflows/website-qa.yml']
+    paths: ['assets/**', 'index.html', 'INDEX.md', 'README.md', 'README-archive-2026-10-18.md', 'templates/**', 'catalog.json', 'corpus.json', 'audit-summary.json', 'cases/**', 'evidence/**', 'sources/**', '_config.yml', 'tests/**', 'scripts/**', '.github/workflows/**']
 concurrency:
   group: website-qa-${{ github.ref }}
   # A pull request may always be replaced by its next commit. A merge may not: the

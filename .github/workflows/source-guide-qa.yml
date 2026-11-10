@@ -1,11 +1,11 @@
 name: Source guide QA
 on:
   pull_request:
-    paths: ['assets/**', 'index.html', 'cases/**', 'scripts/preview.py', 'tests/source-guide*', 'tests/reader-context-round.cjs', '.github/workflows/source-guide-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/preview.py', 'tests/source-guide*', 'tests/loading-budget-browser.cjs', 'tests/reader-context-round.cjs', '.github/workflows/source-guide-qa.yml']
   push:
     # pull_request already covers pushed commits; a branch trigger ran every push twice.
     branches: ['improve/evidence-discovery-20261020', 'fix/source-guide-mobile-density']
-    paths: ['assets/**', 'index.html', 'cases/**', 'scripts/preview.py', 'tests/source-guide*', 'tests/reader-context-round.cjs', '.github/workflows/source-guide-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/preview.py', 'tests/source-guide*', 'tests/loading-budget-browser.cjs', 'tests/reader-context-round.cjs', '.github/workflows/source-guide-qa.yml']
   workflow_dispatch:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

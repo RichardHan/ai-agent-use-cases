@@ -1,7 +1,7 @@
 name: Reader search QA
 on:
   pull_request:
-    paths: ['assets/**', 'tests/reader-search*', '.github/workflows/reader-search-qa.yml']
+    paths: ['assets/**', 'index.html', 'cases/**', 'evidence/**', 'sources/pending.md', 'tests/reader-search*', '.github/workflows/reader-search-qa.yml']
   workflow_dispatch:
     inputs:
       target_url:

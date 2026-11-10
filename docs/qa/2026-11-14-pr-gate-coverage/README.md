@@ -199,3 +199,15 @@
 - **驗證**：新增 `tests/published-version.test.cjs`「a push that published no file settles on a newer live build instead of a false red」，以真實失敗形狀（live 是後代、產品位元被後續 merge 改寫、change list 為空）注入；對修正前的程式**紅**、修正後**綠**，且第一次輪詢就結束（`clock()===0`）。既有的「a changed product asset cannot pass with an otherwise matching corpus」仍在 `exact` 分支上紅，嚴格度沒有放寬。全套 692 通過／0 失敗。
 - 未處理的相鄰情況（已知、已量測）：如果這次 push **改了產品位元**（例如 `assets/reader.css`）而 live 已被下一個 build 取代，`verifySupersededPublication()` 仍要求「published == 這次的建置」，同樣可能等滿視窗。這與本輪修的空白清單不同，需要另一個判準（誰有權覆寫同一個產品檔案），留給下一輪並先寫測試。
 - 另外：`56f7a238` 的 `Website QA` 被本輪這支 run 佔住 concurrency group，它自己的閘門也是用**修正前**的程式碼執行，因此不預期會被這次修正救回。
+
+## 修正後的實測（同一個「什麼都沒發布」的 merge）
+
+修正以 PR [#349](https://github.com/RichardHan/ai-agent-use-cases/pull/349) 合併為 `0f7b6c76`。它同樣只改 `tests/` 與紀錄檔，也就是**又一個沒有可發布檔案的 trunk merge**：
+
+| | 修正前 `8fbfe082` | 修正後 `0f7b6c76` |
+|---|---|---|
+| `Pages deployment` | success | success（42815318967） |
+| `Website QA` | **failure**，3,600,002ms、693 次重試、`Product asset mismatch` | **success**，12:23:20→12:34:46（11m26s） |
+| 發布裁決 | 無（等滿視窗才紅） | `PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 0f7b6c76…`，部署通知後 0.5 秒 |
+
+這一次 live 剛好就等於 `0f7b6c76`，所以走的是 `exact` 分支，沒有實際走到修好的 superseded 分支；superseded 分支（live 是後代、產品位元已被下一個 build 改寫、change list 為空）由新增的單元測試證明：對修正前程式紅、修正後綠且第一輪就結束。要再做一次真實的 superseded 事件，得連續兩個 merge（前者不發布、後者發布），本輪不為了製造驗證而弄假資料。

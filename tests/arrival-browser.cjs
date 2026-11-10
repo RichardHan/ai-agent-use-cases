@@ -105,7 +105,11 @@ module.exports=async function arrival({browser,origin,prefix='arrival',sizes=[['
   await ready('');assert.equal(await page.evaluate(()=>scrollY),0);
   await ready('?q=旅遊#discover');assert.notEqual(await page.evaluate(()=>document.activeElement.id),'search-title');
   await ready('?kind=pending');assert((await page.locator('#results .card').count())>0);
-  assert.equal(await page.evaluate(()=>document.activeElement.id),'search-title');
+  // A filtered arrival follows the same rule as a searched one: focus goes to the
+  // query heading when the first case is readable there, otherwise to the result
+  // line that was moved into view.
+  assert(['search-title','results-count'].includes(await page.evaluate(()=>document.activeElement.id)));
+  assert(await page.evaluate(()=>{const t=document.querySelector('#results .card h3').getBoundingClientRect();return t.top>=0&&t.bottom<=innerHeight;}),'the first case title is readable after a filtered arrival');
   assert.deepEqual(errors,[]);
   report.push({viewport:name,...metrics,matches:count,axeScans:2,axeViolations:0,passed:true});
   await context.close();

@@ -106,7 +106,7 @@ function setupEnvironment() {
     activeScenario: ''
   });
 
-  vm.runInContext(appSource + '\nthis.api = { metadata, parseFile, filterEntries, tokenize, taskCoverage, renderSearchFeedback, TASK_COVERAGE_MARKER, clearTaskCoverage };', context);
+  vm.runInContext(appSource + '\nthis.api = { metadata, parseFile, filterEntries, tokenize, taskCoverage, coverageWords, renderSearchFeedback, TASK_COVERAGE_MARKER, clearTaskCoverage };', context);
   return { ...context.api, context, document: documentMock };
 }
 
@@ -241,4 +241,10 @@ test('a reloaded corpus invalidates the memoised coverage', () => {
   const after = chipsOf(api).find(chip => chip.dataset.problemTag === '發票辨識');
   assert.equal(after.dataset.coverage, undefined, 'a case that now describes the task clears the marker');
   assert.equal(after.querySelector('.task-coverage-none'), null, 'the marker text is gone too');
+});
+
+test('the tooltip names every word it measured, never a shortened list', () => {
+  const api = setupEnvironment();
+  assert.equal(api.coverageWords('發票辨識'), '「發票」「辨識」', 'two words are both named');
+  assert.equal(api.coverageWords('代碼 審查 預算 合約 發票'), '「代碼」「審查」「預算」「合約」「發票」', 'a longer mapping keeps its last word');
 });

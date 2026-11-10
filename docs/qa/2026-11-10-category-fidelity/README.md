@@ -6,7 +6,7 @@
 - 原工作樹 `/Users/richard_han/orca/ai-agent-use-cases` 停在 `90093d7b`、落後 main 322 個 commit，另有 159 個未追蹤的他人研究檔（`cases/462` 之後）與 QA 產物；本輪未觸碰、未 reset、未清理。
 - 正式站開工時是 `ee68c19d`（`catalog.json.sourceRevision` = `ee68c19d94ba17c81be86f4fa7ae621016d06aee`，512 個來源檔、515 筆條目，五個產品資產與 checkout 逐 byte 相同）。本輪期間 main 前進四次（`8fbfe082` #340、`56f7a238` #341、`5744e48c` #343、`3f0d4760` #344），正式站跟著到 `3f0d4760`（`catalog.json.sourceRevision` = `3f0d4760474fb7f92cc7a6d781da95b8d8075851`，2026-11-10T11:20Z 讀取）；缺陷在 `3f0d4760` 重新量測仍然完全相同（345 個分類選項、仍提供分級選項、兩個主題查詢各 1 筆、舊分享連結 1 筆），所以「修正前」不是某個舊版本的偶發現象。
 - 基準 `node --test tests/*.test.cjs`：開工時 `ee68c19d` **684 通過、0 失敗**；rebase 後 `56f7a238` **691 通過、0 失敗**。
-- Actions 重新確認，不沿用歷史敘述：`gh run list --branch main --limit 20`（2026-11-10T11:21Z）= 14 次 `pages build and deployment` success、4 次 `Website QA` success、2 次進行中；開工時同一指令（09:5xZ）為 14＋6 全部 success。全部 branch 最近 100 次 run（09:49Z）只有 1 次 failure（PR #340 剛啟用的 `Corpus bundle QA`）與 22 次 superseded 取消。**目前沒有阻擋發布的 CI 問題，本輪不以 CI 為主題。**
+- Actions 重新確認，不沿用歷史敘述：`gh run list --branch main --limit 20`（2026-11-10T11:21Z）= 14 次 `pages build and deployment` success、4 次 `Website QA` success、2 次進行中；開工時同一指令為 14 次 `pages build and deployment` 與 6 次 `Website QA`，全部 success。全部 branch 最近 100 次 run（09:49Z）只有 1 次 failure（PR #340 剛啟用的 `Corpus bundle QA`）與 22 次 superseded 取消。**目前沒有阻擋發布的 CI 問題，本輪不以 CI 為主題。**
 - 基準無障礙：Chromium 1440×900／390×844 對首頁、結果、UC-001 詳情執行 axe（wcag2a/2aa/21a/21aa）共 6 次，**違規 0**；三視窗（1440／390／320）10 個頁面狀態水平溢出 0、pageerror 0。
 
 ## 問題證據

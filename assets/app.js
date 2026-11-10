@@ -2392,6 +2392,58 @@ function matchScopeNotice(overviewCount, totalCount) {
   return bodyOnly >= totalCount * BODY_ONLY_NOTICE_SHARE ? 'body' : '';
 }
 
+// The hero directory offers 53 tasks before anything is typed, so the same split
+// the results screen discloses after a click is useful on the link itself: a task
+// no case describes in its own title/purpose/pain would otherwise look as covered
+// as one the library answers directly. One predicate answers both surfaces —
+// filterEntries() with the results page's overview scope — so the label and the
+// screen cannot disagree.
+function taskCoverage(items, query) {
+  const terms = tokenize(query || '');
+  if (!terms.length) return null;
+  const claimed = filterEntries(items, terms, { scope: 'overview' }).length;
+  if (claimed) return { claimed, total: null };
+  return { claimed, total: filterEntries(items, terms, {}).length };
+}
+const TASK_COVERAGE_MARKER = '僅相關詞';
+function annotateTaskCoverage() {
+  if (typeof document.querySelectorAll !== 'function') return 0;
+  const links = [...document.querySelectorAll('#hero-problem-tags a.problem-tag, .hero-task-examples a[data-task-entry]')];
+  if (!links.length) return 0;
+  // A partial load is not a census: an unloaded case could be the one that claims
+  // the task, so say nothing rather than mark a covered task as uncovered.
+  if (!discoveryReady || failedPaths.length) {
+    links.forEach(link => clearTaskCoverage(link));
+    return 0;
+  }
+  const note = $('task-coverage-note');
+  let marked = 0;
+  for (const link of links) {
+    const query = new URL(link.href, location.href).searchParams.get('q');
+    const coverage = taskCoverage(entries, query);
+    if (!coverage || coverage.claimed) { clearTaskCoverage(link); continue; }
+    marked++;
+    if (link.dataset.coverage === 'none') continue;
+    link.dataset.coverage = 'none';
+    link.append(el('span', 'task-coverage-none', TASK_COVERAGE_MARKER));
+    const label = link.firstChild?.textContent?.trim() || query;
+    link.title = `目前沒有案例在標題、用途或痛點自述在做「${label}」；點入會列出 ${coverage.total} 筆提到相關詞的案例，並提供替代搜尋。`;
+    // The visible text already names the link; a longer aria-label would stop
+    // matching it (axe label-content-name-mismatch) and read the marker twice.
+    // Point the description at the legend instead.
+    if (note) link.setAttribute('aria-describedby', note.id);
+  }
+  if (note) note.hidden = marked === 0;
+  return marked;
+}
+function clearTaskCoverage(link) {
+  if (link.dataset.coverage !== 'none') return;
+  delete link.dataset.coverage;
+  link.querySelectorAll('.task-coverage-none').forEach(marker => marker.remove());
+  link.removeAttribute('title');
+  link.removeAttribute('aria-describedby');
+}
+
 // Narrowing re-types the query it searched, so tokenisation must give the same
 // words back: "庫存 追蹤" becomes ["庫存"] through the phrase rewrites above and
 // the promised count would then describe a different condition. Join with a
@@ -3853,6 +3905,9 @@ async function retryFailedSources() {
       '仍有 '+failedPaths.length+' 個來源檔案未載入，請稍後再試。':'所有來源皆已載入。');
     refreshCorpusMetadata();
     render(false,true);
+    // A cosmetic directory label must never turn a successful recovery into a
+    // failure: keep its own errors out of the recovery outcome.
+    try { annotateTaskCoverage(); } catch (error) { console.warn('task coverage marker skipped', error); }
     updateModalNav();
     if(recoveryControlFocused){
       recoveryFocusTarget=failedPaths.length?$('retry-failed'):$('results-count');
@@ -4041,6 +4096,7 @@ async function load() {
     $('loading-progress').hidden=true;
     discoveryReady=true;$('guide-options').disabled=false;$('drawn-case').setAttribute('aria-busy','false');
     render(false);
+    try { annotateTaskCoverage(); } catch (error) { console.warn('task coverage marker skipped', error); }
     const current = matchCase(params.get('case'));
     if ($('detail').open && currentDetailItem?.id===current?.id) {
       // Keep the exact research DOM, reading position and focused control.

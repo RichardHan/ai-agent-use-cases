@@ -320,6 +320,17 @@
 .problem-tag{display:inline-flex;align-items:center;min-height:44px;min-width:44px;max-width:100%;overflow-wrap:anywhere;color:var(--green);font-weight:650;text-underline-offset:4px}
 .problem-tag:hover{color:#172b27}
 .problem-tag:focus-visible{outline:3px solid #799f27;outline-offset:2px;border-radius:3px}
+/* A task with no case that describes itself is still linked; the marker says so
+   before the click so the directory does not look uniformly covered. */
+.problem-tag[data-coverage="none"],.hero-task-examples>a[data-coverage="none"]{gap:6px}
+.task-coverage-none{font-size:11px;font-weight:600;line-height:1.4;letter-spacing:0;color:#6b4a2f;background:#fdf3e4;border:1px solid #e2c9a5;border-radius:4px;padding:1px 5px;white-space:nowrap;text-decoration:none}
+.hero-task-coverage-note{margin:-6px 0 10px;max-width:70ch;font-size:12px;line-height:1.5;color:var(--muted);overflow-wrap:anywhere}
+@media(max-width:760px){
+  /* Phones pay for every wrapped pill row with a scroll; keep the marker as a
+     quiet inline note inside the pill instead of a boxed badge. */
+  .task-coverage-none{font-size:10.5px;font-weight:600;padding:0;border:0;background:transparent;color:#7a4a24}
+  .hero-task-coverage-note{margin:-8px 0 8px;font-size:11.5px;line-height:1.45}
+}
 /* Small screens: reveal the long task directory in two steps, not one wall. */
 .problem-tags-toggle{display:none}
 @media(max-width:760px){

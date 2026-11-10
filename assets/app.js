@@ -235,6 +235,17 @@ const norm = text => text.normalize('NFKC').toLocaleLowerCase();
 const MARKDOWN_LINK_DESTINATION=/\]\(\s*<?(?:https?:\/\/|www\.)[^()\s<>]*(?:\([^()\s]*\)[^()\s<>]*)*>?(?:\s+"[^"]*")?\s*\)/gi;
 const BARE_SOURCE_URL=/(?:https?:\/\/|www\.)[A-Za-z0-9\-._~:\/?#\[\]@!$&'*+,;=%]+/gi;
 function withoutSourceUrls(text){ return text.replace(MARKDOWN_LINK_DESTINATION,' ] ').replace(BARE_SOURCE_URL,' '); }
+// `（翻譯改寫）` and `（本庫設計，未實測）` say how this page was written, not what the
+// case does, so they are not content a search should count. Before this, `翻譯`
+// matched 186 of 515 entries when one entry is about translation, and the
+// homepage's 「文件翻譯」entry returned 77 cases for one. The note stays on the page
+// a reader opens; only the indexed text drops it. Only a short note carrying one of
+// these words qualifies: `（依來源整理）` and `（本庫已看）` are left alone, because
+// 整理 is a word readers search for and those notes hold no filler verb of their own.
+const EDITORIAL_NOTE=/[（(][^（()）]{0,30}[）)]/g;
+const EDITORIAL_LABEL=/^(?:翻譯|改寫|未實測|未實跑|未執行|未實作|未測|本庫|本文|原創|自設|自行設計|AI構想|依來源|依作者)/;
+const EDITORIAL_WORD=/翻譯|改寫|未實測|未實跑|未執行|未實作|未測/;
+function withoutEditorialNotes(text){ return text.replace(EDITORIAL_NOTE,note=>EDITORIAL_LABEL.test(note.slice(1,-1))&&EDITORIAL_WORD.test(note)?' ':note); }
 function abbreviatedQuery(query, limit=40) {
   const chars=Array.from(query.trim());
   return chars.slice(0,limit).join('')+(chars.length>limit?'…':'');
@@ -1120,7 +1131,7 @@ function metadata(markdown, path, kind, suffix='') {
   const declaredTier = declaredDifficulty(lead);
   const difficulty = declaredTier || extractDifficulty(markdown, tools, scenario, category);
   const difficultySource = declaredTier ? 'declared' : 'inferred';
-  const searchText=norm(markdown+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id));
+  const searchText=norm(withoutEditorialNotes(markdown)+' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id));
   return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:searchText,searchProse:withoutSourceUrls(searchText)};
 }
 // sources/pending.md records one review date for the whole file, above the first

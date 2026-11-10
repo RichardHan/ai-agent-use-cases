@@ -271,8 +271,8 @@ test('natural problem queries for competitor research, code debugging, document 
   const problems = [
     { raw: '競品分析', min: 5, expectedTokens: ['競品', '分析'], topId: 'UC-039' },
     { raw: '代碼除錯', min: 100, expectedTokens: ['代碼', '除錯'] },
-    { raw: '文件翻譯', min: 50, expectedTokens: ['文件', '翻譯'] },
-    { raw: '翻譯文件', min: 50, expectedTokens: ['文件', '翻譯'] },
+    { raw: '文件翻譯', min: 8, expectedTokens: ['文件', '翻譯'], mustInclude: ['UC-144', 'UC-452'] },
+    { raw: '翻譯文件', min: 8, expectedTokens: ['文件', '翻譯'], mustInclude: ['UC-144', 'UC-452'] },
     { raw: '寫週報', min: 10, expectedTokens: ['週報', '整理'] },
     { raw: '寫日報', min: 50, expectedTokens: ['日報', '整理'] },
     { raw: '寫履歷', min: 5, expectedTokens: ['履歷', '修改'], topId: 'UC-035' },
@@ -293,6 +293,9 @@ test('natural problem queries for competitor research, code debugging, document 
     if (p.topId) {
       const ranked = api.rankEntries(matched, tokens);
       assert.equal(ranked[0]?.id, p.topId, `Query "${p.raw}" top case must be ${p.topId}, got ${ranked[0]?.id}`);
+    }
+    for (const id of p.mustInclude || []) {
+      assert.ok(matched.some(x => x.id === id), `Query "${p.raw}" must keep the case that does this task (${id})`);
     }
   }
 });

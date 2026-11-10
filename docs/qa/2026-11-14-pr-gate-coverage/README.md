@@ -152,3 +152,5 @@
 **內容 PR 現在會啟動 16 支 workflow，而其中 12 支會各自重跑同一套 689 項單元測試**（`node --test tests/*.test.cjs`），`reader-browser.cjs` 在 Reader QA 與 Source guide QA 各跑一次、`reader-search-browser.cjs` 在 Reader search QA 與 Audit summary round QA 各跑一次。本輪把覆蓋率補起來，代價就是重複執行；下一步是把「單元套件」收成一支共用 job（其餘 workflow 只跑自己那 1–2 支瀏覽器測試），並把 `corpus-bundle-qa.yml` 的 `tests/**` 收斂成它實際執行的 8 支。
 
 **先做的驗證**（不要先動 workflow）：用同一份語料改動量測現在的 job-minutes 與 wall time（本輪 PR 的 15 支 run 的 `started_at`→`completed_at` 加總），再比對「如果單元套件只在一支 job 跑」會少多少；同時確認那 12 支 workflow 的單元步驟有沒有任何一支跑的是子集（`tests/relevance.test.cjs`、`tests/table-reading.test.cjs`），避免把唯一的紅燈來源也收掉。
+
+補記（第二次 CI 失敗）：同一支測試在 chromium-320 的 `Forward restores the reading location` 又紅一次（`#detail[open]` 成立早於 popstate 套用捲動位置，窄螢幕還會再回流一次）。改為等待還原完成（`waitForFunction` 比對 3px，逾時就具名失敗），斷言與容差都沒放寬。本機連跑三次、五種引擎／寬度全過。

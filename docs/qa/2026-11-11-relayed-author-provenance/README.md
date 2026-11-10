@@ -80,3 +80,15 @@
 - `作者自述` 等中文 token 只在宣告子句內生效；沒有 token 的散文式頁首（例如 `B，作者實作自述…`）仍不會被自動標記。
 - 卡片標記是新增的可見元素，只在 5 筆出現；沒有做螢幕閱讀器實測，axe 與 aria 文字是目前的證據；延伸閱讀列沿用同一個 `provenanceText()`，由正式站 UC-049 的相關列人工核對，沒有專屬單元斷言。
 - 本機只跑 Chromium；Firefox／WebKit 交由 PR 上既有 workflow。
+
+## 發布
+
+- PR [#366](https://github.com/RichardHan/ai-agent-use-cases/pull/366)（head `40e5d732`，base `98d7e4e6`）：16 項非略過檢查 success、2 項 `published` 依設計 skipping——`Website QA` [42915015480](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42915015480)、`Source guide QA` [42915015138](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42915015138)、`Corpus bundle QA`、`Reading flow QA`、`Reader QA`、`Search context QA`、`Search relevance QA`、`Return visibility QA`、`Related reading QA`、`Partial Load QA`、`Reader search QA`、`Missing shared case QA`、`Find reader sections QA`、`Home search entry QA`、`Round 23 acceptance QA`、`Audit summary round QA`。
+- squash 合併為 `8f515af3`；`pages build and deployment` [42916924091](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42916924091) success。
+- 正式站 `catalog.json.sourceRevision` = `8f515af379cb4a65be26ef793effc13b31ce236d`、512 個來源檔；`assets/app.js`、`assets/style.css`、`templates/case.md` 與合併版本逐 byte 相同（SHA-256 比對）。
+- 正式站重走（1440×900／390×844）：`?q=診所` 3／515，UC-282 卡片有 `取得：經轉述`（84×25px、卡片底部 57px、溢出 0）；`?case=UC-282` 第一屏 `取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文` 在視窗內；`?case=UC-514` 仍是官方文案；`?q=怎麼把會議記錄變成待辦事項` 12／515；`?q=規劃旅行&scenario=工作` 0 → 建議「移除使用情境『工作』 → 查看 1 筆」→ 1 筆；`?case=UC-024` 關閉後 515 筆、焦點 `#results-count`；兩個尺寸 axe 0、pageerror 0。
+- main 的 `Website QA` [42916925258](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42916925258) 於交付時仍在執行；它的結論不影響上面的逐 byte 與實站核對，但不冒稱成功。
+
+## 下一輪
+
+先做 **`sources/pending.md` 的 P-001／P-003 仍是「待查」但沒有任何查證日期**：首頁統計把它們算成 2 個待查線索，卡片與詳情卻說不出最後一次查是什麼時候，`?sort=reviewed` 也把它們排在最後。先做的驗證：讀 `sources/pending.md` 兩條的狀態行與 `INDEX.md` 對應列，量 `?case=P-001`／`?case=P-003` 的徽章與核對日，再決定是補日期、標「未查證」或把它們從「最近核對」排序中排除。

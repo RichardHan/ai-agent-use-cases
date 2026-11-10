@@ -1,3 +1,19 @@
+## 2026-11-13 部署失敗的那個 merge，發布閘門是灰燈不是紅燈
+
+`pages build and deployment` [42733561142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42733561142)（`99734627`）的 `deploy` 用滿 600 秒後失敗（01:19:29 failure）；同一個 commit 的 `Website QA` [42733562130](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42733562130) 從 01:17:09 起卡在「Wait for published assets and content」，**下一次 push 在 01:42:07 把它取消**。結果這個 merge 的發布閘門是 **cancelled**，讀起來像「被取代」，實際是「沒有裁決」，而它的部署其實已確定失敗。同一類等待在 11-07 也讓 7 個 main run 各燒 3600 秒（例如 `42336879927` 的 `Verify published version before live journeys` 04:06:05→05:06:05）。成因：驗證端只看得到正式站，分不出「部署已失敗」與「部署還沒完成」，`scripts/published-assets.cjs` 又把所有驗證例外一律記成 `request failed` 重試。
+
+選擇 (A) 直接問 GitHub「這個 SHA 的 Pages 部署做了什麼」（新檔 `scripts/publication-status.cjs` 讀 `actions/runs?head_sha=`，只認 `pages build and deployment`、取最新活動的一筆）：已失敗且**可證明** live 不含這個 push → 立刻判紅並附失敗的 run 網址；live 已經是同版本或是它的後代 → 照原設計逐檔驗位元；API 讀不到、沒 token、非 200、JSON 壞掉 → `unknown`，行為與改動前相同。另外把 `website-qa.yml` 的 `cancel-in-progress` 改成只在 `pull_request` 生效，main 的裁決不再被下一個 push 抹掉。(B) 用 `workflow_run` 監聽部署結論：Pages 的部署 workflow 是 GitHub 內建、只能被動監聽，`head_sha` 取值與「被取消／docs-only 仍建置」的邊界都更難處理，成本與出錯面都大於 A。
+
+實測（同一個輸入：`99734627` 的建置、真的打正式站、真的用 token）：基準程式 60 秒上限到期仍在輪詢（`timeout 60` → exit 124）；本輪 0.68 秒內印出 `Pages deployment for 99734627…: failed (failure) — …/runs/42733561142`。真實 API 分類：`99734627` → failed、`c7acb73f`／`9f80e852`／`73e28229` → succeeded、不存在的 SHA → pending、沒有 token／非 200／非 JSON → unknown。測試：基準 `fc4bc40e` **652 通過** → 本輪 **663 通過、0 失敗**（新增 `tests/publication-gate.test.cjs` 11 項；把新測試指向基準程式時 7 項失敗）。位元比對、`sameContent`、語言檢查、superseded 逐檔驗證與 60 分鐘視窗全部未動。
+
+限制：部署失敗且 live 沒有後代時才會立即判紅；有後代時仍走原本的逐檔比對，可能等滿視窗（既有設計，未改）。`actions: read` 若在環境被擋，狀態是 `unknown`，退回改動前行為。正式站輸出完全不變（本輪只動 workflow、scripts、tests）。發布：PR [#331](https://github.com/RichardHan/ai-agent-use-cases/pull/331)（head `9c3d0622`）4 項非略過檢查全 pass，squash 合併為 `275f415f`。`pages build and deployment` [42764807519](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42764807519) success（56 秒）；main 的 `Website QA` [42764808248](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42764808248) success，`Wait for published assets and content` 第一輪就印出 `Pages deployment for 275f415f…: succeeded (success) — …/runs/42764807519` 與 `PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH`（0.76 秒），證明 workflow 內的 `actions: read` 真的讀得到 Pages run。正式站 `catalog.json.sourceRevision` = `275f415f`、512 個來源檔，`index.html`、`assets/*`、`README.md`、`INDEX.md` 與本機 checkout 逐 byte 相同；三種訪客情境（問題搜尋、組合篩選空結果復原、分享詳情直鏈）在 1440×900 與 390×844 重走通過。[完整紀錄](docs/qa/2026-11-13-publication-verdict/README.md)。
+
+## 下一輪最值得做的一件事
+
+**搜尋把本庫自己的編輯註記當成內容**：`（翻譯改寫）`／`（翻譯摘要）`／`（翻譯整理）` 這些本庫翻譯註記讓 `翻譯` 在正式站命中 **186 筆**，但只有 **1 筆**的標題、用途或痛點提到它；把註記從可搜尋文字移除後原型實測為 **18 筆**，`UC-144`（古籍英譯）與 `UC-410`（意圖翻譯卡）都留著，且沒有任何標題／用途／標籤命中被丟掉（`翻譯改寫` 104→1、`摘要` 191→147、`改寫` 193→125）。`英文`／`日文`／`語言` 不動，那些是來源語言本身就是讀者要找的東西。先做的驗證：`tests/problem-compound-queries.test.cjs:274-275` 目前要求 `文件翻譯` ≥50 筆、`tests/search.test.cjs:320` 要求 `translate` 經同義詞命中 UC-001，兩者都靠這些註記撐起來；先決定是改規格或保留舊行為，再重跑全庫前後筆數。
+
+既有、尚未修的第二項：**`- 本次增補查證：` 沒有被讀成頁首核對日**——9 頁寫了它，其中 5 頁（UC-005、071、183、235、354）畫面上的「頁首核對」比同一區塊最新的一次查證舊，最多差 8 天（UC-183：顯示 2026-10-17、實際 2026-10-25），`?sort=reviewed` 因此把它們排得比實際舊。修法是在 `reviewDate()` 的具名欄位清單加一個鍵，並補一條「補充查證不得比頁首核對日新」的全語料斷言。
+
 ## 2026-11-12 首頁 53 個任務裡，7 個是「沒有案例自述這項任務」卻長得一樣的入口
 
 正式站 `63f4f375`（512 個來源檔、畫面 `515` 筆）的任務目錄有 53 個連結，其中 7 個的自述命中為 0：出差報銷 4／0、播客摘要 10／0、寫履歷 8／0、代碼重構 6／0、發票辨識 16／0、機票比價 5／0、隱私審查 64／0（全文／標題用途痛點）。點進去結果頁已經誠實：「沒有案例的標題、用途或痛點同時包含…下列 16 筆是全文或同義詞命中」，並給「改搜「發票」→ 8 筆」；但入口本身沒有任何訊號，`16 / 515` 第一眼像「16 篇在做發票辨識」。另有 16 個入口自述命中只有 1 筆。
@@ -24,11 +40,6 @@
 
 
 發布補記：PR [#327](https://github.com/RichardHan/ai-agent-use-cases/pull/327)（head `e0cb00f3`）13 項非略過檢查全 pass、`published` 依設計在 PR 上 skipping，squash 合併為 `c7acb73f`。`pages build and deployment` [42752588364](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42752588364) 的 `build` 40 秒、`deploy` 157 秒都 success；main 的 `Website QA` [42752589744](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42752589744) success，含第 15 步 `Wait for published assets and content` 與第 17 步 `Verify the published GitHub Pages site`。正式站 `catalog.json.sourceRevision` = `c7acb73f`、512 個來源檔；`assets/app.js`（`439f0058…`）、`style.css`、`reader.css`、`index.html`、`README.md` 與本機 checkout 逐 byte 相同。正式站重走（1440×900／390×844）：`?case=UC-024` 延伸閱讀 3 列 `相關標籤：帳單`（部署前同頁 0 列）、說明換成三層版本；`?case=UC-005` 仍是 0 列但文案改為「沒有宣告分類，也沒有與目前結果中其他案例共用的少見標籤」；`?q=怎麼整理會議記錄` 7／515、`?q=規劃旅行&scenario=工作` 0 筆→移除情境後 1 筆、`?case=UC-514` 直鏈 3 列 `相關標籤：購物` 且來源固定在本版 commit；兩尺寸 axe 0、水平溢出 0、pageerror 0，Escape 關閉後回到 515 筆清單。獨立審查（未參與實作）第一輪提出 1 項 must-fix（2% 門檻誤用目前結果集當分母）與 1 項 should-fix（同頁重複標籤膨脹頻率），兩項已修並新增回歸，第二輪覆核確認 deliverable、0 頁失去既有建議、572 列 `相關標籤` 全部成立。
-
-## 下一輪最值得做的一件事
-
-**`- 本次增補查證：` 這一行沒有被讀成頁首核對日**：9 頁寫了它，其中 5 頁（UC-005、071、183、235、354）畫面上的「頁首核對」比同一個頁首區塊裡最新的一次查證還舊，最多差 8 天，`?sort=reviewed` 因此把這 5 頁排在比實際更舊的位置。修法是在 `assets/app.js` 的 `reviewDate()` 具名欄位清單加 `本次增補查證`（1 行），並在 `tests/recent-review-corpus.test.cjs` 加一條「同一頁首區塊的補充查證不得比頁首核對日新」的斷言；先跑 `?case=UC-183` 與 `?sort=reviewed` 前 10 筆確認現況。這批證據已由本輪的獨立語料審查量測完成，尚未修。
-
 
 ## 2026-11-10 Pages 產物有 98% 是沒人連得到的驗收截圖
 

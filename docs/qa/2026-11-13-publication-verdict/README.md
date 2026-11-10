@@ -113,4 +113,14 @@
 
 ## 發布
 
-（合併與部署核對後補記。）
+- PR [#331](https://github.com/RichardHan/ai-agent-use-cases/pull/331)（head `9c3d0622`）：4 項非略過檢查全部 success——`Website QA` [42763759446](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42763759446) 9m40s、`Reader QA` [42763759273](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42763759273) 5m59s、`Partial Load QA` [42763759323](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42763759323) 3m13s、`Search context QA` [42763759265](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42763759265) 1m37s。PR 上的 `published` 步驟依設計 skipped。
+- squash 合併為 `275f415ff748206d1f18e9eebb5297037d662188`；`pages build and deployment` [42764807519](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42764807519) **success**（05:52:17→05:53:13，56 秒）。
+- main 的 `Website QA` [42764808248](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42764808248)（`275f415f`）在 05:52:17→06:02:41 **success**。新的 `Wait for published assets and content` 步驟（06:02:00）在第一輪就印出
+  `Pages deployment for 275f415ff748206d1f18e9eebb5297037d662188: succeeded (success) — https://github.com/.../runs/42764807519`
+  並在 0.76 秒後印出 `PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 275f415f…`——這同時證明 `actions: read` 在實際 workflow 權限下讀得到 Pages run、`deployment` 預設值真的接上（不是單元測試的注入值）、而 `Fail when the published site cannot be verified` 因 `verified=true` 依設計 skipped、`Verify the published GitHub Pages site` success（06:02:00→06:02:36）。
+- 正式站 `catalog.json.sourceRevision` = `275f415ff748206d1f18e9eebb5297037d662188`、`corpus.json` 同版本、512 個來源檔；`index.html`、`assets/app.js`、`assets/style.css`、`assets/reader.css`、`assets/reader.js`、`README.md`、`INDEX.md` 與本機 checkout **逐 byte 相同**。
+- 正式站重走（1440×900／390×844）：`?q=怎麼整理會議記錄` 7／515；`?q=規劃旅行&scenario=工作` 0／515，空結果提供「移除使用情境『工作』 → 查看 1 筆」，復原後 515／515；`?case=UC-024` 詳情直開、憑據 `作者報告／示範`、頁首核對 2026-10-14、延伸閱讀 3 列 `相關標籤：帳單`、來源固定在 `275f415f`，Escape 後焦點回到 `results-count`；水平溢出 0、pageerror 0。
+
+## 下一輪
+
+先做**搜尋把本庫自己的編輯註記當成內容**：全庫 508 個案例頁中，`（翻譯改寫）`／`（翻譯摘要）`／`（翻譯整理）` 這類本庫翻譯註記讓 `翻譯` 在正式站（`275f415f`）命中 **186 筆**，但只有 **1 筆**的標題、用途或痛點提到它（`UC-144` 古籍英譯、`UC-410` 的「意圖翻譯卡」）；把註記從可搜尋文字中移除的原型實測為 **18 筆**，兩個真正相關的案例都留著，`翻譯改寫` 由 104 降到 1、`摘要` 191→147、`改寫` 193→125，**沒有任何標題／用途／標籤命中被丟掉**。`英文`／`日文`／`語言` 不動（那些是來源語言，讀者可能真的想找英文來源）。先做的驗證：讀 `tests/problem-compound-queries.test.cjs:274-275`（`文件翻譯` 目前要求 ≥50 筆，正是靠這些註記撐起來）與 `tests/search.test.cjs:320`（`translate` 經同義詞命中 UC-001），決定要改規格還是保留舊行為，再量一次全庫前後筆數。

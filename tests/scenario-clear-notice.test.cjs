@@ -13,7 +13,7 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const source = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8').split('/* Browser event bindings. */')[0];
 const context = vm.createContext({ URL });
-vm.runInContext(source + '\nthis.api={scenarioResetCopy,scenarioResetAnchor,FILTER_LABELS};', context);
+vm.runInContext(source + '\nthis.api={scenarioResetCopy,scenarioResetAnchor,scenarioResetDropped,FILTER_LABELS};', context);
 const api = context.api;
 
 const dropped = [
@@ -66,4 +66,22 @@ test('conditions are labelled with the same vocabulary the filter bar uses', () 
   assert.equal(api.FILTER_LABELS.query, '關鍵字');
   assert.equal(api.FILTER_LABELS.difficulty, '實作門檻');
   assert.equal(api.FILTER_LABELS.tool, '提及工具');
+});
+
+test('the homepage never calls the scenario it replaced a lost condition', () => {
+  const conditions = [
+    { key: 'query', label: '關鍵字', display: '旅遊' },
+    { key: 'scenario', label: '使用情境', display: '工作' },
+    { key: 'difficulty', label: '實作門檻', display: '入門對話' }
+  ];
+  const home = api.scenarioResetDropped({ conditions, scenario: '工作' }, '生活', 'discover');
+  assert.deepEqual(home.map(c => c.key), ['query', 'difficulty'],
+    'pressing another scenario is the chooser itself, not a loss to read back');
+  const onlyScenario = api.scenarioResetDropped({ conditions: [conditions[1]], scenario: '工作' }, '生活', 'discover');
+  assert.deepEqual(onlyScenario, [], 'consecutive scenario presses stay silent on the homepage');
+  const detail = api.scenarioResetDropped({ conditions, scenario: '工作' }, '生活', 'explore');
+  assert.deepEqual(detail.filter(c => c.key === 'scenario').map(c => c.display), ['工作'],
+    'the detail handoff keeps naming the scenario it replaced');
+  const same = api.scenarioResetDropped({ conditions, scenario: '工作' }, '工作', 'explore');
+  assert.deepEqual(same.filter(c => c.key === 'scenario'), [], 're-pressing the same scenario names nothing twice');
 });

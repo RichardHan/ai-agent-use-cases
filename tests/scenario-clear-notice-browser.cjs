@@ -25,6 +25,9 @@ const read = page => page.evaluate(() => {
     query: document.getElementById('query').value,
     difficulty: document.getElementById('difficulty').value,
     scenario: document.getElementById('scenario').value,
+    tool: document.getElementById('tool').value,
+    sort: document.getElementById('sort').value,
+    scope: document.getElementById('search-scope').value,
     count: document.getElementById('results-count').textContent.trim(),
     url: decodeURIComponent(location.href),
     noticeHidden: notice.hidden,
@@ -113,6 +116,47 @@ const load = async (page, url) => {
     assert.equal(all.noticeHidden, false);
     assert.ok(!all.message.includes('「」'), 'no empty quoted scenario: ' + all.message);
     assert.ok(all.message.includes('全部情境'), all.message);
+
+
+    // 6. The scenario chooser itself is not a loss: sort/tool restore, and a second
+    // scenario press with nothing but a scenario active stays silent and hands the
+    // card back the focus.
+    await load(page, '?q=' + encodeURIComponent('旅遊') + '&scenario=' + encodeURIComponent('工作') +
+      '&tool=' + encodeURIComponent('Grok Bot') + '&sort=reviewed');
+    const filtered = await read(page);
+    assert.equal(filtered.sort, 'reviewed');
+    assert.equal(filtered.tool, 'Grok Bot');
+    await page.locator('#guide-options [data-scenario="生活"]').click();
+    await page.waitForTimeout(400);
+    const switched = await read(page);
+    assert.equal(switched.noticeHidden, false, `${name}: losing the query is still announced`);
+    assert.ok(switched.message.includes('提及工具「Grok Bot」'), `${name}: names the tool: ${switched.message}`);
+    assert.ok(!switched.message.includes('使用情境「工作」'), `${name}: the chooser itself is not a loss: ${switched.message}`);
+    await page.locator('#scenario-reset-action').click();
+    await page.waitForTimeout(400);
+    const back = await read(page);
+    for (const [field, value] of [['query', '旅遊'], ['scenario', '工作'], ['tool', 'Grok Bot'], ['sort', 'reviewed']]) {
+      assert.equal(back[field], value, `${name}: the way back restores ${field}`);
+    }
+    assert.equal(back.url.includes('sort=reviewed'), true, 'sort survives in the address bar');
+    await page.locator('#guide-options [data-scenario="創作"]').click();
+    await page.waitForTimeout(400);
+    const second = await read(page);
+    assert.equal(second.noticeHidden, false, 'the query and tool were cleared again');
+    await page.locator('#scenario-reset-action').click();
+    await page.waitForTimeout(300);
+    await page.locator('#guide-options [data-scenario="創作"]').click();
+    await page.waitForTimeout(400);
+    const silent = await read(page);
+    assert.equal(silent.noticeHidden, false, 'the restore brought the query back, so this press clears it again');
+    await page.locator('#scenario-reset-action').click();
+    await page.waitForTimeout(300);
+    await page.evaluate(() => { for (const id of ['query', 'tool', 'sort']) { const node = document.getElementById(id); node.value = ''; node.dispatchEvent(new Event('change', { bubbles: true })); } });
+    await page.locator('#guide-options [data-scenario="開發"]').click();
+    await page.waitForTimeout(400);
+    const chooserOnly = await read(page);
+    assert.equal(chooserOnly.noticeHidden, true, `${name}: switching scenario with nothing else active stays silent`);
+    assert.equal(chooserOnly.focusInDrawnCase, true, `${name}: and the card keeps the handoff`);
 
     // 5. The detail handoff keeps the notice on the result screen where it belongs.
     await load(page, '?q=' + encodeURIComponent('旅遊') + '&difficulty=' + encodeURIComponent('入門對話'));

@@ -1579,6 +1579,16 @@ function scenarioResetCopy(reset,scenario,dropped,{partial=false}={}){
     action:'回到原本的搜尋'+(partial?'':'（'+reset.count+' 筆）')
   };
 }
+// The homepage button *is* the scenario chooser, so the scenario it replaces is not
+// a loss worth reading back — naming it would make every consecutive scenario press
+// announce itself and take focus away from the card. The detail handoff says
+// 「探索更多「X」案例」 about a scenario the reader did not pick, so it keeps naming
+// the one it replaced.
+function scenarioResetDropped(reset,scenario,placement){
+  return reset.conditions.filter(condition=>condition.key==='scenario'
+    ? condition.display!==scenario&&placement!=='discover'
+    : true);
+}
 // Both triggers start the search over on purpose, but the reader lands in different
 // places: the homepage buttons hand off to the card they drew, the detail handoff
 // hands off to the result line. The notice is one element moved to the trigger's
@@ -1614,7 +1624,7 @@ function showScenarioReset(reset,scenario,placement){
   // The switch only loses what the new state no longer has. A case whose scenario
   // is already the active one loses nothing by being explored: name only the
   // conditions that actually went away, and say nothing when none did.
-  const dropped=reset.conditions.filter(condition=>!(condition.key==='scenario'&&condition.display===scenario));
+  const dropped=scenarioResetDropped(reset,scenario,placement);
   if(!dropped.length){scenarioReset=null;notice.hidden=true;return;}
   placeScenarioReset(placement);
   scenarioReset={...reset,after:conditionSignature(activeConditions($('query').value.trim(),filters))};

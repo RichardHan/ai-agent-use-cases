@@ -37,12 +37,13 @@
 
 - `assets/app.js`
   - 新增 `scenarioResetCopy(reset,scenario,dropped,{partial})`：切換到具名情境／全部情境／同一個情境三種句子；`partial` 時按鈕不寫筆數（部分來源未載入時不能宣稱原本有幾筆）。
+  - 新增 `scenarioResetDropped(reset,scenario,placement)`：首頁路徑不把「被換掉的那個情境」算成損失（按鈕本身就是情境選擇器；否則連續按兩顆情境會每按一次就朗讀一次並搶走焦點），詳情頁 handoff 仍會點名被換掉的情境。其餘條件照舊逐項列出。
   - 新增 `scenarioResetAnchor(placement)`：`discover` → `{host:'discover',anchor:'drawn-case'}`（面板在卡片正上方）；其他 → `{host:'explore',anchor:'partial-load'}`（與改動前同一個位置）。
   - 新增 `placeScenarioReset(placement)`、`alignScenarioReset(notice)`：搬移同一個節點，並只把通知頂端捲進視窗（`scrollY = notice.top - 12`），不搶走卡片。
   - `showScenarioReset()` 改為接受 `placement`，改用 `scenarioResetCopy()`；`scenarioExploreAction()` 不傳 placement，行為與位置不變。
   - 首頁 `#guide-options [data-scenario]` 七顆按鈕：快照 → `chooseScenario()` → 顯示通知 → 對齊 → 焦點移到 `#scenario-reset-action`；沒有清掉任何條件時完全不動（卡片照舊接手焦點）。
-- `tests/scenario-clear-notice.test.cjs`（新，6 項）：句子（切換／全部情境／同一個情境）、`partial` 不報筆數、兩個落點的錨點、`FILTER_LABELS` 用詞。
-- `tests/scenario-clear-notice-browser.cjs`（新）：1440／390／320 各走五段——鍵盤 Enter 切換後通知在視窗內且點名兩個條件、一張卡仍在畫面上、焦點落在回頭按鈕；一鍵回頭後查詢與門檻都回來、筆數與網址一致、焦點落在結果筆數；乾淨首頁切換不顯示通知且卡片照舊接手；`隨便逛逛` 不出現「」；詳情頁 handoff 仍把通知留在結果列上方且在視窗內。每段都跑 axe（0 違規）。
+- `tests/scenario-clear-notice.test.cjs`（新，7 項）：句子（切換／全部情境／同一個情境）、`partial` 不報筆數、兩個落點的錨點、首頁不點名被換掉的情境／詳情頁會點名、`FILTER_LABELS` 用詞。
+- `tests/scenario-clear-notice-browser.cjs`（新）：1440／390／320 各走六段——鍵盤 Enter 切換後通知在視窗內且點名兩個條件、一張卡仍在畫面上、焦點落在回頭按鈕；一鍵回頭後查詢與門檻都回來、筆數與網址一致、焦點落在結果筆數；乾淨首頁切換不顯示通知且卡片照舊接手；`隨便逛逛` 不出現「」；詳情頁 handoff 仍把通知留在結果列上方且在視窗內；`sort`／工具與情境一起被清掉時逐項點名，一鍵回頭把 `sort` 與工具一起還原，而「只有情境在作用」時連續按情境按鈕保持安靜、焦點回到卡片。每段都跑 axe（0 違規）。
 - `.github/workflows/website-qa.yml`：PR 閘門加上新回歸（`VERIFY_URL=… node tests/scenario-clear-notice-browser.cjs`）。
 - `README.md`：首頁情境會清除篩選那句補上「先寫出清除了哪些條件、原本有幾筆，附一鍵回頭；沒清掉東西時不多說一句」。
 
@@ -69,7 +70,7 @@
 
 ## 測試
 
-- `node --test tests/*.test.cjs`：基準 `c9bc5b72` **714 通過／0 失敗** → 本輪 **720 通過／0 失敗**（+6）。
+- `node --test tests/*.test.cjs`：基準 `c9bc5b72` **714 通過／0 失敗** → 本輪 **721 通過／0 失敗**（+7）。
 - 受影響的既有瀏覽器流程（本機，Chromium，對本輪預覽）：`related-browser.cjs`（含 `scenario-reset`、`merged-handoff` 與手機全部關卡，axe 0）、`page-context-browser.cjs`（1440／390／320／firefox／webkit 全 PASS）、`discovery-browser.cjs`（三種寬度、axe 0）、`results-batching-browser.cjs`、`search-submit-history-browser.cjs`（390／1440 PASS）。
 - `tests/pr-gate-coverage.test.cjs` 5 項通過（新測試被 PR 閘門涵蓋，沒有逃生的 `||` 綠燈）。
 

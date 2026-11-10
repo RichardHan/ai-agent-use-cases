@@ -52,7 +52,18 @@
   - 建置產物模式：把 `docs/` 放回模擬產物 → `FAIL: 建置產物仍含已排除的「docs」：_config.yml 的 exclude 沒有生效`（exit 1）；移除後 PASS。
 - `node --test tests/*.test.cjs`：基準 **617 通過／0 失敗** → 本輪 **626 通過／0 失敗**（+9）。`node --check assets/app.js`、`node --check scripts/check-published-surface.cjs` 通過。
 
-## 已知限制
+## 獨立審查
+
+由未參與實作的另一個 agent context 審查 PR 的完整 diff（`e5f53507`）。結論：**0 項 must-fix**；確認「目前沒有任何站內連結因排除 `docs` 而斷」，並確認 `parseExclude` 對真實 `_config.yml`（獨立註解、縮排）與 10 個必要檔案在正式站皆存在。提出的 4 項 P2 守門缺口，全部在本輪修正（`3c66cd41`）：
+
+1. 連結未依所在頁面解析：`cases/a.md` 裡的 `../docs/qa/run.md` 其實指向被排除的樹，舊掃描看不出來；反之 `cases/a.md` 裡的 `docs/x.md` 是 `cases/docs/x.md`，不該誤判。改為依頁面目錄解析，並用 `_config.yml` 的 `url`／`baseurl` 判別同源絕對網址（其他來源的文件網址仍然略過）。
+2. 建置產物只檢查 10 個固定檔：`_site` 掉了 `cases/*.md` 也能通過，但案例頁與來源連結會全部 404。改為要求每個已發布的 `cases/*.md`、`evidence/*.md`、`sources/pending.md` 都有對應傳輸檔。
+3. 符號連結：`cases/qa.png -> ../docs/qa/big.png` 會被 Jekyll 以連結路徑複製目標位元組，`_site/docs` 仍不存在、也遠低於 40 MiB 上限。改為拒絕解析後落在已發布範圍之外的符號連結。
+4. `website-qa.yml` 的 path filter 少了 `README.md`、`README-archive-2026-10-18.md`、`templates/**` 三個已發布路徑，只改這些檔案的 PR 不會跑新檢查。已補進 `pull_request` 與 `push` 兩處。
+
+修正後 `node --test tests/*.test.cjs` **629 通過／0 失敗**（+3）。另以真實檔案驗證新解析：在 `README.md` 加一行 `[驗收紀錄](docs/qa/…)` → `FAIL: README.md 連到已排除的「docs」…（網站上會是 404）`（exit 1）；還原後 PASS。建置產物模式把 `cases/005-cloud-pr-review.md` 移出模擬產物 → `FAIL: 建置產物缺少 1 個來源檔（例：cases/005-cloud-pr-review.md）`。
+
+
 
 - 本機沒有 Jekyll，`_site` 只能在 CI 產生；`scripts/check-page-language.cjs` 需要 Jekyll 產生的 `INDEX.html` 與 `cases/*.html`，本機模擬產物無法重現，因此建置產物模式在 CI 之前只以合成目錄驗證邏輯。
 - 沒有證明 artifact 大小與 `syncing_files` 逾時的因果，只量到相關的成長與移除後的變化。

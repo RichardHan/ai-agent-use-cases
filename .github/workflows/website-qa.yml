@@ -87,6 +87,7 @@ jobs:
           DETAIL_HISTORY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ DETAIL_HISTORY_OUTPUT=qa-artifacts/detail-close-history node tests/detail-close-history-browser.cjs
           CATEGORY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/declared-category-browser.cjs
           TARGET_USER_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/target-user-provenance-browser.cjs
+          CORE_GOAL_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/core-goal-provenance-browser.cjs
       - name: Build actual Pages release for published verification
         uses: actions/jekyll-build-pages@v1
         with:

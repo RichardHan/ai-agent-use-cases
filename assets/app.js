@@ -2422,17 +2422,40 @@ function matchScopeNotice(overviewCount, totalCount) {
 // The hero directory offers 53 tasks before anything is typed, so the same split
 // the results screen discloses after a click is useful on the link itself: a task
 // no case describes in its own title/purpose/pain would otherwise look as covered
-// as one the library answers directly. One predicate answers both surfaces —
+// as one the library answers directly. One predicate answers every task entry —
 // filterEntries() with the results page's overview scope — so the label and the
-// screen cannot disagree.
-function taskCoverage(items, query) {
+// screen cannot disagree. Facets still apply: the empty state offers tasks under
+// the filters in force, and coverage has to mean the same condition set.
+function taskCoverage(items, query, filters = {}) {
   const terms = tokenize(query || '');
   if (!terms.length) return null;
-  const claimed = filterEntries(items, terms, { scope: 'overview' }).length;
+  const claimed = filterEntries(items, terms, { ...filters, scope: 'overview' }).length;
   if (claimed) return { claimed, total: null };
-  return { claimed, total: filterEntries(items, terms, {}).length };
+  return { claimed, total: filterEntries(items, terms, filters).length };
+}
+// Coverage is a property of the corpus, the task word and the filters — not of the
+// question in the box. The dead-end panel rebuilds 45+ chips on every keystroke,
+// so the answer is kept per corpus+filters; a new corpus (load, retry, merge) is a
+// new array and a new cache, and a filter change is a new key.
+const coverageMemo = new WeakMap();
+function cachedTaskCoverage(items, query, filters = {}) {
+  const key = (items.length + '|' + JSON.stringify(filters || {}));
+  let byFilters = coverageMemo.get(items);
+  if (!byFilters) { byFilters = new Map(); coverageMemo.set(items, byFilters); }
+  const entry = key + '\u0000' + String(query || '');
+  if (!byFilters.has(entry)) byFilters.set(entry, taskCoverage(items, query, filters));
+  return byFilters.get(entry);
 }
 const TASK_COVERAGE_MARKER = '僅相關詞';
+// The marker says what is measured, word for word: the same sentence the results
+// screen prints. A task whose phrase was rewritten to `履歷 修改` is not "no case
+// describes this" — UC-035's title is a resume rewrite — but no case holds both
+// words in its title/purpose, and that is what the count is.
+function coverageWords(query) {
+  // Every word, never a truncated list: the sentence says 「同時包含」 and a shortened
+  // list would claim more than was measured.
+  return tokenize(query || '').map(term => `「${term}」`).join('');
+}
 function annotateTaskCoverage() {
   if (typeof document.querySelectorAll !== 'function') return 0;
   const links = [...document.querySelectorAll('#hero-problem-tags a.problem-tag, .hero-task-examples a[data-task-entry]')];
@@ -2447,14 +2470,14 @@ function annotateTaskCoverage() {
   let marked = 0;
   for (const link of links) {
     const query = new URL(link.href, location.href).searchParams.get('q');
-    const coverage = taskCoverage(entries, query);
+    const coverage = cachedTaskCoverage(entries, query);
     if (!coverage || coverage.claimed) { clearTaskCoverage(link); continue; }
     marked++;
     if (link.dataset.coverage === 'none') continue;
     link.dataset.coverage = 'none';
     link.append(el('span', 'task-coverage-none', TASK_COVERAGE_MARKER));
     const label = link.firstChild?.textContent?.trim() || query;
-    link.title = `目前沒有案例在標題、用途或痛點自述在做「${label}」；點入會列出 ${coverage.total} 筆提到相關詞的案例，並提供替代搜尋。`;
+    link.title = `目前沒有案例的標題、用途或痛點同時包含${coverageWords(query) || '「'+label+'」'}；點入會列出 ${coverage.total} 筆提到相關詞的案例，並提供替代搜尋。`;
     // The visible text already names the link; a longer aria-label would stop
     // matching it (axe label-content-name-mismatch) and read the marker twice.
     // Point the description at the legend instead.
@@ -3324,19 +3347,47 @@ function renderSearchFeedback(terms, filters) {
       ].filter(({term})=>!phraseOptions.some(option=>option.query===term) && filterEntries(entries,tokenize(term),filters).length>0);
       const prioritizedTags=prioritizeProblemTags(problemTags,$('query').value);
       if(problemTags.length){
+        // The hero directory already carries this label; the dead-end panel is the
+        // other place a task entry is offered, and it must not read as "the library
+        // answers this" while the visitor is already stuck. Same predicate, same
+        // word, same evidence. A partial load is not a census, so nothing is marked
+        // then; and because the panel is a scrolled wall, tasks a case actually
+        // describes stay in front of the ones only related words reach.
+        const annotated = prioritizedTags.map(tag => ({ ...tag, coverage: cachedTaskCoverage(entries, tag.term, filters) }));
+        // A partial load is not a census: the counts still decide what is offered,
+        // but nothing is marked while a source file is missing.
+        const canMark = !failedPaths.length;
+        const uncovered = canMark ? annotated.filter(({ coverage }) => coverage && coverage.claimed === 0) : [];
+        const orderedTags = uncovered.length
+          ? [...annotated.filter(item => !item.coverage || item.coverage.claimed > 0), ...uncovered]
+          : annotated;
         const problemContainer = el('div','empty-problem-suggestions');
         problemContainer.setAttribute('role','group');
         problemContainer.setAttribute('aria-label','推薦常見痛點關鍵字');
         const hasFacetRemovals = Boolean(options.length || combined.length);
         const intro = el('p','empty-problem-intro', hasFacetRemovals ? '或保留目前篩選，探索此條件下有收錄的常見問題：' : '以下搜尋在目前篩選下有結果，可保留其他條件繼續探索：');
         problemContainer.append(intro);
+        let legend = null;
+        if(uncovered.length){
+          legend = el('p','empty-problem-legend','「'+TASK_COVERAGE_MARKER+'」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。');
+          legend.id = 'empty-coverage-legend';
+          problemContainer.append(legend);
+        }
         const chipsWrap = el('div','empty-problem-chips');
-        prioritizedTags.forEach(({label, term})=>{
+        orderedTags.forEach(({label, term, coverage})=>{
           const btn = el('button','recovery-option recovery-problem-tag',label);
           btn.type = 'button';
           btn.dataset.problemTag = term;
           btn.setAttribute('data-problem-tag', term);
           btn.setAttribute('aria-label', label);
+          if(canMark && coverage && coverage.claimed === 0){
+            btn.dataset.coverage = 'none';
+            btn.append(el('span','task-coverage-none',TASK_COVERAGE_MARKER));
+            // The visible text is the accessible name, so the marker belongs in it.
+            btn.setAttribute('aria-label', label+TASK_COVERAGE_MARKER);
+            btn.title = `目前條件下，沒有案例的標題、用途或痛點同時包含${coverageWords(term)}；點入會列出 ${coverage.total} 筆相關詞命中，並提供替代搜尋。`;
+            btn.setAttribute('aria-describedby', legend.id);
+          }
           btn.addEventListener('click',()=>recoverSearchQuery(term));
           chipsWrap.append(btn);
         });

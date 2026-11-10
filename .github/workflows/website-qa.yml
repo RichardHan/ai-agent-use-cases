@@ -23,9 +23,16 @@ on:
     paths: ['assets/**', 'index.html', 'INDEX.md', 'README.md', 'README-archive-2026-10-18.md', 'templates/**', 'catalog.json', 'corpus.json', 'audit-summary.json', 'cases/**', 'evidence/**', 'sources/**', '_config.yml', 'tests/**', 'scripts/**', '.github/workflows/website-qa.yml']
 concurrency:
   group: website-qa-${{ github.ref }}
-  cancel-in-progress: true
+  # A pull request may always be replaced by its next commit. A merge may not: the
+  # run waiting on the Pages deployment is the only place a failed publication is
+  # reported, and cancelling it turned "the deploy failed" into a grey job
+  # (run 42733562130, 2026-11-10). Keep main's verdict.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
   contents: read
+  # Read the Pages run for this push so a finished-without-publishing deployment
+  # fails the gate instead of being polled for an hour.
+  actions: read
 jobs:
   browser:
     runs-on: ubuntu-24.04
@@ -121,6 +128,7 @@ jobs:
           PUBLISHED_BUILD: ${{ runner.temp }}/website-published
           # The only trustworthy description of what this push published.
           PUSH_BASE_SHA: ${{ github.event.before }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: node tests/published-version.cjs
       - name: Fail when the published site cannot be verified
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.published-version.outputs.verified != 'true' }}

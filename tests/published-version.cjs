@@ -1,7 +1,11 @@
 'use strict';
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path');
-const {waitForPublishedAssets}=require('../scripts/published-assets.cjs');
+const {waitForPublishedAssets,fatalPublicationError}=require('../scripts/published-assets.cjs');
+const {publicationStatus}=require('../scripts/publication-status.cjs');
+// The assets gate polls every 5s; asking GitHub on every poll would be 720 API
+// calls per merge for an answer that only changes once.
+const DEPLOY_POLL_ROUNDS=12;
 const {publicationChangeList,isDescendantOf}=require('../scripts/published-check.cjs');
 const {pages,checkPageLanguage}=require('../scripts/check-page-language.cjs');
 const SOURCE_DIR=/^(?:cases|evidence)\/|^sources\/pending\.md$/;
@@ -76,7 +80,26 @@ async function verifySupersededPublication({changed,changeList,remote,local,buff
  }
  return {mode:'superseded',supersededBy:live,changedVerified:verified};
 }
-async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList={known:true,entries:[]},root='.',fetchAsset=fetch,isDescendant=isDescendantOf,now,sleep}){
+// The revision the live site is serving right now, or '' when it cannot be read.
+// Only used to decide whether a failed deployment still matters.
+async function liveRevision({base,fetchAsset,sha,attempt}){
+ try{
+  const url=new URL('catalog.json',base);
+  url.searchParams.set('publication',sha+'-'+attempt+'-revision');
+  const signal=typeof AbortSignal!=='undefined'&&AbortSignal.timeout?AbortSignal.timeout(15000):undefined;
+  const response=await fetchAsset(url,{cache:'no-store',signal});
+  if(!response.ok)return '';
+  const catalog=JSON.parse(Buffer.from(await response.arrayBuffer()).toString('utf8'));
+  return String(catalog.sourceRevision||'');
+ }catch{return '';}
+}
+async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList={known:true,entries:[]},root='.',fetchAsset=fetch,isDescendant=isDescendantOf,now,sleep,deployment}){
+ // The live site cannot say whether its own deploy failed or is still running, so
+ // ask GitHub about the Pages run for this exact push. Only a push that publishes
+ // a known revision can have such a run; a branch build has none, and asking
+ // would only ever answer "no run for this SHA".
+ const deploySha=expectedSourceRevision||'';
+ const deployCheck=deployment||(()=>publicationStatus({sha:deploySha}));
  const assets=servedAssets(built);
  const files=[...assets,'catalog.json','corpus.json',...pages.filter(page=>page!=='index.html')];
  const buffers=new Map();
@@ -88,15 +111,24 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
  const ancestry=new Map();
  const assertDescendant=(ancestor,descendant)=>{
   const key=ancestor+'..'+descendant;
-  if(!ancestry.has(key)){
-   try{ancestry.set(key,{value:isDescendant(ancestor,descendant)})}
-   catch(error){ancestry.set(key,{error})}
+  const cached=ancestry.get(key);
+  // Only answers that cannot change are cached. "This revision does not contain
+  // that push" is a fact about two commits; a git/network failure is not, and
+  // caching it would make one ETIMEDOUT outlive every later retry.
+  if(cached){
+   if(Object.hasOwn(cached,'value'))return cached.value;
+   if(cached.definitive)throw cached.definitive;
   }
-  const entry=ancestry.get(key);
-  if(entry.error)throw entry.error;
-  return entry.value;
+  try{
+   const value=isDescendant(ancestor,descendant);
+   ancestry.set(key,{value});
+   return value;
+  }catch(error){
+   if(/does not contain this push/.test(String(error&&error.message)))ancestry.set(key,{definitive:error});
+   throw error;
+  }
  };
- let publication;
+ let publication, deployNoticeLogged=false, carriedLogged=false, undecidedLogged=false;
  // The shared 60-minute deadline covers product bytes and semantic corpus checks together.
  const status=await waitForPublishedAssets({
   base,sha,files:[],now,sleep,
@@ -104,6 +136,45 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
   // decides whether the live build provably contains what this push published.
   isCurrent:()=>true,
   verify:async({signal,cache,attempt})=>{
+   // Ask GitHub once a minute (and on the first round) whether the deployment
+   // this push needs has already finished without it. A failed deploy is not a
+   // slow deploy — but a later merge can still have published these bytes, so the
+   // verdict only ends the wait when no newer build carries this push either.
+   if(deploySha&&attempt%DEPLOY_POLL_ROUNDS===0){
+    // A checker that throws or returns nothing is "unknown", never a verdict.
+    let state={state:'unknown'};
+    try{state=(await deployCheck())||{state:'unknown'};}catch{state={state:'unknown'};}
+    // One line in the run log says what the deploy for this SHA did, so a reader
+    // never has to guess whether the API was reachable at all.
+    if(!deployNoticeLogged){
+     deployNoticeLogged=true;
+     console.log('Pages deployment for '+deploySha+': '+(state.state||'unknown')+(state.conclusion?' ('+state.conclusion+')':'')+(state.reason?' — '+state.reason:'')+(state.runUrl?' — '+state.runUrl:''));
+    }
+    if(state&&state.state==='failed'){
+     const live=await liveRevision({base,fetchAsset,sha,attempt});
+     // Only a positive answer may end the wait: "the live build provably does not
+     // contain this push". A git/network failure while comparing revisions, or a
+     // live revision that cannot be read, proves nothing and keeps waiting — a
+     // transient error must never turn into a red release.
+     let verdict='unknown';
+     if(live&&live===deploySha)verdict='superseded';
+     else if(live){
+      try{assertDescendant(deploySha,live);verdict='carried';}
+      catch(error){if(/does not contain this push/.test(String(error&&error.message)))verdict='absent';}
+     }
+     if(verdict==='carried'||verdict==='superseded'){
+      if(!carriedLogged){
+       carriedLogged=true;
+       console.warn('The deployment for '+deploySha+' failed ('+(state.conclusion||'no conclusion')+'), but the live build '+live+' already carries it; verifying the bytes it published'+(state.runUrl?' — '+state.runUrl:''));
+      }
+     }else if(verdict==='absent'){
+      throw fatalPublicationError('The Pages deployment for '+deploySha+' failed ('+(state.conclusion||'no conclusion')+'); the published site can never contain this push'+(state.runUrl?' — '+state.runUrl:''),{runUrl:state.runUrl});
+     }else if(!undecidedLogged){
+      undecidedLogged=true;
+      console.warn('The deployment for '+deploySha+' failed ('+(state.conclusion||'no conclusion')+'), but the live revision could not be compared; keeping the window open'+(state.runUrl?' — '+state.runUrl:''));
+     }
+    }
+   }
    const responses=await Promise.allSettled(files.map(async file=>{
     const url=new URL(file==='index.html'?'':file,base);
     url.searchParams.set('publication',sha+'-'+attempt);

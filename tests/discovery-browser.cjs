@@ -96,6 +96,14 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
   await page.locator('#results .card').first().waitFor();
   await page.locator('#guide-options [data-scenario="工作"]').click();
   assert(!(await heroNotice.isVisible()),'a scenario-only switch stays silent');
+  // 「隨便逛逛」 clears the scenario as well, so the sentence has to name that
+  // absence: an empty pair of quotes would describe nothing the reader chose.
+  await page.goto(origin+'?q=旅遊',{waitUntil:'networkidle'});
+  await page.locator('#results .card').first().waitFor();
+  await page.locator('#guide-options [data-scenario=""]').click();
+  const anyNotice=await page.locator('#scenario-reset-message').innerText();
+  assert.match(anyNotice,/不限定情境/);
+  assert.doesNotMatch(anyNotice,/「」/);
   // Journey 2: combine search and filters, recover from no results.
   await ensureFiltersVisible(page);
   await page.locator('#reset').click();

@@ -1578,10 +1578,11 @@ function showScenarioReset(reset,scenario){
   const dropped=reset.conditions.filter(condition=>!(condition.key==='scenario'&&condition.display===scenario));
   if(!dropped.length){scenarioReset=null;notice.hidden=true;return;}
   const list=dropped.map(condition=>condition.label+'「'+condition.display+'」').join('、');
+  const target=scenario?'「'+scenario+'」情境':'不限定情境';
   scenarioReset={...reset,after:conditionSignature(activeConditions($('query').value.trim(),filters))};
   $('scenario-reset-message').textContent=switched
-    ? '已切換到「'+scenario+'」情境；原本的'+list+'已清除。'
-    : '已清除原本的'+list+'，改為列出「'+scenario+'」情境的全部條目。';
+    ? '已切換到'+target+'；原本的'+list+'已清除。'
+    : '已清除原本的'+list+'，改為列出'+target+'的全部條目。';
   $('scenario-reset-action').textContent='回到原本的搜尋（'+reset.count+' 筆）';
   notice.hidden=false;
 }
@@ -1604,13 +1605,37 @@ function scenarioExploreAction(item) {
     closeDetail();
     chooseScenario(item.scenario);
     showScenarioReset(reset,item.scenario);
-    // The notice is the new information, and it sits directly above the result
-    // line: land on it so the reader sees what the switch took away.
-    const landing=$('scenario-reset').hidden?$('results-count'):$('scenario-reset');
-    $('results-count').focus({preventScroll:true});
-    landing.scrollIntoView({block:'start',behavior:'instant'});
+    landOnScenarioReset();
   });
   return button;
+}
+// Both ways into a scenario switch end the same way: when something was taken
+// away, the reader lands on the notice that names it, because that is the new
+// information and the result line right below it is where the loss shows.
+function landOnScenarioReset(){
+  const landing=$('scenario-reset').hidden?$('results-count'):$('scenario-reset');
+  $('results-count').focus({preventScroll:true});
+  landing.scrollIntoView({block:'start',behavior:'instant'});
+}
+// The hero buttons are a direction chooser, not a filter the reader is adding to
+// their search: the scenario they set is the switch itself, so a notice about
+// losing the *previous* scenario would only describe the click. What can be lost
+// without a trace is everything else the reader had typed or picked, and that is
+// what the same notice names. Measured on the live site 2026-11-11: ?q=旅遊
+// (35 / 515) → 「工作省點力」 162 / 515 with the query box empty and nothing said.
+function scenarioSwitchReset(){
+  const reset=scenarioResetSnapshot();
+  if(!reset)return null;
+  const conditions=reset.conditions.filter(condition=>condition.key!=='scenario');
+  return conditions.length?{...reset,conditions}:null;
+}
+function chooseScenarioFromHero(value){
+  const reset=scenarioSwitchReset();
+  chooseScenario(value);
+  if(!reset)return;
+  showScenarioReset(reset,value);
+  if(!scenarioReset)return;
+  landOnScenarioReset();
 }
 function renderRelated(item) {
   const related = relatedEntries(item, currentFiltered, entries);
@@ -4705,7 +4730,7 @@ $('filter-options').open = !window.matchMedia('(max-width:760px)').matches;
   render();
 })();
 $('draw-case').addEventListener('click',drawFromButton);
-document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenario(button.dataset.scenario)));
+document.querySelectorAll('#guide-options [data-scenario]').forEach(button=>button.addEventListener('click',()=>chooseScenarioFromHero(button.dataset.scenario)));
 document.querySelectorAll('#draw-difficulty-options [data-difficulty]').forEach(button=>button.addEventListener('click',()=>chooseDifficulty(button.dataset.difficulty)));
 $('scenario').addEventListener('change',()=>{activeScenario=$('scenario').value;render();});
 $('filters').addEventListener('submit', submitSearch);

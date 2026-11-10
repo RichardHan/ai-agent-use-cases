@@ -9,7 +9,11 @@ function api(){
 test('review date uses explicit lead verification fields, takes latest valid date and never borrows source dates',()=>{
  const {reviewDate}=api();
  assert.equal(reviewDate('# 案例\n- 首次收錄、最近查證：2026-10-13／2026-10-20\n## 作者補充\n- 查證日期：2026-10-21'),'2026-10-20');
- for(const label of ['查證日期','查閱日期','核對日期','研究核對日','查證','首次收錄／查證','首次收錄／最近查證'])assert.equal(reviewDate('# 案例\n- '+label+'：2026-10-19（台灣時間）'),'2026-10-19');
+ for(const label of ['查證日期','查閱日期','核對日期','研究核對日','查證','首次收錄／查證','首次收錄／最近查證','本次增補查證','增補查證'])assert.equal(reviewDate('# 案例\n- '+label+'：2026-10-19（台灣時間）'),'2026-10-19');
+ // 「本次增補查證：…；只核新增來源，未重驗全案」 is a page-level check of the new
+ // sources, so it dates the page like `最近查證` already did. The nine pages that
+ // write it used to keep whatever older date the same lead block also carries.
+ assert.equal(reviewDate('# 案例\n- 本次增補查證：2026-10-25 09:05（台灣時間）；只核新增來源，未重驗全案。\n- 查證日期：2026-10-17台灣（2026-10-16 UTC）'),'2026-10-25');
  for(const text of ['- 發布日期：2026-10-20','- 日期：2026-10-20','- 核心目標：查證日期：2026-10-20','- 查證日期：2026-02-30','- 查證日期：2026-13-01','## 來源\n- 查證日期：2026-10-20'])assert.equal(reviewDate('# 案例\n'+text),'');
  assert.equal(reviewDate('# 案例\n- 查證日期：2024-02-29'),'2024-02-29');
  // Older leads record the review inside a dated line; the same line must name it.

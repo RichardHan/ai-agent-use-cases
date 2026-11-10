@@ -1,3 +1,17 @@
+## 2026-11-10 Pages 產物有 98% 是沒人連得到的驗收截圖
+
+`pages build and deployment` 在 `main@99734627` 失敗：`build` 56 秒成功，`deploy` 的 `Deploy to GitHub Pages` 在 `syncing_files` 用滿 600 秒後 `Timeout reached, aborting!`（run [42733561142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42733561142)）。正式站因此停在 `38a44211`，兩個 commit 前併入的 `cases/515-…md`、`cases/516-…md` 實測 404，main 的 `Website QA` 也卡在「Wait for published assets and content」25 分鐘後才失敗（`42733562130`）。
+
+要同步的產物是 `github-pages` artifact **311,753,058 bytes**，其中 `docs/` 佔 **3,845 個檔案、310.9 MiB（98%）**，含 2,309 張 PNG；四小時內從 306.3 MB 長到 311.8 MB。但站內對 `docs/` 的相對連結是 **0**（`index.html`、`assets/`、`cases/`、`sources/`、`evidence/`、`templates/`；`grep` 到的 67 個 `docs/` 字樣全是外部絕對網址），只有 `SITE.md` 有 172 個相對連結，而它本來就在 `exclude` 內。`_config.yml` 早就排除 `scripts`、`tests`、`qa-artifacts`、`SITE.md`，2026-10-18 才開始累積的 `docs` 是唯一漏掉的一項——正式站實測 `scripts/preview.py`／`tests/*.cjs`／`SITE.md` 是 404，`docs/qa/…/README.md` 與同目錄 PNG 是 200。
+
+選擇 (A) 把 `docs` 加進 `_config.yml` 的 `exclude`：發布面 **4,659 檔案／316.50 MiB → 814 檔案／5.62 MiB**，紀錄留在 repo、GitHub 直接提供、`SITE.md` 的相對連結照舊。(B) 把 `docs/qa` 搬到 `qa-artifacts/` 要搬 3,845 個檔案並改寫 172 個相對連結與所有歷史引用，成本遠高於收益；(C) 部署失敗就重跑不改變成長曲線，每次仍要同步 311 MB。不宣稱因果：同窗另兩次失敗是平台端 `Deployment cancelled.`（8 秒／7 秒），本輪只移除可以確定不需要同步的 3,845 個檔案並量測變化。
+
+改動：`_config.yml` 加 `docs`；新增 `scripts/check-published-surface.cjs`（新的頂層路徑必須公開或排除、已發布頁面不得連進被排除的樹、發布面不得超過 40 MiB、建置產物不得含被排除的樹且來源檔必須齊全）；新增 `tests/published-surface.test.cjs`（12 項）；`.github/workflows/website-qa.yml` 新增 `Verify published surface`（同時跑 repo 與真實 `_site`），並把 `README.md`、`README-archive-2026-10-18.md`、`templates/**` 補進 path filter。
+
+先紅後綠：以 `99734627` 的 `_config.yml` 執行新檢查得 `FAIL: 「docs」會發布到網站，但不在允許清單內` 與 `FAIL: 發布面 316.5 MiB 超過 40 MiB 上限`（`4659 個檔案、316.50 MiB；排除 8 項；2 項問題`），改動後 PASS。`node --test tests/*.test.cjs` 基準 **617** → **629 通過、0 失敗**，`node --check` 通過。CI 的 `_site` 由 `actions/jekyll-build-pages@v1` 實際建置，第 13 步 `Verify published surface` 兩次都 PASS（`814 個檔案、5.63 MiB`），證明 `exclude` 真的進到 Pages 使用的建置。獨立審查 0 項 must-fix、4 項 P2 已全部修好（連結依頁面解析、建置產物須有每個來源檔、符號連結不得指向排除範圍、path filter 補齊），複審另提 1 項 P3（設了 base path 後的根相對路徑屬同網域其他專案）亦已修。
+
+發布補記：PR [#323](https://github.com/RichardHan/ai-agent-use-cases/pull/323)（head `0e41ffbf`，3 項檢查全 success，其中 `Website QA` 第 13 步對真實 `_site` 回報 `814 個檔案、5.63 MiB`）squash 合併為 `fb53428e`；`pages build and deployment` [42740604355](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42740604355) 的 `build` 40 秒、`deploy` 134 秒都 success，**artifact 311,753,058 → 6,440,675 bytes（48.4 倍）**。正式站 `sourceRevision` = `fb53428e`、512 個來源；`cases/515-…md`、`cases/516-…md` 由 404 變 200，`docs/qa/…/README.md` 與同目錄 PNG 由 200 變 404，其餘發布路徑不變；三情境（1440／390）與部署前逐項相同。已知限制：單次部署 134 秒仍慢於同日其他 18–40 秒的成功部署，因此不能宣稱移除 3,845 個檔案讓部署變快，只能說同步集合變小且未再逾時。[資料、方案、前後數據與限制](docs/qa/2026-11-10-published-surface/README.md)。下一輪先做 `解決痛點`（`- 核心目標`）的缺漏：508 篇案例頁只有 221 篇有這個欄位、7 篇用 `- 目標：`／`- 問題：`（已被讀進 `summary` 但不會顯示）、280 篇完全沒有；先確認把後兩者併入 `coreGoal` 後卡片高度與 `?q=` 命中數不變。
+
 ## 2026-11-10 解決痛點只認一種欄位，宣告過的目標整段消失
 
 9 個條目在頁首用舊標籤 `- 目標：`／`- 問題：` 寫下要解決的問題（UC-004、005、006、007、010、011、012 與證據頁 UC-008、009），但 `assets/app.js:1078` 只認 `- 核心目標`，這些句子只進入被覆蓋的 `summary` fallback，卡片沒有 🎯 行、詳情沒有核心目標區塊。另 285 個條目沒有宣告：47 篇改用正文 `## 問題…` 章節陳述，238 個條目什麼都沒有，三種狀態在畫面上完全一樣。正式站 `38a44211` 的 `?case=UC-005` 就是空的，而同頁「適合對象」「實作門檻」都已標示來源。

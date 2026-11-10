@@ -6,7 +6,7 @@
 
 改動：`assets/app.js`（parser 一行、helper 與兩個渲染點）、`assets/style.css:87`（註記 12.5px／`--muted`，需父選擇器才不被 `.plain-overview p` 的 17px 蓋掉）、`README.md`、`templates/case.md`、新測試 `tests/core-goal-provenance.test.cjs`（5 項全語料）與 `tests/core-goal-provenance-browser.cjs`（三寬度×三狀態），`.github/workflows/website-qa.yml:90` 加一行。
 
-量測（同頁、同尺寸、同資料）：228 個宣告、47 個章節、238 個缺漏，總和 513；UC-005 詳情 1440px 由 704→778px、390px 814→916px，390px 卡片 551→598px；註記對比 5.82:1。全文搜尋筆數不變（交接 133／裝置 103／會議 26），「標題、用途與痛點」各 +1（交接 29→30、裝置 23→24）。`node --test tests/*.test.cjs` 基準 617 → 624 通過、0 失敗；新瀏覽器測試在基準預覽紅（`UC-005 declares a goal under 目標`）、本輪預覽三寬度全綠，axe 0、水平溢出 0。驗收紀錄、前後截圖與限制見 [docs/qa/2026-11-10-core-goal-provenance](docs/qa/2026-11-10-core-goal-provenance/README.md)。
+量測（同頁、同尺寸、同資料）：基準 228 個宣告、47 個章節、238 個缺漏，總和 513；併入 main 每日研究批次（`99734627`，新增 UC-515／516）後為 230／47／238、總和 515；UC-005 詳情 1440px 由 704→778px、390px 814→916px，390px 卡片 551→598px；註記對比 5.82:1。全文搜尋筆數不變（交接 133／裝置 103／會議 26），「標題、用途與痛點」各 +1（交接 29→30、裝置 23→24）。`node --test tests/*.test.cjs` 基準 617 → 624 通過、0 失敗；新瀏覽器測試在基準預覽紅（`UC-005 declares a goal under 目標`）、本輪預覽三寬度全綠，axe 0、水平溢出 0。驗收紀錄、前後截圖與限制見 [docs/qa/2026-11-10-core-goal-provenance](docs/qa/2026-11-10-core-goal-provenance/README.md)。
 
 下一輪先量 **首頁 57 個任務入口**：23 個在「標題、用途與痛點」裡找不超過 1 筆（7 個為 0），`安全防護`／`漏洞掃描` 全文都是 218 筆且被分詞收斂到同一組 `資安` 同義詞，`報帳審核` 66 筆只有 1 筆自述在做這件事；先同時量全文與 `scope=overview` 的筆數與前 5 張卡自述命中率，再決定收斂文案、預設 scope 或改寫分詞。Actions 本輪重新確認：main 近 15 次 Pages 部署只 1 次平台取消，`Website QA` 在 `0f9f9c96`／`8fb95339` 皆 success；近 49 小時 1,608 次執行有 300 次 cancelled（18.7%），重複觸發是後續可靠度題目。
 

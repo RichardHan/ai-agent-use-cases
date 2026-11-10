@@ -78,3 +78,11 @@
 ## 下一輪最值得做的一件事
 
 先量「任務入口查詢的語料佔比」而不是再改寫：把 53 個入口依 `全文命中 / 515` 排序，目前 ≥40% 的有 `資料清理 57%`、`報表比對 54%`、`成本分析 42%`、`漏洞掃描 42%`、`安全防護 42%`。先確認這些入口的查詢是否該要求「兩個條件落在同一個欄位」（目前 AND 可跨欄位成立，例如 `報帳審核` 的 `報帳` 命中正文、`審核` 命中標題），再用 `tests/search.test.cjs`、`tests/problem-compound-queries.test.cjs`、`tests/relevance.test.cjs` 逐條核對 11 支 recall 期望後才動手。
+
+## 發布補記
+
+PR [#329](https://github.com/RichardHan/ai-agent-use-cases/pull/329)（head `6a5f93b0`，13 項非略過檢查全 success、`published` 依設計 skip）squash 合併為 `69ae8a21`；`pages build and deployment` [42757788014](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42757788014) build 41 秒、deploy 9 秒 success。正式站 `catalog.json.sourceRevision` 為 `69ae8a219ef1680b592c61475abd15768f049770`、512 個來源檔。
+
+正式站 390px 實測：7 個入口標記（出差報銷、播客摘要、寫履歷、代碼重構、發票辨識、機票比價、隱私審查）、說明行顯示、53 個連結、手機收合、水平溢出 0、axe 0、pageerror 0；點「發票辨識」→ 16 筆、`#match-scope=none`、替代搜尋 8 筆（首張 UC-190）。三情境在正式站重走：標記入口→16→8 筆；`?q=旅遊&scenario=學習` 0 筆→「移除使用情境「學習」→ 查看 35 筆」→ 35 筆；`?case=UC-407` 直鏈→來源網域 github.com／x.com／x.ai→關閉回 `#explore` 515 筆、焦點在結果摘要。
+
+已知未處理（下一輪第一項）：空結果頁的「探索此條件下有收錄的常見問題」仍列出「寫履歷」「播客摘要」這些自述命中 0 的任務，與首頁標記不一致；同一個 `taskCoverage()` 判斷應接到那些建議按鈕上。

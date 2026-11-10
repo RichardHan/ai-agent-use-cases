@@ -76,6 +76,22 @@
 - 通知的 `role="status"` 與 `#results-count` 的焦點可能連續朗讀；沒有讀屏實測。
 - 本輪沒有處理 #358 留下的版面問題（讀者被帶到結果列、剛抽到的卡片留在 1,500–1,800px 之上）。已量測（卡片標題 top −1570 桌面／−1579 手機／−1825 320px），但那是已合併的設計決策，留給下一輪由需求方決定是否調整。
 
+## 發布
+
+- **已提交**：分支 `improve/20261111-scenario-reset-persistence`，2 個 commit（`b0ce374c`、`a393bb7f`）。
+- **已推送**：`origin/improve/20261111-scenario-reset-persistence`。
+- **PR**：[#361](https://github.com/RichardHan/ai-agent-use-cases/pull/361)。head `a393bb7f` 上 16 支 pull-request workflow 全部 success、2 支 `published` 依設計 skipped；`pr-gate-coverage` 5 項不變量通過。
+- **已合併**：squash 為 `0601671a618df5e3d571ddcfb7bbec29d66aaac1`（`gh pr merge --squash` 因本機 `main` 被另一個 worktree 佔用而在刪分支步驟失敗，改用 API 刪除分支；未繞過任何保護規則）。
+- **部署成功**：`pages build and deployment` [42902424971](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42902424971) 對 `0601671a` success（21:10:54→21:11:56Z）。
+- **正式站已驗證（live 等於 `0601671a`）**：用 `scripts/published-revision.cjs` 的 `waitForLiveRevision()` 直接查正式站，`{"mode":"exact","liveRevision":"0601671a…","attempts":1}`；`catalog.json.sourceRevision` = `0601671a…`；`index.html`（28,016 bytes）、`assets/app.js`（379,456）、`assets/style.css`（64,668）、`assets/reader.js`（35,416）、`assets/reader.css`（32,696）與合併 commit 逐 byte 相同。
+- **正式站重走（1440×900、390×844，live = `0601671a`）**：
+  - 本輪流程：`?q=怎麼整理會議記錄` 7 / 515 → 工作 → 生活 → 通知仍在視窗內、`已切換到「生活」情境；原本的關鍵字「怎麼整理會議記錄」已清除`、按鈕仍寫 `回到原本的搜尋（7 筆）`、焦點 `#results-count`；按下去回到 `7 / 515`、查詢回來、網址 `?q=怎麼整理會議記錄#explore`、通知收起。`SCENARIO_RESET_PERSISTENCE_OK` 三種寬度在正式站直接跑過。
+  - 情境 1（不知道工具名的新訪客）：首頁任務「會議整理」→ `?q=會議#explore` 27 / 515 → 開第一張卡，詳情有來源與證據標籤、5–11 個外部來源連結；關閉後回到同一組結果（27 / 515）。
+  - 情境 2（組合條件遇到空結果）：`?q=規劃旅行&scenario=工作` 0 / 515 → 空結果頁提供「移除使用情境「工作」→ 查看 1 筆」→ 點擊後 1 / 515、查詢保留。
+  - 情境 3（分享的詳情直鏈）：`?case=UC-024` 直接開啟、來源連結固定在 `0601671a`；關閉後回到 515 / 515 的清單。三種情境水平溢出皆 0、pageerror 0。
+
+**本輪未能取得的部分**：讀屏朗讀未實測；截圖未經人眼檢視（環境無法讀取影像）；Firefox／WebKit 只有既有的 `page-context-browser`（本機 5 種引擎組合全 PASS）間接覆蓋新流程。
+
 ## 下一輪最值得做的一件事
 
 **確認「換情境後留在卡片」與「換情境後留在結果列」哪個才是首頁按鈕的承諾，並用同一個落點規則收斂。** 先做的驗證：在同一份 `da01ab66` 上，分別量「讀者在頁首按情境」與「讀者在結果列按情境」兩種起始位置，記錄 `#drawn-case` 與結果列的位移、以及回到卡片所需捲動距離；再用三個具體情境（新訪客、已搜尋者、分享連結接手者）判斷哪一種落點讓「按鈕承諾的事情」和「畫面上第一眼看到的東西」一致。不要先改程式。

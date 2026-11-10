@@ -132,7 +132,13 @@ run [42820349847](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/
 
 ## 發布
 
-（合併與正式站核對見下方補記；本節在 PR 建立後補上 run／commit／sourceRevision。）
+- PR [#355](https://github.com/RichardHan/ai-agent-use-cases/pull/355)（head `e573e204`）：**16 項非略過檢查 success、2 項 `published` 依設計 skipped**，`mergeStateStatus` 為 `CLEAN`，squash 合併為 `03acca68574310cec1f0241b793134c5d2eeb125`。
+- PR 上 `Website QA` 的 `Verify the updated site in Chromium` 實際執行了新的 `tests/search-heading-scope-browser.cjs`（日誌的指令列可見），同一支 job 的單元測試列出 `714` 項。
+- `pages build and deployment` [42881430944](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42881430944) success。
+- 正式站 `catalog.json` 的 `sourceRevision` = `03acca6857…`（512 個來源檔）；`assets/app.js`、`index.html`、`README.md` 與合併 commit 逐 byte 相同（SHA-256 比對）。
+- 正式站重走（1440／390／320）：`權限` 507 →「30 筆標題/用途/痛點；其餘 477 筆中 402 筆在正文或頁首資料提到；另有 75 筆要算上章節標題才符合（例如〈所需連接、權限與限制〉）」；`提示詞` 313 → 17＋204＋92；`所需連接` 216 全部要算上章節標題；`全文：不含章節標題` 切換後 `提示詞` 為 221、URL 帶 `scope=body`；三情境與 UC-005 直鏈正常，水平溢出 0、pageerror 0。
+- 同一支新增回歸直接對正式站執行（`VERIFY_URL=https://richardhan.github.io/ai-agent-use-cases/`）：1440／390／320 全通過。
+- main 的 `Website QA`（[42881432005](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42881432005)）在收工時仍在執行（步驟 9 `Verify the updated site in Chromium`），未宣稱已通過；本輪的正式站結論來自上面的 `sourceRevision`、逐 byte 比對與實站回歸，不是來自那支 run。
 
 ## 已知限制
 

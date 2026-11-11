@@ -10,6 +10,7 @@
 - 首次收錄／最近查證：2026-10-13／2026-10-15
 - 證據狀態：`author-demo`（ChatGPT dots 結構化實測；Grok Bot KEV 監看自述）＋ `official`（Grok Bot routine 文件）＋ `designed`（本庫提示詞）
 - 是否獨立重現：否
+- 本次增補查證：2026-10-24；只核該節新增來源，未重驗全案。
 
 ## 輸入與預期輸出
 

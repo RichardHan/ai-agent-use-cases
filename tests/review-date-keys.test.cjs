@@ -70,10 +70,12 @@ test('a lead key that names a review never loses its date in silence', () => {
   }
 });
 
-test('the nine pages that write 本次增補查證 carry the newest date their lead declares', () => {
+test('every page that writes 本次增補查證 carries the newest date its lead declares', () => {
   const { reviewDate } = load();
   const pages = corpus().filter(({ markdown }) => /^-\s*(?:本次)?增補查證\s*[：:]/m.test(leadOf(markdown)));
-  assert.equal(pages.length, 9, 'the corpus still declares the same nine supplemental reviews');
+  // The count is not the contract: the corpus keeps adding supplemental reviews as
+  // research batches amend existing pages. What must hold is that each one is read.
+  assert.ok(pages.length >= 9, 'the corpus still declares supplemental reviews');
   for (const { file, markdown } of pages) {
     const supplemental = leadOf(markdown).match(/^-\s*(?:本次)?增補查證\s*[：:]\s*(\d{4}-\d{2}-\d{2})/m)[1];
     const actual = reviewDate(markdown);

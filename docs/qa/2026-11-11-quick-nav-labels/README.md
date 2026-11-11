@@ -65,6 +65,25 @@
 - 同類問題仍在其他標籤：`UC-096` 的 `限制與權限` 指向 `2026-10-20補充 來源B：…`，`UC-045` 的 `來源與版本` 指向日期補充。這些按鈕旁都印出目標標題，且不在本輪 audit 的 finding #4 範圍；未修改，留待下一輪。
 - `來源報告與界線（版本 A：Meta Muse 清運詢價）`（UC-059）在移除 `實作與結果` 後成為 `來源與版本` 的目標，這是正確的來源段落，但標題很長；未調整文案。
 
+## 獨立審查（未參與實作）
+
+由獨立 `reviewer` context 讀 `git show 59f62025`、`git diff b004390a..59f62025`，自行重跑 511 篇掃描與 `node --test tests/reader.test.cjs`、`node --test tests/*.test.cjs`（6 項與 738 項全過）。結論 **approve、0 項 must-fix**：
+
+- 基準 `reader.js` 的 `實作與結果` 確實指向 `來源報告與限制`；本輪不再產生這個捷徑。
+- 511 篇中 11 篇變更、500 篇不變；沒有真正符合結果 intent 的非附錄章節失去捷徑；`UC-208`／`023`／`034`／`096` 不變；`作者實作與結果` 仍可取得捷徑。
+- `selectMethodShortcut` 511 篇的輸出與基準相同；`selectReadingSection` 未被 diff 觸碰；`全部段落` 由另一條路徑建立，不受 `selectJumps` 影響。
+- 非阻擋觀察：原本的日期補充 fixture 同時含 `來源報告與限制`，基準失敗可由來源報告解釋；已補一個「只有日期補充、沒有來源報告」的 fixture（`tests/reader.test.cjs:38-41`），基準 `b004390a` 該項紅、修正後 6 項全過。
+- 審查未重跑瀏覽器預覽，因此 QA 紀錄中的 Chromium 幾何不是它獨立重現的；本輪另以 `reader-browser.cjs`（webkit mobile）對預覽跑過一次，`PASS`、axe 0。
+
+## 發布與正式站核對
+
+- **已提交**：分支 `improve/20261111-r25-quick-nav-labels`，`59f62025`（主要改動）與 `cd6ede21`（獨立審查後的單獨 fixture）；期間合併 `origin/main` `1a3cc2f0` 解 SITE.md 衝突，PR head 為 `74efb39f`。
+- **已推送**：`origin/improve/20261111-r25-quick-nav-labels`。
+- **PR**：[#379](https://github.com/RichardHan/ai-agent-use-cases/pull/379)。`74efb39f` 上 15 項非略過檢查 success、`published` 依設計 skipping；`Website QA` [42964235078](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42964235078) 的 browser job 11m13s success，Source guide QA [42964235090](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42964235090) 9m25s success。
+- **已合併**：squash 為 `b8858087da4fc186d8b21127d3f923a1de3619d7`（`gh pr merge` 因本機 `main` 被其他 worktree 佔用，改用 `PUT /pulls/379/merge` 指定 head；未繞過保護規則，main 沒有 branch protection）。分支已刪除。
+- **部署成功**：`pages build and deployment` [42965537406](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42965537406) success；main `Website QA` [42965537876](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42965537876) 05:24:16→05:37:35 success（發布等待與正式站 walk 都過）。之後一支 docs-only 記錄合併 `d70f13f0` 把正式站 revision 推進到 `d70f13f0`（`pages` [42966102990](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42966102990) success），本紀錄自己的 docs-only 合併會再推進一次；產品資產不變。
+- **正式站已驗證**：`catalog.json.sourceRevision` = `d70f13f0…`、515 個來源檔；`assets/reader.js` 與合併版本逐 byte 相同（sha256 前 16 碼 `9261e9c162c52d01`、36,381 bytes）。390×844 與 1440×900：UC-004／005／006／007 `.reader-quick` 為 3 顆，UC-208 仍為 4 顆且 `實作與結果 ↓ 問題與原作者實際做了什麼`，`全部段落` 仍在，水平溢出 0、pageerror 0；三情境（`?q=會議` 28／518 第一張 UC-094；`?q=旅遊&scenario=學習` 0→36；`?case=UC-051` 直開、來源固定在本版）通過。
+
 ## 下一輪最值得做的一件事
 
 **讓結果列與批次控制說同一個數字。** 首頁空查詢時 `#results-count` 是 `顯示 518 / 518 筆收錄`，但 DOM 只有 24 張卡、`#load-more-results` 寫 `再看 24 筆（尚有 494 筆）`；`?q=會議` 是 `顯示 28 / 518`，24 張卡、`再看 4 筆`。先量 `currentFiltered.length`、`visibleResults`、實際卡片數三者，再決定把「顯示」改成「符合」或加入「已顯示 N 筆」；動手前先跑 `tests/result-count-honesty-browser.cjs` 與 8 處 `顯示 X / Y` 斷言，確認不是只改字串。

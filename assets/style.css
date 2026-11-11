@@ -279,6 +279,14 @@
 .load-status:empty{display:none}
 @media(max-width:760px){.partial-load{align-items:stretch;flex-direction:column;gap:12px;padding:16px}.partial-load button{align-self:flex-start}}
 
+/* A failed load used to be announced only in #discover and #explore, which sit
+   below a 1000px mobile hero: the first screen looked normal while every task
+   link led nowhere. The notice reuses the warning palette of .partial-load. */
+.hero-load-failure{margin:18px 0 0;padding:16px 18px;background:#fff5e6;border:1px solid #b89c72;border-left:4px solid #94632b;border-radius:10px}
+.hero-load-failure p{margin:0;font-size:14px;line-height:1.75;color:#513b20}
+.hero-load-failure-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.hero-load-failure-actions button{min-height:44px;font-size:14px;font-weight:650;color:#513b20;border-color:#94632b;background:#fff}
+.hero-load-failure-actions a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:650;color:#513b20;text-underline-offset:3px}
 /* A static escape route remains available even if the application script never starts. */
 .hero-index-fallback{font-size:13px;line-height:1.7;color:#4c6258;margin:-12px 0 16px;overflow-wrap:anywhere}
 .hero-index-fallback a{display:inline-flex;align-items:center;min-height:44px;color:var(--green);font-weight:650;text-underline-offset:3px}

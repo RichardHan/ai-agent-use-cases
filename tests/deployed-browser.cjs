@@ -17,7 +17,7 @@ const origin='https://richardhan.github.io/ai-agent-use-cases/';
 // minutes with the revision that was observed, not an hour later with no explanation.
 function reportGate(verdict){
  if(verdict.mode==='superseded'){
-  console.log('PUBLISHED_LIVE_BUILD_SUPERSEDED '+(verdict.liveRevision||'unknown revision')+' (this push\'s files were byte-verified in step 15)');
+  console.log('PUBLISHED_LIVE_BUILD_SUPERSEDED '+(verdict.liveRevision||'unknown revision')+' (step 15 verified that build against its own revision)');
   return;
  }
  console.log('PUBLISHED_LIVE_BUILD_CURRENT '+(verdict.liveRevision||'')+' (walking the live site)');

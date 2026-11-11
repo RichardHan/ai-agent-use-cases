@@ -97,4 +97,34 @@ function isDescendantOf(ancestor,descendant,exec=execFileSync){
  return true;
 }
 
-module.exports={isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf,PUBLISHABLE_FILE};
+// What one revision actually contains, as blob hashes, so a served file can be
+// compared with the revision the live build claims to be without fetching the file
+// again. One tree read answers for every path: a whole-corpus check costs one git
+// call instead of one per source.
+// isDescendantOf() already fetched the revision, so this reads local objects.
+function treeAtRevision(revision,exec=execFileSync){
+ const valid=value=>typeof value==='string'&&/^[0-9a-f]{40}$/.test(value);
+ if(!valid(revision))throw Error('Published revision is not a commit SHA: '+revision);
+ let output;
+ try{
+  output=exec('git',['ls-tree','-r',revision],{encoding:'utf8',stdio:['ignore','pipe','pipe'],timeout:30000,maxBuffer:64*1024*1024});
+ }catch(error){
+  throw Error('Cannot list the published revision '+revision+': '+error.message,{cause:error});
+ }
+ const tree=new Map();
+ for(const line of String(output).split('\n')){
+  const entry=/^\d+ (\w+) ([0-9a-f]{40,64})\t(.+)$/.exec(line);
+  if(entry)tree.set(entry[3],entry[2]);
+ }
+ return tree;
+}
+
+// The blob hash git would give these bytes, so a comparison against treeAtRevision()
+// is the same question as "is this the file that revision contains" — byte equality,
+// without a second git read.
+function blobHash(bytes){
+ const buffer=Buffer.isBuffer(bytes)?bytes:Buffer.from(String(bytes),'utf8');
+ return require('node:crypto').createHash('sha1').update('blob '+buffer.length+'\0').update(buffer).digest('hex');
+}
+
+module.exports={isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf,treeAtRevision,blobHash,PUBLISHABLE_FILE};

@@ -35,6 +35,10 @@ test('dated supplements never become the result shortcut',()=>{
  const headings=['來源','2026-10-23 補充：先做一次可接受的操作流程','來源報告與限制','建議操作流程（整理者設計，未實跑）','權限、費用與可用性','2026-10-22 補充：兩層審查仍曾發生先合併、後審查'];
  const jumps=selectJumps(headings);
  assert.equal(jumps.some(x=>x.label==='實作與結果'),false);
+ // A dated supplement with no source-report heading proves the date guard alone,
+ // not the 來源報告 removal: on the base selector this heading is the result target.
+ const supplementOnly=selectJumps(['2026-10-22 補充：兩層審查仍曾發生先合併、後審查','權限、費用與可用性','來源']);
+ assert.equal(supplementOnly.some(x=>x.label==='實作與結果'),false);
  const variant=selectJumps(['2026-10-17 中文實作變體：上游改版','權限、費用與可用性']);
  assert.equal(variant[0].label,'實作與結果');
  assert.equal(variant[0].title,'2026-10-17 中文實作變體：上游改版');

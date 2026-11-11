@@ -1,3 +1,11 @@
+## 2026-11-11 載入失敗時，手機首屏仍像一個正常的案例庫
+
+正式站 `d19eceac` 的同一份程式，用 Chromium 攔掉 `catalog.json`：390×844 的第一段錯誤文字在 **1324px**、`#error`（含「重新載入」與索引連結）在 **2308px**，首屏只有 hero「今天，想讓 AI 幫你哪件事？」與 53 個任務連結，跟正常載入長得一樣；320×640 連 hero 底部那句「載入較慢時，可先…」都在 704px（視窗外）。桌機 1440×900 的 `#draw-status` 在 335px，看得到失敗——所以缺陷是手機專屬。失敗後點任務並不算靜默（會捲到結果區看到 assertive 錯誤），問題是第一眼：讀者在被告知之前，已經先把 53 個入口當成可用。唯一在首屏的提示把那一次失敗寫成「載入較慢時」。
+
+選擇 (A) 在 hero 的搜尋入口下方補 `#hero-load-failure`，只在 `load()` 的 `catch` 顯示、`load()` 起始一律收起：一句「案例資料無法載入」＋「下面搜尋會沒有結果，任務捷徑也還不能使用」＋「重新載入」（與 `#retry` 同一個 `load()`）＋`INDEX.html`（靜態檔，不受目錄載入影響）。沿用 `.partial-load` 的警示色票，不加新元件庫。它刻意不定義 live region：同一個失敗已由既有的 `#error`（`role="alert"`）主動宣告，再加一段不會帶來新資訊。不採 (B) 把 `#error` 搬進 hero（同段文字兩個位置、失敗後點任務仍需結果區說明）；不採 (C) 失敗時自動捲到錯誤區（讀者正在讀 hero，卻被搬走 1300–2300px，違反前幾輪的接手原則）。
+
+先紅後綠：`tests/hero-load-failure-browser.cjs` 對基準 preview 紅（`desktop: the failed load is stated on the first screen (notice null of 900; the deeper error block starts at 1819)`），本輪三種尺寸綠：說明區塊 390×844 在 408–547px、320×640 在 390–583px、1440×900 在 541–656px，全部在首屏；恢復連線後按「重新載入」→ 說明消失、`顯示 515 / 515 筆收錄`、離開時焦點在 `results-count`；正常載入時說明不存在、53 個任務連結與 hero 高度（1045／1166／1252px）不變；兩種狀態 axe 0、水平溢出 0、pageerror 0。`node --test tests/*.test.cjs` 733 通過／0 失敗（本輪未加單元測試：可見度由載入失敗分支驅動，用真瀏覽器量測）。鄰近十支瀏覽器流程（`search-reveal-settle`、`arrival-summary-visibility`、`mobile-problem-tags`、`task-coverage-marker`、`keyboard-search-entry`、`result-count-honesty`、`discovery` 的 loading／error-retry 狀態、`publish-window`、`scenario-reset-persistence`、`explore-visibility`）全數通過。限制：只量 Chromium、本機無法讀取截圖影像、沒有實機螢幕閱讀器測試、本機 preview 沒有 `INDEX.html`（正式站 200）。[方案、量測、前後截圖與限制](docs/qa/2026-11-11-hero-load-failure/README.md)。
+
 ## 2026-11-11 被下一個 merge 取代的發布，不該等滿 60 分鐘再判紅
 
 main 最近 20 次 `Website QA` 有 2 支各在閘門內花掉整整 3,600 秒，第 3 支（`ab4b51f4`）則在同一 concurrency group 排隊 64 分鐘才起跑；前兩支的前台成因（#349 的產品位元斷言、#355 的步驟 17）已修，但兩者背後的判準沒動：`verifySupersededPublication()` 在 live 已被後續 build 取代時，仍要求**後續 build 服務本 push 的位元**。最近 6 次 main 有 3 次真的走過這條分支（`8f515af3` 2 檔、`0601671a` 1 檔、`ab4b51f4` 2 檔），三次都剛好沒被下一個 merge 改到同一個檔案。同一個錯誤基準也在「本 push 沒發布任何檔案」分支（`sameContent` 要求 live 等於本 push 的建置）。真實 git 重現（commit `A` 改 `assets/app.js`、`B` 再改同一個檔案、真實建置與 HTTP）：修正前 3,600 秒後紅 `Published asset differs from this push`（實際 58.4 秒），修正後 0.26 秒 `matched / superseded / changedVerified 1`。

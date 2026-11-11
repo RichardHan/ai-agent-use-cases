@@ -4479,6 +4479,7 @@ async function load() {
   clearSearchShare();$('copy-search-link').disabled=true;$('search-submit').disabled=true;
   discoveryReady=false;discoveryKey='';$('guide-options').disabled=true;$('draw-case').disabled=true;$('drawn-case').setAttribute('aria-busy','true');drawStatusSuffix=null;drawStatusMode='other';$('draw-status').textContent='正在準備案例卡…';$('drawn-case').replaceChildren();
   $('error').hidden = true;
+  if($('hero-load-failure'))$('hero-load-failure').hidden = true;
   $('empty').hidden = true;
   $('search-feedback').hidden = true;
   $('search-order-note').hidden = true;
@@ -4624,6 +4625,11 @@ async function load() {
     $('filter-view-results').disabled = false;
     $('error-message').textContent = '請稍後重試，或先閱讀案例索引。';
     $('error').hidden = false;
+    // The first screen is the hero: #discover and #explore sit past a 1000px hero
+    // on a phone, so a failed load used to look like a normal library until a task
+    // link led nowhere (measured 2026-11-11 on the published build: the error block
+    // started at 2308px of an 844px screen). Announce it where the reader is.
+    if($('hero-load-failure'))$('hero-load-failure').hidden = false;
     finishArrival(new URLSearchParams(location.search),true);
     console.error(error);
   } finally {
@@ -4989,7 +4995,11 @@ $('retry-failed').addEventListener('click',()=>{
   $('retry-failed').focus({preventScroll:true});
   retryFailedSources();
 });
-$('retry').addEventListener('click', () => { $('results-count').focus({preventScroll:true}); load(); });
+// Both retry entries go through the one reload path; the deep result line keeps
+// the focus so the reader lands where the second half of the story is.
+const retryLoad = () => { $('results-count').focus({preventScroll:true}); load(); };
+$('retry').addEventListener('click', retryLoad);
+$('hero-retry').addEventListener('click', retryLoad);
 $('close-detail').addEventListener('click', closeDetail);
 $('nav-prev-case')?.addEventListener('click', () => navStep(-1));
 $('nav-next-case')?.addEventListener('click', () => navStep(1));

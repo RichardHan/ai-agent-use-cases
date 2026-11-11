@@ -14,6 +14,7 @@ const path = require('node:path');
 const { publicationStatus, classify, pickRun } = require('../scripts/publication-status.cjs');
 const { waitForPublishedAssets, PUBLICATION_TIMEOUT_MS } = require('../scripts/published-assets.cjs');
 const { waitForPublishedVersion } = require('./published-version.cjs');
+const { blobHash } = require('../scripts/published-check.cjs');
 
 const pagesWorkflow = name => name === 'pages build and deployment';
 
@@ -164,7 +165,7 @@ function builtSite(t) {
   return {
     // The live build is judged against the revision it names; a unit fixture says
     // what that revision contains instead of reading git.
-    options: { base: 'https://example.test/project/', built, sha: 'current', expectedSourceRevision: 'current', isCurrent: () => true, contentAtRevision: () => null, sourcesAtRevision: () => ['cases/a.md'] },
+    options: { base: 'https://example.test/project/', built, sha: 'current', expectedSourceRevision: 'current', isCurrent: () => true, treeAtRevision: () => new Map([['cases/a.md', blobHash('original')]]) },
     respond,
     publishedFiles: published
   };

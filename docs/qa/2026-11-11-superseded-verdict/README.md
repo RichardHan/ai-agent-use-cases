@@ -37,7 +37,7 @@
 ## 兩個方案
 
 - **A（採用）把比較基準換成「live 宣告的那個 revision」。**
-  - 做法：新增 `fileAtRevision(revision,path)`／`sourceListAtRevision(revision)`（`scripts/published-check.cjs`，走 `git cat-file blob`／`git ls-tree`；`isDescendantOf()` 已經 `git fetch` 過那個 revision，所以是本機物件）。`verifySupersededPublication()` 改成：來源 markdown 必須等於 live revision 的那個檔案；靜態資產必須等於 live revision 的那個檔案；刪除的檔案必須在 live revision 也不存在。沒有可發布檔案時，改成驗「live 的 `catalog.files` 與 `corpus.sources` 是否正好是 live revision 的 512 筆」，而不是要求 live 等於本 push 的建置。另外回傳 `carried`（本 push 的位元還有幾個仍在線上），讓 log 說清楚是「被後續 merge 改寫」還是「本 push 的位元還在」。
+  - 做法：新增 `treeAtRevision(revision)`／`blobHash(bytes)`（`scripts/published-check.cjs`）。`treeAtRevision()` 一次 `git ls-tree -r <rev>` 取得整棵樹的 blob hash（`isDescendantOf()` 已經 `git fetch` 過那個 revision，所以是本機物件），`blobHash()` 用 git 的 blob 標頭算 sha1，因此「live 服務的位元」與「那個 revision 的內容」是同一個問題、不需要第二支 git 指令。`verifySupersededPublication()` 改成以 live revision 的 hash 為基準：來源 markdown、靜態資產都要 hash 相符；live revision 沒有這個路徑時（本 push 或後續 merge 刪的）改問「live 是否還在發布它」；本 build 已刪、live revision 又放回來的情況則**實際抓那個 URL 回來比對**，不再略過。沒有可發布檔案時，比對 `catalog.files`、`corpus.sources` 的路徑**與每一篇的內容 hash**、重複項、以及 `catalog.bundleRevision`／`corpus.revision` 是否一致，而不是要求 live 等於本 push 的建置。另外回傳 `carried`（本 push 的位元還有幾個仍在線上），讓 log 說清楚是「被後續 merge 改寫」還是「本 push 的位元還在」。
   - 價值：把「live 是別人的 build」與「live 忘了本 push」分開。前者是正常的連續 merge，第一輪就有答案（實測 0.24 秒）；後者（live 與自己宣告的 revision 不一致，例如 CDN 混版）仍然會重試到視窗結束才紅——真正的壞掉沒有被放寬。
   - 成本：`scripts/published-check.cjs` +41 行、`tests/published-version.cjs` +81/−31 行、2 支測試檔調整、1 支測試新增。沒有新權限、沒有新 workflow 步驟、沒有新 API（`git fetch` 本來就在 `isDescendantOf()` 裡）。
   - 取捨：多依賴「被驗證的 revision 的物件在本機」；`isDescendantOf()` 已經保證這件事，讀不到時是 `throw`（可重試），不會變成錯的紅燈。
@@ -48,23 +48,35 @@
 
 ## 改動
 
-- **`scripts/published-check.cjs`**：新增並匯出 `fileAtRevision(revision,path)`（回傳 `Buffer`，該 revision 沒有這個路徑時回 `null`；revision 讀不到時 `throw`，兩者分開判斷）與 `sourceListAtRevision(revision)`（`git ls-tree -r --name-only` 過濾 `cases/`、`evidence/`、`sources/pending.md` 的 `.md`，排序與 `catalog.json` 的比較方式一致）。
-- **`tests/published-version.cjs`**：`verifySupersededPublication()` 換基準並回傳 `carried`；刪除檔案改問 live revision 是否存在；無變更檔案時改驗「live catalog/corpus == live revision 的來源清單」。`waitForPublishedVersion()` 新增可注入的 `contentAtRevision`／`sourcesAtRevision`（預設就是上面兩個 git 版本），並把 `carried` 寫進 `qa-artifacts/published-version.json` 與 log：
+- **`scripts/published-check.cjs`**：新增並匯出 `treeAtRevision(revision)`（一次 `git ls-tree -r`，回傳 `Map<path, blobHash>`；revision 讀不到時 `throw`）與 `blobHash(bytes)`（git blob sha1）。
+- **`tests/published-version.cjs`**：`verifySupersededPublication()` 換成 hash 基準並回傳 `carried`；live revision 沒有的路徑改問「live 是否還在發布它」；被後續 merge 放回來的資產會實際抓回來比對；無變更檔案時改驗「live catalog/corpus 的路徑與每一篇內容 hash 都等於 live revision，且沒有重複項、兩個 revision 一致」。`waitForPublishedVersion()` 新增可注入的 `treeAtRevision`／`readLive`（預設是 git 與真實 HTTP），並把 `carried` 寫進 `qa-artifacts/published-version.json` 與 log：
   `PUBLISHED_CHANGED_BYTES_MATCH <sha> superseded by <rev> (N files verified against that revision, M still carrying this push's bytes)`。
 - **`tests/deployed-browser.cjs`**：`PUBLISHED_LIVE_BUILD_SUPERSEDED` 的說明改成「步驟 15 用那個建置自己的 revision 驗過」，不再說「本 push 的檔案已逐 byte 驗過」。
-- **測試**：`tests/published-version.test.cjs` 新增「a changed asset rewritten by a later build settles instead of polling for an hour」「a later merge that rewrote the same case is superseded, not a lost publication」「a live build that disagrees with its own revision never verifies」，改寫「no changed file」分支的兩項；`tests/publication-gate.test.cjs` 的 `builtSite()` 補上注入預設值（單元測試不讀 git）。
+- **測試**：`tests/published-version.test.cjs` 新增 6 項——「a changed asset rewritten by a later build settles instead of polling for an hour」「a later merge that rewrote the same case is superseded, not a lost publication」「a live build that disagrees with its own revision never verifies」、以及獨立審查後補的「a superseded build whose corpus bytes changed without a content merge is rejected」（內容 hash、重複項、bundle revision 三種）「a later merge that deletes the path this push changed is not a lost publication」「an asset this push deleted but a later build restored is compared with that build」；改寫「no changed file」分支的兩項；`tests/publication-gate.test.cjs` 的 `builtSite()` 補上注入預設值（單元測試不讀 git）。
 
 ## 測試
 
-- `node --test tests/*.test.cjs`：`5f678d68` 基準 **723** → rebase 後 `7a657ddb` 基準 **728** → 本輪 **730 通過／0 失敗**。
+- `node --test tests/*.test.cjs`：`5f678d68` 基準 **723** → rebase 後 `7a657ddb` 基準 **728** → 本輪 **733 通過／0 失敗**。
 - `node --check scripts/published-check.cjs tests/published-version.cjs tests/deployed-browser.cjs` 通過。
 - 新增測試指向修正前的 `tests/published-version.cjs` 時紅（3,600 秒後 `Published asset differs from this push`），修正後綠且第一輪結束（`clock() === 0`）。
 - 真實 git 前後對照見上表（同一個 `A`／`B`、同一份建置、同一個 HTTP 服務）。
 
+## 獨立審查
+
+由另一個 agent（未參與實作、獨立上下文）依需求、diff 與證據審查。三項 must-fix 全部成立，已修並補測試：
+
+| 發現 | 問題 | 修正 |
+| --- | --- | --- |
+| 1 | 「本 push 沒發布檔案」分支只比對路徑，不比對內容；corpus 內容被改、或有重複項，仍會通過 | 改成每個來源的 `blobHash()` 必須等於 live revision 的 hash，並驗重複項與 `bundleRevision`／`revision` 一致（測試：三種情況各一項） |
+| 2 | 本 push 改過的檔案若被後續 merge 刪除，`atLive` 為 `null` 時直接紅，仍會等滿視窗 | 路徑在 live revision 不存在時改問「live 是否還在發布它」，與本 push 自己刪除同一條路徑（測試：`atLive:()=>null` → matched，0 秒） |
+| 3 | 本 push 刪除的資產若被後續 merge 放回來，只計數、沒有抓回來比對 | 新增可注入的 `readLive()`，實際抓那個 URL 並與 live revision 的 hash 比對（測試：相符與不符各一項） |
+
+審查另確認：`PUBLISHABLE_FILE` 不會放進 Jekyll 產生的 `catalog.json`／`corpus.json`；`index.html` 與 `assets/*` 沒有 Liquid 樣板；兩個 caller 都是 `fetch-depth: 0`；`facet-counts-qa.yml` 的 push 觸發只指向已停用的分支。審查未能驗證：真實 CI 容器內 `git ls-tree` 對 5,144 筆樹狀結構的耗時（本機 30 秒 timeout 內、單次 < 0.2 秒）。
+
 ## 已知限制
 
 - 這個錯誤基準在正式站還沒有留下紅燈紀錄（三次 superseded 都剛好沒被改到同一個檔案）；本輪的證據是程式路徑、三次實際走過該分支的 log，以及真實 git 的前後重現。下一個「連續兩個 merge 都動同一個資產」才會在正式站證明。
-- `git cat-file` 需要那個 revision 的物件；`isDescendantOf()` 的 `git fetch origin <rev>` 已經保證，但若 fetch 被環境擋掉，狀態是「重試」而不是「紅燈」，與改動前一致。
+- `treeAtRevision()` 需要那個 revision 的物件；`isDescendantOf()` 的 `git fetch origin <rev>` 已經保證，但若 fetch 被環境擋掉，狀態是「重試」而不是「紅燈」，與改動前一致。每一輪重跑一次 `ls-tree`（本機實測單次 < 0.2 秒）。
 - 步驟 17 的走查（`scripts/published-revision.cjs`）本輪沒有改動，維持 120 秒有界。
 
 ## 發布

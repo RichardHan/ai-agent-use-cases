@@ -2,6 +2,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {sameContent,reportWorkflowResult,waitForPublishedVersion}=require('./published-version.cjs');
+const {blobHash}=require('../scripts/published-check.cjs');
 const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
 const build=(revision,markdown='original')=>({catalog:{bundleRevision:revision,files:['cases/a.md']},corpus:{version:1,revision,sources:[{path:'cases/a.md',markdown}]}});
 test('independently built identical releases accept different timestamps',()=>assert(sameContent(build('local'),build('published'))));
@@ -50,7 +51,7 @@ function publicationFixture(t){
  };
  // Unit fixtures never read git: what the live revision itself contains is part of
  // the fixture, and a test that needs different bytes supplies its own function.
- return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',isCurrent:()=>true,contentAtRevision:()=>null,sourcesAtRevision:()=>['cases/a.md']},published,respond};
+ return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',isCurrent:()=>true,treeAtRevision:()=>new Map([['cases/a.md',blobHash('original')]])},published,respond};
 }
 
 test('facet publication waits through a 40-minute mixed-corpus deployment using the shared window',async t=>{
@@ -153,13 +154,15 @@ function supersededFixture(t,{markdown='original',changedPath='cases/a.md',delet
  // what that revision contains. By default it contains exactly what the live build
  // serves, which is the normal case.
  const liveContent=atLive===undefined?(deleted?()=>null:path=>path===changedPath?Buffer.from(markdown):null):atLive;
+ const liveTree=new Map();
+ for(const path of ['cases/a.md',changedPath]){const bytes=liveContent(path);if(bytes)liveTree.set(path,blobHash(bytes));}
  let clock=0;
  return {
   options,
   run:overrides=>waitForPublishedVersion({
    ...options,changeList,root,
-   contentAtRevision:(revision,path)=>{assert.equal(revision,'newer');return liveContent(path);},
-   sourcesAtRevision:revision=>{assert.equal(revision,'newer');return [...remote.catalog.files].sort();},
+   treeAtRevision:revision=>{assert.equal(revision,'newer');return liveTree;},
+   readLive:async path=>{const bytes=liveContent(path);if(!bytes)throw Error('HTTP 404 '+path);return bytes;},
    fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;},...overrides
   }),
   clock:()=>clock,
@@ -215,6 +218,61 @@ test('a live build that disagrees with its own revision never verifies',async t=
   return true;
  });
  assert.equal(clock(),PUBLICATION_TIMEOUT_MS);
+});
+
+test('a superseded build whose corpus bytes changed without a content merge is rejected',async t=>{
+ // Same paths, different bytes: a corpus that lists the right files but serves stale
+ // markdown is not a faithful build of the revision it names. Comparing file names
+ // alone (or collapsing duplicates into a Map) would let it pass.
+ const fixture=supersededFixture(t);
+ fixture.published['corpus.json']=JSON.stringify({...JSON.parse(fixture.published['corpus.json']),sources:[{path:'cases/a.md',markdown:'served from a broken cache'}]});
+ await assert.rejects(fixture.run({isDescendant:()=>true,changeList:{known:true,entries:[]}}),error=>{
+  assert.match(error.cause.message,/Published source differs from the live revision newer: cases\/a\.md/);
+  return true;
+ });
+ // Duplicate entries are a broken bundle, not a second copy of the same proof.
+ const duplicated=supersededFixture(t);
+ const corpus=JSON.parse(duplicated.published['corpus.json']);
+ duplicated.published['corpus.json']=JSON.stringify({...corpus,sources:[...corpus.sources,...corpus.sources]});
+ await assert.rejects(duplicated.run({isDescendant:()=>true,changeList:{known:true,entries:[]}}),error=>{
+  assert.match(error.cause.message,/Published corpus lists a source twice/);
+  return true;
+ });
+ // The bundle revision is what ties the two files to one build.
+ const mixed=supersededFixture(t);
+ mixed.published['corpus.json']=JSON.stringify({...JSON.parse(mixed.published['corpus.json']),revision:'another-build'});
+ await assert.rejects(mixed.run({isDescendant:()=>true,changeList:{known:true,entries:[]}}),error=>{
+  assert.match(error.cause.message,/bundle revisions disagree/);
+  return true;
+ });
+});
+
+test('a later merge that deletes the path this push changed is not a lost publication',async t=>{
+ // This push modified cases/a.md; the next merge deletes it. Requiring the live build
+ // to still contain the path would poll for the whole window and call a healthy site
+ // red. The live revision is the authority on whether the path should exist.
+ const fixture=supersededFixture(t,{atLive:()=>null});
+ fixture.published['corpus.json']=JSON.stringify({...JSON.parse(fixture.published['corpus.json']),sources:[]});
+ const result=await fixture.run({isDescendant:()=>true});
+ assert.equal(result.status,'matched');
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.changedVerified,1);
+ assert.equal(fixture.clock(),0);
+});
+
+test('an asset this push deleted but a later build restored is compared with that build',async t=>{
+ const fixture=supersededFixture(t,{changedPath:'assets/old.css',deleted:true,atLive:()=>Buffer.from('restored by a later merge')});
+ fixture.published['assets/old.css']='restored by a later merge';
+ const result=await fixture.run({isDescendant:()=>true});
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.changedVerified,1,'a restored asset is read and compared, not counted unseen');
+ // And a restored asset that disagrees with the revision is a real failure.
+ const stale=supersededFixture(t,{changedPath:'assets/old.css',deleted:true,atLive:()=>Buffer.from('what the revision says')});
+ stale.published['assets/old.css']='what the CDN serves';
+ await assert.rejects(stale.run({isDescendant:()=>true}),error=>{
+  assert.match(error.cause.message,/Published asset differs from the live revision newer: assets\/old\.css/);
+  return true;
+ });
 });
 
 test('a published build that does not descend from this push is rejected',async t=>{
@@ -293,7 +351,8 @@ test('a rename is verified as new bytes present and the old path gone',async t=>
  published['corpus.json']=JSON.stringify(remoteCorpus);
  const changeList={known:true,entries:[{status:'D',path:'cases/a.md'},{status:'R100',path:'cases/new.md'}]};
  let clock=0;
- await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:respond,isDescendant:()=>true,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
+ const treeAtRevision=()=>new Map([['cases/new.md',blobHash('renamed bytes')]]);
+ await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:respond,isDescendant:()=>true,treeAtRevision,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
   assert.match(error.cause.message,/The live revision removed cases\/a\.md but the published corpus still carries it/);
   return true;
  });
@@ -323,7 +382,8 @@ test('a deleted runtime asset must be gone from the live site',async t=>{
   return respond(url);
  };
  let clock=0;
- await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:live,isDescendant:()=>true,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
+ const emptyTree=()=>new Map();
+ await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:live,isDescendant:()=>true,treeAtRevision:emptyTree,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
   assert.match(error.cause.message,/A deleted asset is still published: assets\/old\.css/);
   return true;
  });
@@ -332,7 +392,7 @@ test('a deleted runtime asset must be gone from the live site',async t=>{
   if(file==='assets/old.css')return {ok:false,status:404,body:{cancel:async()=>{}}};
   return respond(url);
  };
- const ok=await waitForPublishedVersion({...options,changeList,root,fetchAsset:gone,isDescendant:()=>true,sleep:async()=>{}});
+ const ok=await waitForPublishedVersion({...options,changeList,root,fetchAsset:gone,isDescendant:()=>true,treeAtRevision:emptyTree,sleep:async()=>{}});
  assert.equal(ok.mode,'superseded');
  // A server error is not proof that the file is gone.
  const broken=async url=>{
@@ -341,7 +401,7 @@ test('a deleted runtime asset must be gone from the live site',async t=>{
   return respond(url);
  };
  let brokenClock=0;
- await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:broken,isDescendant:()=>true,now:()=>brokenClock,sleep:async ms=>{brokenClock+=ms;}}),error=>{
+ await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:broken,isDescendant:()=>true,treeAtRevision:emptyTree,now:()=>brokenClock,sleep:async ms=>{brokenClock+=ms;}}),error=>{
   assert.match(error.cause.message,/Cannot confirm a deleted asset is gone \(HTTP 500\): assets\/old\.css/);
   return true;
  });

@@ -6,7 +6,7 @@ const {publicationStatus}=require('../scripts/publication-status.cjs');
 // The assets gate polls every 5s; asking GitHub on every poll would be 720 API
 // calls per merge for an answer that only changes once.
 const DEPLOY_POLL_ROUNDS=12;
-const {publicationChangeList,isDescendantOf,fileAtRevision,sourceListAtRevision}=require('../scripts/published-check.cjs');
+const {publicationChangeList,isDescendantOf,treeAtRevision,blobHash}=require('../scripts/published-check.cjs');
 const {pages,checkPageLanguage}=require('../scripts/check-page-language.cjs');
 const SOURCE_DIR=/^(?:cases|evidence)\/|^sources\/pending\.md$/;
 // Everything the page loads at runtime, taken from the build itself so a new
@@ -55,63 +55,68 @@ function readChangedBytes(changes,root='.'){
 // Pages keeps building after a merge, so the live build is usually newer than this
 // SHA. A newer build cannot be required to serve this push's bytes — the next
 // content merge legitimately rewrites the same path, and then waiting can never
-// change the answer. So the served bytes are checked against the source of the
-// revision the live build claims to be, and this push's own publication is carried
-// by the descendant relation plus its successful Pages deployment.
+// change the answer. So the served bytes are checked against the revision the live
+// build claims to be, and this push's own publication is carried by the descendant
+// relation plus its successful Pages deployment.
 // Before this, a changed asset or a case a later merge also touched failed with
-// "differs from this push" on every poll for the full 60-minute window
-// (run 42820349847; reproduction in docs/qa/2026-11-11-superseded-verdict).
-async function verifySupersededPublication({changed,changeList,remote,buffers,assets,sha,isDescendant=isDescendantOf,probeMissing,contentAtRevision=fileAtRevision,sourcesAtRevision=sourceListAtRevision}){
+// "differs from this push" on every poll for the full 60-minute window (runs
+// 42803248261 and 42820349847; reproduction in docs/qa/2026-11-11-superseded-verdict).
+async function verifySupersededPublication({changed,changeList,remote,buffers,assets,sha,isDescendant=isDescendantOf,probeMissing,readLive,treeAtRevision:readTree=treeAtRevision}){
  assert(changeList?.known,'Cannot verify a newer published build without knowing what this push changed');
  assert(remote.catalog.sourceRevision,'Published catalog has no source revision; cannot tell which build is live');
  assert.equal(remote.corpus.sourceRevision,remote.catalog.sourceRevision,'Published corpus and catalog revisions disagree');
  const live=remote.catalog.sourceRevision;
  assert.notEqual(live,sha,'Superseded comparison needs a different live revision');
  isDescendant(sha,live);
+ const tree=readTree(live);
  const sources=new Map(remote.corpus.sources.map(source=>[source.path,source.markdown]));
+ const sourceHash=source=>blobHash(Buffer.from(source.markdown,'utf8'));
+ const expectedSources=[...tree.keys()].filter(path=>SOURCE_DIR.test(path)).sort();
  if(!changed.length){
   // This push wrote no publishable file, so there is nothing of its own to carry.
   // What stays checkable is that the live build is a faithful build of its own
-  // revision; requiring it to equal this push made the next content merge red.
-  const expected=sourcesAtRevision(live);
-  assert.deepEqual([...remote.catalog.files].sort(),expected,'Published catalog does not list the sources of '+live);
-  assert.deepEqual([...sources.keys()].sort(),expected,'Published corpus does not carry the sources of '+live);
+  // revision — every path, and every byte, not just the file names.
+  assert.equal(remote.catalog.bundleRevision,remote.corpus.revision,'Published corpus and catalog bundle revisions disagree');
+  assert.deepEqual([...remote.catalog.files].sort(),expectedSources,'Published catalog does not list the sources of '+live);
+  assert.equal(new Set(remote.catalog.files).size,remote.catalog.files.length,'Published catalog lists a source twice');
+  assert.deepEqual([...sources.keys()].sort(),expectedSources,'Published corpus does not carry the sources of '+live);
+  assert.equal(sources.size,remote.corpus.sources.length,'Published corpus lists a source twice');
+  for(const source of remote.corpus.sources)assert.equal(sourceHash(source),tree.get(source.path),'Published source differs from the live revision '+live+': '+source.path);
   return {mode:'superseded',supersededBy:live,changedVerified:0,carried:0};
  }
  let verified=0,carried=0;
  for(const entry of changed){
-  const atLive=contentAtRevision(live,entry.path);
-  const publishedSource=sources.get(entry.path);
-  if(entry.deleted){
-   // The path left this build. A descendant may have put it back, and that is its
-   // own revision's business: ask it, instead of the bytes this push removed.
-   if(atLive===null){
-    if(SOURCE_DIR.test(entry.path))assert.equal(publishedSource,undefined,'The live revision removed '+entry.path+' but the published corpus still carries it');
-    else{
-     // A deleted asset leaves the build, so it cannot be in servedAssets; ask the
-     // site itself whether the old URL is gone.
-     assert(probeMissing,'Cannot confirm a deleted asset without a live probe: '+entry.path);
-     await probeMissing(entry.path);
-    }
-   }else if(SOURCE_DIR.test(entry.path)){
-    assert.notEqual(publishedSource,undefined,'Published corpus is missing '+entry.path);
-    assert(Buffer.from(publishedSource,'utf8').equals(atLive),'Published source differs from the live revision '+live+': '+entry.path);
+  if(!entry.deleted&&!SOURCE_DIR.test(entry.path))assert(assets.includes(entry.path),'Unsupported changed file: '+entry.path);
+  const expected=tree.get(entry.path);
+  if(expected===undefined){
+   // The live revision does not carry the path: this push deleted it, or a later
+   // merge did. That revision is the authority; what it must not do is keep
+   // publishing it.
+   if(SOURCE_DIR.test(entry.path))assert.equal(sources.get(entry.path),undefined,'The live revision removed '+entry.path+' but the published corpus still carries it');
+   else{
+    // A deleted asset leaves the build, so it cannot be in servedAssets; ask the
+    // site itself whether the old URL is gone.
+    assert(probeMissing,'Cannot confirm a deleted asset without a live probe: '+entry.path);
+    await probeMissing(entry.path);
    }
    verified++;
    continue;
   }
-  assert.notEqual(atLive,null,'The live revision '+live+' does not publish the changed file '+entry.path);
   if(SOURCE_DIR.test(entry.path)){
-   assert.notEqual(publishedSource,undefined,'Published corpus is missing '+entry.path);
-   assert(Buffer.from(publishedSource,'utf8').equals(atLive),'Published source differs from the live revision '+live+': '+entry.path);
+   const markdown=sources.get(entry.path);
+   assert.notEqual(markdown,undefined,'Published corpus is missing '+entry.path);
+   assert.equal(blobHash(Buffer.from(markdown,'utf8')),expected,'Published source differs from the live revision '+live+': '+entry.path);
+  }else if(buffers.has(entry.path)){
+   assert.equal(blobHash(buffers.get(entry.path)),expected,'Published asset differs from the live revision '+live+': '+entry.path);
   }else{
-   const index=assets.indexOf(entry.path);
-   assert(index>=0,'Unsupported changed file: '+entry.path);
-   assert(buffers.get(entry.path).equals(atLive),'Published asset differs from the live revision '+live+': '+entry.path);
+   // This build deleted the asset but the live revision has it back: read what the
+   // site serves and compare it with that revision, rather than counting it unseen.
+   assert(readLive,'Cannot read a restored asset without a live request: '+entry.path);
+   assert.equal(blobHash(await readLive(entry.path)),expected,'Published asset differs from the live revision '+live+': '+entry.path);
   }
   // How many of this push's own bytes the live build still serves. A newer build
   // that rewrote them is expected, not a failure, but the count says which happened.
-  if(entry.bytes.equals(atLive))carried++;
+  if(!entry.deleted&&blobHash(entry.bytes)===expected)carried++;
   verified++;
  }
  return {mode:'superseded',supersededBy:live,changedVerified:verified,carried};
@@ -129,7 +134,7 @@ async function liveRevision({base,fetchAsset,sha,attempt}){
   return String(catalog.sourceRevision||'');
  }catch{return '';}
 }
-async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList={known:true,entries:[]},root='.',fetchAsset=fetch,isDescendant=isDescendantOf,contentAtRevision=fileAtRevision,sourcesAtRevision=sourceListAtRevision,now,sleep,deployment}){
+async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList={known:true,entries:[]},root='.',fetchAsset=fetch,isDescendant=isDescendantOf,treeAtRevision:readTree=treeAtRevision,now,sleep,deployment}){
  // The live site cannot say whether its own deploy failed or is still running, so
  // ask GitHub about the Pages run for this exact push. Only a push that publishes
  // a known revision can have such a run; a branch build has none, and asking
@@ -243,13 +248,19 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
     for(const page of pages)assert(remoteBuffers.get(page).equals(buffers.get(page)),'Published page differs from this build: '+page);
     mode='exact';
    }else{
-    ({mode,supersededBy,changedVerified,carried}=await verifySupersededPublication({changed,changeList,remote,buffers:remoteBuffers,assets,sha,isDescendant:assertDescendant,contentAtRevision,sourcesAtRevision,probeMissing:async path=>{
+    ({mode,supersededBy,changedVerified,carried}=await verifySupersededPublication({changed,changeList,remote,buffers:remoteBuffers,assets,sha,isDescendant:assertDescendant,treeAtRevision:readTree,probeMissing:async path=>{
      const url=new URL(path,base);
      url.searchParams.set('publication',sha+'-'+attempt+'-removed');
      const response=await fetchAsset(url,{signal,cache});
      if(response.ok){await response.body?.cancel?.();throw Error('A deleted asset is still published: '+path);}
      // Only an explicit "not found" proves absence; a server error proves nothing.
      if(response.status!==404&&response.status!==410)throw Error('Cannot confirm a deleted asset is gone (HTTP '+response.status+'): '+path);
+    },readLive:async path=>{
+     const url=new URL(path,base);
+     url.searchParams.set('publication',sha+'-'+attempt+'-restored');
+     const response=await fetchAsset(url,{signal,cache});
+     if(!response.ok){await response.body?.cancel?.();throw Error('HTTP '+(response.status||'error')+' '+path);}
+     return Buffer.from(await response.arrayBuffer());
     }}));
    }
    publication={catalog:remoteBuffers.get('catalog.json').toString('utf8'),corpus:remoteBuffers.get('corpus.json').toString('utf8'),sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision,mode,supersededBy,changedVerified,carried,liveRevision:remote.catalog.sourceRevision};

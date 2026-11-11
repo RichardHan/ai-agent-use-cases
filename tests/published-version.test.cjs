@@ -48,7 +48,9 @@ function publicationFixture(t){
   assert.ok(Object.hasOwn(published,file),'unexpected publication URL '+url);
   return {ok:true,arrayBuffer:async()=>Buffer.from(published[file])};
  };
- return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',isCurrent:()=>true},published,respond};
+ // Unit fixtures never read git: what the live revision itself contains is part of
+ // the fixture, and a test that needs different bytes supplies its own function.
+ return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',isCurrent:()=>true,contentAtRevision:()=>null,sourcesAtRevision:()=>['cases/a.md']},published,respond};
 }
 
 test('facet publication waits through a 40-minute mixed-corpus deployment using the shared window',async t=>{
@@ -130,9 +132,10 @@ test('non-main content verification does not demand a branch SHA from Pages',asy
 });
 
 // A docs-only commit moves main tip minutes after every merge, so the live build is
-// normally newer than the pushed SHA. That used to skip the gate entirely; it must
-// instead prove the newer build descends from this push and carries its bytes.
-function supersededFixture(t,{markdown='original',changedPath='cases/a.md',deleted=false}={}){
+// normally newer than the pushed SHA. That used to skip the gate entirely; now the
+// gate proves the newer build descends from this push and is a faithful build of the
+// revision it names — not of this push, which it can no longer be.
+function supersededFixture(t,{markdown='original',changedPath='cases/a.md',deleted=false,atLive}={}){
  const {options,published,respond}=publicationFixture(t);
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'published-changed-'));
  t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
@@ -146,11 +149,17 @@ function supersededFixture(t,{markdown='original',changedPath='cases/a.md',delet
   fs.writeFileSync(path.join(root,changedPath),'original');
  }
  const changeList={known:true,entries:[{status:deleted?'D':'M',path:changedPath}]};
+ // The live build is judged against the revision it names, so the fixture has to say
+ // what that revision contains. By default it contains exactly what the live build
+ // serves, which is the normal case.
+ const liveContent=atLive===undefined?(deleted?()=>null:path=>path===changedPath?Buffer.from(markdown):null):atLive;
  let clock=0;
  return {
   options,
   run:overrides=>waitForPublishedVersion({
    ...options,changeList,root,
+   contentAtRevision:(revision,path)=>{assert.equal(revision,'newer');return liveContent(path);},
+   sourcesAtRevision:revision=>{assert.equal(revision,'newer');return [...remote.catalog.files].sort();},
    fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;},...overrides
   }),
   clock:()=>clock,
@@ -158,7 +167,7 @@ function supersededFixture(t,{markdown='original',changedPath='cases/a.md',delet
  };
 }
 
-test('a newer published build must carry the sources this push published',async t=>{
+test('a newer published build is judged against the revision it names',async t=>{
  const {run}=supersededFixture(t);
  const result=await run({isDescendant:(ancestor,descendant)=>{
   assert.equal(ancestor,'current');assert.equal(descendant,'newer');return true;
@@ -167,13 +176,42 @@ test('a newer published build must carry the sources this push published',async 
  assert.equal(result.mode,'superseded');
  assert.equal(result.supersededBy,'newer');
  assert.equal(result.changedVerified,1);
+ assert.equal(result.carried,1,'the newer build still serves this push\'s bytes');
 });
 
-test('a newer build that lost this push source bytes never verifies',async t=>{
- const {run,clock}=supersededFixture(t,{markdown:'published without our fix'});
+test('a later merge that rewrote the same case is superseded, not a lost publication',async t=>{
+ // This push's bytes are no longer what the live build serves, and no amount of
+ // waiting changes that. Comparing with this push instead of with the live build's
+ // own revision made every poll fail and cost the whole window.
+ const fixture=supersededFixture(t,{markdown:'published without our fix'});
+ const result=await fixture.run({isDescendant:()=>true});
+ assert.equal(result.status,'matched');
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.changedVerified,1);
+ assert.equal(result.carried,0,'the live build no longer carries this push\'s bytes');
+ assert.equal(fixture.clock(),0,'the first poll settles it');
+});
+
+test('a changed asset rewritten by a later build settles instead of polling for an hour',async t=>{
+ // The measured defect: this push changed assets/app.js and its Pages deployment
+ // succeeded, then the next merge rewrote the same asset. The live build was
+ // compared with this push's bytes on every poll, so the gate spent the full
+ // 60-minute window and reported a publication that had succeeded as red.
+ const fixture=supersededFixture(t,{changedPath:'assets/app.js',atLive:()=>Buffer.from('app v2')});
+ fixture.published['assets/app.js']='app v2';
+ const result=await fixture.run({isDescendant:()=>true});
+ assert.equal(result.status,'matched');
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.changedVerified,1);
+ assert.equal(result.carried,0);
+ assert.equal(fixture.clock(),0,'the first poll settles it');
+});
+
+test('a live build that disagrees with its own revision never verifies',async t=>{
+ const {run,clock}=supersededFixture(t,{markdown:'served from another build',atLive:()=>Buffer.from('what newer actually says')});
  await assert.rejects(run({isDescendant:()=>true}),error=>{
   assert.match(error.message,/Published assets do not match checkout/);
-  assert.match(error.cause.message,/Published source differs from this push: cases\/a\.md/);
+  assert.match(error.cause.message,/Published source differs from the live revision newer: cases\/a\.md/);
   return true;
  });
  assert.equal(clock(),PUBLICATION_TIMEOUT_MS);
@@ -195,14 +233,23 @@ test('a newer build cannot be verified when the push base is unknown',async t=>{
  });
 });
 
-test('a push that published no changed file still needs identical live content',async t=>{
+test('a push that published no file still needs a live build faithful to its revision',async t=>{
  const {run}=supersededFixture(t);
  const result=await run({isDescendant:()=>true,changeList:{known:true,entries:[]}});
  assert.equal(result.mode,'superseded');
  assert.equal(result.changedVerified,0);
- const stale=supersededFixture(t,{markdown:'a later commit rewrote this case'});
+ // A live corpus that does not carry the sources of the revision it names is a real
+ // inconsistency, and that is what ends this branch in red.
+ const stale=supersededFixture(t);
+ stale.published['corpus.json']=JSON.stringify({...JSON.parse(stale.published['corpus.json']),sources:[]});
  await assert.rejects(stale.run({isDescendant:()=>true,changeList:{known:true,entries:[]}}),error=>{
-  assert.match(error.cause.message,/published no changed files and the live content is not identical/);
+  assert.match(error.cause.message,/Published corpus does not carry the sources of newer/);
+  return true;
+ });
+ const listing=supersededFixture(t);
+ listing.published['catalog.json']=JSON.stringify({...JSON.parse(listing.published['catalog.json']),files:['cases/a.md','cases/later.md']});
+ await assert.rejects(listing.run({isDescendant:()=>true,changeList:{known:true,entries:[]}}),error=>{
+  assert.match(error.cause.message,/Published catalog does not list the sources of newer/);
   return true;
  });
 });
@@ -247,7 +294,7 @@ test('a rename is verified as new bytes present and the old path gone',async t=>
  const changeList={known:true,entries:[{status:'D',path:'cases/a.md'},{status:'R100',path:'cases/new.md'}]};
  let clock=0;
  await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:respond,isDescendant:()=>true,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
-  assert.match(error.cause.message,/A deleted source is still published: cases\/a\.md/);
+  assert.match(error.cause.message,/The live revision removed cases\/a\.md but the published corpus still carries it/);
   return true;
  });
 });

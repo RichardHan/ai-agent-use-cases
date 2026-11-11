@@ -1,3 +1,11 @@
+## 2026-11-11 被下一個 merge 取代的發布，不該等滿 60 分鐘再判紅
+
+main 最近 20 次 `Website QA` 有 3 次各花掉整整 3,600 秒；其中兩支的前台成因（#349 的產品位元斷言、#355 的步驟 17）已修，但兩者背後的判準沒動：`verifySupersededPublication()` 在 live 已被後續 build 取代時，仍要求**後續 build 服務本 push 的位元**。最近 6 次 main 有 3 次真的走過這條分支（`8f515af3` 2 檔、`0601671a` 1 檔、`ab4b51f4` 2 檔），三次都剛好沒被下一個 merge 改到同一個檔案。同一個錯誤基準也在「本 push 沒發布任何檔案」分支（`sameContent` 要求 live 等於本 push 的建置）。真實 git 重現（commit `A` 改 `assets/app.js`、`B` 再改同一個檔案、真實建置與 HTTP）：修正前 3,600 秒後紅 `Published asset differs from this push`（實際 58.4 秒），修正後 0.24 秒 `matched / superseded / changedVerified 1`。
+
+選擇 (A) 把比較基準換成「live 宣告的那個 revision」：新增 `fileAtRevision()`／`sourceListAtRevision()`（`git cat-file blob`／`git ls-tree`，`isDescendantOf()` 已 fetch 過該 revision），來源 markdown 與靜態資產改比對那個 revision 的內容，刪除的檔案改問那個 revision 是否存在；沒有可發布檔案時改驗「live catalog/corpus 是否正好是 live revision 的來源清單」；另回傳 `carried`，log 寫明「幾個檔案仍是本 push 的位元」。live 與自己宣告的 revision 不一致（CDN 混版）仍然重試到視窗結束才紅，嚴格度沒有放寬。不採 (B) 只縮短上限：錯誤的紅燈只是早一小時出現；不採 (C) 只信部署成功：superseded 分支會完全沒有內容檢查。
+
+正式站先驗證基準可用：`7a657ddb` 的 512 篇 `corpus.sources[].markdown` 與 `git cat-file blob 7a657ddb:<path>` **512/512 逐 byte 相同**，六個 served asset 與 `catalog.files` 亦同。測試：`5f678d68` **723** → `7a657ddb` **728** → 本輪 **730 通過／0 失敗**（新增 3 項、改寫 4 項）。限制：正式站還沒出現過這種紅燈，下一個「連續兩個 merge 都動同一個資產」才會在正式站證明；`git fetch` 被擋時維持重試，不會變成假紅燈。紀錄：[docs/qa/2026-11-11-superseded-verdict](docs/qa/2026-11-11-superseded-verdict/README.md)。
+
 ## 2026-11-11 抵達結果頁後，結果摘要被載入後的版面變動推出視窗
 
 正式站 `5f678d68`（512 個來源檔、畫面 515 筆）的 `?q=旅遊#explore` 在 320×740 穩定把「顯示 35 / 515 筆收錄」放在視窗上方 −18px；390×844 同一支程式連開四次是 −39／−101／−21／−101，另一次工作階段卻是 +24——抵達時序不同，結果摘要是否看得到就跟著不同。`placeArrivalResults()` 只用單次 `scrollIntoView` 放置，之後命中範圍、目前條件等區塊才長出來，原生 scroll anchoring 改 `scrollY` 時留下來的不是讀者聚焦的那一行；站上 live gate 明文要求 `resultsTop >= 0`，所以這條契約在正式站是間歇失效的。

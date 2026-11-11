@@ -6,7 +6,7 @@ const {publicationStatus}=require('../scripts/publication-status.cjs');
 // The assets gate polls every 5s; asking GitHub on every poll would be 720 API
 // calls per merge for an answer that only changes once.
 const DEPLOY_POLL_ROUNDS=12;
-const {publicationChangeList,isDescendantOf}=require('../scripts/published-check.cjs');
+const {publicationChangeList,isDescendantOf,fileAtRevision,sourceListAtRevision}=require('../scripts/published-check.cjs');
 const {pages,checkPageLanguage}=require('../scripts/check-page-language.cjs');
 const SOURCE_DIR=/^(?:cases|evidence)\/|^sources\/pending\.md$/;
 // Everything the page loads at runtime, taken from the build itself so a new
@@ -52,42 +52,69 @@ function readChangedBytes(changes,root='.'){
  }
  return entries;
 }
-// Pages keeps building after a merge (a docs-only commit moves main tip), so the
-// live build is often newer than this SHA. That is not a reason to skip the gate:
-// a newer build must be a descendant of this push and must carry these exact bytes.
-async function verifySupersededPublication({changed,changeList,remote,local,buffers,assets,sha,isDescendant=isDescendantOf,probeMissing}){
+// Pages keeps building after a merge, so the live build is usually newer than this
+// SHA. A newer build cannot be required to serve this push's bytes — the next
+// content merge legitimately rewrites the same path, and then waiting can never
+// change the answer. So the served bytes are checked against the source of the
+// revision the live build claims to be, and this push's own publication is carried
+// by the descendant relation plus its successful Pages deployment.
+// Before this, a changed asset or a case a later merge also touched failed with
+// "differs from this push" on every poll for the full 60-minute window
+// (run 42820349847; reproduction in docs/qa/2026-11-11-superseded-verdict).
+async function verifySupersededPublication({changed,changeList,remote,buffers,assets,sha,isDescendant=isDescendantOf,probeMissing,contentAtRevision=fileAtRevision,sourcesAtRevision=sourceListAtRevision}){
  assert(changeList?.known,'Cannot verify a newer published build without knowing what this push changed');
  assert(remote.catalog.sourceRevision,'Published catalog has no source revision; cannot tell which build is live');
  assert.equal(remote.corpus.sourceRevision,remote.catalog.sourceRevision,'Published corpus and catalog revisions disagree');
  const live=remote.catalog.sourceRevision;
  assert.notEqual(live,sha,'Superseded comparison needs a different live revision');
  isDescendant(sha,live);
- if(!changed.length){
-  // Nothing this push published changed, so the live content set must still equal
-  // the set this push builds; a later content commit is not this push's proof.
-  assert(sameContent(local,remote),'This push published no changed files and the live content is not identical to it');
- }
  const sources=new Map(remote.corpus.sources.map(source=>[source.path,source.markdown]));
- let verified=0;
+ if(!changed.length){
+  // This push wrote no publishable file, so there is nothing of its own to carry.
+  // What stays checkable is that the live build is a faithful build of its own
+  // revision; requiring it to equal this push made the next content merge red.
+  const expected=sourcesAtRevision(live);
+  assert.deepEqual([...remote.catalog.files].sort(),expected,'Published catalog does not list the sources of '+live);
+  assert.deepEqual([...sources.keys()].sort(),expected,'Published corpus does not carry the sources of '+live);
+  return {mode:'superseded',supersededBy:live,changedVerified:0,carried:0};
+ }
+ let verified=0,carried=0;
  for(const entry of changed){
+  const atLive=contentAtRevision(live,entry.path);
+  const publishedSource=sources.get(entry.path);
+  if(entry.deleted){
+   // The path left this build. A descendant may have put it back, and that is its
+   // own revision's business: ask it, instead of the bytes this push removed.
+   if(atLive===null){
+    if(SOURCE_DIR.test(entry.path))assert.equal(publishedSource,undefined,'The live revision removed '+entry.path+' but the published corpus still carries it');
+    else{
+     // A deleted asset leaves the build, so it cannot be in servedAssets; ask the
+     // site itself whether the old URL is gone.
+     assert(probeMissing,'Cannot confirm a deleted asset without a live probe: '+entry.path);
+     await probeMissing(entry.path);
+    }
+   }else if(SOURCE_DIR.test(entry.path)){
+    assert.notEqual(publishedSource,undefined,'Published corpus is missing '+entry.path);
+    assert(Buffer.from(publishedSource,'utf8').equals(atLive),'Published source differs from the live revision '+live+': '+entry.path);
+   }
+   verified++;
+   continue;
+  }
+  assert.notEqual(atLive,null,'The live revision '+live+' does not publish the changed file '+entry.path);
   if(SOURCE_DIR.test(entry.path)){
-   const markdown=sources.get(entry.path);
-   if(entry.deleted){assert.equal(markdown,undefined,'A deleted source is still published: '+entry.path);verified++;continue;}
-   assert.notEqual(markdown,undefined,'Published corpus is missing '+entry.path);
-   assert(Buffer.from(markdown,'utf8').equals(entry.bytes),'Published source differs from this push: '+entry.path);
-  }else if(entry.deleted){
-   // A deleted asset leaves the build, so it cannot be in servedAssets; ask the
-   // site itself whether the old URL is gone.
-   assert(probeMissing,'Cannot confirm a deleted asset without a live probe: '+entry.path);
-   await probeMissing(entry.path);
+   assert.notEqual(publishedSource,undefined,'Published corpus is missing '+entry.path);
+   assert(Buffer.from(publishedSource,'utf8').equals(atLive),'Published source differs from the live revision '+live+': '+entry.path);
   }else{
    const index=assets.indexOf(entry.path);
    assert(index>=0,'Unsupported changed file: '+entry.path);
-   assert(buffers.get(entry.path).equals(entry.bytes),'Published asset differs from this push: '+entry.path);
+   assert(buffers.get(entry.path).equals(atLive),'Published asset differs from the live revision '+live+': '+entry.path);
   }
+  // How many of this push's own bytes the live build still serves. A newer build
+  // that rewrote them is expected, not a failure, but the count says which happened.
+  if(entry.bytes.equals(atLive))carried++;
   verified++;
  }
- return {mode:'superseded',supersededBy:live,changedVerified:verified};
+ return {mode:'superseded',supersededBy:live,changedVerified:verified,carried};
 }
 // The revision the live site is serving right now, or '' when it cannot be read.
 // Only used to decide whether a failed deployment still matters.
@@ -102,7 +129,7 @@ async function liveRevision({base,fetchAsset,sha,attempt}){
   return String(catalog.sourceRevision||'');
  }catch{return '';}
 }
-async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList={known:true,entries:[]},root='.',fetchAsset=fetch,isDescendant=isDescendantOf,now,sleep,deployment}){
+async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList={known:true,entries:[]},root='.',fetchAsset=fetch,isDescendant=isDescendantOf,contentAtRevision=fileAtRevision,sourcesAtRevision=sourceListAtRevision,now,sleep,deployment}){
  // The live site cannot say whether its own deploy failed or is still running, so
  // ask GitHub about the Pages run for this exact push. Only a push that publishes
  // a known revision can have such a run; a branch build has none, and asking
@@ -200,7 +227,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
    const remote={catalog:JSON.parse(remoteBuffers.get('catalog.json').toString('utf8')),corpus:JSON.parse(remoteBuffers.get('corpus.json').toString('utf8'))};
    for(const page of pages)checkPageLanguage(page,remoteBuffers.get(page).toString('utf8'));
    const exact=expectedSourceRevision&&remote.catalog.sourceRevision===expectedSourceRevision;
-   let mode,supersededBy,changedVerified;
+   let mode,supersededBy,changedVerified,carried;
    if(exact){
     // The live build claims to be this push, so every served product byte must be
     // this build's byte. A newer live build legitimately renders different product
@@ -216,7 +243,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
     for(const page of pages)assert(remoteBuffers.get(page).equals(buffers.get(page)),'Published page differs from this build: '+page);
     mode='exact';
    }else{
-    ({mode,supersededBy,changedVerified}=await verifySupersededPublication({changed,changeList,remote,local,buffers:remoteBuffers,assets,sha,isDescendant:assertDescendant,probeMissing:async path=>{
+    ({mode,supersededBy,changedVerified,carried}=await verifySupersededPublication({changed,changeList,remote,buffers:remoteBuffers,assets,sha,isDescendant:assertDescendant,contentAtRevision,sourcesAtRevision,probeMissing:async path=>{
      const url=new URL(path,base);
      url.searchParams.set('publication',sha+'-'+attempt+'-removed');
      const response=await fetchAsset(url,{signal,cache});
@@ -225,7 +252,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
      if(response.status!==404&&response.status!==410)throw Error('Cannot confirm a deleted asset is gone (HTTP '+response.status+'): '+path);
     }}));
    }
-   publication={catalog:remoteBuffers.get('catalog.json').toString('utf8'),corpus:remoteBuffers.get('corpus.json').toString('utf8'),sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision,mode,supersededBy,changedVerified,liveRevision:remote.catalog.sourceRevision};
+   publication={catalog:remoteBuffers.get('catalog.json').toString('utf8'),corpus:remoteBuffers.get('corpus.json').toString('utf8'),sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision,mode,supersededBy,changedVerified,carried,liveRevision:remote.catalog.sourceRevision};
    return true;
   }
  });
@@ -246,13 +273,13 @@ if(require.main===module){
   const result=await waitForPublishedVersion({base,built,changeList});
   fs.mkdirSync(output,{recursive:true});
   fs.writeFileSync(path.join(output,'catalog.json'),result.catalog);fs.writeFileSync(path.join(output,'corpus.json'),result.corpus);
-  fs.writeFileSync('qa-artifacts/published-version.json',JSON.stringify({base,sourceCount:result.sourceCount,localRevision:result.localRevision,publishedRevision:result.publishedRevision,mode:result.mode,supersededBy:result.supersededBy||null,liveRevision:result.liveRevision||null,changedVerified:result.changedVerified||0,verifiedAt:new Date().toISOString()},null,2));
+  fs.writeFileSync('qa-artifacts/published-version.json',JSON.stringify({base,sourceCount:result.sourceCount,localRevision:result.localRevision,publishedRevision:result.publishedRevision,mode:result.mode,supersededBy:result.supersededBy||null,liveRevision:result.liveRevision||null,changedVerified:result.changedVerified||0,carried:result.carried||0,verifiedAt:new Date().toISOString()},null,2));
   reportWorkflowResult(true);
   // The walk step reads these two, not `verified`: a superseded verdict is still a
   // verified publication, it just is not this push's build that is live any more.
   reportPublicationVerdict({mode:result.mode,liveRevision:result.liveRevision||result.supersededBy});
   console.log(result.mode==='exact'
    ?'PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH '+process.env.GITHUB_SHA
-   :'PUBLISHED_CHANGED_BYTES_MATCH '+process.env.GITHUB_SHA+' superseded by '+result.supersededBy+' ('+result.changedVerified+' files verified)');
+   :'PUBLISHED_CHANGED_BYTES_MATCH '+process.env.GITHUB_SHA+' superseded by '+result.supersededBy+' ('+result.changedVerified+' files verified against that revision, '+(result.carried||0)+' still carrying this push\'s bytes)');
  })().catch(error=>{console.error(error);process.exitCode=1});
 }

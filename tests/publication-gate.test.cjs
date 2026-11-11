@@ -162,7 +162,9 @@ function builtSite(t) {
     return { ok: true, arrayBuffer: async () => Buffer.from(published[name]) };
   };
   return {
-    options: { base: 'https://example.test/project/', built, sha: 'current', expectedSourceRevision: 'current', isCurrent: () => true },
+    // The live build is judged against the revision it names; a unit fixture says
+    // what that revision contains instead of reading git.
+    options: { base: 'https://example.test/project/', built, sha: 'current', expectedSourceRevision: 'current', isCurrent: () => true, contentAtRevision: () => null, sourcesAtRevision: () => ['cases/a.md'] },
     respond,
     publishedFiles: published
   };

@@ -97,4 +97,43 @@ function isDescendantOf(ancestor,descendant,exec=execFileSync){
  return true;
 }
 
-module.exports={isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf,PUBLISHABLE_FILE};
+// The bytes one path holds in one revision, or null when that revision does not
+// carry it. Used to ask what the live build's own revision says a file should be:
+// once a newer build is live, this push's bytes are no longer the standard, because
+// the next content merge legitimately rewrites the same path.
+// isDescendantOf() already fetched the revision, so this reads local objects.
+function fileAtRevision(revision,path,exec=execFileSync){
+ const valid=value=>typeof value==='string'&&/^[0-9a-f]{40}$/.test(value);
+ if(!valid(revision))throw Error('Published revision is not a commit SHA: '+revision);
+ try{
+  return exec('git',['cat-file','blob',revision+':'+path],{encoding:'buffer',stdio:['ignore','pipe','pipe'],timeout:20000,maxBuffer:64*1024*1024});
+ }catch(error){
+  if(error.status!==128)throw Error('Cannot read '+path+' at '+revision+': '+error.message,{cause:error});
+ }
+ // 128 means either "this revision does not contain that path" (an answer) or
+ // "this revision is not here" (no answer at all), so ask the revision separately.
+ try{
+  exec('git',['cat-file','-e',revision+'^{commit}'],{stdio:'ignore',timeout:20000});
+ }catch(error){
+  throw Error('Cannot read the published revision '+revision+': '+error.message,{cause:error});
+ }
+ return null;
+}
+
+// The source markdown a revision publishes, sorted the way catalog.json has to list
+// it. One tree read answers "is the live build a faithful build of its revision"
+// for the whole corpus, so verifying a push that published nothing costs one git
+// call instead of comparing the live content with a build it can no longer equal.
+function sourceListAtRevision(revision,exec=execFileSync){
+ const valid=value=>typeof value==='string'&&/^[0-9a-f]{40}$/.test(value);
+ if(!valid(revision))throw Error('Published revision is not a commit SHA: '+revision);
+ let output;
+ try{
+  output=exec('git',['ls-tree','-r','--name-only',revision,'--','cases','evidence','sources/pending.md'],{encoding:'utf8',stdio:['ignore','pipe','pipe'],timeout:20000});
+ }catch(error){
+  throw Error('Cannot list the sources of '+revision+': '+error.message,{cause:error});
+ }
+ return String(output).split('\n').map(path=>path.trim()).filter(path=>/\.md$/.test(path)).sort();
+}
+
+module.exports={isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf,fileAtRevision,sourceListAtRevision,PUBLISHABLE_FILE};

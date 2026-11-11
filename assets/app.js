@@ -1227,9 +1227,10 @@ function metadata(markdown, path, kind, suffix='') {
   // 所以它只認這一頁自己說到的工具。先前它對整份 markdown 比對，連來源連結的網址也
   // 算：`https://github.com/gdombiak/AstroViewingConditions/…` 讓 UC-210 掛上 GitHub，
   // 而該頁 `- 工具：` 寫的是 Grok Bot／Astronomer／Astro Engine／Python Host；
-  // 60 頁靠網址取得至少一個工具（GitHub 136→86 筆、Cursor 54→46、Notion 34→33、
-  // Google Drive 33→32）。搜尋索引早就有這條規則（`withoutSourceUrls()`：來源網址是
-  // 證據，不是內容），工具沿用同一條，而不是另立一套。
+  // 61 個條目（59 個案例頁、1 篇經驗、1 個待查線索）靠網址取得至少一個工具
+  // （GitHub 136→86 筆、Cursor 54→46、Notion 34→33、Google Drive 33→32、
+  // Meta Muse 202→201），沒有任何條目因此新增工具。搜尋索引早就有這條規則
+  // （`withoutSourceUrls()`：來源網址是證據，不是內容），工具沿用同一條，而不是另立一套。
   const tools = TOOL_PATTERNS.filter(([,re])=>re.test(withoutSourceUrls(markdown))).map(([name])=>name);
   // 實作門檻的推測刻意維持原樣：它的規則吃 `git clone`、`CLI`、`Cursor` 這類字，
   // 而這些字也出現在來源網址裡。改成只看正文會改動 8 個已標示為「推測」的門檻值

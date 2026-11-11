@@ -42,8 +42,10 @@ test('a tool listed on a card is mentioned by the page itself, not only by a sou
   const api = load();
   const offenders = [];
   for (const { file, markdown } of corpus()) {
-    const text = api.withoutSourceUrls(markdown);
     for (const entry of api.parseFile(file, markdown)) {
+      // Each entry is checked against its own slice: stripping the whole file would
+      // let one pending lead's words vouch for another lead's tool.
+      const text = api.withoutSourceUrls(entry.markdown || '');
       for (const tool of entry.tools || []) {
         const pattern = api.TOOL_PATTERNS.find(([name]) => name === tool)?.[1];
         assert.ok(pattern, `${tool} must come from TOOL_PATTERNS`);

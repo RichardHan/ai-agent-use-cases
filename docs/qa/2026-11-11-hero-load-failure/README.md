@@ -86,11 +86,21 @@
 - 失敗時頁面會有兩段文字：hero 的摘要與結果區的 `#error`。前者不新增 live region，但這個失敗狀態本來就會同時更新 `#error`（assertive）與 `#results-count`／`#draw-announcer`（polite）——所以「只宣告一次」是不準確的講法；本次沒有新增宣告，也沒有做實機螢幕閱讀器測試（實際語音行為未驗）。
 - 失敗的**深層連結**（例如 `?q=旅遊#explore`）會走既有的抵達流程捲到搜尋／結果區，hero 的摘要因此落在視窗外（實測 `#error` 在 307–643px 可見）；那種情況本來就有可見的錯誤說明，本輪沒有改。
 - 新測試沒有斷言「部分來源缺漏」與「連續兩次失敗後再成功」；這兩種狀態由本輪另外的 Chromium 探測確認（部分載入時說明保持隱藏、514 筆照常顯示 `#partial-load`；連續失敗仍顯示說明、之後成功才收起）。
+- 橫向手機（740×390，實測正式站）：說明區塊在 301–415px，只有前 89px 在 390px 的視窗內，需要往下捲一點才看得到「重新載入」。新測試沒有覆蓋這個尺寸。
+- 深層連結失敗時說明會落在視窗外（見上），由既有的 `#error` 承擔該情境的可見說明（正式站實測 `#error` 完整落在 390×844 視窗內）。
 - 本機無法讀取截圖影像（`Image reading is disabled`），視覺結論來自 DOM 幾何、無水平溢出與 axe；截圖存於 `qa-artifacts/hero-load-failure-*.jpg`。
 - 只量測 Chromium。多引擎由 PR 上既有的其他流程覆蓋，本支新測試只宣告 Chromium。
 - 只處理「整個目錄載入失敗」；部分來源缺漏走既有的 `#partial-load` 與結果行括號說明，本輪沒有改。
 - 索引連結指向 `INDEX.html`：Preview（`scripts/preview.py`）不產生這個檔，本機 preview 點下去會 404；正式站由 Jekyll 產生（後續發布驗證會實測）。
 
+## 發布
+
+- PR [#374](https://github.com/RichardHan/ai-agent-use-cases/pull/374)（head `3277df68`，rebase 到 `8cab264f`）16 項非略過檢查 success、2 項 `published` 依設計 skipping；`Website QA` [42938700246](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42938700246) 的 `Verify the updated site in Chromium`（含本輪新測試）success。squash 合併為 **`397e0c88`**。
+- `pages build and deployment` [42940239879](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42940239879) **success**；正式站 `catalog.json` 的 `sourceRevision` = `397e0c88…`、515 個來源檔（畫面 518 筆）。`index.html`／`assets/app.js`／`assets/style.css`／`assets/reader.css`／`templates/case.md` 與合併版本 **sha256 逐檔相同**。
+- 正式站重走（Chromium，`catalog.json` abort）：390×844 說明區塊 **408–547px**、320×640 **390–583px**、1440×900 **541–656px**（都在首屏），文字、`role`、水平溢出 0、axe 0、pageerror 0；放行後「重新載入」→ 說明收起（390px `顯示 518 / 518`；1440px 該次落在既有的 partial load `顯示 400 / 400 筆收錄（115 個來源檔案未載入）`，說明保持隱藏）。正常載入時說明不存在、53 個任務、hero 1045／1252px 與改動前相同；`?q=旅遊#explore` 36/518；`?case=UC-001` 來源固定到 `397e0c88`。main 的 `Website QA` [42940240826](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42940240826)（`397e0c88`）**success**：`Verify the updated site in Chromium`（含本輪新測試）、`Wait for published assets and content`、`Verify the published GitHub Pages site` 全部 success，`Fail when the published site cannot be verified` 依設計 skipped；#372 合併後 main 的閘門步驟分別為 1 秒與 33 秒，沒有再出現 60 分鐘等待。
+
 ## 下一輪
 
-（發布後補記）
+**抵達結果頁後，搜尋框仍在視窗外**：正式站 `397e0c88` 實測 390×844 為 **−484px**、320×640 **−532px**、1440×900 **−453px**，而結果摘要固定在 24px；手機的 `/` 提示被 `style.css` 在 ≤640px 設為 `display:none`，只看得到結果清單每 6 張卡插入的「回到搜尋與篩選 ↑」。
+
+先做的驗證：在結果列量測一顆「修改關鍵字」按鈕（或等價入口）會不會推動既有門檻——本輪曾以「結果列新增按鈕」試作，`#results-heading` 在 390px 從 44px 長到 100px，`search-reveal-settle` 的「第一則案例仍在視窗內」因此變紅，所以任何新增控制都必須先量這個高度預算，再決定是放在結果列、sticky 條件列，或改動抵達落點。

@@ -6,7 +6,7 @@
 - 原工作樹 `/Users/richard_han/orca/ai-agent-use-cases` 停在 `90093d7b`、落後 main 三百餘個 commit，另有 159 個未追蹤檔（皆已在 origin/main）；本輪未觸碰。
 - 基準 `node --test tests/*.test.cjs`（`5f678d68`）**723 通過／0 失敗**；（`7a657ddb`）**728 通過／0 失敗**。
 - 正式站開工時 `catalog.json.sourceRevision` = `5f678d68`，工作期間前進到 `7a657ddb`（512 個來源檔、畫面 515 筆）。
-- Actions 現況重新確認（不沿用歷史敘述）：main 最近 100 次 run 92 success／5 failure／3 cancelled；3 次 failure 是 GitHub Pages 部署基礎設施，2 次是發布閘門。最近 20 次 main `Website QA` 有 **3 次**各自花掉整整 **3,600 秒**：`42803248261`（`8fbfe082`，步驟 15）、`42820349847`（`2b139d9f`，步驟 17）、`42821309962`（`ab4b51f4`，等前一支佔用的 concurrency group 到 14:09:50 才起跑）。
+- Actions 現況重新確認（不沿用歷史敘述）：main 最近 100 次 run 92 success／5 failure／3 cancelled；3 次 failure 是 GitHub Pages 部署基礎設施，2 次是發布閘門。最近 20 次 main `Website QA` 有 **2 支**各自在閘門內花掉整整 **3,600 秒**：`42803248261`（`8fbfe082`，步驟 15 於 11:04:33→12:04:33 失敗）、`42820349847`（`2b139d9f`，步驟 17 於 13:09:40→14:09:40 失敗）。第 3 支 `42821309962`（`ab4b51f4`）本身 1 秒判定 superseded（14:19:40→14:19:41），但它 13:05:15 建立、job 到 14:09:50 才被建立——在同一個 concurrency group 後面排了 64 分鐘，這就是上面那小時的直接成本。
 - 前兩支的成因已在前幾輪分別修掉（#349 把產品位元斷言移進 `exact`；#355 讓步驟 17 只問「正式站服務哪個建置」）。本輪**不是重複修同一件事**：被修掉的是兩個入口，這個函式裡「superseded 逐檔比對」那一段沒有動過，而它正是兩個入口背後同一個判準。
 
 ## 問題證據

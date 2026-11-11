@@ -1,6 +1,6 @@
 ## 2026-11-11 被下一個 merge 取代的發布，不該等滿 60 分鐘再判紅
 
-main 最近 20 次 `Website QA` 有 3 次各花掉整整 3,600 秒；其中兩支的前台成因（#349 的產品位元斷言、#355 的步驟 17）已修，但兩者背後的判準沒動：`verifySupersededPublication()` 在 live 已被後續 build 取代時，仍要求**後續 build 服務本 push 的位元**。最近 6 次 main 有 3 次真的走過這條分支（`8f515af3` 2 檔、`0601671a` 1 檔、`ab4b51f4` 2 檔），三次都剛好沒被下一個 merge 改到同一個檔案。同一個錯誤基準也在「本 push 沒發布任何檔案」分支（`sameContent` 要求 live 等於本 push 的建置）。真實 git 重現（commit `A` 改 `assets/app.js`、`B` 再改同一個檔案、真實建置與 HTTP）：修正前 3,600 秒後紅 `Published asset differs from this push`（實際 58.4 秒），修正後 0.26 秒 `matched / superseded / changedVerified 1`。
+main 最近 20 次 `Website QA` 有 2 支各在閘門內花掉整整 3,600 秒，第 3 支（`ab4b51f4`）則在同一 concurrency group 排隊 64 分鐘才起跑；前兩支的前台成因（#349 的產品位元斷言、#355 的步驟 17）已修，但兩者背後的判準沒動：`verifySupersededPublication()` 在 live 已被後續 build 取代時，仍要求**後續 build 服務本 push 的位元**。最近 6 次 main 有 3 次真的走過這條分支（`8f515af3` 2 檔、`0601671a` 1 檔、`ab4b51f4` 2 檔），三次都剛好沒被下一個 merge 改到同一個檔案。同一個錯誤基準也在「本 push 沒發布任何檔案」分支（`sameContent` 要求 live 等於本 push 的建置）。真實 git 重現（commit `A` 改 `assets/app.js`、`B` 再改同一個檔案、真實建置與 HTTP）：修正前 3,600 秒後紅 `Published asset differs from this push`（實際 58.4 秒），修正後 0.26 秒 `matched / superseded / changedVerified 1`。
 
 選擇 (A) 把比較基準換成「live 宣告的那個 revision」：`treeAtRevision()` 一次 `git ls-tree -r` 取得整棵樹的 blob hash，`blobHash()` 用 git blob 標頭算 hash，於是來源 markdown 與靜態資產都改比對**內容 hash**；live revision 沒有的路徑改問「live 是否還在發布它」；本 build 已刪、live revision 又放回來的資產會實際抓回來比對；沒有可發布檔案時驗路徑、每一篇內容 hash、重複項與 `bundleRevision`／`revision` 一致。live 與自己宣告的 revision 不一致（CDN 混版）仍然重試到視窗結束才紅，`exact` 分支的產品位元斷言完全未動。不採 (B) 只縮短上限：錯誤的紅燈只是早一小時出現；不採 (C) 只信部署成功：superseded 分支會完全沒有內容檢查。
 

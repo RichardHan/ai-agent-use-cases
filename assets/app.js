@@ -1223,7 +1223,19 @@ function metadata(markdown, path, kind, suffix='') {
   const proofClasses = declaredEvidenceClasses(proofLine, kind);
   const proof = proofClasses[0];
   const relayedProof = proofLine ? relayedEvidenceClasses(proofLine) : [];
-  const tools = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
+  // 「提及工具」是卡片第一行印出來的字，也是 `?tool=` 篩選、選項筆數與搜尋欄位的來源，
+  // 所以它只認這一頁自己說到的工具。先前它對整份 markdown 比對，連來源連結的網址也
+  // 算：`https://github.com/gdombiak/AstroViewingConditions/…` 讓 UC-210 掛上 GitHub，
+  // 而該頁 `- 工具：` 寫的是 Grok Bot／Astronomer／Astro Engine／Python Host；
+  // 60 頁靠網址取得至少一個工具（GitHub 136→86 筆、Cursor 54→46、Notion 34→33、
+  // Google Drive 33→32）。搜尋索引早就有這條規則（`withoutSourceUrls()`：來源網址是
+  // 證據，不是內容），工具沿用同一條，而不是另立一套。
+  const tools = TOOL_PATTERNS.filter(([,re])=>re.test(withoutSourceUrls(markdown))).map(([name])=>name);
+  // 實作門檻的推測刻意維持原樣：它的規則吃 `git clone`、`CLI`、`Cursor` 這類字，
+  // 而這些字也出現在來源網址裡。改成只看正文會改動 8 個已標示為「推測」的門檻值
+  // （例如 UC-140 由 進階開發 變 入門對話，而該頁正文正是在 VM 安裝 PyTorch），
+  // 那是另一個需要逐頁證據的決定，不在本輪。
+  const toolsForDifficulty = TOOL_PATTERNS.filter(([,re])=>re.test(markdown)).map(([name])=>name);
   const date = clean(lead.match(/^-\s*(?:查證日期|查閱日期|核對日期|研究核對日|首次收錄[／、]最近查證|查證)\s*[：:]\s*.*?(20\d{2}-\d{2}-\d{2})/m)?.[1] || lead.match(/(?:查證|查閱|核對|最近查證)\s*[：:；]?\s*.*?(20\d{2}-\d{2}-\d{2})/)?.[1] || lead.match(/20\d{2}-\d{2}-\d{2}/)?.[0] || '');
   const copy=(globalThis.displayCopy?.[id])||displayCopy[id]||{};
   const displayTitle=clean(lead.match(/^-\s*網站標題\s*[：:]\s*(.+)$/m)?.[1]||copy.title||heading);
@@ -1242,7 +1254,7 @@ function metadata(markdown, path, kind, suffix='') {
   const howText=copy.how||extracted.how||'先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。';
   const cautionText=copy.caution||extracted.caution||'本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。';
   const declaredTier = declaredDifficulty(lead);
-  const difficulty = declaredTier || extractDifficulty(markdown, tools, scenario, category);
+  const difficulty = declaredTier || extractDifficulty(markdown, toolsForDifficulty, scenario, category);
   const difficultySource = declaredTier ? 'declared' : 'inferred';
   const searchFields=' '+displayTitle+' '+what+' '+(targetUser?targetUser+' ':'')+(coreGoal?coreGoal+' ':'')+tools.join(' ')+' '+category+' '+scenario+' '+tags.join(' ')+' '+KIND[kind]+' '+difficulty+' '+(difficulty==='入門對話'?'免寫程式 零程式碼':'')+' '+idVariants(id);
   const searchText=norm(withoutEditorialNotes(markdown)+searchFields);
@@ -2909,6 +2921,10 @@ function renderFacetCounts(terms, filters) {
   const difficultyHint = '實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。';
   const statusHint = '收錄狀態的「待查線索」是還沒列成案例的線索；來源類型的「尚待查證」是證據等級，兩者不同。';
   const proofCountHint = '來源類型依案例頁首宣告的主要類別計一次；同一案例宣告的其他類別，列在卡片與詳情的提示中。';
+  // Tools are the only facet whose value is read out of the page's own words, so the
+  // hint says what counts as a mention and what does not. Without it, a reader had no
+  // way to know why a card printed a tool the case's `- 工具：` line never named.
+  const toolHint = '提及工具只看案例內文提到的工具；來源連結裡的網域（例如 github.com）不算，工具名以站上固定清單為準，清單外的工具不會出現在選項裡。';
   // A page that declares no theme is not given one, so it cannot appear under any
   // 主題分類 option. Say how many those are instead of letting the filter look
   // like it covers the whole catalogue.
@@ -2920,7 +2936,7 @@ function renderFacetCounts(terms, filters) {
     ? '案例載入完成後，會顯示各選項的符合筆數。'
     : failedPaths.length
       ? '筆數只計已載入條目；補讀後會更新。選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。'
-      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。') + statusHint + difficultyHint + proofCountHint + categoryHint;
+      : '選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。') + statusHint + difficultyHint + proofCountHint + toolHint + categoryHint;
   // Count merged leads inside the same filtered set the pending option describes,
   // so a filtered view does not keep a global annotation it cannot show.
   const pendingBase=discoveryReady?filterEntries(entries,terms,{...filters,kind:''}):[];

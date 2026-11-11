@@ -90,6 +90,14 @@
 - 只量測 Chromium；Firefox／WebKit 由 PR 上既有流程覆蓋，本支新測試只宣告 Chromium。macOS 上的 WebKit 不把按鈕放進 Tab 序（與基準相同），所以 `search-share-focus` 在本機 WebKit 走既有平台分支；CI 的 Linux WebKit 會走按鈕序列。
 - 本機無法讀取截圖影像（`Image reading is disabled`），視覺結論來自 DOM 幾何、水平溢出與 axe。
 
+## 發布
+
+- PR [#378](https://github.com/RichardHan/ai-agent-use-cases/pull/378)（head `494c7f81`，rebase 到 `b004390a`）18 項檢查 **全部 success**（1 項 `published` 依設計 skipping），含本輪新增的 `REFINE_URL=… node tests/refine-from-results-browser.cjs`（Website QA [42962586837](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42962586837)）。squash 合併為 **`1a3cc2f0`**。
+- `pages build and deployment` [42963942720](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42963942720) **success**；正式站 `catalog.json` 的 `sourceRevision` = `1a3cc2f0…`、515 個來源檔、畫面 518 筆；線上 `index.html` 含 `id="refine-query"`、`assets/app.js` 含 `syncResultsRefine`（直接抓檔核對）。
+- 正式站重走（Chromium，`?q=旅遊#explore`）：1440×900 按鈕 14–58px、第一則標題 335–379px（與改動前相同）；390×844 按鈕 59–103px、標題 447–513px；320×640 按鈕 59–103px、標題 464–527px。按下後焦點在 `#query`、原字全選、欄位分別落在 430–494／406–462／304–360px；`顯示 36 / 518 筆收錄` 不變；axe 0、水平溢出 0、pageerror 0。
+- 正式站其他狀態：純首頁收起（heading 44／52px）；`安全防護` 搜尋框在畫面內時收起、`#match-scope` 下緣 830px ≤ 844px，捲離後出現 `修改「安全防護」`；空結果只留 `#edit-query` 且能把焦點送回欄位；`?case=UC-001` 詳情開啟、來源連結固定在 `1a3cc2f0`、關閉後回到清單且按鈕仍在。
+- main 的 `Website QA`（`1a3cc2f0`，[42963943350](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42963943350)）**success**：合併後重跑同一份 35 支 walk，並依序通過 `Wait for published assets and content`、`Verify the published GitHub Pages site`（`Fail when the published site cannot be verified` 依設計 skipped，因為上一步已 verified）。
+
 ## 下一輪
 
 **分享到「沒有結果」的連結落地後，復原按鈕在手機首屏外**。正式站實測 `?q=每月報表要花半天#explore`（Chromium 390×844）：`#empty` 在 106–989px，標題 193–259px、提示 271–317px，接著 `#empty-suggestions` 佔 339–836px，真正的兩個出口 `#edit-query`（修改關鍵字）與 `#empty-reset`（清除全部條件）在 **858–958px**，整個在首屏之外；搜尋框同時在 −437px。320×640 與複合空結果（`?q=旅遊&kind=evidence…`）的 `#empty` 起點是 106px、出口在 450–550px，仍在首屏內，所以這是「建議很多」時才出現的缺陷。

@@ -11,7 +11,20 @@ for(const [engine,width] of (observe?[[chromium,1440],[chromium,390]]:[[chromium
  try{
  await page.goto(base+'?q=旅遊&scenario=生活&tool=Grok+Bot');await page.waitForFunction(()=>discoveryReady,null,{timeout:120000});assert.equal(await page.evaluate(()=>failedPaths.length),0);row.total=await page.evaluate(()=>entries.length);
  await defer();const copy=page.locator('#copy-search-link'),manual=page.locator('#search-share-url');
- await copy.focus();await page.keyboard.press('Enter');await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'source-guide-summary');
+ await copy.focus();await page.keyboard.press('Enter');
+ // A condition is set, so the labelled route back to the words sits between the
+ // share action and the match-scope note; the pending copy must not steal either stop.
+ await page.keyboard.press('Tab');
+ const firstStop=await page.evaluate(()=>document.activeElement.id);
+ if(page.context().browser().browserType().name()==='webkit'&&process.platform==='darwin'){
+  // macOS WebKit keeps buttons out of the Tab order unless the reader opts in
+  // (same platform note as mobile-search-browser.cjs); Linux WebKit, which CI runs,
+  // walks them like Chromium.
+  assert.equal(firstStop,'source-guide-summary','a pending copy must not take the next Tab stop');
+ }else{
+  assert.equal(firstStop,'refine-query','a pending copy must not take the next Tab stop');
+  await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'match-scope-action');
+ }
  row.before=await page.evaluate(()=>({focus:document.activeElement.id,y:scrollY}));await screenshot('waiting');await page.evaluate(()=>window.shareReject());await manual.waitFor({state:'visible'});
  row.after=await page.evaluate(()=>({focus:document.activeElement.id,y:scrollY,selected:document.querySelector('#search-share-url').selectionEnd-document.querySelector('#search-share-url').selectionStart}));row.reproduced=row.after.focus!==row.before.focus;await screenshot('moved-focus');save();
  if(observe){await browser.close();continue;}

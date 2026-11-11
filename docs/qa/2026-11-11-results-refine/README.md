@@ -97,6 +97,8 @@
 - 正式站重走（Chromium，`?q=旅遊#explore`）：1440×900 按鈕 14–58px、第一則標題 335–379px（與改動前相同）；390×844 按鈕 59–103px、標題 447–513px；320×640 按鈕 59–103px、標題 464–527px。按下後焦點在 `#query`、原字全選、欄位分別落在 430–494／406–462／304–360px；`顯示 36 / 518 筆收錄` 不變；axe 0、水平溢出 0、pageerror 0。
 - 正式站其他狀態：純首頁收起（heading 44／52px）；`安全防護` 搜尋框在畫面內時收起、`#match-scope` 下緣 830px ≤ 844px，捲離後出現 `修改「安全防護」`；空結果只留 `#edit-query` 且能把焦點送回欄位；`?case=UC-001` 詳情開啟、來源連結固定在 `1a3cc2f0`、關閉後回到清單且按鈕仍在。
 - main 的 `Website QA`（`1a3cc2f0`，[42963943350](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42963943350)）**success**：合併後重跑同一份 35 支 walk，並依序通過 `Wait for published assets and content`、`Verify the published GitHub Pages site`（`Fail when the published site cannot be verified` 依設計 skipped，因為上一步已 verified）。
+- 合併後另有一輪平行 PR #379（只動 `assets/reader.js`）先落地，main 推進到 `b8858087`／紀錄 `d70f13f0`。本輪在同一份程式上重跑正式站走查：網站 `sourceRevision` = `d70f13f0…`，`?q=旅遊#explore` 的按鈕與標題位置與上表一致（1440 14–58／335–379、390 59–103／448–514、320 59–103／464–527），按下後焦點與全選正常、axe 0、水平溢出 0、pageerror 0；`pages build and deployment`（`d70f13f0`）[42965782678](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42965782678) success。
+- 收工時 main 的 `Website QA`（`b8858087`）仍在跑；那是平行輪次的活動，與本輪改動無關。
 
 ## 下一輪
 

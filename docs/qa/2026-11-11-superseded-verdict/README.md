@@ -81,7 +81,15 @@
 
 ## 發布
 
-（合併後補記）
+- **已提交**：分支 `improve/20261111-round21`，4 個 commit（`eb419835` 判準、`716c53a9` 審查修正、`1cf5136f` 等待時間更正、`7304f1b1` 下一輪紀錄）。
+- **已推送**：`origin/improve/20261111-round21`。
+- **PR**：[#372](https://github.com/RichardHan/ai-agent-use-cases/pull/372)，最終 head `7304f1b1`，5 項檢查全部 success：`Website QA` [42931585842](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42931585842)、`Reader QA` [42931585778](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42931585778)、`Corpus bundle QA` [42931585676](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42931585676)、`Partial Load QA` [42931585645](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42931585645)、`Search context QA` [42931585655](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42931585655)。
+- **已合併**：squash 成 `d19eceac487b27e9b3a0103e9424a4b5593a4773`（2026-11-11T00:42:28Z）；`gh pr merge --delete-branch` 只在本機刪分支時抱怨 main 被另一個 worktree 佔用，合併本身已在伺服器完成（`gh pr view` 為 `MERGED`）。
+- **部署成功**：`pages build and deployment` [42933461280](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42933461280) 對 `d19eceac` **success**（00:42:31→00:43:34，63 秒）。
+- **正式的發布裁決**：main 的 `Website QA` [42933461861](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42933461861) **success**。步驟 15 於 00:52:24→00:52:25（**1 秒**）印出
+  `Pages deployment for d19eceac…: succeeded (success)` 與 `PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH d19eceac…`，走的是 `exact` 分支（本輪沒有改動任何可發布檔案，依設計 `exact` 行為不變）；步驟 17 走查 33 秒 success。
+- **正式站已驗證**：`catalog.json.sourceRevision` = `d19eceac…`、`builtAt 2026-11-11`、512 個來源檔；`index.html` 與 `assets/` 下 7 個 served 檔案的本輪 hash 與 `git cat-file blob d19eceac:<path>` **全部相同**。正式站重走（1440×900／390×844／320×740）：首頁 53 個任務連結、7 個「僅相關詞」、說明行可見、水平溢出 0；`?q=整理會議記錄` 7／515；`?q=規劃旅行&scenario=工作` 0／515 → 移除情境後 1／515；`?case=UC-024` 直開、Escape 後焦點回 `results-count`；鍵盤從任務目錄 Enter 得到 78／515；三種寬度 pageerror 0。
+- **未能取得的生產證據**：`superseded` 分支（live 已被下一個 build 取代）這次沒有被觸發，因為本輪的 merge 沒有改動任何可發布檔案，正式站在閘門查看時仍等於 `d19eceac`。這個分支由單元測試（對修正前程式紅、修正後第一輪結束）與真實 git 前後對照證明；下一個「連續兩個 merge 都動同一個可發布檔案」會是第一次生產觀察。
 
 ## 下一輪最值得做的一件事
 

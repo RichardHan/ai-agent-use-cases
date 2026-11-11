@@ -8,7 +8,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 508 筆案例；頁首核對日期最新為 2026-11-10；本頁於 2026-11-10 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 511 筆案例；頁首核對日期最新為 2026-11-11；本頁於 2026-11-11 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -16,7 +16,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（508）
+## 主要案例（511）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -528,6 +528,9 @@
 | UC-514 | 用Muse Spaces做年末送禮畫面：依對象記候選、預算、實付與是否已買，可帶入Instagram收藏，剩餘預算與未買篩選；購買仍由本人確認 | Meta Muse（Spaces）／Instagram | [A官方功能（經轉述）＋日文note與英文X自擬請求；未附成品、未重現](cases/514-muse-spaces-holiday-gift-tracker.md) | 生活｜購物、預算、送禮、儀表板 |
 | UC-515 | 指定親友傳來含關鍵字的iMessage，iPhone捷徑自動把訊息原文POST給Grok Bot的webhook Routine開工；Routine只認白名單指令 | Grok Bot（webhook Routine）／iPhone捷徑／iMessage | [B英文作者X自述當日實測觸發；指令範例未實測、未重現](cases/515-grok-bot-imessage-keyword-shortcut-webhook-routine.md) | 生活｜手機捷徑、webhook、排程、家庭 |
 | UC-516 | Muse每天四次郵件摘要改成全文存進可篩選搜尋的Spaces畫面、聊天只留一行「要處理：有／無」，異常照舊通知；新聞刻意不搬；另做每小時記錄的雲端VM狀態畫面 | Meta Muse（Spaces、定期工作）／郵件 | [B日文作者note自述＋截圖說明；未重現](cases/516-muse-spaces-mail-summary-archive-one-line-chat-alert.md) | 工作｜收件匣、摘要、儀表板、每日 |
+| UC-517 | 紙本郵件用ScanSnap掃進「掃描收件匣」，Grok Bot團隊命名、建議歸檔位置、確認完整可讀並轉可搜尋PDF，只問一句要不要開任務，本人回答後歸檔再碎紙 | Grok Bot（多Bot團隊）／Fujitsu ScanSnap＋ScanSnap Home（Mac） | [B英文作者X長文自述；Bot設定與分工未公開、未重現](cases/517-grok-bot-paper-mail-scan-file-confirm-shred-loop.md) | 生活｜文件整理、掃描、歸檔、家庭 |
+| UC-518 | 把Muse交給不熟科技的50多歲母親：接郵件、日曆、待辦，設三個低打擾定期提醒；十天後請她那邊的Muse自我回顧，整理出9個領域、6種使用型態，送出與付款留給本人 | Meta Muse（定期工作、記憶、語音）／Gmail／Google日曆／Google Tasks | [B日文作者Qiita自述＋助理自我分析；對話紀錄未公開、未重現](cases/518-muse-handed-to-non-technical-parent-ten-day-usage-review.md) | 生活｜家庭、提醒、比價、每日 |
+| UC-519 | 付費dots當秘書並行3～4個專案一個月：雲端作業檔隔天不見、改存Space仍時成時敗、本機寫入卡權限；續做排程每15分鐘約6～8小時後撞上防濫用上限 | ChatGPT dots（Pro；Space、排程、本機Mac） | [B日文作者Qiita失敗自述＋截圖；上限條件未知、未重現](cases/519-dots-month-secretary-data-loss-keepalive-schedule-limit.md) | 工作｜失敗、排程、專案進度、用量 |
 
 <a id="supplement-list"></a>
 
@@ -1029,3 +1032,7 @@
 ## 2026-11-10 08:52：每日批次（X＋note＋Hacker News＋dev.to）
 
 [約40組候選與查閱範圍](sources/research-2026-11-10-0852.md)：新增2（UC515 iMessage關鍵字經iPhone捷徑觸發Grok Bot webhook Routine、UC516 Muse郵件摘要全文存Spaces＋聊天一行提醒），合併補充2（UC066 每週一由一個Bot檢查其他Bot、UC316 個人開發者回饋信到發版變體）。
+
+## 2026-11-11 08:53：每日批次（X＋Qiita＋Zenn＋Hacker News＋個人部落格）
+
+[約45組候選與查閱範圍](sources/research-2026-11-11-0853.md)：新增3（UC517 紙本郵件掃描交Grok Bot團隊命名歸檔、碎紙前驗收；UC518 把Muse交給不熟科技的母親十天再請助理自我回顧使用型態；UC519 dots一個月作業檔消失、Space存入不穩與高頻排程撞防濫用上限的失敗紀錄）；其餘為比較文、新聞、行銷導流、範本清單或過薄單則。均未獨立重現。

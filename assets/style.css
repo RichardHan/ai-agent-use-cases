@@ -235,6 +235,11 @@
 .results-heading{gap:12px;flex-wrap:wrap}
 .copy-search-link{min-height:44px;font-size:14px;color:var(--green);border-color:#a8b9a2;background:transparent}
 .copy-search-link:disabled{cursor:default;opacity:.6}
+/* The count says how many cases matched, not which words did: a shared search link
+   opens with the field ~440px above the viewport. Keep one labelled route back to
+   it beside the count, and nothing extra on a plain collection. */
+.results-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.refine-query{min-height:44px;font-size:14px;color:var(--green);background:transparent}
 .search-share p{margin:0;font-size:13px;color:#4c6258}
 .search-share p:not(:empty){margin:0 0 12px}
 #search-share-url{height:44px;margin:0 0 18px;padding:8px 12px;border:1px solid #a8b9a2;border-radius:6px;background:#fff;font-size:13px}
@@ -683,3 +688,9 @@ footer a,.reading-note a{padding:0.5rem 0.5rem}
     .search-wrap #search-submit{padding:9px 10px}
   }
 }
+
+/* The editorial pass set the share button's border to #c4cfc0 (1.5:1 on paper).
+   Both controls in the result header sit on the same line: give the pair a
+   boundary that reaches 3:1 against the page instead of leaving refine darker
+   than the control beside it. */
+.copy-search-link,.refine-query{border-color:#7f937b}

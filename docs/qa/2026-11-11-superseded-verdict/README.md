@@ -82,3 +82,21 @@
 ## 發布
 
 （合併後補記）
+
+## 下一輪最值得做的一件事
+
+**首頁任務目錄的「僅相關詞」徽章用的是「沒有篩選」的條件，而且載入後就不再重算。** `annotateTaskCoverage()`（`assets/app.js:2732`）呼叫 `cachedTaskCoverage(entries, query)` 時沒有傳 `filters`，違反它自己上方 10 行的註解（`assets/app.js:2700-2701`：「Facets still apply…」）；空結果面板的同一批任務則有傳（`assets/app.js:3673`）。`annotateTaskCoverage()` 只有兩個呼叫點（載入後、重試未載入來源後），`render()` 不會叫它，所以切換篩選時首頁徽章不動、結果頁徽章跟著動。
+
+正式站實測（`?q=zzz-nohit&scenario=X`，1440×900，同一畫面比對 `#hero-problem-tags a.problem-tag[data-coverage="none"]` 與 `#empty-suggestions .recovery-problem-tag[data-coverage="none"]`）：
+
+| 篩選 | 首頁標記 | 空結果面板標記 | 面板標記但首頁未標記 |
+| --- | ---: | ---: | ---: |
+| `scenario=工作` | 7（四個情境都一樣） | 14 | 7（例：代碼審查、代碼除錯、文件翻譯、效能分析） |
+| `scenario=生活` | 7 | 31 | 24（例：會議、日誌分析、報帳審核） |
+| `scenario=學習` | 7 | 29 | 22 |
+| `scenario=創作` | 7 | 25 | 18 |
+
+先做的驗證：用同一個 `taskCoverage(items, query, filters)` 在瀏覽器裡量「首頁徽章集合 == 面板徽章集合（交集任務）」，修正前應為上表的不一致；再決定首頁徽章要跟著目前篩選走，還是改成「無篩選」的明確說法（兩者是不同的產品語意，先量測再選）。
+
+第二順位（原始碼證據、尚未在瀏覽器確認）：`catalog.json` 完全載入失敗時，首頁價值主張與 53 個任務連結照常可用，唯一的訊息在 `#discover`／`#error`，390×844 首屏看不到（`assets/app.js:4565-4576`、`:3106-3122`）；訪客點任務會再失敗一次。先驗證「abort `catalog.json` → 首屏是否出現任何錯誤說明」。
+

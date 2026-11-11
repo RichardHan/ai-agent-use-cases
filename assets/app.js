@@ -3179,6 +3179,7 @@ function finishArrival(params,failed=false) {
   // A plain landing needs the same honesty as a shared search: opening the panel
   // by default must not be what hides every result.
   else if(arrived)compactFiltersForResults();
+  queueRefineSync();
 }
 function clearSearchShare() {
   searchShareRequest++;
@@ -3782,6 +3783,56 @@ function renderSearchFeedback(terms, filters) {
   $('edit-query').hidden=!$('query').value;
 }
 
+// An 8-grapheme budget must not cut a family emoji in half on the button.
+function splitGraphemes(text) {
+  if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+    return [...new Intl.Segmenter('zh-Hant', {granularity: 'grapheme'}).segment(text)].map((part) => part.segment);
+  }
+  return Array.from(text);
+}
+
+// The result line counts the matches but never names the words, and an arrival
+// scrolls the line (not the search field) to the top: on a shared search link the
+// field ends 381-446px above the viewport (390x844, 320x640 and 1440x900, measured
+// on the published site 2026-11-11), so the in-flow "回到搜尋與篩選" row 1,000-
+// 4,900px down was the only pointer route back. One labelled button beside the
+// count does what #edit-query already does in the empty state, and appears only
+// while a condition is set and the field has scrolled away: with the box on
+// screen the reader can already see the words, and the extra row would push the
+// match-scope notice past the fold (390x844 measured 865 > 844 before this rule).
+function syncResultsRefine() {
+  const button=$('refine-query');
+  // Unit fixtures run render() against partial DOM stubs.
+  if(!button||!('hidden' in button))return;
+  const terms=$('query').value.replace(/\s+/g,' ').trim();
+  const facets=[activeScenario,$('kind').value,$('difficulty').value,$('tool').value,
+    $('category').value,$('proof').value,$('search-scope').value].filter(Boolean);
+  const field=$('query');
+  const fieldOutOfView=!!field&&typeof field.getBoundingClientRect==='function'&&field.getBoundingClientRect().bottom<=0;
+  const shown=discoveryReady&&currentFiltered.length>0&&(!!terms||facets.length>0)&&fieldOutOfView;
+  button.hidden=!shown;
+  if(!shown)return;
+  // Name the words the count came from (8 graphemes, so a 20-character query keeps
+  // the row to one line at 390px) and let that label be the accessible name, so the
+  // visible and spoken label cannot drift apart.
+  if(terms){
+    const chars=splitGraphemes(terms);
+    button.textContent=`修改「${chars.slice(0,8).join('')}${chars.length>8?'…':''}」`;
+    button.removeAttribute('aria-label');
+  }else{
+    button.textContent='修改關鍵字';
+    button.setAttribute('aria-label',`修改關鍵字（目前 ${facets.length} 項篩選）`);
+  }
+}
+// The row belongs to the state "field scrolled away"; follow the reader between
+// the two states on the next frame, after the scroll has settled.
+let refineSyncFrame=0;
+function queueRefineSync(){
+  // Unit fixtures run the arrival code without a frame clock.
+  if(refineSyncFrame||typeof requestAnimationFrame!=='function')return;
+  refineSyncFrame=requestAnimationFrame(()=>{refineSyncFrame=0;syncResultsRefine();});
+}
+
 function render(updateURL=true, preserveShare=false) {
   if(!preserveShare)clearSearchShare();
   $('copy-search-link').disabled=!discoveryReady;
@@ -3833,6 +3884,7 @@ function render(updateURL=true, preserveShare=false) {
   updatePartialLoad();
   const skipNote = failedPaths.length ? `（${failedPaths.length} 個來源檔案未載入）` : '';
   $('results-count').textContent = discoveryReady ? `顯示 ${currentFiltered.length} / ${entries.length} 筆收錄${skipNote}` : initialLoading ? '正在讀取案例，完成後會套用目前條件…' : '載入未完成';
+  syncResultsRefine();
   $('filter-outcome-count').textContent = discoveryReady
     ? currentFiltered.length ? `目前條件有 ${currentFiltered.length} 筆結果` : failedPaths.length ? '已載入內容中沒有符合結果' : '目前條件沒有符合結果'
     : initialLoading ? '正在讀取案例…' : '載入未完成';
@@ -4982,13 +5034,17 @@ $('search-split-exact').addEventListener('click',()=>{
   render();
   focusResults();
 });
-$('edit-query').addEventListener('click', () => {
+function revealQueryField() {
   const query=$('query');
   query.focus({preventScroll:true});
   query.select();
   // Keep this explicit recovery visible even when native focus does not scroll.
   query.scrollIntoView({block:'center',behavior:'instant'});
-});
+}
+$('edit-query').addEventListener('click', revealQueryField);
+$('refine-query').addEventListener('click', revealQueryField);
+window.addEventListener('scroll',queueRefineSync,{passive:true});
+window.addEventListener('resize',queueRefineSync);
 $('stop-recovery').addEventListener('click',stopSourceRecovery);
 $('retry-failed').addEventListener('click',()=>{
   if(recoveringSources)return;

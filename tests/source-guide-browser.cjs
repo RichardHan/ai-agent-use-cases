@@ -44,7 +44,12 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   for(const proof of corpusProofs)assert(guideTypes.includes(proof),`source guide must define the corpus label 「${proof}」`);
   assert.equal(new Set(guideTypes).size,guideTypes.length,'the guide lists each label once');
   assert(await page.locator('#source-type-note').isVisible());
-  assert((await summary.boundingBox()).height>=44);
+  // Firefox renders the 44px min-height as 43.9999847412109375 when the block sits
+  // on a fractional offset (measured 2026-11-11: 174.2px → 44 exactly, 219.3px →
+  // 43.99998). Check the declared minimum too, so a real 43px target still fails.
+  const summaryBox=await summary.boundingBox();
+  assert(summaryBox.height>=43.9,`the guide summary keeps a 44px target (${summaryBox.height.toFixed(4)}px)`);
+  assert.equal(await summary.evaluate(node=>getComputedStyle(node).minHeight),'44px');
   await page.locator('#source-guide').scrollIntoViewIfNeeded();
   await page.screenshot({path:`${output}/after-guide-${engine.name()}-${width}.png`});
   await page.locator('.source-guidance').screenshot({path:`${output}/after-complete-guide-${engine.name()}-${width}.png`});

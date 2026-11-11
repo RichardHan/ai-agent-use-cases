@@ -26,8 +26,19 @@
   }
   function selectJumps(titles){
     const used=new Set();
+    // A dated supplement is part of the case's history, not its primary result.
+    // It stays in the full outline; the 實作與結果 shortcut must not land in one
+    // that happens to mention a result word (UC-005's 2026-10-22 補充 contains
+    // 「發生」 and became the shortcut once 來源報告 stopped matching). A dated
+    // heading that is the implementation itself (2026-10-17 中文實作變體) is not
+    // an appendix and keeps the shortcut.
+    const isAppendix=title=>/^\d{4}-\d{2}-\d{2}/.test(String(title).trim())&&/補充|補讀|補證|覆核/.test(title);
     const intents=[
-      ['實作與結果',[/問題|實作|做了|結果|發生|來源報告/]],
+      // A source report is a source section, not an implementation or result.
+      // Matching `來源報告` here labelled `來源報告與限制` as `實作與結果` on five
+      // old pages, so the shortcut promised a section the page does not have
+      // (UC-004/005/006/007/059). Those pages still list it in the full outline.
+      ['實作與結果',[/問題|實作|做了|結果|發生/]],
       ['方法與步驟',[/步驟|操作流程|參考流程|建議流程|怎麼開始|方法|可參考/,/提示詞|可貼指令/]],
       ['限制與權限',[/權限|費用|可用性/,/限制|證據.*缺|驗收/]],
       ['來源與版本',[sourceHeading]]
@@ -35,7 +46,7 @@
     return intents.flatMap(([label,patterns])=>{
       let index=-1;
       for(const pattern of patterns){
-        index=titles.findIndex((title,i)=>!used.has(i)&&pattern.test(title));
+        index=titles.findIndex((title,i)=>!used.has(i)&&!(label==='實作與結果'&&isAppendix(title))&&pattern.test(title));
         if(index!==-1)break;
       }
       if(index===-1)return [];

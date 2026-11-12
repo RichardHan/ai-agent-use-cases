@@ -5,13 +5,13 @@
 - 網站標題：Grok Bot 額度燒太快？讓它只負責拆工作和檢查，實際執行交給雲端電腦上的免費模型，搞不定再換便宜的付費模型
 - 一句話用途：中文作者分享的省額度做法：在 Grok Bot 的雲端電腦裝 OpenCode 接免費模型、另備 Pi Agent＋DeepSeek 當付費保底；工作先丟免費模型，做不好再降級到 DeepSeek，Grok Bot 自己只做調度、拆解、檢查和總結。作者自述兩套都跑通、Grok Bot 本身用量大幅下降；本庫未重現。
 - 核心目標：把「想用 Bot 做很多事」和「每週額度有限」的矛盾，改成分層派工：便宜的執行層做重活，Grok Bot 只花額度在判斷與驗收。
-- 工具：Grok Bot（雲端電腦、調度）／OpenCode（作者測 DeepSeek V4.1 Flash Free 等免費模型）／Pi Agent＋DeepSeek（deepseek-v4-flash、複雜任務 deepseek-v4-pro）；來源B另加 webhook 觸發的 routine 與開源腳本 grokbot-local-agent（MIT）；來源C為 Claude Code CLI／Codex CLI／腳本＋webhook 回報與每日 routine 稽核；來源D為本人 Mac 上的 Claude Code（兩帳號）＋Codex CLI 與每小時用量標籤
+- 工具：Grok Bot（雲端電腦、調度）／OpenCode（作者測 DeepSeek V4.1 Flash Free 等免費模型）／Pi Agent＋DeepSeek（deepseek-v4-flash、複雜任務 deepseek-v4-pro）；來源B另加 webhook 觸發的 routine 與開源腳本 grokbot-local-agent（MIT）；來源C為 Claude Code CLI／Codex CLI／腳本＋webhook 回報與每日 routine 稽核；來源D為本人 Mac 上的 Claude Code（兩帳號）＋Codex CLI 與每小時用量標籤；來源G為開源 GAP（Pi 寫程式代理＋pi-task 任務管理、阻塞等待與 webhook 兜底喚醒、危險指令攔截）
 - 分類／標籤：多代理派工／用量分層／外部代理保底
 - 目標使用者：已經常碰到 Grok Bot 每週額度上限、又不想升級方案，且能自己管理外部模型帳號與金鑰的進階使用者
 - 首次收錄／最近查證：2026-10-19／2026-10-21 14:40（台灣時間，只核來源D）
 - 證據狀態：`author-demo`（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；來源D日文作者 note 長文（含指令片段與當下用量讀數）；四者都沒有用量前後對照數據。
 - 是否獨立重現：否
-- 本次增補查證：2026-10-28；只核該節新增來源，未重驗全案。
+- 本次增補查證：2026-11-12 08:55（台灣時間）；只核來源G，未重驗全案。
 
 ## 輸入與預期輸出
 
@@ -136,3 +136,17 @@
 - 作者報告結果：自稱 Grok Bot 用量「至少省一半以上」，近兩天高強度使用後額度還剩一大半；作者也說「具體沒有評估」。
 - 證據標記：`author-demo`（單則自述＋一張設定回覆截圖；無用量前後數據）。規則檔內容未公開；貼文中的本機路徑屬作者環境，本庫不轉錄。
 - 與來源A–E的關係：同樣是「Grok Bot 少做重活、把耗額度的部分交給其他代理」；差別是分工切在「X 即時抓取（只有 Grok Bot 擅長）」與「整理寫作（任何代理都能做）」之間，並補上多個 routine 共用 X 讀取上限時錯開時間的做法。核心目標相同，不另立案。另見 [UC-458](458-daily-x-read-quota-personal-corpus-role-tags-topic-radar-page.md)（把每日 X 讀取額度拿來建自有貼文庫）。
+
+## 2026-11-12 08:55 來源G：開源 GAP（Grokbot And Pi）——Bot 寫任務書、阻塞等待、webhook 兜底喚醒、親自驗收後 ack（作者自述＋公開倉庫，不另計）
+
+- 作者／日期／語言：Chasen Liao（@chasen_liao），[X 長文〈Grok Bot 额度不够用快点进来〉](https://x.com/chasen_liao/status/2120455125269692774)，2026-11-11 09:54 UTC（台灣時間 17:54），簡體中文；[GitHub 倉庫 Chasen-Liao/grokbot-and-pi](https://github.com/Chasen-Liao/grokbot-and-pi)（2026-11-11 建立，README 英文／簡中，本庫讀 README、未安裝）。作者註明任務調度與 webhook 喚醒機制參考來源B的 grokbot-local-agent。
+- 作者的做法（翻譯改寫）：
+  1. 分工：Grok Bot 只出方案、寫任務書、最後驗收；翻目錄、查錯、改碼、跑測試交給同一台 Bot 雲端電腦上的 Pi 寫程式代理（非互動模式在背景跑）。任務書只寫四件事：做什麼、允許讀寫哪些目錄、產物寫到哪裡、做到什麼程度算完成，另加「自查一次就停，不要無限重查」。
+  2. 閉環：`pi-task run` 派工並產生任務 ID→Bot **不結束這一輪**，以阻塞等待讓雲端電腦保持運作（作者說主機閒置會休眠、凍住背景程序）→若這一輪意外結束，任務完成或需要核准時 POST 到 Bot 的 webhook Routine（「Pi 完成喚醒」）把 Bot 叫回→Bot 讀 `result.md`、親自看 git diff、檔案與測試輸出→回報後 `pi-task ack`。狀態全部存在磁碟上，通知漏了也只要請 Bot 查待驗收清單，不必重跑。
+  3. 防呆：退出碼 0 只代表程序沒報錯、不代表做對，一律由 Bot 驗收；內建 `pi-guard` 攔截 `rm -rf` 根目錄／家目錄、`mkfs` 等災難指令，攔下後標成「需要核准」，**Bot 不得自己核准**，要轉給使用者決定；刪重要檔、寄信、對外發訊、付款、發文、`git push` 一律不交給 Pi。另有 `pi-preflight` 在喚醒後先檢查模型連線、300 秒沒有事件就判定逾時。
+  4. 模型來源：作者自己在 VPS 架模型轉接閘道 Magpie、經 Tailscale 內網接回 Bot 電腦供 Pi 使用；也可改接 DeepSeek、Codex 等自有額度。作者自己提醒：用第三方反向代理接訂閱帳號可能違反服務條款，不要拿主力帳號試；Pi 在 Bot 電腦上沒有作業系統層級沙箱，任務書的目錄限制只是約定。
+- 作者報告結果：一整天高強度使用（含寫這篇文章），Grok Bot 用量面板從 8% 到 16%，作者估計以前同樣工作至少多耗 10% 以上（估計、無對照）；一次小型寫入任務約 8 秒、兩三千 token，轉接閘道 5 小時窗口只漲 1%。
+- 跟做者：Eric（@epluribusyao）同日發 [X 長文〈How I Gave Grok Bot an Apprentice〉](https://x.com/epluribusyao/status/2120620807538069506)（2026-11-11 20:52 UTC，英文），明說核心想法來自 GAP，在自己全職跑 Grok Bot 的 Linux 電腦上照做，文章自稱附實際指令、設定與踩雷；本庫只讀到開頭的問題陳述與架構段落。據韓文帳號 swarm.log（@G_ameman）[整理文](https://x.com/G_ameman/status/2120676110627479705)轉述，他的第一個測試是讀檔確認寫入了 `gap-ok`，並守住「學徒只執行、不核准」的原則（二手轉述，未核原文該段）。
+- 證據標記：`author-demo`（作者長文自述＋截圖說明＋公開倉庫 README）；額度數字為作者面板讀數，未附前後同工作對照；跟做者文章為 `author-demo`（部分讀取）。
+- 與來源A–F的關係：同樣是「Grok Bot 只調度與驗收、執行交給同機的便宜代理」。本來源補上的是可直接安裝的完整閉環（任務 ID、阻塞等待＋webhook 兜底、需核准狀態、ack）與「不交給代理的動作」清單；核心目標與流程相同，不另立案、不加數。
+

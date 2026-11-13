@@ -60,6 +60,6 @@ node scripts/check-published-surface.cjs
 
 ## 發布證據與接續
 
-交付 PR、整合 SHA、獨立 review、實際 Actions 結果及合併後版本核對，集中記在本輪 PR 的發布紀錄留言（避免為了把自身 commit SHA 寫進檔案而無限產生文件 commit）。此處會在 PR 建立後附上固定連結；未完成前不宣稱已部署。
+交付 PR：[#386](https://github.com/RichardHan/ai-agent-use-cases/pull/386)，實作 commit `25b7b18e`。最終整合 SHA、實際 Actions 結果及合併後版本核對，集中記在 [PR 的發布紀錄留言](https://github.com/RichardHan/ai-agent-use-cases/pull/386#issuecomment-6866763926)（避免為了把自身 commit SHA 寫進檔案而無限產生文件 commit）；精確 PR head、merge commit 與各 run 均由 GitHub 保存，不能把推送、合併與部署當成同一狀態。
 
 下一輪最值得處理：**UC-179 的成果主張者誤標**。獨立調查發現頁首寫「官方挑選的具名測試者實用引言」，正文是 Meta 引用外部客戶 April Polk 的使用回饋；整合者已在正式站 `?case=UC-179` 核對第一屏仍印「成果主張：官方團隊／原廠自述」。先讀原引言與頁首，再建立「發布者不等於主張者」的回歸；同時檢查 UC-107／108 的主持人整理取得方式，不能直接把所有官方公告降成作者自述。本輪不跨題修改這些案例。

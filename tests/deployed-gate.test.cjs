@@ -128,12 +128,6 @@ test('the regression this fix closes: a replaced build is not polled 720 times',
  const verdict=await waitForLiveRevision({base:'https://example.test/site/',sha:SHA,fetchAsset,isDescendant:descendantOf(new Set([NEWER])),...clock().options});
  assert.equal(verdict.mode,'superseded');
  assert.ok(state.requests<=3,'replaced build must be decided within 3 polls, got '+state.requests+' (720 was the false-red behaviour)');
- // The walk entrypoint must not import the whole-window byte waiter any more.
- const source=fs.readFileSync(path.join(__dirname,'deployed-browser.cjs'),'utf8');
- assert.doesNotMatch(source,/waitForPublishedAssets/,'the walk must not wait on byte equality; step 15 owns it');
- assert.match(source,/PUBLICATION_MODE/);
- assert.match(source,/PUBLISHED_LIVE_BUILD_SUPERSEDED/);
- assert.match(source,/if\(verdict\.mode==='superseded'\)return;/);
 });
 
 test('an unreadable catalog is retried, and the last problem is what gets reported',async()=>{

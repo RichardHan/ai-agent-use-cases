@@ -1,0 +1,8 @@
+AssertionError [ERR_ASSERTION]: A superseded publication must not pass when the live site returns HTTP 503
+    at /Users/richard_han/orca/workspaces/ai-agent-use-cases/aiuc-20261114-evidence/tests/superseded-live-browser.cjs:29:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: 0,
+  operator: 'notStrictEqual'
+}

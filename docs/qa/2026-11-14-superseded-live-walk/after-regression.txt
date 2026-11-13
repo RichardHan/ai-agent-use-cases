@@ -1,0 +1,6 @@
+PASS SUPERSEDED REGRESSION: HTTP 503 fails the real browser walk
+PUBLISHED_LIVE_BUILD_SUPERSEDED 0fc4289186825305c547a89f37c472126c3d9c16 (step 15 verified bytes; walking the live visitor contract)
+LIVE_EXTERNAL_SOURCE desktop 429 https://github.com/RichardHan/ai-agent-use-cases/blob/0fc4289186825305c547a89f37c472126c3d9c16/cases/094-meeting-stand-in-disclosure.md
+PASS LIVE SUPERSEDED: desktop problem search, shared detail/reload/source/return, filtered empty recovery; observed sourceRevision=0fc4289186825305c547a89f37c472126c3d9c16
+LIVE_EXTERNAL_SOURCE mobile 200 https://github.com/RichardHan/ai-agent-use-cases/blob/0fc4289186825305c547a89f37c472126c3d9c16/cases/094-meeting-stand-in-disclosure.md
+PASS LIVE SUPERSEDED: mobile problem search, shared detail/reload/source/return, filtered empty recovery; observed sourceRevision=0fc4289186825305c547a89f37c472126c3d9c16

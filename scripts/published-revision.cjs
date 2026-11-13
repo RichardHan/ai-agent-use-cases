@@ -8,7 +8,7 @@ const {isDescendantOf}=require('./published-check.cjs');
 // PUBLISHED assets mismatch for a site that was healthy. Bytes are step 15's job.
 // What step 17 needs is only one answer: which build is the live site serving?
 //   * this push's revision -> walk it;
-//   * a newer build that contains this push -> somebody else's walk covers it;
+//   * a newer build that contains this push -> walk its revision-neutral contract;
 //   * anything else after the window -> a real failure, with the revision named.
 const DEFAULT_INTERVAL_MS=5000;
 const DEFAULT_MAX_DURATION_MS=120000;
@@ -43,9 +43,8 @@ function isNotDescendant(error){
 async function waitForLiveRevision({base,sha,mode='',liveRevision='',fetchAsset=fetch,isDescendant=isDescendantOf,now=()=>Date.now(),sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms)),interval=DEFAULT_INTERVAL_MS,maxDuration=DEFAULT_MAX_DURATION_MS}){
  if(!sha)throw Error('GITHUB_SHA is required to compare the published revision');
  if(mode==='superseded'){
-  // Step 15 already compared this push's changed bytes against the live site, so a
-  // superseded verdict needs no network at all: the walk belongs to the newer build
-  // and to the main run of the commit that published it.
+  // Step 15 already checked the changed bytes. Reuse its ancestry verdict without
+  // another publication wait; the caller must still walk the live visitor contract.
   return {mode:'superseded',liveRevision:String(liveRevision||''),attempts:0,reason:'declared by the publication gate'};
  }
  const started=now(),deadline=started+maxDuration;

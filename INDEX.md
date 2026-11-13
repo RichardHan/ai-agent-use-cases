@@ -8,7 +8,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 513 筆案例；頁首核對日期最新為 2026-11-12；本頁於 2026-11-12 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 517 筆案例；頁首核對日期最新為 2026-11-13；本頁於 2026-11-13 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -16,7 +16,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（513）
+## 主要案例（517）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -347,7 +347,7 @@
 | UC-333 | 外聯Notion跨代理記憶：Claude改文、Grok Bot讀流程 | Grok Bot／Claude／Notion | [前批作者自述；本輪原文未取得、071流程版本，不加數](cases/333-notion-cross-agent-outreach-memory.md) | 工作｜外聯、Notion、跨代理、記憶 |
 | UC-334 | 自架ADS-B接收站：雙頻輪收、解碼改寫，再用前後數據比較加裝放大器的效果 | Grok Bot／PlutoSDR／Raspberry Pi 4／SAWbird+ | [原文本輪未取得，待核不加數；前批自述與圖表紀錄保留](cases/334-sdr-adsb-receiver-decoder-range-ab-test.md) | 開發｜硬體、無線電、效能量測、驗收 |
 | UC-335 | 手動重新開啟的排程，又被Bot依舊約定關掉 | Grok Bot routines | [原文本輪未取得，待核不加數；前批失敗自述保留](cases/335-manual-routine-reenable-reverted-by-stale-instruction.md) | 開發｜排程、失敗、狀態同步、核准 |
-| UC-336 | 自製圓形掌上裝置當Grok Bot語音入口：錄音上傳、轉文字、經MCP送達再回到螢幕 | Grok Bot／ESP裝置／Mac轉文字／MCP／Cloudflare Tunnel | [239跨裝置雙向會話版本，不另計；本輪未看原影片](cases/336-handheld-voice-terminal-mcp-relay.md) | 開發｜實體裝置、語音、MCP、延遲 |
+| UC-336 | 自製圓形掌上裝置當Grok Bot語音入口：錄音上傳、轉文字、經MCP送達再回到螢幕；Apple Watch一鍵經Ray-Ban眼鏡與自己的Grok Bot即時通話、錶面顏色顯示Bot狀態 | Grok Bot／ESP裝置／Mac轉文字／MCP／Cloudflare Tunnel；自製iPhone＋Apple Watch App／Grok Voice API／Meta Ray-Ban | [239跨裝置雙向會話版本，不另計；本輪未看原影片；2026-11-13補英文作者Watch語音App文字自述，無影片或原始碼](cases/336-handheld-voice-terminal-mcp-relay.md) | 開發｜實體裝置、語音、MCP、延遲 |
 | UC-337 | 每天早上從收藏的參考照隨機挑一張，換成自己的臉和髮型送來 | Grok Bot routine／ChatGPT圖像編修 | [050每日素材生成送達版本，不另計；本輪原文未取得](cases/337-daily-random-reference-photo-likeness-edit.md) | 創作｜每日、生成圖像、隨機不重複、排程 |
 | UC-338 | 長途司機每天早上報工時，AI記週總、重算里程，再對薪資單 | Grok Bot（產品入口待核） | [單則文字自述；無截圖與核對結果，待定](cases/338-driver-daily-hours-log-paycheck-check.md) | 工作｜每日、工時、薪資核對、排班 |
 | UC-339 | 跨產品舊交辦被重送成新要求 | Grok Bot／grok.com | [作者失敗自述；根因及修復未核](cases/339-stale-cross-product-request-provenance.md) | 工作｜跨代理、訊息來源、舊任務、失敗 |
@@ -370,7 +370,7 @@
 | UC-356 | 付費訂閱文章用瀏覽器側欄送給研究Bot，摘要並對照持股 | Grok Bot／Grok Bot Clipper（非官方）／Substack | [中文作者自述＋兩張截圖；持股對照結果未見、未重現](cases/356-paid-article-clipper-portfolio-check.md) | 學習｜投資研究、付費文章、瀏覽器擴充、資料查證 |
 | UC-357 | 每天早上6點印出一頁加密貨幣晨報，每則標已確認／僅報導，另列被翻炒的舊聞 | Grok Bot／家用印表機 | [英文作者兩則貼文＋當日晨報全頁截圖；連續執行與列印方式未見、未重現](cases/357-daily-printed-crypto-sheet-confirmed-vs-reported.md) | 工作｜每日、晨報、資料查證、列印 |
 | UC-358 | dots先把訂閱頻道整理成試算表學口味，每天傍晚挑10支影片放進非公開播放清單 | ChatGPT dots／Google試算表／YouTube | [日文作者自述＋播放清單截圖；存取方式與挑選規則未公開、未重現](cases/358-dots-daily-youtube-picks-private-playlist.md) | 生活｜每日、YouTube、推薦、試算表 |
-| UC-359 | Bot依條件篩粉絲該不該回關、檢查關注名單可取關者，不同意就回饋理由；名單匯出CSV確認後慢速代退追 | Grok Bot／X | [中文作者文字自述（推薦4位、人工回關1–2位）＋繁中作者公開提示詞與726→362退追自述；無截圖、未重現](cases/359-x-follower-following-audit-criteria-feedback.md) | 創作｜社群、名單篩選、偏好校正 |
+| UC-359 | Bot依條件篩粉絲該不該回關、檢查關注名單可取關者，不同意就回饋理由；名單匯出CSV確認後慢速代退追；每晚只讀比對粉絲、回報誰退追，沒人退追就不發訊息 | Grok Bot／X | [中文作者文字自述（推薦4位、人工回關1–2位）＋繁中作者公開提示詞與726→362退追自述＋英文作者每晚退追通知自述（2026-11-13補）；無截圖、未重現](cases/359-x-follower-following-audit-criteria-feedback.md) | 創作｜社群、名單篩選、偏好校正、每日 |
 | UC-360 | 住宅圖面與配色單轉分階段塗料清單，缺件由現場補入 | Grok Bot | [英文作者兩則實作自述；無原始估算表](cases/360-paint-stage-quantity-spec-cart.md) | 工作｜工程、採購、人工覆核 |
 | UC-361 | 多帳戶任務先用合成資料核對歧義拒絕，不猜預設帳戶 | Grok Bot／第三方CLI | [英文Issue與固定版原碼；非真帳戶事故](cases/361-exact-account-binding-synthetic-guard-test.md) | 開發｜帳戶隔離、測試 |
 | UC-362 | 將代理建立、工作結果與最終交付分開對帳 | Meta Muse | [原作者實驗報告；CSV未取得、未重跑](cases/362-muse-spawn-delivery-reconciliation.md) | 開發｜多代理、失敗驗收 |
@@ -533,6 +533,10 @@
 | UC-519 | 付費dots當秘書並行3～4個專案一個月：雲端作業檔隔天不見、改存Space仍時成時敗、本機寫入卡權限；續做排程每15分鐘約6～8小時後撞上防濫用上限 | ChatGPT dots（Pro；Space、排程、本機Mac） | [B日文作者Qiita失敗自述＋截圖；上限條件未知、未重現](cases/519-dots-month-secretary-data-loss-keepalive-schedule-limit.md) | 工作｜失敗、排程、專案進度、用量 |
 | UC-520 | 從Claude Code、Codex或自己的程式叫Grok Bot隊友做事並拿回答案：Executor小App打轉接Bot的webhook Routine，轉接Bot把提示詞交給指定Bot、收到回覆後POST回回呼網址，程式以runId讀回 | Grok Bot（webhook Routine、多Bot團隊）／Executor（MCP、回呼webhook）／Claude Code／Codex | [B英文作者X貼文＋公開倉庫README與並行實測表；影片未看、未部署、未重現](cases/520-grok-bot-bridge-code-dispatch-webhook-callback.md) | 開發｜webhook、多代理、派工、MCP |
 | UC-521 | 讓Muse與Grok Bot讀家裡的Home Assistant：Tailscale ACL只開8123、只出不進、非管理員長期權杖，連上後回報實體數；再比較Muse走tailnet、Grok Bot經家中Mac mini的分工 | Meta Muse（雲端電腦）／Grok Bot（Tailscale連接、Routine）／Home Assistant OS／Tailscale | [B日文作者部落格逐段對話與連線測試輸出＋X摘要；影片未看、ACL原文未公開、未重現](cases/521-muse-grok-bot-home-assistant-tailscale-three-layer-access.md) | 生活｜居家、Home Assistant、權限邊界、比較 |
+| UC-522 | Grok Bot與Muse互傳不了訊息：Grok Bot每天把去敏的Bot團隊快照放到有密碼的頁面給Muse唯讀；Muse只在一頁Notion留帶日期的點子，免費腳本每30分鐘檢查、有新筆記才叫醒主Bot，主Bot建議交給誰、等本人同意；另一版三個Notion資料庫、收件匣只能追加 | Grok Bot（多Bot團隊、雲端電腦）／Meta Muse（自訂連接器）／Notion／Cloudflare | [B兩位英文作者X串文自述；腳本、頁面與權限設定未公開、未重現](cases/522-grok-bot-muse-notion-bridge-fleet-snapshot-inbox-poll.md) | 工作｜跨代理、Notion、交接、權限、每日 |
+| UC-523 | 一人替多個客戶做外展：Grok Bot幕僚長分派並送晨報、每客戶一個Bot、Instantly有意願回信經webhook交回覆Bot在Slack貼評分與建議回覆待核准、平日18:00回報；首則訊息限定可用連接與點數上限 | Grok Bot（多Bot、webhook、排程）／Slack／Instantly／Fireflies／GitHub／Claude Code | [B英文作者X長貼文轉述同事設定；所引長文未讀、無成效數字、未重現](cases/523-grok-bot-gtm-agency-chief-of-staff-per-client-reply-bots.md) | 工作｜多代理、銷售、Slack、核准、每日 |
+| UC-524 | 服務業排班每天清晨5點體檢：Grok Bot用自己的唯讀帳號下載CRM全部預約，通知團隊空檔、衝突與違反排班規則之處；自動改排與聯絡客戶仍只是構想 | Grok Bot（排程）／CRM與預約系統（產品未公開） | [B英文作者X貼文自述＋員工反應；截圖未看、規則寫法未公開、未重現](cases/524-grok-bot-service-business-booking-crm-daily-schedule-rule-check.md) | 工作｜排班、CRM、每日、唯讀、監看 |
+| UC-525 | Grok Bot群組放總管、下載、剪輯三個Bot：貼X影片連結，總管派下載，剪輯師接ChatCut加中英字幕與MG動畫、剪前先問樣式 | Grok Bot（多Bot、群組）／ChatCut | [B簡中作者X貼文＋示範影片（未看）＋跟做者自述跑通；著作權須自行確認、未重現](cases/525-grok-bot-group-chat-three-bots-x-video-chatcut-bilingual-edit.md) | 創作｜影片、多代理、群組派工、字幕 |
 
 <a id="supplement-list"></a>
 
@@ -1042,3 +1046,7 @@
 ## 2026-11-12 08:55：每日批次（X＋GitHub＋個人部落格＋Reddit／Hacker News 嘗試）
 
 [約40組候選與查閱範圍](sources/research-2026-11-12-0855.md)：新增2（UC520 用轉接Bot＋webhook Routine＋回呼讓程式派工給Grok Bot並讀回答案；UC521 Muse與Grok Bot以Tailscale三層限制連Home Assistant並比較分工），合併補充2（UC351 開源GAP：Bot寫任務書派給同機Pi、等待＋webhook兜底、親自驗收；UC066 稽核Bot把只在檢查的routine改寫成cron腳本、有發現才喚醒）；其餘為交易導流、範本清單、比較文、新聞或過薄單則。均未獨立重現。
+
+## 2026-11-13 09:00：每日批次（X＋Reddit／Hacker News 嘗試）
+
+[約35組候選與查閱範圍](sources/research-2026-11-13-0900.md)：新增4（UC522 Grok Bot與Muse以唯讀快照＋單頁Notion收件匣＋免費輪詢搭橋；UC523 多客戶外展的幕僚長＋一客戶一Bot＋webhook回覆Bot；UC524 服務業CRM預約每日清晨規則體檢；UC525 Grok Bot群組三Bot分工接ChatCut剪影片），合併補充2（UC336 Apple Watch＋Ray-Ban即時語音App；UC359 每晚只讀退追通知）；其餘為行銷導流、新聞、空泛心得與listicle

@@ -155,20 +155,40 @@ test('editing the site or any part of the corpus starts a browser workflow that 
   assert.deepEqual(gaps, [], 'a browser suite that asserts the site must run when the site or corpus changes');
 });
 
+function stripQuotes(text) {
+  return text.replace(/'[^']*'|"[^"]*"/g, '""');
+}
+
 test('no workflow turns a failing unit run into a green step', () => {
   const offenders = [];
   for (const file of files) {
-    for (const line of read(file).split('\n')) {
-      if (!/node\s+--test/.test(line) || !/\|\|/.test(line)) continue;
-      // Comments cannot rescue a swallowed failure: `|| { :; } # exit 1` still
-      // succeeds. Require a real non-zero exit in the fallback itself.
-      const command = line.replace(/(^|\s)#.*$/, '');
-      if (/\bexit\s+(?:0\b|[A-Za-z_]\w*\s*$)/.test(command) || !/\bexit\s+(?:\$|[1-9])/.test(command)) {
-        offenders.push(`${file}: ${line.trim().slice(0, 100)}`);
+    const source = read(file);
+    for (const block of source.split(/^ {6}- /m).slice(1)) {
+      const hasPipefail = /^ {8}shell:\s*bash\b/m.test(block) || /\bset\s+-o\s+pipefail\b/.test(block);
+      const joined = block
+        .split('\n')
+        .map(line => line.replace(/(^|\s)#.*$/, ''))
+        .join('\n')
+        .replace(/\\\n[ \t]*/g, ' ');
+      for (const line of joined.split('\n')) {
+        if (!/node\s+--test/.test(line)) continue;
+        const unquoted = stripQuotes(line);
+        if (/\|\|/.test(unquoted)) {
+          // Comments cannot rescue a swallowed failure: `|| { :; } # exit 1` still
+          // succeeds. Require a real non-zero exit in the fallback itself.
+          if (/\bexit\s+(?:0\b|[A-Za-z_]\w*\s*$)/.test(line) || !/\bexit\s+(?:\$|[1-9])/.test(line)) {
+            offenders.push(`${file}: ${line.trim().slice(0, 100)}`);
+          }
+        }
+        // Without `shell: bash` (or explicit `set -o pipefail`), GitHub Actions runs
+        // `bash -e` without pipefail, so `node --test … | tee …` takes `tee`'s exit 0.
+        if (/(?<!\|)\|(?!\|)/.test(unquoted) && !hasPipefail) {
+          offenders.push(`${file} (missing pipefail): ${line.trim().slice(0, 100)}`);
+        }
       }
     }
   }
-  assert.deepEqual(offenders, [], 'a failing `node --test` must fail the step, not be excused by a fallback command');
+  assert.deepEqual(offenders, [], 'a failing `node --test` must fail the step, not be excused by a fallback command or masked by a pipe');
 });
 
 test('a workflow edit runs the job that audits every workflow', () => {

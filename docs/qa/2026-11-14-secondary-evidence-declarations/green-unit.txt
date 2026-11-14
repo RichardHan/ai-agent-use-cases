@@ -1,0 +1,20 @@
+✔ the primary class keeps driving the filter, and every entry declares at least one class (0.707375ms)
+✔ a declaration that joins classes with ＋ or ； keeps every class it names (0.126583ms)
+✔ Chinese declarations of library-designed procedures/prompts and parenthetical/hyphenated unverified clauses keep their secondary classes (0.357958ms)
+✔ a passing or negated mention of a class does not become an attributed class (0.181ms)
+✔ a single-clause declaration does not gain invented classes (0.137125ms)
+✔ the 來源類型 facet counts each entry exactly once, under its primary class (0.485917ms)
+✔ every class the corpus declares has a definition, claimant, boundary and safety tip (0.767875ms)
+✔ the pull-request workflows were actually parsed (0.489417ms)
+✔ editing a suite starts a pull request workflow that runs it (1.9365ms)
+✔ editing the site or any part of the corpus starts a browser workflow that asserts it (18.293583ms)
+✔ no workflow turns a failing unit run into a green step (8.043ms)
+✔ a workflow edit runs the job that audits every workflow (0.660917ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 268.512167

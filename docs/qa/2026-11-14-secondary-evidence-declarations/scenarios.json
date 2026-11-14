@@ -1,0 +1,56 @@
+{
+  "desktop": {
+    "scenario1": {
+      "url": "?q=%E6%9C%83%E8%AD%B0#explore",
+      "resultsCount": "顯示 29 / 527 筆收錄",
+      "firstCardTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+      "loadMoreText": "已顯示 24 / 29 筆 · 再看 5 筆（尚有 5 筆）"
+    },
+    "scenario2": {
+      "emptyCount": "顯示 0 / 527 筆收錄",
+      "recoveryClicked": "移除使用情境「工作」 → 查看 1 筆",
+      "recoveredCount": "顯示 1 / 527 筆收錄",
+      "preservedQuery": "規劃旅行"
+    },
+    "scenario3": {
+      "chips": [
+        "作者報告／示範",
+        "設計／未實跑"
+      ],
+      "trustSummary": "成果主張：主要 社群作者／專案實踐者；另宣告 設計／未實跑 核讀：主要 本庫未獨立重現；其他類別見下方 核讀與安全建議 ↓",
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/3a5d1237a55add48d7d7e12b653a0764ed270202/cases/336-handheld-voice-terminal-mcp-relay.md",
+      "classRowsCount": 2,
+      "afterCloseFocusId": "results-count",
+      "afterCloseResultsCount": "顯示 88 / 527 筆收錄",
+      "afterCloseQuery": "語音",
+      "pageErrors": 0
+    }
+  },
+  "phone": {
+    "scenario1": {
+      "url": "?q=%E6%9C%83%E8%AD%B0#explore",
+      "resultsCount": "顯示 29 / 527 筆收錄",
+      "firstCardTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+      "loadMoreText": "已顯示 24 / 29 筆 · 再看 5 筆（尚有 5 筆）"
+    },
+    "scenario2": {
+      "emptyCount": "顯示 0 / 527 筆收錄",
+      "recoveryClicked": "移除使用情境「工作」 → 查看 1 筆",
+      "recoveredCount": "顯示 1 / 527 筆收錄",
+      "preservedQuery": "規劃旅行"
+    },
+    "scenario3": {
+      "chips": [
+        "作者報告／示範",
+        "設計／未實跑"
+      ],
+      "trustSummary": "成果主張：主要 社群作者／專案實踐者；另宣告 設計／未實跑 核讀：主要 本庫未獨立重現；其他類別見下方 核讀與安全建議 ↓",
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/3a5d1237a55add48d7d7e12b653a0764ed270202/cases/336-handheld-voice-terminal-mcp-relay.md",
+      "classRowsCount": 2,
+      "afterCloseFocusId": "results-count",
+      "afterCloseResultsCount": "顯示 88 / 527 筆收錄",
+      "afterCloseQuery": "語音",
+      "pageErrors": 0
+    }
+  }
+}

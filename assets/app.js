@@ -254,6 +254,20 @@ const norm = text => text.normalize('NFKC').toLocaleLowerCase();
 const MARKDOWN_LINK_DESTINATION=/\]\(\s*<?(?:https?:\/\/|www\.)[^()\s<>]*(?:\([^()\s]*\)[^()\s<>]*)*>?(?:\s+"[^"]*")?\s*\)/gi;
 const BARE_SOURCE_URL=/(?:https?:\/\/|www\.)[A-Za-z0-9\-._~:\/?#\[\]@!$&'*+,;=%]+/gi;
 function withoutSourceUrls(text){ return text.replace(MARKDOWN_LINK_DESTINATION,' ] ').replace(BARE_SOURCE_URL,' '); }
+const RELATIVE_LINK_DESTINATION=/\]\(\s*<?(?:\.\.?\/|\/)?[A-Za-z0-9_./-]+\.(?:md|html|json)(?:[#?][^)\s>]*)?>?(?:\s+"[^"]*")?\s*\)/gi;
+const DEDUP_SECTION=/^#{2,3}\s+(?:前批)?去重[^\n]*\n[\s\S]*?(?=^#{2,3}\s+|$(?![\s\S]))/gm;
+const CROSS_CASE_LINE=/(?:^|\n)\s*-\s*(?:不同於|相近但不同|相近案例)[^\n]*/g;
+const CROSS_CASE_CLAUSE=/(?:不同(?:於)?|與)\s*(?:\[\s*(?:UC-)?\d+[^\]]*\]|UC-\d+)|(?:已收在|版本見)\s*(?:\[\s*(?:UC-?)?\d+[^\]]*\]|UC-?\d+)/;
+const DISCLAIMED_TOOL_CLAUSE=/不推定|不能推定|不推論|不推廣為|不套用到|不泛化|不能(?:直接把其說明)?泛化|不推及|不能外推到|不代表[^。；;\n]*有同(?:樣|一)|不要假設[^。；;\n]*具備|本輪(?:未|沒有)找到[^。；;\n]*實例|(?:未找到|沒有相同輸入條件下)[^。；;\n]*實測|尚無(?:此功能|[^。；;\n]*實測證據)|尚未找到[^。；;\n]*對照|作者說不需要|不需要\s*(?:Meta\s*)?Muse|未證實是\s*dots|不能歸入\s*dots|不能當\s*dots\s*實作|也許也做得到|不據此認定|不是\s*Grok\/Muse\/dots\s*性能排行|只是(?:作者)?推測|的本機連線機制不同|另一則貼文談的是|與本案工具不同/;
+function withoutDisclaimedTools(text){
+  return withoutSourceUrls(text||'')
+    .replace(RELATIVE_LINK_DESTINATION,' ] ')
+    .replace(DEDUP_SECTION,'\n')
+    .replace(CROSS_CASE_LINE,'\n')
+    .split(/[，,。；;\n]/)
+    .filter(clause=>!CROSS_CASE_CLAUSE.test(clause)&&!DISCLAIMED_TOOL_CLAUSE.test(clause))
+    .join('\n');
+}
 // `（翻譯改寫）` and `（本庫設計，未實測）` say how this page was written, not what the
 // case does, so they are not content a search should count. Before this, `翻譯`
 // matched 186 of 515 entries when one entry is about translation, and the
@@ -1239,7 +1253,7 @@ function metadata(markdown, path, kind, suffix='') {
   // （GitHub 136→86 筆、Cursor 54→46、Notion 34→33、Google Drive 33→32、
   // Meta Muse 202→201），沒有任何條目因此新增工具。搜尋索引早就有這條規則
   // （`withoutSourceUrls()`：來源網址是證據，不是內容），工具沿用同一條，而不是另立一套。
-  const tools = TOOL_PATTERNS.filter(([,re])=>re.test(withoutSourceUrls(markdown))).map(([name])=>name);
+  const tools = TOOL_PATTERNS.filter(([,re])=>re.test(withoutDisclaimedTools(markdown))).map(([name])=>name);
   // 實作門檻的推測刻意維持原樣：它的規則吃 `git clone`、`CLI`、`Cursor` 這類字，
   // 而這些字也出現在來源網址裡。改成只看正文會改動 8 個已標示為「推測」的門檻值
   // （例如 UC-140 由 進階開發 變 入門對話，而該頁正文正是在 VM 安裝 PyTorch），
@@ -2935,7 +2949,7 @@ function renderFacetCounts(terms, filters) {
   // Tools are the only facet whose value is read out of the page's own words, so the
   // hint says what counts as a mention and what does not. Without it, a reader had no
   // way to know why a card printed a tool the case's `- 工具：` line never named.
-  const toolHint = '提及工具只看案例內文提到的工具；來源連結裡的網域（例如 github.com）不算，工具名以站上固定清單為準，清單外的工具不會出現在選項裡。';
+  const toolHint = '提及工具只看案例內文提到的工具；來源與站內案例連結的網域／檔名（例如 github.com）、去重對照其他案例的敘述，以及「不推定…／不需要…」等免責或否定句不算。工具名以站上固定清單為準，清單外的工具不會出現在選項裡。';
   // A page that declares no theme is not given one, so it cannot appear under any
   // 主題分類 option. Say how many those are instead of letting the filter look
   // like it covers the whole catalogue.
@@ -4816,6 +4830,8 @@ function syncDiscovery(filtered){
   // off a phone screen; keep a card that still matches and only redraw when it no
   // longer qualifies (or when the reader asks for another card). The deck is
   // seeded with that card so「再抽一張」still returns a different case.
+  const queryField=$('query'),queryRect=!initialLoading&&queryField&&typeof document!=='undefined'&&document.activeElement===queryField&&typeof queryField.getBoundingClientRect==='function'&&typeof window!=='undefined'&&window.scrollY>0?queryField.getBoundingClientRect():null;
+  const queryTop=queryRect&&queryRect.top>=0&&queryRect.bottom<=window.innerHeight?queryRect.top:null;
   const kept=pool.find(item=>item.id===drawnItemId);
   discoveryDeck=Discovery.createDeck(pool,Math.random,kept?kept.id:null);
   $('draw-case').disabled=!pool.length;
@@ -4833,6 +4849,10 @@ function syncDiscovery(filtered){
     writeEmptyPoolStatus();
     $('draw-case').textContent='沒有可抽的案例';
     announceDraw('目前沒有可抽的案例卡；下方搜尋結果仍可閱讀。','empty');
+  }
+  if(queryTop!==null){
+    const shift=queryField.getBoundingClientRect().top-queryTop;
+    if(Math.abs(shift)>0.5&&typeof window.scrollBy==='function')window.scrollBy({top:shift,behavior:'instant'});
   }
 }
 function revealDiscovery(){

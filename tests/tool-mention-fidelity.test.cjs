@@ -28,7 +28,7 @@ function load() {
     Discovery: require('../assets/discovery.js'),
     document: { createElement: tag => new Node(tag), createTextNode: text => ({ textContent: text }) }
   });
-  vm.runInContext(source + '\nthis.api={metadata,parseFile,TOOL_PATTERNS,withoutSourceUrls};', context);
+  vm.runInContext(source + '\nthis.api={metadata,parseFile,TOOL_PATTERNS,withoutSourceUrls,withoutDisclaimedTools:typeof withoutDisclaimedTools==="function"?withoutDisclaimedTools:null};', context);
   vm.runInContext('displayCopy=' + fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'), context);
   return context.api;
 }
@@ -45,7 +45,7 @@ test('a tool listed on a card is mentioned by the page itself, not only by a sou
     for (const entry of api.parseFile(file, markdown)) {
       // Each entry is checked against its own slice: stripping the whole file would
       // let one pending lead's words vouch for another lead's tool.
-      const text = api.withoutSourceUrls(entry.markdown || '');
+      const text = (api.withoutDisclaimedTools || api.withoutSourceUrls)(entry.markdown || '');
       for (const tool of entry.tools || []) {
         const pattern = api.TOOL_PATTERNS.find(([name]) => name === tool)?.[1];
         assert.ok(pattern, `${tool} must come from TOOL_PATTERNS`);
@@ -82,8 +82,60 @@ test('cases whose only GitHub contact is a link to their own research repository
   assert.ok(Array.from(entry('005').tools).includes('GitHub'));
 });
 
-test('the 提及工具 facet still explains what it counts', () => {
+test('disclaimers, deduplication contrasts, and relative case links do not produce tool tags', () => {
+  const api = load();
+  // Even without a `- 工具：` lead line, an affirmed tool sharing a comma-separated
+  // sentence with a negated tool keeps the affirmed tool and drops the negated one.
+  const lead = '# UC-901：測試\n\n- 網站標題：測試\n\n';
+  const withDisclaimers = lead
+    + '作者說不需要 Grok Bot，直接用 Muse 完成。\n\n'
+    + '## 所需連接、權限與限制\n\n'
+    + '- 本案只涉及 Meta Muse，不推定 Grok Bot 或 ChatGPT dots 有相同機制。\n'
+    + '- 不同於 [UC-006](006-facebook-publication.md)：006 是讀 Facebook 成效再發文。\n\n'
+    + '## 去重與版本紀錄\n\n'
+    + '- 2026-11-14 新增。[UC-381](381-dots-daily-ai-brief-to-archived-news-page.md) 是 ChatGPT dots 每日簡報；[UC-061](061-dispatcher-bot-typed-commands-ledger.md) 由 Cursor 協作。\n';
+  assert.deepEqual(Array.from([...api.parseFile('cases/901-test.md', withDisclaimers)][0].tools), ['Meta Muse']);
+});
+
+test('corpus cases with scope disclaimers or deduplication links list only tools actually used', () => {
+  const api = load();
+  const pages = corpus();
+  const entry = id => {
+    const page = pages.find(item => path.basename(item.file).startsWith(id + '-'));
+    return [...api.parseFile(page.file, page.markdown)][0];
+  };
+  assert.deepEqual(Array.from(entry('526').tools), ['Meta Muse']);
+  assert.deepEqual(Array.from(entry('527').tools), ['Meta Muse', 'GitHub']);
+  assert.deepEqual(Array.from(entry('528').tools), ['Meta Muse']);
+  assert.deepEqual(Array.from(entry('336').tools), ['Grok Bot']);
+  assert.deepEqual(Array.from(entry('463').tools), ['Grok Bot']);
+  assert.deepEqual(Array.from(entry('351').tools), ['Grok Bot', 'GitHub']);
+  assert.deepEqual(Array.from(entry('353').tools), ['Grok Bot', 'GitHub']);
+  assert.deepEqual(Array.from(entry('004').tools), ['Grok Bot', 'Notion']);
+  // UC-519 declares ChatGPT dots and compares a brief trial of Muse; Grok Bot is only in the disclaimer.
+  assert.deepEqual(Array.from(entry('519').tools), ['Meta Muse', 'ChatGPT dots']);
+
+  // Every supported tool affirmed in a case's own `- 工具：` line must remain in entry.tools.
+  const missingDeclared = [];
+  for (const { file, markdown } of pages) {
+    for (const item of api.parseFile(file, markdown)) {
+      const cleanText = (api.withoutDisclaimedTools || api.withoutSourceUrls)(item.markdown || '');
+      const lead = cleanText.split(/\n##\s+/)[0];
+      const toolLine = lead.match(/^-\s*工具\s*[：:]\s*(.+)$/m)?.[1] || '';
+      for (const [name, re] of api.TOOL_PATTERNS) {
+        if (re.test(toolLine) && !item.tools.includes(name)) {
+          missingDeclared.push(`${item.id} (${file}) declares ${name} in - 工具： but entry.tools=${JSON.stringify(item.tools)}`);
+        }
+      }
+    }
+  }
+  assert.deepEqual(missingDeclared, []);
+});
+
+test('the 提及工具 facet still explains what it counts and excludes disclaimers', () => {
   const source = fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8');
-  assert.match(source, /function renderFacetCounts/);
-  assert.match(source, /提及工具只看/, 'the facet hint must say where the tool list comes from');
+  const toolHint = source.match(/function renderFacetCounts[\s\S]*?const toolHint\s*=\s*'([^']+)'/)?.[1] || '';
+  assert.match(toolHint, /提及工具只看/, 'the facet hint must say where the tool list comes from');
+  assert.match(toolHint, /不推定/, 'the facet hint itself must disclose that non-extrapolation disclaimers are excluded');
+  assert.match(toolHint, /去重/, 'the facet hint itself must disclose that deduplication comparisons are excluded');
 });

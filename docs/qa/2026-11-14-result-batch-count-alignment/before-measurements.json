@@ -1,0 +1,191 @@
+[
+  {
+    "state": "home-batch1",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "resultsCount": "顯示 527 / 527 筆收錄",
+    "cards": 24,
+    "batchText": "再看 24 筆（尚有 503 筆）",
+    "batchHidden": false,
+    "rect": {
+      "x": 611,
+      "y": 440,
+      "width": 218,
+      "height": 45
+    },
+    "overflow": false,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "axeViolations": 0,
+    "pageErrors": 0
+  },
+  {
+    "state": "home-batch2",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "resultsCount": "顯示 527 / 527 筆收錄",
+    "cards": 48,
+    "batchText": "再看 24 筆（尚有 479 筆）",
+    "batchHidden": false,
+    "rect": {
+      "x": 611,
+      "y": 439,
+      "width": 217,
+      "height": 45
+    },
+    "overflow": false,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "axeViolations": 0,
+    "pageErrors": 0
+  },
+  {
+    "state": "travel-batch1",
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "resultsCount": "顯示 36 / 527 筆收錄",
+    "cards": 24,
+    "batchText": "再看 12 筆（尚有 12 筆）",
+    "batchHidden": false,
+    "rect": {
+      "x": 618,
+      "y": 440,
+      "width": 204,
+      "height": 45
+    },
+    "overflow": false,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "axeViolations": 0,
+    "pageErrors": 0
+  },
+  {
+    "state": "home-batch1",
+    "viewport": "phone",
+    "width": 390,
+    "height": 844,
+    "resultsCount": "顯示 527 / 527 筆收錄",
+    "cards": 24,
+    "batchText": "再看 24 筆（尚有 503 筆）",
+    "batchHidden": false,
+    "rect": {
+      "x": 86,
+      "y": 412,
+      "width": 218,
+      "height": 45
+    },
+    "overflow": false,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "axeViolations": 0,
+    "pageErrors": 0
+  },
+  {
+    "state": "home-batch2",
+    "viewport": "phone",
+    "width": 390,
+    "height": 844,
+    "resultsCount": "顯示 527 / 527 筆收錄",
+    "cards": 48,
+    "batchText": "再看 24 筆（尚有 479 筆）",
+    "batchHidden": false,
+    "rect": {
+      "x": 86,
+      "y": 412,
+      "width": 217,
+      "height": 45
+    },
+    "overflow": false,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "axeViolations": 0,
+    "pageErrors": 0
+  },
+  {
+    "state": "travel-batch1",
+    "viewport": "phone",
+    "width": 390,
+    "height": 844,
+    "resultsCount": "顯示 36 / 527 筆收錄",
+    "cards": 24,
+    "batchText": "再看 12 筆（尚有 12 筆）",
+    "batchHidden": false,
+    "rect": {
+      "x": 93,
+      "y": 411,
+      "width": 204,
+      "height": 45
+    },
+    "overflow": false,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "axeViolations": 0,
+    "pageErrors": 0
+  },
+  {
+    "state": "home-batch1",
+    "viewport": "small",
+    "width": 320,
+    "height": 740,
+    "resultsCount": "顯示 527 / 527 筆收錄",
+    "cards": 24,
+    "batchText": "再看 24 筆（尚有 503 筆）",
+    "batchHidden": false,
+    "rect": {
+      "x": 51,
+      "y": 359,
+      "width": 218,
+      "height": 45
+    },
+    "overflow": false,
+    "scrollWidth": 320,
+    "clientWidth": 320,
+    "axeViolations": 0,
+    "pageErrors": 0
+  },
+  {
+    "state": "home-batch2",
+    "viewport": "small",
+    "width": 320,
+    "height": 740,
+    "resultsCount": "顯示 527 / 527 筆收錄",
+    "cards": 48,
+    "batchText": "再看 24 筆（尚有 479 筆）",
+    "batchHidden": false,
+    "rect": {
+      "x": 51,
+      "y": 360,
+      "width": 217,
+      "height": 45
+    },
+    "overflow": false,
+    "scrollWidth": 320,
+    "clientWidth": 320,
+    "axeViolations": 0,
+    "pageErrors": 0
+  },
+  {
+    "state": "travel-batch1",
+    "viewport": "small",
+    "width": 320,
+    "height": 740,
+    "resultsCount": "顯示 36 / 527 筆收錄",
+    "cards": 24,
+    "batchText": "再看 12 筆（尚有 12 筆）",
+    "batchHidden": false,
+    "rect": {
+      "x": 58,
+      "y": 359,
+      "width": 204,
+      "height": 45
+    },
+    "overflow": false,
+    "scrollWidth": 320,
+    "clientWidth": 320,
+    "axeViolations": 0,
+    "pageErrors": 0
+  }
+]

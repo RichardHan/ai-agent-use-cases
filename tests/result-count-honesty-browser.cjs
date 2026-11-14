@@ -49,6 +49,10 @@ const read = page => page.evaluate(() => ({
       await page.waitForTimeout(200);
       const wide = await read(page);
       assert.equal(wide.batchHidden, false, `${name}: a 300+ result query offers the next batch`);
+      const wideTotal = Number((wide.resultsCount.match(/顯示\s*(\d+)/) || [])[1]);
+      assert.equal(wide.cards, 24, `${name}: initial batch renders 24 cards`);
+      assert.equal(wide.batchText, `已顯示 24 / ${wideTotal} 筆 · 再看 24 筆（尚有 ${wideTotal - 24} 筆）`,
+        `${name}: batch control states shown / total alongside next and remaining counts`);
 
       // Narrowing to a handful of matches must not leave a negative remainder.
       await setQuery(page, '員工排班');

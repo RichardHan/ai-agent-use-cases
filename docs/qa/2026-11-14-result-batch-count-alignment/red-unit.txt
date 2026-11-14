@@ -1,0 +1,73 @@
+✖ updateResultBatch aligns shown count, total matches, next batch size and remaining count (12.441292ms)
+✔ updateResultBatch hides cleanly when all results fit or when narrowing leaves visibleResults ahead of matches (20.5845ms)
+✖ ensureVisibleResult expands to the target batch boundary and updates the shown / total label (15.908958ms)
+✖ style.css allows .result-batch-actions button to wrap cleanly on 320px viewports (1.050291ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.428625
+
+✖ failing tests:
+
+test at tests/result-batch-honesty.test.cjs:45:1
+✖ updateResultBatch aligns shown count, total matches, next batch size and remaining count (12.441292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '再看 24 筆（尚有 503 筆）'
+  - '已顯示 24 / 527 筆 · 再看 24 筆（尚有 503 筆）'
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r4/tests/result-batch-honesty.test.cjs:50:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '再看 24 筆（尚有 503 筆）',
+    expected: '已顯示 24 / 527 筆 · 再看 24 筆（尚有 503 筆）',
+    operator: 'strictEqual'
+  }
+
+test at tests/result-batch-honesty.test.cjs:89:1
+✖ ensureVisibleResult expands to the target batch boundary and updates the shown / total label (15.908958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '再看 24 筆（尚有 52 筆）'
+  - '已顯示 48 / 100 筆 · 再看 24 筆（尚有 52 筆）'
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r4/tests/result-batch-honesty.test.cjs:94:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '再看 24 筆（尚有 52 筆）',
+    expected: '已顯示 48 / 100 筆 · 再看 24 筆（尚有 52 筆）',
+    operator: 'strictEqual'
+  }
+
+test at tests/result-batch-honesty.test.cjs:102:1
+✖ style.css allows .result-batch-actions button to wrap cleanly on 320px viewports (1.050291ms)
+  AssertionError [ERR_ASSERTION]: batch button must bound its width to the container
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r4/tests/result-batch-honesty.test.cjs:105:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '.result-batch-actions button{min-height:44px;padding:10px 22px;border:1px solid var(--green);border-radius:8px;background:var(--paper);color:var(--green);font-size:14px;font-weight:700;cursor:pointer}',
+    expected: /max-width:\s*100%/,
+    operator: 'match'
+  }

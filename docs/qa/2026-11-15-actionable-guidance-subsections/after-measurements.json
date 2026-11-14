@@ -1,0 +1,128 @@
+{
+  "desktop": {
+    "UC-181": {
+      "summary": "",
+      "how": "用合成訂單列出訂單鍵、商品、包裹及虛構收件欄位，建立唯一對應。；只做標籤欄位草稿，核對一單多包、重印及已取消訂單，不購買郵資或列印。",
+      "caution": "郵資、承運商、地區、Bot方案和平台整合方式未取得。購買標籤可能扣款；列印可能產生實體輸出；修改狀態可能觸發客戶通知，需各自授權。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-desktop-uc-181.png"
+    },
+    "UC-072": {
+      "summary": "",
+      "how": "先用虛構對象做文字演練，不接電話服務、不提供真電話或私人郵件。；寫清楚要問什麼、可以透露什麼、不能承諾什麼；指定主動說明 AI 身份，不冒充本人或真人。",
+      "caution": "電話號碼、通話內容、錄音或逐字稿會涉及對外資料處理；需要最小必要資料與明確接收方。憑證不得貼進一般聊天、公開repo或提示詞。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-desktop-uc-072.png"
+    },
+    "UC-278": {
+      "summary": "",
+      "how": "先列有限的構型及參數，標出哪些組合僅是概念。；每個選項都保留文字結構說明，讓工程師核對圖形與參數是否一致。",
+      "caution": "這只證明概念工具已做出並公開，不能推論機構可製造、剛性足夠、軸行程正確、無碰撞或可產生安全加工程式。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-desktop-uc-278.png"
+    },
+    "UC-430": {
+      "summary": "",
+      "how": "只用合成時間序列，分開光電發電、其他家用負載、進出電、車輛需求及量測截至時間；發電增加不代表可用餘電一定增加。；先定義離線判讀要件：資料是否同期、單位是否一致、是否缺值、是否有設備規格與人工設定的限制。未知不得補成零。",
+      "caution": "作者的方案、用量、硬體、第三方服務費及所在地費率未核，不能寫免費或固定成本。電力合約、回售規則與設備相容性均須按實際場域確認。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-desktop-uc-430.png"
+    }
+  },
+  "phone": {
+    "UC-181": {
+      "summary": "",
+      "how": "用合成訂單列出訂單鍵、商品、包裹及虛構收件欄位，建立唯一對應。；只做標籤欄位草稿，核對一單多包、重印及已取消訂單，不購買郵資或列印。",
+      "caution": "郵資、承運商、地區、Bot方案和平台整合方式未取得。購買標籤可能扣款；列印可能產生實體輸出；修改狀態可能觸發客戶通知，需各自授權。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-phone-uc-181.png"
+    },
+    "UC-072": {
+      "summary": "",
+      "how": "先用虛構對象做文字演練，不接電話服務、不提供真電話或私人郵件。；寫清楚要問什麼、可以透露什麼、不能承諾什麼；指定主動說明 AI 身份，不冒充本人或真人。",
+      "caution": "電話號碼、通話內容、錄音或逐字稿會涉及對外資料處理；需要最小必要資料與明確接收方。憑證不得貼進一般聊天、公開repo或提示詞。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-phone-uc-072.png"
+    },
+    "UC-278": {
+      "summary": "",
+      "how": "先列有限的構型及參數，標出哪些組合僅是概念。；每個選項都保留文字結構說明，讓工程師核對圖形與參數是否一致。",
+      "caution": "這只證明概念工具已做出並公開，不能推論機構可製造、剛性足夠、軸行程正確、無碰撞或可產生安全加工程式。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-phone-uc-278.png"
+    },
+    "UC-430": {
+      "summary": "",
+      "how": "只用合成時間序列，分開光電發電、其他家用負載、進出電、車輛需求及量測截至時間；發電增加不代表可用餘電一定增加。；先定義離線判讀要件：資料是否同期、單位是否一致、是否缺值、是否有設備規格與人工設定的限制。未知不得補成零。",
+      "caution": "作者的方案、用量、硬體、第三方服務費及所在地費率未核，不能寫免費或固定成本。電力合約、回售規則與設備相容性均須按實際場域確認。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-phone-uc-430.png"
+    }
+  },
+  "small": {
+    "UC-181": {
+      "summary": "",
+      "how": "用合成訂單列出訂單鍵、商品、包裹及虛構收件欄位，建立唯一對應。；只做標籤欄位草稿，核對一單多包、重印及已取消訂單，不購買郵資或列印。",
+      "caution": "郵資、承運商、地區、Bot方案和平台整合方式未取得。購買標籤可能扣款；列印可能產生實體輸出；修改狀態可能觸發客戶通知，需各自授權。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-small-uc-181.png"
+    },
+    "UC-072": {
+      "summary": "",
+      "how": "先用虛構對象做文字演練，不接電話服務、不提供真電話或私人郵件。；寫清楚要問什麼、可以透露什麼、不能承諾什麼；指定主動說明 AI 身份，不冒充本人或真人。",
+      "caution": "電話號碼、通話內容、錄音或逐字稿會涉及對外資料處理；需要最小必要資料與明確接收方。憑證不得貼進一般聊天、公開repo或提示詞。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-small-uc-072.png"
+    },
+    "UC-278": {
+      "summary": "",
+      "how": "先列有限的構型及參數，標出哪些組合僅是概念。；每個選項都保留文字結構說明，讓工程師核對圖形與參數是否一致。",
+      "caution": "這只證明概念工具已做出並公開，不能推論機構可製造、剛性足夠、軸行程正確、無碰撞或可產生安全加工程式。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-small-uc-278.png"
+    },
+    "UC-430": {
+      "summary": "",
+      "how": "只用合成時間序列，分開光電發電、其他家用負載、進出電、車輛需求及量測截至時間；發電增加不代表可用餘電一定增加。；先定義離線判讀要件：資料是否同期、單位是否一致、是否缺值、是否有設備規格與人工設定的限制。未知不得補成零。",
+      "caution": "作者的方案、用量、硬體、第三方服務費及所在地費率未核，不能寫免費或固定成本。電力合約、回售規則與設備相容性均須按實際場域確認。",
+      "isGenericHow": false,
+      "isGenericCaution": false,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/after-small-uc-430.png"
+    }
+  }
+}

@@ -667,3 +667,30 @@ test('a heading that only mentions a procedure is not a procedure', () => {
     assert.equal(meta.how, GENERIC_HOW, `${path}: a section that is not the procedure must not become 怎麼開始`);
   }
 });
+
+test('subsections within an H2 step section must be extracted instead of falling back to generic how (UC-181)', () => {
+  const { context } = setupEnvironment();
+  const markdown = fs.readFileSync('cases/181-shipping-label-fulfillment-preparation.md', 'utf8');
+  const meta = context.metadata(markdown, 'cases/181-shipping-label-fulfillment-preparation.md', 'case', 'UC-181');
+  assert.notEqual(meta.how, GENERIC_HOW, 'UC-181 should extract actionable steps from subsections under H2');
+  assert.match(meta.how, /用合成訂單列出訂單鍵/);
+});
+
+test('caution extraction recognizes safety boundaries in sections with link citations and compound headings (UC-072, UC-278, UC-430)', () => {
+  const { context } = setupEnvironment();
+  const uc072 = fs.readFileSync('cases/072-phone-task-disclosure-handoff.md', 'utf8');
+  const meta072 = context.metadata(uc072, 'cases/072-phone-task-disclosure-handoff.md', 'case', 'UC-072');
+  assert.notEqual(meta072.caution, GENERIC_CAUTION, 'UC-072 should extract its own safety cautions');
+  assert.match(meta072.caution, /電話號碼、通話內容、錄音或逐字稿會涉及對外資料處理/);
+
+  const uc278 = fs.readFileSync('cases/278-machining-center-configuration-concept.md', 'utf8');
+  const meta278 = context.metadata(uc278, 'cases/278-machining-center-configuration-concept.md', 'case', 'UC-278');
+  assert.notEqual(meta278.caution, GENERIC_CAUTION, 'UC-278 should extract limits from 實作與限制');
+  assert.match(meta278.caution, /原始完整對話、精確提示詞、修改輪數、耗時與費用未取得|不能推論機構可製造/);
+
+  const uc430 = fs.readFileSync('cases/430-solar-surplus-ev-charge-rate-evidence.md', 'utf8');
+  const meta430 = context.metadata(uc430, 'cases/430-solar-surplus-ev-charge-rate-evidence.md', 'case', 'UC-430');
+  assert.notEqual(meta430.caution, GENERIC_CAUTION, 'UC-430 should extract non-citation cautions from 官方支持、權限與費用');
+  assert.match(meta430.caution, /作者的方案、用量、硬體、第三方服務費及所在地費率未核|實機控制與新增持續存取需另外核准/);
+});
+

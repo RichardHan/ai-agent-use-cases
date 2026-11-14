@@ -16,6 +16,9 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   const pending=hasPending?await (await context.request.get(base+'sources/pending.md')).text():'';
   const expectedEntries=catalog.files.length-(hasPending?1:0)+(pending.match(/^##\s+P-/gm)||[]).length;
   const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
+  const bundleEvents=[];
+  page.on('response',r=>{if(new URL(r.url()).pathname.endsWith('/corpus.json'))bundleEvents.push({status:r.status()});});
+  page.on('requestfailed',r=>{if(new URL(r.url()).pathname.endsWith('/corpus.json'))bundleEvents.push({failed:true});});
   const row={engine:engine.name(),width,audits:[]};report.push(row);save();
   const ready=async()=>page.waitForFunction(()=>discoveryReady,null,{timeout:30000});
   const start=Date.now();await page.goto(base+'?q=UC001&proof='+encodeURIComponent('作者報告／示範')+'#explore');await ready();
@@ -65,7 +68,12 @@ const report=[];const save=()=>fs.writeFileSync(output+'/report.json',JSON.strin
   // 1. Find an author's account, verify the full original label and source, return to the same card.
   const read=page.locator('#results .card[data-case-id="UC-001"] .card-bottom button');await read.focus();await page.keyboard.press('Enter');await page.locator('#detail[open]').waitFor();
   await page.locator('.research-details').evaluate(e=>e.open=true);
-  row.source=await page.locator('.detail-source').getAttribute('href');assert.match(row.source,/github.com\/RichardHan\/ai-agent-use-cases\/blob\/(?:main|[a-f0-9]{40})\/cases\/001-/);
+  row.source=await page.locator('.detail-source').getAttribute('href');
+  if(!row.source){
+   const diagnostic=await page.evaluate(()=>({versionNote:document.querySelector('.detail-source-version')?.textContent,failedSourceCount:failedPaths.length,ready:discoveryReady}));
+   console.error('SOURCE_LINK_UNAVAILABLE',JSON.stringify({catalogRevision:catalog.sourceRevision||null,bundleEvents,...diagnostic}));
+  }
+  assert.match(row.source,/github.com\/RichardHan\/ai-agent-use-cases\/blob\/(?:main|[a-f0-9]{40})\/cases\/001-/);
   if(engine===chromium&&width===1440){const pending=page.waitForEvent('popup');await page.locator('.detail-source').click();const popup=await pending;await popup.waitForLoadState('domcontentloaded');row.openedSource=popup.url();await popup.close();const response=await context.request.get(row.source);row.sourceStatus=response.status();}
   await page.keyboard.press('Escape');assert(await read.evaluate(e=>e===document.activeElement));
   // 2. Official origin is explained even with zero matching results; reset updates the message.

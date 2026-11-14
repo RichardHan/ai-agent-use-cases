@@ -284,6 +284,7 @@ if(require.main===module){
   const result=await waitForPublishedVersion({base,built,changeList});
   fs.mkdirSync(output,{recursive:true});
   fs.writeFileSync(path.join(output,'catalog.json'),result.catalog);fs.writeFileSync(path.join(output,'corpus.json'),result.corpus);
+  fs.mkdirSync('qa-artifacts',{recursive:true});
   fs.writeFileSync('qa-artifacts/published-version.json',JSON.stringify({base,sourceCount:result.sourceCount,localRevision:result.localRevision,publishedRevision:result.publishedRevision,mode:result.mode,supersededBy:result.supersededBy||null,liveRevision:result.liveRevision||null,changedVerified:result.changedVerified||0,carried:result.carried||0,verifiedAt:new Date().toISOString()},null,2));
   reportWorkflowResult(true);
   // The walk step reads these two, not `verified`: a superseded verdict is still a

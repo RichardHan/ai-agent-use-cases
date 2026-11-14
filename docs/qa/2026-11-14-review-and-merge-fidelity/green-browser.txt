@@ -1,0 +1,30 @@
+=== evidence-attribution-browser.cjs ===
+ATTRIBUTION {"rows":[{"name":"desktop","width":1440,"height":900,"chips":"官方自報＋設計／未實跑","summary":"成果主張：主要 官方團隊／原廠自述（官方內容經第三人轉述）；另宣告 設計／未實跑 核讀：主要 未經第三方獨立重現；其他類別見下方 取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文 核讀與安全建議 ↓","summaryHeight":108,"summaryBottom":426,"sourceTop":624,"axe":0,"pageErrors":0},{"name":"phone","width":390,"height":844,"chips":"官方自報＋設計／未實跑","summary":"成果主張：主要 官方團隊／原廠自述（官方內容經第三人轉述）；另宣告 設計／未實跑 核讀：主要 未經第三方獨立重現；其他類別見下方 取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文 核讀與安全建議 ↓","summaryHeight":184,"summaryBottom":572,"sourceTop":820,"axe":0,"pageErrors":0},{"name":"small","width":320,"height":740,"chips":"官方自報＋設計／未實跑","summary":"成果主張：主要 官方團隊／原廠自述（官方內容經第三人轉述）；另宣告 設計／未實跑 核讀：主要 未經第三方獨立重現；其他類別見下方 取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文 核讀與安全建議 ↓","summaryHeight":229,"summaryBottom":665,"sourceTop":913,"axe":0,"pageErrors":0},{"name":"author-relayed","width":390,"height":844,"card":"取得：經轉述","provenance":"取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文","axe":0}],"facets":{"total":527,"mixed":125},"designed":["UC-465","UC-480","UC-496"],"pending":{"ids":["P-001","P-002","P-003","P-004"],"open":"2","note":"另有 2 個待查線索已處理並併入案例，不列在上述待查數；仍可搜尋或直接開啟。"}}
+=== detail-trust-summary-browser.cjs ===
+DETAIL_TRUST [{"name":"desktop","width":1440,"height":900,"case":"UC-098","proof":"作者報告／示範","summary":"成果主張：社群作者／專案實踐者 核讀：本庫未獨立重現 核讀與安全建議 ↓","summaryBottom":314,"noteTopAfterJump":170,"toolbarBottom":121,"overflow":false,"axe":0,"pageErrors":0},{"name":"phone","width":390,"height":844,"case":"UC-098","proof":"作者報告／示範","summary":"成果主張：社群作者／專案實踐者 核讀：本庫未獨立重現 核讀與安全建議 ↓","summaryBottom":418,"noteTopAfterJump":150,"toolbarBottom":117,"overflow":false,"axe":0,"pageErrors":0},{"name":"small","width":320,"height":740,"case":"UC-098","proof":"作者報告／示範","summary":"成果主張：社群作者／專案實踐者 核讀：本庫未獨立重現 核讀與安全建議 ↓","summaryBottom":405,"noteTopAfterJump":148,"toolbarBottom":114,"overflow":false,"axe":0,"pageErrors":0},{"name":"class-官方自報","case":"UC-007","proof":"官方自報","summary":"成果主張：官方團隊／原廠自述 核讀：未經第三方獨立重現 核讀與安全建議 ↓","summaryBottom":314,"axe":0},{"name":"class-尚待查證","case":"UC-338","proof":"尚待查證","summary":"成果主張：主要 社群線索（尚未證實）；另宣告 作者報告／示範 核讀：主要 證據不足，未列成功案例；其他類別見下方 核讀與安全建議 ↓","summaryBottom":346,"axe":0},{"name":"class-設計／未實跑","case":"UC-465","proof":"設計／未實跑","summary":"成果主張：主要 提示詞設計者（未提供執行結果）；另宣告 官方自報 核讀：主要 未實跑，無成效可核；其他類別見下方 核讀與安全建議 ↓","summaryBottom":394,"axe":0}]
+=== results-batching-browser.cjs ===
+PASS chromium 390: batching, keyboard, pointer, details, history, filters, empty, direct link
+PASS chromium 1440: batching, keyboard, pointer, details, history, filters, empty, direct link
+=== arrival-summary-visibility-browser.cjs ===
+ARRIVAL_SUMMARY [{"viewport":"desktop","shared":{"count":{"top":24,"bottom":49},"title":{"top":335,"bottom":379},"query":{"top":-431,"bottom":-367},"focus":"results-count","focusRect":{"top":24,"bottom":49},"countVisible":true,"titleVisible":true,"queryVisible":false,"drawnHeight":513,"lateScroll":true,"viewport":900,"overflow":0},"empty":{"count":{"top":629,"bottom":654},"title":null,"query":{"top":174,"bottom":238},"focus":"search-title","focusRect":{"top":96,"bottom":149},"countVisible":true,"titleVisible":false,"queryVisible":true,"drawnHeight":220,"lateScroll":false,"viewport":900,"overflow":0}},{"viewport":"phone","shared":{"count":{"top":24,"bottom":47},"title":{"top":448,"bottom":514},"query":{"top":-427,"bottom":-371},"focus":"results-count","focusRect":{"top":24,"bottom":47},"countVisible":true,"titleVisible":true,"queryVisible":false,"drawnHeight":478,"lateScroll":true,"viewport":844,"overflow":0},"empty":{"count":{"top":24,"bottom":47},"title":null,"query":{"top":-437,"bottom":-381},"focus":"results-count","focusRect":{"top":24,"bottom":47},"countVisible":true,"titleVisible":false,"queryVisible":false,"drawnHeight":220,"lateScroll":true,"viewport":844,"overflow":0}},{"viewport":"narrow","shared":{"count":{"top":24,"bottom":47},"title":{"top":464,"bottom":527},"query":{"top":-422,"bottom":-366},"focus":"results-count","focusRect":{"top":24,"bottom":47},"countVisible":true,"titleVisible":true,"queryVisible":false,"drawnHeight":586,"lateScroll":true,"viewport":740,"overflow":0},"empty":{"count":{"top":24,"bottom":47},"title":null,"query":{"top":-433,"bottom":-377},"focus":"results-count","focusRect":{"top":24,"bottom":47},"countVisible":true,"titleVisible":false,"queryVisible":false,"drawnHeight":220,"lateScroll":true,"viewport":740,"overflow":0}}]
+=== result-count-honesty-browser.cjs ===
+desktop {"name":"desktop","wide":"顯示 325 / 527 筆收錄","narrow":"顯示 6 / 527 筆收錄","drawable":5,"explained":"1","gap":"在所選條件下，沒有案例的標題、用途或痛點同時包含「播客」「摘要」。下列 8 筆是全文或同義詞命中，不代表案例在做這件事。"}
+phone {"name":"phone","wide":"顯示 325 / 527 筆收錄","narrow":"顯示 6 / 527 筆收錄","drawable":5,"explained":"1","gap":"在所選條件下，沒有案例的標題、用途或痛點同時包含「播客」「摘要」。下列 8 筆是全文或同義詞命中，不代表案例在做這件事。"}
+[
+ {
+  "name": "desktop",
+  "wide": "顯示 325 / 527 筆收錄",
+  "narrow": "顯示 6 / 527 筆收錄",
+  "drawable": 5,
+  "explained": "1",
+  "gap": "在所選條件下，沒有案例的標題、用途或痛點同時包含「播客」「摘要」。下列 8 筆是全文或同義詞命中，不代表案例在做這件事。"
+ },
+ {
+  "name": "phone",
+  "wide": "顯示 325 / 527 筆收錄",
+  "narrow": "顯示 6 / 527 筆收錄",
+  "drawable": 5,
+  "explained": "1",
+  "gap": "在所選條件下，沒有案例的標題、用途或痛點同時包含「播客」「摘要」。下列 8 筆是全文或同義詞命中，不代表案例在做這件事。"
+ }
+]

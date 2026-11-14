@@ -1,0 +1,136 @@
+✔ a case that only shares a designed prompt is not labelled as an author execution record (1.101375ms)
+✔ cases declaring designed-only evidence stay searchable and keep their proof definition (0.158125ms)
+✔ an unverified evidence line is never presented as an author demonstration (0.349459ms)
+✔ every proof bucket used by the corpus has a definition, claimant, status and safety tip (0.246875ms)
+✔ a case that opens with an author execution record is never filed under template material (0.604041ms)
+✔ a case that opens with a vendor or official statement keeps the first-party claimant (0.578916ms)
+✔ backtick-quoted unverified and designed tokens are read as their own class (0.82375ms)
+✔ cases whose evidence line declares author-demo, external tester quote, or a vendor grade land on the matching label (0.208292ms)
+✖ merged cases do not leave an older source count or partial source list in their lead evidence note (2.323959ms)
+✔ review date uses explicit lead verification fields, takes latest valid date and never borrows source dates (18.929084ms)
+✔ a review written inside another dated lead field is still that page’s review (13.823708ms)
+✔ every published case states a lead review date the site can read (150.050666ms)
+✔ recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries (19.033417ms)
+✔ review sorting survives shared search URLs and is search arrival, without sharing unrelated or invalid state (5.988334ms)
+✖ real records preserve paired dates and leave undocumented review dates unknown (5.469333ms)
+✔ a lead key that names a review never loses its date in silence (152.208666ms)
+✖ every page that writes 本次增補查證 carries the newest date its lead declares (69.957875ms)
+✔ a dated section heading is read as a review record, and code fences are not (8.999583ms)
+✖ no case page keeps a review date older than a dated section it wrote (227.3705ms)
+✔ the declared date is what the badge and the recent-review sort read (3.3995ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 16
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 294.016833
+
+✖ failing tests:
+
+test at tests/evidence-status-consistency.test.cjs:157:1
+✖ merged cases do not leave an older source count or partial source list in their lead evidence note (2.323959ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'UC-089: - 證據狀態 lists S-089A,S-089B but body has S-089A,S-089B,S-089C,S-089D,S-089E',
+  +   'UC-351: - 證據狀態 lists 來源A,來源B,來源C,來源D but body has 來源A,來源B,來源C,來源D,來源E,來源F,來源G',
+  +   'UC-359: - 證據狀態 lists 來源A,來源B but body has 來源A,來源B,來源C',
+  +   'UC-336: - 證據狀態 omits merged Watch (S-336B) and Echo Dot (S-336C) sources'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r7/tests/evidence-status-consistency.test.cjs:183:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'UC-089: - 證據狀態 lists S-089A,S-089B but body has S-089A,S-089B,S-089C,S-089D,S-089E', 'UC-351: - 證據狀態 lists 來源A,來源B,來源C,來源D but body has 來源A,來源B,來源C,來源D,來源E,來源F,來源G', 'UC-359: - 證據狀態 lists 來源A,來源B but body has 來源A,來源B,來源C', 'UC-336: - 證據狀態 omits merged Watch (S-336B) and Echo Dot (S-336C) sources' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/recent-review.test.cjs:93:1
+✖ real records preserve paired dates and leave undocumented review dates unknown (5.469333ms)
+  AssertionError [ERR_ASSERTION]: 028-bill-comparison-preparation.md
+  + actual - expected
+  
+  + '2026-10-19'
+  - '2026-10-21'
+             ^
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r7/tests/recent-review.test.cjs:104:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '2026-10-19',
+    expected: '2026-10-21',
+    operator: 'strictEqual'
+  }
+
+test at tests/review-date-keys.test.cjs:73:1
+✖ every page that writes 本次增補查證 carries the newest date its lead declares (69.957875ms)
+  AssertionError [ERR_ASSERTION]: cases/066-agent-token-usage-self-audit.md: 「本次增補查證」 (2026-11-12) must match the newest review date the lead declares (2026-11-14)
+  + actual - expected
+  
+  + '2026-11-14'
+  - '2026-11-12'
+              ^
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r7/tests/review-date-keys.test.cjs:82:12)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '2026-11-14',
+    expected: '2026-11-12',
+    operator: 'strictEqual'
+  }
+
+test at tests/review-record-fidelity.test.cjs:122:1
+✖ no case page keeps a review date older than a dated section it wrote (227.3705ms)
+  AssertionError [ERR_ASSERTION]: A page that appends a dated supplement section must declare it in the lead (`- 本次增補查證：YYYY-MM-DD；只核該節新增來源，未重驗全案。`), otherwise the badge and `?sort=reviewed` publish an older review date than the page itself records.
+  + actual - expected
+  
+  + [
+  +   'cases/003-store-operations.md: lead says 2026-10-13, section says 2026-10-16',
+  +   'cases/025-team-event-follow-through.md: lead says 2026-10-14, section says 2026-10-17',
+  +   'cases/028-bill-comparison-preparation.md: lead says 2026-10-19, section says 2026-10-21',
+  +   'cases/050-daily-eink-mood-illustration.md: lead says 2026-10-14, section says 2026-11-03',
+  +   'cases/084-botops-tiered-fleet-notion-tickets.md: lead says 2026-10-16, section says 2026-10-17',
+  +   'cases/124-vehicle-maintenance-record-review.md: lead says 2026-10-17, section says 2026-10-22',
+  +   'cases/324-daily-outage-digest-verified-incident-db-pr.md: lead says 2026-10-18, section says 2026-10-25',
+  +   'cases/338-driver-daily-hours-log-paycheck-check.md: lead says 2026-10-18, section says 2026-10-22',
+  +   'cases/391-bot-fleet-private-dashboard-sensitive-scan-before-push.md: lead says 2026-10-20, section says 2026-10-22',
+  +   'cases/469-muse-skill-ana-pay-to-money-forward-manual-wallet.md: lead says 2026-10-29, section says 2026-11-09'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r7/tests/review-record-fidelity.test.cjs:142:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'cases/003-store-operations.md: lead says 2026-10-13, section says 2026-10-16', 'cases/025-team-event-follow-through.md: lead says 2026-10-14, section says 2026-10-17', 'cases/028-bill-comparison-preparation.md: lead says 2026-10-19, section says 2026-10-21', 'cases/050-daily-eink-mood-illustration.md: lead says 2026-10-14, section says 2026-11-03', 'cases/084-botops-tiered-fleet-notion-tickets.md: lead says 2026-10-16, section says 2026-10-17', 'cases/124-vehicle-maintenance-record-review.md: lead says 2026-10-17, section says 2026-10-22', 'cases/324-daily-outage-digest-verified-incident-db-pr.md: lead says 2026-10-18, section says 2026-10-25', 'cases/338-driver-daily-hours-log-paycheck-check.md: lead says 2026-10-18, section says 2026-10-22', 'cases/391-bot-fleet-private-dashboard-sensitive-scan-before-push.md: lead says 2026-10-20, section says 2026-10-22', 'cases/469-muse-skill-ana-pay-to-money-forward-manual-wallet.md: lead says 2026-10-29, section says 2026-11-09' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }

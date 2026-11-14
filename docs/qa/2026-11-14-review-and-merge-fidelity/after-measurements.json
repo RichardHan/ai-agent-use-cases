@@ -1,0 +1,35 @@
+{
+  "desktop": {
+    "uc469InFirstBatch": true,
+    "uc469BatchPosition": 21,
+    "uc050Badge": "頁首核對 2026-11-03",
+    "uc050Datetime": "2026-11-03",
+    "uc336LeadEvidence": "證據狀態：既有239流程版本，本輪不另計；前批影片查閱與架構自述保留。 author-demo（B）。S-336A 作者約66秒示範影片＋架構文字（韌體、MCP服務原碼與延遲紀錄未公開）；S-336B（2026-11-13補）作者自製 iPhone／Apple Watch 即時語音 App 與 Ray-Ban 自述（無影片、截圖或原始碼）；S-336C（2026-11-14補）作者已 root 舊 Echo Dot 按鍵通話公開 how-to 與參考程式（本庫未下載執行），均未獨立重現。下方流程與指令為本庫原創、未測。",
+    "uc351LeadEvidence": "證據狀態：author-demo（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；來源D日文作者 note 長文（含指令片段與當下用量讀數）；來源E Reddit 作者留言自述；來源F簡中作者 X 長文＋設定回覆截圖；來源G簡中作者 X 長文＋公開倉庫 README（已讀、未安裝）與跟做者長文（部分讀取）；各來源都沒有同工作量的前後用量對照數據。",
+    "axeViolations": 0,
+    "overflow": false,
+    "errors": []
+  },
+  "phone": {
+    "uc469InFirstBatch": true,
+    "uc469BatchPosition": 21,
+    "uc050Badge": "頁首核對 2026-11-03",
+    "uc050Datetime": "2026-11-03",
+    "uc336LeadEvidence": "證據狀態：既有239流程版本，本輪不另計；前批影片查閱與架構自述保留。 author-demo（B）。S-336A 作者約66秒示範影片＋架構文字（韌體、MCP服務原碼與延遲紀錄未公開）；S-336B（2026-11-13補）作者自製 iPhone／Apple Watch 即時語音 App 與 Ray-Ban 自述（無影片、截圖或原始碼）；S-336C（2026-11-14補）作者已 root 舊 Echo Dot 按鍵通話公開 how-to 與參考程式（本庫未下載執行），均未獨立重現。下方流程與指令為本庫原創、未測。",
+    "uc351LeadEvidence": "證據狀態：author-demo（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；來源D日文作者 note 長文（含指令片段與當下用量讀數）；來源E Reddit 作者留言自述；來源F簡中作者 X 長文＋設定回覆截圖；來源G簡中作者 X 長文＋公開倉庫 README（已讀、未安裝）與跟做者長文（部分讀取）；各來源都沒有同工作量的前後用量對照數據。",
+    "axeViolations": 0,
+    "overflow": false,
+    "errors": []
+  },
+  "small": {
+    "uc469InFirstBatch": true,
+    "uc469BatchPosition": 21,
+    "uc050Badge": "頁首核對 2026-11-03",
+    "uc050Datetime": "2026-11-03",
+    "uc336LeadEvidence": "證據狀態：既有239流程版本，本輪不另計；前批影片查閱與架構自述保留。 author-demo（B）。S-336A 作者約66秒示範影片＋架構文字（韌體、MCP服務原碼與延遲紀錄未公開）；S-336B（2026-11-13補）作者自製 iPhone／Apple Watch 即時語音 App 與 Ray-Ban 自述（無影片、截圖或原始碼）；S-336C（2026-11-14補）作者已 root 舊 Echo Dot 按鍵通話公開 how-to 與參考程式（本庫未下載執行），均未獨立重現。下方流程與指令為本庫原創、未測。",
+    "uc351LeadEvidence": "證據狀態：author-demo（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；來源D日文作者 note 長文（含指令片段與當下用量讀數）；來源E Reddit 作者留言自述；來源F簡中作者 X 長文＋設定回覆截圖；來源G簡中作者 X 長文＋公開倉庫 README（已讀、未安裝）與跟做者長文（部分讀取）；各來源都沒有同工作量的前後用量對照數據。",
+    "axeViolations": 0,
+    "overflow": false,
+    "errors": []
+  }
+}

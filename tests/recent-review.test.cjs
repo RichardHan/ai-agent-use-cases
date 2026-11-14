@@ -94,9 +94,10 @@ test('real records preserve paired dates and leave undocumented review dates unk
  const {metadata}=api();
  // Each page's newest dated supplement section now declares its own review date;
  // before 2026-11-11 the lead kept the older header date (074: 10-16 vs 10-22,
- // 082: 10-19 vs 10-29, 239: 10-16 vs 10-25). 028 and 233 write no dated section,
- // so their declared dates stay exactly as they were.
- for(const [id,expected] of [['028','2026-10-19'],['074','2026-10-22'],['082','2026-10-29'],['233','2026-10-17'],['239','2026-10-25']]){
+ // 082: 10-19 vs 10-29, 239: 10-16 vs 10-25), and 028 wrote its 2026-10-21
+ // supplement in a parenthetical heading. 233 writes no dated section, so its
+ // declared date stays as it was.
+ for(const [id,expected] of [['028','2026-10-21'],['074','2026-10-22'],['082','2026-10-29'],['233','2026-10-17'],['239','2026-10-25']]){
   const file=fs.readdirSync(path.join(__dirname,'../cases')).find(f=>f.startsWith(id+'-'));
   const markdown=fs.readFileSync(path.join(__dirname,'../cases',file),'utf8');
   const item=metadata(markdown,'cases/'+file,'case');

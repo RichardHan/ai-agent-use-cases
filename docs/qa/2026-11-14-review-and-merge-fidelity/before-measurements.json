@@ -1,0 +1,35 @@
+{
+  "desktop": {
+    "uc469InFirstBatch": false,
+    "uc469BatchPosition": null,
+    "uc050Badge": "頁首核對 2026-10-14",
+    "uc050Datetime": "2026-10-14",
+    "uc336LeadEvidence": "證據狀態：既有239流程版本，本輪不另計；前批影片查閱與架構自述保留。 author-demo（B）。作者約66秒示範影片＋架構文字；韌體、MCP服務原碼與延遲紀錄未公開，未獨立重現。下方流程與指令為本庫原創、未測。",
+    "uc351LeadEvidence": "證據狀態：author-demo（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；來源D日文作者 note 長文（含指令片段與當下用量讀數）；四者都沒有用量前後對照數據。",
+    "axeViolations": 0,
+    "overflow": false,
+    "errors": []
+  },
+  "phone": {
+    "uc469InFirstBatch": false,
+    "uc469BatchPosition": null,
+    "uc050Badge": "頁首核對 2026-10-14",
+    "uc050Datetime": "2026-10-14",
+    "uc336LeadEvidence": "證據狀態：既有239流程版本，本輪不另計；前批影片查閱與架構自述保留。 author-demo（B）。作者約66秒示範影片＋架構文字；韌體、MCP服務原碼與延遲紀錄未公開，未獨立重現。下方流程與指令為本庫原創、未測。",
+    "uc351LeadEvidence": "證據狀態：author-demo（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；來源D日文作者 note 長文（含指令片段與當下用量讀數）；四者都沒有用量前後對照數據。",
+    "axeViolations": 0,
+    "overflow": false,
+    "errors": []
+  },
+  "small": {
+    "uc469InFirstBatch": false,
+    "uc469BatchPosition": null,
+    "uc050Badge": "頁首核對 2026-10-14",
+    "uc050Datetime": "2026-10-14",
+    "uc336LeadEvidence": "證據狀態：既有239流程版本，本輪不另計；前批影片查閱與架構自述保留。 author-demo（B）。作者約66秒示範影片＋架構文字；韌體、MCP服務原碼與延遲紀錄未公開，未獨立重現。下方流程與指令為本庫原創、未測。",
+    "uc351LeadEvidence": "證據狀態：author-demo（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；來源D日文作者 note 長文（含指令片段與當下用量讀數）；四者都沒有用量前後對照數據。",
+    "axeViolations": 0,
+    "overflow": false,
+    "errors": []
+  }
+}

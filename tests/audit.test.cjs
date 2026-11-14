@@ -604,6 +604,16 @@ test('INDEX.md maintains scenario consistency, complete case rows and canonical 
   }
 });
 
+test('main case index is ordered by case number', () => {
+  const index = fs.readFileSync(path.join(root, 'INDEX.md'), 'utf8');
+  const mainTable = index.split('<a id="supplement-list"></a>')[0];
+  const ids = Array.from(mainTable.matchAll(/^\| UC-(\d+) \|.*\(cases\//gm), match => Number(match[1]));
+  assert(ids.length > 0, 'Main case table must contain cases');
+  for (let i = 1; i < ids.length; i++) {
+    assert(ids[i - 1] < ids[i], `Case numbers out of order: UC-${ids[i - 1]} before UC-${ids[i]}`);
+  }
+});
+
 test('all cases and evidence files have plain-language title and purpose either in markdown or copy.json', () => {
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md')).sort();
   const evidenceFiles = fs.readdirSync(path.join(root, 'evidence')).filter(f => f.endsWith('.md')).sort();

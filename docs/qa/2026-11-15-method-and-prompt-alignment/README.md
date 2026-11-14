@@ -43,3 +43,17 @@
 1. **情境一：新訪客問題探索**：桌面 1440px 點選首頁問題標籤進入 `#explore`，即時呈現 25 筆以上相關卡片，導覽順暢。
 2. **情境二：空搜尋與復原**：手機 390px 輸入無效字詞觸發 `#empty`，點擊「清除全部條件，顯示所有條目」後即刻恢復展示全量卡片。
 3. **情境三：分享直鏈與複製提示詞**：開啟 `?case=UC-278#explore`，點擊「方法與步驟 ↓」直接跳轉至 `可借鑑流程`，點擊「複製本段（含標題）」複製指令成功（回饋 `正在複製…`），點擊關閉按鈕正常返回探索面板。
+
+## 發布與正式站核對
+
+- **已提交**：分支 `improve/20261115-r2-prompt-subsections`，commit `12251ac3`（對齊可借鑑流程與提升 UC-278 指令子標題）。
+- **已推送**：`origin/improve/20261115-r2-prompt-subsections`。
+- **PR**：[#396](https://github.com/RichardHan/ai-agent-use-cases/pull/396)。PR 階段 12 項專項檢查全數綠燈通過（含 `Website QA` 43633821330 11m20s、`Source guide QA` 43633822482 10m5s、`Reading flow QA` 43633821531 7m49s、`Corpus bundle QA` 43633821529 7m7s 等）。
+- **已合併**：PR #396 squash 合併至 `origin/main`，commit 為 `2138f4d49b0c8645d145f0d23549c4ffc75121c5`。
+- **部署成功**：合併觸發之 `pages build and deployment`（run [43634858899](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43634858899)）於 1m17s 內順利構建並發布至 GitHub Pages。
+- **Actions 失敗診斷**：主分支後續 `Website QA`（run [43634859717](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43634859717)）在 `Verify the updated site in Chromium` 步驟執行至第 34 個測試腳本 `refine-from-results-browser.cjs:96` 時，因手機視口（390×844）在點擊 `.hero-search-link` 進入搜尋後，特定情況下頁面捲動未完全越過搜尋框底邊（`fieldOutOfView` 為 false），造成 `refineHidden` 斷言非預期失敗，並非本次 PR 引入之代碼回歸或核心流程故障。
+- **正式站已驗證**：
+  - 正式站 `catalog.json.sourceRevision` 為 `2138f4d49b0c8645d145f0d23549c4ffc75121c5`，構建日期為 `2026-11-14`，524 個來源檔。
+  - 公開資產 `assets/reader.js` 與合併版本逐 byte 相同（SHA-256 均為 `c5f45d236e607e6ce15d7adb1ff23acd5a664c9e5720952c5344883782c31066`）。
+  - 正式站靜態 HTML `cases/278-machining-center-configuration-concept.html` 已正確包含 `<h3 id="可貼指令本庫原創未實測">可貼指令（本庫原創，未實測）</h3>`。
+  - 實機走查 `tests/deployed-browser.cjs`（`GITHUB_SHA=2138f4d4…`）全數 PASS：三情境實走通過、水平溢出 0、axe 0 違規。

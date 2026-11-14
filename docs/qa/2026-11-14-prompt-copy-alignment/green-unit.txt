@@ -1,0 +1,26 @@
+✔ method shortcut preserves the full untested heading and original index (1.682584ms)
+✔ workflow heading marked 本庫未實作 stays the method shortcut instead of being stolen as a result (0.274708ms)
+✔ 可嘗試的流程 and 小範圍試法 precede prompt sections as the method shortcut (0.255667ms)
+✔ pending, sparse and missing methods do not fabricate an actionable workflow (0.05675ms)
+✔ prompt fallback and evidence methods keep literal source labels (0.127125ms)
+✔ copy candidates retain their full qualified headings and original section indices (1.494375ms)
+✔ pending, empty, descriptive references, source citations, dated supplements and adversarial inputs do not become copy actions (0.199333ms)
+✔ source copy keeps links, code, list boundaries and nested qualifications without UI text (0.25125ms)
+✔ nested subsections stay with their parent and peer subsections end the copied range (0.0645ms)
+✔ deeper Markdown headings keep their restrictions inside the copied chapter (0.487166ms)
+✔ all 524 library markdown files provide copy actions for prompt/command headings and exclude source/supplement headings (134.330417ms)
+✔ reader position follows the last heading above its marker and handles boundaries (0.533167ms)
+✔ jump choices point to existing result, method, limits and source headings (0.961583ms)
+✔ a real author implementation section still gets the result shortcut (0.249584ms)
+✔ dated supplements never become the result shortcut (0.367625ms)
+✔ unimplemented workflow and pure source headings do not masquerade as 實作與結果 or steal 來源與版本 (0.566375ms)
+✔ sparse, pending and unknown structures do not invent sections or evidence (0.093875ms)
+✔ duplicate and unsafe-looking heading text stays literal and keeps its index (0.103416ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 185.785708

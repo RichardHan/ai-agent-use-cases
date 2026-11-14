@@ -25,9 +25,26 @@
   // A dated heading that is the implementation itself (2026-10-17 中文實作變體) is
   // not a supplement and keeps the shortcut.
   const isAppendix=title=>/^\d{4}-\d{2}-\d{2}/.test(String(title).trim())&&/補充|補讀|補證|覆核/.test(title);
-  const methodHeading=/步驟|操作流程|參考流程|建議流程|怎麼開始|方法|可參考/;
-  const promptHeading=/提示詞|可貼指令/;
-  const isMethodHeading=title=>methodHeading.test(title)||promptHeading.test(title);
+  const isSourceCite=title=>/^(?:S-\d+|來源[A-Z0-9：:\s])/i.test(String(title).trim());
+  const methodHeading=/步驟|操作流程|參考流程|建議流程|可嘗試的流程|怎麼開始|方法|可參考|小範圍試法|建議試法/;
+  const PROMPT_PREFIX_TOKEN=/^(?:可直接貼用的|可複製|可貼|原創|自設|本庫|新增|只讀|補充|增補|小範圍|被擋時的|合成資料|離線|建議|可重用|增量|驗收|檢查|試做|練習|操作|試法|步驟|延伸流程|與|及|的)/;
+  const PROMPT_CORE_HEAD=/^(?:可複製提示詞|可貼提示詞|原創提示詞|提示詞|(?:可貼(?:的)?(?:只讀|離線)?(?:驗收|檢查|補充)?|可直接貼用的|驗收|檢查|試做|補充|增補|延伸流程與)?指令)(?:與驗收)?(?=[（(｜|：:\s]|$)/;
+  const PROMPT_LIMIT_SUFFIX=/^(?:的|[：:｜|\s]+\s*|[（(]\s*)(?:限制|問題|風險|缺口|注意事項)/;
+  const isCopyablePromptHeading=title=>{
+    const t=String(title||'').trim();
+    if(!t||t.length>160||isSourceCite(t)||isAppendix(t)||/的(?:限制|問題|風險|缺口|注意事項)/.test(t))return false;
+    let rest=t;
+    while(rest){
+      const core=rest.match(PROMPT_CORE_HEAD);
+      if(core)return !PROMPT_LIMIT_SUFFIX.test(rest.slice(core[0].length));
+      const prefix=rest.match(PROMPT_PREFIX_TOKEN);
+      if(!prefix)return false;
+      rest=rest.slice(prefix[0].length);
+    }
+    return false;
+  };
+  const promptHeading=isCopyablePromptHeading;
+  const isMethodHeading=title=>methodHeading.test(title)||promptHeading(title);
   function selectSourceSection(sections){
     const isSource=section=>!isAppendix(section.title)&&sourceHeading.test(section.title)&&
       !/步驟|操作|流程|設計|建議|提示詞|預期/.test(section.title);
@@ -143,7 +160,7 @@
   function selectCopySections(sections,kind){
     if(kind==='pending')return [];
     return sections.flatMap((section,index)=>
-      /^(?:可複製提示詞|可貼指令)(?:[（(：:\s]|$)/.test(section.title)&&section.text.trim()?[index]:[]);
+      isCopyablePromptHeading(section.title)&&section.text.trim()?[index]:[]);
   }
   // Search only original titles, preserving order, duplicates and qualifications.
   function findOutlineSections(titles,query){

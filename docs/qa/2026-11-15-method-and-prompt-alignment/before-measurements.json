@@ -1,0 +1,188 @@
+{
+  "desktop": {
+    "UC-278": {
+      "jumps": [
+        "實作與結果 ↓實際做了什麼",
+        "限制與權限 ↓實作與限制",
+        "來源與版本 ↓原始來源"
+      ],
+      "copyBtns": [],
+      "hasMethodBtn": false,
+      "methodTarget": null,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-desktop-uc-278.png"
+    },
+    "UC-206": {
+      "jumps": [
+        "實作與結果 ↓問題與原作者實作",
+        "方法與步驟 ↓可貼指令（自行設計／未測）",
+        "限制與權限 ↓權限、費用與可用性",
+        "來源與版本 ↓來源與缺口"
+      ],
+      "copyBtns": [
+        "複製本段（含標題）：可貼指令（自行設計／未測）"
+      ],
+      "hasMethodBtn": true,
+      "methodTarget": "方法與步驟 ↓可貼指令（自行設計／未測）",
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-desktop-uc-206.png"
+    },
+    "UC-258": {
+      "jumps": [
+        "實作與結果 ↓作者做了什麼",
+        "方法與步驟 ↓可貼指令（本庫自設，未執行）",
+        "限制與權限 ↓限制、權限與成本",
+        "來源與版本 ↓去重與來源"
+      ],
+      "copyBtns": [
+        "複製本段（含標題）：可貼指令（本庫自設，未執行）"
+      ],
+      "hasMethodBtn": true,
+      "methodTarget": "方法與步驟 ↓可貼指令（本庫自設，未執行）",
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-desktop-uc-258.png"
+    },
+    "UC-001": {
+      "jumps": [
+        "方法與步驟 ↓本庫建議流程",
+        "限制與權限 ↓權限與驗收",
+        "來源與版本 ↓已讀來源版本"
+      ],
+      "copyBtns": [
+        "複製本段（含標題）：可複製提示詞（本庫原創設計）"
+      ],
+      "hasMethodBtn": true,
+      "methodTarget": "方法與步驟 ↓本庫建議流程",
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-desktop-uc-001.png"
+    }
+  },
+  "phone": {
+    "UC-278": {
+      "jumps": [
+        "實作與結果 ↓實際做了什麼",
+        "限制與權限 ↓實作與限制",
+        "來源與版本 ↓原始來源"
+      ],
+      "copyBtns": [],
+      "hasMethodBtn": false,
+      "methodTarget": null,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-phone-uc-278.png"
+    },
+    "UC-206": {
+      "jumps": [
+        "實作與結果 ↓問題與原作者實作",
+        "方法與步驟 ↓可貼指令（自行設計／未測）",
+        "限制與權限 ↓權限、費用與可用性",
+        "來源與版本 ↓來源與缺口"
+      ],
+      "copyBtns": [
+        "複製本段（含標題）：可貼指令（自行設計／未測）"
+      ],
+      "hasMethodBtn": true,
+      "methodTarget": "方法與步驟 ↓可貼指令（自行設計／未測）",
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-phone-uc-206.png"
+    },
+    "UC-258": {
+      "jumps": [
+        "實作與結果 ↓作者做了什麼",
+        "方法與步驟 ↓可貼指令（本庫自設，未執行）",
+        "限制與權限 ↓限制、權限與成本",
+        "來源與版本 ↓去重與來源"
+      ],
+      "copyBtns": [
+        "複製本段（含標題）：可貼指令（本庫自設，未執行）"
+      ],
+      "hasMethodBtn": true,
+      "methodTarget": "方法與步驟 ↓可貼指令（本庫自設，未執行）",
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-phone-uc-258.png"
+    },
+    "UC-001": {
+      "jumps": [
+        "方法與步驟 ↓本庫建議流程",
+        "限制與權限 ↓權限與驗收",
+        "來源與版本 ↓已讀來源版本"
+      ],
+      "copyBtns": [
+        "複製本段（含標題）：可複製提示詞（本庫原創設計）"
+      ],
+      "hasMethodBtn": true,
+      "methodTarget": "方法與步驟 ↓本庫建議流程",
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-phone-uc-001.png"
+    }
+  },
+  "small": {
+    "UC-278": {
+      "jumps": [
+        "實作與結果 ↓實際做了什麼",
+        "限制與權限 ↓實作與限制",
+        "來源與版本 ↓原始來源"
+      ],
+      "copyBtns": [],
+      "hasMethodBtn": false,
+      "methodTarget": null,
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-small-uc-278.png"
+    },
+    "UC-206": {
+      "jumps": [
+        "實作與結果 ↓問題與原作者實作",
+        "方法與步驟 ↓可貼指令（自行設計／未測）",
+        "限制與權限 ↓權限、費用與可用性",
+        "來源與版本 ↓來源與缺口"
+      ],
+      "copyBtns": [
+        "複製本段（含標題）：可貼指令（自行設計／未測）"
+      ],
+      "hasMethodBtn": true,
+      "methodTarget": "方法與步驟 ↓可貼指令（自行設計／未測）",
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-small-uc-206.png"
+    },
+    "UC-258": {
+      "jumps": [
+        "實作與結果 ↓作者做了什麼",
+        "方法與步驟 ↓可貼指令（本庫自設，未執行）",
+        "限制與權限 ↓限制、權限與成本",
+        "來源與版本 ↓去重與來源"
+      ],
+      "copyBtns": [
+        "複製本段（含標題）：可貼指令（本庫自設，未執行）"
+      ],
+      "hasMethodBtn": true,
+      "methodTarget": "方法與步驟 ↓可貼指令（本庫自設，未執行）",
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-small-uc-258.png"
+    },
+    "UC-001": {
+      "jumps": [
+        "方法與步驟 ↓本庫建議流程",
+        "限制與權限 ↓權限與驗收",
+        "來源與版本 ↓已讀來源版本"
+      ],
+      "copyBtns": [
+        "複製本段（含標題）：可複製提示詞（本庫原創設計）"
+      ],
+      "hasMethodBtn": true,
+      "methodTarget": "方法與步驟 ↓本庫建議流程",
+      "overflow": false,
+      "axeViolations": 0,
+      "screenshot": "docs/qa/2026-11-15-method-and-prompt-alignment/before-small-uc-001.png"
+    }
+  }
+}

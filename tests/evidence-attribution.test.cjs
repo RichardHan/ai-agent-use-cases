@@ -44,6 +44,35 @@ test('a declaration that joins classes with ＋ or ； keeps every class it name
     'a relayed official video plus a third-party write-up is still one official class, not two');
 });
 
+test('Chinese declarations of library-designed procedures/prompts and parenthetical/hyphenated unverified clauses keep their secondary classes', () => {
+  // Chinese library-designed procedure / prompt declarations (29 cases)
+  for (const id of [
+    'UC-035', 'UC-036', 'UC-062', 'UC-063', 'UC-064', 'UC-073', 'UC-109', 'UC-111',
+    'UC-318', 'UC-319', 'UC-320', 'UC-321', 'UC-327', 'UC-328', 'UC-330', 'UC-331',
+    'UC-332', 'UC-333', 'UC-334', 'UC-335', 'UC-336', 'UC-337', 'UC-338', 'UC-339',
+    'UC-340', 'UC-341', 'UC-361', 'UC-388', 'UC-393'
+  ]) {
+    const entry = byId(id);
+    assert.ok(entry, `${id} exists in corpus`);
+    assert.ok(entry.proofClasses.includes('設計／未實跑'),
+      `${id}: expected proofClasses (${entry.proofClasses.join('|')}) to include 設計／未實跑 for "${evidenceLine(entry)}"`);
+  }
+  assert.equal(byId('UC-328').proof, '官方自報', 'UC-328 primary class stays 官方自報');
+  assert.equal(byId('UC-338').proof, '尚待查證', 'UC-338 primary class stays 尚待查證');
+  assert.deepEqual([...byId('UC-338').proofClasses], ['尚待查證', '作者報告／示範', '設計／未實跑']);
+
+  // Parenthetical unverified gloss and pending-verification vocabulary (2 cases)
+  assert.deepEqual([...byId('UC-060').proofClasses], ['作者報告／示範', '設計／未實跑', '尚待查證']);
+  assert.deepEqual([...byId('UC-086').proofClasses], ['作者報告／示範', '尚待查證', '設計／未實跑']);
+
+  // Negative boundaries: stating the library did not run the author's code or did not
+  // independently reproduce the case is a verification boundary, not a library-designed class.
+  for (const id of ['UC-076', 'UC-115', 'UC-147', 'UC-249', 'UC-278', 'UC-329', 'UC-345', 'UC-399', 'UC-442']) {
+    assert.ok(!byId(id).proofClasses.includes('設計／未實跑'),
+      `${id}: "${evidenceLine(byId(id))}" must not gain 設計／未實跑`);
+  }
+});
+
 test('a passing or negated mention of a class does not become an attributed class', () => {
   const classes = line => [...api.declaredEvidenceClasses(line, 'case')];
   assert.deepEqual(classes('author-demo（作者實測）＋旁註提及模板，但模板不是本案證據'), ['作者報告／示範'],
@@ -61,6 +90,10 @@ test('a passing or negated mention of a class does not become an attributed clas
   // Real corpus fixtures: a public template page that the case only inspected
   // stays auxiliary material, and a designed-only prompt keeps one class.
   assert.deepEqual([...byId('UC-344').proofClasses], ['作者報告／示範'], 'UC-344 reads a template page as auxiliary');
+  assert.deepEqual(classes('author-demo（作者實測）；另註 pending-verification 欄位尚未填寫'), ['作者報告／示範'],
+    'a pending-verification field name is not a 尚待查證 declaration');
+  assert.deepEqual(classes('author-demo（作者實測）；作者提供的提示詞未實跑'), ['作者報告／示範'],
+    'an unrun author-provided prompt without a design claim is not misclassified as library-designed');
   assert.deepEqual([...byId('UC-496').proofClasses], ['設計／未實跑'], 'UC-496 only designed a prompt');
 });
 

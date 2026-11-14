@@ -216,6 +216,23 @@ const read = page => page.evaluate(() => {
     assert.deepEqual(uc221.chips, ['官方自報'], 'UC-221 service-provider self-test is 官方自報');
     assert.match(uc221.summaryText, /成果主張：官方團隊／原廠自述/);
     assert.doesNotMatch(uc221.summaryText, /經第三人轉述/);
+
+    // A case declaring library-designed procedures/prompts in Chinese (UC-336)
+    // and a case with parenthetical unverified gloss (UC-060) surface their
+    // secondary classes on the detail header and first-screen summary.
+    await authorPage.goto(caseUrl('UC-336'), { waitUntil: 'networkidle' });
+    await authorPage.waitForSelector('#detail[open]', { timeout: 90000 });
+    const uc336 = await read(authorPage);
+    assert.deepEqual(uc336.chips, ['作者報告／示範', '設計／未實跑'], 'UC-336 Chinese library-designed declaration renders secondary chip');
+    assert.match(uc336.summaryText, /另宣告 設計／未實跑/);
+    assert.equal(uc336.classRows.length, 2, 'UC-336 renders 2 declared class rows in proof note');
+
+    await authorPage.goto(caseUrl('UC-060'), { waitUntil: 'networkidle' });
+    await authorPage.waitForSelector('#detail[open]', { timeout: 90000 });
+    const uc060 = await read(authorPage);
+    assert.deepEqual(uc060.chips, ['作者報告／示範', '設計／未實跑', '尚待查證'], 'UC-060 parenthetical unverified renders 尚待查證 chip');
+    assert.match(uc060.summaryText, /另宣告 設計／未實跑、尚待查證/);
+    assert.equal(uc060.classRows.length, 3, 'UC-060 renders 3 declared class rows in proof note');
     await authorContext.close();
     // The source-type facet still partitions the corpus: each case counts once,
     // under its primary class, and every declared class is named on the card.

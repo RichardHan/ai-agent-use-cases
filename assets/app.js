@@ -1066,13 +1066,20 @@ function declaredEvidenceClassesOfClause(clause) {
     ? true
     : !OFFICIAL_RELAYED_USER.test(text) && (FIRST_PARTY_LEAD.test(text) || /^官方(?!(?:轉述|挑選|引用|引述)(?!的?(?:(?:廠商|原廠|產品|服務商|公司|官方|內部|自家)(?:員工|團隊)|員工|內部)))/.test(text)
       || /官方(?:署名|自報|展示|示例|範例|發布|第一手)/.test(text));
-  const leadingUnverified = /^\s*(?:unverified|待驗證|待定|尚待查證)/i.test(text);
+  const leadingUnverified = /^\s*(?:(?:unverified|pending-verification)(?:\s*[（(][^（()）]{0,40}[）)])?(?=$|[）)，,。；;:：、])|待驗證|待定|尚待查證)/i.test(text);
   if (firstParty) add('官方自報');
-  // `unverified` as a claim ends the clause or is followed by punctuation; a
-  // field name such as "unverified 欄位" is not a declaration of that class.
-  const unverifiedToken = /(?:^|[\s（(＋+、,，；;])unverified(?:$|[（(），,。；;:：、\s]*[）)，,。；;])/i.test(text);
+  // `unverified` or `pending-verification` as a claim ends the clause, carries a
+  // parenthetical note ("unverified（官方規則頁本次被擋未讀）"), or is followed by
+  // punctuation; a field name such as "unverified 欄位" is not a declaration.
+  const unverifiedToken = /(?:^|[\s（(＋+、,，；;])(?:unverified|pending-verification)(?:\s*[（(][^（()）]{0,40}[）)])?(?=$|[）)，,。；;:：、])/i.test(text);
   if (leadingUnverified || unverifiedToken) add('尚待查證');
-  if (designedToken) add('設計／未實跑');
+  // A case page may also declare in Chinese that its prompt, trial procedure or
+  // acceptance steps were designed by the library and not executed ("下方提示詞與驗收
+  // 方法為本庫原創、未測", "以下試法與指令為本庫設計", "本頁安全試跑流程為自設未測",
+  // "整理者改寫的保守流程未實跑", "設計指令未實跑"). Require the library/design cue
+  // so "作者提供的提示詞未實跑" or "未執行程式" (author's prompt/code) stays out.
+  const designedChinese = /(?:本庫|本頁|本站|整理者|以下|下方)[^。；]{0,20}(?:原創(?:設計)?|自行設計|自設(?:未測)?|設計(?:[、，,\s]*(?:未實測|未測|未實跑|未執行))?|改寫[^。；]{0,8}未實跑)|(?:提示詞|試法|指令|流程|驗收|步驟)[^。；]{0,12}(?:為(?:本庫|本頁|整理者)?(?:自行|原創)?設計|(?:本庫|自行)設計|自設未測)|(?:^|[。，,、\s])(?:設計|自設|原創)(?:提示詞|試法|指令|流程|驗收|步驟)[^。；]{0,6}(?:未實跑|未實測|未測|未執行)/.test(text);
+  if (designedToken || designedChinese) add('設計／未實跑');
   // An explicit token is a declaration on its own.
   if (/\bauthor-(?:demo|self-report)\b/i.test(text)) add('作者報告／示範');
   // Prose about an author or external tester counts only when the clause reports

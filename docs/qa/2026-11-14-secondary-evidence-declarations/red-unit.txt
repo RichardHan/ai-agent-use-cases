@@ -1,0 +1,63 @@
+✔ the primary class keeps driving the filter, and every entry declares at least one class (0.598375ms)
+✔ a declaration that joins classes with ＋ or ； keeps every class it names (0.127167ms)
+✖ Chinese declarations of library-designed procedures/prompts and parenthetical/hyphenated unverified clauses keep their secondary classes (0.259834ms)
+✔ a passing or negated mention of a class does not become an attributed class (0.212375ms)
+✔ a single-clause declaration does not gain invented classes (0.122167ms)
+✔ the 來源類型 facet counts each entry exactly once, under its primary class (0.468167ms)
+✔ every class the corpus declares has a definition, claimant, boundary and safety tip (0.657417ms)
+✔ the pull-request workflows were actually parsed (0.369375ms)
+✔ editing a suite starts a pull request workflow that runs it (1.842958ms)
+✔ editing the site or any part of the corpus starts a browser workflow that asserts it (18.561959ms)
+✖ no workflow turns a failing unit run into a green step (7.541958ms)
+✔ a workflow edit runs the job that audits every workflow (0.310834ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 10
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 179.49575
+
+✖ failing tests:
+
+test at tests/evidence-attribution.test.cjs:47:1
+✖ Chinese declarations of library-designed procedures/prompts and parenthetical/hyphenated unverified clauses keep their secondary classes (0.259834ms)
+  AssertionError [ERR_ASSERTION]: UC-035: expected proofClasses (作者報告／示範) to include 設計／未實跑 for "社群作者自報；有流程，無公開申請紀錄或結果驗證；整理者改寫的保守流程未實跑。"
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r8/tests/evidence-attribution.test.cjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at tests/pr-gate-coverage.test.cjs:158:1
+✖ no workflow turns a failing unit run into a green step (7.541958ms)
+  AssertionError [ERR_ASSERTION]: a failing `node --test` must fail the step, not be excused by a fallback command or masked by a pipe
+  + actual - expected
+  
+  + [
+  +   'case-share-qa.yml (missing pipefail): node --test tests/*.test.cjs | tee qa-artifacts/unit.tap'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r8/tests/pr-gate-coverage.test.cjs:182:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'case-share-qa.yml (missing pipefail): node --test tests/*.test.cjs | tee qa-artifacts/unit.tap' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }

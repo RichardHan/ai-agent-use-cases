@@ -1,0 +1,18 @@
+AssertionError [ERR_ASSERTION]: UC-336 Chinese library-designed declaration renders secondary chip
++ actual - expected
+
+  [
+    '作者報告／示範',
+-   '設計／未實跑'
+  ]
+
+    at /Users/richard_han/orca/wt/aiuc-20261114-r8/tests/evidence-attribution-browser.cjs:226:12
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:479:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [Array],
+  operator: 'deepStrictEqual'
+}

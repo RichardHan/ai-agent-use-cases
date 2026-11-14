@@ -1,0 +1,24 @@
+✔ a case that only shares a designed prompt is not labelled as an author execution record (1.185792ms)
+✔ cases declaring designed-only evidence stay searchable and keep their proof definition (0.152791ms)
+✔ an unverified evidence line is never presented as an author demonstration (0.298792ms)
+✔ every proof bucket used by the corpus has a definition, claimant, status and safety tip (0.2465ms)
+✔ a case that opens with an author execution record is never filed under template material (0.596791ms)
+✔ a case that opens with a vendor or official statement keeps the first-party claimant (0.434042ms)
+✔ backtick-quoted unverified and designed tokens are read as their own class (0.738292ms)
+✔ cases whose evidence line declares author-demo, external tester quote, or a vendor grade land on the matching label (0.23275ms)
+✔ a class rule must not borrow a word from another declared clause or confuse publisher with claimant (0.789917ms)
+✔ a relayed declaration is exposed as data, and a later source is not (0.311916ms)
+✔ an author claim read through someone else is qualified, a first-hand read is not (0.236833ms)
+✔ the card keeps the filter label and states the acquisition route (0.754292ms)
+✔ the detail chips keep the label and add the acquisition route (0.156083ms)
+✔ the copied note and the related row repeat the acquisition route (0.187125ms)
+✔ the evidence facet counts one class per entry after the reclassification (0.48875ms)
+✔ copy for a resolved lead does not describe it as still being sought (0.379875ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 211.465416

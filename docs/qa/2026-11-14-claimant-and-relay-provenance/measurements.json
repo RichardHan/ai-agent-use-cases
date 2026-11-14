@@ -1,0 +1,276 @@
+{
+  "before": {
+    "desktop": {
+      "uc179": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述 核讀：未經第三方獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "claimant": "成果主張來源：官方團隊／原廠自述",
+        "noteProvenance": null,
+        "overflow": false
+      },
+      "axe179": 0,
+      "uc107": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述 核讀：未經第三方獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "overflow": false
+      },
+      "axe107": 0,
+      "uc221": {
+        "chips": [
+          "作者報告／示範"
+        ],
+        "summary": "成果主張：社群作者／專案實踐者 核讀：本庫未獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "overflow": false
+      },
+      "axe221": 0,
+      "card179": {
+        "proof": "官方自報",
+        "relayed": null,
+        "bottomHeight": 57,
+        "cardHeight": 699
+      },
+      "errors": []
+    },
+    "phone": {
+      "uc179": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述 核讀：未經第三方獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "claimant": "成果主張來源：官方團隊／原廠自述",
+        "noteProvenance": null,
+        "overflow": false
+      },
+      "axe179": 0,
+      "uc107": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述 核讀：未經第三方獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "overflow": false
+      },
+      "axe107": 0,
+      "uc221": {
+        "chips": [
+          "作者報告／示範"
+        ],
+        "summary": "成果主張：社群作者／專案實踐者 核讀：本庫未獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "overflow": false
+      },
+      "axe221": 0,
+      "card179": {
+        "proof": "官方自報",
+        "relayed": null,
+        "bottomHeight": 57,
+        "cardHeight": 549
+      },
+      "errors": []
+    },
+    "small": {
+      "uc179": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述 核讀：未經第三方獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "claimant": "成果主張來源：官方團隊／原廠自述",
+        "noteProvenance": null,
+        "overflow": false
+      },
+      "axe179": 0,
+      "uc107": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述 核讀：未經第三方獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "overflow": false
+      },
+      "axe107": 0,
+      "uc221": {
+        "chips": [
+          "作者報告／示範"
+        ],
+        "summary": "成果主張：社群作者／專案實踐者 核讀：本庫未獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "overflow": false
+      },
+      "axe221": 0,
+      "card179": {
+        "proof": "官方自報",
+        "relayed": null,
+        "bottomHeight": 57,
+        "cardHeight": 540
+      },
+      "errors": []
+    }
+  },
+  "after": {
+    "desktop": {
+      "uc179": {
+        "chips": [
+          "作者報告／示範"
+        ],
+        "summary": "成果主張：社群作者／專案實踐者（作者內容經第三人轉述） 核讀：本庫未獨立重現 取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文 核讀與安全建議 ↓",
+        "provenance": "取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文",
+        "claimant": "成果主張來源：社群作者／專案實踐者",
+        "noteProvenance": "本庫取得方式：案例頁說明作者的使用經驗是由第三人轉述、轉載或摘要整理（含官方公告挑選引用、同事或訪談主持人整理），或本庫只讀到訪談摘要頁、影片轉述而沒有取得作者原文與原始紀錄。來源憑據仍記為作者報告／示範，因為成果主張來自使用者或作者本人；但這不代表本庫讀過作者的原始紀錄，引用前請自行開啟原始來源核對。",
+        "overflow": false
+      },
+      "axe179": 0,
+      "uc107": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述（官方內容經第三人轉述） 核讀：未經第三方獨立重現 取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文 核讀與安全建議 ↓",
+        "provenance": "取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文",
+        "overflow": false
+      },
+      "axe107": 0,
+      "uc221": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述 核讀：未經第三方獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "overflow": false
+      },
+      "axe221": 0,
+      "card179": {
+        "proof": "作者報告／示範",
+        "relayed": "取得：經轉述",
+        "bottomHeight": 57,
+        "cardHeight": 699
+      },
+      "errors": []
+    },
+    "phone": {
+      "uc179": {
+        "chips": [
+          "作者報告／示範"
+        ],
+        "summary": "成果主張：社群作者／專案實踐者（作者內容經第三人轉述） 核讀：本庫未獨立重現 取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文 核讀與安全建議 ↓",
+        "provenance": "取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文",
+        "claimant": "成果主張來源：社群作者／專案實踐者",
+        "noteProvenance": "本庫取得方式：案例頁說明作者的使用經驗是由第三人轉述、轉載或摘要整理（含官方公告挑選引用、同事或訪談主持人整理），或本庫只讀到訪談摘要頁、影片轉述而沒有取得作者原文與原始紀錄。來源憑據仍記為作者報告／示範，因為成果主張來自使用者或作者本人；但這不代表本庫讀過作者的原始紀錄，引用前請自行開啟原始來源核對。",
+        "overflow": false
+      },
+      "axe179": 0,
+      "uc107": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述（官方內容經第三人轉述） 核讀：未經第三方獨立重現 取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文 核讀與安全建議 ↓",
+        "provenance": "取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文",
+        "overflow": false
+      },
+      "axe107": 0,
+      "uc221": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述 核讀：未經第三方獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "overflow": false
+      },
+      "axe221": 0,
+      "card179": {
+        "proof": "作者報告／示範",
+        "relayed": "取得：經轉述",
+        "bottomHeight": 57,
+        "cardHeight": 549
+      },
+      "errors": []
+    },
+    "small": {
+      "uc179": {
+        "chips": [
+          "作者報告／示範"
+        ],
+        "summary": "成果主張：社群作者／專案實踐者（作者內容經第三人轉述） 核讀：本庫未獨立重現 取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文 核讀與安全建議 ↓",
+        "provenance": "取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文",
+        "claimant": "成果主張來源：社群作者／專案實踐者",
+        "noteProvenance": "本庫取得方式：案例頁說明作者的使用經驗是由第三人轉述、轉載或摘要整理（含官方公告挑選引用、同事或訪談主持人整理），或本庫只讀到訪談摘要頁、影片轉述而沒有取得作者原文與原始紀錄。來源憑據仍記為作者報告／示範，因為成果主張來自使用者或作者本人；但這不代表本庫讀過作者的原始紀錄，引用前請自行開啟原始來源核對。",
+        "overflow": false
+      },
+      "axe179": 0,
+      "uc107": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述（官方內容經第三人轉述） 核讀：未經第三方獨立重現 取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文 核讀與安全建議 ↓",
+        "provenance": "取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文",
+        "overflow": false
+      },
+      "axe107": 0,
+      "uc221": {
+        "chips": [
+          "官方自報"
+        ],
+        "summary": "成果主張：官方團隊／原廠自述 核讀：未經第三方獨立重現 核讀與安全建議 ↓",
+        "provenance": null,
+        "overflow": false
+      },
+      "axe221": 0,
+      "card179": {
+        "proof": "作者報告／示範",
+        "relayed": "取得：經轉述",
+        "bottomHeight": 90,
+        "cardHeight": 572
+      },
+      "errors": []
+    }
+  },
+  "scenarios": [
+    {
+      "vpName": "desktop",
+      "s1": {
+        "count": "顯示 29 / 524 筆收錄",
+        "firstTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記"
+      },
+      "s2": {
+        "empty": "顯示 0 / 524 筆收錄",
+        "recoveryOption": "移除使用情境「工作」 → 查看 1 筆",
+        "recovered": "顯示 1 / 524 筆收錄"
+      },
+      "s3": {
+        "trust": "成果主張：社群作者／專案實踐者（作者內容經第三人轉述）核讀：本庫未獨立重現取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文核讀與安全建議 ↓",
+        "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/7d396fc0b0b3e8a062cd4886a44d64f9b4be9172/cases/179-duplicate-customer-email-flow-repair.md",
+        "closed": true,
+        "focus": "results-count",
+        "returnCount": "顯示 7 / 524 筆收錄"
+      },
+      "errors": []
+    },
+    {
+      "vpName": "phone",
+      "s1": {
+        "count": "顯示 29 / 524 筆收錄",
+        "firstTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記"
+      },
+      "s2": {
+        "empty": "顯示 0 / 524 筆收錄",
+        "recoveryOption": "移除使用情境「工作」 → 查看 1 筆",
+        "recovered": "顯示 1 / 524 筆收錄"
+      },
+      "s3": {
+        "trust": "成果主張：社群作者／專案實踐者（作者內容經第三人轉述）核讀：本庫未獨立重現取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文核讀與安全建議 ↓",
+        "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/7d396fc0b0b3e8a062cd4886a44d64f9b4be9172/cases/179-duplicate-customer-email-flow-repair.md",
+        "closed": true,
+        "focus": "results-count",
+        "returnCount": "顯示 7 / 524 筆收錄"
+      },
+      "errors": []
+    }
+  ]
+}

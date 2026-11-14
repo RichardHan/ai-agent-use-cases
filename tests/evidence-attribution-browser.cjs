@@ -187,8 +187,36 @@ const read = page => page.evaluate(() => {
     assert.equal((await axe(authorPage)).violations.length, 0, 'axe violations on the relayed author detail');
     assert.equal(authorErrors.length, 0, `author page errors: ${authorErrors.join(' | ')}`);
     rows.push({ name: 'author-relayed', width: 390, height: 844, card: relayCard.mark, provenance: authorDetail.provenance, axe: 0 });
-    await authorContext.close();
 
+    // An official announcement selecting an external tester's quote (UC-179)
+    // attributes the outcome claim to the external user (作者報告／示範) and
+    // states the relayed acquisition route.
+    await authorPage.goto(caseUrl('UC-179'), { waitUntil: 'networkidle' });
+    await authorPage.waitForSelector('#detail[open]', { timeout: 90000 });
+    const uc179 = await read(authorPage);
+    assert.deepEqual(uc179.chips, ['作者報告／示範'], 'UC-179 external tester quote is not labelled as an official self-report');
+    assert.match(uc179.summaryText, /成果主張：社群作者／專案實踐者（作者內容經第三人轉述）/);
+    assert.match(uc179.summaryText, /取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文/);
+
+    // A Chinese-declared product-employee interview summarized by the host
+    // (UC-107) keeps the official claimant while disclosing the host-summary
+    // acquisition route.
+    await authorPage.goto(caseUrl('UC-107'), { waitUntil: 'networkidle' });
+    await authorPage.waitForSelector('#detail[open]', { timeout: 90000 });
+    const uc107 = await read(authorPage);
+    assert.deepEqual(uc107.chips, ['官方自報'], 'UC-107 product employee claim stays 官方自報');
+    assert.match(uc107.summaryText, /成果主張：官方團隊／原廠自述（官方內容經第三人轉述）/);
+    assert.match(uc107.summaryText, /取得：官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文/);
+
+    // A service provider reporting its own test (UC-221) is first-party vendor
+    // evidence, not a community author report.
+    await authorPage.goto(caseUrl('UC-221'), { waitUntil: 'networkidle' });
+    await authorPage.waitForSelector('#detail[open]', { timeout: 90000 });
+    const uc221 = await read(authorPage);
+    assert.deepEqual(uc221.chips, ['官方自報'], 'UC-221 service-provider self-test is 官方自報');
+    assert.match(uc221.summaryText, /成果主張：官方團隊／原廠自述/);
+    assert.doesNotMatch(uc221.summaryText, /經第三人轉述/);
+    await authorContext.close();
     // The source-type facet still partitions the corpus: each case counts once,
     // under its primary class, and every declared class is named on the card.
     await boot(page);

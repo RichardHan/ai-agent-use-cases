@@ -52,7 +52,7 @@ const files = ['cases', 'evidence']
 const entries = files.flatMap(file => Array.from(api.parseFile(file, fs.readFileSync(path.join(root, file), 'utf8'))));
 const byId = id => entries.find(entry => entry.id === id);
 
-test('a class rule must not borrow a word from another declared clause', () => {
+test('a class rule must not borrow a word from another declared clause or confuse publisher with claimant', () => {
   const line = 'dots官方轉述＋Grok Bot作者自報與後續錯誤；未獨立實測';
   assert.equal(api.declaredEvidenceClass(line, 'case'), '作者報告／示範',
     '官方 in the first clause must not pair with 自報 from the second clause');
@@ -60,9 +60,23 @@ test('a class rule must not borrow a word from another declared clause', () => {
     '官方轉述 names who relayed the experience, not a first-party official claim');
   assert.deepEqual([...byId('UC-024').proofClasses], ['作者報告／示範'],
     'UC-024 states 官方轉述早期使用者經驗, so it is not counted as an official self-report');
-  // The anchored grade notation still wins; splitting it would lose the vendor claim.
+  // An official announcement selecting an external tester's quote (UC-179) names
+  // the publisher, not the claimant: the outcome is claimed by the external user.
+  assert.equal(api.declaredEvidenceClass('V，官方挑選的具名測試者實用引言；無流程圖或事件紀錄，未重現', 'case'), '作者報告／示範');
+  assert.deepEqual([...byId('UC-179').proofClasses], ['作者報告／示範']);
+  assert.deepEqual([...byId('UC-179').relayedProof], ['作者報告／示範']);
+  // Official channel quoting its own employee or internal team stays first-party,
+  // while quoting an external customer's employee/team stays a relayed user claim.
+  assert.equal(api.declaredEvidenceClass('V，官方引述產品員工實際使用自述；未獨立重現', 'case'), '官方自報');
+  assert.deepEqual([...api.declaredEvidenceClasses('V，官方引述產品員工實際使用自述；未獨立重現', 'case')], ['官方自報']);
+  assert.equal(api.declaredEvidenceClass('V，官方挑選的外部客戶員工實用引言；未重現', 'case'), '作者報告／示範');
+  assert.deepEqual([...api.declaredEvidenceClasses('V，官方挑選的外部客戶員工實用引言；未重現', 'case')], ['作者報告／示範']);
+  assert.deepEqual([...api.relayedEvidenceClasses('V，官方挑選的外部客戶員工實用引言；未重現')], ['作者報告／示範']);
   assert.equal(api.declaredEvidenceClass('V＋B，服務商員工的實際使用自述與公開截圖；有推廣利益。', 'case'), '官方自報');
   assert.equal(byId('UC-328').proof, '官方自報');
+  assert.equal(api.declaredEvidenceClass('V，服務商自己的測試自述；沒有公開簽後原件或完整日誌，未獨立重現', 'case'), '官方自報');
+  assert.deepEqual([...byId('UC-221').proofClasses], ['官方自報']);
+  assert.deepEqual([...byId('UC-221').relayedProof], []);
   // A first-party declaration on its own line keeps its label.
   assert.equal(api.declaredEvidenceClass('官方自報內部實作；有操作例與畫面，非第三方審計。本次只核讀，未重現。', 'case'), '官方自報');
 });
@@ -70,6 +84,11 @@ test('a class rule must not borrow a word from another declared clause', () => {
 test('a relayed declaration is exposed as data, and a later source is not', () => {
   assert.deepEqual([...api.relayedEvidenceClasses('official（Spaces 功能與官方作例，經來源轉述）＋designed（兩位作者自擬）')], ['官方自報']);
   assert.deepEqual([...api.relayedEvidenceClasses('official（廠商工作坊示範與官方影片說明；Team Bots 官方文件已讀）。本庫未觀看影片，流程細節來自影片說明欄的官方章節與第三方文字整理；未獨立重現。')], ['官方自報']);
+  assert.deepEqual([...api.relayedEvidenceClasses('V級產品員工實際使用自述，由原訪談主持人整理；未獨立重現。')], ['官方自報'],
+    'a Chinese-declared product-employee interview summarized by the host is a relayed official claim');
+  assert.deepEqual([...api.relayedEvidenceClasses('designed（本庫自擬）＋V級產品員工實際使用自述，由原訪談主持人整理')], ['官方自報'],
+    'a Chinese official claim in a second clause after ＋ or ； still carries its relay qualifier');
+  assert.deepEqual([...api.relayedEvidenceClasses('author-demo（作者貼文已讀）；V級產品員工實際使用自述，由原訪談主持人整理')], ['官方自報']);
   // The relay note belongs to another source in these pages, so the official
   // class was read first-hand and must not carry the qualifier.
   assert.deepEqual([...api.relayedEvidenceClasses('author-demo（作者自述）＋official（Grok Bot 雲端電腦文件）；本庫流程為 designed；2026-10-19 快照回滾事件為二手轉述 unverified')], []);
@@ -80,20 +99,23 @@ test('a relayed declaration is exposed as data, and a later source is not', () =
     'reading the official page directly is not a relayed declaration');
 
   const relayed = entries.filter(entry => entry.relayedProof.length).map(entry => entry.id);
-  assert.deepEqual(relayed.map(id => String(id)).sort(), ['UC-049', 'UC-093', 'UC-282', 'UC-316', 'UC-514'],
+  assert.deepEqual(relayed.map(id => String(id)).sort(), ['UC-049', 'UC-093', 'UC-107', 'UC-108', 'UC-179', 'UC-282', 'UC-316', 'UC-514', 'UC-523'],
     'the pages that state the relay carry the qualifier, the others do not');
-  assert.deepEqual([...byId('UC-316').relayedProof], ['官方自報']);
-  assert.deepEqual([...byId('UC-514').relayedProof], ['官方自報']);
+  for (const id of ['UC-107', 'UC-108', 'UC-316', 'UC-514'])
+    assert.deepEqual([...byId(id).relayedProof], ['官方自報'], id + ' carries the official relay qualifier');
   assert.deepEqual([...byId('UC-007').relayedProof], [], 'a directly read official page stays unqualified');
 });
 
 test('an author claim read through someone else is qualified, a first-hand read is not', () => {
-  // The three author pages whose own header says the experience came through an
-  // interview summary or a fan-account retelling of a video.
+  // Author or external-user pages whose own header says the experience came
+  // through an interview summary, a colleague's post, a vendor-selected quote, or
+  // a fan-account retelling of a video.
   assert.deepEqual([...api.relayedEvidenceClasses('author-demo（經 ChatGPT Pro Community 訪談轉述）。無操作錄影；未核特定診所系統。')], ['作者報告／示範']);
   assert.deepEqual([...api.relayedEvidenceClasses('`author-demo`（X 上的作者自述、影片轉述與跨產品比較）＋ `designed`（本庫提示詞）')], ['作者報告／示範']);
   assert.deepEqual([...api.relayedEvidenceClasses('`author-self-report`（Greg Isenberg 訪談影片的轉載摘要頁）；影片逐字稿本庫未看，列為缺口；建議流程為 `designed`')], ['作者報告／示範']);
-  for (const id of ['UC-049', 'UC-093', 'UC-282'])
+  assert.deepEqual([...api.relayedEvidenceClasses('V，官方挑選的具名測試者實用引言；無流程圖或事件紀錄，未重現')], ['作者報告／示範']);
+  assert.deepEqual([...api.relayedEvidenceClasses('`author-demo`（作者轉述同事的實際設定；X 長貼文附一張圖片（本庫未看）並稱完整設定與每個 Bot 的首則訊息在所引長文中，本庫只讀貼文、未讀長文全文）；貼文結尾導向一篇長文，帶推廣性質')], ['作者報告／示範']);
+  for (const id of ['UC-049', 'UC-093', 'UC-179', 'UC-282', 'UC-523'])
     assert.deepEqual([...byId(id).relayedProof], ['作者報告／示範'], id + ' carries the author relay qualifier');
 
   // Two declarations in one line: the qualifier belongs to its own clause, and a

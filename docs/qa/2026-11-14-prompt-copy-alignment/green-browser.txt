@@ -1,0 +1,34 @@
+=== corpus copy & clipboard browser check (chromium) ===
+CORPUS COPY CHECK: {"entries":527,"copyActions":572,"originalTextUnchanged":true}
+=== search-reveal-settle-browser.cjs ===
+SEARCH_REVEAL_SETTLE [{"viewport":"desktop","grownFrom":513,"grownTo":773,"firstCardTop":757,"visibleCards":3},{"viewport":"phone","grownFrom":477,"grownTo":737,"firstCardTop":788,"visibleCards":1}]
+=== refine-from-results-browser.cjs ===
+REFINE_FROM_RESULTS [{"viewport":"desktop","width":1440,"height":900,"plain":{"refine":{"top":0,"bottom":0,"height":0,"hidden":true},"empty":{"top":0,"bottom":0,"height":0,"hidden":true}},"arrival":{"refine":{"top":15,"bottom":59,"height":44,"hidden":false},"title":{"top":336,"bottom":380,"height":44,"hidden":false},"count":"顯示 36 / 527 筆收錄"},"label":"修改「旅遊」","returned":{"focus":"query","value":"旅遊","selected":2,"fieldTop":430,"fieldBottom":494},"searchVisible":{"refineHidden":true,"heading":52,"noticeBottom":733,"viewport":900},"scrolledAway":{"hidden":false,"text":"修改「安全防護」"},"facetOnly":{"refine":{"top":-171,"bottom":-127,"height":44,"hidden":false},"label":"修改關鍵字（目前 1 項篩選）"},"longQuery":{"label":"修改「長途旅程規劃與住…」","overflow":0},"empty":{"refine":{"top":0,"bottom":0,"height":0,"hidden":true},"edit":{"top":1364,"bottom":1408,"height":44,"hidden":false}},"tabs":["copy-search-link","refine-query"],"keyboardFocus":"query","axe":[],"overflow":0,"errors":[],"passed":true},{"viewport":"phone","width":390,"height":844,"plain":{"refine":{"top":0,"bottom":0,"height":0,"hidden":true},"empty":{"top":0,"bottom":0,"height":0,"hidden":true}},"arrival":{"refine":{"top":59,"bottom":103,"height":44,"hidden":false},"title":{"top":448,"bottom":514,"height":66,"hidden":false},"count":"顯示 36 / 527 筆收錄"},"label":"修改「旅遊」","returned":{"focus":"query","value":"旅遊","selected":2,"fieldTop":406,"fieldBottom":462},"searchVisible":{"refineHidden":true,"heading":44,"noticeBottom":830,"viewport":844},"scrolledAway":{"hidden":false,"text":"修改「安全防護」"},"facetOnly":{"refine":{"top":-187,"bottom":-143,"height":44,"hidden":false},"label":"修改關鍵字（目前 1 項篩選）"},"longQuery":{"label":"修改「長途旅程規劃與住…」","overflow":0},"empty":{"refine":{"top":0,"bottom":0,"height":0,"hidden":true},"edit":{"top":858,"bottom":902,"height":44,"hidden":false}},"tabs":["copy-search-link","refine-query"],"keyboardFocus":"query","axe":[],"overflow":0,"errors":[],"passed":true},{"viewport":"small-phone","width":320,"height":740,"plain":{"refine":{"top":0,"bottom":0,"height":0,"hidden":true},"empty":{"top":0,"bottom":0,"height":0,"hidden":true}},"arrival":{"refine":{"top":59,"bottom":103,"height":44,"hidden":false},"title":{"top":464,"bottom":527,"height":63,"hidden":false},"count":"顯示 36 / 527 筆收錄"},"label":"修改「旅遊」","returned":{"focus":"query","value":"旅遊","selected":2,"fieldTop":354,"fieldBottom":410},"searchVisible":{"refineHidden":true,"heading":44,"noticeBottom":826,"viewport":740},"scrolledAway":{"hidden":false,"text":"修改「安全防護」"},"facetOnly":{"refine":{"top":59,"bottom":103,"height":44,"hidden":false},"label":"修改關鍵字（目前 1 項篩選）"},"longQuery":{"label":"修改「長途旅程規劃與住…」","overflow":0},"empty":{"refine":{"top":0,"bottom":0,"height":0,"hidden":true},"edit":{"top":912,"bottom":956,"height":44,"hidden":false}},"tabs":["copy-search-link","refine-query"],"keyboardFocus":"query","axe":[],"overflow":0,"errors":[],"passed":true}]
+=== superseded-live-browser.cjs ===
+PASS SUPERSEDED REGRESSION: HTTP 503 fails the real browser walk
+PUBLISHED_LIVE_BUILD_SUPERSEDED 49a109852568f26b05fec87a1b83e1b68ec70963 (step 15 verified bytes; walking the live visitor contract)
+LIVE_EXTERNAL_SOURCE desktop 200 https://github.com/RichardHan/ai-agent-use-cases/blob/49a109852568f26b05fec87a1b83e1b68ec70963/cases/094-meeting-stand-in-disclosure.md
+PASS LIVE SUPERSEDED: desktop problem search, shared detail/reload/source/return, filtered empty recovery; observed sourceRevision=49a109852568f26b05fec87a1b83e1b68ec70963
+LIVE_EXTERNAL_SOURCE mobile 200 https://github.com/RichardHan/ai-agent-use-cases/blob/49a109852568f26b05fec87a1b83e1b68ec70963/cases/094-meeting-stand-in-disclosure.md
+PASS LIVE SUPERSEDED: mobile problem search, shared detail/reload/source/return, filtered empty recovery; observed sourceRevision=49a109852568f26b05fec87a1b83e1b68ec70963
+=== result-count-honesty-browser.cjs ===
+desktop {"name":"desktop","wide":"顯示 325 / 527 筆收錄","narrow":"顯示 6 / 527 筆收錄","drawable":5,"explained":"1","gap":"在所選條件下，沒有案例的標題、用途或痛點同時包含「播客」「摘要」。下列 8 筆是全文或同義詞命中，不代表案例在做這件事。"}
+phone {"name":"phone","wide":"顯示 325 / 527 筆收錄","narrow":"顯示 6 / 527 筆收錄","drawable":5,"explained":"1","gap":"在所選條件下，沒有案例的標題、用途或痛點同時包含「播客」「摘要」。下列 8 筆是全文或同義詞命中，不代表案例在做這件事。"}
+[
+ {
+  "name": "desktop",
+  "wide": "顯示 325 / 527 筆收錄",
+  "narrow": "顯示 6 / 527 筆收錄",
+  "drawable": 5,
+  "explained": "1",
+  "gap": "在所選條件下，沒有案例的標題、用途或痛點同時包含「播客」「摘要」。下列 8 筆是全文或同義詞命中，不代表案例在做這件事。"
+ },
+ {
+  "name": "phone",
+  "wide": "顯示 325 / 527 筆收錄",
+  "narrow": "顯示 6 / 527 筆收錄",
+  "drawable": 5,
+  "explained": "1",
+  "gap": "在所選條件下，沒有案例的標題、用途或痛點同時包含「播客」「摘要」。下列 8 筆是全文或同義詞命中，不代表案例在做這件事。"
+ }
+]

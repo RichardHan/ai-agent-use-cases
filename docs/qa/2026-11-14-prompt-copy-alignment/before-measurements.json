@@ -1,0 +1,126 @@
+{
+  "label": "before",
+  "baseUrl": "http://127.0.0.1:18080/ai-agent-use-cases/",
+  "viewports": {
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "cases": {
+        "uc026": {
+          "methodShortcut": "前往方法與步驟 ↓ 原創提示詞（未實測，可修改後貼上）",
+          "methodJump": "方法與步驟 ↓ 原創提示詞（未實測，可修改後貼上）",
+          "copyButtonCount": 1,
+          "copyButtons": [
+            {
+              "ariaLabel": "複製本段（含標題）：可貼指令（本庫自設，未實測）",
+              "height": 46,
+              "fontSize": 14
+            }
+          ],
+          "detailOverflow": false,
+          "docOverflow": false,
+          "axe": []
+        },
+        "uc010": {
+          "copyButtonCount": 0,
+          "copyButtons": [],
+          "detailOverflow": false,
+          "axe": []
+        },
+        "uc016": {
+          "copyButtonCount": 1,
+          "copyButtons": [
+            {
+              "ariaLabel": "複製本段（含標題）：可複製提示詞（本庫原創，未測）",
+              "height": 46
+            }
+          ],
+          "detailOverflow": false,
+          "axe": []
+        }
+      },
+      "scenarios": {},
+      "errors": []
+    },
+    "phone": {
+      "width": 390,
+      "height": 844,
+      "cases": {
+        "uc026": {
+          "methodShortcut": "前往方法與步驟 ↓ 原創提示詞（未實測，可修改後貼上）",
+          "methodJump": "方法與步驟 ↓ 原創提示詞（未實測，可修改後貼上）",
+          "copyButtonCount": 1,
+          "copyButtons": [
+            {
+              "ariaLabel": "複製本段（含標題）：可貼指令（本庫自設，未實測）",
+              "height": 46,
+              "fontSize": 14
+            }
+          ],
+          "detailOverflow": false,
+          "docOverflow": false,
+          "axe": []
+        },
+        "uc010": {
+          "copyButtonCount": 0,
+          "copyButtons": [],
+          "detailOverflow": false,
+          "axe": []
+        },
+        "uc016": {
+          "copyButtonCount": 1,
+          "copyButtons": [
+            {
+              "ariaLabel": "複製本段（含標題）：可複製提示詞（本庫原創，未測）",
+              "height": 46
+            }
+          ],
+          "detailOverflow": false,
+          "axe": []
+        }
+      },
+      "scenarios": {},
+      "errors": []
+    },
+    "small": {
+      "width": 320,
+      "height": 740,
+      "cases": {
+        "uc026": {
+          "methodShortcut": "前往方法與步驟 ↓ 原創提示詞（未實測，可修改後貼上）",
+          "methodJump": "方法與步驟 ↓ 原創提示詞（未實測，可修改後貼上）",
+          "copyButtonCount": 1,
+          "copyButtons": [
+            {
+              "ariaLabel": "複製本段（含標題）：可貼指令（本庫自設，未實測）",
+              "height": 46,
+              "fontSize": 14
+            }
+          ],
+          "detailOverflow": false,
+          "docOverflow": false,
+          "axe": []
+        },
+        "uc010": {
+          "copyButtonCount": 0,
+          "copyButtons": [],
+          "detailOverflow": false,
+          "axe": []
+        },
+        "uc016": {
+          "copyButtonCount": 1,
+          "copyButtons": [
+            {
+              "ariaLabel": "複製本段（含標題）：可複製提示詞（本庫原創，未測）",
+              "height": 46
+            }
+          ],
+          "detailOverflow": false,
+          "axe": []
+        }
+      },
+      "scenarios": {},
+      "errors": []
+    }
+  }
+}

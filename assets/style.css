@@ -396,7 +396,7 @@
 
 /* Bound the initial collection without concealing the total or keyboard route onward. */
 .result-batch-actions{display:flex;justify-content:center;margin:24px 0 8px}
-.result-batch-actions button{min-height:44px;padding:10px 22px;border:1px solid var(--green);border-radius:8px;background:var(--paper);color:var(--green);font-size:14px;font-weight:700;cursor:pointer}
+.result-batch-actions button{min-height:44px;max-width:100%;padding:10px 22px;border:1px solid var(--green);border-radius:8px;background:var(--paper);color:var(--green);font-size:14px;font-weight:700;line-height:1.5;text-align:center;white-space:normal;overflow-wrap:anywhere;cursor:pointer}
 .result-batch-actions button:hover{background:#f5f7ef}
 .result-batch-actions button:focus-visible{outline:3px solid #799f27;outline-offset:3px}
 .result-batch-actions button[hidden]{display:none}

@@ -23,6 +23,7 @@ const report = [];
       assert(total > 72, 'fixture contains multiple batches');
       assert.equal(await page.locator('#results .card').count(), 24, 'start with a readable first batch');
       assert.match(await page.locator('#results-count').innerText(), new RegExp(`${total} / ${total}`));
+      assert.equal(await page.locator('#load-more-results').innerText(), `已顯示 24 / ${total} 筆 · 再看 24 筆（尚有 ${total - 24} 筆）`);
       // A submitted search is a history entry: returning to it must preserve
       // the batches the reader deliberately expanded, without expanding a new search.
       await page.locator('#query').fill('旅遊');
@@ -39,6 +40,8 @@ const report = [];
       await page.goForward();
       assert.equal(await page.locator('#query').inputValue(), '郵件');
       assert.equal(await page.locator('#results .card').count(), 24, 'Forward restores the other search independently');
+      const mailTotal = await page.evaluate(() => currentFiltered.length);
+      assert.equal(await page.locator('#load-more-results').innerText(), `已顯示 24 / ${mailTotal} 筆 · 再看 ${Math.min(24, mailTotal - 24)} 筆（尚有 ${mailTotal - 24} 筆）`, 'Forward popstate updates batch button text');
       // An abandoned draft batch must not reappear when its query is retyped.
       await page.locator('#query').fill('旅遊');
       await page.locator('#load-more-results').click();
@@ -67,6 +70,7 @@ const report = [];
       await page.locator('#results .card').nth(24).locator('h3 button').click();
       await page.goBack();
       assert.equal(await page.locator('#results .card').count(), draftCount, 'detail Back restores expanded draft');
+      assert.equal(await page.locator('#load-more-results').innerText(), `已顯示 ${draftCount} / ${mailTotal} 筆 · 再看 ${Math.min(24, mailTotal - draftCount)} 筆（尚有 ${mailTotal - draftCount} 筆）`, 'detail Back popstate updates shown count on batch button');
       await page.locator('#query').fill('旅遊');
       await page.locator('#query').press('Enter');
       await page.goBack();
@@ -77,6 +81,7 @@ const report = [];
       await more.focus();
       await page.keyboard.press('Enter');
       assert.equal(await page.locator('#results .card').count(), 48);
+      assert.equal(await page.locator('#load-more-results').innerText(), `已顯示 48 / ${total} 筆 · 再看 24 筆（尚有 ${total - 48} 筆）`);
       const firstNew = page.locator('#results .card').nth(24).locator('h3 button');
       await page.screenshot({ path: `${out}/${engine.name()}-${width}-first-batch.png` });
       row.firstBatch = await firstNew.evaluate(el => ({ focused: document.activeElement === el, top: el.getBoundingClientRect().top, bottom: el.getBoundingClientRect().bottom, height: innerHeight }));

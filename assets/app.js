@@ -2548,9 +2548,11 @@ function updateResultBatch() {
   // A shorter condition can leave visibleResults ahead of the matches (typing a
   // narrower word after a 24+ result query). The control is hidden then, so the
   // leftover text must not claim a negative number of remaining cases.
-  const remaining=Math.max(0,currentFiltered.length-visibleResults);
+  const total=currentFiltered.length;
+  const shown=Math.min(visibleResults,total);
+  const remaining=Math.max(0,total-shown);
   $('load-more-results').hidden=remaining===0;
-  $('load-more-results').textContent=remaining ? `再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）` : '';
+  $('load-more-results').textContent=remaining ? `已顯示 ${shown} / ${total} 筆 · 再看 ${Math.min(RESULT_BATCH_SIZE,remaining)} 筆（尚有 ${remaining} 筆）` : '';
 }
 // The sample card above the search is drawn from the corpus, so its height keeps
 // changing after this scroll (measured 478→715px on a 390x844 phone) and pushes

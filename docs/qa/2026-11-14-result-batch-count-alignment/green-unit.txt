@@ -1,0 +1,12 @@
+✔ updateResultBatch aligns shown count, total matches, next batch size and remaining count (36.419542ms)
+✔ updateResultBatch hides cleanly when all results fit or when narrowing leaves visibleResults ahead of matches (20.430167ms)
+✔ ensureVisibleResult expands to the target batch boundary and updates the shown / total label (8.528042ms)
+✔ style.css allows .result-batch-actions button to wrap cleanly on 320px viewports (1.106792ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 116.250458

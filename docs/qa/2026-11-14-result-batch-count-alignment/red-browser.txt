@@ -1,0 +1,13 @@
+AssertionError [ERR_ASSERTION]: desktop: batch control states shown / total alongside next and remaining counts
++ actual - expected
+
++ '再看 24 筆（尚有 301 筆）'
+- '已顯示 24 / 325 筆 · 再看 24 筆（尚有 301 筆）'
+
+    at /Users/richard_han/orca/wt/aiuc-20261114-r4/tests/result-count-honesty-browser.cjs:54:14 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '再看 24 筆（尚有 301 筆）',
+  expected: '已顯示 24 / 325 筆 · 再看 24 筆（尚有 301 筆）',
+  operator: 'strictEqual'
+}

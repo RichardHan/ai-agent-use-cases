@@ -119,6 +119,9 @@ jobs:
             exit "$freshness_status"
           fi
           node tests/results-return-browser.cjs
+      - name: Diagnose publication verification failure
+        if: failure()
+        run: node scripts/publication-network-diagnostic.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

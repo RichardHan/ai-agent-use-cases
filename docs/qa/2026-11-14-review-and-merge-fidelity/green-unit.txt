@@ -1,0 +1,87 @@
+✔ a case that only shares a designed prompt is not labelled as an author execution record (1.123792ms)
+✔ cases declaring designed-only evidence stay searchable and keep their proof definition (0.152041ms)
+✔ an unverified evidence line is never presented as an author demonstration (0.357291ms)
+✔ every proof bucket used by the corpus has a definition, claimant, status and safety tip (0.262833ms)
+✔ a case that opens with an author execution record is never filed under template material (0.579292ms)
+✔ a case that opens with a vendor or official statement keeps the first-party claimant (0.480292ms)
+✔ backtick-quoted unverified and designed tokens are read as their own class (0.590041ms)
+✔ cases whose evidence line declares author-demo, external tester quote, or a vendor grade land on the matching label (0.209417ms)
+✔ merged cases do not leave an older source count or partial source list in their lead evidence note (1.454958ms)
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+✔ independently built identical releases accept different timestamps (2.039625ms)
+✔ mixed publication revisions are rejected (0.542542ms)
+✔ changed, missing and duplicate sources are rejected (9.127167ms)
+✔ source order does not change the publication content (0.181709ms)
+✔ published verification exports whether downstream corpus checks are valid (2.866834ms)
+✔ facet publication waits through a 40-minute mixed-corpus deployment using the shared window (100.107375ms)
+✔ matching assets never accept changed source bytes, and failure stops at 60 minutes (113.885833ms)
+✔ a changed product asset cannot pass with an otherwise matching corpus (65.065333ms)
+✔ publication cannot pass while a static page has stale language or a stale source revision (100.735875ms)
+✔ non-main content verification does not demand a branch SHA from Pages (6.509583ms)
+✔ a newer published build is judged against the revision it names (5.607583ms)
+✔ a later merge that rewrote the same case is superseded, not a lost publication (5.176917ms)
+✔ a changed asset rewritten by a later build settles instead of polling for an hour (4.871209ms)
+✔ a live build that disagrees with its own revision never verifies (69.652833ms)
+✔ a superseded build whose corpus bytes changed without a content merge is rejected (196.503792ms)
+✔ a later merge that deletes the path this push changed is not a lost publication (7.477333ms)
+✔ an asset this push deleted but a later build restored is compared with that build (73.834959ms)
+✔ a published build that does not descend from this push is rejected (53.295292ms)
+✔ a newer build cannot be verified when the push base is unknown (59.785167ms)
+✔ a push that published no file still needs a live build faithful to its revision (133.7865ms)
+✔ a push that published no file settles on a newer live build instead of a false red (5.448208ms)
+✔ every served asset is compared, including copy.json (52.486583ms)
+✔ a rename is verified as new bytes present and the old path gone (58.388084ms)
+✔ an exact revision also requires the generated pages to be this build (58.800209ms)
+✔ a deleted runtime asset must be gone from the live site (106.027917ms)
+✔ a live build without a source revision is never accepted (56.055917ms)
+✔ a deleted source is verified by its absence from the published corpus (8.345375ms)
+✔ the gate exports verified only after the published bytes were actually compared (0.775375ms)
+✔ every workflow that compares the published site runs on a main push with its push base (11.151542ms)
+✔ facet workflow reserves publication time and gates every published consumer on verification (0.209333ms)
+✔ review date uses explicit lead verification fields, takes latest valid date and never borrows source dates (12.05525ms)
+✔ a review written inside another dated lead field is still that page’s review (6.769167ms)
+✔ every published case states a lead review date the site can read (212.169833ms)
+✔ recent review order preserves exact matches, sorts known dates first, retains stable relevance ties and never mutates entries (10.738917ms)
+✔ review sorting survives shared search URLs and is search arrival, without sharing unrelated or invalid state (4.755583ms)
+✔ real records preserve paired dates and leave undocumented review dates unknown (13.18275ms)
+✔ a lead key that names a review never loses its date in silence (159.299042ms)
+✔ every page that writes 本次增補查證 carries the newest date its lead declares (93.948334ms)
+✔ a dated section heading is read as a review record, and code fences are not (2.437167ms)
+✔ no case page keeps a review date older than a dated section it wrote (242.378958ms)
+✔ the declared date is what the badge and the recent-review sort read (3.985708ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1429.066916

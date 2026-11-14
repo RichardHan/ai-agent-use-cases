@@ -153,3 +153,40 @@ test('cases whose evidence line declares author-demo, external tester quote, or 
     assert.equal(entry.proof, label, `${id} must show the class its evidence line declares`);
   }
 });
+
+test('merged cases do not leave an older source count or partial source list in their lead evidence note', () => {
+  const offenders = [];
+  for (const entry of entries.filter(item => item.kind === 'case')) {
+    const line = evidenceLine(entry.markdown);
+    const bodySources = [...new Set(
+      [...entry.markdown.matchAll(/^#{2,3}\s+.*?(S-\d+[A-Z]|來源[A-Z])(?![a-zA-Z])/gm)].map(m => m[1])
+    )];
+    if (bodySources.length <= 1) continue;
+    const namedOrdinal = [...new Set([...line.matchAll(/來源[A-Z]/g)].map(m => m[0]))];
+    if (namedOrdinal.includes('來源A') && namedOrdinal.length >= 2) {
+      const expectedOrdinal = bodySources.filter(label => label.startsWith('來源'));
+      if (namedOrdinal.join(',') !== expectedOrdinal.join(',')) {
+        offenders.push(`${entry.id}: - 證據狀態 lists ${namedOrdinal.join(',')} but body has ${expectedOrdinal.join(',')}`);
+      }
+    }
+    const namedCode = [...new Set([...line.matchAll(/S-\d+[A-Z]/g)].map(m => m[0]))];
+    if (namedCode.some(code => code.endsWith('A')) && namedCode.length >= 2) {
+      const expectedCode = bodySources.filter(label => label.startsWith('S-'));
+      if (namedCode.join(',') !== expectedCode.join(',')) {
+        offenders.push(`${entry.id}: - 證據狀態 lists ${namedCode.join(',')} but body has ${expectedCode.join(',')}`);
+      }
+    }
+  }
+  for (const [id, pattern, expected] of [
+    ['UC-089', /S-\d+[A-Z]/g, 'S-089A,S-089B,S-089C,S-089D,S-089E'],
+    ['UC-336', /S-\d+[A-Z]/g, 'S-336A,S-336B,S-336C'],
+    ['UC-351', /來源[A-Z]/g, '來源A,來源B,來源C,來源D,來源E,來源F,來源G'],
+    ['UC-359', /來源[A-Z]/g, '來源A,來源B,來源C']
+  ]) {
+    const found = [...new Set([...evidenceLine(entries.find(item => item.id === id).markdown).matchAll(pattern)].map(m => m[0]))].join(',');
+    if (found !== expected) {
+      offenders.push(`${id}: - 證據狀態 must list ${expected} (found ${found || 'none'})`);
+    }
+  }
+  assert.deepEqual(offenders, []);
+});

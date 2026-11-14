@@ -77,11 +77,18 @@ test('every page that writes 本次增補查證 carries the newest date its lead
   // research batches amend existing pages. What must hold is that each one is read.
   assert.ok(pages.length >= 9, 'the corpus still declares supplemental reviews');
   for (const { file, markdown } of pages) {
-    const supplemental = leadOf(markdown).match(/^-\s*(?:本次)?增補查證\s*[：:]\s*(\d{4}-\d{2}-\d{2})/m)[1];
+    const supplementals = [...leadOf(markdown).matchAll(/^-\s*(?:本次)?增補查證\s*[：:]\s*(\d{4}-\d{2}-\d{2})/gm)].map(m => m[1]);
+    assert.equal(
+      supplementals.length,
+      1,
+      `${file}: lead must carry at most one 「本次增補查證」 line (found ${supplementals.join(', ')})`
+    );
+    const supplemental = supplementals[0];
     const actual = reviewDate(markdown);
-    assert.ok(
-      actual >= supplemental,
-      `${file}: 「頁首核對」 ${actual || '(未讀)'} is older than the supplement the page itself writes (${supplemental})`
+    assert.equal(
+      actual,
+      supplemental,
+      `${file}: 「本次增補查證」 (${supplemental}) must match the newest review date the lead declares (${actual || '(未讀)'})`
     );
   }
 });

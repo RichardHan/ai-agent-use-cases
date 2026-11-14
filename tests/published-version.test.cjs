@@ -433,6 +433,7 @@ test('the gate exports verified only after the published bytes were actually com
  t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
  const source=fs.readFileSync(path.join(__dirname,'published-version.cjs'),'utf8');
  assert.doesNotMatch(source,/'SKIP_PUBLISHED_BROWSER_CHECK superseded main commit'/,'a superseded build must not end as a green skip');
+ assert.match(source,/fs\.mkdirSync\('qa-artifacts',\{recursive:true\}\);\s*fs\.writeFileSync\('qa-artifacts\/published-version\.json'/,'published-version must create qa-artifacts immediately before writing its verdict JSON');
  assert.match(source,/reportWorkflowResult\(true\)/);
  assert.match(source,/reportWorkflowResult\(false\);\n const base/,'the gate starts from verified=false');
 });

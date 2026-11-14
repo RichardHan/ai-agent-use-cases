@@ -46,9 +46,12 @@ function load() {
   return context.api;
 }
 
-// The corpus convention this rule is about, read literally: a level 2–4 heading
-// that starts with an ISO date, optionally a clock time, and carries a label.
-// Fenced examples are prose, not records.
+// The corpus convention this rule is about, read literally:
+//   1) a level 2–4 heading that starts with an ISO date, or carries a parenthetical
+//      review/supplement date (`## …（2026-10-16核讀）`, `## 補充：…（2026-10-22 11:42，台灣）`);
+//   2) a dated version/merge log item or availability re-check (`- 2026-11-03 09:00 併入…`,
+//      `- 目前可用性（2026-10-25）：…`, `於 2026-11-09 查核回 404`).
+// Fenced examples and source publication dates are not library review records.
 function datedReviewSections(markdown) {
   const sections = [];
   let fenced = false;
@@ -58,11 +61,29 @@ function datedReviewSections(markdown) {
       continue;
     }
     if (fenced) continue;
-    const match = line.match(/^(#{2,4})\s*(\d{4}-\d{2}-\d{2})(?:\s+(\d{2}:\d{2}))?\s*(.+)$/);
-    if (!match) continue;
-    const parsed = new Date(match[2] + 'T00:00:00Z');
-    if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== match[2]) continue;
-    sections.push({ date: match[2], time: match[3] || '', label: match[4].trim() });
+    const match = line.match(/^(#{2,4})\s*(\d{4}-\d{2}-\d{2})(?:\s+(\d{2}:\d{2}))?\s*(.+)$/)
+      || line.match(/^(#{2,4})\s*(.+?[（(][^）)\n]*?\b(\d{4}-\d{2}-\d{2})(?:\s+(\d{2}:\d{2}))?(?:\s*(?:補充?|核讀|查閱|查證|覆核|補核|補證)|[，,]\s*台灣(?:時間)?)[^）)\n]*[）)].*)$/);
+    if (match) {
+      const isLeading = /^\d{4}-\d{2}-\d{2}$/.test(match[2]);
+      const date = isLeading ? match[2] : match[3];
+      const time = (isLeading ? match[3] : match[4]) || '';
+      const label = (isLeading ? match[4] : match[2]).trim();
+      const parsed = new Date(date + 'T00:00:00Z');
+      if (!Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date) {
+        sections.push({ date, time, label });
+      }
+      continue;
+    }
+    const recordMatch = line.match(/^-\s*(\d{4}-\d{2}-\d{2})(?:\s+(\d{2}:\d{2}))?(?:（[^）]*）)?\s*[：:\s]\s*((?:併入|補|重讀|新增)[^\n]+)$/)
+      || line.match(/^-\s*目前可用性[（(](\d{4}-\d{2}-\d{2})[）)][：:]\s*()(.+)$/)
+      || line.match(/(?:於\s*|；)(\d{4}-\d{2}-\d{2})()\s*((?:查核回\s*404|已讀主文|讀正文)[^\n]*)/);
+    if (recordMatch) {
+      const date = recordMatch[1];
+      const parsed = new Date(date + 'T00:00:00Z');
+      if (!Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date) {
+        sections.push({ date, time: recordMatch[2] || '', label: recordMatch[3].trim() });
+      }
+    }
   }
   return sections;
 }
@@ -83,13 +104,18 @@ test('a dated section heading is read as a review record, and code fences are no
     '## 2026-12-01 這一行在程式碼區塊裡',
     '```',
     '### 2026-10-20 覆核',
+    '## 日文反例：帳目平衡（2026-10-16核讀）',
+    '## 補充：預防保養（2026-10-22 11:42，台灣）',
+    '- 2026-11-03 09:00 併入 S-050C（新增來源）',
+    '- 目前可用性（2026-10-25）：GitHub 顯示 Page not found',
+    '- 作者發布：2026-11-30（非本庫查核紀錄）',
     '#### 2026-10-21',
     '## 沒有日期的補充'
   ].join('\n');
   assert.deepEqual(
     datedReviewSections(markdown).map(section => section.date),
-    ['2026-11-05', '2026-10-20'],
-    'dated headings count; fenced examples and a bare date do not'
+    ['2026-11-05', '2026-10-20', '2026-10-16', '2026-10-22', '2026-11-03', '2026-10-25'],
+    'leading/parenthetical dated headings and review/availability records count; fenced examples, author post dates and a bare date do not'
   );
 });
 

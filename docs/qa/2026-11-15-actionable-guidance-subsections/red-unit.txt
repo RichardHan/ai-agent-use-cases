@@ -1,0 +1,72 @@
+✔ metadata extracts dynamic actionable steps (how) from suggested workflow sections (11.345875ms)
+✔ metadata prioritizes actionable workflow headings over preceding input/output sections (3.8015ms)
+✔ metadata extracts dynamic caution from limits and permissions sections (2.653209ms)
+✔ displayCopy takes precedence over extracted markdown guidance when provided (2.247083ms)
+✔ metadata gracefully falls back to honest safe defaults when no specific workflow exists (2.968625ms)
+✔ showDetail renders extracted how and caution in .guidance-grid cards (12.258667ms)
+✔ metadata extracts guidance from H3 subsections and varied acceptance headings (3.002792ms)
+✔ metadata prioritizes actionable step headings over descriptive author reports (1.981875ms)
+✔ metadata prioritizes safety boundary list items over generic prerequisites in limits section (3.251ms)
+✔ Reviewer regressions: incidental mentions of coverage or payment speed must not falsely displace safety warnings (UC-111, UC-143) (9.274042ms)
+✔ metadata reads the step headings the corpus actually uses (2.510084ms)
+✔ an author-result section is not turned into "how to start" (2.275583ms)
+✔ metadata reads the limits headings the corpus actually uses (3.871458ms)
+✔ every case that writes a step section keeps its own guidance on the detail page (155.402667ms)
+✔ every case that names a limits section keeps its own limits on the detail page (62.802459ms)
+✔ a citation line is not published as advice (2.103ms)
+✔ a step section that only introduces subsections must not fall through to an author result (1.984709ms)
+✔ a citation that follows a publisher name is not advice (1.963708ms)
+✔ published guidance never carries markdown link syntax or a bare URL (104.818667ms)
+✔ a designed-procedure heading is read even when the corpus does not call it 流程 (2.342417ms)
+✔ a prompt block is never published as 怎麼開始 (2.292166ms)
+✔ every case that writes a designed procedure keeps its own steps on the detail page (39.106625ms)
+✔ 界線 names limits when the case wrote no other limits heading (2.172917ms)
+✔ a stronger limits heading still outranks a 界線 heading later in the file (2.752ms)
+✔ every case that writes only a 界線 limits heading keeps its own limits (50.27875ms)
+✔ a heading that only mentions a procedure is not a procedure (3.137125ms)
+✖ subsections within an H2 step section must be extracted instead of falling back to generic how (UC-181) (5.195208ms)
+✖ caution extraction recognizes safety boundaries in sections with link citations and compound headings (UC-072, UC-278, UC-430) (4.835167ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 26
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 558.531833
+
+✖ failing tests:
+
+test at tests/actionable-guidance.test.cjs:671:1
+✖ subsections within an H2 step section must be extracted instead of falling back to generic how (UC-181) (5.195208ms)
+  AssertionError [ERR_ASSERTION]: UC-181 should extract actionable steps from subsections under H2
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261115-r1/tests/actionable-guidance.test.cjs:675:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',
+    expected: '先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。',
+    operator: 'notStrictEqual'
+  }
+
+test at tests/actionable-guidance.test.cjs:679:1
+✖ caution extraction recognizes safety boundaries in sections with link citations and compound headings (UC-072, UC-278, UC-430) (4.835167ms)
+  AssertionError [ERR_ASSERTION]: UC-072 should extract its own safety cautions
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261115-r1/tests/actionable-guidance.test.cjs:683:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',
+    expected: '本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。',
+    operator: 'notStrictEqual'
+  }

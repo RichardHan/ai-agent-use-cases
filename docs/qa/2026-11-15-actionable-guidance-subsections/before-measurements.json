@@ -1,0 +1,104 @@
+{
+  "desktop": {
+    "UC-181": {
+      "summary": "",
+      "how": "先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。",
+      "caution": "郵資、承運商、地區、Bot方案和平台整合方式未取得。購買標籤可能扣款；列印可能產生實體輸出；修改狀態可能觸發客戶通知，需各自授權。",
+      "isGenericHow": true,
+      "isGenericCaution": false,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-desktop-uc-181.png"
+    },
+    "UC-072": {
+      "summary": "",
+      "how": "先用虛構對象做文字演練，不接電話服務、不提供真電話或私人郵件。；寫清楚要問什麼、可以透露什麼、不能承諾什麼；指定主動說明 AI 身份，不冒充本人或真人。",
+      "caution": "本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。",
+      "isGenericHow": false,
+      "isGenericCaution": true,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-desktop-uc-072.png"
+    },
+    "UC-278": {
+      "summary": "",
+      "how": "先列有限的構型及參數，標出哪些組合僅是概念。；每個選項都保留文字結構說明，讓工程師核對圖形與參數是否一致。",
+      "caution": "本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。",
+      "isGenericHow": false,
+      "isGenericCaution": true,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-desktop-uc-278.png"
+    },
+    "UC-430": {
+      "summary": "",
+      "how": "只用合成時間序列，分開光電發電、其他家用負載、進出電、車輛需求及量測截至時間；發電增加不代表可用餘電一定增加。；先定義離線判讀要件：資料是否同期、單位是否一致、是否缺值、是否有設備規格與人工設定的限制。未知不得補成零。",
+      "caution": "本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。",
+      "isGenericHow": false,
+      "isGenericCaution": true,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-desktop-uc-430.png"
+    }
+  },
+  "phone": {
+    "UC-181": {
+      "summary": "",
+      "how": "先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。",
+      "caution": "郵資、承運商、地區、Bot方案和平台整合方式未取得。購買標籤可能扣款；列印可能產生實體輸出；修改狀態可能觸發客戶通知，需各自授權。",
+      "isGenericHow": true,
+      "isGenericCaution": false,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-phone-uc-181.png"
+    },
+    "UC-072": {
+      "summary": "",
+      "how": "先用虛構對象做文字演練，不接電話服務、不提供真電話或私人郵件。；寫清楚要問什麼、可以透露什麼、不能承諾什麼；指定主動說明 AI 身份，不冒充本人或真人。",
+      "caution": "本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。",
+      "isGenericHow": false,
+      "isGenericCaution": true,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-phone-uc-072.png"
+    },
+    "UC-278": {
+      "summary": "",
+      "how": "先列有限的構型及參數，標出哪些組合僅是概念。；每個選項都保留文字結構說明，讓工程師核對圖形與參數是否一致。",
+      "caution": "本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。",
+      "isGenericHow": false,
+      "isGenericCaution": true,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-phone-uc-278.png"
+    },
+    "UC-430": {
+      "summary": "",
+      "how": "只用合成時間序列，分開光電發電、其他家用負載、進出電、車輛需求及量測截至時間；發電增加不代表可用餘電一定增加。；先定義離線判讀要件：資料是否同期、單位是否一致、是否缺值、是否有設備規格與人工設定的限制。未知不得補成零。",
+      "caution": "本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。",
+      "isGenericHow": false,
+      "isGenericCaution": true,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-phone-uc-430.png"
+    }
+  },
+  "small": {
+    "UC-181": {
+      "summary": "",
+      "how": "先閱讀原始報告與限制，再用小範圍、去敏資料設計自己的測試。",
+      "caution": "郵資、承運商、地區、Bot方案和平台整合方式未取得。購買標籤可能扣款；列印可能產生實體輸出；修改狀態可能觸發客戶通知，需各自授權。",
+      "isGenericHow": true,
+      "isGenericCaution": false,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-small-uc-181.png"
+    },
+    "UC-072": {
+      "summary": "",
+      "how": "先用虛構對象做文字演練，不接電話服務、不提供真電話或私人郵件。；寫清楚要問什麼、可以透露什麼、不能承諾什麼；指定主動說明 AI 身份，不冒充本人或真人。",
+      "caution": "本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。",
+      "isGenericHow": false,
+      "isGenericCaution": true,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-small-uc-072.png"
+    },
+    "UC-278": {
+      "summary": "",
+      "how": "先列有限的構型及參數，標出哪些組合僅是概念。；每個選項都保留文字結構說明，讓工程師核對圖形與參數是否一致。",
+      "caution": "本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。",
+      "isGenericHow": false,
+      "isGenericCaution": true,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-small-uc-278.png"
+    },
+    "UC-430": {
+      "summary": "",
+      "how": "只用合成時間序列，分開光電發電、其他家用負載、進出電、車輛需求及量測截至時間；發電增加不代表可用餘電一定增加。；先定義離線判讀要件：資料是否同期、單位是否一致、是否缺值、是否有設備規格與人工設定的限制。未知不得補成零。",
+      "caution": "本庫尚未獨立重現；先確認權限與驗收方式，不把案例報告當成成效保證。",
+      "isGenericHow": false,
+      "isGenericCaution": true,
+      "screenshot": "docs/qa/2026-11-15-actionable-guidance-subsections/before-small-uc-430.png"
+    }
+  }
+}

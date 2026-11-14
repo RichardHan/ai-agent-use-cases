@@ -934,7 +934,7 @@ function reviewDate(markdown) {
 // An author-result heading ("問題、實作與實際結果") is not a step section and is in
 // none of the lists, so it can never be published as "怎麼開始".
 const HOW_HEADINGS = [
-  /(?:建議操作流程|建議流程|建議操作步驟|操作步驟|可參考步驟|可參考的操作順序|操作順序|可借用的驗收步驟|可借用的只讀驗收步驟|可借鑑步驟|練習步驟|怎麼開始|怎麼試|可以怎麼試|怎麼用|小範圍試法|實作流程與核對邊界|操作與驗收|(?:可借用|可參考|可借鑑|可重用|建議|小範圍|試作).*(?:步驟|流程|驗收|操作|順序|試法))/,
+  /(?:建議操作流程|建議流程|建議操作步驟|操作步驟|可參考步驟|可參考的操作順序|操作順序|可借用的驗收步驟|可借用的只讀驗收步驟|可借鑑步驟|練習步驟|怎麼開始|怎麼試|可以怎麼試|怎麼用|小範圍試法|實作流程與核對邊界|操作與驗收|合成資料檢查|(?:可借用|可參考|可借鑑|可重用|建議|小範圍|試作).*(?:步驟|流程|驗收|操作|順序|試法))/,
   // Every entry names who designed the procedure, the phrase has to end the
   // heading, and a trailing parenthetical has to say the procedure was designed or
   // not run yet ("（本庫設計，未執行）", "（自設、未測）"). A bare 「練習」 or 「試做」
@@ -1013,9 +1013,12 @@ function extractActionableGuidance(markdown) {
     section.items.length > 0 ? section.items.slice(0, 2).join('；') : (section.lines[0] || ''));
   // A heading that names a procedure ("實作流程與核對邊界") owns steps, not limits:
   // the reader would otherwise see the first step under 「要注意什麼」.
-  const caution = pickGuidance(guidanceTiers(markdown, LIMIT_HEADINGS, heading => /流程|步驟|操作順序|實作|指令|試法|練習/.test(heading)), section => {
+  // Conversely, headings that explicitly state limits alongside implementation
+  // ("實作與限制") or permissions ("官方支持、權限與費用") must be retained for caution.
+  const caution = pickGuidance(guidanceTiers(markdown, LIMIT_HEADINGS, heading =>
+    /(?:流程|步驟|操作順序|指令|試法|練習)/.test(heading) || (/實作/.test(heading) && !/限制/.test(heading))), section => {
     if (section.items.length > 0) {
-      const safetyItem = section.items.find(item => /^(?:先停|注意|警告|風險|重要|安全|個資|隱私)[：:]/.test(item) || /(?:禁止|嚴禁|切勿|不得|未經(?:確認|授權|審核)|必經審核|人工審核|人工審批|資料外洩|個資外洩|提示詞注入|提示注入|惡意指示)/.test(item) || /(?:未經(?:確認|授權)|禁止|嚴禁|切勿|不得|人工).*?(?:付款|扣款|改權限|發送|刪除|寫入|覆蓋)|(?:付款|扣款|改權限|發送|刪除|寫入).*?(?:需|必須|要).*?(?:核准|批准|審核|審批|授權)/.test(item));
+      const safetyItem = section.items.find(item => !GUIDANCE_CITATION.test(item) && (/^(?:先停|注意|警告|風險|重要|安全|個資|隱私)[：:]/.test(item) || /(?:禁止|嚴禁|切勿|不得|未經(?:確認|授權|審核)|必經審核|人工審核|人工審批|資料外洩|個資外洩|提示詞注入|提示注入|惡意指示|不能推論機構|不能推論可製造|安全加工程式)/.test(item) || /(?:未經(?:確認|授權)|禁止|嚴禁|切勿|不得|人工).*?(?:付款|扣款|改權限|發送|刪除|寫入|覆蓋)|(?:付款|扣款|改權限|發送|刪除|寫入).*?(?:需|必須|要).*?(?:核准|批准|審核|審批|授權)/.test(item)));
       if (safetyItem) return safetyItem;
     }
     return section.items.find(item => !GUIDANCE_CITATION.test(item)) || section.lines.find(line => !GUIDANCE_CITATION.test(line)) || '';

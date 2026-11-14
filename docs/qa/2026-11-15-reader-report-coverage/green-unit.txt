@@ -1,0 +1,14 @@
+✔ UC-313 promotes the entire report including uncertainty and unexecuted proposal (1.667875ms)
+✔ source versions retain every list item and are not called verified results (0.920458ms)
+✔ report takes precedence over source directory and excludes designed, expected and supplementary outcomes (0.542459ms)
+✔ long and unknown original sections remain available through research, never silently truncated (0.185041ms)
+✔ reading report recognizes author actions and reports across varied phrasing without masquerading as verified results (0.661ms)
+✔ source jumps include author/date and deduplication headings and prefer a linked source (0.219708ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 54.672875

@@ -36,6 +36,26 @@ test('long and unknown original sections remain available through research, neve
  assert.equal(selectReadingSection([{title:'不明章節',text:'資料'}],'case'),-1);
 });
 
+test('reading report recognizes author actions and reports across varied phrasing without masquerading as verified results',()=>{
+ const uc011 = fs.readFileSync(path.join(root,'cases','011-sales-feedback-approved-revision.md'),'utf8');
+ const parts011 = sections(uc011);
+ const idx011 = selectReadingSection(parts011,'case');
+ assert.notEqual(idx011, -1, 'UC-011 should match 作者報告的流程與限制');
+ assert.equal(parts011[idx011].title, '作者報告的流程與限制');
+
+ const uc074 = fs.readFileSync(path.join(root,'cases','074-event-trigger-readback.md'),'utf8');
+ const parts074 = sections(uc074);
+ const idx074 = selectReadingSection(parts074,'case');
+ assert.notEqual(idx074, -1, 'UC-074 should match 作者實際做了什麼');
+ assert.equal(parts074[idx074].title, '作者實際做了什麼');
+
+ const uc095 = fs.readFileSync(path.join(root,'cases','095-product-usage-error-correlation.md'),'utf8');
+ const parts095 = sections(uc095);
+ const idx095 = selectReadingSection(parts095,'case');
+ assert.notEqual(idx095, -1, 'UC-095 should match 原作者實際做了什麼');
+ assert.equal(parts095[idx095].title, '原作者實際做了什麼');
+});
+
 test('source jumps include author/date and deduplication headings and prefer a linked source',()=>{
  assert.equal(selectSourceSection([{title:'原作者實作'},{title:'作者、日期與來源',hasLinks:true}]),1);
  assert.equal(selectSourceSection([{title:'問題與作者實際使用'},{title:'去重與來源',hasLinks:true}]),1);

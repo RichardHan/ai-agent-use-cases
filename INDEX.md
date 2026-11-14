@@ -8,7 +8,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 517 筆案例；頁首核對日期最新為 2026-11-13；本頁於 2026-11-13 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 520 筆案例；頁首核對日期最新為 2026-11-14；本頁於 2026-11-14 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -16,7 +16,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（517）
+## 主要案例（520）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -82,7 +82,7 @@
 | UC-063 | 盤點並整理 Plex 媒體庫命名、海報與備份 | Grok Bot／Plex | [論壇作者自述＋Plex 官方操作限制；未重現](cases/063-plex-media-library-housekeeping.md) | 生活｜影片、檔案整理、備份、驗收 |
 | UC-064 | 核對數學命題、反例搜尋與 Lean 證明檢查 | ChatGPT dots／Lean | [作者自述＋公開程式、CI及登記；未獨立重跑](cases/064-math-proof-review-formalization.md) | 學習｜科研、多代理、形式驗證、驗收 |
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢 | Grok Bot | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
-| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；每週五覆寫交接筆記並刷新單一用量報告頁（只建議不實作）；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要；Muse盤點每輪必讀常駐檔並壓縮（安全規則不動）；百分比只到1%時讓Muse唯讀加總內部逐則紀錄、用跳格點校正換算比 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁＋日文Muse常駐檔壓縮自述＋日文Muse內部紀錄逐則加總與跳格校正自述＋英文工具選擇稽核自設提示＋英文每週五交接筆記與用量儀表板自述；數據未核、未重現＋11-10併入每週一由一個Bot唯讀檢查其他Bot的規則衝突與多餘routine＋11-12併入稽核Bot把只在檢查的routine改成cron腳本、有發現才喚醒（英文自述）](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
+| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；每週五覆寫交接筆記並刷新單一用量報告頁（只建議不實作）；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要；Muse盤點每輪必讀常駐檔並壓縮（安全規則不動）；百分比只到1%時讓Muse唯讀加總內部逐則紀錄、用跳格點校正換算比 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁＋日文Muse常駐檔壓縮自述＋日文Muse內部紀錄逐則加總與跳格校正自述＋英文工具選擇稽核自設提示＋英文每週五交接筆記與用量儀表板自述；數據未核、未重現＋11-10併入每週一由一個Bot唯讀檢查其他Bot的規則衝突與多餘routine＋11-12併入稽核Bot把只在檢查的routine改成cron腳本、有發現才喚醒（英文自述）＋11-14併入「用量管家」Bot每週依用量排名Bot與routine、判斷值不值得、依可省量排序建議（英文自述，數字未核）](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
 | UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub；隊長Bot彙整全隊職責與例行任務成復原手冊、每月1日更新；dots 自己定期把 Automation／規則匯出到私有倉庫、對話變亂時開新 dot 讀回；每晚把多Bot共用電腦加密備份到自家Mac mini SSD並抽回逐檔比對；開源腳本從本機唯讀匯出Bot、routine與自建技能成Git純文字（不含記憶，非官方API） | Meta Muse／Git；Grok Bot／GitHub；ChatGPT dots／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼、重置後 Tailscale 身分恢復、每週三處備份變體）＋官方文件＋快照回滾且備份同時失效的二手轉述（待驗證）＋日文作者復原手冊自述＋日文作者 dots 設定匯出與重建自述＋英文作者每晚加密備份到本機SSD、抽回1,696／1,696檔相符自述；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
@@ -347,7 +347,7 @@
 | UC-333 | 外聯Notion跨代理記憶：Claude改文、Grok Bot讀流程 | Grok Bot／Claude／Notion | [前批作者自述；本輪原文未取得、071流程版本，不加數](cases/333-notion-cross-agent-outreach-memory.md) | 工作｜外聯、Notion、跨代理、記憶 |
 | UC-334 | 自架ADS-B接收站：雙頻輪收、解碼改寫，再用前後數據比較加裝放大器的效果 | Grok Bot／PlutoSDR／Raspberry Pi 4／SAWbird+ | [原文本輪未取得，待核不加數；前批自述與圖表紀錄保留](cases/334-sdr-adsb-receiver-decoder-range-ab-test.md) | 開發｜硬體、無線電、效能量測、驗收 |
 | UC-335 | 手動重新開啟的排程，又被Bot依舊約定關掉 | Grok Bot routines | [原文本輪未取得，待核不加數；前批失敗自述保留](cases/335-manual-routine-reenable-reverted-by-stale-instruction.md) | 開發｜排程、失敗、狀態同步、核准 |
-| UC-336 | 自製圓形掌上裝置當Grok Bot語音入口：錄音上傳、轉文字、經MCP送達再回到螢幕；Apple Watch一鍵經Ray-Ban眼鏡與自己的Grok Bot即時通話、錶面顏色顯示Bot狀態 | Grok Bot／ESP裝置／Mac轉文字／MCP／Cloudflare Tunnel；自製iPhone＋Apple Watch App／Grok Voice API／Meta Ray-Ban | [239跨裝置雙向會話版本，不另計；本輪未看原影片；2026-11-13補英文作者Watch語音App文字自述，無影片或原始碼](cases/336-handheld-voice-terminal-mcp-relay.md) | 開發｜實體裝置、語音、MCP、延遲 |
+| UC-336 | 自製圓形掌上裝置當Grok Bot語音入口：錄音上傳、轉文字、經MCP送達再回到螢幕；Apple Watch一鍵經Ray-Ban眼鏡與自己的Grok Bot即時通話、錶面顏色顯示Bot狀態；已root的舊Echo Dot按靜音鍵通話、Linux橋接xAI即時語音，做事的請求經webhook交幕僚長Bot再念出回覆 | Grok Bot／ESP裝置／Mac轉文字／MCP／Cloudflare Tunnel；自製iPhone＋Apple Watch App／Grok Voice API／Meta Ray-Ban；舊Echo Dot（已root）／Linux橋接／adb | [239跨裝置雙向會話版本，不另計；本輪未看原影片；2026-11-13補英文作者Watch語音App文字自述，無影片或原始碼；2026-11-14補英文作者Echo Dot公開how-to與參考程式，未執行、root不在範圍](cases/336-handheld-voice-terminal-mcp-relay.md) | 開發｜實體裝置、語音、MCP、延遲 |
 | UC-337 | 每天早上從收藏的參考照隨機挑一張，換成自己的臉和髮型送來 | Grok Bot routine／ChatGPT圖像編修 | [050每日素材生成送達版本，不另計；本輪原文未取得](cases/337-daily-random-reference-photo-likeness-edit.md) | 創作｜每日、生成圖像、隨機不重複、排程 |
 | UC-338 | 長途司機每天早上報工時，AI記週總、重算里程，再對薪資單 | Grok Bot（產品入口待核） | [單則文字自述；無截圖與核對結果，待定](cases/338-driver-daily-hours-log-paycheck-check.md) | 工作｜每日、工時、薪資核對、排班 |
 | UC-339 | 跨產品舊交辦被重送成新要求 | Grok Bot／grok.com | [作者失敗自述；根因及修復未核](cases/339-stale-cross-product-request-provenance.md) | 工作｜跨代理、訊息來源、舊任務、失敗 |
@@ -537,6 +537,9 @@
 | UC-523 | 一人替多個客戶做外展：Grok Bot幕僚長分派並送晨報、每客戶一個Bot、Instantly有意願回信經webhook交回覆Bot在Slack貼評分與建議回覆待核准、平日18:00回報；首則訊息限定可用連接與點數上限 | Grok Bot（多Bot、webhook、排程）／Slack／Instantly／Fireflies／GitHub／Claude Code | [B英文作者X長貼文轉述同事設定；所引長文未讀、無成效數字、未重現](cases/523-grok-bot-gtm-agency-chief-of-staff-per-client-reply-bots.md) | 工作｜多代理、銷售、Slack、核准、每日 |
 | UC-524 | 服務業排班每天清晨5點體檢：Grok Bot用自己的唯讀帳號下載CRM全部預約，通知團隊空檔、衝突與違反排班規則之處；自動改排與聯絡客戶仍只是構想 | Grok Bot（排程）／CRM與預約系統（產品未公開） | [B英文作者X貼文自述＋員工反應；截圖未看、規則寫法未公開、未重現](cases/524-grok-bot-service-business-booking-crm-daily-schedule-rule-check.md) | 工作｜排班、CRM、每日、唯讀、監看 |
 | UC-525 | Grok Bot群組放總管、下載、剪輯三個Bot：貼X影片連結，總管派下載，剪輯師接ChatCut加中英字幕與MG動畫、剪前先問樣式 | Grok Bot（多Bot、群組）／ChatCut | [B簡中作者X貼文＋示範影片（未看）＋跟做者自述跑通；著作權須自行確認、未重現](cases/525-grok-bot-group-chat-three-bots-x-video-chatcut-bilingual-edit.md) | 創作｜影片、多代理、群組派工、字幕 |
+| UC-526 | 每天早上Muse盤點軟體版本對照當日弱點公告、只報命中、更新待核准；把Muse自己的Git、Node、Python、瀏覽器也列入，依「外部碰不碰得到」決定更新、暫緩或記錄並改操作習慣 | Meta Muse（雲端電腦、瀏覽器、每日例行）／Git／Node.js | [B日文作者Qiita自述＋實際版本與比對；每日盤點詳文未讀、CVE未逐一查核、未重現](cases/526-muse-daily-software-inventory-cve-match-include-watcher-itself.md) | 開發｜資安、弱點管理、版本盤點、每日、核准 |
+| UC-527 | 把GitHub開源投資組合追蹤器裝進Muse Spaces：提示詞要Muse依manifest逐檔照抄不改寫、只開行情網址、每10分鐘更新快取並跑驗收；更新提示詞保留每筆交易、清掉殘留檔 | Meta Muse（Spaces、排程）／GitHub公開倉庫／Yahoo Finance；作者用Claude開發 | [B英文作者X自述＋公開README與manifest已讀；本庫未安裝、未重現](cases/527-muse-spaces-portfolio-tracker-copy-from-repo-manifest-update-keep-data.md) | 生活｜理財、投資紀錄、Spaces、範本、資料保留 |
+| UC-528 | API不論帶不帶金鑰都回403：請另一個網路上的Muse代理對照送「不帶金鑰」與「假金鑰」兩個請求，401與403不同代表認證層看得到標頭，相同才查網路路徑；先診斷再換金鑰 | Meta Muse／另一AI協作者（平台未說明）／Google Colab／LG EXAONE API | [B英文作者X串文轉貼代理工作紀錄；無原始請求紀錄、未重現](cases/528-two-agents-different-networks-no-key-vs-fake-key-403-diagnosis.md) | 開發｜故障診斷、API、跨代理、網路、驗證 |
 
 <a id="supplement-list"></a>
 
@@ -1050,3 +1053,7 @@
 ## 2026-11-13 09:00：每日批次（X＋Reddit／Hacker News 嘗試）
 
 [約35組候選與查閱範圍](sources/research-2026-11-13-0900.md)：新增4（UC522 Grok Bot與Muse以唯讀快照＋單頁Notion收件匣＋免費輪詢搭橋；UC523 多客戶外展的幕僚長＋一客戶一Bot＋webhook回覆Bot；UC524 服務業CRM預約每日清晨規則體檢；UC525 Grok Bot群組三Bot分工接ChatCut剪影片），合併補充2（UC336 Apple Watch＋Ray-Ban即時語音App；UC359 每晚只讀退追通知）；其餘為行銷導流、新聞、空泛心得與listicle
+
+## 2026-11-14 09:00：每日批次（X＋Qiita＋GitHub倉庫＋Reddit／Hacker News 嘗試）
+
+[約40組候選與查閱範圍](sources/research-2026-11-14-0900.md)：新增3（UC526 Muse每日軟體盤點對照弱點公告並把自身環境納入；UC527 依manifest把開源投資組合追蹤器照抄進Muse Spaces、更新保留資料；UC528 兩個代理從不同網路以無金鑰／假金鑰對照診斷API 403），合併補充2（UC066 用量管家Bot依可省量排序建議；UC336 舊Echo Dot改成Grok Bot幕僚長按鍵通話入口）；其餘為行銷導流、新聞、比較文、邀請碼與過薄單則。均未獨立重現。

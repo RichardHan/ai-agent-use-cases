@@ -1,0 +1,81 @@
+✔ method shortcut preserves the full untested heading and original index (1.638958ms)
+✔ workflow heading marked 本庫未實作 stays the method shortcut instead of being stolen as a result (0.145167ms)
+✖ 可嘗試的流程 and 小範圍試法 precede prompt sections as the method shortcut (0.591583ms)
+✔ pending, sparse and missing methods do not fabricate an actionable workflow (0.075291ms)
+✔ prompt fallback and evidence methods keep literal source labels (0.066792ms)
+✖ copy candidates retain their full qualified headings and original section indices (1.199083ms)
+✔ pending, empty, descriptive references, source citations and dated supplements do not become copy actions (0.211875ms)
+✔ source copy keeps links, code, list boundaries and nested qualifications without UI text (0.2085ms)
+✔ nested subsections stay with their parent and peer subsections end the copied range (0.078208ms)
+✔ deeper Markdown headings keep their restrictions inside the copied chapter (0.102666ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 8
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 60.697875
+
+✖ failing tests:
+
+test at tests/method-shortcut.test.cjs:18:1
+✖ 可嘗試的流程 and 小範圍試法 precede prompt sections as the method shortcut (0.591583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   index: 1,
+  +   title: '原創提示詞（未實測，可修改後貼上）'
+  -   index: 0,
+  -   title: '可嘗試的流程（本文設計、未實測）'
+    }
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r5/tests/method-shortcut.test.cjs:20:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { index: 1, title: '原創提示詞（未實測，可修改後貼上）' },
+    expected: { index: 0, title: '可嘗試的流程（本文設計、未實測）' },
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/prompt-copy.test.cjs:4:1
+✖ copy candidates retain their full qualified headings and original section indices (1.199083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      1,
+      2,
+  -   3,
+  -   4,
+  -   5,
+  -   6,
+  -   7,
+  -   8,
+  -   9,
+  -   10,
+  -   11
+    ]
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r5/tests/prompt-copy.test.cjs:19:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 1, 2 ],
+    expected: [
+       1, 2, 3, 4,  5,
+       6, 7, 8, 9, 10,
+      11
+    ],
+    operator: 'deepStrictEqual'
+  }

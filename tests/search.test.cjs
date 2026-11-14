@@ -36,6 +36,7 @@ assert.equal(entries.find(x=>x.id==='UC-239').proof,'作者報告／示範','par
 assert.equal(entries.find(x=>x.id==='UC-262').proof,'作者報告／示範','parses proof with 證據 header and author-demo');
 assert.equal(entries.find(x=>x.id==='UC-095').proof,'作者報告／示範','parses proof with 證據 header and author-demo');
 assert.equal(entries.find(x=>x.id==='UC-026').proof,'官方自報','parses proof with 官方 and 第一手使用自述');
+assert(api.filterEntries(entries, Array.from(api.tokenize('法務')), {proof:'官方自報'}).some(x=>x.id==='UC-021'),'official source filter includes the signed Legal Ops case');
 assert.equal(entries.find(x=>x.id==='UC-088').proof,'作者報告／示範','parses proof with author-self-report');
 assert(api.filterEntries(entries,[],{proof:'作者報告／示範'}).some(x=>x.id==='UC-239'),'filters author demo cases having 證據 header');
 assert.equal(entries.find(x=>x.id==='UC-001').scenario,'生活','extracts scenario for UC-001');

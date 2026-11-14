@@ -98,7 +98,9 @@ node scripts/check-published-surface.cjs
   - **修正與補強**：
     1. 於 `tests/tool-mention-fidelity.test.cjs` 直接擷取 `renderFacetCounts` 內的 `toolHint` 字串常數，對 `toolHint` 本身斷言 `/提及工具只看/`、`/不推定/` 與 `/去重/`。
     2. 於 `assets/app.js` 的 `withoutDisclaimedTools()` 將子句切分擴充為 `/[，,。；;\n]/`（並將 `只是作者推測` 放寬為 `只是(?:作者)?推測` 及補齊 `的本機連線機制不同|另一則貼文談的是|與本案工具不同`），且於 `tests/tool-mention-fidelity.test.cjs` 以無 `- 工具：` 宣告的混合逗號句驗證肯定工具保留、否定工具剔除。
-  - **終審（APPROVE）**：確認混合子句肯定工具保留與 `toolHint` 專屬斷言有效（`overall_correctness: correct`, `confidence: 0.96`），無剩餘問題。
+  - **PR #391 首次 CI 診斷與 `syncDiscovery()` 視窗位移防護（複審 APPROVE）**：
+    - 首輪 PR #391（`596a53bc`）16 項檢查中 15 項通過，`Website QA` [43565297972](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43565297972) 於 `tests/refine-from-results-browser.cjs:107`（`phone` 390×844）失敗。下載該 run 產物 `14102746041` 的 `report.json` 確認：當 `.hero-search-link` 捲動至 `#explore` 後輸入 `安全防護` 時，`syncDiscovery()` 因初始隨機抽卡不在 `安全防護` 池中而呼叫 `drawNext()` 替換 `#explore` 上方的 `#drawn-case`；當新抽出的卡片比初始卡片短 212px（`noticeBottom: 830 → 618`）且瀏覽器未對 `#explore` 做 scroll anchoring 時，`#query.bottom` 被上拉至 `+21px`，後續 `scrollBy(0, 700)`（展開 `#refine-query` 觸發 `+35px` 錨定補償）與 `scrollBy(0, -700)` 使 `#query.bottom` 落於 `-14px <= 0`。
+    - 於 `syncDiscovery()`（`assets/app.js:4833, 4852-4855`）比照 `drawFromButton()`，當 `window.scrollY > 0` 且焦點不在 `#discover` 內時記錄更新前的 `#explore.getBoundingClientRect().top` 並同步以 `window.scrollBy({top: shift, behavior: 'instant'})` 抵銷上方抽卡高度差。獨立審查員初審指出若在 `keepSearchRevealed()` 加入 `page.top < 0` 會干擾 600ms 視窗內的鍵盤／程式捲動，已維持 `keepSearchRevealed()` 原判準不變、僅保留 `syncDiscovery()` 同步補償，複審裁決 **APPROVE**（`overall_correctness: correct`, `confidence: 0.95`）。
 
 ## 發布紀錄
 

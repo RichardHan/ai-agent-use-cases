@@ -108,16 +108,18 @@ test('a case that opens with an author execution record is never filed under tem
 
 test('a case that opens with a vendor or official statement keeps the first-party claimant', () => {
   // A leading vendor/official statement covers graded vendor grades
-  // (V級, V＋B，) and any employee of the publisher (產品員工, 服務商員工).
-  const firstPartyLead = /^(?:[VAB](?:\s*[＋+]\s*[VAB])?級?\s*[，,、:：]?\s*)?(?:(?:廠商|原廠|產品|服務商|公司|官方)?員工|廠商|原廠|官方)/;
+  // (V級, V＋B，), service providers reporting their own test (服務商自己), and any
+  // employee of the publisher (產品員工, 服務商員工), while excluding an official
+  // channel that merely selects or relays an external user's quote (官方轉述, 官方挑選).
+  const firstPartyLead = /^(?:[VAB](?:\s*[＋+]\s*[VAB])?級?\s*[，,、:：]?\s*)?(?:(?:廠商|原廠|產品|服務商|公司|官方)?員工|服務商自己|廠商|原廠|官方(?!(?:轉述|挑選|引用|引述)(?!的?(?:(?:廠商|原廠|產品|服務商|公司|官方|內部|自家)(?:員工|團隊)|員工|內部))))/;
   const offenders = entries
     .filter(entry => entry.kind === 'case')
     .filter(entry => firstPartyLead.test(openingClause(entry.markdown)))
     .filter(entry => entry.proof !== '官方自報')
     .map(entry => `${entry.id} → ${entry.proof}`);
 
-  // Showing a vendor's own claim as 「公開文獻／第三方分析」 states the opposite
-  // of the real conflict of interest.
+  // Showing a vendor's own claim as 「公開文獻／第三方分析」 or 「作者報告／示範」
+  // hides the conflict of interest.
   assert.deepEqual(offenders, []);
 });
 
@@ -135,12 +137,13 @@ test('backtick-quoted unverified and designed tokens are read as their own class
   assert.deepEqual(quotedDesigned, []);
 });
 
-test('cases whose evidence line declares author-demo or a vendor grade land on the matching label', () => {
+test('cases whose evidence line declares author-demo, external tester quote, or a vendor grade land on the matching label', () => {
   const expected = {
     'UC-347': '作者報告／示範', 'UC-352': '作者報告／示範', 'UC-422': '作者報告／示範',
     'UC-407': '作者報告／示範', 'UC-054': '作者報告／示範', 'UC-072': '作者報告／示範',
     'UC-344': '作者報告／示範', 'UC-274': '作者報告／示範', 'UC-039': '作者報告／示範',
-    'UC-154': '官方自報', 'UC-152': '官方自報', 'UC-179': '官方自報',
+    'UC-179': '作者報告／示範', 'UC-024': '作者報告／示範',
+    'UC-154': '官方自報', 'UC-152': '官方自報', 'UC-221': '官方自報',
     'UC-260': '官方自報', 'UC-167': '官方自報', 'UC-020': '官方自報', 'UC-033': '官方自報',
     'UC-107': '官方自報', 'UC-108': '官方自報', 'UC-328': '官方自報'
   };

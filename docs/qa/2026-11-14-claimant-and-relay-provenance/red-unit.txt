@@ -1,0 +1,202 @@
+✔ a case that only shares a designed prompt is not labelled as an author execution record (1.148417ms)
+✔ cases declaring designed-only evidence stay searchable and keep their proof definition (0.148875ms)
+✔ an unverified evidence line is never presented as an author demonstration (0.284083ms)
+✔ every proof bucket used by the corpus has a definition, claimant, status and safety tip (0.232958ms)
+✔ a case that opens with an author execution record is never filed under template material (0.584709ms)
+✖ a case that opens with a vendor or official statement keeps the first-party claimant (0.97875ms)
+✔ backtick-quoted unverified and designed tokens are read as their own class (0.514875ms)
+✖ cases whose evidence line declares author-demo, external tester quote, or a vendor grade land on the matching label (0.239584ms)
+✖ a class rule must not borrow a word from another declared clause or confuse publisher with claimant (1.198458ms)
+✖ a relayed declaration is exposed as data, and a later source is not (0.301125ms)
+✖ an author claim read through someone else is qualified, a first-hand read is not (0.219916ms)
+✖ the card keeps the filter label and states the acquisition route (0.650959ms)
+✖ the detail chips keep the label and add the acquisition route (0.136125ms)
+✖ the copied note and the related row repeat the acquisition route (0.246708ms)
+✔ the evidence facet counts one class per entry after the reclassification (0.5425ms)
+✔ copy for a resolved lead does not describe it as still being sought (0.284375ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 8
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 269.749666
+
+✖ failing tests:
+
+test at tests/evidence-status-consistency.test.cjs:109:1
+✖ a case that opens with a vendor or official statement keeps the first-party claimant (0.97875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'UC-221 → 作者報告／示範'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-round/tests/evidence-status-consistency.test.cjs:123:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'UC-221 → 作者報告／示範' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/evidence-status-consistency.test.cjs:140:1
+✖ cases whose evidence line declares author-demo, external tester quote, or a vendor grade land on the matching label (0.239584ms)
+  AssertionError [ERR_ASSERTION]: UC-179 must show the class its evidence line declares
+  
+  '官方自報' !== '作者報告／示範'
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-round/tests/evidence-status-consistency.test.cjs:153:12)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '官方自報',
+    expected: '作者報告／示範',
+    operator: 'strictEqual'
+  }
+
+test at tests/relayed-source-provenance.test.cjs:55:1
+✖ a class rule must not borrow a word from another declared clause or confuse publisher with claimant (1.198458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '官方自報' !== '作者報告／示範'
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-round/tests/relayed-source-provenance.test.cjs:65:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '官方自報',
+    expected: '作者報告／示範',
+    operator: 'strictEqual'
+  }
+
+test at tests/relayed-source-provenance.test.cjs:78:1
+✖ a relayed declaration is exposed as data, and a later source is not (0.301125ms)
+  AssertionError [ERR_ASSERTION]: a Chinese-declared product-employee interview summarized by the host is a relayed official claim
+  + actual - expected
+  
+  + []
+  - [
+  -   '官方自報'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-round/tests/relayed-source-provenance.test.cjs:81:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ '官方自報' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/relayed-source-provenance.test.cjs:100:1
+✖ an author claim read through someone else is qualified, a first-hand read is not (0.219916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   '作者報告／示範'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-round/tests/relayed-source-provenance.test.cjs:107:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ '作者報告／示範' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/relayed-source-provenance.test.cjs:135:1
+✖ the card keeps the filter label and states the acquisition route (0.650959ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /官方內容經轉述、主持人整理或僅讀說明欄，本庫未完整核讀官方原文或原始影片/. Input:
+  
+  '來源憑據：官方自報，官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文。官方或原廠團隊（含其員工）第一手發布的自述、示範或能力說明，未經第三方獨立驗證；發布者可能有產品推廣利益。 本案例另宣告 1 類來源：設計／未實跑。'
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-round/tests/relayed-source-provenance.test.cjs:141:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '來源憑據：官方自報，官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文。官方或原廠團隊（含其員工）第一手發布的自述、示範或能力說明，未經第三方獨立驗證；發布者可能有產品推廣利益。 本案例另宣告 1 類來源：設計／未實跑。',
+    expected: /官方內容經轉述、主持人整理或僅讀說明欄，本庫未完整核讀官方原文或原始影片/,
+    operator: 'match'
+  }
+
+test at tests/relayed-source-provenance.test.cjs:167:1
+✖ the detail chips keep the label and add the acquisition route (0.136125ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /來源憑據（主要）：官方自報，官方內容經轉述、主持人整理或僅讀說明欄，本庫未完整核讀官方原文或原始影片。/. Input:
+  
+  '來源憑據（主要）：官方自報，官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文。官方或原廠團隊（含其員工）第一手發布的自述、示範或能力說明，未經第三方獨立驗證；發布者可能有產品推廣利益。'
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-round/tests/relayed-source-provenance.test.cjs:172:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '來源憑據（主要）：官方自報，官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文。官方或原廠團隊（含其員工）第一手發布的自述、示範或能力說明，未經第三方獨立驗證；發布者可能有產品推廣利益。',
+    expected: /來源憑據（主要）：官方自報，官方內容經轉述、主持人整理或僅讀說明欄，本庫未完整核讀官方原文或原始影片。/,
+    operator: 'match'
+  }
+
+test at tests/relayed-source-provenance.test.cjs:180:1
+✖ the copied note and the related row repeat the acquisition route (0.246708ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /官方內容經轉述、主持人整理或僅讀說明欄，本庫未完整核讀官方原文或原始影片/. Input:
+  
+  '【AI 案例筆記】UC-514 · 送禮清單散在聊天和筆記？請 Muse 做一個會留下來的送禮畫面，按對象記候選、預算與購買狀態，買之前仍自己確認\n' +
+    '📌 用途：Muse 於 2026-11-06 推出 Spaces：用一句話描述需求，Muse 做出留在側欄或主分頁、可依連接的應用在背景更新的小畫面（官方功能）。日文 note 作者 edge（@annabelle02018，2026-11-08）把它整理成「年末送禮中心」的四步做法與可直接貼的請求句；英文作者 @LRosamarina（2026-11-08）另給一段含欄位與範例列的送禮追蹤器請求，明寫不要代為購買。兩者都是依官方功能設計的請求，作者未附自己的成品結果；本庫未重現。\n' +
+    '🚀 怎麼開始：只做「年末送禮」一個目的，先不要做萬用畫面。；如需從 Instagram 收藏帶入候選，只連接這一個應用；其他不連。\n' +
+    '⚠️ 注意事項：Spaces 依 Muse 的地區推出；作例中的背景更新依連接應用而定，連接越少越好。\n' +
+    '📎 來源證據：官方自報（官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文）\n' +
+    '💡 說明：本庫入門建議為整理者設計，非實測結果；未獨立重現，請核對原始報告與限制。\n' +
+    '🔗 詳情與來源：https://example.test/?case=UC-514'
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-round/tests/relayed-source-provenance.test.cjs:186:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '【AI 案例筆記】UC-514 · 送禮清單散在聊天和筆記？請 Muse 做一個會留下來的送禮畫面，按對象記候選、預算與購買狀態，買之前仍自己確認\n📌 用途：Muse 於 2026-11-06 推出 Spaces：用一句話描述需求，Muse 做出留在側欄或主分頁、可依連接的應用在背景更新的小畫面（官方功能）。日文 note 作者 edge（@annabelle02018，2026-11-08）把它整理成「年末送禮中心」的四步做法與可直接貼的請求句；英文作者 @LRosamarina（2026-11-08）另給一段含欄位與範例列的送禮追蹤器請求，明寫不要代為購買。兩者都是依官方功能設計的請求，作者未附自己的成品結果；本庫未重現。\n🚀 怎麼開始：只做「年末送禮」一個目的，先不要做萬用畫面。；如需從 Instagram 收藏帶入候選，只連接這一個應用；其他不連。\n⚠️ 注意事項：Spaces 依 Muse 的地區推出；作例中的背景更新依連接應用而定，連接越少越好。\n📎 來源證據：官方自報（官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文）\n💡 說明：本庫入門建議為整理者設計，非實測結果；未獨立重現，請核對原始報告與限制。\n🔗 詳情與來源：https://example.test/?case=UC-514',
+    expected: /官方內容經轉述、主持人整理或僅讀說明欄，本庫未完整核讀官方原文或原始影片/,
+    operator: 'match'
+  }

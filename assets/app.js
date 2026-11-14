@@ -89,12 +89,12 @@ const PROOF_PROVENANCE = globalThis.PROOF_PROVENANCE = {
   '官方自報': {
     badge: '官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文',
     claimant: '（官方內容經第三人轉述）',
-    note: '本庫取得方式：案例頁說明官方內容經第三方轉述，或本庫只讀到影片說明與第三人整理（例如未觀看影片、未開啟官方頁面）。來源憑據仍記為官方自報，因為成果主張來自官方團隊；但這不代表本庫完整核讀過官方原文，引用前請自行開啟官方來源核對。'
+    note: '本庫取得方式：案例頁說明官方或產品員工內容經第三方轉述、由訪談主持人整理，或本庫只讀到影片說明與第三人整理（例如未觀看完整影片、未開啟官方頁面）。來源憑據仍記為官方自報，因為成果主張來自官方團隊或其員工；但這不代表本庫完整核讀過官方原文或原始影片，引用前請自行開啟原始來源核對。'
   },
   '作者報告／示範': {
     badge: '作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文',
     claimant: '（作者內容經第三人轉述）',
-    note: '本庫取得方式：案例頁說明作者的使用經驗是由第三人轉述、轉載或摘要整理，或本庫只讀到訪談摘要頁、影片轉述而沒有取得作者原文與原始紀錄。來源憑據仍記為作者報告／示範，因為成果主張來自作者；但這不代表本庫讀過作者的原始紀錄，引用前請自行開啟作者原文核對。'
+    note: '本庫取得方式：案例頁說明作者的使用經驗是由第三人轉述、轉載或摘要整理（含官方公告挑選引用、同事或訪談主持人整理），或本庫只讀到訪談摘要頁、影片轉述而沒有取得作者原文與原始紀錄。來源憑據仍記為作者報告／示範，因為成果主張來自使用者或作者本人；但這不代表本庫讀過作者的原始紀錄，引用前請自行開啟原始來源核對。'
   }
 };
 function proofIsRelayed(item, label) {
@@ -1038,7 +1038,13 @@ function extractActionableGuidance(markdown) {
 //   * a declared author execution record (`author-demo`) outranks an `official`
 //     reference listed before it, because the case reports what the author did;
 //   * a passing mention of 模板 or a comparison-only official doc changes nothing.
-const FIRST_PARTY_LEAD = /^(?:[VAB](?:\s*[＋+]\s*[VAB])?級?\s*[，,、:：]?\s*)?(?:(?:廠商|原廠|產品|服務商|公司|官方)?員工|廠商|原廠|官方)/;
+// An official channel relaying or selecting an external user's quote (UC-024
+// 「官方轉述早期使用者經驗」, UC-179 「V，官方挑選的具名測試者實用引言」) names the
+// publisher, not the claimant: the outcome is claimed by that external user, not
+// by the vendor team. Conversely, a service provider reporting its own test
+// (UC-221 「V，服務商自己的測試自述」) is first-party vendor evidence.
+const OFFICIAL_RELAYED_USER = /^(?:[VAB](?:\s*[＋+]\s*[VAB])?級?\s*[，,、:：]?\s*)?官方(?:轉述|挑選|引用|引述)(?!的?(?:(?:廠商|原廠|產品|服務商|公司|官方|內部|自家)(?:員工|團隊)|員工|內部))/;
+const FIRST_PARTY_LEAD = /^(?:[VAB](?:\s*[＋+]\s*[VAB])?級?\s*[，,、:：]?\s*)?(?:(?:廠商|原廠|產品|服務商|公司|官方)?員工|服務商自己|廠商|原廠|官方(?!(?:轉述|挑選|引用|引述)(?!的?(?:(?:廠商|原廠|產品|服務商|公司|官方|內部|自家)(?:員工|團隊)|員工|內部))))/;
 // A case page may declare several evidence classes in one line
 // (`official` ＋ `designed`, `author-demo` ＋ `designed`, …). The primary class
 // still decides the filter and the counts, but the page must not present the
@@ -1053,13 +1059,13 @@ function declaredEvidenceClassesOfClause(clause) {
   // Backticked machine tokens are explicit declarations wherever they appear.
   const officialToken = /\bofficial\b/i.test(text);
   const designedToken = /\bdesigned\b/i.test(text);
-  // 官方轉述 means the official channel relayed someone else's experience, so it
-  // is not a first-party official self-report; the corpus uses it that way in
-  // UC-024 (「官方轉述早期使用者經驗；不是作者本人操作教學」).
+  // 官方轉述／官方挑選…引言 means the official channel relayed someone else's
+  // experience, so it is not a first-party official self-report (unless it is
+  // explicitly quoting the vendor's own employee or internal team).
   const firstParty = officialToken && !/^\s*designed\b/i.test(text)
     ? true
-    : FIRST_PARTY_LEAD.test(text) || /^官方(?!轉述)/.test(text)
-      || /官方(?:署名|自報|展示|示例|範例|發布|第一手)/.test(text);
+    : !OFFICIAL_RELAYED_USER.test(text) && (FIRST_PARTY_LEAD.test(text) || /^官方(?!(?:轉述|挑選|引用|引述)(?!的?(?:(?:廠商|原廠|產品|服務商|公司|官方|內部|自家)(?:員工|團隊)|員工|內部)))/.test(text)
+      || /官方(?:署名|自報|展示|示例|範例|發布|第一手)/.test(text));
   const leadingUnverified = /^\s*(?:unverified|待驗證|待定|尚待查證)/i.test(text);
   if (firstParty) add('官方自報');
   // `unverified` as a claim ends the clause or is followed by punctuation; a
@@ -1069,11 +1075,13 @@ function declaredEvidenceClassesOfClause(clause) {
   if (designedToken) add('設計／未實跑');
   // An explicit token is a declaration on its own.
   if (/\bauthor-(?:demo|self-report)\b/i.test(text)) add('作者報告／示範');
-  // Prose about an author counts only when the clause reports that author's own
-  // work. The same words inside a vendor clause, an unverified lead or a designed
-  // prompt must not create a second claimant.
+  // Prose about an author or external tester counts only when the clause reports
+  // that user's work. The same words inside a vendor clause, an unverified lead
+  // or a designed prompt must not create a second claimant.
   if (!firstParty && !leadingUnverified && !designedToken
-    && /作者[^。；]{0,30}(?:自述|自報|實測|自測|自建|實作|分享|貼文|長文|報告|示範)/.test(text)) add('作者報告／示範');
+    && (/作者[^。；]{0,30}(?:自述|自報|實測|自測|自建|實作|分享|貼文|長文|報告|示範)/.test(text)
+      || OFFICIAL_RELAYED_USER.test(text)
+      || /(?:測試者|使用者|客戶)[^。；]{0,12}(?:引言|回饋|自述)/.test(text))) add('作者報告／示範');
   if (/^模板/.test(text)) add('模板／文件核讀');
   if (/^公開資料/.test(text)) add('公開資料核讀');
   return found;
@@ -1109,25 +1117,25 @@ function declaredEvidenceClass(proofLine, kind) {
   if (FIRST_PARTY_LEAD.test(line)) return '官方自報';
   if (some(/\bauthor-(?:demo|self-report)\b/i)) return '作者報告／示範';
   if (some(/官方.*(?:展示|示例|範例|發布|自報|第一手.*自述|署名作者使用陳述)|official/i)) return '官方自報';
-  if (some(/author|作者|自驗|自述/)) return '作者報告／示範';
+  if (some(/author|作者|自驗|自述|(?:測試者|使用者|客戶)[^。；]{0,12}(?:引言|回饋)/)) return '作者報告／示範';
   return '公開資料核讀';
 }
 // The class names who makes the claim; it does not say how the library obtained
-// the material. A page can declare an official feature, demo or video while
-// stating that the official original was relayed by someone else or never read
-// (`official`（Spaces 功能與官方作例，經來源轉述）, 本庫未觀看影片，流程細節來自
-// 第三方文字整理). Read that statement from the same clause that declares
-// `official`, so the badge, the claimant line and the detail note cannot present
-// a first-hand reading the case page does not claim.
-const RELAYED_OFFICIAL = /經[^。；，]{0,12}轉述|官方轉述|轉述的官方|二手轉述|未觀看影片|影片未(?:觀看|播放|看)|未看影片|未讀官方|官方[^。；，]{0,6}未(?:讀|開啟)/;
-// An author's account can reach the library the same way: an interview summary, a
-// reposted thread, a secondhand infographic. Read that only from the clause that
-// declares the author claim, so a video the library skipped beside a post it did
-// read (`附影片…本庫只看縮圖`) does not turn a first-hand read into a relay.
-const RELAYED_AUTHOR = /經[^。；，]{0,30}轉述|訪談轉述|影片轉述|轉載(?:摘要|整理|頁)|摘要頁|二手(?:轉述|資訊|整理|報導)|作者原(?:文|帖|貼文)[^。；，]{0,6}未(?:取得|找到)|原[^。；，]{0,4}未取得|只讀到[^。；，]{0,10}(?:摘要|轉述|整理)|interview summary|summary (?:page|of (?:the|an) interview)|retelling|reposted|second[- ]hand|original (?:post|thread|article)[^.;]{0,12}(?:not|never) (?:read|found|available)|via (?:a )?(?:summary|retelling|repost)/i;
-const AUTHOR_DECLARATION = /\bauthor-(?:demo|self-report)\b|作者(?:自述|實測|實作)/gi;
-const OFFICIAL_DECLARATION = /\bofficial\b/gi;
-// A declaration's own parenthetical plus the sentence fragment that follows it.
+// the material. A page can declare an official feature, demo, video or employee
+// interview while stating that the original was relayed by someone else or never
+// read first-hand (`official`（Spaces 功能與官方作例，經來源轉述）, 本庫未觀看影片,
+// V級產品員工實際使用自述，由原訪談主持人整理). Read that statement from the same
+// clause that declares the official claim, so the badge, the claimant line and
+// the detail note cannot present a first-hand reading the case page does not claim.
+const RELAYED_OFFICIAL = /經[^。；，]{0,12}轉述|官方轉述|轉述的官方|二手轉述|未觀看影片|影片未(?:觀看|播放|看)|未看影片|未讀官方|官方[^。；，]{0,6}未(?:讀|開啟)|由[^。；，]{0,15}(?:主持人|第三人|他人)整理|主持人整理/;
+// An author's or external user's account can reach the library the same way: an
+// interview summary, a colleague's post (`作者轉述同事的實際設定`), or a vendor-
+// selected customer quote (`官方挑選的具名測試者實用引言`). Read that only from the
+// clause that declares the author claim, so a video the library skipped beside a
+// post it did read (`附影片…本庫只看縮圖`) does not turn a first-hand read into a relay.
+const RELAYED_AUTHOR = /經[^。；，]{0,30}轉述|轉述(?:同事|朋友|隊友|他人|客戶)|官方(?:挑選|引用|引述)(?!的?(?:(?:廠商|原廠|產品|服務商|公司|官方|內部|自家)(?:員工|團隊)|員工|內部))[^。；，]{0,16}(?:測試者|使用者|客戶)?[^。；，]{0,8}引言|訪談轉述|影片轉述|轉載(?:摘要|整理|頁)|摘要頁|二手(?:轉述|資訊|整理|報導)|作者原(?:文|帖|貼文)[^。；，]{0,6}未(?:取得|找到)|原[^。；，]{0,4}未取得|只讀到[^。；，]{0,10}(?:摘要|轉述|整理)|interview summary|summary (?:page|of (?:the|an) interview)|retelling|reposted|second[- ]hand|original (?:post|thread|article)[^.;]{0,12}(?:not|never) (?:read|found|available)|via (?:a )?(?:summary|retelling|repost)/i;
+const AUTHOR_DECLARATION = /\bauthor-(?:demo|self-report)\b|作者(?:自述|實測|實作)|官方(?:挑選|引用|引述)(?!的?(?:(?:廠商|原廠|產品|服務商|公司|官方|內部|自家)(?:員工|團隊)|員工|內部))[^。；，]{0,16}引言/gi;
+const OFFICIAL_DECLARATION = /\bofficial\b|(?<=^|[＋+；;]\s*)(?:[VAB](?:\s*[＋+]\s*[VAB])?級?\s*[，,、:：]?\s*)?(?:(?:廠商|原廠|產品|服務商|公司|官方)?員工|服務商自己|廠商|原廠|官方(?!(?:轉述|挑選|引用|引述)(?!的?(?:(?:廠商|原廠|產品|服務商|公司|官方|內部|自家)(?:員工|團隊)|員工|內部))))|官方(?:署名|自報|展示|示例|範例|發布|第一手)/gi;
 // A later sentence about a different source (`…快照回滾事件為二手轉述 unverified`,
 // `…通話影片（本庫未看）`) describes that other source, so it must not qualify the
 // class: a `＋`／`；` at parenthesis depth 0 starts another declaration, and the

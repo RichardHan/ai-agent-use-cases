@@ -1,0 +1,18 @@
+AssertionError [ERR_ASSERTION]: UC-179 external tester quote is not labelled as an official self-report
++ actual - expected
+
+  [
++   '官方自報'
+-   '作者報告／示範'
+  ]
+
+    at /private/tmp/aiuc-20261114-round/tests/evidence-attribution-browser.cjs:197:12
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:479:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [Array],
+  operator: 'deepStrictEqual'
+}

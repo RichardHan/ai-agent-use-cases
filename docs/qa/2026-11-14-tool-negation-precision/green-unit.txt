@@ -1,0 +1,14 @@
+✔ a tool listed on a card is mentioned by the page itself, not only by a source address (300.825583ms)
+✔ a source address alone does not produce a tool, a sentence about the tool does (4.329542ms)
+✔ cases whose only GitHub contact is a link to their own research repository (67.497541ms)
+✔ disclaimers, deduplication contrasts, and relative case links do not produce tool tags (3.367541ms)
+✔ corpus cases with scope disclaimers or deduplication links list only tools actually used (249.949875ms)
+✔ the 提及工具 facet still explains what it counts and excludes disclaimers (1.627333ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 677.940916

@@ -1,0 +1,255 @@
+{
+  "mode": "before",
+  "states": [
+    {
+      "viewport": "desktop",
+      "state": "uc526",
+      "resultsCount": "顯示 1 / 527 筆收錄",
+      "cardTop": "UC-526 · Grok Bot / Meta Muse",
+      "cardHeight": 692,
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "desktop",
+      "state": "uc519",
+      "resultsCount": "顯示 1 / 527 筆收錄",
+      "cardTop": "UC-519 · Grok Bot / Meta Muse",
+      "cardHeight": 681,
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "desktop",
+      "state": "uc336",
+      "resultsCount": "顯示 1 / 527 筆收錄",
+      "cardTop": "UC-336 · Grok Bot / Meta Muse",
+      "cardHeight": 626,
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "desktop",
+      "state": "filters",
+      "resultsCount": "顯示 527 / 527 筆收錄",
+      "cardTop": "UC-001 · Grok Bot / Meta Muse",
+      "cardHeight": 533,
+      "facetHint": "選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。收錄狀態的「待查線索」是還沒列成案例的線索；來源類型的「尚待查證」是證據等級，兩者不同。實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。來源類型依案例頁首宣告的主要類別計一次；同一案例宣告的其他類別，列在卡片與詳情的提示中。提及工具只看案例內文提到的工具；來源連結裡的網域（例如 github.com）不算，工具名以站上固定清單為準，清單外的工具不會出現在選項裡。主題分類只列案例頁首宣告的分類；165 個未宣告分類的條目不在選項內，仍可用關鍵字、使用情境與其他篩選找到。",
+      "toolOptions": [
+        {
+          "value": "ChatGPT dots",
+          "text": "222 · ChatGPT dots"
+        },
+        {
+          "value": "Cursor",
+          "text": "46 · Cursor"
+        },
+        {
+          "value": "Facebook",
+          "text": "14 · Facebook"
+        },
+        {
+          "value": "GitHub",
+          "text": "90 · GitHub"
+        },
+        {
+          "value": "Google Drive",
+          "text": "32 · Google Drive"
+        },
+        {
+          "value": "Google Sheets",
+          "text": "6 · Google Sheets"
+        },
+        {
+          "value": "Grok Bot",
+          "text": "415 · Grok Bot"
+        },
+        {
+          "value": "Haggle Bot",
+          "text": "2 · Haggle Bot"
+        },
+        {
+          "value": "Meta Muse",
+          "text": "211 · Meta Muse"
+        },
+        {
+          "value": "Notion",
+          "text": "34 · Notion"
+        }
+      ],
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "phone",
+      "state": "uc526",
+      "resultsCount": "顯示 1 / 527 筆收錄",
+      "cardTop": "UC-526 · Grok Bot / Meta Muse",
+      "cardHeight": 711,
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "phone",
+      "state": "uc519",
+      "resultsCount": "顯示 1 / 527 筆收錄",
+      "cardTop": "UC-519 · Grok Bot / Meta Muse",
+      "cardHeight": 711,
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "phone",
+      "state": "uc336",
+      "resultsCount": "顯示 1 / 527 筆收錄",
+      "cardTop": "UC-336 · Grok Bot / Meta Muse",
+      "cardHeight": 624,
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "phone",
+      "state": "filters",
+      "resultsCount": "顯示 527 / 527 筆收錄",
+      "cardTop": "UC-001 · Grok Bot / Meta Muse",
+      "cardHeight": 531,
+      "facetHint": "選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。收錄狀態的「待查線索」是還沒列成案例的線索；來源類型的「尚待查證」是證據等級，兩者不同。實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。來源類型依案例頁首宣告的主要類別計一次；同一案例宣告的其他類別，列在卡片與詳情的提示中。提及工具只看案例內文提到的工具；來源連結裡的網域（例如 github.com）不算，工具名以站上固定清單為準，清單外的工具不會出現在選項裡。主題分類只列案例頁首宣告的分類；165 個未宣告分類的條目不在選項內，仍可用關鍵字、使用情境與其他篩選找到。",
+      "toolOptions": [
+        {
+          "value": "ChatGPT dots",
+          "text": "222 · ChatGPT dots"
+        },
+        {
+          "value": "Cursor",
+          "text": "46 · Cursor"
+        },
+        {
+          "value": "Facebook",
+          "text": "14 · Facebook"
+        },
+        {
+          "value": "GitHub",
+          "text": "90 · GitHub"
+        },
+        {
+          "value": "Google Drive",
+          "text": "32 · Google Drive"
+        },
+        {
+          "value": "Google Sheets",
+          "text": "6 · Google Sheets"
+        },
+        {
+          "value": "Grok Bot",
+          "text": "415 · Grok Bot"
+        },
+        {
+          "value": "Haggle Bot",
+          "text": "2 · Haggle Bot"
+        },
+        {
+          "value": "Meta Muse",
+          "text": "211 · Meta Muse"
+        },
+        {
+          "value": "Notion",
+          "text": "34 · Notion"
+        }
+      ],
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "small",
+      "state": "uc526",
+      "resultsCount": "顯示 1 / 527 筆收錄",
+      "cardTop": "UC-526 · Grok Bot / Meta Muse",
+      "cardHeight": 729,
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "small",
+      "state": "uc519",
+      "resultsCount": "顯示 1 / 527 筆收錄",
+      "cardTop": "UC-519 · Grok Bot / Meta Muse",
+      "cardHeight": 729,
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "small",
+      "state": "uc336",
+      "resultsCount": "顯示 1 / 527 筆收錄",
+      "cardTop": "UC-336 · Grok Bot / Meta Muse",
+      "cardHeight": 644,
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    },
+    {
+      "viewport": "small",
+      "state": "filters",
+      "resultsCount": "顯示 527 / 527 筆收錄",
+      "cardTop": "UC-001 · Grok Bot / Meta Muse",
+      "cardHeight": 520,
+      "facetHint": "選項前的數字是符合筆數，保留關鍵字與其他篩選；工具與分類先列有結果的選項，0 筆也可選。收錄狀態的「待查線索」是還沒列成案例的線索；來源類型的「尚待查證」是證據等級，兩者不同。實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。來源類型依案例頁首宣告的主要類別計一次；同一案例宣告的其他類別，列在卡片與詳情的提示中。提及工具只看案例內文提到的工具；來源連結裡的網域（例如 github.com）不算，工具名以站上固定清單為準，清單外的工具不會出現在選項裡。主題分類只列案例頁首宣告的分類；165 個未宣告分類的條目不在選項內，仍可用關鍵字、使用情境與其他篩選找到。",
+      "toolOptions": [
+        {
+          "value": "ChatGPT dots",
+          "text": "222 · ChatGPT dots"
+        },
+        {
+          "value": "Cursor",
+          "text": "46 · Cursor"
+        },
+        {
+          "value": "Facebook",
+          "text": "14 · Facebook"
+        },
+        {
+          "value": "GitHub",
+          "text": "90 · GitHub"
+        },
+        {
+          "value": "Google Drive",
+          "text": "32 · Google Drive"
+        },
+        {
+          "value": "Google Sheets",
+          "text": "6 · Google Sheets"
+        },
+        {
+          "value": "Grok Bot",
+          "text": "415 · Grok Bot"
+        },
+        {
+          "value": "Haggle Bot",
+          "text": "2 · Haggle Bot"
+        },
+        {
+          "value": "Meta Muse",
+          "text": "211 · Meta Muse"
+        },
+        {
+          "value": "Notion",
+          "text": "34 · Notion"
+        }
+      ],
+      "overflow": false,
+      "axeViolations": 0,
+      "pageErrors": 0
+    }
+  ],
+  "journeys": []
+}

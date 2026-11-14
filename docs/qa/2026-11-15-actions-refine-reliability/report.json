@@ -1,0 +1,266 @@
+[
+  {
+    "viewport": "desktop",
+    "width": 1440,
+    "height": 900,
+    "plain": {
+      "refine": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0,
+        "hidden": true
+      },
+      "empty": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0,
+        "hidden": true
+      }
+    },
+    "arrival": {
+      "refine": {
+        "top": 14,
+        "bottom": 58,
+        "height": 44,
+        "hidden": false
+      },
+      "title": {
+        "top": 335,
+        "bottom": 379,
+        "height": 44,
+        "hidden": false
+      },
+      "count": "顯示 36 / 527 筆收錄"
+    },
+    "label": "修改「旅遊」",
+    "returned": {
+      "focus": "query",
+      "value": "旅遊",
+      "selected": 2,
+      "fieldTop": 430,
+      "fieldBottom": 494
+    },
+    "searchVisible": {
+      "refineHidden": true,
+      "heading": 52,
+      "noticeBottom": 733,
+      "viewport": 900
+    },
+    "scrolledAway": {
+      "hidden": false,
+      "text": "修改「安全防護」"
+    },
+    "facetOnly": {
+      "refine": {
+        "top": -171,
+        "bottom": -127,
+        "height": 44,
+        "hidden": false
+      },
+      "label": "修改關鍵字（目前 1 項篩選）"
+    },
+    "longQuery": {
+      "label": "修改「長途旅程規劃與住…」",
+      "overflow": 0
+    },
+    "empty": {
+      "refine": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0,
+        "hidden": true
+      },
+      "edit": {
+        "top": 1364,
+        "bottom": 1408,
+        "height": 44,
+        "hidden": false
+      }
+    },
+    "tabs": [
+      "copy-search-link",
+      "refine-query"
+    ],
+    "keyboardFocus": "query",
+    "axe": [],
+    "overflow": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "viewport": "phone",
+    "width": 390,
+    "height": 844,
+    "plain": {
+      "refine": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0,
+        "hidden": true
+      },
+      "empty": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0,
+        "hidden": true
+      }
+    },
+    "arrival": {
+      "refine": {
+        "top": 59,
+        "bottom": 103,
+        "height": 44,
+        "hidden": false
+      },
+      "title": {
+        "top": 448,
+        "bottom": 514,
+        "height": 66,
+        "hidden": false
+      },
+      "count": "顯示 36 / 527 筆收錄"
+    },
+    "label": "修改「旅遊」",
+    "returned": {
+      "focus": "query",
+      "value": "旅遊",
+      "selected": 2,
+      "fieldTop": 406,
+      "fieldBottom": 462
+    },
+    "searchVisible": {
+      "refineHidden": true,
+      "heading": 44,
+      "noticeBottom": 830,
+      "viewport": 844
+    },
+    "scrolledAway": {
+      "hidden": false,
+      "text": "修改「安全防護」"
+    },
+    "facetOnly": {
+      "refine": {
+        "top": -188,
+        "bottom": -144,
+        "height": 44,
+        "hidden": false
+      },
+      "label": "修改關鍵字（目前 1 項篩選）"
+    },
+    "longQuery": {
+      "label": "修改「長途旅程規劃與住…」",
+      "overflow": 0
+    },
+    "empty": {
+      "refine": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0,
+        "hidden": true
+      },
+      "edit": {
+        "top": 858,
+        "bottom": 902,
+        "height": 44,
+        "hidden": false
+      }
+    },
+    "tabs": [
+      "copy-search-link",
+      "refine-query"
+    ],
+    "keyboardFocus": "query",
+    "axe": [],
+    "overflow": 0,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "viewport": "small-phone",
+    "width": 320,
+    "height": 740,
+    "plain": {
+      "refine": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0,
+        "hidden": true
+      },
+      "empty": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0,
+        "hidden": true
+      }
+    },
+    "arrival": {
+      "refine": {
+        "top": 59,
+        "bottom": 103,
+        "height": 44,
+        "hidden": false
+      },
+      "title": {
+        "top": 464,
+        "bottom": 527,
+        "height": 63,
+        "hidden": false
+      },
+      "count": "顯示 36 / 527 筆收錄"
+    },
+    "label": "修改「旅遊」",
+    "returned": {
+      "focus": "query",
+      "value": "旅遊",
+      "selected": 2,
+      "fieldTop": 354,
+      "fieldBottom": 410
+    },
+    "searchVisible": {
+      "refineHidden": true,
+      "heading": 44,
+      "noticeBottom": 826,
+      "viewport": 740
+    },
+    "scrolledAway": {
+      "hidden": false,
+      "text": "修改「安全防護」"
+    },
+    "facetOnly": {
+      "refine": {
+        "top": 59,
+        "bottom": 103,
+        "height": 44,
+        "hidden": false
+      },
+      "label": "修改關鍵字（目前 1 項篩選）"
+    },
+    "longQuery": {
+      "label": "修改「長途旅程規劃與住…」",
+      "overflow": 0
+    },
+    "empty": {
+      "refine": {
+        "top": 0,
+        "bottom": 0,
+        "height": 0,
+        "hidden": true
+      },
+      "edit": {
+        "top": 912,
+        "bottom": 956,
+        "height": 44,
+        "hidden": false
+      }
+    },
+    "tabs": [
+      "copy-search-link",
+      "refine-query"
+    ],
+    "keyboardFocus": "query",
+    "axe": [],
+    "overflow": 0,
+    "errors": [],
+    "passed": true
+  }
+]

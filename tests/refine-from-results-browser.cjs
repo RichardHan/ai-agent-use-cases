@@ -84,6 +84,7 @@ const box = async (page, selector) => page.evaluate((sel) => {
       await page.goto(base, { waitUntil: 'load' });
       await page.locator('#results .card').first().waitFor({ timeout: 90000 });
       await page.locator('.hero-search-link').click();
+      await page.locator('#query').scrollIntoViewIfNeeded();
       await page.locator('#query').fill('安全防護');
       await page.waitForFunction(() => document.querySelector('#results-count').textContent.includes('顯示'));
       await page.waitForTimeout(400);

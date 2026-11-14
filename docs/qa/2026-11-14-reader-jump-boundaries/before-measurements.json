@@ -1,0 +1,443 @@
+{
+  "desktop": {
+    "UC-034": {
+      "methodShortcut": "前往方法與步驟 ↓原創提示詞（未實測，可修改後貼上）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-9",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "新增Grok Bot實作：收據與帳單的費用疑點",
+          "controls": "reader-section-3"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "原創提示詞（未實測，可修改後貼上）",
+          "controls": "reader-section-1"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "共通方案、可用性與權限",
+          "controls": "reader-section-2"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "2026-10-23補充：Bot提出舊發票疑點，仍須本人跨來源核對",
+          "controls": "reader-section-9"
+        }
+      ],
+      "outlineTitle": "全部段落（10）",
+      "navHeight": 400,
+      "overflow": false
+    },
+    "UC-045": {
+      "methodShortcut": "前往方法與步驟 ↓可貼指令（本庫原創，未測）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-0",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "來源及核對結果",
+          "controls": "reader-section-0"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "可貼指令（本庫原創，未測）",
+          "controls": "reader-section-2"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "權限、費用與限制",
+          "controls": "reader-section-3"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "2026-10-22 14:40補充：共享表格是手動交接板，不是自動喚醒或核准來源",
+          "controls": "reader-section-8"
+        }
+      ],
+      "outlineTitle": "全部段落（15）",
+      "navHeight": 420,
+      "overflow": false
+    },
+    "UC-096": {
+      "methodShortcut": "前往方法與步驟 ↓怎麼開始（整理者設計，未實跑）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-4",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "原作者實際做了什麼",
+          "controls": "reader-section-0"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "怎麼開始（整理者設計，未實跑）",
+          "controls": "reader-section-1"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "2026-10-20補充 來源B：銷售半夜丟來的問題，Bot 用只讀權限跨系統先初判（V2EX，簡體中文）",
+          "controls": "reader-section-4"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "來源與查閱範圍",
+          "controls": "reader-section-5"
+        }
+      ],
+      "outlineTitle": "全部段落（6）",
+      "navHeight": 420,
+      "overflow": false
+    },
+    "UC-340": {
+      "methodShortcut": "前往方法與步驟 ↓可重用驗收步驟（本庫設計，未執行）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-1",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "問題、實作與實際結果",
+          "controls": "reader-section-0"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "可重用驗收步驟（本庫設計，未執行）",
+          "controls": "reader-section-2"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "來源、結果限制與可用性",
+          "controls": "reader-section-1"
+        }
+      ],
+      "outlineTitle": "全部段落（10）",
+      "navHeight": 400,
+      "overflow": false
+    },
+    "UC-455": {
+      "methodShortcut": "前往方法與步驟 ↓可複製提示詞（本庫原創設計，未實跑）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-2",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "建議操作流程（依來源整理；本庫未實作）",
+          "controls": "reader-section-3"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "可複製提示詞（本庫原創設計，未實跑）",
+          "controls": "reader-section-4"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "所需連接、權限與限制",
+          "controls": "reader-section-5"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "來源版本",
+          "controls": "reader-section-1"
+        }
+      ],
+      "outlineTitle": "全部段落（8）",
+      "navHeight": 400,
+      "overflow": false
+    }
+  },
+  "phone": {
+    "UC-034": {
+      "methodShortcut": "前往方法與步驟 ↓原創提示詞（未實測，可修改後貼上）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-9",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "新增Grok Bot實作：收據與帳單的費用疑點",
+          "controls": "reader-section-3"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "原創提示詞（未實測，可修改後貼上）",
+          "controls": "reader-section-1"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "共通方案、可用性與權限",
+          "controls": "reader-section-2"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "2026-10-23補充：Bot提出舊發票疑點，仍須本人跨來源核對",
+          "controls": "reader-section-9"
+        }
+      ],
+      "outlineTitle": "全部段落（10）",
+      "navHeight": 465,
+      "overflow": false
+    },
+    "UC-045": {
+      "methodShortcut": "前往方法與步驟 ↓可貼指令（本庫原創，未測）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-0",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "來源及核對結果",
+          "controls": "reader-section-0"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "可貼指令（本庫原創，未測）",
+          "controls": "reader-section-2"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "權限、費用與限制",
+          "controls": "reader-section-3"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "2026-10-22 14:40補充：共享表格是手動交接板，不是自動喚醒或核准來源",
+          "controls": "reader-section-8"
+        }
+      ],
+      "outlineTitle": "全部段落（15）",
+      "navHeight": 485,
+      "overflow": false
+    },
+    "UC-096": {
+      "methodShortcut": "前往方法與步驟 ↓怎麼開始（整理者設計，未實跑）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-4",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "原作者實際做了什麼",
+          "controls": "reader-section-0"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "怎麼開始（整理者設計，未實跑）",
+          "controls": "reader-section-1"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "2026-10-20補充 來源B：銷售半夜丟來的問題，Bot 用只讀權限跨系統先初判（V2EX，簡體中文）",
+          "controls": "reader-section-4"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "來源與查閱範圍",
+          "controls": "reader-section-5"
+        }
+      ],
+      "outlineTitle": "全部段落（6）",
+      "navHeight": 506,
+      "overflow": false
+    },
+    "UC-340": {
+      "methodShortcut": "前往方法與步驟 ↓可重用驗收步驟（本庫設計，未執行）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-1",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "問題、實作與實際結果",
+          "controls": "reader-section-0"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "可重用驗收步驟（本庫設計，未執行）",
+          "controls": "reader-section-2"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "來源、結果限制與可用性",
+          "controls": "reader-section-1"
+        }
+      ],
+      "outlineTitle": "全部段落（10）",
+      "navHeight": 444,
+      "overflow": false
+    },
+    "UC-455": {
+      "methodShortcut": "前往方法與步驟 ↓可複製提示詞（本庫原創設計，未實跑）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-2",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "建議操作流程（依來源整理；本庫未實作）",
+          "controls": "reader-section-3"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "可複製提示詞（本庫原創設計，未實跑）",
+          "controls": "reader-section-4"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "所需連接、權限與限制",
+          "controls": "reader-section-5"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "來源版本",
+          "controls": "reader-section-1"
+        }
+      ],
+      "outlineTitle": "全部段落（8）",
+      "navHeight": 424,
+      "overflow": false
+    }
+  },
+  "small": {
+    "UC-034": {
+      "methodShortcut": "前往方法與步驟 ↓原創提示詞（未實測，可修改後貼上）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-9",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "新增Grok Bot實作：收據與帳單的費用疑點",
+          "controls": "reader-section-3"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "原創提示詞（未實測，可修改後貼上）",
+          "controls": "reader-section-1"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "共通方案、可用性與權限",
+          "controls": "reader-section-2"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "2026-10-23補充：Bot提出舊發票疑點，仍須本人跨來源核對",
+          "controls": "reader-section-9"
+        }
+      ],
+      "outlineTitle": "全部段落（10）",
+      "navHeight": 524,
+      "overflow": false
+    },
+    "UC-045": {
+      "methodShortcut": "前往方法與步驟 ↓可貼指令（本庫原創，未測）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-0",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "來源及核對結果",
+          "controls": "reader-section-0"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "可貼指令（本庫原創，未測）",
+          "controls": "reader-section-2"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "權限、費用與限制",
+          "controls": "reader-section-3"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "2026-10-22 14:40補充：共享表格是手動交接板，不是自動喚醒或核准來源",
+          "controls": "reader-section-8"
+        }
+      ],
+      "outlineTitle": "全部段落（15）",
+      "navHeight": 524,
+      "overflow": false
+    },
+    "UC-096": {
+      "methodShortcut": "前往方法與步驟 ↓怎麼開始（整理者設計，未實跑）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-4",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "原作者實際做了什麼",
+          "controls": "reader-section-0"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "怎麼開始（整理者設計，未實跑）",
+          "controls": "reader-section-1"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "2026-10-20補充 來源B：銷售半夜丟來的問題，Bot 用只讀權限跨系統先初判（V2EX，簡體中文）",
+          "controls": "reader-section-4"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "來源與查閱範圍",
+          "controls": "reader-section-5"
+        }
+      ],
+      "outlineTitle": "全部段落（6）",
+      "navHeight": 565,
+      "overflow": false
+    },
+    "UC-340": {
+      "methodShortcut": "前往方法與步驟 ↓可重用驗收步驟（本庫設計，未執行）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-1",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "問題、實作與實際結果",
+          "controls": "reader-section-0"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "可重用驗收步驟（本庫設計，未執行）",
+          "controls": "reader-section-2"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "來源、結果限制與可用性",
+          "controls": "reader-section-1"
+        }
+      ],
+      "outlineTitle": "全部段落（10）",
+      "navHeight": 483,
+      "overflow": false
+    },
+    "UC-455": {
+      "methodShortcut": "前往方法與步驟 ↓可複製提示詞（本庫原創設計，未實跑）",
+      "sourceShortcutPresent": true,
+      "sourceShortcutTarget": "reader-section-2",
+      "jumps": [
+        {
+          "label": "實作與結果 ↓",
+          "target": "建議操作流程（依來源整理；本庫未實作）",
+          "controls": "reader-section-3"
+        },
+        {
+          "label": "方法與步驟 ↓",
+          "target": "可複製提示詞（本庫原創設計，未實跑）",
+          "controls": "reader-section-4"
+        },
+        {
+          "label": "限制與權限 ↓",
+          "target": "所需連接、權限與限制",
+          "controls": "reader-section-5"
+        },
+        {
+          "label": "來源與版本 ↓",
+          "target": "來源版本",
+          "controls": "reader-section-1"
+        }
+      ],
+      "outlineTitle": "全部段落（8）",
+      "navHeight": 483,
+      "overflow": false
+    }
+  }
+}

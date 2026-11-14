@@ -43,4 +43,13 @@ test('source jumps include author/date and deduplication headings and prefer a l
  assert.equal(selectSourceSection([{title:'操作步驟（依來源整理，含本庫保守化設計）',hasLinks:true},{title:'去重與來源',hasLinks:true}]),1);
  assert.equal(selectSourceSection([{title:'來源版本'}]),0);
  assert.equal(selectSourceSection([{title:'方法'}]),-1);
+ assert.equal(selectSourceSection([
+  {title:'原作者實際做了什麼'},
+  {title:'2026-10-20補充 來源B：銷售半夜丟來的問題，Bot 用只讀權限跨系統先初判（V2EX，簡體中文）',hasLinks:true},
+  {title:'來源與查閱範圍',hasLinks:true}
+ ]),2);
+ assert.equal(selectSourceSection([
+  {title:'新增Grok Bot實作：收據與帳單的費用疑點'},
+  {title:'2026-10-23補充：Bot提出舊發票疑點，仍須本人跨來源核對',hasLinks:true}
+ ]),-1);
 });

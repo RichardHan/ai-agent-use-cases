@@ -97,7 +97,7 @@ test('all 524 library markdown files provide copy actions for prompt/command hea
    assert.equal(copied.has(3),true,'UC-010 可貼提示詞 must be copyable');
   }
  }
- assert.equal(totalCopy,572,'expected 572 copyable prompt/command sections across 524 files');
+ assert.equal(totalCopy,573,'expected 573 copyable prompt/command sections across 524 files (UC-278 newly elevated)');
  assert.deepEqual(uncopiedWithKeywords,[
   'cases/046-followed-accounts-daily-digest.md#2:S-046A：Grok Bot — Tw93 的每晚精選提示詞（主要來源，`author-demo`）',
   'cases/061-dispatcher-bot-typed-commands-ledger.md#2:S-061A：Grok Bot — @miyatti 的「窗口」派工提示詞與 AI-PLC 版本（`author-demo`）',

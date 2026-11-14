@@ -1,0 +1,11 @@
+✔ UC-278 has 方法與步驟 shortcut and copyable prompt section (1.754083ms)
+✔ methodHeading recognizes 可借鑑流程 without matching non-method headings (0.157834ms)
+✔ all 520 cases in corpus have 方法與步驟 shortcut and at least one copyable section (66.526417ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 120.724083

@@ -1,0 +1,16 @@
+[AFTER PASS] desktop UC-278: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] desktop UC-206: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] desktop UC-258: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] desktop UC-001: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] phone UC-278: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] phone UC-206: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] phone UC-258: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] phone UC-001: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] small UC-278: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] small UC-206: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] small UC-258: method=true copyCount=1 overflow=false axe=0
+[AFTER PASS] small UC-001: method=true copyCount=1 overflow=false axe=0
+[JOURNEY 1 PASS] Problem-finding found cards: 25
+[JOURNEY 2 PASS] Empty search recovered to cards successfully
+[JOURNEY 3 PASS] Copy button status: 正在複製…
+All verification and screenshots completed successfully!

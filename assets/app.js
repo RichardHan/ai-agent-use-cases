@@ -4830,7 +4830,8 @@ function syncDiscovery(filtered){
   // off a phone screen; keep a card that still matches and only redraw when it no
   // longer qualifies (or when the reader asks for another card). The deck is
   // seeded with that card so「再抽一張」still returns a different case.
-  const explore=$('explore'),discover=$('discover'),exploreTop=explore&&typeof explore.getBoundingClientRect==='function'&&typeof window!=='undefined'&&window.scrollY>0&&!(discover&&typeof discover.contains==='function'&&discover.contains(document.activeElement))?explore.getBoundingClientRect().top:null;
+  const queryField=$('query'),queryRect=!initialLoading&&queryField&&typeof document!=='undefined'&&document.activeElement===queryField&&typeof queryField.getBoundingClientRect==='function'&&typeof window!=='undefined'&&window.scrollY>0?queryField.getBoundingClientRect():null;
+  const queryTop=queryRect&&queryRect.top>=0&&queryRect.bottom<=window.innerHeight?queryRect.top:null;
   const kept=pool.find(item=>item.id===drawnItemId);
   discoveryDeck=Discovery.createDeck(pool,Math.random,kept?kept.id:null);
   $('draw-case').disabled=!pool.length;
@@ -4849,9 +4850,9 @@ function syncDiscovery(filtered){
     $('draw-case').textContent='沒有可抽的案例';
     announceDraw('目前沒有可抽的案例卡；下方搜尋結果仍可閱讀。','empty');
   }
-  if(exploreTop!==null){
-    const shift=explore.getBoundingClientRect().top-exploreTop;
-    if(Math.abs(shift)>0.5&&typeof window!=='undefined'&&typeof window.scrollBy==='function')window.scrollBy({top:shift,behavior:'instant'});
+  if(queryTop!==null){
+    const shift=queryField.getBoundingClientRect().top-queryTop;
+    if(Math.abs(shift)>0.5&&typeof window.scrollBy==='function')window.scrollBy({top:shift,behavior:'instant'});
   }
 }
 function revealDiscovery(){

@@ -1,0 +1,24 @@
+✔ method shortcut preserves the full untested heading and original index (1.0025ms)
+✔ workflow heading marked 本庫未實作 stays the method shortcut instead of being stolen as a result (0.156375ms)
+✔ pending, sparse and missing methods do not fabricate an actionable workflow (0.071708ms)
+✔ prompt fallback and evidence methods keep literal source labels (0.068708ms)
+✔ reader position follows the last heading above its marker and handles boundaries (0.454916ms)
+✔ jump choices point to existing result, method, limits and source headings (0.71425ms)
+✔ a real author implementation section still gets the result shortcut (0.103584ms)
+✔ dated supplements never become the result shortcut (0.250875ms)
+✔ unimplemented workflow and pure source headings do not masquerade as 實作與結果 or steal 來源與版本 (0.750375ms)
+✔ sparse, pending and unknown structures do not invent sections or evidence (0.11525ms)
+✔ duplicate and unsafe-looking heading text stays literal and keeps its index (0.116625ms)
+✔ UC-313 promotes the entire report including uncertainty and unexecuted proposal (3.086542ms)
+✔ source versions retain every list item and are not called verified results (1.200334ms)
+✔ report takes precedence over source directory and excludes designed, expected and supplementary outcomes (0.091459ms)
+✔ long and unknown original sections remain available through research, never silently truncated (0.165709ms)
+✔ source jumps include author/date and deduplication headings and prefer a linked source (0.230125ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 52.31875

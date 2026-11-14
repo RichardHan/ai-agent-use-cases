@@ -5,6 +5,16 @@ test('method shortcut preserves the full untested heading and original index',()
  const titles=['來源版本','建議操作流程（本庫設計，未實測）','可貼指令（本庫原創、未測）'];
  assert.deepEqual(selectMethodShortcut(titles,'case'),{index:1,title:titles[1]});
 });
+test('workflow heading marked 本庫未實作 stays the method shortcut instead of being stolen as a result',()=>{
+ const titles=[
+  '輸入與預期輸出',
+  '來源版本',
+  '來源A：tantan21jp（Qiita，日文）',
+  '建議操作流程（依來源整理；本庫未實作）',
+  '可複製提示詞（本庫原創設計，未實跑）'
+ ];
+ assert.deepEqual(selectMethodShortcut(titles,'case'),{index:3,title:titles[3]});
+});
 test('pending, sparse and missing methods do not fabricate an actionable workflow',()=>{
  assert.equal(selectMethodShortcut(['建議流程'],'pending'),null);
  assert.equal(selectMethodShortcut([],'case'),null);

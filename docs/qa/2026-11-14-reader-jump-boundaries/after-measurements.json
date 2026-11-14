@@ -1,0 +1,513 @@
+{
+  "viewports": {
+    "desktop": {
+      "UC-034": {
+        "methodShortcut": "前往方法與步驟 ↓原創提示詞（未實測，可修改後貼上）",
+        "sourceShortcutPresent": false,
+        "sourceShortcutTarget": null,
+        "jumps": [
+          {
+            "label": "實作與結果 ↓",
+            "target": "新增Grok Bot實作：收據與帳單的費用疑點",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "方法與步驟 ↓",
+            "target": "原創提示詞（未實測，可修改後貼上）",
+            "controls": "reader-section-1"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "共通方案、可用性與權限",
+            "controls": "reader-section-2"
+          }
+        ],
+        "outlineTitle": "全部段落（10）",
+        "navHeight": 400,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-045": {
+        "methodShortcut": "前往方法與步驟 ↓可貼指令（本庫原創，未測）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-0",
+        "jumps": [
+          {
+            "label": "方法與步驟 ↓",
+            "target": "可貼指令（本庫原創，未測）",
+            "controls": "reader-section-2"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "權限、費用與限制",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源及核對結果",
+            "controls": "reader-section-0"
+          }
+        ],
+        "outlineTitle": "全部段落（15）",
+        "navHeight": 400,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-096": {
+        "methodShortcut": "前往方法與步驟 ↓怎麼開始（整理者設計，未實跑）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-5",
+        "jumps": [
+          {
+            "label": "實作與結果 ↓",
+            "target": "原作者實際做了什麼",
+            "controls": "reader-section-0"
+          },
+          {
+            "label": "方法與步驟 ↓",
+            "target": "怎麼開始（整理者設計，未實跑）",
+            "controls": "reader-section-1"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "驗收與限制",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源與查閱範圍",
+            "controls": "reader-section-5"
+          }
+        ],
+        "outlineTitle": "全部段落（6）",
+        "navHeight": 400,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-340": {
+        "methodShortcut": "前往方法與步驟 ↓可重用驗收步驟（本庫設計，未執行）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-1",
+        "jumps": [
+          {
+            "label": "實作與結果 ↓",
+            "target": "問題、實作與實際結果",
+            "controls": "reader-section-0"
+          },
+          {
+            "label": "方法與步驟 ↓",
+            "target": "可重用驗收步驟（本庫設計，未執行）",
+            "controls": "reader-section-2"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "權限、費用與限制",
+            "controls": "reader-section-4"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源、結果限制與可用性",
+            "controls": "reader-section-1"
+          }
+        ],
+        "outlineTitle": "全部段落（10）",
+        "navHeight": 400,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-455": {
+        "methodShortcut": "前往方法與步驟 ↓建議操作流程（依來源整理；本庫未實作）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-2",
+        "jumps": [
+          {
+            "label": "方法與步驟 ↓",
+            "target": "建議操作流程（依來源整理；本庫未實作）",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "所需連接、權限與限制",
+            "controls": "reader-section-5"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源版本",
+            "controls": "reader-section-1"
+          }
+        ],
+        "outlineTitle": "全部段落（8）",
+        "navHeight": 400,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      }
+    },
+    "phone": {
+      "UC-034": {
+        "methodShortcut": "前往方法與步驟 ↓原創提示詞（未實測，可修改後貼上）",
+        "sourceShortcutPresent": false,
+        "sourceShortcutTarget": null,
+        "jumps": [
+          {
+            "label": "實作與結果 ↓",
+            "target": "新增Grok Bot實作：收據與帳單的費用疑點",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "方法與步驟 ↓",
+            "target": "原創提示詞（未實測，可修改後貼上）",
+            "controls": "reader-section-1"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "共通方案、可用性與權限",
+            "controls": "reader-section-2"
+          }
+        ],
+        "outlineTitle": "全部段落（10）",
+        "navHeight": 444,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-045": {
+        "methodShortcut": "前往方法與步驟 ↓可貼指令（本庫原創，未測）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-0",
+        "jumps": [
+          {
+            "label": "方法與步驟 ↓",
+            "target": "可貼指令（本庫原創，未測）",
+            "controls": "reader-section-2"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "權限、費用與限制",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源及核對結果",
+            "controls": "reader-section-0"
+          }
+        ],
+        "outlineTitle": "全部段落（15）",
+        "navHeight": 424,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-096": {
+        "methodShortcut": "前往方法與步驟 ↓怎麼開始（整理者設計，未實跑）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-5",
+        "jumps": [
+          {
+            "label": "實作與結果 ↓",
+            "target": "原作者實際做了什麼",
+            "controls": "reader-section-0"
+          },
+          {
+            "label": "方法與步驟 ↓",
+            "target": "怎麼開始（整理者設計，未實跑）",
+            "controls": "reader-section-1"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "驗收與限制",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源與查閱範圍",
+            "controls": "reader-section-5"
+          }
+        ],
+        "outlineTitle": "全部段落（6）",
+        "navHeight": 424,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-340": {
+        "methodShortcut": "前往方法與步驟 ↓可重用驗收步驟（本庫設計，未執行）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-1",
+        "jumps": [
+          {
+            "label": "實作與結果 ↓",
+            "target": "問題、實作與實際結果",
+            "controls": "reader-section-0"
+          },
+          {
+            "label": "方法與步驟 ↓",
+            "target": "可重用驗收步驟（本庫設計，未執行）",
+            "controls": "reader-section-2"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "權限、費用與限制",
+            "controls": "reader-section-4"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源、結果限制與可用性",
+            "controls": "reader-section-1"
+          }
+        ],
+        "outlineTitle": "全部段落（10）",
+        "navHeight": 444,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-455": {
+        "methodShortcut": "前往方法與步驟 ↓建議操作流程（依來源整理；本庫未實作）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-2",
+        "jumps": [
+          {
+            "label": "方法與步驟 ↓",
+            "target": "建議操作流程（依來源整理；本庫未實作）",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "所需連接、權限與限制",
+            "controls": "reader-section-5"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源版本",
+            "controls": "reader-section-1"
+          }
+        ],
+        "outlineTitle": "全部段落（8）",
+        "navHeight": 424,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      }
+    },
+    "small": {
+      "UC-034": {
+        "methodShortcut": "前往方法與步驟 ↓原創提示詞（未實測，可修改後貼上）",
+        "sourceShortcutPresent": false,
+        "sourceShortcutTarget": null,
+        "jumps": [
+          {
+            "label": "實作與結果 ↓",
+            "target": "新增Grok Bot實作：收據與帳單的費用疑點",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "方法與步驟 ↓",
+            "target": "原創提示詞（未實測，可修改後貼上）",
+            "controls": "reader-section-1"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "共通方案、可用性與權限",
+            "controls": "reader-section-2"
+          }
+        ],
+        "outlineTitle": "全部段落（10）",
+        "navHeight": 483,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-045": {
+        "methodShortcut": "前往方法與步驟 ↓可貼指令（本庫原創，未測）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-0",
+        "jumps": [
+          {
+            "label": "方法與步驟 ↓",
+            "target": "可貼指令（本庫原創，未測）",
+            "controls": "reader-section-2"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "權限、費用與限制",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源及核對結果",
+            "controls": "reader-section-0"
+          }
+        ],
+        "outlineTitle": "全部段落（15）",
+        "navHeight": 442,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-096": {
+        "methodShortcut": "前往方法與步驟 ↓怎麼開始（整理者設計，未實跑）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-5",
+        "jumps": [
+          {
+            "label": "實作與結果 ↓",
+            "target": "原作者實際做了什麼",
+            "controls": "reader-section-0"
+          },
+          {
+            "label": "方法與步驟 ↓",
+            "target": "怎麼開始（整理者設計，未實跑）",
+            "controls": "reader-section-1"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "驗收與限制",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源與查閱範圍",
+            "controls": "reader-section-5"
+          }
+        ],
+        "outlineTitle": "全部段落（6）",
+        "navHeight": 442,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-340": {
+        "methodShortcut": "前往方法與步驟 ↓可重用驗收步驟（本庫設計，未執行）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-1",
+        "jumps": [
+          {
+            "label": "實作與結果 ↓",
+            "target": "問題、實作與實際結果",
+            "controls": "reader-section-0"
+          },
+          {
+            "label": "方法與步驟 ↓",
+            "target": "可重用驗收步驟（本庫設計，未執行）",
+            "controls": "reader-section-2"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "權限、費用與限制",
+            "controls": "reader-section-4"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源、結果限制與可用性",
+            "controls": "reader-section-1"
+          }
+        ],
+        "outlineTitle": "全部段落（10）",
+        "navHeight": 483,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      },
+      "UC-455": {
+        "methodShortcut": "前往方法與步驟 ↓建議操作流程（依來源整理；本庫未實作）",
+        "sourceShortcutPresent": true,
+        "sourceShortcutTarget": "reader-section-2",
+        "jumps": [
+          {
+            "label": "方法與步驟 ↓",
+            "target": "建議操作流程（依來源整理；本庫未實作）",
+            "controls": "reader-section-3"
+          },
+          {
+            "label": "限制與權限 ↓",
+            "target": "所需連接、權限與限制",
+            "controls": "reader-section-5"
+          },
+          {
+            "label": "來源與版本 ↓",
+            "target": "來源版本",
+            "controls": "reader-section-1"
+          }
+        ],
+        "outlineTitle": "全部段落（8）",
+        "navHeight": 463,
+        "overflow": false,
+        "axeViolations": 0,
+        "pageErrors": 0
+      }
+    }
+  },
+  "scenarios": {
+    "desktop": {
+      "s1": {
+        "query": "會議",
+        "resultsCount": "顯示 29 / 524 筆收錄",
+        "cards": 24,
+        "firstTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記"
+      },
+      "s2Before": {
+        "resultsCount": "顯示 0 / 524 筆收錄",
+        "firstSuggestion": "移除使用情境「工作」 → 查看 1 筆"
+      },
+      "s2After": {
+        "query": "規劃旅行",
+        "scenario": "",
+        "resultsCount": "顯示 1 / 524 筆收錄",
+        "cards": 1
+      },
+      "s3Detail": {
+        "title": "不開手機也能叫Muse：把小型開發板改成按住說話的隨身裝置，連線錯誤其實是記憶體不夠",
+        "trustSummary": "成果主張：主要 社群作者／專案實踐者；另宣告 官方自報、設計／未實跑核讀：主要 本庫未獨立重現；其他類別見下方核讀與安全建議 ↓",
+        "methodShortcut": "前往方法與步驟 ↓建議操作流程（依來源整理；本庫未實作）",
+        "jumps": [
+          "方法與步驟 ↓建議操作流程（依來源整理；本庫未實作）",
+          "限制與權限 ↓所需連接、權限與限制",
+          "來源與版本 ↓來源版本"
+        ]
+      },
+      "s3AfterEscape": {
+        "focus": "results-count",
+        "query": "語音",
+        "resultsCount": "顯示 88 / 524 筆收錄"
+      }
+    },
+    "phone": {
+      "s1": {
+        "query": "會議",
+        "resultsCount": "顯示 29 / 524 筆收錄",
+        "cards": 24,
+        "firstTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記"
+      },
+      "s2Before": {
+        "resultsCount": "顯示 0 / 524 筆收錄",
+        "firstSuggestion": "移除使用情境「工作」 → 查看 1 筆"
+      },
+      "s2After": {
+        "query": "規劃旅行",
+        "scenario": "",
+        "resultsCount": "顯示 1 / 524 筆收錄",
+        "cards": 1
+      },
+      "s3Detail": {
+        "title": "不開手機也能叫Muse：把小型開發板改成按住說話的隨身裝置，連線錯誤其實是記憶體不夠",
+        "trustSummary": "成果主張：主要 社群作者／專案實踐者；另宣告 官方自報、設計／未實跑核讀：主要 本庫未獨立重現；其他類別見下方核讀與安全建議 ↓",
+        "methodShortcut": "前往方法與步驟 ↓建議操作流程（依來源整理；本庫未實作）",
+        "jumps": [
+          "方法與步驟 ↓建議操作流程（依來源整理；本庫未實作）",
+          "限制與權限 ↓所需連接、權限與限制",
+          "來源與版本 ↓來源版本"
+        ]
+      },
+      "s3AfterEscape": {
+        "focus": "results-count",
+        "query": "語音",
+        "resultsCount": "顯示 88 / 524 筆收錄"
+      }
+    }
+  }
+}

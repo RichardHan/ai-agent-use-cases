@@ -1,0 +1,119 @@
+✔ method shortcut preserves the full untested heading and original index (1.521208ms)
+✖ workflow heading marked 本庫未實作 stays the method shortcut instead of being stolen as a result (1.1215ms)
+✔ pending, sparse and missing methods do not fabricate an actionable workflow (0.089ms)
+✔ prompt fallback and evidence methods keep literal source labels (0.070291ms)
+✔ reader position follows the last heading above its marker and handles boundaries (0.404041ms)
+✔ jump choices point to existing result, method, limits and source headings (0.749667ms)
+✔ a real author implementation section still gets the result shortcut (0.102125ms)
+✖ dated supplements never become the result shortcut (1.130875ms)
+✖ unimplemented workflow and pure source headings do not masquerade as 實作與結果 or steal 來源與版本 (1.11ms)
+✔ sparse, pending and unknown structures do not invent sections or evidence (0.163416ms)
+✔ duplicate and unsafe-looking heading text stays literal and keeps its index (0.066041ms)
+✔ UC-313 promotes the entire report including uncertainty and unexecuted proposal (2.76475ms)
+✔ source versions retain every list item and are not called verified results (1.528667ms)
+✔ report takes precedence over source directory and excludes designed, expected and supplementary outcomes (0.095875ms)
+✔ long and unknown original sections remain available through research, never silently truncated (0.135875ms)
+✖ source jumps include author/date and deduplication headings and prefer a linked source (0.693667ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 12
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 67.324875
+
+✖ failing tests:
+
+test at tests/method-shortcut.test.cjs:8:1
+✖ workflow heading marked 本庫未實作 stays the method shortcut instead of being stolen as a result (1.1215ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   index: 4,
+  +   title: '可複製提示詞（本庫原創設計，未實跑）'
+  -   index: 3,
+  -   title: '建議操作流程（依來源整理；本庫未實作）'
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-r2/tests/method-shortcut.test.cjs:16:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { index: 4, title: '可複製提示詞（本庫原創設計，未實跑）' },
+    expected: { index: 3, title: '建議操作流程（依來源整理；本庫未實作）' },
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/reader.test.cjs:30:1
+✖ dated supplements never become the result shortcut (1.130875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   index: 4,
+  -   index: 3,
+      label: '限制與權限',
+  +   title: '2026-10-20補充 來源B：銷售半夜丟來的問題，Bot 用只讀權限跨系統先初判（V2EX，簡體中文）'
+  -   title: '驗收與限制'
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-r2/tests/reader.test.cjs:53:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { label: '限制與權限', index: 4, title: '2026-10-20補充 來源B：銷售半夜丟來的問題，Bot 用只讀權限跨系統先初判（V2EX，簡體中文）' },
+    expected: { label: '限制與權限', index: 3, title: '驗收與限制' },
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/reader.test.cjs:64:1
+✖ unimplemented workflow and pure source headings do not masquerade as 實作與結果 or steal 來源與版本 (1.11ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-r2/tests/reader.test.cjs:73:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at tests/reading-flow.test.cjs:39:1
+✖ source jumps include author/date and deduplication headings and prefer a linked source (0.693667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261114-r2/tests/reading-flow.test.cjs:46:9)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }

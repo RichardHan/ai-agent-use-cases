@@ -1,0 +1,80 @@
+{
+  "desktop": {
+    "UC-011": {
+      "reportH2": "先核對原始紀錄",
+      "hasReportContent": false,
+      "isFallback": true,
+      "overflow": false,
+      "violations": 0,
+      "screenshot": "docs/qa/2026-11-15-reader-report-coverage/before-desktop-uc-011.png"
+    },
+    "UC-074": {
+      "reportH2": "先核對原始紀錄",
+      "hasReportContent": false,
+      "isFallback": true,
+      "overflow": false,
+      "violations": 0,
+      "screenshot": "docs/qa/2026-11-15-reader-report-coverage/before-desktop-uc-074.png"
+    },
+    "UC-095": {
+      "reportH2": "先核對原始紀錄",
+      "hasReportContent": false,
+      "isFallback": true,
+      "overflow": false,
+      "violations": 0,
+      "screenshot": "docs/qa/2026-11-15-reader-report-coverage/before-desktop-uc-095.png"
+    }
+  },
+  "phone": {
+    "UC-011": {
+      "reportH2": "先核對原始紀錄",
+      "hasReportContent": false,
+      "isFallback": true,
+      "overflow": false,
+      "violations": 0,
+      "screenshot": "docs/qa/2026-11-15-reader-report-coverage/before-phone-uc-011.png"
+    },
+    "UC-074": {
+      "reportH2": "先核對原始紀錄",
+      "hasReportContent": false,
+      "isFallback": true,
+      "overflow": false,
+      "violations": 0,
+      "screenshot": "docs/qa/2026-11-15-reader-report-coverage/before-phone-uc-074.png"
+    },
+    "UC-095": {
+      "reportH2": "先核對原始紀錄",
+      "hasReportContent": false,
+      "isFallback": true,
+      "overflow": false,
+      "violations": 0,
+      "screenshot": "docs/qa/2026-11-15-reader-report-coverage/before-phone-uc-095.png"
+    }
+  },
+  "small": {
+    "UC-011": {
+      "reportH2": "先核對原始紀錄",
+      "hasReportContent": false,
+      "isFallback": true,
+      "overflow": false,
+      "violations": 0,
+      "screenshot": "docs/qa/2026-11-15-reader-report-coverage/before-small-uc-011.png"
+    },
+    "UC-074": {
+      "reportH2": "先核對原始紀錄",
+      "hasReportContent": false,
+      "isFallback": true,
+      "overflow": false,
+      "violations": 0,
+      "screenshot": "docs/qa/2026-11-15-reader-report-coverage/before-small-uc-074.png"
+    },
+    "UC-095": {
+      "reportH2": "先核對原始紀錄",
+      "hasReportContent": false,
+      "isFallback": true,
+      "overflow": false,
+      "violations": 0,
+      "screenshot": "docs/qa/2026-11-15-reader-report-coverage/before-small-uc-095.png"
+    }
+  }
+}

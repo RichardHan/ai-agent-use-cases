@@ -9,7 +9,7 @@
     const eligible=({title,text})=>text.trim().length>0&&text.length<=3200&&
       !/本庫|設計|建議|預期|提示詞|補充|未測|未實|可參考/.test(title);
     for(const pattern of [
-      /^(?:問題.*(?:實作|結果|成果|實際使用)|(?:原)?作者.*(?:實作|實際|做了|結果|完成範圍)|來源報告(?:與限制)?)$/,
+      /^(?:問題.*(?:實作|結果|成果|實際使用)|(?:原)?作者.*(?:實作|實際|做了|做過|結果|完成範圍|做法|報告)|來源報告(?:與限制)?)/,
       /^(?:已讀來源版本|來源版本|來源說了什麼|來源與能確認的範圍)$/
     ]){
       const index=sections.findIndex(section=>eligible(section)&&pattern.test(section.title));

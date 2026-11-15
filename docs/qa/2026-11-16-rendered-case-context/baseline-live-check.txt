@@ -1,0 +1,23 @@
+FAIL: fallback reading has 524 problem(s) across 522 rendered pages
+- INDEX.html does not document author-self-report as 作者報告／示範
+- INDEX.html does not document pending-verification as 尚待查證
+- cases/001-travel-checkout.html: missing the case fallback navigation and evidence legend
+- cases/002-video-production.html: missing the case fallback navigation and evidence legend
+- cases/003-store-operations.html: missing the case fallback navigation and evidence legend
+- cases/004-social-crm.html: missing the case fallback navigation and evidence legend
+- cases/005-cloud-pr-review.html: missing the case fallback navigation and evidence legend
+- cases/006-facebook-publication.html: missing the case fallback navigation and evidence legend
+- cases/007-saas-renewal-audit.html: missing the case fallback navigation and evidence legend
+- cases/010-physical-oled-verification.html: missing the case fallback navigation and evidence legend
+- cases/011-sales-feedback-approved-revision.html: missing the case fallback navigation and evidence legend
+- cases/012-research-evaluation-provenance.html: missing the case fallback navigation and evidence legend
+- cases/014-support-inbox-approval-refund.html: missing the case fallback navigation and evidence legend
+- cases/015-public-page-change-watch.html: missing the case fallback navigation and evidence legend
+- cases/016-marketplace-selling-buyer-messages.html: missing the case fallback navigation and evidence legend
+- cases/017-prospect-research-drafts.html: missing the case fallback navigation and evidence legend
+- cases/018-demo-readiness.html: missing the case fallback navigation and evidence legend
+- cases/019-call-to-customer-deck.html: missing the case fallback navigation and evidence legend
+- cases/020-figma-batch-cards.html: missing the case fallback navigation and evidence legend
+- cases/021-legal-request-handoff.html: missing the case fallback navigation and evidence legend
+- … 504 more
+exit=1

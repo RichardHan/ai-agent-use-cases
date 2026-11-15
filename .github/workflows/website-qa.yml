@@ -8,6 +8,8 @@ on:
       - 'README.md'
       - 'README-archive-2026-10-18.md'
       - 'templates/**'
+      - '_layouts/**'
+      - '_includes/**'
       - 'catalog.json'
       - 'corpus.json'
       - 'audit-summary.json'
@@ -22,7 +24,7 @@ on:
       - '.github/workflows/**'
   push:
     branches: ['main']
-    paths: ['assets/**', 'index.html', 'INDEX.md', 'README.md', 'README-archive-2026-10-18.md', 'templates/**', 'catalog.json', 'corpus.json', 'audit-summary.json', 'cases/**', 'evidence/**', 'sources/**', '_config.yml', 'tests/**', 'scripts/**', '.github/workflows/**']
+    paths: ['assets/**', 'index.html', 'INDEX.md', 'README.md', 'README-archive-2026-10-18.md', 'templates/**', '_layouts/**', '_includes/**', 'catalog.json', 'corpus.json', 'audit-summary.json', 'cases/**', 'evidence/**', 'sources/**', '_config.yml', 'tests/**', 'scripts/**', '.github/workflows/**']
 concurrency:
   group: website-qa-${{ github.ref }}
   # A pull request may always be replaced by its next commit. A merge may not: the

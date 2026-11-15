@@ -1,0 +1,2 @@
+PASS: 525 rendered case pages expose a clickable source; INDEX explains the evidence codes
+exit=0

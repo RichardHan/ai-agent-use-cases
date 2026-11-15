@@ -60,14 +60,48 @@ test('INDEX documents every evidence token used by a case header with the SPA la
   for (const file of corpusFiles.filter(file => file.startsWith('cases/'))) {
     for (const line of read(file).split('\n')) {
       if (!/^-\s*(?:證據狀態|來源證據|證據等級|證據)[：:]/.test(line)) continue;
-      for (const match of line.matchAll(/`(author-demo|official|designed|unverified)`/g)) tokens.add(match[1]);
+      for (const match of line.matchAll(/`(author-demo|official|designed|unverified|author-self-report|pending-verification)`/g)) tokens.add(match[1]);
     }
   }
-  assert.ok(tokens.size >= 4, 'the corpus should use all four documented machine tokens');
+  assert.ok(tokens.size >= 6, 'the corpus should use all six documented machine tokens');
   const index = read('INDEX.md');
   for (const token of tokens) {
     const row = index.match(new RegExp('\\|\\s*`' + token + '`\\s*\\|\\s*([^|]+?)\\s*\\|'));
     assert.ok(row, 'INDEX must document the machine token ' + token);
     assert.ok(PROOF_DEFINITIONS[row[1]], `${token} is documented as "${row[1]}", which the SPA does not define`);
   }
+});
+
+test('the per-case fallback legend uses the same labels as the SPA', () => {
+  const {PROOF_DEFINITIONS} = loadApp();
+  const include = read('_includes/case-fallback-nav.html');
+  const rows = [...include.matchAll(/<code>([a-z-]+)<\/code>\s*<strong>([^<]+)<\/strong>/g)];
+  assert.deepEqual(rows.map(row => row[1]).sort(), ['author-demo', 'author-self-report', 'designed', 'official', 'pending-verification', 'unverified']);
+  for (const [, token, label] of rows) {
+    assert.ok(PROOF_DEFINITIONS[label], `${token} is explained as "${label}", which the SPA does not define`);
+  }
+});
+
+test('the layout override keeps the Primer contract and only adds the case aid', () => {
+  const layout = read('_layouts/default.html');
+  for (const required of ['{% seo %}', 'assets/css/style.css', 'head-custom.html', 'anchor-js', '{{ content }}']) {
+    assert.ok(layout.includes(required), 'layout must keep ' + required);
+  }
+  assert.match(layout, /\{% include case-fallback-nav.html %\}/);
+  // A dropped trailing "=" makes the browser refuse the CDN script silently.
+  assert.match(layout, /integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg="/);
+  const include = read('_includes/case-fallback-nav.html');
+  assert.match(include, /case_path contains 'cases\/'/, 'the aid must not appear on INDEX or source pages');
+  assert.match(include, /\?case=UC-/, 'a rendered case should offer its interactive view');
+});
+
+test('case evidence tokens use the documented author synonyms', () => {
+  const known = new Set(['author-demo', 'author-self-report']);
+  const unknown = [];
+  for (const file of corpusFiles.filter(file => file.startsWith('cases/'))) {
+    for (const match of read(file).matchAll(/`(author-[a-z-]+)`/g)) {
+      if (!known.has(match[1])) unknown.push(`${file}: ${match[1]}`);
+    }
+  }
+  assert.deepEqual(unknown, [], 'undocumented author evidence tokens: ' + unknown.join(', '));
 });

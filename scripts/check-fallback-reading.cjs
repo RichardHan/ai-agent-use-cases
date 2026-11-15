@@ -17,7 +17,42 @@ const EVIDENCE_LABELS = [
   ['official', '官方自報'],
   ['designed', '設計／未實跑'],
   ['unverified', '尚待查證'],
+  ['author-self-report', '作者報告／示範'],
+  ['pending-verification', '尚待查證'],
 ];
+
+// A reader who lands on a rendered case from search has no index context. The
+// case page itself must say who made the claim, what the machine token means,
+// and how to get back to the index or the searchable home page.
+function caseNavigation(html) {
+  const match = html.match(/<aside\b[^>]*data-fallback-case-nav[^>]*>([\s\S]*?)<\/aside>/i);
+  return match ? {markup: match[0], inner: match[1]} : null;
+}
+
+// The reader must see the code and its label together. A label hidden with
+// `hidden`, inline `display:none`, `aria-hidden`, or a screen-reader utility
+// class does not decode anything, and pairing the wrong label is worse than no
+// legend at all.
+function hiddenTag(tag) {
+  return /\shidden(?:\s|=|>)/i.test(tag)
+    || /display\s*:\s*none/i.test(tag)
+    || /aria-hidden\s*=\s*["']true/i.test(tag)
+    || /\b(?:sr-only|visually-hidden)\b/i.test(tag);
+}
+
+function legendEntries(navHtml) {
+  const entries = new Map();
+  for (const match of navHtml.matchAll(/<span\b[^>]*class="[^"]*\bcase-fallback-code\b[^"]*"[^>]*>([\s\S]*?)<\/span>/gi)) {
+    const opening = match[0].slice(0, match[0].indexOf('>') + 1);
+    const codeTag = match[1].match(/<code\b[^>]*>/i)?.[0] || '';
+    const labelTag = match[1].match(/<strong\b[^>]*>/i)?.[0] || '';
+    if (hiddenTag(opening) || hiddenTag(codeTag) || hiddenTag(labelTag)) continue;
+    const code = match[1].match(/<code\b[^>]*>\s*([^<]+?)\s*<\/code>/i)?.[1]?.trim();
+    const label = match[1].match(/<strong\b[^>]*>\s*([^<]+?)\s*<\/strong>/i)?.[1]?.trim();
+    if (code && label) entries.set(code, label);
+  }
+  return entries;
+}
 
 function externalSourceLinks(html) {
   return [...html.matchAll(/<a\s+[^>]*href="([^"]+)"/gi)]
@@ -59,6 +94,32 @@ function checkFallbackReading(root) {
     if (externalSourceLinks(html).length === 0) {
       failures.push(`${page}: no clickable source link`);
     }
+    if (!page.startsWith('cases/')) continue;
+
+    const nav = caseNavigation(html);
+    if (!nav) {
+      failures.push(`${page}: missing the case fallback navigation and evidence legend`);
+      continue;
+    }
+    if (!/<a\s+[^>]*href="[^"]*INDEX\.html"[^>]*>\s*←?\s*完整案例索引/.test(nav.markup)) {
+      failures.push(`${page}: fallback navigation does not link to INDEX.html as 完整案例索引`);
+    }
+    if (!/<a\s+[^>]*href="[^"]*\/"[^>]*>\s*搜尋首頁/.test(nav.markup)) {
+      failures.push(`${page}: fallback navigation does not link to the searchable home page`);
+    }
+    if (!/誰提出主張/.test(nav.inner) || !/不等於誰驗證/.test(nav.inner)) {
+      failures.push(`${page}: fallback navigation must distinguish the claimant from verification`);
+    }
+    const body = html.replace(nav.markup, '');
+    const legend = legendEntries(nav.inner);
+    for (const [token, label] of EVIDENCE_LABELS) {
+      // Only rendered code spans count. Source URLs and slugs (for example
+      // `fan-watch-official-news`) are not evidence declarations.
+      if (!new RegExp(`<code\\b[^>]*>\\s*${token}\\s*</code>`, 'i').test(body)) continue;
+      if (legend.get(token) !== label) {
+        failures.push(`${page}: body uses ${token} but the legend does not pair it visibly with ${label}`);
+      }
+    }
   }
 
   // The catalog is the build's own list of corpus sources. Require a rendered
@@ -81,7 +142,7 @@ function checkFallbackReading(root) {
   return {checked: pages.length, failures};
 }
 
-module.exports = {checkFallbackReading, externalSourceLinks, SELF_ORIGIN};
+module.exports = {checkFallbackReading, externalSourceLinks, caseNavigation, legendEntries, SELF_ORIGIN};
 
 if (require.main === module) {
   const root = process.argv[2];

@@ -31,6 +31,8 @@
 | `official` | 官方自報 | 官方或原廠團隊（含員工）第一手發布的自述、示範或能力說明；未經第三方驗證。 |
 | `designed` | 設計／未實跑 | 作者或本庫設計的提示詞與流程，沒有執行結果可核。 |
 | `unverified` | 尚待查證 | 證據仍不足的線索；不要直接照做。 |
+| `author-self-report` | 作者報告／示範 | 與 `author-demo` 同一類：作者自述或自行回報；本庫未獨立重現。 |
+| `pending-verification` | 尚待查證 | 與 `unverified` 同一類：證據仍不足，不要直接照做。 |
 
 <a id="case-list"></a>
 

@@ -57,7 +57,7 @@
 
 - 缺口：沒有公開台帳樣本、失敗率、每次用量或費用；「回報有證據才算完成」是作者的規則設計，本庫沒有看到窗口實際退件的例子；截圖中的 routine 與 PR 內容無法逐筆核對。
 
-### S-061B：Wainwright 建立專責 Bot 前後的設定驗收（`author-report`＋公開測試紀錄）
+### S-061B：Wainwright 建立專責 Bot 前後的設定驗收（`author-self-report`＋公開測試紀錄）
 
 - 作者：itsryanlenk；英文。[Reddit 使用陳述](https://www.reddit.com/r/GrokBot/comments/1wl6cd2/grok_bot_worth_for_a_small_business/)連到作者的 [Wainwright 公開專案](https://github.com/itsryanlenk/wainwright)。論壇精確發文時間未核；專案測試標示 2026-09-15（America/New_York），本庫 2026-10-16 查閱。
 - 與 S-061A 合併：同為窗口 Bot 管理專責 Bot；這個版本補上「建立成功回覆之後，還要讀回真正保存的職責」。README 的流程是先檢查單一職責與禁止事項，建立後核對設定，再交接例行任務。程式包存在不代表本庫已安裝或測試。

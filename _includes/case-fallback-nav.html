@@ -1,0 +1,52 @@
+{%- assign case_path = page.path | default: '' -%}
+{%- if case_path contains 'cases/' -%}
+{%- assign case_id = page.name | split: '-' | first -%}
+{%- assign case_body = page.content | default: '' -%}
+{%- assign has_author = false -%}
+{%- assign has_official = false -%}
+{%- assign has_designed = false -%}
+{%- assign has_unverified = false -%}
+{%- assign has_author_self = false -%}
+{%- assign has_pending = false -%}
+{%- if case_body contains '`author-demo`' or case_body contains '>author-demo<' -%}{%- assign has_author = true -%}{%- endif -%}
+{%- if case_body contains '`official`' or case_body contains '>official<' -%}{%- assign has_official = true -%}{%- endif -%}
+{%- if case_body contains '`designed`' or case_body contains '>designed<' -%}{%- assign has_designed = true -%}{%- endif -%}
+{%- if case_body contains '`unverified`' or case_body contains '>unverified<' -%}{%- assign has_unverified = true -%}{%- endif -%}
+{%- if case_body contains '`author-self-report`' or case_body contains '>author-self-report<' -%}{%- assign has_author_self = true -%}{%- endif -%}
+{%- if case_body contains '`pending-verification`' or case_body contains '>pending-verification<' -%}{%- assign has_pending = true -%}{%- endif -%}
+<aside class="case-fallback-nav" data-fallback-case-nav aria-label="案例導覽與證據代碼說明">
+  <nav class="case-fallback-links" aria-label="備援閱讀導覽">
+    <a href="{{ '/INDEX.html' | relative_url }}">← 完整案例索引</a>
+    <a href="{{ '/' | relative_url }}">搜尋首頁</a>
+    {%- if case_id.size == 3 %}
+    <a href="{{ '/' | relative_url }}?case=UC-{{ case_id }}">互動閱讀器（需 JS）</a>
+    {%- endif %}
+  </nav>
+  <p class="case-fallback-claim"><strong>誰提出主張，不等於誰驗證。</strong>本庫未獨立重現。</p>
+  {%- if has_author or has_official or has_designed or has_unverified or has_author_self or has_pending %}
+  <p class="case-fallback-codes">本頁出現的證據代碼：
+    {%- if has_author %}
+    <span class="case-fallback-code"><code>author-demo</code> <strong>作者報告／示範</strong></span>
+    {%- endif %}
+    {%- if has_official %}
+    <span class="case-fallback-code"><code>official</code> <strong>官方自報</strong></span>
+    {%- endif %}
+    {%- if has_designed %}
+    <span class="case-fallback-code"><code>designed</code> <strong>設計／未實跑</strong></span>
+    {%- endif %}
+    {%- if has_unverified %}
+    <span class="case-fallback-code"><code>unverified</code> <strong>尚待查證</strong></span>
+    {%- endif %}
+    {%- if has_author_self %}
+    <span class="case-fallback-code"><code>author-self-report</code> <strong>作者報告／示範</strong></span>
+    {%- endif %}
+    {%- if has_pending %}
+    <span class="case-fallback-code"><code>pending-verification</code> <strong>尚待查證</strong></span>
+    {%- endif %}
+    <a class="case-fallback-more" href="{{ '/INDEX.html' | relative_url }}#how-to-read">完整定義</a>
+  </p>
+  {%- else %}
+  <p class="case-fallback-empty">本頁頁首未標示上述證據代碼；請以頁內來源、限制與查證日期為準。</p>
+  {%- endif %}
+</aside>
+{%- endif -%}

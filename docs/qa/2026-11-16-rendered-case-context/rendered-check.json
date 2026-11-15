@@ -1,0 +1,150 @@
+{
+  "before-case-001-desktop": {
+    "nav": 0
+  },
+  "before-case-001-mobile": {
+    "nav": 0
+  },
+  "after-case-001-desktop": {
+    "nav": 1,
+    "navHeight": 105.96875,
+    "overflow": false,
+    "styles": {
+      "navBg": "rgb(246, 248, 250)",
+      "navColor": "rgb(31, 35, 40)",
+      "navFont": 14,
+      "linkColor": "rgb(9, 105, 218)",
+      "linkFont": 14,
+      "linkHeight": 21.6875,
+      "ddColor": "rgb(31, 35, 40)",
+      "ddFont": 13,
+      "codeFont": 12,
+      "codes": [
+        "author-demo",
+        "designed",
+        "author-self-report"
+      ],
+      "links": [
+        {
+          "text": "← 完整案例索引",
+          "href": "/ai-agent-use-cases/INDEX.html"
+        },
+        {
+          "text": "搜尋首頁",
+          "href": "/ai-agent-use-cases/"
+        },
+        {
+          "text": "互動閱讀器（需 JS）",
+          "href": "/ai-agent-use-cases/?case=UC-001"
+        },
+        {
+          "text": "完整定義",
+          "href": "/ai-agent-use-cases/INDEX.html#how-to-read"
+        }
+      ],
+      "overflow": false
+    }
+  },
+  "after-case-001-mobile": {
+    "nav": 1,
+    "navHeight": 143.15625,
+    "overflow": false,
+    "styles": {
+      "navBg": "rgb(246, 248, 250)",
+      "navColor": "rgb(31, 35, 40)",
+      "navFont": 14,
+      "linkColor": "rgb(9, 105, 218)",
+      "linkFont": 14,
+      "linkHeight": 21.6875,
+      "ddColor": "rgb(31, 35, 40)",
+      "ddFont": 13,
+      "codeFont": 12,
+      "codes": [
+        "author-demo",
+        "designed",
+        "author-self-report"
+      ],
+      "links": [
+        {
+          "text": "← 完整案例索引",
+          "href": "/ai-agent-use-cases/INDEX.html"
+        },
+        {
+          "text": "搜尋首頁",
+          "href": "/ai-agent-use-cases/"
+        },
+        {
+          "text": "互動閱讀器（需 JS）",
+          "href": "/ai-agent-use-cases/?case=UC-001"
+        },
+        {
+          "text": "完整定義",
+          "href": "/ai-agent-use-cases/INDEX.html#how-to-read"
+        }
+      ],
+      "overflow": false
+    }
+  },
+  "after-case-001-320": {
+    "nav": 1,
+    "navHeight": 230.8125,
+    "overflow": false,
+    "styles": {
+      "navBg": "rgb(246, 248, 250)",
+      "navColor": "rgb(31, 35, 40)",
+      "navFont": 14,
+      "linkColor": "rgb(9, 105, 218)",
+      "linkFont": 14,
+      "linkHeight": 21.6875,
+      "ddColor": "rgb(31, 35, 40)",
+      "ddFont": 13,
+      "codeFont": 12,
+      "codes": [
+        "author-demo",
+        "designed",
+        "author-self-report"
+      ],
+      "links": [
+        {
+          "text": "← 完整案例索引",
+          "href": "/ai-agent-use-cases/INDEX.html"
+        },
+        {
+          "text": "搜尋首頁",
+          "href": "/ai-agent-use-cases/"
+        },
+        {
+          "text": "互動閱讀器（需 JS）",
+          "href": "/ai-agent-use-cases/?case=UC-001"
+        },
+        {
+          "text": "完整定義",
+          "href": "/ai-agent-use-cases/INDEX.html#how-to-read"
+        }
+      ],
+      "overflow": false
+    }
+  },
+  "case-004-mobile": {
+    "empty": true,
+    "codes": 0,
+    "overflow": false
+  },
+  "index": {
+    "nav": 0,
+    "guide": true,
+    "legend": true,
+    "homeLink": true
+  },
+  "keyboard": {
+    "text": "← 完整案例索引",
+    "href": "/ai-agent-use-cases/INDEX.html",
+    "outline": "auto",
+    "outlineWidth": "1px"
+  },
+  "contrast": {
+    "body": 14.84,
+    "link": 4.88,
+    "dd": 14.84
+  }
+}

@@ -1,0 +1,27 @@
+✔ a rendered case with a clickable source passes (9.010708ms)
+✔ a rendered case with only plain-text sources fails by page name (1.778166ms)
+✔ the site header link does not count as a source (0.13075ms)
+✔ an index without the evidence legend fails (1.571833ms)
+✔ a case without the fallback navigation fails (1.225084ms)
+✔ a case without a way back to the index or search home fails (2.26925ms)
+✔ a case that uses an evidence token without explaining it fails (1.705666ms)
+✔ caseNavigation isolates the legend from the case body (0.129042ms)
+✔ a catalog entry without a rendered page fails instead of shrinking the check (2.086667ms)
+✔ a hidden or mispaired legend entry does not decode the token (6.879833ms)
+✔ legendEntries keeps only visible code-label pairs (0.17225ms)
+✔ every published corpus page keeps at least one clickable source (109.034833ms)
+✔ source bullets never leave a bare URL for the Jekyll fallback (57.683416ms)
+✔ the SPA still treats a URL-labelled source as a source, not as prose (9.427417ms)
+✔ INDEX documents every evidence token used by a case header with the SPA label (42.106917ms)
+✔ the per-case fallback legend uses the same labels as the SPA (3.596708ms)
+✔ the layout override keeps the Primer contract and only adds the case aid (0.343041ms)
+✔ case evidence tokens use the documented author synonyms (31.608709ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 301.907291
+exit=0

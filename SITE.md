@@ -1,6 +1,8 @@
 ## 2026-11-15 新版發布的生成 HTML 完整正文驗證
 
-故障注入確認：superseded 發布只驗生成頁的語言標記，索引／案例／稽核正文過期仍可能綠燈。本輪從同 live revision 的 GitHub 內建 Pages 成功 run 取得 artifact，核對來源、SHA-256及既有四個抽樣頁完整位元；不拿 Markdown hash 或文字哨兵當正文證據。三項先紅、814單元通過、真實 superseded artifact／正式站與預覽桌面手機三情境證據見[本輪 QA](docs/qa/2026-11-15-generated-html/README.md)。UI／案例不變；artifact不可得時不降級放行，不宣稱覆蓋全部生成頁。下一輪先驗抽樣外的README／範本生成HTML，再評估擴大範圍。
+故障注入確認：superseded 發布只驗生成頁的語言標記，索引／案例／稽核正文過期仍可能綠燈。本輪從同 live revision 的 GitHub 內建 Pages 成功 run 取得 artifact，核對來源、SHA-256及既有四個抽樣頁完整位元；不拿 Markdown hash 或文字哨兵當正文證據。三項先紅、814單元通過、真實 superseded artifact／正式站與預覽桌面手機三情境證據見[本輪 QA](docs/qa/2026-11-15-generated-html/README.md)。UI／案例不變；artifact不可得時不降級放行，不宣稱覆蓋全部生成頁。下一輪先以停用JS瀏覽器從INDEX到UC-001，驗證備援頁的原文可點性及證據圖例。
+
+交付：[PR #412](https://github.com/RichardHan/ai-agent-use-cases/pull/412)，實作 `9c732a8742`、合併 `a3f520897b`；[Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43711150842) 與 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43711150553) 同版success。814單元、獨立複審無P1/P2；正式revision精確一致、12原始公開檔／526來源／audit批次及四頁可信artifact完整位元核對，兩尺寸三情境通過。已提交、推送、合併、部署與正式驗證；有限覆蓋與接續證據見本輪QA。
 
 ## 2026-11-15 手動發布驗證的明確比較範圍
 

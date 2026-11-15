@@ -44,7 +44,7 @@
 
 最終整合預覽的1440×900／390×844三情境全部通過：[journeys.json](preview/journeys.json)、[桌面詳情](preview/desktop-detail.png)、[手機詳情](preview/mobile-detail.png)。首頁問題入口→UC-014→證據／未實跑→返回原卡焦點；實際選Cursor造成空結果→鍵盤移除單一工具條件保留q／scope；分享詳情→reload→固定版本來源HTTP200→展開長文→返回一筆結果。詳情scrollWidth/clientWidth：桌面918/918、手機368/368，pageerror均0。主agent也在Orca實際開啟同預覽詳情。
 
-下一輪最值得做：盤點四個抽樣之外、訪客真正可到達的生成 HTML（先以README／範本的生成頁注入過期內容），再決定擴大完整artifact比對範圍；不要宣稱本輪已涵蓋全部HTML。
+下一輪最值得做：以停用JS的瀏覽器從INDEX到UC-001，確認Jekyll備援頁的原文網址可點性與證據圖例；主已核對該頁原始HTML的原文URL為純文字。比較GFM自動連結與最小備援layout，不先改寫全庫。抽樣外生成HTML仍是已知有限覆蓋，不宣稱本輪已涵蓋全部HTML。
 
 ### 目前 Actions 與歷史失敗日誌
 
@@ -55,3 +55,35 @@ Website QA對PR取消舊head、main保留裁決；Pages獨立建置，QA再比�
 ### 最終獨立審查
 
 GeneratedPagesReview 複審 **correct／無P1/P2**：[完整結果](review-final.md)。初審將尚未提交的新檔不在git diff中誤報為遺漏，已撤回；主agent核對selective commit草稿包含兩個helper與新回歸檔，沒有為此改程式或放寬測試。完整內容、archive/token邊界、失敗快取、期限與既有exact分支均經獨立檢查；814單元、真實artifact與訪客證據由主實跑。此為agent獨立審查，不是人類GitHub approval。
+
+### 分工回收與 PR
+
+CurrentActionsAudit、VisitorFlowAudit、GeneratedPagesReview均已完成並由主核對；工具限制與不採用的推論見[回收紀錄](investigation-handoff.md)。尤其「無Website QA run」不等於「從未實走」，UC編號跳號不等於案例刪除，備援頁單一樣本也不外推全庫。
+
+已提交／推送 `9c732a8742652495a216e23834687b54d5c253b1`，建立 [PR #412](https://github.com/RichardHan/ai-agent-use-cases/pull/412)，[審查收據](https://github.com/RichardHan/ai-agent-use-cases/pull/412#issuecomment-6893780815) 對應相同head。PR checks已啟動30秒間隔／25分鐘上限等待；完成前不宣稱通過。
+
+### 合併與真正 Jekyll 建置
+
+合併前再次核對head `9c732a8742652495a216e23834687b54d5c253b1`、base `f7642514a93b6c10a217f507d4383da3103a2710` 未變、mergeState CLEAN、四個PR checks全部success：[快照](pr-final.json)。[Website QA 43710149220](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43710149220) 真正Jekyll、原文bundle／語言／發布面、Chromium與INDEX備援全部成功：[steps](pr-website-qa.json)。PR不發布的三步依原規則skipped，不當正式驗收。
+
+2026-11-15 11:54:09 UTC正常merge為 `a3f520897b6e600eddbd138f30f8fe4fa865b70d`：[merge](merge.json)。只快轉本輪隔離分支，原工作樹與其他worktrees保留。對應[Pages 43711150553](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43711150553)與Website QA分別以25分鐘上限等待；尚未完成時不以PR綠燈代替正式發布。
+
+### 合併版正式發布與訪客驗收
+
+[Pages 43711150553](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43711150553) build／deploy／report全success，head精確為 `a3f520897b6e600eddbd138f30f8fe4fa865b70d`：[steps](pages-release.json)。GitHub管理的Node20／Ubuntu遷移警告未造成此run失敗。
+
+正式catalog／corpus sourceRevision精確等於合併SHA，12份原始公開檔逐位元吻合、526原文完整核對、audit第一H2批次及首頁消費契約通過。新helper再次實際讀取該版Pages artifact `14160368371`，核對SHA-256／來源版本與四個抽樣HTML完整位元：[release.json](release.json)。這不是只看Pages綠燈。
+
+正式Chromium1440×900／390×844三情境全通過：[journeys.json](live/journeys.json)、[桌面](live/desktop-detail.png)、[手機](live/mobile-detail.png)。問題入口、組合空結果鍵盤復原保留條件、分享詳情／reload／未實跑界線／固定合併來源HTTP200／長文／返回均通過，pageerror及水平溢出0。主agent另用Orca開正式手機詳情，等待同合併SHA來源selector後核對，[實際畫面狀態](live-manual.json)有未實跑與正確來源；Escape返回保留UC-014／topic，一筆結果、焦點results-count，1440桌面無溢出。
+
+此時主線Website QA仍在執行；以上產物及實走不能代替其最終裁決，完成後另記。
+
+### 最終發布結論
+
+[主線 Website QA 43711150842](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43711150842) **success**，head精確為合併 `a3f520897b6e600eddbd138f30f8fe4fa865b70d`，低於25分鐘等待上限：[完整steps](main-qa.json)、[原始log裁決](main-verdict.txt)。雲端814 tests／814 pass／0 fail，真正Jekyll、發布gate、正式Chromium及INDEX備援均通過；`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH` 與 `PUBLISHED_LIVE_BUILD_CURRENT` 精確指向合併版。雲端此次走exact分支；新增superseded artifact整合另由本輪真實API／正式產物驗證，不混稱該雲端run走過superseded。
+
+**已提交、已推送、已合併、部署成功、正式站已驗證。** 無本輪未解發布阻塞。有限四頁覆蓋、artifact可用性／同SHA重建快取與影像目視／真機限制如前述；不稱全站HTML或無障礙認證。
+
+最後只保存被Pages排除的 `docs/qa/`／`SITE.md` 接續證據，不更動已審程式。接續提交的Pages／sourceRevision、相同原始產品位元與該版生成HTML再核對一次，收據附PR comment，避免為記自身SHA反覆提交；未觸發的Website QA不稱重跑。臨時驗收腳本於核對完成後移除。
+
+下一輪仍優先從停用JS的INDEX→UC-001驗證備援原文可點性與證據說明，再決定最小修改；不自行延長本輪或新增排程。

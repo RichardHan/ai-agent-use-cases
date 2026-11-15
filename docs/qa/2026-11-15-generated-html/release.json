@@ -1,0 +1,85 @@
+{
+  "sourceRevision": "a3f520897b6e600eddbd138f30f8fe4fa865b70d",
+  "sourceCount": 526,
+  "raw": [
+    {
+      "file": "index.html",
+      "bytes": 28525,
+      "sha256": "ce484b884e51594389f52b13c4dd3e8eabf3aa81aced31a4231d3bf510e4e9c8"
+    },
+    {
+      "file": "assets/app.js",
+      "bytes": 401417,
+      "sha256": "aa426f1743024caa20a2211d4759e90cb70d6758f1b42b8355b59e1263796104"
+    },
+    {
+      "file": "assets/style.css",
+      "bytes": 66536,
+      "sha256": "1c0d5940ac331975774bb919228ee6df00c53c2eb09e5723bab436b396615547"
+    },
+    {
+      "file": "assets/reader.js",
+      "bytes": 38924,
+      "sha256": "f13a6af65946188b9265a921ca29649a4a3ac0005406a390e095206dacec4488"
+    },
+    {
+      "file": "assets/reader.css",
+      "bytes": 32696,
+      "sha256": "04c7d8237d41413fdecdaa0b7d00287cb68f650cab19e6c2625146e2d873e8fc"
+    },
+    {
+      "file": "assets/copy.json",
+      "bytes": 7974,
+      "sha256": "b6e02e028128376b40e1e94ab452bf9f77ce2a303a9b1bb477752fe999ce8ff7"
+    },
+    {
+      "file": "assets/discovery.js",
+      "bytes": 1673,
+      "sha256": "c7e0d1624807513c424bab112421ea669a08eced81cbc0cabb11c5dc1978fe74"
+    },
+    {
+      "file": "assets/audit.js",
+      "bytes": 3750,
+      "sha256": "1158fce716e808231124cae66877394136c392e0ff8034a56385f39cfb489d8c"
+    },
+    {
+      "file": "README.md",
+      "bytes": 19463,
+      "sha256": "6ac00d47a04c6e6f1322fc7029f3a3ef5aabe9abadc4a7ee7cc52c044b62d130"
+    },
+    {
+      "file": "README-archive-2026-10-18.md",
+      "bytes": 13880,
+      "sha256": "8a6ecb5840c40b5756276262afcbdc72504ed97f5ba36cbdb1b2768e9e206bb9"
+    },
+    {
+      "file": "INDEX.md",
+      "bytes": 244694,
+      "sha256": "0d728f94ea236e62d70f2e83998bee3a29d88e29e4c56a2ede77d765756bb583"
+    },
+    {
+      "file": "templates/case.md",
+      "bytes": 5259,
+      "sha256": "78a6902a08729697a848b1052b6a0f781e8f5c0e25216bbb44891e6a3677a535"
+    }
+  ],
+  "html": [
+    {
+      "page": "index.html",
+      "sha256": "ce484b884e51594389f52b13c4dd3e8eabf3aa81aced31a4231d3bf510e4e9c8"
+    },
+    {
+      "page": "INDEX.html",
+      "sha256": "bc9432b8c3684cbb56f29f762a49f3bd9468db4a0afdb2537df6863580b288d7"
+    },
+    {
+      "page": "cases/001-travel-checkout.html",
+      "sha256": "c0dde550f9fe1a22204a53f87f200afa3abefb77ca1246b38f87b28365257db1"
+    },
+    {
+      "page": "sources/qualification-audit-2026-10-16.html",
+      "sha256": "b2698bb23d4385fc78eacb299e0489977d4792ab1e33501ca5b1afb06b54f2b4"
+    }
+  ],
+  "auditSummary": "matches pinned first H2 and consumer contract"
+}

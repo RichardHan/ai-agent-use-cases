@@ -1,3 +1,7 @@
+## 2026-11-15 新版發布的生成 HTML 完整正文驗證
+
+故障注入確認：superseded 發布只驗生成頁的語言標記，索引／案例／稽核正文過期仍可能綠燈。本輪從同 live revision 的 GitHub 內建 Pages 成功 run 取得 artifact，核對來源、SHA-256及既有四個抽樣頁完整位元；不拿 Markdown hash 或文字哨兵當正文證據。三項先紅、814單元通過、真實 superseded artifact／正式站與預覽桌面手機三情境證據見[本輪 QA](docs/qa/2026-11-15-generated-html/README.md)。UI／案例不變；artifact不可得時不降級放行，不宣稱覆蓋全部生成頁。下一輪先驗抽樣外的README／範本生成HTML，再評估擴大範圍。
+
 ## 2026-11-15 手動發布驗證的明確比較範圍
 
 `Facet counts QA` 的手動執行沒有 push 的 `event.before`，目前正式 CLI 因未知比較範圍直接拒絕。本輪增加必填完整 `base_sha` 與建置前嚴格祖先驗證，不猜 HEAD^，保留多 commit 中較早的刪除；補既有部署探測所需唯讀 Actions 權限。正常、錯誤輸入、桌面手機三情境、獨立審查與實際雲端 dispatch／發布證據見[本輪 QA](docs/qa/2026-11-15-manual-publication/README.md)。不改 UI／案例，不放寬未知範圍、位元或刪除驗證。下一輪先以 fixture 確認 superseded 生成 HTML 的過期正文，再評估可信建置產物核對。

@@ -1,0 +1,180 @@
+Pages deployment for current: failed (failure) — https://github.com/o/r/actions/runs/42733561142
+Pages deployment for current: failed (failure) — run/9
+The deployment for current failed (failure), but the live build current already carries it; verifying the bytes it published — run/9
+Pages deployment for current: failed (failure) — run/9
+Pages deployment for current: failed (failure) — run/9
+The deployment for current failed (failure), but the live revision could not be compared; keeping the window open — run/9
+Pages deployment for current: failed (failure) — run/9
+The deployment for current failed (failure), but the live build newer already carries it; verifying the bytes it published — run/9
+Pages deployment for current: pending
+Pages deployment for current: succeeded (success) — run/1
+Pages deployment for current: succeeded (success)
+✔ an unfinished Pages run is not a verdict, and a rerun supersedes an earlier failure (19.582459ms)
+✔ a rerun is the newest activity, not the newest creation (0.129667ms)
+✔ the API is only trusted when it answers, and never to guess a verdict (2.31475ms)
+✔ a fatal publication verdict ends the wait instead of spending the window (3.081916ms)
+✔ a retryable error keeps polling and names the code instead of the response body (2.922417ms)
+✔ a failed deployment fails the gate at once and names the run (14.83775ms)
+✔ a failed deployment only turns red when the live build provably lacks the push (164.778292ms)
+✔ a pending deployment keeps the full window, and a succeeded one never replaces the byte check (328.459542ms)
+✔ a transient ancestry failure is retried, not cached for the whole window (34.522375ms)
+✔ a branch build never asks GitHub about a Pages run it cannot have (42.519875ms)
+✔ main keeps its release verdict: only a pull request may cancel its own run (1.15325ms)
+PUBLISHED_PAGES_ARTIFACT aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa run=123 artifact=456
+✔ trusted same-revision Pages archive provides hashes of complete generated pages (1162.517833ms)
+✔ wrong workflow, branch, repository, revision or unfinished run cannot supply trusted bytes (2295.941292ms)
+✔ expired, missing digest or mismatched artifact provenance is rejected before download (1466.173459ms)
+✔ download corruption is rejected using the API artifact digest (281.529875ms)
+✔ archive missing, duplicate, linked pages or wrong embedded revision never prove publication (2710.047417ms)
+✔ API and download errors do not expose tokens, signed URLs or response contents (0.493291ms)
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+✔ independently built identical releases accept different timestamps (1.262708ms)
+✔ mixed publication revisions are rejected (1.044292ms)
+✔ changed, missing and duplicate sources are rejected (15.872459ms)
+✔ source order does not change the publication content (0.202291ms)
+✔ published verification exports whether downstream corpus checks are valid (3.590666ms)
+✔ facet publication waits through a 40-minute mixed-corpus deployment using the shared window (158.594875ms)
+✔ matching assets never accept changed source bytes, and failure stops at 60 minutes (208.456042ms)
+✔ a changed product asset cannot pass with an otherwise matching corpus (168.16475ms)
+✔ publication cannot pass while a static page has stale language or a stale source revision (271.910583ms)
+✔ non-main content verification does not demand a branch SHA from Pages (14.43475ms)
+✔ a superseded release rejects stale generated body: INDEX.html (136.152917ms)
+✔ a superseded release rejects stale generated body: cases/001-travel-checkout.html (123.623417ms)
+✔ a superseded release rejects stale generated body: sources/qualification-audit-2026-10-16.html (113.182583ms)
+✔ superseded generated pages match the newer artifact, not this checkout (13.627583ms)
+✔ an unavailable artifact cannot turn a superseded release green (101.210792ms)
+✔ a transient artifact failure is retried, successful hashes are reused while CDN settles (17.069541ms)
+✔ a newer published build is judged against the revision it names (15.100625ms)
+✔ a later merge that rewrote the same case is superseded, not a lost publication (13.783041ms)
+✔ a changed asset rewritten by a later build settles instead of polling for an hour (21.176125ms)
+✔ a live build that disagrees with its own revision never verifies (151.801792ms)
+✔ a superseded build whose corpus bytes changed without a content merge is rejected (294.899667ms)
+✔ a later merge that deletes the path this push changed is not a lost publication (8.909042ms)
+✔ an asset this push deleted but a later build restored is compared with that build (106.248458ms)
+✔ a published build that does not descend from this push is rejected (84.627167ms)
+✔ a newer build cannot be verified when the push base is unknown (15.044708ms)
+✔ a push that published no file still needs a live build faithful to its revision (201.454958ms)
+✔ a push that published no file settles on a newer live build instead of a false red (9.0045ms)
+✔ every served asset is compared, including copy.json (77.867459ms)
+✔ a rename is verified as new bytes present and the old path gone (96.648166ms)
+✔ an exact revision also requires the generated pages to be this build (91.213666ms)
+✔ a deleted runtime asset must be gone from the live site (178.857583ms)
+✔ an exact release cannot prove deletion when the push base is unknown (7.050334ms)
+✔ an omitted change list cannot silently claim an exact publication (8.448958ms)
+✔ an exact release rejects a deleted URL that still serves content: assets/retired.js (91.268792ms)
+✔ an exact release requires explicit absence, not a server error: assets/retired.js (78.736791ms)
+✔ an exact release rejects a deleted URL that still serves content: templates/retired.md (79.875875ms)
+✔ an exact release requires explicit absence, not a server error: templates/retired.md (82.287541ms)
+✔ an exact renamed template waits for the old URL to disappear while checking the new bytes (88.015ms)
+✔ a live build without a source revision is never accepted (81.761417ms)
+✔ a deleted source is verified by its absence from the published corpus (16.614959ms)
+✔ the gate exports verified only after the published bytes were actually compared (1.481083ms)
+✔ facet workflow reserves publication time and gates every published consumer on verification (0.701958ms)
+✔ an exact release rejects stale adoption document README.md (81.960625ms)
+✔ a superseded document-only push verifies live bytes for README.md (90.421166ms)
+✔ an exact release rejects stale adoption document README-archive-2026-10-18.md (85.880208ms)
+✔ a superseded document-only push verifies live bytes for README-archive-2026-10-18.md (94.62975ms)
+✔ an exact release rejects stale adoption document INDEX.md (87.852625ms)
+✔ a superseded document-only push verifies live bytes for INDEX.md (103.243416ms)
+✔ an exact release rejects stale adoption document templates/case.md (85.76875ms)
+✔ a superseded document-only push verifies live bytes for templates/case.md (96.516167ms)
+✔ a renamed adoption template requires the new bytes and the old URL to be gone (135.340583ms)
+✔ a template deleted by this push and restored later must match the live revision (104.783291ms)
+✔ a later descendant may remove a file this push changed: templates/case.md (27.48925ms)
+✔ a later descendant may remove a file this push changed: assets/app.js (12.316917ms)
+✔ a missing changed template is not accepted when the live revision still requires it (159.708417ms)
+✔ an exact release rejects an outdated audit summary even when all other bytes match (92.548875ms)
+✔ audit JSON serialization differences do not reject identical content (8.068917ms)
+✔ a release cannot verify a missing audit summary (65.60325ms)
+✔ a release cannot verify a invalid audit summary (70.259208ms)
+✔ a superseded audit is compared with its own revision, including a docs-only push (96.176625ms)
+✔ a superseded release cannot verify when the pinned audit source is unavailable (75.093333ms)
+✔ a matching release rejects a consumer-invalid audit null (95.766917ms)
+✔ a matching release rejects a consumer-invalid audit 2026-11-15 台灣時間核對
+嚴格合格 **370／1,000，尚差629** (93.314542ms)
+✔ a superseded release rejects a consumer-invalid audit null (93.712709ms)
+✔ a superseded release rejects a consumer-invalid audit 2026-11-15 台灣時間核對
+嚴格合格 **370／1,000，尚差629** (86.140208ms)
+ℹ tests 82
+ℹ suites 0
+ℹ pass 82
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7992.602166

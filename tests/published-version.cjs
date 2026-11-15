@@ -8,6 +8,8 @@ const {publicationStatus}=require('../scripts/publication-status.cjs');
 const DEPLOY_POLL_ROUNDS=12;
 const {publicationChangeList,isDescendantOf,treeAtRevision,blobHash,PUBLISHABLE_FILE}=require('../scripts/published-check.cjs');
 const {pages,checkPageLanguage}=require('../scripts/check-page-language.cjs');
+const {readPublishedPages}=require('../scripts/published-pages.cjs');
+const {createHash}=require('node:crypto');
 const SOURCE_DIR=/^(?:cases|evidence)\/|^sources\/pending\.md$/;
 // Runtime assets and raw adoption documents share the push classifier. Generated
 // JSON/HTML are handled separately: their source blobs are not their served bytes.
@@ -145,7 +147,7 @@ function readAuditAtRevision(revision){
  // Ancestry verification has already fetched this immutable commit.
  return require('node:child_process').execFileSync('git',['show',revision+':sources/qualification-audit-2026-10-16.md'],{encoding:'utf8',timeout:30000,maxBuffer:16*1024*1024});
 }
-async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList,root='.',fetchAsset=fetch,isDescendant=isDescendantOf,treeAtRevision:readTree=treeAtRevision,readAuditSource=readAuditAtRevision,now,sleep,deployment}){
+async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList,root='.',fetchAsset=fetch,isDescendant=isDescendantOf,treeAtRevision:readTree=treeAtRevision,readAuditSource=readAuditAtRevision,readPublishedPages:readPages=readPublishedPages,now,sleep,deployment}){
  assert(changeList?.known,'Cannot verify publication without knowing what this push changed');
  // The live site cannot say whether its own deploy failed or is still running, so
  // ask GitHub about the Pages run for this exact push. Only a push that publishes
@@ -161,6 +163,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
  const local={catalog:JSON.parse(buffers.get('catalog.json').toString('utf8')),corpus:JSON.parse(buffers.get('corpus.json').toString('utf8'))};
  const localAudit=JSON.parse(buffers.get('audit-summary.json').toString('utf8'));
  const auditByRevision=new Map();
+ const pagesByRevision=new Map();
  const changed=readChangedBytes(changeList.entries,root);
  // Retries repeat every few seconds; the answer for one revision pair cannot change.
  const ancestry=new Map();
@@ -272,9 +275,8 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
     assert(assets.every(file=>remoteBuffers.get(file)?.equals(buffers.get(file))),'Product asset mismatch');
     assert.equal(remote.corpus.sourceRevision,expectedSourceRevision,'Published corpus source revision mismatch');
     assert(sameContent(local,remote),'Published source content or internal revision mismatch');
-    // A generated page can keep valid language metadata while its body went stale,
-    // so the build that claims to be this SHA is compared byte-for-byte. A newer
-    // build may legitimately render newer pages; there the changed files are checked.
+    // A generated page can keep valid language metadata while its body went stale.
+    // Compare this build here; the newer build uses its trusted Pages artifact.
     for(const page of pages)assert(remoteBuffers.get(page).equals(buffers.get(page)),'Published page differs from this build: '+page);
     assert.deepEqual(remoteAudit,localAudit,'Published audit summary differs from this build');
     // Deleted raw files are absent from the build's asset list. Matching every
@@ -299,6 +301,11 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
      auditByRevision.set(revision,{latestBatch:source.split('\n## ')[1]??null});
     }
     assert.deepEqual(remoteAudit,auditByRevision.get(revision),'Published audit summary differs from the live revision '+revision);
+    if(!pagesByRevision.has(revision))pagesByRevision.set(revision,await readPages(revision,{signal}));
+    const hashes=pagesByRevision.get(revision);
+    for(const page of pages){
+     assert.equal(createHash('sha256').update(remoteBuffers.get(page)).digest('hex'),hashes.get(page),'Published page differs from the live Pages artifact: '+page);
+    }
    }
    assert(require('../assets/audit.js').parseSummary(remoteAudit),'Published audit summary is invalid for the homepage');
    publication={catalog:remoteBuffers.get('catalog.json').toString('utf8'),corpus:remoteBuffers.get('corpus.json').toString('utf8'),sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision,mode,supersededBy,changedVerified,carried,liveRevision:remote.catalog.sourceRevision};

@@ -2,7 +2,7 @@
 
 正式站 522 個 rendered 案例頁只有站名回首頁，沒有 INDEX 連結；198 頁頁首有證據代碼，但 INDEX 只列四碼，`author-self-report`（10 頁）與 `pending-verification`（1 頁）沒有對照。本輪以最小 primer `_layouts` 覆寫，在 cases 頁加「完整案例索引／搜尋首頁／互動閱讀器」與本頁代碼的可見中文配對；INDEX 補兩同義碼，兩頁 `author-report` 正規化為 `author-self-report`；built-site gate 驗每個代碼與標籤在同一個可見 span，並讓 `_layouts`／`_includes` 變更觸發 Website QA。832 單元、改動前 FAIL 524、Jekyll 3.10／4.3 build PASS 525；正式站 sourceRevision `e74c7509`、522 頁 PASS、三情境與 after-live 截圖見[本輪紀錄](docs/qa/2026-11-16-rendered-case-context/README.md)。限制：圖片未逐像素目視；`sources/*.md` 發布閘門缺口未修。
 
-交付：[PR #414](https://github.com/RichardHan/ai-agent-use-cases/pull/414)，實作 `9ae821ac`、合併 `e74c7509`；PR checks 15 pass／2 skipped，[Website QA 43750054012](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054012) success，[Pages 43751268102](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43751268102) success，main [Website QA 43751269040](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43751269040) success。
+交付：[PR #414](https://github.com/RichardHan/ai-agent-use-cases/pull/414)，實作 `9ae821ac`、合併 `e74c7509`；PR checks 16 pass／2 skipped，[Website QA 43750054012](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054012) success，[Pages 43751268102](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43751268102) success，main [Website QA 43751269040](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43751269040) success。
 
 ## 2026-11-16 備援閱讀路徑：來源可點、證據代碼可解讀
 

@@ -49,7 +49,7 @@
 
 ## 發布與正式站核對
 
-- 分支 commit `9ae821ac`，[PR #414](https://github.com/RichardHan/ai-agent-use-cases/pull/414)；merge commit `e74c750950cc61df3937ca0fc91229e7abaac396`。合併前 15 個 checks pass、2 個 `published` 在 PR 上預期 skip；[Website QA 43750054012](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054012) 12m02s success，`Verify fallback reading pages` 在真正 Jekyll `_site` 上 success。
+- 分支 commit `9ae821ac`，[PR #414](https://github.com/RichardHan/ai-agent-use-cases/pull/414)；merge commit `e74c750950cc61df3937ca0fc91229e7abaac396`。合併前 16 個 checks pass、2 個 `published` 在 PR 上預期 skip；[Website QA 43750054012](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054012) 12m02s success，`Verify fallback reading pages` 在真正 Jekyll `_site` 上 success。
 - [Pages 43751268102](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43751268102) 對 merge SHA success；正式 `catalog.json.sourceRevision` 精確等於 `e74c7509…`，`bundleRevision` 為 `20261115191440695863586`。
 - 以同一支檢查重新下載正式站 522 個案例頁：`PASS: 522`；INDEX 六個代碼齊全、無案例導覽，`sources/README.html` 也沒有案例導覽。UC-004 顯示「頁首未標示」、UC-006 解碼 `author-demo`／`official`、UC-046 解碼六碼。
 - 正式站截圖（1280×900／390×844／320×568）：`after-live/case-001-desktop.png`、`case-001-mobile.png`、`case-001-320.png`、`case-046-mobile.png`、`index-desktop.png`；`before/` 為部署前同頁同尺寸。DOM：導覽高度 105.97／143.16／230.81px、UC-046 手機 184.34px、水平溢出 false、pageerror 0、anchor.js anchors 14／18。

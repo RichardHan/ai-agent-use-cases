@@ -1,0 +1,117 @@
+{
+ "pass": true,
+ "results": [
+  {
+   "viewport": "desktop",
+   "task": "日報整理",
+   "count": "顯示 80 / 529 筆收錄",
+   "shared": {
+    "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-445&q=%E6%9C%83%E8%AD%B0#explore",
+    "id": "UC-445",
+    "trust": "成果主張：社群作者／專案實踐者（作者內容經第三人轉述）\n核讀：本庫未獨立重現\n取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文\n核讀與安全建議 ↓",
+    "relay": "取得：經轉述",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/1d318ebd22c7ea9d01b22237038542acfe643178/cases/445-campaign-experiment-goal-guard.md"
+   },
+   "sources": {
+    "UC-258": {
+     "notes": [
+      true,
+      19
+     ]
+    },
+    "UC-456": {
+     "notes": [
+      true,
+      20
+     ]
+    },
+    "UC-453": {
+     "notes": [
+      true,
+      11
+     ]
+    },
+    "UC-384": {
+     "notes": [
+      true,
+      10
+     ]
+    },
+    "UC-416": {
+     "notes": [
+      true,
+      12
+     ]
+    },
+    "UC-015": {
+     "notes": [
+      true,
+      42
+     ]
+    },
+    "UC-063": {
+     "notes": [
+      true,
+      13
+     ]
+    }
+   }
+  },
+  {
+   "viewport": "mobile",
+   "task": "日報整理",
+   "count": "顯示 80 / 529 筆收錄",
+   "shared": {
+    "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-445&q=%E6%9C%83%E8%AD%B0#explore",
+    "id": "UC-445",
+    "trust": "成果主張：社群作者／專案實踐者（作者內容經第三人轉述）\n核讀：本庫未獨立重現\n取得：作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文\n核讀與安全建議 ↓",
+    "relay": "取得：經轉述",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/1d318ebd22c7ea9d01b22237038542acfe643178/cases/445-campaign-experiment-goal-guard.md"
+   },
+   "sources": {
+    "UC-258": {
+     "notes": [
+      true,
+      19
+     ]
+    },
+    "UC-456": {
+     "notes": [
+      true,
+      20
+     ]
+    },
+    "UC-453": {
+     "notes": [
+      true,
+      11
+     ]
+    },
+    "UC-384": {
+     "notes": [
+      true,
+      10
+     ]
+    },
+    "UC-416": {
+     "notes": [
+      true,
+      12
+     ]
+    },
+    "UC-015": {
+     "notes": [
+      true,
+      42
+     ]
+    },
+    "UC-063": {
+     "notes": [
+      true,
+      13
+     ]
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,9 @@
+# main Website QA 43768064019 head 1d318ebd, completed 2026-11-15T22:26:03Z, conclusion success
+# steps: all success; 'Fail when the published site cannot be verified' skipped by design
+browser	Run existing regression tests	2026-11-15T22:14:44.0873156Z # tests 851
+browser	Run existing regression tests	2026-11-15T22:14:44.0873443Z # pass 851
+browser	Run existing regression tests	2026-11-15T22:14:44.0873591Z # fail 0
+browser	Wait for published assets and content	2026-11-15T22:25:21.3202547Z PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 1d318ebd22c7ea9d01b22237038542acfe643178
+browser	Verify the published GitHub Pages site	2026-11-15T22:25:21.6178724Z PUBLISHED_LIVE_BUILD_CURRENT 1d318ebd22c7ea9d01b22237038542acfe643178 (walking the live site)
+browser	Verify the published GitHub Pages site	2026-11-15T22:25:22.7892682Z PASS LIVE: Pages HTTPS, real generated catalog, scenario discovery and detail
+browser	Verify the published GitHub Pages site	2026-11-15T22:25:24.8594255Z PASS LIVE: mobile direct link, refresh, close, scenario selection and no horizontal overflow

@@ -34,7 +34,7 @@ Heyvhuang 的公開專案把主持與五個玩家分開。作者稱英文五玩�
 
 ## 作者、日期、來源與去重
 
-作者 Heyvhuang；英文；公開提交日期 2026-08-15，固定版本 `2f18703f30815a295d52f6c09812a076e8354329`。
+作者 Heyvhuang；英文；公開提交日期 2026-08-15，固定版本 `2f18703f30815a295d52f6c09812a076e8354329`。**2026-11-16 檢查：`Heyvhuang/werewolf-gamemaster` 與下列固定版本網址均回 404，原專案已無法從 GitHub 重開；本文保留當時目視與摘要，沒有找到鏡像或 fork 可核對同一 commit。**
 
 - [專案 README](https://github.com/Heyvhuang/werewolf-gamemaster/tree/2f18703f30815a295d52f6c09812a076e8354329)
 - [狀態與推進規則](https://github.com/Heyvhuang/werewolf-gamemaster/blob/2f18703f30815a295d52f6c09812a076e8354329/references/state-machine.md)

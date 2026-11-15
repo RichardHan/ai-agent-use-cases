@@ -99,7 +99,7 @@ test('a relayed declaration is exposed as data, and a later source is not', () =
     'reading the official page directly is not a relayed declaration');
 
   const relayed = entries.filter(entry => entry.relayedProof.length).map(entry => entry.id);
-  assert.deepEqual(relayed.map(id => String(id)).sort(), ['UC-049', 'UC-093', 'UC-107', 'UC-108', 'UC-179', 'UC-282', 'UC-316', 'UC-514', 'UC-523'],
+  assert.deepEqual(relayed.map(id => String(id)).sort(), ['UC-049', 'UC-093', 'UC-107', 'UC-108', 'UC-179', 'UC-282', 'UC-316', 'UC-445', 'UC-514', 'UC-523'],
     'the pages that state the relay carry the qualifier, the others do not');
   for (const id of ['UC-107', 'UC-108', 'UC-316', 'UC-514'])
     assert.deepEqual([...byId(id).relayedProof], ['官方自報'], id + ' carries the official relay qualifier');
@@ -115,7 +115,7 @@ test('an author claim read through someone else is qualified, a first-hand read 
   assert.deepEqual([...api.relayedEvidenceClasses('`author-self-report`（Greg Isenberg 訪談影片的轉載摘要頁）；影片逐字稿本庫未看，列為缺口；建議流程為 `designed`')], ['作者報告／示範']);
   assert.deepEqual([...api.relayedEvidenceClasses('V，官方挑選的具名測試者實用引言；無流程圖或事件紀錄，未重現')], ['作者報告／示範']);
   assert.deepEqual([...api.relayedEvidenceClasses('`author-demo`（作者轉述同事的實際設定；X 長貼文附一張圖片（本庫未看）並稱完整設定與每個 Bot 的首則訊息在所引長文中，本庫只讀貼文、未讀長文全文）；貼文結尾導向一篇長文，帶推廣性質')], ['作者報告／示範']);
-  for (const id of ['UC-049', 'UC-093', 'UC-179', 'UC-282', 'UC-523'])
+  for (const id of ['UC-049', 'UC-093', 'UC-179', 'UC-282', 'UC-445', 'UC-523'])
     assert.deepEqual([...byId(id).relayedProof], ['作者報告／示範'], id + ' carries the author relay qualifier');
 
   // Two declarations in one line: the qualifier belongs to its own clause, and a
@@ -171,6 +171,33 @@ test('the card keeps the filter label and states the acquisition route', () => {
   assert.equal(api.card(byId('UC-093'), []).children.find(child => child.className === 'card-bottom')
     .children.find(child => child.className === 'proof-relayed').textContent, '取得：經轉述',
   'the marker does not claim a class the page did not declare');
+
+  // UC-445 is named after an operator, but the only record is a Clay-authored
+  // interview. The card must keep the author class and disclose the relay.
+  const interview = api.card(byId('UC-445'), []);
+  const interviewBottom = interview.children.find(child => child.className === 'card-bottom');
+  assert.equal(interviewBottom.children.find(child => child.className === 'proof').textContent, '作者報告／示範');
+  const interviewMark = interviewBottom.children.find(child => child.className === 'proof-relayed');
+  assert.ok(interviewMark, 'an interviewed author is not presented as a first-hand record');
+  assert.equal(interviewMark.textContent, '取得：經轉述');
+  assert.match(interviewMark.getAttribute('aria-label'), /作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文/);
+  assert.match(api.copyNoteText(byId('UC-445'), 'https://example.test/?case=UC-445'),
+    /作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文/);
+});
+
+test('a second-hand headline is exposed as 尚待查證 without changing the primary class', () => {
+  const item = byId('UC-016');
+  assert.equal(item.proof, '作者報告／示範', 'the directly read author posts stay the primary class');
+  assert.ok(item.proofClasses.includes('尚待查證'),
+    'the address-leak event read only through media retellings must be named as unverified');
+  const chips = api.proofBadges(item);
+  assert.ok(chips.some(chip => chip.textContent === '尚待查證'), 'the detail class list shows the unverified route');
+  const card = api.card(item, []);
+  const bottom = card.children.find(child => child.className === 'card-bottom');
+  assert.equal(bottom.children.find(child => child.className === 'proof').textContent, '作者報告／示範',
+    'the card keeps the facet label; the unverified event is not presented as the whole page');
+  assert.match(api.copyNoteText(item, 'https://example.test/?case=UC-016'), /來源證據：作者報告／示範/,
+    'the copied note keeps the primary class rather than the unverified event');
 });
 
 test('the detail chips keep the label and add the acquisition route', () => {

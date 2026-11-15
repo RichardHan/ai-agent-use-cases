@@ -79,7 +79,7 @@
 ## 獨立審查
 
 - 獨立 reviewer 檢查最終 diff、exact／superseded 路徑、刪除／改名、輪詢範圍與測試，無 P0／P1。
-- P2：`sources/README.md` 的發布核對句原本寫成所有來源紀錄都會比對，但實際只抓本次變更的 ledger。已改為「本目錄中有變更的 Markdown 原文會與正式站位元比對」，並補 dot-prefixed 檔名與 404／410 的來源 ledger 回歸。複審待本輪修正後再確認。
+- P2：`sources/README.md` 的發布核對句原本寫成所有來源紀錄都會比對，但實際只抓本次變更的 ledger。已改為「本目錄中有變更的 Markdown 原文會與正式站位元比對」，並補 dot-prefixed 檔名與 404／410 的來源 ledger 回歸。複審確認這些 delta 無 remaining findings。
 
 ## 已知限制
 

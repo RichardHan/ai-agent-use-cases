@@ -4835,7 +4835,7 @@ function emptyPoolText(){
   const scope=$('scenario').value||'全部情境';
   const diffText=$('difficulty')?.value?`在「${$('difficulty').value}」門檻下`:'這組條件';
   return drawPoolMatches
-    ? {card:`符合的 ${drawPoolMatches} 筆沒有可抽卡的用法靈感（經驗與踩坑、模板或待查線索不列入抽卡）；可在下方結果直接閱讀。`,
+    ? {card:`符合的 ${drawPoolMatches} 筆沒有可抽卡的用法靈感（經驗與踩坑、模板、待查線索或已併入主案例的補充頁不列入抽卡）；可在下方結果直接閱讀。`,
        status:`${scope}：符合的 ${drawPoolMatches} 筆沒有可抽卡的用法靈感。`}
     : {card:`${diffText}目前沒有可抽的案例卡。抽卡也受下方搜尋與篩選影響；試試修改搜尋字詞或調整篩選。`,
        status:`${scope}${$('difficulty')?.value?' · '+$('difficulty').value:''} 目前沒有可抽的案例卡。`};

@@ -1,0 +1,51 @@
+{
+  "checkedAt": "2026-11-16",
+  "liveRevision": "fd3d5f6597cfd1345f247f518578b112482094be",
+  "engine": "Chromium (headless, 1440x1000 and 390x844)",
+  "sourceHub": {
+    "httpStatus": 200,
+    "rawMarkdownHasBoundaryNote": true,
+    "renderedPageHasBoundaryNote": true,
+    "desktopNoticeVisible": true,
+    "mobileNoticeVisible": true,
+    "desktopHorizontalOverflow": 0,
+    "mobileHorizontalOverflow": 0,
+    "auditPageStatus": 200,
+    "pendingPageStatus": 200
+  },
+  "scenarios": [
+    {
+      "name": "natural-language problem search",
+      "device": "mobile 390x844",
+      "query": "我想把會議錄音整理成待辦",
+      "results": 11,
+      "firstCase": "UC-511",
+      "splitMessagePresent": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "name": "empty result and recovery",
+      "device": "mobile 390x844",
+      "url": "?q=%E6%97%85%E9%81%8A&kind=pending#explore",
+      "results": 0,
+      "recoveryAction": "移除收錄狀態「待查線索」 → 查看 36 筆",
+      "recoveredResults": 36,
+      "recoveredUrl": "?q=%E6%97%85%E9%81%8A#explore",
+      "horizontalOverflow": 0
+    },
+    {
+      "name": "shared detail link",
+      "device": "mobile 390x844",
+      "url": "?case=UC-528",
+      "detailOpen": true,
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/fd3d5f6597cfd1345f247f518578b112482094be/cases/528-two-agents-different-networks-no-key-vs-fake-key-403-diagnosis.md",
+      "sourceTarget": "_blank",
+      "sourceLatestHidden": true,
+      "horizontalOverflow": 0
+    }
+  ],
+  "limits": [
+    "Agent walk-through, not human user research.",
+    "Screenshot image inspection is disabled in this environment; screenshots are saved as artifacts and DOM/geometry values are reported instead."
+  ]
+}

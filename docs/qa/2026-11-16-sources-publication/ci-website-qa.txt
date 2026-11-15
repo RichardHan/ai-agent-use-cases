@@ -1,0 +1,21 @@
+PR #415 Website QA run 43756280017 (head bc8a0591; all PR checks passed)
+
+browser	Run existing regression tests	2026-11-15T20:09:02.3802618Z ok 453 - standalone source ledgers count as changed files but are not polled as assets
+browser	Run existing regression tests	2026-11-15T20:09:02.3803582Z ok 454 - every published source markdown is classified for change verification
+browser	Run existing regression tests	2026-11-15T20:09:03.4213743Z ok 488 - a superseded source ledger change verifies the live bytes against the live revision: sources/research-2026-10-24-0410.md
+browser	Run existing regression tests	2026-11-15T20:09:03.4223808Z ok 489 - a deleted source ledger must be absent from the live site: sources/research-2026-10-24-0410.md
+browser	Run existing regression tests	2026-11-15T20:09:03.4236949Z ok 490 - a superseded source ledger change verifies the live bytes against the live revision: sources/README.md
+browser	Run existing regression tests	2026-11-15T20:09:03.4248555Z ok 491 - a deleted source ledger must be absent from the live site: sources/README.md
+browser	Run existing regression tests	2026-11-15T20:09:03.4263463Z ok 492 - a renamed source ledger verifies the new bytes and the old URL is gone
+browser	Run existing regression tests	2026-11-15T20:09:03.4276425Z ok 493 - a later descendant may remove a source ledger this push changed
+browser	Run existing regression tests	2026-11-15T20:09:03.4288146Z ok 494 - only changed source ledgers are polled, not the whole sources tree
+browser	Run existing regression tests	2026-11-15T20:09:03.4567483Z ok 527 - an exact release rejects a stale source ledger document: sources/research-2026-10-24-0410.md
+browser	Run existing regression tests	2026-11-15T20:09:03.4570610Z ok 528 - an exact release rejects a stale source ledger document: sources/README.md
+browser	Run existing regression tests	2026-11-15T20:09:11.3344767Z # tests 843
+browser	Run existing regression tests	2026-11-15T20:09:11.3345052Z # pass 843
+browser	Run existing regression tests	2026-11-15T20:09:11.3345201Z # fail 0
+
+browser	Build actual Pages release for published verification	2026-11-15T20:19:41.6904579Z            Writing: /github/workspace/_site/sources/index.html
+browser	Build actual Pages release for published verification	2026-11-15T20:19:41.6904679Z                     done in 7.078 seconds.
+
+browser	Verify fallback reading pages	2026-11-15T20:19:41.9495558Z PASS: 525 rendered case pages expose a clickable source; INDEX explains the evidence codes

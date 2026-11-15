@@ -1,0 +1,95 @@
+{
+  "desktop": {
+    "UC-026": {
+      "copyButtonCount": 3,
+      "copyButtons": [
+        "複製本段（含標題）：原創提示詞（未實測，可修改後貼上）",
+        "複製本段（含標題）：自設增量驗收與可貼指令（未實跑）",
+        "複製本段（含標題）：可貼指令（本庫自設，未實測）"
+      ],
+      "jumpCount": 2,
+      "headingsCount": 18
+    },
+    "UC-319": {
+      "copyButtonCount": 3,
+      "copyButtons": [
+        "複製本段（含標題）：可貼指令（本庫原創、未測）",
+        "複製本段（含標題）：可重用步驟與可貼指令（本庫原創／未實測）",
+        "複製本段（含標題）：可貼指令與驗收（本庫自行設計／未實測）"
+      ],
+      "jumpCount": 3,
+      "headingsCount": 18
+    },
+    "UC-362": {
+      "copyButtonCount": 2,
+      "copyButtons": [
+        "複製本段（含標題）：可貼指令（自行設計，未測）",
+        "複製本段（含標題）：離線驗收步驟與可貼指令（AI構想／未實測）"
+      ],
+      "jumpCount": 4,
+      "headingsCount": 21
+    }
+  },
+  "phone": {
+    "UC-026": {
+      "copyButtonCount": 3,
+      "copyButtons": [
+        "複製本段（含標題）：原創提示詞（未實測，可修改後貼上）",
+        "複製本段（含標題）：自設增量驗收與可貼指令（未實跑）",
+        "複製本段（含標題）：可貼指令（本庫自設，未實測）"
+      ],
+      "jumpCount": 2,
+      "headingsCount": 18
+    },
+    "UC-319": {
+      "copyButtonCount": 3,
+      "copyButtons": [
+        "複製本段（含標題）：可貼指令（本庫原創、未測）",
+        "複製本段（含標題）：可重用步驟與可貼指令（本庫原創／未實測）",
+        "複製本段（含標題）：可貼指令與驗收（本庫自行設計／未實測）"
+      ],
+      "jumpCount": 3,
+      "headingsCount": 18
+    },
+    "UC-362": {
+      "copyButtonCount": 2,
+      "copyButtons": [
+        "複製本段（含標題）：可貼指令（自行設計，未測）",
+        "複製本段（含標題）：離線驗收步驟與可貼指令（AI構想／未實測）"
+      ],
+      "jumpCount": 4,
+      "headingsCount": 21
+    }
+  },
+  "small": {
+    "UC-026": {
+      "copyButtonCount": 3,
+      "copyButtons": [
+        "複製本段（含標題）：原創提示詞（未實測，可修改後貼上）",
+        "複製本段（含標題）：自設增量驗收與可貼指令（未實跑）",
+        "複製本段（含標題）：可貼指令（本庫自設，未實測）"
+      ],
+      "jumpCount": 2,
+      "headingsCount": 18
+    },
+    "UC-319": {
+      "copyButtonCount": 3,
+      "copyButtons": [
+        "複製本段（含標題）：可貼指令（本庫原創、未測）",
+        "複製本段（含標題）：可重用步驟與可貼指令（本庫原創／未實測）",
+        "複製本段（含標題）：可貼指令與驗收（本庫自行設計／未實測）"
+      ],
+      "jumpCount": 3,
+      "headingsCount": 18
+    },
+    "UC-362": {
+      "copyButtonCount": 2,
+      "copyButtons": [
+        "複製本段（含標題）：可貼指令（自行設計，未測）",
+        "複製本段（含標題）：離線驗收步驟與可貼指令（AI構想／未實測）"
+      ],
+      "jumpCount": 4,
+      "headingsCount": 21
+    }
+  }
+}

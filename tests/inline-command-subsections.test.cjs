@@ -15,7 +15,10 @@ const TARGET_CASES = [
   'cases/073-customer-journey-content-audit.md',
   'cases/089-digital-declutter-approval-plan.md',
   'cases/314-agent-sandbox-always-on-service-failure.md',
-  'cases/340-tool-response-evidence-capture-acceptance.md'
+  'cases/340-tool-response-evidence-capture-acceptance.md',
+  'cases/026-school-deadline-list.md',
+  'cases/319-home-photo-item-inventory-claim-handoff.md',
+  'cases/362-muse-spawn-delivery-reconciliation.md'
 ];
 
 test('all 10 target cases with structured actionable commands must have standalone H3 copyable prompt sections for each prompt', () => {
@@ -30,7 +33,10 @@ test('all 10 target cases with structured actionable commands must have standalo
     'cases/073-customer-journey-content-audit.md': 5,
     'cases/089-digital-declutter-approval-plan.md': 2,
     'cases/314-agent-sandbox-always-on-service-failure.md': 2,
-    'cases/340-tool-response-evidence-capture-acceptance.md': 2
+    'cases/340-tool-response-evidence-capture-acceptance.md': 2,
+    'cases/026-school-deadline-list.md': 3,
+    'cases/319-home-photo-item-inventory-claim-handoff.md': 3,
+    'cases/362-muse-spawn-delivery-reconciliation.md': 2
   };
 
   for (const file of TARGET_CASES) {

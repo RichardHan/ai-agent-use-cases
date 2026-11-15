@@ -256,7 +256,7 @@ const BARE_SOURCE_URL=/(?:https?:\/\/|www\.)[A-Za-z0-9\-._~:\/?#\[\]@!$&'*+,;=%]
 function withoutSourceUrls(text){ return text.replace(MARKDOWN_LINK_DESTINATION,' ] ').replace(BARE_SOURCE_URL,' '); }
 const RELATIVE_LINK_DESTINATION=/\]\(\s*<?(?:\.\.?\/|\/)?[A-Za-z0-9_./-]+\.(?:md|html|json)(?:[#?][^)\s>]*)?>?(?:\s+"[^"]*")?\s*\)/gi;
 const DEDUP_SECTION=/^#{2,3}\s+(?:前批)?去重[^\n]*\n[\s\S]*?(?=^#{2,3}\s+|$(?![\s\S]))/gm;
-const CROSS_CASE_LINE=/(?:^|\n)\s*-\s*(?:不同於|相近但不同|相近案例)[^\n]*/g;
+const CROSS_CASE_LINE=/(?:^|\n)\s*-\s*(?:不同於|相近但不同|相近案例|去重\s*[：:])[^\n]*/g;
 const CROSS_CASE_CLAUSE=/(?:不同(?:於)?|與)\s*(?:\[\s*(?:UC-)?\d+[^\]]*\]|UC-\d+)|(?:已收在|版本見)\s*(?:\[\s*(?:UC-?)?\d+[^\]]*\]|UC-?\d+)/;
 const DISCLAIMED_TOOL_CLAUSE=/不推定|不能推定|不推論|不推廣為|不套用到|不泛化|不能(?:直接把其說明)?泛化|不推及|不能外推到|不代表[^。；;\n]*有同(?:樣|一)|不要假設[^。；;\n]*具備|本輪(?:未|沒有)找到[^。；;\n]*實例|(?:未找到|沒有相同輸入條件下)[^。；;\n]*實測|尚無(?:此功能|[^。；;\n]*實測證據)|尚未找到[^。；;\n]*對照|作者說不需要|不需要\s*(?:Meta\s*)?Muse|未證實是\s*dots|不能歸入\s*dots|不能當\s*dots\s*實作|也許也做得到|不據此認定|不是\s*Grok\/Muse\/dots\s*性能排行|只是(?:作者)?推測|的本機連線機制不同|另一則貼文談的是|與本案工具不同/;
 const TOOL_ONLY_PATTERNS=TOOL_PATTERNS.map(([name,pattern])=>new RegExp('^(?:'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'|'+pattern.source+')$','i'));
@@ -266,11 +266,17 @@ function isAbsentToolTrial(clause){
   const match=clause.match(/^\s*(?:-\s*)?(?:工具\s*[：:]\s*)?(.+?)\s*(?:本頁|本案)?(?:無|沒有)(?:對應|同題|同類|同等)實測\s*$/);
   return !!match&&match[1].split(/[／/、]|或|與|及/).every(name=>TOOL_ONLY_PATTERNS.some(pattern=>pattern.test(name.trim())));
 }
+// A pagination/state cursor is data, not the Cursor product. Remove only the
+// noun occurrence, not its clause: a real Cursor use can sit beside it.
+const DATA_CURSOR_PREFIX=/((?:分頁|持久狀態與|\bpagination)\s*)\bcursor\b(?!\s+(?:Cloud|Agent|CLI|IDE)\b)/gi;
+const DATA_CURSOR_STATE=/\bcursor\b(?=\s*(?:重同步|遺失)(?:\s*[、，,。；;\n]|$))/g;
 function withoutDisclaimedTools(text){
   return withoutSourceUrls(text||'')
     .replace(RELATIVE_LINK_DESTINATION,' ] ')
     .replace(DEDUP_SECTION,'\n')
     .replace(CROSS_CASE_LINE,'\n')
+    .replace(DATA_CURSOR_PREFIX,'$1')
+    .replace(DATA_CURSOR_STATE,' ')
     .split(/[，,。；;\n]/)
     .filter(clause=>!CROSS_CASE_CLAUSE.test(clause)&&!DISCLAIMED_TOOL_CLAUSE.test(clause)&&!isAbsentToolTrial(clause))
     .join('\n');
@@ -1270,7 +1276,8 @@ function metadata(markdown, path, kind, suffix='') {
   // （GitHub 136→86 筆、Cursor 54→46、Notion 34→33、Google Drive 33→32、
   // Meta Muse 202→201），沒有任何條目因此新增工具。搜尋索引早就有這條規則
   // （`withoutSourceUrls()`：來源網址是證據，不是內容），工具沿用同一條，而不是另立一套。
-  const tools = TOOL_PATTERNS.filter(([,re])=>re.test(withoutDisclaimedTools(markdown))).map(([name])=>name);
+  const toolText = withoutDisclaimedTools(markdown);
+  const tools = TOOL_PATTERNS.filter(([,re])=>re.test(toolText)).map(([name])=>name);
   // 實作門檻的推測刻意維持原樣：它的規則吃 `git clone`、`CLI`、`Cursor` 這類字，
   // 而這些字也出現在來源網址裡。改成只看正文會改動 8 個已標示為「推測」的門檻值
   // （例如 UC-140 由 進階開發 變 入門對話，而該頁正文正是在 VM 安裝 PyTorch），
@@ -2966,7 +2973,7 @@ function renderFacetCounts(terms, filters) {
   // Tools are the only facet whose value is read out of the page's own words, so the
   // hint says what counts as a mention and what does not. Without it, a reader had no
   // way to know why a card printed a tool the case's `- 工具：` line never named.
-  const toolHint = '提及工具只看案例內文提到的工具；來源與站內案例連結的網域／檔名（例如 github.com）、去重對照其他案例的敘述，以及「不推定…／不需要…」等免責或否定句不算。工具名以站上固定清單為準，清單外的工具不會出現在選項裡。';
+  const toolHint = '提及工具只看案例內文提到的工具；來源與站內案例連結的網域／檔名（例如 github.com）、去重對照其他案例的敘述，以及「不推定…／不需要…」等免責或否定句不算。明示分頁或續跑狀態的 cursor 不算 Cursor 產品。工具名以站上固定清單為準，清單外的工具不會出現在選項裡。';
   // A page that declares no theme is not given one, so it cannot appear under any
   // 主題分類 option. Say how many those are instead of letting the filter look
   // like it covers the whole catalogue.

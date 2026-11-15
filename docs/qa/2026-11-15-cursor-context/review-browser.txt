@@ -1,0 +1,3 @@
+PASS CURSOR CONTEXT: 1440px, problem discovery, honest zero/recovery, keyboard, shared detail/reload/source/return, literal search and real product
+PASS CURSOR CONTEXT: 390px, problem discovery, honest zero/recovery, keyboard, shared detail/reload/source/return, literal search and real product
+PASS CURSOR CONTEXT: 320px, problem discovery, honest zero/recovery, keyboard, shared detail/reload/source/return, literal search and real product

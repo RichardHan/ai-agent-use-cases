@@ -1,0 +1,19 @@
+✔ a tool listed on a card is mentioned by the page itself, not only by a source address (273.359875ms)
+✔ a source address alone does not produce a tool, a sentence about the tool does (6.290458ms)
+✔ cases whose only GitHub contact is a link to their own research repository (48.469834ms)
+✔ disclaimers, deduplication contrasts, and relative case links do not produce tool tags (3.569709ms)
+✔ missing counterpart trials do not attribute tools, while failed and unverified uses remain discoverable (3.418792ms)
+✔ an affirmed use sharing a clause with a missing comparison trial stays discoverable (3.476417ms)
+✔ UC-040 exposes its dots trial, not the explicitly absent Grok Bot and Muse trials (3.217916ms)
+✔ pagination cursor state is not the Cursor product (4.280583ms)
+✔ cursor product mentions survive casing, failures and nearby pagination state (171.786125ms)
+✔ corpus cases with scope disclaimers or deduplication links list only tools actually used (160.950292ms)
+✔ the 提及工具 facet still explains what it counts and excludes disclaimers (1.431584ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 755.609333

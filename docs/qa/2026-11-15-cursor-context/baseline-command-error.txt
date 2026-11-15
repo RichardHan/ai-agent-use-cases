@@ -1,0 +1,11 @@
+page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:8081/ai-agent-use-cases/
+Call log:
+  - navigating to "http://127.0.0.1:8081/ai-agent-use-cases/", waiting until "networkidle"
+
+    at mobileSearch (/Users/richard_han/orca/ai-agent-use-cases-source-trust/tests/mobile-search-browser.cjs:12:14)
+    at async /Users/richard_han/orca/ai-agent-use-cases-source-trust/tests/discovery-browser.cjs:10:2 {
+  log: [
+    '  - navigating to "http://127.0.0.1:8081/ai-agent-use-cases/", waiting until "networkidle"'
+  ],
+  name: 'Error'
+}

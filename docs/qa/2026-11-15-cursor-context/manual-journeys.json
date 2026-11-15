@@ -1,0 +1,25 @@
+{
+  "manual": [
+    {
+      "width": 1440,
+      "empty": "⌕\n目前沒有符合「UC-227」的案例\n\n可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。\n\n移除提及工具「Cursor」 → 查看 1 筆\n\n或保留目前篩選，探索此條件下有收錄的常見問題：\n\n「僅相關詞」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。\n\n郵件摘要 · 搜尋「郵件」\n會議整理 · 搜尋「會議」\n自動客服 · 搜尋「客服」\n代碼審查 · 搜尋「代碼審查」\n🕷️ 搜尋「網頁抓取」\n🛠️ 搜尋「除錯」\n📋 搜尋「問卷調查」\n🧹 搜尋「資料清理」\n🪵 搜尋「日誌分析」\n📝 搜尋「筆記整理」\n📊 搜尋「簡報製作」\n📈 搜尋「數據分析」\n🛡️ 搜尋「漏洞掃描」\n📊 搜尋「報表比對」\n📰 搜尋「電子報」\n🛡️ 搜尋「安全防護」\n🤝 搜尋「人工審批」\n日報整理 · 搜尋「日報」\n僅相關詞\n🧾 搜尋「報帳審核」\n僅相關詞\n🗣️ 搜尋「英語學習」\n僅相關詞\n🔒 搜尋「隱私審查」\n僅相關詞\n修改關鍵字\n清除全部條件，顯示所有條目",
+      "shared": "http://127.0.0.1:8093/ai-agent-use-cases/?q=UC-227&scope=topic&case=UC-227#explore",
+      "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/96e9105a497dfcba831210e185088ae969e82ea0/cases/227-saved-map-places-list-maintenance.md",
+      "unverified": true,
+      "query": "UC-227",
+      "scope": "topic",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "empty": "⌕\n目前沒有符合「UC-227」的案例\n\n可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。\n\n移除提及工具「Cursor」 → 查看 1 筆\n\n或保留目前篩選，探索此條件下有收錄的常見問題：\n\n「僅相關詞」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。\n\n郵件摘要 · 搜尋「郵件」\n會議整理 · 搜尋「會議」\n自動客服 · 搜尋「客服」\n代碼審查 · 搜尋「代碼審查」\n🕷️ 搜尋「網頁抓取」\n🛠️ 搜尋「除錯」\n📋 搜尋「問卷調查」\n🧹 搜尋「資料清理」\n🪵 搜尋「日誌分析」\n📝 搜尋「筆記整理」\n📊 搜尋「簡報製作」\n📈 搜尋「數據分析」\n🛡️ 搜尋「漏洞掃描」\n📊 搜尋「報表比對」\n📰 搜尋「電子報」\n🛡️ 搜尋「安全防護」\n🤝 搜尋「人工審批」\n日報整理 · 搜尋「日報」\n僅相關詞\n🧾 搜尋「報帳審核」\n僅相關詞\n🗣️ 搜尋「英語學習」\n僅相關詞\n🔒 搜尋「隱私審查」\n僅相關詞\n修改關鍵字\n清除全部條件，顯示所有條目",
+      "shared": "http://127.0.0.1:8093/ai-agent-use-cases/?q=UC-227&scope=topic&case=UC-227#explore",
+      "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/96e9105a497dfcba831210e185088ae969e82ea0/cases/227-saved-map-places-list-maintenance.md",
+      "unverified": true,
+      "query": "UC-227",
+      "scope": "topic",
+      "overflow": false
+    }
+  ],
+  "sourceTitle": "ai-agent-use-cases/cases/227-saved-map-places-list-maintenance.md at 96e9105a497dfcba831210e185088ae969e82ea0 · RichardHan/ai-agent-use-cases · GitHub"
+}

@@ -1,0 +1,17 @@
+{
+  "entries": 529,
+  "changes": [
+    {
+      "id": "UC-227",
+      "before": [
+        "Meta Muse",
+        "Cursor"
+      ],
+      "after": [
+        "Meta Muse"
+      ],
+      "difficultyUnchanged": true,
+      "markdownUnchanged": true
+    }
+  ]
+}

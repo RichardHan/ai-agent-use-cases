@@ -2,6 +2,8 @@
 
 正式站 UC-383 因作者 `cursor[bot]` 被列入 Cursor 篩選，但案例流程明示為 Grok Bot。本輪工具正規化只排除完整 bot 帳號，保留同句另外明示的產品，原文與全文搜尋不改。529 條目只有 UC-383 工具與依賴它的搜尋欄位改變；UC-158 的明示 Cursor 保留。回歸先紅後綠、全套 770 通過，三尺寸訪客流程與獨立審查、前後截圖及發布狀態見[本輪 QA](docs/qa/2026-11-15-bot-account-attribution/README.md)。不新增 workflow 或依賴，不把目前成功的 CI 當成仍有歷史故障。
 
+交付：[PR #407](https://github.com/RichardHan/ai-agent-use-cases/pull/407)，實作 `4a9be067cd`、合併 `872b313c3c`；[合併版 Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43687547736) 與 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43687547193) 同版成功。獨立 reviewer 複審完整 commit 無 findings；PR 雲端全套 770 通過，正式 sourceRevision 同合併 SHA、7 個 assets 與 README 位元一致，三尺寸核心流程與固定版本來源已驗。發布證據與限制見本輪紀錄。
+
 下一輪：先用僅改 templates／audit-summary 的 fixture 驗證 exact／superseded 發布比對的覆蓋，再核對 INDEX／README 的 Jekyll 路徑；目前只是具體候選，不冒稱已重現發布故障。
 
 ## 2026-11-15 分頁 cursor 不冒充 Cursor 產品

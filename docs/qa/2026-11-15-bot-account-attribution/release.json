@@ -1,0 +1,47 @@
+{
+  "sourceRevision": "872b313c3c7933c1d9e713fcf9dceda034ec47ec",
+  "sourceCount": 526,
+  "assets": [
+    {
+      "file": "assets/app.js",
+      "bytes": 401417,
+      "sha256": "aa426f1743024caa20a2211d4759e90cb70d6758f1b42b8355b59e1263796104"
+    },
+    {
+      "file": "assets/style.css",
+      "bytes": 66536,
+      "sha256": "1c0d5940ac331975774bb919228ee6df00c53c2eb09e5723bab436b396615547"
+    },
+    {
+      "file": "assets/reader.js",
+      "bytes": 38924,
+      "sha256": "f13a6af65946188b9265a921ca29649a4a3ac0005406a390e095206dacec4488"
+    },
+    {
+      "file": "assets/reader.css",
+      "bytes": 32696,
+      "sha256": "04c7d8237d41413fdecdaa0b7d00287cb68f650cab19e6c2625146e2d873e8fc"
+    },
+    {
+      "file": "assets/discovery.js",
+      "bytes": 1673,
+      "sha256": "c7e0d1624807513c424bab112421ea669a08eced81cbc0cabb11c5dc1978fe74"
+    },
+    {
+      "file": "assets/copy.json",
+      "bytes": 7974,
+      "sha256": "b6e02e028128376b40e1e94ab452bf9f77ce2a303a9b1bb477752fe999ce8ff7"
+    },
+    {
+      "file": "assets/audit.js",
+      "bytes": 3750,
+      "sha256": "1158fce716e808231124cae66877394136c392e0ff8034a56385f39cfb489d8c"
+    },
+    {
+      "file": "README.md",
+      "bytes": 19463,
+      "sha256": "6ac00d47a04c6e6f1322fc7029f3a3ef5aabe9abadc4a7ee7cc52c044b62d130"
+    }
+  ],
+  "verifiedAt": "2026-11-15T06:56:43.263Z"
+}

@@ -1,0 +1,3 @@
+PASS BOT ACCOUNT: 1440px task discovery, zero/recovery, keyboard, detail/reload/source/return, original text/search and explicit product
+PASS BOT ACCOUNT: 390px task discovery, zero/recovery, keyboard, detail/reload/source/return, original text/search and explicit product
+PASS BOT ACCOUNT: 320px task discovery, zero/recovery, keyboard, detail/reload/source/return, original text/search and explicit product

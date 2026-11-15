@@ -1,0 +1,8 @@
+{
+  "revision": "872b313c3c7933c1d9e713fcf9dceda034ec47ec",
+  "method": "Main agent opened production in browser and used real controls",
+  "desktop": {"viewport": [1440, 900], "query": "UC-383", "scope": "topic", "card": "UC-383 · Grok Bot / GitHub", "trust": "成果主張：社群作者／專案實踐者；核讀：本庫未獨立重現"},
+  "mobile": {"viewport": [390, 844], "detailReload": true, "closePreservesQuery": "UC-383", "closePreservesScope": "topic", "horizontalOverflow": false, "oldCursorCombination": "沒有符合結果", "clearFacetsPreservesQuery": "UC-383", "recoveredCard": "UC-383 · Grok Bot / GitHub"},
+  "source": {"url": "https://github.com/RichardHan/ai-agent-use-cases/blob/872b313c3c7933c1d9e713fcf9dceda034ec47ec/cases/383-external-qa-ci-failure-issue-handoff.md", "opened": true, "originalAccountStillPresent": true},
+  "toolLimit": "First attempt to click clear-facets occurred during loading and then timed out off-viewport. Re-observed loaded empty state, scrolled to actual control, clicked successfully. No app state injection."
+}

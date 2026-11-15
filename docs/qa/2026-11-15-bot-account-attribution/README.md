@@ -51,6 +51,34 @@ ActionsEvidence 調查已收回，主 agent 另取原始 ZIP 核對：[失敗步
 
 PR／main QA 等待各上限 25 分鐘；Pages 版本核對採既有有界驗證。未完成的發布不能當作通過，發布結果於完成後補記。
 
+## 獨立審查與 PR
+
+- VisitorEvidence 獨立確認正式位元仍有 UC-383 假陽性、UC-158 的正向產品宣告及全庫只有這兩篇含 bot 帳號；這是程式／原文推導，不冒稱該 agent 的真人或瀏覽器研究。主 agent 已用實際頁面核對並保存證據。
+- 該調查另建議補列 toolHint 的完整排除清單與論壇名稱消歧。本輪保留現有提示，有限規則已在 README 說明；論壇名稱需要先確認產品定義，不擴大已驗收的規則。下一輪優先發布閘門覆蓋，而非追加未驗證詞組。
+- 未參與實作的 BotAccountFinalReview 初次只看 tracked diff，把未提交的新 browser／QA 檔案誤判為交付缺漏；主 agent 用 selective commit 納入完整 25 檔後，reviewer 複審確切 commit `4a9be067cd67111b4cfb8e878c991691cb71e51e`，結論 **Correct，無 actionable findings**。不是人類 approval。
+- 已提交、已推送 [PR #407](https://github.com/RichardHan/ai-agent-use-cases/pull/407)，head `4a9be067cd67111b4cfb8e878c991691cb71e51e`。[PR 建立時快照](pr-open.json)。尚未把執行中的 checks／merge／部署當成完成。
+
+## 合併與雲端驗收
+
+- 合併前核對 head 精確為 `4a9be067cd67111b4cfb8e878c991691cb71e51e`、base `b52c51b1065fdf1bcb41f375cdfdeb728bed44e6`，mergeState CLEAN，18 checks 完成（16 success、2 個 PR 不發布的 published skipped）：[最終 PR](pr-final.json)。沒有基準移動或未完成的必要檢查。
+- PR [Website QA 43686604875](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43686604875) success；單元 770 pass／0 fail／skip、新三尺寸 browser 通過：[原始日誌摘要](pr-unit-browser.txt)。實際 Jekyll build、建置 corpus／語言／發布面與索引失敗復原均 success：[steps](pr-website-qa.json)。
+- [獨立審查 comment](https://github.com/RichardHan/ai-agent-use-cases/pull/407#issuecomment-6890499824) 對應上述 head。PR 等待約 12 分鐘，小於 25 分鐘上限。
+- 2026-11-15 06:54:27 UTC 正常 merge，合併 SHA `872b313c3c7933c1d9e713fcf9dceda034ec47ec`；只將本輪工作樹快轉，原 main 與其他工作樹不移動。Branch protection API 回覆未保護、rulesets 為空，仍等全部 PR checks 完成，未使用 admin bypass。
+
+## 合併版正式站
+
+- [Pages 43687547193](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43687547193) build／deploy／report success，head 為 `872b313c3c7933c1d9e713fcf9dceda034ec47ec`：[steps](pages-release.json)。GitHub 管理的 Pages 有 Node 20／Ubuntu 遷移警告，但此次部署成功，未把警告當故障。
+- `GITHUB_SHA=872b313c3c7933c1d9e713fcf9dceda034ec47ec node tests/deployed-browser.cjs` 回報 `PUBLISHED_LIVE_BUILD_CURRENT`，桌面／手機首頁、搜尋、情境、詳情／重整／返回、組合零結果復原與 JS 停用索引回退通過：[輸出](live-browser.txt)。
+- 正式站 origin 執行 `tests/bot-account-browser.cjs`，1440／390／320px 三情境通過：[輸出](live-bot-account.txt)。[桌面](live-1440.png)、[手機](live-390.png)、[窄手機](live-320.png)。
+- 主 agent 另開正式站桌面／手機，卡片都是 `UC-383 · Grok Bot / GitHub`；詳情成果主張與未獨立重現說明保留，重整與關閉保留 UC-383／topic，原 Cursor 組合為零、清除後可復原；固定 merge SHA 的 GitHub 原文實際載入，帳號原文仍在：[實走](live-manual.json)。
+- catalog `sourceRevision` 精確為合併 SHA，526 來源；7 個 assets 與 README 均 HTTP 200 且逐位元等於本輪交付：[版本／雜湊](release.json)。app 為 401417 bytes，SHA-256 `aa426f1743024caa20a2211d4759e90cb70d6758f1b42b8355b59e1263796104`。
+
+## 發布結論
+
+- 合併版 [Website QA 43687547736](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43687547736) **success**，對應 `872b313c3c7933c1d9e713fcf9dceda034ec47ec`，耗時 15 分 36 秒，小於 25 分鐘等待上限。完整 regression、Chromium、Jekyll、建置完整性、發布資產等待與正式站驗證皆成功：[機讀 steps](main-qa.json)。
+- **已提交、已推送、已合併、部署成功、正式站已驗證**；無本輪產品發布阻塞。影像目視／實機限制與下一輪發布閘門覆蓋候選保留。
+- 本段與正式站證據沿用既有慣例，以只改 `docs/qa/`、`SITE.md` 的接續提交保存；兩者由 `_config.yml` 排除發布面，不改已審產品。接續提交後再核對 Pages 與 sourceRevision／相同產品位元，結果附 PR comment，不將未觸發的 Website QA 稱為重跑成功。
+
 ## 下一輪
 
 先驗證發布比對的檔案覆蓋：以僅修改 `templates/case.md`／`audit-summary.json` 的 fixture 測 exact 與 superseded 是否能拒絕舊產物，再核對 Jekyll 轉換後的 INDEX／README 路徑。這比繼續疊加工具字面規則更值得優先；不直接將調查猜測當已證實故障。

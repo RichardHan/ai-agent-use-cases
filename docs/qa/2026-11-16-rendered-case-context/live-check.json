@@ -1,0 +1,85 @@
+{
+  "expectedRevision": "e74c750950cc61df3937ca0fc91229e7abaac396",
+  "sourceRevision": "e74c750950cc61df3937ca0fc91229e7abaac396",
+  "revisionMatches": true,
+  "case-001-desktop": {
+    "nav": true,
+    "height": 105.97,
+    "overflow": false,
+    "links": [
+      "/ai-agent-use-cases/INDEX.html",
+      "/ai-agent-use-cases/",
+      "/ai-agent-use-cases/?case=UC-001",
+      "/ai-agent-use-cases/INDEX.html#how-to-read"
+    ],
+    "codes": [
+      "author-demo",
+      "designed",
+      "author-self-report"
+    ],
+    "anchors": 14,
+    "errors": []
+  },
+  "case-001-mobile": {
+    "nav": true,
+    "height": 143.16,
+    "overflow": false,
+    "links": [
+      "/ai-agent-use-cases/INDEX.html",
+      "/ai-agent-use-cases/",
+      "/ai-agent-use-cases/?case=UC-001",
+      "/ai-agent-use-cases/INDEX.html#how-to-read"
+    ],
+    "codes": [
+      "author-demo",
+      "designed",
+      "author-self-report"
+    ],
+    "anchors": 14,
+    "errors": []
+  },
+  "case-001-320": {
+    "nav": true,
+    "height": 230.81,
+    "overflow": false,
+    "links": [
+      "/ai-agent-use-cases/INDEX.html",
+      "/ai-agent-use-cases/",
+      "/ai-agent-use-cases/?case=UC-001",
+      "/ai-agent-use-cases/INDEX.html#how-to-read"
+    ],
+    "codes": [
+      "author-demo",
+      "designed",
+      "author-self-report"
+    ],
+    "anchors": 14,
+    "errors": []
+  },
+  "case-046-mobile": {
+    "nav": true,
+    "height": 184.34,
+    "overflow": false,
+    "links": [
+      "/ai-agent-use-cases/INDEX.html",
+      "/ai-agent-use-cases/",
+      "/ai-agent-use-cases/?case=UC-046",
+      "/ai-agent-use-cases/INDEX.html#how-to-read"
+    ],
+    "codes": [
+      "author-demo",
+      "official",
+      "designed",
+      "unverified",
+      "author-self-report",
+      "pending-verification"
+    ],
+    "anchors": 18,
+    "errors": []
+  },
+  "index": {
+    "nav": 0,
+    "guide": true,
+    "legend": true
+  }
+}

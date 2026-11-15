@@ -38,13 +38,23 @@
 - 基準：`node --test tests/*.test.cjs` **823 pass／0 fail**；最終 **832 pass／0 fail／0 skip**。
 - 新檢查對**改動前**正式站 522 頁：`FAIL: 524 problem(s)`（522 頁缺案例導覽＋INDEX 缺兩個同義碼圖例）。對本機真正 Jekyll build（Jekyll 4.3.4＋primer 0.6.0＋optional-front-matter）的 525 個 rendered 頁：`PASS: 525 rendered case pages expose a clickable source; INDEX explains the evidence codes`。
 - 本機 build 與正式站同一版型的 head 對照：SEO、canonical、theme CSS、container、anchor.js 均在；只多了 `fallback.css`（少了 theme 內原本空的 GA 註解）。
+- 另以 Jekyll 3.10（與 Pages 同版）建置後跑同一檢查：`PASS: 525`（`jekyll-310-check.txt`）；Jekyll 4.3 與 3.10 兩條產物都通過。
 - 瀏覽器（Chromium，1280×900／390×844／320×568）：
-  - 案例頁導覽高度 106／123／190px；`documentElement.scrollWidth` 均未超過 viewport。
+  - 案例頁導覽高度 106／143／231px；`documentElement.scrollWidth` 均未超過 viewport。
   - 390px 案例 004 無代碼時顯示「頁首未標示」而非空 legend；INDEX 無案例導覽但仍有圖例；evidence 頁無案例導覽。六碼都出現的 UC-046 在 1280／390／320 的導覽高度為 127／184／293px，仍無橫向捲動。
   - 第一個 Tab 停在「← 完整案例索引」，focus outline 為 `auto`；量測對比：正文 14.84:1、連結 4.88:1、代碼標籤 14.84:1（皆高於 WCAG AA 4.5:1）。
   - 截圖：`before/` 為正式站 `1a387a34` 原始案例頁，`after/` 為本機 build 同頁／尺寸；視覺工具回報圖片讀取停用，主 agent 未能逐像素目視，另以 DOM／幾何／對比數據保存證據。
 - `node scripts/check-published-surface.cjs`、`node scripts/check-published-surface.cjs /tmp/site-local2`：833 檔、5.87 MiB 通過。`node --check` 對修改的 JS 通過；repo 沒有獨立 lint／type-check 指令，不宣稱兩者通過。
 - Actions 另查：main 近 7 天 7 個 failure、3 個 cancelled，全部已修或屬外部／取代；`1a387a34` 的 Website QA 已綠。仍存在的發布閘門缺口是 `sources/*.md`（pending.md 以外）不進位元比較，留待下一輪。
+
+## 發布與正式站核對
+
+- 分支 commit `9ae821ac`，[PR #414](https://github.com/RichardHan/ai-agent-use-cases/pull/414)；merge commit `e74c750950cc61df3937ca0fc91229e7abaac396`。合併前 15 個 checks pass、2 個 `published` 在 PR 上預期 skip；[Website QA 43750054012](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054012) 12m02s success，`Verify fallback reading pages` 在真正 Jekyll `_site` 上 success。
+- [Pages 43751268102](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43751268102) 對 merge SHA success；正式 `catalog.json.sourceRevision` 精確等於 `e74c7509…`，`bundleRevision` 為 `20261115191440695863586`。
+- 以同一支檢查重新下載正式站 522 個案例頁：`PASS: 522`；INDEX 六個代碼齊全、無案例導覽，`sources/README.html` 也沒有案例導覽。UC-004 顯示「頁首未標示」、UC-006 解碼 `author-demo`／`official`、UC-046 解碼六碼。
+- 正式站截圖（1280×900／390×844／320×568）：`after-live/case-001-desktop.png`、`case-001-mobile.png`、`case-001-320.png`、`case-046-mobile.png`、`index-desktop.png`；`before/` 為部署前同頁同尺寸。DOM：導覽高度 105.97／143.16／230.81px、UC-046 手機 184.34px、水平溢出 false、pageerror 0、anchor.js anchors 14／18。
+- 正式站三情境（桌面＋手機）：自然句「我想把會議錄音整理成待辦」→ 11 筆 → UC-511；`q=旅遊&kind=pending` → 0 筆 → 移除待查線索 → 36 筆；分享 `?case=UC-528` → 成果主張／核讀 → GitHub 原文固定合併 SHA → 關閉。pageerror 0、水平溢出 false：`after-live/journeys.json`。
+- main [Website QA 43751269040](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43751269040) success：真正 Jekyll build、`Verify fallback reading pages`、`Wait for published assets and content` 與 published walk 均成功。
 
 ## 已知限制與未處理
 
@@ -61,7 +71,6 @@
 - `RenderedPageUX`（scout）：調查 rendered 頁的導覽、代碼、layout 來源與可回歸檢查；主 agent 以本機 Jekyll build 與 522 頁下載重新計算 522 缺導覽、225 頁含代碼。
 - `IndependentReview`：初審無 P0/P1，指出兩個 P2：(1) `cases/002`、`061` 的 `author-report` 未解碼；(2) 檢查器只驗字串存在、未驗可見配對，`display:none` 仍會過。兩項已修：正規化為 `author-self-report` 並加 `author-*` 詞彙測試；檢查器改驗同一個可見 span 的 code／label 配對，新增 hidden／mispaired／sr-only fixture。複審再指出巢狀 `<strong style="display:none">` 仍可通過；已把 `hiddenTag()` 套到外層 span、`<code>` 與 `<strong>`，補相同 probe，複審確認 **no remaining findings**，重跑 832 單元、live FAIL 524、built PASS 525。
 
-## 發布接續
+## 接續
 
-- 待補：commit／PR／PR checks／merge／Pages／正式站 revision 與 after 截圖。
 - 下一輪最值得做：補 `sources/*.md` 的發布位元比較與故障注入，先以「只改一個 sources 檔、gate 目前仍回報 verified」重現，再修 `publicationChangeList`。

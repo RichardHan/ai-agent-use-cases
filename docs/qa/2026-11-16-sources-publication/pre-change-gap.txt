@@ -1,0 +1,35 @@
+Baseline: origin/main 74e96d2c, 2026-11-16.
+
+Command (same shape as the regression test):
+publicationChangeList('a'*40, 'b'*40, () => [
+  'M\tsources/research-2026-10-24-0410.md',
+  'M\tsources/README.md',
+  'M\tsources/pending.md',
+  'M\tcases/001-travel-checkout.md'
+].join('\n'))
+
+Observed before the fix:
+{
+  "known": true,
+  "entries": [
+    { "status": "M", "path": "sources/pending.md" },
+    { "status": "M", "path": "cases/001-travel-checkout.md" }
+  ]
+}
+
+PUBLISHABLE_FILE.test('sources/research-2026-10-24-0410.md') === false
+PUBLISHABLE_FILE.test('sources/README.md') === false
+
+Red tests added before the fix:
+- only files a visitor can receive count as published changes
+  expected sources/research-2026-10-24-0410.md and sources/README.md; actual omitted both.
+- an exact release rejects a stale source ledger document
+  "Missing expected rejection" (the changed ledger was never fetched).
+- a superseded source ledger change verifies the live bytes against the live revision
+  "Unsupported changed file: sources/research-2026-10-24-0410.md".
+- a deleted source ledger must be absent from the live site
+  timed out with a generic "additional verification: request failed" instead of naming the deletion.
+
+Root cause: PUBLISHABLE_FILE admitted only sources/pending.md, so a source-only push
+was classified as publishing nothing. Exact mode never fetched the changed ledger;
+superseded mode rejected it as an unsupported file.

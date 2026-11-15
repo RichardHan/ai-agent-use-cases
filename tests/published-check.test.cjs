@@ -3,7 +3,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const {isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf}=require('../scripts/published-check.cjs');
+const {isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf,PUBLISHABLE_FILE,SERVED_FILE,STATIC_DOCUMENT}=require('../scripts/published-check.cjs');
 
 test('published asset check runs for the current main commit',()=>{
  assert.equal(shouldCheckPublishedSha('refs/heads/main','current','current'),true);
@@ -77,6 +77,8 @@ test('only files a visitor can receive count as published changes',()=>{
   'M\ttests/published-version.cjs',
   'R100\tcases/001-travel-checkout.md\tcases/001-travel.md',
   'M\tindex.html',
+  'M\tsources/research-2026-10-24-0410.md',
+  'M\tsources/README.md',
   'M\tsources/pending.md'
  ].join('\n');};
  const {known,entries}=publicationChangeList(before,after,exec);
@@ -91,9 +93,34 @@ test('only files a visitor can receive count as published changes',()=>{
   {status:'D',path:'cases/001-travel-checkout.md'},
   {status:'R100',path:'cases/001-travel.md'},
   {status:'M',path:'index.html'},
+  {status:'M',path:'sources/research-2026-10-24-0410.md'},
+  {status:'M',path:'sources/README.md'},
   {status:'M',path:'sources/pending.md'}
  ]);
  assert.deepEqual(calls,[['diff','--name-status',before,after]]);
+});
+
+test('standalone source ledgers count as changed files but are not polled as assets',()=>{
+ const ledger='sources/research-2026-10-24-0410.md';
+ assert.equal(PUBLISHABLE_FILE.test(ledger),true,'a research note is a published change');
+ assert.equal(SERVED_FILE.test(ledger),false,'the gate must not poll every research note');
+ assert.equal(PUBLISHABLE_FILE.test('sources/pending.md'),true);
+ assert.equal(SERVED_FILE.test('sources/pending.md'),true,'the pending ledger is already part of the corpus');
+});
+
+test('every published source markdown is classified for change verification',()=>{
+ const sourcesDir=path.join(__dirname,'..','sources');
+ const files=fs.readdirSync(sourcesDir).filter(file=>file.endsWith('.md'));
+ assert.ok(files.length>250,'the source ledger tree is unexpectedly small');
+ for(const file of files){
+  const sitePath='sources/'+file;
+  assert.equal(PUBLISHABLE_FILE.test(sitePath),true,sitePath+' must be classified as a published change');
+  assert.equal(SERVED_FILE.test(sitePath),file==='pending.md',sitePath+' only pending.md belongs to the always-polled set');
+ }
+ assert.equal(PUBLISHABLE_FILE.test('sources/_draft.md'),false,'Jekyll does not publish underscore files');
+ assert.equal(STATIC_DOCUMENT.test('sources/_draft.md'),false);
+ assert.equal(PUBLISHABLE_FILE.test('sources/.draft.md'),false,'Jekyll does not publish dot files');
+ assert.equal(STATIC_DOCUMENT.test('sources/.draft.md'),false);
 });
 
 test('an unknown push base is reported as unknown, never as an empty diff',()=>{

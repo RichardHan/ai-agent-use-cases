@@ -1,5 +1,7 @@
 # 來源與待查清單
 
+> 發布核對（2026-11-16）：本目錄中有變更的 Markdown 原文會與正式站位元比對；rendered 頁面目前只抽樣核對，未逐頁比對。這不改變任何來源或案例的證據狀態。
+
 ## S-001：三款 Agent 的同題比較
 
 - 標題：Grok Bot vs Meta Muse vs ChatGPT Dots: I Gave All Three the Same Jobs

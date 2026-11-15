@@ -1,0 +1,23 @@
+{
+  "finalManual": [
+    {
+      "width": 1440,
+      "card": "UC-227 · Meta Muse",
+      "pinned": "https://github.com/RichardHan/ai-agent-use-cases/blob/57182ce2b21a868be31e1d23bb22af12325b4622/cases/227-saved-map-places-list-maintenance.md",
+      "trust": true,
+      "query": "UC-227",
+      "scope": "topic",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "card": "UC-227 · Meta Muse",
+      "pinned": "https://github.com/RichardHan/ai-agent-use-cases/blob/57182ce2b21a868be31e1d23bb22af12325b4622/cases/227-saved-map-places-list-maintenance.md",
+      "trust": true,
+      "query": "UC-227",
+      "scope": "topic",
+      "overflow": false
+    }
+  ],
+  "sourceTitle": "ai-agent-use-cases/cases/227-saved-map-places-list-maintenance.md at 57182ce2b21a868be31e1d23bb22af12325b4622 · RichardHan/ai-agent-use-cases · GitHub"
+}

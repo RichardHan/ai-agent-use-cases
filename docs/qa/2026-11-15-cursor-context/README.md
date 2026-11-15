@@ -56,3 +56,28 @@
 ## 下一輪
 
 先驗 UC-383 的 `cursor[bot]` 帳號是否在正式站誤列 Cursor 產品，再核對明示 Cursor 的 UC-158 正向對照與全庫差異；不要一律抹去 `[bot]` 或小寫名稱。本輪不宣稱完成通用工具語意分類。
+
+## PR 與合併
+
+- 實作 commit [`9c0c8a741c733f5d15fa6b874baca8d7c9077bc1`](https://github.com/RichardHan/ai-agent-use-cases/commit/9c0c8a741c733f5d15fa6b874baca8d7c9077bc1) 已推送；[PR #406](https://github.com/RichardHan/ai-agent-use-cases/pull/406)。
+- 合併前 API 核對 head 精確為上述版本、base `96e9105a497dfcba831210e185088ae969e82ea0`，18 個 checks 已結束（16 success、2 個 PR 不發布的 published skipped），mergeState CLEAN。[檢查快照](pr-final.json)。
+- [PR Website QA 43682260574](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43682260574) success，對應同一 head；修正後全套單元、Chromium、真正 Jekyll build、建置 corpus 與語言檢查均 success。[步驟證據](pr-website-qa.json)。
+- 獨立審查對應同一 head，保存於 [PR comment](https://github.com/RichardHan/ai-agent-use-cases/pull/406#issuecomment-6889900734)。不是 GitHub 人類 approval。
+- 2026-11-15 05:54:00 UTC 正常 merge，合併 SHA [`57182ce2b21a868be31e1d23bb22af12325b4622`](https://github.com/RichardHan/ai-agent-use-cases/commit/57182ce2b21a868be31e1d23bb22af12325b4622)。只將本輪 worktree 快轉至合併版；原 main 與其他 worktree 不移動。Branch protection API 回覆未保護、rulesets 為空；仍等待全部 PR checks 通過，沒有管理員略過。
+
+## 合併版正式站驗收
+
+- [Pages 43683038190](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43683038190) success，head 精確為 `57182ce2b21a868be31e1d23bb22af12325b4622`；build／deploy 成功。[步驟證據](pages-release.json)。
+- `GITHUB_SHA=57182ce2b21a868be31e1d23bb22af12325b4622 node tests/deployed-browser.cjs` 通過，回報 `PUBLISHED_LIVE_BUILD_CURRENT` 精確同版，桌面／手機首頁、搜尋、情境、詳情、重新整理、返回、空結果復原及 JS 停用索引回退成功。[輸出摘要](live-browser-summary.txt)。
+- 正式站 origin 執行 `tests/cursor-context-browser.cjs`：1440／390／320px 三情境、Cursor 零結果復原、鍵盤焦點、直鏈／重新整理／來源／返回、原文字面搜尋與正向 Cursor 案例均通過。[輸出](live-cursor.txt)。
+- 主整合者另開正式站桌面／手機，卡片皆為 `UC-227 · Meta Muse`；固定合併 SHA 的 GitHub 原始 Markdown 實際載入成功，核讀限制與搜尋返回保留。[實走紀錄](live-manual.json)、[桌面](live-1440.png)、[手機](live-390.png)、[320px](live-320.png)。
+- [版本與位元核對](release.json)：catalog `sourceRevision` 精確同合併 SHA，526 來源；app 與受審程式逐位元一致，401188 bytes，SHA-256 `cdffc61c8598fc6549f68156351669815dc8390317d8f0fd0ec573513e2c1a4f`。
+- PR 原始 log 確認修正後全套 768 pass、0 fail／skipped，以及三尺寸新情境皆通過：[摘要](pr-unit-and-cursor.txt)。
+- GitHub 管理的 Pages workflow 有 Node 20／ubuntu-latest 遷移警告，但本輪 build／deploy 成功；沒有把警告稱為本輪故障或擅自改平台流程。
+
+## 發布結論
+
+- 合併版 [Website QA 43683038491](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43683038491) **success**，head 精確為 `57182ce2b21a868be31e1d23bb22af12325b4622`；全套單元、Chromium、Jekyll、建置完整性、發布資產等待及正式站驗證皆成功。[機讀結果](main-qa.json)。
+- PR 等待約 11 分鐘、main QA 等待約 12 分鐘，均未達 25 分鐘上限；沒有重跑失敗 workflow。
+- **已提交、已推送、已合併、部署成功、正式站已驗證**。沒有本輪產品發布阻塞；有限字面規則、影像目視／實機限制及下一輪帳號歸屬候選仍如上。
+- 本段、SITE 與正式站證據沿用既有慣例，以只改 `docs/qa/`、`SITE.md` 的接續提交保存；兩者由 `_config.yml` 排除發布面，不改受審產品。接續提交觸發 Pages 後再核對 sourceRevision 及相同 app 位元，結果附於 PR，不把未觸發的 Website QA 稱為再次通過。

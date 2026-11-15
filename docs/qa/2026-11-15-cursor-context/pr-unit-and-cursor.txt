@@ -1,0 +1,7 @@
+2026-11-15T05:44:24.2824990Z # tests 768
+2026-11-15T05:44:24.2825217Z # pass 768
+2026-11-15T05:44:24.2825319Z # fail 0
+2026-11-15T05:44:24.2825547Z # skipped 0
+2026-11-15T05:44:51.6582737Z PASS CURSOR CONTEXT: 1440px, problem discovery, honest zero/recovery, keyboard, shared detail/reload/source/return, literal search and real product
+2026-11-15T05:44:55.4459607Z PASS CURSOR CONTEXT: 390px, problem discovery, honest zero/recovery, keyboard, shared detail/reload/source/return, literal search and real product
+2026-11-15T05:44:59.3392150Z PASS CURSOR CONTEXT: 320px, problem discovery, honest zero/recovery, keyboard, shared detail/reload/source/return, literal search and real product

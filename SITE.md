@@ -2,6 +2,8 @@
 
 正式站 UC-227 的收藏整理案例因續跑游標被列為 Cursor。固定來源批次程序證實 cursor 是分頁進度，本輪排除明示資料游標詞組並讓既有去重排除涵蓋行內紀錄；保留原文、全文搜尋與實作門檻推測。529 條目只有 UC-227 工具陣列改變。新增真實案例與正反語境回歸、三尺寸搜尋／空結果復原／分享直鏈／來源與返回驗收，沿用 discovery CI 入口，不另增 workflow。[方案、前後截圖、驗收、獨立審查與發布接續](docs/qa/2026-11-15-cursor-context/README.md)。
 
+交付：[PR #406](https://github.com/RichardHan/ai-agent-use-cases/pull/406)，實作 `9c0c8a741c`、合併 `57182ce2b2`；[Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43683038491) 與 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43683038190) 同版成功。獨立審查 P2 修正後複審通過，PR 雲端全套 768 通過；正式 sourceRevision 精確同合併 SHA、app 逐位元一致，三尺寸核心流程與固定版本來源已驗證。證據與限制見本輪紀錄。
+
 下一輪：先驗 UC-383 的 `cursor[bot]` 帳號是否在正式站誤列 Cursor，再對照明示產品使用的 UC-158 與全庫差異，不一律排除帳號或小寫名稱。
 
 ## 2026-11-15 卡片完整列出提及工具

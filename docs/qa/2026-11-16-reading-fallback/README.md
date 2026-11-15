@@ -67,12 +67,12 @@
   - 退路連結在第一屏：桌面 top 197–201／900，手機 206–212／844，320 亦通過；三尺寸水平溢出 0、pageerror 0。JS 停用與 app.js 503 都測：[built-fallback-browser.txt](built-fallback-browser.txt)。
   - 正常載入：`?q=會議#explore` 顯示 29／529，退路不可見；開啟 UC-094 詳情可讀成果主張／核讀與固定 revision 的來源，Escape 後查詢仍為「會議」：[built-smoke.txt](built-smoke.txt)。
   - evidence 013 的「互動閱讀器（需 JS）」實際開 `?case=UC-013` 詳情；pending 的「完整案例索引」實際到 rendered `INDEX.html`：同一 smoke 與 `evidence/pending` 導覽檢查通過。
-- 前後截圖：[before/evidence-390.png](before/evidence-390.png)／[after/evidence-390.png](after/evidence-390.png)、[before/pending-390.png](before/pending-390.png)／[after/pending-390.png](after/pending-390.png)。圖片閱讀工具停用，主 agent 以 DOM／幾何／computed style 保存證據，不宣稱逐像素目視。
+- PR Website QA 的 artifact 另含 CI 實際產生的 `static-reading-fallback/{desktop,phone,narrow}-{js-disabled,app-js-503,normal}.png`；本紀錄保存 [CI 桌面 app.js 503](after/ci-desktop-app-js-503.png)、[CI 手機 JS 停用](after/ci-phone-js-disabled.png)、[CI 320 app.js 503](after/ci-narrow-app-js-503.png)，證明新測試在雲端真正跑過，不只在 localhost。
 - 既有受影響 browser tests：`index-fallback-browser.cjs`（abort `catalog.json`，1440／390，含 retry 保留 query／scenario）通過；`hero-load-failure-browser.cjs`（1440／390／320）通過；`trust-browser.cjs` 的 JS-disabled `noscript` 檢查仍通過（頁尾 `<noscript>` 未移除）。
 
 ## 已知限制
 
-- 本機 Jekyll 4.3.4 與 GitHub Pages 的 Jekyll 3.10／`jekyll-build-pages` 不同；circular 導覽與 h1 契約仍以 PR 的 Website QA 真正 `_site` 為最終證據。合併後另核對正式站 526 頁。
+- 本機 Jekyll 4.3.4 與 GitHub Pages 的 Jekyll 3.10／`jekyll-build-pages` 不同；伺服器端導覽與 h1 契約仍以 PR 的 Website QA 真正 `_site` 為最終證據。合併後另核對正式站 526 頁。
 - 靜態退路只解決「app.js 沒執行」與「JS 停用」；如果 app.js 執行後 catalogue 仍失敗，走既有的 `#error`／hero 失敗區，不是這個段落。
 - `INDEX.html` 的 522 列在 390px 仍是主題表格；本輪不改表格排版。
 - 未做真人使用者研究、實體手機或讀屏實聽；axe／效能不是本輪主題，沒有新的全站無障礙或效能認證。
@@ -84,4 +84,10 @@
 
 ## 發布
 
-（待 PR、Actions、merge、Pages 與正式站核對後補記。）
+- 已提交 `d095207dacfe1eac038933750a649b00b410e8ec`（16 檔）與 `e6d3aeee37d22e90c2b65f674e5dc939275b4cba`（15 個 QA 證據檔），已推送分支 `improve/2026-11-16-reading-fallback`，建立 [PR #417](https://github.com/RichardHan/ai-agent-use-cases/pull/417)。[獨立審查 comment](https://github.com/RichardHan/ai-agent-use-cases/pull/417#issuecomment-6901740155) 對應同一 head。
+- PR 檢查：**16 pass／2 skipped**（PR 上 `published` 依既有規則 skipped，不當成通過）；[Website QA 43763518470](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43763518470) 12m00s success，含 `Verify fallback reading pages`、`Verify failure recovery against built Pages index`（實際 `_site` 上跑新的 browser test）與 Jekyll build。合併前 head `e6d3aeee…`、base `bede0925c0…`、mergeState CLEAN；未繞過保護（main 無 protection／required checks，本輪仍等完 checks）。
+- 2026-11-15T21:37:04Z 正常 merge 為 `75b80718faf752f295fb26d3f72c2d9c889bbd35`。
+- [Pages 43764678015](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43764678015) 對 merge SHA success（build／upload／report；只有 GitHub 管理的 ubuntu-latest 遷移警告，未造成失敗）。[主線 Website QA 43764678475](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43764678475) **success**，21:37:06–21:49:42Z（12m36s），head `75b80718…`：`Verify built Pages corpus` 526 來源逐位元、`Verify fallback reading pages` PASS 526、`Verify failure recovery against built Pages index` 的 built-site 新測試 PASS（桌面 top 189／900、手機 185／844）、`Wait for published assets and content` 回報 `PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 75b80718…`、`PUBLICATION_MODE: exact`、`PUBLISHED_LIVE_BUILD_CURRENT 75b80718…`，以及桌面／手機 `PASS LIVE`：[摘錄](live/main-qa-excerpt.txt)。`Fail when…` 依預期 skipped，不是關閉檢查。
+- 正式 `catalog.json.sourceRevision` 精確等於 `75b80718…`、`bundleRevision` `20261115213744508609921`、`builtAt` 2026-11-15。`index.html`／`assets/app.js`／`assets/style.css`／`assets/fallback.css` 四個變更檔逐位元等於合併版本：[live/report.json](live/report.json)。
+- 正式站實際走查（1440×900／390×844）：`?q=會議#explore` 29／529、退路隱藏；UC-094 詳情來源固定 merge SHA、Escape 後查詢仍「會議」。app.js 503 時退路可見、索引連結在第一屏、點入 rendered `INDEX.html`（標題含完整案例索引）；evidence 013 有導覽且只有一個 h1，「互動閱讀器」開 `?case=UC-013`；pending 有導覽且索引可回；`?q=旅遊&kind=pending` 0 筆→移除狀態 36 筆且無水平溢出。pageerror 0：[live/verify.txt](live/verify.txt)、[桌面 blocked](live/desktop-blocked.png)／[手機](live/phone-blocked.png)、[桌面 evidence](live/desktop-evidence.png)、[手機空結果復原](live/phone-empty-recovery.png)。
+- 狀態分開陳述：**已提交、已推送、已合併、Pages 部署成功、正式站已驗證**；主線 Website QA 的完整結論待該 run 完成後補記，不用 Pages 成功代替。

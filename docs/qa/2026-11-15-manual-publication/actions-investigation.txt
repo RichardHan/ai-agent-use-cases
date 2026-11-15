@@ -1,0 +1,145 @@
+ Summary
+
+Main is green right now, and all three recent main-push failures are historical defects that already have fixes in tree. The one real remaining gap is the caller hole you picked: `Facet counts QA`'s published gate is reachable only by manual dispatch, and before your edit a dispatch supplied no base SHA. I verified the gap from source + API, and I also verified your in-tree fix. One residual coverage hole remains (nothing pins the new wiring). I could not write `local://actions-baseline.md` — I have no write tool in this role, so the file content is below verbatim.
+
+---
+
+```markdown
+# Actions baseline — 2026-11-15 (read-only investigation)
+
+Repo: RichardHan/ai-agent-use-cases · baseline main `d318c4f0ea9af3502ac3dd76479b0e03c00ab5a3`
+Worktree inspected: /Users/richard_han/orca/workspaces/ai-agent-use-cases/generated-publication-20261115
+Evidence: GitHub REST API (anonymous, read-only) + run logs already captured in docs/qa.
+
+## 1. Current state (not history)
+
+| Fact | Evidence |
+|---|---|
+| main tip = `d318c4f` (docs-only: docs/qa + SITE.md) | run 43702670974 head_commit |
+| main tip deployed | Pages run 43702670974 — **success**, 2026-11-15T10:09:09Z→10:10:10Z |
+| main tip has **no** Website QA run | `/actions/runs?head_sha=d318c4f…` → total_count 1 (Pages only); `SITE.md`/`docs/**` absent from website-qa.yml `paths` |
+| last content merge verified | Website QA run 43701570098 — **success** @ `21d1f9fc`, push, run #954, 09:55:31Z (Pages 43701569520 success, same SHA) |
+| previous merge | Website QA 43696801371 success @ `f67b6cdeed` (#952), Pages 43696800868 success |
+| main failures after the last one | **none.** last main failure 43634859717 ended 2026-11-14T20:08:14Z; zero failures since |
+| nothing running now | `?status=in_progress` → total_count 0 (branch=main and repo-wide) |
+
+Main failure census (`?branch=main&status=failure`): exactly 3 runs in the visible window —
+43634859717, 42820349847, 42803248261. Cancelled on main: **1** run, ever (42733562130).
+
+## 2. The three recent main failures (run / SHA / step / error / verdict)
+
+### F1 — 43634859717 · `2138f4d49b0c8645d145f0d23549c4ffc75121c5` · push main · 2026-11-14T19:57:18Z
+- Failed step: **9 · “Verify the updated site in Chromium”** (steps 10–17 skipped, artifact still uploaded).
+- Steps 4–8 green; unit suite `# tests 757 / # pass 757 / # fail 0`.
+- Error (from captured log, docs/qa/2026-11-15-exact-deletion/actions-errors.txt):
+  `AssertionError [ERR_ASSERTION]: phone: the entry waits while the search field is on screen`
+  `false !== true` at `tests/refine-from-results-browser.cjs:96:14`
+- Verdict: **real, test-side flake in the gate itself** (390×844 scroll position vs `fieldOutOfView`). Root cause + fix + repro in docs/qa/2026-11-15-actions-refine-reliability/README.md. Not external, not cancellation.
+
+### F2 — 42820349847 · `2b139d9f694bdf2f5e19fa46f156887919f352d9` · push main · 2026-11-10T12:58:48Z
+- Steps 1–16 green; failed step **17 · “Verify the published GitHub Pages site”**, 13:09:40Z→14:09:40Z = **exactly 60 min**.
+- Verdict: **real gate defect** — the live walk was gated on step 15's byte comparison, so a merge published and immediately superseded polled the full hour. Documented inline at `.github/workflows/website-qa.yml` (step 15/17 comments) and `scripts/published-revision.cjs:1-20`; fix = `waitForLiveRevision` (2-min, revision-only).
+
+### F3 — 42803248261 · `8fbfe082229287a23083009238a973147eb0c2a4` · push main · 2026-11-10T10:55:51Z
+- Step 15 green upstream; failed step **15 · “Wait for published assets and content”**, 11:04:33Z→12:04:33Z = **exactly 60 min**; step 17 skipped.
+- Verdict: **real gate defect** — exact-only byte equality ran before the superseded branch, so “a merge that published nothing” went red after the whole window. Named in code: `tests/published-version.cjs` (`// … turned a merge that published nothing into a red gate after the whole 60-minute window (run 42803248261)`) and docs/qa/2026-11-11-superseded-verdict.
+
+### Non-main reference (PR-only, fixed)
+- 43659142852 · `6322e0c65f322a87b0e890e72f175d607ffdb536` · branch `research/daily-20261115-0830` · pull_request · 2026-11-15T00:38Z
+- Failed step 8: `# tests 760 / pass 758 / fail 2` — `Corpus must have 520 cases 522 !== 520` (tests/method-and-prompt-alignment.test.cjs) and `526 !== 524` (tests/prompt-copy.test.cjs).
+- Already fixed in tree: the assertion is now `assert.ok(files.length >= 520, …)` (tests/method-and-prompt-alignment.test.cjs:26-29). Not a main failure.
+
+### Classification
+- External / infra: **none observed** in the last-window evidence.
+- Cancelled: only 42733562130 (`99734627`, 2026-11-10T01:08, cancelled 01:42) — the motivating incident for `cancel-in-progress: ${{ github.event_name == 'pull_request' }}` (website-qa.yml:26-33). No main cancellation since.
+- Real failures: F1/F2/F3, all fixed with recorded QA.
+
+## 3. Workflow review
+
+**Triggers**
+- Only `website-qa.yml` runs on main (`push: branches: ['main']` + 14 path entries). All other 56 workflows are pinned to dead per-round branches (`improve/visitor-round-20261024-b`, `improve/available-facets-20261021`, `fix/…`, `verify/…`) or are `pull_request`-only. 16 workflows still run on PRs (website-qa, trust-summary, source-guide, corpus-bundle, reader-qa, reading-flow, related, relevance, return-visibility, round23, search-context, load-recovery, home-search-entry, missing-case, outline-find, reader-search).
+- Consequence: **a docs-only commit deploys with Pages only** — expected, not a hole; but it means “Pages green” never implies Website QA ran for that SHA.
+
+**Concurrency**
+- `website-qa.yml`: group `website-qa-${{ github.ref }}`, `cancel-in-progress` only for `pull_request` (correct; keeps main's verdict).
+- The other 56: `${{ github.workflow }}-${{ github.ref }}` with `cancel-in-progress: true` on every ref. Harmless today because their push triggers are dead branches; do not change (out of scope, and the 2026-10-25 handoffs depend on those group names).
+
+**Pages dependency**
+- Website QA main push: step 15 ≤60 min against the live site, and polls GitHub for the Pages run **for that exact SHA** (`scripts/publication-status.cjs`, needs `permissions: actions: read` + `GITHUB_TOKEN` — both present in website-qa.yml:34-40 and step 15 env). A failed deploy for the SHA is a fatal verdict unless a newer live build provably carries the push.
+- Observed healthy: 21d1f9fc Website QA success ⇒ it saw a published build; d318c4f Pages success 60 s after commit.
+
+**Permissions / token**
+- `website-qa.yml`: `contents: read`, `actions: read`, `GITHUB_TOKEN: ${{ github.token }}` on step 15 — complete.
+- Pre-edit `facet-counts-qa.yml`: `permissions: contents: read` only and no token ⇒ `publicationStatus()` returned `{state:'unknown', reason:'no GITHUB_TOKEN available'}`, so “deploy failed” was indistinguishable from “deploy slow”.
+
+**Cache / versions**
+- No `actions/cache` anywhere. Playwright is reinstalled per run (`npm install --prefix "$RUNNER_TEMP/…"`), browsers come from the container image or `playwright install --with-deps`.
+- Version drift: `website-qa.yml` container `mcr.microsoft.com/playwright:v1.56.1-noble` + `playwright@1.56.1`; `facet-counts-qa.yml` container `v1.64.0-noble` + `playwright@1.64.0`; dormant workflows use `playwright@1.64.1`/`1.64.0` on bare `ubuntu-24.04` with `playwright install --with-deps chromium firefox webkit` + `apt-get install fonts-noto-cjk`. Each file is self-consistent; the main gate runs the oldest engine.
+- External network in every run: `curl -fL --retry 2 --max-time 90` for Noto CJK from `raw.githubusercontent.com` (website-qa `--retry 1`). Genuine flake vector, never observed failing in the evidence; fonts are chowned for `pwuser`.
+- `actions/checkout@v4`, `actions/setup-node@v4`, `actions/upload-artifact@v4`, `actions/jekyll-build-pages@v1` (job step shows it pulls `ghcr.io/actions/jekyll-build-pages:v1.0.13`). Pinning is consistent across files.
+
+## 4. facet-counts caller gap (the selected target) — verified
+
+Pre-edit state (read at start of this investigation):
+```
+3  push:
+4    branches: [improve/visitor-round-20261024-b]      # never main
+6  workflow_dispatch:                                   # no inputs
+13 permissions:
+14   contents: read                                     # no actions: read
+78   if: github.ref == 'refs/heads/main'                # reachable only by dispatch from main
+82   PUSH_BASE_SHA: ${{ github.event.before }}          # empty on dispatch
+```
+Failure chain, exact: `github.event.before` is `""` on `workflow_dispatch` → `publicationChangeList('', sha)` → `valid()` false → `{known:false,entries:[]}` (scripts/published-check.cjs:56-60) → `assert(changeList?.known,'Cannot verify publication without knowing what this push changed')` at the top of `waitForPublishedVersion` (tests/published-version.cjs:172) → **immediate red, before any polling**. Second, independent gap: no `actions: read`/token ⇒ the deploy probe is `unknown` forever.
+
+Reachability today:
+- push on main: no longer triggered ⇒ gate is dead code on the only path that had a real base.
+- last time it ran on main: 42351002612 (2026-11-07T07:22Z, push, success, `cd67e150`); 200 runs total, all on dead branches.
+- manual runs, ever: **one** — 40155819411 (2026-10-25T02:47Z, `fix/facet-stale-publication-gate-20261025`, `fee25fe7`, success) — and it succeeded only because `ref != refs/heads/main` skipped both published steps. **No manual run has ever exercised this gate.**
+
+Current in-tree state (post-edit, verified):
+```
+8        base_sha: (required, string, "full commit SHA … strict ancestor … do not guess HEAD^")
+17   actions: read
+31-38    "Validate manual publication range"  if: github.event_name == 'workflow_dispatch'
+           id: publication-base · PUSH_BASE_SHA: ${{ inputs.base_sha }} · node scripts/publication-base.cjs
+96       PUSH_BASE_SHA: ${{ steps.publication-base.outputs.base_sha || github.event.before }}
+99       GITHUB_TOKEN: ${{ github.token }}
+```
+`scripts/publication-base.cjs` is the strict preflight you wanted and it already exists + is tested: rejects empty/short/zero/injected bases (`/^[0-9a-f]{40}$/` and `/^0+$/`), rejects `base===head` (“an empty range cannot verify deletions”), requires `cat-file -t == commit`, then `merge-base --is-ancestor` → `base_sha must be an ancestor of the selected commit and available in the checkout`, and exports `base_sha=` to `GITHUB_OUTPUT`. Tests: tests/publication-base.test.cjs (32 lines of positive/negative ranges incl. equal/future/unrelated/missing via real temp repo).
+
+Why this shape is right, and why the fallback is safe: on a push to main the preflight step is skipped, `steps.publication-base.outputs.base_sha` is empty, and `||` falls back to `github.event.before` — so `website-qa.yml`-style push semantics are unchanged; on dispatch the operator's SHA wins. `if: github.ref == 'refs/heads/main'` is preserved, so a dispatch from any other ref stays preview-only.
+
+## 5. Worth fixing / not worth fixing
+
+**Worth fixing (do)**
+1. The facet-counts manual caller hole — the gate was unreachable-correct: any dispatch from main failed instantly, and a dispatch is the only way this workflow can now gate publication. Fix is in tree and reuses an existing, tested preflight; **no new abstraction needed**.
+2. `actions: read` + `GITHUB_TOKEN` on that gate — without it the existing deployment probe is permanently `unknown`, so a failed Pages deploy cannot cut the 60-min window. Added.
+3. **Residual coverage hole (needs one assertion):** the former contract test `'every workflow that compares the published site runs on a main push with its push base'` (which pinned `PUSH_BASE_SHA: ${{ github.event.before }}` in both callers, and `github.ref == 'refs/heads/main'`) is **no longer present** in tests/published-version.test.cjs, and nothing in `tests/` currently pins `steps.publication-base.outputs.base_sha`, `inputs.base_sha`, the preflight invocation, or `permissions: … actions: read` for this file. A new `tests/publication-gate.test.cjs` with a permissions regex is in flight; confirm it also pins (a) the `base_sha || github.event.before` env line, (b) `run: node scripts/publication-base.cjs` under `if: github.event_name == 'workflow_dispatch'`, (c) the `workflow_dispatch.inputs.base_sha` required/string declaration — otherwise the wiring can regress silently while `publication-base.test.cjs` stays green.
+
+**Not worth fixing (leave)**
+- Playwright drift (1.56.1 / 1.64.0 / 1.64.1): each workflow is internally consistent; the drift exists only across dormant workflows. Not implicated in any of F1–F3 by evidence.
+- No `actions/cache` for `npm install`/fonts: ~5 s in-container; a cache key would add a stale-browser failure mode. Font `curl` is the only external step and has retries.
+- The 56 branch-pinned workflows: dead triggers, they are historical evidence for past rounds. Changing their concurrency/groups would break the 2026-10-25 handoff records for no benefit.
+- `website-qa.yml` concurrency: already correct (main keeps its verdict; only PRs cancel).
+
+## 6. Evidence index
+- API: `/repos/RichardHan/ai-agent-use-cases/actions/runs?branch=main` (30 newest), `&status=failure`, `&status=cancelled`, `/actions/workflows/388182621/runs?branch=main&status=cancelled` (=1), `/actions/workflows/facet-counts-qa.yml/runs?event=workflow_dispatch` (=1), `?head_sha=d318c4f…` (=1 Pages), `/actions/runs/43634859717/jobs`, `/42820349847/jobs`, `/42803248261/jobs`, `/43659142852`.
+- Log text already in tree: docs/qa/2026-11-15-exact-deletion/actions-errors.txt (F1 assertion + 43659142852 TAP tail), docs/qa/2026-11-15-audit-publication/recent-failures.json (3 main failures), docs/qa/2026-11-15-exact-deletion/{actions-baseline.json,representative-runs.jsonl}, docs/qa/2026-11-15-actions-refine-reliability/README.md (F1 root cause).
+- Code: `.github/workflows/website-qa.yml` (triggers 2-27, concurrency 28-33, permissions 34-40, step 15 env ~138-145), `.github/workflows/facet-counts-qa.yml`, `scripts/publication-base.cjs`, `scripts/publication-status.cjs`, `scripts/published-check.cjs` (changeList 56-68, isDescendantOf 72-92), `tests/published-version.cjs` (asserts 172, 190-215, CLI 315-335), `scripts/published-revision.cjs`.
+```
+
+## Files (what each holds)
+
+- `.github/workflows/website-qa.yml` — the only main-push gate: 18 steps, container `playwright:v1.56.1-noble`, `permissions: contents+actions read`, PR-only cancel; steps 15/16/17 = publication wait → fatal-if-unverified → live walk.
+- `.github/workflows/facet-counts-qa.yml` — dormant since 2026-11-07 on main (push trigger pinned to `improve/visitor-round-20261024-b`); now carries `base_sha` input (l.8), `actions: read` (l.17), preflight step (l.31-38), and `base_sha || github.event.before` (l.96) + token (l.99).
+- `scripts/publication-base.cjs` — strict manual-range preflight (format → nonzero → not-equal → commit type → ancestor), exports `base_sha`.
+- `scripts/published-check.cjs:56-92` — `publicationChangeList` (known/unknown) and `isDescendantOf`.
+- `scripts/publication-status.cjs` — Pages-run verdict for an exact SHA; `unknown` when no token (why `actions: read` mattered).
+- `tests/published-version.cjs:172,190-215,315-335` — assert-on-known changeList, exact/superseded branches, CLI wiring.
+- `tests/publication-base.test.cjs` — positive/negative range matrix for the preflight.
+- `tests/published-assets.test.cjs:135-175`, `tests/visitor-experience-and-ci.test.cjs:99-102` — timeout headroom contracts (85 min ≥ 60 + 25 for facet).
+
+## Architecture (how it connects)
+
+`workflow_dispatch/push` → preflight (manual only) → `publication-base` output → gate step env `PUSH_BASE_SHA` → `tests/published-version.cjs` CLI → `publicationChangeList` + `waitForPublishedAssets` (≤60 min) → exact branch (byte-for-byte vs this build) or superseded branch (ancestry + blob hashes at the live revision) → `publicationStatus` for the Pages run of that SHA decides fail-fast vs keep waiting → `verified` output gates the Chromium walk (`tests/deployed-browser.cjs`).).

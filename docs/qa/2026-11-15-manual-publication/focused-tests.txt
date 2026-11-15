@@ -1,0 +1,177 @@
+✔ manual publication preserves an explicit multi-commit range (520.952958ms)
+✔ missing, abbreviated, zero and injected bases fail without publishing an output (526.714667ms)
+✔ equal, future, unrelated and missing commits cannot claim a publication range (748.079667ms)
+Main tip lookup timed out (attempt 1/3); retrying
+Main tip lookup timed out (attempt 1/3); retrying
+Main tip lookup timed out (attempt 2/3); retrying
+✔ published asset check runs for the current main commit (0.719ms)
+✔ published asset check skips a superseded main commit (0.202709ms)
+✔ published asset check remains enabled for explicit non-main verification branches (0.097458ms)
+✔ published asset check fails closed when the main tip cannot be read (0.5125ms)
+✔ published check retries a timed out main-tip lookup without accepting an unknown revision (1.566959ms)
+✔ published browser runs skip only stale main runs targeting this Pages site (0.621875ms)
+✔ only files a visitor can receive count as published changes (3.930417ms)
+✔ an unknown push base is reported as unknown, never as an empty diff (0.192958ms)
+✔ a newer published revision must descend from this push (0.377541ms)
+✔ the pull-request gate never asserts the published site and no branch trigger duplicates pull requests (2.323375ms)
+✔ every workflow with an exact published asset assertion checks commit freshness first (45.261417ms)
+✔ published browser entrypoints skip stale main SHAs before comparing Pages assets (10.564708ms)
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+✔ independently built identical releases accept different timestamps (3.234083ms)
+✔ mixed publication revisions are rejected (1.816125ms)
+✔ changed, missing and duplicate sources are rejected (24.882292ms)
+✔ source order does not change the publication content (0.335167ms)
+✔ published verification exports whether downstream corpus checks are valid (4.263459ms)
+✔ facet publication waits through a 40-minute mixed-corpus deployment using the shared window (137.232167ms)
+✔ matching assets never accept changed source bytes, and failure stops at 60 minutes (200.056084ms)
+✔ a changed product asset cannot pass with an otherwise matching corpus (116.383875ms)
+✔ publication cannot pass while a static page has stale language or a stale source revision (237.637875ms)
+✔ non-main content verification does not demand a branch SHA from Pages (23.925167ms)
+✔ a newer published build is judged against the revision it names (14.003167ms)
+✔ a later merge that rewrote the same case is superseded, not a lost publication (15.103833ms)
+✔ a changed asset rewritten by a later build settles instead of polling for an hour (13.441541ms)
+✔ a live build that disagrees with its own revision never verifies (171.811583ms)
+✔ a superseded build whose corpus bytes changed without a content merge is rejected (339.110625ms)
+✔ a later merge that deletes the path this push changed is not a lost publication (11.342417ms)
+✔ an asset this push deleted but a later build restored is compared with that build (131.550667ms)
+✔ a published build that does not descend from this push is rejected (99.061917ms)
+✔ a newer build cannot be verified when the push base is unknown (11.547583ms)
+✔ a push that published no file still needs a live build faithful to its revision (393.779ms)
+✔ a push that published no file settles on a newer live build instead of a false red (19.129292ms)
+✔ every served asset is compared, including copy.json (107.9295ms)
+✔ a rename is verified as new bytes present and the old path gone (106.51525ms)
+✔ an exact revision also requires the generated pages to be this build (108.447375ms)
+✔ a deleted runtime asset must be gone from the live site (196.109416ms)
+✔ an exact release cannot prove deletion when the push base is unknown (17.095458ms)
+✔ an omitted change list cannot silently claim an exact publication (14.016083ms)
+✔ an exact release rejects a deleted URL that still serves content: assets/retired.js (86.928458ms)
+✔ an exact release requires explicit absence, not a server error: assets/retired.js (121.388625ms)
+✔ an exact release rejects a deleted URL that still serves content: templates/retired.md (112.206125ms)
+✔ an exact release requires explicit absence, not a server error: templates/retired.md (85.750875ms)
+✔ an exact renamed template waits for the old URL to disappear while checking the new bytes (93.660125ms)
+✔ a live build without a source revision is never accepted (89.6805ms)
+✔ a deleted source is verified by its absence from the published corpus (18.395583ms)
+✔ the gate exports verified only after the published bytes were actually compared (1.049541ms)
+✖ every workflow that compares the published site runs on a main push with its push base (4.995833ms)
+✔ facet workflow reserves publication time and gates every published consumer on verification (0.25525ms)
+✔ an exact release rejects stale adoption document README.md (87.845875ms)
+✔ a superseded document-only push verifies live bytes for README.md (89.187209ms)
+✔ an exact release rejects stale adoption document README-archive-2026-10-18.md (79.237875ms)
+✔ a superseded document-only push verifies live bytes for README-archive-2026-10-18.md (91.057375ms)
+✔ an exact release rejects stale adoption document INDEX.md (80.427167ms)
+✔ a superseded document-only push verifies live bytes for INDEX.md (95.59875ms)
+✔ an exact release rejects stale adoption document templates/case.md (79.664334ms)
+✔ a superseded document-only push verifies live bytes for templates/case.md (91.897833ms)
+✔ a renamed adoption template requires the new bytes and the old URL to be gone (139.101167ms)
+✔ a template deleted by this push and restored later must match the live revision (90.368459ms)
+✔ a later descendant may remove a file this push changed: templates/case.md (16.40225ms)
+✔ a later descendant may remove a file this push changed: assets/app.js (10.080084ms)
+✔ a missing changed template is not accepted when the live revision still requires it (155.774125ms)
+✔ an exact release rejects an outdated audit summary even when all other bytes match (84.376958ms)
+✔ audit JSON serialization differences do not reject identical content (15.293042ms)
+✔ a release cannot verify a missing audit summary (74.102042ms)
+✔ a release cannot verify a invalid audit summary (73.853542ms)
+✔ a superseded audit is compared with its own revision, including a docs-only push (94.375875ms)
+✔ a superseded release cannot verify when the pinned audit source is unavailable (77.782ms)
+✔ a matching release rejects a consumer-invalid audit null (82.540625ms)
+✔ a matching release rejects a consumer-invalid audit 2026-11-15 台灣時間核對
+嚴格合格 **370／1,000，尚差629** (90.796375ms)
+✔ a superseded release rejects a consumer-invalid audit null (87.259416ms)
+✔ a superseded release rejects a consumer-invalid audit 2026-11-15 台灣時間核對
+嚴格合格 **370／1,000，尚差629** (91.113625ms)
+ℹ tests 75
+ℹ suites 0
+ℹ pass 74
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5131.173667
+
+✖ failing tests:
+
+test at tests/published-version.test.cjs:521:1
+✖ every workflow that compares the published site runs on a main push with its push base (4.995833ms)
+  AssertionError [ERR_ASSERTION]: facet-counts-qa.yml must describe what the push published
+      at TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/generated-publication-20261115/tests/published-version.test.cjs:527:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'name: Facet counts QA\non:\n  push:\n    branches: [improve/visitor-round-20261024-b]\n    paths: [\'assets/**\', \'index.html\', \'catalog.json\', \'corpus.json\', \'cases/**\', \'evidence/**\', \'sources/pending.md\', \'scripts/**\', \'tests/facet-*\', \'tests/published-version*\', \'tests/filter-controls.cjs\', \'tests/source-route.cjs\', \'tests/reliability-observe.cjs\', \'tests/page-context*.cjs\', \'tests/source-guide*\', \'.github/workflows/facet-counts-qa.yml\']\n  workflow_dispatch:\n    inputs:\n      base_sha:\n        description: \'Full commit SHA before the changes to verify (strict ancestor of the selected ref; do not guess HEAD^)\'\n        required: true\n        type: string\nconcurrency:\n  group: ${{ github.workflow }}-${{ github.ref }}\n  cancel-in-progress: true\npermissions:\n  contents: read\n  actions: read\njobs:\n  browser:\n    runs-on: ubuntu-24.04\n    container: mcr.microsoft.com/playwright:v1.64.0-noble\n    # Reserve setup, local browser journeys and published QA beyond the shared 60-minute gate.\n    timeout-minutes: 85\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n      - uses: actions/setup-node@v4\n        with:\n          node-version: \'22\'\n      - name: Validate manual publication range\n        if: github.event_name == \'workflow_dispatch\'\n        id: publication-base\n        env:\n          PUSH_BASE_SHA: ${{ inputs.base_sha }}\n        run: |\n          git config --global --add safe.directory "$GITHUB_WORKSPACE"\n          node scripts/publication-base.cjs\n      - name: Cloud browser tools\n        run: |\n          git config --global --add safe.directory "$GITHUB_WORKSPACE"\n          npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.0 @axe-core/playwright@4.10.2\n          mkdir -p /usr/local/share/fonts qa-artifacts\n          for weight in Regular Bold; do curl -fL --retry 2 --max-time 90 "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-$weight.otf" -o "/usr/local/share/fonts/NotoSansCJKtc-$weight.otf"; done\n          fc-cache -f\n          chown -R pwuser:pwuser qa-artifacts\n      - name: Baseline tests and syntax\n        run: |\n          node --test tests/*.test.cjs > qa-artifacts/unit.tap 2>&1\n          for file in assets/*.js tests/*.cjs; do node --check "$file"; done\n      - name: Actual Pages build\n        uses: actions/jekyll-build-pages@v1\n        with:\n          source: ./\n          destination: ./_site\n      - name: Verify actual Pages corpus and preview compatibility\n        run: |\n          python3 scripts/check_corpus_bundle.py _site\n          python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"\n          python3 scripts/check_corpus_bundle.py "$RUNNER_TEMP/preview/ai-agent-use-cases"\n          mkdir -p "$RUNNER_TEMP/served/ai-agent-use-cases"\n          cp -R _site/. "$RUNNER_TEMP/served/ai-agent-use-cases/"\n      - name: Prove original hidden-filter AX failure on the same corpus\n        if: github.ref == \'refs/heads/improve/visitor-round-20261024-b\'\n        env:\n          NODE_PATH: ${{ runner.temp }}/tools/node_modules\n          GUIDE_URL: http://127.0.0.1:8096/ai-agent-use-cases/\n          GUIDE_OUTPUT: qa-artifacts/source-guide-before\n        run: |\n          python3 -m http.server 8096 --directory "$RUNNER_TEMP/served" > /tmp/facet-before.log 2>&1 &\n          git show c989742:tests/source-guide-browser.cjs > tests/source-guide-before.cjs\n          if runuser -u pwuser -- node tests/source-guide-before.cjs > qa-artifacts/source-guide-red.log 2>&1; then\n            echo \'Expected original hidden-filter assertion to fail\'\n            exit 1\n          fi\n          grep -q \'closed guidance still describes the source filter\' qa-artifacts/source-guide-red.log\n          kill $!\n      - name: Verify counts, empty recovery, source descriptions and reading journeys\n        env:\n          NODE_PATH: ${{ runner.temp }}/tools/node_modules\n          GUIDE_URL: http://127.0.0.1:8096/ai-agent-use-cases/\n          SITE_URL: http://127.0.0.1:8096/ai-agent-use-cases/\n        run: |\n          python3 -m http.server 8096 --directory "$RUNNER_TEMP/served" > /tmp/facet.log 2>&1 &\n          runuser -u pwuser -- node tests/facet-counts-browser.cjs\n          QA_OUT=qa-artifacts/preview-walk runuser -u pwuser -- node tests/reliability-observe.cjs\n          runuser -u pwuser -- node tests/source-guide-browser.cjs\n          QA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs\n      # Manual main runs use the explicitly validated comparison range. Branch\n      # builds are unrelated to whatever build is live and keep preview-only QA.\n      - name: Verify published release matches this commit\n        if: github.ref == \'refs/heads/main\'\n        id: published-version\n        env:\n          PUBLISHED_BUILD: ${{ runner.temp }}/facet-published\n          PUSH_BASE_SHA: ${{ steps.publication-base.outputs.base_sha || github.event.before }}\n          GITHUB_TOKEN: ${{ github.token }}\n        run: node tests/published-version.cjs\n      - name: Verify published source bytes\n        if: steps.published-version.outputs.verified == \'true\'\n        env:\n          PUBLISHED_BUILD: ${{ runner.temp }}/facet-published\n        run: python3 scripts/check_corpus_bundle.py "$PUBLISHED_BUILD"\n      - name: Verify the published site\n        if: github.ref == \'refs/heads/main\' && steps.published-version.outputs.verified == \'true\'\n        env:\n          NODE_PATH: ${{ runner.temp }}/tools/node_modules\n          FACET_URL: https://richardhan.github.io/ai-agent-use-cases/\n          GUIDE_URL: https://richardhan.github.io/ai-agent-use-cases/\n          GUIDE_OUTPUT: qa-artifacts/published-source-guide\n          GUIDE_PUBLISHED: \'1\'\n        run: |\n          mkdir -p qa-artifacts/preview\n          mv qa-artifacts/after-* qa-artifacts/empty-* qa-artifacts/verification.json qa-artifacts/preview/\n          runuser -u pwuser -- node tests/facet-counts-browser.cjs\n          runuser -u pwuser -- node tests/source-guide-browser.cjs\n      - uses: actions/upload-artifact@v4\n        if: always()\n        with:\n          name: facets-${{ github.run_id }}\n          path: qa-artifacts/\n          retention-days: 30\n',
+    expected: /PUSH_BASE_SHA: \$\{\{ github\.event\.before \}\}/,
+    operator: 'match'
+  }

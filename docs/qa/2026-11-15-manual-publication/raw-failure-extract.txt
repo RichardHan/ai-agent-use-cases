@@ -1,0 +1,105 @@
+
+RUN 43634859717
+0_browser.txt
+2026-11-14T19:58:34.9551511Z   ...
+2026-11-14T19:58:34.9551826Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-14T19:58:34.9552219Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-14T19:58:34.9552578Z # Main tip lookup timed out (attempt 2/3); retrying
+2026-11-14T19:58:34.9551826Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-14T19:58:34.9552219Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-14T19:58:34.9552578Z # Main tip lookup timed out (attempt 2/3); retrying
+2026-11-14T19:58:34.9553039Z # Subtest: published asset check runs for the current main commit
+2026-11-14T19:58:34.9552219Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-14T19:58:34.9552578Z # Main tip lookup timed out (attempt 2/3); retrying
+2026-11-14T19:58:34.9553039Z # Subtest: published asset check runs for the current main commit
+2026-11-14T19:58:34.9553425Z ok 429 - published asset check runs for the current main commit
+2026-11-14T19:58:34.9560286Z   ...
+2026-11-14T19:58:34.9561024Z # Subtest: published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-14T19:58:34.9561544Z ok 433 - published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-14T19:58:34.9562035Z   ---
+2026-11-14T19:58:34.9561024Z # Subtest: published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-14T19:58:34.9561544Z ok 433 - published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-14T19:58:34.9562035Z   ---
+2026-11-14T19:58:34.9562255Z   duration_ms: 1.377024
+2026-11-14T20:08:02.3880915Z EMPTY_WORD_RECOVERY [{"viewport":"desktop","wordCount":12,"steps":[{"query":"機票","text":"原問題包含「機票」 → 搜尋 12 筆"},{"query":"價格","text":"原問題包含「價格」 → 搜尋 106 筆"},{"query":"想讓 ai 機票 比價","text":"只移除關鍵字「盯」 → 查看 1 筆"}]},{"viewport":"mobile","wordCount":12,"steps":[{"query":"機票","text":"原問題包含「機票」 → 搜尋 12 筆"},{"query":"價格","text":"原問題包含「價格」 → 搜尋 106 筆"},{"query":"想讓 ai 機票 比價","text":"只移除關鍵字「盯」 → 查看 1 筆"}]}]
+2026-11-14T20:08:10.3636225Z AssertionError [ERR_ASSERTION]: phone: the entry waits while the search field is on screen
+2026-11-14T20:08:10.3636909Z 
+2026-11-14T20:08:10.3637007Z false !== true
+2026-11-14T20:08:10.3636909Z 
+2026-11-14T20:08:10.3637007Z false !== true
+2026-11-14T20:08:10.3637143Z 
+2026-11-14T20:08:10.3637477Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/refine-from-results-browser.cjs:96:14 {
+2026-11-14T20:08:10.3637143Z 
+2026-11-14T20:08:10.3637477Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/refine-from-results-browser.cjs:96:14 {
+2026-11-14T20:08:10.3637975Z   generatedMessage: false,
+2026-11-14T20:08:10.3638217Z   code: 'ERR_ASSERTION',
+2026-11-14T20:08:10.3640198Z }
+2026-11-14T20:08:10.3790226Z ##[error]Process completed with exit code 1.
+2026-11-14T20:08:10.3862419Z ##[group]Run actions/upload-artifact@v4
+2026-11-14T20:08:10.3862628Z with:
+
+RUN 42820349847
+0_browser.txt
+2026-11-10T13:00:08.4015530Z   ...
+2026-11-10T13:00:08.4015845Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-10T13:00:08.4016163Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-10T13:00:08.4016487Z # Main tip lookup timed out (attempt 2/3); retrying
+2026-11-10T13:00:08.4015845Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-10T13:00:08.4016163Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-10T13:00:08.4016487Z # Main tip lookup timed out (attempt 2/3); retrying
+2026-11-10T13:00:08.4016888Z # Subtest: published asset check runs for the current main commit
+2026-11-10T13:00:08.4016163Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-10T13:00:08.4016487Z # Main tip lookup timed out (attempt 2/3); retrying
+2026-11-10T13:00:08.4016888Z # Subtest: published asset check runs for the current main commit
+2026-11-10T13:00:08.4017267Z ok 404 - published asset check runs for the current main commit
+2026-11-10T13:00:08.4044628Z   ...
+2026-11-10T13:00:08.4045358Z # Subtest: published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-10T13:00:08.4046082Z ok 408 - published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-10T13:00:08.4054326Z   ---
+2026-11-10T13:00:08.4045358Z # Subtest: published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-10T13:00:08.4046082Z ok 408 - published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-10T13:00:08.4054326Z   ---
+2026-11-10T13:00:08.4054753Z   duration_ms: 1.389308
+2026-11-10T13:09:40.0526979Z ##[endgroup]
+2026-11-10T14:09:40.3726045Z Error: Published assets do not match checkout after 3600002ms (717 attempts; deadline 3600000ms); last attempt: index.html: byte mismatch, assets/app.js: byte mismatch
+2026-11-10T14:09:40.3727174Z     at waitForPublishedAssets (/__w/ai-agent-use-cases/ai-agent-use-cases/scripts/published-assets.cjs:70:8)
+2026-11-10T14:09:40.3728264Z     at async /__w/ai-agent-use-cases/ai-agent-use-cases/tests/deployed-browser.cjs:9:20 {
+2026-11-10T14:09:40.3728949Z }
+2026-11-10T14:09:40.3873717Z ##[error]Process completed with exit code 1.
+2026-11-10T14:09:40.3942371Z ##[group]Run actions/upload-artifact@v4
+2026-11-10T14:09:40.3942667Z with:
+
+RUN 42803248261
+0_browser.txt
+2026-11-10T10:57:12.5522424Z   ...
+2026-11-10T10:57:12.5522606Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-10T10:57:12.5522768Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-10T10:57:12.5522929Z # Main tip lookup timed out (attempt 2/3); retrying
+2026-11-10T10:57:12.5522606Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-10T10:57:12.5522768Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-10T10:57:12.5522929Z # Main tip lookup timed out (attempt 2/3); retrying
+2026-11-10T10:57:12.5523158Z # Subtest: published asset check runs for the current main commit
+2026-11-10T10:57:12.5522768Z # Main tip lookup timed out (attempt 1/3); retrying
+2026-11-10T10:57:12.5522929Z # Main tip lookup timed out (attempt 2/3); retrying
+2026-11-10T10:57:12.5523158Z # Subtest: published asset check runs for the current main commit
+2026-11-10T10:57:12.5523367Z ok 401 - published asset check runs for the current main commit
+2026-11-10T10:57:12.5526828Z   ...
+2026-11-10T10:57:12.5527185Z # Subtest: published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-10T10:57:12.5527525Z ok 405 - published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-10T10:57:12.5527598Z   ---
+2026-11-10T10:57:12.5527185Z # Subtest: published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-10T10:57:12.5527525Z ok 405 - published check retries a timed out main-tip lookup without accepting an unknown revision
+2026-11-10T10:57:12.5527598Z   ---
+2026-11-10T10:57:12.5527678Z   duration_ms: 0.596679
+2026-11-10T11:04:33.8754665Z Pages deployment for 8fbfe082229287a23083009238a973147eb0c2a4: succeeded (success) — https://github.com/RichardHan/ai-agent-use-cases/actions/runs/42803247422
+2026-11-10T12:04:33.4697518Z Error: Published assets do not match checkout after 3600002ms (693 attempts; deadline 3600000ms); last attempt: additional verification: request failed (ERR_ASSERTION)
+2026-11-10T12:04:33.4698416Z     at waitForPublishedAssets (/__w/ai-agent-use-cases/ai-agent-use-cases/scripts/published-assets.cjs:70:8)
+2026-11-10T12:04:33.4699662Z     at async waitForPublishedVersion (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/published-version.cjs:133:15)
+2026-11-10T12:04:33.4700262Z     at async /__w/ai-agent-use-cases/ai-agent-use-cases/tests/published-version.cjs:231:16 {
+2026-11-10T12:04:33.4700713Z   [cause]: AssertionError [ERR_ASSERTION]: Product asset mismatch
+2026-11-10T12:04:33.4701169Z       at verify (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/published-version.cjs:192:4)
+2026-11-10T12:04:33.4701674Z       at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-11-10T12:04:33.4706751Z }
+2026-11-10T12:04:33.4903406Z ##[error]Process completed with exit code 1.
+2026-11-10T12:04:33.4967680Z ##[group]Run actions/upload-artifact@v4
+2026-11-10T12:04:33.4967834Z with:

@@ -2,6 +2,8 @@
 
 正式站原始 README／INDEX／歷史指南／案例範本目前位元正確，但故障注入證明發布閘門會漏掉這些文件的過期內容。本輪以共同分類收集建置產物，將原始採用文件納入 exact 位元及 superseded live revision 比對；保留改名、刪除、恢復與有界等待。十項新回歸先紅後綠，獨立審查後再補三項後續刪除／缺失回歸，全套 783 通過。產品 UI 與案例不變；桌面手機核心流程、預覽器 INDEX 限制、獨立審查及發布狀態見[本輪 QA](docs/qa/2026-11-15-publication-coverage/README.md)。下一輪先驗證 Liquid 生成的 audit-summary，而非把來源模板 hash 當發布內容。
 
+交付：[PR #408](https://github.com/RichardHan/ai-agent-use-cases/pull/408)，實作 `55f047dd13`、合併 `c6de2dccf7`；[主線 Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43692173061) 與 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43692172747) 同版成功。獨立複審無 findings；正式 sourceRevision 精確一致，12 個首頁／assets／原始文件逐位元核對，桌面手機核心流程與 Jekyll 索引回退通過。已提交、推送、合併、部署與正式驗證；證據、有限覆蓋及下一輪 audit-summary 首驗見本輪紀錄。
+
 ## 2026-11-15 機器人帳號不冒充工具使用證據
 
 正式站 UC-383 因作者 `cursor[bot]` 被列入 Cursor 篩選，但案例流程明示為 Grok Bot。本輪工具正規化只排除完整 bot 帳號，保留同句另外明示的產品，原文與全文搜尋不改。529 條目只有 UC-383 工具與依賴它的搜尋欄位改變；UC-158 的明示 Cursor 保留。回歸先紅後綠、全套 770 通過，三尺寸訪客流程與獨立審查、前後截圖及發布狀態見[本輪 QA](docs/qa/2026-11-15-bot-account-attribution/README.md)。不新增 workflow 或依賴，不把目前成功的 CI 當成仍有歷史故障。

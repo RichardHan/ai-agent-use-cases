@@ -1,0 +1,8 @@
+{
+  "sourceRevision": "c6de2dccf776553c441c3f3398222f00cba65c06",
+  "page": "https://richardhan.github.io/ai-agent-use-cases/?q=UC-014&scope=topic&case=UC-014",
+  "mobile": {"width":390,"height":844,"detailOpen":true,"unrunGuidanceLabel":true,"horizontalOverflow":false,"sourceRevisionPinned":true,"reloadOpensDetail":true},
+  "desktopReturn": {"width":1440,"height":900,"key":"Escape","url":"https://richardhan.github.io/ai-agent-use-cases/?q=UC-014&scope=topic","query":"UC-014","results":"顯示 1 / 529 筆收錄","horizontalOverflow":false},
+  "source": {"url":"https://github.com/RichardHan/ai-agent-use-cases/blob/c6de2dccf776553c441c3f3398222f00cba65c06/cases/014-support-inbox-approval-refund.md","loaded":true,"containsCaseId":true},
+  "limits": ["No pixel-level image inspection", "No physical mobile device", "See live-browser.txt for automated three-scenario coverage"]
+}

@@ -1,0 +1,77 @@
+{
+  "desktop": {
+    "UC-002": {
+      "copyButtonCount": 3,
+      "copyButtons": [
+        "複製本段（含標題）：可複製提示詞（本庫原創設計）",
+        "複製本段（含標題）：自設延伸流程與指令（未實跑）",
+        "複製本段（含標題）：小範圍驗收指令（本庫原創設計，未實測）"
+      ],
+      "jumpCount": 3
+    },
+    "UC-003": {
+      "copyButtonCount": 1,
+      "copyButtons": [
+        "複製本段（含標題）：可複製提示詞（本庫原創設計）"
+      ],
+      "jumpCount": 3
+    },
+    "UC-024": {
+      "copyButtonCount": 1,
+      "copyButtons": [
+        "複製本段（含標題）：原創提示詞｜UNTESTED"
+      ],
+      "jumpCount": 3
+    }
+  },
+  "phone": {
+    "UC-002": {
+      "copyButtonCount": 3,
+      "copyButtons": [
+        "複製本段（含標題）：可複製提示詞（本庫原創設計）",
+        "複製本段（含標題）：自設延伸流程與指令（未實跑）",
+        "複製本段（含標題）：小範圍驗收指令（本庫原創設計，未實測）"
+      ],
+      "jumpCount": 3
+    },
+    "UC-003": {
+      "copyButtonCount": 1,
+      "copyButtons": [
+        "複製本段（含標題）：可複製提示詞（本庫原創設計）"
+      ],
+      "jumpCount": 3
+    },
+    "UC-024": {
+      "copyButtonCount": 1,
+      "copyButtons": [
+        "複製本段（含標題）：原創提示詞｜UNTESTED"
+      ],
+      "jumpCount": 3
+    }
+  },
+  "small": {
+    "UC-002": {
+      "copyButtonCount": 3,
+      "copyButtons": [
+        "複製本段（含標題）：可複製提示詞（本庫原創設計）",
+        "複製本段（含標題）：自設延伸流程與指令（未實跑）",
+        "複製本段（含標題）：小範圍驗收指令（本庫原創設計，未實測）"
+      ],
+      "jumpCount": 3
+    },
+    "UC-003": {
+      "copyButtonCount": 1,
+      "copyButtons": [
+        "複製本段（含標題）：可複製提示詞（本庫原創設計）"
+      ],
+      "jumpCount": 3
+    },
+    "UC-024": {
+      "copyButtonCount": 1,
+      "copyButtons": [
+        "複製本段（含標題）：原創提示詞｜UNTESTED"
+      ],
+      "jumpCount": 3
+    }
+  }
+}

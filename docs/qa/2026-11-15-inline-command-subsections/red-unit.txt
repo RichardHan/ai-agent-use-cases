@@ -1,0 +1,46 @@
+✖ all 13 target cases with structured actionable commands must have standalone H3 copyable prompt sections for each prompt (1.839917ms)
+✖ no target cases contain raw unpromoted inline command lines starting with 可貼指令： (0.564ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 55.280042
+
+✖ failing tests:
+
+test at tests/inline-command-subsections.test.cjs:24:1
+✖ all 13 target cases with structured actionable commands must have standalone H3 copyable prompt sections for each prompt (1.839917ms)
+  AssertionError [ERR_ASSERTION]: cases/002-video-production.md expected at least 5 copyable prompt sections, but found 3
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261115-r4/tests/inline-command-subsections.test.cjs:47:12)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at tests/inline-command-subsections.test.cjs:54:1
+✖ no target cases contain raw unpromoted inline command lines starting with 可貼指令： (0.564ms)
+  AssertionError [ERR_ASSERTION]: cases/002-video-production.md:L63 still contains raw inline command without H3 promotion: 可貼指令：請先只讀［產品公開文件與程式碼］，為15秒產品動畫擬定分鏡。每個互動對
+      at /Users/richard_han/orca/wt/aiuc-20261115-r4/tests/inline-command-subsections.test.cjs:59:14
+      at Array.forEach (<anonymous>)
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261115-r4/tests/inline-command-subsections.test.cjs:58:11)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

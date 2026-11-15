@@ -1,3 +1,11 @@
+## 2026-11-16 來源紀錄的發布驗證：只輪詢本次變更的 ledger
+
+正式站來源頁的信任路徑原本有一個 false-green：`PUBLISHABLE_FILE` 只接受 `sources/pending.md`，只改其他 `sources/*.md` 的 push 會被當成沒有發布可驗證檔案；exact 模式不抓、superseded 模式當成 unsupported。本輪把可發布變更（`PUBLISHABLE_FILE`）與常駐輪詢資產（`SERVED_FILE`）分開，只把本次變更的 source ledger 加進 `files`；exact 比對建置與正式站位元，superseded 比對正式站位元與 live revision tree，刪除／改名沿用 200／404／410／503 探測。`sources/README.md` 加一段限定「有變更」的發布核對說明，並讓 main push 實際走過新路徑。843 單元、PR Website QA 843 pass 與 Jekyll `_site/sources/index.html` build、獨立審查 P2 修正後無 findings；正式站 `sourceRevision` 精確等於合併 `fd3d5f65`，`/sources/` 與 raw Markdown 都顯示新段，桌面手機無橫向溢出。限制：rendered `sources/*.html` 仍只抽樣；exact 模式的 `changedVerified` 仍是既有計數器的 0，下輪補計數與 log；大量來源檔變更未加 artifact-hash 門檻。
+
+交付：[PR #415](https://github.com/RichardHan/ai-agent-use-cases/pull/415)，實作 `76fe08d5d6`、合併 `fd3d5f6597`；PR checks 5 pass，[PR Website QA 43756280017](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43756280017) success（843 unit、Jekyll build、fallback PASS 525），main [Website QA 43758836544](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43758836544) success（`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH fd3d5f65`、`PASS LIVE` ×2），[Pages 43758835745](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43758835745) success。正式站三情境、來源頁 before／after 截圖、`published-version.json` 與限制見[本輪紀錄](docs/qa/2026-11-16-sources-publication/README.md)。已提交、推送、合併、部署與正式驗證。
+
+下一輪：先補 exact 模式的 `changedVerified` 計數與 log，讓 artifact 自己說明驗了幾個 changed document；再以 trusted Pages artifact 比對 changed ledger 的 rendered `.html`，最後才處理 `sources/`／`evidence/` 免腳本導覽。
+
 ## 2026-11-16 直接抵達案例頁：回索引與六碼解碼
 
 正式站 522 個 rendered 案例頁只有站名回首頁，沒有 INDEX 連結；198 頁頁首有證據代碼，但 INDEX 只列四碼，`author-self-report`（10 頁）與 `pending-verification`（1 頁）沒有對照。本輪以最小 primer `_layouts` 覆寫，在 cases 頁加「完整案例索引／搜尋首頁／互動閱讀器」與本頁代碼的可見中文配對；INDEX 補兩同義碼，兩頁 `author-report` 正規化為 `author-self-report`；built-site gate 驗每個代碼與標籤在同一個可見 span，並讓 `_layouts`／`_includes` 變更觸發 Website QA。832 單元、改動前 FAIL 524、Jekyll 3.10／4.3 build PASS 525；正式站 sourceRevision `e74c7509`、522 頁 PASS、三情境與 after-live 截圖見[本輪紀錄](docs/qa/2026-11-16-rendered-case-context/README.md)。限制：圖片未逐像素目視；`sources/*.md` 發布閘門缺口未修。

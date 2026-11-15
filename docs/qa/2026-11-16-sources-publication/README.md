@@ -66,6 +66,7 @@
 
 - 聚焦：`node --test tests/published-check.test.cjs tests/published-version.test.cjs` → **88 pass／0 fail**（[`focused-tests.txt`](focused-tests.txt)）。
 - 全套：`node --test tests/*.test.cjs` → **843 pass／0 fail／0 skip**（[`full-tests.txt`](full-tests.txt)）。
+- PR 雲端 Website QA [43756280017](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43756280017) 的 `Run existing regression tests` 也實際跑了新測試並顯示 `# tests 843／# pass 843／# fail 0`；同 run 的 Jekyll build 寫出 `_site/sources/index.html`，`Verify fallback reading pages` 顯示 `PASS: 525`。原始節錄見 [`ci-website-qa.txt`](ci-website-qa.txt)。
 - `node --check`：`scripts/published-check.cjs`、`tests/published-version.cjs`、兩個測試檔皆通過。
 - `node scripts/check-published-surface.cjs` → **PASS：834 檔、5.87 MiB、排除 9 項**（[`surface-check.txt`](surface-check.txt)）。`scripts/preview.py` 會複製 `_config.yml` 排除的目錄，因此不拿它當 Jekyll 發布產物；真正的 `_site` 由 PR 的 Website QA 建置。
 
@@ -75,6 +76,7 @@
 - 手機 390×844：`?q=旅遊&kind=pending` → 0 筆 → 按「移除收錄狀態「待查線索」→ 查看 36 筆」→ 36 筆。
 - 手機 390×844：分享 `?case=UC-528` → 詳情開啟 → 來源連結 `target="_blank"`、`rel="noopener noreferrer"`、固定 `74e96d2c…`；`sourceLatestHidden=true`。
 - 三情境 `documentElement.scrollWidth - innerWidth` 均為 0；沒有 pageerror。完整數值見 [`live-before.json`](live-before.json)；來源頁 before 截圖在 [`before/`](before/)，部署後補 `after/`。
+- 部署後（合併 `fd3d5f65…`）：`catalog.json.sourceRevision` 精確等於合併 SHA；`sources/README.md` 原文與 `/sources/` rendered 頁都可見新段；`/sources/`、`sources/pending.html`、`sources/qualification-audit-2026-10-16.html` 均回 200；桌面／手機 note 可見、水平溢出 0；`?case=UC-528` 的來源固定 `fd3d5f65…`。數值見 [`live-after.json`](live-after.json)，同頁同尺寸截圖在 [`after/`](after/)。
 
 ## 獨立審查
 
@@ -90,8 +92,16 @@
 
 ## 發布與正式站核對
 
-（合併後補：PR、commit、merge、Pages run、正式 sourceRevision、`sources/README.md` 新段可見性、after 截圖。）
+- 已提交 `76fe08d5d6f24cb1ddd677dbefc14467c01b28c0`，PR [#415](https://github.com/RichardHan/ai-agent-use-cases/pull/415)；合併 `fd3d5f6597cfd1345f247f518578b112482094be`。
+- PR checks 全部成功（`browser` ×4、`context` ×1）；PR Website QA [43756280017](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43756280017) 的 `Run existing regression tests` 為 843 pass／0 fail，真正 Jekyll build 寫出 `_site/sources/index.html`，`Verify fallback reading pages` 為 PASS 525。
+- main Website QA [43758836544](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43758836544) success（11m40s）：`Pages deployment for fd3d5f65…: succeeded`，`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH fd3d5f65…`，`PUBLISHED_LIVE_BUILD_CURRENT` 與兩個 `PASS LIVE`。此 push 的可發布變更包含 `sources/README.md`（`git diff 74e96d2c fd3d5f65` 可見），所以 exact branch 的 changedDocuments 比對確實被執行；節錄見 [`main-qa.txt`](main-qa.txt)。
+- Pages [43758835745](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43758835745) success。正式站 `catalog.json.sourceRevision` 精確等於合併 `fd3d5f65…`；`/sources/` 與 raw `sources/README.md` 都顯示新段，`sources/pending.html`／`sources/qualification-audit-2026-10-16.html` 回 200；桌面／手機 note 可見、水平溢出 0；分享 UC-528 的來源固定合併 SHA。數據見 [`live-after.json`](live-after.json)，同頁同尺寸 after 截圖在 [`after/`](after/)。
+- 限制：`published-version.json` 在 exact 模式的 `changedVerified` 仍是既有計數器的 `0`；這不代表 changedDocuments 沒被比對（exact branch 是逐檔 assert，且本次 push 的 `sources/README.md` 在 changed set）。下一輪先把 exact 模式的計數與 log 補上，讓 artifact 自己說清楚驗了幾個檔。
 
 ## 下一輪
 
-先用同一支檢查重跑正式站 `sources/README.md` 與 `sources/qualification-audit-2026-10-16.html`，確認新段可見且來源頁仍可從案例引用抵達；再評估把 changed ledger 的 rendered `.html` 納入 Pages artifact 比對（只針對 changed 檔，不逐頁掃 293 檔），以及補上 `sources/`／`evidence/` 的免腳本導覽。不要把 rendered 全文驗證說成已完成。
+1. 讓 exact 模式的 `changedVerified` 計數與 log 反映 changedDocuments 數量（本次 artifact 顯示 0，雖然 exact assert 已執行），先以現有 `publicationFixture` 加一個「correct source ledger → changedVerified=1」測試。
+2. 用 trusted Pages artifact 比對 changed ledger 的 rendered `.html`（只針對 changed 檔，不逐頁掃 293 檔），目前只有 raw `.md` 與固定抽樣頁被 byte-check。
+3. 把 `sources/`／`evidence/` 的免腳本導覽補到與 `cases/` 同一層級；這是獨立的 visitor flow 主題，不要和 gate 混在同一輪。
+
+不要把 rendered 全文驗證說成已完成。

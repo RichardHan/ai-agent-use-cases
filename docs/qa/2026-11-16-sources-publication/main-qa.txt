@@ -1,0 +1,29 @@
+Main Website QA 43758836544 (merge fd3d5f65)
+PUSH_BASE_SHA: 74e96d2c42df0066c8c6059938af296d7f38f173
+GITHUB_SHA: fd3d5f6597cfd1345f247f518578b112482094be
+
+browser	Wait for published assets and content	2026-11-15T20:45:28.1597658Z   PUSH_BASE_SHA: 74e96d2c42df0066c8c6059938af296d7f38f173
+browser	Wait for published assets and content	2026-11-15T20:45:28.6632884Z Pages deployment for fd3d5f6597cfd1345f247f518578b112482094be: succeeded (success) — https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43758835745
+browser	Wait for published assets and content	2026-11-15T20:45:29.0086868Z PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH fd3d5f6597cfd1345f247f518578b112482094be
+browser	Verify the published GitHub Pages site	2026-11-15T20:45:29.2903624Z PUBLISHED_LIVE_BUILD_CURRENT fd3d5f6597cfd1345f247f518578b112482094be (walking the live site)
+browser	Verify the published GitHub Pages site	2026-11-15T20:45:30.7471545Z PASS LIVE: Pages HTTPS, real generated catalog, scenario discovery and detail
+browser	Verify the published GitHub Pages site	2026-11-15T20:45:32.4510970Z PASS LIVE: mobile direct link, refresh, close, scenario selection and no horizontal overflow
+
+published-version.json:
+{
+  "base": "https://richardhan.github.io/ai-agent-use-cases/",
+  "sourceCount": 526,
+  "localRevision": "20261115204520027536252",
+  "publishedRevision": "20261115203454930162096",
+  "mode": "exact",
+  "supersededBy": null,
+  "liveRevision": "fd3d5f6597cfd1345f247f518578b112482094be",
+  "changedVerified": 0,
+  "carried": 0,
+  "verifiedAt": "2026-11-15T20:45:29.008Z"
+}
+Changed publishable files in this push:
+M	scripts/published-check.cjs
+M	sources/README.md
+M	tests/published-version.cjs
+M	tests/published-version.test.cjs

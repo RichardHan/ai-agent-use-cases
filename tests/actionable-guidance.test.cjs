@@ -240,6 +240,72 @@ test('showDetail renders extracted how and caution in .guidance-grid cards', () 
   assert.match(cautionCard.children.find(c => c.tagName === 'P')?.textContent || '', /正式送出報銷前需本人簽核/);
 });
 
+// The 20 early entries show a library-written sentence instead of the page's own
+// section. A reader who trusts the panel must be told that it is a rewrite and
+// that the page's full stop conditions are still one click away.
+test('a copy.json summary is labelled as the library rewrite', () => {
+  const customCopy = {
+    'UC-505': { title: '自訂', what: '用途', how: '本庫短句怎麼開始。', caution: '本庫短句注意事項。' }
+  };
+  const { context, detailBody } = setupEnvironment({ displayCopy: customCopy });
+  const sampleMarkdown = `# UC-505：停用帳號清理
+- 情境：工作
+- 網站標題：原文標題
+
+## 建議操作流程
+1. 頁面自己的步驟。
+
+## 權限與驗收
+- 頁面自己的停止條件：不得刪除正式帳號。
+`;
+
+  const meta = context.metadata(sampleMarkdown, 'cases/505-cleanup.md', 'case', 'UC-505');
+  assert.equal(meta.how, '本庫短句怎麼開始。');
+  assert.equal(meta.caution, '本庫短句注意事項。');
+  assert.equal(meta.howFromCopy, true);
+  assert.equal(meta.cautionFromCopy, true);
+
+  context.showDetail(meta, null, false);
+  function findByClass(node, cls) {
+    if (!node || !node.children) return null;
+    for (const c of node.children) {
+      if (c.className?.includes(cls)) return c;
+      const found = findByClass(c, cls);
+      if (found) return found;
+    }
+    return null;
+  }
+  const note = findByClass(detailBody, 'guidance-source');
+  assert.ok(note, 'a panel that uses copy.json must say so');
+  assert.match(note.textContent, /本庫依案例頁改寫/);
+  assert.match(note.textContent, /查看原始研究/);
+});
+
+test('a pending lead is not promised steps its record does not have', () => {
+  const { context, detailBody } = setupEnvironment();
+  const item = {
+    id: 'P-009', title: '待查線索', what: '證據不足的線索。', summary: '證據不足的線索。',
+    how: '目前先保留來源，不提供照做步驟。', caution: '還沒取得完整內容，不能推定成效。',
+    kind: 'pending', scenario: '', proof: '尚待查證', tools: [], tags: [],
+    reviewedDate: '', path: 'sources/pending.md', markdown: '# P-009：待查\n',
+    howFromCopy: true, cautionFromCopy: true
+  };
+  context.showDetail(item, null, false);
+  function findByClass(node, cls) {
+    if (!node || !node.children) return null;
+    for (const c of node.children) {
+      if (c.className?.includes(cls)) return c;
+      const found = findByClass(c, cls);
+      if (found) return found;
+    }
+    return null;
+  }
+  const note = findByClass(detailBody, 'guidance-source');
+  assert.ok(note, 'a pending lead that uses copy.json must say where the text came from');
+  assert.match(note.textContent, /待查線索/);
+  assert.doesNotMatch(note.textContent, /完整步驟/);
+});
+
 test('metadata extracts guidance from H3 subsections and varied acceptance headings', () => {
   const { context } = setupEnvironment();
   const sampleMarkdown = `# UC-162：網格攝影機狀態審查

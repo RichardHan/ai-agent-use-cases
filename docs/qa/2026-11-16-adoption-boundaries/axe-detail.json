@@ -1,0 +1,26 @@
+[
+ {
+  "viewport": "desktop",
+  "case": "UC-012",
+  "violations": 0,
+  "detail": []
+ },
+ {
+  "viewport": "desktop",
+  "case": "UC-016",
+  "violations": 0,
+  "detail": []
+ },
+ {
+  "viewport": "mobile",
+  "case": "UC-012",
+  "violations": 0,
+  "detail": []
+ },
+ {
+  "viewport": "mobile",
+  "case": "UC-016",
+  "violations": 0,
+  "detail": []
+ }
+]

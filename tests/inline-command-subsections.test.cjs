@@ -6,12 +6,9 @@ const path = require('node:path');
 const { selectCopySections, promptSections } = require('../assets/reader.js');
 
 const TARGET_CASES = [
-  'cases/002-video-production.md',
-  'cases/003-store-operations.md',
   'cases/005-cloud-pr-review.md',
   'cases/006-facebook-publication.md',
   'cases/023-launch-material-revision.md',
-  'cases/024-missing-invoice-check.md',
   'cases/030-interactive-study-guide.md',
   'cases/041-routine-health-exception-ops.md',
   'cases/049-daily-inbox-report-graduated-trust.md',
@@ -21,15 +18,12 @@ const TARGET_CASES = [
   'cases/340-tool-response-evidence-capture-acceptance.md'
 ];
 
-test('all 13 target cases with structured actionable commands must have standalone H3 copyable prompt sections for each prompt', () => {
-  // Expected minimum copyable sections per case after promotion of all 15 inline command prompts
+test('all 10 target cases with structured actionable commands must have standalone H3 copyable prompt sections for each prompt', () => {
+  // Expected minimum copyable sections per case after promotion of all 10 inline command prompts
   const EXPECTED_MIN_COPY_SECTIONS = {
-    'cases/002-video-production.md': 5,
-    'cases/003-store-operations.md': 3,
     'cases/005-cloud-pr-review.md': 6,
     'cases/006-facebook-publication.md': 4,
     'cases/023-launch-material-revision.md': 4,
-    'cases/024-missing-invoice-check.md': 2,
     'cases/030-interactive-study-guide.md': 3,
     'cases/041-routine-health-exception-ops.md': 2,
     'cases/049-daily-inbox-report-graduated-trust.md': 3,

@@ -20,9 +20,9 @@ const overflow = page => page.evaluate(() =>
     { name: 'small', width: 320, height: 740 }
   ];
 
-  // Pick representative cases from the 13 modified ones:
-  // UC-002, UC-003, UC-024
-  const testCases = ['UC-002', 'UC-003', 'UC-024'];
+  // Pick representative cases from the 10 modified ones:
+  // UC-005, UC-006, UC-023
+  const testCases = ['UC-005', 'UC-006', 'UC-023'];
   const measurements = {};
 
   for (const vp of viewports) {

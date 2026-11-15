@@ -64,7 +64,7 @@ fs.mkdirSync(out,{recursive:true});const reports=[];
  await audit('long outline');
  assert(await page.locator('#detail').evaluate(e=>e.scrollWidth<=e.clientWidth+1));
 // Short case: a case below the 12-heading threshold has no long-outline search; filters and return still work.
- await page.goto(base+'?q=旅遊&scenario=生活&case=UC-040');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
+ await page.goto(base+'?q=旅遊&scenario=生活&case=UC-003');await page.locator('#detail[open]').waitFor();await page.waitForFunction(()=>discoveryReady);
  const shortHeadings=await page.locator('.research-details .markdown h2,.research-details .markdown h3').count();assert(shortHeadings<12);
  assert.equal(await page.locator('#reader-outline-query').count(),0);
  assert.equal(await page.locator('.reader-original-open').count(),0);

@@ -76,7 +76,7 @@
 - [Pages 43773706208](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43773706208)：build／report-build-status／deploy 全部 success，head 精確為合併 SHA。
 - 主線 [Website QA 43773706720](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43773706720)：**success**；`Run existing regression tests` TAP `# tests 853／# pass 853／# fail 0`，`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 298440b6…`，exact 模式走正式站得到 `PUBLISHED_LIVE_BUILD_CURRENT 298440b6…` 與兩項 `PASS LIVE`。`published` 步驟 skipped 屬預期（PR 不發布），不是關閉檢查。
 - 正式站 `catalog.sourceRevision` 精確等於 `298440b6…`；`tests/deployed-browser.cjs` 以該 SHA 走正式站 exit 0，桌面／手機與 JS-disabled 索引退路通過。實際以 Chromium 390×844 開 `?case=P-001`：待查揭露為「依待查線索整理」、來源固定 `298440b6…`、無水平溢出；`live-merged.json` 顯示 16 個 copy 條目都有揭露、沒有溢出；UC-016 的複製筆記帶完整新停止條件。
-- **已提交、已推送、已合併、部署成功、正式站已驗證**。未解：docs-only 後續紀錄會再推進 `sourceRevision`，但產品位元不變；以獨立 docs PR 保存並只核 Pages 與產品位元，不觸發 Website QA 也不冒稱重跑。影像逐像素、實體手機、讀屏實聽與效能未驗。
+- **已提交、已推送、已合併、部署成功、正式站已驗證**。docs-only 接續：[PR #424](https://github.com/RichardHan/ai-agent-use-cases/pull/424) 合併 `481dd271b402b31f02afaea2a4d25d77ee09e0fd`、[Pages 43775047266](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43775047266) success；正式 `sourceRevision=481dd271…`，`index.html`／`assets/app.js`／`assets/copy.json`／`assets/reader.css` 與合併產品版 SHA-256 相同，`tests/deployed-browser.cjs` 以該 SHA 走正式站 exit 0。Website QA 未觸發（paths 不含 `docs/**`、`SITE.md`），不宣稱重跑；本段之後若再更新紀錄，只會再推進 `sourceRevision`，產品位元不變。影像逐像素、實體手機、讀屏實聽與效能未驗。
 
 ## 發布與接續
 

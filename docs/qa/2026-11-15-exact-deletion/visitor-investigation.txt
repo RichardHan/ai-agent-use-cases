@@ -1,0 +1,8 @@
+VisitorBaselineAudit returned read-only static research; no browser/tests/builds. Main checked findings against applied changes and observed tests.
+Accepted: exact branch formerly missed deleted non-corpus asset/template URLs. Red-deletion.txt proves five failures; final integrated suite proves correction.
+Stale finding rejected: agent's snapshot says unknown-change guard still missing. Main edit result shows entry guard at line149; red-unknown and review-final-unit record before/after, 799 pass. Independent final review separately assesses current version.
+Scope retained: raw case/evidence/pending deletion URLs are not newly probed; their corpus absence contract is unchanged. Do not describe this round as every deleted URL being verified.
+Next candidate: superseded generated INDEX/audit HTML only checks language, not full rendered body. Agent proposes content sentinels; those would only prove selected text, not full page fidelity, so not adopted without a separate fixture/design round.
+Agent's claim that PUBLISHABLE_FILE excludes every HTML is imprecise: literal index.html is included; generated INDEX.html and audit HTML are not raw-blob comparable.
+Agent suggested excluding deleted index.html to avoid directory-index responses. Not adopted: HTTP 200 is not proof of removal; hiding that failure would weaken deletion evidence.
+Audit summary already covered by PR409. No formal live publication defect or user-research outcome claimed.

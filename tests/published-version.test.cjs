@@ -55,7 +55,7 @@ function publicationFixture(t){
  };
  // Unit fixtures never read git: what the live revision itself contains is part of
  // the fixture, and a test that needs different bytes supplies its own function.
- return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',isCurrent:()=>true,readAuditSource:()=>auditSource,treeAtRevision:()=>new Map([['cases/a.md',blobHash('original')]])},published,respond};
+ return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',changeList:{known:true,entries:[]},isCurrent:()=>true,readAuditSource:()=>auditSource,treeAtRevision:()=>new Map([['cases/a.md',blobHash('original')]])},published,respond};
 }
 
 test('facet publication waits through a 40-minute mixed-corpus deployment using the shared window',async t=>{
@@ -288,11 +288,9 @@ test('a published build that does not descend from this push is rejected',async 
 });
 
 test('a newer build cannot be verified when the push base is unknown',async t=>{
- const {run}=supersededFixture(t);
- await assert.rejects(run({isDescendant:()=>true,changeList:{known:false,entries:[]}}),error=>{
-  assert.match(error.cause.message,/without knowing what this push changed/);
-  return true;
- });
+ const {run,clock}=supersededFixture(t);
+ await assert.rejects(run({isDescendant:()=>true,changeList:{known:false,entries:[]}}),/without knowing what this push changed/);
+ assert.equal(clock(),0,'missing immutable change inputs cannot improve by polling Pages');
 });
 
 test('a push that published no file still needs a live build faithful to its revision',async t=>{
@@ -407,6 +405,84 @@ test('a deleted runtime asset must be gone from the live site',async t=>{
  let brokenClock=0;
  await assert.rejects(waitForPublishedVersion({...options,changeList,root,fetchAsset:broken,isDescendant:()=>true,treeAtRevision:emptyTree,now:()=>brokenClock,sleep:async ms=>{brokenClock+=ms;}}),error=>{
   assert.match(error.cause.message,/Cannot confirm a deleted asset is gone \(HTTP 500\): assets\/old\.css/);
+  return true;
+ });
+});
+
+test('an exact release cannot prove deletion when the push base is unknown',async t=>{
+ const {options,respond}=publicationFixture(t);
+ let clock=0;
+ await assert.rejects(waitForPublishedVersion({
+  ...options,changeList:{known:false,entries:[]},fetchAsset:respond,
+  now:()=>clock,sleep:async ms=>{clock+=ms;}
+ }),/without knowing what this push changed/);
+ assert.equal(clock,0,'missing immutable change inputs cannot improve by polling Pages');
+});
+
+test('an omitted change list cannot silently claim an exact publication',async t=>{
+ const {options,respond}=publicationFixture(t);
+ const {changeList,...withoutChanges}=options;
+ let clock=0;
+ await assert.rejects(waitForPublishedVersion({
+  ...withoutChanges,fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}
+ }),/without knowing what this push changed/);
+ assert.equal(clock,0);
+});
+
+for(const file of ['assets/retired.js','templates/retired.md']){
+ test('an exact release rejects a deleted URL that still serves content: '+file,async t=>{
+  const {options,respond}=publicationFixture(t);
+  let clock=0;
+  const fetchAsset=url=>url.pathname==='/project/'+file
+   ?Promise.resolve({ok:true,status:200,body:{cancel:async()=>{}}})
+   :respond(url);
+  await assert.rejects(waitForPublishedVersion({
+   ...options,changeList:{known:true,entries:[{status:'D',path:file}]},
+   fetchAsset,now:()=>clock,sleep:async ms=>{clock+=ms;}
+  }),error=>{
+   assert.match(error.cause.message,/A deleted asset is still published/);
+   return true;
+  });
+  assert.equal(clock,PUBLICATION_TIMEOUT_MS);
+ });
+ test('an exact release requires explicit absence, not a server error: '+file,async t=>{
+  const {options,respond}=publicationFixture(t);
+  const changeList={known:true,entries:[{status:'D',path:file}]};
+  for(const status of [503,404,410]){
+   let clock=0;
+   const fetchAsset=url=>url.pathname==='/project/'+file
+    ?Promise.resolve({ok:false,status,body:{cancel:async()=>{}}})
+    :respond(url);
+   const run=()=>waitForPublishedVersion({...options,changeList,fetchAsset,now:()=>clock,sleep:async ms=>{clock+=ms;}});
+   if(status===503){
+    await assert.rejects(run(),error=>{
+     assert.match(error.cause.message,/Cannot confirm a deleted asset is gone \(HTTP 503\)/);
+     return true;
+    });
+    assert.equal(clock,PUBLICATION_TIMEOUT_MS);
+   }else{
+    assert.equal((await run()).mode,'exact');
+    assert.equal(clock,0);
+   }
+  }
+ });
+}
+
+test('an exact renamed template waits for the old URL to disappear while checking the new bytes',async t=>{
+ const {publicationChangeList}=require('../scripts/published-check.cjs');
+ const {options,published,respond}=publicationFixture(t);
+ const changeList=publicationChangeList('a'.repeat(40),'b'.repeat(40),()=> 'R100\ttemplates/retired.md\ttemplates/case.md\n');
+ let clock=0;
+ const fetchAsset=url=>url.pathname==='/project/templates/retired.md'
+  ?Promise.resolve({ok:clock<10000,status:clock<10000?200:410,body:{cancel:async()=>{}}})
+  :respond(url);
+ const run=()=>waitForPublishedVersion({...options,root:options.built,changeList,fetchAsset,now:()=>clock,sleep:async ms=>{clock+=ms;}});
+ const result=await run();
+ assert.equal(result.mode,'exact');
+ assert.equal(clock,10000,'matching new bytes alone cannot prove the rename has published');
+ published['templates/case.md']='stale replacement instructions';
+ await assert.rejects(run(),error=>{
+  assert.match(error.cause.message,/Product asset mismatch/);
   return true;
  });
 });

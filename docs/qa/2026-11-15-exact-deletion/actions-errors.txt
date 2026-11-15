@@ -1,0 +1,126 @@
+RUN https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43659142852
+2026-11-15T00:39:23.0978508Z   ...
+2026-11-15T00:39:23.0979505Z # Subtest: all 520 cases in corpus have 方法與步驟 shortcut and at least one copyable section
+2026-11-15T00:39:23.0980463Z not ok 323 - all 520 cases in corpus have 方法與步驟 shortcut and at least one copyable section
+2026-11-15T00:39:23.0980817Z   ---
+2026-11-15T00:39:23.0981173Z   duration_ms: 2.34461
+2026-11-15T00:39:23.0981518Z   type: 'test'
+2026-11-15T00:39:23.0982399Z   location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/method-and-prompt-alignment.test.cjs:26:1'
+2026-11-15T00:39:23.0983324Z   failureType: 'testCodeFailure'
+2026-11-15T00:39:23.0983696Z   error: |-
+2026-11-15T00:39:23.0984104Z     Corpus must have 520 cases
+2026-11-15T00:39:23.0984441Z     
+2026-11-15T00:39:23.0984837Z     522 !== 520
+2026-11-15T00:39:23.0985172Z     
+2026-11-15T00:39:23.0985569Z   code: 'ERR_ASSERTION'
+2026-11-15T00:39:23.0985926Z   name: 'AssertionError'
+2026-11-15T00:39:23.0986296Z   expected: 520
+2026-11-15T00:39:23.0986656Z   actual: 522
+2026-11-15T00:39:23.0987042Z   operator: 'strictEqual'
+2026-11-15T00:39:23.0987392Z   stack: |-
+2026-11-15T00:39:23.0988444Z     TestContext.<anonymous> (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/method-and-prompt-alignment.test.cjs:29:10)
+2026-11-15T00:39:23.0988992Z     Test.runInAsyncScope (node:async_hooks:214:14)
+2026-11-15T00:39:23.0989528Z     Test.run (node:internal/test_runner/test:1047:25)
+2026-11-15T00:39:23.0990199Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+2026-11-15T00:39:23.0990755Z     Test.postRun (node:internal/test_runner/test:1173:19)
+2026-11-15T00:39:23.0991281Z     Test.run (node:internal/test_runner/test:1101:12)
+2026-11-15T00:39:23.0991969Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-11-15T00:39:23.0992338Z   ...
+2026-11-15T00:39:23.0993383Z # Subtest: method shortcut preserves the full untested heading and original index
+2026-11-15T00:39:23.0994163Z ok 324 - method shortcut preserves the full untested heading and original index
+2026-11-15T00:39:23.0994549Z   ---
+2026-11-15T00:39:23.1308867Z   ...
+2026-11-15T00:39:23.1309964Z # Subtest: all 524 library markdown files provide copy actions for prompt/command headings and exclude source/supplement headings
+2026-11-15T00:39:23.1311026Z not ok 397 - all 524 library markdown files provide copy actions for prompt/command headings and exclude source/supplement headings
+2026-11-15T00:39:23.1314332Z   ---
+2026-11-15T00:39:23.1314635Z   duration_ms: 7.065102
+2026-11-15T00:39:23.1314920Z   type: 'test'
+2026-11-15T00:39:23.1315587Z   location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/prompt-copy.test.cjs:64:1'
+2026-11-15T00:39:23.1315930Z   failureType: 'testCodeFailure'
+2026-11-15T00:39:23.1316206Z   error: |-
+2026-11-15T00:39:23.1316583Z     Expected values to be strictly equal:
+2026-11-15T00:39:23.1316839Z     
+2026-11-15T00:39:23.1317110Z     526 !== 524
+2026-11-15T00:39:23.1317374Z     
+2026-11-15T00:39:23.1317663Z   code: 'ERR_ASSERTION'
+2026-11-15T00:39:23.1317998Z   name: 'AssertionError'
+2026-11-15T00:39:23.1318329Z   expected: 524
+2026-11-15T00:39:23.1318613Z   actual: 526
+2026-11-15T00:39:23.1318946Z   operator: 'strictEqual'
+2026-11-15T00:39:23.1319268Z   stack: |-
+2026-11-15T00:39:23.1320075Z     TestContext.<anonymous> (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/prompt-copy.test.cjs:75:9)
+2026-11-15T00:39:23.1320509Z     Test.runInAsyncScope (node:async_hooks:214:14)
+2026-11-15T00:39:23.1320940Z     Test.run (node:internal/test_runner/test:1047:25)
+2026-11-15T00:39:23.1321530Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+2026-11-15T00:39:23.1322001Z     Test.postRun (node:internal/test_runner/test:1173:19)
+2026-11-15T00:39:23.1322456Z     Test.run (node:internal/test_runner/test:1101:12)
+2026-11-15T00:39:23.1323239Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-11-15T00:39:23.1323582Z   ...
+2026-11-15T00:39:23.1324589Z # Subtest: an unfinished Pages run is not a verdict, and a rerun supersedes an earlier failure
+2026-11-15T00:39:23.1325397Z ok 398 - an unfinished Pages run is not a verdict, and a rerun supersedes an earlier failure
+2026-11-15T00:39:23.1325693Z   ---
+2026-11-15T00:39:34.7484724Z   ...
+2026-11-15T00:39:34.7485062Z 1..760
+2026-11-15T00:39:34.7485379Z # tests 760
+2026-11-15T00:39:34.7485684Z # suites 0
+2026-11-15T00:39:34.7486022Z # pass 758
+2026-11-15T00:39:34.7486343Z # fail 2
+2026-11-15T00:39:34.7486655Z # cancelled 0
+2026-11-15T00:39:34.7486993Z # skipped 0
+2026-11-15T00:39:34.7487296Z # todo 0
+2026-11-15T00:39:34.7487665Z # duration_ms 23520.444183
+2026-11-15T00:39:34.7578006Z ##[error]Process completed with exit code 1.
+2026-11-15T00:39:34.7695334Z ##[group]Run actions/upload-artifact@v4
+2026-11-15T00:39:34.7707129Z with:
+2026-11-15T00:39:34.7707519Z   name: website-qa-b786f0be1e582b54f6d2e4b56680bf12deade98b
+2026-11-15T00:39:34.7707878Z   path: qa-artifacts/
+2026-11-15T00:39:34.7708117Z   retention-days: 14
+2026-11-15T00:39:34.7708337Z   if-no-files-found: warn
+2026-11-15T00:39:34.7708782Z   compression-level: 6
+2026-11-15T00:39:34.7708992Z   overwrite: false
+2026-11-15T00:39:34.7709202Z   include-hidden-files: false
+2026-11-15T00:39:34.7709437Z ##[endgroup]
+RUN https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43634859717
+2026-11-14T19:58:41.6321782Z   ...
+2026-11-14T19:58:41.6321955Z 1..757
+2026-11-14T19:58:41.6322151Z # tests 757
+2026-11-14T19:58:41.6322439Z # suites 0
+2026-11-14T19:58:41.6322612Z # pass 757
+2026-11-14T19:58:41.6322783Z # fail 0
+2026-11-14T19:58:41.6322980Z # cancelled 0
+2026-11-14T19:58:41.6323163Z # skipped 0
+2026-11-14T19:58:41.6323340Z # todo 0
+2026-11-14T19:58:41.6323544Z # duration_ms 18179.6106
+2026-11-14T19:58:41.7129088Z ##[group]Run python3 scripts/preview.py "$RUNNER_TEMP/preview-after/ai-agent-use-cases"
+2026-11-14T19:58:41.7129637Z [36;1mpython3 scripts/preview.py "$RUNNER_TEMP/preview-after/ai-agent-use-cases"[0m
+2026-11-14T19:58:41.7130083Z [36;1mpython3 -m http.server 8081 --directory "$RUNNER_TEMP/preview-after" > /tmp/site-after.log 2>&1 &[0m
+2026-11-14T19:58:41.7130445Z [36;1mnode tests/discovery-browser.cjs[0m
+2026-11-14T19:58:41.7130819Z [36;1mREDESIGN_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/visual-redesign-browser.cjs[0m
+2026-11-14T19:58:41.7131284Z [36;1mROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/results-batching-browser.cjs[0m
+2026-11-14T19:58:41.7131746Z [36;1mROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/search-submit-history-browser.cjs[0m
+2026-11-14T19:58:41.7132214Z [36;1mVERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/visitor-problem-browser.cjs[0m
+2026-11-14T19:58:41.7132741Z [36;1mVERIFY_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/mobile-problem-tags-browser.cjs[0m
+2026-11-14T19:58:41.7133203Z [36;1mROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/compound-split-browser.cjs[0m
+2026-11-14T19:58:41.7133642Z [36;1mROUND_URL=http://127.0.0.1:8081/ai-agent-use-cases/ node tests/sentence-fallback-browser.cjs[0m
+2026-11-14T20:07:57.6749726Z ]
+2026-11-14T20:08:02.3880915Z EMPTY_WORD_RECOVERY [{"viewport":"desktop","wordCount":12,"steps":[{"query":"機票","text":"原問題包含「機票」 → 搜尋 12 筆"},{"query":"價格","text":"原問題包含「價格」 → 搜尋 106 筆"},{"query":"想讓 ai 機票 比價","text":"只移除關鍵字「盯」 → 查看 1 筆"}]},{"viewport":"mobile","wordCount":12,"steps":[{"query":"機票","text":"原問題包含「機票」 → 搜尋 12 筆"},{"query":"價格","text":"原問題包含「價格」 → 搜尋 106 筆"},{"query":"想讓 ai 機票 比價","text":"只移除關鍵字「盯」 → 查看 1 筆"}]}]
+2026-11-14T20:08:10.3636225Z AssertionError [ERR_ASSERTION]: phone: the entry waits while the search field is on screen
+2026-11-14T20:08:10.3636909Z 
+2026-11-14T20:08:10.3637007Z false !== true
+2026-11-14T20:08:10.3637143Z 
+2026-11-14T20:08:10.3637477Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/refine-from-results-browser.cjs:96:14 {
+2026-11-14T20:08:10.3637975Z   generatedMessage: false,
+2026-11-14T20:08:10.3638217Z   code: 'ERR_ASSERTION',
+2026-11-14T20:08:10.3638440Z   actual: false,
+2026-11-14T20:08:10.3638642Z   expected: true,
+2026-11-14T20:08:10.3639765Z   operator: 'strictEqual',
+2026-11-14T20:08:10.3640003Z   diff: 'simple'
+2026-11-14T20:08:10.3640198Z }
+2026-11-14T20:08:10.3790226Z ##[error]Process completed with exit code 1.
+2026-11-14T20:08:10.3862419Z ##[group]Run actions/upload-artifact@v4
+2026-11-14T20:08:10.3862628Z with:
+2026-11-14T20:08:10.3862831Z   name: website-qa-2138f4d49b0c8645d145f0d23549c4ffc75121c5
+2026-11-14T20:08:10.3863081Z   path: qa-artifacts/
+2026-11-14T20:08:10.3863245Z   retention-days: 14
+2026-11-14T20:08:10.3863412Z   if-no-files-found: warn
+2026-11-14T20:08:10.3863603Z   compression-level: 6

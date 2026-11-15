@@ -1,0 +1,85 @@
+✔ a tool listed on a card is mentioned by the page itself, not only by a source address (179.6045ms)
+✔ a source address alone does not produce a tool, a sentence about the tool does (3.821667ms)
+✔ cases whose only GitHub contact is a link to their own research repository (43.844875ms)
+✖ disclaimers, deduplication contrasts, and relative case links do not produce tool tags (3.813041ms)
+✖ corpus cases with scope disclaimers or deduplication links list only tools actually used (34.329667ms)
+✖ the 提及工具 facet still explains what it counts and excludes disclaimers (0.984042ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 3
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 321.076125
+
+✖ failing tests:
+
+test at tests/tool-mention-fidelity.test.cjs:85:1
+✖ disclaimers, deduplication contrasts, and relative case links do not produce tool tags (3.813041ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'Grok Bot',
+      'Meta Muse',
+  +   'ChatGPT dots',
+  +   'Cursor',
+  +   'Facebook'
+    ]
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r5/tests/tool-mention-fidelity.test.cjs:95:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Grok Bot', 'Meta Muse', 'ChatGPT dots', 'Cursor', 'Facebook' ],
+    expected: [ 'Meta Muse' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/tool-mention-fidelity.test.cjs:98:1
+✖ corpus cases with scope disclaimers or deduplication links list only tools actually used (34.329667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'Grok Bot',
+      'Meta Muse',
+  +   'ChatGPT dots'
+    ]
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r5/tests/tool-mention-fidelity.test.cjs:105:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Grok Bot', 'Meta Muse', 'ChatGPT dots' ],
+    expected: [ 'Meta Muse' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/tool-mention-fidelity.test.cjs:133:1
+✖ the 提及工具 facet still explains what it counts and excludes disclaimers (0.984042ms)
+  AssertionError [ERR_ASSERTION]: the facet hint must disclose that non-extrapolation disclaimers are excluded
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261114-r5/tests/tool-mention-fidelity.test.cjs:137:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: `/* No external scripts, analytics, API tokens, or build dependencies. */\n'use strict';\nconst REPO_ROOT = 'https://github.com/RichardHan/ai-agent-use-cases/blob/';\nconst pinnedSources = new Map();\nfunction sourceRevisionFor(path) { return pinnedSources.get(path) || ''; }\nfunction pinSourcePaths(paths, revision) {\n  if(typeof revision !== 'string' || !/^[a-f0-9]{40}$/i.test(revision))return;\n  for(const path of paths)pinnedSources.set(path,revision.toLowerCase());\n}\nfunction sourceMarkdownUrl(path) { return REPO_ROOT + (sourceRevisionFor(path) || 'main') + '/' + path; }\nfunction sourceVersionNote(path) {\n  const revision=sourceRevisionFor(path);\n  return revision ? 'GitHub 原始 Markdown 固定於本站發布版本 '+revision.slice(0,7)+'；外部來源仍須另行核對。' : '尚未核對本站發布版本，無法保證 GitHub 原文與目前閱讀內容相同；可先閱讀下方保留的原文，或自行比對 GitHub 最新版本。';\n}\nfunction refreshCurrentSourceLinks(path) {\n  if(!globalThis.document || !currentDetailItem || currentDetailItem.path!==path || !document.querySelector('#detail[open]'))return;\n  const body=document.querySelector('#detail-body');\n  const source=body?.querySelector('.detail-source'),note=body?.querySelector('.detail-source-version');\n  if(source) {\n    if(sourceRevisionFor(path)) { source.href=sourceMarkdownUrl(path); source.removeAttribute('aria-disabled'); source.removeAttribute('tabindex'); }\n    else { source.removeAttribute('href'); source.setAttribute('aria-disabled','true'); source.tabIndex=0; }\n  }\n  if(note)note.textContent=sourceVersionNote(path);\n  const latest=body?.querySelector('.detail-source-latest');\n  if(latest) {\n    if(sourceRevisionFor(path) && document.activeElement===latest)source?.focus({preventScroll:true});\n    latest.hidden=!!sourceRevisionFor(path);\n  }\n  for(const link of body?.querySelectorAll('a[data-source-relative]')||[]) {\n    const href=safeLink(link.getAttribute('data-source-relative'),path);\n    if(href) { link.href=href; link.removeAttribute('aria-disabled'); link.removeAttribute('tabindex'); }\n  }\n}\nconst KIND = {case:'用法靈感', evidence:'經驗與踩坑', pending:'待查線索'};\nconst PROOF_DEFINITIONS = globalThis.PROOF_DEFINITIONS = {\n  '官方自報': '官方或原廠團隊（含其員工）第一手發布的自述、示範或能力說明，未經第三方獨立驗證；發布者可能有產品推廣利益。',\n  '作者報告／示範': '社群作者公開分享的操作紀錄與示範；實際產物、完整過程與成效仍須逐案核對，本庫未取得獨立代碼庫驗證。',\n  '設計／未實跑': '作者自行設計或分享的提示詞與流程，未附執行結果；本庫未實跑，也沒有成效可核。',\n  '公開資料核讀': '依公開貼文、文章或報告核讀整理，本庫未重現完整流程。',\n  '模板／文件核讀': '基於開源模板、規格書或文件梳理，文件列出功能不代表已實測完成。',\n  '尚待查證': '社群線索或待辦想法，證據尚不充分，請勿直接照做。'\n};\nconst PROOF_CLAIMANTS = globalThis.PROOF_CLAIMANTS = {\n  '官方自報': '官方團隊／原廠自述',\n  '作者報告／示範': '社群作者／專案實踐者',\n  '設計／未實跑': '提示詞設計者（未提供執行結果）',\n  '公開資料核讀': '公開專案／原始文件（作者自行公布）',\n  '模板／文件核讀': '開源模板／規格文件',\n  '尚待查證': '社群線索（尚未證實）'\n};\nconst PROOF_VERIFICATION_STATUS = globalThis.PROOF_VERIFICATION_STATUS = {\n  '官方自報': '未經第三方獨立實測重現；請留意原廠展示通常在理想環境下進行。',\n  '作者報告／示範': '本庫未於本機獨立重現代碼或流程；請留意作者個人環境與版本差異。',\n  '設計／未實跑': '來源沒有執行結果或操作紀錄可核；只能核對提示詞與流程設計，不能當成已驗證做法。',\n  '公開資料核讀': '本庫依公開文件與貼文核讀整理，未取得端對端實跑或成效驗證。',\n  '模板／文件核讀': '規格書或開源模板列出功能，不等於已經過完整實跑與邊界驗證。',\n  '尚待查證': '證據尚不充分，未列成功案例；請勿在正式工作或金流中直接採用。'\n};\n// The detail header states the same attribution and verification boundary as\n// the full proof note further down, so a shared link can be judged without a\n// scroll. Keep these short forms faithful to PROOF_VERIFICATION_STATUS.\nconst PROOF_STATUS_SHORT = globalThis.PROOF_STATUS_SHORT = {\n  '官方自報': '未經第三方獨立重現',\n  '作者報告／示範': '本庫未獨立重現',\n  '設計／未實跑': '未實跑，無成效可核',\n  '公開資料核讀': '未端對端驗證',\n  '模板／文件核讀': '文件功能未實測',\n  '尚待查證': '證據不足，未列成功案例'\n};\nconst PROOF_SAFE_ADOPTION_TIP = globalThis.PROOF_SAFE_ADOPTION_TIP = {\n  '官方自報': '安全採用建議（落地三層防護）：① 建議試跑：在官方沙盒或隔離測試環境驗證相容性；② 禁止動作：嚴禁未經確認自動寫入正式生產系統或授權對外操作；③ 必經審核：對關鍵系統狀態變更與權限調整保留人工覆核。',\n  '作者報告／示範': '安全採用建議（落地三層防護）：① 建議試跑：使用合成資料或做足資料去敏在受控環境小規模試跑；② 禁止動作：嚴禁未經確認自動對外寄信、扣款付款或直接寫入生產資料庫；③ 必經審核：對重要決策、金流支付、外部發布與招募判定保留人工審批。',\n  '設計／未實跑': '安全採用建議（落地三層防護）：① 建議試跑：只在隔離環境用假資料試提示詞，先確認它真的會停下來問人；② 禁止動作：不要直接接到寄信、扣款、改權限或刪除資料等動作；③ 必經審核：任何要改動正式設定的流程，都由人工逐項核准與回滾演練。',\n  '公開資料核讀': '安全採用建議（落地三層防護）：① 建議試跑：先查閱原始出處與最新規格，以草稿或唯讀模式驗證；② 禁止動作：切勿依賴靜態或歷史筆記直接執行未驗證的系統寫入或付款；③ 必經審核：關鍵商務依據與技術版本需由專人核對原始出處後放行。',\n  '模板／文件核讀': '安全採用建議（落地三層防護）：① 建議試跑：以小規模非敏感資料驗證提示詞與模型輸出穩定度；② 禁止動作：嚴禁直接把通用模板串接外部寄信、扣款或未經審核的發布流程；③ 必經審核：產出成果必須經人工審批校對後方可採用。',\n  '尚待查證': '安全採用建議（落地三層防護）：① 建議試跑：僅供概念構想參考，限於本機離線與虛擬假資料探討；② 禁止動作：切勿用於任何正式環境、金流交易、個資處理或對外自動化；③ 必經審核：未完成獨立查證前禁止進入任何實務評估或部署。'\n};\n// A case can declare more than one evidence class. Show every chip the page\n// header names, and keep the primary chip's visible text identical to the\n// filter value so colour, wording and counts stay the same vocabulary.\n// A class can be declared while the page also states the library never read the\n// original. The class still names who makes the claim, so the badge keeps the\n// same visible text (and the same filter value), and the acquisition route is\n// stated beside it instead of being implied by the badge alone.\n// Two classes can carry a relayed acquisition route, and each needs its own\n// sentence: an official claim read through someone else's account is a different\n// admission from an author's experience read through an interview summary.\nconst PROOF_PROVENANCE = globalThis.PROOF_PROVENANCE = {\n  '官方自報': {\n    badge: '官方內容經轉述或僅讀說明欄，本庫未完整核讀官方原文',\n    claimant: '（官方內容經第三人轉述）',\n    note: '本庫取得方式：案例頁說明官方或產品員工內容經第三方轉述、由訪談主持人整理，或本庫只讀到影片說明與第三人整理（例如未觀看完整影片、未開啟官方頁面）。來源憑據仍記為官方自報，因為成果主張來自官方團隊或其員工；但這不代表本庫完整核讀過官方原文或原始影片，引用前請自行開啟原始來源核對。'\n  },\n  '作者報告／示範': {\n    badge: '作者內容經第三人轉述或僅讀摘要整理，本庫未取得作者原文',\n    claimant: '（作者內容經第三人轉述）',\n    note: '本庫取得方式：案例頁說明作者的使用經驗是由第三人轉述、轉載或摘要整理（含官方公告挑選引用、同事或訪談主持人整理），或本庫只讀到訪談摘要頁、影片轉述而沒有取得作者原文與原始紀錄。來源憑據仍記為作者報告／示範，因為成果主張來自使用者或作者本人；但這不代表本庫讀過作者的原始紀錄，引用前請自行開啟原始來源核對。'\n  }\n};\nfunction proofIsRelayed(item, label) {\n  return !!item && Array.isArray(item.relayedProof) && item.relayedProof.includes(label);\n}\n// The classes whose acquisition route the page itself describes. The card, the\n// first screen and the long note all read this list, so a page can never show the\n// qualifier in one place and a first-hand reading in another.\nfunction relayedProofLabels(item) {\n  if (!item || !Array.isArray(item.relayedProof) || !item.relayedProof.length) return [];\n  const classes = item.proofClasses && item.proofClasses.length ? item.proofClasses : [item.proof];\n  return classes.filter(label => item.relayedProof.includes(label) && PROOF_PROVENANCE[label]);\n}\nfunction provenanceText(item, key, separator = '；') {\n  return relayedProofLabels(item).map(label => PROOF_PROVENANCE[label][key]).filter(Boolean).join(separator);\n}\n// The first screen and the full note speak for the page, so any relayed\n// declaration has to be visible there, not only when it is the primary class.\nfunction caseHasRelayedProof(item) {\n  return !!item && Array.isArray(item.relayedProof) && item.relayedProof.length > 0;\n}\nfunction proofBadges(item) {\n  const classes = item.proofClasses && item.proofClasses.length ? item.proofClasses : [item.proof];\n  return classes.map((label, index) => {\n    const badge = el('span', 'detail-badge proof-badge', label);\n    badge.dataset.proof = label;\n    const relayed = proofIsRelayed(item, label);\n    if (relayed) badge.dataset.proofProvenance = 'relayed';\n    const desc = PROOF_DEFINITIONS[label] || label;\n    badge.title = desc + (relayed ? '（' + PROOF_PROVENANCE[label].badge + '）' : '');\n    badge.setAttribute('role', 'note');\n    const prefix = classes.length > 1 ? (index === 0 ? '來源憑據（主要）：' : '來源憑據（同案宣告）：') : '來源憑據：';\n    badge.setAttribute('aria-label', prefix + label + (relayed ? '，' + PROOF_PROVENANCE[label].badge : '') + '。' + desc);\n    return badge;\n  });\n}\n// The reader needs the whole declaration, not only the class that won the\n// precedence rule. Each line quotes the same dictionaries as the rest of the page.\nfunction declaredClassList(item) {\n  const wrap = el('div', 'proof-note-classes');\n  wrap.append(el('p', 'proof-note-classes-title', '本案例頁首宣告 ' + item.proofClasses.length + ' 類來源：'));\n  const list = el('ul', 'proof-note-class-list');\n  item.proofClasses.forEach((label, index) => {\n    const entry = el('li', 'proof-note-class');\n    const tag = el('span', 'proof-note-class-tag', label);\n    tag.dataset.proof = label;\n    const relayed = proofIsRelayed(item, label);\n    if (relayed) tag.dataset.proofProvenance = 'relayed';\n    entry.append(\n      tag,\n      el('span', 'proof-note-class-detail', (index === 0 ? '主要' : '同案宣告') + '：成果主張 ' + (PROOF_CLAIMANTS[label] || '來源未明')\n        + (relayed ? PROOF_PROVENANCE[label].claimant : '') + '；核讀 ' + (PROOF_STATUS_SHORT[label] || '未獨立重現'))\n    );\n    list.append(entry);\n  });\n  wrap.append(list);\n  return wrap;\n}\nconst SCENARIO_TARGET_USERS = globalThis.SCENARIO_TARGET_USERS = {\n  '生活': '想用 AI 簡化日常生活瑣事、旅行規劃或家庭事項安排的讀者',\n  '工作': '想藉助 AI 提升日常行政、客服、行銷或營運效率的職場工作者',\n  '省錢': '關注訂閱管理、帳單核對、比價採購與成本節省的精打細算者',\n  '學習': '進行自主學習、文獻整理、研究探索或跨領域吸收的求知者',\n  '創作': '從事文案撰寫、內容產出、視覺設計或影音製作的創作者',\n  '開發': '工程師、程式開發者、技術架構師或自動化流程建構者'\n};\n// A page's own "- 目標使用者" line and this library's scenario-level persona are\n// different claims by different people. Keep the wording, heading and provenance\n// in one place so a card and the reader cannot disagree about who said it.\nfunction targetUserView(item) {\n  if (item.targetUser) return {\n    source: 'declared',\n    heading: '適合對象',\n    label: '👤 適合對象：',\n    text: item.targetUser,\n    note: '案例頁自行宣告適合對象；本庫未另外驗證。'\n  };\n  const scenario = item.scenario;\n  const fallback = SCENARIO_TARGET_USERS[scenario];\n  if (!fallback) return null;\n  return {\n    source: 'scenario',\n    heading: '情境常見讀者',\n    label: '👤 情境常見讀者：',\n    text: fallback,\n    note: '案例頁未宣告適合對象；以上是本庫依「' + scenario + '」情境整理的常見讀者，不是這篇案例作者的說法。'\n  };\n}\n// 219 pages declare "- 核心目標" and a few older ones declare the same thing as\n// "- 目標" or "- 問題". The rest declare nothing: 47 of them state the problem\n// under a "## 問題…" section instead. Naming which of the three a page is keeps\n// the card and the reader from implying a goal the page never wrote, and stops\n// the absence from looking like "this case has no problem worth stating".\nfunction problemSectionHeading(markdown) {\n  // Headings inside fenced examples`... 327241 more characters,
+    expected: /不推定/,
+    operator: 'match'
+  }

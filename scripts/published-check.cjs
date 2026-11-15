@@ -43,7 +43,18 @@ function skipIfSupersededPublishedUrl(url,isCurrent=isCurrentMainCommit){
 
 // Files whose exact bytes a visitor can receive. When main has already moved on
 // to a newer commit, these are the only bytes this push can still be judged on.
-const PUBLISHABLE_FILE=/^(?:assets\/[A-Za-z0-9._-]+\.(?:js|css|json)|index\.html|(?:INDEX|README|README-archive-2026-10-18)\.md|templates\/[A-Za-z0-9_-]+\.md|cases\/[A-Za-z0-9_-]+\.md|evidence\/[A-Za-z0-9_-]+\.md|sources\/pending\.md)$/;
+// Every published source/research note is included: they are served both raw and
+// rendered, and a source-only push must not be mistaken for a no-op.
+const PUBLISHABLE_FILE=/^(?:assets\/[A-Za-z0-9._-]+\.(?:js|css|json)|index\.html|(?:INDEX|README|README-archive-2026-10-18)\.md|templates\/[A-Za-z0-9_-]+\.md|cases\/[A-Za-z0-9._-]+\.md|evidence\/[A-Za-z0-9._-]+\.md|sources\/(?!\.|_)[A-Za-z0-9._-]+\.md)$/;
+// The subset that is always read from the build and polled as a served asset.
+// Source research notes are fetched only when this push changed one, so the gate
+// does not poll all 293 of them on every attempt.
+const SERVED_FILE=/^(?:assets\/[A-Za-z0-9._-]+\.(?:js|css|json)|index\.html|(?:INDEX|README|README-archive-2026-10-18)\.md|templates\/[A-Za-z0-9_-]+\.md|cases\/[A-Za-z0-9._-]+\.md|evidence\/[A-Za-z0-9._-]+\.md|sources\/pending\.md)$/;
+// Sources carried inside corpus.json. Their bytes are checked against the corpus
+// bundle as well as the published file, so they keep a distinct contract.
+const BUNDLED_SOURCE=/^(?:cases|evidence)\/[A-Za-z0-9._-]+\.md$|^sources\/pending\.md$/;
+// Source ledgers are served as individual files but are not in the corpus bundle.
+const STATIC_DOCUMENT=/^sources\/(?!\.|_)[A-Za-z0-9._-]+\.md$/;
 
 // `git diff --name-status` uses tabs and prints two paths for copies and renames.
 // The old path left the site, so a rename is verified as "new bytes present, old
@@ -127,4 +138,4 @@ function blobHash(bytes){
  return require('node:crypto').createHash('sha1').update('blob '+buffer.length+'\0').update(buffer).digest('hex');
 }
 
-module.exports={isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf,treeAtRevision,blobHash,PUBLISHABLE_FILE};
+module.exports={isCurrentMainCommit,shouldCheckPublishedSha,skipIfSupersededPublishedUrl,publicationChangeList,parseNameStatus,isDescendantOf,treeAtRevision,blobHash,PUBLISHABLE_FILE,SERVED_FILE,BUNDLED_SOURCE,STATIC_DOCUMENT};

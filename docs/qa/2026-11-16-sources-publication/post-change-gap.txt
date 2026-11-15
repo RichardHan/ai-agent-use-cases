@@ -1,0 +1,44 @@
+{
+  "known": true,
+  "entries": [
+    {
+      "status": "M",
+      "path": "sources/research-2026-10-24-0410.md"
+    },
+    {
+      "status": "M",
+      "path": "sources/README.md"
+    },
+    {
+      "status": "M",
+      "path": "sources/pending.md"
+    },
+    {
+      "status": "M",
+      "path": "cases/001-travel-checkout.md"
+    },
+    {
+      "status": "M",
+      "path": "sources/qualification-audit-2026-10-16.md"
+    }
+  ]
+}
+sources/research-2026-10-24-0410.md {
+  publishable: true,
+  served: false,
+  staticDocument: true,
+  bundled: false
+}
+sources/README.md {
+  publishable: true,
+  served: false,
+  staticDocument: true,
+  bundled: false
+}
+sources/pending.md {
+  publishable: true,
+  served: true,
+  staticDocument: true,
+  bundled: true
+}
+unpublished underscore: false

@@ -1,0 +1,21 @@
+Checked: 2026-11-15T20:01:56Z
+origin/main: 74e96d2c42df0066c8c6059938af296d7f38f173
+
+43752813635	pages build and deployment	completed	success	dynamic	main	74e96d2c	2026-11-15T19:30:38Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43752813635
+43752556216	pages build and deployment	completed	success	dynamic	main	7d0d95a6	2026-11-15T19:27:51Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43752556216
+43751269040	Website QA	completed	success	push	main	e74c7509	2026-11-15T19:14:06Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43751269040
+43751268102	pages build and deployment	completed	success	dynamic	main	e74c7509	2026-11-15T19:14:05Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43751268102
+43750054228	Audit summary round QA	completed	success	pull_request	improve/2026-11-16-rendered-case-context	9ae821ac	2026-11-15T19:01:40Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054228
+43750054200	Reading flow QA	completed	success	pull_request	improve/2026-11-16-rendered-case-context	9ae821ac	2026-11-15T19:01:39Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054200
+43750054189	Find reader sections QA	completed	success	pull_request	improve/2026-11-16-rendered-case-context	9ae821ac	2026-11-15T19:01:39Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054189
+43750054181	Missing shared case QA	completed	success	pull_request	improve/2026-11-16-rendered-case-context	9ae821ac	2026-11-15T19:01:39Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054181
+43750054156	Related reading QA	completed	success	pull_request	improve/2026-11-16-rendered-case-context	9ae821ac	2026-11-15T19:01:39Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054156
+43750054138	Corpus bundle QA	completed	success	pull_request	improve/2026-11-16-rendered-case-context	9ae821ac	2026-11-15T19:01:39Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054138
+43750054097	Round 23 acceptance QA	completed	success	pull_request	improve/2026-11-16-rendered-case-context	9ae821ac	2026-11-15T19:01:39Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054097
+43750054053	Source guide QA	completed	success	pull_request	improve/2026-11-16-rendered-case-context	9ae821ac	2026-11-15T19:01:39Z	https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43750054053
+
+live catalog:
+{"sourceRevision":"74e96d2c42df0066c8c6059938af296d7f38f173","builtAt":"2026-11-15","fileCount":526}
+sources page HTTP:
+sources/ 200 text/html; charset=utf-8
+sources/README.md 200 text/markdown; charset=utf-8

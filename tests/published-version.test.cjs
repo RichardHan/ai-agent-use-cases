@@ -5,6 +5,11 @@ const {sameContent,reportWorkflowResult,waitForPublishedVersion}=require('./publ
 const {blobHash}=require('../scripts/published-check.cjs');
 const {PUBLICATION_TIMEOUT_MS}=require('../scripts/published-assets.cjs');
 const build=(revision,markdown='original')=>({catalog:{bundleRevision:revision,files:['cases/a.md']},corpus:{version:1,revision,sources:[{path:'cases/a.md',markdown}]}});
+const SOURCE_LEDGER='sources/research-2026-10-24-0410.md';
+const SOURCE_LEDGERS=[
+ {path:SOURCE_LEDGER,bytes:'original research'},
+ {path:'sources/README.md',bytes:'original source hub'}
+];
 test('independently built identical releases accept different timestamps',()=>assert(sameContent(build('local'),build('published'))));
 test('mixed publication revisions are rejected',()=>{const remote=build('remote');remote.corpus.revision='older';assert(!sameContent(build('local'),remote));});
 test('changed, missing and duplicate sources are rejected',()=>{
@@ -39,6 +44,8 @@ function publicationFixture(t){
   'index.html':page,'assets/app.js':'app','assets/style.css':'style','assets/reader.js':'reader','assets/reader.css':'reader style',
   'assets/copy.json':'{}','assets/discovery.js':'discovery','assets/audit.js':'audit',
   'README.md':'original','README-archive-2026-10-18.md':'original','INDEX.md':'original','templates/case.md':'original',
+  'sources/research-2026-10-24-0410.md':'original research',
+  'sources/README.md':'original source hub',
   'INDEX.html':page,'cases/001-travel-checkout.html':page,'sources/qualification-audit-2026-10-16.html':page,
   'audit-summary.json':auditSummary,
   'catalog.json':JSON.stringify(local.catalog),'corpus.json':JSON.stringify(local.corpus)
@@ -173,6 +180,101 @@ function supersededFixture(t,{markdown='original',changedPath='cases/a.md',delet
   published
  };
 }
+
+for(const {path:ledger,bytes:original} of SOURCE_LEDGERS){
+ test('a superseded source ledger change verifies the live bytes against the live revision: '+ledger,async t=>{
+  const fixture=supersededFixture(t,{changedPath:ledger,markdown:'newer research'});
+  fixture.published[ledger]='stale research';
+  await assert.rejects(fixture.run({isDescendant:()=>true}),error=>{
+   assert.match(error.cause.message,/Published asset differs from the live revision newer: /);
+   assert.equal(error.cause.message.includes(ledger),true);
+   return true;
+  });
+  fixture.published[ledger]='newer research';
+  const result=await fixture.run({isDescendant:()=>true});
+  assert.equal(result.mode,'superseded');
+  assert.equal(result.changedVerified,1);
+ });
+
+ test('a deleted source ledger must be absent from the live site: '+ledger,async t=>{
+  const fixture=supersededFixture(t,{changedPath:ledger,deleted:true,atLive:()=>null});
+  let status=200;
+  const fetchAsset=async url=>{
+   const file=url.pathname.slice('/project/'.length)||'index.html';
+   if(file===ledger)return {ok:status===200,status,body:{cancel:async()=>{}}};
+   return {ok:true,arrayBuffer:async()=>Buffer.from(fixture.published[file])};
+  };
+  await assert.rejects(fixture.run({fetchAsset,isDescendant:()=>true}),error=>{
+   assert.match(error.cause.message,/A deleted asset is still published: /);
+   assert.equal(error.cause.message.includes(ledger),true);
+   return true;
+  });
+  assert.equal(fixture.clock(),PUBLICATION_TIMEOUT_MS);
+  for(const absent of [404,410]){
+   status=absent;
+   const result=await fixture.run({fetchAsset,isDescendant:()=>true});
+   assert.equal(result.mode,'superseded');
+   assert.equal(result.changedVerified,1);
+  }
+ });
+}
+
+test('a renamed source ledger verifies the new bytes and the old URL is gone',async t=>{
+ const old='sources/retired-ledger.md',next='sources/current-ledger.md';
+ const fixture=supersededFixture(t,{changedPath:next,markdown:'newer research'});
+ fixture.published[next]='newer research';
+ fs.mkdirSync(path.dirname(path.join(fixture.options.built,next)),{recursive:true});
+ fs.writeFileSync(path.join(fixture.options.built,next),'original');
+ let oldStatus=200;
+ const fetchAsset=async url=>{
+  const file=url.pathname.slice('/project/'.length)||'index.html';
+  if(file===old)return {ok:oldStatus===200,status:oldStatus,body:{cancel:async()=>{}}};
+  return {ok:true,arrayBuffer:async()=>Buffer.from(fixture.published[file])};
+ };
+ const changeList={known:true,entries:[{status:'D',path:old},{status:'R100',path:next}]};
+ await assert.rejects(fixture.run({changeList,fetchAsset,isDescendant:()=>true}),error=>{
+  assert.match(error.cause.message,/A deleted asset is still published: sources\/retired-ledger\.md/);
+  return true;
+ });
+ oldStatus=503;
+ await assert.rejects(fixture.run({changeList,fetchAsset,isDescendant:()=>true}),error=>{
+  assert.match(error.cause.message,/Cannot confirm a deleted asset is gone \(HTTP 503\): sources\/retired-ledger\.md/);
+  return true;
+ });
+ oldStatus=404;
+ const result=await fixture.run({changeList,fetchAsset,isDescendant:()=>true});
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.changedVerified,2);
+ assert.equal(result.carried,0,'the live revision may already have rewritten the new path');
+});
+
+test('a later descendant may remove a source ledger this push changed',async t=>{
+ const fixture=supersededFixture(t,{changedPath:SOURCE_LEDGER,atLive:()=>null});
+ const fetchAsset=async url=>{
+  const file=url.pathname.slice('/project/'.length)||'index.html';
+  if(file===SOURCE_LEDGER)return {ok:false,status:404,body:{cancel:async()=>{}}};
+  return {ok:true,arrayBuffer:async()=>Buffer.from(fixture.published[file])};
+ };
+ const result=await fixture.run({fetchAsset,isDescendant:()=>true});
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.changedVerified,1);
+ assert.equal(result.carried,0);
+ assert.equal(fixture.clock(),0,'a known later deletion settles on the first poll');
+});
+
+test('only changed source ledgers are polled, not the whole sources tree',async t=>{
+ const fixture=supersededFixture(t,{changedPath:SOURCE_LEDGER,markdown:'newer research'});
+ fixture.published[SOURCE_LEDGER]='newer research';
+ const requested=[];
+ const fetchAsset=async url=>{
+  const file=url.pathname.slice('/project/'.length)||'index.html';
+  requested.push(file);
+  return {ok:true,arrayBuffer:async()=>Buffer.from(fixture.published[file])};
+ };
+ const result=await fixture.run({fetchAsset,isDescendant:()=>true});
+ assert.equal(result.status,'matched');
+ assert.deepEqual(requested.filter(file=>/^sources\/.*\.md$/.test(file)),[SOURCE_LEDGER]);
+});
 
 for(const page of ['INDEX.html','cases/001-travel-checkout.html','sources/qualification-audit-2026-10-16.html']){
  test('a superseded release rejects stale generated body: '+page,async t=>{
@@ -580,6 +682,27 @@ test('facet workflow reserves publication time and gates every published consume
  assert.match(workflow,/run: node tests\/published-version\.cjs/);
  assert.match(workflow,/run: python3 scripts\/check_corpus_bundle\.py "\$PUBLISHED_BUILD"/);
 });
+
+for(const {path:ledger,bytes:original} of SOURCE_LEDGERS){
+ test('an exact release rejects a stale source ledger document: '+ledger,async t=>{
+  const {options,published,respond}=publicationFixture(t);
+  const {publicationChangeList}=require('../scripts/published-check.cjs');
+  const changeList=publicationChangeList('a'.repeat(40),'b'.repeat(40),()=>`M\t${ledger}\n`);
+  assert.deepEqual(changeList.entries,[{status:'M',path:ledger}]);
+  published[ledger]='stale research';
+  let clock=0;
+  await assert.rejects(waitForPublishedVersion({...options,changeList,fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
+   assert.match(error.cause.message,/Changed document mismatch: /);
+   assert.match(error.cause.message,new RegExp(ledger.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+   return true;
+  });
+  assert.equal(clock,PUBLICATION_TIMEOUT_MS);
+  published[ledger]=original;
+  const result=await waitForPublishedVersion({...options,changeList,fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}});
+  assert.equal(result.status,'matched');
+  assert.equal(result.mode,'exact');
+ });
+}
 
 for(const file of ['README.md','README-archive-2026-10-18.md','INDEX.md','templates/case.md']){
  test('an exact release rejects stale adoption document '+file,async t=>{

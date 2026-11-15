@@ -6,13 +6,15 @@ const {publicationStatus}=require('../scripts/publication-status.cjs');
 // The assets gate polls every 5s; asking GitHub on every poll would be 720 API
 // calls per merge for an answer that only changes once.
 const DEPLOY_POLL_ROUNDS=12;
-const {publicationChangeList,isDescendantOf,treeAtRevision,blobHash,PUBLISHABLE_FILE}=require('../scripts/published-check.cjs');
+const {publicationChangeList,isDescendantOf,treeAtRevision,blobHash,SERVED_FILE,BUNDLED_SOURCE,STATIC_DOCUMENT}=require('../scripts/published-check.cjs');
 const {pages,checkPageLanguage}=require('../scripts/check-page-language.cjs');
 const {readPublishedPages}=require('../scripts/published-pages.cjs');
 const {createHash}=require('node:crypto');
-const SOURCE_DIR=/^(?:cases|evidence)\/|^sources\/pending\.md$/;
-// Runtime assets and raw adoption documents share the push classifier. Generated
-// JSON/HTML are handled separately: their source blobs are not their served bytes.
+const SOURCE_DIR=BUNDLED_SOURCE;
+// Runtime assets and raw adoption documents share the served-file classifier.
+// Standalone source ledgers are excluded here and fetched only when this push
+// changed one; generated JSON/HTML are handled separately because their source
+// blobs are not their served bytes.
 function servedAssets(built){
  const assets=[];
  for(const folder of ['', 'assets', 'templates']){
@@ -20,7 +22,7 @@ function servedAssets(built){
   if(!fs.existsSync(dir))continue;
   for(const entry of fs.readdirSync(dir,{withFileTypes:true})){
    const file=folder?folder+'/'+entry.name:entry.name;
-   if(entry.isFile()&&PUBLISHABLE_FILE.test(file))assets.push(file);
+   if(entry.isFile()&&SERVED_FILE.test(file))assets.push(file);
   }
  }
  return assets.sort();
@@ -94,7 +96,7 @@ async function verifySupersededPublication({changed,changeList,remote,buffers,as
  }
  let verified=0,carried=0;
  for(const entry of changed){
-  if(!entry.deleted&&!SOURCE_DIR.test(entry.path))assert(assets.includes(entry.path),'Unsupported changed file: '+entry.path);
+  if(!entry.deleted&&!SOURCE_DIR.test(entry.path))assert(assets.includes(entry.path)||STATIC_DOCUMENT.test(entry.path),'Unsupported changed file: '+entry.path);
   const expected=tree.get(entry.path);
   if(expected===undefined){
    // The live revision does not carry the path: this push deleted it, or a later
@@ -156,15 +158,25 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
  const deploySha=expectedSourceRevision||'';
  const deployCheck=deployment||(()=>publicationStatus({sha:deploySha}));
  const assets=servedAssets(built);
- const files=[...assets,'catalog.json','corpus.json','audit-summary.json',...pages.filter(page=>page!=='index.html')];
+ const changed=readChangedBytes(changeList.entries,root);
+ // Source ledgers are not in corpus.json and are too numerous to poll wholesale.
+ // Fetch only the ones this push changed; every other source file is covered by
+ // the repository and by the rendered pages that cite it.
+ const changedDocuments=[...new Set(changed
+  .filter(entry=>!entry.deleted&&STATIC_DOCUMENT.test(entry.path)&&!SOURCE_DIR.test(entry.path)&&!assets.includes(entry.path))
+  .map(entry=>entry.path))];
+ const files=[...assets,...changedDocuments,'catalog.json','corpus.json','audit-summary.json',...pages.filter(page=>page!=='index.html')];
  const buffers=new Map();
- for(const file of files)buffers.set(file,fs.readFileSync(path.join(built,file)));
+ for(const file of files){
+  const builtFile=path.join(built,file);
+  if(!fs.existsSync(builtFile))throw fatalPublicationError('Changed document is missing from the build: '+file);
+  buffers.set(file,fs.readFileSync(builtFile));
+ }
  // `files` already carries INDEX.html and the sampled pages; index.html comes from assets.
  const local={catalog:JSON.parse(buffers.get('catalog.json').toString('utf8')),corpus:JSON.parse(buffers.get('corpus.json').toString('utf8'))};
  const localAudit=JSON.parse(buffers.get('audit-summary.json').toString('utf8'));
  const auditByRevision=new Map();
  const pagesByRevision=new Map();
- const changed=readChangedBytes(changeList.entries,root);
  // Retries repeat every few seconds; the answer for one revision pair cannot change.
  const ancestry=new Map();
  const assertDescendant=(ancestor,descendant)=>{
@@ -241,7 +253,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
      await response.body?.cancel();
      // A later revision may remove a changed raw file. Defer only its explicit
      // absence to the revision-aware comparison; other fetch failures still fail.
-     if((response.status===404||response.status===410)&&assets.includes(file)&&!pages.includes(file)&&changed.some(entry=>entry.path===file))return null;
+     if((response.status===404||response.status===410)&&(assets.includes(file)||changedDocuments.includes(file))&&!pages.includes(file)&&changed.some(entry=>entry.path===file))return null;
      throw Error('HTTP '+response.status+' '+file);
     }
     return Buffer.from(await response.arrayBuffer());
@@ -279,6 +291,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
     // Compare this build here; the newer build uses its trusted Pages artifact.
     for(const page of pages)assert(remoteBuffers.get(page).equals(buffers.get(page)),'Published page differs from this build: '+page);
     assert.deepEqual(remoteAudit,localAudit,'Published audit summary differs from this build');
+    for(const file of changedDocuments)assert(remoteBuffers.get(file)&&blobHash(remoteBuffers.get(file))===blobHash(buffers.get(file)),'Changed document mismatch: '+file);
     // Deleted raw files are absent from the build's asset list. Matching every
     // remaining byte cannot prove their old URLs stopped serving content.
     for(const entry of changed){

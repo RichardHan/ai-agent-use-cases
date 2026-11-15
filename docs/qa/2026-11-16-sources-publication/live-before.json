@@ -1,0 +1,44 @@
+{
+  "checkedAt": "2026-11-16",
+  "liveRevision": "74e96d2c42df0066c8c6059938af296d7f38f173",
+  "engine": "Chromium (headless, 1440x1000 and 390x844)",
+  "scenarios": [
+    {
+      "name": "new visitor without a tool name",
+      "device": "desktop 1440x1000",
+      "query": "我想把會議錄音整理成待辦",
+      "results": 11,
+      "splitMessage": "整句沒有直接命中案例。句中包含站上既有的詞「錄音」＋「待辦」，改以這些詞同時符合搜尋，顯示 11 筆；這是字面比對，不是語意理解，也不代表已驗證。",
+      "firstCase": "UC-511",
+      "openedDetail": true,
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/74e96d2c42df0066c8c6059938af296d7f38f173/cases/511-grok-bot-zoom-meet-teams-structured-notes.md",
+      "sourceLatestHidden": true,
+      "backPreservedQuery": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "name": "empty result and recovery",
+      "device": "mobile 390x844",
+      "url": "?q=%E6%97%85%E9%81%8A&kind=pending#explore",
+      "results": 0,
+      "recoveryAction": "移除收錄狀態「待查線索」 → 查看 36 筆",
+      "recoveredResults": 36,
+      "recoveredUrl": "?q=%E6%97%85%E9%81%8A#explore",
+      "horizontalOverflow": 0
+    },
+    {
+      "name": "shared detail link",
+      "device": "mobile 390x844",
+      "url": "?case=UC-528",
+      "detailOpen": true,
+      "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/74e96d2c42df0066c8c6059938af296d7f38f173/cases/528-two-agents-different-networks-no-key-vs-fake-key-403-diagnosis.md",
+      "sourceLatestHidden": true,
+      "sourceTarget": "_blank",
+      "horizontalOverflow": 0
+    }
+  ],
+  "limits": [
+    "Agent walk-through, not human user research.",
+    "Screenshot image inspection is disabled in this environment; screenshots are saved as artifacts and DOM/geometry values are reported instead."
+  ]
+}

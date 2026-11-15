@@ -4,6 +4,12 @@
 // a link. The SPA does, so without this check the same case can have a clickable
 // source in the drawer and an unclickable one in the server-rendered page.
 //
+// `INDEX.html` also sends readers into `evidence/` (經驗與踩坑) and
+// `sources/pending.html` (待查線索). Those are entries a reader arrives at
+// directly, exactly like a case, so they carry the same way back and the same
+// claimant/vendor note. A page whose only heading is the site name also loses
+// its own title in heading navigation: the layout must not ship that <h1>.
+//
 // This runs against the actual `_site` build in Website QA, not against the
 // Markdown source: only the renderer can prove `[url](url)` became an anchor.
 const fs = require('node:fs');
@@ -54,6 +60,14 @@ function legendEntries(navHtml) {
   return entries;
 }
 
+// The site name is navigation. When the layout rendered it as <h1>, every
+// rendered page shipped two h1s and heading navigation announced the site
+// before the case. One h1, and it must be the page's own title.
+function headingCount(html) {
+  const matches = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
+  return {count: matches.length, texts: matches.map(match => match[1].replace(/<[^>]*>/g, '').trim())};
+}
+
 function externalSourceLinks(html) {
   return [...html.matchAll(/<a\s+[^>]*href="([^"]+)"/gi)]
     .map(match => match[1])
@@ -78,6 +92,10 @@ function checkFallbackReading(root) {
   if (!/<a\s+[^>]*href="(?:[^"]*\/)?index\.html"/i.test(index)) {
     failures.push('INDEX.html does not link back to the searchable home page');
   }
+  const indexHeadings = headingCount(index);
+  if (indexHeadings.count !== 1) {
+    failures.push(`INDEX.html: expected exactly one h1, found ${indexHeadings.count} (${indexHeadings.texts.join(' / ') || 'none'})`);
+  }
 
   const pages = [];
   for (const folder of ['cases', 'evidence']) {
@@ -87,14 +105,18 @@ function checkFallbackReading(root) {
       pages.push(path.join(folder, name));
     }
   }
-  if (pages.length === 0) return {checked: 0, failures: failures.concat('no rendered case pages found')};
+  if (fs.existsSync(path.join(root, 'sources', 'pending.html'))) pages.push('sources/pending.html');
+  if (pages.length === 0) return {checked: 0, failures: failures.concat('no rendered pages found')};
 
   for (const page of pages) {
     const html = fs.readFileSync(path.join(root, page), 'utf8');
     if (externalSourceLinks(html).length === 0) {
       failures.push(`${page}: no clickable source link`);
     }
-    if (!page.startsWith('cases/')) continue;
+    const headings = headingCount(html);
+    if (headings.count !== 1) {
+      failures.push(`${page}: expected exactly one h1, found ${headings.count} (${headings.texts.join(' / ') || 'none'})`);
+    }
 
     const nav = caseNavigation(html);
     if (!nav) {
@@ -131,7 +153,7 @@ function checkFallbackReading(root) {
     try { files = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).files || []; }
     catch (error) { failures.push(`catalog.json cannot be read: ${error.message}`); }
     const expected = files
-      .filter(file => /^(?:cases|evidence)\/.+\.md$/.test(file))
+      .filter(file => /^(?:cases|evidence)\/.+\.md$/.test(file) || file === 'sources/pending.md')
       .map(file => file.replace(/\.md$/, '.html'));
     const rendered = new Set(pages);
     for (const page of expected) {

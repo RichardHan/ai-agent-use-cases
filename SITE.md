@@ -6,6 +6,12 @@
 
 下一輪：先補 exact 模式的 `changedVerified` 計數與 log，讓 artifact 自己說明驗了幾個 changed document；再以 trusted Pages artifact 比對 changed ledger 的 rendered `.html`，最後才處理 `sources/`／`evidence/` 免腳本導覽。
 
+## 2026-11-16 腳本失敗與直接抵達補充頁：搜尋區與 rendered 頁的閱讀退路
+
+正式站把 `assets/app.js` 擋成 503 時，`#explore` 永遠停在「正在讀取案例…」，唯一含 `INDEX.html` 的 `#error` 仍 hidden，可見索引連結 0；停用 JS 相同。直接抵達 `evidence/*.html`／`sources/pending.html` 也沒有上一輪的伺服器端導覽，且所有 rendered 頁有站名＋內容兩個 `<h1>`。本輪在搜尋表單前加不依賴 JS 的靜態退路（本站 `INDEX.html`＋GitHub 原始索引），app.js 一執行即隱藏；導覽擴及 3 個 evidence 與 pending；站名改 `<p class="site-title">` 並保留 Primer 外觀；checker 對 526 個 rendered 頁要求導覽與恰好一個 h1。README 的 515／507 示例校正為 529／521。843→850 單元、真實 Jekyll build PASS 526、1440／390／320 × JS 停用／app.js 503 與正常 SPA 三情境見[本輪紀錄](docs/qa/2026-11-16-reading-fallback/README.md)。未改 catalogue、搜尋邏輯或 INDEX 表格排版；下一輪先處理 UC-250 自述已合併卻仍計入 522 的矛盾。
+
+交付：（待 PR、merge、Pages 與正式站核對後補記。）
+
 ## 2026-11-16 直接抵達案例頁：回索引與六碼解碼
 
 正式站 522 個 rendered 案例頁只有站名回首頁，沒有 INDEX 連結；198 頁頁首有證據代碼，但 INDEX 只列四碼，`author-self-report`（10 頁）與 `pending-verification`（1 頁）沒有對照。本輪以最小 primer `_layouts` 覆寫，在 cases 頁加「完整案例索引／搜尋首頁／互動閱讀器」與本頁代碼的可見中文配對；INDEX 補兩同義碼，兩頁 `author-report` 正規化為 `author-self-report`；built-site gate 驗每個代碼與標籤在同一個可見 span，並讓 `_layouts`／`_includes` 變更觸發 Website QA。832 單元、改動前 FAIL 524、Jekyll 3.10／4.3 build PASS 525；正式站 sourceRevision `e74c7509`、522 頁 PASS、三情境與 after-live 截圖見[本輪紀錄](docs/qa/2026-11-16-rendered-case-context/README.md)。限制：圖片未逐像素目視；`sources/*.md` 發布閘門缺口未修。

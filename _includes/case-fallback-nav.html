@@ -1,5 +1,5 @@
 {%- assign case_path = page.path | default: '' -%}
-{%- if case_path contains 'cases/' -%}
+{%- if case_path contains 'cases/' or case_path contains 'evidence/' or case_path == 'sources/pending.md' -%}
 {%- assign case_id = page.name | split: '-' | first -%}
 {%- assign case_body = page.content | default: '' -%}
 {%- assign has_author = false -%}
@@ -14,7 +14,7 @@
 {%- if case_body contains '`unverified`' or case_body contains '>unverified<' -%}{%- assign has_unverified = true -%}{%- endif -%}
 {%- if case_body contains '`author-self-report`' or case_body contains '>author-self-report<' -%}{%- assign has_author_self = true -%}{%- endif -%}
 {%- if case_body contains '`pending-verification`' or case_body contains '>pending-verification<' -%}{%- assign has_pending = true -%}{%- endif -%}
-<aside class="case-fallback-nav" data-fallback-case-nav aria-label="案例導覽與證據代碼說明">
+<aside class="case-fallback-nav" data-fallback-case-nav aria-label="閱讀導覽與證據代碼說明">
   <nav class="case-fallback-links" aria-label="備援閱讀導覽">
     <a href="{{ '/INDEX.html' | relative_url }}">← 完整案例索引</a>
     <a href="{{ '/' | relative_url }}">搜尋首頁</a>

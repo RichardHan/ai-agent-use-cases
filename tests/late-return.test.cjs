@@ -2,7 +2,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const source=fs.readFileSync(process.env.RETURN_SOURCE_PATH||'assets/app.js','utf8');
 const start=source.indexOf('      let cancelled=false',source.indexOf("window.addEventListener('popstate'"));
-const end=source.indexOf('\n    }\n  }\n});\nload();',start);
+const end=source.indexOf('\n    }\n  }\n});',start);
 assert(start>0&&end>start,'test executes the actual fragment-return guard');
 const guard=source.slice(start,end);
 function fixture(){

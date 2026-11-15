@@ -5289,4 +5289,8 @@ window.addEventListener('popstate', event => {
     }
   }
 });
+// If this script is running, the reader has JavaScript; the note exists for the
+// case where app.js never executes (blocked, failed to parse, or disabled). Hide
+// it before the corpus load so a working page never shows a false warning.
+if($('static-reading-fallback'))$('static-reading-fallback').hidden=true;
 load();

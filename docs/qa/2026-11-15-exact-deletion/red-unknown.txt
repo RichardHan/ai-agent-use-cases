@@ -1,0 +1,25 @@
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+✖ an exact release cannot prove deletion when the push base is unknown (34.159125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 96.696541
+
+✖ failing tests:
+
+test at tests/published-version.test.cjs:414:1
+✖ an exact release cannot prove deletion when the push base is unknown (34.159125ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/audit-publication-20261115/tests/published-version.test.cjs:417:2)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /without knowing what this push changed/,
+    operator: 'rejects'
+  }

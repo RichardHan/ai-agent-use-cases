@@ -1,0 +1,3 @@
+DeletionFinalReview follow-up P2: omitted changeList defaulted to known-empty, bypassing explicit-unknown guard through exported API (production CLI already supplies computed list).
+Accepted. Omitted-input regression first failed with Missing expected rejection (red-omitted.txt). Removed default; required guard rejects absent input. Both test fixture builders now explicitly supply known-empty lists. Production caller unchanged. Final integrated unit run: 800 pass, 0 fail, 0 skip (final-contract-unit.txt). SITE no longer pins intermediate798 count.
+Follow-up review did not run commands; final independent re-review requested after correction. Deployed verifier execution remains pending PR/main workflow, not proven by baseline screenshots.

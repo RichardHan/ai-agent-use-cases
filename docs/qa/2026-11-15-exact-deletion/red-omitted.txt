@@ -1,0 +1,25 @@
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+✖ an omitted change list cannot silently claim an exact publication (52.175875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 144.200625
+
+✖ failing tests:
+
+test at tests/published-version.test.cjs:422:1
+✖ an omitted change list cannot silently claim an exact publication (52.175875ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/audit-publication-20261115/tests/published-version.test.cjs:426:2)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /without knowing what this push changed/,
+    operator: 'rejects'
+  }

@@ -145,7 +145,8 @@ function readAuditAtRevision(revision){
  // Ancestry verification has already fetched this immutable commit.
  return require('node:child_process').execFileSync('git',['show',revision+':sources/qualification-audit-2026-10-16.md'],{encoding:'utf8',timeout:30000,maxBuffer:16*1024*1024});
 }
-async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList={known:true,entries:[]},root='.',fetchAsset=fetch,isDescendant=isDescendantOf,treeAtRevision:readTree=treeAtRevision,readAuditSource=readAuditAtRevision,now,sleep,deployment}){
+async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList,root='.',fetchAsset=fetch,isDescendant=isDescendantOf,treeAtRevision:readTree=treeAtRevision,readAuditSource=readAuditAtRevision,now,sleep,deployment}){
+ assert(changeList?.known,'Cannot verify publication without knowing what this push changed');
  // The live site cannot say whether its own deploy failed or is still running, so
  // ask GitHub about the Pages run for this exact push. Only a push that publishes
  // a known revision can have such a run; a branch build has none, and asking
@@ -251,6 +252,15 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
    const remote={catalog:JSON.parse(remoteBuffers.get('catalog.json').toString('utf8')),corpus:JSON.parse(remoteBuffers.get('corpus.json').toString('utf8'))};
    const remoteAudit=JSON.parse(remoteBuffers.get('audit-summary.json').toString('utf8'));
    for(const page of pages)checkPageLanguage(page,remoteBuffers.get(page).toString('utf8'));
+   const probeMissing=async path=>{
+    const url=new URL(path,base);
+    url.searchParams.set('publication',sha+'-'+attempt+'-removed');
+    const response=await fetchAsset(url,{signal,cache});
+    await response.body?.cancel?.();
+    if(response.ok)throw Error('A deleted asset is still published: '+path);
+    // Only an explicit "not found" proves absence; a server error proves nothing.
+    if(response.status!==404&&response.status!==410)throw Error('Cannot confirm a deleted asset is gone (HTTP '+response.status+'): '+path);
+   };
    const exact=expectedSourceRevision&&remote.catalog.sourceRevision===expectedSourceRevision;
    let mode,supersededBy,changedVerified,carried;
    if(exact){
@@ -267,16 +277,14 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
     // build may legitimately render newer pages; there the changed files are checked.
     for(const page of pages)assert(remoteBuffers.get(page).equals(buffers.get(page)),'Published page differs from this build: '+page);
     assert.deepEqual(remoteAudit,localAudit,'Published audit summary differs from this build');
+    // Deleted raw files are absent from the build's asset list. Matching every
+    // remaining byte cannot prove their old URLs stopped serving content.
+    for(const entry of changed){
+     if(entry.deleted&&!SOURCE_DIR.test(entry.path))await probeMissing(entry.path);
+    }
     mode='exact';
    }else{
-    ({mode,supersededBy,changedVerified,carried}=await verifySupersededPublication({changed,changeList,remote,buffers:remoteBuffers,assets,sha,isDescendant:assertDescendant,treeAtRevision:readTree,probeMissing:async path=>{
-     const url=new URL(path,base);
-     url.searchParams.set('publication',sha+'-'+attempt+'-removed');
-     const response=await fetchAsset(url,{signal,cache});
-     if(response.ok){await response.body?.cancel?.();throw Error('A deleted asset is still published: '+path);}
-     // Only an explicit "not found" proves absence; a server error proves nothing.
-     if(response.status!==404&&response.status!==410)throw Error('Cannot confirm a deleted asset is gone (HTTP '+response.status+'): '+path);
-    },readLive:async path=>{
+    ({mode,supersededBy,changedVerified,carried}=await verifySupersededPublication({changed,changeList,remote,buffers:remoteBuffers,assets,sha,isDescendant:assertDescendant,treeAtRevision:readTree,probeMissing,readLive:async path=>{
      const url=new URL(path,base);
      url.searchParams.set('publication',sha+'-'+attempt+'-restored');
      const response=await fetchAsset(url,{signal,cache});

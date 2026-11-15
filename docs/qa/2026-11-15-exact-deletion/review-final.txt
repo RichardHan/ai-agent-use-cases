@@ -1,0 +1,5 @@
+DeletionFinalReview independent final follow-up:
+No code findings. Overall correctness: Correct. Confidence: 0.96.
+Verifier requires explicit known change list; omitted/null/known:false inputs fail before polling. Fixtures explicitly provide known-empty lists; production CLI supplies computed list. Deletion probe and superseded path remain intact.
+Reviewer did not run checks; supplied final-contract log reports800 passing tests. Reviewer noted README799 stale snapshot; main's current README section 完整輸入契約與調查回收 already records800 and preserves799 as intermediate evidence.
+Baseline/preview browser evidence does not prove deployed verifier execution. PR and main Website QA results must be checked separately before delivery is called fully released.

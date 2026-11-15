@@ -1,0 +1,5 @@
+Independent agent DeletionFinalReview (read-only; no implementation participation)
+P2: Require known change inputs before claiming exact deletion proof.
+Facet counts QA workflow_dispatch on main has no github.event.before; publicationChangeList returns known:false, entries:[]. Exact branch could report success without proving deleted URLs absent.
+Main confirmed workflow lines77-83 and classifier lines66-68, added failing regression red-unknown.txt, then fail-closed guard at waitForPublishedVersion entry. Both modes now reject unknown immutable inputs immediately. Full integrated suite: 799 pass, 0 fail.
+Initial review did not rerun tests; browser evidence then available was baseline, not proof of deployed modified verifier. Final independent follow-up requested.

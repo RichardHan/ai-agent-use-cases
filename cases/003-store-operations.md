@@ -17,7 +17,7 @@
 
 作者以虛構咖啡商店進行約四小時測試。其報告稱 Grok Bot 處理較全面，dots 部分任務需人工接手，Muse 有宣稱完成卻未執行的情況。三者均未接受測試中的詐騙要求。這不是正式商業營運驗證。
 
-原文：https://www.aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots
+原文：[https://www.aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots](https://www.aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots)
 
 ## 本庫建議流程：先做隔離沙盒
 

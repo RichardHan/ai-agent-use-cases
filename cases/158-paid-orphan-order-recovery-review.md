@@ -43,12 +43,12 @@ Jonathan Moore的forbotsonly專案issue記錄，Railway重部署後記憶體中�
 ## 來源與去重
 
 - Jonathan Moore／forbotsonly；英文公開專案。
-- issue建立2026-09-11 01:33:21 UTC：https://github.com/jonathanmoore/forbotsonly/issues/35
-- 修復提交2026-09-11 01:34:40 UTC：https://github.com/jonathanmoore/forbotsonly/commit/99e93b8184600df035851bd0baa804172d946e9b
-- 截至9月15日回顧：https://github.com/jonathanmoore/forbotsonly/blob/main/docs/GROK-BOT-ORCHESTRATION.md
-- 事故及缺口：https://github.com/jonathanmoore/forbotsonly/blob/main/docs/INCIDENT_FIX_fake_addresses.md
-- 程式：https://github.com/jonathanmoore/forbotsonly/blob/main/src/server.ts#L1448-L1615
-- 官方：https://docs.stripe.com/checkout/fulfillment.md?payment-ui=stripe-hosted
-- 冪等背景：https://docs.stripe.com/api/idempotent_requests
+- issue建立2026-09-11 01:33:21 UTC：[https://github.com/jonathanmoore/forbotsonly/issues/35](https://github.com/jonathanmoore/forbotsonly/issues/35)
+- 修復提交2026-09-11 01:34:40 UTC：[https://github.com/jonathanmoore/forbotsonly/commit/99e93b8184600df035851bd0baa804172d946e9b](https://github.com/jonathanmoore/forbotsonly/commit/99e93b8184600df035851bd0baa804172d946e9b)
+- 截至9月15日回顧：[https://github.com/jonathanmoore/forbotsonly/blob/main/docs/GROK-BOT-ORCHESTRATION.md](https://github.com/jonathanmoore/forbotsonly/blob/main/docs/GROK-BOT-ORCHESTRATION.md)
+- 事故及缺口：[https://github.com/jonathanmoore/forbotsonly/blob/main/docs/INCIDENT_FIX_fake_addresses.md](https://github.com/jonathanmoore/forbotsonly/blob/main/docs/INCIDENT_FIX_fake_addresses.md)
+- 程式：[https://github.com/jonathanmoore/forbotsonly/blob/main/src/server.ts#L1448-L1615](https://github.com/jonathanmoore/forbotsonly/blob/main/src/server.ts#L1448-L1615)
+- 官方：[https://docs.stripe.com/checkout/fulfillment.md?payment-ui=stripe-hosted](https://docs.stripe.com/checkout/fulfillment.md?payment-ui=stripe-hosted)
+- 冪等背景：[https://docs.stripe.com/api/idempotent_requests](https://docs.stripe.com/api/idempotent_requests)
 - 已讀公開事件、回顧、程式與官方限制，未獨立重跑。
 - 與UC-003模擬店務及130買方庫存／採購帳本不同；本案是賣方缺失履約單的資料恢復與覆核，兩單合計一流程。

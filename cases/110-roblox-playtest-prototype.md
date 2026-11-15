@@ -39,9 +39,9 @@
 ## 來源
 
 - 作者：シブシブ；日文；2026-10-02（頁面顯示12:52，未另核時區）。
-- 原文：https://note.com/xshibuxshibux/n/nba39d428c8a8
+- 原文：[https://note.com/xshibuxshibux/n/nba39d428c8a8](https://note.com/xshibuxshibux/n/nba39d428c8a8)
 - 已讀完整文章；內嵌 YouTube 未觀看，未取得或執行原型檔。
-- 官方測試說明：https://create.roblox.com/docs/studio/testing-modes （2026-10-17台灣時間查閱）。
+- 官方測試說明：[https://create.roblox.com/docs/studio/testing-modes](https://create.roblox.com/docs/studio/testing-modes) （2026-10-17台灣時間查閱）。
 
 ## 去重與驗收
 

@@ -38,8 +38,8 @@ David Naffis把角色圖交給自己的Maker Bot，要求能在X1C列印且眼�
 ## 來源
 
 - 作者：David Naffis；英文；2026-08-24。
-- 原文：https://naffis.com/resources/2026/08/24/grok-bot/
-- 模型原連結：https://makerworld.com/en/models/3213533-grok-bot-3d-self-portrait-swivel-eyes
+- 原文：[https://naffis.com/resources/2026/08/24/grok-bot/](https://naffis.com/resources/2026/08/24/grok-bot/)
+- 模型原連結：[https://makerworld.com/en/models/3213533-grok-bot-3d-self-portrait-swivel-eyes](https://makerworld.com/en/models/3213533-grok-bot-3d-self-portrait-swivel-eyes)
 - 原作者全文已讀；模型平台工具返回402，未繞過或下載。實物、幾何與安全性均未獨立驗證。
 
 ## 去重

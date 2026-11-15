@@ -22,7 +22,7 @@
 ### S-409A：Daniel Bustamante（Substack 文章，英文）
 
 - 作者：Daniel Bustamante
-- 網址：https://www.aiemailmarketingprompts.com/p/how-i-am-using-grok-bot-to-effortlessly
+- 網址：[https://www.aiemailmarketingprompts.com/p/how-i-am-using-grok-bot-to-effortlessly](https://www.aiemailmarketingprompts.com/p/how-i-am-using-grok-bot-to-effortlessly)
 - 日期：2026-10-03（頁面只顯示日期）；英文；免費文章
 - 取得內容：本輪讀取全文；文中示範當天提示題目的圖片未讀。此來源曾在 2026-10-20 14:44 批次列為下輪候選，本輪補讀收錄。
 - 作者報告的三條流程（翻譯改寫）：

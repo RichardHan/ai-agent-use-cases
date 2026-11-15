@@ -36,8 +36,8 @@ Oura的Warranty FAQs更新日期為2026-08-18，2026-10-17已讀：一般耗損�
 ## 來源與缺口
 
 - 原作者：rmastrapa；英文；2026-09-27 13:55:27 UTC（評論內嵌資料），review ID 14599636587。
-- 原評論頁：https://apps.apple.com/us/app/grok-bot/id6794501026?platform=iphone&see-all=reviews
-- 官方背景：https://support.ouraring.com/hc/en-us/articles/360025439534-Warranty-FAQs
+- 原評論頁：[https://apps.apple.com/us/app/grok-bot/id6794501026?platform=iphone&see-all=reviews](https://apps.apple.com/us/app/grok-bot/id6794501026?platform=iphone&see-all=reviews)
+- 官方背景：[https://support.ouraring.com/hc/en-us/articles/360025439534-Warranty-FAQs](https://support.ouraring.com/hc/en-us/articles/360025439534-Warranty-FAQs)
 - 已讀完整評論與官方FAQ；評論清單可能變動，沒有可讀的獨立訂單證據。
 - 去重：與UC-088追討已退貨未退款、UC-052雲端溢收退款不同；本案計一次保固換貨，配送追蹤不另拆案例。
 

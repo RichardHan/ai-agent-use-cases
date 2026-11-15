@@ -25,7 +25,7 @@
 ### S-084A：Granda（Matthew）「How I Run Grok Bot with BotOps」
 
 - 作者：Matthew（granda.org）；英文；2026-09-06。
-- 連結：https://granda.org/en/2026/09/06/how-i-run-grok-bot/
+- 連結：[https://granda.org/en/2026/09/06/how-i-run-grok-bot/](https://granda.org/en/2026/09/06/how-i-run-grok-bot/)
 - 作者自述（翻譯改寫）：
   1. 「我只跟一個 Grok Bot 說話，Notion 承載工作。」L1 總管負責收件、建工單、指派 L2、回報連結。
   2. L2（家務、工作、Notion、寫作…）各管一個領域，產生 L3、在多工時開頻道 swarm（作者寫上限約 6 個）、從交回結果更新 Notion。

@@ -22,7 +22,7 @@
 ### S-054A：Grok Bot — 一句莎士比亞台詞生成 2 分 45 秒的動畫 MV（作者自述實測）
 
 - 作者：@Frank_AI_Lab
-- 原始網址：https://x.com/Frank_AI_Lab/status/2110285369186844888
+- 原始網址：[https://x.com/Frank_AI_Lab/status/2110285369186844888](https://x.com/Frank_AI_Lab/status/2110285369186844888)
 - 發布日期：2026-10-14（台灣時間 16:23）
 - 原文語言：英文
 - 證據標記：作者自述實測（附成品影片；製作過程本庫未核實）
@@ -32,7 +32,7 @@
 ### S-054B：Grok Bot — 社群模板「Claudia」，串 Suno、Midjourney、Opus 與 Grok Imagine 做 MV（作者自述＋公開文件已讀）
 
 - 作者：@anabology
-- 原始網址：https://x.com/anabology/status/2110224953287070195
+- 原始網址：[https://x.com/anabology/status/2110224953287070195](https://x.com/anabology/status/2110224953287070195)
 - 發布日期：2026-10-14（台灣時間 12:23）；同串補充說明同時發布
 - 原文語言：英文
 - 證據標記：作者自述實測（預告片說是 Bot 自動製作）；模板頁與 GitHub 說明為作者公開文件，本庫 2026-10-14 已讀，但未安裝或執行
@@ -48,7 +48,7 @@
 ### S-054C：Grok Bot — 公開模板「MV Forge」，純器樂曲改用程式逐格繪製剪紙風畫面（作者自述＋模板頁已讀）
 
 - 作者：いにしえ／Will Oldgram（@old_pgmrs_will），日文
-- 原始網址：https://x.com/old_pgmrs_will/status/2111601960671719577 （2026-10-17 23:35 UTC，台灣 2026-10-18 07:35）；補充回覆 https://x.com/old_pgmrs_will/status/2111615264702029831 （2026-10-18 00:28 UTC，台灣 08:28），附與 Bot 對話截圖
+- 原始網址：[https://x.com/old_pgmrs_will/status/2111601960671719577](https://x.com/old_pgmrs_will/status/2111601960671719577) （2026-10-17 23:35 UTC，台灣 2026-10-18 07:35）；補充回覆 [https://x.com/old_pgmrs_will/status/2111615264702029831](https://x.com/old_pgmrs_will/status/2111615264702029831) （2026-10-18 00:28 UTC，台灣 08:28），附與 Bot 對話截圖
 - 證據標記：作者自述實測（附成品影片，本庫只看縮圖、未播放）＋[公開模板頁](https://x.ai/bot/mnZV-Y3B9Oyzhh0Yd7Ytq)（2026-10-18 已讀，頁面註明為第三方使用者建立，不是官方 Bot）
 - 內容（翻譯整理）：作者把一首吉他器樂曲（以 Mureka V9.5 生成）和提示詞交給自己的「MV 製作 Bot」，讓它連企劃一起做，Bot 交回剪紙風格的影片。模板頁說明這個 Bot 原本的設計是：用 Grok Imagine 做素材、以 HyperFrames 合成、依拍點剪輯、做大而醒目的歌詞故障風字幕與膠片效果，最後交 mp4。
 - 作者追問後的截圖（本庫已看）：Bot 回答這支**沒有使用 Grok Imagine**，紙層、影子、金線、蛾與窗戶都是用 Three.js 與 Canvas2D 逐格繪製，再疊上紙質、粒子與光暈效果；逐格輸出後用 ffmpeg 合成，原曲不加工直接配上；因為是器樂曲、沒有字幕，所以也沒用 HyperFrames。截圖上方另可見 Bot 提到 1080p 完整版約 850MB、片尾 0.7 秒黑畫面可再修。
@@ -128,7 +128,7 @@
 ## 音樂前製變體：先做 MIDI 草稿，再交給人編曲（2026-10-15）
 
 - 作者：Reddit u/YouGottaBillieve；英文。
-- 原始來源：https://www.reddit.com/r/GrokBot/comments/1x4lk32/comment/pgf5u3x/
+- 原始來源：[https://www.reddit.com/r/GrokBot/comments/1x4lk32/comment/pgf5u3x/](https://www.reddit.com/r/GrokBot/comments/1x4lk32/comment/pgf5u3x/)
 - 發布日期：原頁僅顯示「1d ago」，未取得精確日期；本庫於 2026-10-15 核讀留言。
 - 證據：作者自述日常使用；無公開 MIDI、音訊、工程檔或操作紀錄，本庫未重現。
 

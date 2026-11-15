@@ -35,6 +35,6 @@ ple（署名Christian）說透過VPN讓Grok Bot接觸測試資料庫，要求只
 ## 來源與去重
 
 - 作者：ple／Christian；德文；2026-09-07。
-- 原文第6則：https://forum.jtl-software.de/threads/welche-ki-loesungen-nutzt-ihr-mit-jtl-feedback-zu-meinem-mcp-projekt-kiuser-com-gesucht.249562/
+- 原文第6則：[https://forum.jtl-software.de/threads/welche-ki-loesungen-nutzt-ihr-mit-jtl-feedback-zu-meinem-mcp-projekt-kiuser-com-gesucht.249562/](https://forum.jtl-software.de/threads/welche-ki-loesungen-nutzt-ihr-mit-jtl-feedback-zu-meinem-mcp-projekt-kiuser-com-gesucht.249562/)
 - 已讀完整原作者留言與其他人的權限質疑；未取得查詢或測試數據。
 - 與UC-036 POS入帳檔、UC-053補貨利潤、UC-095產品使用分析不同；本案是測試商業資料庫的自然語言彙總與查詢驗收。

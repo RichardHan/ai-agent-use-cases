@@ -23,13 +23,13 @@
 ## 權限、費用與限制
 
 模型官方README區分relative depth與另列metric模型；原帖沒有版本，不能推定已得到公尺距離。機器人可能傷及人、寵物及財物，來源自述不授權無人監督移動。模型授權依版本另核；計算、硬體及API費用未核。
-- 官方：https://github.com/DepthAnything/Depth-Anything-V2 （已讀README；未下載或執行）。
+- 官方：[https://github.com/DepthAnything/Depth-Anything-V2](https://github.com/DepthAnything/Depth-Anything-V2) （已讀README；未下載或執行）。
 
 本庫未執行原案例或上述設計指令。
 
 ## 來源與去重
 
 - 作者：Raj（@hrhraj）；英文；2026-09-18 02:05:15 UTC。
-- 原文：https://x.com/hrhraj/status/2100768078909096017
+- 原文：[https://x.com/hrhraj/status/2100768078909096017](https://x.com/hrhraj/status/2100768078909096017)
 - 已讀原作者完整公開正文；影音未觀看，沒有把其他人的轉述或按讚視為獨立驗證。
 - 已讀UC-010與125，顯示輸出／摩斯回路不是視覺估距導航；模型安裝不另計案例，僅保留作者一個實作流程。

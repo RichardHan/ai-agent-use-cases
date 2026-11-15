@@ -22,8 +22,8 @@
 ### S-050A：Meta Muse — @wzblog 的每日心境插畫（簡體中文）
 
 - 作者：@wzblog（zooman）
-  - 2026-10-03：https://x.com/wzblog/status/2106447916365996082 （引用 @Muse 官方 Gadgets 公告）
-  - 2026-10-03：https://x.com/wzblog/status/2106449081128411453 （引用 David Singleton 的 SDK 貼文）
+  - 2026-10-03：[https://x.com/wzblog/status/2106447916365996082](https://x.com/wzblog/status/2106447916365996082) （引用 @Muse 官方 Gadgets 公告）
+  - 2026-10-03：[https://x.com/wzblog/status/2106449081128411453](https://x.com/wzblog/status/2106449081128411453) （引用 David Singleton 的 SDK 貼文）
 - 作者自述：花了一個晚上，接通 Muse → 樹莓派 → BOOX 的鏈路，推送和顯示都可以用。第一個應用是每日心境插畫：Muse 每天早上讀他的 Obsidian 筆記、提取當天的靈感，結合天氣和情緒，配一位藝術家的風格生成一張畫，自動投到墨水屏上。
 - 缺口：
   - 沒有公開程式碼、提示詞，也沒說用哪個圖像模型。
@@ -33,8 +33,8 @@
 
 ### S-050B：Meta Muse Gadgets SDK（官方相關公告，`official`）
 
-- David Singleton（@dps，即 UC-016 中代表 Meta 回應的那位）：https://x.com/dps/status/2106105969227014538 （2026-10-02，英文）。宣布開源 Muse Gadgets SDK，可以把 ESP32、樹莓派等 DIY 電子產品接到 Muse，例子包括「電子紙晨報」、隨身按鍵對講裝置、家用伺服器管理員。
-- @Muse 官方帳號：https://x.com/Muse/status/2106119592229884289 （2026-10-02）宣布 Muse Gadgets。
+- David Singleton（@dps，即 UC-016 中代表 Meta 回應的那位）：[https://x.com/dps/status/2106105969227014538](https://x.com/dps/status/2106105969227014538) （2026-10-02，英文）。宣布開源 Muse Gadgets SDK，可以把 ESP32、樹莓派等 DIY 電子產品接到 Muse，例子包括「電子紙晨報」、隨身按鍵對講裝置、家用伺服器管理員。
+- @Muse 官方帳號：[https://x.com/Muse/status/2106119592229884289](https://x.com/Muse/status/2106119592229884289) （2026-10-02）宣布 Muse Gadgets。
 - 本庫沒有讀 SDK 文件內容（貼文中的連結未展開）。支援的硬體、權限模式、排程方式都需要另外查證。
 
 ### S-050C：kokomadeyonda／Qiita（日文）— 只有螢幕的 Muse Gadget：由 Muse 主動把圖推到 ESP32 小螢幕

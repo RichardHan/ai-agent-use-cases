@@ -24,7 +24,7 @@
 ### S-052A：Grok Bot — Railway、Vercel、Neon 多筆異常扣款退款＋修 bug（作者自測）
 
 - 作者：@worawisut
-- 原始網址：https://x.com/worawisut/status/2110221957577019424
+- 原始網址：[https://x.com/worawisut/status/2110221957577019424](https://x.com/worawisut/status/2110221957577019424)
 - 發布日期：2026-10-14（台灣時間 12:11）
 - 原文語言：泰文
 - 證據標記：作者自測（作者自述結果，本庫未核實）

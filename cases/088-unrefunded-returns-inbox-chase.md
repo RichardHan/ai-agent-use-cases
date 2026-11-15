@@ -23,7 +23,7 @@
 ### S-088A：@darian314 單則貼文
 
 - 作者：@darian314；英文；2026-08-17（UTC）。
-- 連結：https://x.com/darian314/status/2089381004524093752
+- 連結：[https://x.com/darian314/status/2089381004524093752](https://x.com/darian314/status/2089381004524093752)
 - 作者自述（翻譯）：要 Grok Bot 翻信箱找失落的錢來付月費，它寄信給 5 家沒退款的商家，現在賺回的已超過月費。
 - 證據標記：`author-self-report`，無截圖。
 

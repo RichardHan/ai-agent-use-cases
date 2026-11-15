@@ -20,9 +20,9 @@
 
 ### S-048A：Grok Bot — Amazon 自然排名每日追蹤（賣家）
 
-- 作者：@automation_ngch（everr，自述做 Amazon／Shopify 電商資料）。主帖：https://x.com/automation_ngch/status/2108095190787649563 （2026-10-08，英文）；回覆：https://x.com/automation_ngch/status/2108169426973733316
+- 作者：@automation_ngch（everr，自述做 Amazon／Shopify 電商資料）。主帖：[https://x.com/automation_ngch/status/2108095190787649563](https://x.com/automation_ngch/status/2108095190787649563) （2026-10-08，英文）；回覆：[https://x.com/automation_ngch/status/2108169426973733316](https://x.com/automation_ngch/status/2108169426973733316)
 - 作者自述：2,000 個 ASIN，每個 5 個目標關鍵字，每天約 10,000 次排名查詢；每天早上 Grok Bot 搜尋 Amazon，找出每個 ASIN 的自然排名並存起來。作者說以前每月要付 $300 以上買工具，現在用 Grok Bot「在我自己的電腦上」免費跑。
-- 公開範本頁「Amazon ranking by hiếu」：https://x.ai/bot/RtJUdCQlpUeoc_LV_N1Ve 。說明是按排程抓每個 ASIN×關鍵字的自然排名與價格，在 Larksuite 做成即時熱力圖，並通知團隊。本庫只讀到這段說明，沒有看到範本內容。
+- 公開範本頁「Amazon ranking by hiếu」：[https://x.ai/bot/RtJUdCQlpUeoc_LV_N1Ve](https://x.ai/bot/RtJUdCQlpUeoc_LV_N1Ve) 。說明是按排程抓每個 ASIN×關鍵字的自然排名與價格，在 Larksuite 做成即時熱力圖，並通知團隊。本庫只讀到這段說明，沒有看到範本內容。
 - 缺口與注意：
   - 主帖文字被截斷（「saves it t…」），存到哪裡要看截圖，本庫沒看截圖。
   - 「免費」「省 $300」是作者自己的說法，沒有核算 Grok Bot 用量或費用。每天上萬次查詢可能消耗大量用量，也可能違反 Amazon 的使用條款或觸發反爬機制。
@@ -30,7 +30,7 @@
 
 ### S-048B：Grok Bot — 已購商品降價後申請價差退款（消費者）
 
-- 作者：@kevinace（Kevin Wimer）：https://x.com/kevinace/status/2109312342983102522 （2026-10-11，英文）
+- 作者：@kevinace（Kevin Wimer）：[https://x.com/kevinace/status/2109312342983102522](https://x.com/kevinace/status/2109312342983102522) （2026-10-11，英文）
 - 作者自述：Bot 盯著一筆 Best Buy 訂單的價格，發現降價後主動開啟線上客服對話，替他拿回 $270 退款。
 - 缺口：沒有說明檢查頻率、是否每天、用了哪些權限，也沒說 Bot 開客服前有沒有先問他。截圖本庫沒看。
 - 注意：代替使用者聯絡商家客服屬於對外動作，本庫的建議流程要求這一步由人核准。退款政策依商家和地區而定。
@@ -38,7 +38,7 @@
 ### S-048C：Grok Bot — 每天替嬰兒用品清單找優惠，找到後用限額代理信用卡下單（消費者，2026-10-15 補充）
 
 - 作者：@Kyleolver（英文）；2026-10-15 17:36（台灣時間）；回覆 Elon Musk 建議改到其他網站購物的貼文
-- 貼文：https://x.com/Kyleolver/status/2110666164296663143
+- 貼文：[https://x.com/Kyleolver/status/2110666164296663143](https://x.com/Kyleolver/status/2110666164296663143)
 - 作者自述（翻譯改寫）：他和太太把 BabyList（嬰兒用品願望清單）分享給 Grok Bot，Bot 每天上網替清單裡的大件商品找優惠；找到他們想要的嬰兒推車，在一家他們沒聽過、但作者認為信譽不錯的商店約五折。他請 Bot 下單，並給它一張「有限額的 Robinhood 代理信用卡」，Bot 完成下單。
 - 缺口：沒有說明每天幾點查、怎麼比對同款型號、怎麼判斷那家店可信、是否核對了總價與退貨條件，也沒有訂單或到貨證據；「約五折」與「信譽不錯」都是作者說法。卡片怎麼接到 Grok Bot 沒說明。
 - 卡片控管（`official`，本庫 2026-10-15 讀取 [Robinhood Agentic Credit Card 說明頁](https://robinhood.com/us/en/support/articles/agentic-credit-card/)，英文）：這是 Robinhood Gold Card 裡的一張專用虛擬卡，代理透過 Robinhood Banking MCP 只能讀這張虛擬卡的卡號、消費紀錄與規則；可設定「每筆都要在 Robinhood App 核准」，不逐筆核准時必須設每月額度，設定只能在 Robinhood App 改。說明頁寫明它**不會替你逛網站或找商品**，代理要自己走到結帳頁才取卡號，購買責任在使用者。說明頁列出的平台沒有直接寫 Grok Bot，只說支援 MCP 的其他平台可接。

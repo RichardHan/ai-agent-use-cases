@@ -21,7 +21,7 @@
 
 ### S-414A：@kinopee_ai（X，日文）
 
-- 網址：https://x.com/kinopee_ai/status/2112886517693854140 ；作者自回覆 https://x.com/kinopee_ai/status/2112886866064310718 （「使用 Grok Bot 專用地址和＋別名的例子」）
+- 網址：[https://x.com/kinopee_ai/status/2112886517693854140](https://x.com/kinopee_ai/status/2112886517693854140) ；作者自回覆 [https://x.com/kinopee_ai/status/2112886866064310718](https://x.com/kinopee_ai/status/2112886866064310718) （「使用 Grok Bot 專用地址和＋別名的例子」）
 - 日期：2026-10-21 20:39／20:40（台灣時間）；日文
 - 取得內容：本輪讀取兩則全文；無附圖。同作者當天其他貼文提到正在用 Grok Bot 做活動投影片、「即席系統製作中」，與本流程無直接紀錄。
 - 作者報告（翻譯改寫）：為 Grok Bot Hands-on Okinawa 做了把點數發放交給 Bot 的機制。從 Luma 上登記的地址寄信到特定的 Bot 別名地址，Bot 就和報名名單比對，把對應的連結每人一次自動回覆；名單外的不回。10分鐘就做好了。

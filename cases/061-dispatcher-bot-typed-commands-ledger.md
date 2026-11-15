@@ -25,11 +25,11 @@
 - 作者：@miyatti（宮田大督；個人簡介為公司 CPO、生成式 AI 講師）
 - 原文語言：日文
 - 主要貼文（台灣時間 2026-10-15）：
-  - 09:53 觀點：自主代理很強，但給它固定的「型」比每次放任更好，結果穩定、可回顧可統計，也能用同一套格式控制多個代理。https://x.com/miyatti/status/2110549612889292892
-  - 10:28 可直接貼給 Grok Bot 的「窗口」示範提示詞（附 4 張執行截圖）：https://x.com/miyatti/status/2110558428372574530
-  - 10:33 補充：作者自己不按工作種類分技能，而是按 AI-PLC 四個通用階段分。https://x.com/miyatti/status/2110559717076713804
-  - 10:57 AI-PLC 版窗口提示詞（四個領域 Bot）：https://x.com/miyatti/status/2110565599231500666
-  - 11:43 實際運作截圖與用量心得：https://x.com/miyatti/status/2110577200126988757
+  - 09:53 觀點：自主代理很強，但給它固定的「型」比每次放任更好，結果穩定、可回顧可統計，也能用同一套格式控制多個代理。[https://x.com/miyatti/status/2110549612889292892](https://x.com/miyatti/status/2110549612889292892)
+  - 10:28 可直接貼給 Grok Bot 的「窗口」示範提示詞（附 4 張執行截圖）：[https://x.com/miyatti/status/2110558428372574530](https://x.com/miyatti/status/2110558428372574530)
+  - 10:33 補充：作者自己不按工作種類分技能，而是按 AI-PLC 四個通用階段分。[https://x.com/miyatti/status/2110559717076713804](https://x.com/miyatti/status/2110559717076713804)
+  - 10:57 AI-PLC 版窗口提示詞（四個領域 Bot）：[https://x.com/miyatti/status/2110565599231500666](https://x.com/miyatti/status/2110565599231500666)
+  - 11:43 實際運作截圖與用量心得：[https://x.com/miyatti/status/2110577200126988757](https://x.com/miyatti/status/2110577200126988757)
 - 背景（2026-10-14 21:10、22:57 兩則貼文）：作者因為不滿 dots 改用 Grok Bot，把原本「dots 叫本機 Codex」的做法改成「Grok Bot 叫 Cursor Cloud」；需要碰本機 Mac 的工作，另建一個像程式代理一樣運作、共用同一個專案資料庫的 Bot。
 
 **示範版（10:28 提示詞，改寫重點）**

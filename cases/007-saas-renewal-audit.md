@@ -15,7 +15,7 @@
 - 作者／出版方：xAI／SpaceXSI官方（未列個人作者）
 - 發布日期：2026-09-04
 - 原文語言：en
-- 網址：https://x.ai/news/grok-bot-procurement
+- 網址：[https://x.ai/news/grok-bot-procurement](https://x.ai/news/grok-bot-procurement)
 
 ## 來源報告與限制
 

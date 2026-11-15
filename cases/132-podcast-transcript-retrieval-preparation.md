@@ -35,7 +35,7 @@ Hans C Nelson自述Grok Bot幫他在Foundry開發帳號建立YouTube播客處理
 ## 來源與去重
 
 - 作者：Hans C Nelson（@HansCNelson）；英文；2026-10-11 01:39:58 UTC（原頁時間戳）。
-- 原文：https://x.com/HansCNelson/status/2109096639155634211
-- 探索入口：https://agentsinuse.com/use-cases/grok-bot-to-process-podcast-transcripts/
+- 原文：[https://x.com/HansCNelson/status/2109096639155634211](https://x.com/HansCNelson/status/2109096639155634211)
+- 探索入口：[https://agentsinuse.com/use-cases/grok-bot-to-process-podcast-transcripts/](https://agentsinuse.com/use-cases/grok-bot-to-process-podcast-transcripts/)
 - 已讀原X免登入完整正文及時間戳；原作者報告優先於聚合站提示詞。
 - 與UC-107舊文朗讀、UC-002影片企劃及UC-131學生作品預審不同；本案是可追溯逐字稿檢索前處理，尚未完成的RAG不另計。

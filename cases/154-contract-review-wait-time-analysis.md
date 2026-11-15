@@ -38,6 +38,6 @@ Kelly Noguchi在官方署名法務營運文章，明確把內容列為團隊目�
 ## 來源與去重
 
 - 作者Kelly Noguchi；英文；2026-09-24。
-- 原文：https://x.ai/bot/guides/grok-bot-for-legal-ops#procurement-and-vendor-workflow-analytics
+- 原文：[https://x.ai/bot/guides/grok-bot-for-legal-ops#procurement-and-vendor-workflow-analytics](https://x.ai/bot/guides/grok-bot-for-legal-ops#procurement-and-vendor-workflow-analytics)
 - 已讀完整官方署名正文；現行實用自報與特定完成證據分開標示。
 - 已讀UC-021，其終點是Slack請求分流及批准後交接；此案為事件時間到審查瓶頸統計。備忘、Sheets與不同等待階段合計一次。

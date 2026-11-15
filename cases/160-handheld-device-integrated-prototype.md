@@ -38,9 +38,9 @@ u/brainlessziggy自述親自列印外殼、組裝電子件及試玩，再回饋�
 ## 來源與去重
 
 - u/brainlessziggy／GitHub goldsziggy；英文；Reddit原發布日未核。
-- 原文：https://www.reddit.com/r/codex/comments/1x209ei/tried_dot_for_1_week_and_it_won_me/
-- 公開專案：https://github.com/goldsziggy/z-ark-digivice
-- 版本驗收：https://github.com/goldsziggy/z-ark-digivice/blob/main/PUBLICATION_VALIDATION.json
+- 原文：[https://www.reddit.com/r/codex/comments/1x209ei/tried_dot_for_1_week_and_it_won_me/](https://www.reddit.com/r/codex/comments/1x209ei/tried_dot_for_1_week_and_it_won_me/)
+- 公開專案：[https://github.com/goldsziggy/z-ark-digivice](https://github.com/goldsziggy/z-ark-digivice)
+- 版本驗收：[https://github.com/goldsziggy/z-ark-digivice/blob/main/PUBLICATION_VALIDATION.json](https://github.com/goldsziggy/z-ark-digivice/blob/main/PUBLICATION_VALIDATION.json)
 - 驗收檔recordedAt為2026-10-10T08:46:48Z，不作原帖發布日。
 - 已讀作者原帖／回覆及專案文件；之後網頁驗證頁未繼續操作。
 - 已比UC-010、110、112、125，本案終點是機構、韌體與交互整合實機迭代；外殼、遊戲與兩小時試玩合計一例。

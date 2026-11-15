@@ -20,9 +20,9 @@
 ### S-311A：Grok Bot — Token Gremlin 的 DeepSeek V4.1 Flash WebGL 測試（作者自述實測）
 
 - 作者：@TokenGremlin（Token Gremlin），英文。
-- 原帖：https://x.com/TokenGremlin/status/2111587262366388424 ，2026-10-17 22:36:49 UTC（台灣 2026-10-18 06:36）。本庫以 X API 讀到全文並看過附圖。
+- 原帖：[https://x.com/TokenGremlin/status/2111587262366388424](https://x.com/TokenGremlin/status/2111587262366388424) ，2026-10-17 22:36:49 UTC（台灣 2026-10-18 06:36）。本庫以 X API 讀到全文並看過附圖。
 - 作者自述（改寫）：這批 DeepSeek V4.1 Flash-1017 測試一題都不是他自己跑的；Grok Bot 執行了每個提示、存下每個示範，再連到他的 ChatGPT Sites 建出一個即時展示頁，速度很快。作者另稱當時 Grok Bot 由 Opus 5.5 驅動（作者說法，本庫未核後端模型）。
-- 公開展示頁：https://deepseek-webgl-arena.tokengremlin.chatgpt.site/ （2026-10-18 本庫以 curl 讀取，HTTP 200）。標題「DeepSeek V4.1 Flash · WebGL Arena」，10 張卡片：黑洞重力透鏡、椋鳥群飛、暴風雨燈塔海面、太陽系誕生（各有 Raw WebGL 與 Three.js 兩版）、無盡賽博龐克城市、骨牌連鎖（Three.js）。其中 2 張卡片沒有縮圖、只有佔位色塊；抽查的示範頁可開啟（重新導向後 HTTP 200）。頁尾署名 @TokenGremlin。
+- 公開展示頁：[https://deepseek-webgl-arena.tokengremlin.chatgpt.site/](https://deepseek-webgl-arena.tokengremlin.chatgpt.site/) （2026-10-18 本庫以 curl 讀取，HTTP 200）。標題「DeepSeek V4.1 Flash · WebGL Arena」，10 張卡片：黑洞重力透鏡、椋鳥群飛、暴風雨燈塔海面、太陽系誕生（各有 Raw WebGL 與 Three.js 兩版）、無盡賽博龐克城市、骨牌連鎖（Three.js）。其中 2 張卡片沒有縮圖、只有佔位色塊；抽查的示範頁可開啟（重新導向後 HTTP 200）。頁尾署名 @TokenGremlin。
 - 未核：原始提示詞、每題是否一次生成或經過修正、失敗題是否被剔除、模型呼叫設定與費用；展示頁本身也可能經過人工挑選或修改。
 
 ## 建議操作流程（本庫設計，未實跑）

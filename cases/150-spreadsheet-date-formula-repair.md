@@ -37,6 +37,6 @@ Kay Phillips回顧2026-09-30初次使用名為Scout的dot，為物業管理試�
 ## 來源與去重
 
 - 作者Kay Phillips；英文；發文2026-10-01，文中實測2026-09-30。
-- 原文：https://thekayphillips.substack.com/p/my-first-look-at-chatgpt-dots-how
+- 原文：[https://thekayphillips.substack.com/p/my-first-look-at-chatgpt-dots-how](https://thekayphillips.substack.com/p/my-first-look-at-chatgpt-dots-how)
 - 已讀完整原作者文字；工作簿及影片未核。
 - 已比UC-036、034、098、103、128；資料匯入、異常覆核、抽欄、名冊對帳及SQL彙總不同於既有工作簿型別／公式修復。備份與修表合計一次。

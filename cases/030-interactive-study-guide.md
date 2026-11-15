@@ -33,7 +33,7 @@
 ## 作者實作版本：Kindle 劃線生字變成字卡與小考 App（2026-10-15 補充）
 
 - 作者：@_simonsmith；英文；發布 2026-10-15 01:38（台灣時間）
-- 網址：https://x.com/_simonsmith/status/2110425007059017830
+- 網址：[https://x.com/_simonsmith/status/2110425007059017830](https://x.com/_simonsmith/status/2110425007059017830)
 - 證據：`author-demo`（作者自述＋2 張截圖）；本庫未重現。ChatGPT Sites／plugin 功能另見下方 `official` 查證。
 - 作者的做法（改寫）：他用 Kindle 讀西班牙文書，把不懂的字劃線後匯出，再匯入自建的生字 App，用字卡學、用小考自測。這個 App 最早是用 Muse 做的；這次請自己的 dot 重做：後端放在 ChatGPT Sites 上當 MCP server，前端用帶 extensions 的 plugin，所以能從 ChatGPT 側邊欄打開、全螢幕使用。他同時用同樣方法做了個人化新聞 App（可按讚／倒讚、可針對一則新聞直接討論），點子來自 Muse 的 Feed。
 - 截圖可見：「Spanish Vocab」頁面有 Learn／Quiz／Browse／Progress 分頁，依章節分批出現單字卡（點一下才顯示答案、可聽發音），頂端顯示已掌握 493 字。
@@ -98,7 +98,7 @@
 
 ## 2026-10-16 補充：化學講義照片變成六段語音課（Grok Bot）
 
-- 來源：@OceansRed22；英文；2026-10-15（UTC）；https://x.com/OceansRed22/status/2110553428174786658
+- 來源：@OceansRed22；英文；2026-10-15（UTC）；[https://x.com/OceansRed22/status/2110553428174786658](https://x.com/OceansRed22/status/2110553428174786658)
 - 作者自述（翻譯改寫）：在電話中請 Grok Bot 依一張含 19 條原子結構公式的化學講義照片做語音課；約一分鐘內寫出六課，每課用淺白方式解釋公式並附一題練習與答案，再用 Mac 內建語音轉成音檔存到桌面資料夾。貼文後半是 Bot 自己的說明：讀照片 → 把 19 條分成六課 → 每課寫稿 → 用 Mac 內建語音錄成音檔。
 - 輸入／輸出：講義照片 → 六個語音檔（含練習題與答案）。
 - 證據：`author-self-report`（貼文為 Bot 回覆的引述）；公式解說與答案正確性未核；音檔未聽。

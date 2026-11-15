@@ -14,7 +14,7 @@
 
 - 作者：@jibeiguang（X）
 - 發布：2026-10-14；原文語言：中文（簡體原文，本頁以繁體改寫）
-- 網址：https://x.com/jibeiguang/status/2110168121852248425 （內嵌文章〈怎么用 OpenAI Dots？一个案例讲明白〉）
+- 網址：[https://x.com/jibeiguang/status/2110168121852248425](https://x.com/jibeiguang/status/2110168121852248425) （內嵌文章〈怎么用 OpenAI Dots？一个案例讲明白〉）
 - 取得內容：已讀 X 文章 plain_text；未獨立執行 dots。
 - 作者報告（模擬、不上訂票付款）：
   1. 建立 dot 時只查公開資料，跳過郵件與日曆連接，使用雲端電腦。

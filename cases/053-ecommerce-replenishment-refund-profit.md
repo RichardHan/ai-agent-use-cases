@@ -24,7 +24,7 @@
 ### S-053A：Grok Bot — Amazon＋Sellerboard 半年資料，補貨前篩掉不賺錢的商品（作者自述實測）
 
 - 作者：@TonyGainzzz
-- 原始網址：https://x.com/TonyGainzzz/status/2110288321788129343
+- 原始網址：[https://x.com/TonyGainzzz/status/2110288321788129343](https://x.com/TonyGainzzz/status/2110288321788129343)
 - 發布日期：2026-10-14（台灣時間 16:35）
 - 原文語言：英文
 - 證據標記：作者自述實測（作者自述結果，本庫未核實）

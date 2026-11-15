@@ -35,8 +35,8 @@ Reddit作者u/Sufficient_Flower860描述一份老師要求列印、版面鬆散�
 
 - 作者：u/Sufficient_Flower860；英文。
 - 發文時間：2026-10-10 03:30:02 UTC，公開JSON created_utc=1791603002。
-- 原留言：https://www.reddit.com/r/GrokBot/comments/1x2323i/grok_bot_in_personal_life/pezb9vl/
-- 公開JSON：https://www.reddit.com/r/GrokBot/comments/1x2323i/grok_bot_in_personal_life/.json
+- 原留言：[https://www.reddit.com/r/GrokBot/comments/1x2323i/grok_bot_in_personal_life/pezb9vl/](https://www.reddit.com/r/GrokBot/comments/1x2323i/grok_bot_in_personal_life/pezb9vl/)
+- 公開JSON：[https://www.reddit.com/r/GrokBot/comments/1x2323i/grok_bot_in_personal_life/.json](https://www.reddit.com/r/GrokBot/comments/1x2323i/grok_bot_in_personal_life/.json)
 - 研究中已讀完整該則留言並核時間；未取得教材或重排檔。
 
 ## 去重

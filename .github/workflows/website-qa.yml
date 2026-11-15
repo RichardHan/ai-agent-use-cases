@@ -121,6 +121,8 @@ jobs:
         run: python3 scripts/check_corpus_bundle.py _site
       - name: Verify language of built Pages
         run: node scripts/check-page-language.cjs _site
+      - name: Verify fallback reading pages
+        run: node scripts/check-fallback-reading.cjs _site
       - name: Verify published surface
         run: |
           node scripts/check-published-surface.cjs

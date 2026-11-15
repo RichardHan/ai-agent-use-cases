@@ -22,13 +22,13 @@
 ### S-399A：作者X貼文
 
 - 作者：@adidshaft
-- 網址：https://x.com/adidshaft/status/2112538573950054651
+- 網址：[https://x.com/adidshaft/status/2112538573950054651](https://x.com/adidshaft/status/2112538573950054651)
 - 日期：2026-10-20 21:36（台灣時間；2026-10-20T13:36:59Z）；英文；附錄影（本庫未觀看影片）
 - 作者報告結果（改寫）：分享ESP32-S3給朋友並給5點；朋友從自己的Grok Bot送文字，5則顯示在OLED，第6則被拒；朋友仍可列出裝置，擁有者帳號不被扣；補點與重啟後餘額保留；沒有金錢、也沒有代幣。
 
 ### S-399B：公開驗收紀錄
 
-- 網址：https://github.com/adidshaft/grok-gadgets/blob/main/docs/verification/credits-2026-10-20.md （另有設定說明 docs/getting-started/credits-on-your-relay.md、決策紀錄 docs/decisions/015-shared-relay.md）
+- 網址：[https://github.com/adidshaft/grok-gadgets/blob/main/docs/verification/credits-2026-10-20.md](https://github.com/adidshaft/grok-gadgets/blob/main/docs/verification/credits-2026-10-20.md) （另有設定說明 docs/getting-started/credits-on-your-relay.md、決策紀錄 docs/decisions/015-shared-relay.md）
 - 日期：紀錄標示 2026-10-20（UTC）；相關文件提交 2026-10-20 18:49–20:01（台灣時間）；英文
 - 取得內容：已讀驗收紀錄全文。逐項分 Pass／Fail／Not tested，並分「軟體測試」與「擁有者實機」兩層。
 - 紀錄內容（改寫）：升級前先備份中繼設定與請求紀錄並比對雜湊；點數一開始誤發給另一帳號，之後轉給正確帳號（紀錄保留這個失誤）；5則指令都上螢幕但顯示順序與送出順序不同；第6則被拒；補2點後重啟服務，餘額不變；收據驗證通過，竄改一份收據的已用點數後驗證失敗；對帳報告稱5筆扣點與請求紀錄一致。軟體測試涵蓋40個併發扣點只成功5個、跨帳號不能扣別人點數等。

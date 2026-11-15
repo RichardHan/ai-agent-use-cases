@@ -23,10 +23,10 @@
 
 - 原始作者：Matt Robb（科技 YouTuber），在 X 上發文並後續更新（約 2026-09-27～09-29）。**原始 X 貼文本身這次沒查到**；以下根據轉述和媒體報導，屬待核實的二手資訊。
 - 二手來源：
-  - TechRepublic：https://www.techrepublic.com/article/news-meta-ai-facebook-marketplace-buyer-seller-address/
-  - Headlights 事件庫 HD-INC-226：https://useheadlights.com/library/HD-INC-226/
-  - wpnews 轉載：https://wpnews.pro/news/a-youtuber-says-this-muse-setting-led-to-the-ai-agent-sharing-his-address-be
-  - X 上的轉述：https://x.com/Caleb__Lloyd/status/2104613925396296076 （2026-09-28，英文）、https://x.com/bykimdohoon/status/2104691319323156849 （提到 The Verge 報導，2026-09-28，英文）
+  - TechRepublic：[https://www.techrepublic.com/article/news-meta-ai-facebook-marketplace-buyer-seller-address/](https://www.techrepublic.com/article/news-meta-ai-facebook-marketplace-buyer-seller-address/)
+  - Headlights 事件庫 HD-INC-226：[https://useheadlights.com/library/HD-INC-226/](https://useheadlights.com/library/HD-INC-226/)
+  - wpnews 轉載：[https://wpnews.pro/news/a-youtuber-says-this-muse-setting-led-to-the-ai-agent-sharing-his-address-be](https://wpnews.pro/news/a-youtuber-says-this-muse-setting-led-to-the-ai-agent-sharing-his-address-be)
+  - X 上的轉述：[https://x.com/Caleb__Lloyd/status/2104613925396296076](https://x.com/Caleb__Lloyd/status/2104613925396296076) （2026-09-28，英文）、[https://x.com/bykimdohoon/status/2104691319323156849](https://x.com/bykimdohoon/status/2104691319323156849) （提到 The Verge 報導，2026-09-28，英文）
 - 作者報告：設定時選了「Allow Always」，以為接受出價前仍會問他。結果 Muse 用含取貨地址的範本回覆買家、接受了出價、約好取貨。買家約晚上 9:15 到他的大樓，Muse 回了「Yup, I'm here!」，作者事前不知道。
 - Meta 的回應（轉述）：Meta 的 David Singleton 表示，和作者一起檢查紀錄後「沒有違反隱私控制」；會把權限提示改得更清楚；另修正了一個價格顯示錯誤（把「700」顯示成「00」）。作者建議每則代理訊息加註「Sent By Muse」。
 - **來源之間有矛盾**：成交價有報導寫加幣 10（標價 15），也有寫接受 $600（作者設底線 $700，因顯示錯誤看起來像接受低價）。本庫不判斷哪個正確，只列為待核實。
@@ -34,18 +34,18 @@
 
 ### S-016B：Meta Muse — 官方權限說明（`official`）
 
-- Meta 說明中心「How Muse works with your guidance and approval」：https://www.meta.com/en-gb/help/artificial-intelligence/1385290430137537/ （英文，2026-10-13 經搜尋摘要讀取）。選項包括 Allow once、Allow for this task、Allow for this site、Always allow（此連接器以後都不再問）、Deny；設定位置是 Settings → Permissions。官方也說代理可能出錯，使用者要自己審查活動。
-- Muse 連接器開發文件：https://muse.ai/platform/docs 。讀取和一般寫入第一次會問，可設 Always allow；「敏感寫入」每次都要問，不能設成永遠允許。
+- Meta 說明中心「How Muse works with your guidance and approval」：[https://www.meta.com/en-gb/help/artificial-intelligence/1385290430137537/](https://www.meta.com/en-gb/help/artificial-intelligence/1385290430137537/) （英文，2026-10-13 經搜尋摘要讀取）。選項包括 Allow once、Allow for this task、Allow for this site、Always allow（此連接器以後都不再問）、Deny；設定位置是 Settings → Permissions。官方也說代理可能出錯，使用者要自己審查活動。
+- Muse 連接器開發文件：[https://muse.ai/platform/docs](https://muse.ai/platform/docs) 。讀取和一般寫入第一次會問，可設 Always allow；「敏感寫入」每次都要問，不能設成永遠允許。
 - 落差：從文件看不出「在 Marketplace 傳送含地址的訊息」算不算敏感寫入。S-016A 顯示使用者可能誤解範圍。本庫不推定其他產品有相同的權限分級。
 
 ### S-016C：Meta Muse — 成功的使用者自述（`author-demo`，未核）
 
-- @pigeonsofny（2026-09-28，英文，系列串文 2/12）：https://x.com/pigeonsofny/status/2104593330587722007 。Muse 代寫買家回覆「供我審核」、同時更新多位有意的買家，直到賣出。作者的心得是「自動化重複，不自動化判斷」。沒有附數據或截圖細節。
-- @Musecases（2026-10-07，英文；帳號自述專收 Muse 案例，非官方，可能有推廣性質）：https://x.com/Musecases/status/2107829295888449680 。轉述某位編輯 65 位買家、142 則訊息、賣出 6 件、得 $175。原始作者未具名、沒有連結；**數字無法核實，不當作成效證據**。值得參考的是串文中的指令有一句「分享地址或約定時間前先問我」。
+- @pigeonsofny（2026-09-28，英文，系列串文 2/12）：[https://x.com/pigeonsofny/status/2104593330587722007](https://x.com/pigeonsofny/status/2104593330587722007) 。Muse 代寫買家回覆「供我審核」、同時更新多位有意的買家，直到賣出。作者的心得是「自動化重複，不自動化判斷」。沒有附數據或截圖細節。
+- @Musecases（2026-10-07，英文；帳號自述專收 Muse 案例，非官方，可能有推廣性質）：[https://x.com/Musecases/status/2107829295888449680](https://x.com/Musecases/status/2107829295888449680) 。轉述某位編輯 65 位買家、142 則訊息、賣出 6 件、得 $175。原始作者未具名、沒有連結；**數字無法核實，不當作成效證據**。值得參考的是串文中的指令有一句「分享地址或約定時間前先問我」。
 
 ### S-016D：ChatGPT dots — 多平台刊登同步（日文，`author-demo`，未核）
 
-- @gakki_smallshop（小さな楽器屋さん，2026-10-11，日文）：https://x.com/gakki_smallshop/status/2109072226595303625
+- @gakki_smallshop（小さな楽器屋さん，2026-10-11，日文）：[https://x.com/gakki_smallshop/status/2109072226595303625](https://x.com/gakki_smallshop/status/2109072226595303625)
 - 作者自述的流程：某平台售出 → 其他平台一次下架 → 更新庫存帳 → 計算利潤。作者說自己只花約 30 秒。
 - 缺口：沒有提到用了哪些平台、怎麼連接、是否需要核准，也沒有失敗紀錄。「30 秒」是作者自述，不是測量值。dots 是否支援特定平台的下架動作，本庫沒有查證。
 
@@ -53,7 +53,7 @@
 
 - 作者：@techtunes67（TechTunes，個人 iOS 開發者帳號）
 - 發布：2026-10-14 09:34（台灣時間）；後續回報 09:57；原文語言：英文
-- 網址：https://x.com/techtunes67/status/2110182375783080051 ；後續：https://x.com/techtunes67/status/2110188244037960034
+- 網址：[https://x.com/techtunes67/status/2110182375783080051](https://x.com/techtunes67/status/2110182375783080051) ；後續：[https://x.com/techtunes67/status/2110188244037960034](https://x.com/techtunes67/status/2110188244037960034)
 - 作者自述流程（改寫）：拍一張記憶體條照片 → Muse 讀標籤、辨識確切型號 → 參考 eBay 同款成交／刊登價格定價 → 寫好整份刊登 → 登入 eBay 建草稿後停下等待 → 作者說「數量改 4、用這張照片」後修改 → 作者說「上架」才正式刊登 → 之後由 Muse 盯刊登、回買家，只有「有錢進出」時才通知作者。
 - 作者報告結果：當天收到出價；後續貼文稱 15 分鐘內售出、自己還沒登入 eBay，附一張 eBay「商品已售出」通知截圖（看不到品項、價格或買家資訊）。
 - 值得參考的地方：「先建草稿等待 → 本人說上架才發布」是本頁建議的逐次核准做法；但「自動回買家、只在有錢進出才通知」等於買家訊息不經本人審核，與 S-016A 的風險同類。
@@ -62,7 +62,7 @@
 ### S-016F：Grok Bot — eBay 草稿後本人上架，仍遇停權的作者回報
 
 - 作者／語言：Reddit u/Outlaw04，英文。2026-10-15 查閱；搜尋索引標 10 月 12 日，但正文只列相對時間，精確發文時間未核。
-- 原文與留言：https://www.reddit.com/r/GrokBot/comments/1x4g9qm/psa_do_not_use_grokbot_with_ebay_account/
+- 原文與留言：[https://www.reddit.com/r/GrokBot/comments/1x4g9qm/psa_do_not_use_grokbot_with_ebay_account/](https://www.reddit.com/r/GrokBot/comments/1x4g9qm/psa_do_not_use_grokbot_with_ebay_account/)
 - 作者說要處理一批二手 RAM，共 30 個刊登；讓 Grok Bot 建草稿、本人稍改後發布，每批審 5 件，在第二批中途遇到永久停權。
 - 這是失敗自述，沒有停權通知全文、官方判定理由或完整操作紀錄。不能證明停權由 Bot 引起，也不能推論所有代理草稿都會被停權；作者後續用語對實際自動化程度也不夠完整。
 - 官方平台限制已另讀：[eBay User Agreement 第 3 節](https://www.ebay.com/help/default/default/user-agreement?id=4259)，頁面稱既有使用者版本自 2026-06-28 生效。條款限制未獲 eBay 事先明確許可的自動化存取，並列 LLM 驅動 Bot；本人審核或授權不能代替平台許可。各地站點及帳戶適用條款另核。

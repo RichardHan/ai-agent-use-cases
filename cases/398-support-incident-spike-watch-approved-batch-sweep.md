@@ -24,7 +24,7 @@
 
 - 標題：Using Grok Bot to detect and respond to incidents
 - 作者：Chris Bowie、Isaac Hopkinson（SpaceXSI）
-- 網址：https://x.ai/news/incident-sweep
+- 網址：[https://x.ai/news/incident-sweep](https://x.ai/news/incident-sweep)
 - 發布日期：2026-10-20（頁面結構資料 datePublished 為 2026-10-20T00:00:00Z，只有日期精度）
 - 原文語言：英文
 - 取得內容：已讀全文。
@@ -33,7 +33,7 @@
 
 ### S-398B：X轉述（@BrianRoemmele）
 
-- 網址：https://x.com/BrianRoemmele/status/2112651397359681554
+- 網址：[https://x.com/BrianRoemmele/status/2112651397359681554](https://x.com/BrianRoemmele/status/2112651397359681554)
 - 日期：2026-10-21 05:05（台灣時間；貼文時間2026-10-20T21:05:18Z）；英文
 - 內容：轉述官方文章，並另外提出業務（每小時找停滯商機產生跟進草稿）、工程（CI失敗群聚先重現才開單）、財務（每日發票比對後一次核准付款批次）等延伸想法。
 - 判斷：延伸想法是轉述者推論，沒有實作證據，**不當作已驗證的用法**；文中另提「工單量增加175%、每張解決成本0.20–0.30美元」是引用官方較早的客服重建文章，本輪未讀該文，不採用。

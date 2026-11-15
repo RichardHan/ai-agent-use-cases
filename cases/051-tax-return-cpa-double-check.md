@@ -22,7 +22,7 @@
 ### S-051A：Grok Bot — 四年報稅資料複核會計師（作者自測）
 
 - 作者：@jasonfreedman
-- 原始網址：https://x.com/jasonfreedman/status/2110091703419871393
+- 原始網址：[https://x.com/jasonfreedman/status/2110091703419871393](https://x.com/jasonfreedman/status/2110091703419871393)
 - 發布日期：2026-10-13（UTC 19:34；台灣時間 10-14 03:34）
 - 原文語言：英文
 - 證據標記：作者自測（作者自述結果，本庫未核實）
@@ -37,7 +37,7 @@
 ### S-051B：Grok Bot — 海外申報的複雜報稅，自己找文件並填表（作者自測）
 
 - 作者：@Texas_Twins_Dad
-- 原始網址：https://x.com/Texas_Twins_Dad/status/2110180938948747730
+- 原始網址：[https://x.com/Texas_Twins_Dad/status/2110180938948747730](https://x.com/Texas_Twins_Dad/status/2110180938948747730)
 - 發布日期：2026-10-14（台灣時間 09:28）
 - 原文語言：英文
 - 證據標記：作者自測（作者自述結果，本庫未核實）
@@ -47,7 +47,7 @@
 
 ### S-051C：Grok Bot — 依報稅日曆設提醒、每天催到完成（作者回覆中自述）
 
-- 作者：@aurelcorp：https://x.com/aurelcorp/status/2110256854991589818 （2026-10-14，英文，回覆串中的一句話）
+- 作者：@aurelcorp：[https://x.com/aurelcorp/status/2110256854991589818](https://x.com/aurelcorp/status/2110256854991589818) （2026-10-14，英文，回覆串中的一句話）
 - 證據標記：待驗證（只有一句自述，沒有設定細節）
 - 內容：請 Bot 依報稅期限設提醒，每天提醒直到他確認完成。
 

@@ -36,11 +36,11 @@ NAUPA官方確認MissingMoney是其跨參與州的免費搜尋入口；並非保
 ## 來源與去重
 
 - Richard Roop；英文；2026-10-10 23:50:39 UTC。
-- 原文：https://x.com/richardroop/status/2109069130020131061
+- 原文：[https://x.com/richardroop/status/2109069130020131061](https://x.com/richardroop/status/2109069130020131061)
 - 已讀完整原作者正文，沒有認領及入帳產物。
-- 官方入口：https://unclaimed.org/
-- 免費搜尋／認領說明：https://unclaimed.org/can-i-really-search-for-free/
-- 本人認領核驗：https://unclaimed.org/claim-your-found-property/
+- 官方入口：[https://unclaimed.org/](https://unclaimed.org/)
+- 免費搜尋／認領說明：[https://unclaimed.org/can-i-really-search-for-free/](https://unclaimed.org/can-i-really-search-for-free/)
+- 本人認領核驗：[https://unclaimed.org/claim-your-found-property/](https://unclaimed.org/claim-your-found-property/)
 - 與UC-088已知訂單退款、UC-105自持禮物卡餘額盤點不同；只計公開候選搜尋和交接，不計資產回收。
 
 

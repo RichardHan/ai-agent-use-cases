@@ -36,8 +36,8 @@
 ## 來源與去重
 
 - 作者：다시개발；韓文；四日實驗的第4日，2026-10-11；章節最後編輯2026-10-15 14:48（頁面時間）。
-- 實作章節：https://wikidocs.net/448649
-- 背景：https://wikidocs.net/450175
+- 實作章節：[https://wikidocs.net/448649](https://wikidocs.net/448649)
+- 背景：[https://wikidocs.net/450175](https://wikidocs.net/450175)
 - 已讀原始公開HTML正文與作者驗收敘述；未存取帳號或逐次重現。
 - 與UC-087語音交辦Codex、UC-069待辦移轉不同；語音及Slack兩通道合併一次，其他章合約／付款設定不當成已執行。
 

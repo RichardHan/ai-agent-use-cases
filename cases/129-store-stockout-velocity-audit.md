@@ -37,6 +37,6 @@ Timothy Ouellette以其代理的非酒精飲品門市庫存做測試。網站拒
 ## 來源與去重
 
 - 作者：Timothy Ouellette；英文；2026-09-16。作者披露代理該飲品，聲稱未受xAI付費。
-- 原文：https://www.linkedin.com/pulse/grok-bot-walkthrough-beverage-alcohol-sales-timothy-ouellette-ysetc
+- 原文：[https://www.linkedin.com/pulse/grok-bot-walkthrough-beverage-alcohol-sales-timothy-ouellette-ysetc](https://www.linkedin.com/pulse/grok-bot-walkthrough-beverage-alcohol-sales-timothy-ouellette-ysetc)
 - 已讀完整公開文章；未取得69份檔案或報表，未操作商店或排程。
 - 與UC-053退貨淨利補貨決策不同：本案是跨期門市庫存快照、缺貨推斷與賣速分母驗收；檔案合併及排程不各拆一案。

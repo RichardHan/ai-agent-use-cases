@@ -36,6 +36,6 @@ Lutz S.提供既有ESP32與TFT接線背景，讓Grok Bot寫入並燒錄解碼程
 ## 來源與去重
 
 - 作者：Lutz S.（lutzs）；德文；2026-10-11，原帖12:31及當日下午補充，時區未另核。
-- 原串：https://www.mikrocontroller.net/topic/587580
+- 原串：[https://www.mikrocontroller.net/topic/587580](https://www.mikrocontroller.net/topic/587580)
 - 已讀完整論壇正文與附件清單；README直接讀取403後停止，未改路繞過。影片未看。
 - 與UC-010 OLED命令顯示不同；本案是音訊解碼的硬體在環測試，程式開發、加雜訊與回讀合併一次。

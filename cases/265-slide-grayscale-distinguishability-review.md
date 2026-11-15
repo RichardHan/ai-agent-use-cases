@@ -47,7 +47,7 @@
 
 ## 直接來源與查閱範圍
 
-- 原作者：AyumeroのAgenticな日常；日文，note，2026-10-15 07:00 JST。完整正文已讀，修訂九頁縮圖已看；未取得完整簡報或執行日誌。https://note.com/ayumero123/n/n88fb1ffbc0fb
-- 文章修訂縮圖：只證明可見版面，不證完整量測。https://assets.st-note.com/img/1791774976-ageCBRFHIXUvZ4YslGzntKJd.png
-- W3C，Use of Color：https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html
-- W3C，Contrast (Minimum)：https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html
+- 原作者：AyumeroのAgenticな日常；日文，note，2026-10-15 07:00 JST。完整正文已讀，修訂九頁縮圖已看；未取得完整簡報或執行日誌。[https://note.com/ayumero123/n/n88fb1ffbc0fb](https://note.com/ayumero123/n/n88fb1ffbc0fb)
+- 文章修訂縮圖：只證明可見版面，不證完整量測。[https://assets.st-note.com/img/1791774976-ageCBRFHIXUvZ4YslGzntKJd.png](https://assets.st-note.com/img/1791774976-ageCBRFHIXUvZ4YslGzntKJd.png)
+- W3C，Use of Color：[https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html)
+- W3C，Contrast (Minimum)：[https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)

@@ -23,7 +23,7 @@
 ### S-090A：@sidshekhar24 每日用例
 
 - 作者：@sidshekhar24；英文；2026-08-18（UTC）。
-- 連結：https://x.com/sidshekhar24/status/2089735218861326727
+- 連結：[https://x.com/sidshekhar24/status/2089735218861326727](https://x.com/sidshekhar24/status/2089735218861326727)
 - 作者自述（翻譯）：每日工作掃描 Polymarket 上 24 小時內結算、機率 70%–90% 的市場，讓 Bot 查每個市場的背景、評估結果實際發生的可能性並回報清楚判讀；用單一提示詞搭配 @askginadotai 的 MCP 完成。
 - 證據標記：`author-self-report`，未附輸出。
 

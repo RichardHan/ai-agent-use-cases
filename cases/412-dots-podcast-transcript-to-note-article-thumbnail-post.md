@@ -22,9 +22,9 @@
 
 ### S-412A：Kai（@kai_ishimine__）X 貼文＋公開產出（日文）
 
-- 作者貼文：https://x.com/kai_ishimine__/status/2112867070111318107 （2026-10-21 19:22 台灣時間，日文）
-- 產出1（note 文章）：https://note.com/okinawa_echoes/n/ne820dbc82d1f （2026-10-21 19:01 台灣時間發布；標題〈ChatGPTに月16,800円。僕が「安い」と感じた理由〉，對應節目 #461）
-- 產出2（宣傳貼文）：https://x.com/Okinawa_Echoes/status/2112862912658440323 （2026-10-21 19:05 台灣時間）
+- 作者貼文：[https://x.com/kai_ishimine__/status/2112867070111318107](https://x.com/kai_ishimine__/status/2112867070111318107) （2026-10-21 19:22 台灣時間，日文）
+- 產出1（note 文章）：[https://note.com/okinawa_echoes/n/ne820dbc82d1f](https://note.com/okinawa_echoes/n/ne820dbc82d1f) （2026-10-21 19:01 台灣時間發布；標題〈ChatGPTに月16,800円。僕が「安い」と感じた理由〉，對應節目 #461）
+- 產出2（宣傳貼文）：[https://x.com/Okinawa_Echoes/status/2112862912658440323](https://x.com/Okinawa_Echoes/status/2112862912658440323) （2026-10-21 19:05 台灣時間）
 - 取得內容：本輪讀取作者貼文、note 文章全文（經 note 公開 API）與宣傳貼文；文章縮圖未判讀；節目音檔未聽。
 - 作者報告（翻譯改寫）：「這篇 note 是 ChatGPT dots 寫的，不是我把 AI 寫的東西複製貼上。我只把 Podcast 的文字稿交給 dots，之後挑段落、找縮圖、寫成文章、投稿到 note，連下面那則貼文也是 dots 自己發的。」
 - 從產出可核對的部分：文章文首寫明「依本集逐字稿編輯，保留原意、調整成易讀形式；費用與功能為錄製時的個人體驗，不保證現況」；結構為導言＋三點摘要＋多個小標段落＋編者補充（例如提醒權限與資料外洩風險是另一個課題）＋收聽連結。宣傳貼文在文章發布約4分鐘後發出。

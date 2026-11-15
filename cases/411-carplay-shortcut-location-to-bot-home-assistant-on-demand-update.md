@@ -23,7 +23,7 @@
 ### S-411A：roompine（部落格文章＋X 貼文＋YouTube，日文）
 
 - 作者：roompine（部落格「シニアオタク」；X [@roompine](https://x.com/roompine/status/2112869668000239668)）
-- 文章：https://roompine.com/grok-bot-shortcut-location-sharing-1/ （2026-10-21，日文；同日追記影片 https://youtu.be/I3cWBiDg66E ）
+- 文章：[https://roompine.com/grok-bot-shortcut-location-sharing-1/](https://roompine.com/grok-bot-shortcut-location-sharing-1/) （2026-10-21，日文；同日追記影片 [https://youtu.be/I3cWBiDg66E](https://youtu.be/I3cWBiDg66E) ）
 - X 貼文：2026-10-21 19:32（台灣時間），日文。
 - 取得內容：本輪讀取文章全文（含作者與 Bot 的問答、兩張比較表、往返位置表）；捷徑截圖只讀文字說明，影片未看。作者文首註明內容不保證正確、僅適用能用 Siri AI 的 iPhone 機型。
 - 作者報告的做法與結果（翻譯改寫）：

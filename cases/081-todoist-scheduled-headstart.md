@@ -23,7 +23,7 @@
 ### S-081A：ChatGPT dots — 每 10 分鐘掃 Todoist，標「Dot reviewed」（作者自述＋截圖）
 
 - 作者：@evnsio（Chris Evans；簡介寫 Co-founder @incident_io）；英文；2026-10-16 20:18（台灣時間）。
-- 貼文：https://x.com/evnsio/status/2111069372127326668 （附一張任務截圖）。
+- 貼文：[https://x.com/evnsio/status/2111069372127326668](https://x.com/evnsio/status/2111069372127326668) （附一張任務截圖）。
 - 作者自述（翻譯改寫，非逐字）：新用法——請 OpenAI Dots 排程每 10 分鐘檢查一次自己的 Todoist，想辦法先幫自己在各項任務上「搶個先機」（give me a head start）。
 - 截圖可見：任務標題為跟催 Sarah 的 Slack 訊息；脈絡來自帳號／客戶頻道；標籤 `Dot reviewed` 顯示代理已審過該項。
 - 同串提問（未回答）：@dotsMCLOVIN 於同日 20:26（台灣時間）[回覆](https://x.com/dotsMCLOVIN/status/2111071339985445262) 問：編輯任務後「Dot reviewed」會不會重設，否則代理可能一直記得昨天的作業。此為合理風險提醒，不是作者確認的行為。

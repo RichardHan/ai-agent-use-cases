@@ -25,9 +25,9 @@
 ### S-087A：Mete Polat「ChatGPT Dot Review: Your Chief of Staff Is Still an Intern」
 
 - 作者：Mete Polat（Metedata）；英文；2026-10-15。
-- 連結：https://metedata.substack.com/p/chatgpt-dot-review-your-chief-of
+- 連結：[https://metedata.substack.com/p/chatgpt-dot-review-your-chief-of](https://metedata.substack.com/p/chatgpt-dot-review-your-chief-of)
 - 作者自述（翻譯改寫）：dot 從語音筆記開出 Codex 執行緒；早上遛狗時的 10 分鐘電話；找到沒用過的折扣碼後，在他說「Sure!」之後寄信請商家部分退款。缺點如上。
-- 證據標記：`author-self-report`。另見轉載 https://johan.se/post/261015-chatgpt-dot-review-your-chief-of-staff-is-still-an-intern （同題，本庫未逐字比對）。
+- 證據標記：`author-self-report`。另見轉載 [https://johan.se/post/261015-chatgpt-dot-review-your-chief-of-staff-is-still-an-intern](https://johan.se/post/261015-chatgpt-dot-review-your-chief-of-staff-is-still-an-intern) （同題，本庫未逐字比對）。
 
 ## 建議操作流程（本庫設計，未實測）
 

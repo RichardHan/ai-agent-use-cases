@@ -40,7 +40,7 @@
 
 - 原作者／出版方：株式会社Creer，文內未見個人署名。
 - 語言：日文；發布及文中實跑日期：2026-10-01。
-- 原文：https://cre-er.co.jp/technical-notes/dots-two-local-development-projects/
+- 原文：[https://cre-er.co.jp/technical-notes/dots-two-local-development-projects/](https://cre-er.co.jp/technical-notes/dots-two-local-development-projects/)
 - 已讀完整文章，重點為「提案だけでなく、ファイルの変更とテストまで進んだ」段。原始檔、腳本與結果未公開，未下載執行。
 - 這是作者在特定環境中的報告，並非官方對工程功能或設計品質的保證。
 

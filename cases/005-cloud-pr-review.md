@@ -16,7 +16,7 @@
 - 作者／出版方：Grok Bot Specialist（作者頁自述Cursor官方合作夥伴）
 - 發布日期：2026-09-08
 - 原文語言：ja
-- 網址：https://zenn.dev/tec/articles/c4fbfcfffde4ad
+- 網址：[https://zenn.dev/tec/articles/c4fbfcfffde4ad](https://zenn.dev/tec/articles/c4fbfcfffde4ad)
 
 ## 來源報告與限制
 
@@ -54,9 +54,9 @@
 
 ## 補充版本：ChatGPT dots 協調 Codex 執行緒（2026-10-13 新增，X 作者自述，未核）
 
-- 作者：@DanielBuildsAI（2026-10-02，英文）：https://x.com/DanielBuildsAI/status/2105996506381926779
+- 作者：@DanielBuildsAI（2026-10-02，英文）：[https://x.com/DanielBuildsAI/status/2105996506381926779](https://x.com/DanielBuildsAI/status/2105996506381926779)
 - 作者自述：他在一個 dot 對話中說明目標，由 dot 對多個 Codex 專案執行緒下指令、追進度，作者隨時可以接手個別執行緒。這和本頁「協調者交辦實作，再由人驗收」是同一種分工，只是工具換成 dots＋Codex。他沒有提供 PR、測試結果或失敗紀錄。
-- 反例：@lumirth（2026-10-05，英文）：https://x.com/lumirth/status/2107139755049623786 。他說 dot 讀不到既有的 Codex 執行緒，補足背景很費力；嘗試讓 Codex 改 dot 建立的執行緒時，dot 意外被刪除；權限詢問有時該問不問、不該問卻問。
+- 反例：@lumirth（2026-10-05，英文）：[https://x.com/lumirth/status/2107139755049623786](https://x.com/lumirth/status/2107139755049623786) 。他說 dot 讀不到既有的 Codex 執行緒，補足背景很費力；嘗試讓 Codex 改 dot 建立的執行緒時，dot 意外被刪除；權限詢問有時該問不問、不該問卻問。
 - 限制：兩篇都是個人感想，沒有可重現的步驟。不推論 dots 的 Codex 協調能力在 Grok Bot 或 Cursor 中也存在，反之亦然。本頁的建議流程與提示詞不變；套用到 dots 時，同樣是「人核准後才實作、PR 由人合併」。
 
 ## 去重與版本
@@ -134,7 +134,7 @@ OpenAI [電腦與應用程式文件](https://learn.chatgpt.com/docs/dots/compute
 
 ### 社群來源與證據（`author-demo`，未核）
 
-- 作者：@0xKyosuke（きょすけ），2026-10-14 11:37（台灣時間），日文：https://x.com/0xKyosuke/status/2110213367495623023
+- 作者：@0xKyosuke（きょすけ），2026-10-14 11:37（台灣時間），日文：[https://x.com/0xKyosuke/status/2110213367495623023](https://x.com/0xKyosuke/status/2110213367495623023)
 - 作者自述的分工（改寫）：Grok Bot 的 Bot A 監看 GitHub issue，把「可自動處理」的貼上標籤；Bot B 審查有標籤的 issue，判斷可以自動處理時，透過 Tailscale 連到家裡的迷你電腦，指示上面名為 Orca 的工具處理；迷你電腦上的 Orca 一路做到開 PR；作者再用主力電腦上的 Orca 檢視迷你電腦那邊的工作過程，然後自己合併。
 - 和本頁原有版本的差別：多了「先分流、再二次審查」兩道關卡，實作放在自己的機器而不是雲端代理；合併仍由人決定。
 - 缺口：只有一則短貼文，沒有 repo、標籤規則、PR 範例、誤判或失敗紀錄。Orca 的產品身分與能力本庫未查證，不推定它是哪一家的工具；也沒有查證 Grok Bot 透過 Tailscale 操作自家電腦的官方支援方式。

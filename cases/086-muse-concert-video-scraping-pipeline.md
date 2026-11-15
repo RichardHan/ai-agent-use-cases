@@ -24,13 +24,13 @@
 ### S-086A：Scott Cooper「Meta’s Muse is fantastic for web scraping」
 
 - 作者：Scott Cooper（sigh.dev）；英文；2026-10-01。
-- 連結：https://sigh.dev/posts/metas-muse-is-fantastic-for-web-scraping/
+- 連結：[https://sigh.dev/posts/metas-muse-is-fantastic-for-web-scraping/](https://sigh.dev/posts/metas-muse-is-fantastic-for-web-scraping/)
 - 作者自述（翻譯改寫）：個人助理功能對他用處不大；真正有用的是大量 Reddit／YouTube 資料與便宜 token。Muse 負責找頻道與影片，也在管線末端做藝人配對、審 Luna／Gemini 輸出、最後核可。作者並擔心這種大量抓取會讓更多網站封鎖 Muse。
 - 證據標記：`author-self-report`。
 
 ### S-086B：Hacker News 討論（pending-verification）
 
-- 連結：https://news.ycombinator.com/item?id=49929970 （2026-10 上旬；英文）
+- 連結：[https://news.ycombinator.com/item?id=49929970](https://news.ycombinator.com/item?id=49929970) （2026-10 上旬；英文）
 - 留言者轉述：Muse 遇到驗證碼會詢問是否代解；也有人說 Muse 的固定 IP 逐漸被網站辨識並封鎖，實用性下降。皆為匿名留言，本庫未驗證。
 
 ## 建議操作流程（本庫設計，未實測）

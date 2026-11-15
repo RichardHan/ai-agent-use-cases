@@ -16,7 +16,7 @@
 - 作者／出版方：Diana／Dianas AI Agents Tips（AI Agents Library經營者）
 - 發布日期：2026-10-10；更新：2026-10-12
 - 原文語言：en
-- 網址：https://www.aiagentslibrary.com/blog/meta-muse-facebook-test/
+- 網址：[https://www.aiagentslibrary.com/blog/meta-muse-facebook-test/](https://www.aiagentslibrary.com/blog/meta-muse-facebook-test/)
 - 利益揭露：作者也提供自己的Skills與課程；使用其自製Skill的比較不是獨立對照實驗。
 
 ## 來源報告與限制

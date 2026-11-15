@@ -48,7 +48,7 @@ UC-044處理共用任務看板，UC-175處理團體實際支出分攤，UC-246�
 ## 來源
 
 - u/ElevatorSwag，英文，Reddit r/MuseAgent。首次查閱2026-10-17；原頁僅顯示相對日期，精確發文時間未核，不以搜尋抓取日代替發文日。
-  https://www.reddit.com/r/MuseAgent/comments/1x3mvb3/comment/pfcmfw9/
-  https://www.reddit.com/r/MuseAgent/comments/1x3mvb3/comment/pffbkk5/
+  [https://www.reddit.com/r/MuseAgent/comments/1x3mvb3/comment/pfcmfw9/](https://www.reddit.com/r/MuseAgent/comments/1x3mvb3/comment/pfcmfw9/)
+  [https://www.reddit.com/r/MuseAgent/comments/1x3mvb3/comment/pffbkk5/](https://www.reddit.com/r/MuseAgent/comments/1x3mvb3/comment/pffbkk5/)
 - Meta，How Muse works with Connectors，2026-10-17查閱；僅作連接權限背景。
-  https://www.meta.com/en-gb/help/artificial-intelligence/1687253048996149/
+  [https://www.meta.com/en-gb/help/artificial-intelligence/1687253048996149/](https://www.meta.com/en-gb/help/artificial-intelligence/1687253048996149/)

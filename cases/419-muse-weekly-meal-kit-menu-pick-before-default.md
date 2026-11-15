@@ -21,7 +21,7 @@
 
 ### S-419A：UFOFlyer（Hacker News，英文）
 
-- 網址：https://news.ycombinator.com/item?id=50188093 （「Claude Duet」討論串中的留言）
+- 網址：[https://news.ycombinator.com/item?id=50188093](https://news.ycombinator.com/item?id=50188093) （「Claude Duet」討論串中的留言）
 - 日期：2026-10-21 21:43 UTC（台灣時間 10-22 05:43）；英文；經 HN Algolia 公開 API 讀全文與前幾則回覆。
 - 作者報告（翻譯改寫）：用 Muse 的瀏覽器操作能力「穿過難用的網頁介面」很成功。他訂了送餐服務，網頁慢、常忘記挑下週餐點而被派到不想吃的預設菜，所以現在讓 Muse 每週爬一遍那個 app，依他的飲食偏好把他在意的選項整理出來。他認為多數人都有幾個「習慣性多步驟流程」可以換成一個按鈕或一句提示。
 - 同則留言另一用法（租屋每日搜尋）已併入 [UC-348](348-home-search-screening-realtor-disclosure-handoff.md)。

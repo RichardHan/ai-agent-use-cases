@@ -21,7 +21,7 @@
 
 ### S-418A：Satoru／Toko（@tokothecat，note，日文）
 
-- 網址：https://note.com/tokothecat/n/n8090ef61281f
+- 網址：[https://note.com/tokothecat/n/n8090ef61281f](https://note.com/tokothecat/n/n8090ef61281f)
 - 日期：2026-10-22 10:51（日本時間；台灣時間 09:51）；日文；免費全文經note公開API讀取。
 - 文章標題（翻譯）：〈回答「上個月你在做什麼？」——用Grok Bot的記錄係〉。同作者系列「一篇一個交給Bot的工作」，其他篇已見於UC-113、UC-225、UC-277。
 - 作者報告（翻譯改寫）：

@@ -28,11 +28,11 @@
 
 ### S-420B：@CarolinaDill（X，英文）——Grok Bot 數字儀表板（`author-demo`）
 
-- 主貼文：https://x.com/CarolinaDill/status/2113071171340275868 ，2026-10-22 00:53 UTC（台灣時間 08:53），引用上述 @bot 貼文，附一張截圖。
-- 補充回覆：https://x.com/CarolinaDill/status/2113106546473251295 ，2026-10-22 03:13 UTC（台灣時間 11:13），附公開快照連結與數字截圖；另一則回覆說是「每天早上」更新（別人是每週）。
+- 主貼文：[https://x.com/CarolinaDill/status/2113071171340275868](https://x.com/CarolinaDill/status/2113071171340275868) ，2026-10-22 00:53 UTC（台灣時間 08:53），引用上述 @bot 貼文，附一張截圖。
+- 補充回覆：[https://x.com/CarolinaDill/status/2113106546473251295](https://x.com/CarolinaDill/status/2113106546473251295) ，2026-10-22 03:13 UTC（台灣時間 11:13），附公開快照連結與數字截圖；另一則回覆說是「每天早上」更新（別人是每週）。
 - 作者報告（翻譯改寫）：請 Bot 把她追的 Grok Bot 數字做成一頁，幾分鐘就有含數字磚、圖表與來源清單的儀表板；接著在聊天裡一起改：加顏色、把表格換成圖、標出哪個 app 是哪個。她自己那份每天早上更新，另做了一份當天的公開快照。她最喜歡的是「在聊天裡跟 Bot 一起改」。
 - 截圖可見內容（本庫讀圖）：標題「Grok Bot by the Numbers」，說明為 2026-10-21 的快照，章節有 X 貼文、Google 搜尋、App Store 排名、回報使用者數、出處；數字磚含 10-20 提及「Grok Bot」的 X 貼文 12,590 則（較 10-19 的 12,323 多 267，來源 X）、Apple 美國免費總榜第86名（10-20 為第90）、生產力類第14名、Google Play 4.7 分（13,583 則評分、100萬次以上安裝）、iPhone 4.91 分（12,970 則評分）、Marketplace 公開範本 90 個，每格都標資料來源與日期。
-- 公開快照：https://tidy-meadow-cmmjbf.pages.grok.bot/ （由貼文短網址轉址得到；標題可讀為「Grok Bot by the Numbers」，內容由前端載入，本庫未取得正文）。網址不是由頁面標題產生，與官方說明「由標題產生」不一致，原因不明，僅記錄。
+- 公開快照：[https://tidy-meadow-cmmjbf.pages.grok.bot/](https://tidy-meadow-cmmjbf.pages.grok.bot/) （由貼文短網址轉址得到；標題可讀為「Grok Bot by the Numbers」，內容由前端載入，本庫未取得正文）。網址不是由頁面標題產生，與官方說明「由標題產生」不一致，原因不明，僅記錄。
 - 缺口：每天早上更新是怎麼設的（routine 或其他）、數字怎麼取得（X 計數、App Store 排名的實際來源與方法）、私人版和公開快照是否同一頁或複製一份，作者都沒說；本庫未核截圖數字。
 
 ### 相關但不計入的說法

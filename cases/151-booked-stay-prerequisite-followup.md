@@ -37,7 +37,7 @@
 ## 來源與去重
 
 - 作者：朱亚威／Henson；簡體中文；2026-10-10，時區未提供。
-- 原文：https://zhuyawei.com/blog/meta-muse-personal-workflow-cloud-deploy/
-- 同站英文：https://zhuyawei.com/en/blog/meta-muse-personal-workflow-cloud-deploy/
+- 原文：[https://zhuyawei.com/blog/meta-muse-personal-workflow-cloud-deploy/](https://zhuyawei.com/blog/meta-muse-personal-workflow-cloud-deploy/)
+- 同站英文：[https://zhuyawei.com/en/blog/meta-muse-personal-workflow-cloud-deploy/](https://zhuyawei.com/en/blog/meta-muse-personal-workflow-cloud-deploy/)
 - 已讀中英文完整作者文章；同站翻譯不是兩份獨立證據。
 - 已比UC-001、040、049：初次比價結帳、公開天氣交通複查及一般收件匣整理不同於既定訂房履約前置依賴追蹤。多平台及多提醒合計一次，文章其他開發用途不另拆計。

@@ -22,13 +22,13 @@
 ### S-071A：ChatGPT dots × Obsidian — 看得見的外接腦（作者教學）
 
 - 作者：@MakeAI_CEO（mana｜株式会社MakeAI CEO）；日文；串文起始 2026-10-15 18:37（台灣時間，貼文時間 2026-10-15T10:37:33Z）
-- 主帖：https://x.com/MakeAI_CEO/status/2110681479449841874
+- 主帖：[https://x.com/MakeAI_CEO/status/2110681479449841874](https://x.com/MakeAI_CEO/status/2110681479449841874)
 - 續帖（同串）：記憶限制說明、為何用 Obsidian、三步驟設定、三個活用例  
-  https://x.com/MakeAI_CEO/status/2110681482662658476  
-  https://x.com/MakeAI_CEO/status/2110681485774561761  
-  https://x.com/MakeAI_CEO/status/2110681489679794216  
-  https://x.com/MakeAI_CEO/status/2110681492288680045  
-  https://x.com/MakeAI_CEO/status/2110681494729683069
+  [https://x.com/MakeAI_CEO/status/2110681482662658476](https://x.com/MakeAI_CEO/status/2110681482662658476)  
+  [https://x.com/MakeAI_CEO/status/2110681485774561761](https://x.com/MakeAI_CEO/status/2110681485774561761)  
+  [https://x.com/MakeAI_CEO/status/2110681489679794216](https://x.com/MakeAI_CEO/status/2110681489679794216)  
+  [https://x.com/MakeAI_CEO/status/2110681492288680045](https://x.com/MakeAI_CEO/status/2110681492288680045)  
+  [https://x.com/MakeAI_CEO/status/2110681494729683069](https://x.com/MakeAI_CEO/status/2110681494729683069)
 - 作者另引用長文標題〈Obsidian × dots完全活用ガイド〉（[貼文](https://x.com/MakeAI_CEO/status/2110593793364029721)，約 2026-10-15 12:49 台灣時間）；本庫未能讀取 X Article 全文，僅依公開串文整理。
 - 作者自述要點（翻譯改寫）：
   1. Dot 內建記憶目前無法逐筆查看、刪除或修改；要清掉只能重置整個 Dot（連對話、記憶、定期任務一併消失）。斷開 App 連線也不會刪掉已學到的內容。

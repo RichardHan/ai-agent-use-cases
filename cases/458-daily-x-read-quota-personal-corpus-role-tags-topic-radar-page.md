@@ -21,7 +21,7 @@
 
 ### S-427A：@mspd4100（X，簡體中文）
 
-- 網址：https://x.com/mspd4100/status/2113162143126478959
+- 網址：[https://x.com/mspd4100/status/2113162143126478959](https://x.com/mspd4100/status/2113162143126478959)
 - 發布：2026-10-22 06:54 UTC（台灣時間 14:54）；簡體中文；附 3 張截圖（本庫已看）。本貼文引用作者同日稍早轉發官方頁面功能公告的[貼文](https://x.com/mspd4100/status/2113059579806503051)。
 - 作者自述（翻譯改寫，非逐字）：Grok Bot 每天有免費的 X 讀取額度，不用很可惜，就讓 Bot 每天自己想辦法抓資料和內容、結構化存進庫裡；一開始只抓自己的歷史貼文與回覆，順手做了自我畫像與歷史資料索引；後來擴大到關注的領域和帳號，一週累積 3 萬多則貼文、4 萬多行數據；再讓它用頁面功能做成看板，畫像、熱點話題、帳號分類都能切換著看。
 - 截圖內容（本庫判讀）：
@@ -32,7 +32,7 @@
 
 ### 官方功能（頁面與 X 讀取）
 
-- 頁面功能說明：https://cursor.com/help/grok-bot/pages ；官方公告：https://x.com/bot/status/2112992872857252082 （已在 [UC-420](420-grok-bot-pages-metrics-dashboard-morning-refresh-public-snapshot.md) 引用）。
+- 頁面功能說明：[https://cursor.com/help/grok-bot/pages](https://cursor.com/help/grok-bot/pages) ；官方公告：[https://x.com/bot/status/2112992872857252082](https://x.com/bot/status/2112992872857252082) （已在 [UC-420](420-grok-bot-pages-metrics-dashboard-morning-refresh-public-snapshot.md) 引用）。
 - X 讀取：[Use the computer and apps](https://docs.x.ai/grok-bot/computer-and-apps)、[Grok Bot now works with X](https://x.ai/news/grok-bot-and-x)（已在 [UC-046](046-followed-accounts-daily-digest.md) 引用；後者稱付費使用者有起始的免費 X API 額度，額度用完後的計費本庫未查）。
 
 ## 建議操作流程（本庫設計，未實跑；依作者描述的順序）

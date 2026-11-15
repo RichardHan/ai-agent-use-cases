@@ -23,7 +23,7 @@
 ### S-085A：James Pember「Grok Bot (is really good)」
 
 - 作者：James Pember；英文；2026-10-04。
-- 連結：https://jamespember.substack.com/p/grok-bot-is-really-good
+- 連結：[https://jamespember.substack.com/p/grok-bot-is-really-good](https://jamespember.substack.com/p/grok-bot-is-really-good)
 - 作者自述（翻譯改寫）：在 Slack 裡用 Grok Bot 做 bug 第一線分流；每兩週讓它從發布說明、GitHub 與 Slack 彙整產品行銷預讀。
 - 證據標記：`author-self-report`。無截圖可核，未取得分流規則。
 

@@ -14,7 +14,7 @@
 - 作者：松田 和雄｜AI組織の箱庭
 - 發布日期：2026-09-09 11:41（頁面時間，時區未另核）
 - 原文語言：日文。
-- 網址：https://note.com/matsudakz/n/n7e2dad959cde
+- 網址：[https://note.com/matsudakz/n/n7e2dad959cde](https://note.com/matsudakz/n/n7e2dad959cde)
 
 ## 作者報告與限制
 

@@ -46,7 +46,7 @@
 
 ## 2026-10-16 補充：Arduino LED 跑馬燈顯示股價折線與新聞
 
-- 來源：@KettlebellDan；英文；2026-08-17（UTC）；https://x.com/KettlebellDan/status/2089387837204693202
+- 來源：@KettlebellDan；英文；2026-08-17（UTC）；[https://x.com/KettlebellDan/status/2089387837204693202](https://x.com/KettlebellDan/status/2089387837204693202)
 - 作者自述（翻譯）：請 Grok Bot 連上他的 Arduino 裝置，LED 顯示板變成捲動跑馬燈，顯示某檔股票現價、折線圖與最新相關新聞。
 - 證據：`author-demo`（附影片，本庫未看）；連接方式（USB／Wi‑Fi、是否在本機執行）未說明。
 - 與本頁關係：同屬「代理寫入實體顯示裝置並需肉眼驗收」，故併入為變體；股價資料來源與更新頻率需自行核對，非投資建議。

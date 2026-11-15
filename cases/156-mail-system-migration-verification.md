@@ -38,9 +38,9 @@ u/nighthawk5300自述替建築公司從舊郵件伺服器移往Microsoft，已�
 ## 來源與去重
 
 - u/nighthawk5300；英文；原發布日期未核。
-- 原始回覆：https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peug3yn/
-- 補述：https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peukaua/
+- 原始回覆：[https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peug3yn/](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peug3yn/)
+- 補述：[https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peukaua/](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/peukaua/)
 - 已從可讀原串取得正文；其後出現JS驗證頁，未執行驗證或改路繞過。未採搜尋索引日期作原發時間。
-- 條件式Microsoft背景：https://learn.microsoft.com/en-us/microsoft-365/admin/get-help-with-domains/create-dns-records-at-any-dns-hosting-provider?view=o365-worldwide （更新2026-04-23）。
-- Grok安全背景：https://docs.x.ai/grok-bot/approvals-security-and-privacy （更新2026-10-12）。
+- 條件式Microsoft背景：[https://learn.microsoft.com/en-us/microsoft-365/admin/get-help-with-domains/create-dns-records-at-any-dns-hosting-provider?view=o365-worldwide](https://learn.microsoft.com/en-us/microsoft-365/admin/get-help-with-domains/create-dns-records-at-any-dns-hosting-provider?view=o365-worldwide) （更新2026-04-23）。
+- Grok安全背景：[https://docs.x.ai/grok-bot/approvals-security-and-privacy](https://docs.x.ai/grok-bot/approvals-security-and-privacy) （更新2026-10-12）。
 - 已比UC-067、069、079：重建手冊、待辦搬家與郵件別名修復不同於郵件服務整體移轉；簽名和MX不各拆一例。

@@ -37,7 +37,7 @@
 ### S-076B：Grok Bot — 美國「拒接來電登記」＋監看確認信（使用者自述）
 
 - 作者：@TravisHein21740（Travis Heinze travels）；英文；2026-10-16 14:34（台灣時間）。
-- 貼文：https://x.com/TravisHein21740/status/2110982694901264629 （回覆 @MinimalDuck 的 Spam-Call Scrubber 貼文）
+- 貼文：[https://x.com/TravisHein21740/status/2110982694901264629](https://x.com/TravisHein21740/status/2110982694901264629) （回覆 @MinimalDuck 的 Spam-Call Scrubber 貼文）
 - 作者自述（翻譯改寫，非逐字）：自己請 @bot 把自己加進美國國家拒接來電登記（National Do Not Call Registry）；仍須在 72 小時內點開電子郵件裡的確認連結。作者建議再加一條指示：讓 Bot 監看那封確認信並代為點連結，即可一次做完。
 - 證據標記：`author-demo`（單次回覆自述，無截圖、無登記編號、無確認信畫面）。
 - 與本頁建議流程的差異：本庫設計流程仍建議**人先核對確認信網域再親自點連結**（見上方步驟 5），避免誤點釣魚信。S-076B 記錄的是作者願意把「點確認連結」也交給 Bot 的做法；若你採用，至少要求 Bot 先回報寄件者、網域與連結全文，經你核准後再點。
@@ -46,7 +46,7 @@
 ### S-076C：Grok Bot — 西班牙「Lista Robinson」登記＋清理 Gmail 行銷信（使用者自述）
 
 - 作者：@Ivangrisa（ivangrisa）；西班牙文；2026-10-16 17:17（台灣時間）。
-- 貼文：https://x.com/Ivangrisa/status/2111023821977174132 （引用上方 S-076A 的 @elonmusk 轉貼）
+- 貼文：[https://x.com/Ivangrisa/status/2111023821977174132](https://x.com/Ivangrisa/status/2111023821977174132) （引用上方 S-076A 的 @elonmusk 轉貼）
 - 作者自述（翻譯改寫，非逐字）：請 @bot 把自己從所有垃圾名單移除、並登記 Lista Robinson；約 10 分鐘內：
   1. 已登記 Lista Robinson（作者說用來擋行銷電話與簡訊）。
   2. 找出 40 多個幾乎每天寄信到他 Gmail 的品牌。

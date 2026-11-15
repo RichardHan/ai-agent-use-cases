@@ -77,7 +77,7 @@
 
 ## 獨立審查與交付
 
-`FinalCardReview` 未參與實作，唯讀檢查實際變更與證據。初次指出新 browser 檔尚未出現在 git diff；整合者以 selective commit draft 核對五個產品／測試／README 檔案均被選入，包含該新檔。第二次審查結論 **correct、無 findings**，撤回漏交疑慮。主整合者另外核對完整瀏覽器 exit 0 與三尺寸結果，不以 agent 的結論替代驗收。PR／commit／發布結果於發布核對後補記。
+`FinalCardReview` 未參與實作，唯讀檢查實際變更與證據。初次指出新 browser 檔尚未出現在 git diff；整合者以 selective commit draft 核對五個產品／測試／README 檔案均被選入，包含該新檔。第二次審查結論 **correct、無 findings**，撤回漏交疑慮。主整合者另外核對完整瀏覽器 exit 0 與三尺寸結果，不以 agent 的結論替代驗收。PR／commit／發布結果見下方。
 
 ## 限制與下一輪
 
@@ -85,3 +85,26 @@
 - 工具辨識仍是既有字面規則。VisitorBaseline 提出下一輪候選：UC-227 的分頁 `cursor` 可能被誤認成 Cursor 產品；本輪不把新候選當已修，也不擴大本次顯示修復。
 - **下一輪先做一件事**：以正式站 `?q=UC-227&scope=topic&tool=Cursor` 與原文的 cursor 上下文確認是否誤歸屬，再盤點全庫同類命中及正向 Cursor 用例，決定保守排除規則；不要直接把所有小寫 cursor 排除。
 - 發布等待上限：PR 檢查／main QA 各最多 25 分鐘，發布版本另以現有 120 秒有界檢查；超時如實保留未確認狀態，不宣稱成功。
+
+## PR 與合併
+
+- 實作 commit：[`c7ea1d299c9665805e807264b55f6f234584a5fa`](https://github.com/RichardHan/ai-agent-use-cases/commit/c7ea1d299c9665805e807264b55f6f234584a5fa)，已推送。
+- [PR #405](https://github.com/RichardHan/ai-agent-use-cases/pull/405)：合併前再次以 API 核對 head=`c7ea1d299c`、base=`db2cc25f9c`，18 項皆結束，其中 16 success、2 個 `published` 依 PR 條件 skipped；沒有把排隊／進行中算作通過。
+- [PR Website QA 43677901019](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43677901019) success，head 精確對應實作 commit；實際 Jekyll build、建置 corpus、頁面語言與發布面步驟皆 success。
+- 獨立審查對應同一 head，記錄於 [PR comment](https://github.com/RichardHan/ai-agent-use-cases/pull/405#issuecomment-6889306018)。這是獨立 agent 審查，不冒稱 GitHub 人類 approval。
+- 合併 commit：[`31a3cfb70d19be9905458df7b4b25535c942d900`](https://github.com/RichardHan/ai-agent-use-cases/commit/31a3cfb70d19be9905458df7b4b25535c942d900)，2026-11-15 04:56:26 UTC；只將本輪隔離工作樹快轉至該提交，未移動原 main／verification 工作樹。
+
+## 合併版正式站驗收
+
+- `GITHUB_SHA=31a3cfb70d19be9905458df7b4b25535c942d900 NODE_PATH=<既有 node_modules> node tests/deployed-browser.cjs`：`PUBLISHED_LIVE_BUILD_CURRENT` 精確同版，桌面／手機探索、詳情、重整、搜尋復原及 JS 停用索引／鍵盤／返回通過。[輸出](live-browser.txt)。
+- 使用正式站 origin 再執行 `tests/card-tools-browser.cjs`，1440／390／320px 的完整工具、結果／抽卡、換行、篩選切換與鍵盤返回皆通過。[結果](live-card-tools.txt)。
+- 主整合者另用瀏覽器實走桌面／手機三情境，GitHub 固定合併 SHA 的原始 Markdown 新分頁實際載入成功。[流程 JSON](live-journeys.json)、[桌面截圖](live-UC-046-1440.png)、[手機](live-UC-046-390.png)、[小手機](live-UC-046-320.png)、[七工具長卡](live-UC-067-320.png)。
+- 正式站與基準同樣在立即重整／關閉詳情時留下來源請求 `net::ERR_ABORTED`；流程與 JS pageerror 斷言通過，未把導頁取消請求稱作新產品回歸，也未隱藏紀錄。
+- [版本與位元核對](release.json)：正式 catalog `sourceRevision=31a3cfb70d19be9905458df7b4b25535c942d900`，526 來源；`assets/app.js` 與受審程式逐位元一致，400647 bytes，SHA-256 `05c832183fb7a605c3598618fe05120521126077596a25f4de55710512b8c3a1`。
+
+## 發布結論與接續提交
+
+- 合併版 [Pages 43678904733](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43678904733) 與 [Website QA 43678905015](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43678905015) 均 **success**，兩者 head 精確為 `31a3cfb70d19be9905458df7b4b25535c942d900`。[機讀裁決](release-runs.json)。
+- 有界等待約 14 分鐘完成，未達 25 分鐘上限；沒有重跑失敗工作或跳過必要檢查。
+- **已提交、已推送、已合併、部署成功、正式站已驗證**。本輪沒有未確認的產品發布阻塞；影像目視限制與下一輪 Cursor 語義候選仍如上所列。
+- 本段、SITE 與正式站證據沿用既有慣例，以只改 `docs/qa/`、`SITE.md` 的接續提交保存；兩者均由 `_config.yml` 排除於發布面，不更動受審產品。接續提交觸發 Pages 後，再核對其 sourceRevision 及相同 app 位元，結果附於 PR；沒有觸發的 Website QA 不稱為再次通過。

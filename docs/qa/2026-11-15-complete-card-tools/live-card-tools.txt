@@ -1,0 +1,6 @@
+sourceRevision: 31a3cfb70d19be9905458df7b4b25535c942d900
+NODE_PATH=<existing node_modules> node (launch Chromium, invoke tests/card-tools-browser.cjs with production origin)
+PASS CARD TOOLS: 1440px, complete lists in results/draw, wrapping, filter changes and keyboard return
+PASS CARD TOOLS: 390px, complete lists in results/draw, wrapping, filter changes and keyboard return
+PASS CARD TOOLS: 320px, complete lists in results/draw, wrapping, filter changes and keyboard return
+exit: 0

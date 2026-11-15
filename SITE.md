@@ -2,6 +2,8 @@
 
 正式站以 Notion 篩選 UC-046，卡片卻只列 Grok Bot／Meta Muse；本輪移除共用卡片的前兩項截斷，結果與抽卡完整列出既有工具清單，不改歸屬、順序、筆數或原始資料。529 條目中 83 張卡片增加可見工具；最長七項在 320px 換為四行，沒有水平溢出，接受抽樣卡片最多約 60px 的高度增加。真實案例回歸先紅後綠、全套 766 通過、三尺寸瀏覽器與三種訪客情境通過，獨立 reviewer 最終無 findings。現行 Actions 基準綠，已讀近期失敗的原始 log，本輪不改 workflow。[完整方案、前後截圖、測試、限制與發布接續](docs/qa/2026-11-15-complete-card-tools/README.md)。
 
+交付：[PR #405](https://github.com/RichardHan/ai-agent-use-cases/pull/405)，實作 `c7ea1d299c`、合併 `31a3cfb70d`；[main Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43678905015) 與 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43678904733) 同版成功。正式 catalog revision 與合併 SHA 相同，app 逐位元一致；正式站三尺寸完整工具列與桌面／手機三情境通過。發布 JSON、正式截圖與限制見本輪紀錄；後續只補被發布面排除的維護文件。
+
 下一輪：先驗 UC-227 的分頁 `cursor` 是否誤列為 Cursor 工具；核對正式站與原文，再盤點全庫正反用例，不直接排除所有小寫 cursor。
 
 ## 2026-11-15 工具篩選不把「無對應實測」當成使用工具

@@ -74,7 +74,7 @@
 - 桌面 1440×1000：不以工具名搜尋「我想把會議錄音整理成待辦」→ 11 筆、顯示「錄音＋待辦」字面拆詞 → UC-511 詳情 → 來源固定合併版本；Escape 返回後查詢保留。
 - 手機 390×844：`?q=旅遊&kind=pending` → 0 筆 → 按「移除收錄狀態「待查線索」→ 查看 36 筆」→ 36 筆。
 - 手機 390×844：分享 `?case=UC-528` → 詳情開啟 → 來源連結 `target="_blank"`、`rel="noopener noreferrer"`、固定 `74e96d2c…`；`sourceLatestHidden=true`。
-- 三情境 `documentElement.scrollWidth - innerWidth` 均為 0；沒有 pageerror。完整數值見 [`live-before.json`](live-before.json)；來源頁前後截圖在 [`before/`](before/)、[`after/`](after/)。
+- 三情境 `documentElement.scrollWidth - innerWidth` 均為 0；沒有 pageerror。完整數值見 [`live-before.json`](live-before.json)；來源頁 before 截圖在 [`before/`](before/)，部署後補 `after/`。
 
 ## 獨立審查
 

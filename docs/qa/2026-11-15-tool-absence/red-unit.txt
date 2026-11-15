@@ -1,0 +1,68 @@
+✔ a tool listed on a card is mentioned by the page itself, not only by a source address (354.810417ms)
+✔ a source address alone does not produce a tool, a sentence about the tool does (7.295041ms)
+✔ cases whose only GitHub contact is a link to their own research repository (76.25025ms)
+✔ disclaimers, deduplication contrasts, and relative case links do not produce tool tags (3.302042ms)
+✖ missing counterpart trials do not attribute tools, while failed and unverified uses remain discoverable (7.353625ms)
+✖ UC-040 exposes its dots trial, not the explicitly absent Grok Bot and Muse trials (7.582208ms)
+✔ corpus cases with scope disclaimers or deduplication links list only tools actually used (262.833083ms)
+✔ the 提及工具 facet still explains what it counts and excludes disclaimers (1.448791ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 781.155834
+
+✖ failing tests:
+
+test at tests/tool-mention-fidelity.test.cjs:100:1
+✖ missing counterpart trials do not attribute tools, while failed and unverified uses remain discoverable (7.353625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'Grok Bot',
+  +   'Meta Muse',
+      'ChatGPT dots'
+    ]
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/ai-agent-use-cases-verification/tests/tool-mention-fidelity.test.cjs:104:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Grok Bot', 'Meta Muse', 'ChatGPT dots' ],
+    expected: [ 'ChatGPT dots' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/tool-mention-fidelity.test.cjs:111:1
+✖ UC-040 exposes its dots trial, not the explicitly absent Grok Bot and Muse trials (7.582208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'Grok Bot',
+  +   'Meta Muse',
+      'ChatGPT dots'
+    ]
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/ai-agent-use-cases-verification/tests/tool-mention-fidelity.test.cjs:115:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Grok Bot', 'Meta Muse', 'ChatGPT dots' ],
+    expected: [ 'ChatGPT dots' ],
+    operator: 'deepStrictEqual'
+  }

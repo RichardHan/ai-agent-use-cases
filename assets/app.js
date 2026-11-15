@@ -259,13 +259,20 @@ const DEDUP_SECTION=/^#{2,3}\s+(?:前批)?去重[^\n]*\n[\s\S]*?(?=^#{2,3}\s+|$(
 const CROSS_CASE_LINE=/(?:^|\n)\s*-\s*(?:不同於|相近但不同|相近案例)[^\n]*/g;
 const CROSS_CASE_CLAUSE=/(?:不同(?:於)?|與)\s*(?:\[\s*(?:UC-)?\d+[^\]]*\]|UC-\d+)|(?:已收在|版本見)\s*(?:\[\s*(?:UC-?)?\d+[^\]]*\]|UC-?\d+)/;
 const DISCLAIMED_TOOL_CLAUSE=/不推定|不能推定|不推論|不推廣為|不套用到|不泛化|不能(?:直接把其說明)?泛化|不推及|不能外推到|不代表[^。；;\n]*有同(?:樣|一)|不要假設[^。；;\n]*具備|本輪(?:未|沒有)找到[^。；;\n]*實例|(?:未找到|沒有相同輸入條件下)[^。；;\n]*實測|尚無(?:此功能|[^。；;\n]*實測證據)|尚未找到[^。；;\n]*對照|作者說不需要|不需要\s*(?:Meta\s*)?Muse|未證實是\s*dots|不能歸入\s*dots|不能當\s*dots\s*實作|也許也做得到|不據此認定|不是\s*Grok\/Muse\/dots\s*性能排行|只是(?:作者)?推測|的本機連線機制不同|另一則貼文談的是|與本案工具不同/;
+const TOOL_ONLY_PATTERNS=TOOL_PATTERNS.map(([name,pattern])=>new RegExp('^(?:'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'|'+pattern.source+')$','i'));
+function isAbsentToolTrial(clause){
+  // Only a tool list followed by an absence statement. A real (even failed) use
+  // may share a clause with a missing comparison trial and must remain searchable.
+  const match=clause.match(/^\s*(?:-\s*)?(?:工具\s*[：:]\s*)?(.+?)\s*(?:本頁|本案)?(?:無|沒有)(?:對應|同題|同類|同等)實測\s*$/);
+  return !!match&&match[1].split(/[／/、]|或|與|及/).every(name=>TOOL_ONLY_PATTERNS.some(pattern=>pattern.test(name.trim())));
+}
 function withoutDisclaimedTools(text){
   return withoutSourceUrls(text||'')
     .replace(RELATIVE_LINK_DESTINATION,' ] ')
     .replace(DEDUP_SECTION,'\n')
     .replace(CROSS_CASE_LINE,'\n')
     .split(/[，,。；;\n]/)
-    .filter(clause=>!CROSS_CASE_CLAUSE.test(clause)&&!DISCLAIMED_TOOL_CLAUSE.test(clause))
+    .filter(clause=>!CROSS_CASE_CLAUSE.test(clause)&&!DISCLAIMED_TOOL_CLAUSE.test(clause)&&!isAbsentToolTrial(clause))
     .join('\n');
 }
 // `（翻譯改寫）` and `（本庫設計，未實測）` say how this page was written, not what the

@@ -1,0 +1,59 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 900,
+    "cardTools": "UC-040 · Grok Bot / Meta Muse",
+    "wrongToolIncludesCase": true,
+    "trust": "成果主張：主要 社群作者／專案實踐者；另宣告 設計／未實跑\n核讀：主要 本庫未獨立重現；其他類別見下方\n核讀與安全建議 ↓",
+    "original": "https://github.com/RichardHan/ai-agent-use-cases/blob/5a1663e85d794aa7c77e8ee4cd236b6d56cea2c7/cases/040-trip-deferred-recheck.md",
+    "external": "https://x.com/jibeiguang/status/2110168121852248425",
+    "sourceTitle": "ai-agent-use-cases/cases/040-trip-deferred-recheck.md at 5a1663e85d794aa7c77e8ee4cd236b6d56cea2c7 · RichardHan/ai-agent-use-cases · GitHub",
+    "overflow": 0,
+    "axeViolations": 0,
+    "pageErrors": [],
+    "scenarios": [
+      "problem search",
+      "combined empty recovery",
+      "shared detail refresh/source/return"
+    ]
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "cardTools": "UC-040 · Grok Bot / Meta Muse",
+    "wrongToolIncludesCase": true,
+    "trust": "成果主張：主要 社群作者／專案實踐者；另宣告 設計／未實跑\n核讀：主要 本庫未獨立重現；其他類別見下方\n核讀與安全建議 ↓",
+    "original": "https://github.com/RichardHan/ai-agent-use-cases/blob/5a1663e85d794aa7c77e8ee4cd236b6d56cea2c7/cases/040-trip-deferred-recheck.md",
+    "external": "https://x.com/jibeiguang/status/2110168121852248425",
+    "sourceTitle": "ai-agent-use-cases/cases/040-trip-deferred-recheck.md at 5a1663e85d794aa7c77e8ee4cd236b6d56cea2c7 · RichardHan/ai-agent-use-cases · GitHub",
+    "overflow": 0,
+    "axeViolations": 0,
+    "pageErrors": [],
+    "scenarios": [
+      "problem search",
+      "combined empty recovery",
+      "shared detail refresh/source/return"
+    ]
+  },
+  {
+    "name": "small-mobile",
+    "width": 320,
+    "height": 740,
+    "cardTools": "UC-040 · Grok Bot / Meta Muse",
+    "wrongToolIncludesCase": true,
+    "trust": "成果主張：主要 社群作者／專案實踐者；另宣告 設計／未實跑\n核讀：主要 本庫未獨立重現；其他類別見下方\n核讀與安全建議 ↓",
+    "original": "https://github.com/RichardHan/ai-agent-use-cases/blob/5a1663e85d794aa7c77e8ee4cd236b6d56cea2c7/cases/040-trip-deferred-recheck.md",
+    "external": "https://x.com/jibeiguang/status/2110168121852248425",
+    "sourceTitle": "ai-agent-use-cases/cases/040-trip-deferred-recheck.md at 5a1663e85d794aa7c77e8ee4cd236b6d56cea2c7 · RichardHan/ai-agent-use-cases · GitHub",
+    "overflow": 0,
+    "axeViolations": 0,
+    "pageErrors": [],
+    "scenarios": [
+      "problem search",
+      "combined empty recovery",
+      "shared detail refresh/source/return"
+    ]
+  }
+]

@@ -1,0 +1,17 @@
+PASS MOBILE SEARCH: 760/761px disclosure follows result visibility
+MOBILE_SEARCH_RESULTS mobile-search [{"viewport":"desktop","readyMs":707,"searchTop":174,"searchFromHeading":149,"firstResultFromSearch":291,"firstResultTop":465,"arrivalTitleFromSearch":335,"axeScans":2,"axeViolations":0,"passed":true},{"viewport":"mobile","readyMs":611,"searchTop":177,"searchFromHeading":153,"firstResultFromSearch":252,"firstResultTop":429,"arrivalTitleFromSearch":446,"axeScans":2,"axeViolations":0,"passed":true},{"viewport":"small-mobile","readyMs":606,"searchTop":176,"searchFromHeading":153,"firstResultFromSearch":248,"firstResultTop":425,"arrivalTitleFromSearch":465,"axeScans":2,"axeViolations":0,"passed":true}]
+PASS CARD TOOLS: 1440px, complete lists in results/draw, wrapping, filter changes and keyboard return
+PASS CARD TOOLS: 390px, complete lists in results/draw, wrapping, filter changes and keyboard return
+PASS CARD TOOLS: 320px, complete lists in results/draw, wrapping, filter changes and keyboard return
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== 'topic'
+
+    at module.exports (/Users/richard_han/orca/ai-agent-use-cases-source-trust/tests/cursor-context-browser.cjs:46:14)
+    at async /Users/richard_han/orca/ai-agent-use-cases-source-trust/tests/discovery-browser.cjs:12:2 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '',
+  expected: 'topic',
+  operator: 'strictEqual'
+}

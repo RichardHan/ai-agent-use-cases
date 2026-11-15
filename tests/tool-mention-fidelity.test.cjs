@@ -128,6 +128,44 @@ test('UC-040 exposes its dots trial, not the explicitly absent Grok Bot and Muse
   assert.deepEqual(Array.from(entry.tools), ['ChatGPT dots']);
 });
 
+test('pagination cursor state is not the Cursor product', () => {
+  const api = load();
+  const file = 'cases/227-saved-map-places-list-maintenance.md';
+  const entry = [...api.parseFile(file, fs.readFileSync(path.join(root, file), 'utf8'))][0];
+  assert.deepEqual(Array.from(entry.tools), ['Meta Muse']);
+  const lead = '# UC-903：收藏批次\n\n- 工具：Meta Muse\n\n';
+  for (const text of [
+    '需要 cursor 重同步。',
+    '持久狀態與 cursor 存在工作目錄。',
+    '程序列出 cursor 遺失、命令失敗及限流。',
+    '分頁 cursor 用來接續下一批。',
+    '- 去重：批次、cursor、不同平台只是操作補證，不增加案例數。',
+    'The pagination cursor tracks the next page.'
+  ]) {
+    assert.deepEqual(Array.from([...api.parseFile('cases/903-test.md', lead + text)][0].tools), ['Meta Muse'], text);
+  }
+});
+
+test('cursor product mentions survive casing, failures and nearby pagination state', () => {
+  const api = load();
+  const lead = '# UC-903：批次開發\n\n';
+  for (const text of [
+    '- 工具：cursor',
+    '作者使用 cursor 寫程式。',
+    '續跑 Cursor Cloud Agent 開 PR。',
+    '分頁 cursor Cloud Agent 的執行結果。',
+    'Cursor 遺失檔案，作者回報失敗。',
+    '使用 Cursor 修正分頁 cursor 與 cursor 遺失、命令失敗。',
+    '持久狀態與 cursor 存在工作目錄；作者用 cursor Cloud Agent 開 PR。'
+  ]) {
+    assert.deepEqual(Array.from([...api.parseFile('cases/903-test.md', lead + text)][0].tools), ['Cursor'], text);
+  }
+  for (const id of ['005', '061', '222', '318', '390']) {
+    const page = corpus().find(item => path.basename(item.file).startsWith(id + '-'));
+    assert.ok([...api.parseFile(page.file, page.markdown)][0].tools.includes('Cursor'), id);
+  }
+});
+
 test('corpus cases with scope disclaimers or deduplication links list only tools actually used', () => {
   const api = load();
   const pages = corpus();

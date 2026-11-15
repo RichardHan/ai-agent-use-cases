@@ -1,0 +1,93 @@
+2026-11-15T00:39:23.0978163Z   type: 'test'
+2026-11-15T00:39:23.0978508Z   ...
+2026-11-15T00:39:23.0979505Z # Subtest: all 520 cases in corpus have 方法與步驟 shortcut and at least one copyable section
+2026-11-15T00:39:23.0980463Z not ok 323 - all 520 cases in corpus have 方法與步驟 shortcut and at least one copyable section
+2026-11-15T00:39:23.0980817Z   ---
+2026-11-15T00:39:23.0981173Z   duration_ms: 2.34461
+2026-11-15T00:39:23.0981518Z   type: 'test'
+2026-11-15T00:39:23.0982399Z   location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/method-and-prompt-alignment.test.cjs:26:1'
+2026-11-15T00:39:23.0983324Z   failureType: 'testCodeFailure'
+2026-11-15T00:39:23.0983696Z   error: |-
+2026-11-15T00:39:23.0984104Z     Corpus must have 520 cases
+2026-11-15T00:39:23.0984441Z     
+2026-11-15T00:39:23.0984837Z     522 !== 520
+2026-11-15T00:39:23.0985172Z     
+2026-11-15T00:39:23.0985569Z   code: 'ERR_ASSERTION'
+2026-11-15T00:39:23.0985926Z   name: 'AssertionError'
+2026-11-15T00:39:23.0986296Z   expected: 520
+2026-11-15T00:39:23.0986656Z   actual: 522
+2026-11-15T00:39:23.0987042Z   operator: 'strictEqual'
+2026-11-15T00:39:23.0987392Z   stack: |-
+2026-11-15T00:39:23.0988444Z     TestContext.<anonymous> (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/method-and-prompt-alignment.test.cjs:29:10)
+2026-11-15T00:39:23.0988992Z     Test.runInAsyncScope (node:async_hooks:214:14)
+2026-11-15T00:39:23.0989528Z     Test.run (node:internal/test_runner/test:1047:25)
+2026-11-15T00:39:23.0990199Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+2026-11-15T00:39:23.0990755Z     Test.postRun (node:internal/test_runner/test:1173:19)
+2026-11-15T00:39:23.0991281Z     Test.run (node:internal/test_runner/test:1101:12)
+2026-11-15T00:39:23.0991969Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-11-15T00:39:23.0992338Z   ...
+2026-11-15T00:39:23.0993383Z # Subtest: method shortcut preserves the full untested heading and original index
+2026-11-15T00:39:23.0994163Z ok 324 - method shortcut preserves the full untested heading and original index
+2026-11-15T00:39:23.0994549Z   ---
+2026-11-15T00:39:23.0994935Z   duration_ms: 2.393842
+2026-11-15T00:39:23.0995302Z   type: 'test'
+2026-11-15T00:39:23.0995636Z   ...
+2026-11-15T00:39:23.0996826Z # Subtest: workflow heading marked 本庫未實作 stays the method shortcut instead of being stolen as a result
+2026-11-15T00:39:23.0997924Z ok 325 - workflow heading marked 本庫未實作 stays the method shortcut instead of being stolen as a result
+2026-11-15T00:39:23.0998291Z   ---
+2026-11-15T00:39:23.0998648Z   duration_ms: 0.416207
+2026-11-15T00:39:23.0999006Z   type: 'test'
+2026-11-15T00:39:23.0999335Z   ...
+2026-11-15T00:39:23.1000267Z # Subtest: 可嘗試的流程 and 小範圍試法 precede prompt sections as the method shortcut
+2026-11-15T00:39:23.1001114Z ok 326 - 可嘗試的流程 and 小範圍試法 precede prompt sections as the method shortcut
+2026-11-15T00:39:23.1001496Z   ---
+2026-11-15T00:39:23.1001851Z   duration_ms: 0.561058
+2026-11-15T00:39:23.1002199Z   type: 'test'
+2026-11-15T00:39:23.1002534Z   ...
+--
+2026-11-15T00:39:23.1308582Z   type: 'test'
+2026-11-15T00:39:23.1308867Z   ...
+2026-11-15T00:39:23.1309964Z # Subtest: all 524 library markdown files provide copy actions for prompt/command headings and exclude source/supplement headings
+2026-11-15T00:39:23.1311026Z not ok 397 - all 524 library markdown files provide copy actions for prompt/command headings and exclude source/supplement headings
+2026-11-15T00:39:23.1314332Z   ---
+2026-11-15T00:39:23.1314635Z   duration_ms: 7.065102
+2026-11-15T00:39:23.1314920Z   type: 'test'
+2026-11-15T00:39:23.1315587Z   location: '/__w/ai-agent-use-cases/ai-agent-use-cases/tests/prompt-copy.test.cjs:64:1'
+2026-11-15T00:39:23.1315930Z   failureType: 'testCodeFailure'
+2026-11-15T00:39:23.1316206Z   error: |-
+2026-11-15T00:39:23.1316583Z     Expected values to be strictly equal:
+2026-11-15T00:39:23.1316839Z     
+2026-11-15T00:39:23.1317110Z     526 !== 524
+2026-11-15T00:39:23.1317374Z     
+2026-11-15T00:39:23.1317663Z   code: 'ERR_ASSERTION'
+2026-11-15T00:39:23.1317998Z   name: 'AssertionError'
+2026-11-15T00:39:23.1318329Z   expected: 524
+2026-11-15T00:39:23.1318613Z   actual: 526
+2026-11-15T00:39:23.1318946Z   operator: 'strictEqual'
+2026-11-15T00:39:23.1319268Z   stack: |-
+2026-11-15T00:39:23.1320075Z     TestContext.<anonymous> (/__w/ai-agent-use-cases/ai-agent-use-cases/tests/prompt-copy.test.cjs:75:9)
+2026-11-15T00:39:23.1320509Z     Test.runInAsyncScope (node:async_hooks:214:14)
+2026-11-15T00:39:23.1320940Z     Test.run (node:internal/test_runner/test:1047:25)
+2026-11-15T00:39:23.1321530Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+2026-11-15T00:39:23.1322001Z     Test.postRun (node:internal/test_runner/test:1173:19)
+2026-11-15T00:39:23.1322456Z     Test.run (node:internal/test_runner/test:1101:12)
+2026-11-15T00:39:23.1323239Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-11-15T00:39:23.1323582Z   ...
+2026-11-15T00:39:23.1324589Z # Subtest: an unfinished Pages run is not a verdict, and a rerun supersedes an earlier failure
+2026-11-15T00:39:23.1325397Z ok 398 - an unfinished Pages run is not a verdict, and a rerun supersedes an earlier failure
+2026-11-15T00:39:23.1325693Z   ---
+2026-11-15T00:39:23.1325993Z   duration_ms: 9.729757
+2026-11-15T00:39:23.1326274Z   type: 'test'
+2026-11-15T00:39:23.1326547Z   ...
+2026-11-15T00:39:23.1327115Z # Subtest: a rerun is the newest activity, not the newest creation
+2026-11-15T00:39:23.1327662Z ok 399 - a rerun is the newest activity, not the newest creation
+2026-11-15T00:39:23.1327959Z   ---
+2026-11-15T00:39:23.1328262Z   duration_ms: 0.279031
+2026-11-15T00:39:23.1328546Z   type: 'test'
+2026-11-15T00:39:23.1328830Z   ...
+2026-11-15T00:39:23.1329884Z # Pages deployment for current: failed (failure) — https://github.com/o/r/actions/runs/42733561142
+2026-11-15T00:39:23.1330520Z # Pages deployment for current: failed (failure) — run/9
+2026-11-15T00:39:23.1331803Z # The deployment for current failed (failure), but the live build current already carries it; verifying the bytes it published — run/9
+2026-11-15T00:39:23.1332403Z # Pages deployment for current: failed (failure) — run/9
+2026-11-15T00:39:23.1333200Z # Pages deployment for current: failed (failure) — run/9
+2026-11-15T00:39:23.1334373Z # The deployment for current failed (failure), but the live revision could not be compared; keeping the window open — run/9

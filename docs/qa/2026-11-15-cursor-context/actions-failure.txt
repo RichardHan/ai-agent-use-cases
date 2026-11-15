@@ -1,0 +1,18 @@
+2026-11-14T20:07:57.6749726Z ]
+2026-11-14T20:08:02.3880915Z EMPTY_WORD_RECOVERY [{"viewport":"desktop","wordCount":12,"steps":[{"query":"機票","text":"原問題包含「機票」 → 搜尋 12 筆"},{"query":"價格","text":"原問題包含「價格」 → 搜尋 106 筆"},{"query":"想讓 ai 機票 比價","text":"只移除關鍵字「盯」 → 查看 1 筆"}]},{"viewport":"mobile","wordCount":12,"steps":[{"query":"機票","text":"原問題包含「機票」 → 搜尋 12 筆"},{"query":"價格","text":"原問題包含「價格」 → 搜尋 106 筆"},{"query":"想讓 ai 機票 比價","text":"只移除關鍵字「盯」 → 查看 1 筆"}]}]
+2026-11-14T20:08:10.3636225Z AssertionError [ERR_ASSERTION]: phone: the entry waits while the search field is on screen
+2026-11-14T20:08:10.3636909Z 
+2026-11-14T20:08:10.3637007Z false !== true
+2026-11-14T20:08:10.3637143Z 
+2026-11-14T20:08:10.3637477Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/refine-from-results-browser.cjs:96:14 {
+2026-11-14T20:08:10.3637975Z   generatedMessage: false,
+2026-11-14T20:08:10.3638217Z   code: 'ERR_ASSERTION',
+2026-11-14T20:08:10.3638440Z   actual: false,
+2026-11-14T20:08:10.3638642Z   expected: true,
+2026-11-14T20:08:10.3639765Z   operator: 'strictEqual',
+2026-11-14T20:08:10.3640003Z   diff: 'simple'
+2026-11-14T20:08:10.3640198Z }
+2026-11-14T20:08:10.3790226Z ##[error]Process completed with exit code 1.
+2026-11-14T20:08:10.3862419Z ##[group]Run actions/upload-artifact@v4
+2026-11-14T20:08:10.3862628Z with:
+2026-11-14T20:08:10.3862831Z   name: website-qa-2138f4d49b0c8645d145f0d23549c4ffc75121c5

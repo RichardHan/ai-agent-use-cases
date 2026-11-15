@@ -1,0 +1,104 @@
+為完整調查結果，即 `local://visitor-baseline.md` 的交付內容（本角色唯讀、無寫入工具，請主 agent 落檔）。調查期間觀察到 worktree 已被改動（facet workflow 出現 `base_sha` 輸入與 preflight、新增 `scripts/publication-base.cjs` 等），故 anchor 分「基準 d318c4f 內容」與「目前 worktree 現況」標示；我未執行任何測試、build、lint，也未實走瀏覽器。
+
+---
+
+# 訪客入口與生成文件的發布契約：基線調查
+
+## 0. 範圍與方法（可驗證性聲明）
+
+- 只讀隔離 worktree + 公開 HTTP GET。**未跑** `node --test`、`node --check`、preview、Jekyll、任何瀏覽器腳本；**未**目視截圖（影像讀取未使用）。
+- 實走證據一律不冒稱：本文所有訪客行為描述皆為程式碼／既有 QA 日誌的推論；凡未親自觀測者標 `[INFERENCE]`。
+- 觀測到的 live 狀態（2026-11-15，HTTP GET）：
+  - `catalog.json`：`sourceRevision=d318c4f0ea9af3502ac3dd76479b0e03c00ab5a3`（＝本輪基準 commit）、`bundleRevision=20261115100945228841924`、`builtAt=2026-11-15`。
+  - `INDEX.html` 存在且為渲染頁（title `完整案例索引 | AI 用法實驗室`），正文含「本頁列出 522 筆案例」。
+  - `INDEX.md` 存在且為原始 Markdown（首行 `# 完整案例索引`）。
+  - `sources/qualification-audit-2026-10-16.html` 存在，正文最新批次為 `2026-10-22 20:50`（與 `audit-summary.json` 契約同批）。
+  - 三者的存在與「同一批」只證明**現在一致**，不證明閘門會檢查它們。
+
+## 1. 閘門的兩分支契約（實測程式碼）
+
+`tests/published-version.cjs`：
+
+| 檔案類別 | exact（live revision == 本 push） | superseded（live 為後代） |
+|---|---|---|
+| `assets/*.{js,css,json}`、`index.html`、`README.md`、`INDEX.md`、`README-archive-*.md`、`templates/*.md`、`cases/*.md`、`evidence/*.md`、`sources/pending.md` | 逐位元（`:272` `Product asset mismatch`）；corpus 內文 deepEqual（`:274`） | 只驗 `changeList` 內路徑：對 live revision 的 blob hash（`:114`；corpus 全量 `:80-90`）；`sources/*` 僅 `pending.md` 在 `SOURCE_DIR` |
+| `catalog.json`／`corpus.json` | 逐位元＋revision 相等 | 結構＋bundleRevision＋`files` 排序／去重＋每篇 markdown blob hash 等於 live revision（`:80-90`） |
+| `audit-summary.json` | `deepEqual(remoteAudit, localAudit)`（`:279`） | 內容比對 live revision 稽核原文第一個 H2（`:295-301`），並要求 `parseSummary()` 有效（`:302`） |
+| `INDEX.html`／`cases/001-travel-checkout.html`／`sources/qualification-audit-2026-10-16.html` | 逐位元（`:278` `Published page differs from this build`） | **只有 `lang="zh-Hant"`（＋非首頁 `og:locale=zh_TW`）**（`:254`，`scripts/check-page-language.cjs:4-12`） |
+
+`PUBLISHABLE_FILE`（`scripts/published-check.cjs:46`）**不含任何 `.html`**，也不含 `sources/qualification-audit-2026-10-16.md`（只含 `sources/pending.md`）。
+
+## 2. INDEX.html 與稽核 HTML 在 superseded 的實際處理
+
+1. `pages`（`check-page-language.cjs:4`）為 `index.html`、`INDEX.html`、`cases/001-travel-checkout.html`、`sources/qualification-audit-2026-10-16.html`。
+2. 每輪都會抓這四頁（`published-version.cjs:157`），但 superseded 分支只做 `checkPageLanguage`（`:254`）。`index.html` 例外：它在 `assets` 內，若出現在 `changeList` 就以 blob 比對——但仍只涵蓋「本次改到它」的情況。
+3. superseded 的 `verifySupersededPublication`（`:70-140`）只走 `changeList` 條目；由於 `.html` 不在 `PUBLISHABLE_FILE`，**生成頁永遠不會成為 changed entry**，所以「live 建置是否為 live revision 的忠實產物」這個問題，對三張生成頁從未被問到。
+4. `audit-summary.json` 的 content 契約（live revision 原文第一 H2）已補上，因此「首頁合格數」這條 consumer 有內容級保證；稽核 HTML **頁面正文**仍無。
+5. `tests/deployed-browser.cjs`：superseded 走 `walkSuperseded`（`:10-60`），只驗搜尋／分享詳情／reload／釘死 40-hex 來源／`成果主張.*核讀`（`:33`）／Escape 回到原查詢與 `#results-count` 焦點／空結果鍵盤復原／無水平溢出；**不驗任何筆數、標題、INDEX.html 或稽核頁**。JS-disabled INDEX 走查 `initial-index-fallback-browser.cjs` 只在非 superseded 路徑（`:119`）被呼叫。
+
+## 3. stale-body 盲點：是否存在、是否可達
+
+**存在，且是契約級缺口；沒有任何證據顯示正式站已發生。**
+
+- 具體形式：live `catalog.sourceRevision` 宣告 revision X，而三張生成 HTML 之一實際是更早 revision 的渲染結果（舊筆數、舊案例列、舊批次）。目前 superseded 會放行，因為：(a) `.html` 不入 `changeList`；(b) 只有 lang／locale；(c) 原文 `.md` 已逐位元對 X 驗過，卻沒有人把「原文 → 該頁正文」連起來；(d) superseded 訪客走查不比對內容。
+- 為什麼 `INDEX.md` 改動仍不能補上：`INDEX.md` 是 `PUBLISHABLE_FILE`，superseded 會驗**raw `INDEX.md` 位元**等於 live revision（`:114`），但 `INDEX.html` 正文仍只驗 lang。改稽核 Markdown 更徹底：`sources/qualification-audit-2026-10-16.md` 連 `changeList` 都不會出現（→ `!changed.length` 分支，`:76-93`），只靠 `audit-summary.json` 的 H2 契約間接約束。
+- 可達性論述 `[INFERENCE]`：Pages 以單一 artifact 原子部署，理論上生成頁與 catalog 同源；風險來自逐檔 CDN 快取／部分部署／建置與 artifact 不一致。因此這是**閘門宣稱強度**（「faithful build of its own revision」）與**實際檢查**的落差，不是已證實事故。
+- 影響面：`INDEX.html` 正是首頁三處載入失敗／JS 關閉的退路（`index.html:13`、`:20`、`:111`），也是 `index-fallback-browser.cjs:18-23` 的落點；稽核 HTML 是首頁「逐案核對標準與排除理由」的唯一連結（`index.html:124`）。盲點正好落在訪客最缺替代路徑時會打開的頁面。
+
+## 4. 兩個保守可行方案（本輪不做）
+
+**方案 A：由 live revision 原文推導的「哨兵＋契約宣告」（低成本，只能部分證明）**
+- 內容：superseded 時以 `treeAtRevision(live)` 讀取 `INDEX.md` 全文，要求服務端 `INDEX.html` 必含可由原文唯一推導的片段（例：H1 與 `本頁列出 N 筆案例` 的 N、`頁首核對日期最新為 <date>`）；稽核 HTML 必含 live 稽核原文第一個 H2 的標題日期與該 H2 的 `嚴格合格 …／1,000，尚差 …`；案例樣本頁必含 live revision 該案例 H1。全部以純文字比對，不需 Jekyll。
+- 成本：`tests/published-version.cjs` 內新增 3 條純函式抽取＋比對（約 +40 行），重用既有 `readAuditSource(revision)` 注入點（`:148` 已可注入）。無新 workflow、無新權限、無 build。
+- 限制（必須寫進 log 與 QA，不可冒稱）：只證明**部分正文**新鮮；HTML 轉義、表格重排、錨點變動都不在範圍；不覆蓋 `cases/001-*.html` 全文，也不等於 exact 的逐位元。
+
+**方案 B：以 live revision 重建同一 Jekyll 產物後逐位元比對（唯一能逐位元，成本與偽紅風險高）**
+- 內容：`git worktree add --detach <live>` → 以 `actions/jekyll-build-pages@v1`（同版本、同 `_config.yml`）建置 → 對三張生成頁做逐位元比對；沿用 60 分鐘視窗外掛，但每次 superseded 都要多一次完整 Jekyll build（現行 Pages build 曾達 20 分鐘級）。
+- 成本／回歸：新 workflow 步驟＋artifact 目錄處理；Jekyll／plugin 版本漂移會產生**偽紅**（比目前的盲點更傷交付）；`fetch-depth: 0` 已具備，但 `isDescendantOf` 只 fetch 單一 revision，仍需該 commit 的 tree（已有 `treeAtRevision`，但 worktree 需要 commit 本體，已 fetch）。
+- 結論：只有 B 能誠實說「逐位元」；A 不可對外宣稱等價。若本輪要交付 HTML 覆蓋，A 是可辯護的最小步；B 應另立一輪並先量測 build 時間。
+
+**Consumer-visible regression fixtures（供任一方案使用；皆為 `tests/published-version.test.cjs` 既有 `publicationFixture`／`supersededFixture` 形狀，`:143-176`）**
+
+| fixture | 佈置 | 現況預期 | 方案 A/B 後預期 |
+|---|---|---|---|
+| `superseded-index-stale-count` | live catalog/corpus/`INDEX.md` 皆為 live revision；`INDEX.html` 為舊 `本頁列出 521 筆案例`＋正確 lang | **matched（盲點證明，先綠）** | reject（哨兵／逐位元） |
+| `superseded-audit-stale-body` | `audit-summary.json` 正確（對 live revision 第一 H2）；稽核 HTML 停在上一批次標題 | **matched（先綠）** | reject |
+| `superseded-case-sample-stale-body` | `cases/001-travel-checkout.html` 正文舊、lang 正確 | **matched（先綠）** | reject |
+| `exact-page-stale-body`（已存在） | `published-version.test.cjs:363-373` | reject（防回歸基準） | 不變 |
+| `superseded-index-sentinel-present` | 正文與 live 原文一致 | matched | matched（防偽紅） |
+
+配套一條 consumer 斷言（可放 `tests/index-fallback-browser.cjs` 或純 node）：服務端 `INDEX.html` 的 `本頁列出 N 筆案例` 必須等於 live `INDEX.md` 的同句 N；目前該檔只斷言 `/<title>完整案例索引/`（弱哨兵）。
+
+## 5. 訪客流程現有風險（未實走，僅由程式與日誌推得）
+
+1. 首頁完全依賴 `catalog.json`＋`corpus.json`；三處退路都指向 `INDEX.html`（`index.html:13,20,111`）。盲點頁＝退路頁。
+2. 首頁合格數由 `assets/audit.js` 的 `parseSummary()` 嚴格解析 `audit-summary.json`（日期＋台灣時間＋唯一 `嚴格合格 **N／1,000，尚差M**`＋`批次母體`）；格式一變就退回「暫時無法讀取」，發布端有 `:302` 的 `parseSummary` 斷言擋住無效 JSON——但擋不住「JSON 正確、稽核 HTML 頁面過期」。
+3. `deployed-browser.cjs` superseded 走查的內容中立是**刻意設計**（不比對本 checkout 的筆數／標題），代價是生成頁正文沒有任何端到端覆蓋。
+4. 本輪 baseline 已有 `PUBLISHED_LIVE_BUILD_CURRENT d318c4f0…` 的完整走查通過紀錄（`docs/qa/2026-11-15-manual-publication/baseline-browser.txt` 尾段：桌面／手機／`MOBILE_SEARCH_RESULTS` axe 0／`SEARCH_RECOVERY`／JS-disabled index），但那是 **exact/current** 模式；**superseded 走查本輪未被實際執行**，`[INFERENCE]` 其行為僅由程式碼推出。
+5. 未驗：真機、讀屏、像素級視覺、效能；不得據此宣稱全站無障礙或視覺無回歸。
+
+## 6. 本輪已選候選：manual Facet counts QA 基準缺失（主已實作，殘餘風險如下）
+
+**基準缺陷（d318c4f 內容，已由主在同環境以 CLI exit 1 實證）**
+- `facet-counts-qa.yml` 舊版：push 只掛 `improve/visitor-round-20261024-b`，另有 `workflow_dispatch`；發布步驟 `if: github.ref == 'refs/heads/main'`、`PUSH_BASE_SHA: ${{ github.event.before }}`。
+- `workflow_dispatch` 無 `event.before` → `publicationChangeList(undefined, SHA)` 回 `{known:false}`（`scripts/published-check.cjs:66-68`）→ `waitForPublishedVersion` 立即 `assert`（`tests/published-version.cjs:149`）→ CLI exit 1（`:334`）。證據：`docs/qa/2026-11-15-manual-publication/red-manual-base.txt`（:149/:322/:334 堆疊）。
+- 因此該 workflow 的發布驗證**不存在可通過的觸發路徑**：push 到舊分支 ref≠main（步驟 skipped）、手動 main 必紅；且紅在「跑完 Pages build＋全部瀏覽器套件」之後（舊版步驟序：build/journeys 之後才是 published 步驟）。
+
+**目前 worktree 現況（我讀到的新狀態）**
+- `facet-counts-qa.yml:6-13` 新增 `workflow_dispatch.inputs.base_sha`（`required: true`，說明「strict ancestor；do not guess HEAD^」）；`:15-17` 權限加 `actions: read`；`:31-38` 新增第一步 `Validate manual publication range`（`if: workflow_dispatch`，`PUSH_BASE_SHA: ${{ inputs.base_sha }}`，執行 `node scripts/publication-base.cjs`）；`:91-98` 發布步驟改 `PUSH_BASE_SHA: ${{ steps.publication-base.outputs.base_sha || github.event.before }}` 並補 `GITHUB_TOKEN`。
+- `scripts/publication-base.cjs:8-20`：全 40-hex 且非全零、`head` 合法、`base!==head`（空範圍不得假稱可驗刪除）、兩端 `git cat-file -t == commit`、`merge-base --is-ancestor base head`、印出 `base..head`、寫 `GITHUB_OUTPUT base_sha=`。
+- `tests/publication-base.test.cjs`：多 commit 範圍保留、`''`／8 碼／全零／注入換行／`--all` 立即失敗且不輸出、等於 head／未來／無關／不存在 commit 全數拒絕。
+- 契約方向正確且**保守**：任何 ancestor base 產生的 `changeList` 都是真正 push 變更的**超集**，因此只會多驗（刪除探測、blob 比對），不會少驗；`base_sha` 走 env 而非 shell 插值，無注入面。
+
+**殘餘風險（本輪若要合併，建議一併處理）**
+1. **被刪掉的回歸測試**：舊版 `tests/published-version.test.cjs:521-530`（`every workflow that compares the published site runs on a main push with its push base`）在現況已整段消失（現 `:522` 直接是 facet 逾時／gate 形狀測試；全文再無 `PUSH_BASE_SHA`／`event.before`／`base_sha` 斷言）。它正是本輪紅色證據的來源（`focused-tests.txt` 顯示它在 `:527` 失敗），刪除而非改寫，等於拿掉「呼叫端只能接在輸入存在處、且必須維持 main 守門」的守護。建議以新測試補回：呼叫端仍恰為 `['facet-counts-qa.yml','website-qa.yml']`；facet 必須有 preflight 步驟（`scripts/publication-base.cjs`）且其輸出被 `|| github.event.before` 消費；website-qa 仍用 `github.event.before`；兩者都保留 `github.ref == 'refs/heads/main'`。
+2. **60 分鐘視窗的最壞情況**：`actions: read` 已補（`publication-status.cjs` 才能把失敗部署轉成立即紅）；若未來移除，手動執行會退回「未知狀態→等滿 60 分鐘」。屬 Acceptance 檢查項。
+3. **範圍選擇仍是人的責任**：preflight 只能證明「是祖先且非空」。過舊的 base 會讓 `changeList` 膨脹，superseded 分支對每個歷史刪除路徑各發一次 `probeMissing`（`:132-136`）每 5 秒重試，成本與噪音上升；應在 workflow 說明（或 QA）寫明「用被驗變更之前的 merge commit，不要用任意舊 commit」。
+4. **快照不可用**：`base===head` 被拒，代表「純驗 live 建置是否忠實於自身 revision」不能用這個入口做；若需要，應走 `workflow_dispatch` 的「已知空變更」語意（目前程式支援 `{known:true,entries:[]}`，但 preflight 擋住），這是刻意的保守取捨，需在 QA 寫明。
+5. **非 main ref 的手動執行**：preflight 會跑、發布步驟仍 skipped（facet `:92` 的 ref guard）——行為正確但要寫進 QA，避免被誤讀為「手動跑過就有發布證明」。
+
+## 7. 結論與驗收建議
+
+- **本輪最有價值且已被證據支撐的交付**就是 manual `base_sha` preflight（主已實作）：修的是「唯一可通過路徑不存在」的可靠度缺陷，非訪客功能；改動面僅 1 個 workflow＋1 個新腳本＋測試，無 UI／案例／建置契約變動。
+- **生成 HTML 的 superseded 正文覆蓋維持候選**：只有方案 B 能逐位元，成本／偽紅風險高；方案 A 可交付但要主動降級宣稱（「部分正文哨兵」）。兩者都不應在本輪與 manual base 綁在一起合併。
+- 主 agent 後續必驗（我未執行）：`node --test tests/*.test.cjs`（含新 `publication-base.test.cjs` 與**補回的 wiring 測試**）、`node --check scripts/publication-base.cjs`、`node scripts/publication-base.cjs` 在 `base_sha` 缺漏／非祖先時的非零退出與空 `GITHUB_OUTPUT`、facet workflow 在 PR / 舊分支 push 時仍 skipped、`website-qa.yml` 主線路徑未被改動（仍 `event.before`）、以及 `docs/qa/2026-11-15-manual-publication/` 內紅→綠證據與最終 unit 數一致。致。

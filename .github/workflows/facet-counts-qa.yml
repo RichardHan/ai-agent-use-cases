@@ -4,11 +4,17 @@ on:
     branches: [improve/visitor-round-20261024-b]
     paths: ['assets/**', 'index.html', 'catalog.json', 'corpus.json', 'cases/**', 'evidence/**', 'sources/pending.md', 'scripts/**', 'tests/facet-*', 'tests/published-version*', 'tests/filter-controls.cjs', 'tests/source-route.cjs', 'tests/reliability-observe.cjs', 'tests/page-context*.cjs', 'tests/source-guide*', '.github/workflows/facet-counts-qa.yml']
   workflow_dispatch:
+    inputs:
+      base_sha:
+        description: 'Full commit SHA before the changes to verify (strict ancestor of the selected ref; do not guess HEAD^)'
+        required: true
+        type: string
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 permissions:
   contents: read
+  actions: read
 jobs:
   browser:
     runs-on: ubuntu-24.04
@@ -22,6 +28,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Validate manual publication range
+        if: github.event_name == 'workflow_dispatch'
+        id: publication-base
+        env:
+          PUSH_BASE_SHA: ${{ inputs.base_sha }}
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          node scripts/publication-base.cjs
       - name: Cloud browser tools
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -72,14 +86,15 @@ jobs:
           QA_OUT=qa-artifacts/preview-walk runuser -u pwuser -- node tests/reliability-observe.cjs
           runuser -u pwuser -- node tests/source-guide-browser.cjs
           QA_OUT=qa-artifacts/journeys runuser -u pwuser -- node tests/page-context-browser.cjs
-      # Only a main push can be compared with the published site; a pull request
-      # build is unrelated to whatever build is live.
+      # Manual main runs use the explicitly validated comparison range. Branch
+      # builds are unrelated to whatever build is live and keep preview-only QA.
       - name: Verify published release matches this commit
         if: github.ref == 'refs/heads/main'
         id: published-version
         env:
           PUBLISHED_BUILD: ${{ runner.temp }}/facet-published
-          PUSH_BASE_SHA: ${{ github.event.before }}
+          PUSH_BASE_SHA: ${{ steps.publication-base.outputs.base_sha || github.event.before }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: node tests/published-version.cjs
       - name: Verify published source bytes
         if: steps.published-version.outputs.verified == 'true'

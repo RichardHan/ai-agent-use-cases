@@ -1,0 +1,46 @@
+✖ all 10 target cases with structured actionable commands must have standalone H3 copyable prompt sections for each prompt (7.096416ms)
+✖ no target cases contain raw unpromoted inline command lines starting with 可貼指令： (2.129458ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 58.02225
+
+✖ failing tests:
+
+test at tests/inline-command-subsections.test.cjs:24:1
+✖ all 10 target cases with structured actionable commands must have standalone H3 copyable prompt sections for each prompt (7.096416ms)
+  AssertionError [ERR_ASSERTION]: cases/362-muse-spawn-delivery-reconciliation.md expected at least 3 copyable prompt sections, but found 2
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261115-r5/tests/inline-command-subsections.test.cjs:47:12)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.start (node:internal/test_runner/test:878:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at tests/inline-command-subsections.test.cjs:54:1
+✖ no target cases contain raw unpromoted inline command lines starting with 可貼指令： (2.129458ms)
+  AssertionError [ERR_ASSERTION]: cases/026-school-deadline-list.md:L53 still contains raw inline command without H3 promotion: 可貼指令：請只讀我提供的虛構課程作業資料，整理各科截止日，保留作業識別、原始時間
+      at /Users/richard_han/orca/wt/aiuc-20261115-r5/tests/inline-command-subsections.test.cjs:59:14
+      at Array.forEach (<anonymous>)
+      at TestContext.<anonymous> (/Users/richard_han/orca/wt/aiuc-20261115-r5/tests/inline-command-subsections.test.cjs:58:11)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

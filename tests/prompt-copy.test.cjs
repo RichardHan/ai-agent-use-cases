@@ -87,7 +87,7 @@ test('all (>=524) library markdown files provide copy actions for prompt/command
   if(rel==='cases/026-school-deadline-list.md'){
    assert.deepEqual(selectMethodShortcut(sections.map(s=>s.title),'case'),{index:0,title:'可嘗試的流程（本文設計、未實測）'});
    assert.equal(copied.has(1),true,'UC-026 原創提示詞 must be copyable');
-   assert.equal(copied.has(4),true,'UC-026 自設增量驗收與可貼指令 must be copyable');
+   assert.equal(copied.has(5),true,'UC-026 可貼指令（自設增量驗收，未實跑） must be copyable');
   }
   if(rel==='cases/016-marketplace-selling-buyer-messages.md'){
    assert.equal(copied.has(9),true,'UC-016 可複製提示詞 must be copyable');

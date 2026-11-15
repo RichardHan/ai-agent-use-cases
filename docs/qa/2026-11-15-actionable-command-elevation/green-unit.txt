@@ -1,0 +1,10 @@
+✔ all 10 target cases with structured actionable commands must have standalone H3 copyable prompt sections for each prompt (5.224583ms)
+✔ no target cases contain raw unpromoted inline command lines starting with 可貼指令： (2.556792ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 56.685625

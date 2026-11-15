@@ -1,0 +1,30 @@
+[
+  {
+    "phase": "preview",
+    "width": 1440,
+    "height": 900,
+    "query": "去重精選",
+    "tool": "Notion",
+    "recoveryFocus": "query",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/db2cc25f9cc4083af89b6ebd46db4443ad964075/cases/046-followed-accounts-daily-digest.md",
+    "detailTrust": true,
+    "returnedQuery": "去重精選",
+    "card": "UC-046 · Grok Bot / Meta Muse / ChatGPT dots / GitHub / Notion",
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "phase": "preview",
+    "width": 390,
+    "height": 844,
+    "query": "去重精選",
+    "tool": "Notion",
+    "recoveryFocus": "query",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/db2cc25f9cc4083af89b6ebd46db4443ad964075/cases/046-followed-accounts-daily-digest.md",
+    "detailTrust": true,
+    "returnedQuery": "去重精選",
+    "card": "UC-046 · Grok Bot / Meta Muse / ChatGPT dots / GitHub / Notion",
+    "overflow": 0,
+    "errors": []
+  }
+]

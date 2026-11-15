@@ -1,0 +1,80 @@
+[
+  {
+    "phase": "production-baseline",
+    "width": 1440,
+    "height": 900,
+    "query": "去重精選",
+    "tool": "Notion",
+    "recoveryFocus": "query",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/db2cc25f9cc4083af89b6ebd46db4443ad964075/cases/046-followed-accounts-daily-digest.md",
+    "detailTrust": true,
+    "returnedQuery": "去重精選",
+    "card": "UC-046 · Grok Bot / Meta Muse",
+    "overflow": 0,
+    "errors": [
+      {
+        "seq": 1,
+        "ts": 1794717564026,
+        "type": "requestfailed",
+        "level": "error",
+        "text": "GET https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md: net::ERR_ABORTED",
+        "location": "https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md"
+      },
+      {
+        "seq": 2,
+        "ts": 1794717564628,
+        "type": "requestfailed",
+        "level": "error",
+        "text": "GET https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md: net::ERR_ABORTED",
+        "location": "https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md"
+      }
+    ]
+  },
+  {
+    "phase": "production-baseline",
+    "width": 390,
+    "height": 844,
+    "query": "去重精選",
+    "tool": "Notion",
+    "recoveryFocus": "query",
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/db2cc25f9cc4083af89b6ebd46db4443ad964075/cases/046-followed-accounts-daily-digest.md",
+    "detailTrust": true,
+    "returnedQuery": "去重精選",
+    "card": "UC-046 · Grok Bot / Meta Muse",
+    "overflow": 0,
+    "errors": [
+      {
+        "seq": 1,
+        "ts": 1794717564026,
+        "type": "requestfailed",
+        "level": "error",
+        "text": "GET https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md: net::ERR_ABORTED",
+        "location": "https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md"
+      },
+      {
+        "seq": 2,
+        "ts": 1794717564628,
+        "type": "requestfailed",
+        "level": "error",
+        "text": "GET https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md: net::ERR_ABORTED",
+        "location": "https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md"
+      },
+      {
+        "seq": 3,
+        "ts": 1794717568786,
+        "type": "requestfailed",
+        "level": "error",
+        "text": "GET https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md: net::ERR_ABORTED",
+        "location": "https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md"
+      },
+      {
+        "seq": 4,
+        "ts": 1794717569397,
+        "type": "requestfailed",
+        "level": "error",
+        "text": "GET https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md: net::ERR_ABORTED",
+        "location": "https://richardhan.github.io/ai-agent-use-cases/cases/046-followed-accounts-daily-digest.md"
+      }
+    ]
+  }
+]

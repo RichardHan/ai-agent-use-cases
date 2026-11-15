@@ -57,6 +57,8 @@ function setupDom() {
   };
 
   const context = vm.createContext({
+    URL,
+    Discovery: require('../assets/discovery.js'),
     document: documentMock,
     window: { document: documentMock },
     console,
@@ -98,6 +100,21 @@ test('card renders with proof data-attribute and badge on article and span.proof
   const readBtn = cardNode.querySelector('.card-bottom button');
   assert.ok(readBtn, 'card must contain button in .card-bottom');
   assert.equal(readBtn.textContent, '看看怎麼用 →');
+});
+
+test('multi-tool cards expose every recognized tool without changing attribution order', () => {
+  const context = setupDom();
+  const files = fs.readdirSync(path.join(__dirname, '../cases')).filter(file => /^(046|067)-.*\.md$/.test(file));
+  assert.equal(files.length, 2);
+  for (const file of files) {
+    const item = context.metadata(fs.readFileSync(path.join(__dirname, '../cases', file), 'utf8'), 'cases/' + file, 'case');
+    const original = [...item.tools];
+    const cardNode = context.card(item);
+    const label = cardNode.children[0].children[0].textContent;
+    assert.ok(original.length > 2);
+    for (const tool of original) assert.ok(label.includes(tool), `${item.id}: ${tool} must be visible without opening details`);
+    assert.deepEqual([...item.tools], original);
+  }
 });
 
 test('card handles all 5 proof types consistently without throwing', () => {

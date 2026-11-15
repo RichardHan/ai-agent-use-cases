@@ -2,6 +2,8 @@
 
 故障注入確認：exact 發布只比對仍存在的建置檔案，舊範本／資產 URL 即使仍回 200 或 503 也可能判定成功。本輪共用既有消失探測，要求被刪除的原始非 corpus 檔案回 404／410；改名須同時有正確新位元與舊網址消失，保留原等待上限與 superseded 恢復檔案規則。獨立審查再補未知／省略 changeList 的立即拒絕；七項回歸先紅後綠證據及最終測試數見[本輪 QA](docs/qa/2026-11-15-exact-deletion/README.md)。桌面／手機三情境通過，不改 UI／案例，不宣稱正式站已發生殘留事故。下一輪先以 fixture 驗 superseded 生成 HTML 正文，不直接比 Markdown hash。
 
+交付：[PR #410](https://github.com/RichardHan/ai-agent-use-cases/pull/410)，實作 `8711548a1e`、合併 `21d1f9fc35`；[主線 Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43701570098) 與 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43701569520) 同版成功。最終800單元通過、獨立複審無程式碼發現；正式 revision 精確一致、12公開檔案與526原文核對、桌面手機三情境通過。已提交、推送、合併、部署與正式驗證；最後僅保存排除於發布面的接續證據。
+
 ## 2026-11-15 合格數摘要的發布驗證
 
 正式 audit-summary 目前正確，但故障注入證明舊發布閘門不讀此 JSON，過期、缺失與無效內容都可能獲放行。本輪 exact 比較建置 JSON，superseded 依經 ancestry 核對的固定 live commit 稽核原文，比對完整第一個 H2 批次；不重新推算合格數，不拿 Liquid 模板 hash 比生成內容。六項新回歸、fixture 契約補齊後 60 項發布專項通過，桌面／手機三種訪客情境通過。UI／案例／workflow 不變；獨立審查、Actions、發布版本與限制見[本輪 QA](docs/qa/2026-11-15-audit-publication/README.md)。下一輪先以 fixture 驗證 superseded 生成 INDEX／稽核 HTML 的內容一致性，勿把歷史故障當成現況。

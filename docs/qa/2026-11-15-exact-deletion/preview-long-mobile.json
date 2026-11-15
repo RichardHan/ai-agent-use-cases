@@ -1,0 +1,11 @@
+{
+  "id": "ccbd172c-cf0d-4e26-94bf-c8693df9cc3b",
+  "ok": true,
+  "result": {
+    "result": "{\"open\":true,\"dialogScrollWidth\":368,\"dialogClientWidth\":368,\"textLength\":8308,\"focusTag\":\"SUMMARY\",\"focusText\":\"查看原始研究、來源與完整提示詞\",\"pageOverflow\":false}",
+    "origin": "http://127.0.0.1:8157/ai-agent-use-cases/?q=UC-014&scope=topic&case=UC-014"
+  },
+  "_meta": {
+    "runtimeId": "dd413b6c-f7bd-4d30-b666-1ea92c3d8d9e"
+  }
+}

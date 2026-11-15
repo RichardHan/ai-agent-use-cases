@@ -1,0 +1,13 @@
+2026-11-15T09:56:55.2992116Z # tests 800
+2026-11-15T09:56:55.2992461Z # pass 800
+2026-11-15T09:56:55.2992602Z # fail 0
+2026-11-15T10:07:20.8422615Z PUBLISHED_LIVE_BUILD_SUPERSEDED 21d1f9fc351c94163badbb4d7b495aefdad76b14 (step 15 verified bytes; walking the live visitor contract)
+2026-11-15T10:07:20.8424474Z PASS LIVE SUPERSEDED: desktop problem search, shared detail/reload/source/return, filtered empty recovery; observed sourceRevision=21d1f9fc351c94163badbb4d7b495aefdad76b14
+2026-11-15T10:07:20.8426280Z PASS LIVE SUPERSEDED: mobile problem search, shared detail/reload/source/return, filtered empty recovery; observed sourceRevision=21d1f9fc351c94163badbb4d7b495aefdad76b14
+2026-11-15T10:07:30.5853702Z   PUBLISHED_BUILD: /home/runner/work/_temp/website-published
+2026-11-15T10:07:30.9936433Z Pages deployment for 21d1f9fc351c94163badbb4d7b495aefdad76b14: succeeded (success) — https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43701569520
+2026-11-15T10:07:31.2559089Z PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 21d1f9fc351c94163badbb4d7b495aefdad76b14
+2026-11-15T10:07:31.5383035Z PUBLISHED_LIVE_BUILD_CURRENT 21d1f9fc351c94163badbb4d7b495aefdad76b14 (walking the live site)
+2026-11-15T10:07:32.6327381Z PASS LIVE: Pages HTTPS, real generated catalog, scenario discovery and detail
+2026-11-15T10:07:33.9988322Z PASS LIVE: mobile direct link, refresh, close, scenario selection and no horizontal overflow
+2026-11-15T10:08:02.4442182Z Initial fallback: JS-disabled mobile/desktop local index, keyboard and return passed

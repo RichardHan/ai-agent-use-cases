@@ -1,0 +1,11 @@
+{
+  "id": "8d51c44e-9ad8-437b-9d3d-00fcd372cc8a",
+  "ok": true,
+  "result": {
+    "result": "{\"title\":\"讓 AI 先整理客服信，退款與承諾由你決定\",\"source\":\"https://github.com/RichardHan/ai-agent-use-cases/blob/21d1f9fc351c94163badbb4d7b495aefdad76b14/cases/014-support-inbox-approval-refund.md\",\"trust\":\"成果主張：主要 社群作者／專案實踐者；另宣告 設計／未實跑\\n核讀：主要 本庫未獨立重現；其他類別見下方\\n核讀與安全建議 ↓\",\"overflow\":false}",
+    "origin": "https://richardhan.github.io/ai-agent-use-cases/?q=UC-014&scope=topic&case=UC-014"
+  },
+  "_meta": {
+    "runtimeId": "dd413b6c-f7bd-4d30-b666-1ea92c3d8d9e"
+  }
+}

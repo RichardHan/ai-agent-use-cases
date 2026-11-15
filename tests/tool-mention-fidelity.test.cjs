@@ -97,6 +97,37 @@ test('disclaimers, deduplication contrasts, and relative case links do not produ
   assert.deepEqual(Array.from([...api.parseFile('cases/901-test.md', withDisclaimers)][0].tools), ['Meta Muse']);
 });
 
+test('missing counterpart trials do not attribute tools, while failed and unverified uses remain discoverable', () => {
+  const api = load();
+  const lead = '# UC-902：測試\n\n- 網站標題：測試\n\n';
+  const tools = text => Array.from([...api.parseFile('cases/902-test.md', lead + text)][0].tools);
+  assert.deepEqual(tools('- 工具：ChatGPT dots；Grok Bot／Muse 本頁無對應實測。'), ['ChatGPT dots']);
+  assert.deepEqual(tools('作者使用 Grok Bot；Muse 沒有同類實測。'), ['Grok Bot']);
+  assert.deepEqual(tools('作者用 Muse 訂票失敗，沒有完成付款；本庫未獨立實測。'), ['Meta Muse']);
+  assert.deepEqual(tools('本庫設計用 Muse 整理通知，未實跑。'), ['Meta Muse']);
+  assert.deepEqual(tools('Muse 本頁無對應實測。\n後續補充：作者使用 Muse 完成行程比較。'), ['Meta Muse']);
+});
+
+test('an affirmed use sharing a clause with a missing comparison trial stays discoverable', () => {
+  const api = load();
+  const lead = '# UC-902：測試\n\n- 網站標題：測試\n\n';
+  for (const text of [
+    '作者使用 Meta Muse 訂票失敗但本頁沒有同類實測比較。',
+    '作者使用 Meta Muse 訂票失敗但本頁沒有同類實測。',
+    'Meta Muse 並非沒有同類實測。',
+    '本庫設計用 Meta Muse 整理通知但沒有同題實測。'
+  ]) {
+    assert.deepEqual(Array.from([...api.parseFile('cases/902-test.md', lead + text)][0].tools), ['Meta Muse'], text);
+  }
+});
+
+test('UC-040 exposes its dots trial, not the explicitly absent Grok Bot and Muse trials', () => {
+  const api = load();
+  const file = 'cases/040-trip-deferred-recheck.md';
+  const entry = [...api.parseFile(file, fs.readFileSync(path.join(root, file), 'utf8'))][0];
+  assert.deepEqual(Array.from(entry.tools), ['ChatGPT dots']);
+});
+
 test('corpus cases with scope disclaimers or deduplication links list only tools actually used', () => {
   const api = load();
   const pages = corpus();

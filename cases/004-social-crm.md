@@ -15,14 +15,14 @@
 - 作者／出版方：Matt Palmer（作者自述任職DevRel）
 - 發布日期：2026-09-11
 - 原文語言：en
-- 網址：https://x.ai/bot/guides/grok-bot-101
+- 網址：[https://x.ai/bot/guides/grok-bot-101](https://x.ai/bot/guides/grok-bot-101)
 
 ## 同來源的影片版本
 
 - 標題：Getting started with Grok Bot
 - 作者：Matt Palmer
 - 發布日期：2026-08-25
-- 網址：https://www.youtube.com/watch?v=jwogmXNt7o4
+- 網址：[https://www.youtube.com/watch?v=jwogmXNt7o4](https://www.youtube.com/watch?v=jwogmXNt7o4)
 - 章節：16:06 Workflow: Twitter followers to Notion
 - 查證範圍：只核對公開描述章節，未讀逐字稿。影片章節寫 followers，文章描述追蹤的人，兩者不能混用；執行前由使用者指定清單。
 

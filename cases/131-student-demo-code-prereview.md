@@ -36,7 +36,7 @@ Antonio Leiva在早期體驗中，讓名為Keet的dot開始審閱AI Expert學生
 ## 來源與去重
 
 - 作者：Antonio Leiva；西班牙文；2026-09-29 17:10:44 UTC。
-- 原文：https://x.com/antonioleivag/status/2104982218678378855
-- 同作者影片：https://www.youtube.com/watch?v=C6pmI6bIUrw
+- 原文：[https://x.com/antonioleivag/status/2104982218678378855](https://x.com/antonioleivag/status/2104982218678378855)
+- 同作者影片：[https://www.youtube.com/watch?v=C6pmI6bIUrw](https://www.youtube.com/watch?v=C6pmI6bIUrw)
 - 研究時取得原X公開完整正文及發布時間；另一讀取介面403。YouTube描述已讀，字幕回空，沒有觀看影音。
 - 與UC-005程式交付/PR審查、UC-030自學工具不同；本案終點是教師待覆核的學生作品回饋，轉錄與code閱讀不拆算。

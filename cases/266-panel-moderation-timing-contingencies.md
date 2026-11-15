@@ -47,6 +47,6 @@
 ## 來源
 
 - Bruno Guglielminetti；節目主持Jérôme Colombain；法文，Monde Numérique，2026-10-16。公開逐字稿34:18–36:54已讀，音訊未聽。
-  https://mondenumerique.info/podcast/monde-numerique/episode/supermarches-pirates-nos-infrastructures-sont-elles-trop-vulnerables-debrief-transat-161026
+  [https://mondenumerique.info/podcast/monde-numerique/episode/supermarches-pirates-nos-infrastructures-sont-elles-trop-vulnerables-debrief-transat-161026](https://mondenumerique.info/podcast/monde-numerique/episode/supermarches-pirates-nos-infrastructures-sont-elles-trop-vulnerables-debrief-transat-161026)
 - OpenAI，Connected apps in ChatGPT，查閱2026-10-17；僅作權限與可用性背景。
-  https://help.openai.com/en/articles/11487775-connected-apps-in-chatgpt
+  [https://help.openai.com/en/articles/11487775-connected-apps-in-chatgpt](https://help.openai.com/en/articles/11487775-connected-apps-in-chatgpt)

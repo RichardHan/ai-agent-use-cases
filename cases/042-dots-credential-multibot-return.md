@@ -15,7 +15,7 @@
 
 - 作者：@chebyte
 - 發布：2026-10-13；原文語言：英文
-- 網址：https://x.com/chebyte/status/2110008800593768844 （內嵌文章〈I gave OpenAI Dots a week. Grok Bot kept my job.〉）
+- 網址：[https://x.com/chebyte/status/2110008800593768844](https://x.com/chebyte/status/2110008800593768844) （內嵌文章〈I gave OpenAI Dots a week. Grok Bot kept my job.〉）
 - 取得內容：已讀 X 文章 plain_text；未執行任一產品。
 - 作者自稱搬過去的真實工作：在 X 上的內容流水線——一個寫手、四個對每篇草稿爭論的陪審、一個監看、一個發布；在 dots 上整隊被壓成「單一 agent 戴五頂帽子」，作者認為效果差。
 - 作者報告的 dots 痛點（自述，單一樣本）：

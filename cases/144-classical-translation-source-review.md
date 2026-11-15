@@ -37,9 +37,9 @@ MrSane（@MrSaneApps）在本週Bot用途對話中，說自己正把希臘文／
 ## 來源與去重
 
 - MrSane（@MrSaneApps）；英文；2026-10-10 06:44:28 UTC。
-- 原文：https://x.com/MrSaneApps/status/2108810882486501844
-- 實際作品：https://viapatrum.org/works/diognetus-epistle/
-- 方法：https://viapatrum.org/methodology/
-- 公開專案：https://github.com/sane-apps/translations （只讀README與流程文件）。
+- 原文：[https://x.com/MrSaneApps/status/2108810882486501844](https://x.com/MrSaneApps/status/2108810882486501844)
+- 實際作品：[https://viapatrum.org/works/diognetus-epistle/](https://viapatrum.org/works/diognetus-epistle/)
+- 方法：[https://viapatrum.org/methodology/](https://viapatrum.org/methodology/)
+- 公開專案：[https://github.com/sane-apps/translations](https://github.com/sane-apps/translations) （只讀README與流程文件）。
 - 網站未標發布日，不用查閱日冒充；來源已讀完整公開內容。
 - 已比較UC-042與107，本案終點是跨語言且可追溯原文的譯作，與社群稿互評／本人舊文音訊化不同。全站作品合計一流程。

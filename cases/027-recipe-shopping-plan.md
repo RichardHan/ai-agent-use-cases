@@ -33,7 +33,7 @@
 ## Grok Bot 版本：排菜單後到網路超市下單，結帳前失敗（作者自述實測）
 
 - 作者：@gyutei_4koma
-- 原始網址：https://x.com/gyutei_4koma/status/2110252710402638192 （主貼文）；https://x.com/gyutei_4koma/status/2110236051759636932 （同日較早的菜單比較）
+- 原始網址：[https://x.com/gyutei_4koma/status/2110252710402638192](https://x.com/gyutei_4koma/status/2110252710402638192) （主貼文）；[https://x.com/gyutei_4koma/status/2110236051759636932](https://x.com/gyutei_4koma/status/2110236051759636932) （同日較早的菜單比較）
 - 發布日期：2026-10-14（台灣時間 14:13；較早一則 13:07）
 - 原文語言：日文
 - 證據標記：作者自述實測（失敗回報；本庫未重現）

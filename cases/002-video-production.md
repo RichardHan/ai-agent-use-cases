@@ -17,7 +17,7 @@
 
 作者報告 Muse 較快但創意成品不足；dots 的語氣與縮圖有問題；Grok Bot 較貼近其既有作品，但遇到用量限制，縮圖也僅有模型稿。以上是作者評價，未經本庫獨立重現。
 
-原文：https://www.aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots
+原文：[https://www.aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots](https://www.aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots)
 
 ## 本庫建議流程
 

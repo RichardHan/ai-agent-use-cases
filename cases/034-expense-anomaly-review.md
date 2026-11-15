@@ -50,7 +50,7 @@ Daria Littlefield在2026-10-05英文文章自述，CFO Bot第一份月報從郵�
 用合成交易測試同日同額、預授權與正式扣款、撤銷及不同幣別。每個疑點附交易識別與可能正常解釋，保留資料截至日；沒有帳單證據就只記待查。付款、爭議、退款聯絡及會計處理另獲授權，不自動行動。
 
 - 原作者：Daria Littlefield；英文；2026-10-05。
-- 原文：https://www.donotchurn.com/p/running-my-admin-on-grok-bot
+- 原文：[https://www.donotchurn.com/p/running-my-admin-on-grok-bot](https://www.donotchurn.com/p/running-my-admin-on-grok-bot)
 - 已讀完整公開文章；未存取作者或讀者的帳戶／帳單。沒有取得原始提示詞、報表或退款紀錄。
 - 本次只計費用疑點覆核一流程；既有Muse官方建議不因此變成Muse實測。報價方案沿舊查證日，不表示Grok Bot目前費率。
 

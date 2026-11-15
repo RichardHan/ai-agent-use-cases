@@ -35,6 +35,6 @@ Ben Boonstra在Grok Bot學生開發活動後說，自己的Campus Meals在他醒
 ## 來源與去重
 
 - 作者：Ben Boonstra；英文；2026-09-04 18:30:02 UTC（原頁發布資料）。
-- 原文：https://www.linkedin.com/posts/bboonstra26_grokbotforstudents-activity-7501708168121454592-_Fqr
+- 原文：[https://www.linkedin.com/posts/bboonstra26_grokbotforstudents-activity-7501708168121454592-_Fqr](https://www.linkedin.com/posts/bboonstra26_grokbotforstudents-activity-7501708168121454592-_Fqr)
 - 已讀原作者完整貼文；未取得課表、路線或成果檔。
 - 與UC-027食譜採買、UC-043活動匯入不同；核心是課間地點／時間約束下的用餐安排，不因加日曆另拆一項。

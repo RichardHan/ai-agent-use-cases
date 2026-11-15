@@ -37,7 +37,7 @@ Jon ONeill說自己早上6點傳訊給Muse，代理更新job board、簡訊客�
 ## 來源與去重
 
 - Jon ONeill；英文；2026-09-21 14:06:00 UTC（原頁時間）。
-- 原文：https://x.com/HouseHackerJon/status/2102036626478420315
+- 原文：[https://x.com/HouseHackerJon/status/2102036626478420315](https://x.com/HouseHackerJon/status/2102036626478420315)
 - 已讀原作者完整正文；附圖403後停止，未取其內容。
-- 官方連接器背景：https://platform.muse.ai/docs （已讀，頁未標發布日）。
+- 官方連接器背景：[https://platform.muse.ai/docs](https://platform.muse.ai/docs) （已讀，頁未標發布日）。
 - 已讀UC-126、024、072：開工許可、交付開帳及單次代撥不同於既有工單的多方同步。各通道及接收者合計一次。

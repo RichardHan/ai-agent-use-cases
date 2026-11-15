@@ -40,7 +40,7 @@ Satoru / Toko用公開虛構建築模型代替實案，讓Grok Bot產出可旋�
 
 - 作者：Satoru / Toko；日文。
 - 發布：2026-10-14 10:57:50 +09:00，原頁JSON-LD已核。
-- 原文：https://note.com/tokothecat/n/n6f62f2c62b10
+- 原文：[https://note.com/tokothecat/n/n6f62f2c62b10](https://note.com/tokothecat/n/n6f62f2c62b10)
 - 標題：Grok Botで、3Dモデルからフォトリアルな内装まで作ってみました。
 - 研究中已成功讀完整正文及日期；另一次網頁工具存取失敗，未繞過限制。未下載模型或執行流程。
 

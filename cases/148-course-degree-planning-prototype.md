@@ -38,12 +38,12 @@ Dom Ross在README自述於2026-09-03 UMich Build Night，使用協調、課表�
 ## 來源與去重
 
 - 作者Dom Ross；英文；活動2026-09-03。
-- 原始提交2026-09-04T00:16:29-04:00：https://github.com/Domross3/umich-course-planner/commit/4207bc4381273d98559bf75d3b7d1a3472d7ffa1
-- 專案：https://github.com/Domross3/umich-course-planner
-- 產物：https://github.com/Domross3/umich-course-planner/blob/main/index.html
-- 部署踩坑與限制：https://github.com/Domross3/umich-course-planner/blob/main/BOT-TEMPLATE.md
-- 官方參考：https://lsa.umich.edu/lsa/academics/lsa-requirements/minors.html
-- CogSci課程要求：https://lsa.umich.edu/weinberginstitute/undergraduates/current-students/curriculum.html
+- 原始提交2026-09-04T00:16:29-04:00：[https://github.com/Domross3/umich-course-planner/commit/4207bc4381273d98559bf75d3b7d1a3472d7ffa1](https://github.com/Domross3/umich-course-planner/commit/4207bc4381273d98559bf75d3b7d1a3472d7ffa1)
+- 專案：[https://github.com/Domross3/umich-course-planner](https://github.com/Domross3/umich-course-planner)
+- 產物：[https://github.com/Domross3/umich-course-planner/blob/main/index.html](https://github.com/Domross3/umich-course-planner/blob/main/index.html)
+- 部署踩坑與限制：[https://github.com/Domross3/umich-course-planner/blob/main/BOT-TEMPLATE.md](https://github.com/Domross3/umich-course-planner/blob/main/BOT-TEMPLATE.md)
+- 官方參考：[https://lsa.umich.edu/lsa/academics/lsa-requirements/minors.html](https://lsa.umich.edu/lsa/academics/lsa-requirements/minors.html)
+- CogSci課程要求：[https://lsa.umich.edu/weinberginstitute/undergraduates/current-students/curriculum.html](https://lsa.umich.edu/weinberginstitute/undergraduates/current-students/curriculum.html)
 - 已讀README、HTML、流程文件與官方參考；不執行。
 - 與UC-026期限整理、030複習工具、005／061通用開發協作不同，本案聚焦帶有學分與時間約束的選課方案。
 

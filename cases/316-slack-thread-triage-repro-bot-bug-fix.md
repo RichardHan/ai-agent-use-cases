@@ -22,13 +22,13 @@
 
 ### S-316A：官方工作坊影片（說明欄與章節已讀，影片未看）
 
-- 網址：https://www.youtube.com/watch?v=lpi-9F5KJJo （頻道 Grok；長度 3,435 秒）
+- 網址：[https://www.youtube.com/watch?v=lpi-9F5KJJo](https://www.youtube.com/watch?v=lpi-9F5KJJo) （頻道 Grok；長度 3,435 秒）
 - 說明欄寫明重點：分流 Bot、重現用 Team Bot、設計師與工程師在一個 Slack 討論串修好並合併 bug；用技能與記憶以白話設護欄（例如「一律在本機重現」）；何時改用 BDK；管理端的本機執行、模板分享、對外連線（egress）與 MCP 允許清單設定。章節 4:21「兩個 Bot 和兩個人 90 分鐘修好一個 bug」、22:21「連接 App 並在 Grafana 多個 repo 間路由」。
 - 說明欄附 BDK、Team Bots 與 Cloud Agents 文件連結。
 
 ### S-316B：第三方文字整理（全文已讀）
 
-- 網址：https://x.com/tibor_tee/status/2111397316427149510 （X 長文；本庫以 X API 讀到全文）
+- 網址：[https://x.com/tibor_tee/status/2111397316427149510](https://x.com/tibor_tee/status/2111397316427149510) （X 長文；本庫以 X API 讀到全文）
 - 取得內容（翻譯改寫）：
   - 真實討論串：講者在 Slack 回報 bug，分流 Bot 先回覆並確認是否為真問題；工程師叫來專做重現的 Team Bot，Bot 貼出 bug 與修正的截圖；設計師進串指出「名字很長」的邊界情況，工程師即時引導 Bot，修正再檢查後合併。分流 Bot 也會去重，二十人回報同一 bug 不會開二十張單，問題仍記錄在 Linear。
   - Grafana 示範：講者建立路由 Bot，從簡報用 Bot 取得 repo 清單；再建立重現 Bot，在沒有額外指示下重現一個「服務名稱被省略號截斷」的真實 issue。第一次是在 Grafana 公開 demo 站重現；講者要它改在本機做、並存成技能，再加一個技能指示使用 repo 既有的雲端代理環境，Bot 才在該環境重現成功；最後分享給團隊成為 Team Bot。

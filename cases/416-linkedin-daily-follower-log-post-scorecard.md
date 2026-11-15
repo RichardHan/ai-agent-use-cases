@@ -21,7 +21,7 @@
 
 ### S-416A：まりっか（@marikkadayo，note，日文）
 
-- 網址：https://note.com/marikkadayo/n/n933e0144cf01
+- 網址：[https://note.com/marikkadayo/n/n933e0144cf01](https://note.com/marikkadayo/n/n933e0144cf01)
 - 發布：2026-10-22 07:41（日本時間，台灣時間 06:41）；原文語言：日文；免費全文已讀（本輪經 note 公開 API 讀取）。
 - 作者交代的範圍：數字取自作者自己的帳號，期間 2026-10-14～20；貼文成績在 10-19 取得。作者提醒換帳號結果會不同。
 - 作者讓 Bot 做的三件事（翻譯改寫）：

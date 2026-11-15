@@ -21,7 +21,7 @@
 ### S-070A：ChatGPT Dot — GitHub 停權後改走 Mac＋Cloudflare（作者自述）
 
 - 作者：@cradrrat；英文；2026-10-15 19:58（台灣時間，貼文時間 2026-10-15T11:58:19Z）
-- 網址：https://x.com/cradrrat/status/2110701803381919815
+- 網址：[https://x.com/cradrrat/status/2110701803381919815](https://x.com/cradrrat/status/2110701803381919815)
 - 取得內容：已讀完整 note_tweet；附截圖；未取得作者帳號、建置紀錄或 Cloudflare 後台。
 - 作者自述（翻譯改寫）：
   1. GitHub 帳號被停權，客服未回，但仍需更新網站。

@@ -15,7 +15,7 @@
 - 作者／出版方：uehara
 - 發布日期：2026-10-10
 - 原文語言：en
-- 網址：https://dev.to/uehara/i-connected-chatgpt-dots-to-gmail-calendar-slack-and-notion-to-see-what-it-can-and-cant-do-13md
+- 網址：[https://dev.to/uehara/i-connected-chatgpt-dots-to-gmail-calendar-slack-and-notion-to-see-what-it-can-and-cant-do-13md](https://dev.to/uehara/i-connected-chatgpt-dots-to-gmail-calendar-slack-and-notion-to-see-what-it-can-and-cant-do-13md)
 
 ## 來源報告與限制
 

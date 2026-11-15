@@ -37,7 +37,7 @@ Gomer在Cursor Forum報告，用Grok Bot替軌道圖增加平行側線，數小�
 ## 來源與去重
 
 - Gomer；英文；論壇首報2026-09-21，2026-09-23回報改善。
-- 原文：https://forum.cursor.com/t/grok-bot-simple-image-track-geometry-edit-unreliable/172484
-- 官方匯出：https://www.drawio.com/docs/manual/export/export-to-png/
+- 原文：[https://forum.cursor.com/t/grok-bot-simple-image-track-geometry-edit-unreliable/172484](https://forum.cursor.com/t/grok-bot-simple-image-track-geometry-edit-unreliable/172484)
+- 官方匯出：[https://www.drawio.com/docs/manual/export/export-to-png/](https://www.drawio.com/docs/manual/export/export-to-png/)
 - 已讀完整討論及一張公開對話截圖；未取最終.drawio或獨立驗收。
 - 已比UC-062、111、113：設計對程式差異、資料溯源及材質比較不同於可編輯圖的局部連接幾何修改。兩階段失敗合計一流程。

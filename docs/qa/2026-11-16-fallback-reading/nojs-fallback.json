@@ -1,0 +1,46 @@
+{
+ "desktop": {
+  "index": {
+   "legend": true,
+   "codes": [
+    "author-demo",
+    "official",
+    "designed",
+    "unverified"
+   ],
+   "caseHref": "cases/001-travel-checkout.html",
+   "home": [
+    "index.html",
+    "index.html",
+    "index.html"
+   ]
+  },
+  "c": {
+   "sourceHref": "https://www.aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots",
+   "linkText": "https://www.aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots",
+   "rawToken": true
+  }
+ },
+ "phone": {
+  "index": {
+   "legend": true,
+   "codes": [
+    "author-demo",
+    "official",
+    "designed",
+    "unverified"
+   ],
+   "caseHref": "cases/001-travel-checkout.html",
+   "home": [
+    "index.html",
+    "index.html",
+    "index.html"
+   ]
+  },
+  "c": {
+   "sourceHref": "https://www.aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots",
+   "linkText": "https://www.aiformortals.co/blog/grok-bot-vs-meta-muse-vs-chatgpt-dots",
+   "rawToken": true
+  }
+ }
+}

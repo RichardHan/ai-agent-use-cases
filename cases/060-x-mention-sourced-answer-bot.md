@@ -24,7 +24,7 @@
 
 - 作者：@idontknowmaxime（Maxime）
 - 發布：2026-10-15 06:16（台灣時間）；原文語言：英文（說明帖）；帳號自我介紹與回覆為法文
-- 網址：https://x.com/idontknowmaxime/status/2110495092825784541 （另見法文介紹帖 https://x.com/idontknowmaxime/status/2110468930238402899 ）
+- 網址：[https://x.com/idontknowmaxime/status/2110495092825784541](https://x.com/idontknowmaxime/status/2110495092825784541) （另見法文介紹帖 [https://x.com/idontknowmaxime/status/2110468930238402899](https://x.com/idontknowmaxime/status/2110468930238402899) ）
 - 背景：這是一則回覆贈獎活動貼文的分享，不是獨立教學長文。原例是替一位法國政治人物的 2027 年政見做問答；帳號自稱非官方、自動化。本庫只看流程，不評論政見內容或立場。
 - 作者自述的流程（改寫）：
   1. 全天監看被標記的貼文，回覆前先讀被回覆的上一則貼文，弄清楚上下文。

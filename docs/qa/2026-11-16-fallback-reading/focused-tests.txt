@@ -1,0 +1,18 @@
+✔ a rendered case with a clickable source passes (15.258708ms)
+✔ a rendered case with only plain-text sources fails by page name (5.245208ms)
+✔ the site header link does not count as a source (0.542833ms)
+✔ an index without the evidence legend fails (9.76825ms)
+✔ a catalog entry without a rendered page fails instead of shrinking the check (7.327917ms)
+✔ every published corpus page keeps at least one clickable source (144.600917ms)
+✔ source bullets never leave a bare URL for the Jekyll fallback (111.150709ms)
+✔ the SPA still treats a URL-labelled source as a source, not as prose (12.679333ms)
+✔ INDEX documents every evidence token used by a case header with the SPA label (144.247875ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 516.137833
+exit=0

@@ -37,7 +37,7 @@ Stanford官方訪客說明確認：訪客自行支付列印費，建立或登入
 ## 來源與去重
 
 - 作者：Benedikt Stroebl；英文；2026-09-15 03:26:40 UTC（原頁時間）。
-- 原文：https://x.com/benediktstroebl/status/2099701407171706932
-- 官方：https://uit.stanford.edu/service/cardinal-print/guests （頁面更新2026-06-18；已讀訪客與受邀來賓流程）。
+- 原文：[https://x.com/benediktstroebl/status/2099701407171706932](https://x.com/benediktstroebl/status/2099701407171706932)
+- 官方：[https://uit.stanford.edu/service/cardinal-print/guests](https://uit.stanford.edu/service/cardinal-print/guests) （頁面更新2026-06-18；已讀訪客與受邀來賓流程）。
 - 已取得原作者完整可讀正文及時間；稍後再次讀取返回403，未嘗試繞過。未查看未提供的收據或打印成果。
 - 與UC-083教材生成、UC-114教材版面節紙不同；本案是既有PDF交到外部列印服務並讓本人現場完成，計一次。

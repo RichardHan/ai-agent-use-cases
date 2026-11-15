@@ -47,7 +47,7 @@
 ## 來源與去重
 
 - 作者：青島；日文；2026-09-01 08:41（頁面時間，時區未明）。
-- 原文：https://note.com/bright_dietes994/n/ndbef55c17552
-- 後續原文：青島，日文，2026-09-02 08:17（頁面時間，時區未明）：https://note.com/bright_dietes994/n/nf83c6da91358
+- 原文：[https://note.com/bright_dietes994/n/ndbef55c17552](https://note.com/bright_dietes994/n/ndbef55c17552)
+- 後續原文：青島，日文，2026-09-02 08:17（頁面時間，時區未明）：[https://note.com/bright_dietes994/n/nf83c6da91358](https://note.com/bright_dietes994/n/nf83c6da91358)
 - 已讀兩篇完整測試正文、失敗處理及限制；未獨立查訂單。後篇併入本案，不新增計數。
 - 與UC-003模擬商店管理、UC-048價格監測、UC-053利潤分析不同；本案終點是庫存門檻觸發的批准採購及訂單台帳一致性。兩品項／兩角色合計一流程。

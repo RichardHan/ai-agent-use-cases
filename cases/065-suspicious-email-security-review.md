@@ -23,7 +23,7 @@
 ### S-065A：Grok Bot — 拆出 xAI 官方邀請信裡的假按鈕（作者自述）
 
 - 作者：@wmorrill3（Wes）；英文；2026-10-15 07:00（台灣時間）發布串文。
-- 主帖：https://x.com/wmorrill3/status/2110505932174045466
+- 主帖：[https://x.com/wmorrill3/status/2110505932174045466](https://x.com/wmorrill3/status/2110505932174045466)
 - 續帖：[Bot 的發現](https://x.com/wmorrill3/status/2110505932861931656)、[修補建議與已修正截圖](https://x.com/wmorrill3/status/2110505933210046793)、[後續巡檢 routine](https://x.com/wmorrill3/status/2110505933923144127)
 - 作者自述（翻譯改寫）：
   1. 一封來自 `noreply@x.ai` 的「邀請加入 X Founders Private Program」信，SPF、DKIM、DMARC 都通過，寄件者還有藍勾。作者覺得不對勁，請 Bot 做安全審查。

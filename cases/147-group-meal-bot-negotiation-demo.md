@@ -38,8 +38,8 @@ Team Null.在2026-10-11活動製作QR攜帶table_id的訂餐頁、條件篩選�
 
 - 作者：a null-sensei／GOROman、Team Null.；日文。
 - 活動2026-10-11；文章2026-10-12 13:11及13:17，未標時區。
-- 前篇：https://note.com/goroman/n/ncc09f4476257
-- 後篇：https://note.com/goroman/n/n78142a1b006d
-- 公開專案：https://github.com/naru-sensei/mirai-menu
+- 前篇：[https://note.com/goroman/n/ncc09f4476257](https://note.com/goroman/n/ncc09f4476257)
+- 後篇：[https://note.com/goroman/n/n78142a1b006d](https://note.com/goroman/n/n78142a1b006d)
+- 公開專案：[https://github.com/naru-sensei/mirai-menu](https://github.com/naru-sensei/mirai-menu)
 - 已讀兩篇原文與專案文件；未取得實際交易紀錄，不把規劃當完成。
 - 已比UC-003、027、134：店方營運、食譜採買、手寫進貨單不同於多人偏好協商。建站、通信及模擬訂單合計一次。

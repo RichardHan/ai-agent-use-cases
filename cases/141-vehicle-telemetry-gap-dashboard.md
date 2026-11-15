@@ -29,6 +29,6 @@
 ## 來源與去重
 
 - 作者：Andy Cheng（@firerock31）；英文；原發日期未核；查閱2026-10-17台灣時間。
-- 原文：https://www.threads.com/@firerock31/post/DdU25bOGTi1
+- 原文：[https://www.threads.com/@firerock31/post/DdU25bOGTi1](https://www.threads.com/@firerock31/post/DdU25bOGTi1)
 - 已讀原作者完整公開正文；影音未觀看，沒有把其他人的轉述或按讚視為獨立驗證。
 - 已讀UC-124全文，其終點是手冊與維修紀錄對照保養；本案是持續遙測和中斷監督，行程／耗電／健康面板合計一次。

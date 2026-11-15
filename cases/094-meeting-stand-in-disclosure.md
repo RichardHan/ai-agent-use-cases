@@ -23,7 +23,7 @@
 ### S-094A：@kiaraplds 單則貼文
 
 - 作者：@kiaraplds；英文；2026-08-14（UTC）。
-- 連結：https://x.com/kiaraplds/status/2088321112073547835
+- 連結：[https://x.com/kiaraplds/status/2088321112073547835](https://x.com/kiaraplds/status/2088321112073547835)
 - 作者自述（翻譯）：Bot 剛替我參加了我無法出席的會議，它告知了與會者並幫我做筆記。
 - 缺口：影片未看，無法確認入會方式與筆記品質。
 

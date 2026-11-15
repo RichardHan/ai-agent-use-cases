@@ -15,26 +15,26 @@
 - 作者／出版方：Shub Gaur
 - 發布日期：未列日期
 - 原文語言：en
-- 網址：https://x.ai/bot/marketplace/bots/import-bot
+- 網址：[https://x.ai/bot/marketplace/bots/import-bot](https://x.ai/bot/marketplace/bots/import-bot)
 - 核讀內容：官方Marketplace承載的第三方作者模板，描述可從ChatGPT、Claude Cowork、Codex、OpenClaw、Hermes整理設定至新／既有Bot。
 - 限制：公開設定宣稱排除秘密資訊、匯入排程先暫停；還列出本機／帳號存取與保留設定調整，不能把它當純複製文字。這些是模板設計，不是獨立驗證結果。
 
 - 作者／出版方：SpaceXSI文件站
 - 發布日期：2026-10-12
 - 原文語言：en
-- 網址：https://docs.x.ai/grok-bot/bots
+- 網址：[https://docs.x.ai/grok-bot/bots](https://docs.x.ai/grok-bot/bots)
 - 核讀內容：官方文件說共享Bot由其他用戶建立，添加模板會接受第三方條款；普通Duplicate不複製已學記憶、對話歷史或附件。不能將模板Import與原生完整遷移混為一談。
 
 - 作者／出版方：SpaceXSI
 - 發布日期：2026-08-22
 - 原文語言：en
-- 網址：https://x.ai/legal/bot-sharing-terms
+- 網址：[https://x.ai/legal/bot-sharing-terms](https://x.ai/legal/bot-sharing-terms)
 - 核讀內容：條款稱第三方Bot功能與安全不由平台驗證、背書或保證。本次只閱讀，未接受條款或添加Bot。
 
 - 作者／出版方：SpaceXSI文件站
 - 發布日期：2026-10-12
 - 原文語言：en
-- 網址：https://docs.x.ai/grok-bot/approvals-security-and-privacy
+- 網址：[https://docs.x.ai/grok-bot/approvals-security-and-privacy](https://docs.x.ai/grok-bot/approvals-security-and-privacy)
 - 核讀內容：官方提醒同帳號Bot共享雲端電腦、登入與檔案；刪Bot不等於刪除共享檔案／session；本機操作是另外授權範圍。
 
 ## 來源報告與限制

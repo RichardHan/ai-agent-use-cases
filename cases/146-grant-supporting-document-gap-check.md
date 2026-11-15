@@ -37,6 +37,6 @@ Harry Guinness在Zapier文章中描述連接自己的Google帳號並使用dots�
 ## 來源與去重
 
 - Harry Guinness；英文；2026-10-13。
-- 原文：https://zapier.com/blog/chatgpt-dots/
+- 原文：[https://zapier.com/blog/chatgpt-dots/](https://zapier.com/blog/chatgpt-dots/)
 - 已讀原作者完整使用文章；私人email與補助資料未取得，未獨立核缺口判斷。
 - 已對照UC-126與136：施工許可行政、公園需求及資金提案不同於既有申請佐證缺件核對。Google帳號其他用途不在本案另計。

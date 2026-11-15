@@ -22,8 +22,8 @@
 ### S-403A：@sitinme 發布貼文＋公開倉庫 sit-in/awesome-grokbot-playbooks
 
 - 作者：@sitinme（倉庫 README 與協作檔稱維護人為「涛哥」）；簡體中文（另有英文 README）
-- 貼文：https://x.com/sitinme/status/2112722502845878345 ，2026-10-21 09:47（台灣時間；2026-10-21T01:47:51Z）
-- 倉庫：https://github.com/sit-in/awesome-grokbot-playbooks （MIT；README 自稱非官方）
+- 貼文：[https://x.com/sitinme/status/2112722502845878345](https://x.com/sitinme/status/2112722502845878345) ，2026-10-21 09:47（台灣時間；2026-10-21T01:47:51Z）
+- 倉庫：[https://github.com/sit-in/awesome-grokbot-playbooks](https://github.com/sit-in/awesome-grokbot-playbooks) （MIT；README 自稱非官方）
 - 取得內容：貼文全文（X API）；倉庫 README、`.collab/README.md`、`.collab/LOOP.md`、`.collab/TASKS.md`、`.collab/loop-state.md`、`.collab/to-grok.md` 末段、`inbox/candidates.md` 開頭、CONTRIBUTING「收錄門檻」段、`examples/routine-budget.md`，以及最近 15 筆提交訊息（GitHub API，2026-10-21 11:47 前後讀取）。
 - 作者報告結果（翻譯改寫）：
   1. 貼文：花約 300 美元、試過 40 多個 Grok Bot 後整理成開源清單；Grok Bot 每天找料，Claude Code 逐條核實、寫短評；當時 81 個核實項目、9 個可照抄配方（讀取時 README 已更新為 82 條，留言回執寫 82→84）。

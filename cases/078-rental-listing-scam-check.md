@@ -23,7 +23,7 @@
 ### S-078A：Grok Bot — 母親看到的 Instagram 租屋廣告（作者自述）
 
 - 作者：@pablothethinker（Pablo）；英文；2026-10-16 10:19（台灣時間）。
-- 貼文：https://x.com/pablothethinker/status/2110918566631387428
+- 貼文：[https://x.com/pablothethinker/status/2110918566631387428](https://x.com/pablothethinker/status/2110918566631387428)
 - 作者自述（翻譯改寫，非逐字）：
   1. 母親在 Instagram 廣告看到一間房子，已經和對方聯絡。作者覺得廣告不可信，先發現兩個疑點：租金 998 美元配押金 900 美元，以及沒有掛名的仲介公司。
   2. 作者要了地址，請 Grok Bot 調查房屋的所有權、歷史、評價、仲介，以及透過法院資料庫查公開的產權登記（deed）與 DBPR 紀錄。原文未寫州別；美國佛羅里達州主管不動產執照的機關也叫 DBPR，本庫未核實就是此機關。

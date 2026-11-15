@@ -34,7 +34,7 @@ Chris Snider自述讓Muse存取五支隊伍、分屬四個平台。第一週在s
 ## 來源與去重
 
 - 作者：Chris Snider，Innovation Profs；英文；2026-09-18。
-- 原文：https://newsletter.innovationprofs.com/p/meta-muse-is-the-ai-assistant-you-have-been-waiting-for
+- 原文：[https://newsletter.innovationprofs.com/p/meta-muse-is-the-ai-assistant-you-have-been-waiting-for](https://newsletter.innovationprofs.com/p/meta-muse-is-the-ai-assistant-you-have-been-waiting-for)
 - 已讀全文；未操作任何聯盟。文章含課程活動及贊助推廣。
 - 與UC-108個人高爾夫賽後回顧不同；本案是遊戲聯盟規則下的先發決策與變更驗收，四平台合併一次。
 

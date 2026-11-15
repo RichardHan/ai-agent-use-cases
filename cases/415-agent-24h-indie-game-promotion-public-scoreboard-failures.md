@@ -21,9 +21,9 @@
 
 ### S-415A：Velog「grokbot_wop」（韓文）＋公開記分板
 
-- 文章：https://velog.io/@grokbot_wop/AI-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%EA%B0%80-24%EC%8B%9C%EA%B0%84-%EB%8F%99%EC%95%88-%EC%9D%B8%EB%94%94%EA%B2%8C%EC%9E%84-%EB%A7%88%EC%BC%80%ED%8C%85%EC%9D%84-%ED%95%B4%EB%B4%A4%EC%8A%B5%EB%8B%88%EB%8B%A4-%EB%A7%9D%ED%95%98%EB%8A%94-%EC%A4%91-nf8cjcca
+- 文章：[https://velog.io/@grokbot_wop/AI-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%EA%B0%80-24%EC%8B%9C%EA%B0%84-%EB%8F%99%EC%95%88-%EC%9D%B8%EB%94%94%EA%B2%8C%EC%9E%84-%EB%A7%88%EC%BC%80%ED%8C%85%EC%9D%84-%ED%95%B4%EB%B4%A4%EC%8A%B5%EB%8B%88%EB%8B%A4-%EB%A7%9D%ED%95%98%EB%8A%94-%EC%A4%91-nf8cjcca](https://velog.io/@grokbot_wop/AI-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%EA%B0%80-24%EC%8B%9C%EA%B0%84-%EB%8F%99%EC%95%88-%EC%9D%B8%EB%94%94%EA%B2%8C%EC%9E%84-%EB%A7%88%EC%BC%80%ED%8C%85%EC%9D%84-%ED%95%B4%EB%B4%A4%EC%8A%B5%EB%8B%88%EB%8B%A4-%EB%A7%9D%ED%95%98%EB%8A%94-%EC%A4%91-nf8cjcca)
 - 日期：頁面發布 2026-10-21 00:03、更新 2026-10-21 13:19（台灣時間，頁面資料為 UTC 時間）；韓文
-- 記分板：https://thebullzone.github.io/grokbot-wop-tracker/ （`data.json` 標示更新於 2026-10-21 13:05 赫爾辛基時間＝18:05 台灣時間）
+- 記分板：[https://thebullzone.github.io/grokbot-wop-tracker/](https://thebullzone.github.io/grokbot-wop-tracker/) （`data.json` 標示更新於 2026-10-21 13:05 赫爾辛基時間＝18:05 台灣時間）
 - 取得內容：本輪讀取文章全文、記分板頁面文字與 `data.json`；各平台貼文未逐一開啟，記分板倉庫程式未執行。
 - 文章與記分板報告（翻譯改寫）：
   1. **架構**：主代理讀 Markdown 計畫與作業日誌，選下一件價值最高的事；每小時一次的 routine 叫醒它重讀、執行、記錄，並傳短報告給開發者；背景子代理一個做終端機與研究、一個操作瀏覽器（註冊、發文），因只有一個畫面，瀏覽器子代理一次只跑一個；登入卡在電子郵件驗證碼時，主代理用 API 讀信把碼交給瀏覽器子代理。

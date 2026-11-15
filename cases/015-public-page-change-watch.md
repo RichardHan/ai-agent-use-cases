@@ -22,7 +22,7 @@
 ### S-015A：ChatGPT dots — Future Stack Reviews（FSR）實測
 
 - 作者：Takashi Fujino（Future Stack Reviews）
-- 網址：https://future-stack-reviews.com/chatgpt-dots-starter-tierb/
+- 網址：[https://future-stack-reviews.com/chatgpt-dots-starter-tierb/](https://future-stack-reviews.com/chatgpt-dots-starter-tierb/)
 - 發布：2026-10-08；原文語言：英文（測試環境為日文介面、日本帳號、macOS 桌面版）
 - 取得內容：已讀全文，含方法與測試紀錄節錄（§04 Template 3、§05、§06、§10）。
 - 作者報告：2026-10-07 以官方 ChatGPT release notes 為對象，請 dot 建立三個一次性任務（收到後 15／30／45 分鐘）。dot 列出與頁面相符的 5 筆基準；Scheduled 清單出現 Page check 1–3；隨後收到三則「No change」並附截圖，實際檢查時間比預定晚約 5 分、1 分、1 分。作者自行抓取頁面比對，結果一致。
@@ -32,18 +32,18 @@
 
 ### S-015B：Grok Bot — 官方 Skills and routines 文件
 
-- 出版方：SpaceXSI／xAI 官方文件；網址：https://docs.x.ai/grok-bot/skills-routines-and-automations
+- 出版方：SpaceXSI／xAI 官方文件；網址：[https://docs.x.ai/grok-bot/skills-routines-and-automations](https://docs.x.ai/grok-bot/skills-routines-and-automations)
 - 查證：2026-10-13 讀取；原文語言：英文；頁面未標發布日。
 - 官方說明（`official`，本庫未實測）：建議先做一次性任務→存成 skill→再建 routine；建 routine 時確認擁有 Bot、排程與時區、輸入、預期結果、核准邊界、來源缺失時的處理；官方範例要求「來源不可用時回報失敗，不用舊資料」。提供 Test run（會執行真實工作）、可查看近期成功／失敗紀錄；每個 Bot 最多 50 個 routine、保留每個 routine 最近 20 筆執行紀錄、排程間隔至少 5 分鐘；刪除 routine 立即生效且無法復原。
 - 注意：此文件是通用 routine 指引，不是「頁面變更監看」實測；不能把 S-015A 的 dots 觀察（例如 Completed 標籤）推定為 Grok Bot 行為，反之亦然。
 
-- 社群回報（`author-demo`，未核）：@di_null（X，2026-09-21，英文）：https://x.com/di_null/status/2102017736620568980 。他設定每小時整點執行的 Grok Bot routine，常晚 15–30 分鐘才開始，原因不明（他說也可能是自己設定的問題）。這和 FSR 觀察到 dots 晚 1–5 分鐘一樣，都提醒：排程時間不能當作準時保證，要記錄實際執行時間。
+- 社群回報（`author-demo`，未核）：@di_null（X，2026-09-21，英文）：[https://x.com/di_null/status/2102017736620568980](https://x.com/di_null/status/2102017736620568980) 。他設定每小時整點執行的 Grok Bot routine，常晚 15–30 分鐘才開始，原因不明（他說也可能是自己設定的問題）。這和 FSR 觀察到 dots 晚 1–5 分鐘一樣，都提醒：排程時間不能當作準時保證，要記錄實際執行時間。
 
 
 ### S-015C：Grok Bot — CISA KEV 清單每小時監看（作者自述＋可複製 Bot）
 
 - 作者：@timsonner（Tim Sonner）；英文；2026-10-15 20:21（台灣時間，貼文時間 2026-10-15T12:21:17Z）
-- 網址：https://x.com/timsonner/status/2110707584533701092
+- 網址：[https://x.com/timsonner/status/2110707584533701092](https://x.com/timsonner/status/2110707584533701092)
 - 作者提供可複製 Bot 連結（x.ai bot 頁）：貼文內 [Bot 連結](https://x.ai/bot/71JkQeCeWX8UiZp0el9Jl)（短網址形式）；本庫未安裝、未執行該 Bot。
 - 作者自述（翻譯改寫）：做了一個 Grok Bot，工作日每小時監看 CISA Known Exploited Vulnerabilities（KEV）清單，**只有新項目出現才通知**；每則警報含 CVSS、NVD 連結、是否遭勒索軟體利用、是否有公開 PoC。作者稱可免費複製。
 - 證據標記：`author-demo`。本庫未核對實際排程準點、誤報／漏報，也未驗證 Bot 模板內容與官方 KEV 資料一致性。
@@ -52,7 +52,7 @@
 
 ### Meta Muse
 
-- 未找到可讀的公開頁面監看實測。kuhung（中文部落格，https://kuhung.me/posts/muse-personal-agent-getting-started-guide-and-subjective-impressions/ ）提到 Muse 把定時資訊抓取以「目標」形式呈現，但無頁面監看輸入／輸出或驗收紀錄，僅列 `unverified` 線索，不寫成 Muse 已支援此流程。
+- 未找到可讀的公開頁面監看實測。kuhung（中文部落格，[https://kuhung.me/posts/muse-personal-agent-getting-started-guide-and-subjective-impressions/](https://kuhung.me/posts/muse-personal-agent-getting-started-guide-and-subjective-impressions/) ）提到 Muse 把定時資訊抓取以「目標」形式呈現，但無頁面監看輸入／輸出或驗收紀錄，僅列 `unverified` 線索，不寫成 Muse 已支援此流程。
 
 ## 建議操作流程（本庫設計，未實跑）
 
@@ -90,15 +90,15 @@
 
 ## 2026-10-16 補充：S-015G 演出／活動售票申請日寫進行事曆並每週自動看守
 
-- 來源：@gota_bara；日文；2026-08-12（UTC）；https://x.com/gota_bara/status/2087666940450152841
+- 來源：@gota_bara；日文；2026-08-12（UTC）；[https://x.com/gota_bara/status/2087666940450152841](https://x.com/gota_bara/status/2087666940450152841)
 - 作者自述（翻譯改寫，清單其中一項）：把喜歡的偶像線下演出與活動的售票申請日期加入行事曆，並做了每週自動看守的機制。同一則清單還提到每天早上的摘要與郵件分類 routine、盤點所有訂閱並實際解約。
 - 證據：`author-self-report`（條列，無截圖）。
 - 與本頁關係：同為定時看公開頁面是否有變化，輸出改為行事曆事件；建議只寫入日期與官方頁連結，不代為申請或付款。
 
 ## 2026-10-21 補充：S-015H 每天看官方更新紀錄，只報「對我有什麼用」、沒新東西就安靜
 
-- 來源：@OlgaPechnenko；英文；2026-10-21 01:23（台灣時間，貼文時間 2026-10-20T17:23:26Z）；https://x.com/OlgaPechnenko/status/2112595561220333965 （同作者 2026-10-20T17:18:14Z 另有一則未附更新紀錄網址的較早版本：https://x.com/OlgaPechnenko/status/2112594251036979508 ）
-- 作者自述（翻譯改寫）：請她的幕僚長Bot每天追蹤 Grok Bot 官方更新紀錄（https://x.ai/changelog/bot ）與App更新說明，有新項目才回報：改了什麼、怎麼讓她生活更方便、她的其他Bot可以怎麼用；未經她同意不得自行設定，同一更新不重複報，沒有新東西就不說話。作者貼出Bot的一次實際回報：iPhone動作按鈕可一鍵開啟與Bot的語音對話，Bot並建議開車時用來交辦小事，附設定路徑。
+- 來源：@OlgaPechnenko；英文；2026-10-21 01:23（台灣時間，貼文時間 2026-10-20T17:23:26Z）；[https://x.com/OlgaPechnenko/status/2112595561220333965](https://x.com/OlgaPechnenko/status/2112595561220333965) （同作者 2026-10-20T17:18:14Z 另有一則未附更新紀錄網址的較早版本：[https://x.com/OlgaPechnenko/status/2112594251036979508](https://x.com/OlgaPechnenko/status/2112594251036979508) ）
+- 作者自述（翻譯改寫）：請她的幕僚長Bot每天追蹤 Grok Bot 官方更新紀錄（[https://x.ai/changelog/bot](https://x.ai/changelog/bot) ）與App更新說明，有新項目才回報：改了什麼、怎麼讓她生活更方便、她的其他Bot可以怎麼用；未經她同意不得自行設定，同一更新不重複報，沒有新東西就不說話。作者貼出Bot的一次實際回報：iPhone動作按鈕可一鍵開啟與Bot的語音對話，Bot並建議開車時用來交辦小事，附設定路徑。
 - 證據：`author-demo`（作者自述＋一次輸出內容與作者自寫提示詞）。本庫未核對該次回報內容；本輪讀取的官方更新紀錄頁面最新只到 2026-10-14 v0.71.2，未看到動作按鈕條目（可能是快取或該功能記在App說明），不據此確認或否定該功能。
 - 與本頁關係：同為「固定公開頁面差異監看＋去重＋無變更安靜」。差異在輸出：不只列變更，還要對照使用者自己的用法提出建議，並明確「建議≠代為設定」。
 

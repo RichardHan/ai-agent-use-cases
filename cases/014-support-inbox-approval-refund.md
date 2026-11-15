@@ -22,7 +22,7 @@
 ### S-014A：Grok Bot — Claire Vo「Holly Helpdesk」
 
 - 作者：Claire Vo（ChatPRD／How I AI）；發布：2026-09-03；原文語言：英文
-- 網址：https://www.chatprd.ai/how-i-ai/grok-bot-agent-templates-and-workflows （同集 YouTube 影片未逐段查看）
+- 網址：[https://www.chatprd.ai/how-i-ai/grok-bot-agent-templates-and-workflows](https://www.chatprd.ai/how-i-ai/grok-bot-agent-templates-and-workflows) （同集 YouTube 影片未逐段查看）
 - 取得內容：已讀文章 Workflow 5。
 - 作者報告（自述，非獨立驗證）：每小時掃 Intercom 與 email；依 playbook 處理技術支援與退款請求；Bot 只能「請求」退款，作者收到含 Approve 按鈕的通知，點擊後進入 Stripe 的 agent action，對單筆交易明確授權；每週分析過去 7 天工單，提出 playbook／公開文件增補；另讓其管理社群 Slack。作者稱近一週多位客戶主動詢問哪裡可留評價——此為作者軼事，非滿意度量測。
 - 缺口：未公開完整 Bot 指示、playbook、錯誤案例、退款筆數與費用；Stripe 核准流程的具體設定與權限範圍未說明。文中稱「Grok Bot 尚無群組對話」為 2026-09-03 當時陳述，可能已變動。
@@ -30,7 +30,7 @@
 ### S-014B：ChatGPT dots — Gurmeet Builds AI 油漆工程業務流程影片
 
 - 作者：Gurmeet（Gurmeet Builds AI，YouTube）；彙整頁標示加入日期 2026-10-08；原文語言：英文
-- 網址：https://madewithdots.com/projects/youtube-GUzrnzgdtK8 （第三方彙整頁，轉載影片描述）
+- 網址：[https://madewithdots.com/projects/youtube-GUzrnzgdtK8](https://madewithdots.com/projects/youtube-GUzrnzgdtK8) （第三方彙整頁，轉載影片描述）
 - 取得內容：**僅影片描述與章節標題**，未看影片、無逐字稿。
 - 描述所列：為油漆業者建立工作流程，測試報價計算、經核准後起草業主郵件與客戶回覆、一筆預約端到端處理；提到部分瀏覽器任務需 2 分鐘以上。
 - 缺口：報價是否正確、核准如何運作、預約是否為真實客戶、失敗紀錄均未核實；描述含作者接案廣告，屬自我推廣成分，不視為驗證。標 `unverified`（內容）／待看影片。
@@ -39,7 +39,7 @@
 ### S-014C：ChatGPT dots — 從 Workspace 垃圾箱撈到年付求助並做技術分診（作者自述＋截圖）
 
 - 作者：@kevinma_dev_zh（Kevin Ma）；簡體中文；2026-10-16 11:36（台灣時間）。
-- 貼文：https://x.com/kevinma_dev_zh/status/2110937945318498466
+- 貼文：[https://x.com/kevinma_dev_zh/status/2110937945318498466](https://x.com/kevinma_dev_zh/status/2110937945318498466)
 - 作者自述（翻譯改寫，非逐字）：早上剛在 ChatGPT 綁定 Google Workspace 信箱，沒多久 Dots（對話中顯示名稱「瓦力 2 號」）就在**垃圾箱**裡發現一封用戶想付年付卻付不了的求助信；作者要它搞清楚狀況，最後由作者本人回覆用戶。
 - 截圖可見的工作內容（本庫依公開截圖改寫，非逐字）：
   1. 主動回報：今天 10:04 在 Workspace 垃圾箱攔截到購買求助。
@@ -53,7 +53,7 @@
 
 ### Meta Muse
 
-- 未找到可讀的客服收件匣實測。Yahoo Finance 評測（2026-09，英文）記錄 Muse 代為向搬家公司索取報價時對外送出聯絡資料、並曾捏造電話號碼後自行更正；這屬於「代理代表使用者對外聯繫」的風險證據，但不是客服流程，不併入成功版本。https://finance.yahoo.com/technology/article/metas-muse-is-an-impressively-capable-ai-agent-despite-some-hiccups-173310662.html
+- 未找到可讀的客服收件匣實測。Yahoo Finance 評測（2026-09，英文）記錄 Muse 代為向搬家公司索取報價時對外送出聯絡資料、並曾捏造電話號碼後自行更正；這屬於「代理代表使用者對外聯繫」的風險證據，但不是客服流程，不併入成功版本。[https://finance.yahoo.com/technology/article/metas-muse-is-an-impressively-capable-ai-agent-despite-some-hiccups-173310662.html](https://finance.yahoo.com/technology/article/metas-muse-is-an-impressively-capable-ai-agent-despite-some-hiccups-173310662.html)
 
 ## 建議操作流程（本庫設計，未實跑）
 
@@ -88,7 +88,7 @@ A、B 都只建立草稿，不要寄出；C 只整理成待核准清單：客戶
 
 ## 2026-10-16 補充：S-014D 客服信箱接 Stripe 做例行退款（作者自述）
 
-- 來源：Gergely Orosz（@GergelyOrosz）；英文；2026-08-19（UTC）；https://x.com/GergelyOrosz/status/2090085668768694562
+- 來源：Gergely Orosz（@GergelyOrosz）；英文；2026-08-19（UTC）；[https://x.com/GergelyOrosz/status/2090085668768694562](https://x.com/GergelyOrosz/status/2090085668768694562)
 - 作者自述（翻譯）：把 Grok Bot 接上客服信箱，並透過 API 連 Stripe 做代理操作，例如例行退款；作者稱讚 Stripe 已備好這類代理流程。
 - 缺口：未公開核准規則、金額門檻與失敗案例；貼文附圖本庫未核。
 - 本庫建議：退款仍沿用本頁的「先擬稿、你核准、再執行」，並設單筆金額上限與使用受限權限的 API 金鑰（不要把金鑰貼進對話）。

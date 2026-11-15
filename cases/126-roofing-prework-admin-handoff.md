@@ -37,11 +37,11 @@ Price Foulger說過去兩天以Grok Bot處理屋頂許可、含CAPTCHA的檢查�
 ## 來源與去重
 
 - 作者：Price Foulger；英文；2026-08-21 18:43:23.077 UTC（公開頁JSON-LD）。
-- 原帖：https://www.linkedin.com/posts/pricefoulger_i-am-a-roofing-contractor-and-this-activity-7496638096868904960-iC-P
+- 原帖：[https://www.linkedin.com/posts/pricefoulger_i-am-a-roofing-contractor-and-this-activity-7496638096868904960-iC-P](https://www.linkedin.com/posts/pricefoulger_i-am-a-roofing-contractor-and-this-activity-7496638096868904960-iC-P)
 - 已讀公開原帖完整正文；未取得行政產物或受理機關證明。
 - 與UC-021法務需求分流、UC-102規則到內部表單、UC-116報價草稿不同，本案是特定工地開工行政的跨表單協調。
 
 ### 官方權限背景
 
 2026-10-17已讀Grok Bot安全文件（頁面2026-10-12更新），CAPTCHA與登入驗證須人工接手，對外動作與條款需明確授權；不以作者簡短自述推定產品可繞過這些要求。
-https://docs.x.ai/grok-bot/approvals-security-and-privacy
+[https://docs.x.ai/grok-bot/approvals-security-and-privacy](https://docs.x.ai/grok-bot/approvals-security-and-privacy)

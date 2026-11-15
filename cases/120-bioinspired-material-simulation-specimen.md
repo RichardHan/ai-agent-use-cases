@@ -37,6 +37,6 @@ Markus J. Buehler提供葉脈、網格、纖維與放射網照片，要求在固
 ## 來源與去重
 
 - 作者：Markus J. Buehler；英文；2026-08-22 10:25:26.862 UTC（公開頁JSON-LD）。
-- 原帖：https://www.linkedin.com/posts/markus-j-buehler-2245682_grok-bot-is-incredible-the-bots-move-naturally-activity-7496875174911291392-LO9a
+- 原帖：[https://www.linkedin.com/posts/markus-j-buehler-2245682_grok-bot-is-incredible-the-bots-move-naturally-activity-7496875174911291392-LO9a](https://www.linkedin.com/posts/markus-j-buehler-2245682_grok-bot-is-incredible-the-bots-move-naturally-activity-7496875174911291392-LO9a)
 - 已讀公開正文與作者補充；沒有執行程式、下載模型或操作機器。
 - 與UC-012資料來源稽核、UC-112角色模型列印不同；本案終點是材料假設的模擬與實體樣件交接，多代理角色與各種匯出格式不另拆案例。

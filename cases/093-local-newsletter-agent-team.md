@@ -25,7 +25,7 @@
 ### S-093A：「Making $$$ with Grok Bot」訪談摘要（The Futurist 轉載）
 
 - 受訪者：Billy Howell；訪問者／原影片：Greg Isenberg；英文；轉載頁 2026-08-22。
-- 連結：https://www.thefuturist.co/making-with-grok-bot/
+- 連結：[https://www.thefuturist.co/making-with-grok-bot/](https://www.thefuturist.co/making-with-grok-bot/)
 - 摘要重點（翻譯改寫）：一個專案一個 Grok Bot 帳號以免脈絡膨脹；五行簡報節省用量；三輪子代理對抗式審查把產出從約五成提高到約九成；把重複步驟移到腳本或 make.com，代理用量留給高價值工作；電子報加目錄網站是最低門檻的商業模式。
 - 缺口：原影片與逐字稿未看；頁面為轉載摘要。
 

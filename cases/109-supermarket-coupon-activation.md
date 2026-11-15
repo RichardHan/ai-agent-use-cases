@@ -39,8 +39,8 @@
 
 - 作者：WillyF；平台：Hacker News；語言：英文。
 - 發文時間：2026-09-09 14:09:02 UTC。
-- 原文：https://news.ycombinator.com/item?id=49626889
-- HN 官方 API：https://hacker-news.firebaseio.com/v0/item/49626889.json
+- 原文：[https://news.ycombinator.com/item?id=49626889](https://news.ycombinator.com/item?id=49626889)
+- HN 官方 API：[https://hacker-news.firebaseio.com/v0/item/49626889.json](https://hacker-news.firebaseio.com/v0/item/49626889.json)
 - 已讀官方 API 返回的完整該則留言，核對作者與時間。商店頁面、啟用紀錄與實際優惠未公開；不以別人的讚同視為獨立驗證。
 
 ## 去重

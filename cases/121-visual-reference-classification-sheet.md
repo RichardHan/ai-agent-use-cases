@@ -36,6 +36,6 @@ Daichi Sato在兩週使用回顧列出實際委託工作：以Pinterest為主跨
 
 - 作者：Daichi Sato／STUDIO DAICHI；日文。
 - 發布／更新：2026-10-13 23:45:46（日本時間，原頁metadata）。
-- 原文：https://note.com/forevergift/n/n1974d776f441
+- 原文：[https://note.com/forevergift/n/n1974d776f441](https://note.com/forevergift/n/n1974d776f441)
 - 已讀原頁完整正文及日期，交付表本體未取得。
 - 與UC-020批製卡片、UC-113建築材質方案、UC-002影片企劃不同；本案交付跨領域視覺參考分類表，不因不同圖片特徵拆多案。

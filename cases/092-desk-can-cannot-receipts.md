@@ -25,7 +25,7 @@
 ### S-092A：Dennis Yu「How I Use Grok Bot as One Ops Desk」
 
 - 作者：Dennis Yu；英文；頁面標示 2026-10-13 更新。
-- 連結：https://dennisyu.com/how-i-use-grok-bot/
+- 連結：[https://dennisyu.com/how-i-use-grok-bot/](https://dennisyu.com/how-i-use-grok-bot/)
 - 作者自述（翻譯改寫）：
   1. 「一個人、一個協調者對話」，專責 Bot 只在被指派時才動，不做無聲的平行分派。
   2. 新同事第一小時：裝好、載入公開 skill 倉庫、只建一個協調者 Bot、做一件真實工作並留收據、把流程存成 skill、測試後才建 routine。不要第一天就開 12 個。

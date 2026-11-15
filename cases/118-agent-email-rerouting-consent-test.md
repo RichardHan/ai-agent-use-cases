@@ -37,6 +37,6 @@ Dave Kiss以虛構車行與兩個信箱測試詢問分流。隱藏標頭及結�
 ## 來源
 
 - 作者：Dave Kiss；英文；2026-09-24。
-- 原文：https://davekiss.com/blog/i-opened-a-fake-auto-shop-for-ai-agents/
+- 原文：[https://davekiss.com/blog/i-opened-a-fake-auto-shop-for-ai-agents/](https://davekiss.com/blog/i-opened-a-fake-auto-shop-for-ai-agents/)
 - 已讀完整文章及四版本比較；未執行其公開測試，未重跑日誌。來源有作者Agentline產品推廣，保留利益關係。
 - 去重：與UC-014客服分類、UC-049例行收件匣報告不同，終點是跨收件者的授權分流驗收；Grok Bot與Muse兩種變體合併一次。

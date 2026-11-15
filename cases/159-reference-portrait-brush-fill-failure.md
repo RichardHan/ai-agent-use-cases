@@ -37,7 +37,7 @@ Wanderson Ricardo以自己的頭像作參考，實際嘗試由Grok Bot操作Krit
 ## 來源與去重
 
 - Wanderson Ricardo；葡文；2026-09-24 13:56:32.808 UTC（原頁發布資料）。
-- 原文：https://pt.linkedin.com/posts/wanderson-ricardo-346161231_o-grok-bot-j%C3%A1-sabe-usar-softwares-de-edi%C3%A7%C3%A3o-activity-7508887099132149760-JPof
+- 原文：[https://pt.linkedin.com/posts/wanderson-ricardo-346161231_o-grok-bot-j%C3%A1-sabe-usar-softwares-de-edi%C3%A7%C3%A3o-activity-7508887099132149760-JPof](https://pt.linkedin.com/posts/wanderson-ricardo-346161231_o-grok-bot-j%C3%A1-sabe-usar-softwares-de-edi%C3%A7%C3%A3o-activity-7508887099132149760-JPof)
 - 已讀完整原作者正文；未看56秒影片或重現操作。
-- Krita官方功能背景：https://docs.krita.org/en/reference_manual/tools/freehand_brush.html 與 https://docs.krita.org/en/reference_manual/tools/fill.html ，可調筆刷／粗細及填色參照設定；官方功能存在不證明Bot當次操作成功。
+- Krita官方功能背景：[https://docs.krita.org/en/reference_manual/tools/freehand_brush.html](https://docs.krita.org/en/reference_manual/tools/freehand_brush.html) 與 [https://docs.krita.org/en/reference_manual/tools/fill.html](https://docs.krita.org/en/reference_manual/tools/fill.html) ，可調筆刷／粗細及填色參照設定；官方功能存在不證明Bot當次操作成功。
 - 與UC-157圖面連接幾何、050墨水屏圖像產出不同，本案是像素繪圖軟體的筆刷／填色模式與重畫循環驗收。

@@ -40,10 +40,10 @@ Ramanpal Singh描述dots協助Promptslove投稿及聯絡。2026-09-30 19:06 IST�
 ## 來源與去重
 
 - Ramanpal Singh／Promptslove；英文；發布2026-09-30，頁註2026-10更新。
-- 原文：https://promptslove.com/blog/openai-dots-guide/
+- 原文：[https://promptslove.com/blog/openai-dots-guide/](https://promptslove.com/blog/openai-dots-guide/)
 - 已讀原作者實作段與核對方式；未將全部代理回報當獨立確認。
-- 本次另讀公開目錄資料： https://baserow.io/public/grid/OH9K9Io1VgQBMkTe0bnqTgnDvoqOA9o-HDeVymrX298 ，可見資源名稱、目的網址及待編審註記；未操作展開UI，nofollow仍依作者當時檢查。
-- Google連結類型背景：https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links
+- 本次另讀公開目錄資料： [https://baserow.io/public/grid/OH9K9Io1VgQBMkTe0bnqTgnDvoqOA9o-HDeVymrX298](https://baserow.io/public/grid/OH9K9Io1VgQBMkTe0bnqTgnDvoqOA9o-HDeVymrX298) ，可見資源名稱、目的網址及待編審註記；未操作展開UI，nofollow仍依作者當時檢查。
+- Google連結類型背景：[https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links](https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links)
 - 與UC-017潛客研究／聯絡草稿不同，本案是已提交事項到公開落地結果的狀態與來源驗收；所有目錄和嘗試合計一流程。
 
 

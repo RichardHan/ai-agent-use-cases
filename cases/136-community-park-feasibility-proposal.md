@@ -37,6 +37,6 @@ Jake Steinerman自述用名為Percy的Muse協助社區公園構想：核對人�
 ## 來源與去重
 
 - 作者：Jake Steinerman；英文；2026-09-14 13:06:02 UTC（原頁發布資料）。
-- 原文：https://www.linkedin.com/posts/jasteinerman_my-ai-agent-is-helping-me-build-a-park-activity-7505250511059832833-VbzP
+- 原文：[https://www.linkedin.com/posts/jasteinerman_my-ai-agent-is-helping-me-build-a-park-activity-7505250511059832833-VbzP](https://www.linkedin.com/posts/jasteinerman_my-ai-agent-is-helping-me-build-a-park-activity-7505250511059832833-VbzP)
 - 已讀完整原作者正文；不採留言讚許作獨立驗證。
 - 與UC-017業務開發、UC-019客戶簡報及UC-113材質視覺化不同；本案聚焦公益空間的需求與資金可行性提案，簡報／FAQ／郵件合計一次。

@@ -23,7 +23,7 @@
 ### S-091A：ylgibby「Running a household with Grok Bots」
 
 - 作者：ylgibby；英文；2026-09-09。
-- 連結：https://ylgibby.github.io/grokbot-household-swarm/
+- 連結：[https://ylgibby.github.io/grokbot-household-swarm/](https://ylgibby.github.io/grokbot-household-swarm/)
 - 作者自述（翻譯改寫）：
   1. 設計規則：數字只有一個負責人（只有理財 Bot 能報餘額）；一個 Bot 一份工作並寫明「絕不做」清單；沒事就安靜（成績與晨報例外，一定會送）；花錢、刪信、對外簡訊要明確同意或核准卡。
   2. 只有「Tech Master」持有 Twilio 與 GitHub/Pages；其他 Bot 只交出簡訊全文由它代發。

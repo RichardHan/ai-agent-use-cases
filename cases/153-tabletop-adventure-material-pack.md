@@ -37,6 +37,6 @@ u/Vymalgh在實際用途分享中，明述已組成桌上冒險、地圖、講�
 ## 來源與去重
 
 - u/Vymalgh；英文；原發文日期未核，不用聚合站日期代替。
-- 原文：https://www.reddit.com/r/DotsAI/comments/1x1nnr4/been_using_my_dot_for_quite_a_few_things/
+- 原文：[https://www.reddit.com/r/DotsAI/comments/1x1nnr4/been_using_my_dot_for_quite_a_few_things/](https://www.reddit.com/r/DotsAI/comments/1x1nnr4/been_using_my_dot_for_quite_a_few_things/)
 - 完整原帖可讀；為核日期的公開JSON遇403後停止，未繞過。
 - 已比UC-110與083：可執行Roblox原型／課程題卷不同於桌上情境與主持材料。只計作者明確已組成的材料，不計未核跑團成效。

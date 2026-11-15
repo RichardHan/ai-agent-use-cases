@@ -40,7 +40,7 @@ Santiago Muñoz把Hermes列在自己已運行的工作中：Slack報價訊息觸
 
 - 作者：Santiago Muñoz，Horizontes IA創辦人。
 - 日期：2026-08-29；語言：西文。
-- 原文：https://www.horizontesia.com/blog/grok-bot
+- 原文：[https://www.horizontesia.com/blog/grok-bot](https://www.horizontesia.com/blog/grok-bot)
 - 已讀完整文章，尤其「Lo que yo sí tengo corriendo」與skill段落。內嵌影片未觀看，報價產物未取得。
 
 ## 去重

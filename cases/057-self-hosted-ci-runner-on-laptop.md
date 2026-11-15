@@ -26,7 +26,7 @@
 ### S-057A：Grok Bot — 5 分鐘在筆電架好自架 runner（作者自述＋截圖）
 
 - 作者：@galdalal（Gal）
-- 原始網址：https://x.com/galdalal/status/2110282209810915663
+- 原始網址：[https://x.com/galdalal/status/2110282209810915663](https://x.com/galdalal/status/2110282209810915663)
 - 發布日期：2026-10-14 16:11（台灣時間）
 - 原文語言：英文
 - 證據標記：作者自述實測（`author-demo`）；本庫已讀貼文與截圖（2026-10-14 20:55 讀取）。

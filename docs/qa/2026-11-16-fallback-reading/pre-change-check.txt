@@ -1,0 +1,23 @@
+FAIL: fallback reading has 91 problem(s) across 522 rendered pages
+- INDEX.html is missing the reading guide
+- INDEX.html must distinguish the claimant from verification
+- INDEX.html does not document author-demo as 作者報告／示範
+- INDEX.html does not document designed as 設計／未實跑
+- INDEX.html does not document unverified as 尚待查證
+- cases/007-saas-renewal-audit.html: no clickable source link
+- cases/040-trip-deferred-recheck.html: no clickable source link
+- cases/052-cloud-overcharge-refund-root-cause.html: no clickable source link
+- cases/053-ecommerce-replenishment-refund-profit.html: no clickable source link
+- cases/070-github-outage-mac-cloudflare-publish.html: no clickable source link
+- cases/078-rental-listing-scam-check.html: no clickable source link
+- cases/084-botops-tiered-fleet-notion-tickets.html: no clickable source link
+- cases/085-slack-bug-triage-product-preread.html: no clickable source link
+- cases/086-muse-concert-video-scraping-pipeline.html: no clickable source link
+- cases/090-daily-prediction-market-evidence-read.html: no clickable source link
+- cases/093-local-newsletter-agent-team.html: no clickable source link
+- cases/094-meeting-stand-in-disclosure.html: no clickable source link
+- cases/109-supermarket-coupon-activation.html: no clickable source link
+- cases/112-image-to-printable-articulated-model.html: no clickable source link
+- cases/114-existing-worksheet-print-layout.html: no clickable source link
+- … 71 more
+exit=1

@@ -23,7 +23,7 @@
 ### S-080A：Grok Bot — 掃三個信箱的產品序號，用 1Password CLI 一次存入（作者自述）
 
 - 作者：@atomtanstudio（Rich · Atom Tan Studio）；英文；2026-10-16 15:06（台灣時間）。
-- 貼文：https://x.com/atomtanstudio/status/2110990650439016905
+- 貼文：[https://x.com/atomtanstudio/status/2110990650439016905](https://x.com/atomtanstudio/status/2110990650439016905)
 - 作者自述（翻譯改寫，非逐字）：
   1. 想把多年來買過的應用程式序號都複製一份到密碼管理器；以前得自己在 Gmail 搜尋。
   2. 直接請 Grok Bot 掃描郵件、找出所有產品序號，並複製進 1Password 保管庫。

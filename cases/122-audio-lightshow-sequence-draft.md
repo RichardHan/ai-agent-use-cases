@@ -37,7 +37,7 @@ u/quad_americano在r/xlights自述一個下午產出9組音樂燈光序列，仍
 ## 來源與日期缺口
 
 - 作者：u/quad_americano；英文；平台r/xlights。
-- 原帖：https://www.reddit.com/r/xlights/comments/1wqf0uo/grok_bot_is_king_ai_sequencing/
+- 原帖：[https://www.reddit.com/r/xlights/comments/1wqf0uo/grok_bot_is_king_ai_sequencing/](https://www.reddit.com/r/xlights/comments/1wqf0uo/grok_bot_is_king_ai_sequencing/)
 - 原發布日未核。搜尋索引顯示2026-09-26，但可讀頁相對日期無法一致對齊；不以搜尋日期冒充原發文時間。
 - 已讀原帖及作者配置限制回覆；公開JSON讀取受阻後停止，未登入或繞過限制。影片、序列與完整操作錄影未取得。
 - 去重：與UC-054音樂MV、UC-010 OLED裝置驗收不同；9個序列合併為一個工作流程。

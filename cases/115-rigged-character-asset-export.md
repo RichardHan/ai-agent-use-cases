@@ -37,7 +37,7 @@ Shane Brumback描述先請Grok Bot產出水豚場景，再要求可變形骨架�
 ## 來源
 
 - 作者：Shane Brumback；英文；2026-10-03，HTML作者與TechArticle日期已核。
-- 原文／程式碼：https://www.shanebrumback.com/tutorials/rigged-capybara-threejs.html
+- 原文／程式碼：[https://www.shanebrumback.com/tutorials/rigged-capybara-threejs.html](https://www.shanebrumback.com/tutorials/rigged-capybara-threejs.html)
 - 已讀原作者實作段落和公開程式說明；模型、影片及互動展示未執行。
 - 不把示意App截圖算成額外獨立實作證據。
 

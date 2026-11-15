@@ -24,14 +24,14 @@
 ### S-089A：@petergyang「Marie Kondo」Bot
 
 - 作者：Peter Yang（@petergyang）；英文；2026-08-18（UTC）。
-- 連結：https://x.com/petergyang/status/2089724101070086482
+- 連結：[https://x.com/petergyang/status/2089724101070086482](https://x.com/petergyang/status/2089724101070086482)
 - 公開提示詞重點（翻譯改寫，非逐字）：扮演整理數位雜物的 Marie Kondo；盤點 email、Google Drive 與付費訂閱，建立每類不超過 10 項的清理計畫；找出可退訂的信、要刪或改名的重複檔、可能要取消的訂閱；**未經核准不得移動、刪除、退訂或取消任何東西**。作者還讓它用 Marie Kondo 的口吻說話。
 - 缺口：示範影片（貼文短連結）本庫未觀看。
 
 ### S-089B：@mikepat711 清理 9 萬封信
 
 - 作者：@mikepat711；英文；2026-08-19（UTC）。
-- 連結：https://x.com/mikepat711/status/2089879632929554498
+- 連結：[https://x.com/mikepat711/status/2089879632929554498](https://x.com/mikepat711/status/2089879632929554498)
 - 作者自述（翻譯）：Grok Bot 正在處理兩個 Gmail 帳號約 90,000 封信、清掉垃圾，作者說這是自己一直不敢做的事。未公開結果。
 
 ## 建議操作流程（本庫設計，未實測）
@@ -66,7 +66,7 @@
 ## S-089C：實際重複檔盤點與逐項核准
 
 - 作者：Louis LAURENT／Kryve；法文；2026-08-11發布，2026-10-12更新。
-- 原文：https://www.kryve.fr/blog/grok-bot-guide
+- 原文：[https://www.kryve.fr/blog/grok-bot-guide](https://www.kryve.fr/blog/grok-bot-guide)
 - 查證：2026-10-17（台灣時間），已讀完整文章Usage 3；內嵌影片未看。
 - 作者稱Very分析Drive，排除不確定或敏感項目，找出名稱、大小相同且建立時間僅差數秒的副本，列出保留建議，作者只核准其中5項。
 - 這支持「重複檔案盤點→證據與保留建議→人工核准」確有使用自述；沒有原始檔案清單、內容雜湊或刪除完成紀錄，不能認定5項已刪除，也不能以相同名稱與大小斷言內容完全相同。

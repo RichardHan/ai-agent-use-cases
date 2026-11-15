@@ -36,7 +36,7 @@ u/Urban-Garlic說Mater已讀入自家車、船、ATV與拖車的手冊、保養�
 ## 來源與日期缺口
 
 - 作者：u/Urban-Garlic；英文。
-- 直接留言：https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/pgubvln/
+- 直接留言：[https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/pgubvln/](https://www.reddit.com/r/GrokBot/comments/1x1d7n9/comment/pgubvln/)
 - 已讀完整留言與原串；精確原發文時間未核，頁面只顯相對時間，不以搜尋收錄日期替代。
 - 與UC-101招標、UC-102表單修訂雖同作者但終點不同；與UC-117單次產品換貨不同。本案車、船、ATV等變體合併一次。
 

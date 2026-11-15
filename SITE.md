@@ -1,3 +1,9 @@
+## 2026-11-16 備援閱讀路徑：來源可點、證據代碼可解讀
+
+站方明示的慢載／腳本失敗備援是首頁 →`INDEX.html`→`cases/*.html`，但 Jekyll 不會把裸網址變成連結：正式站 `786c879b` 的 522 個案例頁中 86 頁（16.5%）完全沒有可點的外部來源，201 頁（38.5%）只顯示 `author-demo`／`designed` 等機器代碼而索引沒有對照。本輪把來源章節與來源列的裸網址改成 `[url](url)`（159 檔、336 個連結，顯示文字不變），INDEX 加「怎麼讀這頁」與四類代碼對照，範本要求新案例使用連結，並在 Website QA 以真正 Jekyll `_site` 檢查每個 corpus 案例頁都有外部連結。SPA 的來源去除與搜尋摘要補連結語法處理，避免摘要出現 `[url](url)`。823 單元通過；新檢查對改動前正式頁 FAIL 91、對 kramdown 全量渲染 PASS 525；桌面手機三情境與停用 JS 備援走查見[本輪 QA](docs/qa/2026-11-16-fallback-reading/README.md)。未改版型、案例歸屬或既有 gate 行為；案例頁仍無直接回索引，下一輪先以最小 layout 覆寫在真正 Jekyll build 驗證圖例與麵包屑。
+
+交付：待補 commit／PR／merge／Pages／正式站核對。
+
 ## 2026-11-15 新版發布的生成 HTML 完整正文驗證
 
 故障注入確認：superseded 發布只驗生成頁的語言標記，索引／案例／稽核正文過期仍可能綠燈。本輪從同 live revision 的 GitHub 內建 Pages 成功 run 取得 artifact，核對來源、SHA-256及既有四個抽樣頁完整位元；不拿 Markdown hash 或文字哨兵當正文證據。三項先紅、814單元通過、真實 superseded artifact／正式站與預覽桌面手機三情境證據見[本輪 QA](docs/qa/2026-11-15-generated-html/README.md)。UI／案例不變；artifact不可得時不降級放行，不宣稱覆蓋全部生成頁。下一輪先以停用JS瀏覽器從INDEX到UC-001，驗證備援頁的原文可點性及證據圖例。

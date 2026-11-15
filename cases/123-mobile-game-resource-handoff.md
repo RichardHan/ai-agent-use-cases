@@ -34,6 +34,6 @@
 ## 來源與去重
 
 - 作者：やすくん；日文；2026-10-09 07:45（原頁顯示，時區未另核）。
-- 原文：https://note.com/yasukun_912/n/n0e9d93fa0d0a
+- 原文：[https://note.com/yasukun_912/n/n0e9d93fa0d0a](https://note.com/yasukun_912/n/n0e9d93fa0d0a)
 - 已讀完整正文，尤其手機遊戲與中止限制段；遊戲條款與輸出紀錄缺失。
 - 與UC-110遊戲開發、UC-119夢幻球隊名單不同，日常養成與素材收集合併一次。

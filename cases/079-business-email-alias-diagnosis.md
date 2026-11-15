@@ -23,7 +23,7 @@
 ### S-079A：Grok Bot — 凌晨修好從未設定的業務別名（作者自述）
 
 - 作者：@JavyDiaz（Javy · Serialpreneur）；英文；2026-10-16 14:03（台灣時間）。
-- 貼文：https://x.com/JavyDiaz/status/2110974852282622439
+- 貼文：[https://x.com/JavyDiaz/status/2110974852282622439](https://x.com/JavyDiaz/status/2110974852282622439)
 - 作者自述（翻譯改寫，非逐字）：
   1. 凌晨 1 點，業務信箱已壞掉，作者還不知道。
   2. Grok Bot 發測試信、抓到退信、發現別名從未設定、修好，並確認郵件已能送達；大約 25 分鐘。

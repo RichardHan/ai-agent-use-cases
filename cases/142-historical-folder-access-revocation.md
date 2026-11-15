@@ -37,8 +37,8 @@ Google官方說明指出，受限資料夾的Access removed不能蓋過群組或
 ## 來源與去重
 
 - Grace Clarke；英文；2026-10-10 19:16:33 UTC。
-- 原文：https://x.com/graceclarke/status/2109000147850117328
+- 原文：[https://x.com/graceclarke/status/2109000147850117328](https://x.com/graceclarke/status/2109000147850117328)
 - 已讀原作者完整正文，未取得操作日誌。
-- Google官方：https://support.google.com/drive/answer/14254362?hl=en
-- 父子分享：https://support.google.com/drive/answer/7166529?hl=en
+- Google官方：[https://support.google.com/drive/answer/14254362?hl=en](https://support.google.com/drive/answer/14254362?hl=en)
+- 父子分享：[https://support.google.com/drive/answer/7166529?hl=en](https://support.google.com/drive/answer/7166529?hl=en)
 - 與UC-089重複檔清理、UC-007SaaS席次稽核不同，本案終點為歷史共享撤回及殘留存取核查。

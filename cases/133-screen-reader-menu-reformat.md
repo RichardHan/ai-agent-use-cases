@@ -37,8 +37,8 @@ Mika Pyyhkala在AppleVis的使用報告中說，每次到餐廳會請Muse製作�
 ## 來源與去重
 
 - 作者：Mika Pyyhkala；英文；正文最後更新2026-09-14，目錄索引列新增9月13日。
-- 原文：https://www.applevis.com/apps/ios/productivity/muse-meta
-- 公開可讀版本：https://atlas-entry.applevis.com/apps/ios/productivity/muse-meta
+- 原文：[https://www.applevis.com/apps/ios/productivity/muse-meta](https://www.applevis.com/apps/ios/productivity/muse-meta)
+- 公開可讀版本：[https://atlas-entry.applevis.com/apps/ios/productivity/muse-meta](https://atlas-entry.applevis.com/apps/ios/productivity/muse-meta)
 - 已讀正文第6項及無障礙限制；未驗成品或現版軟體。
 - 與UC-027食譜採買及一般網站建置不同，終點為既有菜單的非視覺瀏覽。作者其他多項任務不在此拆計。
 

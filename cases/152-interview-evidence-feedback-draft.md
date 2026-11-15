@@ -38,6 +38,6 @@ Holly Dyche在官方署名文章稱，當天Bot已按其rubric讀取一疊面試
 ## 來源與去重
 
 - Holly Dyche／SpaceXAI招募團隊；英文；2026-09-24。
-- 原文：https://x.ai/bot/guides/grok-bot-for-recruiting
+- 原文：[https://x.ai/bot/guides/grok-bot-for-recruiting](https://x.ai/bot/guides/grok-bot-for-recruiting)
 - 已讀官方署名完整正文，實際使用自報與一般流程分開；不採行銷口號作產品保證。
 - 與UC-035求職者申請、019客戶簡報及094代入會不同；本案限縮逐字稿到面試官回饋證據稿。多個Bot和多份表單合計一次。

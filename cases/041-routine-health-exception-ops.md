@@ -15,7 +15,7 @@
 
 - 作者：@SameerRijh（Sameer · Small Business Growth）
 - 發布：2026-10-13；原文語言：英文
-- 網址：https://x.com/SameerRijh/status/2110113800506499329
+- 網址：[https://x.com/SameerRijh/status/2110113800506499329](https://x.com/SameerRijh/status/2110113800506499329)
 - 取得內容：已讀 note_tweet 全文；作者稱提供「輕度簡化」的指示供借用，非完整原始配置截圖。
 - 作者報告的四段分工（週一至週六）：
   1. **Inbox sweep（Grok Bot，晨間）**：掃商業收件匣找商機與請求，標出需要本人處理者；**只建草稿，絕不自行寄出**。

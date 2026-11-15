@@ -150,6 +150,7 @@ function builtSite(t) {
     'assets/reader.css': 'reader style', 'assets/copy.json': '{}', 'assets/discovery.js': 'discovery',
     'assets/audit.js': 'audit', 'INDEX.html': page, 'cases/001-travel-checkout.html': page,
     'sources/qualification-audit-2026-10-16.html': page,
+    'audit-summary.json': JSON.stringify({ latestBatch: '2026-11-15 台灣時間核對\n嚴格合格 **370／1,000，尚差630**\n' }),
     'catalog.json': JSON.stringify(catalog), 'corpus.json': JSON.stringify(corpus)
   };
   for (const [name, content] of Object.entries(files)) {
@@ -165,7 +166,7 @@ function builtSite(t) {
   return {
     // The live build is judged against the revision it names; a unit fixture says
     // what that revision contains instead of reading git.
-    options: { base: 'https://example.test/project/', built, sha: 'current', expectedSourceRevision: 'current', isCurrent: () => true, treeAtRevision: () => new Map([['cases/a.md', blobHash('original')]]) },
+    options: { base: 'https://example.test/project/', built, sha: 'current', expectedSourceRevision: 'current', isCurrent: () => true, readAuditSource: () => '# Audit\n\n## 2026-11-15 台灣時間核對\n嚴格合格 **370／1,000，尚差630**\n', treeAtRevision: () => new Map([['cases/a.md', blobHash('original')]]) },
     respond,
     publishedFiles: published
   };

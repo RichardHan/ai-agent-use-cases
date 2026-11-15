@@ -1,0 +1,28 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 900,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/642c98de88fd4bc5f96f02710df99dcbfb3d0a8c/cases/014-support-inbox-approval-refund.md",
+    "problemEntry": true,
+    "emptyRecovery": true,
+    "sharedDetailReload": true,
+    "searchPreserved": true,
+    "keyboardFocus": true,
+    "overflow": false,
+    "pageErrors": []
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/642c98de88fd4bc5f96f02710df99dcbfb3d0a8c/cases/014-support-inbox-approval-refund.md",
+    "problemEntry": true,
+    "emptyRecovery": true,
+    "sharedDetailReload": true,
+    "searchPreserved": true,
+    "keyboardFocus": true,
+    "overflow": false,
+    "pageErrors": []
+  }
+]

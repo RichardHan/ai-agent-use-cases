@@ -1,0 +1,8 @@
+Source: GitHub Actions raw logs ZIP, 0_browser.txt; https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43634859717
+Commit: 2138f4d49b0c8645d145f0d23549c4ffc75121c5
+Step: Verify the updated site in Chromium
+2026-11-14T20:08:10.3636225Z AssertionError [ERR_ASSERTION]: phone: the entry waits while the search field is on screen
+2026-11-14T20:08:10.3637007Z false !== true
+2026-11-14T20:08:10.3637477Z at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/refine-from-results-browser.cjs:96:14
+2026-11-14T20:08:10.3790226Z ##[error]Process completed with exit code 1.
+The gh run view --log-failed output was incomplete (only step header); raw ZIP supplied the actual error. Later main Website QA succeeded, so this old run was not rerun.

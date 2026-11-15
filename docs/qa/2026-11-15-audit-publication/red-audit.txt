@@ -1,0 +1,84 @@
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+✖ an exact release rejects an outdated audit summary even when all other bytes match (24.410125ms)
+✔ audit JSON serialization differences do not reject identical content (17.501541ms)
+✖ a release cannot verify a missing audit summary (15.126417ms)
+✖ a release cannot verify a invalid audit summary (15.736792ms)
+✖ a superseded audit is compared with its own revision, including a docs-only push (16.817083ms)
+✖ a superseded release cannot verify when the pinned audit source is unavailable (14.022042ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 1
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 191.680333
+
+✖ failing tests:
+
+test at tests/published-version.test.cjs:569:1
+✖ an exact release rejects an outdated audit summary even when all other bytes match (24.410125ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/ai-cases-visitor-20261115/tests/published-version.test.cjs:573:2)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:588:2
+✖ a release cannot verify a missing audit summary (15.126417ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/ai-cases-visitor-20261115/tests/published-version.test.cjs:594:3)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Published assets do not match checkout/,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:588:2
+✖ a release cannot verify a invalid audit summary (15.736792ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/ai-cases-visitor-20261115/tests/published-version.test.cjs:594:3)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Published assets do not match checkout/,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:599:1
+✖ a superseded audit is compared with its own revision, including a docs-only push (16.817083ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/ai-cases-visitor-20261115/tests/published-version.test.cjs:607:2)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:618:1
+✖ a superseded release cannot verify when the pinned audit source is unavailable (14.022042ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/ai-cases-visitor-20261115/tests/published-version.test.cjs:620:2)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }

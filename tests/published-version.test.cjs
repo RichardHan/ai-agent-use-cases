@@ -27,6 +27,8 @@ test('published verification exports whether downstream corpus checks are valid'
  assert.equal(fs.readFileSync(output,'utf8'),'verified=false\nverified=true\n');
 });
 
+const auditSource='# Audit\n\n## 2026-11-15 12:00 台灣時間核對\n\n嚴格合格 **370／1,000，尚差630**\n\n## 2026-11-14 台灣時間核對\n\nOlder batch.\n';
+const auditSummary=JSON.stringify({latestBatch:auditSource.split('\n## ')[1]});
 function publicationFixture(t){
  const built=fs.mkdtempSync(path.join(os.tmpdir(),'published-version-'));
  t.after(()=>fs.rmSync(built,{recursive:true,force:true}));
@@ -38,6 +40,7 @@ function publicationFixture(t){
   'assets/copy.json':'{}','assets/discovery.js':'discovery','assets/audit.js':'audit',
   'README.md':'original','README-archive-2026-10-18.md':'original','INDEX.md':'original','templates/case.md':'original',
   'INDEX.html':page,'cases/001-travel-checkout.html':page,'sources/qualification-audit-2026-10-16.html':page,
+  'audit-summary.json':auditSummary,
   'catalog.json':JSON.stringify(local.catalog),'corpus.json':JSON.stringify(local.corpus)
  };
  for(const [file,content] of Object.entries(files)){
@@ -52,7 +55,7 @@ function publicationFixture(t){
  };
  // Unit fixtures never read git: what the live revision itself contains is part of
  // the fixture, and a test that needs different bytes supplies its own function.
- return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',isCurrent:()=>true,treeAtRevision:()=>new Map([['cases/a.md',blobHash('original')]])},published,respond};
+ return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',isCurrent:()=>true,readAuditSource:()=>auditSource,treeAtRevision:()=>new Map([['cases/a.md',blobHash('original')]])},published,respond};
 }
 
 test('facet publication waits through a 40-minute mixed-corpus deployment using the shared window',async t=>{
@@ -562,3 +565,84 @@ test('a missing changed template is not accepted when the live revision still re
   assert.equal(fixture.clock(),PUBLICATION_TIMEOUT_MS);
  }
 });
+
+test('an exact release rejects an outdated audit summary even when all other bytes match',async t=>{
+ const {options,published,respond}=publicationFixture(t);
+ published['audit-summary.json']=JSON.stringify({latestBatch:'Older batch\n369.'});
+ let clock=0;
+ await assert.rejects(waitForPublishedVersion({...options,fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
+  assert.match(error.cause.message,/Published audit summary differs/);
+  return true;
+ });
+ assert.equal(clock,PUBLICATION_TIMEOUT_MS);
+});
+
+test('audit JSON serialization differences do not reject identical content',async t=>{
+ const {options,published,respond}=publicationFixture(t);
+ published['audit-summary.json']=JSON.stringify(JSON.parse(auditSummary),null,2)+'\n';
+ const result=await waitForPublishedVersion({...options,fetchAsset:respond});
+ assert.equal(result.mode,'exact');
+});
+
+for(const failure of ['missing','invalid']){
+ test('a release cannot verify a '+failure+' audit summary',async t=>{
+  const {options,respond}=publicationFixture(t);
+  let clock=0;
+  const fetchAsset=url=>url.pathname.endsWith('/audit-summary.json')
+   ?Promise.resolve(failure==='missing'?{ok:false,status:404}:{ok:true,arrayBuffer:async()=>Buffer.from('{broken')})
+   :respond(url);
+  await assert.rejects(waitForPublishedVersion({...options,fetchAsset,now:()=>clock,sleep:async ms=>{clock+=ms;}}),/Published assets do not match checkout/);
+  assert.equal(clock,PUBLICATION_TIMEOUT_MS);
+ });
+}
+
+test('a superseded audit is compared with its own revision, including a docs-only push',async t=>{
+ const fixture=supersededFixture(t);
+ const newerSource=auditSource.replace('2026-11-15','2026-11-16').replace('370','371').replace('630','629');
+ let reads=0;
+ const overrides={
+  changeList:{known:true,entries:[]},isDescendant:()=>true,
+  readAuditSource:revision=>{assert.equal(revision,'newer');reads++;return newerSource;}
+ };
+ await assert.rejects(fixture.run(overrides),error=>{
+  assert.match(error.cause.message,/Published audit summary differs from the live revision newer/);
+  return true;
+ });
+ assert.equal(reads,1,'immutable revision source is read once across publication polls');
+ fixture.published['audit-summary.json']=JSON.stringify({latestBatch:newerSource.split('\n## ')[1]});
+ const result=await fixture.run(overrides);
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.changedVerified,0);
+});
+
+test('a superseded release cannot verify when the pinned audit source is unavailable',async t=>{
+ const fixture=supersededFixture(t);
+ await assert.rejects(fixture.run({isDescendant:()=>true,readAuditSource:()=>{throw Error('audit git read failed');}}),error=>{
+  assert.match(error.cause.message,/audit git read failed/);
+  return true;
+ });
+});
+
+for(const superseded of [false,true]){
+ for(const latestBatch of [null,'2026-11-15 台灣時間核對\n嚴格合格 **370／1,000，尚差629**']){
+  test('a '+(superseded?'superseded':'matching')+' release rejects a consumer-invalid audit '+String(latestBatch),async t=>{
+   const fixture=supersededFixture(t);
+   const summary=JSON.stringify({latestBatch});
+   fixture.published['audit-summary.json']=summary;
+   fs.writeFileSync(path.join(fixture.options.built,'audit-summary.json'),summary);
+   if(!superseded){
+    for(const file of ['catalog.json','corpus.json']){
+     const value=JSON.parse(fixture.published[file]);value.sourceRevision='current';
+     fixture.published[file]=JSON.stringify(value);
+    }
+   }
+   await assert.rejects(fixture.run({
+    isDescendant:()=>true,
+    readAuditSource:()=>latestBatch===null?'# No batch':'# Audit\n\n## '+latestBatch
+   }),error=>{
+    assert.match(error.cause.message,/Published audit summary is invalid for the homepage/);
+    return true;
+   });
+  });
+ }
+}

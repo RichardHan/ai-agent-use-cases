@@ -140,7 +140,12 @@ async function liveRevision({base,fetchAsset,sha,attempt}){
   return String(catalog.sourceRevision||'');
  }catch{return '';}
 }
-async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList={known:true,entries:[]},root='.',fetchAsset=fetch,isDescendant=isDescendantOf,treeAtRevision:readTree=treeAtRevision,now,sleep,deployment}){
+function readAuditAtRevision(revision){
+ assert(/^[0-9a-f]{40}$/.test(revision),'Published audit revision is not a commit SHA');
+ // Ancestry verification has already fetched this immutable commit.
+ return require('node:child_process').execFileSync('git',['show',revision+':sources/qualification-audit-2026-10-16.md'],{encoding:'utf8',timeout:30000,maxBuffer:16*1024*1024});
+}
+async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHUB_SHA,expectedSourceRevision=process.env.GITHUB_REF==='refs/heads/main'?sha:null,changeList={known:true,entries:[]},root='.',fetchAsset=fetch,isDescendant=isDescendantOf,treeAtRevision:readTree=treeAtRevision,readAuditSource=readAuditAtRevision,now,sleep,deployment}){
  // The live site cannot say whether its own deploy failed or is still running, so
  // ask GitHub about the Pages run for this exact push. Only a push that publishes
  // a known revision can have such a run; a branch build has none, and asking
@@ -148,11 +153,13 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
  const deploySha=expectedSourceRevision||'';
  const deployCheck=deployment||(()=>publicationStatus({sha:deploySha}));
  const assets=servedAssets(built);
- const files=[...assets,'catalog.json','corpus.json',...pages.filter(page=>page!=='index.html')];
+ const files=[...assets,'catalog.json','corpus.json','audit-summary.json',...pages.filter(page=>page!=='index.html')];
  const buffers=new Map();
  for(const file of files)buffers.set(file,fs.readFileSync(path.join(built,file)));
  // `files` already carries INDEX.html and the sampled pages; index.html comes from assets.
  const local={catalog:JSON.parse(buffers.get('catalog.json').toString('utf8')),corpus:JSON.parse(buffers.get('corpus.json').toString('utf8'))};
+ const localAudit=JSON.parse(buffers.get('audit-summary.json').toString('utf8'));
+ const auditByRevision=new Map();
  const changed=readChangedBytes(changeList.entries,root);
  // Retries repeat every few seconds; the answer for one revision pair cannot change.
  const ancestry=new Map();
@@ -242,6 +249,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
     if(response.value!==null)remoteBuffers.set(files[index],response.value);
    });
    const remote={catalog:JSON.parse(remoteBuffers.get('catalog.json').toString('utf8')),corpus:JSON.parse(remoteBuffers.get('corpus.json').toString('utf8'))};
+   const remoteAudit=JSON.parse(remoteBuffers.get('audit-summary.json').toString('utf8'));
    for(const page of pages)checkPageLanguage(page,remoteBuffers.get(page).toString('utf8'));
    const exact=expectedSourceRevision&&remote.catalog.sourceRevision===expectedSourceRevision;
    let mode,supersededBy,changedVerified,carried;
@@ -258,6 +266,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
     // so the build that claims to be this SHA is compared byte-for-byte. A newer
     // build may legitimately render newer pages; there the changed files are checked.
     for(const page of pages)assert(remoteBuffers.get(page).equals(buffers.get(page)),'Published page differs from this build: '+page);
+    assert.deepEqual(remoteAudit,localAudit,'Published audit summary differs from this build');
     mode='exact';
    }else{
     ({mode,supersededBy,changedVerified,carried}=await verifySupersededPublication({changed,changeList,remote,buffers:remoteBuffers,assets,sha,isDescendant:assertDescendant,treeAtRevision:readTree,probeMissing:async path=>{
@@ -274,7 +283,16 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
      if(!response.ok){await response.body?.cancel?.();throw Error('HTTP '+(response.status||'error')+' '+path);}
      return Buffer.from(await response.arrayBuffer());
     }}));
+    const revision=remote.catalog.sourceRevision;
+    if(!auditByRevision.has(revision)){
+     // This is the audit-summary.json contract, also used by preview.py: the
+     // first H2 section, not a recalculated count or the current checkout's report.
+     const source=readAuditSource(revision);
+     auditByRevision.set(revision,{latestBatch:source.split('\n## ')[1]??null});
+    }
+    assert.deepEqual(remoteAudit,auditByRevision.get(revision),'Published audit summary differs from the live revision '+revision);
    }
+   assert(require('../assets/audit.js').parseSummary(remoteAudit),'Published audit summary is invalid for the homepage');
    publication={catalog:remoteBuffers.get('catalog.json').toString('utf8'),corpus:remoteBuffers.get('corpus.json').toString('utf8'),sourceCount:remote.corpus.sources.length,localRevision:local.corpus.revision,publishedRevision:remote.corpus.revision,mode,supersededBy,changedVerified,carried,liveRevision:remote.catalog.sourceRevision};
    return true;
   }

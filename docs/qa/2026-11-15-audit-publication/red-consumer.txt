@@ -1,0 +1,70 @@
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+✖ a matching release rejects a consumer-invalid audit null (29.8025ms)
+✖ a matching release rejects a consumer-invalid audit 2026-11-15 台灣時間核對
+嚴格合格 **370／1,000，尚差629** (24.13525ms)
+✖ a superseded release rejects a consumer-invalid audit null (16.788666ms)
+✖ a superseded release rejects a consumer-invalid audit 2026-11-15 台灣時間核對
+嚴格合格 **370／1,000，尚差629** (17.159209ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 151.363375
+
+✖ failing tests:
+
+test at tests/published-version.test.cjs:628:3
+✖ a matching release rejects a consumer-invalid audit null (29.8025ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/ai-cases-visitor-20261115/tests/published-version.test.cjs:639:4)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:628:3
+✖ a matching release rejects a consumer-invalid audit 2026-11-15 台灣時間核對
+嚴格合格 **370／1,000，尚差629** (24.13525ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/ai-cases-visitor-20261115/tests/published-version.test.cjs:639:4)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:628:3
+✖ a superseded release rejects a consumer-invalid audit null (16.788666ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/ai-cases-visitor-20261115/tests/published-version.test.cjs:639:4)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:628:3
+✖ a superseded release rejects a consumer-invalid audit 2026-11-15 台灣時間核對
+嚴格合格 **370／1,000，尚差629** (17.159209ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/ai-cases-visitor-20261115/tests/published-version.test.cjs:639:4)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }

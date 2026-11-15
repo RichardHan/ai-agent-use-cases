@@ -1,0 +1,10 @@
+Pages deployment for c6de2dccf776553c441c3f3398222f00cba65c06: unknown — probe uses real live content and ancestry; Pages status separately checked
+{
+  "status": "matched",
+  "mode": "superseded",
+  "liveRevision": "642c98de88fd4bc5f96f02710df99dcbfb3d0a8c",
+  "sourceCount": 526,
+  "changedVerified": 0,
+  "realGitRead": true,
+  "localInput": "temporary downloaded live snapshot, not a Jekyll build"
+}

@@ -1,0 +1,85 @@
+2026-11-15T08:57:24.5281772Z # Pages deployment for current: failed (failure) — https://github.com/o/r/actions/runs/42733561142
+2026-11-15T08:57:24.5282204Z # Pages deployment for current: failed (failure) — run/9
+2026-11-15T08:57:24.5283385Z # Pages deployment for current: failed (failure) — run/9
+2026-11-15T08:57:24.5283800Z # Pages deployment for current: failed (failure) — run/9
+2026-11-15T08:57:24.5284912Z # Pages deployment for current: failed (failure) — run/9
+2026-11-15T08:57:24.5286310Z # Pages deployment for current: pending
+2026-11-15T08:57:24.5286721Z # Pages deployment for current: succeeded (success) — run/1
+2026-11-15T08:57:24.5287064Z # Pages deployment for current: succeeded (success)
+2026-11-15T08:57:24.5403264Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5403957Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5404633Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5405245Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5406009Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5406626Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5407087Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5407807Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5408298Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5408929Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5409416Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5410041Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5410720Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5411182Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5411640Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5412100Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5412659Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5413138Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5413583Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5414008Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5414448Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5415007Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5415641Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5416235Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5416876Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5417304Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5417974Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5418519Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5419123Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5419564Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5420038Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5420506Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5420919Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5421542Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5422087Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5422575Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5423244Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5423880Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5424426Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5424999Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5425763Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5426288Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5426797Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5427374Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5427969Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5428507Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5429060Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5429646Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5430079Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5430718Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5431439Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5431889Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5432468Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5433076Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5433629Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5434098Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5434732Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5435177Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5435874Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5436570Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5437080Z # Pages deployment for current: unknown — no GITHUB_TOKEN available
+2026-11-15T08:57:24.5550179Z # Subtest: an exact release rejects an outdated audit summary even when all other bytes match
+2026-11-15T08:57:24.5550818Z ok 499 - an exact release rejects an outdated audit summary even when all other bytes match
+2026-11-15T08:57:24.5554869Z # Subtest: a release cannot verify a missing audit summary
+2026-11-15T08:57:24.5555302Z ok 501 - a release cannot verify a missing audit summary
+2026-11-15T08:57:24.5557645Z # Subtest: a release cannot verify a invalid audit summary
+2026-11-15T08:57:24.5558109Z ok 502 - a release cannot verify a invalid audit summary
+2026-11-15T08:57:24.5600358Z # Subtest: search route preserves a negative source section and the matched synonym
+2026-11-15T08:57:24.5600924Z ok 517 - search route preserves a negative source section and the matched synonym
+2026-11-15T08:57:25.1497081Z # Subtest: the excerpt is taken from the sentence that matched, not from a link above it
+2026-11-15T08:57:25.1497738Z ok 651 - the excerpt is taken from the sentence that matched, not from a link above it
+2026-11-15T08:57:31.7150588Z # tests 793
+2026-11-15T08:57:31.7150862Z # pass 793
+2026-11-15T08:57:31.7150999Z # fail 0
+2026-11-15T09:07:46.5058922Z PUBLISHED_LIVE_BUILD_SUPERSEDED f67b6cdeed33890116fead4c51c0e43c243bf647 (step 15 verified bytes; walking the live visitor contract)
+2026-11-15T09:07:56.3619511Z Pages deployment for f67b6cdeed33890116fead4c51c0e43c243bf647: succeeded (success) — https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43696800868
+2026-11-15T09:07:57.0385690Z PUBLISHED_LIVE_BUILD_CURRENT f67b6cdeed33890116fead4c51c0e43c243bf647 (walking the live site)

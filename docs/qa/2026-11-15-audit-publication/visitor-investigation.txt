@@ -1,0 +1,5 @@
+VisitorEvidence completed read-only investigation; no browser/JS or tests. Main disposition:
+1. Difficulty inference uses raw Markdown while tool mentions use cleaned text; possible next-round content-fidelity candidate, not proven live defect or exactly eight current cases by this investigation. Existing README already discloses inferred difficulty limitations. No change this round.
+2. Rejected '53 should be 56 tasks' finding. Main browser DOM confirms aria-controls=hero-problem-tags contains exactly 53 problem-tag links and zero hero-task-examples links. Separate three examples are not controlled by the expand button. Same false hypothesis was rejected in previous handoff; do not adjust count.
+3. README search-composition paragraph uses older numeric examples in present tense; static wording candidate only, no new measurement. No unmeasured counts published this round.
+Agent static counts are not independent machine enumeration; no unsupported claim of clean whole corpus or live card correctness is adopted.

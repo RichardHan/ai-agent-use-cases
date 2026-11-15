@@ -2,6 +2,8 @@
 
 正式 audit-summary 目前正確，但故障注入證明舊發布閘門不讀此 JSON，過期、缺失與無效內容都可能獲放行。本輪 exact 比較建置 JSON，superseded 依經 ancestry 核對的固定 live commit 稽核原文，比對完整第一個 H2 批次；不重新推算合格數，不拿 Liquid 模板 hash 比生成內容。六項新回歸、fixture 契約補齊後 60 項發布專項通過，桌面／手機三種訪客情境通過。UI／案例／workflow 不變；獨立審查、Actions、發布版本與限制見[本輪 QA](docs/qa/2026-11-15-audit-publication/README.md)。下一輪先以 fixture 驗證 superseded 生成 INDEX／稽核 HTML 的內容一致性，勿把歷史故障當成現況。
 
+交付：[PR #409](https://github.com/RichardHan/ai-agent-use-cases/pull/409)，實作 `060b53f50c`、合併 `f67b6cdeed`；[主線 Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43696801371) 與 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43696800868) 同版成功。獨立審查後補首頁消費端契約，最終 793 單元通過、複審無 findings；正式 revision 精確一致，12 公開檔案／526 原文及完整 audit 批次核對、兩尺寸三情境均通過。已提交、推送、合併、部署與正式驗證；最後僅保存排除於發布面的接續證據。
+
 ## 2026-11-15 採用文件的發布驗證覆蓋
 
 正式站原始 README／INDEX／歷史指南／案例範本目前位元正確，但故障注入證明發布閘門會漏掉這些文件的過期內容。本輪以共同分類收集建置產物，將原始採用文件納入 exact 位元及 superseded live revision 比對；保留改名、刪除、恢復與有界等待。十項新回歸先紅後綠，獨立審查後再補三項後續刪除／缺失回歸，全套 783 通過。產品 UI 與案例不變；桌面手機核心流程、預覽器 INDEX 限制、獨立審查及發布狀態見[本輪 QA](docs/qa/2026-11-15-publication-coverage/README.md)。下一輪先驗證 Liquid 生成的 audit-summary，而非把來源模板 hash 當發布內容。

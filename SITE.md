@@ -10,7 +10,7 @@
 
 正式站把 `assets/app.js` 擋成 503 時，`#explore` 永遠停在「正在讀取案例…」，唯一含 `INDEX.html` 的 `#error` 仍 hidden，可見索引連結 0；停用 JS 相同。直接抵達 `evidence/*.html`／`sources/pending.html` 也沒有上一輪的伺服器端導覽，且所有 rendered 頁有站名＋內容兩個 `<h1>`。本輪在搜尋表單前加不依賴 JS 的靜態退路（本站 `INDEX.html`＋GitHub 原始索引），app.js 一執行即隱藏；導覽擴及 3 個 evidence 與 pending；站名改 `<p class="site-title">` 並保留 Primer 外觀；checker 對 526 個 rendered 頁要求導覽與恰好一個 h1。README 的 515／507 示例校正為 529／521。843→850 單元、真實 Jekyll build PASS 526、1440／390／320 × JS 停用／app.js 503 與正常 SPA 三情境見[本輪紀錄](docs/qa/2026-11-16-reading-fallback/README.md)。未改 catalogue、搜尋邏輯或 INDEX 表格排版；下一輪先處理 UC-250 自述已合併卻仍計入 522 的矛盾。
 
-交付：（待 PR、merge、Pages 與正式站核對後補記。）
+交付：[PR #417](https://github.com/RichardHan/ai-agent-use-cases/pull/417)，實作 `d095207dac`、QA 證據 `e6d3aeee37`、合併 `75b80718fa`；PR checks 16 pass／2 skipped，[Website QA 43763518470](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43763518470) 12m00s success（真正 Jekyll `_site` 的 526 頁 checker 與新的 built-site fallback browser test），[Pages 43764678015](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43764678015) 同 merge SHA success；正式站 sourceRevision 精確一致，四個變更檔逐位元相同。app.js 503／JS 停用、evidence／pending 導覽、UC-094 詳情固定來源、空結果復原與 1440／390 截圖見[本輪紀錄](docs/qa/2026-11-16-reading-fallback/README.md)。已提交、推送、合併、Pages 部署與正式站驗證；主線 [Website QA 43764678475](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43764678475) 12m36s success（526 來源逐位元、fallback PASS 526、built-site 新測試、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 75b80718`、exact mode、桌面手機 `PASS LIVE`）。
 
 ## 2026-11-16 直接抵達案例頁：回索引與六碼解碼
 

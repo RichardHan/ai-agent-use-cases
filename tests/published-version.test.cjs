@@ -36,6 +36,7 @@ function publicationFixture(t){
  const files={
   'index.html':page,'assets/app.js':'app','assets/style.css':'style','assets/reader.js':'reader','assets/reader.css':'reader style',
   'assets/copy.json':'{}','assets/discovery.js':'discovery','assets/audit.js':'audit',
+  'README.md':'original','README-archive-2026-10-18.md':'original','INDEX.md':'original','templates/case.md':'original',
   'INDEX.html':page,'cases/001-travel-checkout.html':page,'sources/qualification-audit-2026-10-16.html':page,
   'catalog.json':JSON.stringify(local.catalog),'corpus.json':JSON.stringify(local.corpus)
  };
@@ -457,4 +458,107 @@ test('facet workflow reserves publication time and gates every published consume
  assert.match(workflow,/- name: Verify the published site\s+if: github\.ref == 'refs\/heads\/main' && steps\.published-version\.outputs\.verified == 'true'/);
  assert.match(workflow,/run: node tests\/published-version\.cjs/);
  assert.match(workflow,/run: python3 scripts\/check_corpus_bundle\.py "\$PUBLISHED_BUILD"/);
+});
+
+for(const file of ['README.md','README-archive-2026-10-18.md','INDEX.md','templates/case.md']){
+ test('an exact release rejects stale adoption document '+file,async t=>{
+  const {options,published,respond}=publicationFixture(t);
+  published[file]='stale adoption instructions';
+  let clock=0;
+  await assert.rejects(waitForPublishedVersion({...options,fetchAsset:respond,now:()=>clock,sleep:async ms=>{clock+=ms;}}),error=>{
+   assert.match(error.cause.message,/Product asset mismatch/);
+   return true;
+  });
+  assert.equal(clock,PUBLICATION_TIMEOUT_MS);
+ });
+ test('a superseded document-only push verifies live bytes for '+file,async t=>{
+  const {publicationChangeList}=require('../scripts/published-check.cjs');
+  const fixture=supersededFixture(t,{changedPath:file,atLive:path=>Buffer.from(path===file?'newer instructions':'original')});
+  const changeList=publicationChangeList('a'.repeat(40),'b'.repeat(40),()=>`M\t${file}\n`);
+  fixture.published[file]='stale adoption instructions';
+  await assert.rejects(fixture.run({changeList,isDescendant:()=>true}),error=>{
+   assert.match(error.cause.message,/Published asset differs from the live revision/);
+   return true;
+  });
+  fixture.published[file]='newer instructions';
+  const result=await fixture.run({changeList,isDescendant:()=>true});
+  assert.equal(result.mode,'superseded');
+  assert.equal(result.changedVerified,1);
+  assert.equal(result.carried,0,'a later rewrite is valid, not a lost publication');
+ });
+}
+
+test('a renamed adoption template requires the new bytes and the old URL to be gone',async t=>{
+ const {publicationChangeList}=require('../scripts/published-check.cjs');
+ const fixture=supersededFixture(t,{changedPath:'templates/case.md'});
+ const changeList=publicationChangeList('a'.repeat(40),'b'.repeat(40),()=> 'R100\ttemplates/old.md\ttemplates/case.md\n');
+ let oldStatus=200;
+ const fetchAsset=async url=>{
+  const file=url.pathname.slice('/project/'.length)||'index.html';
+  if(file==='templates/old.md')return {ok:oldStatus===200,status:oldStatus,body:{cancel:async()=>{}}};
+  return {ok:true,arrayBuffer:async()=>Buffer.from(fixture.published[file])};
+ };
+ await assert.rejects(fixture.run({changeList,fetchAsset,isDescendant:()=>true}),error=>{
+  assert.match(error.cause.message,/A deleted asset is still published: templates\/old.md/);
+  return true;
+ });
+ oldStatus=503;
+ await assert.rejects(fixture.run({changeList,fetchAsset,isDescendant:()=>true}),error=>{
+  assert.match(error.cause.message,/Cannot confirm a deleted asset is gone \(HTTP 503\)/);
+  return true;
+ });
+ oldStatus=404;
+ const result=await fixture.run({changeList,fetchAsset,isDescendant:()=>true});
+ assert.equal(result.changedVerified,2);
+ assert.equal(result.carried,1);
+});
+
+test('a template deleted by this push and restored later must match the live revision',async t=>{
+ const {publicationChangeList}=require('../scripts/published-check.cjs');
+ const fixture=supersededFixture(t,{changedPath:'templates/old.md',deleted:true,atLive:path=>Buffer.from(path==='templates/old.md'?'restored instructions':'original')});
+ const changeList=publicationChangeList('a'.repeat(40),'b'.repeat(40),()=> 'D\ttemplates/old.md\n');
+ fixture.published['templates/old.md']='stale instructions';
+ await assert.rejects(fixture.run({changeList,isDescendant:()=>true}),error=>{
+  assert.match(error.cause.message,/Published asset differs from the live revision newer: templates\/old.md/);
+  return true;
+ });
+ fixture.published['templates/old.md']='restored instructions';
+ const result=await fixture.run({changeList,isDescendant:()=>true});
+ assert.equal(result.changedVerified,1);
+ assert.equal(result.carried,0);
+});
+
+for(const file of ['templates/case.md','assets/app.js']){
+ test('a later descendant may remove a file this push changed: '+file,async t=>{
+  const fixture=supersededFixture(t,{changedPath:file,atLive:path=>path===file?null:Buffer.from('original')});
+  const fetchAsset=async url=>{
+   const requested=url.pathname.slice('/project/'.length)||'index.html';
+   if(requested===file)return {ok:false,status:404,body:{cancel:async()=>{}}};
+   return {ok:true,arrayBuffer:async()=>Buffer.from(fixture.published[requested])};
+  };
+  const result=await fixture.run({fetchAsset,isDescendant:()=>true});
+  assert.equal(result.mode,'superseded');
+  assert.equal(result.changedVerified,1);
+  assert.equal(result.carried,0);
+  assert.equal(fixture.clock(),0,'a known later deletion must settle on the first poll');
+ });
+}
+
+test('a missing changed template is not accepted when the live revision still requires it',async t=>{
+ for(const exact of [true,false]){
+  const fixture=supersededFixture(t,{changedPath:'templates/case.md',atLive:()=>Buffer.from('original')});
+  if(exact){
+   for(const file of ['catalog.json','corpus.json']){
+    const value=JSON.parse(fixture.published[file]);value.sourceRevision='current';
+    fixture.published[file]=JSON.stringify(value);
+   }
+  }
+  const fetchAsset=async url=>{
+   const file=url.pathname.slice('/project/'.length)||'index.html';
+   if(file==='templates/case.md')return {ok:false,status:410,body:{cancel:async()=>{}}};
+   return {ok:true,arrayBuffer:async()=>Buffer.from(fixture.published[file])};
+  };
+  await assert.rejects(fixture.run({fetchAsset,isDescendant:()=>true}),/Published assets do not match checkout/);
+  assert.equal(fixture.clock(),PUBLICATION_TIMEOUT_MS);
+ }
 });

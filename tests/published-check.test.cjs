@@ -86,6 +86,7 @@ test('only files a visitor can receive count as published changes',()=>{
   {status:'M',path:'assets/copy.json'},
   {status:'A',path:'cases/511-grok-bot-zoom-meet-teams-structured-notes.md'},
   {status:'D',path:'evidence/old-note.md'},
+  {status:'M',path:'INDEX.md'},
   // a rename leaves the old path behind as a deletion and adds the new path
   {status:'D',path:'cases/001-travel-checkout.md'},
   {status:'R100',path:'cases/001-travel.md'},

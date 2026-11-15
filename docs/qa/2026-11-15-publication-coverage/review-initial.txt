@@ -1,0 +1,7 @@
+Independent reviewer: PublicationFinalReview (read-only, no implementation participation)
+Scope: scripts/published-check.cjs; tests/published-version.cjs; publication tests; base 564ecdb3.
+Verdict: Incorrect, one P2 finding.
+
+A later descendant may delete or rename a document this push changed. Eager fetching of local assets requires its URL to succeed before the superseded comparator reads the live revision, so expected 404 retries until the deadline. Existing runtime asset bug is extended to newly covered adoption documents.
+
+Integrator: accepted. Added explicit absence deferral only for changed, raw byte-comparable, non-generated-page assets. Exact still requires bytes; superseded deletion requires live tree absence plus live 404/410 probe. All other HTTP errors remain failures. Added later template/runtime removal and required-but-missing exact/superseded regression tests. Follow-up review requested after correction.

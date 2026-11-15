@@ -6,15 +6,21 @@ const {publicationStatus}=require('../scripts/publication-status.cjs');
 // The assets gate polls every 5s; asking GitHub on every poll would be 720 API
 // calls per merge for an answer that only changes once.
 const DEPLOY_POLL_ROUNDS=12;
-const {publicationChangeList,isDescendantOf,treeAtRevision,blobHash}=require('../scripts/published-check.cjs');
+const {publicationChangeList,isDescendantOf,treeAtRevision,blobHash,PUBLISHABLE_FILE}=require('../scripts/published-check.cjs');
 const {pages,checkPageLanguage}=require('../scripts/check-page-language.cjs');
 const SOURCE_DIR=/^(?:cases|evidence)\/|^sources\/pending\.md$/;
-// Everything the page loads at runtime, taken from the build itself so a new
-// asset cannot be added to index.html and silently left out of this comparison.
+// Runtime assets and raw adoption documents share the push classifier. Generated
+// JSON/HTML are handled separately: their source blobs are not their served bytes.
 function servedAssets(built){
- const assets=['index.html'];
- const dir=path.join(built,'assets');
- for(const file of fs.readdirSync(dir))if(/\.(?:js|css|json)$/.test(file))assets.push('assets/'+file);
+ const assets=[];
+ for(const folder of ['', 'assets', 'templates']){
+  const dir=path.join(built,folder);
+  if(!fs.existsSync(dir))continue;
+  for(const entry of fs.readdirSync(dir,{withFileTypes:true})){
+   const file=folder?folder+'/'+entry.name:entry.name;
+   if(entry.isFile()&&PUBLISHABLE_FILE.test(file))assets.push(file);
+  }
+ }
  return assets.sort();
 }
 function sameContent(local,remote){
@@ -220,14 +226,20 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
     const url=new URL(file==='index.html'?'':file,base);
     url.searchParams.set('publication',sha+'-'+attempt);
     const response=await fetchAsset(url,{signal,cache});
-    if(!response.ok){await response.body?.cancel();throw Error('HTTP '+response.status+' '+file);}
+    if(!response.ok){
+     await response.body?.cancel();
+     // A later revision may remove a changed raw file. Defer only its explicit
+     // absence to the revision-aware comparison; other fetch failures still fail.
+     if((response.status===404||response.status===410)&&assets.includes(file)&&!pages.includes(file)&&changed.some(entry=>entry.path===file))return null;
+     throw Error('HTTP '+response.status+' '+file);
+    }
     return Buffer.from(await response.arrayBuffer());
    }));
    // Finish every response body before the shared gate starts another round.
    const remoteBuffers=new Map();
    responses.forEach((response,index)=>{
     if(response.status==='rejected')throw response.reason;
-    remoteBuffers.set(files[index],response.value);
+    if(response.value!==null)remoteBuffers.set(files[index],response.value);
    });
    const remote={catalog:JSON.parse(remoteBuffers.get('catalog.json').toString('utf8')),corpus:JSON.parse(remoteBuffers.get('corpus.json').toString('utf8'))};
    for(const page of pages)checkPageLanguage(page,remoteBuffers.get(page).toString('utf8'));
@@ -239,7 +251,7 @@ async function waitForPublishedVersion({base,built='_site',sha=process.env.GITHU
     // bytes, so this assertion belongs to the exact branch only: running it first
     // made the superseded branch unreachable and turned a merge that published
     // nothing into a red gate after the whole 60-minute window (run 42803248261).
-    assert(assets.every(file=>remoteBuffers.get(file).equals(buffers.get(file))),'Product asset mismatch');
+    assert(assets.every(file=>remoteBuffers.get(file)?.equals(buffers.get(file))),'Product asset mismatch');
     assert.equal(remote.corpus.sourceRevision,expectedSourceRevision,'Published corpus source revision mismatch');
     assert(sameContent(local,remote),'Published source content or internal revision mismatch');
     // A generated page can keep valid language metadata while its body went stale,

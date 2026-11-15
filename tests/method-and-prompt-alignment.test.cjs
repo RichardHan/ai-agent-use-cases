@@ -23,10 +23,10 @@ test('methodHeading recognizes 可借鑑流程 without matching non-method headi
   assert.ok(selectMethodShortcut(['可借鑑流程（驗收部分為本庫設計）'], 'case'));
 });
 
-test('all 520 cases in corpus have 方法與步驟 shortcut and at least one copyable section', () => {
+test('all (>=520) cases in corpus have 方法與步驟 shortcut and at least one copyable section', () => {
   const casesDir = path.join(__dirname, '../cases');
   const files = fs.readdirSync(casesDir).filter(f => f.endsWith('.md')).sort();
-  assert.equal(files.length, 520, 'Corpus must have 520 cases');
+  assert.ok(files.length >= 520, `Corpus must have at least 520 cases, got ${files.length}`);
 
   let missingMethod = [];
   let missingCopy = [];

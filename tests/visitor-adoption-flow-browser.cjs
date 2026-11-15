@@ -184,7 +184,7 @@ async function run() {
       const proofNote = page.locator('.detail-proof-note');
       assert.ok(await proofNote.isVisible(), 'detail-proof-note must be visible');
       const claimantText = await page.locator('.proof-note-claimant').innerText();
-      assert.match(claimantText, /成果主張來源：/);
+      assert.match(claimantText, /成果主張來源(（主要：.+?）)?：/);
       const safetyText = await page.locator('.proof-note-safety').innerText();
       assert.match(safetyText, /落地三層防護/);
       assert.match(safetyText, /建議試跑/);

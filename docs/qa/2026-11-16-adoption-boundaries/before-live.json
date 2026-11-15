@@ -1,0 +1,313 @@
+{
+ "url": "https://richardhan.github.io/ai-agent-use-cases/",
+ "label": "before-live",
+ "at": "2026-11-15T22:42:17.121Z",
+ "cases": {
+  "UC-001": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "價格要重新核對；付款、預訂與旅客資料傳送仍須你批准。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "價格要重新核對；付款、預訂與旅客資料傳送仍須你批准。",
+    "overflow": false
+   }
+  },
+  "UC-002": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "研究企劃不等於影片已拍好；重要說法與素材使用仍要人工確認。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "研究企劃不等於影片已拍好；重要說法與素材使用仍要人工確認。",
+    "overflow": false
+   }
+  },
+  "UC-003": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "原案例是模擬測試，不能直接當作真實商店可無人營運的證明。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "原案例是模擬測試，不能直接當作真實商店可無人營運的證明。",
+    "overflow": false
+   }
+  },
+  "UC-004": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "先核對身份與資料日期；整理清單不代表可以代你聯絡或發訊息。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "先核對身份與資料日期；整理清單不代表可以代你聯絡或發訊息。",
+    "overflow": false
+   }
+  },
+  "UC-005": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "建立 PR 不等於功能完成；測試、審查、合併與部署要分別確認。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "建立 PR 不等於功能完成；測試、審查、合併與部署要分別確認。",
+    "overflow": false
+   }
+  },
+  "UC-006": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "作者報告不代表保證觸及率；發文與排程須批准，發布後仍要核對。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "作者報告不代表保證觸及率；發文與排程須批准，發布後仍要核對。",
+    "overflow": false
+   }
+  },
+  "UC-007": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "這是官方自報案例；不能保證省下多少，也不能自行取消或簽新合約。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "這是官方自報案例；不能保證省下多少，也不能自行取消或簽新合約。",
+    "overflow": false
+   }
+  },
+  "UC-008": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "這篇整理作者遇到的限制，不能保證晨報完整或準時。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "這篇整理作者遇到的限制，不能保證晨報完整或準時。",
+    "overflow": false
+   }
+  },
+  "UC-009": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "目前只查到模板與安全文件；移轉效果未測，不是完整搬家成功案例。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "目前只查到模板與安全文件；移轉效果未測，不是完整搬家成功案例。",
+    "overflow": false
+   }
+  },
+  "UC-010": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "需要本機電腦與硬體；只是作者一套裝置的測試，不代表能控制所有家電。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "需要本機電腦與硬體；只是作者一套裝置的測試，不代表能控制所有家電。",
+    "overflow": false
+   }
+  },
+  "UC-011": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "作者使用的是樣本資料；沒有證明營收或轉換率因此提升。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "作者使用的是樣本資料；沒有證明營收或轉換率因此提升。",
+    "overflow": false
+   }
+  },
+  "UC-012": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "這是研究作者的回顧報告，沒有完整執行紀錄；AI 不能取代研究者判斷。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "這是研究作者的回顧報告，沒有完整執行紀錄；AI 不能取代研究者判斷。",
+    "overflow": false
+   }
+  },
+  "UC-013": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "這是失敗復盤；不要反覆登入、交出密碼，或把錯誤原因當成已查明。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "這是失敗復盤；不要反覆登入、交出密碼，或把錯誤原因當成已查明。",
+    "overflow": false
+   }
+  },
+  "UC-014": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "來源含作者自述與影片描述，未獨立重現；對外回覆、退款與承諾不能自行擴大授權。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "來源含作者自述與影片描述，未獨立重現；對外回覆、退款與承諾不能自行擴大授權。",
+    "overflow": false
+   }
+  },
+  "UC-015": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "沒有成功檢查，不能說「沒有變更」；先做有限次測試，不承諾即時或永遠不中斷。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "沒有成功檢查，不能說「沒有變更」；先做有限次測試，不承諾即時或永遠不中斷。",
+    "overflow": false
+   }
+  },
+  "UC-016": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "這是失敗復盤案例；切勿開啟「永遠允許」，以免住家地址或降價被自動送出。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": false,
+    "inResearch": true,
+    "caution": "這是失敗復盤案例；切勿開啟「永遠允許」，以免住家地址或降價被自動送出。",
+    "overflow": false
+   }
+  },
+  "UC-020": {
+   "desktop": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": null,
+    "inResearch": null,
+    "caution": "Figma寫入及第三方素材使用須明確授權；來源無獨立品質測量。",
+    "overflow": false
+   },
+   "mobile": {
+    "hasNote": false,
+    "note": "",
+    "inGuidance": null,
+    "inResearch": null,
+    "caution": "Figma寫入及第三方素材使用須明確授權；來源無獨立品質測量。",
+    "overflow": false
+   }
+  }
+ }
+}

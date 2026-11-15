@@ -1324,7 +1324,7 @@ function metadata(markdown, path, kind, suffix='') {
   // reach a page by its section title, `searchBody` drops them so "matched" and
   // "this text says it" can be told apart. Both keep every declared field.
   const searchBodyText=norm(withoutEditorialNotes(proseWithoutSectionHeadings(markdown))+searchFields);
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:searchText,searchProse:withoutSourceUrls(searchText),searchBody:searchBodyText,searchProseBody:withoutSourceUrls(searchBodyText)};
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,howFromCopy:Boolean(copy.how),cautionFromCopy:Boolean(copy.caution),difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:searchText,searchProse:withoutSourceUrls(searchText),searchBody:searchBodyText,searchProseBody:withoutSourceUrls(searchBodyText)};
 }
 // sources/pending.md records one review date for the whole file, above the first
 // lead. It says when the file was checked, not when each lead was, so it stays a
@@ -2286,6 +2286,17 @@ function showDetail(item, trigger, updateURL=true) {
     guidanceGrid.append(section);
   });
   guidance.append(guidanceGrid);
+  // 20 early entries supply these two sentences from assets/copy.json instead of
+  // the page's own sections. Say so in the panel: the short text is the library's
+  // rewrite, and the case page's full steps and stop conditions are still below.
+  if(item.howFromCopy||item.cautionFromCopy){
+    // A pending lead has no page with steps; promising full steps below would be
+    // false. Name the record it actually has: known clues and gaps.
+    const sourceNote = item.kind === 'pending'
+      ? '以上短句由本庫依待查線索整理；完整已知線索與缺口見下方「查看原始研究、來源與完整提示詞」。'
+      : '以上短句由本庫依案例頁改寫；完整步驟與停止條件見下方「查看原始研究、來源與完整提示詞」。';
+    guidance.append(el('p','guidance-source',sourceNote));
+  }
   body.append(guidance);
   const research = el('details', 'research-details');
   const toggle = el('summary', '', '查看原始研究、來源與完整提示詞');

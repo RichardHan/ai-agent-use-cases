@@ -1,0 +1,71 @@
+{
+  "verifiedAt": "2026-11-15T10:57:45.463Z",
+  "base": "https://richardhan.github.io/ai-agent-use-cases/",
+  "sourceRevision": "c2b2492eacb47d7323d901801e2756c46308abcb",
+  "catalogRevision": "c2b2492eacb47d7323d901801e2756c46308abcb",
+  "corpusRevision": "c2b2492eacb47d7323d901801e2756c46308abcb",
+  "sourceCount": 526,
+  "assets": [
+    {
+      "file": "INDEX.md",
+      "bytes": 244694,
+      "gitBlob": "03a6530200c223207408b1c67077e8c93c197f5b"
+    },
+    {
+      "file": "README-archive-2026-10-18.md",
+      "bytes": 13880,
+      "gitBlob": "cd6364f860d697017d2de234a5c17fa7db2b0fda"
+    },
+    {
+      "file": "README.md",
+      "bytes": 19463,
+      "gitBlob": "767797ea67ef0621f144f7470386c33cd3c7418d"
+    },
+    {
+      "file": "assets/app.js",
+      "bytes": 401417,
+      "gitBlob": "0ec5259af9abf2f54a017cce0dc0a817fb39e56b"
+    },
+    {
+      "file": "assets/audit.js",
+      "bytes": 3750,
+      "gitBlob": "9d4623369194579eb546e4655189f04794895555"
+    },
+    {
+      "file": "assets/copy.json",
+      "bytes": 7974,
+      "gitBlob": "869342ad54402bb8bd1af3a5aa11a0dc5e7621af"
+    },
+    {
+      "file": "assets/discovery.js",
+      "bytes": 1673,
+      "gitBlob": "4919de2062ded1636b7689071bc7b3d54fec2f2d"
+    },
+    {
+      "file": "assets/reader.css",
+      "bytes": 32696,
+      "gitBlob": "0742d9aff37936c80f52b4d10504727fecf78911"
+    },
+    {
+      "file": "assets/reader.js",
+      "bytes": 38924,
+      "gitBlob": "1a372c82acc6f0954a29855a71f618d4d7108528"
+    },
+    {
+      "file": "assets/style.css",
+      "bytes": 66536,
+      "gitBlob": "a94b8063b06cfbe2fc789d2830b8ad0ceebccc83"
+    },
+    {
+      "file": "index.html",
+      "bytes": 28525,
+      "gitBlob": "aa82098fd53407c148a3c2868ae630bfa724d258"
+    },
+    {
+      "file": "templates/case.md",
+      "bytes": 5259,
+      "gitBlob": "19db26978bc50db359a3f5b4dd7c1b37508ce5a1"
+    }
+  ],
+  "auditBatchMatches": true
+}

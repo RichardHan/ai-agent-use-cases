@@ -62,3 +62,37 @@ ManualPublicationReview 完成獨立上下文審查，**No actionable P1/P2 find
 主 agent 重新查 [main runs](actions-baseline.json)、[失敗步驟／SHA](failure-runs.jsonl) 並透過授權 API 下載三個原始 log ZIP：[關鍵錯誤](raw-failure-extract.txt)。`gh run view --log-failed` 只取得不完整段落，沒有以缺失輸出推定無錯誤。43634859717／`2138f4d4…` 是 Chromium `refine-from-results-browser.cjs:96` 手機斷言 `false !== true`；42820349847／`2b139d9f…` 是正式走查等待3600002ms，index/app 位元不符；42803248261／`8fbfe082…` 是發布 gate 等待3600002ms、`Product asset mismatch`，當時 Pages 實際 succeeded。這些歷史錯誤均與目前成功紀錄區分，本輪不重跑舊 run、不聲稱這次修復它們；摘錄前半的 `# Main tip lookup timed out` 屬單元 fixture 輸出，不是實際部署故障。
 
 Website QA PR 可取消舊 head、main 保留發布裁決；Pages 獨立建置、QA 另等正式內容。現有 browser container/npm 版本各 workflow 內相符，未觀測快取／權限額度事故，不一律改 concurrency、不新增快取或放寬檢查。
+
+### PR 與手動分支的實際雲端驗收
+
+已提交／推送 `7f550dbf041dd1a925569680b436951ba75fbc65`，[PR #411](https://github.com/RichardHan/ai-agent-use-cases/pull/411)，[獨立 review comment](https://github.com/RichardHan/ai-agent-use-cases/pull/411#issuecomment-6893143489) 對應相同 head。
+
+[Facet counts QA branch dispatch 43705398496](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43705398496) **success**，head 精確為上述提交，4m36s：[steps](branch-dispatch.json)、[原始日誌摘要](branch-dispatch-verdict.txt)。雲端印出完整 `d318c4f0…7f550dbf…` 範圍；preflight、全套 regression／syntax、真正 Jekyll build、526 原文核對、counts／空結果／來源說明／閱讀流程均成功。因是非 main，三個正式發布步驟依設計 skipped，不把它們當作通過。GitHub Node20 action 遷移警告未造成此 run 失敗。PR 其他檢查仍在等待；main dispatch 與 Pages 正式證據待合併後完成。
+
+### 合併與發布啟動
+
+合併前即時確認 head `7f550dbf…`、base `d318c4f0…` 未變、CLEAN，四個 PR checks 全部 success：[PR 最終快照](pr-final.json)。[Website QA 43705398632](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43705398632) 12m49s 成功，真正 Jekyll、corpus／語言／發布面與 INDEX 回退均已執行：[steps](pr-website-qa.json)。獨立 review 與 branch dispatch 對應相同 head，沒有繞過保護。
+
+2026-11-15 10:56:23 UTC 正常 merge 為 `c2b2492eacb47d7323d901801e2756c46308abcb`：[合併紀錄](merge.json)。只快轉本輪隔離分支，原工作樹與其他 worktrees 保留。啟動同 SHA [Pages 43706476557](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43706476557)、[Website QA 43706477511](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43706477511)，並實際以 main、`base_sha=d318c4f0ea9af3502ac3dd76479b0e03c00ab5a3` 執行 [Facet counts QA 43706480208](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43706480208)。三者分別以25分鐘上限等待，完成前不把任何一項當成功。
+
+### 合併版正式產物與訪客驗收
+
+[Pages 43706476557](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43706476557) **success**：[steps](pages-release.json)。正式 catalog／corpus sourceRevision 均精確為合併 `c2b2492e…`；12 個首頁／assets／原始文件 blob 位元吻合、526 原文完整比對、audit-summary 第一 H2 批次及首頁消費契約通過：[release.json](release.json)。此為實際產物證據，不只是 Pages 綠燈。
+
+正式 Chromium 1440×900／390×844 三訪客情境全部通過：[journeys.json](live/journeys.json)、[桌面](live/desktop-detail.png)、[手機](live/mobile-detail.png)。問題探索、空結果鍵盤復原與保留條件、分享詳情／reload／未實跑界線／固定合併來源 HTTP200／長文／返回均通過；pageerror 與水平溢出皆零。主 agent Orca 另開正式手機詳情：[載入完成後來源](live-manual-settled.json)，固定 `c2b2492e…`；初次立即擷取仍在來源載入中（[原始快照](live-manual.json) source 空），等待來源 selector 後才作通過判定。GitHub 合併版來源頁已實際載入且有 UC-014／未實跑，Escape 返回與桌面一筆結果／焦點 results-count 已驗。
+
+此時主線 Website QA 與實際 main dispatch 尚在執行，不能以以上正式站驗收替代它們的最終裁決。
+
+### 受影響 workflow 的實際 main 驗收
+
+[Facet counts QA 43706480208](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43706480208) **success**，7m17s，head 精確為 `c2b2492eacb47d7323d901801e2756c46308abcb`：[完整 steps](main-dispatch.json)、[正式裁決](main-dispatch-verdict.txt)、[PR 收據](https://github.com/RichardHan/ai-agent-use-cases/pull/411#issuecomment-6893375172)。實際輸入 `d318c4f0…` 在雲端先通過 preflight，原始日誌記錄完整範圍；11:01:39 取得同 SHA Pages succeeded，接著 `PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH c2b2492e…`。三個正式發布步驟皆 success，不是跳過：位元／來源／正式瀏覽器均完成。這證明本輪修補的 caller 已實際可用，不只是 YAML 語法或本機 helper 通過。
+
+### 最終發布結論
+
+[主線 Website QA 43706477511](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43706477511) **success**，同合併 SHA、12m38s，未超過25分鐘等待上限：[steps](main-qa.json)、[原始裁決摘要](main-qa-verdict.txt)。802 tests／802 pass／0 fail，真正 Jekyll、發布 gate、正式 Chromium 與 JS-disabled INDEX 回退全部成功；11:08:24 的 `PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH` 與下一步 `PUBLISHED_LIVE_BUILD_CURRENT` 皆精確為 `c2b2492e…`。
+
+**已提交、已推送、已合併、部署成功、正式站已驗證；受影響手動 workflow 已在 main 全程實跑成功。** 無本輪未解發布阻塞。限制仍為操作者須選完整範圍、非 main 只驗預覽、生成 HTML superseded 全文尚未覆蓋、影像工具／真機／讀屏限制；不將本輪說成全站視覺或無障礙認證。
+
+暫時訪客腳本已移除；最後只保存被 Pages 排除的 `docs/qa/`／`SITE.md` 證據，不再更動已審程式。接續證據提交的 Pages／sourceRevision 與相同產品位元再核對一次，收據附 [PR #411](https://github.com/RichardHan/ai-agent-use-cases/pull/411) comment，避免為記自身 SHA 反覆提交；未觸發的 Website QA 不稱重跑。
+
+下一輪首驗仍是 superseded INDEX／稽核 HTML 過期正文 fixture，再評估可信 live Jekyll 產物取得；先證明缺口，不先擴大架構。

@@ -1,0 +1,11 @@
+{
+  "id": "1d689baf-2b03-4f9b-aa17-b162caedff64",
+  "ok": true,
+  "result": {
+    "result": "{\"url\":\"https://richardhan.github.io/ai-agent-use-cases/?q=UC-014&scope=topic&case=UC-014#explore\",\"title\":\"讓 AI 先整理客服信，退款與承諾由你決定\",\"source\":\"https://github.com/RichardHan/ai-agent-use-cases/blob/c2b2492eacb47d7323d901801e2756c46308abcb/cases/014-support-inbox-approval-refund.md\",\"overflow\":false}",
+    "origin": "https://richardhan.github.io/ai-agent-use-cases/?q=UC-014&scope=topic&case=UC-014#explore"
+  },
+  "_meta": {
+    "runtimeId": "dd413b6c-f7bd-4d30-b666-1ea92c3d8d9e"
+  }
+}

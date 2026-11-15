@@ -2,6 +2,8 @@
 
 `Facet counts QA` 的手動執行沒有 push 的 `event.before`，目前正式 CLI 因未知比較範圍直接拒絕。本輪增加必填完整 `base_sha` 與建置前嚴格祖先驗證，不猜 HEAD^，保留多 commit 中較早的刪除；補既有部署探測所需唯讀 Actions 權限。正常、錯誤輸入、桌面手機三情境、獨立審查與實際雲端 dispatch／發布證據見[本輪 QA](docs/qa/2026-11-15-manual-publication/README.md)。不改 UI／案例，不放寬未知範圍、位元或刪除驗證。下一輪先以 fixture 確認 superseded 生成 HTML 的過期正文，再評估可信建置產物核對。
 
+交付：[PR #411](https://github.com/RichardHan/ai-agent-use-cases/pull/411)，實作 `7f550dbf04`、合併 `c2b2492eac`。802 單元通過、獨立審查無 P1/P2；[實際 main 手動 QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43706480208)、[主線 Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43706477511) 與 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43706476557) 同版成功。正式 revision 精確一致、12 公開檔案／526 原文／稽核批次與桌面手機三情境通過。已提交、推送、合併、部署與正式驗證；最後僅保存排除於發布面的接續證據。
+
 ## 2026-11-15 同版本發布的刪除／改名驗證
 
 故障注入確認：exact 發布只比對仍存在的建置檔案，舊範本／資產 URL 即使仍回 200 或 503 也可能判定成功。本輪共用既有消失探測，要求被刪除的原始非 corpus 檔案回 404／410；改名須同時有正確新位元與舊網址消失，保留原等待上限與 superseded 恢復檔案規則。獨立審查再補未知／省略 changeList 的立即拒絕；七項回歸先紅後綠證據及最終測試數見[本輪 QA](docs/qa/2026-11-15-exact-deletion/README.md)。桌面／手機三情境通過，不改 UI／案例，不宣稱正式站已發生殘留事故。下一輪先以 fixture 驗 superseded 生成 HTML 正文，不直接比 Markdown hash。

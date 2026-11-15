@@ -2,7 +2,7 @@
 
 站方明示的慢載／腳本失敗備援是首頁 →`INDEX.html`→`cases/*.html`，但 Jekyll 不會把裸網址變成連結：正式站 `786c879b` 的 522 個案例頁中 86 頁（16.5%）完全沒有可點的外部來源，201 頁（38.5%）只顯示 `author-demo`／`designed` 等機器代碼而索引沒有對照。本輪把來源章節與來源列的裸網址改成 `[url](url)`（159 檔、336 個連結，顯示文字不變），INDEX 加「怎麼讀這頁」與四類代碼對照，範本要求新案例使用連結，並在 Website QA 以真正 Jekyll `_site` 檢查每個 corpus 案例頁都有外部連結。SPA 的來源去除與搜尋摘要補連結語法處理，避免摘要出現 `[url](url)`。823 單元通過；新檢查對改動前正式頁 FAIL 91、對 kramdown 全量渲染 PASS 525；桌面手機三情境與停用 JS 備援走查見[本輪 QA](docs/qa/2026-11-16-fallback-reading/README.md)。未改版型、案例歸屬或既有 gate 行為；案例頁仍無直接回索引，下一輪先以最小 layout 覆寫在真正 Jekyll build 驗證圖例與麵包屑。
 
-交付：待補 commit／PR／merge／Pages／正式站核對。
+交付：[PR #413](https://github.com/RichardHan/ai-agent-use-cases/pull/413)，實作 `01295659a1`、合併 `1a387a34f7`；PR checks 16 pass／2 skipped，[Website QA 43745883393](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43745883393) 的真正 Jekyll build 與新 `Verify fallback reading pages` success；[Pages 43747165501](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43747165501) 同 merge SHA success（build 42 秒、deploy 9 秒、artifact 6,675,004 B）。正式 sourceRevision 精確一致，重新下載 525 頁的同一檢查 PASS（改動前 FAIL 91）；桌面手機三情境、返回焦點、固定 SHA 來源與停用 JS 前後截圖見本輪 QA。已提交、推送、合併、部署與正式驗證；主線 [Website QA 43747166154](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43747166154) 同 merge SHA success，`Verify fallback reading pages`、正式發布產物與瀏覽器 walk 均 success。下一輪先以最小 layout 覆寫讓直接抵達的案例頁有圖例與回索引，在真正 Jekyll build 驗證 primer CSS／SEO 後再批次套用。
 
 ## 2026-11-15 新版發布的生成 HTML 完整正文驗證
 

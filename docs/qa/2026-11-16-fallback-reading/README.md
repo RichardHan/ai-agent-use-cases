@@ -61,7 +61,13 @@
 - `ActionsAudit`（scout）：近七日 10 次非成功全部已修／外部或計畫性取消；目前無 failure／timeout／queue。提出 `sources/*.md` gate 缺口與 Website QA 的 Playwright 1.56.1 與其他 workflow 1.64.x 漂移。主 agent 另查 `gh run list --limit 100` 為 0 個非 success；採納為下一輪候選，不在本輪改 workflow 行為（只新增前述唯讀檢查步驟）。
 - `IndependentReview`：初審回報無 findings；要求重跑證據後，第二輪指出 P2：`externalSourceLinks()` 只排除帶尾斜線的站內網址，無斜線的同站連結可能被誤算成外部來源。已將 origin 正規化並補測試（同站有／無斜線都不算），823 單元、改動前 91 項失敗、kramdown 525 頁通過均重跑。複審再次執行三項命令：823 pass、pre-change FAIL 91、rendered PASS 525，無其他 findings。limitation 仍為 kramdown fixture 不是真正 Jekyll 產物，交由 PR Website QA 驗 `_site`。
 
-## 發布接續
+## 發布與正式站核對
 
-- 待補：commit／PR／PR checks／merge／Pages／正式站 revision 與 after 截圖。
+- 已提交 `01295659a1832094b2e0b543c63a6527cb6a70ef`，[PR #413](https://github.com/RichardHan/ai-agent-use-cases/pull/413)；merge commit `1a387a34f7b7d8a18a54cf7259b0a905d3a03c97`。基準 `786c879b` 未變，mergeState CLEAN；repo 無 branch protection，仍等必要 checks 完成才合併，沒有 bypass。
+- PR checks：16 pass、2 skipped（`published` 只在 main push 執行）；[Website QA 43745883393](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43745883393) 12m14s success，`Verify fallback reading pages` 在真正 Jekyll `_site` 上 success；`Source guide QA` 等其餘 workflow 全 success。
+- [Pages 43747165501](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43747165501) 對 merge SHA success：build 42 秒、deploy 9 秒、`github-pages` artifact 6,675,004 B。正式 `catalog.json.sourceRevision` 精確等於 `1a387a34…`。
+- 以同一支檢查重新下載正式站 INDEX、catalog 與 525 個 cases／evidence HTML：`PASS: 525 rendered case pages expose a clickable source; INDEX explains the evidence codes`；改動前同方法是 `FAIL 91`。正式 UC-007 的 `網址：` 已是 `<a href="https://x.ai/news/grok-bot-procurement">`。
+- 正式站三情境（1280×900／390×844）：問題搜尋→UC-511→三個來源可點；`q=旅遊&kind=pending` 空結果→移除條件查看 36 筆；分享 `?case=UC-528`→證據→固定合併 SHA 的 GitHub 原文→關閉。返回搜尋後 `?q=旅遊`、詳情關閉、焦點回到 UC-001。pageerror 0、水平溢出 false：[journeys.json](live/journeys.json)、[返回與來源](live/return-and-source.json)。
+- 主線 [Website QA 43747166154](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43747166154) 對 `1a387a34…` success；真正 Jekyll build、`Verify fallback reading pages`、正式 `Wait for published assets and content` 與 published walk 均 success，沒有把 PR 綠燈代替 main 發布驗證。
+- 停用 JS 的正式站 after 截圖與 before 同 URL、同尺寸、同資料狀態：[桌面索引](after/index-desktop.png)、[手機索引](after/index-mobile.png)、[UC-007 桌面](after/case-007-source-desktop.png)、[UC-007 手機](after/case-007-source-mobile.png)。DOM：INDEX 圖例可見、四個代碼齊全；UC-007 外部 anchor 1 個；390px `scrollWidth` 等於 viewport。主線 [Website QA 43747166154](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43747166154) 的裁決另記於 SITE。
 - 下一輪最值得做：讓直接抵達的案例頁也有可見的證據圖例與回索引，先以最小 `_layouts` 覆寫在真正 Jekyll build 驗證 primer CSS／SEO 不退化，再批次套用；不要把圖例只留在 INDEX。次選是補 `sources/*.md` 的發布位元比較與故障注入。

@@ -1,0 +1,74 @@
+{
+ "desktop": {
+  "first": {
+   "count": "顯示 11 / 529 筆收錄",
+   "split": "整句沒有直接命中案例。句中包含站上既有的詞「錄音」＋「待辦」，改以這些詞同時符合搜尋，顯示 11 筆；這是字面比對，不是語意理解，也不代表已驗證。",
+   "id": "UC-511"
+  },
+  "detail": {
+   "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表",
+   "trust": "UC-511\n用法靈感\n作者報告／示範\n官方自報\n情境：工作\n頁首核對 2026-11-08\n會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表\n\n成果主張：主要 社群作者／專案實踐者；另宣告 官方自報\n核讀：主要 本庫未獨立重現；其他"
+  },
+  "sources": [
+   "https://x.com/BrianRoemmele/status/2118524832568713655",
+   "https://x.com/grok/status/2118619906807583148",
+   "https://note.com/grokbotter/n/ne8b045fdcb9e"
+  ],
+  "empty": {
+   "visible": true,
+   "rec": [
+    "移除收錄狀態「待查線索」 → 查看 36 筆",
+    "⚖️ 搜尋「契約審查」\n僅相關詞",
+    "📄 搜尋「合約審核」\n僅相關詞"
+   ]
+  },
+  "shared": {
+   "title": "API 不管有沒有帶金鑰都回 403？請另一個代理從別的網路用兩個請求對照，一分鐘分辨是認證問題還是網路路徑問題",
+   "claim": "UC-528\n用法靈感\n作者報告／示範\n情境：開發\n頁首核對 2026-11-14\nAPI 不管有沒有帶金鑰都回 403？請另一個代理從別的網路用兩個請求對照，一分鐘分辨是認證問題還是網路路徑問題\n\n成果主張：社群作者／專案實踐者\n核讀：本",
+   "external": [
+    "https://github.com/RichardHan/ai-agent-use-cases/blob/1a387a34f7b7d8a18a54cf7259b0a905d3a03c97/cases/528-two-agents-different-networks-no-key-vs-fake-key-403-diagnosis.md",
+    "https://github.com/RichardHan/ai-agent-use-cases/blob/1a387a34f7b7d8a18a54cf7259b0a905d3a03c97/cases/528-two-agents-different-networks-no-key-vs-fake-key-403-diagnosis.md",
+    "https://x.com/JiaShen_AI/status/2121237008148308207",
+    "https://x.com/JiaShen_AI/status/2121236827763781681"
+   ]
+  },
+  "overflow": false,
+  "errors": 0
+ },
+ "phone": {
+  "first": {
+   "count": "顯示 11 / 529 筆收錄",
+   "split": "整句沒有直接命中案例。句中包含站上既有的詞「錄音」＋「待辦」，改以這些詞同時符合搜尋，顯示 11 筆；這是字面比對，不是語意理解，也不代表已驗證。",
+   "id": "UC-511"
+  },
+  "detail": {
+   "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表",
+   "trust": "UC-511\n用法靈感\n作者報告／示範\n官方自報\n情境：工作\n頁首核對 2026-11-08\n會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表\n\n成果主張：主要 社群作者／專案實踐者；另宣告 官方自報\n核讀：主要 本庫未獨立重現；其他"
+  },
+  "sources": [
+   "https://x.com/BrianRoemmele/status/2118524832568713655",
+   "https://x.com/grok/status/2118619906807583148",
+   "https://note.com/grokbotter/n/ne8b045fdcb9e"
+  ],
+  "empty": {
+   "visible": true,
+   "rec": [
+    "移除收錄狀態「待查線索」 → 查看 36 筆",
+    "⚖️ 搜尋「契約審查」\n僅相關詞",
+    "📄 搜尋「合約審核」\n僅相關詞"
+   ]
+  },
+  "shared": {
+   "title": "API 不管有沒有帶金鑰都回 403？請另一個代理從別的網路用兩個請求對照，一分鐘分辨是認證問題還是網路路徑問題",
+   "claim": "UC-528\n用法靈感\n作者報告／示範\n情境：開發\n頁首核對 2026-11-14\nAPI 不管有沒有帶金鑰都回 403？請另一個代理從別的網路用兩個請求對照，一分鐘分辨是認證問題還是網路路徑問題\n\n成果主張：社群作者／專案實踐者\n核讀：本",
+   "external": [
+    "https://github.com/RichardHan/ai-agent-use-cases/blob/1a387a34f7b7d8a18a54cf7259b0a905d3a03c97/cases/528-two-agents-different-networks-no-key-vs-fake-key-403-diagnosis.md",
+    "https://github.com/RichardHan/ai-agent-use-cases/blob/1a387a34f7b7d8a18a54cf7259b0a905d3a03c97/cases/528-two-agents-different-networks-no-key-vs-fake-key-403-diagnosis.md",
+    "https://x.com/JiaShen_AI/status/2121237008148308207",
+    "https://x.com/JiaShen_AI/status/2121236827763781681"
+   ]
+  },
+  "overflow": false,
+  "errors": 0
+ }
+}

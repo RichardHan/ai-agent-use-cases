@@ -4,6 +4,8 @@
 
 驗收：853 單元（851＋案例與待查各 1 個揭露回歸）、preview 三尺寸 discovery／guidance／adoption flow 全過且 axe 0、UC-012／016 詳情展開後 axe 0、16 條目前後 DOM 證據（停止句由面板外移到面板內）、834 檔發布面 5.87 MiB、526 來源逐 byte 相同。限制：未逐像素目視、未做真人研究；preview 非 Jekyll。獨立 review 與發布狀態見[本輪 QA](docs/qa/2026-11-16-adoption-boundaries/README.md)；下一輪先驗 UC-250 已併入 UC-156 卻仍被當成獨立案例抽卡的問題。
 
+交付：[PR #423](https://github.com/RichardHan/ai-agent-use-cases/pull/423)，實作 `d4f71d1e`、合併 `298440b6`；PR 16 checks pass、2 published skipped，[Pages 43773706208](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43773706208) 與主線 [Website QA 43773706720](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43773706720) 同版 success（853 unit、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 298440b6`、`PUBLISHED_LIVE_BUILD_CURRENT`、`PASS LIVE`×2）。正式 `sourceRevision` 精確一致；16 個 copy 條目、P-001 待查揭露、UC-016 複製筆記與固定版本來源已實走，無水平溢出。
+
 ## 2026-11-16 來源憑據與連結狀態：轉述、二手事件與失效連結
 
 詳情頁的信任摘要原本漏掉兩類來源限制：UC-445 只讀到 Clay 訪談 Eric 的轉述，卡片卻沒有「取得：經轉述」；UC-016 的地址外洩事件自述原帖未取得、來自媒體轉述，頁首卻沒有尚待查證類別。另以 1,351 個非 X 來源網址做 HTTP 檢查，19 個回 404；UC-258 的 Fairsolid 舊倉庫、UC-456 的 Qiita／舊倉庫、UC-453 的狼人殺專案、UC-384／416 的 note 原文、UC-015 的 x.ai 分享頁、UC-063 的 Plex 論壇頁都缺少失效提示。本輪在既有 `證據狀態` 欄位補轉述與二手事件，逐頁標日期、原網址與可替代路徑（Fairsolid→handbuilt-cad、markdown-cms→markdown-cms-oss、Qiita→作者部落格、x.ai→Wayback），新增 UC-445／UC-016 回歸；主要來源類型計數維持 6／479／28／12／3／1。851 單元、preview 桌面手機三情境、兩頁 axe 零違規；正式站與 PR 狀態見[本輪 QA](docs/qa/2026-11-16-source-trust/README.md)。不改 CI、不新增依賴、不把 403／429 或 X 連結當成失效。

@@ -69,7 +69,15 @@
 - 修正後受影響驗證：**853 pass／0 fail**（再加 1 個待查揭露測試）、guidance 三尺寸與 adoption flow 全數重跑通過、P-001 面板實際顯示「依待查線索整理」且無「完整步驟」字樣、after-final 證據重拍。reviewer 的「Overall correctness: Incorrect」是針對修正前版本。
 - 複核（同一 reviewer、修正後版本）：**No findings**；reviewer 明說未自行重跑單元或瀏覽器檢查，上述 853 單元與兩套瀏覽器是主 agent 實際執行。此為獨立 agent 審查，不是人類 GitHub approval。
 
+## PR、合併與正式站
+
+- 已提交、已推送 `d4f71d1ecf4e566af4e5ab9839408a33bc231c0d`，建立 [PR #423](https://github.com/RichardHan/ai-agent-use-cases/pull/423)；[獨立審查 comment](https://github.com/RichardHan/ai-agent-use-cases/pull/423#issuecomment-6902798518) 對應同一 head。16 項 checks pass、2 項 `published` 依 PR 規則 skipped；沒有 pending／fail。
+- 2026-11-15T23:14:15Z 一般 merge，合併版本 `298440b67c47597933a41a52c8399d4a8dde7f3f`。
+- [Pages 43773706208](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43773706208)：build／report-build-status／deploy 全部 success，head 精確為合併 SHA。
+- 主線 [Website QA 43773706720](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43773706720)：**success**；`Run existing regression tests` TAP `# tests 853／# pass 853／# fail 0`，`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 298440b6…`，exact 模式走正式站得到 `PUBLISHED_LIVE_BUILD_CURRENT 298440b6…` 與兩項 `PASS LIVE`。`published` 步驟 skipped 屬預期（PR 不發布），不是關閉檢查。
+- 正式站 `catalog.sourceRevision` 精確等於 `298440b6…`；`tests/deployed-browser.cjs` 以該 SHA 走正式站 exit 0，桌面／手機與 JS-disabled 索引退路通過。實際以 Chromium 390×844 開 `?case=P-001`：待查揭露為「依待查線索整理」、來源固定 `298440b6…`、無水平溢出；`live-merged.json` 顯示 16 個 copy 條目都有揭露、沒有溢出；UC-016 的複製筆記帶完整新停止條件。
+- **已提交、已推送、已合併、部署成功、正式站已驗證**。未解：docs-only 後續紀錄會再推進 `sourceRevision`，但產品位元不變；以獨立 docs PR 保存並只核 Pages 與產品位元，不觸發 Website QA 也不冒稱重跑。影像逐像素、實體手機、讀屏實聽與效能未驗。
+
 ## 發布與接續
 
-- 見下方「PR、合併與正式站」補充；狀態分開記錄，不互相代替。
 - 下一輪最值得做：**驗證 UC-250（已併入 UC-156）是否仍被抽卡與結果當成獨立案例**。先以正式站 `#discover` 多次抽卡與 `?q=UC-250` 確認卡片標籤、計數與合併說明，再決定是排除抽卡、加「已併入」徽章，或只修計數說明；不要直接刪除保留追溯的頁面。

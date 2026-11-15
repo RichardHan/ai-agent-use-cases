@@ -1,0 +1,56 @@
+{
+  "before-desktop": {
+    "results": "正在讀取案例…",
+    "errorHidden": true,
+    "fallback": false,
+    "fallbackVisible": false,
+    "visibleIndexLinks": [],
+    "overflow": false,
+    "scrollY": 1354
+  },
+  "before-phone": {
+    "results": "正在讀取案例…",
+    "errorHidden": true,
+    "fallback": false,
+    "fallbackVisible": false,
+    "visibleIndexLinks": [],
+    "overflow": false,
+    "scrollY": 2635
+  },
+  "after-desktop": {
+    "results": "正在讀取案例…",
+    "errorHidden": true,
+    "fallback": true,
+    "fallbackVisible": true,
+    "visibleIndexLinks": [
+      {
+        "t": "完整案例索引",
+        "h": "INDEX.html"
+      },
+      {
+        "t": "GitHub 原始索引 ↗",
+        "h": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md"
+      }
+    ],
+    "overflow": false,
+    "scrollY": 1354
+  },
+  "after-phone": {
+    "results": "正在讀取案例…",
+    "errorHidden": true,
+    "fallback": true,
+    "fallbackVisible": true,
+    "visibleIndexLinks": [
+      {
+        "t": "完整案例索引",
+        "h": "INDEX.html"
+      },
+      {
+        "t": "GitHub 原始索引 ↗",
+        "h": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md"
+      }
+    ],
+    "overflow": false,
+    "scrollY": 2635
+  }
+}

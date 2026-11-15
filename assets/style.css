@@ -694,3 +694,10 @@ footer a,.reading-note a{padding:0.5rem 0.5rem}
    boundary that reaches 3:1 against the page instead of leaving refine darker
    than the control beside it. */
 .copy-search-link,.refine-query{border-color:#7f937b}
+
+/* A reader who lands in #explore with scripts blocked sees the results area's
+   "正在讀取案例…" line forever. The delivered HTML must therefore carry its own
+   way out; the script hides this note as soon as it runs. */
+.reading-fallback{margin:0 0 14px;padding:12px 14px;border:1px solid var(--line);border-left:4px solid #7f937b;border-radius:6px;background:#fff;font-size:13px;line-height:1.7;color:var(--muted)}
+.reading-fallback a{color:var(--green);text-decoration:underline;text-underline-offset:3px;font-weight:600}
+@media print{.reading-fallback{display:none}}

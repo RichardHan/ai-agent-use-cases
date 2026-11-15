@@ -82,7 +82,7 @@ test('the per-case fallback legend uses the same labels as the SPA', () => {
   }
 });
 
-test('the layout override keeps the Primer contract and only adds the case aid', () => {
+test('the layout override keeps the Primer contract and adds one reading aid', () => {
   const layout = read('_layouts/default.html');
   for (const required of ['{% seo %}', 'assets/css/style.css', 'head-custom.html', 'anchor-js', '{{ content }}']) {
     assert.ok(layout.includes(required), 'layout must keep ' + required);
@@ -90,8 +90,14 @@ test('the layout override keeps the Primer contract and only adds the case aid',
   assert.match(layout, /\{% include case-fallback-nav.html %\}/);
   // A dropped trailing "=" makes the browser refuse the CDN script silently.
   assert.match(layout, /integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg="/);
+  // The site name is navigation. As an <h1> it preceded every page's own title
+  // in heading navigation, so rendered pages shipped two h1s.
+  assert.match(layout, /<p class="site-title"><a href="\{\{ "\/" \| absolute_url \}\}">\{\{ site\.title \}\}<\/a><\/p>/);
+  assert.doesNotMatch(layout, /<h1><a href="\{\{ "\/" \| absolute_url \}\}">/);
   const include = read('_includes/case-fallback-nav.html');
-  assert.match(include, /case_path contains 'cases\/'/, 'the aid must not appear on INDEX or source pages');
+  assert.match(include, /case_path contains 'cases\/'/, 'the aid must cover rendered cases');
+  assert.match(include, /case_path contains 'evidence\/'/, 'direct arrivals to evidence also need the way back');
+  assert.match(include, /case_path == 'sources\/pending\.md'/, 'the pending ledger also needs the way back');
   assert.match(include, /\?case=UC-/, 'a rendered case should offer its interactive view');
 });
 

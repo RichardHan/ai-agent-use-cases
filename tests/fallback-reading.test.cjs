@@ -11,12 +11,13 @@ const path = require('node:path');
 const {checkFallbackReading, externalSourceLinks, caseNavigation, legendEntries} = require('../scripts/check-fallback-reading.cjs');
 
 const INDEX = `<!doctype html><html lang="zh-Hant"><body>
+<h1>完整案例索引</h1>
 <h2>怎麼讀這頁</h2><p>代碼說的是「誰提出主張」，不是「誰驗證」。</p>
 <p>author-demo 作者報告／示範 official 官方自報 designed 設計／未實跑 unverified 尚待查證 author-self-report 作者報告／示範 pending-verification 尚待查證</p>
 <a href="/ai-agent-use-cases/index.html">案例探索首頁</a>
 </body></html>`;
 
-const CASE_NAV = `<aside class="case-fallback-nav" data-fallback-case-nav aria-label="案例導覽與證據代碼說明">
+const CASE_NAV = `<aside class="case-fallback-nav" data-fallback-case-nav aria-label="閱讀導覽與證據代碼說明">
 <nav><a href="/ai-agent-use-cases/INDEX.html">← 完整案例索引</a>
 <a href="/ai-agent-use-cases/">搜尋首頁</a></nav>
 <p><strong>誰提出主張，不等於誰驗證。</strong></p>
@@ -31,7 +32,7 @@ function fixture(caseHtml, indexHtml = INDEX) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fallback-reading-'));
   fs.mkdirSync(path.join(root, 'cases'));
   fs.writeFileSync(path.join(root, 'INDEX.html'), indexHtml);
-  fs.writeFileSync(path.join(root, 'cases', '001-demo.html'), caseHtml);
+  fs.writeFileSync(path.join(root, 'cases', '001-demo.html'), `<h1>UC-001</h1>${caseHtml}`);
   return root;
 }
 
@@ -120,4 +121,33 @@ test('legendEntries keeps only visible code-label pairs', () => {
   const entries = legendEntries('<span class="case-fallback-code" hidden><code>author-demo</code> <strong>作者報告／示範</strong></span><span class="case-fallback-code"><code>designed</code> <strong>設計／未實跑</strong></span>');
   assert.equal(entries.get('author-demo'), undefined);
   assert.equal(entries.get('designed'), '設計／未實跑');
+});
+
+test('evidence and pending entries need the same way back as a case', () => {
+  const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
+  fs.mkdirSync(path.join(root, 'evidence'));
+  fs.mkdirSync(path.join(root, 'sources'));
+  const page = '<h1>UC-013</h1><a href="https://example.test/x">x</a>';
+  fs.writeFileSync(path.join(root, 'evidence', '013-demo.html'), page);
+  fs.writeFileSync(path.join(root, 'sources', 'pending.html'), '<h1>待查來源</h1><a href="https://example.test/x">x</a>');
+  const missing = checkFallbackReading(root);
+  assert.match(missing.failures.join('\n'), /evidence\/013-demo\.html: missing the case fallback navigation/);
+  assert.match(missing.failures.join('\n'), /sources\/pending\.html: missing the case fallback navigation/);
+
+  fs.writeFileSync(path.join(root, 'evidence', '013-demo.html'), CASE_NAV + page);
+  fs.writeFileSync(path.join(root, 'sources', 'pending.html'), CASE_NAV + '<h1>待查來源</h1><a href="https://example.test/x">x</a>');
+  assert.deepEqual(checkFallbackReading(root).failures, []);
+});
+
+test('a repeated site-title heading is rejected on every rendered page', () => {
+  const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
+  fs.writeFileSync(path.join(root, 'cases', '001-demo.html'), '<h1>AI 用法實驗室</h1><h1>UC-001</h1>' + CASE_NAV + '<a href="https://example.test/x">x</a>');
+  const result = checkFallbackReading(root);
+  assert.match(result.failures.join('\n'), /cases\/001-demo\.html: expected exactly one h1, found 2/);
+});
+
+test('INDEX must also expose exactly one h1', () => {
+  const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>', INDEX.replace('<h1>完整案例索引</h1>', '<h1>AI 用法實驗室</h1><h1>完整案例索引</h1>'));
+  const result = checkFallbackReading(root);
+  assert.match(result.failures.join('\n'), /INDEX\.html: expected exactly one h1, found 2/);
 });

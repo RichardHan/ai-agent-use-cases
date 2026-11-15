@@ -71,3 +71,15 @@
     display: none;
   }
 }
+
+/* The site name is navigation, not the page's heading. Primer styles `.markdown-body h1`
+   at 2em with a bottom rule; keep that look on a paragraph so every rendered page has
+   exactly one h1 (the case, evidence or index title). */
+.markdown-body .site-title {
+  margin: 24px 0 16px;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #eaecef;
+  font-size: 2em;
+  font-weight: 600;
+  line-height: 1.25;
+}

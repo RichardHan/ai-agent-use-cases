@@ -138,6 +138,9 @@ jobs:
           cp -R _site/. "$RUNNER_TEMP/built-preview/ai-agent-use-cases/"
           python3 -m http.server 8082 --directory "$RUNNER_TEMP/built-preview" > /tmp/site-built.log 2>&1 &
           node tests/index-fallback-browser.cjs
+          # preview.py cannot supply Jekyll's uppercase INDEX.html; this test
+          # must run against the actual _site so the fallback link is real.
+          READING_FALLBACK_URL=http://127.0.0.1:8082/ai-agent-use-cases/ QA_OUT=qa-artifacts/static-reading-fallback node tests/static-reading-fallback-browser.cjs
       - name: Wait for published assets and content
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         id: published-version

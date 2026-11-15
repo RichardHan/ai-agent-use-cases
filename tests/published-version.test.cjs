@@ -55,7 +55,7 @@ function publicationFixture(t){
  };
  // Unit fixtures never read git: what the live revision itself contains is part of
  // the fixture, and a test that needs different bytes supplies its own function.
- return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',changeList:{known:true,entries:[]},isCurrent:()=>true,readAuditSource:()=>auditSource,treeAtRevision:()=>new Map([['cases/a.md',blobHash('original')]])},published,respond};
+ return {options:{base:'https://example.test/project/',built,sha:'current',expectedSourceRevision:'current',changeList:{known:true,entries:[]},isCurrent:()=>true,readAuditSource:()=>auditSource,readPublishedPages:async()=>new Map(require('../scripts/check-page-language.cjs').pages.map(file=>[file,require('node:crypto').createHash('sha256').update(files[file]).digest('hex')])),treeAtRevision:()=>new Map([['cases/a.md',blobHash('original')]])},published,respond};
 }
 
 test('facet publication waits through a 40-minute mixed-corpus deployment using the shared window',async t=>{
@@ -173,6 +173,58 @@ function supersededFixture(t,{markdown='original',changedPath='cases/a.md',delet
   published
  };
 }
+
+for(const page of ['INDEX.html','cases/001-travel-checkout.html','sources/qualification-audit-2026-10-16.html']){
+ test('a superseded release rejects stale generated body: '+page,async t=>{
+  const fixture=supersededFixture(t);
+  const expected=Buffer.from(fixture.published[page].replace('</html>','<body>New complete content</body></html>'));
+  const hashes=new Map(require('../scripts/check-page-language.cjs').pages.map(file=>[file,require('node:crypto').createHash('sha256').update(file===page?expected:fixture.published[file]).digest('hex')]));
+  await assert.rejects(fixture.run({
+   isDescendant:()=>true,
+   readPublishedPages:async()=>hashes
+  }),error=>{
+   assert.match(error.cause?.message||'',/Published page differs from the live Pages artifact/);
+   return true;
+  });
+ });
+}
+
+test('superseded generated pages match the newer artifact, not this checkout',async t=>{
+ const fixture=supersededFixture(t);
+ fixture.published['INDEX.html']=fixture.published['INDEX.html'].replace('</html>','<body>New index</body></html>');
+ const hashes=new Map(require('../scripts/check-page-language.cjs').pages.map(file=>[file,require('node:crypto').createHash('sha256').update(fixture.published[file]).digest('hex')]));
+ const result=await fixture.run({isDescendant:()=>true,readPublishedPages:async revision=>{
+  assert.equal(revision,'newer');
+  return hashes;
+ }});
+ assert.equal(result.mode,'superseded');
+ assert.equal(result.status,'matched');
+});
+
+test('an unavailable artifact cannot turn a superseded release green',async t=>{
+ const fixture=supersededFixture(t);
+ await assert.rejects(fixture.run({isDescendant:()=>true,readPublishedPages:async()=>{throw Error('Pages artifact expired');}}),error=>{
+  assert.match(error.cause.message,/Pages artifact expired/);
+  return true;
+ });
+ assert.equal(fixture.clock(),PUBLICATION_TIMEOUT_MS);
+});
+
+test('a transient artifact failure is retried, successful hashes are reused while CDN settles',async t=>{
+ const fixture=supersededFixture(t);
+ const html=fixture.published['INDEX.html'];
+ const hashes=new Map(require('../scripts/check-page-language.cjs').pages.map(file=>[file,require('node:crypto').createHash('sha256').update(fixture.published[file]).digest('hex')]));
+ fixture.published['INDEX.html']=html.replace('</html>','<body>Stale index</body></html>');
+ let reads=0;
+ const result=await fixture.run({isDescendant:()=>true,readPublishedPages:async()=>{
+  if(++reads===1)throw Error('Temporary API failure');
+  return hashes;
+ },sleep:async()=>{
+  if(reads===2)fixture.published['INDEX.html']=html;
+ }});
+ assert.equal(reads,2);
+ assert.equal(result.status,'matched');
+});
 
 test('a newer published build is judged against the revision it names',async t=>{
  const {run}=supersededFixture(t);

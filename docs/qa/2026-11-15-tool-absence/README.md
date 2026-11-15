@@ -74,3 +74,23 @@
 - 工具清單仍是保守字面規則，不保證理解所有否定語法；不以這次一例修正宣稱全庫工具歸屬已人工驗證。
 - 圖像輸入在本環境停用；會保存實際瀏覽器截圖，幾何、DOM 與 axe 可驗，但不宣稱已人工逐像素審視截圖。
 - 下一輪最值得處理：多工具案例的卡片只顯示前兩項。例如以 Notion 篩選的 UC-046，卡片未顯示 Notion。先在 320px／390px 量測「顯示命中的篩選工具」與「展開全部工具」兩方案，不直接將固定順序當主要工具排名。
+
+## 提交與合併
+
+- 實作 commit：[`506523e997cef14329af31c51250f16d8367c7a0`](https://github.com/RichardHan/ai-agent-use-cases/commit/506523e997cef14329af31c51250f16d8367c7a0)，已推送。
+- PR：[#404](https://github.com/RichardHan/ai-agent-use-cases/pull/404)。合併前重新核對 head=`506523e9`、base=`5a1663e8`、16 項 success、2 項發布專用工作依 PR 條件 skipped、0 未完成；沒有繞過保護。
+- [PR Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43673849894) 成功，包含真正的 Jekyll build；它驗證的是上述實作 head，不是發布完成的證明。
+- 合併 commit：[`f5fe653b884d617639855b58d75e350510fdaec0`](https://github.com/RichardHan/ai-agent-use-cases/commit/f5fe653b884d617639855b58d75e350510fdaec0)，2026-11-15 04:00:54 UTC 合併。只有隔離工作樹快轉至此，原工作樹沒有移動。
+
+## 正式站實走
+
+- `GITHUB_SHA=f5fe653b884d617639855b58d75e350510fdaec0 node tests/deployed-browser.cjs` 回報 `PUBLISHED_LIVE_BUILD_CURRENT f5fe653b…`，桌面／手機探索、詳情、重整、空結果復原、JS 停用索引與返回通過。
+- 正式站再次執行三尺寸目標流程：[實測 JSON](live-browser.json)、[桌面](live-desktop.png)、[手機](live-mobile.png)、[小手機](live-small-mobile.png)。UC-040 顯示 dots、兩個錯誤工具篩選排除該案；來源連結固定於合併 SHA，三情境、焦點與重整通過，axe／溢出／pageerror 皆 0（量測範圍同前）。
+- 主整合者另開正式站手機頁核對卡片文字及 `catalog.json.sourceRevision=f5fe653b884d617639855b58d75e350510fdaec0`，不以 PR 綠燈替代正式站驗收。
+
+## 發布結論
+
+- 合併版 [Website QA 43674870741](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43674870741) 與 [Pages 43674870155](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43674870155) 均 **success**，兩者 head 均為 `f5fe653b884d617639855b58d75e350510fdaec0`。等待約 17 分 24 秒，在預設 20 分鐘上限內完成，沒有重跑失敗工作或忽略錯誤。
+- [發布版本與位元核對](release.json)：正式 `catalog.json.sourceRevision` 精確等於合併 SHA，526 個來源；正式 `assets/app.js` 與受審本機檔案逐位元相同，SHA-256 `3bc1b9f4e28804a48f292a9a074233c0b618c69783fe39b9d096c5c65786b0eb`。
+- **已提交、已推送、已合併、部署成功、正式站已驗證**。沒有未確認的產品發布阻塞；限制仍為本文件列出的保守字面辨識與無影像目視審查。
+- 本段及正式站證據以僅修改 `docs/qa/`、`SITE.md` 的接續提交保存；兩者均由 `_config.yml` 排除於發布面，不改受審產品程式。接續提交若觸發 Pages，仍核對其 revision 與上述相同 app 位元；不將沒有觸發的 Website QA 稱為再次通過。

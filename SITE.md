@@ -2,6 +2,8 @@
 
 正式站 UC-040 明寫 dots 實測、Grok Bot／Muse 無對應實測，卡片卻先列後兩者且列入兩個錯誤工具篩選。本輪限定「工具清單＋無對應／同題／同類／同等實測」的完整陳述才排除；保留失敗實測、未實跑設計與同句中的正向使用。529 條目逐項比對只有 UC-040 工具清單改為 ChatGPT dots，案例原文全保留。新回歸先紅後綠；獨立 reviewer 發現同句誤刪風險後已修正並重新核可，最終單元 765 通過；三尺寸目標流程、來源新分頁、空結果與分享返回均通過。近期 Actions 舊失敗已讀原始 log，本輪基準 QA 與 Pages 均綠，不改 CI。[方案、前後截圖、限制、驗收與發布接續](docs/qa/2026-11-15-tool-absence/README.md)。
 
+交付：[PR #404](https://github.com/RichardHan/ai-agent-use-cases/pull/404)，實作 `506523e9`、合併 `f5fe653b`；[main Website QA](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43674870741) 與 [Pages](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43674870155) 成功。正式 catalog revision 精確等於合併 SHA，app 位元一致；正式站三尺寸重走通過，發布證據與截圖見本輪紀錄。後續僅補維護文件，不更動產品程式。
+
 下一輪：工具篩選命中的案例，卡片可能只顯示其他兩個工具。先以 UC-046 的 Notion 篩選在 320／390px 比較「顯示命中工具」與「展開全部工具」，不要把固定順序冒稱主要工具排名。
 
 ## 2026-11-15 案例庫長尾行內可貼指令結構化提升與一鍵複製防護

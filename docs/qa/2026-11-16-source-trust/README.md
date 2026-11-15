@@ -55,7 +55,7 @@
   3. 直鏈 `?case=UC-445&q=會議`：詳情顯示「取得：作者內容經第三人轉述或僅讀摘要整理」，Escape 後保留查詢。
   4. UC-016 詳情列出「尚待查證」與「同案宣告：社群線索（尚未證實）」；UC-258／456／453／384／416／015／063 展開來源段後都看到 2026-11-16 的連結狀態與替代路徑；UC-456 的新倉庫與部落格連結、UC-258 的 handbuilt-cad 連結、UC-015 的 Wayback 連結都在 DOM 中。
   5. 兩頁詳情 axe（wcag2a／2aa／21aa）零違規；只代表這兩個狀態。
-- 視覺前後：`before/` 與 `after/` 同頁、同尺寸（1440×900；390×844 另存 UC-445／016 首屏）。來源段在 `after/` 展開後標註；preview 因工作樹有未提交變更，`sourceRevision` 為空，固定版本來源連結會停用。這不是正式站行為，固定版本來源與 `sourceRevision` 留待合併後在正式站核對。
+- 視覺前後：`before/` 與 `after/` 同頁、同尺寸（1440×900；390×844 另存 UC-445／016 首屏與 UC-445 卡片）。UC-445 卡片在 `after/` 多了「取得：經轉述」；來源段在 `after/` 展開後標註。preview 因工作樹有未提交變更，`sourceRevision` 為空，固定版本來源連結會停用。這不是正式站行為，固定版本來源與 `sourceRevision` 留待合併後在正式站核對。
 
 ## 獨立審查
 
@@ -67,6 +67,12 @@
 - 未處理：VisitorFlowAudit 指出的 `copy.json` 前 20 個條目會覆寫案例頁自己的「怎麼開始／要注意什麼」，與 README 的承諾不一致（靜態證據，本輪未用瀏覽器逐頁核對）；ContentIntegrityAudit 指出的 UC-250 已併入 UC-156 但仍可被抽卡、卡片只顯示「用法靈感」。兩者都留待下一輪，不混入本輪。
 - 下一輪最值得先做：**驗證 `copy.json` 的 20 個條目是否漏掉案例頁已宣告的限制**。先以 UC-001 與 UC-005 在正式站比對面板文字與頁面 `## 權限與驗收`／限制段，再決定是改資料、改 precedence，還是只修 README 契約；不要直接改成全部抽取，避免把長段原文塞進首屏。
 
-## PR、合併與正式站（完成後補記）
+## PR、合併與正式站
 
-待補：PR 編號、commit、checks、merge、Pages／Website QA、正式站 `sourceRevision`、固定版本來源與三情境重走。
+- 已提交、已推送 `2dd218a58bc93ba38fc4bf4621ee13af5564777a`，建立 [PR #420](https://github.com/RichardHan/ai-agent-use-cases/pull/420)。合併前 head 為同一 SHA、base `a4db7f62`、mergeState CLEAN；16 項 checks success、1 項 published 依 PR 規則 skipped，未把 skipped 當通過。
+- 2026-11-15 22:13:12 UTC 正常 merge，合併版本 `1d318ebd22c7ea9d01b22237038542acfe643178`。對應 [Pages 43768063163](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43768063163) 與 [主線 Website QA 43768064019](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43768064019)。
+- [Pages 43768063163](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43768063163) build／deploy／report 全部 success（2026-11-15 22:14:22 UTC 完成）；正式 `catalog.sourceRevision` 精確等於 `1d318ebd22c7ea9d01b22237038542acfe643178`。
+- 主 agent 實際開啟正式站（1440×900／390×844）：UC-445 卡片有「取得：經轉述」，詳情顯示「作者內容經第三人轉述或僅讀摘要整理」與固定合併版本的 GitHub 來源；UC-016 詳情列出尚待查證；UC-258／456／453／384／416／015／063 展開來源段都看到 2026-11-16 狀態與替代路徑；三情境、空結果鍵盤復原、直鏈重整／返回、無水平溢出通過；UC-445／016 詳情 axe 零違規。[正式站走查](live-acceptance.txt)、[截圖](live/)。
+- `NODE_PATH=…/node_modules GITHUB_SHA=1d318ebd22c7ea9d01b22237038542acfe643178 node tests/deployed-browser.cjs` exit 0，回報 `PUBLISHED_LIVE_BUILD_CURRENT 1d318ebd…`；桌面／手機、搜尋、直鏈、空結果復原與停用 JS 的索引退路全部通過：[日誌](live-deployed-browser.txt)。
+- 真正 Jekyll 產物：`cases/445-…html`、`cases/258-…html`、`cases/456-…html`、`INDEX.html` 均 HTTP 200，且分別含「經 Clay 訪談轉述」、`handbuilt-cad`×5、`markdown-cms-oss`×2、INDEX 的「經 Clay 轉述」。
+- 主線 [Website QA 43768064019](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43768064019) **success**（22:13:15–22:26:03 UTC，低於 25 分鐘上限）：851 tests／851 pass、實際 Jekyll build、built corpus／語言／發布面／fallback 頁、`Wait for published assets and content` 與正式站走查全部成功；`Fail when the published site cannot be verified` 依設計 skipped，不是關閉檢查。日誌摘要：[main-qa.txt](main-qa.txt)。

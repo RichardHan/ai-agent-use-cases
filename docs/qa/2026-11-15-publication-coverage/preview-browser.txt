@@ -1,0 +1,17 @@
+PUBLISHED_LIVE_BUILD_CURRENT 564ecdb3becd7f03978951337eaf157f3ab8de68 (walking the live site)
+PASS LIVE: Pages HTTPS, real generated catalog, scenario discovery and detail
+PASS LIVE: mobile direct link, refresh, close, scenario selection and no horizontal overflow
+MOBILE_SEARCH_RESULTS live-mobile-search [{"viewport":"desktop","readyMs":744,"searchTop":174,"searchFromHeading":149,"firstResultFromSearch":291,"firstResultTop":465,"arrivalTitleFromSearch":335,"axeScans":2,"axeViolations":0,"passed":true},{"viewport":"mobile","readyMs":620,"searchTop":176,"searchFromHeading":153,"firstResultFromSearch":252,"firstResultTop":429,"arrivalTitleFromSearch":446,"axeScans":2,"axeViolations":0,"passed":true}]
+SEARCH_RECOVERY live-search [{"viewport":"desktop","navigationAndReadyMs":662,"matchingBeforeScenario":1,"empty":"⌕\n目前沒有符合「旅遊」的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除主題分類「旅遊／消費研究」 → 查看 1 筆\n移除使用情境「開發」 → 查看 1 筆\n修改關鍵字\n清除全部條件，顯示所有條目","activeFilters":5,"keyboardRecoveryMs":25,"axeViolations":[],"passed":true},{"viewport":"mobile","navigationAndReadyMs":590,"matchingBeforeScenario":1,"empty":"⌕\n目前沒有符合「旅遊」的案例\n\n每個條件都要符合才會顯示。試著只移除一項，其他條件會保留。\n\n移除主題分類「旅遊／消費研究」 → 查看 1 筆\n移除使用情境「開發」 → 查看 1 筆\n修改關鍵字\n清除全部條件，顯示所有條目","activeFilters":5,"keyboardRecoveryMs":16,"axeViolations":[],"passed":true}]
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+false !== true
+
+    at checkInitialIndexFallback (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/initial-index-fallback-browser.cjs:15:14)
+    at async /Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/deployed-browser.cjs:119:2 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual'
+}

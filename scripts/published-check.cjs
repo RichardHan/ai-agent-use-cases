@@ -43,7 +43,7 @@ function skipIfSupersededPublishedUrl(url,isCurrent=isCurrentMainCommit){
 
 // Files whose exact bytes a visitor can receive. When main has already moved on
 // to a newer commit, these are the only bytes this push can still be judged on.
-const PUBLISHABLE_FILE=/^(?:assets\/[A-Za-z0-9._-]+\.(?:js|css|json)|index\.html|cases\/[A-Za-z0-9_-]+\.md|evidence\/[A-Za-z0-9_-]+\.md|sources\/pending\.md)$/;
+const PUBLISHABLE_FILE=/^(?:assets\/[A-Za-z0-9._-]+\.(?:js|css|json)|index\.html|(?:INDEX|README|README-archive-2026-10-18)\.md|templates\/[A-Za-z0-9_-]+\.md|cases\/[A-Za-z0-9_-]+\.md|evidence\/[A-Za-z0-9_-]+\.md|sources\/pending\.md)$/;
 
 // `git diff --name-status` uses tabs and prints two paths for copies and renames.
 // The old path left the site, so a rename is verified as "new bytes present, old

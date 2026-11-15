@@ -1,0 +1,9 @@
+Reviewer: PublicationFinalReview; independent read-only task, no implementation participation.
+Final conclusion: No findings. Overall correctness: correct.
+
+Initial P2 later-delete/rename finding corrected with revision-aware explicit-absence deferral and strict regression coverage.
+
+Follow-up reviewer P1 alleging the missing-template test would fail was withdrawn as a false positive: waitForPublishedVersion does not accept readLive; its internal callback uses the overridden fetchAsset. Thus 410 for a still-required template does reject, as confirmed by observed 783 pass / 0 fail final test output. Reviewer did not run tests.
+
+Final inspected implementation: scripts/published-check.cjs classification; tests/published-version.cjs asset collection and lines225-270 response/revision handling; published-check.test.cjs and published-version.test.cjs including lines531-564.
+Limitations: generated audit-summary/HTML superseded coverage is outside declared scope; not a human GitHub approval.

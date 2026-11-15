@@ -1,0 +1,164 @@
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+Pages deployment for current: unknown — no GITHUB_TOKEN available
+✖ an exact release rejects stale adoption document README.md (48.320291ms)
+✖ a superseded document-only push verifies live bytes for README.md (62.4365ms)
+✖ an exact release rejects stale adoption document README-archive-2026-10-18.md (36.6045ms)
+✖ a superseded document-only push verifies live bytes for README-archive-2026-10-18.md (23.285417ms)
+✖ an exact release rejects stale adoption document INDEX.md (26.744042ms)
+✖ a superseded document-only push verifies live bytes for INDEX.md (51.769542ms)
+✖ an exact release rejects stale adoption document templates/case.md (26.146792ms)
+✖ a superseded document-only push verifies live bytes for templates/case.md (47.854709ms)
+✖ a renamed adoption template requires the new bytes and the old URL to be gone (240.136958ms)
+✖ a template deleted by this push and restored later must match the live revision (28.461792ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 0
+ℹ fail 10
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 798.235583
+
+✖ failing tests:
+
+test at tests/published-version.test.cjs:464:2
+✖ an exact release rejects stale adoption document README.md (48.320291ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:468:3)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:474:2
+✖ a superseded document-only push verifies live bytes for README.md (62.4365ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:479:3)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:464:2
+✖ an exact release rejects stale adoption document README-archive-2026-10-18.md (36.6045ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:468:3)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:474:2
+✖ a superseded document-only push verifies live bytes for README-archive-2026-10-18.md (23.285417ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:479:3)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:464:2
+✖ an exact release rejects stale adoption document INDEX.md (26.744042ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:468:3)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:474:2
+✖ a superseded document-only push verifies live bytes for INDEX.md (51.769542ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:479:3)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:464:2
+✖ an exact release rejects stale adoption document templates/case.md (26.146792ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:468:3)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:474:2
+✖ a superseded document-only push verifies live bytes for templates/case.md (47.854709ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:479:3)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at tests/published-version.test.cjs:491:1
+✖ a renamed adoption template requires the new bytes and the old URL to be gone (240.136958ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /A deleted asset is still published: templates\/old.md/. Input:
+  
+  'Published catalog does not list the sources of newer\n' +
+    '+ actual - expected\n' +
+    '\n' +
+    '+ [\n' +
+    "+   'cases/a.md'\n" +
+    '+ ]\n' +
+    '- []\n'
+  
+      at Object.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:502:10)
+      at expectedException (node:assert:808:17)
+      at expectsError (node:assert:931:3)
+      at Function.rejects (node:assert:996:3)
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:501:2)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Published catalog does not list the sources of newer\n+ actual - expected\n\n+ [\n+   'cases/a.md'\n+ ]\n- []\n",
+    expected: /A deleted asset is still published: templates\/old.md/,
+    operator: 'match'
+  }
+
+test at tests/published-version.test.cjs:516:1
+✖ a template deleted by this push and restored later must match the live revision (28.461792ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/publication-coverage-20261115/tests/published-version.test.cjs:521:2)
+      at async Test.run (node:internal/test_runner/test:981:9)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }

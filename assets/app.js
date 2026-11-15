@@ -2422,7 +2422,7 @@ function card(item, terms=[]) {
   const node = el('article', 'card');
   node.dataset.kind = item.kind;node.dataset.caseId=item.id;node.dataset.proof=item.proof;
   const top = el('div', 'card-top');
-  const topInfo = el('span', 'card-id-tool', item.id + (item.tools.length ? ' · ' + item.tools.slice(0, 2).join(' / ') : ''));
+  const topInfo = el('span', 'card-id-tool', item.id + (item.tools.length ? ' · ' + item.tools.join(' / ') : ''));
   const badgesWrap = el('div', 'card-top-badges');
   if(item.scenario){
     const scenarioBadge = el('span', 'card-scenario', item.scenario);

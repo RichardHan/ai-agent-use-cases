@@ -42,9 +42,11 @@ STEP交換檔不等於保留原Python參數化建模歷史；需要原生腳本�
 
 不同UC237草圖新設計、UC162網格減面、UC197既有零件裝配：本案終點為帶噪掃描重建後的尺度、曲面及拓撲核對。五份零件及各方法只計一案。
 
-- [固定版本使用歸因](https://github.com/living-relation/fairsolid/blob/d9e17517da580bca3c1df93b73418bfa4741c30e/README.md)
-- [局部曲面成果紀錄](https://github.com/living-relation/fairsolid/blob/d9e17517da580bca3c1df93b73418bfa4741c30e/docs/SURFACE_FIT_PLAN.md)
-- [方法與失敗報告](https://github.com/living-relation/fairsolid/blob/d9e17517da580bca3c1df93b73418bfa4741c30e/docs/AI_METHODS_REPORT.md)
-- [管線測試源](https://github.com/living-relation/fairsolid/blob/d9e17517da580bca3c1df93b73418bfa4741c30e/tests/test_pipeline.py)與[掃描測試源](https://github.com/living-relation/fairsolid/blob/d9e17517da580bca3c1df93b73418bfa4741c30e/tests/test_refscan.py)
+原 `living-relation/fairsolid` 倉庫已於 2026-10-21 由作者刪除；[現存版本的 Fairsolid 遷移說明](https://github.com/living-relation/handbuilt-cad/blob/main/docs/FAIRSOLID.md) 指出同一專案現位於 `handbuilt-cad` 的 `pipelines/fairsolid/`，但舊 commit `d9e175…` 與完整 git 歷史未保留。**2026-11-16 檢查：舊 `fairsolid` 網址回 404；下列 `handbuilt-cad` 連結實開回 200。** 下列連結改指現存版本，**不是當時固定快照的逐位元替代**；本文仍以 2026-10-16 讀到的內容為準，重跑前請先核對版本差異。
+
+- [現存版本使用歸因](https://github.com/living-relation/handbuilt-cad/blob/main/pipelines/fairsolid/README.md)
+- [局部曲面成果紀錄](https://github.com/living-relation/handbuilt-cad/blob/main/pipelines/fairsolid/docs/SURFACE_FIT_PLAN.md)
+- [方法與失敗報告](https://github.com/living-relation/handbuilt-cad/blob/main/pipelines/fairsolid/docs/AI_METHODS_REPORT.md)
+- [管線測試源](https://github.com/living-relation/handbuilt-cad/blob/main/pipelines/fairsolid/tests/test_pipeline.py)與[掃描測試源](https://github.com/living-relation/handbuilt-cad/blob/main/pipelines/fairsolid/tests/test_refscan.py)
 - [Autodesk網格單位背景](https://www.autodesk.com/support/technical/article/caas/sfdcarticles/sfdcarticles/How-to-insert-a-mesh-body-into-Fusion-360.html)
 - [CadQuery交換格式限制](https://cadquery.readthedocs.io/en/latest/importexport.html)

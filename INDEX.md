@@ -52,7 +52,7 @@
 | UC-012 | 科研評估來源稽核、領域批判與圖稿整合 | Grok Bot／Jupyter／LaTeX | [作者回溯性科研案例，原始紀錄不完整](cases/012-research-evaluation-provenance.md) | 學習｜科研、資料稽核、多代理 |
 | UC-014 | 客服收件匣巡檢與人核准退款 | Grok Bot／Intercom／Stripe；dots 垃圾箱分診＋影片待看 | [作者自述＋dots 垃圾箱年付求助分診截圖；影片僅讀描述](cases/014-support-inbox-approval-refund.md) | 工作｜客服、收件匣、核准 |
 | UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine（含 KEV、公告覆蓋驗收） | [dots 結構化測試＋Grok Bot 官方文件＋KEV 監看自述＋每日看更新紀錄轉個人建議自述；未重現](cases/015-public-page-change-watch.md) | 工作｜每日、監看、排程、驗收 |
-| UC-016 | 二手刊登與買家對話代管 | Meta Muse／Facebook Marketplace；dots 多平台 | [Muse 地址外洩事件（媒體轉述）＋官方權限文件＋作者自述；未重現](cases/016-marketplace-selling-buyer-messages.md) | 生活｜二手、買家訊息、隱私 |
+| UC-016 | 二手刊登與買家對話代管 | Meta Muse／Facebook Marketplace；dots 多平台 | [Muse 地址外洩事件（媒體轉述，尚待查證）＋官方權限文件＋作者自述；未重現](cases/016-marketplace-selling-buyer-messages.md) | 生活｜二手、買家訊息、隱私 |
 | UC-017 | 先研究潛在客戶，再準備有根據的聯絡草稿；繁中作者把n8n客戶開發搬到多Bot分工並實際寄信 | Grok Bot／公開公司來源／草稿；Apify Google Maps Scraper／Gmail／Routines | [官方展示／署名作者自報＋繁中作者實測自述（寄出14封、回覆未公開）；未獨立重現](cases/017-prospect-research-drafts.md) | 工作｜業務開發、草稿 |
 | UC-018 | 正式展示前，先檢查示範環境能不能跑 | Grok Bot／授權測試環境 | [官方展示／署名作者自報；未獨立重現](cases/018-demo-readiness.md) | 工作｜展示、驗收 |
 | UC-019 | 把剛談到的客戶需求，變成下一版簡報 | Grok Bot／Granola／Figma | [官方展示／署名作者自報；未獨立重現](cases/019-call-to-customer-deck.md) | 工作｜簡報、會議 |
@@ -481,7 +481,7 @@
 | UC-442 | 團購意向不當授權份數，成團後核准同版沙盒結算 | Grok Bot／Gemini／PayPal Sandbox | [B作者沙盒實作；未重現](cases/442-group-buy-authorized-quorum-settlement-plan.md) | 開發｜團購、狀態機、核准、冪等 |
 | UC-443 | 科學模型評估先綁定訓練權重與前處理，再解讀誤差改善 | Grok Bot／Python／Jupyter | [B作者研究實作；未重現](cases/443-training-evaluation-preprocessor-pairing-audit.md) | 學習｜科研、模型評估、前處理、驗收 |
 | UC-444 | 新版本完成後找回原功能提問者，逐筆核准通知 | Grok Bot | [B作者使用自述；未重現](cases/444-feature-request-release-notification-loop.md) | 工作｜產品回饋、版本更新、需求追蹤、人工核准 |
-| UC-445 | 外聯實驗先鎖商業目標，再比較每日版本結果 | Grok Bot／Grok Build／Clay | [B具名操作者訪談；原始分組未公開、未重現](cases/445-campaign-experiment-goal-guard.md) | 工作｜每日、實驗、目標約束、成效核對 |
+| UC-445 | 外聯實驗先鎖商業目標，再比較每日版本結果 | Grok Bot／Grok Build／Clay | [B具名操作者訪談（經 Clay 轉述）；原始分組未公開、未重現](cases/445-campaign-experiment-goal-guard.md) | 工作｜每日、實驗、目標約束、成效核對 |
 | UC-446 | 從公開業配貼文反查品牌合作計畫，整理證據追蹤表與待批提案 | Grok Bot | [作者自述實測；名單未公開、未重現](cases/446-creator-sponsor-program-tracker.md) | 工作｜創作者、贊助、追蹤表、人工核准 |
 | UC-447 | 依睡眠資料與身體時鐘安排時差照光、睡眠與咖啡提醒 | Grok Bot | [待驗證：作者已設定，首次實測12月](cases/447-jet-lag-light-sleep-coach.md) | 生活｜旅遊、睡眠、穿戴裝置、每日 |
 | UC-448 | 只限Access權限的連接，讓Bot確認並修改Cloudflare存取名單 | Grok Bot／Cloudflare | [作者自述使用；無設定紀錄、未重現](cases/448-scoped-cloudflare-access-policy-bot.md) | 開發｜權限、雲端設定、最小權限 |

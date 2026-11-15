@@ -1,0 +1,9 @@
+Independent review: SourceTrustReview (separate task context, not the implementer)
+
+Initial review: P2 — QA record absent from the supplied tracked diff. Withdrawn after checking the worktree: docs/qa/2026-11-16-source-trust/ is untracked in `git status` and was already selected in the pending selective commit draft; the SITE.md link resolves.
+
+Second review: P3 — link-verification.txt did not list the four additional Fairsolid replacement URLs named by the QA record. Fixed by re-running the checks and adding all five pipelines/fairsolid/ URLs (all 200).
+
+Final confirmation: "Rechecked link-verification.txt: it now lists the migration note and all five Fairsolid replacement URLs, each with HTTP 200. The P3 evidence-log finding is resolved; no findings remain."
+
+Focused provenance tests: 9/9. Full suite: 851/851. Published-surface check: PASS (834 files, 5.87 MiB, 9 exclusions). Browser acceptance was not rerun by the reviewer; the main agent's preview log and screenshots are in this directory.

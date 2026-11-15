@@ -39,6 +39,6 @@
 
 - [Plex 搬移媒體說明](https://support.plex.tv/articles/201154537-move-media-content-to-a-new-location/)建議搬移時停用自動清空垃圾、先複製，確認新位置內容後才移除舊路徑。這是產品操作說明，不是上述 Bot 已遵守的證據；本庫未改任何設定。
 - [掃描與更新中繼資料的差異](https://support.plex.tv/articles/200289306-scanning-vs-refreshing-a-library/)：改名或搬移後需掃描；刷新 metadata 是另一種操作，不能用成功刷新當作檔案完整性驗收。
-- [Plex 論壇 yawma 的另一套流程](https://forums.plex.tv/t/grok-bot-management-of-plex/944415)搜尋索引可讀其雙伺服器備份、比對和通知自述，直接頁面讀取失敗。本頁不把其架構接到 Reddit 作者身上，也不採用其費用或成功宣稱。
+- [Plex 論壇 yawma 的另一套流程](https://forums.plex.tv/t/grok-bot-management-of-plex/944415)搜尋索引可讀其雙伺服器備份、比對和通知自述，直接頁面讀取失敗；**2026-11-16 再查回 404（頁面不存在或非公開）**。本頁不把其架構接到 Reddit 作者身上，也不採用其費用或成功宣稱。
 
 官方文件本次由搜尋索引核對，直接開頁回傳 403；內容為一般 Plex 行為，不能證明 Grok Bot 的整套整合已受官方支援。

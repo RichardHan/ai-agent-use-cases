@@ -5,7 +5,7 @@
 - 情境：工作
 - 標籤：每日、實驗、目標約束、成效核對
 - 工具：Grok Bot routines／Grok Build CLI／Clay workflows
-- 證據狀態：B，具名操作者訪談自述，非本庫獨立重現；原始分組與成效資料未公開。
+- 證據狀態：B，`author-demo`（Eric Nowoslawski 的使用經驗，經 Clay 訪談轉述整理；原始分組與成效資料未公開），非本庫獨立重現。
 - 查證日期：2026-10-23 17:33–17:36 Asia/Taipei。
 
 ## 原作者實作與限制

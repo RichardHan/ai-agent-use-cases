@@ -1,0 +1,20 @@
+# 2026-11-16 link checks (curl -L, max-time 20)
+404 https://x.ai/bot/71JkQeCeWX8UiZp0el9Jl
+200 https://web.archive.org/web/20261015122958/https://x.ai/bot/71JkQeCeWX8UiZp0el9Jl
+404 https://note.com/ai_no_ai95/n/n2022fcde177b
+404 https://note.com/marikkadayo/n/n933e0144cf01
+404 https://qiita.com/oosawak@github/items/a0eba6657eaa53827e41
+200 https://oosawak.github.io/tech/#/post/tech/doko-de-ugokasu
+404 https://github.com/oosawak/markdown-cms
+200 https://github.com/oosawak/markdown-cms-oss
+404 https://github.com/Heyvhuang/werewolf-gamemaster/tree/2f18703f30815a295d52f6c09812a076e8354329
+404 https://github.com/living-relation/fairsolid/blob/d9e17517da580bca3c1df93b73418bfa4741c30e/README.md
+200 https://github.com/living-relation/handbuilt-cad/blob/main/docs/FAIRSOLID.md
+200 https://github.com/living-relation/handbuilt-cad/blob/main/pipelines/fairsolid/README.md
+200 https://github.com/living-relation/handbuilt-cad/blob/main/pipelines/fairsolid/docs/SURFACE_FIT_PLAN.md
+200 https://github.com/living-relation/handbuilt-cad/blob/main/pipelines/fairsolid/docs/AI_METHODS_REPORT.md
+200 https://github.com/living-relation/handbuilt-cad/blob/main/pipelines/fairsolid/tests/test_pipeline.py
+200 https://github.com/living-relation/handbuilt-cad/blob/main/pipelines/fairsolid/tests/test_refscan.py
+404 https://forums.plex.tv/t/grok-bot-management-of-plex/944415
+404 https://github.com/tomoyk/failure-reports
+404 https://github.com/AidaShika/anapay-moneyforward-skill

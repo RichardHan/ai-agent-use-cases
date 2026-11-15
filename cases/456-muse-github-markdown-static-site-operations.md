@@ -7,7 +7,7 @@
 - 核心目標：把網站公開端「不跑任何程式」，降低外掛與伺服器漏洞的攻擊面，同時讓不懂 Git 的人也能用自然語言維護內容。
 - 分類／標籤：網站維護／內容發布／代理協作
 - 目標使用者：只需公告、文章、介紹頁的小店、社區、個人作品站維護者
-- 工具：Meta Muse／GitHub（倉庫、Actions、Pages）／作者的 [oosawak/markdown-cms](https://github.com/oosawak/markdown-cms)（MIT）；Facebook（作者自述貼文轉文章的入口）
+- 工具：Meta Muse／GitHub（倉庫、Actions、Pages）／作者的 [oosawak/markdown-cms-oss](https://github.com/oosawak/markdown-cms-oss)（MIT，原倉庫的 OSS 最終版）；Facebook（作者自述貼文轉文章的入口）
 - 首次收錄／最近查證：2026-10-26 08:52（台灣時間）
 - 證據狀態：`author-demo`（作者自述＋公開示範站與公開倉庫）；部分入口標明是構想；本頁提示詞為 `designed`
 - 是否獨立重現：否
@@ -21,7 +21,7 @@
 
 ### 來源A：oosawak（Qiita，日文；同文完整版在作者部落格）
 
-- 原文：[WordPressでも、EmDashでもない ― Muse × GitHub × Markdown CMS という第三の選択肢](https://qiita.com/oosawak@github/items/a0eba6657eaa53827e41)，2026-10-26 01:22 JST（台灣時間 00:22），本輪以 Qiita API 讀全文；[作者部落格版](https://oosawak.github.io/tech/#/post/tech/doko-de-ugokasu)未另讀。
+- 原文：[WordPressでも、EmDashでもない ― Muse × GitHub × Markdown CMS という第三の選択肢](https://qiita.com/oosawak@github/items/a0eba6657eaa53827e41)，2026-10-26 01:22 JST（台灣時間 00:22），本輪以 Qiita API 讀全文。**2026-11-16 檢查：Qiita 原文回 404，已無法重讀；**[作者部落格版](https://oosawak.github.io/tech/#/post/tech/doko-de-ugokasu) 同日實開可讀（網站預設英文，內容與本文摘要相符），但非 Qiita 原文的逐字備份。
 - 原文語言：日文。
 - 取得內容（翻譯摘要）：
   - 架構：文章寫成 Markdown，GitHub 保存正本；push 後自動建置，把 Markdown 轉成 JSON 再組成靜態 HTML，以 GitHub Pages 公開，公開端不執行程式、沒有外掛。
@@ -30,7 +30,7 @@
   - 作者標為「構想／設計中」：Google Drive 放文字檔即更新、瀏覽器工作區入口、Google 表單收留言再人工核准顯示、Stripe 結帳。
   - 公開示範站：町網站、麵包店、水果店、山形美食、小說站、統合入口「まちのつながり」、食譜集等（看起來多為示範用店家／社區站，是否為真實商家未核）。
 - 作者自列限制：無法自行做共享寫入（留言、會員制）、無法保護內容祕密（靜態檔知道網址就能取得）、無法做需信任仲裁的事（付款確認、庫存、防重複預約）；依賴 GitHub、AI 使用費、使用者要會描述需求。
-- 本庫核對：倉庫 `oosawak/markdown-cms` 公開、MIT，建立於 2026-10-25 11:15（台灣時間）；README 有 Pages 設定步驟，但未寫 Muse 的連接或權限做法。**Muse 如何取得 GitHub 寫入權、是否每次提交前經人確認，來源未說明。**
+- 本庫核對：原倉庫 `oosawak/markdown-cms` 當時公開、MIT，建立於 2026-10-25 11:15（台灣時間）；2026-11-16 檢查舊網址回 404，作者已將同一專案以 [oosawak/markdown-cms-oss](https://github.com/oosawak/markdown-cms-oss) 重新公開，README 標明這是「GitHub 向けの最終版」，之後不再新增功能或修正。新倉庫 README 仍有 Pages 設定步驟，但未寫 Muse 的連接或權限做法。**Muse 如何取得 GitHub 寫入權、是否每次提交前經人確認，來源未說明。**
 
 ## 建議操作流程（本庫依來源整理＋自行設計，未實測）
 

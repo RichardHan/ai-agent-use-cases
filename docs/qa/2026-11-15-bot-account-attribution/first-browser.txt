@@ -1,0 +1,22 @@
+PASS MOBILE SEARCH: 760/761px disclosure follows result visibility
+MOBILE_SEARCH_RESULTS mobile-search [{"viewport":"desktop","readyMs":634,"searchTop":174,"searchFromHeading":149,"firstResultFromSearch":291,"firstResultTop":465,"arrivalTitleFromSearch":335,"axeScans":2,"axeViolations":0,"passed":true},{"viewport":"mobile","readyMs":604,"searchTop":176,"searchFromHeading":153,"firstResultFromSearch":252,"firstResultTop":429,"arrivalTitleFromSearch":446,"axeScans":2,"axeViolations":0,"passed":true},{"viewport":"small-mobile","readyMs":610,"searchTop":177,"searchFromHeading":153,"firstResultFromSearch":248,"firstResultTop":425,"arrivalTitleFromSearch":464,"axeScans":2,"axeViolations":0,"passed":true}]
+PASS CARD TOOLS: 1440px, complete lists in results/draw, wrapping, filter changes and keyboard return
+PASS CARD TOOLS: 390px, complete lists in results/draw, wrapping, filter changes and keyboard return
+PASS CARD TOOLS: 320px, complete lists in results/draw, wrapping, filter changes and keyboard return
+PASS CURSOR CONTEXT: 1440px, problem discovery, honest zero/recovery, keyboard, shared detail/reload/source/return, literal search and real product
+PASS CURSOR CONTEXT: 390px, problem discovery, honest zero/recovery, keyboard, shared detail/reload/source/return, literal search and real product
+PASS CURSOR CONTEXT: 320px, problem discovery, honest zero/recovery, keyboard, shared detail/reload/source/return, literal search and real product
+locator.waitFor: Error: strict mode violation: locator('#results .card').filter({ hasText: 'UC-383' }) resolved to 3 elements:
+    1) <article class="card" data-kind="case" data-proof="作者報告／示範" data-case-id="UC-383">…</article> aka getByText('UC-383 · Grok Bot / GitHub開發進階開發需代碼/環境用法靈感網站部署成功，但背景檢查一直紅燈？讓 Bot')
+    2) <article class="card" data-kind="case" data-proof="作者報告／示範" data-case-id="UC-390">…</article> aka getByText('UC-390 · Grok Bot / Cursor / GitHub開發進階開發需代碼/環境用法靈感讓工單系統每天派一張「有沒有新模型」的工，Bot')
+    3) <article class="card" data-kind="case" data-proof="作者報告／示範" data-case-id="UC-512">…</article> aka locator('#results').getByText('UC-512 · Grok Bot / GitHub開發進階開發需代碼/環境用法靈感腳本測試只證明已知的事？讓 Grok Bot')
+
+Call log:
+  - waiting for locator('#results .card').filter({ hasText: 'UC-383' }) to be visible
+
+    at module.exports (/private/tmp/ai-cases-publication-20261115/tests/bot-account-browser.cjs:23:20)
+    at async /private/tmp/ai-cases-publication-20261115/tests/discovery-browser.cjs:13:2 {
+  log: [
+    "  - waiting for locator('#results .card').filter({ hasText: 'UC-383' }) to be visible"
+  ]
+}

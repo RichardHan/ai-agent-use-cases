@@ -1,0 +1,15 @@
+{
+  "baselineRevision": "b52c51b1065fdf1bcb41f375cdfdeb728bed44e6",
+  "method": "Main agent browser tool; actual page controls and DOM observations",
+  "productionBefore": {
+    "desktop": {"viewport": [1440, 1000], "homeProblemLink": "收件匣與郵件", "results": "顯示 164 / 529 筆收錄", "falsePositiveQuery": "?q=UC-383&scope=topic&tool=Cursor#explore", "card": "UC-383 · Grok Bot / Cursor / GitHub"},
+    "mobile": {"viewport": [390, 844], "emptyQuery": "zz-no-case-383", "retainedTool": "Cursor", "recovery": "郵件摘要 · 搜尋「郵件」", "recoveredResults": "顯示 4 / 529 筆收錄"},
+    "source": {"url": "https://github.com/RichardHan/ai-agent-use-cases/blob/b52c51b1065fdf1bcb41f375cdfdeb728bed44e6/cases/383-external-qa-ci-failure-issue-handoff.md", "opened": true, "bodyContainsOriginalBotAccount": true}
+  },
+  "previewAfter": {
+    "desktop": {"viewport": [1440, 900], "card": "UC-383 · Grok Bot / GitHub"},
+    "mobile": {"viewport": [390, 844], "oldCombinationResults": "顯示 0 / 529 筆收錄", "clearFacetsPreservedQuery": "UC-383", "scopeReselected": "topic", "detailEscapeRestoresTriggerFocus": true, "horizontalOverflow": false},
+    "problemDiscovery": {"query": "外部 QA", "results": "顯示 264 / 529 筆收錄", "openedCase": "UC-383", "sharedDetailReload": true, "closePreservedQuery": "外部 QA"}
+  },
+  "limits": ["Image input disabled; no pixel-by-pixel visual review claimed", "No real-device or screen-reader listening test", "Literal task search is broad and is not semantic relevance validation"]
+}

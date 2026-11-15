@@ -1,0 +1,72 @@
+✔ a tool listed on a card is mentioned by the page itself, not only by a source address (335.636709ms)
+✔ a source address alone does not produce a tool, a sentence about the tool does (5.1655ms)
+✔ cases whose only GitHub contact is a link to their own research repository (53.768166ms)
+✔ disclaimers, deduplication contrasts, and relative case links do not produce tool tags (3.754125ms)
+✔ missing counterpart trials do not attribute tools, while failed and unverified uses remain discoverable (4.996125ms)
+✔ an affirmed use sharing a clause with a missing comparison trial stays discoverable (5.44225ms)
+✔ UC-040 exposes its dots trial, not the explicitly absent Grok Bot and Muse trials (5.034292ms)
+✔ pagination cursor state is not the Cursor product (8.336958ms)
+✔ cursor product mentions survive casing, failures and nearby pagination state (178.58075ms)
+✖ bot account names do not establish product attribution (4.493083ms)
+✖ UC-383 retains its QA tools without attributing the author account to Cursor (36.598292ms)
+✔ corpus cases with scope disclaimers or deduplication links list only tools actually used (161.094458ms)
+✔ the 提及工具 facet still explains what it counts and excludes disclaimers (1.149625ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 11
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 865.036958
+
+✖ failing tests:
+
+test at tests/tool-mention-fidelity.test.cjs:169:1
+✖ bot account names do not establish product attribution (4.493083ms)
+  AssertionError [ERR_ASSERTION]: 問題單由 cursor[bot] 發布。
+  + actual - expected
+  
+    [
+      'Grok Bot',
+  +   'Cursor'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/ai-cases-publication-20261115/tests/tool-mention-fidelity.test.cjs:178:12)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Grok Bot', 'Cursor' ],
+    expected: [ 'Grok Bot' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/tool-mention-fidelity.test.cjs:184:1
+✖ UC-383 retains its QA tools without attributing the author account to Cursor (36.598292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'Grok Bot',
+  +   'Cursor',
+      'GitHub'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/ai-cases-publication-20261115/tests/tool-mention-fidelity.test.cjs:191:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Grok Bot', 'Cursor', 'GitHub' ],
+    expected: [ 'Grok Bot', 'GitHub' ],
+    operator: 'deepStrictEqual'
+  }

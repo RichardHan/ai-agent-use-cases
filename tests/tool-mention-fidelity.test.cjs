@@ -166,6 +166,33 @@ test('cursor product mentions survive casing, failures and nearby pagination sta
   }
 });
 
+test('bot account names do not establish product attribution', () => {
+  const api = load();
+  const lead = '# UC-904：外部 QA\n\n- 工具：Grok Bot\n\n';
+  for (const text of [
+    '問題單由 cursor[bot] 發布。',
+    '作者：`cursor[bot]`。',
+    '來源作者：[cursor[bot]](https://github.com/apps/cursor)。',
+    '問題單由 github-actions[bot] 發布。'
+  ]) {
+    assert.deepEqual(Array.from([...api.parseFile('cases/904-test.md', lead + text)][0].tools), ['Grok Bot'], text);
+  }
+  const affirmed = lead + 'cursor[bot] 發布紀錄，作者另外明示使用 cursor 開發。';
+  assert.deepEqual(Array.from([...api.parseFile('cases/904-test.md', affirmed)][0].tools), ['Grok Bot', 'Cursor']);
+});
+
+test('UC-383 retains its QA tools without attributing the author account to Cursor', () => {
+  const api = load();
+  const pages = corpus();
+  const entry = id => {
+    const page = pages.find(item => path.basename(item.file).startsWith(id + '-'));
+    return [...api.parseFile(page.file, page.markdown)][0];
+  };
+  assert.deepEqual(Array.from(entry('383').tools), ['Grok Bot', 'GitHub']);
+  assert.match(entry('383').markdown, /cursor\[bot\]/);
+  assert.ok(entry('158').tools.includes('Cursor'), 'an explicit Cursor product mention remains discoverable');
+});
+
 test('corpus cases with scope disclaimers or deduplication links list only tools actually used', () => {
   const api = load();
   const pages = corpus();

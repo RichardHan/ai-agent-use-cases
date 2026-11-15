@@ -1,3 +1,9 @@
+## 2026-11-15 機器人帳號不冒充工具使用證據
+
+正式站 UC-383 因作者 `cursor[bot]` 被列入 Cursor 篩選，但案例流程明示為 Grok Bot。本輪工具正規化只排除完整 bot 帳號，保留同句另外明示的產品，原文與全文搜尋不改。529 條目只有 UC-383 工具與依賴它的搜尋欄位改變；UC-158 的明示 Cursor 保留。回歸先紅後綠、全套 770 通過，三尺寸訪客流程與獨立審查、前後截圖及發布狀態見[本輪 QA](docs/qa/2026-11-15-bot-account-attribution/README.md)。不新增 workflow 或依賴，不把目前成功的 CI 當成仍有歷史故障。
+
+下一輪：先用僅改 templates／audit-summary 的 fixture 驗證 exact／superseded 發布比對的覆蓋，再核對 INDEX／README 的 Jekyll 路徑；目前只是具體候選，不冒稱已重現發布故障。
+
 ## 2026-11-15 分頁 cursor 不冒充 Cursor 產品
 
 正式站 UC-227 的收藏整理案例因續跑游標被列為 Cursor。固定來源批次程序證實 cursor 是分頁進度，本輪排除明示資料游標詞組並讓既有去重排除涵蓋行內紀錄；保留原文、全文搜尋與實作門檻推測。529 條目只有 UC-227 工具陣列改變。新增真實案例與正反語境回歸、三尺寸搜尋／空結果復原／分享直鏈／來源與返回驗收，沿用 discovery CI 入口，不另增 workflow。[方案、前後截圖、驗收、獨立審查與發布接續](docs/qa/2026-11-15-cursor-context/README.md)。

@@ -10,6 +10,7 @@ const origin='http://127.0.0.1:8081/ai-agent-use-cases/';
  await require('./mobile-search-browser.cjs')({browser,origin});
  await require('./card-tools-browser.cjs')({browser,origin});
  await require('./cursor-context-browser.cjs')({browser,origin});
+ await require('./bot-account-browser.cjs')({browser,origin});
  const audits=[];
  for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844],['small-mobile',320,740]]){
   const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});

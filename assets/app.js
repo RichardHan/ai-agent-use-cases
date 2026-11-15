@@ -270,11 +270,15 @@ function isAbsentToolTrial(clause){
 // noun occurrence, not its clause: a real Cursor use can sit beside it.
 const DATA_CURSOR_PREFIX=/((?:分頁|持久狀態與|\bpagination)\s*)\bcursor\b(?!\s+(?:Cloud|Agent|CLI|IDE)\b)/gi;
 const DATA_CURSOR_STATE=/\bcursor\b(?=\s*(?:重同步|遺失)(?:\s*[、，,。；;\n]|$))/g;
+// GitHub bot logins identify an author, not the product used by the workflow.
+// Strip the login only; an explicit product mention elsewhere still counts.
+const BOT_ACCOUNT=/\b[a-z0-9-]+\[bot\]/gi;
 function withoutDisclaimedTools(text){
   return withoutSourceUrls(text||'')
     .replace(RELATIVE_LINK_DESTINATION,' ] ')
     .replace(DEDUP_SECTION,'\n')
     .replace(CROSS_CASE_LINE,'\n')
+    .replace(BOT_ACCOUNT,' ')
     .replace(DATA_CURSOR_PREFIX,'$1')
     .replace(DATA_CURSOR_STATE,' ')
     .split(/[，,。；;\n]/)

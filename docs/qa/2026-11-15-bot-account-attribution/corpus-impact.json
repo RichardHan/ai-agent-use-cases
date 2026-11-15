@@ -1,0 +1,26 @@
+{
+  "total": 529,
+  "changes": [
+    {
+      "id": "UC-383",
+      "before": [
+        "Grok Bot",
+        "Cursor",
+        "GitHub"
+      ],
+      "after": [
+        "Grok Bot",
+        "GitHub"
+      ],
+      "changedFields": [
+        "tools",
+        "search",
+        "searchProse",
+        "searchBody",
+        "searchProseBody"
+      ]
+    }
+  ],
+  "rawMarkdownAndDifficultyUnchanged": true,
+  "note": "Derived search strings include tool metadata and change with it; original prose remains searchable."
+}

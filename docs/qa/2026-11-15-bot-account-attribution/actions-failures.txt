@@ -1,0 +1,82 @@
+Run https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43634859717
+0_browser.txt
+2026-11-14T20:07:57.6749726Z ]
+2026-11-14T20:08:02.3880915Z EMPTY_WORD_RECOVERY [{"viewport":"desktop","wordCount":12,"steps":[{"query":"機票","text":"原問題包含「機票」 → 搜尋 12 筆"},{"query":"價格","text":"原問題包含「價格」 → 搜尋 106 筆"},{"query":"想讓 ai 機票 比價","text":"只移除關鍵字「盯」 → 查看 1 筆"}]},{"viewport":"mobile","wordCount":12,"steps":[{"query":"機票","text":"原問題包含「機票」 → 搜尋 12 筆"},{"query":"價格","text":"原問題包含「價格」 → 搜尋 106 筆"},{"query":"想讓 ai 機票 比價","text":"只移除關鍵字「盯」 → 查看 1 筆"}]}]
+2026-11-14T20:08:10.3636225Z AssertionError [ERR_ASSERTION]: phone: the entry waits while the search field is on screen
+2026-11-14T20:08:10.3636909Z 
+2026-11-14T20:08:10.3637007Z false !== true
+2026-11-14T20:08:10.3637143Z 
+2026-11-14T20:08:10.3637477Z     at /__w/ai-agent-use-cases/ai-agent-use-cases/tests/refine-from-results-browser.cjs:96:14 {
+2026-11-14T20:08:10.3637975Z   generatedMessage: false,
+2026-11-14T20:08:10.3638217Z   code: 'ERR_ASSERTION',
+2026-11-14T20:08:10.3638440Z   actual: false,
+2026-11-14T20:08:10.3638642Z   expected: true,
+2026-11-14T20:08:10.3639765Z   operator: 'strictEqual',
+2026-11-14T20:08:10.3640003Z   diff: 'simple'
+2026-11-14T20:08:10.3640198Z }
+2026-11-14T20:08:10.3790226Z ##[error]Process completed with exit code 1.
+2026-11-14T20:08:10.3862419Z ##[group]Run actions/upload-artifact@v4
+2026-11-14T20:08:10.3862628Z with:
+2026-11-14T20:08:10.3862831Z   name: website-qa-2138f4d49b0c8645d145f0d23549c4ffc75121c5
+2026-11-14T20:08:10.3863081Z   path: qa-artifacts/
+2026-11-14T20:08:10.3863245Z   retention-days: 14
+2026-11-14T20:08:10.3863412Z   if-no-files-found: warn
+2026-11-14T20:08:10.3863603Z   compression-level: 6
+Run https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43659142842
+0_reading.txt
+2026-11-15T00:38:36.0474439Z   ...
+2026-11-15T00:38:36.0474880Z # Subtest: all 520 cases in corpus have 方法與步驟 shortcut and at least one copyable section
+2026-11-15T00:38:36.0475319Z not ok 323 - all 520 cases in corpus have 方法與步驟 shortcut and at least one copyable section
+2026-11-15T00:38:36.0475406Z   ---
+2026-11-15T00:38:36.0475499Z   duration_ms: 2.06636
+2026-11-15T00:38:36.0475592Z   type: 'test'
+2026-11-15T00:38:36.0476082Z   location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/method-and-prompt-alignment.test.cjs:26:1'
+2026-11-15T00:38:36.0476221Z   failureType: 'testCodeFailure'
+2026-11-15T00:38:36.0476350Z   error: |-
+2026-11-15T00:38:36.0476482Z     Corpus must have 520 cases
+2026-11-15T00:38:36.0476562Z     
+2026-11-15T00:38:36.0476662Z     522 !== 520
+2026-11-15T00:38:36.0476743Z     
+2026-11-15T00:38:36.0476848Z   code: 'ERR_ASSERTION'
+2026-11-15T00:38:36.0476959Z   name: 'AssertionError'
+2026-11-15T00:38:36.0477048Z   expected: 520
+2026-11-15T00:38:36.0477143Z   actual: 522
+2026-11-15T00:38:36.0477255Z   operator: 'strictEqual'
+2026-11-15T00:38:36.0477340Z   stack: |-
+2026-11-15T00:38:36.0477911Z     TestContext.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/method-and-prompt-alignment.test.cjs:29:10)
+2026-11-15T00:38:36.0478089Z     Test.runInAsyncScope (node:async_hooks:214:14)
+2026-11-15T00:38:36.0478271Z     Test.run (node:internal/test_runner/test:1047:25)
+2026-11-15T00:38:36.0478546Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+2026-11-15T00:38:36.0478738Z     Test.postRun (node:internal/test_runner/test:1173:19)
+2026-11-15T00:38:36.0478921Z     Test.run (node:internal/test_runner/test:1101:12)
+2026-11-15T00:38:36.0479206Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-11-15T00:38:36.0479431Z   ...
+2026-11-15T00:38:36.0479777Z # Subtest: method shortcut preserves the full untested heading and original index
+2026-11-15T00:38:36.0578187Z   ...
+2026-11-15T00:38:36.0578767Z # Subtest: all 524 library markdown files provide copy actions for prompt/command headings and exclude source/supplement headings
+2026-11-15T00:38:36.0579346Z not ok 397 - all 524 library markdown files provide copy actions for prompt/command headings and exclude source/supplement headings
+2026-11-15T00:38:36.0579424Z   ---
+2026-11-15T00:38:36.0579517Z   duration_ms: 4.201019
+2026-11-15T00:38:36.0579608Z   type: 'test'
+2026-11-15T00:38:36.0579960Z   location: '/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/prompt-copy.test.cjs:64:1'
+2026-11-15T00:38:36.0580091Z   failureType: 'testCodeFailure'
+2026-11-15T00:38:36.0580177Z   error: |-
+2026-11-15T00:38:36.0580316Z     Expected values to be strictly equal:
+2026-11-15T00:38:36.0580398Z     
+2026-11-15T00:38:36.0580477Z     526 !== 524
+2026-11-15T00:38:36.0580560Z     
+2026-11-15T00:38:36.0580662Z   code: 'ERR_ASSERTION'
+2026-11-15T00:38:36.0580755Z   name: 'AssertionError'
+2026-11-15T00:38:36.0580849Z   expected: 524
+2026-11-15T00:38:36.0580935Z   actual: 526
+2026-11-15T00:38:36.0581029Z   operator: 'strictEqual'
+2026-11-15T00:38:36.0581116Z   stack: |-
+2026-11-15T00:38:36.0581515Z     TestContext.<anonymous> (/home/runner/work/ai-agent-use-cases/ai-agent-use-cases/tests/prompt-copy.test.cjs:75:9)
+2026-11-15T00:38:36.0581686Z     Test.runInAsyncScope (node:async_hooks:214:14)
+2026-11-15T00:38:36.0581851Z     Test.run (node:internal/test_runner/test:1047:25)
+2026-11-15T00:38:36.0582079Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+2026-11-15T00:38:36.0582258Z     Test.postRun (node:internal/test_runner/test:1173:19)
+2026-11-15T00:38:36.0582420Z     Test.run (node:internal/test_runner/test:1101:12)
+2026-11-15T00:38:36.0582833Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-11-15T00:38:36.0582934Z   ...
+2026-11-15T00:38:36.0583331Z # Subtest: an unfinished Pages run is not a verdict, and a rerun supersedes an earlier failure

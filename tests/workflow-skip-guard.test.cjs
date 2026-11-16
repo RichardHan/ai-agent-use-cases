@@ -4,7 +4,7 @@
 // The observed case was `website-qa.yml`'s `Verify the updated site in Chromium`
 // step: its `if: hashFiles('tests/discovery-browser.cjs') != ''` guard skipped
 // ~33 browser journeys whenever that file was renamed or deleted, and nothing in
-// `tests/` mentioned the guard. Ten such guards existed across six workflows,
+// `tests/` mentioned the guard. Ten such guards existed across seven workflows,
 // several keyed on a unit test while the step actually ran browser suites.
 //
 // Two properties keep the gate honest:

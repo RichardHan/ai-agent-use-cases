@@ -1,0 +1,22 @@
+FAIL: fallback reading has 293 problem(s) across 297 rendered pages
+- sources/2026-10-22-1510-multiplatform-research.html: missing the source-page fallback navigation
+- sources/forum-research-2026-10-13.html: missing the source-page fallback navigation
+- sources/index.html: missing the source-page fallback navigation
+- sources/launch-coverage-2026-10-13.html: missing the source-page fallback navigation
+- sources/qualification-audit-2026-10-16.html: missing the source-page fallback navigation
+- sources/research-2026-10-14-13.html: missing the source-page fallback navigation
+- sources/research-2026-10-14-14.html: missing the source-page fallback navigation
+- sources/research-2026-10-14-15.html: missing the source-page fallback navigation
+- sources/research-2026-10-14-17.html: missing the source-page fallback navigation
+- sources/research-2026-10-14-18.html: missing the source-page fallback navigation
+- sources/research-2026-10-14-19.html: missing the source-page fallback navigation
+- sources/research-2026-10-16-2042.html: missing the source-page fallback navigation
+- sources/research-2026-10-17-0844.html: missing the source-page fallback navigation
+- sources/research-2026-10-17-1142.html: missing the source-page fallback navigation
+- sources/research-2026-10-17-1207.html: missing the source-page fallback navigation
+- sources/research-2026-10-17-1310.html: missing the source-page fallback navigation
+- sources/research-2026-10-17-1410.html: missing the source-page fallback navigation
+- sources/research-2026-10-17-1443.html: missing the source-page fallback navigation
+- sources/research-2026-10-17-1458.html: missing the source-page fallback navigation
+- sources/research-2026-10-17-1600.html: missing the source-page fallback navigation
+- … 273 more

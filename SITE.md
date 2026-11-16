@@ -4,7 +4,7 @@
 
 本輪新增 `narrowestScopeTerm()`：選最窄的正向集合、排除單字中文碎詞，同筆數時取較長詞與原句順序；篩選把每個詞都排除時仍從 library 計數挑最窄詞。點擊行為、同義詞與排序不動。修正後「隱私審查」→「隱私」9、「會議紀錄」句→「會議」14，按鈕筆數與點擊後畫面一致；新增 7 項單元與桌面／手機瀏覽器回歸。
 
-交付：[PR #446](https://github.com/RichardHan/ai-agent-use-cases/pull/446)，head `0679fab3`；18 項 PR checks pass（Website QA [43833878299](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43833878299)，896 tests），合併 `76b04cd6`。GitHub 合併 API 回 502 後 main 已含合併 commit，但 PR 狀態停在 OPEN 且該 SHA 沒有 push 觸發的 run；後續 docs-only push 會補上 Pages 與正式站核對，交付版本以 `assets/app.js` 的 sha256 對照 `76b04cd6`。
+交付：[PR #446](https://github.com/RichardHan/ai-agent-use-cases/pull/446)，head `0679fab3`；18 項 PR checks pass（Website QA [43833878299](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43833878299)，896 tests），合併 `76b04cd6`。GitHub 合併 API 第一次回 502、PR 一度停在 OPEN 且該 SHA 沒有 push 觸發的 run；PR 於 09:10 UTC 自行轉為 MERGED，後續 docs／#447 合併觸發 Pages [43837299861](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43837299861) success，正式站 `sourceRevision` 為 `b266e6f1`，`assets/app.js` sha256 與 `76b04cd6` 逐位元相同。
 
 下一輪：先量空結果面板在 390px 一次列出 55 個任務按鈕的影響（目前約 497px、55 個焦點停點），再決定是否沿用首頁「先顯示 9 項＋展開」的模式；同時把 `source-guide-qa.yml` 的 75 分鐘 `published` job 納入 60＋20 分鐘的等待上限守則。
 

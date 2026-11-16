@@ -95,7 +95,12 @@ README 用具體筆數說明搜尋行為，但那些數字是語料快照，沒�
 
 ## 發布與正式站核對
 
-- 待合併後補記 PR、checks、Pages、正式站 `sourceRevision` 與 `README.md` 位元比對。
+- PR [#435](https://github.com/RichardHan/ai-agent-use-cases/pull/435)，head `8bbae3ed0a`、base `2a842347`；合併前 `mergeStateStatus` CLEAN、`mergeable` MERGEABLE。PR checks：Website QA [43804908683](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43804908683) success（871 tests）、Corpus bundle QA [43804908750](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43804908750) success；2 項 published 依 PR 規則 skipped。
+- 2026-11-16T04:50:32Z 正常 merge，合併版本 `a7fe59909cb5523d02870533b23e39a37813f8f3`。
+- [Pages 43806489563](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43806489563) success；正式站 `catalog.json.sourceRevision` 精確等於 `a7fe5990…`。`README.md` SHA-256 `683786c8…` 與合併版逐位元相同；`index.html` `aee4eac3…` 與合併前相同，證實本輪沒有產品 UI 變更。
+- 主線 [Website QA 43806490369](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43806490369) success：871 tests／871 pass、Jekyll build、fallback 529 頁、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH a7fe5990…`、`PUBLICATION_MODE: exact`、`PUBLISHED_LIVE_BUILD_CURRENT a7fe5990…`、`PASS LIVE` ×2。
+- 正式站 `tests/deployed-browser.cjs`（`GITHUB_SHA=a7fe5990…`）exit 0：桌面／手機三情境、空結果復原、直鏈重整、停用 JS 索引退路通過；axe 0 違規（只代表這兩個狀態）。
+- 限制：README 是 Markdown 文件頁，沒有 SPA 視覺變更；未逐像素目視、未做真人研究。後續 docs-only 追補會讓 `sourceRevision` 前進到沒有產品位元變更的 commit；以 `README.md`／`index.html` 位元比對區分。
 
 ## 已知限制
 

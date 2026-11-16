@@ -1,0 +1,142 @@
+✔ the pull-request workflows were actually parsed (1.41925ms)
+✖ editing a suite starts a pull request workflow that runs it (3.231833ms)
+✔ editing the site or any part of the corpus starts a browser workflow that asserts it (23.873541ms)
+✔ no workflow turns a failing unit run into a green step (6.259125ms)
+✔ only Website QA runs the whole unit suite from a pull request (1.05425ms)
+✖ the single unit-suite runner starts for every path the other pull-request workflows cover (2.236666ms)
+✔ a workflow edit runs the job that audits every workflow (0.408125ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 126.716292
+
+✖ failing tests:
+
+test at tests/pr-gate-coverage.test.cjs:123:1
+✖ editing a suite starts a pull request workflow that runs it (3.231833ms)
+  AssertionError [ERR_ASSERTION]: editing one of these suites would start no pull request workflow that runs it
+  + actual - expected
+  
+  + [
+  +   'tests/arrival-summary-visibility-browser.cjs',
+  +   'tests/baseline-browser.cjs',
+  +   'tests/compound-split-browser.cjs',
+  +   'tests/core-goal-provenance-browser.cjs',
+  +   'tests/coverage-recovery-browser.cjs',
+  +   'tests/declared-category-browser.cjs',
+  +   'tests/detail-close-history-browser.cjs',
+  +   'tests/detail-trust-summary-browser.cjs',
+  +   'tests/draw-stability-browser.cjs',
+  +   'tests/empty-word-recovery-browser.cjs',
+  +   'tests/evidence-attribution-browser.cjs',
+  +   'tests/explore-visibility-browser.cjs',
+  +   'tests/hero-load-failure-browser.cjs',
+  +   'tests/index-fallback-browser.cjs',
+  +   'tests/keyboard-search-entry-browser.cjs',
+  +   'tests/match-scope-note-browser.cjs',
+  +   'tests/mobile-problem-tags-browser.cjs',
+  +   'tests/publish-window-browser.cjs',
+  +   'tests/refine-from-results-browser.cjs',
+  +   'tests/result-count-honesty-browser.cjs',
+  +   'tests/results-batching-browser.cjs',
+  +   'tests/scenario-reset-persistence-browser.cjs',
+  +   'tests/search-expansion-consistency-browser.cjs',
+  +   'tests/search-heading-scope-browser.cjs',
+  +   'tests/search-reveal-settle-browser.cjs',
+  +   'tests/search-submit-history-browser.cjs',
+  +   'tests/sentence-fallback-browser.cjs',
+  +   'tests/short-sentence-browser.cjs',
+  +   'tests/static-reading-fallback-browser.cjs',
+  +   'tests/substring-recovery-browser.cjs',
+  +   'tests/superseded-live-browser.cjs',
+  +   'tests/target-user-provenance-browser.cjs',
+  +   'tests/task-coverage-marker-browser.cjs',
+  +   'tests/visitor-problem-browser.cjs',
+  +   'tests/visual-redesign-browser.cjs'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261116-r5/tests/pr-gate-coverage.test.cjs:133:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:297:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'tests/arrival-summary-visibility-browser.cjs', 'tests/baseline-browser.cjs', 'tests/compound-split-browser.cjs', 'tests/core-goal-provenance-browser.cjs', 'tests/coverage-recovery-browser.cjs', 'tests/declared-category-browser.cjs', 'tests/detail-close-history-browser.cjs', 'tests/detail-trust-summary-browser.cjs', 'tests/draw-stability-browser.cjs', 'tests/empty-word-recovery-browser.cjs', 'tests/evidence-attribution-browser.cjs', 'tests/explore-visibility-browser.cjs', 'tests/hero-load-failure-browser.cjs', 'tests/index-fallback-browser.cjs', 'tests/keyboard-search-entry-browser.cjs', 'tests/match-scope-note-browser.cjs', 'tests/mobile-problem-tags-browser.cjs', 'tests/publish-window-browser.cjs', 'tests/refine-from-results-browser.cjs', 'tests/result-count-honesty-browser.cjs', 'tests/results-batching-browser.cjs', 'tests/scenario-reset-persistence-browser.cjs', 'tests/search-expansion-consistency-browser.cjs', 'tests/search-heading-scope-browser.cjs', 'tests/search-reveal-settle-browser.cjs', 'tests/search-submit-history-browser.cjs', 'tests/sentence-fallback-browser.cjs', 'tests/short-sentence-browser.cjs', 'tests/static-reading-fallback-browser.cjs', 'tests/substring-recovery-browser.cjs', 'tests/superseded-live-browser.cjs', 'tests/target-user-provenance-browser.cjs', 'tests/task-coverage-marker-browser.cjs', 'tests/visitor-problem-browser.cjs', 'tests/visual-redesign-browser.cjs' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at tests/pr-gate-coverage.test.cjs:269:1
+✖ the single unit-suite runner starts for every path the other pull-request workflows cover (2.236666ms)
+  AssertionError [ERR_ASSERTION]: a workflow that no longer runs the unit suite must not trigger on a path Website QA ignores
+  + actual - expected
+  
+  + [
+  +   'corpus-bundle-qa.yml → tests/** (tests/x)',
+  +   'home-search-entry-qa.yml → tests/home-search-entry-browser.cjs (tests/home-search-entry-browser.cjs)',
+  +   'home-search-entry-qa.yml → tests/home-task-entry.test.cjs (tests/home-task-entry.test.cjs)',
+  +   'home-search-entry-qa.yml → tests/hero-value* (tests/hero-valuex)',
+  +   'home-search-entry-qa.yml → tests/hero-value* (tests/hero-valuey)',
+  +   'load-recovery-qa.yml → tests/load-recovery* (tests/load-recoveryx)',
+  +   'load-recovery-qa.yml → tests/load-recovery* (tests/load-recoveryy)',
+  +   'load-recovery-qa.yml → tests/visitor-experience-and-ci.test.cjs (tests/visitor-experience-and-ci.test.cjs)',
+  +   'load-recovery-qa.yml → tests/published-assets.test.cjs (tests/published-assets.test.cjs)',
+  +   'load-recovery-qa.yml → tests/published-check.test.cjs (tests/published-check.test.cjs)',
+  +   'missing-case-qa.yml → tests/missing-case-browser.cjs (tests/missing-case-browser.cjs)',
+  +   'outline-find-qa.yml → tests/outline-find* (tests/outline-findx)',
+  +   'outline-find-qa.yml → tests/outline-find* (tests/outline-findy)',
+  +   'reader-qa.yml → tests/reader*.cjs (tests/readerx.cjs)',
+  +   'reader-qa.yml → tests/reader*.cjs (tests/readery.cjs)',
+  +   'reader-qa.yml → tests/discovery-browser.cjs (tests/discovery-browser.cjs)',
+  +   'reader-qa.yml → tests/arrival*.cjs (tests/arrivalx.cjs)',
+  +   'reader-qa.yml → tests/arrival*.cjs (tests/arrivaly.cjs)',
+  +   'reader-qa.yml → tests/mobile-search-browser.cjs (tests/mobile-search-browser.cjs)',
+  +   'reader-qa.yml → tests/filter-controls.cjs (tests/filter-controls.cjs)',
+  +   'reader-search-qa.yml → tests/reader-search* (tests/reader-searchx)',
+  +   'reader-search-qa.yml → tests/reader-search* (tests/reader-searchy)',
+  +   'reading-flow-qa.yml → tests/reading-flow* (tests/reading-flowx)',
+  +   'reading-flow-qa.yml → tests/reading-flow* (tests/reading-flowy)',
+  +   'related-qa.yml → tests/related* (tests/relatedx)',
+  +   'related-qa.yml → tests/related* (tests/relatedy)',
+  +   'relevance-qa.yml → tests/relevance* (tests/relevancex)',
+  +   'relevance-qa.yml → tests/relevance* (tests/relevancey)',
+  +   'return-visibility-qa.yml → tests/return-visibility* (tests/return-visibilityx)',
+  +   'return-visibility-qa.yml → tests/return-visibility* (tests/return-visibilityy)',
+  +   'return-visibility-qa.yml → tests/late-return.test.cjs (tests/late-return.test.cjs)',
+  +   'round23-qa.yml → tests/table-* (tests/table-x)',
+  +   'round23-qa.yml → tests/table-* (tests/table-y)',
+  +   'round23-qa.yml → tests/round23-observe.cjs (tests/round23-observe.cjs)',
+  +   'search-context-qa.yml → tests/search-context* (tests/search-contextx)',
+  +   'search-context-qa.yml → tests/search-context* (tests/search-contexty)',
+  +   'search-context-qa.yml → tests/match-baseline.cjs (tests/match-baseline.cjs)',
+  +   'source-guide-qa.yml → tests/source-guide* (tests/source-guidex)',
+  +   'source-guide-qa.yml → tests/source-guide* (tests/source-guidey)',
+  +   'source-guide-qa.yml → tests/loading-budget-browser.cjs (tests/loading-budget-browser.cjs)',
+  +   'source-guide-qa.yml → tests/reader-context-round.cjs (tests/reader-context-round.cjs)',
+  +   'trust-summary-qa.yml → tests/trust-* (tests/trust-x)',
+  +   'trust-summary-qa.yml → tests/trust-* (tests/trust-y)',
+  +   'trust-summary-qa.yml → tests/audit.test.cjs (tests/audit.test.cjs)'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261116-r5/tests/pr-gate-coverage.test.cjs:280:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'corpus-bundle-qa.yml → tests/** (tests/x)', 'home-search-entry-qa.yml → tests/home-search-entry-browser.cjs (tests/home-search-entry-browser.cjs)', 'home-search-entry-qa.yml → tests/home-task-entry.test.cjs (tests/home-task-entry.test.cjs)', 'home-search-entry-qa.yml → tests/hero-value* (tests/hero-valuex)', 'home-search-entry-qa.yml → tests/hero-value* (tests/hero-valuey)', 'load-recovery-qa.yml → tests/load-recovery* (tests/load-recoveryx)', 'load-recovery-qa.yml → tests/load-recovery* (tests/load-recoveryy)', 'load-recovery-qa.yml → tests/visitor-experience-and-ci.test.cjs (tests/visitor-experience-and-ci.test.cjs)', 'load-recovery-qa.yml → tests/published-assets.test.cjs (tests/published-assets.test.cjs)', 'load-recovery-qa.yml → tests/published-check.test.cjs (tests/published-check.test.cjs)', 'missing-case-qa.yml → tests/missing-case-browser.cjs (tests/missing-case-browser.cjs)', 'outline-find-qa.yml → tests/outline-find* (tests/outline-findx)', 'outline-find-qa.yml → tests/outline-find* (tests/outline-findy)', 'reader-qa.yml → tests/reader*.cjs (tests/readerx.cjs)', 'reader-qa.yml → tests/reader*.cjs (tests/readery.cjs)', 'reader-qa.yml → tests/discovery-browser.cjs (tests/discovery-browser.cjs)', 'reader-qa.yml → tests/arrival*.cjs (tests/arrivalx.cjs)', 'reader-qa.yml → tests/arrival*.cjs (tests/arrivaly.cjs)', 'reader-qa.yml → tests/mobile-search-browser.cjs (tests/mobile-search-browser.cjs)', 'reader-qa.yml → tests/filter-controls.cjs (tests/filter-controls.cjs)', 'reader-search-qa.yml → tests/reader-search* (tests/reader-searchx)', 'reader-search-qa.yml → tests/reader-search* (tests/reader-searchy)', 'reading-flow-qa.yml → tests/reading-flow* (tests/reading-flowx)', 'reading-flow-qa.yml → tests/reading-flow* (tests/reading-flowy)', 'related-qa.yml → tests/related* (tests/relatedx)', 'related-qa.yml → tests/related* (tests/relatedy)', 'relevance-qa.yml → tests/relevance* (tests/relevancex)', 'relevance-qa.yml → tests/relevance* (tests/relevancey)', 'return-visibility-qa.yml → tests/return-visibility* (tests/return-visibilityx)', 'return-visibility-qa.yml → tests/return-visibility* (tests/return-visibilityy)', 'return-visibility-qa.yml → tests/late-return.test.cjs (tests/late-return.test.cjs)', 'round23-qa.yml → tests/table-* (tests/table-x)', 'round23-qa.yml → tests/table-* (tests/table-y)', 'round23-qa.yml → tests/round23-observe.cjs (tests/round23-observe.cjs)', 'search-context-qa.yml → tests/search-context* (tests/search-contextx)', 'search-context-qa.yml → tests/search-context* (tests/search-contexty)', 'search-context-qa.yml → tests/match-baseline.cjs (tests/match-baseline.cjs)', 'source-guide-qa.yml → tests/source-guide* (tests/source-guidex)', 'source-guide-qa.yml → tests/source-guide* (tests/source-guidey)', 'source-guide-qa.yml → tests/loading-budget-browser.cjs (tests/loading-budget-browser.cjs)', 'source-guide-qa.yml → tests/reader-context-round.cjs (tests/reader-context-round.cjs)', 'trust-summary-qa.yml → tests/trust-* (tests/trust-x)', 'trust-summary-qa.yml → tests/trust-* (tests/trust-y)', 'trust-summary-qa.yml → tests/audit.test.cjs (tests/audit.test.cjs)' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }

@@ -39,11 +39,11 @@ const CORPUS = [
   ...fs.readdirSync(path.join(root, 'assets')).map(name => 'assets/' + name)
 ];
 
-// A step is unreachable from a pull request when its `if:` pins a branch ref or a
-// dispatch-only event: `github.ref == 'refs/heads/verify/…'` is never true for
-// `refs/pull/N/merge`, so the commands inside it cannot be coverage.
+// A step is unreachable from a pull request when its `if:` pins a branch ref or
+// a non-pull-request event: `github.ref == 'refs/heads/verify/…'` is never true
+// for `refs/pull/N/merge`, and a `push`-only step cannot run on a pull request.
 function stepReachable(step) {
-  return !/^ {8}if:.*(?:github\.ref\s*==|github\.event_name\s*==\s*'workflow_dispatch')/m.test(step);
+  return !/^ {8}if:.*(?:github\.ref\s*==|github\.event_name\s*==\s*['"](?:workflow_dispatch|push)['"])/m.test(step);
 }
 
 function commandsIn(source) {
@@ -191,21 +191,68 @@ test('no workflow turns a failing unit run into a green step', () => {
   assert.deepEqual(offenders, [], 'a failing `node --test` must fail the step, not be excused by a fallback command or masked by a pipe');
 });
 
-const FULL_UNIT_SUITE = /node\s+--test(?:\s+--?[\w-]+(?:=\S+)?)*\s+(?:tests\/\*\.test\.cjs(?![.\w])|\$\(find tests\b)/;
-
-// A full-suite command must be reachable from the pull request, not pinned to a
-// branch or dispatch event that `refs/pull/N/merge` never satisfies.
-function runsFullUnitSuite(source) {
-  return source.split(/^ {6}- /m).slice(1)
-    .some(block => stepReachable(block) && FULL_UNIT_SUITE.test(block));
+// Jobs start at two spaces under `jobs:`; a job-level `if:` at four spaces can
+// gate the whole job to a non-pull-request event even when the step has none.
+function jobBlocks(source) {
+  const lines = source.split('\n');
+  const start = lines.findIndex(line => /^jobs:\s*$/.test(line));
+  if (start < 0) return [];
+  const jobs = [];
+  let current = null;
+  for (const line of lines.slice(start + 1)) {
+    const job = line.match(/^ {2}([\w-]+):\s*$/);
+    if (job) {
+      if (current) jobs.push(current);
+      current = { name: job[1], lines: [] };
+    } else if (current) {
+      if (/^\S/.test(line) && line.trim()) break;
+      current.lines.push(line);
+    }
+  }
+  if (current) jobs.push(current);
+  return jobs;
 }
 
-// A concrete path a trigger filter can match, used to check that one filter's
-// glob covers another's without reimplementing Actions' glob semantics.
-function samplePath(pattern) {
+function jobGatesNonPullRequest(job) {
+  return job.lines.some(line =>
+    /^ {4}if:/.test(line) && /github\.(?:event_name|ref|head_ref)/.test(line));
+}
+
+// Only a command that selects every `*.test.cjs` counts as the whole suite. A
+// `find` with an exclusion is a subset and must not be mistaken for the gate.
+function fullSuiteCommand(text) {
+  return text.split('\n').some(line => {
+    if (!/node\s+--test\b/.test(line)) return false;
+    if (/tests\/\*\.test\.cjs(?![.\w])/.test(line)) return true;
+    if (!/\$\(find tests\b/.test(line)) return false;
+    const find = line.slice(line.indexOf('$('));
+    return !/!(?!=)|-not\b/.test(find);
+  });
+}
+
+// A full-suite command must be reachable from the pull request: no job-level
+// event/ref gate, no step `if:` pinned to a branch or a push/dispatch event.
+function runsFullUnitSuite(source) {
+  return jobBlocks(source).some(job =>
+    !jobGatesNonPullRequest(job) &&
+    job.lines.join('\n').split(/^ {6}- /m).slice(1)
+      .some(step => stepReachable(step) && fullSuiteCommand(step)));
+}
+
+// Concrete paths a trigger filter can match. Each wildcard gets several values,
+// so a sample cannot stand in for a broader glob (e.g. QA narrowed to
+// `tests/x/**` while another workflow still triggers on `tests/**/test-*.cjs`).
+function samplePaths(pattern) {
   const source = pattern.replace(/^['"]|['"]$/g, '');
-  if (source === '**') return 'sample/nested';
-  return source.replace(/\*\*$/, 'sample/nested').replace(/\*/g, 'sample');
+  let paths = [''];
+  for (const part of source.split(/(\*\*|\*)/)) {
+    if (part === '**') paths = paths.flatMap(prefix => ['', 'x', 'x/y'].map(value => prefix + value));
+    else if (part === '*') paths = paths.flatMap(prefix => ['x', 'y'].map(value => prefix + value));
+    else paths = paths.map(prefix => prefix + part);
+  }
+  return [...new Set(paths.map(path => path.replace(/\/{2,}/g, '/')))]
+    .filter(path => path && !path.endsWith('/'))
+    .slice(0, 64);
 }
 
 test('only Website QA runs the whole unit suite from a pull request', () => {
@@ -225,7 +272,9 @@ test('the single unit-suite runner starts for every path the other pull-request 
   for (const entry of pr) {
     if (entry.file === website.file) continue;
     for (const pattern of entry.paths) {
-      if (!covers(website.paths, samplePath(pattern))) gaps.push(`${entry.file} → ${pattern}`);
+      for (const sample of samplePaths(pattern)) {
+        if (!covers(website.paths, sample)) gaps.push(`${entry.file} → ${pattern} (${sample})`);
+      }
     }
   }
   assert.deepEqual(gaps, [],

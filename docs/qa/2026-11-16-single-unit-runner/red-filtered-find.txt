@@ -1,0 +1,41 @@
+✔ the pull-request workflows were actually parsed (0.53625ms)
+✔ editing a suite starts a pull request workflow that runs it (2.114125ms)
+✔ editing the site or any part of the corpus starts a browser workflow that asserts it (22.253125ms)
+✔ no workflow turns a failing unit run into a green step (7.948958ms)
+✖ only Website QA runs the whole unit suite from a pull request (1.282333ms)
+✔ the single unit-suite runner starts for every path the other pull-request workflows cover (1.636792ms)
+✔ a workflow edit runs the job that audits every workflow (0.624209ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 107.785917
+
+✖ failing tests:
+
+test at tests/pr-gate-coverage.test.cjs:258:1
+✖ only Website QA runs the whole unit suite from a pull request (1.282333ms)
+  AssertionError [ERR_ASSERTION]: the full unit suite must have exactly one pull-request runner; add coverage to Website QA instead of another copy
+  + actual - expected
+  
+  + []
+  - [
+  -   'website-qa.yml'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261116-r5/tests/pr-gate-coverage.test.cjs:265:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'website-qa.yml' ],
+    operator: 'deepStrictEqual'
+  }

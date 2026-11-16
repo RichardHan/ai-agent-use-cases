@@ -52,6 +52,7 @@ const entries = corpusFiles.flatMap(file => Array.from(api.parseFile(file, fs.re
 // breaks are not part of the sentence a visitor reads.
 const paragraphs = readme.split(/\n\s*\n/);
 const paragraphWith = (...needles) => paragraphs.find(block => needles.every(needle => block.includes(needle)));
+const paragraphsWith = (...needles) => paragraphs.filter(block => needles.every(needle => block.includes(needle)));
 
 const numberIn = pattern => {
   const match = readme.match(pattern);
@@ -111,21 +112,29 @@ test('the README never pins a corpus total that new cases would move', () => {
 });
 
 test('the README claim that most entries declare no target user still holds', () => {
-  // Accept any wording that still makes the majority claim; only the property and
-  // the direction are fixed, not the sentence.
-  assert.match(readme, /(?:多數|大多數|絕大多數)條目(?:都|也)?(?:沒有|未)(?:宣告|提供)/,
+  // Only paragraphs that actually talk about 目標使用者 count: an unrelated
+  // sentence elsewhere must not stand in for the claim, and an opposite claim in
+  // the same paragraph must not coexist with it. Wording may vary.
+  const claims = paragraphsWith('目標使用者', '宣告');
+  assert.ok(claims.length, 'README must keep its 目標使用者 paragraph');
+  assert.ok(claims.some(block => /(?:多數|大多數|絕大多數)條目(?:都|也)?(?:沒有|未)(?:宣告|提供)/.test(block)),
     'If the corpus now declares 目標使用者 on most entries, README must say so.');
+  assert.ok(!claims.some(block => /(?:多數|大多數|絕大多數)條目(?:都|也)?(?:有|已)?(?:宣告|提供)/.test(block)),
+    'README cannot say most entries declare 目標使用者 while the corpus says otherwise.');
   const declared = entries.filter(entry => entry.targetUser).length;
   assert.ok(declared * 2 < entries.length,
     `README says most entries declare no 目標使用者, but ${declared}/${entries.length} do.`);
 });
 
 test('all three core-goal states are still present, as the README describes', () => {
-  const paragraph = paragraphWith('核心目標', '解決痛點');
-  assert.ok(paragraph, 'README must keep the 核心目標 paragraph');
+  const index = paragraphs.findIndex(block => block.includes('核心目標') && block.includes('解決痛點'));
+  assert.notEqual(index, -1, 'README must keep the 核心目標 description');
+  // The three states may be split across adjacent paragraphs (a Markdown blank
+  // line is not a semantic boundary), but not scattered through the document.
+  const region = paragraphs.slice(index, index + 3).join('\n\n');
   for (const wording of [/宣告/, /問題…」章節/, /沒有宣告/]) {
-    assert.match(paragraph, wording,
-      'The 核心目標 paragraph must still describe every state: ' + wording);
+    assert.match(region, wording,
+      'The 核心目標 description must still name every state: ' + wording);
   }
   const states = { declared: 0, section: 0, missing: 0 };
   for (const entry of entries) states[api.coreGoalView(entry).source] += 1;
@@ -136,16 +145,19 @@ test('all three core-goal states are still present, as the README describes', ()
 });
 
 test('the README claim that 權限 is on nearly every case still holds', () => {
-  const paragraph = paragraphWith('搜「權限」');
-  assert.ok(paragraph, 'README must keep the 權限 example');
+  // Every paragraph that makes the 權限 claim is checked: a second, overstated
+  // sentence elsewhere must not hide behind one qualified paragraph.
+  const claims = paragraphsWith('搜「權限」');
+  assert.ok(claims.length, 'README must keep the 權限 example');
   // The corpus is not 100%: the wording may say 幾乎/絕大多數/九成以上, but a
   // promise of 全部 would be false and must fail here.
-  assert.doesNotMatch(paragraph, /(?<!幾乎)(?:全部|所有)案例|(?<!幾乎)每(?:一)?個案例/,
-    'The 權限 search does not match every entry; do not promise 全部.');
-  assert.doesNotMatch(paragraph, /這類標題(?:出現)?(?:在)?(?<!幾乎)(?:全部|所有|每(?:一)?個)案例/,
-    'Not every case page has a 權限 heading; do not promise 全部.');
-
-  assert.match(paragraph, /(?:幾乎|絕大多數|九成以上|大部分|多數)/,
+  for (const claim of claims) {
+    assert.doesNotMatch(claim, /(?<!幾乎)(?:全部|所有)案例|(?<!幾乎)每(?:一)?個案例/,
+      'The 權限 search does not match every entry; do not promise 全部.');
+    assert.doesNotMatch(claim, /這類標題(?:出現)?(?:在)?(?<!幾乎)(?:全部|所有|每(?:一)?個)案例/,
+      'Not every case page has a 權限 heading; do not promise 全部.');
+  }
+  assert.ok(claims.some(claim => /(?:幾乎|絕大多數|九成以上|大部分|多數)/.test(claim)),
     'The 權限 paragraph must keep its measured qualifier');
 
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(name => name.endsWith('.md'));

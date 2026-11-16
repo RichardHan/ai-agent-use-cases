@@ -20,3 +20,38 @@
 ℹ skipped 0
 ℹ todo 0
 ℹ duration_ms 296.86225
+## mutation 5: same batch size, different counter (reviewer P2)
+ℹ pass 8
+ℹ fail 0
+
+## mutation 6: reflow the core-goal paragraph across two lines (reviewer P2)
+ℹ pass 8
+ℹ fail 0
+
+## restored
+ℹ pass 8
+ℹ fail 0
+## mutation 7: unrelated majority sentence next to an opposite target-user claim (reviewer P2)
+ℹ pass 8
+ℹ fail 0
+
+## mutation 8: a second 權限 paragraph that overstates 全部 (reviewer P2)
+✖ the README claim that 權限 is on nearly every case still holds (0.347666ms)
+ℹ pass 7
+ℹ fail 1
+
+## mutation 9: core-goal description split across a blank line (reviewer P2)
+ℹ pass 8
+ℹ fail 0
+
+## restored
+ℹ pass 8
+ℹ fail 0
+
+## mutation 7 re-run after tightening the opposite-claim check
+✖ the README claim that most entries declare no target user still holds (0.43025ms)
+ℹ pass 7
+ℹ fail 1
+--- restored
+ℹ pass 8
+ℹ fail 0

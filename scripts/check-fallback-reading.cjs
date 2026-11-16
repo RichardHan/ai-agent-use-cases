@@ -94,6 +94,16 @@ function renderedPageForSource(file) {
   return file === 'sources/README.md' ? 'sources/index.html' : file.replace(/\.md$/, '.html');
 }
 
+// Jekyll never publishes a dot- or underscore-prefixed file, and neither does the
+// publication check (scripts/published-check.cjs). Requiring a page for one would
+// fail the build for a file that is not meant to have a page.
+function sourceLedgerManifest(dir) {
+  if (!fs.existsSync(dir)) return null;
+  return fs.readdirSync(dir)
+    .filter(name => name.endsWith('.md') && !/^[._]/.test(name))
+    .map(name => 'sources/' + name);
+}
+
 function checkFallbackReading(root, options = {}) {
   const sourceLedgers = options.sourceLedgers || null;
   const failures = [];
@@ -158,7 +168,10 @@ function checkFallbackReading(root, options = {}) {
       continue;
     }
     if (navs.length > 1) failures.push(`${page}: expected one fallback navigation, found ${navs.length}`);
-    if (hiddenTag(navs[0].opening)) failures.push(`${page}: fallback navigation is hidden`);
+    // Hiding the aside is not the only way to hide the way back: the inner nav or
+    // an individual link can carry the same attributes.
+    const hiddenParts = [navs[0].opening, ...(navs[0].markup.match(/<(?:nav|a)\b[^>]*>/gi) || [])].filter(hiddenTag);
+    if (hiddenParts.length) failures.push(`${page}: fallback navigation is hidden`);
     const nav = navs[0];
     if (!/<a\s+[^>]*href="[^"]*INDEX\.html"[^>]*>\s*←?\s*完整案例索引/.test(nav.markup)) {
       failures.push(`${page}: fallback navigation does not link to INDEX.html as 完整案例索引`);
@@ -172,7 +185,7 @@ function checkFallbackReading(root, options = {}) {
       // "look at the case page" is not a next step for a batch that added no case,
       // so the note must also say where the record itself is authoritative.
       if (!/不是案例成果/.test(nav.inner) || !/案例頁/.test(nav.inner) || !/待查線索/.test(nav.inner)) {
-        failures.push(`${page}: source navigation must say the ledger is not the case's result and what stands when the batch added none`);
+        failures.push(`${page}: source navigation must say the ledger is not the case's result and where an unlisted lead is recorded`);
       }
       continue;
     }
@@ -219,15 +232,12 @@ function checkFallbackReading(root, options = {}) {
   return {checked: pages.length, failures};
 }
 
-module.exports = {checkFallbackReading, externalSourceLinks, caseNavigation, navigationOccurrences, renderedPageForSource, legendEntries, SELF_ORIGIN};
+module.exports = {checkFallbackReading, externalSourceLinks, caseNavigation, navigationOccurrences, renderedPageForSource, sourceLedgerManifest, legendEntries, SELF_ORIGIN};
 
 if (require.main === module) {
   const root = process.argv[2];
   if (!root) throw new Error('Usage: node scripts/check-fallback-reading.cjs <built-site-directory>');
-  const ledgersDir = path.join(__dirname, '..', 'sources');
-  const sourceLedgers = fs.existsSync(ledgersDir)
-    ? fs.readdirSync(ledgersDir).filter(name => name.endsWith('.md')).map(name => 'sources/' + name)
-    : null;
+  const sourceLedgers = sourceLedgerManifest(path.join(__dirname, '..', 'sources'));
   const {checked, failures} = checkFallbackReading(root, {sourceLedgers});
   if (failures.length) {
     console.error(`FAIL: fallback reading has ${failures.length} problem(s) across ${checked} rendered pages`);

@@ -8,7 +8,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const {checkFallbackReading, externalSourceLinks, caseNavigation, legendEntries} = require('../scripts/check-fallback-reading.cjs');
+const {checkFallbackReading, externalSourceLinks, caseNavigation, legendEntries, sourceLedgerManifest} = require('../scripts/check-fallback-reading.cjs');
 
 const INDEX = `<!doctype html><html lang="zh-Hant"><body>
 <h1>完整案例索引</h1>
@@ -158,7 +158,7 @@ test('INDEX must also expose exactly one h1', () => {
 const SOURCE_NAV = `<aside class="case-fallback-nav" data-fallback-case-nav aria-label="來源紀錄的閱讀導覽">
 <nav><a href="/ai-agent-use-cases/INDEX.html">← 完整案例索引</a>
 <a href="/ai-agent-use-cases/">搜尋首頁</a></nav>
-<p><strong>本頁是來源與計數紀錄，不是案例成果。</strong>成果主張與驗證狀態以對應案例頁為準；本批次沒有新增案例時，以頁內紀錄與待查線索為準。本庫未獨立重現。</p></aside>`;
+<p><strong>本頁是來源與計數紀錄，不是案例成果。</strong>成果主張與驗證狀態以對應案例頁為準；尚未列成案例的線索，以本頁的待查線索紀錄為準。本庫未獨立重現。</p></aside>`;
 
 test('a published source ledger without the way back fails by page name', () => {
   const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
@@ -199,10 +199,10 @@ test('a source ledger must not leave a no-new-case batch with nowhere to go', ()
   const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
   fs.mkdirSync(path.join(root, 'sources'));
   // Saying "read the case page" is wrong advice for a batch that added no case.
-  const onlyCase = SOURCE_NAV.replace('本批次沒有新增案例時，以頁內紀錄與待查線索為準。', '');
+  const onlyCase = SOURCE_NAV.replace('尚未列成案例的線索，以本頁的待查線索紀錄為準。', '');
   fs.writeFileSync(path.join(root, 'sources', 'research-empty.html'), '<h1>本批 0 條</h1>' + onlyCase);
   const result = checkFallbackReading(root);
-  assert.match(result.failures.join('\n'), /research-empty\.html: source navigation must say the ledger is not the case's result and what stands when the batch added none/);
+  assert.match(result.failures.join('\n'), /research-empty\.html: source navigation must say the ledger is not the case's result and where an unlisted lead is recorded/);
 });
 
 test('a duplicated or hidden navigation does not count as a way back', () => {
@@ -225,4 +225,25 @@ test('every ledger in the checkout must produce a page the build can check', () 
   assert.deepEqual(complete.failures, []);
   const missing = checkFallbackReading(root, {sourceLedgers: ['sources/README.md', 'sources/gone.md']});
   assert.match(missing.failures.join('\n'), /sources\/gone\.md: source ledger has no rendered page \(sources\/gone\.html\)/);
+});
+
+test('a link hidden inside the navigation is not a way back', () => {
+  const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
+  fs.mkdirSync(path.join(root, 'sources'));
+  const hiddenNav = SOURCE_NAV.replace('<nav>', '<nav aria-hidden="true">');
+  const hiddenLink = SOURCE_NAV.replace('搜尋首頁</a>', '搜尋首頁</a>').replace('<a href="/ai-agent-use-cases/">', '<a class="sr-only" href="/ai-agent-use-cases/">');
+  fs.writeFileSync(path.join(root, 'sources', 'nav-hidden.html'), '<h1>導覽隱藏</h1>' + hiddenNav);
+  fs.writeFileSync(path.join(root, 'sources', 'link-hidden.html'), '<h1>連結隱藏</h1>' + hiddenLink);
+  const text = checkFallbackReading(root).failures.join('\n');
+  assert.match(text, /nav-hidden\.html: fallback navigation is hidden/);
+  assert.match(text, /link-hidden\.html: fallback navigation is hidden/);
+});
+
+test('a dot- or underscore-prefixed ledger is not expected to have a page', () => {
+  const fsRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ledgers-'));
+  fs.writeFileSync(path.join(fsRoot, 'README.md'), 'x');
+  fs.writeFileSync(path.join(fsRoot, 'batch.md'), 'x');
+  fs.writeFileSync(path.join(fsRoot, '_draft.md'), 'x');
+  fs.writeFileSync(path.join(fsRoot, '.hidden.md'), 'x');
+  assert.deepEqual(sourceLedgerManifest(fsRoot).sort(), ['sources/README.md', 'sources/batch.md']);
 });

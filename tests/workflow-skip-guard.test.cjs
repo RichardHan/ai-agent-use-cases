@@ -26,6 +26,8 @@ test('no workflow skips a step when a test file is missing', () => {
   const offenders = [];
   for (const file of workflows) {
     read(file).split('\n').forEach((line, index) => {
+      // A comment may explain why the guard is forbidden; it cannot skip a step.
+      if (/^\s*#/.test(line)) return;
       if (/hashFiles\(/.test(line)) offenders.push(`${file}:${index + 1}: ${line.trim()}`);
     });
   }
@@ -56,12 +58,41 @@ test('every test and script a workflow runs exists in the checkout', () => {
   assert.deepEqual(missing, [], 'workflow invokes files that do not exist: ' + missing.join(', '));
 });
 
+// One workflow step, from its `- name:` list item to the next list item or job key.
+// Step keys sit at eight spaces; `run:` content is deeper, so an `if:` anywhere at
+// eight spaces would skip the step even when it appears after `env:`.
+function stepBlock(source, name) {
+  const lines = source.split('\n');
+  const start = lines.findIndex(line => line === `      - name: ${name}`);
+  assert.notEqual(start, -1, `the step must stay named "${name}"`);
+  const block = [lines[start]];
+  for (const line of lines.slice(start + 1)) {
+    if (line.trim() !== '' && /^ {0,6}\S/.test(line)) break;
+    block.push(line);
+  }
+  return block;
+}
+
+function runnableRun(block) {
+  const code = block.filter(line => !/^\s*#/.test(line));
+  const start = code.findIndex(line => /^ {8}run: \|\s*$/.test(line));
+  assert.notEqual(start, -1, 'the step must still have a block `run:` command');
+  const lines = [];
+  for (const line of code.slice(start + 1)) {
+    if (line.trim() !== '' && !/^ {9,}\S/.test(line)) break;
+    lines.push(line);
+  }
+  return lines.join('\n');
+}
+
 test('the Chromium browser journeys cannot be skipped and still cover discovery', () => {
-  const workflow = read('website-qa.yml');
-  const step = workflow.split('\n      - name: ').find(block => block.startsWith('Verify the updated site in Chromium'));
-  assert.ok(step, 'the Chromium browser step must stay named "Verify the updated site in Chromium"');
-  assert.doesNotMatch(step.split('\n').slice(1, 2).join(''), /^\s+if:/,
-    'the browser step must run unconditionally: a skipped step is a green job');
-  assert.match(step, /node tests\/discovery-browser\.cjs/,
-    'the browser step must still run the discovery journeys');
+  const block = stepBlock(read('website-qa.yml'), 'Verify the updated site in Chromium');
+  const stepKeys = block
+    .filter(line => /^ {8}\S/.test(line))
+    .map(line => line.trim());
+  assert.ok(!stepKeys.some(key => key.startsWith('if:')),
+    'the browser step must run unconditionally; an `if:` anywhere in the step is a green skip: ' +
+    stepKeys.join(' '));
+  assert.match(runnableRun(block), /(?:^|\s)node tests\/discovery-browser\.cjs/,
+    'the browser step must still run the discovery journeys (a commented-out command does not count)');
 });

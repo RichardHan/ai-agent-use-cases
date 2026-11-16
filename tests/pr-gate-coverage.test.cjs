@@ -271,15 +271,23 @@ function fullSuiteCommand(text) {
     if (/\$\(find tests\b/.test(cleaned)) {
       const find = cleaned.slice(cleaned.indexOf('$('));
       if (/!(?!=)|-not\b/.test(find)) return false;
-      // Any narrowing predicate selects a subset, even a positive one:
-      // `find tests -name 'relevance.test.cjs'` or `-path '*/reader*'` runs a
-      // fraction of the suite. Only the canonical name predicate over the whole
-      // tests tree counts as the gate.
-      const narrowing = /-(?:path|ipath|regex|iregex|wholename|iwholename|iname|maxdepth|mindepth|newer|mtime|size|perm|user|group|empty|links|inum|samefile)\b/;
-      if (narrowing.test(find)) return false;
-      const names = [...find.matchAll(/-name\s+['"]?([^'"\s)]+)['"]?/g)].map(match => match[1]);
-      if (!names.length) return true; // `find tests` returns the directory Node discovers.
-      return names.every(name => name === '*.test.cjs');
+      // Only the canonical whole-suite forms count: `find tests` (Node discovers
+      // the directory), or `find tests [-type f] -name '*.test.cjs' [-print]`.
+      // Any other predicate (`-path`, `-maxdepth`, `-quit`, `-type l`, …) can
+      // select a subset, so it is not the gate.
+      const body = find
+        .replace(/^\$\(find\s+tests\b/, '')
+        .replace(/\)\s*$/, '')
+        .trim();
+      if (!body) return true;
+      const tokens = body.split(/\s+/);
+      for (let i = 0; i < tokens.length;) {
+        if (tokens[i] === '-type' && tokens[i + 1] === 'f') { i += 2; continue; }
+        if (tokens[i] === '-name' && /^['"]?\*\.test\.cjs['"]?$/.test(tokens[i + 1] || '')) { i += 2; continue; }
+        if (tokens[i] === '-print' || tokens[i] === '-print0') { i += 1; continue; }
+        return false;
+      }
+      return true;
     }
     // Default discovery: no file arguments, or the whole tests directory.
     const files = tokens.slice(testIndex + 1).filter(token => !token.startsWith('-'));
@@ -362,6 +370,8 @@ test('the unit-suite guard ignores runners that a pull request cannot reach', ()
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -path 'tests/relevance.test.cjs')" })), false, 'a path predicate selects a subset');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -maxdepth 1 -name '*.test.cjs')" })), false, 'a depth predicate can omit nested tests');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -iname '*.test.cjs')" })), false, 'a non-canonical name predicate is not the suite');
+  assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -quit)" })), false, 'a quit action can stop after one match');
+  assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -type l)" })), false, 'a symlink type predicate is not the test suite');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -type f -name '*.test.cjs')" })), true, 'a canonical find with -type f selects the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test $(find tests)' })), true, 'a bare find of the tests directory discovers the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs')" })), true, 'a find without exclusions selects the suite');

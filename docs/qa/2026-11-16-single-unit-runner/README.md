@@ -31,7 +31,7 @@
 - `tests/pr-gate-coverage.test.cjs`：
   - `runsFullUnitSuite()` 以縮排解析 `jobs:`，要求候選 job 與 step 都沒有任何 `if:`（任何 event／ref gate 或 `false` 都可能讓 PR 不執行全套）。
   - `executableRun()` 只讀 `run:` 的實際指令：去掉 YAML／shell 註解、接續反斜線，`run: >` 以空白摺疊、`run: |` 保留換行，避免把註解掉的指令算成 runner，也避免漏掉摺疊或續接的指令。
-  - `fullSuiteCommand()` 以 token 找精確的 `--test`（選項順序不限），辨識 `tests/*.test.cjs`、不含排除條件的 `find tests`、預設探索（含重導向、pipe、`&&`、`tests` 目錄），並排除 `--test-name-pattern`／`--test-skip-pattern`／`--test-only`／`--test-shard` 等子集旗標；`find tests` 的 `-name` 必須是 `*.test.cjs`，其他 `-path`／`-maxdepth`／`-iname` 等縮小 predicate 一律拒絕。
+  - `fullSuiteCommand()` 以 token 找精確的 `--test`（選項順序不限），辨識 `tests/*.test.cjs`、不含排除條件的 `find tests`、預設探索（含重導向、pipe、`&&`、`tests` 目錄），並排除 `--test-name-pattern`／`--test-skip-pattern`／`--test-only`／`--test-shard` 等子集旗標；`find` 只接受 `find tests`、`find tests [-type f] -name '*.test.cjs' [-print|-print0]`，其他 predicate／action（`-path`、`-maxdepth`、`-iname`、`-quit`、`-type l` 等）一律拒絕。
   - `patternCovers()` 以目錄邊界判定 glob 涵蓋（`**`、完全相同、`prefix/**` 涵蓋 `prefix/…`），不用有限樣本冒充證明；寧可保守拒絕無法證明的組合。
 
 ## 回歸與紅測
@@ -80,6 +80,14 @@
   3. `?case=UC-014` → 詳情開啟、顯示成果主張／核讀與 21 個外部來源連結；Escape 關閉後回到首頁、焦點在結果摘要。
   [日誌](live-acceptance-log.txt)、截圖 `live-desktop-*.png`／`live-phone-*.png`。
 - 限制：本環境停用影像輸入，未逐像素目視截圖；上述為 DOM／幾何／文字證據，不是真人使用者研究。
+
+## 獨立審查與修正
+
+- `SingleRunnerReview`（獨立 context，未參與實作）初審 **Changes requested**，1 個 P2：`fullSuiteCommand()` 只排除 `find` 的 `!`／`-not`，因此 `node --test $(find tests -name 'relevance.test.cjs')` 這種正向篩選會被誤認成全套 runner，守則可能在 Website QA 只跑單檔時仍綠燈。第二輪複審再指出 `find tests -path 'tests/relevance.test.cjs'` 這種沒有 `-name` 的 predicate 也會被誤認。
+- 修正：`find` 分支改為白名單——只接受 `find tests`、`find tests [-type f] -name '*.test.cjs' [-print|-print0]`；`-path`、`-maxdepth`、`-iname`、`-quit`、`-type l` 及其他 predicate／action 一律 false。新增 fixture：正向單檔、`-path`、`-maxdepth`、`-iname`、`-quit`、`-type l` 必須被拒；canonical、`-type f`、裸 `find tests` 必須被接受。
+- 紅／綠：正向單檔以舊邏輯重現失敗（[red-final-positive-find.txt](red-final-positive-find.txt)）；`-path` 子集以舊邏輯重現失敗（[red-final-narrowing-find.txt](red-final-narrowing-find.txt)）；白名單修正後兩者通過（[green-final-positive-find.txt](green-final-positive-find.txt)、[green-final-narrowing-find.txt](green-final-narrowing-find.txt)）。
+- 複核：`node --test tests/pr-gate-coverage.test.cjs` 9 pass／0 fail；全套 `node --test tests/*.test.cjs` 863 pass／0 fail（[final-unit-after-review.txt](final-unit-after-review.txt)）。57 個 workflow YAML 以 PyYAML 解析成功（[workflow-yaml-parse.txt](workflow-yaml-parse.txt)），補上初審指出缺 transcript 的項目。
+- 殘留限制：`find … | xargs node --test` 這種管線形式不在守則辨識範圍（`line.split(/\||&&|;/)` 只取第一段），屬 false negative，不會把子集誤判成全套；未修改。`continue-on-error` 也不在 `runsFullUnitSuite()` 的排除條件內，目前 Website QA 的 unit step 沒有此設定；列為後續可補強項，不在本輪擴大。
 
 ## 下一輪
 

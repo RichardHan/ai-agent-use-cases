@@ -1,11 +1,28 @@
 'use strict';
 const { chromium } = require('playwright');
+const { expandEmptyTaskDirectory } = require('./empty-task-directory.cjs');
 
 async function expandProblemTags(page){
   const toggle=page.locator('#problem-tags-toggle');
   if(!(await toggle.count())||!(await toggle.isVisible()))return;
   if((await toggle.getAttribute('aria-expanded'))==='false')await toggle.click();
 }
+
+// Collapsed vs expanded state of the dead-end panel's task directory.
+const emptyTaskDirectory = page => page.evaluate(() => {
+  const chips = document.querySelector('.empty-problem-chips');
+  const toggle = document.getElementById('empty-problem-toggle');
+  const all = [...chips.querySelectorAll('.recovery-problem-tag')];
+  return {
+    height: Math.round(chips.getBoundingClientRect().height),
+    scrollHeight: chips.scrollHeight,
+    clientHeight: chips.clientHeight,
+    total: all.length,
+    visible: all.filter(chip => chip.getBoundingClientRect().height > 0).length,
+    toggleHidden: !toggle || toggle.hidden,
+    expanded: toggle && toggle.getAttribute('aria-expanded')
+  };
+});
 
 const AxeBuilder = require('@axe-core/playwright').default;
 const assert = require('node:assert/strict');
@@ -122,11 +139,23 @@ async function run() {
       await page.waitForSelector('#empty:not([hidden])');
       console.log('✓ Empty state reached under combination conditions');
 
-      // Check empty state height and chips
-      const chipsBox = await page.locator('.empty-problem-chips').boundingBox();
-      assert.ok(chipsBox, 'Expected .empty-problem-chips to be rendered');
-      assert.ok(chipsBox.height <= 340, `Empty chips height must be <= 340px, got ${chipsBox.height}px`);
-      console.log(`✓ Empty problem chips height is bounded: ${Math.round(chipsBox.height)}px (no 2400px scroll wall)`);
+      // The empty panel's task directory is a nine-then-expand disclosure at
+      // every width, and it never scrolls inside itself any more.
+      const collapsed = await emptyTaskDirectory(page);
+      assert.ok(collapsed.total > 9, `Expected a long task directory, got ${collapsed.total} chips`);
+      assert.ok(collapsed.scrollHeight <= collapsed.clientHeight + 1, `Empty chips must not scroll inside themselves (${collapsed.scrollHeight} > ${collapsed.clientHeight})`);
+      assert.equal(collapsed.toggleHidden, false, 'The empty panel must offer the expand toggle');
+      assert.equal(collapsed.expanded, 'false', 'The task directory must start collapsed');
+      assert.equal(collapsed.visible, 9, `The empty panel must show nine chips, got ${collapsed.visible}`);
+      assert.ok(collapsed.height <= 700, `Collapsed chips height must stay <= 700px, got ${collapsed.height}px`);
+      console.log(`✓ Empty task directory collapsed to ${collapsed.visible}/${collapsed.total} chips, height ${collapsed.height}px (no 2400px scroll wall)`);
+
+      await expandEmptyTaskDirectory(page);
+      const expanded = await emptyTaskDirectory(page);
+      assert.equal(expanded.expanded, 'true', 'The toggle must report the expanded state');
+      assert.equal(expanded.visible, expanded.total, `Expanding must reveal every chip, got ${expanded.visible}/${expanded.total}`);
+      assert.ok(expanded.scrollHeight <= expanded.clientHeight + 1, `Expanded chips must stay in the page flow (${expanded.scrollHeight} > ${expanded.clientHeight})`);
+      console.log(`✓ Empty task directory expands to all ${expanded.total} chips in the page flow`);
 
       // Verify touch target size of recovery chips
       const firstChip = page.locator('.recovery-problem-tag').first();
@@ -150,6 +179,7 @@ async function run() {
       // Click recovery chip to recover
       const targetChip = page.locator('.recovery-problem-tag[data-problem-tag="報表比對"]');
       if (await targetChip.count() > 0) {
+        await expandEmptyTaskDirectory(page);
         await targetChip.click();
         await page.waitForSelector('#results .card');
         const recoveredCount = await page.locator('#results .card').count();

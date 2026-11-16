@@ -1,0 +1,69 @@
+Starting E2E browser tests against http://127.0.0.1:8123/ai-agent-use-cases/...
+
+--- Testing viewport: desktop (1440x900) ---
+✓ Discovery ready, corpus loaded
+✓ Hero problem tags verified
+✓ Home axe violations = 0
+✓ Query "合約審查且風險" returned 6 cases, top: UC-154
+✓ Query "合約比對" returned 24 cases, top: UC-234
+✓ Query "報表比對" returned 24 cases, top: UC-129
+✓ Query "庫存管理" returned 24 cases, top: UC-129,UC-130,UC-016
+✓ Empty state reached under combination conditions
+✓ Empty task directory collapsed to 9/53 chips, height 162px (no 2400px scroll wall)
+✓ Empty task directory expands to all 53 chips in the page flow
+✓ Recovery chip touch height verified: 44px
+✓ Empty state axe violations = 0
+✓ Recovered via chip "報表比對" -> 24 cases under active scenario
+✓ Direct case URL opened detail view
+✓ Clicked safety shortcut button
+✓ Safety shortcut scrolled detail to scrollTop: 2019px and focused target
+✓ Proof note & three-layer safe adoption guidance verified
+✓ Detail view axe violations = 0
+✓ Detail closed via Escape, query context preserved
+
+--- Testing viewport: mobile (390x844) ---
+✓ Discovery ready, corpus loaded
+✓ Hero problem tags verified
+✓ Home axe violations = 0
+✓ Query "合約審查且風險" returned 6 cases, top: UC-154
+✓ Query "合約比對" returned 24 cases, top: UC-234
+✓ Query "報表比對" returned 24 cases, top: UC-129
+✓ Query "庫存管理" returned 24 cases, top: UC-129,UC-130,UC-016
+✓ Empty state reached under combination conditions
+✓ Empty task directory collapsed to 9/53 chips, height 334px (no 2400px scroll wall)
+✓ Empty task directory expands to all 53 chips in the page flow
+✓ Recovery chip touch height verified: 61px
+✓ Empty state axe violations = 0
+✓ Recovered via chip "報表比對" -> 24 cases under active scenario
+✓ Direct case URL opened detail view
+✓ Clicked safety shortcut button
+✓ Safety shortcut scrolled detail to scrollTop: 2564px and focused target
+✓ Proof note & three-layer safe adoption guidance verified
+✓ Detail view axe violations = 0
+✓ Detail closed via Escape, query context preserved
+
+--- Testing viewport: small-mobile (320x740) ---
+✓ Discovery ready, corpus loaded
+✓ Hero problem tags verified
+✓ Home axe violations = 0
+✓ Query "合約審查且風險" returned 6 cases, top: UC-154
+✓ Query "合約比對" returned 24 cases, top: UC-234
+✓ Query "報表比對" returned 24 cases, top: UC-129
+✓ Query "庫存管理" returned 24 cases, top: UC-129,UC-130,UC-016
+✓ Empty state reached under combination conditions
+✓ Empty task directory collapsed to 9/53 chips, height 334px (no 2400px scroll wall)
+✓ Empty task directory expands to all 53 chips in the page flow
+✓ Recovery chip touch height verified: 61px
+✓ Empty state axe violations = 0
+✓ Recovered via chip "報表比對" -> 24 cases under active scenario
+✓ Direct case URL opened detail view
+✓ Clicked safety shortcut button
+✓ Safety shortcut scrolled detail to scrollTop: 2751px and focused target
+✓ Proof note & three-layer safe adoption guidance verified
+✓ Detail view axe violations = 0
+✓ Detail closed via Escape, query context preserved
+
+========================================
+All E2E scenarios passed with 0 Axe accessibility violations across all viewports!
+========================================
+

@@ -1,0 +1,66 @@
+Starting E2E browser tests against http://127.0.0.1:8123/ai-agent-use-cases/...
+
+--- Testing viewport: desktop (1440x900) ---
+✓ Discovery ready, corpus loaded
+✓ Hero problem tags verified with 安全防護 and 人工審批
+✓ Home axe violations = 0
+✓ Hero tag "安全防護" yielded "顯示 223 / 532 筆收錄" (24 cards in first batch)
+✓ Query "人工審批" returned "顯示 40 / 532 筆收錄", top: UC-184
+✓ Card audience orientation verified: "👤 情境常見讀者：想藉助 AI 提升日常行政、客服、行銷或..."
+✓ Query "付款審核" returned "顯示 184 / 532 筆收錄"
+✓ Search results axe violations = 0
+✓ Empty state reached under combination conditions
+✓ Empty task directory collapsed to 9/52 chips, height 162px (no 2400px scroll wall)
+✓ Empty task directory expands to all 52 chips in the page flow
+✓ Empty state axe violations = 0
+✓ Direct case URL opened detail view
+✓ High-priority safety caution verified in detail: "這是失敗復盤案例；切勿開啟「永遠允許」，地址、電話與低於底線的議價不可被自動送出，也不要寫進長期記憶或範本。平台未確認前只在站外準備草稿，本人同意不等於平台授權。"
+✓ Clicked safety shortcut button
+✓ Proof note & three-layer safe adoption guidance verified
+✓ Detail view axe violations = 0
+✓ Detail closed via Escape, query context preserved
+
+--- Testing viewport: mobile (390x844) ---
+✓ Discovery ready, corpus loaded
+✓ Hero problem tags verified with 安全防護 and 人工審批
+✓ Home axe violations = 0
+✓ Hero tag "安全防護" yielded "顯示 223 / 532 筆收錄" (24 cards in first batch)
+✓ Query "人工審批" returned "顯示 40 / 532 筆收錄", top: UC-184
+✓ Card audience orientation verified: "👤 情境常見讀者：想藉助 AI 提升日常行政、客服、行銷或..."
+✓ Query "付款審核" returned "顯示 184 / 532 筆收錄"
+✓ Search results axe violations = 0
+✓ Empty state reached under combination conditions
+✓ Empty task directory collapsed to 9/52 chips, height 334px (no 2400px scroll wall)
+✓ Empty task directory expands to all 52 chips in the page flow
+✓ Empty state axe violations = 0
+✓ Direct case URL opened detail view
+✓ High-priority safety caution verified in detail: "這是失敗復盤案例；切勿開啟「永遠允許」，地址、電話與低於底線的議價不可被自動送出，也不要寫進長期記憶或範本。平台未確認前只在站外準備草稿，本人同意不等於平台授權。"
+✓ Clicked safety shortcut button
+✓ Proof note & three-layer safe adoption guidance verified
+✓ Detail view axe violations = 0
+✓ Detail closed via Escape, query context preserved
+
+--- Testing viewport: small-mobile (320x740) ---
+✓ Discovery ready, corpus loaded
+✓ Hero problem tags verified with 安全防護 and 人工審批
+✓ Home axe violations = 0
+✓ Hero tag "安全防護" yielded "顯示 223 / 532 筆收錄" (24 cards in first batch)
+✓ Query "人工審批" returned "顯示 40 / 532 筆收錄", top: UC-184
+✓ Card audience orientation verified: "👤 情境常見讀者：想藉助 AI 提升日常行政、客服、行銷或..."
+✓ Query "付款審核" returned "顯示 184 / 532 筆收錄"
+✓ Search results axe violations = 0
+✓ Empty state reached under combination conditions
+✓ Empty task directory collapsed to 9/52 chips, height 334px (no 2400px scroll wall)
+✓ Empty task directory expands to all 52 chips in the page flow
+✓ Empty state axe violations = 0
+✓ Direct case URL opened detail view
+✓ High-priority safety caution verified in detail: "這是失敗復盤案例；切勿開啟「永遠允許」，地址、電話與低於底線的議價不可被自動送出，也不要寫進長期記憶或範本。平台未確認前只在站外準備草稿，本人同意不等於平台授權。"
+✓ Clicked safety shortcut button
+✓ Proof note & three-layer safe adoption guidance verified
+✓ Detail view axe violations = 0
+✓ Detail closed via Escape, query context preserved
+
+========================================
+All E2E scenarios passed with 0 Axe accessibility violations across all viewports!
+========================================
+

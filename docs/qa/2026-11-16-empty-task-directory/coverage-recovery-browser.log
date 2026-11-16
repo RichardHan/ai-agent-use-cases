@@ -1,0 +1,40 @@
+[
+  {
+    "viewport": "desktop",
+    "chips": 55,
+    "marked": 7,
+    "markedTerms": [
+      "播客摘要",
+      "寫履歷",
+      "出差報銷",
+      "代碼重構",
+      "發票辨識",
+      "機票比價",
+      "隱私審查"
+    ]
+  },
+  {
+    "viewport": "marked-click",
+    "markedTerm": "播客摘要",
+    "promised": 8,
+    "coveredTerm": "郵件"
+  },
+  {
+    "viewport": "scenario=生活",
+    "chips": 45,
+    "marked": 31
+  },
+  {
+    "viewport": "scope=overview",
+    "chips": 48,
+    "marked": 0
+  },
+  {
+    "viewport": "390x844",
+    "legendHeight": 63
+  },
+  {
+    "viewport": "320x740",
+    "legendHeight": 84
+  }
+]

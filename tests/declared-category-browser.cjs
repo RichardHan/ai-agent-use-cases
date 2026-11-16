@@ -57,22 +57,24 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
     return {
      total:counts.size,
      singleton,
+     note:(document.getElementById('category-shape')||{}).textContent||'',
      hint:document.getElementById('facet-count-hint').textContent,
      group:[...document.querySelectorAll('#category optgroup')].map(node=>node.label).join(' '),
      listed:[...document.querySelectorAll('#category option')].filter(option=>option.value&&Number(option.dataset.count)===1).length
     };
    });
-   assert.ok(shape.hint.includes('不是共用主題清單'),'the filter says a theme is the page\'s own phrase');
-   assert.ok(shape.hint.includes(shape.total+' 個分類有 '+shape.singleton+' 個只出現 1 次'),'the hint counts loaded phrases, not a copied total');
+   assert.ok(shape.note.includes('不是共用主題清單'),'the category control says a theme is the page\'s own phrase');
+   assert.ok(shape.note.includes(shape.total+' 個分類有 '+shape.singleton+' 個只出現 1 次'),'the note counts loaded phrases, not a copied total');
+   assert.ok(!shape.hint.includes('不是共用主題清單'),'the long facet hint does not repeat the shape sentence');
    if (shape.listed) assert.ok(shape.group.includes(shape.listed+' 個只對到 1 筆'),'the opened list says how many current options match one entry');
    row.shape={total:shape.total,singleton:shape.singleton,listed:shape.listed};
    await page.goto(base+'?q=xyz987',{waitUntil:'domcontentloaded'});
    await ready();
    const narrowed=await page.evaluate(()=>({
-    hint:document.getElementById('facet-count-hint').textContent,
+    note:(document.getElementById('category-shape')||{}).textContent||'',
     group:[...document.querySelectorAll('#category optgroup')].map(node=>node.label).join(' ')
    }));
-   assert.ok(narrowed.hint.includes(shape.total+' 個分類有 '+shape.singleton+' 個只出現 1 次'),'a query does not rewrite the loaded-catalogue shape');
+   assert.ok(narrowed.note.includes(shape.total+' 個分類有 '+shape.singleton+' 個只出現 1 次'),'a query does not rewrite the loaded-catalogue shape');
    assert.ok(!narrowed.group.includes(shape.singleton+' 個只對到 1 筆'),'an empty result list must not repeat the catalogue singleton count');
    await page.goto(base,{waitUntil:'domcontentloaded'});
    await ready();

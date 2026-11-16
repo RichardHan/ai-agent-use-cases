@@ -1,0 +1,260 @@
+{
+  "source": "https://richardhan.github.io/ai-agent-use-cases/",
+  "sizes": [
+    {
+      "viewport": {
+        "width": 320,
+        "height": 640,
+        "scrollY": 0
+      },
+      "scrollWidth": 320,
+      "hint": {
+        "top": 4036,
+        "bottom": 4544,
+        "height": 508,
+        "width": 258,
+        "docTop": 4036
+      },
+      "hintWithoutShape": 420,
+      "shapeDelta": 88,
+      "hintTextLen": 459,
+      "category": {
+        "top": 4953,
+        "bottom": 4997,
+        "height": 44,
+        "width": 258,
+        "docTop": 4953
+      },
+      "categoryLabel": {
+        "top": 4922,
+        "bottom": 4997,
+        "height": 76,
+        "width": 258,
+        "docTop": 4922
+      },
+      "categoryInFirstScreen": false,
+      "categoryFullyInFirstScreen": false,
+      "labelInFirstScreen": false,
+      "detailsOpen": false,
+      "details": {
+        "top": 2956,
+        "bottom": 3002,
+        "height": 46,
+        "width": 288,
+        "docTop": 2956
+      },
+      "hero": null,
+      "explore": {
+        "top": 2697,
+        "bottom": 16747,
+        "height": 14051,
+        "width": 288,
+        "docTop": 2697
+      },
+      "filterRow": {
+        "top": 4554,
+        "bottom": 5241,
+        "height": 687,
+        "width": 258,
+        "docTop": 4554
+      },
+      "finder": {
+        "top": 5253,
+        "bottom": 5298,
+        "height": 45,
+        "width": 258,
+        "docTop": 5253
+      },
+      "pageerror": [],
+      "size": [
+        320,
+        640
+      ],
+      "afterHintScroll": {
+        "scrollY": 0,
+        "hint": {
+          "top": 4036,
+          "bottom": 4544,
+          "height": 508
+        },
+        "category": {
+          "top": 4953,
+          "bottom": 4997,
+          "height": 44
+        },
+        "categoryVisible": false,
+        "viewport": 640
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "scrollY": 0
+      },
+      "scrollWidth": 390,
+      "hint": {
+        "top": 3874,
+        "bottom": 4272,
+        "height": 398,
+        "width": 320,
+        "docTop": 3874
+      },
+      "hintWithoutShape": 331,
+      "shapeDelta": 67,
+      "hintTextLen": 459,
+      "category": {
+        "top": 4681,
+        "bottom": 4725,
+        "height": 44,
+        "width": 320,
+        "docTop": 4681
+      },
+      "categoryLabel": {
+        "top": 4649,
+        "bottom": 4725,
+        "height": 76,
+        "width": 320,
+        "docTop": 4649
+      },
+      "categoryInFirstScreen": false,
+      "categoryFullyInFirstScreen": false,
+      "labelInFirstScreen": false,
+      "detailsOpen": false,
+      "details": {
+        "top": 2966,
+        "bottom": 3012,
+        "height": 46,
+        "width": 350,
+        "docTop": 2966
+      },
+      "hero": null,
+      "explore": {
+        "top": 2707,
+        "bottom": 16295,
+        "height": 13588,
+        "width": 350,
+        "docTop": 2707
+      },
+      "filterRow": {
+        "top": 4282,
+        "bottom": 4969,
+        "height": 687,
+        "width": 320,
+        "docTop": 4282
+      },
+      "finder": {
+        "top": 4981,
+        "bottom": 5026,
+        "height": 45,
+        "width": 320,
+        "docTop": 4981
+      },
+      "pageerror": [],
+      "size": [
+        390,
+        844
+      ],
+      "afterHintScroll": {
+        "scrollY": 0,
+        "hint": {
+          "top": 3874,
+          "bottom": 4272,
+          "height": 398
+        },
+        "category": {
+          "top": 4681,
+          "bottom": 4725,
+          "height": 44
+        },
+        "categoryVisible": false,
+        "viewport": 844
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "scrollY": 0
+      },
+      "scrollWidth": 1440,
+      "hint": {
+        "top": 2077,
+        "bottom": 2187,
+        "height": 110,
+        "width": 1202,
+        "docTop": 2077
+      },
+      "hintWithoutShape": 88,
+      "shapeDelta": 22,
+      "hintTextLen": 459,
+      "category": {
+        "top": 2321,
+        "bottom": 2365,
+        "height": 44,
+        "width": 390,
+        "docTop": 2321
+      },
+      "categoryLabel": {
+        "top": 2289,
+        "bottom": 2365,
+        "height": 76,
+        "width": 390,
+        "docTop": 2289
+      },
+      "categoryInFirstScreen": false,
+      "categoryFullyInFirstScreen": false,
+      "labelInFirstScreen": false,
+      "detailsOpen": false,
+      "details": {
+        "top": 1720,
+        "bottom": 1773,
+        "height": 53,
+        "width": 1240,
+        "docTop": 1720
+      },
+      "hero": null,
+      "explore": {
+        "top": 1460,
+        "bottom": 6660,
+        "height": 5199,
+        "width": 1240,
+        "docTop": 1460
+      },
+      "filterRow": {
+        "top": 2197,
+        "bottom": 2517,
+        "height": 319,
+        "width": 1202,
+        "docTop": 2197
+      },
+      "finder": {
+        "top": 2529,
+        "bottom": 2574,
+        "height": 45,
+        "width": 1202,
+        "docTop": 2529
+      },
+      "pageerror": [],
+      "size": [
+        1440,
+        900
+      ],
+      "afterHintScroll": {
+        "scrollY": 0,
+        "hint": {
+          "top": 2077,
+          "bottom": 2187,
+          "height": 110
+        },
+        "category": {
+          "top": 2321,
+          "bottom": 2365,
+          "height": 44
+        },
+        "categoryVisible": false,
+        "viewport": 900
+      }
+    }
+  ]
+}

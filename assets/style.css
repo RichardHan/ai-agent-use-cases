@@ -477,6 +477,8 @@
 .filter-panel .filter-row select:focus-visible,.filter-panel .filter-row .reset:focus-visible{outline:3px solid var(--green);outline-offset:3px}
 @media(max-width:1000px){.filter-panel .filter-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.filter-panel .filter-row{grid-template-columns:minmax(0,1fr)}}
+.category-shape{grid-column:1/-1;align-self:start;margin:0;font-size:13px;line-height:1.7;color:#4c6258;overflow-wrap:anywhere}
+.category-shape[hidden]{display:none}
 
 /* Evidence proof badge styling: credible, accessible, and responsive. */
 .card-bottom .proof{font-size:12px;line-height:1.5;color:#244237;font-weight:550;background:#edf3ea;border:1px solid #d4e0cf;border-radius:4px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;flex:0 1 auto;max-width:fit-content}

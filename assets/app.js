@@ -3069,8 +3069,8 @@ function renderCategoryFinder() {
   }
 }
 // Count each page's own 分類 phrase in the loaded catalogue, not under the
-// current query. Option prefixes already show the filtered count; this sentence
-// says whether the dropdown is a shared list or a pile of one-page phrases.
+// current query. The sentence sits beside #category: once a 320px reader has
+// scrolled to the select, the shared facet hint is above the viewport.
 function categoryShapeNote(items) {
   const counts=new Map();
   for (const item of items||[]) {
@@ -3094,12 +3094,18 @@ function renderFacetCounts(terms, filters) {
   // way to know why a card printed a tool the case's `- 工具：` line never named.
   const toolHint = '提及工具只看案例內文提到的工具；來源與站內案例連結的網域／檔名（例如 github.com）、去重對照其他案例的敘述，以及「不推定…／不需要…」等免責或否定句不算。明示分頁或續跑狀態的 cursor 不算 Cursor 產品。工具名以站上固定清單為準，清單外的工具不會出現在選項裡。';
   // A page that declares no theme is not given one, so it cannot appear under any
-  // 主題分類 option. Say how many those are instead of letting the filter look
-  // like it covers the whole catalogue.
+  // 主題分類 option. Say how many those are in the shared hint. The shape sentence
+  // stays on #category-shape so it remains visible with the select.
   const unclassified = discoveryReady ? entries.filter(item => !item.category).length : 0;
-  const categoryHint = (unclassified
+  const categoryHint = unclassified
     ? '主題分類只列案例頁首宣告的分類；' + unclassified + ' 個未宣告分類的條目不在選項內，仍可用關鍵字、使用情境與其他篩選找到。'
-    : '') + (discoveryReady ? categoryShapeNote(entries) : '');
+    : '';
+  const shapeNote = discoveryReady ? categoryShapeNote(entries) : '';
+  const shapeEl = $('category-shape');
+  if (shapeEl) {
+    shapeEl.textContent = shapeNote;
+    shapeEl.hidden = !shapeNote;
+  }
   hint.textContent=(!discoveryReady
     ? '案例載入完成後，會顯示各選項的符合筆數。'
     : failedPaths.length

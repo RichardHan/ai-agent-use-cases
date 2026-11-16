@@ -1,3 +1,17 @@
+## 2026-11-16 改名一支測試檔，不再能讓 33 支瀏覽器測試整段消失
+
+Website QA 的 `Verify the updated site in Chromium` 以 `if: ${{ hashFiles('tests/discovery-browser.cjs') != '' }}` 包住 33 支瀏覽器指令與三尺寸 axe 掃描。把 `tests/discovery-browser.cjs` 改名，`hashFiles` 回空字串、步驟 skipped、job 仍 success；在基準 `dea10671` 的獨立 worktree 實測改名後 `node --test tests/*.test.cjs` 仍是 889 pass／0 fail，`tests/` 沒有任何一項會發現 33 支旅程不再執行。同型守門共 10 處、分布在 7 個 workflow：website-qa 1、reader-qa 2、search-submit-qa 2、card-refinement-qa 2、related-qa／combined-recovery-qa／method-shortcut-qa 各 1。其中 card-refinement、combined-recovery、method-shortcut、search-submit 的守門看的是 unit test 檔，實際執行的是別的 browser 檔，兩者沒有對應關係。
+
+本輪移除全部 10 處 `hashFiles` 步驟守門；`reader-qa.yml` 的正式站讀者驗證只保留 `github.ref == 'refs/heads/main'`。檔案不在時 `node` 直接失敗，不再變成綠燈。新增 `tests/workflow-skip-guard.test.cjs`：任何 workflow 不得用 `hashFiles(` 決定是否執行步驟（略過註解行）；workflow 呼叫的每個 `tests/`／`scripts/` 檔必須存在（步驟以 `git show … > tests/x-before.cjs` 產生的暫存檔除外）；`website-qa.yml` 的 Chromium 步驟不得有 `if:`，且必須在可執行的 `run:` 內容裡跑 `tests/discovery-browser.cjs`。`method-shortcut-qa.yml` 的 `Verify preview when implemented` 改名為 `Verify preview`。
+
+獨立審查兩個 P2 都已修：初版只檢查步驟名稱後第一行，`env:` 之後的 `if:` 會漏掉，改成檢查步驟全部 8 空白 key；第二版把 6 空白註解當成步驟邊界，註解後接 8 空白 `if:` 仍可逃逸，改成只有 6 空白的 `- ` 新步驟或 4 空白以下的 job key 才是邊界。兩種注入都實際轉紅。
+
+驗收：基準 889 → **892 pass／0 fail**；改名、`env:` 後插 `if: ${{ success() }}`、註解掉 discovery 指令、6 空白註解＋`if:` 四種注入都讓守則轉紅；57 個 workflow YAML 全部可解析，`hashFiles`／`|| true`／`set +e`／`continue-on-error` 皆為 0。本機 preview 實跑被解除守門的指令：discovery 旅程在 1440／390／320 通過、axe 0、pageerror 0、無水平溢出。限制：其餘 5 個 workflow 的 push 觸發分支已非 main，未逐一 dispatch；`node --test tests/*.test.cjs` 的 shell glob 刪檔不會報錯另記為候選。
+
+交付：[PR #447](https://github.com/RichardHan/ai-agent-use-cases/pull/447)，實作 `43716689`／`f22ace10`、合併 `b266e6f1`；PR Website QA [43835427695](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43835427695) success（892 tests、`Verify the updated site in Chromium` 步驟 success）、Related reading QA [43835427650](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43835427650)、Reader QA [43835427646](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43835427646)、Corpus bundle QA [43835427636](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43835427636) success。主線 [Website QA 43837300518](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43837300518) success（899 tests、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH b266e6f1df38`、`PUBLICATION_MODE: exact`、`PASS LIVE` ×2）、[Pages 43837299861](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43837299861) success；正式 `sourceRevision` 精確等於 `b266e6f1…`，`index.html`／`assets/app.js`／`assets/style.css`／`assets/discovery.js` 與合併版逐位元相同；正式站三情境（會議入口 29 筆、旅遊＋開發＋待查空結果→移除條件回到 1 筆、UC-445 直鏈 10 個來源連結與返回保留查詢）在 1440／390 通過、無水平溢出、pageerror 0。[完整證據](docs/qa/2026-11-16-browser-step-guard/README.md)。
+
+下一輪：先量空結果面板在 390px 一次列出 55 個任務按鈕對復原流程的影響。正式站 `b266e6f1` 實測：`?q=xyz987` 的空結果面板高 851px、55 個任務按鈕、面板內 57 個焦點停點，決定沿用首頁「先顯示 9 項＋展開」或縮減；再做 `主題分類` 361 個單篇選項的形狀說明，並把 `source-guide-qa.yml` 的 75 分鐘 `published` job 納入 60＋20 分鐘等待上限守則。先驗證：390px 空結果時量按鈕數、面板高度與 Tab 次數。
+
 ## 2026-11-16 無主題命中時的「改搜」改為最窄可用詞
 
 結果不是 0、但沒有任何案例的標題、用途或痛點同時包含整組詞時，結果頁原本挑命中最多的詞當下一步：正式站 `95924cf2` 的「隱私審查」提供「審查」61 筆（「隱私」只有 9），「我想讓 AI 幫我整理會議紀錄」提供「讓」273 筆（「會議」只有 14）；首頁 7 個任務入口也都被帶到更寬的集合。按鈕筆數是真的，但方向把恢復探索變成擴大雜訊。

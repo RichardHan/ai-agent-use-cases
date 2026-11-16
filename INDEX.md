@@ -282,7 +282,7 @@
 | UC-247 | 停車繳費證據與罰單初審交接 | Grok Bot | [作者提交自述；未核受理及裁定](cases/247-parking-citation-payment-evidence-review.md) | 生活｜停車、證據、核准 |
 | UC-248 | 跨代理群聊資料揭露與單向交接 | Meta Muse／Telegram／OpenClaw | [作者失誤及改架構自述；隔離效果未驗](cases/248-cross-agent-conversation-disclosure-boundary.md) | 工作｜隱私、交接、驗收 |
 | UC-249 | 閱讀頁序到單張八頁小誌拼版 | Grok Bot／Cursor／Flutter | [公開原碼與PDF預覽；未實印折](cases/249-eight-panel-zine-imposition-output.md) | 創作｜小誌、拼版、驗收 |
-| UC-250 | 郵件資料搬遷與收信路由接管驗收 | Grok Bot／Microsoft／MXroute | [已合併UC-156；來源補頁不另計500](cases/250-mail-migration-data-routing-cutover.md) | 工作｜郵件、搬遷、驗收 |
+| UC-250 | 郵件資料搬遷與收信路由接管驗收 | Grok Bot／Microsoft／MXroute | [已併入 UC-156；補充頁不另計入 1,000 案目標](cases/250-mail-migration-data-routing-cutover.md) | 工作｜郵件、搬遷、驗收 |
 | UC-251 | 軌道事件快照來源與數值差異核對 | Grok Bot／Cursor／CelesTrak | [公開快照及測試；根因未證、非安全判定](cases/251-orbital-snapshot-provenance-discrepancy-review.md) | 學習｜科研、來源、驗收 |
 | UC-252 | 三表情境模型與董事會材料核對 | Grok Bot／Excel／簡報 | [作者交付自述；公式勾稽未驗](cases/252-three-statement-scenario-board-pack.md) | 工作｜財務模型、情境、驗收 |
 | UC-253 | 自有問卷代理回覆與資料污染檢查 | Meta Muse | [單次自有問卷測試自述；無偵測成效](cases/253-survey-ai-response-contamination-review.md) | 工作｜問卷、研究品質、驗收 |
@@ -573,7 +573,7 @@
 | 編號 | 補充 | 狀態 | 情境／標籤 |
 | --- | --- | --- | --- |
 | UC-008 | [晨報覆蓋與排程驗收](evidence/008-morning-brief-validation.md) | 作者實測限制補充；不能承諾完整或準時 | 工作｜每日、晨報、收件匣、排程 |
-| UC-009 | [背景移轉模板與作者實際索引](evidence/009-background-transfer-template.md) | 新增B級作者實作；尚待分類核對，未加500計數 | 開發｜跨助手移轉、模板 |
+| UC-009 | [背景移轉模板與作者實際索引](evidence/009-background-transfer-template.md) | 新增B級作者實作；尚待分類核對，未加 1,000 案目標的計數 | 開發｜跨助手移轉、模板 |
 | UC-013 | [登入狀態診斷與失敗報告驗收](evidence/013-authentication-diagnosis.md) | 作者失敗復盤；根因未確認修復 | 開發｜登入、故障診斷 |
 
 <a id="pending-sources"></a>

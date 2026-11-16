@@ -287,13 +287,14 @@ const read = page => page.evaluate(() => {
     // hides .stats paragraphs also hid this note, so the totals looked wrong on
     // the viewports most readers use. Check the rendered paragraph, not just its
     // textContent (which survives display:none).
-    for (const [name, width, height] of [['phone', 390, 844], ['small', 320, 740]]) {
+    for (const [name, width, height] of [['desktop', 1440, 900], ['phone', 390, 844], ['small', 320, 740]]) {
       const noteContext = await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce' });
       const notePage = await noteContext.newPage();
       await notePage.goto(origin + '?kind=pending', { waitUntil: 'networkidle' });
       await notePage.waitForFunction(() => typeof entries !== 'undefined' && entries.length > 0, null, { timeout: 90000 });
       const catalog = await notePage.evaluate(() => {
         const note = document.getElementById('pending-note');
+        const mergedNote = document.getElementById('merged-note');
         const counts = catalogCounts(entries);
         return {
           display: getComputedStyle(note).display,
@@ -302,6 +303,13 @@ const read = page => page.evaluate(() => {
           total: entries.length,
           parts: counts.case + counts.evidence + counts.pending,
           resolved: entries.filter(item => item.kind === 'pending' && item.resolved).length,
+          caseMerged: counts.caseMerged,
+          merged: mergedNote ? {
+            hidden: mergedNote.hidden,
+            display: getComputedStyle(mergedNote).display,
+            height: Math.round(mergedNote.getBoundingClientRect().height),
+            text: mergedNote.textContent.trim()
+          } : null,
           overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
         };
       });
@@ -309,6 +317,14 @@ const read = page => page.evaluate(() => {
       assert.ok(catalog.height > 0, `${name}: the resolved-lead note has a readable height`);
       assert.match(catalog.text, /另有 2 個待查線索已處理並併入案例/, `${name}: the note names the two resolved leads`);
       assert.equal(catalog.parts + catalog.resolved, catalog.total, `${name}: displayed parts add up to the collection total`);
+      assert.ok(catalog.merged, `${name}: the merged-supplement note exists in the stats card`);
+      assert.equal(catalog.merged.hidden, false, `${name}: the merged-supplement note is not hidden`);
+      assert.notEqual(catalog.merged.display, 'none', `${name}: the merged-supplement note is rendered`);
+      assert.ok(catalog.merged.height > 0, `${name}: the merged-supplement note has a readable height`);
+      assert.equal(catalog.caseMerged, 1, `${name}: the catalog knows one merged case page`);
+      assert.match(catalog.merged.text, /其中 1 頁（UC-250）是已併入主案例的補充頁/, `${name}: the note names UC-250`);
+      assert.match(catalog.merged.text, /不另計入 1,000 案目標/, `${name}: the note ties the exclusion to the current target`);
+      assert.ok(catalog.merged.text.includes(`其中 ${catalog.caseMerged} 頁`), `${name}: the rendered count comes from the catalog, not a hardcoded label`);
       assert.equal(catalog.overflow, 0, `${name}: the restored note does not overflow`);
       await noteContext.close();
     }

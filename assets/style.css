@@ -103,7 +103,7 @@
   /* The note reconciles the entry total with the open-lead count by naming leads
      already merged into a case. The <=640px .stats p rule that hides paragraphs
      must not swallow it: without the note, 529 entries look like 522+3+2 here. */
-  #pending-note{display:block;margin:0;width:100%;max-width:52ch;font-size:13px;line-height:1.7;overflow-wrap:anywhere}
+  #pending-note,#merged-note{display:block;margin:0;width:100%;max-width:52ch;font-size:13px;line-height:1.7;overflow-wrap:anywhere}
   .scenario-chips{padding:14px}
   .chips-title{width:100%;min-width:unset;margin-bottom:4px}
   .chips-row{gap:6px}

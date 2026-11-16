@@ -16,12 +16,12 @@
       "proof": "本案例頁首宣告 2 類來源：\n\n作者報告／示範\n主要：成果主張 社群作者／專案實踐者；核讀 本庫未獨立重現\n設計／未實跑\n同案宣告：成果主張 提示詞設計者（未提供執行結果）；核讀 未實跑，無成效可核\n作者報告／示範\n社群作者公開分享的操作紀錄與示範；實際產物、完整過程與成效仍須逐案核對，本庫未取得獨立代碼庫驗證。\n成果",
       "links": [
         {
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/094-meeting-stand-in-disclosure.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/094-meeting-stand-in-disclosure.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
         {
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/094-meeting-stand-in-disclosure.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/094-meeting-stand-in-disclosure.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
@@ -52,17 +52,17 @@
     },
     "shared": {
       "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准",
-      "caution": "這是失敗復盤案例；訊息、價格、地址與時間至少都要逐次核准，不要一開始就設「永遠允許」。任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；低於底線的議價不可自動送出。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
+      "caution": "這是失敗復盤案例；不要一開始就設「永遠允許」。初期任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；觀察後若放行，也只限純資訊回覆。低於底線的議價直接列給你、不要回應。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
       "links": [
         {
           "text": "查看 UC-016 的 GitHub 原始 Markdown",
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/016-marketplace-selling-buyer-messages.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/016-marketplace-selling-buyer-messages.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
         {
           "text": "在 GitHub 查看最新版本（可能不同，新分頁） ↗",
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/016-marketplace-selling-buyer-messages.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/016-marketplace-selling-buyer-messages.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
@@ -108,12 +108,12 @@
       "proof": "本案例頁首宣告 2 類來源：\n\n作者報告／示範\n主要：成果主張 社群作者／專案實踐者；核讀 本庫未獨立重現\n設計／未實跑\n同案宣告：成果主張 提示詞設計者（未提供執行結果）；核讀 未實跑，無成效可核\n作者報告／示範\n社群作者公開分享的操作紀錄與示範；實際產物、完整過程與成效仍須逐案核對，本庫未取得獨立代碼庫驗證。\n成果",
       "links": [
         {
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/094-meeting-stand-in-disclosure.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/094-meeting-stand-in-disclosure.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
         {
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/094-meeting-stand-in-disclosure.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/094-meeting-stand-in-disclosure.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
@@ -144,17 +144,17 @@
     },
     "shared": {
       "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准",
-      "caution": "這是失敗復盤案例；訊息、價格、地址與時間至少都要逐次核准，不要一開始就設「永遠允許」。任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；低於底線的議價不可自動送出。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
+      "caution": "這是失敗復盤案例；不要一開始就設「永遠允許」。初期任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；觀察後若放行，也只限純資訊回覆。低於底線的議價直接列給你、不要回應。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
       "links": [
         {
           "text": "UC-016 原始 Markdown（新分頁） ↗",
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/016-marketplace-selling-buyer-messages.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/016-marketplace-selling-buyer-messages.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
         {
           "text": "在 GitHub 查看最新版本（可能不同，新分頁） ↗",
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/016-marketplace-selling-buyer-messages.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/016-marketplace-selling-buyer-messages.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
@@ -173,7 +173,7 @@
       ],
       "overflow": 0,
       "detailClientHeight": 791,
-      "detailScrollHeight": 4760
+      "detailScrollHeight": 4783
     },
     "back3": {
       "open": false,
@@ -200,12 +200,12 @@
       "proof": "本案例頁首宣告 2 類來源：\n\n作者報告／示範\n主要：成果主張 社群作者／專案實踐者；核讀 本庫未獨立重現\n設計／未實跑\n同案宣告：成果主張 提示詞設計者（未提供執行結果）；核讀 未實跑，無成效可核\n作者報告／示範\n社群作者公開分享的操作紀錄與示範；實際產物、完整過程與成效仍須逐案核對，本庫未取得獨立代碼庫驗證。\n成果",
       "links": [
         {
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/094-meeting-stand-in-disclosure.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/094-meeting-stand-in-disclosure.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
         {
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/094-meeting-stand-in-disclosure.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/094-meeting-stand-in-disclosure.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
@@ -236,17 +236,17 @@
     },
     "shared": {
       "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准",
-      "caution": "這是失敗復盤案例；訊息、價格、地址與時間至少都要逐次核准，不要一開始就設「永遠允許」。任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；低於底線的議價不可自動送出。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
+      "caution": "這是失敗復盤案例；不要一開始就設「永遠允許」。初期任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；觀察後若放行，也只限純資訊回覆。低於底線的議價直接列給你、不要回應。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
       "links": [
         {
           "text": "UC-016 原始 Markdown（新分頁） ↗",
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/016-marketplace-selling-buyer-messages.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/016-marketplace-selling-buyer-messages.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },
         {
           "text": "在 GitHub 查看最新版本（可能不同，新分頁） ↗",
-          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/f537c8e40139b2ec6cf69205a44982b6cd587224/cases/016-marketplace-selling-buyer-messages.md",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/7699962e06b5ba310631b66bb27257083d7fbc5e/cases/016-marketplace-selling-buyer-messages.md",
           "target": "_blank",
           "rel": "noopener noreferrer"
         },

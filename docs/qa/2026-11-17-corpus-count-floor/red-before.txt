@@ -1,0 +1,72 @@
+✔ hero keeps a labelled disclosure for the long task directory (0.558ms)
+✔ disclosure does not remove any task link from the hero (0.19875ms)
+✔ compound problem queries segment cleanly and recall relevant cases (101.522833ms)
+✔ natural conversational queries strip intent prefixes and filler suffixes (19.822084ms)
+✔ canonical cases rank at top for compound problem queries (19.274375ms)
+✔ preserves bill terminology and standalone recommendation keywords (Reviewer findings) (3.147958ms)
+✔ hero problem tags expose 出差報銷 and 合約審核 with valid targets and real recall (4.877042ms)
+✔ roster and shift query 排班 isolates from workflow automation noise and ranks genuine shifts cases (3.112375ms)
+✔ natural conversational queries for resume, interview, social copywriting, procurement, and database recall targeted cases (29.72475ms)
+✔ Reviewer regression: prefix verbs must not strip leading chars of full keywords (請問發票報帳, 如何寫作, 如何審核) (7.534958ms)
+✔ hero problem tags and empty state suggestions expose 社群文案 and 員工排班 (2.011042ms)
+✔ natural problem queries for contract review, data extraction, invoice processing, podcast summary, price comparison, customer support, and meeting notes recall targeted cases (50.692709ms)
+✔ hero problem tags and empty state suggestions expose 資料擷取, 播客摘要, and 契約審查 (1.6685ms)
+✔ Reviewer regression: preserve bill vs invoice distinction and match complete English inflection phrases (6.644416ms)
+✔ natural problem queries for competitor research, code debugging, document translation, resume writing, email reply, web scraping, and mock interview recall targeted cases (48.2285ms)
+✔ hero problem tags and empty state suggestions expose 競品分析, 代碼除錯, 文件翻譯, 網頁抓取, and 寫履歷 (1.753875ms)
+✔ Reviewer regressions: complete keyword boundaries and conversational suffix preservation (7.056667ms)
+✔ natural problem queries with conversational quantifiers and modifiers recall targeted cases (38.618291ms)
+✖ Reviewer regressions: standalone modifiers and invoice scanning queries must be preserved (1.59575ms)
+✔ natural problem queries for surveys, literature review, airfare comparison, and expense reimbursement recall targeted cases (30.345792ms)
+✔ hero problem tags and empty state suggestions expose 問卷調查, 文獻回顧, and 機票比價 (1.747834ms)
+✔ Reviewer regressions: complete airfare phrases and travel vs non-travel reimbursement separation (10.487583ms)
+✔ natural problem queries for data cleaning, log analysis, compliance, and slide presentations recall targeted cases (28.043458ms)
+✔ hero problem tags and empty state suggestions expose 資料清理, 日誌分析, and 法規遵循 (1.770333ms)
+✔ Reviewer regressions: consume full compound phrases including 日誌記錄, 整理乾淨, and 合規性 without trailing fragments (4.111083ms)
+✔ natural problem queries for note organization, knowledge bases, customer feedback, and interview preparation recall targeted cases (88.50775ms)
+✔ hero problem tags and empty state suggestions expose 筆記整理, 客戶反饋, and 面試準備 (2.634083ms)
+✔ Reviewer regressions: complete prefix stripping, compound preservation, customer demand separation, and smart support preservation (11.18825ms)
+✔ natural problem queries for marketing copy, performance analysis, expense approval, and slide decks recall targeted cases (44.672ms)
+✔ hero problem tags and empty state suggestions expose 行銷文案, 效能分析, 報帳審核, and 簡報製作 (1.942958ms)
+✔ Reviewer regressions: marketing copy English phrase, performance analysis decoupling, and approval compound boundaries (12.297083ms)
+✔ natural problem queries for project progress, data analytics, audio transcription, meeting records, and market research recall targeted cases (26.487375ms)
+✔ hero problem tags and empty state suggestions expose 專案進度, 數據分析, 音訊轉寫, and 市場調研 (2.784542ms)
+✔ Reviewer regressions: project progress compounds, data analysis preservation, and audio transcription phrase boundaries (13.999834ms)
+✔ natural problem queries for product research, paper study, reading notes, language learning, security audit, privacy review, cost analysis, vendor assessment, and hiring screening recall targeted cases (66.133041ms)
+✔ hero problem tags and empty state suggestions expose 產品調研, 讀書筆記, 英語學習, 漏洞掃描, 隱私審查, 成本分析, 供應商評估, and 招募審查 (2.177125ms)
+✔ Reviewer regressions: product research boundaries, literature study synonyms, reading note segmentation, language learning preservation, vulnerability scanning to security watch, privacy review recall, cost analysis decoupling, vendor assessment preservation, and recruitment review audit (32.638625ms)
+✔ natural problem queries with conjunctions (且, 並且, 同時, 以及, 和, 與) cleanly segment into AND conditions and recall relevant cases (32.499541ms)
+✔ natural problem queries for contract comparison, legal review, report reconciliation, newsletter creation, and inventory management recall targeted cases (17.892125ms)
+✔ hero problem tags and empty state suggestions expose 合約比對, 報表比對, 電子報, 庫存管理, 安全防護, and 人工審批 (2.020417ms)
+✔ natural problem queries for security protection, human review, payment approval, and permission management recall targeted cases (19.647875ms)
+✔ Reviewer regressions: payment review aliases (扣款, 審批, 核准付款) must retain UC-052 and UC-091 coverage (11.217041ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 41
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1096.097792
+
+✖ failing tests:
+
+test at tests/problem-compound-queries.test.cjs:375:1
+✖ Reviewer regressions: standalone modifiers and invoice scanning queries must be preserved (1.59575ms)
+  AssertionError [ERR_ASSERTION]: Standalone 一次性 must match 31 cases
+  
+  32 !== 31
+  
+      at TestContext.<anonymous> (/Users/richard_han/orca/workspaces/ai-agent-use-cases/improve-2026-11-17/tests/problem-compound-queries.test.cjs:380:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 32,
+    expected: 31,
+    operator: 'strictEqual'
+  }

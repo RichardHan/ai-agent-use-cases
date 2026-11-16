@@ -36,9 +36,9 @@ jobs:
           python3 -m http.server 8088 --directory "$RUNNER_TEMP/before-preview" >/tmp/related-before.log 2>&1 &
           node tests/related-baseline.cjs
           kill $!
-      - name: Baseline tests, syntax and preview
+      # Unit suite: Website QA only (tests/pr-gate-coverage.test.cjs keeps it single).
+      - name: Syntax and preview
         run: |
-          node --test tests/*.test.cjs
           for file in assets/*.js; do node --check "$file"; done
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
       - name: Browser walkthrough

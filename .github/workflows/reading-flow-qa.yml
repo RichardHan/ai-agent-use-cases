@@ -21,9 +21,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Baseline tests and static preview
+      # The full unit suite runs once per pull request, in Website QA: every path
+      # this workflow triggers on is also in its filter, so repeating it here only
+      # turned one failing assertion into another red check. See
+      # tests/pr-gate-coverage.test.cjs ("one pull-request workflow runs the whole
+      # unit suite"). Feature browser checks below remain this workflow's gate.
+      - name: Syntax check and static preview
         run: |
-          node --test tests/*.test.cjs
           for file in assets/*.js; do node --check "$file"; done
           python3 scripts/preview.py "$RUNNER_TEMP/reading-preview/ai-agent-use-cases"
       - name: Install cloud browser tools

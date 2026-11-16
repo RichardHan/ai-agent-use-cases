@@ -24,9 +24,9 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/tools" playwright@1.64.1 @axe-core/playwright@4.10.2
           "$RUNNER_TEMP/tools/node_modules/.bin/playwright" install --with-deps chromium firefox webkit
           sudo apt-get install -y fonts-noto-cjk
-      - name: Unit, syntax and static preview
+      # Unit suite: Website QA only (tests/pr-gate-coverage.test.cjs keeps it single).
+      - name: Syntax and static preview
         run: |
-          node --test tests/*.test.cjs
           node --check assets/reader.js
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
       - name: Verify three reading journeys and IME

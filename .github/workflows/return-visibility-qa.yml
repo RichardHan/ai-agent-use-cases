@@ -53,7 +53,6 @@ jobs:
         env:
           NODE_PATH: ${{ runner.temp }}/return-tools/node_modules
         run: |
-          node --test tests/*.test.cjs
           node --check assets/app.js
           python3 scripts/preview.py "$RUNNER_TEMP/return-preview/ai-agent-use-cases"
           python3 -m http.server 8087 --directory "$RUNNER_TEMP/return-preview" > /tmp/return-preview.log 2>&1 &

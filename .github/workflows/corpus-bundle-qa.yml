@@ -35,9 +35,9 @@ jobs:
           for weight in Regular Bold; do curl -fL --retry 2 --max-time 90 "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-$weight.otf" -o "/usr/local/share/fonts/NotoSansCJKtc-$weight.otf"; done
           fc-cache -f
           chown -R pwuser:pwuser qa-artifacts
-      - name: Unit and syntax baseline
+      # Unit suite: Website QA only (tests/pr-gate-coverage.test.cjs keeps it single).
+      - name: Syntax baseline
         run: |
-          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
           for f in assets/*.js; do node --check "$f"; done
       - name: Build actual GitHub Pages Jekyll output
         uses: actions/jekyll-build-pages@v1

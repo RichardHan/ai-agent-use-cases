@@ -21,9 +21,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Unit tests, syntax and static preview
+      # Unit suite: Website QA only (tests/pr-gate-coverage.test.cjs keeps it single).
+      - name: Syntax and static preview
         run: |
-          node --test tests/*.test.cjs
           for file in assets/*.js tests/*.cjs; do node --check "$file"; done
           python3 scripts/preview.py "$RUNNER_TEMP/guide-preview/ai-agent-use-cases"
       - name: Install browser testing tools

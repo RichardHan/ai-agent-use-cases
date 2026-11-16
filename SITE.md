@@ -6,6 +6,8 @@
 
 驗收：基準 899 單元測試全過；新瀏覽器測試在基準 exit 1（沒有展開按鈕）、修正後三個尺寸 exit 0；五支受影響的瀏覽器回歸全數 exit 0。限制：preview 不是 Jekyll build、未用實體手機或讀屏、未重跑 Firefox／WebKit 的這支新測試；手機面板略高 87px 是換掉巢狀捲動的代價。[方案、前後數據、截圖與完整指令](docs/qa/2026-11-16-empty-task-directory/README.md)
 
+發布補記：PR #454（head `c64036b9`）16 項檢查 pass／2 項 published 依設計 skipping，一般 merge 為 `cfe861e2`；Pages 43851443756 success，正式站 `sourceRevision` 與合併版逐字相同，四個公開資產 SHA-256 一致。正式站 1440／390 重跑新契約測試 exit 0，三情境、四狀態 axe 0、pageerror 0；主線 Website QA 於交付時仍在執行，未冒稱已判決。
+
 ## 2026-11-16 改名一支測試檔，不再能讓 33 支瀏覽器測試整段消失
 
 Website QA 的 `Verify the updated site in Chromium` 以 `if: ${{ hashFiles('tests/discovery-browser.cjs') != '' }}` 包住 33 支瀏覽器指令與三尺寸 axe 掃描。把 `tests/discovery-browser.cjs` 改名，`hashFiles` 回空字串、步驟 skipped、job 仍 success；在基準 `dea10671` 的獨立 worktree 實測改名後 `node --test tests/*.test.cjs` 仍是 889 pass／0 fail，`tests/` 沒有任何一項會發現 33 支旅程不再執行。同型守門共 10 處、分布在 7 個 workflow：website-qa 1、reader-qa 2、search-submit-qa 2、card-refinement-qa 2、related-qa／combined-recovery-qa／method-shortcut-qa 各 1。其中 card-refinement、combined-recovery、method-shortcut、search-submit 的守門看的是 unit test 檔，實際執行的是別的 browser 檔，兩者沒有對應關係。

@@ -1,10 +1,11 @@
-✔ Website QA runs for every main push, including docs-only commits (0.445291ms)
-✔ the main-push gate still fails when publication cannot be verified (0.089542ms)
-ℹ tests 2
+✔ Website QA runs for every main push, including docs-only commits (0.420583ms)
+✔ the main-push gate still fails when publication cannot be verified (0.093875ms)
+✔ a burst of main pushes cannot replace a pending verdict (0.103959ms)
+ℹ tests 3
 ℹ suites 0
-ℹ pass 2
+ℹ pass 3
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 40.833875
+ℹ duration_ms 42.037333

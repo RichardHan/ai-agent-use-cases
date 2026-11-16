@@ -39,3 +39,11 @@ test('the main-push gate still fails when publication cannot be verified', () =>
   assert.match(workflow, /Wait for published assets and content/, 'the push job must still wait for this build to be live');
   assert.match(workflow, /Fail when the published site cannot be verified/, 'an unverified publication must stay a red job');
 });
+
+test('a burst of main pushes cannot replace a pending verdict', () => {
+  const group = workflow.match(/^\s*group:\s*(.+)$/m)?.[1] || '';
+  assert.match(group, /github\.ref/, 'the group still separates branches');
+  assert.match(group, /github\.event_name == 'push' && github\.sha/, 'each main push needs its own queue slot; GitHub keeps only one pending run per group');
+  assert.match(workflow, /cancel-in-progress:\s*\$\{\{ github\.event_name == 'pull_request' \}\}/,
+    'PRs must still cancel their superseded run, and main runs must not be cancelled');
+});

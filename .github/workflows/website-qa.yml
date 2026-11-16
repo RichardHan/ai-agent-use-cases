@@ -29,11 +29,15 @@ on:
     # run is the only place that waits for that deployment and fails when the
     # published build cannot be verified; do not add a paths filter here.
 concurrency:
-  group: website-qa-${{ github.ref }}
-  # A pull request may always be replaced by its next commit. A merge may not: the
-  # run waiting on the Pages deployment is the only place a failed publication is
-  # reported, and cancelling it turned "the deploy failed" into a grey job
-  # (run 42733562130, 2026-11-10). Keep main's verdict.
+  # A pull request may always be replaced by its next commit. A main push may not:
+  # its run is the only place the deployment for that commit is adjudicated, and
+  # GitHub keeps only one running and one pending run per group. With one group
+  # per branch, a burst of three pushes silently drops the middle commit's
+  # verdict; a group per main commit keeps every deployment adjudicated. The
+  # gate's superseded mode already handles a newer deploy winning the live site.
+  group: website-qa-${{ github.ref }}-${{ github.event_name == 'push' && github.sha || '' }}
+  # Cancelling a main run turned "the deploy failed" into a grey job (run
+  # 42733562130, 2026-11-10). Keep main's verdict.
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
   contents: read

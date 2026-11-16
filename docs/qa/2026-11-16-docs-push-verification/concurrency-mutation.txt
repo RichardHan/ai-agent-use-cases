@@ -1,0 +1,5 @@
+✖ a burst of main pushes cannot replace a pending verdict (0.265959ms)
+ℹ pass 2
+ℹ fail 1
+✖ failing tests:
+✖ a burst of main pushes cannot replace a pending verdict (0.265959ms)

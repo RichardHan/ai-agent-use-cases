@@ -83,7 +83,13 @@
 
 ## PR、Actions 與發布
 
-（待填）
+- 交付 PR [#457](https://github.com/RichardHan/ai-agent-use-cases/pull/457)，head `c2c7eae0e7b7315a5f122f2476ddf166a76cd388`（含 `origin/main` `43737bfa` 的合併）。PR checks：**16 pass、2 個 `published` 依設計 skipping**；Website QA 的完整單元、`_site` Jekyll 建置、published surface 與 30 支瀏覽器腳本都通過。
+- 一次 CI flake：`corpus-bundle-qa.yml` 第一次 run [43855262592](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43855262592) 在 **webkit-390** 的 `final-audit` 收到 `pageerror: "Context is stopped"`（Playwright 在 `page.goto` 中斷前一頁請求時的內部字串，`row.failurePhase = reset-home`；9 個 state 與 axe 都已通過）。同一個 head 重跑 [4385722… 的 rerun job](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43855262592) 通過；本機對同一 preview 重跑 `tests/page-context-browser.cjs` 五個引擎（chromium 1440／390／320、firefox 390、webkit 390）全數 PASS。判定為測試層 flake，不是本輪程式回歸；未改測試、未降低斷言。
+- 合併 commit `2c288edae3fed9df3603d84de928a8fb9e45cd15`（第一父 `43737bfa`、第二父 `c2c7eae0`）。
+- 合併後 Pages [43857227281](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43857227281) success。main 的 Website QA [43857228829](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43857228829) success（2026-11-16 11:22–11:36 UTC，含 `Verify the published GitHub Pages site` 對 `2c288eda` 的正式站查核）。
+- 正式站核對（2026-11-16 11:24 UTC）：`catalog.json.sourceRevision` 精確等於 `2c288eda…`，`bundleRevision 20261116112318627999391`；`assets/app.js` sha256 `7d34d8bb0bef19a397115ca01ef0464b4ef01f571906dfb02460e23e4cff00c7` 與 `git show 2c288eda:assets/app.js` 逐位元相同；`INDEX.html` 含「案例（525）」且不再含「主要案例（525）」。
+- 正式站 1440×900／390×844 重走：統計卡「525 個案例頁（含 5 頁補充／版本頁）」；`?q=UC-322` 卡片「主案例 UC-048 的版本頁・不另計一案」（手機高度 43px、換行不溢出）；三種情境（改搜「會議」14 筆、組合篩選空結果恢復 1 筆並保留 `q`／`scenario`、`?case=UC-322` 版本頁說明與主案例入口）全部符合；axe 0、pageerror 0、水平溢出 0。證據：[live/report.json](live/report.json) 與 `evidence/live-*.png`。
+- 本紀錄自身的 docs-only 後續 commit 只新增紀錄；`_config.yml` 排除 `docs/`，所以建置內容不變，但 Pages 會重新發布、`sourceRevision` 前進到該 commit。屆時以 `assets/app.js` sha256 不變與正式站重走作為核對依據，不把那筆 commit 當成本輪產品版本。
 
 ## 下一輪
 

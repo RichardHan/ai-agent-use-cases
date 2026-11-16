@@ -282,6 +282,37 @@ const read = page => page.evaluate(() => {
     assert.equal(pending.open, '2', 'P-001 and P-003 are the open leads');
     assert.match(pending.note, /另有 2 個待查線索已處理/, 'P-002 and P-004 are counted as resolved');
 
+    // The catalog card reconciles 529 entries with 522 case pages + 3 evidence
+    // notes + 2 open leads by naming the two resolved leads. The phone rule that
+    // hides .stats paragraphs also hid this note, so the totals looked wrong on
+    // the viewports most readers use. Check the rendered paragraph, not just its
+    // textContent (which survives display:none).
+    for (const [name, width, height] of [['phone', 390, 844], ['small', 320, 740]]) {
+      const noteContext = await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce' });
+      const notePage = await noteContext.newPage();
+      await notePage.goto(origin + '?kind=pending', { waitUntil: 'networkidle' });
+      await notePage.waitForFunction(() => typeof entries !== 'undefined' && entries.length > 0, null, { timeout: 90000 });
+      const catalog = await notePage.evaluate(() => {
+        const note = document.getElementById('pending-note');
+        const counts = catalogCounts(entries);
+        return {
+          display: getComputedStyle(note).display,
+          height: Math.round(note.getBoundingClientRect().height),
+          text: note.textContent.trim(),
+          total: entries.length,
+          parts: counts.case + counts.evidence + counts.pending,
+          resolved: entries.filter(item => item.kind === 'pending' && item.resolved).length,
+          overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
+        };
+      });
+      assert.notEqual(catalog.display, 'none', `${name}: the resolved-lead note is rendered`);
+      assert.ok(catalog.height > 0, `${name}: the resolved-lead note has a readable height`);
+      assert.match(catalog.text, /另有 2 個待查線索已處理並併入案例/, `${name}: the note names the two resolved leads`);
+      assert.equal(catalog.parts + catalog.resolved, catalog.total, `${name}: displayed parts add up to the collection total`);
+      assert.equal(catalog.overflow, 0, `${name}: the restored note does not overflow`);
+      await noteContext.close();
+    }
+
     await page.goto(caseUrl('P-004'), { waitUntil: 'networkidle' });
     await page.waitForSelector('#detail[open]', { timeout: 90000 });
     const merged = await page.evaluate(() => ({

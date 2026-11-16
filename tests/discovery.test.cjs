@@ -8,6 +8,7 @@ const items = [
   {id:'UC-003',kind:'case',scenario:'省錢',proof:'官方自報'},
   {id:'UC-009',kind:'case',scenario:'工作',proof:'模板／文件核讀'},
   {id:'UC-404',kind:'case',scenario:'生活',proof:'尚待查證'},
+  {id:'UC-250',kind:'case',scenario:'工作',proof:'公開資料核讀',mergedInto:['UC-156']},
   {id:'E-001',kind:'evidence',scenario:'生活'},
   {id:'P-001',kind:'pending',scenario:'生活'}
 ];
@@ -21,6 +22,11 @@ test('discovery excludes pending leads, evidence supplements, untested templates
   assert.deepEqual(discoveryPool(items,'生活').map(x => x.id), ['UC-001']);
   assert.deepEqual(discoveryPool(items,'學習'), []);
   assert.deepEqual(discoveryPool([...items,items[0]]).map(x => x.id), ['UC-001','UC-002','UC-003']);
+});
+test('a case page merged into another case is not drawn as an independent card', () => {
+  assert.equal(discoveryPool(items).some(x => x.id === 'UC-250'), false);
+  assert.equal(discoveryPool([{id:'UC-250',kind:'case',scenario:'工作',proof:'公開資料核讀',mergedInto:['UC-156']}]).length, 0);
+  assert.equal(discoveryPool([{id:'UC-156',kind:'case',scenario:'工作',proof:'作者報告／示範'}]).length, 1);
 });
 test('a deck visits every case once, avoids immediate repeats across rounds, and preserves input', () => {
   const pool=discoveryPool(items), original=pool.slice(), deck=createDeck(pool, () => 0.5);

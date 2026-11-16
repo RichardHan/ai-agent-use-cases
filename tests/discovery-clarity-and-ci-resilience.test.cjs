@@ -299,3 +299,20 @@ test('overview scope search context labels originalTitle matches as 標題 avoid
   const ctx = context.api.searchContext(uc277, terms);
   assert.equal(ctx.matches[0].label, '標題', 'UC-277 must be labeled as 標題, never leak 分類 in overview scope');
 });
+
+test('the real merged source supplement stays readable but leaves the draw pool', () => {
+  const vm = require('node:vm');
+  const context = vm.createContext({ URL, Discovery: require('../assets/discovery.js') });
+  vm.runInContext(appJs.split('/* Browser event bindings. */')[0] + '\nthis.api={metadata};', context);
+  const read = file => context.api.metadata(
+    fs.readFileSync(path.join(root, file), 'utf8'), file, 'case');
+  const supplement = read('cases/250-mail-migration-data-routing-cutover.md');
+  const primary = read('cases/156-mail-system-migration-verification.md');
+  assert.deepEqual([...supplement.mergedInto], ['UC-156']);
+  assert.equal(context.api.metadata(supplement.markdown, supplement.path, 'case').kind, 'case',
+    'the supplement is still an entry, not a pending lead');
+  assert.equal(require('../assets/discovery.js').discoveryPool([supplement]).length, 0,
+    'a page that says 已合併 must not be offered as an independent inspiration card');
+  assert.equal(require('../assets/discovery.js').discoveryPool([primary]).length, 1,
+    'the case it merged into remains drawable');
+});

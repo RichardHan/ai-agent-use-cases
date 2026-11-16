@@ -1,0 +1,238 @@
+[
+  {
+    "label": "desktop:scenario1-before-recovery",
+    "value": {
+      "count": "顯示 4 / 532 筆收錄",
+      "action": "改搜「會議」→ 14 筆（標題、用途與痛點）",
+      "message": "在所選條件下，沒有案例的標題、用途或痛點同時包含「讓」「ai」「整理」「會議」「筆記」。下列 4 筆是全文或同義詞命中，不代表案例在做這件事。其中 1 筆要算上章節標題才符合（例如〈建議操作流程（依來源整理）〉），正文未必提到。"
+    }
+  },
+  {
+    "label": "desktop:scenario1-after-recovery",
+    "value": {
+      "count": "顯示 14 / 532 筆收錄",
+      "query": "會議",
+      "first": "UC-094",
+      "cards": [
+        "UC-094",
+        "UC-277",
+        "UC-511",
+        "UC-298"
+      ]
+    }
+  },
+  {
+    "label": "desktop:scenario1-detail",
+    "value": {
+      "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+      "proof": [
+        "作者報告／示範",
+        "設計／未實跑"
+      ],
+      "read": "成果主張：主要 社群作者／專案實踐者；另宣告 設計／未實跑 核讀：主要 本庫未獨立重現；其他類別見下方 核讀與安全建議 ↓",
+      "sources": 6
+    }
+  },
+  {
+    "label": "desktop:scenario1-focus-after-close",
+    "value": "UC-094"
+  },
+  {
+    "label": "desktop:scenario2-empty",
+    "value": {
+      "count": "顯示 0 / 532 筆收錄",
+      "recovery": [
+        "移除提及工具「Cursor」 → 查看 1 筆",
+        "移除使用情境「學習」 → 查看 3 筆",
+        "📊 搜尋「簡報製作」",
+        "📈 搜尋「數據分析」"
+      ],
+      "chips": [
+        "關鍵字：發票×",
+        "提及工具：Cursor×",
+        "使用情境：學習×"
+      ]
+    }
+  },
+  {
+    "label": "desktop:scenario2-recovered",
+    "value": {
+      "count": "顯示 1 / 532 筆收錄",
+      "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+      "query": "發票",
+      "scenario": "學習",
+      "focus": "results-count"
+    }
+  },
+  {
+    "label": "desktop:scenario3-shared-detail",
+    "value": {
+      "url": "?case=UC-511",
+      "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表",
+      "proof": [
+        "作者報告／示範",
+        "官方自報"
+      ],
+      "read": "成果主張：主要 社群作者／專案實踐者；另宣告 官方自報 核讀：主要 本庫未獨立重現；其他類別見下方 核讀與安全建議 ↓",
+      "related": "延伸閱讀 限目前搜尋結果；先列兩個以上共同標籤的案例，再列相同分類，最後才列只在少數案例共用的單一標籤。標籤相同不保證用途或成效相同，請核對內容與來源。 UC-015 · 共同標籤：每日、排程 網站改價或更新規則時，請 AI 幫你盯著 定期",
+      "links": [
+        {
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/95924cf26b81e4ce98da97516ffaf13cfc0eb92c/cases/511-grok-bot-zoom-meet-teams-structured-notes.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/95924cf26b81e4ce98da97516ffaf13cfc0eb92c/cases/511-grok-bot-zoom-meet-teams-structured-notes.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://x.com/BrianRoemmele/status/2118524832568713655",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://x.com/grok/status/2118619906807583148",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ]
+    }
+  },
+  {
+    "label": "desktop:scenario3-closed",
+    "value": {
+      "url": "",
+      "open": false,
+      "focus": "results-count"
+    }
+  },
+  {
+    "label": "desktop:axe",
+    "value": {
+      "violations": []
+    }
+  },
+  {
+    "label": "desktop:page-errors",
+    "value": []
+  },
+  {
+    "label": "phone:scenario1-before-recovery",
+    "value": {
+      "count": "顯示 4 / 532 筆收錄",
+      "action": "改搜「會議」→ 14 筆（標題、用途與痛點）",
+      "message": "在所選條件下，沒有案例的標題、用途或痛點同時包含「讓」「ai」「整理」「會議」「筆記」。下列 4 筆是全文或同義詞命中，不代表案例在做這件事。其中 1 筆要算上章節標題才符合（例如〈建議操作流程（依來源整理）〉），正文未必提到。"
+    }
+  },
+  {
+    "label": "phone:scenario1-after-recovery",
+    "value": {
+      "count": "顯示 14 / 532 筆收錄",
+      "query": "會議",
+      "first": "UC-094",
+      "cards": [
+        "UC-094",
+        "UC-277",
+        "UC-511",
+        "UC-298"
+      ]
+    }
+  },
+  {
+    "label": "phone:scenario1-detail",
+    "value": {
+      "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+      "proof": [
+        "作者報告／示範",
+        "設計／未實跑"
+      ],
+      "read": "成果主張：主要 社群作者／專案實踐者；另宣告 設計／未實跑 核讀：主要 本庫未獨立重現；其他類別見下方 核讀與安全建議 ↓",
+      "sources": 6
+    }
+  },
+  {
+    "label": "phone:scenario1-focus-after-close",
+    "value": "UC-094"
+  },
+  {
+    "label": "phone:scenario2-empty",
+    "value": {
+      "count": "顯示 0 / 532 筆收錄",
+      "recovery": [
+        "移除提及工具「Cursor」 → 查看 1 筆",
+        "移除使用情境「學習」 → 查看 3 筆",
+        "📊 搜尋「簡報製作」",
+        "📈 搜尋「數據分析」"
+      ],
+      "chips": [
+        "關鍵字：發票×",
+        "提及工具：Cursor×",
+        "使用情境：學習×"
+      ]
+    }
+  },
+  {
+    "label": "phone:scenario2-recovered",
+    "value": {
+      "count": "顯示 1 / 532 筆收錄",
+      "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+      "query": "發票",
+      "scenario": "學習",
+      "focus": "results-count"
+    }
+  },
+  {
+    "label": "phone:scenario3-shared-detail",
+    "value": {
+      "url": "?case=UC-511",
+      "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表",
+      "proof": [
+        "作者報告／示範",
+        "官方自報"
+      ],
+      "read": "成果主張：主要 社群作者／專案實踐者；另宣告 官方自報 核讀：主要 本庫未獨立重現；其他類別見下方 核讀與安全建議 ↓",
+      "related": "延伸閱讀 限目前搜尋結果；先列兩個以上共同標籤的案例，再列相同分類，最後才列只在少數案例共用的單一標籤。標籤相同不保證用途或成效相同，請核對內容與來源。 UC-015 · 共同標籤：每日、排程 網站改價或更新規則時，請 AI 幫你盯著 定期",
+      "links": [
+        {
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/95924cf26b81e4ce98da97516ffaf13cfc0eb92c/cases/511-grok-bot-zoom-meet-teams-structured-notes.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/95924cf26b81e4ce98da97516ffaf13cfc0eb92c/cases/511-grok-bot-zoom-meet-teams-structured-notes.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://x.com/BrianRoemmele/status/2118524832568713655",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://x.com/grok/status/2118619906807583148",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ]
+    }
+  },
+  {
+    "label": "phone:scenario3-closed",
+    "value": {
+      "url": "",
+      "open": false,
+      "focus": "results-count"
+    }
+  },
+  {
+    "label": "phone:axe",
+    "value": {
+      "violations": []
+    }
+  },
+  {
+    "label": "phone:page-errors",
+    "value": []
+  }
+]

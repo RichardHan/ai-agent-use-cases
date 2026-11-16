@@ -147,6 +147,31 @@ const read = page => page.evaluate(() => ({
       assert.equal(axe.violations.length, 0, `${name}: axe ${JSON.stringify(axe.violations.map(v => v.id))}`);
       await page.screenshot({ path: `qa-artifacts/result-count-honesty-${name}.jpg`, type: 'jpeg', quality: 70 });
 
+      // The recovery word must narrow the question, not widen it. The old notice
+      // offered "審查 → 61" for 隱私審查 and "讓 → 273" for an everyday sentence,
+      // even though "隱私" 9 and "會議" 14 were already in the query.
+      for (const [query, expected] of [['隱私審查', '隱私'], ['我想讓 AI 幫我整理會議紀錄', '會議']]) {
+        await page.evaluate(() => {
+          const scope = document.getElementById('search-scope');
+          scope.value = '';
+          scope.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        await setQuery(page, query);
+        await page.waitForTimeout(350);
+        const narrowAction = await page.locator('#match-scope-action').innerText();
+        assert.match(narrowAction, new RegExp(`改搜「${expected}」`),
+          `${name}/${query}: the narrower task word is offered: ${narrowAction}`);
+        const narrowPromised = Number((narrowAction.match(/→\s*(\d+)\s*筆/) || [])[1]);
+        await page.locator('#match-scope-action').click();
+        await page.waitForTimeout(300);
+        const narrowRetargeted = await read(page);
+        const narrowShown = Number((narrowRetargeted.resultsCount.match(/顯示\s*(\d+)/) || [])[1]);
+        assert.equal(narrowShown, narrowPromised,
+          `${name}/${query}: the offered count is the count on screen (${narrowShown} vs ${narrowPromised})`);
+        assert.equal(await page.locator('#query').inputValue(), expected,
+          `${name}/${query}: the field shows the offered word`);
+      }
+
       // A query that does have a direct purpose match must not show the notice.
       await page.evaluate(() => {
         const scope = document.getElementById('search-scope');

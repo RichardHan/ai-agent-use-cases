@@ -24,6 +24,13 @@
 - `node --test tests/*.test.cjs`：**907 pass／0 fail**（基準 904，加 3 項守則）。沒有 package lint 或 typecheck script。
 - 正式站 `eeae3efb`（本輪沒有產品檔變更）1440×900／390×844：會議入口 29／532、`旅遊 xyz987`＋開發 0／532 後以「會議整理」回到 29／532、`?case=UC-016` 開啟詳情、來源連到 `eeae3efb` 的案例檔、關閉後回到 532／532。pageerror 0、無水平溢出。主題分類選項 363（含「全部分類」）。截圖在 `live-before/`。未逐像素目視、未用實體手機或讀屏、未跑 Firefox／WebKit。
 
+## 發布
+
+- [PR #461](https://github.com/RichardHan/ai-agent-use-cases/pull/461)，head `4e1974606768f9a770859d52e5c7b74f2b8d5660`。PR Website QA [43922621538](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43922621538) 14m57s success（907／907），Corpus bundle QA [43922621258](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43922621258) success。
+- 一般 merge `8931a4cc275aba652bb945f912978aae5559f215`。[Pages 43925359940](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43925359940) success。主線 [Website QA 43925361615](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43925361615) success：`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 8931a4cc`、`PUBLICATION_MODE: exact`、`PASS LIVE` ×2。
+- 正式站核對：`catalog.json` 與 `corpus.json` 的 `sourceRevision` 精確等於 `8931a4cc…`。`index.html` SHA-256 `74b8a8cf…`、`assets/app.js` `7d34d8bb…`、`assets/style.css` `716d7ba8…`、`assets/copy.json` `b3fa385b…`，皆與 `git show 8931a4cc:<path>` 逐位元相同。
+- 合併後重走（`live-after/`）：1440／390 會議 29／532、空結果 0／532 →「會議整理」29／532、UC-016 來源指向 `8931a4cc`。pageerror 0、無水平溢出。未逐像素目視。
+
 ## 下一輪
 
 先量「主題分類」在 1440／390 的選單：本輪正式站已量到 363 個 option。程式把分類原文整段當一個選項，361 個只對到 1 筆，提示只說明未宣告分類的條目不在選項內，沒有說明絕大多數選項是單篇。先決定加執行期形狀說明，或維持現狀並寫下不做的理由。先驗證：展開 `#category`，記錄選項數、單篇選項數，以及提示有沒有說到單篇。

@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 522 筆案例；頁首核對日期最新為 2026-11-15；本頁於 2026-11-15 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 525 筆案例；頁首核對日期最新為 2026-11-16；本頁於 2026-11-16 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 主要案例（522）
+## 主要案例（525）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -102,7 +102,7 @@
 | UC-063 | 盤點並整理 Plex 媒體庫命名、海報與備份 | Grok Bot／Plex | [論壇作者自述＋Plex 官方操作限制；未重現](cases/063-plex-media-library-housekeeping.md) | 生活｜影片、檔案整理、備份、驗收 |
 | UC-064 | 核對數學命題、反例搜尋與 Lean 證明檢查 | ChatGPT dots／Lean | [作者自述＋公開程式、CI及登記；未獨立重跑](cases/064-math-proof-review-formalization.md) | 學習｜科研、多代理、形式驗證、驗收 |
 | UC-065 | 寄件驗證全過卻可疑的信：拆解隱藏連結、起草回報，再設只標記的釣魚巡檢；Muse依「顯示名稱與寄件網域不一致」等法則清理四千多封舊信，刪除前逐批核准，伺服器日期搜尋會少算改抓全部標頭本機篩 | Grok Bot；Meta Muse（IMAP信箱） | [作者自述＋截圖；Bot 報告與 routine 指令未取得、未重現＋11-15併入日文Qiita大批釣魚信清理自述（數字未核）](cases/065-suspicious-email-security-review.md) | 生活｜收件匣、資安、釣魚、排程 |
-| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；每週五覆寫交接筆記並刷新單一用量報告頁（只建議不實作）；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要；Muse盤點每輪必讀常駐檔並壓縮（安全規則不動）；百分比只到1%時讓Muse唯讀加總內部逐則紀錄、用跳格點校正換算比；Bot團隊15條精簡規則（只報卡關、沒變化不說話、API呼叫當預算、共用規則手冊） | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁＋日文Muse常駐檔壓縮自述＋日文Muse內部紀錄逐則加總與跳格校正自述＋英文工具選擇稽核自設提示＋英文每週五交接筆記與用量儀表板自述；數據未核、未重現＋11-10併入每週一由一個Bot唯讀檢查其他Bot的規則衝突與多餘routine＋11-12併入稽核Bot把只在檢查的routine改成cron腳本、有發現才喚醒（英文自述）＋11-14併入「用量管家」Bot每週依用量排名Bot與routine、判斷值不值得、依可省量排序建議（英文自述，數字未核）＋11-15併入英文Bot團隊15條精簡規則自述（無前後數字）](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
+| UC-066 | 請 Agent 稽核自己一週的用量，找出空跑排程與未標用途子代理；每週五覆寫交接筆記並刷新單一用量報告頁（只建議不實作）；多Bot團隊每月盤點、精簡與通知減量；匯出用量CSV請主Bot分析；每週檢視只改一兩處；先查每條routine有無停止條件與上限；郵件Bot寫一次分類腳本、之後只讀摘要；Muse盤點每輪必讀常駐檔並壓縮（安全規則不動）；百分比只到1%時讓Muse唯讀加總內部逐則紀錄、用跳格點校正換算比；Bot團隊15條精簡規則（只報卡關、沒變化不說話、API呼叫當預算、共用規則手冊）；重的routine先查本週用量、超過80%就跳過，每天問各Bot在等什麼並對照實際對話只給一張待辦清單 | Meta Muse；Grok Bot（13 Bot團隊＋公開盤點外掛；用量CSV分析；10角色Bot營運規則） | [作者自述＋公開稽核頁已讀＋日文集中窗口兩天破綻與每月盤點自述＋盤點外掛README（未執行）＋用量表與Bot分析截圖＋日文10 Bot精簡規則自述＋每週檢視後自動化占5%自述＋中文教學站routine指令自檢腳本自述＋郵件Bot改寫分類腳本只讀摘要自述與模板頁＋日文Muse常駐檔壓縮自述＋日文Muse內部紀錄逐則加總與跳格校正自述＋英文工具選擇稽核自設提示＋英文每週五交接筆記與用量儀表板自述；數據未核、未重現＋11-10併入每週一由一個Bot唯讀檢查其他Bot的規則衝突與多餘routine＋11-12併入稽核Bot把只在檢查的routine改成cron腳本、有發現才喚醒（英文自述）＋11-14併入「用量管家」Bot每週依用量排名Bot與routine、判斷值不值得、依可省量排序建議（英文自述，數字未核）＋11-15併入英文Bot團隊15條精簡規則自述（無前後數字）](cases/066-agent-token-usage-self-audit.md) | 開發｜排程、用量稽核、多代理、巡檢 |
 | UC-067 | 替代理建立的雲端工具維護重建手冊與狀態盤點；Grok Bot 雲端電腦分類／每日備份到 GitHub；隊長Bot彙整全隊職責與例行任務成復原手冊、每月1日更新；dots 自己定期把 Automation／規則匯出到私有倉庫、對話變亂時開新 dot 讀回；每晚把多Bot共用電腦加密備份到自家Mac mini SSD並抽回逐檔比對；開源腳本從本機唯讀匯出Bot、routine與自建技能成Git純文字（不含記憶，非官方API） | Meta Muse／Git；Grok Bot／GitHub；ChatGPT dots／GitHub | [Muse 重建手冊＋多則 Grok Bot 備份自述（含 fine-grained／gh 裝置碼、重置後 Tailscale 身分恢復、每週三處備份變體）＋官方文件＋快照回滾且備份同時失效的二手轉述（待驗證）＋日文作者復原手冊自述＋日文作者 dots 設定匯出與重建自述＋英文作者每晚加密備份到本機SSD、抽回1,696／1,696檔相符自述；無還原結果、未重現](cases/067-agent-app-rebuild-manual.md) | 開發｜備份、驗收、排程、文件 |
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
@@ -562,6 +562,9 @@
 | UC-528 | API不論帶不帶金鑰都回403：請另一個網路上的Muse代理對照送「不帶金鑰」與「假金鑰」兩個請求，401與403不同代表認證層看得到標頭，相同才查網路路徑；先診斷再換金鑰 | Meta Muse／另一AI協作者（平台未說明）／Google Colab／LG EXAONE API | [B英文作者X串文轉貼代理工作紀錄；無原始請求紀錄、未重現](cases/528-two-agents-different-networks-no-key-vs-fake-key-403-diagnosis.md) | 開發｜故障診斷、API、跨代理、網路、驗證 |
 | UC-529 | 每週重複的網頁查詢：先文字交代跑一次記用量，再在Grok Bot雲端電腦錄影示範一次、請它看錄影做成技能，用同一題比較；作者自述少用約四成token，建技能本身也耗用量 | Grok Bot（雲端電腦、螢幕錄影、技能） | [B英文作者X長貼文自述兩次用量；技能內容與用量畫面未公開、未重現](cases/529-grok-bot-teach-skill-from-screen-recording-token-ab-test.md) | 省錢｜技能、用量稽核、瀏覽器、對照實驗 |
 | UC-530 | 集團每家公司各開一個Grok Bot帳號：共用自建軟體但資料隔離、跨帳號工作看板每件工作唯一認領、閒置額度認領別家開發但走原公司審核、每週wiki對標、每週五依退件登記改一項共用技能 | Grok Bot（多帳號、多Bot）／自建現金預測、CRM、估價軟體／Email／本機推論 | [B英文作者X文章與部落格自述；軟體與規則未公開、無成效數字、未重現](cases/530-grok-bot-one-account-per-company-group-shared-board-spare-capacity.md) | 工作｜多代理、工作看板、權限、知識庫 |
+| UC-531 | 學校考試日期常臨時公布：Grok Bot每天唯讀看課表、新考試查重後寫入行事曆、範圍交家教Bot出練習卷；Muse Spaces彙整9校官網考試日、倒數天數、考前兩週與一週提醒 | Grok Bot（多Bot）；Meta Muse（Spaces、提醒） | [B英文作者X自述＋日文塾長Zenn自述；指示與程式未公開、未重現](cases/531-school-test-dates-daily-watch-calendar-countdown-practice.md) | 學習｜學校、行事曆、提醒、每日 |
+| UC-532 | 只跟Muse說話、背後分派5個AI命令列工具：薄啟動程式在執行前擋未驗證模型與停用路徑、失敗自動分類、手寫帳本改自動紀錄；只有Muse能對外動作且先寫意圖紀錄、結果不明不重送 | Meta Muse／Claude Code／Codex CLI／Gemini系CLI／Grok Build／OpenAI API | [B日文作者Zenn長文自述＋程式節錄與隔離實測；完整程式未公開、未重現](cases/532-muse-single-front-desk-five-cli-routes-fail-closed-launcher.md) | 開發｜多代理、核准、用量稽核、沙箱 |
+| UC-533 | 不開剪輯軟體做App宣傳短影音：Grok Bot寫腳本→Claude Code用技能潤稿與算繪並回報檔案路徑→Grok Bot審片寫修改提示→經Buffer MCP排程；代理間提示詞仍手動貼 | Grok Bot／Claude Code（技能）／Buffer MCP | [B英文作者X單則自述流程；成品與技能內容未公開、未重現](cases/533-grok-bot-claude-code-youtube-shorts-pipeline-buffer-schedule.md) | 創作｜影片、跨代理、排程、社群 |
 
 <a id="supplement-list"></a>
 
@@ -1083,3 +1086,7 @@
 ## 2026-11-15 08:30：每日批次（X＋Qiita＋Hacker News 嘗試）
 
 [約30組候選與查閱範圍](sources/research-2026-11-15-0830.md)：新增2（UC529 錄影示範讓Grok Bot做成技能、同題對照用量；UC530 集團每家公司一個Grok Bot帳號、共用看板與軟體、閒置額度跨公司支援），合併補充3（UC065 Muse法則化清理大批釣魚信、刪除前核准；UC066 Bot團隊15條精簡規則；UC071 Grok Bot以index.md先讀索引的第二大腦提示詞）；其餘為行銷導流、新聞、邀請碼、清單文與過薄單則。均未獨立重現。
+
+## 2026-11-16 08:27：每日批次（X＋Zenn＋V2EX／Reddit 嘗試）
+
+[約45組候選與查閱範圍](sources/research-2026-11-16-0827.md)：新增3（UC531 每天看學校頁面抓考試日、查重寫入行事曆與倒數提醒、接練習卷；UC532 Muse唯一窗口分派5個命令列代理、啟動前機械檢查與對外動作意圖紀錄；UC533 Grok Bot與Claude Code分工做短影音並經Buffer排程），合併補充1（UC066 重routine依本週用量80%門檻跳過、每日彙整等待事項）。

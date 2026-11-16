@@ -1,0 +1,12 @@
+live-desktop J1 {"url":"https://richardhan.github.io/ai-agent-use-cases/?q=%E7%99%BC%E7%A5%A8#explore","count":"顯示 44 / 532 筆收錄","cardInViewport":true,"title":"垃圾箱服務工單完成後，把發票草稿逐項核清楚","overflow":0}
+live-desktop J2-empty {"count":"顯示 0 / 532 筆收錄","emptyVisible":true}
+live-desktop J2-recovered {"count":"顯示 532 / 532 筆收錄","cards":24,"overflow":0}
+live-desktop J3 {"open":true,"title":"讓 AI 先整理客服信，退款與承諾由你決定","sourceLinks":21,"proof":"本案例頁首宣告 2 類來源：作者報告／示範主要：成果主張 社群作者／專案實踐者；核讀 本庫未獨立重現設計／未實跑同案宣告：成果主張 提示詞設計者（未提供執行結果"}
+live-desktop J3-back {"url":"https://richardhan.github.io/ai-agent-use-cases/","open":false,"focus":"results-count"}
+live-desktop errors []
+live-phone J1 {"url":"https://richardhan.github.io/ai-agent-use-cases/?q=%E7%99%BC%E7%A5%A8#explore","count":"顯示 44 / 532 筆收錄","cardInViewport":true,"title":"垃圾箱服務工單完成後，把發票草稿逐項核清楚","overflow":0}
+live-phone J2-empty {"count":"顯示 0 / 532 筆收錄","emptyVisible":true}
+live-phone J2-recovered {"count":"顯示 532 / 532 筆收錄","cards":24,"overflow":0}
+live-phone J3 {"open":true,"title":"讓 AI 先整理客服信，退款與承諾由你決定","sourceLinks":21,"proof":"本案例頁首宣告 2 類來源：作者報告／示範主要：成果主張 社群作者／專案實踐者；核讀 本庫未獨立重現設計／未實跑同案宣告：成果主張 提示詞設計者（未提供執行結果"}
+live-phone J3-back {"url":"https://richardhan.github.io/ai-agent-use-cases/","open":false,"focus":"results-count"}
+live-phone errors []

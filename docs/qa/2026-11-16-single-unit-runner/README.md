@@ -18,7 +18,8 @@
 ## 方案與選擇
 
 - ①保留 16 份全套執行，只統一 Playwright 版本與快取；②移除 15 份重複執行，把全套留在 path filter 最廣的 Website QA，並加靜態守則。選②：真正讓「一個失敗 = 一個紅 check」成立，且不必改動任何斷言或瀏覽器旅程。①留給後續處理版本漂移。
-- 守則放在既有 `tests/pr-gate-coverage.test.cjs`，不新增 workflow 或管理系統。接受殘餘風險：這些 workflow 若手動 dispatch 或 push 到舊功能分支，不再順便跑全套；PR 與 main 仍由 Website QA 覆蓋。
+- 守則放在既有 `tests/pr-gate-coverage.test.cjs`，不新增 workflow 或管理系統。接受殘餘風險：41 個休眠 workflow（只綁已刪除分支或手動 dispatch）仍保留原本的全套指令，本輪不动；它們不會在 PR 啟動，所以不影響「PR 只跑一次」的目標。
+- 未覆盖：若把完整全套放進 alias、eval 或生成腳本，靜態守則無法辨識；這是已知限制，不宣稱能阻擋所有 shell 形式。
 
 驗收條件：PR 只啟動一次全套 unit；15 個 workflow 各自的瀏覽器與語法步驟仍存在；新增守則能擋下「把全套加回別的 workflow」、「runner 被 push／branch gate 擋住」、「find 只選子集」、「Website QA 觸發路徑變窄」；完整 suite 與 preview 通過；三種訪客情境不退化。
 
@@ -28,14 +29,15 @@
 
 - `.github/workflows/*.yml`（15 個非 Website QA 的 PR workflow）：移除 `node --test tests/*.test.cjs`（含 `--test-reporter=tap`、`$(find tests …)` 形式），保留 `node --check`、preview 建置、feature browser 與 artifact；步驟名稱同步改成語法／preview，避免留下「有跑測試」的錯誤名稱。`website-qa.yml` 不動，仍是唯一全套 runner。
 - `tests/pr-gate-coverage.test.cjs`：
-  - `runsFullUnitSuite()` 解析 `jobs:` 區塊，拒絕 job 層 event／ref gate；`stepReachable()` 也拒絕 `github.event_name == 'push'`，但保留 PR 可達的 `github.ref != 'refs/heads/main'`。
-  - `fullSuiteCommand()` 只接受選取全部 `tests/*.test.cjs` 的指令；`$(find tests …)` 若含 `!`／`-not` 視為子集，不算全套。
-  - `samplePaths()` 為每個 glob 產生多組樣本，覆蓋檢查要求其他 PR workflow 的每個觸發路徑樣本都被 Website QA 的 filter 涵蓋。
+  - `runsFullUnitSuite()` 以縮排解析 `jobs:`，要求候選 job 與 step 都沒有任何 `if:`（任何 event／ref gate 或 `false` 都可能讓 PR 不執行全套）。
+  - `executableRun()` 只讀 `run:` 的實際指令：去掉 YAML／shell 註解、接續反斜線，`run: >` 以空白摺疊、`run: |` 保留換行，避免把註解掉的指令算成 runner，也避免漏掉摺疊或續接的指令。
+  - `fullSuiteCommand()` 以 token 找精確的 `--test`（選項順序不限），辨識 `tests/*.test.cjs`、不含排除條件的 `find tests`、預設探索（含重導向、pipe、`&&`、`tests` 目錄），並排除 `--test-name-pattern`／`--test-skip-pattern`／`--test-only`／`--test-shard` 等子集旗標。
+  - `patternCovers()` 以目錄邊界判定 glob 涵蓋（`**`、完全相同、`prefix/**` 涵蓋 `prefix/…`），不用有限樣本冒充證明；寧可保守拒絕無法證明的組合。
 
 ## 回歸與紅測
 
-- 全套 `node --test tests/*.test.cjs`：基準 859 → 本輪 **863 pass／0 fail**（[final-unit.txt](final-unit.txt)）。`node --check`、57 個 workflow YAML 解析皆通過。
-- `tests/pr-gate-coverage.test.cjs` 的兩個守則另以 synthetic workflow fixtures 固定行為：push gate、`!= 'pull_request'`、`if: false`、main-only step、註解掉的全套指令、只有 `find … ! -name` 子集、換行續接指令、`tests/*/test.cjs` 對上兩個列舉目錄，全部必須被拒；不含排除條件的 `find` 與 `tests/**` 則必須被接受。這是永久回歸，不依賴人工注入。
+- 全套 `node --test tests/*.test.cjs`：基準 859 → 本輪 **863 pass／0 fail**（[final-unit.txt](final-unit.txt)）；P2 修正後重跑亦為 **863 pass／0 fail**（[final-unit-after-review.txt](final-unit-after-review.txt)）。`node --check` 通過；57 個 workflow YAML 解析見 [workflow-yaml-parse.txt](workflow-yaml-parse.txt)。
+- `tests/pr-gate-coverage.test.cjs` 的兩個守則另以 synthetic workflow fixtures 固定行為：push gate、`!= 'pull_request'`、`if: false`、main-only step、註解掉的全套指令、只有 `find … ! -name` 子集、正向 `find -name` 子集、換行續接指令、`tests/*/test.cjs` 對上兩個列舉目錄，全部必須被拒；不含排除條件的 `find`、`find -type f -name '*.test.cjs'` 與 `tests/**` 則必須被接受。這是永久回歸，不依賴人工注入。
 - 端到端紅測（最終守則、注入後跑 `tests/pr-gate-coverage.test.cjs`、再還原）：
   - 把全套加回 `missing-case-qa.yml` →「only Website QA runs the whole unit suite…」失敗（[red-final-duplicate-runner.txt](red-final-duplicate-runner.txt)）。
   - Website QA 的 `tests/**` 拆成 `tests/x/**`＋`tests/y/**`，另一 workflow 觸發 `tests/*/test.cjs` → 覆蓋守則失敗，指出 `reading-flow-qa.yml → tests/*/test.cjs`（[red-final-split-glob.txt](red-final-split-glob.txt)）。
@@ -53,15 +55,31 @@
 
 ## PR、Actions 與發布
 
-- 產品／CI 提交 `f0221e3c`（移除重複全套）、`57fc53d8`、`ad45c381`、`4ebc5d8c`、`3d140e39`（依獨立審查補強守則）；PR [#432](https://github.com/RichardHan/ai-agent-use-cases/pull/432)。建立後實際啟動 16 個 workflow（15 個 feature + Website QA），數量與改動前相同。
-- 獨立 reviewer 共四輪，全部由同一模型、不同 context 執行：
+- 產品／CI 提交 `f0221e3c`（移除重複全套）、`57fc53d8`、`ad45c381`、`4ebc5d8c`、`3d140e39`、`5341ad51`、`22fa4ba5`（依獨立審查補強守則）；PR [#432](https://github.com/RichardHan/ai-agent-use-cases/pull/432)。建立後實際啟動 16 個 workflow（15 個 feature + Website QA），數量與改動前相同。
+- 獨立 reviewer 共六輪（合併前），全部由同一模型、不同 context 執行：
   1. 初審 **Incorrect**：job／step 的 push gate、filtered `find`、單一樣本 glob。
   2. 二審 **Incorrect**：`!= 'pull_request'`、註解掉的全套指令、有限樣本無法證明 glob 涵蓋。
   3. 三審 **Incorrect**：YAML `run: >` 摺疊區塊把指令拆成兩行而漏判。
   4. 四審 **Incorrect**：`node --test > qa-artifacts/unit.tap 2>&1` 這類預設探索加重導向未被辨識。
   5. 五審 **Incorrect**：`--test-name-pattern` 等只跑子集的旗標被誤認為全套。
-  最終守則要求 runner 的 job 與 step 都不得有 `if:`、只讀實際執行（去註解、接續行、`|`／`>` 區塊）、以目錄 glob 涵蓋而非樣本，並辨識預設探索（含重導向、pipe、`&&`、`tests` 目錄），但排除 `--test-name-pattern`／`--test-skip-pattern`／`--test-only`／`--test-shard` 這些子集旗標。每一輪都補了對應 fixture；端到端紅測在最終版重跑。
-- 待補：最終 checks、merge、Pages 與正式站版本核對。以下狀態不互相代替。
+  6. 六審 **Incorrect**：`--test-name-pattern=smoke --test` 把選擇旗標放在 `--test` 前，舊解析只找第一個 `--test` 子字串而漏掉。
+  最終修正後複審 **Correct／No findings**（同一 reviewer、獨立 context）：只檢查 plausible workflow 指令，任意 shell 包裝（alias、eval、生成腳本）不在守則範圍，列為殘餘風險。
+  最終守則要求 runner 的 job 與 step 都不得有 `if:`、只讀實際執行（去註解、接續行、`|`／`>` 區塊）、以目錄 glob 涵蓋而非樣本，並辨識預設探索（含重導向、pipe、`&&`、`tests` 目錄），但排除 `--test-name-pattern`／`--test-skip-pattern`／`--test-only`／`--test-shard` 這些子集旗標（位置不限）。每一輪都補了對應 fixture；端到端紅測在最終版重跑。
+- **合併後獨立複審（本追補）**：另一個任務上下文（`SingleRunnerReview`，未參與原實作）對合併版 head `22fa4ba5` 給 **Changes requested**，唯一 P2 是 `fullSuiteCommand()` 把正向 `find -name` 子集（例如 `$(find tests -name 'relevance.test.cjs')`）誤認為全套——這正是本輪要防的「Website QA 只跑單一測試檔卻仍綠燈」漏洞。修正只收緊 `find` 判定：`-name` predicate 必須是 `*.test.cjs`；正向子集退回 false，`find -type f -name '*.test.cjs'` 仍視為全套。紅測 [red-final-positive-find.txt](red-final-positive-find.txt) 先失敗，修正後 [green-final-positive-find.txt](green-final-positive-find.txt) 通過；全套重跑 **863 pass／0 fail**（[final-unit-after-review.txt](final-unit-after-review.txt)）。此修正隨本追補 PR 交付，不改變已合併的產品位元。
+- PR checks：最終 head `22fa4ba5` 的 16 項全部 success、2 項 published 依規則 skipping（[pr-checks.json](pr-checks.json)、[pr-final.json](pr-final.json)），與 review 對應同一 head；base `79f89cc1` 只多 docs-only 提交。合併前 `mergeStateStatus` CLEAN、無分支保護繞過。
+- PR [Website QA 43791762584](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43791762584) 實際執行 `Run existing regression tests` 並回報 `# tests 863 / # pass 863`；守則 `only Website QA runs the whole unit suite from a pull request`、`the single unit-suite runner starts for every path…` 都在 CI 內通過。[16 個 workflow 的步驟清單](pr-workflow-steps.txt) 顯示只有 Website QA 有 `Run existing regression tests`，其餘 15 個只剩語法／preview／browser 步驟。
+- 02:37:08 UTC 正常 merge，合併版本 `1783250284f19ed04a0d8ef43bd3590a3bfdd191`。
+- 對應 [Pages 43793271264](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43793271264) success；正式站 `catalog.json.sourceRevision` 精確等於 `1783250284f19ed04a0d8ef43bd3590a3bfdd191`（529 個來源檔），`index.html`、`app.js`、`style.css`、`reader.css`、`discovery.js`、`audit.js` 六個發布資產與合併版逐位元相同。
+- 主線 [Website QA 43793271914](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43793271914) **success**（約 12 分鐘），對應合併版 `17832502`；發布等待與正式站走查步驟都成功。合併後的 Pages 與主線 QA 是分開的兩個 run，兩者都完成才算部署驗證。
+
+### 合併版正式站核對
+
+- 正式站 <https://richardhan.github.io/ai-agent-use-cases/>（WebKit／Chromium 由 Playwright 驅動）1440×900／390×844：
+  1. 首頁「發票對帳」→ 44／532 筆，第一張卡在視窗內。
+  2. `?q=發票&tool=Cursor&scenario=學習` → 0／532、空結果面板可見；按「清除全部條件」→ 532 筆、24 張卡，無水平溢出。
+  3. `?case=UC-014` → 詳情開啟、顯示成果主張／核讀與 21 個外部來源連結；Escape 關閉後回到首頁、焦點在結果摘要。
+  [日誌](live-acceptance-log.txt)、截圖 `live-desktop-*.png`／`live-phone-*.png`。
+- 限制：本環境停用影像輸入，未逐像素目視截圖；上述為 DOM／幾何／文字證據，不是真人使用者研究。
 
 ## 下一輪
 

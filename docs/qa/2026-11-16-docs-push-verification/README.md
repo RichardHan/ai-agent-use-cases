@@ -70,6 +70,17 @@ GitHub Pages 對 default branch 的**每一次 push** 都重新建置與部署�
 - 第二輪複核：`DeployTriggerReview` 確認 concurrency 修法 sound（main 不再序列化，但 exact／superseded 分支已處理較新的 live 部署），只剩 PR 說明與最終 head 不一致（仍寫 concurrency 未變、2 項測試、873 tests）。已同步改寫 PR body；沒有其他 P0／P1／P2。
 - 殘留：無法在本機證明 GitHub 佇列在真實 burst 下的行為；以 group 表達式與既有 superseded 模式推論，並在合併後的 docs-only push 觀察單一 run。此限制已記在下方。
 
+## 發布與正式站核對
+
+- 合併：PR [#438](https://github.com/RichardHan/ai-agent-use-cases/pull/438) 合併為 `a9446aa8`（merge commit）。合併前 head `240b3852` 的 PR Website QA [43810134569](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43810134569) 與 Corpus bundle QA [43810134413](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43810134413) 皆 success；push-only 步驟在 PR 上依設計 skip。
+- main 判決：[Website QA 43811542220](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43811542220) success（`# tests 874`／`# pass 874`、`Pages deployment for a9446aa8…: succeeded`、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH a9446aa8…`、`PUBLICATION_MODE: exact`、`PUBLISHED_LIVE_BUILD_CURRENT a9446aa8…`）。Pages [43811541260](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43811541260) success。
+- 正式站：`catalog.json.sourceRevision` = `a9446aa83aa836d7e45bd14e3c63b9d8f5f8482a`，`builtAt` 2026-11-16；`index.html` 與 `assets/app.js` 均 200。
+- 三情境（1440×900、390×844、320×700，Chromium，正式站）：
+  1. 首頁「會議整理」→ 29／532，第一張結果卡可見；水平溢出 0。
+  2. `?q=發票`＋情境「學習」＋工具 Cursor → 0 筆空結果，提供「移除提及工具 Cursor → 查看 1 筆」「移除使用情境 學習 → 查看 3 筆」；按「清除全部條件」→ 532／532；三個尺寸溢出 0。
+  3. `?case=UC-445` 直鏈 → 詳情開啟、9 個外部來源連結、第一個來源固定在 `blob/a9446aa8…`；Escape 關閉後焦點回 `#results-count`，網址保留；溢出 0；axe 0。
+- 限制：截圖只存在本機暫存，未入 repo（本輪無視覺變更）；自動走查非真人研究。載入期間有一個 `cases/445-…md` 的逐篇請求以 `net::ERR_ABORTED` 結束，是全文包先到、設計上中止的退路請求，不是 404（同一 URL 直接請求回 200）。
+
 ## 已知限制
 
 - 不在正式 repo 故意讓 Pages 部署失敗，所以「docs-only 部署失敗會轉紅」只有既有 `publication-gate.test.cjs`／`published-version` 的 `failed → fatal` 覆蓋，沒有本輪注入證據。

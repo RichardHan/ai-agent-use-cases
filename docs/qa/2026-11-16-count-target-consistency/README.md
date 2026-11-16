@@ -61,7 +61,8 @@
 ## PR 與發布
 
 - PR [#429](https://github.com/RichardHan/ai-agent-use-cases/pull/429)，base `6c17b981`；產品提交 `4ecef185`，測試提交 `8299b3e3`、`8bb34959`、`049e6dfa`。最終 head `049e6dfa` 的 16 項 PR checks 全部 pass，2 個 `published` 依設計 skipping；一般 merge 為 `bd0c0a9754e8ac5b23e50eeed676473717e1b662`。
-- 合併後 Pages `43786720678` build／deploy／report 全部 success（51 秒級）；主線 Website QA `43786721310` 的 published 閘門另記於下方。remote 分支已刪除。
+- 合併後 Pages `43786720678` build／deploy／report 全部 success（57 秒）；主線 Website QA `43786721310` success：產品步驟 `Run existing regression tests` 與 `Verify the updated site in Chromium` 通過；發布閘門因 docs-only `a648d601` 先發布，判為 superseded 並以 `a648d601` 為 live revision 逐位元核對本 push 改動的 12 個檔案（`PUBLISHED_CHANGED_BYTES_MATCH bd0c0a97… superseded by a648d601…`），再以 `PUBLICATION_MODE: superseded` 走桌面／手機的 live 契約，`PASS LIVE SUPERSEDED` ×2。remote 分支已刪除。
+- 紀錄 PR [#430](https://github.com/RichardHan/ai-agent-use-cases/pull/430)（僅維護紀錄）合併為 `a648d6018748eaec0683d7a2ec87893c30f4515c`；對應 Pages `43787348200` success，正式站 `sourceRevision` 前進到 `a648d601…`，產品檔案位元不變（6 檔逐位元比對相同）。
 
 ## 訪客驗收
 

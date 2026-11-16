@@ -25,7 +25,7 @@ GitHub Pages 對 default branch 的**每一次 push** 都重新建置與部署�
 | `f2adf6db` | docs | success | **不存在** |
 | `a7fe5990` | 產品＋測試 | 43806489563 success | [43806490369](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43806490369) success（`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH a7fe5990`、`PUBLICATION_MODE: exact`） |
 
-最近 12 個 main commit 中 **7 個有部署、沒有發布判決**。不是單一例外，而是 docs-only 合併的常態；本輪開始前 live `catalog.json` 的 `sourceRevision` 正是沒有被判決的 `2a842347`。
+最近 12 個 main commit 中 **6 個有部署、沒有發布判決**。不是單一例外，而是 docs-only 合併的常態；本輪開始前 live `catalog.json` 的 `sourceRevision` 正是沒有被判決的 `2a842347`。
 
 若該次部署失敗，會發生什麼：Pages run 紅在 Actions，但沒有任何 workflow 會把它連到「這次 push 沒有上線」。正式站停在舊 revision，`catalog.json` 指向舊 commit，而維護紀錄已寫「已發布」。這個 repo 已被同型事故燒過一次（2026-11-10 deploy 失敗、main 靜默停在舊版，見 `docs/qa/2026-11-13-publication-verdict/README.md`），差別只在當時的 commit 有內容變更。
 

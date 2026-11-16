@@ -1,10 +1,10 @@
 ## 2026-11-16 每一次 main 部署都有發布判決
 
-Pages 對 default branch 的每一次 push 都重新建置部署，包含只改 `docs/**` 或 `SITE.md` 的 commit：這兩條路徑雖被 `_config.yml` 排除在產物外，建置仍會重寫 `catalog.json` 的 `builtAt`／`bundleRevision`／`sourceRevision`。但 Website QA 的 push `paths` 過濾掉了它們，於是唯一會等待該部署、讀 Pages run、在無法核對時轉紅的步驟不會執行。實測最近 12 個 main commit 有 7 個「Pages 已部署、沒有 Website QA」（`2b332a29`、`2a842347`、`79f89cc1`、`a648d601`、`a178bc70`、`f2adf6db` 等），`gh api .../runs?head_sha=` 對這些 SHA 只回 Pages 一筆；本輪開始前 live `sourceRevision` 正是未經判決的 `2a842347`。若該次部署失敗，正式站會停在舊 revision，而沒有任何 workflow 把它連到這次 push。
+Pages 對 default branch 的每一次 push 都重新建置部署，包含只改 `docs/**` 或 `SITE.md` 的 commit：這兩條路徑雖被 `_config.yml` 排除在產物外，建置仍會重寫 `catalog.json` 的 `builtAt`／`bundleRevision`／`sourceRevision`。但 Website QA 的 push `paths` 過濾掉了它們，於是唯一會等待該部署、讀 Pages run、在無法核對時轉紅的步驟不會執行。實測最近 12 個 main commit 有 6 個「Pages 已部署、沒有 Website QA」（`2b332a29`、`2a842347`、`79f89cc1`、`a648d601`、`a178bc70`、`f2adf6db`），`gh api .../runs?head_sha=` 對這些 SHA 只回 Pages 一筆；本輪開始前 live `sourceRevision` 正是未經判決的 `2a842347`。若該次部署失敗，正式站會停在舊 revision，而沒有任何 workflow 把它連到這次 push。
 
 本輪移除 main push 的 `paths` 過濾（PR 過濾不動），讓判決跟著「部署」而不是跟著手寫檔案清單；任何未來被排除卻仍觸發重建的路徑都自動涵蓋。新增 `tests/deploy-trigger.test.cjs`：push trigger 不得有 `paths`，且必須保留 `Wait for published assets and content` 與 `Fail when the published site cannot be verified`，避免為了觸發而拿掉判決。先紅後綠（基準 workflow 1 fail → 修正 2 pass）、全套 871 → 873 pass；既有「main push 最多 3 個 workflow」與單一全套 runner 守則未放寬。無產品檔案變更。
 
-交付：[PR #437](https://github.com/RichardHan/ai-agent-use-cases/pull/437)，實作與判決證據見[本輪 QA](docs/qa/2026-11-16-docs-push-verification/README.md)；合併、main run 與 docs-only 證明待發布追補。
+交付：[PR #438](https://github.com/RichardHan/ai-agent-use-cases/pull/438)，實作與判決證據見[本輪 QA](docs/qa/2026-11-16-docs-push-verification/README.md)；合併、main run 與 docs-only 證明待發布追補。
 
 下一輪：先量 `主題分類` 的 362 個選項、361 個單篇選項在 1440／390 對訪客的影響，再決定只加執行期算出的形狀說明，或改成有層級的分類檢視；工具 facet 的 Claude Code／Codex 覆蓋另立一輪，需先補共同作者與安裝說明的排除句。
 

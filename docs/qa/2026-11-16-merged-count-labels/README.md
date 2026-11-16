@@ -52,14 +52,15 @@
 
 ## 訪客驗收
 
-- 同頁、同尺寸、同資料狀態的前後對照（`before` 取正式站 `5a001480`，`after` 取本機 preview）：
+- 同頁、同尺寸、同資料狀態的前後對照（`before` 取 `5a001480` 的本機 preview，與當時正式站同一個 commit；`after` 取合併 main 後的本機 preview）：
 
 | 尺寸 | 統計卡前 | 統計卡後 | UC-322 徽章前 | UC-322 徽章後 |
 | --- | --- | --- | --- | --- |
 | 1440×900 | `525` ＋「個主要案例頁」 | `525` ＋「個案例頁（含 5 頁補充／版本頁）」 | 「主案例 UC-048 的版本頁」 | 「主案例 UC-048 的版本頁・不另計一案」 |
 | 390×844 | 同上 | 同上 | 同上 | 同上（徽章 188px，未溢出） |
 
-- 截圖：`before-{desktop,phone}-stats.png`、`before-{desktop,phone}-uc322.png`、`after-{desktop,phone}-stats.png`、`after-{desktop,phone}-uc322.png`；量測 `shots/measurements.json`。
+- 補記：正式站在本輪建立後前進到 `43737bfa`（PR #454／#456 的空結果目錄改版），`git diff 5a001480..43737bfa -- assets/app.js index.html INDEX.md` 沒有碰到 `card-merged`、`case-count` 或「主要案例」字樣，因此上表的 before 對照仍描述同一段程式。
+- 截圖：`before-{desktop,phone}-stats.png`、`before-{desktop,phone}-uc322.png`、`after-{desktop,phone}-stats.png`、`after-{desktop,phone}-uc322.png`；量測 [measurements.json](measurements.json)。
 - 三種必要情境（preview，1440×900／390×844，`reducedMotion: reduce`，桌面與手機結果相同）：
   1. 不知道工具名稱的新訪客輸入「我想讓 AI 幫我整理會議紀錄」→ 4 筆與說明，按「改搜「會議」→ 14 筆」後畫面 14 筆、查詢欄變「會議」、前四張 UC-094／UC-277／UC-511／UC-298；開詳情看到「作者報告／示範＋設計／未實跑」；Escape 關閉、焦點回原卡片、查詢保留。
   2. `?q=發票&tool=Cursor&scenario=學習` → 0 筆，空結果面板列出「移除提及工具「Cursor」→ 1 筆」；點擊後 1 筆、網址保留 `q` 與 `scenario`、焦點在 `#results-count`。
@@ -74,7 +75,11 @@
 
 ## 獨立審查
 
-（待填）
+- 由未參與實作的獨立 reviewer context（`CountLabelsReview`）檢查最終 diff（`28f3aa8c`）、新測試與驗收證據：**P0／P1／P2 沒有 findings**。
+- P3 一項：QA 紀錄引用 `shots/measurements.json`，實際檔在證據目錄根層；已改成 `measurements.json` 連結。
+- reviewer 自行重跑 `node --test tests/merged-destinations.test.cjs tests/count-target-consistency.test.cjs tests/audit.test.cjs tests/index-freshness.test.cjs`：**26 pass／0 fail**；在 1440×900 核對統計卡數字、標籤、註記與 UC-322 徽章，無水平溢出，結論 correct。它另一次 390×844 的瀏覽器嘗試在等徽章時逾時，未獨立驗證該寬度；390×844 與 320×740 由整合者以 `measurements.json`、`tests/evidence-attribution-browser.cjs`（三種寬度）與 320px 幾何檢查（徽章 153×43、`scrollWidth - clientWidth = 0`）補足。
+- reviewer 確認：標籤與註記使用同一個載入計數（含部分載入）、UC-250 仍顯示為「補充頁」不是版本頁、`#case-count` 仍可供既有腳本讀取、CSS 不依賴舊字樣、更新後的 INDEX 斷言仍驗證筆數與順序，不是放寬守則。
+- 收到審查後只改文件路徑；合併 `origin/main`（`43737bfa`）後重跑全套 **901 pass／0 fail**，並重跑三種訪客情境（結果同上）與 `tests/evidence-attribution-browser.cjs`（exit 0）。
 
 ## PR、Actions 與發布
 

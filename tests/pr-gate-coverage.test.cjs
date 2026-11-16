@@ -271,6 +271,8 @@ function fullSuiteCommand(text) {
       .replace(/(?:\d?>>?|&>)\s*\S+/g, ' ')
       .replace(/\d?>&\d+/g, ' ')
       .trim().split(/\s+/).filter(Boolean);
+    // Flags that select a subset of tests mean the command is not the whole suite.
+    if (tokens.some(token => /^--test-(?:name-pattern|skip-pattern|only|shard)(?:=|$)/.test(token))) return false;
     if (tokens.every(token => token.startsWith('-'))) return true;
     const files = tokens.filter(token => !token.startsWith('-'));
     // `node --test tests` (or ./tests/) discovers the same directory recursively.
@@ -360,6 +362,11 @@ test('the unit-suite guard ignores runners that a pull request cannot reach', ()
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test tests' })), true, 'the tests directory discovers the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test ./tests/ --test-reporter=tap' })), true, 'flags do not hide the tests directory');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test tests/reader' })), false, 'a subdirectory stays a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test --test-name-pattern=smoke' })), false, 'a name pattern selects a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test --test-skip-pattern=slow' })), false, 'a skip pattern omits tests');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test --test-only' })), false, 'only marked tests is a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test --test-shard=1/4' })), false, 'a shard is a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test --test-name-pattern=smoke tests' })), false, 'a filtered directory run is a subset');
 
   // A folded `run: >` block executes its lines as one command.
   const folded = [

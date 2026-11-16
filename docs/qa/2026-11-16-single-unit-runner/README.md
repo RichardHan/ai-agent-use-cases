@@ -53,9 +53,14 @@
 
 ## PR、Actions 與發布
 
-- 產品／CI 提交 `f0221e3c`，守則加強 `57fc53d8`；PR [#432](https://github.com/RichardHan/ai-agent-use-cases/pull/432)。PR 建立後實際啟動 16 個 workflow（15 個 feature + Website QA），與改動前數量相同。
-- 獨立 reviewer 初審 **Incorrect**，三個 P2：job／step 的 push gate 可繞過、filtered `find` 可被誤認為全套、單一樣本不足以證明 glob 涵蓋。已於 `57fc53d8` 修正並重跑上述紅綠測；複審結果與最終 checks／merge／Pages 於實際完成後補記。
-- 尚未完成：PR checks、merge、Pages、正式站版本核對。以下狀態不互相代替。
+- 產品／CI 提交 `f0221e3c`（移除重複全套）、`57fc53d8`、`ad45c381`、`4ebc5d8c`、`3d140e39`（依獨立審查補強守則）；PR [#432](https://github.com/RichardHan/ai-agent-use-cases/pull/432)。建立後實際啟動 16 個 workflow（15 個 feature + Website QA），數量與改動前相同。
+- 獨立 reviewer 共四輪，全部由同一模型、不同 context 執行：
+  1. 初審 **Incorrect**：job／step 的 push gate、filtered `find`、單一樣本 glob。
+  2. 二審 **Incorrect**：`!= 'pull_request'`、註解掉的全套指令、有限樣本無法證明 glob 涵蓋。
+  3. 三審 **Incorrect**：YAML `run: >` 摺疊區塊把指令拆成兩行而漏判。
+  4. 四審 **Incorrect**：`node --test > qa-artifacts/unit.tap 2>&1` 這類預設探索加重導向未被辨識。
+  最終守則要求 runner 的 job 與 step 都不得有 `if:`、只讀實際執行（去註解、接續行、`|`／`>` 區塊）、以目錄 glob 涵蓋而非樣本，並辨識預設探索（含重導向、pipe、`&&`、`tests` 目錄）。每一輪都補了對應 fixture；端到端紅測在最終版重跑。
+- 待補：最終 checks、merge、Pages 與正式站版本核對。以下狀態不互相代替。
 
 ## 下一輪
 

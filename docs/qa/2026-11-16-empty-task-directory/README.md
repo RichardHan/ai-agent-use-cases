@@ -87,3 +87,11 @@ preview（`python3 scripts/preview.py`，Chromium 1440×900／390×844，`reduce
 
 1. `tests/refine-from-results-browser.cjs:90` 用固定 `waitForTimeout(400)` 等「修改關鍵字」按鈕的隱藏狀態，`assets/app.js` 是在 rAF 內依 `getBoundingClientRect().bottom<=0` 決定；2026-11-14 主線唯一一次 failure（[43634859717](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43634859717)，`2138f4d4`）就是這個斷言，失敗後 steps 10–18 全被跳過。本輪把新測試加進同一個 33 支指令的步驟，重試成本更高；下一輪先以 `for i in $(seq 20); do REFINE_URL=… node tests/refine-from-results-browser.cjs || break; done` 重現，再改成 `page.waitForFunction(() => document.getElementById('refine-query').hidden)`，同樣跑 20 次對照。
 2. 次要：`INDEX.md:12` 只寫「525 筆案例」，沒有揭露其中 5 頁是同一流程的補充／版本頁（525−5=520），首頁統計卡已揭露；`tests/index-freshness.test.cjs` 只鎖檔案數。先核對五頁清單與 README 說法，再補揭露句與測試。
+
+## PR、Actions 與發布
+
+- 交付 PR [#454](https://github.com/RichardHan/ai-agent-use-cases/pull/454)，head `c64036b9f43288299b6177ad8db55e2b2345fe69`。PR checks：16 項 pass、2 項 `published` 依設計 skipping，`mergeStateStatus` CLEAN，未繞過保護規則。Website QA [43849384825](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43849384825) success：`Run existing regression tests` 899 pass／0 fail、`Verify the updated site in Chromium` success 且日誌含 `EMPTY_TASKS_URL=… node tests/empty-task-directory-browser.cjs`、Jekyll `_site` 與 published-surface 步驟 success。
+- 10:43:48 UTC 一般 merge，合併版本 `cfe861e23406834c9d0cf0d4115b0c73738db11a`。
+- 對應 [Pages 43851443756](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43851443756) success；正式站 `catalog.json.sourceRevision` 精確等於 `cfe861e2…`，`index.html`、`assets/app.js`、`assets/style.css`、`assets/discovery.js` 與合併版 SHA-256 相同。
+- 正式站重走（1440×900／390×844）：新契約測試 exit 0（9／50 收合、展開 50、無內部捲動、桌面收合 162px）；三種必要情境、四個狀態 axe 0、pageerror 0、水平溢出 0；[live-log.json](live-log.json)、`live-*-{panel-collapsed,panel-expanded,s1-results,s2-empty,s3-detail}.png`。
+- 主線 Website QA 對合併版 `cfe861e2`：[43851444437](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43851444437)，交付時仍在執行；產品判決以 PR #454 的 run 與正式站核對為準。

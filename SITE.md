@@ -6,7 +6,9 @@
 
 驗收：基準 904 → **907 pass／0 fail**。暫時案例在改後 exit 0。正式站 `eeae3efb` 1440／390 三情境通過（會議 29／532、空結果 0／532 後以「會議整理」回到 29、UC-016 直鏈來源指向同一 SHA），pageerror 0、無水平溢出。沒有產品檔變更，因此沒有前後視覺差。[方案與證據](docs/qa/2026-11-17-corpus-count-floor/README.md)。
 
-下一輪：先量「主題分類」。正式站 `eeae3efb` 的 `#category` 有 363 個 option，程式把分類原文整段當一個選項，提示只說明未宣告分類者不在選項內，沒有說明絕大多數是單篇。先決定加執行期形狀說明，或寫下不做的理由。先驗證：展開 `#category`，記錄選項數、單篇選項數，以及提示有沒有說到單篇。
+發布：[PR #461](https://github.com/RichardHan/ai-agent-use-cases/pull/461)，head `4e197460`，Website QA [43922621538](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43922621538) 907 pass／0 fail，Corpus bundle QA [43922621258](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43922621258) success。一般 merge 為 `8931a4cc`。[Pages 43925359940](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43925359940) success；主線 [Website QA 43925361615](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43925361615) success（907 tests、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH 8931a4cc`、`PUBLICATION_MODE: exact`、`PASS LIVE` ×2）。正式站 `catalog.json` 與 `corpus.json` 的 `sourceRevision` 精確等於 `8931a4cc`；`index.html`、`assets/app.js`、`assets/style.css`、`assets/copy.json` 與合併版逐位元相同。合併後 1440／390 重走三情境，來源指向 `8931a4cc`，pageerror 0、無水平溢出。本紀錄若再以 docs-only 合併，只會推進 `sourceRevision`，產品位元仍以這四個 SHA-256 為準。
+
+下一輪：先量「主題分類」。`eeae3efb` 的 `#category` 有 363 個 option；產品位元在 `8931a4cc` 未變，提示仍只說明未宣告分類者不在選項內，沒有說明絕大多數是單篇。先決定加執行期形狀說明，或寫下不做的理由。先驗證：展開 `#category`，記錄選項數、單篇選項數，以及提示有沒有說到單篇。
 
 ## 2026-11-16 首屏「要注意什麼」不再漏掉案例頁的停止條件
 

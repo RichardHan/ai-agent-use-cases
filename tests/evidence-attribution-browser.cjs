@@ -321,8 +321,11 @@ const read = page => page.evaluate(() => {
       assert.equal(catalog.merged.hidden, false, `${name}: the merged-supplement note is not hidden`);
       assert.notEqual(catalog.merged.display, 'none', `${name}: the merged-supplement note is rendered`);
       assert.ok(catalog.merged.height > 0, `${name}: the merged-supplement note has a readable height`);
-      assert.equal(catalog.caseMerged, 1, `${name}: the catalog knows one merged case page`);
-      assert.match(catalog.merged.text, /其中 1 頁（UC-250）是已併入主案例的補充頁/, `${name}: the note names UC-250`);
+      assert.ok(catalog.caseMerged >= 2, `${name}: the catalog counts merged and variant case pages`);
+      assert.match(catalog.merged.text, /其中 \d+ 頁（UC-\d{3}/, `${name}: the note names its pages`);
+      assert.match(catalog.merged.text, /UC-250/, `${name}: the merged supplement is disclosed`);
+      assert.match(catalog.merged.text, /UC-322/, `${name}: a declared variant page is disclosed too`);
+      assert.match(catalog.merged.text, /同一流程的主案例補充或版本頁/, `${name}: the note names both kinds without calling a variant a merge`);
       assert.match(catalog.merged.text, /不另計入 1,000 案目標/, `${name}: the note ties the exclusion to the current target`);
       assert.ok(catalog.merged.text.includes(`其中 ${catalog.caseMerged} 頁`), `${name}: the rendered count comes from the catalog, not a hardcoded label`);
       assert.equal(catalog.overflow, 0, `${name}: the restored note does not overflow`);

@@ -93,11 +93,29 @@ test('the stats note names every merged supplement and never presents it as a se
 
   const items = currentCaseFiles().flatMap(file => Array.from(api.parseFile('cases/' + file, fs.readFileSync(path.join(casesDir, file), 'utf8'))));
   const merged = items.filter(item => item.kind === 'case' && (item.mergedInto || []).length);
-  assert.deepEqual(merged.map(item => item.id), ['UC-250'], 'only UC-250 is a merged case page today');
-  assert.deepEqual([...merged[0].mergedInto], ['UC-156'], 'the disclosure points at the real main case');
+  const destinations = Object.fromEntries(merged.map(item => [item.id, [...item.mergedInto]]));
+  assert.deepEqual(destinations, {
+    'UC-250': ['UC-156'],
+    'UC-322': ['UC-048'],
+    'UC-324': ['UC-212'],
+    'UC-336': ['UC-239'],
+    'UC-337': ['UC-050']
+  }, 'the catalog names exactly the destinations each page declares');
+  assert.deepEqual(merged.map(item => item.mergedKind), ['merged', 'variant', 'variant', 'variant', 'variant'],
+    'only UC-250 declares an explicit merge');
+  for (const item of merged) {
+    for (const id of item.mergedInto) {
+      assert.ok(items.some(other => other.kind === 'case' && other.id === id),
+        `${item.id} points at ${id}, which must be a real case page`);
+    }
+  }
 
   const counts = api.catalogCounts(items);
   assert.equal(counts.case, items.filter(item => item.kind === 'case').length, 'the case counter still matches the catalog');
   assert.equal(counts.caseMerged, merged.length, 'the merged-page counter matches the catalog');
-  assert.match(api.mergedSupplementNote(items), /其中 1 頁（UC-250）/, 'the real catalog produces the disclosure');
+  const note = api.mergedSupplementNote(items);
+  assert.ok(note.includes(`其中 ${merged.length} 頁（`),
+    'the real catalog discloses the number the parser found:\n' + note);
+  for (const item of merged.slice(0, 5)) assert.ok(note.includes(item.id),
+    `the disclosure names ${item.id}:\n` + note);
 });

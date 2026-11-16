@@ -58,16 +58,18 @@ test('every test and script a workflow runs exists in the checkout', () => {
   assert.deepEqual(missing, [], 'workflow invokes files that do not exist: ' + missing.join(', '));
 });
 
-// One workflow step, from its `- name:` list item to the next list item or job key.
-// Step keys sit at eight spaces; `run:` content is deeper, so an `if:` anywhere at
-// eight spaces would skip the step even when it appears after `env:`.
+// One workflow step, from its `- name:` list item to the next step or job key.
+// Step keys sit at eight spaces and `run:` content is deeper, so an `if:` anywhere
+// at eight spaces skips the step even when it appears after `env:`. YAML comments
+// may sit at any indentation and never end the step, so only a new list item at six
+// spaces or a key at four spaces or less is a boundary.
 function stepBlock(source, name) {
   const lines = source.split('\n');
   const start = lines.findIndex(line => line === `      - name: ${name}`);
   assert.notEqual(start, -1, `the step must stay named "${name}"`);
   const block = [lines[start]];
   for (const line of lines.slice(start + 1)) {
-    if (line.trim() !== '' && /^ {0,6}\S/.test(line)) break;
+    if (!/^\s*#/.test(line) && (/^ {0,6}- /.test(line) || /^ {0,4}\S/.test(line))) break;
     block.push(line);
   }
   return block;

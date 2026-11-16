@@ -78,12 +78,18 @@
   - UC-001 →「網站擋自動化、要求登入或人工確認（含 CAPTCHA）就停」，契約改要求「要求登入或人工確認」。
 - 修正後重跑 `tests/copy-hard-stops.test.cjs`（3 pass）、三種訪客情境（三尺寸、axe 0、pageerror 0、溢出 0）、`tests/visitor-adoption-flow-browser.cjs`（三尺寸、axe 0）與全套單元測試。
 - reviewer 另確認 `copy.json` 的 `caution` 也會進入複製筆記與列印內容；搜尋文字仍取自案例 Markdown，未見影響搜尋或快取語料。它用預設 8877 埠執行整支 adoption 測試時連線被拒，改由整合者在 8166 preview 重跑 exit 0；未驗證 Jekyll／正式站，由 PR Website QA 與合併後 Pages 補足。
+- follow-up 確認最後一項 P2（驗收資料仍記舊短句）已修；最終 head `2e1970ee` 的 `evidence/acceptance.json` 三種寬度都記為 159 字、含「觀察 1–2 週後」。**最終 verdict：無 P0–P2 findings。**
 
 ## PR、Actions 與發布
 
-（待填）
+- 交付 PR [#459](https://github.com/RichardHan/ai-agent-use-cases/pull/459)，head `2e1970ee`；PR checks **16 pass／2 `published` 依設計 skipping**。Website QA [43863605517](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43863605517) 13m05s success（13 分 05 秒、含 `node --test tests/*.test.cjs` 904 項、Jekyll `_site`、published-surface 與 Chromium 旅程）；Source guide QA [43863605806](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43863605806) preview 11m53s success、`published` 依設計 skipping。
+- 一般 merge 為 `c93c6c1ca1a0d0fef0c1d35dd4dcccbe0fc31608`（第一父 `f537c8e4`、第二父 `2e1970ee`）。合併後 Pages [43865693142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43865693142) success；主線 Website QA [43865694303](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43865694303) 於交付時仍在執行，結果見下方補記與 PR comment。
+- 正式站核對（2026-11-16 12:22 UTC，`catalog.json.sourceRevision` 精確等於 `c93c6c1c…`）：`assets/copy.json` SHA-256 `b3fa385b…` 與 `git show c93c6c1c:assets/copy.json` 逐位元相同；`live.json`／`live-{desktop,phone}-uc016.png`。1440×900／390×844 的 UC-016 caution 皆為 159 字、含「標記售出、下架或刪除刊登」「觀察 1–2 週後」「每週檢查權限設定頁」；桌面高度 222px、手機 292px、水平溢出 0、axe 0、pageerror 0；「我想讓 AI 幫我整理會議紀錄」在兩種寬度都是 4 筆。
+- 本紀錄自身若以 docs-only 後續合併，只會推進 `sourceRevision`，不會改 `assets/copy.json`；正式站產品位元仍以 `c93c6c1c` 的 SHA-256 為準。
+- Actions 現況（唯讀稽核 `DeployReliabilityAudit2`，3,448 runs／7 日）：目前沒有失敗中的 run，main Website QA 自 11-14 19:57 後 47 次連續成功；653 個取消全部是被新推送取代，權限／配額／外部服務／純 flake 皆 0。歷史 `[skip ci]`／docs-only 無裁決、main 裁決被取消、60 分鐘發佈空等都已修復且不重現。現存但本輪未處理的 latent 風險：`source-guide-qa.yml` 的 `published` job timeout 75 分鐘 < 共用 60+20 慣例，且不在 `tests/published-assets.test.cjs` 的守門清單；該 job 目前因只有 PR 觸發與 main-only `if` 而永遠 skipped（run 43855262755），一旦接回 main 就會在 60 分鐘等待後只剩 15 分鐘。另有 3 處精確 corpus 計數（53／31／17）仍是下次內容新增可能一次點亮 16 個 workflow 的來源。列為下一輪候選，不在本輪改 CI。
 
 ## 下一輪
 
-- 最值得先做：`copy.json` 只覆蓋 20 個早期條目；其餘 500 多則使用案例頁自己的章節抽取。先抽查 10 則沒有「權限／限制」章節、改由其他標題抽取的案例，確認 `caution` 不是抓到驗收句或來源句。
-- 先做哪個驗證：在正式站開 UC-007／UC-010／UC-016 詳情，把首屏「要注意什麼」與「查看原始研究、來源與完整提示詞」逐條對照；再抽 10 則非 `copy.json` 案例比較抽取結果與頁面停止句。
+- 最值得先做：把剩餘 3 處精確 corpus 計數改為下限並加靜態守則——`tests/mobile-problem-tags.test.cjs:24`（53）、`tests/problem-compound-queries.test.cjs:380/385`（31／17）。7 日稽核顯示，一次內容新增曾讓 16 個 workflow 同時因同一計數變紅；這是目前最可能再造成大面積紅燈的已知原因。
+- 先做哪個驗證：在隔離 worktree 暫時新增一個案例檔，跑 `node --test tests/*.test.cjs`，確認不再因 53／31／17 失敗；再確認新守則會擋下把 `>=` 改回精確值的 diff。
+- 次選：`copy.json` 只覆蓋 20 個早期條目；其餘 500 多則使用案例頁自己的章節抽取。抽 10 則沒有「權限／限制」章節、改由其他標題抽取的案例，確認 `caution` 不是抓到驗收句或來源句。

@@ -14,7 +14,7 @@ const casesDir = path.join(root, 'cases');
 
 // Match the library's own counting language, not every incidental "500" (prices,
 // follower counts, model limits). Historical sections are tested separately.
-const RETIRED_TARGET = /(?:不另計|不另計入|不增加|未加|不加|另加|增加|計入|列入)\s*(?:入)?\s*500(?:\s*(?:案)?(?:目標|計數|案例計數))?|500\s*(?:案目標|目標計數|案例計數|計數)|500\s*案例計數候選/;
+const RETIRED_TARGET = /(?:不另計|不另計入|不計|不增加|未加|不加|另加|增加|計入|列入)\s*(?:入)?\s*500(?!\s*(?:元|円|日圓|美元|歐元|克朗|英鎊|人|名|位|件|次|字|px|MB|GB))(?:\s*(?:案)?(?:目標|計數|案例計數))?|500\s*(?:案目標|目標計數|案例計數|計數)|500\s*案例計數候選/;
 
 function currentCaseFiles() {
   return fs.readdirSync(casesDir).filter(file => file.endsWith('.md')).sort();

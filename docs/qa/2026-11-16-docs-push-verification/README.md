@@ -81,6 +81,8 @@ GitHub Pages 對 default branch 的**每一次 push** 都重新建置與部署�
   3. `?case=UC-445` 直鏈 → 詳情開啟、9 個外部來源連結、第一個來源固定在 `blob/a9446aa8…`；Escape 關閉後焦點回 `#results-count`，網址保留；溢出 0；axe 0。
 - 限制：截圖只存在本機暫存，未入 repo（本輪無視覺變更）；自動走查非真人研究。載入期間有一個 `cases/445-…md` 的逐篇請求以 `net::ERR_ABORTED` 結束，是全文包先到、設計上中止的退路請求，不是 404（同一 URL 直接請求回 200）。
 
+- docs-only 證明：PR #439 合併為 `ee16f156`（diff 只有 `SITE.md` 與 `docs/qa/**`）。同一個 workflow 在合併前對這類 SHA 只會有 Pages 一筆；本輪合併後出現 push event 的 [Website QA 43813142799](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43813142799)，且正式站 `catalog.json.sourceRevision` 等於 `ee16f156…`。這就是「判決跟著部署」的可重現證據。
+
 ## 已知限制
 
 - 不在正式 repo 故意讓 Pages 部署失敗，所以「docs-only 部署失敗會轉紅」只有既有 `publication-gate.test.cjs`／`published-version` 的 `failed → fatal` 覆蓋，沒有本輪注入證據。

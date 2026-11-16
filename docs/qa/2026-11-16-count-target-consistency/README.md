@@ -35,7 +35,7 @@
 - `cases/003,023,025,042`：改為「不增加 1,000 案目標的計數」。
 - `cases/095,096`：`- 500 案例計數候選：…` 改為 `- 計數判定：實際使用自述列為候選；…`，保留原本的判準敘述。
 - `cases/250`：標題與證據狀態改為「已併入 UC-156，不另計入 1,000 案目標（保留供搜尋與閱讀）」。
-- `INDEX.md`：目前表格 UC-009、UC-250 兩列同步；`INDEX.md` 其餘 17 處 500 都在 `research-log` 錨點之後。
+- `INDEX.md`：目前表格 UC-009、UC-250 兩列同步；`INDEX.md` 其餘 17 處「500」中 15 處在 `research-log` 錨點之後，另兩處是 UC-056 的「遷移500」與 UC-500 編號，都不是計數口徑。
 - `assets/app.js`：`catalogCounts()` 增加 `caseMerged`；新增 `mergedSupplementNote(items)`（最多列 5 個 id，其餘以「等」收尾）；`refreshCorpusMetadata()` 寫入 `#merged-note` 並依有無內容設定 `hidden`。
 - `index.html`／`assets/style.css`：新增 `#merged-note`，手機版與 `#pending-note` 同一條可見性覆寫（`.stats p{display:none}` 只影響其他段落）。
 - `README.md`：補上統計卡會揭露已併入補充頁，以及現行頁面不再使用 500 口徑、只有歷史紀錄保留。
@@ -60,14 +60,19 @@
 
 ## PR 與發布
 
-- PR [#429](https://github.com/RichardHan/ai-agent-use-cases/pull/429)，base `6c17b981`；產品提交 `4ecef185`，測試提交 `8299b3e3`、`8bb34959`，文件與 nit 修正隨後。PR checks 與合併／Pages／正式站驗證於實際完成後補記，未完成的不算通過。
+- PR [#429](https://github.com/RichardHan/ai-agent-use-cases/pull/429)，base `6c17b981`；產品提交 `4ecef185`，測試提交 `8299b3e3`、`8bb34959`、`049e6dfa`。最終 head `049e6dfa` 的 16 項 PR checks 全部 pass，2 個 `published` 依設計 skipping；一般 merge 為 `bd0c0a9754e8ac5b23e50eeed676473717e1b662`。
+- 合併後 Pages `43786720678` build／deploy／report 全部 success（51 秒級）；主線 Website QA `43786721310` 的 published 閘門另記於下方。remote 分支已刪除。
 
 ## 訪客驗收
 
 - 預覽 UC-250 詳情（1440／390）：證據狀態顯示「重複流程來源補充；已併入 UC-156，不另計入 1,000 案目標（保留供搜尋與閱讀）」，並保留「站內閱讀主案例 UC-156」入口；頁面不再出現 500。
+- 預覽與正式站搜尋顯示 `532 / 532` 筆收錄（525 案例＋3 經驗＋4 待查；其中 P-002／P-004 已處理）。
 - 預覽統計卡（1440／390／320）：案例頁 `525`；`#merged-note` `display:block`、文字「其中 1 頁（UC-250）是已併入主案例的補充頁，仍可搜尋與閱讀，不另計入 1,000 案目標。」高度 18／44／66px，水平溢出 0。
 - 無障礙：Chromium AX tree 中該段為 `StaticText`，位於 `#collection-stats` 的 `section[aria-label="收錄與核對統計"]` 內，讀屏可讀。
 - 前後截圖（元素級，Playwright）：[正式站 UC-250 證據區 1440](live-uc250-evidence-desktop.png)／[390](live-uc250-evidence-mobile.png) → [預覽 1440](preview-uc250-evidence-desktop.png)／[390](preview-uc250-evidence-mobile.png)；[正式站統計卡 1440](live-stats-desktop.png)／[390](live-stats-mobile.png) → [預覽 1440](preview-stats-desktop.png)／[390](preview-stats-mobile.png)。文字與幾何在 [measurements.json](measurements.json)；正式站 INDEX 的 UC-250 列另存 [文字](live-index-uc250-row.txt) 與 [截圖](live-index-uc250-row.png)。
+- 正式站（合併版 `bd0c0a97`）：UC-250 證據區顯示新句、統計卡 `#merged-note` `display:block`、INDEX 的 UC-250 列顯示「已併入 UC-156；補充頁不另計入 1,000 案目標」，1440／390 水平溢出 0；[正式站 UC-250 證據 1440](after-uc250-evidence-desktop.png)／[390](after-uc250-evidence-mobile.png)、[統計卡 1440](after-stats-desktop.png)／[390](after-stats-mobile.png)、[INDEX 列](after-index-uc250-row.png)，量測在 [after-measurements.json](after-measurements.json)。
+- `NODE_PATH=… GITHUB_SHA=bd0c0a9754e8ac5b23e50eeed676473717e1b662 node tests/deployed-browser.cjs`：exit 0，`PUBLISHED_LIVE_BUILD_CURRENT bd0c0a97…`；桌面／手機搜尋、詳情直鏈重整、來源、返回、組合空結果復原、JS-disabled 索引回退全部通過，axe 0。[日誌](live-deployed-browser.txt)
+- 位元核對：正式站 `index.html`、`assets/app.js`、`assets/style.css`、`README.md`、`INDEX.md`、`cases/250-…md` 皆 HTTP 200，SHA-256 與合併版逐位元相同。
 - 限制：本環境停用影像輸入，沒有逐像素目視截圖；以上為 DOM／computed style／幾何／AX tree 證據。未用實體手機、讀屏實聽或 Firefox／WebKit 交叉重跑。未做效能與全站無障礙基準。
 
 ## Actions 現況（本輪即時確認）
@@ -75,3 +80,8 @@
 - 最近 100 個 runs（2026-11-15T19:01Z–2026-11-16T00:21Z）**全部 success**，0 failure／0 cancelled／0 in-flight；`main` 最新 Pages `43779908854`（`a178bc70`，51 秒）成功，live `sourceRevision` 與之相符。歷史紅牆在 2026-11-15T00:38Z 的 `6322e0c6`：16 個 workflow 同時失敗，根因是兩個硬編總數斷言（已於同輪改為 `>=`），不是權限、額度或 Pages 故障。
 - 仍存在的訊號放大問題：16 個 PR workflow 各自重跑完整 `tests/*.test.cjs`，單一斷言失敗會變成 16 個紅 check、每次 push 多 15 次全套單元執行。本輪**不改 CI**，避免把健康狀態當故障處理；列為下一輪候選。
 - 本輪不重跑舊 run；PR checks 另見 PR 頁面。
+
+## 下一輪
+
+- 最值得做的一件事：把 16 個 PR workflow 重複執行的完整 `tests/*.test.cjs` 收斂到擁有者 `website-qa.yml`，讓單一斷言失敗只產生 1 個紅 check，並保留各 surface 的 browser 步驟。這是訊號與成本問題，不是目前紅燈；本輪不改 CI。
+- 先做哪個驗證：在一個小型 PR 上比較同一 `head_sha` 的 run 數、有執行 unit step 的 job 數與 critical path；確認 `website-qa.yml` 仍跑完整單元套件，且被移除 unit step 的 workflow 仍執行自己的 browser surface。先做 1–2 個 workflow 的 pilot，再推廣，不一次改 15 個檔案。

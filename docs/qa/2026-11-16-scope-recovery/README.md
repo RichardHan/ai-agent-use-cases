@@ -32,7 +32,7 @@
 
 - `assets/app.js`：新增 `narrowestScopeTerm(rows, searchTerms, key)`，過濾 `key > 0`、排除單字中文，依「命中數升冪 → 詞長降冪 → 原句順序」排序；`renderSearchFeedback()` 的 `none` 分支改用此函式，`resetFilters = !scopedBest`，篩選全排除時仍從 library 計數挑最窄詞並標明清除篩選。
 - `README.md`：補一句說明「改搜」挑的是句中範圍最窄的可用詞（排除單字虛詞），並以「隱私審查」→「隱私」9 筆對照「審查」61 筆。
-- `tests/scope-recovery-term.test.cjs`：6 項新回歸（最窄而非最寬、單字碎詞、零命中、同筆數時詞長與原句順序、三個真實問題不得提供虛詞、承諾筆數與 overview scope 一致）。
+- `tests/scope-recovery-term.test.cjs`：7 項新回歸（最窄而非最寬、單字碎詞、零命中、篩選全排除時的 library 回退、同筆數時詞長與原句順序、三個真實問題不得提供虛詞、承諾筆數與 overview scope 一致）。
 - `tests/result-count-honesty-browser.cjs`：新增桌面與手機斷言，`隱私審查` 必須提供「隱私」、會議紀錄句子必須提供「會議」，且點擊後畫面筆數等於按鈕承諾。
 
 ## 回歸與紅測
@@ -54,7 +54,11 @@
 
 ## 獨立審查
 
-- 由未參與實作的獨立 reviewer context 檢查最終 diff、新測試與驗收證據；結論與後續修正見本輪 PR 與下方發布紀錄。
+- 由未參與實作的獨立 reviewer context 檢查最終 diff、新測試與驗收證據；結論 **Changes requested（P2）**：
+  - 指 `_includes/case-fallback-nav.html` 不再給來源紀錄頁返回連結。核對後這是基準 `dea10671`（已合併的 PR #444）帶入的變更，不在本輪 diff；本輪分支已合併該 commit，該行為沿用 #444 已驗收的版本，未修改。
+  - 指新測試沒有自動化「篩選把每個詞的 scoped 都歸零」的回退路徑；已補一項單元測試，直接驗證 `library` key 也選最窄詞（審查全排除時提供隱私 9，不是 61）。
+  - reviewer 手動確認：兩個查詢在桌面與 390px 都提供較窄詞、點擊後筆數相符；有篩選時顯示會清除篩選且點擊後 9 筆；空查詢會清掉按鈕；Enter 可啟動；390px 無水平溢出。reviewer 未跑全套測試、影像閱讀停用，無法目視截圖。
+- 修正後重新執行 `node --test tests/*.test.cjs` 與受影響瀏覽器腳本，結果見上。
 
 ## PR、Actions 與發布
 

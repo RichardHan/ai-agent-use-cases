@@ -3068,6 +3068,22 @@ function renderCategoryFinder() {
     (replacement||input).focus({preventScroll:true});
   }
 }
+// Count each page's own 分類 phrase in the loaded catalogue, not under the
+// current query. Option prefixes already show the filtered count; this sentence
+// says whether the dropdown is a shared list or a pile of one-page phrases.
+function categoryShapeNote(items) {
+  const counts=new Map();
+  for (const item of items||[]) {
+    if (!item||!item.category) continue;
+    counts.set(item.category,(counts.get(item.category)||0)+1);
+  }
+  const total=counts.size;
+  if (!total) return '';
+  let singleton=0;
+  for (const n of counts.values()) if (n===1) singleton+=1;
+  const shared=total-singleton;
+  return '主題分類是各案例頁自己寫的分類原文，不是共用主題清單。已載入條目裡，'+total+' 個分類有 '+singleton+' 個只出現 1 次'+(shared?'，其餘 '+shared+' 個出現 2 次以上':'')+'。依問題找案例請用上方搜尋或任務按鈕。';
+}
 function renderFacetCounts(terms, filters) {
   const hint=$('facet-count-hint');
   const difficultyHint = '實作門檻以案例頁宣告為準；未宣告的案例由本庫依內文關鍵字推測，卡片與詳情頁會標示推測。';
@@ -3081,9 +3097,9 @@ function renderFacetCounts(terms, filters) {
   // 主題分類 option. Say how many those are instead of letting the filter look
   // like it covers the whole catalogue.
   const unclassified = discoveryReady ? entries.filter(item => !item.category).length : 0;
-  const categoryHint = unclassified
+  const categoryHint = (unclassified
     ? '主題分類只列案例頁首宣告的分類；' + unclassified + ' 個未宣告分類的條目不在選項內，仍可用關鍵字、使用情境與其他篩選找到。'
-    : '';
+    : '') + (discoveryReady ? categoryShapeNote(entries) : '');
   hint.textContent=(!discoveryReady
     ? '案例載入完成後，會顯示各選項的符合筆數。'
     : failedPaths.length
@@ -3119,12 +3135,15 @@ function renderFacetCounts(terms, filters) {
         : '';
       option.textContent=(discoveryReady ? counts[index]+' · ' : '')+option.dataset.label+mergedNote;
     });
-    if(discoveryReady && ['tool','category'].includes(key)) groupFacetOptions(select,counts);
+    const positiveNote=key==='category'
+      ? (()=>{const singleton=counts.filter((count,index)=>options[index].value&&count===1).length;return singleton?'，'+singleton+' 個只對到 1 筆':'';})()
+      : '';
+    if(discoveryReady && ['tool','category'].includes(key)) groupFacetOptions(select,counts,positiveNote);
   }
   renderCategoryFinder();
 }
 // Keep platform-native selection and every zero-result alternative available.
-function groupFacetOptions(select,counts) {
+function groupFacetOptions(select,counts,positiveNote='') {
   const selected=select.value;
   const options=[...select.options];
   const buckets=[[],[]];
@@ -3133,7 +3152,7 @@ function groupFacetOptions(select,counts) {
   buckets.forEach((bucket,index)=>{
     if(!bucket.length)return;
     const group=el('optgroup');
-    group.label=(index===0?'有符合條目':'目前 0 筆')+'（'+bucket.length+' 個選項）';
+    group.label=(index===0?'有符合條目':'目前 0 筆')+'（'+bucket.length+' 個選項'+(index===0?positiveNote:'')+'）';
     bucket.sort((a,b)=>a.value.localeCompare(b.value,'zh-Hant'));
     group.append(...bucket);
     children.push(group);

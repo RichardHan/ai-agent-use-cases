@@ -12,6 +12,8 @@ Website QA 的 `Verify the updated site in Chromium` 以 `if: ${{ hashFiles('tes
 
 下一輪：先量空結果面板在 390px 一次列出 55 個任務按鈕對復原流程的影響。正式站 `b266e6f1` 實測：`?q=xyz987` 的空結果面板高 851px、55 個任務按鈕、面板內 57 個焦點停點，決定沿用首頁「先顯示 9 項＋展開」或縮減；再做 `主題分類` 361 個單篇選項的形狀說明，並把 `source-guide-qa.yml` 的 75 分鐘 `published` job 納入 60＋20 分鐘等待上限守則。先驗證：390px 空結果時量按鈕數、面板高度與 Tab 次數。
 
+發布補記：本紀錄以 [PR #451](https://github.com/RichardHan/ai-agent-use-cases/pull/451) 合併為 `4f94978f`（docs-only，PR 端無 check）；該 push 的 [Website QA 43839822159](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43839822159) 以 `PUBLICATION_MODE: superseded` 判決 success，`PASS LIVE SUPERSEDED` 在 1440／390 觀察到 `sourceRevision=2b8f8b2b`（同期另一個 docs-only 合併先落地），`index.html`／`assets/app.js` 與當時 main 逐位元相同。產品版本仍是 `b266e6f1`，後續 main 只增加 `docs/**`／`SITE.md` 與 QA 證據。
+
 ## 2026-11-16 無主題命中時的「改搜」改為最窄可用詞
 
 結果不是 0、但沒有任何案例的標題、用途或痛點同時包含整組詞時，結果頁原本挑命中最多的詞當下一步：正式站 `95924cf2` 的「隱私審查」提供「審查」61 筆（「隱私」只有 9），「我想讓 AI 幫我整理會議紀錄」提供「讓」273 筆（「會議」只有 14）；首頁 7 個任務入口也都被帶到更寬的集合。按鈕筆數是真的，但方向把恢復探索變成擴大雜訊。

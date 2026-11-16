@@ -38,14 +38,12 @@ jobs:
           OBSERVE: '1'
         run: node tests/card-refinement-browser.cjs
       - name: Verify updated refinement
-        if: ${{ hashFiles('tests/card-refinement.test.cjs') != '' }}
         env:
           NODE_PATH: ${{ runner.temp }}/refine-tools/node_modules
         run: |
           python3 -m http.server 8093 --directory "$RUNNER_TEMP/refine-preview" > /tmp/refine-preview.log 2>&1 &
           node tests/card-refinement-browser.cjs
       - name: Preserve existing reader and homepage flows
-        if: ${{ hashFiles('tests/card-refinement.test.cjs') != '' }}
         env:
           NODE_PATH: ${{ runner.temp }}/refine-tools/node_modules
           READER_URL: http://127.0.0.1:8093/ai-agent-use-cases/

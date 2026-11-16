@@ -81,8 +81,10 @@ jobs:
         run: |
           node --test tests/*.test.cjs
           node --check assets/app.js
+      # Runs unconditionally: tests/workflow-skip-guard.test.cjs fails the suite if
+      # this step gains an `if:` or if a file-existence guard returns to any
+      # workflow. A skipped browser step used to leave the job green.
       - name: Verify the updated site in Chromium
-        if: ${{ hashFiles('tests/discovery-browser.cjs') != '' }}
         env:
           NODE_PATH: ${{ runner.temp }}/browser-tools/node_modules
         run: |

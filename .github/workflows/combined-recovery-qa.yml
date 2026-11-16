@@ -47,7 +47,6 @@ jobs:
           OBSERVE: '1'
         run: node tests/combined-recovery-browser.cjs
       - name: Verify updated preview
-        if: ${{ hashFiles('tests/combined-recovery.test.cjs') != '' }}
         env:
           NODE_PATH: ${{ runner.temp }}/recovery-tools/node_modules
         run: |

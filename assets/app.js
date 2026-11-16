@@ -1277,9 +1277,17 @@ function metadata(markdown, path, kind, suffix='') {
   // Require the dated status line ("2026-10-17 已處理") so that prose such as
   // "未取得…已完成操作流程" is not mistaken for a resolution.
   const resolved = kind === 'pending' && /^\d{4}-\d{2}-\d{2}[^。；]{0,10}已(?:處理|解決|完成)/.test(statusLine);
-  const mergedInto = kind === 'evidence' ? [] : kind === 'case'
-    ? [...new Set([...collectDestinations(heading, TITLE_MERGE_DESTINATION), ...mergedDestinations(proofLine)])]
+  const explicitMerge = kind === 'case'
+    ? [...collectDestinations(heading, TITLE_MERGE_DESTINATION), ...mergedDestinations(proofLine)]
+    : [];
+  const variantMerge = kind === 'case' ? declaredVariantDestinations(proofLine, id) : [];
+  const mergedInto = kind === 'evidence' ? []
+    : kind === 'case' ? [...new Set([...explicitMerge, ...variantMerge])]
     : mergedDestinations(statusLine, heading);
+  // 「已合併」是編輯留下的合併句；「不另計」是同一流程的版本頁，兩者都保留原文與
+  // 來源，但只有前者能說「已合併」。詳情與卡片依這個欄位選字，不把版本頁改寫成
+  // 已合併。
+  const mergedKind = kind === 'case' && mergedInto.length ? (explicitMerge.length ? 'merged' : 'variant') : '';
   const proofClasses = declaredEvidenceClasses(proofLine, kind);
   const proof = proofClasses[0];
   const relayedProof = proofLine ? relayedEvidenceClasses(proofLine) : [];
@@ -1324,7 +1332,7 @@ function metadata(markdown, path, kind, suffix='') {
   // reach a page by its section title, `searchBody` drops them so "matched" and
   // "this text says it" can be told apart. Both keep every declared field.
   const searchBodyText=norm(withoutEditorialNotes(proseWithoutSectionHeadings(markdown))+searchFields);
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,howFromCopy:Boolean(copy.how),cautionFromCopy:Boolean(copy.caution),difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,resolved,search:searchText,searchProse:withoutSourceUrls(searchText),searchBody:searchBodyText,searchProseBody:withoutSourceUrls(searchBodyText)};
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,howFromCopy:Boolean(copy.how),cautionFromCopy:Boolean(copy.caution),difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,mergedKind,resolved,search:searchText,searchProse:withoutSourceUrls(searchText),searchBody:searchBodyText,searchProseBody:withoutSourceUrls(searchBodyText)};
 }
 // sources/pending.md records one review date for the whole file, above the first
 // lead. It says when the file was checked, not when each lead was, so it stays a
@@ -1349,6 +1357,26 @@ const MERGE_DESTINATION = /(?:併入|另記|另見|合併)\s*[\[（(]?\s*(UC-\d{
 // the explicit 已合併 form declares a destination there. The evidence line keeps the
 // loose form, because UC-250 writes "合併UC-156，不另計" there.
 const TITLE_MERGE_DESTINATION = /已合併\s*[\[（(]?\s*(UC-\d{3})/g;
+// A page can declare itself a version of another case without any merge verb:
+// UC-322 writes 「嚴格去重視為UC-048的數值追蹤版本，本頁保留但不另計」 and UC-336
+// 「既有239流程版本，本輪不另計」. That is the same editorial decision as 已合併,
+// so the declaration is read the same way. Only a sentence that says 不另計／
+// 不另立案 counts; the page's own id never becomes its destination.
+const NOT_SEPARATE_CASE = /不另計|不另立案/;
+// `1,000 案目標` must not yield UC-000, so a bare number may not follow a digit or
+// a thousands separator.
+const VARIANT_DESTINATION = /(?:UC\s*-\s*(\d{3}))|(?:(?<![\d,，])(\d{3})(?=\s*(?:流程|案例|版本|號|号)))/g;
+function declaredVariantDestinations(text, ownId) {
+  const ids = [];
+  for (const sentence of String(text || '').split(/[。；;]/)) {
+    if (!NOT_SEPARATE_CASE.test(sentence)) continue;
+    for (const match of sentence.matchAll(VARIANT_DESTINATION)) {
+      const id = 'UC-' + (match[1] || match[2]);
+      if (id !== ownId && !ids.includes(id)) ids.push(id);
+    }
+  }
+  return ids;
+}
 function mergedDestinations(...texts) {
   const ids = [];
   for (const text of texts) {
@@ -1385,6 +1413,12 @@ function cardKindBadge(item) {
 // The shared note left out whether a lead was closed, so a forwarded lead still read
 // as an open question. Keep the same three states the page shows.
 function copyNoteStatus(item) {
+  if (item?.kind === 'case' && (item.mergedInto || []).length) {
+    const label = mergedDestinationText(item);
+    return item.mergedKind === 'variant'
+      ? `🔁 狀態：與主案例 ${label} 同一流程的版本頁，不另計一案`
+      : `🔁 狀態：已合併至 ${label}，不另計一案`;
+  }
   if (!item?.resolved) return '';
   const label = mergedDestinationText(item);
   return label ? `🔁 狀態：已併入 ${label}，不另計一案` : '🔁 狀態：已處理，來源檔未記錄併入案例';
@@ -1411,8 +1445,9 @@ function resolvedPendingNote(item) {
 function mergeHandoffSentence(item) {
   const label = mergedDestinationText(item);
   if (!label) return '來源檔已標示處理完成，但未記錄併入的主案例；不另計一案，原帖與仍未核對的項目保留在本頁。';
-  return item.kind === 'pending'
-    ? `來源檔已標示處理完成並併入 ${label}，不另計一案；原帖與仍未核對的項目保留在本頁。`
+  if (item.kind === 'pending') return `來源檔已標示處理完成並併入 ${label}，不另計一案；原帖與仍未核對的項目保留在本頁。`;
+  return item.mergedKind === 'variant'
+    ? `本頁與主案例 ${label} 屬同一流程的版本頁，不另計一案；原始來源與限制保留在本頁。`
     : `本頁已合併至 ${label}，不另計一案；保留這篇的原始來源與限制。`;
 }
 // Split handled leads by whether the source recorded a destination, so neither the
@@ -1448,7 +1483,7 @@ function mergedSupplementNote(items) {
   const mergedCases=(items||[]).filter(item=>item.kind==='case'&&(item.mergedInto||[]).length);
   if(!mergedCases.length)return '';
   const names=mergedCases.slice(0,5).map(item=>item.id).join('、')+(mergedCases.length>5?' 等':'');
-  return `其中 ${mergedCases.length} 頁（${names}）是已併入主案例的補充頁，仍可搜尋與閱讀，不另計入 1,000 案目標。`;
+  return `其中 ${mergedCases.length} 頁（${names}）是同一流程的主案例補充或版本頁，仍可搜尋與閱讀，不另計入 1,000 案目標。`;
 }
 function el(tag,cls,text) { const node=document.createElement(tag); if(cls)node.className=cls; if(text!==undefined)node.textContent=text;return node; }
 function safeLink(target,path) {
@@ -2146,7 +2181,7 @@ function showDetail(item, trigger, updateURL=true) {
     handoff.append(
       el('h2','', item.kind==='pending'
         ? (recorded ? (item.mergedInto.length>1 ? '這條待查線索已併入下列主案例' : '這條待查線索已併入主案例') : '這條待查線索已處理，未記錄併入的主案例')
-        : '這篇是主案例的來源補充'),
+        : item.mergedKind === 'variant' ? '這篇與主案例屬同一流程的版本頁' : '這篇是主案例的來源補充'),
       el('p','', mergeHandoffSentence(item))
     );
     handoff.append(mergedDestination(item));
@@ -2487,6 +2522,19 @@ function card(item, terms=[]) {
   // the resolved label replaces the misleading "還在查證" wording.
   const kindBadge = el('span', 'kind', item.kind === 'pending' ? cardKindBadge(item) : KIND[item.kind]);
   badgesWrap.append(kindBadge);
+  // A merged or variant page is still searchable, but the card must not read as one
+  // more independent workflow; the badge is the same fact the detail handoff states.
+  if(item.kind === 'case' && (item.mergedInto || []).length){
+    const mergedLabel = mergedDestinationText(item);
+    const variant = item.mergedKind === 'variant';
+    const mergedText = variant ? '主案例 ' + mergedLabel + ' 的版本頁' : '主案例 ' + mergedLabel + ' 的補充頁';
+    const mergedBadge = el('span', 'card-merged', mergedText);
+    mergedBadge.title = variant
+      ? '此頁與主案例屬同一流程，不另計一案；仍可搜尋與閱讀。'
+      : '此頁已併入主案例，不另計一案；仍可搜尋與閱讀。';
+    mergedBadge.setAttribute('aria-label', mergedText + '，不另計一案');
+    badgesWrap.append(mergedBadge);
+  }
   top.append(topInfo, badgesWrap);
   node.append(top);
 

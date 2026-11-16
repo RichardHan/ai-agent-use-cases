@@ -31,6 +31,7 @@
 
 /* Card badges & interactive tags */
 .card-top-badges{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.card-merged{font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;letter-spacing:0;background:#fff7e6;color:#8a5a12;border:1px solid #f0d9a8}
 .card-scenario{font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;letter-spacing:0;background:#edf3ea;color:#244237;border:1px solid #d4e0cf}
 .card-scenario[data-scenario="生活"]{background:#edf6f9;color:#1d4e68;border-color:#cee2ec}
 .card-scenario[data-scenario="工作"]{background:#f0f4eb;color:#2b4a2c;border-color:#d4e0cf}

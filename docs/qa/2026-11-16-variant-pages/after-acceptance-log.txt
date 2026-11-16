@@ -1,0 +1,20 @@
+desktop S1 {"count":"顯示 44 / 532 筆收錄","title":"垃圾箱服務工單完成後，把發票草稿逐項核清楚","inView":true} {"title":"垃圾箱服務工單完成後，把發票草稿逐項核清楚","badges":["用法靈感","作者報告／示範","情境：工作","頁首核對 2026-10-17"],"sources":8,"trust":"成果主張：社群作者／專案實踐者 核讀：本庫未獨立重現 核讀與安全建議 ↓"} focus= 垃圾箱服務工單完成後，把發票草稿逐項核清楚
+desktop S2 {"count":"顯示 0 / 532 筆收錄","hint":"可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。","suggestions":["移除提及工具「Cursor」 → 查看 1 筆","移除使用情境「學習」 → 查看 3 筆","📊 搜尋「簡報製作」"]} {"count":"顯示 1 / 532 筆收錄","cards":1,"search":"?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92"}
+desktop S3 {"open":true,"title":"讓 AI 先整理客服信，退款與承諾由你決定","sources":21,"context":"不在目前結果中"} {"search":"?q=%E7%99%BC%E7%A5%A8&tool=Cursor","focus":"results-count"} reloadKeepsDetail= 讓 AI 先整理客服信，退款與承諾由你決定
+desktop S4 {"count":"顯示 2 / 532 筆收錄","badges":["創作","進階開發","需代碼/環境","用法靈感","主案例 UC-048 的版本頁"],"overflow":0} {"handoff":"這篇與主案例屬同一流程的版本頁","sentence":"本頁與主案例 UC-048 屬同一流程的版本頁，不另計一案；原始來源與限制保留在本頁。","entries":["站內閱讀主案例 UC-048：每天幫你盯商品排名或降價，有變動才通知 →"],"overflow":0} main= 每天幫你盯商品排名或降價，有變動才通知
+desktop S5 {"note":"其中 5 頁（UC-250、UC-322、UC-324、UC-336、UC-337）是同一流程的主案例補充或版本頁，仍可搜尋與閱讀，不另計入 1,000 案目標。","visible":true,"draw":"這組條件有 512 張可抽案例卡（另有 20 筆不是可抽案例，仍列在結果）","overflow":0}
+desktop axe home 0 
+desktop axe results 0 
+desktop axe empty 0 
+desktop axe detail 0 
+desktop pageErrors []
+phone S1 {"count":"顯示 44 / 532 筆收錄","title":"垃圾箱服務工單完成後，把發票草稿逐項核清楚","inView":true} {"title":"垃圾箱服務工單完成後，把發票草稿逐項核清楚","badges":["用法靈感","作者報告／示範","情境：工作","頁首核對 2026-10-17"],"sources":8,"trust":"成果主張：社群作者／專案實踐者 核讀：本庫未獨立重現 核讀與安全建議 ↓"} focus= 垃圾箱服務工單完成後，把發票草稿逐項核清楚
+phone S2 {"count":"顯示 0 / 532 筆收錄","hint":"可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。","suggestions":["移除提及工具「Cursor」 → 查看 1 筆","移除使用情境「學習」 → 查看 3 筆","📊 搜尋「簡報製作」"]} {"count":"顯示 1 / 532 筆收錄","cards":1,"search":"?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92"}
+phone S3 {"open":true,"title":"讓 AI 先整理客服信，退款與承諾由你決定","sources":21,"context":"不在目前結果中"} {"search":"?q=%E7%99%BC%E7%A5%A8&tool=Cursor","focus":"results-count"} reloadKeepsDetail= 讓 AI 先整理客服信，退款與承諾由你決定
+phone S4 {"count":"顯示 2 / 532 筆收錄","badges":["創作","進階開發","需代碼/環境","用法靈感","主案例 UC-048 的版本頁"],"overflow":0} {"handoff":"這篇與主案例屬同一流程的版本頁","sentence":"本頁與主案例 UC-048 屬同一流程的版本頁，不另計一案；原始來源與限制保留在本頁。","entries":["站內閱讀主案例 UC-048：每天幫你盯商品排名或降價，有變動才通知 →"],"overflow":0} main= 每天幫你盯商品排名或降價，有變動才通知
+phone S5 {"note":"其中 5 頁（UC-250、UC-322、UC-324、UC-336、UC-337）是同一流程的主案例補充或版本頁，仍可搜尋與閱讀，不另計入 1,000 案目標。","visible":true,"draw":"這組條件有 512 張可抽案例卡（另有 20 筆不是可抽案例，仍列在結果）","overflow":0}
+phone axe home 0 
+phone axe results 0 
+phone axe empty 0 
+phone axe detail 0 
+phone pageErrors []

@@ -1,3 +1,13 @@
+## 2026-11-16 每一次 main 部署都有發布判決
+
+Pages 對 default branch 的每一次 push 都重新建置部署，包含只改 `docs/**` 或 `SITE.md` 的 commit：這兩條路徑雖被 `_config.yml` 排除在產物外，建置仍會重寫 `catalog.json` 的 `builtAt`／`bundleRevision`／`sourceRevision`。但 Website QA 的 push `paths` 過濾掉了它們，於是唯一會等待該部署、讀 Pages run、在無法核對時轉紅的步驟不會執行。實測最近 12 個 main commit 有 6 個「Pages 已部署、沒有 Website QA」（`2b332a29`、`2a842347`、`79f89cc1`、`a648d601`、`a178bc70`、`f2adf6db`），`gh api .../runs?head_sha=` 對這些 SHA 只回 Pages 一筆；本輪開始前 live `sourceRevision` 正是未經判決的 `2a842347`。若該次部署失敗，正式站會停在舊 revision，而沒有任何 workflow 把它連到這次 push。
+
+本輪移除 main push 的 `paths` 過濾（PR 過濾不動），讓判決跟著「部署」而不是跟著手寫檔案清單；任何未來被排除卻仍觸發重建的路徑都自動涵蓋。獨立審查指出固定 concurrency group 只保留一個 pending，burst 時中間 push 的判決會被取代，因此 main 的 group 加入 `github.sha`（每 commit 一個 queue slot），PR 仍只在 PR 取消。新增 `tests/deploy-trigger.test.cjs`：push trigger 不得有 `paths`、必須保留 `Wait for published assets and content` 與 `Fail when the published site cannot be verified`，且 main group 必須含 `github.sha`。先紅後綠（基準 workflow 1 fail → 修正 3 pass）、全套 871 → 874 pass；既有「main push 最多 3 個 workflow」與單一全套 runner 守則未放寬。無產品檔案變更。
+
+交付：[PR #438](https://github.com/RichardHan/ai-agent-use-cases/pull/438)，head `240b3852`、合併 `a9446aa8`；PR Website QA [43810134569](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43810134569) 與 Corpus bundle QA [43810134413](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43810134413) success，主線 [Website QA 43811542220](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43811542220) success（874 tests、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH a9446aa8`、`PUBLICATION_MODE: exact`）、[Pages 43811541260](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43811541260) success；正式 `sourceRevision` 精確等於 `a9446aa8…`，三情境（會議入口、空結果復原、UC-445 直鏈與返回）在 1440／390／320 通過、axe 0、無水平溢出。docs-only 證明的合併（[PR #439](https://github.com/RichardHan/ai-agent-use-cases/pull/439)，`ee16f156`，diff 只有 SITE.md／docs）已出現 [Website QA 43813142799](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43813142799)，正式站 `sourceRevision` 等於 `ee16f156…`；完整量測與限制在[本輪 QA](docs/qa/2026-11-16-docs-push-verification/README.md)。
+
+下一輪：先量 `主題分類` 的 362 個選項、361 個單篇選項在 1440／390 對訪客的影響，再決定只加執行期算出的形狀說明，或改成有層級的分類檢視；工具 facet 的 Claude Code／Codex 覆蓋另立一輪，需先補共同作者與安裝說明的排除句。
+
 ## 2026-11-16 宣告為同一流程版本頁的案例不再被算成獨立案例
 
 UC-322／324／336／337 在頁首證據說明自己宣告是另一個案例的同一流程版本、且「不另計」（例如「嚴格去重視為UC-048的數值追蹤版本，本頁保留但不另計」「既有239流程版本，本輪不另計」），但 `assets/app.js` 的 `MERGE_DESTINATION` 只認 `併入／另記／另見／合併`，四頁仍被算成獨立案例、進抽卡池；正式站 `a345bf5d` 因此顯示「516 張可抽案例卡」、統計卡「其中 1 頁（UC-250）」，`?q=UC-322` 沒有版本頁標記或主案例入口，與頁面自己的宣告及 README 對補充頁的承諾互相矛盾。
@@ -9,6 +19,7 @@ UC-322／324／336／337 在頁首證據說明自己宣告是另一個案例的�
 交付：[PR #441](https://github.com/RichardHan/ai-agent-use-cases/pull/441)，實作 `cddc4ed3`、`9cfd4e626e2c53e3c89a24d0f8ac8060508ef020`；PR 16 項 check pass、2 項 `published` 依設計 skipping（head `cddc4ed3`）；[Pages 43818034310](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43818034310) success，正式站 `sourceRevision` 精確等於 `9cfd4e62…`，`index.html`、`assets/app.js`、`assets/style.css` 與合併版逐位元相同；正式站 1440／390 三情境、版本頁卡片與詳情、統計卡 5 頁、抽卡 512 張、axe 0 與 pageError 0 已重走。[完整證據](docs/qa/2026-11-16-variant-pages/README.md)。
 
 下一輪先處理 **Website QA 的靜默跳過守門**：`.github/workflows/website-qa.yml:78` 用 `if: hashFiles('tests/discovery-browser.cjs') != ''` 包住整個 Chromium 步驟，刪除或改名這一個檔案就會讓約 30 支瀏覽器測試變成 no-op 而 job 仍綠；目前沒有任何測試固定這個檔案或守門。先驗證：在隔離分支移除該檔並確認 PR 仍然 success（重現 false-green），再把守門改成直接執行並補一條「檔案必須存在」的靜態測試，最後確認移除檔案時 CI 會紅。
+
 
 ## 2026-11-16 README 的搜尋範例不再寫死會過期的筆數
 

@@ -1,0 +1,98 @@
+# 2026-11-16：main 的每一次部署都要有發布判決
+
+## 基準與選題
+
+- 起始：原工作樹乾淨在 `2a842347`；讀完 README、SITE.md、`_config.yml`、Website QA 與最近 `docs/qa/2026-11-16-readme-count*` 後，`origin/main` 已前進到 `2b332a29`（PR #435 與 docs-only #436 已由前一個工作階段合併）。本輪從 `2b332a29` 建 `/tmp/aiuc-r7`、分支 `improve/2026-11-16-docs-push-verification`；原工作樹與其他 worktrees 未修改。
+- 無 repo／父層 `AGENTS.md`；沿用既有流程。
+- 基準 `node --test tests/*.test.cjs`：**871 pass／0 fail**（main `2b332a29`；PR #435 的 Website QA 也回報 871）。
+- Actions 基準：最近 200 個 run **0 個真實失敗**，70 個 cancelled 全是 PR 被下一個 push 取代（`cancel-in-progress` 只作用於 PR）。本輪不改任何檢查、不重跑歷史失敗。
+- 三個唯讀調查：`DeployAudit`（Actions／發布觸發）、`VisitorAudit`（三個訪客情境）、`ContentAudit`（內容／資料品質），都是獨立任務上下文；三者都沒有編輯權，回報見本輪對話與 `agent://` 紀錄。主模型實際為 `litellm/deepseek-flash-gmi`；工具沒有提供切換 gpt-6.1-terra／gemini 的介面，未宣稱使用指定模型或最高推理設定。
+- 目標使用者：維護者與準讀者。維護者每次合併都在問「正式站現在是哪個版本、這次部署有沒有被驗證」；讀者則在部署失敗、正式站停在舊版時看到與維護紀錄不一致的內容。
+
+## 可重現問題
+
+GitHub Pages 對 default branch 的**每一次 push** 都重新建置與部署，包含只改 `docs/**` 或 `SITE.md` 的 commit。這兩個路徑被 `_config.yml` 排除在發布產物之外，但建置仍會重寫 `catalog.json` 的 `builtAt`（當日）、`bundleRevision`（`site.time` 到奈秒）與 `sourceRevision`（`site.github.build_revision`）。因此那是一次**新的建置**，而唯一會等待它、讀取 Pages run、並在無法核對時轉紅的步驟（Website QA 的 `Wait for published assets and content` → `Fail when the published site cannot be verified`）卻被 push `paths` 過濾掉了。
+
+證據（`gh api .../actions/runs?head_sha=<sha>`，見 `unverified-main-pushes.txt`）：
+
+| main commit | 變更 | Pages run | main Website QA run |
+| --- | --- | --- | --- |
+| `2b332a29` | SITE.md＋docs | [43808036280](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43808036280) success | **不存在** |
+| `2a842347` | SITE.md＋docs | [43799629930](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43799629930) success | **不存在** |
+| `79f89cc1` | docs | success | **不存在** |
+| `a648d601` | docs | success | **不存在** |
+| `a178bc70` | docs | success | **不存在** |
+| `f2adf6db` | docs | success | **不存在** |
+| `a7fe5990` | 產品＋測試 | 43806489563 success | [43806490369](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43806490369) success（`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH a7fe5990`、`PUBLICATION_MODE: exact`） |
+
+最近 12 個 main commit 中 **6 個有部署、沒有發布判決**。不是單一例外，而是 docs-only 合併的常態；本輪開始前 live `catalog.json` 的 `sourceRevision` 正是沒有被判決的 `2a842347`。
+
+若該次部署失敗，會發生什麼：Pages run 紅在 Actions，但沒有任何 workflow 會把它連到「這次 push 沒有上線」。正式站停在舊 revision，`catalog.json` 指向舊 commit，而維護紀錄已寫「已發布」。這個 repo 已被同型事故燒過一次（2026-11-10 deploy 失敗、main 靜默停在舊版，見 `docs/qa/2026-11-13-publication-verdict/README.md`），差別只在當時的 commit 有內容變更。
+
+## 兩個方案
+
+1. **把 `SITE.md`、`docs/**` 加進 push `paths`**：2 行、不改邏輯，重用既有 hardened gate。價值是補上這兩個路徑；成本是每個 docs-only push 跑一次完整 job；風險是下一個被排除的路徑（新的 `qa-*/`、未來新增的 maintenance 目錄）再次靜默漏掉，需再補一次。
+2. **移除 main push 的 `paths` 過濾（選定）**：凡 main push 一律跑 Website QA。價值是判決跟著「部署」而不是跟著「檔案清單」——任何被 `_config.yml` 排除、卻仍觸發 Pages 重建的路徑都自動涵蓋，不必維護第二份清單；成本與方案 1 相同（main push 本來就多為產品變更，實際只增加 docs-only merge 的次數）；風險是 docs-only 合併現在也會跑瀏覽器走查，若遇到與變更無關的 flake 會讓 main 轉紅。
+
+選 2 的理由：這個 repo 已經吃過「用一份手寫清單描述另一個系統的行為」的虧（`paths` 之於 Pages 的建置條件）。把判決綁在事件上而不是路徑上，才不會在下次新增排除目錄時再漏。flake 風險用既有限制控制：`cancel-in-progress` 仍只作用於 PR、main 判決不被取消；真的遇到 flake 時依既有流程診斷，不刪檢查。
+
+驗收條件：
+
+- main push 不再有 `paths` 過濾；PR 過濾維持不變（PR 回饋速度不受影響）。
+- 新的靜態守則在基準 workflow 上先紅（列出被過濾的 push trigger），移除過濾後轉綠；全套 unit suite 綠。
+- 一個只改 `SITE.md`＋`docs/**` 的 main 合併，會出現該 SHA 的 Website QA run，且 log 出現 `Pages deployment for <sha>: succeeded`、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH <sha>`、`PUBLICATION_MODE: exact`；正式站 `catalog.json.sourceRevision` 等於該 SHA。
+- 不改任何既有檢查、步驟、逾時或斷言；不改產品 UI、案例內容或資料。
+- 範圍外：不改 PR 觸發、不新增 workflow、不做「每次 main push 另開 publication-only job」的第二次判決來源。
+
+## 實作
+
+- `.github/workflows/website-qa.yml`：移除 `push.paths`，保留 `branches: ['main']`，並在原地留言說明「Pages 對每次 main push 重建，這個 run 是唯一等待並判定該部署的地方，不要加 paths」。PR 的 `paths` 完全不動。
+- `.github/workflows/website-qa.yml`：main 的 concurrency group 加上 `github.sha`（`website-qa-<ref>-<sha>`）。GitHub 每個 group 只保留一個 running 加一個 pending；固定用 `github.ref` 時，短時間三個 main push 會讓中間那筆 pending 判決被後一筆取代。獨立審查指出這點後改為每次 main push 一個 group；PR 仍共用 ref group 並保留 `cancel-in-progress`。
+- `tests/deploy-trigger.test.cjs`（新增，3 項）：
+  - 讀 `website-qa.yml` 的 `push:` 區塊，要求沒有 `paths:`（用 `assert.doesNotMatch`，不是樣本清單）。
+  - 要求 push job 仍包含 `Wait for published assets and content` 與 `Fail when the published site cannot be verified`，避免為了觸發而把判決步驟拿掉。
+  - 要求 main 的 concurrency group 含 `github.sha`、PR 仍只在 PR 事件取消，避免 burst 時漏掉中間判決。
+- 沒有新增依賴、workflow、追蹤器或第三方請求。
+
+## 驗證
+
+- 先紅後綠：把基準 `2b332a29` 的 workflow 放回工作樹跑新測試 → **2 fail／1 pass**，失敗訊息列出被過濾的 push trigger 與固定 concurrency group（`red-baseline.txt`）；換回修正版 → **3 pass／0 fail**（`green-fix.txt`）。另把 concurrency group 暫時改回固定 ref → 第 3 項紅（`concurrency-mutation.txt`）。
+- 全套 `node --test tests/*.test.cjs`：871 → **874 pass／0 fail**（`full-unit.txt`）。既有 `visitor-experience-and-ci.test.cjs` 的「main push 最多 3 個 workflow」與 `pr-gate-coverage.test.cjs` 的單一全套 runner 都仍綠，沒有為了新觸發放寬任何守則。
+- docs-only push 的變更清單：實際以 `publicationChangeList('a7fe5990…','2b332a29…')` 跑 `git diff`，結果 `known: true`、`entries: []`（`docs-only-change-list.txt`）。這正是 exact 分支預期的輸入：沒有可發布變更，但仍要比對建置與正式站位元。
+- PR 與合併後的實際 run、docs-only 證明的 run、正式站 `sourceRevision` 見下方「發布與正式站核對」。
+
+## 獨立審查
+
+- `DeployTriggerReview`（獨立 context，未參與實作）對最終 diff 提出 2 個 P2：
+  1. 固定 `website-qa-${{ github.ref }}` 的 concurrency group 只保留一個 pending；三個 main push 連續到達時，中間那筆的判決可能被後一筆取代。修正：main 的 group 加入 `github.sha`，每個 commit 一個 queue slot；PR 行為不變（仍 `cancel-in-progress`）。新增第 3 項守則，先紅後綠。
+  2. PR 說明顯示 7 個未判決 commit，但證據表只有 6 個（`a7fe5990` 有 Website QA）。修正：SITE.md、QA 紀錄與 PR body 都改為 6 個，並列出六個 SHA。
+- 複核：reviewer 指出的 concurrency 語意正確（GitHub 文件：每個 group 一個 running、一個 pending）；修正後 `deploy-trigger` 3 pass、`visitor-experience-and-ci`／`publication-gate` 25 pass。reviewer 沒有自行重跑測試，數字由主 agent 執行。
+- 第二輪複核：`DeployTriggerReview` 確認 concurrency 修法 sound（main 不再序列化，但 exact／superseded 分支已處理較新的 live 部署），只剩 PR 說明與最終 head 不一致（仍寫 concurrency 未變、2 項測試、873 tests）。已同步改寫 PR body；沒有其他 P0／P1／P2。
+- 殘留：無法在本機證明 GitHub 佇列在真實 burst 下的行為；以 group 表達式與既有 superseded 模式推論，並在合併後的 docs-only push 觀察單一 run。此限制已記在下方。
+
+## 發布與正式站核對
+
+- 合併：PR [#438](https://github.com/RichardHan/ai-agent-use-cases/pull/438) 合併為 `a9446aa8`（merge commit）。合併前 head `240b3852` 的 PR Website QA [43810134569](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43810134569) 與 Corpus bundle QA [43810134413](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43810134413) 皆 success；push-only 步驟在 PR 上依設計 skip。
+- main 判決：[Website QA 43811542220](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43811542220) success（`# tests 874`／`# pass 874`、`Pages deployment for a9446aa8…: succeeded`、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH a9446aa8…`、`PUBLICATION_MODE: exact`、`PUBLISHED_LIVE_BUILD_CURRENT a9446aa8…`）。Pages [43811541260](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43811541260) success。
+- 正式站：`catalog.json.sourceRevision` = `a9446aa83aa836d7e45bd14e3c63b9d8f5f8482a`，`builtAt` 2026-11-16；`index.html` 與 `assets/app.js` 均 200。
+- 三情境（1440×900、390×844、320×700，Chromium，正式站）：
+  1. 首頁「會議整理」→ 29／532，第一張結果卡可見；水平溢出 0。
+  2. `?q=發票`＋情境「學習」＋工具 Cursor → 0 筆空結果，提供「移除提及工具 Cursor → 查看 1 筆」「移除使用情境 學習 → 查看 3 筆」；按「清除全部條件」→ 532／532；三個尺寸溢出 0。
+  3. `?case=UC-445` 直鏈 → 詳情開啟、9 個外部來源連結、第一個來源固定在 `blob/a9446aa8…`；Escape 關閉後焦點回 `#results-count`，網址保留；溢出 0；axe 0。
+- 限制：截圖只存在本機暫存，未入 repo（本輪無視覺變更）；自動走查非真人研究。載入期間有一個 `cases/445-…md` 的逐篇請求以 `net::ERR_ABORTED` 結束，是全文包先到、設計上中止的退路請求，不是 404（同一 URL 直接請求回 200）。
+
+- docs-only 證明：PR #439 合併為 `ee16f156`（diff 只有 `SITE.md` 與 `docs/qa/**`）。同一個 workflow 在合併前對這類 SHA 只會有 Pages 一筆；本輪合併後出現 push event 的 [Website QA 43813142799](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43813142799)，且正式站 `catalog.json.sourceRevision` 等於 `ee16f156…`。這就是「判決跟著部署」的可重現證據。
+
+## 已知限制
+
+- 不在正式 repo 故意讓 Pages 部署失敗，所以「docs-only 部署失敗會轉紅」只有既有 `publication-gate.test.cjs`／`published-version` 的 `failed → fatal` 覆蓋，沒有本輪注入證據。
+- 這不改善訪客看到的內容；本輪沒有產品檔案變更。
+- 每次 main push 一個 concurrency group 表示 burst 時可有多個 QA 同時跑；裁決仍以 live revision 的 exact／superseded 分支處理，但沒有在真實 burst 下量測 runner 佇列。
+- docs-only 合併現在也會跑 1440／390／320 的瀏覽器走查；若日後出現與 docs 無關的 flake，main 會紅，需依既有診斷流程處理，而不是把 `paths` 加回去。
+
+## 本輪未處理的候選（獨立調查）
+
+1. `主題分類` 有 362 個選項、其中 361 個只有 1 篇（宣告值近乎自由文本）。可行的小改是讓 `#facet-count-hint` 用執行期算出的選項數與單篇數說明形狀；不動宣告值、URL 與配對邏輯。下一步先量 1440／390 的提示可讀性與 `declared-category-browser.cjs` 的字串斷言。
+2. 工具 facet 只有 10 個固定名稱；`- 工具：` 標頭明示 Claude Code 21 頁、Codex 29 頁，但全頁字面比對會把 commit 共同作者、README 安裝說明、明確排除的他作也算進來（Claude Code 估 6–9／42 頁假陽性）。這需要專屬 pattern 與新排除句，屬獨立一輪。
+3. `- 實作門檻：` 只有 28／525 頁宣告，其餘 497 頁是關鍵字推測；UI 已標示推測，但仍是 95% 推測的 facet。要不要改資料或改文案需另一輪判讀。
+4. 無 JS 或 `assets/app.js` 被擋時，首頁結果區仍停在「正在讀取案例…」；靜態退路在搜尋框上方可見，但不在結果區。本輪實測兩種情況都仍有 `INDEX.html` 出口，因此列為候選而非缺陷。

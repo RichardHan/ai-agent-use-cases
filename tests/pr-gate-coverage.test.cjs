@@ -271,10 +271,13 @@ function fullSuiteCommand(text) {
     if (/\$\(find tests\b/.test(cleaned)) {
       const find = cleaned.slice(cleaned.indexOf('$('));
       if (/!(?!=)|-not\b/.test(find)) return false;
-      // A positive `-name` predicate still selects a subset: `find tests -name
-      // 'relevance.test.cjs'` runs one file. Only a name predicate that selects
-      // every test file counts as the suite.
-      const names = [...find.matchAll(/-i?name\s+['"]?([^'"\s)]+)['"]?/g)].map(match => match[1]);
+      // Any narrowing predicate selects a subset, even a positive one:
+      // `find tests -name 'relevance.test.cjs'` or `-path '*/reader*'` runs a
+      // fraction of the suite. Only the canonical name predicate over the whole
+      // tests tree counts as the gate.
+      const narrowing = /-(?:path|ipath|regex|iregex|wholename|iwholename|iname|maxdepth|mindepth|newer|mtime|size|perm|user|group|empty|links|inum|samefile)\b/;
+      if (narrowing.test(find)) return false;
+      const names = [...find.matchAll(/-name\s+['"]?([^'"\s)]+)['"]?/g)].map(match => match[1]);
       if (!names.length) return true; // `find tests` returns the directory Node discovers.
       return names.every(name => name === '*.test.cjs');
     }
@@ -356,6 +359,9 @@ test('the unit-suite guard ignores runners that a pull request cannot reach', ()
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test modules' })), false, 'only the suite glob counts');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs' ! -name 'relevance.test.cjs')" })), false, 'a find with an exclusion selects a subset');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name 'relevance.test.cjs')" })), false, 'a positive find filter still selects a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -path 'tests/relevance.test.cjs')" })), false, 'a path predicate selects a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -maxdepth 1 -name '*.test.cjs')" })), false, 'a depth predicate can omit nested tests');
+  assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -iname '*.test.cjs')" })), false, 'a non-canonical name predicate is not the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -type f -name '*.test.cjs')" })), true, 'a canonical find with -type f selects the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test $(find tests)' })), true, 'a bare find of the tests directory discovers the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs')" })), true, 'a find without exclusions selects the suite');

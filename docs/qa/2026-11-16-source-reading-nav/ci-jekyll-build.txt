@@ -1,0 +1,9 @@
+browser	Run existing regression tests	2026-11-16T07:49:36.3611826Z # tests 889
+browser	Run existing regression tests	2026-11-16T07:49:36.3612134Z # pass 889
+browser	Run existing regression tests	2026-11-16T07:49:36.3612281Z # fail 0
+browser	Verify built Pages corpus	2026-11-16T08:00:58.5135178Z PASS: 529 sources byte-for-byte identical; revision 20261116080049837309871
+browser	Verify language of built Pages	2026-11-16T08:00:58.5864052Z PASS: index.html declares zh-Hant
+browser	Verify language of built Pages	2026-11-16T08:00:58.5881517Z PASS: INDEX.html declares zh-Hant
+browser	Verify language of built Pages	2026-11-16T08:00:58.5882472Z PASS: cases/001-travel-checkout.html declares zh-Hant
+browser	Verify language of built Pages	2026-11-16T08:00:58.5894858Z PASS: sources/qualification-audit-2026-10-16.html declares zh-Hant
+browser	Verify fallback reading pages	2026-11-16T08:00:58.7277903Z PASS: 822 rendered pages keep a way back (cases expose a clickable source; source ledgers say they are not the case result); INDEX explains the evidence codes

@@ -2923,6 +2923,18 @@ function sameSearchTerms(left, right) {
   return left.length === right.length && left.every((token, index) => token === right[index]);
 }
 
+// The recovery action replaces the query with one of its own words. It must be a
+// next question, not a bigger net: the word with the most matches is often the
+// grammar ("讓" 273, "審查" 61), so choose the narrowest positive set instead.
+// One-character Chinese runs are crumbs, not words the visitor could search.
+function narrowestScopeTerm(rows, searchTerms, key) {
+  return rows
+    .filter(row => row[key] > 0 && !/^[\u3400-\u9fff]$/.test(row.term))
+    .sort((a, b) => a[key] - b[key]
+      || b.term.length - a.term.length
+      || searchTerms.indexOf(a.term) - searchTerms.indexOf(b.term))[0] || null;
+}
+
 function orderEntries(items, terms, sort) {
   const ranked=rankEntries(items,terms);
   return sort==='reviewed' ? ranked.sort((a,b)=>(b.reviewedDate||'').localeCompare(a.reviewedDate||'')) : ranked;
@@ -4092,11 +4104,11 @@ function render(updateURL=true, preserveShare=false) {
       library: filterEntries(entries, [term], { scope: 'overview' }).length
     }));
     const unseen = perTerm.filter(row => row.library === 0).map(row => `「${row.term}」`);
-    const scopedBest = perTerm.slice().sort((a, b) => b.scoped - a.scoped)[0];
-    const libraryBest = perTerm.slice().sort((a, b) => b.library - a.library)[0];
+    const scopedBest = narrowestScopeTerm(perTerm, searchTerms, 'scoped');
+    const libraryBest = narrowestScopeTerm(perTerm, searchTerms, 'library');
     // Filters can exclude every word's cases; falling back to the library-wide
     // word keeps an exit, and the label then says the filters will be cleared.
-    const resetFilters = !scopedBest || scopedBest.scoped === 0;
+    const resetFilters = !scopedBest;
     const best = resetFilters ? libraryBest : scopedBest;
     const label = searchTerms.map(term => `「${term}」`).join('');
     // The listed cases matched somewhere in the full text; some of those matches

@@ -66,6 +66,19 @@ test('zero-match words do not become the recovery', () => {
   assert.equal(api.narrowestScopeTerm([{ term: '不存在', scoped: 0 }], ['不存在'], 'scoped'), null);
 });
 
+test('a filter that excludes every scoped word falls back to the narrowest library word', () => {
+  // renderSearchFeedback() sets resetFilters = !scopedBest and then uses the
+  // library counts, so the same narrowest rule has to hold for that key too.
+  const rows = [
+    { term: '隱私', scoped: 0, library: 9 },
+    { term: '審查', scoped: 0, library: 61 }
+  ];
+  assert.equal(api.narrowestScopeTerm(rows, ['隱私', '審查'], 'scoped'), null);
+  const fallback = api.narrowestScopeTerm(rows, ['隱私', '審查'], 'library');
+  assert.equal(fallback.term, '隱私', 'clearing filters must not fall back to the widest word');
+  assert.equal(fallback.library, 9);
+});
+
 test('equal sets prefer the longer word, then the order the visitor typed', () => {
   const longer = api.narrowestScopeTerm([{ term: '客訴信', scoped: 5 }, { term: '抱怨', scoped: 5 }], ['客訴信', '抱怨'], 'scoped');
   assert.equal(longer.term, '客訴信');

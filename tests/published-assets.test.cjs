@@ -372,6 +372,19 @@ test('every shared publication caller reserves setup and browser time beyond the
  assert.match(reader,/if\(deployed\)\{\s*await require\('\.\/arrival-live\.cjs'\)[\s\S]*?await browser\.close\(\);continue;\s*\}/,'live reader must exit its engine iteration before preview-only checkpoints and readiness retries');
 });
 
+test('published jobs that wait a full hour keep twenty minutes after that wait', () => {
+  // The first timeout-minutes in these files is the preview job. The rule applies
+  // to the job that actually waits out publication.
+  for (const file of ['source-guide-qa.yml', 'return-visibility-qa.yml']) {
+    const workflow = fs.readFileSync(path.join(__dirname, '../.github/workflows', file), 'utf8');
+    const published = workflow.split(/\n {2}published:/)[1];
+    assert.ok(published, file + ' must keep a published job');
+    const minutes = Number(published.match(/timeout-minutes:\s*(\d+)/)[1]);
+    assert.ok(minutes * 60000 >= PUBLICATION_TIMEOUT_MS + 20 * 60000,
+      file + ' published job has ' + minutes + ' minutes; a 60-minute wait needs 20 more for setup and the browser');
+  }
+});
+
 test('remaining short publication gates use the shared window without weakening byte checks',()=>{
  const gates=[
   ['category-find-qa.yml',null,['index.html','assets/app.js','assets/style.css']],

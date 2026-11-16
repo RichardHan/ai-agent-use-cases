@@ -46,6 +46,36 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
    assert.deepEqual(facet.optionValues,facet.declaredValues,'the filter offers exactly the declared themes');
    assert(facet.unclassified>0,'the corpus still contains pages that declare no theme');
    assert.ok(facet.hint.includes(facet.unclassified+' 個未宣告分類的條目不在選項內'),'the filter says how many pages it cannot list');
+   const shape=await page.evaluate(()=>{
+    const counts=new Map();
+    for (const item of entries) {
+     if (!item.category) continue;
+     counts.set(item.category,(counts.get(item.category)||0)+1);
+    }
+    let singleton=0;
+    for (const n of counts.values()) if (n===1) singleton++;
+    return {
+     total:counts.size,
+     singleton,
+     hint:document.getElementById('facet-count-hint').textContent,
+     group:[...document.querySelectorAll('#category optgroup')].map(node=>node.label).join(' '),
+     listed:[...document.querySelectorAll('#category option')].filter(option=>option.value&&Number(option.dataset.count)===1).length
+    };
+   });
+   assert.ok(shape.hint.includes('不是共用主題清單'),'the filter says a theme is the page\'s own phrase');
+   assert.ok(shape.hint.includes(shape.total+' 個分類有 '+shape.singleton+' 個只出現 1 次'),'the hint counts loaded phrases, not a copied total');
+   if (shape.listed) assert.ok(shape.group.includes(shape.listed+' 個只對到 1 筆'),'the opened list says how many current options match one entry');
+   row.shape={total:shape.total,singleton:shape.singleton,listed:shape.listed};
+   await page.goto(base+'?q=xyz987',{waitUntil:'domcontentloaded'});
+   await ready();
+   const narrowed=await page.evaluate(()=>({
+    hint:document.getElementById('facet-count-hint').textContent,
+    group:[...document.querySelectorAll('#category optgroup')].map(node=>node.label).join(' ')
+   }));
+   assert.ok(narrowed.hint.includes(shape.total+' 個分類有 '+shape.singleton+' 個只出現 1 次'),'a query does not rewrite the loaded-catalogue shape');
+   assert.ok(!narrowed.group.includes(shape.singleton+' 個只對到 1 筆'),'an empty result list must not repeat the catalogue singleton count');
+   await page.goto(base,{waitUntil:'domcontentloaded'});
+   await ready();
 
    // Choosing an option still selects exactly the pages that declare it, and the
    // choice survives a reload of the shared URL.

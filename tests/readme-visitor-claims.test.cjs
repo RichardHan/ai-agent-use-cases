@@ -194,3 +194,18 @@ test('the README notice threshold is the share in the app', () => {
   assert.ok(Math.abs(share - implemented) < 1e-9,
     `README says the notice appears at ${stated[0]}; app.js uses ${implemented}.`);
 });
+
+test('the README says topic categories are page phrases, and most still appear once', () => {
+  const claim = paragraphWith('主題分類', '不是共用主題清單', '多數分類只出現在一筆條目');
+  assert.ok(claim, 'README must say a topic category is the page\'s own phrase, not a shared list');
+  assert.doesNotMatch(claim, /\d+\s*個分類/, 'README must not pin how many category phrases the current corpus has');
+  const counts = new Map();
+  for (const item of entries) {
+    if (!item.category) continue;
+    counts.set(item.category, (counts.get(item.category) || 0) + 1);
+  }
+  let singleton = 0;
+  for (const n of counts.values()) if (n === 1) singleton += 1;
+  assert.ok(counts.size > 0 && singleton / counts.size > 0.5,
+    `README says most category phrases appear once; ${singleton}/${counts.size} do.`);
+});

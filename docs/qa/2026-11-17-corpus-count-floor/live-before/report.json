@@ -1,0 +1,113 @@
+{
+  "origin": "https://richardhan.github.io/ai-agent-use-cases/",
+  "started": "2026-11-16T17:44:56.192Z",
+  "viewports": [
+    {
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 900,
+      "revision": {
+        "count": "顯示 532 / 532 筆收錄",
+        "categoryOptions": 363,
+        "taskLinks": 53,
+        "toggle": "顯示全部 53 個任務"
+      },
+      "home": {
+        "overflow": false,
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "revision": null
+      },
+      "scenario1": {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0#explore",
+        "count": "顯示 29 / 532 筆收錄",
+        "firstTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+        "toolNamedInQuery": false
+      },
+      "scenario2empty": {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A%20xyz987&scenario=%E9%96%8B%E7%99%BC#explore",
+        "count": "顯示 0 / 532 筆收錄",
+        "emptyVisible": true,
+        "bodyHasZero": true
+      },
+      "scenario2recoverControl": "會議整理",
+      "scenario2recovered": {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0#explore",
+        "count": "顯示 29 / 532 筆收錄",
+        "stillEmpty": false
+      },
+      "scenario3": {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-016",
+        "open": true,
+        "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准",
+        "hasClaim": true,
+        "hasReview": true,
+        "hasCaution": false,
+        "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/eeae3efb820f2ec23c11c0f78379e0cf26b8db80/cases/016-marketplace-selling-buyer-messages.md",
+        "sourceText": "查看 UC-016 的 GitHub 原始 Markdown（新分頁） ↗UC-016 原始 Markdown（新分頁） ↗",
+        "closeFocused": "close-detail",
+        "afterClose": {
+          "url": "https://richardhan.github.io/ai-agent-use-cases/",
+          "detailOpen": false,
+          "count": "顯示 532 / 532 筆收錄"
+        }
+      },
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "viewport": "phone",
+      "width": 390,
+      "height": 844,
+      "revision": {
+        "count": "顯示 532 / 532 筆收錄",
+        "categoryOptions": 363,
+        "taskLinks": 53,
+        "toggle": "顯示全部 53 個任務"
+      },
+      "home": {
+        "overflow": false,
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "revision": null
+      },
+      "scenario1": {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0#explore",
+        "count": "顯示 29 / 532 筆收錄",
+        "firstTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+        "toolNamedInQuery": false
+      },
+      "scenario2empty": {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%97%85%E9%81%8A%20xyz987&scenario=%E9%96%8B%E7%99%BC#explore",
+        "count": "顯示 0 / 532 筆收錄",
+        "emptyVisible": true,
+        "bodyHasZero": true
+      },
+      "scenario2recoverControl": "會議整理",
+      "scenario2recovered": {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0#explore",
+        "count": "顯示 29 / 532 筆收錄",
+        "stillEmpty": false
+      },
+      "scenario3": {
+        "url": "https://richardhan.github.io/ai-agent-use-cases/?case=UC-016",
+        "open": true,
+        "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准",
+        "hasClaim": true,
+        "hasReview": true,
+        "hasCaution": false,
+        "sourceHref": "https://github.com/RichardHan/ai-agent-use-cases/blob/eeae3efb820f2ec23c11c0f78379e0cf26b8db80/cases/016-marketplace-selling-buyer-messages.md",
+        "sourceText": "查看 UC-016 的 GitHub 原始 Markdown（新分頁） ↗UC-016 原始 Markdown（新分頁） ↗",
+        "closeFocused": "close-detail",
+        "afterClose": {
+          "url": "https://richardhan.github.io/ai-agent-use-cases/",
+          "detailOpen": false,
+          "count": "顯示 532 / 532 筆收錄"
+        }
+      },
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "pageErrors": []
+}

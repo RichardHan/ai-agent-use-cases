@@ -29,7 +29,7 @@ const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cas
     const nav = page.locator('#hero-problem-tags');
     const toggle = page.locator('#problem-tags-toggle');
     const total = await nav.locator('a.problem-tag').count();
-    assert.equal(total, 53, `${vp.name}: all 53 task links stay in the DOM`);
+    assert.ok(total >= 53, `${vp.name}: at least 53 task links stay in the DOM, got ${total}`);
 
     const visibleTasks = () => page.evaluate(() =>
       [...document.querySelectorAll('#hero-problem-tags a.problem-tag')]

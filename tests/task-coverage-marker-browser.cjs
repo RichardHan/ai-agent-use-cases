@@ -31,8 +31,15 @@ const markedQueries = page => page.evaluate(() => [...document.querySelectorAll(
     await page.goto(origin, { waitUntil: 'networkidle' });
     await ready(page);
     const links = await page.evaluate(() => [...document.querySelectorAll('#hero-problem-tags a.problem-tag, .hero-task-examples a[data-task-entry]')]
-      .map(link => ({ query: new URL(link.href).searchParams.get('q'), marked: link.dataset.coverage === 'none' })));
-    assert.equal(links.length, 56, 'three task entries plus the 53-task directory');
+      .map(link => ({
+        query: new URL(link.href).searchParams.get('q'),
+        marked: link.dataset.coverage === 'none',
+        example: link.matches('.hero-task-examples a[data-task-entry]')
+      })));
+    const examples = links.filter(link => link.example).length;
+    const directory = links.length - examples;
+    assert.equal(examples, 3, 'hero keeps the three concise task examples');
+    assert.ok(directory >= 53, `task directory keeps at least 53 links, got ${directory}`);
 
     const mismatches = [];
     for (const link of links) {

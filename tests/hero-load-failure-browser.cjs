@@ -97,7 +97,7 @@ const { AxeBuilder } = require('@axe-core/playwright');
         heroHeight: Math.round(document.querySelector('.discovery-hero').getBoundingClientRect().height)
       }));
       assert.equal(healthy.noticeHidden, true, `${name}: a healthy load never renders the failure notice`);
-      assert.equal(healthy.tasks, 53, `${name}: the task directory keeps all 53 entries`);
+      assert.ok(healthy.tasks >= 53, `${name}: the task directory keeps at least 53 entries, got ${healthy.tasks}`);
       const healthyAxe = await new AxeBuilder({ page: healthyPage }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
       assert.deepEqual(healthyAxe.violations.map(violation => violation.id), [], `${name}: no axe violations on the healthy first screen`);
       await healthyContext.close();

@@ -58,7 +58,7 @@ test('UC-250 states its merged status against the current target instead of the 
   assert.ok(evidenceLine, 'UC-250 must keep a declared evidence-status line');
   assert.match(evidenceLine, /已併入\s*UC-156/, 'UC-250 must name the case it was merged into');
   assert.match(evidenceLine, /不另計入\s*1,000\s*案目標/, 'UC-250 must say it is excluded from the current target');
-  assert.doesNotMatch(evidenceLine, /500/, 'UC-250 must not cite the retired 500-case target');
+  assert.doesNotMatch(evidenceLine, /500\s*(?:案)?(?:目標|計數|案例計數)/, 'UC-250 must not cite the retired 500-case target');
   assert.match(evidenceLine, /保留供搜尋與閱讀/, 'UC-250 must remain readable as a supplement');
 });
 

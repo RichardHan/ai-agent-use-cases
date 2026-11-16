@@ -56,7 +56,11 @@
   2. 揭露句只測 helper，沒有測 `#merged-note` 是否真的渲染；刪掉段落或寫入程式仍可能全綠。
 - 第 1 點在 `8299b3e3` 已加入 `不計` 與 `500 目標` 分支，並以 `不增加 500 元`、`增加 500 名玩家` 驗證不誤報；`node -e` 實測 `不計500目標` true、兩個金額／人數例子 false。
 - 第 2 點在 `8bb34959` 補上 `tests/evidence-attribution-browser.cjs` 的 rendered DOM 斷言。紅測：把 `index.html` 的 `#merged-note` 暫時改名為 `#merged-note-x`，測試以 `desktop: the merged-supplement note exists in the stats card` 失敗（exit 1）；還原並重建預覽後 exit 0。
-- 最終複核結果於實際完成後補記；初審沒有 P1，也沒有安全、隱私或資料外洩發現。
+- 複核 **Approve with nits**：兩個 P2 都確認解決；唯一非阻擋 nit 是 UC-250 的 `/500/` 斷言仍可能誤擋合法金額。已改為 `/500\s*(?:案)?(?:目標|計數|案例計數)/`，4 項測試重跑全綠。沒有 P1，也沒有安全、隱私或資料外洩發現。
+
+## PR 與發布
+
+- PR [#429](https://github.com/RichardHan/ai-agent-use-cases/pull/429)，base `6c17b981`；產品提交 `4ecef185`，測試提交 `8299b3e3`、`8bb34959`，文件與 nit 修正隨後。PR checks 與合併／Pages／正式站驗證於實際完成後補記，未完成的不算通過。
 
 ## 訪客驗收
 

@@ -259,12 +259,22 @@ function executableRun(step) {
 function fullSuiteCommand(text) {
   return executableRun(text).split('\n').some(line => {
     if (!/node\s+--test\b/.test(line)) return false;
-    // `node --test` with no path uses Node's default test discovery.
-    if (/node\s+--test\s*$/.test(line)) return true;
     if (/tests\/\*\.test\.cjs(?![.\w])/.test(line)) return true;
-    if (!/\$\(find tests\b/.test(line)) return false;
-    const find = line.slice(line.indexOf('$('));
-    return !/!(?!=)|-not\b/.test(find);
+    if (/\$\(find tests\b/.test(line)) {
+      const find = line.slice(line.indexOf('$('));
+      return !/!(?!=)|-not\b/.test(find);
+    }
+    // Default discovery: `node --test` with no file arguments. Redirections,
+    // pipes and Node test flags do not change that it runs the discovered suite.
+    const rest = line.slice(line.indexOf('--test') + '--test'.length);
+    const tokens = rest.split(/\||&&|;/)[0]
+      .replace(/(?:\d?>>?|&>)\s*\S+/g, ' ')
+      .replace(/\d?>&\d+/g, ' ')
+      .trim().split(/\s+/).filter(Boolean);
+    if (tokens.every(token => token.startsWith('-'))) return true;
+    const files = tokens.filter(token => !token.startsWith('-'));
+    // `node --test tests` (or ./tests/) discovers the same directory recursively.
+    return files.length === 1 && /^\.?\/?tests\/?$/.test(files[0]);
   });
 }
 
@@ -342,16 +352,28 @@ test('the unit-suite guard ignores runners that a pull request cannot reach', ()
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs')" })), true, 'a find without exclusions selects the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test \\\n            tests/*.test.cjs' })), true, 'a wrapped command still runs the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test' })), true, 'bare node --test uses default discovery');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test > qa-artifacts/unit.tap 2>&1' })), true, 'redirected default discovery still runs the suite');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test --test-reporter=tap > qa-artifacts/unit.tap 2>&1' })), true, 'flags and redirection do not hide default discovery');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test 2>&1 | tee qa-artifacts/unit.tap' })), true, 'a piped default-discovery run still runs the suite');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test 2>/dev/null && echo done' })), true, 'a chained default-discovery run still runs the suite');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test tests/relevance.test.cjs && echo done' })), false, 'a targeted suite stays a subset even when chained');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test tests' })), true, 'the tests directory discovers the suite');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test ./tests/ --test-reporter=tap' })), true, 'flags do not hide the tests directory');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test tests/reader' })), false, 'a subdirectory stays a subset');
 
   // A folded `run: >` block executes its lines as one command.
   const folded = [
     'name: Fixture', 'on:', '  pull_request:', 'jobs:', '  browser:',
     '    runs-on: ubuntu-24.04', '    steps:', '      - name: Unit',
-    '        run: >', '          node --test --test-reporter=tap', '          tests/*.test.cjs', ''
+    '        run: >', '          node --test --test-reporter=tap', '          tests/*.test.cjs > qa-artifacts/unit.tap', ''
   ].join('\n');
   assert.equal(runsFullUnitSuite(folded), true, 'a folded run block is one command');
-  const literal = folded.replace('run: >', 'run: |');
-  assert.equal(runsFullUnitSuite(literal), false, 'a literal two-line block does not form the suite command');
+  // A literal block keeps the newline, so a line that is not the suite command on
+  // its own must not become one by joining it with the next.
+  const literal = folded
+    .replace('run: >', 'run: |')
+    .replace('node --test --test-reporter=tap', 'node --check assets/app.js');
+  assert.equal(runsFullUnitSuite(literal), false, 'a literal block does not join separate commands');
 });
 
 test('trigger coverage is decided by glob inclusion, not by sampled paths', () => {

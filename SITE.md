@@ -1,3 +1,11 @@
+## 2026-11-16 README 的搜尋範例不再寫死會過期的筆數
+
+README 用「529 筆中的 521 筆」「34＋411＝445」「學英文 32 筆」「省錢 62 筆」「機票 11 筆」「532 個條目中有 228 個宣告」說明搜尋與揭露行為，但正式站現在是 532 條目、524 命中、34／490／414／76、34、65、12；同一份語料 16 天內有 28 個動到 `cases/` 的 commit，這組數字每次新增案例都可能失效，README 與網站各說一套。本輪把這些語料快照改成機制描述（N／A／B／C、多數、幾乎），保留批次大小、手機任務數、延伸閱讀 2% 與拆分提示三分之二等設定明文，並新增 8 項守則：設定必須等於程式常數；README 不得再出現九種「N 筆中的 M 筆」快照寫法；三個性質（多數條目未宣告目標使用者、三種核心目標狀態、權限幾乎每案命中）由現行語料重算，同義改寫可過、相反宣稱或「全部」會紅燈。無產品行為變更；`README.md` 本來就是可發布變更，合併會走 exact 發布比對。
+
+交付：[PR #435](https://github.com/RichardHan/ai-agent-use-cases/pull/435)，實作 `5bf4ad94`、`21492e94`、`0f571f0b`、`07292c00`；焦點 8 pass、全套 871 pass，九個突變的紅綠與正式站基準三情境見[本輪 QA](docs/qa/2026-11-16-readme-count-drift/README.md)。合併、Pages 與正式站 `sourceRevision`／`README.md` 位元核對另記於本輪發布追補。
+
+下一輪：先修「沒有 JS 或 `assets/app.js` 被擋時，首頁結果區永遠停在『正在讀取案例…』」，以 `javaScriptEnabled=false` 與只擋 `assets/app.js` 兩種情境確認，再決定加靜態 `<noscript>` 或讓失敗面板不依賴 JS。
+
 ## 2026-11-16 同一份 unit suite 只在一個 PR workflow 執行
 
 同一次 PR push 會啟動 16 個 workflow，每個都先跑同一份 859 項 unit suite；2026-11-15 的 `6322e0c6` 讓一個斷言失敗變成 16 個紅色 check，真正的功能訊號被淹沒。本輪把全套留在 path filter 最廣的 Website QA，其餘 15 個 PR workflow 只保留自己的語法、preview 與 browser 旅程；新增靜態守則要求只能有一個 PR 全套 runner，且該 runner 的觸發路徑必須涵蓋其他 PR workflow 的所有觸發路徑。守則另行拒絕 job／step 的 `if:`、註解掉或摺疊／續接的指令、只選子集的 `find`、預設探索加重導向，以及 `--test-name-pattern` 等子集旗標。無產品檔案變更。

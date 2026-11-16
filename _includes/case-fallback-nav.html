@@ -1,5 +1,9 @@
 {%- assign case_path = page.path | default: '' -%}
-{%- if case_path contains 'cases/' or case_path contains 'evidence/' or case_path == 'sources/pending.md' -%}
+{%- assign is_case_page = false -%}
+{%- if case_path contains 'cases/' or case_path contains 'evidence/' or case_path == 'sources/pending.md' -%}{%- assign is_case_page = true -%}{%- endif -%}
+{%- assign is_source_page = false -%}
+{%- if case_path contains 'sources/' -%}{%- assign is_source_page = true -%}{%- endif -%}
+{%- if is_case_page or is_source_page -%}
 {%- assign case_id = page.name | split: '-' | first -%}
 {%- assign case_body = page.content | default: '' -%}
 {%- assign has_author = false -%}
@@ -14,15 +18,28 @@
 {%- if case_body contains '`unverified`' or case_body contains '>unverified<' -%}{%- assign has_unverified = true -%}{%- endif -%}
 {%- if case_body contains '`author-self-report`' or case_body contains '>author-self-report<' -%}{%- assign has_author_self = true -%}{%- endif -%}
 {%- if case_body contains '`pending-verification`' or case_body contains '>pending-verification<' -%}{%- assign has_pending = true -%}{%- endif -%}
-<aside class="case-fallback-nav" data-fallback-case-nav aria-label="閱讀導覽與證據代碼說明">
+{%- comment -%}
+  A source or research ledger is published at its own URL and is linked from the
+  statistics card, from case pages and from INDEX. Without this block a reader who
+  follows one of those links has only the site-name link to leave by: the page has
+  no way back to the index or to search. Source pages get the same two ways back,
+  but not the per-case evidence legend: they record what was counted and read, not
+  what a case claims, so they state that boundary instead.
+{%- endcomment -%}
+<aside class="case-fallback-nav" data-fallback-case-nav aria-label="{% if is_case_page %}閱讀導覽與證據代碼說明{% else %}來源紀錄的閱讀導覽{% endif %}">
   <nav class="case-fallback-links" aria-label="備援閱讀導覽">
     <a href="{{ '/INDEX.html' | relative_url }}">← 完整案例索引</a>
     <a href="{{ '/' | relative_url }}">搜尋首頁</a>
-    {%- if case_id.size == 3 %}
+    {%- if is_case_page and case_id.size == 3 %}
     <a href="{{ '/' | relative_url }}?case=UC-{{ case_id }}">互動閱讀器（需 JS）</a>
     {%- endif %}
   </nav>
+  {%- if is_source_page and is_case_page == false %}
+  <p class="case-fallback-claim"><strong>本頁是來源與計數紀錄，不是案例成果。</strong>成果主張與驗證狀態以對應案例頁為準；尚未列成案例的線索，以本頁與待查清單的紀錄為準。本庫未獨立重現。</p>
+  {%- else %}
   <p class="case-fallback-claim"><strong>誰提出主張，不等於誰驗證。</strong>本庫未獨立重現。</p>
+  {%- endif %}
+  {%- if is_case_page %}
   {%- if has_author or has_official or has_designed or has_unverified or has_author_self or has_pending %}
   <p class="case-fallback-codes">本頁出現的證據代碼：
     {%- if has_author %}
@@ -47,6 +64,7 @@
   </p>
   {%- else %}
   <p class="case-fallback-empty">本頁頁首未標示上述證據代碼；請以頁內來源、限制與查證日期為準。</p>
+  {%- endif %}
   {%- endif %}
 </aside>
 {%- endif -%}

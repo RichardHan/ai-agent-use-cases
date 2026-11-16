@@ -1,0 +1,126 @@
+{
+ "before": {
+  "desktop": {
+   "sources/qualification-audit-2026-10-16.html": {
+    "overflow": 0,
+    "nav": false,
+    "navTop": null,
+    "firstLinkTop": null,
+    "docHeight": 44631
+   },
+   "sources/research-2026-10-22-0520.html": {
+    "overflow": 0,
+    "nav": false,
+    "navTop": null,
+    "firstLinkTop": null,
+    "docHeight": 2479
+   },
+   "sources/index.html": {
+    "overflow": 0,
+    "nav": false,
+    "navTop": null,
+    "firstLinkTop": null,
+    "docHeight": 5409
+   },
+   "sources/pending.html": {
+    "overflow": 0,
+    "nav": true,
+    "navTop": 32,
+    "firstLinkTop": 45,
+    "docHeight": 1401
+   }
+  },
+  "phone": {
+   "sources/qualification-audit-2026-10-16.html": {
+    "overflow": 0,
+    "nav": false,
+    "navTop": null,
+    "firstLinkTop": null,
+    "docHeight": 86323
+   },
+   "sources/research-2026-10-22-0520.html": {
+    "overflow": 0,
+    "nav": false,
+    "navTop": null,
+    "firstLinkTop": null,
+    "docHeight": 4557
+   },
+   "sources/index.html": {
+    "overflow": 0,
+    "nav": false,
+    "navTop": null,
+    "firstLinkTop": null,
+    "docHeight": 10497
+   },
+   "sources/pending.html": {
+    "overflow": 0,
+    "nav": true,
+    "navTop": 32,
+    "firstLinkTop": 43,
+    "docHeight": 2577
+   }
+  }
+ },
+ "after": {
+  "desktop": {
+   "sources/qualification-audit-2026-10-16.html": {
+    "overflow": 0,
+    "nav": true,
+    "navTop": 32,
+    "firstLinkTop": 45,
+    "docHeight": 44754
+   },
+   "sources/research-2026-10-22-0520.html": {
+    "overflow": 0,
+    "nav": true,
+    "navTop": 32,
+    "firstLinkTop": 45,
+    "docHeight": 2602
+   },
+   "sources/index.html": {
+    "overflow": 0,
+    "nav": true,
+    "navTop": 32,
+    "firstLinkTop": 45,
+    "docHeight": 5532
+   },
+   "sources/pending.html": {
+    "overflow": 0,
+    "nav": true,
+    "navTop": 32,
+    "firstLinkTop": 45,
+    "docHeight": 1401
+   }
+  },
+  "phone": {
+   "sources/qualification-audit-2026-10-16.html": {
+    "overflow": 0,
+    "nav": true,
+    "navTop": 32,
+    "firstLinkTop": 43,
+    "docHeight": 86464
+   },
+   "sources/research-2026-10-22-0520.html": {
+    "overflow": 0,
+    "nav": true,
+    "navTop": 32,
+    "firstLinkTop": 43,
+    "docHeight": 4698
+   },
+   "sources/index.html": {
+    "overflow": 0,
+    "nav": true,
+    "navTop": 32,
+    "firstLinkTop": 43,
+    "docHeight": 10638
+   },
+   "sources/pending.html": {
+    "overflow": 0,
+    "nav": true,
+    "navTop": 32,
+    "firstLinkTop": 43,
+    "docHeight": 2577
+   }
+  }
+ }
+}

@@ -10,6 +10,12 @@
 // claimant/vendor note. A page whose only heading is the site name also loses
 // its own title in heading navigation: the layout must not ship that <h1>.
 //
+// `sources/*.html` are the ledgers behind the trust claims: the statistics card
+// links the counting audit, and case pages link the batch that reviewed them.
+// They are published pages a reader lands on from those links, so they need the
+// two ways back as well. They are not cases: they record what was counted or
+// read, so they state that boundary instead of carrying the claimant legend.
+//
 // This runs against the actual `_site` build in Website QA, not against the
 // Markdown source: only the renderer can prove `[url](url)` became an anchor.
 const fs = require('node:fs');
@@ -33,6 +39,13 @@ const EVIDENCE_LABELS = [
 function caseNavigation(html) {
   const match = html.match(/<aside\b[^>]*data-fallback-case-nav[^>]*>([\s\S]*?)<\/aside>/i);
   return match ? {markup: match[0], inner: match[1]} : null;
+}
+
+// One nav per page: a second copy means the layout rendered the include twice, and
+// a hidden one means a reader on a page that "has" the way back still cannot see it.
+function navigationOccurrences(html) {
+  return [...html.matchAll(/<aside\b[^>]*data-fallback-case-nav[^>]*>([\s\S]*?)<\/aside>/gi)]
+    .map(match => ({markup: match[0], inner: match[1], opening: match[0].slice(0, match[0].indexOf('>') + 1)}));
 }
 
 // The reader must see the code and its label together. A label hidden with
@@ -74,7 +87,25 @@ function externalSourceLinks(html) {
     .filter(href => /^https?:\/\//i.test(href) && href !== SELF_ORIGIN && !href.startsWith(SELF_ORIGIN + '/'));
 }
 
-function checkFallbackReading(root) {
+// `sources/README.md` is published as the directory index, every other ledger keeps
+// its name. A ledger that produced no page cannot be caught by walking `_site`, so
+// the CLI compares the checkout's ledgers with the pages the build emitted.
+function renderedPageForSource(file) {
+  return file === 'sources/README.md' ? 'sources/index.html' : file.replace(/\.md$/, '.html');
+}
+
+// Jekyll never publishes a dot- or underscore-prefixed file, and neither does the
+// publication check (scripts/published-check.cjs). Requiring a page for one would
+// fail the build for a file that is not meant to have a page.
+function sourceLedgerManifest(dir) {
+  if (!fs.existsSync(dir)) return null;
+  return fs.readdirSync(dir)
+    .filter(name => name.endsWith('.md') && !/^[._]/.test(name))
+    .map(name => 'sources/' + name);
+}
+
+function checkFallbackReading(root, options = {}) {
+  const sourceLedgers = options.sourceLedgers || null;
   const failures = [];
   const indexPath = path.join(root, 'INDEX.html');
   if (!fs.existsSync(indexPath)) return {checked: 0, failures: ['INDEX.html is missing']};
@@ -98,6 +129,7 @@ function checkFallbackReading(root) {
   }
 
   const pages = [];
+  const sourcePages = [];
   for (const folder of ['cases', 'evidence']) {
     const dir = path.join(root, folder);
     if (!fs.existsSync(dir)) continue;
@@ -105,12 +137,22 @@ function checkFallbackReading(root) {
       pages.push(path.join(folder, name));
     }
   }
-  if (fs.existsSync(path.join(root, 'sources', 'pending.html'))) pages.push('sources/pending.html');
+  const sourcesDir = path.join(root, 'sources');
+  if (fs.existsSync(sourcesDir)) {
+    for (const name of fs.readdirSync(sourcesDir).filter(name => name.endsWith('.html')).sort()) {
+      pages.push(path.join('sources', name));
+      if (name !== 'pending.html') sourcePages.push(path.join('sources', name));
+    }
+  }
   if (pages.length === 0) return {checked: 0, failures: failures.concat('no rendered pages found')};
 
+  const sourcePageSet = new Set(sourcePages);
   for (const page of pages) {
     const html = fs.readFileSync(path.join(root, page), 'utf8');
-    if (externalSourceLinks(html).length === 0) {
+    const isSourcePage = sourcePageSet.has(page);
+    // A research batch that found nothing legitimately links no outside source.
+    // A case always has one: it is the claim's origin.
+    if (!isSourcePage && externalSourceLinks(html).length === 0) {
       failures.push(`${page}: no clickable source link`);
     }
     const headings = headingCount(html);
@@ -118,16 +160,34 @@ function checkFallbackReading(root) {
       failures.push(`${page}: expected exactly one h1, found ${headings.count} (${headings.texts.join(' / ') || 'none'})`);
     }
 
-    const nav = caseNavigation(html);
-    if (!nav) {
-      failures.push(`${page}: missing the case fallback navigation and evidence legend`);
+    const navs = navigationOccurrences(html);
+    if (navs.length === 0) {
+      failures.push(isSourcePage
+        ? `${page}: missing the source-page fallback navigation`
+        : `${page}: missing the case fallback navigation and evidence legend`);
       continue;
     }
+    if (navs.length > 1) failures.push(`${page}: expected one fallback navigation, found ${navs.length}`);
+    // Hiding the aside is not the only way to hide the way back: the inner nav or
+    // an individual link can carry the same attributes.
+    const hiddenParts = [navs[0].opening, ...(navs[0].markup.match(/<(?:nav|a)\b[^>]*>/gi) || [])].filter(hiddenTag);
+    if (hiddenParts.length) failures.push(`${page}: fallback navigation is hidden`);
+    const nav = navs[0];
     if (!/<a\s+[^>]*href="[^"]*INDEX\.html"[^>]*>\s*←?\s*完整案例索引/.test(nav.markup)) {
       failures.push(`${page}: fallback navigation does not link to INDEX.html as 完整案例索引`);
     }
     if (!/<a\s+[^>]*href="[^"]*\/"[^>]*>\s*搜尋首頁/.test(nav.markup)) {
       failures.push(`${page}: fallback navigation does not link to the searchable home page`);
+    }
+    if (isSourcePage) {
+      // A ledger must not be read as the case's result. The boundary is stated in
+      // the navigation, where the reader arrives, not only somewhere in the body.
+      // "look at the case page" is not a next step for a batch that added no case,
+      // so the note must also say where the record itself is authoritative.
+      if (!/不是案例成果/.test(nav.inner) || !/案例頁/.test(nav.inner) || !/待查清單|待查線索/.test(nav.inner)) {
+        failures.push(`${page}: source navigation must say the ledger is not the case's result and where an unlisted lead is recorded`);
+      }
+      continue;
     }
     if (!/誰提出主張/.test(nav.inner) || !/不等於誰驗證/.test(nav.inner)) {
       failures.push(`${page}: fallback navigation must distinguish the claimant from verification`);
@@ -161,20 +221,29 @@ function checkFallbackReading(root) {
     }
   }
 
+  if (sourceLedgers) {
+    const rendered = new Set(pages);
+    for (const file of sourceLedgers) {
+      const expected = renderedPageForSource(file);
+      if (!rendered.has(expected)) failures.push(`${file}: source ledger has no rendered page (${expected})`);
+    }
+  }
+
   return {checked: pages.length, failures};
 }
 
-module.exports = {checkFallbackReading, externalSourceLinks, caseNavigation, legendEntries, SELF_ORIGIN};
+module.exports = {checkFallbackReading, externalSourceLinks, caseNavigation, navigationOccurrences, renderedPageForSource, sourceLedgerManifest, legendEntries, SELF_ORIGIN};
 
 if (require.main === module) {
   const root = process.argv[2];
   if (!root) throw new Error('Usage: node scripts/check-fallback-reading.cjs <built-site-directory>');
-  const {checked, failures} = checkFallbackReading(root);
+  const sourceLedgers = sourceLedgerManifest(path.join(__dirname, '..', 'sources'));
+  const {checked, failures} = checkFallbackReading(root, {sourceLedgers});
   if (failures.length) {
     console.error(`FAIL: fallback reading has ${failures.length} problem(s) across ${checked} rendered pages`);
     for (const failure of failures.slice(0, 20)) console.error(`- ${failure}`);
     if (failures.length > 20) console.error(`- … ${failures.length - 20} more`);
     process.exit(1);
   }
-  console.log(`PASS: ${checked} rendered case pages expose a clickable source; INDEX explains the evidence codes`);
+  console.log(`PASS: ${checked} rendered pages keep a way back (cases expose a clickable source; source ledgers say they are not the case result); INDEX explains the evidence codes`);
 }

@@ -1,0 +1,19 @@
+# include output per page path, rendered with liquidjs 10.30.1 and a relative_url stub
+
+case           nav=true aria=閱讀導覽與證據代碼說明 | claim=誰提出主張，不等於誰驗證。 | codes=3
+   links: /ai-agent-use-cases/INDEX.html :: ← 完整案例索引 ; /ai-agent-use-cases/ :: 搜尋首頁 ; /ai-agent-use-cases/?case=UC-006 :: 互動閱讀器（需 JS）
+source-ledger  nav=true aria=來源紀錄的閱讀導覽 | claim=本頁是來源與計數紀錄，不是案例成果。 | codes=0
+   links: /ai-agent-use-cases/INDEX.html :: ← 完整案例索引 ; /ai-agent-use-cases/ :: 搜尋首頁
+pending        nav=true aria=閱讀導覽與證據代碼說明 | claim=誰提出主張，不等於誰驗證。 | codes=2
+   links: /ai-agent-use-cases/INDEX.html :: ← 完整案例索引 ; /ai-agent-use-cases/ :: 搜尋首頁
+sources-index  nav=true aria=來源紀錄的閱讀導覽 | claim=本頁是來源與計數紀錄，不是案例成果。 | codes=0
+   links: /ai-agent-use-cases/INDEX.html :: ← 完整案例索引 ; /ai-agent-use-cases/ :: 搜尋首頁
+evidence       nav=true aria=閱讀導覽與證據代碼說明 | claim=誰提出主張，不等於誰驗證。 | codes=2
+   links: /ai-agent-use-cases/INDEX.html :: ← 完整案例索引 ; /ai-agent-use-cases/ :: 搜尋首頁 ; /ai-agent-use-cases/?case=UC-008 :: 互動閱讀器（需 JS）
+root-index     nav=false aria=undefined | claim=undefined | codes=0
+
+# old (95924cf2) vs new include for the pages that must not change
+cases/006-facebook-publication.md             IDENTICAL
+cases/001-travel-checkout.md                  IDENTICAL
+sources/pending.md                            IDENTICAL
+evidence/008-morning-brief-validation.md      IDENTICAL

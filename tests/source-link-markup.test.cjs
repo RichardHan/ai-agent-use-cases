@@ -97,8 +97,14 @@ test('the layout override keeps the Primer contract and adds one reading aid', (
   const include = read('_includes/case-fallback-nav.html');
   assert.match(include, /case_path contains 'cases\/'/, 'the aid must cover rendered cases');
   assert.match(include, /case_path contains 'evidence\/'/, 'direct arrivals to evidence also need the way back');
-  assert.match(include, /case_path == 'sources\/pending\.md'/, 'the pending ledger also needs the way back');
+  assert.match(include, /case_path contains 'sources\/'/, 'the source ledgers a case and the statistics card link also need the way back');
+  assert.match(include, /case_path == 'sources\/pending\.md'/, 'the pending ledger is a searchable corpus entry, so it keeps the case treatment');
   assert.match(include, /\?case=UC-/, 'a rendered case should offer its interactive view');
+  // A ledger records what was counted or read; it must not borrow the per-case
+  // claimant legend, which would present it as the case's result.
+  assert.match(include, /is_case_page == false/, 'source pages must state their own boundary');
+  assert.match(include, /不是案例成果/, 'the source-page note must say the ledger is not the case result');
+  assert.match(include, /is_case_page and case_id\.size == 3/, 'the interactive-reader link belongs to cases only');
 });
 
 test('case evidence tokens use the documented author synonyms', () => {

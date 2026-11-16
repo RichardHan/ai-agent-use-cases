@@ -1,0 +1,80 @@
+{
+ "desktop": {
+  "audit": {
+   "navVisible": true,
+   "navTop": 32,
+   "links": [
+    "← 完整案例索引",
+    "搜尋首頁"
+   ],
+   "claim": "本頁是來源與計數紀錄，不是案例成果。成果主張與驗證狀態以對應案例頁為準；尚未列成案例的線索，以本頁與待查清單的紀錄為準。本庫未獨立重現。",
+   "h1": 1,
+   "overflow": 0,
+   "indexHref": "http://127.0.0.1:8091/ai-agent-use-cases/INDEX.html",
+   "indexTitle": "完整案例索引 | AI 用法實驗室",
+   "homeHref": "http://127.0.0.1:8091/ai-agent-use-cases/",
+   "homeStatus": {
+    "title": "完整案例索引 | AI 用法實驗室",
+    "hasSearch": false,
+    "count": ""
+   }
+  },
+  "ledger": {
+   "caseNavVisible": true,
+   "navVisible": true,
+   "claim": "本頁是來源與計數紀錄，不是案例成果。成果主張與驗證狀態以對應案例頁為準；尚未列成案例的線索，以本頁與待查清單的紀錄為準。本庫未獨立重現。",
+   "codes": 0,
+   "overflow": 0,
+   "indexHref": "http://127.0.0.1:8091/ai-agent-use-cases/INDEX.html"
+  },
+  "pending": {
+   "navVisible": true,
+   "claim": "誰提出主張，不等於誰驗證。本庫未獨立重現。",
+   "overflow": 0
+  },
+  "keyboardFirst": {
+   "tag": "A",
+   "text": "← 完整案例索引"
+  },
+  "errors": []
+ },
+ "phone": {
+  "audit": {
+   "navVisible": true,
+   "navTop": 32,
+   "links": [
+    "← 完整案例索引",
+    "搜尋首頁"
+   ],
+   "claim": "本頁是來源與計數紀錄，不是案例成果。成果主張與驗證狀態以對應案例頁為準；尚未列成案例的線索，以本頁與待查清單的紀錄為準。本庫未獨立重現。",
+   "h1": 1,
+   "overflow": 0,
+   "indexHref": "http://127.0.0.1:8091/ai-agent-use-cases/INDEX.html",
+   "indexTitle": "完整案例索引 | AI 用法實驗室",
+   "homeHref": "http://127.0.0.1:8091/ai-agent-use-cases/",
+   "homeStatus": {
+    "title": "完整案例索引 | AI 用法實驗室",
+    "hasSearch": false,
+    "count": ""
+   }
+  },
+  "ledger": {
+   "caseNavVisible": true,
+   "navVisible": true,
+   "claim": "本頁是來源與計數紀錄，不是案例成果。成果主張與驗證狀態以對應案例頁為準；尚未列成案例的線索，以本頁與待查清單的紀錄為準。本庫未獨立重現。",
+   "codes": 0,
+   "overflow": 0,
+   "indexHref": "http://127.0.0.1:8091/ai-agent-use-cases/INDEX.html"
+  },
+  "pending": {
+   "navVisible": true,
+   "claim": "誰提出主張，不等於誰驗證。本庫未獨立重現。",
+   "overflow": 0
+  },
+  "keyboardFirst": {
+   "tag": "A",
+   "text": "← 完整案例索引"
+  },
+  "errors": []
+ }
+}

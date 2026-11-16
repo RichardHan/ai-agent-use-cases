@@ -1,0 +1,67 @@
+SCENARIOS {
+ "newcomer": {
+  "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%94%B6%E4%BB%B6%E5%8C%A3#explore",
+  "count": "顯示 164 / 529 筆收錄",
+  "scrollY": 2041,
+  "active": "關鍵字：收件匣 ×",
+  "firstTop": 152,
+  "firstTitle": "讓 AI 先整理客服信，退款與承諾由你決定"
+ },
+ "detail": {
+  "title": "讓 AI 先整理客服信，退款與承諾由你決定",
+  "trust": "成果主張：主要 社群作者／專案實踐者；另宣告 設計／未實跑 核讀：主要 本庫未獨立重現；其他類別見下方 核讀與安全建議 ↓",
+  "source": "https://github.com/RichardHan/ai-agent-use-cases/blob/24cb96f94b8bf7cd2ab9d383a99be7cd23e33faf/cases/014-support-inbox-approval-refund.md",
+  "pinned": true,
+  "note": "GitHub 原始 Markdown 固定於本站發布版本 24cb96f；外部來源仍須另行核對。"
+ },
+ "returnFocus": {
+  "open": false,
+  "focus": "UC-014",
+  "url": "https://richardhan.github.io/ai-agent-use-cases/?q=%E6%94%B6%E4%BB%B6%E5%8C%A3#explore"
+ },
+ "zero": {
+  "count": "顯示 0 / 529 筆收錄",
+  "buttons": [
+   "查看結果",
+   "清除篩選，保留關鍵字",
+   "關鍵字：發票\n×",
+   "收錄狀態：待查線索\n×",
+   "提及工具：Cursor\n×",
+   "複製搜尋連結 ↗",
+   "移除收錄狀態「待查線索」 → 查看 3 筆",
+   "修改關鍵字",
+   "清除全部條件，顯示所有條目"
+  ],
+  "overflow": 0
+ },
+ "recovered": {
+  "count": "顯示 3 / 529 筆收錄",
+  "ids": [
+   "UC-049",
+   "UC-310",
+   "UC-318"
+  ],
+  "active": "關鍵字：發票 × 提及工具：Cursor ×"
+ },
+ "mergedDetail": {
+  "text": "UC-250 用法靈感 公開資料核讀 情境：工作 頁首核對 2026-10-16 郵件搬家另一位作者的經驗，已合併原案例 成果主張：公開專案／原始文件（作者自行公布） 核讀：未端對端驗證 核讀與安全建議 ↓ 前往方法與步驟 ↓ 可參考步驟（本庫設計，未執行） 可以幫你做什麼 兩位作者回報Grok Bot協助郵件搬遷，重點是把資料複製與新信路由切換分開核對。 核心目標｜案例頁未宣告核心目標；可先讀這一段的用途說明與原始來源。 UC-250 原始 Markdown（新分頁） ↗ 核對來源與版本 ↓ 查核依據與安全採用 ↓ 這篇是主案例的來源補充 本頁已合併至 UC-156，不另計一案；保留這篇的原始來源與限制。 站內閱讀主案例 UC-156：信箱搬到新平台了，舊信和新信都真的正常嗎？ → 探索更多「工作」案例 → GitHub 原始 Markdown 固定於本站發布版本 24cb96f；外部來源仍須另行核對。 建議操作流程與注意事項 ↓ 本庫整理步驟與限制（非實測結果） 情境常見讀者 想藉助 AI 提升日常行政、客服、行銷或營運效率的職場工作者 案例頁未宣告適合對象；以上是本庫依「工作」情",
+  "handoff": [
+   {
+    "tag": "BUTTON",
+    "text": "站內閱讀主案例 UC-156：信箱搬到新平台了，舊信和新信都真的正常嗎？ →",
+    "href": null
+   },
+   {
+    "tag": "A",
+    "text": "",
+    "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/24cb96f94b8bf7cd2ab9d383a99be7cd23e33faf/cases/156-mail-system-migration-verification.md"
+   }
+  ]
+ },
+ "mergedReturn": {
+  "open": false,
+  "url": "https://richardhan.github.io/ai-agent-use-cases/",
+  "title": "AI 用法實驗室 · 案例庫"
+ }
+}
+SCENARIOS_PASS

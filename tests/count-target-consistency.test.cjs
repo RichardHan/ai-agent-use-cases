@@ -74,7 +74,7 @@ function loadApi() {
     Discovery: require('../assets/discovery.js'),
     document: { createElement: tag => new Node(tag), createTextNode: text => ({ textContent: text }) }
   });
-  vm.runInContext(source + '\nthis.api={parseFile,catalogCounts,mergedSupplementNote};', context);
+  vm.runInContext(source + '\nthis.api={parseFile,catalogCounts,mergedSupplementNote,caseCountLabel};', context);
   return context.api;
 }
 
@@ -118,4 +118,28 @@ test('the stats note names every merged supplement and never presents it as a se
     'the real catalog discloses the number the parser found:\n' + note);
   for (const item of merged.slice(0, 5)) assert.ok(note.includes(item.id),
     `the disclosure names ${item.id}:\n` + note);
+});
+
+// The statistics card used to say 「525 個主要案例頁」 and, in the same card,
+// 「其中 5 頁…不另計入 1,000 案目標」: the number counted pages its own note
+// excluded. The label now states the composition, so the count and the note use
+// one rule.
+test('the case-count label states the supplements it includes', () => {
+  const api = loadApi();
+  assert.equal(api.caseCountLabel({ case: 520, caseMerged: 0 }), '個案例頁',
+    'without supplements the label stays a plain page count');
+  assert.equal(api.caseCountLabel({ case: 525, caseMerged: 5 }), '個案例頁（含 5 頁補充／版本頁）',
+    'the label names how many of the counted pages are supplements');
+  assert.equal(api.caseCountLabel({}), '個案例頁', 'a partial count must not print a placeholder');
+
+  const items = currentCaseFiles().flatMap(file => Array.from(api.parseFile('cases/' + file, fs.readFileSync(path.join(casesDir, file), 'utf8'))));
+  const counts = api.catalogCounts(items);
+  const label = api.caseCountLabel(counts);
+  const note = api.mergedSupplementNote(items);
+  const noteCount = Number((note.match(/其中 (\d+) 頁/) || [])[1]);
+  assert.equal(noteCount, counts.caseMerged, 'the note and the counter describe the same pages');
+  assert.ok(label.includes(`含 ${counts.caseMerged} 頁補充／版本頁`),
+    'the rendered label uses the catalog count, not a hardcoded number:\n' + label);
+  assert.doesNotMatch(label, /主要案例頁/,
+    'the label must not call a page 主要 while the note excludes it from the target');
 });

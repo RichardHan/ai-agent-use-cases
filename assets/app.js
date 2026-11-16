@@ -1485,6 +1485,14 @@ function mergedSupplementNote(items) {
   const names=mergedCases.slice(0,5).map(item=>item.id).join('、')+(mergedCases.length>5?' 等':'');
   return `其中 ${mergedCases.length} 頁（${names}）是同一流程的主案例補充或版本頁，仍可搜尋與閱讀，不另計入 1,000 案目標。`;
 }
+// The card counts case pages, including the supplements and version pages the note
+// below excludes from the 1,000-case target. Calling all of them 「主要案例頁」 made
+// the number and its own note contradict each other in one card, so the label
+// states the composition instead of letting the reader subtract.
+function caseCountLabel(counts) {
+  const merged = counts?.caseMerged || 0;
+  return merged ? `個案例頁（含 ${merged} 頁補充／版本頁）` : '個案例頁';
+}
 function el(tag,cls,text) { const node=document.createElement(tag); if(cls)node.className=cls; if(text!==undefined)node.textContent=text;return node; }
 function safeLink(target,path) {
   try {
@@ -2527,12 +2535,15 @@ function card(item, terms=[]) {
   if(item.kind === 'case' && (item.mergedInto || []).length){
     const mergedLabel = mergedDestinationText(item);
     const variant = item.mergedKind === 'variant';
-    const mergedText = variant ? '主案例 ' + mergedLabel + ' 的版本頁' : '主案例 ' + mergedLabel + ' 的補充頁';
-    const mergedBadge = el('span', 'card-merged', mergedText);
+    const mergedBase = variant ? '主案例 ' + mergedLabel + ' 的版本頁' : '主案例 ' + mergedLabel + ' 的補充頁';
+    // The card is the whole screen on a phone: a hover-only title left the
+    // 「不另計一案」 claim unreachable there, so the visible badge carries it and the
+    // tooltip only repeats it for pointer users.
+    const mergedBadge = el('span', 'card-merged', mergedBase + '・不另計一案');
     mergedBadge.title = variant
       ? '此頁與主案例屬同一流程，不另計一案；仍可搜尋與閱讀。'
       : '此頁已併入主案例，不另計一案；仍可搜尋與閱讀。';
-    mergedBadge.setAttribute('aria-label', mergedText + '，不另計一案');
+    mergedBadge.setAttribute('aria-label', mergedBase + '，不另計一案；仍可搜尋與閱讀');
     badgesWrap.append(mergedBadge);
   }
   top.append(topInfo, badgesWrap);
@@ -4557,6 +4568,8 @@ function mergeCorpus(current, recovered) {
 function refreshCorpusMetadata() {
   const counts=catalogCounts(entries);
   $('case-count').textContent=counts.case;
+  const caseLabel=$('case-count-label');
+  if(caseLabel)caseLabel.textContent=caseCountLabel(counts);
   $('evidence-count').textContent=counts.evidence;
   $('pending-count').textContent=counts.pending;
   const pendingNote=$('pending-note');

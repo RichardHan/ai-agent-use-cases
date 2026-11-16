@@ -221,27 +221,36 @@ function jobHasCondition(job) {
 }
 
 // Read the shell commands a step actually executes: drop YAML and shell
-// comments, and join backslash continuations, so a commented-out suite is not
-// counted and a wrapped one is not missed.
+// comments, join backslash continuations, and fold `run: >` lines the way YAML
+// does, so a commented-out suite is not counted and a wrapped duplicate is not
+// missed. Literal (`run: |`) keeps its newlines.
 function executableRun(step) {
   const lines = step.split('\n');
   const commands = [];
-  let inBlock = false;
+  let style = null;
+  let block = [];
+  const flush = () => {
+    if (!block.length) return;
+    commands.push(block.join(style === '>' ? ' ' : '\n'));
+    block = [];
+  };
   for (const line of lines) {
-    const block = line.match(/^ {8}run:\s*[|>]/);
-    if (block) { inBlock = true; continue; }
+    const header = line.match(/^ {8}run:\s*([|>])[-+0-9]*\s*$/);
+    if (header) { flush(); style = header[1]; continue; }
     if (/^ {8}run:\s*\S/.test(line)) {
+      flush();
+      style = null;
       const command = line.replace(/^ {8}run:\s*/, '').replace(/\s+#.*$/, '');
       if (!command.startsWith('#')) commands.push(command);
-      inBlock = false;
       continue;
     }
-    if (/^ {6}- /.test(line)) inBlock = false;
-    if (!inBlock) continue;
+    if (/^ {6}- /.test(line)) { flush(); style = null; continue; }
+    if (style === null) continue;
     const text = line.trim();
     if (!text || text.startsWith('#')) continue;
-    commands.push(text.replace(/\s+#.*$/, ''));
+    block.push(text.replace(/\s+#.*$/, ''));
   }
+  flush();
   return commands.join('\n').replace(/\\\n/g, ' ');
 }
 
@@ -250,6 +259,8 @@ function executableRun(step) {
 function fullSuiteCommand(text) {
   return executableRun(text).split('\n').some(line => {
     if (!/node\s+--test\b/.test(line)) return false;
+    // `node --test` with no path uses Node's default test discovery.
+    if (/node\s+--test\s*$/.test(line)) return true;
     if (/tests\/\*\.test\.cjs(?![.\w])/.test(line)) return true;
     if (!/\$\(find tests\b/.test(line)) return false;
     const find = line.slice(line.indexOf('$('));
@@ -330,6 +341,17 @@ test('the unit-suite guard ignores runners that a pull request cannot reach', ()
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs' ! -name 'relevance.test.cjs')" })), false, 'a find with an exclusion selects a subset');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs')" })), true, 'a find without exclusions selects the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test \\\n            tests/*.test.cjs' })), true, 'a wrapped command still runs the suite');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test' })), true, 'bare node --test uses default discovery');
+
+  // A folded `run: >` block executes its lines as one command.
+  const folded = [
+    'name: Fixture', 'on:', '  pull_request:', 'jobs:', '  browser:',
+    '    runs-on: ubuntu-24.04', '    steps:', '      - name: Unit',
+    '        run: >', '          node --test --test-reporter=tap', '          tests/*.test.cjs', ''
+  ].join('\n');
+  assert.equal(runsFullUnitSuite(folded), true, 'a folded run block is one command');
+  const literal = folded.replace('run: >', 'run: |');
+  assert.equal(runsFullUnitSuite(literal), false, 'a literal two-line block does not form the suite command');
 });
 
 test('trigger coverage is decided by glob inclusion, not by sampled paths', () => {

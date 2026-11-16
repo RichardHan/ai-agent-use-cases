@@ -1,3 +1,15 @@
+## 2026-11-16 宣告為同一流程版本頁的案例不再被算成獨立案例
+
+UC-322／324／336／337 在頁首證據說明自己宣告是另一個案例的同一流程版本、且「不另計」（例如「嚴格去重視為UC-048的數值追蹤版本，本頁保留但不另計」「既有239流程版本，本輪不另計」），但 `assets/app.js` 的 `MERGE_DESTINATION` 只認 `併入／另記／另見／合併`，四頁仍被算成獨立案例、進抽卡池；正式站 `a345bf5d` 因此顯示「516 張可抽案例卡」、統計卡「其中 1 頁（UC-250）」，`?q=UC-322` 沒有版本頁標記或主案例入口，與頁面自己的宣告及 README 對補充頁的承諾互相矛盾。
+
+本輪只改解析與呈現，不動任何案例原文：新增 `declaredVariantDestinations()`，逐句找含「不另計／不另立案」的頁首證據說明，接受 `UC-nnn` 或緊接「流程／案例／版本／號」的三位數（排除自身、`1,000` 不會變成 UC-000）；`mergedInto` 收進這些目的地並新增 `mergedKind`，抽卡池 516→512、非可抽 16→20，統計卡列出 5 頁（UC-250、UC-322、UC-324、UC-336、UC-337），卡片顯示「主案例 UC-048 的版本頁」（UC-250 這類明寫已合併的頁面顯示「補充頁」），詳情寫「本頁與主案例 UC-048 屬同一流程的版本頁」並給站內入口，複製筆記同步；正文的補充段落不會讓整頁變成版本頁。
+
+驗收：基準 871 → **877 pass／0 fail**、`node --check`、`check-published-surface` 838 檔／5.91 MiB PASS；preview 1440／390／320 三情境、版本頁卡片與詳情、抽卡與統計數字、空結果復原、詳情直鏈與返回通過，axe 四種狀態 0、pageerror 0、無水平溢出。獨立 reviewer 初審 Changes requested（合併頁徽章誤稱版本頁、測試缺少固定目的地對照），修正後重跑全套與三情境。限制：本機無 Jekyll，built-site 由 PR Website QA 驗證；未用實體手機或讀屏。
+
+交付：[PR #441](https://github.com/RichardHan/ai-agent-use-cases/pull/441)，實作 `cddc4ed3`、`9cfd4e626e2c53e3c89a24d0f8ac8060508ef020`；PR 16 項 check pass、2 項 `published` 依設計 skipping（head `cddc4ed3`）；[Pages 43818034310](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43818034310) success，正式站 `sourceRevision` 精確等於 `9cfd4e62…`，`index.html`、`assets/app.js`、`assets/style.css` 與合併版逐位元相同；正式站 1440／390 三情境、版本頁卡片與詳情、統計卡 5 頁、抽卡 512 張、axe 0 與 pageError 0 已重走。[完整證據](docs/qa/2026-11-16-variant-pages/README.md)。
+
+下一輪先處理 **Website QA 的靜默跳過守門**：`.github/workflows/website-qa.yml:78` 用 `if: hashFiles('tests/discovery-browser.cjs') != ''` 包住整個 Chromium 步驟，刪除或改名這一個檔案就會讓約 30 支瀏覽器測試變成 no-op 而 job 仍綠；目前沒有任何測試固定這個檔案或守門。先驗證：在隔離分支移除該檔並確認 PR 仍然 success（重現 false-green），再把守門改成直接執行並補一條「檔案必須存在」的靜態測試，最後確認移除檔案時 CI 會紅。
+
 ## 2026-11-16 README 的搜尋範例不再寫死會過期的筆數
 
 README 用「529 筆中的 521 筆」「34＋411＝445」「學英文 32 筆」「省錢 62 筆」「機票 11 筆」「532 個條目中有 228 個宣告」說明搜尋與揭露行為，但正式站現在是 532 條目、524 命中、34／490／414／76、34、65、12；同一份語料 16 天內有 28 個動到 `cases/` 的 commit，這組數字每次新增案例都可能失效，README 與網站各說一套。本輪把這些語料快照改成機制描述（N／A／B／C、多數、幾乎），保留批次大小、手機任務數、延伸閱讀 2% 與拆分提示三分之二等設定明文，並新增 8 項守則：設定必須等於程式常數；README 不得再出現九種「N 筆中的 M 筆」快照寫法；三個性質（多數條目未宣告目標使用者、三種核心目標狀態、權限幾乎每案命中）由現行語料重算，同義改寫可過、相反宣稱或「全部」會紅燈。無產品行為變更；`README.md` 本來就是可發布變更，合併會走 exact 發布比對。

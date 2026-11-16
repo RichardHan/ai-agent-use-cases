@@ -60,7 +60,7 @@
   - 前：`?q=UC-322` 卡片徽章只有「創作／進階開發／需代碼/環境／用法靈感」，詳情沒有主案例入口；首頁統計卡「其中 1 頁（UC-250）…」、抽卡「516 張可抽案例卡（另有 16 筆不是可抽案例）」。
   - 後：同一查詢的卡片多一個「主案例 UC-048 的版本頁」（UC-250 則是「主案例 UC-156 的補充頁」）；詳情標題「這篇與主案例屬同一流程的版本頁」、句子「本頁與主案例 UC-048 屬同一流程的版本頁，不另計一案」，按鈕可進 UC-048；統計卡列出 5 頁、抽卡「512 張（另有 20 筆）」；390px 無水平溢出（`scrollWidth - clientWidth = 0`）。
 - axe：首頁、結果、空結果、`?case=UC-322` 詳情，在 1440 與 390 各 0 違規；pageerror 0。
-- 證據：[before-acceptance-log.txt](before-acceptance-log.txt)、[after-acceptance-log.txt](after-acceptance-log.txt)；截圖 `before-/after-{desktop,phone}-{variant-card,variant-detail,stats}.png` 與 `after-{desktop,phone}-{search,empty,detail}.png`。基準的 `before-*-variant-detail.png` 沒有交接區塊（`.detail-merged-handoff` 0 個）。
+- 證據：[before-acceptance-log.txt](before-acceptance-log.txt)、[after-acceptance-log.txt](after-acceptance-log.txt)；截圖 `before-/after-{desktop,phone}-{variant-card,variant-detail,stats}.png` 與 `after-{desktop,phone}-{search,empty,detail}.png`。基準的 `before-*-variant-detail.png` 沒有交接區塊（`.detail-merged-handoff` 0 個）；`after-*-variant-detail.png` 取自本機 preview 的 `?case=UC-322`。
 - 限制：本環境沒有 Jekyll（preview 是靜態檔，不是 Jekyll build），真正的 built-site 檢查由 PR Website QA 的 `_site` 步驟執行；未用實體手機、讀屏實聽或 Firefox 交叉重跑；未做效能基準。影像輸入停用，視覺結論以 DOM／幾何／文字與截圖檔為準，未逐像素目視。
 
 ## 獨立審查
@@ -72,3 +72,10 @@
 - 修正後重新執行全套 877 項與三情境驗收（桌面／手機），結果見上。
 
 ## PR、Actions 與發布
+
+- 交付 PR [#441](https://github.com/RichardHan/ai-agent-use-cases/pull/441)，head `cddc4ed35bb97d3fff9f7c8ceaafa8166f860c67`。PR checks：16 項 pass、2 項 `published` 依設計 skipping（[pr-checks.txt](pr-checks.txt)）；Website QA [43816332617](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43816332617) 的 `Run existing regression tests`、`Verify the updated site in Chromium`（約 30 支瀏覽器腳本）、Jekyll `_site` 與 published-surface 步驟皆 success，13m38s。合併前 `mergeStateStatus` CLEAN，未繞過保護規則。
+- 06:37:30 UTC 一般 merge，合併版本 `9cfd4e626e2c53e3c89a24d0f8ac8060508ef020`；分支已刪除（本機 `main` worktree 佔用時 `--delete-branch` 只影響本機清理，遠端 merge 已完成）。
+- 對應 [Pages 43818034310](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43818034310) success；正式站 `catalog.json.sourceRevision` 精確等於 `9cfd4e62…`，`index.html`、`assets/app.js`、`assets/style.css` 與合併版逐位元相同。
+- 正式站 1440×900／390×844 重走：三種必要情境、`?q=UC-322` 卡片與詳情、統計卡 5 頁、抽卡 512 張、axe 四種狀態 0、pageerror 0；[live-acceptance-log.txt](live-acceptance-log.txt)、`live-*-{variant-card,variant-detail,stats}.png`。
+- 主線 Website QA 對合併版 `9cfd4e62` 另有一個 run；狀態見下方補記。
+

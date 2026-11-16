@@ -1436,13 +1436,19 @@ function parseFile(path, markdown) {
 // The counters describe the collection: a lead already merged into a case is
 // reported separately instead of inflating the open-question count.
 function catalogCounts(items) {
-  const counts={case:0,evidence:0,pending:0,resolvedPending:0};
+  const counts={case:0,caseMerged:0,evidence:0,pending:0,resolvedPending:0};
   for(const item of items){
     if(item.kind==='pending'){ if(item.resolved)counts.resolvedPending++; else counts.pending++; }
-    else if(item.kind==='case')counts.case++;
+    else if(item.kind==='case'){counts.case++;if((item.mergedInto||[]).length)counts.caseMerged++;}
     else if(item.kind==='evidence')counts.evidence++;
   }
   return counts;
+}
+function mergedSupplementNote(items) {
+  const mergedCases=(items||[]).filter(item=>item.kind==='case'&&(item.mergedInto||[]).length);
+  if(!mergedCases.length)return '';
+  const names=mergedCases.slice(0,5).map(item=>item.id).join('、')+(mergedCases.length>5?' 等':'');
+  return `其中 ${mergedCases.length} 頁（${names}）是已併入主案例的補充頁，仍可搜尋與閱讀，不另計入 1,000 案目標。`;
 }
 function el(tag,cls,text) { const node=document.createElement(tag); if(cls)node.className=cls; if(text!==undefined)node.textContent=text;return node; }
 function safeLink(target,path) {
@@ -4457,6 +4463,12 @@ function refreshCorpusMetadata() {
   }
   $('catalog-status').hidden=!failedPaths.length;
   $('catalog-status').textContent=failedPaths.length?'僅計已載入條目；'+failedPaths.length+' 個來源檔案未載入。':'';
+  const mergedNote=$('merged-note');
+  if(mergedNote){
+    const note=mergedSupplementNote(entries);
+    mergedNote.hidden=!note;
+    mergedNote.textContent=note;
+  }
   // A page without a declared theme has an empty category; an empty option would
   // be indistinguishable from the 全部分類 option, so it is left out.
   for(const [id,values] of [['tool',entries.flatMap(e=>e.tools)],['category',entries.map(e=>e.category).filter(Boolean)],['proof',entries.map(e=>e.proof)]]){

@@ -3747,6 +3747,28 @@ function recoverSearchQuery(query) {
 }
 
 
+// The empty panel's task directory shows nine tasks, then a labelled button.
+// It used to sit in a 300px scroll box: at 390px that box was 2,047px tall
+// inside, so 42 of 50 tasks were reachable only by a second, nested scroll.
+// The same disclosure is used at every width: nine chips keep the dead-end
+// panel shorter than the old 300px scroll box did (643px vs 727px on desktop)
+// while every task stays one click away.
+const EMPTY_TASK_VISIBLE_COUNT = 9;
+let emptyTaskDirectoryExpanded = false;
+function syncEmptyTaskDirectory() {
+  const toggle = typeof $ === 'function' ? $('empty-problem-toggle') : null;
+  const rest = typeof $ === 'function' ? $('empty-problem-rest') : null;
+  if (!toggle || !rest || !rest.parentElement) return;
+  const chips = rest.parentElement;
+  const total = Number(rest.dataset.total) || 0;
+  chips.setAttribute('data-collapsed', String(!emptyTaskDirectoryExpanded));
+  toggle.hidden = false;
+  toggle.setAttribute('aria-expanded', String(emptyTaskDirectoryExpanded));
+  toggle.textContent = emptyTaskDirectoryExpanded
+    ? `收合任務清單（先顯示 ${EMPTY_TASK_VISIBLE_COUNT} 項）`
+    : `顯示全部 ${total} 個任務`;
+}
+
 function renderSearchFeedback(terms, filters) {
   const conditions=activeConditions($('query').value,filters);
   const active=$('active-filters');
@@ -3888,7 +3910,7 @@ function renderSearchFeedback(terms, filters) {
         // other place a task entry is offered, and it must not read as "the library
         // answers this" while the visitor is already stuck. Same predicate, same
         // word, same evidence. A partial load is not a census, so nothing is marked
-        // then; and because the panel is a scrolled wall, tasks a case actually
+        // then; and because the panel can be long, tasks a case actually
         // describes stay in front of the ones only related words reach.
         const annotated = prioritizedTags.map(tag => ({ ...tag, coverage: cachedTaskCoverage(entries, tag.term, filters) }));
         // A partial load is not a census: the counts still decide what is offered,
@@ -3910,8 +3932,12 @@ function renderSearchFeedback(terms, filters) {
           legend.id = 'empty-coverage-legend';
           problemContainer.append(legend);
         }
+        // A 50-55 chip directory inside a 300px scroll box hides most of its
+        // options behind a gesture the page never teaches. Nine chips plus a
+        // labelled button replace that box at every width.
         const chipsWrap = el('div','empty-problem-chips');
-        orderedTags.forEach(({label, term, coverage})=>{
+        const restWrap = el('div','empty-problem-rest');
+        orderedTags.forEach(({label, term, coverage}, index)=>{
           const btn = el('button','recovery-option recovery-problem-tag',label);
           btn.type = 'button';
           btn.dataset.problemTag = term;
@@ -3926,10 +3952,30 @@ function renderSearchFeedback(terms, filters) {
             btn.setAttribute('aria-describedby', legend.id);
           }
           btn.addEventListener('click',()=>recoverSearchQuery(term));
-          chipsWrap.append(btn);
+          (index < EMPTY_TASK_VISIBLE_COUNT ? chipsWrap : restWrap).append(btn);
         });
-        problemContainer.append(chipsWrap);
+        if(restWrap.children.length){
+          restWrap.id = 'empty-problem-rest';
+          restWrap.dataset.total = String(orderedTags.length);
+          chipsWrap.append(restWrap);
+          const toggle = el('button','empty-problem-toggle');
+          toggle.type = 'button';
+          toggle.id = 'empty-problem-toggle';
+          toggle.hidden = true;
+          toggle.setAttribute('aria-controls','empty-problem-rest');
+          toggle.addEventListener('click',()=>{
+            emptyTaskDirectoryExpanded = !emptyTaskDirectoryExpanded;
+            // Collapsing must not strand focus in a chip that just disappeared.
+            if(!emptyTaskDirectoryExpanded && restWrap.contains(document.activeElement))
+              toggle.focus({preventScroll:true});
+            syncEmptyTaskDirectory();
+          });
+          problemContainer.append(chipsWrap, toggle);
+        } else {
+          problemContainer.append(chipsWrap);
+        }
         suggestions.append(problemContainer);
+        syncEmptyTaskDirectory();
       }
     }
     $('empty-hint').textContent=
@@ -5227,6 +5273,7 @@ $('edit-query').addEventListener('click', revealQueryField);
 $('refine-query').addEventListener('click', revealQueryField);
 window.addEventListener('scroll',queueRefineSync,{passive:true});
 window.addEventListener('resize',queueRefineSync);
+window.addEventListener('resize',syncEmptyTaskDirectory,{passive:true});
 $('stop-recovery').addEventListener('click',stopSourceRecovery);
 $('retry-failed').addEventListener('click',()=>{
   if(recoveringSources)return;

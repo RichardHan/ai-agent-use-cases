@@ -203,7 +203,12 @@
 .empty-problem-intro{font-size:14px;color:var(--muted);margin:0 0 4px;overflow-wrap:anywhere;word-break:break-word}
 .empty-problem-legend{margin:0;max-width:60ch;font-size:12px;line-height:1.5;color:var(--muted);overflow-wrap:anywhere;word-break:break-word}
 .empty-problem-chips .task-coverage-none{margin-left:6px}
-.empty-problem-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:100%;max-height:300px;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px;border:1px solid #e1eadc;border-radius:12px;background:#f9fbf8}
+.empty-problem-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:100%;padding:6px;border:1px solid #e1eadc;border-radius:12px;background:#f9fbf8}
+.empty-problem-rest{display:contents}
+.empty-problem-chips[data-collapsed="true"] .empty-problem-rest{display:none}
+.empty-problem-toggle{display:inline-flex;align-items:center;gap:6px;min-height:44px;max-width:100%;padding:9px 14px;border:1px solid #899882;border-radius:8px;background:#fff;color:var(--green);font:inherit;font-size:13px;font-weight:650;text-align:left}
+.empty-problem-toggle:hover{background:#edf2e7}
+.empty-problem-toggle:focus-visible{outline:3px solid #799f27;outline-offset:2px}
 .recovery-problem-tag{min-height:44px;min-width:44px;max-width:100%;white-space:normal;overflow-wrap:anywhere;display:inline-flex;align-items:center;padding:8px 14px;font-size:13px;border-radius:20px;border:1px solid #c2d1bd;background:#fff;color:var(--green);font-weight:600;cursor:pointer}
 .recovery-problem-tag:hover{background:#eef4ea;border-color:var(--green)}
 .recovery-problem-tag:focus-visible{outline:3px solid #799f27;outline-offset:3px}

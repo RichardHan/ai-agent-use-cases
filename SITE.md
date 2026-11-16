@@ -6,6 +6,8 @@
 
 驗收：[方案、前後逐字、截圖與量測](docs/qa/2026-11-16-copy-hard-stops/README.md)。限制：preview 非 Jekyll，未用實體手機或讀屏；`copy.json` 只覆蓋 20 個早期條目。
 
+發布：[PR #459](https://github.com/RichardHan/ai-agent-use-cases/pull/459)，head `2e1970ee`，16 項檢查 pass／2 項 `published` 依設計 skipping；一般 merge 為 `c93c6c1c`。[Pages 43865693142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43865693142) success；主線 Website QA 43865694303 success；正式站 `sourceRevision` 精確等於合併版，`assets/copy.json` SHA-256 `b3fa385b…` 逐位元相同，UC-016 在 1440／390 的 caution 159 字、axe 0、pageerror 0、無水平溢出。
+
 ## 2026-11-16 空結果面板的任務目錄不再藏在巢狀捲動裡
 
 正式站 `4f94978f` 的無可用詞空結果（`?q=xyz987&scenario=開發`）把 50 個任務按鈕放進固定 300px 的巢狀捲動框：390×844 的內容高 2,047px、框內只看得到 8 個，1440×900 的內容 1,096px、只看得到 16 個，320×640 的內容 2,712px；框上沒有任何可捲動提示，頁面捲動也不會揭露其餘任務。鍵盤要從第一個任務按 50 次 Tab 才能離開目錄。首頁的同一份目錄已有「先顯示 9 項＋顯示全部 N 個任務」的折疊，空結果面板卻沒有。

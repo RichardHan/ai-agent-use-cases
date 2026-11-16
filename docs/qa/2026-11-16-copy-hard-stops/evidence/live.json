@@ -1,0 +1,53 @@
+{
+  "sourceRevision": "c93c6c1ca1a0d0fef0c1d35dd4dcccbe0fc31608",
+  "expected": "c93c6c1ca1a0d0fef0c1d35dd4dcccbe0fc31608",
+  "copySha256": "b3fa385babae35e29be0f2205e4a7606b77d65219e7ac2136636bde64b7aec21",
+  "revisionMatches": true,
+  "viewports": {
+    "desktop": {
+      "caution": "這是失敗復盤案例；不要一開始就設「永遠允許」。初期任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；觀察 1–2 週後若放行，也只限純資訊回覆。低於底線的議價直接列給你、不要回應。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
+      "height": 222,
+      "overflow": 0,
+      "links": [
+        {
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ],
+      "axe": 0,
+      "pageErrors": 0,
+      "problemCount": "顯示 4 / 532 筆收錄"
+    },
+    "phone": {
+      "caution": "這是失敗復盤案例；不要一開始就設「永遠允許」。初期任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；觀察 1–2 週後若放行，也只限純資訊回覆。低於底線的議價直接列給你、不要回應。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
+      "height": 292,
+      "overflow": 0,
+      "links": [
+        {
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ],
+      "axe": 0,
+      "pageErrors": 0,
+      "problemCount": "顯示 4 / 532 筆收錄"
+    }
+  },
+  "copyCautionHasStops": true
+}

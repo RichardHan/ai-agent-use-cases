@@ -142,7 +142,7 @@
 
 ## 下一輪
 
-1. 先做 `website-qa.yml:85` 的 `hashFiles` 收緊：這是唯一已確認、會讓 main 綠燈卻沒有跑 30+ 支瀏覽器測試的路徑。驗證方式是把 `tests/discovery-browser.cjs` 暫時改名，確認新守則轉紅，再還原。
+1. `website-qa.yml:85` 的 `hashFiles` 收緊已由另一個工作階段的 PR #447（`improve/2026-11-16-browser-gate`）接手，並在 `dea10671` 上以改名重現紅燈；同型守門另有 9 處、分布在 7 個 workflow。下一輪先獨立審查 #447（尤其 `reader-qa.yml:68` 的正式站讀者驗證），不要重做。
 2. 再處理 `主題分類` 的形狀說明（純文案 + 執行期計數，不動資料）。
 
 不要把模擬建置說成 Jekyll 產物，也不要把 agent 走查說成真人研究。

@@ -6,7 +6,7 @@
 
 交付：[PR #444](https://github.com/RichardHan/ai-agent-use-cases/pull/444)，`2316837a4f`→`46712edce4`、合併 `dea10671`。PR Website QA [43826329683](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43826329683) 與另外三個 QA 全 success，真實 `_site` 回 `PASS: 822 rendered pages`；主線 [Website QA 43828087586](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43828087586) success（889 tests、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH dea10671`、`PUBLICATION_MODE: exact`、兩個 `PASS LIVE`），[Pages 43828086891](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43828086891) success。正式 `sourceRevision` 精確等於 `dea10671…`；部署後的頁面重跑 checker 為 PASS 297；桌面／手機走過「統計卡→稽核頁→完整案例索引／搜尋首頁」「UC-006→批次 ledger→搜尋首頁」與三情境（80／532、0／532→532／532、UC-014 21 個來源固定 `dea10671`），pageerror 0、水平溢出 0。獨立 reviewer `SourceNavReview` 兩輪共 5 個 P2（0 新增批次沒有下一步、漏枚舉未渲染 ledger、導覽可被隱藏或重複、混合批次、`.`／`_` 檔名）全部修正，無 P0／P1。證據在 `docs/qa/2026-11-16-source-reading-nav/`。
 
-下一輪：先收緊 `website-qa.yml:85` 的 `if: ${{ hashFiles('tests/discovery-browser.cjs') != '' }}`——該檔改名時 main 仍綠燈但 30+ 支瀏覽器測試整段跳過，`tests/` 目前沒有守則；驗證方式是把該檔暫時改名確認新守則轉紅。再處理 `主題分類`（361 種值、360 種各 1 案）的形狀說明。
+下一輪：`website-qa.yml:85` 的 `hashFiles` 收緊已由另一個工作階段的 PR #447（`improve/2026-11-16-browser-gate`）接手，該 PR 已在 `dea10671` 上把 `tests/discovery-browser.cjs` 改名重現紅燈，並指出同型守門共 10 處、分布在 7 個 workflow。本輪不重做；下一輪先獨立審查 #447 是否真的讓改名／刪檔轉紅（含 `reader-qa.yml:68` 的正式站讀者驗證），再處理 `主題分類`（361 種值、360 種各 1 案）的形狀說明。
 
 ## 2026-11-16 每一次 main 部署都有發布判決
 

@@ -1,0 +1,8 @@
+existing regression tests	2026-11-16T04:52:02.3523594Z # tests 871
+existing regression tests	2026-11-16T04:52:02.3523927Z # pass 871
+existing regression tests	2026-11-16T04:52:02.3524064Z # fail 0
+for published assets and content	2026-11-16T05:02:38.4070850Z PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH a7fe59909cb5523d02870533b23e39a37813f8f3
+the published GitHub Pages site	2026-11-16T05:02:38.4219768Z   PUBLICATION_MODE: exact
+the published GitHub Pages site	2026-11-16T05:02:38.6915259Z PUBLISHED_LIVE_BUILD_CURRENT a7fe59909cb5523d02870533b23e39a37813f8f3 (walking the live site)
+the published GitHub Pages site	2026-11-16T05:02:39.8363647Z PASS LIVE: Pages HTTPS, real generated catalog, scenario discovery and detail
+the published GitHub Pages site	2026-11-16T05:02:41.8639308Z PASS LIVE: mobile direct link, refresh, close, scenario selection and no horizontal overflow

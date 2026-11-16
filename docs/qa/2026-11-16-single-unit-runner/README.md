@@ -59,7 +59,8 @@
   2. 二審 **Incorrect**：`!= 'pull_request'`、註解掉的全套指令、有限樣本無法證明 glob 涵蓋。
   3. 三審 **Incorrect**：YAML `run: >` 摺疊區塊把指令拆成兩行而漏判。
   4. 四審 **Incorrect**：`node --test > qa-artifacts/unit.tap 2>&1` 這類預設探索加重導向未被辨識。
-  最終守則要求 runner 的 job 與 step 都不得有 `if:`、只讀實際執行（去註解、接續行、`|`／`>` 區塊）、以目錄 glob 涵蓋而非樣本，並辨識預設探索（含重導向、pipe、`&&`、`tests` 目錄）。每一輪都補了對應 fixture；端到端紅測在最終版重跑。
+  5. 五審 **Incorrect**：`--test-name-pattern` 等只跑子集的旗標被誤認為全套。
+  最終守則要求 runner 的 job 與 step 都不得有 `if:`、只讀實際執行（去註解、接續行、`|`／`>` 區塊）、以目錄 glob 涵蓋而非樣本，並辨識預設探索（含重導向、pipe、`&&`、`tests` 目錄），但排除 `--test-name-pattern`／`--test-skip-pattern`／`--test-only`／`--test-shard` 這些子集旗標。每一輪都補了對應 fixture；端到端紅測在最終版重跑。
 - 待補：最終 checks、merge、Pages 與正式站版本核對。以下狀態不互相代替。
 
 ## 下一輪

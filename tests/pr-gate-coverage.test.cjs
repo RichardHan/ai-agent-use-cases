@@ -258,25 +258,23 @@ function executableRun(step) {
 // `find` with an exclusion is a subset and must not be mistaken for the gate.
 function fullSuiteCommand(text) {
   return executableRun(text).split('\n').some(line => {
-    if (!/node\s+--test\b/.test(line)) return false;
-    if (/tests\/\*\.test\.cjs(?![.\w])/.test(line)) return true;
-    if (/\$\(find tests\b/.test(line)) {
-      const find = line.slice(line.indexOf('$('));
-      return !/!(?!=)|-not\b/.test(find);
-    }
-    // Default discovery: `node --test` with no file arguments. Redirections,
-    // pipes and Node test flags do not change that it runs the discovered suite.
-    const rest = line.slice(line.indexOf('--test') + '--test'.length);
-    const tokens = rest.split(/\||&&|;/)[0]
+    const cleaned = line.split(/\||&&|;/)[0]
       .replace(/(?:\d?>>?|&>)\s*\S+/g, ' ')
       .replace(/\d?>&\d+/g, ' ')
-      .trim().split(/\s+/).filter(Boolean);
-    // Flags that select a subset of tests mean the command is not the whole suite.
+      .trim();
+    const tokens = cleaned.split(/\s+/).filter(Boolean);
+    const testIndex = tokens.indexOf('--test');
+    if (testIndex < 0) return false;
+    // Test-selection flags can appear before or after `--test`.
     if (tokens.some(token => /^--test-(?:name-pattern|skip-pattern|only|shard)(?:=|$)/.test(token))) return false;
-    if (tokens.every(token => token.startsWith('-'))) return true;
-    const files = tokens.filter(token => !token.startsWith('-'));
-    // `node --test tests` (or ./tests/) discovers the same directory recursively.
-    return files.length === 1 && /^\.?\/?tests\/?$/.test(files[0]);
+    if (tokens.some(token => /(?:^|\/)tests\/\*\.test\.cjs(?![.\w])/.test(token))) return true;
+    if (/\$\(find tests\b/.test(cleaned)) {
+      const find = cleaned.slice(cleaned.indexOf('$('));
+      return !/!(?!=)|-not\b/.test(find);
+    }
+    // Default discovery: no file arguments, or the whole tests directory.
+    const files = tokens.slice(testIndex + 1).filter(token => !token.startsWith('-'));
+    return files.length === 0 || (files.length === 1 && /^\.?\/?tests\/?$/.test(files[0]));
   });
 }
 
@@ -367,6 +365,8 @@ test('the unit-suite guard ignores runners that a pull request cannot reach', ()
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test --test-only' })), false, 'only marked tests is a subset');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test --test-shard=1/4' })), false, 'a shard is a subset');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test --test-name-pattern=smoke tests' })), false, 'a filtered directory run is a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test-name-pattern=smoke --test' })), false, 'a selection flag before --test still filters');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test-reporter=tap --test' })), true, 'a non-filtering flag before --test keeps default discovery');
 
   // A folded `run: >` block executes its lines as one command.
   const folded = [

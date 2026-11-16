@@ -1,0 +1,98 @@
+{
+ "base": "https://richardhan.github.io/ai-agent-use-cases/",
+ "startedAt": "2026-11-16T03:54:07.456Z",
+ "runs": [
+  {
+   "vp": "desktop",
+   "s1": {
+    "url": "/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0",
+    "count": "顯示 29 / 532 筆收錄",
+    "query": "會議",
+    "firstCard": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+    "cardInViewport": true,
+    "overflow": 0,
+    "focusOnResults": "results-count"
+   },
+   "s2": {
+    "recoveredCount": "顯示 44 / 532 筆收錄",
+    "cards": 24,
+    "overflow": 0,
+    "url": "/ai-agent-use-cases/?q=%E7%99%BC%E7%A5%A8"
+   },
+   "empty": {
+    "count": "顯示 0 / 532 筆收錄",
+    "emptyText": "⌕目前沒有符合「發票」的案例可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。移除提及工具「Cursor」 → 查看 1 筆移除使用情境「學習」 → 查看 3 筆或保留目前篩選，探索此條件下有收錄的常見問題：「僅相關詞」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。📊 搜尋「簡報製作」📈 搜尋「數據分析」📰 搜尋「",
+    "clearBtn": [
+     "清除篩選，保留關鍵字",
+     "清除全部條件，顯示所有條目"
+    ]
+   },
+   "s3": {
+    "id": "UC-014",
+    "proof": "UC-440 · Grok Bot / Notion省錢入門對話免寫程式用法靈感Notion AI改成點數制會不會不夠用？讓Bot查官方說明、照自己的用法算一遍，再找現有訂閱裡的替代方案🎯 解決痛點：遇到 SaaS 計價改制時，不憑標題恐",
+    "heading": "讓 AI 先整理客服信，退款與承諾由你決定",
+    "sourceLinks": 21,
+    "firstSource": {
+     "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/2a842347cc3d75eed44687bbaf384192b986aa26/cases/014-support-inbox-approval-refund.md",
+     "target": "_blank",
+     "rel": "noopener noreferrer"
+    }
+   },
+   "s3b": {
+    "dialogOpen": false,
+    "focus": "results-count",
+    "overflow": 0
+   },
+   "errs": [],
+   "failed": [
+    "https://richardhan.github.io/ai-agent-use-cases/cases/014-support-inbox-approval-refund.md net::ERR_ABORTED"
+   ]
+  },
+  {
+   "vp": "phone",
+   "s1": {
+    "url": "/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0",
+    "count": "顯示 29 / 532 筆收錄",
+    "query": "會議",
+    "firstCard": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+    "cardInViewport": true,
+    "overflow": 0,
+    "focusOnResults": "results-count"
+   },
+   "s2": {
+    "recoveredCount": "顯示 44 / 532 筆收錄",
+    "cards": 24,
+    "overflow": 0,
+    "url": "/ai-agent-use-cases/?q=%E7%99%BC%E7%A5%A8"
+   },
+   "empty": {
+    "count": "顯示 0 / 532 筆收錄",
+    "emptyText": "⌕目前沒有符合「發票」的案例可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。移除提及工具「Cursor」 → 查看 1 筆移除使用情境「學習」 → 查看 3 筆或保留目前篩選，探索此條件下有收錄的常見問題：「僅相關詞」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。📊 搜尋「簡報製作」📈 搜尋「數據分析」📰 搜尋「",
+    "clearBtn": [
+     "清除篩選，保留關鍵字",
+     "清除全部條件，顯示所有條目"
+    ]
+   },
+   "s3": {
+    "id": "UC-014",
+    "proof": "UC-047 · ChatGPT dots創作入門對話免寫程式用法靈感作品散在各處？整理成找得到、說得清怎麼做的作品集👤 情境常見讀者：從事文案撰寫、內容產出、視覺設計或影音製作的創作者讓 dots 逐件核對作品與製作紀錄，再按類型、模型",
+    "heading": "讓 AI 先整理客服信，退款與承諾由你決定",
+    "sourceLinks": 21,
+    "firstSource": {
+     "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/2a842347cc3d75eed44687bbaf384192b986aa26/cases/014-support-inbox-approval-refund.md",
+     "target": "_blank",
+     "rel": "noopener noreferrer"
+    }
+   },
+   "s3b": {
+    "dialogOpen": false,
+    "focus": "results-count",
+    "overflow": 0
+   },
+   "errs": [],
+   "failed": [
+    "https://richardhan.github.io/ai-agent-use-cases/cases/014-support-inbox-approval-refund.md net::ERR_ABORTED"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,70 @@
+{
+ "sha": "a7fe59909cb5523d02870533b23e39a37813f8f3",
+ "checkedAt": "2026-11-16T04:54:58.400Z",
+ "liveSourceRevision": "a7fe59909cb5523d02870533b23e39a37813f8f3",
+ "match": true,
+ "readmeStale": [],
+ "readmeNew": {
+  "qualifier": true,
+  "structure": true,
+  "conditional": true
+ },
+ "desktop": {
+  "s1": {
+   "count": "顯示 29 / 532 筆收錄",
+   "cardTop": 152,
+   "cardInViewport": true,
+   "overflow": 0
+  },
+  "empty": "⌕\n目前沒有符合「發票」的案例\n\n可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。\n\n移除提及",
+  "s2": {
+   "count": "顯示 532 / 532 筆收錄",
+   "cards": 24,
+   "overflow": 0
+  },
+  "s3": {
+   "title": "UC-014",
+   "links": 21,
+   "first": {
+    "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/a7fe59909cb5523d02870533b23e39a37813f8f3/cases/014-suppo",
+    "target": "_blank",
+    "rel": "noopener noreferrer"
+   }
+  },
+  "s3b": {
+   "open": false,
+   "focus": "results-count",
+   "overflow": 0
+  },
+  "errs": []
+ },
+ "phone": {
+  "s1": {
+   "count": "顯示 29 / 532 筆收錄",
+   "cardTop": 219,
+   "cardInViewport": true,
+   "overflow": 0
+  },
+  "empty": "⌕\n目前沒有符合「發票」的案例\n\n可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。\n\n移除提及",
+  "s2": {
+   "count": "顯示 532 / 532 筆收錄",
+   "cards": 24,
+   "overflow": 0
+  },
+  "s3": {
+   "title": "UC-014",
+   "links": 21,
+   "first": {
+    "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/a7fe59909cb5523d02870533b23e39a37813f8f3/cases/014-suppo",
+    "target": "_blank",
+    "rel": "noopener noreferrer"
+   }
+  },
+  "s3b": {
+   "open": false,
+   "focus": "results-count",
+   "overflow": 0
+  },
+  "errs": []
+ }
+}

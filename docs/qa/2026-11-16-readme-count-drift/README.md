@@ -95,12 +95,13 @@ README 用具體筆數說明搜尋行為，但那些數字是語料快照，沒�
 
 ## 發布與正式站核對
 
-- PR [#435](https://github.com/RichardHan/ai-agent-use-cases/pull/435)，head `8bbae3ed0a`、base `2a842347`；合併前 `mergeStateStatus` CLEAN、`mergeable` MERGEABLE。PR checks：Website QA [43804908683](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43804908683) success（871 tests）、Corpus bundle QA [43804908750](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43804908750) success；2 項 published 依 PR 規則 skipped。
+- PR [#435](https://github.com/RichardHan/ai-agent-use-cases/pull/435)，head `8bbae3ed0a`、base `2a842347`。PR checks：Website QA [43804908683](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43804908683) success（871 tests）、Corpus bundle QA [43804908750](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43804908750) success；2 項 published 依 PR 規則 skipped。主 agent 在合併前觀察到 `mergeStateStatus` 為 `UNKNOWN`（GitHub 重算中），因此不記 CLEAN；合併由維護者在兩個 checks 都 success 後於 04:50:32Z 執行。
 - 2026-11-16T04:50:32Z 正常 merge，合併版本 `a7fe59909cb5523d02870533b23e39a37813f8f3`。
 - [Pages 43806489563](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43806489563) success；正式站 `catalog.json.sourceRevision` 精確等於 `a7fe5990…`。`README.md` SHA-256 `683786c8…` 與合併版逐位元相同；`index.html` `aee4eac3…` 與合併前相同，證實本輪沒有產品 UI 變更。
 - 主線 [Website QA 43806490369](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43806490369) success：871 tests／871 pass、Jekyll build、fallback 529 頁、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH a7fe5990…`、`PUBLICATION_MODE: exact`、`PUBLISHED_LIVE_BUILD_CURRENT a7fe5990…`、`PASS LIVE` ×2。
-- 正式站 `tests/deployed-browser.cjs`（`GITHUB_SHA=a7fe5990…`）exit 0：桌面／手機三情境、空結果復原、直鏈重整、停用 JS 索引退路通過；axe 0 違規（只代表這兩個狀態）。
-- 限制：README 是 Markdown 文件頁，沒有 SPA 視覺變更；未逐像素目視、未做真人研究。後續 docs-only 追補會讓 `sourceRevision` 前進到沒有產品位元變更的 commit；以 `README.md`／`index.html` 位元比對區分。
+- 正式站走查步驟（`GITHUB_SHA=a7fe5990…`）success，`tests/deployed-browser.cjs` 沒有 axe 量測，本輪不宣稱無障礙分數。同一個 run 另有獨立的靜態退路步驟：`Verify failure recovery against built Pages index` 在 `js-disabled` 與 `app-js-503` 兩種模式都找到「完整案例索引」連結（desktop top 188、phone top 185、overflow 0），並在正常模式確認退路不顯示。主 agent 另以 `live-after.json` 記錄桌面／手機三情境（`cardInViewport`、來源固定 `a7fe5990…`、pageerror `[]`）；兩份證據分別是 CI 與本機 Playwright，不是真人研究。
+- 證據檔：[`live-after.json`](live-after.json)（合併後本機 Playwright，桌面／手機三情境與 README 字串檢查）、[`main-qa.txt`](main-qa.txt)（主線 Website QA 的 unit 與發布閘門日誌節錄）。
+- 限制：README 是 Markdown 文件頁，沒有 SPA 視覺變更；未逐像素目視、未做真人研究。後續 docs-only 追補（PR #436 與本修正）會讓 `sourceRevision` 再前進，但 `_config.yml` 排除 `docs/` 與 `SITE.md`，發布的產品位元不變；這類 push 不觸發 Website QA，發布閘門不會裁決，已列為下一輪。
 
 ## 已知限制
 
@@ -114,7 +115,7 @@ README 用具體筆數說明搜尋行為，但那些數字是語料快照，沒�
 
 以下由未參與本輪實作的 `VisitorAudit`（唯讀、不同 context）在正式站 `2a842347` 上以程式碼與既有 Playwright 紀錄比對得到；本輪沒有修改這些路徑，列為下一輪候選。主 agent 另行實測確認第一項與第四項。
 
-1. **沒有 JS 或 `assets/app.js` 被擋時，結果區永遠停在「正在讀取案例…」。** 實測：`javaScriptEnabled=false` 與只擋 `assets/app.js` 兩種情況，`#results-count` 都是「正在讀取案例…」、`#search-submit` 仍 disabled、`#hero-load-failure` 仍 `hidden`（該面板由 JS 顯示）、`#error` 仍 `hidden`；頁面只有 hero 的「載入較慢時…」與 `INDEX.html` 連結可離開。屬閱讀退路（`docs/qa/2026-11-16-fallback-reading`）之外的首頁狀態。
+1. **沒有 JS 或 `assets/app.js` 被擋時，結果區停在「正在讀取案例…」。** 實測：`javaScriptEnabled=false` 與只擋 `assets/app.js` 兩種情況，`#results-count` 都是「正在讀取案例…」、`#search-submit` 仍 disabled、`#hero-load-failure` 仍 `hidden`（該面板由 JS 顯示）、`#error` 仍 `hidden`。CI 的 `Verify failure recovery against built Pages index` 已把這個狀態當作可接受的退路：兩種模式都能看到「完整案例索引」連結（desktop top 188、phone top 185、overflow 0）。因此這不是「沒有退路」，而是狀態文字仍像在載入、與眼前可點的索引入口不一致；下一輪只需判斷是否改寫靜態狀態文字或補一個 `<noscript>` 說明。
 2. **手機初始畫面會先渲染全部 53 個任務連結再收合。** `index.html` 的 `#hero-problem-tags` 沒有 `data-collapsed`，CSS 只在使用 `data-collapsed="true"` 時隱藏第 10 項之後；該屬性由 `app.js` 載入後設定。程式碼可證，實際位移量未量測。
 3. **結果分母與統計卡用不同詞彙講相鄰數字。** `顯示 44 / 532 筆收錄` 與統計卡 `525 個主要案例頁`＋`3 篇經驗`＋`4 個待查線索`；525＋3＋4＝532，但頁面沒有句子說明結果分母包含經驗與待查條目。
 4. **瀏覽器 Back 不會回到上一個搜尋條件。** 實測 `?q=發票`（44 筆）→ 開啟篩選、選工具 Cursor（3 筆，網址更新）→ Back 直接離開本站（`about:blank`）；`render()` 以 `history.replaceState` 更新網址，不新增歷史紀錄。
@@ -122,7 +123,7 @@ README 用具體筆數說明搜尋行為，但那些數字是語料快照，沒�
 
 ## 下一輪
 
-1. 先修「沒有 JS 或 `assets/app.js` 被擋時，首頁結果區永遠停在『正在讀取案例…』」：以 `javaScriptEnabled=false` 與只擋 `assets/app.js` 兩種重現確認，量測 `#results-count`、`#search-submit.disabled`、`#hero-load-failure.hidden`、`INDEX.html` 可見性，再決定是加靜態 `<noscript>` 說明或讓失敗面板不依賴 JS；完成後重走三情境，確認 JS 正常時不受影響。
+1. 先確認「沒有 JS 或 `assets/app.js` 被擋時，結果區仍寫『正在讀取案例…』」是否該改文案：CI 已保證「完整案例索引」連結可見（desktop top 188／phone top 185、overflow 0），所以驗證重點是狀態文字與可點入口是否一致；以 `javaScriptEnabled=false` 與只擋 `assets/app.js` 兩種重現，量測 `#results-count`、`#search-submit.disabled`、`INDEX.html` 位置，再決定改靜態文字或加 `<noscript>` 說明，完成後重走三情境。
 2. 驗本輪守則在新增案例後的行為：加一個含「權限」標題的新案例不應紅燈（性質仍在），把 README 的「幾乎每個案例」改成「全部案例」應紅燈。
 3. 確認 docs-only 主線 push（`docs/**`、`SITE.md`）只重發 Pages、不觸發 Website QA 時，發布閘門的 exact／superseded 語意是否仍能證明「正式站就是這個 commit」；再決定要擴 push paths 或讓閘門接受非發布路徑的變更。
 

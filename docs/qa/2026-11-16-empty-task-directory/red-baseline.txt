@@ -1,0 +1,12 @@
+AssertionError [ERR_ASSERTION]: mobile: the empty panel must offer a disclosure button for the task directory
+
+false !== true
+
+    at /private/tmp/aiuc-r12/tests/empty-task-directory-browser.cjs:52:14 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual'
+}
+exit=1

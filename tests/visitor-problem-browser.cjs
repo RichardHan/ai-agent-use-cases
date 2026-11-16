@@ -4,6 +4,7 @@ const { AxeBuilder } = require('@axe-core/playwright');
 const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
+const { expandEmptyTaskDirectory } = require('./empty-task-directory.cjs');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8099/ai-agent-use-cases/';
 // Screenshots belong to the run, not to a finished round's record: writing them
@@ -474,6 +475,7 @@ async function expandProblemTags(page){
     assert.ok(await page.locator('#empty-suggestions .recovery-option').first().isVisible(), 'Facet removal button must be visible');
     assert.ok(await page.locator('#empty-suggestions .empty-problem-suggestions').isVisible(), 'Problem suggestions container must be visible even with facet removals');
     const travelTag = page.locator('#empty-suggestions [data-problem-tag="旅遊"]');
+    await expandEmptyTaskDirectory(page);
     assert.ok(await travelTag.isVisible(), '旅遊 problem tag must be visible under 生活 + 入門對話');
     const compoundEmptyShot = `${vp.name}-05b-scenario2-compound-empty.png`;
     await page.screenshot({ path: path.join(outDir, compoundEmptyShot) });

@@ -1,3 +1,11 @@
+## 2026-11-16 空結果面板的任務目錄不再藏在巢狀捲動裡
+
+正式站 `4f94978f` 的無可用詞空結果（`?q=xyz987&scenario=開發`）把 50 個任務按鈕放進固定 300px 的巢狀捲動框：390×844 的內容高 2,047px、框內只看得到 8 個，1440×900 的內容 1,096px、只看得到 16 個，320×640 的內容 2,712px；框上沒有任何可捲動提示，頁面捲動也不會揭露其餘任務。鍵盤要從第一個任務按 50 次 Tab 才能離開目錄。首頁的同一份目錄已有「先顯示 9 項＋顯示全部 N 個任務」的折疊，空結果面板卻沒有。
+
+本輪移除 300px 巢狀捲動，所有寬度都改成先列 9 項＋一個有標籤的展開按鈕；第 10 個之後的按鈕仍留在 DOM（覆蓋率標記與點擊行為不變），收合時若焦點落在隱藏區內會回到按鈕。桌機的預設面板由 727px 降到 643px；手機由 851px 變成 938px（+87px），但 9 個任務完整可見、其餘 41 個只需一次點擊，鍵盤停點由 50 降到 9。三種必要訪客情境、既有搜尋／篩選／復原與四個狀態的 axe 在 1440／390 都未退化。
+
+驗收：基準 899 單元測試全過；新瀏覽器測試在基準 exit 1（沒有展開按鈕）、修正後三個尺寸 exit 0；五支受影響的瀏覽器回歸全數 exit 0。限制：preview 不是 Jekyll build、未用實體手機或讀屏、未重跑 Firefox／WebKit 的這支新測試；手機面板略高 87px 是換掉巢狀捲動的代價。[方案、前後數據、截圖與完整指令](docs/qa/2026-11-16-empty-task-directory/README.md)
+
 ## 2026-11-16 改名一支測試檔，不再能讓 33 支瀏覽器測試整段消失
 
 Website QA 的 `Verify the updated site in Chromium` 以 `if: ${{ hashFiles('tests/discovery-browser.cjs') != '' }}` 包住 33 支瀏覽器指令與三尺寸 axe 掃描。把 `tests/discovery-browser.cjs` 改名，`hashFiles` 回空字串、步驟 skipped、job 仍 success；在基準 `dea10671` 的獨立 worktree 實測改名後 `node --test tests/*.test.cjs` 仍是 889 pass／0 fail，`tests/` 沒有任何一項會發現 33 支旅程不再執行。同型守門共 10 處、分布在 7 個 workflow：website-qa 1、reader-qa 2、search-submit-qa 2、card-refinement-qa 2、related-qa／combined-recovery-qa／method-shortcut-qa 各 1。其中 card-refinement、combined-recovery、method-shortcut、search-submit 的守門看的是 unit test 檔，實際執行的是別的 browser 檔，兩者沒有對應關係。

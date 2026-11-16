@@ -7,6 +7,7 @@
 const { chromium } = require('playwright');
 const { AxeBuilder } = require('@axe-core/playwright');
 const assert = require('node:assert/strict');
+const { expandEmptyTaskDirectory } = require('./empty-task-directory.cjs');
 
 const origin = process.env.VERIFY_URL || 'http://127.0.0.1:8140/ai-agent-use-cases/';
 const deadEnd = 'q=' + encodeURIComponent('幫我寫遺囑');
@@ -45,7 +46,7 @@ const chips = page => page.evaluate(() => [...document.querySelectorAll('#empty-
     const marked = listed.filter(chip => chip.marked);
     assert.ok(marked.length > 0 && marked.length < listed.length, `both states appear: ${marked.map(c => c.term).join(',')}`);
 
-    // Unmarked tasks stay in front: the panel is a 300px scroll box.
+    // Unmarked tasks stay in front: the directory is a nine-then-expand list.
     const firstMarked = listed.findIndex(chip => chip.marked);
     assert.ok(listed.slice(firstMarked).every(chip => chip.marked), 'no covered task sits behind a marked one');
 
@@ -99,6 +100,7 @@ const chips = page => page.evaluate(() => [...document.querySelectorAll('#empty-
     const covered = listed.find(chip => !chip.marked);
 
     const promise = Number((marked.title.match(/(\d+)\s*筆相關詞命中/) || [])[1]);
+    await expandEmptyTaskDirectory(page);
     await page.locator(`#empty-suggestions .recovery-problem-tag[data-problem-tag="${marked.term}"]`).click();
     await settled(page);
     assert.equal(await countOf(page), promise, 'the screen shows the number the chip promised');
@@ -108,6 +110,7 @@ const chips = page => page.evaluate(() => [...document.querySelectorAll('#empty-
     await page.goto(origin + '?' + deadEnd, { waitUntil: 'networkidle' });
     await ready(page);
     await settled(page);
+    await expandEmptyTaskDirectory(page);
     await page.locator(`#empty-suggestions .recovery-problem-tag[data-problem-tag="${covered.term}"]`).click();
     await settled(page);
     assert.ok(await countOf(page) > 0, 'a covered chip lands on cases');
@@ -165,6 +168,7 @@ const chips = page => page.evaluate(() => [...document.querySelectorAll('#empty-
     await settled(page);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1), false, `${vp.name}: no horizontal overflow`);
     assert.equal(await page.locator('#empty-coverage-legend').isVisible(), true, `${vp.name}: legend renders`);
+    await expandEmptyTaskDirectory(page);
     const markedChip = page.locator('#empty-suggestions .recovery-problem-tag[data-coverage="none"]').first();
     assert.equal(await markedChip.locator('.task-coverage-none').innerText(), '僅相關詞', `${vp.name}: badge names the state`);
     const box = await markedChip.boundingBox();

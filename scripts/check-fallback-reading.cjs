@@ -184,7 +184,7 @@ function checkFallbackReading(root, options = {}) {
       // the navigation, where the reader arrives, not only somewhere in the body.
       // "look at the case page" is not a next step for a batch that added no case,
       // so the note must also say where the record itself is authoritative.
-      if (!/不是案例成果/.test(nav.inner) || !/案例頁/.test(nav.inner) || !/待查線索/.test(nav.inner)) {
+      if (!/不是案例成果/.test(nav.inner) || !/案例頁/.test(nav.inner) || !/待查清單|待查線索/.test(nav.inner)) {
         failures.push(`${page}: source navigation must say the ledger is not the case's result and where an unlisted lead is recorded`);
       }
       continue;

@@ -158,7 +158,7 @@ test('INDEX must also expose exactly one h1', () => {
 const SOURCE_NAV = `<aside class="case-fallback-nav" data-fallback-case-nav aria-label="來源紀錄的閱讀導覽">
 <nav><a href="/ai-agent-use-cases/INDEX.html">← 完整案例索引</a>
 <a href="/ai-agent-use-cases/">搜尋首頁</a></nav>
-<p><strong>本頁是來源與計數紀錄，不是案例成果。</strong>成果主張與驗證狀態以對應案例頁為準；尚未列成案例的線索，以本頁的待查線索紀錄為準。本庫未獨立重現。</p></aside>`;
+<p><strong>本頁是來源與計數紀錄，不是案例成果。</strong>成果主張與驗證狀態以對應案例頁為準；尚未列成案例的線索，以本頁與待查清單的紀錄為準。本庫未獨立重現。</p></aside>`;
 
 test('a published source ledger without the way back fails by page name', () => {
   const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
@@ -199,7 +199,7 @@ test('a source ledger must not leave a no-new-case batch with nowhere to go', ()
   const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
   fs.mkdirSync(path.join(root, 'sources'));
   // Saying "read the case page" is wrong advice for a batch that added no case.
-  const onlyCase = SOURCE_NAV.replace('尚未列成案例的線索，以本頁的待查線索紀錄為準。', '');
+  const onlyCase = SOURCE_NAV.replace('尚未列成案例的線索，以本頁與待查清單的紀錄為準。', '');
   fs.writeFileSync(path.join(root, 'sources', 'research-empty.html'), '<h1>本批 0 條</h1>' + onlyCase);
   const result = checkFallbackReading(root);
   assert.match(result.failures.join('\n'), /research-empty\.html: source navigation must say the ledger is not the case's result and where an unlisted lead is recorded/);

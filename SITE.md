@@ -16,6 +16,8 @@ UC-322／324／336／337 在頁首證據說明自己宣告是另一個案例的�
 
 驗收：基準 871 → **877 pass／0 fail**、`node --check`、`check-published-surface` 838 檔／5.91 MiB PASS；preview 1440／390／320 三情境、版本頁卡片與詳情、抽卡與統計數字、空結果復原、詳情直鏈與返回通過，axe 四種狀態 0、pageerror 0、無水平溢出。獨立 reviewer 初審 Changes requested（合併頁徽章誤稱版本頁、測試缺少固定目的地對照），修正後重跑全套與三情境。限制：本機無 Jekyll，built-site 由 PR Website QA 驗證；未用實體手機或讀屏。
 
+發布補記：紀錄另外以 [PR #442](https://github.com/RichardHan/ai-agent-use-cases/pull/442)（head `b01a645e`，docs-only 不觸發 PR check）合併為 `164c45fa`；合併後 Pages [43819726615](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43819726615) success，正式站 `catalog.json.sourceRevision` = `164c45fa…`，`index.html`／`assets/app.js`／`assets/style.css` 仍與合併版逐位元相同，`?q=UC-322` 與統計卡、抽卡數字在 1440／390 重新確認。
+
 交付：[PR #441](https://github.com/RichardHan/ai-agent-use-cases/pull/441)，實作 `cddc4ed3`、`9cfd4e626e2c53e3c89a24d0f8ac8060508ef020`；PR 16 項 check pass、2 項 `published` 依設計 skipping（head `cddc4ed3`）；[Pages 43818034310](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43818034310) success，正式站 `sourceRevision` 精確等於 `9cfd4e62…`，`index.html`、`assets/app.js`、`assets/style.css` 與合併版逐位元相同；正式站 1440／390 三情境、版本頁卡片與詳情、統計卡 5 頁、抽卡 512 張、axe 0 與 pageError 0 已重走。[完整證據](docs/qa/2026-11-16-variant-pages/README.md)。
 
 下一輪先處理 **Website QA 的靜默跳過守門**：`.github/workflows/website-qa.yml:78` 用 `if: hashFiles('tests/discovery-browser.cjs') != ''` 包住整個 Chromium 步驟，刪除或改名這一個檔案就會讓約 30 支瀏覽器測試變成 no-op 而 job 仍綠；目前沒有任何測試固定這個檔案或守門。先驗證：在隔離分支移除該檔並確認 PR 仍然 success（重現 false-green），再把守門改成直接執行並補一條「檔案必須存在」的靜態測試，最後確認移除檔案時 CI 會紅。

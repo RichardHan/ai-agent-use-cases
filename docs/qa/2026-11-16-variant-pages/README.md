@@ -77,5 +77,7 @@
 - 06:37:30 UTC 一般 merge，合併版本 `9cfd4e626e2c53e3c89a24d0f8ac8060508ef020`；分支已刪除（本機 `main` worktree 佔用時 `--delete-branch` 只影響本機清理，遠端 merge 已完成）。
 - 對應 [Pages 43818034310](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43818034310) success；正式站 `catalog.json.sourceRevision` 精確等於 `9cfd4e62…`，`index.html`、`assets/app.js`、`assets/style.css` 與合併版逐位元相同。
 - 正式站 1440×900／390×844 重走：三種必要情境、`?q=UC-322` 卡片與詳情、統計卡 5 頁、抽卡 512 張、axe 四種狀態 0、pageerror 0；[live-acceptance-log.txt](live-acceptance-log.txt)、`live-*-{variant-card,variant-detail,stats}.png`。
-- 主線 Website QA 對合併版 `9cfd4e62` 另有一個 run；狀態見下方補記。
+- 主線 Website QA 對合併版 `9cfd4e62`：[43818035120](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43818035120) **success**。
+- 紀錄另以 [PR #442](https://github.com/RichardHan/ai-agent-use-cases/pull/442)（head `b01a645e`，docs-only、無 PR check）合併為 `164c45fa74940065eba7128715c5ef4e35c83e9f`。合併後 Pages [43819726615](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43819726615) success；正式站 `sourceRevision` = `164c45fa…`，`index.html`／`assets/app.js`／`assets/style.css` 仍與合併版逐位元相同，`?q=UC-322`、統計卡與抽卡 512 張在 1440／390 重新確認。此 docs-only push 依 #438 的新規則也觸發 Website QA（[43819727858](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43819727858)），交付時仍在執行；產品判決以合併版 `9cfd4e62` 的 run 為準。
+- 一併關閉 issue #208：P-002 早在 PR #267 修正，今日正式站重新確認卡片「已併入 UC-028（不另計數）」、詳情「本條目已結束」與統計卡 2＋2，重現步驟已不成立。
 

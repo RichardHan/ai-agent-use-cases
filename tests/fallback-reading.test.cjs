@@ -158,7 +158,7 @@ test('INDEX must also expose exactly one h1', () => {
 const SOURCE_NAV = `<aside class="case-fallback-nav" data-fallback-case-nav aria-label="來源紀錄的閱讀導覽">
 <nav><a href="/ai-agent-use-cases/INDEX.html">← 完整案例索引</a>
 <a href="/ai-agent-use-cases/">搜尋首頁</a></nav>
-<p><strong>本頁是來源與計數紀錄，不是案例成果。</strong>成果主張與驗證狀態請看對應案例頁；本庫未獨立重現。</p></aside>`;
+<p><strong>本頁是來源與計數紀錄，不是案例成果。</strong>成果主張與驗證狀態以對應案例頁為準；本批次沒有新增案例時，以頁內紀錄與待查線索為準。本庫未獨立重現。</p></aside>`;
 
 test('a published source ledger without the way back fails by page name', () => {
   const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
@@ -193,4 +193,36 @@ test('the source index and the pending ledger are both checked', () => {
   const result = checkFallbackReading(root);
   assert.deepEqual(result.failures, []);
   assert.equal(result.checked, 3);
+});
+
+test('a source ledger must not leave a no-new-case batch with nowhere to go', () => {
+  const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
+  fs.mkdirSync(path.join(root, 'sources'));
+  // Saying "read the case page" is wrong advice for a batch that added no case.
+  const onlyCase = SOURCE_NAV.replace('本批次沒有新增案例時，以頁內紀錄與待查線索為準。', '');
+  fs.writeFileSync(path.join(root, 'sources', 'research-empty.html'), '<h1>本批 0 條</h1>' + onlyCase);
+  const result = checkFallbackReading(root);
+  assert.match(result.failures.join('\n'), /research-empty\.html: source navigation must say the ledger is not the case's result and what stands when the batch added none/);
+});
+
+test('a duplicated or hidden navigation does not count as a way back', () => {
+  const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
+  fs.mkdirSync(path.join(root, 'sources'));
+  fs.writeFileSync(path.join(root, 'sources', 'twice.html'), '<h1>兩份</h1>' + SOURCE_NAV + SOURCE_NAV);
+  fs.writeFileSync(path.join(root, 'sources', 'hidden.html'), '<h1>隱藏</h1>' + SOURCE_NAV.replace('<aside ', '<aside hidden '));
+  const result = checkFallbackReading(root);
+  const text = result.failures.join('\n');
+  assert.match(text, /twice\.html: expected one fallback navigation, found 2/);
+  assert.match(text, /hidden\.html: fallback navigation is hidden/);
+});
+
+test('every ledger in the checkout must produce a page the build can check', () => {
+  const root = fixture(CASE_NAV + '<a href="https://example.test/x">x</a>');
+  fs.mkdirSync(path.join(root, 'sources'));
+  fs.writeFileSync(path.join(root, 'sources', 'index.html'), '<h1>來源與待查清單</h1>' + SOURCE_NAV);
+  fs.writeFileSync(path.join(root, 'sources', 'batch.html'), '<h1>批次</h1>' + SOURCE_NAV);
+  const complete = checkFallbackReading(root, {sourceLedgers: ['sources/README.md', 'sources/batch.md']});
+  assert.deepEqual(complete.failures, []);
+  const missing = checkFallbackReading(root, {sourceLedgers: ['sources/README.md', 'sources/gone.md']});
+  assert.match(missing.failures.join('\n'), /sources\/gone\.md: source ledger has no rendered page \(sources\/gone\.html\)/);
 });

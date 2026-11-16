@@ -41,6 +41,13 @@ function caseNavigation(html) {
   return match ? {markup: match[0], inner: match[1]} : null;
 }
 
+// One nav per page: a second copy means the layout rendered the include twice, and
+// a hidden one means a reader on a page that "has" the way back still cannot see it.
+function navigationOccurrences(html) {
+  return [...html.matchAll(/<aside\b[^>]*data-fallback-case-nav[^>]*>([\s\S]*?)<\/aside>/gi)]
+    .map(match => ({markup: match[0], inner: match[1], opening: match[0].slice(0, match[0].indexOf('>') + 1)}));
+}
+
 // The reader must see the code and its label together. A label hidden with
 // `hidden`, inline `display:none`, `aria-hidden`, or a screen-reader utility
 // class does not decode anything, and pairing the wrong label is worse than no
@@ -80,7 +87,15 @@ function externalSourceLinks(html) {
     .filter(href => /^https?:\/\//i.test(href) && href !== SELF_ORIGIN && !href.startsWith(SELF_ORIGIN + '/'));
 }
 
-function checkFallbackReading(root) {
+// `sources/README.md` is published as the directory index, every other ledger keeps
+// its name. A ledger that produced no page cannot be caught by walking `_site`, so
+// the CLI compares the checkout's ledgers with the pages the build emitted.
+function renderedPageForSource(file) {
+  return file === 'sources/README.md' ? 'sources/index.html' : file.replace(/\.md$/, '.html');
+}
+
+function checkFallbackReading(root, options = {}) {
+  const sourceLedgers = options.sourceLedgers || null;
   const failures = [];
   const indexPath = path.join(root, 'INDEX.html');
   if (!fs.existsSync(indexPath)) return {checked: 0, failures: ['INDEX.html is missing']};
@@ -135,13 +150,16 @@ function checkFallbackReading(root) {
       failures.push(`${page}: expected exactly one h1, found ${headings.count} (${headings.texts.join(' / ') || 'none'})`);
     }
 
-    const nav = caseNavigation(html);
-    if (!nav) {
+    const navs = navigationOccurrences(html);
+    if (navs.length === 0) {
       failures.push(isSourcePage
         ? `${page}: missing the source-page fallback navigation`
         : `${page}: missing the case fallback navigation and evidence legend`);
       continue;
     }
+    if (navs.length > 1) failures.push(`${page}: expected one fallback navigation, found ${navs.length}`);
+    if (hiddenTag(navs[0].opening)) failures.push(`${page}: fallback navigation is hidden`);
+    const nav = navs[0];
     if (!/<a\s+[^>]*href="[^"]*INDEX\.html"[^>]*>\s*←?\s*完整案例索引/.test(nav.markup)) {
       failures.push(`${page}: fallback navigation does not link to INDEX.html as 完整案例索引`);
     }
@@ -151,8 +169,10 @@ function checkFallbackReading(root) {
     if (isSourcePage) {
       // A ledger must not be read as the case's result. The boundary is stated in
       // the navigation, where the reader arrives, not only somewhere in the body.
-      if (!/不是案例成果/.test(nav.inner) || !/案例頁/.test(nav.inner)) {
-        failures.push(`${page}: source navigation must say the ledger is not the case's result`);
+      // "look at the case page" is not a next step for a batch that added no case,
+      // so the note must also say where the record itself is authoritative.
+      if (!/不是案例成果/.test(nav.inner) || !/案例頁/.test(nav.inner) || !/待查線索/.test(nav.inner)) {
+        failures.push(`${page}: source navigation must say the ledger is not the case's result and what stands when the batch added none`);
       }
       continue;
     }
@@ -188,15 +208,27 @@ function checkFallbackReading(root) {
     }
   }
 
+  if (sourceLedgers) {
+    const rendered = new Set(pages);
+    for (const file of sourceLedgers) {
+      const expected = renderedPageForSource(file);
+      if (!rendered.has(expected)) failures.push(`${file}: source ledger has no rendered page (${expected})`);
+    }
+  }
+
   return {checked: pages.length, failures};
 }
 
-module.exports = {checkFallbackReading, externalSourceLinks, caseNavigation, legendEntries, SELF_ORIGIN};
+module.exports = {checkFallbackReading, externalSourceLinks, caseNavigation, navigationOccurrences, renderedPageForSource, legendEntries, SELF_ORIGIN};
 
 if (require.main === module) {
   const root = process.argv[2];
   if (!root) throw new Error('Usage: node scripts/check-fallback-reading.cjs <built-site-directory>');
-  const {checked, failures} = checkFallbackReading(root);
+  const ledgersDir = path.join(__dirname, '..', 'sources');
+  const sourceLedgers = fs.existsSync(ledgersDir)
+    ? fs.readdirSync(ledgersDir).filter(name => name.endsWith('.md')).map(name => 'sources/' + name)
+    : null;
+  const {checked, failures} = checkFallbackReading(root, {sourceLedgers});
   if (failures.length) {
     console.error(`FAIL: fallback reading has ${failures.length} problem(s) across ${checked} rendered pages`);
     for (const failure of failures.slice(0, 20)) console.error(`- ${failure}`);

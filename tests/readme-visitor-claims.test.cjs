@@ -117,13 +117,24 @@ test('the README claim that most entries declare no target user still holds', ()
   // the same paragraph must not coexist with it. Wording may vary.
   const claims = paragraphsWith('目標使用者', '宣告');
   assert.ok(claims.length, 'README must keep its 目標使用者 paragraph');
-  assert.ok(claims.some(block => /(?:多數|大多數|絕大多數)條目(?:都|也)?(?:沒有|未)(?:宣告|提供)/.test(block)),
+  const quantifier = '(?:多數|大多數|絕大多數|大部分|大半)';
+  assert.ok(claims.some(block => new RegExp(`${quantifier}[^。]*(?:沒有|未)[^。]*(?:宣告|提供)`).test(block)),
     'If the corpus now declares 目標使用者 on most entries, README must say so.');
-  // A positive claim may put the object between the quantifier and the verb
-  // ("多數條目有目標使用者宣告"), so reject the quantifier followed by 有／已／都
-  // and then 目標使用者 anywhere in the same sentence. 沒有 is not a positive 有.
-  assert.ok(!claims.some(block => /(?:多數|大多數|絕大多數)[^。]*(?<!沒)(?:有|已|都)[^。]*目標使用者/.test(block)),
-    'README cannot say most entries declare 目標使用者 while the corpus says otherwise.');
+  // A positive claim can put the object before the verb ("多數條目有目標使用者
+  // 宣告") or use 已／都 ("大部分條目已宣告目標使用者"). Judge per sentence so a
+  // negated form ("多數條目都沒有宣告目標使用者") stays valid: a sentence that
+  // mentions 目標使用者 and a quantifier is contradictory only if it asserts
+  // something without a negation.
+  const contradictory = [];
+  for (const block of claims) {
+    for (const sentence of block.split(/[。；!?！？\n]/)) {
+      if (!/目標使用者/.test(sentence) || !new RegExp(quantifier).test(sentence)) continue;
+      if (/(?:沒有|未|尚未|不曾)/.test(sentence)) continue;
+      if (/(?:有|已|都|會|曾)/.test(sentence)) contradictory.push(sentence.trim());
+    }
+  }
+  assert.deepEqual(contradictory, [],
+    'README cannot say most entries declare 目標使用者 while the corpus says otherwise:\n' + contradictory.join('\n'));
   const declared = entries.filter(entry => entry.targetUser).length;
   assert.ok(declared * 2 < entries.length,
     `README says most entries declare no 目標使用者, but ${declared}/${entries.length} do.`);

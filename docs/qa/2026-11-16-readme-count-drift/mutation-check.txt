@@ -63,3 +63,12 @@
 --- restored
 ℹ pass 8
 ℹ fail 0
+
+## mutation 11: negated and positive target-user variants (reviewer P2)
+目前多數條目都沒有宣告目標使用者； => ℹ pass 8 ℹ fail 0 
+目前多數條目有目標使用者宣告； => ℹ pass 7 ℹ fail 1 
+目前大部分條目已宣告目標使用者； => ℹ pass 7 ℹ fail 1 
+目前多數條目未提供目標使用者宣告； => ℹ pass 8 ℹ fail 0 
+--- restored
+ℹ pass 8
+ℹ fail 0

@@ -58,6 +58,7 @@ GitHub Pages 對 default branch 的**每一次 push** 都重新建置與部署�
 
 - 先紅後綠：把基準 `2b332a29` 的 workflow 放回工作樹跑新測試 → **2 fail／1 pass**，失敗訊息列出被過濾的 push trigger 與固定 concurrency group（`red-baseline.txt`）；換回修正版 → **3 pass／0 fail**（`green-fix.txt`）。另把 concurrency group 暫時改回固定 ref → 第 3 項紅（`concurrency-mutation.txt`）。
 - 全套 `node --test tests/*.test.cjs`：871 → **874 pass／0 fail**（`full-unit.txt`）。既有 `visitor-experience-and-ci.test.cjs` 的「main push 最多 3 個 workflow」與 `pr-gate-coverage.test.cjs` 的單一全套 runner 都仍綠，沒有為了新觸發放寬任何守則。
+- docs-only push 的變更清單：實際以 `publicationChangeList('a7fe5990…','2b332a29…')` 跑 `git diff`，結果 `known: true`、`entries: []`（`docs-only-change-list.txt`）。這正是 exact 分支預期的輸入：沒有可發布變更，但仍要比對建置與正式站位元。
 - PR 與合併後的實際 run、docs-only 證明的 run、正式站 `sourceRevision` 見下方「發布與正式站核對」。
 
 ## 獨立審查
@@ -66,6 +67,7 @@ GitHub Pages 對 default branch 的**每一次 push** 都重新建置與部署�
   1. 固定 `website-qa-${{ github.ref }}` 的 concurrency group 只保留一個 pending；三個 main push 連續到達時，中間那筆的判決可能被後一筆取代。修正：main 的 group 加入 `github.sha`，每個 commit 一個 queue slot；PR 行為不變（仍 `cancel-in-progress`）。新增第 3 項守則，先紅後綠。
   2. PR 說明顯示 7 個未判決 commit，但證據表只有 6 個（`a7fe5990` 有 Website QA）。修正：SITE.md、QA 紀錄與 PR body 都改為 6 個，並列出六個 SHA。
 - 複核：reviewer 指出的 concurrency 語意正確（GitHub 文件：每個 group 一個 running、一個 pending）；修正後 `deploy-trigger` 3 pass、`visitor-experience-and-ci`／`publication-gate` 25 pass。reviewer 沒有自行重跑測試，數字由主 agent 執行。
+- 第二輪複核：`DeployTriggerReview` 確認 concurrency 修法 sound（main 不再序列化，但 exact／superseded 分支已處理較新的 live 部署），只剩 PR 說明與最終 head 不一致（仍寫 concurrency 未變、2 項測試、873 tests）。已同步改寫 PR body；沒有其他 P0／P1／P2。
 - 殘留：無法在本機證明 GitHub 佇列在真實 burst 下的行為；以 group 表達式與既有 superseded 模式推論，並在合併後的 docs-only push 觀察單一 run。此限制已記在下方。
 
 ## 已知限制

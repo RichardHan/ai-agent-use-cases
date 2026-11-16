@@ -6,7 +6,7 @@
 
 驗收：基準 899 單元測試全過；新瀏覽器測試在基準 exit 1（沒有展開按鈕）、修正後三個尺寸 exit 0；五支受影響的瀏覽器回歸全數 exit 0。限制：preview 不是 Jekyll build、未用實體手機或讀屏、未重跑 Firefox／WebKit 的這支新測試；手機面板略高 87px 是換掉巢狀捲動的代價。[方案、前後數據、截圖與完整指令](docs/qa/2026-11-16-empty-task-directory/README.md)
 
-發布補記：PR #454（head `c64036b9`）16 項檢查 pass／2 項 published 依設計 skipping，一般 merge 為 `cfe861e2`；Pages 43851443756 success，正式站 `sourceRevision` 與合併版逐字相同，四個公開資產 SHA-256 一致。正式站 1440／390 重跑新契約測試 exit 0，三情境、四狀態 axe 0、pageerror 0；主線 Website QA 於交付時仍在執行，未冒稱已判決。
+發布補記：PR #454（head `c64036b9`）16 項檢查 pass／2 項 published 依設計 skipping，一般 merge 為 `cfe861e2`；Pages 43851443756 success，正式站 `sourceRevision` 與合併版逐字相同，四個公開資產 SHA-256 一致。正式站 1440／390 重跑新契約測試 exit 0，三情境、四狀態 axe 0、pageerror 0；主線 Website QA 對 `cfe861e2` 為 success（43851444437）；紀錄另以 docs-only PR #455 合併為 `2aa35950`，Pages 43852324518 success，正式站資產仍與合併版逐位元相同，該 docs push 的 QA 於交付時仍在執行。
 
 ## 2026-11-16 改名一支測試檔，不再能讓 33 支瀏覽器測試整段消失
 

@@ -1,3 +1,13 @@
+## 2026-11-16 來源與計數紀錄頁不再是死路
+
+`sources/*.html` 是支撐可信度主張的紀錄頁，訪客從站內連過去：首頁統計卡「逐案核對標準與排除理由 →」到 `sources/qualification-audit-2026-10-16.html`（桌面 44.6k px、手機 86.3k px），15 個案例頁共 21 個連結到各批次 `sources/research-*.html`，`INDEX.md`／`README.md` 也指向計數稽核與來源清單。但 `_includes/case-fallback-nav.html` 只認 `cases/`、`evidence/` 與 `sources/pending.md`，實測正式站 `95924cf2` 的 294 個 `sources/` 頁面只有 `pending.html` 有導覽；其餘 293 頁唯一的站內出口是頁首站名連結，計數稽核頁的「案例索引」還指向 GitHub blob。把這 294 頁抓下來跑新版 checker 得到 `FAIL: 293 problems`，全部是缺導覽。
+
+本輪把導覽分「案例頁」與「來源頁」：`cases/`、`evidence/`、`sources/pending.md` 的輸出完全不動（以 liquidjs 逐頁比對為 `IDENTICAL`）；其餘來源頁只給 `← 完整案例索引`、`搜尋首頁` 兩個站內出口，並寫明「本頁是來源與計數紀錄，不是案例成果。成果主張與驗證狀態以對應案例頁為準；尚未列成案例的線索，以本頁與待查清單的紀錄為準。」，不借用案例頁的證據代碼圖例。`scripts/check-fallback-reading.cjs` 改為枚舉 `_site/sources/*.html`，並要求導覽唯一、未被隱藏（aside／內層 `nav`／連結的 `hidden`、`display:none`、`aria-hidden`、sr-only）；`sourceLedgerManifest()` 從 checkout 的 `sources/*.md`（跳過 `.`／`_` 開頭）逐檔要求 rendered 頁（`README.md` → `sources/index.html`）。先紅後綠：正式站頁面 293 個失敗 → 渲染後 include 注入同一批頁面 `PASS: 297 rendered pages`；全套 884 → 889 pass。
+
+交付：[PR #444](https://github.com/RichardHan/ai-agent-use-cases/pull/444)，`2316837a4f`→`46712edce4`、合併 `dea10671`。PR Website QA [43826329683](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43826329683) 與另外三個 QA 全 success，真實 `_site` 回 `PASS: 822 rendered pages`；主線 [Website QA 43828087586](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43828087586) success（889 tests、`PUBLISHED_ASSETS_AND_SOURCE_CONTENT_MATCH dea10671`、`PUBLICATION_MODE: exact`、兩個 `PASS LIVE`），[Pages 43828086891](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43828086891) success。正式 `sourceRevision` 精確等於 `dea10671…`；部署後的頁面重跑 checker 為 PASS 297；桌面／手機走過「統計卡→稽核頁→完整案例索引／搜尋首頁」「UC-006→批次 ledger→搜尋首頁」與三情境（80／532、0／532→532／532、UC-014 21 個來源固定 `dea10671`），pageerror 0、水平溢出 0。獨立 reviewer `SourceNavReview` 兩輪共 5 個 P2（0 新增批次沒有下一步、漏枚舉未渲染 ledger、導覽可被隱藏或重複、混合批次、`.`／`_` 檔名）全部修正，無 P0／P1。證據在 `docs/qa/2026-11-16-source-reading-nav/`。
+
+下一輪：先收緊 `website-qa.yml:85` 的 `if: ${{ hashFiles('tests/discovery-browser.cjs') != '' }}`——該檔改名時 main 仍綠燈但 30+ 支瀏覽器測試整段跳過，`tests/` 目前沒有守則；驗證方式是把該檔暫時改名確認新守則轉紅。再處理 `主題分類`（361 種值、360 種各 1 案）的形狀說明。
+
 ## 2026-11-16 每一次 main 部署都有發布判決
 
 Pages 對 default branch 的每一次 push 都重新建置部署，包含只改 `docs/**` 或 `SITE.md` 的 commit：這兩條路徑雖被 `_config.yml` 排除在產物外，建置仍會重寫 `catalog.json` 的 `builtAt`／`bundleRevision`／`sourceRevision`。但 Website QA 的 push `paths` 過濾掉了它們，於是唯一會等待該部署、讀 Pages run、在無法核對時轉紅的步驟不會執行。實測最近 12 個 main commit 有 6 個「Pages 已部署、沒有 Website QA」（`2b332a29`、`2a842347`、`79f89cc1`、`a648d601`、`a178bc70`、`f2adf6db`），`gh api .../runs?head_sha=` 對這些 SHA 只回 Pages 一筆；本輪開始前 live `sourceRevision` 正是未經判決的 `2a842347`。若該次部署失敗，正式站會停在舊 revision，而沒有任何 workflow 把它連到這次 push。

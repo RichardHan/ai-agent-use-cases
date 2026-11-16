@@ -29,9 +29,9 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           npm install --prefix "$RUNNER_TEMP/reader-tools" playwright@1.64.1 @axe-core/playwright@4.10.2
-      - name: Existing tests and syntax
+      # Unit suite: Website QA only (tests/pr-gate-coverage.test.cjs keeps it single).
+      - name: Syntax check
         run: |
-          node --test tests/*.test.cjs
           node --check assets/app.js
       - name: Capture the comparison baseline
         if: ${{ github.ref != 'refs/heads/main' }}

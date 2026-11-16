@@ -26,10 +26,10 @@ jobs:
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-      - name: Unit tests and syntax
+      # Unit suite: Website QA only (tests/pr-gate-coverage.test.cjs keeps it single).
+      - name: Syntax check
         run: |
           mkdir -p qa-artifacts
-          node --test tests/*.test.cjs > qa-artifacts/unit.tap
           for file in assets/*.js tests/*.cjs; do node --check "$file"; done
       - name: Build with the GitHub Pages Jekyll builder
         uses: actions/jekyll-build-pages@v1

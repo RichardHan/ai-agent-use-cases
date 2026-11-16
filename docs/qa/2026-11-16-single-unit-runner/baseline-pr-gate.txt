@@ -1,0 +1,15 @@
+✔ the pull-request workflows were actually parsed (0.311333ms)
+✔ editing a suite starts a pull request workflow that runs it (1.702833ms)
+✔ editing the site or any part of the corpus starts a browser workflow that asserts it (18.186042ms)
+✔ no workflow turns a failing unit run into a green step (5.085583ms)
+✔ only Website QA runs the whole unit suite from a pull request (0.3545ms)
+✔ the single unit-suite runner starts for every path the other pull-request workflows cover (1.12825ms)
+✔ a workflow edit runs the job that audits every workflow (0.394208ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 84.2295

@@ -29,10 +29,10 @@ jobs:
           curl -fL --max-time 90 --retry 1 https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -o /usr/local/share/fonts/NotoSansCJKtc-Regular.otf
           fc-cache -f
           chown -R pwuser:pwuser qa-artifacts
-      - name: Unit, syntax and static preview
+      # Unit suite: Website QA only (tests/pr-gate-coverage.test.cjs keeps it single).
+      - name: Syntax and static preview
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          node --test --test-reporter=tap tests/*.test.cjs > qa-artifacts/unit.tap 2>&1
           for f in assets/*.js tests/round23-observe.cjs tests/table-anchor-browser.cjs; do node --check "$f"; done
           python3 scripts/preview.py "$RUNNER_TEMP/preview/ai-agent-use-cases"
       - name: Cloud visitor journeys and early table regression

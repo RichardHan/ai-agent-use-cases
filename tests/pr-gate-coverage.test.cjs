@@ -191,6 +191,47 @@ test('no workflow turns a failing unit run into a green step', () => {
   assert.deepEqual(offenders, [], 'a failing `node --test` must fail the step, not be excused by a fallback command or masked by a pipe');
 });
 
+const FULL_UNIT_SUITE = /node\s+--test(?:\s+--?[\w-]+(?:=\S+)?)*\s+(?:tests\/\*\.test\.cjs(?![.\w])|\$\(find tests\b)/;
+
+// A full-suite command must be reachable from the pull request, not pinned to a
+// branch or dispatch event that `refs/pull/N/merge` never satisfies.
+function runsFullUnitSuite(source) {
+  return source.split(/^ {6}- /m).slice(1)
+    .some(block => stepReachable(block) && FULL_UNIT_SUITE.test(block));
+}
+
+// A concrete path a trigger filter can match, used to check that one filter's
+// glob covers another's without reimplementing Actions' glob semantics.
+function samplePath(pattern) {
+  const source = pattern.replace(/^['"]|['"]$/g, '');
+  if (source === '**') return 'sample/nested';
+  return source.replace(/\*\*$/, 'sample/nested').replace(/\*/g, 'sample');
+}
+
+test('only Website QA runs the whole unit suite from a pull request', () => {
+  // Sixteen pull-request workflows used to start `node --test tests/*.test.cjs`
+  // on the same push. One failing assertion became sixteen red checks, and the
+  // same 859 tests ran sixteen times; the feature workflows now keep only their
+  // own browser journeys. The full suite still runs for every pull request,
+  // exactly once, in the workflow with the widest path filter.
+  const runners = pr.filter(entry => runsFullUnitSuite(entry.source)).map(entry => entry.file);
+  assert.deepEqual(runners, ['website-qa.yml'],
+    'the full unit suite must have exactly one pull-request runner; add coverage to Website QA instead of another copy');
+});
+
+test('the single unit-suite runner starts for every path the other pull-request workflows cover', () => {
+  const website = pr.find(entry => entry.file === 'website-qa.yml');
+  const gaps = [];
+  for (const entry of pr) {
+    if (entry.file === website.file) continue;
+    for (const pattern of entry.paths) {
+      if (!covers(website.paths, samplePath(pattern))) gaps.push(`${entry.file} → ${pattern}`);
+    }
+  }
+  assert.deepEqual(gaps, [],
+    'a workflow that no longer runs the unit suite must not trigger on a path Website QA ignores');
+});
+
 test('a workflow edit runs the job that audits every workflow', () => {
   const website = pr.find(entry => entry.file === 'website-qa.yml');
   assert.ok(covers(website.paths, '.github/workflows/related-qa.yml'), 'editing a workflow must run the job that audits all workflows');

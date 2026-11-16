@@ -36,9 +36,9 @@ jobs:
           python3 "$RUNNER_TEMP/entry-before/scripts/preview.py" "$RUNNER_TEMP/entry-before-preview/ai-agent-use-cases"
           python3 -m http.server 8088 --directory "$RUNNER_TEMP/entry-before-preview" > /tmp/entry-before.log 2>&1 &
           node tests/home-search-entry-browser.cjs
-      - name: Unit tests, syntax and static preview
+      # Unit suite: Website QA only (tests/pr-gate-coverage.test.cjs keeps it single).
+      - name: Syntax and static preview
         run: |
-          node --test tests/*.test.cjs
           for file in assets/*.js; do node --check "$file"; done
           python3 scripts/preview.py "$RUNNER_TEMP/entry-preview/ai-agent-use-cases"
       - name: Verify homepage to search journeys

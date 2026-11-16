@@ -6,7 +6,7 @@
 
 驗收：[方案、前後逐字、截圖與量測](docs/qa/2026-11-16-copy-hard-stops/README.md)。限制：preview 非 Jekyll，未用實體手機或讀屏；`copy.json` 只覆蓋 20 個早期條目。
 
-發布：[PR #459](https://github.com/RichardHan/ai-agent-use-cases/pull/459)，head `2e1970ee`，16 項檢查 pass／2 項 `published` 依設計 skipping；一般 merge 為 `c93c6c1c`。[Pages 43865693142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43865693142) success；正式站 `sourceRevision` 精確等於合併版，`assets/copy.json` SHA-256 `b3fa385b…` 逐位元相同，UC-016 在 1440／390 的 caution 159 字、axe 0、pageerror 0、無水平溢出。
+發布：[PR #459](https://github.com/RichardHan/ai-agent-use-cases/pull/459)，head `2e1970ee`，16 項檢查 pass／2 項 `published` 依設計 skipping；一般 merge 為 `c93c6c1c`。[Pages 43865693142](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43865693142) success；主線 Website QA 43865694303 success；正式站 `sourceRevision` 精確等於合併版，`assets/copy.json` SHA-256 `b3fa385b…` 逐位元相同，UC-016 在 1440／390 的 caution 159 字、axe 0、pageerror 0、無水平溢出。
 
 ## 2026-11-16 空結果面板的任務目錄不再藏在巢狀捲動裡
 

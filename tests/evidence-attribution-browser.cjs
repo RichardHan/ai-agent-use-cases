@@ -304,6 +304,10 @@ const read = page => page.evaluate(() => {
           parts: counts.case + counts.evidence + counts.pending,
           resolved: entries.filter(item => item.kind === 'pending' && item.resolved).length,
           caseMerged: counts.caseMerged,
+          caseCount: document.getElementById('case-count').textContent.trim(),
+          caseItems: entries.filter(item => item.kind === 'case').length,
+          caseLabel: document.getElementById('case-count-label')?.textContent.trim() ?? null,
+          caseLabelDisplay: document.getElementById('case-count-label') ? getComputedStyle(document.getElementById('case-count-label')).display : null,
           merged: mergedNote ? {
             hidden: mergedNote.hidden,
             display: getComputedStyle(mergedNote).display,
@@ -328,8 +332,47 @@ const read = page => page.evaluate(() => {
       assert.match(catalog.merged.text, /同一流程的主案例補充或版本頁/, `${name}: the note names both kinds without calling a variant a merge`);
       assert.match(catalog.merged.text, /不另計入 1,000 案目標/, `${name}: the note ties the exclusion to the current target`);
       assert.ok(catalog.merged.text.includes(`其中 ${catalog.caseMerged} 頁`), `${name}: the rendered count comes from the catalog, not a hardcoded label`);
+      // The number and its own note used to disagree: 525 「主要案例頁」 including the
+      // five pages the note excluded from the 1,000-case target.
+      assert.equal(catalog.caseCount, String(catalog.caseItems), `${name}: the case counter matches the loaded case pages`);
+      assert.notEqual(catalog.caseLabelDisplay, 'none', `${name}: the case-count label is rendered`);
+      assert.match(catalog.caseLabel, new RegExp(`含 ${catalog.caseMerged} 頁補充／版本頁`),
+        `${name}: the label states how many of the counted pages are supplements`);
+      assert.doesNotMatch(catalog.caseLabel, /主要案例頁/,
+        `${name}: the label must not call a page 主要 while the note excludes it`);
       assert.equal(catalog.overflow, 0, `${name}: the restored note does not overflow`);
       await noteContext.close();
+    }
+
+    // The result card is the whole screen on a phone. The 「不另計一案」 claim used
+    // to live only in the merged badge's title/aria-label, so a sighted reader saw
+    // 「主案例 UC-048 的版本頁」 and nothing about counting.
+    for (const [name, width, height] of [['desktop', 1440, 900], ['phone', 390, 844]]) {
+      const cardContext = await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce' });
+      const cardPage = await cardContext.newPage();
+      for (const id of ['UC-322', 'UC-250']) {
+        await cardPage.goto(`${origin}?q=${id}`, { waitUntil: 'networkidle' });
+        await cardPage.waitForFunction(() => typeof entries !== 'undefined' && entries.length > 0, null, { timeout: 90000 });
+        const badge = await cardPage.evaluate(() => {
+          const node = document.querySelector('#results .card .card-merged');
+          if (!node) return null;
+          const box = node.getBoundingClientRect();
+          return {
+            text: node.innerText.trim(),
+            display: getComputedStyle(node).display,
+            height: Math.round(box.height),
+            title: node.getAttribute('title') || '',
+            label: node.getAttribute('aria-label') || ''
+          };
+        });
+        assert.ok(badge, `${name} ${id}: the card keeps a merged badge`);
+        assert.match(badge.text, /不另計一案/, `${name} ${id}: the visible badge states the page is not counted`);
+        assert.ok(badge.height > 0 && badge.display !== 'none', `${name} ${id}: the badge is rendered, not hover-only`);
+        assert.match(badge.label, /不另計一案/, `${name} ${id}: the accessible name keeps the claim`);
+        assert.equal(await cardPage.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth), 0,
+          `${name} ${id}: the longer badge does not overflow the page`);
+      }
+      await cardContext.close();
     }
 
     await page.goto(caseUrl('P-004'), { waitUntil: 'networkidle' });

@@ -574,10 +574,12 @@ test('INDEX.md maintains scenario consistency, complete case rows and canonical 
   assert(/UC-358[^\n]*納入[^\n]*B/.test(auditContent), 'UC-358 must be audited as B-grade qualified in audit document');
   assert(/UC-359[^\n]*待定/.test(auditContent), 'UC-359 must be audited as pending (待定) in audit document');
 
-  // Main cases count in INDEX.md header must match cases/ file count
+  // Case-page count in INDEX.md header must match cases/ file count. The heading
+  // no longer says 主要案例: five of those pages declare themselves supplement or
+  // version pages and are not counted toward the 1,000-case target.
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(f => f.endsWith('.md'));
-  const mainHeading = indexContent.match(/^## 主要案例（(\d+)）$/m);
-  assert(mainHeading, 'INDEX.md must show the current main case count in ## 主要案例（N）');
+  const mainHeading = indexContent.match(/^## 案例（(\d+)）$/m);
+  assert(mainHeading, 'INDEX.md must show the current case-page count in ## 案例（N）');
   assert.equal(Number(mainHeading[1]), caseFiles.length, `INDEX.md main case count in heading (${mainHeading ? mainHeading[1] : 'none'}) must match case files count (${caseFiles.length})`);
   // Verify all case and evidence links in INDEX.md exist on disk
   const links = Array.from(indexContent.matchAll(/\[(?:[^\]]*)\]\(((?:cases|evidence)\/[^)]+\.md)\)/g));

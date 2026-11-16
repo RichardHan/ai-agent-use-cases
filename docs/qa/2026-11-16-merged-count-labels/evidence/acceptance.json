@@ -1,0 +1,160 @@
+[
+ {
+  "tag": "desktop",
+  "s1": {
+   "count": "顯示 4 / 532 筆收錄",
+   "action": "改搜「會議」→ 14 筆（標題、用途與痛點）",
+   "firstCards": [
+    "dots 的記憶看不見？用 Obsidian 當「看得見的外接腦」",
+    "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下",
+    "用一張設計範本，做出整批一致的卡片"
+   ]
+  },
+  "s1b": {
+   "query": "會議",
+   "count": "顯示 14 / 532 筆收錄",
+   "cards": [
+    "UC-094",
+    "UC-277",
+    "UC-511",
+    "UC-298"
+   ]
+  },
+  "s1c": {
+   "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+   "proof": [
+    "用法靈感",
+    "作者報告／示範",
+    "設計／未實跑",
+    "情境：工作"
+   ],
+   "sources": 1,
+   "merged": null
+  },
+  "s1d": {
+   "open": false,
+   "focus": "BUTTON.",
+   "query": "會議"
+  },
+  "s2": {
+   "count": "顯示 0 / 532 筆收錄",
+   "empty": true,
+   "firstSuggestions": [
+    "移除提及工具「Cursor」 → 查看 1 筆",
+    "移除使用情境「學習」 → 查看 3 筆",
+    "📊 搜尋「簡報製作」"
+   ]
+  },
+  "s2b": {
+   "count": "顯示 1 / 532 筆收錄",
+   "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+   "focus": "results-count"
+  },
+  "s3": {
+   "open": true,
+   "title": "每天收集各平台數據，固定腳本與代理檢查的費用分開看",
+   "cardBadge": null,
+   "handoff": "這篇與主案例屬同一流程的版本頁 | 本頁與主案例 UC-048 屬同一流程的版本頁，不另計一案；原始來源與限制保留在本頁。 | 站內閱讀主案例 UC-048：每天幫你盯商品排名或降價，有變動才通知 →",
+   "external": [
+    {
+     "target": "_blank",
+     "rel": "noopener noreferrer"
+    },
+    {
+     "target": "_blank",
+     "rel": "noopener noreferrer"
+    },
+    {
+     "target": "_blank",
+     "rel": "noopener noreferrer"
+    }
+   ]
+  },
+  "s3b": {
+   "open": false,
+   "url": ""
+  },
+  "axe": [],
+  "overflow": 0,
+  "errors": []
+ },
+ {
+  "tag": "phone",
+  "s1": {
+   "count": "顯示 4 / 532 筆收錄",
+   "action": "改搜「會議」→ 14 筆（標題、用途與痛點）",
+   "firstCards": [
+    "dots 的記憶看不見？用 Obsidian 當「看得見的外接腦」",
+    "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下",
+    "用一張設計範本，做出整批一致的卡片"
+   ]
+  },
+  "s1b": {
+   "query": "會議",
+   "count": "顯示 14 / 532 筆收錄",
+   "cards": [
+    "UC-094",
+    "UC-277",
+    "UC-511",
+    "UC-298"
+   ]
+  },
+  "s1c": {
+   "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+   "proof": [
+    "用法靈感",
+    "作者報告／示範",
+    "設計／未實跑",
+    "情境：工作"
+   ],
+   "sources": 1,
+   "merged": null
+  },
+  "s1d": {
+   "open": false,
+   "focus": "BUTTON.",
+   "query": "會議"
+  },
+  "s2": {
+   "count": "顯示 0 / 532 筆收錄",
+   "empty": true,
+   "firstSuggestions": [
+    "移除提及工具「Cursor」 → 查看 1 筆",
+    "移除使用情境「學習」 → 查看 3 筆",
+    "📊 搜尋「簡報製作」"
+   ]
+  },
+  "s2b": {
+   "count": "顯示 1 / 532 筆收錄",
+   "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+   "focus": "results-count"
+  },
+  "s3": {
+   "open": true,
+   "title": "每天收集各平台數據，固定腳本與代理檢查的費用分開看",
+   "cardBadge": null,
+   "handoff": "這篇與主案例屬同一流程的版本頁 | 本頁與主案例 UC-048 屬同一流程的版本頁，不另計一案；原始來源與限制保留在本頁。 | 站內閱讀主案例 UC-048：每天幫你盯商品排名或降價，有變動才通知 →",
+   "external": [
+    {
+     "target": "_blank",
+     "rel": "noopener noreferrer"
+    },
+    {
+     "target": "_blank",
+     "rel": "noopener noreferrer"
+    },
+    {
+     "target": "_blank",
+     "rel": "noopener noreferrer"
+    }
+   ]
+  },
+  "s3b": {
+   "open": false,
+   "url": ""
+  },
+  "axe": [],
+  "overflow": 0,
+  "errors": []
+ }
+]

@@ -166,3 +166,28 @@ test('a title that only describes merging records is not a merge declaration', (
   assert.deepEqual([...api.parseFile('cases/995-test.md', evidenceLine)[0].mergedInto], ['UC-993'],
     'the evidence line keeps its loose 合併 form, as UC-250 writes it');
 });
+
+// The card used to print 「主案例 UC-048 的版本頁」 and keep 「不另計一案」 only in the
+// title and aria-label. On a phone, and for anyone who does not hover, the card
+// then read like one more independent case while the detail said the opposite.
+test('a merged or variant card states 不另計一案 in its visible text', () => {
+  const merged = caseEntries.filter(entry => entry.mergedInto.length);
+  assert.equal(merged.length, 5, 'the corpus declares five supplement or version pages');
+  for (const item of merged) {
+    const badge = api.card(item).children
+      .flatMap(node => node.children || [])
+      .flatMap(node => node.children || [])
+      .find(node => node.className === 'card-merged');
+    assert.ok(badge, `${item.id} keeps a merged badge on the card`);
+    assert.match(badge.textContent, /不另計一案/, `${item.id}: the visible badge text carries the not-counted claim`);
+    const label = badge.getAttribute('aria-label');
+    assert.match(label, /不另計一案/, `${item.id}: the accessible name carries the same claim`);
+    assert.equal((label.match(/不另計一案/g) || []).length, 1, `${item.id}: the claim is not repeated`);
+  }
+  const plain = caseEntries.find(entry => !entry.mergedInto.length);
+  const plainBadge = api.card(plain).children
+    .flatMap(node => node.children || [])
+    .flatMap(node => node.children || [])
+    .find(node => node.className === 'card-merged');
+  assert.equal(plainBadge, undefined, `${plain.id} is not a supplement and gets no merged badge`);
+});

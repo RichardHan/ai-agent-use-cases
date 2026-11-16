@@ -73,7 +73,7 @@ test('INDEX.md names the audit batch it delegates the count to, with that batch\
 test('INDEX.md lists cases before the research archive and keeps every section anchor', () => {
   const content = readIndex();
   const caseList = content.indexOf('<a id="case-list"></a>');
-  const table = content.indexOf('## 主要案例（');
+  const table = content.indexOf('## 案例（');
   const researchLog = content.indexOf('<a id="research-log"></a>');
   const firstArchiveEntry = content.search(/^20\d{2}-\d{2}-\d{2}[^\n]*批次：/m);
 

@@ -270,7 +270,13 @@ function fullSuiteCommand(text) {
     if (tokens.some(token => /(?:^|\/)tests\/\*\.test\.cjs(?![.\w])/.test(token))) return true;
     if (/\$\(find tests\b/.test(cleaned)) {
       const find = cleaned.slice(cleaned.indexOf('$('));
-      return !/!(?!=)|-not\b/.test(find);
+      if (/!(?!=)|-not\b/.test(find)) return false;
+      // A positive `-name` predicate still selects a subset: `find tests -name
+      // 'relevance.test.cjs'` runs one file. Only a name predicate that selects
+      // every test file counts as the suite.
+      const names = [...find.matchAll(/-i?name\s+['"]?([^'"\s)]+)['"]?/g)].map(match => match[1]);
+      if (!names.length) return true; // `find tests` returns the directory Node discovers.
+      return names.every(name => name === '*.test.cjs');
     }
     // Default discovery: no file arguments, or the whole tests directory.
     const files = tokens.slice(testIndex + 1).filter(token => !token.startsWith('-'));
@@ -349,6 +355,9 @@ test('the unit-suite guard ignores runners that a pull request cannot reach', ()
   assert.equal(runsFullUnitSuite(workflow({ command: '# node --test tests/*.test.cjs' })), false, 'a commented-out suite executes nothing');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test modules' })), false, 'only the suite glob counts');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs' ! -name 'relevance.test.cjs')" })), false, 'a find with an exclusion selects a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name 'relevance.test.cjs')" })), false, 'a positive find filter still selects a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -type f -name '*.test.cjs')" })), true, 'a canonical find with -type f selects the suite');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test $(find tests)' })), true, 'a bare find of the tests directory discovers the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs')" })), true, 'a find without exclusions selects the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test \\\n            tests/*.test.cjs' })), true, 'a wrapped command still runs the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test' })), true, 'bare node --test uses default discovery');

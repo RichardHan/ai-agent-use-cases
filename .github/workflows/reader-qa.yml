@@ -45,7 +45,6 @@ jobs:
           python3 -m http.server 8083 --directory "$RUNNER_TEMP/reader-before-preview" > /tmp/reader-before.log 2>&1 &
           node tests/reader-baseline.cjs
       - name: Verify reader preview
-        if: ${{ hashFiles('tests/reader-browser.cjs') != '' }}
         env:
           NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
         run: |
@@ -65,7 +64,7 @@ jobs:
           DEBUG: pw:browser
         run: node tests/reader-webkit-diagnostic.cjs
       - name: Verify published reader
-        if: ${{ github.ref == 'refs/heads/main' && hashFiles('tests/reader-browser.cjs') != '' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         env:
           NODE_PATH: ${{ runner.temp }}/reader-tools/node_modules
           READER_URL: https://richardhan.github.io/ai-agent-use-cases/

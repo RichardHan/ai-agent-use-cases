@@ -38,8 +38,7 @@ jobs:
           METHOD_URL: https://richardhan.github.io/ai-agent-use-cases/
           OBSERVE: '1'
         run: node tests/method-shortcut-browser.cjs
-      - name: Verify preview when implemented
-        if: ${{ hashFiles('tests/method-shortcut.test.cjs') != '' }}
+      - name: Verify preview
         env:
           NODE_PATH: ${{ runner.temp }}/method-tools/node_modules
           READING_URL: http://127.0.0.1:8095/ai-agent-use-cases/

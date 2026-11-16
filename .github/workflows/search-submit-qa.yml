@@ -37,7 +37,6 @@ jobs:
           SUBMIT_OUTPUT: qa-artifacts/before
         run: node tests/search-submit-browser.cjs
       - name: Preview acceptance
-        if: hashFiles('tests/search-submit.test.cjs') != ''
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           SUBMIT_URL: http://127.0.0.1:8121/ai-agent-use-cases/
@@ -48,7 +47,6 @@ jobs:
           node tests/search-submit-browser.cjs
           node tests/search-scope-browser.cjs
       - name: Existing reader regression
-        if: hashFiles('tests/search-submit.test.cjs') != ''
         env:
           NODE_PATH: ${{ runner.temp }}/tools/node_modules
           READER_URL: http://127.0.0.1:8121/ai-agent-use-cases/

@@ -213,15 +213,42 @@ function jobBlocks(source) {
   return jobs;
 }
 
-function jobGatesNonPullRequest(job) {
-  return job.lines.some(line =>
-    /^ {4}if:/.test(line) && /github\.(?:event_name|ref|head_ref)/.test(line));
+function jobHasCondition(job) {
+  // The single runner must be unconditional: any job-level `if:` can skip the
+  // pull request (push gate, `!= 'pull_request'`, false constant), so none is
+  // accepted rather than trying to evaluate expressions statically.
+  return job.lines.some(line => /^ {4}if:/.test(line));
+}
+
+// Read the shell commands a step actually executes: drop YAML and shell
+// comments, and join backslash continuations, so a commented-out suite is not
+// counted and a wrapped one is not missed.
+function executableRun(step) {
+  const lines = step.split('\n');
+  const commands = [];
+  let inBlock = false;
+  for (const line of lines) {
+    const block = line.match(/^ {8}run:\s*[|>]/);
+    if (block) { inBlock = true; continue; }
+    if (/^ {8}run:\s*\S/.test(line)) {
+      const command = line.replace(/^ {8}run:\s*/, '').replace(/\s+#.*$/, '');
+      if (!command.startsWith('#')) commands.push(command);
+      inBlock = false;
+      continue;
+    }
+    if (/^ {6}- /.test(line)) inBlock = false;
+    if (!inBlock) continue;
+    const text = line.trim();
+    if (!text || text.startsWith('#')) continue;
+    commands.push(text.replace(/\s+#.*$/, ''));
+  }
+  return commands.join('\n').replace(/\\\n/g, ' ');
 }
 
 // Only a command that selects every `*.test.cjs` counts as the whole suite. A
 // `find` with an exclusion is a subset and must not be mistaken for the gate.
 function fullSuiteCommand(text) {
-  return text.split('\n').some(line => {
+  return executableRun(text).split('\n').some(line => {
     if (!/node\s+--test\b/.test(line)) return false;
     if (/tests\/\*\.test\.cjs(?![.\w])/.test(line)) return true;
     if (!/\$\(find tests\b/.test(line)) return false;
@@ -230,29 +257,28 @@ function fullSuiteCommand(text) {
   });
 }
 
-// A full-suite command must be reachable from the pull request: no job-level
-// event/ref gate, no step `if:` pinned to a branch or a push/dispatch event.
+// The suite must run on every pull request: neither the job nor the step may
+// carry any `if:` condition, because each of them can skip pull requests.
 function runsFullUnitSuite(source) {
   return jobBlocks(source).some(job =>
-    !jobGatesNonPullRequest(job) &&
+    !jobHasCondition(job) &&
     job.lines.join('\n').split(/^ {6}- /m).slice(1)
-      .some(step => stepReachable(step) && fullSuiteCommand(step)));
+      .some(step => !/^ {8}if:/m.test(step) && fullSuiteCommand(step)));
 }
 
-// Concrete paths a trigger filter can match. Each wildcard gets several values,
-// so a sample cannot stand in for a broader glob (e.g. QA narrowed to
-// `tests/x/**` while another workflow still triggers on `tests/**/test-*.cjs`).
-function samplePaths(pattern) {
-  const source = pattern.replace(/^['"]|['"]$/g, '');
-  let paths = [''];
-  for (const part of source.split(/(\*\*|\*)/)) {
-    if (part === '**') paths = paths.flatMap(prefix => ['', 'x', 'x/y'].map(value => prefix + value));
-    else if (part === '*') paths = paths.flatMap(prefix => ['x', 'y'].map(value => prefix + value));
-    else paths = paths.map(prefix => prefix + part);
-  }
-  return [...new Set(paths.map(path => path.replace(/\/{2,}/g, '/')))]
-    .filter(path => path && !path.endsWith('/'))
-    .slice(0, 64);
+// Sound glob inclusion for the filter forms Actions accepts: one pattern can
+// cover another when they are equal, when it is `**`, or when it is a directory
+// `prefix/**` and the other pattern lives under `prefix/`. This refuses to
+// certify coverage that would depend on enumerating a finite set of samples.
+function patternCovers(qaPattern, otherPattern) {
+  const qa = qaPattern.replace(/^['"]|['"]$/g, '');
+  const other = otherPattern.replace(/^['"]|['"]$/g, '');
+  if (qa === '**' || qa === other) return true;
+  if (!qa.endsWith('/**')) return false;
+  const prefix = qa.slice(0, -2);
+  // The boundary is the directory separator: `tests/x/**` must not be read as
+  // covering `tests/xy/…`.
+  return other.startsWith(prefix.endsWith('/') ? prefix : prefix + '/');
 }
 
 test('only Website QA runs the whole unit suite from a pull request', () => {
@@ -272,13 +298,50 @@ test('the single unit-suite runner starts for every path the other pull-request 
   for (const entry of pr) {
     if (entry.file === website.file) continue;
     for (const pattern of entry.paths) {
-      for (const sample of samplePaths(pattern)) {
-        if (!covers(website.paths, sample)) gaps.push(`${entry.file} → ${pattern} (${sample})`);
+      if (!website.paths.some(candidate => patternCovers(candidate, pattern))) {
+        gaps.push(`${entry.file} → ${pattern}`);
       }
     }
   }
   assert.deepEqual(gaps, [],
     'a workflow that no longer runs the unit suite must not trigger on a path Website QA ignores');
+});
+
+test('the unit-suite guard ignores runners that a pull request cannot reach', () => {
+  // Each shape below still contains `node --test tests/*.test.cjs`, but none of
+  // them runs the suite on a pull request. A guard that only greps for the
+  // command would count them and pass with no suite executed.
+  const workflow = ({ jobIf = '', stepIf = '', command = 'node --test tests/*.test.cjs' } = {}) => [
+    'name: Fixture', 'on:', '  pull_request:', 'jobs:', '  browser:',
+    ...(jobIf ? [`    if: ${jobIf}`] : []),
+    '    runs-on: ubuntu-24.04', '    steps:', '      - name: Unit',
+    ...(stepIf ? [`        if: ${stepIf}`] : []),
+    '        run: |', `          ${command}`, ''
+  ].join('\n');
+
+  assert.equal(runsFullUnitSuite(workflow()), true, 'the plain form must count as the runner');
+  assert.equal(runsFullUnitSuite(workflow({ jobIf: "github.event_name == 'push'" })), false, 'a push-gated job cannot run on a pull request');
+  assert.equal(runsFullUnitSuite(workflow({ jobIf: "${{ github.event_name != 'pull_request' }}" })), false, 'an inverted pull-request gate skips every pull request');
+  assert.equal(runsFullUnitSuite(workflow({ jobIf: 'false' })), false, 'a false job condition never runs');
+  assert.equal(runsFullUnitSuite(workflow({ stepIf: "${{ github.ref == 'refs/heads/main' }}" })), false, 'a main-only step cannot run on a pull request');
+  assert.equal(runsFullUnitSuite(workflow({ stepIf: '${{ false }}' })), false, 'a false step condition never runs');
+  assert.equal(runsFullUnitSuite(workflow({ command: '# node --test tests/*.test.cjs' })), false, 'a commented-out suite executes nothing');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test modules' })), false, 'only the suite glob counts');
+  assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs' ! -name 'relevance.test.cjs')" })), false, 'a find with an exclusion selects a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs')" })), true, 'a find without exclusions selects the suite');
+  assert.equal(runsFullUnitSuite(workflow({ command: 'node --test \\\n            tests/*.test.cjs' })), true, 'a wrapped command still runs the suite');
+});
+
+test('trigger coverage is decided by glob inclusion, not by sampled paths', () => {
+  assert.equal(patternCovers('**', 'tests/*/test.cjs'), true);
+  assert.equal(patternCovers('tests/**', 'tests/*/test.cjs'), true, 'a directory glob covers every pattern below it');
+  assert.equal(patternCovers('tests/**', 'tests/any/deep/test.cjs'), true);
+  assert.equal(patternCovers('tests/**', 'index.html'), false);
+  assert.equal(patternCovers('tests/x/**', 'tests/x/test.cjs'), true);
+  assert.equal(patternCovers('tests/x/**', 'tests/xy/test.cjs'), false, 'a sibling directory with the same prefix is not covered');
+  assert.equal(patternCovers('tests/x/**', 'tests/*/test.cjs'), false, 'two enumerated directories cannot be proven to cover one wildcard');
+  assert.equal(patternCovers('index.html', 'index.html'), true);
+  assert.equal(patternCovers('index.html', 'index.htm'), false);
 });
 
 test('a workflow edit runs the job that audits every workflow', () => {

@@ -1,15 +1,17 @@
-✔ the pull-request workflows were actually parsed (0.548125ms)
-✔ editing a suite starts a pull request workflow that runs it (1.661875ms)
-✔ editing the site or any part of the corpus starts a browser workflow that asserts it (21.318208ms)
-✔ no workflow turns a failing unit run into a green step (7.84ms)
-✔ only Website QA runs the whole unit suite from a pull request (0.353458ms)
-✔ the single unit-suite runner starts for every path the other pull-request workflows cover (1.091125ms)
-✔ a workflow edit runs the job that audits every workflow (0.414666ms)
-ℹ tests 7
+✔ the pull-request workflows were actually parsed (0.445334ms)
+✔ editing a suite starts a pull request workflow that runs it (1.797875ms)
+✔ editing the site or any part of the corpus starts a browser workflow that asserts it (18.853584ms)
+✔ no workflow turns a failing unit run into a green step (7.983875ms)
+✔ only Website QA runs the whole unit suite from a pull request (1.031375ms)
+✔ the single unit-suite runner starts for every path the other pull-request workflows cover (0.4425ms)
+✔ the unit-suite guard ignores runners that a pull request cannot reach (0.324625ms)
+✔ trigger coverage is decided by glob inclusion, not by sampled paths (0.054125ms)
+✔ a workflow edit runs the job that audits every workflow (0.746709ms)
+ℹ tests 9
 ℹ suites 0
-ℹ pass 7
+ℹ pass 9
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 93.631625
+ℹ duration_ms 97.1705

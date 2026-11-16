@@ -199,7 +199,9 @@ async function run() {
 
       // Verify caution priority extraction
       const cautionText = await page.locator('.guidance-caution p').textContent();
-      assert.match(cautionText, /切勿開啟「永遠允許」|住家地址|降價/, 'Caution must prioritize safety boundary');
+      assert.match(cautionText, /永遠允許/, 'Caution must name the always-allow permission boundary');
+      assert.match(cautionText, /標記售出|下架|刪除刊登/, 'Caution must name the irreversible listing actions');
+      assert.match(cautionText, /議價/, 'Caution must keep the price-floor boundary');
       console.log(`✓ High-priority safety caution verified in detail: "${cautionText}"`);
 
       // Click safety shortcut

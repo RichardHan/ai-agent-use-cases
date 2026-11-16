@@ -1,0 +1,146 @@
+{
+  "before": {
+    "desktop": {
+      "UC-007": {
+        "text": "這是官方自報案例；不能保證省下多少，也不能自行取消、簽新合約、聯絡廠商或付款，合約與員工資料也不外流。",
+        "width": 384,
+        "height": 130,
+        "detailScrollTop": 2221,
+        "overflow": 0,
+        "visible": true,
+        "axe": null,
+        "pageErrors": 0,
+        "screenshot": "before-desktop-uc-007.png"
+      },
+      "UC-010": {
+        "text": "需要本機電腦與硬體；只是作者一套裝置的測試，不代表能控制所有家電。韌體寫入、網路暴露與持久存取要分別審核，別照抄「永遠允許」；憑證、token 與私網位址不要貼進對話或公開報告。",
+        "width": 384,
+        "height": 153,
+        "detailScrollTop": 2475,
+        "overflow": 0,
+        "visible": true,
+        "axe": null,
+        "pageErrors": 0,
+        "screenshot": "before-desktop-uc-010.png"
+      },
+      "UC-016": {
+        "text": "這是失敗復盤案例；切勿開啟「永遠允許」，地址、電話與低於底線的議價不可被自動送出，也不要寫進長期記憶或範本。平台未確認前只在站外準備草稿，本人同意不等於平台授權。",
+        "width": 384,
+        "height": 153,
+        "detailScrollTop": 2331,
+        "overflow": 0,
+        "visible": true,
+        "axe": null,
+        "pageErrors": 0,
+        "screenshot": "before-desktop-uc-016.png"
+      }
+    },
+    "phone": {
+      "UC-007": {
+        "text": "這是官方自報案例；不能保證省下多少，也不能自行取消、簽新合約、聯絡廠商或付款，合約與員工資料也不外流。",
+        "width": 286,
+        "height": 153,
+        "detailScrollTop": 2978,
+        "overflow": 0,
+        "visible": true,
+        "axe": null,
+        "pageErrors": 0,
+        "screenshot": "before-phone-uc-007.png"
+      },
+      "UC-010": {
+        "text": "需要本機電腦與硬體；只是作者一套裝置的測試，不代表能控制所有家電。韌體寫入、網路暴露與持久存取要分別審核，別照抄「永遠允許」；憑證、token 與私網位址不要貼進對話或公開報告。",
+        "width": 286,
+        "height": 176,
+        "detailScrollTop": 3386,
+        "overflow": 0,
+        "visible": true,
+        "axe": null,
+        "pageErrors": 0,
+        "screenshot": "before-phone-uc-010.png"
+      },
+      "UC-016": {
+        "text": "這是失敗復盤案例；切勿開啟「永遠允許」，地址、電話與低於底線的議價不可被自動送出，也不要寫進長期記憶或範本。平台未確認前只在站外準備草稿，本人同意不等於平台授權。",
+        "width": 286,
+        "height": 176,
+        "detailScrollTop": 3364,
+        "overflow": 0,
+        "visible": true,
+        "axe": null,
+        "pageErrors": 0,
+        "screenshot": "before-phone-uc-016.png"
+      }
+    }
+  },
+  "after": {
+    "desktop": {
+      "UC-007": {
+        "text": "這是官方自報案例；不能保證省下多少，低使用也不等於可刪席次。不能自行取消、簽新合約、聯絡同事或廠商、付款，也不刪帳號、不改授權或訂閱、不新建排程；不評價員工績效，合約與員工資料也不外流。",
+        "width": 384,
+        "height": 153,
+        "detailScrollTop": 2232,
+        "overflow": 0,
+        "visible": true,
+        "axe": null,
+        "pageErrors": 0,
+        "screenshot": "after-desktop-uc-007.png"
+      },
+      "UC-010": {
+        "text": "需要本機電腦與硬體；只是作者一套裝置的測試，不代表能控制所有家電。本頁只讀，不授權安裝、執行、連線、刷韌體或改網路權限；狀態不一致就停止，不連續重試。憑證、token、私網位址與裝置識別碼不要貼進對話或公開報告。",
+        "width": 384,
+        "height": 176,
+        "detailScrollTop": 2487,
+        "overflow": 0,
+        "visible": true,
+        "axe": null,
+        "pageErrors": 0,
+        "screenshot": "after-desktop-uc-010.png"
+      },
+      "UC-016": {
+        "text": "這是失敗復盤案例；不要一開始就設「永遠允許」。初期任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；觀察 1–2 週後若放行，也只限純資訊回覆。低於底線的議價直接列給你、不要回應。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
+        "width": 384,
+        "height": 222,
+        "detailScrollTop": 2365,
+        "overflow": 0,
+        "visible": true,
+        "axe": 0,
+        "pageErrors": 0,
+        "screenshot": "after-desktop-uc-016.png"
+      }
+    },
+    "phone": {
+      "UC-007": {
+        "text": "這是官方自報案例；不能保證省下多少，低使用也不等於可刪席次。不能自行取消、簽新合約、聯絡同事或廠商、付款，也不刪帳號、不改授權或訂閱、不新建排程；不評價員工績效，合約與員工資料也不外流。",
+        "width": 286,
+        "height": 199,
+        "detailScrollTop": 3002,
+        "overflow": 0,
+        "visible": true,
+        "axe": null,
+        "pageErrors": 0,
+        "screenshot": "after-phone-uc-007.png"
+      },
+      "UC-010": {
+        "text": "需要本機電腦與硬體；只是作者一套裝置的測試，不代表能控制所有家電。本頁只讀，不授權安裝、執行、連線、刷韌體或改網路權限；狀態不一致就停止，不連續重試。憑證、token、私網位址與裝置識別碼不要貼進對話或公開報告。",
+        "width": 286,
+        "height": 222,
+        "detailScrollTop": 3409,
+        "overflow": 0,
+        "visible": true,
+        "axe": null,
+        "pageErrors": 0,
+        "screenshot": "after-phone-uc-010.png"
+      },
+      "UC-016": {
+        "text": "這是失敗復盤案例；不要一開始就設「永遠允許」。初期任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；觀察 1–2 週後若放行，也只限純資訊回覆。低於底線的議價直接列給你、不要回應。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
+        "width": 286,
+        "height": 292,
+        "detailScrollTop": 3422,
+        "overflow": 0,
+        "visible": true,
+        "axe": 0,
+        "pageErrors": 0,
+        "screenshot": "after-phone-uc-016.png"
+      }
+    }
+  }
+}

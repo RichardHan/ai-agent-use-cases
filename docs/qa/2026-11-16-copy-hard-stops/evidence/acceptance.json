@@ -1,0 +1,278 @@
+{
+  "desktop": {
+    "count1": "顯示 4 / 532 筆收錄",
+    "scope": {
+      "hidden": false,
+      "text": "在所選條件下，沒有案例的標題、用途或痛點同時包含「讓」「ai」「整理」「會議」「筆記」。下列 4 筆是全文或同義詞命中，不代表案例在做這件事。其中 1 筆要算上章節標題才符合（例如〈建議操作流程（依來源整理）〉），正文未必提到。\n\n改搜「會議」→ 14 筆（標題、用途與痛點）"
+    },
+    "afterScope": {
+      "count": "顯示 14 / 532 筆收錄",
+      "query": "會議",
+      "url": "http://127.0.0.1:8166/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0&scope=overview#explore"
+    },
+    "firstTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+    "detail1": {
+      "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+      "proof": "本案例頁首宣告 2 類來源：\n\n作者報告／示範\n主要：成果主張 社群作者／專案實踐者；核讀 本庫未獨立重現\n設計／未實跑\n同案宣告：成果主張 提示詞設計者（未提供執行結果）；核讀 未實跑，無成效可核\n作者報告／示範\n社群作者公開分享的操作紀錄與示範；實際產物、完整過程與成效仍須逐案核對，本庫未取得獨立代碼庫驗證。\n成果",
+      "links": [
+        {
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/094-meeting-stand-in-disclosure.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/094-meeting-stand-in-disclosure.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://x.com/kiaraplds/status/2088321112073547835",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ],
+      "overflow": 0
+    },
+    "back1": {
+      "open": false,
+      "query": "會議",
+      "focus": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+      "url": "?q=%E6%9C%83%E8%AD%B0&scope=overview"
+    },
+    "empty": {
+      "text": "⌕\n目前沒有符合「發票」的案例\n\n可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。\n\n移除提及工具「Cursor」 → 查看 1 筆\n移除使用情境「學習」 → 查看 3 筆\n\n或保留目前篩選，探索此條件下有收錄的常見問題：\n\n「僅相關詞」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。\n\n📊 搜尋「簡報製作」\n📈 搜尋「數據分析」\n📰 搜尋「電子報」\n日",
+      "visible": true,
+      "url": "?q=%E7%99%BC%E7%A5%A8&tool=Cursor&scenario=%E5%AD%B8%E7%BF%92"
+    },
+    "recoverLabel": "移除提及工具「Cursor」 → 查看 1 筆",
+    "recovered": {
+      "count": "顯示 1 / 532 筆收錄",
+      "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+      "focus": "results-count"
+    },
+    "shared": {
+      "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准",
+      "caution": "這是失敗復盤案例；不要一開始就設「永遠允許」。初期任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；觀察 1–2 週後若放行，也只限純資訊回覆。低於底線的議價直接列給你、不要回應。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
+      "links": [
+        {
+          "text": "查看 UC-016 的 GitHub 原始 Markdown",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/016-marketplace-selling-buyer-messages.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "text": "在 GitHub 查看最新版本（可能不同，新分頁） ↗",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/016-marketplace-selling-buyer-messages.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "text": "",
+          "href": "https://www.techrepublic.com/article/news-meta-ai-facebook-marketplace-buyer-seller-address/",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "text": "",
+          "href": "https://useheadlights.com/library/HD-INC-226/",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ],
+      "overflow": 0,
+      "detailClientHeight": 808,
+      "detailScrollHeight": 3587
+    },
+    "back3": {
+      "open": false,
+      "url": "?q=UC-016",
+      "focus": "results-count"
+    },
+    "axe": 0,
+    "pageErrors": 0
+  },
+  "phone": {
+    "count1": "顯示 4 / 532 筆收錄",
+    "scope": {
+      "hidden": false,
+      "text": "在所選條件下，沒有案例的標題、用途或痛點同時包含「讓」「ai」「整理」「會議」「筆記」。下列 4 筆是全文或同義詞命中，不代表案例在做這件事。其中 1 筆要算上章節標題才符合（例如〈建議操作流程（依來源整理）〉），正文未必提到。\n\n改搜「會議」→ 14 筆（標題、用途與痛點）"
+    },
+    "afterScope": {
+      "count": "顯示 14 / 532 筆收錄",
+      "query": "會議",
+      "url": "http://127.0.0.1:8166/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0&scope=overview#explore"
+    },
+    "firstTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+    "detail1": {
+      "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+      "proof": "本案例頁首宣告 2 類來源：\n\n作者報告／示範\n主要：成果主張 社群作者／專案實踐者；核讀 本庫未獨立重現\n設計／未實跑\n同案宣告：成果主張 提示詞設計者（未提供執行結果）；核讀 未實跑，無成效可核\n作者報告／示範\n社群作者公開分享的操作紀錄與示範；實際產物、完整過程與成效仍須逐案核對，本庫未取得獨立代碼庫驗證。\n成果",
+      "links": [
+        {
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/094-meeting-stand-in-disclosure.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/094-meeting-stand-in-disclosure.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://x.com/kiaraplds/status/2088321112073547835",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ],
+      "overflow": 0
+    },
+    "back1": {
+      "open": false,
+      "query": "會議",
+      "focus": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+      "url": "?q=%E6%9C%83%E8%AD%B0&scope=overview"
+    },
+    "empty": {
+      "text": "⌕\n目前沒有符合「發票」的案例\n\n可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。\n\n移除提及工具「Cursor」 → 查看 1 筆\n移除使用情境「學習」 → 查看 3 筆\n\n或保留目前篩選，探索此條件下有收錄的常見問題：\n\n「僅相關詞」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。\n\n📊 搜尋「簡報製作」\n📈 搜尋「數據分析」\n📰 搜尋「電子報」\n日",
+      "visible": true,
+      "url": "?q=%E7%99%BC%E7%A5%A8&tool=Cursor&scenario=%E5%AD%B8%E7%BF%92"
+    },
+    "recoverLabel": "移除提及工具「Cursor」 → 查看 1 筆",
+    "recovered": {
+      "count": "顯示 1 / 532 筆收錄",
+      "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+      "focus": "results-count"
+    },
+    "shared": {
+      "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准",
+      "caution": "這是失敗復盤案例；不要一開始就設「永遠允許」。初期任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；觀察 1–2 週後若放行，也只限純資訊回覆。低於底線的議價直接列給你、不要回應。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
+      "links": [
+        {
+          "text": "UC-016 原始 Markdown（新分頁） ↗",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/016-marketplace-selling-buyer-messages.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "text": "在 GitHub 查看最新版本（可能不同，新分頁） ↗",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/016-marketplace-selling-buyer-messages.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "text": "",
+          "href": "https://www.techrepublic.com/article/news-meta-ai-facebook-marketplace-buyer-seller-address/",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "text": "",
+          "href": "https://useheadlights.com/library/HD-INC-226/",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ],
+      "overflow": 0,
+      "detailClientHeight": 791,
+      "detailScrollHeight": 4783
+    },
+    "back3": {
+      "open": false,
+      "url": "?q=UC-016",
+      "focus": "results-count"
+    },
+    "axe": 0,
+    "pageErrors": 0
+  },
+  "small": {
+    "count1": "顯示 4 / 532 筆收錄",
+    "scope": {
+      "hidden": false,
+      "text": "在所選條件下，沒有案例的標題、用途或痛點同時包含「讓」「ai」「整理」「會議」「筆記」。下列 4 筆是全文或同義詞命中，不代表案例在做這件事。其中 1 筆要算上章節標題才符合（例如〈建議操作流程（依來源整理）〉），正文未必提到。\n\n改搜「會議」→ 14 筆（標題、用途與痛點）"
+    },
+    "afterScope": {
+      "count": "顯示 14 / 532 筆收錄",
+      "query": "會議",
+      "url": "http://127.0.0.1:8166/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0&scope=overview#explore"
+    },
+    "firstTitle": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+    "detail1": {
+      "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+      "proof": "本案例頁首宣告 2 類來源：\n\n作者報告／示範\n主要：成果主張 社群作者／專案實踐者；核讀 本庫未獨立重現\n設計／未實跑\n同案宣告：成果主張 提示詞設計者（未提供執行結果）；核讀 未實跑，無成效可核\n作者報告／示範\n社群作者公開分享的操作紀錄與示範；實際產物、完整過程與成效仍須逐案核對，本庫未取得獨立代碼庫驗證。\n成果",
+      "links": [
+        {
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/094-meeting-stand-in-disclosure.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/094-meeting-stand-in-disclosure.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "href": "https://x.com/kiaraplds/status/2088321112073547835",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ],
+      "overflow": 0
+    },
+    "back1": {
+      "open": false,
+      "query": "會議",
+      "focus": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記",
+      "url": "?q=%E6%9C%83%E8%AD%B0&scope=overview"
+    },
+    "empty": {
+      "text": "⌕\n目前沒有符合「發票」的案例\n\n可調整指定條件查看更多案例；或直接點選下方推薦問題，保留目前條件繼續探索。\n\n移除提及工具「Cursor」 → 查看 1 筆\n移除使用情境「學習」 → 查看 3 筆\n\n或保留目前篩選，探索此條件下有收錄的常見問題：\n\n「僅相關詞」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。\n\n📊 搜尋「簡報製作」\n📈 搜尋「數據分析」\n📰 搜尋「電子報」\n日",
+      "visible": true,
+      "url": "?q=%E7%99%BC%E7%A5%A8&tool=Cursor&scenario=%E5%AD%B8%E7%BF%92"
+    },
+    "recoverLabel": "移除提及工具「Cursor」 → 查看 1 筆",
+    "recovered": {
+      "count": "顯示 1 / 532 筆收錄",
+      "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+      "focus": "results-count"
+    },
+    "shared": {
+      "title": "讓 AI 代管二手拍賣買家對話，底價、面交地點與時間逐次核准",
+      "caution": "這是失敗復盤案例；不要一開始就設「永遠允許」。初期任何訊息、接受或還價、位置線索、約定時間、標記售出、下架或刪除刊登，都要當次核准；觀察 1–2 週後若放行，也只限純資訊回覆。低於底線的議價直接列給你、不要回應。地址、電話不寫進長期記憶或範本；平台未確認前只在站外準備草稿，本人同意不等於平台授權，每週檢查權限設定頁。",
+      "links": [
+        {
+          "text": "UC-016 原始 Markdown（新分頁） ↗",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/016-marketplace-selling-buyer-messages.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "text": "在 GitHub 查看最新版本（可能不同，新分頁） ↗",
+          "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/d5f4dcf5a7028cb54be654be6c992b10eb77db41/cases/016-marketplace-selling-buyer-messages.md",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "text": "",
+          "href": "https://www.techrepublic.com/article/news-meta-ai-facebook-marketplace-buyer-seller-address/",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        },
+        {
+          "text": "",
+          "href": "https://useheadlights.com/library/HD-INC-226/",
+          "target": "_blank",
+          "rel": "noopener noreferrer"
+        }
+      ],
+      "overflow": 0,
+      "detailClientHeight": 694,
+      "detailScrollHeight": 5167
+    },
+    "back3": {
+      "open": false,
+      "url": "?q=UC-016",
+      "focus": "results-count"
+    },
+    "axe": 0,
+    "pageErrors": 0
+  }
+}

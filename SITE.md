@@ -1,3 +1,11 @@
+## 2026-11-16 同一份 unit suite 只在一個 PR workflow 執行
+
+同一次 PR push 會啟動 16 個 workflow，每個都先跑同一份 859 項 unit suite；2026-11-15 的 `6322e0c6` 讓一個斷言失敗變成 16 個紅色 check，真正的功能訊號被淹沒。本輪把全套留在 path filter 最廣的 Website QA，其餘 15 個 PR workflow 只保留自己的語法、preview 與 browser 旅程；新增靜態守則要求只能有一個 PR 全套 runner，且該 runner 的觸發路徑必須涵蓋其他 PR workflow 的所有觸發路徑。守則另行拒絕 job／step 的 `if:`、註解掉或摺疊／續接的指令、只選子集的 `find`、預設探索加重導向，以及 `--test-name-pattern` 等子集旗標。無產品檔案變更。
+
+交付：[PR #432](https://github.com/RichardHan/ai-agent-use-cases/pull/432)，head `22fa4ba5c7`、合併 `1783250284f1`；PR 16 checks success、2 published skipped，[PR Website QA 43791762584](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43791762584) 實際回報 863 tests／863 pass，[Pages 43793271264](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43793271264) success。正式 `sourceRevision` 精確等於 `1783250284f1…`，六個發布資產逐位元相同；正式站桌面／手機三情境（問題入口、空結果復原、詳情直鏈與返回）通過、無水平溢出。獨立 reviewer 六輪修正後 Correct／No findings。完整證據、限制與下一輪見[本輪 QA](docs/qa/2026-11-16-single-unit-runner/README.md)。
+
+下一輪：README 的搜尋範例數字已 drift（「權限」寫 529／521，實際 532／524；學英文 32→34、省錢 62→65、機票 11→12）。先以現行語料重算這組數字，再決定改成不寫死數字或新增由語料重算的守則。
+
 ## 2026-11-16 已併入的補充頁不再抽卡，手機看得到待查差額
 
 UC-250 的標題自己寫「已合併 UC-156，不另計」，正式站首頁卻把「514 張可抽案例卡」算進它；`?q=UC-250` 更顯示「1 張可抽案例卡」並可按鈕抽卡。另在 390／320px，`#pending-note` 被 `@media(max-width:640px){.stats p{display:none}}` 隱藏，搜尋說 529 筆、統計卡只加得到 522＋3＋2，差額說明在手機與讀屏都不存在（桌面高度 18px、手機 0）。本輪把 `mergedInto` 納入 `Discovery.discoveryPool()` 的既有排除清單，抽卡池 514→513、非可抽 15→16，補充頁仍可搜尋、篩選、閱讀與進詳情；`#pending-note` 在既有的 640px 媒體查詢內重新顯示，手機高度 44px、桌面維持 18px、無水平溢出，算術與 529 筆一致。未改搜尋語意、案例資料、來源分類或計數母體。855 單元（853＋2）、1440／390／320 discovery 全 PASS、axe 0；`result-count-honesty`、`draw-stability`、`evidence-attribution`（含新增手機 rendered 檢查）通過。獨立 review approve、0 findings；其 Playwright 無法啟動，瀏覽器面由本輪量測補足。CI 最近 200 runs 全綠，不改 workflow；訪客審查的「最新版本連結」與「通用 title」兩說法經核為誤報。限制：影像輸入停用、未逐像素目視，未跑 Firefox／WebKit、實體手機或 Jekyll build。[方案、前後量測與截圖](docs/qa/2026-11-16-merged-supplement-draw/README.md)。下一輪先驗 `copy.json` 的 20 個自訂入門建議是否漏掉案例頁已宣告的停止條件，UC-001、UC-005 優先。

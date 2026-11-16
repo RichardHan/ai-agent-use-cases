@@ -1,0 +1,74 @@
+[
+  {
+    "name": "desktop",
+    "before": {
+      "count": "顯示 4 / 532 筆收錄",
+      "action": "改搜「會議」→ 14 筆（標題、用途與痛點）"
+    },
+    "after": {
+      "count": "顯示 14 / 532 筆收錄",
+      "query": "會議",
+      "cards": [
+        "UC-094",
+        "UC-277",
+        "UC-511",
+        "UC-298"
+      ]
+    },
+    "rec": {
+      "count": "顯示 1 / 532 筆收錄",
+      "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+      "focus": "results-count"
+    },
+    "shared": {
+      "proof": [
+        "作者報告／示範",
+        "官方自報"
+      ],
+      "links": [
+        "_blank/noopener noreferrer",
+        "_blank/noopener noreferrer",
+        "_blank/noopener noreferrer"
+      ]
+    },
+    "axe": [],
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "name": "phone",
+    "before": {
+      "count": "顯示 4 / 532 筆收錄",
+      "action": "改搜「會議」→ 14 筆（標題、用途與痛點）"
+    },
+    "after": {
+      "count": "顯示 14 / 532 筆收錄",
+      "query": "會議",
+      "cards": [
+        "UC-094",
+        "UC-277",
+        "UC-511",
+        "UC-298"
+      ]
+    },
+    "rec": {
+      "count": "顯示 1 / 532 筆收錄",
+      "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+      "focus": "results-count"
+    },
+    "shared": {
+      "proof": [
+        "作者報告／示範",
+        "官方自報"
+      ],
+      "links": [
+        "_blank/noopener noreferrer",
+        "_blank/noopener noreferrer",
+        "_blank/noopener noreferrer"
+      ]
+    },
+    "axe": [],
+    "overflow": 0,
+    "errors": []
+  }
+]

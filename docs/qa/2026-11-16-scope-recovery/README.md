@@ -38,7 +38,7 @@
 ## 回歸與紅測
 
 - 先紅：基準程式在 `narrowestScopeTerm` 不存在時新單元測試直接失敗；以基準頁面實測，兩個查詢的按鈕分別是「審查」61／「讓」273，修正後為「隱私」9／「會議」14（[acceptance-log.json](acceptance-log.json)）。
-- 全套 `node --test tests/*.test.cjs`：基準 880 → 本輪 **886 pass／0 fail**；`node --check assets/app.js` 通過。
+- 全套 `node --test tests/*.test.cjs`：基準 880；合併 main 後在本機 **896 pass／0 fail**（PR CI 日誌同為 896）；`node --check assets/app.js` 通過。
 - 瀏覽器回歸（preview，Chromium）：`result-count-honesty-browser.cjs`、`match-scope-note-browser.cjs`、`coverage-recovery-browser.cjs`、`task-coverage-marker-browser.cjs`、`visitor-problem-browser.cjs`、`sentence-fallback-browser.cjs`、`short-sentence-browser.cjs`、`compound-split-browser.cjs`、`search-submit-history-browser.cjs`、`search-sharing-browser.cjs` 全數 exit 0。
 - 發布面：`node scripts/check-published-surface.cjs` → 838 檔／5.91 MiB／9 項排除，PASS。
 
@@ -62,4 +62,7 @@
 
 ## PR、Actions 與發布
 
-- 待補：PR、head、checks、merge、Pages 與正式站核對結果。
+- 交付 PR [#446](https://github.com/RichardHan/ai-agent-use-cases/pull/446)，head `0679fab3ce473c4f41c77f7d1968b330462e858d`。PR checks：18 項 pass、2 項 `published` 依設計 skipping；Website QA [43833878299](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43833878299) 13m22s success（CI 日誌 `# tests 896`／`# pass 896`、`_site`、published-surface 與瀏覽器步驟），Source guide QA [43833878554](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43833878554) 的 12 分鐘 `preview` 也 success。
+- 合併版本 `76b04cd6f02b3676f0313abcc66af000e18a40ec`（第一父 `7a4f0d83`、第二父 `0679fab3`）。`gh pr merge 446 --merge` 第一次回 GitHub 502，第二次回「Merge already in progress」；之後 `origin/main` 已含此合併 commit，但 PR 狀態仍停在 OPEN、`mergeCommit` 為 null，且 GitHub 沒有為 `76b04cd6` 建立 push 觸發的 Website QA 或 Pages run。這是平台端的合併狀態異常，不是本輪程式或 workflow 的失敗；證據是 `git ls-remote origin refs/heads/main` 與 `git show -s --format=%P 76b04cd6` 都指向已合併，PR checks 也全綠。
+- 交付版本的正式站核對方法：以 `git show 76b04cd6:assets/app.js` 的 sha256 對照正式站 `assets/app.js` 的 sha256；再以最新 main 部署的 `catalog.json.sourceRevision` 確認部署版本，重走 `?q=隱私審查`、`?q=我想讓 AI 幫我整理會議紀錄` 與三種情境。因 `76b04cd6` 沒有觸發部署，本次紀錄合併後的 docs-only push 會觸發 Website QA 與 Pages；正式站 `sourceRevision` 會是該次合併版，但 `assets/app.js` 必須與 `76b04cd6` 逐位元相同。
+- 待補：本次紀錄合併後的 Pages run、正式站 `sourceRevision`、`app.js` sha256 與三情境結果。

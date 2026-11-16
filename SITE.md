@@ -1,3 +1,13 @@
+## 2026-11-16 無主題命中時的「改搜」改為最窄可用詞
+
+結果不是 0、但沒有任何案例的標題、用途或痛點同時包含整組詞時，結果頁原本挑命中最多的詞當下一步：正式站 `95924cf2` 的「隱私審查」提供「審查」61 筆（「隱私」只有 9），「我想讓 AI 幫我整理會議紀錄」提供「讓」273 筆（「會議」只有 14）；首頁 7 個任務入口也都被帶到更寬的集合。按鈕筆數是真的，但方向把恢復探索變成擴大雜訊。
+
+本輪新增 `narrowestScopeTerm()`：選最窄的正向集合、排除單字中文碎詞，同筆數時取較長詞與原句順序；篩選把每個詞都排除時仍從 library 計數挑最窄詞。點擊行為、同義詞與排序不動。修正後「隱私審查」→「隱私」9、「會議紀錄」句→「會議」14，按鈕筆數與點擊後畫面一致；新增 7 項單元與桌面／手機瀏覽器回歸。
+
+交付：[PR #446](https://github.com/RichardHan/ai-agent-use-cases/pull/446)，head `0679fab3`；18 項 PR checks pass（Website QA [43833878299](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/43833878299)，896 tests），合併 `76b04cd6`。GitHub 合併 API 回 502 後 main 已含合併 commit，但 PR 狀態停在 OPEN 且該 SHA 沒有 push 觸發的 run；後續 docs-only push 會補上 Pages 與正式站核對，交付版本以 `assets/app.js` 的 sha256 對照 `76b04cd6`。
+
+下一輪：先量空結果面板在 390px 一次列出 55 個任務按鈕的影響（目前約 497px、55 個焦點停點），再決定是否沿用首頁「先顯示 9 項＋展開」的模式；同時把 `source-guide-qa.yml` 的 75 分鐘 `published` job 納入 60＋20 分鐘的等待上限守則。
+
 ## 2026-11-16 來源與計數紀錄頁不再是死路
 
 `sources/*.html` 是支撐可信度主張的紀錄頁，訪客從站內連過去：首頁統計卡「逐案核對標準與排除理由 →」到 `sources/qualification-audit-2026-10-16.html`（桌面 44.6k px、手機 86.3k px），15 個案例頁共 21 個連結到各批次 `sources/research-*.html`，`INDEX.md`／`README.md` 也指向計數稽核與來源清單。但 `_includes/case-fallback-nav.html` 只認 `cases/`、`evidence/` 與 `sources/pending.md`，實測正式站 `95924cf2` 的 294 個 `sources/` 頁面只有 `pending.html` 有導覽；其餘 293 頁唯一的站內出口是頁首站名連結，計數稽核頁的「案例索引」還指向 GitHub blob。把這 294 頁抓下來跑新版 checker 得到 `FAIL: 293 problems`，全部是缺導覽。

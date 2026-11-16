@@ -1,0 +1,22 @@
+## mutation 1: quoted term followed by a count (reviewer P2)
+✖ the README never pins a corpus total that new cases would move (0.938ms)
+✖ the README never pins a corpus total that new cases would move (0.938ms)
+
+## mutation 2: notice threshold drift (reviewer P2)
+✖ the README notice threshold is the share in the app (0.466ms)
+✖ the README notice threshold is the share in the app (0.466ms)
+
+## mutation 3: equivalent rewording of the majority claim (reviewer P2)
+ℹ pass 8
+ℹ fail 0
+
+## mutation 4: overstate 權限 as 全部
+✖ the README claim that 權限 is on nearly every case still holds (0.286209ms)
+
+## restored
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 296.86225

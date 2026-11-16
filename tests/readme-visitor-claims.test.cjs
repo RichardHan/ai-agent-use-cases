@@ -48,6 +48,11 @@ const corpusFiles = ['cases', 'evidence']
 const api = loadDiscovery();
 const entries = corpusFiles.flatMap(file => Array.from(api.parseFile(file, fs.readFileSync(path.join(root, file), 'utf8'))));
 
+// Claims are read per rendered paragraph, not per source line: Markdown soft
+// breaks are not part of the sentence a visitor reads.
+const paragraphs = readme.split(/\n\s*\n/);
+const paragraphWith = (...needles) => paragraphs.find(block => needles.every(needle => block.includes(needle)));
+
 const numberIn = pattern => {
   const match = readme.match(pattern);
   assert.ok(match, `README must still state this setting: ${pattern}`);
@@ -55,7 +60,7 @@ const numberIn = pattern => {
 };
 
 test('the results batch size in the README is the one the app renders', () => {
-  const stated = numberIn(/結果每次先顯示\s*(\d+)\s*筆/);
+  const stated = numberIn(/結果每次先顯示\s*(\d+)\s*(?:筆|則|個)/);
   const implemented = Number(appSource.match(/const RESULT_BATCH_SIZE=(\d+);/)[1]);
   assert.equal(stated, implemented,
     `README promises ${stated} results per batch; app.js renders ${implemented}.`);
@@ -78,10 +83,12 @@ test('the related-reading tag share in the README is the threshold in the app', 
 });
 
 test('the README never pins a corpus total that new cases would move', () => {
-  // These are the exact shapes that drifted: a hit count against a library total,
-  // a recovery example with a fixed count, and the stats-card arithmetic. The live
+  // These are the shapes that drifted: a hit count against a library total, a
+  // recovery example with a fixed count, and the stats-card arithmetic. The live
   // sentence already fills in the reader's own numbers, so prose only has to
-  // describe the parts (N/A/B/C) and the direction.
+  // describe the parts (N/A/B/C) and the direction. Equivalent phrasings are
+  // covered too: a quoted term followed by a count is the same snapshot however
+  // the sentence is built.
   const volatile = [
     [/\d+\s*筆中的\s*\d+\s*筆/, '命中筆數對比全庫總數'],
     [/\d+\s*筆裡[，,]\s*\d+\s*筆/, '結果行的拆分句'],
@@ -89,7 +96,9 @@ test('the README never pins a corpus total that new cases would move', () => {
     [/\d+\s*筆文字命中/, '單詞恢復的固定筆數'],
     [/\d+\s*個條目中有\s*\d+\s*個/, '宣告數對比條目總數'],
     [/只加得到\s*\d+\s*＋/, '統計卡的加總算式'],
-    [/單搜「[^」]*」有\s*\d+\s*筆/, '單一任務詞的固定筆數']
+    [/「[^」]{1,24}」[^。；\n]{0,12}有\s*\d+\s*筆/, '任務詞或工具的固定筆數'],
+    [/命中\s*\d+\s*筆/, '命中筆數'],
+    [/[0-9]+\s*\/\s*[0-9]+\s*筆/, '結果筆數對比全庫']
   ];
   const offenders = [];
   for (const [pattern, label] of volatile) {
@@ -102,7 +111,9 @@ test('the README never pins a corpus total that new cases would move', () => {
 });
 
 test('the README claim that most entries declare no target user still holds', () => {
-  assert.match(readme, /目前多數條目沒有宣告/,
+  // Accept any wording that still makes the majority claim; only the property and
+  // the direction are fixed, not the sentence.
+  assert.match(readme, /(?:多數|大多數|絕大多數)條目(?:都|也)?(?:沒有|未)(?:宣告|提供)/,
     'If the corpus now declares 目標使用者 on most entries, README must say so.');
   const declared = entries.filter(entry => entry.targetUser).length;
   assert.ok(declared * 2 < entries.length,
@@ -110,7 +121,12 @@ test('the README claim that most entries declare no target user still holds', ()
 });
 
 test('all three core-goal states are still present, as the README describes', () => {
-  assert.match(readme, /三種狀態都存在/, 'README must keep describing the three states');
+  const paragraph = paragraphWith('核心目標', '解決痛點');
+  assert.ok(paragraph, 'README must keep the 核心目標 paragraph');
+  for (const wording of [/宣告/, /問題…」章節/, /沒有宣告/]) {
+    assert.match(paragraph, wording,
+      'The 核心目標 paragraph must still describe every state: ' + wording);
+  }
   const states = { declared: 0, section: 0, missing: 0 };
   for (const entry of entries) states[api.coreGoalView(entry).source] += 1;
   for (const state of ['declared', 'section', 'missing']) {
@@ -120,17 +136,35 @@ test('all three core-goal states are still present, as the README describes', ()
 });
 
 test('the README claim that 權限 is on nearly every case still holds', () => {
-  assert.match(readme, /這類標題幾乎每個案例都有/,
-    'A heading-share claim changed; re-measure before promising "幾乎每個案例".');
+  const paragraph = paragraphWith('搜「權限」');
+  assert.ok(paragraph, 'README must keep the 權限 example');
+  // The corpus is not 100%: the wording may say 幾乎/絕大多數/九成以上, but a
+  // promise of 全部 would be false and must fail here.
+  assert.doesNotMatch(paragraph, /(?<!幾乎)(?:全部|所有)案例|(?<!幾乎)每(?:一)?個案例/,
+    'The 權限 search does not match every entry; do not promise 全部.');
+  assert.doesNotMatch(paragraph, /這類標題(?:出現)?(?:在)?(?<!幾乎)(?:全部|所有|每(?:一)?個)案例/,
+    'Not every case page has a 權限 heading; do not promise 全部.');
+
+  assert.match(paragraph, /(?:幾乎|絕大多數|九成以上|大部分|多數)/,
+    'The 權限 paragraph must keep its measured qualifier');
+
   const caseFiles = fs.readdirSync(path.join(root, 'cases')).filter(name => name.endsWith('.md'));
   const withHeading = caseFiles.filter(file => fs.readFileSync(path.join(root, 'cases', file), 'utf8')
     .split('\n').some(line => /^#{1,4}\s/.test(line) && line.includes('權限'))).length;
   assert.ok(withHeading / caseFiles.length >= 0.9,
     `README says nearly every case has a 權限 heading; only ${withHeading}/${caseFiles.length} do.`);
 
-  assert.match(readme, /搜「權限」會命中幾乎全部案例/,
-    'The 權限 search-share claim changed; re-measure it.');
   const hits = api.filterEntries(entries, api.tokenize('權限'), {}).length;
   assert.ok(hits / entries.length >= 0.9,
     `README says 權限 matches nearly every entry; only ${hits}/${entries.length} do.`);
+});
+
+test('the README notice threshold is the share in the app', () => {
+  const stated = readme.match(/達到\s*([一二三四五六七八九十]+)分之([一二三四五六七八九十]+)\s*時出現/);
+  assert.ok(stated, 'README must keep stating when the split notice appears');
+  const digits = { 一: 1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9, 十: 10 };
+  const share = digits[stated[2]] / digits[stated[1]];
+  const implemented = Function('return ' + appSource.match(/const BODY_ONLY_NOTICE_SHARE\s*=\s*([^;]+);/)[1])();
+  assert.ok(Math.abs(share - implemented) < 1e-9,
+    `README says the notice appears at ${stated[0]}; app.js uses ${implemented}.`);
 });

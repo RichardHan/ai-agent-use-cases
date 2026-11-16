@@ -1,0 +1,39 @@
+✔ the pull-request workflows were actually parsed (0.505042ms)
+✔ editing a suite starts a pull request workflow that runs it (2.075875ms)
+✔ editing the site or any part of the corpus starts a browser workflow that asserts it (19.325958ms)
+✔ no workflow turns a failing unit run into a green step (4.940709ms)
+✔ only Website QA runs the whole unit suite from a pull request (1.419708ms)
+✔ the single unit-suite runner starts for every path the other pull-request workflows cover (0.524459ms)
+✖ the unit-suite guard ignores runners that a pull request cannot reach (0.745125ms)
+✔ trigger coverage is decided by glob inclusion, not by sampled paths (0.061833ms)
+✔ a workflow edit runs the job that audits every workflow (0.646375ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 87.381
+
+✖ failing tests:
+
+test at tests/pr-gate-red.tmp.cjs:337:1
+✖ the unit-suite guard ignores runners that a pull request cannot reach (0.745125ms)
+  AssertionError [ERR_ASSERTION]: a narrowing predicate next to -name still selects a subset
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/aiuc-20261116-r5b/tests/pr-gate-red.tmp.cjs:362:10)
+      at Test.runInAsyncScope (node:async_hooks:211:14)
+      at Test.run (node:internal/test_runner/test:980:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:678:18)
+      at Test.postRun (node:internal/test_runner/test:1091:19)
+      at Test.run (node:internal/test_runner/test:1019:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:678:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }

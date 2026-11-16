@@ -271,16 +271,26 @@ function fullSuiteCommand(text) {
     if (/\$\(find tests\b/.test(cleaned)) {
       const find = cleaned.slice(cleaned.indexOf('$('));
       if (/!(?!=)|-not\b/.test(find)) return false;
-      // A positive `-name` predicate still selects a subset: `find tests -name
-      // 'relevance.test.cjs'` runs one file. Only a name predicate that selects
-      // every test file counts as the suite.
-      const names = [...find.matchAll(/-i?name\s+['"]?([^'"\s)]+)['"]?/g)].map(match => match[1]);
-      if (names.length) return names.every(name => name === '*.test.cjs');
-      // No name predicate: only `find tests` or a -type f/d selection is the
-      // directory discovery Node understands. Any other predicate (-path,
-      // -maxdepth, …) may select a subset, so it must not count as the suite.
-      const rest = find.replace(/^\$\(find\s+tests\b/, '').replace(/\)\s*$/, '').trim();
-      return /^(?:-type\s+[fd]\s*)*$/.test(rest);
+      // Only the predicates that cannot narrow the suite are accepted, and they
+      // are validated together: `-name '*.test.cjs' -path 'tests/relevance*'`
+      // still selects one file.
+      const body = find.replace(/^\$\(find\s+tests\b/, '').replace(/\)\s*$/, '').trim();
+      const predicates = body.split(/\s+/).filter(Boolean);
+      for (let i = 0; i < predicates.length; i++) {
+        const predicate = predicates[i];
+        if (predicate === '-type') {
+          const value = predicates[++i];
+          if (value !== 'f' && value !== 'd') return false;
+          continue;
+        }
+        if (predicate === '-name' || predicate === '-iname') {
+          const value = (predicates[++i] || '').replace(/^['"]|['"]$/g, '');
+          if (value !== '*.test.cjs') return false;
+          continue;
+        }
+        return false;
+      }
+      return true;
     }
     // Default discovery: no file arguments, or the whole tests directory.
     const files = tokens.slice(testIndex + 1).filter(token => !token.startsWith('-'));
@@ -363,6 +373,7 @@ test('the unit-suite guard ignores runners that a pull request cannot reach', ()
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -type f -name '*.test.cjs')" })), true, 'a canonical find with -type f selects the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test $(find tests)' })), true, 'a bare find of the tests directory discovers the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -path 'tests/relevance.test.cjs')" })), false, 'an unrecognized find predicate may select a subset');
+  assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs' -path 'tests/relevance*')" })), false, 'a narrowing predicate next to -name still selects a subset');
   assert.equal(runsFullUnitSuite(workflow({ command: "node --test $(find tests -name '*.test.cjs')" })), true, 'a find without exclusions selects the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test \\\n            tests/*.test.cjs' })), true, 'a wrapped command still runs the suite');
   assert.equal(runsFullUnitSuite(workflow({ command: 'node --test' })), true, 'bare node --test uses default discovery');

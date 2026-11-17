@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 527 筆案例；頁首核對日期最新為 2026-11-17；本頁於 2026-11-17 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 529 筆案例；頁首核對日期最新為 2026-11-17；本頁於 2026-11-17 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（527）
+## 案例（529）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -567,6 +567,8 @@
 | UC-533 | 不開剪輯軟體做App宣傳短影音：Grok Bot寫腳本→Claude Code用技能潤稿與算繪並回報檔案路徑→Grok Bot審片寫修改提示→經Buffer MCP排程；代理間提示詞仍手動貼 | Grok Bot／Claude Code（技能）／Buffer MCP | [B英文作者X單則自述流程；成品與技能內容未公開、未重現](cases/533-grok-bot-claude-code-youtube-shorts-pipeline-buffer-schedule.md) | 創作｜影片、跨代理、排程、社群 |
 | UC-534 | 從信箱盤點註冊過的帳號，查各平台遺產聯絡人／閒置帳戶／緊急存取，整理成給家人的交接文件；AI只盤點整理，密碼與授權本人設定 | Grok Bot（信箱、雲端瀏覽器）／Google、Apple、Meta等平台功能 | [B英文作者單則自述「140帳號」＋簡中轉述更正1Password說法；成果與平台功能未查證](cases/534-grok-bot-email-linked-accounts-legacy-contact-family-handover-doc.md) | 生活｜家庭、帳號、盤點、權限 |
 | UC-535 | Muse雲端瀏覽器被Cloudflare人機驗證擋下，改用官方Chrome擴充借本人已登入的Chrome：建Pages專案、上傳ZIP、部署、加自訂網域，再核兩個網址與檔案數 | Meta Muse（Chrome擴充、PC網頁版）／Cloudflare Pages | [B日文作者Qiita自述＋截圖與X錄影；本庫未重現](cases/535-muse-chrome-extension-own-browser-cloudflare-pages-deploy.md) | 開發｜部署、網站、Pages、權限邊界 |
+| UC-536 | 每個工作日早上看對手X與官網，只報和上次比的變化、每筆附連結並記進試算表，沒變化不發訊息；每週一到Meta廣告檔案庫抓投放最久的廣告當線索 | Grok Bot（routine、雲端瀏覽器）／Google Sheets／Slack／Meta廣告檔案庫；原示範另用Foreplay MCP | [YouTuber贊助影片示範經教學站轉述＋教學站改寫提示詞；本庫未看影片、未重現](cases/536-grok-bot-weekday-competitor-change-log-meta-ad-library-longest-running.md) | 工作｜競品、監看、試算表、廣告、每日 |
+| UC-537 | 把寫好的SOP交給主Bot：挑最省時的一個流程、列七點設計圖（觸發、所需、步驟、交回、何時問我、怎麼算有效、何時停下來問），寫好指示等本人說「去做」才建Bot；新Bot自設查信與週五摘要routine、回信先核准 | Grok Bot（主Bot、建立Bot、routine）／Email | [YouTuber課程示範經教學站轉述；本庫未看影片、未重現](cases/537-grok-bot-sop-to-bot-seven-point-map-approval-before-create.md) | 工作｜交接、核准、排程、收件匣 |
 
 <a id="supplement-list"></a>
 
@@ -1096,3 +1098,5 @@
 ## 2026-11-17 08:30：每日批次（X＋Qiita＋教學站／Substack／Hacker News 嘗試）
 
 [約70組候選與查閱範圍](sources/research-2026-11-17-0830.md)：新增2（UC534 從信箱盤點帳號並整理身後存取交接文件；UC535 Muse改用Chrome擴充借本人瀏覽器部署Cloudflare Pages），合併補充2（UC405 長直播剪精華先交時間碼清單；UC527 待辦清單Space以規格Gist重建）。
+
+補充（同批另開 PR）：新增2（UC536 每天只報對手變化並記表、每週抓廣告檔案庫投放最久的廣告；UC537 SOP交主Bot先畫七點設計圖再建Bot），兩則皆為教學站轉述YouTuber影片示範。

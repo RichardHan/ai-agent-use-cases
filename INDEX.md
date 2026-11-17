@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 525 筆案例；頁首核對日期最新為 2026-11-16；本頁於 2026-11-16 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 527 筆案例；頁首核對日期最新為 2026-11-17；本頁於 2026-11-17 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（525）
+## 案例（527）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -436,7 +436,7 @@
 | UC-402 | 讓Bot只用最小權限SSH帳號經Tailscale連回家用伺服器，每天08:00報告車況與保養，另有晨報與沒變化不通知的監看，建置對話交Notion Bot整理成文件 | Grok Bot（約10個分工Bot）／Home Assistant／TeslaMate／Tailscale／Notion | [B韓文作者七則串自述；附圖為概念插畫，無報告樣本或權限設定、未重現](cases/402-home-server-bot-least-privilege-ssh-daily-car-home-report.md) | 生活｜每日、居家、本機執行、權限邊界 |
 | UC-403 | 公開精選清單：Grok Bot每天找候選，本機Claude Code依收錄門檻用gh api核實才併入，經Git留言檔交接，對外動作只由本人做 | Grok Bot／Claude Code／GitHub | [B中文作者自述＋公開倉庫協作協定、任務板、逐輪回執與提交紀錄已讀；配方多待驗、未重現](cases/403-public-curated-list-grokbot-scout-claude-code-verify-git-mailbox.md) | 工作｜每日、多代理、資料維護、核准 |
 | UC-404 | 追蹤藝人：每天07:00整理官方消息與出演行程、20:00只報變化，確定行程寫入Google日曆並去重 | Grok Bot／Google日曆／X | [待驗：日文作者貼文＋公開模板頁僅有設計說明，無實際輸出；不計數](cases/404-fan-watch-official-news-twice-daily-calendar-dedup.md) | 生活｜每日、監看、日曆、X |
-| UC-405 | 把自己的6分鐘影片剪成約37秒直式短片：只准剪不准生成，第一輪只交雜湊、逐字稿與剪輯表，本人定片段後才輸出，再用成品秒數逐點修正 | Grok Bot（雲端電腦上的ffmpeg、Whisper） | [B日文作者note長文自述＋各輪回覆與畫格截圖；未重現](cases/405-video-to-vertical-short-edit-only-verify-hashes.md) | 創作｜影片、剪輯、驗收、字幕 |
+| UC-405 | 把自己的6分鐘影片剪成約37秒直式短片：只准剪不准生成，第一輪只交雜湊、逐字稿與剪輯表，本人定片段後才輸出，再用成品秒數逐點修正；23小時直播剪成60秒精華，先交時間碼清單核准再算繪 | Grok Bot（雲端電腦上的ffmpeg、Whisper） | [B日文作者note長文自述＋各輪回覆與畫格截圖；直播精華為英文作者單則自述＋教學站設計提示詞；未重現](cases/405-video-to-vertical-short-edit-only-verify-hashes.md) | 創作｜影片、剪輯、驗收、字幕 |
 | UC-406 | Bot團隊一夜做出M5Stack桌上用量表：裝置只問自己的VPS，VPS有人問才查並快取5分鐘、加鎖，經Cloudflare Tunnel與標頭密語對外 | Grok Bot（多Bot團隊）／M5Stack Core2／VPS／Cloudflare Tunnel | [B日文作者Zenn作業紀錄（Bot撰寫）＋畫面圖；取用量走非官方介面、作者自承灰色，未重現](cases/406-m5stack-usage-meter-vps-cache-tunnel-shared-secret.md) | 開發｜裝置、用量、權限邊界、驗收 |
 | UC-407 | 只讀資安看守：先盤點自己的網站、網域、帳號與裝置，每天3次比對被利用漏洞、憑證事件、外洩與仿冒網域，兩來源確認、影響到才示警並附下3步與期限 | Grok Bot（公開模板Tripwire） | [待定：英文作者貼文＋模板頁說明，成果僅一句自述（第一天抓到需修補的PHP網站）；未加入模板、未重現](cases/407-stack-aware-security-watch-exploited-vulns-certs-breaches.md) | 開發｜每日、資安、監看、只讀報告 |
 | UC-408 | 每天站會前30分鐘讀行事曆、Notion議程、Slack與Linear，交一頁會前準備（每人一行、3件值得提的事） | Grok Bot routine／Notion／Slack／Linear／行事曆 | [待定：英文作者貼文＋公開提示詞卡圖片，無實際輸出；不計數](cases/408-daily-team-sync-one-page-prep-calendar-notion-slack-linear.md) | 工作｜每日、會議、Slack、Linear |
@@ -558,13 +558,15 @@
 | UC-524 | 服務業排班每天清晨5點體檢：Grok Bot用自己的唯讀帳號下載CRM全部預約，通知團隊空檔、衝突與違反排班規則之處；自動改排與聯絡客戶仍只是構想 | Grok Bot（排程）／CRM與預約系統（產品未公開） | [B英文作者X貼文自述＋員工反應；截圖未看、規則寫法未公開、未重現](cases/524-grok-bot-service-business-booking-crm-daily-schedule-rule-check.md) | 工作｜排班、CRM、每日、唯讀、監看 |
 | UC-525 | Grok Bot群組放總管、下載、剪輯三個Bot：貼X影片連結，總管派下載，剪輯師接ChatCut加中英字幕與MG動畫、剪前先問樣式 | Grok Bot（多Bot、群組）／ChatCut | [B簡中作者X貼文＋示範影片（未看）＋跟做者自述跑通；著作權須自行確認、未重現](cases/525-grok-bot-group-chat-three-bots-x-video-chatcut-bilingual-edit.md) | 創作｜影片、多代理、群組派工、字幕 |
 | UC-526 | 每天早上Muse盤點軟體版本對照當日弱點公告、只報命中、更新待核准；把Muse自己的Git、Node、Python、瀏覽器也列入，依「外部碰不碰得到」決定更新、暫緩或記錄並改操作習慣 | Meta Muse（雲端電腦、瀏覽器、每日例行）／Git／Node.js | [B日文作者Qiita自述＋實際版本與比對；每日盤點詳文未讀、CVE未逐一查核、未重現](cases/526-muse-daily-software-inventory-cve-match-include-watcher-itself.md) | 開發｜資安、弱點管理、版本盤點、每日、核准 |
-| UC-527 | 把GitHub開源投資組合追蹤器裝進Muse Spaces：提示詞要Muse依manifest逐檔照抄不改寫、只開行情網址、每10分鐘更新快取並跑驗收；更新提示詞保留每筆交易、清掉殘留檔 | Meta Muse（Spaces、排程）／GitHub公開倉庫／Yahoo Finance；作者用Claude開發 | [B英文作者X自述＋公開README與manifest已讀；本庫未安裝、未重現](cases/527-muse-spaces-portfolio-tracker-copy-from-repo-manifest-update-keep-data.md) | 生活｜理財、投資紀錄、Spaces、範本、資料保留 |
+| UC-527 | 把GitHub開源投資組合追蹤器裝進Muse Spaces：提示詞要Muse依manifest逐檔照抄不改寫、只開行情網址、每10分鐘更新快取並跑驗收；更新提示詞保留每筆交易、清掉殘留檔；待辦清單Space請Muse寫成不含個資的規格Gist、附不得更改的硬規則，貼進新Muse重建 | Meta Muse（Spaces、排程）／GitHub公開倉庫與Gist／Yahoo Finance；作者用Claude開發 | [B英文作者X自述＋公開README與manifest已讀；待辦規格Gist已讀；本庫未安裝、未重現](cases/527-muse-spaces-portfolio-tracker-copy-from-repo-manifest-update-keep-data.md) | 生活｜理財、投資紀錄、Spaces、範本、資料保留 |
 | UC-528 | API不論帶不帶金鑰都回403：請另一個網路上的Muse代理對照送「不帶金鑰」與「假金鑰」兩個請求，401與403不同代表認證層看得到標頭，相同才查網路路徑；先診斷再換金鑰 | Meta Muse／另一AI協作者（平台未說明）／Google Colab／LG EXAONE API | [B英文作者X串文轉貼代理工作紀錄；無原始請求紀錄、未重現](cases/528-two-agents-different-networks-no-key-vs-fake-key-403-diagnosis.md) | 開發｜故障診斷、API、跨代理、網路、驗證 |
 | UC-529 | 每週重複的網頁查詢：先文字交代跑一次記用量，再在Grok Bot雲端電腦錄影示範一次、請它看錄影做成技能，用同一題比較；作者自述少用約四成token，建技能本身也耗用量 | Grok Bot（雲端電腦、螢幕錄影、技能） | [B英文作者X長貼文自述兩次用量；技能內容與用量畫面未公開、未重現](cases/529-grok-bot-teach-skill-from-screen-recording-token-ab-test.md) | 省錢｜技能、用量稽核、瀏覽器、對照實驗 |
 | UC-530 | 集團每家公司各開一個Grok Bot帳號：共用自建軟體但資料隔離、跨帳號工作看板每件工作唯一認領、閒置額度認領別家開發但走原公司審核、每週wiki對標、每週五依退件登記改一項共用技能 | Grok Bot（多帳號、多Bot）／自建現金預測、CRM、估價軟體／Email／本機推論 | [B英文作者X文章與部落格自述；軟體與規則未公開、無成效數字、未重現](cases/530-grok-bot-one-account-per-company-group-shared-board-spare-capacity.md) | 工作｜多代理、工作看板、權限、知識庫 |
 | UC-531 | 學校考試日期常臨時公布：Grok Bot每天唯讀看課表、新考試查重後寫入行事曆、範圍交家教Bot出練習卷；Muse Spaces彙整9校官網考試日、倒數天數、考前兩週與一週提醒 | Grok Bot（多Bot）；Meta Muse（Spaces、提醒） | [B英文作者X自述＋日文塾長Zenn自述；指示與程式未公開、未重現](cases/531-school-test-dates-daily-watch-calendar-countdown-practice.md) | 學習｜學校、行事曆、提醒、每日 |
 | UC-532 | 只跟Muse說話、背後分派5個AI命令列工具：薄啟動程式在執行前擋未驗證模型與停用路徑、失敗自動分類、手寫帳本改自動紀錄；只有Muse能對外動作且先寫意圖紀錄、結果不明不重送 | Meta Muse／Claude Code／Codex CLI／Gemini系CLI／Grok Build／OpenAI API | [B日文作者Zenn長文自述＋程式節錄與隔離實測；完整程式未公開、未重現](cases/532-muse-single-front-desk-five-cli-routes-fail-closed-launcher.md) | 開發｜多代理、核准、用量稽核、沙箱 |
 | UC-533 | 不開剪輯軟體做App宣傳短影音：Grok Bot寫腳本→Claude Code用技能潤稿與算繪並回報檔案路徑→Grok Bot審片寫修改提示→經Buffer MCP排程；代理間提示詞仍手動貼 | Grok Bot／Claude Code（技能）／Buffer MCP | [B英文作者X單則自述流程；成品與技能內容未公開、未重現](cases/533-grok-bot-claude-code-youtube-shorts-pipeline-buffer-schedule.md) | 創作｜影片、跨代理、排程、社群 |
+| UC-534 | 從信箱盤點註冊過的帳號，查各平台遺產聯絡人／閒置帳戶／緊急存取，整理成給家人的交接文件；AI只盤點整理，密碼與授權本人設定 | Grok Bot（信箱、雲端瀏覽器）／Google、Apple、Meta等平台功能 | [B英文作者單則自述「140帳號」＋簡中轉述更正1Password說法；成果與平台功能未查證](cases/534-grok-bot-email-linked-accounts-legacy-contact-family-handover-doc.md) | 生活｜家庭、帳號、盤點、權限 |
+| UC-535 | Muse雲端瀏覽器被Cloudflare人機驗證擋下，改用官方Chrome擴充借本人已登入的Chrome：建Pages專案、上傳ZIP、部署、加自訂網域，再核兩個網址與檔案數 | Meta Muse（Chrome擴充、PC網頁版）／Cloudflare Pages | [B日文作者Qiita自述＋截圖與X錄影；本庫未重現](cases/535-muse-chrome-extension-own-browser-cloudflare-pages-deploy.md) | 開發｜部署、網站、Pages、權限邊界 |
 
 <a id="supplement-list"></a>
 
@@ -1090,3 +1092,7 @@
 ## 2026-11-16 08:27：每日批次（X＋Zenn＋V2EX／Reddit 嘗試）
 
 [約45組候選與查閱範圍](sources/research-2026-11-16-0827.md)：新增3（UC531 每天看學校頁面抓考試日、查重寫入行事曆與倒數提醒、接練習卷；UC532 Muse唯一窗口分派5個命令列代理、啟動前機械檢查與對外動作意圖紀錄；UC533 Grok Bot與Claude Code分工做短影音並經Buffer排程），合併補充1（UC066 重routine依本週用量80%門檻跳過、每日彙整等待事項）。
+
+## 2026-11-17 08:30：每日批次（X＋Qiita＋教學站／Substack／Hacker News 嘗試）
+
+[約70組候選與查閱範圍](sources/research-2026-11-17-0830.md)：新增2（UC534 從信箱盤點帳號並整理身後存取交接文件；UC535 Muse改用Chrome擴充借本人瀏覽器部署Cloudflare Pages），合併補充2（UC405 長直播剪精華先交時間碼清單；UC527 待辦清單Space以規格Gist重建）。

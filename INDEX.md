@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 529 筆案例；頁首核對日期最新為 2026-11-17；本頁於 2026-11-17 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 533 筆案例；頁首核對日期最新為 2026-11-18；本頁於 2026-11-18 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（529）
+## 案例（533）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -508,7 +508,7 @@
 | UC-474 | 歐洲銀行唯讀直連：經Enable Banking授權，金鑰存祕密，每天7點把交易寫進Google試算表並分類，新訂閱或大額才通知；每週一做一頁消費教練Page | Grok Bot（專職Bot＋routine＋Page）／Enable Banking／Google試算表 | [B英文作者X長文教學（自述自身設定）；無報告截圖、未重現](cases/474-eu-open-banking-grok-bot-money-coach-sheet-weekly-page.md) | 省錢｜記帳、銀行、每日、週報 |
 | UC-475 | Gemini做的新聞信自動化（GAS）交dots驗收：dots在雲端瀏覽器直接請Gemini修，以失敗輸入＋預期結果退回重測，只併入驗過部分、本人核准後寫入正式環境並讀回比對 | ChatGPT dots／Gemini定期任務／Google Apps Script／Gmail | [B日文作者Qiita自測紀錄；隔天兩封信送達，程式未公開、未重現](cases/475-dots-reviews-gemini-built-gas-news-mailer-regression-tests.md) | 開發｜跨代理、程式審查、驗收、核准 |
 | UC-476 | Bot的10條routine各寫一套做法、同規則抄4份：請Bot盤點提出17個技能、建10個，routine只留何時跑，通用規則放個人設定；同一任務第二次做就主動提議建技能 | Grok Bot（routine＋技能＋個人設定） | [B英文作者長文自述＋影片（未看）；技能內容未公開、未重現](cases/476-bot-routines-refactored-into-skills-propose-skill-on-repeat.md) | 開發｜技能、排程、維運、重構 |
-| UC-477 | Muse的雲端VM沒有對外入口：VM內往外拉反向通道、sshd只聽本機只收公鑰，讓自家電腦SSH進去傳檔、轉發看VM內網頁；附五個踩坑與錯誤訊息 | Meta Muse（雲端VM）／OpenSSH／Pinggy | [B日文作者Qiita自述＋錯誤訊息原文；腳本與位址未公開、未重現](cases/477-muse-vm-reverse-tunnel-ssh-loopback-sshd.md) | 開發｜雲端電腦、遠端連線、資安、故障診斷 |
+| UC-477 | Muse的雲端VM沒有對外入口：VM內往外拉反向通道、sshd只聽本機只收公鑰，讓自家電腦SSH進去傳檔、轉發看VM內網頁；附五個踩坑與錯誤訊息；同作者後續改以Google Drive當常設交接中樞（全員外連寫入、作業當下歸檔、同步後重新取回核對） | Meta Muse（雲端VM）／OpenSSH／Pinggy／Google Drive | [B日文作者Qiita自述＋錯誤訊息原文；B同作者後續文章＋架構圖；腳本與位址未公開、未重現](cases/477-muse-vm-reverse-tunnel-ssh-loopback-sshd.md) | 開發｜雲端電腦、遠端連線、資安、故障診斷 |
 | UC-478 | Muse能SSH進Mac卻點不了那台瀏覽器：經codex app-server直接叫用Codex的Computer Use工具，由呼叫方代理讀畫面清單決定點擊，作者稱不耗Codex額度；同法取Meetings紀錄同步到倉庫 | Codex CLI（app-server）／Meta Muse／Claude Code | [B日文作者Qiita全文＋Python範例與截圖；Muse端程式未公開、試驗性介面、未重現](cases/478-muse-claude-code-call-codex-computer-use-via-app-server.md) | 開發｜跨代理、瀏覽器自動化、MCP、用量 |
 | UC-479 | 個人遊戲小額投ChatGPT廣告：Ads Manager外掛以對話設定與UTM、試算CPC×購買率損益兩平；被拒無原因時dots讀信回客服無效，同活動另建廣告即過審 | ChatGPT Work（Ads Manager外掛）／ChatGPT dots／Gmail | [B日文作者Zenn自述＋截圖；成效數字未公開、未重現](cases/479-chatgpt-ads-setup-via-ads-manager-plugin-dots-support-mail.md) | 工作｜廣告、收件匣、試算、人工確認 |
 | UC-480 | 通話後跟進信：先讀過去寄出的信、對上CRM寄信當時的成交階段寫成voice.md；每小時偵測新通話、依逐字稿起草，存草稿並Slack私訊，逐封核准才寄 | Grok Bot／Attio／Granola／Slack | [英文作者原始提示詞＋公開技能檔；無執行輸出，屬未測提示詞](cases/480-grok-bot-post-call-follow-up-drafts-voice-md-slack-approval.md) | 工作｜收件匣、CRM、核准、技能 |
@@ -569,6 +569,10 @@
 | UC-535 | Muse雲端瀏覽器被Cloudflare人機驗證擋下，改用官方Chrome擴充借本人已登入的Chrome：建Pages專案、上傳ZIP、部署、加自訂網域，再核兩個網址與檔案數 | Meta Muse（Chrome擴充、PC網頁版）／Cloudflare Pages | [B日文作者Qiita自述＋截圖與X錄影；本庫未重現](cases/535-muse-chrome-extension-own-browser-cloudflare-pages-deploy.md) | 開發｜部署、網站、Pages、權限邊界 |
 | UC-536 | 每個工作日早上看對手X與官網，只報和上次比的變化、每筆附連結並記進試算表，沒變化不發訊息；每週一到Meta廣告檔案庫抓投放最久的廣告當線索 | Grok Bot（routine、雲端瀏覽器）／Google Sheets／Slack／Meta廣告檔案庫；原示範另用Foreplay MCP | [YouTuber贊助影片示範經教學站轉述＋教學站改寫提示詞；本庫未看影片、未重現](cases/536-grok-bot-weekday-competitor-change-log-meta-ad-library-longest-running.md) | 工作｜競品、監看、試算表、廣告、每日 |
 | UC-537 | 把寫好的SOP交給主Bot：挑最省時的一個流程、列七點設計圖（觸發、所需、步驟、交回、何時問我、怎麼算有效、何時停下來問），寫好指示等本人說「去做」才建Bot；新Bot自設查信與週五摘要routine、回信先核准 | Grok Bot（主Bot、建立Bot、routine）／Email | [YouTuber課程示範經教學站轉述；本庫未看影片、未重現](cases/537-grok-bot-sop-to-bot-seven-point-map-approval-before-create.md) | 工作｜交接、核准、排程、收件匣 |
+| UC-538 | 讓Muse讀崩字古文書：不叫AI直接看圖，改由它在無GPU雲端電腦裝並執行NDL古典籍OCR-Lite與みんなで翻刻OCR，再把文字交AI摘要與現代語譯、不准改原文；作者用7頁公開語料實測CER，AI直接讀與「AI訂正」都較差 | Meta Muse（雲端電腦）／NDL古典籍OCR-Lite／みんなで翻刻OCR | [B日文作者Qiita自述＋逐頁正確率表與評分條件；本庫未重現](cases/538-muse-kuzushiji-dedicated-ocr-then-ai-handles-text-cer-measured.md) | 學習｜OCR、古文書、驗收、比較 |
+| UC-539 | 替既有程式庫設工程Bot：先讀懂專案寫架構文件並排程定期更新，做專屬/qa指令自我改良，新功能走OpenSpec explore→propose→apply，驗證交給技能，學習紀錄不跨程式庫 | Grok Bot（Bot、Routine、技能）／dr eggbot／OpenSpec | [B英文作者X單則自述流程；第三方技能內容未讀、未重現](cases/539-grok-bot-repo-engineer-bot-docs-refresh-qa-commands-openspec-verification.md) | 開發｜程式庫、規則檔、驗收、排程 |
+| UC-540 | 一段提示詞設好Bot團隊安全規則：Gate管外部服務每小時呼叫上限、Ops每天5點只回報卡關並維護規則手冊，需要點頭的事進drafts資料夾、結尾寫sent: 0，沒新事回NOOP，新Routine先暫停 | Grok Bot（多Bot、Routine、雲端工作區、Take over） | [設計提示詞（作者自擬，未附執行紀錄）；用量節省數字未查證](cases/540-grok-bot-gate-ops-team-drafts-folder-noop-paused-routines.md) | 工作｜多代理、核准、用量、每日 |
+| UC-541 | 手機版Grok Bot讀不到系統健康資料：依Bot建議裝能同步上雲、有網路介面的運動App並開權限，再讓Bot連App後台讀睡眠與運動資料，每天出健康建議 | Grok Bot（手機版、Routine）／作者稱「PRO」的運動健康App | [B簡中作者X自述；App名稱與介面未說明、未重現](cases/541-grok-bot-phone-health-data-via-fitness-app-cloud-api-daily-plan.md) | 生活｜健康、權限、隱私、每日 |
 
 <a id="supplement-list"></a>
 
@@ -1100,3 +1104,7 @@
 [約70組候選與查閱範圍](sources/research-2026-11-17-0830.md)：新增2（UC534 從信箱盤點帳號並整理身後存取交接文件；UC535 Muse改用Chrome擴充借本人瀏覽器部署Cloudflare Pages），合併補充2（UC405 長直播剪精華先交時間碼清單；UC527 待辦清單Space以規格Gist重建）。
 
 補充（同批另開 PR）：新增2（UC536 每天只報對手變化並記表、每週抓廣告檔案庫投放最久的廣告；UC537 SOP交主Bot先畫七點設計圖再建Bot），兩則皆為教學站轉述YouTuber影片示範。
+
+## 2026-11-18 08:30：每日批次（X＋Qiita API）
+
+[約75組候選與查閱範圍](sources/research-2026-11-18-0830.md)：新增4（UC538 Muse執行崩字專用OCR再交AI處理文字並實測CER；UC539 程式庫工程Bot先寫架構文件並定期更新；UC540 Bot團隊守門與每日卡關回報設定提示詞；UC541 經雲端運動App讓Bot讀手機健康資料），合併補充1（UC477 同作者改以Google Drive當Muse VM交接中樞）。

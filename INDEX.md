@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 537 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 542 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（537）
+## 案例（542）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -577,6 +577,11 @@
 | UC-563 | 電子產線多代理分析品質風險 | Microsoft Azure／多代理 | [供應商報告 Rockwell 自述；未重現](cases/563-rockwell-quality-multi-agent.md) | 工作｜製造、品質、人工判斷 |
 | UC-564 | 生產排程修改先在草稿核對風險 | IBM watsonx Orchestrate | [供應商客戶故事；未重現](cases/564-suzhou-draft-production-scheduling.md) | 工作｜製造、排程、風險 |
 | UC-565 | 灌裝設備模擬與代理迭代試點 | Azure HPC／數位分身 | [供應商報告 Krones 試點；未重現](cases/565-krones-filler-simulation-agents.md) | 工作｜製造、模擬、工程 |
+| UC-566 | 病歷彙整與事前授權人工協作 | Notable Sidekick／Oracle／Carelon | [供應商報告 MIT Health；未重現](cases/566-mit-health-prior-authorization-copilot.md) | 工作｜醫療行政、事前授權、人工判斷 |
+| UC-567 | 醫院來電預約與轉接 | Hyro／Epic | [供應商報告 Tampa General；未重現](cases/567-tampa-general-voice-scheduling.md) | 工作｜醫療行政、預約、人工交接 |
+| UC-568 | 基層診所預約確認、取消與改期 | Artera | [媒體訪談診所主管；未重現](cases/568-family-first-community-clinic-scheduling.md) | 工作｜醫療行政、診所、分階段導入 |
+| UC-569 | 影像檢查醫囑主動聯絡與預約 | ActiumHealth | [供應商報告 Houston Methodist；未重現](cases/569-houston-methodist-imaging-outreach.md) | 工作｜醫療行政、外呼、影像檢查 |
+| UC-570 | 胃腸鏡前語音聯絡與護理交接 | Notable／Epic | [院方自述＋供應商數據；未重現](cases/570-ucsd-gi-procedure-preparation.md) | 工作｜醫療行政、術前準備、人工交接 |
 
 <a id="supplement-list"></a>
 

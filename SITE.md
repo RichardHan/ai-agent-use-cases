@@ -1,3 +1,15 @@
+## 2026-11-20 零售營運案例集群
+
+Mode A：新增 UC-571–575 五頁，涵蓋 Carrefour 展店選址、Lotte 商品品管問答、Tamimi 門市數據、K9 Ballistics 保固例外及 Braun 選購引導；各一組織、一個流程。五篇均為合作供應商或技術供應商客戶報告，不是獨立實測；明列未公開的樣本、比較與權限限制。K9 的舊代理失誤和修正不拆案，Tamimi 原有 TIPS 不說成新代理建立，Braun 的營收「影響」不當增量。五個原始頁均已核讀；候選網址與企業名稱對照現有案例與補充檔，未發現既有匹配，不能排除其他網址的重複。
+
+驗證：`node --test tests/index-freshness.test.cjs tests/corpus-bundle.test.cjs tests/case-share.test.cjs tests/relayed-source-provenance.test.cjs` 48 pass；preview 的 corpus 546 個來源逐 byte 一致。Chromium 1440／390 實走零售搜尋、UC-574 直鏈及證據摘要、返回、篩選後空結果鍵盤復原，無水平溢出或 pageerror。Preview 不是 Jekyll；未用實體手機、讀屏或獨立重現來源效果。
+
+完整單元套件初跑 924 pass／1 fail：UC-574 門檻用語不符合既有三種機器值，已改為「工具串接」；受影響測試重跑 21 pass，完整 `node --test tests/*.test.cjs` 重跑 925 pass／0 fail。
+
+獨立審查指出 UC-571 將完整選址評估誤縮為資料蒐集、UC-573 應分述日活與採用成長；已改正並覆核無其他具體阻斷問題。
+
+**2,000 筆成長雷達**：目前嚴格合格累計仍未知；2026-10-22 的 370 是歷史快照，不能直接加五頁或計算目前差距。本輪新增 5 案例頁，537→542 為隔離基準的索引頁數，待逐案計數。醫療行政已由 PR #477 處理；下一個待攻沙漠為硬體／IoT 維護及家庭財務管理。下一輪建議 **Mode A**，先查開放 PR 與現有案例，再尋找硬體設備第一手實際部署及可核對結果。
+
 ## 2026-11-20 歷史合格稽核引用批次定位
 
 Mode C：`python3 scripts/audit-reference-scan.py > /tmp/audit-references.json` 一次列出每個案例檔在 `sources/qualification-audit-2026-10-16.md` 的直接 Markdown 連結行號，並列出無法對到現存檔案的連結。供人工打開原行與原始來源核對，不自動判定合格或去重；只識別該稽核檔的相對連結與本庫 GitHub main 連結，漏掉純文字編號、範圍及其他紀錄。無連結不代表未受稽核，有連結也可能只是比較或不納入；舊稽核不是當前合格計數。

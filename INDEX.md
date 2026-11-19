@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 537 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 542 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（537）
+## 案例（542）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -577,6 +577,11 @@
 | UC-563 | 電子產線多代理分析品質風險 | Microsoft Azure／多代理 | [供應商報告 Rockwell 自述；未重現](cases/563-rockwell-quality-multi-agent.md) | 工作｜製造、品質、人工判斷 |
 | UC-564 | 生產排程修改先在草稿核對風險 | IBM watsonx Orchestrate | [供應商客戶故事；未重現](cases/564-suzhou-draft-production-scheduling.md) | 工作｜製造、排程、風險 |
 | UC-565 | 灌裝設備模擬與代理迭代試點 | Azure HPC／數位分身 | [供應商報告 Krones 試點；未重現](cases/565-krones-filler-simulation-agents.md) | 工作｜製造、模擬、工程 |
+| UC-571 | 門市選址市場研究與上游篩選 | Copilot Expansion／Google Cloud | [合作供應商報告；未重現](cases/571-carrefour-store-opening-market-study.md) | 工作｜零售、選址、市場調研 |
+| UC-572 | 供應商商品品管問答 | Sendbird／Claude／Amazon Bedrock | [AWS 報告並引用樂天團隊；未重現](cases/572-lotte-fashion-partner-qa.md) | 工作｜零售、供應商、商品品管 |
+| UC-573 | 雙語門市銷售與庫存查詢 | Claude／Amazon Bedrock／Teams | [實作供應商報告；未重現](cases/573-tamimi-store-analytics-agents.md) | 工作｜零售、庫存管理、多代理 |
+| UC-574 | 電商保固問答的過度承諾與修正 | Klaviyo／Gorgias | [供應商客戶案例；未重現](cases/574-k9-ballistics-warranty-shopping-agent.md) | 工作｜零售、客服、保固 |
+| UC-575 | 電商商品選購引導 | Insider One Shopping Agent | [供應商客戶案例；未重現](cases/575-braun-shopping-agent.md) | 工作｜零售、商品推薦、隱私審查 |
 
 <a id="supplement-list"></a>
 

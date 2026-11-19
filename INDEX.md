@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 537 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 542 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（537）
+## 案例（542）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -577,6 +577,11 @@
 | UC-563 | 電子產線多代理分析品質風險 | Microsoft Azure／多代理 | [供應商報告 Rockwell 自述；未重現](cases/563-rockwell-quality-multi-agent.md) | 工作｜製造、品質、人工判斷 |
 | UC-564 | 生產排程修改先在草稿核對風險 | IBM watsonx Orchestrate | [供應商客戶故事；未重現](cases/564-suzhou-draft-production-scheduling.md) | 工作｜製造、排程、風險 |
 | UC-565 | 灌裝設備模擬與代理迭代試點 | Azure HPC／數位分身 | [供應商報告 Krones 試點；未重現](cases/565-krones-filler-simulation-agents.md) | 工作｜製造、模擬、工程 |
+| UC-582 | 未合併分支 CI 清理誤刪正式虛擬機 | CI／OpenStack | [事故協調者自述；未重現](cases/582-agent-ci-production-vm-cleanup.md) | 開發｜失敗復盤、CI、權限 |
+| UC-583 | 自主修復建置後網站被佔位頁取代 | OpenClaw／Claude | [網站經營者自述；未重現](cases/583-autonomous-clinic-build-cascade.md) | 開發｜失敗復盤、醫療、監控 |
+| UC-584 | 結構同步升級成正式資料庫重置 | Claude Code／Prisma | [使用者自述；未重現](cases/584-prisma-agent-production-reset.md) | 開發｜失敗復盤、資料庫、備份 |
+| UC-585 | 清除測試數字誤刪客戶資料 | Claude Code／PostgreSQL | [使用者自述；未重現](cases/585-agent-dashboard-cleanup-customer-data.md) | 開發｜失敗復盤、資料清理、審批 |
+| UC-586 | 遷移只比列數而漏掉音檔儲存 | Claude Code／Supabase | [使用者自述；未重現](cases/586-agent-migration-row-count-storage-loss.md) | 開發｜失敗復盤、遷移、儲存 |
 
 <a id="supplement-list"></a>
 

@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 531 筆案例；頁首核對日期最新為 2026-11-18；本頁於 2026-11-18 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 534 筆案例；頁首核對日期最新為 2026-11-19；本頁於 2026-11-19 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（531）
+## 案例（534）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -53,7 +53,7 @@
 | UC-014 | 客服收件匣巡檢與人核准退款 | Grok Bot／Intercom／Stripe；dots 垃圾箱分診＋影片待看 | [作者自述＋dots 垃圾箱年付求助分診截圖；影片僅讀描述](cases/014-support-inbox-approval-refund.md) | 工作｜客服、收件匣、核准 |
 | UC-015 | 公開頁面變更監看與有限次排程驗收 | ChatGPT dots／Grok Bot routine（含 KEV、公告覆蓋驗收） | [dots 結構化測試＋Grok Bot 官方文件＋KEV 監看自述＋每日看更新紀錄轉個人建議自述；未重現](cases/015-public-page-change-watch.md) | 工作｜每日、監看、排程、驗收 |
 | UC-016 | 二手刊登與買家對話代管 | Meta Muse／Facebook Marketplace；dots 多平台 | [Muse 地址外洩事件（媒體轉述，尚待查證）＋官方權限文件＋作者自述；未重現](cases/016-marketplace-selling-buyer-messages.md) | 生活｜二手、買家訊息、隱私 |
-| UC-017 | 先研究潛在客戶，再準備有根據的聯絡草稿；繁中作者把n8n客戶開發搬到多Bot分工並實際寄信 | Grok Bot／公開公司來源／草稿；Apify Google Maps Scraper／Gmail／Routines | [官方展示／署名作者自報＋繁中作者實測自述（寄出14封、回覆未公開）；未獨立重現](cases/017-prospect-research-drafts.md) | 工作｜業務開發、草稿 |
+| UC-017 | 先研究潛在客戶，再準備有根據的聯絡草稿；繁中作者把n8n客戶開發搬到多Bot分工並實際寄信；另一版寄信前先寫3種開場、預測對方回覆並備好回應，勝出開場存成技能 | Grok Bot／公開公司來源／草稿；Apify Google Maps Scraper／Gmail／Routines | [官方展示／署名作者自報＋繁中作者實測自述（寄出14封、回覆未公開）＋英文作者X自述回覆率（未查證，2026-11-19補）；未獨立重現](cases/017-prospect-research-drafts.md) | 工作｜業務開發、草稿、技能 |
 | UC-018 | 正式展示前，先檢查示範環境能不能跑 | Grok Bot／授權測試環境 | [官方展示／署名作者自報；未獨立重現](cases/018-demo-readiness.md) | 工作｜展示、驗收 |
 | UC-019 | 把剛談到的客戶需求，變成下一版簡報 | Grok Bot／Granola／Figma | [官方展示／署名作者自報；未獨立重現](cases/019-call-to-customer-deck.md) | 工作｜簡報、會議 |
 | UC-020 | 用一張設計範本，做出整批一致的卡片 | Grok Bot／Figma MCP | [官方展示／署名作者自報；未獨立重現](cases/020-figma-batch-cards.md) | 創作｜設計、Figma、批次製作 |
@@ -553,7 +553,7 @@
 | UC-519 | 付費dots當秘書並行3～4個專案一個月：雲端作業檔隔天不見、改存Space仍時成時敗、本機寫入卡權限；續做排程每15分鐘約6～8小時後撞上防濫用上限 | ChatGPT dots（Pro；Space、排程、本機Mac） | [B日文作者Qiita失敗自述＋截圖；上限條件未知、未重現](cases/519-dots-month-secretary-data-loss-keepalive-schedule-limit.md) | 工作｜失敗、排程、專案進度、用量 |
 | UC-520 | 從Claude Code、Codex或自己的程式叫Grok Bot隊友做事並拿回答案：Executor小App打轉接Bot的webhook Routine，轉接Bot把提示詞交給指定Bot、收到回覆後POST回回呼網址，程式以runId讀回 | Grok Bot（webhook Routine、多Bot團隊）／Executor（MCP、回呼webhook）／Claude Code／Codex | [B英文作者X貼文＋公開倉庫README與並行實測表；影片未看、未部署、未重現](cases/520-grok-bot-bridge-code-dispatch-webhook-callback.md) | 開發｜webhook、多代理、派工、MCP |
 | UC-521 | 讓Muse與Grok Bot讀家裡的Home Assistant：Tailscale ACL只開8123、只出不進、非管理員長期權杖，連上後回報實體數；再比較Muse走tailnet、Grok Bot經家中Mac mini的分工 | Meta Muse（雲端電腦）／Grok Bot（Tailscale連接、Routine）／Home Assistant OS／Tailscale | [B日文作者部落格逐段對話與連線測試輸出＋X摘要；影片未看、ACL原文未公開、未重現](cases/521-muse-grok-bot-home-assistant-tailscale-three-layer-access.md) | 生活｜居家、Home Assistant、權限邊界、比較 |
-| UC-522 | Grok Bot與Muse互傳不了訊息：Grok Bot每天把去敏的Bot團隊快照放到有密碼的頁面給Muse唯讀；Muse只在一頁Notion留帶日期的點子，免費腳本每30分鐘檢查、有新筆記才叫醒主Bot，主Bot建議交給誰、等本人同意；另一版三個Notion資料庫、收件匣只能追加 | Grok Bot（多Bot團隊、雲端電腦）／Meta Muse（自訂連接器）／Notion／Cloudflare | [B兩位英文作者X串文自述；腳本、頁面與權限設定未公開、未重現](cases/522-grok-bot-muse-notion-bridge-fleet-snapshot-inbox-poll.md) | 工作｜跨代理、Notion、交接、權限、每日 |
+| UC-522 | Grok Bot與Muse互傳不了訊息：Grok Bot每天把去敏的Bot團隊快照放到有密碼的頁面給Muse唯讀；Muse只在一頁Notion留帶日期的點子，免費腳本每30分鐘檢查、有新筆記才叫醒主Bot，主Bot建議交給誰、等本人同意；另一版三個Notion資料庫、收件匣只能追加；另一版夫妻兩個Muse帳號以Drive共享資料夾＋只帶編號的門鈴檔＋台帳互相委託 | Grok Bot（多Bot團隊、雲端電腦）／Meta Muse（自訂連接器）／Notion／Cloudflare／Google Drive | [B兩位英文作者X串文自述＋日文作者Qiita實測自述（2026-11-19補）；腳本、頁面與權限設定未公開、未重現](cases/522-grok-bot-muse-notion-bridge-fleet-snapshot-inbox-poll.md) | 工作｜跨代理、Notion、交接、權限、每日 |
 | UC-523 | 一人替多個客戶做外展：Grok Bot幕僚長分派並送晨報、每客戶一個Bot、Instantly有意願回信經webhook交回覆Bot在Slack貼評分與建議回覆待核准、平日18:00回報；首則訊息限定可用連接與點數上限 | Grok Bot（多Bot、webhook、排程）／Slack／Instantly／Fireflies／GitHub／Claude Code | [B英文作者X長貼文轉述同事設定；所引長文未讀、無成效數字、未重現](cases/523-grok-bot-gtm-agency-chief-of-staff-per-client-reply-bots.md) | 工作｜多代理、銷售、Slack、核准、每日 |
 | UC-524 | 服務業排班每天清晨5點體檢：Grok Bot用自己的唯讀帳號下載CRM全部預約，通知團隊空檔、衝突與違反排班規則之處；自動改排與聯絡客戶仍只是構想 | Grok Bot（排程）／CRM與預約系統（產品未公開） | [B英文作者X貼文自述＋員工反應；截圖未看、規則寫法未公開、未重現](cases/524-grok-bot-service-business-booking-crm-daily-schedule-rule-check.md) | 工作｜排班、CRM、每日、唯讀、監看 |
 | UC-525 | Grok Bot群組放總管、下載、剪輯三個Bot：貼X影片連結，總管派下載，剪輯師接ChatCut加中英字幕與MG動畫、剪前先問樣式 | Grok Bot（多Bot、群組）／ChatCut | [B簡中作者X貼文＋示範影片（未看）＋跟做者自述跑通；著作權須自行確認、未重現](cases/525-grok-bot-group-chat-three-bots-x-video-chatcut-bilingual-edit.md) | 創作｜影片、多代理、群組派工、字幕 |
@@ -571,6 +571,9 @@
 | UC-539 | 替既有程式庫設工程Bot：先讀懂專案寫架構文件並排程定期更新，做專屬/qa指令自我改良，新功能走OpenSpec explore→propose→apply，驗證交給技能，學習紀錄不跨程式庫 | Grok Bot（Bot、Routine、技能）／dr eggbot／OpenSpec | [B英文作者X單則自述流程；第三方技能內容未讀、未重現](cases/539-grok-bot-repo-engineer-bot-docs-refresh-qa-commands-openspec-verification.md) | 開發｜程式庫、規則檔、驗收、排程 |
 | UC-540 | 一段提示詞設好Bot團隊安全規則：Gate管外部服務每小時呼叫上限、Ops每天5點只回報卡關並維護規則手冊，需要點頭的事進drafts資料夾、結尾寫sent: 0，沒新事回NOOP，新Routine先暫停 | Grok Bot（多Bot、Routine、雲端工作區、Take over） | [設計提示詞（作者自擬，未附執行紀錄）；用量節省數字未查證](cases/540-grok-bot-gate-ops-team-drafts-folder-noop-paused-routines.md) | 工作｜多代理、核准、用量、每日 |
 | UC-541 | 手機版Grok Bot讀不到系統健康資料：依Bot建議裝能同步上雲、有網路介面的運動App並開權限，再讓Bot連App後台讀睡眠與運動資料，每天出健康建議 | Grok Bot（手機版、Routine）／作者稱「PRO」的運動健康App | [B簡中作者X自述；App名稱與介面未說明、未重現](cases/541-grok-bot-phone-health-data-via-fitness-app-cloud-api-daily-plan.md) | 生活｜健康、權限、隱私、每日 |
+| UC-542 | Muse Spaces自製應用每次讀Google Drive都跳核准卡且不記住：切分出讀取無常設許可、只有應用讀才跳卡，改由代理更新時寫入應用內單列快照、畫面只讀快照，每天早上比對修改時間同步，套用9個應用 | Meta Muse（Spaces、Drive連接器CLI、排程）／Google Drive | [B日文作者Qiita實測自述（免費方案）；共用檔不跳卡為作者推測、未重現](cases/542-muse-spaces-drive-read-approval-card-snapshot-pattern.md) | 開發｜Spaces、Google Drive、權限、故障診斷、快照、每日 |
+| UC-543 | Muse經PixAI API量產原創角色插圖：生成前報張數與點數待核准、共用角色描述一次出4種構圖、網頁版訓練LoRA後由Muse搜尋套用，四格漫畫生成與排版分開驗收、改台詞只重排版 | Meta Muse（安全連接器、API輔助程式）／PixAI API v2／PixAI網頁版 | [B日文作者Qiita＋Zenn實測自述（16,000點、約3分20秒）；未重現](cases/543-muse-pixai-api-batch-images-lora-four-panel-manga-checks.md) | 創作｜圖像、角色一致性、API、費用、核准、驗收 |
+| UC-544 | 以闖入者角度做個人曝險盤點：三個分權Bot查門號、臉與名字、密碼、手機App、存卡、Mac六道門，改密碼／撤銷／打電話都要本人點頭，有效檢查存成技能每週日重跑並記在「我的曝險」頁 | Grok Bot（多Bot、技能、排程、Pages、Auto-review、代打電話）／密碼庫連接／Apple連接 | [B英文作者X文章自述；520破口等數字未查證、帶推廣性質、未重現](cases/544-grok-bot-personal-exposure-audit-three-bots-six-doors-weekly-recheck.md) | 生活｜隱私、資安、權限、核准、多代理 |
 
 <a id="supplement-list"></a>
 
@@ -1104,3 +1107,7 @@
 ## 2026-11-18 08:30：每日批次（X＋Qiita API）
 
 [約75組候選與查閱範圍](sources/research-2026-11-18-0830.md)：新增4（UC538 Muse執行崩字專用OCR再交AI處理文字並實測CER；UC539 程式庫工程Bot先寫架構文件並定期更新；UC540 Bot團隊守門與每日卡關回報設定提示詞；UC541 經雲端運動App讓Bot讀手機健康資料），合併補充1（UC477 同作者改以Google Drive當Muse VM交接中樞）。
+
+## 2026-11-19 08:30：每日批次（X＋Qiita API＋Zenn API＋Hacker News）
+
+[約60組候選與查閱範圍](sources/research-2026-11-19-0830.md)：新增3（UC542 Muse Spaces讀Drive跳核准卡改快照架構；UC543 Muse經PixAI API批次生圖、LoRA與四格漫畫分開驗收；UC544 三個分權Bot做個人曝險盤點並每週重跑），合併補充2（UC017 寄信前推演對方回覆並把勝出開場存成技能；UC522 夫妻兩個Muse帳號以Drive門鈴檔＋台帳互相委託）。全部未獨立重現。

@@ -3095,13 +3095,19 @@ function renderFacetCounts(terms, filters) {
   // hint says what counts as a mention and what does not. Without it, a reader had no
   // way to know why a card printed a tool the case's `- 工具：` line never named.
   const toolHint = '提及工具只看案例內文提到的工具；來源與站內案例連結的網域／檔名（例如 github.com）、去重對照其他案例的敘述，以及「不推定…／不需要…」等免責或否定句不算。明示分頁或續跑狀態的 cursor 不算 Cursor 產品。工具名以站上固定清單為準，清單外的工具不會出現在選項裡。';
-  // A page that declares no theme is not given one, so it cannot appear under any
-  // 主題分類 option. Say how many those are instead of letting the filter look
-  // like it covers the whole catalogue.
+  // The shape sentence used to live in the shared hint. On a 320px screen that
+  // hint is 508px tall and sits above the selects, so the sentence was off-screen
+  // exactly when 主題分類 was in view. It now sits on #category-shape.
   const unclassified = discoveryReady ? entries.filter(item => !item.category).length : 0;
-  const categoryHint = (unclassified
+  const categoryHint = unclassified
     ? '主題分類只列案例頁首宣告的分類；' + unclassified + ' 個未宣告分類的條目不在選項內，仍可用關鍵字、使用情境與其他篩選找到。'
-    : '') + (discoveryReady ? categoryShapeNote(entries) : '');
+    : '';
+  const shape=$('category-shape');
+  if(shape){
+    const shapeText=discoveryReady ? categoryShapeNote(entries) : '';
+    shape.textContent=shapeText;
+    shape.hidden=!shapeText;
+  }
   hint.textContent=(!discoveryReady
     ? '案例載入完成後，會顯示各選項的符合筆數。'
     : failedPaths.length

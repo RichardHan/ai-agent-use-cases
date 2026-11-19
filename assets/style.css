@@ -222,12 +222,18 @@
 .filter-panel{padding:0 16px 18px}
 .filter-panel .scenario-chips{padding:14px 0;margin:0;border:0;border-top:1px solid var(--line);border-radius:0}
 .filter-panel .filter-row{margin-top:6px}
+.category-shape{display:block;margin:0;font-size:13px;line-height:1.55;font-weight:450;color:#4c6258;overflow-wrap:anywhere}
+.category-shape[hidden]{display:none}
 .filter-outcome{display:none}
 @media(max-width:760px){
   .filter-outcome{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 -14px;padding:8px 14px;background:#eef2e7;border-block:1px solid #cbd6bf;box-shadow:0 2px 5px #172b2714}
   .filter-outcome span{font-size:13px;font-weight:650;line-height:1.4;color:#244237}
   .filter-outcome button{min-height:44px;flex-shrink:0;padding:8px 10px;font-size:12px;font-weight:650;background:var(--green);border-color:var(--green);color:white}
   .filter-outcome button:disabled{opacity:.6}
+  .filter-panel{display:flex;flex-direction:column}
+  .filter-panel>.filter-row{order:2}
+  .filter-panel>#category-finder{order:3}
+  .filter-panel>#facet-count-hint{order:4}
 }
 @media(max-width:760px){
  .filter-options{margin-top:6px}
@@ -472,11 +478,13 @@
 /* Give native filters room to read both their label and current selection. */
 .filter-panel .filter-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:end}
 .filter-panel .filter-row label{font-size:14px;line-height:1.7;gap:8px;color:var(--green)}
+.category-field{display:flex;flex-direction:column;gap:8px;min-width:0}
 .filter-panel .filter-row select{font-size:16px;min-height:44px;height:44px;min-width:0;max-width:100%;padding-inline:12px}
 .filter-panel .filter-row .reset{grid-column:1/-1;justify-self:end;min-height:44px;height:auto;max-width:100%;padding:9px 14px;font-size:14px;line-height:1.7;white-space:normal;text-align:center;border:1px solid var(--line);border-radius:7px;color:var(--green)}
 .filter-panel .filter-row select:focus-visible,.filter-panel .filter-row .reset:focus-visible{outline:3px solid var(--green);outline-offset:3px}
 @media(max-width:1000px){.filter-panel .filter-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.filter-panel .filter-row{grid-template-columns:minmax(0,1fr)}}
+
 
 /* Evidence proof badge styling: credible, accessible, and responsive. */
 .card-bottom .proof{font-size:12px;line-height:1.5;color:#244237;font-weight:550;background:#edf3ea;border:1px solid #d4e0cf;border-radius:4px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;flex:0 1 auto;max-width:fit-content}

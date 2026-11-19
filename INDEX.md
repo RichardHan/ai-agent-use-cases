@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 531 筆案例；頁首核對日期最新為 2026-11-18；本頁於 2026-11-18 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 536 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（531）
+## 案例（536）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -571,6 +571,11 @@
 | UC-539 | 替既有程式庫設工程Bot：先讀懂專案寫架構文件並排程定期更新，做專屬/qa指令自我改良，新功能走OpenSpec explore→propose→apply，驗證交給技能，學習紀錄不跨程式庫 | Grok Bot（Bot、Routine、技能）／dr eggbot／OpenSpec | [B英文作者X單則自述流程；第三方技能內容未讀、未重現](cases/539-grok-bot-repo-engineer-bot-docs-refresh-qa-commands-openspec-verification.md) | 開發｜程式庫、規則檔、驗收、排程 |
 | UC-540 | 一段提示詞設好Bot團隊安全規則：Gate管外部服務每小時呼叫上限、Ops每天5點只回報卡關並維護規則手冊，需要點頭的事進drafts資料夾、結尾寫sent: 0，沒新事回NOOP，新Routine先暫停 | Grok Bot（多Bot、Routine、雲端工作區、Take over） | [設計提示詞（作者自擬，未附執行紀錄）；用量節省數字未查證](cases/540-grok-bot-gate-ops-team-drafts-folder-noop-paused-routines.md) | 工作｜多代理、核准、用量、每日 |
 | UC-541 | 手機版Grok Bot讀不到系統健康資料：依Bot建議裝能同步上雲、有網路介面的運動App並開權限，再讓Bot連App後台讀睡眠與運動資料，每天出健康建議 | Grok Bot（手機版、Routine）／作者稱「PRO」的運動健康App | [B簡中作者X自述；App名稱與介面未說明、未重現](cases/541-grok-bot-phone-health-data-via-fitness-app-cloud-api-daily-plan.md) | 生活｜健康、權限、隱私、每日 |
+| UC-545 | Cisco Live 二線調查：以事件 ID 串聯 XDR、封包與日誌，人工核對誤報及封鎖建議 | Claude Code／Cisco XDR／Endace MCP／Splunk MCP | [Cisco 員工自報現場案例；本地模型未穩定、未獨立重現](cases/545-cisco-live-soc-tier2-mcp-investigation.md) | 開發｜資安、事件調查、MCP、人工覆核 |
+| UC-546 | Slack 資安調查由主任、領域專家與批判代理檢查證據，發現專家漏掉的憑證暴露 | MCP／Slack 自建調查服務 | [Slack 工程師自報；報告經編修、未獨立重現](cases/546-slack-security-expert-critic-investigations.md) | 開發｜資安、多代理、事件調查、失敗復盤 |
+| UC-547 | Figma 安全警報回查歷史事件與人工筆記，代理調查並提出草稿 PR | Panther／Tines／Slack／AWS Bedrock／Amazon Kendra／Snowflake／Okta | [Figma 團隊自報；效益未獨立核驗](cases/547-figma-security-alert-memory-draft-pr.md) | 開發｜資安、事件調查、知識庫、人工覆核 |
+| UC-548 | TRM 安全警報按風險自動結案或附證據升級，工具依工作流程限制 | Slack／Claude／Cloud Run／Google Cloud／Cloudflare | [TRM 團隊自報；自動結案率未獨立核驗](cases/548-trm-security-alert-triage-orchestrator.md) | 開發｜資安、警報分流、人工覆核、權限 |
+| UC-549 | Vend 跨負載平衡與日誌驗證事件，並記錄代理虛構工具呼叫的失敗 | Claude／Kubernetes／Google Cloud | [Vend 團隊報告；未公開完整紀錄、未重現](cases/549-vend-incident-agent-verification-failures.md) | 開發｜資安、事件調查、人機協作、失敗復盤 |
 
 <a id="supplement-list"></a>
 

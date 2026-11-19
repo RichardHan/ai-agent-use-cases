@@ -1,3 +1,13 @@
+## 2026-11-19 案例 PR 的瀏覽器安裝不再把字型下載的沉默吃滿 job
+
+PR #468（head `18d675e3`）的 [Reader search QA 44434645064](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/44434645064) 在 `fonts-noto-cjk` 的 `Get:2`（61.2 MB）之後 9 分 34 秒沒有下一行，30 分鐘 job 被取消，瀏覽器斷言沒有跑到。apt 不印單套件的位元組進度，不能把這段分成斷線或慢速。同一 push 的 [Source guide QA 44434645116](https://github.com/RichardHan/ai-agent-use-cases/actions/runs/44434645116) 用 3 秒裝完同一套件，但 `--with-deps` 約 22 分，整段 preview 32 分 39 秒、上限 35 分。更早的 44431013402 是新 push 的 `cancel-in-progress`，不是同一種故障。main 的 Website QA 與 Pages 對 `de6247c0` 是 success。
+
+不拿掉 firefox、webkit 或 CJK 字型，也不只把上限再加長（15→30 已經做過，這次仍在安裝中被取消）。安裝改看 apt 快取：180 秒沒有成長就中止並重試，有成長就繼續到單次 15 分，不把已下載的位元組清掉重來。reader-search job 30→50，source-guide preview 35→55；published job 仍是 80。其餘直接呼叫 `apt-get install fonts-noto-cjk` 的 workflow 本輪不動。
+
+驗收：基準 916 → **921 pass／0 fail**（`node --test tests/*.test.cjs`）。新測試實際跑安裝腳本：無成長會被中止並重試、有成長不會被當成停滯、碰到單次上限會失敗且不重試、瀏覽器參數會原樣轉交。停滯預設 180 秒，落在已完成的 121 秒間隔與取消前的 574 秒之間。preview job 蓋得住 22 分 `--with-deps` 加一次完整字型嘗試，且不超過 70 分。實際 workflow 的 cache bytes 與是否跑到瀏覽器步驟，寫在 PR 留言。[證據](docs/qa/2026-11-19-browser-install-stall/README.md)。
+
+下一輪：其餘仍直接 `sudo apt-get install -y fonts-noto-cjk`、且 job 上限低於 40 分的 workflow，用同一支安裝腳本或寫下不做的理由。先驗證：列出這些檔與它們最近一次 PR run 的安裝步驟耗時。
+
 ## 2026-11-19 主題分類的形狀說明改放在選單旁
 
 正式站 `de6247c0`、320×640、篩選面板打開並把 `#category` 捲進畫面時，形狀說明在共用的 `#facet-count-hint` 裡，高度 508px、底邊在視窗上方 99px，選單本身在畫面內。這句話是為了說明這些選項不是共用主題清單，但使用選單的當下看不到。第一屏看不到選單，是因為 ≤760px 面板預設收合，不是這 508px 造成的；本輪不重排首頁。

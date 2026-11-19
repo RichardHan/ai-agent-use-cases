@@ -38,6 +38,18 @@ const corpus = () => ['cases', 'evidence']
   .map(file => ({ file, markdown: fs.readFileSync(path.join(root, file), 'utf8') }))
   .concat([{ file: 'sources/pending.md', markdown: fs.readFileSync(path.join(root, 'sources/pending.md'), 'utf8') }]);
 
+test('product ownership denial does not imply tool use, but nearby use remains', () => {
+  const api = load();
+  const page = corpus().find(item => path.basename(item.file).startsWith('356-'));
+  const actual = [...api.parseFile(page.file, page.markdown)][0];
+  assert.ok(!actual.tools.includes('Cursor'), 'UC-356 denies that Clipper is a Cursor product');
+  assert.ok(actual.tools.includes('Grok Bot'));
+  const lead = '# UC-900：測試\n\n- 網站標題：測試\n\n';
+  for (const sentence of ['不是 xAI 或 Cursor 產品，但作者用 Cursor 修改程式。', '作者用 Cursor 修改程式，不是 xAI 或 Cursor 產品。']) {
+    assert.ok([...api.parseFile('cases/900-test.md', lead + sentence)][0].tools.includes('Cursor'), sentence);
+  }
+});
+
 test('a tool listed on a card is mentioned by the page itself, not only by a source address', () => {
   const api = load();
   const offenders = [];

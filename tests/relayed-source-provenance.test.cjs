@@ -99,7 +99,7 @@ test('a relayed declaration is exposed as data, and a later source is not', () =
     'reading the official page directly is not a relayed declaration');
 
   const relayed = entries.filter(entry => entry.relayedProof.length).map(entry => entry.id);
-  assert.deepEqual(relayed.map(id => String(id)).sort(), ['UC-049', 'UC-093', 'UC-107', 'UC-108', 'UC-179', 'UC-282', 'UC-316', 'UC-445', 'UC-514', 'UC-523', 'UC-561', 'UC-563', 'UC-564', 'UC-565'],
+  assert.deepEqual(relayed.map(id => String(id)).sort(), ['UC-049', 'UC-093', 'UC-107', 'UC-108', 'UC-179', 'UC-282', 'UC-316', 'UC-445', 'UC-514', 'UC-523', 'UC-561', 'UC-563', 'UC-564', 'UC-565', 'UC-568'],
     'the pages that state the relay carry the qualifier, the others do not');
   for (const id of ['UC-107', 'UC-108', 'UC-316', 'UC-514'])
     assert.deepEqual([...byId(id).relayedProof], ['官方自報'], id + ' carries the official relay qualifier');
@@ -115,7 +115,7 @@ test('an author claim read through someone else is qualified, a first-hand read 
   assert.deepEqual([...api.relayedEvidenceClasses('`author-self-report`（Greg Isenberg 訪談影片的轉載摘要頁）；影片逐字稿本庫未看，列為缺口；建議流程為 `designed`')], ['作者報告／示範']);
   assert.deepEqual([...api.relayedEvidenceClasses('V，官方挑選的具名測試者實用引言；無流程圖或事件紀錄，未重現')], ['作者報告／示範']);
   assert.deepEqual([...api.relayedEvidenceClasses('`author-demo`（作者轉述同事的實際設定；X 長貼文附一張圖片（本庫未看）並稱完整設定與每個 Bot 的首則訊息在所引長文中，本庫只讀貼文、未讀長文全文）；貼文結尾導向一篇長文，帶推廣性質')], ['作者報告／示範']);
-  for (const id of ['UC-049', 'UC-093', 'UC-179', 'UC-282', 'UC-445', 'UC-523'])
+  for (const id of ['UC-049', 'UC-093', 'UC-179', 'UC-282', 'UC-445', 'UC-523', 'UC-568'])
     assert.deepEqual([...byId(id).relayedProof], ['作者報告／示範'], id + ' carries the author relay qualifier');
 
   // Two declarations in one line: the qualifier belongs to its own clause, and a

@@ -11,7 +11,7 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
 (async()=>{
  const report=[];
  for(const engine of engines){
-  for(const [width,height] of [[1440,900],[390,844]]){
+  for(const [width,height] of [[1440,900],[800,900],[390,844],[320,640]]){
    const browser=await engine.launch(),context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'}),page=await context.newPage();
    page.setDefaultTimeout(30000);
    const errors=[];page.on('pageerror',error=>errors.push(error.message));
@@ -57,22 +57,60 @@ fs.mkdirSync('qa-artifacts',{recursive:true});
     return {
      total:counts.size,
      singleton,
+     note:document.getElementById('category-shape').textContent,
      hint:document.getElementById('facet-count-hint').textContent,
      group:[...document.querySelectorAll('#category optgroup')].map(node=>node.label).join(' '),
      listed:[...document.querySelectorAll('#category option')].filter(option=>option.value&&Number(option.dataset.count)===1).length
     };
    });
-   assert.ok(shape.hint.includes('不是共用主題清單'),'the filter says a theme is the page\'s own phrase');
-   assert.ok(shape.hint.includes(shape.total+' 個分類有 '+shape.singleton+' 個只出現 1 次'),'the hint counts loaded phrases, not a copied total');
+   assert.ok(shape.note.includes('不是共用主題清單'),'the category control says a theme is the page\'s own phrase');
+   assert.ok(shape.note.includes(shape.total+' 個分類有 '+shape.singleton+' 個只出現 1 次'),'the note counts loaded phrases, not a copied total');
+   assert.ok(!shape.hint.includes('不是共用主題清單'),'the shared hint does not repeat the shape sentence');
    if (shape.listed) assert.ok(shape.group.includes(shape.listed+' 個只對到 1 筆'),'the opened list says how many current options match one entry');
    row.shape={total:shape.total,singleton:shape.singleton,listed:shape.listed};
+   if(width<=400){
+    await page.locator('#filter-options').evaluate(el=>{el.open=true;});
+    await page.locator('#category').scrollIntoViewIfNeeded();
+    const placed=await page.evaluate(()=>{
+     const note=document.getElementById('category-shape');
+     const cat=document.getElementById('category');
+     const hint=document.getElementById('facet-count-hint');
+     const scenario=document.getElementById('scenario');
+     const nr=note.getBoundingClientRect();
+     const cr=cat.getBoundingClientRect();
+     return {
+      noteInView:nr.height>0&&nr.top>=0&&nr.bottom<=innerHeight,
+      catInView:cr.height>0&&cr.top>=0&&cr.bottom<=innerHeight,
+      gap:Math.round(nr.top-cr.bottom),
+      selectsBeforeHint:scenario.getBoundingClientRect().top<hint.getBoundingClientRect().top,
+      hintHasShape:hint.textContent.includes('不是共用主題清單')
+     };
+    });
+    assert.equal(placed.catInView,true,'category select is in view');
+    assert.equal(placed.noteInView,true,'shape note is in view with the select');
+    assert.ok(placed.gap>=0&&placed.gap<40,'shape note sits directly under the select, gap '+placed.gap);
+    assert.equal(placed.selectsBeforeHint,true,'narrow screens show selects before the shared rule paragraph');
+    assert.equal(placed.hintHasShape,false,'the shared hint no longer carries the shape sentence');
+    row.placed=placed;
+   }
+   await page.locator('#filter-options').evaluate(el=>{el.open=true;});
+   await page.locator('#category').scrollIntoViewIfNeeded();
+   const overlap=await page.evaluate(()=>{
+    const box=el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,h:r.height};};
+    const hit=(a,b)=>a.h>0&&b.h>0&&a.top<b.bottom-1&&a.bottom>b.top+1&&a.left<b.right-1&&a.right>b.left+1;
+    const note=box(document.getElementById('category-shape'));
+    return {sort:hit(note,box(document.getElementById('sort'))),proof:hit(note,box(document.getElementById('proof')))};
+   });
+   assert.equal(overlap.sort,false,'shape note does not cover the sort control at '+width);
+   assert.equal(overlap.proof,false,'shape note does not cover the source-type control at '+width);
+   row.overlap=overlap;
    await page.goto(base+'?q=xyz987',{waitUntil:'domcontentloaded'});
    await ready();
    const narrowed=await page.evaluate(()=>({
-    hint:document.getElementById('facet-count-hint').textContent,
+    note:document.getElementById('category-shape').textContent,
     group:[...document.querySelectorAll('#category optgroup')].map(node=>node.label).join(' ')
    }));
-   assert.ok(narrowed.hint.includes(shape.total+' 個分類有 '+shape.singleton+' 個只出現 1 次'),'a query does not rewrite the loaded-catalogue shape');
+   assert.ok(narrowed.note.includes(shape.total+' 個分類有 '+shape.singleton+' 個只出現 1 次'),'a query does not rewrite the loaded-catalogue shape');
    assert.ok(!narrowed.group.includes(shape.singleton+' 個只對到 1 筆'),'an empty result list must not repeat the catalogue singleton count');
    await page.goto(base,{waitUntil:'domcontentloaded'});
    await ready();

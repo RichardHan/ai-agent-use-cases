@@ -1,0 +1,68 @@
+{
+  "desktop": {
+    "errors": [],
+    "s1": {
+      "count": "顯示 109 / 538 筆收錄",
+      "query": "整理收件匣",
+      "first": "讓 AI 先整理客服信，退款與承諾由你決定",
+      "toolsInQuery": false
+    },
+    "opened": {
+      "dialog": true,
+      "title": "可以幫你做什麼"
+    },
+    "empty": {
+      "count": "顯示 0 / 538 筆收錄",
+      "url": "?q=xyz987&scenario=%E9%96%8B%E7%99%BC"
+    },
+    "recovered": {
+      "count": "顯示 29 / 538 筆收錄",
+      "query": "會議",
+      "scenario": ""
+    },
+    "detail": {
+      "url": "http://127.0.0.1:8097/ai-agent-use-cases/?case=UC-016",
+      "hasClaim": true,
+      "sourceCount": 3,
+      "firstSource": "https://github.com/RichardHan/ai-agent-use-cases/blob/de6247c06f24ceaf4dd6303921fd43011571fdba/cases/016-marketplace-selling-buyer-messages.md",
+      "overflow": false
+    },
+    "back": {
+      "dialogOpen": false,
+      "searchVisible": true
+    }
+  },
+  "phone": {
+    "errors": [],
+    "s1": {
+      "count": "顯示 109 / 538 筆收錄",
+      "query": "整理收件匣",
+      "first": "讓 AI 先整理客服信，退款與承諾由你決定",
+      "toolsInQuery": false
+    },
+    "opened": {
+      "dialog": true,
+      "title": "可以幫你做什麼"
+    },
+    "empty": {
+      "count": "顯示 0 / 538 筆收錄",
+      "url": "?q=xyz987&scenario=%E9%96%8B%E7%99%BC"
+    },
+    "recovered": {
+      "count": "顯示 29 / 538 筆收錄",
+      "query": "會議",
+      "scenario": ""
+    },
+    "detail": {
+      "url": "http://127.0.0.1:8097/ai-agent-use-cases/?case=UC-016",
+      "hasClaim": true,
+      "sourceCount": 3,
+      "firstSource": "https://github.com/RichardHan/ai-agent-use-cases/blob/de6247c06f24ceaf4dd6303921fd43011571fdba/cases/016-marketplace-selling-buyer-messages.md",
+      "overflow": false
+    },
+    "back": {
+      "dialogOpen": false,
+      "searchVisible": true
+    }
+  }
+}

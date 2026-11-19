@@ -1,0 +1,182 @@
+{
+  "contrast": {
+    "fg": "#4c6258",
+    "paper": "#f7f8f2",
+    "ratio": 6.15
+  },
+  "sizes": [
+    {
+      "name": "320",
+      "width": 320,
+      "height": 640,
+      "noteTop": 370,
+      "noteBottom": 480,
+      "noteH": 110,
+      "noteW": 258,
+      "selectTop": 310,
+      "selectBottom": 354,
+      "hintHasShape": false,
+      "noteText": "主題分類是各案例頁自己寫的分類原文，不是共用主題清單。已載入條目裡，362 個分類有 361 個只出現 1 次，其餘 1 個出現 2 次以上。依問題找案例請用上方搜尋或任務按鈕。",
+      "color": "rgb(76, 98, 88)",
+      "bg": "rgba(0, 0, 0, 0)",
+      "overflow": 0,
+      "hidden": false,
+      "axe": 0,
+      "axeIds": [],
+      "errors": []
+    },
+    {
+      "name": "390",
+      "width": 390,
+      "height": 844,
+      "noteTop": 472,
+      "noteBottom": 561,
+      "noteH": 88,
+      "noteW": 320,
+      "selectTop": 412,
+      "selectBottom": 456,
+      "hintHasShape": false,
+      "noteText": "主題分類是各案例頁自己寫的分類原文，不是共用主題清單。已載入條目裡，362 個分類有 361 個只出現 1 次，其餘 1 個出現 2 次以上。依問題找案例請用上方搜尋或任務按鈕。",
+      "color": "rgb(76, 98, 88)",
+      "bg": "rgba(0, 0, 0, 0)",
+      "overflow": 0,
+      "hidden": false,
+      "axe": 0,
+      "axeIds": [],
+      "errors": []
+    },
+    {
+      "name": "1440",
+      "width": 1440,
+      "height": 900,
+      "noteTop": 500,
+      "noteBottom": 522,
+      "noteH": 22,
+      "noteW": 1202,
+      "selectTop": 440,
+      "selectBottom": 484,
+      "hintHasShape": false,
+      "noteText": "主題分類是各案例頁自己寫的分類原文，不是共用主題清單。已載入條目裡，362 個分類有 361 個只出現 1 次，其餘 1 個出現 2 次以上。依問題找案例請用上方搜尋或任務按鈕。",
+      "color": "rgb(76, 98, 88)",
+      "bg": "rgba(0, 0, 0, 0)",
+      "overflow": 0,
+      "hidden": false,
+      "axe": 0,
+      "axeIds": [],
+      "errors": []
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "phone",
+      "s1": {
+        "url": "/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0",
+        "count": "顯示 29 / 532 筆收錄",
+        "first": "Muse 或 Claude Code 想操作 Mac 上的 App？日文作者用 Codex 的試驗性 app-server 直接叫用它的 Computer Use，自己的代理決定點哪裡",
+        "cards": 24
+      },
+      "s2empty": {
+        "count": "顯示 0 / 532 筆收錄",
+        "recovery": [
+          "移除提及工具「Cursor」 → 查看 1 筆",
+          "移除使用情境「學習」 → 查看 3 筆",
+          "📊 搜尋「簡報製作」"
+        ]
+      },
+      "s2": {
+        "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+        "count": "顯示 1 / 532 筆收錄"
+      },
+      "s3": {
+        "title": "可以幫你做什麼",
+        "hasClaim": true,
+        "sources": [
+          "https://github.com/RichardHan/ai-agent-use-cases/blob/8a7a26a15b8142011ae1bc504accd23be5b5ca2b/cases/016-marketplace-selling-buyer-messages.md",
+          "https://github.com/RichardHan/ai-agent-use-cases/blob/8a7a26a15b8142011ae1bc504accd23be5b5ca2b/cases/016-marketplace-selling-buyer-messages.md",
+          "https://www.techrepublic.com/article/news-meta-ai-facebook-marketplace-buyer-seller-address/",
+          "https://useheadlights.com/library/HD-INC-226/"
+        ],
+        "overflow": 0
+      },
+      "back": {
+        "dialog": false,
+        "url": ""
+      },
+      "errors": []
+    },
+    {
+      "name": "desktop",
+      "s1": {
+        "url": "/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0",
+        "count": "顯示 29 / 532 筆收錄",
+        "first": "重新連上，不等於原任務的工具恢復",
+        "cards": 24
+      },
+      "s2empty": {
+        "count": "顯示 0 / 532 筆收錄",
+        "recovery": [
+          "移除提及工具「Cursor」 → 查看 1 筆",
+          "移除使用情境「學習」 → 查看 3 筆",
+          "📊 搜尋「簡報製作」"
+        ]
+      },
+      "s2": {
+        "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+        "count": "顯示 1 / 532 筆收錄"
+      },
+      "s3": {
+        "title": "可以幫你做什麼",
+        "hasClaim": true,
+        "sources": [
+          "https://github.com/RichardHan/ai-agent-use-cases/blob/8a7a26a15b8142011ae1bc504accd23be5b5ca2b/cases/016-marketplace-selling-buyer-messages.md",
+          "https://github.com/RichardHan/ai-agent-use-cases/blob/8a7a26a15b8142011ae1bc504accd23be5b5ca2b/cases/016-marketplace-selling-buyer-messages.md",
+          "https://www.techrepublic.com/article/news-meta-ai-facebook-marketplace-buyer-seller-address/",
+          "https://useheadlights.com/library/HD-INC-226/"
+        ],
+        "overflow": 0
+      },
+      "back": {
+        "dialog": false,
+        "url": ""
+      },
+      "errors": []
+    },
+    {
+      "name": "narrow",
+      "s1": {
+        "url": "/ai-agent-use-cases/?q=%E6%9C%83%E8%AD%B0",
+        "count": "顯示 29 / 532 筆收錄",
+        "first": "dots 的記憶看不見？用 Obsidian 當「看得見的外接腦」",
+        "cards": 24
+      },
+      "s2empty": {
+        "count": "顯示 0 / 532 筆收錄",
+        "recovery": [
+          "移除提及工具「Cursor」 → 查看 1 筆",
+          "移除使用情境「學習」 → 查看 3 筆",
+          "📊 搜尋「簡報製作」"
+        ]
+      },
+      "s2": {
+        "url": "?q=%E7%99%BC%E7%A5%A8&scenario=%E5%AD%B8%E7%BF%92",
+        "count": "顯示 1 / 532 筆收錄"
+      },
+      "s3": {
+        "title": "可以幫你做什麼",
+        "hasClaim": true,
+        "sources": [
+          "https://github.com/RichardHan/ai-agent-use-cases/blob/8a7a26a15b8142011ae1bc504accd23be5b5ca2b/cases/016-marketplace-selling-buyer-messages.md",
+          "https://github.com/RichardHan/ai-agent-use-cases/blob/8a7a26a15b8142011ae1bc504accd23be5b5ca2b/cases/016-marketplace-selling-buyer-messages.md",
+          "https://www.techrepublic.com/article/news-meta-ai-facebook-marketplace-buyer-seller-address/",
+          "https://useheadlights.com/library/HD-INC-226/"
+        ],
+        "overflow": 0
+      },
+      "back": {
+        "dialog": false,
+        "url": ""
+      },
+      "errors": []
+    }
+  ]
+}

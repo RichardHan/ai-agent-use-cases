@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 537 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 543 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（537）
+## 案例（543）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -577,6 +577,12 @@
 | UC-563 | 電子產線多代理分析品質風險 | Microsoft Azure／多代理 | [供應商報告 Rockwell 自述；未重現](cases/563-rockwell-quality-multi-agent.md) | 工作｜製造、品質、人工判斷 |
 | UC-564 | 生產排程修改先在草稿核對風險 | IBM watsonx Orchestrate | [供應商客戶故事；未重現](cases/564-suzhou-draft-production-scheduling.md) | 工作｜製造、排程、風險 |
 | UC-565 | 灌裝設備模擬與代理迭代試點 | Azure HPC／數位分身 | [供應商報告 Krones 試點；未重現](cases/565-krones-filler-simulation-agents.md) | 工作｜製造、模擬、工程 |
+| UC-576 | 勞資合約擷取與查詢 | Copilot Studio／Power Automate／Dataverse | [Microsoft 報導 Unifi 自述；未重現](cases/576-unifi-labor-contract-agent.md) | 工作｜法律、合約、知識庫 |
+| UC-577 | 律所零售租約指引檢索 | Microsoft 365 Copilot／SharePoint | [Microsoft 報導律所員工自述；未重現](cases/577-shoosmiths-retail-lease-knowledge.md) | 工作｜法律、租約、知識庫 |
+| UC-578 | 保險法務合約審查 | Ironclad Contract Review Agent | [供應商報導客戶自述；未重現](cases/578-next-insurance-contract-review.md) | 工作｜法律、合約、人工判斷 |
+| UC-579 | 內部法律 FAQ 問答 | Flank | [供應商報導客戶自述；未重現](cases/579-lusha-legal-faq-agents.md) | 工作｜法律、知識庫、人工判斷 |
+| UC-580 | 物業盡調附來源供律師核對 | Orbital Copilot／Azure OpenAI | [開發者自述；未重現](cases/580-orbital-property-diligence.md) | 工作｜法律、房地產、盡調 |
+| UC-581 | 索賠案件多代理審核 | Agentforce／Salesforce Flow／Apex | [供應商報導客戶自述；未重現](cases/581-broughton-claimant-audit.md) | 工作｜法律、案件審核、人工判斷 |
 
 <a id="supplement-list"></a>
 

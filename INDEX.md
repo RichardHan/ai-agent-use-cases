@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 531 筆案例；頁首核對日期最新為 2026-11-18；本頁於 2026-11-18 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 537 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（531）
+## 案例（537）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -571,6 +571,12 @@
 | UC-539 | 替既有程式庫設工程Bot：先讀懂專案寫架構文件並排程定期更新，做專屬/qa指令自我改良，新功能走OpenSpec explore→propose→apply，驗證交給技能，學習紀錄不跨程式庫 | Grok Bot（Bot、Routine、技能）／dr eggbot／OpenSpec | [B英文作者X單則自述流程；第三方技能內容未讀、未重現](cases/539-grok-bot-repo-engineer-bot-docs-refresh-qa-commands-openspec-verification.md) | 開發｜程式庫、規則檔、驗收、排程 |
 | UC-540 | 一段提示詞設好Bot團隊安全規則：Gate管外部服務每小時呼叫上限、Ops每天5點只回報卡關並維護規則手冊，需要點頭的事進drafts資料夾、結尾寫sent: 0，沒新事回NOOP，新Routine先暫停 | Grok Bot（多Bot、Routine、雲端工作區、Take over） | [設計提示詞（作者自擬，未附執行紀錄）；用量節省數字未查證](cases/540-grok-bot-gate-ops-team-drafts-folder-noop-paused-routines.md) | 工作｜多代理、核准、用量、每日 |
 | UC-541 | 手機版Grok Bot讀不到系統健康資料：依Bot建議裝能同步上雲、有網路介面的運動App並開權限，再讓Bot連App後台讀睡眠與運動資料，每天出健康建議 | Grok Bot（手機版、Routine）／作者稱「PRO」的運動健康App | [B簡中作者X自述；App名稱與介面未說明、未重現](cases/541-grok-bot-phone-health-data-via-fitness-app-cloud-api-daily-plan.md) | 生活｜健康、權限、隱私、每日 |
+| UC-560 | 硫化機資料多代理根因分析 | Amazon Bedrock Agents／工業 IoT | [Apollo 與 AWS 聯名自述；未重現](cases/560-apollo-tyres-curing-root-cause.md) | 工作｜製造、設備、根因分析 |
+| UC-561 | 裝配影片辨識漏步並提醒人員 | NVIDIA VSS／視覺代理 | [供應商報告和碩使用；未重現](cases/561-pegatron-assembly-visual-agent.md) | 工作｜製造、裝配、品質 |
+| UC-562 | 產線停機時查詢維修知識 | Bosch Shopfloor Agent | [博世官方自報；未重現](cases/562-bosch-shopfloor-breakdown-agent.md) | 工作｜製造、維修、知識 |
+| UC-563 | 電子產線多代理分析品質風險 | Microsoft Azure／多代理 | [供應商報告 Rockwell 自述；未重現](cases/563-rockwell-quality-multi-agent.md) | 工作｜製造、品質、人工判斷 |
+| UC-564 | 生產排程修改先在草稿核對風險 | IBM watsonx Orchestrate | [供應商客戶故事；未重現](cases/564-suzhou-draft-production-scheduling.md) | 工作｜製造、排程、風險 |
+| UC-565 | 灌裝設備模擬與代理迭代試點 | Azure HPC／數位分身 | [供應商報告 Krones 試點；未重現](cases/565-krones-filler-simulation-agents.md) | 工作｜製造、模擬、工程 |
 
 <a id="supplement-list"></a>
 

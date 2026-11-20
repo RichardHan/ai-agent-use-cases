@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 547 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 550 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（547）
+## 案例（550）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -587,6 +587,9 @@
 | UC-595 | 電表資料收集與冷氣控制建置 | Claude Code／Gemini CLI／Google Cloud | [作者自述；未重現](cases/595-smart-meter-aircon-spec-driven-build.md) | 生活｜智慧家庭、物聯網、能源 |
 | UC-596 | 哥倫比亞農民的 WhatsApp 農業諮詢 | Agentforce／WhatsApp | [組織與供應商自述；未重現](cases/596-rare-agent-tierra-farmer-coaching.md) | 工作｜農業、農民諮詢、人工確認 |
 | UC-597 | 多語農業語音諮詢試點與轉譯失誤 | 語音辨識／翻譯／農業知識檢索 | [計畫團隊報告；未重現](cases/597-aiep-multilingual-farmer-advisory.md) | 工作｜農業、多語、失敗復盤 |
+| UC-598 | 巴基斯坦田間感測與多語農民諮詢 | WhatsApp／IoT／農業知識檢索 | [研究團隊報告；未重現](cases/598-kissan-dost-sensor-grounded-farm-advice.md) | 工作｜農業、物聯網、人工確認 |
+| UC-599 | 泰國榴槤園感測與灌溉建議 | LINE／Botnoi／Pathumma／IoT | [研究團隊報告；未重現](cases/599-thai-durian-chatbot-iot-irrigation.md) | 工作｜農業、物聯網、灌溉 |
+| UC-600 | 西班牙番茄園多代理灌溉 | PANGEA／無線感測／模糊邏輯 | [研究團隊報告；未重現](cases/600-pangea-tomato-multiagent-irrigation.md) | 工作｜農業、物聯網、多代理 |
 
 <a id="supplement-list"></a>
 

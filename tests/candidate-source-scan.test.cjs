@@ -60,6 +60,47 @@ test('compares candidate batches and case IDs without treating a repeated file a
   ] }]);
 });
 
+test('balanced parentheses retain full paths and distinguish different resources', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'candidate-parens-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  fs.mkdirSync(path.join(root, 'cases'));
+  fs.mkdirSync(path.join(root, 'evidence'));
+  const prefix = 'https://example.org/workspace%20(copy)/';
+  fs.writeFileSync(path.join(root, 'cases', '001.md'), `[first](${prefix}first.csv)\n`);
+  const first = path.join(root, 'candidate.md');
+  const second = path.join(root, 'other.md');
+  fs.writeFileSync(first, `[same](${prefix}first.csv#table)\n[different](${prefix}second.csv)\n`);
+  fs.writeFileSync(second, `[other](${prefix}second.csv?utm_source=mail)\n`);
+  const run = spawnSync('python3', [script, '--root', root, first, second], { encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
+  const report = JSON.parse(run.stdout);
+  assert.equal(report.results[0].url, `${prefix}first.csv#table`);
+  assert.equal(report.results[0].matches[0].url, `${prefix}first.csv`);
+  assert.deepEqual(report.results[1].matches, []);
+  assert.deepEqual(report.candidate_url_groups[0].occurrences.map((entry) => entry.url),
+    [`${prefix}second.csv`, `${prefix}second.csv?utm_source=mail`]);
+});
+
+test('ambiguous parenthesis syntax is not reported as a truncated match', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'candidate-ambiguous-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  fs.mkdirSync(path.join(root, 'cases'));
+  fs.mkdirSync(path.join(root, 'evidence'));
+  fs.writeFileSync(path.join(root, 'cases', '001.md'), 'https://example.org/a(foo)\n');
+  const candidate = path.join(root, 'candidate.md');
+  for (const url of ['https://example.org/a(foo))bar', 'https://example.org/a(foo)):bar', 'https://example.org/a(foo)))bar', 'https://example.org/a(foo(nested))tail']) {
+    fs.writeFileSync(candidate, url);
+    const run = spawnSync('python3', [script, '--root', root, candidate], { encoding: 'utf8' });
+    assert.notEqual(run.status, 0);
+    assert.match(run.stderr, /ambiguous URL parentheses.*candidate\.md:1/);
+    assert.equal(run.stdout, '');
+  }
+  fs.writeFileSync(candidate, '[source](https://example.org/a(foo))2026');
+  const markdown = spawnSync('python3', [script, '--root', root, candidate], { encoding: 'utf8' });
+  assert.equal(markdown.status, 0, markdown.stderr);
+  assert.equal(JSON.parse(markdown.stdout).results[0].url, 'https://example.org/a(foo)');
+});
+
 test('missing corpus and unreadable inputs fail instead of reporting no matches', (t) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'candidate-scan-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));

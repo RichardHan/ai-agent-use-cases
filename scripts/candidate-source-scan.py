@@ -11,7 +11,7 @@ from collections import defaultdict
 from pathlib import Path
 from urllib.parse import unquote_plus, urlsplit, urlunsplit
 
-URL = re.compile(r'https?://[^\s<>\]\[()"\'，。；、]+')
+URL = re.compile(r'https?://(?:[^\s<>\]\[()"\'，。；、]|\([^\s<>\]\[()"\'，。；、]*\))+')
 TRACKING = {'fbclid', 'gclid', 'mc_cid', 'mc_eid'}
 
 
@@ -38,6 +38,13 @@ def canonical(url):
 def urls_in(path):
     for number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
         for match in URL.finditer(line):
+            # An unmatched closer followed by URL text, or a nested opener, may
+            # be part of the URL. Do not report the truncated prefix as a match.
+            tail = line[match.end():]
+            markdown_link = line[:match.start()].endswith('](')
+            continuation = r"\)+(?:[A-Za-z0-9/_%#?&=+~@!$'*+-]|[.:;,](?=[A-Za-z0-9/_%#?&=+~@!$'*+-]))"
+            if tail.startswith('(') or (not markdown_link and re.match(continuation, tail)):
+                raise ValueError(f'ambiguous URL parentheses at {path.name}:{number}; inspect manually')
             raw = match.group().rstrip('.,;:!?')
             key = canonical(raw)
             if key:
@@ -87,7 +94,7 @@ def main():
         parser.error('root must contain cases/ and evidence/')
     try:
         report = scan(args.root, args.candidate)
-    except (OSError, UnicodeError) as exc:
+    except (OSError, UnicodeError, ValueError) as exc:
         parser.exit(1, f'Cannot read input: {exc}\n')
     print(json.dumps(report, ensure_ascii=False, indent=2))
 

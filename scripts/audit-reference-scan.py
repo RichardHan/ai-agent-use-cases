@@ -14,6 +14,19 @@ LINK = re.compile(
     r'\]\((?:\.\./|https://github\.com/RichardHan/ai-agent-use-cases/blob/main/)'
     r'cases/([^/#?\s)]+\.md)(?:#[^\s)]*)?\)'
 )
+URL = re.compile(r'https?://(?:[^\s<>\]\[()"\'，。；、]|\([^\s<>\]\[()"\'，。；、]*\))+')
+
+
+def case_evidence(path):
+    """Locate source candidates and declared evidence; never infer a verdict."""
+    urls = []
+    declarations = []
+    for number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
+        if re.match(r'^\s*[-*]\s*(?:來源證據|證據等級|證據類型|證據狀態)\s*[：:]', line):
+            declarations.append({'line': number, 'text': line.strip()})
+        for match in URL.finditer(line):
+            urls.append({'line': number, 'url': match.group().rstrip('.,;:!?')})
+    return {'evidence_declarations': declarations, 'url_occurrences': urls}
 
 
 def scan(root):
@@ -25,11 +38,11 @@ def scan(root):
     for number, line in enumerate(ledger.read_text(encoding='utf-8').splitlines(), 1):
         for name in set(LINK.findall(line)):
             references[name].append(number)
-    records = [{'path': f'cases/{case.name}', 'ledger_lines': references.pop(case.name, [])}
-               for case in cases]
+    records = [{'path': f'cases/{case.name}', 'ledger_lines': references.pop(case.name, []),
+                **case_evidence(case)} for case in cases]
     linked = sum(bool(record['ledger_lines']) for record in records)
     return {'ledger': ledger.relative_to(root).as_posix(),
-            'limitation': 'Direct Markdown links only; neither a review nor qualification verdict.',
+            'limitation': 'Direct ledger links and literal URL/declaration occurrences only; not a review, source classification, duplicate check or qualification verdict.',
             'case_files': len(records), 'files_with_direct_links': linked,
             'files_without_direct_links': len(records) - linked,
             'unresolved_link_targets': dict(sorted(references.items())), 'cases': records}

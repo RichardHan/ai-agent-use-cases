@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 550 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 553 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（550）
+## 案例（553）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -590,6 +590,9 @@
 | UC-598 | 巴基斯坦田間感測與多語農民諮詢 | WhatsApp／IoT／農業知識檢索 | [研究團隊報告；未重現](cases/598-kissan-dost-sensor-grounded-farm-advice.md) | 工作｜農業、物聯網、人工確認 |
 | UC-599 | 泰國榴槤園感測與灌溉建議 | LINE／Botnoi／Pathumma／IoT | [研究團隊報告；未重現](cases/599-thai-durian-chatbot-iot-irrigation.md) | 工作｜農業、物聯網、灌溉 |
 | UC-600 | 西班牙番茄園多代理灌溉 | PANGEA／無線感測／模糊邏輯 | [研究團隊報告；未重現](cases/600-pangea-tomato-multiagent-irrigation.md) | 工作｜農業、物聯網、多代理 |
+| UC-614 | 網頁代理選項不明時暫停詢問 | Morae／瀏覽器代理 | [研究團隊報告；未重現](cases/614-morae-accessible-agent-choice-pause.md) | 生活｜無障礙、人工確認、瀏覽器代理 |
+| UC-615 | 視障玩家的遊戲畫面與操作輔助 | GamerAstra／OCR／視覺模型 | [研究團隊報告；未重現](cases/615-gamerastra-accessible-game-multiagent.md) | 生活｜無障礙、遊戲、多代理 |
+| UC-616 | 對話調整虛擬場景無障礙設定 | RAVEN／Unity／語言模型 | [研究團隊報告；未重現](cases/616-raven-accessible-3d-scene-adaptation.md) | 生活｜無障礙、3D、人工確認 |
 
 <a id="supplement-list"></a>
 

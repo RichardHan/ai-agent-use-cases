@@ -2,6 +2,7 @@
 """Compare candidate URLs with URLs mentioned in the existing case corpus.
 
 This is an offline triage aid, not a duplicate or evidence verdict.
+Candidate filenames beginning with a numeric case ID are also compared.
 """
 import argparse
 import json
@@ -44,18 +45,35 @@ def urls_in(path):
 
 
 def scan(root, candidates):
+    candidates = list(dict.fromkeys(path.resolve() for path in candidates))
     index = defaultdict(list)
     files = sorted(p for folder in ('cases', 'evidence') for p in (root / folder).rglob('*.md'))
     for path in files:
         for line, raw, key in urls_in(path):
             index[key].append({'path': path.relative_to(root).as_posix(), 'line': line, 'url': raw})
+    candidate_index = defaultdict(list)
+    ids = defaultdict(list)
+    for path in [p for p in files if p.is_relative_to(root / 'cases')] + candidates:
+        match = re.match(r'^(\d+)-', path.name)
+        if match:
+            ids[int(match.group(1))].append(str(path.resolve()))
     results = []
     for path in candidates:
         for line, raw, key in urls_in(path):
-            results.append({'candidate': str(path), 'line': line, 'url': raw,
-                            'matches': index.get(key, [])})
+            entry = {'candidate': str(path.resolve()), 'line': line, 'url': raw,
+                     'matches': index.get(key, [])}
+            results.append(entry)
+            candidate_index[key].append(entry)
+    groups = [{'occurrences': [{'path': entry['candidate'], 'line': entry['line'], 'url': entry['url']}
+                               for entry in entries]}
+              for entries in candidate_index.values()
+              if len({entry['candidate'] for entry in entries}) > 1]
     return {'corpus_files_scanned': len(files), 'candidate_url_occurrences': len(results),
             'matched_occurrences': sum(bool(r['matches']) for r in results),
+            'candidate_url_groups': groups,
+            'case_id_collisions': [{'id': number, 'paths': sorted(set(paths))}
+                                   for number, paths in sorted(ids.items())
+                                   if len(set(paths)) > 1],
             'results': results}
 
 

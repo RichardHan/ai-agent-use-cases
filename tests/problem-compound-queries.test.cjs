@@ -711,7 +711,9 @@ test('natural problem queries for project progress, data analytics, audio transc
     { raw: '做數據分析', expectedTokens: ['數據', '分析'], minMatches: 30, canonicalId: 'UC-095' },
     { raw: '報表分析', expectedTokens: ['數據', '分析'], minMatches: 30, canonicalId: 'UC-459' },
     { raw: '開會記錄', expectedTokens: ['會議', '筆記'], minMatches: 8, canonicalId: 'UC-094' },
-    { raw: '我想整理開會記錄', expectedTokens: ['整理', '會議', '筆記'], minMatches: 6, canonicalId: 'UC-071' },
+    // 整理 glued to 開會記錄 is the meeting-notes task, not a third required word.
+    // UC-071 only matched because its purpose happened to say 整理會議 and 筆記.
+    { raw: '我想整理開會記錄', expectedTokens: ['會議', '筆記'], minMatches: 8, canonicalId: 'UC-094' },
     { raw: '市場調研', expectedTokens: ['市場', '調研'], minMatches: 6, canonicalId: 'UC-090' },
     { raw: '市場分析', expectedTokens: ['市場', '調研'], minMatches: 6, canonicalId: 'UC-438' }
   ];

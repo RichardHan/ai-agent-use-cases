@@ -43,12 +43,12 @@ test('every test and script a workflow runs exists in the checkout', () => {
     // A step may write a throwaway copy from git history (`git show <sha>:tests/x.cjs
     // > tests/x-before.cjs`); that path is not in the checkout on purpose.
     const generated = new Set(
-      [...source.matchAll(/>\s*((?:tests|scripts)\/[\w.-]+\.(?:cjs|mjs|js|py))/g)].map(match => match[1]));
+      [...source.matchAll(/>\s*((?:tests|scripts)\/[\w.-]+\.(?:cjs|mjs|js|py|sh))/g)].map(match => match[1]));
     const lines = source.split('\n')
       // A commented-out command is documentation, not a step that runs.
       .filter(line => !/^\s*#/.test(line));
     for (const line of lines) {
-      for (const match of line.matchAll(/(?:^|[\s"'=(])((?:tests|scripts)\/[\w.-]+\.(?:cjs|mjs|js|py))/g)) {
+      for (const match of line.matchAll(/(?:^|[\s"'=(])((?:tests|scripts)\/[\w.-]+\.(?:cjs|mjs|js|py|sh))/g)) {
         const target = match[1];
         if (generated.has(target)) continue;
         if (!fs.existsSync(path.join(root, target))) missing.push(`${file}: ${target}`);

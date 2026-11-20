@@ -1,0 +1,274 @@
+{
+  "before": {
+    "1440x900": {
+      "count": "顯示 7 / 538 筆收錄",
+      "query": "整理會議紀錄",
+      "scopeHidden": false,
+      "scopeMode": "body",
+      "scopeText": "這 7 筆裡，1 筆的標題、用途或痛點提到你搜的字或相關詞；其餘 6 筆中，5 筆在正文或頁首資料提到；另有 1 筆要算上章節標題才符合（例如〈建議操作流程（依來源整理）〉）。 只看那 1 筆",
+      "cards": [
+        {
+          "id": "UC-071",
+          "title": "dots 的記憶看不見？用 Obsidian 當「看得見的外接腦」"
+        },
+        {
+          "id": "UC-511",
+          "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表"
+        },
+        {
+          "id": "UC-393",
+          "title": "補齊提案材料，保留同一案的會前會後脈絡"
+        },
+        {
+          "id": "UC-408",
+          "title": "不想再花時間準備每天的團隊站會？讓 Bot 在會前 30 分鐘讀完議程、進度和討論串，交給你一頁重點"
+        },
+        {
+          "id": "UC-277",
+          "title": "同一件事開了三次會，期限和負責方究竟改在哪裡？"
+        }
+      ],
+      "overflow": 0,
+      "missingHidden": true,
+      "errors": []
+    },
+    "390x844": {
+      "count": "顯示 7 / 538 筆收錄",
+      "query": "整理會議紀錄",
+      "scopeHidden": false,
+      "scopeMode": "body",
+      "scopeText": "這 7 筆裡，1 筆的標題、用途或痛點提到你搜的字或相關詞；其餘 6 筆中，5 筆在正文或頁首資料提到；另有 1 筆要算上章節標題才符合（例如〈建議操作流程（依來源整理）〉）。 只看那 1 筆",
+      "cards": [
+        {
+          "id": "UC-071",
+          "title": "dots 的記憶看不見？用 Obsidian 當「看得見的外接腦」"
+        },
+        {
+          "id": "UC-511",
+          "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表"
+        },
+        {
+          "id": "UC-393",
+          "title": "補齊提案材料，保留同一案的會前會後脈絡"
+        },
+        {
+          "id": "UC-408",
+          "title": "不想再花時間準備每天的團隊站會？讓 Bot 在會前 30 分鐘讀完議程、進度和討論串，交給你一頁重點"
+        },
+        {
+          "id": "UC-277",
+          "title": "同一件事開了三次會，期限和負責方究竟改在哪裡？"
+        }
+      ],
+      "overflow": 0,
+      "missingHidden": true,
+      "errors": []
+    }
+  },
+  "after": {
+    "1440x900": {
+      "count": "顯示 8 / 538 筆收錄",
+      "query": "整理會議紀錄",
+      "scopeHidden": true,
+      "scopeMode": "",
+      "scopeText": "",
+      "cards": [
+        {
+          "id": "UC-094",
+          "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記"
+        },
+        {
+          "id": "UC-511",
+          "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表"
+        },
+        {
+          "id": "UC-393",
+          "title": "補齊提案材料，保留同一案的會前會後脈絡"
+        },
+        {
+          "id": "UC-071",
+          "title": "dots 的記憶看不見？用 Obsidian 當「看得見的外接腦」"
+        },
+        {
+          "id": "UC-408",
+          "title": "不想再花時間準備每天的團隊站會？讓 Bot 在會前 30 分鐘讀完議程、進度和討論串，交給你一頁重點"
+        }
+      ],
+      "overflow": 0,
+      "missingHidden": true,
+      "errors": []
+    },
+    "390x844": {
+      "count": "顯示 8 / 538 筆收錄",
+      "query": "整理會議紀錄",
+      "scopeHidden": true,
+      "scopeMode": "",
+      "scopeText": "",
+      "cards": [
+        {
+          "id": "UC-094",
+          "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記"
+        },
+        {
+          "id": "UC-511",
+          "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表"
+        },
+        {
+          "id": "UC-393",
+          "title": "補齊提案材料，保留同一案的會前會後脈絡"
+        },
+        {
+          "id": "UC-071",
+          "title": "dots 的記憶看不見？用 Obsidian 當「看得見的外接腦」"
+        },
+        {
+          "id": "UC-408",
+          "title": "不想再花時間準備每天的團隊站會？讓 Bot 在會前 30 分鐘讀完議程、進度和討論串，交給你一頁重點"
+        }
+      ],
+      "overflow": 0,
+      "missingHidden": true,
+      "errors": []
+    }
+  },
+  "journeys": {
+    "desktop": {
+      "s1": {
+        "count": "顯示 8 / 538 筆收錄",
+        "query": "整理會議紀錄",
+        "scopeHidden": true,
+        "scopeMode": "",
+        "scopeText": "",
+        "cards": [
+          {
+            "id": "UC-094",
+            "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記"
+          },
+          {
+            "id": "UC-511",
+            "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表"
+          },
+          {
+            "id": "UC-393",
+            "title": "補齊提案材料，保留同一案的會前會後脈絡"
+          },
+          {
+            "id": "UC-071",
+            "title": "dots 的記憶看不見？用 Obsidian 當「看得見的外接腦」"
+          },
+          {
+            "id": "UC-408",
+            "title": "不想再花時間準備每天的團隊站會？讓 Bot 在會前 30 分鐘讀完議程、進度和討論串，交給你一頁重點"
+          }
+        ],
+        "overflow": 0,
+        "missingHidden": true,
+        "errors": []
+      },
+      "empty": {
+        "count": "顯示 0 / 538 筆收錄",
+        "text": "⌕ 目前沒有符合「xyz987」的案例 下方建議可調整關鍵字；任務捷徑在目前篩選下有結果，其餘條件不變。 以下搜尋在目前篩選下有結果，可保留其他條件繼續探索： 「僅相關詞」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。 郵件摘要 · 搜尋「郵件」 會議整理 · 搜尋「會議」 日報整理 · 搜尋「日報」 自動客服 · 搜尋「客服」 代碼審查 · 搜尋「代碼審查」 👥 搜尋「排班」 🐞 搜尋「代碼除錯」 🌐 搜尋「文件翻譯」 🕷️ 搜尋「網頁抓取」 顯示全部 50 個任務 修改關鍵字 清除全部條件",
+        "overflow": 0
+      },
+      "recovered": {
+        "url": "http://127.0.0.1:8765/?q=%E6%9C%83%E8%AD%B0&scenario=%E9%96%8B%E7%99%BC#explore",
+        "count": "顯示 3 / 538 筆收錄",
+        "first": "Muse 或 Claude Code 想操作 Mac 上的 App？日文作者用 Codex 的試驗性 app-server 直接叫用它的 Computer Use，自己的代理決定點哪裡"
+      },
+      "detail": {
+        "url": "http://127.0.0.1:8765/?case=UC-016",
+        "hasProof": true,
+        "hasCaution": true,
+        "source": [
+          {
+            "text": "GitHub 原始資料 ↗",
+            "href": "https://github.com/RichardHan/ai-agent-use-cases"
+          },
+          {
+            "text": "前往 GitHub ↗",
+            "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md"
+          },
+          {
+            "text": "GitHub 原始索引 ↗",
+            "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md"
+          },
+          {
+            "text": "先讀 GitHub 索引 ↗",
+            "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md"
+          }
+        ],
+        "overflow": 0
+      },
+      "errors": []
+    },
+    "phone": {
+      "s1": {
+        "count": "顯示 8 / 538 筆收錄",
+        "query": "整理會議紀錄",
+        "scopeHidden": true,
+        "scopeMode": "",
+        "scopeText": "",
+        "cards": [
+          {
+            "id": "UC-094",
+            "title": "自己不能到的會議，讓 Bot 進去先說明身分再記筆記"
+          },
+          {
+            "id": "UC-511",
+            "title": "會議結束承諾就散了？讓 Grok Bot 進會聽、追還沒有負責人的項目，會後留下決定與下一步表"
+          },
+          {
+            "id": "UC-393",
+            "title": "補齊提案材料，保留同一案的會前會後脈絡"
+          },
+          {
+            "id": "UC-071",
+            "title": "dots 的記憶看不見？用 Obsidian 當「看得見的外接腦」"
+          },
+          {
+            "id": "UC-408",
+            "title": "不想再花時間準備每天的團隊站會？讓 Bot 在會前 30 分鐘讀完議程、進度和討論串，交給你一頁重點"
+          }
+        ],
+        "overflow": 0,
+        "missingHidden": true,
+        "errors": []
+      },
+      "empty": {
+        "count": "顯示 0 / 538 筆收錄",
+        "text": "⌕ 目前沒有符合「xyz987」的案例 下方建議可調整關鍵字；任務捷徑在目前篩選下有結果，其餘條件不變。 以下搜尋在目前篩選下有結果，可保留其他條件繼續探索： 「僅相關詞」＝目前條件下，沒有案例的標題、用途或痛點同時包含這項任務的搜尋詞；點入仍會列出相關詞命中與替代搜尋。 郵件摘要 · 搜尋「郵件」 會議整理 · 搜尋「會議」 日報整理 · 搜尋「日報」 自動客服 · 搜尋「客服」 代碼審查 · 搜尋「代碼審查」 👥 搜尋「排班」 🐞 搜尋「代碼除錯」 🌐 搜尋「文件翻譯」 🕷️ 搜尋「網頁抓取」 顯示全部 50 個任務 修改關鍵字 清除全部條件",
+        "overflow": 0
+      },
+      "recovered": {
+        "url": "http://127.0.0.1:8765/?q=%E6%9C%83%E8%AD%B0&scenario=%E9%96%8B%E7%99%BC#explore",
+        "count": "顯示 3 / 538 筆收錄",
+        "first": "Muse 或 Claude Code 想操作 Mac 上的 App？日文作者用 Codex 的試驗性 app-server 直接叫用它的 Computer Use，自己的代理決定點哪裡"
+      },
+      "detail": {
+        "url": "http://127.0.0.1:8765/?case=UC-016",
+        "hasProof": true,
+        "hasCaution": true,
+        "source": [
+          {
+            "text": "GitHub 原始資料 ↗",
+            "href": "https://github.com/RichardHan/ai-agent-use-cases"
+          },
+          {
+            "text": "前往 GitHub ↗",
+            "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md"
+          },
+          {
+            "text": "GitHub 原始索引 ↗",
+            "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md"
+          },
+          {
+            "text": "先讀 GitHub 索引 ↗",
+            "href": "https://github.com/RichardHan/ai-agent-use-cases/blob/main/INDEX.md"
+          }
+        ],
+        "overflow": 0
+      },
+      "errors": []
+    }
+  }
+}

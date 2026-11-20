@@ -21,7 +21,15 @@ const m = endpoint.match(/pulls\\/(\\d+)/);
 const n = m && Number(m[1]);
 const sha = (n === 1 ? 'a' : 'b').repeat(40);
 let result;
-if (endpoint.includes('/files?')) {
+if (endpoint.includes('/pulls?')) {
+  if (!process.argv.includes('--paginate') || !process.argv.includes('--slurp')) process.exit(1);
+  const marker = root + '/list-calls';
+  const count = fs.existsSync(marker) ? Number(fs.readFileSync(marker)) : 0;
+  fs.writeFileSync(marker, String(count + 1));
+  const pr = (number, head) => ({number, state:'open', head:{sha:head.repeat(40)}, base:{sha:'d'.repeat(40)}});
+  result = mode === 'empty' ? [[]] : [[pr(1, 'a')], [pr(2, mode === 'list-moved' && count ? 'c' : 'b')]];
+  if (mode === 'list-added' && count) result.push([pr(3, 'c')]);
+} else if (endpoint.includes('/files?')) {
   result = [[{filename: n === 1 ? 'cases/001-new.md' : 'cases/002-new.md', status: 'added'}]];
   if (mode === 'incomplete') result = [[]];
 } else if (endpoint.includes('/trees/')) {
@@ -75,4 +83,30 @@ test('fails when an earlier PR moves while a later PR is fetched', t => {
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /changed during batch/);
   assert.equal(result.stdout, '');
+});
+
+test('discovers every open PR across pages, including an empty inventory', t => {
+  const result = fixture(t).run('--all-open');
+  assert.equal(result.status, 0, result.stderr);
+  const report = JSON.parse(result.stdout);
+  assert.equal(report.selection, 'all-open');
+  assert.deepEqual(report.pull_requests.map(pr => pr.number), [1, 2]);
+  const empty = fixture(t, 'empty').run('--all-open');
+  assert.equal(empty.status, 0, empty.stderr);
+  assert.deepEqual(JSON.parse(empty.stdout).pull_requests, []);
+});
+
+for (const mode of ['list-moved', 'list-added']) {
+  test(`fails closed if open PR inventory changes: ${mode}`, t => {
+    const result = fixture(t, mode).run('--all-open');
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /open PR list changed/);
+    assert.equal(result.stdout, '');
+  });
+}
+
+test('requires exactly one selection mode', t => {
+  const { run } = fixture(t);
+  assert.notEqual(run().status, 0);
+  assert.notEqual(run('--all-open', '1').status, 0);
 });

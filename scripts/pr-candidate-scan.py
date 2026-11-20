@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Scan selected public PR case files at their recorded heads; not an evidence verdict."""
+"""Scan public PR case files at recorded heads; not an evidence verdict.
+
+All-open mode makes multiple API requests per PR and file, and fails as a whole
+if quota or snapshots prevent completion. Explicit PR numbers allow smaller
+batches, but separate batches are not a single consistent snapshot.
+"""
 import argparse
 import base64
 import importlib.util
@@ -28,6 +33,31 @@ def snapshot(number):
 
 def version(pr):
     return (pr['state'], pr['head']['sha'], pr['base']['sha'], pr['changed_files'])
+
+
+def open_prs():
+    pages = api(f'repos/{REPO}/pulls?state=open&per_page=100', '--paginate', '--slurp')
+    if not isinstance(pages, list) or any(not isinstance(page, list) for page in pages):
+        raise ValueError('invalid open PR list')
+    prs = [pr for page in pages for pr in page]
+    versions = {pr['number']: (pr['state'], pr['head']['sha'], pr['base']['sha']) for pr in prs}
+    if len(versions) != len(prs):
+        raise ValueError('duplicate PR in open list')
+    return versions
+
+
+def run_all(root):
+    before = open_prs()
+    report = run(root, sorted(before))
+    after = open_prs()
+    if before != after:
+        raise ValueError('open PR list changed during scan; retry')
+    for pr in report['pull_requests']:
+        current = before[pr['number']]
+        if current[1:3] != (pr['head'], pr['base']):
+            raise ValueError(f"PR #{pr['number']} changed during discovery; retry")
+    report['selection'] = 'all-open'
+    return report
 
 
 def run(root, numbers):
@@ -104,11 +134,14 @@ def run(root, numbers):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('pr', type=int, nargs='+', help='public open PR numbers')
+    parser.add_argument('pr', type=int, nargs='*', help='public open PR numbers')
+    parser.add_argument('--all-open', action='store_true', help='scan all open PRs, including drafts')
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parent.parent)
     args = parser.parse_args()
+    if args.all_open == bool(args.pr):
+        parser.error('choose PR numbers or --all-open')
     try:
-        print(json.dumps(run(args.root, args.pr), ensure_ascii=False, indent=2))
+        print(json.dumps(run_all(args.root) if args.all_open else run(args.root, args.pr), ensure_ascii=False, indent=2))
     except (OSError, ValueError, KeyError, UnicodeError, subprocess.CalledProcessError) as exc:
         print(f'Cannot scan PRs: {exc}', file=sys.stderr)
         return 1

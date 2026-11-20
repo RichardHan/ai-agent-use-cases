@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 542 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 545 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（542）
+## 案例（545）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -582,6 +582,9 @@
 | UC-584 | 結構同步升級成正式資料庫重置 | Claude Code／Prisma | [使用者自述；未重現](cases/584-prisma-agent-production-reset.md) | 開發｜失敗復盤、資料庫、備份 |
 | UC-585 | 清除測試數字誤刪客戶資料 | Claude Code／PostgreSQL | [使用者自述；未重現](cases/585-agent-dashboard-cleanup-customer-data.md) | 開發｜失敗復盤、資料清理、審批 |
 | UC-586 | 遷移只比列數而漏掉音檔儲存 | Claude Code／Supabase | [使用者自述；未重現](cases/586-agent-migration-row-count-storage-loss.md) | 開發｜失敗復盤、遷移、儲存 |
+| UC-593 | 家庭冷氣感測器誤診與現場糾正 | Claude Code／Home Assistant／ESP32 | [作者復盤；未重現](cases/593-home-assistant-sensor-airflow-misdiagnosis.md) | 生活｜智慧家庭、物聯網、失敗復盤 |
+| UC-594 | 住宅能源面板單位查核 | Claude Code／Home Assistant／Grafana | [作者自述及截圖；未重現](cases/594-home-assistant-energy-panel-agent-audit.md) | 生活｜智慧家庭、物聯網、能源 |
+| UC-595 | 電表資料收集與冷氣控制建置 | Claude Code／Gemini CLI／Google Cloud | [作者自述；未重現](cases/595-smart-meter-aircon-spec-driven-build.md) | 生活｜智慧家庭、物聯網、能源 |
 
 <a id="supplement-list"></a>
 

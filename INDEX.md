@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 547 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 549 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（547）
+## 案例（549）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -587,6 +587,8 @@
 | UC-595 | 電表資料收集與冷氣控制建置 | Claude Code／Gemini CLI／Google Cloud | [作者自述；未重現](cases/595-smart-meter-aircon-spec-driven-build.md) | 生活｜智慧家庭、物聯網、能源 |
 | UC-596 | 哥倫比亞農民的 WhatsApp 農業諮詢 | Agentforce／WhatsApp | [組織與供應商自述；未重現](cases/596-rare-agent-tierra-farmer-coaching.md) | 工作｜農業、農民諮詢、人工確認 |
 | UC-597 | 多語農業語音諮詢試點與轉譯失誤 | 語音辨識／翻譯／農業知識檢索 | [計畫團隊報告；未重現](cases/597-aiep-multilingual-farmer-advisory.md) | 工作｜農業、多語、失敗復盤 |
+| UC-598 | 盲人讀屏使用者的桌面代理研究 | OLLA／GPT-5 | [研究團隊報告；未重現](cases/598-olla-blind-desktop-agent-study.md) | 工作｜無障礙、視障、人工確認 |
+| UC-599 | 低視力使用者試用語音網頁代理 | Perplexity Comet | [研究團隊觀察；未重現](cases/599-low-vision-agentic-browser-study.md) | 生活｜無障礙、視障、失敗復盤 |
 
 <a id="supplement-list"></a>
 

@@ -284,12 +284,16 @@ const DATA_CURSOR_STATE=/\bcursor\b(?=\s*(?:重同步|遺失)(?:\s*[、，,。�
 // GitHub bot logins identify an author, not the product used by the workflow.
 // Strip the login only; an explicit product mention elsewhere still counts.
 const BOT_ACCOUNT=/\b[a-z0-9-]+\[bot\]/gi;
+// Ownership denial describes the product's maker, not the tools used. Remove
+// only this exact phrase so a separate use in the same sentence still counts.
+const NOT_XAI_OR_CURSOR_PRODUCT=/不是\s*xAI\s*或\s*Cursor\s*產品/gi;
 function withoutDisclaimedTools(text){
   return withoutSourceUrls(text||'')
     .replace(RELATIVE_LINK_DESTINATION,' ] ')
     .replace(DEDUP_SECTION,'\n')
     .replace(CROSS_CASE_LINE,'\n')
     .replace(BOT_ACCOUNT,' ')
+    .replace(NOT_XAI_OR_CURSOR_PRODUCT,' ')
     .replace(DATA_CURSOR_PREFIX,'$1')
     .replace(DATA_CURSOR_STATE,' ')
     .split(/[，,。；;\n]/)

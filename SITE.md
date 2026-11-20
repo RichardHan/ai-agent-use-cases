@@ -7,6 +7,8 @@ Mode A：新增 UC-630–633，分別記錄大學 SOC 本機代理的八張真�
 `node --test tests/index-freshness.test.cjs tests/corpus-bundle.test.cjs tests/case-share.test.cjs tests/relayed-source-labels.test.cjs`：39 pass、0 fail。Preview WebKit 桌面 1440px 和模擬手機 390px 搜尋 UC-630、開啟詳情與直鏈重載、關閉返回，另以工作情境篩選及鍵盤移除空結果查詢，兩種寬度均保留情境且無水平溢出。Preview 非 Jekyll；未用實體手機或讀屏。
 獨立審查指出 UC-633 漏寫排除 13 份低分回應；已補上。論文未清楚說明列出的 167 人是否為排除後人數，不自行推算分析樣本。
 
+PR #497 首次 Website QA 全套測試 940 pass、1 fail：四個新頁缺少網站所需的可複製提示詞。已依案例補入本庫設計、未實測且限制外部操作的提示詞；未刪除或降低測試斷言。修正後本機 `node --test tests/*.test.cjs`：941 pass、0 fail；不是 PR 重跑結果。
+
 
 基準正式站 `23b78e167021c9644cddbd8540762e66d019f703` 的 `tests/deployed-browser.cjs` 通過桌面情境、手機直鏈與重載、搜尋及篩選空結果鍵盤復原，搜尋 axe 0 違規；這是發布前基準，不是本輪正式站驗證。
 

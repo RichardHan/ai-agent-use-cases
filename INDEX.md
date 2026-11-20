@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 554 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 557 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（554）
+## 案例（557）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -594,6 +594,9 @@
 | UC-631 | 企業 SOC 以歷史結案回饋代理 | Elastic Agent Builder／Slack | [官方自報；與人工結案理由比較；未重現](cases/631-elastic-soc-agent-feedback.md) | 工作｜資安、SOC、多代理 |
 | UC-632 | 研討會現場 SOC 代理分流 | Splunk／Cisco／Endace | [活動團隊自報；非準確率；未重現](cases/632-splunk-conf-soc-triage.md) | 工作｜資安、SOC、活動網路 |
 | UC-633 | 釣魚警報排序與人工判斷試驗 | Microsoft Security Copilot／Defender | [供應商隨機試驗；含人造錯誤；未重現](cases/633-phishing-triage-randomized-study.md) | 工作｜資安、釣魚郵件、實驗 |
+| UC-640 | 耳鼻喉診所預約與人工轉接 | Hello Patient／ModMed | [供應商報告；估算時間非實測；未重現](cases/640-ent-clinic-scheduling-handoff.md) | 工作｜醫療行政、診所、預約 |
+| UC-641 | 疼痛診所新病人預約與分流 | Netfor IntakeGuard／eClinicalWorks | [供應商報告；比例分母有限制；未重現](cases/641-pain-clinic-intake-scheduling.md) | 工作｜醫療行政、診所、預約 |
+| UC-642 | 復健診所非營業時間預約 | Solum Health／Weave | [供應商報告；樣本與對照未公開；未重現](cases/642-rehab-after-hours-scheduling.md) | 工作｜醫療行政、診所、預約 |
 
 <a id="supplement-list"></a>
 

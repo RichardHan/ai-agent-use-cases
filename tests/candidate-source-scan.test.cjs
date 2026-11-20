@@ -37,6 +37,29 @@ test('batch scan reports traceable source matches without declaring duplicates',
   assert.equal('qualified' in report.results[0], false);
 });
 
+test('compares candidate batches and case IDs without treating a repeated file as a collision', (t) => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'candidate-cross-')));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  for (const dir of ['base/cases', 'base/evidence', 'a', 'b']) {
+    fs.mkdirSync(path.join(root, dir), { recursive: true });
+  }
+  const base = path.join(root, 'base');
+  const old = path.join(base, 'cases', '001-old.md');
+  const first = path.join(root, 'a/001-new.md');
+  const second = path.join(root, 'b/002-other.md');
+  fs.writeFileSync(old, 'https://example.org/original\n');
+  fs.writeFileSync(first, 'https://example.org/shared?utm_source=one\n');
+  fs.writeFileSync(second, 'https://example.org/shared\nhttps://example.org/unrelated\n');
+  const run = spawnSync('python3', [script, '--root', base, first, second, first], { encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
+  const report = JSON.parse(run.stdout);
+  assert.deepEqual(report.case_id_collisions, [{ id: 1, paths: [first, old].sort() }]);
+  assert.deepEqual(report.candidate_url_groups, [{ occurrences: [
+    { path: first, line: 1, url: 'https://example.org/shared?utm_source=one' },
+    { path: second, line: 1, url: 'https://example.org/shared' },
+  ] }]);
+});
+
 test('missing corpus and unreadable inputs fail instead of reporting no matches', (t) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'candidate-scan-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));

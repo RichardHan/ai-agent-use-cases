@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 542 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 544 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（542）
+## 案例（544）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -63,7 +63,7 @@
 | UC-024 | 檢查已交付工作，找出可能漏開的帳單 | ChatGPT dots／Grok Bot | [官方轉述＋貨運作者自報與錯誤；未獨立實測](cases/024-missing-invoice-check.md) | 工作｜帳單、對帳 |
 | UC-025 | 用 dots 追蹤團隊活動的期限、預算問題與待回覆事項 | ChatGPT dots | [官方示例＋作者測試及真實活動提醒；未重現](cases/025-team-event-follow-through.md) | 工作｜團隊活動、追蹤 |
 | UC-026 | 讓 Muse 整理開學通知與截止日；孩子比賽報名日未定時每天早上檢查、一開放就寄連結 | Meta Muse | [官方自述／用途宣稱；原創流程未實測；英文家長自述補充](cases/026-school-deadline-list.md) | 生活｜學校、期限、每日 |
-| UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse；Grok Bot 網購下單失敗回報 | [Muse 官方自述＋Grok Bot 作者失敗自述；原創流程未實測](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買、網購 |
+| UC-027 | 把收藏食譜整理成一桌菜 | Meta Muse；Grok Bot；Claude in Chrome | [官方範例、作者失敗及購物車自述；未重現](cases/027-recipe-shopping-plan.md) | 生活｜食譜、採買、網購 |
 | UC-028 | 先做帳單降費比較，再決定怎麼談；Muse 代查帳戶與客服議價；Grok Bot 訂閱線上議價與漲價抵免；Grok Bot 讀 PDF 帳單、本人登入後代談並先確認新總額 | Meta Muse／Grok Bot | [原作者帳單檢查與本人通話準備自述＋P-002 三則原帖（一則附業者確認簡訊）＋Grok Bot 兩則自述（一則附Bot回報截圖）＋Grok Bot 同業者現價比對與優惠到期提醒自述；節省未核](cases/028-bill-comparison-preparation.md) | 省錢｜帳單、降費、協商、訂閱 |
 | UC-029 | 刪掉12堂新排課，別動原本的2堂 | Meta Muse／Peloton | [作者實測報告；未獨立重現](cases/029-exercise-time-replan.md) | 生活｜運動、行程 |
 | UC-030 | 把筆記做成互動複習工具 | Meta Muse；ChatGPT dots／Sites；Grok Bot（題庫與共享作答紀錄） | [官方自述＋作者自建字卡 App 自述；原創流程未實測](cases/030-interactive-study-guide.md) | 學習｜自學、互動工具、語言學習 |
@@ -582,6 +582,8 @@
 | UC-584 | 結構同步升級成正式資料庫重置 | Claude Code／Prisma | [使用者自述；未重現](cases/584-prisma-agent-production-reset.md) | 開發｜失敗復盤、資料庫、備份 |
 | UC-585 | 清除測試數字誤刪客戶資料 | Claude Code／PostgreSQL | [使用者自述；未重現](cases/585-agent-dashboard-cleanup-customer-data.md) | 開發｜失敗復盤、資料清理、審批 |
 | UC-586 | 遷移只比列數而漏掉音檔儲存 | Claude Code／Supabase | [使用者自述；未重現](cases/586-agent-migration-row-count-storage-loss.md) | 開發｜失敗復盤、遷移、儲存 |
+| UC-591 | 家庭明細分類、月報與家人確認 | Claude Code／LINE | [作者自述；公開樣本為虛構資料，未重現](cases/591-family-budget-line-agent-team.md) | 生活｜家庭、記帳、多代理 |
+| UC-592 | 家電口語請求轉為家人可共用的程序 | OpenClaw／Discord／Tuya | [作者自述及操作時間紀錄；未重現](cases/592-home-aircon-agent-scheduled-routines.md) | 生活｜居家、智慧家電、自動化 |
 
 <a id="supplement-list"></a>
 

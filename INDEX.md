@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 550 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 554 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（550）
+## 案例（554）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -590,6 +590,10 @@
 | UC-598 | 巴基斯坦田間感測與多語農民諮詢 | WhatsApp／IoT／農業知識檢索 | [研究團隊報告；未重現](cases/598-kissan-dost-sensor-grounded-farm-advice.md) | 工作｜農業、物聯網、人工確認 |
 | UC-599 | 泰國榴槤園感測與灌溉建議 | LINE／Botnoi／Pathumma／IoT | [研究團隊報告；未重現](cases/599-thai-durian-chatbot-iot-irrigation.md) | 工作｜農業、物聯網、灌溉 |
 | UC-600 | 西班牙番茄園多代理灌溉 | PANGEA／無線感測／模糊邏輯 | [研究團隊報告；未重現](cases/600-pangea-tomato-multiagent-irrigation.md) | 工作｜農業、物聯網、多代理 |
+| UC-630 | 大學 SOC 本機代理跨工具調查 | LangChain／gpt-oss／Splunk | [研究團隊報告；八張工單；未重現](cases/630-university-soc-local-agent-triage.md) | 工作｜資安、SOC、人工覆核 |
+| UC-631 | 企業 SOC 以歷史結案回饋代理 | Elastic Agent Builder／Slack | [官方自報；與人工結案理由比較；未重現](cases/631-elastic-soc-agent-feedback.md) | 工作｜資安、SOC、多代理 |
+| UC-632 | 研討會現場 SOC 代理分流 | Splunk／Cisco／Endace | [活動團隊自報；非準確率；未重現](cases/632-splunk-conf-soc-triage.md) | 工作｜資安、SOC、活動網路 |
+| UC-633 | 釣魚警報排序與人工判斷試驗 | Microsoft Security Copilot／Defender | [供應商隨機試驗；含人造錯誤；未重現](cases/633-phishing-triage-randomized-study.md) | 工作｜資安、釣魚郵件、實驗 |
 
 <a id="supplement-list"></a>
 

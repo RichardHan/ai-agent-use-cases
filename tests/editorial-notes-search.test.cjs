@@ -68,8 +68,8 @@ test('the note stays visible on the page a reader opens; only the index drops it
 
 test('translation queries keep the cases that are about translation and drop the note-only ones',()=>{
   const translate=search('翻譯');
-  assert.ok(translate.length<=25,`翻譯 must stop matching three quarters of the corpus, got ${translate.length}`);
-  for(const id of ['UC-144','UC-452'])assert.ok(translate.some(x=>x.id===id),`${id} is about translation and must still match`);
+  assert.ok(translate.filter(x=>x.id!=='UC-597').length<=25,`翻譯 must stop matching three quarters of the earlier corpus, got ${translate.length}`);
+  for(const id of ['UC-144','UC-452','UC-597'])assert.ok(translate.some(x=>x.id===id),`${id} is about translation and must still match`);
   assert.ok(!translate.some(x=>x.id==='UC-001'),'UC-001 only carried the note and must not match');
   const rejections=search('翻譯改寫');
   assert.ok(rejections.length<=5,`翻譯改寫 was a pure note, got ${rejections.length}`);

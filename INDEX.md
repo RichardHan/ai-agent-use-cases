@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 550 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 553 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（550）
+## 案例（553）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -590,6 +590,9 @@
 | UC-598 | 巴基斯坦田間感測與多語農民諮詢 | WhatsApp／IoT／農業知識檢索 | [研究團隊報告；未重現](cases/598-kissan-dost-sensor-grounded-farm-advice.md) | 工作｜農業、物聯網、人工確認 |
 | UC-599 | 泰國榴槤園感測與灌溉建議 | LINE／Botnoi／Pathumma／IoT | [研究團隊報告；未重現](cases/599-thai-durian-chatbot-iot-irrigation.md) | 工作｜農業、物聯網、灌溉 |
 | UC-600 | 西班牙番茄園多代理灌溉 | PANGEA／無線感測／模糊邏輯 | [研究團隊報告；未重現](cases/600-pangea-tomato-multiagent-irrigation.md) | 工作｜農業、物聯網、多代理 |
+| UC-620 | 圖書館借用目錄代理初稿與人工審核 | GitHub Copilot／Claude／VS Code | [館方專案報告；未重現](cases/620-library-lending-catalog-human-review.md) | 工作｜圖書館、目錄、人工確認 |
+| UC-621 | 館員推薦代理與簡單基準比較 | Primo MCP／Microsoft Copilot | [館員少量測試自述；未重現](cases/621-librarian-recommender-simple-baseline.md) | 工作｜圖書館、失敗復盤、人工確認 |
+| UC-622 | 圖書館多代理資源查詢及館員轉介 | LibAI／圖書館目錄 API | [館方報告；成效統計方法未明](cases/622-library-multiagent-resource-discovery.md) | 工作｜圖書館、多代理、人工確認 |
 
 <a id="supplement-list"></a>
 

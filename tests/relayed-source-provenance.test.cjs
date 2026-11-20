@@ -99,7 +99,7 @@ test('a relayed declaration is exposed as data, and a later source is not', () =
     'reading the official page directly is not a relayed declaration');
 
   const relayed = entries.filter(entry => entry.relayedProof.length).map(entry => entry.id);
-  assert.deepEqual(relayed.map(id => String(id)).sort(), ['UC-049', 'UC-093', 'UC-107', 'UC-108', 'UC-179', 'UC-282', 'UC-316', 'UC-445', 'UC-514', 'UC-523'],
+  assert.deepEqual(relayed.map(id => String(id)).sort(), ['UC-049', 'UC-093', 'UC-107', 'UC-108', 'UC-179', 'UC-282', 'UC-316', 'UC-445', 'UC-514', 'UC-523', 'UC-561', 'UC-563', 'UC-564', 'UC-565'],
     'the pages that state the relay carry the qualifier, the others do not');
   for (const id of ['UC-107', 'UC-108', 'UC-316', 'UC-514'])
     assert.deepEqual([...byId(id).relayedProof], ['官方自報'], id + ' carries the official relay qualifier');

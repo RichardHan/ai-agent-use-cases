@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 534 筆案例；頁首核對日期最新為 2026-11-19；本頁於 2026-11-19 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 545 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（534）
+## 案例（545）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -574,6 +574,17 @@
 | UC-542 | Muse Spaces自製應用每次讀Google Drive都跳核准卡且不記住：切分出讀取無常設許可、只有應用讀才跳卡，改由代理更新時寫入應用內單列快照、畫面只讀快照，每天早上比對修改時間同步，套用9個應用 | Meta Muse（Spaces、Drive連接器CLI、排程）／Google Drive | [B日文作者Qiita實測自述（免費方案）；共用檔不跳卡為作者推測、未重現](cases/542-muse-spaces-drive-read-approval-card-snapshot-pattern.md) | 開發｜Spaces、Google Drive、權限、故障診斷、快照、每日 |
 | UC-543 | Muse經PixAI API量產原創角色插圖：生成前報張數與點數待核准、共用角色描述一次出4種構圖、網頁版訓練LoRA後由Muse搜尋套用，四格漫畫生成與排版分開驗收、改台詞只重排版 | Meta Muse（安全連接器、API輔助程式）／PixAI API v2／PixAI網頁版 | [B日文作者Qiita＋Zenn實測自述（16,000點、約3分20秒）；未重現](cases/543-muse-pixai-api-batch-images-lora-four-panel-manga-checks.md) | 創作｜圖像、角色一致性、API、費用、核准、驗收 |
 | UC-544 | 以闖入者角度做個人曝險盤點：三個分權Bot查門號、臉與名字、密碼、手機App、存卡、Mac六道門，改密碼／撤銷／打電話都要本人點頭，有效檢查存成技能每週日重跑並記在「我的曝險」頁 | Grok Bot（多Bot、技能、排程、Pages、Auto-review、代打電話）／密碼庫連接／Apple連接 | [B英文作者X文章自述；520破口等數字未查證、帶推廣性質、未重現](cases/544-grok-bot-personal-exposure-audit-three-bots-six-doors-weekly-recheck.md) | 生活｜隱私、資安、權限、核准、多代理 |
+| UC-560 | 硫化機資料多代理根因分析 | Amazon Bedrock Agents／工業 IoT | [Apollo 與 AWS 聯名自述；未重現](cases/560-apollo-tyres-curing-root-cause.md) | 工作｜製造、設備、根因分析 |
+| UC-561 | 裝配影片辨識漏步並提醒人員 | NVIDIA VSS／視覺代理 | [供應商報告和碩使用；未重現](cases/561-pegatron-assembly-visual-agent.md) | 工作｜製造、裝配、品質 |
+| UC-562 | 產線停機時查詢維修知識 | Bosch Shopfloor Agent | [博世官方自報；未重現](cases/562-bosch-shopfloor-breakdown-agent.md) | 工作｜製造、維修、知識 |
+| UC-563 | 電子產線多代理分析品質風險 | Microsoft Azure／多代理 | [供應商報告 Rockwell 自述；未重現](cases/563-rockwell-quality-multi-agent.md) | 工作｜製造、品質、人工判斷 |
+| UC-564 | 生產排程修改先在草稿核對風險 | IBM watsonx Orchestrate | [供應商客戶故事；未重現](cases/564-suzhou-draft-production-scheduling.md) | 工作｜製造、排程、風險 |
+| UC-565 | 灌裝設備模擬與代理迭代試點 | Azure HPC／數位分身 | [供應商報告 Krones 試點；未重現](cases/565-krones-filler-simulation-agents.md) | 工作｜製造、模擬、工程 |
+| UC-582 | 未合併分支 CI 清理誤刪正式虛擬機 | CI／OpenStack | [事故協調者自述；未重現](cases/582-agent-ci-production-vm-cleanup.md) | 開發｜失敗復盤、CI、權限 |
+| UC-583 | 自主修復建置後網站被佔位頁取代 | OpenClaw／Claude | [網站經營者自述；未重現](cases/583-autonomous-clinic-build-cascade.md) | 開發｜失敗復盤、醫療、監控 |
+| UC-584 | 結構同步升級成正式資料庫重置 | Claude Code／Prisma | [使用者自述；未重現](cases/584-prisma-agent-production-reset.md) | 開發｜失敗復盤、資料庫、備份 |
+| UC-585 | 清除測試數字誤刪客戶資料 | Claude Code／PostgreSQL | [使用者自述；未重現](cases/585-agent-dashboard-cleanup-customer-data.md) | 開發｜失敗復盤、資料清理、審批 |
+| UC-586 | 遷移只比列數而漏掉音檔儲存 | Claude Code／Supabase | [使用者自述；未重現](cases/586-agent-migration-row-count-storage-loss.md) | 開發｜失敗復盤、遷移、儲存 |
 
 <a id="supplement-list"></a>
 

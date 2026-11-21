@@ -597,6 +597,9 @@
 | UC-631 | 企業 SOC 以歷史結案回饋代理 | Elastic Agent Builder／Slack | [官方自報；與人工結案理由比較；未重現](cases/631-elastic-soc-agent-feedback.md) | 工作｜資安、SOC、多代理 |
 | UC-632 | 研討會現場 SOC 代理分流 | Splunk／Cisco／Endace | [活動團隊自報；非準確率；未重現](cases/632-splunk-conf-soc-triage.md) | 工作｜資安、SOC、活動網路 |
 | UC-633 | 釣魚警報排序與人工判斷試驗 | Microsoft Security Copilot／Defender | [供應商隨機試驗；含人造錯誤；未重現](cases/633-phishing-triage-randomized-study.md) | 工作｜資安、釣魚郵件、實驗 |
+| UC-670 | Somerset 門診預約文字助理 | EBO Alex／Rio | [院方與供應商自報；歷史估算；未重現](cases/670-somerset-alex-appointment-assistant.md) | 工作｜醫療行政、預約、人工交接 |
+| UC-671 | Frimley 白內障術後電話追蹤 | Ufonia Dora | [院方自報；臨床覆核；未重現](cases/671-frimley-cataract-follow-up.md) | 工作｜醫療、術後追蹤、人工覆核 |
+| UC-672 | Leicester 新冠出院後症狀追蹤 | Ufonia Dora | [供應商自報；母數未明；未重現](cases/672-leicester-post-covid-follow-up.md) | 工作｜醫療、出院追蹤、人工交接 |
 
 <a id="supplement-list"></a>
 

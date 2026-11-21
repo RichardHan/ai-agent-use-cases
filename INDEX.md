@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 568 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 570 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（568）
+## 案例（570）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -567,6 +567,8 @@
 | UC-533 | 不開剪輯軟體做App宣傳短影音：Grok Bot寫腳本→Claude Code用技能潤稿與算繪並回報檔案路徑→Grok Bot審片寫修改提示→經Buffer MCP排程；代理間提示詞仍手動貼 | Grok Bot／Claude Code（技能）／Buffer MCP | [B英文作者X單則自述流程；成品與技能內容未公開、未重現](cases/533-grok-bot-claude-code-youtube-shorts-pipeline-buffer-schedule.md) | 創作｜影片、跨代理、排程、社群 |
 | UC-534 | 從信箱盤點註冊過的帳號，查各平台遺產聯絡人／閒置帳戶／緊急存取，整理成給家人的交接文件；AI只盤點整理，密碼與授權本人設定 | Grok Bot（信箱、雲端瀏覽器）／Google、Apple、Meta等平台功能 | [B英文作者單則自述「140帳號」＋簡中轉述更正1Password說法；成果與平台功能未查證](cases/534-grok-bot-email-linked-accounts-legacy-contact-family-handover-doc.md) | 生活｜家庭、帳號、盤點、權限 |
 | UC-535 | Muse雲端瀏覽器被Cloudflare人機驗證擋下，改用官方Chrome擴充借本人已登入的Chrome：建Pages專案、上傳ZIP、部署、加自訂網域，再核兩個網址與檔案數 | Meta Muse（Chrome擴充、PC網頁版）／Cloudflare Pages | [B日文作者Qiita自述＋截圖與X錄影；本庫未重現](cases/535-muse-chrome-extension-own-browser-cloudflare-pages-deploy.md) | 開發｜部署、網站、Pages、權限邊界 |
+| UC-536 | 每個工作日早上看對手X與官網，只報和上次比的變化、每筆附連結並記進試算表，沒變化不發訊息；每週一到Meta廣告檔案庫抓投放最久的廣告當線索 | Grok Bot（routine、雲端瀏覽器）／Google Sheets／Slack／Meta廣告檔案庫；原示範另用Foreplay MCP | [YouTuber贊助影片示範經教學站轉述＋教學站改寫提示詞；本庫未看影片、未重現](cases/536-grok-bot-weekday-competitor-change-log-meta-ad-library-longest-running.md) | 工作｜競品、監看、試算表、廣告、每日 |
+| UC-537 | 把寫好的SOP交給主Bot：挑最省時的一個流程、列七點設計圖（觸發、所需、步驟、交回、何時問我、怎麼算有效、何時停下來問），寫好指示等本人說「去做」才建Bot；新Bot自設查信與週五摘要routine、回信先核准 | Grok Bot（主Bot、建立Bot、routine）／Email | [YouTuber課程示範經教學站轉述；本庫未看影片、未重現](cases/537-grok-bot-sop-to-bot-seven-point-map-approval-before-create.md) | 工作｜交接、核准、排程、收件匣 |
 | UC-538 | 讓Muse讀崩字古文書：不叫AI直接看圖，改由它在無GPU雲端電腦裝並執行NDL古典籍OCR-Lite與みんなで翻刻OCR，再把文字交AI摘要與現代語譯、不准改原文；作者用7頁公開語料實測CER，AI直接讀與「AI訂正」都較差 | Meta Muse（雲端電腦）／NDL古典籍OCR-Lite／みんなで翻刻OCR | [B日文作者Qiita自述＋逐頁正確率表與評分條件；本庫未重現](cases/538-muse-kuzushiji-dedicated-ocr-then-ai-handles-text-cer-measured.md) | 學習｜OCR、古文書、驗收、比較 |
 | UC-539 | 替既有程式庫設工程Bot：先讀懂專案寫架構文件並排程定期更新，做專屬/qa指令自我改良，新功能走OpenSpec explore→propose→apply，驗證交給技能，學習紀錄不跨程式庫 | Grok Bot（Bot、Routine、技能）／dr eggbot／OpenSpec | [B英文作者X單則自述流程；第三方技能內容未讀、未重現](cases/539-grok-bot-repo-engineer-bot-docs-refresh-qa-commands-openspec-verification.md) | 開發｜程式庫、規則檔、驗收、排程 |
 | UC-540 | 一段提示詞設好Bot團隊安全規則：Gate管外部服務每小時呼叫上限、Ops每天5點只回報卡關並維護規則手冊，需要點頭的事進drafts資料夾、結尾寫sent: 0，沒新事回NOOP，新Routine先暫停 | Grok Bot（多Bot、Routine、雲端工作區、Take over） | [設計提示詞（作者自擬，未附執行紀錄）；用量節省數字未查證](cases/540-grok-bot-gate-ops-team-drafts-folder-noop-paused-routines.md) | 工作｜多代理、核准、用量、每日 |

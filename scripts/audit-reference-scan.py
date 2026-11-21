@@ -27,7 +27,7 @@ def case_evidence(path):
     """Locate source candidates and declared evidence; never infer a verdict."""
     declarations = []
     for number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
-        if re.match(r'^\s*[-*]\s*(?:來源證據|證據等級|證據類型|證據狀態)\s*[：:]', line):
+        if re.match(r'^\s*[-*]\s*(?:來源證據|證據等級|證據類型|證據狀態|證據)\s*[：:]', line):
             declarations.append({'line': number, 'text': line.strip()})
     return declarations
 

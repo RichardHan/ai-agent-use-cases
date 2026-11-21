@@ -81,6 +81,23 @@ test('joins shared normalized sources to each case without duplicating groups', 
   assert.deepEqual(report.unresolved_link_targets, {});
 });
 
+test('finds literal ledger ID references without inferring a review or expanding ranges', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'audit-mentions-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  fs.mkdirSync(path.join(root, 'cases'));
+  fs.mkdirSync(path.join(root, 'sources'));
+  for (const id of ['001', '002', '003', '004']) {
+    fs.writeFileSync(path.join(root, 'cases', `${id}-case.md`), 'case');
+  }
+  fs.writeFileSync(path.join(root, 'sources', 'qualification-audit-2026-10-16.md'),
+    'UC-001 與 uc-001 同行\nUC-001–003 不展開\n不計 UC-002，參照 UC-004\nXUC-003 UC-0030\n本批UC-002納入\n');
+  const run = spawnSync('python3', [script, '--root', root], { encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
+  const cases = JSON.parse(run.stdout).cases;
+  assert.deepEqual(cases.map(c => c.ledger_id_mentions), [[1, 2], [3, 5], [], [3]]);
+  assert.ok(cases.every(c => !('qualified' in c)));
+});
+
 test('ambiguous URL fails the entire worklist rather than publishing a partial join', (t) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'audit-ambiguous-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));

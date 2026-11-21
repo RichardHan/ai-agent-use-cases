@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Locate direct case-file links in a historical qualification ledger.
 
-Links are references, not qualification decisions. Missing links are not proof
-that a case was never reviewed; ranges and references in other files are missed.
+Links and ID mentions are references, not qualification decisions. Missing
+references are not proof of no review; ranges and other files are missed.
 """
 import argparse
 import importlib.util
@@ -21,6 +21,8 @@ LINK = re.compile(
     r'\]\((?:\.\./|https://github\.com/RichardHan/ai-agent-use-cases/blob/main/)'
     r'cases/([^#?\s)]+\.md)(?:#[^\s)]*)?\)'
 )
+CASE_ID = re.compile(r'^(\d{3,})-')
+ID_MENTION = re.compile(r'(?<![A-Za-z0-9_-])UC-(\d{3,})(?!\d)', re.IGNORECASE)
 
 
 def case_evidence(path):
@@ -38,9 +40,12 @@ def scan(root):
     if not cases:
         raise ValueError('cases/ has no Markdown files')
     references = defaultdict(list)
+    mentions = defaultdict(list)
     for number, line in enumerate(ledger.read_text(encoding='utf-8').splitlines(), 1):
         for name in set(LINK.findall(line)):
             references[name].append(number)
+        for identifier in set(ID_MENTION.findall(line)):
+            mentions[identifier].append(number)
     groups = defaultdict(list)
     records = []
     for case in cases:
@@ -49,7 +54,9 @@ def scan(root):
         for line, url, key in scanner.urls_in(case):
             occurrences.append({'line': line, 'url': url})
             groups[key].append({'path': case_path, 'line': line, 'url': url})
+        match = CASE_ID.match(case.name)
         records.append({'path': case_path, 'ledger_lines': references.get(case.relative_to(root / 'cases').as_posix(), []),
+                        'ledger_id_mentions': mentions.get(match.group(1), []) if match else [],
                         'evidence_declarations': case_evidence(case), 'url_occurrences': occurrences})
     for case in cases:
         references.pop(case.relative_to(root / 'cases').as_posix(), None)
@@ -64,7 +71,7 @@ def scan(root):
         record['shared_url_keys'] = sorted(keys_by_path[record['path']])
     linked = sum(bool(record['ledger_lines']) for record in records)
     return {'ledger': ledger.relative_to(root).as_posix(),
-            'limitation': 'Direct ledger links and normalized URL overlaps only; not a review, source validity, duplicate check or qualification verdict. Different URLs can describe the same event.',
+            'limitation': 'Direct ledger links, literal UC-ID mentions and normalized URL overlaps only; not a review, source validity, duplicate check or qualification verdict. ID mentions include unrelated references and range endpoints; ranges and other files are not expanded. Different URLs can describe the same event.',
             'case_files': len(records), 'files_with_direct_links': linked,
             'files_without_direct_links': len(records) - linked,
             'unresolved_link_targets': dict(sorted(references.items())),

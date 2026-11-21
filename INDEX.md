@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 544 筆案例；頁首核對日期最新為 2026-11-20；本頁於 2026-11-20 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 556 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（544）
+## 案例（556）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -584,6 +584,18 @@
 | UC-584 | 結構同步升級成正式資料庫重置 | Claude Code／Prisma | [使用者自述；未重現](cases/584-prisma-agent-production-reset.md) | 開發｜失敗復盤、資料庫、備份 |
 | UC-585 | 清除測試數字誤刪客戶資料 | Claude Code／PostgreSQL | [使用者自述；未重現](cases/585-agent-dashboard-cleanup-customer-data.md) | 開發｜失敗復盤、資料清理、審批 |
 | UC-586 | 遷移只比列數而漏掉音檔儲存 | Claude Code／Supabase | [使用者自述；未重現](cases/586-agent-migration-row-count-storage-loss.md) | 開發｜失敗復盤、遷移、儲存 |
+| UC-593 | 家庭冷氣感測器誤診與現場糾正 | Claude Code／Home Assistant／ESP32 | [作者復盤；未重現](cases/593-home-assistant-sensor-airflow-misdiagnosis.md) | 生活｜智慧家庭、物聯網、失敗復盤 |
+| UC-594 | 住宅能源面板單位查核 | Claude Code／Home Assistant／Grafana | [作者自述及截圖；未重現](cases/594-home-assistant-energy-panel-agent-audit.md) | 生活｜智慧家庭、物聯網、能源 |
+| UC-595 | 電表資料收集與冷氣控制建置 | Claude Code／Gemini CLI／Google Cloud | [作者自述；未重現](cases/595-smart-meter-aircon-spec-driven-build.md) | 生活｜智慧家庭、物聯網、能源 |
+| UC-596 | 哥倫比亞農民的 WhatsApp 農業諮詢 | Agentforce／WhatsApp | [組織與供應商自述；未重現](cases/596-rare-agent-tierra-farmer-coaching.md) | 工作｜農業、農民諮詢、人工確認 |
+| UC-597 | 多語農業語音諮詢試點與轉譯失誤 | 語音辨識／翻譯／農業知識檢索 | [計畫團隊報告；未重現](cases/597-aiep-multilingual-farmer-advisory.md) | 工作｜農業、多語、失敗復盤 |
+| UC-598 | 巴基斯坦田間感測與多語農民諮詢 | WhatsApp／IoT／農業知識檢索 | [研究團隊報告；未重現](cases/598-kissan-dost-sensor-grounded-farm-advice.md) | 工作｜農業、物聯網、人工確認 |
+| UC-599 | 泰國榴槤園感測與灌溉建議 | LINE／Botnoi／Pathumma／IoT | [研究團隊報告；未重現](cases/599-thai-durian-chatbot-iot-irrigation.md) | 工作｜農業、物聯網、灌溉 |
+| UC-600 | 西班牙番茄園多代理灌溉 | PANGEA／無線感測／模糊邏輯 | [研究團隊報告；未重現](cases/600-pangea-tomato-multiagent-irrigation.md) | 工作｜農業、物聯網、多代理 |
+| UC-630 | 大學 SOC 本機代理跨工具調查 | LangChain／gpt-oss／Splunk | [研究團隊報告；八張工單；未重現](cases/630-university-soc-local-agent-triage.md) | 工作｜資安、SOC、人工覆核 |
+| UC-631 | 企業 SOC 以歷史結案回饋代理 | Elastic Agent Builder／Slack | [官方自報；與人工結案理由比較；未重現](cases/631-elastic-soc-agent-feedback.md) | 工作｜資安、SOC、多代理 |
+| UC-632 | 研討會現場 SOC 代理分流 | Splunk／Cisco／Endace | [活動團隊自報；非準確率；未重現](cases/632-splunk-conf-soc-triage.md) | 工作｜資安、SOC、活動網路 |
+| UC-633 | 釣魚警報排序與人工判斷試驗 | Microsoft Security Copilot／Defender | [供應商隨機試驗；含人造錯誤；未重現](cases/633-phishing-triage-randomized-study.md) | 工作｜資安、釣魚郵件、實驗 |
 
 <a id="supplement-list"></a>
 
@@ -1113,8 +1125,6 @@
 ## 2026-11-17 08:30：每日批次（X＋Qiita＋教學站／Substack／Hacker News 嘗試）
 
 [約70組候選與查閱範圍](sources/research-2026-11-17-0830.md)：新增2（UC534 從信箱盤點帳號並整理身後存取交接文件；UC535 Muse改用Chrome擴充借本人瀏覽器部署Cloudflare Pages），合併補充2（UC405 長直播剪精華先交時間碼清單；UC527 待辦清單Space以規格Gist重建）。
-
-補充（同批另開 PR）：新增2（UC536 每天只報對手變化並記表、每週抓廣告檔案庫投放最久的廣告；UC537 SOP交主Bot先畫七點設計圖再建Bot），兩則皆為教學站轉述YouTuber影片示範。
 
 ## 2026-11-18 08:30：每日批次（X＋Qiita API）
 

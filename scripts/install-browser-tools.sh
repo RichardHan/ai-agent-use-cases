@@ -7,14 +7,12 @@
 # whether any bytes arrived. The same push's source-guide job fetched the
 # package in 3 seconds; --with-deps on that job took about 22 minutes for
 # 126 MB and did finish. This script records the apt cache size. No growth
-# for STALL_SECONDS is a stall: that attempt is stopped and retried. Growth
-# may continue until ATTEMPT_SECONDS. A download that is still growing at
-# that cap is not retried, because cleaning the cache would discard bytes
-# already fetched.
+# for STALL_SECONDS is a stall: that attempt is stopped and retried. A growing download is allowed to finish; the workflow job timeout
+# remains the upper bound. The stall watchdog still retries a truly stalled
+# download rather than discarding useful partial progress.
 set -euo pipefail
 
 STALL_SECONDS=${INSTALL_STALL_SECONDS:-180}
-ATTEMPT_SECONDS=${INSTALL_ATTEMPT_SECONDS:-900}
 FONT_ATTEMPTS=${INSTALL_FONT_ATTEMPTS:-3}
 POLL_SECONDS=${INSTALL_POLL_SECONDS:-15}
 
@@ -93,16 +91,7 @@ install_cjk_fonts() {
         sudo apt-get clean || true
         break
       fi
-      if [ "$elapsed" -ge "$ATTEMPT_SECONDS" ]; then
-        echo "fonts-noto-cjk still downloading after ${ATTEMPT_SECONDS}s with cache growth; not retrying a partial download"
-        status=capped
-        stop_install "$pid"
-        break
-      fi
     done
-    if [ "$status" = capped ]; then
-      return 1
-    fi
     if [ "$status" = stalled ]; then
       continue
     fi

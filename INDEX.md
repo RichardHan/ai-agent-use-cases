@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 559 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 566 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（559）
+## 案例（566）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -587,6 +587,10 @@
 | UC-584 | 結構同步升級成正式資料庫重置 | Claude Code／Prisma | [使用者自述；未重現](cases/584-prisma-agent-production-reset.md) | 開發｜失敗復盤、資料庫、備份 |
 | UC-585 | 清除測試數字誤刪客戶資料 | Claude Code／PostgreSQL | [使用者自述；未重現](cases/585-agent-dashboard-cleanup-customer-data.md) | 開發｜失敗復盤、資料清理、審批 |
 | UC-586 | 遷移只比列數而漏掉音檔儲存 | Claude Code／Supabase | [使用者自述；未重現](cases/586-agent-migration-row-count-storage-loss.md) | 開發｜失敗復盤、遷移、儲存 |
+| UC-587 | Muse的雲端電腦約每2小時整台換新、執行中程序消失：每5分鐘比對boot_id實測壽命（中位數約2小時、偶有數分鐘），長工作改經job-runner以鎖與結束碼判斷完成／失敗／執行中／遺失，算繪切10秒一段只補缺段，只在遺失時通知 | Meta Muse（工作用VM）／bash／Python、Pillow／FFmpeg | [B日文作者Qiita自述實測＋腳本節錄與壽命分布；單一帳號觀測、未重現](cases/587-muse-vm-two-hour-churn-boot-id-watch-job-runner-resumable-chunks.md) | 開發｜雲端電腦、長時間任務、斷點續跑、監控 |
+| UC-588 | 讓Muse參加8小時ISUCON：自製量測工具與當日手冊，Muse以專用新金鑰SSH收日誌、找最慢API與SQL並派工給Antigravity CLI，一次只改一項重測；單次分數跳±2000時改看細項與多次量測，3197→23728 | Meta Muse／Antigravity CLI／Codex／gh／isucon-kit／PostgreSQL | [B日文作者Qiita實賽自述＋分數推移表；官方名次為作者引用、未重現](cases/588-muse-isucon-8h-measure-first-one-change-at-a-time-human-judges-score.md) | 開發｜效能調校、資料庫、量測、多代理 |
+| UC-589 | Muse當個人開發總窗口出iOS App：VM內程式代理接45分鐘內輕活，需Mac的工作經檔案佇列或常駐對話交給Mac端代理；五次事故後定下切工作、防重跑、worktree、送審三點確認與對外行為人工核准 | Meta Muse／Codex CLI／Claude Code／Antigravity／git worktree／Xcode／App Store Connect | [B日文作者Zenn自述＋指示檔範例與事故紀錄；監看程式未公開、未重現](cases/589-muse-three-layer-three-route-vm-agents-mac-file-queue-ios-app-store.md) | 開發｜多代理、交接、App上架、驗收 |
+| UC-590 | 讓雲端Muse加入家中自架代理訊息伺服器：不解密TCP轉送＋Tailscale ACL只開單一埠、權杖每次對話重發、訊息當資料不當命令；Muse不常駐，未喚醒17分鐘才回，改由本人瀏覽器一句話叫醒、內容仍走伺服器 | Meta Muse／Claude Code／自架訊息伺服器a2／Go TCP轉送／Tailscale／Chrome | [B日文作者Zenn自述＋示範畫面與ACL節錄；未重現](cases/590-muse-joins-home-agent-message-server-tailscale-relay-wake-on-demand.md) | 開發｜跨代理、Tailscale、權限、提示注入 |
 | UC-593 | 家庭冷氣感測器誤診與現場糾正 | Claude Code／Home Assistant／ESP32 | [作者復盤；未重現](cases/593-home-assistant-sensor-airflow-misdiagnosis.md) | 生活｜智慧家庭、物聯網、失敗復盤 |
 | UC-594 | 住宅能源面板單位查核 | Claude Code／Home Assistant／Grafana | [作者自述及截圖；未重現](cases/594-home-assistant-energy-panel-agent-audit.md) | 生活｜智慧家庭、物聯網、能源 |
 | UC-595 | 電表資料收集與冷氣控制建置 | Claude Code／Gemini CLI／Google Cloud | [作者自述；未重現](cases/595-smart-meter-aircon-spec-driven-build.md) | 生活｜智慧家庭、物聯網、能源 |
@@ -599,6 +603,9 @@
 | UC-631 | 企業 SOC 以歷史結案回饋代理 | Elastic Agent Builder／Slack | [官方自報；與人工結案理由比較；未重現](cases/631-elastic-soc-agent-feedback.md) | 工作｜資安、SOC、多代理 |
 | UC-632 | 研討會現場 SOC 代理分流 | Splunk／Cisco／Endace | [活動團隊自報；非準確率；未重現](cases/632-splunk-conf-soc-triage.md) | 工作｜資安、SOC、活動網路 |
 | UC-633 | 釣魚警報排序與人工判斷試驗 | Microsoft Security Copilot／Defender | [供應商隨機試驗；含人造錯誤；未重現](cases/633-phishing-triage-randomized-study.md) | 工作｜資安、釣魚郵件、實驗 |
+| UC-670 | Somerset 門診預約文字助理 | EBO Alex／Rio | [院方與供應商自報；歷史估算；未重現](cases/670-somerset-alex-appointment-assistant.md) | 工作｜醫療行政、預約、人工交接 |
+| UC-671 | Frimley 白內障術後電話追蹤 | Ufonia Dora | [院方自報；臨床覆核；未重現](cases/671-frimley-cataract-follow-up.md) | 工作｜醫療、術後追蹤、人工覆核 |
+| UC-672 | Leicester 新冠出院後症狀追蹤 | Ufonia Dora | [供應商自報；母數未明；未重現](cases/672-leicester-post-covid-follow-up.md) | 工作｜醫療、出院追蹤、人工交接 |
 
 <a id="supplement-list"></a>
 
@@ -1136,3 +1143,7 @@
 ## 2026-11-19 08:30：每日批次（X＋Qiita API＋Zenn API＋Hacker News）
 
 [約60組候選與查閱範圍](sources/research-2026-11-19-0830.md)：新增3（UC542 Muse Spaces讀Drive跳核准卡改快照架構；UC543 Muse經PixAI API批次生圖、LoRA與四格漫畫分開驗收；UC544 三個分權Bot做個人曝險盤點並每週重跑），合併補充2（UC017 寄信前推演對方回覆並把勝出開場存成技能；UC522 夫妻兩個Muse帳號以Drive門鈴檔＋台帳互相委託）。全部未獨立重現。
+
+## 2026-11-20 08:25：每日批次（X＋Qiita API＋Zenn API＋Hacker News）
+
+[約55組候選與查閱範圍](sources/research-2026-11-20-0825.md)：新增4（UC587 Muse VM約每2小時換新的實測與可續跑工作設計；UC588 Muse參加ISUCON量測驅動調校；UC589 Muse三層×三路徑分派出iOS App與事故規則；UC590 Muse加入家中自架代理訊息伺服器並按需喚醒），合併補充0。全為作者自述，本庫未重現。

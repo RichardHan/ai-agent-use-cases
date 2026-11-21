@@ -2,6 +2,7 @@
 """Compare candidate URLs with URLs mentioned in the existing case corpus.
 
 This is an offline triage aid, not a duplicate or evidence verdict.
+Candidate filenames beginning with a numeric case ID are also compared.
 """
 import argparse
 import json
@@ -10,7 +11,7 @@ from collections import defaultdict
 from pathlib import Path
 from urllib.parse import unquote_plus, urlsplit, urlunsplit
 
-URL = re.compile(r'https?://[^\s<>\]\[()"\'，。；、]+')
+URL = re.compile(r'https?://(?:[^\s<>\]\[()"\'，。；、]|\([^\s<>\]\[()"\'，。；、]*\))+')
 TRACKING = {'fbclid', 'gclid', 'mc_cid', 'mc_eid'}
 
 
@@ -37,6 +38,13 @@ def canonical(url):
 def urls_in(path):
     for number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
         for match in URL.finditer(line):
+            # An unmatched closer followed by URL text, or a nested opener, may
+            # be part of the URL. Do not report the truncated prefix as a match.
+            tail = line[match.end():]
+            markdown_link = line[:match.start()].endswith('](')
+            continuation = r"\)+(?:[A-Za-z0-9/_%#?&=+~@!$'*+-]|[.:;,](?=[A-Za-z0-9/_%#?&=+~@!$'*+-]))"
+            if tail.startswith('(') or (not markdown_link and re.match(continuation, tail)):
+                raise ValueError(f'ambiguous URL parentheses at {path.name}:{number}; inspect manually')
             raw = match.group().rstrip('.,;:!?')
             key = canonical(raw)
             if key:
@@ -44,18 +52,35 @@ def urls_in(path):
 
 
 def scan(root, candidates):
+    candidates = list(dict.fromkeys(path.resolve() for path in candidates))
     index = defaultdict(list)
     files = sorted(p for folder in ('cases', 'evidence') for p in (root / folder).rglob('*.md'))
     for path in files:
         for line, raw, key in urls_in(path):
             index[key].append({'path': path.relative_to(root).as_posix(), 'line': line, 'url': raw})
+    candidate_index = defaultdict(list)
+    ids = defaultdict(list)
+    for path in [p for p in files if p.is_relative_to(root / 'cases')] + candidates:
+        match = re.match(r'^(\d+)-', path.name)
+        if match:
+            ids[int(match.group(1))].append(str(path.resolve()))
     results = []
     for path in candidates:
         for line, raw, key in urls_in(path):
-            results.append({'candidate': str(path), 'line': line, 'url': raw,
-                            'matches': index.get(key, [])})
+            entry = {'candidate': str(path.resolve()), 'line': line, 'url': raw,
+                     'matches': index.get(key, [])}
+            results.append(entry)
+            candidate_index[key].append(entry)
+    groups = [{'occurrences': [{'path': entry['candidate'], 'line': entry['line'], 'url': entry['url']}
+                               for entry in entries]}
+              for entries in candidate_index.values()
+              if len({entry['candidate'] for entry in entries}) > 1]
     return {'corpus_files_scanned': len(files), 'candidate_url_occurrences': len(results),
             'matched_occurrences': sum(bool(r['matches']) for r in results),
+            'candidate_url_groups': groups,
+            'case_id_collisions': [{'id': number, 'paths': sorted(set(paths))}
+                                   for number, paths in sorted(ids.items())
+                                   if len(set(paths)) > 1],
             'results': results}
 
 
@@ -69,7 +94,7 @@ def main():
         parser.error('root must contain cases/ and evidence/')
     try:
         report = scan(args.root, args.candidate)
-    except (OSError, UnicodeError) as exc:
+    except (OSError, UnicodeError, ValueError) as exc:
         parser.exit(1, f'Cannot read input: {exc}\n')
     print(json.dumps(report, ensure_ascii=False, indent=2))
 

@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 566 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 570 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（566）
+## 案例（570）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -603,6 +603,10 @@
 | UC-631 | 企業 SOC 以歷史結案回饋代理 | Elastic Agent Builder／Slack | [官方自報；與人工結案理由比較；未重現](cases/631-elastic-soc-agent-feedback.md) | 工作｜資安、SOC、多代理 |
 | UC-632 | 研討會現場 SOC 代理分流 | Splunk／Cisco／Endace | [活動團隊自報；非準確率；未重現](cases/632-splunk-conf-soc-triage.md) | 工作｜資安、SOC、活動網路 |
 | UC-633 | 釣魚警報排序與人工判斷試驗 | Microsoft Security Copilot／Defender | [供應商隨機試驗；含人造錯誤；未重現](cases/633-phishing-triage-randomized-study.md) | 工作｜資安、釣魚郵件、實驗 |
+| UC-643 | 每天9點Muse推5則技術新聞並寫進Notion資料庫：手機回饋決定隔天選題，勾「PoC」的題目交給Claude Code做原型推到GitHub（作者稱PoC分支尚無實績）；主聊天當司令塔、長期任務放子聊天 | Meta Muse／Notion／Claude Code／GitHub | [日文作者Zenn自述；PoC未實際使用；未重現](cases/643-muse-daily-tech-news-notion-feedback-loop-poc-checkbox.md) | 學習｜晨報、Notion、回饋迴圈、每日 |
+| UC-644 | Muse Spaces三層用法：一句話建自用App；排程每天把新聞寫進Space、依英會話逐字稿把自己說錯的片語做成四選一錯題並讀作答給建議；飲食記錄按鈕估營養、Apple Health體重自動帶入 | Meta Muse（Spaces、排程、連接器）／Apple Health | [日文作者Zenn自述＋Spaces官方功能；未重現](cases/644-muse-spaces-three-layers-scheduled-writes-english-drill-meal-log.md) | 生活｜Spaces、英文、飲食記錄、每日 |
+| UC-645 | 用一個Space當代理能力台帳：8類26項基本能力標已驗證／可用／需連接，新能力逐筆記日期與出處，作法放技能、長資料放GitHub、記憶只留參照；未驗證項目（LINE送出、Grok Build X搜尋等）照寫在限制 | Meta Muse（Spaces、技能、記憶）／GitHub | [日文作者Zenn自述；本庫未見Space；未重現](cases/645-muse-capability-ledger-space-verified-available-needs-connection.md) | 工作｜能力台帳、Spaces、驗收、記憶管理 |
+| UC-646 | 旅行中每天早上讓Grok Bot依每個孩子程度出數學、閱讀、拼字學習單，答錯題目拍照回傳，隔天學習單多練沒學會的類型 | Grok Bot | [英文作者X自述；無提示詞與樣本、影片未看；未重現](cases/646-grok-bot-daily-kids-worksheets-wrong-answer-photo-adapts-next-day.md) | 學習｜學習單、親子、錯題、每日 |
 | UC-670 | Somerset 門診預約文字助理 | EBO Alex／Rio | [院方與供應商自報；歷史估算；未重現](cases/670-somerset-alex-appointment-assistant.md) | 工作｜醫療行政、預約、人工交接 |
 | UC-671 | Frimley 白內障術後電話追蹤 | Ufonia Dora | [院方自報；臨床覆核；未重現](cases/671-frimley-cataract-follow-up.md) | 工作｜醫療、術後追蹤、人工覆核 |
 | UC-672 | Leicester 新冠出院後症狀追蹤 | Ufonia Dora | [供應商自報；母數未明；未重現](cases/672-leicester-post-covid-follow-up.md) | 工作｜醫療、出院追蹤、人工交接 |
@@ -1147,3 +1151,7 @@
 ## 2026-11-20 08:25：每日批次（X＋Qiita API＋Zenn API＋Hacker News）
 
 [約55組候選與查閱範圍](sources/research-2026-11-20-0825.md)：新增4（UC587 Muse VM約每2小時換新的實測與可續跑工作設計；UC588 Muse參加ISUCON量測驅動調校；UC589 Muse三層×三路徑分派出iOS App與事故規則；UC590 Muse加入家中自架代理訊息伺服器並按需喚醒），合併補充0。全為作者自述，本庫未重現。
+
+## 2026-11-21 08:30：每日批次（X＋Qiita／Zenn API）
+
+[約45組候選與查閱範圍](sources/research-2026-11-21-0830.md)：新增4（UC643 Muse每日技術新聞＋Notion回饋選題、PoC交Claude Code；UC644 Muse Spaces三層：排程寫入、口說錯題練習、按鈕估營養；UC645 Muse能力台帳Space三種驗證狀態；UC646 Grok Bot每日個別學習單＋錯題照片調整）；合併補充0。

@@ -102,3 +102,30 @@ test('missing ledger or empty corpus fails closed', (t) => {
   fs.writeFileSync(path.join(root, 'cases', '001.md'), 'case');
   assert.notEqual(spawnSync('python3', [script, '--root', root]).status, 0);
 });
+
+test('recognizes all five evidence declaration spellings', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'audit-spellings-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  fs.mkdirSync(path.join(root, 'cases'));
+  fs.mkdirSync(path.join(root, 'sources'));
+  fs.writeFileSync(path.join(root, 'sources', 'qualification-audit-2026-10-16.md'), '');
+  fs.writeFileSync(path.join(root, 'cases', '001.md'), [
+    '- 來源證據：first',
+    '- 證據等級：second',
+    '- 證據類型：third',
+    '- 證據狀態：fourth',
+    '- 證據：fifth',
+  ].join('\n'));
+  const run = spawnSync('python3', [script, '--root', root], { encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
+  const report = JSON.parse(run.stdout);
+  assert.equal(report.cases[0].evidence_declarations.length, 5);
+  assert.deepEqual(report.cases[0].evidence_declarations.map(d => d.text), [
+    '- 來源證據：first',
+    '- 證據等級：second',
+    '- 證據類型：third',
+    '- 證據狀態：fourth',
+    '- 證據：fifth',
+  ]);
+});
+

@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 570 筆案例；頁首核對日期最新為 2026-11-21；本頁於 2026-11-21 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 573 筆案例；頁首核對日期最新為 2026-11-22；本頁於 2026-11-22 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（570）
+## 案例（573）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -363,7 +363,7 @@
 | UC-329 | 多段代理對話在重啟後的續跑驗收 | Grok Bot／Cursor／Codex／Grok CLI／SQLite | [公開程式與有限實跑紀錄；假PASS及接力遺失保留](cases/329-durable-agent-chain-restart-recovery.md) | 開發｜多代理、中斷恢復、失敗 |
 | UC-330 | 未支援智慧開關的分層排障與實體驗收 | Grok Bot／Home Assistant／Zigbee2MQTT | [作者完成自述；無原碼日誌，隱藏模式不受原廠支援](cases/330-unsupported-home-device-commissioning-validation.md) | 生活｜智慧家庭、故障診斷、實體驗收 |
 | UC-331 | 網購未送達：代追物流與商家到退款入帳通知 | Grok Bot／商家／DHL | [前批作者自述；本輪原文403、與088重疊待核，不加數](cases/331-undelivered-purchase-carrier-merchant-refund-chase.md) | 生活｜退款、物流追蹤、網購 |
-| UC-332 | X營運半自動：選題到草稿交給Bot，發文前人工核准；高頻routine配錯開的兜底檢查、依每週額度倒推每日用量；六Bot分工流水線與排程端離線導致重複發文的教訓；四Bot群組由工頭分派、發布Bot存進X草稿箱，六欄選題庫禁止估算；素材到飛書審稿後停，「進排期」與「定時刻」兩道閘門、沒給時間絕不猜 | Grok Bot／Typefully／Obsidian | [前批作者用法清單；本輪原文403、006流程版本；2026-10-22補兩位簡中作者routine截圖、用量與重複發文失敗自述，不加數；2026-11-01補簡中作者X Article自述；2026-11-04補簡中作者兩道閘門自述，不加數](cases/332-x-ops-semiauto-prepost-human-approval.md) | 創作｜每日、社群、發文、核准 |
+| UC-332 | X營運半自動：選題到草稿交給Bot，發文前人工核准；高頻routine配錯開的兜底檢查、依每週額度倒推每日用量；六Bot分工流水線與排程端離線導致重複發文的教訓；四Bot群組由工頭分派、發布Bot存進X草稿箱，六欄選題庫禁止估算；素材到飛書審稿後停，「進排期」與「定時刻」兩道閘門、沒給時間絕不猜；十Bot分工（早上趨勢簡報、晚上成效總結、鉤子與實驗結果存Notion庫） | Grok Bot／Typefully／Obsidian／Notion | [前批作者用法清單；本輪原文403、006流程版本；2026-10-22補兩位簡中作者routine截圖、用量與重複發文失敗自述，不加數；2026-11-01補簡中作者X Article自述；2026-11-04補簡中作者兩道閘門自述；2026-11-22補英文作者十Bot分工自述，不加數](cases/332-x-ops-semiauto-prepost-human-approval.md) | 創作｜每日、社群、發文、核准 |
 | UC-333 | 外聯Notion跨代理記憶：Claude改文、Grok Bot讀流程 | Grok Bot／Claude／Notion | [前批作者自述；本輪原文未取得、071流程版本，不加數](cases/333-notion-cross-agent-outreach-memory.md) | 工作｜外聯、Notion、跨代理、記憶 |
 | UC-334 | 自架ADS-B接收站：雙頻輪收、解碼改寫，再用前後數據比較加裝放大器的效果 | Grok Bot／PlutoSDR／Raspberry Pi 4／SAWbird+ | [原文本輪未取得，待核不加數；前批自述與圖表紀錄保留](cases/334-sdr-adsb-receiver-decoder-range-ab-test.md) | 開發｜硬體、無線電、效能量測、驗收 |
 | UC-335 | 手動重新開啟的排程，又被Bot依舊約定關掉 | Grok Bot routines | [原文本輪未取得，待核不加數；前批失敗自述保留](cases/335-manual-routine-reenable-reverted-by-stale-instruction.md) | 開發｜排程、失敗、狀態同步、核准 |
@@ -610,6 +610,9 @@
 | UC-670 | Somerset 門診預約文字助理 | EBO Alex／Rio | [院方與供應商自報；歷史估算；未重現](cases/670-somerset-alex-appointment-assistant.md) | 工作｜醫療行政、預約、人工交接 |
 | UC-671 | Frimley 白內障術後電話追蹤 | Ufonia Dora | [院方自報；臨床覆核；未重現](cases/671-frimley-cataract-follow-up.md) | 工作｜醫療、術後追蹤、人工覆核 |
 | UC-672 | Leicester 新冠出院後症狀追蹤 | Ufonia Dora | [供應商自報；母數未明；未重現](cases/672-leicester-post-covid-follow-up.md) | 工作｜醫療、出院追蹤、人工交接 |
+| UC-673 | 手機「抵達／離開」事件經webhook叫醒Grok Bot：同一地點依時段做不同的事（午休改Slack狀態並rebase自己的PR、進超市依行事曆推購物清單、進健身房調重量），對不上規則就一律不出聲，一週34個停留點只剩6則通知 | Grok Bot／Timeline／Slack／GitHub／Google Calendar／Notion | [英文作者部落格自述（位置App開發者）；無routine原文；未重現](cases/673-grok-bot-phone-arrival-departure-events-time-aware-silence-default.md) | 生活｜位置、webhook、通知減量、每日 |
+| UC-674 | 講師的Bot團隊備課：主辦方來信→查證研究→Google簡報→主Bot逐頁審＋Muse覆核→本人核准後轉AhaSlides互動版、Gemini課後問答筆記本與講義；平日7:00群組報到、15:45寫明日行程文件 | Grok Bot／Meta Muse／Gmail／Google Slides／AhaSlides | [英文作者X長文自述；無提示詞與樣本；未重現](cases/674-grok-bot-team-educator-workshop-deck-email-to-ahaslides-two-reviews.md) | 工作｜簡報製作、Bot團隊、人工審批、每日 |
+| UC-675 | Muse只當調度員：手機或LINE下單，經自製JSON bridge派工到家中三台機器的Claude Code／Codex（獨立worktree），依負載選機、每30分鐘查進度；做與驗分不同代理，三條件都過才算完成 | Meta Muse／T3 Code／Claude Code／Codex／LINE | [日文作者Zenn自述；bridge原碼未公開；未重現](cases/675-muse-dispatcher-home-servers-json-bridge-separate-verify-harness.md) | 開發｜多代理、自家伺服器、驗收、排程 |
 
 <a id="supplement-list"></a>
 
@@ -1155,3 +1158,7 @@
 ## 2026-11-21 08:30：每日批次（X＋Qiita／Zenn API）
 
 [約45組候選與查閱範圍](sources/research-2026-11-21-0830.md)：新增4（UC643 Muse每日技術新聞＋Notion回饋選題、PoC交Claude Code；UC644 Muse Spaces三層：排程寫入、口說錯題練習、按鈕估營養；UC645 Muse能力台帳Space三種驗證狀態；UC646 Grok Bot每日個別學習單＋錯題照片調整）；合併補充0。
+
+## 2026-11-22 08:50：每日批次（X＋Zenn API＋Hacker News）
+
+[約50組候選與查閱範圍](sources/research-2026-11-22-0850.md)：新增3（UC673 手機抵達／離開事件叫醒Grok Bot、靜默預設；UC674 講師Bot團隊從邀約信到互動簡報的兩道審查備課；UC675 Muse經JSON bridge調度家中三台機器的Claude Code／Codex、做與驗分離），合併補充1（UC332 十Bot分工經營X）。皆未重現。

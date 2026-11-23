@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 573 筆案例；頁首核對日期最新為 2026-11-22；本頁於 2026-11-22 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 577 筆案例；頁首核對日期最新為 2026-11-23；本頁於 2026-11-23 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（573）
+## 案例（577）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -613,6 +613,10 @@
 | UC-673 | 手機「抵達／離開」事件經webhook叫醒Grok Bot：同一地點依時段做不同的事（午休改Slack狀態並rebase自己的PR、進超市依行事曆推購物清單、進健身房調重量），對不上規則就一律不出聲，一週34個停留點只剩6則通知 | Grok Bot／Timeline／Slack／GitHub／Google Calendar／Notion | [英文作者部落格自述（位置App開發者）；無routine原文；未重現](cases/673-grok-bot-phone-arrival-departure-events-time-aware-silence-default.md) | 生活｜位置、webhook、通知減量、每日 |
 | UC-674 | 講師的Bot團隊備課：主辦方來信→查證研究→Google簡報→主Bot逐頁審＋Muse覆核→本人核准後轉AhaSlides互動版、Gemini課後問答筆記本與講義；平日7:00群組報到、15:45寫明日行程文件 | Grok Bot／Meta Muse／Gmail／Google Slides／AhaSlides | [英文作者X長文自述；無提示詞與樣本；未重現](cases/674-grok-bot-team-educator-workshop-deck-email-to-ahaslides-two-reviews.md) | 工作｜簡報製作、Bot團隊、人工審批、每日 |
 | UC-675 | Muse只當調度員：手機或LINE下單，經自製JSON bridge派工到家中三台機器的Claude Code／Codex（獨立worktree），依負載選機、每30分鐘查進度；做與驗分不同代理，三條件都過才算完成 | Meta Muse／T3 Code／Claude Code／Codex／LINE | [日文作者Zenn自述；bridge原碼未公開；未重現](cases/675-muse-dispatcher-home-servers-json-bridge-separate-verify-harness.md) | 開發｜多代理、自家伺服器、驗收、排程 |
+| UC-676 | Muse沒有多套頭像保存：改用Space做衣裝目錄＋文字台帳，每天早上定期任務依標籤與節日規則挑一套與昨天不同的換上並回報；一次只生一套、登記附縮圖 | Meta Muse（Space／定期任務） | [日文作者Qiita自述；附重現提示詞；未重現](cases/676-muse-space-avatar-costume-catalog-daily-tag-date-rotation.md) | 創作｜個人小工具、排程、圖像生成、每日 |
+| UC-677 | Muse經SSH主導雲端服務驗證：查文件、裝工具、派Codex並讀session log驗收；無畫面工作階段無法互動登入時，改寫「人只跑一次」的腳本並讀log驗證 | Meta Muse／Codex／WSL／PowerShell | [日文作者Zenn自述；含錯誤碼與失敗紀錄；未重現](cases/677-muse-ssh-codex-work-iq-verification-human-one-step-interactive-auth.md) | 開發｜多代理、人工審批、認證、驗收 |
+| UC-678 | 小網站交給Muse營運：GitHub只給單一倉庫內容讀寫、Cloudflare只讀分析；先宣告專案、分工、驗過才公開的關卡、選題四問、回報與「只重試一次」失敗規則 | Meta Muse／GitHub／Cloudflare／note／Qiita／X | [日文作者Qiita自述；指示為一般化例文；未重現](cases/678-muse-static-site-ops-scoped-tokens-verification-gate-instruction-templates.md) | 工作｜網站營運、權限控管、驗收、人工審批 |
+| UC-679 | 夫妻各自的Muse接同一個自架家族腦MCP：寫入只經API、寫入工具預設關閉；07:00家庭簡報、新增即時推播、手機PWA一鍵完成，週日Muse提出過期與重複整理建議 | Meta Muse／自架MCP／Tailscale／Google Drive／LINE | [日文作者Qiita自述；伺服器原碼未公開；未重現](cases/679-family-brain-self-hosted-mcp-muse-write-only-via-api-weekly-memo-cleanup.md) | 生活｜家庭行程、共享記憶、MCP、每日 |
 
 <a id="supplement-list"></a>
 
@@ -1162,3 +1166,7 @@
 ## 2026-11-22 08:50：每日批次（X＋Zenn API＋Hacker News）
 
 [約50組候選與查閱範圍](sources/research-2026-11-22-0850.md)：新增3（UC673 手機抵達／離開事件叫醒Grok Bot、靜默預設；UC674 講師Bot團隊從邀約信到互動簡報的兩道審查備課；UC675 Muse經JSON bridge調度家中三台機器的Claude Code／Codex、做與驗分離），合併補充1（UC332 十Bot分工經營X）。皆未重現。
+
+## 2026-11-23 08:26：每日批次（X＋Qiita／Zenn API＋Hacker News）
+
+[約40組候選與查閱範圍](sources/research-2026-11-23-0826.md)：新增4（UC676 Muse Space衣裝目錄＋每日依標籤換裝；UC677 Muse經SSH主導驗證、互動登入改「人只跑一次」腳本；UC678 Muse營運小網站的最小權限token與驗證關卡；UC679 夫妻各自的Muse共用自架家族腦MCP）。皆未重現。

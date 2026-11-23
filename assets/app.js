@@ -371,16 +371,16 @@ function abbreviatedQuery(query, limit=40) {
 }
 // Titles describe the visible page, not an unopened case requested in the URL.
 // Keep source display titles intact; only bound user-entered search text.
-function pageContextTitle({item,query='',facets=[],difficulty='',reviewed=false,loading=false,error=false,missing=false,partial=false,empty=false}={}) {
+function pageContextTitle({item,query='',facets=[],difficulty='',reviewed=false,added=false,loading=false,error=false,missing=false,partial=false,empty=false}={}) {
   const brand='AI 用法實驗室';
   if(item)return `${item.id} · ${item.title}｜${brand}`;
   const label=String(query).replace(/\s+/g,' ').trim();
   const chars=Array.from(label),short=chars.slice(0,80).join('')+(chars.length>80?'…':'');
   const conditions=[...facets,difficulty].filter(Boolean);
-  const parts=[short?`搜尋「${short}」`:conditions.length?'篩選案例':reviewed?'最近核對的內容':'案例庫',...conditions];
-  if(reviewed&&(short||conditions.length))parts.push('最近核對');
+  const parts=[short?`搜尋「${short}」`:conditions.length?'篩選案例':added?'最新新增的內容':reviewed?'最近核對的內容':'案例庫',...conditions];
+  if((added||reviewed)&&(short||conditions.length))parts.push(added?'最新新增':'最近核對');
   const status=missing?'找不到分享案例':error?'載入失敗':loading?'載入中':partial?(empty?'已載入內容無符合結果':'已載入內容'):empty?'沒有符合結果':'';
-  if(!status&&!short&&!conditions.length&&!reviewed)return brand+' · 案例庫';
+  if(!status&&!short&&!conditions.length&&!reviewed&&!added)return brand+' · 案例庫';
   return [status,...parts].filter(Boolean).join(' · ')+'｜'+brand;
 }
 function syncPageContext() {
@@ -388,6 +388,7 @@ function syncPageContext() {
     item:$('detail').open?currentDetailItem:null,
     query:$('query').value,
     reviewed:$('sort').value==='reviewed',
+    added:$('sort').value==='added',
     facets:[activeScenario,KIND[$('kind').value],...['tool','category','proof'].map(id=>$(id).value)],
     difficulty:$('difficulty').value,
     loading:initialLoading&&!discoveryReady,
@@ -920,6 +921,16 @@ function extractDifficulty(markdown, tools = [], scenario = '', category = '') {
 function idVariants(id) { const normId = id.toUpperCase(); const unhyphenated = normId.replace(/[-_]/g, ''); return normId !== unhyphenated ? `${normId} ${unhyphenated}` : normId; }
 function termVariants(term) { const t = norm(term).replace(/^#/, ''); const m = t.match(/^([a-z]+)[\s-]*(\d+)$/); if (m && (m[1] === 'uc' || m[1] === 'p')) { const padded = m[2].padStart(3, '0'); return [`${m[1]}-${padded}`, `${m[1]}${padded}`]; } if (/^\d+$/.test(t)) { const padded = t.padStart(3, '0'); return [t, `uc-${padded}`, `uc${padded}`]; } return SYNONYM_MAP[t] || [t]; }
 const matchCase = (target, list = entries) => { if (!target) return null; const t = norm(target).trim().replace(/^#/, ''); const m = t.match(/^(?:([a-z]+)[\s-：:#.]*)?(\d+)$/); const variants = m && (!m[1] || m[1] === 'uc' || m[1] === 'p') ? [`${m[1] || 'uc'}-${m[2].padStart(3, '0')}`, `${m[1] || 'uc'}${m[2].padStart(3, '0')}`] : termVariants(t); return list.find(e => { const eid = norm(e.id); const eidRaw = norm(e.id.replace(/[-_]/g, '')); return variants.includes(eid) || variants.includes(eidRaw); }) || null; };
+// A paired field records the first collection date before any later review.
+// Require that first value explicitly: an unknown first date must not borrow a
+// review, publication, source-file or body-section date to appear newly added.
+function addedDate(markdown) {
+  const lead=markdown.replace(/^#{1,6}[^\n]*\n/, '').split(/^#{1,6}\s/m)[0];
+  const date=lead.match(/^-[ \t]*首次收錄(?:日期)?(?:[／、](?:最近)?查證)?[ \t]*[：:][ \t]*(20\d{2}-\d{2}-\d{2})(?!\d)/m)?.[1];
+  if(!date)return '';
+  const parsed=new Date(date+'T00:00:00Z');
+  return !Number.isNaN(parsed.getTime())&&parsed.toISOString().slice(0,10)===date ? date : '';
+}
 // Only explicit lead fields describe this library's review date. Source dates
 // and dated supplements are intentionally not evidence of a page-level review.
 // The corpus writes the field under several spellings, and a spelling this
@@ -1334,7 +1345,7 @@ function metadata(markdown, path, kind, suffix='') {
   // reach a page by its section title, `searchBody` drops them so "matched" and
   // "this text says it" can be told apart. Both keep every declared field.
   const searchBodyText=norm(withoutEditorialNotes(proseWithoutSectionHeadings(markdown))+searchFields);
-  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,howFromCopy:Boolean(copy.how),cautionFromCopy:Boolean(copy.caution),difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,mergedInto,mergedKind,resolved,search:searchText,searchProse:withoutSourceUrls(searchText),searchBody:searchBodyText,searchProseBody:withoutSourceUrls(searchBodyText)};
+  return {id,title:displayTitle,originalTitle:heading,what,targetUser,coreGoal,how:howText,caution:cautionText,howFromCopy:Boolean(copy.how),cautionFromCopy:Boolean(copy.caution),difficulty,difficultySource,markdown,path,kind,category,scenario,tags,summary:what,proof,proofClasses,relayedProof,tools,date,reviewedDate,addedDate:addedDate(markdown),mergedInto,mergedKind,resolved,search:searchText,searchProse:withoutSourceUrls(searchText),searchBody:searchBodyText,searchProseBody:withoutSourceUrls(searchBodyText)};
 }
 // sources/pending.md records one review date for the whole file, above the first
 // lead. It says when the file was checked, not when each lead was, so it stays a
@@ -2502,7 +2513,7 @@ function renderSearchContext(item, terms) {
   return box;
 }
 
-function card(item, terms=[]) {
+function card(item, terms=[], sort='') {
   const node = el('article', 'card');
   node.dataset.kind = item.kind;node.dataset.caseId=item.id;node.dataset.proof=item.proof;
   const top = el('div', 'card-top');
@@ -2572,6 +2583,12 @@ function card(item, terms=[]) {
     node.append(userP);
   }
   node.append(el('p', 'summary', item.summary));
+  if(sort==='added'){
+    const added=el('p','review-date added-date');
+    if(item.addedDate){const time=el('time','',item.addedDate);time.dateTime=item.addedDate;added.append(document.createTextNode('首次收錄 '),time);}
+    else added.textContent='未提供首次收錄日';
+    node.append(added);
+  }
   const reviewed=el('p','review-date');
   if(item.reviewedDate){const time=el('time','',item.reviewedDate);time.dateTime=item.reviewedDate;reviewed.append(document.createTextNode('頁首核對 '),time);}
   else if(item.fileReviewed){reviewed.textContent='本條未載核對日；來源檔查證 '+item.fileReviewed;}
@@ -2635,10 +2652,10 @@ function card(item, terms=[]) {
   return node;
 }
 // Keep a nearby route back to refinement without hiding or reordering results.
-function resultCards(items, terms, offset=0, total=items.length) {
+function resultCards(items, terms, offset=0, total=items.length, sort='') {
   const nodes=[];
   items.forEach((item,index)=>{
-    nodes.push(card(item,terms));
+    nodes.push(card(item,terms,sort));
     const position=offset+index+1;
     if(position%6===0||position===total){
       const row=el('div','results-return');
@@ -2656,7 +2673,7 @@ function showMoreResults() {
   visibleResults=Math.min(start+RESULT_BATCH_SIZE,currentFiltered.length);
   const batch={key:resultQueryKey,count:visibleResults};
   history.replaceState({...history.state,[queryDirty||facetDraftDirty?'draftResultBatch':'resultBatch']:batch},'',location.href);
-  const nodes=resultCards(currentFiltered.slice(start,visibleResults),queryTerms(),start,currentFiltered.length);
+  const nodes=resultCards(currentFiltered.slice(start,visibleResults),queryTerms(),start,currentFiltered.length,$('sort')?.value);
   $('results').append(...nodes);
   updateResultBatch();
   // Appended cards precede the button in DOM order. Start reading at the new
@@ -2672,7 +2689,7 @@ function ensureVisibleResult(id) {
   if(index<visibleResults)return;
   const start=visibleResults;
   visibleResults=Math.min(currentFiltered.length,Math.ceil((index+1)/RESULT_BATCH_SIZE)*RESULT_BATCH_SIZE);
-  $('results').append(...resultCards(currentFiltered.slice(start,visibleResults),queryTerms(),start,currentFiltered.length));
+  $('results').append(...resultCards(currentFiltered.slice(start,visibleResults),queryTerms(),start,currentFiltered.length,$('sort')?.value));
   updateResultBatch();
 }
 function updateResultBatch() {
@@ -2950,12 +2967,14 @@ function narrowestScopeTerm(rows, searchTerms, key) {
 
 function orderEntries(items, terms, sort) {
   const ranked=rankEntries(items,terms);
-  return sort==='reviewed' ? ranked.sort((a,b)=>(b.reviewedDate||'').localeCompare(a.reviewedDate||'')) : ranked;
+  const dateKey=sort==='added'?'addedDate':sort==='reviewed'?'reviewedDate':'';
+  return dateKey ? ranked.sort((a,b)=>(b[dateKey]||'').localeCompare(a[dateKey]||'')) : ranked;
 }
-const reviewSort = value => value==='reviewed' ? value : '';
+const SORT_LABELS={added:'最新新增優先',reviewed:'頁首最近核對'};
+const resultSort = value => Object.hasOwn(SORT_LABELS,value) ? value : '';
 function filterSummary(count, sort) {
   const filters=count ? `已套用 ${count} 項篩選` : '未設定篩選';
-  return filters+(reviewSort(sort) ? ' · 頁首最近核對' : '');
+  return filters+(resultSort(sort) ? ' · '+SORT_LABELS[sort] : '');
 }
 function resetSort() {
   $('sort').value='';
@@ -3174,7 +3193,7 @@ function searchLink(href,query,filters,sort='') {
   const url=new URL(current.pathname,current.origin);
   if(query)url.searchParams.set('q',query);
   SEARCH_KEYS.slice(1).forEach(key=>{if(filters[key] && (key!=='scope'||searchScope(filters[key])))url.searchParams.set(key,filters[key]);});
-  if(reviewSort(sort))url.searchParams.set('sort',sort);
+  if(resultSort(sort))url.searchParams.set('sort',sort);
   url.hash='explore';
   return url.href;
 }
@@ -3188,7 +3207,7 @@ function caseLink(href,id) {
 }
 function hasSearchArrival(params,hash) {
   if(hash)return hash==='#explore';
-  return SEARCH_KEYS.some(key=>(params.get(key)||'').trim())||params.get('sort')==='reviewed';
+  return SEARCH_KEYS.some(key=>(params.get(key)||'').trim())||!!resultSort(params.get('sort'));
 }
 function currentSearchLink() {
   const filters=Object.fromEntries(['kind','difficulty','tool','category','proof'].map(id=>[id,$(id)?.value||'']));
@@ -4099,16 +4118,19 @@ function render(updateURL=true, preserveShare=false) {
   const searchTerms=activeSearchSplit ? activeSearchSplit.terms : q;
   const shownMatches=activeSearchSplit ? filterEntries(entries,searchTerms,filters) : matches;
   currentFiltered = orderEntries(shownMatches, searchTerms, $('sort').value);
-  $('search-order-note').hidden = !discoveryReady || ($('sort').value!=='reviewed'&&(!q.length||!currentFiltered.length));
+  const selectedSort=resultSort($('sort').value);
+  $('search-order-note').hidden = !discoveryReady || (!selectedSort&&(!q.length||!currentFiltered.length));
   $('search-order-controls').hidden=$('search-order-note').hidden;
-  $('reset-sort').hidden=!discoveryReady||$('sort').value!=='reviewed';
-  $('search-order-note').textContent=$('sort').value==='reviewed'
+  $('reset-sort').hidden=!discoveryReady||!selectedSort;
+  $('search-order-note').textContent=selectedSort==='added'
+    ? '依頁首首次收錄日由新到舊；更新核對日不會改變新增順序。未提供首次收錄日者置後，同日保留原本的符合順序。'
+    : selectedSort==='reviewed'
     ? '依頁首核對日由新到舊；不是發布日，也不代表新增或獨立驗證。正文補充不計；未提供者置後，同日保留原本的符合順序。'
     : '標題、用途與痛點優先；'+(filters.scope?'只在所選命中範圍搜尋。':'全文仍納入搜尋。')+'排序不代表成果或證據可靠度。';
   const resultKey=JSON.stringify([$('query').value,filters,$('sort').value]);
   const changedResultKey=resultKey!==resultQueryKey;
   if(changedResultKey){visibleResults=RESULT_BATCH_SIZE;resultQueryKey=resultKey;}
-  $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),searchTerms,0,currentFiltered.length));
+  $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),searchTerms,0,currentFiltered.length,selectedSort));
   updateResultBatch();
   // Sorting is a reading preference; keep the current discovery deck intact.
   // The deck and the facet counts must describe the same condition set the
@@ -4257,7 +4279,7 @@ function render(updateURL=true, preserveShare=false) {
     });
     if (activeScenario) url.searchParams.set('scenario', activeScenario); else url.searchParams.delete('scenario');
     if(filters.scope)url.searchParams.set('scope',filters.scope);else url.searchParams.delete('scope');
-    if(reviewSort($('sort').value))url.searchParams.set('sort','reviewed');else url.searchParams.delete('sort');
+    if(selectedSort)url.searchParams.set('sort',selectedSort);else url.searchParams.delete('sort');
     if(discoveryReady && url.search!==location.search)facetDraftDirty=true;
     const state={...history.state};
     if(changedResultKey && (queryDirty||facetDraftDirty))state.draftResultBatch={key:resultQueryKey,count:visibleResults};
@@ -4796,7 +4818,7 @@ async function load() {
     // Hydrate shared conditions before readers can edit the form during loading.
     // Dynamic facets retain a temporary option until source metadata arrives.
     const initialParams=new URLSearchParams(location.search);
-    $('sort').value=reviewSort(initialParams.get('sort'));
+    $('sort').value=resultSort(initialParams.get('sort'));
     activeScenario=initialParams.get('scenario')||'';
     $('scenario').value=activeScenario;
     $('search-scope').value=searchScope(initialParams.get('scope'));
@@ -4881,7 +4903,7 @@ async function load() {
     refreshCorpusMetadata();
     $('updated').textContent = '索引更新 ' + catalog.builtAt;
     const params = new URLSearchParams(location.search);
-    $('sort').value=reviewSort(params.get('sort'));
+    $('sort').value=resultSort(params.get('sort'));
     activeScenario = params.get('scenario') || '';
     $('search-scope').value=searchScope(params.get('scope'));
     ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => {
@@ -5268,13 +5290,13 @@ $('match-scope-action').addEventListener('click',event=>{
 });
 $('sort').addEventListener('change', () => render());
 $('reset-sort').addEventListener('click', resetSort);
-$('recent-entry').addEventListener('click', event => {
+for(const [id,sort] of [['recent-entry','reviewed'],['added-entry','added']])$(id).addEventListener('click', event => {
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   history.replaceState(null,'',event.currentTarget.href);
   activeScenario='';
   $('search-scope').value='';
   ['query','kind','difficulty','tool','category','proof'].forEach(id => { if($(id)) $(id).value = ''; });
-  $('sort').value='reviewed';render();committedSearchURL=location.href;queryDirty=false;facetDraftDirty=false;enterSearch(event);
+  $('sort').value=sort;render();committedSearchURL=location.href;queryDirty=false;facetDraftDirty=false;enterSearch(event);
 });
 ['kind', 'difficulty', 'tool', 'category', 'proof'].forEach(id => $(id)?.addEventListener('change', () => render()));
 $('filter-view-results').addEventListener('click', focusResults);
@@ -5396,7 +5418,7 @@ window.addEventListener('popstate', event => {
   const item = matchCase(id);
   const wasOpen=$('detail').open;
   const missingHadFocus=$('missing-case')?.contains(document.activeElement);
-  $('sort').value=reviewSort(params.get('sort'));
+  $('sort').value=resultSort(params.get('sort'));
   activeScenario = params.get('scenario') || '';
   $('search-scope').value=searchScope(params.get('scope'));
   ['query', 'kind', 'difficulty', 'tool', 'category', 'proof'].forEach(key => { if($(key)) $(key).value = params.get(key === 'query' ? 'q' : key) || ''; });
@@ -5407,7 +5429,7 @@ window.addEventListener('popstate', event => {
   const batch=event.state?.draftResultBatch?.key===resultQueryKey?event.state.draftResultBatch:event.state?.resultBatch;
   if(batch?.key===resultQueryKey && Number.isSafeInteger(batch.count) && batch.count>=RESULT_BATCH_SIZE){
     visibleResults=batch.count;
-    $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),queryTerms(),0,currentFiltered.length));
+    $('results').replaceChildren(...resultCards(currentFiltered.slice(0,visibleResults),queryTerms(),0,currentFiltered.length,$('sort').value));
     updateResultBatch();
     if(batch===event.state?.draftResultBatch){
       const {draftResultBatch:ignoredDraft,...state}=event.state;

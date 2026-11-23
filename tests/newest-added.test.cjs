@@ -12,7 +12,7 @@ test('first collection uses the first explicit lead value, independently of late
   }
   assert.equal(api.addedDate('# 案例\n- 首次收錄／最近查證：2026-10-17；2026-10-19補來源B；2026-10-20補來源C'),'2026-10-17');
   assert.equal(api.addedDate('## P-001\n- 首次收錄：2024-02-29 08:30（台灣時間）'),'2024-02-29');
-  for(const value of ['未記錄／2026-11-23','未知；查證 2026-11-23','2026-02-30／2026-11-23','2026-13-01','2026-11-230']){
+  for(const value of ['未記錄／2026-11-23','未知；查證 2026-11-23','\n2026-11-23 查證','2026-02-30／2026-11-23','2026-13-01','2026-11-230']){
     assert.equal(api.addedDate('# 案例\n- 首次收錄／最近查證：'+value),'',value);
   }
   for(const body of ['- 發布日期：2026-11-23','- 查證日期：2026-11-23','- 日期：2026-11-23','2026-11-23：首次收錄。',

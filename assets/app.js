@@ -926,7 +926,7 @@ const matchCase = (target, list = entries) => { if (!target) return null; const 
 // review, publication, source-file or body-section date to appear newly added.
 function addedDate(markdown) {
   const lead=markdown.replace(/^#{1,6}[^\n]*\n/, '').split(/^#{1,6}\s/m)[0];
-  const date=lead.match(/^-\s*首次收錄(?:日期)?(?:[／、](?:最近)?查證)?\s*[：:]\s*(20\d{2}-\d{2}-\d{2})(?!\d)/m)?.[1];
+  const date=lead.match(/^-[ \t]*首次收錄(?:日期)?(?:[／、](?:最近)?查證)?[ \t]*[：:][ \t]*(20\d{2}-\d{2}-\d{2})(?!\d)/m)?.[1];
   if(!date)return '';
   const parsed=new Date(date+'T00:00:00Z');
   return !Number.isNaN(parsed.getTime())&&parsed.toISOString().slice(0,10)===date ? date : '';

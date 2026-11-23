@@ -2134,7 +2134,6 @@ function showDetail(item, trigger, updateURL=true) {
     el('span', 'detail-badge scenario-badge', '情境：' + item.scenario)
   );
   metaBar.append(el('span','detail-badge',item.reviewedDate?'頁首核對 '+item.reviewedDate:(item.fileReviewed?'本條未載核對日':'頁首未提供核對日')));
-  if(item.addedDate)metaBar.append(el('span','detail-badge added-date','首次收錄 '+item.addedDate));
   if(!item.reviewedDate && item.fileReviewed)
     metaBar.append(el('span','detail-badge file-reviewed','來源檔查證 '+item.fileReviewed));
   body.append(metaBar);

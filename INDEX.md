@@ -9,7 +9,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 577 筆案例；頁首核對日期最新為 2026-11-23；本頁於 2026-11-23 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 583 筆案例；頁首核對日期最新為 2026-11-23；本頁於 2026-11-23 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -36,7 +36,7 @@
 
 <a id="case-list"></a>
 
-## 案例（577）
+## 案例（583）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -617,6 +617,12 @@
 | UC-677 | Muse經SSH主導雲端服務驗證：查文件、裝工具、派Codex並讀session log驗收；無畫面工作階段無法互動登入時，改寫「人只跑一次」的腳本並讀log驗證 | Meta Muse／Codex／WSL／PowerShell | [日文作者Zenn自述；含錯誤碼與失敗紀錄；未重現](cases/677-muse-ssh-codex-work-iq-verification-human-one-step-interactive-auth.md) | 開發｜多代理、人工審批、認證、驗收 |
 | UC-678 | 小網站交給Muse營運：GitHub只給單一倉庫內容讀寫、Cloudflare只讀分析；先宣告專案、分工、驗過才公開的關卡、選題四問、回報與「只重試一次」失敗規則 | Meta Muse／GitHub／Cloudflare／note／Qiita／X | [日文作者Qiita自述；指示為一般化例文；未重現](cases/678-muse-static-site-ops-scoped-tokens-verification-gate-instruction-templates.md) | 工作｜網站營運、權限控管、驗收、人工審批 |
 | UC-679 | 夫妻各自的Muse接同一個自架家族腦MCP：寫入只經API、寫入工具預設關閉；07:00家庭簡報、新增即時推播、手機PWA一鍵完成，週日Muse提出過期與重複整理建議 | Meta Muse／自架MCP／Tailscale／Google Drive／LINE | [日文作者Qiita自述；伺服器原碼未公開；未重現](cases/679-family-brain-self-hosted-mcp-muse-write-only-via-api-weekly-memo-cleanup.md) | 生活｜家庭行程、共享記憶、MCP、每日 |
+| UC-680 | Claude Code遷移架構誤觸terraform destroy：因狀態脫鉤與自動批准致生產資料庫銷毀與快照救援 | Claude Code／Terraform／AWS RDS／AWS ECS | [B英文作者公開事故復盤＋AWS工單復原紀錄；未獨立重現](cases/680-claude-code-terraform-destroy-production-database.md) | 開發｜基礎架構、失敗復盤、資料庫、權限隔離 |
+| UC-681 | PocketOS租車SaaS創辦人使用Cursor修憑證：代碼庫全域權限外洩致代理刪除儲存磁區與耦合備份 | Cursor／Docker／PostgreSQL／Railway | [B英文作者公開事故復盤與對話紀錄；未獨立重現](cases/681-pocketos-cursor-staging-token-wipe-production-database.md) | 開發｜SaaS、資料庫、權限外洩、災難復原 |
+| UC-682 | 加航客服代理虛構退票政策：加拿大仲裁法庭裁定企業對AI疏忽虛偽陳述負完全賠償責任（Moffatt v. Air Canada） | Air Canada AI Chatbot／Civil Resolution Tribunal | [B加拿大卑詩省民事爭端仲裁庭判決書全文；未獨立重現](cases/682-air-canada-chatbot-bereavement-misrepresentation-court-ruling.md) | 工作｜法律、客服、責任判定、退票風控 |
+| UC-683 | 雪佛蘭車商銷售代理遭提示詞注入：對話生成1美元買車虛假締約承諾致緊急停用 | ChatGPT／Fullpath | [B英文測試者公開對話截圖與車商緊急下架事實；未獨立重現](cases/683-chevrolet-watsonville-sales-bot-one-dollar-prompt-injection.md) | 工作｜電商、提示詞注入、合約風控、汽車銷售 |
+| UC-684 | DPD物流客服代理遭提示詞越獄脫軌：寫詩痛斥自家公司「世界最差」與品牌防禦失效 | DPD AI Chatbot | [B英文用戶公開對話截圖與官方聲明；未獨立重現](cases/684-dpd-delivery-bot-jailbreak-satire-profanity-shutdown.md) | 工作｜物流、客服、越獄、品牌風控 |
+| UC-685 | 紐約官方商業問答代理（MyCity）法規實質幻覺：誤導雇主抽成小費與合規失靈 | Microsoft Azure OpenAI Service／NYC MyCity Chatbot | [B英文調查報導全文與官方對話紀錄；未獨立重現](cases/685-nyc-mycity-business-chatbot-illegal-advice-investigation.md) | 工作｜政府、法規諮詢、勞動法、公共服務 |
 
 <a id="supplement-list"></a>
 

@@ -10,7 +10,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 589 筆案例；頁首核對日期最新為 2026-11-24；本頁於 2026-11-24 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 590 筆案例；頁首核對日期最新為 2026-11-24；本頁於 2026-11-24 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -53,7 +53,7 @@
 
 <a id="case-list"></a>
 
-## 案例（589）
+## 案例（590）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -627,12 +627,12 @@
 | UC-670 | Somerset 門診預約文字助理 | EBO Alex／Rio | [院方與供應商自報；歷史估算；未重現](cases/670-somerset-alex-appointment-assistant.md) | 工作｜醫療行政、預約、人工交接 |
 | UC-671 | Frimley 白內障術後電話追蹤 | Ufonia Dora | [院方自報；臨床覆核；未重現](cases/671-frimley-cataract-follow-up.md) | 工作｜醫療、術後追蹤、人工覆核 |
 | UC-672 | Leicester 新冠出院後症狀追蹤 | Ufonia Dora | [供應商自報；母數未明；未重現](cases/672-leicester-post-covid-follow-up.md) | 工作｜醫療、出院追蹤、人工交接 |
-| UC-673 | 手機「抵達／離開」事件經webhook叫醒Grok Bot：同一地點依時段做不同的事（午休改Slack狀態並rebase自己的PR、進超市依行事曆推購物清單、進健身房調重量），對不上規則就一律不出聲，一週34個停留點只剩6則通知 | Grok Bot／Timeline／Slack／GitHub／Google Calendar／Notion | [英文作者部落格自述（位置App開發者）；無routine原文；未重現](cases/673-grok-bot-phone-arrival-departure-events-time-aware-silence-default.md) | 生活｜位置、webhook、通知減量、每日 |
+| UC-673 | 手機「抵達／離開」事件經webhook叫醒Grok Bot：同一地點依時段做不同的事（午休改Slack狀態並rebase自己的PR、進超市依行事曆推購物清單、進健身房調重量），對不上規則就一律不出聲，一週34個停留點只剩6則通知；同作者另以位置「租約」省額度：webhook只寫0 token的presence檔，cron前用shell gate與gh預檢決定要不要叫醒模型，一週喚醒568→274次 | Grok Bot／Timeline／Slack／GitHub／Google Calendar／Notion | [英文作者部落格兩篇自述（位置App開發者）；無routine原文；未重現](cases/673-grok-bot-phone-arrival-departure-events-time-aware-silence-default.md) | 生活｜位置、webhook、通知減量、每日 |
 | UC-674 | 講師的Bot團隊備課：主辦方來信→查證研究→Google簡報→主Bot逐頁審＋Muse覆核→本人核准後轉AhaSlides互動版、Gemini課後問答筆記本與講義；平日7:00群組報到、15:45寫明日行程文件 | Grok Bot／Meta Muse／Gmail／Google Slides／AhaSlides | [英文作者X長文自述；無提示詞與樣本；未重現](cases/674-grok-bot-team-educator-workshop-deck-email-to-ahaslides-two-reviews.md) | 工作｜簡報製作、Bot團隊、人工審批、每日 |
 | UC-675 | Muse只當調度員：手機或LINE下單，經自製JSON bridge派工到家中三台機器的Claude Code／Codex（獨立worktree），依負載選機、每30分鐘查進度；做與驗分不同代理，三條件都過才算完成 | Meta Muse／T3 Code／Claude Code／Codex／LINE | [日文作者Zenn自述；bridge原碼未公開；未重現](cases/675-muse-dispatcher-home-servers-json-bridge-separate-verify-harness.md) | 開發｜多代理、自家伺服器、驗收、排程 |
 | UC-676 | Muse沒有多套頭像保存：改用Space做衣裝目錄＋文字台帳，每天早上定期任務依標籤與節日規則挑一套與昨天不同的換上並回報；一次只生一套、登記附縮圖 | Meta Muse（Space／定期任務） | [日文作者Qiita自述；附重現提示詞；未重現](cases/676-muse-space-avatar-costume-catalog-daily-tag-date-rotation.md) | 創作｜個人小工具、排程、圖像生成、每日 |
 | UC-677 | Muse經SSH主導雲端服務驗證：查文件、裝工具、派Codex並讀session log驗收；無畫面工作階段無法互動登入時，改寫「人只跑一次」的腳本並讀log驗證 | Meta Muse／Codex／WSL／PowerShell | [日文作者Zenn自述；含錯誤碼與失敗紀錄；未重現](cases/677-muse-ssh-codex-work-iq-verification-human-one-step-interactive-auth.md) | 開發｜多代理、人工審批、認證、驗收 |
-| UC-678 | 小網站交給Muse營運：GitHub只給單一倉庫內容讀寫、Cloudflare只讀分析；先宣告專案、分工、驗過才公開的關卡、選題四問、回報與「只重試一次」失敗規則 | Meta Muse／GitHub／Cloudflare／note／Qiita／X | [日文作者Qiita自述；指示為一般化例文；未重現](cases/678-muse-static-site-ops-scoped-tokens-verification-gate-instruction-templates.md) | 工作｜網站營運、權限控管、驗收、人工審批 |
+| UC-678 | 小網站交給Muse營運：GitHub只給單一倉庫內容讀寫、Cloudflare只讀分析；先宣告專案、分工、驗過才公開的關卡、選題四問、回報與「只重試一次」失敗規則；驗證關卡實作：論文測試資料對照、DOM替身玩到結束比對獨立規則模型、貪婪模擬找卡死配置 | Meta Muse／GitHub／Cloudflare／note／Qiita／X | [日文作者Qiita兩篇自述；指示為一般化例文；未重現](cases/678-muse-static-site-ops-scoped-tokens-verification-gate-instruction-templates.md) | 工作｜網站營運、權限控管、驗收、人工審批 |
 | UC-679 | 夫妻各自的Muse接同一個自架家族腦MCP：寫入只經API、寫入工具預設關閉；07:00家庭簡報、新增即時推播、手機PWA一鍵完成，週日Muse提出過期與重複整理建議 | Meta Muse／自架MCP／Tailscale／Google Drive／LINE | [日文作者Qiita自述；伺服器原碼未公開；未重現](cases/679-family-brain-self-hosted-mcp-muse-write-only-via-api-weekly-memo-cleanup.md) | 生活｜家庭行程、共享記憶、MCP、每日 |
 | UC-680 | Claude Code遷移架構誤觸terraform destroy：因狀態脫鉤與自動批准致生產資料庫銷毀與快照救援 | Claude Code／Terraform／AWS RDS／AWS ECS | [B英文作者公開事故復盤＋AWS工單復原紀錄；未獨立重現](cases/680-claude-code-terraform-destroy-production-database.md) | 開發｜基礎架構、失敗復盤、資料庫、權限隔離 |
 | UC-681 | PocketOS租車SaaS創辦人使用Cursor修憑證：代碼庫全域權限外洩致代理刪除儲存磁區與耦合備份 | Cursor／Docker／PostgreSQL／Railway | [B英文作者公開事故復盤與對話紀錄；未獨立重現](cases/681-pocketos-cursor-staging-token-wipe-production-database.md) | 開發｜SaaS、資料庫、權限外洩、災難復原 |
@@ -640,6 +640,7 @@
 | UC-683 | 雪佛蘭車商銷售代理遭提示詞注入：對話生成1美元買車虛假締約承諾致緊急停用 | ChatGPT／Fullpath | [B英文測試者公開對話截圖與車商緊急下架事實；未獨立重現](cases/683-chevrolet-watsonville-sales-bot-one-dollar-prompt-injection.md) | 工作｜電商、提示詞注入、合約風控、汽車銷售 |
 | UC-684 | DPD物流客服代理遭提示詞越獄脫軌：寫詩痛斥自家公司「世界最差」與品牌防禦失效 | DPD AI Chatbot | [B英文用戶公開對話截圖與官方聲明；未獨立重現](cases/684-dpd-delivery-bot-jailbreak-satire-profanity-shutdown.md) | 工作｜物流、客服、越獄、品牌風控 |
 | UC-685 | 紐約官方商業問答代理（MyCity）法規實質幻覺：誤導雇主抽成小費與合規失靈 | Microsoft Azure OpenAI Service／NYC MyCity Chatbot | [B英文調查報導全文與官方對話紀錄；未獨立重現](cases/685-nyc-mycity-business-chatbot-illegal-advice-investigation.md) | 工作｜政府、法規諮詢、勞動法、公共服務 |
+| UC-686 | 讓Grok Bot當外圈：替每秒7次決策的快速代理研究戰術做成目錄、重看對局寫標註、從真實紀錄建評測集並調校；評測卡住就回實戰找漏洞寫新戰術，過離線評測與實機演練才入目錄（以大亂鬥DX為例） | Grok Bot／Cursor Agent SDK＋Jev／Super Smash Bros. Melee | [英文作者部落格自述；附決策紀錄與前後對照；原碼未公開；未重現](cases/686-grok-bot-outer-loop-evals-playbook-fast-game-agent-smash-melee.md) | 開發｜多代理、測試、驗收、遊戲 |
 | UC-700 | 大金堺工廠用設備圖譜推查故障 | 大金／日立設備故障診斷 AI Agent | [聯合實證；25 個情境；未重現](cases/700-daikin-hitachi-equipment-knowledge-graph.md) | 工作｜設備維修、知識圖譜、工廠營運 |
 | UC-701 | 泰國空調工廠用 LINE 查單機維修紀錄 | LINE Official Account／n8n／Google Sheets／Google Gemini | [原始研究；單廠前後比較；未重現](cases/701-thai-aircon-line-n8n-maintenance.md) | 工作｜設備維修、LINE、工廠營運 |
 | UC-702 | 日立大甕用歷史故障案例整理鐵道設備客訴初報 | 日立品質保證支援工具／品質資訊資料庫 | [原廠實證；限鐵道品保；未重現](cases/702-hitachi-omika-rail-quality-assurance.md) | 工作｜品質保證、鐵道設備、工廠營運 |
@@ -1199,6 +1200,10 @@
 ## 2026-11-23 08:26：每日批次（X＋Qiita／Zenn API＋Hacker News）
 
 [約40組候選與查閱範圍](sources/research-2026-11-23-0826.md)：新增4（UC676 Muse Space衣裝目錄＋每日依標籤換裝；UC677 Muse經SSH主導驗證、互動登入改「人只跑一次」腳本；UC678 Muse營運小網站的最小權限token與驗證關卡；UC679 夫妻各自的Muse共用自架家族腦MCP）。皆未重現。
+
+## 2026-11-24 08:34：每日批次（X＋Hacker News＋Reddit＋note／V2EX搜尋＋Qiita留待）
+
+[約45組候選與查閱範圍](sources/research-2026-11-24-0834.md)：新增1（UC686 Grok Bot當外圈替快速遊戲代理建戰術目錄與評測迴圈），合併補充2（UC673 同作者以位置租約與0 token gate省Grok Bot額度；UC678 同作者遊戲公開前的分層驗證與卡死模擬）。皆未重現。
 
 ## 2026-11-24：工廠營運專題
 

@@ -3,17 +3,18 @@
 載入較慢時，可先瀏覽本頁索引；索引不提供全文搜尋或篩選。案例與來源的限制仍請逐筆核對。
 
 - [直接看案例列表](#case-list)
+- [工廠營運專題](#factory-operations)
 - [怎麼讀這頁](#how-to-read)
 - [查看驗證與模板補充](#supplement-list)
 - [查看待查來源](#pending-sources)
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 583 筆案例；頁首核對日期最新為 2026-11-23；本頁於 2026-11-23 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 589 筆案例；頁首核對日期最新為 2026-11-24；本頁於 2026-11-24 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
-以 1,000 個不同實作工作流程為目標：目前嚴格合格數、尚差數與計數核對批次，請以[逐案計數報告的當前批次](sources/qualification-audit-2026-10-16.md)為準。該報告最新的計數核對批次是 2026-10-22 20:50、當時 420 個主要案例頁；之後新增的頁尚未重新計數。下列批次數字保留為歷史紀錄，不是目前總數。網站條目與合格工作流程分開計算；含作者自述及失敗案例，未獨立重現，計數核對不代表重新驗證全部舊案。
+以 1,000 個不同實作工作流程為目標：目前嚴格合格數、尚差數與計數核對批次，請以[逐案計數報告的當前批次](sources/qualification-audit-2026-10-16.md)為準。該報告最新的計數核對批次是 2026-10-22 20:50、當時 420 個主要案例頁；該報告對之後新增的頁尚未重新計數。個別批次核對另見研究紀錄；全庫現值仍待稽核。下列批次數字保留為歷史紀錄，不是目前總數。網站條目與合格工作流程分開計算；含作者自述及失敗案例，未獨立重現，計數核對不代表重新驗證全部舊案。
 
 <a id="how-to-read"></a>
 
@@ -34,9 +35,25 @@
 | `author-self-report` | 作者報告／示範 | 與 `author-demo` 同一類：作者自述或自行回報；本庫未獨立重現。 |
 | `pending-verification` | 尚待查證 | 與 `unverified` 同一類：證據仍不足，不要直接照做。 |
 
+<a id="factory-operations"></a>
+
+## 工廠營運專題
+
+| 案例 | 現場任務 | 實作門檻 | 成果證據 |
+| --- | --- | --- | --- |
+| [UC-700](cases/700-daikin-hitachi-equipment-knowledge-graph.md) | 大金堺工廠用設備圖譜推查故障 | 進階開發 | 聯合實證；25 個情境；未重現 |
+| [UC-701](cases/701-thai-aircon-line-n8n-maintenance.md) | 泰國空調工廠用 LINE 查單機維修紀錄 | 工具串接 | 原始研究；單廠前後比較；未重現 |
+| [UC-702](cases/702-hitachi-omika-rail-quality-assurance.md) | 日立大甕用歷史故障案例整理鐵道設備客訴初報 | 工具串接 | 原廠實證；限鐵道品保；未重現 |
+| [UC-703](cases/703-mitsubishi-electric-geniac-maintenance.md) | 三菱電機用設備數據和保全文件分流停機分析 | 進階開發 | 參與團隊實證；件數未公布；未重現 |
+| [UC-704](cases/704-schaeffler-fabric-downtime-agent.md) | 舍弗勒把產線停機通知接到工廠資料問答 | 進階開發 | 參與團隊試點；未公開量化結果；未重現 |
+| [UC-705](cases/705-nvidia-ai-planner-supply-scenarios.md) | NVIDIA 排程團隊用代理試算缺料與工廠停工情境 | 進階開發 | 原廠自報；整體系統時間；未重現 |
+| [UC-560](cases/560-apollo-tyres-curing-root-cause.md)～[UC-565](cases/565-krones-filler-simulation-agents.md) | 延伸閱讀：硫化機根因、裝配視覺、維修知識、電子產線品質、排程、數位分身 | 依各案例 | 依各案例 |
+
+可從[案例探索的工廠營運搜尋](index.html?q=工廠營運)繼續篩選。
+
 <a id="case-list"></a>
 
-## 案例（583）
+## 案例（589）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -623,6 +640,12 @@
 | UC-683 | 雪佛蘭車商銷售代理遭提示詞注入：對話生成1美元買車虛假締約承諾致緊急停用 | ChatGPT／Fullpath | [B英文測試者公開對話截圖與車商緊急下架事實；未獨立重現](cases/683-chevrolet-watsonville-sales-bot-one-dollar-prompt-injection.md) | 工作｜電商、提示詞注入、合約風控、汽車銷售 |
 | UC-684 | DPD物流客服代理遭提示詞越獄脫軌：寫詩痛斥自家公司「世界最差」與品牌防禦失效 | DPD AI Chatbot | [B英文用戶公開對話截圖與官方聲明；未獨立重現](cases/684-dpd-delivery-bot-jailbreak-satire-profanity-shutdown.md) | 工作｜物流、客服、越獄、品牌風控 |
 | UC-685 | 紐約官方商業問答代理（MyCity）法規實質幻覺：誤導雇主抽成小費與合規失靈 | Microsoft Azure OpenAI Service／NYC MyCity Chatbot | [B英文調查報導全文與官方對話紀錄；未獨立重現](cases/685-nyc-mycity-business-chatbot-illegal-advice-investigation.md) | 工作｜政府、法規諮詢、勞動法、公共服務 |
+| UC-700 | 大金堺工廠用設備圖譜推查故障 | 大金／日立設備故障診斷 AI Agent | [聯合實證；25 個情境；未重現](cases/700-daikin-hitachi-equipment-knowledge-graph.md) | 工作｜設備維修、知識圖譜、工廠營運 |
+| UC-701 | 泰國空調工廠用 LINE 查單機維修紀錄 | LINE Official Account／n8n／Google Sheets／Google Gemini | [原始研究；單廠前後比較；未重現](cases/701-thai-aircon-line-n8n-maintenance.md) | 工作｜設備維修、LINE、工廠營運 |
+| UC-702 | 日立大甕用歷史故障案例整理鐵道設備客訴初報 | 日立品質保證支援工具／品質資訊資料庫 | [原廠實證；限鐵道品保；未重現](cases/702-hitachi-omika-rail-quality-assurance.md) | 工作｜品質保證、鐵道設備、工廠營運 |
+| UC-703 | 三菱電機用設備數據和保全文件分流停機分析 | 三菱電機生產技術與保全 AI Agent | [參與團隊實證；件數未公布；未重現](cases/703-mitsubishi-electric-geniac-maintenance.md) | 工作｜停機分析、設備維修、工廠營運 |
+| UC-704 | 舍弗勒把產線停機通知接到工廠資料問答 | Microsoft Fabric／Azure AI／廠內通知 App | [參與團隊試點；未公開量化結果；未重現](cases/704-schaeffler-fabric-downtime-agent.md) | 工作｜產線停機、製造資料、工廠營運 |
+| UC-705 | NVIDIA 排程團隊用代理試算缺料與工廠停工情境 | NVIDIA Nemotron／NIM／cuOpt／SAP | [原廠自報；整體系統時間；未重現](cases/705-nvidia-ai-planner-supply-scenarios.md) | 工作｜供應規劃、產能試算、工廠營運 |
 
 <a id="supplement-list"></a>
 
@@ -1176,3 +1199,7 @@
 ## 2026-11-23 08:26：每日批次（X＋Qiita／Zenn API＋Hacker News）
 
 [約40組候選與查閱範圍](sources/research-2026-11-23-0826.md)：新增4（UC676 Muse Space衣裝目錄＋每日依標籤換裝；UC677 Muse經SSH主導驗證、互動登入改「人只跑一次」腳本；UC678 Muse營運小網站的最小權限token與驗證關卡；UC679 夫妻各自的Muse共用自架家族腦MCP）。皆未重現。
+
+## 2026-11-24：工廠營運專題
+
+新增 UC-700–705。逐案核對與排除理由見[工廠營運研究紀錄](sources/research-2026-11-24-factory-operations.md)。

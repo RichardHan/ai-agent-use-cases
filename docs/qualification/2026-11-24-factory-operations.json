@@ -1,0 +1,60 @@
+{
+  "audit": "sources/research-2026-11-24-factory-operations.md",
+  "audit_sha256": "ebcc233813b7d4b193fdd19d1087ac92f44f7133bbadea96f0575ae4809f7f2f",
+  "decisions": [
+    {
+      "id": "UC-700",
+      "decision": "qualified",
+      "sha256": "2b24eeead5bae44d6c6a1773bcfd6c7956380642883a7aec0773b07c69b8d33a",
+      "source_type": "official",
+      "primary_source": "https://www.hitachi.com/content/dam/hitachi/global/ja_jp/press/articles/2025/04/0422/0422.pdf",
+      "reason": "試運轉前評估 25 個故障情境，公布回答速度與評分結果，未提供修復工時。",
+      "source_line": 23
+    },
+    {
+      "id": "UC-701",
+      "decision": "qualified",
+      "sha256": "7dc888aa85886fe1721ae8090e6ed4c4cb468048237ac892ba7f17dbaea4152c",
+      "source_type": "original_research",
+      "primary_source": "https://ph02.tci-thaijo.org/index.php/ienj/article/view/264050",
+      "reason": "單廠單機前後比較，診斷時間 0.622→0.330 小時，另有 30 個模擬案例。",
+      "source_line": 23
+    },
+    {
+      "id": "UC-702",
+      "decision": "qualified",
+      "sha256": "e7cb0032284c96842184f0decb8eeb020af782e13187fb3117215f2d3eeec424",
+      "source_type": "official",
+      "primary_source": "https://www.hitachi.com/content/dam/hitachi/global/ja_jp/press/articles/2025/06/0626/0626.pdf",
+      "reason": "鐵道品質保證的資訊搜尋時間約減九成，未公開逐案資料。",
+      "source_line": 23
+    },
+    {
+      "id": "UC-703",
+      "decision": "qualified",
+      "sha256": "b438d053bdb9db5270665f74382cd5758825b237ba1e3e9d9f92c1b90f76add2",
+      "source_type": "official",
+      "primary_source": "https://geniac-prize.nedo.go.jp/archive/2025/results/download/catalogFY2025.pdf",
+      "reason": "同一實證的兩種工序各有前後工時，未公布樣本與誤判率。",
+      "source_line": 23
+    },
+    {
+      "id": "UC-704",
+      "decision": "qualified",
+      "sha256": "5fd93f3953af1e16011936d881183f1010abbbe02baadc2596975008930c99b1",
+      "source_type": "author_report",
+      "primary_source": "https://www.microsoft.com/en/customers/story/20385-schaeffler-microsoft-fabric",
+      "reason": "廠方稱操作員已能自行查可能原因和對策，未公布事件樣本和成效指標。",
+      "source_line": 23
+    },
+    {
+      "id": "UC-705",
+      "decision": "qualified",
+      "sha256": "ef0b1dd4531b85a0ba17525456ab27e173ead8f83df03fd60efc81d7243c46f4",
+      "source_type": "official",
+      "primary_source": "https://www.nvidia.com/en-us/case-studies/nvidia-ai-planner-supply-chain/",
+      "reason": "情境的整體執行時間縮短，無法拆出代理相對於求解器及基礎設施的貢獻。",
+      "source_line": 23
+    }
+  ]
+}

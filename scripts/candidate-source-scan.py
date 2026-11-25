@@ -36,7 +36,11 @@ def canonical(url):
 
 
 def urls_in(path):
-    for number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
+    yield from urls_in_text(path.read_text(encoding='utf-8'), path.name)
+
+
+def urls_in_text(markdown, name):
+    for number, line in enumerate(markdown.splitlines(), 1):
         for match in URL.finditer(line):
             # An unmatched closer followed by URL text, or a nested opener, may
             # be part of the URL. Do not report the truncated prefix as a match.
@@ -44,7 +48,7 @@ def urls_in(path):
             markdown_link = line[:match.start()].endswith('](')
             continuation = r"\)+(?:[A-Za-z0-9/_%#?&=+~@!$'*+-]|[.:;,](?=[A-Za-z0-9/_%#?&=+~@!$'*+-]))"
             if tail.startswith('(') or (not markdown_link and re.match(continuation, tail)):
-                raise ValueError(f'ambiguous URL parentheses at {path.name}:{number}; inspect manually')
+                raise ValueError(f'ambiguous URL parentheses at {name}:{number}; inspect manually')
             raw = match.group().rstrip('.,;:!?')
             key = canonical(raw)
             if key:

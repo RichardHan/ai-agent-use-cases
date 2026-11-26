@@ -1,0 +1,48 @@
+{
+  "audit": "sources/research-2026-11-26-store-replenishment.md",
+  "audit_sha256": "08aedd7d8711787ce8c33bae2cbc8245ef895d1b21a79a972cac645847015419",
+  "decisions": [
+    {
+      "id": "UC-713",
+      "decision": "qualified",
+      "sha256": "7bede96c9452038c21be647baef6d3d8f4e356182efb37d4d033af0873f9284c",
+      "source_type": "official",
+      "primary_source": "https://tech.perf.target.com/blog/solving-product-availability-with-ai",
+      "reason": "機器學習推斷後寫回庫存帳本，再觸發既有補貨；銷量改善未公布幅度。",
+      "source_line": 23
+    },
+    {
+      "id": "UC-714",
+      "decision": "qualified",
+      "sha256": "b144070d8b0abea39663cd742461b17a47de01790aed147170c3eb873ba08830",
+      "source_type": "official",
+      "primary_source": "https://www.biprogy.com/solution/case/ai-order-foresight.html",
+      "reason": "按品項提出訂貨量，低信心則派回人工；廠方回報查核及訂貨工時約減 60%。",
+      "source_line": 23
+    },
+    {
+      "id": "UC-715",
+      "decision": "qualified",
+      "sha256": "9e99eca9deb9870e4b862e06f092609d721565ed2526bd15ab421b94482eb0d3",
+      "source_type": "official",
+      "primary_source": "https://prtimes.jp/a/?c=120244&f=d120244-158-cbfea92ade485efb9a4d7ce04a300075.pdf&r=158",
+      "reason": "按總部陳列基準排列欠量貨架；單一比較圖中的生活雜貨類高 53%，非整店成效。",
+      "source_line": 23
+    },
+    {
+      "id": "UC-716",
+      "decision": "qualified",
+      "sha256": "13cacef37c55574cef809837dd63dd73af9f1c5d43edb0c119b31f92e2275121",
+      "source_type": "official",
+      "primary_source": "https://www.simberobotics.com/resources/customer-stories/balls-foods-customer-story",
+      "reason": "自主巡架後向門市提供補貨優先級和直送查核證據；供應商回報 24 小時內補架品項增加 30%。",
+      "source_line": 23
+    },
+    {
+      "id": "UC-717",
+      "decision": "pending",
+      "sha256": "49541012387437c51b92eaf5862478ae92ed1ef12bbef88a556256ed6fd6b4a2",
+      "reason": "公開實證只確認代理解釋建議，代理下單、改價或任務分派待查。整體成效未分離代理。"
+    }
+  ]
+}

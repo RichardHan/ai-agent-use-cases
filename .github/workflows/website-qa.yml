@@ -16,6 +16,7 @@ on:
       - 'cases/**'
       - 'evidence/**'
       - 'sources/**'
+      - 'docs/qualification/**'
       - '_config.yml'
       - 'tests/**'
       - 'scripts/**'

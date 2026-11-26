@@ -10,7 +10,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 590 筆案例；頁首核對日期最新為 2026-11-24；本頁於 2026-11-24 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 593 筆案例；頁首核對日期最新為 2026-11-25；本頁於 2026-11-25 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -53,7 +53,7 @@
 
 <a id="case-list"></a>
 
-## 案例（590）
+## 案例（593）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -632,7 +632,7 @@
 | UC-675 | Muse只當調度員：手機或LINE下單，經自製JSON bridge派工到家中三台機器的Claude Code／Codex（獨立worktree），依負載選機、每30分鐘查進度；做與驗分不同代理，三條件都過才算完成 | Meta Muse／T3 Code／Claude Code／Codex／LINE | [日文作者Zenn自述；bridge原碼未公開；未重現](cases/675-muse-dispatcher-home-servers-json-bridge-separate-verify-harness.md) | 開發｜多代理、自家伺服器、驗收、排程 |
 | UC-676 | Muse沒有多套頭像保存：改用Space做衣裝目錄＋文字台帳，每天早上定期任務依標籤與節日規則挑一套與昨天不同的換上並回報；一次只生一套、登記附縮圖 | Meta Muse（Space／定期任務） | [日文作者Qiita自述；附重現提示詞；未重現](cases/676-muse-space-avatar-costume-catalog-daily-tag-date-rotation.md) | 創作｜個人小工具、排程、圖像生成、每日 |
 | UC-677 | Muse經SSH主導雲端服務驗證：查文件、裝工具、派Codex並讀session log驗收；無畫面工作階段無法互動登入時，改寫「人只跑一次」的腳本並讀log驗證 | Meta Muse／Codex／WSL／PowerShell | [日文作者Zenn自述；含錯誤碼與失敗紀錄；未重現](cases/677-muse-ssh-codex-work-iq-verification-human-one-step-interactive-auth.md) | 開發｜多代理、人工審批、認證、驗收 |
-| UC-678 | 小網站交給Muse營運：GitHub只給單一倉庫內容讀寫、Cloudflare只讀分析；先宣告專案、分工、驗過才公開的關卡、選題四問、回報與「只重試一次」失敗規則；驗證關卡實作：論文測試資料對照、DOM替身玩到結束比對獨立規則模型、貪婪模擬找卡死配置 | Meta Muse／GitHub／Cloudflare／note／Qiita／X | [日文作者Qiita兩篇自述；指示為一般化例文；未重現](cases/678-muse-static-site-ops-scoped-tokens-verification-gate-instruction-templates.md) | 工作｜網站營運、權限控管、驗收、人工審批 |
+| UC-678 | 小網站交給Muse營運：GitHub只給單一倉庫內容讀寫、Cloudflare只讀分析；先宣告專案、分工、驗過才公開的關卡、選題四問、回報與「只重試一次」失敗規則；每週自動只做檢查與2～3個計畫案、執行等人核准；驗證關卡實作：論文測試資料對照、DOM替身玩到結束比對獨立規則模型、貪婪模擬找卡死配置 | Meta Muse／GitHub／Cloudflare／note／Qiita／X | [日文作者Qiita兩篇自述；指示為一般化例文；未重現](cases/678-muse-static-site-ops-scoped-tokens-verification-gate-instruction-templates.md) | 工作｜網站營運、權限控管、驗收、人工審批 |
 | UC-679 | 夫妻各自的Muse接同一個自架家族腦MCP：寫入只經API、寫入工具預設關閉；07:00家庭簡報、新增即時推播、手機PWA一鍵完成，週日Muse提出過期與重複整理建議 | Meta Muse／自架MCP／Tailscale／Google Drive／LINE | [日文作者Qiita自述；伺服器原碼未公開；未重現](cases/679-family-brain-self-hosted-mcp-muse-write-only-via-api-weekly-memo-cleanup.md) | 生活｜家庭行程、共享記憶、MCP、每日 |
 | UC-680 | Claude Code遷移架構誤觸terraform destroy：因狀態脫鉤與自動批准致生產資料庫銷毀與快照救援 | Claude Code／Terraform／AWS RDS／AWS ECS | [B英文作者公開事故復盤＋AWS工單復原紀錄；未獨立重現](cases/680-claude-code-terraform-destroy-production-database.md) | 開發｜基礎架構、失敗復盤、資料庫、權限隔離 |
 | UC-681 | PocketOS租車SaaS創辦人使用Cursor修憑證：代碼庫全域權限外洩致代理刪除儲存磁區與耦合備份 | Cursor／Docker／PostgreSQL／Railway | [B英文作者公開事故復盤與對話紀錄；未獨立重現](cases/681-pocketos-cursor-staging-token-wipe-production-database.md) | 開發｜SaaS、資料庫、權限外洩、災難復原 |
@@ -647,6 +647,9 @@
 | UC-703 | 三菱電機用設備數據和保全文件分流停機分析 | 三菱電機生產技術與保全 AI Agent | [參與團隊實證；件數未公布；未重現](cases/703-mitsubishi-electric-geniac-maintenance.md) | 工作｜停機分析、設備維修、工廠營運 |
 | UC-704 | 舍弗勒把產線停機通知接到工廠資料問答 | Microsoft Fabric／Azure AI／廠內通知 App | [參與團隊試點；未公開量化結果；未重現](cases/704-schaeffler-fabric-downtime-agent.md) | 工作｜產線停機、製造資料、工廠營運 |
 | UC-705 | NVIDIA 排程團隊用代理試算缺料與工廠停工情境 | NVIDIA Nemotron／NIM／cuOpt／SAP | [原廠自報；整體系統時間；未重現](cases/705-nvidia-ai-planner-supply-scenarios.md) | 工作｜供應規劃、產能試算、工廠營運 |
+| UC-706 | 沒有API的Muse接進Claude／Antigravity開發團隊：Muse自建雲端共享資料夾交接（一件一檔、回覆追加、收件人寫到實例），唯讀讀倉庫正本、寫入只准走PR；先只給只讀任務並寫撤退條件，兩週後成為寫需求、試玩、經人核准合併的進度負責人 | Meta Muse／Claude／Claude Code／Antigravity／雲端共享資料夾／Git | [日文作者Qiita自述；附成品網站與踩坑表；交接檔與指示未公開；未重現](cases/706-muse-no-api-file-handoff-dev-team-progress-lead.md) | 開發｜多代理、交接、權限、驗收、核准 |
+| UC-707 | 讓Muse把約1,900則Instagram收藏分進15個主題集合：既有集合不動、只准新增，每50則回報分項與保留清單後等人說「下一批」；投稿者規則＋內文例外分類，反向翻頁找回漏掉的50則，以實際成員而非計數驗證 | Meta Muse／Instagram | [日文作者Qiita自述；文章由Muse撰寫人編輯；約195則API取不到；未重現](cases/707-muse-instagram-saved-posts-batch-collections-add-only.md) | 生活｜整理、社群、人工確認、核對 |
+| UC-708 | 家裡3台小伺服器交給Muse保養：每小時SSH＋HTTP死活檢查、每天0點逐台apt更新（主機端分離執行防斷線），正常時完全不出聲，只報掛掉／恢復／已更新／需重開機／失敗，重開機不自動做 | Meta Muse／Raspberry Pi／GCE／apt | [日文作者Qiita自述（Muse協助撰寫、附邀請碼）；無日誌；未重現](cases/708-muse-home-servers-hourly-health-daily-apt-quiet-reports.md) | 開發｜排程、每日、監看、人工確認 |
 
 <a id="supplement-list"></a>
 
@@ -1200,6 +1203,10 @@
 ## 2026-11-23 08:26：每日批次（X＋Qiita／Zenn API＋Hacker News）
 
 [約40組候選與查閱範圍](sources/research-2026-11-23-0826.md)：新增4（UC676 Muse Space衣裝目錄＋每日依標籤換裝；UC677 Muse經SSH主導驗證、互動登入改「人只跑一次」腳本；UC678 Muse營運小網站的最小權限token與驗證關卡；UC679 夫妻各自的Muse共用自架家族腦MCP）。皆未重現。
+
+## 2026-11-25 08:31：每日批次（X＋Qiita API＋Zenn＋Reddit＋HN）
+
+[約60組候選與查閱範圍](sources/research-2026-11-25-0831.md)：新增3（UC706 無API的Muse以共享資料夾、唯讀正本與PR限定接進多AI開發團隊；UC707 Muse分批「只新增」整理約1,900則Instagram收藏；UC708 Muse每小時巡檢、每天apt更新且無事不通知），合併補充1（UC678 同作者每週只做檢查與計畫案的迴圈）。皆未重現。
 
 ## 2026-11-24 08:34：每日批次（X＋Hacker News＋Reddit＋note／V2EX搜尋＋Qiita留待）
 

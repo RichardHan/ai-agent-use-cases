@@ -37,7 +37,7 @@ function loadDiscovery() {
       createTextNode: text => ({ textContent: String(text) })
     }
   });
-  vm.runInContext(source + '\nthis.api={parseFile,filterEntries,tokenize,coreGoalView};', context);
+  vm.runInContext(source + '\nthis.api={parseFile,filterEntries,tokenize,coreGoalView,targetUserView};', context);
   vm.runInContext('displayCopy=' + fs.readFileSync(path.join(root, 'assets/copy.json'), 'utf8'), context);
   return context.api;
 }
@@ -111,33 +111,31 @@ test('the README never pins a corpus total that new cases would move', () => {
     + 'that the next batch of cases invalidates:\n' + offenders.join('\n'));
 });
 
-test('the README claim that most entries declare no target user still holds', () => {
-  // Only paragraphs that actually talk about 目標使用者 count: an unrelated
-  // sentence elsewhere must not stand in for the claim, and an opposite claim in
-  // the same paragraph must not coexist with it. Wording may vary.
+test('the README describes both target-user display paths without a changing majority claim', () => {
   const claims = paragraphsWith('目標使用者', '宣告');
-  assert.ok(claims.length, 'README must keep its 目標使用者 paragraph');
-  const quantifier = '(?:多數|大多數|絕大多數|大部分|大半)';
-  assert.ok(claims.some(block => new RegExp(`${quantifier}[^。]*(?:沒有|未)[^。]*(?:宣告|提供)`).test(block)),
-    'If the corpus now declares 目標使用者 on most entries, README must say so.');
-  // A positive claim can put the object before the verb ("多數條目有目標使用者
-  // 宣告") or use 已／都 ("大部分條目已宣告目標使用者"). Judge per sentence so a
-  // negated form ("多數條目都沒有宣告目標使用者") stays valid: a sentence that
-  // mentions 目標使用者 and a quantifier is contradictory only if it asserts
-  // something without a negation.
-  const contradictory = [];
-  for (const block of claims) {
-    for (const sentence of block.split(/[。；!?！？\n]/)) {
-      if (!/目標使用者/.test(sentence) || !new RegExp(quantifier).test(sentence)) continue;
-      if (/(?:沒有|未|尚未|不曾)/.test(sentence)) continue;
-      if (/(?:有|已|都|會|曾)/.test(sentence)) contradictory.push(sentence.trim());
-    }
+  assert.equal(claims.length, 1, 'README must keep one target-user explanation');
+  const [claim] = claims;
+  assert.match(claim, /有宣告[^。]*直接顯示原文/);
+  assert.match(claim, /沒宣告[^。]*情境常見讀者[^。]*本庫[^。]*卡片/);
+  assert.doesNotMatch(claim, /多數|大部分|大半|過半|半數/,
+    'Describe the two display paths independently of their share of the corpus');
+
+  const declared = entries.filter(entry => entry.kind === 'case' && entry.targetUser);
+  const missing = entries.filter(entry => entry.kind === 'case' && !entry.targetUser);
+  assert.ok(declared.length > 0, 'The corpus must exercise the declared path');
+  assert.ok(missing.length > 0, 'The corpus must exercise the scenario path');
+  for (const entry of declared) {
+    const view = api.targetUserView(entry);
+    assert.equal(view.source, 'declared', entry.id);
+    assert.equal(view.heading, '適合對象', entry.id);
+    assert.equal(view.text, entry.targetUser, entry.id);
   }
-  assert.deepEqual(contradictory, [],
-    'README cannot say most entries declare 目標使用者 while the corpus says otherwise:\n' + contradictory.join('\n'));
-  const declared = entries.filter(entry => entry.targetUser).length;
-  assert.ok(declared * 2 < entries.length,
-    `README says most entries declare no 目標使用者, but ${declared}/${entries.length} do.`);
+  for (const entry of missing) {
+    const view = api.targetUserView(entry);
+    assert.equal(view?.source, 'scenario', entry.id);
+    assert.equal(view.heading, '情境常見讀者', entry.id);
+    assert.match(view.note, /本庫.*情境/, entry.id);
+  }
 });
 
 test('all three core-goal states are still present, as the README describes', () => {

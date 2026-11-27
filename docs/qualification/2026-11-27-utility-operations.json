@@ -1,0 +1,66 @@
+{
+  "audit": "sources/research-2026-11-27-utility-operations.md",
+  "audit_sha256": "13be26f0cd7f37ad336b747cca3d88b23645d431dd76ffeae1eacd1ea6da7824",
+  "decisions": [
+    {
+      "id": "UC-720",
+      "decision": "qualified",
+      "sha256": "c1b71c87e4d9435b04cb1bcb09fa5f6bcb4404c0f4ac9e7558ea68f60f15a530",
+      "reason": "供應商報告取回逾 13 萬份帳單；補助核准件數未知。",
+      "source_type": "official",
+      "primary_source": "https://www.cognigy.com/en/case-study/aegea",
+      "source_line": 23
+    },
+    {
+      "id": "UC-721",
+      "decision": "qualified",
+      "sha256": "44d126932a7c2279a1b1caf97154834a3d6be81903eec80e8af31f398784205f",
+      "reason": "代理收集、核驗並送交後端；供應商報告前九週逾 9 萬人啟動。",
+      "source_type": "official",
+      "primary_source": "https://www.cognigy.com/en/case-study/eon-egs",
+      "source_line": 23
+    },
+    {
+      "id": "UC-722",
+      "decision": "qualified",
+      "sha256": "7432d19fec3583c01db8c1243db336a99153c481c890c91b16a1822cee425d89",
+      "reason": "供應商公布搬家 CES 4.7／5，樣本與期間未公布。",
+      "source_type": "official",
+      "primary_source": "https://www.cognigy.com/en/case-study/helen",
+      "source_line": 23
+    },
+    {
+      "id": "UC-723",
+      "decision": "qualified",
+      "sha256": "be61e0ec842b1762f0ae1557a547fa696ba0c854ccc81308b02e547f155d3a7c",
+      "reason": "供應商回報停電來電 CSAT 提升 22%，未公開樣本及期間。",
+      "source_type": "official",
+      "primary_source": "https://poly.ai/customers/pge",
+      "source_line": 23
+    },
+    {
+      "id": "UC-724",
+      "decision": "qualified",
+      "sha256": "25c668ba33e345eadcbb8eb916aafaf08ced16aa18b0d644b1bad050045b0405",
+      "reason": "代理分類公開文件，後段機器人依訂閱派送；供應商報告每月處理 1,500 份。",
+      "source_type": "official",
+      "primary_source": "https://www.uipath.com/resources/automation-case-studies/ignitis-turbocharges-automation-with-agents",
+      "source_line": 23
+    },
+    {
+      "id": "UC-725",
+      "decision": "qualified",
+      "sha256": "b10583f08ffacf57ff7ddbd3d9f909d16dba9183223e7124327977c1d28ef1ef",
+      "reason": "部署方確認兩座風場及具名主管定性回饋，停機變化未量化。",
+      "source_type": "official",
+      "primary_source": "https://www.avangrid.com/w/avangrid-s-first-time-right-autopilot-transforms-field-operations-with-generative-ai",
+      "source_line": 23
+    },
+    {
+      "id": "UC-726",
+      "decision": "pending",
+      "sha256": "73e059310c2b3da1602c27a070547b09db8df4526b7543625eb325a48a5b0b2a",
+      "reason": "完成概念驗證；事件耗時與合規數字為預測，待補試點量測。"
+    }
+  ]
+}

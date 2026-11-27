@@ -4,13 +4,14 @@
 
 - [直接看案例列表](#case-list)
 - [工廠營運專題](#factory-operations)
+- [實體零售補貨專題](#store-replenishment-operations)
 - [怎麼讀這頁](#how-to-read)
 - [查看驗證與模板補充](#supplement-list)
 - [查看待查來源](#pending-sources)
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 597 筆案例；頁首核對日期最新為 2026-11-26；本頁於 2026-11-26 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 602 筆案例；頁首核對日期最新為 2026-11-26；本頁於 2026-11-26 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -51,9 +52,23 @@
 
 可從[案例探索的工廠營運搜尋](index.html?q=工廠營運)繼續篩選。
 
+<a id="store-replenishment-operations"></a>
+
+## 實體零售補貨專題
+
+| 案例 | 現場任務 | 實作門檻 | 成果證據 |
+| --- | --- | --- | --- |
+| [UC-713](cases/713-target-inventory-ledger-replenishment.md) | Target 自動修正幽靈庫存並觸發補貨 | 進階開發 | 機器學習推斷後寫回庫存帳本，再觸發既有補貨；銷量改善未公布幅度。 |
+| [UC-714](cases/714-shizutetsu-order-exception-review.md) | 靜鐵超市只把低信心的訂貨量交給店員複核 | 工具串接 | 按品項提出訂貨量，低信心則派回人工；廠方回報查核及訂貨工時約減 60%。 |
+| [UC-715](cases/715-takahashi-omron-shelf-fill-pilot.md) | タカハシ與歐姆龍用巡架機器人排補架順序 | 進階開發 | 按總部陳列基準排列欠量貨架；單一比較圖中的生活雜貨類高 53%，非整店成效。 |
+| [UC-716](cases/716-balls-foods-tally-supplier-shelf-tasks.md) | Balls Foods 用巡架影像交接補貨和供應商缺架 | 進階開發 | 自主巡架後向門市提供補貨優先級和直送查核證據；供應商回報 24 小時內補架品項增加 30%。 |
+| [UC-717](cases/717-valor-deli-order-markdown-explainer.md) | Valor 熟食門市用代理解釋訂貨與折價建議 | 進階開發 | 生成式代理解釋熟食訂貨與折價；20 店數字為整體效果，合格判定待定。 |
+
+可從[案例探索的實體零售搜尋](index.html?q=實體零售)繼續篩選。
+
 <a id="case-list"></a>
 
-## 案例（597）
+## 案例（602）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -654,6 +669,11 @@
 | UC-710 | 用Grok Bot衝X前1,000追蹤：先交代身分與語氣，它給5則短帖由本人挑，留言第一小時親手回；Bot建Google試算表（成效、同量級參考帖、草稿、對目標）每天刷新三次，每晚21:00回報最佳貼文、進度與明日草稿，語氣技能依真實回覆更新 | Grok Bot／X／Google Sheets | [英文作者X長文自述＋中文轉述者自述；附逐日數字無截圖；未重現](cases/710-grok-bot-x-first-1000-followers-sheet-nightly-report-hand-written-replies.md) | 工作｜社群經營、試算表、每日、人工確認 |
 | UC-711 | 多代理共用Notion記憶前的小評測：埋一筆假記憶測讀取、用一次不說「記住」的格式糾正測寫回與跨對話套用；作者實測四個代理都會讀，只有Grok Bot穩定寫回，dot另把指示誤解成逐輪寫無關頁面 | Notion／Grok Bot／ChatGPT dots／Claude／Claude Duet | [英文作者部落格自述小測；無對話紀錄；未重現](cases/711-notion-shared-memory-cross-agent-read-write-eval-planted-fact.md) | 工作｜共享記憶、多代理、Notion、評測 |
 | UC-712 | Muse當生活總窗口：體重對週里程碑判定與穿戴同步缺漏偵測、Mercari出品與降價建議（下限以下由人定）、懸賞只自動參加免個資項目、AI訂閱連兩月零使用才列解約候選；台帳只放一處、以一次資料驗收、確定行為由人核准 | Meta Muse／Mercari／穿戴裝置健康資料 | [日文作者Zenn自述；少量數字無截圖；未重現](cases/712-muse-single-ledger-life-ops-mercari-health-sweepstakes-approval-gates.md) | 生活｜生活管理、台帳、人工審批、每日 |
+| UC-713 | Target 自動修正幽靈庫存並觸發補貨 | Target Inventory Ledger、機器學習集成與既有補貨系統 | [實作方自報，未獨立重現](cases/713-target-inventory-ledger-replenishment.md) | 工作｜實體零售、幽靈庫存、缺貨修正 |
+| UC-714 | 靜鐵超市只把低信心的訂貨量交給店員複核 | AI-Order Foresight、CoreCenter for Retail | [實作方自報，未獨立重現](cases/714-shizutetsu-order-exception-review.md) | 工作｜實體零售、日配品訂貨、例外覆核 |
+| UC-715 | タカハシ與歐姆龍用巡架機器人排補架順序 | ugo 自走巡架機器人、歐姆龍影像判斷與日報 | [實作方自報，未獨立重現](cases/715-takahashi-omron-shelf-fill-pilot.md) | 工作｜實體零售、貨架充足度、巡架補貨 |
+| UC-716 | Balls Foods 用巡架影像交接補貨和供應商缺架 | Simbe Tally、Store Intelligence | [實作方自報，未獨立重現](cases/716-balls-foods-tally-supplier-shelf-tasks.md) | 工作｜實體零售、供應商直送、門市補貨任務 |
+| UC-717 | Valor 熟食門市用代理解釋訂貨與折價建議 | サキミル、需求預測與折價模型、門市營運 AI Agent | [實作方自報，未獨立重現](cases/717-valor-deli-order-markdown-explainer.md) | 工作｜實體零售、食品廢棄、折價決策 |
 
 <a id="supplement-list"></a>
 
@@ -1215,6 +1235,10 @@
 ## 2026-11-25 08:31：每日批次（X＋Qiita API＋Zenn＋Reddit＋HN）
 
 [約60組候選與查閱範圍](sources/research-2026-11-25-0831.md)：新增3（UC706 無API的Muse以共享資料夾、唯讀正本與PR限定接進多AI開發團隊；UC707 Muse分批「只新增」整理約1,900則Instagram收藏；UC708 Muse每小時巡檢、每天apt更新且無事不通知），合併補充1（UC678 同作者每週只做檢查與計畫案的迴圈）。皆未重現。
+
+## 2026-11-26 實體零售補貨
+
+[來源與逐案判定](sources/research-2026-11-26-store-replenishment.md)。新增 UC-713–717 共五頁，其中四筆合格。UC-717 的解釋代理已在門市試點，代理行動證據待補。
 
 ## 2026-11-24 08:34：每日批次（X＋Hacker News＋Reddit＋note／V2EX搜尋＋Qiita留待）
 

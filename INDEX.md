@@ -5,13 +5,14 @@
 - [直接看案例列表](#case-list)
 - [工廠營運專題](#factory-operations)
 - [實體零售補貨專題](#store-replenishment-operations)
+- [公用事業營運專題](#utility-operations)
 - [怎麼讀這頁](#how-to-read)
 - [查看驗證與模板補充](#supplement-list)
 - [查看待查來源](#pending-sources)
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 600 筆案例；頁首核對日期最新為 2026-11-27；本頁於 2026-11-27 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 607 筆案例；頁首核對日期最新為 2026-11-27；本頁於 2026-11-27 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -66,9 +67,25 @@
 
 可從[案例探索的實體零售搜尋](index.html?q=實體零售)繼續篩選。
 
+<a id="utility-operations"></a>
+
+## 公用事業營運專題
+
+| 案例 | 現場任務 | 實作門檻 | 成果證據 |
+| --- | --- | --- | --- |
+| [UC-720](cases/720-corsan-flood-water-bill-retrieval.md) | Corsan 洪災後用 WhatsApp 讓居民補取水費帳單 | 工具串接 | 供應商報告取回逾 13 萬份帳單；補助核准件數未知。 |
+| [UC-721](cases/721-eon-egs-whatsapp-meter-reading.md) | E.ON Grid Solutions 用 WhatsApp 驗證並提交電表讀數 | 工具串接 | 代理收集、核驗並送交後端；供應商報告前九週逾 9 萬人啟動。 |
+| [UC-722](cases/722-helen-energy-contract-relocation.md) | Helen 用搬家代理轉移電力合約 | 工具串接 | 供應商公布搬家 CES 4.7／5，樣本與期間未公布。 |
+| [UC-723](cases/723-pge-peggy-outage-call-routing.md) | PG&E 用語音代理回覆停電進度並分流來電 | 進階開發 | 供應商回報停電來電 CSAT 提升 22%，未公開樣本及期間。 |
+| [UC-724](cases/724-ignitis-regulatory-document-routing.md) | Ignitis 用代理分類法規文件，再由機器人分送 | 工具串接 | 供應商報告每月分類 1,500 份公開文件，準確率約 93%。 |
+| [UC-725](cases/725-avangrid-wind-turbine-diagnostics.md) | Avangrid 風場技師用行動代理縮小故障範圍 | 進階開發 | 部署方確認兩座風場及具名主管定性回饋，停機變化未量化。 |
+| [UC-726](cases/726-welsh-water-orai-alarm-triage.md) | Welsh Water 試點用 ORAI 彙整供水警報 | 進階開發 | 完成概念驗證；事件耗時與合規數字為預測，待補試點量測。 |
+
+可從[案例探索的公用事業搜尋](index.html?q=公用事業#explore)繼續篩選。
+
 <a id="case-list"></a>
 
-## 案例（600）
+## 案例（607）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -672,6 +689,13 @@
 | UC-717 | Valor 熟食門市用代理解釋訂貨與折價建議 | サキミル、需求預測與折價模型、門市營運 AI Agent | [實作方自報，未獨立重現](cases/717-valor-deli-order-markdown-explainer.md) | 工作｜實體零售、食品廢棄、折價決策 |
 | UC-718 | Grok Bot當首席設計工程師：從漏斗找單一最大流失點、先質疑需求、寫Linear工單、在Paper畫三案只推薦一案；本人在對話核准前不交工程，上線14天後自己回頭驗收 | Grok Bot／Linear／Paper | [作者自述，未重現](cases/718-grok-bot-chief-design-engineer-funnel-cliff-three-options-approval-gate-14-day-readout.md) | 創作｜設計、產品數據、核准、驗收 |
 | UC-719 | 替多個Grok Bot做每週用量油表頁：已用百分比對照本週已過時間、同刻度兩根長條，手動重新整理、刻意不設排程輪詢 | Grok Bot | [作者自述，未重現](cases/719-grok-bot-weekly-usage-fuel-gauge-page-used-vs-elapsed-no-polling-routine.md) | 開發｜用量、儀表板、多代理 |
+| UC-720 | Corsan 洪災後用 WhatsApp 讓居民補取水費帳單 | NiCE Cognigy／WhatsApp | [實作方自報，未獨立重現](cases/720-corsan-flood-water-bill-retrieval.md) | 工作｜公用事業、水務、災後服務、證明文件 |
+| UC-721 | E.ON Grid Solutions 用 WhatsApp 驗證並提交電表讀數 | NiCE Cognigy／WhatsApp／電表後端 | [實作方自報，未獨立重現](cases/721-eon-egs-whatsapp-meter-reading.md) | 工作｜公用事業、配電、電表回報、資料驗證 |
+| UC-722 | Helen 用搬家代理轉移電力合約 | NiCE Cognigy／Oma Helen／客戶入口 | [實作方自報，未獨立重現](cases/722-helen-energy-contract-relocation.md) | 工作｜公用事業、電力服務、搬家、合約異動 |
+| UC-723 | PG&E 用語音代理回覆停電進度並分流來電 | PolyAI Peggy／既有語音與停電資訊服務 | [實作方自報，未獨立重現](cases/723-pge-peggy-outage-call-routing.md) | 工作｜公用事業、電網、停電查詢、語音分流 |
+| UC-724 | Ignitis 用代理分類法規文件，再由機器人分送 | UiPath Agent Builder／SharePoint／流程自動化 | [實作方自報，未獨立重現](cases/724-ignitis-regulatory-document-routing.md) | 工作｜公用事業、能源營運、法規分流、文件派送 |
+| UC-725 | Avangrid 風場技師用行動代理縮小故障範圍 | Amazon Bedrock／Avangrid 維運知識庫 | [實作方自報，未獨立重現](cases/725-avangrid-wind-turbine-diagnostics.md) | 工作｜公用事業、風力發電、故障診斷、現場維修 |
+| UC-726 | Welsh Water 試點用 ORAI 彙整供水警報 | Microsoft Foundry／Microsoft Fabric／Microsoft Teams | [參與方試點，合格待定](cases/726-welsh-water-orai-alarm-triage.md) | 工作｜公用事業、水務、告警分流、人工覆核 |
 
 <a id="supplement-list"></a>
 
@@ -1245,3 +1269,7 @@
 ## 2026-11-27 08:31：每日批次（X＋Zenn API＋Hacker News）
 
 [約40組候選與查閱範圍](sources/research-2026-11-27-0831.md)：新增2（UC718 Grok Bot首席設計工程師的數據→三案→核准→14天驗收迴圈；UC719 Grok Bot每週用量油表頁、不設輪詢），合併補充2（UC035 Grok Bot分級投遞32份；UC351 Tailscale外掛把Grok Bot接到自有VPS上的Hermes）
+
+## 2026-11-27 公用事業營運專題
+
+[來源與逐案判定](sources/research-2026-11-27-utility-operations.md)。新增 UC-720–726，六筆合格。Welsh Water 仍待試點量測。

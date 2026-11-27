@@ -5,13 +5,13 @@
 - 網站標題：Grok Bot 額度燒太快？讓它只負責拆工作和檢查，實際執行交給雲端電腦上的免費模型，搞不定再換便宜的付費模型
 - 一句話用途：中文作者分享的省額度做法：在 Grok Bot 的雲端電腦裝 OpenCode 接免費模型、另備 Pi Agent＋DeepSeek 當付費保底；工作先丟免費模型，做不好再降級到 DeepSeek，Grok Bot 自己只做調度、拆解、檢查和總結。作者自述兩套都跑通、Grok Bot 本身用量大幅下降；本庫未重現。
 - 核心目標：把「想用 Bot 做很多事」和「每週額度有限」的矛盾，改成分層派工：便宜的執行層做重活，Grok Bot 只花額度在判斷與驗收。
-- 工具：Grok Bot（雲端電腦、調度）／OpenCode（作者測 DeepSeek V4.1 Flash Free 等免費模型）／Pi Agent＋DeepSeek（deepseek-v4-flash、複雜任務 deepseek-v4-pro）；來源B另加 webhook 觸發的 routine 與開源腳本 grokbot-local-agent（MIT）；來源C為 Claude Code CLI／Codex CLI／腳本＋webhook 回報與每日 routine 稽核；來源D為本人 Mac 上的 Claude Code（兩帳號）＋Codex CLI 與每小時用量標籤；來源G為開源 GAP（Pi 寫程式代理＋pi-task 任務管理、阻塞等待與 webhook 兜底喚醒、危險指令攔截）
+- 工具：Grok Bot（雲端電腦、調度）／OpenCode（作者測 DeepSeek V4.1 Flash Free 等免費模型）／Pi Agent＋DeepSeek（deepseek-v4-flash、複雜任務 deepseek-v4-pro）；來源B另加 webhook 觸發的 routine 與開源腳本 grokbot-local-agent（MIT）；來源C為 Claude Code CLI／Codex CLI／腳本＋webhook 回報與每日 routine 稽核；來源D為本人 Mac 上的 Claude Code（兩帳號）＋Codex CLI 與每小時用量標籤；來源G為開源 GAP（Pi 寫程式代理＋pi-task 任務管理、阻塞等待與 webhook 兜底喚醒、危險指令攔截）；2026-11-27 補充為 Tailscale 外掛連到自有 VPS 上的 Hermes 代理（單向派工）
 - 分類／標籤：多代理派工／用量分層／外部代理保底
 - 目標使用者：已經常碰到 Grok Bot 每週額度上限、又不想升級方案，且能自己管理外部模型帳號與金鑰的進階使用者
 - 首次收錄／最近查證：2026-10-19／2026-10-21 14:40（台灣時間，只核來源D）
-- 證據狀態：`author-demo`（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；來源D日文作者 note 長文（含指令片段與當下用量讀數）；來源E Reddit 作者留言自述；來源F簡中作者 X 長文＋設定回覆截圖；來源G簡中作者 X 長文＋公開倉庫 README（已讀、未安裝）與跟做者長文（部分讀取）；各來源都沒有同工作量的前後用量對照數據。
+- 證據狀態：`author-demo`（作者自述實測）：來源A四則連續貼文＋一張架構示意圖（非實際畫面）；來源B作者貼文＋公開腳本 README（已讀、未安裝）；來源C英文作者單則文字自述；來源D日文作者 note 長文（含指令片段與當下用量讀數）；來源E Reddit 作者留言自述；來源F簡中作者 X 長文＋設定回覆截圖；來源G簡中作者 X 長文＋公開倉庫 README（已讀、未安裝）與跟做者長文（部分讀取）；2026-11-27 補充為英文作者單則長文自述（無設定畫面）；各來源都沒有同工作量的前後用量對照數據。
 - 是否獨立重現：否
-- 本次增補查證：2026-11-12 08:55（台灣時間）；只核來源G，未重驗全案。
+- 本次增補查證：2026-11-27 08:55（台灣時間）；只核 2026-11-27 補充，未重驗全案。
 
 ## 輸入與預期輸出
 
@@ -150,3 +150,14 @@
 - 證據標記：`author-demo`（作者長文自述＋截圖說明＋公開倉庫 README）；額度數字為作者面板讀數，未附前後同工作對照；跟做者文章為 `author-demo`（部分讀取）。
 - 與來源A–F的關係：同樣是「Grok Bot 只調度與驗收、執行交給同機的便宜代理」。本來源補上的是可直接安裝的完整閉環（任務 ID、阻塞等待＋webhook 兜底、需核准狀態、ack）與「不交給代理的動作」清單；核心目標與流程相同，不另立案、不加數。
 
+## 2026-11-27 08:55 補充：用 Tailscale 外掛把 Grok Bot 接到自己 VPS 上的 Hermes 代理，單向派工省額度（作者自述，不另計）
+
+- 作者／日期／語言：Aymane（@aymanemsi），[X 貼文〈Grok Bot + Hermes = the ULTIMATE setup〉](https://x.com/aymanemsi/status/2125950183099801639)，2026-11-26 13:49 UTC（台灣時間 21:49），英文；查閱時約 880 讚。本庫以 X API 讀長文全文。
+- 作者的做法（翻譯改寫）：
+  1. 在 Hermes 代理所在的機器（作者的私人 VPS）安裝 Tailscale；在 Grok Bot 安裝 Tailscale 外掛並連到同一個 tailnet。
+  2. 把 Hermes 機器在 Tailscale 後台顯示的完整機器名稱（形如 `機器名.tailnet名.ts.net`）告訴 Grok Bot；Tailscale 會要求核准連線，點連結登入核准即可。
+  3. 之後 Grok Bot（作者的「chief of staff」Bot）依需要把工作交給 Hermes，Hermes 在自己的機器上做完再把結果傳回。作者說同樣可接 OpenCode、Claude Code 等其他代理。
+  4. 連線是單向的：Grok Bot 能對 Hermes 下提示，Hermes 不能反過來派工給 Grok Bot。
+- 作者報告結果：作者稱這是他在 Grok Bot 裡「最能省用量」的做法之一，但沒有附用量前後數字、任務範例或失敗紀錄。作者另提到其他代理產品也可用同樣方式連線，本庫未核實，不推定其他產品有相同外掛。
+- 證據標記：`author-demo`（作者單則長文自述＋一張圖），無設定畫面或用量數字可核。
+- 與來源A–G的關係：同樣是「Grok Bot 只派工、重活交給便宜或自有額度的代理」；差別是執行端放在使用者自己的 VPS、以 Tailscale 私有網路連回，不必把代理裝在 Bot 的雲端電腦上，也不對公網開放連接埠。核心目標與流程相同，不另立案、不加數。權限提醒：tailnet 內可被 Bot 連到的機器與連接埠應限縮到 Hermes 本身（例如用 Tailscale ACL），否則等於讓 Bot 進入整個私人網路。

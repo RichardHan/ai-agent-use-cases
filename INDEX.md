@@ -12,7 +12,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 607 筆案例；頁首核對日期最新為 2026-11-27；本頁於 2026-11-27 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 608 筆案例；頁首核對日期最新為 2026-11-28；本頁於 2026-11-28 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -85,7 +85,7 @@
 
 <a id="case-list"></a>
 
-## 案例（607）
+## 案例（608）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -156,7 +156,7 @@
 | UC-068 | 排程要用自己的 Mac 卻常未連線：先查原因、只改必要設定再實測 | Grok Bot 桌面版（macOS） | [作者提示詞＋截圖＋Cursor 論壇員工說明；修改後排程結果未取得、未重現](cases/068-mac-local-helper-away-diagnosis.md) | 開發｜本機執行、排程、故障診斷、驗收 |
 | UC-069 | 跨工具搬移待辦，核對漏件、附件與歷史日期 | Grok Bot／Trello／Todoist | [作者實際使用自述＋官方限制；未重現](cases/069-task-migration-reconciliation.md) | 工作｜資料移轉、待辦、驗收、備份 |
 | UC-070 | GitHub 停權後改走本機建置與 Cloudflare 發布 | ChatGPT dots／Codex／Mac／Cloudflare | [作者長文自述＋截圖；未重現](cases/070-github-outage-mac-cloudflare-publish.md) | 開發｜部署、故障診斷、核准、跨代理 |
-| UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian；多家代理共用同一 vault（各Bot資料夾、只追加紀錄、共用收件匣）；dots讀Grok Bot的Notion日報發現行事曆未改先問本人；Grok Bot一段提示詞建second-brain資料夾、先讀index.md再開相關筆記 | ChatGPT dots／Obsidian；Grok Bot／Muse／Hermes 共用 vault；dots／Grok Bot／Notion；Grok Bot（雲端電腦）＋開源obsidian-second-brain | [作者教學串＋官方記憶 FAQ＋跨供應商共用 vault 自述與截圖＋日文作者單次衝突確認自述；未重現＋11-15併入英文開源作者一次實跑自述（省量未量測）](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
+| UC-071 | 把 dots 不可逐筆編輯的記憶改放本機 Obsidian；多家代理共用同一 vault（各Bot資料夾、只追加紀錄、共用收件匣）；dots讀Grok Bot的Notion日報發現行事曆未改先問本人；Grok Bot一段提示詞建second-brain資料夾、先讀index.md再開相關筆記；Obsidian官方Connectors：dots經ChatGPT外掛、Grok Bot外掛、Muse雲端無法用CLI | ChatGPT dots／Obsidian；Grok Bot／Muse／Hermes 共用 vault；dots／Grok Bot／Notion；Grok Bot（雲端電腦）＋開源obsidian-second-brain | [作者教學串＋官方記憶 FAQ＋跨供應商共用 vault 自述與截圖＋日文作者單次衝突確認自述；未重現＋11-15併入英文開源作者一次實跑自述（省量未量測）＋11-28併入Obsidian官方Connectors說明頁（官方，未安裝）](cases/071-obsidian-dots-visible-memory.md) | 工作｜筆記、本機執行、備份、排程 |
 | UC-072 | 電話任務的身份揭露、核准與人工交接；Muse代打退款電話，資料不足先回頭問本人再重撥；Grok Bot只問光纖可否與價目、不簽約 | Grok Bot／DialBot／Bland AI；ClawCall 自述；電話訂餐自述；ClawCall 訂位模板；Meta Muse（美國商家通話測試功能） | [作者測試自述＋官方模板與費用＋電話訂披薩後自行向店家確認＋Bland 官方 Bot 自行開戶指南＋撥號前複誦核准的訂位模板自述＋Muse停車退款兩通電話自述＋Grok Bot光纖研究通話自述；影片未看、未重現](cases/072-phone-task-disclosure-handoff.md) | 工作｜電話、核准、驗收、交接 |
 | UC-073 | 網站顧客路徑、頁面盤點與表格讀回驗收 | ChatGPT dots／Grok Bot／公開網站／Sheets | [作者使用、核對及漏頁反例；完整產物未取得、未重現](cases/073-customer-journey-content-audit.md) | 工作｜網站、內容稽核、驗收、核准 |
 | UC-074 | 裝置事件喚醒後重新讀取資料並驗收 | ChatGPT dots／MCP Events／自建 MCP | [作者建置自述＋官方文件；未重現](cases/074-event-trigger-readback.md) | 開發｜實體裝置、事件觸發、驗收 |
@@ -664,7 +664,7 @@
 | UC-675 | Muse只當調度員：手機或LINE下單，經自製JSON bridge派工到家中三台機器的Claude Code／Codex（獨立worktree），依負載選機、每30分鐘查進度；做與驗分不同代理，三條件都過才算完成 | Meta Muse／T3 Code／Claude Code／Codex／LINE | [日文作者Zenn自述；bridge原碼未公開；未重現](cases/675-muse-dispatcher-home-servers-json-bridge-separate-verify-harness.md) | 開發｜多代理、自家伺服器、驗收、排程 |
 | UC-676 | Muse沒有多套頭像保存：改用Space做衣裝目錄＋文字台帳，每天早上定期任務依標籤與節日規則挑一套與昨天不同的換上並回報；一次只生一套、登記附縮圖 | Meta Muse（Space／定期任務） | [日文作者Qiita自述；附重現提示詞；未重現](cases/676-muse-space-avatar-costume-catalog-daily-tag-date-rotation.md) | 創作｜個人小工具、排程、圖像生成、每日 |
 | UC-677 | Muse經SSH主導雲端服務驗證：查文件、裝工具、派Codex並讀session log驗收；無畫面工作階段無法互動登入時，改寫「人只跑一次」的腳本並讀log驗證 | Meta Muse／Codex／WSL／PowerShell | [日文作者Zenn自述；含錯誤碼與失敗紀錄；未重現](cases/677-muse-ssh-codex-work-iq-verification-human-one-step-interactive-auth.md) | 開發｜多代理、人工審批、認證、驗收 |
-| UC-678 | 小網站交給Muse營運：GitHub只給單一倉庫內容讀寫、Cloudflare只讀分析；先宣告專案、分工、驗過才公開的關卡、選題四問、回報與「只重試一次」失敗規則；每週自動只做檢查與2～3個計畫案、執行等人核准；驗證關卡實作：論文測試資料對照、DOM替身玩到結束比對獨立規則模型、貪婪模擬找卡死配置 | Meta Muse／GitHub／Cloudflare／note／Qiita／X | [日文作者Qiita兩篇自述；指示為一般化例文；未重現](cases/678-muse-static-site-ops-scoped-tokens-verification-gate-instruction-templates.md) | 工作｜網站營運、權限控管、驗收、人工審批 |
+| UC-678 | 小網站交給Muse營運：GitHub只給單一倉庫內容讀寫、Cloudflare只讀分析；先宣告專案、分工、驗過才公開的關卡、選題四問、回報與「只重試一次」失敗規則；每週自動只做檢查與2～3個計畫案、執行等人核准；驗證關卡實作：論文測試資料對照、DOM替身玩到結束比對獨立規則模型、貪婪模擬找卡死配置；不同作者的一般化Muse交辦型：原則檔、完成須以數字或畫面確認、製作者以外三點檢品 | Meta Muse／GitHub／Cloudflare／note／Qiita／X | [日文作者Qiita兩篇自述；指示為一般化例文；未重現＋11-28併入Zenn不同作者自述](cases/678-muse-static-site-ops-scoped-tokens-verification-gate-instruction-templates.md) | 工作｜網站營運、權限控管、驗收、人工審批 |
 | UC-679 | 夫妻各自的Muse接同一個自架家族腦MCP：寫入只經API、寫入工具預設關閉；07:00家庭簡報、新增即時推播、手機PWA一鍵完成，週日Muse提出過期與重複整理建議 | Meta Muse／自架MCP／Tailscale／Google Drive／LINE | [日文作者Qiita自述；伺服器原碼未公開；未重現](cases/679-family-brain-self-hosted-mcp-muse-write-only-via-api-weekly-memo-cleanup.md) | 生活｜家庭行程、共享記憶、MCP、每日 |
 | UC-680 | Claude Code遷移架構誤觸terraform destroy：因狀態脫鉤與自動批准致生產資料庫銷毀與快照救援 | Claude Code／Terraform／AWS RDS／AWS ECS | [B英文作者公開事故復盤＋AWS工單復原紀錄；未獨立重現](cases/680-claude-code-terraform-destroy-production-database.md) | 開發｜基礎架構、失敗復盤、資料庫、權限隔離 |
 | UC-681 | PocketOS租車SaaS創辦人使用Cursor修憑證：代碼庫全域權限外洩致代理刪除儲存磁區與耦合備份 | Cursor／Docker／PostgreSQL／Railway | [B英文作者公開事故復盤與對話紀錄；未獨立重現](cases/681-pocketos-cursor-staging-token-wipe-production-database.md) | 開發｜SaaS、資料庫、權限外洩、災難復原 |
@@ -696,6 +696,7 @@
 | UC-724 | Ignitis 用代理分類法規文件，再由機器人分送 | UiPath Agent Builder／SharePoint／流程自動化 | [實作方自報，未獨立重現](cases/724-ignitis-regulatory-document-routing.md) | 工作｜公用事業、能源營運、法規分流、文件派送 |
 | UC-725 | Avangrid 風場技師用行動代理縮小故障範圍 | Amazon Bedrock／Avangrid 維運知識庫 | [實作方自報，未獨立重現](cases/725-avangrid-wind-turbine-diagnostics.md) | 工作｜公用事業、風力發電、故障診斷、現場維修 |
 | UC-726 | Welsh Water 試點用 ORAI 彙整供水警報 | Microsoft Foundry／Microsoft Fabric／Microsoft Teams | [參與方試點，合格待定](cases/726-welsh-water-orai-alarm-triage.md) | 工作｜公用事業、水務、告警分流、人工覆核 |
+| UC-727 | 草莓溫室6:30早晨鐘：Grok Bot只收集天氣、陣風與警報並附發布單位與時間，過門檻加警示、缺值寫找不到、沒事也寫「無」；只寫私人Slack，判斷交給Claude Code，溫室設備與金錢不接Bot | Grok Bot／Slack／Claude Code | [日本草莓農部落格自述（剛上線、無成效數字），未重現](cases/727-grok-bot-strawberry-greenhouse-morning-weather-bell-gatherer-decider-split.md) | 工作｜農業、天氣、權限分離、每日 |
 
 <a id="supplement-list"></a>
 
@@ -1273,3 +1274,7 @@
 ## 2026-11-27 公用事業營運專題
 
 [來源與逐案判定](sources/research-2026-11-27-utility-operations.md)。新增 UC-720–726，六筆合格。Welsh Water 仍待試點量測。
+
+## 2026-11-28 08:28：每日批次（X＋網頁搜尋＋Zenn API＋GitHub＋官方說明頁）
+
+[候選與查閱範圍](sources/research-2026-11-28-0828.md)：新增1（UC727 草莓溫室早晨鐘，Grok Bot只收集、Claude Code決策），合併補充2（UC071 Obsidian官方Connectors；UC678 Zenn不同作者的Muse交辦型）

@@ -10,7 +10,7 @@
 - 首次收錄／最近查證：2026-10-15／2026-10-17（台灣時間）
 - 證據狀態：`author-demo`（作者教學串）＋ `official`（OpenAI Dots 隱私 FAQ 已讀）；本庫未重現
 - 是否獨立重現：否
-- 本次增補查證：2026-11-15 08:30（台灣時間）；只核S-071F，未重驗全案。
+- 本次增補查證：2026-11-28 08:40（台灣時間）；只核S-071G（Obsidian官方Connectors頁），未重驗全案。
 
 ## 輸入與預期輸出
 
@@ -162,3 +162,16 @@ Ben Bartholomew的[Hindsight供應商實作](https://hindsight.vectorize.io/blog
   4. 作者列出提示的限制：沒有搜尋索引（資料夾小時靠 index.md 還行）、寫入後沒有檢查、沒有排程整理、規則只存在該對話（新對話要重貼）；完整專案另有指令、搜尋索引與寫入驗證器。
 - **標記**：`author-demo`（作者自述一次實跑結果；文章內提示詞全文本庫未轉載；省量未量測）。
 - **合併理由**：與本頁 S-071A／C／D 同一問題——把代理長期記憶放到使用者看得到、改得到、可搬走的 Markdown；新增的是「先讀索引再開筆記」的讀取規則以控制用量，以及不確定欄位寫 TBD。不另立案、不加數。Grok Bot 內建記憶能否檢視或編輯，以官方說明為準；此處「不能打開、編輯、搬走」是作者說法。
+
+## 2026-11-28 08:40補充：Obsidian 官方 Connectors——dots、Grok Bot、Muse 各自的接法與限制（S-071G，不另計）
+
+- **來源**：Obsidian 官方說明頁〈[Connectors](https://obsidian.md/help/connectors)〉（英文，2026-11-28 本庫讀取全文）；官方 X 帳號 @obsdmd 於 2026-11-25 21:19 UTC（台灣時間 11-26 05:19）宣布「Obsidian now has official connectors for every agent」（本庫未直接讀到原貼，貼文時間經 [AB通信](https://markenote.jp/article/10821) 與 [BetaNews](https://betanews.com/article/obsidian-ai-agent-connectors/) 轉述）。技能原始碼在 [obsidianmd/obsidian-skills](https://github.com/obsidianmd/obsidian-skills)。
+- **官方頁內容（翻譯摘要）**：
+  1. Connectors 是一組開放的 Agent Skills（7 個：`obsidian-markdown`、`obsidian-bases`、`json-canvas`、`obsidian-cli`、`obsidian-headless`、`defuddle`、`knap`），教代理用 Obsidian 格式寫筆記、建 Bases／Canvas、透過 Obsidian CLI 搜尋與管理正在執行的 vault、用 Obsidian Headless 不開桌面版同步與發布。
+  2. ChatGPT：從 ChatGPT 外掛目錄加入 Obsidian，官方寫明「可在 ChatGPT、Codex 與 Dots 使用」。Grok Bot：開啟「Obsidian for Grok Bot」外掛頁按 Add to Grok Bot。Muse：請 Muse 從 GitHub 安裝技能；官方寫明 Muse 在 Meta 雲端執行，`obsidian-cli` 無法使用，若在 Muse 用 Headless，要在 Meta 雲端登入並同步 vault。
+  3. `obsidian-cli` 需要桌面版 Obsidian 執行中、開啟 CLI，且代理能在你的電腦上執行指令；Markdown／Bases／Canvas 技能只描述格式，任何能讀寫 vault 檔案的代理都能用。Defuddle、Knap、Headless 是另裝工具，缺少時技能會先詢問再從 npm 安裝。
+  4. 隱私：Connectors 本身不送出任何東西；代理讀到的筆記會成為對話內容、由所用模型處理。
+- **標記**：`official`（Obsidian 官方說明頁已讀；各代理端外掛頁本庫未登入、未安裝，dots 端實際權限未核）。
+- **對本頁的意義**：S-071A 的作者是自己讓 Dot 經「連到你的電腦」讀寫 `_dots` 資料夾；現在有官方技能包可教代理正確寫 Obsidian 格式，但**格式技能不等於能讀到你的 vault**——能否搜尋、讀取本機 vault 仍取決於代理是否能在你電腦上跑 CLI，雲端代理（如 Muse）則要把 vault 同步到其雲端。這是同一問題（把代理記憶放在使用者看得到、改得到的 Markdown）的官方接法，不另立案、不加數。
+- **可貼指令（本庫設計，未實測）**：「先列出你目前能用哪幾個 Obsidian 技能，以及你是否能讀到我的 vault 檔案（直接讀檔、CLI 或 Headless 同步）。只在 `_agent/` 資料夾內建立或修改筆記；動到其他資料夾、刪除、或安裝任何 npm 工具前先問我。每次寫入後回報檔名與改動行數。」
+

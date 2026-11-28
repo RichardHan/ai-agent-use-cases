@@ -5,13 +5,14 @@
 - [直接看案例列表](#case-list)
 - [工廠營運專題](#factory-operations)
 - [實體零售補貨專題](#store-replenishment-operations)
+- [公用事業營運專題](#utility-operations)
 - [怎麼讀這頁](#how-to-read)
 - [查看驗證與模板補充](#supplement-list)
 - [查看待查來源](#pending-sources)
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 602 筆案例；頁首核對日期最新為 2026-11-26；本頁於 2026-11-26 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 611 筆案例；頁首核對日期最新為 2026-11-27；本頁於 2026-11-27 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -66,9 +67,25 @@
 
 可從[案例探索的實體零售搜尋](index.html?q=實體零售)繼續篩選。
 
+<a id="utility-operations"></a>
+
+## 公用事業營運專題
+
+| 案例 | 現場任務 | 實作門檻 | 成果證據 |
+| --- | --- | --- | --- |
+| [UC-720](cases/720-corsan-flood-water-bill-retrieval.md) | Corsan 洪災後用 WhatsApp 讓居民補取水費帳單 | 工具串接 | 供應商報告取回逾 13 萬份帳單；補助核准件數未知。 |
+| [UC-721](cases/721-eon-egs-whatsapp-meter-reading.md) | E.ON Grid Solutions 用 WhatsApp 驗證並提交電表讀數 | 工具串接 | 代理收集、核驗並送交後端；供應商報告前九週逾 9 萬人啟動。 |
+| [UC-722](cases/722-helen-energy-contract-relocation.md) | Helen 用搬家代理轉移電力合約 | 工具串接 | 供應商公布搬家 CES 4.7／5，樣本與期間未公布。 |
+| [UC-723](cases/723-pge-peggy-outage-call-routing.md) | PG&E 用語音代理回覆停電進度並分流來電 | 進階開發 | 供應商回報停電來電 CSAT 提升 22%，未公開樣本及期間。 |
+| [UC-724](cases/724-ignitis-regulatory-document-routing.md) | Ignitis 用代理分類法規文件，再由機器人分送 | 工具串接 | 供應商報告每月分類 1,500 份公開文件，準確率約 93%。 |
+| [UC-725](cases/725-avangrid-wind-turbine-diagnostics.md) | Avangrid 風場技師用行動代理縮小故障範圍 | 進階開發 | 部署方確認兩座風場及具名主管定性回饋，停機變化未量化。 |
+| [UC-726](cases/726-welsh-water-orai-alarm-triage.md) | Welsh Water 試點用 ORAI 彙整供水警報 | 進階開發 | 完成概念驗證；事件耗時與合規數字為預測，待補試點量測。 |
+
+可從[案例探索的公用事業搜尋](index.html?q=公用事業#explore)繼續篩選。
+
 <a id="case-list"></a>
 
-## 案例（602）
+## 案例（611）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -103,7 +120,7 @@
 | UC-032 | 把虛構睡眠紀錄整理成趨勢圖 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/032-sleep-record-chart.md) | 生活｜睡眠、健康 |
 | UC-033 | 從年度營運數據排出下一季實驗 | Meta Muse | [官方自述／用途宣稱；原創流程未實測](cases/033-business-experiment-plan.md) | 工作｜營運、實驗規劃 |
 | UC-034 | 把可疑費用整理成覆核清單；每天比對信用卡明細與前一天 | Meta Muse／Grok Bot（雲端瀏覽器＋Routine） | [Muse建議＋Grok Bot作者疑似重複扣款自述＋日文作者每日明細比對自述（無截圖）；未核退款](cases/034-expense-anomaly-review.md) | 省錢｜費用、異常 |
-| UC-035 | 找合適職缺，把履歷改成有根據的申請草稿；Grok Bot每4小時打分、只投高分並以回執為準的變體 | dots／Work歸屬待核；Grok Bot反例兩則＋自動打分投遞變體 | [作者自報＋未核准及重複投遞反例＋代理內部筆記險些送出反例＋英文作者打分權重與投遞帳本自述（無回執）；未重現](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
+| UC-035 | 找合適職缺，把履歷改成有根據的申請草稿；Grok Bot每4小時打分、只投高分並以回執為準的變體；Grok Bot強配對等本人核准、其餘自動投並記Notion的分級變體 | dots／Work歸屬待核；Grok Bot反例兩則＋自動打分投遞變體＋分級投遞變體 | [作者自報＋未核准及重複投遞反例＋代理內部筆記險些送出反例＋英文作者打分權重與投遞帳本自述（無回執）＋Grok Bot分級投遞32份自述；未重現](cases/035-job-search-application-drafts.md) | 工作｜求職、履歷 |
 | UC-036 | 每天的收銀資料，整理成可核對的入帳檔 | Grok Bot／POS／QuickBooks Online | [論壇作者自報；無實際入帳或核帳證據](cases/036-pos-accounting-csv.md) | 工作｜每日、收銀、記帳 |
 | UC-037 | 跨商店比同款商品，先看清總價與賣家；海外特價算入運費與進口稅 | Meta Muse；Grok Bot（Amazon 擋代理後改找他店）；dots 本機替代路徑；Muse 跨境含稅比價 | [媒體作者單次測試＋Grok Bot／dots 失敗與本機路徑自述＋robots.txt 已讀＋Muse跨境購買單則自述（無購買證據）；未獨立重現](cases/037-product-listing-comparison.md) | 省錢｜購物、比價、網購 |
 | UC-038 | 從找布料到做樣品，先整理供應商與打樣規格 | Grok Bot／公開供應商資料 | [HN 作者自報；樣品完成與品質未核](cases/038-fabric-sourcing-sample-handoff.md) | 工作｜採購、打樣 |
@@ -414,7 +431,7 @@
 | UC-348 | 買房物件先由Bot依預算、學區、尖峰通勤過濾，通過才交房仲調揭露文件再估整修費；租屋版由Muse每天搜分類廣告、只在符合時通知 | Grok Bot／Zillow／Slack；Meta Muse／Craigslist、Facebook Marketplace | [作者單則文字自述；無截圖、篩選準確度未核；2026-10-22補HN租屋變體，不加數](cases/348-home-search-screening-realtor-disclosure-handoff.md) | 生活｜買房、篩選、交接、Slack |
 | UC-349 | dots主動提醒詢問信，登錄Notion受理表、查行事曆空檔、存附候選日的回信草稿 | ChatGPT dots／Gmail／Notion／Google行事曆 | [日文作者自述＋流程示意圖；無實際畫面、未重現](cases/349-dots-inquiry-ledger-calendar-reply-draft.md) | 工作｜收件匣、Notion、日曆、草稿 |
 | UC-350 | 主管平日晨報分工：dots讀內部資料存Notion，Grok Bot分角色收公開新聞與作品評價發Slack | ChatGPT dots／Grok Bot／Slack／Notion | [日文作者長文自述，含接收程式停擺、Auto-review卡關等失敗；無截圖](cases/350-manager-weekday-digest-dots-internal-grokbot-public-split.md) | 工作｜每日、晨報、多代理、Slack |
-| UC-351 | Grok Bot只負責調度，重活交給雲端電腦上的OpenCode免費模型，做不好再換Pi Agent＋DeepSeek；外部CLI做完以webhook叫回、主Bot每天稽核新routine；在自家Mac以非互動指令輪用兩個Claude Code帳號與Codex、每小時把用量寫進Bot標籤；Grok Bot只抓X寫JSON、整理寫報告交本機Codex，多個routine錯開共用讀取上限；開源GAP讓Bot寫任務書派給同機Pi、等待或靠webhook叫回後親自驗收，刪除、寄信、付款、push不外派 | Grok Bot／OpenCode／Pi Agent／DeepSeek／Claude Code／Codex | [中文作者四則串自述＋架構示意圖＋另一作者公開腳本（webhook叫醒）＋英文作者外包CLI與每日routine稽核自述＋日文作者本機多帳號分派與用量標籤自述＋簡中作者只抓取寫JSON自述與設定回覆截圖（2026-10-28補）＋簡中作者開源GAP（任務書→阻塞等待＋webhook兜底→親自驗收ack）與用量面板讀數自述（2026-11-12補）；無同工作前後對照、未重現](cases/351-grokbot-dispatch-only-offload-free-model-agents.md) | 開發｜多代理、派工、用量 |
+| UC-351 | Grok Bot只負責調度，重活交給雲端電腦上的OpenCode免費模型，做不好再換Pi Agent＋DeepSeek；外部CLI做完以webhook叫回、主Bot每天稽核新routine；在自家Mac以非互動指令輪用兩個Claude Code帳號與Codex、每小時把用量寫進Bot標籤；Grok Bot只抓X寫JSON、整理寫報告交本機Codex，多個routine錯開共用讀取上限；開源GAP讓Bot寫任務書派給同機Pi、等待或靠webhook叫回後親自驗收，刪除、寄信、付款、push不外派；用Tailscale外掛把Grok Bot單向接到自有VPS上的Hermes代理 | Grok Bot／OpenCode／Pi Agent／DeepSeek／Claude Code／Codex／Tailscale／Hermes | [中文作者四則串自述＋架構示意圖＋另一作者公開腳本（webhook叫醒）＋英文作者外包CLI與每日routine稽核自述＋日文作者本機多帳號分派與用量標籤自述＋簡中作者只抓取寫JSON自述與設定回覆截圖（2026-10-28補）＋簡中作者開源GAP（任務書→阻塞等待＋webhook兜底→親自驗收ack）與用量面板讀數自述（2026-11-12補）＋英文作者Tailscale外掛接自有VPS上Hermes自述（2026-11-27補）；無同工作前後對照、未重現](cases/351-grokbot-dispatch-only-offload-free-model-agents.md) | 開發｜多代理、派工、用量 |
 | UC-352 | 每天讓Bot讀flomo筆記，換一種洞察角度推送一則回顧 | Grok Bot／flomo | [中文作者自述＋單日推送截圖；接入方式與模板輪換未見、未重現](cases/352-daily-flomo-memo-insight-push-rotating-template.md) | 學習｜每日、筆記、自我回顧 |
 | UC-353 | 雲端Bot與本機代理只經私有Git任務檔交接，雲端不對本機下命令 | Grok Bot／GitHub Actions／macOS launchd／本機代理 | [中文作者自述＋公開參考實作文件已讀＋同作者寫文→封面→雙平台發布用法自述（2026-10-26補）；公開版端到端未驗證、未重現](cases/353-cloud-local-agent-git-task-relay.md) | 開發｜跨代理、交接、事件觸發、權限邊界 |
 | UC-354 | 每天從X書籤挑一個點子做成互動網頁demo，瀏覽器檢查後上線 | Grok Bot／Cursor雲端代理／Claude Code／Cloudflare | [英文作者多日貼文＋公開作品集；排程與檢查紀錄未見、未重現](cases/354-daily-bookmark-to-live-interactive-demo.md) | 創作｜每日、書籤、互動網頁、部署 |
@@ -674,6 +691,15 @@
 | UC-715 | タカハシ與歐姆龍用巡架機器人排補架順序 | ugo 自走巡架機器人、歐姆龍影像判斷與日報 | [實作方自報，未獨立重現](cases/715-takahashi-omron-shelf-fill-pilot.md) | 工作｜實體零售、貨架充足度、巡架補貨 |
 | UC-716 | Balls Foods 用巡架影像交接補貨和供應商缺架 | Simbe Tally、Store Intelligence | [實作方自報，未獨立重現](cases/716-balls-foods-tally-supplier-shelf-tasks.md) | 工作｜實體零售、供應商直送、門市補貨任務 |
 | UC-717 | Valor 熟食門市用代理解釋訂貨與折價建議 | サキミル、需求預測與折價模型、門市營運 AI Agent | [實作方自報，未獨立重現](cases/717-valor-deli-order-markdown-explainer.md) | 工作｜實體零售、食品廢棄、折價決策 |
+| UC-718 | Grok Bot當首席設計工程師：從漏斗找單一最大流失點、先質疑需求、寫Linear工單、在Paper畫三案只推薦一案；本人在對話核准前不交工程，上線14天後自己回頭驗收 | Grok Bot／Linear／Paper | [作者自述，未重現](cases/718-grok-bot-chief-design-engineer-funnel-cliff-three-options-approval-gate-14-day-readout.md) | 創作｜設計、產品數據、核准、驗收 |
+| UC-719 | 替多個Grok Bot做每週用量油表頁：已用百分比對照本週已過時間、同刻度兩根長條，手動重新整理、刻意不設排程輪詢 | Grok Bot | [作者自述，未重現](cases/719-grok-bot-weekly-usage-fuel-gauge-page-used-vs-elapsed-no-polling-routine.md) | 開發｜用量、儀表板、多代理 |
+| UC-720 | Corsan 洪災後用 WhatsApp 讓居民補取水費帳單 | NiCE Cognigy／WhatsApp | [實作方自報，未獨立重現](cases/720-corsan-flood-water-bill-retrieval.md) | 工作｜公用事業、水務、災後服務、證明文件 |
+| UC-721 | E.ON Grid Solutions 用 WhatsApp 驗證並提交電表讀數 | NiCE Cognigy／WhatsApp／電表後端 | [實作方自報，未獨立重現](cases/721-eon-egs-whatsapp-meter-reading.md) | 工作｜公用事業、配電、電表回報、資料驗證 |
+| UC-722 | Helen 用搬家代理轉移電力合約 | NiCE Cognigy／Oma Helen／客戶入口 | [實作方自報，未獨立重現](cases/722-helen-energy-contract-relocation.md) | 工作｜公用事業、電力服務、搬家、合約異動 |
+| UC-723 | PG&E 用語音代理回覆停電進度並分流來電 | PolyAI Peggy／既有語音與停電資訊服務 | [實作方自報，未獨立重現](cases/723-pge-peggy-outage-call-routing.md) | 工作｜公用事業、電網、停電查詢、語音分流 |
+| UC-724 | Ignitis 用代理分類法規文件，再由機器人分送 | UiPath Agent Builder／SharePoint／流程自動化 | [實作方自報，未獨立重現](cases/724-ignitis-regulatory-document-routing.md) | 工作｜公用事業、能源營運、法規分流、文件派送 |
+| UC-725 | Avangrid 風場技師用行動代理縮小故障範圍 | Amazon Bedrock／Avangrid 維運知識庫 | [實作方自報，未獨立重現](cases/725-avangrid-wind-turbine-diagnostics.md) | 工作｜公用事業、風力發電、故障診斷、現場維修 |
+| UC-726 | Welsh Water 試點用 ORAI 彙整供水警報 | Microsoft Foundry／Microsoft Fabric／Microsoft Teams | [參與方試點，合格待定](cases/726-welsh-water-orai-alarm-triage.md) | 工作｜公用事業、水務、告警分流、人工覆核 |
 
 <a id="supplement-list"></a>
 
@@ -1247,3 +1273,11 @@
 ## 2026-11-24：工廠營運專題
 
 新增 UC-700–705。逐案核對與排除理由見[工廠營運研究紀錄](sources/research-2026-11-24-factory-operations.md)。
+
+## 2026-11-27 08:31：每日批次（X＋Zenn API＋Hacker News）
+
+[約40組候選與查閱範圍](sources/research-2026-11-27-0831.md)：新增2（UC718 Grok Bot首席設計工程師的數據→三案→核准→14天驗收迴圈；UC719 Grok Bot每週用量油表頁、不設輪詢），合併補充2（UC035 Grok Bot分級投遞32份；UC351 Tailscale外掛把Grok Bot接到自有VPS上的Hermes）
+
+## 2026-11-27 公用事業營運專題
+
+[來源與逐案判定](sources/research-2026-11-27-utility-operations.md)。新增 UC-720–726，六筆合格。Welsh Water 仍待試點量測。

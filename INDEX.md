@@ -12,7 +12,7 @@
 - [查看歷次研究批次紀錄](#research-log)
 - [回到案例探索首頁](index.html)
 
-本頁列出 608 筆案例；頁首核對日期最新為 2026-11-28；本頁於 2026-11-28 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
+本頁列出 612 筆案例；頁首核對日期最新為 2026-11-28；本頁於 2026-11-28 校對。核對日期是各案例讀取來源的日期，不是發布日期，也不代表已獨立重現。
 
 所有內容均為公開來源研究，本庫尚未親自重現任何案例。官方自報、作者觀察與自行設計提示詞分開標示。
 
@@ -85,7 +85,7 @@
 
 <a id="case-list"></a>
 
-## 案例（608）
+## 案例（612）
 
 | 編號 | 工作 | 工具 | 證據與詳細內容 | 情境／標籤 |
 | --- | --- | --- | --- | --- |
@@ -682,6 +682,10 @@
 | UC-706 | 沒有API的Muse接進Claude／Antigravity開發團隊：Muse自建雲端共享資料夾交接（一件一檔、回覆追加、收件人寫到實例），唯讀讀倉庫正本、寫入只准走PR；先只給只讀任務並寫撤退條件，兩週後成為寫需求、試玩、經人核准合併的進度負責人 | Meta Muse／Claude／Claude Code／Antigravity／雲端共享資料夾／Git | [日文作者Qiita自述；附成品網站與踩坑表；交接檔與指示未公開；未重現](cases/706-muse-no-api-file-handoff-dev-team-progress-lead.md) | 開發｜多代理、交接、權限、驗收、核准 |
 | UC-707 | 讓Muse把約1,900則Instagram收藏分進15個主題集合：既有集合不動、只准新增，每50則回報分項與保留清單後等人說「下一批」；投稿者規則＋內文例外分類，反向翻頁找回漏掉的50則，以實際成員而非計數驗證 | Meta Muse／Instagram | [日文作者Qiita自述；文章由Muse撰寫人編輯；約195則API取不到；未重現](cases/707-muse-instagram-saved-posts-batch-collections-add-only.md) | 生活｜整理、社群、人工確認、核對 |
 | UC-708 | 家裡3台小伺服器交給Muse保養：每小時SSH＋HTTP死活檢查、每天0點逐台apt更新（主機端分離執行防斷線），正常時完全不出聲，只報掛掉／恢復／已更新／需重開機／失敗，重開機不自動做 | Meta Muse／Raspberry Pi／GCE／apt | [日文作者Qiita自述（Muse協助撰寫、附邀請碼）；無日誌；未重現](cases/708-muse-home-servers-hourly-health-daily-apt-quiet-reports.md) | 開發｜排程、每日、監看、人工確認 |
+| UC-709 | SpaceXSI五項會計工作各交一個Grok Bot：合約對CRM開戶、合約對帳務系統開票、Slack帳務問答、一天兩次收款入帳對帳、應收信箱催收與退款協作；Notion操作手冊只准流程負責人改、Bot每晚自查差異，三週帶教由觀察到放手，退款與貸項須授權人核准 | Grok Bot（Team Bots）／Grok Build／Notion／Slack／CRM／Tailscale | [官方部落格自報；數字未經第三方驗證；未重現](cases/709-grok-bot-five-accounting-team-bots-notion-manual-three-week-onboarding.md) | 工作｜會計、多代理、人工審批、每日 |
+| UC-710 | 用Grok Bot衝X前1,000追蹤：先交代身分與語氣，它給5則短帖由本人挑，留言第一小時親手回；Bot建Google試算表（成效、同量級參考帖、草稿、對目標）每天刷新三次，每晚21:00回報最佳貼文、進度與明日草稿，語氣技能依真實回覆更新 | Grok Bot／X／Google Sheets | [英文作者X長文自述＋中文轉述者自述；附逐日數字無截圖；未重現](cases/710-grok-bot-x-first-1000-followers-sheet-nightly-report-hand-written-replies.md) | 工作｜社群經營、試算表、每日、人工確認 |
+| UC-711 | 多代理共用Notion記憶前的小評測：埋一筆假記憶測讀取、用一次不說「記住」的格式糾正測寫回與跨對話套用；作者實測四個代理都會讀，只有Grok Bot穩定寫回，dot另把指示誤解成逐輪寫無關頁面 | Notion／Grok Bot／ChatGPT dots／Claude／Claude Duet | [英文作者部落格自述小測；無對話紀錄；未重現](cases/711-notion-shared-memory-cross-agent-read-write-eval-planted-fact.md) | 工作｜共享記憶、多代理、Notion、評測 |
+| UC-712 | Muse當生活總窗口：體重對週里程碑判定與穿戴同步缺漏偵測、Mercari出品與降價建議（下限以下由人定）、懸賞只自動參加免個資項目、AI訂閱連兩月零使用才列解約候選；台帳只放一處、以一次資料驗收、確定行為由人核准 | Meta Muse／Mercari／穿戴裝置健康資料 | [日文作者Zenn自述；少量數字無截圖；未重現](cases/712-muse-single-ledger-life-ops-mercari-health-sweepstakes-approval-gates.md) | 生活｜生活管理、台帳、人工審批、每日 |
 | UC-713 | Target 自動修正幽靈庫存並觸發補貨 | Target Inventory Ledger、機器學習集成與既有補貨系統 | [實作方自報，未獨立重現](cases/713-target-inventory-ledger-replenishment.md) | 工作｜實體零售、幽靈庫存、缺貨修正 |
 | UC-714 | 靜鐵超市只把低信心的訂貨量交給店員複核 | AI-Order Foresight、CoreCenter for Retail | [實作方自報，未獨立重現](cases/714-shizutetsu-order-exception-review.md) | 工作｜實體零售、日配品訂貨、例外覆核 |
 | UC-715 | タカハシ與歐姆龍用巡架機器人排補架順序 | ugo 自走巡架機器人、歐姆龍影像判斷與日報 | [實作方自報，未獨立重現](cases/715-takahashi-omron-shelf-fill-pilot.md) | 工作｜實體零售、貨架充足度、巡架補貨 |
@@ -1250,6 +1254,10 @@
 ## 2026-11-23 08:26：每日批次（X＋Qiita／Zenn API＋Hacker News）
 
 [約40組候選與查閱範圍](sources/research-2026-11-23-0826.md)：新增4（UC676 Muse Space衣裝目錄＋每日依標籤換裝；UC677 Muse經SSH主導驗證、互動登入改「人只跑一次」腳本；UC678 Muse營運小網站的最小權限token與驗證關卡；UC679 夫妻各自的Muse共用自架家族腦MCP）。皆未重現。
+
+## 2026-11-26 08:35：每日批次（X＋Hacker News＋官方部落格＋個人部落格＋Zenn／Qiita API＋dev.to）
+
+[約55組候選與查閱範圍](sources/research-2026-11-26-0835.md)：新增4（UC709 SpaceXSI 五個會計 Grok Bot 的手冊治理與三週帶教；UC710 Grok Bot 整理數據與草稿、本人手寫回覆衝 X 前1,000追蹤；UC711 多代理共用 Notion 記憶的讀寫小評測；UC712 Muse 當生活總窗口的單一台帳與核准線）。皆未重現。
 
 ## 2026-11-25 08:31：每日批次（X＋Qiita API＋Zenn＋Reddit＋HN）
 
